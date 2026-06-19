@@ -19,14 +19,11 @@ export type TranscriptionOptionsInternalUnion =
 export interface CreateCallRequest {
   /** The targets of the call. */
   targets: CommunicationIdentifierModel[];
-  /**
-   * The source caller Id, a phone number, that's shown to the PSTN participant being invited.
-   * Required only when calling a PSTN callee.
-   */
+  /** A phone number. */
   sourceCallerIdNumber?: PhoneNumberIdentifierModel;
   /** Display name of the call if dialing out to a pstn number */
   sourceDisplayName?: string;
-  /** The identifier of the source of the call */
+  /** A user that got created with an Azure Communication Services resource. */
   source?: CommunicationUserIdentifierModel;
   /** A customer set value used to track the answering of a call. */
   operationContext?: string;
@@ -34,11 +31,11 @@ export interface CreateCallRequest {
   callbackUri: string;
   /** AI options for the call. */
   callIntelligenceOptions?: CallIntelligenceOptionsInternal;
-  /** Media Streaming Options. */
+  /** Options for media streaming. */
   mediaStreamingOptions?: MediaStreamingOptionsInternalUnion;
-  /** Transcription Options. */
+  /** Options for live transcription. */
   transcriptionOptions?: TranscriptionOptionsInternalUnion;
-  /** The identifier of the source for creating call with Teams resource account ID. */
+  /** A Microsoft Teams application. */
   teamsAppSource?: MicrosoftTeamsAppIdentifierModel;
 }
 
@@ -136,28 +133,25 @@ export interface CallConnectionPropertiesInternal {
   serverCallId?: string;
   /** The targets of the call. */
   targets?: CommunicationIdentifierModel[];
-  /** The state of the call connection. */
+  /** The states of a call connection. */
   callConnectionState?: CallConnectionStateModel;
   /** The callback URI. */
   callbackUri?: string;
-  /**
-   * The source caller Id, a phone number, that's shown to the PSTN participant being invited.
-   * Required only when calling a PSTN callee.
-   */
+  /** A phone number. */
   sourceCallerIdNumber?: PhoneNumberIdentifierModel;
   /** Display name of the call if dialing out to a pstn number. */
   sourceDisplayName?: string;
-  /** Source identity. */
+  /** Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model is polymorphic: Apart from kind and rawId, at most one further property may be set which must match the kind enum value. */
   source?: CommunicationIdentifierModel;
   /** The correlation ID. */
   correlationId?: string;
-  /** Identity of the answering entity. Only populated when identity is provided in the request. */
+  /** A user that got created with an Azure Communication Services resource. */
   answeredBy?: CommunicationUserIdentifierModel;
-  /** The state of media streaming subscription for the call */
+  /** Media streaming Subscription Object. */
   mediaStreamingSubscription?: MediaStreamingSubscription;
-  /** Transcription Subscription. */
+  /** Transcription Subscription Object. */
   transcriptionSubscription?: TranscriptionSubscription;
-  /** Identity of the original Pstn target of an incoming Call. Only populated when the original target is a Pstn number. */
+  /** A phone number. */
   answeredFor?: PhoneNumberIdentifierModel;
 }
 
@@ -165,7 +159,7 @@ export interface CallConnectionPropertiesInternal {
 export interface MediaStreamingSubscription {
   /** Subscription Id. */
   id?: string;
-  /** Media streaming subscription state. */
+  /** Current state of media streaming session */
   state?: MediaStreamingSubscriptionState;
   /** Subscribed media streaming content types. */
   subscribedContentTypes?: MediaStreamingContentType[];
@@ -175,7 +169,7 @@ export interface MediaStreamingSubscription {
 export interface TranscriptionSubscription {
   /** Subscription Id. */
   id?: string;
-  /** Transcription subscription state. */
+  /** Current state of transcription session */
   state?: TranscriptionSubscriptionState;
   /** Subscribed transcription result types. */
   subscribedResultStates?: TranscriptionResultState[];
@@ -222,11 +216,11 @@ export interface AnswerCallRequest {
   operationContext?: string;
   /** AI options for the call. */
   callIntelligenceOptions?: CallIntelligenceOptionsInternal;
-  /** The identifier of the call automation entity which answers the call */
+  /** A user that got created with an Azure Communication Services resource. */
   answeredBy?: CommunicationUserIdentifierModel;
-  /** Media Streaming Options. */
+  /** Options for media streaming. */
   mediaStreamingOptions?: MediaStreamingOptionsInternalUnion;
-  /** Transcription Options. */
+  /** Options for live transcription. */
   transcriptionOptions?: TranscriptionOptionsInternalUnion;
 }
 
@@ -234,7 +228,7 @@ export interface AnswerCallRequest {
 export interface RedirectCallRequest {
   /** The context associated with the call. */
   incomingCallContext: string;
-  /** The target identity to redirect the call to. */
+  /** Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model is polymorphic: Apart from kind and rawId, at most one further property may be set which must match the kind enum value. */
   target: CommunicationIdentifierModel;
 }
 
@@ -242,13 +236,13 @@ export interface RedirectCallRequest {
 export interface RejectCallRequest {
   /** The context associated with the call. */
   incomingCallContext: string;
-  /** The rejection reason. */
+  /** Reason of rejecting a call */
   callRejectReason?: CallRejectReason;
 }
 
 /** The request payload for creating a connection to a CallLocator. */
 export interface ConnectRequest {
-  /** The call locator. */
+  /** The locator used for joining or taking action on a call */
   callLocator: CallLocator;
   /** The callback URI. */
   callbackUri: string;
@@ -256,9 +250,9 @@ export interface ConnectRequest {
   operationContext?: string;
   /** AI options for the call. */
   callIntelligenceOptions?: CallIntelligenceOptionsInternal;
-  /** Media Streaming Options. */
+  /** Options for media streaming. */
   mediaStreamingOptions?: MediaStreamingOptionsInternalUnion;
-  /** Transcription Options. */
+  /** Options for live transcription. */
   transcriptionOptions?: TranscriptionOptionsInternalUnion;
 }
 
@@ -270,26 +264,26 @@ export interface CallLocator {
   serverCallId?: string;
   /** The Acs room id. (Not supported for Start Recording) */
   roomId?: string;
-  /** The call locator kind. */
+  /** The call locator kind */
   kind?: CallLocatorKind;
 }
 
 /** The request payload for transferring call to a participant. */
 export interface TransferToParticipantRequest {
-  /** The identity of the target where call should be transferred to. */
+  /** Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model is polymorphic: Apart from kind and rawId, at most one further property may be set which must match the kind enum value. */
   targetParticipant: CommunicationIdentifierModel;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
-  /** Transferee is the participant who is transferred away. */
+  /** Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model is polymorphic: Apart from kind and rawId, at most one further property may be set which must match the kind enum value. */
   transferee?: CommunicationIdentifierModel;
   /**
    * Set a callback URI that overrides the default callback URI set by CreateCall/AnswerCall for this operation.
    * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
    */
   operationCallbackUri?: string;
-  /** Used by customer to send custom calling context to targets */
+  /** The custom calling context which will be sent to the target */
   customCallingContext?: CustomCallingContextInternal;
-  /** The source caller Id, a phone number, that will be used as the transferor's caller Id when transferring a call to a Pstn target. */
+  /** A phone number. */
   sourceCallerIdNumber?: PhoneNumberIdentifierModel;
 }
 
@@ -299,6 +293,60 @@ export interface CustomCallingContextInternal {
   voipHeaders?: { [propertyName: string]: string };
   /** Custom calling context SIP headers */
   sipHeaders?: { [propertyName: string]: string };
+  /** The call details which will be sent to the target */
+  teamsPhoneCallDetails?: TeamsPhoneCallDetailsInternal;
+}
+
+/** The call details which will be sent to the target */
+export interface TeamsPhoneCallDetailsInternal {
+  /** Container for details relating to the original caller of the call */
+  teamsPhoneCallerDetails?: TeamsPhoneCallerDetailsInternal;
+  /** Container for details relating to the entity responsible for the creation of these call details */
+  teamsPhoneSourceDetails?: TeamsPhoneSourceDetailsInternal;
+  /** Id to exclusively identify this call session. IVR will use this for their telemetry/reporting. */
+  sessionId?: string;
+  /** The intent of the call */
+  intent?: string;
+  /** A very short description (max 48 chars) of the reason for the call. To be displayed in Teams CallNotification */
+  callTopic?: string;
+  /** A summary of the call thus far. It will be displayed on a side panel in the Teams UI */
+  callContext?: string;
+  /** Url for fetching the transcript of the call */
+  transcriptUrl?: string;
+  /** Sentiment of the call thus far */
+  callSentiment?: string;
+  /** Recommendations for resolving the issue based on the customer's intent and interaction history */
+  suggestedActions?: string;
+}
+
+/** Container for details relating to the original caller of the call */
+export interface TeamsPhoneCallerDetailsInternal {
+  /** Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model is polymorphic: Apart from kind and rawId, at most one further property may be set which must match the kind enum value. */
+  caller: CommunicationIdentifierModel;
+  /** Caller's name */
+  name: string;
+  /** Caller's phone number */
+  phoneNumber: string;
+  /** Caller's record ID (ex in CRM) */
+  recordId?: string;
+  /** Caller's screen pop URL */
+  screenPopUrl?: string;
+  /** Flag indicating whether the caller was authenticated */
+  isAuthenticated?: boolean;
+  /** A set of key value pairs (max 10, any additional entries would be ignored) which a bot author wants to pass to the Teams Client for display to the agent */
+  additionalCallerInformation?: { [propertyName: string]: string };
+}
+
+/** Container for details relating to the entity responsible for the creation of these call details */
+export interface TeamsPhoneSourceDetailsInternal {
+  /** Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model is polymorphic: Apart from kind and rawId, at most one further property may be set which must match the kind enum value. */
+  source: CommunicationIdentifierModel;
+  /** Language of the source entity passing along the call details, passed in the ISO-639 standard */
+  language: string;
+  /** Status of the source entity passing along the call details */
+  status: string;
+  /** Intended targets of the source entity passing along the call details */
+  intendedTargets?: { [propertyName: string]: CommunicationIdentifierModel };
 }
 
 /** The response payload for transferring the call. */
@@ -317,7 +365,6 @@ export interface PlayRequest {
   playTo?: CommunicationIdentifierModel[];
   /** If set play can barge into other existing queued-up/currently-processing requests. */
   interruptCallMediaOperation?: boolean;
-  /** Defines options for playing the audio. */
   playOptions?: PlayOptionsInternal;
   /** The value to identify context of the operation. */
   operationContext?: string;
@@ -329,15 +376,12 @@ export interface PlayRequest {
 }
 
 export interface PlaySourceInternal {
-  /** Defines the type of the play source */
+  /** Defines the types of play source */
   kind: PlaySourceType;
   /** Defines the identifier to be used for caching related media */
   playSourceCacheId?: string;
-  /** Defines the file source info to be used for play */
   file?: FileSourceInternal;
-  /** Defines the text source info to be used for play */
   text?: TextSourceInternal;
-  /** Defines the ssml(Speech Synthesis Markup Language) source info to be used for play */
   ssml?: SsmlSourceInternal;
 }
 
@@ -354,7 +398,7 @@ export interface TextSourceInternal {
    * Refer to available locales here: <seealso href="https://learn.microsoft.com/en-us/azure/cognitive-services/speech-service/language-support?tabs=stt-tts" />
    */
   sourceLocale?: string;
-  /** Voice kind type */
+  /** Audio kind type */
   voiceKind?: VoiceKind;
   /**
    * Voice name to be played
@@ -416,15 +460,13 @@ export interface UpdateTranscriptionRequest {
 }
 
 export interface RecognizeRequest {
-  /** Determines the type of the recognition. */
+  /** Defines the type of the recognize input */
   recognizeInputType: RecognizeInputType;
-  /** The source of the audio to be played for recognition. */
   playPrompt?: PlaySourceInternal;
   /** The source of the audio to be played for recognition. */
   playPrompts?: PlaySourceInternal[];
   /** If set recognize can barge into other existing queued-up/currently-processing requests. */
   interruptCallMediaOperation?: boolean;
-  /** Defines options for recognition. */
   recognizeOptions: RecognizeOptions;
   /** The value to identify context of the operation. */
   operationContext?: string;
@@ -440,17 +482,17 @@ export interface RecognizeOptions {
   interruptPrompt?: boolean;
   /** Time to wait for first input after prompt (if any). */
   initialSilenceTimeoutInSeconds?: number;
-  /** Target participant of DTMF tone recognition. */
+  /** Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model is polymorphic: Apart from kind and rawId, at most one further property may be set which must match the kind enum value. */
   targetParticipant: CommunicationIdentifierModel;
   /** Speech language to be recognized, If not set default is en-US */
   speechLanguage?: string;
   /** Endpoint where the custom model was deployed. */
   speechRecognitionModelEndpointId?: string;
-  /** Defines configurations for DTMF. */
+  /** Options for DTMF recognition */
   dtmfOptions?: DtmfOptions;
   /** Defines Ivr choices for recognize. */
   choices?: Choice[];
-  /** Defines continuous speech recognition option. */
+  /** Options for continuous speech recognition */
   speechOptions?: SpeechOptions;
 }
 
@@ -469,6 +511,7 @@ export interface Choice {
   label: string;
   /** List of phrases to recognize */
   phrases: string[];
+  /** List of valid stop tones */
   tone?: Tone;
 }
 
@@ -479,7 +522,7 @@ export interface SpeechOptions {
 }
 
 export interface ContinuousDtmfRecognitionRequest {
-  /** Defines options for recognition. */
+  /** Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model is polymorphic: Apart from kind and rawId, at most one further property may be set which must match the kind enum value. */
   targetParticipant: CommunicationIdentifierModel;
   /** The value to identify context of the operation. */
   operationContext?: string;
@@ -493,7 +536,7 @@ export interface ContinuousDtmfRecognitionRequest {
 export interface SendDtmfTonesRequest {
   /** List of tones to be sent to target participant. */
   tones: Tone[];
-  /** Target participant of send Dtmf tones. */
+  /** Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model is polymorphic: Apart from kind and rawId, at most one further property may be set which must match the kind enum value. */
   targetParticipant: CommunicationIdentifierModel;
   /** The value to identify context of the operation. */
   operationContext?: string;
@@ -511,9 +554,8 @@ export interface SendDtmfTonesResult {
 
 /** The request payload for holding participant from the call. */
 export interface HoldRequest {
-  /** Participant to be held from the call. */
+  /** Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model is polymorphic: Apart from kind and rawId, at most one further property may be set which must match the kind enum value. */
   targetParticipant: CommunicationIdentifierModel;
-  /** Prompt to play while in hold. */
   playSourceInfo?: PlaySourceInternal;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
@@ -526,10 +568,7 @@ export interface HoldRequest {
 
 /** The request payload for holding participant from the call. */
 export interface UnholdRequest {
-  /**
-   * Participants to be hold from the call.
-   * Only ACS Users are supported.
-   */
+  /** Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model is polymorphic: Apart from kind and rawId, at most one further property may be set which must match the kind enum value. */
   targetParticipant: CommunicationIdentifierModel;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
@@ -570,7 +609,7 @@ export interface GetParticipantsResponse {
 
 /** A call participant. */
 export interface CallParticipantInternal {
-  /** Communication identifier of the participant */
+  /** Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model is polymorphic: Apart from kind and rawId, at most one further property may be set which must match the kind enum value. */
   identifier?: CommunicationIdentifierModel;
   /** Is participant muted */
   isMuted?: boolean;
@@ -580,17 +619,14 @@ export interface CallParticipantInternal {
 
 /** The request payload for adding participant to the call. */
 export interface AddParticipantRequest {
-  /**
-   * The source caller Id, a phone number, that's shown to the PSTN participant being invited.
-   * Required only when inviting a PSTN participant.
-   */
+  /** A phone number. */
   sourceCallerIdNumber?: PhoneNumberIdentifierModel;
   /**
    * (Optional) The display name of the source that is associated with this invite operation when
    * adding a PSTN participant or teams user.  Note: Will not update the display name in the roster.
    */
   sourceDisplayName?: string;
-  /** The participant to invite. */
+  /** Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model is polymorphic: Apart from kind and rawId, at most one further property may be set which must match the kind enum value. */
   participantToAdd: CommunicationIdentifierModel;
   /**
    * Gets or sets the timeout to wait for the invited participant to pickup.
@@ -604,13 +640,13 @@ export interface AddParticipantRequest {
    * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
    */
   operationCallbackUri?: string;
-  /** Used by customer to send custom calling context to targets */
+  /** The custom calling context which will be sent to the target */
   customCallingContext?: CustomCallingContextInternal;
 }
 
 /** The response payload for adding participants to the call. */
 export interface AddParticipantResponse {
-  /** List of current participants in the call. */
+  /** A call participant. */
   participant?: CallParticipantInternal;
   /** The operation context provided by client. */
   operationContext?: string;
@@ -620,7 +656,7 @@ export interface AddParticipantResponse {
 
 /** The remove participant by identifier request. */
 export interface RemoveParticipantRequest {
-  /** The participants to be removed from the call. */
+  /** Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model is polymorphic: Apart from kind and rawId, at most one further property may be set which must match the kind enum value. */
   participantToRemove: CommunicationIdentifierModel;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
@@ -675,9 +711,34 @@ export interface CancelAddParticipantResponse {
   operationContext?: string;
 }
 
+/** The request payload for moving participant to the call. */
+export interface MoveParticipantsRequest {
+  /** The participant to Move. */
+  targetParticipants: CommunicationIdentifierModel[];
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
+  /**
+   * Set a callback URI that overrides the default callback URI set by CreateCall/AnswerCall for this operation.
+   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
+   */
+  operationCallbackUri?: string;
+  /** The CallConnectionId for the call you want to move the participant from */
+  fromCall: string;
+}
+
+/** The response payload for moving participants to the call. */
+export interface MoveParticipantsResponse {
+  /** List of current participants in the call. */
+  participants?: CallParticipantInternal[];
+  /** The operation context provided by client. */
+  operationContext?: string;
+  /** The CallConnectionId for the call you want to move the participant from */
+  fromCall?: string;
+}
+
 /** The request payload start for call recording operation with call locator. */
 export interface StartCallRecordingRequest {
-  /** The call locator. (Only one of callLocator or callConnectionId to be used) */
+  /** The locator used for joining or taking action on a call */
   callLocator?: CallLocator;
   /** The call connection Id. (Only one of callLocator or callConnectionId to be used) */
   callConnectionId?: string;
@@ -685,9 +746,9 @@ export interface StartCallRecordingRequest {
   recordingStateCallbackUri?: string;
   /** The content type of call recording. */
   recordingContentType?: RecordingContentType;
-  /** The channel type of call recording. */
+  /** Defines the channel type of call recording. */
   recordingChannelType?: RecordingChannelType;
-  /** The format type of call recording. */
+  /** Defines the format type of call recording. */
   recordingFormatType?: RecordingFormatType;
   /**
    * The sequential order in which audio channels are assigned to participants in the unmixed recording.
@@ -705,7 +766,6 @@ export interface StartCallRecordingRequest {
   channelAffinity?: ChannelAffinity[];
   /** When set to true will start recording in Pause mode, which can be resumed. */
   pauseOnStart?: boolean;
-  /** Optional property to specify location where recording will be stored */
   recordingStorage?: RecordingStorage;
 }
 
@@ -713,10 +773,7 @@ export interface StartCallRecordingRequest {
 export interface ChannelAffinity {
   /** Channel number to which bitstream from a particular participant will be written. */
   channel?: number;
-  /**
-   * The identifier for the participant whose bitstream will be written to the channel
-   * represented by the channel number.
-   */
+  /** Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model is polymorphic: Apart from kind and rawId, at most one further property may be set which must match the kind enum value. */
   participant: CommunicationIdentifierModel;
 }
 
@@ -743,9 +800,8 @@ export interface AddParticipantFailed {
   correlationId?: string;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
-  /** Contains the resulting SIP code, sub-code and message. */
   resultInformation?: ResultInformation;
-  /** Participant */
+  /** Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model is polymorphic: Apart from kind and rawId, at most one further property may be set which must match the kind enum value. */
   participant?: CommunicationIdentifierModel;
 }
 
@@ -755,6 +811,15 @@ export interface ResultInformation {
   /** Subcode of the current result. This can be helpful to Call Automation team to troubleshoot the issue if this result was unexpected. */
   subCode?: number;
   /** Detail message that describes the current result. */
+  message?: string;
+  sipDetails?: SipDiagnosticInfo;
+  q850Details?: SipDiagnosticInfo;
+}
+
+export interface SipDiagnosticInfo {
+  /** Represents the diagnostic code returned by the SIP service, used for identifying specific issues or statuses. */
+  code?: number;
+  /** Message associated with the code for diagnosing. */
   message?: string;
 }
 
@@ -768,10 +833,22 @@ export interface AddParticipantSucceeded {
   correlationId?: string;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
-  /** Contains the resulting SIP code, sub-code and message. */
   resultInformation?: ResultInformation;
-  /** Participant */
+  /** Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model is polymorphic: Apart from kind and rawId, at most one further property may be set which must match the kind enum value. */
   participant?: CommunicationIdentifierModel;
+}
+
+/** The failed to answer call event. */
+export interface AnswerFailed {
+  /** Call connection ID. */
+  callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId?: string;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
+  resultInformation?: ResultInformation;
 }
 
 /** The call connected event. */
@@ -784,7 +861,6 @@ export interface CallConnected {
   correlationId?: string;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
-  /** Contains the resulting SIP code, sub-code and message. */
   resultInformation?: ResultInformation;
 }
 
@@ -798,7 +874,6 @@ export interface CallDisconnected {
   correlationId?: string;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
-  /** Contains the resulting SIP code, sub-code and message. */
   resultInformation?: ResultInformation;
 }
 
@@ -812,11 +887,10 @@ export interface CallTransferAccepted {
   correlationId?: string;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
-  /** Contains the resulting SIP code, sub-code and message. */
   resultInformation?: ResultInformation;
-  /** Target who the call is transferred to. */
+  /** Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model is polymorphic: Apart from kind and rawId, at most one further property may be set which must match the kind enum value. */
   transferTarget?: CommunicationIdentifierModel;
-  /** the participant who is being transferred away. */
+  /** Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model is polymorphic: Apart from kind and rawId, at most one further property may be set which must match the kind enum value. */
   transferee?: CommunicationIdentifierModel;
 }
 
@@ -830,28 +904,11 @@ export interface CallTransferFailed {
   correlationId?: string;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
-  /** Contains the resulting SIP code, sub-code and message. */
   resultInformation?: ResultInformation;
 }
 
-/** The participants updated in a call event. */
-export interface ParticipantsUpdated {
-  /** Call connection ID. */
-  callConnectionId?: string;
-  /** Server call ID. */
-  serverCallId?: string;
-  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
-  correlationId?: string;
-  /** The Sequence Number of the event */
-  sequenceNumber?: number;
-  /** The list of participants in the call. */
-  participants?: CallParticipantInternal[];
-  /** Contains the resulting SIP code, sub-code and message. */
-  resultInformation?: ResultInformation;
-}
-
-/** The participant removed event. */
-export interface RemoveParticipantSucceeded {
+/** Failed cancel add participant event. */
+export interface CancelAddParticipantFailed {
   /** Call connection ID. */
   callConnectionId?: string;
   /** Server call ID. */
@@ -860,26 +917,9 @@ export interface RemoveParticipantSucceeded {
   correlationId?: string;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
-  /** Contains the resulting SIP code, sub-code and message. */
+  /** Invitation ID used to cancel the request. */
+  invitationId?: string;
   resultInformation?: ResultInformation;
-  /** Participant */
-  participant?: CommunicationIdentifierModel;
-}
-
-/** The failed to remove participant event. */
-export interface RemoveParticipantFailed {
-  /** Call connection ID. */
-  callConnectionId?: string;
-  /** Server call ID. */
-  serverCallId?: string;
-  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
-  correlationId?: string;
-  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
-  operationContext?: string;
-  /** Contains the resulting SIP code, sub-code and message. */
-  resultInformation?: ResultInformation;
-  /** Participant */
-  participant?: CommunicationIdentifierModel;
 }
 
 /** Successful cancel add participant event. */
@@ -894,12 +934,23 @@ export interface CancelAddParticipantSucceeded {
   operationContext?: string;
   /** Invitation ID used to cancel the request. */
   invitationId?: string;
-  /** Contains the resulting SIP code, sub-code and message. */
   resultInformation?: ResultInformation;
 }
 
-/** Failed cancel add participant event. */
-export interface CancelAddParticipantFailed {
+export interface ChoiceResult {
+  /** Label is the primary identifier for the choice detected */
+  label?: string;
+  /**
+   * Phrases are set to the value if choice is selected via phrase detection.
+   * If Dtmf input is recognized, then Label will be the identifier for the choice detected and phrases will be set to null
+   */
+  recognizedPhrase?: string;
+  /** The confidence level of the recognized speech, if available, ranges from 0.0 to 1.0 */
+  confidence?: number;
+}
+
+/** The ConnectFailed event. */
+export interface ConnectFailed {
   /** Call connection ID. */
   callConnectionId?: string;
   /** Server call ID. */
@@ -908,14 +959,10 @@ export interface CancelAddParticipantFailed {
   correlationId?: string;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
-  /** Contains the resulting SIP code, sub-code and message. */
   resultInformation?: ResultInformation;
-  /** Invitation ID used to cancel the request. */
-  invitationId?: string;
 }
 
-/** The failed to answer call event. */
-export interface AnswerFailed {
+export interface ContinuousDtmfRecognitionStopped {
   /** Call connection ID. */
   callConnectionId?: string;
   /** Server call ID. */
@@ -924,7 +971,37 @@ export interface AnswerFailed {
   correlationId?: string;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
-  /** Contains the resulting SIP code, sub-code and message. */
+  resultInformation?: ResultInformation;
+}
+
+export interface ContinuousDtmfRecognitionToneFailed {
+  /** Call connection ID. */
+  callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId?: string;
+  resultInformation?: ResultInformation;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
+}
+
+export interface ContinuousDtmfRecognitionToneReceived {
+  /**
+   * The sequence id which can be used to determine if the same tone was played multiple times or if any tones were missed.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sequenceId?: number;
+  /** List of valid stop tones */
+  tone?: Tone;
+  /** Call connection ID. */
+  callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId?: string;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
   resultInformation?: ResultInformation;
 }
 
@@ -938,12 +1015,15 @@ export interface CreateCallFailed {
   correlationId?: string;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
-  /** Contains the resulting SIP code, sub-code and message. */
   resultInformation?: ResultInformation;
 }
 
-/** The ConnectFailed event. */
-export interface ConnectFailed {
+export interface DtmfResult {
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly tones?: Tone[];
+}
+
+export interface HoldFailed {
   /** Call connection ID. */
   callConnectionId?: string;
   /** Server call ID. */
@@ -952,8 +1032,207 @@ export interface ConnectFailed {
   correlationId?: string;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
-  /** Contains the resulting SIP code, sub-code and message. */
   resultInformation?: ResultInformation;
+}
+
+export interface MediaStreamingFailed {
+  mediaStreamingUpdate?: MediaStreamingUpdate;
+  /** Call connection ID. */
+  callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId?: string;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
+  resultInformation?: ResultInformation;
+}
+
+export interface MediaStreamingUpdate {
+  contentType?: string;
+  mediaStreamingStatus?: MediaStreamingStatus;
+  mediaStreamingStatusDetails?: MediaStreamingStatusDetails;
+}
+
+export interface MediaStreamingStarted {
+  mediaStreamingUpdate?: MediaStreamingUpdate;
+  /** Call connection ID. */
+  callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId?: string;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
+  resultInformation?: ResultInformation;
+}
+
+export interface MediaStreamingStopped {
+  mediaStreamingUpdate?: MediaStreamingUpdate;
+  /** Call connection ID. */
+  callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId?: string;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
+  resultInformation?: ResultInformation;
+}
+
+/** Moving the participant failed event. */
+export interface MoveParticipantFailed {
+  /** Call connection ID. */
+  callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId?: string;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
+  resultInformation?: ResultInformation;
+  /** Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model is polymorphic: Apart from kind and rawId, at most one further property may be set which must match the kind enum value. */
+  participant?: CommunicationIdentifierModel;
+  /** The CallConnectionId for the call you want to move the participant from */
+  fromCall?: string;
+}
+
+/** Moving the participant successfully event. */
+export interface MoveParticipantSucceeded {
+  /** Call connection ID. */
+  callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId?: string;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
+  resultInformation?: ResultInformation;
+  /** Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model is polymorphic: Apart from kind and rawId, at most one further property may be set which must match the kind enum value. */
+  participant?: CommunicationIdentifierModel;
+  /** The CallConnectionId for the call you want to move the participant from */
+  fromCall?: string;
+}
+
+/** The participants updated in a call event. */
+export interface ParticipantsUpdated {
+  /** Call connection ID. */
+  callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId?: string;
+  /** The Sequence Number of the event */
+  sequenceNumber?: number;
+  /** The list of participants in the call. */
+  participants?: CallParticipantInternal[];
+  resultInformation?: ResultInformation;
+}
+
+export interface PlayCanceled {
+  /** Call connection ID. */
+  callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId?: string;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
+  resultInformation?: ResultInformation;
+}
+
+export interface PlayCompleted {
+  /** Call connection ID. */
+  callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId?: string;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
+  resultInformation?: ResultInformation;
+}
+
+export interface PlayFailed {
+  /** Call connection ID. */
+  callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId?: string;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
+  resultInformation?: ResultInformation;
+  /** Contains the index of the failed play source. */
+  failedPlaySourceIndex?: number;
+}
+
+/** Play started event. */
+export interface PlayStarted {
+  /** Call connection ID. */
+  callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId?: string;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
+  resultInformation?: ResultInformation;
+}
+
+export interface RecognizeCanceled {
+  /** Call connection ID. */
+  callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId?: string;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
+  resultInformation?: ResultInformation;
+}
+
+export interface RecognizeCompleted {
+  /** Call connection ID. */
+  callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId?: string;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
+  resultInformation?: ResultInformation;
+  /**
+   * Recognition type determines the sub-type of the recognition operation
+   * Possible values will be Dtmf, Speech, or Choices
+   */
+  recognitionType?: RecognitionType;
+  dtmfResult?: DtmfResult;
+  choiceResult?: ChoiceResult;
+  /** The speech status as a result. */
+  speechResult?: SpeechResult;
+}
+
+/** The speech status as a result. */
+export interface SpeechResult {
+  /** The recognized speech in string. */
+  speech?: string;
+  /** The confidence level of the recognized speech, if available, ranges from 0.0 to 1.0. */
+  confidence?: number;
+}
+
+export interface RecognizeFailed {
+  /** Call connection ID. */
+  callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId?: string;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
+  resultInformation?: ResultInformation;
+  /** Contains the index of the failed play source. */
+  failedPlaySourceIndex?: number;
 }
 
 export interface RecordingStateChanged {
@@ -975,12 +1254,11 @@ export interface RecordingStateChanged {
    */
   readonly startDateTime?: Date;
   recordingKind?: RecordingKind;
-  /** Contains the resulting SIP code, sub-code and message. */
   resultInformation?: ResultInformation;
 }
 
-/** Play started event. */
-export interface PlayStarted {
+/** The failed to remove participant event. */
+export interface RemoveParticipantFailed {
   /** Call connection ID. */
   callConnectionId?: string;
   /** Server call ID. */
@@ -989,11 +1267,13 @@ export interface PlayStarted {
   correlationId?: string;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
-  /** Contains the resulting SIP code, sub-code and message. */
   resultInformation?: ResultInformation;
+  /** Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model is polymorphic: Apart from kind and rawId, at most one further property may be set which must match the kind enum value. */
+  participant?: CommunicationIdentifierModel;
 }
 
-export interface PlayCompleted {
+/** The participant removed event. */
+export interface RemoveParticipantSucceeded {
   /** Call connection ID. */
   callConnectionId?: string;
   /** Server call ID. */
@@ -1002,161 +1282,9 @@ export interface PlayCompleted {
   correlationId?: string;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
-  /** Contains the resulting SIP code, sub-code and message. */
   resultInformation?: ResultInformation;
-}
-
-export interface PlayFailed {
-  /** Call connection ID. */
-  callConnectionId?: string;
-  /** Server call ID. */
-  serverCallId?: string;
-  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
-  correlationId?: string;
-  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
-  operationContext?: string;
-  /** Contains the resulting SIP code, sub-code and message. */
-  resultInformation?: ResultInformation;
-  /** Contains the index of the failed play source. */
-  failedPlaySourceIndex?: number;
-}
-
-export interface PlayCanceled {
-  /** Call connection ID. */
-  callConnectionId?: string;
-  /** Server call ID. */
-  serverCallId?: string;
-  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
-  correlationId?: string;
-  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
-  operationContext?: string;
-  /** Contains the resulting SIP code, sub-code and message. */
-  resultInformation?: ResultInformation;
-}
-
-export interface RecognizeCompleted {
-  /** Call connection ID. */
-  callConnectionId?: string;
-  /** Server call ID. */
-  serverCallId?: string;
-  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
-  correlationId?: string;
-  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
-  operationContext?: string;
-  /** Contains the resulting SIP code, sub-code and message. */
-  resultInformation?: ResultInformation;
-  /**
-   * Determines the sub-type of the recognize operation.
-   * In case of cancel operation the this field is not set and is returned empty
-   */
-  recognitionType?: RecognitionType;
-  /** Defines the result for RecognitionType = Dtmf */
-  dtmfResult?: DtmfResult;
-  /** Defines the result for RecognitionType = Choices */
-  choiceResult?: ChoiceResult;
-  /**
-   * Defines the result for RecognitionType = Speech and SpeechOrDtmf
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly speechResult?: SpeechResult;
-}
-
-export interface DtmfResult {
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly tones?: Tone[];
-}
-
-export interface ChoiceResult {
-  /** Label is the primary identifier for the choice detected */
-  label?: string;
-  /**
-   * Phrases are set to the value if choice is selected via phrase detection.
-   * If Dtmf input is recognized, then Label will be the identifier for the choice detected and phrases will be set to null
-   */
-  recognizedPhrase?: string;
-  /** The confidence level of the recognized speech, if available, ranges from 0.0 to 1.0 */
-  confidence?: number;
-}
-
-/** The speech status as a result. */
-export interface SpeechResult {
-  /** The recognized speech in string. */
-  speech?: string;
-  /** The confidence level of the recognized speech, if available, ranges from 0.0 to 1.0. */
-  confidence?: number;
-}
-
-export interface RecognizeFailed {
-  /** Call connection ID. */
-  callConnectionId?: string;
-  /** Server call ID. */
-  serverCallId?: string;
-  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
-  correlationId?: string;
-  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
-  operationContext?: string;
-  /** Contains the resulting SIP code, sub-code and message. */
-  resultInformation?: ResultInformation;
-  /** Contains the index of the failed play source. */
-  failedPlaySourceIndex?: number;
-}
-
-export interface RecognizeCanceled {
-  /** Call connection ID. */
-  callConnectionId?: string;
-  /** Server call ID. */
-  serverCallId?: string;
-  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
-  correlationId?: string;
-  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
-  operationContext?: string;
-  /** Contains the resulting SIP code, sub-code and message. */
-  resultInformation?: ResultInformation;
-}
-
-export interface ContinuousDtmfRecognitionToneFailed {
-  /** Call connection ID. */
-  callConnectionId?: string;
-  /** Server call ID. */
-  serverCallId?: string;
-  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
-  correlationId?: string;
-  /** Contains the resulting SIP code, sub-code and message. */
-  resultInformation?: ResultInformation;
-  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
-  operationContext?: string;
-}
-
-export interface ContinuousDtmfRecognitionToneReceived {
-  /**
-   * The sequence id which can be used to determine if the same tone was played multiple times or if any tones were missed.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly sequenceId?: number;
-  tone?: Tone;
-  /** Call connection ID. */
-  callConnectionId?: string;
-  /** Server call ID. */
-  serverCallId?: string;
-  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
-  correlationId?: string;
-  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
-  operationContext?: string;
-  /** Contains the resulting SIP code, sub-code and message. */
-  resultInformation?: ResultInformation;
-}
-
-export interface ContinuousDtmfRecognitionStopped {
-  /** Call connection ID. */
-  callConnectionId?: string;
-  /** Server call ID. */
-  serverCallId?: string;
-  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
-  correlationId?: string;
-  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
-  operationContext?: string;
-  /** Contains the resulting SIP code, sub-code and message. */
-  resultInformation?: ResultInformation;
+  /** Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model is polymorphic: Apart from kind and rawId, at most one further property may be set which must match the kind enum value. */
+  participant?: CommunicationIdentifierModel;
 }
 
 export interface SendDtmfTonesCompleted {
@@ -1168,7 +1296,6 @@ export interface SendDtmfTonesCompleted {
   correlationId?: string;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
-  /** Contains the resulting SIP code, sub-code and message. */
   resultInformation?: ResultInformation;
 }
 
@@ -1181,80 +1308,6 @@ export interface SendDtmfTonesFailed {
   correlationId?: string;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
-  /** Contains the resulting SIP code, sub-code and message. */
-  resultInformation?: ResultInformation;
-}
-
-export interface MediaStreamingFailed {
-  /**
-   * Defines the result for MediaStreamingUpdate with the current status and the details about the status
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly mediaStreamingUpdate?: MediaStreamingUpdate;
-  /** Call connection ID. */
-  callConnectionId?: string;
-  /** Server call ID. */
-  serverCallId?: string;
-  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
-  correlationId?: string;
-  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
-  operationContext?: string;
-  /** Contains the resulting SIP code, sub-code and message. */
-  resultInformation?: ResultInformation;
-}
-
-export interface MediaStreamingUpdate {
-  contentType?: string;
-  mediaStreamingStatus?: MediaStreamingStatus;
-  mediaStreamingStatusDetails?: MediaStreamingStatusDetails;
-}
-
-export interface MediaStreamingStarted {
-  /**
-   * Defines the result for MediaStreamingUpdate with the current status and the details about the status
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly mediaStreamingUpdate?: MediaStreamingUpdate;
-  /** Call connection ID. */
-  callConnectionId?: string;
-  /** Server call ID. */
-  serverCallId?: string;
-  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
-  correlationId?: string;
-  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
-  operationContext?: string;
-  /** Contains the resulting SIP code, sub-code and message. */
-  resultInformation?: ResultInformation;
-}
-
-export interface MediaStreamingStopped {
-  /**
-   * Defines the result for MediaStreamingUpdate with the current status and the details about the status
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly mediaStreamingUpdate?: MediaStreamingUpdate;
-  /** Call connection ID. */
-  callConnectionId?: string;
-  /** Server call ID. */
-  serverCallId?: string;
-  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
-  correlationId?: string;
-  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
-  operationContext?: string;
-  /** Contains the resulting SIP code, sub-code and message. */
-  resultInformation?: ResultInformation;
-}
-
-export interface HoldFailed {
-  /** Call connection ID. */
-  callConnectionId?: string;
-  /** Server call ID. */
-  serverCallId?: string;
-  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
-  correlationId?: string;
-  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
-  operationContext?: string;
-  /** Contains the resulting SIP code, sub-code and message. */
   resultInformation?: ResultInformation;
 }
 
@@ -1272,16 +1325,11 @@ export interface StartRecordingFailed {
   correlationId?: string;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
-  /** Contains the resulting SIP code, sub-code and message. */
   resultInformation?: ResultInformation;
 }
 
 export interface TranscriptionFailed {
-  /**
-   * Defines the result for TranscriptionUpdate with the current status and the details about the status
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly transcriptionUpdate?: TranscriptionUpdate;
+  transcriptionUpdate?: TranscriptionUpdate;
   /** Call connection ID. */
   callConnectionId?: string;
   /** Server call ID. */
@@ -1290,7 +1338,6 @@ export interface TranscriptionFailed {
   correlationId?: string;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
-  /** Contains the resulting SIP code, sub-code and message. */
   resultInformation?: ResultInformation;
 }
 
@@ -1300,11 +1347,7 @@ export interface TranscriptionUpdate {
 }
 
 export interface TranscriptionStarted {
-  /**
-   * Defines the result for TranscriptionUpdate with the current status and the details about the status
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly transcriptionUpdate?: TranscriptionUpdate;
+  transcriptionUpdate?: TranscriptionUpdate;
   /** Call connection ID. */
   callConnectionId?: string;
   /** Server call ID. */
@@ -1313,16 +1356,11 @@ export interface TranscriptionStarted {
   correlationId?: string;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
-  /** Contains the resulting SIP code, sub-code and message. */
   resultInformation?: ResultInformation;
 }
 
 export interface TranscriptionStopped {
-  /**
-   * Defines the result for TranscriptionUpdate with the current status and the details about the status
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly transcriptionUpdate?: TranscriptionUpdate;
+  transcriptionUpdate?: TranscriptionUpdate;
   /** Call connection ID. */
   callConnectionId?: string;
   /** Server call ID. */
@@ -1331,16 +1369,11 @@ export interface TranscriptionStopped {
   correlationId?: string;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
-  /** Contains the resulting SIP code, sub-code and message. */
   resultInformation?: ResultInformation;
 }
 
 export interface TranscriptionUpdated {
-  /**
-   * Defines the result for TranscriptionUpdate with the current status and the details about the status
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly transcriptionUpdate?: TranscriptionUpdate;
+  transcriptionUpdate?: TranscriptionUpdate;
   /** Call connection ID. */
   callConnectionId?: string;
   /** Server call ID. */
@@ -1349,7 +1382,6 @@ export interface TranscriptionUpdated {
   correlationId?: string;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
-  /** Contains the resulting SIP code, sub-code and message. */
   resultInformation?: ResultInformation;
 }
 
@@ -1359,12 +1391,13 @@ export interface WebSocketMediaStreamingOptions extends MediaStreamingOptionsInt
   transportType: "websocket";
   /** The transport URL for media streaming. */
   transportUrl?: string;
+  /** Type of content in Media streaming. */
   contentType?: MediaStreamingContentType;
   /** A value indicating whether the media streaming should start immediately after the call is answered. */
   startMediaStreaming?: boolean;
   /** A value indicating whether bidirectional streaming is enabled. */
   enableBidirectional?: boolean;
-  /** The audio format used for encoding, including sample rate and channel type. The default is Pcm16KMono. */
+  /** The format of the audio received from the audio subscription option. */
   audioFormat?: AudioFormat;
   /** A value that indicates whether to stream the DTMF tones. */
   enableDtmfTones?: boolean;
@@ -1800,10 +1833,10 @@ export type RecordingFormatType = string;
 
 /** Known values of {@link RecordingStorageKind} that the service accepts. */
 export enum KnownRecordingStorageKind {
-  /** Storage managed by Azure Communication Services */
-  AzureCommunicationServices = "AzureCommunicationServices",
-  /** Storage managed by provided Azure blob */
-  AzureBlobStorage = "AzureBlobStorage",
+  /** AzureCommunicationServices */
+  AzureCommunicationServices = "azureCommunicationServices",
+  /** AzureBlobStorage */
+  AzureBlobStorage = "azureBlobStorage",
 }
 
 /**
@@ -1811,8 +1844,8 @@ export enum KnownRecordingStorageKind {
  * {@link KnownRecordingStorageKind} can be used interchangeably with RecordingStorageKind,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **AzureCommunicationServices**: Storage managed by Azure Communication Services \
- * **AzureBlobStorage**: Storage managed by provided Azure blob
+ * **azureCommunicationServices** \
+ * **azureBlobStorage**
  */
 export type RecordingStorageKind = string;
 
@@ -1836,12 +1869,12 @@ export type RecordingState = string;
 
 /** Known values of {@link RecordingKind} that the service accepts. */
 export enum KnownRecordingKind {
-  /** Recording initiated by Azure Communication Services */
-  AzureCommunicationServices = "AzureCommunicationServices",
-  /** Recording initiated by Teams user */
-  Teams = "Teams",
-  /** Recording initiated by Teams compliance policy */
-  TeamsCompliance = "TeamsCompliance",
+  /** AzureCommunicationServices */
+  AzureCommunicationServices = "azureCommunicationServices",
+  /** Teams */
+  Teams = "teams",
+  /** TeamsCompliance */
+  TeamsCompliance = "teamsCompliance",
 }
 
 /**
@@ -1849,50 +1882,11 @@ export enum KnownRecordingKind {
  * {@link KnownRecordingKind} can be used interchangeably with RecordingKind,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **AzureCommunicationServices**: Recording initiated by Azure Communication Services \
- * **Teams**: Recording initiated by Teams user \
- * **TeamsCompliance**: Recording initiated by Teams compliance policy
+ * **azureCommunicationServices** \
+ * **teams** \
+ * **teamsCompliance**
  */
 export type RecordingKind = string;
-
-/** Known values of {@link AudioFormat} that the service accepts. */
-export enum KnownAudioFormat {
-  /** Pcm16KMono */
-  Pcm16KMono = "pcm16KMono",
-  /** Pcm24KMono */
-  Pcm24KMono = "pcm24KMono",
-}
-
-/**
- * Defines values for AudioFormat. \
- * {@link KnownAudioFormat} can be used interchangeably with AudioFormat,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **pcm16KMono** \
- * **pcm24KMono**
- */
-export type AudioFormat = string;
-
-/** Known values of {@link RecognitionType} that the service accepts. */
-export enum KnownRecognitionType {
-  /** Dtmf */
-  Dtmf = "dtmf",
-  /** Speech */
-  Speech = "speech",
-  /** Choices */
-  Choices = "choices",
-}
-
-/**
- * Defines values for RecognitionType. \
- * {@link KnownRecognitionType} can be used interchangeably with RecognitionType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **dtmf** \
- * **speech** \
- * **choices**
- */
-export type RecognitionType = string;
 
 /** Known values of {@link MediaStreamingStatus} that the service accepts. */
 export enum KnownMediaStreamingStatus {
@@ -1974,6 +1968,27 @@ export enum KnownMediaStreamingStatusDetails {
  * **initialWebSocketConnectionFailed**
  */
 export type MediaStreamingStatusDetails = string;
+
+/** Known values of {@link RecognitionType} that the service accepts. */
+export enum KnownRecognitionType {
+  /** Dtmf */
+  Dtmf = "dtmf",
+  /** Speech */
+  Speech = "speech",
+  /** Choices */
+  Choices = "choices",
+}
+
+/**
+ * Defines values for RecognitionType. \
+ * {@link KnownRecognitionType} can be used interchangeably with RecognitionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **dtmf** \
+ * **speech** \
+ * **choices**
+ */
+export type RecognitionType = string;
 
 /** Known values of {@link TranscriptionStatus} that the service accepts. */
 export enum KnownTranscriptionStatus {
@@ -2061,6 +2076,24 @@ export enum KnownTranscriptionStatusDetails {
  * **transcriptionLocaleUpdated**
  */
 export type TranscriptionStatusDetails = string;
+
+/** Known values of {@link AudioFormat} that the service accepts. */
+export enum KnownAudioFormat {
+  /** Pcm16KMono */
+  Pcm16KMono = "pcm16KMono",
+  /** Pcm24KMono */
+  Pcm24KMono = "pcm24KMono",
+}
+
+/**
+ * Defines values for AudioFormat. \
+ * {@link KnownAudioFormat} can be used interchangeably with AudioFormat,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **pcm16KMono** \
+ * **pcm24KMono**
+ */
+export type AudioFormat = string;
 
 /** Optional parameters. */
 export interface CreateCallOptionalParams extends coreClient.OperationOptions {
@@ -2199,6 +2232,18 @@ export interface CallConnectionCancelAddParticipantOptionalParams
 /** Contains response data for the cancelAddParticipant operation. */
 export type CallConnectionCancelAddParticipantResponse =
   CancelAddParticipantResponse;
+
+/** Optional parameters. */
+export interface CallConnectionMoveParticipantsOptionalParams
+  extends coreClient.OperationOptions {
+  /** If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Repeatability-Request-Id and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-Id is an opaque string representing a client-generated unique identifier for the request. It is a version 4 (random) UUID. */
+  repeatabilityRequestID?: string;
+  /** If Repeatability-Request-ID header is specified, then Repeatability-First-Sent header must also be specified. The value should be the date and time at which the request was first created, expressed using the IMF-fixdate form of HTTP-date. Example: Sun, 06 Nov 1994 08:49:37 GMT. */
+  repeatabilityFirstSent?: Date;
+}
+
+/** Contains response data for the moveParticipants operation. */
+export type CallConnectionMoveParticipantsResponse = MoveParticipantsResponse;
 
 /** Optional parameters. */
 export interface CallConnectionGetParticipantOptionalParams

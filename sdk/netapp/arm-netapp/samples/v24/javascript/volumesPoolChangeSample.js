@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to moves volume to another pool
  *
  * @summary moves volume to another pool
- * x-ms-original-file: 2026-01-01/Volumes_PoolChange.json
+ * x-ms-original-file: 2026-04-01/Volumes_PoolChange.json
  */
 async function volumesPoolChange() {
   const credential = new DefaultAzureCredential();

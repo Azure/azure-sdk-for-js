@@ -22,9 +22,17 @@ export type {
   Feature,
   FeatureProperties,
   FeatureState,
+  FeatureEnableRequest,
   OperationStatusResult,
   VmFamily,
   VmFamilyProperties,
+  SharedLimitCap,
+  SharedLimitCapProperties,
+  SetMemberCapOverridesRequest,
+  MemberCap,
+  SetMemberCapOverridesResult,
+  MemberCapOverride,
+  MemberCapOverrideProperties,
 } from "./models.js";
 export {
   KnownOrigin,

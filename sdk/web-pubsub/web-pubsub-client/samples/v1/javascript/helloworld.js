@@ -36,6 +36,12 @@ async function main() {
     },
     options,
   );
+  const streamReceiver = new WebPubSubClient(
+    {
+      getClientAccessUrl: fetchClientAccessUrl,
+    },
+    options,
+  );
 
   client.on("connected", (e) => {
     console.log(`Connection ${e.connectionId} is connected.`);
@@ -46,26 +52,53 @@ async function main() {
   });
 
   client.on("server-message", (e) => {
-    if (e.message.data instanceof ArrayBuffer) {
-      console.log(`Received message ${Buffer.from(e.message.data).toString("base64")}`);
-    } else {
-      console.log(`Received message ${JSON.stringify(e.message.data)}`);
-    }
+    console.log(`Received message ${formatPayload(e.message.data)}`);
   });
 
   client.on("group-message", (e) => {
-    if (e.message.data instanceof ArrayBuffer) {
-      console.log(
-        `Received message from ${e.message.group} ${Buffer.from(e.message.data).toString("base64")}`,
-      );
-    } else {
-      console.log(`Received message from ${e.message.group} ${JSON.stringify(e.message.data)}`);
-    }
+    console.log(`Received message from ${e.message.group} ${formatPayload(e.message.data)}`);
   });
 
+  streamReceiver.on("connected", (e) => {
+    console.log(`Stream receiver connection ${e.connectionId} is connected.`);
+  });
+
+  streamReceiver.on("disconnected", (e) => {
+    console.log(`Stream receiver disconnected: ${e.message}`);
+  });
+
+  const groupStreamFactory = (stream) => {
+    const receivedParts = [];
+
+    return {
+      onMessage: (args) => {
+        receivedParts.push(formatStreamPart(args.data));
+
+        console.log(
+          `[stream:${stream.group}/${stream.streamId}] seq=${args.stream.streamSequenceId} ${formatPayload(args.data)}`,
+        );
+      },
+      onComplete: () => {
+        console.log(
+          `[stream:${stream.group}/${stream.streamId}] completed with ${receivedParts.length} part(s): ${receivedParts.join("")}`,
+        );
+      },
+      onError: (args) => {
+        console.log(
+          `[stream:${stream.group}/${stream.streamId}] failed: ${args.error?.name}${args.error?.message ? ` - ${args.error.message}` : ""}`,
+        );
+      },
+    };
+  };
+  // Options are scoped to this registration (per handler); their effects (idle
+  // timeout, handleFromStart gate) apply independently to each observed stream.
+  streamReceiver.onGroupStream(groupStreamFactory, { handleFromStart: true });
+
   await client.start();
+  await streamReceiver.start();
 
   await client.joinGroup(groupName);
+  await streamReceiver.joinGroup(groupName);
   await client.sendToGroup(groupName, "hello world", "text", {
     fireAndForget: true,
   });
@@ -81,7 +114,26 @@ async function main() {
   await client.sendToGroup(groupName, "hello world after ping/pong", "text", {
     fireAndForget: true,
   });
-  await delay(200);
+
+  const firstStream = await client.openGroupStream(groupName, { noEcho: true });
+  const secondStream = await client.openGroupStream(groupName, { noEcho: true });
+  for (const stream of [firstStream, secondStream]) {
+    stream.onError((error) => {
+      console.log(
+        `[stream:${stream.streamId}] failed: ${error.name}${error.message ? ` - ${error.message}` : ""}`,
+      );
+    });
+  }
+  await firstStream.write("first stream part 1; ", "text");
+  await secondStream.write("second stream part 1; ", "text");
+  await firstStream.write("first stream part 2", "text");
+  await secondStream.write("second stream part 2", "text");
+  await secondStream.end();
+  await firstStream.end();
+
+  await delay(1000);
+  streamReceiver.offGroupStream(groupStreamFactory);
+  streamReceiver.stop();
   client.stop();
   console.log("Client stopped");
 }
@@ -93,4 +145,18 @@ main().catch((e) => {
 
 function delay(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function formatPayload(payload) {
+  if (payload instanceof ArrayBuffer) {
+    return Buffer.from(payload).toString("base64");
+  }
+  return JSON.stringify(payload);
+}
+
+function formatStreamPart(payload) {
+  if (typeof payload === "string") {
+    return payload;
+  }
+  return formatPayload(payload);
 }

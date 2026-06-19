@@ -1,31 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets a watchlist, without its watchlist items.
- *
- * @summary Gets a watchlist, without its watchlist items.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/watchlists/GetWatchlistItemById.json
- */
-
 import { SecurityInsights } from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to get a watchlist item.
+ *
+ * @summary get a watchlist item.
+ * x-ms-original-file: 2025-07-01-preview/watchlists/GetWatchlistItemById.json
+ */
 async function getAWatchlistItem(): Promise<void> {
-  const subscriptionId =
-    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
-  const workspaceName = "myWorkspace";
-  const watchlistAlias = "highValueAsset";
-  const watchlistItemId = "3f8901fe-63d9-4875-9ad5-9fb3b8105797";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const client = new SecurityInsights(credential, subscriptionId);
   const result = await client.watchlistItems.get(
-    resourceGroupName,
-    workspaceName,
-    watchlistAlias,
-    watchlistItemId,
+    "myRg",
+    "myWorkspace",
+    "highValueAsset",
+    "3f8901fe-63d9-4875-9ad5-9fb3b8105797",
   );
   console.log(result);
 }

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to restore blobs in the specified blob ranges
  *
  * @summary restore blobs in the specified blob ranges
- * x-ms-original-file: 2025-08-01/BlobRangesRestore.json
+ * x-ms-original-file: 2026-04-01/BlobRangesRestore.json
  */
 async function blobRangesRestore() {
   const credential = new DefaultAzureCredential();

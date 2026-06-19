@@ -26,7 +26,7 @@ development tasks. Read the referenced docs — don't guess at commands.
 | Post-generation steps (changelog, samples, release prep) | `documentation/steps-after-generations.md` |
 | Bundling for browser | `documentation/Bundling.md` |
 | Resolving pnpm-lock.yaml merge conflicts | `documentation/resolve-pnpm-lock-merge-conflict.md` |
-| Writing and running perf tests | `documentation/writing-performance-tests.md` |
+| Writing and running perf tests | `sdk/test-utils/perf/GettingStarted.md` |
 | TypeSpec client generator CLI | `eng/common/tsp-client/README.md` |
 | Code review agents (archie, scribe, sentinel, tester, dash, dexter) | `documentation/reviewer-agents.md` |
 | Troubleshooting CI failures | `documentation/Troubleshoot-ci-failure.md` |
@@ -64,7 +64,17 @@ development tasks. Read the referenced docs — don't guess at commands.
 - **Versioning**: When there is a new change to `src/` after a release, the package
   version must be incremented. Use `npx dev-tool package increment-version` to bump
   the version in `package.json`, update tracked version constants, and add a new
-  changelog entry.
+  changelog entry. **Before opening or updating a PR**, verify whether a version bump is needed
+  by running the following from the repo root:
+  ```
+  node eng/tools/ci-runner/index.js check-package-version <service-dir> -packages "<artifact-name>"
+  ```
+  where `<service-dir>` is the first path segment after `sdk/` (e.g. `keyvault` for
+  `sdk/keyvault/keyvault-keys`) and `<artifact-name>` is the package name with `@`
+  removed and `/` replaced by `-` (e.g. `azure-keyvault-keys` for
+  `@azure/keyvault-keys`). If the check exits with a non-zero code, run
+  `npx dev-tool package increment-version` from the package directory and commit the
+  result before opening the PR or pushing updates to PRs.
 - **Azure authentication**: You must be logged in to Azure when running tests live,
   recording, or provisioning test resources. Always authenticate using the interactive
   browser-based login flow (e.g. `Connect-AzAccount` or `az login`). Never use device

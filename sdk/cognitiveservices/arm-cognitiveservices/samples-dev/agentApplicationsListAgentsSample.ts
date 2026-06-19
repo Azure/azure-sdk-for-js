@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists agents for an Agent Application.
  *
  * @summary lists agents for an Agent Application.
- * x-ms-original-file: 2026-01-15-preview/AgentApplication/listAgents.json
+ * x-ms-original-file: 2026-03-15-preview/AgentApplication/listAgents.json
  */
 async function listAgentsForAgentApplication(): Promise<void> {
   const credential = new DefaultAzureCredential();

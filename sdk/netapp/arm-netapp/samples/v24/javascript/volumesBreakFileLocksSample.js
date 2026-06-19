@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to break all the file locks on a volume
  *
  * @summary break all the file locks on a volume
- * x-ms-original-file: 2026-01-01/Volumes_BreakFileLocks.json
+ * x-ms-original-file: 2026-04-01/Volumes_BreakFileLocks.json
  */
 async function volumesBreakFileLocks() {
   const credential = new DefaultAzureCredential();

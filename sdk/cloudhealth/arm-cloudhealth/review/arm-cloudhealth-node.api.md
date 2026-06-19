@@ -4,14 +4,16 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { ClientOptions } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
@@ -25,6 +27,12 @@ export interface AlertConfiguration {
 
 // @public
 export type AlertSeverity = string;
+
+// @public
+export interface ApplicationInsightsTopologySpecification extends DiscoveryRuleSpecification {
+    applicationInsightsResourceId: string;
+    kind: "ApplicationInsightsTopology";
+}
 
 // @public
 export type AuthenticationKind = string;
@@ -46,10 +54,12 @@ export type AuthenticationSettingPropertiesUnion = ManagedIdentityAuthentication
 
 // @public
 export interface AuthenticationSettingsCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
 export interface AuthenticationSettingsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -62,25 +72,51 @@ export interface AuthenticationSettingsListByHealthModelOptionalParams extends O
 
 // @public
 export interface AuthenticationSettingsOperations {
-    createOrUpdate: (resourceGroupName: string, healthModelName: string, authenticationSettingName: string, resource: AuthenticationSetting, options?: AuthenticationSettingsCreateOrUpdateOptionalParams) => Promise<AuthenticationSetting>;
-    delete: (resourceGroupName: string, healthModelName: string, authenticationSettingName: string, options?: AuthenticationSettingsDeleteOptionalParams) => Promise<void>;
+    createOrUpdate: (resourceGroupName: string, healthModelName: string, authenticationSettingName: string, resource: AuthenticationSetting, options?: AuthenticationSettingsCreateOrUpdateOptionalParams) => PollerLike<OperationState<AuthenticationSetting>, AuthenticationSetting>;
+    delete: (resourceGroupName: string, healthModelName: string, authenticationSettingName: string, options?: AuthenticationSettingsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, healthModelName: string, authenticationSettingName: string, options?: AuthenticationSettingsGetOptionalParams) => Promise<AuthenticationSetting>;
     listByHealthModel: (resourceGroupName: string, healthModelName: string, options?: AuthenticationSettingsListByHealthModelOptionalParams) => PagedAsyncIterableIterator<AuthenticationSetting>;
 }
 
 // @public
-export interface AzureMonitorWorkspaceSignalGroup {
-    authenticationSetting: string;
-    azureMonitorWorkspaceResourceId: string;
-    signalAssignments?: SignalAssignment[];
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
 }
 
 // @public
-export interface AzureResourceSignalGroup {
+export interface AzureMonitorWorkspaceSignals {
+    authenticationSetting: string;
+    azureMonitorWorkspaceResourceId: string;
+    signals?: PrometheusMetricsSignal[];
+}
+
+// @public
+export interface AzureResourceSignal extends SignalInstanceProperties {
+    aggregationType?: MetricAggregationType;
+    dataUnit?: string;
+    dimension?: string;
+    dimensionFilter?: string;
+    displayName?: string;
+    evaluationRules?: EvaluationRule;
+    metricName?: string;
+    metricNamespace?: string;
+    refreshInterval?: RefreshInterval;
+    signalKind: "AzureResourceMetric";
+    timeGrain?: string;
+}
+
+// @public
+export interface AzureResourceSignals {
     authenticationSetting: string;
     azureResourceId: string;
-    signalAssignments?: SignalAssignment[];
+    azureResourceKind?: string;
+    signals?: AzureResourceSignal[];
 }
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public (undocumented)
 export class CloudHealthClient {
@@ -98,6 +134,7 @@ export class CloudHealthClient {
 // @public
 export interface CloudHealthClientOptionalParams extends ClientOptions {
     apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
@@ -112,10 +149,21 @@ export type CreatedByType = string;
 export type DependenciesAggregationType = string;
 
 // @public
-export interface DependenciesSignalGroup {
+export type DependenciesAggregationUnit = string;
+
+// @public
+export interface DependenciesSignalGroupV2 {
     aggregationType: DependenciesAggregationType;
-    degradedThreshold?: string;
-    unhealthyThreshold?: string;
+    degradedThreshold?: number;
+    ignoreUnknown?: boolean;
+    unhealthyThreshold?: number;
+    unit?: DependenciesAggregationUnit;
+}
+
+// @public
+export interface DiscoveryError {
+    readonly context?: string[];
+    readonly message: string;
 }
 
 // @public
@@ -124,17 +172,27 @@ export interface DiscoveryRule extends ProxyResource {
 }
 
 // @public
+export type DiscoveryRuleKind = string;
+
+// @public
 export interface DiscoveryRuleProperties {
     addRecommendedSignals: DiscoveryRuleRecommendedSignalsBehavior;
     authenticationSetting: string;
-    readonly deletionDate?: Date;
     discoverRelationships: DiscoveryRuleRelationshipDiscoveryBehavior;
     displayName?: string;
     readonly entityName: string;
-    readonly errorMessage?: string;
-    readonly numberOfDiscoveredEntities?: number;
+    readonly error?: DiscoveryError;
     readonly provisioningState?: HealthModelProvisioningState;
-    resourceGraphQuery: string;
+    specification: DiscoveryRuleSpecificationUnion;
+}
+
+// @public
+export interface DiscoveryRulePropertiesCreate {
+    addRecommendedSignals: DiscoveryRuleRecommendedSignalsBehavior;
+    authenticationSetting: string;
+    discoverRelationships: DiscoveryRuleRelationshipDiscoveryBehavior;
+    displayName?: string;
+    specification: DiscoveryRuleSpecificationUnion;
 }
 
 // @public
@@ -144,11 +202,18 @@ export type DiscoveryRuleRecommendedSignalsBehavior = string;
 export type DiscoveryRuleRelationshipDiscoveryBehavior = string;
 
 // @public
+export interface DiscoveryRuleResourceCreate extends ProxyResource {
+    properties?: DiscoveryRulePropertiesCreate;
+}
+
+// @public
 export interface DiscoveryRulesCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
 export interface DiscoveryRulesDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -162,36 +227,44 @@ export interface DiscoveryRulesListByHealthModelOptionalParams extends Operation
 
 // @public
 export interface DiscoveryRulesOperations {
-    createOrUpdate: (resourceGroupName: string, healthModelName: string, discoveryRuleName: string, resource: DiscoveryRule, options?: DiscoveryRulesCreateOrUpdateOptionalParams) => Promise<DiscoveryRule>;
-    delete: (resourceGroupName: string, healthModelName: string, discoveryRuleName: string, options?: DiscoveryRulesDeleteOptionalParams) => Promise<void>;
+    createOrUpdate: (resourceGroupName: string, healthModelName: string, discoveryRuleName: string, resource: DiscoveryRuleResourceCreate, options?: DiscoveryRulesCreateOrUpdateOptionalParams) => PollerLike<OperationState<DiscoveryRule>, DiscoveryRule>;
+    delete: (resourceGroupName: string, healthModelName: string, discoveryRuleName: string, options?: DiscoveryRulesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, healthModelName: string, discoveryRuleName: string, options?: DiscoveryRulesGetOptionalParams) => Promise<DiscoveryRule>;
     listByHealthModel: (resourceGroupName: string, healthModelName: string, options?: DiscoveryRulesListByHealthModelOptionalParams) => PagedAsyncIterableIterator<DiscoveryRule>;
 }
 
 // @public
-export interface DynamicDetectionRule {
-    dynamicThresholdDirection: DynamicThresholdDirection;
-    dynamicThresholdModel: DynamicThresholdModel;
-    modelSensitivity: number;
-    trainingStartTime?: Date;
+export interface DiscoveryRuleSpecification {
+    kind: DiscoveryRuleKind;
 }
 
 // @public
-export type DynamicThresholdDirection = string;
-
-// @public
-export type DynamicThresholdModel = string;
+export type DiscoveryRuleSpecificationUnion = ResourceGraphQuerySpecification | ApplicationInsightsTopologySpecification | DiscoveryRuleSpecification;
 
 // @public
 export interface EntitiesCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
 export interface EntitiesDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface EntitiesGetHistoryOptionalParams extends OperationOptions {
 }
 
 // @public
 export interface EntitiesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface EntitiesGetSignalHistoryOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface EntitiesIngestHealthReportOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -201,9 +274,12 @@ export interface EntitiesListByHealthModelOptionalParams extends OperationOption
 
 // @public
 export interface EntitiesOperations {
-    createOrUpdate: (resourceGroupName: string, healthModelName: string, entityName: string, resource: Entity, options?: EntitiesCreateOrUpdateOptionalParams) => Promise<Entity>;
-    delete: (resourceGroupName: string, healthModelName: string, entityName: string, options?: EntitiesDeleteOptionalParams) => Promise<void>;
+    createOrUpdate: (resourceGroupName: string, healthModelName: string, entityName: string, resource: Entity, options?: EntitiesCreateOrUpdateOptionalParams) => PollerLike<OperationState<Entity>, Entity>;
+    delete: (resourceGroupName: string, healthModelName: string, entityName: string, options?: EntitiesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, healthModelName: string, entityName: string, options?: EntitiesGetOptionalParams) => Promise<Entity>;
+    getHistory: (resourceGroupName: string, healthModelName: string, entityName: string, body: EntityHistoryRequest, options?: EntitiesGetHistoryOptionalParams) => Promise<EntityHistoryResponse>;
+    getSignalHistory: (resourceGroupName: string, healthModelName: string, entityName: string, body: SignalHistoryRequest, options?: EntitiesGetSignalHistoryOptionalParams) => Promise<SignalHistoryResponse>;
+    ingestHealthReport: (resourceGroupName: string, healthModelName: string, entityName: string, body: HealthReportRequest, options?: EntitiesIngestHealthReportOptionalParams) => Promise<void>;
     listByHealthModel: (resourceGroupName: string, healthModelName: string, options?: EntitiesListByHealthModelOptionalParams) => PagedAsyncIterableIterator<Entity>;
 }
 
@@ -225,23 +301,33 @@ export interface EntityCoordinates {
 }
 
 // @public
+export interface EntityHistoryRequest {
+    endAt?: Date;
+    startAt?: Date;
+}
+
+// @public
+export interface EntityHistoryResponse {
+    entityName: string;
+    history: HealthStateTransition[];
+}
+
+// @public
 export type EntityImpact = string;
 
 // @public
 export interface EntityProperties {
     alerts?: EntityAlerts;
     canvasPosition?: EntityCoordinates;
-    readonly deletionDate?: Date;
     readonly discoveredBy?: string;
     displayName?: string;
     healthObjective?: number;
     readonly healthState?: HealthState;
     icon?: IconDefinition;
     impact?: EntityImpact;
-    kind?: string;
-    labels?: Record<string, string>;
     readonly provisioningState?: HealthModelProvisioningState;
-    signals?: SignalGroup;
+    signalGroups?: SignalGroups;
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -266,9 +352,19 @@ export interface ErrorResponse {
 
 // @public
 export interface EvaluationRule {
-    degradedRule?: ThresholdRule;
-    dynamicDetectionRule?: DynamicDetectionRule;
-    unhealthyRule?: ThresholdRule;
+    degradedRule?: ThresholdRuleV2;
+    unhealthyRule: ThresholdRuleV2;
+}
+
+// @public
+export interface ExternalSignal extends SignalInstanceProperties {
+    evaluationRules?: EvaluationRule;
+    signalKind: "External";
+}
+
+// @public
+export interface ExternalSignalGroup {
+    readonly signals?: ExternalSignal[];
 }
 
 // @public
@@ -279,8 +375,6 @@ export interface HealthModel extends TrackedResource {
 
 // @public
 export interface HealthModelProperties {
-    readonly dataplaneEndpoint?: string;
-    discovery?: ModelDiscoverySettings;
     readonly provisioningState?: HealthModelProvisioningState;
 }
 
@@ -327,23 +421,43 @@ export interface HealthModelsUpdateOptionalParams extends OperationOptions {
 // @public
 export interface HealthModelUpdate {
     identity?: ManagedServiceIdentity;
-    properties?: HealthModelUpdateProperties;
     tags?: Record<string, string>;
 }
 
 // @public
-export interface HealthModelUpdateProperties {
-    discovery?: ModelDiscoverySettings;
+export interface HealthReportEvaluationRule {
+    degradedRule?: ThresholdRuleV2;
+    unhealthyRule: ThresholdRuleV2;
+}
+
+// @public
+export interface HealthReportRequest {
+    additionalContext?: string;
+    evaluationRules?: HealthReportEvaluationRule;
+    expiresInMinutes?: number;
+    healthState: HealthState;
+    signalName: string;
+    value?: number;
 }
 
 // @public
 export type HealthState = string;
 
 // @public
+export interface HealthStateTransition {
+    newState: HealthState;
+    occurredAt: Date;
+    previousState: HealthState;
+    reason?: string;
+}
+
+// @public
 export interface IconDefinition {
     customData?: string;
     iconName: string;
 }
+
+export { isRestError }
 
 // @public
 export enum KnownActionType {
@@ -361,7 +475,6 @@ export enum KnownAlertSeverity {
 
 // @public
 export enum KnownAuthenticationKind {
-    // (undocumented)
     ManagedIdentity = "ManagedIdentity"
 }
 
@@ -375,8 +488,21 @@ export enum KnownCreatedByType {
 
 // @public
 export enum KnownDependenciesAggregationType {
-    Thresholds = "Thresholds",
+    MaxNotHealthy = "MaxNotHealthy",
+    MinHealthy = "MinHealthy",
     WorstOf = "WorstOf"
+}
+
+// @public
+export enum KnownDependenciesAggregationUnit {
+    Absolute = "Absolute",
+    Percentage = "Percentage"
+}
+
+// @public
+export enum KnownDiscoveryRuleKind {
+    ApplicationInsightsTopology = "ApplicationInsightsTopology",
+    ResourceGraphQuery = "ResourceGraphQuery"
 }
 
 // @public
@@ -392,18 +518,6 @@ export enum KnownDiscoveryRuleRelationshipDiscoveryBehavior {
 }
 
 // @public
-export enum KnownDynamicThresholdDirection {
-    GreaterOrLowerThan = "GreaterOrLowerThan",
-    GreaterThan = "GreaterThan",
-    LowerThan = "LowerThan"
-}
-
-// @public
-export enum KnownDynamicThresholdModel {
-    AnomalyDetection = "AnomalyDetection"
-}
-
-// @public
 export enum KnownEntityImpact {
     Limited = "Limited",
     Standard = "Standard",
@@ -413,9 +527,7 @@ export enum KnownEntityImpact {
 // @public
 export enum KnownHealthModelProvisioningState {
     Canceled = "Canceled",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
     Failed = "Failed",
     Succeeded = "Succeeded"
@@ -425,8 +537,8 @@ export enum KnownHealthModelProvisioningState {
 export enum KnownHealthState {
     Degraded = "Degraded",
     Deleted = "Deleted",
-    Error = "Error",
     Healthy = "Healthy",
+    Unhealthy = "Unhealthy",
     Unknown = "Unknown"
 }
 
@@ -440,17 +552,11 @@ export enum KnownManagedServiceIdentityType {
 
 // @public
 export enum KnownMetricAggregationType {
-    // (undocumented)
     Average = "Average",
-    // (undocumented)
     Count = "Count",
-    // (undocumented)
     Maximum = "Maximum",
-    // (undocumented)
     Minimum = "Minimum",
-    // (undocumented)
     None = "None",
-    // (undocumented)
     Total = "Total"
 }
 
@@ -473,26 +579,26 @@ export enum KnownRefreshInterval {
 
 // @public
 export enum KnownSignalKind {
-    // (undocumented)
     AzureResourceMetric = "AzureResourceMetric",
-    // (undocumented)
+    ExternalSignal = "External",
     LogAnalyticsQuery = "LogAnalyticsQuery",
-    // (undocumented)
     PrometheusMetricsQuery = "PrometheusMetricsQuery"
 }
 
 // @public
 export enum KnownSignalOperator {
-    Equals = "Equals",
-    GreaterOrEquals = "GreaterOrEquals",
+    Equal = "Equal",
     GreaterThan = "GreaterThan",
-    LowerOrEquals = "LowerOrEquals",
-    LowerThan = "LowerThan"
+    GreaterThanOrEqual = "GreaterThanOrEqual",
+    LessThan = "LessThan",
+    LessThanOrEqual = "LessThanOrEqual",
+    NotEqual = "NotEqual"
 }
 
 // @public
 export enum KnownVersions {
-    V20250501Preview = "2025-05-01-preview"
+    V20250501Preview = "2025-05-01-preview",
+    V20260101Preview = "2026-01-01-preview"
 }
 
 // @public
@@ -504,10 +610,22 @@ export interface LogAnalyticsQuerySignalDefinitionProperties extends SignalDefin
 }
 
 // @public
-export interface LogAnalyticsSignalGroup {
+export interface LogAnalyticsSignal extends SignalInstanceProperties {
+    dataUnit?: string;
+    displayName?: string;
+    evaluationRules?: EvaluationRule;
+    queryText?: string;
+    refreshInterval?: RefreshInterval;
+    signalKind: "LogAnalyticsQuery";
+    timeGrain?: string;
+    valueColumnName?: string;
+}
+
+// @public
+export interface LogAnalyticsSignals {
     authenticationSetting: string;
     logAnalyticsWorkspaceResourceId: string;
-    signalAssignments?: SignalAssignment[];
+    signals?: LogAnalyticsSignal[];
 }
 
 // @public
@@ -521,7 +639,7 @@ export interface ManagedServiceIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type: ManagedServiceIdentityType;
-    userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
+    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
 
 // @public
@@ -529,13 +647,6 @@ export type ManagedServiceIdentityType = string;
 
 // @public
 export type MetricAggregationType = string;
-
-// @public
-export interface ModelDiscoverySettings {
-    addRecommendedSignals: DiscoveryRuleRecommendedSignalsBehavior;
-    identity?: string;
-    scope: string;
-}
 
 // @public
 export interface Operation {
@@ -579,6 +690,17 @@ export interface PageSettings {
 }
 
 // @public
+export interface PrometheusMetricsSignal extends SignalInstanceProperties {
+    dataUnit?: string;
+    displayName?: string;
+    evaluationRules?: EvaluationRule;
+    queryText?: string;
+    refreshInterval?: RefreshInterval;
+    signalKind: "PrometheusMetricsQuery";
+    timeGrain?: string;
+}
+
+// @public
 export interface PrometheusMetricsSignalDefinitionProperties extends SignalDefinitionProperties {
     queryText: string;
     signalKind: "PrometheusMetricsQuery";
@@ -600,20 +722,21 @@ export interface Relationship extends ProxyResource {
 // @public
 export interface RelationshipProperties {
     childEntityName: string;
-    readonly deletionDate?: Date;
     readonly discoveredBy?: string;
     displayName?: string;
-    labels?: Record<string, string>;
     parentEntityName: string;
     readonly provisioningState?: HealthModelProvisioningState;
+    tags?: Record<string, string>;
 }
 
 // @public
 export interface RelationshipsCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
 export interface RelationshipsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -627,8 +750,8 @@ export interface RelationshipsListByHealthModelOptionalParams extends OperationO
 
 // @public
 export interface RelationshipsOperations {
-    createOrUpdate: (resourceGroupName: string, healthModelName: string, relationshipName: string, resource: Relationship, options?: RelationshipsCreateOrUpdateOptionalParams) => Promise<Relationship>;
-    delete: (resourceGroupName: string, healthModelName: string, relationshipName: string, options?: RelationshipsDeleteOptionalParams) => Promise<void>;
+    createOrUpdate: (resourceGroupName: string, healthModelName: string, relationshipName: string, resource: Relationship, options?: RelationshipsCreateOrUpdateOptionalParams) => PollerLike<OperationState<Relationship>, Relationship>;
+    delete: (resourceGroupName: string, healthModelName: string, relationshipName: string, options?: RelationshipsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, healthModelName: string, relationshipName: string, options?: RelationshipsGetOptionalParams) => Promise<Relationship>;
     listByHealthModel: (resourceGroupName: string, healthModelName: string, options?: RelationshipsListByHealthModelOptionalParams) => PagedAsyncIterableIterator<Relationship>;
 }
@@ -642,6 +765,12 @@ export interface Resource {
 }
 
 // @public
+export interface ResourceGraphQuerySpecification extends DiscoveryRuleSpecification {
+    kind: "ResourceGraphQuery";
+    resourceGraphQuery: string;
+}
+
+// @public
 export interface ResourceMetricSignalDefinitionProperties extends SignalDefinitionProperties {
     aggregationType: MetricAggregationType;
     dimension?: string;
@@ -651,6 +780,8 @@ export interface ResourceMetricSignalDefinitionProperties extends SignalDefiniti
     signalKind: "AzureResourceMetric";
     timeGrain: string;
 }
+
+export { RestError }
 
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: CloudHealthClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
@@ -663,11 +794,6 @@ export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedRe
 }
 
 // @public
-export interface SignalAssignment {
-    signalDefinitions: string[];
-}
-
-// @public
 export interface SignalDefinition extends ProxyResource {
     properties?: SignalDefinitionPropertiesUnion;
 }
@@ -675,13 +801,12 @@ export interface SignalDefinition extends ProxyResource {
 // @public
 export interface SignalDefinitionProperties {
     dataUnit?: string;
-    readonly deletionDate?: Date;
     displayName?: string;
     evaluationRules: EvaluationRule;
-    labels?: Record<string, string>;
     readonly provisioningState?: HealthModelProvisioningState;
     refreshInterval?: RefreshInterval;
     signalKind: SignalKind;
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -689,10 +814,12 @@ export type SignalDefinitionPropertiesUnion = ResourceMetricSignalDefinitionProp
 
 // @public
 export interface SignalDefinitionsCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
 export interface SignalDefinitionsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -706,25 +833,67 @@ export interface SignalDefinitionsListByHealthModelOptionalParams extends Operat
 
 // @public
 export interface SignalDefinitionsOperations {
-    createOrUpdate: (resourceGroupName: string, healthModelName: string, signalDefinitionName: string, resource: SignalDefinition, options?: SignalDefinitionsCreateOrUpdateOptionalParams) => Promise<SignalDefinition>;
-    delete: (resourceGroupName: string, healthModelName: string, signalDefinitionName: string, options?: SignalDefinitionsDeleteOptionalParams) => Promise<void>;
+    createOrUpdate: (resourceGroupName: string, healthModelName: string, signalDefinitionName: string, resource: SignalDefinition, options?: SignalDefinitionsCreateOrUpdateOptionalParams) => PollerLike<OperationState<SignalDefinition>, SignalDefinition>;
+    delete: (resourceGroupName: string, healthModelName: string, signalDefinitionName: string, options?: SignalDefinitionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, healthModelName: string, signalDefinitionName: string, options?: SignalDefinitionsGetOptionalParams) => Promise<SignalDefinition>;
     listByHealthModel: (resourceGroupName: string, healthModelName: string, options?: SignalDefinitionsListByHealthModelOptionalParams) => PagedAsyncIterableIterator<SignalDefinition>;
 }
 
 // @public
-export interface SignalGroup {
-    azureLogAnalytics?: LogAnalyticsSignalGroup;
-    azureMonitorWorkspace?: AzureMonitorWorkspaceSignalGroup;
-    azureResource?: AzureResourceSignalGroup;
-    dependencies?: DependenciesSignalGroup;
+export interface SignalGroups {
+    azureLogAnalytics?: LogAnalyticsSignals;
+    azureMonitorWorkspace?: AzureMonitorWorkspaceSignals;
+    azureResource?: AzureResourceSignals;
+    dependencies?: DependenciesSignalGroupV2;
+    readonly external?: ExternalSignalGroup;
 }
+
+// @public
+export interface SignalHistoryDataPoint {
+    additionalContext?: string;
+    healthState: HealthState;
+    occurredAt: Date;
+    value?: number;
+}
+
+// @public
+export interface SignalHistoryRequest {
+    endAt?: Date;
+    signalName: string;
+    startAt?: Date;
+}
+
+// @public
+export interface SignalHistoryResponse {
+    entityName: string;
+    history: SignalHistoryDataPoint[];
+    signalName: string;
+}
+
+// @public
+export interface SignalInstanceProperties {
+    name: string;
+    signalDefinitionName?: string;
+    signalKind: SignalKind;
+    readonly status?: SignalStatus;
+}
+
+// @public
+export type SignalInstancePropertiesUnion = AzureResourceSignal | LogAnalyticsSignal | PrometheusMetricsSignal | ExternalSignal | SignalInstanceProperties;
 
 // @public
 export type SignalKind = string;
 
 // @public
 export type SignalOperator = string;
+
+// @public
+export interface SignalStatus {
+    readonly error?: string;
+    readonly healthState?: HealthState;
+    readonly reportedAt?: Date;
+    readonly value?: number;
+}
 
 // @public
 export interface SystemData {
@@ -737,9 +906,9 @@ export interface SystemData {
 }
 
 // @public
-export interface ThresholdRule {
+export interface ThresholdRuleV2 {
     operator: SignalOperator;
-    threshold: string;
+    threshold: number;
 }
 
 // @public

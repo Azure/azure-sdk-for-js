@@ -8,6 +8,9 @@
 // The detection check below MUST stay byte-for-byte identical to the Emscripten-generated
 // `ENVIRONMENT_IS_NODE` check later in this file; otherwise the polyfill and the Node branch
 // can disagree and the ESM `ReferenceError: require is not defined` bug returns.
+import { createRequire } from "node:module";
+import { dirname } from "node:path";
+import { fileURLToPath } from "node:url";
 const __isNode__ =
   typeof process === "object" &&
   typeof process.versions === "object" &&
@@ -16,12 +19,6 @@ let require;
 let __filename;
 let __dirname;
 if (__isNode__) {
-  const _modSpecifier = "node:module";
-  const _urlSpecifier = "node:url";
-  const _pathSpecifier = "node:path";
-  const { createRequire } = await import(_modSpecifier);
-  const { fileURLToPath } = await import(_urlSpecifier);
-  const { dirname } = await import(_pathSpecifier);
   require = createRequire(import.meta.url);
   __filename = fileURLToPath(import.meta.url);
   __dirname = dirname(__filename);
@@ -136,6 +133,7 @@ function logExceptionOnExit(e) {
 
 if (ENVIRONMENT_IS_NODE) {
   if (typeof process == 'undefined' || !process.release || process.release.name !== 'node') throw new Error('not compiled for this environment (did you build to HTML and try to run it not on the web, or set ENVIRONMENT to something - like node - and run it someplace else - like on the web?)');
+// NODE-READ-START (this block is replaced with a no-op in dist/browser and dist/react-native by copyJSFiles.cjs)
   // `require()` is no-op in an ESM module, use `createRequire()` to construct
   // the require()` function.  This is only necessary for multi-environment
   // builds, `-sENVIRONMENT=node` emits a static import declaration instead.
@@ -180,6 +178,7 @@ readAsync = (filename, onload, onerror) => {
 };
 
 // end include: node_shell_read.js
+// NODE-READ-END
   if (process['argv'].length > 1) {
     thisProgram = process['argv'][1].replace(/\\/g, '/');
   }

@@ -1,3 +1,10 @@
 {
-  "extends": "../../../../eng/tsconfigs/test.node.json"
+  "extends": "../../../../eng/tsconfigs/test.node.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-databoxedge": ["../src/index.ts"],
+      "@azure/arm-databoxedge/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
 }

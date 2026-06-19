@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list FleetMember resources by Fleet
  *
  * @summary list FleetMember resources by Fleet
- * x-ms-original-file: 2026-02-01-preview/FleetMembers_ListByFleet.json
+ * x-ms-original-file: 2026-03-02-preview/FleetMembers_ListByFleet.json
  */
 async function listsTheMembersOfAFleet(): Promise<void> {
   const credential = new DefaultAzureCredential();

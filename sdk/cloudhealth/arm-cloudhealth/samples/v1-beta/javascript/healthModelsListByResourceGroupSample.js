@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list HealthModel resources by resource group
  *
  * @summary list HealthModel resources by resource group
- * x-ms-original-file: 2025-05-01-preview/HealthModels_ListByResourceGroup.json
+ * x-ms-original-file: 2026-01-01-preview/HealthModels_ListByResourceGroup.json
  */
 async function healthModelsListByResourceGroup() {
   const credential = new DefaultAzureCredential();

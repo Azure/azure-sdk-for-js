@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to disables a compute limit feature for the subscription at the specified location.
  *
  * @summary disables a compute limit feature for the subscription at the specified location.
- * x-ms-original-file: 2026-04-30/Features_Disable.json
+ * x-ms-original-file: 2026-07-01/Features_Disable.json
  */
 async function disableFeature() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a Relationship
  *
  * @summary create a Relationship
- * x-ms-original-file: 2025-05-01-preview/Relationships_CreateOrUpdate.json
+ * x-ms-original-file: 2026-01-01-preview/Relationships_CreateOrUpdate.json
  */
 async function relationshipsCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -19,7 +19,7 @@ async function relationshipsCreateOrUpdate(): Promise<void> {
       displayName: "My relationship",
       parentEntityName: "Entity1",
       childEntityName: "Entity2",
-      labels: { key9681: "ixfvzsfnpvkkbrce" },
+      tags: { key9681: "ixfvzsfnpvkkbrce" },
     },
   });
   console.log(result);

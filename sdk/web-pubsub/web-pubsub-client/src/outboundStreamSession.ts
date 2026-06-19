@@ -5,21 +5,15 @@ import type { AbortSignalLike } from "@azure/abort-controller";
 import { delay } from "@azure/core-util";
 import { logger } from "./logger.js";
 import type {
-  EndStreamOptions,
-  SendStreamKeepaliveOptions,
+  AbortGroupStreamOptions,
+  EndGroupStreamOptions,
   StreamDataError,
 } from "./models/index.js";
-import type { WebPubSubDataType } from "./models/messages.js";
+import type { JSONTypes, StreamEndError, WebPubSubDataType } from "./models/messages.js";
 import { AsyncSeqQueue } from "./asyncSeqQueue.js";
 import { abortablePromise } from "./utils/abortablePromise.js";
-
-type JSONTypes = string | number | boolean | object;
-
-interface Deferred<T> {
-  promise: Promise<T>;
-  resolve(value: T): void;
-  reject(reason?: unknown): void;
-}
+import type { Deferred } from "./utils/deferred.js";
+import { createDeferred } from "./utils/deferred.js";
 
 type OutboundStreamAction = OutboundStreamDataAction | OutboundStreamEndAction;
 
@@ -32,8 +26,17 @@ interface OutboundStreamDataAction {
 
 interface OutboundStreamEndAction {
   type: "end";
-  options?: EndStreamOptions;
+  options?: SendStreamEndOptions;
   completion: Deferred<void>;
+}
+
+interface SendStreamEndOptions {
+  abortSignal?: AbortSignalLike;
+  error?: StreamEndError;
+}
+
+interface SendStreamKeepAliveOptions {
+  abortSignal?: AbortSignalLike;
 }
 
 const SEND_RETRY_INITIAL_DELAY_MS = 10;
@@ -42,7 +45,7 @@ const SEND_RETRY_MAX_DELAY_MS = 5000;
 export interface OutboundStreamSessionOptions {
   streamId: string;
   groupName: string;
-  idleTimeoutMs?: number;
+  idleTimeoutInMs?: number;
   canSend(): boolean;
   sendStart(): Promise<void>;
   sendData(
@@ -50,14 +53,14 @@ export interface OutboundStreamSessionOptions {
     content: JSONTypes | ArrayBuffer,
     dataType: WebPubSubDataType,
   ): Promise<void>;
-  sendEnd(options?: EndStreamOptions): Promise<void>;
-  sendKeepalive(options?: SendStreamKeepaliveOptions): Promise<void>;
+  sendEnd(options?: SendStreamEndOptions): Promise<void>;
+  sendKeepAlive(options?: SendStreamKeepAliveOptions): Promise<void>;
 }
 
 export class OutboundStreamSession {
   public readonly streamId: string;
   public readonly groupName: string;
-  public readonly idleTimeoutMs?: number;
+  public readonly idleTimeoutInMs?: number;
 
   private readonly _queue: AsyncSeqQueue<OutboundStreamAction>;
   private readonly _errorHandlers: Set<(error: StreamDataError) => void>;
@@ -70,8 +73,8 @@ export class OutboundStreamSession {
     content: JSONTypes | ArrayBuffer,
     dataType: WebPubSubDataType,
   ) => Promise<void>;
-  private readonly _sendEnd: (options?: EndStreamOptions) => Promise<void>;
-  private readonly _sendKeepalive: (options?: SendStreamKeepaliveOptions) => Promise<void>;
+  private readonly _sendEnd: (options?: SendStreamEndOptions) => Promise<void>;
+  private readonly _sendKeepAlive: (options?: SendStreamKeepAliveOptions) => Promise<void>;
 
   private _started = false;
   private _writeClosed = false;
@@ -83,7 +86,7 @@ export class OutboundStreamSession {
   constructor(options: OutboundStreamSessionOptions) {
     this.streamId = options.streamId;
     this.groupName = options.groupName;
-    this.idleTimeoutMs = options.idleTimeoutMs;
+    this.idleTimeoutInMs = options.idleTimeoutInMs;
     this._queue = new AsyncSeqQueue<OutboundStreamAction>();
     this._errorHandlers = new Set<(error: StreamDataError) => void>();
     this._pendingActionCompletions = new Map<number, Deferred<void>>();
@@ -93,7 +96,7 @@ export class OutboundStreamSession {
     this._sendStart = options.sendStart;
     this._sendData = options.sendData;
     this._sendEnd = options.sendEnd;
-    this._sendKeepalive = options.sendKeepalive;
+    this._sendKeepAlive = options.sendKeepAlive;
 
     void this._runSendLoop();
   }
@@ -126,7 +129,7 @@ export class OutboundStreamSession {
     };
   }
 
-  public async publish(
+  public async write(
     content: JSONTypes | ArrayBuffer,
     dataType: WebPubSubDataType,
     abortSignal?: AbortSignalLike,
@@ -136,24 +139,30 @@ export class OutboundStreamSession {
     await this._waitForActionCompletion(completion.promise, abortSignal);
   }
 
-  public async keepalive(options?: SendStreamKeepaliveOptions): Promise<void> {
+  public async keepAlive(options?: SendStreamKeepAliveOptions): Promise<void> {
     this._throwIfClosed();
     if (this._paused || !this._canSend()) {
       throw new Error(
-        `Stream '${this.streamId}' cannot send keepalive while connection is unavailable.`,
+        `Stream '${this.streamId}' cannot send keepAlive while connection is unavailable.`,
       );
     }
 
-    await this._sendKeepalive(options);
+    await this._sendKeepAlive(options);
   }
 
-  public async complete(options?: EndStreamOptions): Promise<void> {
+  public async end(options?: EndGroupStreamOptions): Promise<void> {
     this._throwIfClosed();
     this._writeClosed = true;
 
-    const endCompletion = await this._enqueueEndAction(
-      options?.error == null ? undefined : { error: options.error },
-    );
+    const endCompletion = await this._enqueueEndAction();
+    await this._waitForActionCompletion(endCompletion.promise, options?.abortSignal);
+  }
+
+  public async abort(error: StreamEndError, options?: AbortGroupStreamOptions): Promise<void> {
+    this._throwIfClosed();
+    this._writeClosed = true;
+
+    const endCompletion = await this._enqueueEndAction({ error });
     await this._waitForActionCompletion(endCompletion.promise, options?.abortSignal);
   }
 
@@ -248,7 +257,7 @@ export class OutboundStreamSession {
     return completion;
   }
 
-  private async _enqueueEndAction(options?: EndStreamOptions): Promise<Deferred<void>> {
+  private async _enqueueEndAction(options?: SendStreamEndOptions): Promise<Deferred<void>> {
     const completion = createDeferred<void>();
     const sequenceId = await this._queue.enqueue({
       type: "end",
@@ -355,19 +364,4 @@ export class OutboundStreamSession {
       message: String(error),
     };
   }
-}
-
-function createDeferred<T>(): Deferred<T> {
-  let resolvePromise!: (value: T) => void;
-  let rejectPromise!: (reason?: unknown) => void;
-  const promise = new Promise<T>((resolve, reject) => {
-    resolvePromise = resolve;
-    rejectPromise = reject;
-  });
-
-  return {
-    promise,
-    resolve: resolvePromise,
-    reject: rejectPromise,
-  };
 }
