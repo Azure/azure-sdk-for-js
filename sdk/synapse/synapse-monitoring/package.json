@@ -51,6 +51,22 @@
     "typescript": "catalog:",
     "vitest": "catalog:testing"
   },
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/monitoringClient.ts",
+        "prefix": "packageDetails"
+      },
+      {
+        "path": "src/tracing.ts",
+        "prefix": "packageVersion"
+      },
+      {
+        "path": "swagger/README.md",
+        "prefix": "package-version"
+      }
+    ]
+  },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
