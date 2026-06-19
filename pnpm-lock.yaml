@@ -633,6 +633,9 @@ importers:
       '@azure/core-lro':
         specifier: ^3.1.0
         version: link:../../core/core-lro
+      '@azure/core-rest-pipeline':
+        specifier: link:../../core/core-rest-pipeline
+        version: link:../../core/core-rest-pipeline
       '@azure/logger':
         specifier: ^1.0.0
         version: link:../../core/logger
@@ -649,9 +652,6 @@ importers:
       '@azure-tools/test-utils-vitest':
         specifier: workspace:^
         version: link:../../test-utils/test-utils-vitest
-      '@azure/core-rest-pipeline':
-        specifier: link:../../core/core-rest-pipeline
-        version: link:../../core/core-rest-pipeline
       '@azure/core-util':
         specifier: workspace:^
         version: link:../../core/core-util
@@ -27767,6 +27767,9 @@ importers:
 
   sdk/schemaregistry/schema-registry-avro:
     dependencies:
+      '@azure/core-rest-pipeline':
+        specifier: link:../../core/core-rest-pipeline
+        version: link:../../core/core-rest-pipeline
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -27795,9 +27798,6 @@ importers:
       '@azure-tools/vite-plugin-browser-test-map':
         specifier: workspace:^
         version: link:../../../common/tools/vite-plugin-browser-test-map
-      '@azure/core-rest-pipeline':
-        specifier: link:../../core/core-rest-pipeline
-        version: link:../../core/core-rest-pipeline
       '@azure/core-util':
         specifier: workspace:^
         version: link:../../core/core-util
@@ -30558,7 +30558,7 @@ importers:
         specifier: ^1.1.4
         version: link:../../core/logger
       '@azure/storage-blob':
-        specifier: ^12.32.0
+        specifier: ^12.33.0
         version: link:../storage-blob
       '@azure/storage-common':
         specifier: ^12.4.0
