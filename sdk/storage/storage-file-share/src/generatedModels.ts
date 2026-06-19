@@ -225,6 +225,8 @@ export interface FileCreateHeaders {
   fileParentId?: string;
   /** Properties of NFS files. */
   posixProperties?: FilePosixProperties;
+  /** Indicates the structured message body was accepted and mirrors back the message schema version and properties. */
+  structuredBodyType?: string;
   /** Error Code */
   errorCode?: string;
 }

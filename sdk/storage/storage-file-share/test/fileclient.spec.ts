@@ -113,6 +113,29 @@ describe("FileClient", () => {
     );
   });
 
+  it("create with content", async () => {
+    const cResp = await fileClient.create(content.length + 10, {
+      content: content,
+      contentLength: content.length,
+    });
+    assert.equal(cResp.errorCode, undefined);
+    assert.equal(cResp.fileAttributes!, "Archive");
+    assert.isDefined(cResp.fileChangeOn!);
+    assert.isDefined(cResp.fileCreatedOn!);
+    assert.isDefined(cResp.fileId!);
+    assert.isDefined(cResp.fileLastWriteOn!);
+    assert.isDefined(cResp.fileParentId!);
+    assert.isDefined(cResp.filePermissionKey!);
+
+    const properties = await fileClient.getProperties();
+
+    const result = await fileClient.download(0);
+    assert.deepStrictEqual(
+      await bodyToString(result, properties.contentLength),
+      content + "\u0000".repeat(10),
+    );
+  });
+
   it("create with all parameters configured setting filePermissionKey", async () => {
     const now = new Date(recorder.variable("now", new Date().toISOString()));
 

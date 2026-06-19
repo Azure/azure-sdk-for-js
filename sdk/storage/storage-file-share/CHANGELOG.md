@@ -6,6 +6,13 @@
 
 - Migrate to TypeSpec-based code generation [PR #38227](https://github.com/Azure/azure-sdk-for-js/pull/38227)
 
+## 12.32.0 (2026-06-15)
+
+### Features Added
+
+- Added support for service version 2026-06-06.
+- Added support for uploading up to 4 MiB of data with shareFileClient.create().
+
 ## 12.31.0 (2026-05-22)
 
 ### Features Added
