@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-mongodbatlas",
-  "version": "1.0.1",
+  "version": "1.1.0-beta.1",
   "description": "A generated SDK for AtlasClient.",
   "engines": {
     "node": ">=20.0.0"
@@ -128,6 +128,34 @@
       "require": {
         "types": "./dist/commonjs/api/index.d.ts",
         "default": "./dist/commonjs/api/index.js"
+      }
+    },
+    "./api/clusters": {
+      "browser": {
+        "types": "./dist/browser/api/clusters/index.d.ts",
+        "default": "./dist/browser/api/clusters/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/clusters/index.d.ts",
+        "default": "./dist/esm/api/clusters/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/clusters/index.d.ts",
+        "default": "./dist/commonjs/api/clusters/index.js"
+      }
+    },
+    "./api/projects": {
+      "browser": {
+        "types": "./dist/browser/api/projects/index.d.ts",
+        "default": "./dist/browser/api/projects/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/projects/index.d.ts",
+        "default": "./dist/esm/api/projects/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/projects/index.d.ts",
+        "default": "./dist/commonjs/api/projects/index.js"
       }
     },
     "./api/organizations": {
