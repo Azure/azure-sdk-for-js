@@ -27,13 +27,9 @@ describe("toolboxes - basic operations", () => {
 
   it("should create, get, list, update, and delete a toolbox", async function () {
     // Create a toolbox version
-    const version = await projectsClient.toolboxes.createVersion(
-      toolboxName,
-      [webSearchTool],
-      {
-        description: "Test toolbox",
-      },
-    );
+    const version = await projectsClient.toolboxes.createVersion(toolboxName, [webSearchTool], {
+      description: "Test toolbox",
+    });
     assert.isNotNull(version);
     assert.equal(version.name, toolboxName);
     assert.isNotNull(version.version);
@@ -84,13 +80,9 @@ describe("toolboxes - basic operations", () => {
     const codeInterpreterTool: ToolboxToolUnion = {
       type: "code_interpreter",
     };
-    const v2 = await projectsClient.toolboxes.createVersion(
-      toolboxName,
-      [codeInterpreterTool],
-      {
-        description: "Version 2",
-      },
-    );
+    const v2 = await projectsClient.toolboxes.createVersion(toolboxName, [codeInterpreterTool], {
+      description: "Version 2",
+    });
     assert.isNotNull(v2);
     assert.isNotNull(v2.version);
     assert.notEqual(v1.version, v2.version);
