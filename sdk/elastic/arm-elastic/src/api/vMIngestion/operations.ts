@@ -2,23 +2,24 @@
 // Licensed under the MIT License.
 
 import type { MicrosoftElasticContext as Client } from "../index.js";
+import type { VMIngestionDetailsResponse } from "../../models/models.js";
 import {
   resourceProviderDefaultErrorResponseDeserializer,
-  vmCollectionUpdateSerializer,
+  vmIngestionDetailsResponseDeserializer,
 } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type { VMCollectionUpdateOptionalParams } from "./options.js";
+import type { vMIngestionDetailsOptionalParams } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
-export function _updateSend(
+export function _detailsSend(
   context: Client,
   resourceGroupName: string,
   monitorName: string,
-  options: VMCollectionUpdateOptionalParams = { requestOptions: {} },
+  options: vMIngestionDetailsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors/{monitorName}/vmCollectionUpdate{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors/{monitorName}/vmIngestionDetails{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
@@ -31,12 +32,13 @@ export function _updateSend(
   );
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: !options?.body ? options?.body : vmCollectionUpdateSerializer(options?.body),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
-export async function _updateDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _detailsDeserialize(
+  result: PathUncheckedResponse,
+): Promise<VMIngestionDetailsResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -47,16 +49,16 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
     throw error;
   }
 
-  return;
+  return vmIngestionDetailsResponseDeserializer(result.body);
 }
 
-/** Update the VM details that will be monitored by the Elastic monitor resource, ensuring optimal observability and performance. */
-export async function update(
+/** List detailed information about VM ingestion that will be monitored by the Elastic monitor resource, ensuring optimal observability and performance. */
+export async function details(
   context: Client,
   resourceGroupName: string,
   monitorName: string,
-  options: VMCollectionUpdateOptionalParams = { requestOptions: {} },
-): Promise<void> {
-  const result = await _updateSend(context, resourceGroupName, monitorName, options);
-  return _updateDeserialize(result);
+  options: vMIngestionDetailsOptionalParams = { requestOptions: {} },
+): Promise<VMIngestionDetailsResponse> {
+  const result = await _detailsSend(context, resourceGroupName, monitorName, options);
+  return _detailsDeserialize(result);
 }

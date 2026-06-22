@@ -2,33 +2,33 @@
 // Licensed under the MIT License.
 
 import type { MicrosoftElasticContext } from "../../api/microsoftElasticContext.js";
-import { update } from "../../api/vmCollection/operations.js";
-import type { VMCollectionUpdateOptionalParams } from "../../api/vmCollection/options.js";
+import { update } from "../../api/vMCollection/operations.js";
+import type { vMCollectionUpdateOptionalParams } from "../../api/vMCollection/options.js";
 
-/** Interface representing a VMCollection operations. */
-export interface VMCollectionOperations {
+/** Interface representing a vMCollection operations. */
+export interface vMCollectionOperations {
   /** Update the VM details that will be monitored by the Elastic monitor resource, ensuring optimal observability and performance. */
   update: (
     resourceGroupName: string,
     monitorName: string,
-    options?: VMCollectionUpdateOptionalParams,
+    options?: vMCollectionUpdateOptionalParams,
   ) => Promise<void>;
 }
 
-function _getVMCollection(context: MicrosoftElasticContext) {
+function _getvMCollection(context: MicrosoftElasticContext) {
   return {
     update: (
       resourceGroupName: string,
       monitorName: string,
-      options?: VMCollectionUpdateOptionalParams,
+      options?: vMCollectionUpdateOptionalParams,
     ) => update(context, resourceGroupName, monitorName, options),
   };
 }
 
-export function _getVMCollectionOperations(
+export function _getvMCollectionOperations(
   context: MicrosoftElasticContext,
-): VMCollectionOperations {
+): vMCollectionOperations {
   return {
-    ..._getVMCollection(context),
+    ..._getvMCollection(context),
   };
 }

@@ -540,9 +540,9 @@ export class MicrosoftElastic {
     readonly tagRules: TagRulesOperations;
     readonly trafficFilters: TrafficFiltersOperations;
     readonly upgradableVersions: UpgradableVersionsOperations;
-    readonly vmCollection: VMCollectionOperations;
-    readonly vmHost: VMHostOperations;
-    readonly vmIngestion: VMIngestionOperations;
+    readonly vMCollection: vMCollectionOperations;
+    readonly vMHost: vMHostOperations;
+    readonly vMIngestion: vMIngestionOperations;
 }
 
 // @public
@@ -571,7 +571,7 @@ export interface MonitoredResourcesOperations {
 export interface MonitoredSubscription {
     error?: string;
     status?: Status;
-    subscriptionId: string;
+    subscriptionId?: string;
     tagRules?: MonitoringTagRulesProperties;
 }
 
@@ -1061,8 +1061,8 @@ export interface UserInfo {
 }
 
 // @public
-export interface VMCollectionOperations {
-    update: (resourceGroupName: string, monitorName: string, options?: VMCollectionUpdateOptionalParams) => Promise<void>;
+export interface vMCollectionOperations {
+    update: (resourceGroupName: string, monitorName: string, options?: vMCollectionUpdateOptionalParams) => Promise<void>;
 }
 
 // @public
@@ -1072,21 +1072,21 @@ export interface VMCollectionUpdate {
 }
 
 // @public
-export interface VMCollectionUpdateOptionalParams extends OperationOptions {
+export interface vMCollectionUpdateOptionalParams extends OperationOptions {
     body?: VMCollectionUpdate;
 }
 
 // @public
-export interface VMHostListOptionalParams extends OperationOptions {
+export interface vMHostListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface VMHostOperations {
-    list: (resourceGroupName: string, monitorName: string, options?: VMHostListOptionalParams) => PagedAsyncIterableIterator<VMResources>;
+export interface vMHostOperations {
+    list: (resourceGroupName: string, monitorName: string, options?: vMHostListOptionalParams) => PagedAsyncIterableIterator<VMResources>;
 }
 
 // @public
-export interface VMIngestionDetailsOptionalParams extends OperationOptions {
+export interface vMIngestionDetailsOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -1096,8 +1096,8 @@ export interface VMIngestionDetailsResponse {
 }
 
 // @public
-export interface VMIngestionOperations {
-    details: (resourceGroupName: string, monitorName: string, options?: VMIngestionDetailsOptionalParams) => Promise<VMIngestionDetailsResponse>;
+export interface vMIngestionOperations {
+    details: (resourceGroupName: string, monitorName: string, options?: vMIngestionDetailsOptionalParams) => Promise<VMIngestionDetailsResponse>;
 }
 
 // @public

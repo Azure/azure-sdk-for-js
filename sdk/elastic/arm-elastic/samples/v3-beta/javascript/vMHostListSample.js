@@ -15,7 +15,7 @@ async function vmHostList() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new MicrosoftElastic(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.vmHost.list("myResourceGroup", "myMonitor")) {
+  for await (const item of client.vMHost.list("myResourceGroup", "myMonitor")) {
     resArray.push(item);
   }
 

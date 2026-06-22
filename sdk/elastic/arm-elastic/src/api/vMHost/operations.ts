@@ -10,7 +10,7 @@ import {
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type { VMHostListOptionalParams } from "./options.js";
+import type { vMHostListOptionalParams } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
@@ -18,7 +18,7 @@ export function _listSend(
   context: Client,
   resourceGroupName: string,
   monitorName: string,
-  options: VMHostListOptionalParams = { requestOptions: {} },
+  options: vMHostListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors/{monitorName}/listVMHost{?api%2Dversion}",
@@ -59,7 +59,7 @@ export function list(
   context: Client,
   resourceGroupName: string,
   monitorName: string,
-  options: VMHostListOptionalParams = { requestOptions: {} },
+  options: vMHostListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<VMResources> {
   return buildPagedAsyncIterator(
     context,

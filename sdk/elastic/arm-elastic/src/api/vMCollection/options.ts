@@ -5,7 +5,7 @@ import type { VMCollectionUpdate } from "../../models/models.js";
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface VMCollectionUpdateOptionalParams extends OperationOptions {
+export interface vMCollectionUpdateOptionalParams extends OperationOptions {
   /** VM resource Id */
   body?: VMCollectionUpdate;
 }

@@ -230,46 +230,46 @@
         "default": "./dist/commonjs/api/upgradableVersions/index.js"
       }
     },
-    "./api/vmCollection": {
+    "./api/vMCollection": {
       "browser": {
-        "types": "./dist/browser/api/vmCollection/index.d.ts",
-        "default": "./dist/browser/api/vmCollection/index.js"
+        "types": "./dist/browser/api/vMCollection/index.d.ts",
+        "default": "./dist/browser/api/vMCollection/index.js"
       },
       "import": {
-        "types": "./dist/esm/api/vmCollection/index.d.ts",
-        "default": "./dist/esm/api/vmCollection/index.js"
+        "types": "./dist/esm/api/vMCollection/index.d.ts",
+        "default": "./dist/esm/api/vMCollection/index.js"
       },
       "require": {
-        "types": "./dist/commonjs/api/vmCollection/index.d.ts",
-        "default": "./dist/commonjs/api/vmCollection/index.js"
+        "types": "./dist/commonjs/api/vMCollection/index.d.ts",
+        "default": "./dist/commonjs/api/vMCollection/index.js"
       }
     },
-    "./api/vmIngestion": {
+    "./api/vMIngestion": {
       "browser": {
-        "types": "./dist/browser/api/vmIngestion/index.d.ts",
-        "default": "./dist/browser/api/vmIngestion/index.js"
+        "types": "./dist/browser/api/vMIngestion/index.d.ts",
+        "default": "./dist/browser/api/vMIngestion/index.js"
       },
       "import": {
-        "types": "./dist/esm/api/vmIngestion/index.d.ts",
-        "default": "./dist/esm/api/vmIngestion/index.js"
+        "types": "./dist/esm/api/vMIngestion/index.d.ts",
+        "default": "./dist/esm/api/vMIngestion/index.js"
       },
       "require": {
-        "types": "./dist/commonjs/api/vmIngestion/index.d.ts",
-        "default": "./dist/commonjs/api/vmIngestion/index.js"
+        "types": "./dist/commonjs/api/vMIngestion/index.d.ts",
+        "default": "./dist/commonjs/api/vMIngestion/index.js"
       }
     },
-    "./api/vmHost": {
+    "./api/vMHost": {
       "browser": {
-        "types": "./dist/browser/api/vmHost/index.d.ts",
-        "default": "./dist/browser/api/vmHost/index.js"
+        "types": "./dist/browser/api/vMHost/index.d.ts",
+        "default": "./dist/browser/api/vMHost/index.js"
       },
       "import": {
-        "types": "./dist/esm/api/vmHost/index.d.ts",
-        "default": "./dist/esm/api/vmHost/index.js"
+        "types": "./dist/esm/api/vMHost/index.d.ts",
+        "default": "./dist/esm/api/vMHost/index.js"
       },
       "require": {
-        "types": "./dist/commonjs/api/vmHost/index.d.ts",
-        "default": "./dist/commonjs/api/vmHost/index.js"
+        "types": "./dist/commonjs/api/vMHost/index.d.ts",
+        "default": "./dist/commonjs/api/vMHost/index.js"
       }
     },
     "./api/connectedPartnerResources": {

@@ -218,7 +218,7 @@ export function monitoredSubscriptionArrayDeserializer(
 /** The list of subscriptions and it's monitoring status by current Elastic monitor. */
 export interface MonitoredSubscription {
   /** The subscriptionId to be monitored. */
-  subscriptionId: string;
+  subscriptionId?: string;
   /** The state of monitoring. */
   status?: Status;
   /** The reason of not monitoring the subscription. */

@@ -1,4 +1,4 @@
 directory: specification/elastic/Elastic.Management
-commit: 97b85a4bfc53ab9b82dc72438fe17b07307d551b
+commit: 10a1fda9c59cfe6dbcf69908845f7db88df597c3
 repo: Azure/azure-rest-api-specs
 additionalDirectories: 

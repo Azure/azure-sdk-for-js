@@ -44,9 +44,9 @@ These sample programs show how to use the JavaScript client libraries for @azure
 | [tagRulesListSample.js][tagruleslistsample]                                                                           | list all tag rules for a given Elastic monitor resource, helping you manage fine-grained control over observability based on resource tags. x-ms-original-file: 2025-06-01/TagRules_List.json                  |
 | [trafficFiltersDeleteSample.js][trafficfiltersdeletesample]                                                           | delete an existing traffic filter associated with your Elastic monitor resource, removing its network traffic control capabilities. x-ms-original-file: 2025-06-01/TrafficFilters_Delete.json                  |
 | [upgradableVersionsDetailsSample.js][upgradableversionsdetailssample]                                                 | list all upgradable versions for your Elastic monitor resource, helping you plan and execute upgrades. x-ms-original-file: 2025-06-01/UpgradableVersions_Details.json                                          |
-| [vmCollectionUpdateSample.js][vmcollectionupdatesample]                                                               | update the VM details that will be monitored by the Elastic monitor resource, ensuring optimal observability and performance. x-ms-original-file: 2025-06-01/VMCollection_Update.json                          |
-| [vmHostListSample.js][vmhostlistsample]                                                                               | list all VM resources currently being monitored by the Elastic monitor resource, helping you manage observability. x-ms-original-file: 2025-06-01/VMHost_List.json                                             |
-| [vmIngestionDetailsSample.js][vmingestiondetailssample]                                                               | list detailed information about VM ingestion that will be monitored by the Elastic monitor resource, ensuring optimal observability and performance. x-ms-original-file: 2025-06-01/VMIngestion_Details.json   |
+| [vMCollectionUpdateSample.js][vmcollectionupdatesample]                                                               | update the VM details that will be monitored by the Elastic monitor resource, ensuring optimal observability and performance. x-ms-original-file: 2025-06-01/VMCollection_Update.json                          |
+| [vMHostListSample.js][vmhostlistsample]                                                                               | list all VM resources currently being monitored by the Elastic monitor resource, helping you manage observability. x-ms-original-file: 2025-06-01/VMHost_List.json                                             |
+| [vMIngestionDetailsSample.js][vmingestiondetailssample]                                                               | list detailed information about VM ingestion that will be monitored by the Elastic monitor resource, ensuring optimal observability and performance. x-ms-original-file: 2025-06-01/VMIngestion_Details.json   |
 
 ## Prerequisites
 
@@ -126,9 +126,9 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [tagruleslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/elastic/arm-elastic/samples/v3-beta/javascript/tagRulesListSample.js
 [trafficfiltersdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/elastic/arm-elastic/samples/v3-beta/javascript/trafficFiltersDeleteSample.js
 [upgradableversionsdetailssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/elastic/arm-elastic/samples/v3-beta/javascript/upgradableVersionsDetailsSample.js
-[vmcollectionupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/elastic/arm-elastic/samples/v3-beta/javascript/vmCollectionUpdateSample.js
-[vmhostlistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/elastic/arm-elastic/samples/v3-beta/javascript/vmHostListSample.js
-[vmingestiondetailssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/elastic/arm-elastic/samples/v3-beta/javascript/vmIngestionDetailsSample.js
+[vmcollectionupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/elastic/arm-elastic/samples/v3-beta/javascript/vMCollectionUpdateSample.js
+[vmhostlistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/elastic/arm-elastic/samples/v3-beta/javascript/vMHostListSample.js
+[vmingestiondetailssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/elastic/arm-elastic/samples/v3-beta/javascript/vMIngestionDetailsSample.js
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-elastic?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/elastic/arm-elastic/README.md

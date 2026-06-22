@@ -47,12 +47,12 @@ import type { TrafficFiltersOperations } from "./classic/trafficFilters/index.js
 import { _getTrafficFiltersOperations } from "./classic/trafficFilters/index.js";
 import type { UpgradableVersionsOperations } from "./classic/upgradableVersions/index.js";
 import { _getUpgradableVersionsOperations } from "./classic/upgradableVersions/index.js";
-import type { VMCollectionOperations } from "./classic/vmCollection/index.js";
-import { _getVMCollectionOperations } from "./classic/vmCollection/index.js";
-import type { VMHostOperations } from "./classic/vmHost/index.js";
-import { _getVMHostOperations } from "./classic/vmHost/index.js";
-import type { VMIngestionOperations } from "./classic/vmIngestion/index.js";
-import { _getVMIngestionOperations } from "./classic/vmIngestion/index.js";
+import type { vMCollectionOperations } from "./classic/vMCollection/index.js";
+import { _getvMCollectionOperations } from "./classic/vMCollection/index.js";
+import type { vMHostOperations } from "./classic/vMHost/index.js";
+import { _getvMHostOperations } from "./classic/vMHost/index.js";
+import type { vMIngestionOperations } from "./classic/vMIngestion/index.js";
+import { _getvMIngestionOperations } from "./classic/vMIngestion/index.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 
@@ -105,9 +105,9 @@ export class MicrosoftElastic {
     this.allTrafficFilters = _getAllTrafficFiltersOperations(this._client);
     this.monitor = _getMonitorOperations(this._client);
     this.upgradableVersions = _getUpgradableVersionsOperations(this._client);
-    this.vmCollection = _getVMCollectionOperations(this._client);
-    this.vmIngestion = _getVMIngestionOperations(this._client);
-    this.vmHost = _getVMHostOperations(this._client);
+    this.vMCollection = _getvMCollectionOperations(this._client);
+    this.vMIngestion = _getvMIngestionOperations(this._client);
+    this.vMHost = _getvMHostOperations(this._client);
     this.connectedPartnerResources = _getConnectedPartnerResourcesOperations(this._client);
     this.billingInfo = _getBillingInfoOperations(this._client);
     this.externalUser = _getExternalUserOperations(this._client);
@@ -145,12 +145,12 @@ export class MicrosoftElastic {
   public readonly monitor: MonitorOperations;
   /** The operation groups for upgradableVersions */
   public readonly upgradableVersions: UpgradableVersionsOperations;
-  /** The operation groups for vmCollection */
-  public readonly vmCollection: VMCollectionOperations;
-  /** The operation groups for vmIngestion */
-  public readonly vmIngestion: VMIngestionOperations;
-  /** The operation groups for vmHost */
-  public readonly vmHost: VMHostOperations;
+  /** The operation groups for vMCollection */
+  public readonly vMCollection: vMCollectionOperations;
+  /** The operation groups for vMIngestion */
+  public readonly vMIngestion: vMIngestionOperations;
+  /** The operation groups for vMHost */
+  public readonly vMHost: vMHostOperations;
   /** The operation groups for connectedPartnerResources */
   public readonly connectedPartnerResources: ConnectedPartnerResourcesOperations;
   /** The operation groups for billingInfo */

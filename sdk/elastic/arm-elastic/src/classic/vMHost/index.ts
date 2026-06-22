@@ -2,30 +2,30 @@
 // Licensed under the MIT License.
 
 import type { MicrosoftElasticContext } from "../../api/microsoftElasticContext.js";
-import { list } from "../../api/vmHost/operations.js";
-import type { VMHostListOptionalParams } from "../../api/vmHost/options.js";
+import { list } from "../../api/vMHost/operations.js";
+import type { vMHostListOptionalParams } from "../../api/vMHost/options.js";
 import type { VMResources } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
-/** Interface representing a VMHost operations. */
-export interface VMHostOperations {
+/** Interface representing a vMHost operations. */
+export interface vMHostOperations {
   /** List all VM resources currently being monitored by the Elastic monitor resource, helping you manage observability. */
   list: (
     resourceGroupName: string,
     monitorName: string,
-    options?: VMHostListOptionalParams,
+    options?: vMHostListOptionalParams,
   ) => PagedAsyncIterableIterator<VMResources>;
 }
 
-function _getVMHost(context: MicrosoftElasticContext) {
+function _getvMHost(context: MicrosoftElasticContext) {
   return {
-    list: (resourceGroupName: string, monitorName: string, options?: VMHostListOptionalParams) =>
+    list: (resourceGroupName: string, monitorName: string, options?: vMHostListOptionalParams) =>
       list(context, resourceGroupName, monitorName, options),
   };
 }
 
-export function _getVMHostOperations(context: MicrosoftElasticContext): VMHostOperations {
+export function _getvMHostOperations(context: MicrosoftElasticContext): vMHostOperations {
   return {
-    ..._getVMHost(context),
+    ..._getvMHost(context),
   };
 }

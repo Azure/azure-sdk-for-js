@@ -1,9 +1,12 @@
 # Release History
 
-## 3.0.0-beta.1 (2026-06-10)
+## 3.0.0-beta.1 (2026-06-22)
 Compared with version 2.0.0
 
 ### Features Added
+  - Added operation group vMCollectionOperations
+  - Added operation group vMHostOperations
+  - Added operation group vMIngestionOperations
   - Added operation AssociateTrafficFilterOperations.associate
   - Added operation CreateAndAssociateIPFilterOperations.create
   - Added operation CreateAndAssociatePLFilterOperations.create
@@ -25,6 +28,9 @@ Compared with version 2.0.0
   - Added Interface RestorePollerOptions
   - Added Interface SimplePollerLike
   - Added Interface TrackedResource
+  - Added Interface vMCollectionUpdateOptionalParams
+  - Added Interface vMHostListOptionalParams
+  - Added Interface vMIngestionDetailsOptionalParams
   - Interface MonitoredSubscriptionProperties has a new optional parameter systemData
   - Interface OpenAIIntegrationRPModel has a new optional parameter systemData
   - Added Type Alias AzureSupportedClouds
@@ -33,9 +39,8 @@ Compared with version 2.0.0
 
 ### Breaking Changes
   - Operation MonitoredSubscriptions.beginDeleteAndWait has a new signature
-  - Class MicrosoftElastic no longer has parameter vMCollection
-  - Class MicrosoftElastic no longer has parameter vMHost
-  - Class MicrosoftElastic no longer has parameter vMIngestion
+  - Class MicrosoftElastic no longer has parameter apiVersion
+  - Class MicrosoftElastic no longer has parameter subscriptionId
   - Removed Interface ConnectedPartnerResourcesListResponse
   - Removed Interface ElasticMonitorResourceListResponse
   - Removed Interface ElasticVersionsListResponse
@@ -43,8 +48,13 @@ Compared with version 2.0.0
   - Removed Interface MonitoredSubscriptionPropertiesList
   - Removed Interface MonitoringTagRulesListResponse
   - Removed Interface OpenAIIntegrationRPModelListResponse
+  - Removed Interface VMCollection
+  - Removed Interface VMCollectionUpdateOptionalParams
+  - Removed Interface VMHost
+  - Removed Interface VMHostListOptionalParams
   - Removed Interface VMHostListResponse
-  - Parameter subscriptionId of interface MonitoredSubscription is now required
+  - Removed Interface VMIngestion
+  - Removed Interface VMIngestionDetailsOptionalParams
 
 ## 2.0.0 (2025-11-25)
 

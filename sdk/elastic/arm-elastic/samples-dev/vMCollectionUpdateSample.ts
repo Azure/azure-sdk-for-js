@@ -14,7 +14,7 @@ async function vmCollectionUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new MicrosoftElastic(credential, subscriptionId);
-  await client.vmCollection.update("myResourceGroup", "myMonitor");
+  await client.vMCollection.update("myResourceGroup", "myMonitor");
 }
 
 async function main(): Promise<void> {

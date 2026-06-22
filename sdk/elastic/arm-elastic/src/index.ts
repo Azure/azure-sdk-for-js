@@ -159,9 +159,9 @@ export type {
 } from "./api/tagRules/index.js";
 export type { TrafficFiltersDeleteOptionalParams } from "./api/trafficFilters/index.js";
 export type { UpgradableVersionsDetailsOptionalParams } from "./api/upgradableVersions/index.js";
-export type { VMCollectionUpdateOptionalParams } from "./api/vmCollection/index.js";
-export type { VMHostListOptionalParams } from "./api/vmHost/index.js";
-export type { VMIngestionDetailsOptionalParams } from "./api/vmIngestion/index.js";
+export type { vMCollectionUpdateOptionalParams } from "./api/vMCollection/index.js";
+export type { vMHostListOptionalParams } from "./api/vMHost/index.js";
+export type { vMIngestionDetailsOptionalParams } from "./api/vMIngestion/index.js";
 export type {
   AllTrafficFiltersOperations,
   AssociateTrafficFilterOperations,
@@ -185,9 +185,9 @@ export type {
   TagRulesOperations,
   TrafficFiltersOperations,
   UpgradableVersionsOperations,
-  VMCollectionOperations,
-  VMHostOperations,
-  VMIngestionOperations,
+  vMCollectionOperations,
+  vMHostOperations,
+  vMIngestionOperations,
 } from "./classic/index.js";
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
 export { AzureClouds };

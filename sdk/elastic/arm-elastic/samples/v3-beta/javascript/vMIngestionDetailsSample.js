@@ -14,7 +14,7 @@ async function vmIngestionDetails() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new MicrosoftElastic(credential, subscriptionId);
-  const result = await client.vmIngestion.details("myResourceGroup", "myMonitor");
+  const result = await client.vMIngestion.details("myResourceGroup", "myMonitor");
   console.log(result);
 }
 

@@ -2,4 +2,4 @@
 // Licensed under the MIT License.
 
 export { update } from "./operations.js";
-export type { VMCollectionUpdateOptionalParams } from "./options.js";
+export type { vMCollectionUpdateOptionalParams } from "./options.js";
