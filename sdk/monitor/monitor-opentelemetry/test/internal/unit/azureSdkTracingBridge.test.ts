@@ -19,7 +19,7 @@ describe("ensureAzureSdkTracingBridge", () => {
     ensureAzureSdkTracingBridge();
 
     expect(spy).toHaveBeenCalledOnce();
-    const arg = spy.mock.calls[0][0];
+    const arg = spy.mock.calls[0][0] as { startSpan?: unknown; withContext?: unknown };
     expect(arg).toBeDefined();
     expect(typeof arg.startSpan).toBe("function");
     expect(typeof arg.withContext).toBe("function");

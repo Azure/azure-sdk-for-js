@@ -39,7 +39,7 @@ describe("Azure SDK tracing bridge (import order)", () => {
     // The bridge should have eagerly called useInstrumenter with an
     // OpenTelemetryInstrumenter instance.
     expect(spy).toHaveBeenCalled();
-    const arg = spy.mock.calls[spy.mock.calls.length - 1][0];
+    const arg = spy.mock.calls[spy.mock.calls.length - 1][0] as { startSpan?: unknown };
     expect(arg).toBeDefined();
     expect(typeof arg.startSpan).toBe("function");
   });
