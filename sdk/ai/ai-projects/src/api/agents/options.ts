@@ -16,16 +16,12 @@ import { OperationOptions } from "@azure-rest/core-client";
 export interface AgentsDeleteSessionFileOptionalParams extends OperationOptions {
   /** Whether to recursively delete directory contents. The service defaults to `false` if a value is not specified by the caller. */
   recursive?: boolean;
-  /** Opaque per-user isolation key used to scope endpoint-scoped data (responses, conversations, sessions) to a specific end user. */
-  userIsolationKey?: string;
 }
 
 /** Optional parameters. */
 export interface AgentsListSessionFilesOptionalParams extends OperationOptions {
   /** The directory path to list, relative to the session home directory. Defaults to the home directory if not provided. */
   path?: string;
-  /** Opaque per-user isolation key used to scope endpoint-scoped data (responses, conversations, sessions) to a specific end user. */
-  userIsolationKey?: string;
   /**
    * A limit on the number of objects to be returned. Limit can range between 1 and 100, and the
    * default is 20.
@@ -51,24 +47,16 @@ export interface AgentsListSessionFilesOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface AgentsDownloadSessionFileOptionalParams extends OperationOptions {
-  /** Opaque per-user isolation key used to scope endpoint-scoped data (responses, conversations, sessions) to a specific end user. */
-  userIsolationKey?: string;
-}
+export interface AgentsDownloadSessionFileOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface AgentsUploadSessionFileOptionalParams extends OperationOptions {
-  /** Opaque per-user isolation key used to scope endpoint-scoped data (responses, conversations, sessions) to a specific end user. */
-  userIsolationKey?: string;
-}
+export interface AgentsUploadSessionFileOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface AgentsGetSessionLogStreamOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface AgentsListSessionsOptionalParams extends OperationOptions {
-  /** Opaque per-user isolation key used to scope endpoint-scoped data (responses, conversations, sessions) to a specific end user. */
-  userIsolationKey?: string;
   /**
    * A limit on the number of objects to be returned. Limit can range between 1 and 100, and the
    * default is 20.
@@ -97,21 +85,13 @@ export interface AgentsListSessionsOptionalParams extends OperationOptions {
 export interface AgentsStopSessionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface AgentsDeleteSessionOptionalParams extends OperationOptions {
-  /** Opaque per-user isolation key used to scope endpoint-scoped data (responses, conversations, sessions) to a specific end user. */
-  userIsolationKey?: string;
-}
+export interface AgentsDeleteSessionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface AgentsGetSessionOptionalParams extends OperationOptions {
-  /** Opaque per-user isolation key used to scope endpoint-scoped data (responses, conversations, sessions) to a specific end user. */
-  userIsolationKey?: string;
-}
+export interface AgentsGetSessionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface AgentsCreateSessionOptionalParams extends OperationOptions {
-  /** Opaque per-user isolation key used to scope endpoint-scoped data (responses, conversations, sessions) to a specific end user. */
-  userIsolationKey?: string;
   /** Optional caller-provided session ID. If specified, it must be unique within the agent endpoint. Auto-generated if omitted. */
   agentSessionId?: string;
 }

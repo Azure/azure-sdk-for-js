@@ -3,14 +3,14 @@
 
 import type { AIProjectContext as Client } from "../index.js";
 import type {
-  ToolUnion,
+  ToolboxToolUnion,
   ToolboxVersionObject,
   ToolboxObject,
   _AgentsPagedResultToolboxObject,
   _AgentsPagedResultToolboxVersionObject,
 } from "../../models/models.js";
 import {
-  toolUnionArraySerializer,
+  toolboxToolUnionArraySerializer,
   apiErrorResponseDeserializer,
   toolboxSkillUnionArraySerializer,
   toolboxPoliciesSerializer,
@@ -394,7 +394,7 @@ export async function get(
 export function _createVersionSend(
   context: Client,
   name: string,
-  tools: ToolUnion[],
+  tools: ToolboxToolUnion[],
   options: CreateVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -414,7 +414,7 @@ export function _createVersionSend(
     body: {
       description: options?.description,
       metadata: options?.metadata,
-      tools: toolUnionArraySerializer(tools),
+      tools: toolboxToolUnionArraySerializer(tools),
       skills: !options?.skills
         ? options?.skills
         : toolboxSkillUnionArraySerializer(options?.skills),
@@ -445,7 +445,7 @@ export async function _createVersionDeserialize(
 export async function createVersion(
   context: Client,
   name: string,
-  tools: ToolUnion[],
+  tools: ToolboxToolUnion[],
   options: CreateVersionOptionalParams = { requestOptions: {} },
 ): Promise<ToolboxVersionObject> {
   const result = await _createVersionSend(context, name, tools, options);

@@ -20,11 +20,26 @@ import type { TokenCredential } from '@azure/core-auth';
 export interface A2APreviewTool extends Tool {
     agent_card_path?: string;
     base_url?: string;
-    description?: string;
-    name?: string;
     project_connection_id?: string;
-    tool_configs?: Record<string, ToolConfig>;
     type: "a2a_preview";
+}
+
+// @public
+export interface A2APreviewToolboxTool extends ToolboxTool {
+    agent_card_path?: string;
+    base_url?: string;
+    project_connection_id?: string;
+    // (undocumented)
+    type: "a2a_preview";
+}
+
+// @public
+export interface A2AProtocolConfiguration {
+}
+
+// @public
+export interface ActivityProtocolConfiguration {
+    enable_m365_public_endpoint?: boolean;
 }
 
 // @public
@@ -115,20 +130,17 @@ export interface AgentEndpointAuthorizationScheme {
 }
 
 // @public
-export type AgentEndpointAuthorizationSchemeType = "Entra" | "BotService" | "BotServiceRbac";
+export type AgentEndpointAuthorizationSchemeType = "Entra" | "BotService" | "BotServiceRbac" | "BotServiceTenant";
 
 // @public
-export type AgentEndpointAuthorizationSchemeUnion = EntraAuthorizationScheme | BotServiceAuthorizationScheme | BotServiceRbacAuthorizationScheme | AgentEndpointAuthorizationScheme;
+export type AgentEndpointAuthorizationSchemeUnion = EntraAuthorizationScheme | BotServiceAuthorizationScheme | BotServiceRbacAuthorizationScheme | BotServiceTenantAuthorizationScheme | AgentEndpointAuthorizationScheme;
 
 // @public
 export interface AgentEndpointConfig {
     authorization_schemes?: AgentEndpointAuthorizationSchemeUnion[];
-    protocols?: AgentEndpointProtocol[];
+    protocol_configuration?: ProtocolConfiguration;
     version_selector?: VersionSelector;
 }
-
-// @public
-export type AgentEndpointProtocol = "activity" | "responses" | "a2a" | "mcp" | "invocations" | "invocations_ws";
 
 // @public
 export interface AgentEvaluatorGenerationJobSource extends EvaluatorGenerationJobSource {
@@ -153,7 +165,7 @@ export interface AgentIdentity {
 export type AgentKind = "prompt" | "hosted" | "workflow" | "external";
 
 // @public
-export type AgentProtocol = "activity_protocol" | "responses" | "a2a" | "mcp" | "invocations" | "invocations_ws";
+export type AgentProtocol = "activity" | "responses" | "a2a" | "mcp" | "invocations" | "invocations_ws";
 
 // @public
 export interface AgentsCreateAgentFromManifestOptionalParams extends OperationOptions {
@@ -181,7 +193,6 @@ export interface AgentsCreateOptionalParams extends OperationOptions {
 // @public
 export interface AgentsCreateSessionOptionalParams extends OperationOptions {
     agentSessionId?: string;
-    userIsolationKey?: string;
 }
 
 // @public
@@ -204,12 +215,10 @@ export interface AgentsDeleteOptionalParams extends OperationOptions {
 // @public
 export interface AgentsDeleteSessionFileOptionalParams extends OperationOptions {
     recursive?: boolean;
-    userIsolationKey?: string;
 }
 
 // @public
 export interface AgentsDeleteSessionOptionalParams extends OperationOptions {
-    userIsolationKey?: string;
 }
 
 // @public
@@ -234,7 +243,6 @@ export type AgentsDownloadAgentCodeResponse = {
 
 // @public
 export interface AgentsDownloadSessionFileOptionalParams extends OperationOptions {
-    userIsolationKey?: string;
 }
 
 // @public (undocumented)
@@ -270,7 +278,6 @@ export interface AgentsGetSessionLogStreamOptionalParams extends OperationOption
 
 // @public
 export interface AgentsGetSessionOptionalParams extends OperationOptions {
-    userIsolationKey?: string;
 }
 
 // @public
@@ -293,7 +300,6 @@ export interface AgentsListSessionFilesOptionalParams extends OperationOptions {
     limit?: number;
     order?: PageOrder;
     path?: string;
-    userIsolationKey?: string;
 }
 
 // @public
@@ -302,7 +308,6 @@ export interface AgentsListSessionsOptionalParams extends OperationOptions {
     before?: string;
     limit?: number;
     order?: PageOrder;
-    userIsolationKey?: string;
 }
 
 // @public
@@ -373,7 +378,6 @@ export interface AgentsUpdateOptionalParams extends OperationOptions {
 
 // @public
 export interface AgentsUploadSessionFileOptionalParams extends OperationOptions {
-    userIsolationKey?: string;
 }
 
 // @public
@@ -516,9 +520,13 @@ export type AzureAISearchQueryType = "simple" | "semantic" | "vector" | "vector_
 // @public
 export interface AzureAISearchTool extends Tool {
     azure_ai_search: AzureAISearchToolResource;
-    description?: string;
-    name?: string;
-    tool_configs?: Record<string, ToolConfig>;
+    type: "azure_ai_search";
+}
+
+// @public
+export interface AzureAISearchToolboxTool extends ToolboxTool {
+    azure_ai_search: AzureAISearchToolResource;
+    // (undocumented)
     type: "azure_ai_search";
 }
 
@@ -553,7 +561,6 @@ export interface AzureFunctionStorageQueue {
 // @public
 export interface AzureFunctionTool extends Tool {
     azure_function: AzureFunctionDefinition;
-    tool_configs?: Record<string, ToolConfig>;
     type: "azure_function";
 }
 
@@ -1147,7 +1154,7 @@ export interface BetaSkillsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface BetaSkillsListVersionOptionalParams extends OperationOptions {
+export interface BetaSkillsListVersionsOptionalParams extends OperationOptions {
     after?: string;
     before?: string;
     limit?: number;
@@ -1165,7 +1172,7 @@ export interface BetaSkillsOperations {
     get: (name: string, options?: BetaSkillsGetOptionalParams) => Promise<Skill>;
     getVersion: (name: string, version: string, options?: BetaSkillsGetVersionOptionalParams) => Promise<SkillVersion>;
     list: (options?: BetaSkillsListOptionalParams) => PagedAsyncIterableIterator<Skill>;
-    listVersions: (name: string, options?: BetaSkillsListVersionOptionalParams) => PagedAsyncIterableIterator<SkillVersion>;
+    listVersions: (name: string, options?: BetaSkillsListVersionsOptionalParams) => PagedAsyncIterableIterator<SkillVersion>;
     update: (name: string, defaultVersion: string, options?: BetaSkillsUpdateOptionalParams) => Promise<Skill>;
 }
 
@@ -1186,9 +1193,6 @@ export interface BingCustomSearchConfiguration {
 // @public
 export interface BingCustomSearchPreviewTool extends Tool {
     bing_custom_search_preview: BingCustomSearchToolParameters;
-    description?: string;
-    name?: string;
-    tool_configs?: Record<string, ToolConfig>;
     type: "bing_custom_search_preview";
 }
 
@@ -1214,9 +1218,6 @@ export interface BingGroundingSearchToolParameters {
 // @public
 export interface BingGroundingTool extends Tool {
     bing_grounding: BingGroundingSearchToolParameters;
-    description?: string;
-    name?: string;
-    tool_configs?: Record<string, ToolConfig>;
     type: "bing_grounding";
 }
 
@@ -1240,11 +1241,21 @@ export interface BotServiceRbacAuthorizationScheme extends AgentEndpointAuthoriz
 }
 
 // @public
+export interface BotServiceTenantAuthorizationScheme extends AgentEndpointAuthorizationScheme {
+    // (undocumented)
+    type: "BotServiceTenant";
+}
+
+// @public
 export interface BrowserAutomationPreviewTool extends Tool {
     browser_automation_preview: BrowserAutomationToolParameters;
-    description?: string;
-    name?: string;
-    tool_configs?: Record<string, ToolConfig>;
+    type: "browser_automation_preview";
+}
+
+// @public
+export interface BrowserAutomationPreviewToolboxTool extends ToolboxTool {
+    browser_automation_preview: BrowserAutomationToolParameters;
+    // (undocumented)
     type: "browser_automation_preview";
 }
 
@@ -1260,10 +1271,7 @@ export interface BrowserAutomationToolParameters {
 
 // @public
 export interface CaptureStructuredOutputsTool extends Tool {
-    description?: string;
-    name?: string;
     outputs: StructuredOutputDefinition;
-    tool_configs?: Record<string, ToolConfig>;
     type: "capture_structured_outputs";
 }
 
@@ -1316,9 +1324,13 @@ export type CodeDependencyResolution = "bundled" | "remote_build";
 // @public
 export interface CodeInterpreterTool extends Tool {
     container?: string | AutoCodeInterpreterToolParam;
-    description?: string;
-    name?: string;
-    tool_configs?: Record<string, ToolConfig>;
+    type: "code_interpreter";
+}
+
+// @public
+export interface CodeInterpreterToolboxTool extends ToolboxTool {
+    container?: string | AutoCodeInterpreterToolParam;
+    // (undocumented)
     type: "code_interpreter";
 }
 
@@ -1862,7 +1874,6 @@ export function enableGenAITracing(options?: {
 
 // @public
 export interface EntraAuthorizationScheme extends AgentEndpointAuthorizationScheme {
-    isolation_key_source?: IsolationKeySourceUnion;
     // (undocumented)
     type: "Entra";
 }
@@ -1870,12 +1881,6 @@ export interface EntraAuthorizationScheme extends AgentEndpointAuthorizationSche
 // @public
 export interface EntraIDCredentials extends BaseCredentials {
     readonly type: "AAD";
-}
-
-// @public
-export interface EntraIsolationKeySource extends IsolationKeySource {
-    // (undocumented)
-    kind: "Entra";
 }
 
 // @public
@@ -2177,13 +2182,20 @@ export interface FabricDataAgentToolParameters {
 
 // @public
 export interface FabricIQPreviewTool extends Tool {
-    description?: string;
-    name?: string;
     project_connection_id: string;
     require_approval?: MCPToolRequireApproval | string;
     server_label?: string;
     server_url?: string;
-    tool_configs?: Record<string, ToolConfig>;
+    type: "fabric_iq_preview";
+}
+
+// @public
+export interface FabricIQPreviewToolboxTool extends ToolboxTool {
+    project_connection_id: string;
+    require_approval?: MCPToolRequireApproval | string;
+    server_label?: string;
+    server_url?: string;
+    // (undocumented)
     type: "fabric_iq_preview";
 }
 
@@ -2220,14 +2232,22 @@ export interface FileDatasetVersion extends DatasetVersion {
 
 // @public
 export interface FileSearchTool extends Tool {
-    description?: string;
     filters?: Filters;
     max_num_results?: number;
-    name?: string;
     ranking_options?: RankingOptions;
-    tool_configs?: Record<string, ToolConfig>;
     type: "file_search";
     vector_store_ids: string[];
+}
+
+// @public
+export interface FileSearchToolboxTool extends ToolboxTool {
+    // (undocumented)
+    filters?: Filters;
+    max_num_results?: number;
+    ranking_options?: RankingOptions;
+    // (undocumented)
+    type: "file_search";
+    vector_store_ids?: string[];
 }
 
 // @public
@@ -2271,10 +2291,7 @@ export type FoundryModelWeightType = "FullWeight" | "LoRA" | "DraftModel";
 
 // @public
 export interface FunctionShellToolParam extends Tool {
-    description?: string;
     environment?: FunctionShellToolParamEnvironmentUnion;
-    name?: string;
-    tool_configs?: Record<string, ToolConfig>;
     type: "shell";
 }
 
@@ -2342,12 +2359,6 @@ export interface GitHubIssueRoutineTrigger extends RoutineTrigger {
 export type GrammarSyntax = "lark" | "regex";
 
 // @public
-export interface HeaderIsolationKeySource extends IsolationKeySource {
-    // (undocumented)
-    kind: "Header";
-}
-
-// @public
 export interface HeaderTelemetryEndpointAuth extends TelemetryEndpointAuth {
     header_name: string;
     secret_id: string;
@@ -2393,18 +2404,15 @@ export type ImageGenAction = "generate" | "edit" | "auto";
 export interface ImageGenTool extends Tool {
     action?: ImageGenAction;
     background?: "transparent" | "opaque" | "auto";
-    description?: string;
     input_fidelity?: InputFidelity;
     input_image_mask?: ImageGenToolInputImageMask;
     model?: "gpt-image-1" | "gpt-image-1-mini" | "gpt-image-1.5";
     moderation?: "auto" | "low";
-    name?: string;
     output_compression?: number;
     output_format?: "png" | "webp" | "jpeg";
     partial_images?: number;
     quality?: "low" | "medium" | "high" | "auto";
     size?: "1024x1024" | "1024x1536" | "1536x1024" | "auto";
-    tool_configs?: Record<string, ToolConfig>;
     type: "image_generation";
 }
 
@@ -2562,6 +2570,14 @@ export interface InsightSummary {
 export type InsightType = "EvaluationRunClusterInsight" | "AgentClusterInsight" | "EvaluationComparison";
 
 // @public
+export interface InvocationsProtocolConfiguration {
+}
+
+// @public
+export interface InvocationsWsProtocolConfiguration {
+}
+
+// @public
 export interface InvokeAgentInvocationsApiDispatchPayload extends RoutineDispatchPayload {
     input: unknown;
     type: "invoke_agent_invocations_api";
@@ -2591,18 +2607,6 @@ export interface InvokeAgentResponsesApiRoutineAction extends RoutineAction {
     type: "invoke_agent_responses_api";
 }
 
-// @public
-export interface IsolationKeySource {
-    // (undocumented)
-    kind: IsolationKeySourceKind;
-}
-
-// @public
-export type IsolationKeySourceKind = "Entra" | "Header";
-
-// @public
-export type IsolationKeySourceUnion = EntraIsolationKeySource | HeaderIsolationKeySource | IsolationKeySource;
-
 export { isRestError }
 
 // @public
@@ -2615,9 +2619,6 @@ export enum KnownApiVersions {
 
 // @public
 export interface LocalShellToolParam extends Tool {
-    description?: string;
-    name?: string;
-    tool_configs?: Record<string, ToolConfig>;
     type: "local_shell";
 }
 
@@ -2650,6 +2651,10 @@ export interface ManagedAzureAISearchIndex extends Index {
 }
 
 // @public
+export interface McpProtocolConfiguration {
+}
+
+// @public
 export interface MCPTool extends Tool {
     allowed_tools?: string[] | MCPToolFilter;
     authorization?: string;
@@ -2661,7 +2666,25 @@ export interface MCPTool extends Tool {
     server_description?: string;
     server_label: string;
     server_url?: string;
-    tool_configs?: Record<string, ToolConfig>;
+    type: "mcp";
+}
+
+// @public
+export interface MCPToolboxTool extends ToolboxTool {
+    // (undocumented)
+    allowed_tools?: string[] | MCPToolFilter;
+    authorization?: string;
+    connector_id?: "connector_dropbox" | "connector_gmail" | "connector_googlecalendar" | "connector_googledrive" | "connector_microsoftteams" | "connector_outlookcalendar" | "connector_outlookemail" | "connector_sharepoint";
+    defer_loading?: boolean;
+    // (undocumented)
+    headers?: Record<string, string>;
+    project_connection_id?: string;
+    // (undocumented)
+    require_approval?: MCPToolRequireApproval | "always" | "never";
+    server_description?: string;
+    server_label: string;
+    server_url?: string;
+    // (undocumented)
     type: "mcp";
 }
 
@@ -2715,12 +2738,9 @@ export interface MemorySearchOptions {
 
 // @public
 export interface MemorySearchPreviewTool extends Tool {
-    description?: string;
     memory_store_name: string;
-    name?: string;
     scope: string;
     search_options?: MemorySearchOptions;
-    tool_configs?: Record<string, ToolConfig>;
     type: "memory_search_preview";
     update_delay?: number;
 }
@@ -2813,10 +2833,7 @@ export type MemoryStoreUpdateStatus = "queued" | "in_progress" | "completed" | "
 
 // @public
 export interface MicrosoftFabricPreviewTool extends Tool {
-    description?: string;
     fabric_dataagent_preview: FabricDataAgentToolParameters;
-    name?: string;
-    tool_configs?: Record<string, ToolConfig>;
     type: "fabric_dataagent_preview";
 }
 
@@ -2979,7 +2996,13 @@ export interface OpenApiProjectConnectionSecurityScheme {
 // @public
 export interface OpenApiTool extends Tool {
     openapi: OpenApiFunctionDefinition;
-    tool_configs?: Record<string, ToolConfig>;
+    type: "openapi";
+}
+
+// @public
+export interface OpenApiToolboxTool extends ToolboxTool {
+    openapi: OpenApiFunctionDefinition;
+    // (undocumented)
     type: "openapi";
 }
 
@@ -3191,6 +3214,16 @@ export interface PromptEvaluatorGenerationJobSource extends EvaluatorGenerationJ
 }
 
 // @public
+export interface ProtocolConfiguration {
+    a2a?: A2AProtocolConfiguration;
+    activity?: ActivityProtocolConfiguration;
+    invocations?: InvocationsProtocolConfiguration;
+    invocations_ws?: InvocationsWsProtocolConfiguration;
+    mcp?: McpProtocolConfiguration;
+    responses?: ResponsesProtocolConfiguration;
+}
+
+// @public
 export interface ProtocolVersionRecord {
     protocol: AgentProtocol;
     version: string;
@@ -3267,6 +3300,23 @@ export interface RedTeamTargetConfig {
 
 // @public
 export type RedTeamTargetConfigUnion = AzureOpenAIModelConfiguration | RedTeamTargetConfig;
+
+// @public
+export interface ReminderPreviewTool extends Tool {
+    description?: string;
+    name?: string;
+    type: "reminder_preview";
+}
+
+// @public
+export interface ReminderPreviewToolboxTool extends ToolboxTool {
+    // (undocumented)
+    type: "reminder_preview";
+}
+
+// @public
+export interface ResponsesProtocolConfiguration {
+}
 
 // @public
 export interface ResponseUsageInputTokensDetails {
@@ -3477,10 +3527,7 @@ export interface SharepointGroundingToolParameters {
 
 // @public
 export interface SharepointPreviewTool extends Tool {
-    description?: string;
-    name?: string;
     sharepoint_grounding_preview: SharepointGroundingToolParameters;
-    tool_configs?: Record<string, ToolConfig>;
     type: "sharepoint_grounding_preview";
 }
 
@@ -3716,7 +3763,7 @@ export interface ToolboxesListVersionsOptionalParams extends OperationOptions {
 
 // @public
 export interface ToolboxesOperations {
-    createVersion: (name: string, tools: ToolUnion[], options?: ToolboxesCreateVersionOptionalParams) => Promise<ToolboxVersionObject>;
+    createVersion: (name: string, tools: ToolboxToolUnion[], options?: ToolboxesCreateVersionOptionalParams) => Promise<ToolboxVersionObject>;
     delete: (name: string, options?: ToolboxesDeleteOptionalParams) => Promise<void>;
     deleteVersion: (name: string, version: string, options?: ToolboxesDeleteVersionOptionalParams) => Promise<void>;
     get: (name: string, options?: ToolboxesGetOptionalParams) => Promise<ToolboxObject>;
@@ -3743,10 +3790,7 @@ export interface ToolboxPolicies {
 }
 
 // @public
-export interface ToolboxSearchPreviewTool extends Tool {
-    description?: string;
-    name?: string;
-    tool_configs?: Record<string, ToolConfig>;
+export interface ToolboxSearchPreviewToolboxTool extends ToolboxTool {
     type: "toolbox_search_preview";
 }
 
@@ -3766,6 +3810,20 @@ export interface ToolboxSkillReference extends ToolboxSkill {
 export type ToolboxSkillUnion = ToolboxSkillReference | ToolboxSkill;
 
 // @public
+export interface ToolboxTool {
+    description?: string;
+    name?: string;
+    tool_configs?: Record<string, ToolConfig>;
+    type: ToolboxToolType;
+}
+
+// @public
+export type ToolboxToolType = "code_interpreter" | "file_search" | "web_search" | "mcp" | "azure_ai_search" | "openapi" | "a2a_preview" | "browser_automation_preview" | "reminder_preview" | "work_iq_preview" | "fabric_iq_preview" | "toolbox_search_preview";
+
+// @public
+export type ToolboxToolUnion = CodeInterpreterToolboxTool | FileSearchToolboxTool | WebSearchToolboxTool | MCPToolboxTool | AzureAISearchToolboxTool | OpenApiToolboxTool | A2APreviewToolboxTool | BrowserAutomationPreviewToolboxTool | ReminderPreviewToolboxTool | WorkIQPreviewToolboxTool | FabricIQPreviewToolboxTool | ToolboxSearchPreviewToolboxTool | ToolboxTool;
+
+// @public
 export interface ToolboxVersionObject {
     created_at: Date;
     description?: string;
@@ -3774,7 +3832,7 @@ export interface ToolboxVersionObject {
     name: string;
     policies?: ToolboxPolicies;
     skills?: ToolboxSkillUnion[];
-    tools: ToolUnion[];
+    tools: ToolboxToolUnion[];
     version: string;
 }
 
@@ -3896,10 +3954,10 @@ export interface ToolSearchToolParam extends Tool {
 }
 
 // @public
-export type ToolType = "function" | "file_search" | "computer" | "computer_use_preview" | "web_search" | "mcp" | "code_interpreter" | "image_generation" | "local_shell" | "shell" | "custom" | "namespace" | "tool_search" | "web_search_preview" | "apply_patch" | "a2a_preview" | "bing_custom_search_preview" | "browser_automation_preview" | "fabric_dataagent_preview" | "sharepoint_grounding_preview" | "memory_search_preview" | "work_iq_preview" | "fabric_iq_preview" | "toolbox_search_preview" | "azure_ai_search" | "azure_function" | "bing_grounding" | "capture_structured_outputs" | "openapi";
+export type ToolType = "function" | "file_search" | "computer" | "computer_use_preview" | "web_search" | "mcp" | "code_interpreter" | "image_generation" | "local_shell" | "shell" | "custom" | "namespace" | "tool_search" | "web_search_preview" | "apply_patch" | "a2a_preview" | "bing_custom_search_preview" | "browser_automation_preview" | "fabric_dataagent_preview" | "sharepoint_grounding_preview" | "memory_search_preview" | "reminder_preview" | "work_iq_preview" | "fabric_iq_preview" | "toolbox_search_preview" | "azure_ai_search" | "azure_function" | "bing_grounding" | "capture_structured_outputs" | "openapi";
 
 // @public
-export type ToolUnion = BingGroundingTool | MicrosoftFabricPreviewTool | SharepointPreviewTool | AzureAISearchTool | OpenApiTool | BingCustomSearchPreviewTool | BrowserAutomationPreviewTool | AzureFunctionTool | CaptureStructuredOutputsTool | A2APreviewTool | WorkIQPreviewTool | FabricIQPreviewTool | MemorySearchPreviewTool | ToolboxSearchPreviewTool | CodeInterpreterTool | FunctionTool | FileSearchTool | ComputerUsePreviewTool | WebSearchTool | MCPTool | ImageGenTool | LocalShellToolParam | FunctionShellToolParam | CustomToolParam | WebSearchPreviewTool | ApplyPatchToolParam | ComputerTool | NamespaceToolParam | ToolSearchToolParam | Tool;
+export type ToolUnion = BingGroundingTool | MicrosoftFabricPreviewTool | SharepointPreviewTool | AzureAISearchTool | OpenApiTool | BingCustomSearchPreviewTool | BrowserAutomationPreviewTool | AzureFunctionTool | CaptureStructuredOutputsTool | A2APreviewTool | WorkIQPreviewTool | FabricIQPreviewTool | MemorySearchPreviewTool | ReminderPreviewTool | CodeInterpreterTool | FunctionTool | FileSearchTool | ComputerUsePreviewTool | WebSearchTool | MCPTool | ImageGenTool | LocalShellToolParam | FunctionShellToolParam | CustomToolParam | WebSearchPreviewTool | ApplyPatchToolParam | ComputerTool | NamespaceToolParam | ToolSearchToolParam | Tool;
 
 // @public
 export interface ToolUseFineTuningDataGenerationJobOptions extends DataGenerationJobOptions {
@@ -4027,12 +4085,21 @@ export interface WebSearchPreviewTool extends Tool {
 // @public
 export interface WebSearchTool extends Tool {
     custom_search_configuration?: WebSearchConfiguration;
-    description?: string;
     filters?: WebSearchToolFilters;
-    name?: string;
     search_context_size?: "low" | "medium" | "high";
-    tool_configs?: Record<string, ToolConfig>;
     type: "web_search";
+    user_location?: WebSearchApproximateLocation;
+}
+
+// @public
+export interface WebSearchToolboxTool extends ToolboxTool {
+    custom_search_configuration?: WebSearchConfiguration;
+    // (undocumented)
+    filters?: WebSearchToolFilters;
+    search_context_size?: "low" | "medium" | "high";
+    // (undocumented)
+    type: "web_search";
+    // (undocumented)
     user_location?: WebSearchApproximateLocation;
 }
 
@@ -4056,10 +4123,14 @@ export interface WorkflowAgentDefinition extends AgentDefinition {
 
 // @public
 export interface WorkIQPreviewTool extends Tool {
-    description?: string;
-    name?: string;
     project_connection_id: string;
-    tool_configs?: Record<string, ToolConfig>;
+    type: "work_iq_preview";
+}
+
+// @public
+export interface WorkIQPreviewToolboxTool extends ToolboxTool {
+    project_connection_id: string;
+    // (undocumented)
     type: "work_iq_preview";
 }
 

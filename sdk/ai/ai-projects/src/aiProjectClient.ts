@@ -128,7 +128,6 @@ export class AIProjectClient {
    * - Insights
    * - Schedules
    * - Red Teams
-   * - Toolboxes
    * - agents
    * - skills
    * - routines

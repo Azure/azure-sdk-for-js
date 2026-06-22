@@ -106,9 +106,6 @@ export function _deleteSessionFileSend(
   return context.path(path_1).delete({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.userIsolationKey !== undefined
-        ? { "x-ms-user-isolation-key": options?.userIsolationKey }
-        : {}),
       ...options.requestOptions?.headers,
     },
   });
@@ -168,9 +165,6 @@ export function _listSessionFilesSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.userIsolationKey !== undefined
-        ? { "x-ms-user-isolation-key": options?.userIsolationKey }
-        : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -239,9 +233,6 @@ export function _downloadSessionFileSend(
   return context.path(path_1).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.userIsolationKey !== undefined
-        ? { "x-ms-user-isolation-key": options?.userIsolationKey }
-        : {}),
       accept: "application/octet-stream",
       ...options.requestOptions?.headers,
     },
@@ -310,9 +301,6 @@ export function _uploadSessionFileSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/octet-stream",
     headers: {
-      ...(options?.userIsolationKey !== undefined
-        ? { "x-ms-user-isolation-key": options?.userIsolationKey }
-        : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -463,9 +451,6 @@ export function _listSessionsSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.userIsolationKey !== undefined
-        ? { "x-ms-user-isolation-key": options?.userIsolationKey }
-        : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -576,9 +561,6 @@ export function _deleteSessionSend(
   return context.path(path).delete({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.userIsolationKey !== undefined
-        ? { "x-ms-user-isolation-key": options?.userIsolationKey }
-        : {}),
       ...options.requestOptions?.headers,
     },
   });
@@ -632,9 +614,6 @@ export function _getSessionSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.userIsolationKey !== undefined
-        ? { "x-ms-user-isolation-key": options?.userIsolationKey }
-        : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -688,9 +667,6 @@ export function _createSessionSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      ...(options?.userIsolationKey !== undefined
-        ? { "x-ms-user-isolation-key": options?.userIsolationKey }
-        : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },

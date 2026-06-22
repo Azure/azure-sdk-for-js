@@ -22,7 +22,7 @@ import type {
   ToolboxesGetOptionalParams,
   CreateVersionOptionalParams,
 } from "../../api/toolboxes/options.js";
-import type { ToolUnion, ToolboxVersionObject, ToolboxObject } from "../../models/models.js";
+import type { ToolboxToolUnion, ToolboxVersionObject, ToolboxObject } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 /** Interface representing a Toolboxes operations. */
@@ -59,7 +59,7 @@ export interface ToolboxesOperations {
   /** Creates a new toolbox version, provisioning the toolbox itself if it does not already exist. */
   createVersion: (
     name: string,
-    tools: ToolUnion[],
+    tools: ToolboxToolUnion[],
     options?: CreateVersionOptionalParams,
   ) => Promise<ToolboxVersionObject>;
 }
@@ -78,8 +78,11 @@ function _getToolboxes(context: AIProjectContext) {
       listVersions(context, name, options),
     list: (options?: ToolboxesListOptionalParams) => list(context, options),
     get: (name: string, options?: ToolboxesGetOptionalParams) => get(context, name, options),
-    createVersion: (name: string, tools: ToolUnion[], options?: CreateVersionOptionalParams) =>
-      createVersion(context, name, tools, options),
+    createVersion: (
+      name: string,
+      tools: ToolboxToolUnion[],
+      options?: CreateVersionOptionalParams,
+    ) => createVersion(context, name, tools, options),
   };
 }
 
