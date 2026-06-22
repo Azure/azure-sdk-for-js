@@ -9,7 +9,6 @@ const { BlobServiceClient } = require("@azure/storage-blob");
 
 const { buffer } = require("node:stream/consumers");
 // Use `text` from "node:stream/consumers" if you want the content as a string directly.
-// import { text } from "node:stream/consumers";
 
 // Load the .env file if it exists
 require("dotenv/config");

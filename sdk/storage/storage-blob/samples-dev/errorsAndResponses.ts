@@ -10,7 +10,6 @@ import { BlobServiceClient } from "@azure/storage-blob";
 
 import { buffer } from "node:stream/consumers";
 // Use `text` from "node:stream/consumers" if you want the content as a string directly.
-// import { text } from "node:stream/consumers";
 
 // Load the .env file if it exists
 import "dotenv/config";
