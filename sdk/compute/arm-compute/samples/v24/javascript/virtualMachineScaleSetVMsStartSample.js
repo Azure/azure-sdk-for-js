@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to starts a virtual machine in a VM scale set.
  *
  * @summary starts a virtual machine in a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Start_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Start_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetVMStartMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -21,7 +21,7 @@ async function virtualMachineScaleSetVMStartMaximumSetGen() {
  * This sample demonstrates how to starts a virtual machine in a VM scale set.
  *
  * @summary starts a virtual machine in a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Start_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Start_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetVMStartMinimumSetGen() {
   const credential = new DefaultAzureCredential();

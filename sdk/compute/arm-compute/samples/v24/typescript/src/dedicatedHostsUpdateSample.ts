@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update a dedicated host .
  *
  * @summary update a dedicated host .
- * x-ms-original-file: 2025-11-01/dedicatedHostExamples/DedicatedHost_Update_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/dedicatedHostExamples/DedicatedHost_Update_MaximumSet_Gen.json
  */
 async function dedicatedHostUpdateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -32,7 +32,7 @@ async function dedicatedHostUpdateMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to update a dedicated host .
  *
  * @summary update a dedicated host .
- * x-ms-original-file: 2025-11-01/dedicatedHostExamples/DedicatedHost_Update_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/dedicatedHostExamples/DedicatedHost_Update_MinimumSet_Gen.json
  */
 async function dedicatedHostUpdateMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -51,7 +51,7 @@ async function dedicatedHostUpdateMinimumSetGen(): Promise<void> {
  * This sample demonstrates how to update a dedicated host .
  *
  * @summary update a dedicated host .
- * x-ms-original-file: 2025-11-01/dedicatedHostExamples/DedicatedHost_Update_Resize.json
+ * x-ms-original-file: 2026-03-01/dedicatedHostExamples/DedicatedHost_Update_Resize.json
  */
 async function dedicatedHostUpdateResize(): Promise<void> {
   const credential = new DefaultAzureCredential();
