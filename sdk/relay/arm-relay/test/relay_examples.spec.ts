@@ -123,7 +123,7 @@ describe("Relay test", () => {
 
   it("wCFRelays get test", async () => {
     const res = await client.wCFRelays.get(resourceGroup, namespaceName, relayName);
-    assert.equal(res.name, relayName);
+    assert.equal(res?.name, relayName);
   });
 
   it("wCFRelays getAuthorizationRule test", async () => {
@@ -133,7 +133,7 @@ describe("Relay test", () => {
       relayName,
       authorizationRuleName,
     );
-    assert.equal(res.name, authorizationRuleName);
+    assert.equal(res?.name, authorizationRuleName);
   });
 
   it("wCFRelays list test", async () => {
