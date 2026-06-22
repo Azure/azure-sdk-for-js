@@ -6,7 +6,7 @@ import type { TokenCredential } from "@azure/core-auth";
 import { logger } from "./logger.js";
 import type { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import type { PollOperationState, PollerLike } from "@azure/core-lro";
-import type { DeletionRecoveryLevel } from "./models/models.js";
+import type { DeletionRecoveryLevel, KeyCreateParameters } from "./models/models.js";
 import { KnownDeletionRecoveryLevel } from "./models/models.js";
 import type { KeyVaultClientOptionalParams } from "./keyVaultClient.js";
 import { KeyVaultClient } from "./keyVaultClient.js";
@@ -25,6 +25,7 @@ import type {
   CryptographyClientOptions,
   CryptographyOptions,
   DeletedKey,
+  ExternalKey,
   GetCryptographyClientOptions,
   GetDeletedKeyOptions,
   GetKeyAttestationOptions,
@@ -134,6 +135,7 @@ export {
   type DeletedKey,
   type DeletionRecoveryLevel,
   KnownDeletionRecoveryLevel,
+  type ExternalKey,
   type RsaEncryptParameters,
   type AesGcmEncryptParameters,
   type AesCbcEncryptParameters,
@@ -440,6 +442,64 @@ export class KeyClient {
   public async createOctKey(name: string, options?: CreateOctKeyOptions): Promise<KeyVaultKey> {
     const keyType = options?.hsm ? KnownKeyTypes.OctHSM : KnownKeyTypes.Oct;
     return this.createKey(name, keyType, options);
+  }
+
+  /**
+   * The createExternalKey method creates a new key in Azure Key Vault that is backed by a key
+   * stored in an external key management system. If the named key already exists, Azure Key Vault
+   * creates a new version of the key. It requires the keys/create permission.
+   *
+   * The key type and key size must not be specified for external keys; the service derives them
+   * from the referenced external key.
+   *
+   * Example usage:
+   * ```ts snippet:ReadmeSampleCreateExternalKey
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { KeyClient } from "@azure/keyvault-keys";
+   *
+   * const credential = new DefaultAzureCredential();
+   *
+   * const vaultName = "<YOUR KEYVAULT NAME>";
+   * const url = `https://${vaultName}.vault.azure.net`;
+   *
+   * const client = new KeyClient(url, credential);
+   *
+   * const keyName = "MyKeyName";
+   * const result = await client.createExternalKey(keyName, { id: "my-external-key-id" });
+   * console.log("result: ", result);
+   * ```
+   * Creates a new key, stores it, then returns key parameters and properties to the client.
+   * @param name - The name of the key.
+   * @param externalKey - A reference to the key stored in the external key management system.
+   * @param options - The optional parameters.
+   */
+  public async createExternalKey(
+    name: string,
+    externalKey: ExternalKey,
+    options: CreateKeyOptions = {},
+  ): Promise<KeyVaultKey> {
+    return tracingClient.withSpan(
+      "KeyClient.createExternalKey",
+      options,
+      async (updatedOptions) => {
+        // Key type and key size must not be specified for external keys; the
+        // service derives the key type from the referenced external key.
+        const parameters = {
+          keyAttributes: {
+            enabled: options?.enabled,
+            notBefore: options?.notBefore,
+            expires: options?.expiresOn,
+            exportable: options?.exportable,
+            externalKey,
+          },
+          keyOps: options?.keyOps,
+          releasePolicy: options?.releasePolicy,
+          tags: options?.tags,
+        } as KeyCreateParameters;
+        const response = await this.client.createKey(name, parameters, updatedOptions);
+        return getKeyFromKeyBundle(response);
+      },
+    );
   }
 
   /**
@@ -1142,7 +1202,7 @@ export class KeyClient {
         const result = await this.client.secureWrapKey(name, version, { algorithm }, rest);
         return {
           keyID: result.kid ?? "",
-          algorithm: algorithm,
+          algorithm: (result.algorithm as SecureKeyWrapAlgorithm | undefined) ?? algorithm,
           result: result.result ?? new Uint8Array(),
         };
       },
@@ -1206,7 +1266,7 @@ export class KeyClient {
         );
         return {
           keyID: result.kid ?? "",
-          algorithm: algorithm,
+          algorithm: (result.algorithm as SecureKeyWrapAlgorithm | undefined) ?? algorithm,
           result: result.result ?? new Uint8Array(),
         };
       },

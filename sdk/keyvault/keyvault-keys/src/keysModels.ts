@@ -147,6 +147,18 @@ export interface KeyVaultKey {
 }
 
 /**
+ * An interface representing a reference to a key stored in an external key
+ * management system, used to create and manage external keys in Azure Key Vault.
+ */
+export interface ExternalKey {
+  /**
+   * The external key identifier. The valid id can only contain characters in
+   * the set `[a-zA-Z0-9-]`. Maximum length is 64 characters.
+   */
+  id: string;
+}
+
+/**
  * An interface representing the properties of a key's attestation
  */
 export interface KeyAttestation {
@@ -263,6 +275,17 @@ export interface KeyProperties {
    * The key attestation, if available and requested.
    */
   attestation?: KeyAttestation;
+
+  /**
+   * The key information for a key backed by an external key management system.
+   */
+  externalKey?: ExternalKey;
+
+  /**
+   * The optional key size in bits for symmetric keys. For example: 128, 192, or 256 for AES keys.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly keySize?: number;
 }
 
 /**

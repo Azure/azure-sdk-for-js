@@ -132,6 +132,10 @@ export interface KeyAttributes {
   readonly hsmPlatform?: string;
   /** The key or key version attestation information. */
   readonly attestation?: KeyAttestation;
+  /** The external key information. */
+  externalKey?: ExternalKey;
+  /** The optional key size in bits for symmetric keys. For example: 128, 192, or 256 for AES keys. */
+  readonly keySize?: number;
 }
 
 export function keyAttributesSerializer(item: KeyAttributes): any {
@@ -140,6 +144,9 @@ export function keyAttributesSerializer(item: KeyAttributes): any {
     nbf: !item["notBefore"] ? item["notBefore"] : (item["notBefore"].getTime() / 1000) | 0,
     exp: !item["expires"] ? item["expires"] : (item["expires"].getTime() / 1000) | 0,
     exportable: item["exportable"],
+    external_key: !item["externalKey"]
+      ? item["externalKey"]
+      : externalKeySerializer(item["externalKey"]),
   };
 }
 
@@ -157,6 +164,26 @@ export function keyAttributesDeserializer(item: any): KeyAttributes {
     attestation: !item["attestation"]
       ? item["attestation"]
       : keyAttestationDeserializer(item["attestation"]),
+    externalKey: !item["external_key"]
+      ? item["external_key"]
+      : externalKeyDeserializer(item["external_key"]),
+    keySize: item["key_size"],
+  };
+}
+
+/** External Key parameters. */
+export interface ExternalKey {
+  /** The external key identifier. The valid id can only contain characters in the set [a-zA-Z0-9-]. Maximum length is 64 characters. */
+  id: string;
+}
+
+export function externalKeySerializer(item: ExternalKey): any {
+  return { id: item["id"] };
+}
+
+export function externalKeyDeserializer(item: any): ExternalKey {
+  return {
+    id: item["id"],
   };
 }
 
@@ -770,6 +797,11 @@ export type JsonWebKeyEncryptionAlgorithm = string;
 export interface KeyOperationResult {
   /** Key identifier */
   readonly kid?: string;
+  /**
+   * The algorithm used for the operation. Only populated by the secure wrap
+   * and unwrap operations, which echo the algorithm back in their response.
+   */
+  readonly algorithm?: string;
   /** The result of the operation. */
   readonly result?: Uint8Array;
   /** Cryptographically random, non-repeating initialization vector for symmetric algorithms. */
@@ -783,6 +815,7 @@ export interface KeyOperationResult {
 export function keyOperationResultDeserializer(item: any): KeyOperationResult {
   return {
     kid: item["kid"],
+    algorithm: item["alg"],
     result: !item["value"]
       ? item["value"]
       : typeof item["value"] === "string"

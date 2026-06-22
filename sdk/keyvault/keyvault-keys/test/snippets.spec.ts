@@ -84,6 +84,19 @@ describe("snippets", () => {
     console.log("result: ", result);
   });
 
+  it("ReadmeSampleCreateExternalKey", async () => {
+    const credential = new DefaultAzureCredential();
+    // @ts-preserve-whitespace
+    const vaultName = "<YOUR KEYVAULT NAME>";
+    const url = `https://${vaultName}.managedhsm.azure.net`;
+    // @ts-preserve-whitespace
+    const client = new KeyClient(url, credential);
+    // @ts-preserve-whitespace
+    const keyName = "MyKeyName";
+    const result = await client.createExternalKey(keyName, { id: "my-external-key-id" });
+    console.log("result: ", result);
+  });
+
   it("ReadmeSampleImportKey", async () => {
     const credential = new DefaultAzureCredential();
     // @ts-preserve-whitespace

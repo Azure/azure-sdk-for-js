@@ -170,6 +170,11 @@ export interface EncryptResult {
 }
 
 // @public
+export interface ExternalKey {
+    id: string;
+}
+
+// @public
 export interface GetCryptographyClientOptions {
     keyVersion?: string;
 }
@@ -244,6 +249,7 @@ export class KeyClient {
     beginDeleteKey(name: string, options?: BeginDeleteKeyOptions): Promise<PollerLike<PollOperationState<DeletedKey>, DeletedKey>>;
     beginRecoverDeletedKey(name: string, options?: BeginRecoverDeletedKeyOptions): Promise<PollerLike<PollOperationState<DeletedKey>, DeletedKey>>;
     createEcKey(name: string, options?: CreateEcKeyOptions): Promise<KeyVaultKey>;
+    createExternalKey(name: string, externalKey: ExternalKey, options?: CreateKeyOptions): Promise<KeyVaultKey>;
     createKey(name: string, keyType: KeyType, options?: CreateKeyOptions): Promise<KeyVaultKey>;
     createOctKey(name: string, options?: CreateOctKeyOptions): Promise<KeyVaultKey>;
     createRsaKey(name: string, options?: CreateRsaKeyOptions): Promise<KeyVaultKey>;
@@ -297,8 +303,10 @@ export interface KeyProperties {
     enabled?: boolean;
     expiresOn?: Date;
     exportable?: boolean;
+    externalKey?: ExternalKey;
     readonly hsmPlatform?: string;
     id?: string;
+    readonly keySize?: number;
     readonly managed?: boolean;
     name: string;
     notBefore?: Date;
