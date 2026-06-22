@@ -1,14 +1,10 @@
 # Release History
 
-## 1.0.5 (Unreleased)
+## 1.1.0 (2026-06-22)
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- Added group streaming support
 
 ## 1.0.4 (2026-03-20)
 

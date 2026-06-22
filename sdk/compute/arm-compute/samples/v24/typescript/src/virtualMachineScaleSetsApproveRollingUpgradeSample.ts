@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to approve upgrade on deferred rolling upgrades for OS disks in the virtual machines in a VM scale set.
  *
  * @summary approve upgrade on deferred rolling upgrades for OS disks in the virtual machines in a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_ApproveRollingUpgrade.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_ApproveRollingUpgrade.json
  */
 async function virtualMachineScaleSetApproveRollingUpgrade(): Promise<void> {
   const credential = new DefaultAzureCredential();

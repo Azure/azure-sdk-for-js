@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete a DiscoveryRule
  *
  * @summary delete a DiscoveryRule
- * x-ms-original-file: 2025-05-01-preview/DiscoveryRules_Delete.json
+ * x-ms-original-file: 2026-01-01-preview/DiscoveryRules_Delete.json
  */
 async function discoveryRulesDelete() {
   const credential = new DefaultAzureCredential();

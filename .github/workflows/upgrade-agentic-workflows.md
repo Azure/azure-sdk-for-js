@@ -17,6 +17,7 @@ safe-outputs:
   create-pull-request:
     title-prefix: "[agentic-workflows] "
     labels: [agentic-workflows, automated, dependencies]
+    protected-files: fallback-to-issue
 network:
   allowed:
     - defaults

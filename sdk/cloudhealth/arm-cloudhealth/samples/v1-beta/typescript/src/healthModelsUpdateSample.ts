@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update a HealthModel
  *
  * @summary update a HealthModel
- * x-ms-original-file: 2025-05-01-preview/HealthModels_Update.json
+ * x-ms-original-file: 2026-01-01-preview/HealthModels_Update.json
  */
 async function healthModelsUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

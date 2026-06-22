@@ -35,11 +35,6 @@ export interface GalleryInVMAccessControlProfileVersionsOperations {
     options?: GalleryInVMAccessControlProfileVersionsListByGalleryInVMAccessControlProfileOptionalParams,
   ) => PagedAsyncIterableIterator<GalleryInVMAccessControlProfileVersion>;
   /** Delete a gallery inVMAccessControlProfile version. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     galleryName: string,
