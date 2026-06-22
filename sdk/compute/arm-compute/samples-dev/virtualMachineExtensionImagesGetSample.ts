@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a virtual machine extension image.
  *
  * @summary gets a virtual machine extension image.
- * x-ms-original-file: 2025-11-01/virtualMachineExtensionImageExamples/VirtualMachineExtensionImage_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/virtualMachineExtensionImageExamples/VirtualMachineExtensionImage_Get_MaximumSet_Gen.json
  */
 async function virtualMachineExtensionImageGetMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,7 @@ async function virtualMachineExtensionImageGetMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to gets a virtual machine extension image.
  *
  * @summary gets a virtual machine extension image.
- * x-ms-original-file: 2025-11-01/virtualMachineExtensionImageExamples/VirtualMachineExtensionImage_Get_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/virtualMachineExtensionImageExamples/VirtualMachineExtensionImage_Get_MinimumSet_Gen.json
  */
 async function virtualMachineExtensionImageGetMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

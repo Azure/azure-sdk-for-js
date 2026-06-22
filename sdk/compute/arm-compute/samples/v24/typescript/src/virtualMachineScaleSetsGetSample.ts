@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to display information about a virtual machine scale set.
  *
  * @summary display information about a virtual machine scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Get.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Get.json
  */
 async function getAVirtualMachineScaleSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -25,7 +25,7 @@ async function getAVirtualMachineScaleSet(): Promise<void> {
  * This sample demonstrates how to display information about a virtual machine scale set.
  *
  * @summary display information about a virtual machine scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Get_AutoPlacedOnDedicatedHostGroup.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Get_AutoPlacedOnDedicatedHostGroup.json
  */
 async function getAVirtualMachineScaleSetPlacedOnADedicatedHostGroupThroughAutomaticPlacement(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -42,7 +42,7 @@ async function getAVirtualMachineScaleSetPlacedOnADedicatedHostGroupThroughAutom
  * This sample demonstrates how to display information about a virtual machine scale set.
  *
  * @summary display information about a virtual machine scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Get_WithDiskControllerType.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Get_WithDiskControllerType.json
  */
 async function getVMScaleSetVMWithDiskControllerType(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -60,7 +60,7 @@ async function getVMScaleSetVMWithDiskControllerType(): Promise<void> {
  * This sample demonstrates how to display information about a virtual machine scale set.
  *
  * @summary display information about a virtual machine scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Get_WithUserData.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Get_WithUserData.json
  */
 async function getAVirtualMachineScaleSetWithUserData(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -1,64 +1,49 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Lists the reservations summaries for daily or monthly grain.
- *
- * @summary Lists the reservations summaries for daily or monthly grain.
- * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationSummariesDailyWithReservationId.json
- */
-
-import type { ReservationsSummariesListByReservationOrderAndReservationOptionalParams } from "@azure/arm-consumption";
 import { ConsumptionManagementClient } from "@azure/arm-consumption";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to lists the reservations summaries for daily or monthly grain. Note: ARM has a payload size limit of 12MB, so currently callers get 400 when the response size exceeds the ARM limit. In such cases, API call should be made with smaller date ranges.
+ *
+ * @summary lists the reservations summaries for daily or monthly grain. Note: ARM has a payload size limit of 12MB, so currently callers get 400 when the response size exceeds the ARM limit. In such cases, API call should be made with smaller date ranges.
+ * x-ms-original-file: 2024-08-01/ReservationSummariesDailyWithReservationId.json
+ */
 async function reservationSummariesDailyWithReservationId(): Promise<void> {
-  const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const reservationOrderId = "00000000-0000-0000-0000-000000000000";
-  const reservationId = "00000000-0000-0000-0000-000000000000";
-  const grain = "daily";
-  const filter = "properties/usageDate ge 2017-10-01 AND properties/usageDate le 2017-11-20";
-  const options: ReservationsSummariesListByReservationOrderAndReservationOptionalParams = {
-    filter,
-  };
   const credential = new DefaultAzureCredential();
-  const client = new ConsumptionManagementClient(credential, subscriptionId);
+  const client = new ConsumptionManagementClient(credential);
   const resArray = new Array();
   for await (const item of client.reservationsSummaries.listByReservationOrderAndReservation(
-    reservationOrderId,
-    reservationId,
-    grain,
-    options,
+    "00000000-0000-0000-0000-000000000000",
+    "00000000-0000-0000-0000-000000000000",
+    "daily",
+    { filter: "properties/usageDate ge 2017-10-01 AND properties/usageDate le 2017-11-20" },
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 /**
- * This sample demonstrates how to Lists the reservations summaries for daily or monthly grain.
+ * This sample demonstrates how to lists the reservations summaries for daily or monthly grain. Note: ARM has a payload size limit of 12MB, so currently callers get 400 when the response size exceeds the ARM limit. In such cases, API call should be made with smaller date ranges.
  *
- * @summary Lists the reservations summaries for daily or monthly grain.
- * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationSummariesMonthlyWithReservationId.json
+ * @summary lists the reservations summaries for daily or monthly grain. Note: ARM has a payload size limit of 12MB, so currently callers get 400 when the response size exceeds the ARM limit. In such cases, API call should be made with smaller date ranges.
+ * x-ms-original-file: 2024-08-01/ReservationSummariesMonthlyWithReservationId.json
  */
 async function reservationSummariesMonthlyWithReservationId(): Promise<void> {
-  const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const reservationOrderId = "00000000-0000-0000-0000-000000000000";
-  const reservationId = "00000000-0000-0000-0000-000000000000";
-  const grain = "monthly";
   const credential = new DefaultAzureCredential();
-  const client = new ConsumptionManagementClient(credential, subscriptionId);
+  const client = new ConsumptionManagementClient(credential);
   const resArray = new Array();
   for await (const item of client.reservationsSummaries.listByReservationOrderAndReservation(
-    reservationOrderId,
-    reservationId,
-    grain,
+    "00000000-0000-0000-0000-000000000000",
+    "00000000-0000-0000-0000-000000000000",
+    "monthly",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

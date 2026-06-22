@@ -1,102 +1,18 @@
 {
   "name": "@azure/arm-networkcloud",
-  "sdk-type": "mgmt",
-  "author": "Microsoft Corporation",
-  "description": "A generated SDK for NetworkCloud.",
-  "version": "1.3.0",
+  "version": "2.0.0-beta.2",
+  "description": "A generated SDK for NetworkCloudClient.",
   "engines": {
     "node": ">=20.0.0"
   },
-  "dependencies": {
-    "@azure/core-lro": "^2.5.4",
-    "@azure/abort-controller": "^2.1.2",
-    "@azure/core-paging": "^1.6.2",
-    "@azure/core-client": "^1.9.3",
-    "@azure/core-auth": "^1.9.0",
-    "@azure/core-rest-pipeline": "^1.19.1",
-    "tslib": "^2.8.1"
-  },
-  "keywords": [
-    "node",
-    "azure",
-    "typescript",
-    "browser",
-    "isomorphic",
-    "cloud"
-  ],
-  "license": "MIT",
+  "sideEffects": false,
+  "autoPublish": false,
+  "type": "module",
   "main": "./dist/commonjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/commonjs/index.d.ts",
-  "type": "module",
-  "devDependencies": {
-    "@azure-tools/test-credential": "workspace:^",
-    "@azure-tools/test-recorder": "workspace:^",
-    "@azure-tools/test-utils-vitest": "workspace:^",
-    "@azure/dev-tool": "workspace:^",
-    "@azure/identity": "catalog:internal",
-    "@azure/logger": "workspace:^",
-    "@types/node": "catalog:",
-    "@vitest/browser-playwright": "catalog:testing",
-    "@vitest/coverage-istanbul": "catalog:testing",
-    "cross-env": "catalog:",
-    "dotenv": "catalog:testing",
-    "eslint": "catalog:",
-    "playwright": "catalog:testing",
-    "prettier": "catalog:",
-    "rimraf": "catalog:",
-    "typescript": "catalog:",
-    "vitest": "catalog:testing"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Azure/azure-sdk-for-js",
-    "directory": "sdk/networkcloud/arm-networkcloud"
-  },
-  "bugs": {
-    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
-  },
-  "files": [
-    "dist/",
-    "README.md",
-    "LICENSE"
-  ],
-  "scripts": {
-    "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
-    "pack": "pnpm pack 2>&1",
-    "extract-api": "dev-tool run extract-api",
-    "lint": "echo skipped",
-    "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
-    "build:samples": "tsc -p config/tsconfig.samples.json && dev-tool samples publish -f",
-    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" ",
-    "execute:samples": "echo skipped",
-    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" ",
-    "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
-    "test:node": "dev-tool run test:vitest",
-    "test:browser": "echo skipped",
-    "update-snippets": "dev-tool run update-snippets",
-    "test:node:esm": "dev-tool run test:vitest --esm"
-  },
-  "sideEffects": false,
-  "//metadata": {
-    "constantPaths": [
-      {
-        "path": "src/networkCloud.ts",
-        "prefix": "packageDetails"
-      }
-    ]
-  },
-  "autoPublish": true,
   "browser": "./dist/browser/index.js",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/networkcloud/arm-networkcloud/README.md",
-  "//sampleConfiguration": {
-    "productName": "",
-    "productSlugs": [
-      "azure"
-    ],
-    "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-networkcloud?view=azure-node-preview"
-  },
+  "react-native": "./dist/react-native/index.js",
   "exports": {
     "./package.json": "./package.json",
     ".": {
@@ -112,12 +28,523 @@
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
       }
+    },
+    "./api": {
+      "browser": {
+        "types": "./dist/browser/api/index.d.ts",
+        "default": "./dist/browser/api/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/index.d.ts",
+        "default": "./dist/react-native/api/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/index.d.ts",
+        "default": "./dist/esm/api/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/index.d.ts",
+        "default": "./dist/commonjs/api/index.js"
+      }
+    },
+    "./api/metricsConfigurations": {
+      "browser": {
+        "types": "./dist/browser/api/metricsConfigurations/index.d.ts",
+        "default": "./dist/browser/api/metricsConfigurations/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/metricsConfigurations/index.d.ts",
+        "default": "./dist/react-native/api/metricsConfigurations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/metricsConfigurations/index.d.ts",
+        "default": "./dist/esm/api/metricsConfigurations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/metricsConfigurations/index.d.ts",
+        "default": "./dist/commonjs/api/metricsConfigurations/index.js"
+      }
+    },
+    "./api/consoles": {
+      "browser": {
+        "types": "./dist/browser/api/consoles/index.d.ts",
+        "default": "./dist/browser/api/consoles/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/consoles/index.d.ts",
+        "default": "./dist/react-native/api/consoles/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/consoles/index.d.ts",
+        "default": "./dist/esm/api/consoles/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/consoles/index.d.ts",
+        "default": "./dist/commonjs/api/consoles/index.js"
+      }
+    },
+    "./api/kubernetesClusterFeatures": {
+      "browser": {
+        "types": "./dist/browser/api/kubernetesClusterFeatures/index.d.ts",
+        "default": "./dist/browser/api/kubernetesClusterFeatures/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/kubernetesClusterFeatures/index.d.ts",
+        "default": "./dist/react-native/api/kubernetesClusterFeatures/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/kubernetesClusterFeatures/index.d.ts",
+        "default": "./dist/esm/api/kubernetesClusterFeatures/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/kubernetesClusterFeatures/index.d.ts",
+        "default": "./dist/commonjs/api/kubernetesClusterFeatures/index.js"
+      }
+    },
+    "./api/agentPools": {
+      "browser": {
+        "types": "./dist/browser/api/agentPools/index.d.ts",
+        "default": "./dist/browser/api/agentPools/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/agentPools/index.d.ts",
+        "default": "./dist/react-native/api/agentPools/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/agentPools/index.d.ts",
+        "default": "./dist/esm/api/agentPools/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/agentPools/index.d.ts",
+        "default": "./dist/commonjs/api/agentPools/index.js"
+      }
+    },
+    "./api/bmcKeySets": {
+      "browser": {
+        "types": "./dist/browser/api/bmcKeySets/index.d.ts",
+        "default": "./dist/browser/api/bmcKeySets/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/bmcKeySets/index.d.ts",
+        "default": "./dist/react-native/api/bmcKeySets/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/bmcKeySets/index.d.ts",
+        "default": "./dist/esm/api/bmcKeySets/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/bmcKeySets/index.d.ts",
+        "default": "./dist/commonjs/api/bmcKeySets/index.js"
+      }
+    },
+    "./api/bareMetalMachineKeySets": {
+      "browser": {
+        "types": "./dist/browser/api/bareMetalMachineKeySets/index.d.ts",
+        "default": "./dist/browser/api/bareMetalMachineKeySets/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/bareMetalMachineKeySets/index.d.ts",
+        "default": "./dist/react-native/api/bareMetalMachineKeySets/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/bareMetalMachineKeySets/index.d.ts",
+        "default": "./dist/esm/api/bareMetalMachineKeySets/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/bareMetalMachineKeySets/index.d.ts",
+        "default": "./dist/commonjs/api/bareMetalMachineKeySets/index.js"
+      }
+    },
+    "./api/volumes": {
+      "browser": {
+        "types": "./dist/browser/api/volumes/index.d.ts",
+        "default": "./dist/browser/api/volumes/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/volumes/index.d.ts",
+        "default": "./dist/react-native/api/volumes/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/volumes/index.d.ts",
+        "default": "./dist/esm/api/volumes/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/volumes/index.d.ts",
+        "default": "./dist/commonjs/api/volumes/index.js"
+      }
+    },
+    "./api/virtualMachines": {
+      "browser": {
+        "types": "./dist/browser/api/virtualMachines/index.d.ts",
+        "default": "./dist/browser/api/virtualMachines/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/virtualMachines/index.d.ts",
+        "default": "./dist/react-native/api/virtualMachines/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/virtualMachines/index.d.ts",
+        "default": "./dist/esm/api/virtualMachines/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/virtualMachines/index.d.ts",
+        "default": "./dist/commonjs/api/virtualMachines/index.js"
+      }
+    },
+    "./api/trunkedNetworks": {
+      "browser": {
+        "types": "./dist/browser/api/trunkedNetworks/index.d.ts",
+        "default": "./dist/browser/api/trunkedNetworks/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/trunkedNetworks/index.d.ts",
+        "default": "./dist/react-native/api/trunkedNetworks/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/trunkedNetworks/index.d.ts",
+        "default": "./dist/esm/api/trunkedNetworks/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/trunkedNetworks/index.d.ts",
+        "default": "./dist/commonjs/api/trunkedNetworks/index.js"
+      }
+    },
+    "./api/storageAppliances": {
+      "browser": {
+        "types": "./dist/browser/api/storageAppliances/index.d.ts",
+        "default": "./dist/browser/api/storageAppliances/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/storageAppliances/index.d.ts",
+        "default": "./dist/react-native/api/storageAppliances/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/storageAppliances/index.d.ts",
+        "default": "./dist/esm/api/storageAppliances/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/storageAppliances/index.d.ts",
+        "default": "./dist/commonjs/api/storageAppliances/index.js"
+      }
+    },
+    "./api/racks": {
+      "browser": {
+        "types": "./dist/browser/api/racks/index.d.ts",
+        "default": "./dist/browser/api/racks/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/racks/index.d.ts",
+        "default": "./dist/react-native/api/racks/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/racks/index.d.ts",
+        "default": "./dist/esm/api/racks/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/racks/index.d.ts",
+        "default": "./dist/commonjs/api/racks/index.js"
+      }
+    },
+    "./api/rackSkus": {
+      "browser": {
+        "types": "./dist/browser/api/rackSkus/index.d.ts",
+        "default": "./dist/browser/api/rackSkus/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/rackSkus/index.d.ts",
+        "default": "./dist/react-native/api/rackSkus/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/rackSkus/index.d.ts",
+        "default": "./dist/esm/api/rackSkus/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/rackSkus/index.d.ts",
+        "default": "./dist/commonjs/api/rackSkus/index.js"
+      }
+    },
+    "./api/l3Networks": {
+      "browser": {
+        "types": "./dist/browser/api/l3Networks/index.d.ts",
+        "default": "./dist/browser/api/l3Networks/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/l3Networks/index.d.ts",
+        "default": "./dist/react-native/api/l3Networks/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/l3Networks/index.d.ts",
+        "default": "./dist/esm/api/l3Networks/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/l3Networks/index.d.ts",
+        "default": "./dist/commonjs/api/l3Networks/index.js"
+      }
+    },
+    "./api/l2Networks": {
+      "browser": {
+        "types": "./dist/browser/api/l2Networks/index.d.ts",
+        "default": "./dist/browser/api/l2Networks/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/l2Networks/index.d.ts",
+        "default": "./dist/react-native/api/l2Networks/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/l2Networks/index.d.ts",
+        "default": "./dist/esm/api/l2Networks/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/l2Networks/index.d.ts",
+        "default": "./dist/commonjs/api/l2Networks/index.js"
+      }
+    },
+    "./api/kubernetesVersions": {
+      "browser": {
+        "types": "./dist/browser/api/kubernetesVersions/index.d.ts",
+        "default": "./dist/browser/api/kubernetesVersions/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/kubernetesVersions/index.d.ts",
+        "default": "./dist/react-native/api/kubernetesVersions/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/kubernetesVersions/index.d.ts",
+        "default": "./dist/esm/api/kubernetesVersions/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/kubernetesVersions/index.d.ts",
+        "default": "./dist/commonjs/api/kubernetesVersions/index.js"
+      }
+    },
+    "./api/kubernetesClusters": {
+      "browser": {
+        "types": "./dist/browser/api/kubernetesClusters/index.d.ts",
+        "default": "./dist/browser/api/kubernetesClusters/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/kubernetesClusters/index.d.ts",
+        "default": "./dist/react-native/api/kubernetesClusters/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/kubernetesClusters/index.d.ts",
+        "default": "./dist/esm/api/kubernetesClusters/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/kubernetesClusters/index.d.ts",
+        "default": "./dist/commonjs/api/kubernetesClusters/index.js"
+      }
+    },
+    "./api/clusters": {
+      "browser": {
+        "types": "./dist/browser/api/clusters/index.d.ts",
+        "default": "./dist/browser/api/clusters/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/clusters/index.d.ts",
+        "default": "./dist/react-native/api/clusters/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/clusters/index.d.ts",
+        "default": "./dist/esm/api/clusters/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/clusters/index.d.ts",
+        "default": "./dist/commonjs/api/clusters/index.js"
+      }
+    },
+    "./api/clusterManagers": {
+      "browser": {
+        "types": "./dist/browser/api/clusterManagers/index.d.ts",
+        "default": "./dist/browser/api/clusterManagers/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/clusterManagers/index.d.ts",
+        "default": "./dist/react-native/api/clusterManagers/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/clusterManagers/index.d.ts",
+        "default": "./dist/esm/api/clusterManagers/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/clusterManagers/index.d.ts",
+        "default": "./dist/commonjs/api/clusterManagers/index.js"
+      }
+    },
+    "./api/cloudServicesNetworks": {
+      "browser": {
+        "types": "./dist/browser/api/cloudServicesNetworks/index.d.ts",
+        "default": "./dist/browser/api/cloudServicesNetworks/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/cloudServicesNetworks/index.d.ts",
+        "default": "./dist/react-native/api/cloudServicesNetworks/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/cloudServicesNetworks/index.d.ts",
+        "default": "./dist/esm/api/cloudServicesNetworks/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/cloudServicesNetworks/index.d.ts",
+        "default": "./dist/commonjs/api/cloudServicesNetworks/index.js"
+      }
+    },
+    "./api/bareMetalMachines": {
+      "browser": {
+        "types": "./dist/browser/api/bareMetalMachines/index.d.ts",
+        "default": "./dist/browser/api/bareMetalMachines/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/bareMetalMachines/index.d.ts",
+        "default": "./dist/react-native/api/bareMetalMachines/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/bareMetalMachines/index.d.ts",
+        "default": "./dist/esm/api/bareMetalMachines/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/bareMetalMachines/index.d.ts",
+        "default": "./dist/commonjs/api/bareMetalMachines/index.js"
+      }
+    },
+    "./api/accessBridges": {
+      "browser": {
+        "types": "./dist/browser/api/accessBridges/index.d.ts",
+        "default": "./dist/browser/api/accessBridges/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/accessBridges/index.d.ts",
+        "default": "./dist/react-native/api/accessBridges/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/accessBridges/index.d.ts",
+        "default": "./dist/esm/api/accessBridges/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/accessBridges/index.d.ts",
+        "default": "./dist/commonjs/api/accessBridges/index.js"
+      }
+    },
+    "./api/operations": {
+      "browser": {
+        "types": "./dist/browser/api/operations/index.d.ts",
+        "default": "./dist/browser/api/operations/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/api/operations/index.d.ts",
+        "default": "./dist/react-native/api/operations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/operations/index.d.ts",
+        "default": "./dist/esm/api/operations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/operations/index.d.ts",
+        "default": "./dist/commonjs/api/operations/index.js"
+      }
+    },
+    "./models": {
+      "browser": {
+        "types": "./dist/browser/models/index.d.ts",
+        "default": "./dist/browser/models/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/models/index.d.ts",
+        "default": "./dist/react-native/models/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/models/index.d.ts",
+        "default": "./dist/esm/models/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/models/index.d.ts",
+        "default": "./dist/commonjs/models/index.js"
+      }
     }
   },
-  "imports": {
-    "#platform/*": {
-      "browser": "./src/*-browser.mts",
-      "default": "./src/*.ts"
-    }
+  "keywords": [
+    "node",
+    "azure",
+    "cloud",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "files": [
+    "dist/",
+    "!dist/**/*.d.*ts.map",
+    "README.md",
+    "LICENSE"
+  ],
+  "sdk-type": "mgmt",
+  "repository": "github:Azure/azure-sdk-for-js",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/networkcloud/arm-networkcloud/README.md",
+  "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/api/networkCloudContext.ts",
+        "prefix": "userAgentInfo"
+      }
+    ]
+  },
+  "dependencies": {
+    "@azure/core-util": "^1.12.0",
+    "@azure-rest/core-client": "^2.3.1",
+    "@azure/abort-controller": "^2.1.2",
+    "@azure/core-auth": "^1.9.0",
+    "@azure/core-lro": "^3.1.0",
+    "@azure/core-rest-pipeline": "^1.20.0",
+    "@azure/logger": "^1.2.0",
+    "tslib": "^2.8.1"
+  },
+  "devDependencies": {
+    "@azure-tools/test-credential": "workspace:^",
+    "@azure-tools/test-recorder": "workspace:^",
+    "@azure-tools/test-utils-vitest": "workspace:^",
+    "@azure/dev-tool": "workspace:^",
+    "@azure/eslint-plugin-azure-sdk": "workspace:^",
+    "@azure/identity": "catalog:internal",
+    "@types/node": "catalog:",
+    "cross-env": "catalog:",
+    "eslint": "catalog:",
+    "prettier": "catalog:",
+    "rimraf": "catalog:",
+    "@vitest/browser-playwright": "catalog:testing",
+    "@vitest/coverage-istanbul": "catalog:testing",
+    "dotenv": "catalog:testing",
+    "playwright": "catalog:testing",
+    "typescript": "catalog:",
+    "vitest": "catalog:testing"
+  },
+  "scripts": {
+    "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
+    "extract-api": "rimraf review && dev-tool run extract-api",
+    "pack": "pnpm pack 2>&1",
+    "lint": "echo skipped",
+    "lint:fix": "echo skipped",
+    "build:samples": "tsc -p config/tsconfig.samples.json && dev-tool samples publish -f",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" \"samples-dev/*.ts\"",
+    "execute:samples": "dev-tool samples run samples-dev",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" \"samples-dev/*.ts\"",
+    "generate:client": "echo skipped",
+    "test:browser": "echo skipped",
+    "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
+    "test:node": "dev-tool run test:vitest",
+    "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
+    "update-snippets": "dev-tool run update-snippets"
+  },
+  "//sampleConfiguration": {
+    "productName": "@azure/arm-networkcloud",
+    "productSlugs": [
+      "azure"
+    ],
+    "disableDocsMs": true,
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-networkcloud?view=azure-node-preview"
   }
 }

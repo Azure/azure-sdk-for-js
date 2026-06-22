@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a list of virtual machine extension image types.
  *
  * @summary gets a list of virtual machine extension image types.
- * x-ms-original-file: 2025-11-01/virtualMachineExtensionImageExamples/VirtualMachineExtensionImage_ListTypes_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/virtualMachineExtensionImageExamples/VirtualMachineExtensionImage_ListTypes_MaximumSet_Gen.json
  */
 async function virtualMachineExtensionImageListTypesMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -25,7 +25,7 @@ async function virtualMachineExtensionImageListTypesMaximumSetGen() {
  * This sample demonstrates how to gets a list of virtual machine extension image types.
  *
  * @summary gets a list of virtual machine extension image types.
- * x-ms-original-file: 2025-11-01/virtualMachineExtensionImageExamples/VirtualMachineExtensionImage_ListTypes_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/virtualMachineExtensionImageExamples/VirtualMachineExtensionImage_ListTypes_MinimumSet_Gen.json
  */
 async function virtualMachineExtensionImageListTypesMinimumSetGen() {
   const credential = new DefaultAzureCredential();
