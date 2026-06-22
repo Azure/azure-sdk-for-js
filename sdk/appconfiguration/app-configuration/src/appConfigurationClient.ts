@@ -209,7 +209,7 @@ export class AppConfigurationClient {
     this._syncTokens = appConfigOptions.syncTokens || new SyncTokens();
     this.client = new GeneratedAppConfigurationClient(
       appConfigEndpoint,
-      // When a connection string is used, appConfigCredential is undefined here. We pass undefined to avoid @azure-rest/core-client's keyCredentialAuthenticationPolicy setting the apiKeyHeader on the request。
+      // When a connection string is used, appConfigCredential is undefined here. We pass undefined to avoid @azure-rest/core-client's keyCredentialAuthenticationPolicy setting the apiKeyHeader on the request.
       // Connection strings are authenticated by HMAC (appConfigKeyCredentialPolicy) and the secret should never leave the client.
       // The `as TokenCredential` cast bridges a gap between the generated client and the core SDK: the generated constructor types `credential` as required (KeyCredential | TokenCredential),
       // but @azure-rest/core-client's addCredentialPipelinePolicy no-ops when no credential is passed, so handing it undefined is safe at runtime.

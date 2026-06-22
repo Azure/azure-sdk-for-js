@@ -23,8 +23,7 @@ describe("AppConfigurationClient constructor error cases", () => {
 });
 
 describe("AppConfigurationClient connection string requests", () => {
-  const fakeConnectionString =
-    "Endpoint=https://contoso.azconfig.io;Id=fake-id;Secret=ABCD";
+  const fakeConnectionString = "Endpoint=https://contoso.azconfig.io;Id=fake-id;Secret=ABCD";
 
   it("does not set an invalid 'Connection String' request header", async () => {
     let capturedRequest: PipelineRequest | undefined;
