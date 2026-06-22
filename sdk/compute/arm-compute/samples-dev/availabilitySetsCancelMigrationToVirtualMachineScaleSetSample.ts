@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to cancel the migration operation on an Availability Set.
  *
  * @summary cancel the migration operation on an Availability Set.
- * x-ms-original-file: 2025-11-01/availabilitySetExamples/AvailabilitySet_CancelMigrationToVirtualMachineScaleSet.json
+ * x-ms-original-file: 2026-03-01/availabilitySetExamples/AvailabilitySet_CancelMigrationToVirtualMachineScaleSet.json
  */
 async function availabilitySetCancelMigrationToVirtualMachineScaleSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

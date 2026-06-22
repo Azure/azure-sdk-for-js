@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to patch a Backup under the Backup Vault
  *
  * @summary patch a Backup under the Backup Vault
- * x-ms-original-file: 2026-01-01/BackupsUnderBackupVault_Update.json
+ * x-ms-original-file: 2026-04-01/BackupsUnderBackupVault_Update.json
  */
 async function backupsUnderBackupVaultUpdate() {
   const credential = new DefaultAzureCredential();

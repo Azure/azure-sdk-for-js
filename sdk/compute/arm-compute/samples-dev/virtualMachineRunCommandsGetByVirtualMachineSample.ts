@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to get the run command.
  *
  * @summary the operation to get the run command.
- * x-ms-original-file: 2025-11-01/runCommandExamples/VirtualMachineRunCommand_Get.json
+ * x-ms-original-file: 2026-03-01/runCommandExamples/VirtualMachineRunCommand_Get.json
  */
 async function getARunCommand(): Promise<void> {
   const credential = new DefaultAzureCredential();
