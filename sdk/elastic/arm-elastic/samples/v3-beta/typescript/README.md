@@ -138,9 +138,9 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [tagruleslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/elastic/arm-elastic/samples/v3-beta/typescript/src/tagRulesListSample.ts
 [trafficfiltersdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/elastic/arm-elastic/samples/v3-beta/typescript/src/trafficFiltersDeleteSample.ts
 [upgradableversionsdetailssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/elastic/arm-elastic/samples/v3-beta/typescript/src/upgradableVersionsDetailsSample.ts
-[vmcollectionupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/elastic/arm-elastic/samples/v3-beta/typescript/src/vMCollectionUpdateSample.ts
-[vmhostlistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/elastic/arm-elastic/samples/v3-beta/typescript/src/vMHostListSample.ts
-[vmingestiondetailssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/elastic/arm-elastic/samples/v3-beta/typescript/src/vMIngestionDetailsSample.ts
+[vMcollectionupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/elastic/arm-elastic/samples/v3-beta/typescript/src/vMCollectionUpdateSample.ts
+[vMhostlistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/elastic/arm-elastic/samples/v3-beta/typescript/src/vMHostListSample.ts
+[vMingestiondetailssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/elastic/arm-elastic/samples/v3-beta/typescript/src/vMIngestionDetailsSample.ts
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/arm-elastic?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/elastic/arm-elastic/README.md
