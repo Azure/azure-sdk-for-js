@@ -896,6 +896,12 @@ export interface BlobGenerateSasUrlOptions extends CommonGenerateSasUrlOptions {
    * Optional only when identifier is provided. Specifies the list of permissions to be associated with the SAS.
    */
   permissions?: BlobSASPermissions;
+  /**
+   *
+   * Beginning in version 2020-02-10, this value defines whether or
+   * not the instance is a virtual directory.
+   */
+  isDirectory?: boolean;
 }
 
 /**
