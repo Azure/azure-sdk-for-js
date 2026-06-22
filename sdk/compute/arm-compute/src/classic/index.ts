@@ -24,6 +24,7 @@ export type { GalleryScriptsOperations } from "./galleryScripts/index.js";
 export type { GalleryScriptVersionsOperations } from "./galleryScriptVersions/index.js";
 export type { GallerySharingProfileOperations } from "./gallerySharingProfile/index.js";
 export type { ImagesOperations } from "./images/index.js";
+export type { InterconnectBlocksOperations } from "./interconnectBlocks/index.js";
 export type { LogAnalyticsOperations } from "./logAnalytics/index.js";
 export type { OperationsOperations } from "./operations/index.js";
 export type { ProximityPlacementGroupsOperations } from "./proximityPlacementGroups/index.js";

@@ -365,9 +365,17 @@ describe("AppConfigurationClient", () => {
         car: "caz",
       };
       const contentType = "application/json";
+      const description = "a setting description";
 
       // create configuration
-      const result = await client.addConfigurationSetting({ key, label, value, contentType, tags });
+      const result = await client.addConfigurationSetting({
+        key,
+        label,
+        value,
+        contentType,
+        tags,
+        description,
+      });
 
       assert.equal(result.key, key, "Unexpected key in result from addConfigurationSetting().");
       assert.equal(
@@ -399,6 +407,11 @@ describe("AppConfigurationClient", () => {
         result.contentType,
         contentType,
         "Unexpected contentType in result from addConfigurationSetting().",
+      );
+      assert.equal(
+        result.description,
+        description,
+        "Unexpected description in result from addConfigurationSetting().",
       );
 
       // retrieve the value from the service
@@ -437,6 +450,11 @@ describe("AppConfigurationClient", () => {
         remoteResult.contentType,
         contentType,
         "Unexpected contentType in result from getConfigurationSetting().",
+      );
+      assert.equal(
+        remoteResult.description,
+        description,
+        "Unexpected description in result from getConfigurationSetting().",
       );
 
       await client.deleteConfigurationSetting({ key, label });
@@ -530,6 +548,7 @@ describe("AppConfigurationClient", () => {
           etag: retrievedSetting.etag,
           label: retrievedSetting.label,
           tags: retrievedSetting.tags,
+          description: retrievedSetting.description,
           statusCode: retrievedSetting.statusCode,
           isReadOnly: retrievedSetting.isReadOnly,
         },
@@ -547,6 +566,7 @@ describe("AppConfigurationClient", () => {
           value: undefined,
           etag: undefined,
           tags: undefined,
+          description: undefined,
         },
       );
     });

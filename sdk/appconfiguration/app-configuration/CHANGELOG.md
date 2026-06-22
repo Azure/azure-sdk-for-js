@@ -1,14 +1,12 @@
 # Release History
 
-## 1.11.1 (Unreleased)
+## 1.12.0 (2026-06-18)
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- Added a new `description` property to `ConfigurationSetting`/`ConfigurationSettingParam`, `ConfigurationSnapshot`, and `SnapshotInfo`, allowing a description to be set on configuration settings and snapshots. Requires the `2026-04-01` API version or later.
+- Updated the default service API version to `2026-04-01`.
+- Added `KnownAppConfigurationApiVersion` enum exposing the service API versions supported by `AppConfigurationClient`.
 
 ## 1.11.0 (2026-01-26)
 

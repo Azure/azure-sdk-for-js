@@ -4,47 +4,64 @@
 import type { AzureNetworkFabricManagementServiceAPIContext as Client } from "../index.js";
 import type {
   UpdateAdministrativeState,
-  CommonPostActionResponseForStateUpdate,
+  UpdateAdministrativeStateResponse,
+  OperationStatusResult,
   ValidateConfigurationResponse,
-  CommonPostActionResponseForDeviceUpdate,
+  NetworkFabricResyncCertificatesResponse,
   NetworkFabric,
   NetworkFabricPatch,
   _NetworkFabricsListResult,
   UpgradeNetworkFabricProperties,
   ValidateConfigurationProperties,
+  GetTopologyResponse,
+  CommitConfigurationResponse,
   CommitBatchStatusRequest,
-  CommitBatchStatusResponse,
+  CommitBatchStatusOperationResponse,
   DiscardCommitBatchRequest,
-  DiscardCommitBatchResponse,
+  DiscardCommitBatchOperationResponse,
   NetworkFabricLockRequest,
-  ViewDeviceConfigurationResponse,
-  ArmConfigurationDiffResponse,
+  ViewDeviceConfigurationOperationResponse,
+  ArmConfigurationDiffOperationResponse,
+  NetworkFabricRotatePasswordsResponse,
+  NetworkFabricResyncPasswordsResponse,
+  NetworkFabricRotateCertificatesResponse,
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
   updateAdministrativeStateSerializer,
-  commonPostActionResponseForStateUpdateDeserializer,
+  updateAdministrativeStateResponseDeserializer,
+  operationStatusResultDeserializer,
   validateConfigurationResponseDeserializer,
-  commonPostActionResponseForDeviceUpdateDeserializer,
+  networkFabricResyncCertificatesResponseDeserializer,
   networkFabricSerializer,
   networkFabricDeserializer,
   networkFabricPatchSerializer,
   _networkFabricsListResultDeserializer,
   upgradeNetworkFabricPropertiesSerializer,
   validateConfigurationPropertiesSerializer,
+  getTopologyResponseDeserializer,
+  commitConfigurationRequestSerializer,
+  commitConfigurationResponseDeserializer,
   commitBatchStatusRequestSerializer,
-  commitBatchStatusResponseDeserializer,
+  commitBatchStatusOperationResponseDeserializer,
   discardCommitBatchRequestSerializer,
-  discardCommitBatchResponseDeserializer,
+  discardCommitBatchOperationResponseDeserializer,
   networkFabricLockRequestSerializer,
-  viewDeviceConfigurationResponseDeserializer,
-  armConfigurationDiffResponseDeserializer,
+  viewDeviceConfigurationOperationResponseDeserializer,
+  armConfigurationDiffOperationResponseDeserializer,
+  networkFabricRotatePasswordsResponseDeserializer,
+  networkFabricResyncPasswordsResponseDeserializer,
+  networkFabricRotateCertificatesResponseDeserializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
+  NetworkFabricsResyncCertificatesOptionalParams,
+  NetworkFabricsRotateCertificatesOptionalParams,
+  NetworkFabricsResyncPasswordsOptionalParams,
+  NetworkFabricsRotatePasswordsOptionalParams,
   NetworkFabricsArmConfigurationDiffOptionalParams,
   NetworkFabricsViewDeviceConfigurationOptionalParams,
   NetworkFabricsLockFabricOptionalParams,
@@ -70,6 +87,269 @@ import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-c
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
+export function _resyncCertificatesSend(
+  context: Client,
+  resourceGroupName: string,
+  networkFabricName: string,
+  options: NetworkFabricsResyncCertificatesOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}/resyncCertificates{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      networkFabricName: networkFabricName,
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
+}
+
+export async function _resyncCertificatesDeserialize(
+  result: PathUncheckedResponse,
+): Promise<NetworkFabricResyncCertificatesResponse> {
+  const expectedStatuses = ["200", "202", "201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return networkFabricResyncCertificatesResponseDeserializer(result.body);
+}
+
+/** Updates all Network Devices to use the latest certificates. Does not generate new certificates. Allows network devices missed during a previous certificate rotation to be brought back into sync. */
+export function resyncCertificates(
+  context: Client,
+  resourceGroupName: string,
+  networkFabricName: string,
+  options: NetworkFabricsResyncCertificatesOptionalParams = { requestOptions: {} },
+): PollerLike<
+  OperationState<NetworkFabricResyncCertificatesResponse>,
+  NetworkFabricResyncCertificatesResponse
+> {
+  return getLongRunningPoller(context, _resyncCertificatesDeserialize, ["200", "202", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _resyncCertificatesSend(context, resourceGroupName, networkFabricName, options),
+    resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-07-15",
+  }) as PollerLike<
+    OperationState<NetworkFabricResyncCertificatesResponse>,
+    NetworkFabricResyncCertificatesResponse
+  >;
+}
+
+export function _rotateCertificatesSend(
+  context: Client,
+  resourceGroupName: string,
+  networkFabricName: string,
+  options: NetworkFabricsRotateCertificatesOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}/rotateCertificates{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      networkFabricName: networkFabricName,
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
+}
+
+export async function _rotateCertificatesDeserialize(
+  result: PathUncheckedResponse,
+): Promise<NetworkFabricRotateCertificatesResponse> {
+  const expectedStatuses = ["200", "202", "201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return networkFabricRotateCertificatesResponseDeserializer(result.body);
+}
+
+/** Creates new certificates, then updates the Network Devices to use the new certificates. Note that disabled devices cannot be updated and must be resynchronized with the new certificates once they are enabled. */
+export function rotateCertificates(
+  context: Client,
+  resourceGroupName: string,
+  networkFabricName: string,
+  options: NetworkFabricsRotateCertificatesOptionalParams = { requestOptions: {} },
+): PollerLike<
+  OperationState<NetworkFabricRotateCertificatesResponse>,
+  NetworkFabricRotateCertificatesResponse
+> {
+  return getLongRunningPoller(context, _rotateCertificatesDeserialize, ["200", "202", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _rotateCertificatesSend(context, resourceGroupName, networkFabricName, options),
+    resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-07-15",
+  }) as PollerLike<
+    OperationState<NetworkFabricRotateCertificatesResponse>,
+    NetworkFabricRotateCertificatesResponse
+  >;
+}
+
+export function _resyncPasswordsSend(
+  context: Client,
+  resourceGroupName: string,
+  networkFabricName: string,
+  options: NetworkFabricsResyncPasswordsOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}/resyncPasswords{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      networkFabricName: networkFabricName,
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
+}
+
+export async function _resyncPasswordsDeserialize(
+  result: PathUncheckedResponse,
+): Promise<NetworkFabricResyncPasswordsResponse> {
+  const expectedStatuses = ["200", "202", "201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return networkFabricResyncPasswordsResponseDeserializer(result.body);
+}
+
+/**
+ * Updates the Terminal Server and all Network Devices to use the latest passwords. Does not generate new passwords.
+ *
+ * Allows devices to be brought back in sync after a partially successful password rotation.
+ */
+export function resyncPasswords(
+  context: Client,
+  resourceGroupName: string,
+  networkFabricName: string,
+  options: NetworkFabricsResyncPasswordsOptionalParams = { requestOptions: {} },
+): PollerLike<
+  OperationState<NetworkFabricResyncPasswordsResponse>,
+  NetworkFabricResyncPasswordsResponse
+> {
+  return getLongRunningPoller(context, _resyncPasswordsDeserialize, ["200", "202", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _resyncPasswordsSend(context, resourceGroupName, networkFabricName, options),
+    resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-07-15",
+  }) as PollerLike<
+    OperationState<NetworkFabricResyncPasswordsResponse>,
+    NetworkFabricResyncPasswordsResponse
+  >;
+}
+
+export function _rotatePasswordsSend(
+  context: Client,
+  resourceGroupName: string,
+  networkFabricName: string,
+  options: NetworkFabricsRotatePasswordsOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkFabrics/{networkFabricName}/rotatePasswords{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      networkFabricName: networkFabricName,
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
+}
+
+export async function _rotatePasswordsDeserialize(
+  result: PathUncheckedResponse,
+): Promise<NetworkFabricRotatePasswordsResponse> {
+  const expectedStatuses = ["200", "202", "201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return networkFabricRotatePasswordsResponseDeserializer(result.body);
+}
+
+/**
+ * Creates new passwords, then updates the Terminal Server and Network Devices to use the new passwords.
+ *
+ * Note that disabled devices cannot be updated and must be resynchronized with the new passwords once they are enabled.
+ *
+ * Fails if any of the devices could not be updated with the new password.
+ * Failed devices should be resynchronized with the new passwords once possible.
+ */
+export function rotatePasswords(
+  context: Client,
+  resourceGroupName: string,
+  networkFabricName: string,
+  options: NetworkFabricsRotatePasswordsOptionalParams = { requestOptions: {} },
+): PollerLike<
+  OperationState<NetworkFabricRotatePasswordsResponse>,
+  NetworkFabricRotatePasswordsResponse
+> {
+  return getLongRunningPoller(context, _rotatePasswordsDeserialize, ["200", "202", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _rotatePasswordsSend(context, resourceGroupName, networkFabricName, options),
+    resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-07-15",
+  }) as PollerLike<
+    OperationState<NetworkFabricRotatePasswordsResponse>,
+    NetworkFabricRotatePasswordsResponse
+  >;
+}
+
 export function _armConfigurationDiffSend(
   context: Client,
   resourceGroupName: string,
@@ -82,7 +362,7 @@ export function _armConfigurationDiffSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkFabricName: networkFabricName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -96,16 +376,18 @@ export function _armConfigurationDiffSend(
 
 export async function _armConfigurationDiffDeserialize(
   result: PathUncheckedResponse,
-): Promise<ArmConfigurationDiffResponse> {
-  const expectedStatuses = ["202", "200", "201"];
+): Promise<ArmConfigurationDiffOperationResponse> {
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
-  return armConfigurationDiffResponseDeserializer(result.body);
+  return armConfigurationDiffOperationResponseDeserializer(result.body);
 }
 
 /** Post action: Triggers diff of NetworkFabric ARM Configuration. */
@@ -114,15 +396,21 @@ export function armConfigurationDiff(
   resourceGroupName: string,
   networkFabricName: string,
   options: NetworkFabricsArmConfigurationDiffOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<ArmConfigurationDiffResponse>, ArmConfigurationDiffResponse> {
-  return getLongRunningPoller(context, _armConfigurationDiffDeserialize, ["202", "200", "201"], {
+): PollerLike<
+  OperationState<ArmConfigurationDiffOperationResponse>,
+  ArmConfigurationDiffOperationResponse
+> {
+  return getLongRunningPoller(context, _armConfigurationDiffDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _armConfigurationDiffSend(context, resourceGroupName, networkFabricName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2024-06-15-preview",
-  }) as PollerLike<OperationState<ArmConfigurationDiffResponse>, ArmConfigurationDiffResponse>;
+    apiVersion: context.apiVersion ?? "2025-07-15",
+  }) as PollerLike<
+    OperationState<ArmConfigurationDiffOperationResponse>,
+    ArmConfigurationDiffOperationResponse
+  >;
 }
 
 export function _viewDeviceConfigurationSend(
@@ -137,7 +425,7 @@ export function _viewDeviceConfigurationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkFabricName: networkFabricName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -151,16 +439,18 @@ export function _viewDeviceConfigurationSend(
 
 export async function _viewDeviceConfigurationDeserialize(
   result: PathUncheckedResponse,
-): Promise<ViewDeviceConfigurationResponse> {
-  const expectedStatuses = ["202", "200", "201"];
+): Promise<ViewDeviceConfigurationOperationResponse> {
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
-  return viewDeviceConfigurationResponseDeserializer(result.body);
+  return viewDeviceConfigurationOperationResponseDeserializer(result.body);
 }
 
 /** Post action: Triggers view of network fabric configuration. */
@@ -169,17 +459,20 @@ export function viewDeviceConfiguration(
   resourceGroupName: string,
   networkFabricName: string,
   options: NetworkFabricsViewDeviceConfigurationOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<ViewDeviceConfigurationResponse>, ViewDeviceConfigurationResponse> {
-  return getLongRunningPoller(context, _viewDeviceConfigurationDeserialize, ["202", "200", "201"], {
+): PollerLike<
+  OperationState<ViewDeviceConfigurationOperationResponse>,
+  ViewDeviceConfigurationOperationResponse
+> {
+  return getLongRunningPoller(context, _viewDeviceConfigurationDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _viewDeviceConfigurationSend(context, resourceGroupName, networkFabricName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2024-06-15-preview",
+    apiVersion: context.apiVersion ?? "2025-07-15",
   }) as PollerLike<
-    OperationState<ViewDeviceConfigurationResponse>,
-    ViewDeviceConfigurationResponse
+    OperationState<ViewDeviceConfigurationOperationResponse>,
+    ViewDeviceConfigurationOperationResponse
   >;
 }
 
@@ -196,7 +489,7 @@ export function _lockFabricSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkFabricName: networkFabricName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -212,16 +505,18 @@ export function _lockFabricSend(
 
 export async function _lockFabricDeserialize(
   result: PathUncheckedResponse,
-): Promise<CommonPostActionResponseForStateUpdate> {
-  const expectedStatuses = ["202", "200", "201"];
+): Promise<OperationStatusResult> {
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
-  return commonPostActionResponseForStateUpdateDeserializer(result.body);
+  return operationStatusResultDeserializer(result.body);
 }
 
 /** Post action: Triggers network fabric lock operation. */
@@ -231,21 +526,15 @@ export function lockFabric(
   networkFabricName: string,
   body: NetworkFabricLockRequest,
   options: NetworkFabricsLockFabricOptionalParams = { requestOptions: {} },
-): PollerLike<
-  OperationState<CommonPostActionResponseForStateUpdate>,
-  CommonPostActionResponseForStateUpdate
-> {
-  return getLongRunningPoller(context, _lockFabricDeserialize, ["202", "200", "201"], {
+): PollerLike<OperationState<OperationStatusResult>, OperationStatusResult> {
+  return getLongRunningPoller(context, _lockFabricDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _lockFabricSend(context, resourceGroupName, networkFabricName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2024-06-15-preview",
-  }) as PollerLike<
-    OperationState<CommonPostActionResponseForStateUpdate>,
-    CommonPostActionResponseForStateUpdate
-  >;
+    apiVersion: context.apiVersion ?? "2025-07-15",
+  }) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
 }
 
 export function _discardCommitBatchSend(
@@ -261,7 +550,7 @@ export function _discardCommitBatchSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkFabricName: networkFabricName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -277,16 +566,18 @@ export function _discardCommitBatchSend(
 
 export async function _discardCommitBatchDeserialize(
   result: PathUncheckedResponse,
-): Promise<DiscardCommitBatchResponse> {
-  const expectedStatuses = ["202", "200", "201"];
+): Promise<DiscardCommitBatchOperationResponse> {
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
-  return discardCommitBatchResponseDeserializer(result.body);
+  return discardCommitBatchOperationResponseDeserializer(result.body);
 }
 
 /** Post action: Discards a Batch operation in progress. */
@@ -296,15 +587,21 @@ export function discardCommitBatch(
   networkFabricName: string,
   body: DiscardCommitBatchRequest,
   options: NetworkFabricsDiscardCommitBatchOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<DiscardCommitBatchResponse>, DiscardCommitBatchResponse> {
-  return getLongRunningPoller(context, _discardCommitBatchDeserialize, ["202", "200", "201"], {
+): PollerLike<
+  OperationState<DiscardCommitBatchOperationResponse>,
+  DiscardCommitBatchOperationResponse
+> {
+  return getLongRunningPoller(context, _discardCommitBatchDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _discardCommitBatchSend(context, resourceGroupName, networkFabricName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2024-06-15-preview",
-  }) as PollerLike<OperationState<DiscardCommitBatchResponse>, DiscardCommitBatchResponse>;
+    apiVersion: context.apiVersion ?? "2025-07-15",
+  }) as PollerLike<
+    OperationState<DiscardCommitBatchOperationResponse>,
+    DiscardCommitBatchOperationResponse
+  >;
 }
 
 export function _commitBatchStatusSend(
@@ -320,7 +617,7 @@ export function _commitBatchStatusSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkFabricName: networkFabricName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -336,16 +633,18 @@ export function _commitBatchStatusSend(
 
 export async function _commitBatchStatusDeserialize(
   result: PathUncheckedResponse,
-): Promise<CommitBatchStatusResponse> {
-  const expectedStatuses = ["202", "200", "201"];
+): Promise<CommitBatchStatusOperationResponse> {
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
-  return commitBatchStatusResponseDeserializer(result.body);
+  return commitBatchStatusOperationResponseDeserializer(result.body);
 }
 
 /** Post action: Returns a status of commit batch operation. */
@@ -355,15 +654,21 @@ export function commitBatchStatus(
   networkFabricName: string,
   body: CommitBatchStatusRequest,
   options: NetworkFabricsCommitBatchStatusOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<CommitBatchStatusResponse>, CommitBatchStatusResponse> {
-  return getLongRunningPoller(context, _commitBatchStatusDeserialize, ["202", "200", "201"], {
+): PollerLike<
+  OperationState<CommitBatchStatusOperationResponse>,
+  CommitBatchStatusOperationResponse
+> {
+  return getLongRunningPoller(context, _commitBatchStatusDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _commitBatchStatusSend(context, resourceGroupName, networkFabricName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2024-06-15-preview",
-  }) as PollerLike<OperationState<CommitBatchStatusResponse>, CommitBatchStatusResponse>;
+    apiVersion: context.apiVersion ?? "2025-07-15",
+  }) as PollerLike<
+    OperationState<CommitBatchStatusOperationResponse>,
+    CommitBatchStatusOperationResponse
+  >;
 }
 
 export function _commitConfigurationSend(
@@ -378,7 +683,7 @@ export function _commitConfigurationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkFabricName: networkFabricName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -386,22 +691,26 @@ export function _commitConfigurationSend(
   );
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: !options?.body ? options?.body : commitConfigurationRequestSerializer(options?.body),
   });
 }
 
 export async function _commitConfigurationDeserialize(
   result: PathUncheckedResponse,
-): Promise<CommonPostActionResponseForStateUpdate> {
-  const expectedStatuses = ["202", "200", "201"];
+): Promise<CommitConfigurationResponse> {
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
-  return commonPostActionResponseForStateUpdateDeserializer(result.body);
+  return commitConfigurationResponseDeserializer(result.body);
 }
 
 /** Atomic update of the given Network Fabric instance. Sync update of NFA resources at Fabric level. */
@@ -410,21 +719,15 @@ export function commitConfiguration(
   resourceGroupName: string,
   networkFabricName: string,
   options: NetworkFabricsCommitConfigurationOptionalParams = { requestOptions: {} },
-): PollerLike<
-  OperationState<CommonPostActionResponseForStateUpdate>,
-  CommonPostActionResponseForStateUpdate
-> {
-  return getLongRunningPoller(context, _commitConfigurationDeserialize, ["202", "200", "201"], {
+): PollerLike<OperationState<CommitConfigurationResponse>, CommitConfigurationResponse> {
+  return getLongRunningPoller(context, _commitConfigurationDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _commitConfigurationSend(context, resourceGroupName, networkFabricName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2024-06-15-preview",
-  }) as PollerLike<
-    OperationState<CommonPostActionResponseForStateUpdate>,
-    CommonPostActionResponseForStateUpdate
-  >;
+    apiVersion: context.apiVersion ?? "2025-07-15",
+  }) as PollerLike<OperationState<CommitConfigurationResponse>, CommitConfigurationResponse>;
 }
 
 export function _getTopologySend(
@@ -439,7 +742,7 @@ export function _getTopologySend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkFabricName: networkFabricName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -453,16 +756,18 @@ export function _getTopologySend(
 
 export async function _getTopologyDeserialize(
   result: PathUncheckedResponse,
-): Promise<ValidateConfigurationResponse> {
-  const expectedStatuses = ["202", "200", "201"];
+): Promise<GetTopologyResponse> {
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
-  return validateConfigurationResponseDeserializer(result.body);
+  return getTopologyResponseDeserializer(result.body);
 }
 
 /** Gets Topology of the underlying resources in the given Network Fabric instance. */
@@ -471,15 +776,15 @@ export function getTopology(
   resourceGroupName: string,
   networkFabricName: string,
   options: NetworkFabricsGetTopologyOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<ValidateConfigurationResponse>, ValidateConfigurationResponse> {
-  return getLongRunningPoller(context, _getTopologyDeserialize, ["202", "200", "201"], {
+): PollerLike<OperationState<GetTopologyResponse>, GetTopologyResponse> {
+  return getLongRunningPoller(context, _getTopologyDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _getTopologySend(context, resourceGroupName, networkFabricName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2024-06-15-preview",
-  }) as PollerLike<OperationState<ValidateConfigurationResponse>, ValidateConfigurationResponse>;
+    apiVersion: context.apiVersion ?? "2025-07-15",
+  }) as PollerLike<OperationState<GetTopologyResponse>, GetTopologyResponse>;
 }
 
 export function _validateConfigurationSend(
@@ -495,7 +800,7 @@ export function _validateConfigurationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkFabricName: networkFabricName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -512,10 +817,12 @@ export function _validateConfigurationSend(
 export async function _validateConfigurationDeserialize(
   result: PathUncheckedResponse,
 ): Promise<ValidateConfigurationResponse> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -531,13 +838,13 @@ export function validateConfiguration(
   body: ValidateConfigurationProperties,
   options: NetworkFabricsValidateConfigurationOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<ValidateConfigurationResponse>, ValidateConfigurationResponse> {
-  return getLongRunningPoller(context, _validateConfigurationDeserialize, ["202", "200", "201"], {
+  return getLongRunningPoller(context, _validateConfigurationDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _validateConfigurationSend(context, resourceGroupName, networkFabricName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2024-06-15-preview",
+    apiVersion: context.apiVersion ?? "2025-07-15",
   }) as PollerLike<OperationState<ValidateConfigurationResponse>, ValidateConfigurationResponse>;
 }
 
@@ -556,7 +863,7 @@ export function _updateInfraManagementBfdConfigurationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkFabricName: networkFabricName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -572,16 +879,18 @@ export function _updateInfraManagementBfdConfigurationSend(
 
 export async function _updateInfraManagementBfdConfigurationDeserialize(
   result: PathUncheckedResponse,
-): Promise<CommonPostActionResponseForStateUpdate> {
-  const expectedStatuses = ["202", "200", "201"];
+): Promise<UpdateAdministrativeStateResponse> {
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
-  return commonPostActionResponseForStateUpdateDeserializer(result.body);
+  return updateAdministrativeStateResponseDeserializer(result.body);
 }
 
 /** Updates the Infra Management BFD Configuration of the underlying resources in the given Network Fabric instance. */
@@ -594,13 +903,13 @@ export function updateInfraManagementBfdConfiguration(
     requestOptions: {},
   },
 ): PollerLike<
-  OperationState<CommonPostActionResponseForStateUpdate>,
-  CommonPostActionResponseForStateUpdate
+  OperationState<UpdateAdministrativeStateResponse>,
+  UpdateAdministrativeStateResponse
 > {
   return getLongRunningPoller(
     context,
     _updateInfraManagementBfdConfigurationDeserialize,
-    ["202", "200", "201"],
+    ["200", "202", "201"],
     {
       updateIntervalInMs: options?.updateIntervalInMs,
       abortSignal: options?.abortSignal,
@@ -613,11 +922,11 @@ export function updateInfraManagementBfdConfiguration(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2024-06-15-preview",
+      apiVersion: context.apiVersion ?? "2025-07-15",
     },
   ) as PollerLike<
-    OperationState<CommonPostActionResponseForStateUpdate>,
-    CommonPostActionResponseForStateUpdate
+    OperationState<UpdateAdministrativeStateResponse>,
+    UpdateAdministrativeStateResponse
   >;
 }
 
@@ -636,7 +945,7 @@ export function _updateWorkloadManagementBfdConfigurationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkFabricName: networkFabricName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -652,16 +961,18 @@ export function _updateWorkloadManagementBfdConfigurationSend(
 
 export async function _updateWorkloadManagementBfdConfigurationDeserialize(
   result: PathUncheckedResponse,
-): Promise<CommonPostActionResponseForStateUpdate> {
-  const expectedStatuses = ["202", "200", "201"];
+): Promise<UpdateAdministrativeStateResponse> {
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
-  return commonPostActionResponseForStateUpdateDeserializer(result.body);
+  return updateAdministrativeStateResponseDeserializer(result.body);
 }
 
 /** Updates the Workload Management BFD Configuration of the underlying resources in the given Network Fabric instance. */
@@ -674,13 +985,13 @@ export function updateWorkloadManagementBfdConfiguration(
     requestOptions: {},
   },
 ): PollerLike<
-  OperationState<CommonPostActionResponseForStateUpdate>,
-  CommonPostActionResponseForStateUpdate
+  OperationState<UpdateAdministrativeStateResponse>,
+  UpdateAdministrativeStateResponse
 > {
   return getLongRunningPoller(
     context,
     _updateWorkloadManagementBfdConfigurationDeserialize,
-    ["202", "200", "201"],
+    ["200", "202", "201"],
     {
       updateIntervalInMs: options?.updateIntervalInMs,
       abortSignal: options?.abortSignal,
@@ -693,11 +1004,11 @@ export function updateWorkloadManagementBfdConfiguration(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2024-06-15-preview",
+      apiVersion: context.apiVersion ?? "2025-07-15",
     },
   ) as PollerLike<
-    OperationState<CommonPostActionResponseForStateUpdate>,
-    CommonPostActionResponseForStateUpdate
+    OperationState<UpdateAdministrativeStateResponse>,
+    UpdateAdministrativeStateResponse
   >;
 }
 
@@ -713,7 +1024,7 @@ export function _refreshConfigurationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkFabricName: networkFabricName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -727,16 +1038,18 @@ export function _refreshConfigurationSend(
 
 export async function _refreshConfigurationDeserialize(
   result: PathUncheckedResponse,
-): Promise<CommonPostActionResponseForStateUpdate> {
-  const expectedStatuses = ["202", "200", "201"];
+): Promise<OperationStatusResult> {
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
-  return commonPostActionResponseForStateUpdateDeserializer(result.body);
+  return operationStatusResultDeserializer(result.body);
 }
 
 /** Refreshes the configuration of the underlying resources in the given Network Fabric instance. */
@@ -745,21 +1058,15 @@ export function refreshConfiguration(
   resourceGroupName: string,
   networkFabricName: string,
   options: NetworkFabricsRefreshConfigurationOptionalParams = { requestOptions: {} },
-): PollerLike<
-  OperationState<CommonPostActionResponseForStateUpdate>,
-  CommonPostActionResponseForStateUpdate
-> {
-  return getLongRunningPoller(context, _refreshConfigurationDeserialize, ["202", "200", "201"], {
+): PollerLike<OperationState<OperationStatusResult>, OperationStatusResult> {
+  return getLongRunningPoller(context, _refreshConfigurationDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _refreshConfigurationSend(context, resourceGroupName, networkFabricName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2024-06-15-preview",
-  }) as PollerLike<
-    OperationState<CommonPostActionResponseForStateUpdate>,
-    CommonPostActionResponseForStateUpdate
-  >;
+    apiVersion: context.apiVersion ?? "2025-07-15",
+  }) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
 }
 
 export function _upgradeSend(
@@ -775,7 +1082,7 @@ export function _upgradeSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkFabricName: networkFabricName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -791,16 +1098,18 @@ export function _upgradeSend(
 
 export async function _upgradeDeserialize(
   result: PathUncheckedResponse,
-): Promise<CommonPostActionResponseForStateUpdate> {
-  const expectedStatuses = ["202", "200", "201"];
+): Promise<OperationStatusResult> {
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
-  return commonPostActionResponseForStateUpdateDeserializer(result.body);
+  return operationStatusResultDeserializer(result.body);
 }
 
 /** Upgrades the version of the underlying resources in the given Network Fabric instance. */
@@ -810,21 +1119,15 @@ export function upgrade(
   networkFabricName: string,
   body: UpgradeNetworkFabricProperties,
   options: NetworkFabricsUpgradeOptionalParams = { requestOptions: {} },
-): PollerLike<
-  OperationState<CommonPostActionResponseForStateUpdate>,
-  CommonPostActionResponseForStateUpdate
-> {
-  return getLongRunningPoller(context, _upgradeDeserialize, ["202", "200", "201"], {
+): PollerLike<OperationState<OperationStatusResult>, OperationStatusResult> {
+  return getLongRunningPoller(context, _upgradeDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _upgradeSend(context, resourceGroupName, networkFabricName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2024-06-15-preview",
-  }) as PollerLike<
-    OperationState<CommonPostActionResponseForStateUpdate>,
-    CommonPostActionResponseForStateUpdate
-  >;
+    apiVersion: context.apiVersion ?? "2025-07-15",
+  }) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
 }
 
 export function _deprovisionSend(
@@ -839,7 +1142,7 @@ export function _deprovisionSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkFabricName: networkFabricName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -853,16 +1156,18 @@ export function _deprovisionSend(
 
 export async function _deprovisionDeserialize(
   result: PathUncheckedResponse,
-): Promise<CommonPostActionResponseForDeviceUpdate> {
-  const expectedStatuses = ["202", "200", "201"];
+): Promise<OperationStatusResult> {
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
-  return commonPostActionResponseForDeviceUpdateDeserializer(result.body);
+  return operationStatusResultDeserializer(result.body);
 }
 
 /** Deprovisions the underlying resources in the given Network Fabric instance. */
@@ -871,21 +1176,15 @@ export function deprovision(
   resourceGroupName: string,
   networkFabricName: string,
   options: NetworkFabricsDeprovisionOptionalParams = { requestOptions: {} },
-): PollerLike<
-  OperationState<CommonPostActionResponseForDeviceUpdate>,
-  CommonPostActionResponseForDeviceUpdate
-> {
-  return getLongRunningPoller(context, _deprovisionDeserialize, ["202", "200", "201"], {
+): PollerLike<OperationState<OperationStatusResult>, OperationStatusResult> {
+  return getLongRunningPoller(context, _deprovisionDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _deprovisionSend(context, resourceGroupName, networkFabricName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2024-06-15-preview",
-  }) as PollerLike<
-    OperationState<CommonPostActionResponseForDeviceUpdate>,
-    CommonPostActionResponseForDeviceUpdate
-  >;
+    apiVersion: context.apiVersion ?? "2025-07-15",
+  }) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
 }
 
 export function _provisionSend(
@@ -900,7 +1199,7 @@ export function _provisionSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkFabricName: networkFabricName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -914,16 +1213,18 @@ export function _provisionSend(
 
 export async function _provisionDeserialize(
   result: PathUncheckedResponse,
-): Promise<CommonPostActionResponseForDeviceUpdate> {
-  const expectedStatuses = ["202", "200", "201"];
+): Promise<OperationStatusResult> {
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
-  return commonPostActionResponseForDeviceUpdateDeserializer(result.body);
+  return operationStatusResultDeserializer(result.body);
 }
 
 /** Provisions the underlying resources in the given Network Fabric instance. */
@@ -932,21 +1233,15 @@ export function provision(
   resourceGroupName: string,
   networkFabricName: string,
   options: NetworkFabricsProvisionOptionalParams = { requestOptions: {} },
-): PollerLike<
-  OperationState<CommonPostActionResponseForDeviceUpdate>,
-  CommonPostActionResponseForDeviceUpdate
-> {
-  return getLongRunningPoller(context, _provisionDeserialize, ["202", "200", "201"], {
+): PollerLike<OperationState<OperationStatusResult>, OperationStatusResult> {
+  return getLongRunningPoller(context, _provisionDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _provisionSend(context, resourceGroupName, networkFabricName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2024-06-15-preview",
-  }) as PollerLike<
-    OperationState<CommonPostActionResponseForDeviceUpdate>,
-    CommonPostActionResponseForDeviceUpdate
-  >;
+    apiVersion: context.apiVersion ?? "2025-07-15",
+  }) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
 }
 
 export function _listBySubscriptionSend(
@@ -957,7 +1252,7 @@ export function _listBySubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.ManagedNetworkFabric/networkFabrics{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -975,7 +1270,9 @@ export async function _listBySubscriptionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -993,11 +1290,7 @@ export function listBySubscription(
     () => _listBySubscriptionSend(context, options),
     _listBySubscriptionDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2024-06-15-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-15" },
   );
 }
 
@@ -1011,7 +1304,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1029,7 +1322,9 @@ export async function _listByResourceGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1048,11 +1343,7 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2024-06-15-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-15" },
   );
 }
 
@@ -1068,7 +1359,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkFabricName: networkFabricName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1081,7 +1372,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1090,11 +1383,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete Network Fabric resource. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -1106,7 +1394,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, networkFabricName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2024-06-15-preview",
+    apiVersion: context.apiVersion ?? "2025-07-15",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -1123,7 +1411,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkFabricName: networkFabricName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1141,7 +1429,9 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1163,7 +1453,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, networkFabricName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2024-06-15-preview",
+    apiVersion: context.apiVersion ?? "2025-07-15",
   }) as PollerLike<OperationState<NetworkFabric>, NetworkFabric>;
 }
 
@@ -1180,7 +1470,7 @@ export function _createSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkFabricName: networkFabricName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1198,7 +1488,9 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1220,7 +1512,7 @@ export function create(
     getInitialResponse: () =>
       _createSend(context, resourceGroupName, networkFabricName, body, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2024-06-15-preview",
+    apiVersion: context.apiVersion ?? "2025-07-15",
   }) as PollerLike<OperationState<NetworkFabric>, NetworkFabric>;
 }
 
@@ -1236,7 +1528,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkFabricName: networkFabricName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1252,7 +1544,9 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ne
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

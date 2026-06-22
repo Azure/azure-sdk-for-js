@@ -1,11 +1,11 @@
 {
   "apiVersions": {
-    "Compute": "2025-11-01",
+    "Compute": "2026-03-01",
     "ComputeDisk": "2025-01-02",
     "ComputeGallery": "2025-03-03",
     "ComputeSku": "2021-07-01"
   },
-  "emitterVersion": "0.52.2",
+  "emitterVersion": "0.54.1",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Compute",
     "CrossLanguageDefinitionId": {
@@ -67,6 +67,7 @@
       "@azure/arm-compute!VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings:interface": "Compute.VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings",
       "@azure/arm-compute!VirtualMachineScaleSetIpTag:interface": "Compute.VirtualMachineScaleSetIpTag",
       "@azure/arm-compute!PublicIPAddressSku:interface": "Compute.PublicIPAddressSku",
+      "@azure/arm-compute!InterconnectGroupProfile:interface": "Compute.InterconnectGroupProfile",
       "@azure/arm-compute!SecurityProfile:interface": "Compute.SecurityProfile",
       "@azure/arm-compute!UefiSettings:interface": "Compute.UefiSettings",
       "@azure/arm-compute!EncryptionIdentity:interface": "Compute.EncryptionIdentity",
@@ -84,6 +85,7 @@
       "@azure/arm-compute!TerminateNotificationProfile:interface": "Compute.TerminateNotificationProfile",
       "@azure/arm-compute!OSImageNotificationProfile:interface": "Compute.OSImageNotificationProfile",
       "@azure/arm-compute!CapacityReservationProfile:interface": "Compute.CapacityReservationProfile",
+      "@azure/arm-compute!InterconnectBlockProfile:interface": "Compute.InterconnectBlockProfile",
       "@azure/arm-compute!ApplicationProfile:interface": "Compute.ApplicationProfile",
       "@azure/arm-compute!VMGalleryApplication:interface": "Compute.VMGalleryApplication",
       "@azure/arm-compute!VirtualMachineScaleSetHardwareProfile:interface": "Compute.VirtualMachineScaleSetHardwareProfile",
@@ -106,6 +108,7 @@
       "@azure/arm-compute!ReimageRecoveryPolicy:interface": "Compute.ReimageRecoveryPolicy",
       "@azure/arm-compute!SkuProfile:interface": "Compute.SkuProfile",
       "@azure/arm-compute!SkuProfileVMSize:interface": "Compute.SkuProfileVMSize",
+      "@azure/arm-compute!AutomaticSkuMigrationPolicy:interface": "Compute.AutomaticSkuMigrationPolicy",
       "@azure/arm-compute!LifecycleHooksProfile:interface": "Compute.LifecycleHooksProfile",
       "@azure/arm-compute!LifecycleHook:interface": "Compute.LifecycleHook",
       "@azure/arm-compute!ExternalHealthPolicy:interface": "Compute.ExternalHealthPolicy",
@@ -209,6 +212,7 @@
       "@azure/arm-compute!VirtualMachinePatchStatus:interface": "Compute.VirtualMachinePatchStatus",
       "@azure/arm-compute!AvailablePatchSummary:interface": "Compute.AvailablePatchSummary",
       "@azure/arm-compute!LastPatchInstallationSummary:interface": "Compute.LastPatchInstallationSummary",
+      "@azure/arm-compute!InterconnectInstanceView:interface": "Compute.InterconnectInstanceView",
       "@azure/arm-compute!ResiliencyProfile:interface": "Compute.ResiliencyProfile",
       "@azure/arm-compute!ZoneMovement:interface": "Compute.ZoneMovement",
       "@azure/arm-compute!VirtualMachineExtension:interface": "Compute.VirtualMachineExtension",
@@ -305,6 +309,11 @@
       "@azure/arm-compute!ScheduleProfile:interface": "Compute.ScheduleProfile",
       "@azure/arm-compute!CapacityReservationUpdate:interface": "Compute.CapacityReservationUpdate",
       "@azure/arm-compute!CapacityReservationListResult:interface": "Compute.CapacityReservationListResult",
+      "@azure/arm-compute!InterconnectBlock:interface": "Compute.InterconnectBlock",
+      "@azure/arm-compute!InterconnectBlockProperties:interface": "Compute.InterconnectBlockProperties",
+      "@azure/arm-compute!InterconnectBlockInstanceView:interface": "Compute.InterconnectBlockInstanceView",
+      "@azure/arm-compute!InterconnectBlockUpdate:interface": "Compute.InterconnectBlockUpdate",
+      "@azure/arm-compute!InterconnectBlockListResult:interface": "Compute.InterconnectBlockListResult",
       "@azure/arm-compute!VirtualMachineRunCommand:interface": "Compute.VirtualMachineRunCommand",
       "@azure/arm-compute!VirtualMachineRunCommandProperties:interface": "Compute.VirtualMachineRunCommandProperties",
       "@azure/arm-compute!VirtualMachineRunCommandScriptSource:interface": "Compute.VirtualMachineRunCommandScriptSource",
@@ -640,6 +649,7 @@
       "@azure/arm-compute!KnownExpandTypesForGetCapacityReservationGroups:enum": "Compute.ExpandTypesForGetCapacityReservationGroups",
       "@azure/arm-compute!KnownResourceIdOptionsForGetCapacityReservationGroups:enum": "Compute.ResourceIdOptionsForGetCapacityReservationGroups",
       "@azure/arm-compute!KnownCapacityReservationInstanceViewTypes:enum": "Compute.CapacityReservationInstanceViewTypes",
+      "@azure/arm-compute!KnownInterconnectBlockExpandTypes:enum": "Compute.InterconnectBlockExpandTypes",
       "@azure/arm-compute!KnownScriptShellTypes:enum": "Compute.ScriptShellTypes",
       "@azure/arm-compute!KnownExecutionState:enum": "Compute.ExecutionState",
       "@azure/arm-compute!KnownHyperVGeneration:enum": "Common.HyperVGeneration",
@@ -861,6 +871,12 @@
       "@azure/arm-compute!VirtualMachineRunCommandsOperations#update:member": "Compute.VirtualMachineRunCommands.update",
       "@azure/arm-compute!VirtualMachineRunCommandsOperations#createOrUpdate:member": "Compute.VirtualMachineRunCommands.createOrUpdate",
       "@azure/arm-compute!VirtualMachineRunCommandsOperations#getByVirtualMachine:member": "Compute.VirtualMachineRunCommands.getByVirtualMachine",
+      "@azure/arm-compute!InterconnectBlocksOperations#listBySubscription:member": "Compute.InterconnectBlocks.listBySubscription",
+      "@azure/arm-compute!InterconnectBlocksOperations#listByResourceGroup:member": "Compute.InterconnectBlocks.listByResourceGroup",
+      "@azure/arm-compute!InterconnectBlocksOperations#delete:member": "Compute.InterconnectBlocks.delete",
+      "@azure/arm-compute!InterconnectBlocksOperations#update:member": "Compute.InterconnectBlocks.update",
+      "@azure/arm-compute!InterconnectBlocksOperations#createOrUpdate:member": "Compute.InterconnectBlocks.createOrUpdate",
+      "@azure/arm-compute!InterconnectBlocksOperations#get:member": "Compute.InterconnectBlocks.get",
       "@azure/arm-compute!CapacityReservationsOperations#listByCapacityReservationGroup:member": "Compute.CapacityReservations.listByCapacityReservationGroup",
       "@azure/arm-compute!CapacityReservationsOperations#delete:member": "Compute.CapacityReservations.delete",
       "@azure/arm-compute!CapacityReservationsOperations#update:member": "Compute.CapacityReservations.update",
@@ -992,7 +1008,7 @@
       "@azure/arm-compute!VirtualMachineScaleSetsOperations#update:member": "Compute.VirtualMachineScaleSets.update",
       "@azure/arm-compute!VirtualMachineScaleSetsOperations#createOrUpdate:member": "Compute.VirtualMachineScaleSets.createOrUpdate",
       "@azure/arm-compute!VirtualMachineScaleSetsOperations#get:member": "Compute.VirtualMachineScaleSets.get",
-      "@azure/arm-compute!OperationsOperations#list:member": "Azure.ResourceManager.Legacy.Operations.list"
+      "@azure/arm-compute!OperationsOperations#list:member": "Compute.Operations.list"
     }
   }
 }
