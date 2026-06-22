@@ -8,8 +8,8 @@ import type { TokenCredential } from "@azure/core-auth";
 import type { PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import type {
+  AgentsOperations,
   AIProjectClientOptionalParams,
-  BetaAgentsOperations,
   CreateAgentVersionFromCodeContent,
   HostedAgentDefinition,
 } from "../../../../src/index.js";
@@ -66,7 +66,7 @@ type MockPipelineResponse = Partial<PipelineResponse> & { jsonBody?: unknown };
 
 function createCodeAgentsClient(
   responseFn: (request: PipelineRequest) => MockPipelineResponse,
-): BetaAgentsOperations {
+): AgentsOperations {
   const options: AIProjectClientOptionalParams = { additionalPolicies: [] };
   options.additionalPolicies?.push({
     policy: {
@@ -99,7 +99,7 @@ function createCodeAgentsClient(
     credential,
     options,
   );
-  return client.beta.agents;
+  return client.agents;
 }
 
 describe("beta agents - code-based operations", () => {

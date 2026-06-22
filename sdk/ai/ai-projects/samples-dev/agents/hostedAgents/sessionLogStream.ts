@@ -131,7 +131,7 @@ export async function main(): Promise<void> {
           } as FixedRatioVersionSelectionRule,
         ],
       },
-      protocols: ["responses"],
+      protocol_configuration: { responses: {} },
     };
 
     await project.agents.updateAgent(agentName, {
