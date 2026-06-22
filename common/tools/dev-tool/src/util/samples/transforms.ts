@@ -90,7 +90,11 @@ export function importDeclarationToCommonJs(
     factory.createCallExpression(
       factory.createIdentifier("require"),
       /* typeArguments: */ undefined,
-      [factory.createStringLiteral((decl.moduleSpecifier as ts.StringLiteral).text)],
+      [
+        factory.createStringLiteral(
+          convertTsExtensionToJs((decl.moduleSpecifier as ts.StringLiteral).text),
+        ),
+      ],
     );
 
   if (!decl.importClause) {
@@ -240,6 +244,27 @@ export function isNodeBuiltin(moduleSpecifier: string): boolean {
  * @param input - a string to test
  */
 export const isRelativePath = (input: string): boolean => /^\.\.?[/\\]/.test(input);
+
+/**
+ * Rewrites a relative module specifier ending in `.ts` to use `.js` instead.
+ *
+ * Sample sources under `samples-dev/` use `.ts` extensions on relative imports
+ * so that Node's native TypeScript loader can resolve sibling sample files
+ * directly. When publishing the camera-ready samples, both the TypeScript and
+ * JavaScript outputs are emitted as `.js`, so the import specifiers must be
+ * rewritten to match.
+ *
+ * Non-relative specifiers (package imports, node builtins) and specifiers that
+ * are not `.ts` are returned unchanged. `.d.ts` specifiers are also left alone.
+ *
+ * @param specifier - the module specifier to normalize
+ */
+export function convertTsExtensionToJs(specifier: string): string {
+  if (isRelativePath(specifier) && specifier.endsWith(".ts") && !specifier.endsWith(".d.ts")) {
+    return specifier.slice(0, -".ts".length) + ".js";
+  }
+  return specifier;
+}
 
 /**
  * Determines whether a module specifier is a package dependency.

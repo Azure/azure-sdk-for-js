@@ -6,7 +6,7 @@
  */
 
 import "dotenv/config";
-import { logSampleHeader, handleError, finish, logStep } from "./Shared/handleError.js";
+import { logSampleHeader, handleError, finish, logStep } from "./Shared/handleError.ts";
 import { CosmosClient } from "@azure/cosmos";
 import { randomUUID } from "@azure/core-util";
 

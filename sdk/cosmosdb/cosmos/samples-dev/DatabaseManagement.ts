@@ -6,7 +6,7 @@
  */
 
 import "dotenv/config";
-import { handleError, logStep, logSampleHeader, finish } from "./Shared/handleError.js";
+import { handleError, logStep, logSampleHeader, finish } from "./Shared/handleError.ts";
 import { CosmosClient } from "@azure/cosmos";
 import assert from "node:assert";
 

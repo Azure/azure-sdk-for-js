@@ -8,7 +8,7 @@
 import "dotenv/config";
 import type { ChangeFeedIteratorOptions } from "@azure/cosmos";
 import { CosmosClient, BulkOperationType, ChangeFeedStartFrom } from "@azure/cosmos";
-import { handleError, logStep } from "./Shared/handleError.js";
+import { handleError, logStep } from "./Shared/handleError.ts";
 
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
 const key = process.env.COSMOS_KEY || "<cosmos key>";

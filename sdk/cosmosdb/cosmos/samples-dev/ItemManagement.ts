@@ -6,7 +6,7 @@
  */
 
 import "dotenv/config";
-import { logSampleHeader, handleError, finish, logStep } from "./Shared/handleError.js";
+import { logSampleHeader, handleError, finish, logStep } from "./Shared/handleError.ts";
 import type { PatchOperation } from "@azure/cosmos";
 import { CosmosClient, PriorityLevel } from "@azure/cosmos";
 import FamiliesJSON from "./Data/Families.json" with { type: "json" };

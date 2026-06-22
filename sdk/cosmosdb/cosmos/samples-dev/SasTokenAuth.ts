@@ -8,7 +8,7 @@
 import "dotenv/config";
 import type { SasTokenProperties } from "@azure/cosmos";
 import { CosmosClient, createAuthorizationSasToken, SasTokenPermissionKind } from "@azure/cosmos";
-import { handleError, finish, logStep } from "./Shared/handleError.js";
+import { handleError, finish, logStep } from "./Shared/handleError.ts";
 const masterKey = process.env.COSMOS_KEY || "<cosmos key>";
 const endpoint = process.env.COSMOS_ENDPOINT || "<cosmos endpoint>";
 const sasToken = "your-sas-token";

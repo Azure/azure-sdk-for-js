@@ -12,7 +12,7 @@
 
 import { DocumentAnalysisClient } from "@azure/ai-form-recognizer";
 import { DefaultAzureCredential } from "@azure/identity";
-import { PrebuiltLayoutModel } from "./prebuilt/prebuilt-layout.js";
+import { PrebuiltLayoutModel } from "./prebuilt/prebuilt-layout.ts";
 import "dotenv/config";
 
 async function main(): Promise<void> {

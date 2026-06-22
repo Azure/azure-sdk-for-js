@@ -9,8 +9,8 @@
 
 import { DocumentAnalysisClient } from "@azure/ai-form-recognizer";
 import { DefaultAzureCredential } from "@azure/identity";
-import { PrebuiltReadModel } from "./prebuilt/prebuilt-read.js";
-import { getTextOfSpans } from "./utils.js";
+import { PrebuiltReadModel } from "./prebuilt/prebuilt-read.ts";
+import { getTextOfSpans } from "./utils.ts";
 import "dotenv/config";
 
 async function main(): Promise<void> {

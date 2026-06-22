@@ -9,7 +9,7 @@
 import type { SearchIndex, SearchIndexClient } from "@azure/search-documents";
 import { KnownAnalyzerNames } from "@azure/search-documents";
 import "dotenv/config";
-import type { Hotel } from "./interfaces.js";
+import type { Hotel } from "./interfaces.ts";
 
 export const WAIT_TIME = 4000;
 

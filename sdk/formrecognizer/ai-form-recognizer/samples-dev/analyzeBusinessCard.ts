@@ -16,7 +16,7 @@
 
 import { DocumentAnalysisClient } from "@azure/ai-form-recognizer";
 import { DefaultAzureCredential } from "@azure/identity";
-import { PrebuiltBusinessCardModel } from "./prebuilt/prebuilt-businessCard.js";
+import { PrebuiltBusinessCardModel } from "./prebuilt/prebuilt-businessCard.ts";
 import "dotenv/config";
 
 async function main(): Promise<void> {
