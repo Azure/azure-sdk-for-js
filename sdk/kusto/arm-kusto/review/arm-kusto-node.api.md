@@ -184,8 +184,7 @@ export interface Cluster extends TrackedResource {
     readonly etag?: string;
     identity?: Identity;
     keyVaultProperties?: KeyVaultProperties;
-    // Warning: (ae-forgotten-export) The symbol "_LanguageExtensionsList" needs to be exported by the entry point index.d.ts
-    languageExtensions?: _LanguageExtensionsList;
+    languageExtensions?: LanguageExtensionsList;
     readonly migrationCluster?: MigrationClusterProperties;
     optimizedAutoscale?: OptimizedAutoscale;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
@@ -304,7 +303,7 @@ export interface ClusterProperties {
     enableStreamingIngest?: boolean;
     engineType?: EngineType;
     keyVaultProperties?: KeyVaultProperties;
-    languageExtensions?: _LanguageExtensionsList;
+    languageExtensions?: LanguageExtensionsList;
     readonly migrationCluster?: MigrationClusterProperties;
     optimizedAutoscale?: OptimizedAutoscale;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
@@ -406,15 +405,15 @@ export interface ClustersMigrateOptionalParams extends OperationOptions {
 export interface ClustersOperations {
     // Warning: (ae-forgotten-export) The symbol "_CalloutPoliciesList" needs to be exported by the entry point index.d.ts
     addCalloutPolicies: (resourceGroupName: string, clusterName: string, calloutPolicies: _CalloutPoliciesList, options?: ClustersAddCalloutPoliciesOptionalParams) => PollerLike<OperationState<void>, void>;
-    addLanguageExtensions: (resourceGroupName: string, clusterName: string, languageExtensionsToAdd: _LanguageExtensionsList, options?: ClustersAddLanguageExtensionsOptionalParams) => PollerLike<OperationState<void>, void>;
+    addLanguageExtensions: (resourceGroupName: string, clusterName: string, languageExtensionsToAdd: LanguageExtensionsList, options?: ClustersAddLanguageExtensionsOptionalParams) => PollerLike<OperationState<void>, void>;
     // @deprecated (undocumented)
     beginAddCalloutPolicies: (resourceGroupName: string, clusterName: string, calloutPolicies: _CalloutPoliciesList, options?: ClustersAddCalloutPoliciesOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
     // @deprecated (undocumented)
     beginAddCalloutPoliciesAndWait: (resourceGroupName: string, clusterName: string, calloutPolicies: _CalloutPoliciesList, options?: ClustersAddCalloutPoliciesOptionalParams) => Promise<void>;
     // @deprecated (undocumented)
-    beginAddLanguageExtensions: (resourceGroupName: string, clusterName: string, languageExtensionsToAdd: _LanguageExtensionsList, options?: ClustersAddLanguageExtensionsOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginAddLanguageExtensions: (resourceGroupName: string, clusterName: string, languageExtensionsToAdd: LanguageExtensionsList, options?: ClustersAddLanguageExtensionsOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
     // @deprecated (undocumented)
-    beginAddLanguageExtensionsAndWait: (resourceGroupName: string, clusterName: string, languageExtensionsToAdd: _LanguageExtensionsList, options?: ClustersAddLanguageExtensionsOptionalParams) => Promise<void>;
+    beginAddLanguageExtensionsAndWait: (resourceGroupName: string, clusterName: string, languageExtensionsToAdd: LanguageExtensionsList, options?: ClustersAddLanguageExtensionsOptionalParams) => Promise<void>;
     // @deprecated (undocumented)
     beginCreateOrUpdate: (resourceGroupName: string, clusterName: string, parameters: Cluster, options?: ClustersCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Cluster>, Cluster>>;
     // @deprecated (undocumented)
@@ -440,9 +439,9 @@ export interface ClustersOperations {
     // @deprecated (undocumented)
     beginRemoveCalloutPolicyAndWait: (resourceGroupName: string, clusterName: string, calloutPolicy: CalloutPolicyToRemove, options?: ClustersRemoveCalloutPolicyOptionalParams) => Promise<void>;
     // @deprecated (undocumented)
-    beginRemoveLanguageExtensions: (resourceGroupName: string, clusterName: string, languageExtensionsToRemove: _LanguageExtensionsList, options?: ClustersRemoveLanguageExtensionsOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginRemoveLanguageExtensions: (resourceGroupName: string, clusterName: string, languageExtensionsToRemove: LanguageExtensionsList, options?: ClustersRemoveLanguageExtensionsOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
     // @deprecated (undocumented)
-    beginRemoveLanguageExtensionsAndWait: (resourceGroupName: string, clusterName: string, languageExtensionsToRemove: _LanguageExtensionsList, options?: ClustersRemoveLanguageExtensionsOptionalParams) => Promise<void>;
+    beginRemoveLanguageExtensionsAndWait: (resourceGroupName: string, clusterName: string, languageExtensionsToRemove: LanguageExtensionsList, options?: ClustersRemoveLanguageExtensionsOptionalParams) => Promise<void>;
     // @deprecated (undocumented)
     beginStart: (resourceGroupName: string, clusterName: string, options?: ClustersStartOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
     // @deprecated (undocumented)
@@ -472,7 +471,7 @@ export interface ClustersOperations {
     listSkusByResource: (resourceGroupName: string, clusterName: string, options?: ClustersListSkusByResourceOptionalParams) => PagedAsyncIterableIterator<AzureResourceSku>;
     migrate: (resourceGroupName: string, clusterName: string, clusterMigrateRequest: ClusterMigrateRequest, options?: ClustersMigrateOptionalParams) => PollerLike<OperationState<void>, void>;
     removeCalloutPolicy: (resourceGroupName: string, clusterName: string, calloutPolicy: CalloutPolicyToRemove, options?: ClustersRemoveCalloutPolicyOptionalParams) => PollerLike<OperationState<void>, void>;
-    removeLanguageExtensions: (resourceGroupName: string, clusterName: string, languageExtensionsToRemove: _LanguageExtensionsList, options?: ClustersRemoveLanguageExtensionsOptionalParams) => PollerLike<OperationState<void>, void>;
+    removeLanguageExtensions: (resourceGroupName: string, clusterName: string, languageExtensionsToRemove: LanguageExtensionsList, options?: ClustersRemoveLanguageExtensionsOptionalParams) => PollerLike<OperationState<void>, void>;
     start: (resourceGroupName: string, clusterName: string, options?: ClustersStartOptionalParams) => PollerLike<OperationState<void>, void>;
     stop: (resourceGroupName: string, clusterName: string, options?: ClustersStopOptionalParams) => PollerLike<OperationState<void>, void>;
     update: (resourceGroupName: string, clusterName: string, parameters: ClusterUpdate, options?: ClustersUpdateOptionalParams) => PollerLike<OperationState<Cluster>, Cluster>;
@@ -519,7 +518,7 @@ export interface ClusterUpdate extends Resource {
     engineType?: EngineType;
     identity?: Identity;
     keyVaultProperties?: KeyVaultProperties;
-    languageExtensions?: _LanguageExtensionsList;
+    languageExtensions?: LanguageExtensionsList;
     location?: string;
     readonly migrationCluster?: MigrationClusterProperties;
     optimizedAutoscale?: OptimizedAutoscale;
@@ -1592,6 +1591,12 @@ export type LanguageExtensionImageName = string;
 
 // @public
 export type LanguageExtensionName = string;
+
+// @public
+export interface LanguageExtensionsList {
+    nextLink?: string;
+    value?: LanguageExtension[];
+}
 
 // @public
 export interface ManagedPrivateEndpoint extends ProxyResource {

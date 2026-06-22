@@ -5,7 +5,7 @@ import type { KustoManagementContext as Client } from "../index.js";
 import type {
   CheckNameResult,
   Cluster,
-  _LanguageExtensionsList,
+  LanguageExtensionsList,
   LanguageExtension,
   CalloutPolicy,
   ClusterUpdate,
@@ -31,8 +31,8 @@ import {
   checkNameResultDeserializer,
   clusterSerializer,
   clusterDeserializer,
-  _languageExtensionsListSerializer,
-  _languageExtensionsListDeserializer,
+  languageExtensionsListSerializer,
+  languageExtensionsListDeserializer,
   clusterUpdateSerializer,
   _clusterListResultDeserializer,
   clusterMigrateRequestSerializer,
@@ -187,7 +187,7 @@ export function _removeLanguageExtensionsSend(
   context: Client,
   resourceGroupName: string,
   clusterName: string,
-  languageExtensionsToRemove: _LanguageExtensionsList,
+  languageExtensionsToRemove: LanguageExtensionsList,
   options: ClustersRemoveLanguageExtensionsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -205,7 +205,7 @@ export function _removeLanguageExtensionsSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    body: _languageExtensionsListSerializer(languageExtensionsToRemove),
+    body: languageExtensionsListSerializer(languageExtensionsToRemove),
   });
 }
 
@@ -230,7 +230,7 @@ export function removeLanguageExtensions(
   context: Client,
   resourceGroupName: string,
   clusterName: string,
-  languageExtensionsToRemove: _LanguageExtensionsList,
+  languageExtensionsToRemove: LanguageExtensionsList,
   options: ClustersRemoveLanguageExtensionsOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
   return getLongRunningPoller(
@@ -258,7 +258,7 @@ export function _addLanguageExtensionsSend(
   context: Client,
   resourceGroupName: string,
   clusterName: string,
-  languageExtensionsToAdd: _LanguageExtensionsList,
+  languageExtensionsToAdd: LanguageExtensionsList,
   options: ClustersAddLanguageExtensionsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -276,7 +276,7 @@ export function _addLanguageExtensionsSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    body: _languageExtensionsListSerializer(languageExtensionsToAdd),
+    body: languageExtensionsListSerializer(languageExtensionsToAdd),
   });
 }
 
@@ -301,7 +301,7 @@ export function addLanguageExtensions(
   context: Client,
   resourceGroupName: string,
   clusterName: string,
-  languageExtensionsToAdd: _LanguageExtensionsList,
+  languageExtensionsToAdd: LanguageExtensionsList,
   options: ClustersAddLanguageExtensionsOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
   return getLongRunningPoller(context, _addLanguageExtensionsDeserialize, ["202", "200", "201"], {
@@ -346,7 +346,7 @@ export function _listLanguageExtensionsSend(
 
 export async function _listLanguageExtensionsDeserialize(
   result: PathUncheckedResponse,
-): Promise<_LanguageExtensionsList> {
+): Promise<LanguageExtensionsList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -357,7 +357,7 @@ export async function _listLanguageExtensionsDeserialize(
     throw error;
   }
 
-  return _languageExtensionsListDeserializer(result.body);
+  return languageExtensionsListDeserializer(result.body);
 }
 
 /** Returns a list of language extensions that can run within KQL queries. */

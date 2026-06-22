@@ -55,7 +55,7 @@ import type {
 import type {
   CheckNameResult,
   Cluster,
-  _LanguageExtensionsList,
+  LanguageExtensionsList,
   LanguageExtension,
   CalloutPolicy,
   ClusterUpdate,
@@ -91,42 +91,42 @@ export interface ClustersOperations {
   removeLanguageExtensions: (
     resourceGroupName: string,
     clusterName: string,
-    languageExtensionsToRemove: _LanguageExtensionsList,
+    languageExtensionsToRemove: LanguageExtensionsList,
     options?: ClustersRemoveLanguageExtensionsOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
   /** @deprecated use removeLanguageExtensions instead */
   beginRemoveLanguageExtensions: (
     resourceGroupName: string,
     clusterName: string,
-    languageExtensionsToRemove: _LanguageExtensionsList,
+    languageExtensionsToRemove: LanguageExtensionsList,
     options?: ClustersRemoveLanguageExtensionsOptionalParams,
   ) => Promise<SimplePollerLike<OperationState<void>, void>>;
   /** @deprecated use removeLanguageExtensions instead */
   beginRemoveLanguageExtensionsAndWait: (
     resourceGroupName: string,
     clusterName: string,
-    languageExtensionsToRemove: _LanguageExtensionsList,
+    languageExtensionsToRemove: LanguageExtensionsList,
     options?: ClustersRemoveLanguageExtensionsOptionalParams,
   ) => Promise<void>;
   /** Add a list of language extensions that can run within KQL queries. */
   addLanguageExtensions: (
     resourceGroupName: string,
     clusterName: string,
-    languageExtensionsToAdd: _LanguageExtensionsList,
+    languageExtensionsToAdd: LanguageExtensionsList,
     options?: ClustersAddLanguageExtensionsOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
   /** @deprecated use addLanguageExtensions instead */
   beginAddLanguageExtensions: (
     resourceGroupName: string,
     clusterName: string,
-    languageExtensionsToAdd: _LanguageExtensionsList,
+    languageExtensionsToAdd: LanguageExtensionsList,
     options?: ClustersAddLanguageExtensionsOptionalParams,
   ) => Promise<SimplePollerLike<OperationState<void>, void>>;
   /** @deprecated use addLanguageExtensions instead */
   beginAddLanguageExtensionsAndWait: (
     resourceGroupName: string,
     clusterName: string,
-    languageExtensionsToAdd: _LanguageExtensionsList,
+    languageExtensionsToAdd: LanguageExtensionsList,
     options?: ClustersAddLanguageExtensionsOptionalParams,
   ) => Promise<void>;
   /** Returns a list of language extensions that can run within KQL queries. */
@@ -391,7 +391,7 @@ function _getClusters(context: KustoManagementContext) {
     removeLanguageExtensions: (
       resourceGroupName: string,
       clusterName: string,
-      languageExtensionsToRemove: _LanguageExtensionsList,
+      languageExtensionsToRemove: LanguageExtensionsList,
       options?: ClustersRemoveLanguageExtensionsOptionalParams,
     ) =>
       removeLanguageExtensions(
@@ -404,7 +404,7 @@ function _getClusters(context: KustoManagementContext) {
     beginRemoveLanguageExtensions: async (
       resourceGroupName: string,
       clusterName: string,
-      languageExtensionsToRemove: _LanguageExtensionsList,
+      languageExtensionsToRemove: LanguageExtensionsList,
       options?: ClustersRemoveLanguageExtensionsOptionalParams,
     ) => {
       const poller = removeLanguageExtensions(
@@ -420,7 +420,7 @@ function _getClusters(context: KustoManagementContext) {
     beginRemoveLanguageExtensionsAndWait: async (
       resourceGroupName: string,
       clusterName: string,
-      languageExtensionsToRemove: _LanguageExtensionsList,
+      languageExtensionsToRemove: LanguageExtensionsList,
       options?: ClustersRemoveLanguageExtensionsOptionalParams,
     ) => {
       return await removeLanguageExtensions(
@@ -434,7 +434,7 @@ function _getClusters(context: KustoManagementContext) {
     addLanguageExtensions: (
       resourceGroupName: string,
       clusterName: string,
-      languageExtensionsToAdd: _LanguageExtensionsList,
+      languageExtensionsToAdd: LanguageExtensionsList,
       options?: ClustersAddLanguageExtensionsOptionalParams,
     ) =>
       addLanguageExtensions(
@@ -447,7 +447,7 @@ function _getClusters(context: KustoManagementContext) {
     beginAddLanguageExtensions: async (
       resourceGroupName: string,
       clusterName: string,
-      languageExtensionsToAdd: _LanguageExtensionsList,
+      languageExtensionsToAdd: LanguageExtensionsList,
       options?: ClustersAddLanguageExtensionsOptionalParams,
     ) => {
       const poller = addLanguageExtensions(
@@ -463,7 +463,7 @@ function _getClusters(context: KustoManagementContext) {
     beginAddLanguageExtensionsAndWait: async (
       resourceGroupName: string,
       clusterName: string,
-      languageExtensionsToAdd: _LanguageExtensionsList,
+      languageExtensionsToAdd: LanguageExtensionsList,
       options?: ClustersAddLanguageExtensionsOptionalParams,
     ) => {
       return await addLanguageExtensions(

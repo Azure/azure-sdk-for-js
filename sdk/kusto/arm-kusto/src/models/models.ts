@@ -3199,7 +3199,7 @@ export interface Cluster extends TrackedResource {
   /** A boolean value that indicates if the purge operations are enabled. */
   enablePurge?: boolean;
   /** List of the cluster's language extensions. */
-  languageExtensions?: _LanguageExtensionsList;
+  languageExtensions?: LanguageExtensionsList;
   /** A boolean value that indicates if double encryption is enabled. */
   enableDoubleEncryption?: boolean;
   /** Public network access to the cluster is enabled by default. When disabled, only private endpoint connection to the cluster is allowed */
@@ -3320,7 +3320,7 @@ export interface ClusterProperties {
   /** A boolean value that indicates if the purge operations are enabled. */
   enablePurge?: boolean;
   /** List of the cluster's language extensions. */
-  languageExtensions?: _LanguageExtensionsList;
+  languageExtensions?: LanguageExtensionsList;
   /** A boolean value that indicates if double encryption is enabled. */
   enableDoubleEncryption?: boolean;
   /** Public network access to the cluster is enabled by default. When disabled, only private endpoint connection to the cluster is allowed */
@@ -3370,7 +3370,7 @@ export function clusterPropertiesSerializer(item: ClusterProperties): any {
     enablePurge: item["enablePurge"],
     languageExtensions: !item["languageExtensions"]
       ? item["languageExtensions"]
-      : _languageExtensionsListSerializer(item["languageExtensions"]),
+      : languageExtensionsListSerializer(item["languageExtensions"]),
     enableDoubleEncryption: item["enableDoubleEncryption"],
     publicNetworkAccess: item["publicNetworkAccess"],
     allowedIpRangeList: !item["allowedIpRangeList"]
@@ -3421,7 +3421,7 @@ export function clusterPropertiesDeserializer(item: any): ClusterProperties {
     enablePurge: item["enablePurge"],
     languageExtensions: !item["languageExtensions"]
       ? item["languageExtensions"]
-      : _languageExtensionsListDeserializer(item["languageExtensions"]),
+      : languageExtensionsListDeserializer(item["languageExtensions"]),
     enableDoubleEncryption: item["enableDoubleEncryption"],
     publicNetworkAccess: item["publicNetworkAccess"],
     allowedIpRangeList: !item["allowedIpRangeList"]
@@ -3606,21 +3606,21 @@ export enum KnownVnetState {
 export type VnetState = string;
 
 /** The list of language extension objects. */
-export interface _LanguageExtensionsList {
+export interface LanguageExtensionsList {
   /** The list of language extensions. */
   value?: LanguageExtension[];
   /** The link to the next page of resources. */
   nextLink?: string;
 }
 
-export function _languageExtensionsListSerializer(item: _LanguageExtensionsList): any {
+export function languageExtensionsListSerializer(item: LanguageExtensionsList): any {
   return {
     value: !item["value"] ? item["value"] : languageExtensionArraySerializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function _languageExtensionsListDeserializer(item: any): _LanguageExtensionsList {
+export function languageExtensionsListDeserializer(item: any): LanguageExtensionsList {
   return {
     value: !item["value"] ? item["value"] : languageExtensionArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -4536,7 +4536,7 @@ export interface ClusterUpdate extends Resource {
   /** A boolean value that indicates if the purge operations are enabled. */
   enablePurge?: boolean;
   /** List of the cluster's language extensions. */
-  languageExtensions?: _LanguageExtensionsList;
+  languageExtensions?: LanguageExtensionsList;
   /** A boolean value that indicates if double encryption is enabled. */
   enableDoubleEncryption?: boolean;
   /** Public network access to the cluster is enabled by default. When disabled, only private endpoint connection to the cluster is allowed */
@@ -5900,7 +5900,7 @@ export function _clusterPropertiesSerializer(item: Cluster): any {
     enablePurge: item["enablePurge"],
     languageExtensions: !item["languageExtensions"]
       ? item["languageExtensions"]
-      : _languageExtensionsListSerializer(item["languageExtensions"]),
+      : languageExtensionsListSerializer(item["languageExtensions"]),
     enableDoubleEncryption: item["enableDoubleEncryption"],
     publicNetworkAccess: item["publicNetworkAccess"],
     allowedIpRangeList: !item["allowedIpRangeList"]
@@ -5951,7 +5951,7 @@ export function _clusterPropertiesDeserializer(item: any) {
     enablePurge: item["enablePurge"],
     languageExtensions: !item["languageExtensions"]
       ? item["languageExtensions"]
-      : _languageExtensionsListDeserializer(item["languageExtensions"]),
+      : languageExtensionsListDeserializer(item["languageExtensions"]),
     enableDoubleEncryption: item["enableDoubleEncryption"],
     publicNetworkAccess: item["publicNetworkAccess"],
     allowedIpRangeList: !item["allowedIpRangeList"]
@@ -6004,7 +6004,7 @@ export function _clusterUpdatePropertiesSerializer(item: ClusterUpdate): any {
     enablePurge: item["enablePurge"],
     languageExtensions: !item["languageExtensions"]
       ? item["languageExtensions"]
-      : _languageExtensionsListSerializer(item["languageExtensions"]),
+      : languageExtensionsListSerializer(item["languageExtensions"]),
     enableDoubleEncryption: item["enableDoubleEncryption"],
     publicNetworkAccess: item["publicNetworkAccess"],
     allowedIpRangeList: !item["allowedIpRangeList"]
@@ -6055,7 +6055,7 @@ export function _clusterUpdatePropertiesDeserializer(item: any) {
     enablePurge: item["enablePurge"],
     languageExtensions: !item["languageExtensions"]
       ? item["languageExtensions"]
-      : _languageExtensionsListDeserializer(item["languageExtensions"]),
+      : languageExtensionsListDeserializer(item["languageExtensions"]),
     enableDoubleEncryption: item["enableDoubleEncryption"],
     publicNetworkAccess: item["publicNetworkAccess"],
     allowedIpRangeList: !item["allowedIpRangeList"]

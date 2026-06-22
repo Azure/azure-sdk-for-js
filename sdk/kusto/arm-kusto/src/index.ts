@@ -102,6 +102,7 @@ export type {
   OptimizedAutoscale,
   VirtualNetworkConfiguration,
   VnetState,
+  LanguageExtensionsList,
   LanguageExtension,
   LanguageExtensionName,
   LanguageExtensionImageName,

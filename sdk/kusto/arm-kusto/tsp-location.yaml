@@ -1,4 +1,4 @@
 directory: specification/azure-kusto/resource-manager/Microsoft.Kusto/Kusto
-commit: 2c2af90507878f0ae29f1403304d9b5fac1dfa65
+commit: 18ebae7ea8f6aefd83268aacdb1f480b24842726
 repo: Azure/azure-rest-api-specs
 additionalDirectories: 

@@ -1,6 +1,6 @@
 # Release History
 
-## 9.0.0-beta.1 (2026-06-16)
+## 9.0.0-beta.1 (2026-06-22)
 Compared with version 8.2.0
 
 ### Features Added
@@ -81,6 +81,7 @@ Compared with version 8.2.0
   - Interface EventHubDataConnection has a new optional parameter systemData
   - Interface IotHubDataConnection has a new optional parameter systemData
   - Interface KeyVaultProperties has a new optional parameter federatedIdentityClientId
+  - Interface LanguageExtensionsList has a new optional parameter nextLink
   - Interface OutboundNetworkDependenciesEndpoint has a new optional parameter systemData
   - Interface ProxyResource has a new optional parameter systemData
   - Interface ReadOnlyFollowingDatabase has a new optional parameter systemData
@@ -101,10 +102,11 @@ Compared with version 8.2.0
 
 ### Breaking Changes
   - Operation OperationsResultsLocation.get has a new signature
+  - Class KustoManagementClient no longer has parameter apiVersion
+  - Class KustoManagementClient no longer has parameter subscriptionId
   - Removed Interface CalloutPoliciesList
   - Removed Interface DatabaseInviteFollowerOptionalParams
   - Removed Interface FollowerDatabaseListResultGet
-  - Removed Interface LanguageExtensionsList
   - Removed Interface SkuDescriptionList
 
     
