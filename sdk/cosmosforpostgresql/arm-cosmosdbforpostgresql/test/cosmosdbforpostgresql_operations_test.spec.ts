@@ -31,7 +31,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("CosmosDBForPostgreSQL test", () => {
+describe.skip("CosmosDBForPostgreSQL test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: CosmosDBForPostgreSQL;

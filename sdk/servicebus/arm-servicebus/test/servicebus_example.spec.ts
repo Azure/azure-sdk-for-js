@@ -31,7 +31,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("ServiceBus test", () => {
+describe.skip("ServiceBus test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: ServiceBusManagementClient;

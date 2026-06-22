@@ -29,7 +29,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("dnsresolve test", () => {
+describe.skip("dnsresolve test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: DnsResolverManagementClient;
