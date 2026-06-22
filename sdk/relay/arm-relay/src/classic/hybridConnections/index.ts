@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RelayAPIContext } from "../../api/relayAPIContext.js";
+import type { RelayAPIContext } from "../../api/relayAPIContext.js";
 import {
   listByNamespace,
   $delete,
@@ -14,7 +14,7 @@ import {
   createOrUpdateAuthorizationRule,
   getAuthorizationRule,
 } from "../../api/hybridConnections/operations.js";
-import {
+import type {
   HybridConnectionsListByNamespaceOptionalParams,
   HybridConnectionsDeleteOptionalParams,
   HybridConnectionsCreateOrUpdateOptionalParams,
@@ -26,13 +26,13 @@ import {
   HybridConnectionsCreateOrUpdateAuthorizationRuleOptionalParams,
   HybridConnectionsGetAuthorizationRuleOptionalParams,
 } from "../../api/hybridConnections/options.js";
-import {
+import type {
   AuthorizationRule,
   AccessKeys,
   RegenerateAccessKeyParameters,
   HybridConnection,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a HybridConnections operations. */
 export interface HybridConnectionsOperations {

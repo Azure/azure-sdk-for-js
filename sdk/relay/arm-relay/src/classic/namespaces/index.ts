@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RelayAPIContext } from "../../api/relayAPIContext.js";
+import type { RelayAPIContext } from "../../api/relayAPIContext.js";
 import {
   checkNameAvailability,
   createOrUpdateNetworkRuleSet,
@@ -19,7 +19,7 @@ import {
   createOrUpdateAuthorizationRule,
   getAuthorizationRule,
 } from "../../api/namespaces/operations.js";
-import {
+import type {
   NamespacesCheckNameAvailabilityOptionalParams,
   NamespacesCreateOrUpdateNetworkRuleSetOptionalParams,
   NamespacesGetNetworkRuleSetOptionalParams,
@@ -36,7 +36,7 @@ import {
   NamespacesCreateOrUpdateAuthorizationRuleOptionalParams,
   NamespacesGetAuthorizationRuleOptionalParams,
 } from "../../api/namespaces/options.js";
-import {
+import type {
   AuthorizationRule,
   AccessKeys,
   RegenerateAccessKeyParameters,
@@ -46,9 +46,10 @@ import {
   CheckNameAvailability,
   CheckNameAvailabilityResult,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Namespaces operations. */
 export interface NamespacesOperations {

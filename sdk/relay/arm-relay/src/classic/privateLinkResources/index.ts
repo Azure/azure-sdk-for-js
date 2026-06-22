@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RelayAPIContext } from "../../api/relayAPIContext.js";
+import type { RelayAPIContext } from "../../api/relayAPIContext.js";
 import { list, get } from "../../api/privateLinkResources/operations.js";
-import {
+import type {
   PrivateLinkResourcesListOptionalParams,
   PrivateLinkResourcesGetOptionalParams,
 } from "../../api/privateLinkResources/options.js";
-import { PrivateLinkResource, PrivateLinkResourcesListResult } from "../../models/models.js";
+import type { PrivateLinkResource, PrivateLinkResourcesListResult } from "../../models/models.js";
 
 /** Interface representing a PrivateLinkResources operations. */
 export interface PrivateLinkResourcesOperations {

@@ -1,24 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RelayAPIContext, RelayAPIOptionalParams, createRelayAPI } from "./api/index.js";
-import {
-  HybridConnectionsOperations,
-  _getHybridConnectionsOperations,
-} from "./classic/hybridConnections/index.js";
-import { NamespacesOperations, _getNamespacesOperations } from "./classic/namespaces/index.js";
-import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
-import {
-  PrivateEndpointConnectionsOperations,
-  _getPrivateEndpointConnectionsOperations,
-} from "./classic/privateEndpointConnections/index.js";
-import {
-  PrivateLinkResourcesOperations,
-  _getPrivateLinkResourcesOperations,
-} from "./classic/privateLinkResources/index.js";
-import { WCFRelaysOperations, _getWCFRelaysOperations } from "./classic/wcfRelays/index.js";
-import { TokenCredential } from "@azure/core-auth";
-import { Pipeline } from "@azure/core-rest-pipeline";
+import type { RelayAPIContext, RelayAPIOptionalParams } from "./api/index.js";
+import { createRelayAPI } from "./api/index.js";
+import type { HybridConnectionsOperations } from "./classic/hybridConnections/index.js";
+import { _getHybridConnectionsOperations } from "./classic/hybridConnections/index.js";
+import type { NamespacesOperations } from "./classic/namespaces/index.js";
+import { _getNamespacesOperations } from "./classic/namespaces/index.js";
+import type { OperationsOperations } from "./classic/operations/index.js";
+import { _getOperationsOperations } from "./classic/operations/index.js";
+import type { PrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
+import { _getPrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
+import type { PrivateLinkResourcesOperations } from "./classic/privateLinkResources/index.js";
+import { _getPrivateLinkResourcesOperations } from "./classic/privateLinkResources/index.js";
+import type { wCFRelaysOperations } from "./classic/wCFRelays/index.js";
+import { _getwCFRelaysOperations } from "./classic/wCFRelays/index.js";
+import type { TokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { RelayAPIOptionalParams } from "./api/relayAPIContext.js";
 
@@ -45,7 +43,7 @@ export class RelayAPI {
     this.namespaces = _getNamespacesOperations(this._client);
     this.privateLinkResources = _getPrivateLinkResourcesOperations(this._client);
     this.privateEndpointConnections = _getPrivateEndpointConnectionsOperations(this._client);
-    this.wcfRelays = _getWCFRelaysOperations(this._client);
+    this.wCFRelays = _getwCFRelaysOperations(this._client);
     this.hybridConnections = _getHybridConnectionsOperations(this._client);
     this.operations = _getOperationsOperations(this._client);
   }
@@ -56,8 +54,8 @@ export class RelayAPI {
   public readonly privateLinkResources: PrivateLinkResourcesOperations;
   /** The operation groups for privateEndpointConnections */
   public readonly privateEndpointConnections: PrivateEndpointConnectionsOperations;
-  /** The operation groups for wcfRelays */
-  public readonly wcfRelays: WCFRelaysOperations;
+  /** The operation groups for wCFRelays */
+  public readonly wCFRelays: wCFRelaysOperations;
   /** The operation groups for hybridConnections */
   public readonly hybridConnections: HybridConnectionsOperations;
   /** The operation groups for operations */

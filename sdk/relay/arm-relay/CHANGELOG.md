@@ -1,11 +1,12 @@
 # Release History
 
-## 4.0.0-beta.1 (2026-06-02)
+## 4.0.0-beta.1 (2026-06-22)
 Compared with version 3.1.1
 
 ### Features Added
   - Added operation group PrivateEndpointConnectionsOperations
   - Added operation group PrivateLinkResourcesOperations
+  - Added operation group wCFRelaysOperations
   - Added operation NamespacesOperations.createOrUpdate
   - Added operation NamespacesOperations.createOrUpdateNetworkRuleSet
   - Added operation NamespacesOperations.delete
@@ -40,6 +41,16 @@ Compared with version 3.1.1
   - Added Interface SimplePollerLike
   - Added Interface SystemData
   - Added Interface WcfRelayProperties
+  - Added Interface wCFRelaysCreateOrUpdateAuthorizationRuleOptionalParams
+  - Added Interface wCFRelaysCreateOrUpdateOptionalParams
+  - Added Interface wCFRelaysDeleteAuthorizationRuleOptionalParams
+  - Added Interface wCFRelaysDeleteOptionalParams
+  - Added Interface wCFRelaysGetAuthorizationRuleOptionalParams
+  - Added Interface wCFRelaysGetOptionalParams
+  - Added Interface wCFRelaysListAuthorizationRulesOptionalParams
+  - Added Interface wCFRelaysListByNamespaceOptionalParams
+  - Added Interface wCFRelaysListKeysOptionalParams
+  - Added Interface wCFRelaysRegenerateKeysOptionalParams
   - Interface AuthorizationRule has a new optional parameter location
   - Interface AuthorizationRule has a new optional parameter systemData
   - Interface ErrorResponse has a new optional parameter error
@@ -102,9 +113,19 @@ Compared with version 3.1.1
   - Operation Namespaces.getAuthorizationRule has a new signature
   - Operation Namespaces.regenerateKeys has a new signature
   - Operation Namespaces.update has a new signature
-  - Operation WCFRelays.createOrUpdateAuthorizationRule has a new signature
-  - Operation WCFRelays.getAuthorizationRule has a new signature
-  - Operation WCFRelays.regenerateKeys has a new signature
+  - Class RelayAPI no longer has parameter apiVersion
+  - Class RelayAPI no longer has parameter subscriptionId
+  - Removed Interface WCFRelays
+  - Removed Interface WCFRelaysCreateOrUpdateAuthorizationRuleOptionalParams
+  - Removed Interface WCFRelaysCreateOrUpdateOptionalParams
+  - Removed Interface WCFRelaysDeleteAuthorizationRuleOptionalParams
+  - Removed Interface WCFRelaysDeleteOptionalParams
+  - Removed Interface WCFRelaysGetAuthorizationRuleOptionalParams
+  - Removed Interface WCFRelaysGetOptionalParams
+  - Removed Interface WCFRelaysListAuthorizationRulesOptionalParams
+  - Removed Interface WCFRelaysListByNamespaceOptionalParams
+  - Removed Interface WCFRelaysListKeysOptionalParams
+  - Removed Interface WCFRelaysRegenerateKeysOptionalParams
   - Type of parameter keyType of interface RegenerateAccessKeyParameters is changed from KeyType_2 to KeyType
   - Type of parameter provisioningState of interface RelayNamespace is changed from ProvisioningStateEnum to string
   - Type of parameter provisioningState of interface RelayUpdateParameters is changed from ProvisioningStateEnum to string

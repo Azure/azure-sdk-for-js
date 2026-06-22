@@ -90,18 +90,18 @@
         "default": "./dist/commonjs/api/privateEndpointConnections/index.js"
       }
     },
-    "./api/wcfRelays": {
+    "./api/wCFRelays": {
       "browser": {
-        "types": "./dist/browser/api/wcfRelays/index.d.ts",
-        "default": "./dist/browser/api/wcfRelays/index.js"
+        "types": "./dist/browser/api/wCFRelays/index.d.ts",
+        "default": "./dist/browser/api/wCFRelays/index.js"
       },
       "import": {
-        "types": "./dist/esm/api/wcfRelays/index.d.ts",
-        "default": "./dist/esm/api/wcfRelays/index.js"
+        "types": "./dist/esm/api/wCFRelays/index.d.ts",
+        "default": "./dist/esm/api/wCFRelays/index.js"
       },
       "require": {
-        "types": "./dist/commonjs/api/wcfRelays/index.d.ts",
-        "default": "./dist/commonjs/api/wcfRelays/index.js"
+        "types": "./dist/commonjs/api/wCFRelays/index.d.ts",
+        "default": "./dist/commonjs/api/wCFRelays/index.js"
       }
     },
     "./api/hybridConnections": {

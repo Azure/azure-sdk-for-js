@@ -1,40 +1,40 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RelayAPIContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
+import type { RelayAPIContext as Client } from "../index.js";
+import type {
   AuthorizationRule,
-  authorizationRuleSerializer,
-  authorizationRuleDeserializer,
   _AuthorizationRuleListResult,
-  _authorizationRuleListResultDeserializer,
   AccessKeys,
-  accessKeysDeserializer,
   RegenerateAccessKeyParameters,
-  regenerateAccessKeyParametersSerializer,
   RelayNamespace,
-  relayNamespaceSerializer,
-  relayNamespaceDeserializer,
   RelayUpdateParameters,
-  relayUpdateParametersSerializer,
   _RelayNamespaceListResult,
-  _relayNamespaceListResultDeserializer,
   NetworkRuleSet,
-  networkRuleSetSerializer,
-  networkRuleSetDeserializer,
   CheckNameAvailability,
-  checkNameAvailabilitySerializer,
   CheckNameAvailabilityResult,
-  checkNameAvailabilityResultDeserializer,
 } from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+  errorResponseDeserializer,
+  authorizationRuleSerializer,
+  authorizationRuleDeserializer,
+  _authorizationRuleListResultDeserializer,
+  accessKeysDeserializer,
+  regenerateAccessKeyParametersSerializer,
+  relayNamespaceSerializer,
+  relayNamespaceDeserializer,
+  relayUpdateParametersSerializer,
+  _relayNamespaceListResultDeserializer,
+  networkRuleSetSerializer,
+  networkRuleSetDeserializer,
+  checkNameAvailabilitySerializer,
+  checkNameAvailabilityResultDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   NamespacesCheckNameAvailabilityOptionalParams,
   NamespacesCreateOrUpdateNetworkRuleSetOptionalParams,
   NamespacesGetNetworkRuleSetOptionalParams,
@@ -51,13 +51,9 @@ import {
   NamespacesCreateOrUpdateAuthorizationRuleOptionalParams,
   NamespacesGetAuthorizationRuleOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _checkNameAvailabilitySend(
   context: Client,

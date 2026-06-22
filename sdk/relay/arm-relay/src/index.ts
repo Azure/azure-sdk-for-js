@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
-import {
+import type { AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import { AzureClouds } from "./static-helpers/cloudSettingHelpers.js";
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
@@ -120,24 +121,24 @@ export type {
   PrivateLinkResourcesGetOptionalParams,
 } from "./api/privateLinkResources/index.js";
 export type {
-  WCFRelaysListByNamespaceOptionalParams,
-  WCFRelaysDeleteOptionalParams,
-  WCFRelaysCreateOrUpdateOptionalParams,
-  WCFRelaysGetOptionalParams,
-  WCFRelaysRegenerateKeysOptionalParams,
-  WCFRelaysListKeysOptionalParams,
-  WCFRelaysListAuthorizationRulesOptionalParams,
-  WCFRelaysDeleteAuthorizationRuleOptionalParams,
-  WCFRelaysCreateOrUpdateAuthorizationRuleOptionalParams,
-  WCFRelaysGetAuthorizationRuleOptionalParams,
-} from "./api/wcfRelays/index.js";
+  wCFRelaysListByNamespaceOptionalParams,
+  wCFRelaysDeleteOptionalParams,
+  wCFRelaysCreateOrUpdateOptionalParams,
+  wCFRelaysGetOptionalParams,
+  wCFRelaysRegenerateKeysOptionalParams,
+  wCFRelaysListKeysOptionalParams,
+  wCFRelaysListAuthorizationRulesOptionalParams,
+  wCFRelaysDeleteAuthorizationRuleOptionalParams,
+  wCFRelaysCreateOrUpdateAuthorizationRuleOptionalParams,
+  wCFRelaysGetAuthorizationRuleOptionalParams,
+} from "./api/wCFRelays/index.js";
 export type {
   HybridConnectionsOperations,
   NamespacesOperations,
   OperationsOperations,
   PrivateEndpointConnectionsOperations,
   PrivateLinkResourcesOperations,
-  WCFRelaysOperations,
+  wCFRelaysOperations,
 } from "./classic/index.js";
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
 export { AzureClouds };

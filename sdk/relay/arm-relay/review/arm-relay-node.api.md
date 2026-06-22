@@ -4,17 +4,17 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { CancelOnProgress } from '@azure/core-lro';
-import { ClientOptions } from '@azure-rest/core-client';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
+import type { ClientOptions } from '@azure-rest/core-client';
 import { isRestError } from '@azure/core-rest-pipeline';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
 import { RestError } from '@azure/core-rest-pipeline';
-import { TokenCredential } from '@azure/core-auth';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AccessKeys {
@@ -539,7 +539,7 @@ export class RelayAPI {
     readonly pipeline: Pipeline;
     readonly privateEndpointConnections: PrivateEndpointConnectionsOperations;
     readonly privateLinkResources: PrivateLinkResourcesOperations;
-    readonly wcfRelays: WCFRelaysOperations;
+    readonly wCFRelays: wCFRelaysOperations;
 }
 
 // @public
@@ -693,57 +693,57 @@ export interface WcfRelayProperties {
 }
 
 // @public
-export interface WCFRelaysCreateOrUpdateAuthorizationRuleOptionalParams extends OperationOptions {
+export interface wCFRelaysCreateOrUpdateAuthorizationRuleOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WCFRelaysCreateOrUpdateOptionalParams extends OperationOptions {
+export interface wCFRelaysCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WCFRelaysDeleteAuthorizationRuleOptionalParams extends OperationOptions {
+export interface wCFRelaysDeleteAuthorizationRuleOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WCFRelaysDeleteOptionalParams extends OperationOptions {
+export interface wCFRelaysDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WCFRelaysGetAuthorizationRuleOptionalParams extends OperationOptions {
+export interface wCFRelaysGetAuthorizationRuleOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WCFRelaysGetOptionalParams extends OperationOptions {
+export interface wCFRelaysGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WCFRelaysListAuthorizationRulesOptionalParams extends OperationOptions {
+export interface wCFRelaysListAuthorizationRulesOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WCFRelaysListByNamespaceOptionalParams extends OperationOptions {
+export interface wCFRelaysListByNamespaceOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WCFRelaysListKeysOptionalParams extends OperationOptions {
+export interface wCFRelaysListKeysOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface WCFRelaysOperations {
-    createOrUpdate: (resourceGroupName: string, namespaceName: string, relayName: string, parameters: WcfRelay, options?: WCFRelaysCreateOrUpdateOptionalParams) => Promise<WcfRelay>;
-    createOrUpdateAuthorizationRule: (resourceGroupName: string, namespaceName: string, relayName: string, authorizationRuleName: string, parameters: AuthorizationRule, options?: WCFRelaysCreateOrUpdateAuthorizationRuleOptionalParams) => Promise<AuthorizationRule>;
-    delete: (resourceGroupName: string, namespaceName: string, relayName: string, options?: WCFRelaysDeleteOptionalParams) => Promise<void>;
-    deleteAuthorizationRule: (resourceGroupName: string, namespaceName: string, relayName: string, authorizationRuleName: string, options?: WCFRelaysDeleteAuthorizationRuleOptionalParams) => Promise<void>;
-    get: (resourceGroupName: string, namespaceName: string, relayName: string, options?: WCFRelaysGetOptionalParams) => Promise<WcfRelay | undefined>;
-    getAuthorizationRule: (resourceGroupName: string, namespaceName: string, relayName: string, authorizationRuleName: string, options?: WCFRelaysGetAuthorizationRuleOptionalParams) => Promise<AuthorizationRule>;
-    listAuthorizationRules: (resourceGroupName: string, namespaceName: string, relayName: string, options?: WCFRelaysListAuthorizationRulesOptionalParams) => PagedAsyncIterableIterator<AuthorizationRule>;
-    listByNamespace: (resourceGroupName: string, namespaceName: string, options?: WCFRelaysListByNamespaceOptionalParams) => PagedAsyncIterableIterator<WcfRelay>;
-    listKeys: (resourceGroupName: string, namespaceName: string, relayName: string, authorizationRuleName: string, options?: WCFRelaysListKeysOptionalParams) => Promise<AccessKeys>;
-    regenerateKeys: (resourceGroupName: string, namespaceName: string, relayName: string, authorizationRuleName: string, parameters: RegenerateAccessKeyParameters, options?: WCFRelaysRegenerateKeysOptionalParams) => Promise<AccessKeys>;
+export interface wCFRelaysOperations {
+    createOrUpdate: (resourceGroupName: string, namespaceName: string, relayName: string, parameters: WcfRelay, options?: wCFRelaysCreateOrUpdateOptionalParams) => Promise<WcfRelay>;
+    createOrUpdateAuthorizationRule: (resourceGroupName: string, namespaceName: string, relayName: string, authorizationRuleName: string, parameters: AuthorizationRule, options?: wCFRelaysCreateOrUpdateAuthorizationRuleOptionalParams) => Promise<AuthorizationRule>;
+    delete: (resourceGroupName: string, namespaceName: string, relayName: string, options?: wCFRelaysDeleteOptionalParams) => Promise<void>;
+    deleteAuthorizationRule: (resourceGroupName: string, namespaceName: string, relayName: string, authorizationRuleName: string, options?: wCFRelaysDeleteAuthorizationRuleOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, namespaceName: string, relayName: string, options?: wCFRelaysGetOptionalParams) => Promise<WcfRelay | undefined>;
+    getAuthorizationRule: (resourceGroupName: string, namespaceName: string, relayName: string, authorizationRuleName: string, options?: wCFRelaysGetAuthorizationRuleOptionalParams) => Promise<AuthorizationRule>;
+    listAuthorizationRules: (resourceGroupName: string, namespaceName: string, relayName: string, options?: wCFRelaysListAuthorizationRulesOptionalParams) => PagedAsyncIterableIterator<AuthorizationRule>;
+    listByNamespace: (resourceGroupName: string, namespaceName: string, options?: wCFRelaysListByNamespaceOptionalParams) => PagedAsyncIterableIterator<WcfRelay>;
+    listKeys: (resourceGroupName: string, namespaceName: string, relayName: string, authorizationRuleName: string, options?: wCFRelaysListKeysOptionalParams) => Promise<AccessKeys>;
+    regenerateKeys: (resourceGroupName: string, namespaceName: string, relayName: string, authorizationRuleName: string, parameters: RegenerateAccessKeyParameters, options?: wCFRelaysRegenerateKeysOptionalParams) => Promise<AccessKeys>;
 }
 
 // @public
-export interface WCFRelaysRegenerateKeysOptionalParams extends OperationOptions {
+export interface wCFRelaysRegenerateKeysOptionalParams extends OperationOptions {
 }
 
 // (No @packageDocumentation comment for this package)
