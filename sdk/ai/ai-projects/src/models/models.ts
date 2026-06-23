@@ -11338,6 +11338,8 @@ export interface RoutineRun {
   trigger_type?: RoutineTriggerType;
   /** The configured trigger name that produced the routine attempt. */
   trigger_name?: string;
+  /** The event payload captured from the event that triggered the routine attempt, when available. */
+  trigger_event_payload?: Record<string, any>;
   /** The source path that created the routine attempt. */
   attempt_source?: RoutineAttemptSource;
   /** The action type dispatched for the routine attempt. */
@@ -11381,6 +11383,11 @@ export function routineRunDeserializer(item: any): RoutineRun {
     phase: item["phase"],
     trigger_type: item["trigger_type"],
     trigger_name: item["trigger_name"],
+    trigger_event_payload: !item["trigger_event_payload"]
+      ? item["trigger_event_payload"]
+      : Object.fromEntries(
+          Object.entries(item["trigger_event_payload"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
     attempt_source: item["attempt_source"],
     action_type: item["action_type"],
     agent_id: item["agent_id"],
