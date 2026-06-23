@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to create or update a capacity reservation. Please note some properties can be set only during capacity reservation creation. Please refer to https://aka.ms/CapacityReservation for more details.
  *
  * @summary the operation to create or update a capacity reservation. Please note some properties can be set only during capacity reservation creation. Please refer to https://aka.ms/CapacityReservation for more details.
- * x-ms-original-file: 2025-11-01/capacityReservationExamples/BlockCapacityReservation_CreateOrUpdate.json
+ * x-ms-original-file: 2026-03-01/capacityReservationExamples/BlockCapacityReservation_CreateOrUpdate.json
  */
 async function createOrUpdateABlockCapacityReservation(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -33,7 +33,7 @@ async function createOrUpdateABlockCapacityReservation(): Promise<void> {
  * This sample demonstrates how to the operation to create or update a capacity reservation. Please note some properties can be set only during capacity reservation creation. Please refer to https://aka.ms/CapacityReservation for more details.
  *
  * @summary the operation to create or update a capacity reservation. Please note some properties can be set only during capacity reservation creation. Please refer to https://aka.ms/CapacityReservation for more details.
- * x-ms-original-file: 2025-11-01/capacityReservationExamples/CapacityReservation_CreateOrUpdate.json
+ * x-ms-original-file: 2026-03-01/capacityReservationExamples/CapacityReservation_CreateOrUpdate.json
  */
 async function createOrUpdateACapacityReservation(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -57,7 +57,7 @@ async function createOrUpdateACapacityReservation(): Promise<void> {
  * This sample demonstrates how to the operation to create or update a capacity reservation. Please note some properties can be set only during capacity reservation creation. Please refer to https://aka.ms/CapacityReservation for more details.
  *
  * @summary the operation to create or update a capacity reservation. Please note some properties can be set only during capacity reservation creation. Please refer to https://aka.ms/CapacityReservation for more details.
- * x-ms-original-file: 2025-11-01/capacityReservationExamples/TargetedCapacityReservation_CreateOrUpdate.json
+ * x-ms-original-file: 2026-03-01/capacityReservationExamples/TargetedCapacityReservation_CreateOrUpdate.json
  */
 async function createOrUpdateATargetedCapacityReservation(): Promise<void> {
   const credential = new DefaultAzureCredential();

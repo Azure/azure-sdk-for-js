@@ -33,8 +33,10 @@ export class ComputeLimitClient {
     constructor(credential: TokenCredential, subscriptionId: string, options?: ComputeLimitClientOptionalParams);
     readonly features: FeaturesOperations;
     readonly guestSubscriptions: GuestSubscriptionsOperations;
+    readonly memberCapOverrides: MemberCapOverridesOperations;
     readonly operations: OperationsOperations;
     readonly pipeline: Pipeline;
+    readonly sharedLimitCaps: SharedLimitCapsOperations;
     readonly sharedLimits: SharedLimitsOperations;
     readonly vmFamilies: VmFamiliesOperations;
 }
@@ -193,13 +195,55 @@ export enum KnownVersions {
     V20250815 = "2025-08-15",
     V20260320 = "2026-03-20",
     V20260430 = "2026-04-30",
-    V20260601 = "2026-06-01"
+    V20260601 = "2026-06-01",
+    V20260701 = "2026-07-01"
 }
 
 // @public
 export interface LimitName {
     readonly localizedValue?: string;
     value: string;
+}
+
+// @public
+export interface MemberCap {
+    cap: number;
+    subscriptionId: string;
+}
+
+// @public
+export interface MemberCapOverride extends ProxyResource {
+    properties?: MemberCapOverrideProperties;
+}
+
+// @public
+export interface MemberCapOverrideProperties {
+    cap: number;
+    readonly provisioningState?: ResourceProvisioningState;
+}
+
+// @public
+export interface MemberCapOverridesCreateOrUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface MemberCapOverridesDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface MemberCapOverridesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface MemberCapOverridesListByParentOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface MemberCapOverridesOperations {
+    createOrUpdate: (location: string, vmFamilyName: string, memberSubscriptionId: string, resource: MemberCapOverride, options?: MemberCapOverridesCreateOrUpdateOptionalParams) => Promise<MemberCapOverride>;
+    delete: (location: string, vmFamilyName: string, memberSubscriptionId: string, options?: MemberCapOverridesDeleteOptionalParams) => Promise<void>;
+    get: (location: string, vmFamilyName: string, memberSubscriptionId: string, options?: MemberCapOverridesGetOptionalParams) => Promise<MemberCapOverride>;
+    listByParent: (location: string, vmFamilyName: string, options?: MemberCapOverridesListByParentOptionalParams) => PagedAsyncIterableIterator<MemberCapOverride>;
 }
 
 // @public
@@ -284,8 +328,59 @@ export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedRe
 }
 
 // @public
+export interface SetMemberCapOverridesRequest {
+    memberCapOverrides: MemberCap[];
+}
+
+// @public
+export interface SetMemberCapOverridesResult {
+    memberCapOverrides: MemberCap[];
+}
+
+// @public
 export interface SharedLimit extends ProxyResource {
     properties?: SharedLimitProperties;
+}
+
+// @public
+export interface SharedLimitCap extends ProxyResource {
+    properties?: SharedLimitCapProperties;
+}
+
+// @public
+export interface SharedLimitCapProperties {
+    defaultMemberCap?: number;
+    isBoundedCap: boolean;
+    readonly provisioningState?: ResourceProvisioningState;
+}
+
+// @public
+export interface SharedLimitCapsCreateOrUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SharedLimitCapsDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SharedLimitCapsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SharedLimitCapsListBySubscriptionLocationResourceOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface SharedLimitCapsOperations {
+    createOrUpdate: (location: string, vmFamilyName: string, resource: SharedLimitCap, options?: SharedLimitCapsCreateOrUpdateOptionalParams) => Promise<SharedLimitCap>;
+    delete: (location: string, vmFamilyName: string, options?: SharedLimitCapsDeleteOptionalParams) => Promise<void>;
+    get: (location: string, vmFamilyName: string, options?: SharedLimitCapsGetOptionalParams) => Promise<SharedLimitCap>;
+    listBySubscriptionLocationResource: (location: string, options?: SharedLimitCapsListBySubscriptionLocationResourceOptionalParams) => PagedAsyncIterableIterator<SharedLimitCap>;
+    setMemberCapOverrides: (location: string, vmFamilyName: string, body: SetMemberCapOverridesRequest, options?: SharedLimitCapsSetMemberCapOverridesOptionalParams) => Promise<SetMemberCapOverridesResult>;
+}
+
+// @public
+export interface SharedLimitCapsSetMemberCapOverridesOptionalParams extends OperationOptions {
 }
 
 // @public

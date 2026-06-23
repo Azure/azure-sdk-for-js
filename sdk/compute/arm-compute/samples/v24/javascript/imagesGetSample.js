@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets an image.
  *
  * @summary gets an image.
- * x-ms-original-file: 2025-11-01/imageExamples/Image_Get.json
+ * x-ms-original-file: 2026-03-01/imageExamples/Image_Get.json
  */
 async function getInformationAboutAVirtualMachineImage() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to the operation to update the run command.
  *
  * @summary the operation to update the run command.
- * x-ms-original-file: 2025-11-01/runCommandExamples/VirtualMachineRunCommand_Update.json
+ * x-ms-original-file: 2026-03-01/runCommandExamples/VirtualMachineRunCommand_Update.json
  */
 async function updateARunCommand() {
   const credential = new DefaultAzureCredential();

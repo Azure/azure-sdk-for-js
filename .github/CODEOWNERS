@@ -446,7 +446,7 @@
 # PRLabel: %Mgmt
 /sdk/confluent/arm-confluent/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/consumption/arm-consumption/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -470,7 +470,7 @@
 # PRLabel: %Mgmt
 /sdk/connectedvmware/arm-connectedvmware/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -587,7 +587,7 @@
 # PRLabel: %Mgmt
 /sdk/fabric/arm-fabric/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/frontdoor/arm-frontdoor/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
@@ -1626,7 +1626,7 @@ sdk/disconnectedoperations/arm-disconnectedoperations/ @qiaozha @MaryGao @Jialin
 # PRLabel: %Mgmt
 sdk/compute/arm-computerecommender/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 sdk/computelimit/arm-computelimit/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -1678,6 +1678,9 @@ sdk/edgeorder/arm-edgeorder/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
 sdk/powerplatform/arm-powerplatform/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt %mgmt-review-needed
+sdk/napsteromniagentapi/arm-napsteromniagentapi/ @qiaozha @MaryGao @JialinHuang803
 
 ###########
 # Config
@@ -1738,6 +1741,8 @@ sdk/powerplatform/arm-powerplatform/ @qiaozha @MaryGao @JialinHuang803
 /.github/workflows/                      @Azure/azure-sdk-eng
 /.github/workflows/mgmt-review.md        @MaryGao @lirenhe @qiaozha @JialinHuang803
 /.github/workflows/mgmt-review.lock.yml  @MaryGao @lirenhe @qiaozha @JialinHuang803
+/.github/workflows/mgmt-guidance.md      @MaryGao @lirenhe @qiaozha @JialinHuang803
+/.github/workflows/mgmt-guidance.lock.yml @MaryGao @lirenhe @qiaozha @JialinHuang803
 /.github/workflows/archie.md             @maorleger @Azure/azure-sdk-for-js-core
 /.github/workflows/archie.lock.yml       @maorleger @Azure/azure-sdk-for-js-core
 /.github/workflows/agent-observability.md             @maorleger @Azure/azure-sdk-for-js-core

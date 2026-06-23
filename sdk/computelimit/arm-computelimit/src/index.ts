@@ -37,6 +37,13 @@ export type {
   OperationStatusResult,
   VmFamily,
   VmFamilyProperties,
+  SharedLimitCap,
+  SharedLimitCapProperties,
+  SetMemberCapOverridesRequest,
+  MemberCap,
+  SetMemberCapOverridesResult,
+  MemberCapOverride,
+  MemberCapOverrideProperties,
 } from "./models/index.js";
 export {
   KnownOrigin,
@@ -59,7 +66,20 @@ export type {
   GuestSubscriptionsCreateOptionalParams,
   GuestSubscriptionsGetOptionalParams,
 } from "./api/guestSubscriptions/index.js";
+export type {
+  MemberCapOverridesListByParentOptionalParams,
+  MemberCapOverridesDeleteOptionalParams,
+  MemberCapOverridesCreateOrUpdateOptionalParams,
+  MemberCapOverridesGetOptionalParams,
+} from "./api/memberCapOverrides/index.js";
 export type { OperationsListOptionalParams } from "./api/operations/index.js";
+export type {
+  SharedLimitCapsSetMemberCapOverridesOptionalParams,
+  SharedLimitCapsListBySubscriptionLocationResourceOptionalParams,
+  SharedLimitCapsDeleteOptionalParams,
+  SharedLimitCapsCreateOrUpdateOptionalParams,
+  SharedLimitCapsGetOptionalParams,
+} from "./api/sharedLimitCaps/index.js";
 export type {
   SharedLimitsListBySubscriptionLocationResourceOptionalParams,
   SharedLimitsDeleteOptionalParams,
@@ -73,7 +93,9 @@ export type {
 export type {
   FeaturesOperations,
   GuestSubscriptionsOperations,
+  MemberCapOverridesOperations,
   OperationsOperations,
+  SharedLimitCapsOperations,
   SharedLimitsOperations,
   VmFamiliesOperations,
 } from "./classic/index.js";

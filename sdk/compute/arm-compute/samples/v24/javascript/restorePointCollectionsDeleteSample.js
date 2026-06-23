@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to the operation to delete the restore point collection. This operation will also delete all the contained restore points.
  *
  * @summary the operation to delete the restore point collection. This operation will also delete all the contained restore points.
- * x-ms-original-file: 2025-11-01/restorePointExamples/RestorePointCollection_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/restorePointExamples/RestorePointCollection_Delete_MaximumSet_Gen.json
  */
 async function restorePointCollectionDeleteMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -21,7 +21,7 @@ async function restorePointCollectionDeleteMaximumSetGen() {
  * This sample demonstrates how to the operation to delete the restore point collection. This operation will also delete all the contained restore points.
  *
  * @summary the operation to delete the restore point collection. This operation will also delete all the contained restore points.
- * x-ms-original-file: 2025-11-01/restorePointExamples/RestorePointCollection_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/restorePointExamples/RestorePointCollection_Delete_MinimumSet_Gen.json
  */
 async function restorePointCollectionDeleteMinimumSetGen() {
   const credential = new DefaultAzureCredential();
