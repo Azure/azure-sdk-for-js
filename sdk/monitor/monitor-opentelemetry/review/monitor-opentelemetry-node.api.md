@@ -5,7 +5,11 @@
 ```ts
 
 import type { AzureMonitorExporterOptions } from '@azure/monitor-opentelemetry-exporter';
+import { createLoggerConfigurator } from '@opentelemetry/sdk-logs';
 import type { InstrumentationConfig } from '@opentelemetry/instrumentation';
+import { LoggerConfig } from '@opentelemetry/sdk-logs';
+import { LoggerConfigurator } from '@opentelemetry/sdk-logs';
+import { LoggerPattern } from '@opentelemetry/sdk-logs';
 import type { LogRecordProcessor } from '@opentelemetry/sdk-logs';
 import type { MetricReader } from '@opentelemetry/sdk-metrics';
 import { NodeSDK } from '@opentelemetry/sdk-node';
@@ -22,6 +26,7 @@ export interface AzureMonitorOpenTelemetryOptions {
     enableStandardMetrics?: boolean;
     enableTraceBasedSamplingForLogs?: boolean;
     instrumentationOptions?: InstrumentationOptions;
+    loggerConfigurator?: LoggerConfigurator;
     logRecordProcessors?: LogRecordProcessor[];
     metricReaders?: MetricReader[];
     resource?: Resource;
@@ -36,6 +41,8 @@ export interface BrowserSdkLoaderOptions {
     connectionString?: string;
     enabled?: boolean;
 }
+
+export { createLoggerConfigurator }
 
 // @internal
 export function _getSdkInstance(): NodeSDK | undefined;
@@ -52,6 +59,12 @@ export interface InstrumentationOptions {
     redis4?: InstrumentationConfig;
     winston?: InstrumentationConfig;
 }
+
+export { LoggerConfig }
+
+export { LoggerConfigurator }
+
+export { LoggerPattern }
 
 // @public
 export function shutdownAzureMonitor(): Promise<void>;

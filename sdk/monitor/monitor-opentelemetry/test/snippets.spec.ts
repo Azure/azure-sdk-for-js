@@ -3,7 +3,8 @@
 
 import { resourceFromAttributes, emptyResource } from "@opentelemetry/resources";
 import type { AzureMonitorOpenTelemetryOptions } from "../src";
-import { useAzureMonitor } from "../src";
+import { createLoggerConfigurator, useAzureMonitor } from "../src";
+import { SeverityNumber } from "@opentelemetry/api-logs";
 import { registerInstrumentations } from "@opentelemetry/instrumentation";
 import type { Context, Exception, ObservableResult, Span } from "@opentelemetry/api";
 import { metrics, SpanKind, trace, TraceFlags } from "@opentelemetry/api";
@@ -178,6 +179,19 @@ describe("snippets", () => {
       logRecordProcessors: [new LogRecordEnrichingProcessor()],
     };
     // @ts-preserve-whitespace
+    useAzureMonitor(options);
+  });
+
+  it("ReadmeSampleFilterLogsBySeverity", () => {
+    const options: AzureMonitorOpenTelemetryOptions = {
+      // Drop logs below WARN severity, except for the noisy "express" logger which
+      // is disabled entirely. Filtering happens at the logger level, before any
+      // processor or exporter, so it is independent of trace-based sampling.
+      loggerConfigurator: createLoggerConfigurator([
+        { pattern: "express", config: { disabled: true } },
+        { pattern: "*", config: { minimumSeverity: SeverityNumber.WARN } },
+      ]),
+    };
     useAzureMonitor(options);
   });
 
