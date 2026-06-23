@@ -376,6 +376,20 @@ describe("Keys client - create, read, update and delete operations for managed H
   });
 
   describe("createExternalKey", () => {
+    beforeEach(async () => {
+      // The test proxy's central sanitizer AZSDK3430 rewrites every `id`
+      // field in JSON response bodies to "Sanitized". The external key id
+      // isn't a secret and the test needs to read it back, so override that
+      // value at the specific JSON path. The override runs after the central
+      // sanitizer, so the recorded response sees the real value.
+      await recorder.addSanitizers(
+        {
+          bodyKeySanitizers: [{ jsonPath: "$.attributes.external_key.id", value: "test-aes-key" }],
+        },
+        ["record", "playback"],
+      );
+    });
+
     it("can create a key backed by an external key", async () => {
       const keyName = recorder.variable(
         "externalkey",
