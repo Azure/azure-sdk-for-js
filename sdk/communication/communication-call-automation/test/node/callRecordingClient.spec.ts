@@ -172,7 +172,6 @@ describe("CallRecording Unit Tests", () => {
     const spy = vi.spyOn(mockHttpClient, "sendRequest");
     await callRecording.resume(RECORDING_ID);
     const request = spy.mock.calls[0][0];
-
     assert.equal(
       request.url,
       `${baseUri}/calling/recordings/${RECORDING_ID}:resume?api-version=${apiVersion.mapper.defaultValue}`,
@@ -369,6 +368,8 @@ describe("CallRecording Live Tests", () => {
       // Call recording can fail when no audio is in call, we will play audio to avoid that.
       const playToAllOptions: PlayOptions = { operationContext: "recordingPlay" };
       await callConnection.getCallMedia().playToAll(playSource, playToAllOptions);
+      const playCompletedEvent = await waitForEvent("PlayCompleted", callConnectionId, 20000);
+      assert.isDefined(playCompletedEvent);
 
       const recOptions: StartRecordingOptions = {
         recordingStateCallbackEndpointUrl: callBackUrl,
