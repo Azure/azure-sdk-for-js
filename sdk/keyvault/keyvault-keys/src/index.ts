@@ -460,7 +460,7 @@ export class KeyClient {
    * const credential = new DefaultAzureCredential();
    *
    * const vaultName = "<YOUR KEYVAULT NAME>";
-   * const url = `https://${vaultName}.vault.azure.net`;
+   * const url = `https://${vaultName}.managedhsm.azure.net`;
    *
    * const client = new KeyClient(url, credential);
    *
@@ -1225,7 +1225,7 @@ export class KeyClient {
    * const credential = new DefaultAzureCredential();
    *
    * const vaultName = "<YOUR KEYVAULT NAME>";
-   * const url = `https://${vaultName}.vault.azure.net`;
+   * const url = `https://${vaultName}.managedhsm.azure.net`;
    *
    * const client = new KeyClient(url, credential);
    *

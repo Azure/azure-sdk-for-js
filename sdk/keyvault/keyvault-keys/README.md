@@ -222,7 +222,6 @@ const url = `https://${vaultName}.vault.azure.net`;
 
 const client = new KeyClient(url, credential);
 
-
 const keyName = "MyKeyName";
 
 const result = await client.createKey(keyName, "RSA", {
@@ -689,8 +688,6 @@ import { KeyClient, CryptographyClient } from "@azure/keyvault-keys";
 import { createHash } from "node:crypto";
 
 const credential = new DefaultAzureCredential();
-
-
 
 const vaultName = "<YOUR KEYVAULT NAME>";
 const url = `https://${vaultName}.vault.azure.net`;
