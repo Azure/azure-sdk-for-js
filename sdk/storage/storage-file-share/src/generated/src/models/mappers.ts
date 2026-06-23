@@ -4186,6 +4186,13 @@ export const FileCreateHeaders: coreClient.CompositeMapper = {
           name: "Number",
         },
       },
+      structuredBodyType: {
+        serializedName: "x-ms-structured-body",
+        xmlName: "x-ms-structured-body",
+        type: {
+          name: "String",
+        },
+      },
       errorCode: {
         serializedName: "x-ms-error-code",
         xmlName: "x-ms-error-code",

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a list of all virtual machines in a VM scale sets.
  *
  * @summary gets a list of all virtual machines in a VM scale sets.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_List_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_List_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetVMListMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -30,7 +30,7 @@ async function virtualMachineScaleSetVMListMaximumSetGen() {
  * This sample demonstrates how to gets a list of all virtual machines in a VM scale sets.
  *
  * @summary gets a list of all virtual machines in a VM scale sets.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_List_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_List_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetVMListMinimumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -48,7 +48,7 @@ async function virtualMachineScaleSetVMListMinimumSetGen() {
  * This sample demonstrates how to gets a list of all virtual machines in a VM scale sets.
  *
  * @summary gets a list of all virtual machines in a VM scale sets.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_List_WithResiliencyView.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_List_WithResiliencyView.json
  */
 async function listVmssVMsWithResilientVMDeletionStatus() {
   const credential = new DefaultAzureCredential();
@@ -66,7 +66,7 @@ async function listVmssVMsWithResilientVMDeletionStatus() {
  * This sample demonstrates how to gets a list of all virtual machines in a VM scale sets.
  *
  * @summary gets a list of all virtual machines in a VM scale sets.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_List_WithVirtualMachineResourceId.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_List_WithVirtualMachineResourceId.json
  */
 async function listVmssVMsWithVirtualMachineResourceId() {
   const credential = new DefaultAzureCredential();
