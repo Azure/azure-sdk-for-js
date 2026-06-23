@@ -29,7 +29,9 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-file-share",
   "dependencies": {
     "@azure/storage-file-share": "latest",
-    "dotenv": "latest",
-    "@azure/abort-controller": "^2.1.2"
+    "dotenv": "latest"
+  },
+  "devDependencies": {
+    "cross-env": "latest"
   }
 }

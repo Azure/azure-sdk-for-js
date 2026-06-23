@@ -32,5 +32,8 @@
   "dependencies": {
     "@azure/storage-file-datalake": "latest",
     "dotenv": "latest"
+  },
+  "devDependencies": {
+    "cross-env": "latest"
   }
 }
