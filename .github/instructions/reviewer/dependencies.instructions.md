@@ -75,7 +75,7 @@ New peer dep ranges must be compatible with existing declarations in sibling pac
 
 ## Engine Requirements
 
-All packages declare a minimum supported Node.js version in their `engines` field. A new dependency must not require a newer Node.js version than the package's declared minimum.
+All SDK packages declare a minimum supported Node.js version in their `engines` field. A new dependency must not require a newer Node.js version than the package's declared minimum.
 
 ## Package.json Structure (new packages)
 
