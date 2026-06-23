@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to scales out one or more virtual machines in a VM scale set.
  *
  * @summary scales out one or more virtual machines in a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_ScaleOut.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_ScaleOut.json
  */
 async function virtualMachineScaleSetScaleOut(): Promise<void> {
   const credential = new DefaultAzureCredential();

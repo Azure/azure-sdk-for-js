@@ -55,7 +55,7 @@ import {
 /** Interface representing a File. */
 export interface File {
   /**
-   * Creates a new file or replaces a file. Note it only initializes the file with no content.
+   * Creates a new file or replaces a file. Can also initialize the file with content.
    * @param fileContentLength Specifies the maximum size for the file, up to 4 TB.
    * @param options The options parameters.
    */

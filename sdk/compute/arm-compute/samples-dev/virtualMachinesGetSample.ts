@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to retrieves information about the model view or the instance view of a virtual machine.
  *
  * @summary retrieves information about the model view or the instance view of a virtual machine.
- * x-ms-original-file: 2025-11-01/virtualMachineExamples/VirtualMachine_Get.json
+ * x-ms-original-file: 2026-03-01/virtualMachineExamples/VirtualMachine_Get.json
  */
 async function getAVirtualMachine(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -24,7 +24,7 @@ async function getAVirtualMachine(): Promise<void> {
  * This sample demonstrates how to retrieves information about the model view or the instance view of a virtual machine.
  *
  * @summary retrieves information about the model view or the instance view of a virtual machine.
- * x-ms-original-file: 2025-11-01/virtualMachineExamples/VirtualMachine_Get_AutoPlacedOnDedicatedHostGroup.json
+ * x-ms-original-file: 2026-03-01/virtualMachineExamples/VirtualMachine_Get_AutoPlacedOnDedicatedHostGroup.json
  */
 async function getAVirtualMachinePlacedOnADedicatedHostGroupThroughAutomaticPlacement(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -38,7 +38,7 @@ async function getAVirtualMachinePlacedOnADedicatedHostGroupThroughAutomaticPlac
  * This sample demonstrates how to retrieves information about the model view or the instance view of a virtual machine.
  *
  * @summary retrieves information about the model view or the instance view of a virtual machine.
- * x-ms-original-file: 2025-11-01/virtualMachineExamples/VirtualMachine_Get_WithDiskControllerType.json
+ * x-ms-original-file: 2026-03-01/virtualMachineExamples/VirtualMachine_Get_WithDiskControllerType.json
  */
 async function getAVirtualMachineWithDiskControllerTypeProperties(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -54,7 +54,7 @@ async function getAVirtualMachineWithDiskControllerTypeProperties(): Promise<voi
  * This sample demonstrates how to retrieves information about the model view or the instance view of a virtual machine.
  *
  * @summary retrieves information about the model view or the instance view of a virtual machine.
- * x-ms-original-file: 2025-11-01/virtualMachineExamples/VirtualMachine_Get_WithVMSizeProperties.json
+ * x-ms-original-file: 2026-03-01/virtualMachineExamples/VirtualMachine_Get_WithVMSizeProperties.json
  */
 async function getAVirtualMachineWithVMSizeProperties(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to retrieves information about an availability set.
  *
  * @summary retrieves information about an availability set.
- * x-ms-original-file: 2025-11-01/availabilitySetExamples/AvailabilitySet_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/availabilitySetExamples/AvailabilitySet_Get_MaximumSet_Gen.json
  */
 async function availabilitySetGetMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function availabilitySetGetMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to retrieves information about an availability set.
  *
  * @summary retrieves information about an availability set.
- * x-ms-original-file: 2025-11-01/availabilitySetExamples/AvailabilitySet_Get_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/availabilitySetExamples/AvailabilitySet_Get_MinimumSet_Gen.json
  */
 async function availabilitySetGetMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

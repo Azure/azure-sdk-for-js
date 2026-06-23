@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a list of virtual machine image SKUs for the specified location, publisher, and offer.
  *
  * @summary gets a list of virtual machine image SKUs for the specified location, publisher, and offer.
- * x-ms-original-file: 2025-11-01/virtualMachineImageExamples/VirtualMachineImage_ListSkus_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/virtualMachineImageExamples/VirtualMachineImage_ListSkus_MaximumSet_Gen.json
  */
 async function virtualMachineImageListSkusMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function virtualMachineImageListSkusMaximumSetGen() {
  * This sample demonstrates how to gets a list of virtual machine image SKUs for the specified location, publisher, and offer.
  *
  * @summary gets a list of virtual machine image SKUs for the specified location, publisher, and offer.
- * x-ms-original-file: 2025-11-01/virtualMachineImageExamples/VirtualMachineImage_ListSkus_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/virtualMachineImageExamples/VirtualMachineImage_ListSkus_MinimumSet_Gen.json
  */
 async function virtualMachineImageListSkusMinimumSetGen() {
   const credential = new DefaultAzureCredential();
