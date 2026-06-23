@@ -11,7 +11,7 @@
  * @summary Demonstrates CRUD operations on Toolboxes using the beta toolboxes API.
  */
 
-import type { MCPTool, ToolUnion } from "@azure/ai-projects";
+import type { MCPToolboxTool, ToolboxToolUnion } from "@azure/ai-projects";
 import { RestError } from "@azure/ai-projects";
 import { AIProjectClient } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -35,13 +35,13 @@ export async function main(): Promise<void> {
   }
 
   // Define tools for the toolbox
-  const tools: ToolUnion[] = [
+  const tools: ToolboxToolUnion[] = [
     {
       type: "mcp",
       server_label: "api_specs",
       server_url: "https://gitmcp.io/Azure/azure-rest-api-specs",
       require_approval: "never",
-    } satisfies MCPTool,
+    } satisfies MCPToolboxTool,
   ];
 
   // Create a new toolbox version
