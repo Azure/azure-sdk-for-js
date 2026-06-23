@@ -133,7 +133,6 @@ describe("beta agents - code-based operations", () => {
         headers: {
           agentName: request.headers.get("x-ms-agent-name") ?? "",
           codeZipSha256: request.headers.get("x-ms-code-zip-sha256") ?? "",
-          foundryFeatures: request.headers.get("foundry-features") ?? "",
         },
       });
       return {
@@ -173,7 +172,6 @@ describe("beta agents - code-based operations", () => {
       | {
           url: string;
           method: string;
-          foundryFeatures: string;
           codeZipSha256: string;
         }
       | undefined;
@@ -181,7 +179,6 @@ describe("beta agents - code-based operations", () => {
       capturedRequest = {
         url: request.url,
         method: request.method,
-        foundryFeatures: request.headers.get("foundry-features") ?? "",
         codeZipSha256: request.headers.get("x-ms-code-zip-sha256") ?? "",
       };
       return {
