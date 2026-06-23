@@ -8,6 +8,7 @@
 
 ### Bugs Fixed
 
+- Fixed Azure SDK spans being silently dropped when any Azure SDK package is imported before `useAzureMonitor()`. The fix eagerly installs the `@azure/core-tracing` OpenTelemetry bridge after SDK initialization, handling the case where the RITM hook could not intercept an already-loaded `@azure/core-tracing`.
 - Fixed a CPU-saturating deactivate/reactivate loop in Live Metrics that occurred when live-endpoint posts failed while subscribed.
 
 ### Other Changes
