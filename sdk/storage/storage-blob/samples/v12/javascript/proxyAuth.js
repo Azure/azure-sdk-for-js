@@ -8,7 +8,7 @@
 const { BlobServiceClient, StorageSharedKeyCredential } = require("@azure/storage-blob");
 
 // Load the .env file if it exists
-require("dotenv").config();
+require("dotenv/config");
 
 async function main() {
   // Enter your storage account name and shared key
@@ -40,7 +40,7 @@ async function main() {
       password: "<password>"
     }
     */
-    }
+    },
   );
 
   // Create a container
