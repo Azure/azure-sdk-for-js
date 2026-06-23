@@ -4810,7 +4810,7 @@ export function versionSelectionRuleUnionArrayDeserializer(
 
 /** model interface VersionSelectionRule */
 export interface VersionSelectionRule {
-  type: VersionSelectorType;
+  type: VersionSelectionRuleType;
   /** The agent version to route traffic to */
   agent_version: string;
 }
@@ -4849,8 +4849,8 @@ export function versionSelectionRuleUnionDeserializer(item: any): VersionSelecti
   }
 }
 
-/** Type of VersionSelectorType */
-export type VersionSelectorType = "FixedRatio";
+/** Type of VersionSelectionRuleType */
+export type VersionSelectionRuleType = "FixedRatio";
 
 /** model interface FixedRatioVersionSelectionRule */
 export interface FixedRatioVersionSelectionRule extends VersionSelectionRule {

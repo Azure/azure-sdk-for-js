@@ -58,7 +58,7 @@ import type {
   AgentsEnableOptionalParams,
   AgentsDownloadAgentCodeOptionalParams,
   AgentsCreateVersionFromCodeOptionalParams,
-  AgentsPatchAgentObjectOptionalParams,
+  AgentsUpdateAgentObjectOptionalParams,
   AgentsListVersionsOptionalParams,
   AgentsDeleteVersionOptionalParams,
   AgentsGetVersionOptionalParams,
@@ -929,7 +929,7 @@ export async function createVersionFromCode(
 export function _patchAgentObjectSend(
   context: Client,
   agentName: string,
-  options: AgentsPatchAgentObjectOptionalParams = { requestOptions: {} },
+  options: AgentsUpdateAgentObjectOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/agents/{agent_name}{?api-version}",
@@ -974,7 +974,7 @@ export async function _patchAgentObjectDeserialize(result: PathUncheckedResponse
 export async function updateAgentObject(
   context: Client,
   agentName: string,
-  options: AgentsPatchAgentObjectOptionalParams = { requestOptions: {} },
+  options: AgentsUpdateAgentObjectOptionalParams = { requestOptions: {} },
 ): Promise<Agent> {
   const result = await _patchAgentObjectSend(context, agentName, options);
   return _patchAgentObjectDeserialize(result);

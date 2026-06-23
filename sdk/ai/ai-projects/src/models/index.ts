@@ -175,7 +175,7 @@ export type {
   VersionSelector,
   VersionSelectionRule,
   VersionSelectionRuleUnion,
-  VersionSelectorType,
+  VersionSelectionRuleType,
   FixedRatioVersionSelectionRule,
   ProtocolConfiguration,
   ActivityProtocolConfiguration,

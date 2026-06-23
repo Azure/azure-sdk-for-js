@@ -46,7 +46,7 @@ import type {
   AgentsEnableOptionalParams,
   AgentsDownloadAgentCodeOptionalParams,
   AgentsCreateVersionFromCodeOptionalParams,
-  AgentsPatchAgentObjectOptionalParams,
+  AgentsUpdateAgentObjectOptionalParams,
   AgentsListVersionsOptionalParams,
   AgentsDeleteVersionOptionalParams,
   AgentsGetVersionOptionalParams,
@@ -84,7 +84,7 @@ export interface AgentsOperations {
    */
   deleteSessionFile: (
     agentName: string,
-    agentSessionId: string,
+    sessionId: string,
     path: string,
     options?: AgentsDeleteSessionFileOptionalParams,
   ) => Promise<void>;
@@ -94,7 +94,7 @@ export interface AgentsOperations {
    */
   listSessionFiles: (
     agentName: string,
-    agentSessionId: string,
+    sessionId: string,
     options?: AgentsListSessionFilesOptionalParams,
   ) => PagedAsyncIterableIterator<SessionDirectoryEntry>;
   /**
@@ -103,7 +103,7 @@ export interface AgentsOperations {
    */
   downloadSessionFile: (
     agentName: string,
-    agentSessionId: string,
+    sessionId: string,
     path: string,
     options?: AgentsDownloadSessionFileOptionalParams,
   ) => Promise<AgentsDownloadSessionFileResponse>;
@@ -113,7 +113,7 @@ export interface AgentsOperations {
    */
   uploadSessionFile: (
     agentName: string,
-    agentSessionId: string,
+    sessionId: string,
     path: string,
     content: Uint8Array,
     options?: AgentsUploadSessionFileOptionalParams,
@@ -229,7 +229,7 @@ export interface AgentsOperations {
   /** Applies a merge-patch update to the specified agent endpoint configuration. */
   updateAgent: (
     agentName: string,
-    options?: AgentsPatchAgentObjectOptionalParams,
+    options?: AgentsUpdateAgentObjectOptionalParams,
   ) => Promise<Agent>;
   /** Returns the list of versions of an agent. */
   listVersions: (
@@ -313,28 +313,28 @@ function _getAgents(context: AIProjectContext) {
   return {
     deleteSessionFile: (
       agentName: string,
-      agentSessionId: string,
+      sessionId: string,
       path: string,
       options?: AgentsDeleteSessionFileOptionalParams,
-    ) => deleteSessionFile(context, agentName, agentSessionId, path, options),
+    ) => deleteSessionFile(context, agentName, sessionId, path, options),
     listSessionFiles: (
       agentName: string,
-      agentSessionId: string,
+      sessionId: string,
       options?: AgentsListSessionFilesOptionalParams,
-    ) => listSessionFiles(context, agentName, agentSessionId, options),
+    ) => listSessionFiles(context, agentName, sessionId, options),
     downloadSessionFile: (
       agentName: string,
-      agentSessionId: string,
+      sessionId: string,
       path: string,
       options?: AgentsDownloadSessionFileOptionalParams,
-    ) => downloadSessionFile(context, agentName, agentSessionId, path, options),
+    ) => downloadSessionFile(context, agentName, sessionId, path, options),
     uploadSessionFile: (
       agentName: string,
-      agentSessionId: string,
+      sessionId: string,
       path: string,
       content: Uint8Array,
       options?: AgentsUploadSessionFileOptionalParams,
-    ) => uploadSessionFile(context, agentName, agentSessionId, path, content, options),
+    ) => uploadSessionFile(context, agentName, sessionId, path, content, options),
     getSessionLogStream: (
       agentName: string,
       agentVersion: string,
@@ -372,7 +372,7 @@ function _getAgents(context: AIProjectContext) {
       content: CreateAgentVersionFromCodeContent,
       options?: AgentsCreateVersionFromCodeOptionalParams,
     ) => createVersionFromCode(context, agentName, codeZipSha256, content, options),
-    updateAgent: (agentName: string, options?: AgentsPatchAgentObjectOptionalParams) =>
+    updateAgent: (agentName: string, options?: AgentsUpdateAgentObjectOptionalParams) =>
       updateAgentObject(context, agentName, options),
     listVersions: (agentName: string, options?: AgentsListVersionsOptionalParams) =>
       listVersions(context, agentName, options),

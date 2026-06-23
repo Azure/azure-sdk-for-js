@@ -115,7 +115,7 @@ export interface AgentsDownloadAgentCodeOptionalParams extends OperationOptions 
 export interface AgentsCreateVersionFromCodeOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface AgentsPatchAgentObjectOptionalParams extends OperationOptions {
+export interface AgentsUpdateAgentObjectOptionalParams extends OperationOptions {
   /** The endpoint configuration for the agent */
   agentEndpoint?: AgentEndpointConfig;
   /** Optional agent card for the agent */

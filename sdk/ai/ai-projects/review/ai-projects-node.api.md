@@ -328,31 +328,25 @@ export interface AgentsOperations {
     createVersionFromCode: (agentName: string, codeZipSha256: string, content: CreateAgentVersionFromCodeContent, options?: AgentsCreateVersionFromCodeOptionalParams) => Promise<AgentVersion>;
     delete: (agentName: string, options?: AgentsDeleteOptionalParams) => Promise<DeleteAgentResponse>;
     deleteSession: (agentName: string, sessionId: string, options?: AgentsDeleteSessionOptionalParams) => Promise<void>;
-    deleteSessionFile: (agentName: string, agentSessionId: string, path: string, options?: AgentsDeleteSessionFileOptionalParams) => Promise<void>;
+    deleteSessionFile: (agentName: string, sessionId: string, path: string, options?: AgentsDeleteSessionFileOptionalParams) => Promise<void>;
     deleteVersion: (agentName: string, agentVersion: string, options?: AgentsDeleteVersionOptionalParams) => Promise<DeleteAgentVersionResponse>;
     disable: (agentName: string, options?: AgentsDisableOptionalParams) => Promise<void>;
     downloadAgentCode: (agentName: string, options?: AgentsDownloadAgentCodeOptionalParams) => Promise<AgentsDownloadAgentCodeResponse>;
-    downloadSessionFile: (agentName: string, agentSessionId: string, path: string, options?: AgentsDownloadSessionFileOptionalParams) => Promise<AgentsDownloadSessionFileResponse>;
+    downloadSessionFile: (agentName: string, sessionId: string, path: string, options?: AgentsDownloadSessionFileOptionalParams) => Promise<AgentsDownloadSessionFileResponse>;
     enable: (agentName: string, options?: AgentsEnableOptionalParams) => Promise<void>;
     get: (agentName: string, options?: AgentsGetOptionalParams) => Promise<Agent>;
     getSession: (agentName: string, sessionId: string, options?: AgentsGetSessionOptionalParams) => Promise<AgentSessionResource>;
     getSessionLogStream: (agentName: string, agentVersion: string, sessionId: string, options?: AgentsGetSessionLogStreamOptionalParams) => Promise<AgentsDownloadSessionFileResponse>;
     getVersion: (agentName: string, agentVersion: string, options?: AgentsGetVersionOptionalParams) => Promise<AgentVersion>;
     list: (options?: AgentsListOptionalParams) => PagedAsyncIterableIterator<Agent>;
-    listSessionFiles: (agentName: string, agentSessionId: string, options?: AgentsListSessionFilesOptionalParams) => PagedAsyncIterableIterator<SessionDirectoryEntry>;
+    listSessionFiles: (agentName: string, sessionId: string, options?: AgentsListSessionFilesOptionalParams) => PagedAsyncIterableIterator<SessionDirectoryEntry>;
     listSessions: (agentName: string, options?: AgentsListSessionsOptionalParams) => PagedAsyncIterableIterator<AgentSessionResource>;
     listVersions: (agentName: string, options?: AgentsListVersionsOptionalParams) => PagedAsyncIterableIterator<AgentVersion>;
     stopSession: (agentName: string, sessionId: string, options?: AgentsStopSessionOptionalParams) => Promise<void>;
     update(agentName: string, manifestId: string, parameterValues: Record<string, unknown>, options?: AgentsUpdateAgentFromManifestOptionalParams): Promise<Agent>;
     update(agentName: string, definition: AgentDefinitionUnion, options?: AgentsUpdateOptionalParams): Promise<Agent>;
-    updateAgent: (agentName: string, options?: AgentsPatchAgentObjectOptionalParams) => Promise<Agent>;
-    uploadSessionFile: (agentName: string, agentSessionId: string, path: string, content: Uint8Array, options?: AgentsUploadSessionFileOptionalParams) => Promise<SessionFileWriteResponse>;
-}
-
-// @public
-export interface AgentsPatchAgentObjectOptionalParams extends OperationOptions {
-    agentCard?: AgentCard;
-    agentEndpoint?: AgentEndpointConfig;
+    updateAgent: (agentName: string, options?: AgentsUpdateAgentObjectOptionalParams) => Promise<Agent>;
+    uploadSessionFile: (agentName: string, sessionId: string, path: string, content: Uint8Array, options?: AgentsUploadSessionFileOptionalParams) => Promise<SessionFileWriteResponse>;
 }
 
 // @public
@@ -366,6 +360,12 @@ export type AgentState = "enabled" | "disabled";
 export interface AgentsUpdateAgentFromManifestOptionalParams extends OperationOptions {
     description?: string;
     metadata?: Record<string, string>;
+}
+
+// @public
+export interface AgentsUpdateAgentObjectOptionalParams extends OperationOptions {
+    agentCard?: AgentCard;
+    agentEndpoint?: AgentEndpointConfig;
 }
 
 // @public
@@ -4044,8 +4044,11 @@ export interface VersionRefIndicator extends VersionIndicator {
 export interface VersionSelectionRule {
     agent_version: string;
     // (undocumented)
-    type: VersionSelectorType;
+    type: VersionSelectionRuleType;
 }
+
+// @public
+export type VersionSelectionRuleType = "FixedRatio";
 
 // @public
 export type VersionSelectionRuleUnion = FixedRatioVersionSelectionRule | VersionSelectionRule;
@@ -4055,9 +4058,6 @@ export interface VersionSelector {
     // (undocumented)
     version_selection_rules: VersionSelectionRuleUnion[];
 }
-
-// @public
-export type VersionSelectorType = "FixedRatio";
 
 // @public
 export interface WebSearchApproximateLocation {

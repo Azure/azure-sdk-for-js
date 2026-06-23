@@ -45,7 +45,7 @@ export type {
   AgentsEnableOptionalParams,
   AgentsDownloadAgentCodeOptionalParams,
   AgentsCreateVersionFromCodeOptionalParams,
-  AgentsPatchAgentObjectOptionalParams,
+  AgentsUpdateAgentObjectOptionalParams,
   AgentsListVersionsOptionalParams,
   AgentsDeleteVersionOptionalParams,
   AgentsGetVersionOptionalParams,
