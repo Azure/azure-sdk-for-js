@@ -71,6 +71,15 @@ describe("Quickpulse isSameRegisteredDomain", () => {
       ),
     ).toBe(true);
   });
+
+  it("rejects netloc values that normalize to an empty host", () => {
+    // A bare port, a lone ":", or a lone "@" leave no host once normalized.
+    expect(isSameRegisteredDomain(":443", "westus.services.visualstudio.com")).toBe(false);
+    expect(isSameRegisteredDomain("westus.services.visualstudio.com", ":443")).toBe(false);
+    expect(isSameRegisteredDomain(":", ":")).toBe(false);
+    expect(isSameRegisteredDomain("@", "@")).toBe(false);
+    expect(isSameRegisteredDomain("user@", "westus.services.visualstudio.com")).toBe(false);
+  });
 });
 
 describe("QuickpulseSender.handlePermanentRedirect", () => {
@@ -98,6 +107,29 @@ describe("QuickpulseSender.handlePermanentRedirect", () => {
   it("ignores an unparseable redirect location", () => {
     const sender = makeSender();
     sender.handlePermanentRedirect("not a url");
+    expect((sender as any).endpointUrl).toBe(baseEndpoint);
+  });
+
+  it("ignores an empty, whitespace-only, or undefined redirect location", () => {
+    const sender = makeSender();
+    sender.handlePermanentRedirect("");
+    sender.handlePermanentRedirect("   ");
+    sender.handlePermanentRedirect(undefined);
+    expect((sender as any).endpointUrl).toBe(baseEndpoint);
+  });
+
+  it("ignores a redirect location that parses but has no host", () => {
+    const sender = makeSender();
+    // A scheme with no authority component yields an empty `host`.
+    sender.handlePermanentRedirect("mailto:attacker@example.invalid");
+    sender.handlePermanentRedirect("file:///etc/passwd");
+    expect((sender as any).endpointUrl).toBe(baseEndpoint);
+  });
+
+  it("ignores a relative or scheme-only redirect location", () => {
+    const sender = makeSender();
+    sender.handlePermanentRedirect("/v2/track");
+    sender.handlePermanentRedirect("https://");
     expect((sender as any).endpointUrl).toBe(baseEndpoint);
   });
 });
