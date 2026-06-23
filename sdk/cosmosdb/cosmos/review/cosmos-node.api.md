@@ -829,6 +829,7 @@ export interface CosmosClientOptions {
     defaultHeaders?: CosmosHeaders_2;
     // (undocumented)
     diagnosticLevel?: CosmosDbDiagnosticLevel;
+    enablePreviewFeatures?: Record<string, unknown>;
     endpoint?: string;
     httpClient?: HttpClient;
     inferenceEndpoint?: string;

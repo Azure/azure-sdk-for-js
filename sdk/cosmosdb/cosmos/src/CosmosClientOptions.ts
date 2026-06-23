@@ -87,4 +87,12 @@ export interface CosmosClientOptions {
    * If not provided, the SDK falls back to the `AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT` environment variable.
    */
   inferenceEndpoint?: string;
+
+  /**
+   * A dictionary for opting into preview features of the SDK.
+   *
+   * Preview features are not generally available and may change in backward-incompatible
+   * ways before they become GA; they are not recommended for production use.
+   */
+  enablePreviewFeatures?: Record<string, unknown>;
 }
