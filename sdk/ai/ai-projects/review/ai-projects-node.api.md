@@ -3391,6 +3391,7 @@ export interface RoutineRun {
     started_at?: Date;
     status?: RoutineRunStatus;
     task_id?: string;
+    trigger_event_payload?: Record<string, any>;
     trigger_name?: string;
     trigger_type?: RoutineTriggerType;
     triggered_at?: Date;
