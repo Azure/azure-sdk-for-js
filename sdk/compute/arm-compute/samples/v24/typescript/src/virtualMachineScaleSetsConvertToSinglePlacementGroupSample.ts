@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to converts SinglePlacementGroup property to false for a existing virtual machine scale set.
  *
  * @summary converts SinglePlacementGroup property to false for a existing virtual machine scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_ConvertToSinglePlacementGroup_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_ConvertToSinglePlacementGroup_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetConvertToSinglePlacementGroupMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -25,7 +25,7 @@ async function virtualMachineScaleSetConvertToSinglePlacementGroupMaximumSetGen(
  * This sample demonstrates how to converts SinglePlacementGroup property to false for a existing virtual machine scale set.
  *
  * @summary converts SinglePlacementGroup property to false for a existing virtual machine scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_ConvertToSinglePlacementGroup_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_ConvertToSinglePlacementGroup_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetConvertToSinglePlacementGroupMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

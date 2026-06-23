@@ -9,7 +9,7 @@
     "directory": "sdk/synapse/synapse-monitoring"
   },
   "sdk-type": "client",
-  "version": "1.0.0-beta.4",
+  "version": "1.0.0-beta.5",
   "dependencies": {
     "@azure/core-auth": "^1.9.0",
     "@azure/core-client": "^1.9.2",
@@ -50,6 +50,22 @@
     "rimraf": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
+  },
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/monitoringClient.ts",
+        "prefix": "packageDetails"
+      },
+      {
+        "path": "src/tracing.ts",
+        "prefix": "packageVersion"
+      },
+      {
+        "path": "swagger/README.md",
+        "prefix": "package-version"
+      }
+    ]
   },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
