@@ -1,5 +1,11 @@
 # Release History
 
+## 12.4.1 (2026-06-22)
+
+### Bugs Fixed
+
+- Fixed the browser and react-native builds of the CRC64 checksum calculator still containing Node.js `require('fs')`/`require('path')` calls, which broke esbuild-based bundlers. The post-build step now replaces the unreachable Node-only filesystem read block with a no-op in the browser and react-native copies of `crc64.js`. Issue [#38924](https://github.com/Azure/azure-sdk-for-js/issues/38924).
+
 ## 12.4.0 (2026-05-22)
 
 ### Features Added

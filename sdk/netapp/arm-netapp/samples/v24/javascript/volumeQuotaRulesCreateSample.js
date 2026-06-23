@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create the specified quota rule within the given volume
  *
  * @summary create the specified quota rule within the given volume
- * x-ms-original-file: 2026-01-01/VolumeQuotaRules_Create.json
+ * x-ms-original-file: 2026-04-01/VolumeQuotaRules_Create.json
  */
 async function volumeQuotaRulesCreate() {
   const credential = new DefaultAzureCredential();

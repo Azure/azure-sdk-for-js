@@ -1,0 +1,15 @@
+steps:
+  - pwsh: |
+      $packageJson = Get-Content -Raw "$(Build.SourcesDirectory)/package.json" | ConvertFrom-Json
+      $packageManager = $packageJson.packageManager
+      if (-not $packageManager) {
+        Write-Error "The 'packageManager' field is missing from package.json"
+        exit 1
+      }
+      if (-not $packageManager.StartsWith("pnpm@")) {
+        Write-Error "Expected 'packageManager' to start with 'pnpm@', but got: $packageManager"
+        exit 1
+      }
+      Write-Host "Installing $packageManager"
+      npm install -g $packageManager
+    displayName: "Install Pnpm"

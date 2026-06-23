@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to get all run commands of an instance in Virtual Machine Scaleset.
  *
  * @summary the operation to get all run commands of an instance in Virtual Machine Scaleset.
- * x-ms-original-file: 2025-11-01/runCommandExamples/VirtualMachineScaleSetVMRunCommand_List.json
+ * x-ms-original-file: 2026-03-01/runCommandExamples/VirtualMachineScaleSetVMRunCommand_List.json
  */
 async function listRunCommandsInVmssInstance(): Promise<void> {
   const credential = new DefaultAzureCredential();

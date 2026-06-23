@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RedisEnterpriseManagementClient } from "./redisEnterpriseManagementClient.js";
+import type { RedisEnterpriseManagementClient } from "./redisEnterpriseManagementClient.js";
 import { _cancelDeserialize, _startDeserialize } from "./api/migration/operations.js";
 import {
   _$deleteDeserialize,
@@ -29,14 +29,10 @@ import {
   _createDeserialize as _createDeserializeDatabases,
 } from "./api/databases/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
-import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
-import { AbortSignalLike } from "@azure/abort-controller";
-import {
-  PollerLike,
-  OperationState,
-  deserializeState,
-  ResourceLocationConfig,
-} from "@azure/core-lro";
+import type { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { PollerLike, OperationState, ResourceLocationConfig } from "@azure/core-lro";
+import { deserializeState } from "@azure/core-lro";
 
 export interface RestorePollerOptions<
   TResult,
