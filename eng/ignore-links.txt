@@ -115,3 +115,8 @@ https://learn.microsoft.com/javascript/api/@azure/planetarycomputer
 https://www.npmjs.com/package/@azure/planetarycomputer
 https://learn.microsoft.com/javascript/api/@azure/arm-programenrollment?view=azure-node-preview
 https://www.npmjs.com/package/@azure/arm-programenrollment
+https://learn.microsoft.com/javascript/api/@azure/arm-napsteromniagentapi?view=azure-node-preview
+https://www.npmjs.com/package/@azure/arm-napsteromniagentapi
+https://learn.microsoft.com/javascript/api/@azure/arm-powerplatform?view=azure-node-preview
+https://www.npmjs.com/package/@azure/arm-powerplatform
+https://learn.microsoft.com/javascript/api/@azure/arm-voiceservices
