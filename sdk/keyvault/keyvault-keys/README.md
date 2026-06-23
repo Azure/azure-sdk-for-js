@@ -801,8 +801,8 @@ setLogLevel("info");
 
 You can find more code samples through the following links:
 
-- [Key Vault Keys Samples (JavaScript)](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-keys/samples/v4/javascript)
-- [Key Vault Keys Samples (TypeScript)](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-keys/samples/v4/typescript)
+- [Key Vault Keys Samples (JavaScript)](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-keys/samples/v5/javascript)
+- [Key Vault Keys Samples (TypeScript)](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-keys/samples/v5/typescript)
 - [Key Vault Keys Test Cases](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-keys/test/)
 
 ## Contributing
