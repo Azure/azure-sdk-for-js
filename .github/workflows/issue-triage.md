@@ -21,7 +21,6 @@ on:
 permissions:
   contents: read
   issues: read
-  copilot-requests: write
 
 concurrency:
   group: "gh-aw-${{ github.workflow }}-${{ github.event.issue.number || github.event.inputs.issue_number || github.run_id }}"
