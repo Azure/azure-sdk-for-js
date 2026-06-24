@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
+import { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
 import { get } from "../../api/productTemplate/operations.js";
-import type { ProductTemplateGetOptionalParams } from "../../api/productTemplate/options.js";
-import type { ProductTemplateModel } from "../../models/models.js";
+import { ProductTemplateGetOptionalParams } from "../../api/productTemplate/options.js";
+import { ProductTemplateModel } from "../../models/models.js";
 
 /** Interface representing a ProductTemplate operations. */
 export interface ProductTemplateOperations {

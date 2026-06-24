@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SignalRManagementContext } from "../../api/signalRManagementContext.js";
+import { SignalRManagementContext } from "../../api/signalRManagementContext.js";
 import {
   restart,
   list,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/signalRReplicas/operations.js";
-import type {
+import {
   SignalRReplicasRestartOptionalParams,
   SignalRReplicasListOptionalParams,
   SignalRReplicasDeleteOptionalParams,
@@ -18,11 +18,10 @@ import type {
   SignalRReplicasCreateOrUpdateOptionalParams,
   SignalRReplicasGetOptionalParams,
 } from "../../api/signalRReplicas/options.js";
-import type { Replica } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { Replica } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a SignalRReplicas operations. */
 export interface SignalRReplicasOperations {

@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { cancel, listByElasticPool } from "../../api/elasticPoolOperations/operations.js";
-import type {
+import {
   ElasticPoolOperationsCancelOptionalParams,
   ElasticPoolOperationsListByElasticPoolOptionalParams,
 } from "../../api/elasticPoolOperations/options.js";
-import type { ElasticPoolOperation } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { ElasticPoolOperation } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ElasticPoolOperations operations. */
 export interface ElasticPoolOperationsOperations {

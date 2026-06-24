@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listByDatabaseAdvisor,
   update,
   get,
 } from "../../api/databaseRecommendedActions/operations.js";
-import type {
+import {
   DatabaseRecommendedActionsListByDatabaseAdvisorOptionalParams,
   DatabaseRecommendedActionsUpdateOptionalParams,
   DatabaseRecommendedActionsGetOptionalParams,
 } from "../../api/databaseRecommendedActions/options.js";
-import type { RecommendedAction } from "../../models/models.js";
+import { RecommendedAction } from "../../models/models.js";
 
 /** Interface representing a DatabaseRecommendedActions operations. */
 export interface DatabaseRecommendedActionsOperations {

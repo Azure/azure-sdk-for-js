@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ManualTriggerRequestBody } from "../../models/models.js";
-import type { OperationOptions } from "@azure-rest/core-client";
+import { ManualTriggerRequestBody } from "../../models/models.js";
+import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface IncidentsListEntitiesOptionalParams extends OperationOptions {}

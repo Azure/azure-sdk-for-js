@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
+import { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
 import { list, $delete, createOrUpdate, get } from "../../api/incidentComments/operations.js";
-import type {
+import {
   IncidentCommentsListOptionalParams,
   IncidentCommentsDeleteOptionalParams,
   IncidentCommentsCreateOrUpdateOptionalParams,
   IncidentCommentsGetOptionalParams,
 } from "../../api/incidentComments/options.js";
-import type { IncidentComment } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { IncidentComment } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a IncidentComments operations. */
 export interface IncidentCommentsOperations {

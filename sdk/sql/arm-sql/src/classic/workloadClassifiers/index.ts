@@ -1,24 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listByWorkloadGroup,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/workloadClassifiers/operations.js";
-import type {
+import {
   WorkloadClassifiersListByWorkloadGroupOptionalParams,
   WorkloadClassifiersDeleteOptionalParams,
   WorkloadClassifiersCreateOrUpdateOptionalParams,
   WorkloadClassifiersGetOptionalParams,
 } from "../../api/workloadClassifiers/options.js";
-import type { WorkloadClassifier } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { WorkloadClassifier } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a WorkloadClassifiers operations. */
 export interface WorkloadClassifiersOperations {

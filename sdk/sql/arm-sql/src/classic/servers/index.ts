@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   checkNameAvailability,
   refreshStatus,
@@ -13,7 +13,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/servers/operations.js";
-import type {
+import {
   ServersCheckNameAvailabilityOptionalParams,
   ServersRefreshStatusOptionalParams,
   ServersImportDatabaseOptionalParams,
@@ -24,7 +24,7 @@ import type {
   ServersCreateOrUpdateOptionalParams,
   ServersGetOptionalParams,
 } from "../../api/servers/options.js";
-import type {
+import {
   ImportExportOperationResult,
   Server,
   ServerUpdate,
@@ -33,10 +33,9 @@ import type {
   CheckNameAvailabilityRequest,
   CheckNameAvailabilityResponse,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Servers operations. */
 export interface ServersOperations {

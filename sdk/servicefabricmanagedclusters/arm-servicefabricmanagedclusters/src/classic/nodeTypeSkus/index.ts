@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ServiceFabricManagedClustersManagementContext } from "../../api/serviceFabricManagedClustersManagementContext.js";
+import { ServiceFabricManagedClustersManagementContext } from "../../api/serviceFabricManagedClustersManagementContext.js";
 import { list } from "../../api/nodeTypeSkus/operations.js";
-import type { NodeTypeSkusListOptionalParams } from "../../api/nodeTypeSkus/options.js";
-import type { NodeTypeAvailableSku } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { NodeTypeSkusListOptionalParams } from "../../api/nodeTypeSkus/options.js";
+import { NodeTypeAvailableSku } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a NodeTypeSkus operations. */
 export interface NodeTypeSkusOperations {

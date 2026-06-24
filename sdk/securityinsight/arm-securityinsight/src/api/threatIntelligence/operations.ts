@@ -1,29 +1,33 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SecurityInsightsContext as Client } from "../index.js";
-import type {
+import { SecurityInsightsContext as Client } from "../index.js";
+import {
+  cloudErrorDeserializer,
+  countQuerySerializer,
   ThreatIntelligenceCount,
+  threatIntelligenceCountDeserializer,
+  querySerializer,
   _ThreatIntelligenceList,
+  _threatIntelligenceListDeserializer,
   TIObjectUnion,
   TiType,
 } from "../../models/models.js";
 import {
-  cloudErrorDeserializer,
-  countQuerySerializer,
-  threatIntelligenceCountDeserializer,
-  querySerializer,
-  _threatIntelligenceListDeserializer,
-} from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   ThreatIntelligenceQueryOptionalParams,
   ThreatIntelligenceCountOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _querySend(
   context: Client,
@@ -45,14 +49,16 @@ export function _querySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: !options?.queryParameter
-      ? options?.queryParameter
-      : querySerializer(options?.queryParameter),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: !options?.queryParameter
+        ? options?.queryParameter
+        : querySerializer(options?.queryParameter),
+    });
 }
 
 export async function _queryDeserialize(
@@ -112,12 +118,14 @@ export function _countSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: !options?.query ? options?.query : countQuerySerializer(options?.query),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: !options?.query ? options?.query : countQuerySerializer(options?.query),
+    });
 }
 
 export async function _countDeserialize(

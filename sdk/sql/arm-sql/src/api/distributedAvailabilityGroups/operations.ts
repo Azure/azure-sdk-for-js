@@ -1,26 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlManagementContext as Client } from "../index.js";
-import type {
-  DistributedAvailabilityGroup,
-  _DistributedAvailabilityGroupsListResult,
-  DistributedAvailabilityGroupsFailoverRequest,
-  DistributedAvailabilityGroupSetRole,
-} from "../../models/models.js";
+import { SqlManagementContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  DistributedAvailabilityGroup,
   distributedAvailabilityGroupSerializer,
   distributedAvailabilityGroupDeserializer,
+  _DistributedAvailabilityGroupsListResult,
   _distributedAvailabilityGroupsListResultDeserializer,
+  DistributedAvailabilityGroupsFailoverRequest,
   distributedAvailabilityGroupsFailoverRequestSerializer,
+  DistributedAvailabilityGroupSetRole,
   distributedAvailabilityGroupSetRoleSerializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   DistributedAvailabilityGroupsSetRoleOptionalParams,
   DistributedAvailabilityGroupsFailoverOptionalParams,
   DistributedAvailabilityGroupsListByInstanceOptionalParams,
@@ -29,9 +29,13 @@ import type {
   DistributedAvailabilityGroupsCreateOrUpdateOptionalParams,
   DistributedAvailabilityGroupsGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _setRoleSend(
   context: Client,
@@ -54,12 +58,14 @@ export function _setRoleSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: distributedAvailabilityGroupSetRoleSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: distributedAvailabilityGroupSetRoleSerializer(parameters),
+    });
 }
 
 export async function _setRoleDeserialize(
@@ -125,12 +131,14 @@ export function _failoverSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: distributedAvailabilityGroupsFailoverRequestSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: distributedAvailabilityGroupsFailoverRequestSerializer(parameters),
+    });
 }
 
 export async function _failoverDeserialize(
@@ -193,10 +201,12 @@ export function _listByInstanceSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listByInstanceDeserialize(
@@ -313,12 +323,14 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: distributedAvailabilityGroupSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: distributedAvailabilityGroupSerializer(parameters),
+    });
 }
 
 export async function _updateDeserialize(
@@ -384,12 +396,14 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: distributedAvailabilityGroupSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: distributedAvailabilityGroupSerializer(parameters),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -454,10 +468,12 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(

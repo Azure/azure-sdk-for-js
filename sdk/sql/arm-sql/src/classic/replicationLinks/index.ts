@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listByServer,
   failoverAllowDataLoss,
@@ -12,7 +12,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/replicationLinks/operations.js";
-import type {
+import {
   ReplicationLinksListByServerOptionalParams,
   ReplicationLinksFailoverAllowDataLossOptionalParams,
   ReplicationLinksFailoverOptionalParams,
@@ -22,11 +22,10 @@ import type {
   ReplicationLinksCreateOrUpdateOptionalParams,
   ReplicationLinksGetOptionalParams,
 } from "../../api/replicationLinks/options.js";
-import type { ReplicationLink, ReplicationLinkUpdate } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { ReplicationLink, ReplicationLinkUpdate } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ReplicationLinks operations. */
 export interface ReplicationLinksOperations {

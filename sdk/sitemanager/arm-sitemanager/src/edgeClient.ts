@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { createEdge, EdgeContext, EdgeClientOptionalParams } from "./api/index.js";
+import { EdgeContext, EdgeClientOptionalParams, createEdge } from "./api/index.js";
 import { SitesOperations, _getSitesOperations } from "./classic/sites/index.js";
 import {
   SitesByServiceGroupOperations,
@@ -14,24 +14,39 @@ import {
 import { TokenCredential } from "@azure/core-auth";
 import { Pipeline } from "@azure/core-rest-pipeline";
 
-export { type EdgeClientOptionalParams } from "./api/edgeContext.js";
+export type { EdgeClientOptionalParams } from "./api/edgeContext.js";
 
 export class EdgeClient {
   private _client: EdgeContext;
   /** The pipeline used by this client to make requests */
   public readonly pipeline: Pipeline;
 
-  /** Azure Edge Sites Resource Provider management API. */
+  constructor(credential: TokenCredential, options?: EdgeClientOptionalParams);
   constructor(
     credential: TokenCredential,
     subscriptionId: string,
-    options: EdgeClientOptionalParams = {},
+    options?: EdgeClientOptionalParams,
+  );
+  /** Azure Edge Sites Resource Provider management API. */
+  constructor(
+    credential: TokenCredential,
+    subscriptionIdOrOptions?: string | EdgeClientOptionalParams,
+    options?: EdgeClientOptionalParams,
   ) {
+    let subscriptionId: string | undefined;
+
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
+    }
+
+    options = options ?? {};
     const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
       : `azsdk-js-client`;
-    this._client = createEdge(credential, subscriptionId, {
+    this._client = createEdge(credential, subscriptionId ?? "", {
       ...options,
       userAgentOptions: { userAgentPrefix },
     });

@@ -5,15 +5,14 @@ import { EdgeClient } from "@azure/arm-sitemanager";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to list Site at SG scope
+ * This sample demonstrates how to list Site resources by scope
  *
- * @summary list Site at SG scope
+ * @summary list Site resources by scope
  * x-ms-original-file: 2025-06-01/SitesByServiceGroup_ListByServiceGroup_MaximumSet_Gen.json
  */
 async function sitesByServiceGroupListByServiceGroupGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const client = new EdgeClient(credential, subscriptionId);
+  const client = new EdgeClient(credential);
   const resArray = new Array();
   for await (const item of client.sitesByServiceGroup.listByServiceGroup("string")) {
     resArray.push(item);

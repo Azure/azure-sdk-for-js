@@ -32,14 +32,16 @@ export function _checkAvailabilitySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: !options?.checkNameAvailabilityRequest
-      ? options?.checkNameAvailabilityRequest
-      : checkNameAvailabilityRequestSerializer(options?.checkNameAvailabilityRequest),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: !options?.checkNameAvailabilityRequest
+        ? options?.checkNameAvailabilityRequest
+        : checkNameAvailabilityRequestSerializer(options?.checkNameAvailabilityRequest),
+    });
 }
 
 export async function _checkAvailabilityDeserialize(
@@ -48,7 +50,9 @@ export async function _checkAvailabilityDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

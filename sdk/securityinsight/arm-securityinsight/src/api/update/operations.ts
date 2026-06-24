@@ -1,17 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SecurityInsightsContext as Client } from "../index.js";
-import type { Recommendation, RecommendationPatch } from "../../models/models.js";
+import { SecurityInsightsContext as Client } from "../index.js";
 import {
   cloudErrorDeserializer,
+  Recommendation,
   recommendationDeserializer,
+  RecommendationPatch,
   recommendationPatchSerializer,
 } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type { UpdateRecommendationOptionalParams } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import { UpdateRecommendationOptionalParams } from "./options.js";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _recommendationSend(
   context: Client,
@@ -34,12 +39,14 @@ export function _recommendationSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: recommendationPatchSerializer(recommendationPatch),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: recommendationPatchSerializer(recommendationPatch),
+    });
 }
 
 export async function _recommendationDeserialize(

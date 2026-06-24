@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ServiceFabricManagedClustersManagementContext } from "../../api/serviceFabricManagedClustersManagementContext.js";
+import { ServiceFabricManagedClustersManagementContext } from "../../api/serviceFabricManagedClustersManagementContext.js";
 import {
   stopFaultSimulation,
   startFaultSimulation,
@@ -14,7 +14,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/managedClusters/operations.js";
-import type {
+import {
   ManagedClustersStopFaultSimulationOptionalParams,
   ManagedClustersStartFaultSimulationOptionalParams,
   ManagedClustersListFaultSimulationOptionalParams,
@@ -26,15 +26,15 @@ import type {
   ManagedClustersCreateOrUpdateOptionalParams,
   ManagedClustersGetOptionalParams,
 } from "../../api/managedClusters/options.js";
-import type {
+import {
   ManagedCluster,
   ManagedClusterUpdateParameters,
   FaultSimulationIdContent,
   FaultSimulation,
   FaultSimulationContentWrapper,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ManagedClusters operations. */
 export interface ManagedClustersOperations {

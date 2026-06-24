@@ -1,13 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { get } from "../../api/managedDatabaseRestoreDetails/operations.js";
-import type { ManagedDatabaseRestoreDetailsGetOptionalParams } from "../../api/managedDatabaseRestoreDetails/options.js";
-import type {
-  ManagedDatabaseRestoreDetailsResult,
-  RestoreDetailsName,
-} from "../../models/models.js";
+import { ManagedDatabaseRestoreDetailsGetOptionalParams } from "../../api/managedDatabaseRestoreDetails/options.js";
+import { ManagedDatabaseRestoreDetailsResult, RestoreDetailsName } from "../../models/models.js";
 
 /** Interface representing a ManagedDatabaseRestoreDetails operations. */
 export interface ManagedDatabaseRestoreDetailsOperations {

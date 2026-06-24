@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
+import { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
 import { list, $delete, get } from "../../api/officeConsents/operations.js";
-import type {
+import {
   OfficeConsentsListOptionalParams,
   OfficeConsentsDeleteOptionalParams,
   OfficeConsentsGetOptionalParams,
 } from "../../api/officeConsents/options.js";
-import type { OfficeConsent } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { OfficeConsent } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a OfficeConsents operations. */
 export interface OfficeConsentsOperations {

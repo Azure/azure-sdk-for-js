@@ -30,14 +30,16 @@ export function _checkResourceNameSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: !options?.resourceNameDefinition
-      ? options?.resourceNameDefinition
-      : resourceNameSerializer(options?.resourceNameDefinition),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: !options?.resourceNameDefinition
+        ? options?.resourceNameDefinition
+        : resourceNameSerializer(options?.resourceNameDefinition),
+    });
 }
 
 export async function _checkResourceNameDeserialize(
@@ -46,7 +48,9 @@ export async function _checkResourceNameDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }

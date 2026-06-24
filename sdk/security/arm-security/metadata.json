@@ -33,7 +33,7 @@
     "SubAssessmentsAPI": "2019-01-01-preview",
     "TasksAPI": "2015-06-01-preview"
   },
-  "emitterVersion": "0.53.3",
+  "emitterVersion": "0.55.0-dev.8",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "AlertsAPI",
     "CrossLanguageDefinitionId": {

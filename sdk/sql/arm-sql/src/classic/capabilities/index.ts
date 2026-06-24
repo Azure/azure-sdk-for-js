@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { listByLocation } from "../../api/capabilities/operations.js";
-import type { CapabilitiesListByLocationOptionalParams } from "../../api/capabilities/options.js";
-import type { LocationCapabilities } from "../../models/models.js";
+import { CapabilitiesListByLocationOptionalParams } from "../../api/capabilities/options.js";
+import { LocationCapabilities } from "../../models/models.js";
 
 /** Interface representing a Capabilities operations. */
 export interface CapabilitiesOperations {

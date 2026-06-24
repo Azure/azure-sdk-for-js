@@ -1,33 +1,44 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   SignalRManagementContext,
   SignalRManagementClientOptionalParams,
+  createSignalRManagement,
 } from "./api/index.js";
-import { createSignalRManagement } from "./api/index.js";
-import type { OperationsOperations } from "./classic/operations/index.js";
-import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { SignalROperations } from "./classic/signalR/index.js";
-import { _getSignalROperations } from "./classic/signalR/index.js";
-import type { SignalRCustomCertificatesOperations } from "./classic/signalRCustomCertificates/index.js";
-import { _getSignalRCustomCertificatesOperations } from "./classic/signalRCustomCertificates/index.js";
-import type { SignalRCustomDomainsOperations } from "./classic/signalRCustomDomains/index.js";
-import { _getSignalRCustomDomainsOperations } from "./classic/signalRCustomDomains/index.js";
-import type { SignalRPrivateEndpointConnectionsOperations } from "./classic/signalRPrivateEndpointConnections/index.js";
-import { _getSignalRPrivateEndpointConnectionsOperations } from "./classic/signalRPrivateEndpointConnections/index.js";
-import type { SignalRPrivateLinkResourcesOperations } from "./classic/signalRPrivateLinkResources/index.js";
-import { _getSignalRPrivateLinkResourcesOperations } from "./classic/signalRPrivateLinkResources/index.js";
-import type { SignalRReplicaSharedPrivateLinkResourcesOperations } from "./classic/signalRReplicaSharedPrivateLinkResources/index.js";
-import { _getSignalRReplicaSharedPrivateLinkResourcesOperations } from "./classic/signalRReplicaSharedPrivateLinkResources/index.js";
-import type { SignalRReplicasOperations } from "./classic/signalRReplicas/index.js";
-import { _getSignalRReplicasOperations } from "./classic/signalRReplicas/index.js";
-import type { SignalRSharedPrivateLinkResourcesOperations } from "./classic/signalRSharedPrivateLinkResources/index.js";
-import { _getSignalRSharedPrivateLinkResourcesOperations } from "./classic/signalRSharedPrivateLinkResources/index.js";
-import type { UsagesOperations } from "./classic/usages/index.js";
-import { _getUsagesOperations } from "./classic/usages/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import { SignalROperations, _getSignalROperations } from "./classic/signalR/index.js";
+import {
+  SignalRCustomCertificatesOperations,
+  _getSignalRCustomCertificatesOperations,
+} from "./classic/signalRCustomCertificates/index.js";
+import {
+  SignalRCustomDomainsOperations,
+  _getSignalRCustomDomainsOperations,
+} from "./classic/signalRCustomDomains/index.js";
+import {
+  SignalRPrivateEndpointConnectionsOperations,
+  _getSignalRPrivateEndpointConnectionsOperations,
+} from "./classic/signalRPrivateEndpointConnections/index.js";
+import {
+  SignalRPrivateLinkResourcesOperations,
+  _getSignalRPrivateLinkResourcesOperations,
+} from "./classic/signalRPrivateLinkResources/index.js";
+import {
+  SignalRReplicaSharedPrivateLinkResourcesOperations,
+  _getSignalRReplicaSharedPrivateLinkResourcesOperations,
+} from "./classic/signalRReplicaSharedPrivateLinkResources/index.js";
+import {
+  SignalRReplicasOperations,
+  _getSignalRReplicasOperations,
+} from "./classic/signalRReplicas/index.js";
+import {
+  SignalRSharedPrivateLinkResourcesOperations,
+  _getSignalRSharedPrivateLinkResourcesOperations,
+} from "./classic/signalRSharedPrivateLinkResources/index.js";
+import { UsagesOperations, _getUsagesOperations } from "./classic/usages/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { SignalRManagementClientOptionalParams } from "./api/signalRManagementContext.js";
 

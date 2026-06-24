@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   suspend,
   resume,
@@ -9,21 +9,20 @@ import {
   createOrUpdate,
   get,
 } from "../../api/transparentDataEncryptions/operations.js";
-import type {
+import {
   TransparentDataEncryptionsSuspendOptionalParams,
   TransparentDataEncryptionsResumeOptionalParams,
   TransparentDataEncryptionsListByDatabaseOptionalParams,
   TransparentDataEncryptionsCreateOrUpdateOptionalParams,
   TransparentDataEncryptionsGetOptionalParams,
 } from "../../api/transparentDataEncryptions/options.js";
-import type {
+import {
   TransparentDataEncryptionName,
   LogicalDatabaseTransparentDataEncryption,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a TransparentDataEncryptions operations. */
 export interface TransparentDataEncryptionsOperations {

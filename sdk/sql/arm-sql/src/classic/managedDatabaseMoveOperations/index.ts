@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { listByLocation, get } from "../../api/managedDatabaseMoveOperations/operations.js";
-import type {
+import {
   ManagedDatabaseMoveOperationsListByLocationOptionalParams,
   ManagedDatabaseMoveOperationsGetOptionalParams,
 } from "../../api/managedDatabaseMoveOperations/options.js";
-import type { ManagedDatabaseMoveOperationResult } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { ManagedDatabaseMoveOperationResult } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ManagedDatabaseMoveOperations operations. */
 export interface ManagedDatabaseMoveOperationsOperations {

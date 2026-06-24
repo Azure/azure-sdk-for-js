@@ -1,19 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlVirtualMachineManagementContext as Client } from "../index.js";
-import type { SqlVmTroubleshooting } from "../../models/models.js";
+import { SqlVirtualMachineManagementContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  SqlVmTroubleshooting,
   sqlVmTroubleshootingSerializer,
   sqlVmTroubleshootingDeserializer,
 } from "../../models/models.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type { SqlVirtualMachineTroubleshootTroubleshootOptionalParams } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { SqlVirtualMachineTroubleshootTroubleshootOptionalParams } from "./options.js";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _troubleshootSend(
   context: Client,
@@ -34,12 +38,14 @@ export function _troubleshootSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: sqlVmTroubleshootingSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: sqlVmTroubleshootingSerializer(parameters),
+    });
 }
 
 export async function _troubleshootDeserialize(

@@ -4,17 +4,17 @@
 
 ```ts
 
-import type { AbortSignalLike } from '@azure/abort-controller';
-import type { CancelOnProgress } from '@azure/core-lro';
-import type { ClientOptions } from '@azure-rest/core-client';
+import { AbortSignalLike } from '@azure/abort-controller';
+import { CancelOnProgress } from '@azure/core-lro';
+import { ClientOptions } from '@azure-rest/core-client';
 import { isRestError } from '@azure/core-rest-pipeline';
-import type { OperationOptions } from '@azure-rest/core-client';
-import type { OperationState } from '@azure/core-lro';
-import type { PathUncheckedResponse } from '@azure-rest/core-client';
-import type { Pipeline } from '@azure/core-rest-pipeline';
-import type { PollerLike } from '@azure/core-lro';
+import { OperationOptions } from '@azure-rest/core-client';
+import { OperationState } from '@azure/core-lro';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { PollerLike } from '@azure/core-lro';
 import { RestError } from '@azure/core-rest-pipeline';
-import type { TokenCredential } from '@azure/core-auth';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type AdministratorName = string;
@@ -4164,7 +4164,8 @@ export enum KnownServerKeyType {
 // @public
 export enum KnownServerNetworkAccessFlag {
     Disabled = "Disabled",
-    Enabled = "Enabled"
+    Enabled = "Enabled",
+    SecuredByPerimeter = "SecuredByPerimeter"
 }
 
 // @public
@@ -8906,6 +8907,8 @@ export interface ServerUsage extends ProxyResource {
     readonly currentValue?: number;
     readonly displayName?: string;
     readonly limit?: number;
+    readonly nextResetTime?: Date;
+    readonly resourceName?: string;
     readonly unit?: string;
 }
 
@@ -8914,6 +8917,8 @@ export interface ServerUsageProperties {
     readonly currentValue?: number;
     readonly displayName?: string;
     readonly limit?: number;
+    readonly nextResetTime?: Date;
+    readonly resourceName?: string;
     readonly unit?: string;
 }
 

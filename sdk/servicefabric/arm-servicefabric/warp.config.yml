@@ -1,7 +1,8 @@
-
-extends: ../../../warp.base.config.yml
+# warp.config.yml — build configuration
 
 exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
   "./api": "./src/api/index.ts"
   "./api/clusterVersions": "./src/api/clusterVersions/index.ts"
   "./api/services": "./src/api/services/index.ts"

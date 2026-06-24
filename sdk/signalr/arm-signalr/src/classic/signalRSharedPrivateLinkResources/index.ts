@@ -1,24 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SignalRManagementContext } from "../../api/signalRManagementContext.js";
+import { SignalRManagementContext } from "../../api/signalRManagementContext.js";
 import {
   list,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/signalRSharedPrivateLinkResources/operations.js";
-import type {
+import {
   SignalRSharedPrivateLinkResourcesListOptionalParams,
   SignalRSharedPrivateLinkResourcesDeleteOptionalParams,
   SignalRSharedPrivateLinkResourcesCreateOrUpdateOptionalParams,
   SignalRSharedPrivateLinkResourcesGetOptionalParams,
 } from "../../api/signalRSharedPrivateLinkResources/options.js";
-import type { SharedPrivateLinkResource } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { SharedPrivateLinkResource } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a SignalRSharedPrivateLinkResources operations. */
 export interface SignalRSharedPrivateLinkResourcesOperations {

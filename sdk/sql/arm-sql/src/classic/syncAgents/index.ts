@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listLinkedDatabases,
   generateKey,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/syncAgents/operations.js";
-import type {
+import {
   SyncAgentsListLinkedDatabasesOptionalParams,
   SyncAgentsGenerateKeyOptionalParams,
   SyncAgentsListByServerOptionalParams,
@@ -18,15 +18,10 @@ import type {
   SyncAgentsCreateOrUpdateOptionalParams,
   SyncAgentsGetOptionalParams,
 } from "../../api/syncAgents/options.js";
-import type {
-  SyncAgent,
-  SyncAgentKeyProperties,
-  SyncAgentLinkedDatabase,
-} from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { SyncAgent, SyncAgentKeyProperties, SyncAgentLinkedDatabase } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a SyncAgents operations. */
 export interface SyncAgentsOperations {

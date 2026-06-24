@@ -39,3 +39,5 @@ export enum KnownVersions {
   /** The 2026-05-01-preview API version. */
   V20260501Preview = "2026-05-01-preview",
 }
+
+export type GetDocumentCountResponse = { body: number };

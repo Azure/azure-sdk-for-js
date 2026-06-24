@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   replace,
   listByServer,
@@ -9,15 +9,15 @@ import {
   createOrUpdate,
   get,
 } from "../../api/firewallRules/operations.js";
-import type {
+import {
   FirewallRulesReplaceOptionalParams,
   FirewallRulesListByServerOptionalParams,
   FirewallRulesDeleteOptionalParams,
   FirewallRulesCreateOrUpdateOptionalParams,
   FirewallRulesGetOptionalParams,
 } from "../../api/firewallRules/options.js";
-import type { FirewallRule, FirewallRuleList } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { FirewallRule, FirewallRuleList } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a FirewallRules operations. */
 export interface FirewallRulesOperations {
