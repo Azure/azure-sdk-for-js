@@ -6,11 +6,13 @@
 
 import { AbortSignalLike } from '@azure/abort-controller';
 import { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import { OperationOptions } from '@azure-rest/core-client';
 import { OperationState } from '@azure/core-lro';
 import { PathUncheckedResponse } from '@azure-rest/core-client';
 import { Pipeline } from '@azure/core-rest-pipeline';
 import { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -21,6 +23,16 @@ export type ActionType = string;
 
 // @public
 export type AdvertiseMode = string;
+
+// @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
 export interface BgpPeer extends ExtensionResource {
@@ -79,11 +91,33 @@ export type CreatedByType = string;
 export type DataResilienceTier = string;
 
 // @public
+export interface ErrorAdditionalInfo {
+    readonly info?: any;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
 export interface ExtensionResource extends Resource {
 }
 
 // @public
 export type FailoverTier = string;
+
+export { isRestError }
 
 // @public
 export enum KnownAccessMode {
@@ -168,6 +202,11 @@ export enum KnownSCType {
 }
 
 // @public
+export enum KnownVersions {
+    V20240301 = "2024-03-01"
+}
+
+// @public
 export enum KnownVolumeBindingMode {
     Immediate = "Immediate",
     WaitForFirstConsumer = "WaitForFirstConsumer"
@@ -193,6 +232,7 @@ export class KubernetesRuntimeClient {
 // @public
 export interface KubernetesRuntimeClientOptionalParams extends ClientOptions {
     apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
@@ -254,8 +294,8 @@ export interface NfsStorageClassTypeProperties extends StorageClassTypePropertie
 
 // @public
 export interface Operation {
-    actionType?: ActionType;
-    readonly display?: OperationDisplay;
+    readonly actionType?: ActionType;
+    display?: OperationDisplay;
     readonly isDataAction?: boolean;
     readonly name?: string;
     readonly origin?: Origin;
@@ -306,6 +346,8 @@ export interface Resource {
     readonly systemData?: SystemData;
     readonly type?: string;
 }
+
+export { RestError }
 
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: KubernetesRuntimeClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;

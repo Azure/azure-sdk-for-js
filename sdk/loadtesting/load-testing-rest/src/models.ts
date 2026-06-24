@@ -1,19 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { OperationState as PollerOperationState } from "@azure/core-lro";
-import type { SimplePollerLike } from "./pollingHelper.js";
-import type {
-  LoadTestAdministrationGetTestFile200Response,
-  LoadTestAdministrationUploadTestFile201Response,
-  LoadTestRunCreateOrUpdateTestRun200Response,
-  LoadTestRunCreateOrUpdateTestRun201Response,
-  LoadTestRunGetTestRun200Response,
-  TestProfileRunAdministrationCreateOrUpdateTestProfileRun200Response,
-  TestProfileRunAdministrationCreateOrUpdateTestProfileRun201Response,
-  TestProfileRunAdministrationGetTestProfileRun200Response,
-} from "./responses.js";
-
 /** Load test model. */
 export interface Test {
   /** Pass fail criteria for a test. */
@@ -314,44 +301,6 @@ export interface ResourceMetric {
   unit?: string;
   /** Azure resource type. */
   resourceType: string;
-}
-
-/** The Test Profile Model. A Test Profile resource enables you to set up a test profile which contains various configurations for a supported resource type and a load test to execute on that resource. */
-export interface TestProfile {
-  /** Display name of the test profile. */
-  displayName?: string;
-  /** Description for the test profile. */
-  description?: string;
-  /** Associated test ID for the test profile. This property is required for creating a Test Profile and it's not allowed to be updated. */
-  testId?: string;
-  /** Target resource ID on which the test profile is created. This property is required for creating a Test Profile and it's not allowed to be updated. */
-  targetResourceId?: string;
-  /** Configurations of the target resource on which testing would be done. */
-  targetResourceConfigurations?: TargetResourceConfigurations;
-}
-
-/** Configurations of a target resource. This varies with the kind of resource. */
-export interface TargetResourceConfigurationsParent {
-  kind: ResourceKind;
-}
-
-/** Configurations for a Function App using Flex Consumption Plan. */
-export interface FunctionFlexConsumptionTargetResourceConfigurations extends TargetResourceConfigurationsParent {
-  /**
-   * The kind value to use when providing configuration.
-   * This should typically be not changed from its value.
-   */
-  kind: "FunctionsFlexConsumption";
-  /** A map of configurations for a Function app using Flex Consumption Plan. */
-  configurations?: Record<string, FunctionFlexConsumptionResourceConfiguration>;
-}
-
-/** Resource configuration instance for a Flex Consumption based Azure Function App. */
-export interface FunctionFlexConsumptionResourceConfiguration {
-  /** Memory size of the instance. Supported values are 2048, 4096. */
-  instanceMemoryMB: number;
-  /** HTTP Concurrency for the function app. */
-  httpConcurrency?: number;
 }
 
 /** Trigger model. */
@@ -672,6 +621,44 @@ export interface TestRunServerMetricsConfiguration {
   metrics?: Record<string, ResourceMetric>;
 }
 
+/** The Test Profile Model. A Test Profile resource enables you to set up a test profile which contains various configurations for a supported resource type and a load test to execute on that resource. */
+export interface TestProfile {
+  /** Display name of the test profile. */
+  displayName?: string;
+  /** Description for the test profile. */
+  description?: string;
+  /** Associated test ID for the test profile. This property is required for creating a Test Profile and it's not allowed to be updated. */
+  testId?: string;
+  /** Target resource ID on which the test profile is created. This property is required for creating a Test Profile and it's not allowed to be updated. */
+  targetResourceId?: string;
+  /** Configurations of the target resource on which testing would be done. */
+  targetResourceConfigurations?: TargetResourceConfigurations;
+}
+
+/** Configurations of a target resource. This varies with the kind of resource. */
+export interface TargetResourceConfigurationsParent {
+  kind: ResourceKind;
+}
+
+/** Configurations for a Function App using Flex Consumption Plan. */
+export interface FunctionFlexConsumptionTargetResourceConfigurations extends TargetResourceConfigurationsParent {
+  /**
+   * The kind value to use when providing configuration.
+   * This should typically be not changed from its value.
+   */
+  kind: "FunctionsFlexConsumption";
+  /** A map of configurations for a Function app using Flex Consumption Plan. */
+  configurations?: Record<string, FunctionFlexConsumptionResourceConfiguration>;
+}
+
+/** Resource configuration instance for a Flex Consumption based Azure Function App. */
+export interface FunctionFlexConsumptionResourceConfiguration {
+  /** Memory size of the instance. Supported values are 2048, 4096. */
+  instanceMemoryMB: number;
+  /** HTTP Concurrency for the function app. */
+  httpConcurrency?: number;
+}
+
 /** The Test Profile Run Model. Test Profile Run resource enables you to instantiate an already created test profile and run load tests to get recommendations on the optimal configuration for the target resource. */
 export interface TestProfileRun {
   /** Display name for the test profile run. */
@@ -708,10 +695,6 @@ export interface TestProfileRunRecommendation {
   configurations?: string[];
 }
 
-/** Configurations of a target resource. This varies with the kind of resource. */
-export type TargetResourceConfigurations =
-  | TargetResourceConfigurationsParent
-  | FunctionFlexConsumptionTargetResourceConfigurations;
 /** Trigger model. */
 export type Trigger = TriggerParent | ScheduleTestsTrigger;
 /** Recurrence model. */
@@ -732,6 +715,10 @@ export type TestsNotificationEventFilter =
   | TestRunStartedNotificationEventFilter
   | TriggerCompletedNotificationEventFilter
   | TriggerDisabledNotificationEventFilter;
+/** Configurations of a target resource. This varies with the kind of resource. */
+export type TargetResourceConfigurations =
+  | TargetResourceConfigurationsParent
+  | FunctionFlexConsumptionTargetResourceConfigurations;
 /** Alias for OperationState */
 export type OperationState = string;
 /** Alias for PFMetrics */
@@ -754,8 +741,6 @@ export type FileValidationStatus = string;
 export type TestKind = string;
 /** Alias for ManagedIdentityType */
 export type ManagedIdentityType = string;
-/** Alias for ResourceKind */
-export type ResourceKind = string;
 /** Alias for TriggerType */
 export type TriggerType = string;
 /** Alias for TriggerState */
@@ -778,50 +763,9 @@ export type RequestDataLevel = string;
 export type CreatedByType = string;
 /** Alias for TimeGrain */
 export type TimeGrain = string;
+/** Alias for ResourceKind */
+export type ResourceKind = string;
 /** Alias for TestProfileRunStatus */
 export type TestProfileRunStatus = string;
 /** Alias for RecommendationCategory */
 export type RecommendationCategory = string;
-
-/** Added Poller Types **/
-
-/**
- * Poller for File Upload and Validation
- */
-export type FileUploadAndValidatePoller = SimplePollerLike<
-  PollerOperationState<LoadTestAdministrationGetTestFile200Response>,
-  LoadTestAdministrationGetTestFile200Response
->;
-
-/**
- * Poller for Test Run Completion
- */
-export type TestRunCompletionPoller = SimplePollerLike<
-  PollerOperationState<LoadTestRunGetTestRun200Response>,
-  LoadTestRunGetTestRun200Response
->;
-
-/**
- * Poller for Test Profile Run Completion
- */
-export type TestProfileRunCompletionPoller = SimplePollerLike<
-  PollerOperationState<TestProfileRunAdministrationGetTestProfileRun200Response>,
-  TestProfileRunAdministrationGetTestProfileRun200Response
->;
-
-export type TestRunCreateOrUpdateSuccessResponse =
-  | LoadTestRunCreateOrUpdateTestRun200Response
-  | LoadTestRunCreateOrUpdateTestRun201Response;
-
-export type TestProfileRunCreateOrUpdateSuccessResponse =
-  | TestProfileRunAdministrationCreateOrUpdateTestProfileRun200Response
-  | TestProfileRunAdministrationCreateOrUpdateTestProfileRun201Response;
-
-export type TestUploadFileSuccessResponse = LoadTestAdministrationUploadTestFile201Response;
-
-export interface PolledOperationOptions {
-  /**
-   * Time delay between poll requests, in milliseconds.
-   */
-  updateIntervalInMs?: number;
-}

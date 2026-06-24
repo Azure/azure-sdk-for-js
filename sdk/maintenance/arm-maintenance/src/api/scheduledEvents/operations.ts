@@ -4,11 +4,11 @@
 import { MaintenanceManagementContext as Client } from "../index.js";
 import {
   maintenanceErrorDeserializer,
-  ScheduledEventApproveResponse,
-  scheduledEventApproveResponseDeserializer,
+  ScheduledEventsApproveResponse,
+  scheduledEventsApproveResponseDeserializer,
 } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import { ScheduledEventAcknowledgeOptionalParams } from "./options.js";
+import { ScheduledEventsAcknowledgeOptionalParams } from "./options.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -22,7 +22,7 @@ export function _acknowledgeSend(
   resourceType: string,
   resourceName: string,
   scheduledEventId: string,
-  options: ScheduledEventAcknowledgeOptionalParams = { requestOptions: {} },
+  options: ScheduledEventsAcknowledgeOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Compute/{resourceType}/{resourceName}/providers/Microsoft.Maintenance/scheduledevents/{scheduledEventId}/acknowledge{?api%2Dversion}",
@@ -38,35 +38,39 @@ export function _acknowledgeSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _acknowledgeDeserialize(
   result: PathUncheckedResponse,
-): Promise<ScheduledEventApproveResponse> {
+): Promise<ScheduledEventsApproveResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = maintenanceErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = maintenanceErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
-  return scheduledEventApproveResponseDeserializer(result.body);
+  return scheduledEventsApproveResponseDeserializer(result.body);
 }
 
-/** Post Scheduled Event Acknowledgement */
+/** Post ScheduledEvents Acknowledgement */
 export async function acknowledge(
   context: Client,
   resourceGroupName: string,
   resourceType: string,
   resourceName: string,
   scheduledEventId: string,
-  options: ScheduledEventAcknowledgeOptionalParams = { requestOptions: {} },
-): Promise<ScheduledEventApproveResponse> {
+  options: ScheduledEventsAcknowledgeOptionalParams = { requestOptions: {} },
+): Promise<ScheduledEventsApproveResponse> {
   const result = await _acknowledgeSend(
     context,
     resourceGroupName,

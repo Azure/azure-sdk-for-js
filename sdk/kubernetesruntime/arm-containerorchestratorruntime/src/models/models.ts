@@ -1,532 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/** A Service resource for an Arc connected cluster (Microsoft.Kubernetes/connectedClusters) */
-export interface ServiceResource extends ExtensionResource {
-  /** The resource-specific properties for this resource. */
-  properties?: ServiceProperties;
-}
-
-export function serviceResourceSerializer(item: ServiceResource): any {
-  return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : servicePropertiesSerializer(item["properties"]),
-  };
-}
-
-export function serviceResourceDeserializer(item: any): ServiceResource {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
-      ? item["properties"]
-      : servicePropertiesDeserializer(item["properties"]),
-  };
-}
-
-/** Properties for the service resource */
-export interface ServiceProperties {
-  /** The object id of the service principal of the RP provisioned in the tenant */
-  readonly rpObjectId?: string;
-  /** Resource provision state */
-  readonly provisioningState?: ProvisioningState;
-}
-
-export function servicePropertiesSerializer(item: ServiceProperties): any {
-  return item;
-}
-
-export function servicePropertiesDeserializer(item: any): ServiceProperties {
-  return {
-    rpObjectId: item["rpObjectId"],
-    provisioningState: !item["provisioningState"]
-      ? item["provisioningState"]
-      : provisioningStateDeserializer(item["provisioningState"]),
-  };
-}
-
-/** Known values of {@link ResourceProvisioningState} that the service accepts. */
-export enum KnownProvisioningState {
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Failed */
-  Failed = "Failed",
-  /** Canceled */
-  Canceled = "Canceled",
-  /** Provisioning */
-  Provisioning = "Provisioning",
-  /** Updating */
-  Updating = "Updating",
-  /** Deleting */
-  Deleting = "Deleting",
-  /** Accepted */
-  Accepted = "Accepted",
-}
-
 /**
- * The provisioning state of a resource type. \
- * {@link KnownProvisioningState} can be used interchangeably with ResourceProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Succeeded** \
- * **Failed** \
- * **Canceled** \
- * **Provisioning** \
- * **Updating** \
- * **Deleting** \
- * **Accepted**
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
-export type ProvisioningState = string;
-
-export function provisioningStateSerializer(item: ProvisioningState): any {
-  return item;
-}
-
-export function provisioningStateDeserializer(item: any): ProvisioningState {
-  return item;
-}
-
-/** The base extension resource. */
-export interface ExtensionResource extends Resource {}
-
-export function extensionResourceSerializer(item: ExtensionResource): any {
-  return item;
-}
-
-export function extensionResourceDeserializer(item: any): ExtensionResource {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-  };
-}
-
-/** Common fields that are returned in the response for all Azure Resource Manager resources */
-export interface Resource {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  readonly id?: string;
-  /** The name of the resource */
-  readonly name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  readonly type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  readonly systemData?: SystemData;
-}
-
-export function resourceSerializer(item: Resource): any {
-  return item;
-}
-
-export function resourceDeserializer(item: any): Resource {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-  };
-}
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
-}
-
-export function systemDataDeserializer(item: any): SystemData {
-  return {
-    createdBy: item["createdBy"],
-    createdByType: item["createdByType"],
-    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
-    lastModifiedBy: item["lastModifiedBy"],
-    lastModifiedByType: item["lastModifiedByType"],
-    lastModifiedAt: !item["lastModifiedAt"]
-      ? item["lastModifiedAt"]
-      : new Date(item["lastModifiedAt"]),
-  };
-}
-
-/** The kind of entity that created the resource. */
-export enum KnownCreatedByType {
-  /** The entity was created by a user. */
-  User = "User",
-  /** The entity was created by an application. */
-  Application = "Application",
-  /** The entity was created by a managed identity. */
-  ManagedIdentity = "ManagedIdentity",
-  /** The entity was created by a key. */
-  Key = "Key",
-}
-
-/**
- * The kind of entity that created the resource. \
- * {@link KnowncreatedByType} can be used interchangeably with createdByType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **User**: The entity was created by a user. \
- * **Application**: The entity was created by an application. \
- * **ManagedIdentity**: The entity was created by a managed identity. \
- * **Key**: The entity was created by a key.
- */
-export type CreatedByType = string;
-
-/** The response of a ServiceResource list operation. */
-export interface _ServiceResourceListResult {
-  /** The ServiceResource items on this page */
-  value: ServiceResource[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _serviceResourceListResultDeserializer(item: any): _ServiceResourceListResult {
-  return {
-    value: serviceResourceArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function serviceResourceArraySerializer(result: Array<ServiceResource>): any[] {
-  return result.map((item) => {
-    return serviceResourceSerializer(item);
-  });
-}
-
-export function serviceResourceArrayDeserializer(result: Array<ServiceResource>): any[] {
-  return result.map((item) => {
-    return serviceResourceDeserializer(item);
-  });
-}
-
-/** A BgpPeer resource for an Arc connected cluster (Microsoft.Kubernetes/connectedClusters) */
-export interface BgpPeer extends ExtensionResource {
-  /** The resource-specific properties for this resource. */
-  properties?: BgpPeerProperties;
-}
-
-export function bgpPeerSerializer(item: BgpPeer): any {
-  return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : bgpPeerPropertiesSerializer(item["properties"]),
-  };
-}
-
-export function bgpPeerDeserializer(item: any): BgpPeer {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
-      ? item["properties"]
-      : bgpPeerPropertiesDeserializer(item["properties"]),
-  };
-}
-
-/** Details of the BgpPeer. */
-export interface BgpPeerProperties {
-  /** My ASN */
-  myAsn: number;
-  /** Peer ASN */
-  peerAsn: number;
-  /** Peer Address */
-  peerAddress: string;
-  /** Resource provision state */
-  readonly provisioningState?: ProvisioningState;
-}
-
-export function bgpPeerPropertiesSerializer(item: BgpPeerProperties): any {
-  return {
-    myAsn: item["myAsn"],
-    peerAsn: item["peerAsn"],
-    peerAddress: item["peerAddress"],
-  };
-}
-
-export function bgpPeerPropertiesDeserializer(item: any): BgpPeerProperties {
-  return {
-    myAsn: item["myAsn"],
-    peerAsn: item["peerAsn"],
-    peerAddress: item["peerAddress"],
-    provisioningState: !item["provisioningState"]
-      ? item["provisioningState"]
-      : provisioningStateDeserializer(item["provisioningState"]),
-  };
-}
-
-/** The response of a BgpPeer list operation. */
-export interface _BgpPeerListResult {
-  /** The BgpPeer items on this page */
-  value: BgpPeer[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _bgpPeerListResultDeserializer(item: any): _BgpPeerListResult {
-  return {
-    value: bgpPeerArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function bgpPeerArraySerializer(result: Array<BgpPeer>): any[] {
-  return result.map((item) => {
-    return bgpPeerSerializer(item);
-  });
-}
-
-export function bgpPeerArrayDeserializer(result: Array<BgpPeer>): any[] {
-  return result.map((item) => {
-    return bgpPeerDeserializer(item);
-  });
-}
-
-/** A LoadBalancer resource for an Arc connected cluster (Microsoft.Kubernetes/connectedClusters) */
-export interface LoadBalancer extends ExtensionResource {
-  /** The resource-specific properties for this resource. */
-  properties?: LoadBalancerProperties;
-}
-
-export function loadBalancerSerializer(item: LoadBalancer): any {
-  return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : loadBalancerPropertiesSerializer(item["properties"]),
-  };
-}
-
-export function loadBalancerDeserializer(item: any): LoadBalancer {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
-      ? item["properties"]
-      : loadBalancerPropertiesDeserializer(item["properties"]),
-  };
-}
-
-/** Details of the LoadBalancer. */
-export interface LoadBalancerProperties {
-  /** IP Range */
-  addresses: string[];
-  /** A dynamic label mapping to select related services. For instance, if you want to create a load balancer only for services with label "a=b", then please specify {"a": "b"} in the field. */
-  serviceSelector?: Record<string, string>;
-  /** Advertise Mode */
-  advertiseMode: AdvertiseMode;
-  /** The list of BGP peers it should advertise to. Null or empty means to advertise to all peers. */
-  bgpPeers?: string[];
-  /** Resource provision state */
-  readonly provisioningState?: ProvisioningState;
-}
-
-export function loadBalancerPropertiesSerializer(item: LoadBalancerProperties): any {
-  return {
-    addresses: item["addresses"].map((p: any) => {
-      return p;
-    }),
-    serviceSelector: item["serviceSelector"],
-    advertiseMode: item["advertiseMode"],
-    bgpPeers: !item["bgpPeers"]
-      ? item["bgpPeers"]
-      : item["bgpPeers"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-export function loadBalancerPropertiesDeserializer(item: any): LoadBalancerProperties {
-  return {
-    addresses: item["addresses"].map((p: any) => {
-      return p;
-    }),
-    serviceSelector: item["serviceSelector"],
-    advertiseMode: item["advertiseMode"],
-    bgpPeers: !item["bgpPeers"]
-      ? item["bgpPeers"]
-      : item["bgpPeers"].map((p: any) => {
-          return p;
-        }),
-    provisioningState: !item["provisioningState"]
-      ? item["provisioningState"]
-      : provisioningStateDeserializer(item["provisioningState"]),
-  };
-}
-
-/** Enum of advertise mode */
-export enum KnownAdvertiseMode {
-  /** ARP advertise mode */
-  ARP = "ARP",
-  /** BGP advertise mode */
-  BGP = "BGP",
-  /** both ARP and BGP advertise mode */
-  Both = "Both",
-}
-
-/**
- * Enum of advertise mode \
- * {@link KnownAdvertiseMode} can be used interchangeably with AdvertiseMode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **ARP**: ARP advertise mode \
- * **BGP**: BGP advertise mode \
- * **Both**: both ARP and BGP advertise mode
- */
-export type AdvertiseMode = string;
-
-/** The response of a LoadBalancer list operation. */
-export interface _LoadBalancerListResult {
-  /** The LoadBalancer items on this page */
-  value: LoadBalancer[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _loadBalancerListResultDeserializer(item: any): _LoadBalancerListResult {
-  return {
-    value: loadBalancerArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function loadBalancerArraySerializer(result: Array<LoadBalancer>): any[] {
-  return result.map((item) => {
-    return loadBalancerSerializer(item);
-  });
-}
-
-export function loadBalancerArrayDeserializer(result: Array<LoadBalancer>): any[] {
-  return result.map((item) => {
-    return loadBalancerDeserializer(item);
-  });
-}
-
-/** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
-export interface _OperationListResult {
-  /** The Operation items on this page */
-  value: Operation[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _operationListResultDeserializer(item: any): _OperationListResult {
-  return {
-    value: operationArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-/** Details of a REST API operation, returned from the Resource Provider Operations API */
-export interface Operation {
-  /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  readonly name?: string;
-  /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for Azure Resource Manager/control-plane operations. */
-  readonly isDataAction?: boolean;
-  /** Localized display information for this particular operation. */
-  readonly display?: OperationDisplay;
-  /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  readonly origin?: Origin;
-  /** Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: ActionType;
-}
-
-export function operationDeserializer(item: any): Operation {
-  return {
-    name: item["name"],
-    isDataAction: item["isDataAction"],
-    display: !item["display"] ? item["display"] : operationDisplayDeserializer(item["display"]),
-    origin: item["origin"],
-    actionType: item["actionType"],
-  };
-}
-
-/** Localized display information for and operation. */
-export interface OperationDisplay {
-  /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  readonly provider?: string;
-  /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  readonly resource?: string;
-  /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  readonly operation?: string;
-  /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  readonly description?: string;
-}
-
-export function operationDisplayDeserializer(item: any): OperationDisplay {
-  return {
-    provider: item["provider"],
-    resource: item["resource"],
-    operation: item["operation"],
-    description: item["description"],
-  };
-}
-
-/** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-export enum KnownOrigin {
-  /** Indicates the operation is initiated by a user. */
-  User = "user",
-  /** Indicates the operation is initiated by a system. */
-  System = "system",
-  /** Indicates the operation is initiated by a user or system. */
-  UserSystem = "user,system",
-}
-
-/**
- * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" \
- * {@link KnownOrigin} can be used interchangeably with Origin,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **user**: Indicates the operation is initiated by a user. \
- * **system**: Indicates the operation is initiated by a system. \
- * **user,system**: Indicates the operation is initiated by a user or system.
- */
-export type Origin = string;
-
-/** Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-export enum KnownActionType {
-  /** Actions are for internal-only APIs. */
-  Internal = "Internal",
-}
-
-/**
- * Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. \
- * {@link KnownActionType} can be used interchangeably with ActionType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Internal**: Actions are for internal-only APIs.
- */
-export type ActionType = string;
-
-export function operationArrayDeserializer(result: Array<Operation>): any[] {
-  return result.map((item) => {
-    return operationDeserializer(item);
-  });
-}
-
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** A StorageClass resource for an Arc connected cluster (Microsoft.Kubernetes/connectedClusters) */
 export interface StorageClassResource extends ExtensionResource {
   /** The resource-specific properties for this resource. */
@@ -636,9 +116,7 @@ export function storageClassPropertiesDeserializer(item: any): StorageClassPrope
     performance: item["performance"],
     priority: item["priority"],
     typeProperties: storageClassTypePropertiesUnionDeserializer(item["typeProperties"]),
-    provisioningState: !item["provisioningState"]
-      ? item["provisioningState"]
-      : provisioningStateDeserializer(item["provisioningState"]),
+    provisioningState: item["provisioningState"],
   };
 }
 
@@ -818,7 +296,7 @@ export function storageClassTypePropertiesUnionSerializer(
 export function storageClassTypePropertiesUnionDeserializer(
   item: any,
 ): StorageClassTypePropertiesUnion {
-  switch (item.type) {
+  switch (item["type"]) {
     case "Native":
       return nativeStorageClassTypePropertiesDeserializer(item as NativeStorageClassTypeProperties);
 
@@ -895,10 +373,7 @@ export interface RwxStorageClassTypeProperties extends StorageClassTypePropertie
 }
 
 export function rwxStorageClassTypePropertiesSerializer(item: RwxStorageClassTypeProperties): any {
-  return {
-    type: item["type"],
-    backingStorageClassName: item["backingStorageClassName"],
-  };
+  return { type: item["type"], backingStorageClassName: item["backingStorageClassName"] };
 }
 
 export function rwxStorageClassTypePropertiesDeserializer(
@@ -1035,6 +510,202 @@ export function smbStorageClassTypePropertiesDeserializer(
     username: item["username"],
     password: item["password"],
     domain: item["domain"],
+  };
+}
+
+/** The status of the current operation. */
+export enum KnownProvisioningState {
+  /** Resource has been created. */
+  Succeeded = "Succeeded",
+  /** Resource creation failed. */
+  Failed = "Failed",
+  /** Resource creation was canceled. */
+  Canceled = "Canceled",
+  /** Initial provisioning in progress */
+  Provisioning = "Provisioning",
+  /** Update in progress */
+  Updating = "Updating",
+  /** Deletion in progress */
+  Deleting = "Deleting",
+  /** Change accepted for processing */
+  Accepted = "Accepted",
+}
+
+/**
+ * The status of the current operation. \
+ * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded**: Resource has been created. \
+ * **Failed**: Resource creation failed. \
+ * **Canceled**: Resource creation was canceled. \
+ * **Provisioning**: Initial provisioning in progress \
+ * **Updating**: Update in progress \
+ * **Deleting**: Deletion in progress \
+ * **Accepted**: Change accepted for processing
+ */
+export type ProvisioningState = string;
+
+/** The base extension resource. */
+export interface ExtensionResource extends Resource {}
+
+export function extensionResourceSerializer(_item: ExtensionResource): any {
+  return {};
+}
+
+export function extensionResourceDeserializer(item: any): ExtensionResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+  };
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  readonly id?: string;
+  /** The name of the resource */
+  readonly name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  readonly type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  readonly systemData?: SystemData;
+}
+
+export function resourceSerializer(_item: Resource): any {
+  return {};
+}
+
+export function resourceDeserializer(item: any): Resource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+  };
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
+export function systemDataDeserializer(item: any): SystemData {
+  return {
+    createdBy: item["createdBy"],
+    createdByType: item["createdByType"],
+    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
+    lastModifiedBy: item["lastModifiedBy"],
+    lastModifiedByType: item["lastModifiedByType"],
+    lastModifiedAt: !item["lastModifiedAt"]
+      ? item["lastModifiedAt"]
+      : new Date(item["lastModifiedAt"]),
+  };
+}
+
+/** The kind of entity that created the resource. */
+export enum KnownCreatedByType {
+  /** The entity was created by a user. */
+  User = "User",
+  /** The entity was created by an application. */
+  Application = "Application",
+  /** The entity was created by a managed identity. */
+  ManagedIdentity = "ManagedIdentity",
+  /** The entity was created by a key. */
+  Key = "Key",
+}
+
+/**
+ * The kind of entity that created the resource. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User**: The entity was created by a user. \
+ * **Application**: The entity was created by an application. \
+ * **ManagedIdentity**: The entity was created by a managed identity. \
+ * **Key**: The entity was created by a key.
+ */
+export type CreatedByType = string;
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+export function errorResponseDeserializer(item: any): ErrorResponse {
+  return {
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
+  };
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /** The error code. */
+  readonly code?: string;
+  /** The error message. */
+  readonly message?: string;
+  /** The error target. */
+  readonly target?: string;
+  /** The error details. */
+  readonly details?: ErrorDetail[];
+  /** The error additional info. */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+export function errorDetailDeserializer(item: any): ErrorDetail {
+  return {
+    code: item["code"],
+    message: item["message"],
+    target: item["target"],
+    details: !item["details"] ? item["details"] : errorDetailArrayDeserializer(item["details"]),
+    additionalInfo: !item["additionalInfo"]
+      ? item["additionalInfo"]
+      : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
+  };
+}
+
+export function errorDetailArrayDeserializer(result: Array<ErrorDetail>): any[] {
+  return result.map((item) => {
+    return errorDetailDeserializer(item);
+  });
+}
+
+export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
+  return result.map((item) => {
+    return errorAdditionalInfoDeserializer(item);
+  });
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /** The additional info type. */
+  readonly type?: string;
+  /** The additional info. */
+  readonly info?: any;
+}
+
+export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
+  return {
+    type: item["type"],
+    info: item["info"],
   };
 }
 
@@ -1176,4 +847,391 @@ export function storageClassResourceArrayDeserializer(result: Array<StorageClass
   return result.map((item) => {
     return storageClassResourceDeserializer(item);
   });
+}
+
+/** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
+export interface _OperationListResult {
+  /** The Operation items on this page */
+  value: Operation[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _operationListResultDeserializer(item: any): _OperationListResult {
+  return {
+    value: operationArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function operationArrayDeserializer(result: Array<Operation>): any[] {
+  return result.map((item) => {
+    return operationDeserializer(item);
+  });
+}
+
+/** Details of a REST API operation, returned from the Resource Provider Operations API */
+export interface Operation {
+  /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
+  readonly name?: string;
+  /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for Azure Resource Manager/control-plane operations. */
+  readonly isDataAction?: boolean;
+  /** Localized display information for this particular operation. */
+  display?: OperationDisplay;
+  /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
+  readonly origin?: Origin;
+  /** Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
+  readonly actionType?: ActionType;
+}
+
+export function operationDeserializer(item: any): Operation {
+  return {
+    name: item["name"],
+    isDataAction: item["isDataAction"],
+    display: !item["display"] ? item["display"] : operationDisplayDeserializer(item["display"]),
+    origin: item["origin"],
+    actionType: item["actionType"],
+  };
+}
+
+/** Localized display information for an operation. */
+export interface OperationDisplay {
+  /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
+  readonly provider?: string;
+  /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
+  readonly resource?: string;
+  /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
+  readonly operation?: string;
+  /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
+  readonly description?: string;
+}
+
+export function operationDisplayDeserializer(item: any): OperationDisplay {
+  return {
+    provider: item["provider"],
+    resource: item["resource"],
+    operation: item["operation"],
+    description: item["description"],
+  };
+}
+
+/** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
+export enum KnownOrigin {
+  /** Indicates the operation is initiated by a user. */
+  User = "user",
+  /** Indicates the operation is initiated by a system. */
+  System = "system",
+  /** Indicates the operation is initiated by a user or system. */
+  UserSystem = "user,system",
+}
+
+/**
+ * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" \
+ * {@link KnownOrigin} can be used interchangeably with Origin,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **user**: Indicates the operation is initiated by a user. \
+ * **system**: Indicates the operation is initiated by a system. \
+ * **user,system**: Indicates the operation is initiated by a user or system.
+ */
+export type Origin = string;
+
+/** Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
+export enum KnownActionType {
+  /** Actions are for internal-only APIs. */
+  Internal = "Internal",
+}
+
+/**
+ * Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. \
+ * {@link KnownActionType} can be used interchangeably with ActionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Internal**: Actions are for internal-only APIs.
+ */
+export type ActionType = string;
+
+/** A LoadBalancer resource for an Arc connected cluster (Microsoft.Kubernetes/connectedClusters) */
+export interface LoadBalancer extends ExtensionResource {
+  /** The resource-specific properties for this resource. */
+  properties?: LoadBalancerProperties;
+}
+
+export function loadBalancerSerializer(item: LoadBalancer): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : loadBalancerPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function loadBalancerDeserializer(item: any): LoadBalancer {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : loadBalancerPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Details of the LoadBalancer. */
+export interface LoadBalancerProperties {
+  /** IP Range */
+  addresses: string[];
+  /** A dynamic label mapping to select related services. For instance, if you want to create a load balancer only for services with label "a=b", then please specify {"a": "b"} in the field. */
+  serviceSelector?: Record<string, string>;
+  /** Advertise Mode */
+  advertiseMode: AdvertiseMode;
+  /** The list of BGP peers it should advertise to. Null or empty means to advertise to all peers. */
+  bgpPeers?: string[];
+  /** Resource provision state */
+  readonly provisioningState?: ProvisioningState;
+}
+
+export function loadBalancerPropertiesSerializer(item: LoadBalancerProperties): any {
+  return {
+    addresses: item["addresses"].map((p: any) => {
+      return p;
+    }),
+    serviceSelector: item["serviceSelector"],
+    advertiseMode: item["advertiseMode"],
+    bgpPeers: !item["bgpPeers"]
+      ? item["bgpPeers"]
+      : item["bgpPeers"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function loadBalancerPropertiesDeserializer(item: any): LoadBalancerProperties {
+  return {
+    addresses: item["addresses"].map((p: any) => {
+      return p;
+    }),
+    serviceSelector: !item["serviceSelector"]
+      ? item["serviceSelector"]
+      : Object.fromEntries(
+          Object.entries(item["serviceSelector"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+    advertiseMode: item["advertiseMode"],
+    bgpPeers: !item["bgpPeers"]
+      ? item["bgpPeers"]
+      : item["bgpPeers"].map((p: any) => {
+          return p;
+        }),
+    provisioningState: item["provisioningState"],
+  };
+}
+
+/** Enum of advertise mode */
+export enum KnownAdvertiseMode {
+  /** ARP advertise mode */
+  ARP = "ARP",
+  /** BGP advertise mode */
+  BGP = "BGP",
+  /** both ARP and BGP advertise mode */
+  Both = "Both",
+}
+
+/**
+ * Enum of advertise mode \
+ * {@link KnownAdvertiseMode} can be used interchangeably with AdvertiseMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ARP**: ARP advertise mode \
+ * **BGP**: BGP advertise mode \
+ * **Both**: both ARP and BGP advertise mode
+ */
+export type AdvertiseMode = string;
+
+/** The response of a LoadBalancer list operation. */
+export interface _LoadBalancerListResult {
+  /** The LoadBalancer items on this page */
+  value: LoadBalancer[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _loadBalancerListResultDeserializer(item: any): _LoadBalancerListResult {
+  return {
+    value: loadBalancerArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function loadBalancerArraySerializer(result: Array<LoadBalancer>): any[] {
+  return result.map((item) => {
+    return loadBalancerSerializer(item);
+  });
+}
+
+export function loadBalancerArrayDeserializer(result: Array<LoadBalancer>): any[] {
+  return result.map((item) => {
+    return loadBalancerDeserializer(item);
+  });
+}
+
+/** A BgpPeer resource for an Arc connected cluster (Microsoft.Kubernetes/connectedClusters) */
+export interface BgpPeer extends ExtensionResource {
+  /** The resource-specific properties for this resource. */
+  properties?: BgpPeerProperties;
+}
+
+export function bgpPeerSerializer(item: BgpPeer): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : bgpPeerPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function bgpPeerDeserializer(item: any): BgpPeer {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : bgpPeerPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Details of the BgpPeer. */
+export interface BgpPeerProperties {
+  /** My ASN */
+  myAsn: number;
+  /** Peer ASN */
+  peerAsn: number;
+  /** Peer Address */
+  peerAddress: string;
+  /** Resource provision state */
+  readonly provisioningState?: ProvisioningState;
+}
+
+export function bgpPeerPropertiesSerializer(item: BgpPeerProperties): any {
+  return { myAsn: item["myAsn"], peerAsn: item["peerAsn"], peerAddress: item["peerAddress"] };
+}
+
+export function bgpPeerPropertiesDeserializer(item: any): BgpPeerProperties {
+  return {
+    myAsn: item["myAsn"],
+    peerAsn: item["peerAsn"],
+    peerAddress: item["peerAddress"],
+    provisioningState: item["provisioningState"],
+  };
+}
+
+/** The response of a BgpPeer list operation. */
+export interface _BgpPeerListResult {
+  /** The BgpPeer items on this page */
+  value: BgpPeer[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _bgpPeerListResultDeserializer(item: any): _BgpPeerListResult {
+  return {
+    value: bgpPeerArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function bgpPeerArraySerializer(result: Array<BgpPeer>): any[] {
+  return result.map((item) => {
+    return bgpPeerSerializer(item);
+  });
+}
+
+export function bgpPeerArrayDeserializer(result: Array<BgpPeer>): any[] {
+  return result.map((item) => {
+    return bgpPeerDeserializer(item);
+  });
+}
+
+/** A Service resource for an Arc connected cluster (Microsoft.Kubernetes/connectedClusters) */
+export interface ServiceResource extends ExtensionResource {
+  /** The resource-specific properties for this resource. */
+  properties?: ServiceProperties;
+}
+
+export function serviceResourceSerializer(item: ServiceResource): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : servicePropertiesSerializer(item["properties"]),
+  };
+}
+
+export function serviceResourceDeserializer(item: any): ServiceResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : servicePropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Properties for the service resource */
+export interface ServiceProperties {
+  /** The object id of the service principal of the RP provisioned in the tenant */
+  readonly rpObjectId?: string;
+  /** Resource provision state */
+  readonly provisioningState?: ProvisioningState;
+}
+
+export function servicePropertiesSerializer(_item: ServiceProperties): any {
+  return {};
+}
+
+export function servicePropertiesDeserializer(item: any): ServiceProperties {
+  return {
+    rpObjectId: item["rpObjectId"],
+    provisioningState: item["provisioningState"],
+  };
+}
+
+/** The response of a ServiceResource list operation. */
+export interface _ServiceResourceListResult {
+  /** The ServiceResource items on this page */
+  value: ServiceResource[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _serviceResourceListResultDeserializer(item: any): _ServiceResourceListResult {
+  return {
+    value: serviceResourceArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function serviceResourceArraySerializer(result: Array<ServiceResource>): any[] {
+  return result.map((item) => {
+    return serviceResourceSerializer(item);
+  });
+}
+
+export function serviceResourceArrayDeserializer(result: Array<ServiceResource>): any[] {
+  return result.map((item) => {
+    return serviceResourceDeserializer(item);
+  });
+}
+
+/** Versions of KubernetesRuntime service */
+export enum KnownVersions {
+  /** 2024-03-01, added bgpPeers field in LoadBalancer */
+  V20240301 = "2024-03-01",
 }

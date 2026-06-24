@@ -1,32 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureNetworkFabricManagementServiceAPIContext as Client } from "../index.js";
-import type {
-  UpdateAdministrativeState,
-  UpdateAdministrativeStateResponse,
-  ExternalNetwork,
-  ExternalNetworkPatch,
-  _ExternalNetworksList,
-  ExternalNetworkUpdateBfdAdministrativeStateRequest,
-  ExternalNetworkUpdateBfdAdministrativeStateResponse,
-} from "../../models/models.js";
+import { AzureNetworkFabricManagementServiceAPIContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  UpdateAdministrativeState,
   updateAdministrativeStateSerializer,
+  UpdateAdministrativeStateResponse,
   updateAdministrativeStateResponseDeserializer,
+  ExternalNetwork,
   externalNetworkSerializer,
   externalNetworkDeserializer,
+  ExternalNetworkPatch,
   externalNetworkPatchSerializer,
+  _ExternalNetworksList,
   _externalNetworksListDeserializer,
+  ExternalNetworkUpdateBfdAdministrativeStateRequest,
   externalNetworkUpdateBfdAdministrativeStateRequestSerializer,
+  ExternalNetworkUpdateBfdAdministrativeStateResponse,
   externalNetworkUpdateBfdAdministrativeStateResponseDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   ExternalNetworksUpdateBfdAdministrativeStateOptionalParams,
   ExternalNetworksUpdateStaticRouteBfdAdministrativeStateOptionalParams,
   ExternalNetworksUpdateAdministrativeStateOptionalParams,
@@ -36,9 +36,13 @@ import type {
   ExternalNetworksCreateOptionalParams,
   ExternalNetworksGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _updateBfdAdministrativeStateSend(
   context: Client,
@@ -61,12 +65,14 @@ export function _updateBfdAdministrativeStateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: externalNetworkUpdateBfdAdministrativeStateRequestSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: externalNetworkUpdateBfdAdministrativeStateRequestSerializer(body),
+    });
 }
 
 export async function _updateBfdAdministrativeStateDeserialize(
@@ -145,12 +151,14 @@ export function _updateStaticRouteBfdAdministrativeStateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: updateAdministrativeStateSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: updateAdministrativeStateSerializer(body),
+    });
 }
 
 export async function _updateStaticRouteBfdAdministrativeStateDeserialize(
@@ -229,12 +237,14 @@ export function _updateAdministrativeStateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: updateAdministrativeStateSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: updateAdministrativeStateSerializer(body),
+    });
 }
 
 export async function _updateAdministrativeStateDeserialize(
@@ -308,10 +318,12 @@ export function _listByL3IsolationDomainSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listByL3IsolationDomainDeserialize(
@@ -422,12 +434,14 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: externalNetworkPatchSerializer(body),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: externalNetworkPatchSerializer(body),
+    });
 }
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<ExternalNetwork> {
@@ -491,12 +505,14 @@ export function _createSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: externalNetworkSerializer(body),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: externalNetworkSerializer(body),
+    });
 }
 
 export async function _createDeserialize(result: PathUncheckedResponse): Promise<ExternalNetwork> {
@@ -559,10 +575,12 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<ExternalNetwork> {

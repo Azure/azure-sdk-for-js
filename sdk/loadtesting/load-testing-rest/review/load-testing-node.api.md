@@ -12,10 +12,12 @@ import type { CreateHttpPollerOptions } from '@azure/core-lro';
 import type { ErrorModel } from '@azure-rest/core-client';
 import type { ErrorResponse } from '@azure-rest/core-client';
 import type { HttpResponse } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationState as OperationState_2 } from '@azure/core-lro';
 import type { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import type { RequestParameters } from '@azure-rest/core-client';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { StreamableMethod } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
 
@@ -165,9 +167,6 @@ export type FileType = string;
 export type FileTypeOutput = string;
 
 // @public
-export type FileUploadAndValidatePoller = SimplePollerLike<OperationState_2<LoadTestAdministrationGetTestFile200Response>, LoadTestAdministrationGetTestFile200Response>;
-
-// @public
 export type FileValidationStatus = string;
 
 // @public
@@ -207,15 +206,6 @@ export interface FunctionFlexConsumptionTargetResourceConfigurationsOutput exten
 export type GetArrayType<T> = T extends Array<infer TData> ? TData : never;
 
 // @public
-export function getLongRunningPoller(client: AzureLoadTestingClient, initialResponse: TestUploadFileSuccessResponse, polledOperationOptions?: PolledOperationOptions): Promise<FileUploadAndValidatePoller>;
-
-// @public (undocumented)
-export function getLongRunningPoller(client: AzureLoadTestingClient, initialResponse: TestRunCreateOrUpdateSuccessResponse, polledOperationOptions?: PolledOperationOptions): Promise<TestRunCompletionPoller>;
-
-// @public (undocumented)
-export function getLongRunningPoller(client: AzureLoadTestingClient, initialResponse: TestProfileRunCreateOrUpdateSuccessResponse, polledOperationOptions?: PolledOperationOptions): Promise<TestProfileRunCompletionPoller>;
-
-// @public (undocumented)
 export function getLongRunningPoller<TResult extends LoadTestAdministrationCloneTestLogicalResponse | LoadTestAdministrationCloneTestDefaultResponse>(client: Client, initialResponse: LoadTestAdministrationCloneTest202Response | LoadTestAdministrationCloneTestDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState_2<TResult>>): Promise<SimplePollerLike<OperationState_2<TResult>, TResult>>;
 
 // @public (undocumented)
@@ -241,6 +231,8 @@ export interface HourlyRecurrenceOutput extends RecurrenceOutputParent {
     frequency: "Hourly";
     interval: number;
 }
+
+export { isRestError }
 
 // @public (undocumented)
 export function isUnexpected(response: OperationsGetStatus200Response | OperationsGetStatusDefaultResponse): response is OperationsGetStatusDefaultResponse;
@@ -286,18 +278,6 @@ export function isUnexpected(response: LoadTestAdministrationCreateOrUpdateServe
 
 // @public (undocumented)
 export function isUnexpected(response: LoadTestAdministrationGetServerMetricsConfig200Response | LoadTestAdministrationGetServerMetricsConfigDefaultResponse): response is LoadTestAdministrationGetServerMetricsConfigDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: TestProfileAdministrationCreateOrUpdateTestProfile200Response | TestProfileAdministrationCreateOrUpdateTestProfile201Response | TestProfileAdministrationCreateOrUpdateTestProfileDefaultResponse): response is TestProfileAdministrationCreateOrUpdateTestProfileDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: TestProfileAdministrationDeleteTestProfile204Response | TestProfileAdministrationDeleteTestProfileDefaultResponse): response is TestProfileAdministrationDeleteTestProfileDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: TestProfileAdministrationGetTestProfile200Response | TestProfileAdministrationGetTestProfileDefaultResponse): response is TestProfileAdministrationGetTestProfileDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: TestProfileAdministrationListTestProfiles200Response | TestProfileAdministrationListTestProfilesDefaultResponse): response is TestProfileAdministrationListTestProfilesDefaultResponse;
 
 // @public (undocumented)
 export function isUnexpected(response: TriggerAdministrationGetTrigger200Response | TriggerAdministrationGetTriggerDefaultResponse): response is TriggerAdministrationGetTriggerDefaultResponse;
@@ -373,6 +353,18 @@ export function isUnexpected(response: LoadTestRunCreateOrUpdateServerMetricsCon
 
 // @public (undocumented)
 export function isUnexpected(response: LoadTestRunGetServerMetricsConfig200Response | LoadTestRunGetServerMetricsConfigDefaultResponse): response is LoadTestRunGetServerMetricsConfigDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: TestProfileAdministrationCreateOrUpdateTestProfile200Response | TestProfileAdministrationCreateOrUpdateTestProfile201Response | TestProfileAdministrationCreateOrUpdateTestProfileDefaultResponse): response is TestProfileAdministrationCreateOrUpdateTestProfileDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: TestProfileAdministrationDeleteTestProfile204Response | TestProfileAdministrationDeleteTestProfileDefaultResponse): response is TestProfileAdministrationDeleteTestProfileDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: TestProfileAdministrationGetTestProfile200Response | TestProfileAdministrationGetTestProfileDefaultResponse): response is TestProfileAdministrationGetTestProfileDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: TestProfileAdministrationListTestProfiles200Response | TestProfileAdministrationListTestProfilesDefaultResponse): response is TestProfileAdministrationListTestProfilesDefaultResponse;
 
 // @public (undocumented)
 export function isUnexpected(response: TestProfileRunAdministrationGetTestProfileRun200Response | TestProfileRunAdministrationGetTestProfileRunDefaultResponse): response is TestProfileRunAdministrationGetTestProfileRunDefaultResponse;
@@ -884,7 +876,8 @@ export interface LoadTestAdministrationUploadTestFile201Response extends HttpRes
 
 // @public (undocumented)
 export interface LoadTestAdministrationUploadTestFileBodyParam {
-    body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
+    // Warning: (ae-forgotten-export) The symbol "NodeReadableStream" needs to be exported by the entry point index.d.ts
+    body: string | Uint8Array | ReadableStream<Uint8Array> | NodeReadableStream;
 }
 
 // @public (undocumented)
@@ -2122,11 +2115,6 @@ export type PFMetrics = string;
 // @public
 export type PFMetricsOutput = string;
 
-// @public (undocumented)
-export interface PolledOperationOptions {
-    updateIntervalInMs?: number;
-}
-
 // @public
 export type RecommendationCategory = string;
 
@@ -2243,6 +2231,8 @@ export interface ResourceOperationStatusTestErrorOutput {
     status: OperationStateOutput;
 }
 
+export { RestError }
+
 // @public (undocumented)
 export interface Routes {
     (path: "/operations/{operationId}", operationId: string): OperationsGetStatus;
@@ -2254,8 +2244,6 @@ export interface Routes {
     (path: "/tests/{testId}/files", testId: string): LoadTestAdministrationListTestFiles;
     (path: "/tests/{testId}/app-components", testId: string): LoadTestAdministrationCreateOrUpdateAppComponents;
     (path: "/tests/{testId}/server-metrics-config", testId: string): LoadTestAdministrationCreateOrUpdateServerMetricsConfig;
-    (path: "/test-profiles/{testProfileId}", testProfileId: string): TestProfileAdministrationCreateOrUpdateTestProfile;
-    (path: "/test-profiles"): TestProfileAdministrationListTestProfiles;
     (path: "/triggers/{triggerId}", triggerId: string): TriggerAdministrationGetTrigger;
     (path: "/triggers"): TriggerAdministrationListTrigger;
     (path: "/notification-rules/{notificationRuleId}", notificationRuleId: string): NotificationRuleAdministrationGetNotificationRule;
@@ -2272,6 +2260,8 @@ export interface Routes {
     (path: "/test-runs/{testRunId}/metric-dimensions/{name}/values", testRunId: string, name: string): LoadTestRunListMetricDimensionValues;
     (path: "/test-runs/{testRunId}/app-components", testRunId: string): LoadTestRunCreateOrUpdateAppComponents;
     (path: "/test-runs/{testRunId}/server-metrics-config", testRunId: string): LoadTestRunCreateOrUpdateServerMetricsConfig;
+    (path: "/test-profiles/{testProfileId}", testProfileId: string): TestProfileAdministrationCreateOrUpdateTestProfile;
+    (path: "/test-profiles"): TestProfileAdministrationListTestProfiles;
     (path: "/test-profile-runs/{testProfileRunId}", testProfileRunId: string): TestProfileRunAdministrationGetTestProfileRun;
     (path: "/test-profile-runs/{testProfileRunId}:stop", testProfileRunId: string): TestProfileRunAdministrationStop;
     (path: "/test-profile-runs"): TestProfileRunAdministrationListTestProfileRuns;
@@ -2289,7 +2279,6 @@ export interface ScheduleTestsTrigger extends TriggerParent {
 export interface ScheduleTestsTriggerOutput extends TriggerOutputParent {
     kind: "ScheduleTestsTrigger";
     recurrence?: RecurrenceOutput;
-    // (undocumented)
     readonly recurrenceStatus?: RecurrenceStatusOutput;
     startDateTime?: string;
     testIds: string[];
@@ -2883,12 +2872,6 @@ export interface TestProfileRunAdministrationStopDefaultResponse extends HttpRes
 export type TestProfileRunAdministrationStopParameters = RequestParameters;
 
 // @public
-export type TestProfileRunCompletionPoller = SimplePollerLike<OperationState_2<TestProfileRunAdministrationGetTestProfileRun200Response>, TestProfileRunAdministrationGetTestProfileRun200Response>;
-
-// @public (undocumented)
-export type TestProfileRunCreateOrUpdateSuccessResponse = TestProfileRunAdministrationCreateOrUpdateTestProfileRun200Response | TestProfileRunAdministrationCreateOrUpdateTestProfileRun201Response;
-
-// @public
 export interface TestProfileRunOutput {
     readonly createdBy?: string;
     readonly createdDateTime?: string;
@@ -2976,12 +2959,6 @@ export interface TestRunArtifactsOutput {
     readonly inputArtifacts?: TestRunInputArtifactsOutput;
     outputArtifacts?: TestRunOutputArtifactsOutput;
 }
-
-// @public
-export type TestRunCompletionPoller = SimplePollerLike<OperationState_2<LoadTestRunGetTestRun200Response>, LoadTestRunGetTestRun200Response>;
-
-// @public (undocumented)
-export type TestRunCreateOrUpdateSuccessResponse = LoadTestRunCreateOrUpdateTestRun200Response | LoadTestRunCreateOrUpdateTestRun201Response;
 
 // @public
 export interface TestRunDetail {
@@ -3254,9 +3231,6 @@ export interface TestsNotificationRuleOutput extends NotificationRuleOutputParen
     scope: "Tests";
     testIds?: string[];
 }
-
-// @public (undocumented)
-export type TestUploadFileSuccessResponse = LoadTestAdministrationUploadTestFile201Response;
 
 // @public
 export type TimeGrain = string;

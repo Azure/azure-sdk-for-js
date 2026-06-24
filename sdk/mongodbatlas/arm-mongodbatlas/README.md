@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/mongodbatlas/arm-mongodbatlas)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-mongodbatlas)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-mongodbatlas?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-mongodbatlas)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/mongodbatlas/arm-mongodbatlas/samples)
 
 ## Getting started

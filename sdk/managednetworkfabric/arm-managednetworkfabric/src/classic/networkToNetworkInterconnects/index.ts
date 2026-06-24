@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureNetworkFabricManagementServiceAPIContext } from "../../api/azureNetworkFabricManagementServiceAPIContext.js";
+import { AzureNetworkFabricManagementServiceAPIContext } from "../../api/azureNetworkFabricManagementServiceAPIContext.js";
 import {
   updateBfdAdministrativeState,
   updateAdministrativeState,
@@ -12,7 +12,7 @@ import {
   create,
   get,
 } from "../../api/networkToNetworkInterconnects/operations.js";
-import type {
+import {
   NetworkToNetworkInterconnectsUpdateBfdAdministrativeStateOptionalParams,
   NetworkToNetworkInterconnectsUpdateAdministrativeStateOptionalParams,
   NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateOptionalParams,
@@ -22,7 +22,7 @@ import type {
   NetworkToNetworkInterconnectsCreateOptionalParams,
   NetworkToNetworkInterconnectsGetOptionalParams,
 } from "../../api/networkToNetworkInterconnects/options.js";
-import type {
+import {
   UpdateAdministrativeState,
   UpdateAdministrativeStateResponse,
   NetworkToNetworkInterconnect,
@@ -30,10 +30,9 @@ import type {
   NniUpdateBfdAdministrativeStateRequest,
   NniUpdateBfdAdministrativeStateResponse,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a NetworkToNetworkInterconnects operations. */
 export interface NetworkToNetworkInterconnectsOperations {

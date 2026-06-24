@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 
 import { KubernetesRuntimeClient } from "./kubernetesRuntimeClient.js";
+import { _createOrUpdateDeserialize } from "./api/bgpPeers/operations.js";
+import { _createOrUpdateDeserialize as _createOrUpdateDeserializeLoadBalancers } from "./api/loadBalancers/operations.js";
 import {
-  _storageClassCreateOrUpdateDeserialize,
-  _storageClassUpdateDeserialize,
-  _storageClassDeleteDeserialize,
-} from "./api/storageClass/index.js";
-import { _loadBalancersCreateOrUpdateDeserialize } from "./api/loadBalancers/index.js";
-import { _bgpPeersCreateOrUpdateDeserialize } from "./api/bgpPeers/index.js";
+  _$deleteDeserialize,
+  _updateDeserialize,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeStorageClass,
+} from "./api/storageClass/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
 import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
 import { AbortSignalLike } from "@azure/abort-controller";
@@ -62,6 +62,7 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
       `Please ensure the operation is in this client! We can't find its deserializeHelper for ${sourceOperation?.name}.`,
     );
   }
+  const apiVersion = getApiVersionFromUrl(initialRequestUrl);
   return getLongRunningPoller(
     (client as any)["_client"] ?? client,
     deserializeHelper as (result: TResponse) => Promise<TResult>,
@@ -72,35 +73,36 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
       resourceLocationConfig,
       restoreFrom: serializedState,
       initialRequestUrl,
+      apiVersion,
     },
   );
 }
 
 interface DeserializationHelper {
-  deserializer: Function;
+  deserializer: (result: PathUncheckedResponse) => Promise<any>;
   expectedStatuses: string[];
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
-  "PUT /{resourceUri}/providers/Microsoft.KubernetesRuntime/storageClasses/{storageClassName}": {
-    deserializer: _storageClassCreateOrUpdateDeserialize,
-    expectedStatuses: ["200", "201"],
-  },
-  "PATCH /{resourceUri}/providers/Microsoft.KubernetesRuntime/storageClasses/{storageClassName}": {
-    deserializer: _storageClassUpdateDeserialize,
-    expectedStatuses: ["200", "202"],
-  },
-  "DELETE /{resourceUri}/providers/Microsoft.KubernetesRuntime/storageClasses/{storageClassName}": {
-    deserializer: _storageClassDeleteDeserialize,
-    expectedStatuses: ["202", "204", "200"],
+  "PUT /{resourceUri}/providers/Microsoft.KubernetesRuntime/bgpPeers/{bgpPeerName}": {
+    deserializer: _createOrUpdateDeserialize,
+    expectedStatuses: ["200", "201", "202"],
   },
   "PUT /{resourceUri}/providers/Microsoft.KubernetesRuntime/loadBalancers/{loadBalancerName}": {
-    deserializer: _loadBalancersCreateOrUpdateDeserialize,
-    expectedStatuses: ["200", "201"],
+    deserializer: _createOrUpdateDeserializeLoadBalancers,
+    expectedStatuses: ["200", "201", "202"],
   },
-  "PUT /{resourceUri}/providers/Microsoft.KubernetesRuntime/bgpPeers/{bgpPeerName}": {
-    deserializer: _bgpPeersCreateOrUpdateDeserialize,
-    expectedStatuses: ["200", "201"],
+  "DELETE /{resourceUri}/providers/Microsoft.KubernetesRuntime/storageClasses/{storageClassName}": {
+    deserializer: _$deleteDeserialize,
+    expectedStatuses: ["202", "204", "200"],
+  },
+  "PATCH /{resourceUri}/providers/Microsoft.KubernetesRuntime/storageClasses/{storageClassName}": {
+    deserializer: _updateDeserialize,
+    expectedStatuses: ["200", "202", "201"],
+  },
+  "PUT /{resourceUri}/providers/Microsoft.KubernetesRuntime/storageClasses/{storageClassName}": {
+    deserializer: _createOrUpdateDeserializeStorageClass,
+    expectedStatuses: ["200", "201", "202"],
   },
 };
 
@@ -172,4 +174,9 @@ function getDeserializationHelper(
 function getPathFromMapKey(mapKey: string): string {
   const pathStart = mapKey.indexOf("/");
   return mapKey.slice(pathStart);
+}
+
+function getApiVersionFromUrl(urlStr: string): string | undefined {
+  const url = new URL(urlStr);
+  return url.searchParams.get("api-version") ?? undefined;
 }

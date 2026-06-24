@@ -1,13 +1,7 @@
 # Release History
-
-## 1.0.0 (2026-06-12)
-
-### Features Added
-
-- Initial GA release of the @azure/arm-monitorworkspaces package
-
-## 1.0.0-beta.1 (2026-05-20)
+    
+## 1.0.0 (2026-06-24)
 
 ### Features Added
 
-Initial release of the @azure/arm-monitorworkspaces package
+This is the first stable release of the @azure/arm-monitorworkspaces package. It introduces a new SDK generation with layered APIs, smaller bundles, and improved ergonomics. For more details, see the https://aka.ms/azsdk/js/sdk/quickstart.

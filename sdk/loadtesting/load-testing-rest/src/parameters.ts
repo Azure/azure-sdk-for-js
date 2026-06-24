@@ -8,7 +8,6 @@ import type {
   FileType,
   TestAppComponents,
   TestServerMetricsConfiguration,
-  TestProfile,
   Trigger,
   TriggerState,
   NotificationRule,
@@ -18,8 +17,10 @@ import type {
   MetricRequestPayload,
   TestRunAppComponents,
   TestRunServerMetricsConfiguration,
+  TestProfile,
   TestProfileRun,
 } from "./models.js";
+import type { NodeReadableStream } from "#platform/platform-types";
 
 export type OperationsGetStatusParameters = RequestParameters;
 /** The resource instance. */
@@ -83,7 +84,7 @@ export interface LoadTestAdministrationUploadTestFileBodyParam {
    *
    * Value may contain any sequence of octets
    */
-  body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
+  body: string | Uint8Array | ReadableStream<Uint8Array> | NodeReadableStream;
 }
 
 export interface LoadTestAdministrationUploadTestFileQueryParamProperties {
@@ -149,65 +150,6 @@ export type LoadTestAdministrationCreateOrUpdateServerMetricsConfigParameters =
     LoadTestAdministrationCreateOrUpdateServerMetricsConfigBodyParam &
     RequestParameters;
 export type LoadTestAdministrationGetServerMetricsConfigParameters = RequestParameters;
-/** The resource instance. */
-export type TestProfileResourceMergeAndPatch = Partial<TestProfile>;
-
-export interface TestProfileAdministrationCreateOrUpdateTestProfileBodyParam {
-  /** The resource instance. */
-  body: TestProfileResourceMergeAndPatch;
-}
-
-export interface TestProfileAdministrationCreateOrUpdateTestProfileMediaTypesParam {
-  /** This request has a JSON Merge Patch body. */
-  contentType: "application/merge-patch+json";
-}
-
-export type TestProfileAdministrationCreateOrUpdateTestProfileParameters =
-  TestProfileAdministrationCreateOrUpdateTestProfileMediaTypesParam &
-    TestProfileAdministrationCreateOrUpdateTestProfileBodyParam &
-    RequestParameters;
-export type TestProfileAdministrationDeleteTestProfileParameters = RequestParameters;
-export type TestProfileAdministrationGetTestProfileParameters = RequestParameters;
-
-/** This is the wrapper object for the parameter `testProfileIds` with explode set to false and style set to form. */
-export interface TestProfileAdministrationListTestProfilesTestProfileIdsQueryParam {
-  /** Value of the parameter */
-  value: string[];
-  /** Should we explode the value? */
-  explode: false;
-  /** Style of the value */
-  style: "form";
-}
-
-/** This is the wrapper object for the parameter `testIds` with explode set to false and style set to form. */
-export interface TestProfileAdministrationListTestProfilesTestIdsQueryParam {
-  /** Value of the parameter */
-  value: string[];
-  /** Should we explode the value? */
-  explode: false;
-  /** Style of the value */
-  style: "form";
-}
-
-export interface TestProfileAdministrationListTestProfilesQueryParamProperties {
-  /** Maximum number of results to include in a single response. */
-  maxpagesize?: number;
-  /** Start DateTime(RFC 3339 literal format) of the last updated time range to filter test profiles. */
-  lastModifiedStartTime?: Date | string;
-  /** End DateTime(RFC 3339 literal format) of the last updated time range to filter test profiles. */
-  lastModifiedEndTime?: Date | string;
-  /** Comma separated list of IDs of the test profiles to filter. */
-  testProfileIds?: string[] | TestProfileAdministrationListTestProfilesTestProfileIdsQueryParam;
-  /** Comma separated list IDs of the tests which should be associated with the test profiles to fetch. */
-  testIds?: string[] | TestProfileAdministrationListTestProfilesTestIdsQueryParam;
-}
-
-export interface TestProfileAdministrationListTestProfilesQueryParam {
-  queryParameters?: TestProfileAdministrationListTestProfilesQueryParamProperties;
-}
-
-export type TestProfileAdministrationListTestProfilesParameters =
-  TestProfileAdministrationListTestProfilesQueryParam & RequestParameters;
 export type TriggerAdministrationGetTriggerParameters = RequestParameters;
 /** The resource instance. */
 export type TriggerResourceMergeAndPatch = Partial<Trigger>;
@@ -502,6 +444,65 @@ export type LoadTestRunCreateOrUpdateServerMetricsConfigParameters =
     LoadTestRunCreateOrUpdateServerMetricsConfigBodyParam &
     RequestParameters;
 export type LoadTestRunGetServerMetricsConfigParameters = RequestParameters;
+/** The resource instance. */
+export type TestProfileResourceMergeAndPatch = Partial<TestProfile>;
+
+export interface TestProfileAdministrationCreateOrUpdateTestProfileBodyParam {
+  /** The resource instance. */
+  body: TestProfileResourceMergeAndPatch;
+}
+
+export interface TestProfileAdministrationCreateOrUpdateTestProfileMediaTypesParam {
+  /** This request has a JSON Merge Patch body. */
+  contentType: "application/merge-patch+json";
+}
+
+export type TestProfileAdministrationCreateOrUpdateTestProfileParameters =
+  TestProfileAdministrationCreateOrUpdateTestProfileMediaTypesParam &
+    TestProfileAdministrationCreateOrUpdateTestProfileBodyParam &
+    RequestParameters;
+export type TestProfileAdministrationDeleteTestProfileParameters = RequestParameters;
+export type TestProfileAdministrationGetTestProfileParameters = RequestParameters;
+
+/** This is the wrapper object for the parameter `testProfileIds` with explode set to false and style set to form. */
+export interface TestProfileAdministrationListTestProfilesTestProfileIdsQueryParam {
+  /** Value of the parameter */
+  value: string[];
+  /** Should we explode the value? */
+  explode: false;
+  /** Style of the value */
+  style: "form";
+}
+
+/** This is the wrapper object for the parameter `testIds` with explode set to false and style set to form. */
+export interface TestProfileAdministrationListTestProfilesTestIdsQueryParam {
+  /** Value of the parameter */
+  value: string[];
+  /** Should we explode the value? */
+  explode: false;
+  /** Style of the value */
+  style: "form";
+}
+
+export interface TestProfileAdministrationListTestProfilesQueryParamProperties {
+  /** Maximum number of results to include in a single response. */
+  maxpagesize?: number;
+  /** Start DateTime(RFC 3339 literal format) of the last updated time range to filter test profiles. */
+  lastModifiedStartTime?: Date | string;
+  /** End DateTime(RFC 3339 literal format) of the last updated time range to filter test profiles. */
+  lastModifiedEndTime?: Date | string;
+  /** Comma separated list of IDs of the test profiles to filter. */
+  testProfileIds?: string[] | TestProfileAdministrationListTestProfilesTestProfileIdsQueryParam;
+  /** Comma separated list IDs of the tests which should be associated with the test profiles to fetch. */
+  testIds?: string[] | TestProfileAdministrationListTestProfilesTestIdsQueryParam;
+}
+
+export interface TestProfileAdministrationListTestProfilesQueryParam {
+  queryParameters?: TestProfileAdministrationListTestProfilesQueryParamProperties;
+}
+
+export type TestProfileAdministrationListTestProfilesParameters =
+  TestProfileAdministrationListTestProfilesQueryParam & RequestParameters;
 export type TestProfileRunAdministrationGetTestProfileRunParameters = RequestParameters;
 /** The resource instance. */
 export type TestProfileRunResourceMergeAndPatch = Partial<TestProfileRun>;

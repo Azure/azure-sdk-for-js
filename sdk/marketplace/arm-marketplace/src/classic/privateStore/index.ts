@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { MarketplaceContext } from "../../api/marketplaceContext.js";
+import { MarketplaceContext } from "../../api/marketplaceContext.js";
 import {
   adminRequestApprovalsList,
   updateAdminRequestApproval,
@@ -29,7 +29,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/privateStore/operations.js";
-import type {
+import {
   PrivateStoreAdminRequestApprovalsListOptionalParams,
   PrivateStoreUpdateAdminRequestApprovalOptionalParams,
   PrivateStoreGetAdminRequestApprovalOptionalParams,
@@ -56,7 +56,7 @@ import type {
   PrivateStoreCreateOrUpdateOptionalParams,
   PrivateStoreGetOptionalParams,
 } from "../../api/privateStore/options.js";
-import type {
+import {
   PrivateStore,
   AnyExistingOffersInTheCollectionsResponse,
   QueryOffers,
@@ -75,7 +75,7 @@ import type {
   AdminRequestApprovalsResource,
   AdminRequestApprovalsList,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a PrivateStore operations. */
 export interface PrivateStoreOperations {
@@ -196,11 +196,6 @@ export interface PrivateStoreOperations {
   /** Gets the list of available private stores. */
   list: (options?: PrivateStoreListOptionalParams) => PagedAsyncIterableIterator<PrivateStore>;
   /** Deletes the private store. All that is not saved will be lost. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (privateStoreId: string, options?: PrivateStoreDeleteOptionalParams) => Promise<void>;
   /** Changes private store properties */
   createOrUpdate: (

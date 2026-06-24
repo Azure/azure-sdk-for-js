@@ -1,0 +1,49 @@
+{
+  "apiVersions": {
+    "ArizeAi.ObservabilityEval": "2024-10-01"
+  },
+  "emitterVersion": "0.55.0-dev.8",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "ArizeAi.ObservabilityEval",
+    "CrossLanguageDefinitionId": {
+      "@azure/arm-arizeaiobservabilityeval!OperationListResult:interface": "Azure.ResourceManager.CommonTypes.OperationListResult",
+      "@azure/arm-arizeaiobservabilityeval!Operation:interface": "Azure.ResourceManager.CommonTypes.Operation",
+      "@azure/arm-arizeaiobservabilityeval!OperationDisplay:interface": "Azure.ResourceManager.CommonTypes.OperationDisplay",
+      "@azure/arm-arizeaiobservabilityeval!ErrorResponse:interface": "Azure.ResourceManager.CommonTypes.ErrorResponse",
+      "@azure/arm-arizeaiobservabilityeval!ErrorDetail:interface": "Azure.ResourceManager.CommonTypes.ErrorDetail",
+      "@azure/arm-arizeaiobservabilityeval!ErrorAdditionalInfo:interface": "Azure.ResourceManager.CommonTypes.ErrorAdditionalInfo",
+      "@azure/arm-arizeaiobservabilityeval!OrganizationResource:interface": "ArizeAi.ObservabilityEval.OrganizationResource",
+      "@azure/arm-arizeaiobservabilityeval!OrganizationProperties:interface": "ArizeAi.ObservabilityEval.OrganizationProperties",
+      "@azure/arm-arizeaiobservabilityeval!MarketplaceDetails:interface": "LiftrBase.MarketplaceDetails",
+      "@azure/arm-arizeaiobservabilityeval!OfferDetails:interface": "LiftrBase.OfferDetails",
+      "@azure/arm-arizeaiobservabilityeval!UserDetails:interface": "LiftrBase.UserDetails",
+      "@azure/arm-arizeaiobservabilityeval!PartnerProperties:interface": "ArizeAi.ObservabilityEval.PartnerProperties",
+      "@azure/arm-arizeaiobservabilityeval!SingleSignOnPropertiesV2:interface": "LiftrBase.SingleSignOnPropertiesV2",
+      "@azure/arm-arizeaiobservabilityeval!ManagedServiceIdentity:interface": "Azure.ResourceManager.CommonTypes.ManagedServiceIdentity",
+      "@azure/arm-arizeaiobservabilityeval!UserAssignedIdentity:interface": "Azure.ResourceManager.CommonTypes.UserAssignedIdentity",
+      "@azure/arm-arizeaiobservabilityeval!TrackedResource:interface": "Azure.ResourceManager.CommonTypes.TrackedResource",
+      "@azure/arm-arizeaiobservabilityeval!Resource:interface": "Azure.ResourceManager.CommonTypes.Resource",
+      "@azure/arm-arizeaiobservabilityeval!SystemData:interface": "Azure.ResourceManager.CommonTypes.SystemData",
+      "@azure/arm-arizeaiobservabilityeval!ArmOperationStatusResourceProvisioningState:interface": "Azure.ResourceManager.ArmOperationStatus",
+      "@azure/arm-arizeaiobservabilityeval!OrganizationResourceUpdate:interface": "ArizeAi.ObservabilityEval.OrganizationResourceUpdate",
+      "@azure/arm-arizeaiobservabilityeval!OrganizationResourceListResult:interface": "Azure.ResourceManager.ResourceListResult",
+      "@azure/arm-arizeaiobservabilityeval!KnownOrigin:enum": "Azure.ResourceManager.CommonTypes.Origin",
+      "@azure/arm-arizeaiobservabilityeval!KnownActionType:enum": "Azure.ResourceManager.CommonTypes.ActionType",
+      "@azure/arm-arizeaiobservabilityeval!KnownMarketplaceSubscriptionStatus:enum": "LiftrBase.MarketplaceSubscriptionStatus",
+      "@azure/arm-arizeaiobservabilityeval!KnownResourceProvisioningState:enum": "Azure.ResourceManager.ResourceProvisioningState",
+      "@azure/arm-arizeaiobservabilityeval!KnownSingleSignOnType:enum": "LiftrBase.SingleSignOnType",
+      "@azure/arm-arizeaiobservabilityeval!KnownSingleSignOnStates:enum": "LiftrBase.SingleSignOnStates",
+      "@azure/arm-arizeaiobservabilityeval!KnownManagedServiceIdentityType:enum": "Azure.ResourceManager.CommonTypes.ManagedServiceIdentityType",
+      "@azure/arm-arizeaiobservabilityeval!KnowncreatedByType:enum": "Azure.ResourceManager.CommonTypes.createdByType",
+      "@azure/arm-arizeaiobservabilityeval!KnownVersions:enum": "ArizeAi.ObservabilityEval.Versions",
+      "@azure/arm-arizeaiobservabilityeval!ManagedServiceIdentityUserAssignedIdentity:type": "Azure.ResourceManager.CommonTypes.ManagedServiceIdentity.userAssignedIdentity.anonymous",
+      "@azure/arm-arizeaiobservabilityeval!OrganizationsOperations#listBySubscription:member": "ArizeAi.ObservabilityEval.Organizations.listBySubscription",
+      "@azure/arm-arizeaiobservabilityeval!OrganizationsOperations#listByResourceGroup:member": "ArizeAi.ObservabilityEval.Organizations.listByResourceGroup",
+      "@azure/arm-arizeaiobservabilityeval!OrganizationsOperations#delete:member": "ArizeAi.ObservabilityEval.Organizations.delete",
+      "@azure/arm-arizeaiobservabilityeval!OrganizationsOperations#update:member": "ArizeAi.ObservabilityEval.Organizations.update",
+      "@azure/arm-arizeaiobservabilityeval!OrganizationsOperations#createOrUpdate:member": "ArizeAi.ObservabilityEval.Organizations.createOrUpdate",
+      "@azure/arm-arizeaiobservabilityeval!OrganizationsOperations#get:member": "ArizeAi.ObservabilityEval.Organizations.get",
+      "@azure/arm-arizeaiobservabilityeval!OperationsOperations#list:member": "Azure.ResourceManager.Operations.list"
+    }
+  }
+}

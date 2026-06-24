@@ -5,26 +5,26 @@ import { MaintenanceManagementClient } from "@azure/arm-maintenance";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to post Scheduled Event Acknowledgement
+ * This sample demonstrates how to post ScheduledEvents Acknowledgement
  *
- * @summary post Scheduled Event Acknowledgement
+ * @summary post ScheduledEvents Acknowledgement
  * x-ms-original-file: 2023-10-01-preview/ScheduledEvents_Acknowledge.json
  */
-async function scheduledEventsAcknowledge(): Promise<void> {
+async function postScheduledEventsAcknowledgement(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "5b4b650e-28b9-4790-b3ab-ddbd88d727c4";
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new MaintenanceManagementClient(credential, subscriptionId);
-  const result = await client.scheduledEvent.acknowledge(
-    "examplerg",
-    "virtualMachines",
-    "configuration1",
-    "ad6d85cf-2c9e-4eec-9a1e-af3213cc0486",
+  const result = await client.scheduledEvents.acknowledge(
+    "resource-group1",
+    "resource-type1",
+    "resource-name1",
+    "00000000-0000-0000-0000-000000000000",
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await scheduledEventsAcknowledge();
+  await postScheduledEventsAcknowledgement();
 }
 
 main().catch(console.error);

@@ -31,6 +31,12 @@ import {
   keyVerifyParametersSerializer,
   KeyVerifyResult,
   keyVerifyResultDeserializer,
+  SecureKeyWrapOperationParameters,
+  secureKeyWrapOperationParametersSerializer,
+  SecureKeyOperationResult,
+  secureKeyOperationResultDeserializer,
+  SecureKeyUnWrapOperationParameters,
+  secureKeyUnWrapOperationParametersSerializer,
   KeyReleaseParameters,
   keyReleaseParametersSerializer,
   KeyReleaseResult,
@@ -62,6 +68,8 @@ import {
   GetDeletedKeysOptionalParams,
   ReleaseOptionalParams,
   UnwrapKeyOptionalParams,
+  SecureUnwrapKeyOptionalParams,
+  SecureWrapKeyOptionalParams,
   WrapKeyOptionalParams,
   VerifyOptionalParams,
   SignOptionalParams,
@@ -96,7 +104,7 @@ export function _getKeyAttestationSend(
     {
       "key-name": keyName,
       "key-version": keyVersion,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -116,7 +124,9 @@ export async function _getKeyAttestationDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -143,7 +153,7 @@ export function _getRandomBytesSend(
   const path = expandUrlTemplate(
     "/rng{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -165,7 +175,9 @@ export async function _getRandomBytesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -193,7 +205,7 @@ export function _updateKeyRotationPolicySend(
     "/keys/{key-name}/rotationpolicy{?api%2Dversion}",
     {
       "key-name": keyName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -215,7 +227,9 @@ export async function _updateKeyRotationPolicyDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -243,7 +257,7 @@ export function _getKeyRotationPolicySend(
     "/keys/{key-name}/rotationpolicy{?api%2Dversion}",
     {
       "key-name": keyName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -263,7 +277,9 @@ export async function _getKeyRotationPolicyDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -290,7 +306,7 @@ export function _recoverDeletedKeySend(
     "/deletedkeys/{key-name}/recover{?api%2Dversion}",
     {
       "key-name": keyName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -310,7 +326,9 @@ export async function _recoverDeletedKeyDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -337,7 +355,7 @@ export function _purgeDeletedKeySend(
     "/deletedkeys/{key-name}{?api%2Dversion}",
     {
       "key-name": keyName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -350,7 +368,9 @@ export async function _purgeDeletedKeyDeserialize(result: PathUncheckedResponse)
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -377,7 +397,7 @@ export function _getDeletedKeySend(
     "/deletedkeys/{key-name}{?api%2Dversion}",
     {
       "key-name": keyName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -397,7 +417,9 @@ export async function _getDeletedKeyDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -422,7 +444,7 @@ export function _getDeletedKeysSend(
   const path = expandUrlTemplate(
     "/deletedkeys{?api%2Dversion,maxresults}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
       maxresults: options?.maxresults,
     },
     {
@@ -443,7 +465,9 @@ export async function _getDeletedKeysDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -461,7 +485,11 @@ export function getDeletedKeys(
     () => _getDeletedKeysSend(context, options),
     _getDeletedKeysDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    },
   );
 }
 
@@ -477,7 +505,7 @@ export function _releaseSend(
     {
       "key-name": keyName,
       "key-version": keyVersion,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -499,7 +527,9 @@ export async function _releaseDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -531,7 +561,7 @@ export function _unwrapKeySend(
     {
       "key-name": keyName,
       "key-version": keyVersion,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -553,7 +583,9 @@ export async function _unwrapKeyDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -573,6 +605,121 @@ export async function unwrapKey(
   return _unwrapKeyDeserialize(result);
 }
 
+export function _secureUnwrapKeySend(
+  context: Client,
+  keyName: string,
+  keyVersion: string,
+  parameters: SecureKeyUnWrapOperationParameters,
+  options: SecureUnwrapKeyOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/keys/{key-name}/{key-version}/secureunwrapkey{?api%2Dversion}",
+    {
+      "key-name": keyName,
+      "key-version": keyVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: secureKeyUnWrapOperationParametersSerializer(parameters),
+    });
+}
+
+export async function _secureUnwrapKeyDeserialize(
+  result: PathUncheckedResponse,
+): Promise<SecureKeyOperationResult> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return secureKeyOperationResultDeserializer(result.body);
+}
+
+/**
+ * The SECURE UNWRAP operation supports decryption of a symmetric key using the target key encryption key. This operation is the reverse of the SECURE WRAP operation. The SECURE UNWRAP operation applies to asymmetric and symmetric keys stored in Azure Key Vault since it uses the private portion of the key. This operation requires the keys/unwrapKey permission.
+ * The SECURE UNWRAP operation ensures that MAA (Microsoft Azure Attestation Service) is used to attest the TEE (Trusted Execution Environment) before the key is unwrapped.
+ */
+export async function secureUnwrapKey(
+  context: Client,
+  keyName: string,
+  keyVersion: string,
+  parameters: SecureKeyUnWrapOperationParameters,
+  options: SecureUnwrapKeyOptionalParams = { requestOptions: {} },
+): Promise<SecureKeyOperationResult> {
+  const result = await _secureUnwrapKeySend(context, keyName, keyVersion, parameters, options);
+  return _secureUnwrapKeyDeserialize(result);
+}
+
+export function _secureWrapKeySend(
+  context: Client,
+  keyName: string,
+  keyVersion: string,
+  parameters: SecureKeyWrapOperationParameters,
+  options: SecureWrapKeyOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/keys/{key-name}/{key-version}/securewrapkey{?api%2Dversion}",
+    {
+      "key-name": keyName,
+      "key-version": keyVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: secureKeyWrapOperationParametersSerializer(parameters),
+    });
+}
+
+export async function _secureWrapKeyDeserialize(
+  result: PathUncheckedResponse,
+): Promise<SecureKeyOperationResult> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return secureKeyOperationResultDeserializer(result.body);
+}
+
+/** The SECURE WRAP operation creates a new 256 bit AES key within the trusted execution environment(TEE) and encrypts the same with a key encryption key that has previously been stored in an Azure Key Vault. The WRAP operation is only strictly necessary for symmetric keys stored in Azure Key Vault since protection with an asymmetric key can be performed using the public portion of the key. This operation is supported for asymmetric keys as a convenience for callers that have a key-reference but do not have access to the public key material. This operation requires the keys/wrapKey permission. */
+export async function secureWrapKey(
+  context: Client,
+  keyName: string,
+  keyVersion: string,
+  parameters: SecureKeyWrapOperationParameters,
+  options: SecureWrapKeyOptionalParams = { requestOptions: {} },
+): Promise<SecureKeyOperationResult> {
+  const result = await _secureWrapKeySend(context, keyName, keyVersion, parameters, options);
+  return _secureWrapKeyDeserialize(result);
+}
+
 export function _wrapKeySend(
   context: Client,
   keyName: string,
@@ -585,7 +732,7 @@ export function _wrapKeySend(
     {
       "key-name": keyName,
       "key-version": keyVersion,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -607,7 +754,9 @@ export async function _wrapKeyDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -639,7 +788,7 @@ export function _verifySend(
     {
       "key-name": keyName,
       "key-version": keyVersion,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -659,7 +808,9 @@ export async function _verifyDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -691,7 +842,7 @@ export function _signSend(
     {
       "key-name": keyName,
       "key-version": keyVersion,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -711,7 +862,9 @@ export async function _signDeserialize(result: PathUncheckedResponse): Promise<K
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -743,7 +896,7 @@ export function _decryptSend(
     {
       "key-name": keyName,
       "key-version": keyVersion,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -765,7 +918,9 @@ export async function _decryptDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -797,7 +952,7 @@ export function _encryptSend(
     {
       "key-name": keyName,
       "key-version": keyVersion,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -819,7 +974,9 @@ export async function _encryptDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -847,7 +1004,7 @@ export function _restoreKeySend(
   const path = expandUrlTemplate(
     "/keys/restore{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -867,7 +1024,9 @@ export async function _restoreKeyDeserialize(result: PathUncheckedResponse): Pro
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -894,7 +1053,7 @@ export function _backupKeySend(
     "/keys/{key-name}/backup{?api%2Dversion}",
     {
       "key-name": keyName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -914,7 +1073,9 @@ export async function _backupKeyDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -939,7 +1100,7 @@ export function _getKeysSend(
   const path = expandUrlTemplate(
     "/keys{?api%2Dversion,maxresults}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
       maxresults: options?.maxresults,
     },
     {
@@ -958,7 +1119,9 @@ export async function _getKeysDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -976,7 +1139,11 @@ export function getKeys(
     () => _getKeysSend(context, options),
     _getKeysDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    },
   );
 }
 
@@ -989,7 +1156,7 @@ export function _getKeyVersionsSend(
     "/keys/{key-name}/versions{?api%2Dversion,maxresults}",
     {
       "key-name": keyName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
       maxresults: options?.maxresults,
     },
     {
@@ -1010,7 +1177,9 @@ export async function _getKeyVersionsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1029,7 +1198,11 @@ export function getKeyVersions(
     () => _getKeyVersionsSend(context, keyName, options),
     _getKeyVersionsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    },
   );
 }
 
@@ -1044,7 +1217,7 @@ export function _getKeySend(
     {
       "key-name": keyName,
       "key-version": keyVersion,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1062,7 +1235,9 @@ export async function _getKeyDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1093,7 +1268,7 @@ export function _updateKeySend(
     {
       "key-name": keyName,
       "key-version": keyVersion,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1113,7 +1288,9 @@ export async function _updateKeyDeserialize(result: PathUncheckedResponse): Prom
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1142,7 +1319,7 @@ export function _deleteKeySend(
     "/keys/{key-name}{?api%2Dversion}",
     {
       "key-name": keyName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1162,7 +1339,9 @@ export async function _deleteKeyDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1190,7 +1369,7 @@ export function _importKeySend(
     "/keys/{key-name}{?api%2Dversion}",
     {
       "key-name": keyName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1210,7 +1389,9 @@ export async function _importKeyDeserialize(result: PathUncheckedResponse): Prom
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1238,7 +1419,7 @@ export function _rotateKeySend(
     "/keys/{key-name}/rotate{?api%2Dversion}",
     {
       "key-name": keyName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1256,7 +1437,9 @@ export async function _rotateKeyDeserialize(result: PathUncheckedResponse): Prom
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1284,7 +1467,7 @@ export function _createKeySend(
     "/keys/{key-name}/create{?api%2Dversion}",
     {
       "key-name": keyName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1304,7 +1487,9 @@ export async function _createKeyDeserialize(result: PathUncheckedResponse): Prom
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }

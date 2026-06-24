@@ -1,23 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getStorageClassOperations, StorageClassOperations } from "./classic/storageClass/index.js";
-import { getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
 import {
-  getLoadBalancersOperations,
-  LoadBalancersOperations,
-} from "./classic/loadBalancers/index.js";
-import { getBgpPeersOperations, BgpPeersOperations } from "./classic/bgpPeers/index.js";
-import { getServicesOperations, ServicesOperations } from "./classic/services/index.js";
-import {
-  createKubernetesRuntime,
   KubernetesRuntimeContext,
   KubernetesRuntimeClientOptionalParams,
+  createKubernetesRuntime,
 } from "./api/index.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
+import { BgpPeersOperations, _getBgpPeersOperations } from "./classic/bgpPeers/index.js";
+import {
+  LoadBalancersOperations,
+  _getLoadBalancersOperations,
+} from "./classic/loadBalancers/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import { ServicesOperations, _getServicesOperations } from "./classic/services/index.js";
+import {
+  StorageClassOperations,
+  _getStorageClassOperations,
+} from "./classic/storageClass/index.js";
 import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
-export { type KubernetesRuntimeClientOptionalParams } from "./api/kubernetesRuntimeContext.js";
+export type { KubernetesRuntimeClientOptionalParams } from "./api/kubernetesRuntimeContext.js";
 
 export class KubernetesRuntimeClient {
   private _client: KubernetesRuntimeContext;
@@ -28,27 +31,27 @@ export class KubernetesRuntimeClient {
     const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
-      : "azsdk-js-client";
+      : `azsdk-js-client`;
     this._client = createKubernetesRuntime(credential, {
       ...options,
       userAgentOptions: { userAgentPrefix },
     });
     this.pipeline = this._client.pipeline;
-    this.storageClass = getStorageClassOperations(this._client);
-    this.operations = getOperationsOperations(this._client);
-    this.loadBalancers = getLoadBalancersOperations(this._client);
-    this.bgpPeers = getBgpPeersOperations(this._client);
-    this.services = getServicesOperations(this._client);
+    this.services = _getServicesOperations(this._client);
+    this.bgpPeers = _getBgpPeersOperations(this._client);
+    this.loadBalancers = _getLoadBalancersOperations(this._client);
+    this.operations = _getOperationsOperations(this._client);
+    this.storageClass = _getStorageClassOperations(this._client);
   }
 
-  /** The operation groups for StorageClass */
-  public readonly storageClass: StorageClassOperations;
-  /** The operation groups for Operations */
-  public readonly operations: OperationsOperations;
-  /** The operation groups for LoadBalancers */
-  public readonly loadBalancers: LoadBalancersOperations;
-  /** The operation groups for BgpPeers */
-  public readonly bgpPeers: BgpPeersOperations;
-  /** The operation groups for Services */
+  /** The operation groups for services */
   public readonly services: ServicesOperations;
+  /** The operation groups for bgpPeers */
+  public readonly bgpPeers: BgpPeersOperations;
+  /** The operation groups for loadBalancers */
+  public readonly loadBalancers: LoadBalancersOperations;
+  /** The operation groups for operations */
+  public readonly operations: OperationsOperations;
+  /** The operation groups for storageClass */
+  public readonly storageClass: StorageClassOperations;
 }

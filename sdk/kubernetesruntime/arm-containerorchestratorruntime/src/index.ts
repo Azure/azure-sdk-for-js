@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
 import {
   PageSettings,
   ContinuablePage,
@@ -8,84 +9,100 @@ import {
 } from "./static-helpers/pagingHelpers.js";
 
 export { KubernetesRuntimeClient } from "./kubernetesRuntimeClient.js";
-export { restorePoller, type RestorePollerOptions } from "./restorePollerHelpers.js";
-export {
-  type ServiceResource,
-  type ServiceProperties,
-  type ProvisioningState,
-  KnownProvisioningState,
-  type ExtensionResource,
-  type Resource,
-  type SystemData,
-  KnownCreatedByType,
-  type CreatedByType,
-  type BgpPeer,
-  type BgpPeerProperties,
-  type LoadBalancer,
-  type LoadBalancerProperties,
-  KnownAdvertiseMode,
-  type AdvertiseMode,
-  type Operation,
-  type OperationDisplay,
-  KnownOrigin,
-  type Origin,
-  KnownActionType,
-  type ActionType,
-  type StorageClassResource,
-  type StorageClassProperties,
-  KnownVolumeExpansion,
-  type VolumeExpansion,
-  KnownVolumeBindingMode,
-  type VolumeBindingMode,
-  KnownAccessMode,
-  type AccessMode,
-  KnownDataResilienceTier,
-  type DataResilienceTier,
-  KnownFailoverTier,
-  type FailoverTier,
-  KnownPerformanceTier,
-  type PerformanceTier,
-  type StorageClassTypeProperties,
-  type StorageClassTypePropertiesUnion,
-  KnownSCType,
-  type SCType,
-  type NativeStorageClassTypeProperties,
-  type RwxStorageClassTypeProperties,
-  type BlobStorageClassTypeProperties,
-  type NfsStorageClassTypeProperties,
-  KnownNfsDirectoryActionOnVolumeDeletion,
-  type NfsDirectoryActionOnVolumeDeletion,
-  type SmbStorageClassTypeProperties,
-  type StorageClassResourceUpdate,
-  type StorageClassPropertiesUpdate,
-  type StorageClassTypePropertiesUpdate,
+export type { RestorePollerOptions } from "./restorePollerHelpers.js";
+export { restorePoller } from "./restorePollerHelpers.js";
+export type {
+  StorageClassResource,
+  StorageClassProperties,
+  VolumeExpansion,
+  VolumeBindingMode,
+  AccessMode,
+  DataResilienceTier,
+  FailoverTier,
+  PerformanceTier,
+  StorageClassTypeProperties,
+  StorageClassTypePropertiesUnion,
+  SCType,
+  NativeStorageClassTypeProperties,
+  RwxStorageClassTypeProperties,
+  BlobStorageClassTypeProperties,
+  NfsStorageClassTypeProperties,
+  NfsDirectoryActionOnVolumeDeletion,
+  SmbStorageClassTypeProperties,
+  ProvisioningState,
+  ExtensionResource,
+  Resource,
+  SystemData,
+  CreatedByType,
+  ErrorResponse,
+  ErrorDetail,
+  ErrorAdditionalInfo,
+  StorageClassResourceUpdate,
+  StorageClassPropertiesUpdate,
+  StorageClassTypePropertiesUpdate,
+  Operation,
+  OperationDisplay,
+  Origin,
+  ActionType,
+  LoadBalancer,
+  LoadBalancerProperties,
+  AdvertiseMode,
+  BgpPeer,
+  BgpPeerProperties,
+  ServiceResource,
+  ServiceProperties,
 } from "./models/index.js";
 export {
-  type KubernetesRuntimeClientOptionalParams,
-  type StorageClassGetOptionalParams,
-  type StorageClassCreateOrUpdateOptionalParams,
-  type StorageClassUpdateOptionalParams,
-  type StorageClassDeleteOptionalParams,
-  type StorageClassListOptionalParams,
-  type OperationsListOptionalParams,
-  type LoadBalancersGetOptionalParams,
-  type LoadBalancersCreateOrUpdateOptionalParams,
-  type LoadBalancersDeleteOptionalParams,
-  type LoadBalancersListOptionalParams,
-  type BgpPeersGetOptionalParams,
-  type BgpPeersCreateOrUpdateOptionalParams,
-  type BgpPeersDeleteOptionalParams,
-  type BgpPeersListOptionalParams,
-  type ServicesGetOptionalParams,
-  type ServicesCreateOrUpdateOptionalParams,
-  type ServicesDeleteOptionalParams,
-  type ServicesListOptionalParams,
-} from "./api/index.js";
-export {
-  type BgpPeersOperations,
-  type LoadBalancersOperations,
-  type OperationsOperations,
-  type ServicesOperations,
-  type StorageClassOperations,
+  KnownVolumeExpansion,
+  KnownVolumeBindingMode,
+  KnownAccessMode,
+  KnownDataResilienceTier,
+  KnownFailoverTier,
+  KnownPerformanceTier,
+  KnownSCType,
+  KnownNfsDirectoryActionOnVolumeDeletion,
+  KnownProvisioningState,
+  KnownCreatedByType,
+  KnownOrigin,
+  KnownActionType,
+  KnownAdvertiseMode,
+  KnownVersions,
+} from "./models/index.js";
+export type { KubernetesRuntimeClientOptionalParams } from "./api/index.js";
+export type {
+  BgpPeersListOptionalParams,
+  BgpPeersDeleteOptionalParams,
+  BgpPeersCreateOrUpdateOptionalParams,
+  BgpPeersGetOptionalParams,
+} from "./api/bgpPeers/index.js";
+export type {
+  LoadBalancersListOptionalParams,
+  LoadBalancersDeleteOptionalParams,
+  LoadBalancersCreateOrUpdateOptionalParams,
+  LoadBalancersGetOptionalParams,
+} from "./api/loadBalancers/index.js";
+export type { OperationsListOptionalParams } from "./api/operations/index.js";
+export type {
+  ServicesListOptionalParams,
+  ServicesDeleteOptionalParams,
+  ServicesCreateOrUpdateOptionalParams,
+  ServicesGetOptionalParams,
+} from "./api/services/index.js";
+export type {
+  StorageClassListOptionalParams,
+  StorageClassDeleteOptionalParams,
+  StorageClassUpdateOptionalParams,
+  StorageClassCreateOrUpdateOptionalParams,
+  StorageClassGetOptionalParams,
+} from "./api/storageClass/index.js";
+export type {
+  BgpPeersOperations,
+  LoadBalancersOperations,
+  OperationsOperations,
+  ServicesOperations,
+  StorageClassOperations,
 } from "./classic/index.js";
-export { type PageSettings, type ContinuablePage, type PagedAsyncIterableIterator };
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { AzureClouds };
+export type { AzureSupportedClouds };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

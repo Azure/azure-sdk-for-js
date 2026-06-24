@@ -37,15 +37,6 @@ import type {
   LoadTestAdministrationCreateOrUpdateServerMetricsConfigDefaultResponse,
   LoadTestAdministrationGetServerMetricsConfig200Response,
   LoadTestAdministrationGetServerMetricsConfigDefaultResponse,
-  TestProfileAdministrationCreateOrUpdateTestProfile200Response,
-  TestProfileAdministrationCreateOrUpdateTestProfile201Response,
-  TestProfileAdministrationCreateOrUpdateTestProfileDefaultResponse,
-  TestProfileAdministrationDeleteTestProfile204Response,
-  TestProfileAdministrationDeleteTestProfileDefaultResponse,
-  TestProfileAdministrationGetTestProfile200Response,
-  TestProfileAdministrationGetTestProfileDefaultResponse,
-  TestProfileAdministrationListTestProfiles200Response,
-  TestProfileAdministrationListTestProfilesDefaultResponse,
   TriggerAdministrationGetTrigger200Response,
   TriggerAdministrationGetTriggerDefaultResponse,
   TriggerAdministrationCreateOrUpdateTrigger200Response,
@@ -102,6 +93,15 @@ import type {
   LoadTestRunCreateOrUpdateServerMetricsConfigDefaultResponse,
   LoadTestRunGetServerMetricsConfig200Response,
   LoadTestRunGetServerMetricsConfigDefaultResponse,
+  TestProfileAdministrationCreateOrUpdateTestProfile200Response,
+  TestProfileAdministrationCreateOrUpdateTestProfile201Response,
+  TestProfileAdministrationCreateOrUpdateTestProfileDefaultResponse,
+  TestProfileAdministrationDeleteTestProfile204Response,
+  TestProfileAdministrationDeleteTestProfileDefaultResponse,
+  TestProfileAdministrationGetTestProfile200Response,
+  TestProfileAdministrationGetTestProfileDefaultResponse,
+  TestProfileAdministrationListTestProfiles200Response,
+  TestProfileAdministrationListTestProfilesDefaultResponse,
   TestProfileRunAdministrationGetTestProfileRun200Response,
   TestProfileRunAdministrationGetTestProfileRunDefaultResponse,
   TestProfileRunAdministrationCreateOrUpdateTestProfileRun200Response,
@@ -133,10 +133,6 @@ const responseMap: Record<string, string[]> = {
   "GET /tests/{testId}/app-components": ["200"],
   "PATCH /tests/{testId}/server-metrics-config": ["200", "201"],
   "GET /tests/{testId}/server-metrics-config": ["200"],
-  "PATCH /test-profiles/{testProfileId}": ["200", "201"],
-  "DELETE /test-profiles/{testProfileId}": ["204"],
-  "GET /test-profiles/{testProfileId}": ["200"],
-  "GET /test-profiles": ["200"],
   "GET /triggers/{triggerId}": ["200"],
   "PATCH /triggers/{triggerId}": ["200", "201"],
   "DELETE /triggers/{triggerId}": ["204"],
@@ -163,6 +159,10 @@ const responseMap: Record<string, string[]> = {
   "GET /test-runs/{testRunId}/app-components": ["200"],
   "PATCH /test-runs/{testRunId}/server-metrics-config": ["200", "201"],
   "GET /test-runs/{testRunId}/server-metrics-config": ["200"],
+  "PATCH /test-profiles/{testProfileId}": ["200", "201"],
+  "DELETE /test-profiles/{testProfileId}": ["204"],
+  "GET /test-profiles/{testProfileId}": ["200"],
+  "GET /test-profiles": ["200"],
   "GET /test-profile-runs/{testProfileRunId}": ["200"],
   "PATCH /test-profile-runs/{testProfileRunId}": ["200", "201"],
   "DELETE /test-profile-runs/{testProfileRunId}": ["204"],
@@ -246,27 +246,6 @@ export function isUnexpected(
     | LoadTestAdministrationGetServerMetricsConfig200Response
     | LoadTestAdministrationGetServerMetricsConfigDefaultResponse,
 ): response is LoadTestAdministrationGetServerMetricsConfigDefaultResponse;
-export function isUnexpected(
-  response:
-    | TestProfileAdministrationCreateOrUpdateTestProfile200Response
-    | TestProfileAdministrationCreateOrUpdateTestProfile201Response
-    | TestProfileAdministrationCreateOrUpdateTestProfileDefaultResponse,
-): response is TestProfileAdministrationCreateOrUpdateTestProfileDefaultResponse;
-export function isUnexpected(
-  response:
-    | TestProfileAdministrationDeleteTestProfile204Response
-    | TestProfileAdministrationDeleteTestProfileDefaultResponse,
-): response is TestProfileAdministrationDeleteTestProfileDefaultResponse;
-export function isUnexpected(
-  response:
-    | TestProfileAdministrationGetTestProfile200Response
-    | TestProfileAdministrationGetTestProfileDefaultResponse,
-): response is TestProfileAdministrationGetTestProfileDefaultResponse;
-export function isUnexpected(
-  response:
-    | TestProfileAdministrationListTestProfiles200Response
-    | TestProfileAdministrationListTestProfilesDefaultResponse,
-): response is TestProfileAdministrationListTestProfilesDefaultResponse;
 export function isUnexpected(
   response:
     | TriggerAdministrationGetTrigger200Response
@@ -384,6 +363,27 @@ export function isUnexpected(
 ): response is LoadTestRunGetServerMetricsConfigDefaultResponse;
 export function isUnexpected(
   response:
+    | TestProfileAdministrationCreateOrUpdateTestProfile200Response
+    | TestProfileAdministrationCreateOrUpdateTestProfile201Response
+    | TestProfileAdministrationCreateOrUpdateTestProfileDefaultResponse,
+): response is TestProfileAdministrationCreateOrUpdateTestProfileDefaultResponse;
+export function isUnexpected(
+  response:
+    | TestProfileAdministrationDeleteTestProfile204Response
+    | TestProfileAdministrationDeleteTestProfileDefaultResponse,
+): response is TestProfileAdministrationDeleteTestProfileDefaultResponse;
+export function isUnexpected(
+  response:
+    | TestProfileAdministrationGetTestProfile200Response
+    | TestProfileAdministrationGetTestProfileDefaultResponse,
+): response is TestProfileAdministrationGetTestProfileDefaultResponse;
+export function isUnexpected(
+  response:
+    | TestProfileAdministrationListTestProfiles200Response
+    | TestProfileAdministrationListTestProfilesDefaultResponse,
+): response is TestProfileAdministrationListTestProfilesDefaultResponse;
+export function isUnexpected(
+  response:
     | TestProfileRunAdministrationGetTestProfileRun200Response
     | TestProfileRunAdministrationGetTestProfileRunDefaultResponse,
 ): response is TestProfileRunAdministrationGetTestProfileRunDefaultResponse;
@@ -445,15 +445,6 @@ export function isUnexpected(
     | LoadTestAdministrationCreateOrUpdateServerMetricsConfigDefaultResponse
     | LoadTestAdministrationGetServerMetricsConfig200Response
     | LoadTestAdministrationGetServerMetricsConfigDefaultResponse
-    | TestProfileAdministrationCreateOrUpdateTestProfile200Response
-    | TestProfileAdministrationCreateOrUpdateTestProfile201Response
-    | TestProfileAdministrationCreateOrUpdateTestProfileDefaultResponse
-    | TestProfileAdministrationDeleteTestProfile204Response
-    | TestProfileAdministrationDeleteTestProfileDefaultResponse
-    | TestProfileAdministrationGetTestProfile200Response
-    | TestProfileAdministrationGetTestProfileDefaultResponse
-    | TestProfileAdministrationListTestProfiles200Response
-    | TestProfileAdministrationListTestProfilesDefaultResponse
     | TriggerAdministrationGetTrigger200Response
     | TriggerAdministrationGetTriggerDefaultResponse
     | TriggerAdministrationCreateOrUpdateTrigger200Response
@@ -510,6 +501,15 @@ export function isUnexpected(
     | LoadTestRunCreateOrUpdateServerMetricsConfigDefaultResponse
     | LoadTestRunGetServerMetricsConfig200Response
     | LoadTestRunGetServerMetricsConfigDefaultResponse
+    | TestProfileAdministrationCreateOrUpdateTestProfile200Response
+    | TestProfileAdministrationCreateOrUpdateTestProfile201Response
+    | TestProfileAdministrationCreateOrUpdateTestProfileDefaultResponse
+    | TestProfileAdministrationDeleteTestProfile204Response
+    | TestProfileAdministrationDeleteTestProfileDefaultResponse
+    | TestProfileAdministrationGetTestProfile200Response
+    | TestProfileAdministrationGetTestProfileDefaultResponse
+    | TestProfileAdministrationListTestProfiles200Response
+    | TestProfileAdministrationListTestProfilesDefaultResponse
     | TestProfileRunAdministrationGetTestProfileRun200Response
     | TestProfileRunAdministrationGetTestProfileRunDefaultResponse
     | TestProfileRunAdministrationCreateOrUpdateTestProfileRun200Response
@@ -537,10 +537,6 @@ export function isUnexpected(
   | LoadTestAdministrationGetAppComponentsDefaultResponse
   | LoadTestAdministrationCreateOrUpdateServerMetricsConfigDefaultResponse
   | LoadTestAdministrationGetServerMetricsConfigDefaultResponse
-  | TestProfileAdministrationCreateOrUpdateTestProfileDefaultResponse
-  | TestProfileAdministrationDeleteTestProfileDefaultResponse
-  | TestProfileAdministrationGetTestProfileDefaultResponse
-  | TestProfileAdministrationListTestProfilesDefaultResponse
   | TriggerAdministrationGetTriggerDefaultResponse
   | TriggerAdministrationCreateOrUpdateTriggerDefaultResponse
   | TriggerAdministrationDeleteTriggerDefaultResponse
@@ -566,6 +562,10 @@ export function isUnexpected(
   | LoadTestRunGetAppComponentsDefaultResponse
   | LoadTestRunCreateOrUpdateServerMetricsConfigDefaultResponse
   | LoadTestRunGetServerMetricsConfigDefaultResponse
+  | TestProfileAdministrationCreateOrUpdateTestProfileDefaultResponse
+  | TestProfileAdministrationDeleteTestProfileDefaultResponse
+  | TestProfileAdministrationGetTestProfileDefaultResponse
+  | TestProfileAdministrationListTestProfilesDefaultResponse
   | TestProfileRunAdministrationGetTestProfileRunDefaultResponse
   | TestProfileRunAdministrationCreateOrUpdateTestProfileRunDefaultResponse
   | TestProfileRunAdministrationDeleteTestProfileRunDefaultResponse

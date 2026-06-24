@@ -17,10 +17,6 @@ import type {
   LoadTestAdministrationGetAppComponentsParameters,
   LoadTestAdministrationCreateOrUpdateServerMetricsConfigParameters,
   LoadTestAdministrationGetServerMetricsConfigParameters,
-  TestProfileAdministrationCreateOrUpdateTestProfileParameters,
-  TestProfileAdministrationDeleteTestProfileParameters,
-  TestProfileAdministrationGetTestProfileParameters,
-  TestProfileAdministrationListTestProfilesParameters,
   TriggerAdministrationGetTriggerParameters,
   TriggerAdministrationCreateOrUpdateTriggerParameters,
   TriggerAdministrationDeleteTriggerParameters,
@@ -46,6 +42,10 @@ import type {
   LoadTestRunGetAppComponentsParameters,
   LoadTestRunCreateOrUpdateServerMetricsConfigParameters,
   LoadTestRunGetServerMetricsConfigParameters,
+  TestProfileAdministrationCreateOrUpdateTestProfileParameters,
+  TestProfileAdministrationDeleteTestProfileParameters,
+  TestProfileAdministrationGetTestProfileParameters,
+  TestProfileAdministrationListTestProfilesParameters,
   TestProfileRunAdministrationGetTestProfileRunParameters,
   TestProfileRunAdministrationCreateOrUpdateTestProfileRunParameters,
   TestProfileRunAdministrationDeleteTestProfileRunParameters,
@@ -86,15 +86,6 @@ import type {
   LoadTestAdministrationCreateOrUpdateServerMetricsConfigDefaultResponse,
   LoadTestAdministrationGetServerMetricsConfig200Response,
   LoadTestAdministrationGetServerMetricsConfigDefaultResponse,
-  TestProfileAdministrationCreateOrUpdateTestProfile200Response,
-  TestProfileAdministrationCreateOrUpdateTestProfile201Response,
-  TestProfileAdministrationCreateOrUpdateTestProfileDefaultResponse,
-  TestProfileAdministrationDeleteTestProfile204Response,
-  TestProfileAdministrationDeleteTestProfileDefaultResponse,
-  TestProfileAdministrationGetTestProfile200Response,
-  TestProfileAdministrationGetTestProfileDefaultResponse,
-  TestProfileAdministrationListTestProfiles200Response,
-  TestProfileAdministrationListTestProfilesDefaultResponse,
   TriggerAdministrationGetTrigger200Response,
   TriggerAdministrationGetTriggerDefaultResponse,
   TriggerAdministrationCreateOrUpdateTrigger200Response,
@@ -150,6 +141,15 @@ import type {
   LoadTestRunCreateOrUpdateServerMetricsConfigDefaultResponse,
   LoadTestRunGetServerMetricsConfig200Response,
   LoadTestRunGetServerMetricsConfigDefaultResponse,
+  TestProfileAdministrationCreateOrUpdateTestProfile200Response,
+  TestProfileAdministrationCreateOrUpdateTestProfile201Response,
+  TestProfileAdministrationCreateOrUpdateTestProfileDefaultResponse,
+  TestProfileAdministrationDeleteTestProfile204Response,
+  TestProfileAdministrationDeleteTestProfileDefaultResponse,
+  TestProfileAdministrationGetTestProfile200Response,
+  TestProfileAdministrationGetTestProfileDefaultResponse,
+  TestProfileAdministrationListTestProfiles200Response,
+  TestProfileAdministrationListTestProfilesDefaultResponse,
   TestProfileRunAdministrationGetTestProfileRun200Response,
   TestProfileRunAdministrationGetTestProfileRunDefaultResponse,
   TestProfileRunAdministrationCreateOrUpdateTestProfileRun200Response,
@@ -298,49 +298,14 @@ export interface LoadTestAdministrationCreateOrUpdateServerMetricsConfig {
   >;
 }
 
-export interface TestProfileAdministrationCreateOrUpdateTestProfile {
-  /** Create a new test profile or update an existing test profile by providing the test profile Id. */
-  patch(
-    options: TestProfileAdministrationCreateOrUpdateTestProfileParameters,
-  ): StreamableMethod<
-    | TestProfileAdministrationCreateOrUpdateTestProfile200Response
-    | TestProfileAdministrationCreateOrUpdateTestProfile201Response
-    | TestProfileAdministrationCreateOrUpdateTestProfileDefaultResponse
-  >;
-  /** Delete a test profile by its test profile Id. */
-  delete(
-    options?: TestProfileAdministrationDeleteTestProfileParameters,
-  ): StreamableMethod<
-    | TestProfileAdministrationDeleteTestProfile204Response
-    | TestProfileAdministrationDeleteTestProfileDefaultResponse
-  >;
-  /** Get load test profile details by test profile Id. */
-  get(
-    options?: TestProfileAdministrationGetTestProfileParameters,
-  ): StreamableMethod<
-    | TestProfileAdministrationGetTestProfile200Response
-    | TestProfileAdministrationGetTestProfileDefaultResponse
-  >;
-}
-
-export interface TestProfileAdministrationListTestProfiles {
-  /** Get all test profiles for the given filters. */
-  get(
-    options?: TestProfileAdministrationListTestProfilesParameters,
-  ): StreamableMethod<
-    | TestProfileAdministrationListTestProfiles200Response
-    | TestProfileAdministrationListTestProfilesDefaultResponse
-  >;
-}
-
 export interface TriggerAdministrationGetTrigger {
-  /** Resource read operation template. */
+  /** Get trigger details by trigger Id. */
   get(
     options?: TriggerAdministrationGetTriggerParameters,
   ): StreamableMethod<
     TriggerAdministrationGetTrigger200Response | TriggerAdministrationGetTriggerDefaultResponse
   >;
-  /** Create or update operation template. */
+  /** Create a new trigger or update an existing trigger by providing the trigger Id. */
   patch(
     options: TriggerAdministrationCreateOrUpdateTriggerParameters,
   ): StreamableMethod<
@@ -348,7 +313,7 @@ export interface TriggerAdministrationGetTrigger {
     | TriggerAdministrationCreateOrUpdateTrigger201Response
     | TriggerAdministrationCreateOrUpdateTriggerDefaultResponse
   >;
-  /** Resource delete operation template. */
+  /** Delete a trigger by its trigger Id. */
   delete(
     options?: TriggerAdministrationDeleteTriggerParameters,
   ): StreamableMethod<
@@ -358,7 +323,7 @@ export interface TriggerAdministrationGetTrigger {
 }
 
 export interface TriggerAdministrationListTrigger {
-  /** Resource list operation template. */
+  /** Get all triggers for the given filters. */
   get(
     options?: TriggerAdministrationListTriggerParameters,
   ): StreamableMethod<
@@ -367,14 +332,14 @@ export interface TriggerAdministrationListTrigger {
 }
 
 export interface NotificationRuleAdministrationGetNotificationRule {
-  /** Resource read operation template. */
+  /** Get notification rule details by notification rule Id. */
   get(
     options?: NotificationRuleAdministrationGetNotificationRuleParameters,
   ): StreamableMethod<
     | NotificationRuleAdministrationGetNotificationRule200Response
     | NotificationRuleAdministrationGetNotificationRuleDefaultResponse
   >;
-  /** Create or update operation template. */
+  /** Create a new notification rule or update an existing notification rule by providing the notification rule Id. */
   patch(
     options: NotificationRuleAdministrationCreateOrUpdateNotificationRuleParameters,
   ): StreamableMethod<
@@ -382,7 +347,7 @@ export interface NotificationRuleAdministrationGetNotificationRule {
     | NotificationRuleAdministrationCreateOrUpdateNotificationRule201Response
     | NotificationRuleAdministrationCreateOrUpdateNotificationRuleDefaultResponse
   >;
-  /** Resource delete operation template. */
+  /** Delete a notification rule by its notification rule Id. */
   delete(
     options?: NotificationRuleAdministrationDeleteNotificationRuleParameters,
   ): StreamableMethod<
@@ -392,7 +357,7 @@ export interface NotificationRuleAdministrationGetNotificationRule {
 }
 
 export interface NotificationRuleAdministrationListNotificationRule {
-  /** Resource list operation template. */
+  /** Get all notification rules for the given filters. */
   get(
     options?: NotificationRuleAdministrationListNotificationRuleParameters,
   ): StreamableMethod<
@@ -541,6 +506,41 @@ export interface LoadTestRunCreateOrUpdateServerMetricsConfig {
   >;
 }
 
+export interface TestProfileAdministrationCreateOrUpdateTestProfile {
+  /** Create a new test profile or update an existing test profile by providing the test profile Id. */
+  patch(
+    options: TestProfileAdministrationCreateOrUpdateTestProfileParameters,
+  ): StreamableMethod<
+    | TestProfileAdministrationCreateOrUpdateTestProfile200Response
+    | TestProfileAdministrationCreateOrUpdateTestProfile201Response
+    | TestProfileAdministrationCreateOrUpdateTestProfileDefaultResponse
+  >;
+  /** Delete a test profile by its test profile Id. */
+  delete(
+    options?: TestProfileAdministrationDeleteTestProfileParameters,
+  ): StreamableMethod<
+    | TestProfileAdministrationDeleteTestProfile204Response
+    | TestProfileAdministrationDeleteTestProfileDefaultResponse
+  >;
+  /** Get load test profile details by test profile Id. */
+  get(
+    options?: TestProfileAdministrationGetTestProfileParameters,
+  ): StreamableMethod<
+    | TestProfileAdministrationGetTestProfile200Response
+    | TestProfileAdministrationGetTestProfileDefaultResponse
+  >;
+}
+
+export interface TestProfileAdministrationListTestProfiles {
+  /** Get all test profiles for the given filters. */
+  get(
+    options?: TestProfileAdministrationListTestProfilesParameters,
+  ): StreamableMethod<
+    | TestProfileAdministrationListTestProfiles200Response
+    | TestProfileAdministrationListTestProfilesDefaultResponse
+  >;
+}
+
 export interface TestProfileRunAdministrationGetTestProfileRun {
   /** Get test profile run details by test profile run Id. */
   get(
@@ -617,13 +617,6 @@ export interface Routes {
     path: "/tests/{testId}/server-metrics-config",
     testId: string,
   ): LoadTestAdministrationCreateOrUpdateServerMetricsConfig;
-  /** Resource for '/test-profiles/\{testProfileId\}' has methods for the following verbs: patch, delete, get */
-  (
-    path: "/test-profiles/{testProfileId}",
-    testProfileId: string,
-  ): TestProfileAdministrationCreateOrUpdateTestProfile;
-  /** Resource for '/test-profiles' has methods for the following verbs: get */
-  (path: "/test-profiles"): TestProfileAdministrationListTestProfiles;
   /** Resource for '/triggers/\{triggerId\}' has methods for the following verbs: get, patch, delete */
   (path: "/triggers/{triggerId}", triggerId: string): TriggerAdministrationGetTrigger;
   /** Resource for '/triggers' has methods for the following verbs: get */
@@ -682,6 +675,13 @@ export interface Routes {
     path: "/test-runs/{testRunId}/server-metrics-config",
     testRunId: string,
   ): LoadTestRunCreateOrUpdateServerMetricsConfig;
+  /** Resource for '/test-profiles/\{testProfileId\}' has methods for the following verbs: patch, delete, get */
+  (
+    path: "/test-profiles/{testProfileId}",
+    testProfileId: string,
+  ): TestProfileAdministrationCreateOrUpdateTestProfile;
+  /** Resource for '/test-profiles' has methods for the following verbs: get */
+  (path: "/test-profiles"): TestProfileAdministrationListTestProfiles;
   /** Resource for '/test-profile-runs/\{testProfileRunId\}' has methods for the following verbs: get, patch, delete */
   (
     path: "/test-profile-runs/{testProfileRunId}",

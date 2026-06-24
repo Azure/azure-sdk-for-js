@@ -29,7 +29,7 @@ export type {
   ConfigurationAssignmentFilterProperties,
   TagSettingsProperties,
   TagOperators,
-  ScheduledEventApproveResponse,
+  ScheduledEventsApproveResponse,
   Update,
   ImpactType,
   UpdateProperties,

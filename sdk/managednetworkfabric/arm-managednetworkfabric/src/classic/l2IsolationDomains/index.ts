@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureNetworkFabricManagementServiceAPIContext } from "../../api/azureNetworkFabricManagementServiceAPIContext.js";
+import { AzureNetworkFabricManagementServiceAPIContext } from "../../api/azureNetworkFabricManagementServiceAPIContext.js";
 import {
   commitConfiguration,
   validateConfiguration,
@@ -13,7 +13,7 @@ import {
   create,
   get,
 } from "../../api/l2IsolationDomains/operations.js";
-import type {
+import {
   L2IsolationDomainsCommitConfigurationOptionalParams,
   L2IsolationDomainsValidateConfigurationOptionalParams,
   L2IsolationDomainsUpdateAdministrativeStateOptionalParams,
@@ -24,7 +24,7 @@ import type {
   L2IsolationDomainsCreateOptionalParams,
   L2IsolationDomainsGetOptionalParams,
 } from "../../api/l2IsolationDomains/options.js";
-import type {
+import {
   UpdateAdministrativeState,
   UpdateAdministrativeStateResponse,
   CommonPostActionResponseForStateUpdate,
@@ -32,10 +32,9 @@ import type {
   L2IsolationDomain,
   L2IsolationDomainPatch,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a L2IsolationDomains operations. */
 export interface L2IsolationDomainsOperations {

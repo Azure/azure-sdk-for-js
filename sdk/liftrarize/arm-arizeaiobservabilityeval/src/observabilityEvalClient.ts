@@ -2,19 +2,19 @@
 // Licensed under the MIT License.
 
 import {
-  createObservabilityEval,
   ObservabilityEvalContext,
   ObservabilityEvalClientOptionalParams,
+  createObservabilityEval,
 } from "./api/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
 import {
   OrganizationsOperations,
   _getOrganizationsOperations,
 } from "./classic/organizations/index.js";
-import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
-export { type ObservabilityEvalClientOptionalParams } from "./api/observabilityEvalContext.js";
+export type { ObservabilityEvalClientOptionalParams } from "./api/observabilityEvalContext.js";
 
 export class ObservabilityEvalClient {
   private _client: ObservabilityEvalContext;

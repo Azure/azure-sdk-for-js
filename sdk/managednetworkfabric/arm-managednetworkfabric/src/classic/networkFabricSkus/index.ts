@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureNetworkFabricManagementServiceAPIContext } from "../../api/azureNetworkFabricManagementServiceAPIContext.js";
+import { AzureNetworkFabricManagementServiceAPIContext } from "../../api/azureNetworkFabricManagementServiceAPIContext.js";
 import { listBySubscription, get } from "../../api/networkFabricSkus/operations.js";
-import type {
+import {
   NetworkFabricSkusListBySubscriptionOptionalParams,
   NetworkFabricSkusGetOptionalParams,
 } from "../../api/networkFabricSkus/options.js";
-import type { NetworkFabricSku } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { NetworkFabricSku } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a NetworkFabricSkus operations. */
 export interface NetworkFabricSkusOperations {

@@ -12,8 +12,6 @@ import type {
   PagedTestFileInfoOutput,
   TestAppComponentsOutput,
   TestServerMetricsConfigurationOutput,
-  TestProfileOutput,
-  PagedTestProfileOutput,
   TriggerOutput,
   PagedTriggerOutput,
   NotificationRuleOutput,
@@ -28,6 +26,8 @@ import type {
   DimensionValueListOutput,
   TestRunAppComponentsOutput,
   TestRunServerMetricsConfigurationOutput,
+  TestProfileOutput,
+  PagedTestProfileOutput,
   TestProfileRunOutput,
   PagedTestProfileRunOutput,
 } from "./outputModels.js";
@@ -325,79 +325,6 @@ export interface LoadTestAdministrationGetServerMetricsConfigDefaultResponse ext
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & LoadTestAdministrationGetServerMetricsConfigDefaultHeaders;
-}
-
-/** The request has succeeded. */
-export interface TestProfileAdministrationCreateOrUpdateTestProfile200Response extends HttpResponse {
-  status: "200";
-  body: TestProfileOutput;
-}
-
-/** The request has succeeded and a new resource has been created as a result. */
-export interface TestProfileAdministrationCreateOrUpdateTestProfile201Response extends HttpResponse {
-  status: "201";
-  body: TestProfileOutput;
-}
-
-export interface TestProfileAdministrationCreateOrUpdateTestProfileDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface TestProfileAdministrationCreateOrUpdateTestProfileDefaultResponse extends HttpResponse {
-  status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & TestProfileAdministrationCreateOrUpdateTestProfileDefaultHeaders;
-}
-
-/** There is no content to send for this request, but the headers may be useful. */
-export interface TestProfileAdministrationDeleteTestProfile204Response extends HttpResponse {
-  status: "204";
-}
-
-export interface TestProfileAdministrationDeleteTestProfileDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface TestProfileAdministrationDeleteTestProfileDefaultResponse extends HttpResponse {
-  status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & TestProfileAdministrationDeleteTestProfileDefaultHeaders;
-}
-
-/** The request has succeeded. */
-export interface TestProfileAdministrationGetTestProfile200Response extends HttpResponse {
-  status: "200";
-  body: TestProfileOutput;
-}
-
-export interface TestProfileAdministrationGetTestProfileDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface TestProfileAdministrationGetTestProfileDefaultResponse extends HttpResponse {
-  status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & TestProfileAdministrationGetTestProfileDefaultHeaders;
-}
-
-/** The request has succeeded. */
-export interface TestProfileAdministrationListTestProfiles200Response extends HttpResponse {
-  status: "200";
-  body: PagedTestProfileOutput;
-}
-
-export interface TestProfileAdministrationListTestProfilesDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface TestProfileAdministrationListTestProfilesDefaultResponse extends HttpResponse {
-  status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & TestProfileAdministrationListTestProfilesDefaultHeaders;
 }
 
 /** The request has succeeded. */
@@ -862,6 +789,79 @@ export interface LoadTestRunGetServerMetricsConfigDefaultResponse extends HttpRe
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & LoadTestRunGetServerMetricsConfigDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface TestProfileAdministrationCreateOrUpdateTestProfile200Response extends HttpResponse {
+  status: "200";
+  body: TestProfileOutput;
+}
+
+/** The request has succeeded and a new resource has been created as a result. */
+export interface TestProfileAdministrationCreateOrUpdateTestProfile201Response extends HttpResponse {
+  status: "201";
+  body: TestProfileOutput;
+}
+
+export interface TestProfileAdministrationCreateOrUpdateTestProfileDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface TestProfileAdministrationCreateOrUpdateTestProfileDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & TestProfileAdministrationCreateOrUpdateTestProfileDefaultHeaders;
+}
+
+/** There is no content to send for this request, but the headers may be useful. */
+export interface TestProfileAdministrationDeleteTestProfile204Response extends HttpResponse {
+  status: "204";
+}
+
+export interface TestProfileAdministrationDeleteTestProfileDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface TestProfileAdministrationDeleteTestProfileDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & TestProfileAdministrationDeleteTestProfileDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface TestProfileAdministrationGetTestProfile200Response extends HttpResponse {
+  status: "200";
+  body: TestProfileOutput;
+}
+
+export interface TestProfileAdministrationGetTestProfileDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface TestProfileAdministrationGetTestProfileDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & TestProfileAdministrationGetTestProfileDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface TestProfileAdministrationListTestProfiles200Response extends HttpResponse {
+  status: "200";
+  body: PagedTestProfileOutput;
+}
+
+export interface TestProfileAdministrationListTestProfilesDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface TestProfileAdministrationListTestProfilesDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & TestProfileAdministrationListTestProfilesDefaultHeaders;
 }
 
 /** The request has succeeded. */

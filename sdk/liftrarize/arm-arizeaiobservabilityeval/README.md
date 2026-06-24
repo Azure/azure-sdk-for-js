@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/liftrarize/arm-arizeaiobservabilityeval)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-arizeaiobservabilityeval)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-arizeaiobservabilityeval?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-arizeaiobservabilityeval)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/liftrarize/arm-arizeaiobservabilityeval/samples)
 
 ## Getting started

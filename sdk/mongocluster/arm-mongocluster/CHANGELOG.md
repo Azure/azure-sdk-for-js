@@ -1,128 +1,147 @@
 # Release History
 
-## 1.2.0-beta.1 (2026-06-12)
+## 1.2.0-beta.2 (2026-06-24)
 Compared with version 1.1.0
 
 ### Features Added
-  - Interface MongoClusterProperties has a new optional parameter networkBypassMode
-  - Interface MongoClusterUpdateProperties has a new optional parameter networkBypassMode
+  - Added operation group FirewallRulesOperations
+  - Added operation group MongoClustersOperations
+  - Added operation group OperationsOperations
+  - Added operation group PrivateEndpointConnectionsOperations
+  - Added operation group PrivateLinksOperations
+  - Added operation group ReplicasOperations
+  - Added operation group UsersOperations
+  - Added Class MongoClusterManagementClient
+  - Added Interface AdministratorProperties
+  - Added Interface AuthConfigProperties
+  - Added Interface BackupProperties
+  - Added Interface CheckNameAvailabilityRequest
+  - Added Interface CheckNameAvailabilityResponse
+  - Added Interface ComputeProperties
+  - Added Interface ConnectionString
+  - Added Interface CustomerManagedKeyEncryptionProperties
+  - Added Interface DataApiProperties
+  - Added Interface DatabaseRole
+  - Added Interface EncryptionProperties
+  - Added Interface EntraIdentityProvider
+  - Added Interface EntraIdentityProviderProperties
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface FirewallRule
+  - Added Interface FirewallRuleProperties
+  - Added Interface FirewallRulesCreateOrUpdateOptionalParams
+  - Added Interface FirewallRulesDeleteOptionalParams
+  - Added Interface FirewallRulesGetOptionalParams
+  - Added Interface FirewallRulesListByMongoClusterOptionalParams
+  - Added Interface HighAvailabilityProperties
+  - Added Interface IdentityProvider
+  - Added Interface KeyEncryptionKeyIdentity
+  - Added Interface ListConnectionStringsResult
+  - Added Interface ManagedServiceIdentity
+  - Added Interface MongoCluster
+  - Added Interface MongoClusterManagementClientOptionalParams
+  - Added Interface MongoClusterProperties
+  - Added Interface MongoClusterReplicaParameters
+  - Added Interface MongoClusterRestoreParameters
+  - Added Interface MongoClustersCheckNameAvailabilityOptionalParams
+  - Added Interface MongoClustersCreateOrUpdateOptionalParams
+  - Added Interface MongoClustersDeleteOptionalParams
+  - Added Interface MongoClustersGetOptionalParams
+  - Added Interface MongoClustersListByResourceGroupOptionalParams
+  - Added Interface MongoClustersListConnectionStringsOptionalParams
+  - Added Interface MongoClustersListOptionalParams
+  - Added Interface MongoClustersPromoteOptionalParams
+  - Added Interface MongoClustersUpdateOptionalParams
+  - Added Interface MongoClusterUpdate
+  - Added Interface MongoClusterUpdateProperties
+  - Added Interface Operation
+  - Added Interface OperationDisplay
+  - Added Interface OperationsListOptionalParams
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface PrivateEndpoint
+  - Added Interface PrivateEndpointConnection
+  - Added Interface PrivateEndpointConnectionProperties
+  - Added Interface PrivateEndpointConnectionResource
+  - Added Interface PrivateEndpointConnectionsCreateOptionalParams
+  - Added Interface PrivateEndpointConnectionsDeleteOptionalParams
+  - Added Interface PrivateEndpointConnectionsGetOptionalParams
+  - Added Interface PrivateEndpointConnectionsListByMongoClusterOptionalParams
+  - Added Interface PrivateLinkResource
+  - Added Interface PrivateLinkResourceProperties
+  - Added Interface PrivateLinkServiceConnectionState
+  - Added Interface PrivateLinksListByMongoClusterOptionalParams
+  - Added Interface PromoteReplicaRequest
+  - Added Interface ProxyResource
+  - Added Interface Replica
+  - Added Interface ReplicasListByParentOptionalParams
+  - Added Interface ReplicationProperties
+  - Added Interface Resource
+  - Added Interface RestorePollerOptions
+  - Added Interface ShardingProperties
+  - Added Interface StorageProperties
+  - Added Interface SystemData
+  - Added Interface TrackedResource
+  - Added Interface User
+  - Added Interface UserAssignedIdentity
+  - Added Interface UserProperties
+  - Added Interface UsersCreateOrUpdateOptionalParams
+  - Added Interface UsersDeleteOptionalParams
+  - Added Interface UsersGetOptionalParams
+  - Added Interface UsersListByMongoClusterOptionalParams
+  - Added Type Alias ActionType
+  - Added Type Alias AuthenticationMode
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias CheckNameAvailabilityReason
+  - Added Type Alias CreatedByType
+  - Added Type Alias CreateMode
+  - Added Type Alias DataApiMode
+  - Added Type Alias EntraPrincipalType
+  - Added Type Alias HighAvailabilityMode
+  - Added Type Alias IdentityProviderType
+  - Added Type Alias IdentityProviderUnion
+  - Added Type Alias KeyEncryptionKeyIdentityType
+  - Added Type Alias ManagedServiceIdentityType
+  - Added Type Alias MongoClusterStatus
   - Added Type Alias NetworkBypassMode
+  - Added Type Alias Origin
+  - Added Type Alias PreviewFeature
+  - Added Type Alias PrivateEndpointConnectionProvisioningState
+  - Added Type Alias PrivateEndpointServiceConnectionStatus
+  - Added Type Alias PromoteMode
+  - Added Type Alias PromoteOption
+  - Added Type Alias ProvisioningState
+  - Added Type Alias PublicNetworkAccess
+  - Added Type Alias ReplicationRole
+  - Added Type Alias ReplicationState
+  - Added Type Alias StorageType
+  - Added Type Alias UserRole
+  - Added Enum AzureClouds
+  - Added Enum KnownActionType
+  - Added Enum KnownAuthenticationMode
+  - Added Enum KnownCheckNameAvailabilityReason
+  - Added Enum KnownCreatedByType
+  - Added Enum KnownCreateMode
+  - Added Enum KnownDataApiMode
+  - Added Enum KnownEntraPrincipalType
+  - Added Enum KnownHighAvailabilityMode
+  - Added Enum KnownIdentityProviderType
+  - Added Enum KnownKeyEncryptionKeyIdentityType
+  - Added Enum KnownManagedServiceIdentityType
+  - Added Enum KnownMongoClusterStatus
   - Added Enum KnownNetworkBypassMode
-  - Enum KnownVersions has a new value V20240301Preview
-  - Enum KnownVersions has a new value V20240601Preview
-  - Enum KnownVersions has a new value V20241001Preview
-  - Enum KnownVersions has a new value V20250401Preview
-  - Enum KnownVersions has a new value V20250701Preview
-  - Enum KnownVersions has a new value V20250801Preview
-  - Enum KnownVersions has a new value V20260201Preview
-
-## 1.1.0 (2025-10-15)
-
-### Features Added
-  - Added operation group UsersOperations
-  - Added Interface AuthConfigProperties
-  - Added Interface CustomerManagedKeyEncryptionProperties
-  - Added Interface DataApiProperties
-  - Added Interface DatabaseRole
-  - Added Interface EncryptionProperties
-  - Added Interface EntraIdentityProvider
-  - Added Interface EntraIdentityProviderProperties
-  - Added Interface ErrorAdditionalInfo
-  - Added Interface ErrorDetail
-  - Added Interface ErrorResponse
-  - Added Interface IdentityProvider
-  - Added Interface KeyEncryptionKeyIdentity
-  - Added Interface ManagedServiceIdentity
-  - Added Interface User
-  - Added Interface UserAssignedIdentity
-  - Added Interface UserProperties
-  - Added Interface UsersCreateOrUpdateOptionalParams
-  - Added Interface UsersDeleteOptionalParams
-  - Added Interface UsersGetOptionalParams
-  - Added Interface UsersListByMongoClusterOptionalParams
-  - Interface MongoCluster has a new optional parameter identity
-  - Interface MongoClusterManagementClientOptionalParams has a new optional parameter cloudSetting
-  - Interface MongoClusterProperties has a new optional parameter authConfig
-  - Interface MongoClusterProperties has a new optional parameter dataApi
-  - Interface MongoClusterProperties has a new optional parameter encryption
-  - Interface MongoClusterUpdate has a new optional parameter identity
-  - Interface MongoClusterUpdateProperties has a new optional parameter authConfig
-  - Interface MongoClusterUpdateProperties has a new optional parameter dataApi
-  - Interface MongoClusterUpdateProperties has a new optional parameter encryption
-  - Interface StorageProperties has a new optional parameter type
-  - Added Type Alias AuthenticationMode
-  - Added Type Alias AzureSupportedClouds
-  - Added Type Alias DataApiMode
-  - Added Type Alias EntraPrincipalType
-  - Added Type Alias IdentityProviderType
-  - Added Type Alias IdentityProviderUnion
-  - Added Type Alias KeyEncryptionKeyIdentityType
-  - Added Type Alias ManagedServiceIdentityType
-  - Added Type Alias StorageType
-  - Added Type Alias UserRole
-  - Added Enum AzureClouds
-  - Added Enum KnownAuthenticationMode
-  - Added Enum KnownDataApiMode
-  - Added Enum KnownEntraPrincipalType
-  - Added Enum KnownIdentityProviderType
-  - Added Enum KnownKeyEncryptionKeyIdentityType
-  - Added Enum KnownManagedServiceIdentityType
+  - Added Enum KnownOrigin
+  - Added Enum KnownPreviewFeature
+  - Added Enum KnownPrivateEndpointConnectionProvisioningState
+  - Added Enum KnownPrivateEndpointServiceConnectionStatus
+  - Added Enum KnownPromoteMode
+  - Added Enum KnownPromoteOption
+  - Added Enum KnownProvisioningState
+  - Added Enum KnownPublicNetworkAccess
+  - Added Enum KnownReplicationRole
+  - Added Enum KnownReplicationState
   - Added Enum KnownStorageType
   - Added Enum KnownUserRole
   - Added Enum KnownVersions
 
-## 1.1.0-beta.2 (2025-10-08)
-Compared with version 1.0.1
-
-### Features Added
-  - Added operation group UsersOperations
-  - Added Interface AuthConfigProperties
-  - Added Interface CustomerManagedKeyEncryptionProperties
-  - Added Interface DataApiProperties
-  - Added Interface DatabaseRole
-  - Added Interface EncryptionProperties
-  - Added Interface EntraIdentityProvider
-  - Added Interface EntraIdentityProviderProperties
-  - Added Interface ErrorAdditionalInfo
-  - Added Interface ErrorDetail
-  - Added Interface ErrorResponse
-  - Added Interface IdentityProvider
-  - Added Interface KeyEncryptionKeyIdentity
-  - Added Interface ManagedServiceIdentity
-  - Added Interface User
-  - Added Interface UserAssignedIdentity
-  - Added Interface UserProperties
-  - Added Interface UsersCreateOrUpdateOptionalParams
-  - Added Interface UsersDeleteOptionalParams
-  - Added Interface UsersGetOptionalParams
-  - Added Interface UsersListByMongoClusterOptionalParams
-  - Interface MongoCluster has a new optional parameter identity
-  - Interface MongoClusterManagementClientOptionalParams has a new optional parameter cloudSetting
-  - Interface MongoClusterProperties has a new optional parameter authConfig
-  - Interface MongoClusterProperties has a new optional parameter dataApi
-  - Interface MongoClusterProperties has a new optional parameter encryption
-  - Interface MongoClusterUpdate has a new optional parameter identity
-  - Interface MongoClusterUpdateProperties has a new optional parameter authConfig
-  - Interface MongoClusterUpdateProperties has a new optional parameter dataApi
-  - Interface MongoClusterUpdateProperties has a new optional parameter encryption
-  - Interface StorageProperties has a new optional parameter type
-  - Added Type Alias AuthenticationMode
-  - Added Type Alias AzureSupportedClouds
-  - Added Type Alias DataApiMode
-  - Added Type Alias EntraPrincipalType
-  - Added Type Alias IdentityProviderType
-  - Added Type Alias IdentityProviderUnion
-  - Added Type Alias KeyEncryptionKeyIdentityType
-  - Added Type Alias ManagedServiceIdentityType
-  - Added Type Alias StorageType
-  - Added Type Alias UserRole
-  - Added Enum AzureClouds
-  - Added Enum KnownAuthenticationMode
-  - Added Enum KnownDataApiMode
-  - Added Enum KnownEntraPrincipalType
-  - Added Enum KnownIdentityProviderType
-  - Added Enum KnownKeyEncryptionKeyIdentityType
-  - Added Enum KnownManagedServiceIdentityType
-  - Added Enum KnownStorageType
-  - Added Enum KnownUserRole
-  - Added Enum KnownVersions

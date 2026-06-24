@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { FluxConfigurationContext } from "../../api/fluxConfigurationContext.js";
+import { FluxConfigurationContext } from "../../api/fluxConfigurationContext.js";
 import { get } from "../../api/fluxConfigOperationStatus/operations.js";
-import type { FluxConfigOperationStatusGetOptionalParams } from "../../api/fluxConfigOperationStatus/options.js";
-import type { OperationStatusResult } from "../../models/models.js";
+import { FluxConfigOperationStatusGetOptionalParams } from "../../api/fluxConfigOperationStatus/options.js";
+import { OperationStatusResult } from "../../models/models.js";
 
 /** Interface representing a FluxConfigOperationStatus operations. */
 export interface FluxConfigOperationStatusOperations {

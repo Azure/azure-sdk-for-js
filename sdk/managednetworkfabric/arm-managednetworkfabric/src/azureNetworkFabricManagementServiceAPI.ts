@@ -1,67 +1,112 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   AzureNetworkFabricManagementServiceAPIContext,
   AzureNetworkFabricManagementServiceAPIOptionalParams,
+  createAzureNetworkFabricManagementServiceAPI,
 } from "./api/index.js";
-import { createAzureNetworkFabricManagementServiceAPI } from "./api/index.js";
-import type { AccessControlListsOperations } from "./classic/accessControlLists/index.js";
-import { _getAccessControlListsOperations } from "./classic/accessControlLists/index.js";
-import type { ExternalNetworksOperations } from "./classic/externalNetworks/index.js";
-import { _getExternalNetworksOperations } from "./classic/externalNetworks/index.js";
-import type { InternalNetworksOperations } from "./classic/internalNetworks/index.js";
-import { _getInternalNetworksOperations } from "./classic/internalNetworks/index.js";
-import type { InternetGatewayRulesOperations } from "./classic/internetGatewayRules/index.js";
-import { _getInternetGatewayRulesOperations } from "./classic/internetGatewayRules/index.js";
-import type { InternetGatewaysOperations } from "./classic/internetGateways/index.js";
-import { _getInternetGatewaysOperations } from "./classic/internetGateways/index.js";
-import type { IpCommunitiesOperations } from "./classic/ipCommunities/index.js";
-import { _getIpCommunitiesOperations } from "./classic/ipCommunities/index.js";
-import type { IpExtendedCommunitiesOperations } from "./classic/ipExtendedCommunities/index.js";
-import { _getIpExtendedCommunitiesOperations } from "./classic/ipExtendedCommunities/index.js";
-import type { IpPrefixesOperations } from "./classic/ipPrefixes/index.js";
-import { _getIpPrefixesOperations } from "./classic/ipPrefixes/index.js";
-import type { L2IsolationDomainsOperations } from "./classic/l2IsolationDomains/index.js";
-import { _getL2IsolationDomainsOperations } from "./classic/l2IsolationDomains/index.js";
-import type { L3IsolationDomainsOperations } from "./classic/l3IsolationDomains/index.js";
-import { _getL3IsolationDomainsOperations } from "./classic/l3IsolationDomains/index.js";
-import type { NeighborGroupsOperations } from "./classic/neighborGroups/index.js";
-import { _getNeighborGroupsOperations } from "./classic/neighborGroups/index.js";
-import type { NetworkBootstrapDevicesOperations } from "./classic/networkBootstrapDevices/index.js";
-import { _getNetworkBootstrapDevicesOperations } from "./classic/networkBootstrapDevices/index.js";
-import type { NetworkBootstrapInterfacesOperations } from "./classic/networkBootstrapInterfaces/index.js";
-import { _getNetworkBootstrapInterfacesOperations } from "./classic/networkBootstrapInterfaces/index.js";
-import type { NetworkDeviceSkusOperations } from "./classic/networkDeviceSkus/index.js";
-import { _getNetworkDeviceSkusOperations } from "./classic/networkDeviceSkus/index.js";
-import type { NetworkDevicesOperations } from "./classic/networkDevices/index.js";
-import { _getNetworkDevicesOperations } from "./classic/networkDevices/index.js";
-import type { NetworkFabricControllersOperations } from "./classic/networkFabricControllers/index.js";
-import { _getNetworkFabricControllersOperations } from "./classic/networkFabricControllers/index.js";
-import type { NetworkFabricSkusOperations } from "./classic/networkFabricSkus/index.js";
-import { _getNetworkFabricSkusOperations } from "./classic/networkFabricSkus/index.js";
-import type { NetworkFabricsOperations } from "./classic/networkFabrics/index.js";
-import { _getNetworkFabricsOperations } from "./classic/networkFabrics/index.js";
-import type { NetworkInterfacesOperations } from "./classic/networkInterfaces/index.js";
-import { _getNetworkInterfacesOperations } from "./classic/networkInterfaces/index.js";
-import type { NetworkMonitorsOperations } from "./classic/networkMonitors/index.js";
-import { _getNetworkMonitorsOperations } from "./classic/networkMonitors/index.js";
-import type { NetworkPacketBrokersOperations } from "./classic/networkPacketBrokers/index.js";
-import { _getNetworkPacketBrokersOperations } from "./classic/networkPacketBrokers/index.js";
-import type { NetworkRacksOperations } from "./classic/networkRacks/index.js";
-import { _getNetworkRacksOperations } from "./classic/networkRacks/index.js";
-import type { NetworkTapRulesOperations } from "./classic/networkTapRules/index.js";
-import { _getNetworkTapRulesOperations } from "./classic/networkTapRules/index.js";
-import type { NetworkTapsOperations } from "./classic/networkTaps/index.js";
-import { _getNetworkTapsOperations } from "./classic/networkTaps/index.js";
-import type { NetworkToNetworkInterconnectsOperations } from "./classic/networkToNetworkInterconnects/index.js";
-import { _getNetworkToNetworkInterconnectsOperations } from "./classic/networkToNetworkInterconnects/index.js";
-import type { OperationsOperations } from "./classic/operations/index.js";
-import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { RoutePoliciesOperations } from "./classic/routePolicies/index.js";
-import { _getRoutePoliciesOperations } from "./classic/routePolicies/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import {
+  AccessControlListsOperations,
+  _getAccessControlListsOperations,
+} from "./classic/accessControlLists/index.js";
+import {
+  ExternalNetworksOperations,
+  _getExternalNetworksOperations,
+} from "./classic/externalNetworks/index.js";
+import {
+  InternalNetworksOperations,
+  _getInternalNetworksOperations,
+} from "./classic/internalNetworks/index.js";
+import {
+  InternetGatewayRulesOperations,
+  _getInternetGatewayRulesOperations,
+} from "./classic/internetGatewayRules/index.js";
+import {
+  InternetGatewaysOperations,
+  _getInternetGatewaysOperations,
+} from "./classic/internetGateways/index.js";
+import {
+  IpCommunitiesOperations,
+  _getIpCommunitiesOperations,
+} from "./classic/ipCommunities/index.js";
+import {
+  IpExtendedCommunitiesOperations,
+  _getIpExtendedCommunitiesOperations,
+} from "./classic/ipExtendedCommunities/index.js";
+import { IpPrefixesOperations, _getIpPrefixesOperations } from "./classic/ipPrefixes/index.js";
+import {
+  L2IsolationDomainsOperations,
+  _getL2IsolationDomainsOperations,
+} from "./classic/l2IsolationDomains/index.js";
+import {
+  L3IsolationDomainsOperations,
+  _getL3IsolationDomainsOperations,
+} from "./classic/l3IsolationDomains/index.js";
+import {
+  NeighborGroupsOperations,
+  _getNeighborGroupsOperations,
+} from "./classic/neighborGroups/index.js";
+import {
+  NetworkBootstrapDevicesOperations,
+  _getNetworkBootstrapDevicesOperations,
+} from "./classic/networkBootstrapDevices/index.js";
+import {
+  NetworkBootstrapInterfacesOperations,
+  _getNetworkBootstrapInterfacesOperations,
+} from "./classic/networkBootstrapInterfaces/index.js";
+import {
+  NetworkDeviceSkusOperations,
+  _getNetworkDeviceSkusOperations,
+} from "./classic/networkDeviceSkus/index.js";
+import {
+  NetworkDevicesOperations,
+  _getNetworkDevicesOperations,
+} from "./classic/networkDevices/index.js";
+import {
+  NetworkFabricControllersOperations,
+  _getNetworkFabricControllersOperations,
+} from "./classic/networkFabricControllers/index.js";
+import {
+  NetworkFabricSkusOperations,
+  _getNetworkFabricSkusOperations,
+} from "./classic/networkFabricSkus/index.js";
+import {
+  NetworkFabricsOperations,
+  _getNetworkFabricsOperations,
+} from "./classic/networkFabrics/index.js";
+import {
+  NetworkInterfacesOperations,
+  _getNetworkInterfacesOperations,
+} from "./classic/networkInterfaces/index.js";
+import {
+  NetworkMonitorsOperations,
+  _getNetworkMonitorsOperations,
+} from "./classic/networkMonitors/index.js";
+import {
+  NetworkPacketBrokersOperations,
+  _getNetworkPacketBrokersOperations,
+} from "./classic/networkPacketBrokers/index.js";
+import {
+  NetworkRacksOperations,
+  _getNetworkRacksOperations,
+} from "./classic/networkRacks/index.js";
+import {
+  NetworkTapRulesOperations,
+  _getNetworkTapRulesOperations,
+} from "./classic/networkTapRules/index.js";
+import { NetworkTapsOperations, _getNetworkTapsOperations } from "./classic/networkTaps/index.js";
+import {
+  NetworkToNetworkInterconnectsOperations,
+  _getNetworkToNetworkInterconnectsOperations,
+} from "./classic/networkToNetworkInterconnects/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import {
+  RoutePoliciesOperations,
+  _getRoutePoliciesOperations,
+} from "./classic/routePolicies/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { AzureNetworkFabricManagementServiceAPIOptionalParams } from "./api/azureNetworkFabricManagementServiceAPIContext.js";
 

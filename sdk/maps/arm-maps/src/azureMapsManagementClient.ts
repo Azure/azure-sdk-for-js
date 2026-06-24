@@ -1,27 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   AzureMapsManagementContext,
   AzureMapsManagementClientOptionalParams,
+  createAzureMapsManagement,
 } from "./api/index.js";
-import { createAzureMapsManagement } from "./api/index.js";
-import type { AccountsOperations } from "./classic/accounts/index.js";
-import { _getAccountsOperations } from "./classic/accounts/index.js";
-import type { CreatorsOperations } from "./classic/creators/index.js";
-import { _getCreatorsOperations } from "./classic/creators/index.js";
-import type { MapsOperations } from "./classic/maps/index.js";
-import { _getMapsOperations } from "./classic/maps/index.js";
-import type { OperationResultOperations } from "./classic/operationResult/index.js";
-import { _getOperationResultOperations } from "./classic/operationResult/index.js";
-import type { OperationStatusOperations } from "./classic/operationStatus/index.js";
-import { _getOperationStatusOperations } from "./classic/operationStatus/index.js";
-import type { PrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
-import { _getPrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
-import type { PrivateLinkResourcesOperations } from "./classic/privateLinkResources/index.js";
-import { _getPrivateLinkResourcesOperations } from "./classic/privateLinkResources/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import { AccountsOperations, _getAccountsOperations } from "./classic/accounts/index.js";
+import { CreatorsOperations, _getCreatorsOperations } from "./classic/creators/index.js";
+import { MapsOperations, _getMapsOperations } from "./classic/maps/index.js";
+import {
+  OperationResultOperations,
+  _getOperationResultOperations,
+} from "./classic/operationResult/index.js";
+import {
+  OperationStatusOperations,
+  _getOperationStatusOperations,
+} from "./classic/operationStatus/index.js";
+import {
+  PrivateEndpointConnectionsOperations,
+  _getPrivateEndpointConnectionsOperations,
+} from "./classic/privateEndpointConnections/index.js";
+import {
+  PrivateLinkResourcesOperations,
+  _getPrivateLinkResourcesOperations,
+} from "./classic/privateLinkResources/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { AzureMapsManagementClientOptionalParams } from "./api/azureMapsManagementContext.js";
 
