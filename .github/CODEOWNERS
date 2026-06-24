@@ -1683,6 +1683,7 @@ sdk/powerplatform/arm-powerplatform/ @qiaozha @MaryGao @JialinHuang803
 sdk/napsteromniagentapi/arm-napsteromniagentapi/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
+sdk/programenrollment/arm-programenrollment/ @qiaozha @MaryGao @JialinHuang803
 sdk/resiliencemanagement/arm-resiliencemanagement/ @qiaozha @MaryGao @JialinHuang803
 
 ###########
