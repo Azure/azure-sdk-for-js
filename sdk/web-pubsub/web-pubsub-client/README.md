@@ -125,7 +125,15 @@ client.onGroupStream(
       }
       console.log(`Stream ${stream.streamId} completed: ${parts.join("")}`);
     } catch (err) {
-      console.log(`Stream ${stream.streamId} failed: ${(err as { name?: string }).name}`);
+      console.log(
+        `Stream ${stream.streamId} failed: ${
+          (
+            err as {
+              name?: string;
+            }
+          ).name
+        }`,
+      );
     }
   },
   { handleFromStart: true },
@@ -197,14 +205,22 @@ const hubName = "sample_chat";
 const serviceClient = new WebPubSubServiceClient("<web-pubsub-connectionstring>", hubName);
 
 // Note that the token allows the client to join and send messages to any groups. It is specified with the "roles" option.
-app.get("/negotiate", async (req, res) => {
-  const token = await serviceClient.getClientAccessToken({
-    roles: ["webpubsub.joinLeaveGroup", "webpubsub.sendToGroup"],
-  });
-  res.json({
-    url: token.url,
-  });
-});
+app.get(
+  "/negotiate",
+  async (
+    _req: unknown,
+    res: {
+      json: (body: { url: string }) => void;
+    },
+  ) => {
+    const token = await serviceClient.getClientAccessToken({
+      roles: ["webpubsub.joinLeaveGroup", "webpubsub.sendToGroup"],
+    });
+    res.json({
+      url: token.url,
+    });
+  },
+);
 
 app.listen(port, () =>
   console.log(`Application server listening at http://localhost:${port}/negotiate`),
@@ -221,7 +237,9 @@ import { WebPubSubClient } from "@azure/web-pubsub-client";
 const client = new WebPubSubClient({
   getClientAccessUrl: async () => {
     const negotiate = await fetch("/negotiate");
-    const { url } = await negotiate.json();
+    const { url } = (await negotiate.json()) as {
+      url: string;
+    };
     return url;
   },
 });
@@ -289,7 +307,7 @@ const groupName = "group1";
 try {
   await client.joinGroup(groupName);
 } catch (err) {
-  let id = null;
+  let id: number | undefined;
   if (err instanceof SendMessageError) {
     id = err.ackId;
   }

@@ -157,13 +157,6 @@ export interface GroupStreamMessage {
 }
 
 // @public
-export interface OnGroupStreamOptions {
-    groupNames?: string[];
-    handleFromStart?: boolean;
-    idleTimeoutInMs?: number;
-}
-
-// @public
 export interface GroupStreamSubscription {
     [Symbol.asyncDispose](): Promise<void>;
     close(): Promise<void>;
@@ -280,6 +273,13 @@ export interface OnDisconnectedArgs {
 // @public
 export interface OnGroupDataMessageArgs {
     message: GroupDataMessage;
+}
+
+// @public
+export interface OnGroupStreamOptions {
+    groupNames?: string[];
+    handleFromStart?: boolean;
+    idleTimeoutInMs?: number;
 }
 
 // @public
