@@ -17,7 +17,7 @@ on:
   # env: vars in steps use the full GitHub Actions expression context —
   # gh-aw's expression allowlist only restricts frontmatter YAML field values.
   steps:
-    - name: Gate — verify CI complete and PR has mgmt-review-added label
+    - name: Gate — verify CI complete and PR is under mgmt review
       id: gate
       uses: actions/github-script@v8
       env:
@@ -50,16 +50,21 @@ on:
             return;
           }
 
-          // Filter to mgmt PRs only: must have 'mgmt-review-added' label,
-          // which is set exclusively by the mgmt-review agent after it completes.
+          // Filter to mgmt PRs in the review flow: accept either
+          // 'mgmt-review-added' (review complete) or 'mgmt-review-in-progress'
+          // (review running). Accepting in-progress decouples guidance from the
+          // mgmt-review agent's final in-progress → added label hand-off — an
+          // LLM step that can be skipped — so guidance still fires once CI
+          // completes.
           const { data: pr } = await github.rest.pulls.get({
             owner: context.repo.owner,
             repo:  context.repo.repo,
             pull_number: prNum,
           });
           const labels = (pr.labels || []).map(l => l.name);
-          if (!labels.includes('mgmt-review-added')) {
-            core.info(`PR #${prNum} does not have 'mgmt-review-added' label (${labels.join(', ') || 'none'}) — not a mgmt PR or review not yet complete.`);
+          const reviewLabels = ['mgmt-review-added', 'mgmt-review-in-progress'];
+          if (!labels.some((l) => reviewLabels.includes(l))) {
+            core.info(`PR #${prNum} has no mgmt-review label (${labels.join(', ') || 'none'}) — not a mgmt PR under review.`);
             core.setOutput('ready', 'false');
             return;
           }

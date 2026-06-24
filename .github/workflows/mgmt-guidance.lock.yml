@@ -1,4 +1,4 @@
-# gh-aw-metadata: {"schema_version":"v4","frontmatter_hash":"da9a5c953256973d5800d31963d8ebc5b9f3ca10796934f3ba50826f14487f4d","body_hash":"4bea01f520d0d324cbb42b48d4998e17502bbc45c4d4e631a6a853c552aa8370","compiler_version":"v0.77.5","agent_id":"copilot"}
+# gh-aw-metadata: {"schema_version":"v4","frontmatter_hash":"c4468638ce14fa50c596ac4b413cb3543d3ff1f251cad9329ae98b75c0041cb5","body_hash":"90379a004de4dea1fe7af52031c93f92a4e9004debb99150a19f14e78981603f","compiler_version":"v0.77.5","agent_id":"copilot"}
 # gh-aw-manifest: {"version":1,"secrets":["COPILOT_GITHUB_TOKEN","GH_AW_GITHUB_MCP_SERVER_TOKEN","GH_AW_GITHUB_TOKEN","GITHUB_TOKEN"],"actions":[{"repo":"actions/checkout","sha":"de0fac2e4500dabe0009e67214ff5f5447ce83dd","version":"v6.0.2"},{"repo":"actions/download-artifact","sha":"3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c","version":"v8.0.1"},{"repo":"actions/github-script","sha":"3a2844b7e9c422d3c10d287c895573f7108da1b3","version":"v9.0.0"},{"repo":"actions/github-script","sha":"ed597411d8f924073f98dfc5c65a23a2325f34cd","version":"v8"},{"repo":"actions/setup-node","sha":"48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e","version":"v6.4.0"},{"repo":"actions/upload-artifact","sha":"043fb46d1a93c77aae656e7c1c64a875d1fc6a0a","version":"v7.0.1"},{"repo":"github/gh-aw-actions/setup","sha":"3ea13c02d765410340d533515cb31a7eef2baaf0","version":"v0.77.5"}],"containers":[{"image":"ghcr.io/github/gh-aw-firewall/agent:0.25.58"},{"image":"ghcr.io/github/gh-aw-firewall/api-proxy:0.25.58"},{"image":"ghcr.io/github/gh-aw-firewall/squid:0.25.58"},{"image":"ghcr.io/github/gh-aw-mcpg:v0.3.22"},{"image":"ghcr.io/github/github-mcp-server:v1.1.0"},{"image":"node:lts-alpine","digest":"sha256:2bdb65ed1dab192432bc31c95f94155ca5ad7fc1392fb7eb7526ab682fa5bf14","pinned_image":"node:lts-alpine@sha256:2bdb65ed1dab192432bc31c95f94155ca5ad7fc1392fb7eb7526ab682fa5bf14"}]}
 #    ___                   _   _      
 #   / _ \                 | | (_)     
@@ -63,7 +63,7 @@ on:
       # HEAD_SHA: ${{ github.event.check_suite.head_sha }}
       # ITEM_NUMBER: ${{ github.event.inputs.item_number }}
     # id: gate
-    # name: Gate — verify CI complete and PR has mgmt-review-added label
+    # name: Gate — verify CI complete and PR is under mgmt review
     # uses: actions/github-script@v8
     # with:
       # script: |
@@ -91,16 +91,21 @@ on:
           # return;
         # }
         # 
-        # // Filter to mgmt PRs only: must have 'mgmt-review-added' label,
-        # // which is set exclusively by the mgmt-review agent after it completes.
+        # // Filter to mgmt PRs in the review flow: accept either
+        # // 'mgmt-review-added' (review complete) or 'mgmt-review-in-progress'
+        # // (review running). Accepting in-progress decouples guidance from the
+        # // mgmt-review agent's final in-progress → added label hand-off — an
+        # // LLM step that can be skipped — so guidance still fires once CI
+        # // completes.
         # const { data: pr } = await github.rest.pulls.get({
           # owner: context.repo.owner,
           # repo:  context.repo.repo,
           # pull_number: prNum,
         # });
         # const labels = (pr.labels || []).map(l => l.name);
-        # if (!labels.includes('mgmt-review-added')) {
-          # core.info(`PR #${prNum} does not have 'mgmt-review-added' label (${labels.join(', ') || 'none'}) — not a mgmt PR or review not yet complete.`);
+        # const reviewLabels = ['mgmt-review-added', 'mgmt-review-in-progress'];
+        # if (!labels.some((l) => reviewLabels.includes(l))) {
+          # core.info(`PR #${prNum} has no mgmt-review label (${labels.join(', ') || 'none'}) — not a mgmt PR under review.`);
           # core.setOutput('ready', 'false');
           # return;
         # }
@@ -255,20 +260,20 @@ jobs:
         run: |
           bash "${RUNNER_TEMP}/gh-aw/actions/create_prompt_first.sh"
           {
-          cat << 'GH_AW_PROMPT_16aaf5c2de5741dd_EOF'
+          cat << 'GH_AW_PROMPT_fe478abd33885b7f_EOF'
           <system>
-          GH_AW_PROMPT_16aaf5c2de5741dd_EOF
+          GH_AW_PROMPT_fe478abd33885b7f_EOF
           cat "${RUNNER_TEMP}/gh-aw/prompts/xpia.md"
           cat "${RUNNER_TEMP}/gh-aw/prompts/temp_folder_prompt.md"
           cat "${RUNNER_TEMP}/gh-aw/prompts/markdown.md"
           cat "${RUNNER_TEMP}/gh-aw/prompts/safe_outputs_prompt.md"
-          cat << 'GH_AW_PROMPT_16aaf5c2de5741dd_EOF'
+          cat << 'GH_AW_PROMPT_fe478abd33885b7f_EOF'
           <safe-output-tools>
           Tools: add_comment, missing_tool, missing_data, noop
           </safe-output-tools>
-          GH_AW_PROMPT_16aaf5c2de5741dd_EOF
+          GH_AW_PROMPT_fe478abd33885b7f_EOF
           cat "${RUNNER_TEMP}/gh-aw/prompts/mcp_cli_tools_prompt.md"
-          cat << 'GH_AW_PROMPT_16aaf5c2de5741dd_EOF'
+          cat << 'GH_AW_PROMPT_fe478abd33885b7f_EOF'
           <github-context>
           The following GitHub context information is available for this workflow:
           {{#if github.actor}}
@@ -297,12 +302,12 @@ jobs:
           {{/if}}
           </github-context>
           
-          GH_AW_PROMPT_16aaf5c2de5741dd_EOF
+          GH_AW_PROMPT_fe478abd33885b7f_EOF
           cat "${RUNNER_TEMP}/gh-aw/prompts/github_mcp_tools_with_safeoutputs_prompt.md"
-          cat << 'GH_AW_PROMPT_16aaf5c2de5741dd_EOF'
+          cat << 'GH_AW_PROMPT_fe478abd33885b7f_EOF'
           </system>
           {{#runtime-import .github/workflows/mgmt-guidance.md}}
-          GH_AW_PROMPT_16aaf5c2de5741dd_EOF
+          GH_AW_PROMPT_fe478abd33885b7f_EOF
           } > "$GH_AW_PROMPT"
       - name: Interpolate variables and render templates
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
@@ -516,9 +521,9 @@ jobs:
           mkdir -p "${RUNNER_TEMP}/gh-aw/safeoutputs"
           mkdir -p /tmp/gh-aw/safeoutputs
           mkdir -p /tmp/gh-aw/mcp-logs/safeoutputs
-          cat > "${RUNNER_TEMP}/gh-aw/safeoutputs/config.json" << 'GH_AW_SAFE_OUTPUTS_CONFIG_440f7111ded418bf_EOF'
+          cat > "${RUNNER_TEMP}/gh-aw/safeoutputs/config.json" << 'GH_AW_SAFE_OUTPUTS_CONFIG_ef9c93fca1a57da0_EOF'
           {"add_comment":{"footer":false,"hide_older_comments":true,"max":1,"target":"${{ needs.pre_activation.outputs.pr_number }}"},"create_report_incomplete_issue":{},"missing_data":{},"missing_tool":{},"noop":{"max":1,"report-as-issue":"true"},"report_incomplete":{}}
-          GH_AW_SAFE_OUTPUTS_CONFIG_440f7111ded418bf_EOF
+          GH_AW_SAFE_OUTPUTS_CONFIG_ef9c93fca1a57da0_EOF
       - name: Generate Safe Outputs Tools
         env:
           GH_AW_TOOLS_META_JSON: |
@@ -712,7 +717,7 @@ jobs:
           
           mkdir -p /home/runner/.copilot
           GH_AW_NODE=$(which node 2>/dev/null || command -v node 2>/dev/null || echo node)
-          cat << GH_AW_MCP_CONFIG_ac433ed758872e91_EOF | "$GH_AW_NODE" "${RUNNER_TEMP}/gh-aw/actions/start_mcp_gateway.cjs"
+          cat << GH_AW_MCP_CONFIG_d990bd0a957442f0_EOF | "$GH_AW_NODE" "${RUNNER_TEMP}/gh-aw/actions/start_mcp_gateway.cjs"
           {
             "mcpServers": {
               "github": {
@@ -753,7 +758,7 @@ jobs:
               "payloadDir": "${MCP_GATEWAY_PAYLOAD_DIR}"
             }
           }
-          GH_AW_MCP_CONFIG_ac433ed758872e91_EOF
+          GH_AW_MCP_CONFIG_d990bd0a957442f0_EOF
       - name: Mount MCP servers as CLIs
         id: mount-mcp-clis
         continue-on-error: true
@@ -1404,7 +1409,7 @@ jobs:
             setupGlobals(core, github, context, exec, io, getOctokit);
             const { main } = require('${{ runner.temp }}/gh-aw/actions/check_membership.cjs');
             await main();
-      - name: Gate — verify CI complete and PR has mgmt-review-added label
+      - name: Gate — verify CI complete and PR is under mgmt review
         id: gate
         uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8
         env:
@@ -1437,16 +1442,21 @@ jobs:
               return;
             }
 
-            // Filter to mgmt PRs only: must have 'mgmt-review-added' label,
-            // which is set exclusively by the mgmt-review agent after it completes.
+            // Filter to mgmt PRs in the review flow: accept either
+            // 'mgmt-review-added' (review complete) or 'mgmt-review-in-progress'
+            // (review running). Accepting in-progress decouples guidance from the
+            // mgmt-review agent's final in-progress → added label hand-off — an
+            // LLM step that can be skipped — so guidance still fires once CI
+            // completes.
             const { data: pr } = await github.rest.pulls.get({
               owner: context.repo.owner,
               repo:  context.repo.repo,
               pull_number: prNum,
             });
             const labels = (pr.labels || []).map(l => l.name);
-            if (!labels.includes('mgmt-review-added')) {
-              core.info(`PR #${prNum} does not have 'mgmt-review-added' label (${labels.join(', ') || 'none'}) — not a mgmt PR or review not yet complete.`);
+            const reviewLabels = ['mgmt-review-added', 'mgmt-review-in-progress'];
+            if (!labels.some((l) => reviewLabels.includes(l))) {
+              core.info(`PR #${prNum} has no mgmt-review label (${labels.join(', ') || 'none'}) — not a mgmt PR under review.`);
               core.setOutput('ready', 'false');
               return;
             }
