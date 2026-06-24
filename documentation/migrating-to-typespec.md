@@ -124,7 +124,7 @@ Update your `package.json` dependencies to use the new core packages:
     "@azure/core-util": "^1.11.0"
   },
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   }
 }
 ```

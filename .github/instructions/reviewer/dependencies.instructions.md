@@ -72,7 +72,7 @@ Adding new `@azure/*` dep may create cycle — check if target (or its deps) alr
 New peer dep ranges must be compatible with existing declarations in sibling packages
 
 ## Engine Requirements
-All packages support Node 20 minimum — new deps must not require Node >20
+All packages support Node 22 minimum — new deps must not require Node >22
 
 ## Package.json Structure (new packages)
 - `files`: `dist/`, types entry, `README.md`, `LICENSE`, `CHANGELOG.md`

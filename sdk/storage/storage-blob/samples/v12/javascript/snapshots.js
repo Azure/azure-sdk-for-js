@@ -22,10 +22,12 @@
 
 const { ContainerClient, StorageSharedKeyCredential } = require("@azure/storage-blob");
 
-const { streamToBuffer } = require("./utils/stream");
+const { buffer } = require("node:stream/consumers");
+// Use `text` from "node:stream/consumers" if you want the content as a string directly.
+// import { text } from "node:stream/consumers";
 
 // Load the .env file if it exists
-require("dotenv").config();
+require("dotenv/config");
 
 async function main() {
   // Enter your storage account name and shared key
@@ -40,7 +42,7 @@ async function main() {
   const containerName = `newcontainer${new Date().getTime()}`;
   const containerClient = new ContainerClient(
     `https://${account}.blob.core.windows.net/${containerName}`,
-    sharedKeyCredential
+    sharedKeyCredential,
   );
 
   const createContainerResponse = await containerClient.create();
@@ -61,13 +63,13 @@ async function main() {
   const response = await blobSnapshotClient.download(0);
   console.log(
     "Reading response to string...",
-    (await blobSnapshotClient.getProperties()).contentLength
+    (await blobSnapshotClient.getProperties()).contentLength,
   );
 
-  console.log(
-    "Downloaded blob content",
-    (await streamToBuffer(response.readableStreamBody)).toString()
-  );
+  // Download the raw bytes of the blob. Use `text(response.readableStreamBody!)`
+  // instead if you want to read the content as a string directly.
+  const downloaded = await buffer(response.readableStreamBody);
+  console.log("Downloaded blob content", downloaded.toString());
 
   // Delete container
   await containerClient.delete();

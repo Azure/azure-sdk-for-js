@@ -64,7 +64,7 @@
     "update-snippets": "echo skipped"
   },
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "prettier": "./prettier.json",
   "peerDependencies": {
