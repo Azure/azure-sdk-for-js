@@ -1,14 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
-
 /**
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/** Resource reference properties. */
+export interface ResourceReference {
+  /** Resource ID. */
+  readonly id?: string;
+}
+
+export function resourceReferenceSerializer(_item: ResourceReference): any {
+  return {};
+}
+
+export function resourceReferenceDeserializer(item: any): ResourceReference {
+  return {
+    id: item["id"],
+  };
+}
+
 /** Azure Traffic Collector resource. */
 export interface AzureTrafficCollector extends ProxyResource {
   /** Resource location. */
@@ -23,16 +37,6 @@ export interface AzureTrafficCollector extends ProxyResource {
   virtualHub?: ResourceReference;
   /** The provisioning state of the application rule collection resource. */
   readonly provisioningState?: ProvisioningState;
-}
-
-export function azureTrafficCollectorSerializer(item: AzureTrafficCollector): any {
-  return {
-    properties: areAllPropsUndefined(item, ["virtualHub"])
-      ? undefined
-      : _azureTrafficCollectorPropertiesSerializer(item),
-    location: item["location"],
-    tags: item["tags"],
-  };
 }
 
 export function azureTrafficCollectorDeserializer(item: any): AzureTrafficCollector {
@@ -64,16 +68,6 @@ export interface AzureTrafficCollectorPropertiesFormat {
   readonly provisioningState?: ProvisioningState;
 }
 
-export function azureTrafficCollectorPropertiesFormatSerializer(
-  item: AzureTrafficCollectorPropertiesFormat,
-): any {
-  return {
-    virtualHub: !item["virtualHub"]
-      ? item["virtualHub"]
-      : resourceReferenceSerializer(item["virtualHub"]),
-  };
-}
-
 export function azureTrafficCollectorPropertiesFormatDeserializer(
   item: any,
 ): AzureTrafficCollectorPropertiesFormat {
@@ -98,22 +92,6 @@ export function resourceReferenceArrayDeserializer(result: Array<ResourceReferen
   return result.map((item) => {
     return resourceReferenceDeserializer(item);
   });
-}
-
-/** Resource reference properties. */
-export interface ResourceReference {
-  /** Resource ID. */
-  readonly id?: string;
-}
-
-export function resourceReferenceSerializer(_item: ResourceReference): any {
-  return {};
-}
-
-export function resourceReferenceDeserializer(item: any): ResourceReference {
-  return {
-    id: item["id"],
-  };
 }
 
 /** The current provisioning state. */
@@ -143,10 +121,6 @@ export type ProvisioningState = string;
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-export function proxyResourceSerializer(_item: ProxyResource): any {
-  return {};
-}
-
 export function proxyResourceDeserializer(item: any): ProxyResource {
   return {
     id: item["id"],
@@ -168,10 +142,6 @@ export interface Resource {
   readonly type?: string;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
   readonly systemData?: SystemData;
-}
-
-export function resourceSerializer(_item: Resource): any {
-  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -285,88 +255,6 @@ export interface TagsObject {
 
 export function tagsObjectSerializer(item: TagsObject): any {
   return { tags: item["tags"] };
-}
-
-/** Collector policy resource. */
-export interface CollectorPolicy extends ProxyResource {
-  /** Resource location. */
-  location: string;
-  /** Resource tags. */
-  tags?: Record<string, string>;
-  /** A unique read-only string that changes whenever the resource is updated. */
-  readonly etag?: string;
-  /** Ingestion policies. */
-  ingestionPolicy?: IngestionPolicyPropertiesFormat;
-  /** Emission policies. */
-  emissionPolicies?: EmissionPoliciesPropertiesFormat[];
-  /** The provisioning state. */
-  readonly provisioningState?: ProvisioningState;
-}
-
-export function collectorPolicySerializer(item: CollectorPolicy): any {
-  return {
-    properties: areAllPropsUndefined(item, ["ingestionPolicy", "emissionPolicies"])
-      ? undefined
-      : _collectorPolicyPropertiesSerializer(item),
-    location: item["location"],
-    tags: item["tags"],
-  };
-}
-
-export function collectorPolicyDeserializer(item: any): CollectorPolicy {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    ...(!item["properties"]
-      ? item["properties"]
-      : _collectorPolicyPropertiesDeserializer(item["properties"])),
-    location: item["location"],
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
-    etag: item["etag"],
-  };
-}
-
-/** Collection policy properties. */
-export interface CollectorPolicyPropertiesFormat {
-  /** Ingestion policies. */
-  ingestionPolicy?: IngestionPolicyPropertiesFormat;
-  /** Emission policies. */
-  emissionPolicies?: EmissionPoliciesPropertiesFormat[];
-  /** The provisioning state. */
-  readonly provisioningState?: ProvisioningState;
-}
-
-export function collectorPolicyPropertiesFormatSerializer(
-  item: CollectorPolicyPropertiesFormat,
-): any {
-  return {
-    ingestionPolicy: !item["ingestionPolicy"]
-      ? item["ingestionPolicy"]
-      : ingestionPolicyPropertiesFormatSerializer(item["ingestionPolicy"]),
-    emissionPolicies: !item["emissionPolicies"]
-      ? item["emissionPolicies"]
-      : emissionPoliciesPropertiesFormatArraySerializer(item["emissionPolicies"]),
-  };
-}
-
-export function collectorPolicyPropertiesFormatDeserializer(
-  item: any,
-): CollectorPolicyPropertiesFormat {
-  return {
-    ingestionPolicy: !item["ingestionPolicy"]
-      ? item["ingestionPolicy"]
-      : ingestionPolicyPropertiesFormatDeserializer(item["ingestionPolicy"]),
-    emissionPolicies: !item["emissionPolicies"]
-      ? item["emissionPolicies"]
-      : emissionPoliciesPropertiesFormatArrayDeserializer(item["emissionPolicies"]),
-    provisioningState: item["provisioningState"],
-  };
 }
 
 /** Ingestion Policy properties. */
@@ -576,6 +464,65 @@ export enum KnownDestinationType {
  */
 export type DestinationType = string;
 
+/** Collector policy resource. */
+export interface CollectorPolicy extends ProxyResource {
+  /** Resource location. */
+  location: string;
+  /** Resource tags. */
+  tags?: Record<string, string>;
+  /** A unique read-only string that changes whenever the resource is updated. */
+  readonly etag?: string;
+  /** Ingestion policies. */
+  ingestionPolicy?: IngestionPolicyPropertiesFormat;
+  /** Emission policies. */
+  emissionPolicies?: EmissionPoliciesPropertiesFormat[];
+  /** The provisioning state. */
+  readonly provisioningState?: ProvisioningState;
+}
+
+export function collectorPolicyDeserializer(item: any): CollectorPolicy {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    ...(!item["properties"]
+      ? item["properties"]
+      : _collectorPolicyPropertiesDeserializer(item["properties"])),
+    location: item["location"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    etag: item["etag"],
+  };
+}
+
+/** Collection policy properties. */
+export interface CollectorPolicyPropertiesFormat {
+  /** Ingestion policies. */
+  ingestionPolicy?: IngestionPolicyPropertiesFormat;
+  /** Emission policies. */
+  emissionPolicies?: EmissionPoliciesPropertiesFormat[];
+  /** The provisioning state. */
+  readonly provisioningState?: ProvisioningState;
+}
+
+export function collectorPolicyPropertiesFormatDeserializer(
+  item: any,
+): CollectorPolicyPropertiesFormat {
+  return {
+    ingestionPolicy: !item["ingestionPolicy"]
+      ? item["ingestionPolicy"]
+      : ingestionPolicyPropertiesFormatDeserializer(item["ingestionPolicy"]),
+    emissionPolicies: !item["emissionPolicies"]
+      ? item["emissionPolicies"]
+      : emissionPoliciesPropertiesFormatArrayDeserializer(item["emissionPolicies"]),
+    provisioningState: item["provisioningState"],
+  };
+}
+
 /** The response of a CollectorPolicy list operation. */
 export interface _CollectorPolicyListResult {
   /** The CollectorPolicy items on this page */
@@ -589,12 +536,6 @@ export function _collectorPolicyListResultDeserializer(item: any): _CollectorPol
     value: collectorPolicyArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
-}
-
-export function collectorPolicyArraySerializer(result: Array<CollectorPolicy>): any[] {
-  return result.map((item) => {
-    return collectorPolicySerializer(item);
-  });
 }
 
 export function collectorPolicyArrayDeserializer(result: Array<CollectorPolicy>): any[] {
@@ -683,12 +624,6 @@ export function _azureTrafficCollectorListResultDeserializer(
   };
 }
 
-export function azureTrafficCollectorArraySerializer(result: Array<AzureTrafficCollector>): any[] {
-  return result.map((item) => {
-    return azureTrafficCollectorSerializer(item);
-  });
-}
-
 export function azureTrafficCollectorArrayDeserializer(
   result: Array<AzureTrafficCollector>,
 ): any[] {
@@ -703,14 +638,6 @@ export enum KnownVersions {
   V20221101 = "2022-11-01",
 }
 
-export function _azureTrafficCollectorPropertiesSerializer(item: AzureTrafficCollector): any {
-  return {
-    virtualHub: !item["virtualHub"]
-      ? item["virtualHub"]
-      : resourceReferenceSerializer(item["virtualHub"]),
-  };
-}
-
 export function _azureTrafficCollectorPropertiesDeserializer(item: any) {
   return {
     collectorPolicies: !item["collectorPolicies"]
@@ -720,17 +647,6 @@ export function _azureTrafficCollectorPropertiesDeserializer(item: any) {
       ? item["virtualHub"]
       : resourceReferenceDeserializer(item["virtualHub"]),
     provisioningState: item["provisioningState"],
-  };
-}
-
-export function _collectorPolicyPropertiesSerializer(item: CollectorPolicy): any {
-  return {
-    ingestionPolicy: !item["ingestionPolicy"]
-      ? item["ingestionPolicy"]
-      : ingestionPolicyPropertiesFormatSerializer(item["ingestionPolicy"]),
-    emissionPolicies: !item["emissionPolicies"]
-      ? item["emissionPolicies"]
-      : emissionPoliciesPropertiesFormatArraySerializer(item["emissionPolicies"]),
   };
 }
 

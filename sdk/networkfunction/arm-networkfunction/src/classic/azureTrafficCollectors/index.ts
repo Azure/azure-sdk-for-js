@@ -5,14 +5,14 @@ import type { AzureTrafficCollectorContext } from "../../api/azureTrafficCollect
 import {
   $delete,
   updateTags,
-  createOrUpdate,
   get,
+  createOrUpdate,
 } from "../../api/azureTrafficCollectors/operations.js";
 import type {
   AzureTrafficCollectorsDeleteOptionalParams,
   AzureTrafficCollectorsUpdateTagsOptionalParams,
-  AzureTrafficCollectorsCreateOrUpdateOptionalParams,
   AzureTrafficCollectorsGetOptionalParams,
+  AzureTrafficCollectorsCreateOrUpdateOptionalParams,
 } from "../../api/azureTrafficCollectors/options.js";
 import type { AzureTrafficCollector, TagsObject } from "../../models/models.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
@@ -46,32 +46,31 @@ export interface AzureTrafficCollectorsOperations {
     parameters: TagsObject,
     options?: AzureTrafficCollectorsUpdateTagsOptionalParams,
   ) => Promise<AzureTrafficCollector>;
-  /** Creates or updates a Azure Traffic Collector resource */
+  /** Gets the specified Azure Traffic Collector in a specified resource group */
+  get: (
+    resourceGroupName: string,
+    azureTrafficCollectorName: string,
+    options?: AzureTrafficCollectorsGetOptionalParams,
+  ) => Promise<AzureTrafficCollector>;
   createOrUpdate: (
     resourceGroupName: string,
     azureTrafficCollectorName: string,
-    parameters: AzureTrafficCollector,
+    location: string,
     options?: AzureTrafficCollectorsCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<AzureTrafficCollector>, AzureTrafficCollector>;
   /** @deprecated use createOrUpdate instead */
   beginCreateOrUpdate: (
     resourceGroupName: string,
     azureTrafficCollectorName: string,
-    parameters: AzureTrafficCollector,
+    location: string,
     options?: AzureTrafficCollectorsCreateOrUpdateOptionalParams,
   ) => Promise<SimplePollerLike<OperationState<AzureTrafficCollector>, AzureTrafficCollector>>;
   /** @deprecated use createOrUpdate instead */
   beginCreateOrUpdateAndWait: (
     resourceGroupName: string,
     azureTrafficCollectorName: string,
-    parameters: AzureTrafficCollector,
+    location: string,
     options?: AzureTrafficCollectorsCreateOrUpdateOptionalParams,
-  ) => Promise<AzureTrafficCollector>;
-  /** Gets the specified Azure Traffic Collector in a specified resource group */
-  get: (
-    resourceGroupName: string,
-    azureTrafficCollectorName: string,
-    options?: AzureTrafficCollectorsGetOptionalParams,
   ) => Promise<AzureTrafficCollector>;
 }
 
@@ -104,23 +103,28 @@ function _getAzureTrafficCollectors(context: AzureTrafficCollectorContext) {
       parameters: TagsObject,
       options?: AzureTrafficCollectorsUpdateTagsOptionalParams,
     ) => updateTags(context, resourceGroupName, azureTrafficCollectorName, parameters, options),
+    get: (
+      resourceGroupName: string,
+      azureTrafficCollectorName: string,
+      options?: AzureTrafficCollectorsGetOptionalParams,
+    ) => get(context, resourceGroupName, azureTrafficCollectorName, options),
     createOrUpdate: (
       resourceGroupName: string,
       azureTrafficCollectorName: string,
-      parameters: AzureTrafficCollector,
+      location: string,
       options?: AzureTrafficCollectorsCreateOrUpdateOptionalParams,
-    ) => createOrUpdate(context, resourceGroupName, azureTrafficCollectorName, parameters, options),
+    ) => createOrUpdate(context, resourceGroupName, azureTrafficCollectorName, location, options),
     beginCreateOrUpdate: async (
       resourceGroupName: string,
       azureTrafficCollectorName: string,
-      parameters: AzureTrafficCollector,
+      location: string,
       options?: AzureTrafficCollectorsCreateOrUpdateOptionalParams,
     ) => {
       const poller = createOrUpdate(
         context,
         resourceGroupName,
         azureTrafficCollectorName,
-        parameters,
+        location,
         options,
       );
       await poller.submitted();
@@ -129,22 +133,17 @@ function _getAzureTrafficCollectors(context: AzureTrafficCollectorContext) {
     beginCreateOrUpdateAndWait: async (
       resourceGroupName: string,
       azureTrafficCollectorName: string,
-      parameters: AzureTrafficCollector,
+      location: string,
       options?: AzureTrafficCollectorsCreateOrUpdateOptionalParams,
     ) => {
       return await createOrUpdate(
         context,
         resourceGroupName,
         azureTrafficCollectorName,
-        parameters,
+        location,
         options,
       );
     },
-    get: (
-      resourceGroupName: string,
-      azureTrafficCollectorName: string,
-      options?: AzureTrafficCollectorsGetOptionalParams,
-    ) => get(context, resourceGroupName, azureTrafficCollectorName, options),
   };
 }
 

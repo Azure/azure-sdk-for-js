@@ -9,7 +9,6 @@ import type { Client, ClientOptions } from "@azure-rest/core-client";
 import { getClient } from "@azure-rest/core-client";
 import type { TokenCredential } from "@azure/core-auth";
 
-/** Azure Traffic Collector service */
 export interface AzureTrafficCollectorContext extends Client {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -27,7 +26,6 @@ export interface AzureTrafficCollectorClientOptionalParams extends ClientOptions
   cloudSetting?: AzureSupportedClouds;
 }
 
-/** Azure Traffic Collector service */
 export function createAzureTrafficCollector(
   credential: TokenCredential,
   subscriptionId: string,

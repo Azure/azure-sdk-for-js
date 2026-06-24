@@ -1,4 +1,4 @@
 directory: specification/networkfunction/resource-manager/Microsoft.NetworkFunction/TrafficCollector
-commit: 49de8edaf1b1a951a8998670ed781e911586c4a4
+commit: 53f5ab8286a6242d591bffe056ed1e0c3e0e469c
 repo: Azure/azure-rest-api-specs
 additionalDirectories: 

@@ -14,9 +14,9 @@ export type { SimplePollerLike } from "./static-helpers/simplePollerHelpers.js";
 export type { RestorePollerOptions } from "./restorePollerHelpers.js";
 export { restorePoller } from "./restorePollerHelpers.js";
 export type {
+  ResourceReference,
   AzureTrafficCollector,
   AzureTrafficCollectorPropertiesFormat,
-  ResourceReference,
   ProvisioningState,
   ProxyResource,
   Resource,
@@ -25,8 +25,6 @@ export type {
   CloudError,
   CloudErrorBody,
   TagsObject,
-  CollectorPolicy,
-  CollectorPolicyPropertiesFormat,
   IngestionPolicyPropertiesFormat,
   IngestionType,
   IngestionSourcesPropertiesFormat,
@@ -35,6 +33,8 @@ export type {
   EmissionType,
   EmissionPolicyDestination,
   DestinationType,
+  CollectorPolicy,
+  CollectorPolicyPropertiesFormat,
   Operation,
   OperationDisplay,
 } from "./models/index.js";
@@ -51,8 +51,8 @@ export type { AzureTrafficCollectorClientOptionalParams } from "./api/index.js";
 export type {
   AzureTrafficCollectorsDeleteOptionalParams,
   AzureTrafficCollectorsUpdateTagsOptionalParams,
-  AzureTrafficCollectorsCreateOrUpdateOptionalParams,
   AzureTrafficCollectorsGetOptionalParams,
+  AzureTrafficCollectorsCreateOrUpdateOptionalParams,
 } from "./api/azureTrafficCollectors/index.js";
 export type { AzureTrafficCollectorsByResourceGroupListOptionalParams } from "./api/azureTrafficCollectorsByResourceGroup/index.js";
 export type { AzureTrafficCollectorsBySubscriptionListOptionalParams } from "./api/azureTrafficCollectorsBySubscription/index.js";
@@ -60,8 +60,8 @@ export type {
   CollectorPoliciesListOptionalParams,
   CollectorPoliciesDeleteOptionalParams,
   CollectorPoliciesUpdateTagsOptionalParams,
-  CollectorPoliciesCreateOrUpdateOptionalParams,
   CollectorPoliciesGetOptionalParams,
+  CollectorPoliciesCreateOrUpdateOptionalParams,
 } from "./api/collectorPolicies/index.js";
 export type { NetworkFunctionListOperationsOptionalParams } from "./api/networkFunction/index.js";
 export type {
