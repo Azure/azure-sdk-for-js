@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update a Gallery Script Definition. Gallery scripts allow the storage, sharing and reuse of common scripts
  *
  * @summary create or update a Gallery Script Definition. Gallery scripts allow the storage, sharing and reuse of common scripts
- * x-ms-original-file: 2025-03-03/galleryScriptExamples/GalleryScript_Create.json
+ * x-ms-original-file: 2025-12-03/galleryScriptExamples/GalleryScript_Create.json
  */
 async function createOrUpdateASimpleGalleryScript(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -23,8 +23,7 @@ export interface MessageTemplateValueOutputParent {
 }
 
 /** The message template's text value information. */
-export interface MessageTemplateTextOutput
-  extends MessageTemplateValueOutputParent {
+export interface MessageTemplateTextOutput extends MessageTemplateValueOutputParent {
   /** Message parameter type is text. */
   kind: "text";
   /** The text value. */
@@ -32,8 +31,7 @@ export interface MessageTemplateTextOutput
 }
 
 /** The message template's image value information. */
-export interface MessageTemplateImageOutput
-  extends MessageTemplateValueOutputParent {
+export interface MessageTemplateImageOutput extends MessageTemplateValueOutputParent {
   /** Message parameter type is image. */
   kind: "image";
   /** The (public) URL of the media. */
@@ -45,8 +43,7 @@ export interface MessageTemplateImageOutput
 }
 
 /** The message template's document value information. */
-export interface MessageTemplateDocumentOutput
-  extends MessageTemplateValueOutputParent {
+export interface MessageTemplateDocumentOutput extends MessageTemplateValueOutputParent {
   /** Message parameter type is document. */
   kind: "document";
   /** The (public) URL of the media. */
@@ -58,8 +55,7 @@ export interface MessageTemplateDocumentOutput
 }
 
 /** The message template's video value information. */
-export interface MessageTemplateVideoOutput
-  extends MessageTemplateValueOutputParent {
+export interface MessageTemplateVideoOutput extends MessageTemplateValueOutputParent {
   /** Message parameter type is video. */
   kind: "video";
   /** The (public) URL of the media. */
@@ -71,8 +67,7 @@ export interface MessageTemplateVideoOutput
 }
 
 /** The message template's location value information. */
-export interface MessageTemplateLocationOutput
-  extends MessageTemplateValueOutputParent {
+export interface MessageTemplateLocationOutput extends MessageTemplateValueOutputParent {
   /** Message parameter type is location. */
   kind: "location";
   /** The [Optional] name of the location. */
@@ -86,8 +81,7 @@ export interface MessageTemplateLocationOutput
 }
 
 /** The message template's quick action value information. */
-export interface MessageTemplateQuickActionOutput
-  extends MessageTemplateValueOutputParent {
+export interface MessageTemplateQuickActionOutput extends MessageTemplateValueOutputParent {
   /** Message parameter type is quick action. */
   kind: "quickAction";
   /** The [Optional] quick action text */
@@ -102,8 +96,7 @@ export interface MessageTemplateBindingsOutputParent {
 }
 
 /** The template bindings for WhatsApp */
-export interface WhatsAppMessageTemplateBindingsOutput
-  extends MessageTemplateBindingsOutputParent {
+export interface WhatsAppMessageTemplateBindingsOutput extends MessageTemplateBindingsOutputParent {
   /** MessageTemplateBindings is whatsApp */
   kind: "whatsApp";
   /** The header template bindings */
@@ -172,8 +165,7 @@ export interface MessageTemplateItemOutputParent {
 }
 
 /** The WhatsApp-specific template response contract */
-export interface WhatsAppMessageTemplateItemOutput
-  extends MessageTemplateItemOutputParent {
+export interface WhatsAppMessageTemplateItemOutput extends MessageTemplateItemOutputParent {
   /** WhatsApp platform's template content. This is the payload returned from WhatsApp API. */
   content?: any;
   /** Message template response type is whatsApp. */
@@ -190,8 +182,7 @@ export interface ConversationParticipantOutputParent {
 }
 
 /** Internal conversation participant. */
-export interface InternalConversationParticipantOutput
-  extends ConversationParticipantOutputParent {
+export interface InternalConversationParticipantOutput extends ConversationParticipantOutputParent {
   /** Participant type is internal. */
   kind: "internal";
   /** The internal platform identifiers for the participant. */
@@ -226,8 +217,7 @@ export interface WhatsAppContactOutput extends ContactOutputParent {
 }
 
 /** External conversation participant. */
-export interface ExternalConversationParticipantOutput
-  extends ConversationParticipantOutputParent {
+export interface ExternalConversationParticipantOutput extends ConversationParticipantOutputParent {
   /** Participant type is external. */
   kind: "external";
   /** List of external platform identifiers for the participant. */
@@ -310,8 +300,7 @@ export interface ConversationMessageContentOutputParent {
 }
 
 /** A request to send a text conversation message. */
-export interface TextConversationMessageContentOutput
-  extends ConversationMessageContentOutputParent {
+export interface TextConversationMessageContentOutput extends ConversationMessageContentOutputParent {
   /** Message notification type is text. */
   kind: "text";
   /** Message content. */
@@ -319,8 +308,7 @@ export interface TextConversationMessageContentOutput
 }
 
 /** A request to send an image conversation message. */
-export interface ImageConversationMessageContentOutput
-  extends ConversationMessageContentOutputParent {
+export interface ImageConversationMessageContentOutput extends ConversationMessageContentOutputParent {
   /** Message notification type is image. */
   kind: "image";
   /** Optional text content. */
@@ -330,8 +318,7 @@ export interface ImageConversationMessageContentOutput
 }
 
 /** A request to send a document conversation message. */
-export interface DocumentConversationMessageContentOutput
-  extends ConversationMessageContentOutputParent {
+export interface DocumentConversationMessageContentOutput extends ConversationMessageContentOutputParent {
   /** Message notification type is document. */
   kind: "document";
   /** Optional text content. */
@@ -343,8 +330,7 @@ export interface DocumentConversationMessageContentOutput
 }
 
 /** A request to send a video conversation message. */
-export interface VideoConversationMessageContentOutput
-  extends ConversationMessageContentOutputParent {
+export interface VideoConversationMessageContentOutput extends ConversationMessageContentOutputParent {
   /** Message notification type is video. */
   kind: "video";
   /** Optional text content. */
@@ -354,8 +340,7 @@ export interface VideoConversationMessageContentOutput
 }
 
 /** A request to send an audio conversation message. */
-export interface AudioConversationMessageContentOutput
-  extends ConversationMessageContentOutputParent {
+export interface AudioConversationMessageContentOutput extends ConversationMessageContentOutputParent {
   /** Message notification type is audio. */
   kind: "audio";
   /** A media url for the file. Required if the type is one of the supported media types, e.g. image */
@@ -363,8 +348,7 @@ export interface AudioConversationMessageContentOutput
 }
 
 /** A request to send a template conversation message. */
-export interface TemplateConversationMessageContentOutput
-  extends ConversationMessageContentOutputParent {
+export interface TemplateConversationMessageContentOutput extends ConversationMessageContentOutputParent {
   /** Message notification type is template. */
   kind: "template";
   /** The template object used to create templates. */
@@ -420,6 +404,8 @@ export type ConversationMessageContentOutput =
   | VideoConversationMessageContentOutput
   | AudioConversationMessageContentOutput
   | TemplateConversationMessageContentOutput;
+/** Alias for RepeatabilityResultOutput */
+export type RepeatabilityResultOutput = "accepted" | "rejected";
 /** Alias for CommunicationMessageKindOutput */
 export type CommunicationMessageKindOutput = string;
 /** Alias for MessageTemplateValueKindOutput */
@@ -428,8 +414,6 @@ export type MessageTemplateValueKindOutput = string;
 export type MessageTemplateBindingsKindOutput = string;
 /** Alias for WhatsAppMessageButtonSubTypeOutput */
 export type WhatsAppMessageButtonSubTypeOutput = string;
-/** Alias for RepeatabilityResultOutput */
-export type RepeatabilityResultOutput = "accepted" | "rejected";
 /** Alias for MessageTemplateStatusOutput */
 export type MessageTemplateStatusOutput = string;
 /** Alias for CommunicationMessagesChannelOutput */

@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ConsumptionManagementContext } from "../../api/consumptionManagementContext.js";
+import { ConsumptionManagementContext } from "../../api/consumptionManagementContext.js";
 import { list, $delete, createOrUpdate, get } from "../../api/budgets/operations.js";
-import type {
+import {
   BudgetsListOptionalParams,
   BudgetsDeleteOptionalParams,
   BudgetsCreateOrUpdateOptionalParams,
   BudgetsGetOptionalParams,
 } from "../../api/budgets/options.js";
-import type { Budget } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { Budget } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Budgets operations. */
 export interface BudgetsOperations {

@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CognitiveServicesManagementContext } from "../../api/cognitiveServicesManagementContext.js";
+import { CognitiveServicesManagementContext } from "../../api/cognitiveServicesManagementContext.js";
 import { $delete, createOrUpdate, get } from "../../api/subscriptionRaiPolicy/operations.js";
-import type {
+import {
   SubscriptionRaiPolicyDeleteOptionalParams,
   SubscriptionRaiPolicyCreateOrUpdateOptionalParams,
   SubscriptionRaiPolicyGetOptionalParams,
 } from "../../api/subscriptionRaiPolicy/options.js";
-import type { RaiPolicy } from "../../models/models.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { RaiPolicy } from "../../models/models.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a SubscriptionRaiPolicy operations. */
 export interface SubscriptionRaiPolicyOperations {

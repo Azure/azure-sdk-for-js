@@ -3,7 +3,7 @@
 
 import type { ClientOptions } from "@azure-rest/core-client";
 import { getClient } from "@azure-rest/core-client";
-import { logger } from "./logger.js";
+import { logger } from "../logger.js";
 import type { TokenCredential, KeyCredential } from "@azure/core-auth";
 import { isKeyCredential } from "@azure/core-auth";
 import type { MessagesServiceClient } from "./clientDefinitions.js";
@@ -23,12 +23,9 @@ export interface MessagesServiceClientOptions extends ClientOptions {
 export default function createClient(
   endpointParam: string,
   credentials: TokenCredential | KeyCredential,
-  {
-    apiVersion = "2025-04-01-preview",
-    ...options
-  }: MessagesServiceClientOptions = {},
+  { apiVersion = "2025-09-01-preview", ...options }: MessagesServiceClientOptions = {},
 ): MessagesServiceClient {
-  const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpointParam}`;
+  const endpointUrl = options.endpoint ?? `${endpointParam}`;
   const userAgentInfo = `azsdk-js-communication-messages-rest/1.0.0-beta.1`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
@@ -43,18 +40,11 @@ export default function createClient(
       logger: options.loggingOptions?.logger ?? logger.info,
     },
     credentials: {
-      scopes: options.credentials?.scopes ?? [
-        "https://communication.azure.com/.default",
-      ],
-      apiKeyHeaderName:
-        options.credentials?.apiKeyHeaderName ?? "Authorization",
+      scopes: options.credentials?.scopes ?? ["https://communication.azure.com/.default"],
+      apiKeyHeaderName: options.credentials?.apiKeyHeaderName ?? "Authorization",
     },
   };
-  const client = getClient(
-    endpointUrl,
-    credentials,
-    options,
-  ) as MessagesServiceClient;
+  const client = getClient(endpointUrl, credentials, options) as MessagesServiceClient;
 
   client.pipeline.removePolicy({ name: "ApiVersionPolicy" });
   client.pipeline.addPolicy({

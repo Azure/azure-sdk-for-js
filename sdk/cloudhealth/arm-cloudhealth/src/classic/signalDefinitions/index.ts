@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CloudHealthContext } from "../../api/cloudHealthContext.js";
+import { CloudHealthContext } from "../../api/cloudHealthContext.js";
 import {
   listByHealthModel,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/signalDefinitions/operations.js";
-import type {
+import {
   SignalDefinitionsListByHealthModelOptionalParams,
   SignalDefinitionsDeleteOptionalParams,
   SignalDefinitionsCreateOrUpdateOptionalParams,
   SignalDefinitionsGetOptionalParams,
 } from "../../api/signalDefinitions/options.js";
-import type { SignalDefinition } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { SignalDefinition } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a SignalDefinitions operations. */
 export interface SignalDefinitionsOperations {

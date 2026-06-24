@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to retrieves information about a gallery image version.
  *
  * @summary retrieves information about a gallery image version.
- * x-ms-original-file: 2025-03-03/galleryExamples/GalleryImageVersion_Get.json
+ * x-ms-original-file: 2025-12-03/galleryExamples/GalleryImageVersion_Get.json
  */
 async function getAGalleryImageVersion(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,7 @@ async function getAGalleryImageVersion(): Promise<void> {
  * This sample demonstrates how to retrieves information about a gallery image version.
  *
  * @summary retrieves information about a gallery image version.
- * x-ms-original-file: 2025-03-03/galleryExamples/GalleryImageVersion_Get_WithReplicationStatus.json
+ * x-ms-original-file: 2025-12-03/galleryExamples/GalleryImageVersion_Get_WithReplicationStatus.json
  */
 async function getAGalleryImageVersionWithReplicationStatus(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -47,7 +47,7 @@ async function getAGalleryImageVersionWithReplicationStatus(): Promise<void> {
  * This sample demonstrates how to retrieves information about a gallery image version.
  *
  * @summary retrieves information about a gallery image version.
- * x-ms-original-file: 2025-03-03/galleryExamples/GalleryImageVersion_Get_WithSnapshotsAsSource.json
+ * x-ms-original-file: 2025-12-03/galleryExamples/GalleryImageVersion_Get_WithSnapshotsAsSource.json
  */
 async function getAGalleryImageVersionWithSnapshotsAsASource(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -66,7 +66,7 @@ async function getAGalleryImageVersionWithSnapshotsAsASource(): Promise<void> {
  * This sample demonstrates how to retrieves information about a gallery image version.
  *
  * @summary retrieves information about a gallery image version.
- * x-ms-original-file: 2025-03-03/galleryExamples/GalleryImageVersion_Get_WithValidationProfile.json
+ * x-ms-original-file: 2025-12-03/galleryExamples/GalleryImageVersion_Get_WithValidationProfile.json
  */
 async function getAGalleryImageVersionWithValidationProfile(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -86,7 +86,7 @@ async function getAGalleryImageVersionWithValidationProfile(): Promise<void> {
  * This sample demonstrates how to retrieves information about a gallery image version.
  *
  * @summary retrieves information about a gallery image version.
- * x-ms-original-file: 2025-03-03/galleryExamples/GalleryImageVersion_Get_WithValidationProfileAndReplicationStatus.json
+ * x-ms-original-file: 2025-12-03/galleryExamples/GalleryImageVersion_Get_WithValidationProfileAndReplicationStatus.json
  */
 async function getAGalleryImageVersionWithValidationProfileAndReplicationStatus(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -106,7 +106,7 @@ async function getAGalleryImageVersionWithValidationProfileAndReplicationStatus(
  * This sample demonstrates how to retrieves information about a gallery image version.
  *
  * @summary retrieves information about a gallery image version.
- * x-ms-original-file: 2025-03-03/galleryExamples/GalleryImageVersion_Get_WithVhdAsSource.json
+ * x-ms-original-file: 2025-12-03/galleryExamples/GalleryImageVersion_Get_WithVhdAsSource.json
  */
 async function getAGalleryImageVersionWithVhdAsASource(): Promise<void> {
   const credential = new DefaultAzureCredential();

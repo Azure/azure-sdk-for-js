@@ -11,11 +11,11 @@ import {
   CarbonEmissionDataAvailableDateRange,
   carbonEmissionDataAvailableDateRangeDeserializer,
 } from "../../models/models.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   CarbonServiceQueryCarbonEmissionDataAvailableDateRangeOptionalParams,
   CarbonServiceQueryCarbonEmissionReportsOptionalParams,
 } from "./options.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -32,19 +32,18 @@ export function _queryCarbonEmissionDataAvailableDateRangeSend(
   const path = expandUrlTemplate(
     "/providers/Microsoft.Carbon/queryCarbonEmissionDataAvailableDateRange{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _queryCarbonEmissionDataAvailableDateRangeDeserialize(
@@ -53,7 +52,10 @@ export async function _queryCarbonEmissionDataAvailableDateRangeDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -74,28 +76,25 @@ export async function queryCarbonEmissionDataAvailableDateRange(
 export function _queryCarbonEmissionReportsSend(
   context: Client,
   queryParameters: QueryFilterUnion,
-  options: CarbonServiceQueryCarbonEmissionReportsOptionalParams = {
-    requestOptions: {},
-  },
+  options: CarbonServiceQueryCarbonEmissionReportsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/providers/Microsoft.Carbon/carbonEmissionReports{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: queryFilterUnionSerializer(queryParameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: queryFilterUnionSerializer(queryParameters),
+    });
 }
 
 export async function _queryCarbonEmissionReportsDeserialize(
@@ -104,7 +103,10 @@ export async function _queryCarbonEmissionReportsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -115,9 +117,7 @@ export async function _queryCarbonEmissionReportsDeserialize(
 export async function queryCarbonEmissionReports(
   context: Client,
   queryParameters: QueryFilterUnion,
-  options: CarbonServiceQueryCarbonEmissionReportsOptionalParams = {
-    requestOptions: {},
-  },
+  options: CarbonServiceQueryCarbonEmissionReportsOptionalParams = { requestOptions: {} },
 ): Promise<CarbonEmissionDataListResult> {
   const result = await _queryCarbonEmissionReportsSend(context, queryParameters, options);
   return _queryCarbonEmissionReportsDeserialize(result);

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to grants access to a diskRestorePoint.
  *
  * @summary grants access to a diskRestorePoint.
- * x-ms-original-file: 2025-01-02/diskRestorePointExamples/DiskRestorePoint_BeginGetAccess.json
+ * x-ms-original-file: 2026-03-02/diskRestorePointExamples/DiskRestorePoint_BeginGetAccess.json
  */
 async function grantsAccessToADiskRestorePoint(): Promise<void> {
   const credential = new DefaultAzureCredential();

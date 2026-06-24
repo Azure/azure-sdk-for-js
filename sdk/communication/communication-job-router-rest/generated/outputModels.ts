@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-
 /** A container for the rules that govern how jobs are classified. */
 export interface ClassificationPolicyOutput {
   /** The entity tag for this resource. */
@@ -26,8 +25,7 @@ export interface QueueSelectorAttachmentOutputParent {
 }
 
 /** Describes a set of queue selectors that will be attached if the given condition resolves to true. */
-export interface ConditionalQueueSelectorAttachmentOutput
-  extends QueueSelectorAttachmentOutputParent {
+export interface ConditionalQueueSelectorAttachmentOutput extends QueueSelectorAttachmentOutputParent {
   /** The condition that must be true for the queue selectors to be attached. */
   condition: RouterRuleOutput;
   /** The queue selectors to attach. */
@@ -131,8 +129,7 @@ export interface RouterQueueSelectorOutput {
 }
 
 /** Attaches a queue selector where the value is passed through from a job's label with the same key. */
-export interface PassThroughQueueSelectorAttachmentOutput
-  extends QueueSelectorAttachmentOutputParent {
+export interface PassThroughQueueSelectorAttachmentOutput extends QueueSelectorAttachmentOutputParent {
   /** The label key to query against. */
   key: string;
   /**
@@ -146,8 +143,7 @@ export interface PassThroughQueueSelectorAttachmentOutput
 }
 
 /** Attaches queue selectors to a job when the RouterRule is resolved. */
-export interface RuleEngineQueueSelectorAttachmentOutput
-  extends QueueSelectorAttachmentOutputParent {
+export interface RuleEngineQueueSelectorAttachmentOutput extends QueueSelectorAttachmentOutputParent {
   /** A RouterRule that resolves a collection of queue selectors to attach. */
   rule: RouterRuleOutput;
   /** The type discriminator describing the type of queue selector attachment. */
@@ -155,8 +151,7 @@ export interface RuleEngineQueueSelectorAttachmentOutput
 }
 
 /** Describes a queue selector that will be attached to a job. */
-export interface StaticQueueSelectorAttachmentOutput
-  extends QueueSelectorAttachmentOutputParent {
+export interface StaticQueueSelectorAttachmentOutput extends QueueSelectorAttachmentOutputParent {
   /** The queue selector to attach. */
   queueSelector: RouterQueueSelectorOutput;
   /** The type discriminator describing the type of queue selector attachment. */
@@ -164,8 +159,7 @@ export interface StaticQueueSelectorAttachmentOutput
 }
 
 /** Describes multiple sets of queue selectors, of which one will be selected and attached according to a weighting. */
-export interface WeightedAllocationQueueSelectorAttachmentOutput
-  extends QueueSelectorAttachmentOutputParent {
+export interface WeightedAllocationQueueSelectorAttachmentOutput extends QueueSelectorAttachmentOutputParent {
   /** A collection of percentage based weighted allocations. */
   allocations: Array<QueueWeightedAllocationOutput>;
   /** The type discriminator describing the type of queue selector attachment. */
@@ -186,8 +180,7 @@ export interface WorkerSelectorAttachmentOutputParent {
 }
 
 /** Describes a set of worker selectors that will be attached if the given condition resolves to true. */
-export interface ConditionalWorkerSelectorAttachmentOutput
-  extends WorkerSelectorAttachmentOutputParent {
+export interface ConditionalWorkerSelectorAttachmentOutput extends WorkerSelectorAttachmentOutputParent {
   /** The condition that must be true for the worker selectors to be attached. */
   condition: RouterRuleOutput;
   /** The worker selectors to attach. */
@@ -223,8 +216,7 @@ export interface RouterWorkerSelectorOutput {
 }
 
 /** Attaches a worker selector where the value is passed through from a job's label with the same key. */
-export interface PassThroughWorkerSelectorAttachmentOutput
-  extends WorkerSelectorAttachmentOutputParent {
+export interface PassThroughWorkerSelectorAttachmentOutput extends WorkerSelectorAttachmentOutputParent {
   /** The label key to query against. */
   key: string;
   /**
@@ -240,8 +232,7 @@ export interface PassThroughWorkerSelectorAttachmentOutput
 }
 
 /** Attaches worker selectors to a job when a RouterRule is resolved. */
-export interface RuleEngineWorkerSelectorAttachmentOutput
-  extends WorkerSelectorAttachmentOutputParent {
+export interface RuleEngineWorkerSelectorAttachmentOutput extends WorkerSelectorAttachmentOutputParent {
   /** A RouterRule that resolves a collection of worker selectors to attach. */
   rule: RouterRuleOutput;
   /** The type discriminator describing the type of worker selector attachment. */
@@ -249,8 +240,7 @@ export interface RuleEngineWorkerSelectorAttachmentOutput
 }
 
 /** Describes a worker selector that will be attached to a job. */
-export interface StaticWorkerSelectorAttachmentOutput
-  extends WorkerSelectorAttachmentOutputParent {
+export interface StaticWorkerSelectorAttachmentOutput extends WorkerSelectorAttachmentOutputParent {
   /** The worker selector to attach. */
   workerSelector: RouterWorkerSelectorOutput;
   /** The type discriminator describing the type of worker selector attachment. */
@@ -258,8 +248,7 @@ export interface StaticWorkerSelectorAttachmentOutput
 }
 
 /** Describes multiple sets of worker selectors, of which one will be selected and attached according to a weighting. */
-export interface WeightedAllocationWorkerSelectorAttachmentOutput
-  extends WorkerSelectorAttachmentOutputParent {
+export interface WeightedAllocationWorkerSelectorAttachmentOutput extends WorkerSelectorAttachmentOutputParent {
   /** A collection of percentage based weighted allocations. */
   allocations: Array<WorkerWeightedAllocationOutput>;
   /** The type discriminator describing the type of worker selector attachment. */
@@ -377,8 +366,7 @@ export interface ExceptionTriggerOutputParent {
 }
 
 /** Trigger for an exception action on exceeding queue length. */
-export interface QueueLengthExceptionTriggerOutput
-  extends ExceptionTriggerOutputParent {
+export interface QueueLengthExceptionTriggerOutput extends ExceptionTriggerOutputParent {
   /** Threshold of number of jobs ahead in the queue to for this trigger to fire. */
   threshold: number;
   /** The type discriminator describing a sub-type of ExceptionTrigger. */
@@ -386,8 +374,7 @@ export interface QueueLengthExceptionTriggerOutput
 }
 
 /** Trigger for an exception action on exceeding wait time. */
-export interface WaitTimeExceptionTriggerOutput
-  extends ExceptionTriggerOutputParent {
+export interface WaitTimeExceptionTriggerOutput extends ExceptionTriggerOutputParent {
   /** Threshold for wait time for this trigger. */
   thresholdSeconds: number;
   /** The type discriminator describing a sub-type of ExceptionTrigger. */
@@ -402,8 +389,7 @@ export interface ExceptionActionOutputParent {
 }
 
 /** An action that marks a job as cancelled. */
-export interface CancelExceptionActionOutput
-  extends ExceptionActionOutputParent {
+export interface CancelExceptionActionOutput extends ExceptionActionOutputParent {
   /** A note that will be appended to a job's notes collection with the current timestamp. */
   note?: string;
   /** Indicates the outcome of a job, populate this field with your own custom values. */
@@ -413,8 +399,7 @@ export interface CancelExceptionActionOutput
 }
 
 /** An action that manually reclassifies a job by providing the queue, priority and worker selectors. */
-export interface ManualReclassifyExceptionActionOutput
-  extends ExceptionActionOutputParent {
+export interface ManualReclassifyExceptionActionOutput extends ExceptionActionOutputParent {
   /** Updated QueueId. */
   queueId?: string;
   /** Updated Priority. */
@@ -426,8 +411,7 @@ export interface ManualReclassifyExceptionActionOutput
 }
 
 /** An action that modifies labels on a job and then reclassifies it. */
-export interface ReclassifyExceptionActionOutput
-  extends ExceptionActionOutputParent {
+export interface ReclassifyExceptionActionOutput extends ExceptionActionOutputParent {
   /** The new classification policy that will determine queue, priority and worker selectors. */
   classificationPolicyId?: string;
   /** Dictionary containing the labels to update (or add if not existing) in key-value pairs.  Values must be primitive values - number, string, boolean. */
@@ -545,8 +529,7 @@ export interface JobMatchingModeOutputParent {
 }
 
 /** Describes a matching mode used for scheduling jobs to be queued at a future time. At the specified time, matching worker to a job will not start automatically. */
-export interface ScheduleAndSuspendModeOutput
-  extends JobMatchingModeOutputParent {
+export interface ScheduleAndSuspendModeOutput extends JobMatchingModeOutputParent {
   /** Requested schedule time. */
   scheduleAt: string;
   /** The type discriminator describing ScheduleAndSuspendMode */
@@ -566,16 +549,16 @@ export interface SuspendModeOutput extends JobMatchingModeOutputParent {
 }
 
 /** Response payload from reclassifying a job. */
-export interface ReclassifyJobResultOutput { }
+export interface ReclassifyJobResultOutput {}
 
 /** Response payload from cancelling a job. */
-export interface CancelJobResultOutput { }
+export interface CancelJobResultOutput {}
 
 /** Response payload from completing a job. */
-export interface CompleteJobResultOutput { }
+export interface CompleteJobResultOutput {}
 
 /** Response payload from closing a job. */
-export interface CloseJobResultOutput { }
+export interface CloseJobResultOutput {}
 
 /** Paged collection of RouterJob items */
 export interface PagedRouterJobOutput {
@@ -618,7 +601,7 @@ export interface AcceptJobOfferResultOutput {
 }
 
 /** Response payload from declining a job. */
-export interface DeclineJobOfferResultOutput { }
+export interface DeclineJobOfferResultOutput {}
 
 /** Statistics for the queue. */
 export interface RouterQueueStatisticsOutput {

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates a disk encryption set
  *
  * @summary creates or updates a disk encryption set
- * x-ms-original-file: 2025-01-02/diskEncryptionSetExamples/DiskEncryptionSet_Create.json
+ * x-ms-original-file: 2026-03-02/diskEncryptionSetExamples/DiskEncryptionSet_Create.json
  */
 async function createADiskEncryptionSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -36,7 +36,7 @@ async function createADiskEncryptionSet(): Promise<void> {
  * This sample demonstrates how to creates or updates a disk encryption set
  *
  * @summary creates or updates a disk encryption set
- * x-ms-original-file: 2025-01-02/diskEncryptionSetExamples/DiskEncryptionSet_Create_WithKeyVaultFromADifferentSubscription.json
+ * x-ms-original-file: 2026-03-02/diskEncryptionSetExamples/DiskEncryptionSet_Create_WithKeyVaultFromADifferentSubscription.json
  */
 async function createADiskEncryptionSetWithKeyVaultFromADifferentSubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -59,7 +59,7 @@ async function createADiskEncryptionSetWithKeyVaultFromADifferentSubscription():
  * This sample demonstrates how to creates or updates a disk encryption set
  *
  * @summary creates or updates a disk encryption set
- * x-ms-original-file: 2025-01-02/diskEncryptionSetExamples/DiskEncryptionSet_Create_WithKeyVaultFromADifferentTenant.json
+ * x-ms-original-file: 2026-03-02/diskEncryptionSetExamples/DiskEncryptionSet_Create_WithKeyVaultFromADifferentTenant.json
  */
 async function createADiskEncryptionSetWithKeyVaultFromADifferentTenant(): Promise<void> {
   const credential = new DefaultAzureCredential();

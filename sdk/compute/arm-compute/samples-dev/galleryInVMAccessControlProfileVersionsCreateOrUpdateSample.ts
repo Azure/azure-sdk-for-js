@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update a gallery inVMAccessControlProfile version.
  *
  * @summary create or update a gallery inVMAccessControlProfile version.
- * x-ms-original-file: 2025-03-03/galleryResourceProfileExamples/GalleryInVMAccessControlProfileVersion_Create.json
+ * x-ms-original-file: 2025-12-03/galleryResourceProfileExamples/GalleryInVMAccessControlProfileVersion_Create.json
  */
 async function createOrUpdateAGalleryInVMAccessControlProfileVersion(): Promise<void> {
   const credential = new DefaultAzureCredential();

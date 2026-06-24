@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a snapshot.
  *
  * @summary deletes a snapshot.
- * x-ms-original-file: 2025-01-02/snapshotExamples/Snapshot_Delete.json
+ * x-ms-original-file: 2026-03-02/snapshotExamples/Snapshot_Delete.json
  */
 async function deleteASnapshot(): Promise<void> {
   const credential = new DefaultAzureCredential();

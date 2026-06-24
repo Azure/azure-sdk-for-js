@@ -1,13 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureBotServiceContext } from "../../api/azureBotServiceContext.js";
+import { AzureBotServiceContext } from "../../api/azureBotServiceContext.js";
 import { get } from "../../api/operationResults/operations.js";
-import type { OperationResultsGetOptionalParams } from "../../api/operationResults/options.js";
-import type { OperationResultsDescription } from "../../models/models.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { OperationResultsGetOptionalParams } from "../../api/operationResults/options.js";
+import { OperationResultsDescription } from "../../models/models.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a OperationResults operations. */
 export interface OperationResultsOperations {

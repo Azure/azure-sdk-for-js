@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ConnectedCacheContext } from "../../api/connectedCacheContext.js";
+import { ConnectedCacheContext } from "../../api/connectedCacheContext.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/enterpriseMccCustomers/operations.js";
-import type {
+import {
   EnterpriseMccCustomersListBySubscriptionOptionalParams,
   EnterpriseMccCustomersListByResourceGroupOptionalParams,
   EnterpriseMccCustomersDeleteOptionalParams,
@@ -18,12 +18,9 @@ import type {
   EnterpriseMccCustomersCreateOrUpdateOptionalParams,
   EnterpriseMccCustomersGetOptionalParams,
 } from "../../api/enterpriseMccCustomers/options.js";
-import type {
-  ConnectedCachePatchResource,
-  EnterpriseMccCustomerResource,
-} from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { ConnectedCachePatchResource, EnterpriseMccCustomerResource } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a EnterpriseMccCustomers operations. */
 export interface EnterpriseMccCustomersOperations {
@@ -37,11 +34,6 @@ export interface EnterpriseMccCustomersOperations {
     options?: EnterpriseMccCustomersListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<EnterpriseMccCustomerResource>;
   /** This api deletes an existing enterprise mcc customer resource */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     customerResourceName: string,

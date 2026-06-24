@@ -1,27 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeManagementContext as Client } from "../index.js";
+import { ComputeManagementContext as Client } from "../index.js";
 import { cloudErrorDeserializer } from "../../models/common/models.js";
-import type {
-  RequestRateByIntervalInput,
-  LogAnalyticsOperationResult,
-  ThrottledRequestsInput,
-} from "../../models/compute/models.js";
 import {
+  RequestRateByIntervalInput,
   requestRateByIntervalInputSerializer,
+  LogAnalyticsOperationResult,
   logAnalyticsOperationResultDeserializer,
+  ThrottledRequestsInput,
   throttledRequestsInputSerializer,
 } from "../../models/compute/models.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   LogAnalyticsExportThrottledRequestsOptionalParams,
   LogAnalyticsExportRequestRateByIntervalOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _exportThrottledRequestsSend(
   context: Client,
@@ -40,12 +42,14 @@ export function _exportThrottledRequestsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: throttledRequestsInputSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: throttledRequestsInputSerializer(parameters),
+    });
 }
 
 export async function _exportThrottledRequestsDeserialize(
@@ -97,12 +101,14 @@ export function _exportRequestRateByIntervalSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: requestRateByIntervalInputSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: requestRateByIntervalInputSerializer(parameters),
+    });
 }
 
 export async function _exportRequestRateByIntervalDeserialize(

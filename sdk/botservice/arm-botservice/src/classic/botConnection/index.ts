@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureBotServiceContext } from "../../api/azureBotServiceContext.js";
+import { AzureBotServiceContext } from "../../api/azureBotServiceContext.js";
 import {
   listServiceProviders,
   listWithSecrets,
@@ -11,7 +11,7 @@ import {
   create,
   get,
 } from "../../api/botConnection/operations.js";
-import type {
+import {
   BotConnectionListServiceProvidersOptionalParams,
   BotConnectionListWithSecretsOptionalParams,
   BotConnectionListByBotServiceOptionalParams,
@@ -20,8 +20,8 @@ import type {
   BotConnectionCreateOptionalParams,
   BotConnectionGetOptionalParams,
 } from "../../api/botConnection/options.js";
-import type { ConnectionSetting, ServiceProviderResponseList } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { ConnectionSetting, ServiceProviderResponseList } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a BotConnection operations. */
 export interface BotConnectionOperations {

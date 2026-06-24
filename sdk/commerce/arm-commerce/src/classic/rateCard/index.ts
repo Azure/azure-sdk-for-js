@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { UsageManagementContext } from "../../api/usageManagementContext.js";
+import { UsageManagementContext } from "../../api/usageManagementContext.js";
 import { get } from "../../api/rateCard/operations.js";
-import type { RateCardGetOptionalParams } from "../../api/rateCard/options.js";
-import type { ResourceRateCardInfo } from "../../models/models.js";
+import { RateCardGetOptionalParams } from "../../api/rateCard/options.js";
+import { ResourceRateCardInfo } from "../../models/models.js";
 
 /** Interface representing a RateCard operations. */
 export interface RateCardOperations {

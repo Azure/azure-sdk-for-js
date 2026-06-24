@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export {
+export type {
   AppServiceCertificateOrder,
   AppServiceCertificateOrderProperties,
   AppServiceCertificate,
@@ -10,13 +10,11 @@ export {
   ProvisioningState,
   CertificateOrderStatus,
   CertificateDetails,
-  KnownResourceNotRenewableReason,
   ResourceNotRenewableReason,
   CertificateOrderContact,
   TrackedResource,
   Resource,
   SystemData,
-  KnownCreatedByType,
   CreatedByType,
   DefaultErrorResponse,
   DefaultErrorResponseError,
@@ -62,5 +60,5 @@ export {
   Dimension,
   MetricAvailability,
   LogSpecification,
-  KnownVersions,
 } from "./models.js";
+export { KnownResourceNotRenewableReason, KnownCreatedByType, KnownVersions } from "./models.js";

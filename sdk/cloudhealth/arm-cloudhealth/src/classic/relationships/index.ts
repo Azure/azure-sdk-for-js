@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CloudHealthContext } from "../../api/cloudHealthContext.js";
+import { CloudHealthContext } from "../../api/cloudHealthContext.js";
 import {
   listByHealthModel,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/relationships/operations.js";
-import type {
+import {
   RelationshipsListByHealthModelOptionalParams,
   RelationshipsDeleteOptionalParams,
   RelationshipsCreateOrUpdateOptionalParams,
   RelationshipsGetOptionalParams,
 } from "../../api/relationships/options.js";
-import type { Relationship } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { Relationship } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Relationships operations. */
 export interface RelationshipsOperations {

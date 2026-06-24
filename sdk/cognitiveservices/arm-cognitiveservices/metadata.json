@@ -2,7 +2,7 @@
   "apiVersions": {
     "Microsoft.CognitiveServices": "2026-03-15-preview"
   },
-  "emitterVersion": "0.53.2",
+  "emitterVersion": "0.55.0-dev.8",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.CognitiveServices",
     "CrossLanguageDefinitionId": {

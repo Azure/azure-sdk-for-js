@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets information about a disk access resource.
  *
  * @summary gets information about a disk access resource.
- * x-ms-original-file: 2025-01-02/diskAccessExamples/DiskAccess_Get.json
+ * x-ms-original-file: 2026-03-02/diskAccessExamples/DiskAccess_Get.json
  */
 async function getInformationAboutADiskAccessResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function getInformationAboutADiskAccessResource(): Promise<void> {
  * This sample demonstrates how to gets information about a disk access resource.
  *
  * @summary gets information about a disk access resource.
- * x-ms-original-file: 2025-01-02/diskAccessExamples/DiskAccess_Get_WithPrivateEndpoints.json
+ * x-ms-original-file: 2026-03-02/diskAccessExamples/DiskAccess_Get_WithPrivateEndpoints.json
  */
 async function getInformationAboutADiskAccessResourceWithPrivateEndpoints(): Promise<void> {
   const credential = new DefaultAzureCredential();

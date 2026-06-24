@@ -1,20 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CognitiveServicesManagementContext } from "../../api/cognitiveServicesManagementContext.js";
+import { CognitiveServicesManagementContext } from "../../api/cognitiveServicesManagementContext.js";
 import { list, $delete, patch, put, get } from "../../api/managedNetworkSettings/operations.js";
-import type {
+import {
   ManagedNetworkSettingsListOptionalParams,
   ManagedNetworkSettingsDeleteOptionalParams,
   ManagedNetworkSettingsPatchOptionalParams,
   ManagedNetworkSettingsPutOptionalParams,
   ManagedNetworkSettingsGetOptionalParams,
 } from "../../api/managedNetworkSettings/options.js";
-import type { ManagedNetworkSettingsPropertiesBasicResource } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { ManagedNetworkSettingsPropertiesBasicResource } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ManagedNetworkSettings operations. */
 export interface ManagedNetworkSettingsOperations {

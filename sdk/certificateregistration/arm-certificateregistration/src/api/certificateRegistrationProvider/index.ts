@@ -2,4 +2,4 @@
 // Licensed under the MIT License.
 
 export { listOperations } from "./operations.js";
-export { CertificateRegistrationProviderListOperationsOptionalParams } from "./options.js";
+export type { CertificateRegistrationProviderListOperationsOptionalParams } from "./options.js";

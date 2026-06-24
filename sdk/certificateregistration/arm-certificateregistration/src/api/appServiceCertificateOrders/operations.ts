@@ -1,45 +1,45 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CertificateRegistrationManagementContext as Client } from "../index.js";
-import type {
-  AppServiceCertificateOrder,
-  AppServiceCertificateOrderPatchResource,
-  _AppServiceCertificateOrderCollection,
-  ReissueCertificateOrderRequest,
-  RenewCertificateOrderRequest,
-  NameIdentifier,
-  SiteSealRequest,
-  SiteSeal,
-  CertificateOrderAction,
-  CertificateEmail,
-  AppServiceCertificateResource,
-  AppServiceCertificatePatchResource,
-  _AppServiceCertificateCollection,
-} from "../../models/models.js";
+import { CertificateRegistrationManagementContext as Client } from "../index.js";
 import {
+  AppServiceCertificateOrder,
   appServiceCertificateOrderSerializer,
   appServiceCertificateOrderDeserializer,
   defaultErrorResponseDeserializer,
+  AppServiceCertificateOrderPatchResource,
   appServiceCertificateOrderPatchResourceSerializer,
+  _AppServiceCertificateOrderCollection,
   _appServiceCertificateOrderCollectionDeserializer,
+  ReissueCertificateOrderRequest,
   reissueCertificateOrderRequestSerializer,
+  RenewCertificateOrderRequest,
   renewCertificateOrderRequestSerializer,
+  NameIdentifier,
   nameIdentifierSerializer,
+  SiteSealRequest,
   siteSealRequestSerializer,
+  SiteSeal,
   siteSealDeserializer,
+  CertificateOrderAction,
+  CertificateEmail,
+  AppServiceCertificateResource,
   appServiceCertificateResourceSerializer,
   appServiceCertificateResourceDeserializer,
+  AppServiceCertificatePatchResource,
   appServiceCertificatePatchResourceSerializer,
+  _AppServiceCertificateCollection,
   _appServiceCertificateCollectionDeserializer,
   certificateOrderActionArrayDeserializer,
   certificateEmailArrayDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   AppServiceCertificateOrdersValidatePurchaseInformationOptionalParams,
   AppServiceCertificateOrdersListCertificatesOptionalParams,
   AppServiceCertificateOrdersDeleteCertificateOptionalParams,
@@ -61,9 +61,13 @@ import type {
   AppServiceCertificateOrdersCreateOrUpdateOptionalParams,
   AppServiceCertificateOrdersGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _validatePurchaseInformationSend(
   context: Client,
@@ -82,11 +86,13 @@ export function _validatePurchaseInformationSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: appServiceCertificateOrderSerializer(appServiceCertificateOrder),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: appServiceCertificateOrderSerializer(appServiceCertificateOrder),
+    });
 }
 
 export async function _validatePurchaseInformationDeserialize(
@@ -95,7 +101,10 @@ export async function _validatePurchaseInformationDeserialize(
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -136,10 +145,12 @@ export function _listCertificatesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listCertificatesDeserialize(
@@ -148,7 +159,10 @@ export async function _listCertificatesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -198,7 +212,10 @@ export async function _deleteCertificateDeserialize(result: PathUncheckedRespons
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -244,12 +261,14 @@ export function _updateCertificateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: appServiceCertificatePatchResourceSerializer(keyVaultCertificate),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: appServiceCertificatePatchResourceSerializer(keyVaultCertificate),
+    });
 }
 
 export async function _updateCertificateDeserialize(
@@ -258,7 +277,10 @@ export async function _updateCertificateDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -308,12 +330,14 @@ export function _createOrUpdateCertificateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: appServiceCertificateResourceSerializer(keyVaultCertificate),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: appServiceCertificateResourceSerializer(keyVaultCertificate),
+    });
 }
 
 export async function _createOrUpdateCertificateDeserialize(
@@ -322,7 +346,10 @@ export async function _createOrUpdateCertificateDeserialize(
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -382,10 +409,12 @@ export function _getCertificateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getCertificateDeserialize(
@@ -394,7 +423,10 @@ export async function _getCertificateDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -439,10 +471,12 @@ export function _retrieveCertificateEmailHistorySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _retrieveCertificateEmailHistoryDeserialize(
@@ -451,7 +485,10 @@ export async function _retrieveCertificateEmailHistoryDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -496,10 +533,12 @@ export function _retrieveCertificateActionsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _retrieveCertificateActionsDeserialize(
@@ -508,7 +547,10 @@ export async function _retrieveCertificateActionsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -555,7 +597,10 @@ export async function _verifyDomainOwnershipDeserialize(
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -597,12 +642,14 @@ export function _retrieveSiteSealSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: siteSealRequestSerializer(siteSealRequest),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: siteSealRequestSerializer(siteSealRequest),
+    });
 }
 
 export async function _retrieveSiteSealDeserialize(
@@ -611,7 +658,10 @@ export async function _retrieveSiteSealDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -655,11 +705,13 @@ export function _resendRequestEmailsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: nameIdentifierSerializer(nameIdentifier),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: nameIdentifierSerializer(nameIdentifier),
+    });
 }
 
 export async function _resendRequestEmailsDeserialize(
@@ -668,7 +720,10 @@ export async function _resendRequestEmailsDeserialize(
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -718,7 +773,10 @@ export async function _resendEmailDeserialize(result: PathUncheckedResponse): Pr
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -755,18 +813,23 @@ export function _renewSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: renewCertificateOrderRequestSerializer(renewCertificateOrderRequest),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: renewCertificateOrderRequestSerializer(renewCertificateOrderRequest),
+    });
 }
 
 export async function _renewDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -810,18 +873,23 @@ export function _reissueSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: reissueCertificateOrderRequestSerializer(reissueCertificateOrderRequest),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: reissueCertificateOrderRequestSerializer(reissueCertificateOrderRequest),
+    });
 }
 
 export async function _reissueDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -860,10 +928,12 @@ export function _listSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listDeserialize(
@@ -872,7 +942,10 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -909,10 +982,12 @@ export function _listByResourceGroupSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listByResourceGroupDeserialize(
@@ -921,7 +996,10 @@ export async function _listByResourceGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -968,7 +1046,10 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -976,11 +1057,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Description for Delete an existing certificate order. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export async function $delete(
   context: Client,
   resourceGroupName: string,
@@ -1010,12 +1086,14 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: appServiceCertificateOrderPatchResourceSerializer(certificateDistinguishedName),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: appServiceCertificateOrderPatchResourceSerializer(certificateDistinguishedName),
+    });
 }
 
 export async function _updateDeserialize(
@@ -1024,7 +1102,10 @@ export async function _updateDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -1068,12 +1149,14 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: appServiceCertificateOrderSerializer(certificateDistinguishedName),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: appServiceCertificateOrderSerializer(certificateDistinguishedName),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -1082,7 +1165,10 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -1131,10 +1217,12 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(
@@ -1143,7 +1231,10 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 

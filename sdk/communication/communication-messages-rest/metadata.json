@@ -1,0 +1,6 @@
+{
+  "apiVersions": {
+    "Azure.Communication.MessagesService": "2025-09-01-preview"
+  },
+  "emitterVersion": "0.55.0-dev.8"
+}

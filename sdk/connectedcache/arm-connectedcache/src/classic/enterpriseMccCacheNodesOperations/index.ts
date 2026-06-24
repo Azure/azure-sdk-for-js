@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ConnectedCacheContext } from "../../api/connectedCacheContext.js";
+import { ConnectedCacheContext } from "../../api/connectedCacheContext.js";
 import {
   getCacheNodeTlsCertificateHistory,
   getCacheNodeMccIssueDetailsHistory,
@@ -13,7 +13,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/enterpriseMccCacheNodesOperations/operations.js";
-import type {
+import {
   EnterpriseMccCacheNodesOperationsGetCacheNodeTlsCertificateHistoryOptionalParams,
   EnterpriseMccCacheNodesOperationsGetCacheNodeMccIssueDetailsHistoryOptionalParams,
   EnterpriseMccCacheNodesOperationsGetCacheNodeAutoUpdateHistoryOptionalParams,
@@ -24,7 +24,7 @@ import type {
   EnterpriseMccCacheNodesOperationsCreateOrUpdateOptionalParams,
   EnterpriseMccCacheNodesOperationsGetOptionalParams,
 } from "../../api/enterpriseMccCacheNodesOperations/options.js";
-import type {
+import {
   ConnectedCachePatchResource,
   MccCacheNodeInstallDetails,
   MccCacheNodeAutoUpdateHistory,
@@ -32,8 +32,8 @@ import type {
   EnterpriseMccCacheNodeResource,
   MccCacheNodeTlsCertificateHistory,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a EnterpriseMccCacheNodesOperations operations. */
 export interface EnterpriseMccCacheNodesOperationsOperations {
@@ -72,11 +72,6 @@ export interface EnterpriseMccCacheNodesOperationsOperations {
     options?: EnterpriseMccCacheNodesOperationsListByEnterpriseMccCustomerResourceOptionalParams,
   ) => PagedAsyncIterableIterator<EnterpriseMccCacheNodeResource>;
   /** This api deletes an existing ispCacheNode resource */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     customerResourceName: string,

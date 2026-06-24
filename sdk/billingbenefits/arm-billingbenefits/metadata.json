@@ -2,7 +2,7 @@
   "apiVersions": {
     "Microsoft.BillingBenefits": "2025-12-01-preview"
   },
-  "emitterVersion": "0.53.2",
+  "emitterVersion": "0.55.0-dev.8",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.BillingBenefits",
     "CrossLanguageDefinitionId": {

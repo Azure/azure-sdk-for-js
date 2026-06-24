@@ -2,20 +2,17 @@
 // Licensed under the MIT License.
 
 import { areAllPropsUndefined } from "../../static-helpers/serialization/check-prop-undefined.js";
-import type {
+import {
   OperatingSystemTypes,
   ResourceIdentityType,
+  userAssignedIdentitiesValueRecordSerializer,
+  userAssignedIdentitiesValueRecordDeserializer,
   UserAssignedIdentitiesValue,
   OperatingSystemStateTypes,
   HyperVGeneration,
   Architecture,
 } from "../common/models.js";
-import {
-  userAssignedIdentitiesValueRecordSerializer,
-  userAssignedIdentitiesValueRecordDeserializer,
-} from "../common/models.js";
-import type { TrackedResource } from "../models.js";
-import { systemDataDeserializer } from "../models.js";
+import { TrackedResource, systemDataDeserializer } from "../models.js";
 
 /**
  * This file contains only generated model types and their (de)serializers.

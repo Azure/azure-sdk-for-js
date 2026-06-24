@@ -1,0 +1,6 @@
+{
+  "apiVersions": {
+    "AzureCommunicationRoutingService": "2024-01-18-preview"
+  },
+  "emitterVersion": "0.55.0-dev.8"
+}

@@ -1,6 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/** A request to send a read receipt update from Business to User. */
+export interface ReadReceiptContent {
+  /** The id of the message this read receipt refers to. */
+  messageId: string;
+  /** The Channel Registration ID for the Business Identifier. */
+  channelRegistrationId: string;
+  /** Whether this status update includes a typing indicator. This field defaults to false when not provided. */
+  typingIndicator?: boolean;
+}
+
 /** Details of the message to send. */
 export interface NotificationContentParent {
   /** The Channel Registration ID for the Business Identifier. */
@@ -87,8 +97,7 @@ export interface StickerNotificationContent extends NotificationContentParent {
 }
 
 /** A request to send an Interactive message notification. */
-export interface InteractiveNotificationContent
-  extends NotificationContentParent {
+export interface InteractiveNotificationContent extends NotificationContentParent {
   /** Message notification type is Interactive. */
   kind: "interactive";
   /** The interactive message content. */
@@ -328,8 +337,7 @@ export interface MessageTemplateBindingsParent {
 }
 
 /** The template bindings for WhatsApp */
-export interface WhatsAppMessageTemplateBindings
-  extends MessageTemplateBindingsParent {
+export interface WhatsAppMessageTemplateBindings extends MessageTemplateBindingsParent {
   /** MessageTemplateBindings is whatsApp */
   kind: "whatsApp";
   /** The header template bindings */
@@ -374,8 +382,7 @@ export interface ConversationParticipantParent {
 }
 
 /** Internal conversation participant. */
-export interface InternalConversationParticipant
-  extends ConversationParticipantParent {
+export interface InternalConversationParticipant extends ConversationParticipantParent {
   /** Participant type is internal. */
   kind: "internal";
   /** The internal platform identifiers for the participant. */
@@ -410,8 +417,7 @@ export interface WhatsAppContact extends ContactParent {
 }
 
 /** External conversation participant. */
-export interface ExternalConversationParticipant
-  extends ConversationParticipantParent {
+export interface ExternalConversationParticipant extends ConversationParticipantParent {
   /** Participant type is external. */
   kind: "external";
   /** List of external platform identifiers for the participant. */
@@ -446,8 +452,7 @@ export interface ConversationMessageContentParent {
 }
 
 /** A request to send a text conversation message. */
-export interface TextConversationMessageContent
-  extends ConversationMessageContentParent {
+export interface TextConversationMessageContent extends ConversationMessageContentParent {
   /** Message notification type is text. */
   kind: "text";
   /** Message content. */
@@ -455,8 +460,7 @@ export interface TextConversationMessageContent
 }
 
 /** A request to send an image conversation message. */
-export interface ImageConversationMessageContent
-  extends ConversationMessageContentParent {
+export interface ImageConversationMessageContent extends ConversationMessageContentParent {
   /** Message notification type is image. */
   kind: "image";
   /** Optional text content. */
@@ -466,8 +470,7 @@ export interface ImageConversationMessageContent
 }
 
 /** A request to send a document conversation message. */
-export interface DocumentConversationMessageContent
-  extends ConversationMessageContentParent {
+export interface DocumentConversationMessageContent extends ConversationMessageContentParent {
   /** Message notification type is document. */
   kind: "document";
   /** Optional text content. */
@@ -479,8 +482,7 @@ export interface DocumentConversationMessageContent
 }
 
 /** A request to send a video conversation message. */
-export interface VideoConversationMessageContent
-  extends ConversationMessageContentParent {
+export interface VideoConversationMessageContent extends ConversationMessageContentParent {
   /** Message notification type is video. */
   kind: "video";
   /** Optional text content. */
@@ -490,8 +492,7 @@ export interface VideoConversationMessageContent
 }
 
 /** A request to send an audio conversation message. */
-export interface AudioConversationMessageContent
-  extends ConversationMessageContentParent {
+export interface AudioConversationMessageContent extends ConversationMessageContentParent {
   /** Message notification type is audio. */
   kind: "audio";
   /** A media url for the file. Required if the type is one of the supported media types, e.g. image */
@@ -499,8 +500,7 @@ export interface AudioConversationMessageContent
 }
 
 /** A request to send a template conversation message. */
-export interface TemplateConversationMessageContent
-  extends ConversationMessageContentParent {
+export interface TemplateConversationMessageContent extends ConversationMessageContentParent {
   /** Message notification type is template. */
   kind: "template";
   /** The template object used to create templates. */
@@ -582,11 +582,7 @@ export type ConversationParticipant =
   | InternalConversationParticipant
   | ExternalConversationParticipant;
 /** Details of an external platform contact. */
-export type Contact =
-  | ContactParent
-  | CommunicationContact
-  | BotContact
-  | WhatsAppContact;
+export type Contact = ContactParent | CommunicationContact | BotContact | WhatsAppContact;
 /** Details of the conversation message content. */
 export type ConversationMessageContent =
   | ConversationMessageContentParent

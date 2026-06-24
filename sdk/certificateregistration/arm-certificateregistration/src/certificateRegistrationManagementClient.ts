@@ -1,21 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   CertificateRegistrationManagementContext,
   CertificateRegistrationManagementClientOptionalParams,
+  createCertificateRegistrationManagement,
 } from "./api/index.js";
-import { createCertificateRegistrationManagement } from "./api/index.js";
-import type { AppServiceCertificateOrdersOperations } from "./classic/appServiceCertificateOrders/index.js";
-import { _getAppServiceCertificateOrdersOperations } from "./classic/appServiceCertificateOrders/index.js";
-import type { CertificateOrdersDiagnosticsOperations } from "./classic/certificateOrdersDiagnostics/index.js";
-import { _getCertificateOrdersDiagnosticsOperations } from "./classic/certificateOrdersDiagnostics/index.js";
-import type { CertificateRegistrationProviderOperations } from "./classic/certificateRegistrationProvider/index.js";
-import { _getCertificateRegistrationProviderOperations } from "./classic/certificateRegistrationProvider/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import {
+  AppServiceCertificateOrdersOperations,
+  _getAppServiceCertificateOrdersOperations,
+} from "./classic/appServiceCertificateOrders/index.js";
+import {
+  CertificateOrdersDiagnosticsOperations,
+  _getCertificateOrdersDiagnosticsOperations,
+} from "./classic/certificateOrdersDiagnostics/index.js";
+import {
+  CertificateRegistrationProviderOperations,
+  _getCertificateRegistrationProviderOperations,
+} from "./classic/certificateRegistrationProvider/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
-export { CertificateRegistrationManagementClientOptionalParams } from "./api/certificateRegistrationManagementContext.js";
+export type { CertificateRegistrationManagementClientOptionalParams } from "./api/certificateRegistrationManagementContext.js";
 
 export class CertificateRegistrationManagementClient {
   private _client: CertificateRegistrationManagementContext;

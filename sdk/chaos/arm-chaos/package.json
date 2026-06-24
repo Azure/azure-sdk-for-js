@@ -131,20 +131,6 @@
         "default": "./dist/commonjs/api/index.js"
       }
     },
-    "./api/scenarioConfigurations": {
-      "browser": {
-        "types": "./dist/browser/api/scenarioConfigurations/index.d.ts",
-        "default": "./dist/browser/api/scenarioConfigurations/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/scenarioConfigurations/index.d.ts",
-        "default": "./dist/esm/api/scenarioConfigurations/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/scenarioConfigurations/index.d.ts",
-        "default": "./dist/commonjs/api/scenarioConfigurations/index.js"
-      }
-    },
     "./api/scenarioRuns": {
       "browser": {
         "types": "./dist/browser/api/scenarioRuns/index.d.ts",
@@ -157,6 +143,20 @@
       "require": {
         "types": "./dist/commonjs/api/scenarioRuns/index.d.ts",
         "default": "./dist/commonjs/api/scenarioRuns/index.js"
+      }
+    },
+    "./api/scenarioConfigurations": {
+      "browser": {
+        "types": "./dist/browser/api/scenarioConfigurations/index.d.ts",
+        "default": "./dist/browser/api/scenarioConfigurations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/scenarioConfigurations/index.d.ts",
+        "default": "./dist/esm/api/scenarioConfigurations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/scenarioConfigurations/index.d.ts",
+        "default": "./dist/commonjs/api/scenarioConfigurations/index.js"
       }
     },
     "./api/scenarios": {

@@ -1,34 +1,46 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureBotServiceContext, AzureBotServiceOptionalParams } from "./api/index.js";
-import { createAzureBotService } from "./api/index.js";
-import type { BotConnectionOperations } from "./classic/botConnection/index.js";
-import { _getBotConnectionOperations } from "./classic/botConnection/index.js";
-import type { BotsOperations } from "./classic/bots/index.js";
-import { _getBotsOperations } from "./classic/bots/index.js";
-import type { ChannelsOperations } from "./classic/channels/index.js";
-import { _getChannelsOperations } from "./classic/channels/index.js";
-import type { DirectLineOperations } from "./classic/directLine/index.js";
-import { _getDirectLineOperations } from "./classic/directLine/index.js";
-import type { EmailOperations } from "./classic/email/index.js";
-import { _getEmailOperations } from "./classic/email/index.js";
-import type { HostSettingsOperations } from "./classic/hostSettings/index.js";
-import { _getHostSettingsOperations } from "./classic/hostSettings/index.js";
-import type { NetworkSecurityPerimeterConfigurationsOperations } from "./classic/networkSecurityPerimeterConfigurations/index.js";
-import { _getNetworkSecurityPerimeterConfigurationsOperations } from "./classic/networkSecurityPerimeterConfigurations/index.js";
-import type { OperationResultsOperations } from "./classic/operationResults/index.js";
-import { _getOperationResultsOperations } from "./classic/operationResults/index.js";
-import type { OperationsOperations } from "./classic/operations/index.js";
-import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { PrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
-import { _getPrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
-import type { PrivateLinkResourcesOperations } from "./classic/privateLinkResources/index.js";
-import { _getPrivateLinkResourcesOperations } from "./classic/privateLinkResources/index.js";
-import type { QnAMakerEndpointKeysOperations } from "./classic/qnAMakerEndpointKeys/index.js";
-import { _getQnAMakerEndpointKeysOperations } from "./classic/qnAMakerEndpointKeys/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import {
+  AzureBotServiceContext,
+  AzureBotServiceOptionalParams,
+  createAzureBotService,
+} from "./api/index.js";
+import {
+  BotConnectionOperations,
+  _getBotConnectionOperations,
+} from "./classic/botConnection/index.js";
+import { BotsOperations, _getBotsOperations } from "./classic/bots/index.js";
+import { ChannelsOperations, _getChannelsOperations } from "./classic/channels/index.js";
+import { DirectLineOperations, _getDirectLineOperations } from "./classic/directLine/index.js";
+import { EmailOperations, _getEmailOperations } from "./classic/email/index.js";
+import {
+  HostSettingsOperations,
+  _getHostSettingsOperations,
+} from "./classic/hostSettings/index.js";
+import {
+  NetworkSecurityPerimeterConfigurationsOperations,
+  _getNetworkSecurityPerimeterConfigurationsOperations,
+} from "./classic/networkSecurityPerimeterConfigurations/index.js";
+import {
+  OperationResultsOperations,
+  _getOperationResultsOperations,
+} from "./classic/operationResults/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import {
+  PrivateEndpointConnectionsOperations,
+  _getPrivateEndpointConnectionsOperations,
+} from "./classic/privateEndpointConnections/index.js";
+import {
+  PrivateLinkResourcesOperations,
+  _getPrivateLinkResourcesOperations,
+} from "./classic/privateLinkResources/index.js";
+import {
+  QnAMakerEndpointKeysOperations,
+  _getQnAMakerEndpointKeysOperations,
+} from "./classic/qnAMakerEndpointKeys/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { AzureBotServiceOptionalParams } from "./api/azureBotServiceContext.js";
 

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CertificateRegistrationManagementContext } from "../../api/certificateRegistrationManagementContext.js";
+import { CertificateRegistrationManagementContext } from "../../api/certificateRegistrationManagementContext.js";
 import {
   validatePurchaseInformation,
   listCertificates,
@@ -24,7 +24,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/appServiceCertificateOrders/operations.js";
-import type {
+import {
   AppServiceCertificateOrdersValidatePurchaseInformationOptionalParams,
   AppServiceCertificateOrdersListCertificatesOptionalParams,
   AppServiceCertificateOrdersDeleteCertificateOptionalParams,
@@ -46,7 +46,7 @@ import type {
   AppServiceCertificateOrdersCreateOrUpdateOptionalParams,
   AppServiceCertificateOrdersGetOptionalParams,
 } from "../../api/appServiceCertificateOrders/options.js";
-import type {
+import {
   AppServiceCertificateOrder,
   AppServiceCertificateOrderPatchResource,
   ReissueCertificateOrderRequest,
@@ -59,8 +59,9 @@ import type {
   AppServiceCertificateResource,
   AppServiceCertificatePatchResource,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a AppServiceCertificateOrders operations. */
 export interface AppServiceCertificateOrdersOperations {
@@ -98,6 +99,24 @@ export interface AppServiceCertificateOrdersOperations {
     keyVaultCertificate: AppServiceCertificateResource,
     options?: AppServiceCertificateOrdersCreateOrUpdateCertificateOptionalParams,
   ) => PollerLike<OperationState<AppServiceCertificateResource>, AppServiceCertificateResource>;
+  /** @deprecated use createOrUpdateCertificate instead */
+  beginCreateOrUpdateCertificate: (
+    resourceGroupName: string,
+    certificateOrderName: string,
+    name: string,
+    keyVaultCertificate: AppServiceCertificateResource,
+    options?: AppServiceCertificateOrdersCreateOrUpdateCertificateOptionalParams,
+  ) => Promise<
+    SimplePollerLike<OperationState<AppServiceCertificateResource>, AppServiceCertificateResource>
+  >;
+  /** @deprecated use createOrUpdateCertificate instead */
+  beginCreateOrUpdateCertificateAndWait: (
+    resourceGroupName: string,
+    certificateOrderName: string,
+    name: string,
+    keyVaultCertificate: AppServiceCertificateResource,
+    options?: AppServiceCertificateOrdersCreateOrUpdateCertificateOptionalParams,
+  ) => Promise<AppServiceCertificateResource>;
   /** Description for Get the certificate associated with a certificate order. */
   getCertificate: (
     resourceGroupName: string,
@@ -167,11 +186,6 @@ export interface AppServiceCertificateOrdersOperations {
     options?: AppServiceCertificateOrdersListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<AppServiceCertificateOrder>;
   /** Description for Delete an existing certificate order. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     certificateOrderName: string,
@@ -191,6 +205,22 @@ export interface AppServiceCertificateOrdersOperations {
     certificateDistinguishedName: AppServiceCertificateOrder,
     options?: AppServiceCertificateOrdersCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<AppServiceCertificateOrder>, AppServiceCertificateOrder>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdate: (
+    resourceGroupName: string,
+    certificateOrderName: string,
+    certificateDistinguishedName: AppServiceCertificateOrder,
+    options?: AppServiceCertificateOrdersCreateOrUpdateOptionalParams,
+  ) => Promise<
+    SimplePollerLike<OperationState<AppServiceCertificateOrder>, AppServiceCertificateOrder>
+  >;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdateAndWait: (
+    resourceGroupName: string,
+    certificateOrderName: string,
+    certificateDistinguishedName: AppServiceCertificateOrder,
+    options?: AppServiceCertificateOrdersCreateOrUpdateOptionalParams,
+  ) => Promise<AppServiceCertificateOrder>;
   /** Description for Get a certificate order. */
   get: (
     resourceGroupName: string,
@@ -246,6 +276,40 @@ function _getAppServiceCertificateOrders(context: CertificateRegistrationManagem
         keyVaultCertificate,
         options,
       ),
+    beginCreateOrUpdateCertificate: async (
+      resourceGroupName: string,
+      certificateOrderName: string,
+      name: string,
+      keyVaultCertificate: AppServiceCertificateResource,
+      options?: AppServiceCertificateOrdersCreateOrUpdateCertificateOptionalParams,
+    ) => {
+      const poller = createOrUpdateCertificate(
+        context,
+        resourceGroupName,
+        certificateOrderName,
+        name,
+        keyVaultCertificate,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOrUpdateCertificateAndWait: async (
+      resourceGroupName: string,
+      certificateOrderName: string,
+      name: string,
+      keyVaultCertificate: AppServiceCertificateResource,
+      options?: AppServiceCertificateOrdersCreateOrUpdateCertificateOptionalParams,
+    ) => {
+      return await createOrUpdateCertificate(
+        context,
+        resourceGroupName,
+        certificateOrderName,
+        name,
+        keyVaultCertificate,
+        options,
+      );
+    },
     getCertificate: (
       resourceGroupName: string,
       certificateOrderName: string,
@@ -354,6 +418,36 @@ function _getAppServiceCertificateOrders(context: CertificateRegistrationManagem
         certificateDistinguishedName,
         options,
       ),
+    beginCreateOrUpdate: async (
+      resourceGroupName: string,
+      certificateOrderName: string,
+      certificateDistinguishedName: AppServiceCertificateOrder,
+      options?: AppServiceCertificateOrdersCreateOrUpdateOptionalParams,
+    ) => {
+      const poller = createOrUpdate(
+        context,
+        resourceGroupName,
+        certificateOrderName,
+        certificateDistinguishedName,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOrUpdateAndWait: async (
+      resourceGroupName: string,
+      certificateOrderName: string,
+      certificateDistinguishedName: AppServiceCertificateOrder,
+      options?: AppServiceCertificateOrdersCreateOrUpdateOptionalParams,
+    ) => {
+      return await createOrUpdate(
+        context,
+        resourceGroupName,
+        certificateOrderName,
+        certificateDistinguishedName,
+        options,
+      );
+    },
     get: (
       resourceGroupName: string,
       certificateOrderName: string,

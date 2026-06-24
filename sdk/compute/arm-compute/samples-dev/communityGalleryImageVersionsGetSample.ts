@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a community gallery image version.
  *
  * @summary get a community gallery image version.
- * x-ms-original-file: 2025-03-03/communityGalleryExamples/CommunityGalleryImageVersion_Get.json
+ * x-ms-original-file: 2025-12-03/communityGalleryExamples/CommunityGalleryImageVersion_Get.json
  */
 async function getACommunityGalleryImageVersion(): Promise<void> {
   const credential = new DefaultAzureCredential();
