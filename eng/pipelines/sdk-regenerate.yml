@@ -6,10 +6,11 @@
 #                      publish them as artifacts.
 #
 #   RegenerateAndBuild Matrix shards. Each downloads its slice, regenerates +
-#                      builds, generates changelogs. Regeneration pins the
-#                      tsp-location.yaml commit (spec snapshot) and metadata.json
-#                      api-version (client version), so the api-version matches
-#                      the existing SDK. In PR mode, pushes
+#                      builds, generates changelogs. Regeneration syncs from the
+#                      latest spec (azure-rest-api-specs main) and locks the
+#                      api-version via metadata.json, so the api-version matches
+#                      the existing SDK; packages whose locked api-version is gone
+#                      from the latest spec are skipped. In PR mode, pushes
 #                      the files selected by PRPushMode (api.md + CHANGELOG.md
 #                      deltas, or the whole SDK refresh) to the PR branch.
 #

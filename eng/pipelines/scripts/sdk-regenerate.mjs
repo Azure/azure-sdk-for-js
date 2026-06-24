@@ -19,6 +19,8 @@ const TYPESPEC_GENERATE_SCRIPT = path.join(
 );
 const RELEASE_TOOLS_DIR = "eng/tools/js-sdk-release-tools";
 const DEV_VERSION_SENTINEL = "dev"; // Special --input value meaning "resolve the npm next tag" (dev emitter builds).
+const SPEC_REPO_URL = "https://github.com/Azure/azure-rest-api-specs.git";
+const SPEC_REPO_BRANCH = "main";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Command-line argument parsing
@@ -290,6 +292,25 @@ function preinstallReleaseTools() {
   runShell(`npm --prefix ${RELEASE_TOOLS_DIR} ci`, SDK_ROOT);
 }
 
+// Shallow-clone azure-rest-api-specs main once per shard. Every package syncs
+// from this single latest snapshot (passed to Sync as LocalSpecRepoPath), so
+// the tsp-location.yaml commit/repo fields are ignored — api-version is locked
+// purely via metadata.json (see resolvePinnedApiVersion).
+function shallowCloneSpecRepoMain() {
+  const cloneDir = fs.mkdtempSync(path.join(os.tmpdir(), "spec-repo-"));
+  console.log(`\n===== Cloning ${SPEC_REPO_URL} (${SPEC_REPO_BRANCH}, depth 1) =====`);
+  runShellNoEcho("git", [
+    "clone",
+    "--depth",
+    "1",
+    "--branch",
+    SPEC_REPO_BRANCH,
+    SPEC_REPO_URL,
+    cloneDir,
+  ]);
+  return cloneDir;
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Subcommand: shard
 // Runs once per matrix shard. Phases:
@@ -307,6 +328,7 @@ async function runShard() {
 
   installGlobalCliTools();
   preinstallReleaseTools();
+  const specRepoCloneDir = shallowCloneSpecRepoMain();
 
   const shardPackages = loadShardPackages(directoryListFile);
   console.log(`Shard packages: ${shardPackages.length}`);
@@ -314,12 +336,13 @@ async function runShard() {
   const regenerationOutcomes = await regenerateAll(
     shardPackages,
     perPackageConcurrency,
+    specRepoCloneDir,
   );
   const successfullyRegenerated = regenerationOutcomes.filter((p) => p.success);
 
   const buildOutcome =
     skipBuild || successfullyRegenerated.length === 0
-      ? { skipped: true, builtPackages: [], failedPackages: [] }
+      ? { skipped: true, builtPackages: [], failedPackages: [], notBuiltPackages: [] }
       : await buildRegeneratedPackages(
           shardPackages,
           successfullyRegenerated,
@@ -403,19 +426,19 @@ function resolvePinnedApiVersion(packageDir) {
   return { apiVersion, reason: `pinned ${namespaces[0]}=${apiVersion}` };
 }
 
-async function regenerateAll(packages, concurrency) {
+async function regenerateAll(packages, concurrency, specRepoCloneDir) {
   console.log(`\n===== Regenerate (concurrency=${concurrency}) =====`);
   const outcomes = [];
   const completedCount = { value: 0 };
   await runWithConcurrency(packages, concurrency, async (pkg) => {
     outcomes.push(
-      await regenerateOnePackage(pkg, completedCount, packages.length),
+      await regenerateOnePackage(pkg, specRepoCloneDir, completedCount, packages.length),
     );
   });
   return outcomes;
 }
 
-async function regenerateOnePackage(pkg, completedCount, totalPackageCount) {
+async function regenerateOnePackage(pkg, specRepoCloneDir, completedCount, totalPackageCount) {
   const startedAtMs = Date.now();
 
   // typespec-ts emitter rewrites CHANGELOG.md from a template, wiping years of
@@ -426,42 +449,76 @@ async function regenerateOnePackage(pkg, completedCount, totalPackageCount) {
     ? fs.readFileSync(changelogPath, "utf8")
     : null;
 
-  // No local spec: TypeSpec-Project-Sync uses the commit pinned in
-  // tsp-location.yaml. api-version is pinned separately below.
+  // Sync from the latest spec snapshot (LocalSpecRepoPath), so tsp-location.yaml's
+  // commit/repo fields are ignored. api-version is locked purely via metadata.json.
   const syncResult = await runCommandCapturing(
     "pwsh",
-    ["-File", TYPESPEC_SYNC_SCRIPT, pkg.packageDir],
+    ["-File", TYPESPEC_SYNC_SCRIPT, pkg.packageDir, specRepoCloneDir],
     SDK_ROOT,
   );
   let combinedLog = `===== TypeSpec-Project-Sync =====\n${syncResult.output}\nExit: ${syncResult.exitCode}\n`;
   let success = syncResult.exitCode === 0;
+  let skipped = false;
+  let skipReason = null;
 
   if (success) {
     // Pin the emitter to the SDK's existing api-version (see resolvePinnedApiVersion).
     const { apiVersion: pinnedApiVersion, reason: pinReason } = resolvePinnedApiVersion(
       pkg.packageDir,
     );
-    const generateArgs = ["-File", TYPESPEC_GENERATE_SCRIPT, pkg.packageDir];
-    if (pinnedApiVersion) {
-      generateArgs.push("-TypespecAdditionalOptions", `api-version=${pinnedApiVersion}`);
-    }
     combinedLog += `\n===== api-version: ${pinReason} =====\n`;
-    const generateResult = await runCommandCapturing("pwsh", generateArgs, SDK_ROOT);
-    combinedLog += `\n===== TypeSpec-Project-Generate =====\n${generateResult.output}\nExit: ${generateResult.exitCode}\n`;
-    success = generateResult.exitCode === 0;
+
+    if (pinnedApiVersion && !apiVersionAvailableInSyncedSpec(pkg.packageDir, pinnedApiVersion)) {
+      // The locked api-version no longer exists in the latest spec, so we can't
+      // regenerate the matching SDK. Skip (not a failure — there is nothing to
+      // compare against in this snapshot).
+      skipped = true;
+      success = false;
+      skipReason = `api-version ${pinnedApiVersion} not in latest spec`;
+      combinedLog += `\n===== SKIPPED: ${skipReason} =====\n`;
+    } else {
+      const generateArgs = ["-File", TYPESPEC_GENERATE_SCRIPT, pkg.packageDir];
+      if (pinnedApiVersion) {
+        generateArgs.push("-TypespecAdditionalOptions", `api-version=${pinnedApiVersion}`);
+      }
+      const generateResult = await runCommandCapturing("pwsh", generateArgs, SDK_ROOT);
+      combinedLog += `\n===== TypeSpec-Project-Generate =====\n${generateResult.output}\nExit: ${generateResult.exitCode}\n`;
+      success = generateResult.exitCode === 0;
+    }
   }
 
   if (savedChangelog !== null) fs.writeFileSync(changelogPath, savedChangelog);
 
   const durationSeconds = ((Date.now() - startedAtMs) / 1000).toFixed(1);
   completedCount.value += 1;
+  const statusIcon = success ? "✅" : skipped ? "⏭️" : "❌";
   console.log(
-    `  ${success ? "✅" : "❌"} [${completedCount.value}/${totalPackageCount}] ${pkg.sdkPath} (${durationSeconds}s)`,
+    `  ${statusIcon} [${completedCount.value}/${totalPackageCount}] ${pkg.sdkPath} (${durationSeconds}s)`,
   );
   logCollapsedGroup(`regen log: ${pkg.sdkPath}`, combinedLog);
 
-  const errorTail = success ? null : extractLastNonEmptyLines(combinedLog, 25);
-  return { ...pkg, success, errorTail };
+  const errorTail = success || skipped ? null : extractLastNonEmptyLines(combinedLog, 25);
+  return { ...pkg, success, skipped, skipReason, errorTail };
+}
+
+// True if the locked api-version literal appears anywhere in the synced spec
+// (TempTypeSpecFiles). Spec versions are declared as string literals (e.g.
+// `v2023_11_01: "2023-11-01"`), so a substring match reliably detects presence.
+function apiVersionAvailableInSyncedSpec(packageDir, apiVersion) {
+  const tempSpecDir = path.join(packageDir, "TempTypeSpecFiles");
+  if (!fs.existsSync(tempSpecDir)) return false;
+  const specFiles = listFilesRecursively(tempSpecDir).filter((f) => /\.(tsp|ya?ml|json)$/.test(f));
+  return specFiles.some((file) => fs.readFileSync(file, "utf8").includes(apiVersion));
+}
+
+function listFilesRecursively(dir) {
+  const files = [];
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) files.push(...listFilesRecursively(full));
+    else files.push(full);
+  }
+  return files;
 }
 
 function extractLastNonEmptyLines(text, lineCount) {
@@ -489,7 +546,7 @@ async function buildRegeneratedPackages(allPackages, successfullyRegenerated, tu
   );
   if (installResult.exitCode !== 0) {
     logCollapsedGroup("pnpm install output", installResult.output.slice(-2000));
-    return { skipped: true, builtPackages: [], failedPackages: [] };
+    return { skipped: true, builtPackages: [], failedPackages: [], notBuiltPackages: [] };
   }
 
   const turboFilters = successfullyRegenerated.flatMap((pkg) => [
@@ -498,17 +555,74 @@ async function buildRegeneratedPackages(allPackages, successfullyRegenerated, tu
   ]);
   const buildResult = await runCommandCapturing(
     "pnpm",
-    ["turbo", "build", ...turboFilters, "--token", "1", `--concurrency=${turboConcurrency}`],
+    [
+      "turbo",
+      "build",
+      ...turboFilters,
+      "--token",
+      "1",
+      "--summarize",
+      `--concurrency=${turboConcurrency}`,
+    ],
     SDK_ROOT,
   );
   logCollapsedGroup("turbo build output", buildResult.output.slice(-4000));
 
-  // Turbo's exit code reflects the whole batch — per-pkg attribution isn't
-  // worth it (matches Go/.NET regen pipelines).
-  const regeneratedSdkPaths = successfullyRegenerated.map((p) => p.sdkPath);
-  return buildResult.exitCode === 0
-    ? { skipped: false, builtPackages: regeneratedSdkPaths, failedPackages: [] }
-    : { skipped: false, builtPackages: [], failedPackages: regeneratedSdkPaths };
+  return attributeBuildOutcomes(successfullyRegenerated, buildResult);
+}
+
+// Turbo's batch exit code can't tell which package failed. With --summarize it
+// writes a run summary recording each task's own exitCode, so we attribute
+// per package: exitCode 0 = built, > 0 = failed, no task entry = not built
+// (cancelled after an upstream failure — neither a success nor a real failure).
+function attributeBuildOutcomes(successfullyRegenerated, buildResult) {
+  const exitCodeByPackage = readTurboTaskExitCodes(buildResult.output);
+  if (!exitCodeByPackage) {
+    // Couldn't read the summary — fall back to the coarse batch result.
+    const regeneratedSdkPaths = successfullyRegenerated.map((p) => p.sdkPath);
+    return buildResult.exitCode === 0
+      ? {
+          skipped: false,
+          builtPackages: regeneratedSdkPaths,
+          failedPackages: [],
+          notBuiltPackages: [],
+        }
+      : {
+          skipped: false,
+          builtPackages: [],
+          failedPackages: regeneratedSdkPaths,
+          notBuiltPackages: [],
+        };
+  }
+
+  const builtPackages = [];
+  const failedPackages = [];
+  const notBuiltPackages = [];
+  for (const pkg of successfullyRegenerated) {
+    const exitCode = exitCodeByPackage.get(pkg.npmPackageName);
+    if (exitCode === 0) builtPackages.push(pkg.sdkPath);
+    else if (typeof exitCode === "number") failedPackages.push(pkg.sdkPath);
+    else notBuiltPackages.push(pkg.sdkPath);
+  }
+  return { skipped: false, builtPackages, failedPackages, notBuiltPackages };
+}
+
+// Parse the turbo run summary (its path is printed as a "Summary: <file>" line)
+// into a Map of npm package name -> the package's own build exitCode.
+function readTurboTaskExitCodes(buildOutput) {
+  const match = buildOutput.match(/^\s*Summary:\s+(.+\.json)\s*$/m);
+  const summaryPath = match ? match[1].trim() : null;
+  if (!summaryPath || !fs.existsSync(summaryPath)) return null;
+  try {
+    const summary = JSON.parse(fs.readFileSync(summaryPath, "utf8"));
+    const exitCodeByPackage = new Map();
+    for (const task of summary.tasks ?? []) {
+      exitCodeByPackage.set(task.package, task.execution?.exitCode);
+    }
+    return exitCodeByPackage;
+  } catch {
+    return null;
+  }
 }
 
 function removeStaleTempTypespecDirs(packages) {
@@ -612,24 +726,34 @@ function composeShardSummary({
   changelogOutcomes,
 }) {
   const regenerationFailures = regenerationOutcomes
-    .filter((o) => !o.success)
+    .filter((o) => !o.success && !o.skipped)
     .map((o) => ({ pkg: o.sdkPath, errorTail: o.errorTail }));
+  const regenerationSkips = regenerationOutcomes
+    .filter((o) => o.skipped)
+    .map((o) => ({ pkg: o.sdkPath, reason: o.skipReason }));
 
   return {
     packages: shardPackages.map((p) => p.sdkPath),
     regeneration: {
       total: shardPackages.length,
-      success: regenerationOutcomes.length - regenerationFailures.length,
+      success: regenerationOutcomes.filter((o) => o.success).length,
       failed: regenerationFailures.length,
+      skipped: regenerationSkips.length,
       failures: regenerationFailures,
+      skips: regenerationSkips,
     },
     build: buildOutcome.skipped
       ? null
       : {
-          total: buildOutcome.builtPackages.length + buildOutcome.failedPackages.length,
+          total:
+            buildOutcome.builtPackages.length +
+            buildOutcome.failedPackages.length +
+            buildOutcome.notBuiltPackages.length,
           success: buildOutcome.builtPackages.length,
           failed: buildOutcome.failedPackages.length,
+          notBuilt: buildOutcome.notBuiltPackages.length,
           failures: buildOutcome.failedPackages.map((sdkPath) => ({ pkg: sdkPath })),
+          notBuiltPackages: buildOutcome.notBuiltPackages.map((sdkPath) => ({ pkg: sdkPath })),
         },
     changelog: buildOutcome.skipped
       ? null
