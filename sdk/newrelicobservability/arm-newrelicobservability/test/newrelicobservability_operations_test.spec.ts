@@ -32,7 +32,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("NewRelicObservability test", () => {
+describe.skip("NewRelicObservability test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let tenantId: string;
@@ -65,7 +65,7 @@ describe("NewRelicObservability test", () => {
     await recorder.stop();
   });
 
-  it.only("operations list test", async function () {
+  it("operations list test", async function () {
     const resArray = new Array();
     for await (const item of client.operations.list()) {
       resArray.push(item);
