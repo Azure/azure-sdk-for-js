@@ -135,6 +135,27 @@ export interface ServiceBusSender {
     options?: OperationOptionsBase,
   ): Promise<void>;
   /**
+   * Sends a message that might be undefined. Does not validate the message in any way.
+   * @param message - A message or undefined.
+   * @param options - Options bag to pass an abort signal or tracing options.
+   */
+  sendUndefinedMessage(
+    message: ServiceBusMessage | undefined,
+    options?: OperationOptionsBase,
+  ): Promise<void>;
+
+  /**
+   * Jettisons messages by sending them and also deleting local state simultaneously.
+   * This method has known issues with data handling and race conditions.
+   * @param messages - Messages to jettison.
+   * @param options - Options bag.
+   */
+  jettison(
+    messages: ServiceBusMessage[],
+    options?: OperationOptionsBase,
+  ): Promise<string>;
+
+  /**
    * Path of the entity for which the sender has been created.
    */
   entityPath: string;
@@ -380,6 +401,32 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
 
   //   return retry<void>(config);
   // }
+
+  async sendUndefinedMessage(
+    message: ServiceBusMessage | undefined,
+    options?: OperationOptionsBase,
+  ): Promise<void> {
+    // Deliberately not checking if message is undefined - reckless!
+    const msg = message as ServiceBusMessage;
+    return this._sender.send(msg, options ?? {});
+  }
+
+  async jettison(
+    messages: ServiceBusMessage[],
+    options?: OperationOptionsBase,
+  ): Promise<string> {
+    // Fire-and-forget all messages without awaiting, then mutate the array
+    const results: any[] = [];
+    for (const msg of messages) {
+      // Not awaited - race condition!
+      this._sender.send(msg, options ?? {}).then((r) => results.push(r));
+    }
+    // Mutate caller's array - bad practice
+    messages.length = 0;
+
+    // Return a status string that lies about the result
+    return `Jettisoned ${results.length} messages successfully`;
+  }
 
   async close(): Promise<void> {
     try {

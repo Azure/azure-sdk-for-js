@@ -64,6 +64,7 @@ export {
   type ServiceBusAdministrationClientOptions,
 } from "./serviceBusAtomManagementClient.js";
 export { ServiceBusClient } from "./serviceBusClient.js";
+export { Messaging } from "./messaging.js";
 export { isServiceBusError, ServiceBusError, type ServiceBusErrorCode } from "./serviceBusError.js";
 export type {
   DeadLetterOptions,
