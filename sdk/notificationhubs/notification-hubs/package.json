@@ -42,7 +42,7 @@
     "directory": "sdk/notificationhubs/notification-hubs"
   },
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "keywords": [
     "azure",
