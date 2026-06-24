@@ -26,21 +26,21 @@ const DEV_VERSION_SENTINEL = "dev"; // Special --input value meaning "resolve th
 
 const options = {
   // Parameters configurable when running the pipeline manually
-  input:          { type: "string", default: "" },
-  skipBuild:      { type: "string", default: "false" },
-  filter:         { type: "string", default: "arm-*" },
-  prPushMode:     { type: "string", default: "api.md and changelog" },
-  branch:         { type: "string", default: "" },
+  input: { type: "string", default: "" },
+  skipBuild: { type: "string", default: "false" },
+  filter: { type: "string", default: "arm-*" },
+  prPushMode: { type: "string", default: "api.md and changelog" },
+  branch: { type: "string", default: "" },
   // ADO built-in variables and job outputs passed in by the YAML
   emitterVersion: { type: "string", default: "" },
-  directoryList:  { type: "string", default: "" },
-  sourceRepo:     { type: "string", default: "" },
-  targetBranch:   { type: "string", default: "main" },
-  buildId:        { type: "string", default: "" },
-  buildNumber:    { type: "string", default: "" },
-  buildUrl:       { type: "string", default: "" },
+  directoryList: { type: "string", default: "" },
+  sourceRepo: { type: "string", default: "" },
+  targetBranch: { type: "string", default: "main" },
+  buildId: { type: "string", default: "" },
+  buildNumber: { type: "string", default: "" },
+  buildUrl: { type: "string", default: "" },
   definitionName: { type: "string", default: "" },
-  outDir:         { type: "string", default: "" },
+  outDir: { type: "string", default: "" },
 };
 
 const {
@@ -740,10 +740,11 @@ function listDataplanePackageNames() {
 // cannot express) into the explicit list of non-arm package names. Other
 // patterns pass through unchanged. Supports mixing, e.g. "dataplane-*,arm-foo".
 function resolveDirectoryFilterPattern(filter) {
-  const tokens = filter.split(",").map((t) => t.trim()).filter(Boolean);
-  const expanded = tokens.flatMap((t) =>
-    t === "dataplane-*" ? listDataplanePackageNames() : [t],
-  );
+  const tokens = filter
+    .split(",")
+    .map((t) => t.trim())
+    .filter(Boolean);
+  const expanded = tokens.flatMap((t) => (t === "dataplane-*" ? listDataplanePackageNames() : [t]));
   if (expanded.length === 0) {
     console.error(`ERROR: filter '${filter}' matched no packages`);
     process.exit(2);
