@@ -59,7 +59,7 @@
     "update-snippets": "dev-tool run update-snippets"
   },
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-amqp/README.md",
   "sideEffects": false,
