@@ -1,5 +1,15 @@
 # Release History
 
+## 7.0.0-beta.2 (Unreleased)
+Compared with version 7.0.0-beta.1
+
+### Features Added
+  - Added support for the 2026-01-01 API version.
+  - Added `ipAddressType` (IPv4 / DualStack) to the Service Bus namespace properties.
+
+### Breaking Changes
+  - Removed `clusterArmId` from the Service Bus namespace replica location (no effect for Service Bus).
+
 ## 7.0.0-beta.1 (2026-06-16)
 Compared with version 6.1.0
 

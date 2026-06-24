@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ServiceBusManagementContext } from "../../api/serviceBusManagementContext.js";
+import { ServiceBusManagementContext } from "../../api/serviceBusManagementContext.js";
 import {
   reconcile,
   getResourceAssociationName,
 } from "../../api/networkSecurityPerimeterConfigurations/operations.js";
-import type {
+import {
   NetworkSecurityPerimeterConfigurationsReconcileOptionalParams,
   NetworkSecurityPerimeterConfigurationsGetResourceAssociationNameOptionalParams,
 } from "../../api/networkSecurityPerimeterConfigurations/options.js";
-import type { NetworkSecurityPerimeterConfiguration } from "../../models/models.js";
+import { NetworkSecurityPerimeterConfiguration } from "../../models/models.js";
 
 /** Interface representing a NetworkSecurityPerimeterConfigurations operations. */
 export interface NetworkSecurityPerimeterConfigurationsOperations {

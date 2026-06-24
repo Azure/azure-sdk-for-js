@@ -2,7 +2,7 @@
   "apiVersions": {
     "Microsoft.ServiceBus": "2026-01-01"
   },
-  "emitterVersion": "0.54.1",
+  "emitterVersion": "0.54.2",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.ServiceBus",
     "CrossLanguageDefinitionId": {
@@ -112,6 +112,7 @@
       "@azure/arm-servicebus!KnownPublicNetworkAccess:enum": "Microsoft.ServiceBus.PublicNetworkAccess",
       "@azure/arm-servicebus!KnownMode:enum": "Microsoft.ServiceBus.Mode",
       "@azure/arm-servicebus!KnownGeoDRRoleType:enum": "Microsoft.ServiceBus.GeoDRRoleType",
+      "@azure/arm-servicebus!KnownIpAddressType:enum": "Microsoft.ServiceBus.IpAddressType",
       "@azure/arm-servicebus!KnownSkuName:enum": "Microsoft.ServiceBus.SkuName",
       "@azure/arm-servicebus!KnownSkuTier:enum": "Microsoft.ServiceBus.SkuTier",
       "@azure/arm-servicebus!KnownManagedServiceIdentityType:enum": "Microsoft.ServiceBus.ManagedServiceIdentityType",
