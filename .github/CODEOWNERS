@@ -401,7 +401,7 @@
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/botservice/arm-botservice/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/cdn/arm-cdn/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -449,7 +449,7 @@
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/consumption/arm-consumption/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/containerinstance/arm-containerinstance/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -674,7 +674,7 @@
 # PRLabel: %Mgmt
 /sdk/kubernetesconfiguration/arm-kubernetesconfiguration-extensiontypes/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/kusto/arm-kusto/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -761,7 +761,7 @@
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/mongocluster/arm-mongocluster/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/mongodbatlas/arm-mongodbatlas/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -1681,6 +1681,10 @@ sdk/powerplatform/arm-powerplatform/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
 sdk/napsteromniagentapi/arm-napsteromniagentapi/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt %mgmt-review-needed
+sdk/programenrollment/arm-programenrollment/ @qiaozha @MaryGao @JialinHuang803
+sdk/resiliencemanagement/arm-resiliencemanagement/ @qiaozha @MaryGao @JialinHuang803
 
 ###########
 # Config
