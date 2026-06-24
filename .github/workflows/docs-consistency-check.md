@@ -119,8 +119,11 @@ Steps:
    - broken internal links (a referenced path does not exist)
    - stale references (removed packages/paths/features)
 4. Write a compact JSON findings file to
-   `/tmp/gh-aw/agent/findings/<basename>.json`, where `<basename>` is the file
-   name without directories (e.g. `linting.md` → `linting.md.json`). Use this
+   `/tmp/gh-aw/agent/findings/<slug>.json`, where `<slug>` is the **full** doc
+   path with every `/` replaced by `__` (e.g. `documentation/linting.md` →
+   `documentation__linting.md.json`). Deriving the name from the full path —
+   not the bare basename — keeps it unique, so two docs in different
+   subdirectories that share a basename never collide or race. Use this
    shape:
 
    ```json
