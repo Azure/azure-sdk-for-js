@@ -4,11 +4,7 @@
 import { afterEach, describe, expect, it } from "vitest";
 import { WebPubSubServiceClient } from "@azure/web-pubsub";
 import { WebPubSubClient } from "../../src/webPubSubClient.js";
-import type {
-  OnGroupStreamArgs,
-  GroupStreamHandler,
-  WebPubSubClientOptions,
-} from "../../src/models/index.js";
+import type { WebPubSubClientOptions } from "../../src/models/index.js";
 import { createDeferred, sleep, withTimeout } from "../testUtils.js";
 
 async function waitForStreamIdReusable(
@@ -109,16 +105,12 @@ describe.skipIf(skipIntegration)("WebPubSubClient streaming integration", () => 
     const { sender, receiver } = await createSenderReceiver(serviceClient, ts, clients);
 
     const completed = createDeferred<{ streamId: string; text: string }>();
-    receiver.onGroupStream((stream: OnGroupStreamArgs): GroupStreamHandler => {
+    receiver.onGroupStream(async (stream) => {
       const chunks: string[] = [];
-      return {
-        onMessage: (args) => {
-          chunks.push(args.data as string);
-        },
-        onComplete: () => {
-          completed.resolve({ streamId: stream.streamId, text: chunks.join("") });
-        },
-      };
+      for await (const message of stream) {
+        chunks.push(message.data as string);
+      }
+      completed.resolve({ streamId: stream.streamId, text: chunks.join("") });
     });
 
     await startSenderReceiverInGroup(sender, receiver, group);
@@ -144,16 +136,12 @@ describe.skipIf(skipIntegration)("WebPubSubClient streaming integration", () => 
     const { sender, receiver } = await createSenderReceiver(serviceClient, ts, clients);
 
     const completed = createDeferred<{ streamId: string; messageCount: number }>();
-    receiver.onGroupStream((stream: OnGroupStreamArgs): GroupStreamHandler => {
+    receiver.onGroupStream(async (stream) => {
       let messageCount = 0;
-      return {
-        onMessage: () => {
-          messageCount++;
-        },
-        onComplete: () => {
-          completed.resolve({ streamId: stream.streamId, messageCount });
-        },
-      };
+      for await (const _message of stream) {
+        messageCount++;
+      }
+      completed.resolve({ streamId: stream.streamId, messageCount });
     });
 
     await startSenderReceiverInGroup(sender, receiver, group);
@@ -177,26 +165,20 @@ describe.skipIf(skipIntegration)("WebPubSubClient streaming integration", () => 
     const { sender, receiver } = await createSenderReceiver(serviceClient, ts, clients);
 
     const completed = createDeferred<Array<{ index: number; payload: string }>>();
-    receiver.onGroupStream((stream: OnGroupStreamArgs): GroupStreamHandler => {
+    receiver.onGroupStream(async (stream) => {
       const records: Array<{ index: number; payload: string }> = [];
-      return {
-        onMessage: (args) => {
-          const data = args.data as unknown;
-          if (
-            data != null &&
-            typeof data === "object" &&
-            "index" in (data as object) &&
-            "payload" in (data as object)
-          ) {
-            records.push(data as { index: number; payload: string });
-          }
-        },
-        onComplete: (args) => {
-          if (args.streamId === stream.streamId) {
-            completed.resolve(records);
-          }
-        },
-      };
+      for await (const message of stream) {
+        const data = message.data as unknown;
+        if (
+          data != null &&
+          typeof data === "object" &&
+          "index" in (data as object) &&
+          "payload" in (data as object)
+        ) {
+          records.push(data as { index: number; payload: string });
+        }
+      }
+      completed.resolve(records);
     });
 
     await startSenderReceiverInGroup(sender, receiver, group);
@@ -222,19 +204,15 @@ describe.skipIf(skipIntegration)("WebPubSubClient streaming integration", () => 
     const { sender, receiver } = await createSenderReceiver(serviceClient, ts, clients);
 
     const completed = createDeferred<Uint8Array>();
-    receiver.onGroupStream((_stream: OnGroupStreamArgs): GroupStreamHandler => {
+    receiver.onGroupStream(async (stream) => {
       let latest = new Uint8Array();
-      return {
-        onMessage: (args) => {
-          const current = new Uint8Array(args.data as ArrayBuffer);
-          if (current.length > 0) {
-            latest = current;
-          }
-        },
-        onComplete: () => {
-          completed.resolve(latest);
-        },
-      };
+      for await (const message of stream) {
+        const current = new Uint8Array(message.data as ArrayBuffer);
+        if (current.length > 0) {
+          latest = current;
+        }
+      }
+      completed.resolve(latest);
     });
 
     await startSenderReceiverInGroup(sender, receiver, group);
@@ -257,19 +235,15 @@ describe.skipIf(skipIntegration)("WebPubSubClient streaming integration", () => 
 
     const allDone = createDeferred<Record<string, string>>();
     const result: Record<string, string> = {};
-    receiver.onGroupStream((stream: OnGroupStreamArgs): GroupStreamHandler => {
+    receiver.onGroupStream(async (stream) => {
       const chunks: string[] = [];
-      return {
-        onMessage: (args) => {
-          chunks.push(args.data as string);
-        },
-        onComplete: () => {
-          result[stream.streamId] = chunks.join("");
-          if (Object.keys(result).length === 2) {
-            allDone.resolve(result);
-          }
-        },
-      };
+      for await (const message of stream) {
+        chunks.push(message.data as string);
+      }
+      result[stream.streamId] = chunks.join("");
+      if (Object.keys(result).length === 2) {
+        allDone.resolve(result);
+      }
     });
 
     await startSenderReceiverInGroup(sender, receiver, group);
@@ -338,28 +312,25 @@ describe.skipIf(skipIntegration)("WebPubSubClient streaming integration", () => 
     let generation = 0;
 
     receiver.onGroupStream(
-      (_stream: OnGroupStreamArgs): GroupStreamHandler => {
+      async (stream) => {
         generation++;
         const currentGeneration = generation;
         const chunks: string[] = [];
-        return {
-          onMessage: (args) => {
-            chunks.push(args.data as string);
-            if (currentGeneration === 1 && args.stream.streamSequenceId === 1) {
+        try {
+          for await (const message of stream) {
+            chunks.push(message.data as string);
+            if (currentGeneration === 1 && message.stream.streamSequenceId === 1) {
               firstMessage.resolve();
             }
-          },
-          onError: (args) => {
-            if (currentGeneration === 1 && args.error?.name === "IdleTimeout") {
-              firstExpired.resolve();
-            }
-          },
-          onComplete: () => {
-            if (currentGeneration === 2) {
-              secondCompleted.resolve({ generation: currentGeneration, chunks: [...chunks] });
-            }
-          },
-        };
+          }
+          if (currentGeneration === 2) {
+            secondCompleted.resolve({ generation: currentGeneration, chunks: [...chunks] });
+          }
+        } catch (err) {
+          if (currentGeneration === 1 && (err as { name?: string }).name === "IdleTimeout") {
+            firstExpired.resolve();
+          }
+        }
       },
       { idleTimeoutInMs: 200, handleFromStart: false },
     );
@@ -406,28 +377,25 @@ describe.skipIf(skipIntegration)("WebPubSubClient streaming integration", () => 
     let generation = 0;
 
     receiver.onGroupStream(
-      (_stream: OnGroupStreamArgs): GroupStreamHandler => {
+      async (stream) => {
         generation++;
         const currentGeneration = generation;
         const chunks: string[] = [];
-        return {
-          onMessage: (args) => {
-            chunks.push(args.data as string);
-            if (currentGeneration === 1 && args.stream.streamSequenceId === 1) {
+        try {
+          for await (const message of stream) {
+            chunks.push(message.data as string);
+            if (currentGeneration === 1 && message.stream.streamSequenceId === 1) {
               firstMessage.resolve();
             }
-          },
-          onError: (args) => {
-            if (currentGeneration === 1 && args.error?.name === "IdleTimeout") {
-              firstExpired.resolve();
-            }
-          },
-          onComplete: () => {
-            if (currentGeneration === 2) {
-              freshCompleted.resolve({ generation: currentGeneration, chunks: [...chunks] });
-            }
-          },
-        };
+          }
+          if (currentGeneration === 2) {
+            freshCompleted.resolve({ generation: currentGeneration, chunks: [...chunks] });
+          }
+        } catch (err) {
+          if (currentGeneration === 1 && (err as { name?: string }).name === "IdleTimeout") {
+            firstExpired.resolve();
+          }
+        }
       },
       { idleTimeoutInMs: 200, handleFromStart: true },
     );
@@ -476,19 +444,20 @@ describe.skipIf(skipIntegration)("WebPubSubClient streaming integration", () => 
     const { sender, receiver } = await createSenderReceiver(serviceClient, ts, clients);
 
     const errored = createDeferred<{ name: string; message?: string; userErrorCode?: string }>();
-    receiver.onGroupStream(
-      (_stream: OnGroupStreamArgs): GroupStreamHandler => ({
-        onError: (args) => {
-          if (args.error != null) {
-            errored.resolve({
-              name: args.error.name,
-              message: args.error.message,
-              userErrorCode: args.error.userErrorCode,
-            });
-          }
-        },
-      }),
-    );
+    receiver.onGroupStream(async (stream) => {
+      try {
+        for await (const _message of stream) {
+          /** empty */
+        }
+      } catch (err) {
+        const error = err as { name: string; message?: string; userErrorCode?: string };
+        errored.resolve({
+          name: error.name,
+          message: error.message,
+          userErrorCode: error.userErrorCode,
+        });
+      }
+    });
 
     await startSenderReceiverInGroup(sender, receiver, group);
 
