@@ -1,5 +1,12 @@
 # Release History
 
+## 6.0.0-beta.2 (Unreleased)
+Compared with version 6.0.0-beta.1
+
+### Features Added
+  - Added support for the 2026-01-01 API version.
+  - Added `ipAddressType` (IPv4 / DualStack) to the Event Hubs namespace properties.
+
 ## 6.0.0-beta.1 (2026-06-10)
 Compared with version 5.2.0
 
