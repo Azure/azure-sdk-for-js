@@ -25,8 +25,6 @@ Compared with version 1.0.0-beta.3
   - Added Enum KnownVersions
 
 ### Breaking Changes
-  - Class CustomLocationsManagementClient no longer has parameter apiVersion
-  - Class CustomLocationsManagementClient no longer has parameter subscriptionId
   - Removed Interface CustomLocationOperationsList
   - Removed Interface PatchableCustomLocations
   - Removed Interface PatchableResourceSyncRule
