@@ -229,9 +229,9 @@ export interface AbortGroupStreamOptions {
 }
 
 /**
- * Group stream abstraction for sending one logical stream to a group.
+ * Group stream writer abstraction for sending one logical stream to a group.
  */
-export interface GroupStream {
+export interface GroupStreamWriter {
   /**
    * Stream identifier.
    */
@@ -327,91 +327,74 @@ export interface OnRejoinGroupFailedArgs {
 }
 
 /**
- * Stream message delivered to a stream handler.
+ * One inbound fragment of a group stream.
  */
-export interface OnGroupStreamDataArgs {
+export interface GroupStreamMessage {
   /**
    * Group name.
    */
-  group: string;
+  readonly groupName: string;
   /**
    * Sender user id.
    */
-  fromUserId: string;
+  readonly fromUserId: string;
   /**
    * Connection-scoped reliable sequence id.
    */
-  sequenceId?: number;
+  readonly sequenceId?: number;
   /**
    * Message data type.
    */
-  dataType: WebPubSubDataType;
+  readonly dataType: WebPubSubDataType;
   /**
    * Message payload.
    */
-  data: JSONTypes | ArrayBuffer;
+  readonly data: JSONTypes | ArrayBuffer;
   /**
    * Stream metadata.
    */
-  stream: StreamInfo;
+  readonly stream: StreamInfo;
 }
 
 /**
- * Stream terminal event.
+ * A single inbound group stream.
  */
-export interface OnGroupStreamEndArgs {
-  /**
-   * Stream identifier.
-   */
-  streamId: string;
+export interface GroupStream extends AsyncIterable<GroupStreamMessage> {
   /**
    * Group name.
    */
-  group: string;
+  readonly groupName: string;
   /**
-   * Optional terminal error.
-   */
-  error?: StreamDataError;
-}
-
-/**
- * Per-stream value object passed to a factory registered via
- * `client.onGroupStream(...)`. A fresh `GroupStreamHandler` is created per
- * observed stream lifecycle, and its callbacks consume only that single stream.
- */
-export interface OnGroupStreamArgs {
-  /**
-   * The group this stream belongs to.
-   */
-  readonly group: string;
-  /**
-   * The stream identifier assigned when the outbound stream is opened.
+   * Stream identifier.
    */
   readonly streamId: string;
+  /**
+   * Aborts when the stream completes, fails, times out, or its subscription is closed.
+   */
+  readonly abortSignal: AbortSignal;
 }
 
 /**
- * Callbacks attached to a single inbound group stream. Returned by the factory
- * registered via `client.onGroupStream(factory)`. All callbacks are optional.
+ * Subscription returned by `client.onGroupStream(...)`.
  */
-export interface GroupStreamHandler {
+export interface GroupStreamSubscription {
   /**
-   * Called for each non-terminal data fragment.
+   * Close the subscription and stop delivering inbound streams to its callback.
    */
-  onMessage?: (args: OnGroupStreamDataArgs) => void;
+  close(): Promise<void>;
   /**
-   * Called once when the stream completes successfully.
+   * Whether this subscription is still active.
    */
-  onComplete?: (args: OnGroupStreamEndArgs) => void;
+  readonly isActive: boolean;
   /**
-   * Called once when the stream terminates with an error (including `IdleTimeout`).
+   * Close the subscription when used with `await using`.
    */
-  onError?: (args: OnGroupStreamEndArgs) => void;
+  [Symbol.asyncDispose](): Promise<void>;
 }
 
 /**
  * Options controlling how inbound group streams are tracked and dispatched for a
- * single factory registered via `client.onGroupStream(factory, options)`.
+ * single callback registered via `client.onGroupStream(callback, options)`.
  *
  * Granularity is two-level:
  * - The option *values* are scoped to the registration (i.e. per handler): each
@@ -423,7 +406,7 @@ export interface GroupStreamHandler {
  *   their own `handleFromStart` gate. Nothing is shared or aggregated across
  *   streams or across groups.
  */
-export interface OnGroupStreamOptions {
+export interface GroupStreamSubscribeOptions {
   /**
    * Inactivity timeout in milliseconds, applied independently to each stream
    * (identified by its `(group, streamId)` pair). Every stream has its own timer
@@ -442,6 +425,10 @@ export interface OnGroupStreamOptions {
    * Default: false.
    */
   handleFromStart?: boolean;
+  /**
+   * Optional group names to receive streams from. When omitted, streams from all groups are received.
+   */
+  groupNames?: string[];
 }
 
 /**

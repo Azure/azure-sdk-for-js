@@ -115,16 +115,18 @@ import { WebPubSubClient } from "@azure/web-pubsub-client";
 
 const client = new WebPubSubClient("<client-access-url>");
 
-// Receiving side: register a factory invoked once per inbound stream. The returned
-// handler consumes that single stream. Option effects apply independently per stream.
+// Receiving side: subscribe once, then consume each inbound stream with for-await.
 client.onGroupStream(
-  (stream) => {
+  async (stream) => {
     const parts: string[] = [];
-    return {
-      onMessage: (e) => parts.push(e.data as string),
-      onComplete: () => console.log(`Stream ${stream.streamId} completed: ${parts.join("")}`),
-      onError: (e) => console.log(`Stream ${stream.streamId} failed: ${e.error?.name}`),
-    };
+    try {
+      for await (const message of stream) {
+        parts.push(message.data as string);
+      }
+      console.log(`Stream ${stream.streamId} completed: ${parts.join("")}`);
+    } catch (err) {
+      console.log(`Stream ${stream.streamId} failed: ${(err as { name?: string }).name}`);
+    }
   },
   { handleFromStart: true },
 );
@@ -140,7 +142,7 @@ await stream.write("world", "text");
 await stream.end();
 ```
 
-`onGroupStream` registers a factory that returns a `GroupStreamHandler` for every observed stream; pass the same factory reference to `offGroupStream` to unregister it. `openGroupStream` returns a `GroupStream` you use to `write` fragments, `end` the stream successfully, or `abort` it with an error.
+`onGroupStream` returns a subscription with `close()` for unregistering the listener. Each callback receives a `GroupStream` that is async iterable over its fragments. `openGroupStream` returns a `GroupStreamWriter` you use to `write` fragments, `end` the stream successfully, or `abort` it with an error.
 
 ---
 

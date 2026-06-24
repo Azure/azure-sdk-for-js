@@ -6,7 +6,6 @@ import type { AddressInfo } from "node:net";
 import { WebSocketServer, type WebSocket } from "ws";
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
 import { WebPubSubClient } from "../../src/webPubSubClient.js";
-import type { OnGroupStreamArgs, GroupStreamHandler } from "../../src/models/index.js";
 import { createDeferred, withTimeout } from "../testUtils.js";
 
 async function waitForSocketConnection(wss: WebSocketServer): Promise<WebSocket> {
@@ -270,17 +269,19 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
     const socket = await startClientAndConnect(client, wss);
 
     const streamErrorViaGroupStream = withTimeout(
-      new Promise<{ streamId: string; group: string; error: any }>((resolve) => {
-        client!.onGroupStream(
-          (_stream): GroupStreamHandler => ({
-            onError: (args) => {
-              resolve({ streamId: args.streamId, group: args.group, error: args.error });
-            },
-          }),
-        );
+      new Promise<{ streamId: string; groupName: string; error: any }>((resolve) => {
+        client!.onGroupStream(async (stream) => {
+          try {
+            for await (const _message of stream) {
+              /** empty */
+            }
+          } catch (err) {
+            resolve({ streamId: stream.streamId, groupName: stream.groupName, error: err });
+          }
+        });
       }),
       2000,
-      "Timed out waiting for endOfStream error to trigger group-stream onError.",
+      "Timed out waiting for endOfStream error to reject group stream iteration.",
     );
 
     // First message creates the active handler
@@ -302,7 +303,7 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
 
     await expect(streamErrorViaGroupStream).resolves.toEqual({
       streamId: "s-closed",
-      group: "g1",
+      groupName: "g1",
       error: { name: "StreamNotFound", message: "not found" },
     });
   });
@@ -416,19 +417,16 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
     const streamDone = withTimeout(
       new Promise<{ result: string; error?: any }>((resolve) => {
         client!.onGroupStream(
-          (_stream): GroupStreamHandler => {
+          async (stream) => {
             const chunks: string[] = [];
-            return {
-              onMessage: (args) => {
-                chunks.push(args.data as string);
-              },
-              onComplete: () => {
-                resolve({ result: chunks.join("") });
-              },
-              onError: (args) => {
-                resolve({ result: chunks.join(""), error: args.error });
-              },
-            };
+            try {
+              for await (const message of stream) {
+                chunks.push(message.data as string);
+              }
+              resolve({ result: chunks.join("") });
+            } catch (err) {
+              resolve({ result: chunks.join(""), error: err });
+            }
           },
           { handleFromStart: true, idleTimeoutInMs: 2000 },
         );
@@ -464,11 +462,11 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
 
     let called = false;
     client.onGroupStream(
-      (_stream): GroupStreamHandler => ({
-        onMessage: () => {
+      async (stream) => {
+        for await (const _message of stream) {
           called = true;
-        },
-      }),
+        }
+      },
       { handleFromStart: true },
     );
 
@@ -495,16 +493,15 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
     const timeoutResult = withTimeout(
       new Promise<{ messageCount: number; errorName?: string }>((resolve) => {
         client!.onGroupStream(
-          (_stream): GroupStreamHandler => {
+          async (stream) => {
             let messageCount = 0;
-            return {
-              onMessage: () => {
+            try {
+              for await (const _message of stream) {
                 messageCount++;
-              },
-              onError: (args) => {
-                resolve({ messageCount, errorName: args.error?.name });
-              },
-            };
+              }
+            } catch (err) {
+              resolve({ messageCount, errorName: (err as StreamErrorPayload).name });
+            }
           },
           { idleTimeoutInMs: 120, handleFromStart: true },
         );
@@ -538,19 +535,15 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
     const delivered: Record<string, string> = {};
     const fromStartCompleted = createDeferred<void>();
     client.onGroupStream(
-      (stream): GroupStreamHandler => {
+      async (stream) => {
         const chunks: string[] = [];
-        return {
-          onMessage: (args) => {
-            chunks.push(args.data as string);
-          },
-          onComplete: () => {
-            delivered[stream.streamId] = chunks.join("");
-            if (stream.streamId === "s-from-start") {
-              fromStartCompleted.resolve();
-            }
-          },
-        };
+        for await (const message of stream) {
+          chunks.push(message.data as string);
+        }
+        delivered[stream.streamId] = chunks.join("");
+        if (stream.streamId === "s-from-start") {
+          fromStartCompleted.resolve();
+        }
       },
       { handleFromStart: true },
     );
@@ -604,25 +597,22 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
     let aliveErrorName: string | undefined;
 
     client.onGroupStream(
-      (stream): GroupStreamHandler => {
+      async (stream) => {
         const chunks: string[] = [];
-        return {
-          onMessage: (args) => {
-            chunks.push(args.data as string);
-          },
-          onComplete: () => {
-            if (stream.streamId === "s-alive") {
-              aliveCompleted.resolve(chunks.join(""));
-            }
-          },
-          onError: (args) => {
-            if (stream.streamId === "s-idle") {
-              idleErrored.resolve(args.error?.name);
-            } else if (stream.streamId === "s-alive") {
-              aliveErrorName = args.error?.name;
-            }
-          },
-        };
+        try {
+          for await (const message of stream) {
+            chunks.push(message.data as string);
+          }
+          if (stream.streamId === "s-alive") {
+            aliveCompleted.resolve(chunks.join(""));
+          }
+        } catch (err) {
+          if (stream.streamId === "s-idle") {
+            idleErrored.resolve((err as StreamErrorPayload).name);
+          } else if (stream.streamId === "s-alive") {
+            aliveErrorName = (err as StreamErrorPayload).name;
+          }
+        }
       },
       { idleTimeoutInMs: 400 },
     );
@@ -685,17 +675,16 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
 
     const sequence = withTimeout(
       new Promise<string[]>((resolve) => {
-        client!.onGroupStream((_stream): GroupStreamHandler => {
+        client!.onGroupStream(async (stream) => {
           const order: string[] = [];
-          return {
-            onMessage: (args) => {
-              order.push(`message:${args.data as string}`);
-            },
-            onError: (args) => {
-              order.push(`error:${args.error?.name}`);
-              resolve(order);
-            },
-          };
+          try {
+            for await (const message of stream) {
+              order.push(`message:${message.data as string}`);
+            }
+          } catch (err) {
+            order.push(`error:${(err as StreamErrorPayload).name}`);
+            resolve(order);
+          }
         });
       }),
       2000,
@@ -724,16 +713,12 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
 
     const result = withTimeout(
       new Promise<{ messageCount: number; completed: boolean }>((resolve) => {
-        client!.onGroupStream((_stream): GroupStreamHandler => {
+        client!.onGroupStream(async (stream) => {
           let messageCount = 0;
-          return {
-            onMessage: () => {
-              messageCount++;
-            },
-            onComplete: () => {
-              resolve({ messageCount, completed: true });
-            },
-          };
+          for await (const _message of stream) {
+            messageCount++;
+          }
+          resolve({ messageCount, completed: true });
         });
       }),
       2000,
@@ -762,12 +747,12 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
     const done = withTimeout(
       new Promise<string>((resolve) => {
         client!.onGroupStream(
-          (_stream): GroupStreamHandler => {
+          async (stream) => {
             const chunks: string[] = [];
-            return {
-              onMessage: (args) => chunks.push(args.data as string),
-              onComplete: () => resolve(chunks.join("")),
-            };
+            for await (const message of stream) {
+              chunks.push(message.data as string);
+            }
+            resolve(chunks.join(""));
           },
           { handleFromStart: true },
         );
@@ -819,12 +804,12 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
     const done = withTimeout(
       new Promise<string>((resolve) => {
         client!.onGroupStream(
-          (_stream): GroupStreamHandler => {
+          async (stream) => {
             const chunks: string[] = [];
-            return {
-              onMessage: (args) => chunks.push(args.data as string),
-              onComplete: () => resolve(chunks.join("")),
-            };
+            for await (const message of stream) {
+              chunks.push(message.data as string);
+            }
+            resolve(chunks.join(""));
           },
           { handleFromStart: true },
         );
@@ -907,19 +892,13 @@ describe("WebPubSubClient streaming e2e compatibility", () => {
     client.on("group-message", onGroupMessage);
 
     let invoked = false;
-    const groupStreamFactory = (_stream: OnGroupStreamArgs): GroupStreamHandler => ({
-      onMessage: () => {
-        invoked = true;
-      },
-      onComplete: () => {
-        invoked = true;
-      },
-      onError: () => {
-        invoked = true;
-      },
+    const subscription = client.onGroupStream(async (stream) => {
+      invoked = true;
+      for await (const _message of stream) {
+        /** empty */
+      }
     });
-    client.onGroupStream(groupStreamFactory);
-    client.offGroupStream(groupStreamFactory);
+    await subscription.close();
 
     sendGroupStreamMessage(socket, {
       streamId: "disposed-stream",

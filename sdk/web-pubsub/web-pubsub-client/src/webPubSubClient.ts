@@ -29,10 +29,10 @@ import type {
   GroupStreamWriteOptions,
   EndGroupStreamOptions,
   AbortGroupStreamOptions,
-  OnGroupStreamArgs,
-  GroupStreamHandler,
-  OnGroupStreamOptions,
   GroupStream,
+  GroupStreamSubscribeOptions,
+  GroupStreamSubscription,
+  GroupStreamWriter,
 } from "./models/index.js";
 import type {
   ConnectedMessage,
@@ -321,22 +321,15 @@ export class WebPubSubClient {
   }
 
   /**
-   * Register a factory invoked once for each newly observed inbound group stream
-   * (across all groups). The factory receives a per-stream `OnGroupStreamArgs`
-   * value (`{ group, streamId }`) and must return a `GroupStreamHandler` whose
-   * callbacks consume that single stream. Returning a fresh closure per call
-   * gives every stream its own independent state.
-   *
-   * The optional `options` apply only to this registration, so different
-   * handlers may use different `idleTimeoutInMs` / `handleFromStart` values.
-   * @param factory - Per-stream factory returning a `GroupStreamHandler`.
-   * @param options - Per-handler options controlling how this handler's streams are tracked.
+   * Subscribe to inbound group streams. The callback is invoked once for each newly observed stream.
+   * @param callback - Callback invoked with each inbound stream.
+   * @param options - Per-subscription options controlling how streams are tracked.
    */
   public onGroupStream(
-    factory: (args: OnGroupStreamArgs) => GroupStreamHandler,
-    options?: OnGroupStreamOptions,
-  ): void {
-    this._inboundStreams.register(factory, options);
+    callback: (stream: GroupStream) => void | Promise<void>,
+    options?: GroupStreamSubscribeOptions,
+  ): GroupStreamSubscription {
+    return this._inboundStreams.register(callback, options);
   }
 
   /**
@@ -386,15 +379,6 @@ export class WebPubSubClient {
     listener: (e: any) => void,
   ): void {
     this._emitter.removeListener(event, listener);
-  }
-
-  /**
-   * Remove a previously registered group stream factory. Pass the same factory
-   * reference that was supplied to {@link onGroupStream}.
-   * @param factory - The factory reference originally registered via {@link onGroupStream}.
-   */
-  public offGroupStream(factory: (args: OnGroupStreamArgs) => GroupStreamHandler): void {
-    this._inboundStreams.unregister(factory);
   }
 
   private _emitEvent(event: "connected", args: OnConnectedArgs): void;
@@ -692,7 +676,7 @@ export class WebPubSubClient {
   public async openGroupStream(
     groupName: string,
     options?: OpenGroupStreamOptions,
-  ): Promise<GroupStream> {
+  ): Promise<GroupStreamWriter> {
     const streamId = options?.streamId ?? this._generateOutboundStreamId();
     if (this._outboundStreams.has(streamId)) {
       throw new Error(`Stream '${streamId}' already exists.`);
