@@ -2,7 +2,7 @@
   "apiVersions": {
     "Microsoft.Automation": "2024-10-23"
   },
-  "emitterVersion": "0.54.1",
+  "emitterVersion": "0.54.2",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.Automation",
     "CrossLanguageDefinitionId": {
