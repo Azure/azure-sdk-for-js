@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a platform update.
  *
  * @summary get a platform update.
- * x-ms-original-file: 2026-04-01-preview/PlatformUpdates_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-05-01-preview/PlatformUpdates_Get_MaximumSet_Gen.json
  */
 async function platformUpdatesGetMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

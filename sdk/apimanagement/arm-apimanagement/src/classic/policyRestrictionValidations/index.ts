@@ -1,13 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ApiManagementContext } from "../../api/apiManagementContext.js";
+import { ApiManagementContext } from "../../api/apiManagementContext.js";
 import { byService } from "../../api/policyRestrictionValidations/operations.js";
-import type { PolicyRestrictionValidationsByServiceOptionalParams } from "../../api/policyRestrictionValidations/options.js";
-import type { OperationResultContract } from "../../models/models.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PolicyRestrictionValidationsByServiceOptionalParams } from "../../api/policyRestrictionValidations/options.js";
+import { OperationResultContract } from "../../models/models.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a PolicyRestrictionValidations operations. */
 export interface PolicyRestrictionValidationsOperations {

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ApiManagementContext } from "../../api/apiManagementContext.js";
+import { ApiManagementContext } from "../../api/apiManagementContext.js";
 import {
   listByService,
   $delete,
@@ -10,7 +10,7 @@ import {
   getEntityTag,
   get,
 } from "../../api/apiIssue/operations.js";
-import type {
+import {
   ApiIssueListByServiceOptionalParams,
   ApiIssueDeleteOptionalParams,
   ApiIssueUpdateOptionalParams,
@@ -18,8 +18,8 @@ import type {
   ApiIssueGetEntityTagOptionalParams,
   ApiIssueGetOptionalParams,
 } from "../../api/apiIssue/options.js";
-import type { IssueContract, IssueUpdateContract } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { IssueContract, IssueUpdateContract } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ApiIssue operations. */
 export interface ApiIssueOperations {

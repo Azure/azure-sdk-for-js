@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to put Update runs for a specified update
  *
  * @summary put Update runs for a specified update
- * x-ms-original-file: 2026-04-01-preview/PutUpdateRuns.json
+ * x-ms-original-file: 2026-05-01-preview/PutUpdateRuns.json
  */
 async function getUpdateRunsUnderClusterResource(): Promise<void> {
   const credential = new DefaultAzureCredential();

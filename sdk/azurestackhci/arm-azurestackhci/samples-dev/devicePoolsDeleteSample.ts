@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a DevicePool
  *
  * @summary delete a DevicePool
- * x-ms-original-file: 2026-04-01-preview/DevicePools_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-05-01-preview/DevicePools_Delete_MaximumSet_Gen.json
  */
 async function devicePoolsDeleteMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -21,7 +21,7 @@ async function devicePoolsDeleteMaximumSet(): Promise<void> {
  * This sample demonstrates how to delete a DevicePool
  *
  * @summary delete a DevicePool
- * x-ms-original-file: 2026-04-01-preview/DevicePools_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-05-01-preview/DevicePools_Delete_MinimumSet_Gen.json
  */
 async function devicePoolsDeleteMinimumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ApiManagementContext } from "../../api/apiManagementContext.js";
+import { ApiManagementContext } from "../../api/apiManagementContext.js";
 import {
   listByService,
   $delete,
@@ -10,7 +10,7 @@ import {
   getEntityTag,
   get,
 } from "../../api/cache/operations.js";
-import type {
+import {
   CacheListByServiceOptionalParams,
   CacheDeleteOptionalParams,
   CacheUpdateOptionalParams,
@@ -18,8 +18,8 @@ import type {
   CacheGetEntityTagOptionalParams,
   CacheGetOptionalParams,
 } from "../../api/cache/options.js";
-import type { CacheContract, CacheUpdateParameters } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { CacheContract, CacheUpdateParameters } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Cache operations. */
 export interface CacheOperations {

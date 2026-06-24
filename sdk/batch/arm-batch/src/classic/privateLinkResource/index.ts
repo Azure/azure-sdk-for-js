@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { BatchManagementContext } from "../../api/batchManagementContext.js";
+import { BatchManagementContext } from "../../api/batchManagementContext.js";
 import { listByBatchAccount, get } from "../../api/privateLinkResource/operations.js";
-import type {
+import {
   PrivateLinkResourceListByBatchAccountOptionalParams,
   PrivateLinkResourceGetOptionalParams,
 } from "../../api/privateLinkResource/options.js";
-import type { PrivateLinkResource } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PrivateLinkResource } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a PrivateLinkResource operations. */
 export interface PrivateLinkResourceOperations {

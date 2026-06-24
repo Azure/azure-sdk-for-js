@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a EdgeMachineJob
  *
  * @summary get a EdgeMachineJob
- * x-ms-original-file: 2026-04-01-preview/EdgeMachineJobs_Get_CollectLog.json
+ * x-ms-original-file: 2026-05-01-preview/EdgeMachineJobs_Get_CollectLog.json
  */
 async function edgeMachineJobsGetCollectLog(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function edgeMachineJobsGetCollectLog(): Promise<void> {
  * This sample demonstrates how to get a EdgeMachineJob
  *
  * @summary get a EdgeMachineJob
- * x-ms-original-file: 2026-04-01-preview/EdgeMachineJobs_Get_ProvisionOs.json
+ * x-ms-original-file: 2026-05-01-preview/EdgeMachineJobs_Get_ProvisionOs.json
  */
 async function edgeMachineJobsGetProvisionOs(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -36,7 +36,21 @@ async function edgeMachineJobsGetProvisionOs(): Promise<void> {
  * This sample demonstrates how to get a EdgeMachineJob
  *
  * @summary get a EdgeMachineJob
- * x-ms-original-file: 2026-04-01-preview/EdgeMachineJobs_Get_RemoteSupport.json
+ * x-ms-original-file: 2026-05-01-preview/EdgeMachineJobs_Get_ProvisionOs_Failed.json
+ */
+async function edgeMachineJobsGetProvisionOsFailed(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "ef541b46-448e-4ff7-a4d4-001188d436ca";
+  const client = new AzureStackHCIClient(credential, subscriptionId);
+  const result = await client.edgeMachineJobs.get("B0650R12C02", "B0650R12C02N02", "ProvisionOs");
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to get a EdgeMachineJob
+ *
+ * @summary get a EdgeMachineJob
+ * x-ms-original-file: 2026-05-01-preview/EdgeMachineJobs_Get_RemoteSupport.json
  */
 async function edgeMachineJobsGetRemoteSupport(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -49,6 +63,7 @@ async function edgeMachineJobsGetRemoteSupport(): Promise<void> {
 async function main(): Promise<void> {
   await edgeMachineJobsGetCollectLog();
   await edgeMachineJobsGetProvisionOs();
+  await edgeMachineJobsGetProvisionOsFailed();
   await edgeMachineJobsGetRemoteSupport();
 }
 

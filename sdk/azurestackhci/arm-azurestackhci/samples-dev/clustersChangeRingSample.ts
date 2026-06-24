@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to changes ring of a cluster
  *
  * @summary changes ring of a cluster
- * x-ms-original-file: 2026-04-01-preview/ChangeClusterRing.json
+ * x-ms-original-file: 2026-05-01-preview/ChangeClusterRing.json
  */
 async function changeClusterRing(): Promise<void> {
   const credential = new DefaultAzureCredential();

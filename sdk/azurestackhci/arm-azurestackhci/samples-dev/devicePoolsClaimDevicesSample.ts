@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to claiming devices of the pool.
  *
  * @summary claiming devices of the pool.
- * x-ms-original-file: 2026-04-01-preview/DevicePools_ClaimDevices_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-05-01-preview/DevicePools_ClaimDevices_MaximumSet_Gen.json
  */
 async function devicePoolsClaimDevicesMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AppLinkContext } from "../../api/appLinkContext.js";
+import { AppLinkContext } from "../../api/appLinkContext.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/appLinks/operations.js";
-import type {
+import {
   AppLinksListBySubscriptionOptionalParams,
   AppLinksListByResourceGroupOptionalParams,
   AppLinksDeleteOptionalParams,
@@ -18,9 +18,9 @@ import type {
   AppLinksCreateOrUpdateOptionalParams,
   AppLinksGetOptionalParams,
 } from "../../api/appLinks/options.js";
-import type { AppLink, AppLinkUpdate } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { AppLink, AppLinkUpdate } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a AppLinks operations. */
 export interface AppLinksOperations {
@@ -34,11 +34,6 @@ export interface AppLinksOperations {
     options?: AppLinksListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<AppLink>;
   /** Delete an AppLink. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     appLinkName: string,

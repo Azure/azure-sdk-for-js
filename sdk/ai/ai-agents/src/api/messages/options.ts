@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { MessageAttachment, ListSortOrder } from "../../models/models.js";
-import type { OperationOptions } from "@azure-rest/core-client";
+import { MessageAttachment, ListSortOrder } from "../../models/models.js";
+import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface MessagesDeleteOptionalParams extends OperationOptions {}
@@ -20,7 +20,7 @@ export interface MessagesGetMessageOptionalParams extends OperationOptions {}
 export interface MessagesListMessagesOptionalParams extends OperationOptions {
   /** Filter messages by the run ID that generated them. */
   runId?: string;
-  /** A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20. */
+  /** A limit on the number of objects to be returned on one page. Limit can range between 1 and 100, and the default is 20. */
   limit?: number;
   /** Sort order by the created_at timestamp of the objects. asc for ascending order and desc for descending order. */
   order?: ListSortOrder;

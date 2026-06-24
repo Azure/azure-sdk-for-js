@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list all platform updates.
  *
  * @summary list all platform updates.
- * x-ms-original-file: 2026-04-01-preview/PlatformUpdates_ListByLocation_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-05-01-preview/PlatformUpdates_ListByLocation_MaximumSet_Gen.json
  */
 async function platformUpdatesListByLocationMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

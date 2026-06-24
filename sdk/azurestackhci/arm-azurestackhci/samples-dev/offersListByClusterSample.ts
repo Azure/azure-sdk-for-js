@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list Offers available across publishers for the HCI Cluster.
  *
  * @summary list Offers available across publishers for the HCI Cluster.
- * x-ms-original-file: 2026-04-01-preview/ListOffersByCluster.json
+ * x-ms-original-file: 2026-05-01-preview/ListOffersByCluster.json
  */
 async function listOfferResourcesByHCICluster(): Promise<void> {
   const credential = new DefaultAzureCredential();

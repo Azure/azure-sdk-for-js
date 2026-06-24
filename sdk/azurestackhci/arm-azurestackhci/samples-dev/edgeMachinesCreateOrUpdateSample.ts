@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update an edge machine.
  *
  * @summary create or update an edge machine.
- * x-ms-original-file: 2026-04-01-preview/EdgeMachines_CreateOrUpdate.json
+ * x-ms-original-file: 2026-05-01-preview/EdgeMachines_CreateOrUpdate.json
  */
 async function edgeMachinesCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -733,7 +733,7 @@ export interface ConnectedEnvironmentsOperations {
     get: (resourceGroupName: string, connectedEnvironmentName: string, options?: ConnectedEnvironmentsGetOptionalParams) => Promise<ConnectedEnvironment>;
     listByResourceGroup: (resourceGroupName: string, options?: ConnectedEnvironmentsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<ConnectedEnvironment>;
     listBySubscription: (options?: ConnectedEnvironmentsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<ConnectedEnvironment>;
-    update: (resourceGroupName: string, connectedEnvironmentName: string, options?: ConnectedEnvironmentsUpdateOptionalParams) => Promise<ConnectedEnvironment>;
+    update: (resourceGroupName: string, connectedEnvironmentName: string, environmentEnvelope: ConnectedEnvironmentPatchResource, options?: ConnectedEnvironmentsUpdateOptionalParams) => Promise<ConnectedEnvironment>;
 }
 
 // @public
@@ -793,7 +793,6 @@ export interface ConnectedEnvironmentStoragesCollection {
 
 // @public
 export interface ConnectedEnvironmentsUpdateOptionalParams extends OperationOptions {
-    environmentEnvelope?: ConnectedEnvironmentPatchResource;
 }
 
 // @public

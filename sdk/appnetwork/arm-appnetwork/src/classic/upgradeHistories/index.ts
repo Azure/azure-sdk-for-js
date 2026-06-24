@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AppLinkContext } from "../../api/appLinkContext.js";
+import { AppLinkContext } from "../../api/appLinkContext.js";
 import { listByAppLinkMember } from "../../api/upgradeHistories/operations.js";
-import type { UpgradeHistoriesListByAppLinkMemberOptionalParams } from "../../api/upgradeHistories/options.js";
-import type { UpgradeHistory } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { UpgradeHistoriesListByAppLinkMemberOptionalParams } from "../../api/upgradeHistories/options.js";
+import { UpgradeHistory } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a UpgradeHistories operations. */
 export interface UpgradeHistoriesOperations {

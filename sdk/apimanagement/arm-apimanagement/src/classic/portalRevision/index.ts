@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ApiManagementContext } from "../../api/apiManagementContext.js";
+import { ApiManagementContext } from "../../api/apiManagementContext.js";
 import {
   listByService,
   update,
@@ -9,18 +9,17 @@ import {
   getEntityTag,
   get,
 } from "../../api/portalRevision/operations.js";
-import type {
+import {
   PortalRevisionListByServiceOptionalParams,
   PortalRevisionUpdateOptionalParams,
   PortalRevisionCreateOrUpdateOptionalParams,
   PortalRevisionGetEntityTagOptionalParams,
   PortalRevisionGetOptionalParams,
 } from "../../api/portalRevision/options.js";
-import type { PortalRevisionContract } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PortalRevisionContract } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a PortalRevision operations. */
 export interface PortalRevisionOperations {

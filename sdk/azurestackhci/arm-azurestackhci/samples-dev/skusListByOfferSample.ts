@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list Skus available for a offer within the HCI Cluster.
  *
  * @summary list Skus available for a offer within the HCI Cluster.
- * x-ms-original-file: 2026-04-01-preview/ListSkusByOffer.json
+ * x-ms-original-file: 2026-05-01-preview/ListSkusByOffer.json
  */
 async function listSKUResourcesByOfferForTheHCICluster(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to validates ownership vouchers.
  *
  * @summary validates ownership vouchers.
- * x-ms-original-file: 2026-04-01-preview/ValidateOwnershipVouchers_ByResourceGroup.json
+ * x-ms-original-file: 2026-05-01-preview/ValidateOwnershipVouchers_ByResourceGroup.json
  */
 async function validateOwnershipVouchersInAGivenResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

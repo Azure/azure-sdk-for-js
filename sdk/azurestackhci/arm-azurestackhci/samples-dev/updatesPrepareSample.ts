@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to prepare Update
  *
  * @summary prepare Update
- * x-ms-original-file: 2026-04-01-preview/Updates_Prepare.json
+ * x-ms-original-file: 2026-05-01-preview/Updates_Prepare.json
  */
 async function prepareUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

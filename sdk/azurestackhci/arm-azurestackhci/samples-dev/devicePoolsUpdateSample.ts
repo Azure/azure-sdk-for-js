@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update a devicePool
  *
  * @summary update a devicePool
- * x-ms-original-file: 2026-04-01-preview/DevicePools_Update_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-05-01-preview/DevicePools_Update_MaximumSet_Gen.json
  */
 async function devicePoolsUpdateMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

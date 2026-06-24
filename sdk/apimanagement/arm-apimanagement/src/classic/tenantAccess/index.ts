@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ApiManagementContext } from "../../api/apiManagementContext.js";
+import { ApiManagementContext } from "../../api/apiManagementContext.js";
 import {
   listSecrets,
   regenerateSecondaryKey,
@@ -12,7 +12,7 @@ import {
   getEntityTag,
   get,
 } from "../../api/tenantAccess/operations.js";
-import type {
+import {
   TenantAccessListSecretsOptionalParams,
   TenantAccessRegenerateSecondaryKeyOptionalParams,
   TenantAccessRegeneratePrimaryKeyOptionalParams,
@@ -22,14 +22,14 @@ import type {
   TenantAccessGetEntityTagOptionalParams,
   TenantAccessGetOptionalParams,
 } from "../../api/tenantAccess/options.js";
-import type {
+import {
   AccessInformationContract,
   AccessIdName,
   AccessInformationCreateParameters,
   AccessInformationUpdateParameters,
   AccessInformationSecretsContract,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a TenantAccess operations. */
 export interface TenantAccessOperations {

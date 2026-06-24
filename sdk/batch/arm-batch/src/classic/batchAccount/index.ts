@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { BatchManagementContext } from "../../api/batchManagementContext.js";
+import { BatchManagementContext } from "../../api/batchManagementContext.js";
 import {
   listDetectors,
   getDetector,
@@ -16,7 +16,7 @@ import {
   create,
   get,
 } from "../../api/batchAccount/operations.js";
-import type {
+import {
   BatchAccountListDetectorsOptionalParams,
   BatchAccountGetDetectorOptionalParams,
   BatchAccountListOutboundNetworkDependenciesEndpointsOptionalParams,
@@ -30,7 +30,7 @@ import type {
   BatchAccountCreateOptionalParams,
   BatchAccountGetOptionalParams,
 } from "../../api/batchAccount/options.js";
-import type {
+import {
   BatchAccount,
   BatchAccountCreateParameters,
   BatchAccountUpdateParameters,
@@ -39,10 +39,9 @@ import type {
   OutboundEnvironmentEndpoint,
   DetectorResponse,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a BatchAccount operations. */
 export interface BatchAccountOperations {
@@ -92,11 +91,6 @@ export interface BatchAccountOperations {
     options?: BatchAccountListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<BatchAccount>;
   /** Deletes the specified Batch account. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     accountName: string,

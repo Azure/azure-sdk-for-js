@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CodeSigningContext } from "../../api/codeSigningContext.js";
+import { CodeSigningContext } from "../../api/codeSigningContext.js";
 import {
   revokeCertificates,
   listByCodeSigningAccount,
@@ -9,16 +9,16 @@ import {
   create,
   get,
 } from "../../api/certificateProfiles/operations.js";
-import type {
+import {
   CertificateProfilesRevokeCertificatesOptionalParams,
   CertificateProfilesListByCodeSigningAccountOptionalParams,
   CertificateProfilesDeleteOptionalParams,
   CertificateProfilesCreateOptionalParams,
   CertificateProfilesGetOptionalParams,
 } from "../../api/certificateProfiles/options.js";
-import type { CertificateProfile, RevokeCertificateList } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { CertificateProfile, RevokeCertificateList } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a CertificateProfiles operations. */
 export interface CertificateProfilesOperations {

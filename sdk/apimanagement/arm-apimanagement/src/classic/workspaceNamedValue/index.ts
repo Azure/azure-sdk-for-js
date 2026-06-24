@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ApiManagementContext } from "../../api/apiManagementContext.js";
+import { ApiManagementContext } from "../../api/apiManagementContext.js";
 import {
   refreshSecret,
   listValue,
@@ -12,7 +12,7 @@ import {
   getEntityTag,
   get,
 } from "../../api/workspaceNamedValue/operations.js";
-import type {
+import {
   WorkspaceNamedValueRefreshSecretOptionalParams,
   WorkspaceNamedValueListValueOptionalParams,
   WorkspaceNamedValueListByServiceOptionalParams,
@@ -22,16 +22,15 @@ import type {
   WorkspaceNamedValueGetEntityTagOptionalParams,
   WorkspaceNamedValueGetOptionalParams,
 } from "../../api/workspaceNamedValue/options.js";
-import type {
+import {
   NamedValueContract,
   NamedValueCreateContract,
   NamedValueUpdateParameters,
   NamedValueSecretContract,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a WorkspaceNamedValue operations. */
 export interface WorkspaceNamedValueOperations {

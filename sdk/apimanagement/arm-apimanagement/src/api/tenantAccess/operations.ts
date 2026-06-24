@@ -1,27 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ApiManagementContext as Client } from "../index.js";
-import type {
-  AccessInformationContract,
-  AccessIdName,
-  AccessInformationCreateParameters,
-  AccessInformationUpdateParameters,
-  _AccessInformationCollection,
-  AccessInformationSecretsContract,
-} from "../../models/models.js";
+import { ApiManagementContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  AccessInformationContract,
   accessInformationContractDeserializer,
+  AccessIdName,
+  AccessInformationCreateParameters,
   accessInformationCreateParametersSerializer,
+  AccessInformationUpdateParameters,
   accessInformationUpdateParametersSerializer,
+  _AccessInformationCollection,
   _accessInformationCollectionDeserializer,
+  AccessInformationSecretsContract,
   accessInformationSecretsContractDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   TenantAccessListSecretsOptionalParams,
   TenantAccessRegenerateSecondaryKeyOptionalParams,
   TenantAccessRegeneratePrimaryKeyOptionalParams,
@@ -31,8 +31,12 @@ import type {
   TenantAccessGetEntityTagOptionalParams,
   TenantAccessGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _listSecretsSend(
   context: Client,
@@ -54,10 +58,12 @@ export function _listSecretsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listSecretsDeserialize(
@@ -227,10 +233,12 @@ export function _listByServiceSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listByServiceDeserialize(
@@ -291,16 +299,18 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      "if-match": ifMatch,
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: accessInformationUpdateParametersSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        "if-match": ifMatch,
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: accessInformationUpdateParametersSerializer(parameters),
+    });
 }
 
 export async function _updateDeserialize(
@@ -363,16 +373,18 @@ export function _createSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      "if-match": ifMatch,
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: accessInformationCreateParametersSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        "if-match": ifMatch,
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: accessInformationCreateParametersSerializer(parameters),
+    });
 }
 
 export async function _createDeserialize(
@@ -488,10 +500,12 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(

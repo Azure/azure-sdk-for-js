@@ -1,11 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export {
-  createAgents,
-  type AgentsContext,
-  type AgentsClientOptionalParams,
-} from "./agentsContext.js";
+export type { AgentsContext, AgentsClientOptionalParams } from "./agentsContext.js";
+export { createAgents } from "./agentsContext.js";
 export {
   createThreadAndRun,
   deleteAgent,
@@ -21,6 +18,4 @@ export type {
   GetAgentOptionalParams,
   ListAgentsOptionalParams,
   CreateAgentOptionalParams,
-  PollingOptionsParams,
-  PollingOptions,
 } from "./options.js";

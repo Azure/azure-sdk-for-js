@@ -1,1 +1,28 @@
-extends: ../../../warp.base.config.yml
+# warp.config.yml — build configuration
+
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/vectorStoreFileBatches": "./src/api/vectorStoreFileBatches/index.ts"
+  "./api/vectorStoreFiles": "./src/api/vectorStoreFiles/index.ts"
+  "./api/vectorStores": "./src/api/vectorStores/index.ts"
+  "./api/files": "./src/api/files/index.ts"
+  "./api/runSteps": "./src/api/runSteps/index.ts"
+  "./api/runs": "./src/api/runs/index.ts"
+  "./api/messages": "./src/api/messages/index.ts"
+  "./api/threads": "./src/api/threads/index.ts"
+  "./models": "./src/models/index.ts"
+
+targets:
+  - name: browser
+    tsconfig: "./config/tsconfig.src.browser.json"
+
+  - name: esm
+    condition: import
+    tsconfig: "./config/tsconfig.src.esm.json"
+
+  - name: commonjs
+    condition: require
+    tsconfig: "./config/tsconfig.src.cjs.json"
+    moduleType: commonjs

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ApiManagementContext } from "../../api/apiManagementContext.js";
+import { ApiManagementContext } from "../../api/apiManagementContext.js";
 import {
   listByService,
   $delete,
@@ -10,7 +10,7 @@ import {
   getEntityTag,
   get,
 } from "../../api/group/operations.js";
-import type {
+import {
   GroupListByServiceOptionalParams,
   GroupDeleteOptionalParams,
   GroupUpdateOptionalParams,
@@ -18,12 +18,12 @@ import type {
   GroupGetEntityTagOptionalParams,
   GroupGetOptionalParams,
 } from "../../api/group/options.js";
-import type {
+import {
   GroupContract,
   GroupCreateParameters,
   GroupUpdateParameters,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Group operations. */
 export interface GroupOperations {

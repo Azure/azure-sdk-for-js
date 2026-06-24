@@ -8,8 +8,17 @@ export type { DeploymentSettingsOperations } from "./deploymentSettings/index.js
 export type { DevicePoolsOperations } from "./devicePools/index.js";
 export type { EdgeDeviceJobsOperations } from "./edgeDeviceJobs/index.js";
 export type { EdgeDevicesOperations } from "./edgeDevices/index.js";
+export type { EdgeMachineDiskJobsOperations } from "./edgeMachineDiskJobs/index.js";
+export type { EdgeMachineDiskPrivilegedJobsOperations } from "./edgeMachineDiskPrivilegedJobs/index.js";
+export type { EdgeMachineDisksOperations } from "./edgeMachineDisks/index.js";
+export type { EdgeMachineGpuJobsOperations } from "./edgeMachineGpuJobs/index.js";
+export type { EdgeMachineGpusOperations } from "./edgeMachineGpus/index.js";
 export type { EdgeMachineJobsOperations } from "./edgeMachineJobs/index.js";
+export type { EdgeMachineNetworkAdapterJobsOperations } from "./edgeMachineNetworkAdapterJobs/index.js";
+export type { EdgeMachineNetworkAdaptersOperations } from "./edgeMachineNetworkAdapters/index.js";
 export type { EdgeMachinesOperations } from "./edgeMachines/index.js";
+export type { EdgeMachineUpdatesOperations } from "./edgeMachineUpdates/index.js";
+export type { EdgeMachineVolumesOperations } from "./edgeMachineVolumes/index.js";
 export type { ExtensionsOperations } from "./extensions/index.js";
 export type { KubernetesVersionsOperations } from "./kubernetesVersions/index.js";
 export type { OffersOperations } from "./offers/index.js";

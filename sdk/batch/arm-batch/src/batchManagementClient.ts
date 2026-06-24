@@ -1,28 +1,37 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { BatchManagementContext, BatchManagementClientOptionalParams } from "./api/index.js";
-import { createBatchManagement } from "./api/index.js";
-import type { ApplicationOperations } from "./classic/application/index.js";
-import { _getApplicationOperations } from "./classic/application/index.js";
-import type { ApplicationPackageOperations } from "./classic/applicationPackage/index.js";
-import { _getApplicationPackageOperations } from "./classic/applicationPackage/index.js";
-import type { BatchAccountOperations } from "./classic/batchAccount/index.js";
-import { _getBatchAccountOperations } from "./classic/batchAccount/index.js";
-import type { LocationOperations } from "./classic/location/index.js";
-import { _getLocationOperations } from "./classic/location/index.js";
-import type { NetworkSecurityPerimeterOperations } from "./classic/networkSecurityPerimeter/index.js";
-import { _getNetworkSecurityPerimeterOperations } from "./classic/networkSecurityPerimeter/index.js";
-import type { OperationsOperations } from "./classic/operations/index.js";
-import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { PoolOperations } from "./classic/pool/index.js";
-import { _getPoolOperations } from "./classic/pool/index.js";
-import type { PrivateEndpointConnectionOperations } from "./classic/privateEndpointConnection/index.js";
-import { _getPrivateEndpointConnectionOperations } from "./classic/privateEndpointConnection/index.js";
-import type { PrivateLinkResourceOperations } from "./classic/privateLinkResource/index.js";
-import { _getPrivateLinkResourceOperations } from "./classic/privateLinkResource/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import {
+  BatchManagementContext,
+  BatchManagementClientOptionalParams,
+  createBatchManagement,
+} from "./api/index.js";
+import { ApplicationOperations, _getApplicationOperations } from "./classic/application/index.js";
+import {
+  ApplicationPackageOperations,
+  _getApplicationPackageOperations,
+} from "./classic/applicationPackage/index.js";
+import {
+  BatchAccountOperations,
+  _getBatchAccountOperations,
+} from "./classic/batchAccount/index.js";
+import { LocationOperations, _getLocationOperations } from "./classic/location/index.js";
+import {
+  NetworkSecurityPerimeterOperations,
+  _getNetworkSecurityPerimeterOperations,
+} from "./classic/networkSecurityPerimeter/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import { PoolOperations, _getPoolOperations } from "./classic/pool/index.js";
+import {
+  PrivateEndpointConnectionOperations,
+  _getPrivateEndpointConnectionOperations,
+} from "./classic/privateEndpointConnection/index.js";
+import {
+  PrivateLinkResourceOperations,
+  _getPrivateLinkResourceOperations,
+} from "./classic/privateLinkResource/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { BatchManagementClientOptionalParams } from "./api/batchManagementContext.js";
 
@@ -37,7 +46,6 @@ export class BatchManagementClient {
     subscriptionId: string,
     options?: BatchManagementClientOptionalParams,
   );
-  /** The Batch Management Client. */
   constructor(
     credential: TokenCredential,
     subscriptionIdOrOptions?: string | BatchManagementClientOptionalParams,

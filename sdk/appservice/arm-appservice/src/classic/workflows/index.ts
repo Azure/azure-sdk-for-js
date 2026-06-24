@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { WebSiteManagementContext } from "../../api/webSiteManagementContext.js";
+import { WebSiteManagementContext } from "../../api/webSiteManagementContext.js";
 import { validate, regenerateAccessKey } from "../../api/workflows/operations.js";
-import type {
+import {
   WorkflowsValidateOptionalParams,
   WorkflowsRegenerateAccessKeyOptionalParams,
 } from "../../api/workflows/options.js";
-import type { RegenerateActionParameter, Workflow } from "../../models/models.js";
+import { RegenerateActionParameter, Workflow } from "../../models/models.js";
 
 /** Interface representing a Workflows operations. */
 export interface WorkflowsOperations {

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ApiManagementContext } from "../../api/apiManagementContext.js";
+import { ApiManagementContext } from "../../api/apiManagementContext.js";
 import {
   listSecrets,
   listByService,
@@ -10,7 +10,7 @@ import {
   getEntityTag,
   get,
 } from "../../api/clientApplication/operations.js";
-import type {
+import {
   ClientApplicationListSecretsOptionalParams,
   ClientApplicationListByServiceOptionalParams,
   ClientApplicationDeleteOptionalParams,
@@ -18,11 +18,11 @@ import type {
   ClientApplicationGetEntityTagOptionalParams,
   ClientApplicationGetOptionalParams,
 } from "../../api/clientApplication/options.js";
-import type {
+import {
   ClientApplicationContract,
   ClientApplicationSecretsContract,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ClientApplication operations. */
 export interface ClientApplicationOperations {

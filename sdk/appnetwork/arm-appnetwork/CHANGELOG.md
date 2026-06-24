@@ -1,7 +1,87 @@
 # Release History
-    
-## 1.0.0-beta.1 (2026-03-25)
+
+## 1.0.0-beta.2 (2026-06-24)
+Compared with version 1.0.0-beta.1
 
 ### Features Added
+  - Added operation group AppLinkMembersOperations
+  - Added operation group AppLinksOperations
+  - Added operation group AvailableVersionsOperations
+  - Added operation group OperationsOperations
+  - Added operation group UpgradeHistoriesOperations
+  - Added Class AppLinkClient
+  - Added Interface AppLink
+  - Added Interface AppLinkClientOptionalParams
+  - Added Interface AppLinkMember
+  - Added Interface AppLinkMemberProperties
+  - Added Interface AppLinkMembersCreateOrUpdateOptionalParams
+  - Added Interface AppLinkMembersDeleteOptionalParams
+  - Added Interface AppLinkMembersGetOptionalParams
+  - Added Interface AppLinkMembersListByAppLinkOptionalParams
+  - Added Interface AppLinkMembersUpdateOptionalParams
+  - Added Interface AppLinkMemberUpdate
+  - Added Interface AppLinkMemberUpdateProperties
+  - Added Interface AppLinkProperties
+  - Added Interface AppLinksCreateOrUpdateOptionalParams
+  - Added Interface AppLinksDeleteOptionalParams
+  - Added Interface AppLinksGetOptionalParams
+  - Added Interface AppLinksListByResourceGroupOptionalParams
+  - Added Interface AppLinksListBySubscriptionOptionalParams
+  - Added Interface AppLinksUpdateOptionalParams
+  - Added Interface AppLinkUpdate
+  - Added Interface AvailableVersion
+  - Added Interface AvailableVersionProperties
+  - Added Interface AvailableVersionsListByLocationOptionalParams
+  - Added Interface ConnectivityProfile
+  - Added Interface EastWestGatewayProfile
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface FullyManagedUpgradeProfile
+  - Added Interface FullyManagedVersions
+  - Added Interface ManagedServiceIdentity
+  - Added Interface Metadata
+  - Added Interface MetricsProfile
+  - Added Interface ObservabilityProfile
+  - Added Interface Operation
+  - Added Interface OperationDisplay
+  - Added Interface OperationsListOptionalParams
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface PrivateConnectProfile
+  - Added Interface ProxyResource
+  - Added Interface ReleaseChannelInfo
+  - Added Interface Resource
+  - Added Interface RestorePollerOptions
+  - Added Interface SelfManagedUpgradeProfile
+  - Added Interface SelfManagedVersions
+  - Added Interface SystemData
+  - Added Interface TrackedResource
+  - Added Interface UpgradeHistoriesListByAppLinkMemberOptionalParams
+  - Added Interface UpgradeHistory
+  - Added Interface UpgradeHistoryProperties
+  - Added Interface UpgradeProfile
+  - Added Interface UserAssignedIdentity
+  - Added Interface VersionInfo
+  - Added Type Alias ActionType
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias ClusterType
+  - Added Type Alias CreatedByType
+  - Added Type Alias EastWestGatewayVisibility
+  - Added Type Alias ManagedServiceIdentityType
+  - Added Type Alias Origin
+  - Added Type Alias ProvisioningState
+  - Added Type Alias UpgradeMode
+  - Added Type Alias UpgradeReleaseChannel
+  - Added Enum AzureClouds
+  - Added Enum KnownActionType
+  - Added Enum KnownClusterType
+  - Added Enum KnownCreatedByType
+  - Added Enum KnownEastWestGatewayVisibility
+  - Added Enum KnownManagedServiceIdentityType
+  - Added Enum KnownOrigin
+  - Added Enum KnownProvisioningState
+  - Added Enum KnownUpgradeMode
+  - Added Enum KnownUpgradeReleaseChannel
+  - Added Enum KnownVersions
 
-Initial release of the @azure/arm-appnetwork package

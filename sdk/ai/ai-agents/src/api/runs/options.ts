@@ -1,30 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   ToolDefinitionUnion,
   ToolResources,
   AgentsResponseFormatOption,
   ThreadMessageOptions,
   TruncationObject,
   AgentsToolChoiceOption,
-  ToolOutput,
-  ToolApproval,
   ListSortOrder,
   RunAdditionalFieldList,
 } from "../../models/models.js";
-import type { OperationOptions } from "@azure-rest/core-client";
-import type { PollingOptionsParams } from "../options.js";
+import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface RunsCancelRunOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface RunsSubmitToolOutputsToRunOptionalParams extends OperationOptions {
-  /** A list of tools for which the outputs are being submitted */
-  toolOutputs?: ToolOutput[];
-  /** A list of tool approvals allowing data to be sent to tools. */
-  toolApprovals?: ToolApproval[];
   /** If true, returns a stream of events that happen during the Run as SSE, terminating at `[DONE]`. */
   stream?: boolean | null;
 }
@@ -40,7 +33,7 @@ export interface RunsGetRunOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface RunsListRunsOptionalParams extends OperationOptions {
-  /** A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20. */
+  /** A limit on the number of objects to be returned on one page. Limit can range between 1 and 100, and the default is 20. */
   limit?: number;
   /** Sort order by the created_at timestamp of the objects. asc for ascending order and desc for descending order. */
   order?: ListSortOrder;
@@ -51,7 +44,7 @@ export interface RunsListRunsOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface RunsCreateRunOptionalParams extends OperationOptions, PollingOptionsParams {
+export interface RunsCreateRunOptionalParams extends OperationOptions {
   /**
    * A list of additional fields to include in the response.
    * Currently the only supported value is `step_details.tool_calls[*].file_search.results[*].content`

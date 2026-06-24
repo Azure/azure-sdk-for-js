@@ -1,24 +1,74 @@
 # Release History
 
-## 2.0.0-beta.1 (2026-06-09)
+## 1.1.0-beta.1 (2026-06-24)
 Compared with version 1.0.0
 
 ### Features Added
-  - Added operation CertificateProfilesOperations.revokeCertificates
+  - Added operation group CertificateProfilesOperations
+  - Added operation group CodeSigningAccountsOperations
+  - Added operation group OperationsOperations
+  - Added Class CodeSigningClient
+  - Added Interface AccountSku
+  - Added Interface AccountSkuPatch
+  - Added Interface Certificate
+  - Added Interface CertificateProfile
+  - Added Interface CertificateProfileProperties
+  - Added Interface CertificateProfilesCreateOptionalParams
+  - Added Interface CertificateProfilesDeleteOptionalParams
+  - Added Interface CertificateProfilesGetOptionalParams
+  - Added Interface CertificateProfilesListByCodeSigningAccountOptionalParams
   - Added Interface CertificateProfilesRevokeCertificatesOptionalParams
+  - Added Interface CheckNameAvailability
+  - Added Interface CheckNameAvailabilityResult
+  - Added Interface CodeSigningAccount
+  - Added Interface CodeSigningAccountPatch
+  - Added Interface CodeSigningAccountPatchProperties
+  - Added Interface CodeSigningAccountProperties
+  - Added Interface CodeSigningAccountsCheckNameAvailabilityOptionalParams
+  - Added Interface CodeSigningAccountsCreateOptionalParams
+  - Added Interface CodeSigningAccountsDeleteOptionalParams
+  - Added Interface CodeSigningAccountsGetOptionalParams
+  - Added Interface CodeSigningAccountsListByResourceGroupOptionalParams
+  - Added Interface CodeSigningAccountsListBySubscriptionOptionalParams
+  - Added Interface CodeSigningAccountsUpdateOptionalParams
+  - Added Interface CodeSigningClientOptionalParams
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface Operation
+  - Added Interface OperationDisplay
+  - Added Interface OperationsListOptionalParams
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface ProxyResource
+  - Added Interface Resource
+  - Added Interface RestorePollerOptions
+  - Added Interface Revocation
+  - Added Interface RevokeCertificate
   - Added Interface RevokeCertificateList
-  - Interface CertificateProfileProperties has a new optional parameter programType
-  - Enum KnownVersions has a new value V20240205Preview
-  - Enum KnownVersions has a new value V20240930Preview
-  - Enum KnownVersions has a new value V20260515Preview
+  - Added Interface SystemData
+  - Added Interface TrackedResource
+  - Added Type Alias ActionType
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias CertificateProfileStatus
+  - Added Type Alias CertificateStatus
+  - Added Type Alias CreatedByType
+  - Added Type Alias NameUnavailabilityReason
+  - Added Type Alias Origin
+  - Added Type Alias ProfileType
+  - Added Type Alias ProvisioningState
+  - Added Type Alias RevocationStatus
+  - Added Type Alias SkuName
+  - Added Enum AzureClouds
+  - Added Enum KnownActionType
+  - Added Enum KnownCertificateProfileStatus
+  - Added Enum KnownCertificateStatus
+  - Added Enum KnownCreatedByType
+  - Added Enum KnownNameUnavailabilityReason
+  - Added Enum KnownOrigin
+  - Added Enum KnownProfileType
+  - Added Enum KnownProvisioningState
+  - Added Enum KnownRevocationStatus
+  - Added Enum KnownSkuName
+  - Added Enum KnownVersions
 
-### Breaking Changes
-  - Removed operation CertificateProfilesOperations.revokeCertificate
-  - Removed Interface CertificateProfilesRevokeCertificateOptionalParams
-
-    
-## 1.0.0 (2026-02-11)
-
-### Features Added
-
-Initial release of the @azure/arm-artifactsigning package

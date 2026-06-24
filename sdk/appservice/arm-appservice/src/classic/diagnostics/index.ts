@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { WebSiteManagementContext } from "../../api/webSiteManagementContext.js";
+import { WebSiteManagementContext } from "../../api/webSiteManagementContext.js";
 import {
   executeSiteDetectorSlot,
   listSiteDetectorsSlot,
@@ -26,7 +26,7 @@ import {
   listSiteDetectorResponses,
   getSiteDetectorResponse,
 } from "../../api/diagnostics/operations.js";
-import type {
+import {
   DiagnosticsExecuteSiteDetectorSlotOptionalParams,
   DiagnosticsListSiteDetectorsSlotOptionalParams,
   DiagnosticsGetSiteDetectorSlotOptionalParams,
@@ -50,7 +50,7 @@ import type {
   DiagnosticsListSiteDetectorResponsesOptionalParams,
   DiagnosticsGetSiteDetectorResponseOptionalParams,
 } from "../../api/diagnostics/options.js";
-import type {
+import {
   DetectorResponse,
   DiagnosticCategory,
   AnalysisDefinition,
@@ -58,7 +58,7 @@ import type {
   DetectorDefinitionResource,
   DiagnosticDetectorResponse,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Diagnostics operations. */
 export interface DiagnosticsOperations {

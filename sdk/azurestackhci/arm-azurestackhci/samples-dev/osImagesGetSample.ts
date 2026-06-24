@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a os image.
  *
  * @summary get a os image.
- * x-ms-original-file: 2026-04-01-preview/OsImages_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-05-01-preview/OsImages_Get_MaximumSet_Gen.json
  */
 async function osImagesGetMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

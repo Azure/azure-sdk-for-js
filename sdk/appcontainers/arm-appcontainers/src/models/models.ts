@@ -1439,27 +1439,27 @@ export function managedIdentitySettingDeserializer(item: any): ManagedIdentitySe
   };
 }
 
-/** Use to select the lifecycle stages of a Session Pool during which the Managed Identity should be available. */
+/** Use to select the lifecycle stages of a Container App during which the Managed Identity should be available. */
 export enum KnownIdentitySettingsLifeCycle {
-  /** None */
+  /** Do not use managed identity during any lifecycle stage. */
   None = "None",
-  /** Main */
+  /** Use managed identity during the main stage of the Container App lifecycle. */
   Main = "Main",
-  /** Init */
+  /** Use managed identity during the init stage of the Container App lifecycle. */
   Init = "Init",
-  /** All */
+  /** Use managed identity during all lifecycle stages of the Container App. */
   All = "All",
 }
 
 /**
- * Use to select the lifecycle stages of a Session Pool during which the Managed Identity should be available. \
+ * Use to select the lifecycle stages of a Container App during which the Managed Identity should be available. \
  * {@link KnownIdentitySettingsLifeCycle} can be used interchangeably with IdentitySettingsLifeCycle,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **None**: None \
- * **Main**: Main \
- * **Init**: Init \
- * **All**: All
+ * **None**: Do not use managed identity during any lifecycle stage. \
+ * **Main**: Use managed identity during the main stage of the Container App lifecycle. \
+ * **Init**: Use managed identity during the init stage of the Container App lifecycle. \
+ * **All**: Use managed identity during all lifecycle stages of the Container App.
  */
 export type IdentitySettingsLifeCycle = string;
 
@@ -3680,9 +3680,9 @@ export interface Scale {
   minReplicas?: number;
   /** Optional. Maximum number of container replicas. Defaults to 10 if not set. */
   maxReplicas?: number;
-  /** Optional. KEDA Cooldown Period. Defaults to 300 seconds if not set. */
+  /** Optional. KEDA Cooldown Period in seconds. Defaults to 300 seconds if not set. */
   cooldownPeriod?: number;
-  /** Optional. KEDA Polling Interval. Defaults to 30 seconds if not set. */
+  /** Optional. KEDA Polling Interval in seconds. Defaults to 30 seconds if not set. */
   pollingInterval?: number;
   /** Scaling rules. */
   rules?: ScaleRule[];
@@ -7688,7 +7688,7 @@ export function tokenStoreDeserializer(item: any): TokenStore {
 
 /** The configuration settings of the storage of the tokens if blob storage is used. */
 export interface BlobStorageTokenStore {
-  /** The name of the app secrets containing the SAS URL of the blob storage containing the tokens. Should not be used along with blobContainerUri. */
+  /** The name of the app secrets containing the SAS URL of the blob storage containing the tokens. */
   sasUrlSettingName?: string;
   /** The URI of the blob storage containing the tokens. Should not be used along with sasUrlSettingName. */
   blobContainerUri?: string;
@@ -11170,7 +11170,7 @@ export function maintenanceConfigurationResourceSerializer(
   item: MaintenanceConfigurationResource,
 ): any {
   return {
-    properties: areAllPropsUndefined(item, ["ScheduledEntries"])
+    properties: areAllPropsUndefined(item, ["scheduledEntries"])
       ? undefined
       : _maintenanceConfigurationResourcePropertiesSerializer(item),
   };
@@ -11353,7 +11353,7 @@ export function managedEnvironmentStoragePropertiesDeserializer(
 
 /** NFS Azure File Properties. */
 export interface NfsAzureFileProperties {
-  /** Server for NFS azure file. */
+  /** Server for NFS azure file. Specify the Azure storage account server address. */
   server?: string;
   /** Access mode for storage */
   accessMode?: AccessMode;
@@ -12764,7 +12764,7 @@ export function buildTokenDeserializer(item: any): BuildToken {
   };
 }
 
-/** The response of a PrivateLinkResource list operation. */
+/** List of private link resources for a managed environment. */
 export interface _PrivateLinkResourceListResult {
   /** The PrivateLinkResource items on this page */
   value: PrivateLinkResource[];
@@ -12856,7 +12856,7 @@ export function _privateEndpointConnectionListResultDeserializer(
   };
 }
 
-/** Advanced Ingress routing for path/header based routing for a Container App Environment */
+/** A set of host names and http request routing rules for a Container App Environment */
 export interface HttpRouteConfig extends ProxyResource {
   /** Http Route Config properties */
   properties?: HttpRouteConfigProperties;
@@ -12962,7 +12962,7 @@ export function httpRouteProvisioningErrorsArrayDeserializer(
   });
 }
 
-/** List of provisioning errors for a http route config object */
+/** List of provisioning errors for a Http Route Config object */
 export interface HttpRouteProvisioningErrors {
   /** Timestamp error occured at */
   readonly timestamp?: Date;
@@ -12989,7 +12989,7 @@ export function httpRouteRuleArrayDeserializer(result: Array<HttpRouteRule>): an
   });
 }
 
-/** Http Route rule. */
+/** A set of routing conditions and targets. */
 export interface HttpRouteRule {
   /** Targets- container apps, revisions, labels */
   targets?: HttpRouteTarget[];
@@ -13033,7 +13033,7 @@ export interface HttpRouteTarget {
   containerApp: string;
   /** Revision to route requests to */
   revision?: string;
-  /** Label/Revision to route requests to */
+  /** Label to route requests to */
   label?: string;
   /** Weighted routing */
   weight?: number;
@@ -13069,7 +13069,7 @@ export function httpRouteArrayDeserializer(result: Array<HttpRoute>): any[] {
   });
 }
 
-/** Http Routes configuration, including paths to match on and whether or not rewrites are to be done. */
+/** Http Routes, including paths to match on and whether or not rewrites are to be done. */
 export interface HttpRoute {
   /** Conditions route will match on */
   match?: HttpRouteMatch;
@@ -13137,7 +13137,7 @@ export function httpRouteActionDeserializer(item: any): HttpRouteAction {
   };
 }
 
-/** Collection of Advanced Ingress Routing Config resources. */
+/** Collection of rule based Http Route Config resources. */
 export interface _HttpRouteConfigCollection {
   /** The HttpRouteConfig items on this page */
   value: HttpRouteConfig[];

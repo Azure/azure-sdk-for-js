@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ApiManagementContext } from "../../api/apiManagementContext.js";
+import { ApiManagementContext } from "../../api/apiManagementContext.js";
 import {
   listByService,
   $delete,
@@ -10,7 +10,7 @@ import {
   getEntityTag,
   get,
 } from "../../api/emailTemplate/operations.js";
-import type {
+import {
   EmailTemplateListByServiceOptionalParams,
   EmailTemplateDeleteOptionalParams,
   EmailTemplateUpdateOptionalParams,
@@ -18,12 +18,12 @@ import type {
   EmailTemplateGetEntityTagOptionalParams,
   EmailTemplateGetOptionalParams,
 } from "../../api/emailTemplate/options.js";
-import type {
+import {
   EmailTemplateContract,
   TemplateName,
   EmailTemplateUpdateParameters,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a EmailTemplate operations. */
 export interface EmailTemplateOperations {

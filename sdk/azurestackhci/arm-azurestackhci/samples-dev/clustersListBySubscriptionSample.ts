@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list all HCI clusters in a subscription.
  *
  * @summary list all HCI clusters in a subscription.
- * x-ms-original-file: 2026-04-01-preview/ListClustersBySubscription.json
+ * x-ms-original-file: 2026-05-01-preview/ListClustersBySubscription.json
  */
 async function listClustersInAGivenSubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
 import {
   PageSettings,
   ContinuablePage,
@@ -8,58 +9,64 @@ import {
 } from "./static-helpers/pagingHelpers.js";
 
 export { AgriculturePlatformClient } from "./agriculturePlatformClient.js";
-export { restorePoller, type RestorePollerOptions } from "./restorePollerHelpers.js";
+export type { RestorePollerOptions } from "./restorePollerHelpers.js";
+export { restorePoller } from "./restorePollerHelpers.js";
+export type {
+  Operation,
+  OperationDisplay,
+  Origin,
+  ActionType,
+  ErrorResponse,
+  ErrorDetail,
+  ErrorAdditionalInfo,
+  AgriServiceResource,
+  AgriServiceResourceProperties,
+  ProvisioningState,
+  AgriServiceConfig,
+  ManagedOnBehalfOfConfiguration,
+  MoboBrokerResource,
+  DataConnectorCredentialMap,
+  DataConnectorCredentials,
+  AuthCredentialsKind,
+  InstalledSolutionMap,
+  Solution,
+  ManagedServiceIdentity,
+  ManagedServiceIdentityType,
+  UserAssignedIdentity,
+  Sku,
+  SkuTier,
+  TrackedResource,
+  Resource,
+  SystemData,
+  CreatedByType,
+  AgriServiceResourceUpdate,
+  AgriServiceResourceUpdateProperties,
+  AvailableAgriSolutionListResult,
+  DataManagerForAgricultureSolution,
+  MarketPlaceOfferDetails,
+} from "./models/index.js";
 export {
-  type AgriServiceResource,
-  type AgriServiceResourceProperties,
-  KnownProvisioningState,
-  type ProvisioningState,
-  type AgriServiceConfig,
-  type ManagedOnBehalfOfConfiguration,
-  type MoboBrokerResource,
-  type DataConnectorCredentialMap,
-  type DataConnectorCredentials,
-  KnownAuthCredentialsKind,
-  type AuthCredentialsKind,
-  type InstalledSolutionMap,
-  type Solution,
-  type ManagedServiceIdentity,
-  KnownManagedServiceIdentityType,
-  type ManagedServiceIdentityType,
-  type UserAssignedIdentity,
-  type Sku,
-  type SkuTier,
-  type TrackedResource,
-  type Resource,
-  type SystemData,
-  KnownCreatedByType,
-  type CreatedByType,
-  type ErrorResponse,
-  type ErrorDetail,
-  type ErrorAdditionalInfo,
-  type AgriServiceResourceUpdate,
-  type AgriServiceResourceUpdateProperties,
-  type AvailableAgriSolutionListResult,
-  type DataManagerForAgricultureSolution,
-  type MarketPlaceOfferDetails,
-  type Operation,
-  type OperationDisplay,
   KnownOrigin,
-  type Origin,
   KnownActionType,
-  type ActionType,
+  KnownProvisioningState,
+  KnownAuthCredentialsKind,
+  KnownManagedServiceIdentityType,
+  KnownCreatedByType,
   KnownVersions,
 } from "./models/index.js";
-export { type AgriculturePlatformClientOptionalParams } from "./api/index.js";
-export {
-  type AgriServiceListAvailableSolutionsOptionalParams,
-  type AgriServiceListBySubscriptionOptionalParams,
-  type AgriServiceListByResourceGroupOptionalParams,
-  type AgriServiceDeleteOptionalParams,
-  type AgriServiceUpdateOptionalParams,
-  type AgriServiceCreateOrUpdateOptionalParams,
-  type AgriServiceGetOptionalParams,
+export type { AgriculturePlatformClientOptionalParams } from "./api/index.js";
+export type {
+  AgriServiceListAvailableSolutionsOptionalParams,
+  AgriServiceListBySubscriptionOptionalParams,
+  AgriServiceListByResourceGroupOptionalParams,
+  AgriServiceDeleteOptionalParams,
+  AgriServiceUpdateOptionalParams,
+  AgriServiceCreateOrUpdateOptionalParams,
+  AgriServiceGetOptionalParams,
 } from "./api/agriService/index.js";
-export { type OperationsListOptionalParams } from "./api/operations/index.js";
-export { type AgriServiceOperations, type OperationsOperations } from "./classic/index.js";
-export { type PageSettings, type ContinuablePage, type PagedAsyncIterableIterator };
+export type { OperationsListOptionalParams } from "./api/operations/index.js";
+export type { AgriServiceOperations, OperationsOperations } from "./classic/index.js";
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { AzureClouds };
+export type { AzureSupportedClouds };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

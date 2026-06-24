@@ -1,24 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ApiManagementContext } from "../../api/apiManagementContext.js";
+import { ApiManagementContext } from "../../api/apiManagementContext.js";
 import { getSyncState, validate, save, deploy } from "../../api/tenantConfiguration/operations.js";
-import type {
+import {
   TenantConfigurationGetSyncStateOptionalParams,
   TenantConfigurationValidateOptionalParams,
   TenantConfigurationSaveOptionalParams,
   TenantConfigurationDeployOptionalParams,
 } from "../../api/tenantConfiguration/options.js";
-import type {
+import {
   OperationResultContract,
   DeployConfigurationParameters,
   SaveConfigurationParameter,
   TenantConfigurationSyncStateContract,
   ConfigurationIdName,
 } from "../../models/models.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a TenantConfiguration operations. */
 export interface TenantConfigurationOperations {

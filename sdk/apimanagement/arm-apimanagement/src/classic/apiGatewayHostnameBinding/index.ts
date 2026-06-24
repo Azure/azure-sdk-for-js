@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ApiManagementContext } from "../../api/apiManagementContext.js";
+import { ApiManagementContext } from "../../api/apiManagementContext.js";
 import {
   refreshSecret,
   listByGateway,
@@ -9,18 +9,17 @@ import {
   createOrUpdate,
   get,
 } from "../../api/apiGatewayHostnameBinding/operations.js";
-import type {
+import {
   ApiGatewayHostnameBindingRefreshSecretOptionalParams,
   ApiGatewayHostnameBindingListByGatewayOptionalParams,
   ApiGatewayHostnameBindingDeleteOptionalParams,
   ApiGatewayHostnameBindingCreateOrUpdateOptionalParams,
   ApiGatewayHostnameBindingGetOptionalParams,
 } from "../../api/apiGatewayHostnameBinding/options.js";
-import type { GatewayHostnameBindingResource } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { GatewayHostnameBindingResource } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ApiGatewayHostnameBinding operations. */
 export interface ApiGatewayHostnameBindingOperations {
