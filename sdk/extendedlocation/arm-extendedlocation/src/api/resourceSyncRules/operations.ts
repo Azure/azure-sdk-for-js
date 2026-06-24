@@ -1,37 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CustomLocationsManagementContext as Client } from "../index.js";
+import type { CustomLocationsManagementContext as Client } from "../index.js";
+import type { ResourceSyncRule, _ResourceSyncRuleListResult } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  ResourceSyncRule,
+  resourceSyncRulePropertiesSelectorSerializer,
   resourceSyncRuleSerializer,
   resourceSyncRuleDeserializer,
-  PatchableResourceSyncRule,
-  patchableResourceSyncRuleSerializer,
-  _ResourceSyncRuleListResult,
   _resourceSyncRuleListResultDeserializer,
 } from "../../models/models.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   ResourceSyncRulesListByCustomLocationIDOptionalParams,
   ResourceSyncRulesDeleteOptionalParams,
-  ResourceSyncRulesUpdateOptionalParams,
   ResourceSyncRulesCreateOrUpdateOptionalParams,
   ResourceSyncRulesGetOptionalParams,
+  ResourceSyncRulesUpdateOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listByCustomLocationIDSend(
   context: Client,
@@ -63,7 +55,9 @@ export async function _listByCustomLocationIDDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -118,7 +112,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -142,66 +138,6 @@ export async function $delete(
     options,
   );
   return _$deleteDeserialize(result);
-}
-
-export function _updateSend(
-  context: Client,
-  resourceGroupName: string,
-  resourceName: string,
-  childResourceName: string,
-  parameters: PatchableResourceSyncRule,
-  options: ResourceSyncRulesUpdateOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ExtendedLocation/customLocations/{resourceName}/resourceSyncRules/{childResourceName}{?api%2Dversion}",
-    {
-      subscriptionId: context.subscriptionId,
-      resourceGroupName: resourceGroupName,
-      resourceName: resourceName,
-      childResourceName: childResourceName,
-      "api%2Dversion": context.apiVersion ?? "2021-08-31-preview",
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: patchableResourceSyncRuleSerializer(parameters),
-  });
-}
-
-export async function _updateDeserialize(result: PathUncheckedResponse): Promise<ResourceSyncRule> {
-  const expectedStatuses = ["200", "201", "202"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
-
-    throw error;
-  }
-
-  return resourceSyncRuleDeserializer(result.body);
-}
-
-/** Updates a Resource Sync Rule with the specified Resource Sync Rule name in the specified Resource Group, Subscription and Custom Location name. */
-export function update(
-  context: Client,
-  resourceGroupName: string,
-  resourceName: string,
-  childResourceName: string,
-  parameters: PatchableResourceSyncRule,
-  options: ResourceSyncRulesUpdateOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<ResourceSyncRule>, ResourceSyncRule> {
-  return getLongRunningPoller(context, _updateDeserialize, ["200", "201", "202"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _updateSend(context, resourceGroupName, resourceName, childResourceName, parameters, options),
-    resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2021-08-31-preview",
-  }) as PollerLike<OperationState<ResourceSyncRule>, ResourceSyncRule>;
 }
 
 export function _createOrUpdateSend(
@@ -239,7 +175,9 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -303,7 +241,9 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Re
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -327,4 +267,70 @@ export async function get(
     options,
   );
   return _getDeserialize(result);
+}
+
+export function _updateSend(
+  context: Client,
+  resourceGroupName: string,
+  resourceName: string,
+  childResourceName: string,
+  options: ResourceSyncRulesUpdateOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ExtendedLocation/customLocations/{resourceName}/resourceSyncRules/{childResourceName}{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      resourceName: resourceName,
+      childResourceName: childResourceName,
+      "api%2Dversion": context.apiVersion ?? "2021-08-31-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: {
+      priority: options?.priority,
+      selector: !options?.selector
+        ? options?.selector
+        : resourceSyncRulePropertiesSelectorSerializer(options?.selector),
+      targetResourceGroup: options?.targetResourceGroup,
+      tags: options?.tags,
+    },
+  });
+}
+
+export async function _updateDeserialize(result: PathUncheckedResponse): Promise<ResourceSyncRule> {
+  const expectedStatuses = ["200", "201", "202"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return resourceSyncRuleDeserializer(result.body);
+}
+
+export function update(
+  context: Client,
+  resourceGroupName: string,
+  resourceName: string,
+  childResourceName: string,
+  options: ResourceSyncRulesUpdateOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<ResourceSyncRule>, ResourceSyncRule> {
+  return getLongRunningPoller(context, _updateDeserialize, ["200", "201", "202"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _updateSend(context, resourceGroupName, resourceName, childResourceName, options),
+    resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2021-08-31-preview",
+  }) as PollerLike<OperationState<ResourceSyncRule>, ResourceSyncRule>;
 }

@@ -3,11 +3,12 @@
 
 import { logger } from "../logger.js";
 import { KnownVersions } from "../models/models.js";
-import { AzureSupportedClouds, getArmEndpoint } from "../static-helpers/cloudSettingHelpers.js";
-import { Client, ClientOptions, getClient } from "@azure-rest/core-client";
-import { TokenCredential } from "@azure/core-auth";
+import type { AzureSupportedClouds } from "../static-helpers/cloudSettingHelpers.js";
+import { getArmEndpoint } from "../static-helpers/cloudSettingHelpers.js";
+import type { Client, ClientOptions } from "@azure-rest/core-client";
+import { getClient } from "@azure-rest/core-client";
+import type { TokenCredential } from "@azure/core-auth";
 
-/** The customLocations Rest API spec. */
 export interface CustomLocationsManagementContext extends Client {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -25,7 +26,6 @@ export interface CustomLocationsManagementClientOptionalParams extends ClientOpt
   cloudSetting?: AzureSupportedClouds;
 }
 
-/** The customLocations Rest API spec. */
 export function createCustomLocationsManagement(
   credential: TokenCredential,
   subscriptionId: string,

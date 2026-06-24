@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.5 (2026-05-27)
+## 1.0.0-beta.5 (2026-06-24)
 Compared with version 1.0.0-beta.3
 
 ### Features Added
@@ -8,6 +8,7 @@ Compared with version 1.0.0-beta.3
   - Added operation CustomLocationsOperations.delete
   - Added operation ResourceSyncRulesOperations.createOrUpdate
   - Added operation ResourceSyncRulesOperations.update
+  - Class CustomLocationsManagementClient has a new constructor "constructor(credential: TokenCredential, options?: CustomLocationsManagementClientOptionalParams);"
   - Added Interface CustomLocationOperationValueDisplay
   - Added Interface CustomLocationProperties
   - Added Interface EnabledResourceTypeProperties
@@ -24,19 +25,11 @@ Compared with version 1.0.0-beta.3
   - Added Enum KnownVersions
 
 ### Breaking Changes
-  - Operation CustomLocations.update has a new signature
-  - Operation ResourceSyncRules.beginUpdate has a new signature
-  - Operation ResourceSyncRules.beginUpdateAndWait has a new signature
+  - Class CustomLocationsManagementClient no longer has parameter apiVersion
+  - Class CustomLocationsManagementClient no longer has parameter subscriptionId
   - Removed Interface CustomLocationOperationsList
-  - Interface CustomLocationsUpdateOptionalParams no longer has parameter authentication
-  - Interface CustomLocationsUpdateOptionalParams no longer has parameter clusterExtensionIds
-  - Interface CustomLocationsUpdateOptionalParams no longer has parameter displayName
-  - Interface CustomLocationsUpdateOptionalParams no longer has parameter hostResourceId
-  - Interface CustomLocationsUpdateOptionalParams no longer has parameter hostType
-  - Interface CustomLocationsUpdateOptionalParams no longer has parameter identity
-  - Interface CustomLocationsUpdateOptionalParams no longer has parameter namespace
-  - Interface CustomLocationsUpdateOptionalParams no longer has parameter provisioningState
-  - Interface CustomLocationsUpdateOptionalParams no longer has parameter tags
+  - Removed Interface PatchableCustomLocations
+  - Removed Interface PatchableResourceSyncRule
 
 ## 1.0.0-beta.3 (2023-01-10)
 

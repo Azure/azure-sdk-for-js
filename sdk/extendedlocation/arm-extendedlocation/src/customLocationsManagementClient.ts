@@ -1,21 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   CustomLocationsManagementContext,
   CustomLocationsManagementClientOptionalParams,
-  createCustomLocationsManagement,
 } from "./api/index.js";
-import {
-  CustomLocationsOperations,
-  _getCustomLocationsOperations,
-} from "./classic/customLocations/index.js";
-import {
-  ResourceSyncRulesOperations,
-  _getResourceSyncRulesOperations,
-} from "./classic/resourceSyncRules/index.js";
-import { TokenCredential } from "@azure/core-auth";
-import { Pipeline } from "@azure/core-rest-pipeline";
+import { createCustomLocationsManagement } from "./api/index.js";
+import type { CustomLocationsOperations } from "./classic/customLocations/index.js";
+import { _getCustomLocationsOperations } from "./classic/customLocations/index.js";
+import type { ResourceSyncRulesOperations } from "./classic/resourceSyncRules/index.js";
+import { _getResourceSyncRulesOperations } from "./classic/resourceSyncRules/index.js";
+import type { TokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { CustomLocationsManagementClientOptionalParams } from "./api/customLocationsManagementContext.js";
 
@@ -30,7 +26,6 @@ export class CustomLocationsManagementClient {
     subscriptionId: string,
     options?: CustomLocationsManagementClientOptionalParams,
   );
-  /** The customLocations Rest API spec. */
   constructor(
     credential: TokenCredential,
     subscriptionIdOrOptions?: string | CustomLocationsManagementClientOptionalParams,

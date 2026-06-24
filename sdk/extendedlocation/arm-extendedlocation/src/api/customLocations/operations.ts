@@ -1,51 +1,47 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CustomLocationsManagementContext as Client } from "../index.js";
-import {
-  _CustomLocationOperationsList,
-  _customLocationOperationsListDeserializer,
-  CustomLocationOperation,
-  errorResponseDeserializer,
+import type { CustomLocationsManagementContext as Client } from "../index.js";
+import type {
   CustomLocation,
-  customLocationSerializer,
-  customLocationDeserializer,
-  PatchableCustomLocations,
-  patchableCustomLocationsSerializer,
+  _CustomLocationOperationsList,
+  CustomLocationOperation,
   _CustomLocationListResult,
-  _customLocationListResultDeserializer,
   _EnabledResourceTypesListResult,
-  _enabledResourceTypesListResultDeserializer,
   EnabledResourceType,
   CustomLocationFindTargetResourceGroupProperties,
-  customLocationFindTargetResourceGroupPropertiesSerializer,
   CustomLocationFindTargetResourceGroupResult,
-  customLocationFindTargetResourceGroupResultDeserializer,
 } from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+  identitySerializer,
+  customLocationPropertiesAuthenticationSerializer,
+  customLocationSerializer,
+  customLocationDeserializer,
+  errorResponseDeserializer,
+  _customLocationOperationsListDeserializer,
+  _customLocationListResultDeserializer,
+  _enabledResourceTypesListResultDeserializer,
+  customLocationFindTargetResourceGroupPropertiesSerializer,
+  customLocationFindTargetResourceGroupResultDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   CustomLocationsFindTargetResourceGroupOptionalParams,
   CustomLocationsListEnabledResourceTypesOptionalParams,
   CustomLocationsListBySubscriptionOptionalParams,
   CustomLocationsListByResourceGroupOptionalParams,
   CustomLocationsDeleteOptionalParams,
-  CustomLocationsUpdateOptionalParams,
   CustomLocationsCreateOrUpdateOptionalParams,
   CustomLocationsGetOptionalParams,
   CustomLocationsListOperationsOptionalParams,
+  CustomLocationsUpdateOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _findTargetResourceGroupSend(
   context: Client,
@@ -76,16 +72,20 @@ export function _findTargetResourceGroupSend(
 
 export async function _findTargetResourceGroupDeserialize(
   result: PathUncheckedResponse,
-): Promise<CustomLocationFindTargetResourceGroupResult> {
+): Promise<CustomLocationFindTargetResourceGroupResult | undefined> {
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
-  return customLocationFindTargetResourceGroupResultDeserializer(result.body);
+  return result.body
+    ? customLocationFindTargetResourceGroupResultDeserializer(result.body)
+    : undefined;
 }
 
 /** Returns the target resource group associated with the resource sync rules of the Custom Location that match the rules passed in with the Find Target Resource Group Request. */
@@ -95,7 +95,7 @@ export async function findTargetResourceGroup(
   resourceName: string,
   parameters: CustomLocationFindTargetResourceGroupProperties,
   options: CustomLocationsFindTargetResourceGroupOptionalParams = { requestOptions: {} },
-): Promise<CustomLocationFindTargetResourceGroupResult> {
+): Promise<CustomLocationFindTargetResourceGroupResult | undefined> {
   const result = await _findTargetResourceGroupSend(
     context,
     resourceGroupName,
@@ -136,7 +136,9 @@ export async function _listEnabledResourceTypesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -190,7 +192,9 @@ export async function _listBySubscriptionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -244,7 +248,9 @@ export async function _listByResourceGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -296,7 +302,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -318,57 +326,6 @@ export function $delete(
     resourceLocationConfig: "azure-async-operation",
     apiVersion: context.apiVersion ?? "2021-08-31-preview",
   }) as PollerLike<OperationState<void>, void>;
-}
-
-export function _updateSend(
-  context: Client,
-  resourceGroupName: string,
-  resourceName: string,
-  parameters: PatchableCustomLocations,
-  options: CustomLocationsUpdateOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ExtendedLocation/customLocations/{resourceName}{?api%2Dversion}",
-    {
-      subscriptionId: context.subscriptionId,
-      resourceGroupName: resourceGroupName,
-      resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2021-08-31-preview",
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: patchableCustomLocationsSerializer(parameters),
-  });
-}
-
-export async function _updateDeserialize(result: PathUncheckedResponse): Promise<CustomLocation> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
-
-    throw error;
-  }
-
-  return customLocationDeserializer(result.body);
-}
-
-/** Updates a Custom Location with the specified Resource Name in the specified Resource Group and Subscription. */
-export async function update(
-  context: Client,
-  resourceGroupName: string,
-  resourceName: string,
-  parameters: PatchableCustomLocations,
-  options: CustomLocationsUpdateOptionalParams = { requestOptions: {} },
-): Promise<CustomLocation> {
-  const result = await _updateSend(context, resourceGroupName, resourceName, parameters, options);
-  return _updateDeserialize(result);
 }
 
 export function _createOrUpdateSend(
@@ -404,7 +361,9 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -458,7 +417,9 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Cu
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -502,7 +463,9 @@ export async function _listOperationsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -526,4 +489,70 @@ export function listOperations(
       apiVersion: context.apiVersion ?? "2021-08-31-preview",
     },
   );
+}
+
+export function _updateSend(
+  context: Client,
+  resourceGroupName: string,
+  resourceName: string,
+  options: CustomLocationsUpdateOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ExtendedLocation/customLocations/{resourceName}{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      resourceName: resourceName,
+      "api%2Dversion": context.apiVersion ?? "2021-08-31-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: {
+      identity: !options?.identity ? options?.identity : identitySerializer(options?.identity),
+      authentication: !options?.authentication
+        ? options?.authentication
+        : customLocationPropertiesAuthenticationSerializer(options?.authentication),
+      clusterExtensionIds: !options?.clusterExtensionIds
+        ? options?.clusterExtensionIds
+        : options?.clusterExtensionIds.map((p: any) => {
+            return p;
+          }),
+      displayName: options?.displayName,
+      hostResourceId: options?.hostResourceId,
+      hostType: options?.hostType,
+      namespace: options?.namespace,
+      provisioningState: options?.provisioningState,
+      tags: options?.tags,
+    },
+  });
+}
+
+export async function _updateDeserialize(result: PathUncheckedResponse): Promise<CustomLocation> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return customLocationDeserializer(result.body);
+}
+
+export async function update(
+  context: Client,
+  resourceGroupName: string,
+  resourceName: string,
+  options: CustomLocationsUpdateOptionalParams = { requestOptions: {} },
+): Promise<CustomLocation> {
+  const result = await _updateSend(context, resourceGroupName, resourceName, options);
+  return _updateDeserialize(result);
 }

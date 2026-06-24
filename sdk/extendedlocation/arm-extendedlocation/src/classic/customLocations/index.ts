@@ -1,40 +1,40 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CustomLocationsManagementContext } from "../../api/customLocationsManagementContext.js";
+import type { CustomLocationsManagementContext } from "../../api/customLocationsManagementContext.js";
 import {
   findTargetResourceGroup,
   listEnabledResourceTypes,
   listBySubscription,
   listByResourceGroup,
   $delete,
-  update,
   createOrUpdate,
   get,
   listOperations,
+  update,
 } from "../../api/customLocations/operations.js";
-import {
+import type {
   CustomLocationsFindTargetResourceGroupOptionalParams,
   CustomLocationsListEnabledResourceTypesOptionalParams,
   CustomLocationsListBySubscriptionOptionalParams,
   CustomLocationsListByResourceGroupOptionalParams,
   CustomLocationsDeleteOptionalParams,
-  CustomLocationsUpdateOptionalParams,
   CustomLocationsCreateOrUpdateOptionalParams,
   CustomLocationsGetOptionalParams,
   CustomLocationsListOperationsOptionalParams,
+  CustomLocationsUpdateOptionalParams,
 } from "../../api/customLocations/options.js";
-import {
-  CustomLocationOperation,
+import type {
   CustomLocation,
-  PatchableCustomLocations,
+  CustomLocationOperation,
   EnabledResourceType,
   CustomLocationFindTargetResourceGroupProperties,
   CustomLocationFindTargetResourceGroupResult,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a CustomLocations operations. */
 export interface CustomLocationsOperations {
@@ -44,7 +44,7 @@ export interface CustomLocationsOperations {
     resourceName: string,
     parameters: CustomLocationFindTargetResourceGroupProperties,
     options?: CustomLocationsFindTargetResourceGroupOptionalParams,
-  ) => Promise<CustomLocationFindTargetResourceGroupResult>;
+  ) => Promise<CustomLocationFindTargetResourceGroupResult | undefined>;
   /** Gets the list of the Enabled Resource Types. */
   listEnabledResourceTypes: (
     resourceGroupName: string,
@@ -78,13 +78,6 @@ export interface CustomLocationsOperations {
     resourceName: string,
     options?: CustomLocationsDeleteOptionalParams,
   ) => Promise<void>;
-  /** Updates a Custom Location with the specified Resource Name in the specified Resource Group and Subscription. */
-  update: (
-    resourceGroupName: string,
-    resourceName: string,
-    parameters: PatchableCustomLocations,
-    options?: CustomLocationsUpdateOptionalParams,
-  ) => Promise<CustomLocation>;
   /** Creates or updates a Custom Location in the specified Subscription and Resource Group */
   createOrUpdate: (
     resourceGroupName: string,
@@ -116,6 +109,11 @@ export interface CustomLocationsOperations {
   listOperations: (
     options?: CustomLocationsListOperationsOptionalParams,
   ) => PagedAsyncIterableIterator<CustomLocationOperation>;
+  update: (
+    resourceGroupName: string,
+    resourceName: string,
+    options?: CustomLocationsUpdateOptionalParams,
+  ) => Promise<CustomLocation>;
 }
 
 function _getCustomLocations(context: CustomLocationsManagementContext) {
@@ -158,12 +156,6 @@ function _getCustomLocations(context: CustomLocationsManagementContext) {
     ) => {
       return await $delete(context, resourceGroupName, resourceName, options);
     },
-    update: (
-      resourceGroupName: string,
-      resourceName: string,
-      parameters: PatchableCustomLocations,
-      options?: CustomLocationsUpdateOptionalParams,
-    ) => update(context, resourceGroupName, resourceName, parameters, options),
     createOrUpdate: (
       resourceGroupName: string,
       resourceName: string,
@@ -195,6 +187,11 @@ function _getCustomLocations(context: CustomLocationsManagementContext) {
     ) => get(context, resourceGroupName, resourceName, options),
     listOperations: (options?: CustomLocationsListOperationsOptionalParams) =>
       listOperations(context, options),
+    update: (
+      resourceGroupName: string,
+      resourceName: string,
+      options?: CustomLocationsUpdateOptionalParams,
+    ) => update(context, resourceGroupName, resourceName, options),
   };
 }
 

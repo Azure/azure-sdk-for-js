@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
-import {
+import type { AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import { AzureClouds } from "./static-helpers/cloudSettingHelpers.js";
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
@@ -13,37 +14,35 @@ export type { SimplePollerLike } from "./static-helpers/simplePollerHelpers.js";
 export type { RestorePollerOptions } from "./restorePollerHelpers.js";
 export { restorePoller } from "./restorePollerHelpers.js";
 export type {
-  CustomLocationOperation,
-  CustomLocationOperationValueDisplay,
-  ErrorResponse,
-  ErrorDetail,
-  ErrorAdditionalInfo,
-  CustomLocation,
-  CustomLocationProperties,
-  CustomLocationPropertiesAuthentication,
-  HostType,
   Identity,
   ResourceIdentityType,
+  CustomLocationPropertiesAuthentication,
+  HostType,
+  CustomLocation,
+  CustomLocationProperties,
   TrackedResource,
   Resource,
   SystemData,
   CreatedByType,
-  PatchableCustomLocations,
+  ErrorResponse,
+  ErrorDetail,
+  ErrorAdditionalInfo,
+  CustomLocationOperation,
+  CustomLocationOperationValueDisplay,
   EnabledResourceType,
   EnabledResourceTypeProperties,
   EnabledResourceTypePropertiesTypesMetadataItem,
   ProxyResource,
   CustomLocationFindTargetResourceGroupProperties,
   CustomLocationFindTargetResourceGroupResult,
-  ResourceSyncRule,
-  ResourceSyncRuleProperties,
   ResourceSyncRulePropertiesSelector,
   MatchExpressionsProperties,
-  PatchableResourceSyncRule,
+  ResourceSyncRule,
+  ResourceSyncRuleProperties,
 } from "./models/index.js";
 export {
-  KnownHostType,
   KnownResourceIdentityType,
+  KnownHostType,
   KnownCreatedByType,
   KnownVersions,
 } from "./models/index.js";
@@ -54,17 +53,17 @@ export type {
   CustomLocationsListBySubscriptionOptionalParams,
   CustomLocationsListByResourceGroupOptionalParams,
   CustomLocationsDeleteOptionalParams,
-  CustomLocationsUpdateOptionalParams,
   CustomLocationsCreateOrUpdateOptionalParams,
   CustomLocationsGetOptionalParams,
   CustomLocationsListOperationsOptionalParams,
+  CustomLocationsUpdateOptionalParams,
 } from "./api/customLocations/index.js";
 export type {
   ResourceSyncRulesListByCustomLocationIDOptionalParams,
   ResourceSyncRulesDeleteOptionalParams,
-  ResourceSyncRulesUpdateOptionalParams,
   ResourceSyncRulesCreateOrUpdateOptionalParams,
   ResourceSyncRulesGetOptionalParams,
+  ResourceSyncRulesUpdateOptionalParams,
 } from "./api/resourceSyncRules/index.js";
 export type { CustomLocationsOperations, ResourceSyncRulesOperations } from "./classic/index.js";
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
