@@ -1,6 +1,6 @@
 # Release History
 
-## 4.0.0-beta.1 (2026-06-01)
+## 4.0.0-beta.2 (2026-06-24)
 Compared with version 3.1.0
 
 ### Features Added
@@ -17,6 +17,7 @@ Compared with version 3.1.0
   - Added operation MonitorsOperations.manageSreAgentConnectors
   - Added operation MonitorsOperations.update
   - Added operation SingleSignOnConfigurationsOperations.createOrUpdate
+  - Class MicrosoftDatadogClient has a new constructor "constructor(credential: TokenCredential, options?: MicrosoftDatadogClientOptionalParams);"
   - Added Interface ActivateSaaSParameterRequest
   - Added Interface AgentRules
   - Added Interface BillingInfoGetOptionalParams
@@ -61,6 +62,8 @@ Compared with version 3.1.0
   - Added Enum KnownVersions
 
 ### Breaking Changes
+  - Class MicrosoftDatadogClient no longer has parameter apiVersion
+  - Class MicrosoftDatadogClient no longer has parameter subscriptionId
   - Removed Interface CreateResourceSupportedResponseList
   - Removed Interface DatadogAgreementResourceListResponse
   - Removed Interface DatadogApiKeyListResponse
@@ -72,63 +75,3 @@ Compared with version 3.1.0
   - Removed Interface MonitoredSubscriptionPropertiesList
   - Removed Interface MonitoringTagRulesListResponse
 
-    
-## 3.1.0 (2023-10-09)
-    
-### Features Added
-
-  - Added operation group CreationSupported
-  - Added operation group MonitoredSubscriptions
-  - Added Interface CreateResourceSupportedProperties
-  - Added Interface CreateResourceSupportedResponse
-  - Added Interface CreateResourceSupportedResponseList
-  - Added Interface CreationSupportedGetOptionalParams
-  - Added Interface CreationSupportedListOptionalParams
-  - Added Interface MonitoredSubscription
-  - Added Interface MonitoredSubscriptionProperties
-  - Added Interface MonitoredSubscriptionPropertiesList
-  - Added Interface MonitoredSubscriptionsCreateorUpdateOptionalParams
-  - Added Interface MonitoredSubscriptionsDeleteOptionalParams
-  - Added Interface MonitoredSubscriptionsGetOptionalParams
-  - Added Interface MonitoredSubscriptionsListOptionalParams
-  - Added Interface MonitoredSubscriptionsUpdateOptionalParams
-  - Added Interface SubscriptionList
-  - Added Type Alias CreationSupportedGetResponse
-  - Added Type Alias CreationSupportedListResponse
-  - Added Type Alias MonitoredSubscriptionsCreateorUpdateResponse
-  - Added Type Alias MonitoredSubscriptionsGetResponse
-  - Added Type Alias MonitoredSubscriptionsListResponse
-  - Added Type Alias MonitoredSubscriptionsUpdateResponse
-  - Added Type Alias Operation
-  - Added Type Alias Status
-  - Interface DatadogOrganizationProperties has a new optional parameter cspm
-  - Interface MonitoringTagRulesProperties has a new optional parameter automuting
-  - Interface MonitorUpdateProperties has a new optional parameter cspm
-  - Added Enum KnownOperation
-  - Added Enum KnownStatus
-    
-## 3.0.2 (2022-11-21)
-
-### Features Added
-
- -  Exposes `getContinuationToken` helper function to extract continuation token
-
-### Bugs Fixed
- 
-  - A series of small bug fixs relevant to authentication and apiVersion policy
-
-## 3.0.1 (2022-04-18)
-
-### Features Added
-
-  - bug fix
-
-## 3.0.0 (2022-01-12)
-
-The package of @azure/arm-datadog is using our next generation design principles since version 3.0.0, which contains breaking changes.
-
-To understand the detail of the change, please refer to [Changelog](https://aka.ms/js-track2-changelog).
-
-To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
-
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).

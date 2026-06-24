@@ -4,14 +4,16 @@
 
 ```ts
 
-import type { AbortSignalLike } from '@azure/abort-controller';
-import type { ClientOptions } from '@azure-rest/core-client';
-import type { OperationOptions } from '@azure-rest/core-client';
-import type { OperationState } from '@azure/core-lro';
-import type { PathUncheckedResponse } from '@azure-rest/core-client';
-import type { Pipeline } from '@azure/core-rest-pipeline';
-import type { PollerLike } from '@azure/core-lro';
-import type { TokenCredential } from '@azure/core-auth';
+import { AbortSignalLike } from '@azure/abort-controller';
+import { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import { OperationOptions } from '@azure-rest/core-client';
+import { OperationState } from '@azure/core-lro';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
@@ -245,6 +247,8 @@ export interface IntegrationFabricUpdateParameters {
     tags?: Record<string, string>;
 }
 
+export { isRestError }
+
 // @public
 export enum KnownActionType {
     Internal = "Internal"
@@ -376,7 +380,7 @@ export enum KnownZoneRedundancy {
 
 // @public
 export interface ManagedDashboard extends TrackedResource {
-    properties?: ManagedDashboardProperties;
+    readonly provisioningState?: ProvisioningState;
 }
 
 // @public
@@ -487,7 +491,14 @@ export type ManagedPrivateEndpointConnectionStatus = string;
 
 // @public
 export interface ManagedPrivateEndpointModel extends TrackedResource {
-    properties?: ManagedPrivateEndpointModelProperties;
+    readonly connectionState?: ManagedPrivateEndpointConnectionState;
+    groupIds?: string[];
+    privateLinkResourceId?: string;
+    privateLinkResourceRegion?: string;
+    readonly privateLinkServicePrivateIP?: string;
+    privateLinkServiceUrl?: string;
+    readonly provisioningState?: ProvisioningState;
+    requestMessage?: string;
 }
 
 // @public
@@ -615,7 +626,10 @@ export interface PrivateEndpoint {
 
 // @public
 export interface PrivateEndpointConnection extends ProxyResource {
-    properties?: PrivateEndpointConnectionProperties;
+    groupIds?: string[];
+    privateEndpoint?: PrivateEndpoint;
+    privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+    readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
 }
 
 // @public
@@ -662,7 +676,10 @@ export type PrivateEndpointServiceConnectionStatus = string;
 
 // @public
 export interface PrivateLinkResource extends ProxyResource {
-    properties?: PrivateLinkResourceProperties;
+    readonly groupId?: string;
+    readonly provisioningState?: ProvisioningState;
+    readonly requiredMembers?: string[];
+    requiredZoneNames?: string[];
 }
 
 // @public
@@ -717,6 +734,8 @@ export interface ResourceSku {
     name: string;
     size?: Size;
 }
+
+export { RestError }
 
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: DashboardManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;

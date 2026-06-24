@@ -1,6 +1,6 @@
 # Release History
 
-## 2.0.0-beta.1 (2026-06-18)
+## 2.0.0-beta.2 (2026-06-24)
 Compared with version 1.0.0
 
 ### Features Added
@@ -83,12 +83,10 @@ Compared with version 1.0.0
   - Operation Roles.beginCreateAndWait has a new signature
   - Operation Roles.beginDeleteAndWait has a new signature
   - Operation Roles.get has a new signature
+  - Class CosmosDBForPostgreSQL no longer has parameter apiVersion
+  - Class CosmosDBForPostgreSQL no longer has parameter subscriptionId
   - Interface Operation no longer has parameter properties
   - Parameter password of interface Role is now optional
   - Removed Type Alias OperationOrigin
   - Removed Enum KnownOperationOrigin
 
-    
-## 1.0.0 (2023-09-04)
-
-The package of @azure/arm-cosmosdbforpostgresql is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).

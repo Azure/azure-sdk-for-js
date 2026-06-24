@@ -1,7 +1,6 @@
 # Release History
 
-## 4.0.0-beta.1 (2026-06-08)
-Compared with version 3.0.0
+## 4.0.0 (2026-06-24)
 
 ### Features Added
   - Added operation AccessConnectorsOperations.createOrUpdate
@@ -65,19 +64,10 @@ Compared with version 3.0.0
   - Operation Workspaces.beginUpdateAndWait has a new signature
   - Operation Workspaces.get has a new signature
   - Class AzureDatabricksManagementClient has a new signature
+  - Class AzureDatabricksManagementClient no longer has parameter subscriptionId
   - Removed Interface PrivateEndpointConnectionsList
   - Removed Interface PrivateLinkResourcesList
   - Removed Interface VirtualNetworkPeeringList
   - Interface Workspace has a new required parameter computeMode
   - Parameter managedResourceGroupId of interface Workspace is now optional
 
-    
-## 3.0.0 (2023-11-02)
-
-The package of @azure/arm-databricks is using our next generation design principles since version 3.0.0, which contains breaking changes.
-
-To understand the detail of the change, please refer to [Changelog](https://aka.ms/js-track2-changelog).
-
-To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
-
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).

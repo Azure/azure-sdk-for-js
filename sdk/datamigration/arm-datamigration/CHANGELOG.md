@@ -1,156 +1,545 @@
 # Release History
 
-## 4.0.0-beta.1 (2026-06-16)
+## 3.1.0-beta.1 (2026-06-24)
 Compared with version 3.0.0
 
 ### Features Added
-  - Added operation DatabaseMigrationsMongoToCosmosDbRUMongoOperations.create
-  - Added operation DatabaseMigrationsMongoToCosmosDbRUMongoOperations.delete
-  - Added operation DatabaseMigrationsMongoToCosmosDbvCoreMongoOperations.create
-  - Added operation DatabaseMigrationsMongoToCosmosDbvCoreMongoOperations.delete
-  - Added operation DatabaseMigrationsSqlDbOperations.cancel
-  - Added operation DatabaseMigrationsSqlDbOperations.createOrUpdate
-  - Added operation DatabaseMigrationsSqlDbOperations.delete
-  - Added operation DatabaseMigrationsSqlDbOperations.retry
-  - Added operation DatabaseMigrationsSqlMiOperations.cancel
-  - Added operation DatabaseMigrationsSqlMiOperations.createOrUpdate
-  - Added operation DatabaseMigrationsSqlMiOperations.cutover
-  - Added operation DatabaseMigrationsSqlMiOperations.delete
-  - Added operation DatabaseMigrationsSqlVmOperations.cancel
-  - Added operation DatabaseMigrationsSqlVmOperations.createOrUpdate
-  - Added operation DatabaseMigrationsSqlVmOperations.cutover
-  - Added operation DatabaseMigrationsSqlVmOperations.delete
-  - Added operation MigrationServicesOperations.createOrUpdate
-  - Added operation MigrationServicesOperations.delete
-  - Added operation MigrationServicesOperations.update
-  - Added operation ServicesOperations.createOrUpdate
-  - Added operation ServicesOperations.delete
-  - Added operation ServicesOperations.start
-  - Added operation ServicesOperations.stop
-  - Added operation ServicesOperations.update
-  - Added operation SqlMigrationServicesOperations.createOrUpdate
-  - Added operation SqlMigrationServicesOperations.delete
-  - Added operation SqlMigrationServicesOperations.update
-  - Class DataMigrationManagementClient has a new constructor "constructor(credential: TokenCredential, options?: DataMigrationManagementClientOptionalParams);"
+  - Added operation group DatabaseMigrationsMongoToCosmosDbRUMongoOperations
+  - Added operation group DatabaseMigrationsMongoToCosmosDbvCoreMongoOperations
+  - Added operation group DatabaseMigrationsSqlDbOperations
+  - Added operation group DatabaseMigrationsSqlMiOperations
+  - Added operation group DatabaseMigrationsSqlVmOperations
+  - Added operation group FilesOperations
+  - Added operation group MigrationServicesOperations
+  - Added operation group OperationsOperations
+  - Added operation group ProjectsOperations
+  - Added operation group ResourceSkusOperations
+  - Added operation group ServicesOperations
+  - Added operation group ServiceTasksOperations
+  - Added operation group SqlMigrationServicesOperations
+  - Added operation group TasksOperations
+  - Added operation group UsagesOperations
+  - Added Class DataMigrationManagementClient
+  - Added Interface ApiError
+  - Added Interface AuthenticationKeys
+  - Added Interface AvailableServiceSku
+  - Added Interface AvailableServiceSkuCapacity
+  - Added Interface AvailableServiceSkuSku
+  - Added Interface AzureActiveDirectoryApp
+  - Added Interface AzureBlob
+  - Added Interface BackupConfiguration
+  - Added Interface BackupFileInfo
+  - Added Interface BackupSetInfo
+  - Added Interface BlobShare
+  - Added Interface CheckOCIDriverTaskInput
+  - Added Interface CheckOCIDriverTaskOutput
+  - Added Interface CheckOCIDriverTaskProperties
+  - Added Interface CommandProperties
+  - Added Interface ConnectionInfo
+  - Added Interface ConnectToMongoDbTaskProperties
+  - Added Interface ConnectToSourceMySqlTaskInput
+  - Added Interface ConnectToSourceMySqlTaskProperties
+  - Added Interface ConnectToSourceNonSqlTaskOutput
+  - Added Interface ConnectToSourceOracleSyncTaskInput
+  - Added Interface ConnectToSourceOracleSyncTaskOutput
+  - Added Interface ConnectToSourceOracleSyncTaskProperties
+  - Added Interface ConnectToSourcePostgreSqlSyncTaskInput
+  - Added Interface ConnectToSourcePostgreSqlSyncTaskOutput
+  - Added Interface ConnectToSourcePostgreSqlSyncTaskProperties
+  - Added Interface ConnectToSourceSqlServerSyncTaskProperties
+  - Added Interface ConnectToSourceSqlServerTaskInput
+  - Added Interface ConnectToSourceSqlServerTaskOutput
+  - Added Interface ConnectToSourceSqlServerTaskOutputAgentJobLevel
+  - Added Interface ConnectToSourceSqlServerTaskOutputDatabaseLevel
+  - Added Interface ConnectToSourceSqlServerTaskOutputLoginLevel
+  - Added Interface ConnectToSourceSqlServerTaskOutputTaskLevel
+  - Added Interface ConnectToSourceSqlServerTaskProperties
+  - Added Interface ConnectToTargetAzureDbForMySqlTaskInput
+  - Added Interface ConnectToTargetAzureDbForMySqlTaskOutput
+  - Added Interface ConnectToTargetAzureDbForMySqlTaskProperties
+  - Added Interface ConnectToTargetAzureDbForPostgreSqlSyncTaskInput
+  - Added Interface ConnectToTargetAzureDbForPostgreSqlSyncTaskOutput
+  - Added Interface ConnectToTargetAzureDbForPostgreSqlSyncTaskProperties
+  - Added Interface ConnectToTargetOracleAzureDbForPostgreSqlSyncTaskInput
+  - Added Interface ConnectToTargetOracleAzureDbForPostgreSqlSyncTaskOutput
+  - Added Interface ConnectToTargetOracleAzureDbForPostgreSqlSyncTaskOutputDatabaseSchemaMapItem
+  - Added Interface ConnectToTargetOracleAzureDbForPostgreSqlSyncTaskProperties
+  - Added Interface ConnectToTargetSqlDbTaskInput
+  - Added Interface ConnectToTargetSqlDbTaskOutput
+  - Added Interface ConnectToTargetSqlDbTaskProperties
+  - Added Interface ConnectToTargetSqlMISyncTaskInput
+  - Added Interface ConnectToTargetSqlMISyncTaskOutput
+  - Added Interface ConnectToTargetSqlMISyncTaskProperties
+  - Added Interface ConnectToTargetSqlMITaskInput
+  - Added Interface ConnectToTargetSqlMITaskOutput
+  - Added Interface ConnectToTargetSqlMITaskProperties
   - Added Interface ConnectToTargetSqlSqlDbSyncTaskInput
   - Added Interface ConnectToTargetSqlSqlDbSyncTaskProperties
+  - Added Interface CopyProgressDetails
+  - Added Interface DatabaseBackupInfo
+  - Added Interface DatabaseFileInfo
+  - Added Interface DatabaseInfo
+  - Added Interface DatabaseMigration
+  - Added Interface DatabaseMigrationBase
+  - Added Interface DatabaseMigrationBaseProperties
+  - Added Interface DatabaseMigrationCosmosDbMongo
+  - Added Interface DatabaseMigrationProperties
+  - Added Interface DatabaseMigrationPropertiesCosmosDbMongo
+  - Added Interface DatabaseMigrationPropertiesSqlDb
+  - Added Interface DatabaseMigrationPropertiesSqlMi
+  - Added Interface DatabaseMigrationPropertiesSqlVm
+  - Added Interface DatabaseMigrationsMongoToCosmosDbRUMongoCreateOptionalParams
+  - Added Interface DatabaseMigrationsMongoToCosmosDbRUMongoDeleteOptionalParams
+  - Added Interface DatabaseMigrationsMongoToCosmosDbRUMongoGetOptionalParams
   - Added Interface DatabaseMigrationsMongoToCosmosDbRUMongoListForScopeOptionalParams
+  - Added Interface DatabaseMigrationsMongoToCosmosDbvCoreMongoCreateOptionalParams
+  - Added Interface DatabaseMigrationsMongoToCosmosDbvCoreMongoDeleteOptionalParams
+  - Added Interface DatabaseMigrationsMongoToCosmosDbvCoreMongoGetOptionalParams
   - Added Interface DatabaseMigrationsMongoToCosmosDbvCoreMongoListForScopeOptionalParams
+  - Added Interface DatabaseMigrationSqlDb
+  - Added Interface DatabaseMigrationSqlMi
+  - Added Interface DatabaseMigrationSqlVm
+  - Added Interface DatabaseMigrationsSqlDbCancelOptionalParams
+  - Added Interface DatabaseMigrationsSqlDbCreateOrUpdateOptionalParams
+  - Added Interface DatabaseMigrationsSqlDbDeleteOptionalParams
+  - Added Interface DatabaseMigrationsSqlDbGetOptionalParams
+  - Added Interface DatabaseMigrationsSqlDbRetryOptionalParams
+  - Added Interface DatabaseMigrationsSqlMiCancelOptionalParams
+  - Added Interface DatabaseMigrationsSqlMiCreateOrUpdateOptionalParams
+  - Added Interface DatabaseMigrationsSqlMiCutoverOptionalParams
+  - Added Interface DatabaseMigrationsSqlMiDeleteOptionalParams
+  - Added Interface DatabaseMigrationsSqlMiGetOptionalParams
+  - Added Interface DatabaseMigrationsSqlVmCancelOptionalParams
+  - Added Interface DatabaseMigrationsSqlVmCreateOrUpdateOptionalParams
+  - Added Interface DatabaseMigrationsSqlVmCutoverOptionalParams
+  - Added Interface DatabaseMigrationsSqlVmDeleteOptionalParams
+  - Added Interface DatabaseMigrationsSqlVmGetOptionalParams
+  - Added Interface DatabaseTable
+  - Added Interface DataIntegrityValidationResult
+  - Added Interface DataMigrationManagementClientOptionalParams
+  - Added Interface DataMigrationService
   - Added Interface DataMigrationServiceProperties
+  - Added Interface DataMigrationServiceStatusResponse
+  - Added Interface DeleteNode
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorInfo
+  - Added Interface ErrorResponse
+  - Added Interface ExecutionStatistics
+  - Added Interface FilesCreateOrUpdateOptionalParams
+  - Added Interface FilesDeleteOptionalParams
+  - Added Interface FilesGetOptionalParams
+  - Added Interface FileShare
+  - Added Interface FilesListOptionalParams
+  - Added Interface FilesReadOptionalParams
+  - Added Interface FilesReadWriteOptionalParams
+  - Added Interface FileStorageInfo
+  - Added Interface FilesUpdateOptionalParams
+  - Added Interface GetTdeCertificatesSqlTaskInput
+  - Added Interface GetTdeCertificatesSqlTaskOutput
+  - Added Interface GetTdeCertificatesSqlTaskProperties
+  - Added Interface GetUserTablesMySqlTaskInput
+  - Added Interface GetUserTablesMySqlTaskOutput
+  - Added Interface GetUserTablesMySqlTaskProperties
+  - Added Interface GetUserTablesOracleTaskInput
+  - Added Interface GetUserTablesOracleTaskOutput
+  - Added Interface GetUserTablesOracleTaskProperties
+  - Added Interface GetUserTablesPostgreSqlTaskInput
+  - Added Interface GetUserTablesPostgreSqlTaskOutput
+  - Added Interface GetUserTablesPostgreSqlTaskProperties
+  - Added Interface GetUserTablesSqlSyncTaskInput
+  - Added Interface GetUserTablesSqlSyncTaskOutput
+  - Added Interface GetUserTablesSqlSyncTaskProperties
+  - Added Interface GetUserTablesSqlTaskInput
+  - Added Interface GetUserTablesSqlTaskOutput
+  - Added Interface GetUserTablesSqlTaskProperties
+  - Added Interface InstallOCIDriverTaskInput
+  - Added Interface InstallOCIDriverTaskOutput
+  - Added Interface InstallOCIDriverTaskProperties
+  - Added Interface IntegrationRuntimeMonitoringData
+  - Added Interface ManagedServiceIdentity
+  - Added Interface MigrateMISyncCompleteCommandInput
+  - Added Interface MigrateMISyncCompleteCommandOutput
+  - Added Interface MigrateMISyncCompleteCommandProperties
+  - Added Interface MigrateMongoDbTaskProperties
+  - Added Interface MigrateMySqlAzureDbForMySqlOfflineDatabaseInput
+  - Added Interface MigrateMySqlAzureDbForMySqlOfflineTaskInput
+  - Added Interface MigrateMySqlAzureDbForMySqlOfflineTaskOutput
+  - Added Interface MigrateMySqlAzureDbForMySqlOfflineTaskOutputDatabaseLevel
+  - Added Interface MigrateMySqlAzureDbForMySqlOfflineTaskOutputError
+  - Added Interface MigrateMySqlAzureDbForMySqlOfflineTaskOutputMigrationLevel
+  - Added Interface MigrateMySqlAzureDbForMySqlOfflineTaskOutputTableLevel
+  - Added Interface MigrateMySqlAzureDbForMySqlOfflineTaskProperties
+  - Added Interface MigrateMySqlAzureDbForMySqlSyncDatabaseInput
+  - Added Interface MigrateMySqlAzureDbForMySqlSyncTaskInput
+  - Added Interface MigrateMySqlAzureDbForMySqlSyncTaskOutput
+  - Added Interface MigrateMySqlAzureDbForMySqlSyncTaskOutputDatabaseError
+  - Added Interface MigrateMySqlAzureDbForMySqlSyncTaskOutputDatabaseLevel
+  - Added Interface MigrateMySqlAzureDbForMySqlSyncTaskOutputError
+  - Added Interface MigrateMySqlAzureDbForMySqlSyncTaskOutputMigrationLevel
+  - Added Interface MigrateMySqlAzureDbForMySqlSyncTaskOutputTableLevel
+  - Added Interface MigrateMySqlAzureDbForMySqlSyncTaskProperties
+  - Added Interface MigrateOracleAzureDbForPostgreSqlSyncTaskProperties
+  - Added Interface MigrateOracleAzureDbPostgreSqlSyncDatabaseInput
+  - Added Interface MigrateOracleAzureDbPostgreSqlSyncTaskInput
+  - Added Interface MigrateOracleAzureDbPostgreSqlSyncTaskOutput
+  - Added Interface MigrateOracleAzureDbPostgreSqlSyncTaskOutputDatabaseError
+  - Added Interface MigrateOracleAzureDbPostgreSqlSyncTaskOutputDatabaseLevel
+  - Added Interface MigrateOracleAzureDbPostgreSqlSyncTaskOutputError
+  - Added Interface MigrateOracleAzureDbPostgreSqlSyncTaskOutputMigrationLevel
+  - Added Interface MigrateOracleAzureDbPostgreSqlSyncTaskOutputTableLevel
+  - Added Interface MigratePostgreSqlAzureDbForPostgreSqlSyncDatabaseInput
+  - Added Interface MigratePostgreSqlAzureDbForPostgreSqlSyncDatabaseTableInput
+  - Added Interface MigratePostgreSqlAzureDbForPostgreSqlSyncTaskInput
+  - Added Interface MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput
+  - Added Interface MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputDatabaseError
+  - Added Interface MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputDatabaseLevel
+  - Added Interface MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputError
+  - Added Interface MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputMigrationLevel
+  - Added Interface MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputTableLevel
+  - Added Interface MigratePostgreSqlAzureDbForPostgreSqlSyncTaskProperties
+  - Added Interface MigrateSchemaSqlServerSqlDbDatabaseInput
+  - Added Interface MigrateSchemaSqlServerSqlDbTaskInput
+  - Added Interface MigrateSchemaSqlServerSqlDbTaskOutput
+  - Added Interface MigrateSchemaSqlServerSqlDbTaskOutputDatabaseLevel
+  - Added Interface MigrateSchemaSqlServerSqlDbTaskOutputError
+  - Added Interface MigrateSchemaSqlServerSqlDbTaskOutputMigrationLevel
+  - Added Interface MigrateSchemaSqlServerSqlDbTaskProperties
+  - Added Interface MigrateSchemaSqlTaskOutputError
+  - Added Interface MigrateSqlServerSqlDbDatabaseInput
+  - Added Interface MigrateSqlServerSqlDbSyncDatabaseInput
+  - Added Interface MigrateSqlServerSqlDbSyncTaskInput
+  - Added Interface MigrateSqlServerSqlDbSyncTaskOutput
+  - Added Interface MigrateSqlServerSqlDbSyncTaskOutputDatabaseError
+  - Added Interface MigrateSqlServerSqlDbSyncTaskOutputDatabaseLevel
+  - Added Interface MigrateSqlServerSqlDbSyncTaskOutputError
+  - Added Interface MigrateSqlServerSqlDbSyncTaskOutputMigrationLevel
+  - Added Interface MigrateSqlServerSqlDbSyncTaskOutputTableLevel
+  - Added Interface MigrateSqlServerSqlDbSyncTaskProperties
+  - Added Interface MigrateSqlServerSqlDbTaskInput
+  - Added Interface MigrateSqlServerSqlDbTaskOutput
+  - Added Interface MigrateSqlServerSqlDbTaskOutputDatabaseLevel
+  - Added Interface MigrateSqlServerSqlDbTaskOutputDatabaseLevelValidationResult
+  - Added Interface MigrateSqlServerSqlDbTaskOutputError
+  - Added Interface MigrateSqlServerSqlDbTaskOutputMigrationLevel
+  - Added Interface MigrateSqlServerSqlDbTaskOutputTableLevel
+  - Added Interface MigrateSqlServerSqlDbTaskOutputValidationResult
+  - Added Interface MigrateSqlServerSqlDbTaskProperties
+  - Added Interface MigrateSqlServerSqlMIDatabaseInput
+  - Added Interface MigrateSqlServerSqlMISyncTaskInput
+  - Added Interface MigrateSqlServerSqlMISyncTaskOutput
+  - Added Interface MigrateSqlServerSqlMISyncTaskOutputDatabaseLevel
+  - Added Interface MigrateSqlServerSqlMISyncTaskOutputError
+  - Added Interface MigrateSqlServerSqlMISyncTaskOutputMigrationLevel
+  - Added Interface MigrateSqlServerSqlMISyncTaskProperties
+  - Added Interface MigrateSqlServerSqlMITaskInput
+  - Added Interface MigrateSqlServerSqlMITaskOutput
+  - Added Interface MigrateSqlServerSqlMITaskOutputAgentJobLevel
+  - Added Interface MigrateSqlServerSqlMITaskOutputDatabaseLevel
+  - Added Interface MigrateSqlServerSqlMITaskOutputError
+  - Added Interface MigrateSqlServerSqlMITaskOutputLoginLevel
+  - Added Interface MigrateSqlServerSqlMITaskOutputMigrationLevel
+  - Added Interface MigrateSqlServerSqlMITaskProperties
+  - Added Interface MigrateSsisTaskInput
+  - Added Interface MigrateSsisTaskOutput
+  - Added Interface MigrateSsisTaskOutputMigrationLevel
+  - Added Interface MigrateSsisTaskOutputProjectLevel
+  - Added Interface MigrateSsisTaskProperties
+  - Added Interface MigrateSyncCompleteCommandInput
+  - Added Interface MigrateSyncCompleteCommandOutput
+  - Added Interface MigrateSyncCompleteCommandProperties
+  - Added Interface MigrationEligibilityInfo
+  - Added Interface MigrationOperationInput
+  - Added Interface MigrationReportResult
+  - Added Interface MigrationService
   - Added Interface MigrationServiceProperties
+  - Added Interface MigrationServicesCreateOrUpdateOptionalParams
+  - Added Interface MigrationServicesDeleteOptionalParams
+  - Added Interface MigrationServicesGetOptionalParams
+  - Added Interface MigrationServicesListByResourceGroupOptionalParams
+  - Added Interface MigrationServicesListBySubscriptionOptionalParams
+  - Added Interface MigrationServicesListMigrationsOptionalParams
+  - Added Interface MigrationServicesUpdateOptionalParams
+  - Added Interface MigrationServiceUpdate
+  - Added Interface MigrationStatusDetails
+  - Added Interface MigrationValidationDatabaseSummaryResult
+  - Added Interface MigrationValidationOptions
+  - Added Interface MigrationValidationResult
+  - Added Interface MiSqlConnectionInfo
+  - Added Interface MongoConnectionInformation
+  - Added Interface MongoDbCancelCommand
+  - Added Interface MongoDbClusterInfo
+  - Added Interface MongoDbCollectionInfo
+  - Added Interface MongoDbCollectionProgress
+  - Added Interface MongoDbCollectionSettings
+  - Added Interface MongoDbCommandInput
+  - Added Interface MongoDbConnectionInfo
+  - Added Interface MongoDbDatabaseInfo
+  - Added Interface MongoDbDatabaseProgress
+  - Added Interface MongoDbDatabaseSettings
+  - Added Interface MongoDbError
+  - Added Interface MongoDbFinishCommand
+  - Added Interface MongoDbFinishCommandInput
+  - Added Interface MongoDbMigrationProgress
+  - Added Interface MongoDbMigrationSettings
+  - Added Interface MongoDbObjectInfo
+  - Added Interface MongoDbProgress
+  - Added Interface MongoDbRestartCommand
+  - Added Interface MongoDbShardKeyField
+  - Added Interface MongoDbShardKeyInfo
+  - Added Interface MongoDbShardKeySetting
+  - Added Interface MongoDbThrottlingSettings
+  - Added Interface MongoMigrationCollection
+  - Added Interface MongoMigrationProgressDetails
+  - Added Interface MySqlConnectionInfo
+  - Added Interface NameAvailabilityRequest
+  - Added Interface NameAvailabilityResponse
+  - Added Interface NodeMonitoringData
+  - Added Interface ODataError
+  - Added Interface OfflineConfiguration
+  - Added Interface OperationsDefinition
+  - Added Interface OperationsDisplayDefinition
+  - Added Interface OperationsListOptionalParams
+  - Added Interface OracleConnectionInfo
+  - Added Interface OracleOCIDriverInfo
+  - Added Interface OrphanedUserInfo
   - Added Interface PagedAsyncIterableIterator
   - Added Interface PageSettings
+  - Added Interface PostgreSqlConnectionInfo
+  - Added Interface Project
+  - Added Interface ProjectFile
+  - Added Interface ProjectFileProperties
   - Added Interface ProjectProperties
+  - Added Interface ProjectsCreateOrUpdateOptionalParams
+  - Added Interface ProjectsDeleteOptionalParams
+  - Added Interface ProjectsGetOptionalParams
+  - Added Interface ProjectsListOptionalParams
+  - Added Interface ProjectsUpdateOptionalParams
+  - Added Interface ProjectTask
+  - Added Interface ProjectTaskProperties
+  - Added Interface ProxyResource
+  - Added Interface QueryAnalysisValidationResult
+  - Added Interface QueryExecutionResult
+  - Added Interface Quota
+  - Added Interface QuotaName
+  - Added Interface RegenAuthKeys
+  - Added Interface ReportableException
+  - Added Interface Resource
+  - Added Interface ResourceSku
+  - Added Interface ResourceSkuCapabilities
+  - Added Interface ResourceSkuCapacity
+  - Added Interface ResourceSkuCosts
+  - Added Interface ResourceSkuRestrictions
+  - Added Interface ResourceSkusListSkusOptionalParams
   - Added Interface RestorePollerOptions
+  - Added Interface SchemaComparisonValidationResult
+  - Added Interface SchemaComparisonValidationResultType
+  - Added Interface SchemaMigrationSetting
+  - Added Interface SelectedCertificateInput
+  - Added Interface ServerProperties
+  - Added Interface ServicesCheckChildrenNameAvailabilityOptionalParams
+  - Added Interface ServicesCheckNameAvailabilityOptionalParams
+  - Added Interface ServicesCheckStatusOptionalParams
+  - Added Interface ServicesCreateOrUpdateOptionalParams
+  - Added Interface ServicesDeleteOptionalParams
+  - Added Interface ServicesGetOptionalParams
+  - Added Interface ServiceSku
+  - Added Interface ServicesListByResourceGroupOptionalParams
+  - Added Interface ServicesListOptionalParams
+  - Added Interface ServicesListSkusOptionalParams
+  - Added Interface ServicesStartOptionalParams
+  - Added Interface ServicesStopOptionalParams
+  - Added Interface ServicesUpdateOptionalParams
+  - Added Interface ServiceTasksCancelOptionalParams
+  - Added Interface ServiceTasksCreateOrUpdateOptionalParams
+  - Added Interface ServiceTasksDeleteOptionalParams
+  - Added Interface ServiceTasksGetOptionalParams
+  - Added Interface ServiceTasksListOptionalParams
+  - Added Interface ServiceTasksUpdateOptionalParams
   - Added Interface SimplePollerLike
+  - Added Interface SourceLocation
+  - Added Interface SqlBackupFileInfo
+  - Added Interface SqlBackupSetInfo
+  - Added Interface SqlConnectionInfo
+  - Added Interface SqlConnectionInformation
+  - Added Interface SqlDbMigrationStatusDetails
+  - Added Interface SqlDbOfflineConfiguration
+  - Added Interface SqlFileShare
+  - Added Interface SqlMigrationService
   - Added Interface SqlMigrationServiceProperties
-  - Interface DatabaseMigrationProperties has a new optional parameter sqlServerInstanceId
-  - Interface DatabaseMigrationPropertiesSqlDb has a new optional parameter sqlServerInstanceId
-  - Interface DatabaseMigrationPropertiesSqlMi has a new optional parameter sqlServerInstanceId
-  - Interface DatabaseMigrationPropertiesSqlVm has a new optional parameter sqlServerInstanceId
+  - Added Interface SqlMigrationServicesCreateOrUpdateOptionalParams
+  - Added Interface SqlMigrationServicesDeleteNodeOptionalParams
+  - Added Interface SqlMigrationServicesDeleteOptionalParams
+  - Added Interface SqlMigrationServicesGetOptionalParams
+  - Added Interface SqlMigrationServicesListAuthKeysOptionalParams
+  - Added Interface SqlMigrationServicesListByResourceGroupOptionalParams
+  - Added Interface SqlMigrationServicesListBySubscriptionOptionalParams
+  - Added Interface SqlMigrationServicesListMigrationsOptionalParams
+  - Added Interface SqlMigrationServicesListMonitoringDataOptionalParams
+  - Added Interface SqlMigrationServicesRegenerateAuthKeysOptionalParams
+  - Added Interface SqlMigrationServicesUpdateOptionalParams
+  - Added Interface SqlMigrationServiceUpdate
+  - Added Interface SqlMigrationTaskInput
+  - Added Interface SqlServerSqlMISyncTaskInput
+  - Added Interface SsisMigrationInfo
+  - Added Interface SyncMigrationDatabaseErrorEvent
+  - Added Interface SystemData
+  - Added Interface TargetLocation
+  - Added Interface TasksCancelOptionalParams
+  - Added Interface TasksCommandOptionalParams
+  - Added Interface TasksCreateOrUpdateOptionalParams
+  - Added Interface TasksDeleteOptionalParams
+  - Added Interface TasksGetOptionalParams
+  - Added Interface TasksListOptionalParams
+  - Added Interface TasksUpdateOptionalParams
+  - Added Interface TrackedResource
+  - Added Interface UploadOCIDriverTaskInput
+  - Added Interface UploadOCIDriverTaskOutput
+  - Added Interface UploadOCIDriverTaskProperties
+  - Added Interface UsagesListOptionalParams
+  - Added Interface UserAssignedIdentity
+  - Added Interface ValidateMigrationInputSqlServerSqlDbSyncTaskProperties
+  - Added Interface ValidateMigrationInputSqlServerSqlMISyncTaskInput
+  - Added Interface ValidateMigrationInputSqlServerSqlMISyncTaskOutput
+  - Added Interface ValidateMigrationInputSqlServerSqlMISyncTaskProperties
+  - Added Interface ValidateMigrationInputSqlServerSqlMITaskInput
+  - Added Interface ValidateMigrationInputSqlServerSqlMITaskOutput
+  - Added Interface ValidateMigrationInputSqlServerSqlMITaskProperties
+  - Added Interface ValidateMongoDbTaskProperties
+  - Added Interface ValidateOracleAzureDbForPostgreSqlSyncTaskProperties
+  - Added Interface ValidateOracleAzureDbPostgreSqlSyncTaskOutput
+  - Added Interface ValidateSyncMigrationInputSqlServerTaskInput
+  - Added Interface ValidateSyncMigrationInputSqlServerTaskOutput
+  - Added Interface ValidationError
+  - Added Interface WaitStatistics
+  - Added Type Alias AuthenticationType
+  - Added Type Alias AuthType
   - Added Type Alias AzureSupportedClouds
+  - Added Type Alias BackupFileStatus
+  - Added Type Alias BackupMode
+  - Added Type Alias BackupType
+  - Added Type Alias CommandPropertiesUnion
+  - Added Type Alias CommandState
+  - Added Type Alias CommandType
+  - Added Type Alias ConnectionInfoUnion
+  - Added Type Alias ConnectToSourceSqlServerTaskOutputUnion
+  - Added Type Alias CreatedByType
+  - Added Type Alias DatabaseCompatLevel
+  - Added Type Alias DatabaseFileType
+  - Added Type Alias DatabaseMigrationBasePropertiesUnion
+  - Added Type Alias DatabaseMigrationPropertiesUnion
+  - Added Type Alias DatabaseMigrationStage
+  - Added Type Alias DatabaseMigrationState
+  - Added Type Alias DatabaseState
+  - Added Type Alias LoginMigrationStage
+  - Added Type Alias LoginType
+  - Added Type Alias ManagedServiceIdentityType
+  - Added Type Alias MigrateMySqlAzureDbForMySqlOfflineTaskOutputUnion
+  - Added Type Alias MigrateMySqlAzureDbForMySqlSyncTaskOutputUnion
+  - Added Type Alias MigrateOracleAzureDbPostgreSqlSyncTaskOutputUnion
+  - Added Type Alias MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputUnion
+  - Added Type Alias MigrateSchemaSqlServerSqlDbTaskOutputUnion
+  - Added Type Alias MigrateSqlServerSqlDbSyncTaskOutputUnion
+  - Added Type Alias MigrateSqlServerSqlDbTaskOutputUnion
+  - Added Type Alias MigrateSqlServerSqlMISyncTaskOutputUnion
+  - Added Type Alias MigrateSqlServerSqlMITaskOutputUnion
+  - Added Type Alias MigrateSsisTaskOutputUnion
+  - Added Type Alias MigrationState
+  - Added Type Alias MigrationStatus
+  - Added Type Alias MongoDbClusterType
+  - Added Type Alias MongoDbErrorType
+  - Added Type Alias MongoDbMigrationState
+  - Added Type Alias MongoDbProgressResultType
+  - Added Type Alias MongoDbProgressUnion
+  - Added Type Alias MongoDbReplication
+  - Added Type Alias MongoDbShardKeyOrder
+  - Added Type Alias MongoMigrationStatus
+  - Added Type Alias MySqlTargetPlatformType
+  - Added Type Alias NameCheckFailureReason
+  - Added Type Alias ObjectType
+  - Added Type Alias OperationOrigin
+  - Added Type Alias ProjectProvisioningState
+  - Added Type Alias ProjectSourcePlatform
+  - Added Type Alias ProjectTargetPlatform
+  - Added Type Alias ProjectTaskPropertiesUnion
+  - Added Type Alias ProvisioningState
+  - Added Type Alias ReplicateMigrationState
+  - Added Type Alias ResourceSkuCapacityScaleType
+  - Added Type Alias ResourceSkuRestrictionsReasonCode
+  - Added Type Alias ResourceSkuRestrictionsType
+  - Added Type Alias ResourceType
+  - Added Type Alias ScenarioSource
+  - Added Type Alias ScenarioTarget
+  - Added Type Alias SchemaMigrationOption
+  - Added Type Alias SchemaMigrationStage
+  - Added Type Alias ServerLevelPermissionsGroup
+  - Added Type Alias ServiceProvisioningState
+  - Added Type Alias ServiceScalability
+  - Added Type Alias Severity
+  - Added Type Alias SqlSourcePlatform
+  - Added Type Alias SsisMigrationOverwriteOption
+  - Added Type Alias SsisMigrationStage
+  - Added Type Alias SsisStoreType
+  - Added Type Alias SyncDatabaseMigrationReportingState
+  - Added Type Alias SyncTableMigrationState
+  - Added Type Alias TaskState
+  - Added Type Alias TaskType
+  - Added Type Alias UpdateActionType
+  - Added Type Alias ValidationStatus
   - Added Enum AzureClouds
+  - Added Enum KnownAuthenticationType
+  - Added Enum KnownBackupFileStatus
+  - Added Enum KnownBackupMode
+  - Added Enum KnownBackupType
+  - Added Enum KnownCommandState
+  - Added Enum KnownCommandType
+  - Added Enum KnownCreatedByType
+  - Added Enum KnownDatabaseCompatLevel
+  - Added Enum KnownDatabaseFileType
+  - Added Enum KnownDatabaseMigrationStage
+  - Added Enum KnownDatabaseMigrationState
+  - Added Enum KnownDatabaseState
+  - Added Enum KnownLoginMigrationStage
+  - Added Enum KnownLoginType
+  - Added Enum KnownManagedServiceIdentityType
+  - Added Enum KnownMigrationState
+  - Added Enum KnownMigrationStatus
+  - Added Enum KnownMongoDbClusterType
+  - Added Enum KnownMongoDbErrorType
+  - Added Enum KnownMongoDbMigrationState
+  - Added Enum KnownMongoDbProgressResultType
+  - Added Enum KnownMongoDbReplication
+  - Added Enum KnownMongoDbShardKeyOrder
+  - Added Enum KnownMongoMigrationStatus
+  - Added Enum KnownMySqlTargetPlatformType
+  - Added Enum KnownNameCheckFailureReason
+  - Added Enum KnownObjectType
+  - Added Enum KnownOperationOrigin
+  - Added Enum KnownProjectProvisioningState
+  - Added Enum KnownProjectSourcePlatform
+  - Added Enum KnownProjectTargetPlatform
+  - Added Enum KnownProvisioningState
+  - Added Enum KnownReplicateMigrationState
+  - Added Enum KnownResourceSkuCapacityScaleType
+  - Added Enum KnownResourceSkuRestrictionsReasonCode
+  - Added Enum KnownResourceSkuRestrictionsType
+  - Added Enum KnownResourceType
+  - Added Enum KnownScenarioSource
+  - Added Enum KnownScenarioTarget
+  - Added Enum KnownSchemaMigrationOption
+  - Added Enum KnownSchemaMigrationStage
+  - Added Enum KnownServiceProvisioningState
+  - Added Enum KnownServiceScalability
+  - Added Enum KnownSeverity
+  - Added Enum KnownSqlSourcePlatform
+  - Added Enum KnownSsisMigrationOverwriteOption
+  - Added Enum KnownSsisMigrationStage
+  - Added Enum KnownSsisStoreType
+  - Added Enum KnownSyncDatabaseMigrationReportingState
+  - Added Enum KnownSyncTableMigrationState
+  - Added Enum KnownTaskState
+  - Added Enum KnownTaskType
+  - Added Enum KnownUpdateActionType
+  - Added Enum KnownValidationStatus
   - Added Enum KnownVersions
-  - Enum KnownResourceType has a new value DatabaseMigrationProperties
 
-### Breaking Changes
-  - Operation DatabaseMigrationsMongoToCosmosDbRUMongo.beginDeleteAndWait has a new signature
-  - Operation DatabaseMigrationsMongoToCosmosDbvCoreMongo.beginDeleteAndWait has a new signature
-  - Operation MigrationServices.beginDeleteAndWait has a new signature
-  - Operation Projects.createOrUpdate has a new signature
-  - Operation Projects.get has a new signature
-  - Operation Projects.update has a new signature
-  - Operation Services.beginCreateOrUpdate has a new signature
-  - Operation Services.beginCreateOrUpdateAndWait has a new signature
-  - Operation Services.beginUpdate has a new signature
-  - Operation Services.beginUpdateAndWait has a new signature
-  - Operation Services.get has a new signature
-  - Operation ServiceTasks.cancel has a new signature
-  - Operation ServiceTasks.createOrUpdate has a new signature
-  - Operation ServiceTasks.get has a new signature
-  - Operation ServiceTasks.update has a new signature
-  - Operation SqlMigrationServices.beginCreateOrUpdate has a new signature
-  - Operation SqlMigrationServices.beginCreateOrUpdateAndWait has a new signature
-  - Operation SqlMigrationServices.beginUpdateAndWait has a new signature
-  - Operation SqlMigrationServices.get has a new signature
-  - Operation Tasks.cancel has a new signature
-  - Operation Tasks.command has a new signature
-  - Operation Tasks.createOrUpdate has a new signature
-  - Operation Tasks.get has a new signature
-  - Operation Tasks.update has a new signature
-  - Removed Interface ConnectToTargetSqlDbSyncTaskInput
-  - Removed Interface ConnectToTargetSqlDbSyncTaskProperties
-  - Removed Interface Database
-  - Removed Interface DatabaseFileInput
-  - Removed Interface DatabaseMigrationsMongoToCosmosDbRUMongoGetForScopeOptionalParams
-  - Removed Interface DatabaseMigrationsMongoToCosmosDbvCoreMongoGetForScopeOptionalParams
-  - Removed Interface DatabaseObjectName
-  - Removed Interface DataMigrationError
-  - Removed Interface DataMigrationProjectMetadata
-  - Removed Interface DataMigrationServiceList
-  - Removed Interface FileList
-  - Removed Interface GetProjectDetailsNonSqlTaskInput
-  - Removed Interface MigrateSqlServerDatabaseInput
-  - Removed Interface MigrationTableMetadata
-  - Removed Interface NonSqlDataMigrationTable
-  - Removed Interface NonSqlMigrationTaskInput
-  - Removed Interface NonSqlMigrationTaskOutput
-  - Removed Interface ProjectList
-  - Removed Interface QuotaList
-  - Removed Interface ServiceOperation
-  - Removed Interface ServiceOperationDisplay
-  - Removed Interface ServiceOperationList
-  - Removed Interface ServiceSkuList
-  - Removed Interface TaskList
-  - Type of parameter commandType of interface CommandProperties is changed from "Migrate.Sync.Complete.Database" | "Migrate.SqlServer.AzureDbSqlMi.Complete" | "cancel" | "finish" | "restart" to CommandType
-  - Type of parameter type of interface ConnectionInfo is changed from "MongoDbConnectionInfo" | "SqlConnectionInfo" | "MySqlConnectionInfo" | "OracleConnectionInfo" | "PostgreSqlConnectionInfo" | "MiSqlConnectionInfo" to string
-  - Type of parameter resultType of interface ConnectToSourceSqlServerTaskOutput is changed from "TaskLevelOutput" | "DatabaseLevelOutput" | "LoginLevelOutput" | "AgentJobLevelOutput" to string
-  - Type of parameter kind of interface DatabaseMigrationBaseProperties is changed from "MongoToCosmosDbMongo" | "DatabaseMigrationProperties" | "SqlDb" | "SqlMi" | "SqlVm" to ResourceType
-  - Type of parameter resultType of interface MigrateMySqlAzureDbForMySqlOfflineTaskOutput is changed from "MigrationLevelOutput" | "DatabaseLevelOutput" | "TableLevelOutput" | "ErrorOutput" to string
-  - Type of parameter resultType of interface MigrateMySqlAzureDbForMySqlSyncTaskOutput is changed from "MigrationLevelOutput" | "DatabaseLevelOutput" | "TableLevelOutput" | "ErrorOutput" | "DatabaseLevelErrorOutput" to string
-  - Type of parameter resultType of interface MigrateOracleAzureDbPostgreSqlSyncTaskOutput is changed from "MigrationLevelOutput" | "DatabaseLevelOutput" | "TableLevelOutput" | "ErrorOutput" | "DatabaseLevelErrorOutput" to string
-  - Type of parameter resultType of interface MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput is changed from "MigrationLevelOutput" | "DatabaseLevelOutput" | "TableLevelOutput" | "ErrorOutput" | "DatabaseLevelErrorOutput" to string
-  - Type of parameter resultType of interface MigrateSchemaSqlServerSqlDbTaskOutput is changed from "MigrationLevelOutput" | "DatabaseLevelOutput" | "SchemaErrorOutput" | "ErrorOutput" to string
-  - Type of parameter resultType of interface MigrateSqlServerSqlDbSyncTaskOutput is changed from "MigrationLevelOutput" | "DatabaseLevelOutput" | "TableLevelOutput" | "ErrorOutput" | "DatabaseLevelErrorOutput" to string
-  - Type of parameter resultType of interface MigrateSqlServerSqlDbTaskOutput is changed from "MigrationLevelOutput" | "DatabaseLevelOutput" | "TableLevelOutput" | "ErrorOutput" | "MigrationValidationOutput" | "MigrationDatabaseLevelValidationOutput" to string
-  - Type of parameter resultType of interface MigrateSqlServerSqlMISyncTaskOutput is changed from "MigrationLevelOutput" | "DatabaseLevelOutput" | "ErrorOutput" to string
-  - Type of parameter resultType of interface MigrateSqlServerSqlMITaskOutput is changed from "MigrationLevelOutput" | "DatabaseLevelOutput" | "AgentJobLevelOutput" | "LoginLevelOutput" | "ErrorOutput" to string
-  - Type of parameter resultType of interface MigrateSsisTaskOutput is changed from "MigrationLevelOutput" | "SsisProjectLevelOutput" to string
-  - Type of parameter resultType of interface MongoDbProgress is changed from "Collection" | "Database" | "Migration" to MongoDbProgressResultType
-  - Type of parameter taskType of interface ProjectTaskProperties is changed from "MigrateSchemaSqlServerSqlDb" | "Service.Check.OCI" | "Service.Upload.OCI" | "Service.Install.OCI" | "Connect.MongoDb" | "ConnectToSource.SqlServer" | "ConnectToSource.SqlServer.Sync" | "ConnectToSource.PostgreSql.Sync" | "ConnectToSource.MySql" | "ConnectToSource.Oracle.Sync" | "ConnectToTarget.SqlDb" | "ConnectToTarget.SqlDb.Sync" | "ConnectToTarget.AzureDbForPostgreSql.Sync" | "ConnectToTarget.Oracle.AzureDbForPostgreSql.Sync" | "GetUserTables.Sql" | "GetUserTables.AzureSqlDb.Sync" | "GetUserTablesOracle" | "GetUserTablesPostgreSql" | "GetUserTablesMySql" | "ConnectToTarget.AzureSqlDbMI" | "ConnectToTarget.AzureSqlDbMI.Sync.LRS" | "ConnectToTarget.AzureDbForMySql" | "Migrate.MongoDb" | "Migrate.SqlServer.AzureSqlDbMI" | "Migrate.SqlServer.AzureSqlDbMI.Sync.LRS" | "Migrate.SqlServer.SqlDb" | "Migrate.SqlServer.AzureSqlDb.Sync" | "Migrate.MySql.AzureDbForMySql.Sync" | "Migrate.MySql.AzureDbForMySql" | "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2" | "Migrate.Oracle.AzureDbForPostgreSql.Sync" | "ValidateMigrationInput.SqlServer.SqlDb.Sync" | "ValidateMigrationInput.SqlServer.AzureSqlDbMI" | "ValidateMigrationInput.SqlServer.AzureSqlDbMI.Sync.LRS" | "Validate.MongoDb" | "Validate.Oracle.AzureDbPostgreSql.Sync" | "GetTDECertificates.Sql" | "Migrate.Ssis" to TaskType
-  - Parameter location of interface DataMigrationService is now optional
-  - Parameter location of interface Project is now optional
-  - Parameter location of interface SqlMigrationService is now optional
-  - Removed Type Alias DataMigrationResultCode
-  - Removed Type Alias ErrorType
-  - Type alias "CommandPropertiesUnion" has been changed
-  - Type alias "ConnectionInfoUnion" has been changed
-  - Type alias "ConnectToSourceSqlServerTaskOutputUnion" has been changed
-  - Type alias "DatabaseMigrationBasePropertiesUnion" has been changed
-  - Type alias "MigrateMySqlAzureDbForMySqlOfflineTaskOutputUnion" has been changed
-  - Type alias "MigrateMySqlAzureDbForMySqlSyncTaskOutputUnion" has been changed
-  - Type alias "MigrateOracleAzureDbPostgreSqlSyncTaskOutputUnion" has been changed
-  - Type alias "MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputUnion" has been changed
-  - Type alias "MigrateSchemaSqlServerSqlDbTaskOutputUnion" has been changed
-  - Type alias "MigrateSqlServerSqlDbSyncTaskOutputUnion" has been changed
-  - Type alias "MigrateSqlServerSqlDbTaskOutputUnion" has been changed
-  - Type alias "MigrateSqlServerSqlMISyncTaskOutputUnion" has been changed
-  - Type alias "MigrateSqlServerSqlMITaskOutputUnion" has been changed
-  - Type alias "MigrateSsisTaskOutputUnion" has been changed
-  - Type alias "MongoDbProgressUnion" has been changed
-  - Type alias "ProjectTaskPropertiesUnion" has been changed
-  - Removed Enum KnownDataMigrationResultCode
-  - Removed Enum KnownErrorType
-
-    
-## 3.0.0 (2025-09-26)
-
-### Features Added
-
-The package of @azure/arm-datamigration is using our next generation design principles since version 3.0.0, which contains breaking changes.
-
-To understand the detail of the change, please refer to [Changelog](https://aka.ms/js-track2-changelog).
-
-To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
-
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).
