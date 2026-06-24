@@ -761,7 +761,7 @@
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/mongocluster/arm-mongocluster/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/mongodbatlas/arm-mongodbatlas/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
