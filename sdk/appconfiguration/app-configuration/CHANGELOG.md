@@ -1,5 +1,11 @@
 # Release History
 
+## 1.12.1 (2026-06-22)
+
+### Bugs Fixed
+
+- Fixed a regression introduced in 1.12.0 where creating an `AppConfigurationClient` from a connection string caused every request to fail with `TypeError [ERR_INVALID_HTTP_TOKEN]: Header name must be a valid HTTP token ["Connection String"]`. [#39025](https://github.com/Azure/azure-sdk-for-js/issues/39025)
+
 ## 1.12.0 (2026-06-18)
 
 ### Features Added

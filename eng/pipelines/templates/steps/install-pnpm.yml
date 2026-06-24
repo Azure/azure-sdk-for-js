@@ -1,4 +1,6 @@
 steps:
+  - template: /eng/pipelines/templates/steps/common.yml
+  
   - pwsh: |
       $packageJson = Get-Content -Raw "$(Build.SourcesDirectory)/package.json" | ConvertFrom-Json
       $packageManager = $packageJson.packageManager

@@ -6,7 +6,7 @@
 
 - add `storageRedirectRangeHeaderPolicy`
 
-## 12.4.1 (Unreleased)
+## 12.4.1 (2026-06-22)
 
 ### Bugs Fixed
 
