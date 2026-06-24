@@ -46,7 +46,7 @@ export class ManagedPrivateEndpointsClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-synapse-managed-private-endpoints/1.0.0-beta.6`;
+    const packageDetails = `azsdk-js-synapse-managed-private-endpoints/1.0.0-beta.7`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

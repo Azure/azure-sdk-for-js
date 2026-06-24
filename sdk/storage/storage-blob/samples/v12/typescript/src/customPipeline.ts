@@ -23,13 +23,13 @@ async function main(): Promise<void> {
   const pipeline = newPipeline(sharedKeyCredential, {
     // httpClient: MyHTTPClient, // A customized HTTP client implementing IHttpClient interface
     retryOptions: { maxTries: 4 }, // Retry options
-    userAgentOptions: { userAgentPrefix: "Sample V1.0.0" } // Customized telemetry string
+    userAgentOptions: { userAgentPrefix: "Sample V1.0.0" }, // Customized telemetry string
   });
 
   // List containers
   const blobServiceClient = new BlobServiceClient(
     `https://${account}.blob.core.windows.net`,
-    pipeline
+    pipeline,
   );
 
   let i = 1;

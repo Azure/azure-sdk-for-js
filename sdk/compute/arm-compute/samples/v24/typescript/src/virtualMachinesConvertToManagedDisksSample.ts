@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to converts virtual machine disks from blob-based to managed disks. Virtual machine must be stop-deallocated before invoking this operation.
  *
  * @summary converts virtual machine disks from blob-based to managed disks. Virtual machine must be stop-deallocated before invoking this operation.
- * x-ms-original-file: 2025-11-01/virtualMachineExamples/VirtualMachine_ConvertToManagedDisks_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/virtualMachineExamples/VirtualMachine_ConvertToManagedDisks_MaximumSet_Gen.json
  */
 async function virtualMachineConvertToManagedDisksMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -21,7 +21,7 @@ async function virtualMachineConvertToManagedDisksMaximumSetGen(): Promise<void>
  * This sample demonstrates how to converts virtual machine disks from blob-based to managed disks. Virtual machine must be stop-deallocated before invoking this operation.
  *
  * @summary converts virtual machine disks from blob-based to managed disks. Virtual machine must be stop-deallocated before invoking this operation.
- * x-ms-original-file: 2025-11-01/virtualMachineExamples/VirtualMachine_ConvertToManagedDisks_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/virtualMachineExamples/VirtualMachine_ConvertToManagedDisks_MinimumSet_Gen.json
  */
 async function virtualMachineConvertToManagedDisksMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

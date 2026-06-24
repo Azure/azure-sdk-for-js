@@ -896,6 +896,12 @@ export interface BlobGenerateSasUrlOptions extends CommonGenerateSasUrlOptions {
    * Optional only when identifier is provided. Specifies the list of permissions to be associated with the SAS.
    */
   permissions?: BlobSASPermissions;
+  /**
+   *
+   * Beginning in version 2020-02-10, this value defines whether or
+   * not the instance is a virtual directory.
+   */
+  isDirectory?: boolean;
 }
 
 /**
@@ -1217,6 +1223,7 @@ export class BlobClient extends StorageClient {
    * ```ts snippet:ReadmeSampleDownloadBlob_Node
    * import { BlobServiceClient } from "@azure/storage-blob";
    * import { DefaultAzureCredential } from "@azure/identity";
+   * import { buffer } from "node:stream/consumers";
    *
    * const account = "<account>";
    * const blobServiceClient = new BlobServiceClient(
@@ -1233,22 +1240,10 @@ export class BlobClient extends StorageClient {
    * // In Node.js, get downloaded data by accessing downloadBlockBlobResponse.readableStreamBody
    * const downloadBlockBlobResponse = await blobClient.download();
    * if (downloadBlockBlobResponse.readableStreamBody) {
-   *   const downloaded = await streamToString(downloadBlockBlobResponse.readableStreamBody);
-   *   console.log(`Downloaded blob content: ${downloaded}`);
-   * }
-   *
-   * async function streamToString(stream: NodeJS.ReadableStream): Promise<string> {
-   *   const result = await new Promise<Buffer<ArrayBuffer>>((resolve, reject) => {
-   *     const chunks: Buffer[] = [];
-   *     stream.on("data", (data) => {
-   *       chunks.push(Buffer.isBuffer(data) ? data : Buffer.from(data));
-   *     });
-   *     stream.on("end", () => {
-   *       resolve(Buffer.concat(chunks));
-   *     });
-   *     stream.on("error", reject);
-   *   });
-   *   return result.toString();
+   *   // Download the raw bytes of the blob. Use `text` from "node:stream/consumers"
+   *   // instead if you want to read the content as a string directly.
+   *   const downloaded = await buffer(downloadBlockBlobResponse.readableStreamBody);
+   *   console.log(`Downloaded blob content: ${downloaded.toString()}`);
    * }
    * ```
    *
@@ -3970,6 +3965,7 @@ export class BlockBlobClient extends BlobClient {
    * ```ts snippet:ClientsQuery
    * import { BlobServiceClient } from "@azure/storage-blob";
    * import { DefaultAzureCredential } from "@azure/identity";
+   * import { buffer } from "node:stream/consumers";
    *
    * const account = "<account>";
    * const blobServiceClient = new BlobServiceClient(
@@ -3985,22 +3981,10 @@ export class BlockBlobClient extends BlobClient {
    * // Query and convert a blob to a string
    * const queryBlockBlobResponse = await blockBlobClient.query("select from BlobStorage");
    * if (queryBlockBlobResponse.readableStreamBody) {
-   *   const downloadedBuffer = await streamToBuffer(queryBlockBlobResponse.readableStreamBody);
-   *   const downloaded = downloadedBuffer.toString();
-   *   console.log(`Query blob content: ${downloaded}`);
-   * }
-   *
-   * async function streamToBuffer(readableStream: NodeJS.ReadableStream): Promise<Buffer> {
-   *   return new Promise((resolve, reject) => {
-   *     const chunks: Buffer[] = [];
-   *     readableStream.on("data", (data) => {
-   *       chunks.push(data instanceof Buffer ? data : Buffer.from(data));
-   *     });
-   *     readableStream.on("end", () => {
-   *       resolve(Buffer.concat(chunks));
-   *     });
-   *     readableStream.on("error", reject);
-   *   });
+   *   // Read the response bytes. Use `text` from "node:stream/consumers" instead
+   *   // if you want the response as a string directly.
+   *   const downloadedBuffer = await buffer(queryBlockBlobResponse.readableStreamBody);
+   *   console.log(`Query blob content: ${downloadedBuffer.toString()}`);
    * }
    * ```
    *
