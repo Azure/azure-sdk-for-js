@@ -14,9 +14,24 @@ permissions:
   checks: read
   issues: read
   pull-requests: read
+# DataOps: all GitHub API gathering runs in this deterministic, authenticated
+# shell step (GH_TOKEN, zero AI tokens) and writes compact JSON to
+# /tmp/gh-aw/agent/. The agent only reads those files — it makes no API calls.
+# This replaces ~40 model turns of check-run pagination + annotation fetching
+# + rate-limit polling that previously tripped the effective-token hard rail.
+# Collection logic lives in a committed sibling script so it gets shellcheck,
+# highlighting, and clean diffs; in production the agent job sparse-checks-out
+# `.github` before this step, so the script is on disk.
+steps:
+  - name: Collect CI failure data
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      REPO: ${{ github.repository }}
+      PACKAGE: ${{ github.event.inputs.package || '' }}
+      TRACKING_ISSUE: "37864"
+      OUTDIR: /tmp/gh-aw/agent
+    run: bash .github/workflows/fix-test-failures-collect.sh
 tools:
-  github:
-    toolsets: [default]
   bash: true
 safe-outputs:
   create-issue:
@@ -40,6 +55,31 @@ Detect unit test failures on the `main` branch and open a GitHub issue containin
 a root cause analysis and, when possible, the exact code fix needed to resolve each
 failure.
 
+## Pre-computed Data (read these first)
+
+**All GitHub API gathering has already been done for you** by a deterministic
+shell step. Do **not** call the GitHub API, paginate check runs, fetch
+annotations, or poll the rate limit yourself — read these files instead:
+
+- `/tmp/gh-aw/agent/meta.json` — the commit inspected, counts, the package
+  scope (if any), and the tracking-issue number. Orient yourself here first.
+- `/tmp/gh-aw/agent/failures.json` — array of failing **CI** check runs already
+  filtered to the CI (playback) pipeline. Live-test (`- tests`,
+  `- tests-weekly`) and `- perf` pipelines are already excluded. Each element
+  has: `name`, `html_url`, `details_url` (Azure DevOps build), `output_title`,
+  `output_summary`, `output_text`, and a capped `annotations` array
+  (`path`, `start_line`, `end_line`, `annotation_level`, `title`, `message`).
+- `/tmp/gh-aw/agent/known-failures.json` — the parsed tracking-island entries
+  from issue #37864, each with its linked-issue `state` (`open`/`closed`)
+  already resolved, plus the original `raw_line`.
+- `/tmp/gh-aw/agent/known-failures.md` — the raw body of #37864 (reference
+  only; you normally only need `known-failures.json`).
+
+Read these files with `cat`/`jq`. Keep your own shell exploration minimal —
+every extra turn re-sends the whole context and is expensive. When you have
+emitted the issue (Step 5) and the tracking update (Step 6), **stop**; do not
+make further shell calls.
+
 ## Important Constraints
 
 - `snippets.spec.ts` files under `sdk/**/*/test/` are documentation snippet sources,
@@ -58,8 +98,19 @@ already tracked. Before filing a new issue, check the **known failures tracking
 issue** (https://github.com/Azure/azure-sdk-for-js/issues/37864) for pre-existing
 failures.
 
-The tracking list lives inside an **island** in the body of #37864, delimited by
-the markers:
+The tracking list for these known failures has already been fetched and parsed
+into `/tmp/gh-aw/agent/known-failures.json`. Each element is one island entry:
+
+```json
+{ "issue_number": 12345, "state": "open", "raw_line": "- #12345 — `web-pubsub` — `TypeError: ...` — 2026-06-18" }
+```
+
+The linked-issue `state` is already resolved for you — you do **not** need to
+call the GitHub API to check whether a tracked issue is still open.
+
+The raw island in #37864 is delimited by these markers (managed by the
+`update-issue` safe output, `operation: replace-island`); content **outside**
+the island is human-authored and must be preserved exactly:
 
 ```
 <!-- gh-aw-island-start:fix-test-failures -->
@@ -67,117 +118,101 @@ the markers:
 <!-- gh-aw-island-end:fix-test-failures -->
 ```
 
-These markers are managed by the `update-issue` safe output (`operation:
-replace-island`). Content **outside** the island is human-authored and must be
-preserved exactly. If the markers are not present yet (first run), treat the
-tracked list as empty — the framework will create the island on the first update.
-
-Each entry on the tracked list is a single line in this format:
+Each entry on the tracked list follows this format:
 
 ```
 - #<issue-number> — `<service or package>` — `<error pattern>` — <YYYY-MM-DD>
 ```
 
-1. Fetch the body of issue #37864 using the GitHub API. Locate the island content
-   between the markers shown above and parse the entries (one per line starting
-   with `- #`).
-2. For each parsed entry, fetch the linked issue with the GitHub API and inspect
-   its `state`:
-   - If `state == "open"` → keep the entry; it represents an active known
-     failure.
-   - If `state == "closed"` → **drop** the entry from the list (do not consider
-     it a known failure anymore). If the same failure recurs in this run it will
-     be filed as a brand-new issue in Step 5 and re-added to the list in Step 6.
-3. For each failing check run identified later in "Step 1 — Identify Failing
-   Packages", check whether the **service directory** (from the check-run name,
-   e.g. `attestation` in `js - attestation (Build UnitTest ...)`) or the **npm
-   package name** (from annotations/file paths) **and** the **error pattern**
-   match an entry that was *kept* in step 2.
-4. If a failure matches a kept entry:
+1. Read `known-failures.json`. Partition the entries by `state`:
+   - `state == "open"` → **keep** the entry; it is an active known failure.
+   - `state == "closed"` (or `unknown`) → **drop** it (do not carry it
+     forward). If the same failure recurs in this run it will be filed as a
+     brand-new issue in Step 5 and re-added in Step 6.
+2. For each failing check run in `/tmp/gh-aw/agent/failures.json`, check whether
+   the **service directory** (from the check-run name, e.g. `attestation` in
+   `js - attestation (Build UnitTest ...)`) or the **npm package name** (from
+   annotations/file paths) **and** the **error pattern** match a *kept* entry.
+3. If a failure matches a kept entry:
    - **Exclude** it from the new GitHub issue entirely.
    - Do **not** attempt to reproduce or root-cause it — it is already tracked.
-5. If **all** detected failures match kept entries, **do not** create a new CI
-   failure issue. Still proceed to Step 6 so that any entries dropped in step 2
+4. If **all** detected failures match kept entries, **do not** create a new CI
+   failure issue. Still proceed to Step 6 so that any entries dropped in step 1
    are removed from the tracked list.
-6. If some failures are new and some are known, create the issue for **new
+5. If some failures are new and some are known, create the issue for **new
    failures only**. Add a brief note in the "Additional Notes" section listing
    which known failures were excluded and linking to their tracking issues.
 
 ## Step 1 — Identify Failing Packages
 
-1. Use the GitHub API to list the most recent **check runs** on the `main` branch
-   (look at the HEAD commit of `main`). If there are no check runs on the HEAD
-   commit, check a few recent commits — CI may not run on every push.
-2. Filter for check runs whose `conclusion` is `failure`. CI runs are reported by
-   the **Azure Pipelines** GitHub App; the check-run **name** includes the service
-   directory and job type.
-3. **Only consider CI (playback) pipeline failures.** Each service has two separate
-   Azure DevOps pipelines that both report check runs against the same commit:
-   - **CI pipeline** (from `ci.yml`) — triggered on pushes to `main`; runs tests
-     in **playback** mode. Check-run name pattern: `js - <service>` with job
-     suffixes like `(Build ...)`, `(Build UnitTest ...)`, `(Build Analyze)`.
-     Example: `js - attestation (Build UnitTest ubuntu_22x_node)`.
-   - **Live-test pipeline** (from `tests.yml`) — triggered on a schedule or
-     manually; runs tests in **live** mode against real Azure services. Check-run
-     name pattern: `js - <service> - tests` with job suffixes like
-     `(Public ...)`. Example: `js - attestation - tests (Public macoslatest_24x_node)`.
+Read `/tmp/gh-aw/agent/meta.json` and `/tmp/gh-aw/agent/failures.json`. The
+collection step has already done all the API work and filtering:
 
-   **Ignore all check runs whose name contains `- tests`, `- tests-weekly`, or
-   `- perf`.** These are live-test and performance pipeline results, not CI
-   regressions. This workflow should only analyze CI pipeline failures.
-4. If a specific `package` input was provided, scope investigation to that package only.
-5. Collect the list of affected **service directories** or **package names** from the
-   check-run names (the pattern is `js - <service> (...)`).
-6. For each failing check run, **record the links needed to reach the failing build
-   logs** so they can be embedded in the issue later:
+1. `failures.json` already contains **only** failing **CI (playback) pipeline**
+   check runs. The collection step kept entries whose `conclusion` is `failure`
+   and whose name starts with `js - `, and excluded live-test
+   (`- tests`, `- tests-weekly`) and `- perf` pipelines. You do not need to
+   re-filter; just read the array.
+   - For context: CI check-run names look like `js - <service> (Build ...)`,
+     `(Build UnitTest ...)`, or `(Build Analyze)` — e.g.
+     `js - attestation (Build UnitTest ubuntu_22x_node)`.
+2. If `meta.json.package_scope` is set, the failures are already scoped to that
+   package/service.
+3. Derive the affected **service directories** / **package names** from each
+   `name` (the pattern is `js - <service> (...)`).
+4. Each failure record already carries the links to embed in the issue:
    - `html_url` — the GitHub check-run page for the failure.
-   - `details_url` (or `target_url`, depending on the API field available) — the Azure DevOps build that produced the
-     failure. This is the most useful link for inspecting the full failure logs.
-     It typically follows the pattern
-     `https://dev.azure.com/azure-sdk/public/_build/results?buildId=<ID>&view=results`.
-   Keep these URLs associated with their service/package so each failure section in
-   the issue can link directly to its build logs.
+   - `details_url` — the Azure DevOps build that produced the failure (the most
+     useful link for full logs; pattern
+     `https://dev.azure.com/azure-sdk/public/_build/results?buildId=<ID>&view=results`).
+   Keep these URLs associated with their service/package.
 
-If there are no test failures on `main`, **stop immediately** — do **not** create a
-GitHub issue. Simply report that CI is green and exit.
+If `failures.json` is an empty array (no CI failures on `main`), **stop
+immediately** — do **not** create a GitHub issue. Report that CI is green
+and exit.
 
 ## Step 2 — Gather Failure Details
 
-For each failing check run identified in Step 1:
+Each element of `/tmp/gh-aw/agent/failures.json` already contains the failure
+detail you need — no API calls required:
 
-1. Retrieve the check-run **annotations** via the GitHub API
-   (`GET /repos/{owner}/{repo}/check-runs/{check_run_id}/annotations`).
-   Annotations contain error messages, failing test names, and stack traces.
-2. Read the check-run `output.text` field for a summary of test results
-   (e.g. pass/fail counts).
+1. `annotations` — a capped array of `{ path, start_line, end_line,
+   annotation_level, title, message }`. These contain the error messages,
+   failing test names, and stack traces.
+2. `output_title` / `output_summary` / `output_text` — the check-run output
+   summary (e.g. pass/fail counts).
 3. From the annotations, identify the failing test file(s) and test case name(s).
 4. Note the error type — for example: `TypeError`, `AssertionError`, compilation
    error, missing export, API mismatch, etc.
 
 ## Step 3 — Reproduce Locally
 
-For each failing package:
+## Step 3 — Reproduce Locally (best-effort, time-boxed)
 
-1. Install dependencies:
-   ```bash
-   pnpm install
-   ```
-2. Build the package and all its dependencies:
-   ```bash
-   pnpm turbo build --filter=<package-name>... --token 1
-   ```
-3. Run the failing tests:
-   ```bash
-   cd <package-directory> && pnpm run test
-   ```
-4. Confirm the failure reproduces locally. If it does not reproduce, note this —
-   still include it in the issue but mark it as non-reproducible locally.
+Local reproduction is **optional and best-effort**. `pnpm install` +
+`turbo build` for a package is slow and frequently not feasible in this
+sandbox; do **not** spiral into many shell turns trying to make it work, and do
+**not** explore unrelated packages "just in case". Each extra turn re-sends the
+whole context and is expensive.
+
+For each failing package, you may attempt **one** quick reproduction:
+
+1. Install dependencies (only if not already present): `pnpm install`
+2. Build the package and its dependencies:
+   `pnpm turbo build --filter=<package-name>... --token 1`
+3. Run the failing tests: `cd <package-directory> && pnpm run test`
+
+If the build/test does not complete quickly, or dependencies are not installed,
+**stop trying** and mark the failure as non-reproducible locally — still include
+it in the issue. The annotations in `failures.json` are usually enough to
+root-cause without a local run.
 
 ## Step 4 — Root Cause Analysis
 
 For each failure (reproduced or not):
 
-1. Read the failing test file and the source file(s) it exercises.
+1. Read the failing test file and the source file(s) it exercises — read only
+   the files the annotations point at; do not browse broadly.
 2. Determine the root cause — common causes include:
    - Source code change that broke an existing API contract.
    - Test expectations that are stale after a legitimate source change.
@@ -254,9 +289,9 @@ Update the tracking island inside issue #37864 with a single `update_issue`
 call so the list stays bounded and reflects only currently-open known failures.
 
 1. Build the new tracking list:
-   - Start from the entries **kept** in step 2 of "Known Pre-existing Failures"
+   - Start from the entries **kept** in step 1 of "Known Pre-existing Failures"
      (entries whose tracked issue is still `open`). Closed entries dropped in
-     step 2 are **not** carried forward.
+     step 1 are **not** carried forward.
    - For each issue this run created in Step 5, append one new entry using the
      line format from "Known Pre-existing Failures":
 
@@ -278,7 +313,7 @@ call so the list stays bounded and reflects only currently-open known failures.
    If the new list is empty (all previously-tracked issues closed and no new
    issues created this run), pass an empty `body` so the island is cleared.
 
-   Skip the call entirely **only** if step 2 dropped zero closed entries **and**
+   Skip the call entirely **only** if step 1 dropped zero closed entries **and**
    Step 5 created zero new issues — i.e. the list has not changed at all.
 
 3. Always call `update_issue` at most **once per run** on #37864 (the
