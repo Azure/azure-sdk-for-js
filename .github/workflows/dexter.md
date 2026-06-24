@@ -52,7 +52,6 @@ permissions:
   actions: read
   vulnerability-alerts: read
   security-events: read
-  copilot-requests: write
 tools:
   github:
     toolsets: [context, repos, pull_requests, actions, dependabot]

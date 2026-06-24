@@ -50,7 +50,6 @@ permissions:
   contents: read
   pull-requests: read
   actions: read
-  copilot-requests: write
 tools:
   github:
     toolsets: [context, repos, pull_requests, actions]
