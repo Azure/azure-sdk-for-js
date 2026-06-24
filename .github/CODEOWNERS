@@ -449,7 +449,7 @@
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/consumption/arm-consumption/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/containerinstance/arm-containerinstance/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
