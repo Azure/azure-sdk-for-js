@@ -1,0 +1,213 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import type { TokenCredential } from "@azure/core-auth";
+import type {
+  HttpClient,
+  Pipeline,
+  PipelineRequest,
+  PipelineResponse,
+} from "@azure/core-rest-pipeline";
+import {
+  bearerTokenAuthenticationPolicy,
+  createEmptyPipeline,
+  createPipelineRequest,
+} from "@azure/core-rest-pipeline";
+import type { AzureLogger } from "@azure/logger";
+import { createClientLogger } from "@azure/logger";
+import type { CosmosClientOptions } from "../CosmosClientOptions.js";
+import type { SemanticRerankOptions } from "./SemanticRerankOptions.js";
+import type { RerankScore, SemanticRerankResult } from "./SemanticRerankResult.js";
+import { Constants } from "../common/constants.js";
+import { StatusCodes } from "../common/statusCodes.js";
+import { getCachedDefaultHttpClient } from "../utils/cachedClient.js";
+import { ErrorResponse } from "../request/ErrorResponse.js";
+
+const logger: AzureLogger = createClientLogger("InferenceService");
+
+/** Keys that are not part of the inference service payload. */
+const NON_PAYLOAD_KEYS = new Set(["abortSignal"]);
+
+/**
+ * Provides functionality to interact with the Cosmos DB Inference Service for semantic reranking.
+ * @internal
+ */
+export class InferenceService {
+  private readonly pipeline: Pipeline;
+  private readonly httpClient: HttpClient;
+  private readonly inferenceEndpointUrl: string;
+
+  constructor(cosmosClientOptions: CosmosClientOptions) {
+    if (!cosmosClientOptions.aadCredentials) {
+      throw new Error(
+        "Semantic rerank requires AAD authentication. Provide 'aadCredentials' in CosmosClientOptions.",
+      );
+    }
+
+    const endpoint = this.resolveInferenceEndpoint(cosmosClientOptions);
+    this.inferenceEndpointUrl = `${endpoint}${Constants.InferenceBasePath}`;
+
+    this.pipeline = this.createInferencePipeline(cosmosClientOptions.aadCredentials);
+    this.httpClient = cosmosClientOptions.httpClient ?? getCachedDefaultHttpClient();
+
+    logger.info(`InferenceService initialized with endpoint: ${endpoint}`);
+  }
+
+  /**
+   * Sends a semantic rerank request to the inference service.
+   * @param context - The context (e.g. query string) to use for reranking.
+   * @param documents - The documents to be reranked.
+   * @param options - Optional settings for the reranking request.
+   * @returns The reranking results including scores, latency, and token usage.
+   */
+  async semanticRerank(
+    context: string,
+    documents: string[],
+    options?: SemanticRerankOptions,
+  ): Promise<SemanticRerankResult> {
+    const payload = this.buildPayload(context, documents, options);
+
+    const request = createPipelineRequest({
+      url: this.inferenceEndpointUrl,
+      method: "POST",
+      body: JSON.stringify(payload),
+      abortSignal: options?.["abortSignal"] as AbortSignal | undefined,
+      timeout: Constants.InferenceDefaultTimeoutMs,
+    });
+
+    this.buildHeaders(request);
+
+    const response = await this.pipeline.sendRequest(this.httpClient, request);
+    return this.parseResponse(response);
+  }
+
+  /**
+   * Resolves the inference endpoint from client options or the environment variable.
+   * Client options take priority over the environment variable.
+   */
+  private resolveInferenceEndpoint(cosmosClientOptions: CosmosClientOptions): string {
+    const endpoint =
+      cosmosClientOptions.inferenceEndpoint ||
+      (typeof process !== "undefined" ? process.env[Constants.InferenceEndpointEnvVar] : undefined);
+
+    if (!endpoint) {
+      throw new Error(
+        `Inference endpoint is required for semantic reranking. ` +
+          `Set 'inferenceEndpoint' in CosmosClientOptions or the '${Constants.InferenceEndpointEnvVar}' environment variable.`,
+      );
+    }
+
+    // Remove trailing slash if present
+    return endpoint.replace(/\/+$/, "");
+  }
+
+  /**
+   * Creates a pipeline configured for inference service authentication.
+   */
+  private createInferencePipeline(credential: TokenCredential): Pipeline {
+    const pipeline = createEmptyPipeline();
+    pipeline.addPolicy(
+      bearerTokenAuthenticationPolicy({
+        credential,
+        scopes: Constants.InferenceDefaultScope,
+      }),
+    );
+    return pipeline;
+  }
+
+  /**
+   * Sets the required HTTP headers on an inference service request.
+   */
+  private buildHeaders(request: PipelineRequest): void {
+    request.headers.set("Content-Type", "application/json");
+    request.headers.set("Accept", "application/json");
+    request.headers.set("Cache-Control", "no-cache");
+    request.headers.set(Constants.HttpHeaders.Version, Constants.CurrentVersion);
+    request.headers.set(Constants.HttpHeaders.UserAgent, Constants.InferenceUserAgent);
+    request.headers.set(Constants.HttpHeaders.CustomUserAgent, Constants.InferenceUserAgent);
+  }
+
+  /**
+   * Builds the JSON payload for the semantic rerank request.
+   */
+  private buildPayload(
+    context: string,
+    documents: string[],
+    options?: SemanticRerankOptions,
+  ): Record<string, unknown> {
+    const payload: Record<string, unknown> = {};
+
+    if (options) {
+      // Forward all option keys except non-payload keys (e.g. abortSignal)
+      for (const [key, value] of Object.entries(options)) {
+        if (!NON_PAYLOAD_KEYS.has(key) && value !== undefined) {
+          payload[key] = value;
+        }
+      }
+    }
+
+    // Required fields are set last to prevent options from overriding them
+    payload["query"] = context;
+    payload["documents"] = documents;
+
+    return payload;
+  }
+
+  /**
+   * Parses the HTTP response into a SemanticRerankResult.
+   *
+   * Note: The inference API response uses mixed casing conventions:
+   * - PascalCase: `Scores` (array of rerank results)
+   * - camelCase: `latency` (timing info), `document`, `score`, `index`
+   * - snake_case: `token_usage` (token consumption)
+   * This is the actual service response format, not a bug.
+   */
+  private parseResponse(response: PipelineResponse): SemanticRerankResult {
+    if (response.status < StatusCodes.Ok || response.status >= StatusCodes.MultipleChoices) {
+      let serviceCode: string | number = response.status;
+      let serviceMessage = `Semantic rerank request failed with status ${response.status}`;
+
+      // Parse the error payload to surface the service's code, message, and details
+      try {
+        const errorBody = JSON.parse(response.bodyAsText || "{}");
+        if (errorBody.code) {
+          serviceCode = errorBody.code;
+        }
+        if (errorBody.message) {
+          serviceMessage = errorBody.message;
+        }
+        if (errorBody.details) {
+          serviceMessage += ` Details: ${JSON.stringify(errorBody.details)}`;
+        }
+      } catch {
+        // If parsing fails, fall back to raw body text
+        serviceMessage += `: ${response.bodyAsText}`;
+      }
+
+      const errorResponse = new ErrorResponse(serviceMessage);
+      errorResponse.code = serviceCode;
+      errorResponse.headers = response.headers.toJSON() as Record<string, string>;
+      throw errorResponse;
+    }
+
+    const body = JSON.parse(response.bodyAsText || "{}");
+
+    const rerankScores: RerankScore[] = [];
+    if (Array.isArray(body.Scores)) {
+      for (const item of body.Scores) {
+        rerankScores.push({
+          document: item.document ?? null,
+          score: typeof item.score === "number" ? item.score : 0,
+          index: typeof item.index === "number" ? item.index : -1,
+        });
+      }
+    }
+
+    return {
+      rerankScores,
+      latency: body.latency ?? undefined,
+      tokenUsage: body.token_usage ?? undefined,
+      headers: response.headers.toJSON() as Record<string, string>,
+    };
+  }
+}
