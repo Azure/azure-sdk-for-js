@@ -39,8 +39,6 @@ Compared with version 2.0.0
 
 ### Breaking Changes
   - Operation MonitoredSubscriptions.beginDeleteAndWait has a new signature
-  - Class MicrosoftElastic no longer has parameter apiVersion
-  - Class MicrosoftElastic no longer has parameter subscriptionId
   - Removed Interface ConnectedPartnerResourcesListResponse
   - Removed Interface ElasticMonitorResourceListResponse
   - Removed Interface ElasticVersionsListResponse
