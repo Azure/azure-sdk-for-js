@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ResourceConnectorManagementContext } from "../../api/resourceConnectorManagementContext.js";
+import { ResourceConnectorManagementContext } from "../../api/resourceConnectorManagementContext.js";
 import {
   getTelemetryConfig,
   listOperations,
@@ -15,7 +15,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/appliances/operations.js";
-import type {
+import {
   AppliancesGetTelemetryConfigOptionalParams,
   AppliancesListOperationsOptionalParams,
   AppliancesGetUpgradeGraphOptionalParams,
@@ -28,7 +28,7 @@ import type {
   AppliancesCreateOrUpdateOptionalParams,
   AppliancesGetOptionalParams,
 } from "../../api/appliances/options.js";
-import type {
+import {
   Appliance,
   ApplianceListCredentialResults,
   ApplianceListKeysResults,
@@ -36,8 +36,8 @@ import type {
   ApplianceOperation,
   ApplianceGetTelemetryConfigResult,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Appliances operations. */
 export interface AppliancesOperations {
@@ -78,11 +78,6 @@ export interface AppliancesOperations {
     options?: AppliancesListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<Appliance>;
   /** Deletes an Appliance with the specified Resource Name, Resource Group, and Subscription Id. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     resourceName: string,

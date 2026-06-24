@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RecoveryServicesBackupContext } from "../../api/recoveryServicesBackupContext.js";
+import { RecoveryServicesBackupContext } from "../../api/recoveryServicesBackupContext.js";
 import { list } from "../../api/backupProtectedItems/operations.js";
-import type { BackupProtectedItemsListOptionalParams } from "../../api/backupProtectedItems/options.js";
-import type { ProtectedItemResource } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { BackupProtectedItemsListOptionalParams } from "../../api/backupProtectedItems/options.js";
+import { ProtectedItemResource } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a BackupProtectedItems operations. */
 export interface BackupProtectedItemsOperations {

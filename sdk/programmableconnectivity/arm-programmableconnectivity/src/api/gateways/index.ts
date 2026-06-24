@@ -9,11 +9,11 @@ export {
   createOrUpdate,
   get,
 } from "./operations.js";
-export {
-  type GatewaysListBySubscriptionOptionalParams,
-  type GatewaysListByResourceGroupOptionalParams,
-  type GatewaysDeleteOptionalParams,
-  type GatewaysUpdateOptionalParams,
-  type GatewaysCreateOrUpdateOptionalParams,
-  type GatewaysGetOptionalParams,
+export type {
+  GatewaysListBySubscriptionOptionalParams,
+  GatewaysListByResourceGroupOptionalParams,
+  GatewaysDeleteOptionalParams,
+  GatewaysUpdateOptionalParams,
+  GatewaysCreateOrUpdateOptionalParams,
+  GatewaysGetOptionalParams,
 } from "./options.js";

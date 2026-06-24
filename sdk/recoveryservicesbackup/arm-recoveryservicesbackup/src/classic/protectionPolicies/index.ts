@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RecoveryServicesBackupContext } from "../../api/recoveryServicesBackupContext.js";
+import { RecoveryServicesBackupContext } from "../../api/recoveryServicesBackupContext.js";
 import { $delete, createOrUpdate, get } from "../../api/protectionPolicies/operations.js";
-import type {
+import {
   ProtectionPoliciesDeleteOptionalParams,
   ProtectionPoliciesCreateOrUpdateOptionalParams,
   ProtectionPoliciesGetOptionalParams,
 } from "../../api/protectionPolicies/options.js";
-import type { ProtectionPolicyResource } from "../../models/models.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { ProtectionPolicyResource } from "../../models/models.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ProtectionPolicies operations. */
 export interface ProtectionPoliciesOperations {
@@ -49,7 +48,7 @@ export interface ProtectionPoliciesOperations {
     policyName: string,
     parameters: ProtectionPolicyResource,
     options?: ProtectionPoliciesCreateOrUpdateOptionalParams,
-  ) => Promise<ProtectionPolicyResource>;
+  ) => Promise<ProtectionPolicyResource | undefined>;
   /**
    * Provides the details of the backup policies associated to Recovery Services Vault. This is an asynchronous
    * operation. Status of the operation can be fetched using GetPolicyOperationResult API.

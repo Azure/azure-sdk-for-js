@@ -43,10 +43,12 @@ export function _listByAccountSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listByAccountDeserialize(
@@ -55,7 +57,9 @@ export async function _listByAccountDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseModelDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseModelDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -103,10 +107,12 @@ export function _getByGroupIdSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getByGroupIdDeserialize(
@@ -115,7 +121,9 @@ export async function _getByGroupIdDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseModelDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseModelDeserializer(result.body);
+    }
 
     throw error;
   }

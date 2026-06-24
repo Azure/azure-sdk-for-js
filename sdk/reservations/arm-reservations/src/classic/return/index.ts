@@ -1,13 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureReservationAPIContext } from "../../api/azureReservationAPIContext.js";
+import { AzureReservationAPIContext } from "../../api/azureReservationAPIContext.js";
 import { post } from "../../api/return/operations.js";
-import type { ReturnPostOptionalParams } from "../../api/return/options.js";
-import type { ReservationOrderResponse, RefundRequest } from "../../models/reservations/models.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { ReturnPostOptionalParams } from "../../api/return/options.js";
+import { ReservationOrderResponse, RefundRequest } from "../../models/reservations/models.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Return operations. */
 export interface ReturnOperations {

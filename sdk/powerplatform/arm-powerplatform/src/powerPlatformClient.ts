@@ -1,20 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PowerPlatformContext, PowerPlatformClientOptionalParams } from "./api/index.js";
-import { createPowerPlatform } from "./api/index.js";
-import type { AccountsOperations } from "./classic/accounts/index.js";
-import { _getAccountsOperations } from "./classic/accounts/index.js";
-import type { EnterprisePoliciesOperations } from "./classic/enterprisePolicies/index.js";
-import { _getEnterprisePoliciesOperations } from "./classic/enterprisePolicies/index.js";
-import type { OperationsOperations } from "./classic/operations/index.js";
-import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { PrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
-import { _getPrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
-import type { PrivateLinkResourcesOperations } from "./classic/privateLinkResources/index.js";
-import { _getPrivateLinkResourcesOperations } from "./classic/privateLinkResources/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import {
+  PowerPlatformContext,
+  PowerPlatformClientOptionalParams,
+  createPowerPlatform,
+} from "./api/index.js";
+import { AccountsOperations, _getAccountsOperations } from "./classic/accounts/index.js";
+import {
+  EnterprisePoliciesOperations,
+  _getEnterprisePoliciesOperations,
+} from "./classic/enterprisePolicies/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import {
+  PrivateEndpointConnectionsOperations,
+  _getPrivateEndpointConnectionsOperations,
+} from "./classic/privateEndpointConnections/index.js";
+import {
+  PrivateLinkResourcesOperations,
+  _getPrivateLinkResourcesOperations,
+} from "./classic/privateLinkResources/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { PowerPlatformClientOptionalParams } from "./api/powerPlatformContext.js";
 

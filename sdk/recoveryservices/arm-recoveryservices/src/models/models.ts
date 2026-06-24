@@ -3,6 +3,12 @@
 
 import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
 
+/**
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** Operation Resource */
 export interface OperationResource {
   /** End time of the operation */
@@ -122,7 +128,9 @@ export function vaultSerializer(item: Vault): any {
 
 export function vaultDeserializer(item: any): Vault {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -275,8 +283,8 @@ export interface UpgradeDetails {
   readonly previousResourceId?: string;
 }
 
-export function upgradeDetailsSerializer(item: UpgradeDetails): any {
-  return item;
+export function upgradeDetailsSerializer(_item: UpgradeDetails): any {
+  return {};
 }
 
 export function upgradeDetailsDeserializer(item: any): UpgradeDetails {
@@ -625,8 +633,8 @@ export interface VaultPropertiesMoveDetails {
   readonly targetResourceId?: string;
 }
 
-export function vaultPropertiesMoveDetailsSerializer(item: VaultPropertiesMoveDetails): any {
-  return item;
+export function vaultPropertiesMoveDetailsSerializer(_item: VaultPropertiesMoveDetails): any {
+  return {};
 }
 
 export function vaultPropertiesMoveDetailsDeserializer(item: any): VaultPropertiesMoveDetails {
@@ -836,9 +844,7 @@ export interface CrossSubscriptionRestoreSettings {
 export function crossSubscriptionRestoreSettingsSerializer(
   item: CrossSubscriptionRestoreSettings,
 ): any {
-  return {
-    crossSubscriptionRestoreState: item["crossSubscriptionRestoreState"],
-  };
+  return { crossSubscriptionRestoreState: item["crossSubscriptionRestoreState"] };
 }
 
 export function crossSubscriptionRestoreSettingsDeserializer(
@@ -1284,8 +1290,8 @@ export interface UserIdentity {
   readonly clientId?: string;
 }
 
-export function userIdentitySerializer(item: UserIdentity): any {
-  return item;
+export function userIdentitySerializer(_item: UserIdentity): any {
+  return {};
 }
 
 export function userIdentityDeserializer(item: any): UserIdentity {
@@ -1367,7 +1373,9 @@ export function trackedResourceDeserializer(item: any): TrackedResource {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
   };
 }
@@ -1384,8 +1392,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -1753,8 +1761,8 @@ export function deletedVaultPropertiesDeserializer(item: any): DeletedVaultPrope
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
 }
 
 export function proxyResourceDeserializer(item: any): ProxyResource {
@@ -1775,9 +1783,7 @@ export interface DeletedVaultUndeleteInput {
 }
 
 export function deletedVaultUndeleteInputSerializer(item: DeletedVaultUndeleteInput): any {
-  return {
-    properties: deletedVaultUndeleteInputPropertiesSerializer(item["properties"]),
-  };
+  return { properties: deletedVaultUndeleteInputPropertiesSerializer(item["properties"]) };
 }
 
 /** Input definition for DeletedVault undelete properties. */
@@ -1992,7 +1998,7 @@ export type ResourceCertificateDetailsUnion =
 export function resourceCertificateDetailsUnionDeserializer(
   item: any,
 ): ResourceCertificateDetailsUnion {
-  switch (item.authType) {
+  switch (item["authType"]) {
     case "AzureActiveDirectory":
       return resourceCertificateAndAadDetailsDeserializer(item as ResourceCertificateAndAadDetails);
 

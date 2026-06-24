@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureReservationAPIContext } from "../../api/azureReservationAPIContext.js";
+import { AzureReservationAPIContext } from "../../api/azureReservationAPIContext.js";
 import { post } from "../../api/calculateExchange/operations.js";
-import type { CalculateExchangePostOptionalParams } from "../../api/calculateExchange/options.js";
-import type {
+import { CalculateExchangePostOptionalParams } from "../../api/calculateExchange/options.js";
+import {
   CalculateExchangeRequest,
   CalculateExchangeOperationResultResponse,
 } from "../../models/reservations/models.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a CalculateExchange operations. */
 export interface CalculateExchangeOperations {

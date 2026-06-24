@@ -2,7 +2,7 @@
   "apiVersions": {
     "Microsoft.RedHatOpenShift": "2025-07-25"
   },
-  "emitterVersion": "0.53.3",
+  "emitterVersion": "0.55.0-dev.8",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.RedHatOpenShift",
     "CrossLanguageDefinitionId": {

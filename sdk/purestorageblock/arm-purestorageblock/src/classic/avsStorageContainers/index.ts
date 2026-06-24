@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 
 import { BlockContext } from "../../api/blockContext.js";
-import { AvsStorageContainer } from "../../models/models.js";
+import { listByStoragePool, $delete, get } from "../../api/avsStorageContainers/operations.js";
 import {
   AvsStorageContainersListByStoragePoolOptionalParams,
   AvsStorageContainersDeleteOptionalParams,
   AvsStorageContainersGetOptionalParams,
 } from "../../api/avsStorageContainers/options.js";
-import { listByStoragePool, $delete, get } from "../../api/avsStorageContainers/operations.js";
+import { AvsStorageContainer } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -21,11 +21,6 @@ export interface AvsStorageContainersOperations {
     options?: AvsStorageContainersListByStoragePoolOptionalParams,
   ) => PagedAsyncIterableIterator<AvsStorageContainer>;
   /** Delete an AVS storage container */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     storagePoolName: string,

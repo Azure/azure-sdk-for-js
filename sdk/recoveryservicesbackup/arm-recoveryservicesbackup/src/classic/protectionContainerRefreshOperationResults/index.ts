@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RecoveryServicesBackupContext } from "../../api/recoveryServicesBackupContext.js";
+import { RecoveryServicesBackupContext } from "../../api/recoveryServicesBackupContext.js";
 import { get } from "../../api/protectionContainerRefreshOperationResults/operations.js";
-import type { ProtectionContainerRefreshOperationResultsGetOptionalParams } from "../../api/protectionContainerRefreshOperationResults/options.js";
+import { ProtectionContainerRefreshOperationResultsGetOptionalParams } from "../../api/protectionContainerRefreshOperationResults/options.js";
 
 /** Interface representing a ProtectionContainerRefreshOperationResults operations. */
 export interface ProtectionContainerRefreshOperationResultsOperations {

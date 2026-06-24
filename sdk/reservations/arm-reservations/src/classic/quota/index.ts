@@ -1,19 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureReservationAPIContext } from "../../api/azureReservationAPIContext.js";
+import { AzureReservationAPIContext } from "../../api/azureReservationAPIContext.js";
 import { list, update, createOrUpdate, get } from "../../api/quota/operations.js";
-import type {
+import {
   QuotaListOptionalParams,
   QuotaUpdateOptionalParams,
   QuotaCreateOrUpdateOptionalParams,
   QuotaGetOptionalParams,
 } from "../../api/quota/options.js";
-import type { CurrentQuotaLimitBase } from "../../models/quota/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { CurrentQuotaLimitBase } from "../../models/quota/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Quota operations. */
 export interface QuotaOperations {

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureReservationAPIContext } from "../../api/azureReservationAPIContext.js";
+import { AzureReservationAPIContext } from "../../api/azureReservationAPIContext.js";
 import {
   listAll,
   merge,
@@ -14,7 +14,7 @@ import {
   update,
   get,
 } from "../../api/reservation/operations.js";
-import type {
+import {
   ReservationListAllOptionalParams,
   ReservationMergeOptionalParams,
   ReservationSplitOptionalParams,
@@ -26,7 +26,7 @@ import type {
   ReservationUpdateOptionalParams,
   ReservationGetOptionalParams,
 } from "../../api/reservation/options.js";
-import type {
+import {
   ReservationResponse,
   Patch,
   AvailableScopeRequest,
@@ -34,10 +34,9 @@ import type {
   SplitRequest,
   MergeRequest,
 } from "../../models/reservations/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Reservation operations. */
 export interface ReservationOperations {

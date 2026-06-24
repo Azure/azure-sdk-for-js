@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RecoveryServicesBackupContext } from "../../api/recoveryServicesBackupContext.js";
+import { RecoveryServicesBackupContext } from "../../api/recoveryServicesBackupContext.js";
 import { getOperationStatus } from "../../api/privateEndpoint/operations.js";
-import type { PrivateEndpointGetOperationStatusOptionalParams } from "../../api/privateEndpoint/options.js";
-import type { OperationStatus } from "../../models/models.js";
+import { PrivateEndpointGetOperationStatusOptionalParams } from "../../api/privateEndpoint/options.js";
+import { OperationStatus } from "../../models/models.js";
 
 /** Interface representing a PrivateEndpoint operations. */
 export interface PrivateEndpointOperations {

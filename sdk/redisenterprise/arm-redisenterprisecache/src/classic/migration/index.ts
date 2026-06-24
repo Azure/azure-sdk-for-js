@@ -1,19 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RedisEnterpriseManagementContext } from "../../api/redisEnterpriseManagementContext.js";
+import { RedisEnterpriseManagementContext } from "../../api/redisEnterpriseManagementContext.js";
 import { cancel, list, start, get } from "../../api/migration/operations.js";
-import type {
+import {
   MigrationCancelOptionalParams,
   MigrationListOptionalParams,
   MigrationStartOptionalParams,
   MigrationGetOptionalParams,
 } from "../../api/migration/options.js";
-import type { Migration } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { Migration } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Migration operations. */
 export interface MigrationOperations {

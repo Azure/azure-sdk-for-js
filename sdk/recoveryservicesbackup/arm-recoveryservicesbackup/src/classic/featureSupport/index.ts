@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RecoveryServicesBackupContext } from "../../api/recoveryServicesBackupContext.js";
+import { RecoveryServicesBackupContext } from "../../api/recoveryServicesBackupContext.js";
 import { validate } from "../../api/featureSupport/operations.js";
-import type { FeatureSupportValidateOptionalParams } from "../../api/featureSupport/options.js";
-import type {
+import { FeatureSupportValidateOptionalParams } from "../../api/featureSupport/options.js";
+import {
   FeatureSupportRequestUnion,
   AzureVMResourceFeatureSupportResponse,
 } from "../../models/models.js";

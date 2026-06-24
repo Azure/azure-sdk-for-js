@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export {
-  createResourceConnectorManagement,
-  type ResourceConnectorManagementContext,
-  type ResourceConnectorManagementClientOptionalParams,
+export type {
+  ResourceConnectorManagementContext,
+  ResourceConnectorManagementClientOptionalParams,
 } from "./resourceConnectorManagementContext.js";
+export { createResourceConnectorManagement } from "./resourceConnectorManagementContext.js";

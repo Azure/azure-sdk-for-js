@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RecoveryServicesBackupContext } from "../../api/recoveryServicesBackupContext.js";
+import { RecoveryServicesBackupContext } from "../../api/recoveryServicesBackupContext.js";
 import { list } from "../../api/backupPolicies/operations.js";
-import type { BackupPoliciesListOptionalParams } from "../../api/backupPolicies/options.js";
-import type { ProtectionPolicyResource } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { BackupPoliciesListOptionalParams } from "../../api/backupPolicies/options.js";
+import { ProtectionPolicyResource } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a BackupPolicies operations. */
 export interface BackupPoliciesOperations {

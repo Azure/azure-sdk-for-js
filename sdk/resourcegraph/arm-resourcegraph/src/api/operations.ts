@@ -1,37 +1,42 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ResourceGraphContext as Client } from "./index.js";
-import type { ResourcesHistoryResponse } from "../models/models.js";
-import type {
-  ResourceChangesRequestParameters,
-  ResourceChangeList,
-  ResourceChangeData,
-  ResourceChangeDetailsRequestParameters,
-} from "../models/resourceChanges/models.js";
+import { ResourceGraphContext as Client } from "./index.js";
+import { ResourcesHistoryResponse } from "../models/models.js";
 import {
+  ResourceChangesRequestParameters,
   resourceChangesRequestParametersSerializer,
+  ResourceChangeList,
   resourceChangeListDeserializer,
   resourceChangeDataArrayDeserializer,
+  ResourceChangeData,
+  ResourceChangeDetailsRequestParameters,
   resourceChangeDetailsRequestParametersSerializer,
 } from "../models/resourceChanges/models.js";
-import type { QueryRequest, QueryResponse } from "../models/resourceGraphApi/models.js";
 import {
+  QueryRequest,
   queryRequestSerializer,
+  QueryResponse,
   queryResponseDeserializer,
 } from "../models/resourceGraphApi/models.js";
 import { errorResponseDeserializer } from "../models/resourceGraphCommon/models.js";
-import type { ResourcesHistoryRequest } from "../models/resourceHistory/models.js";
-import { resourcesHistoryRequestSerializer } from "../models/resourceHistory/models.js";
+import {
+  ResourcesHistoryRequest,
+  resourcesHistoryRequestSerializer,
+} from "../models/resourceHistory/models.js";
 import { expandUrlTemplate } from "../static-helpers/urlTemplate.js";
-import type {
+import {
   ResourcesHistoryOptionalParams,
   ResourcesOptionalParams,
   ResourceChangeDetailsOptionalParams,
   ResourceChangesOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _resourcesHistorySend(
   context: Client,
@@ -47,12 +52,14 @@ export function _resourcesHistorySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: resourcesHistoryRequestSerializer(request),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: resourcesHistoryRequestSerializer(request),
+    });
 }
 
 export async function _resourcesHistoryDeserialize(
@@ -95,12 +102,14 @@ export function _resourcesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: queryRequestSerializer(query),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: queryRequestSerializer(query),
+    });
 }
 
 export async function _resourcesDeserialize(result: PathUncheckedResponse): Promise<QueryResponse> {
@@ -141,12 +150,14 @@ export function _resourceChangeDetailsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: resourceChangeDetailsRequestParametersSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: resourceChangeDetailsRequestParametersSerializer(parameters),
+    });
 }
 
 export async function _resourceChangeDetailsDeserialize(
@@ -189,12 +200,14 @@ export function _resourceChangesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: resourceChangesRequestParametersSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: resourceChangesRequestParametersSerializer(parameters),
+    });
 }
 
 export async function _resourceChangesDeserialize(

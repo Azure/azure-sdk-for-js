@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 export { getOperationResult, getOperationStatus } from "./operations.js";
-export {
-  type GetOperationResultOptionalParams,
-  type GetOperationStatusOptionalParams,
+export type {
+  GetOperationResultOptionalParams,
+  GetOperationStatusOptionalParams,
 } from "./options.js";
-export {
-  createRecoveryServices,
-  type RecoveryServicesContext,
-  type RecoveryServicesClientOptionalParams,
+export type {
+  RecoveryServicesContext,
+  RecoveryServicesClientOptionalParams,
 } from "./recoveryServicesContext.js";
+export { createRecoveryServices } from "./recoveryServicesContext.js";

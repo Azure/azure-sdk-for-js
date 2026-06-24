@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RecoveryServicesBackupContext } from "../../api/recoveryServicesBackupContext.js";
+import { RecoveryServicesBackupContext } from "../../api/recoveryServicesBackupContext.js";
 import { get } from "../../api/protectionContainerOperationResults/operations.js";
-import type { ProtectionContainerOperationResultsGetOptionalParams } from "../../api/protectionContainerOperationResults/options.js";
-import type { ProtectionContainerResource } from "../../models/models.js";
+import { ProtectionContainerOperationResultsGetOptionalParams } from "../../api/protectionContainerOperationResults/options.js";
+import { ProtectionContainerResource } from "../../models/models.js";
 
 /** Interface representing a ProtectionContainerOperationResults operations. */
 export interface ProtectionContainerOperationResultsOperations {
@@ -16,7 +16,7 @@ export interface ProtectionContainerOperationResultsOperations {
     containerName: string,
     operationId: string,
     options?: ProtectionContainerOperationResultsGetOptionalParams,
-  ) => Promise<ProtectionContainerResource>;
+  ) => Promise<ProtectionContainerResource | undefined>;
 }
 
 function _getProtectionContainerOperationResults(context: RecoveryServicesBackupContext) {

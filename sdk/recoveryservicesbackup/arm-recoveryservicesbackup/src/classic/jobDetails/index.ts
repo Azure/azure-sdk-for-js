@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RecoveryServicesBackupContext } from "../../api/recoveryServicesBackupContext.js";
+import { RecoveryServicesBackupContext } from "../../api/recoveryServicesBackupContext.js";
 import { get } from "../../api/jobDetails/operations.js";
-import type { JobDetailsGetOptionalParams } from "../../api/jobDetails/options.js";
-import type { JobResource } from "../../models/models.js";
+import { JobDetailsGetOptionalParams } from "../../api/jobDetails/options.js";
+import { JobResource } from "../../models/models.js";
 
 /** Interface representing a JobDetails operations. */
 export interface JobDetailsOperations {

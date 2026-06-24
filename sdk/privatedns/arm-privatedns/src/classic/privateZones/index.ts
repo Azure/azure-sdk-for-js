@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PrivateDnsManagementContext } from "../../api/privateDnsManagementContext.js";
+import { PrivateDnsManagementContext } from "../../api/privateDnsManagementContext.js";
 import {
   list,
   listByResourceGroup,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/privateZones/operations.js";
-import type {
+import {
   PrivateZonesListOptionalParams,
   PrivateZonesListByResourceGroupOptionalParams,
   PrivateZonesDeleteOptionalParams,
@@ -18,11 +18,10 @@ import type {
   PrivateZonesCreateOrUpdateOptionalParams,
   PrivateZonesGetOptionalParams,
 } from "../../api/privateZones/options.js";
-import type { PrivateZone } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PrivateZone } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a PrivateZones operations. */
 export interface PrivateZonesOperations {

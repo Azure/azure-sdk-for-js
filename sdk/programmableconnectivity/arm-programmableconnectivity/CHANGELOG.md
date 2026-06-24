@@ -1,17 +1,7 @@
 # Release History
     
-## 1.0.0-beta.2 (Unreleased)
+## 1.0.0-beta.1 (2026-06-24)
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 1.0.0-beta.1 (2025-04-21)
-
-### Features Added
-
-Initial release of the Azure ProgrammableConnectivity package
+This is the first preview release of the @azure/arm-programmableconnectivity package. It introduces a new SDK generation with layered APIs, smaller bundles, and improved ergonomics. For more details, see the https://aka.ms/azsdk/js/sdk/quickstart.

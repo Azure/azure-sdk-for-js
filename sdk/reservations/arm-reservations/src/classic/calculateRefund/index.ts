@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureReservationAPIContext } from "../../api/azureReservationAPIContext.js";
+import { AzureReservationAPIContext } from "../../api/azureReservationAPIContext.js";
 import { post } from "../../api/calculateRefund/operations.js";
-import type { CalculateRefundPostOptionalParams } from "../../api/calculateRefund/options.js";
-import type {
+import { CalculateRefundPostOptionalParams } from "../../api/calculateRefund/options.js";
+import {
   CalculateRefundRequest,
   CalculateRefundResponse,
 } from "../../models/reservations/models.js";

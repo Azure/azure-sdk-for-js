@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureReservationAPI } from "./azureReservationAPI.js";
+import { AzureReservationAPI } from "./azureReservationAPI.js";
 import { _postDeserialize } from "./api/exchange/operations.js";
 import { _postDeserialize as _postDeserializeCalculateExchange } from "./api/calculateExchange/operations.js";
 import { _postDeserialize as _postDeserializeReturn } from "./api/return/operations.js";
@@ -17,10 +17,14 @@ import {
   _createOrUpdateDeserialize,
 } from "./api/quota/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
-import type { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
-import type { AbortSignalLike } from "@azure/abort-controller";
-import type { PollerLike, OperationState, ResourceLocationConfig } from "@azure/core-lro";
-import { deserializeState } from "@azure/core-lro";
+import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
+import { AbortSignalLike } from "@azure/abort-controller";
+import {
+  PollerLike,
+  OperationState,
+  deserializeState,
+  ResourceLocationConfig,
+} from "@azure/core-lro";
 
 export interface RestorePollerOptions<
   TResult,
