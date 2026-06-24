@@ -4,6 +4,7 @@ on:
   schedule:
     - cron: "weekly on monday"
 description: Review documentation for inconsistencies with source code and create a PR with fixes
+max-runs: 20
 permissions:
   contents: read
   issues: read
@@ -44,10 +45,15 @@ Go through each file in the `documentation/` folder and check for:
 
 ## Process
 
-1. Read every markdown file in `documentation/`.
-2. For each claim or instruction, verify it against the current source code and
-   repository structure using bash and the GitHub tools.
-3. Collect all inconsistencies found.
-4. Fix the documentation files directly using the edit tools.
-5. Create a pull request with all fixes, providing a clear summary of every change
-   made and why.
+1. List the markdown files in `documentation/` and pick at most **8 files** to
+   review in this run (prioritize the largest or most frequently referenced docs).
+   Do not attempt to review every file in a single run.
+2. Do all of the analysis yourself in the main agent. **Do not spawn background,
+   general-purpose, or sub-agents** — they multiply token usage and exhaust the
+   run's effective-token budget.
+3. Verify claims with **targeted** lookups: use `grep`/`rg` for specific symbols,
+   commands, or paths rather than reading entire files or the whole `sdk/` tree.
+   Read a source file only when a targeted search is inconclusive.
+4. Fix the documentation files you reviewed directly using the edit tools.
+5. Create a single pull request with the fixes from this run, providing a clear
+   summary of every change made and why.
