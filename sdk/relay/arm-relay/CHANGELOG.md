@@ -1,6 +1,6 @@
 # Release History
 
-## 4.0.0-beta.1 (2026-06-22)
+## 4.0.0-beta.1 (2026-06-24)
 Compared with version 3.1.1
 
 ### Features Added
@@ -113,6 +113,8 @@ Compared with version 3.1.1
   - Operation Namespaces.getAuthorizationRule has a new signature
   - Operation Namespaces.regenerateKeys has a new signature
   - Operation Namespaces.update has a new signature
+  - Class RelayAPI no longer has parameter apiVersion
+  - Class RelayAPI no longer has parameter subscriptionId
   - Removed Interface WCFRelays
   - Removed Interface WCFRelaysCreateOrUpdateAuthorizationRuleOptionalParams
   - Removed Interface WCFRelaysCreateOrUpdateOptionalParams
