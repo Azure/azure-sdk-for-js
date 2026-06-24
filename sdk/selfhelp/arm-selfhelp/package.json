@@ -3,7 +3,7 @@
   "version": "2.0.0-beta.7",
   "description": "A generated SDK for HelpRP.",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "sideEffects": false,
   "autoPublish": false,
