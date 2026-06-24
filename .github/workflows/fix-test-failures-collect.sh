@@ -37,6 +37,7 @@
 #   known-failures.md    raw body of the tracking issue (for the agent)
 set -uo pipefail
 
+: "${GH_TOKEN:?GH_TOKEN is required (every \`gh api\` call needs an authenticated token)}"
 : "${REPO:?REPO is required}"
 : "${OUTDIR:?OUTDIR is required}"
 PACKAGE="${PACKAGE:-}"
@@ -50,6 +51,20 @@ api() { gh api -H "Accept: application/vnd.github+json" "$@"; }
 
 # Lower-case helper for case-insensitive substring scoping.
 lc() { printf '%s' "$1" | tr '[:upper:]' '[:lower:]'; }
+
+# Preflight: fail loudly instead of silently emitting empty JSON. The files
+# written below are the agent's authoritative source of truth, so a missing
+# tool or an invalid/expired token must NOT be mistaken for "CI is green".
+# (Many `gh api` calls below redirect errors to /dev/null for per-item
+# resilience, which is exactly why this up-front check matters.)
+for _bin in gh jq; do
+  command -v "$_bin" >/dev/null 2>&1 \
+    || { echo "ERROR: required tool '$_bin' is not on PATH." >&2; exit 1; }
+done
+if [ "$(api "/repos/$REPO" --jq '.full_name' 2>/dev/null || true)" != "$REPO" ]; then
+  echo "ERROR: GitHub API preflight failed for '$REPO'. Is GH_TOKEN set, valid, and authorized?" >&2
+  exit 1
+fi
 
 # ---------------------------------------------------------------------------
 # Step 1: find the most recent commit on main that has check runs, and pull
@@ -90,7 +105,7 @@ else
         | select(.name | test(" - tests-weekly| - tests| - perf") | not)
         | select(.name | startswith("js - "))
         | { id, name, html_url,
-            details_url: (.details_url // .external_id // null),
+            details_url: (.details_url // null),
             output_title:   (.output.title   // null),
             output_summary: (.output.summary // null) } ]' \
     "$raw_runs" > "$OUTDIR/.failing_ci.json"

@@ -22,6 +22,14 @@ permissions:
 # Collection logic lives in a committed sibling script so it gets shellcheck,
 # highlighting, and clean diffs; in production the agent job sparse-checks-out
 # `.github` before this step, so the script is on disk.
+#
+# KNOWN LIMITATION: `gh aw trial` CANNOT exercise this script. In trial mode
+# the agent job checks out the `--logical-repo` (the simulated target), not
+# this branch, so the unmerged script is absent and the step fails with "No
+# such file". This is a trial limitation, not a production bug. To validate
+# pre-merge, run the script standalone (it is shellcheck-clean and takes
+# GH_TOKEN/REPO/OUTDIR env). Once merged to the default branch, the normal
+# scheduled / workflow_dispatch run exercises it for real.
 steps:
   - name: Collect CI failure data
     env:
@@ -66,9 +74,11 @@ annotations, or poll the rate limit yourself — read these files instead:
 - `/tmp/gh-aw/agent/failures.json` — array of failing **CI** check runs already
   filtered to the CI (playback) pipeline. Live-test (`- tests`,
   `- tests-weekly`) and `- perf` pipelines are already excluded. Each element
-  has: `name`, `html_url`, `details_url` (Azure DevOps build), `output_title`,
-  `output_summary`, `output_text`, and a capped `annotations` array
-  (`path`, `start_line`, `end_line`, `annotation_level`, `title`, `message`).
+  has: `name`, `html_url`, `details_url` (Azure DevOps build link; may be
+  `null`), `output_title`, `output_summary`, `output_text` (capped to ~4000
+  chars), and a capped `annotations` array (at most 25 entries, each with
+  `path`, `start_line`, `end_line`, `annotation_level`, `title`, and a
+  `message` truncated to ~1200 chars).
 - `/tmp/gh-aw/agent/known-failures.json` — the parsed tracking-island entries
   from issue #37864, each with its linked-issue `state` (`open`/`closed`)
   already resolved, plus the original `raw_line`.
