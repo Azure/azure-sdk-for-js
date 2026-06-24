@@ -1682,6 +1682,9 @@ sdk/powerplatform/arm-powerplatform/ @qiaozha @MaryGao @JialinHuang803
 # PRLabel: %Mgmt %mgmt-review-needed
 sdk/napsteromniagentapi/arm-napsteromniagentapi/ @qiaozha @MaryGao @JialinHuang803
 
+# PRLabel: %Mgmt %mgmt-review-needed
+sdk/placeholder/arm-commvault/ @qiaozha @MaryGao @JialinHuang803
+
 ###########
 # Config
 ###########

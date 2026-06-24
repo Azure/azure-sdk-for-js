@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.node.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-commvault": ["../src/index.ts"],
+      "@azure/arm-commvault/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}
