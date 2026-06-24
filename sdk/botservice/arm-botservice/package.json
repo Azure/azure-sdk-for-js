@@ -3,7 +3,7 @@
   "version": "5.0.0-beta.1",
   "description": "A generated SDK for AzureBotService.",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "sideEffects": false,
   "autoPublish": false,
