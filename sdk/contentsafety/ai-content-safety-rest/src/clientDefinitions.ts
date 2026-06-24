@@ -4,6 +4,8 @@
 import type {
   AnalyzeImageParameters,
   AnalyzeTextParameters,
+  ShieldPromptParameters,
+  DetectTextProtectedMaterialParameters,
   GetTextBlocklistParameters,
   CreateOrUpdateTextBlocklistParameters,
   DeleteTextBlocklistParameters,
@@ -18,6 +20,10 @@ import type {
   AnalyzeImageDefaultResponse,
   AnalyzeText200Response,
   AnalyzeTextDefaultResponse,
+  ShieldPrompt200Response,
+  ShieldPromptDefaultResponse,
+  DetectTextProtectedMaterial200Response,
+  DetectTextProtectedMaterialDefaultResponse,
   GetTextBlocklist200Response,
   GetTextBlocklistDefaultResponse,
   CreateOrUpdateTextBlocklist200Response,
@@ -50,6 +56,22 @@ export interface AnalyzeText {
   post(
     options: AnalyzeTextParameters,
   ): StreamableMethod<AnalyzeText200Response | AnalyzeTextDefaultResponse>;
+}
+
+export interface ShieldPrompt {
+  /** A synchronous API for shielding prompt from direct and indirect injection attacks. */
+  post(
+    options: ShieldPromptParameters,
+  ): StreamableMethod<ShieldPrompt200Response | ShieldPromptDefaultResponse>;
+}
+
+export interface DetectTextProtectedMaterial {
+  /** A synchronous API for detecting protected material in the given text. */
+  post(
+    options: DetectTextProtectedMaterialParameters,
+  ): StreamableMethod<
+    DetectTextProtectedMaterial200Response | DetectTextProtectedMaterialDefaultResponse
+  >;
 }
 
 export interface GetTextBlocklist {
@@ -113,6 +135,10 @@ export interface Routes {
   (path: "/image:analyze"): AnalyzeImage;
   /** Resource for '/text:analyze' has methods for the following verbs: post */
   (path: "/text:analyze"): AnalyzeText;
+  /** Resource for '/text:shieldPrompt' has methods for the following verbs: post */
+  (path: "/text:shieldPrompt"): ShieldPrompt;
+  /** Resource for '/text:detectProtectedMaterial' has methods for the following verbs: post */
+  (path: "/text:detectProtectedMaterial"): DetectTextProtectedMaterial;
   /** Resource for '/text/blocklists/\{blocklistName\}' has methods for the following verbs: get, patch, delete */
   (path: "/text/blocklists/{blocklistName}", blocklistName: string): GetTextBlocklist;
   /** Resource for '/text/blocklists' has methods for the following verbs: get */

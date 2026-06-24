@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update an Azure Cosmos DB Table
  *
  * @summary create or update an Azure Cosmos DB Table
- * x-ms-original-file: 2025-11-01-preview/CosmosDBTableCreateUpdate.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBTableCreateUpdate.json
  */
 async function cosmosDBTableReplace(): Promise<void> {
   const credential = new DefaultAzureCredential();

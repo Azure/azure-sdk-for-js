@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DeveloperHubServiceContext } from "../../api/developerHubServiceContext.js";
+import { DeveloperHubServiceContext } from "../../api/developerHubServiceContext.js";
 import { list } from "../../api/operations/operations.js";
-import type { OperationsListOptionalParams } from "../../api/operations/options.js";
-import type { OperationListResult } from "../../models/models.js";
+import { OperationsListOptionalParams } from "../../api/operations/options.js";
+import { OperationListResult } from "../../models/models.js";
 
 /** Interface representing a Operations operations. */
 export interface OperationsOperations {

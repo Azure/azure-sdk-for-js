@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CostManagementContext } from "../../api/costManagementContext.js";
+import { CostManagementContext } from "../../api/costManagementContext.js";
 import { externalCloudProviderUsage, usage } from "../../api/forecast/operations.js";
-import type {
+import {
   ForecastExternalCloudProviderUsageOptionalParams,
   ForecastUsageOptionalParams,
 } from "../../api/forecast/options.js";
-import type {
+import {
   ForecastDefinition,
   ForecastResult,
   ExternalCloudProviderType,

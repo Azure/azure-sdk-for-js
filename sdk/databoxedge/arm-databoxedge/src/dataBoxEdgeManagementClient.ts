@@ -1,57 +1,65 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   DataBoxEdgeManagementContext,
   DataBoxEdgeManagementClientOptionalParams,
+  createDataBoxEdgeManagement,
 } from "./api/index.js";
-import { createDataBoxEdgeManagement } from "./api/index.js";
-import type { AddonsOperations } from "./classic/addons/index.js";
-import { _getAddonsOperations } from "./classic/addons/index.js";
-import type { AlertsOperations } from "./classic/alerts/index.js";
-import { _getAlertsOperations } from "./classic/alerts/index.js";
-import type { AvailableSkusOperations } from "./classic/availableSkus/index.js";
-import { _getAvailableSkusOperations } from "./classic/availableSkus/index.js";
-import type { BandwidthSchedulesOperations } from "./classic/bandwidthSchedules/index.js";
-import { _getBandwidthSchedulesOperations } from "./classic/bandwidthSchedules/index.js";
-import type { ContainersOperations } from "./classic/containers/index.js";
-import { _getContainersOperations } from "./classic/containers/index.js";
-import type { DeviceCapacityCheckOperations } from "./classic/deviceCapacityCheck/index.js";
-import { _getDeviceCapacityCheckOperations } from "./classic/deviceCapacityCheck/index.js";
-import type { DeviceCapacityInfoOperations } from "./classic/deviceCapacityInfo/index.js";
-import { _getDeviceCapacityInfoOperations } from "./classic/deviceCapacityInfo/index.js";
-import type { DevicesOperations } from "./classic/devices/index.js";
-import { _getDevicesOperations } from "./classic/devices/index.js";
-import type { DiagnosticSettingsOperations } from "./classic/diagnosticSettings/index.js";
-import { _getDiagnosticSettingsOperations } from "./classic/diagnosticSettings/index.js";
-import type { JobsOperations } from "./classic/jobs/index.js";
-import { _getJobsOperations } from "./classic/jobs/index.js";
-import type { MonitoringConfigOperations } from "./classic/monitoringConfig/index.js";
-import { _getMonitoringConfigOperations } from "./classic/monitoringConfig/index.js";
-import type { NodesOperations } from "./classic/nodes/index.js";
-import { _getNodesOperations } from "./classic/nodes/index.js";
-import type { OperationsOperations } from "./classic/operations/index.js";
-import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { OperationsStatusOperations } from "./classic/operationsStatus/index.js";
-import { _getOperationsStatusOperations } from "./classic/operationsStatus/index.js";
-import type { OrdersOperations } from "./classic/orders/index.js";
-import { _getOrdersOperations } from "./classic/orders/index.js";
-import type { RolesOperations } from "./classic/roles/index.js";
-import { _getRolesOperations } from "./classic/roles/index.js";
-import type { SharesOperations } from "./classic/shares/index.js";
-import { _getSharesOperations } from "./classic/shares/index.js";
-import type { StorageAccountCredentialsOperations } from "./classic/storageAccountCredentials/index.js";
-import { _getStorageAccountCredentialsOperations } from "./classic/storageAccountCredentials/index.js";
-import type { StorageAccountsOperations } from "./classic/storageAccounts/index.js";
-import { _getStorageAccountsOperations } from "./classic/storageAccounts/index.js";
-import type { SupportPackagesOperations } from "./classic/supportPackages/index.js";
-import { _getSupportPackagesOperations } from "./classic/supportPackages/index.js";
-import type { TriggersOperations } from "./classic/triggers/index.js";
-import { _getTriggersOperations } from "./classic/triggers/index.js";
-import type { UsersOperations } from "./classic/users/index.js";
-import { _getUsersOperations } from "./classic/users/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import { AddonsOperations, _getAddonsOperations } from "./classic/addons/index.js";
+import { AlertsOperations, _getAlertsOperations } from "./classic/alerts/index.js";
+import {
+  AvailableSkusOperations,
+  _getAvailableSkusOperations,
+} from "./classic/availableSkus/index.js";
+import {
+  BandwidthSchedulesOperations,
+  _getBandwidthSchedulesOperations,
+} from "./classic/bandwidthSchedules/index.js";
+import { ContainersOperations, _getContainersOperations } from "./classic/containers/index.js";
+import {
+  DeviceCapacityCheckOperations,
+  _getDeviceCapacityCheckOperations,
+} from "./classic/deviceCapacityCheck/index.js";
+import {
+  DeviceCapacityInfoOperations,
+  _getDeviceCapacityInfoOperations,
+} from "./classic/deviceCapacityInfo/index.js";
+import { DevicesOperations, _getDevicesOperations } from "./classic/devices/index.js";
+import {
+  DiagnosticSettingsOperations,
+  _getDiagnosticSettingsOperations,
+} from "./classic/diagnosticSettings/index.js";
+import { JobsOperations, _getJobsOperations } from "./classic/jobs/index.js";
+import {
+  MonitoringConfigOperations,
+  _getMonitoringConfigOperations,
+} from "./classic/monitoringConfig/index.js";
+import { NodesOperations, _getNodesOperations } from "./classic/nodes/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import {
+  OperationsStatusOperations,
+  _getOperationsStatusOperations,
+} from "./classic/operationsStatus/index.js";
+import { OrdersOperations, _getOrdersOperations } from "./classic/orders/index.js";
+import { RolesOperations, _getRolesOperations } from "./classic/roles/index.js";
+import { SharesOperations, _getSharesOperations } from "./classic/shares/index.js";
+import {
+  StorageAccountCredentialsOperations,
+  _getStorageAccountCredentialsOperations,
+} from "./classic/storageAccountCredentials/index.js";
+import {
+  StorageAccountsOperations,
+  _getStorageAccountsOperations,
+} from "./classic/storageAccounts/index.js";
+import {
+  SupportPackagesOperations,
+  _getSupportPackagesOperations,
+} from "./classic/supportPackages/index.js";
+import { TriggersOperations, _getTriggersOperations } from "./classic/triggers/index.js";
+import { UsersOperations, _getUsersOperations } from "./classic/users/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { DataBoxEdgeManagementClientOptionalParams } from "./api/dataBoxEdgeManagementContext.js";
 

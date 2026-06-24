@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes an existing Azure Cosmos DB Table Role Assignment.
  *
  * @summary deletes an existing Azure Cosmos DB Table Role Assignment.
- * x-ms-original-file: 2025-11-01-preview/tablerbac/CosmosDBTableRoleAssignmentDelete.json
+ * x-ms-original-file: 2026-04-01-preview/tablerbac/CosmosDBTableRoleAssignmentDelete.json
  */
 async function cosmosDBTableRoleAssignmentDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

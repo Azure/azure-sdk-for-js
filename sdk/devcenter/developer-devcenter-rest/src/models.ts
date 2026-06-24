@@ -20,12 +20,6 @@ export interface ImageReference {}
 export interface DevBox {
   /** The name of the Dev Box pool this machine belongs to. */
   poolName: string;
-  /**
-   * Indicates whether the owner of the Dev Box is a local administrator.
-   *
-   * Possible values: "Enabled", "Disabled"
-   */
-  localAdministrator?: LocalAdminStatus;
 }
 
 /** Properties of an environment. */

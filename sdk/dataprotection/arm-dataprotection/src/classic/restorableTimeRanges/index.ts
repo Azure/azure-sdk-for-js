@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DataProtectionContext } from "../../api/dataProtectionContext.js";
+import { DataProtectionContext } from "../../api/dataProtectionContext.js";
 import { find } from "../../api/restorableTimeRanges/operations.js";
-import type { RestorableTimeRangesFindOptionalParams } from "../../api/restorableTimeRanges/options.js";
-import type {
+import { RestorableTimeRangesFindOptionalParams } from "../../api/restorableTimeRanges/options.js";
+import {
   AzureBackupFindRestorableTimeRangesRequest,
   AzureBackupFindRestorableTimeRangesResponseResource,
 } from "../../models/models.js";

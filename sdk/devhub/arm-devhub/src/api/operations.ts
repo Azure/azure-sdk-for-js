@@ -1,34 +1,36 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DeveloperHubServiceContext as Client } from "./index.js";
-import type {
-  ArtifactGenerationProperties,
-  GitHubOAuthResponse,
-  GitHubOAuthListResponse,
-  GitHubOAuthInfoResponse,
-  AdooAuthInfoResponse,
-} from "../models/models.js";
+import { DeveloperHubServiceContext as Client } from "./index.js";
 import {
+  ArtifactGenerationProperties,
   artifactGenerationPropertiesSerializer,
   errorResponseDeserializer,
+  GitHubOAuthResponse,
   gitHubOAuthResponseDeserializer,
+  GitHubOAuthListResponse,
   gitHubOAuthListResponseDeserializer,
   gitHubOAuthCallRequestSerializer,
+  GitHubOAuthInfoResponse,
   gitHubOAuthInfoResponseDeserializer,
   adooAuthCallRequestSerializer,
+  AdooAuthInfoResponse,
   adooAuthInfoResponseDeserializer,
 } from "../models/models.js";
 import { expandUrlTemplate } from "../static-helpers/urlTemplate.js";
-import type {
+import {
   GetAdooAuthInfoOptionalParams,
   GitHubOAuthOptionalParams,
   ListGitHubOAuthOptionalParams,
   GitHubOAuthCallbackOptionalParams,
   GeneratePreviewArtifactsOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _getAdooAuthInfoSend(
   context: Client,
@@ -46,14 +48,16 @@ export function _getAdooAuthInfoSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: !options?.parameters
-      ? options?.parameters
-      : adooAuthCallRequestSerializer(options?.parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: !options?.parameters
+        ? options?.parameters
+        : adooAuthCallRequestSerializer(options?.parameters),
+    });
 }
 
 export async function _getAdooAuthInfoDeserialize(
@@ -98,14 +102,16 @@ export function _gitHubOAuthSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: !options?.parameters
-      ? options?.parameters
-      : gitHubOAuthCallRequestSerializer(options?.parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: !options?.parameters
+        ? options?.parameters
+        : gitHubOAuthCallRequestSerializer(options?.parameters),
+    });
 }
 
 export async function _gitHubOAuthDeserialize(
@@ -150,10 +156,12 @@ export function _listGitHubOAuthSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listGitHubOAuthDeserialize(
@@ -202,10 +210,12 @@ export function _gitHubOAuthCallbackSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _gitHubOAuthCallbackDeserialize(
@@ -253,12 +263,14 @@ export function _generatePreviewArtifactsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: artifactGenerationPropertiesSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: artifactGenerationPropertiesSerializer(parameters),
+    });
 }
 
 export async function _generatePreviewArtifactsDeserialize(

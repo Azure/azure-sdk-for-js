@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to migrate an Azure Cosmos DB Table from manual throughput to autoscale
  *
  * @summary migrate an Azure Cosmos DB Table from manual throughput to autoscale
- * x-ms-original-file: 2025-11-01-preview/CosmosDBTableMigrateToAutoscale.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBTableMigrateToAutoscale.json
  */
 async function cosmosDBTableMigrateToAutoscale(): Promise<void> {
   const credential = new DefaultAzureCredential();

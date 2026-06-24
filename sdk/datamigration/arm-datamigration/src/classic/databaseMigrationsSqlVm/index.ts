@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DataMigrationManagementContext } from "../../api/dataMigrationManagementContext.js";
+import { DataMigrationManagementContext } from "../../api/dataMigrationManagementContext.js";
 import {
   cutover,
   cancel,
@@ -9,17 +9,16 @@ import {
   createOrUpdate,
   get,
 } from "../../api/databaseMigrationsSqlVm/operations.js";
-import type {
+import {
   DatabaseMigrationsSqlVmCutoverOptionalParams,
   DatabaseMigrationsSqlVmCancelOptionalParams,
   DatabaseMigrationsSqlVmDeleteOptionalParams,
   DatabaseMigrationsSqlVmCreateOrUpdateOptionalParams,
   DatabaseMigrationsSqlVmGetOptionalParams,
 } from "../../api/databaseMigrationsSqlVm/options.js";
-import type { MigrationOperationInput, DatabaseMigrationSqlVm } from "../../models/models.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { MigrationOperationInput, DatabaseMigrationSqlVm } from "../../models/models.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a DatabaseMigrationsSqlVm operations. */
 export interface DatabaseMigrationsSqlVmOperations {

@@ -1,13 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DataBoxEdgeManagementContext } from "../../api/dataBoxEdgeManagementContext.js";
+import { DataBoxEdgeManagementContext } from "../../api/dataBoxEdgeManagementContext.js";
 import { checkResourceCreationFeasibility } from "../../api/deviceCapacityCheck/operations.js";
-import type { DeviceCapacityCheckCheckResourceCreationFeasibilityOptionalParams } from "../../api/deviceCapacityCheck/options.js";
-import type { DeviceCapacityRequestInfo } from "../../models/models.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { DeviceCapacityCheckCheckResourceCreationFeasibilityOptionalParams } from "../../api/deviceCapacityCheck/options.js";
+import { DeviceCapacityRequestInfo } from "../../models/models.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a DeviceCapacityCheck operations. */
 export interface DeviceCapacityCheckOperations {

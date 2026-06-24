@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 export {
+  getDependencyViewForAllMachines,
   exportDependencies,
   getConnectionsForProcessOnFocusedMachine,
   getConnectionsWithConnectedMachineForFocusedMachine,
@@ -13,15 +14,16 @@ export {
   createOrUpdate,
   get,
 } from "./operations.js";
-export {
-  type MapsExportDependenciesOptionalParams,
-  type MapsGetConnectionsForProcessOnFocusedMachineOptionalParams,
-  type MapsGetConnectionsWithConnectedMachineForFocusedMachineOptionalParams,
-  type MapsGetDependencyViewForFocusedMachineOptionalParams,
-  type MapsListBySubscriptionOptionalParams,
-  type MapsListByResourceGroupOptionalParams,
-  type MapsDeleteOptionalParams,
-  type MapsUpdateOptionalParams,
-  type MapsCreateOrUpdateOptionalParams,
-  type MapsGetOptionalParams,
+export type {
+  MapsGetDependencyViewForAllMachinesOptionalParams,
+  MapsExportDependenciesOptionalParams,
+  MapsGetConnectionsForProcessOnFocusedMachineOptionalParams,
+  MapsGetConnectionsWithConnectedMachineForFocusedMachineOptionalParams,
+  MapsGetDependencyViewForFocusedMachineOptionalParams,
+  MapsListBySubscriptionOptionalParams,
+  MapsListByResourceGroupOptionalParams,
+  MapsDeleteOptionalParams,
+  MapsUpdateOptionalParams,
+  MapsCreateOrUpdateOptionalParams,
+  MapsGetOptionalParams,
 } from "./options.js";

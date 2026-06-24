@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ContainerServiceContext } from "../../api/containerServiceContext.js";
+import { ContainerServiceContext } from "../../api/containerServiceContext.js";
 import {
   listKubernetesVersions,
   listMeshUpgradeProfiles,
@@ -35,7 +35,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/managedClusters/operations.js";
-import type {
+import {
   ManagedClustersListKubernetesVersionsOptionalParams,
   ManagedClustersListMeshUpgradeProfilesOptionalParams,
   ManagedClustersGetMeshUpgradeProfileOptionalParams,
@@ -68,7 +68,7 @@ import type {
   ManagedClustersCreateOrUpdateOptionalParams,
   ManagedClustersGetOptionalParams,
 } from "../../api/managedClusters/options.js";
-import type {
+import {
   ManagedCluster,
   ManagedClusterServicePrincipalProfile,
   ManagedClusterAADProfile,
@@ -86,10 +86,9 @@ import type {
   MeshUpgradeProfile,
   KubernetesVersionListResult,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ManagedClusters operations. */
 export interface ManagedClustersOperations {

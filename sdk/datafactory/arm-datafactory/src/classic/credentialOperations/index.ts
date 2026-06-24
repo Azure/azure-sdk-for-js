@@ -46,7 +46,7 @@ export interface CredentialOperationsOperations {
     factoryName: string,
     credentialName: string,
     options?: CredentialOperationsGetOptionalParams,
-  ) => Promise<CredentialResource>;
+  ) => Promise<CredentialResource | undefined>;
 }
 
 function _getCredentialOperations(context: DataFactoryManagementContext) {

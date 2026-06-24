@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CosmosDBManagementContext } from "../../api/cosmosDBManagementContext.js";
+import { CosmosDBManagementContext } from "../../api/cosmosDBManagementContext.js";
 import {
   listCassandraRoleAssignments,
   deleteCassandraRoleAssignment,
@@ -36,7 +36,7 @@ import {
   updateCassandraKeyspaceThroughput,
   getCassandraKeyspaceThroughput,
 } from "../../api/cassandraResources/operations.js";
-import type {
+import {
   CassandraResourcesListCassandraRoleAssignmentsOptionalParams,
   CassandraResourcesDeleteCassandraRoleAssignmentOptionalParams,
   CassandraResourcesCreateUpdateCassandraRoleAssignmentOptionalParams,
@@ -70,7 +70,7 @@ import type {
   CassandraResourcesUpdateCassandraKeyspaceThroughputOptionalParams,
   CassandraResourcesGetCassandraKeyspaceThroughputOptionalParams,
 } from "../../api/cassandraResources/options.js";
-import type {
+import {
   ThroughputSettingsGetResults,
   ThroughputSettingsUpdateParameters,
   CassandraKeyspaceGetResults,
@@ -82,10 +82,9 @@ import type {
   CassandraRoleDefinitionResource,
   CassandraRoleAssignmentResource,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a CassandraResources operations. */
 export interface CassandraResourcesOperations {

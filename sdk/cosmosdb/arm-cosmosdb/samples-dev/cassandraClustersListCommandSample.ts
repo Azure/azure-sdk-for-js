@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list all commands currently running on ring info
  *
  * @summary list all commands currently running on ring info
- * x-ms-original-file: 2025-11-01-preview/CosmosDBManagedCassandraListCommand.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBManagedCassandraListCommand.json
  */
 async function cosmosDBManagedCassandraListCommand(): Promise<void> {
   const credential = new DefaultAzureCredential();

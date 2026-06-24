@@ -1,43 +1,55 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   DataMigrationManagementContext,
   DataMigrationManagementClientOptionalParams,
+  createDataMigrationManagement,
 } from "./api/index.js";
-import { createDataMigrationManagement } from "./api/index.js";
-import type { DatabaseMigrationsMongoToCosmosDbRUMongoOperations } from "./classic/databaseMigrationsMongoToCosmosDbRUMongo/index.js";
-import { _getDatabaseMigrationsMongoToCosmosDbRUMongoOperations } from "./classic/databaseMigrationsMongoToCosmosDbRUMongo/index.js";
-import type { DatabaseMigrationsMongoToCosmosDbvCoreMongoOperations } from "./classic/databaseMigrationsMongoToCosmosDbvCoreMongo/index.js";
-import { _getDatabaseMigrationsMongoToCosmosDbvCoreMongoOperations } from "./classic/databaseMigrationsMongoToCosmosDbvCoreMongo/index.js";
-import type { DatabaseMigrationsSqlDbOperations } from "./classic/databaseMigrationsSqlDb/index.js";
-import { _getDatabaseMigrationsSqlDbOperations } from "./classic/databaseMigrationsSqlDb/index.js";
-import type { DatabaseMigrationsSqlMiOperations } from "./classic/databaseMigrationsSqlMi/index.js";
-import { _getDatabaseMigrationsSqlMiOperations } from "./classic/databaseMigrationsSqlMi/index.js";
-import type { DatabaseMigrationsSqlVmOperations } from "./classic/databaseMigrationsSqlVm/index.js";
-import { _getDatabaseMigrationsSqlVmOperations } from "./classic/databaseMigrationsSqlVm/index.js";
-import type { FilesOperations } from "./classic/files/index.js";
-import { _getFilesOperations } from "./classic/files/index.js";
-import type { MigrationServicesOperations } from "./classic/migrationServices/index.js";
-import { _getMigrationServicesOperations } from "./classic/migrationServices/index.js";
-import type { OperationsOperations } from "./classic/operations/index.js";
-import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { ProjectsOperations } from "./classic/projects/index.js";
-import { _getProjectsOperations } from "./classic/projects/index.js";
-import type { ResourceSkusOperations } from "./classic/resourceSkus/index.js";
-import { _getResourceSkusOperations } from "./classic/resourceSkus/index.js";
-import type { ServiceTasksOperations } from "./classic/serviceTasks/index.js";
-import { _getServiceTasksOperations } from "./classic/serviceTasks/index.js";
-import type { ServicesOperations } from "./classic/services/index.js";
-import { _getServicesOperations } from "./classic/services/index.js";
-import type { SqlMigrationServicesOperations } from "./classic/sqlMigrationServices/index.js";
-import { _getSqlMigrationServicesOperations } from "./classic/sqlMigrationServices/index.js";
-import type { TasksOperations } from "./classic/tasks/index.js";
-import { _getTasksOperations } from "./classic/tasks/index.js";
-import type { UsagesOperations } from "./classic/usages/index.js";
-import { _getUsagesOperations } from "./classic/usages/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import {
+  DatabaseMigrationsMongoToCosmosDbRUMongoOperations,
+  _getDatabaseMigrationsMongoToCosmosDbRUMongoOperations,
+} from "./classic/databaseMigrationsMongoToCosmosDbRUMongo/index.js";
+import {
+  DatabaseMigrationsMongoToCosmosDbvCoreMongoOperations,
+  _getDatabaseMigrationsMongoToCosmosDbvCoreMongoOperations,
+} from "./classic/databaseMigrationsMongoToCosmosDbvCoreMongo/index.js";
+import {
+  DatabaseMigrationsSqlDbOperations,
+  _getDatabaseMigrationsSqlDbOperations,
+} from "./classic/databaseMigrationsSqlDb/index.js";
+import {
+  DatabaseMigrationsSqlMiOperations,
+  _getDatabaseMigrationsSqlMiOperations,
+} from "./classic/databaseMigrationsSqlMi/index.js";
+import {
+  DatabaseMigrationsSqlVmOperations,
+  _getDatabaseMigrationsSqlVmOperations,
+} from "./classic/databaseMigrationsSqlVm/index.js";
+import { FilesOperations, _getFilesOperations } from "./classic/files/index.js";
+import {
+  MigrationServicesOperations,
+  _getMigrationServicesOperations,
+} from "./classic/migrationServices/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import { ProjectsOperations, _getProjectsOperations } from "./classic/projects/index.js";
+import {
+  ResourceSkusOperations,
+  _getResourceSkusOperations,
+} from "./classic/resourceSkus/index.js";
+import {
+  ServiceTasksOperations,
+  _getServiceTasksOperations,
+} from "./classic/serviceTasks/index.js";
+import { ServicesOperations, _getServicesOperations } from "./classic/services/index.js";
+import {
+  SqlMigrationServicesOperations,
+  _getSqlMigrationServicesOperations,
+} from "./classic/sqlMigrationServices/index.js";
+import { TasksOperations, _getTasksOperations } from "./classic/tasks/index.js";
+import { UsagesOperations, _getUsagesOperations } from "./classic/usages/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { DataMigrationManagementClientOptionalParams } from "./api/dataMigrationManagementContext.js";
 

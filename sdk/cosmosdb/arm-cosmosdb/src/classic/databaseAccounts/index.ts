@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CosmosDBManagementContext } from "../../api/cosmosDBManagementContext.js";
+import { CosmosDBManagementContext } from "../../api/cosmosDBManagementContext.js";
 import {
   checkNameExists,
   listMetricDefinitions,
@@ -22,7 +22,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/databaseAccounts/operations.js";
-import type {
+import {
   DatabaseAccountsCheckNameExistsOptionalParams,
   DatabaseAccountsListMetricDefinitionsOptionalParams,
   DatabaseAccountsListUsagesOptionalParams,
@@ -42,7 +42,7 @@ import type {
   DatabaseAccountsCreateOrUpdateOptionalParams,
   DatabaseAccountsGetOptionalParams,
 } from "../../api/databaseAccounts/options.js";
-import type {
+import {
   DatabaseAccountGetResults,
   DatabaseAccountCreateUpdateParameters,
   DatabaseAccountUpdateParameters,
@@ -57,10 +57,9 @@ import type {
   MetricDefinition,
   DatabaseAccountsCheckNameExistsResponse,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a DatabaseAccounts operations. */
 export interface DatabaseAccountsOperations {
@@ -206,11 +205,6 @@ export interface DatabaseAccountsOperations {
     options?: DatabaseAccountsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<DatabaseAccountGetResults>;
   /** Deletes an existing Azure Cosmos DB database account. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     accountName: string,

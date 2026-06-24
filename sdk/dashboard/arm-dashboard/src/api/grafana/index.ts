@@ -11,13 +11,13 @@ export {
   create,
   get,
 } from "./operations.js";
-export {
-  type GrafanaFetchAvailablePluginsOptionalParams,
-  type GrafanaCheckEnterpriseDetailsOptionalParams,
-  type GrafanaListOptionalParams,
-  type GrafanaListByResourceGroupOptionalParams,
-  type GrafanaDeleteOptionalParams,
-  type GrafanaUpdateOptionalParams,
-  type GrafanaCreateOptionalParams,
-  type GrafanaGetOptionalParams,
+export type {
+  GrafanaFetchAvailablePluginsOptionalParams,
+  GrafanaCheckEnterpriseDetailsOptionalParams,
+  GrafanaListOptionalParams,
+  GrafanaListByResourceGroupOptionalParams,
+  GrafanaDeleteOptionalParams,
+  GrafanaUpdateOptionalParams,
+  GrafanaCreateOptionalParams,
+  GrafanaGetOptionalParams,
 } from "./options.js";

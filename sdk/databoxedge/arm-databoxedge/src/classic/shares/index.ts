@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DataBoxEdgeManagementContext } from "../../api/dataBoxEdgeManagementContext.js";
+import { DataBoxEdgeManagementContext } from "../../api/dataBoxEdgeManagementContext.js";
 import {
   refresh,
   listByDataBoxEdgeDevice,
@@ -9,18 +9,17 @@ import {
   createOrUpdate,
   get,
 } from "../../api/shares/operations.js";
-import type {
+import {
   SharesRefreshOptionalParams,
   SharesListByDataBoxEdgeDeviceOptionalParams,
   SharesDeleteOptionalParams,
   SharesCreateOrUpdateOptionalParams,
   SharesGetOptionalParams,
 } from "../../api/shares/options.js";
-import type { Share } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { Share } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Shares operations. */
 export interface SharesOperations {

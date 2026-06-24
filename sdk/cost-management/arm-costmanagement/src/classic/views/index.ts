@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CostManagementContext } from "../../api/costManagementContext.js";
+import { CostManagementContext } from "../../api/costManagementContext.js";
 import {
   listByScope,
   deleteByScope,
@@ -12,7 +12,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/views/operations.js";
-import type {
+import {
   ViewsListByScopeOptionalParams,
   ViewsDeleteByScopeOptionalParams,
   ViewsCreateOrUpdateByScopeOptionalParams,
@@ -22,8 +22,8 @@ import type {
   ViewsCreateOrUpdateOptionalParams,
   ViewsGetOptionalParams,
 } from "../../api/views/options.js";
-import type { View } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { View } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Views operations. */
 export interface ViewsOperations {

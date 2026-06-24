@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export {
+export type {
   AnalysisInput,
   ContentAnalyzerAnalyzeOperationStatus,
   OperationState,
@@ -74,5 +74,5 @@ export {
   ContentUnderstandingDefaults,
   CopyAuthorization,
   RecordMergePatchUpdate,
-  KnownVersions,
 } from "./models.js";
+export { KnownVersions } from "./models.js";

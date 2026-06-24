@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export {
-  createContentUnderstanding,
+export type {
   ContentUnderstandingContext,
   ContentUnderstandingClientOptionalParams,
 } from "./contentUnderstandingContext.js";
+export { createContentUnderstanding } from "./contentUnderstandingContext.js";
 export {
   updateDefaults,
   updateAnalyzer,
@@ -23,7 +23,7 @@ export {
   analyzeBinary,
   analyze,
 } from "./operations.js";
-export {
+export type {
   UpdateDefaultsOptionalParams,
   UpdateAnalyzerOptionalParams,
   ListAnalyzersOptionalParams,

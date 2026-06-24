@@ -1,26 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DataBoxEdgeManagementContext } from "../../api/dataBoxEdgeManagementContext.js";
+import { DataBoxEdgeManagementContext } from "../../api/dataBoxEdgeManagementContext.js";
 import {
   updateDiagnosticRemoteSupportSettings,
   getDiagnosticRemoteSupportSettings,
   updateDiagnosticProactiveLogCollectionSettings,
   getDiagnosticProactiveLogCollectionSettings,
 } from "../../api/diagnosticSettings/operations.js";
-import type {
+import {
   DiagnosticSettingsUpdateDiagnosticRemoteSupportSettingsOptionalParams,
   DiagnosticSettingsGetDiagnosticRemoteSupportSettingsOptionalParams,
   DiagnosticSettingsUpdateDiagnosticProactiveLogCollectionSettingsOptionalParams,
   DiagnosticSettingsGetDiagnosticProactiveLogCollectionSettingsOptionalParams,
 } from "../../api/diagnosticSettings/options.js";
-import type {
+import {
   DiagnosticProactiveLogCollectionSettings,
   DiagnosticRemoteSupportSettings,
 } from "../../models/models.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a DiagnosticSettings operations. */
 export interface DiagnosticSettingsOperations {

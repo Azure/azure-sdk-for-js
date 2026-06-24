@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update an Azure Cosmos DB Cassandra keyspace
  *
  * @summary create or update an Azure Cosmos DB Cassandra keyspace
- * x-ms-original-file: 2025-11-01-preview/CosmosDBCassandraKeyspaceCreateUpdate.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBCassandraKeyspaceCreateUpdate.json
  */
 async function cosmosDBCassandraKeyspaceCreateUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

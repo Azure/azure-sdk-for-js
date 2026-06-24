@@ -20,10 +20,7 @@ async function grafanaCreate(): Promise<void> {
     properties: {
       apiKey: "Enabled",
       deterministicOutboundIP: "Enabled",
-      enterpriseConfigurations: {
-        marketplaceAutoRenew: "Enabled",
-        marketplacePlanId: "myPlanId",
-      },
+      enterpriseConfigurations: { marketplaceAutoRenew: "Enabled", marketplacePlanId: "myPlanId" },
       grafanaConfigurations: {
         security: { csrfAlwaysCheck: false },
         smtp: {

@@ -1,24 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DataMigrationManagementContext } from "../../api/dataMigrationManagementContext.js";
+import { DataMigrationManagementContext } from "../../api/dataMigrationManagementContext.js";
 import {
   listForScope,
   $delete,
   create,
   get,
 } from "../../api/databaseMigrationsMongoToCosmosDbvCoreMongo/operations.js";
-import type {
+import {
   DatabaseMigrationsMongoToCosmosDbvCoreMongoListForScopeOptionalParams,
   DatabaseMigrationsMongoToCosmosDbvCoreMongoDeleteOptionalParams,
   DatabaseMigrationsMongoToCosmosDbvCoreMongoCreateOptionalParams,
   DatabaseMigrationsMongoToCosmosDbvCoreMongoGetOptionalParams,
 } from "../../api/databaseMigrationsMongoToCosmosDbvCoreMongo/options.js";
-import type { DatabaseMigrationCosmosDbMongo } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { DatabaseMigrationCosmosDbMongo } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a DatabaseMigrationsMongoToCosmosDbvCoreMongo operations. */
 export interface DatabaseMigrationsMongoToCosmosDbvCoreMongoOperations {

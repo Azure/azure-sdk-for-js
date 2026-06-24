@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to retrieves the metrics determined by the given filter for the given database account. This url is only for PBS and Replication Latency data
  *
  * @summary retrieves the metrics determined by the given filter for the given database account. This url is only for PBS and Replication Latency data
- * x-ms-original-file: 2025-11-01-preview/CosmosDBPercentileGetMetrics.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBPercentileGetMetrics.json
  */
 async function cosmosDBDatabaseAccountRegionGetMetrics(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -18,7 +18,7 @@ async function cosmosDBDatabaseAccountRegionGetMetrics(): Promise<void> {
   for await (const item of client.percentile.listMetrics(
     "rg1",
     "ddb1",
-    "$filter=(name.value eq 'Probabilistic Bounded Staleness') and timeGrain eq duration'PT5M' and startTime eq '2017-11-19T23:53:55.2780000Z' and endTime eq '2017-11-20T00:13:55.2780000Z",
+    "(name.value eq 'Probabilistic Bounded Staleness') and timeGrain eq duration'PT5M' and startTime eq '2017-11-19T23:53:55.2780000Z' and endTime eq '2017-11-20T00:13:55.2780000Z",
   )) {
     resArray.push(item);
   }

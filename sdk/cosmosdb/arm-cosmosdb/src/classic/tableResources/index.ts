@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CosmosDBManagementContext } from "../../api/cosmosDBManagementContext.js";
+import { CosmosDBManagementContext } from "../../api/cosmosDBManagementContext.js";
 import {
   listTableRoleAssignments,
   deleteTableRoleAssignment,
@@ -21,7 +21,7 @@ import {
   updateTableThroughput,
   getTableThroughput,
 } from "../../api/tableResources/operations.js";
-import type {
+import {
   TableResourcesListTableRoleAssignmentsOptionalParams,
   TableResourcesDeleteTableRoleAssignmentOptionalParams,
   TableResourcesCreateUpdateTableRoleAssignmentOptionalParams,
@@ -40,7 +40,7 @@ import type {
   TableResourcesUpdateTableThroughputOptionalParams,
   TableResourcesGetTableThroughputOptionalParams,
 } from "../../api/tableResources/options.js";
-import type {
+import {
   ThroughputSettingsGetResults,
   ThroughputSettingsUpdateParameters,
   ContinuousBackupRestoreLocation,
@@ -50,10 +50,9 @@ import type {
   TableRoleDefinitionResource,
   TableRoleAssignmentResource,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a TableResources operations. */
 export interface TableResourcesOperations {

@@ -1,19 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CostManagementContext as Client } from "../index.js";
-import type {
-  BenefitUtilizationSummariesRequest,
-  BenefitUtilizationSummariesOperationStatus,
-} from "../../models/models.js";
+import { CostManagementContext as Client } from "../index.js";
 import {
+  BenefitUtilizationSummariesRequest,
   benefitUtilizationSummariesRequestSerializer,
+  BenefitUtilizationSummariesOperationStatus,
   benefitUtilizationSummariesOperationStatusDeserializer,
   armErrorResponseDeserializer,
 } from "../../models/models.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   GenerateBenefitUtilizationSummariesReportGenerateBySavingsPlanIdOptionalParams,
   GenerateBenefitUtilizationSummariesReportGenerateBySavingsPlanOrderIdOptionalParams,
   GenerateBenefitUtilizationSummariesReportGenerateByReservationIdOptionalParams,
@@ -21,9 +19,13 @@ import type {
   GenerateBenefitUtilizationSummariesReportGenerateByBillingProfileOptionalParams,
   GenerateBenefitUtilizationSummariesReportGenerateByBillingAccountOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _generateBySavingsPlanIdSend(
   context: Client,
@@ -45,12 +47,14 @@ export function _generateBySavingsPlanIdSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: benefitUtilizationSummariesRequestSerializer(benefitUtilizationSummariesRequest),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: benefitUtilizationSummariesRequestSerializer(benefitUtilizationSummariesRequest),
+    });
 }
 
 export async function _generateBySavingsPlanIdDeserialize(
@@ -119,12 +123,14 @@ export function _generateBySavingsPlanOrderIdSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: benefitUtilizationSummariesRequestSerializer(benefitUtilizationSummariesRequest),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: benefitUtilizationSummariesRequestSerializer(benefitUtilizationSummariesRequest),
+    });
 }
 
 export async function _generateBySavingsPlanOrderIdDeserialize(
@@ -198,12 +204,14 @@ export function _generateByReservationIdSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: benefitUtilizationSummariesRequestSerializer(benefitUtilizationSummariesRequest),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: benefitUtilizationSummariesRequestSerializer(benefitUtilizationSummariesRequest),
+    });
 }
 
 export async function _generateByReservationIdDeserialize(
@@ -272,12 +280,14 @@ export function _generateByReservationOrderIdSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: benefitUtilizationSummariesRequestSerializer(benefitUtilizationSummariesRequest),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: benefitUtilizationSummariesRequestSerializer(benefitUtilizationSummariesRequest),
+    });
 }
 
 export async function _generateByReservationOrderIdDeserialize(
@@ -351,12 +361,14 @@ export function _generateByBillingProfileSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: benefitUtilizationSummariesRequestSerializer(benefitUtilizationSummariesRequest),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: benefitUtilizationSummariesRequestSerializer(benefitUtilizationSummariesRequest),
+    });
 }
 
 export async function _generateByBillingProfileDeserialize(
@@ -430,12 +442,14 @@ export function _generateByBillingAccountSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: benefitUtilizationSummariesRequestSerializer(benefitUtilizationSummariesRequest),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: benefitUtilizationSummariesRequestSerializer(benefitUtilizationSummariesRequest),
+    });
 }
 
 export async function _generateByBillingAccountDeserialize(

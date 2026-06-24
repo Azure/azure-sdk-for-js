@@ -24,8 +24,8 @@ export default function createClient(
   credentials: TokenCredential,
   { apiVersion = "2023-04-01", ...options }: AzureDeveloperDevCenterClientOptions = {},
 ): AzureDeveloperDevCenterClient {
-  const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpointParam}`;
-  const userAgentInfo = `azsdk-js-developer-devcenter-rest/1.0.3`;
+  const endpointUrl = options.endpoint ?? `${endpointParam}`;
+  const userAgentInfo = `azsdk-js-developer-devcenter-rest/1.0.0`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`

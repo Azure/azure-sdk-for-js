@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DeveloperHubServiceContext } from "../../api/developerHubServiceContext.js";
+import { DeveloperHubServiceContext } from "../../api/developerHubServiceContext.js";
 import { list, get } from "../../api/template/operations.js";
-import type {
+import {
   TemplateListOptionalParams,
   TemplateGetOptionalParams,
 } from "../../api/template/options.js";
-import type { Template } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { Template } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Template operations. */
 export interface TemplateOperations {

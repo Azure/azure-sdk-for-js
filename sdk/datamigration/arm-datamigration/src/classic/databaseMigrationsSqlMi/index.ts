@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DataMigrationManagementContext } from "../../api/dataMigrationManagementContext.js";
+import { DataMigrationManagementContext } from "../../api/dataMigrationManagementContext.js";
 import {
   cutover,
   cancel,
@@ -9,17 +9,16 @@ import {
   createOrUpdate,
   get,
 } from "../../api/databaseMigrationsSqlMi/operations.js";
-import type {
+import {
   DatabaseMigrationsSqlMiCutoverOptionalParams,
   DatabaseMigrationsSqlMiCancelOptionalParams,
   DatabaseMigrationsSqlMiDeleteOptionalParams,
   DatabaseMigrationsSqlMiCreateOrUpdateOptionalParams,
   DatabaseMigrationsSqlMiGetOptionalParams,
 } from "../../api/databaseMigrationsSqlMi/options.js";
-import type { MigrationOperationInput, DatabaseMigrationSqlMi } from "../../models/models.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { MigrationOperationInput, DatabaseMigrationSqlMi } from "../../models/models.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a DatabaseMigrationsSqlMi operations. */
 export interface DatabaseMigrationsSqlMiOperations {

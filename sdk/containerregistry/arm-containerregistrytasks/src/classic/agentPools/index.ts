@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ContainerRegistryTasksManagementContext } from "../../api/containerRegistryTasksManagementContext.js";
+import { ContainerRegistryTasksManagementContext } from "../../api/containerRegistryTasksManagementContext.js";
 import {
   getQueueStatus,
   list,
@@ -10,7 +10,7 @@ import {
   create,
   get,
 } from "../../api/agentPools/operations.js";
-import type {
+import {
   AgentPoolsGetQueueStatusOptionalParams,
   AgentPoolsListOptionalParams,
   AgentPoolsDeleteOptionalParams,
@@ -18,13 +18,9 @@ import type {
   AgentPoolsCreateOptionalParams,
   AgentPoolsGetOptionalParams,
 } from "../../api/agentPools/options.js";
-import type {
-  AgentPool,
-  AgentPoolUpdateParameters,
-  AgentPoolQueueStatus,
-} from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { AgentPool, AgentPoolUpdateParameters, AgentPoolQueueStatus } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a AgentPools operations. */
 export interface AgentPoolsOperations {
@@ -42,11 +38,6 @@ export interface AgentPoolsOperations {
     options?: AgentPoolsListOptionalParams,
   ) => PagedAsyncIterableIterator<AgentPool>;
   /** Deletes a specified agent pool resource. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     registryName: string,

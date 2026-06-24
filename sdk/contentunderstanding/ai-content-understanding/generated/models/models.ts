@@ -11,6 +11,12 @@ import { uint8ArrayToString } from "@azure/core-util";
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+export function analysisInputArraySerializer(result: Array<AnalysisInput>): any[] {
+  return result.map((item) => {
+    return analysisInputSerializer(item);
+  });
+}
+
 /** Additional input to analyze. */
 export interface AnalysisInput {
   /** The URL of the input to analyze.  Only one of url or data should be specified. */
@@ -33,12 +39,6 @@ export function analysisInputSerializer(item: AnalysisInput): any {
     mimeType: item["mimeType"],
     range: item["contentRange"],
   };
-}
-
-export function analysisInputArraySerializer(result: Array<AnalysisInput>): any[] {
-  return result.map((item) => {
-    return analysisInputSerializer(item);
-  });
 }
 
 /** Provides status details for analyze operations. */

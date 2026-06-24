@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CosmosDBManagementContext } from "../../api/cosmosDBManagementContext.js";
+import { CosmosDBManagementContext } from "../../api/cosmosDBManagementContext.js";
 import {
   start,
   regenerateAuthToken,
@@ -11,7 +11,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/notebookWorkspaces/operations.js";
-import type {
+import {
   NotebookWorkspacesStartOptionalParams,
   NotebookWorkspacesRegenerateAuthTokenOptionalParams,
   NotebookWorkspacesListConnectionInfoOptionalParams,
@@ -20,16 +20,15 @@ import type {
   NotebookWorkspacesCreateOrUpdateOptionalParams,
   NotebookWorkspacesGetOptionalParams,
 } from "../../api/notebookWorkspaces/options.js";
-import type {
+import {
   NotebookWorkspace,
   NotebookWorkspaceName,
   NotebookWorkspaceCreateUpdateParameters,
   NotebookWorkspaceConnectionInfoResult,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a NotebookWorkspaces operations. */
 export interface NotebookWorkspacesOperations {
@@ -89,11 +88,6 @@ export interface NotebookWorkspacesOperations {
     options?: NotebookWorkspacesListByDatabaseAccountOptionalParams,
   ) => PagedAsyncIterableIterator<NotebookWorkspace>;
   /** Deletes the notebook workspace for a Cosmos DB account. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     accountName: string,

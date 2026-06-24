@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ContainerServiceFleetContext } from "../../api/containerServiceFleetContext.js";
+import { ContainerServiceFleetContext } from "../../api/containerServiceFleetContext.js";
 import {
   listByFleet,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/autoUpgradeProfiles/operations.js";
-import type {
+import {
   AutoUpgradeProfilesListByFleetOptionalParams,
   AutoUpgradeProfilesDeleteOptionalParams,
   AutoUpgradeProfilesCreateOrUpdateOptionalParams,
   AutoUpgradeProfilesGetOptionalParams,
 } from "../../api/autoUpgradeProfiles/options.js";
-import type { AutoUpgradeProfile } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { AutoUpgradeProfile } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a AutoUpgradeProfiles operations. */
 export interface AutoUpgradeProfilesOperations {

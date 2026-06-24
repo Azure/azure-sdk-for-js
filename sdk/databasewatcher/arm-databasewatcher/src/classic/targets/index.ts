@@ -2,18 +2,13 @@
 // Licensed under the MIT License.
 
 import { DatabaseWatcherContext } from "../../api/databaseWatcherContext.js";
+import { listByWatcher, $delete, createOrUpdate, get } from "../../api/targets/operations.js";
 import {
   TargetsListByWatcherOptionalParams,
   TargetsDeleteOptionalParams,
   TargetsCreateOrUpdateOptionalParams,
   TargetsGetOptionalParams,
-} from "../../api/options.js";
-import {
-  targetsListByWatcher,
-  targetsDelete,
-  targetsCreateOrUpdate,
-  targetsGet,
-} from "../../api/targets/index.js";
+} from "../../api/targets/options.js";
 import { Target } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
@@ -55,27 +50,26 @@ function _getTargets(context: DatabaseWatcherContext) {
       resourceGroupName: string,
       watcherName: string,
       options?: TargetsListByWatcherOptionalParams,
-    ) => targetsListByWatcher(context, resourceGroupName, watcherName, options),
+    ) => listByWatcher(context, resourceGroupName, watcherName, options),
     delete: (
       resourceGroupName: string,
       watcherName: string,
       targetName: string,
       options?: TargetsDeleteOptionalParams,
-    ) => targetsDelete(context, resourceGroupName, watcherName, targetName, options),
+    ) => $delete(context, resourceGroupName, watcherName, targetName, options),
     createOrUpdate: (
       resourceGroupName: string,
       watcherName: string,
       targetName: string,
       resource: Target,
       options?: TargetsCreateOrUpdateOptionalParams,
-    ) =>
-      targetsCreateOrUpdate(context, resourceGroupName, watcherName, targetName, resource, options),
+    ) => createOrUpdate(context, resourceGroupName, watcherName, targetName, resource, options),
     get: (
       resourceGroupName: string,
       watcherName: string,
       targetName: string,
       options?: TargetsGetOptionalParams,
-    ) => targetsGet(context, resourceGroupName, watcherName, targetName, options),
+    ) => get(context, resourceGroupName, watcherName, targetName, options),
   };
 }
 

@@ -1,0 +1,6 @@
+{
+  "apiVersions": {
+    "DevCenterService": "2023-04-01"
+  },
+  "emitterVersion": "0.55.0-dev.8"
+}

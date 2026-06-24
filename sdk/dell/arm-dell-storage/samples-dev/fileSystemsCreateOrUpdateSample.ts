@@ -21,7 +21,6 @@ async function fileSystemsCreateOrUpdateMaximumSetGen(): Promise<void> {
         planId: "eekvwfndjoxijeasksnt",
         offerId: "bcganbkmvznyqfnvhjuag",
         publisherId: "trdzykoeskmcwpo",
-        marketplaceSubscriptionStatus: "PendingFulfillmentStart",
         privateOfferId: "privateOfferId",
         planName: "planeName",
       },

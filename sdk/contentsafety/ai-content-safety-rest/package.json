@@ -4,14 +4,7 @@
   "author": "Microsoft Corporation",
   "version": "1.0.3",
   "description": "ContentSafety Service",
-  "keywords": [
-    "node",
-    "azure",
-    "cloud",
-    "typescript",
-    "browser",
-    "isomorphic"
-  ],
+  "keywords": ["node", "azure", "cloud", "typescript", "browser", "isomorphic"],
   "license": "MIT",
   "main": "./dist/commonjs/index.js",
   "module": "./dist/esm/index.js",
@@ -24,13 +17,7 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "files": [
-    "dist/",
-    "README.md",
-    "LICENSE",
-    "review/",
-    "CHANGELOG.md"
-  ],
+  "files": ["dist/", "README.md", "LICENSE", "review/", "CHANGELOG.md"],
   "engines": {
     "node": ">=22.0.0"
   },
@@ -96,9 +83,7 @@
   "browser": "./dist/browser/index.js",
   "//sampleConfiguration": {
     "productName": "ContentSafety",
-    "productSlugs": [
-      "azure"
-    ],
+    "productSlugs": ["azure"],
     "extraFiles": {
       "./samples-dev/example-data": [
         "javascript/example-data",
@@ -131,7 +116,6 @@
   },
   "imports": {
     "#platform/*": {
-      "react-native": "./src/*-react-native.mts",
       "browser": "./src/*-browser.mts",
       "default": "./src/*.ts"
     }

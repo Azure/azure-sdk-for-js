@@ -45,7 +45,7 @@ export interface OperationStatusOutput {
   /** Percent of the operation that is complete. */
   percentComplete?: number;
   /** Custom operation properties, populated only for a successful operation. */
-  properties?: any;
+  properties?: Record<string, any>;
   /** Operation Error message. */
   error?: ErrorModel;
 }
@@ -228,7 +228,7 @@ export interface DevBoxOutput {
    *
    * Possible values: "Enabled", "Disabled"
    */
-  localAdministrator?: LocalAdminStatusOutput;
+  readonly localAdministrator?: LocalAdminStatusOutput;
 }
 
 /** Paged collection of Schedule items */

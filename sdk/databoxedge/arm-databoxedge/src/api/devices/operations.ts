@@ -1,40 +1,40 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DataBoxEdgeManagementContext as Client } from "../index.js";
-import type {
-  NetworkSettings,
-  DataBoxEdgeDevice,
-  DataBoxEdgeDevicePatch,
-  _DataBoxEdgeDeviceList,
-  GenerateCertResponse,
-  DataBoxEdgeDeviceExtendedInfo,
-  SecuritySettings,
-  DataBoxEdgeDeviceExtendedInfoPatch,
-  UploadCertificateRequest,
-  UploadCertificateResponse,
-  UpdateSummary,
-} from "../../models/models.js";
+import { DataBoxEdgeManagementContext as Client } from "../index.js";
 import {
   cloudErrorDeserializer,
+  NetworkSettings,
   networkSettingsDeserializer,
+  DataBoxEdgeDevice,
   dataBoxEdgeDeviceSerializer,
   dataBoxEdgeDeviceDeserializer,
+  DataBoxEdgeDevicePatch,
   dataBoxEdgeDevicePatchSerializer,
+  _DataBoxEdgeDeviceList,
   _dataBoxEdgeDeviceListDeserializer,
+  GenerateCertResponse,
   generateCertResponseDeserializer,
+  DataBoxEdgeDeviceExtendedInfo,
   dataBoxEdgeDeviceExtendedInfoDeserializer,
+  SecuritySettings,
   securitySettingsSerializer,
+  DataBoxEdgeDeviceExtendedInfoPatch,
   dataBoxEdgeDeviceExtendedInfoPatchSerializer,
+  UploadCertificateRequest,
   uploadCertificateRequestSerializer,
+  UploadCertificateResponse,
   uploadCertificateResponseDeserializer,
+  UpdateSummary,
   updateSummaryDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   DevicesGetUpdateSummaryOptionalParams,
   DevicesUploadCertificateOptionalParams,
   DevicesUpdateExtendedInformationOptionalParams,
@@ -52,9 +52,13 @@ import type {
   DevicesGetOptionalParams,
   DevicesGetNetworkSettingsOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _getUpdateSummarySend(
   context: Client,
@@ -74,10 +78,12 @@ export function _getUpdateSummarySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getUpdateSummaryDeserialize(
@@ -126,12 +132,14 @@ export function _uploadCertificateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: uploadCertificateRequestSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: uploadCertificateRequestSerializer(parameters),
+    });
 }
 
 export async function _uploadCertificateDeserialize(
@@ -187,12 +195,14 @@ export function _updateExtendedInformationSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: dataBoxEdgeDeviceExtendedInfoPatchSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: dataBoxEdgeDeviceExtendedInfoPatchSerializer(parameters),
+    });
 }
 
 export async function _updateExtendedInformationDeserialize(
@@ -248,11 +258,13 @@ export function _createOrUpdateSecuritySettingsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: securitySettingsSerializer(securitySettings),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: securitySettingsSerializer(securitySettings),
+    });
 }
 
 export async function _createOrUpdateSecuritySettingsDeserialize(
@@ -420,10 +432,12 @@ export function _getExtendedInformationSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getExtendedInformationDeserialize(
@@ -471,10 +485,12 @@ export function _generateCertificateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _generateCertificateDeserialize(
@@ -570,10 +586,12 @@ export function _listBySubscriptionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listBySubscriptionDeserialize(
@@ -623,10 +641,12 @@ export function _listByResourceGroupSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listByResourceGroupDeserialize(
@@ -730,12 +750,14 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: dataBoxEdgeDevicePatchSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: dataBoxEdgeDevicePatchSerializer(parameters),
+    });
 }
 
 export async function _updateDeserialize(
@@ -785,12 +807,14 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: dataBoxEdgeDeviceSerializer(dataBoxEdgeDevice),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: dataBoxEdgeDeviceSerializer(dataBoxEdgeDevice),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -845,10 +869,12 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<DataBoxEdgeDevice> {
@@ -894,10 +920,12 @@ export function _getNetworkSettingsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getNetworkSettingsDeserialize(

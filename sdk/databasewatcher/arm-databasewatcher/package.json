@@ -8,23 +8,10 @@
   "sideEffects": false,
   "autoPublish": false,
   "type": "module",
-  "keywords": [
-    "node",
-    "azure",
-    "cloud",
-    "typescript",
-    "browser",
-    "isomorphic"
-  ],
+  "keywords": ["node", "azure", "cloud", "typescript", "browser", "isomorphic"],
   "author": "Microsoft Corporation",
   "license": "MIT",
-  "files": [
-    "dist/",
-    "README.md",
-    "LICENSE",
-    "review/",
-    "CHANGELOG.md"
-  ],
+  "files": ["dist/", "README.md", "LICENSE", "review/", "CHANGELOG.md"],
   "sdk-type": "mgmt",
   "repository": {
     "type": "git",
@@ -92,9 +79,7 @@
   },
   "//sampleConfiguration": {
     "productName": "@azure/arm-databasewatcher",
-    "productSlugs": [
-      "azure"
-    ],
+    "productSlugs": ["azure"],
     "disableDocsMs": true,
     "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-databasewatcher?view=azure-node-preview"
   },
@@ -113,6 +98,104 @@
       "require": {
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
+      }
+    },
+    "./api": {
+      "browser": {
+        "types": "./dist/browser/api/index.d.ts",
+        "default": "./dist/browser/api/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/index.d.ts",
+        "default": "./dist/esm/api/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/index.d.ts",
+        "default": "./dist/commonjs/api/index.js"
+      }
+    },
+    "./api/sharedPrivateLinkResources": {
+      "browser": {
+        "types": "./dist/browser/api/sharedPrivateLinkResources/index.d.ts",
+        "default": "./dist/browser/api/sharedPrivateLinkResources/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/sharedPrivateLinkResources/index.d.ts",
+        "default": "./dist/esm/api/sharedPrivateLinkResources/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/sharedPrivateLinkResources/index.d.ts",
+        "default": "./dist/commonjs/api/sharedPrivateLinkResources/index.js"
+      }
+    },
+    "./api/targets": {
+      "browser": {
+        "types": "./dist/browser/api/targets/index.d.ts",
+        "default": "./dist/browser/api/targets/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/targets/index.d.ts",
+        "default": "./dist/esm/api/targets/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/targets/index.d.ts",
+        "default": "./dist/commonjs/api/targets/index.js"
+      }
+    },
+    "./api/healthValidations": {
+      "browser": {
+        "types": "./dist/browser/api/healthValidations/index.d.ts",
+        "default": "./dist/browser/api/healthValidations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/healthValidations/index.d.ts",
+        "default": "./dist/esm/api/healthValidations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/healthValidations/index.d.ts",
+        "default": "./dist/commonjs/api/healthValidations/index.js"
+      }
+    },
+    "./api/alertRuleResources": {
+      "browser": {
+        "types": "./dist/browser/api/alertRuleResources/index.d.ts",
+        "default": "./dist/browser/api/alertRuleResources/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/alertRuleResources/index.d.ts",
+        "default": "./dist/esm/api/alertRuleResources/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/alertRuleResources/index.d.ts",
+        "default": "./dist/commonjs/api/alertRuleResources/index.js"
+      }
+    },
+    "./api/watchers": {
+      "browser": {
+        "types": "./dist/browser/api/watchers/index.d.ts",
+        "default": "./dist/browser/api/watchers/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/watchers/index.d.ts",
+        "default": "./dist/esm/api/watchers/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/watchers/index.d.ts",
+        "default": "./dist/commonjs/api/watchers/index.js"
+      }
+    },
+    "./api/operations": {
+      "browser": {
+        "types": "./dist/browser/api/operations/index.d.ts",
+        "default": "./dist/browser/api/operations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/operations/index.d.ts",
+        "default": "./dist/esm/api/operations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/operations/index.d.ts",
+        "default": "./dist/commonjs/api/operations/index.js"
       }
     },
     "./models": {

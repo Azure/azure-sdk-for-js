@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   DeveloperHubServiceContext,
   DeveloperHubServiceClientOptionalParams,
+  createDeveloperHubService,
 } from "./api/index.js";
-import { createDeveloperHubService } from "./api/index.js";
 import {
   getAdooAuthInfo,
   gitHubOAuth,
@@ -13,34 +13,34 @@ import {
   gitHubOAuthCallback,
   generatePreviewArtifacts,
 } from "./api/operations.js";
-import type {
+import {
   GetAdooAuthInfoOptionalParams,
   GitHubOAuthOptionalParams,
   ListGitHubOAuthOptionalParams,
   GitHubOAuthCallbackOptionalParams,
   GeneratePreviewArtifactsOptionalParams,
 } from "./api/options.js";
-import type { AdooAuthOperations } from "./classic/adooAuth/index.js";
-import { _getAdooAuthOperations } from "./classic/adooAuth/index.js";
-import type { IacProfilesOperations } from "./classic/iacProfiles/index.js";
-import { _getIacProfilesOperations } from "./classic/iacProfiles/index.js";
-import type { OperationsOperations } from "./classic/operations/index.js";
-import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { TemplateOperations } from "./classic/template/index.js";
-import { _getTemplateOperations } from "./classic/template/index.js";
-import type { VersionedTemplateOperations } from "./classic/versionedTemplate/index.js";
-import { _getVersionedTemplateOperations } from "./classic/versionedTemplate/index.js";
-import type { WorkflowOperationsOperations } from "./classic/workflowOperations/index.js";
-import { _getWorkflowOperationsOperations } from "./classic/workflowOperations/index.js";
-import type {
+import { AdooAuthOperations, _getAdooAuthOperations } from "./classic/adooAuth/index.js";
+import { IacProfilesOperations, _getIacProfilesOperations } from "./classic/iacProfiles/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import { TemplateOperations, _getTemplateOperations } from "./classic/template/index.js";
+import {
+  VersionedTemplateOperations,
+  _getVersionedTemplateOperations,
+} from "./classic/versionedTemplate/index.js";
+import {
+  WorkflowOperationsOperations,
+  _getWorkflowOperationsOperations,
+} from "./classic/workflowOperations/index.js";
+import {
   ArtifactGenerationProperties,
   GitHubOAuthResponse,
   GitHubOAuthListResponse,
   GitHubOAuthInfoResponse,
   AdooAuthInfoResponse,
 } from "./models/models.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { DeveloperHubServiceClientOptionalParams } from "./api/developerHubServiceContext.js";
 

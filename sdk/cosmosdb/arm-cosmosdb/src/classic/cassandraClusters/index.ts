@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CosmosDBManagementContext } from "../../api/cosmosDBManagementContext.js";
+import { CosmosDBManagementContext } from "../../api/cosmosDBManagementContext.js";
 import {
   status,
   start,
@@ -19,7 +19,7 @@ import {
   createUpdate,
   get,
 } from "../../api/cassandraClusters/operations.js";
-import type {
+import {
   CassandraClustersStatusOptionalParams,
   CassandraClustersStartOptionalParams,
   CassandraClustersDeallocateOptionalParams,
@@ -36,7 +36,7 @@ import type {
   CassandraClustersCreateUpdateOptionalParams,
   CassandraClustersGetOptionalParams,
 } from "../../api/cassandraClusters/options.js";
-import type {
+import {
   ClusterResource,
   CommandPostBody,
   CommandOutput,
@@ -45,10 +45,9 @@ import type {
   BackupResource,
   CassandraClusterPublicStatus,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a CassandraClusters operations. */
 export interface CassandraClustersOperations {
@@ -172,11 +171,6 @@ export interface CassandraClustersOperations {
     options?: CassandraClustersListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<ClusterResource>;
   /** Deletes a managed Cassandra cluster. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     clusterName: string,

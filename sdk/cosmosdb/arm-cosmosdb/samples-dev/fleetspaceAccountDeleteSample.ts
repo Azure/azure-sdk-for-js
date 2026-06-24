@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to removes an existing Azure Cosmos DB fleetspace account from a fleetspace.
  *
  * @summary removes an existing Azure Cosmos DB fleetspace account from a fleetspace.
- * x-ms-original-file: 2025-11-01-preview/fleet/CosmosDBFleetspaceAccountDelete.json
+ * x-ms-original-file: 2026-04-01-preview/fleet/CosmosDBFleetspaceAccountDelete.json
  */
 async function cosmosDBFleetspaceAccountDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();
