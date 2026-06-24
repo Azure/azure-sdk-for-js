@@ -1,0 +1,6 @@
+{
+  "apiVersions": {
+    "DocumentIntelligence": "2024-11-30"
+  },
+  "emitterVersion": "0.55.0-dev.8"
+}

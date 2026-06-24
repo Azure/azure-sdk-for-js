@@ -1,19 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   DomainServicesResourceProviderContext,
   DomainServicesResourceProviderOptionalParams,
+  createDomainServicesResourceProvider,
 } from "./api/index.js";
-import { createDomainServicesResourceProvider } from "./api/index.js";
-import type { DomainServiceOperationsOperations } from "./classic/domainServiceOperations/index.js";
-import { _getDomainServiceOperationsOperations } from "./classic/domainServiceOperations/index.js";
-import type { DomainServicesOperations } from "./classic/domainServices/index.js";
-import { _getDomainServicesOperations } from "./classic/domainServices/index.js";
-import type { OuContainerOperationGrpOperations } from "./classic/ouContainerOperationGrp/index.js";
-import { _getOuContainerOperationGrpOperations } from "./classic/ouContainerOperationGrp/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import {
+  DomainServiceOperationsOperations,
+  _getDomainServiceOperationsOperations,
+} from "./classic/domainServiceOperations/index.js";
+import {
+  DomainServicesOperations,
+  _getDomainServicesOperations,
+} from "./classic/domainServices/index.js";
+import {
+  OuContainerOperationGrpOperations,
+  _getOuContainerOperationGrpOperations,
+} from "./classic/ouContainerOperationGrp/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { DomainServicesResourceProviderOptionalParams } from "./api/domainServicesResourceProviderContext.js";
 

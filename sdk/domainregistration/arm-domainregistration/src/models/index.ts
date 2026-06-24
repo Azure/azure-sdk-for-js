@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export {
+export type {
   Domain,
   DomainProperties,
   Contact,
@@ -13,13 +13,11 @@ export {
   CustomHostNameDnsRecordType,
   HostNameType,
   DomainPurchaseConsent,
-  KnownResourceNotRenewableReason,
   ResourceNotRenewableReason,
   DnsType,
   TrackedResource,
   Resource,
   SystemData,
-  KnownCreatedByType,
   CreatedByType,
   DefaultErrorResponse,
   DefaultErrorResponseError,
@@ -47,5 +45,5 @@ export {
   Dimension,
   MetricAvailability,
   LogSpecification,
-  KnownVersions,
 } from "./models.js";
+export { KnownResourceNotRenewableReason, KnownCreatedByType, KnownVersions } from "./models.js";

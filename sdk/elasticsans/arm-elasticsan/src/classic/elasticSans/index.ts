@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ElasticSanManagementContext } from "../../api/elasticSanManagementContext.js";
+import { ElasticSanManagementContext } from "../../api/elasticSanManagementContext.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -10,7 +10,7 @@ import {
   create,
   get,
 } from "../../api/elasticSans/operations.js";
-import type {
+import {
   ElasticSansListBySubscriptionOptionalParams,
   ElasticSansListByResourceGroupOptionalParams,
   ElasticSansDeleteOptionalParams,
@@ -18,11 +18,10 @@ import type {
   ElasticSansCreateOptionalParams,
   ElasticSansGetOptionalParams,
 } from "../../api/elasticSans/options.js";
-import type { ElasticSan, ElasticSanUpdate } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { ElasticSan, ElasticSanUpdate } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ElasticSans operations. */
 export interface ElasticSansOperations {
@@ -36,11 +35,6 @@ export interface ElasticSansOperations {
     options?: ElasticSansListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<ElasticSan>;
   /** Delete a Elastic San. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     elasticSanName: string,

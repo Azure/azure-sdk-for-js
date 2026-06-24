@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { DevOpsInfrastructureContext } from "../../api/devOpsInfrastructureContext.js";
-import { imageVersionsListByImage } from "../../api/imageVersions/index.js";
-import { ImageVersionsListByImageOptionalParams } from "../../api/options.js";
+import { listByImage } from "../../api/imageVersions/operations.js";
+import { ImageVersionsListByImageOptionalParams } from "../../api/imageVersions/options.js";
 import { ImageVersion } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
@@ -17,21 +17,20 @@ export interface ImageVersionsOperations {
   ) => PagedAsyncIterableIterator<ImageVersion>;
 }
 
-export function getImageVersions(context: DevOpsInfrastructureContext, subscriptionId: string) {
+function _getImageVersions(context: DevOpsInfrastructureContext) {
   return {
     listByImage: (
       resourceGroupName: string,
       imageName: string,
       options?: ImageVersionsListByImageOptionalParams,
-    ) => imageVersionsListByImage(context, subscriptionId, resourceGroupName, imageName, options),
+    ) => listByImage(context, resourceGroupName, imageName, options),
   };
 }
 
-export function getImageVersionsOperations(
+export function _getImageVersionsOperations(
   context: DevOpsInfrastructureContext,
-  subscriptionId: string,
 ): ImageVersionsOperations {
   return {
-    ...getImageVersions(context, subscriptionId),
+    ..._getImageVersions(context),
   };
 }

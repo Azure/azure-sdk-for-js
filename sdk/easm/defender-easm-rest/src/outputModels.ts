@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { ErrorResponse } from "@azure-rest/core-client";
+
 /** Paged collection of AssetResource items */
 export interface PagedAssetResourceOutput {
   /** The AssetResource items on this page */
@@ -45,7 +47,7 @@ export interface AssetResourceOutputParent {
 
 /** The history of how this asset was pulled into the workspace through the discovery process. */
 export interface AuditTrailItemOutput {
-  /** The system generated unique id for the resource. */
+  /** This is typically the same as the name but might be different for different models. */
   id?: string;
   /** The caller provided unique name for the resource. */
   name?: string;
@@ -180,43 +182,6 @@ export interface ContactAssetOutput extends InventoryAssetOutput {
   count?: number;
 }
 
-export interface SslCertAssetOutput extends InventoryAssetOutput {
-  sha1?: string;
-  subjectCommonNames?: string[];
-  organizations?: string[];
-  organizationalUnits?: string[];
-  issuerCommonNames?: string[];
-  sigAlgName?: string;
-  invalidAfter?: string;
-  serialNumber?: string;
-  subjectAlternativeNames?: string[];
-  issuerAlternativeNames?: string[];
-  sources?: Array<SourceOutput>;
-  firstSeen?: string;
-  lastSeen?: string;
-  count?: number;
-  invalidBefore?: string;
-  keySize?: number;
-  keyAlgorithm?: string;
-  subjectLocality?: string[];
-  subjectState?: string[];
-  subjectCountry?: string[];
-  issuerLocality?: string[];
-  issuerState?: string[];
-  issuerCountry?: string[];
-  subjectOrganizations?: string[];
-  subjectOrganizationalUnits?: string[];
-  issuerOrganizations?: string[];
-  issuerOrganizationalUnits?: string[];
-  version?: number;
-  certificateAuthority?: boolean;
-  selfSigned?: boolean;
-  sigAlgOid?: string;
-  recent?: boolean;
-  /** Possible values: "domainValidation", "organizationValidation", "extendedValidation" */
-  validationType?: SslCertAssetValidationTypeOutput;
-}
-
 export interface HostAssetOutput extends InventoryAssetOutput {
   host?: string;
   domain?: string;
@@ -321,6 +286,43 @@ export interface CookieOutput {
   count?: number;
   recent?: boolean;
   cookieExpiryDate?: string;
+}
+
+export interface SslCertAssetOutput extends InventoryAssetOutput {
+  sha1?: string;
+  subjectCommonNames?: string[];
+  organizations?: string[];
+  organizationalUnits?: string[];
+  issuerCommonNames?: string[];
+  sigAlgName?: string;
+  invalidAfter?: string;
+  serialNumber?: string;
+  subjectAlternativeNames?: string[];
+  issuerAlternativeNames?: string[];
+  sources?: Array<SourceOutput>;
+  firstSeen?: string;
+  lastSeen?: string;
+  count?: number;
+  invalidBefore?: string;
+  keySize?: number;
+  keyAlgorithm?: string;
+  subjectLocality?: string[];
+  subjectState?: string[];
+  subjectCountry?: string[];
+  issuerLocality?: string[];
+  issuerState?: string[];
+  issuerCountry?: string[];
+  subjectOrganizations?: string[];
+  subjectOrganizationalUnits?: string[];
+  issuerOrganizations?: string[];
+  issuerOrganizationalUnits?: string[];
+  version?: number;
+  certificateAuthority?: boolean;
+  selfSigned?: boolean;
+  sigAlgOid?: string;
+  recent?: boolean;
+  /** Possible values: "domainValidation", "organizationValidation", "extendedValidation" */
+  validationType?: SslCertAssetValidationTypeOutput;
 }
 
 export interface HostCoreOutput {
@@ -759,6 +761,129 @@ export interface TaskOutput {
   metadata?: Record<string, any>;
 }
 
+/** The page result response for the observation */
+export interface ObservationPageResultOutput {
+  /** The total number of elements. */
+  totalElements: number;
+  /** The summary of observation counts by priority. */
+  prioritySummary: Record<string, number>;
+  /** The list of observation results. */
+  value: Array<ObservationResultOutput>;
+}
+
+/** The result response for the observation */
+export interface ObservationResultOutput {
+  /** The name of the observation. */
+  name: string;
+  /** The list of applicable types. */
+  types: ObservationTypeOutput[];
+  /**
+   * The priority of the observation.
+   *
+   * Possible values: "high", "medium", "low", "none"
+   */
+  priority: ObservationPriorityOutput;
+  /** The CVSS v2 score. */
+  cvssScoreV2: number;
+  /** The CVSS v3 score. */
+  cvssScoreV3: number;
+  /**
+   * The remediation state of the observation.
+   *
+   * Possible values: "active", "nonApplicable"
+   */
+  remediationState: ObservationRemediationStateOutput;
+  /**
+   * The source of the remediation state of the observation.
+   *
+   * Possible values: "user", "system"
+   */
+  remediationSource: ObservationRemediationSourceOutput;
+}
+
+export interface DeltaPageResultOutput {
+  /** The total number of items available in the full result set. */
+  totalElements?: number;
+  /** The link to access the next page of results.  Not set if at the end of the result set. */
+  nextLink?: string;
+  /** The items in the current page of results. */
+  value?: Array<DeltaResultOutput>;
+}
+
+/** Result for each of the delta detail response */
+export interface DeltaResultOutput {
+  /**
+   * Shows the asset kind
+   *
+   * Possible values: "page", "resource", "mailServer", "nameServer", "host", "domain", "ipAddress", "ipBlock", "as", "contact", "sslCert"
+   */
+  kind: GlobalAssetTypeOutput;
+  /** Shows the asset name */
+  name: string;
+  /** Shows the date when the asset was originally created */
+  createdAt: string;
+  /** Shows the date when the asset was last updated, usually the date the we trying to pull up the results for */
+  updatedAt: string;
+  /**
+   * Shows the inventory state
+   *
+   * Possible values: "candidate", "candidateInvestigate", "confirmed", "associated", "associatedPartner", "associatedThirdParty", "archived", "dismissed", "autoconfirmed"
+   */
+  state: GlobalInventoryStateOutput;
+}
+
+/** Define response body for getting delta summary */
+export interface DeltaSummaryResultOutput {
+  /** Contains added, removed, and difference values for the whole range either 7 or 30 days */
+  summary: DeltaRangeResultOutput;
+  /** Contains added, removed, count, and difference values for each day */
+  daily: Array<DeltaDateResultOutput>;
+}
+
+/** Contains added, removed, and difference values for the whole range either 7 or 30 days */
+export interface DeltaRangeResultOutput {
+  /** The range of dates requested */
+  range: number;
+  /** The total amount of assets removed over a date range */
+  removed: number;
+  /** The total amount of assets added over a date range */
+  added: number;
+  /** The total amount of assets changed removed over a date range */
+  difference: number;
+  /** A list of summary changes per asset kind */
+  kindSummaries: Array<DeltaTypeResponseOutput>;
+}
+
+/** The type of Delta response for each asset kind */
+export interface DeltaTypeResponseOutput {
+  /**
+   * The kind of asset
+   *
+   * Possible values: "page", "resource", "mailServer", "nameServer", "host", "domain", "ipAddress", "ipBlock", "as", "contact", "sslCert"
+   */
+  kind: GlobalAssetTypeOutput;
+  /** The amount of assets removed for one asset kind */
+  removed: number;
+  /** The amount of assets added for one asset kind */
+  added: number;
+  /** The amount of assets changed for one asset kind */
+  difference: number;
+}
+
+/** Delta response for each day */
+export interface DailyDeltaTypeResponseOutput extends DeltaTypeResponseOutput {
+  /** The current number of assets for one asset kind */
+  count: number;
+}
+
+/** Date information for the delta response */
+export interface DeltaDateResultOutput {
+  /** The date that is being requested */
+  date: string;
+  /** A list of summary counts per day */
+  deltas: Array<DailyDeltaTypeResponseOutput>;
+}
+
 /** Paged collection of DataConnection items */
 export interface PagedDataConnectionOutput {
   /** The DataConnection items on this page */
@@ -770,7 +895,7 @@ export interface PagedDataConnectionOutput {
 }
 
 export interface DataConnectionOutputParent {
-  /** The system generated unique id for the resource. */
+  /** This is typically the same as the name but might be different for different models. */
   id?: string;
   /** The caller provided unique name for the resource. */
   readonly name: string;
@@ -790,7 +915,7 @@ export interface DataConnectionOutputParent {
    * Possible values: "daily", "weekly", "monthly"
    */
   frequency?: DataConnectionFrequencyOutput;
-  /** The day to update the data connection on. */
+  /** The day to update the data connection on. (1-7 for weekly, 1-31 for monthly) */
   frequencyOffset?: number;
   /** The date the data connection was last updated. */
   readonly updatedDate?: string;
@@ -875,7 +1000,7 @@ export interface PagedDiscoGroupOutput {
 }
 
 export interface DiscoGroupOutput {
-  /** The system generated unique id for the resource. */
+  /** This is typically the same as the name but might be different for different models. */
   id?: string;
   /** The caller provided unique name for the resource. */
   readonly name: string;
@@ -946,6 +1071,38 @@ export interface DiscoRunPageResultOutput {
   nextLink?: string;
   /** The items in the current page of results. */
   value?: Array<DiscoRunResultOutput>;
+}
+
+/** Response for the asset chain summary. */
+export interface AssetChainSummaryResultOutput {
+  /** A list of asset chain summaries per asset kind */
+  affectedAssetsSummary: Array<AssetChainKindSummaryResultOutput>;
+  /** A list of disco group summaries */
+  affectedGroupsSummary: Array<DiscoGroupSummaryResultOutput>;
+  /** The list of exceptions */
+  errors?: Array<ErrorResponse>;
+}
+
+/** A list of asset chain summaries per asset kind */
+export interface AssetChainKindSummaryResultOutput {
+  /**
+   * The kind of asset
+   *
+   * Possible values: "as", "contact", "domain", "host", "ipAddress", "ipBlock", "page", "sslCert"
+   */
+  kind: AssetKindOutput;
+  /** The amount of assets affected for a given asset kind */
+  affectedCount: number;
+}
+
+/** A list of disco group summaries */
+export interface DiscoGroupSummaryResultOutput {
+  /** The system generated unique id for the resource. */
+  id: string;
+  /** The caller provided unique name for the resource. */
+  name: string;
+  /** The name that can be used for display purposes. */
+  displayName: string;
 }
 
 /** Paged collection of DiscoTemplate items */
@@ -1075,7 +1232,7 @@ export interface PagedSavedFilterOutput {
 }
 
 export interface SavedFilterOutput {
-  /** The system generated unique id for the resource. */
+  /** This is typically the same as the name but might be different for different models. */
   id?: string;
   /** The caller provided unique name for the resource. */
   readonly name: string;
@@ -1093,6 +1250,92 @@ export interface PagedTaskOutput {
   nextLink?: string;
   /** The total number of items available in the full result set. */
   totalElements?: number;
+}
+
+/** Paged collection of CisaCveResult items */
+export interface PagedCisaCveResultOutput {
+  /** The CisaCveResult items on this page */
+  value: Array<CisaCveResultOutput>;
+  /** The link to the next page of items */
+  nextLink?: string;
+  /** The total number of items available in the full result set. */
+  totalElements?: number;
+}
+
+/** cisa cve in a given workspace. */
+export interface CisaCveResultOutput {
+  /** The CVE ID of the vulnerability in the format CVE-YYYY-NNNN, note that the number portion can have more than 4 digits. */
+  readonly cveId: string;
+  /** The vendor or project name for the vulnerability. */
+  vendorProject: string;
+  /** The vulnerability product */
+  product: string;
+  /** The name of the vulnerability */
+  vulnerabilityName: string;
+  /** A short description of the vulnerability */
+  shortDescription: string;
+  /** The required action to address the vulnerability */
+  requiredAction: string;
+  /** Any additional notes about the vulnerability */
+  notes: string;
+  /** The date the vulnerability was added to the catalog in the format YYYY-MM-DD */
+  dateAdded: string;
+  /** The date the required action is due in the format YYYY-MM-DD */
+  dueDate: string;
+  /** The date the vulnerability was updated */
+  updatedAt: string;
+  /** The number of assets affected by the vulnerability */
+  count: number;
+}
+
+/** Paged collection of Policy items */
+export interface PagedPolicyOutput {
+  /** The Policy items on this page */
+  value: Array<PolicyOutput>;
+  /** The link to the next page of items */
+  nextLink?: string;
+  /** The total number of items available in the full result set. */
+  totalElements?: number;
+}
+
+/** This is an object that exists to provide a common schema definition for the policy response. */
+export interface PolicyOutput {
+  /** This is typically the same as the name but might be different for different models. */
+  readonly id?: string;
+  /** The caller provided unique name for the resource. */
+  readonly name: string;
+  /** The name that can be used for display purposes. */
+  readonly displayName?: string;
+  /** A human readable description of what the policy should do. */
+  description?: string;
+  /** Name of the saved filter query to be used to select assets that are to be updated by a given policy. */
+  filterName: string;
+  /**
+   * Action specifying what the policy should do.
+   *
+   * Possible values: "addResource", "removeResource", "setState", "setExternalID", "removeFromInventory"
+   */
+  action: PolicyActionOutput;
+  /** Number of assets in inventory that have been updated by this policy. */
+  readonly updatedAssetsCount?: number;
+  /** The unique name of the user that created the policy user@gmail.com */
+  readonly user?: string;
+  /** The date this policy was created, in RFC3339 format. */
+  readonly createdDate?: string;
+  /** The date this policy was last updated, in RFC3339 format. */
+  readonly updatedDate?: string;
+  /** Additional parameters needed to perform the policy action. */
+  actionParameters: ActionParametersOutput;
+}
+
+/** This is an object that exists to provide a common schema definition for the action parameters. */
+export interface ActionParametersOutput {
+  /**
+   * The value parameter that is used by the policy action. This is action specific,
+   * for further information please refer to documentation here:
+   * https://learn.microsoft.com/en-us/azure/external-attack-surface-management/policy-engine
+   */
+  value?: string;
 }
 
 /** The items in the current page of results. */
@@ -1122,10 +1365,22 @@ export type ObservedPortStateValueOutput = string;
 export type SslCertAssetValidationTypeOutput = string;
 /** Alias for PageAssetRedirectTypeOutput */
 export type PageAssetRedirectTypeOutput = string;
+/** Alias for ObservationTypeOutput */
+export type ObservationTypeOutput = string;
+/** Alias for ObservationRemediationStateOutput */
+export type ObservationRemediationStateOutput = string;
 /** Alias for TaskStateOutput */
 export type TaskStateOutput = string;
 /** Alias for TaskPhaseOutput */
 export type TaskPhaseOutput = string;
+/** Alias for ObservationPriorityOutput */
+export type ObservationPriorityOutput = string;
+/** Alias for ObservationRemediationSourceOutput */
+export type ObservationRemediationSourceOutput = string;
+/** Alias for GlobalAssetTypeOutput */
+export type GlobalAssetTypeOutput = string;
+/** Alias for GlobalInventoryStateOutput */
+export type GlobalInventoryStateOutput = string;
 /** Alias for DataConnectionContentOutput */
 export type DataConnectionContentOutput = string;
 /** Alias for DataConnectionFrequencyOutput */
@@ -1134,5 +1389,9 @@ export type DataConnectionFrequencyOutput = string;
 export type DiscoSourceKindOutput = string;
 /** Alias for DiscoRunStateOutput */
 export type DiscoRunStateOutput = string;
+/** Alias for AssetKindOutput */
+export type AssetKindOutput = string;
 /** Alias for ReportBillableAssetBreakdownKindOutput */
 export type ReportBillableAssetBreakdownKindOutput = string;
+/** Alias for PolicyActionOutput */
+export type PolicyActionOutput = string;

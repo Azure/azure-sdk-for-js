@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DeviceRegistryManagementContext } from "../../api/deviceRegistryManagementContext.js";
+import { DeviceRegistryManagementContext } from "../../api/deviceRegistryManagementContext.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -10,7 +10,7 @@ import {
   createOrReplace,
   get,
 } from "../../api/assets/operations.js";
-import type {
+import {
   AssetsListBySubscriptionOptionalParams,
   AssetsListByResourceGroupOptionalParams,
   AssetsDeleteOptionalParams,
@@ -18,9 +18,9 @@ import type {
   AssetsCreateOrReplaceOptionalParams,
   AssetsGetOptionalParams,
 } from "../../api/assets/options.js";
-import type { Asset, AssetUpdate } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { Asset, AssetUpdate } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Assets operations. */
 export interface AssetsOperations {
@@ -34,11 +34,6 @@ export interface AssetsOperations {
     options?: AssetsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<Asset>;
   /** Delete a Asset */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     assetName: string,

@@ -1,39 +1,53 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   EventHubManagementContext,
   EventHubManagementClientOptionalParams,
+  createEventHubManagement,
 } from "./api/index.js";
-import { createEventHubManagement } from "./api/index.js";
-import type { ApplicationGroupOperationsOperations } from "./classic/applicationGroupOperations/index.js";
-import { _getApplicationGroupOperationsOperations } from "./classic/applicationGroupOperations/index.js";
-import type { ClustersOperations } from "./classic/clusters/index.js";
-import { _getClustersOperations } from "./classic/clusters/index.js";
-import type { ConfigurationOperations } from "./classic/configuration/index.js";
-import { _getConfigurationOperations } from "./classic/configuration/index.js";
-import type { ConsumerGroupsOperations } from "./classic/consumerGroups/index.js";
-import { _getConsumerGroupsOperations } from "./classic/consumerGroups/index.js";
-import type { DisasterRecoveryConfigsOperations } from "./classic/disasterRecoveryConfigs/index.js";
-import { _getDisasterRecoveryConfigsOperations } from "./classic/disasterRecoveryConfigs/index.js";
-import type { EventHubsOperations } from "./classic/eventHubs/index.js";
-import { _getEventHubsOperations } from "./classic/eventHubs/index.js";
-import type { NamespacesOperations } from "./classic/namespaces/index.js";
-import { _getNamespacesOperations } from "./classic/namespaces/index.js";
-import type { NetworkSecurityPerimeterConfigurationOperationsOperations } from "./classic/networkSecurityPerimeterConfigurationOperations/index.js";
-import { _getNetworkSecurityPerimeterConfigurationOperationsOperations } from "./classic/networkSecurityPerimeterConfigurationOperations/index.js";
-import type { NetworkSecurityPerimeterConfigurationsOperations } from "./classic/networkSecurityPerimeterConfigurations/index.js";
-import { _getNetworkSecurityPerimeterConfigurationsOperations } from "./classic/networkSecurityPerimeterConfigurations/index.js";
-import type { OperationsOperations } from "./classic/operations/index.js";
-import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { PrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
-import { _getPrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
-import type { PrivateLinkResourcesOperations } from "./classic/privateLinkResources/index.js";
-import { _getPrivateLinkResourcesOperations } from "./classic/privateLinkResources/index.js";
-import type { SchemaRegistryOperations } from "./classic/schemaRegistry/index.js";
-import { _getSchemaRegistryOperations } from "./classic/schemaRegistry/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import {
+  ApplicationGroupOperationsOperations,
+  _getApplicationGroupOperationsOperations,
+} from "./classic/applicationGroupOperations/index.js";
+import { ClustersOperations, _getClustersOperations } from "./classic/clusters/index.js";
+import {
+  ConfigurationOperations,
+  _getConfigurationOperations,
+} from "./classic/configuration/index.js";
+import {
+  ConsumerGroupsOperations,
+  _getConsumerGroupsOperations,
+} from "./classic/consumerGroups/index.js";
+import {
+  DisasterRecoveryConfigsOperations,
+  _getDisasterRecoveryConfigsOperations,
+} from "./classic/disasterRecoveryConfigs/index.js";
+import { EventHubsOperations, _getEventHubsOperations } from "./classic/eventHubs/index.js";
+import { NamespacesOperations, _getNamespacesOperations } from "./classic/namespaces/index.js";
+import {
+  NetworkSecurityPerimeterConfigurationOperationsOperations,
+  _getNetworkSecurityPerimeterConfigurationOperationsOperations,
+} from "./classic/networkSecurityPerimeterConfigurationOperations/index.js";
+import {
+  NetworkSecurityPerimeterConfigurationsOperations,
+  _getNetworkSecurityPerimeterConfigurationsOperations,
+} from "./classic/networkSecurityPerimeterConfigurations/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import {
+  PrivateEndpointConnectionsOperations,
+  _getPrivateEndpointConnectionsOperations,
+} from "./classic/privateEndpointConnections/index.js";
+import {
+  PrivateLinkResourcesOperations,
+  _getPrivateLinkResourcesOperations,
+} from "./classic/privateLinkResources/index.js";
+import {
+  SchemaRegistryOperations,
+  _getSchemaRegistryOperations,
+} from "./classic/schemaRegistry/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { EventHubManagementClientOptionalParams } from "./api/eventHubManagementContext.js";
 

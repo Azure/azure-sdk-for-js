@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DnsResolverManagementContext } from "../../api/dnsResolverManagementContext.js";
+import { DnsResolverManagementContext } from "../../api/dnsResolverManagementContext.js";
 import {
   list,
   $delete,
@@ -9,18 +9,17 @@ import {
   createOrUpdate,
   get,
 } from "../../api/inboundEndpoints/operations.js";
-import type {
+import {
   InboundEndpointsListOptionalParams,
   InboundEndpointsDeleteOptionalParams,
   InboundEndpointsUpdateOptionalParams,
   InboundEndpointsCreateOrUpdateOptionalParams,
   InboundEndpointsGetOptionalParams,
 } from "../../api/inboundEndpoints/options.js";
-import type { InboundEndpoint, InboundEndpointPatch } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { InboundEndpoint, InboundEndpointPatch } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a InboundEndpoints operations. */
 export interface InboundEndpointsOperations {

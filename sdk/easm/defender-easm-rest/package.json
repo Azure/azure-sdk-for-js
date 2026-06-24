@@ -8,23 +8,10 @@
   "sideEffects": false,
   "autoPublish": false,
   "type": "module",
-  "keywords": [
-    "node",
-    "azure",
-    "cloud",
-    "typescript",
-    "browser",
-    "isomorphic"
-  ],
+  "keywords": ["node", "azure", "cloud", "typescript", "browser", "isomorphic"],
   "author": "Microsoft Corporation",
   "license": "MIT",
-  "files": [
-    "dist/",
-    "README.md",
-    "LICENSE",
-    "review/",
-    "CHANGELOG.md"
-  ],
+  "files": ["dist/", "README.md", "LICENSE", "review/", "CHANGELOG.md"],
   "sdk-type": "client",
   "repository": {
     "type": "git",
@@ -90,9 +77,7 @@
   },
   "//sampleConfiguration": {
     "productName": "Defender EASM Client",
-    "productSlugs": [
-      "azure"
-    ],
+    "productSlugs": ["azure"],
     "disableDocsMs": true,
     "apiRefLink": "https://learn.microsoft.com/azure/external-attack-surface-management/"
   },
@@ -124,7 +109,6 @@
   "react-native": "./dist/react-native/index.js",
   "imports": {
     "#platform/*": {
-      "react-native": "./src/*-react-native.mts",
       "browser": "./src/*-browser.mts",
       "default": "./src/*.ts"
     }

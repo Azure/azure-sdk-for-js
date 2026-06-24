@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { EventHubManagementContext } from "../../api/eventHubManagementContext.js";
+import { EventHubManagementContext } from "../../api/eventHubManagementContext.js";
 import {
   failOver,
   breakPairing,
@@ -14,7 +14,7 @@ import {
   listAuthorizationRules,
   getAuthorizationRule,
 } from "../../api/disasterRecoveryConfigs/operations.js";
-import type {
+import {
   DisasterRecoveryConfigsFailOverOptionalParams,
   DisasterRecoveryConfigsBreakPairingOptionalParams,
   DisasterRecoveryConfigsListOptionalParams,
@@ -26,14 +26,14 @@ import type {
   DisasterRecoveryConfigsListAuthorizationRulesOptionalParams,
   DisasterRecoveryConfigsGetAuthorizationRuleOptionalParams,
 } from "../../api/disasterRecoveryConfigs/options.js";
-import type {
+import {
   AuthorizationRule,
   AccessKeys,
   CheckNameAvailabilityParameter,
   CheckNameAvailabilityResult,
   ArmDisasterRecovery,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a DisasterRecoveryConfigs operations. */
 export interface DisasterRecoveryConfigsOperations {

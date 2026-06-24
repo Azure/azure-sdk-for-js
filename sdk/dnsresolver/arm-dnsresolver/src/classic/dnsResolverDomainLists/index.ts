@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DnsResolverManagementContext } from "../../api/dnsResolverManagementContext.js";
+import { DnsResolverManagementContext } from "../../api/dnsResolverManagementContext.js";
 import {
   bulk,
   list,
@@ -11,7 +11,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/dnsResolverDomainLists/operations.js";
-import type {
+import {
   DnsResolverDomainListsBulkOptionalParams,
   DnsResolverDomainListsListOptionalParams,
   DnsResolverDomainListsListByResourceGroupOptionalParams,
@@ -20,15 +20,14 @@ import type {
   DnsResolverDomainListsCreateOrUpdateOptionalParams,
   DnsResolverDomainListsGetOptionalParams,
 } from "../../api/dnsResolverDomainLists/options.js";
-import type {
+import {
   DnsResolverDomainList,
   DnsResolverDomainListPatch,
   DnsResolverDomainListBulk,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a DnsResolverDomainLists operations. */
 export interface DnsResolverDomainListsOperations {
