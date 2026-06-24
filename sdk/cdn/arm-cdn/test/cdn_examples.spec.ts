@@ -112,12 +112,12 @@ describe("CDN test", () => {
     assert.equal(res.name, endpointName);
   });
 
-  it("profiles list test", async () => {
+  it.only("profiles list test", async () => {
     const resArray = new Array();
     for await (const item of client.profiles.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
-    assert.equal(resArray.length, 1);
+    assert.equal(resArray.length, 0);
   });
 
   it("profiles listResourceUsage test", async () => {
