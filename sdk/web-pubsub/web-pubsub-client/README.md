@@ -115,16 +115,26 @@ import { WebPubSubClient } from "@azure/web-pubsub-client";
 
 const client = new WebPubSubClient("<client-access-url>");
 
-// Receiving side: register a factory invoked once per inbound stream. The returned
-// handler consumes that single stream. Option effects apply independently per stream.
+// Receiving side: subscribe once, then consume each inbound stream with for-await.
 client.onGroupStream(
-  (stream) => {
+  async (stream) => {
     const parts: string[] = [];
-    return {
-      onMessage: (e) => parts.push(e.data as string),
-      onComplete: () => console.log(`Stream ${stream.streamId} completed: ${parts.join("")}`),
-      onError: (e) => console.log(`Stream ${stream.streamId} failed: ${e.error?.name}`),
-    };
+    try {
+      for await (const message of stream) {
+        parts.push(message.data as string);
+      }
+      console.log(`Stream ${stream.streamId} completed: ${parts.join("")}`);
+    } catch (err) {
+      console.log(
+        `Stream ${stream.streamId} failed: ${
+          (
+            err as {
+              name?: string;
+            }
+          ).name
+        }`,
+      );
+    }
   },
   { handleFromStart: true },
 );
@@ -140,7 +150,7 @@ await stream.write("world", "text");
 await stream.end();
 ```
 
-`onGroupStream` registers a factory that returns a `GroupStreamHandler` for every observed stream; pass the same factory reference to `offGroupStream` to unregister it. `openGroupStream` returns a `GroupStream` you use to `write` fragments, `end` the stream successfully, or `abort` it with an error.
+`onGroupStream` returns a subscription with `close()` for unregistering the listener. Each callback receives a `GroupStream` that is async iterable over its fragments. `openGroupStream` returns a `GroupStreamWriter` you use to `write` fragments, `end` the stream successfully, or `abort` it with an error.
 
 ---
 
@@ -195,14 +205,22 @@ const hubName = "sample_chat";
 const serviceClient = new WebPubSubServiceClient("<web-pubsub-connectionstring>", hubName);
 
 // Note that the token allows the client to join and send messages to any groups. It is specified with the "roles" option.
-app.get("/negotiate", async (req, res) => {
-  const token = await serviceClient.getClientAccessToken({
-    roles: ["webpubsub.joinLeaveGroup", "webpubsub.sendToGroup"],
-  });
-  res.json({
-    url: token.url,
-  });
-});
+app.get(
+  "/negotiate",
+  async (
+    _req: unknown,
+    res: {
+      json: (body: { url: string }) => void;
+    },
+  ) => {
+    const token = await serviceClient.getClientAccessToken({
+      roles: ["webpubsub.joinLeaveGroup", "webpubsub.sendToGroup"],
+    });
+    res.json({
+      url: token.url,
+    });
+  },
+);
 
 app.listen(port, () =>
   console.log(`Application server listening at http://localhost:${port}/negotiate`),
@@ -219,7 +237,9 @@ import { WebPubSubClient } from "@azure/web-pubsub-client";
 const client = new WebPubSubClient({
   getClientAccessUrl: async () => {
     const negotiate = await fetch("/negotiate");
-    const { url } = await negotiate.json();
+    const { url } = (await negotiate.json()) as {
+      url: string;
+    };
     return url;
   },
 });
@@ -287,7 +307,7 @@ const groupName = "group1";
 try {
   await client.joinGroup(groupName);
 } catch (err) {
-  let id = null;
+  let id: number | undefined;
   if (err instanceof SendMessageError) {
     id = err.ackId;
   }
