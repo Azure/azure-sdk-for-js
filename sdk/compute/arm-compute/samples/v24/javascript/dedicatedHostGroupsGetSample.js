@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to retrieves information about a dedicated host group.
  *
  * @summary retrieves information about a dedicated host group.
- * x-ms-original-file: 2025-11-01/dedicatedHostExamples/DedicatedHostGroup_Get.json
+ * x-ms-original-file: 2026-03-01/dedicatedHostExamples/DedicatedHostGroup_Get.json
  */
 async function createADedicatedHostGroup() {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function createADedicatedHostGroup() {
  * This sample demonstrates how to retrieves information about a dedicated host group.
  *
  * @summary retrieves information about a dedicated host group.
- * x-ms-original-file: 2025-11-01/dedicatedHostExamples/DedicatedHostGroup_Get_UltraSSDEnabledDedicatedHostGroup.json
+ * x-ms-original-file: 2026-03-01/dedicatedHostExamples/DedicatedHostGroup_Get_UltraSSDEnabledDedicatedHostGroup.json
  */
 async function createAnUltraSSDEnabledDedicatedHostGroup() {
   const credential = new DefaultAzureCredential();

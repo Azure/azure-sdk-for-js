@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to validates that the Virtual Machines in the Availability Set can be migrated to the provided Virtual Machine Scale Set.
  *
  * @summary validates that the Virtual Machines in the Availability Set can be migrated to the provided Virtual Machine Scale Set.
- * x-ms-original-file: 2025-11-01/availabilitySetExamples/AvailabilitySet_ValidateMigrationToVirtualMachineScaleSet.json
+ * x-ms-original-file: 2026-03-01/availabilitySetExamples/AvailabilitySet_ValidateMigrationToVirtualMachineScaleSet.json
  */
 async function availabilitySetValidateMigrationToVirtualMachineScaleSet() {
   const credential = new DefaultAzureCredential();
