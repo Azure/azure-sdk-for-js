@@ -306,11 +306,13 @@ export const Constants = {
   RequestTimeoutForReadsInMs: 2000, // 2 seconds
 
   // Inference Service
-  InferenceBasePath: "/inference/semanticReranking",
-  InferenceUserAgent: "cosmos-inference-js",
-  InferenceDefaultScope: "https://dbinference.azure.com/.default",
-  InferenceDefaultTimeoutMs: 120_000, // 120 seconds
-  InferenceEndpointEnvVar: "AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT",
+  Inference: {
+    BasePath: "/inference/semanticReranking",
+    UserAgent: "cosmos-inference-js",
+    DefaultScope: "https://dbinference.azure.com/.default",
+    DefaultTimeoutMs: 120_000, // 120 seconds
+    EndpointEnvVar: "AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT",
+  },
 };
 
 export const AAD_DEFAULT_SCOPE = "https://cosmos.azure.com/.default";

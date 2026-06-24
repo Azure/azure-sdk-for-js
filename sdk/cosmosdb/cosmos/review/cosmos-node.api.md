@@ -317,7 +317,6 @@ export class ClientContext {
         diagnosticNode: DiagnosticNodeInternal;
         partitionKeyRangeId?: string;
     }): Promise<Response_2<T & Resource>>;
-    semanticRerank(context: string, documents: string[], options?: SemanticRerankOptions): Promise<SemanticRerankResult>;
     // (undocumented)
     upsert<T, U = T>(input: {
         body: T;
@@ -701,11 +700,13 @@ export const Constants: {
     DefaultEncryptionCacheTimeToLiveInSeconds: number;
     EncryptionCacheRefreshIntervalInMs: number;
     RequestTimeoutForReadsInMs: number;
-    InferenceBasePath: string;
-    InferenceUserAgent: string;
-    InferenceDefaultScope: string;
-    InferenceDefaultTimeoutMs: number;
-    InferenceEndpointEnvVar: string;
+    Inference: {
+        BasePath: string;
+        UserAgent: string;
+        DefaultScope: string;
+        DefaultTimeoutMs: number;
+        EndpointEnvVar: string;
+    };
 };
 
 // @public
@@ -737,7 +738,7 @@ export class Container {
     readPartitionKeyRanges(feedOptions?: FeedOptions): QueryIterator<PartitionKeyRange>;
     replace(body: ContainerDefinition, options?: RequestOptions): Promise<ContainerResponse>;
     get scripts(): Scripts;
-    semanticRerank(context: string, documents: string[], options?: SemanticRerankOptions): Promise<SemanticRerankResult>;
+    semanticRerank(rerankContext: string, documents: string[], options?: SemanticRerankOptions): Promise<SemanticRerankResult>;
     get url(): string;
 }
 
@@ -832,7 +833,6 @@ export interface CosmosClientOptions {
     enablePreviewFeatures?: Record<string, unknown>;
     endpoint?: string;
     httpClient?: HttpClient;
-    inferenceEndpoint?: string;
     key?: string;
     permissionFeed?: PermissionDefinition[];
     resourceTokens?: {
@@ -2488,8 +2488,6 @@ export interface StatusCodesType {
     InternalServerError: 500;
     // (undocumented)
     MethodNotAllowed: 405;
-    // (undocumented)
-    MultipleChoices: 300;
     // (undocumented)
     MultiStatus: 207;
     // (undocumented)

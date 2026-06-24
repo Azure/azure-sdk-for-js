@@ -703,10 +703,10 @@ export class Container {
    *
    * To use this feature, you must:
    * 1. Configure AAD authentication via `aadCredentials` in `CosmosClientOptions`
-   * 2. Provide the inference endpoint via `inferenceEndpoint` in `CosmosClientOptions`,
-   *    or set the `AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT` environment variable
+   * 2. Provide the inference endpoint via the `inferenceEndpoint` key of `enablePreviewFeatures`
+   *    in `CosmosClientOptions`, or set the `AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT` environment variable
    *
-   * @param context - The context (e.g. query string) to use for reranking the documents.
+   * @param rerankContext - The context (e.g. query string) to use for reranking the documents.
    * @param documents - A list of documents (as JSON strings) to be reranked.
    * @param options - Optional dictionary of settings for the reranking request.
    *   Known service options:
@@ -754,11 +754,11 @@ export class Container {
    * ```
    */
   public async semanticRerank(
-    context: string,
+    rerankContext: string,
     documents: string[],
     options?: SemanticRerankOptions,
   ): Promise<SemanticRerankResult> {
-    return this.clientContext.semanticRerank(context, documents, options);
+    return this.clientContext.semanticRerank(rerankContext, documents, options);
   }
 
   /**

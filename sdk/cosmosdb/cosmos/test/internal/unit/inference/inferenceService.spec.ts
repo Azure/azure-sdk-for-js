@@ -66,7 +66,9 @@ describe("InferenceService", { timeout: 10000 }, () => {
         "https://env-inference.dbinference.azure.com";
       const service = new InferenceService(
         createMockOptions({
-          inferenceEndpoint: "https://options-inference.dbinference.azure.com",
+          enablePreviewFeatures: {
+            inferenceEndpoint: "https://options-inference.dbinference.azure.com",
+          },
         }),
       );
       const resolvedUrl = (service as any).inferenceEndpointUrl as string;

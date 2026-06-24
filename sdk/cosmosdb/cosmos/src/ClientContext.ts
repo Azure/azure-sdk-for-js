@@ -1125,14 +1125,15 @@ export class ClientContext {
    * @param documents - The documents to be reranked.
    * @param options - Optional settings for the reranking request.
    * @returns The reranking results including scores, latency, and token usage.
+   * @internal
    */
   public async semanticRerank(
-    context: string,
+    rerankContext: string,
     documents: string[],
     options?: SemanticRerankOptions,
   ): Promise<SemanticRerankResult> {
     const service = this.getOrCreateInferenceService();
-    return service.semanticRerank(context, documents, options);
+    return service.semanticRerank(rerankContext, documents, options);
   }
 
   /**
@@ -1144,13 +1145,5 @@ export class ClientContext {
       this.inferenceService = new InferenceService(this.cosmosClientOptions);
     }
     return this.inferenceService;
-  }
-
-  /**
-   * Disposes the InferenceService if it was created.
-   * @internal
-   */
-  public disposeInferenceService(): void {
-    this.inferenceService = null;
   }
 }

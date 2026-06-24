@@ -83,12 +83,6 @@ export interface CosmosClientOptions {
   connectionString?: string;
 
   /**
-   * The endpoint URL for the Cosmos DB Inference Service, used for features such as semantic reranking.
-   * If not provided, the SDK falls back to the `AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT` environment variable.
-   */
-  inferenceEndpoint?: string;
-
-  /**
    * A dictionary for opting into preview features of the SDK.
    *
    * Preview features are not generally available and may change in backward-incompatible

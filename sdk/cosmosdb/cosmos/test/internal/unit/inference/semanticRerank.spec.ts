@@ -90,7 +90,7 @@ describe("Container.semanticRerank", { timeout: 10000 }, () => {
     client.dispose();
   });
 
-  it("should clean up inference service on client dispose", () => {
+  it("should not throw on client dispose", () => {
     const client = new CosmosClient({
       endpoint: "https://test-account.documents.azure.com:443/",
       aadCredentials: new MockTokenCredential(),

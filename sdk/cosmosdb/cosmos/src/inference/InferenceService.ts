@@ -19,7 +19,6 @@ import type { CosmosClientOptions } from "../CosmosClientOptions.js";
 import type { SemanticRerankOptions } from "./SemanticRerankOptions.js";
 import type { RerankScore, SemanticRerankResult } from "./SemanticRerankResult.js";
 import { Constants } from "../common/constants.js";
-import { StatusCodes } from "../common/statusCodes.js";
 import { getCachedDefaultHttpClient } from "../utils/cachedClient.js";
 import { ErrorResponse } from "../request/ErrorResponse.js";
 
@@ -45,7 +44,7 @@ export class InferenceService {
     }
 
     const endpoint = this.resolveInferenceEndpoint(cosmosClientOptions);
-    this.inferenceEndpointUrl = `${endpoint}${Constants.InferenceBasePath}`;
+    this.inferenceEndpointUrl = `${endpoint}${Constants.Inference.BasePath}`;
 
     this.pipeline = this.createInferencePipeline(cosmosClientOptions.aadCredentials);
     this.httpClient = cosmosClientOptions.httpClient ?? getCachedDefaultHttpClient();
@@ -55,27 +54,27 @@ export class InferenceService {
 
   /**
    * Sends a semantic rerank request to the inference service.
-   * @param context - The context (e.g. query string) to use for reranking.
+   * @param rerankContext - The context (e.g. query string) to use for reranking.
    * @param documents - The documents to be reranked.
    * @param options - Optional settings for the reranking request.
    * @returns The reranking results including scores, latency, and token usage.
    */
   async semanticRerank(
-    context: string,
+    rerankContext: string,
     documents: string[],
     options?: SemanticRerankOptions,
   ): Promise<SemanticRerankResult> {
-    const payload = this.buildPayload(context, documents, options);
+    const payload = this.buildPayload(rerankContext, documents, options);
 
     const request = createPipelineRequest({
       url: this.inferenceEndpointUrl,
       method: "POST",
       body: JSON.stringify(payload),
       abortSignal: options?.["abortSignal"] as AbortSignal | undefined,
-      timeout: Constants.InferenceDefaultTimeoutMs,
+      timeout: Constants.Inference.DefaultTimeoutMs,
     });
 
-    this.buildHeaders(request);
+    this.setHeaders(request);
 
     const response = await this.pipeline.sendRequest(this.httpClient, request);
     return this.parseResponse(response);
@@ -86,14 +85,17 @@ export class InferenceService {
    * Client options take priority over the environment variable.
    */
   private resolveInferenceEndpoint(cosmosClientOptions: CosmosClientOptions): string {
+    const previewEndpoint = cosmosClientOptions.enablePreviewFeatures?.["inferenceEndpoint"];
     const endpoint =
-      cosmosClientOptions.inferenceEndpoint ||
-      (typeof process !== "undefined" ? process.env[Constants.InferenceEndpointEnvVar] : undefined);
+      (typeof previewEndpoint === "string" ? previewEndpoint : undefined) ||
+      (typeof process !== "undefined"
+        ? process.env[Constants.Inference.EndpointEnvVar]
+        : undefined);
 
     if (!endpoint) {
       throw new Error(
         `Inference endpoint is required for semantic reranking. ` +
-          `Set 'inferenceEndpoint' in CosmosClientOptions or the '${Constants.InferenceEndpointEnvVar}' environment variable.`,
+          `Set the 'inferenceEndpoint' key in 'enablePreviewFeatures' on CosmosClientOptions or the '${Constants.Inference.EndpointEnvVar}' environment variable.`,
       );
     }
 
@@ -109,7 +111,7 @@ export class InferenceService {
     pipeline.addPolicy(
       bearerTokenAuthenticationPolicy({
         credential,
-        scopes: Constants.InferenceDefaultScope,
+        scopes: Constants.Inference.DefaultScope,
       }),
     );
     return pipeline;
@@ -118,20 +120,20 @@ export class InferenceService {
   /**
    * Sets the required HTTP headers on an inference service request.
    */
-  private buildHeaders(request: PipelineRequest): void {
+  private setHeaders(request: PipelineRequest): void {
     request.headers.set("Content-Type", "application/json");
     request.headers.set("Accept", "application/json");
     request.headers.set("Cache-Control", "no-cache");
     request.headers.set(Constants.HttpHeaders.Version, Constants.CurrentVersion);
-    request.headers.set(Constants.HttpHeaders.UserAgent, Constants.InferenceUserAgent);
-    request.headers.set(Constants.HttpHeaders.CustomUserAgent, Constants.InferenceUserAgent);
+    request.headers.set(Constants.HttpHeaders.UserAgent, Constants.Inference.UserAgent);
+    request.headers.set(Constants.HttpHeaders.CustomUserAgent, Constants.Inference.UserAgent);
   }
 
   /**
    * Builds the JSON payload for the semantic rerank request.
    */
   private buildPayload(
-    context: string,
+    rerankContext: string,
     documents: string[],
     options?: SemanticRerankOptions,
   ): Record<string, unknown> {
@@ -147,7 +149,7 @@ export class InferenceService {
     }
 
     // Required fields are set last to prevent options from overriding them
-    payload["query"] = context;
+    payload["query"] = rerankContext;
     payload["documents"] = documents;
 
     return payload;
@@ -163,7 +165,7 @@ export class InferenceService {
    * This is the actual service response format, not a bug.
    */
   private parseResponse(response: PipelineResponse): SemanticRerankResult {
-    if (response.status < StatusCodes.Ok || response.status >= StatusCodes.MultipleChoices) {
+    if (response.status < 200 || response.status >= 300) {
       let serviceCode: string | number = response.status;
       let serviceMessage = `Semantic rerank request failed with status ${response.status}`;
 
