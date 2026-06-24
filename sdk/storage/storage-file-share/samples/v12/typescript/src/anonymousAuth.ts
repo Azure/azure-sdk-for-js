@@ -21,8 +21,8 @@ export async function main(): Promise<void> {
   // List shares
   const serviceClient = new ShareServiceClient(
     // When using AnonymousCredential, following url should include a valid SAS
-    `https://${account}.file.core.windows.net?${accountSas}`,
-    anonymousCredential
+    `https://${account}.file.core.windows.net${accountSas}`,
+    anonymousCredential,
   );
 
   console.log("Shares:");

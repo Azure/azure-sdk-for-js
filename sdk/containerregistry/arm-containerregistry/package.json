@@ -3,7 +3,7 @@
   "version": "12.1.0-beta.1",
   "description": "A generated SDK for ContainerRegistryManagementClient.",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "sideEffects": false,
   "autoPublish": false,

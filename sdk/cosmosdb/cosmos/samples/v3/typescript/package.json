@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "Azure Cosmos DB client library samples for TypeScript",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "scripts": {
     "build": "tsc",
@@ -38,7 +38,7 @@
     "@azure/identity": "^4.2.1"
   },
   "devDependencies": {
-    "@types/node": "^20.0.0",
+    "@types/node": "^22.0.0",
     "typescript": "~5.8.2",
     "rimraf": "latest"
   }

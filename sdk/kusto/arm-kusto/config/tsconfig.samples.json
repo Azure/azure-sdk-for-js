@@ -2,9 +2,7 @@
   "extends": "../../../../eng/tsconfigs/samples.json",
   "compilerOptions": {
     "paths": {
-      "@azure/arm-kusto": [
-        "../dist/esm"
-      ]
+      "@azure/arm-kusto": ["../dist/esm"]
     }
   }
 }
