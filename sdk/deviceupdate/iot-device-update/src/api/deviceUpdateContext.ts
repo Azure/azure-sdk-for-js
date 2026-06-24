@@ -31,7 +31,7 @@ export function createDeviceUpdate(
 ): DeviceUpdateContext {
   const endpointUrl = options.endpoint ?? `https://${endpointParam}`;
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentInfo = `azsdk-js-iot-device-update/1.0.0-beta.1`;
+  const userAgentInfo = `azsdk-js-iot-device-update/1.0.0-beta.2`;
   const userAgentPrefix = prefixFromOptions
     ? `${prefixFromOptions} azsdk-js-api ${userAgentInfo}`
     : `azsdk-js-api ${userAgentInfo}`;
