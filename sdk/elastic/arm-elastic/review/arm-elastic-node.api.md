@@ -142,14 +142,6 @@ export interface CreateAndAssociatePLFilterOperations {
 export type CreatedByType = string;
 
 // @public
-export interface CustomMonitoredSubscription {
-    error?: string;
-    status?: Status;
-    subscriptionId?: string;
-    tagRules?: MonitoringTagRulesProperties;
-}
-
-// @public
 export interface DeploymentInfoListOptionalParams extends OperationOptions {
 }
 
@@ -576,6 +568,14 @@ export interface MonitoredResourcesOperations {
 }
 
 // @public
+export interface MonitoredSubscription {
+    error?: string;
+    status?: Status;
+    subscriptionId?: string;
+    tagRules?: MonitoringTagRulesProperties;
+}
+
+// @public
 export interface MonitoredSubscriptionProperties extends ProxyResource {
     properties?: SubscriptionList;
 }
@@ -953,7 +953,7 @@ export type Status = string;
 
 // @public
 export interface SubscriptionList {
-    monitoredSubscriptionList?: CustomMonitoredSubscription[];
+    monitoredSubscriptionList?: MonitoredSubscription[];
     operation?: Operation;
     readonly provisioningState?: ProvisioningState;
 }

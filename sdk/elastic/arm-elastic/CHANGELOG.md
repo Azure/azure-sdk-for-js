@@ -21,7 +21,6 @@ Compared with version 2.0.0
   - Added operation OrganizationsOperations.resubscribe
   - Added operation TagRulesOperations.delete
   - Class MicrosoftElastic has a new constructor "constructor(credential: TokenCredential, options?: MicrosoftElasticOptionalParams);"
-  - Added Interface CustomMonitoredSubscription
   - Added Interface PagedAsyncIterableIterator
   - Added Interface PageSettings
   - Added Interface ProxyResource
@@ -46,7 +45,6 @@ Compared with version 2.0.0
   - Removed Interface ElasticMonitorResourceListResponse
   - Removed Interface ElasticVersionsListResponse
   - Removed Interface MonitoredResourceListResponse
-  - Removed Interface MonitoredSubscription
   - Removed Interface MonitoredSubscriptionPropertiesList
   - Removed Interface MonitoringTagRulesListResponse
   - Removed Interface OpenAIIntegrationRPModelListResponse

@@ -21,7 +21,7 @@ export type {
   MonitoredSubscriptionProperties,
   SubscriptionList,
   Operation,
-  CustomMonitoredSubscription,
+  MonitoredSubscription,
   Status,
   MonitoringTagRulesProperties,
   ProvisioningState,

@@ -13,7 +13,7 @@
       "@azure/arm-elastic!ErrorResponseBody:interface": "Microsoft.Elastic.ErrorResponseBody",
       "@azure/arm-elastic!MonitoredSubscriptionProperties:interface": "Microsoft.Elastic.MonitoredSubscriptionProperties",
       "@azure/arm-elastic!SubscriptionList:interface": "Microsoft.Elastic.SubscriptionList",
-      "@azure/arm-elastic!CustomMonitoredSubscription:interface": "CustomMonitoredSubscription",
+      "@azure/arm-elastic!MonitoredSubscription:interface": "CustomMonitoredSubscription",
       "@azure/arm-elastic!MonitoringTagRulesProperties:interface": "Microsoft.Elastic.MonitoringTagRulesProperties",
       "@azure/arm-elastic!LogRules:interface": "Microsoft.Elastic.LogRules",
       "@azure/arm-elastic!FilteringTag:interface": "Microsoft.Elastic.FilteringTag",
