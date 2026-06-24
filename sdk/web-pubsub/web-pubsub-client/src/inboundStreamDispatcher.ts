@@ -5,8 +5,8 @@ import { logger } from "./logger.js";
 import type {
   GroupStream,
   GroupStreamMessage,
-  GroupStreamSubscribeOptions,
   GroupStreamSubscription,
+  OnGroupStreamOptions,
 } from "./models/index.js";
 import type { GroupDataMessage, StreamDataError, StreamInfo } from "./models/messages.js";
 
@@ -104,7 +104,7 @@ class GroupStreamSubscriptionImpl implements GroupStreamSubscription {
   constructor(
     private readonly _callback: GroupStreamCallback,
     private readonly _remove: (subscription: GroupStreamSubscriptionImpl) => void,
-    options?: GroupStreamSubscribeOptions,
+    options?: OnGroupStreamOptions,
   ) {
     this._idleTimeoutInMs = options?.idleTimeoutInMs ?? DEFAULT_IDLE_TIMEOUT_IN_MS;
     this._handleFromStart = options?.handleFromStart ?? DEFAULT_HANDLE_FROM_START;
@@ -205,7 +205,9 @@ class GroupStreamSubscriptionImpl implements GroupStreamSubscription {
       return true;
     } catch (err) {
       logger.warning("group-stream callback failed.", err);
-      stream instanceof InboundGroupStream && stream.complete(err);
+      if (stream instanceof InboundGroupStream) {
+        stream.complete(err);
+      }
       return false;
     }
   }
@@ -280,7 +282,7 @@ export class InboundStreamDispatcher {
 
   public register(
     callback: GroupStreamCallback,
-    options?: GroupStreamSubscribeOptions,
+    options?: OnGroupStreamOptions,
   ): GroupStreamSubscription {
     const subscription = new GroupStreamSubscriptionImpl(
       callback,

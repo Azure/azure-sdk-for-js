@@ -406,7 +406,7 @@ export interface GroupStreamSubscription {
  *   their own `handleFromStart` gate. Nothing is shared or aggregated across
  *   streams or across groups.
  */
-export interface GroupStreamSubscribeOptions {
+export interface OnGroupStreamOptions {
   /**
    * Inactivity timeout in milliseconds, applied independently to each stream
    * (identified by its `(group, streamId)` pair). Every stream has its own timer

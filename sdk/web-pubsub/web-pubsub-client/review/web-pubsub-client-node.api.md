@@ -157,7 +157,7 @@ export interface GroupStreamMessage {
 }
 
 // @public
-export interface GroupStreamSubscribeOptions {
+export interface OnGroupStreamOptions {
     groupNames?: string[];
     handleFromStart?: boolean;
     idleTimeoutInMs?: number;
@@ -550,7 +550,7 @@ export class WebPubSubClient {
     on(event: "server-message", listener: (e: OnServerDataMessageArgs) => void): void;
     on(event: "group-message", listener: (e: OnGroupDataMessageArgs) => void): void;
     on(event: "rejoin-group-failed", listener: (e: OnRejoinGroupFailedArgs) => void): void;
-    onGroupStream(callback: (stream: GroupStream) => void | Promise<void>, options?: GroupStreamSubscribeOptions): GroupStreamSubscription;
+    onGroupStream(callback: (stream: GroupStream) => void | Promise<void>, options?: OnGroupStreamOptions): GroupStreamSubscription;
     openGroupStream(groupName: string, options?: OpenGroupStreamOptions): Promise<GroupStreamWriter>;
     sendEvent(eventName: string, content: JSONTypes | ArrayBuffer, dataType: WebPubSubDataType, options?: SendEventOptions): Promise<WebPubSubResult>;
     sendToGroup(groupName: string, content: JSONTypes | ArrayBuffer, dataType: WebPubSubDataType, options?: SendToGroupOptions): Promise<WebPubSubResult>;

@@ -30,9 +30,9 @@ import type {
   EndGroupStreamOptions,
   AbortGroupStreamOptions,
   GroupStream,
-  GroupStreamSubscribeOptions,
   GroupStreamSubscription,
   GroupStreamWriter,
+  OnGroupStreamOptions,
 } from "./models/index.js";
 import type {
   ConnectedMessage,
@@ -327,7 +327,7 @@ export class WebPubSubClient {
    */
   public onGroupStream(
     callback: (stream: GroupStream) => void | Promise<void>,
-    options?: GroupStreamSubscribeOptions,
+    options?: OnGroupStreamOptions,
   ): GroupStreamSubscription {
     return this._inboundStreams.register(callback, options);
   }
