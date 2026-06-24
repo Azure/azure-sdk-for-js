@@ -1,7 +1,85 @@
 # Release History
-    
-## 1.0.0-beta.1 (2026-06-17)
+
+## 1.0.0-beta.2 (2026-06-24)
+Compared with version 1.0.0-beta.1
 
 ### Features Added
+  - Added operation group AccountsOperations
+  - Added operation group EnterprisePoliciesOperations
+  - Added operation group OperationsOperations
+  - Added operation group PrivateEndpointConnectionsOperations
+  - Added operation group PrivateLinkResourcesOperations
+  - Added Class PowerPlatformClient
+  - Added Interface Account
+  - Added Interface AccountProperties
+  - Added Interface AccountsCreateOrUpdateOptionalParams
+  - Added Interface AccountsDeleteOptionalParams
+  - Added Interface AccountsGetOptionalParams
+  - Added Interface AccountsListByResourceGroupOptionalParams
+  - Added Interface AccountsListBySubscriptionOptionalParams
+  - Added Interface AccountsUpdateOptionalParams
+  - Added Interface EnterprisePoliciesCreateOrUpdateOptionalParams
+  - Added Interface EnterprisePoliciesDeleteOptionalParams
+  - Added Interface EnterprisePoliciesGetOptionalParams
+  - Added Interface EnterprisePoliciesListByResourceGroupOptionalParams
+  - Added Interface EnterprisePoliciesListBySubscriptionOptionalParams
+  - Added Interface EnterprisePoliciesUpdateOptionalParams
+  - Added Interface EnterprisePolicy
+  - Added Interface EnterprisePolicyIdentity
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface KeyProperties
+  - Added Interface KeyVaultProperties
+  - Added Interface Operation
+  - Added Interface OperationDisplay
+  - Added Interface OperationsListOptionalParams
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface PatchAccount
+  - Added Interface PatchEnterprisePolicy
+  - Added Interface PatchTrackedResource
+  - Added Interface PowerPlatformClientOptionalParams
+  - Added Interface PrivateEndpoint
+  - Added Interface PrivateEndpointConnection
+  - Added Interface PrivateEndpointConnectionProperties
+  - Added Interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams
+  - Added Interface PrivateEndpointConnectionsDeleteOptionalParams
+  - Added Interface PrivateEndpointConnectionsGetOptionalParams
+  - Added Interface PrivateEndpointConnectionsListByEnterprisePolicyOptionalParams
+  - Added Interface PrivateLinkResource
+  - Added Interface PrivateLinkResourceProperties
+  - Added Interface PrivateLinkResourcesGetOptionalParams
+  - Added Interface PrivateLinkResourcesListByEnterprisePolicyOptionalParams
+  - Added Interface PrivateLinkServiceConnectionState
+  - Added Interface Properties
+  - Added Interface PropertiesEncryption
+  - Added Interface PropertiesLockbox
+  - Added Interface PropertiesNetworkInjection
+  - Added Interface ProxyResource
+  - Added Interface Resource
+  - Added Interface SubnetProperties
+  - Added Interface SystemData
+  - Added Interface TrackedResource
+  - Added Interface VirtualNetworkProperties
+  - Added Type Alias ActionType
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias CreatedByType
+  - Added Type Alias EnterprisePolicyKind
+  - Added Type Alias HealthStatus
+  - Added Type Alias Origin
+  - Added Type Alias PrivateEndpointConnectionProvisioningState
+  - Added Type Alias PrivateEndpointServiceConnectionStatus
+  - Added Type Alias ResourceIdentityType
+  - Added Type Alias State
+  - Added Enum AzureClouds
+  - Added Enum KnownActionType
+  - Added Enum KnownCreatedByType
+  - Added Enum KnownEnterprisePolicyKind
+  - Added Enum KnownHealthStatus
+  - Added Enum KnownOrigin
+  - Added Enum KnownPrivateEndpointConnectionProvisioningState
+  - Added Enum KnownPrivateEndpointServiceConnectionStatus
+  - Added Enum KnownState
+  - Added Enum KnownVersions
 
-This is the first preview release of the @azure/arm-powerplatform package. It introduces a new SDK generation with layered APIs, smaller bundles, and improved ergonomics. For more details, see the https://aka.ms/azsdk/js/sdk/quickstart.
