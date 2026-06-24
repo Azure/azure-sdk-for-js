@@ -186,7 +186,7 @@ describe("JsonProtocol", function () {
           noEcho: true,
           stream: {
             streamId: "stream1",
-            idleTimeoutMs: 15000,
+            idleTimeoutInMs: 15000,
           },
         } as SendToGroupMessage,
         payload: {
@@ -217,7 +217,7 @@ describe("JsonProtocol", function () {
         },
       },
       {
-        testName: "streamKeepalive1",
+        testName: "streamKeepAlive1",
         message: { kind: "streamData", streamId: "stream1" } as StreamDataMessage,
         payload: { type: "streamData", streamId: "stream1" },
       },

@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.ComputeLimit": "2026-06-01"
+    "Microsoft.ComputeLimit": "2026-07-01"
   },
-  "emitterVersion": "0.53.3",
+  "emitterVersion": "0.54.1",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.ComputeLimit",
     "CrossLanguageDefinitionId": {
@@ -31,12 +31,30 @@
       "@azure/arm-computelimit!VmFamily:interface": "Microsoft.ComputeLimit.VmFamily",
       "@azure/arm-computelimit!VmFamilyProperties:interface": "Microsoft.ComputeLimit.VmFamilyProperties",
       "@azure/arm-computelimit!VmFamilyListResult:interface": "Azure.ResourceManager.ResourceListResult",
+      "@azure/arm-computelimit!SharedLimitCap:interface": "Microsoft.ComputeLimit.SharedLimitCap",
+      "@azure/arm-computelimit!SharedLimitCapProperties:interface": "Microsoft.ComputeLimit.SharedLimitCapProperties",
+      "@azure/arm-computelimit!SharedLimitCapListResult:interface": "Azure.ResourceManager.ResourceListResult",
+      "@azure/arm-computelimit!SetMemberCapOverridesRequest:interface": "Microsoft.ComputeLimit.SetMemberCapOverridesRequest",
+      "@azure/arm-computelimit!MemberCap:interface": "Microsoft.ComputeLimit.MemberCap",
+      "@azure/arm-computelimit!SetMemberCapOverridesResult:interface": "Microsoft.ComputeLimit.SetMemberCapOverridesResult",
+      "@azure/arm-computelimit!MemberCapOverride:interface": "Microsoft.ComputeLimit.MemberCapOverride",
+      "@azure/arm-computelimit!MemberCapOverrideProperties:interface": "Microsoft.ComputeLimit.MemberCapOverrideProperties",
+      "@azure/arm-computelimit!MemberCapOverrideListResult:interface": "Azure.ResourceManager.ResourceListResult",
       "@azure/arm-computelimit!KnownOrigin:enum": "Azure.ResourceManager.CommonTypes.Origin",
       "@azure/arm-computelimit!KnownActionType:enum": "Azure.ResourceManager.CommonTypes.ActionType",
       "@azure/arm-computelimit!KnownResourceProvisioningState:enum": "Azure.ResourceManager.ResourceProvisioningState",
       "@azure/arm-computelimit!KnowncreatedByType:enum": "Azure.ResourceManager.CommonTypes.createdByType",
       "@azure/arm-computelimit!KnownFeatureState:enum": "Microsoft.ComputeLimit.FeatureState",
       "@azure/arm-computelimit!KnownVersions:enum": "Microsoft.ComputeLimit.Versions",
+      "@azure/arm-computelimit!MemberCapOverridesOperations#listByParent:member": "Microsoft.ComputeLimit.MemberCapOverrides.listByParent",
+      "@azure/arm-computelimit!MemberCapOverridesOperations#delete:member": "Microsoft.ComputeLimit.MemberCapOverrides.delete",
+      "@azure/arm-computelimit!MemberCapOverridesOperations#createOrUpdate:member": "Microsoft.ComputeLimit.MemberCapOverrides.createOrUpdate",
+      "@azure/arm-computelimit!MemberCapOverridesOperations#get:member": "Microsoft.ComputeLimit.MemberCapOverrides.get",
+      "@azure/arm-computelimit!SharedLimitCapsOperations#setMemberCapOverrides:member": "Microsoft.ComputeLimit.SharedLimitCaps.setMemberCapOverrides",
+      "@azure/arm-computelimit!SharedLimitCapsOperations#listBySubscriptionLocationResource:member": "Microsoft.ComputeLimit.SharedLimitCaps.listBySubscriptionLocationResource",
+      "@azure/arm-computelimit!SharedLimitCapsOperations#delete:member": "Microsoft.ComputeLimit.SharedLimitCaps.delete",
+      "@azure/arm-computelimit!SharedLimitCapsOperations#createOrUpdate:member": "Microsoft.ComputeLimit.SharedLimitCaps.createOrUpdate",
+      "@azure/arm-computelimit!SharedLimitCapsOperations#get:member": "Microsoft.ComputeLimit.SharedLimitCaps.get",
       "@azure/arm-computelimit!VmFamiliesOperations#listBySubscriptionLocationResource:member": "Microsoft.ComputeLimit.VmFamilies.listBySubscriptionLocationResource",
       "@azure/arm-computelimit!VmFamiliesOperations#get:member": "Microsoft.ComputeLimit.VmFamilies.get",
       "@azure/arm-computelimit!FeaturesOperations#disable:member": "Microsoft.ComputeLimit.Features.disable",

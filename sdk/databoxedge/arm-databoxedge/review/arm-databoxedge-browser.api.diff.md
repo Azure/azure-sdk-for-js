@@ -7,8 +7,8 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -1782,17 +1782,18 @@
-     readonly systemData?: SystemData;
+@@ -1891,17 +1891,18 @@
+     readonly networkAdapters?: NetworkAdapter[];
  }
  
  // @public
@@ -27,43 +27,16 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export interface NodeInfo {
      ipConfiguration?: KubernetesIPConfiguration[];
-@@ -1800,31 +1801,32 @@
-     readonly type?: KubernetesNodeType;
+@@ -1925,9 +1926,9 @@
  }
  
  // @public
--export interface NodeList {
-+interface NodeList_2 {
-     readonly nextLink?: string;
--    readonly value?: Node[];
-+    readonly value?: Node_2[];
+ export interface NodesOperations {
+-    listByDataBoxEdgeDevice: (deviceName: string, resourceGroupName: string, options?: NodesListByDataBoxEdgeDeviceOptionalParams) => PagedAsyncIterableIterator<Node>;
++    listByDataBoxEdgeDevice: (deviceName: string, resourceGroupName: string, options?: NodesListByDataBoxEdgeDeviceOptionalParams) => PagedAsyncIterableIterator<Node_2>;
  }
-+export { NodeList_2 as NodeList }
- 
- // @public
- export interface Nodes {
--    listByDataBoxEdgeDevice(deviceName: string, resourceGroupName: string, options?: NodesListByDataBoxEdgeDeviceOptionalParams): PagedAsyncIterableIterator<Node>;
-+    listByDataBoxEdgeDevice(deviceName: string, resourceGroupName: string, options?: NodesListByDataBoxEdgeDeviceOptionalParams): PagedAsyncIterableIterator<Node_2>;
- }
- 
- // @public
- export interface NodesListByDataBoxEdgeDeviceNextOptionalParams extends coreClient.OperationOptions {
- }
- 
- // @public
--export type NodesListByDataBoxEdgeDeviceNextResponse = NodeList;
-+export type NodesListByDataBoxEdgeDeviceNextResponse = NodeList_2;
- 
- // @public
- export interface NodesListByDataBoxEdgeDeviceOptionalParams extends coreClient.OperationOptions {
- }
- 
- // @public
--export type NodesListByDataBoxEdgeDeviceResponse = NodeList;
-+export type NodesListByDataBoxEdgeDeviceResponse = NodeList_2;
  
  // @public
  export type NodeStatus = string;
- 
 
 ```

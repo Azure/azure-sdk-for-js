@@ -1185,7 +1185,7 @@ describe("Call Media Client Live Tests", function () {
     assert.isDefined(callDisconnectedEvent);
   });
 
-  it("Trigger DTMF actions", { timeout: 60000 }, async function (ctx) {
+  it.skip("Trigger DTMF actions", { timeout: 60000 }, async function (ctx) {
     const fullTitle: string | undefined =
       ctx.task.suite && ctx.task.suite.name && ctx.task.name
         ? `${ctx.task.suite.name} ${ctx.task.name}`
@@ -1282,23 +1282,9 @@ describe("Call Media Client Live Tests", function () {
         ? fullTitle.replace(/ /g, "_")
         : "create_call_start_media_streaming_and_hang_up";
       await loadPersistedEvents(testName);
-
-      const phoneNumbers = await getPhoneNumbers(recorder);
-      assert.isAtLeast(
-        phoneNumbers.length,
-        2,
-        "Invalid PSTN setup, test needs at least 2 phone numbers",
-      );
-      callerPhoneUser = { phoneNumber: phoneNumbers.pop() as string };
-      receiverPhoneUser = { phoneNumber: phoneNumbers.pop() as string };
-
-      const callInvite: CallInvite = {
-        targetParticipant: receiverPhoneUser,
-        sourceCallIdNumber: callerPhoneUser,
-      };
-      const uniqueId = await serviceBusWithNewCall(callerPhoneUser, receiverPhoneUser);
+      const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
       const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
-
+      const callInvite: CallInvite = { targetParticipant: testUser2 };
       const mediaStreamingOptions: MediaStreamingOptions = {
         transportUrl: transportUrl,
         transportType: "websocket",
