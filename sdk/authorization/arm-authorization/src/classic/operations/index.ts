@@ -4,7 +4,7 @@
 import { AuthorizationManagementContext } from "../../api/authorizationManagementContext.js";
 import { list } from "../../api/operations/operations.js";
 import { OperationsListOptionalParams } from "../../api/operations/options.js";
-import { Operation } from "../../models/microsoft/attributeNamespaces/models.js";
+import { Operation } from "../../models/microsoft/accessReview/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Operations operations. */

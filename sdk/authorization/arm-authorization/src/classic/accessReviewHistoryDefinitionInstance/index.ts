@@ -4,7 +4,7 @@
 import { AuthorizationManagementContext } from "../../api/authorizationManagementContext.js";
 import { generateDownloadUri } from "../../api/accessReviewHistoryDefinitionInstance/operations.js";
 import { AccessReviewHistoryDefinitionInstanceGenerateDownloadUriOptionalParams } from "../../api/accessReviewHistoryDefinitionInstance/options.js";
-import { AccessReviewHistoryInstance } from "../../models/microsoft/attributeNamespaces/models.js";
+import { AccessReviewHistoryInstance } from "../../models/microsoft/accessReview/models.js";
 
 /** Interface representing a AccessReviewHistoryDefinitionInstance operations. */
 export interface AccessReviewHistoryDefinitionInstanceOperations {

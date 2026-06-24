@@ -5,7 +5,7 @@ import { AuthorizationManagementContext as Client } from "../index.js";
 import {
   errorDefinitionDeserializer,
   AccessReviewContactedReviewer,
-} from "../../models/microsoft/attributeNamespaces/models.js";
+} from "../../models/microsoft/accessReview/models.js";
 import {
   _AccessReviewContactedReviewerListResult,
   _accessReviewContactedReviewerListResultDeserializer,
@@ -54,7 +54,9 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDefinitionDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDefinitionDeserializer(result.body);
+    }
 
     throw error;
   }

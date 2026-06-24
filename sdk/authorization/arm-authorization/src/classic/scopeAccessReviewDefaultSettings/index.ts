@@ -10,7 +10,7 @@ import {
 import {
   AccessReviewScheduleSettings,
   AccessReviewDefaultSettings,
-} from "../../models/microsoft/attributeNamespaces/models.js";
+} from "../../models/microsoft/accessReview/models.js";
 
 /** Interface representing a ScopeAccessReviewDefaultSettings operations. */
 export interface ScopeAccessReviewDefaultSettingsOperations {

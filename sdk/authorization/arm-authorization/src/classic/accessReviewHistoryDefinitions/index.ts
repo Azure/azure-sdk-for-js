@@ -7,7 +7,7 @@ import {
   AccessReviewHistoryDefinitionsListOptionalParams,
   AccessReviewHistoryDefinitionsGetByIdOptionalParams,
 } from "../../api/accessReviewHistoryDefinitions/options.js";
-import { AccessReviewHistoryDefinition } from "../../models/microsoft/attributeNamespaces/models.js";
+import { AccessReviewHistoryDefinition } from "../../models/microsoft/accessReview/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a AccessReviewHistoryDefinitions operations. */

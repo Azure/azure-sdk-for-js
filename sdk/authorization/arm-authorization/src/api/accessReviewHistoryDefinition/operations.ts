@@ -8,7 +8,7 @@ import {
   accessReviewHistoryDefinitionDeserializer,
   AccessReviewHistoryDefinitionProperties,
   accessReviewHistoryDefinitionPropertiesSerializer,
-} from "../../models/microsoft/attributeNamespaces/models.js";
+} from "../../models/microsoft/accessReview/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   AccessReviewHistoryDefinitionDeleteByIdOptionalParams,
@@ -44,7 +44,9 @@ export async function _deleteByIdDeserialize(result: PathUncheckedResponse): Pro
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDefinitionDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDefinitionDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -93,7 +95,9 @@ export async function _createDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDefinitionDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDefinitionDeserializer(result.body);
+    }
 
     throw error;
   }

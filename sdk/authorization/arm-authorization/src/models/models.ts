@@ -12,7 +12,7 @@ import {
   AccessReviewDecision,
   accessReviewContactedReviewerArrayDeserializer,
   AccessReviewContactedReviewer,
-} from "./microsoft/attributeNamespaces/models.js";
+} from "./microsoft/accessReview/models.js";
 import {
   RoleAssignmentSchedule,
   roleAssignmentScheduleArrayDeserializer,

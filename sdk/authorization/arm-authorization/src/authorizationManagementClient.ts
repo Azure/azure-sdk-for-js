@@ -285,6 +285,7 @@ export class AuthorizationManagementClient {
       this._client,
     );
     this.roleAssignmentSchedules = _getRoleAssignmentSchedulesOperations(this._client);
+    this.attributeNamespaces = _getAttributeNamespacesOperations(this._client);
     this.scopeAccessReviewDefaultSettings = _getScopeAccessReviewDefaultSettingsOperations(
       this._client,
     );
@@ -305,7 +306,6 @@ export class AuthorizationManagementClient {
       this._client,
     );
     this.operations = _getOperationsOperations(this._client);
-    this.attributeNamespaces = _getAttributeNamespacesOperations(this._client);
   }
 
   /** The operation groups for alertOperation */
@@ -382,6 +382,8 @@ export class AuthorizationManagementClient {
   public readonly roleAssignmentScheduleInstances: RoleAssignmentScheduleInstancesOperations;
   /** The operation groups for roleAssignmentSchedules */
   public readonly roleAssignmentSchedules: RoleAssignmentSchedulesOperations;
+  /** The operation groups for attributeNamespaces */
+  public readonly attributeNamespaces: AttributeNamespacesOperations;
   /** The operation groups for scopeAccessReviewDefaultSettings */
   public readonly scopeAccessReviewDefaultSettings: ScopeAccessReviewDefaultSettingsOperations;
   /** The operation groups for accessReviewInstancesAssignedForMyApproval */
@@ -400,6 +402,4 @@ export class AuthorizationManagementClient {
   public readonly accessReviewHistoryDefinitions: AccessReviewHistoryDefinitionsOperations;
   /** The operation groups for operations */
   public readonly operations: OperationsOperations;
-  /** The operation groups for attributeNamespaces */
-  public readonly attributeNamespaces: AttributeNamespacesOperations;
 }

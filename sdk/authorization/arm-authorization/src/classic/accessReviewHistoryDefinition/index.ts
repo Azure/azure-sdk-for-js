@@ -10,7 +10,7 @@ import {
 import {
   AccessReviewHistoryDefinition,
   AccessReviewHistoryDefinitionProperties,
-} from "../../models/microsoft/attributeNamespaces/models.js";
+} from "../../models/microsoft/accessReview/models.js";
 
 /** Interface representing a AccessReviewHistoryDefinition operations. */
 export interface AccessReviewHistoryDefinitionOperations {

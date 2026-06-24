@@ -8,7 +8,7 @@ import {
   accessReviewScheduleSettingsSerializer,
   AccessReviewDefaultSettings,
   accessReviewDefaultSettingsDeserializer,
-} from "../../models/microsoft/attributeNamespaces/models.js";
+} from "../../models/microsoft/accessReview/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   ScopeAccessReviewDefaultSettingsPutOptionalParams,
@@ -51,7 +51,9 @@ export async function _putDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDefinitionDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDefinitionDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -97,7 +99,9 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDefinitionDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDefinitionDeserializer(result.body);
+    }
 
     throw error;
   }

@@ -1,0 +1,31 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+const { AuthorizationManagementClient } = require("@azure/arm-authorization");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+/**
+ * This sample demonstrates how to get access review history definition instances by definition Id
+ *
+ * @summary get access review history definition instances by definition Id
+ * x-ms-original-file: 2021-12-01-preview/GetAccessReviewHistoryDefinitionInstances.json
+ */
+async function getAccessReviewHistoryDefinitionInstances() {
+  const credential = new DefaultAzureCredential();
+  const client = new AuthorizationManagementClient(credential);
+  const resArray = new Array();
+  for await (const item of client.scopeAccessReviewHistoryDefinitionInstances.list(
+    "subscriptions/129a304b-4aea-4b86-a9f7-ba7e2b23737a",
+    "44724910-d7a5-4c29-b28f-db73e717165a",
+  )) {
+    resArray.push(item);
+  }
+
+  console.log(resArray);
+}
+
+async function main() {
+  await getAccessReviewHistoryDefinitionInstances();
+}
+
+main().catch(console.error);

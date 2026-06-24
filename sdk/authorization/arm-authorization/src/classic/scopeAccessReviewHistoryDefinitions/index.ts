@@ -7,7 +7,7 @@ import {
   ScopeAccessReviewHistoryDefinitionsListOptionalParams,
   ScopeAccessReviewHistoryDefinitionsGetByIdOptionalParams,
 } from "../../api/scopeAccessReviewHistoryDefinitions/options.js";
-import { AccessReviewHistoryDefinition } from "../../models/microsoft/attributeNamespaces/models.js";
+import { AccessReviewHistoryDefinition } from "../../models/microsoft/accessReview/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ScopeAccessReviewHistoryDefinitions operations. */

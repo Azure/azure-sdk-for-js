@@ -4,7 +4,7 @@
 import { AuthorizationManagementContext } from "../../api/authorizationManagementContext.js";
 import { list } from "../../api/scopeAccessReviewHistoryDefinitionInstances/operations.js";
 import { ScopeAccessReviewHistoryDefinitionInstancesListOptionalParams } from "../../api/scopeAccessReviewHistoryDefinitionInstances/options.js";
-import { AccessReviewHistoryInstance } from "../../models/microsoft/attributeNamespaces/models.js";
+import { AccessReviewHistoryInstance } from "../../models/microsoft/accessReview/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ScopeAccessReviewHistoryDefinitionInstances operations. */

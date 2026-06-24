@@ -16,7 +16,7 @@ import {
   ScopeAccessReviewInstanceRecordAllDecisionsOptionalParams,
   ScopeAccessReviewInstanceStopOptionalParams,
 } from "../../api/scopeAccessReviewInstance/options.js";
-import { RecordAllDecisionsProperties } from "../../models/microsoft/attributeNamespaces/models.js";
+import { RecordAllDecisionsProperties } from "../../models/microsoft/accessReview/models.js";
 
 /** Interface representing a ScopeAccessReviewInstance operations. */
 export interface ScopeAccessReviewInstanceOperations {
