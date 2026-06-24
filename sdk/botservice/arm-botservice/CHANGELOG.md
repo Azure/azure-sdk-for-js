@@ -1,6 +1,6 @@
 # Release History
 
-## 5.0.0-beta.1 (2026-06-12)
+## 5.0.0-beta.2 (2026-06-24)
 Compared with version 4.0.0
 
 ### Features Added
@@ -63,6 +63,8 @@ Compared with version 4.0.0
   - Operation Channels.listWithKeys has a new signature
   - Operation Channels.update has a new signature
   - Operation DirectLine.regenerateKeys has a new signature
+  - Class AzureBotService no longer has parameter apiVersion
+  - Class AzureBotService no longer has parameter subscriptionId
   - Removed Interface BotResponseList
   - Removed Interface ChannelResponseList
   - Removed Interface ConnectionItemName
@@ -76,13 +78,3 @@ Compared with version 4.0.0
   - Interface Resource no longer has parameter zones
   - Type alias "ChannelUnion" has been changed
 
-    
-## 4.0.0 (2023-01-16)
-
-The package of @azure/arm-botservice is using our next generation design principles since version 4.0.0, which contains breaking changes.
-
-To understand the detail of the change, please refer to [Changelog](https://aka.ms/js-track2-changelog).
-
-To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
-
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).
