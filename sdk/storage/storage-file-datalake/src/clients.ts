@@ -7,7 +7,7 @@ import type { RequestBodyType as HttpRequestBody } from "@azure/core-rest-pipeli
 import { isNodeLike } from "@azure/core-util";
 import type { Pipeline } from "./Pipeline.js";
 import { isPipelineLike, newPipeline } from "./Pipeline.js";
-import { BlobClient, BlockBlobClient } from "@azure/storage-blob";
+import { BlobClient, BlockBlobClient, Tags } from "@azure/storage-blob";
 import { AnonymousCredential } from "@azure/storage-common";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential.js";
 import type { Readable } from "node:stream";
@@ -18,7 +18,8 @@ import { PathOperationsImpl as Path } from "./generated/src/operations/index.js"
 import type {
   AccessControlChanges,
   DataLakeClientConfig,
-  DataLakeClientOptions,
+  DataLakeFileClientOptions,
+  DataLakePathClientOptions,
   DirectoryCreateIfNotExistsOptions,
   DirectoryCreateIfNotExistsResponse,
   DirectoryCreateOptions,
@@ -58,6 +59,10 @@ import type {
   PathGetAccessControlResponse,
   PathGetPropertiesOptions,
   PathGetPropertiesResponse,
+  PathGetSystemPropertiesOptions,
+  PathGetSystemPropertiesResponse,
+  PathGetTagsOptions,
+  PathGetTagsResponse,
   PathHttpHeaders,
   PathMoveOptions,
   PathMoveResponse,
@@ -71,6 +76,8 @@ import type {
   PathSetMetadataResponse,
   PathSetPermissionsOptions,
   PathSetPermissionsResponse,
+  PathSetTagsOptions,
+  PathSetTagsResponse,
   RemovePathAccessControlItem,
 } from "./models.js";
 import type { PathSetAccessControlRecursiveMode } from "./models.internal.js";
@@ -121,6 +128,7 @@ import type {
   PathGetPropertiesHeaders,
   PathSetAccessControlHeaders,
   PathSetExpiryHeaders,
+  PathGetPropertiesResponse as PathGetSystemPropertiesResponseInternal,
 } from "./generated/src/index.js";
 
 /**
@@ -238,7 +246,7 @@ export class DataLakePathClient extends StorageClient {
     credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-    options?: DataLakeClientOptions,
+    options?: DataLakePathClientOptions,
   );
 
   /**
@@ -261,7 +269,7 @@ export class DataLakePathClient extends StorageClient {
       | Pipeline,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-    options?: DataLakeClientOptions,
+    options?: DataLakePathClientOptions,
   ) {
     if (isPipelineLike(credentialOrPipeline)) {
       super(url, credentialOrPipeline, options);
@@ -678,6 +686,44 @@ export class DataLakePathClient extends StorageClient {
   }
 
   /**
+   * Returns all standard HTTP properties, and system properties
+   * for the path (directory or file).
+   *
+   * @see https://learn.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/get-properties?view=rest-storageservices-datalakestoragegen2-2019-12-12
+   *
+   * @param options - Optional. Options when getting path properties.
+   */
+  public async getSystemProperties(
+    options: PathGetSystemPropertiesOptions = {},
+  ): Promise<PathGetSystemPropertiesResponse> {
+    return tracingClient.withSpan(
+      "DataLakePathClient-getSystemProperties",
+      options,
+      async (updatedOptions) => {
+        const response = assertResponse<
+          PathGetSystemPropertiesResponseInternal,
+          PathGetSystemPropertiesResponseInternal
+        >(
+          await this.pathContext.getProperties({
+            ...updatedOptions,
+            action: "getStatus",
+            upn: options.userPrincipalName,
+            leaseAccessConditions: options.conditions,
+            modifiedAccessConditions: options.conditions,
+            abortSignal: options.abortSignal,
+          }),
+        );
+        return {
+          ...response,
+          _response: response._response,
+          isDirectory: response.resourceType === "directory",
+          permissions: toPermissions(response.permissions),
+        };
+      },
+    );
+  }
+
+  /**
    * Returns all user-defined metadata, standard HTTP properties, and system properties
    * for the path (directory or file).
    *
@@ -767,6 +813,37 @@ export class DataLakePathClient extends StorageClient {
         });
       },
     );
+  }
+
+  /**
+   * Gets the tags associated with the underlying path.
+   *
+   * @param options -
+   */
+  public async getTags(options: PathGetTagsOptions = {}): Promise<PathGetTagsResponse> {
+    return tracingClient.withSpan("DataLakePathClient-getTags", options, async (updatedOptions) => {
+      return this.blobClient.getTags({
+        ...options,
+        tracingOptions: updatedOptions.tracingOptions,
+      });
+    });
+  }
+  /**
+   * Sets tags on the underlying path.
+   * A path can have up to 10 tags. Tag keys must be between 1 and 128 characters.  Tag values must be between 0 and 256 characters.
+   * Valid tag key and value characters include lower and upper case letters, digits (0-9),
+   * space (' '), plus ('+'), minus ('-'), period ('.'), forward slash ('/'), colon (':'), equals ('='), and underscore ('_').
+   *
+   * @param tags -
+   * @param options -
+   */
+  public async setTags(tags: Tags, options: PathSetTagsOptions = {}): Promise<PathSetTagsResponse> {
+    return tracingClient.withSpan("DataLakePathClient-setTags", options, async (updatedOptions) => {
+      return this.blobClient.setTags(tags, {
+        ...options,
+        tracingOptions: updatedOptions.tracingOptions,
+      });
+    });
   }
 
   /**
@@ -1135,7 +1212,7 @@ export class DataLakeFileClient extends DataLakePathClient {
     credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-    options?: DataLakeClientOptions,
+    options?: DataLakeFileClientOptions,
   );
 
   /**
@@ -1158,7 +1235,7 @@ export class DataLakeFileClient extends DataLakePathClient {
       | Pipeline,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-    options?: DataLakeClientOptions,
+    options?: DataLakeFileClientOptions,
   ) {
     if (isPipelineLike(credentialOrPipeline)) {
       super(url, credentialOrPipeline, options);
@@ -1290,6 +1367,7 @@ export class DataLakeFileClient extends DataLakePathClient {
    * ```ts snippet:ReadmeSampleDownloadFile_Node
    * import { DataLakeServiceClient } from "@azure/storage-file-datalake";
    * import { DefaultAzureCredential } from "@azure/identity";
+   * import { buffer } from "node:stream/consumers";
    *
    * const account = "<account>";
    * const datalakeServiceClient = new DataLakeServiceClient(
@@ -1306,22 +1384,10 @@ export class DataLakeFileClient extends DataLakePathClient {
    * // In Node.js, get downloaded data by accessing downloadResponse.readableStreamBody
    * const downloadResponse = await fileClient.read();
    * if (downloadResponse.readableStreamBody) {
-   *   const downloaded = await streamToBuffer(downloadResponse.readableStreamBody);
+   *   // Download the raw bytes of the file. Use `text` from "node:stream/consumers"
+   *   // instead if you want to read the content as a string directly.
+   *   const downloaded = await buffer(downloadResponse.readableStreamBody);
    *   console.log("Downloaded file content:", downloaded.toString());
-   * }
-   *
-   * // [Node.js only] A helper method used to read a Node.js readable stream into a Buffer.
-   * async function streamToBuffer(readableStream: NodeJS.ReadableStream): Promise<Buffer> {
-   *   return new Promise((resolve, reject) => {
-   *     const chunks: Buffer[] = [];
-   *     readableStream.on("data", (data) => {
-   *       chunks.push(data instanceof Buffer ? data : Buffer.from(data));
-   *     });
-   *     readableStream.on("end", () => {
-   *       resolve(Buffer.concat(chunks));
-   *     });
-   *     readableStream.on("error", reject);
-   *   });
    * }
    * ```
    *
@@ -1902,6 +1968,7 @@ export class DataLakeFileClient extends DataLakePathClient {
    *
    * ```ts snippet:ReadmeSampleQueryFile_Node
    * import { DataLakeServiceClient } from "@azure/storage-file-datalake";
+   * import { buffer } from "node:stream/consumers";
    *
    * const account = "<account>";
    * const sas = "<sas token>";
@@ -1917,22 +1984,10 @@ export class DataLakeFileClient extends DataLakePathClient {
    * // Query and convert a file to a string
    * const queryResponse = await fileClient.query("select * from BlobStorage");
    * if (queryResponse.readableStreamBody) {
-   *   const responseBuffer = await streamToBuffer(queryResponse.readableStreamBody);
-   *   const downloaded = responseBuffer.toString();
-   *   console.log(`Query file content: ${downloaded}`);
-   * }
-   *
-   * async function streamToBuffer(readableStream: NodeJS.ReadableStream): Promise<Buffer> {
-   *   return new Promise((resolve, reject) => {
-   *     const chunks: Buffer[] = [];
-   *     readableStream.on("data", (data) => {
-   *       chunks.push(data instanceof Buffer ? data : Buffer.from(data));
-   *     });
-   *     readableStream.on("end", () => {
-   *       resolve(Buffer.concat(chunks));
-   *     });
-   *     readableStream.on("error", reject);
-   *   });
+   *   // Read the response bytes. Use `text` from "node:stream/consumers" instead
+   *   // if you want the response as a string directly.
+   *   const responseBuffer = await buffer(queryResponse.readableStreamBody);
+   *   console.log(`Query file content: ${responseBuffer.toString()}`);
    * }
    * ```
    *

@@ -21,6 +21,10 @@ tools:
 safe-outputs:
   create-issue:
     labels: [test-reliability]
+  update-issue:
+    max: 1
+    body:
+    target: "37864"
 network:
   allowed:
     - defaults
@@ -41,7 +45,8 @@ failure.
 - `snippets.spec.ts` files under `sdk/**/*/test/` are documentation snippet sources,
   **not** real tests — ignore failures in those files.
 - Do **not** follow `details_url` links on check runs — they point to Azure DevOps
-  which is not accessible from this environment.
+  which is not accessible from this environment. (You may still **include** these
+  links in the issue so a human can open them; you just must not fetch them yourself.)
 - Do **not** create pull requests or modify source files. The only mutable output
   of this workflow is a GitHub issue; when no new failures exist the workflow
   exits silently with no issue created.
@@ -53,21 +58,50 @@ already tracked. Before filing a new issue, check the **known failures tracking
 issue** (https://github.com/Azure/azure-sdk-for-js/issues/37864) for pre-existing
 failures.
 
-1. Fetch the body of issue #37864 using the GitHub API.
-2. For each failing check run identified later in "Step 1 — Identify Failing
+The tracking list lives inside an **island** in the body of #37864, delimited by
+the markers:
+
+```
+<!-- gh-aw-island-start:fix-test-failures -->
+... tracked entries ...
+<!-- gh-aw-island-end:fix-test-failures -->
+```
+
+These markers are managed by the `update-issue` safe output (`operation:
+replace-island`). Content **outside** the island is human-authored and must be
+preserved exactly. If the markers are not present yet (first run), treat the
+tracked list as empty — the framework will create the island on the first update.
+
+Each entry on the tracked list is a single line in this format:
+
+```
+- #<issue-number> — `<service or package>` — `<error pattern>` — <YYYY-MM-DD>
+```
+
+1. Fetch the body of issue #37864 using the GitHub API. Locate the island content
+   between the markers shown above and parse the entries (one per line starting
+   with `- #`).
+2. For each parsed entry, fetch the linked issue with the GitHub API and inspect
+   its `state`:
+   - If `state == "open"` → keep the entry; it represents an active known
+     failure.
+   - If `state == "closed"` → **drop** the entry from the list (do not consider
+     it a known failure anymore). If the same failure recurs in this run it will
+     be filed as a brand-new issue in Step 5 and re-added to the list in Step 6.
+3. For each failing check run identified later in "Step 1 — Identify Failing
    Packages", check whether the **service directory** (from the check-run name,
    e.g. `attestation` in `js - attestation (Build UnitTest ...)`) or the **npm
-   package name** (from annotations/file paths) and the **error pattern** match an
-   entry in the known failures list.
-3. If a failure matches a known pre-existing issue:
+   package name** (from annotations/file paths) **and** the **error pattern**
+   match an entry that was *kept* in step 2.
+4. If a failure matches a kept entry:
    - **Exclude** it from the new GitHub issue entirely.
    - Do **not** attempt to reproduce or root-cause it — it is already tracked.
-4. If **all** detected failures are known pre-existing issues, **stop immediately** —
-   do **not** create a GitHub issue. Simply report that all failures are known and
-   already tracked.
-5. If some failures are new and some are known, create the issue for **new failures
-   only**. Add a brief note in the "Additional Notes" section listing which known
-   failures were excluded and linking to their tracking issues.
+5. If **all** detected failures match kept entries, **do not** create a new CI
+   failure issue. Still proceed to Step 6 so that any entries dropped in step 2
+   are removed from the tracked list.
+6. If some failures are new and some are known, create the issue for **new
+   failures only**. Add a brief note in the "Additional Notes" section listing
+   which known failures were excluded and linking to their tracking issues.
 
 ## Step 1 — Identify Failing Packages
 
@@ -94,6 +128,15 @@ failures.
 4. If a specific `package` input was provided, scope investigation to that package only.
 5. Collect the list of affected **service directories** or **package names** from the
    check-run names (the pattern is `js - <service> (...)`).
+6. For each failing check run, **record the links needed to reach the failing build
+   logs** so they can be embedded in the issue later:
+   - `html_url` — the GitHub check-run page for the failure.
+   - `details_url` (or `target_url`, depending on the API field available) — the Azure DevOps build that produced the
+     failure. This is the most useful link for inspecting the full failure logs.
+     It typically follows the pattern
+     `https://dev.azure.com/azure-sdk/public/_build/results?buildId=<ID>&view=results`.
+   Keep these URLs associated with their service/package so each failure section in
+   the issue can link directly to its build logs.
 
 If there are no test failures on `main`, **stop immediately** — do **not** create a
 GitHub issue. Simply report that CI is green and exit.
@@ -165,6 +208,8 @@ date/commit of the CI run inspected.>
 
 ### <Package Name 1>
 
+**Failing CI build:** [<check-run name>](<details_url / Azure DevOps build link>) ([check run](<html_url>))
+
 **Failing tests:**
 - `<test name 1>` in `<test-file-path>`
 - `<test name 2>` in `<test-file-path>`
@@ -202,3 +247,44 @@ multiple failures, or packages where CI failed but tests pass locally.>
 ```
 
 Labels are applied automatically via the `safe-outputs.create-issue` configuration.
+
+## Step 6 — Reconcile the Tracking List
+
+Update the tracking island inside issue #37864 with a single `update_issue`
+call so the list stays bounded and reflects only currently-open known failures.
+
+1. Build the new tracking list:
+   - Start from the entries **kept** in step 2 of "Known Pre-existing Failures"
+     (entries whose tracked issue is still `open`). Closed entries dropped in
+     step 2 are **not** carried forward.
+   - For each issue this run created in Step 5, append one new entry using the
+     line format from "Known Pre-existing Failures":
+
+     ```
+     - #<new-issue-number> — `<service or package>` — `<short error pattern>` — <YYYY-MM-DD>
+     ```
+
+     If a created issue covers multiple services or error patterns, emit one
+     entry per (service, error pattern) pair so future matching is precise. Keep
+     the error pattern under ~80 characters — use a representative substring
+     such as `TypeError: cannot read ...` or `AssertionError: expected ...`.
+2. Call `update_issue` with:
+   - `issue_number`: `37864`
+   - `operation`: `replace-island`
+   - `body`: the full new tracking list (just the entry lines, separated by
+     newlines — **no** marker lines; the framework injects those automatically
+     for this workflow id `fix-test-failures`).
+
+   If the new list is empty (all previously-tracked issues closed and no new
+   issues created this run), pass an empty `body` so the island is cleared.
+
+   Skip the call entirely **only** if step 2 dropped zero closed entries **and**
+   Step 5 created zero new issues — i.e. the list has not changed at all.
+
+3. Always call `update_issue` at most **once per run** on #37864 (the
+   `update-issue` safe output is capped at `max: 1`). Do **not** add comments
+   to #37864 — the tracking record lives entirely in the body island.
+
+Because the island is replaced in-place each run, the body of #37864 stays
+small and bounded by the number of currently-open known failures, regardless of
+how many runs have happened historically.

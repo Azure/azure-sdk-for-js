@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to returns the list of group Ids for a specific LDAP User
  *
  * @summary returns the list of group Ids for a specific LDAP User
- * x-ms-original-file: 2026-01-01/GroupIdListForLDAPUser.json
+ * x-ms-original-file: 2026-04-01/GroupIdListForLDAPUser.json
  */
 async function getGroupIdListForUser() {
   const credential = new DefaultAzureCredential();

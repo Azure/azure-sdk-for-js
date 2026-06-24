@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists all of the capacity reservation groups in the subscription. Use the nextLink property in the response to get the next page of capacity reservation groups.
  *
  * @summary lists all of the capacity reservation groups in the subscription. Use the nextLink property in the response to get the next page of capacity reservation groups.
- * x-ms-original-file: 2025-11-01/capacityReservationExamples/CapacityReservationGroup_ListBySubscription.json
+ * x-ms-original-file: 2026-03-01/capacityReservationExamples/CapacityReservationGroup_ListBySubscription.json
  */
 async function listCapacityReservationGroupsInSubscription() {
   const credential = new DefaultAzureCredential();
@@ -28,7 +28,7 @@ async function listCapacityReservationGroupsInSubscription() {
  * This sample demonstrates how to lists all of the capacity reservation groups in the subscription. Use the nextLink property in the response to get the next page of capacity reservation groups.
  *
  * @summary lists all of the capacity reservation groups in the subscription. Use the nextLink property in the response to get the next page of capacity reservation groups.
- * x-ms-original-file: 2025-11-01/capacityReservationExamples/CapacityReservationGroup_ListBySubscriptionWithResourceIdsQuery.json
+ * x-ms-original-file: 2026-03-01/capacityReservationExamples/CapacityReservationGroup_ListBySubscriptionWithResourceIdsQuery.json
  */
 async function listCapacityReservationGroupsWithResourceIdsOnlyInSubscription() {
   const credential = new DefaultAzureCredential();

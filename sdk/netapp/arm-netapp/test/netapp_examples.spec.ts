@@ -106,6 +106,10 @@ describe("netapp test", () => {
   });
 
   it("accounts delete test", async () => {
+    // Allow RP listing index to catch up after prior create before issuing delete + list.
+    if (!isPlaybackMode()) {
+      await new Promise((resolve) => setTimeout(resolve, 30_000));
+    }
     const resArray = new Array();
     await client.accounts.delete(resourceGroup, accountName, testPollingOptions);
     for await (const item of client.accounts.list(resourceGroup)) {

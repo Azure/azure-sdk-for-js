@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a particular backup Policy
  *
  * @summary get a particular backup Policy
- * x-ms-original-file: 2026-01-01/BackupPolicies_Get.json
+ * x-ms-original-file: 2026-04-01/BackupPolicies_Get.json
  */
 async function backupPoliciesGet() {
   const credential = new DefaultAzureCredential();

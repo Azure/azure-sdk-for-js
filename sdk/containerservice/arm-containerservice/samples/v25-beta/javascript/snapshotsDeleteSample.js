@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes a snapshot.
  *
  * @summary deletes a snapshot.
- * x-ms-original-file: 2026-03-02-preview/SnapshotsDelete.json
+ * x-ms-original-file: 2026-04-02-preview/SnapshotsDelete.json
  */
 async function deleteSnapshot() {
   const credential = new DefaultAzureCredential();

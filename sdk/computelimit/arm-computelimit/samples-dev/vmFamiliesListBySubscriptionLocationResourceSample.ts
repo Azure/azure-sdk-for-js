@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all VM families for the subscription at the specified location.
  *
  * @summary lists all VM families for the subscription at the specified location.
- * x-ms-original-file: 2026-04-30/VmFamilies_List.json
+ * x-ms-original-file: 2026-07-01/VmFamilies_List.json
  */
 async function listVMFamilies(): Promise<void> {
   const credential = new DefaultAzureCredential();

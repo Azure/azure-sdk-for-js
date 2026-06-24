@@ -3,42 +3,142 @@
 
 import type { AIProjectContext } from "../../../api/aiProjectContext.js";
 import {
+  promoteCandidate,
+  getCandidateFile,
+  getOptimizationCandidateResults,
+  getOptimizationCandidateConfig,
+  getOptimizationCandidate,
+  listOptimizationCandidates,
+  deleteOptimizationJob,
+  cancelOptimizationJob,
+  listOptimizationJobs,
+  getOptimizationJob,
+  createOptimizationJob,
   deleteSessionFile,
-  getSessionFiles,
+  listSessionFiles,
   downloadSessionFile,
   uploadSessionFile,
   getSessionLogStream,
   listSessions,
+  stopSession,
   deleteSession,
   getSession,
   createSession,
-  patchAgentObject,
+  downloadAgentCode,
+  createVersionFromCode,
+  updateAgentObject,
 } from "../../../api/beta/agents/operations.js";
 import type {
+  BetaAgentsPromoteCandidateOptionalParams,
+  BetaAgentsGetCandidateFileOptionalParams,
+  BetaAgentsGetOptimizationCandidateResultsOptionalParams,
+  BetaAgentsGetOptimizationCandidateConfigOptionalParams,
+  BetaAgentsGetOptimizationCandidateOptionalParams,
+  BetaAgentsListOptimizationCandidatesOptionalParams,
+  BetaAgentsDeleteOptimizationJobOptionalParams,
+  BetaAgentsCancelOptimizationJobOptionalParams,
+  BetaAgentsListOptimizationJobsOptionalParams,
+  BetaAgentsGetOptimizationJobOptionalParams,
+  BetaAgentsCreateOptimizationJobOptionalParams,
   BetaAgentsDeleteSessionFileOptionalParams,
-  BetaAgentsGetSessionFilesOptionalParams,
+  BetaAgentsListSessionFilesOptionalParams,
   BetaAgentsDownloadSessionFileOptionalParams,
   BetaAgentsUploadSessionFileOptionalParams,
   BetaAgentsGetSessionLogStreamOptionalParams,
   BetaAgentsListSessionsOptionalParams,
+  BetaAgentsStopSessionOptionalParams,
   BetaAgentsDeleteSessionOptionalParams,
   BetaAgentsGetSessionOptionalParams,
   BetaAgentsCreateSessionOptionalParams,
+  BetaAgentsDownloadAgentCodeOptionalParams,
+  BetaAgentsCreateAgentVersionFromCodeOptionalParams,
   BetaAgentsPatchAgentObjectOptionalParams,
 } from "../../../api/beta/agents/options.js";
 import type {
   Agent,
+  AgentVersion,
+  CreateAgentVersionFromCodeContent,
   VersionIndicatorUnion,
   AgentSessionResource,
-  BetaAgentsGetSessionLogStreamResponse,
   SessionFileWriteResponse,
-  SessionDirectoryListResponse,
+  SessionDirectoryEntry,
+  OptimizationJobInputs,
+  OptimizationJob,
+  AgentsPagedResultOptimizationCandidate,
+  CandidateMetadata,
+  CandidateDeployConfig,
+  CandidateResults,
+  PromoteCandidateRequest,
+  PromoteCandidateResponse,
+  BetaAgentsGetCandidateFileResponse,
   BetaAgentsDownloadSessionFileResponse,
+  BetaAgentsDownloadAgentCodeResponse,
 } from "../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 /** Interface representing a BetaAgents operations. */
 export interface BetaAgentsOperations {
+  /** Promotes a candidate, recording the deployment timestamp and target agent version. */
+  promoteCandidate: (
+    jobId: string,
+    candidateId: string,
+    candidateRequest: PromoteCandidateRequest,
+    options?: BetaAgentsPromoteCandidateOptionalParams,
+  ) => Promise<PromoteCandidateResponse>;
+  /** Stream a specific file from the candidate's blob directory. */
+  getCandidateFile: (
+    jobId: string,
+    candidateId: string,
+    path: string,
+    options?: BetaAgentsGetCandidateFileOptionalParams,
+  ) => Promise<BetaAgentsGetCandidateFileResponse>;
+  /** Get full per-task evaluation results for a candidate. */
+  getOptimizationCandidateResults: (
+    jobId: string,
+    candidateId: string,
+    options?: BetaAgentsGetOptimizationCandidateResultsOptionalParams,
+  ) => Promise<CandidateResults>;
+  /** Get the candidate's deploy config JSON. Used to compose `agents.create_version(...)` from a candidate. */
+  getOptimizationCandidateConfig: (
+    jobId: string,
+    candidateId: string,
+    options?: BetaAgentsGetOptimizationCandidateConfigOptionalParams,
+  ) => Promise<CandidateDeployConfig>;
+  /** Get a single candidate's metadata, manifest, and promotion info. */
+  getOptimizationCandidate: (
+    jobId: string,
+    candidateId: string,
+    options?: BetaAgentsGetOptimizationCandidateOptionalParams,
+  ) => Promise<CandidateMetadata>;
+  /** List candidates produced by a job. */
+  listOptimizationCandidates: (
+    jobId: string,
+    options?: BetaAgentsListOptimizationCandidatesOptionalParams,
+  ) => Promise<AgentsPagedResultOptimizationCandidate>;
+  /** Delete the job and its candidate artifacts. Cancels first if non-terminal. */
+  deleteOptimizationJob: (
+    jobId: string,
+    options?: BetaAgentsDeleteOptimizationJobOptionalParams,
+  ) => Promise<void>;
+  /** Request cancellation. Idempotent on terminal states. */
+  cancelOptimizationJob: (
+    jobId: string,
+    options?: BetaAgentsCancelOptimizationJobOptionalParams,
+  ) => Promise<OptimizationJob>;
+  /** List optimization jobs. Supports cursor pagination and optional status / agent_name filters. */
+  listOptimizationJobs: (
+    options?: BetaAgentsListOptimizationJobsOptionalParams,
+  ) => PagedAsyncIterableIterator<OptimizationJob>;
+  /** Get an optimization job by id. Returns 202 while in progress, 200 when terminal. */
+  getOptimizationJob: (
+    jobId: string,
+    options?: BetaAgentsGetOptimizationJobOptionalParams,
+  ) => Promise<OptimizationJob>;
+  /** Create an optimization job. Returns 201 with the queued job. Honours `Operation-Id` for idempotent retry. */
+  createOptimizationJob: (
+    inputs: OptimizationJobInputs,
+    options?: BetaAgentsCreateOptimizationJobOptionalParams,
+  ) => Promise<OptimizationJob>;
   /**
    * Delete a file or directory from the session sandbox.
    * If `recursive` is false (default) and the target is a non-empty directory, the API returns 409 Conflict.
@@ -52,13 +152,13 @@ export interface BetaAgentsOperations {
   /**
    * List files and directories at a given path in the session sandbox.
    * Returns only the immediate children of the specified directory (non-recursive).
+   * If path is not provided, lists the session home directory.
    */
-  getSessionFiles: (
+  listSessionFiles: (
     agentName: string,
     agentSessionId: string,
-    path: string,
-    options?: BetaAgentsGetSessionFilesOptionalParams,
-  ) => Promise<SessionDirectoryListResponse>;
+    options?: BetaAgentsListSessionFilesOptionalParams,
+  ) => PagedAsyncIterableIterator<SessionDirectoryEntry>;
   /** Download a file from the session sandbox as a binary stream. */
   downloadSessionFile: (
     agentName: string,
@@ -110,12 +210,21 @@ export interface BetaAgentsOperations {
     agentVersion: string,
     sessionId: string,
     options?: BetaAgentsGetSessionLogStreamOptionalParams,
-  ) => Promise<BetaAgentsGetSessionLogStreamResponse>;
+  ) => Promise<BetaAgentsDownloadSessionFileResponse>;
   /** Returns a list of sessions for the specified agent. */
   listSessions: (
     agentName: string,
     options?: BetaAgentsListSessionsOptionalParams,
   ) => PagedAsyncIterableIterator<AgentSessionResource>;
+  /**
+   * Stops a session.
+   * Returns 204 No Content when the stop succeeds.
+   */
+  stopSession: (
+    agentName: string,
+    sessionId: string,
+    options?: BetaAgentsStopSessionOptionalParams,
+  ) => Promise<void>;
   /**
    * Deletes a session synchronously.
    * Returns 204 No Content when the session is deleted or does not exist.
@@ -123,7 +232,6 @@ export interface BetaAgentsOperations {
   deleteSession: (
     agentName: string,
     sessionId: string,
-    isolationKey: string,
     options?: BetaAgentsDeleteSessionOptionalParams,
   ) => Promise<void>;
   /** Retrieves a session by ID. */
@@ -139,12 +247,35 @@ export interface BetaAgentsOperations {
    */
   createSession: (
     agentName: string,
-    isolationKey: string,
     versionIndicator: VersionIndicatorUnion,
     options?: BetaAgentsCreateSessionOptionalParams,
   ) => Promise<AgentSessionResource>;
+  /**
+   * Download the code zip for a code-based hosted agent.
+   * Returns the previously-uploaded zip (`application/zip`).
+   *
+   * If `agent_version` is supplied, returns that version's code zip; otherwise
+   * returns the latest version's code zip.
+   *
+   * The SHA-256 digest of the returned bytes matches the `content_hash` on the
+   * resolved version's `code_configuration`.
+   */
+  downloadAgentCode: (
+    agentName: string,
+    options?: BetaAgentsDownloadAgentCodeOptionalParams,
+  ) => Promise<BetaAgentsDownloadAgentCodeResponse>;
+  /**
+   * Creates a new agent version from code content and makes it available for hosting.
+   * Returns the created version, which may be in `provisioning` state — clients should poll `getVersion` until the status is `active` before creating sessions or downloading code.
+   */
+  createVersionFromCode: (
+    agentName: string,
+    codeZipSha256: string,
+    content: CreateAgentVersionFromCodeContent,
+    options?: BetaAgentsCreateAgentVersionFromCodeOptionalParams,
+  ) => Promise<AgentVersion>;
   /** Updates an agent endpoint. */
-  patchAgent: (
+  updateAgent: (
     agentName: string,
     options?: BetaAgentsPatchAgentObjectOptionalParams,
   ) => Promise<Agent>;
@@ -152,18 +283,64 @@ export interface BetaAgentsOperations {
 
 function _getBetaAgents(context: AIProjectContext) {
   return {
+    promoteCandidate: (
+      jobId: string,
+      candidateId: string,
+      candidateRequest: PromoteCandidateRequest,
+      options?: BetaAgentsPromoteCandidateOptionalParams,
+    ) => promoteCandidate(context, jobId, candidateId, candidateRequest, options),
+    getCandidateFile: (
+      jobId: string,
+      candidateId: string,
+      path: string,
+      options?: BetaAgentsGetCandidateFileOptionalParams,
+    ) => getCandidateFile(context, jobId, candidateId, path, options),
+    getOptimizationCandidateResults: (
+      jobId: string,
+      candidateId: string,
+      options?: BetaAgentsGetOptimizationCandidateResultsOptionalParams,
+    ) => getOptimizationCandidateResults(context, jobId, candidateId, options),
+    getOptimizationCandidateConfig: (
+      jobId: string,
+      candidateId: string,
+      options?: BetaAgentsGetOptimizationCandidateConfigOptionalParams,
+    ) => getOptimizationCandidateConfig(context, jobId, candidateId, options),
+    getOptimizationCandidate: (
+      jobId: string,
+      candidateId: string,
+      options?: BetaAgentsGetOptimizationCandidateOptionalParams,
+    ) => getOptimizationCandidate(context, jobId, candidateId, options),
+    listOptimizationCandidates: (
+      jobId: string,
+      options?: BetaAgentsListOptimizationCandidatesOptionalParams,
+    ) => listOptimizationCandidates(context, jobId, options),
+    deleteOptimizationJob: (
+      jobId: string,
+      options?: BetaAgentsDeleteOptimizationJobOptionalParams,
+    ) => deleteOptimizationJob(context, jobId, options),
+    cancelOptimizationJob: (
+      jobId: string,
+      options?: BetaAgentsCancelOptimizationJobOptionalParams,
+    ) => cancelOptimizationJob(context, jobId, options),
+    listOptimizationJobs: (options?: BetaAgentsListOptimizationJobsOptionalParams) =>
+      listOptimizationJobs(context, options),
+    getOptimizationJob: (jobId: string, options?: BetaAgentsGetOptimizationJobOptionalParams) =>
+      getOptimizationJob(context, jobId, options),
+    createOptimizationJob: (
+      inputs: OptimizationJobInputs,
+      options?: BetaAgentsCreateOptimizationJobOptionalParams,
+    ) => createOptimizationJob(context, inputs, options),
     deleteSessionFile: (
       agentName: string,
       agentSessionId: string,
       path: string,
       options?: BetaAgentsDeleteSessionFileOptionalParams,
     ) => deleteSessionFile(context, agentName, agentSessionId, path, options),
-    getSessionFiles: (
+    listSessionFiles: (
       agentName: string,
       agentSessionId: string,
-      path: string,
-      options?: BetaAgentsGetSessionFilesOptionalParams,
-    ) => getSessionFiles(context, agentName, agentSessionId, path, options),
+      options?: BetaAgentsListSessionFilesOptionalParams,
+    ) => listSessionFiles(context, agentName, agentSessionId, options),
     downloadSessionFile: (
       agentName: string,
       agentSessionId: string,
@@ -185,12 +362,16 @@ function _getBetaAgents(context: AIProjectContext) {
     ) => getSessionLogStream(context, agentName, agentVersion, sessionId, options),
     listSessions: (agentName: string, options?: BetaAgentsListSessionsOptionalParams) =>
       listSessions(context, agentName, options),
+    stopSession: (
+      agentName: string,
+      sessionId: string,
+      options?: BetaAgentsStopSessionOptionalParams,
+    ) => stopSession(context, agentName, sessionId, options),
     deleteSession: (
       agentName: string,
       sessionId: string,
-      isolationKey: string,
       options?: BetaAgentsDeleteSessionOptionalParams,
-    ) => deleteSession(context, agentName, sessionId, isolationKey, options),
+    ) => deleteSession(context, agentName, sessionId, options),
     getSession: (
       agentName: string,
       sessionId: string,
@@ -198,12 +379,19 @@ function _getBetaAgents(context: AIProjectContext) {
     ) => getSession(context, agentName, sessionId, options),
     createSession: (
       agentName: string,
-      isolationKey: string,
       versionIndicator: VersionIndicatorUnion,
       options?: BetaAgentsCreateSessionOptionalParams,
-    ) => createSession(context, agentName, isolationKey, versionIndicator, options),
-    patchAgent: (agentName: string, options?: BetaAgentsPatchAgentObjectOptionalParams) =>
-      patchAgentObject(context, agentName, options),
+    ) => createSession(context, agentName, versionIndicator, options),
+    downloadAgentCode: (agentName: string, options?: BetaAgentsDownloadAgentCodeOptionalParams) =>
+      downloadAgentCode(context, agentName, options),
+    createVersionFromCode: (
+      agentName: string,
+      codeZipSha256: string,
+      content: CreateAgentVersionFromCodeContent,
+      options?: BetaAgentsCreateAgentVersionFromCodeOptionalParams,
+    ) => createVersionFromCode(context, agentName, codeZipSha256, content, options),
+    updateAgent: (agentName: string, options?: BetaAgentsPatchAgentObjectOptionalParams) =>
+      updateAgentObject(context, agentName, options),
   };
 }
 

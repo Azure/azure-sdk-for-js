@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to get all run commands of a Virtual Machine.
  *
  * @summary the operation to get all run commands of a Virtual Machine.
- * x-ms-original-file: 2025-11-01/runCommandExamples/VirtualMachineRunCommand_List.json
+ * x-ms-original-file: 2026-03-01/runCommandExamples/VirtualMachineRunCommand_List.json
  */
 async function listRunCommandsInAVirtualMachine(): Promise<void> {
   const credential = new DefaultAzureCredential();

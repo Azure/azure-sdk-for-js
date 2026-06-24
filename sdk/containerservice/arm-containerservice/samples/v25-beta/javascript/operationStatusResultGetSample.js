@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get the status of a specific operation in the specified managed cluster.
  *
  * @summary get the status of a specific operation in the specified managed cluster.
- * x-ms-original-file: 2026-03-02-preview/OperationStatusResultGet.json
+ * x-ms-original-file: 2026-04-02-preview/OperationStatusResultGet.json
  */
 async function getOperationStatusResult() {
   const credential = new DefaultAzureCredential();

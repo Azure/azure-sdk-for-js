@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a SignalDefinition
  *
  * @summary get a SignalDefinition
- * x-ms-original-file: 2025-05-01-preview/SignalDefinitions_Get.json
+ * x-ms-original-file: 2026-01-01-preview/SignalDefinitions_Get.json
  */
 async function signalDefinitionsGet() {
   const credential = new DefaultAzureCredential();

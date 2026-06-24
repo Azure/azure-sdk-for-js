@@ -14,6 +14,9 @@ parameters:
   - name: IncludeRelease
     type: boolean
     default: true
+  - name: SkipPrValidation
+    type: boolean
+    default: false
   - name: TargetDocRepoOwner
     type: string
     default: MicrosoftDocs
@@ -48,7 +51,26 @@ extends:
   parameters:
     oneESTemplateTag: ${{ parameters.oneESTemplateTag }}
     stages:
+      - ${{ if and(eq(parameters.SkipPrValidation, true), eq(variables['Build.Reason'], 'Manual')) }}:
+          - stage: NoOp
+            displayName: No-op
+            variables:
+              - template: /eng/pipelines/templates/variables/globals.yml@self
+              - template: /eng/pipelines/templates/variables/image.yml@self
+            jobs:
+              - job: NoOp
+                displayName: No-op
+                pool:
+                  name: $(LINUXPOOL)
+                  image: $(LINUXVMIMAGE)
+                  os: linux
+                steps:
+                  - checkout: none
+                  - pwsh: Write-Host "PR validation skipped because SkipPrValidation was set to true for a manual run."
+                    displayName: Skip PR validation
+
       - stage: Build
+        condition: not(and(eq(${{ parameters.SkipPrValidation }}, true), eq(variables['Build.Reason'], 'Manual')))
         jobs:
           - template: /eng/pipelines/templates/jobs/ci.yml@self
             parameters:
@@ -75,7 +97,7 @@ extends:
           - template: /eng/pipelines/templates/variables/globals.yml@self
           - template: /eng/pipelines/templates/variables/image.yml@self
 
-      - ${{if and(ne(variables['Build.Reason'], 'PullRequest'), eq(variables['System.TeamProject'], 'internal'), eq(parameters.IncludeRelease,true))}}:
+      - ${{if and(not(and(eq(parameters.SkipPrValidation, true), eq(variables['Build.Reason'], 'Manual'))), ne(variables['Build.Reason'], 'PullRequest'), eq(variables['System.TeamProject'], 'internal'), eq(parameters.IncludeRelease,true))}}:
           - template: archetype-js-release.yml@self
             parameters:
               DependsOn: Build

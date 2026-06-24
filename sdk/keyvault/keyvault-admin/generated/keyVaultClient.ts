@@ -1,33 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { createKeyVault, KeyVaultContext, KeyVaultClientOptionalParams } from "./api/index.js";
-import {
-  FullBackupOperation,
-  SASTokenParameter,
-  PreBackupOperationParameters,
-  RestoreOperation,
-  RestoreOperationParameters,
-  PreRestoreOperationParameters,
-  SelectiveKeyRestoreOperation,
-  SelectiveKeyRestoreOperationParameters,
-  UpdateSettingRequest,
-  Setting,
-  SettingsListResult,
-} from "./models/models.js";
-import {
-  GetSettingsOptionalParams,
-  GetSettingOptionalParams,
-  UpdateSettingOptionalParams,
-  SelectiveKeyRestoreOperationOptionalParams,
-  SelectiveKeyRestoreStatusOptionalParams,
-  PreFullRestoreOperationOptionalParams,
-  FullRestoreOperationOptionalParams,
-  RestoreStatusOptionalParams,
-  PreFullBackupOptionalParams,
-  FullBackupOptionalParams,
-  FullBackupStatusOptionalParams,
-} from "./api/options.js";
+import { KeyVaultContext, KeyVaultClientOptionalParams, createKeyVault } from "./api/index.js";
 import {
   getSettings,
   getSetting,
@@ -42,6 +16,19 @@ import {
   fullBackupStatus,
 } from "./api/operations.js";
 import {
+  GetSettingsOptionalParams,
+  GetSettingOptionalParams,
+  UpdateSettingOptionalParams,
+  SelectiveKeyRestoreOperationOptionalParams,
+  SelectiveKeyRestoreStatusOptionalParams,
+  PreFullRestoreOperationOptionalParams,
+  FullRestoreOperationOptionalParams,
+  RestoreStatusOptionalParams,
+  PreFullBackupOptionalParams,
+  FullBackupOptionalParams,
+  FullBackupStatusOptionalParams,
+} from "./api/options.js";
+import {
   RoleAssignmentsOperations,
   _getRoleAssignmentsOperations,
 } from "./classic/roleAssignments/index.js";
@@ -49,18 +36,35 @@ import {
   RoleDefinitionsOperations,
   _getRoleDefinitionsOperations,
 } from "./classic/roleDefinitions/index.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
+import {
+  FullBackupOperation,
+  SASTokenParameter,
+  PreBackupOperationParameters,
+  RestoreOperation,
+  RestoreOperationParameters,
+  PreRestoreOperationParameters,
+  SelectiveKeyRestoreOperation,
+  SelectiveKeyRestoreOperationParameters,
+  UpdateSettingRequest,
+  Setting,
+  SettingsListResult,
+} from "./models/models.js";
 import { TokenCredential } from "@azure/core-auth";
 import { PollerLike, OperationState } from "@azure/core-lro";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
-export { KeyVaultClientOptionalParams } from "./api/keyVaultContext.js";
+export type { KeyVaultClientOptionalParams } from "./api/keyVaultContext.js";
 
 export class KeyVaultClient {
   private _client: KeyVaultContext;
   /** The pipeline used by this client to make requests */
   public readonly pipeline: Pipeline;
 
-  /** The key vault client performs cryptographic key operations and vault operations against the Key Vault service. */
+  /**
+   * The Azure Key Vault Administration service client performs administrative operations
+   * including RBAC, BackupRestore, and settings management
+   * against the Azure Key Vault service.
+   */
   constructor(
     endpointParam: string,
     credential: TokenCredential,
@@ -107,9 +111,7 @@ export class KeyVaultClient {
   selectiveKeyRestoreOperation(
     keyName: string,
     restoreBlobDetails: SelectiveKeyRestoreOperationParameters,
-    options: SelectiveKeyRestoreOperationOptionalParams = {
-      requestOptions: {},
-    },
+    options: SelectiveKeyRestoreOperationOptionalParams = { requestOptions: {} },
   ): PollerLike<OperationState<SelectiveKeyRestoreOperation>, SelectiveKeyRestoreOperation> {
     return selectiveKeyRestoreOperation(this._client, keyName, restoreBlobDetails, options);
   }

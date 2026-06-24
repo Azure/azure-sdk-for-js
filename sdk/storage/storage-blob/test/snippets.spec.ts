@@ -12,6 +12,7 @@ import {
   SASProtocol,
   StorageSharedKeyCredential,
 } from "../src/index.js";
+import { buffer } from "node:stream/consumers";
 import { describe, it } from "vitest";
 
 describe("snippets", () => {
@@ -376,22 +377,10 @@ describe("snippets", () => {
     // In Node.js, get downloaded data by accessing downloadBlockBlobResponse.readableStreamBody
     const downloadBlockBlobResponse = await blobClient.download();
     if (downloadBlockBlobResponse.readableStreamBody) {
-      const downloaded = await streamToString(downloadBlockBlobResponse.readableStreamBody);
-      console.log(`Downloaded blob content: ${downloaded}`);
-    }
-    // @ts-preserve-whitespace
-    async function streamToString(stream: NodeJS.ReadableStream): Promise<string> {
-      const result = await new Promise<Buffer<ArrayBuffer>>((resolve, reject) => {
-        const chunks: Buffer[] = [];
-        stream.on("data", (data) => {
-          chunks.push(Buffer.isBuffer(data) ? data : Buffer.from(data));
-        });
-        stream.on("end", () => {
-          resolve(Buffer.concat(chunks));
-        });
-        stream.on("error", reject);
-      });
-      return result.toString();
+      // Download the raw bytes of the blob. Use `text` from "node:stream/consumers"
+      // instead if you want to read the content as a string directly.
+      const downloaded = await buffer(downloadBlockBlobResponse.readableStreamBody);
+      console.log(`Downloaded blob content: ${downloaded.toString()}`);
     }
   });
 
@@ -714,22 +703,10 @@ describe("snippets", () => {
     // Query and convert a blob to a string
     const queryBlockBlobResponse = await blockBlobClient.query("select from BlobStorage");
     if (queryBlockBlobResponse.readableStreamBody) {
-      const downloadedBuffer = await streamToBuffer(queryBlockBlobResponse.readableStreamBody);
-      const downloaded = downloadedBuffer.toString();
-      console.log(`Query blob content: ${downloaded}`);
-    }
-    // @ts-preserve-whitespace
-    async function streamToBuffer(readableStream: NodeJS.ReadableStream): Promise<Buffer> {
-      return new Promise((resolve, reject) => {
-        const chunks: Buffer[] = [];
-        readableStream.on("data", (data) => {
-          chunks.push(data instanceof Buffer ? data : Buffer.from(data));
-        });
-        readableStream.on("end", () => {
-          resolve(Buffer.concat(chunks));
-        });
-        readableStream.on("error", reject);
-      });
+      // Read the response bytes. Use `text` from "node:stream/consumers" instead
+      // if you want the response as a string directly.
+      const downloadedBuffer = await buffer(queryBlockBlobResponse.readableStreamBody);
+      console.log(`Query blob content: ${downloadedBuffer.toString()}`);
     }
   });
 

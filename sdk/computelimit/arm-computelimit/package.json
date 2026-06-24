@@ -1,9 +1,9 @@
 {
   "name": "@azure/arm-computelimit",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "A generated SDK for ComputeLimitClient.",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "sideEffects": false,
   "autoPublish": false,
@@ -128,6 +128,34 @@
         "default": "./dist/commonjs/api/index.js"
       }
     },
+    "./api/memberCapOverrides": {
+      "browser": {
+        "types": "./dist/browser/api/memberCapOverrides/index.d.ts",
+        "default": "./dist/browser/api/memberCapOverrides/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/memberCapOverrides/index.d.ts",
+        "default": "./dist/esm/api/memberCapOverrides/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/memberCapOverrides/index.d.ts",
+        "default": "./dist/commonjs/api/memberCapOverrides/index.js"
+      }
+    },
+    "./api/sharedLimitCaps": {
+      "browser": {
+        "types": "./dist/browser/api/sharedLimitCaps/index.d.ts",
+        "default": "./dist/browser/api/sharedLimitCaps/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/sharedLimitCaps/index.d.ts",
+        "default": "./dist/esm/api/sharedLimitCaps/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/sharedLimitCaps/index.d.ts",
+        "default": "./dist/commonjs/api/sharedLimitCaps/index.js"
+      }
+    },
     "./api/vmFamilies": {
       "browser": {
         "types": "./dist/browser/api/vmFamilies/index.d.ts",
@@ -218,6 +246,7 @@
   "module": "./dist/esm/index.js",
   "imports": {
     "#platform/*": {
+      "browser": "./src/*-browser.mts",
       "default": "./src/*.ts"
     }
   }

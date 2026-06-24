@@ -7,7 +7,7 @@ In this document, we describe how to address common linting issues for a package
 Our custom linting rules and recommended configurations is hosted in the `@azure/eslint-plugin-azure-sdk` package. You MUST build it first before linting any SDK packages.
 
 - `pnpm install`
-- `pnpm build --filter=@azure/eslint-plugin-azure-sdk...`
+- `pnpm turbo build --filter=@azure/eslint-plugin-azure-sdk...`
 
 It also gets built as a dependency of any SDK packages.
 

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a SignalDefinition
  *
  * @summary create a SignalDefinition
- * x-ms-original-file: 2025-05-01-preview/SignalDefinitions_CreateOrUpdate.json
+ * x-ms-original-file: 2026-01-01-preview/SignalDefinitions_CreateOrUpdate.json
  */
 async function signalDefinitionsCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -28,12 +28,12 @@ async function signalDefinitionsCreateOrUpdate(): Promise<void> {
         displayName: "cpu usage",
         signalKind: "AzureResourceMetric",
         refreshInterval: "PT1M",
-        labels: { key4788: "ixfvzsfnpvkkbrce" },
+        tags: { key4788: "ixfvzsfnpvkkbrce" },
         timeGrain: "PT1M",
         dataUnit: "byte",
         evaluationRules: {
-          degradedRule: { operator: "LowerThan", threshold: "65" },
-          unhealthyRule: { operator: "LowerThan", threshold: "60" },
+          degradedRule: { operator: "LowerThan", threshold: 65 },
+          unhealthyRule: { operator: "LowerThan", threshold: 60 },
         },
       },
     },
