@@ -15,23 +15,21 @@ async function fileSystemsCreateOrUpdateMaximumSet(): Promise<void> {
   const subscriptionId = "C9CC2D2A-5AA0-4839-A85F-18491F2D244A";
   const client = new QumuloStorage(credential, subscriptionId);
   const result = await client.fileSystems.createOrUpdate("rgQumulo", "qumulo-fs-01", {
-    properties: {
-      marketplaceDetails: {
-        marketplaceSubscriptionId: "vwjzkiurjihwxrhoicenkbxacokvep",
-        planId: "vxnyxa",
-        offerId: "itiocfnteqyuavgmdtnvwvbpectyr",
-        publisherId: "zfevjvhjiifwxbazta",
-        termUnit: "lkbiqoqdyqbua",
-      },
-      storageSku: "myzqnfqelxo",
-      userDetails: { email: "rlqqzevfgtqpynvifqp" },
-      delegatedSubnetId: "kmjaqsfflkjpke",
-      performanceTier: "fjgqmkcvjtygcavpbo",
-      clusterLoginUrl: "uzpvkgxrbgtthyxgavsjr",
-      privateIPs: ["qrhvbdfbfdgqqe"],
-      adminPassword: "<a-password-goes-here>",
-      availabilityZone: "luklrtwmngwnaerygykcbwljeso",
+    marketplaceDetails: {
+      marketplaceSubscriptionId: "vwjzkiurjihwxrhoicenkbxacokvep",
+      planId: "vxnyxa",
+      offerId: "itiocfnteqyuavgmdtnvwvbpectyr",
+      publisherId: "zfevjvhjiifwxbazta",
+      termUnit: "lkbiqoqdyqbua",
     },
+    storageSku: "myzqnfqelxo",
+    userDetails: { email: "rlqqzevfgtqpynvifqp" },
+    delegatedSubnetId: "kmjaqsfflkjpke",
+    performanceTier: "fjgqmkcvjtygcavpbo",
+    clusterLoginUrl: "uzpvkgxrbgtthyxgavsjr",
+    privateIPs: ["qrhvbdfbfdgqqe"],
+    adminPassword: "<a-password-goes-here>",
+    availabilityZone: "luklrtwmngwnaerygykcbwljeso",
     identity: { type: "None", userAssignedIdentities: { key8111: {} } },
     tags: { key7800: "izzovtmtunlwpglmglq" },
     location: "uiuztlexlmxsqcnsdpvzzygmi",

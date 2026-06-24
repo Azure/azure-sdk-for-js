@@ -5,6 +5,7 @@
 ```ts
 
 import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
 import type { ClientOptions } from '@azure-rest/core-client';
 import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
@@ -58,8 +59,17 @@ export interface ErrorResponse {
 
 // @public
 export interface FileSystemResource extends TrackedResource {
+    adminPassword?: string;
+    availabilityZone?: string;
+    clusterLoginUrl?: string;
+    delegatedSubnetId?: string;
     identity?: ManagedServiceIdentity;
-    properties?: FileSystemResourceProperties;
+    marketplaceDetails?: MarketplaceDetails;
+    performanceTier?: string;
+    privateIPs?: string[];
+    readonly provisioningState?: ProvisioningState;
+    storageSku?: string;
+    userDetails?: UserDetails;
 }
 
 // @public
@@ -115,6 +125,14 @@ export interface FileSystemsListBySubscriptionOptionalParams extends OperationOp
 
 // @public
 export interface FileSystemsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, fileSystemName: string, resource: FileSystemResource, options?: FileSystemsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<FileSystemResource>, FileSystemResource>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, fileSystemName: string, resource: FileSystemResource, options?: FileSystemsCreateOrUpdateOptionalParams) => Promise<FileSystemResource>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, fileSystemName: string, options?: FileSystemsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, fileSystemName: string, options?: FileSystemsDeleteOptionalParams) => Promise<void>;
     createOrUpdate: (resourceGroupName: string, fileSystemName: string, resource: FileSystemResource, options?: FileSystemsCreateOrUpdateOptionalParams) => PollerLike<OperationState<FileSystemResource>, FileSystemResource>;
     delete: (resourceGroupName: string, fileSystemName: string, options?: FileSystemsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, fileSystemName: string, options?: FileSystemsGetOptionalParams) => Promise<FileSystemResource>;
@@ -179,8 +197,8 @@ export enum KnownProvisioningState {
 
 // @public
 export enum KnownVersions {
-    V20260416 = "2026-04-16",
-    V2Stable = "2024-06-19"
+    V20240619 = "2024-06-19",
+    V20260416 = "2026-04-16"
 }
 
 // @public
@@ -283,6 +301,28 @@ export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedRe
     abortSignal?: AbortSignalLike;
     processResponseBody?: (result: TResponse) => Promise<TResult>;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
 }
 
 // @public

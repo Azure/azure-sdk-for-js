@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
+
 /**
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
@@ -176,19 +178,47 @@ export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo 
 
 /** Concrete tracked resource types can be created by aliasing this type using a specific property type. */
 export interface FileSystemResource extends TrackedResource {
-  /** The resource-specific properties for this resource. */
-  properties?: FileSystemResourceProperties;
   /** The managed service identities assigned to this resource. */
   identity?: ManagedServiceIdentity;
+  /** Marketplace details */
+  marketplaceDetails?: MarketplaceDetails;
+  /** Provisioning State of the resource */
+  readonly provisioningState?: ProvisioningState;
+  /** Storage Sku */
+  storageSku?: string;
+  /** User Details */
+  userDetails?: UserDetails;
+  /** Delegated subnet id for Vnet injection */
+  delegatedSubnetId?: string;
+  /** Pre-Provisioned Performance of the Resource */
+  performanceTier?: string;
+  /** File system Id of the resource */
+  clusterLoginUrl?: string;
+  /** Private IPs of the resource */
+  privateIPs?: string[];
+  /** Initial administrator password of the resource */
+  adminPassword?: string;
+  /** Availability zone */
+  availabilityZone?: string;
 }
 
 export function fileSystemResourceSerializer(item: FileSystemResource): any {
   return {
     tags: item["tags"],
     location: item["location"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : fileSystemResourcePropertiesSerializer(item["properties"]),
+    properties: areAllPropsUndefined(item, [
+      "marketplaceDetails",
+      "storageSku",
+      "userDetails",
+      "delegatedSubnetId",
+      "performanceTier",
+      "clusterLoginUrl",
+      "privateIPs",
+      "adminPassword",
+      "availabilityZone",
+    ])
+      ? undefined
+      : _fileSystemResourcePropertiesSerializer(item),
     identity: !item["identity"]
       ? item["identity"]
       : managedServiceIdentitySerializer(item["identity"]),
@@ -207,9 +237,9 @@ export function fileSystemResourceDeserializer(item: any): FileSystemResource {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : fileSystemResourcePropertiesDeserializer(item["properties"]),
+      : _fileSystemResourcePropertiesDeserializer(item["properties"])),
     identity: !item["identity"]
       ? item["identity"]
       : managedServiceIdentityDeserializer(item["identity"]),
@@ -673,7 +703,52 @@ export function fileSystemResourceArrayDeserializer(result: Array<FileSystemReso
 /** The available API versions. */
 export enum KnownVersions {
   /** The 2024-02-01 Stable API version. */
-  V2Stable = "2024-06-19",
+  V20240619 = "2024-06-19",
   /** The 2026-04-16 Stable API version. */
   V20260416 = "2026-04-16",
+}
+
+export function _fileSystemResourcePropertiesSerializer(item: FileSystemResource): any {
+  return {
+    marketplaceDetails: !item["marketplaceDetails"]
+      ? item["marketplaceDetails"]
+      : marketplaceDetailsSerializer(item["marketplaceDetails"]),
+    storageSku: item["storageSku"],
+    userDetails: !item["userDetails"]
+      ? item["userDetails"]
+      : userDetailsSerializer(item["userDetails"]),
+    delegatedSubnetId: item["delegatedSubnetId"],
+    performanceTier: item["performanceTier"],
+    clusterLoginUrl: item["clusterLoginUrl"],
+    privateIPs: !item["privateIPs"]
+      ? item["privateIPs"]
+      : item["privateIPs"].map((p: any) => {
+          return p;
+        }),
+    adminPassword: item["adminPassword"],
+    availabilityZone: item["availabilityZone"],
+  };
+}
+
+export function _fileSystemResourcePropertiesDeserializer(item: any) {
+  return {
+    marketplaceDetails: !item["marketplaceDetails"]
+      ? item["marketplaceDetails"]
+      : marketplaceDetailsDeserializer(item["marketplaceDetails"]),
+    provisioningState: item["provisioningState"],
+    storageSku: item["storageSku"],
+    userDetails: !item["userDetails"]
+      ? item["userDetails"]
+      : userDetailsDeserializer(item["userDetails"]),
+    delegatedSubnetId: item["delegatedSubnetId"],
+    performanceTier: item["performanceTier"],
+    clusterLoginUrl: item["clusterLoginUrl"],
+    privateIPs: !item["privateIPs"]
+      ? item["privateIPs"]
+      : item["privateIPs"].map((p: any) => {
+          return p;
+        }),
+    adminPassword: item["adminPassword"],
+    availabilityZone: item["availabilityZone"],
+  };
 }
