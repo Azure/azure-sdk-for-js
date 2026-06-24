@@ -150,7 +150,7 @@ export interface SubscriptionList {
   /** The operation for the patch on the resource. */
   operation?: Operation;
   /** List of subscriptions and the state of the monitoring. */
-  monitoredSubscriptionList?: MonitoredSubscription[];
+  monitoredSubscriptionList?: CustomMonitoredSubscription[];
   /** Provisioning State of the resource */
   readonly provisioningState?: ProvisioningState;
 }
@@ -160,7 +160,7 @@ export function subscriptionListSerializer(item: SubscriptionList): any {
     operation: item["operation"],
     monitoredSubscriptionList: !item["monitoredSubscriptionList"]
       ? item["monitoredSubscriptionList"]
-      : monitoredSubscriptionArraySerializer(item["monitoredSubscriptionList"]),
+      : customMonitoredSubscriptionArraySerializer(item["monitoredSubscriptionList"]),
   };
 }
 
@@ -169,7 +169,7 @@ export function subscriptionListDeserializer(item: any): SubscriptionList {
     operation: item["operation"],
     monitoredSubscriptionList: !item["monitoredSubscriptionList"]
       ? item["monitoredSubscriptionList"]
-      : monitoredSubscriptionArrayDeserializer(item["monitoredSubscriptionList"]),
+      : customMonitoredSubscriptionArrayDeserializer(item["monitoredSubscriptionList"]),
     provisioningState: item["provisioningState"],
   };
 }
@@ -201,22 +201,24 @@ export enum KnownOperation {
  */
 export type Operation = string;
 
-export function monitoredSubscriptionArraySerializer(result: Array<MonitoredSubscription>): any[] {
+export function customMonitoredSubscriptionArraySerializer(
+  result: Array<CustomMonitoredSubscription>,
+): any[] {
   return result.map((item) => {
-    return monitoredSubscriptionSerializer(item);
+    return customMonitoredSubscriptionSerializer(item);
   });
 }
 
-export function monitoredSubscriptionArrayDeserializer(
-  result: Array<MonitoredSubscription>,
+export function customMonitoredSubscriptionArrayDeserializer(
+  result: Array<CustomMonitoredSubscription>,
 ): any[] {
   return result.map((item) => {
-    return monitoredSubscriptionDeserializer(item);
+    return customMonitoredSubscriptionDeserializer(item);
   });
 }
 
 /** The list of subscriptions and it's monitoring status by current Elastic monitor. */
-export interface MonitoredSubscription {
+export interface CustomMonitoredSubscription {
   /** The subscriptionId to be monitored. */
   subscriptionId?: string;
   /** The state of monitoring. */
@@ -227,7 +229,7 @@ export interface MonitoredSubscription {
   tagRules?: MonitoringTagRulesProperties;
 }
 
-export function monitoredSubscriptionSerializer(item: MonitoredSubscription): any {
+export function customMonitoredSubscriptionSerializer(item: CustomMonitoredSubscription): any {
   return {
     subscriptionId: item["subscriptionId"],
     status: item["status"],
@@ -238,7 +240,7 @@ export function monitoredSubscriptionSerializer(item: MonitoredSubscription): an
   };
 }
 
-export function monitoredSubscriptionDeserializer(item: any): MonitoredSubscription {
+export function customMonitoredSubscriptionDeserializer(item: any): CustomMonitoredSubscription {
   return {
     subscriptionId: item["subscriptionId"],
     status: item["status"],

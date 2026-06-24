@@ -1,6 +1,6 @@
 # Release History
 
-## 3.0.0-beta.1 (2026-06-22)
+## 3.0.0-beta.1 (2026-06-24)
 Compared with version 2.0.0
 
 ### Features Added
@@ -21,6 +21,7 @@ Compared with version 2.0.0
   - Added operation OrganizationsOperations.resubscribe
   - Added operation TagRulesOperations.delete
   - Class MicrosoftElastic has a new constructor "constructor(credential: TokenCredential, options?: MicrosoftElasticOptionalParams);"
+  - Added Interface CustomMonitoredSubscription
   - Added Interface PagedAsyncIterableIterator
   - Added Interface PageSettings
   - Added Interface ProxyResource
@@ -39,10 +40,13 @@ Compared with version 2.0.0
 
 ### Breaking Changes
   - Operation MonitoredSubscriptions.beginDeleteAndWait has a new signature
+  - Class MicrosoftElastic no longer has parameter apiVersion
+  - Class MicrosoftElastic no longer has parameter subscriptionId
   - Removed Interface ConnectedPartnerResourcesListResponse
   - Removed Interface ElasticMonitorResourceListResponse
   - Removed Interface ElasticVersionsListResponse
   - Removed Interface MonitoredResourceListResponse
+  - Removed Interface MonitoredSubscription
   - Removed Interface MonitoredSubscriptionPropertiesList
   - Removed Interface MonitoringTagRulesListResponse
   - Removed Interface OpenAIIntegrationRPModelListResponse
