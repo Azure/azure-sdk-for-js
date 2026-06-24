@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.1 (Unreleased)
+## 2.0.0-beta.1 (Unreleased)
 
 ### Features Added
 
@@ -15,10 +15,6 @@
 - Changed some enum types to extensible string types (e.g., ApplicationClaimKindOutput, ConfidentialLedgerQueryStateOutput)
 - Client constructor now uses a 2-parameter signature (endpoint, options) with credential passed through options
 - Removed CreateLedgerEntryMediaTypesParam (content type now inferred)
-
-### Other Changes
-
-- Package version reset from 1.1.2-beta.6 to 1.0.0-beta.1 for stable API version alignment
 ## 1.1.2-beta.6 (2026-06-05)
 
 ### Bugs Fixed
