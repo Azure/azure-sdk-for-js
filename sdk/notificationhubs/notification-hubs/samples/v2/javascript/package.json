@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": " client library samples for JavaScript",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "repository": {
     "type": "git",
@@ -25,8 +25,7 @@
   "dependencies": {
     "@azure/notification-hubs": "latest",
     "dotenv": "latest",
-    "@azure/core-util": "^1.11.0",
-    "@azure/core-rest-pipeline": "^1.19.0"
+    "@azure/core-util": "^1.11.0"
   },
   "devDependencies": {
     "cross-env": "latest"

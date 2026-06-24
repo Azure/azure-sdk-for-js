@@ -7,11 +7,13 @@
 import type { AbortSignalLike } from '@azure/abort-controller';
 import type { CancelOnProgress } from '@azure/core-lro';
 import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
 import type { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { Pipeline } from '@azure/core-rest-pipeline';
 import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -163,6 +165,11 @@ export interface AutomaticRepairsPolicy {
     enabled?: boolean;
     gracePeriod?: string;
     repairAction?: RepairAction;
+}
+
+// @public
+export interface AutomaticSkuMigrationPolicy {
+    enabled?: boolean;
 }
 
 // @public
@@ -682,6 +689,7 @@ export class ComputeManagementClient {
     readonly galleryScriptVersions: GalleryScriptVersionsOperations;
     readonly gallerySharingProfile: GallerySharingProfileOperations;
     readonly images: ImagesOperations;
+    readonly interconnectBlocks: InterconnectBlocksOperations;
     readonly logAnalytics: LogAnalyticsOperations;
     readonly operations: OperationsOperations;
     readonly pipeline: Pipeline;
@@ -2880,6 +2888,105 @@ export interface InstanceViewStatus {
 export type InstanceViewTypes = "instanceView" | "userData" | "resiliencyView";
 
 // @public
+export interface InterconnectBlock extends TrackedResource {
+    placement?: Placement;
+    properties?: InterconnectBlockProperties;
+    sku: Sku;
+    zones?: string[];
+}
+
+// @public
+export type InterconnectBlockExpandTypes = string;
+
+// @public
+export interface InterconnectBlockInstanceView {
+    readonly currentCapacity?: number;
+    readonly statuses?: InstanceViewStatus[];
+}
+
+// @public
+export interface InterconnectBlockProfile {
+    interconnectBlock?: ApiEntityReference;
+}
+
+// @public
+export interface InterconnectBlockProperties {
+    readonly instanceView?: InterconnectBlockInstanceView;
+    readonly interconnectBlockId?: string;
+    interconnectGroup: ApiEntityReference;
+    readonly provisioningState?: string;
+    readonly provisioningTime?: Date;
+    readonly timeCreated?: Date;
+    readonly virtualMachinesAssociated?: SubResourceReadOnly[];
+}
+
+// @public
+export interface InterconnectBlocksCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface InterconnectBlocksDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface InterconnectBlocksGetOptionalParams extends OperationOptions {
+    expand?: InterconnectBlockExpandTypes;
+}
+
+// @public
+export interface InterconnectBlocksListByResourceGroupOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface InterconnectBlocksListBySubscriptionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface InterconnectBlocksOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, interconnectBlockName: string, resource: InterconnectBlock, options?: InterconnectBlocksCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<InterconnectBlock>, InterconnectBlock>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, interconnectBlockName: string, resource: InterconnectBlock, options?: InterconnectBlocksCreateOrUpdateOptionalParams) => Promise<InterconnectBlock>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, interconnectBlockName: string, options?: InterconnectBlocksDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, interconnectBlockName: string, options?: InterconnectBlocksDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, interconnectBlockName: string, properties: InterconnectBlockUpdate, options?: InterconnectBlocksUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<InterconnectBlock>, InterconnectBlock>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, interconnectBlockName: string, properties: InterconnectBlockUpdate, options?: InterconnectBlocksUpdateOptionalParams) => Promise<InterconnectBlock>;
+    createOrUpdate: (resourceGroupName: string, interconnectBlockName: string, resource: InterconnectBlock, options?: InterconnectBlocksCreateOrUpdateOptionalParams) => PollerLike<OperationState<InterconnectBlock>, InterconnectBlock>;
+    delete: (resourceGroupName: string, interconnectBlockName: string, options?: InterconnectBlocksDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, interconnectBlockName: string, options?: InterconnectBlocksGetOptionalParams) => Promise<InterconnectBlock>;
+    listByResourceGroup: (resourceGroupName: string, options?: InterconnectBlocksListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<InterconnectBlock>;
+    listBySubscription: (options?: InterconnectBlocksListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<InterconnectBlock>;
+    update: (resourceGroupName: string, interconnectBlockName: string, properties: InterconnectBlockUpdate, options?: InterconnectBlocksUpdateOptionalParams) => PollerLike<OperationState<InterconnectBlock>, InterconnectBlock>;
+}
+
+// @public
+export interface InterconnectBlocksUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface InterconnectBlockUpdate extends UpdateResource {
+    sku?: Sku;
+}
+
+// @public
+export interface InterconnectGroupProfile {
+    interconnectGroup?: SubResource;
+    subgroups?: SubResource[];
+}
+
+// @public
+export interface InterconnectInstanceView {
+    readonly interconnectSubgroupId?: string;
+}
+
+// @public
 export type IntervalInMins = "ThreeMins" | "FiveMins" | "ThirtyMins" | "SixtyMins";
 
 // @public
@@ -2887,6 +2994,8 @@ export type IPVersion = string;
 
 // @public
 export type IPVersions = string;
+
+export { isRestError }
 
 // @public
 export interface KeyForDiskEncryptionSet {
@@ -3276,6 +3385,11 @@ export enum KnownImageState {
     Active = "Active",
     Deprecated = "Deprecated",
     ScheduledForDeprecation = "ScheduledForDeprecation"
+}
+
+// @public
+export enum KnownInterconnectBlockExpandTypes {
+    InstanceView = "instanceView"
 }
 
 // @public
@@ -4192,6 +4306,7 @@ export interface NetworkInterfaceReferenceProperties {
 
 // @public
 export interface NetworkProfile {
+    interconnectGroupProfile?: InterconnectGroupProfile;
     networkApiVersion?: NetworkApiVersion;
     networkInterfaceConfigurations?: VirtualMachineNetworkInterfaceConfiguration[];
     networkInterfaces?: NetworkInterfaceReference[];
@@ -4806,6 +4921,8 @@ export interface RestartRecoveryPolicy {
     enabled?: boolean;
 }
 
+export { RestError }
+
 // @public
 export interface RestorePoint extends ProxyResource {
     consistencyMode?: ConsistencyModeTypes;
@@ -5409,6 +5526,7 @@ export interface Sku {
 // @public
 export interface SkuProfile {
     allocationStrategy?: AllocationStrategy;
+    automaticSkuMigrationPolicy?: AutomaticSkuMigrationPolicy;
     vmSizes?: SkuProfileVMSize[];
 }
 
@@ -5976,6 +6094,7 @@ export interface VirtualMachine extends TrackedResource {
     hostGroup?: SubResource;
     identity?: VirtualMachineIdentity;
     readonly instanceView?: VirtualMachineInstanceView;
+    interconnectBlockProfile?: InterconnectBlockProfile;
     licenseType?: string;
     readonly managedBy?: string;
     networkProfile?: NetworkProfile;
@@ -6375,6 +6494,7 @@ export interface VirtualMachineInstanceView {
     disks?: DiskInstanceView[];
     extensions?: VirtualMachineExtensionInstanceView[];
     hyperVGeneration?: HyperVGenerationType;
+    readonly interconnectInstanceView?: InterconnectInstanceView;
     readonly isVMInStandbyPool?: boolean;
     maintenanceRedeployStatus?: MaintenanceRedeployStatus;
     osName?: string;
@@ -6482,6 +6602,7 @@ export interface VirtualMachineProperties {
     host?: SubResource;
     hostGroup?: SubResource;
     readonly instanceView?: VirtualMachineInstanceView;
+    interconnectBlockProfile?: InterconnectBlockProfile;
     licenseType?: string;
     networkProfile?: NetworkProfile;
     osProfile?: OSProfile;
@@ -6964,6 +7085,7 @@ export interface VirtualMachineScaleSetNetworkConfigurationProperties {
 // @public
 export interface VirtualMachineScaleSetNetworkProfile {
     healthProbe?: ApiEntityReference;
+    interconnectGroupProfile?: InterconnectGroupProfile;
     networkApiVersion?: NetworkApiVersion;
     networkInterfaceConfigurations?: VirtualMachineScaleSetNetworkConfiguration[];
 }
@@ -7452,6 +7574,7 @@ export interface VirtualMachineScaleSetUpdateNetworkConfigurationProperties {
 // @public
 export interface VirtualMachineScaleSetUpdateNetworkProfile {
     healthProbe?: ApiEntityReference;
+    interconnectGroupProfile?: InterconnectGroupProfile;
     networkApiVersion?: NetworkApiVersion;
     networkInterfaceConfigurations?: VirtualMachineScaleSetUpdateNetworkConfiguration[];
 }
@@ -7528,6 +7651,7 @@ export interface VirtualMachineScaleSetUpdateVMProfile {
     diagnosticsProfile?: DiagnosticsProfile;
     extensionProfile?: VirtualMachineScaleSetExtensionProfile;
     hardwareProfile?: VirtualMachineScaleSetHardwareProfile;
+    interconnectBlockProfile?: InterconnectBlockProfile;
     licenseType?: string;
     networkProfile?: VirtualMachineScaleSetUpdateNetworkProfile;
     osProfile?: VirtualMachineScaleSetUpdateOSProfile;
@@ -7548,6 +7672,7 @@ export interface VirtualMachineScaleSetVM extends TrackedResource {
     identity?: VirtualMachineIdentity;
     readonly instanceId?: string;
     readonly instanceView?: VirtualMachineScaleSetVMInstanceView;
+    interconnectBlockProfile?: InterconnectBlockProfile;
     readonly latestModelApplied?: boolean;
     licenseType?: string;
     readonly modelDefinitionApplied?: string;
@@ -7680,6 +7805,7 @@ export interface VirtualMachineScaleSetVMInstanceView {
     disks?: DiskInstanceView[];
     extensions?: VirtualMachineExtensionInstanceView[];
     hyperVGeneration?: HyperVGeneration;
+    readonly interconnectInstanceView?: InterconnectInstanceView;
     maintenanceRedeployStatus?: MaintenanceRedeployStatus;
     osName?: string;
     osVersion?: string;
@@ -7694,6 +7820,7 @@ export interface VirtualMachineScaleSetVMInstanceView {
 
 // @public
 export interface VirtualMachineScaleSetVMNetworkProfileConfiguration {
+    interconnectGroupProfile?: InterconnectGroupProfile;
     networkInterfaceConfigurations?: VirtualMachineScaleSetNetworkConfiguration[];
 }
 
@@ -7706,6 +7833,7 @@ export interface VirtualMachineScaleSetVMProfile {
     evictionPolicy?: VirtualMachineEvictionPolicyTypes;
     extensionProfile?: VirtualMachineScaleSetExtensionProfile;
     hardwareProfile?: VirtualMachineScaleSetHardwareProfile;
+    interconnectBlockProfile?: InterconnectBlockProfile;
     licenseType?: string;
     networkProfile?: VirtualMachineScaleSetNetworkProfile;
     osProfile?: VirtualMachineScaleSetOSProfile;
@@ -7726,6 +7854,7 @@ export interface VirtualMachineScaleSetVMProperties {
     diagnosticsProfile?: DiagnosticsProfile;
     hardwareProfile?: HardwareProfile;
     readonly instanceView?: VirtualMachineScaleSetVMInstanceView;
+    interconnectBlockProfile?: InterconnectBlockProfile;
     readonly latestModelApplied?: boolean;
     licenseType?: string;
     readonly modelDefinitionApplied?: string;
@@ -8262,6 +8391,7 @@ export interface VirtualMachineUpdate extends UpdateResource {
     hostGroup?: SubResource;
     identity?: VirtualMachineIdentity;
     readonly instanceView?: VirtualMachineInstanceView;
+    interconnectBlockProfile?: InterconnectBlockProfile;
     licenseType?: string;
     networkProfile?: NetworkProfile;
     osProfile?: OSProfile;

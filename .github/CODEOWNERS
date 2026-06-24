@@ -401,7 +401,7 @@
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/botservice/arm-botservice/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/cdn/arm-cdn/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -446,10 +446,10 @@
 # PRLabel: %Mgmt
 /sdk/confluent/arm-confluent/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/consumption/arm-consumption/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/containerinstance/arm-containerinstance/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -470,7 +470,7 @@
 # PRLabel: %Mgmt
 /sdk/connectedvmware/arm-connectedvmware/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/cosmosforpostgresql/arm-cosmosdbforpostgresql/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -494,7 +494,7 @@
 # PRLabel: %Mgmt
 /sdk/dashboard/arm-dashboard/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/databoxedge/arm-databoxedge/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -518,7 +518,7 @@
 # PRLabel: %Mgmt
 /sdk/datalake-analytics/arm-datalake-analytics/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/datamigration/arm-datamigration/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -587,7 +587,7 @@
 # PRLabel: %Mgmt
 /sdk/fabric/arm-fabric/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/frontdoor/arm-frontdoor/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
@@ -674,7 +674,7 @@
 # PRLabel: %Mgmt
 /sdk/kubernetesconfiguration/arm-kubernetesconfiguration-extensiontypes/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/kusto/arm-kusto/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -761,7 +761,7 @@
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/mongocluster/arm-mongocluster/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/mongodbatlas/arm-mongodbatlas/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -788,7 +788,7 @@
 # PRLabel: %Mgmt
 /sdk/network/arm-network-rest/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/networkcloud/arm-networkcloud/      @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -812,7 +812,7 @@
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/peering/arm-peering/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/paloaltonetworksngfw/arm-paloaltonetworksngfw/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -926,7 +926,7 @@
 # PRLabel: %Mgmt
 /sdk/servicenetworking/arm-servicenetworking/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/servicebus/arm-servicebus/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
@@ -1626,7 +1626,7 @@ sdk/disconnectedoperations/arm-disconnectedoperations/ @qiaozha @MaryGao @Jialin
 # PRLabel: %Mgmt
 sdk/compute/arm-computerecommender/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 sdk/computelimit/arm-computelimit/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -1677,7 +1677,14 @@ sdk/monitor/arm-monitorworkspaces/ @qiaozha @MaryGao @JialinHuang803
 sdk/edgeorder/arm-edgeorder/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
-sdk/postgresqlhsc/arm-postgresqlhsc/ @qiaozha @MaryGao @JialinHuang803
+sdk/powerplatform/arm-powerplatform/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt %mgmt-review-needed
+sdk/napsteromniagentapi/arm-napsteromniagentapi/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt %mgmt-review-needed
+sdk/programenrollment/arm-programenrollment/ @qiaozha @MaryGao @JialinHuang803
+sdk/resiliencemanagement/arm-resiliencemanagement/ @qiaozha @MaryGao @JialinHuang803
 
 ###########
 # Config
@@ -1738,8 +1745,13 @@ sdk/postgresqlhsc/arm-postgresqlhsc/ @qiaozha @MaryGao @JialinHuang803
 /.github/workflows/                      @Azure/azure-sdk-eng
 /.github/workflows/mgmt-review.md        @MaryGao @lirenhe @qiaozha @JialinHuang803
 /.github/workflows/mgmt-review.lock.yml  @MaryGao @lirenhe @qiaozha @JialinHuang803
+/.github/workflows/mgmt-guidance.md      @MaryGao @lirenhe @qiaozha @JialinHuang803
+/.github/workflows/mgmt-guidance.lock.yml @MaryGao @lirenhe @qiaozha @JialinHuang803
 /.github/workflows/archie.md             @maorleger @Azure/azure-sdk-for-js-core
 /.github/workflows/archie.lock.yml       @maorleger @Azure/azure-sdk-for-js-core
+/.github/workflows/agent-observability.md             @maorleger @Azure/azure-sdk-for-js-core
+/.github/workflows/agent-observability.lock.yml       @maorleger @Azure/azure-sdk-for-js-core
+/.github/workflows/agent-observability-collect.sh     @maorleger @Azure/azure-sdk-for-js-core
 /.github/workflows/dash.md               @Azure/azure-sdk-for-js-core
 /.github/workflows/dash.lock.yml         @Azure/azure-sdk-for-js-core
 /.github/workflows/dexter.md             @Azure/azure-sdk-for-js-core
@@ -1766,6 +1778,7 @@ sdk/postgresqlhsc/arm-postgresqlhsc/ @qiaozha @MaryGao @JialinHuang803
 /.github/prompts/security-review-guidelines.md     @Azure/azure-sdk-for-js-core
 /.github/prompts/test-recording.prompt.md          @Azure/azure-sdk-for-js-core
 /.github/prompts/test-review-guidelines.md         @Azure/azure-sdk-for-js-core
+/.github/skills/                         @Azure/azsdk-cli @Azure/azure-sdk-for-js-core
 
 /.github/CODEOWNERS                      @xirzec @jeremymeng @qiaozha @MaryGao @JialinHuang803 @Azure/azure-sdk-eng
 /.github/copilot-instructions.md         @praveenkuttappan

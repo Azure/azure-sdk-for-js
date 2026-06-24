@@ -1,5 +1,40 @@
 # Release History
 
+## 24.1.0 (2026-06-17)
+
+### Features Added
+  - Added operation group InterconnectBlocksOperations
+  - Added Interface AutomaticSkuMigrationPolicy
+  - Added Interface InterconnectBlock
+  - Added Interface InterconnectBlockInstanceView
+  - Added Interface InterconnectBlockProfile
+  - Added Interface InterconnectBlockProperties
+  - Added Interface InterconnectBlocksCreateOrUpdateOptionalParams
+  - Added Interface InterconnectBlocksDeleteOptionalParams
+  - Added Interface InterconnectBlocksGetOptionalParams
+  - Added Interface InterconnectBlocksListByResourceGroupOptionalParams
+  - Added Interface InterconnectBlocksListBySubscriptionOptionalParams
+  - Added Interface InterconnectBlocksUpdateOptionalParams
+  - Added Interface InterconnectBlockUpdate
+  - Added Interface InterconnectGroupProfile
+  - Added Interface InterconnectInstanceView
+  - Interface NetworkProfile has a new optional parameter interconnectGroupProfile
+  - Interface SkuProfile has a new optional parameter automaticSkuMigrationPolicy
+  - Interface VirtualMachine has a new optional parameter interconnectBlockProfile
+  - Interface VirtualMachineInstanceView has a new optional parameter interconnectInstanceView
+  - Interface VirtualMachineProperties has a new optional parameter interconnectBlockProfile
+  - Interface VirtualMachineScaleSetNetworkProfile has a new optional parameter interconnectGroupProfile
+  - Interface VirtualMachineScaleSetUpdateNetworkProfile has a new optional parameter interconnectGroupProfile
+  - Interface VirtualMachineScaleSetUpdateVMProfile has a new optional parameter interconnectBlockProfile
+  - Interface VirtualMachineScaleSetVM has a new optional parameter interconnectBlockProfile
+  - Interface VirtualMachineScaleSetVMInstanceView has a new optional parameter interconnectInstanceView
+  - Interface VirtualMachineScaleSetVMNetworkProfileConfiguration has a new optional parameter interconnectGroupProfile
+  - Interface VirtualMachineScaleSetVMProfile has a new optional parameter interconnectBlockProfile
+  - Interface VirtualMachineScaleSetVMProperties has a new optional parameter interconnectBlockProfile
+  - Interface VirtualMachineUpdate has a new optional parameter interconnectBlockProfile
+  - Added Type Alias InterconnectBlockExpandTypes
+  - Added Enum KnownInterconnectBlockExpandTypes
+
 ## 24.0.0 (2026-04-28)
 
 ### Features Added

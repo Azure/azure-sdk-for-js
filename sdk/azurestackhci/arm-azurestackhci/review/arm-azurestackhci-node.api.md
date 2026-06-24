@@ -688,7 +688,7 @@ export interface DeploymentData {
     secrets?: EceDeploymentSecrets[];
     secretsLocation?: string;
     securitySettings?: DeploymentSecuritySettings;
-    storage?: Storage;
+    storage?: Storage_2;
 }
 
 // @public
@@ -3357,12 +3357,13 @@ export interface Step {
 }
 
 // @public
-export interface Storage {
+interface Storage_2 {
     configurationMode?: string;
     s2D?: StorageS2DConfig;
     san?: StorageSanConfig;
     storageType?: StorageType;
 }
+export { Storage_2 as Storage }
 
 // @public
 export interface StorageConfiguration {

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists all of the dedicated host groups in the subscription. Use the nextLink property in the response to get the next page of dedicated host groups.
  *
  * @summary lists all of the dedicated host groups in the subscription. Use the nextLink property in the response to get the next page of dedicated host groups.
- * x-ms-original-file: 2025-11-01/dedicatedHostExamples/DedicatedHostGroup_ListBySubscription_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/dedicatedHostExamples/DedicatedHostGroup_ListBySubscription_MaximumSet_Gen.json
  */
 async function dedicatedHostGroupListBySubscriptionMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function dedicatedHostGroupListBySubscriptionMaximumSetGen() {
  * This sample demonstrates how to lists all of the dedicated host groups in the subscription. Use the nextLink property in the response to get the next page of dedicated host groups.
  *
  * @summary lists all of the dedicated host groups in the subscription. Use the nextLink property in the response to get the next page of dedicated host groups.
- * x-ms-original-file: 2025-11-01/dedicatedHostExamples/DedicatedHostGroup_ListBySubscription_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/dedicatedHostExamples/DedicatedHostGroup_ListBySubscription_MinimumSet_Gen.json
  */
 async function dedicatedHostGroupListBySubscriptionMinimumSetGen() {
   const credential = new DefaultAzureCredential();
