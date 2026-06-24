@@ -1,19 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PostgreSQLManagementFlexibleServerContext } from "../../api/postgreSQLManagementFlexibleServerContext.js";
+import { PostgreSQLManagementFlexibleServerContext } from "../../api/postgreSQLManagementFlexibleServerContext.js";
 import { listByServer, $delete, createOrUpdate, get } from "../../api/firewallRules/operations.js";
-import type {
+import {
   FirewallRulesListByServerOptionalParams,
   FirewallRulesDeleteOptionalParams,
   FirewallRulesCreateOrUpdateOptionalParams,
   FirewallRulesGetOptionalParams,
 } from "../../api/firewallRules/options.js";
-import type { FirewallRule } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { FirewallRule } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a FirewallRules operations. */
 export interface FirewallRulesOperations {

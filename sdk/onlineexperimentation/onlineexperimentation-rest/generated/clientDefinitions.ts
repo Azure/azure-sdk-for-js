@@ -46,9 +46,7 @@ export interface ValidateMetric {
   /** Validates an experiment metric definition. */
   post(
     options: ValidateMetricParameters,
-  ): StreamableMethod<
-    ValidateMetric200Response | ValidateMetricDefaultResponse
-  >;
+  ): StreamableMethod<ValidateMetric200Response | ValidateMetricDefaultResponse>;
 }
 
 export interface ListMetrics {
@@ -60,10 +58,7 @@ export interface ListMetrics {
 
 export interface Routes {
   /** Resource for '/experiment-metrics/\{experimentMetricId\}' has methods for the following verbs: get, patch, delete */
-  (
-    path: "/experiment-metrics/{experimentMetricId}",
-    experimentMetricId: string,
-  ): GetMetric;
+  (path: "/experiment-metrics/{experimentMetricId}", experimentMetricId: string): GetMetric;
   /** Resource for '/experiment-metrics:validate' has methods for the following verbs: post */
   (path: "/experiment-metrics:validate"): ValidateMetric;
   /** Resource for '/experiment-metrics' has methods for the following verbs: get */

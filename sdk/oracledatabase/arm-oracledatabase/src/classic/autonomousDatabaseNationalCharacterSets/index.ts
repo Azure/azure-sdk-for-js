@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { OracleDatabaseManagementContext } from "../../api/oracleDatabaseManagementContext.js";
+import { OracleDatabaseManagementContext } from "../../api/oracleDatabaseManagementContext.js";
 import {
   listByLocation,
   get,
 } from "../../api/autonomousDatabaseNationalCharacterSets/operations.js";
-import type {
+import {
   AutonomousDatabaseNationalCharacterSetsListByLocationOptionalParams,
   AutonomousDatabaseNationalCharacterSetsGetOptionalParams,
 } from "../../api/autonomousDatabaseNationalCharacterSets/options.js";
-import type { AutonomousDatabaseNationalCharacterSet } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { AutonomousDatabaseNationalCharacterSet } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a AutonomousDatabaseNationalCharacterSets operations. */
 export interface AutonomousDatabaseNationalCharacterSetsOperations {

@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PaloAltoNetworksCloudngfwContext } from "../../api/paloAltoNetworksCloudngfwContext.js";
+import { PaloAltoNetworksCloudngfwContext } from "../../api/paloAltoNetworksCloudngfwContext.js";
 import {
   listSupportInfo,
   listProductSerialNumberStatus,
   listCloudManagerTenants,
   createProductSerialNumber,
 } from "../../api/paloAltoNetworksCloudngfwOperations/operations.js";
-import type {
+import {
   PaloAltoNetworksCloudngfwOperationsListSupportInfoOptionalParams,
   PaloAltoNetworksCloudngfwOperationsListProductSerialNumberStatusOptionalParams,
   PaloAltoNetworksCloudngfwOperationsListCloudManagerTenantsOptionalParams,
   PaloAltoNetworksCloudngfwOperationsCreateProductSerialNumberOptionalParams,
 } from "../../api/paloAltoNetworksCloudngfwOperations/options.js";
-import type {
+import {
   ProductSerialNumberRequestStatus,
   CloudManagerTenantList,
   ProductSerialNumberStatus,

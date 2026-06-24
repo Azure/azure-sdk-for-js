@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PostgreSQLManagementFlexibleServerContext } from "../../api/postgreSQLManagementFlexibleServerContext.js";
+import { PostgreSQLManagementFlexibleServerContext } from "../../api/postgreSQLManagementFlexibleServerContext.js";
 import { list } from "../../api/capabilitiesByServer/operations.js";
-import type { CapabilitiesByServerListOptionalParams } from "../../api/capabilitiesByServer/options.js";
-import type { Capability } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { CapabilitiesByServerListOptionalParams } from "../../api/capabilitiesByServer/options.js";
+import { Capability } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a CapabilitiesByServer operations. */
 export interface CapabilitiesByServerOperations {

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { OracleDatabaseManagementContext } from "../../api/oracleDatabaseManagementContext.js";
+import { OracleDatabaseManagementContext } from "../../api/oracleDatabaseManagementContext.js";
 import {
   listPrivateIpAddresses,
   removeVms,
@@ -13,7 +13,7 @@ import {
   createOrUpdate,
   listBySubscription,
 } from "../../api/cloudVmClusters/operations.js";
-import type {
+import {
   CloudVmClustersListPrivateIpAddressesOptionalParams,
   CloudVmClustersRemoveVmsOptionalParams,
   CloudVmClustersAddVmsOptionalParams,
@@ -24,15 +24,15 @@ import type {
   CloudVmClustersCreateOrUpdateOptionalParams,
   CloudVmClustersListBySubscriptionOptionalParams,
 } from "../../api/cloudVmClusters/options.js";
-import type {
+import {
   CloudVmCluster,
   CloudVmClusterUpdate,
   AddRemoveDbNode,
   PrivateIpAddressesFilter,
   PrivateIpAddressProperties,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a CloudVmClusters operations. */
 export interface CloudVmClustersOperations {
@@ -63,11 +63,6 @@ export interface CloudVmClustersOperations {
     options?: CloudVmClustersListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<CloudVmCluster>;
   /** Delete a CloudVmCluster */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     cloudvmclustername: string,

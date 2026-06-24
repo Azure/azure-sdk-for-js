@@ -1,4 +1,6 @@
 {
-  "apiVersion": "2025-05-31-preview",
-  "emitterVersion": "0.41.0"
+  "apiVersions": {
+    "Azure.Analytics.OnlineExperimentation": "2025-05-31-preview"
+  },
+  "emitterVersion": "0.55.0-dev.8"
 }

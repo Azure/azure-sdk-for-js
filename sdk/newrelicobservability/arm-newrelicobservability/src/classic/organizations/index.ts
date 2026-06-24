@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NewRelicObservabilityContext } from "../../api/newRelicObservabilityContext.js";
+import { NewRelicObservabilityContext } from "../../api/newRelicObservabilityContext.js";
 import { list } from "../../api/organizations/operations.js";
-import type { OrganizationsListOptionalParams } from "../../api/organizations/options.js";
-import type { OrganizationResource } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { OrganizationsListOptionalParams } from "../../api/organizations/options.js";
+import { OrganizationResource } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Organizations operations. */
 export interface OrganizationsOperations {

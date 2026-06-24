@@ -9,11 +9,11 @@ export {
   createOrUpdate,
   get,
 } from "./operations.js";
-export {
-  type OnlineExperimentationWorkspacesListBySubscriptionOptionalParams,
-  type OnlineExperimentationWorkspacesListByResourceGroupOptionalParams,
-  type OnlineExperimentationWorkspacesDeleteOptionalParams,
-  type OnlineExperimentationWorkspacesUpdateOptionalParams,
-  type OnlineExperimentationWorkspacesCreateOrUpdateOptionalParams,
-  type OnlineExperimentationWorkspacesGetOptionalParams,
+export type {
+  OnlineExperimentationWorkspacesListBySubscriptionOptionalParams,
+  OnlineExperimentationWorkspacesListByResourceGroupOptionalParams,
+  OnlineExperimentationWorkspacesDeleteOptionalParams,
+  OnlineExperimentationWorkspacesUpdateOptionalParams,
+  OnlineExperimentationWorkspacesCreateOrUpdateOptionalParams,
+  OnlineExperimentationWorkspacesGetOptionalParams,
 } from "./options.js";

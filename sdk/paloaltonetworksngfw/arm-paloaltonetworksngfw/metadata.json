@@ -2,7 +2,7 @@
   "apiVersions": {
     "PaloAltoNetworks.Cloudngfw": "2026-05-11-preview"
   },
-  "emitterVersion": "0.54.1",
+  "emitterVersion": "0.55.0-dev.8",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "PaloAltoNetworks.Cloudngfw",
     "CrossLanguageDefinitionId": {

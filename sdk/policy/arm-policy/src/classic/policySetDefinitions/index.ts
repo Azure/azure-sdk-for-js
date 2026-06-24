@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PolicyContext } from "../../api/policyContext.js";
+import { PolicyContext } from "../../api/policyContext.js";
 import {
   listByManagementGroup,
   deleteAtManagementGroup,
@@ -14,7 +14,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/policySetDefinitions/operations.js";
-import type {
+import {
   PolicySetDefinitionsListByManagementGroupOptionalParams,
   PolicySetDefinitionsDeleteAtManagementGroupOptionalParams,
   PolicySetDefinitionsCreateOrUpdateAtManagementGroupOptionalParams,
@@ -26,8 +26,8 @@ import type {
   PolicySetDefinitionsCreateOrUpdateOptionalParams,
   PolicySetDefinitionsGetOptionalParams,
 } from "../../api/policySetDefinitions/options.js";
-import type { PolicySetDefinition } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PolicySetDefinition } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a PolicySetDefinitions operations. */
 export interface PolicySetDefinitionsOperations {
@@ -69,11 +69,6 @@ export interface PolicySetDefinitionsOperations {
     options?: PolicySetDefinitionsListOptionalParams,
   ) => PagedAsyncIterableIterator<PolicySetDefinition>;
   /** This operation deletes the policy set definition in the given subscription with the given name. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     policySetDefinitionName: string,
     options?: PolicySetDefinitionsDeleteOptionalParams,

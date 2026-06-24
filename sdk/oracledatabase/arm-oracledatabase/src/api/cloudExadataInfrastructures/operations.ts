@@ -1,26 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { OracleDatabaseManagementContext as Client } from "../index.js";
-import type {
-  _CloudExadataInfrastructureListResult,
-  CloudExadataInfrastructure,
-  CloudExadataInfrastructureUpdate,
-  ConfigureExascaleCloudExadataInfrastructureDetails,
-} from "../../models/models.js";
+import { OracleDatabaseManagementContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  _CloudExadataInfrastructureListResult,
   _cloudExadataInfrastructureListResultDeserializer,
+  CloudExadataInfrastructure,
   cloudExadataInfrastructureSerializer,
   cloudExadataInfrastructureDeserializer,
+  CloudExadataInfrastructureUpdate,
   cloudExadataInfrastructureUpdateSerializer,
+  ConfigureExascaleCloudExadataInfrastructureDetails,
   configureExascaleCloudExadataInfrastructureDetailsSerializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   CloudExadataInfrastructuresConfigureExascaleOptionalParams,
   CloudExadataInfrastructuresAddStorageCapacityOptionalParams,
   CloudExadataInfrastructuresListByResourceGroupOptionalParams,
@@ -30,18 +30,20 @@ import type {
   CloudExadataInfrastructuresCreateOrUpdateOptionalParams,
   CloudExadataInfrastructuresListBySubscriptionOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _configureExascaleSend(
   context: Client,
   resourceGroupName: string,
   cloudexadatainfrastructurename: string,
   body: ConfigureExascaleCloudExadataInfrastructureDetails,
-  options: CloudExadataInfrastructuresConfigureExascaleOptionalParams = {
-    requestOptions: {},
-  },
+  options: CloudExadataInfrastructuresConfigureExascaleOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/cloudExadataInfrastructures/{cloudexadatainfrastructurename}/configureExascale{?api%2Dversion}",
@@ -49,30 +51,32 @@ export function _configureExascaleSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       cloudexadatainfrastructurename: cloudexadatainfrastructurename,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: configureExascaleCloudExadataInfrastructureDetailsSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: configureExascaleCloudExadataInfrastructureDetailsSerializer(body),
+    });
 }
 
 export async function _configureExascaleDeserialize(
   result: PathUncheckedResponse,
 ): Promise<CloudExadataInfrastructure> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -85,11 +89,9 @@ export function configureExascale(
   resourceGroupName: string,
   cloudexadatainfrastructurename: string,
   body: ConfigureExascaleCloudExadataInfrastructureDetails,
-  options: CloudExadataInfrastructuresConfigureExascaleOptionalParams = {
-    requestOptions: {},
-  },
+  options: CloudExadataInfrastructuresConfigureExascaleOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<CloudExadataInfrastructure>, CloudExadataInfrastructure> {
-  return getLongRunningPoller(context, _configureExascaleDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _configureExascaleDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -101,6 +103,7 @@ export function configureExascale(
         options,
       ),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-09-01",
   }) as PollerLike<OperationState<CloudExadataInfrastructure>, CloudExadataInfrastructure>;
 }
 
@@ -108,9 +111,7 @@ export function _addStorageCapacitySend(
   context: Client,
   resourceGroupName: string,
   cloudexadatainfrastructurename: string,
-  options: CloudExadataInfrastructuresAddStorageCapacityOptionalParams = {
-    requestOptions: {},
-  },
+  options: CloudExadataInfrastructuresAddStorageCapacityOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/cloudExadataInfrastructures/{cloudexadatainfrastructurename}/addStorageCapacity{?api%2Dversion}",
@@ -118,28 +119,30 @@ export function _addStorageCapacitySend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       cloudexadatainfrastructurename: cloudexadatainfrastructurename,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _addStorageCapacityDeserialize(
   result: PathUncheckedResponse,
 ): Promise<CloudExadataInfrastructure> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -151,44 +154,40 @@ export function addStorageCapacity(
   context: Client,
   resourceGroupName: string,
   cloudexadatainfrastructurename: string,
-  options: CloudExadataInfrastructuresAddStorageCapacityOptionalParams = {
-    requestOptions: {},
-  },
+  options: CloudExadataInfrastructuresAddStorageCapacityOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<CloudExadataInfrastructure>, CloudExadataInfrastructure> {
-  return getLongRunningPoller(context, _addStorageCapacityDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _addStorageCapacityDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _addStorageCapacitySend(context, resourceGroupName, cloudexadatainfrastructurename, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-09-01",
   }) as PollerLike<OperationState<CloudExadataInfrastructure>, CloudExadataInfrastructure>;
 }
 
 export function _listByResourceGroupSend(
   context: Client,
   resourceGroupName: string,
-  options: CloudExadataInfrastructuresListByResourceGroupOptionalParams = {
-    requestOptions: {},
-  },
+  options: CloudExadataInfrastructuresListByResourceGroupOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/cloudExadataInfrastructures{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listByResourceGroupDeserialize(
@@ -197,7 +196,10 @@ export async function _listByResourceGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -208,16 +210,14 @@ export async function _listByResourceGroupDeserialize(
 export function listByResourceGroup(
   context: Client,
   resourceGroupName: string,
-  options: CloudExadataInfrastructuresListByResourceGroupOptionalParams = {
-    requestOptions: {},
-  },
+  options: CloudExadataInfrastructuresListByResourceGroupOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<CloudExadataInfrastructure> {
   return buildPagedAsyncIterator(
     context,
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-09-01" },
   );
 }
 
@@ -225,9 +225,7 @@ export function _$deleteSend(
   context: Client,
   resourceGroupName: string,
   cloudexadatainfrastructurename: string,
-  options: CloudExadataInfrastructuresDeleteOptionalParams = {
-    requestOptions: {},
-  },
+  options: CloudExadataInfrastructuresDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/cloudExadataInfrastructures/{cloudexadatainfrastructurename}{?api%2Dversion}",
@@ -235,7 +233,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       cloudexadatainfrastructurename: cloudexadatainfrastructurename,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -248,7 +246,10 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -256,18 +257,11 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete a CloudExadataInfrastructure */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
   cloudexadatainfrastructurename: string,
-  options: CloudExadataInfrastructuresDeleteOptionalParams = {
-    requestOptions: {},
-  },
+  options: CloudExadataInfrastructuresDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
   return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
     updateIntervalInMs: options?.updateIntervalInMs,
@@ -275,6 +269,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, cloudexadatainfrastructurename, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-09-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -283,9 +278,7 @@ export function _updateSend(
   resourceGroupName: string,
   cloudexadatainfrastructurename: string,
   properties: CloudExadataInfrastructureUpdate,
-  options: CloudExadataInfrastructuresUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: CloudExadataInfrastructuresUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/cloudExadataInfrastructures/{cloudexadatainfrastructurename}{?api%2Dversion}",
@@ -293,30 +286,32 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       cloudexadatainfrastructurename: cloudexadatainfrastructurename,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: cloudExadataInfrastructureUpdateSerializer(properties),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: cloudExadataInfrastructureUpdateSerializer(properties),
+    });
 }
 
 export async function _updateDeserialize(
   result: PathUncheckedResponse,
 ): Promise<CloudExadataInfrastructure> {
-  const expectedStatuses = ["200", "202"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -329,16 +324,15 @@ export function update(
   resourceGroupName: string,
   cloudexadatainfrastructurename: string,
   properties: CloudExadataInfrastructureUpdate,
-  options: CloudExadataInfrastructuresUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: CloudExadataInfrastructuresUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<CloudExadataInfrastructure>, CloudExadataInfrastructure> {
-  return getLongRunningPoller(context, _updateDeserialize, ["200", "202"], {
+  return getLongRunningPoller(context, _updateDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, cloudexadatainfrastructurename, properties, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-09-01",
   }) as PollerLike<OperationState<CloudExadataInfrastructure>, CloudExadataInfrastructure>;
 }
 
@@ -346,9 +340,7 @@ export function _getSend(
   context: Client,
   resourceGroupName: string,
   cloudexadatainfrastructurename: string,
-  options: CloudExadataInfrastructuresGetOptionalParams = {
-    requestOptions: {},
-  },
+  options: CloudExadataInfrastructuresGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/cloudExadataInfrastructures/{cloudexadatainfrastructurename}{?api%2Dversion}",
@@ -356,19 +348,18 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       cloudexadatainfrastructurename: cloudexadatainfrastructurename,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(
@@ -377,7 +368,10 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -389,9 +383,7 @@ export async function get(
   context: Client,
   resourceGroupName: string,
   cloudexadatainfrastructurename: string,
-  options: CloudExadataInfrastructuresGetOptionalParams = {
-    requestOptions: {},
-  },
+  options: CloudExadataInfrastructuresGetOptionalParams = { requestOptions: {} },
 ): Promise<CloudExadataInfrastructure> {
   const result = await _getSend(
     context,
@@ -407,9 +399,7 @@ export function _createOrUpdateSend(
   resourceGroupName: string,
   cloudexadatainfrastructurename: string,
   resource: CloudExadataInfrastructure,
-  options: CloudExadataInfrastructuresCreateOrUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: CloudExadataInfrastructuresCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/cloudExadataInfrastructures/{cloudexadatainfrastructurename}{?api%2Dversion}",
@@ -417,21 +407,20 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       cloudexadatainfrastructurename: cloudexadatainfrastructurename,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: cloudExadataInfrastructureSerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: cloudExadataInfrastructureSerializer(resource),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -440,7 +429,10 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -453,9 +445,7 @@ export function createOrUpdate(
   resourceGroupName: string,
   cloudexadatainfrastructurename: string,
   resource: CloudExadataInfrastructure,
-  options: CloudExadataInfrastructuresCreateOrUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: CloudExadataInfrastructuresCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<CloudExadataInfrastructure>, CloudExadataInfrastructure> {
   return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
@@ -469,32 +459,30 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2025-09-01",
   }) as PollerLike<OperationState<CloudExadataInfrastructure>, CloudExadataInfrastructure>;
 }
 
 export function _listBySubscriptionSend(
   context: Client,
-  options: CloudExadataInfrastructuresListBySubscriptionOptionalParams = {
-    requestOptions: {},
-  },
+  options: CloudExadataInfrastructuresListBySubscriptionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/providers/Oracle.Database/cloudExadataInfrastructures{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listBySubscriptionDeserialize(
@@ -503,7 +491,10 @@ export async function _listBySubscriptionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -513,15 +504,13 @@ export async function _listBySubscriptionDeserialize(
 /** List CloudExadataInfrastructure resources by subscription ID */
 export function listBySubscription(
   context: Client,
-  options: CloudExadataInfrastructuresListBySubscriptionOptionalParams = {
-    requestOptions: {},
-  },
+  options: CloudExadataInfrastructuresListBySubscriptionOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<CloudExadataInfrastructure> {
   return buildPagedAsyncIterator(
     context,
     () => _listBySubscriptionSend(context, options),
     _listBySubscriptionDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-09-01" },
   );
 }

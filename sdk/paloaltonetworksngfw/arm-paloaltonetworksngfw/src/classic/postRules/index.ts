@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PaloAltoNetworksCloudngfwContext } from "../../api/paloAltoNetworksCloudngfwContext.js";
+import { PaloAltoNetworksCloudngfwContext } from "../../api/paloAltoNetworksCloudngfwContext.js";
 import {
   resetCounters,
   refreshCounters,
@@ -11,7 +11,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/postRules/operations.js";
-import type {
+import {
   PostRulesResetCountersOptionalParams,
   PostRulesRefreshCountersOptionalParams,
   PostRulesGetCountersOptionalParams,
@@ -20,11 +20,10 @@ import type {
   PostRulesCreateOrUpdateOptionalParams,
   PostRulesGetOptionalParams,
 } from "../../api/postRules/options.js";
-import type { PostRulesResource, RuleCounter, RuleCounterReset } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PostRulesResource, RuleCounter, RuleCounterReset } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a PostRules operations. */
 export interface PostRulesOperations {

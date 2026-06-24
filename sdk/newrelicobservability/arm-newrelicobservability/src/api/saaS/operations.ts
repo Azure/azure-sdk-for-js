@@ -1,20 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NewRelicObservabilityContext as Client } from "../index.js";
-import type {
-  ActivateSaaSParameterRequest,
-  SaaSResourceDetailsResponse,
-} from "../../models/models.js";
+import { NewRelicObservabilityContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  ActivateSaaSParameterRequest,
   activateSaaSParameterRequestSerializer,
+  SaaSResourceDetailsResponse,
   saaSResourceDetailsResponseDeserializer,
 } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type { SaaSActivateResourceOptionalParams } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import { SaaSActivateResourceOptionalParams } from "./options.js";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _activateResourceSend(
   context: Client,
@@ -31,12 +33,14 @@ export function _activateResourceSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: activateSaaSParameterRequestSerializer(request),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: activateSaaSParameterRequestSerializer(request),
+    });
 }
 
 export async function _activateResourceDeserialize(

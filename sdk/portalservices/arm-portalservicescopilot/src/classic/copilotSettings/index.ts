@@ -2,23 +2,18 @@
 // Licensed under the MIT License.
 
 import { PortalServicesContext } from "../../api/portalServicesContext.js";
-import { CopilotSettingsResource, CopilotSettingsResourceUpdate } from "../../models/models.js";
+import { $delete, update, createOrUpdate, get } from "../../api/copilotSettings/operations.js";
 import {
   CopilotSettingsDeleteOptionalParams,
   CopilotSettingsUpdateOptionalParams,
   CopilotSettingsCreateOrUpdateOptionalParams,
   CopilotSettingsGetOptionalParams,
 } from "../../api/copilotSettings/options.js";
-import { $delete, update, createOrUpdate, get } from "../../api/copilotSettings/operations.js";
+import { CopilotSettingsResource, CopilotSettingsResourceUpdate } from "../../models/models.js";
 
 /** Interface representing a CopilotSettings operations. */
 export interface CopilotSettingsOperations {
   /** Delete a CopilotSettingsResource */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (options?: CopilotSettingsDeleteOptionalParams) => Promise<void>;
   /** Update a CopilotSettingsResource */
   update: (

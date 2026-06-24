@@ -1,22 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CompanionAPIContext as Client } from "../index.js";
-import type {
-  ActivateSaaSParameterRequest,
-  SaaSResourceDetailsResponse,
-} from "../../models/models.js";
+import { CompanionAPIContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  ActivateSaaSParameterRequest,
   activateSaaSParameterRequestSerializer,
+  SaaSResourceDetailsResponse,
   saaSResourceDetailsResponseDeserializer,
 } from "../../models/models.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type { SaaSOperationGroupActivateResourceOptionalParams } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { SaaSOperationGroupActivateResourceOptionalParams } from "./options.js";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _activateResourceSend(
   context: Client,
@@ -33,12 +35,14 @@ export function _activateResourceSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: activateSaaSParameterRequestSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: activateSaaSParameterRequestSerializer(body),
+    });
 }
 
 export async function _activateResourceDeserialize(

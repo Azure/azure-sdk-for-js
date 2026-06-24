@@ -1,31 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NetAppManagementContext as Client } from "../index.js";
-import type {
-  RegionInfo,
-  ResourceNameAvailabilityRequest,
-  CheckAvailabilityResponse,
-  FilePathAvailabilityRequest,
-  QuotaAvailabilityRequest,
-  QueryNetworkSiblingSetRequest,
-  NetworkSiblingSet,
-  UpdateNetworkSiblingSetRequest,
-} from "../../models/models.js";
+import { NetAppManagementContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  RegionInfo,
   regionInfoDeserializer,
+  ResourceNameAvailabilityRequest,
   resourceNameAvailabilityRequestSerializer,
+  CheckAvailabilityResponse,
   checkAvailabilityResponseDeserializer,
+  FilePathAvailabilityRequest,
   filePathAvailabilityRequestSerializer,
+  QuotaAvailabilityRequest,
   quotaAvailabilityRequestSerializer,
+  QueryNetworkSiblingSetRequest,
   queryNetworkSiblingSetRequestSerializer,
+  NetworkSiblingSet,
   networkSiblingSetDeserializer,
+  UpdateNetworkSiblingSetRequest,
   updateNetworkSiblingSetRequestSerializer,
 } from "../../models/models.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   NetAppResourceUpdateNetworkSiblingSetOptionalParams,
   NetAppResourceQueryNetworkSiblingSetOptionalParams,
   NetAppResourceQueryRegionInfoOptionalParams,
@@ -33,9 +31,13 @@ import type {
   NetAppResourceCheckFilePathAvailabilityOptionalParams,
   NetAppResourceCheckNameAvailabilityOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _updateNetworkSiblingSetSend(
   context: Client,
@@ -54,12 +56,14 @@ export function _updateNetworkSiblingSetSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: updateNetworkSiblingSetRequestSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: updateNetworkSiblingSetRequestSerializer(body),
+    });
 }
 
 export async function _updateNetworkSiblingSetDeserialize(
@@ -111,12 +115,14 @@ export function _queryNetworkSiblingSetSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: queryNetworkSiblingSetRequestSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: queryNetworkSiblingSetRequestSerializer(body),
+    });
 }
 
 export async function _queryNetworkSiblingSetDeserialize(
@@ -162,10 +168,12 @@ export function _queryRegionInfoSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _queryRegionInfoDeserialize(
@@ -211,12 +219,14 @@ export function _checkQuotaAvailabilitySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: quotaAvailabilityRequestSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: quotaAvailabilityRequestSerializer(body),
+    });
 }
 
 export async function _checkQuotaAvailabilityDeserialize(
@@ -263,12 +273,14 @@ export function _checkFilePathAvailabilitySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: filePathAvailabilityRequestSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: filePathAvailabilityRequestSerializer(body),
+    });
 }
 
 export async function _checkFilePathAvailabilityDeserialize(
@@ -315,12 +327,14 @@ export function _checkNameAvailabilitySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: resourceNameAvailabilityRequestSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: resourceNameAvailabilityRequestSerializer(body),
+    });
 }
 
 export async function _checkNameAvailabilityDeserialize(

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { OracleDatabaseManagementContext } from "../../api/oracleDatabaseManagementContext.js";
+import { OracleDatabaseManagementContext } from "../../api/oracleDatabaseManagementContext.js";
 import {
   listByResourceGroup,
   $delete,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   listBySubscription,
 } from "../../api/networkAnchors/operations.js";
-import type {
+import {
   NetworkAnchorsListByResourceGroupOptionalParams,
   NetworkAnchorsDeleteOptionalParams,
   NetworkAnchorsUpdateOptionalParams,
@@ -18,9 +18,9 @@ import type {
   NetworkAnchorsCreateOrUpdateOptionalParams,
   NetworkAnchorsListBySubscriptionOptionalParams,
 } from "../../api/networkAnchors/options.js";
-import type { NetworkAnchor, NetworkAnchorUpdate } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { NetworkAnchor, NetworkAnchorUpdate } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a NetworkAnchors operations. */
 export interface NetworkAnchorsOperations {
@@ -30,11 +30,6 @@ export interface NetworkAnchorsOperations {
     options?: NetworkAnchorsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<NetworkAnchor>;
   /** Delete a NetworkAnchor */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     networkAnchorName: string,

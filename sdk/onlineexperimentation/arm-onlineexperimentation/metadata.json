@@ -1,4 +1,49 @@
 {
-  "apiVersion": "2025-05-31-preview",
-  "emitterVersion": "0.40.2"
+  "apiVersions": {
+    "Microsoft.OnlineExperimentation": "2025-05-31-preview"
+  },
+  "emitterVersion": "0.55.0-dev.8",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "Microsoft.OnlineExperimentation",
+    "CrossLanguageDefinitionId": {
+      "@azure/arm-onlineexperimentation!OperationListResult:interface": "Azure.ResourceManager.CommonTypes.OperationListResult",
+      "@azure/arm-onlineexperimentation!Operation:interface": "Azure.ResourceManager.CommonTypes.Operation",
+      "@azure/arm-onlineexperimentation!OperationDisplay:interface": "Azure.ResourceManager.CommonTypes.OperationDisplay",
+      "@azure/arm-onlineexperimentation!ErrorResponse:interface": "Azure.ResourceManager.CommonTypes.ErrorResponse",
+      "@azure/arm-onlineexperimentation!ErrorDetail:interface": "Azure.ResourceManager.CommonTypes.ErrorDetail",
+      "@azure/arm-onlineexperimentation!ErrorAdditionalInfo:interface": "Azure.ResourceManager.CommonTypes.ErrorAdditionalInfo",
+      "@azure/arm-onlineexperimentation!OnlineExperimentationWorkspace:interface": "Microsoft.OnlineExperimentation.OnlineExperimentationWorkspace",
+      "@azure/arm-onlineexperimentation!OnlineExperimentationWorkspaceProperties:interface": "Microsoft.OnlineExperimentation.OnlineExperimentationWorkspaceProperties",
+      "@azure/arm-onlineexperimentation!ResourceEncryptionConfiguration:interface": "Microsoft.OnlineExperimentation.ResourceEncryptionConfiguration",
+      "@azure/arm-onlineexperimentation!CustomerManagedKeyEncryption:interface": "Microsoft.OnlineExperimentation.CustomerManagedKeyEncryption",
+      "@azure/arm-onlineexperimentation!KeyEncryptionKeyIdentity:interface": "Microsoft.OnlineExperimentation.KeyEncryptionKeyIdentity",
+      "@azure/arm-onlineexperimentation!ManagedServiceIdentity:interface": "Azure.ResourceManager.CommonTypes.ManagedServiceIdentity",
+      "@azure/arm-onlineexperimentation!UserAssignedIdentity:interface": "Azure.ResourceManager.CommonTypes.UserAssignedIdentity",
+      "@azure/arm-onlineexperimentation!OnlineExperimentationWorkspaceSku:interface": "Microsoft.OnlineExperimentation.OnlineExperimentationWorkspaceSku",
+      "@azure/arm-onlineexperimentation!TrackedResource:interface": "Azure.ResourceManager.CommonTypes.TrackedResource",
+      "@azure/arm-onlineexperimentation!Resource:interface": "Azure.ResourceManager.CommonTypes.Resource",
+      "@azure/arm-onlineexperimentation!SystemData:interface": "Azure.ResourceManager.CommonTypes.SystemData",
+      "@azure/arm-onlineexperimentation!ArmOperationStatusResourceProvisioningState:interface": "Azure.ResourceManager.ArmOperationStatus",
+      "@azure/arm-onlineexperimentation!OnlineExperimentationWorkspacePatch:interface": "Microsoft.OnlineExperimentation.OnlineExperimentationWorkspacePatch",
+      "@azure/arm-onlineexperimentation!OnlineExperimentationWorkspacePatchProperties:interface": "Microsoft.OnlineExperimentation.OnlineExperimentationWorkspacePatch.properties.anonymous",
+      "@azure/arm-onlineexperimentation!OnlineExperimentationWorkspaceListResult:interface": "Azure.ResourceManager.ResourceListResult",
+      "@azure/arm-onlineexperimentation!KnownOrigin:enum": "Azure.ResourceManager.CommonTypes.Origin",
+      "@azure/arm-onlineexperimentation!KnownActionType:enum": "Azure.ResourceManager.CommonTypes.ActionType",
+      "@azure/arm-onlineexperimentation!KnownResourceProvisioningState:enum": "Azure.ResourceManager.ResourceProvisioningState",
+      "@azure/arm-onlineexperimentation!KnownKeyEncryptionKeyIdentityType:enum": "Microsoft.OnlineExperimentation.KeyEncryptionKeyIdentityType",
+      "@azure/arm-onlineexperimentation!KnownManagedServiceIdentityType:enum": "Azure.ResourceManager.CommonTypes.ManagedServiceIdentityType",
+      "@azure/arm-onlineexperimentation!KnownOnlineExperimentationWorkspaceSkuName:enum": "Microsoft.OnlineExperimentation.OnlineExperimentationWorkspaceSkuName",
+      "@azure/arm-onlineexperimentation!KnownOnlineExperimentationWorkspaceSkuTier:enum": "Microsoft.OnlineExperimentation.OnlineExperimentationWorkspaceSkuTier",
+      "@azure/arm-onlineexperimentation!KnowncreatedByType:enum": "Azure.ResourceManager.CommonTypes.createdByType",
+      "@azure/arm-onlineexperimentation!KnownVersions:enum": "Microsoft.OnlineExperimentation.Versions",
+      "@azure/arm-onlineexperimentation!ManagedServiceIdentityUserAssignedIdentity:type": "Azure.ResourceManager.CommonTypes.ManagedServiceIdentity.userAssignedIdentity.anonymous",
+      "@azure/arm-onlineexperimentation!OnlineExperimentationWorkspacesOperations#listBySubscription:member": "Microsoft.OnlineExperimentation.OnlineExperimentationWorkspaces.listBySubscription",
+      "@azure/arm-onlineexperimentation!OnlineExperimentationWorkspacesOperations#listByResourceGroup:member": "Microsoft.OnlineExperimentation.OnlineExperimentationWorkspaces.listByResourceGroup",
+      "@azure/arm-onlineexperimentation!OnlineExperimentationWorkspacesOperations#delete:member": "Microsoft.OnlineExperimentation.OnlineExperimentationWorkspaces.delete",
+      "@azure/arm-onlineexperimentation!OnlineExperimentationWorkspacesOperations#update:member": "Microsoft.OnlineExperimentation.OnlineExperimentationWorkspaces.update",
+      "@azure/arm-onlineexperimentation!OnlineExperimentationWorkspacesOperations#createOrUpdate:member": "Microsoft.OnlineExperimentation.OnlineExperimentationWorkspaces.createOrUpdate",
+      "@azure/arm-onlineexperimentation!OnlineExperimentationWorkspacesOperations#get:member": "Microsoft.OnlineExperimentation.OnlineExperimentationWorkspaces.get",
+      "@azure/arm-onlineexperimentation!OperationsOperations#list:member": "Azure.ResourceManager.Operations.list"
+    }
+  }
 }

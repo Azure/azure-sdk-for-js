@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PostgreSQLManagementFlexibleServerContext } from "../../api/postgreSQLManagementFlexibleServerContext.js";
+import { PostgreSQLManagementFlexibleServerContext } from "../../api/postgreSQLManagementFlexibleServerContext.js";
 import {
   checkNameAvailability,
   listByTargetServer,
@@ -10,7 +10,7 @@ import {
   create,
   get,
 } from "../../api/migrations/operations.js";
-import type {
+import {
   MigrationsCheckNameAvailabilityOptionalParams,
   MigrationsListByTargetServerOptionalParams,
   MigrationsCancelOptionalParams,
@@ -18,12 +18,12 @@ import type {
   MigrationsCreateOptionalParams,
   MigrationsGetOptionalParams,
 } from "../../api/migrations/options.js";
-import type {
+import {
   Migration,
   MigrationResourceForPatch,
   MigrationNameAvailability,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Migrations operations. */
 export interface MigrationsOperations {

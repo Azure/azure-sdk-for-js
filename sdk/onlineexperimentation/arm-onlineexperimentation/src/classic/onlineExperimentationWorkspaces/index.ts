@@ -3,9 +3,13 @@
 
 import { OnlineExperimentationContext } from "../../api/onlineExperimentationContext.js";
 import {
-  OnlineExperimentationWorkspace,
-  OnlineExperimentationWorkspacePatch,
-} from "../../models/models.js";
+  listBySubscription,
+  listByResourceGroup,
+  $delete,
+  update,
+  createOrUpdate,
+  get,
+} from "../../api/onlineExperimentationWorkspaces/operations.js";
 import {
   OnlineExperimentationWorkspacesListBySubscriptionOptionalParams,
   OnlineExperimentationWorkspacesListByResourceGroupOptionalParams,
@@ -15,13 +19,9 @@ import {
   OnlineExperimentationWorkspacesGetOptionalParams,
 } from "../../api/onlineExperimentationWorkspaces/options.js";
 import {
-  listBySubscription,
-  listByResourceGroup,
-  $delete,
-  update,
-  createOrUpdate,
-  get,
-} from "../../api/onlineExperimentationWorkspaces/operations.js";
+  OnlineExperimentationWorkspace,
+  OnlineExperimentationWorkspacePatch,
+} from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -37,11 +37,6 @@ export interface OnlineExperimentationWorkspacesOperations {
     options?: OnlineExperimentationWorkspacesListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<OnlineExperimentationWorkspace>;
   /** Deletes an online experimentation workspace. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     workspaceName: string,

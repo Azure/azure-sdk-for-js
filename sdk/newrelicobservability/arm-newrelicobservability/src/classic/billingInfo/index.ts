@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NewRelicObservabilityContext } from "../../api/newRelicObservabilityContext.js";
+import { NewRelicObservabilityContext } from "../../api/newRelicObservabilityContext.js";
 import { get } from "../../api/billingInfo/operations.js";
-import type { BillingInfoGetOptionalParams } from "../../api/billingInfo/options.js";
-import type { BillingInfoResponse } from "../../models/models.js";
+import { BillingInfoGetOptionalParams } from "../../api/billingInfo/options.js";
+import { BillingInfoResponse } from "../../models/models.js";
 
 /** Interface representing a BillingInfo operations. */
 export interface BillingInfoOperations {

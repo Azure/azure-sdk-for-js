@@ -1,17 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NginxManagementContext as Client } from "../index.js";
-import type { NginxDeploymentWafPolicyAnalysisResponse } from "../../models/models.js";
+import { NginxManagementContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
   nginxDeploymentWafPolicyAnalysisCreateRequestSerializer,
+  NginxDeploymentWafPolicyAnalysisResponse,
   nginxDeploymentWafPolicyAnalysisResponseDeserializer,
 } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type { NginxDeploymentWafPoliciesAnalysisOptionalParams } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import { NginxDeploymentWafPoliciesAnalysisOptionalParams } from "./options.js";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _analysisSend(
   context: Client,
@@ -33,14 +37,16 @@ export function _analysisSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: !options["body"]
-      ? options["body"]
-      : nginxDeploymentWafPolicyAnalysisCreateRequestSerializer(options["body"]),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: !options?.body
+        ? options?.body
+        : nginxDeploymentWafPolicyAnalysisCreateRequestSerializer(options?.body),
+    });
 }
 
 export async function _analysisDeserialize(
@@ -49,7 +55,9 @@ export async function _analysisDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

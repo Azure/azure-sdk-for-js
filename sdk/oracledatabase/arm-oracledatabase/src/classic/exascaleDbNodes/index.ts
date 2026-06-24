@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { OracleDatabaseManagementContext } from "../../api/oracleDatabaseManagementContext.js";
+import { OracleDatabaseManagementContext } from "../../api/oracleDatabaseManagementContext.js";
 import { action, listByParent, get } from "../../api/exascaleDbNodes/operations.js";
-import type {
+import {
   ExascaleDbNodesActionOptionalParams,
   ExascaleDbNodesListByParentOptionalParams,
   ExascaleDbNodesGetOptionalParams,
 } from "../../api/exascaleDbNodes/options.js";
-import type { DbNodeAction, ExascaleDbNode, DbActionResponse } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { DbNodeAction, ExascaleDbNode, DbActionResponse } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ExascaleDbNodes operations. */
 export interface ExascaleDbNodesOperations {

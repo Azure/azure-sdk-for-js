@@ -535,8 +535,8 @@ export interface UserAssignedIdentitiesValue {
   readonly clientId?: string;
 }
 
-export function userAssignedIdentitiesValueSerializer(item: UserAssignedIdentitiesValue): any {
-  return item;
+export function userAssignedIdentitiesValueSerializer(_item: UserAssignedIdentitiesValue): any {
+  return {};
 }
 
 export function userAssignedIdentitiesValueDeserializer(item: any): UserAssignedIdentitiesValue {
@@ -549,8 +549,8 @@ export function userAssignedIdentitiesValueDeserializer(item: any): UserAssigned
 /** The base extension resource. */
 export interface ExtensionResource extends Resource {}
 
-export function extensionResourceSerializer(item: ExtensionResource): any {
-  return item;
+export function extensionResourceSerializer(_item: ExtensionResource): any {
+  return {};
 }
 
 export function extensionResourceDeserializer(item: any): ExtensionResource {
@@ -576,8 +576,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -1146,8 +1146,8 @@ export function externalEvaluationEndpointSettingsDeserializer(
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
 }
 
 export function proxyResourceDeserializer(item: any): ProxyResource {
@@ -1309,16 +1309,16 @@ export function policyDefinitionVersionPropertiesDeserializer(
 }
 
 /** The response of a PolicyDefinitionVersion list operation. */
-export interface _PolicyDefinitionVersionListResult {
+export interface PolicyDefinitionVersionListResult {
   /** The PolicyDefinitionVersion items on this page */
   value: PolicyDefinitionVersion[];
   /** The link to the next page of items */
   nextLink?: string;
 }
 
-export function _policyDefinitionVersionListResultDeserializer(
+export function policyDefinitionVersionListResultDeserializer(
   item: any,
-): _PolicyDefinitionVersionListResult {
+): PolicyDefinitionVersionListResult {
   return {
     value: policyDefinitionVersionArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -1718,16 +1718,16 @@ export function policySetDefinitionVersionPropertiesDeserializer(
 }
 
 /** The response of a PolicySetDefinitionVersion list operation. */
-export interface _PolicySetDefinitionVersionListResult {
+export interface PolicySetDefinitionVersionListResult {
   /** The PolicySetDefinitionVersion items on this page */
   value: PolicySetDefinitionVersion[];
   /** The link to the next page of items */
   nextLink?: string;
 }
 
-export function _policySetDefinitionVersionListResultDeserializer(
+export function policySetDefinitionVersionListResultDeserializer(
   item: any,
-): _PolicySetDefinitionVersionListResult {
+): PolicySetDefinitionVersionListResult {
   return {
     value: policySetDefinitionVersionArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -1881,40 +1881,22 @@ export interface PolicyLogInfo {
   policyDefinitionReferenceId?: string;
   /** The policy set definition name. */
   policySetDefinitionName?: string;
-  /** The policy set definition display name. */
-  policySetDefinitionDisplayName?: string;
   /** The policy set definition version. */
   policySetDefinitionVersion?: string;
-  /** The policy set definition category. */
-  policySetDefinitionCategory?: string;
   /** The policy definition name. */
   policyDefinitionName?: string;
-  /** The policy definition display name. */
-  policyDefinitionDisplayName?: string;
   /** The policy definition version. */
   policyDefinitionVersion?: string;
   /** The policy definition action. */
   policyDefinitionEffect?: string;
-  /** An array of policy definition group names. */
-  policyDefinitionGroupNames?: string[];
   /** The policy assignment Id. */
   policyAssignmentId?: string;
   /** The policy assignment name. */
   policyAssignmentName?: string;
-  /** The policy assignment display name. */
-  policyAssignmentDisplayName?: string;
   /** The policy assignment version. */
   policyAssignmentVersion?: string;
   /** The policy assignment scope. */
   policyAssignmentScope?: string;
-  /** The resource location. */
-  resourceLocation?: string;
-  /** The management group ancestors. */
-  ancestors?: string;
-  /** The policy compliance reason code. */
-  complianceReasonCode?: string;
-  /** An array of policy exemption Ids. */
-  policyExemptionIds?: string[];
 }
 
 export function policyLogInfoDeserializer(item: any): PolicyLogInfo {
@@ -1923,31 +1905,14 @@ export function policyLogInfoDeserializer(item: any): PolicyLogInfo {
     policySetDefinitionId: item["policySetDefinitionId"],
     policyDefinitionReferenceId: item["policyDefinitionReferenceId"],
     policySetDefinitionName: item["policySetDefinitionName"],
-    policySetDefinitionDisplayName: item["policySetDefinitionDisplayName"],
     policySetDefinitionVersion: item["policySetDefinitionVersion"],
-    policySetDefinitionCategory: item["policySetDefinitionCategory"],
     policyDefinitionName: item["policyDefinitionName"],
-    policyDefinitionDisplayName: item["policyDefinitionDisplayName"],
     policyDefinitionVersion: item["policyDefinitionVersion"],
     policyDefinitionEffect: item["policyDefinitionEffect"],
-    policyDefinitionGroupNames: !item["policyDefinitionGroupNames"]
-      ? item["policyDefinitionGroupNames"]
-      : item["policyDefinitionGroupNames"].map((p: any) => {
-          return p;
-        }),
     policyAssignmentId: item["policyAssignmentId"],
     policyAssignmentName: item["policyAssignmentName"],
-    policyAssignmentDisplayName: item["policyAssignmentDisplayName"],
     policyAssignmentVersion: item["policyAssignmentVersion"],
     policyAssignmentScope: item["policyAssignmentScope"],
-    resourceLocation: item["resourceLocation"],
-    ancestors: item["ancestors"],
-    complianceReasonCode: item["complianceReasonCode"],
-    policyExemptionIds: !item["policyExemptionIds"]
-      ? item["policyExemptionIds"]
-      : item["policyExemptionIds"].map((p: any) => {
-          return p;
-        }),
   };
 }
 
@@ -1969,7 +1934,13 @@ export enum KnownExternalEndpointResult {
  */
 export type ExternalEndpointResult = string;
 
-/** The available API versions. */
+/**
+ * The available API versions.
+ *
+ * The preview version (v2026_01_01_preview) includes everything from the latest
+ * stable version plus new preview-only resource types:
+ * - PolicyExemption, Variable, VariableValue (marked with
+ */
 export enum KnownVersions {
   /** The 2025-03-01 API version. */
   V20250301 = "2025-03-01",

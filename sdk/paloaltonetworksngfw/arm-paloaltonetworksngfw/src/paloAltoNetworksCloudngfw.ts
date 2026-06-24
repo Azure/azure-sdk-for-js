@@ -1,47 +1,66 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   PaloAltoNetworksCloudngfwContext,
   PaloAltoNetworksCloudngfwOptionalParams,
+  createPaloAltoNetworksCloudngfw,
 } from "./api/index.js";
-import { createPaloAltoNetworksCloudngfw } from "./api/index.js";
-import type { CertificateObjectGlobalRulestackOperations } from "./classic/certificateObjectGlobalRulestack/index.js";
-import { _getCertificateObjectGlobalRulestackOperations } from "./classic/certificateObjectGlobalRulestack/index.js";
-import type { CertificateObjectLocalRulestackOperations } from "./classic/certificateObjectLocalRulestack/index.js";
-import { _getCertificateObjectLocalRulestackOperations } from "./classic/certificateObjectLocalRulestack/index.js";
-import type { CustomCaptureConfigurationsFirewallResourcesOperations } from "./classic/customCaptureConfigurationsFirewallResources/index.js";
-import { _getCustomCaptureConfigurationsFirewallResourcesOperations } from "./classic/customCaptureConfigurationsFirewallResources/index.js";
-import type { FirewallStatusOperations } from "./classic/firewallStatus/index.js";
-import { _getFirewallStatusOperations } from "./classic/firewallStatus/index.js";
-import type { FirewallsOperations } from "./classic/firewalls/index.js";
-import { _getFirewallsOperations } from "./classic/firewalls/index.js";
-import type { FqdnListGlobalRulestackOperations } from "./classic/fqdnListGlobalRulestack/index.js";
-import { _getFqdnListGlobalRulestackOperations } from "./classic/fqdnListGlobalRulestack/index.js";
-import type { FqdnListLocalRulestackOperations } from "./classic/fqdnListLocalRulestack/index.js";
-import { _getFqdnListLocalRulestackOperations } from "./classic/fqdnListLocalRulestack/index.js";
-import type { GlobalRulestackOperations } from "./classic/globalRulestack/index.js";
-import { _getGlobalRulestackOperations } from "./classic/globalRulestack/index.js";
-import type { LocalRulesOperations } from "./classic/localRules/index.js";
-import { _getLocalRulesOperations } from "./classic/localRules/index.js";
-import type { LocalRulestacksOperations } from "./classic/localRulestacks/index.js";
-import { _getLocalRulestacksOperations } from "./classic/localRulestacks/index.js";
-import type { MetricsObjectFirewallOperations } from "./classic/metricsObjectFirewall/index.js";
-import { _getMetricsObjectFirewallOperations } from "./classic/metricsObjectFirewall/index.js";
-import type { OperationsOperations } from "./classic/operations/index.js";
-import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { PaloAltoNetworksCloudngfwOperationsOperations } from "./classic/paloAltoNetworksCloudngfwOperations/index.js";
-import { _getPaloAltoNetworksCloudngfwOperationsOperations } from "./classic/paloAltoNetworksCloudngfwOperations/index.js";
-import type { PostRulesOperations } from "./classic/postRules/index.js";
-import { _getPostRulesOperations } from "./classic/postRules/index.js";
-import type { PreRulesOperations } from "./classic/preRules/index.js";
-import { _getPreRulesOperations } from "./classic/preRules/index.js";
-import type { PrefixListGlobalRulestackOperations } from "./classic/prefixListGlobalRulestack/index.js";
-import { _getPrefixListGlobalRulestackOperations } from "./classic/prefixListGlobalRulestack/index.js";
-import type { PrefixListLocalRulestackOperations } from "./classic/prefixListLocalRulestack/index.js";
-import { _getPrefixListLocalRulestackOperations } from "./classic/prefixListLocalRulestack/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import {
+  CertificateObjectGlobalRulestackOperations,
+  _getCertificateObjectGlobalRulestackOperations,
+} from "./classic/certificateObjectGlobalRulestack/index.js";
+import {
+  CertificateObjectLocalRulestackOperations,
+  _getCertificateObjectLocalRulestackOperations,
+} from "./classic/certificateObjectLocalRulestack/index.js";
+import {
+  CustomCaptureConfigurationsFirewallResourcesOperations,
+  _getCustomCaptureConfigurationsFirewallResourcesOperations,
+} from "./classic/customCaptureConfigurationsFirewallResources/index.js";
+import {
+  FirewallStatusOperations,
+  _getFirewallStatusOperations,
+} from "./classic/firewallStatus/index.js";
+import { FirewallsOperations, _getFirewallsOperations } from "./classic/firewalls/index.js";
+import {
+  FqdnListGlobalRulestackOperations,
+  _getFqdnListGlobalRulestackOperations,
+} from "./classic/fqdnListGlobalRulestack/index.js";
+import {
+  FqdnListLocalRulestackOperations,
+  _getFqdnListLocalRulestackOperations,
+} from "./classic/fqdnListLocalRulestack/index.js";
+import {
+  GlobalRulestackOperations,
+  _getGlobalRulestackOperations,
+} from "./classic/globalRulestack/index.js";
+import { LocalRulesOperations, _getLocalRulesOperations } from "./classic/localRules/index.js";
+import {
+  LocalRulestacksOperations,
+  _getLocalRulestacksOperations,
+} from "./classic/localRulestacks/index.js";
+import {
+  MetricsObjectFirewallOperations,
+  _getMetricsObjectFirewallOperations,
+} from "./classic/metricsObjectFirewall/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import {
+  PaloAltoNetworksCloudngfwOperationsOperations,
+  _getPaloAltoNetworksCloudngfwOperationsOperations,
+} from "./classic/paloAltoNetworksCloudngfwOperations/index.js";
+import { PostRulesOperations, _getPostRulesOperations } from "./classic/postRules/index.js";
+import { PreRulesOperations, _getPreRulesOperations } from "./classic/preRules/index.js";
+import {
+  PrefixListGlobalRulestackOperations,
+  _getPrefixListGlobalRulestackOperations,
+} from "./classic/prefixListGlobalRulestack/index.js";
+import {
+  PrefixListLocalRulestackOperations,
+  _getPrefixListLocalRulestackOperations,
+} from "./classic/prefixListLocalRulestack/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { PaloAltoNetworksCloudngfwOptionalParams } from "./api/paloAltoNetworksCloudngfwContext.js";
 

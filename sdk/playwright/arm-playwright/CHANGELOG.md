@@ -1,26 +1,72 @@
 # Release History
 
-## 1.1.0-beta.1 (2026-04-06)
+## 1.1.0-beta.2 (2026-06-24)
 Compared with version 1.0.0
 
 ### Features Added
+  - Added operation group OperationsOperations
+  - Added operation group PlaywrightQuotasOperations
+  - Added operation group PlaywrightWorkspaceQuotasOperations
+  - Added operation group PlaywrightWorkspacesOperations
+  - Added Class PlaywrightManagementClient
+  - Added Interface CheckNameAvailabilityRequest
+  - Added Interface CheckNameAvailabilityResponse
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface FreeTrialProperties
   - Added Interface ManagedServiceIdentity
+  - Added Interface Operation
+  - Added Interface OperationDisplay
+  - Added Interface OperationsListOptionalParams
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface PlaywrightManagementClientOptionalParams
+  - Added Interface PlaywrightQuota
+  - Added Interface PlaywrightQuotaProperties
+  - Added Interface PlaywrightQuotasGetOptionalParams
+  - Added Interface PlaywrightQuotasListBySubscriptionOptionalParams
+  - Added Interface PlaywrightWorkspace
+  - Added Interface PlaywrightWorkspaceFreeTrialProperties
+  - Added Interface PlaywrightWorkspaceProperties
+  - Added Interface PlaywrightWorkspaceQuota
+  - Added Interface PlaywrightWorkspaceQuotaProperties
+  - Added Interface PlaywrightWorkspaceQuotasGetOptionalParams
+  - Added Interface PlaywrightWorkspaceQuotasListByPlaywrightWorkspaceOptionalParams
+  - Added Interface PlaywrightWorkspacesCheckNameAvailabilityOptionalParams
+  - Added Interface PlaywrightWorkspacesCreateOrUpdateOptionalParams
+  - Added Interface PlaywrightWorkspacesDeleteOptionalParams
+  - Added Interface PlaywrightWorkspacesGetOptionalParams
+  - Added Interface PlaywrightWorkspacesListByResourceGroupOptionalParams
+  - Added Interface PlaywrightWorkspacesListBySubscriptionOptionalParams
+  - Added Interface PlaywrightWorkspacesUpdateOptionalParams
+  - Added Interface PlaywrightWorkspaceUpdate
+  - Added Interface PlaywrightWorkspaceUpdateProperties
+  - Added Interface ProxyResource
+  - Added Interface Resource
+  - Added Interface RestorePollerOptions
+  - Added Interface SystemData
+  - Added Interface TrackedResource
   - Added Interface UserAssignedIdentity
-  - Interface PlaywrightWorkspace has a new optional parameter identity
-  - Interface PlaywrightWorkspaceProperties has a new optional parameter reporting
-  - Interface PlaywrightWorkspaceProperties has a new optional parameter storageUri
-  - Interface PlaywrightWorkspaceUpdate has a new optional parameter identity
-  - Interface PlaywrightWorkspaceUpdateProperties has a new optional parameter reporting
-  - Interface PlaywrightWorkspaceUpdateProperties has a new optional parameter storageUri
+  - Added Type Alias ActionType
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias CheckNameAvailabilityReason
+  - Added Type Alias CreatedByType
+  - Added Type Alias EnablementStatus
+  - Added Type Alias FreeTrialState
   - Added Type Alias ManagedServiceIdentityType
+  - Added Type Alias Origin
+  - Added Type Alias ProvisioningState
+  - Added Type Alias QuotaName
+  - Added Enum AzureClouds
+  - Added Enum KnownActionType
+  - Added Enum KnownCheckNameAvailabilityReason
+  - Added Enum KnownCreatedByType
+  - Added Enum KnownEnablementStatus
+  - Added Enum KnownFreeTrialState
   - Added Enum KnownManagedServiceIdentityType
-  - Enum KnownVersions has a new value V20250701Preview
-  - Enum KnownVersions has a new value V20260101Preview
-  - Enum KnownVersions has a new value V20260201Preview
+  - Added Enum KnownOrigin
+  - Added Enum KnownProvisioningState
+  - Added Enum KnownQuotaName
+  - Added Enum KnownVersions
 
-    
-## 1.0.0 (2025-08-14)
-
-### Features Added
-
-This is the first stable version with the package of @azure/arm-playwright

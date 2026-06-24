@@ -1,38 +1,40 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { OracleDatabaseManagementContext as Client } from "../index.js";
-import type {
-  VirtualNetworkAddress,
-  _VirtualNetworkAddressListResult,
-} from "../../models/models.js";
+import { OracleDatabaseManagementContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  VirtualNetworkAddress,
   virtualNetworkAddressSerializer,
   virtualNetworkAddressDeserializer,
+  _VirtualNetworkAddressListResult,
   _virtualNetworkAddressListResultDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   VirtualNetworkAddressesListByParentOptionalParams,
   VirtualNetworkAddressesDeleteOptionalParams,
   VirtualNetworkAddressesGetOptionalParams,
   VirtualNetworkAddressesCreateOrUpdateOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listByParentSend(
   context: Client,
   resourceGroupName: string,
   cloudvmclustername: string,
-  options: VirtualNetworkAddressesListByParentOptionalParams = {
-    requestOptions: {},
-  },
+  options: VirtualNetworkAddressesListByParentOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/cloudVmClusters/{cloudvmclustername}/virtualNetworkAddresses{?api%2Dversion}",
@@ -40,19 +42,18 @@ export function _listByParentSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       cloudvmclustername: cloudvmclustername,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listByParentDeserialize(
@@ -61,7 +62,10 @@ export async function _listByParentDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -73,16 +77,14 @@ export function listByParent(
   context: Client,
   resourceGroupName: string,
   cloudvmclustername: string,
-  options: VirtualNetworkAddressesListByParentOptionalParams = {
-    requestOptions: {},
-  },
+  options: VirtualNetworkAddressesListByParentOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<VirtualNetworkAddress> {
   return buildPagedAsyncIterator(
     context,
     () => _listByParentSend(context, resourceGroupName, cloudvmclustername, options),
     _listByParentDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-09-01" },
   );
 }
 
@@ -100,7 +102,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       cloudvmclustername: cloudvmclustername,
       virtualnetworkaddressname: virtualnetworkaddressname,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -113,7 +115,10 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -121,11 +126,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete a VirtualNetworkAddress */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -145,6 +145,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-09-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -162,19 +163,18 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       cloudvmclustername: cloudvmclustername,
       virtualnetworkaddressname: virtualnetworkaddressname,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(
@@ -183,7 +183,10 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -214,9 +217,7 @@ export function _createOrUpdateSend(
   cloudvmclustername: string,
   virtualnetworkaddressname: string,
   resource: VirtualNetworkAddress,
-  options: VirtualNetworkAddressesCreateOrUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: VirtualNetworkAddressesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Oracle.Database/cloudVmClusters/{cloudvmclustername}/virtualNetworkAddresses/{virtualnetworkaddressname}{?api%2Dversion}",
@@ -225,21 +226,20 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       cloudvmclustername: cloudvmclustername,
       virtualnetworkaddressname: virtualnetworkaddressname,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: virtualNetworkAddressSerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: virtualNetworkAddressSerializer(resource),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -248,7 +248,10 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -262,9 +265,7 @@ export function createOrUpdate(
   cloudvmclustername: string,
   virtualnetworkaddressname: string,
   resource: VirtualNetworkAddress,
-  options: VirtualNetworkAddressesCreateOrUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: VirtualNetworkAddressesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<VirtualNetworkAddress>, VirtualNetworkAddress> {
   return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
@@ -279,5 +280,6 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2025-09-01",
   }) as PollerLike<OperationState<VirtualNetworkAddress>, VirtualNetworkAddress>;
 }

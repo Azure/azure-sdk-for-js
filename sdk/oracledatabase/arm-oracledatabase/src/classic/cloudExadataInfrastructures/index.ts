@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { OracleDatabaseManagementContext } from "../../api/oracleDatabaseManagementContext.js";
+import { OracleDatabaseManagementContext } from "../../api/oracleDatabaseManagementContext.js";
 import {
   configureExascale,
   addStorageCapacity,
@@ -12,7 +12,7 @@ import {
   createOrUpdate,
   listBySubscription,
 } from "../../api/cloudExadataInfrastructures/operations.js";
-import type {
+import {
   CloudExadataInfrastructuresConfigureExascaleOptionalParams,
   CloudExadataInfrastructuresAddStorageCapacityOptionalParams,
   CloudExadataInfrastructuresListByResourceGroupOptionalParams,
@@ -22,13 +22,13 @@ import type {
   CloudExadataInfrastructuresCreateOrUpdateOptionalParams,
   CloudExadataInfrastructuresListBySubscriptionOptionalParams,
 } from "../../api/cloudExadataInfrastructures/options.js";
-import type {
+import {
   CloudExadataInfrastructure,
   CloudExadataInfrastructureUpdate,
   ConfigureExascaleCloudExadataInfrastructureDetails,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a CloudExadataInfrastructures operations. */
 export interface CloudExadataInfrastructuresOperations {
@@ -51,11 +51,6 @@ export interface CloudExadataInfrastructuresOperations {
     options?: CloudExadataInfrastructuresListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<CloudExadataInfrastructure>;
   /** Delete a CloudExadataInfrastructure */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     cloudexadatainfrastructurename: string,

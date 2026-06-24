@@ -2,7 +2,7 @@
   "apiVersions": {
     "Microsoft.Peering": "2025-05-01"
   },
-  "emitterVersion": "0.52.3",
+  "emitterVersion": "0.55.0-dev.8",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.Peering",
     "CrossLanguageDefinitionId": {

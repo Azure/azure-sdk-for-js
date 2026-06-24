@@ -83,7 +83,9 @@ export async function _uncordonDeserialize(
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -135,7 +137,9 @@ export async function _startDeserialize(
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -178,13 +182,15 @@ export function _runReadCommandsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: bareMetalMachineRunReadCommandsParametersSerializer(
-      bareMetalMachineRunReadCommandsParameters,
-    ),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: bareMetalMachineRunReadCommandsParametersSerializer(
+        bareMetalMachineRunReadCommandsParameters,
+      ),
+    });
 }
 
 export async function _runReadCommandsDeserialize(
@@ -193,7 +199,9 @@ export async function _runReadCommandsDeserialize(
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -244,13 +252,15 @@ export function _runDataExtractsRestrictedSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: bareMetalMachineRunDataExtractsParametersSerializer(
-      bareMetalMachineRunDataExtractsRestrictedParameters,
-    ),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: bareMetalMachineRunDataExtractsParametersSerializer(
+        bareMetalMachineRunDataExtractsRestrictedParameters,
+      ),
+    });
 }
 
 export async function _runDataExtractsRestrictedDeserialize(
@@ -259,7 +269,9 @@ export async function _runDataExtractsRestrictedDeserialize(
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -315,13 +327,15 @@ export function _runDataExtractsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: bareMetalMachineRunDataExtractsParametersSerializer(
-      bareMetalMachineRunDataExtractsParameters,
-    ),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: bareMetalMachineRunDataExtractsParametersSerializer(
+        bareMetalMachineRunDataExtractsParameters,
+      ),
+    });
 }
 
 export async function _runDataExtractsDeserialize(
@@ -330,7 +344,9 @@ export async function _runDataExtractsDeserialize(
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -381,11 +397,13 @@ export function _runCommandSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: bareMetalMachineRunCommandParametersSerializer(bareMetalMachineRunCommandParameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: bareMetalMachineRunCommandParametersSerializer(bareMetalMachineRunCommandParameters),
+    });
 }
 
 export async function _runCommandDeserialize(
@@ -394,7 +412,9 @@ export async function _runCommandDeserialize(
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -453,7 +473,9 @@ export async function _restartDeserialize(
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -496,13 +518,15 @@ export function _replaceSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: !options["bareMetalMachineReplaceParameters"]
-      ? options["bareMetalMachineReplaceParameters"]
-      : bareMetalMachineReplaceParametersSerializer(options["bareMetalMachineReplaceParameters"]),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: !options?.bareMetalMachineReplaceParameters
+        ? options?.bareMetalMachineReplaceParameters
+        : bareMetalMachineReplaceParametersSerializer(options?.bareMetalMachineReplaceParameters),
+    });
 }
 
 export async function _replaceDeserialize(
@@ -511,7 +535,9 @@ export async function _replaceDeserialize(
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -554,13 +580,15 @@ export function _reimageSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: !options["body"]
-      ? options["body"]
-      : bareMetalMachineReimageParametersSerializer(options["body"]),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: !options?.body
+        ? options?.body
+        : bareMetalMachineReimageParametersSerializer(options?.body),
+    });
 }
 
 export async function _reimageDeserialize(
@@ -569,7 +597,9 @@ export async function _reimageDeserialize(
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -612,13 +642,15 @@ export function _powerOffSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: !options["bareMetalMachinePowerOffParameters"]
-      ? options["bareMetalMachinePowerOffParameters"]
-      : bareMetalMachinePowerOffParametersSerializer(options["bareMetalMachinePowerOffParameters"]),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: !options?.bareMetalMachinePowerOffParameters
+        ? options?.bareMetalMachinePowerOffParameters
+        : bareMetalMachinePowerOffParametersSerializer(options?.bareMetalMachinePowerOffParameters),
+    });
 }
 
 export async function _powerOffDeserialize(
@@ -627,7 +659,9 @@ export async function _powerOffDeserialize(
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -670,13 +704,15 @@ export function _cordonSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: !options["bareMetalMachineCordonParameters"]
-      ? options["bareMetalMachineCordonParameters"]
-      : bareMetalMachineCordonParametersSerializer(options["bareMetalMachineCordonParameters"]),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: !options?.bareMetalMachineCordonParameters
+        ? options?.bareMetalMachineCordonParameters
+        : bareMetalMachineCordonParametersSerializer(options?.bareMetalMachineCordonParameters),
+    });
 }
 
 export async function _cordonDeserialize(
@@ -685,7 +721,9 @@ export async function _cordonDeserialize(
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -726,10 +764,12 @@ export function _listBySubscriptionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listBySubscriptionDeserialize(
@@ -738,7 +778,9 @@ export async function _listBySubscriptionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -782,10 +824,12 @@ export function _listByResourceGroupSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listByResourceGroupDeserialize(
@@ -794,7 +838,9 @@ export async function _listByResourceGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -839,14 +885,16 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
-      ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+        ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _$deleteDeserialize(
@@ -855,7 +903,9 @@ export async function _$deleteDeserialize(
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -898,26 +948,30 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
-      ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: !options["bareMetalMachineUpdateParameters"]
-      ? options["bareMetalMachineUpdateParameters"]
-      : bareMetalMachinePatchParametersSerializer(options["bareMetalMachineUpdateParameters"]),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+        ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: !options?.bareMetalMachineUpdateParameters
+        ? options?.bareMetalMachineUpdateParameters
+        : bareMetalMachinePatchParametersSerializer(options?.bareMetalMachineUpdateParameters),
+    });
 }
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<BareMetalMachine> {
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -961,17 +1015,19 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
-      ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: bareMetalMachineSerializer(bareMetalMachineParameters),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+        ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: bareMetalMachineSerializer(bareMetalMachineParameters),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -980,7 +1036,9 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1030,17 +1088,21 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<BareMetalMachine> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

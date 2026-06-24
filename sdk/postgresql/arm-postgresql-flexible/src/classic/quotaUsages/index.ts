@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PostgreSQLManagementFlexibleServerContext } from "../../api/postgreSQLManagementFlexibleServerContext.js";
+import { PostgreSQLManagementFlexibleServerContext } from "../../api/postgreSQLManagementFlexibleServerContext.js";
 import { list } from "../../api/quotaUsages/operations.js";
-import type { QuotaUsagesListOptionalParams } from "../../api/quotaUsages/options.js";
-import type { QuotaUsage } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { QuotaUsagesListOptionalParams } from "../../api/quotaUsages/options.js";
+import { QuotaUsage } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a QuotaUsages operations. */
 export interface QuotaUsagesOperations {

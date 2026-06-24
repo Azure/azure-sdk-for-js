@@ -69,11 +69,13 @@ export function _updateVersionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: clusterUpdateVersionParametersSerializer(clusterUpdateVersionParameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: clusterUpdateVersionParametersSerializer(clusterUpdateVersionParameters),
+    });
 }
 
 export async function _updateVersionDeserialize(
@@ -82,7 +84,9 @@ export async function _updateVersionDeserialize(
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -132,13 +136,15 @@ export function _scanRuntimeSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: !options["clusterScanRuntimeParameters"]
-      ? options["clusterScanRuntimeParameters"]
-      : clusterScanRuntimeParametersSerializer(options["clusterScanRuntimeParameters"]),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: !options?.clusterScanRuntimeParameters
+        ? options?.clusterScanRuntimeParameters
+        : clusterScanRuntimeParametersSerializer(options?.clusterScanRuntimeParameters),
+    });
 }
 
 export async function _scanRuntimeDeserialize(
@@ -147,7 +153,9 @@ export async function _scanRuntimeDeserialize(
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -190,11 +198,13 @@ export function _rotateCredentialSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: clusterRotateCredentialParametersSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: clusterRotateCredentialParametersSerializer(body),
+    });
 }
 
 export async function _rotateCredentialDeserialize(
@@ -203,7 +213,9 @@ export async function _rotateCredentialDeserialize(
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -247,13 +259,15 @@ export function _inspectSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: !options["clusterInspectParameters"]
-      ? options["clusterInspectParameters"]
-      : clusterInspectParametersSerializer(options["clusterInspectParameters"]),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: !options?.clusterInspectParameters
+        ? options?.clusterInspectParameters
+        : clusterInspectParametersSerializer(options?.clusterInspectParameters),
+    });
 }
 
 export async function _inspectDeserialize(
@@ -262,7 +276,9 @@ export async function _inspectDeserialize(
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -304,13 +320,15 @@ export function _deploySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: !options["clusterDeployParameters"]
-      ? options["clusterDeployParameters"]
-      : clusterDeployParametersSerializer(options["clusterDeployParameters"]),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: !options?.clusterDeployParameters
+        ? options?.clusterDeployParameters
+        : clusterDeployParametersSerializer(options?.clusterDeployParameters),
+    });
 }
 
 export async function _deployDeserialize(
@@ -319,7 +337,9 @@ export async function _deployDeserialize(
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -362,11 +382,15 @@ export function _continueUpdateVersionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: clusterContinueUpdateVersionParametersSerializer(clusterContinueUpdateVersionParameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: clusterContinueUpdateVersionParametersSerializer(
+        clusterContinueUpdateVersionParameters,
+      ),
+    });
 }
 
 export async function _continueUpdateVersionDeserialize(
@@ -375,7 +399,9 @@ export async function _continueUpdateVersionDeserialize(
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -423,10 +449,12 @@ export function _listBySubscriptionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listBySubscriptionDeserialize(
@@ -435,7 +463,9 @@ export async function _listBySubscriptionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -479,10 +509,12 @@ export function _listByResourceGroupSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listByResourceGroupDeserialize(
@@ -491,7 +523,9 @@ export async function _listByResourceGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -536,14 +570,16 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
-      ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+        ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _$deleteDeserialize(
@@ -552,7 +588,9 @@ export async function _$deleteDeserialize(
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -594,26 +632,30 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
-      ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: !options["clusterUpdateParameters"]
-      ? options["clusterUpdateParameters"]
-      : clusterPatchParametersSerializer(options["clusterUpdateParameters"]),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+        ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: !options?.clusterUpdateParameters
+        ? options?.clusterUpdateParameters
+        : clusterPatchParametersSerializer(options?.clusterUpdateParameters),
+    });
 }
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<Cluster> {
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -656,24 +698,28 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
-      ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: clusterSerializer(clusterParameters),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+        ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: clusterSerializer(clusterParameters),
+    });
 }
 
 export async function _createOrUpdateDeserialize(result: PathUncheckedResponse): Promise<Cluster> {
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -717,17 +763,21 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<Cluster> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

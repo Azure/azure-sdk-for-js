@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PostgreSQLManagementFlexibleServerContext } from "../../api/postgreSQLManagementFlexibleServerContext.js";
+import { PostgreSQLManagementFlexibleServerContext } from "../../api/postgreSQLManagementFlexibleServerContext.js";
 import { checkWithLocation, checkGlobally } from "../../api/nameAvailability/operations.js";
-import type {
+import {
   NameAvailabilityCheckWithLocationOptionalParams,
   NameAvailabilityCheckGloballyOptionalParams,
 } from "../../api/nameAvailability/options.js";
-import type { CheckNameAvailabilityRequest, NameAvailabilityModel } from "../../models/models.js";
+import { CheckNameAvailabilityRequest, NameAvailabilityModel } from "../../models/models.js";
 
 /** Interface representing a NameAvailability operations. */
 export interface NameAvailabilityOperations {

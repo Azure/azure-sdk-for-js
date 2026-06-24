@@ -7299,16 +7299,16 @@ export interface StorageAppliance extends TrackedResource {
   readonly etag?: string;
   /** The extended location of the resource. This property is required when creating the resource. */
   extendedLocation: ExtendedLocation;
-  /** The credentials of the administrative interface on this storage appliance. */
-  administratorCredentials: AdministrativeCredentials;
   /** The resource ID of the rack where this storage appliance resides. */
   rackId: string;
+  /** The SKU for the storage appliance. */
+  storageApplianceSkuId: string;
   /** The slot the storage appliance is in the rack based on the BOM configuration. */
   rackSlot: number;
   /** The serial number for the storage appliance. */
   serialNumber: string;
-  /** The SKU for the storage appliance. */
-  storageApplianceSkuId: string;
+  /** The credentials of the administrative interface on this storage appliance. */
+  administratorCredentials: AdministrativeCredentials;
   /** The CA certificate information issued by the platform for connecting to TLS interfaces for the storage appliance. Callers add this certificate to their trusted CA store to allow secure communication with the storage appliance. */
   readonly caCertificate?: CertificateInfo;
   /** The total capacity of the storage appliance. Measured in GiB. */
@@ -7372,16 +7372,16 @@ export function storageApplianceDeserializer(item: any): StorageAppliance {
 
 /** StorageApplianceProperties represents the properties of the storage appliance. */
 export interface StorageApplianceProperties {
-  /** The credentials of the administrative interface on this storage appliance. */
-  administratorCredentials: AdministrativeCredentials;
   /** The resource ID of the rack where this storage appliance resides. */
   rackId: string;
+  /** The SKU for the storage appliance. */
+  storageApplianceSkuId: string;
   /** The slot the storage appliance is in the rack based on the BOM configuration. */
   rackSlot: number;
   /** The serial number for the storage appliance. */
   serialNumber: string;
-  /** The SKU for the storage appliance. */
-  storageApplianceSkuId: string;
+  /** The credentials of the administrative interface on this storage appliance. */
+  administratorCredentials: AdministrativeCredentials;
   /** The CA certificate information issued by the platform for connecting to TLS interfaces for the storage appliance. Callers add this certificate to their trusted CA store to allow secure communication with the storage appliance. */
   readonly caCertificate?: CertificateInfo;
   /** The total capacity of the storage appliance. Measured in GiB. */
@@ -7418,23 +7418,23 @@ export interface StorageApplianceProperties {
 
 export function storageAppliancePropertiesSerializer(item: StorageApplianceProperties): any {
   return {
-    administratorCredentials: administrativeCredentialsSerializer(item["administratorCredentials"]),
     rackId: item["rackId"],
+    storageApplianceSkuId: item["storageApplianceSkuId"],
     rackSlot: item["rackSlot"],
     serialNumber: item["serialNumber"],
-    storageApplianceSkuId: item["storageApplianceSkuId"],
+    administratorCredentials: administrativeCredentialsSerializer(item["administratorCredentials"]),
   };
 }
 
 export function storageAppliancePropertiesDeserializer(item: any): StorageApplianceProperties {
   return {
+    rackId: item["rackId"],
+    storageApplianceSkuId: item["storageApplianceSkuId"],
+    rackSlot: item["rackSlot"],
+    serialNumber: item["serialNumber"],
     administratorCredentials: administrativeCredentialsDeserializer(
       item["administratorCredentials"],
     ),
-    rackId: item["rackId"],
-    rackSlot: item["rackSlot"],
-    serialNumber: item["serialNumber"],
-    storageApplianceSkuId: item["storageApplianceSkuId"],
     caCertificate: !item["caCertificate"]
       ? item["caCertificate"]
       : certificateInfoDeserializer(item["caCertificate"]),
@@ -11172,23 +11172,23 @@ export function _rackPatchParametersPropertiesSerializer(item: RackPatchParamete
 
 export function _storageAppliancePropertiesSerializer(item: StorageAppliance): any {
   return {
-    administratorCredentials: administrativeCredentialsSerializer(item["administratorCredentials"]),
     rackId: item["rackId"],
+    storageApplianceSkuId: item["storageApplianceSkuId"],
     rackSlot: item["rackSlot"],
     serialNumber: item["serialNumber"],
-    storageApplianceSkuId: item["storageApplianceSkuId"],
+    administratorCredentials: administrativeCredentialsSerializer(item["administratorCredentials"]),
   };
 }
 
 export function _storageAppliancePropertiesDeserializer(item: any) {
   return {
+    rackId: item["rackId"],
+    storageApplianceSkuId: item["storageApplianceSkuId"],
+    rackSlot: item["rackSlot"],
+    serialNumber: item["serialNumber"],
     administratorCredentials: administrativeCredentialsDeserializer(
       item["administratorCredentials"],
     ),
-    rackId: item["rackId"],
-    rackSlot: item["rackSlot"],
-    serialNumber: item["serialNumber"],
-    storageApplianceSkuId: item["storageApplianceSkuId"],
     caCertificate: !item["caCertificate"]
       ? item["caCertificate"]
       : certificateInfoDeserializer(item["caCertificate"]),

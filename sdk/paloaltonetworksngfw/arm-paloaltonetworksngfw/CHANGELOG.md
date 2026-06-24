@@ -1,39 +1,50 @@
 # Release History
 
-## 2.0.0-beta.1 (2026-06-16)
+## 1.3.0-beta.1 (2026-06-24)
 Compared with version 1.2.0
 
 ### Features Added
+  - Added operation group CertificateObjectGlobalRulestackOperations
+  - Added operation group CertificateObjectLocalRulestackOperations
   - Added operation group CustomCaptureConfigurationsFirewallResourcesOperations
-  - Added operation CertificateObjectGlobalRulestackOperations.createOrUpdate
-  - Added operation CertificateObjectGlobalRulestackOperations.delete
-  - Added operation CertificateObjectLocalRulestackOperations.createOrUpdate
-  - Added operation CertificateObjectLocalRulestackOperations.delete
-  - Added operation FirewallsOperations.createOrUpdate
-  - Added operation FirewallsOperations.delete
-  - Added operation FqdnListGlobalRulestackOperations.createOrUpdate
-  - Added operation FqdnListGlobalRulestackOperations.delete
-  - Added operation FqdnListLocalRulestackOperations.createOrUpdate
-  - Added operation FqdnListLocalRulestackOperations.delete
-  - Added operation GlobalRulestackOperations.commit
-  - Added operation GlobalRulestackOperations.createOrUpdate
-  - Added operation GlobalRulestackOperations.delete
-  - Added operation LocalRulesOperations.createOrUpdate
-  - Added operation LocalRulesOperations.delete
-  - Added operation LocalRulestacksOperations.commit
-  - Added operation LocalRulestacksOperations.createOrUpdate
-  - Added operation LocalRulestacksOperations.delete
-  - Added operation MetricsObjectFirewallOperations.createOrUpdate
-  - Added operation MetricsObjectFirewallOperations.delete
-  - Added operation PostRulesOperations.createOrUpdate
-  - Added operation PostRulesOperations.delete
-  - Added operation PrefixListGlobalRulestackOperations.createOrUpdate
-  - Added operation PrefixListGlobalRulestackOperations.delete
-  - Added operation PrefixListLocalRulestackOperations.createOrUpdate
-  - Added operation PrefixListLocalRulestackOperations.delete
-  - Added operation PreRulesOperations.createOrUpdate
-  - Added operation PreRulesOperations.delete
+  - Added operation group FirewallsOperations
+  - Added operation group FirewallStatusOperations
+  - Added operation group FqdnListGlobalRulestackOperations
+  - Added operation group FqdnListLocalRulestackOperations
+  - Added operation group GlobalRulestackOperations
+  - Added operation group LocalRulesOperations
+  - Added operation group LocalRulestacksOperations
+  - Added operation group MetricsObjectFirewallOperations
+  - Added operation group OperationsOperations
+  - Added operation group PaloAltoNetworksCloudngfwOperationsOperations
+  - Added operation group PostRulesOperations
+  - Added operation group PrefixListGlobalRulestackOperations
+  - Added operation group PrefixListLocalRulestackOperations
+  - Added operation group PreRulesOperations
+  - Added Class PaloAltoNetworksCloudngfw
+  - Added Interface AdvSecurityObjectListResponse
+  - Added Interface AdvSecurityObjectModel
+  - Added Interface ApplicationInsights
+  - Added Interface AppSeenData
+  - Added Interface AppSeenInfo
+  - Added Interface AzureResourceManagerManagedIdentityProperties
+  - Added Interface AzureResourceManagerUserAssignedIdentity
+  - Added Interface Category
   - Added Interface CertificateObject
+  - Added Interface CertificateObjectGlobalRulestackCreateOrUpdateOptionalParams
+  - Added Interface CertificateObjectGlobalRulestackDeleteOptionalParams
+  - Added Interface CertificateObjectGlobalRulestackGetOptionalParams
+  - Added Interface CertificateObjectGlobalRulestackListOptionalParams
+  - Added Interface CertificateObjectGlobalRulestackResource
+  - Added Interface CertificateObjectLocalRulestackCreateOrUpdateOptionalParams
+  - Added Interface CertificateObjectLocalRulestackDeleteOptionalParams
+  - Added Interface CertificateObjectLocalRulestackGetOptionalParams
+  - Added Interface CertificateObjectLocalRulestackListByLocalRulestacksOptionalParams
+  - Added Interface CertificateObjectLocalRulestackResource
+  - Added Interface Changelog
+  - Added Interface CloudManagerTenantList
+  - Added Interface CountriesResponse
+  - Added Interface Country
   - Added Interface CustomCaptureConfigurationsFilter
   - Added Interface CustomCaptureConfigurationsFirewallResource
   - Added Interface CustomCaptureConfigurationsFirewallResourcesCreateOrUpdateOptionalParams
@@ -41,111 +52,235 @@ Compared with version 1.2.0
   - Added Interface CustomCaptureConfigurationsFirewallResourcesGetOptionalParams
   - Added Interface CustomCaptureConfigurationsFirewallResourcesListByFirewallOptionalParams
   - Added Interface CustomCaptureConfigurationsProperties
+  - Added Interface DestinationAddr
+  - Added Interface DNSSettings
+  - Added Interface EndpointConfiguration
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface EventHub
   - Added Interface FirewallDeploymentProperties
+  - Added Interface FirewallResource
+  - Added Interface FirewallResourceUpdate
+  - Added Interface FirewallResourceUpdateProperties
+  - Added Interface FirewallsCreateOrUpdateOptionalParams
+  - Added Interface FirewallsDeleteOptionalParams
+  - Added Interface FirewallsGetGlobalRulestackOptionalParams
+  - Added Interface FirewallsGetLogProfileOptionalParams
+  - Added Interface FirewallsGetOptionalParams
+  - Added Interface FirewallsGetSupportInfoOptionalParams
+  - Added Interface FirewallsListByResourceGroupOptionalParams
+  - Added Interface FirewallsListBySubscriptionOptionalParams
+  - Added Interface FirewallsSaveLogProfileOptionalParams
+  - Added Interface FirewallStatusGetOptionalParams
+  - Added Interface FirewallStatusListByFirewallsOptionalParams
   - Added Interface FirewallStatusProperty
+  - Added Interface FirewallStatusResource
+  - Added Interface FirewallsUpdateOptionalParams
+  - Added Interface FqdnListGlobalRulestackCreateOrUpdateOptionalParams
+  - Added Interface FqdnListGlobalRulestackDeleteOptionalParams
+  - Added Interface FqdnListGlobalRulestackGetOptionalParams
+  - Added Interface FqdnListGlobalRulestackListOptionalParams
+  - Added Interface FqdnListGlobalRulestackResource
+  - Added Interface FqdnListLocalRulestackCreateOrUpdateOptionalParams
+  - Added Interface FqdnListLocalRulestackDeleteOptionalParams
+  - Added Interface FqdnListLocalRulestackGetOptionalParams
+  - Added Interface FqdnListLocalRulestackListByLocalRulestacksOptionalParams
+  - Added Interface FqdnListLocalRulestackResource
   - Added Interface FqdnObject
+  - Added Interface FrontendSetting
+  - Added Interface GlobalRulestackCommitOptionalParams
+  - Added Interface GlobalRulestackCreateOrUpdateOptionalParams
+  - Added Interface GlobalRulestackDeleteOptionalParams
+  - Added Interface GlobalRulestackGetChangeLogOptionalParams
+  - Added Interface GlobalRulestackGetOptionalParams
+  - Added Interface GlobalRulestackInfo
+  - Added Interface GlobalRulestackListAdvancedSecurityObjectsOptionalParams
+  - Added Interface GlobalRulestackListAppIdsOptionalParams
+  - Added Interface GlobalRulestackListCountriesOptionalParams
+  - Added Interface GlobalRulestackListFirewallsOptionalParams
+  - Added Interface GlobalRulestackListOptionalParams
+  - Added Interface GlobalRulestackListPredefinedUrlCategoriesOptionalParams
+  - Added Interface GlobalRulestackListSecurityServicesOptionalParams
+  - Added Interface GlobalRulestackResource
+  - Added Interface GlobalRulestackResourceUpdate
+  - Added Interface GlobalRulestackResourceUpdateProperties
+  - Added Interface GlobalRulestackRevertOptionalParams
+  - Added Interface GlobalRulestackUpdateOptionalParams
+  - Added Interface IPAddress
+  - Added Interface IPAddressSpace
+  - Added Interface ListAppIdResponse
+  - Added Interface ListFirewallsResponse
+  - Added Interface LocalRulesCreateOrUpdateOptionalParams
+  - Added Interface LocalRulesDeleteOptionalParams
+  - Added Interface LocalRulesGetCountersOptionalParams
+  - Added Interface LocalRulesGetOptionalParams
+  - Added Interface LocalRulesListByLocalRulestacksOptionalParams
+  - Added Interface LocalRulesRefreshCountersOptionalParams
+  - Added Interface LocalRulesResetCountersOptionalParams
+  - Added Interface LocalRulesResource
+  - Added Interface LocalRulestackResource
+  - Added Interface LocalRulestackResourceUpdate
+  - Added Interface LocalRulestackResourceUpdateProperties
+  - Added Interface LocalRulestacksCommitOptionalParams
+  - Added Interface LocalRulestacksCreateOrUpdateOptionalParams
+  - Added Interface LocalRulestacksDeleteOptionalParams
+  - Added Interface LocalRulestacksGetChangeLogOptionalParams
+  - Added Interface LocalRulestacksGetOptionalParams
+  - Added Interface LocalRulestacksGetSupportInfoOptionalParams
+  - Added Interface LocalRulestacksListAdvancedSecurityObjectsOptionalParams
+  - Added Interface LocalRulestacksListAppIdsOptionalParams
+  - Added Interface LocalRulestacksListByResourceGroupOptionalParams
+  - Added Interface LocalRulestacksListBySubscriptionOptionalParams
+  - Added Interface LocalRulestacksListCountriesOptionalParams
+  - Added Interface LocalRulestacksListFirewallsOptionalParams
+  - Added Interface LocalRulestacksListPredefinedUrlCategoriesOptionalParams
+  - Added Interface LocalRulestacksListSecurityServicesOptionalParams
+  - Added Interface LocalRulestacksRevertOptionalParams
+  - Added Interface LocalRulestacksUpdateOptionalParams
+  - Added Interface LogDestination
+  - Added Interface LogSettings
+  - Added Interface MarketplaceDetails
   - Added Interface MetricsObject
-  - Added Interface PagedAsyncIterableIterator
-  - Added Interface PageSettings
-  - Added Interface PrefixObject
-  - Added Interface RestorePollerOptions
-  - Added Interface RuleEntry
-  - Added Interface RulestackProperties
-  - Added Interface SimplePollerLike
-  - Interface FirewallResource has a new optional parameter firewallSku
-  - Added Type Alias AzureSupportedClouds
-  - Added Type Alias CustomCaptureConfigurationsProtocol
-  - Added Type Alias CustomCaptureConfigurationsStage
-  - Added Type Alias CustomCaptureConfigurationsStatus
-  - Added Enum AzureClouds
-  - Added Enum KnownCustomCaptureConfigurationsProtocol
-  - Added Enum KnownCustomCaptureConfigurationsStage
-  - Added Enum KnownCustomCaptureConfigurationsStatus
-  - Added Enum KnownVersions
-
-### Breaking Changes
-  - Operation MetricsObjectFirewall.beginDeleteAndWait has a new signature
-
-## 1.2.0 (2025-11-11)
-
-### Features Added
-  - Added operation group MetricsObjectFirewall
-  - Added operation group PaloAltoNetworksCloudngfwOperations
-  - Added Interface CertificateObjectGlobalRulestackCreateOrUpdateHeaders
-  - Added Interface CertificateObjectGlobalRulestackDeleteHeaders
-  - Added Interface CertificateObjectLocalRulestackCreateOrUpdateHeaders
-  - Added Interface CertificateObjectLocalRulestackDeleteHeaders
-  - Added Interface CloudManagerTenantList
-  - Added Interface FirewallsCreateOrUpdateHeaders
-  - Added Interface FirewallsDeleteHeaders
-  - Added Interface FqdnListGlobalRulestackCreateOrUpdateHeaders
-  - Added Interface FqdnListGlobalRulestackDeleteHeaders
-  - Added Interface FqdnListLocalRulestackCreateOrUpdateHeaders
-  - Added Interface FqdnListLocalRulestackDeleteHeaders
-  - Added Interface GlobalRulestackCreateOrUpdateHeaders
-  - Added Interface GlobalRulestackDeleteHeaders
-  - Added Interface LocalRulesCreateOrUpdateHeaders
-  - Added Interface LocalRulesDeleteHeaders
-  - Added Interface LocalRulestacksCreateOrUpdateHeaders
-  - Added Interface LocalRulestacksDeleteHeaders
-  - Added Interface MetricsObjectFirewallCreateOrUpdateHeaders
   - Added Interface MetricsObjectFirewallCreateOrUpdateOptionalParams
-  - Added Interface MetricsObjectFirewallDeleteHeaders
   - Added Interface MetricsObjectFirewallDeleteOptionalParams
   - Added Interface MetricsObjectFirewallGetOptionalParams
   - Added Interface MetricsObjectFirewallListByFirewallsOptionalParams
   - Added Interface MetricsObjectFirewallResource
-  - Added Interface MetricsObjectFirewallResourceListResult
+  - Added Interface MonitorLog
+  - Added Interface NameDescriptionObject
+  - Added Interface NetworkProfile
+  - Added Interface Operation
+  - Added Interface OperationDisplay
+  - Added Interface OperationsListOptionalParams
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
   - Added Interface PaloAltoNetworksCloudngfwOperationsCreateProductSerialNumberOptionalParams
   - Added Interface PaloAltoNetworksCloudngfwOperationsListCloudManagerTenantsOptionalParams
   - Added Interface PaloAltoNetworksCloudngfwOperationsListProductSerialNumberStatusOptionalParams
   - Added Interface PaloAltoNetworksCloudngfwOperationsListSupportInfoOptionalParams
-  - Added Interface PostRulesCreateOrUpdateHeaders
-  - Added Interface PostRulesDeleteHeaders
-  - Added Interface PrefixListGlobalRulestackCreateOrUpdateHeaders
-  - Added Interface PrefixListGlobalRulestackDeleteHeaders
-  - Added Interface PrefixListLocalRulestackCreateOrUpdateHeaders
-  - Added Interface PrefixListLocalRulestackDeleteHeaders
-  - Added Interface PreRulesCreateOrUpdateHeaders
-  - Added Interface PreRulesDeleteHeaders
+  - Added Interface PaloAltoNetworksCloudngfwOptionalParams
+  - Added Interface PanoramaConfig
+  - Added Interface PanoramaStatus
+  - Added Interface PlanData
+  - Added Interface PostRulesCreateOrUpdateOptionalParams
+  - Added Interface PostRulesDeleteOptionalParams
+  - Added Interface PostRulesGetCountersOptionalParams
+  - Added Interface PostRulesGetOptionalParams
+  - Added Interface PostRulesListOptionalParams
+  - Added Interface PostRulesRefreshCountersOptionalParams
+  - Added Interface PostRulesResetCountersOptionalParams
+  - Added Interface PostRulesResource
+  - Added Interface PredefinedUrlCategoriesResponse
+  - Added Interface PredefinedUrlCategory
+  - Added Interface PrefixListGlobalRulestackCreateOrUpdateOptionalParams
+  - Added Interface PrefixListGlobalRulestackDeleteOptionalParams
+  - Added Interface PrefixListGlobalRulestackGetOptionalParams
+  - Added Interface PrefixListGlobalRulestackListOptionalParams
+  - Added Interface PrefixListGlobalRulestackResource
+  - Added Interface PrefixListLocalRulestackCreateOrUpdateOptionalParams
+  - Added Interface PrefixListLocalRulestackDeleteOptionalParams
+  - Added Interface PrefixListLocalRulestackGetOptionalParams
+  - Added Interface PrefixListLocalRulestackListByLocalRulestacksOptionalParams
+  - Added Interface PrefixListResource
+  - Added Interface PrefixObject
+  - Added Interface PreRulesCreateOrUpdateOptionalParams
+  - Added Interface PreRulesDeleteOptionalParams
+  - Added Interface PreRulesGetCountersOptionalParams
+  - Added Interface PreRulesGetOptionalParams
+  - Added Interface PreRulesListOptionalParams
+  - Added Interface PreRulesRefreshCountersOptionalParams
+  - Added Interface PreRulesResetCountersOptionalParams
+  - Added Interface PreRulesResource
   - Added Interface ProductSerialNumberRequestStatus
   - Added Interface ProductSerialNumberStatus
+  - Added Interface ProxyResource
+  - Added Interface Resource
+  - Added Interface RestorePollerOptions
+  - Added Interface RuleCounter
+  - Added Interface RuleCounterReset
+  - Added Interface RuleEntry
+  - Added Interface RulestackDetails
+  - Added Interface RulestackProperties
+  - Added Interface SecurityServices
+  - Added Interface SecurityServicesResponse
+  - Added Interface SecurityServicesTypeList
+  - Added Interface SimplePollerLike
+  - Added Interface SourceAddr
+  - Added Interface StorageAccount
   - Added Interface StrataCloudManagerConfig
   - Added Interface StrataCloudManagerInfo
+  - Added Interface SupportInfo
   - Added Interface SupportInfoModel
-  - Interface FirewallResource has a new optional parameter isStrataCloudManaged
-  - Interface FirewallResource has a new optional parameter strataCloudManagerConfig
-  - Interface FirewallResourceUpdateProperties has a new optional parameter isStrataCloudManaged
-  - Interface FirewallResourceUpdateProperties has a new optional parameter strataCloudManagerConfig
-  - Interface FirewallStatusResource has a new optional parameter isStrataCloudManaged
-  - Interface FirewallStatusResource has a new optional parameter strataCloudManagerInfo
-  - Interface NetworkProfile has a new optional parameter privateSourceNatRulesDestination
+  - Added Interface SystemData
+  - Added Interface TagInfo
+  - Added Interface TrackedResource
+  - Added Interface VnetConfiguration
+  - Added Interface VwanConfiguration
+  - Added Type Alias ActionEnum
+  - Added Type Alias ActionType
+  - Added Type Alias AdvSecurityObjectTypeEnum
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias BillingCycle
+  - Added Type Alias BooleanEnum
+  - Added Type Alias CreatedByType
+  - Added Type Alias CustomCaptureConfigurationsProtocol
+  - Added Type Alias CustomCaptureConfigurationsStage
+  - Added Type Alias CustomCaptureConfigurationsStatus
+  - Added Type Alias DecryptionRuleTypeEnum
+  - Added Type Alias DefaultMode
+  - Added Type Alias DNSProxy
+  - Added Type Alias EgressNat
+  - Added Type Alias EnabledDNSType
   - Added Type Alias EnableStatus
-  - Added Type Alias LocalRulestacksListAppIdsNextResponse
-  - Added Type Alias LocalRulestacksListCountriesNextResponse
-  - Added Type Alias LocalRulestacksListPredefinedUrlCategoriesNextResponse
-  - Added Type Alias MetricsObjectFirewallCreateOrUpdateResponse
-  - Added Type Alias MetricsObjectFirewallDeleteResponse
-  - Added Type Alias MetricsObjectFirewallGetResponse
-  - Added Type Alias MetricsObjectFirewallListByFirewallsNextResponse
-  - Added Type Alias MetricsObjectFirewallListByFirewallsResponse
-  - Added Type Alias PaloAltoNetworksCloudngfwOperationsCreateProductSerialNumberResponse
-  - Added Type Alias PaloAltoNetworksCloudngfwOperationsListCloudManagerTenantsResponse
-  - Added Type Alias PaloAltoNetworksCloudngfwOperationsListProductSerialNumberStatusResponse
-  - Added Type Alias PaloAltoNetworksCloudngfwOperationsListSupportInfoResponse
+  - Added Type Alias HealthStatus
+  - Added Type Alias LogOption
+  - Added Type Alias LogType
+  - Added Type Alias ManagedIdentityType
+  - Added Type Alias MarketplaceSubscriptionStatus
+  - Added Type Alias NetworkType
+  - Added Type Alias Origin
   - Added Type Alias ProductSerialStatusValues
+  - Added Type Alias ProtocolType
+  - Added Type Alias ProvisioningState
+  - Added Type Alias ReadOnlyProvisioningState
   - Added Type Alias RegistrationStatus
+  - Added Type Alias ScopeType
+  - Added Type Alias SecurityServicesTypeEnum
+  - Added Type Alias ServerStatus
+  - Added Type Alias StateEnum
+  - Added Type Alias UsageType
+  - Added Enum AzureClouds
+  - Added Enum KnownActionEnum
+  - Added Enum KnownActionType
+  - Added Enum KnownAdvSecurityObjectTypeEnum
+  - Added Enum KnownBillingCycle
+  - Added Enum KnownBooleanEnum
+  - Added Enum KnownCreatedByType
+  - Added Enum KnownCustomCaptureConfigurationsProtocol
+  - Added Enum KnownCustomCaptureConfigurationsStage
+  - Added Enum KnownCustomCaptureConfigurationsStatus
+  - Added Enum KnownDecryptionRuleTypeEnum
+  - Added Enum KnownDefaultMode
+  - Added Enum KnownDNSProxy
+  - Added Enum KnownEgressNat
+  - Added Enum KnownEnabledDNSType
   - Added Enum KnownEnableStatus
+  - Added Enum KnownHealthStatus
+  - Added Enum KnownLogOption
+  - Added Enum KnownLogType
+  - Added Enum KnownManagedIdentityType
+  - Added Enum KnownMarketplaceSubscriptionStatus
+  - Added Enum KnownNetworkType
+  - Added Enum KnownOrigin
+  - Added Enum KnownProtocolType
+  - Added Enum KnownProvisioningState
+  - Added Enum KnownReadOnlyProvisioningState
   - Added Enum KnownRegistrationStatus
+  - Added Enum KnownScopeType
+  - Added Enum KnownSecurityServicesTypeEnum
+  - Added Enum KnownServerStatus
+  - Added Enum KnownStateEnum
+  - Added Enum KnownUsageType
+  - Added Enum KnownVersions
 
-    
-## 1.1.0 (2023-11-15)
-    
-### Features Added
-
-  - Interface NetworkProfile has a new optional parameter trustedRanges
-    
-    
-## 1.0.0 (2023-07-14)
-
-The package of @azure/arm-paloaltonetworksngfw is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).

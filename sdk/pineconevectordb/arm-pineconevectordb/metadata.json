@@ -1,0 +1,49 @@
+{
+  "apiVersions": {
+    "Pinecone.VectorDb": "2024-10-22-preview"
+  },
+  "emitterVersion": "0.55.0-dev.8",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "Pinecone.VectorDb",
+    "CrossLanguageDefinitionId": {
+      "@azure/arm-pineconevectordb!OperationListResult:interface": "Azure.ResourceManager.CommonTypes.OperationListResult",
+      "@azure/arm-pineconevectordb!Operation:interface": "Azure.ResourceManager.CommonTypes.Operation",
+      "@azure/arm-pineconevectordb!OperationDisplay:interface": "Azure.ResourceManager.CommonTypes.OperationDisplay",
+      "@azure/arm-pineconevectordb!ErrorResponse:interface": "Azure.ResourceManager.CommonTypes.ErrorResponse",
+      "@azure/arm-pineconevectordb!ErrorDetail:interface": "Azure.ResourceManager.CommonTypes.ErrorDetail",
+      "@azure/arm-pineconevectordb!ErrorAdditionalInfo:interface": "Azure.ResourceManager.CommonTypes.ErrorAdditionalInfo",
+      "@azure/arm-pineconevectordb!OrganizationResource:interface": "Pinecone.VectorDb.OrganizationResource",
+      "@azure/arm-pineconevectordb!OrganizationProperties:interface": "Pinecone.VectorDb.OrganizationProperties",
+      "@azure/arm-pineconevectordb!MarketplaceDetails:interface": "LiftrBase.MarketplaceDetails",
+      "@azure/arm-pineconevectordb!OfferDetails:interface": "LiftrBase.OfferDetails",
+      "@azure/arm-pineconevectordb!UserDetails:interface": "LiftrBase.UserDetails",
+      "@azure/arm-pineconevectordb!PartnerProperties:interface": "Pinecone.VectorDb.PartnerProperties",
+      "@azure/arm-pineconevectordb!SingleSignOnPropertiesV2:interface": "LiftrBase.SingleSignOnPropertiesV2",
+      "@azure/arm-pineconevectordb!ManagedServiceIdentity:interface": "Azure.ResourceManager.CommonTypes.ManagedServiceIdentity",
+      "@azure/arm-pineconevectordb!UserAssignedIdentity:interface": "Azure.ResourceManager.CommonTypes.UserAssignedIdentity",
+      "@azure/arm-pineconevectordb!TrackedResource:interface": "Azure.ResourceManager.CommonTypes.TrackedResource",
+      "@azure/arm-pineconevectordb!Resource:interface": "Azure.ResourceManager.CommonTypes.Resource",
+      "@azure/arm-pineconevectordb!SystemData:interface": "Azure.ResourceManager.CommonTypes.SystemData",
+      "@azure/arm-pineconevectordb!ArmOperationStatusResourceProvisioningState:interface": "Azure.ResourceManager.ArmOperationStatus",
+      "@azure/arm-pineconevectordb!OrganizationResourceUpdate:interface": "Pinecone.VectorDb.OrganizationResourceUpdate",
+      "@azure/arm-pineconevectordb!OrganizationResourceListResult:interface": "Azure.ResourceManager.ResourceListResult",
+      "@azure/arm-pineconevectordb!KnownOrigin:enum": "Azure.ResourceManager.CommonTypes.Origin",
+      "@azure/arm-pineconevectordb!KnownActionType:enum": "Azure.ResourceManager.CommonTypes.ActionType",
+      "@azure/arm-pineconevectordb!KnownMarketplaceSubscriptionStatus:enum": "LiftrBase.MarketplaceSubscriptionStatus",
+      "@azure/arm-pineconevectordb!KnownResourceProvisioningState:enum": "Azure.ResourceManager.ResourceProvisioningState",
+      "@azure/arm-pineconevectordb!KnownSingleSignOnType:enum": "LiftrBase.SingleSignOnType",
+      "@azure/arm-pineconevectordb!KnownSingleSignOnStates:enum": "LiftrBase.SingleSignOnStates",
+      "@azure/arm-pineconevectordb!KnownManagedServiceIdentityType:enum": "Azure.ResourceManager.CommonTypes.ManagedServiceIdentityType",
+      "@azure/arm-pineconevectordb!KnowncreatedByType:enum": "Azure.ResourceManager.CommonTypes.createdByType",
+      "@azure/arm-pineconevectordb!KnownVersions:enum": "Pinecone.VectorDb.Versions",
+      "@azure/arm-pineconevectordb!ManagedServiceIdentityUserAssignedIdentity:type": "Azure.ResourceManager.CommonTypes.ManagedServiceIdentity.userAssignedIdentity.anonymous",
+      "@azure/arm-pineconevectordb!OrganizationsOperations#listBySubscription:member": "Pinecone.VectorDb.Organizations.listBySubscription",
+      "@azure/arm-pineconevectordb!OrganizationsOperations#listByResourceGroup:member": "Pinecone.VectorDb.Organizations.listByResourceGroup",
+      "@azure/arm-pineconevectordb!OrganizationsOperations#delete:member": "Pinecone.VectorDb.Organizations.delete",
+      "@azure/arm-pineconevectordb!OrganizationsOperations#update:member": "Pinecone.VectorDb.Organizations.update",
+      "@azure/arm-pineconevectordb!OrganizationsOperations#createOrUpdate:member": "Pinecone.VectorDb.Organizations.createOrUpdate",
+      "@azure/arm-pineconevectordb!OrganizationsOperations#get:member": "Pinecone.VectorDb.Organizations.get",
+      "@azure/arm-pineconevectordb!OperationsOperations#list:member": "Azure.ResourceManager.Operations.list"
+    }
+  }
+}
