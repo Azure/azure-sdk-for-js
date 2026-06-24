@@ -2,7 +2,7 @@
   "apiVersions": {
     "Microsoft.EventGrid": "2025-07-15-preview"
   },
-  "emitterVersion": "0.50.3",
+  "emitterVersion": "0.54.1",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.EventGrid",
     "CrossLanguageDefinitionId": {

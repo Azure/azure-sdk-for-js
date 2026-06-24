@@ -33,11 +33,6 @@ export interface PrivateEndpointConnectionsOperations {
     options?: PrivateEndpointConnectionsListByResourceOptionalParams,
   ) => PagedAsyncIterableIterator<PrivateEndpointConnection>;
   /** Delete a specific private endpoint connection under a topic, domain, or partner namespace or namespace. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     parentType: PrivateEndpointConnectionsParentType,
