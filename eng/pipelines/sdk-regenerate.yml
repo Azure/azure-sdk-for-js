@@ -1,4 +1,4 @@
-# JS SDK TypeSpec breaking-change check pipeline (ARM only).
+# JS SDK TypeSpec breaking-change check pipeline (ARM and data-plane).
 #
 # Stages / jobs:
 #   Setup              Resolve emitter version, build shard matrix, pin
@@ -6,9 +6,10 @@
 #                      publish them as artifacts.
 #
 #   RegenerateAndBuild Matrix shards. Each downloads its slice, regenerates +
-#                      builds, generates changelogs. Regeneration always uses
-#                      each package's tsp-location.yaml commit, so the
-#                      api-version matches the existing SDK. In PR mode, pushes
+#                      builds, generates changelogs. Regeneration pins the
+#                      tsp-location.yaml commit (spec snapshot) and metadata.json
+#                      api-version (client version), so the api-version matches
+#                      the existing SDK. In PR mode, pushes
 #                      the files selected by PRPushMode (api.md + CHANGELOG.md
 #                      deltas, or the whole SDK refresh) to the PR branch.
 #
@@ -49,7 +50,7 @@ parameters:
     default: false
 
   - name: PackageFilter
-    displayName: "Package filter (wildcards; '*' = all, 'arm-*' = ARM only, 'dataplane-*' = dataplane only)"
+    displayName: "Package filter (wildcard, e.g. '*' = all, 'arm-*' = ARM only; or exact token 'dataplane-*' = data-plane only)"
     type: string
     default: 'arm-*'
 

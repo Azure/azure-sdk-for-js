@@ -395,6 +395,7 @@ function resolvePinnedApiVersion(packageDir) {
   }
   const versions = metadata.apiVersions;
   const namespaces = versions && typeof versions === "object" ? Object.keys(versions) : [];
+  // Residual risk: multi-namespace packages aren't pinned and may drift.
   if (namespaces.length !== 1) {
     return { apiVersion: null, reason: `skipped (${namespaces.length} namespaces)` };
   }
@@ -736,9 +737,9 @@ function listDataplanePackageNames() {
   return names;
 }
 
-// Expand the "dataplane-*" sentinel (which the directory-name -like filter
-// cannot express) into the explicit list of non-arm package names. Other
-// patterns pass through unchanged. Supports mixing, e.g. "dataplane-*,arm-foo".
+// Expand the "dataplane-*" sentinel (an exact token, not a wildcard) into the
+// explicit non-arm package names. Other tokens pass through; mixing is allowed,
+// e.g. "dataplane-*,arm-foo".
 function resolveDirectoryFilterPattern(filter) {
   const tokens = filter
     .split(",")
