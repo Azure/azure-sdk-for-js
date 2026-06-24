@@ -1,6 +1,6 @@
 # Release History
 
-## 5.0.0-beta.1 (2026-06-08)
+## 5.0.0-beta.2 (2026-06-24)
 Compared with version 4.1.0
 
 ### Features Added
@@ -45,7 +45,9 @@ Compared with version 4.1.0
   - Added Enum KnownVersions
 
 ### Breaking Changes
+  - Class DomainServicesResourceProvider no longer has parameter apiVersion
   - Class DomainServicesResourceProvider no longer has parameter ouContainerOperations
+  - Class DomainServicesResourceProvider no longer has parameter subscriptionId
   - Removed Interface OuContainerCreateOptionalParams
   - Removed Interface OuContainerDeleteOptionalParams
   - Removed Interface OuContainerGetOptionalParams
@@ -57,26 +59,3 @@ Compared with version 4.1.0
   - Interface Resource no longer has parameter location
   - Interface Resource no longer has parameter tags
 
-    
-## 4.1.0 (2022-11-22)
-    
-### Features Added
-
-  - Added Interface DomainService
-  - Added Interface OuContainer
-    
-## 4.0.1 (2022-04-18)
-
-### Features Added
-
-  - Bug fix
-
-## 4.0.0 (2022-01-13)
-
-The package of @azure/arm-domainservices is using our next generation design principles since version 4.0.0, which contains breaking changes.
-
-To understand the detail of the change, please refer to [Changelog](https://aka.ms/js-track2-changelog).
-
-To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
-
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).
