@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { FrontDoorManagementContext } from "../../api/frontDoorManagementContext.js";
+import { FrontDoorManagementContext } from "../../api/frontDoorManagementContext.js";
 import {
   listBySubscription,
   list,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/policies/operations.js";
-import type {
+import {
   PoliciesListBySubscriptionOptionalParams,
   PoliciesListOptionalParams,
   PoliciesDeleteOptionalParams,
@@ -18,11 +18,10 @@ import type {
   PoliciesCreateOrUpdateOptionalParams,
   PoliciesGetOptionalParams,
 } from "../../api/policies/options.js";
-import type { WebApplicationFirewallPolicy, TagsObject } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { WebApplicationFirewallPolicy, TagsObject } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Policies operations. */
 export interface PoliciesOperations {

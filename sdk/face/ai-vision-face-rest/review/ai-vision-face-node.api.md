@@ -10,12 +10,20 @@ import type { Client } from '@azure-rest/core-client';
 import type { ClientOptions } from '@azure-rest/core-client';
 import type { CreateHttpPollerOptions } from '@azure/core-lro';
 import type { HttpResponse } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { KeyCredential } from '@azure/core-auth';
 import type { OperationState } from '@azure/core-lro';
 import type { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import type { RequestParameters } from '@azure-rest/core-client';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { StreamableMethod } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
+
+// @public
+export interface AbuseMonitoringResultOutput {
+    isAbuseDetected: boolean;
+    otherFlaggedSessions: Array<OtherFlaggedSessionsOutput>;
+}
 
 // @public
 export interface AccessoryItemOutput {
@@ -41,7 +49,8 @@ export interface AddFaceListFace200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface AddFaceListFaceBodyParam {
-    body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
+    // Warning: (ae-forgotten-export) The symbol "NodeReadableStream" needs to be exported by the entry point index.d.ts
+    body: string | Uint8Array | ReadableStream<Uint8Array> | NodeReadableStream;
 }
 
 // @public (undocumented)
@@ -160,7 +169,7 @@ export interface AddLargeFaceListFace200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface AddLargeFaceListFaceBodyParam {
-    body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
+    body: string | Uint8Array | ReadableStream<Uint8Array> | NodeReadableStream;
 }
 
 // @public (undocumented)
@@ -275,7 +284,7 @@ export interface AddLargePersonGroupPersonFace200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface AddLargePersonGroupPersonFaceBodyParam {
-    body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
+    body: string | Uint8Array | ReadableStream<Uint8Array> | NodeReadableStream;
 }
 
 // @public (undocumented)
@@ -389,7 +398,7 @@ export interface AddPersonGroupPersonFace200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface AddPersonGroupPersonFaceBodyParam {
-    body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
+    body: string | Uint8Array | ReadableStream<Uint8Array> | NodeReadableStream;
 }
 
 // @public (undocumented)
@@ -500,6 +509,18 @@ export type BlurLevelOutput = string;
 export interface BlurPropertiesOutput {
     blurLevel: BlurLevelOutput;
     value: number;
+}
+
+// @public
+export interface ClientAssetsAccessTokenResponseOutput {
+    accessToken: string;
+    base64AccessToken: string;
+    expiry: string;
+}
+
+// @public
+export interface ClientInformationOutput {
+    ip: string;
 }
 
 // @public
@@ -689,8 +710,12 @@ export interface CreateLivenessSessionContent {
     deviceCorrelationId?: string;
     deviceCorrelationIdSetInClient?: boolean;
     enableSessionImage?: boolean;
+    expectedClientIpAddress?: string;
     livenessModelVersion?: LivenessModel;
     livenessOperationMode: LivenessOperationMode;
+    numberOfClientAttemptsAllowed?: number;
+    userCorrelationId?: string;
+    userCorrelationIdSetInClient?: boolean;
 }
 
 // @public (undocumented)
@@ -730,7 +755,7 @@ export interface CreateLivenessWithVerifySessionBodyParam {
 }
 
 // @public
-export type CreateLivenessWithVerifySessionContent = FormData | Array<CreateLivenessWithVerifySessionContentLivenessOperationModePartDescriptor | CreateLivenessWithVerifySessionContentDeviceCorrelationIdSetInClientPartDescriptor | CreateLivenessWithVerifySessionContentEnableSessionImagePartDescriptor | CreateLivenessWithVerifySessionContentLivenessModelVersionPartDescriptor | CreateLivenessWithVerifySessionContentDeviceCorrelationIdPartDescriptor | CreateLivenessWithVerifySessionContentAuthTokenTimeToLiveInSecondsPartDescriptor | CreateLivenessWithVerifySessionContentReturnVerifyImageHashPartDescriptor | CreateLivenessWithVerifySessionContentVerifyConfidenceThresholdPartDescriptor | CreateLivenessWithVerifySessionContentVerifyImagePartDescriptor>;
+export type CreateLivenessWithVerifySessionContent = FormData | Array<CreateLivenessWithVerifySessionContentLivenessOperationModePartDescriptor | CreateLivenessWithVerifySessionContentDeviceCorrelationIdSetInClientPartDescriptor | CreateLivenessWithVerifySessionContentEnableSessionImagePartDescriptor | CreateLivenessWithVerifySessionContentLivenessModelVersionPartDescriptor | CreateLivenessWithVerifySessionContentReturnVerifyImageHashPartDescriptor | CreateLivenessWithVerifySessionContentVerifyConfidenceThresholdPartDescriptor | CreateLivenessWithVerifySessionContentVerifyImagePartDescriptor | CreateLivenessWithVerifySessionContentDeviceCorrelationIdPartDescriptor | CreateLivenessWithVerifySessionContentAuthTokenTimeToLiveInSecondsPartDescriptor | CreateLivenessWithVerifySessionContentNumberOfClientAttemptsAllowedPartDescriptor>;
 
 // @public (undocumented)
 export interface CreateLivenessWithVerifySessionContentAuthTokenTimeToLiveInSecondsPartDescriptor {
@@ -781,6 +806,14 @@ export interface CreateLivenessWithVerifySessionContentLivenessOperationModePart
 }
 
 // @public (undocumented)
+export interface CreateLivenessWithVerifySessionContentNumberOfClientAttemptsAllowedPartDescriptor {
+    // (undocumented)
+    body: number;
+    // (undocumented)
+    name: "numberOfClientAttemptsAllowed";
+}
+
+// @public (undocumented)
 export interface CreateLivenessWithVerifySessionContentReturnVerifyImageHashPartDescriptor {
     // (undocumented)
     body: boolean;
@@ -799,7 +832,7 @@ export interface CreateLivenessWithVerifySessionContentVerifyConfidenceThreshold
 // @public (undocumented)
 export interface CreateLivenessWithVerifySessionContentVerifyImagePartDescriptor {
     // (undocumented)
-    body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream | File;
+    body: string | Uint8Array | ReadableStream<Uint8Array> | NodeReadableStream | File;
     // (undocumented)
     contentType?: string;
     // (undocumented)
@@ -1262,7 +1295,7 @@ export interface Detect200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface DetectBodyParam {
-    body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
+    body: string | Uint8Array | ReadableStream<Uint8Array> | NodeReadableStream;
 }
 
 // @public (undocumented)
@@ -1708,6 +1741,37 @@ export interface FindSimilarResultOutput {
     faceId?: string;
     persistedFaceId?: string;
 }
+
+// @public (undocumented)
+export interface GetClientAssetsAccessToken {
+    get(options?: GetClientAssetsAccessTokenParameters): StreamableMethod<GetClientAssetsAccessToken200Response | GetClientAssetsAccessTokenDefaultResponse>;
+}
+
+// @public
+export interface GetClientAssetsAccessToken200Response extends HttpResponse {
+    // (undocumented)
+    body: ClientAssetsAccessTokenResponseOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface GetClientAssetsAccessTokenDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface GetClientAssetsAccessTokenDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: FaceErrorResponseOutput;
+    // (undocumented)
+    headers: RawHttpHeaders & GetClientAssetsAccessTokenDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type GetClientAssetsAccessTokenParameters = RequestParameters;
 
 // @public
 export interface GetFaceList200Response extends HttpResponse {
@@ -2466,6 +2530,38 @@ export interface GetSessionImageDefaultResponse extends HttpResponse {
 // @public (undocumented)
 export type GetSessionImageParameters = RequestParameters;
 
+// @public (undocumented)
+export interface GetSettings {
+    get(options?: GetSettingsParameters): StreamableMethod<GetSettings200Response | GetSettingsDefaultResponse>;
+    patch(options: PatchSettingsParameters): StreamableMethod<PatchSettings200Response | PatchSettingsDefaultResponse>;
+}
+
+// @public
+export interface GetSettings200Response extends HttpResponse {
+    // (undocumented)
+    body: SettingsOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface GetSettingsDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface GetSettingsDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: FaceErrorResponseOutput;
+    // (undocumented)
+    headers: RawHttpHeaders & GetSettingsDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type GetSettingsParameters = RequestParameters;
+
 // @public
 export type GlassesTypeOutput = string;
 
@@ -2708,6 +2804,8 @@ export type IdentifyFromPersonGroupParameters = IdentifyFromPersonGroupBodyParam
 // @public
 export type ImageTypeOutput = string;
 
+export { isRestError }
+
 // @public (undocumented)
 export function isUnexpected(response: DetectFromUrl200Response | DetectFromUrlDefaultResponse): response is DetectFromUrlDefaultResponse;
 
@@ -2939,6 +3037,15 @@ export function isUnexpected(response: GetLivenessWithVerifySessionResult200Resp
 // @public (undocumented)
 export function isUnexpected(response: GetSessionImage200Response | GetSessionImageDefaultResponse): response is GetSessionImageDefaultResponse;
 
+// @public (undocumented)
+export function isUnexpected(response: GetClientAssetsAccessToken200Response | GetClientAssetsAccessTokenDefaultResponse): response is GetClientAssetsAccessTokenDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: GetSettings200Response | GetSettingsDefaultResponse): response is GetSettingsDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: PatchSettings200Response | PatchSettingsDefaultResponse): response is PatchSettingsDefaultResponse;
+
 // @public
 export interface LandmarkCoordinateOutput {
     x: number;
@@ -2982,6 +3089,16 @@ export interface LargePersonGroupPersonOutput {
 }
 
 // @public
+export interface LivenessAbuseMonitoringSetting {
+    enabled: boolean;
+}
+
+// @public
+export interface LivenessAbuseMonitoringSettingOutput {
+    enabled: boolean;
+}
+
+// @public
 export interface LivenessColorDecisionTargetOutput {
     faceRectangle: FaceRectangleOutput;
 }
@@ -3020,8 +3137,10 @@ export interface LivenessResultOutput {
 
 // @public
 export interface LivenessSessionAttemptOutput {
+    abuseMonitoringResult?: AbuseMonitoringResultOutput;
     attemptId: number;
     attemptStatus: OperationStateOutput;
+    clientInformation?: Array<ClientInformationOutput>;
     error?: LivenessErrorOutput;
     result?: LivenessResultOutput;
 }
@@ -3029,6 +3148,8 @@ export interface LivenessSessionAttemptOutput {
 // @public
 export interface LivenessSessionOutput {
     authToken: string;
+    expectedClientIpAddress?: string;
+    isAbuseMonitoringEnabled?: boolean;
     modelVersion?: LivenessModelOutput;
     results: LivenessSessionResultsOutput;
     readonly sessionId: string;
@@ -3065,8 +3186,10 @@ export interface LivenessWithVerifyResultOutput {
 
 // @public
 export interface LivenessWithVerifySessionAttemptOutput {
+    abuseMonitoringResult?: AbuseMonitoringResultOutput;
     attemptId: number;
     attemptStatus: OperationStateOutput;
+    clientInformation?: Array<ClientInformationOutput>;
     error?: LivenessErrorOutput;
     result?: LivenessWithVerifyResultOutput;
 }
@@ -3074,6 +3197,8 @@ export interface LivenessWithVerifySessionAttemptOutput {
 // @public
 export interface LivenessWithVerifySessionOutput {
     authToken: string;
+    expectedClientIpAddress?: string;
+    isAbuseMonitoringEnabled?: boolean;
     modelVersion?: LivenessModelOutput;
     results: LivenessWithVerifySessionResultsOutput;
     readonly sessionId: string;
@@ -3118,6 +3243,44 @@ export type OperationStateOutput = string;
 export type OperationStatusOutput = string;
 
 // @public
+export interface OtherFlaggedSessionsOutput {
+    attemptId: number;
+    sessionId: string;
+    sessionImageId?: string;
+}
+
+// @public
+export interface PatchSettings200Response extends HttpResponse {
+    // (undocumented)
+    body: SettingsOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface PatchSettingsBodyParam {
+    body: Settings;
+}
+
+// @public (undocumented)
+export interface PatchSettingsDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface PatchSettingsDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: FaceErrorResponseOutput;
+    // (undocumented)
+    headers: RawHttpHeaders & PatchSettingsDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type PatchSettingsParameters = PatchSettingsBodyParam & RequestParameters;
+
+// @public
 export interface PersonGroupOutput {
     name: string;
     readonly personGroupId: string;
@@ -3147,6 +3310,8 @@ export type RecognitionModel = string;
 
 // @public
 export type RecognitionModelOutput = string;
+
+export { RestError }
 
 // @public (undocumented)
 export interface Routes {
@@ -3186,6 +3351,18 @@ export interface Routes {
     (path: "/detectLivenessWithVerify-sessions"): CreateLivenessWithVerifySession;
     (path: "/detectLivenessWithVerify-sessions/{sessionId}", sessionId: string): DeleteLivenessWithVerifySession;
     (path: "/sessionImages/{sessionImageId}", sessionImageId: string): GetSessionImage;
+    (path: "/settings/getClientAssetsAccessToken"): GetClientAssetsAccessToken;
+    (path: "/settings"): GetSettings;
+}
+
+// @public
+export interface Settings {
+    livenessAbuseMonitoring: LivenessAbuseMonitoringSetting;
+}
+
+// @public
+export interface SettingsOutput {
+    livenessAbuseMonitoring: LivenessAbuseMonitoringSettingOutput;
 }
 
 // @public
@@ -3787,7 +3964,7 @@ export interface VerifyFromPersonGroupDefaultResponse extends HttpResponse {
 export type VerifyFromPersonGroupParameters = VerifyFromPersonGroupBodyParam & RequestParameters;
 
 // @public
-export type Versions = "v1.1-preview.1" | "v1.2-preview.1" | "v1.2";
+export type Versions = "v1.1-preview.1" | "v1.2-preview.1" | "v1.2" | "v1.3-preview.1";
 
 // (No @packageDocumentation comment for this package)
 

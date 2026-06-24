@@ -1,18 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { IotHubContext } from "../../api/iotHubContext.js";
+import { IotHubContext } from "../../api/iotHubContext.js";
 import { list, $delete, update, get } from "../../api/privateEndpointConnections/operations.js";
-import type {
+import {
   PrivateEndpointConnectionsListOptionalParams,
   PrivateEndpointConnectionsDeleteOptionalParams,
   PrivateEndpointConnectionsUpdateOptionalParams,
   PrivateEndpointConnectionsGetOptionalParams,
 } from "../../api/privateEndpointConnections/options.js";
-import type { PrivateEndpointConnection } from "../../models/models.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PrivateEndpointConnection } from "../../models/models.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a PrivateEndpointConnections operations. */
 export interface PrivateEndpointConnectionsOperations {

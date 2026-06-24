@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { FrontDoorManagementContext } from "../../api/frontDoorManagementContext.js";
+import { FrontDoorManagementContext } from "../../api/frontDoorManagementContext.js";
 import { list } from "../../api/preconfiguredEndpoints/operations.js";
-import type { PreconfiguredEndpointsListOptionalParams } from "../../api/preconfiguredEndpoints/options.js";
-import type { PreconfiguredEndpoint } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PreconfiguredEndpointsListOptionalParams } from "../../api/preconfiguredEndpoints/options.js";
+import { PreconfiguredEndpoint } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a PreconfiguredEndpoints operations. */
 export interface PreconfiguredEndpointsOperations {

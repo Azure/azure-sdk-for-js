@@ -25,6 +25,8 @@ import type {
   LargePersonGroupPersonFaceOutput,
   LivenessSessionOutput,
   LivenessWithVerifySessionOutput,
+  ClientAssetsAccessTokenResponseOutput,
+  SettingsOutput,
 } from "./outputModels.js";
 
 /** A successful call returns an array of face entries ranked by face rectangle size in descending order. An empty response indicates no faces detected. */
@@ -1343,4 +1345,55 @@ export interface GetSessionImageDefaultResponse extends HttpResponse {
   status: string;
   body: FaceErrorResponseOutput;
   headers: RawHttpHeaders & GetSessionImageDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface GetClientAssetsAccessToken200Response extends HttpResponse {
+  status: "200";
+  body: ClientAssetsAccessTokenResponseOutput;
+}
+
+export interface GetClientAssetsAccessTokenDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface GetClientAssetsAccessTokenDefaultResponse extends HttpResponse {
+  status: string;
+  body: FaceErrorResponseOutput;
+  headers: RawHttpHeaders & GetClientAssetsAccessTokenDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface GetSettings200Response extends HttpResponse {
+  status: "200";
+  body: SettingsOutput;
+}
+
+export interface GetSettingsDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface GetSettingsDefaultResponse extends HttpResponse {
+  status: string;
+  body: FaceErrorResponseOutput;
+  headers: RawHttpHeaders & GetSettingsDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface PatchSettings200Response extends HttpResponse {
+  status: "200";
+  body: SettingsOutput;
+}
+
+export interface PatchSettingsDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface PatchSettingsDefaultResponse extends HttpResponse {
+  status: string;
+  body: FaceErrorResponseOutput;
+  headers: RawHttpHeaders & PatchSettingsDefaultHeaders;
 }

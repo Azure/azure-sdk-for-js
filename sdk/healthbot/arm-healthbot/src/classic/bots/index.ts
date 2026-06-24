@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { HealthbotContext } from "../../api/healthbotContext.js";
+import { HealthbotContext } from "../../api/healthbotContext.js";
 import {
   regenerateApiJwtSecret,
   listSecrets,
@@ -12,7 +12,7 @@ import {
   create,
   get,
 } from "../../api/bots/operations.js";
-import type {
+import {
   BotsRegenerateApiJwtSecretOptionalParams,
   BotsListSecretsOptionalParams,
   BotsListOptionalParams,
@@ -22,16 +22,15 @@ import type {
   BotsCreateOptionalParams,
   BotsGetOptionalParams,
 } from "../../api/bots/options.js";
-import type {
+import {
   HealthBot,
   HealthBotUpdateParameters,
   HealthBotKeysResponse,
   HealthBotKey,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Bots operations. */
 export interface BotsOperations {
@@ -55,11 +54,6 @@ export interface BotsOperations {
     options?: BotsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<HealthBot>;
   /** Delete a HealthBot. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     botName: string,

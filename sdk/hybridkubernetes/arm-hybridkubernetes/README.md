@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/hybridkubernetes/arm-hybridkubernetes)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-hybridkubernetes)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-hybridkubernetes?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-hybridkubernetes)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/hybridkubernetes/arm-hybridkubernetes/samples)
 
 ## Getting started

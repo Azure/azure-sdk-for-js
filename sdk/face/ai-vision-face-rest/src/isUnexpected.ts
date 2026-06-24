@@ -159,6 +159,12 @@ import type {
   GetLivenessWithVerifySessionResultDefaultResponse,
   GetSessionImage200Response,
   GetSessionImageDefaultResponse,
+  GetClientAssetsAccessToken200Response,
+  GetClientAssetsAccessTokenDefaultResponse,
+  GetSettings200Response,
+  GetSettingsDefaultResponse,
+  PatchSettings200Response,
+  PatchSettingsDefaultResponse,
 } from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
@@ -235,6 +241,9 @@ const responseMap: Record<string, string[]> = {
   "DELETE /detectLivenessWithVerify-sessions/{sessionId}": ["204"],
   "GET /detectLivenessWithVerify-sessions/{sessionId}": ["200"],
   "GET /sessionImages/{sessionImageId}": ["200"],
+  "GET /settings/getClientAssetsAccessToken": ["200"],
+  "GET /settings": ["200"],
+  "PATCH /settings": ["200"],
 };
 
 export function isUnexpected(
@@ -498,6 +507,15 @@ export function isUnexpected(
   response: GetSessionImage200Response | GetSessionImageDefaultResponse,
 ): response is GetSessionImageDefaultResponse;
 export function isUnexpected(
+  response: GetClientAssetsAccessToken200Response | GetClientAssetsAccessTokenDefaultResponse,
+): response is GetClientAssetsAccessTokenDefaultResponse;
+export function isUnexpected(
+  response: GetSettings200Response | GetSettingsDefaultResponse,
+): response is GetSettingsDefaultResponse;
+export function isUnexpected(
+  response: PatchSettings200Response | PatchSettingsDefaultResponse,
+): response is PatchSettingsDefaultResponse;
+export function isUnexpected(
   response:
     | DetectFromUrl200Response
     | DetectFromUrlDefaultResponse
@@ -655,7 +673,13 @@ export function isUnexpected(
     | GetLivenessWithVerifySessionResult200Response
     | GetLivenessWithVerifySessionResultDefaultResponse
     | GetSessionImage200Response
-    | GetSessionImageDefaultResponse,
+    | GetSessionImageDefaultResponse
+    | GetClientAssetsAccessToken200Response
+    | GetClientAssetsAccessTokenDefaultResponse
+    | GetSettings200Response
+    | GetSettingsDefaultResponse
+    | PatchSettings200Response
+    | PatchSettingsDefaultResponse,
 ): response is
   | DetectFromUrlDefaultResponse
   | DetectDefaultResponse
@@ -733,7 +757,10 @@ export function isUnexpected(
   | CreateLivenessWithVerifySessionDefaultResponse
   | DeleteLivenessWithVerifySessionDefaultResponse
   | GetLivenessWithVerifySessionResultDefaultResponse
-  | GetSessionImageDefaultResponse {
+  | GetSessionImageDefaultResponse
+  | GetClientAssetsAccessTokenDefaultResponse
+  | GetSettingsDefaultResponse
+  | PatchSettingsDefaultResponse {
   const lroOriginal = response.headers["x-ms-original-url"];
   const url = new URL(lroOriginal ?? response.request.url);
   const method = response.request.method;

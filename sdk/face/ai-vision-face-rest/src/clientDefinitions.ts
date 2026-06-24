@@ -79,6 +79,9 @@ import type {
   DeleteLivenessWithVerifySessionParameters,
   GetLivenessWithVerifySessionResultParameters,
   GetSessionImageParameters,
+  GetClientAssetsAccessTokenParameters,
+  GetSettingsParameters,
+  PatchSettingsParameters,
 } from "./parameters.js";
 import type {
   DetectFromUrl200Response,
@@ -235,6 +238,12 @@ import type {
   GetLivenessWithVerifySessionResultDefaultResponse,
   GetSessionImage200Response,
   GetSessionImageDefaultResponse,
+  GetClientAssetsAccessToken200Response,
+  GetClientAssetsAccessTokenDefaultResponse,
+  GetSettings200Response,
+  GetSettingsDefaultResponse,
+  PatchSettings200Response,
+  PatchSettingsDefaultResponse,
 } from "./responses.js";
 import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
@@ -1085,7 +1094,6 @@ export interface CreateLivenessSession {
    * Permissions includes...
    * >
    * *
-   *   * Ability to call /detectLiveness/singleModal for up to 3 retries.
    *   * A token lifetime of 10 minutes.
    *
    * > [!NOTE]
@@ -1119,7 +1127,6 @@ export interface CreateLivenessWithVerifySession {
    * Permissions includes...
    * >
    * *
-   *   * Ability to call /detectLivenessWithVerify/singleModal for up to 3 retries.
    *   * A token lifetime of 10 minutes.
    *
    * > [!NOTE]
@@ -1160,6 +1167,26 @@ export interface GetSessionImage {
   get(
     options?: GetSessionImageParameters,
   ): StreamableMethod<GetSessionImage200Response | GetSessionImageDefaultResponse>;
+}
+
+export interface GetClientAssetsAccessToken {
+  /** Get access token to get access to client AI model assets. */
+  get(
+    options?: GetClientAssetsAccessTokenParameters,
+  ): StreamableMethod<
+    GetClientAssetsAccessToken200Response | GetClientAssetsAccessTokenDefaultResponse
+  >;
+}
+
+export interface GetSettings {
+  /** Get the liveness sessions setting object. */
+  get(
+    options?: GetSettingsParameters,
+  ): StreamableMethod<GetSettings200Response | GetSettingsDefaultResponse>;
+  /** Update the liveness setting object. */
+  patch(
+    options: PatchSettingsParameters,
+  ): StreamableMethod<PatchSettings200Response | PatchSettingsDefaultResponse>;
 }
 
 export interface Routes {
@@ -1293,6 +1320,10 @@ export interface Routes {
   ): DeleteLivenessWithVerifySession;
   /** Resource for '/sessionImages/\{sessionImageId\}' has methods for the following verbs: get */
   (path: "/sessionImages/{sessionImageId}", sessionImageId: string): GetSessionImage;
+  /** Resource for '/settings/getClientAssetsAccessToken' has methods for the following verbs: get */
+  (path: "/settings/getClientAssetsAccessToken"): GetClientAssetsAccessToken;
+  /** Resource for '/settings' has methods for the following verbs: get, patch */
+  (path: "/settings"): GetSettings;
 }
 
 export type FaceClient = Client & {

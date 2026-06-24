@@ -489,6 +489,10 @@ export interface LivenessSessionOutput {
    * Possible values: "2024-11-15"
    */
   modelVersion?: LivenessModelOutput;
+  /** Denotes if the abuse monitoring feature was enabled during this session. */
+  isAbuseMonitoringEnabled?: boolean;
+  /** The expected IP address or CIDR block of the client that runs the liveness check. */
+  expectedClientIpAddress?: string;
   /** The results of the liveness session. */
   results: LivenessSessionResultsOutput;
 }
@@ -513,6 +517,10 @@ export interface LivenessSessionAttemptOutput {
   result?: LivenessResultOutput;
   /** The error of the liveness call, will be null if there is result. */
   error?: LivenessErrorOutput;
+  /** The client information gathered during the liveness attempt. */
+  clientInformation?: Array<ClientInformationOutput>;
+  /** The abuse monitoring result for the liveness attempt. */
+  abuseMonitoringResult?: AbuseMonitoringResultOutput;
 }
 
 /** The results of the liveness classification. */
@@ -553,6 +561,30 @@ export interface LivenessErrorOutput {
   targets: LivenessDecisionTargetsOutput;
 }
 
+/** The client information gathered during the liveness attempt. */
+export interface ClientInformationOutput {
+  /** The client ip address seen during the liveness attempt. */
+  ip: string;
+}
+
+/** The abuse monitoring result for the liveness attempt. */
+export interface AbuseMonitoringResultOutput {
+  /** Denotes if abuse detection triggered during this liveness attempt. */
+  isAbuseDetected: boolean;
+  /** Denotes if abuse detection triggered during this liveness attempt. */
+  otherFlaggedSessions: Array<OtherFlaggedSessionsOutput>;
+}
+
+/** The other sessions flagged as abuse based on the information gathered during this attempt. */
+export interface OtherFlaggedSessionsOutput {
+  /** The attempt ID, start from 1. */
+  attemptId: number;
+  /** The unique session ID of the flagged session. */
+  sessionId: string;
+  /** The image ID from the flagged session. */
+  sessionImageId?: string;
+}
+
 /** Session result of detect liveness with verify. */
 export interface LivenessWithVerifySessionOutput {
   /** The unique ID to reference this session. */
@@ -571,6 +603,10 @@ export interface LivenessWithVerifySessionOutput {
    * Possible values: "2024-11-15"
    */
   modelVersion?: LivenessModelOutput;
+  /** Denotes if the abuse monitoring feature was enabled during this session. */
+  isAbuseMonitoringEnabled?: boolean;
+  /** The expected IP address or CIDR block of the client that runs the liveness check. */
+  expectedClientIpAddress?: string;
   /** The results of the liveness with verify session. */
   results: LivenessWithVerifySessionResultsOutput;
 }
@@ -615,6 +651,10 @@ export interface LivenessWithVerifySessionAttemptOutput {
   result?: LivenessWithVerifyResultOutput;
   /** The error of the liveness with verify call, will be null if there is result. */
   error?: LivenessErrorOutput;
+  /** The client information gathered during the liveness attempt. */
+  clientInformation?: Array<ClientInformationOutput>;
+  /** The abuse monitoring result for the liveness attempt. */
+  abuseMonitoringResult?: AbuseMonitoringResultOutput;
 }
 
 /** The results of the liveness with verify call. */
@@ -643,6 +683,28 @@ export interface LivenessWithVerifyOutputsOutput {
   matchConfidence: number;
   /** Whether the target liveness face and comparison image face match. */
   isIdentical: boolean;
+}
+
+/** Response model for client assets access token. */
+export interface ClientAssetsAccessTokenResponseOutput {
+  /** The expiry time of the access token. */
+  expiry: string;
+  /** The access token for client assets. */
+  accessToken: string;
+  /** The base64 encoded access token. */
+  base64AccessToken: string;
+}
+
+/** Response model for settings. */
+export interface SettingsOutput {
+  /** Liveness abuse monitoring settings */
+  livenessAbuseMonitoring: LivenessAbuseMonitoringSettingOutput;
+}
+
+/** Settings for liveness abuse monitoring. */
+export interface LivenessAbuseMonitoringSettingOutput {
+  /** Whether liveness abuse monitoring is enabled */
+  enabled: boolean;
 }
 
 /** Alias for RecognitionModelOutput */

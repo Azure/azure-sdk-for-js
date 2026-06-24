@@ -5,12 +5,12 @@ import { HorizonDbClient } from "@azure/arm-horizondb";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to lists all HorizonDb pools in a cluster.
+ * This sample demonstrates how to lists all HorizonDB pools in a cluster.
  *
- * @summary lists all HorizonDb pools in a cluster.
+ * @summary lists all HorizonDB pools in a cluster.
  * x-ms-original-file: 2026-01-20-preview/Pools_List.json
  */
-async function listHorizonDbPoolsInACluster(): Promise<void> {
+async function listHorizonDBPoolsInACluster(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new HorizonDbClient(credential, subscriptionId);
@@ -23,7 +23,7 @@ async function listHorizonDbPoolsInACluster(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await listHorizonDbPoolsInACluster();
+  await listHorizonDBPoolsInACluster();
 }
 
 main().catch(console.error);

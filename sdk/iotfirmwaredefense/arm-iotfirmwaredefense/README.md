@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/iotfirmwaredefense/arm-iotfirmwaredefense)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-iotfirmwaredefense)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-iotfirmwaredefense?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-iotfirmwaredefense)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/iotfirmwaredefense/arm-iotfirmwaredefense/samples)
 
 ## Getting started

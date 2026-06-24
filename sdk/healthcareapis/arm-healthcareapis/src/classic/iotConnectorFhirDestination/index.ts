@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { HealthcareApisManagementContext } from "../../api/healthcareApisManagementContext.js";
+import { HealthcareApisManagementContext } from "../../api/healthcareApisManagementContext.js";
 import { $delete, createOrUpdate, get } from "../../api/iotConnectorFhirDestination/operations.js";
-import type {
+import {
   IotConnectorFhirDestinationDeleteOptionalParams,
   IotConnectorFhirDestinationCreateOrUpdateOptionalParams,
   IotConnectorFhirDestinationGetOptionalParams,
 } from "../../api/iotConnectorFhirDestination/options.js";
-import type { IotFhirDestination } from "../../models/models.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { IotFhirDestination } from "../../models/models.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a IotConnectorFhirDestination operations. */
 export interface IotConnectorFhirDestinationOperations {

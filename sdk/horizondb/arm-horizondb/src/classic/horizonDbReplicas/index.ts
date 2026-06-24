@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { HorizonDbContext } from "../../api/horizonDbContext.js";
+import { HorizonDbContext } from "../../api/horizonDbContext.js";
 import {
   $delete,
   update,
@@ -9,27 +9,21 @@ import {
   list,
   get,
 } from "../../api/horizonDbReplicas/operations.js";
-import type {
+import {
   HorizonDbReplicasDeleteOptionalParams,
   HorizonDbReplicasUpdateOptionalParams,
   HorizonDbReplicasCreateOrUpdateOptionalParams,
   HorizonDbReplicasListOptionalParams,
   HorizonDbReplicasGetOptionalParams,
 } from "../../api/horizonDbReplicas/options.js";
-import type { HorizonDbReplica, HorizonDbReplicaForPatchUpdate } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { HorizonDbReplica, HorizonDbReplicaForPatchUpdate } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a HorizonDbReplicas operations. */
 export interface HorizonDbReplicasOperations {
-  /** Deletes a HorizonDb replica. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
+  /** Deletes a HorizonDB replica. */
   delete: (
     resourceGroupName: string,
     clusterName: string,
@@ -53,7 +47,7 @@ export interface HorizonDbReplicasOperations {
     replicaName: string,
     options?: HorizonDbReplicasDeleteOptionalParams,
   ) => Promise<void>;
-  /** Updates an existing HorizonDb replica (e.g., role). */
+  /** Updates an existing HorizonDB replica (e.g., role). */
   update: (
     resourceGroupName: string,
     clusterName: string,
@@ -80,7 +74,7 @@ export interface HorizonDbReplicasOperations {
     properties: HorizonDbReplicaForPatchUpdate,
     options?: HorizonDbReplicasUpdateOptionalParams,
   ) => Promise<HorizonDbReplica>;
-  /** Creates a new HorizonDb replica or updates an existing replica. */
+  /** Creates a new HorizonDB replica or updates an existing replica. */
   createOrUpdate: (
     resourceGroupName: string,
     clusterName: string,
@@ -107,14 +101,14 @@ export interface HorizonDbReplicasOperations {
     resource: HorizonDbReplica,
     options?: HorizonDbReplicasCreateOrUpdateOptionalParams,
   ) => Promise<HorizonDbReplica>;
-  /** Lists all HorizonDb replicas in a pool. */
+  /** Lists all HorizonDB replicas in a pool. */
   list: (
     resourceGroupName: string,
     clusterName: string,
     poolName: string,
     options?: HorizonDbReplicasListOptionalParams,
   ) => PagedAsyncIterableIterator<HorizonDbReplica>;
-  /** Gets information about a HorizonDb replica. */
+  /** Gets information about a HorizonDB replica. */
   get: (
     resourceGroupName: string,
     clusterName: string,

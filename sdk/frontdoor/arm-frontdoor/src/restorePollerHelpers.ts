@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { FrontDoorManagementClient } from "./frontDoorManagementClient.js";
+import { FrontDoorManagementClient } from "./frontDoorManagementClient.js";
 import {
   _$deleteDeserialize,
   _updateDeserialize,
@@ -31,10 +31,14 @@ import {
   _createOrUpdateDeserialize as _createOrUpdateDeserializeFrontDoors,
 } from "./api/frontDoors/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
-import type { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
-import type { AbortSignalLike } from "@azure/abort-controller";
-import type { PollerLike, OperationState, ResourceLocationConfig } from "@azure/core-lro";
-import { deserializeState } from "@azure/core-lro";
+import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
+import { AbortSignalLike } from "@azure/abort-controller";
+import {
+  PollerLike,
+  OperationState,
+  deserializeState,
+  ResourceLocationConfig,
+} from "@azure/core-lro";
 
 export interface RestorePollerOptions<
   TResult,

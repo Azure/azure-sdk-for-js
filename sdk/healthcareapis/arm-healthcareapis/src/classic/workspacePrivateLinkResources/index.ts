@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { HealthcareApisManagementContext } from "../../api/healthcareApisManagementContext.js";
+import { HealthcareApisManagementContext } from "../../api/healthcareApisManagementContext.js";
 import { listByWorkspace, get } from "../../api/workspacePrivateLinkResources/operations.js";
-import type {
+import {
   WorkspacePrivateLinkResourcesListByWorkspaceOptionalParams,
   WorkspacePrivateLinkResourcesGetOptionalParams,
 } from "../../api/workspacePrivateLinkResources/options.js";
-import type { PrivateLinkResourceDescription } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PrivateLinkResourceDescription } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a WorkspacePrivateLinkResources operations. */
 export interface WorkspacePrivateLinkResourcesOperations {

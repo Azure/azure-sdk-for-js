@@ -1,30 +1,7 @@
 # Release History
-
-## 1.0.0-beta.3 (2026-05-29)
-Compared with version 1.0.0-beta.1
+    
+## 1.0.0 (2026-06-24)
 
 ### Features Added
-  - Added Interface GuestConfigurationAssignmentsListRGListOptionalParams
-  - Added Interface GuestConfigurationAssignmentsListSubscriptionListOptionalParams
-  - Added Interface PagedAsyncIterableIterator
-  - Added Interface PageSettings
-  - Interface GuestConfigurationAssignmentReportList has a new optional parameter nextLink
-  - Interface GuestConfigurationNavigation has a new optional parameter contentManagedIdentity
-  - Added Type Alias AzureSupportedClouds
-  - Added Enum AzureClouds
-  - Added Enum KnownVersions
 
-### Breaking Changes
-  - Removed Interface ErrorResponseError
-  - Removed Interface GuestConfigurationAssignmentList
-  - Removed Interface GuestConfigurationAssignmentsRGListOptionalParams
-  - Removed Interface GuestConfigurationAssignmentsSubscriptionListOptionalParams
-  - Removed Interface OperationList
-  - Removed Interface Resource
-  - Parameter name of interface GuestConfigurationAssignment is now required
-  - Parameter name of interface ProxyResource is now required
-
-    
-## 1.0.0-beta.1 (2024-04-28)
-
-The package of @azure/arm-guestconfiguration is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+This is the first stable release of the @azure/arm-guestconfiguration package. It introduces a new SDK generation with layered APIs, smaller bundles, and improved ergonomics. For more details, see the https://aka.ms/azsdk/js/sdk/quickstart.

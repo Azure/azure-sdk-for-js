@@ -35,28 +35,25 @@ export function _listByEndpointResourceSend(
   context: Client,
   resourceUri: string,
   endpointName: string,
-  options: ServiceConfigurationsListByEndpointResourceOptionalParams = {
-    requestOptions: {},
-  },
+  options: ServiceConfigurationsListByEndpointResourceOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/{+resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{+endpointName}/serviceConfigurations{?api%2Dversion}",
     {
       resourceUri: resourceUri,
       endpointName: endpointName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2024-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listByEndpointResourceDeserialize(
@@ -65,7 +62,10 @@ export async function _listByEndpointResourceDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -77,16 +77,14 @@ export function listByEndpointResource(
   context: Client,
   resourceUri: string,
   endpointName: string,
-  options: ServiceConfigurationsListByEndpointResourceOptionalParams = {
-    requestOptions: {},
-  },
+  options: ServiceConfigurationsListByEndpointResourceOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ServiceConfigurationResource> {
   return buildPagedAsyncIterator(
     context,
     () => _listByEndpointResourceSend(context, resourceUri, endpointName, options),
     _listByEndpointResourceDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2024-12-01" },
   );
 }
 
@@ -103,26 +101,23 @@ export function _$deleteSend(
       resourceUri: resourceUri,
       endpointName: endpointName,
       serviceConfigurationName: serviceConfigurationName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2024-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -130,11 +125,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Deletes the service details to the target resource. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export async function $delete(
   context: Client,
   resourceUri: string,
@@ -166,21 +156,20 @@ export function _updateSend(
       resourceUri: resourceUri,
       endpointName: endpointName,
       serviceConfigurationName: serviceConfigurationName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2024-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: serviceConfigurationResourcePatchSerializer(serviceConfigurationResource),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: serviceConfigurationResourcePatchSerializer(serviceConfigurationResource),
+    });
 }
 
 export async function _updateDeserialize(
@@ -189,7 +178,10 @@ export async function _updateDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -222,9 +214,7 @@ export function _createOrupdateSend(
   endpointName: string,
   serviceConfigurationName: string,
   serviceConfigurationResource: ServiceConfigurationResource,
-  options: ServiceConfigurationsCreateOrupdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: ServiceConfigurationsCreateOrupdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/{+resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{+endpointName}/serviceConfigurations/{+serviceConfigurationName}{?api%2Dversion}",
@@ -232,21 +222,20 @@ export function _createOrupdateSend(
       resourceUri: resourceUri,
       endpointName: endpointName,
       serviceConfigurationName: serviceConfigurationName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2024-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: serviceConfigurationResourceSerializer(serviceConfigurationResource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: serviceConfigurationResourceSerializer(serviceConfigurationResource),
+    });
 }
 
 export async function _createOrupdateDeserialize(
@@ -255,7 +244,10 @@ export async function _createOrupdateDeserialize(
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -269,9 +261,7 @@ export async function createOrupdate(
   endpointName: string,
   serviceConfigurationName: string,
   serviceConfigurationResource: ServiceConfigurationResource,
-  options: ServiceConfigurationsCreateOrupdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: ServiceConfigurationsCreateOrupdateOptionalParams = { requestOptions: {} },
 ): Promise<ServiceConfigurationResource> {
   const result = await _createOrupdateSend(
     context,
@@ -297,19 +287,18 @@ export function _getSend(
       resourceUri: resourceUri,
       endpointName: endpointName,
       serviceConfigurationName: serviceConfigurationName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2024-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(
@@ -318,7 +307,10 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 

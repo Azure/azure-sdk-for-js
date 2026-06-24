@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary gets all connections to a parameter group.
  * x-ms-original-file: 2026-01-20-preview/ParameterGroups_ListConnections.json
  */
-async function listConnectionsForAHorizonDbParameterGroup(): Promise<void> {
+async function listConnectionsForAHorizonDBParameterGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new HorizonDbClient(credential, subscriptionId);
@@ -26,7 +26,7 @@ async function listConnectionsForAHorizonDbParameterGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await listConnectionsForAHorizonDbParameterGroup();
+  await listConnectionsForAHorizonDBParameterGroup();
 }
 
 main().catch(console.error);

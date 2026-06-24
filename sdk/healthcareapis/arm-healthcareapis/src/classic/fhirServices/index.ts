@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { HealthcareApisManagementContext } from "../../api/healthcareApisManagementContext.js";
+import { HealthcareApisManagementContext } from "../../api/healthcareApisManagementContext.js";
 import {
   $delete,
   update,
@@ -9,18 +9,17 @@ import {
   createOrUpdate,
   get,
 } from "../../api/fhirServices/operations.js";
-import type {
+import {
   FhirServicesDeleteOptionalParams,
   FhirServicesUpdateOptionalParams,
   FhirServicesListByWorkspaceOptionalParams,
   FhirServicesCreateOrUpdateOptionalParams,
   FhirServicesGetOptionalParams,
 } from "../../api/fhirServices/options.js";
-import type { FhirService, FhirServicePatchResource } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { FhirService, FhirServicePatchResource } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a FhirServices operations. */
 export interface FhirServicesOperations {

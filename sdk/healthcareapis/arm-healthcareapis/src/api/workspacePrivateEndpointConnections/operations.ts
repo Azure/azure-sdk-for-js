@@ -1,30 +1,34 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { HealthcareApisManagementContext as Client } from "../index.js";
-import type {
-  PrivateEndpointConnectionDescription,
-  _PrivateEndpointConnectionListResultDescription,
-} from "../../models/models.js";
+import { HealthcareApisManagementContext as Client } from "../index.js";
 import {
   errorDetailsDeserializer,
+  PrivateEndpointConnectionDescription,
   privateEndpointConnectionDescriptionSerializer,
   privateEndpointConnectionDescriptionDeserializer,
+  _PrivateEndpointConnectionListResultDescription,
   _privateEndpointConnectionListResultDescriptionDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   WorkspacePrivateEndpointConnectionsListByWorkspaceOptionalParams,
   WorkspacePrivateEndpointConnectionsDeleteOptionalParams,
   WorkspacePrivateEndpointConnectionsCreateOrUpdateOptionalParams,
   WorkspacePrivateEndpointConnectionsGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listByWorkspaceSend(
   context: Client,
@@ -46,10 +50,12 @@ export function _listByWorkspaceSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listByWorkspaceDeserialize(
@@ -172,12 +178,14 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: privateEndpointConnectionDescriptionSerializer(properties),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: privateEndpointConnectionDescriptionSerializer(properties),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -248,10 +256,12 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(

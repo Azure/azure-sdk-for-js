@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import {
-  createIoTFirmwareDefense,
   IoTFirmwareDefenseContext,
   IoTFirmwareDefenseClientOptionalParams,
+  createIoTFirmwareDefense,
 } from "./api/index.js";
 import {
   BinaryHardeningOperations,
@@ -35,7 +35,7 @@ import { WorkspacesOperations, _getWorkspacesOperations } from "./classic/worksp
 import { TokenCredential } from "@azure/core-auth";
 import { Pipeline } from "@azure/core-rest-pipeline";
 
-export { type IoTFirmwareDefenseClientOptionalParams } from "./api/ioTFirmwareDefenseContext.js";
+export type { IoTFirmwareDefenseClientOptionalParams } from "./api/ioTFirmwareDefenseContext.js";
 
 export class IoTFirmwareDefenseClient {
   private _client: IoTFirmwareDefenseContext;

@@ -5,12 +5,12 @@ import { HorizonDbClient } from "@azure/arm-horizondb";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to creates a new HorizonDb parameter group or updates an existing parameter group.
+ * This sample demonstrates how to creates a new HorizonDB parameter group or updates an existing parameter group.
  *
- * @summary creates a new HorizonDb parameter group or updates an existing parameter group.
+ * @summary creates a new HorizonDB parameter group or updates an existing parameter group.
  * x-ms-original-file: 2026-01-20-preview/ParameterGroups_CreateOrUpdate.json
  */
-async function createOrUpdateAHorizonDbParameterGroup(): Promise<void> {
+async function createOrUpdateAHorizonDBParameterGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new HorizonDbClient(credential, subscriptionId);
@@ -36,7 +36,7 @@ async function createOrUpdateAHorizonDbParameterGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await createOrUpdateAHorizonDbParameterGroup();
+  await createOrUpdateAHorizonDBParameterGroup();
 }
 
 main().catch(console.error);

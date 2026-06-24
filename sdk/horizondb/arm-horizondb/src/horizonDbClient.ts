@@ -1,26 +1,38 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { HorizonDbContext, HorizonDbClientOptionalParams } from "./api/index.js";
-import { createHorizonDb } from "./api/index.js";
-import type { HorizonDbClustersOperations } from "./classic/horizonDbClusters/index.js";
-import { _getHorizonDbClustersOperations } from "./classic/horizonDbClusters/index.js";
-import type { HorizonDbFirewallRulesOperations } from "./classic/horizonDbFirewallRules/index.js";
-import { _getHorizonDbFirewallRulesOperations } from "./classic/horizonDbFirewallRules/index.js";
-import type { HorizonDbParameterGroupsOperations } from "./classic/horizonDbParameterGroups/index.js";
-import { _getHorizonDbParameterGroupsOperations } from "./classic/horizonDbParameterGroups/index.js";
-import type { HorizonDbPoolsOperations } from "./classic/horizonDbPools/index.js";
-import { _getHorizonDbPoolsOperations } from "./classic/horizonDbPools/index.js";
-import type { HorizonDbPrivateEndpointConnectionsOperations } from "./classic/horizonDbPrivateEndpointConnections/index.js";
-import { _getHorizonDbPrivateEndpointConnectionsOperations } from "./classic/horizonDbPrivateEndpointConnections/index.js";
-import type { HorizonDbPrivateLinkResourcesOperations } from "./classic/horizonDbPrivateLinkResources/index.js";
-import { _getHorizonDbPrivateLinkResourcesOperations } from "./classic/horizonDbPrivateLinkResources/index.js";
-import type { HorizonDbReplicasOperations } from "./classic/horizonDbReplicas/index.js";
-import { _getHorizonDbReplicasOperations } from "./classic/horizonDbReplicas/index.js";
-import type { OperationsOperations } from "./classic/operations/index.js";
-import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import { HorizonDbContext, HorizonDbClientOptionalParams, createHorizonDb } from "./api/index.js";
+import {
+  HorizonDbClustersOperations,
+  _getHorizonDbClustersOperations,
+} from "./classic/horizonDbClusters/index.js";
+import {
+  HorizonDbFirewallRulesOperations,
+  _getHorizonDbFirewallRulesOperations,
+} from "./classic/horizonDbFirewallRules/index.js";
+import {
+  HorizonDbParameterGroupsOperations,
+  _getHorizonDbParameterGroupsOperations,
+} from "./classic/horizonDbParameterGroups/index.js";
+import {
+  HorizonDbPoolsOperations,
+  _getHorizonDbPoolsOperations,
+} from "./classic/horizonDbPools/index.js";
+import {
+  HorizonDbPrivateEndpointConnectionsOperations,
+  _getHorizonDbPrivateEndpointConnectionsOperations,
+} from "./classic/horizonDbPrivateEndpointConnections/index.js";
+import {
+  HorizonDbPrivateLinkResourcesOperations,
+  _getHorizonDbPrivateLinkResourcesOperations,
+} from "./classic/horizonDbPrivateLinkResources/index.js";
+import {
+  HorizonDbReplicasOperations,
+  _getHorizonDbReplicasOperations,
+} from "./classic/horizonDbReplicas/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { HorizonDbClientOptionalParams } from "./api/horizonDbContext.js";
 
@@ -29,7 +41,7 @@ export class HorizonDbClient {
   /** The pipeline used by this client to make requests */
   public readonly pipeline: Pipeline;
 
-  /** Azure Resource Provider API for managing HorizonDb clusters, pools, replicas, and firewall rules */
+  /** Azure Resource Provider API for managing HorizonDB clusters, pools, replicas, and firewall rules */
   constructor(
     credential: TokenCredential,
     subscriptionId: string,

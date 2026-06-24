@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { FrontDoorManagementContext } from "../../api/frontDoorManagementContext.js";
+import { FrontDoorManagementContext } from "../../api/frontDoorManagementContext.js";
 import { list } from "../../api/managedRuleSets/operations.js";
-import type { ManagedRuleSetsListOptionalParams } from "../../api/managedRuleSets/options.js";
-import type { ManagedRuleSetDefinition } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { ManagedRuleSetsListOptionalParams } from "../../api/managedRuleSets/options.js";
+import { ManagedRuleSetDefinition } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ManagedRuleSets operations. */
 export interface ManagedRuleSetsOperations {

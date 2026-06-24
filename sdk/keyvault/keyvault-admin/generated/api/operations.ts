@@ -77,7 +77,9 @@ export async function _getSettingsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -121,7 +123,9 @@ export async function _getSettingDeserialize(result: PathUncheckedResponse): Pro
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -169,7 +173,9 @@ export async function _updateSettingDeserialize(result: PathUncheckedResponse): 
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -220,7 +226,9 @@ export async function _selectiveKeyRestoreOperationDeserialize(
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -279,7 +287,9 @@ export async function _selectiveKeyRestoreStatusDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -327,7 +337,9 @@ export async function _preFullRestoreOperationDeserialize(
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -381,7 +393,9 @@ export async function _fullRestoreOperationDeserialize(
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -433,7 +447,9 @@ export async function _restoreStatusDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -481,7 +497,9 @@ export async function _preFullBackupDeserialize(
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -534,7 +552,9 @@ export async function _fullBackupDeserialize(
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -586,7 +606,9 @@ export async function _fullBackupStatusDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = keyVaultErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = keyVaultErrorDeserializer(result.body);
+    }
 
     throw error;
   }

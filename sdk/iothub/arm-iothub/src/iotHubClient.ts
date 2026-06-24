@@ -1,24 +1,31 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { IotHubContext, IotHubClientOptionalParams } from "./api/index.js";
-import { createIotHub } from "./api/index.js";
-import type { CertificatesOperations } from "./classic/certificates/index.js";
-import { _getCertificatesOperations } from "./classic/certificates/index.js";
-import type { IotHubOperations } from "./classic/iotHub/index.js";
-import { _getIotHubOperations } from "./classic/iotHub/index.js";
-import type { IotHubResourceOperations } from "./classic/iotHubResource/index.js";
-import { _getIotHubResourceOperations } from "./classic/iotHubResource/index.js";
-import type { OperationsOperations } from "./classic/operations/index.js";
-import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { PrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
-import { _getPrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
-import type { PrivateLinkResourcesOperationsOperations } from "./classic/privateLinkResourcesOperations/index.js";
-import { _getPrivateLinkResourcesOperationsOperations } from "./classic/privateLinkResourcesOperations/index.js";
-import type { ResourceProviderCommonOperations } from "./classic/resourceProviderCommon/index.js";
-import { _getResourceProviderCommonOperations } from "./classic/resourceProviderCommon/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import { IotHubContext, IotHubClientOptionalParams, createIotHub } from "./api/index.js";
+import {
+  CertificatesOperations,
+  _getCertificatesOperations,
+} from "./classic/certificates/index.js";
+import { IotHubOperations, _getIotHubOperations } from "./classic/iotHub/index.js";
+import {
+  IotHubResourceOperations,
+  _getIotHubResourceOperations,
+} from "./classic/iotHubResource/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import {
+  PrivateEndpointConnectionsOperations,
+  _getPrivateEndpointConnectionsOperations,
+} from "./classic/privateEndpointConnections/index.js";
+import {
+  PrivateLinkResourcesOperationsOperations,
+  _getPrivateLinkResourcesOperationsOperations,
+} from "./classic/privateLinkResourcesOperations/index.js";
+import {
+  ResourceProviderCommonOperations,
+  _getResourceProviderCommonOperations,
+} from "./classic/resourceProviderCommon/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { IotHubClientOptionalParams } from "./api/iotHubContext.js";
 

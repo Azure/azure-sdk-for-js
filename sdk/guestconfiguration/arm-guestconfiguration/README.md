@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/guestconfiguration/arm-guestconfiguration)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-guestconfiguration)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-guestconfiguration?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-guestconfiguration)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/guestconfiguration/arm-guestconfiguration/samples)
 
 ## Getting started

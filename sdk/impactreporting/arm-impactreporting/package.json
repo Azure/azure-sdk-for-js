@@ -115,6 +115,104 @@
         "default": "./dist/commonjs/index.js"
       }
     },
+    "./api": {
+      "browser": {
+        "types": "./dist/browser/api/index.d.ts",
+        "default": "./dist/browser/api/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/index.d.ts",
+        "default": "./dist/esm/api/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/index.d.ts",
+        "default": "./dist/commonjs/api/index.js"
+      }
+    },
+    "./api/connectors": {
+      "browser": {
+        "types": "./dist/browser/api/connectors/index.d.ts",
+        "default": "./dist/browser/api/connectors/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/connectors/index.d.ts",
+        "default": "./dist/esm/api/connectors/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/connectors/index.d.ts",
+        "default": "./dist/commonjs/api/connectors/index.js"
+      }
+    },
+    "./api/insights": {
+      "browser": {
+        "types": "./dist/browser/api/insights/index.d.ts",
+        "default": "./dist/browser/api/insights/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/insights/index.d.ts",
+        "default": "./dist/esm/api/insights/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/insights/index.d.ts",
+        "default": "./dist/commonjs/api/insights/index.js"
+      }
+    },
+    "./api/impactCategories": {
+      "browser": {
+        "types": "./dist/browser/api/impactCategories/index.d.ts",
+        "default": "./dist/browser/api/impactCategories/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/impactCategories/index.d.ts",
+        "default": "./dist/esm/api/impactCategories/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/impactCategories/index.d.ts",
+        "default": "./dist/commonjs/api/impactCategories/index.js"
+      }
+    },
+    "./api/workloadImpacts": {
+      "browser": {
+        "types": "./dist/browser/api/workloadImpacts/index.d.ts",
+        "default": "./dist/browser/api/workloadImpacts/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/workloadImpacts/index.d.ts",
+        "default": "./dist/esm/api/workloadImpacts/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/workloadImpacts/index.d.ts",
+        "default": "./dist/commonjs/api/workloadImpacts/index.js"
+      }
+    },
+    "./api/operations": {
+      "browser": {
+        "types": "./dist/browser/api/operations/index.d.ts",
+        "default": "./dist/browser/api/operations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/operations/index.d.ts",
+        "default": "./dist/esm/api/operations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/operations/index.d.ts",
+        "default": "./dist/commonjs/api/operations/index.js"
+      }
+    },
+    "./api/uploadService": {
+      "browser": {
+        "types": "./dist/browser/api/uploadService/index.d.ts",
+        "default": "./dist/browser/api/uploadService/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/uploadService/index.d.ts",
+        "default": "./dist/esm/api/uploadService/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/uploadService/index.d.ts",
+        "default": "./dist/commonjs/api/uploadService/index.js"
+      }
+    },
     "./models": {
       "browser": {
         "types": "./dist/browser/models/index.d.ts",

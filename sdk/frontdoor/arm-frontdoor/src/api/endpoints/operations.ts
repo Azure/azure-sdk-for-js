@@ -1,15 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { FrontDoorManagementContext as Client } from "../index.js";
-import type { PurgeParameters } from "../../models/models.js";
-import { errorResponseDeserializer, purgeParametersSerializer } from "../../models/models.js";
+import { FrontDoorManagementContext as Client } from "../index.js";
+import {
+  errorResponseDeserializer,
+  PurgeParameters,
+  purgeParametersSerializer,
+} from "../../models/models.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type { EndpointsPurgeContentOptionalParams } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { EndpointsPurgeContentOptionalParams } from "./options.js";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _purgeContentSend(
   context: Client,
@@ -30,11 +37,13 @@ export function _purgeContentSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: purgeParametersSerializer(contentFilePaths),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: purgeParametersSerializer(contentFilePaths),
+    });
 }
 
 export async function _purgeContentDeserialize(result: PathUncheckedResponse): Promise<void> {

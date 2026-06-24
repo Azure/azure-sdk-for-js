@@ -14,7 +14,9 @@ import type {
   UserDefinedFields,
   CreateLivenessSessionContent,
   CreateLivenessWithVerifySessionContent,
+  Settings,
 } from "./models.js";
+import type { NodeReadableStream } from "#platform/platform-types";
 
 export interface DetectFromUrlBodyParam {
   body: { url: string };
@@ -75,7 +77,7 @@ export interface DetectBodyParam {
    *
    * Value may contain any sequence of octets
    */
-  body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
+  body: string | Uint8Array | ReadableStream<Uint8Array> | NodeReadableStream;
 }
 
 /** This is the wrapper object for the parameter `returnFaceAttributes` with explode set to false and style set to form. */
@@ -373,7 +375,7 @@ export interface AddFaceListFaceBodyParam {
    *
    * Value may contain any sequence of octets
    */
-  body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
+  body: string | Uint8Array | ReadableStream<Uint8Array> | NodeReadableStream;
 }
 
 /** This is the wrapper object for the parameter `targetFace` with explode set to false and style set to form. */
@@ -496,7 +498,7 @@ export interface AddLargeFaceListFaceBodyParam {
    *
    * Value may contain any sequence of octets
    */
-  body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
+  body: string | Uint8Array | ReadableStream<Uint8Array> | NodeReadableStream;
 }
 
 /** This is the wrapper object for the parameter `targetFace` with explode set to false and style set to form. */
@@ -669,7 +671,7 @@ export interface AddPersonGroupPersonFaceBodyParam {
    *
    * Value may contain any sequence of octets
    */
-  body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
+  body: string | Uint8Array | ReadableStream<Uint8Array> | NodeReadableStream;
 }
 
 /** This is the wrapper object for the parameter `targetFace` with explode set to false and style set to form. */
@@ -831,7 +833,7 @@ export interface AddLargePersonGroupPersonFaceBodyParam {
    *
    * Value may contain any sequence of octets
    */
-  body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
+  body: string | Uint8Array | ReadableStream<Uint8Array> | NodeReadableStream;
 }
 
 /** This is the wrapper object for the parameter `targetFace` with explode set to false and style set to form. */
@@ -906,3 +908,12 @@ export type CreateLivenessWithVerifySessionParameters =
 export type DeleteLivenessWithVerifySessionParameters = RequestParameters;
 export type GetLivenessWithVerifySessionResultParameters = RequestParameters;
 export type GetSessionImageParameters = RequestParameters;
+export type GetClientAssetsAccessTokenParameters = RequestParameters;
+export type GetSettingsParameters = RequestParameters;
+
+export interface PatchSettingsBodyParam {
+  /** Body parameter. */
+  body: Settings;
+}
+
+export type PatchSettingsParameters = PatchSettingsBodyParam & RequestParameters;

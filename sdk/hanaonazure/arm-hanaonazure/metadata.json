@@ -2,7 +2,7 @@
   "apiVersions": {
     "Microsoft.HanaOnAzure": "2020-02-07-preview"
   },
-  "emitterVersion": "0.54.0",
+  "emitterVersion": "0.55.0-dev.8",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.HanaOnAzure",
     "CrossLanguageDefinitionId": {

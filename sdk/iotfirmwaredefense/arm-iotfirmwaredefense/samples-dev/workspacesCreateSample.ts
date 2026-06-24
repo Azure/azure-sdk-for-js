@@ -18,13 +18,7 @@ async function workspacesCreateMaximumSetGenGeneratedByMaximumSetRule(): Promise
     properties: {},
     tags: { key4630: "rov" },
     location: "East US",
-    sku: {
-      name: "Free",
-      tier: "Free",
-      size: "Free",
-      family: "F",
-      capacity: 30,
-    },
+    sku: { name: "Free", tier: "Free", size: "Free", family: "F", capacity: 30 },
   });
   console.log(result);
 }

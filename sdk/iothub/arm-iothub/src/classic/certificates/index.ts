@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { IotHubContext } from "../../api/iotHubContext.js";
+import { IotHubContext } from "../../api/iotHubContext.js";
 import {
   verify,
   generateVerificationCode,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/certificates/operations.js";
-import type {
+import {
   CertificatesVerifyOptionalParams,
   CertificatesGenerateVerificationCodeOptionalParams,
   CertificatesListByIotHubOptionalParams,
@@ -18,7 +18,7 @@ import type {
   CertificatesCreateOrUpdateOptionalParams,
   CertificatesGetOptionalParams,
 } from "../../api/certificates/options.js";
-import type {
+import {
   CertificateDescription,
   CertificateListDescription,
   CertificateWithNonceDescription,

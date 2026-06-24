@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { NodeReadableStream } from "#platform/platform-types";
+
 /** Model for creating face collection. */
 export interface CreateCollectionRequest {
   /** User defined name, maximum length is 128. */
@@ -65,6 +67,14 @@ export interface CreateLivenessSessionContent {
   deviceCorrelationId?: string;
   /** Seconds the session should last for. Range is 60 to 86400 seconds. Default value is 600. */
   authTokenTimeToLiveInSeconds?: number;
+  /** The number of times a client can attempt a liveness check using the same authToken. Default value is 1. Maximum value is 3. */
+  numberOfClientAttemptsAllowed?: number;
+  /** Unique Guid per each end-user. This is to provide rate limiting and anti-hammering. If 'userCorrelationIdSetInClient' is true in this request, this 'userCorrelationId' must be null. */
+  userCorrelationId?: string;
+  /** Whether or not to allow client to set their own 'userCorrelationId' via the Vision SDK. Default is false, and 'userCorrelationId' must be set in this request body. */
+  userCorrelationIdSetInClient?: boolean;
+  /** Specify the expected IP address or CIDR block of the client that runs the liveness check. */
+  expectedClientIpAddress?: string;
 }
 
 export interface CreateLivenessWithVerifySessionContentLivenessOperationModePartDescriptor {
@@ -87,16 +97,6 @@ export interface CreateLivenessWithVerifySessionContentLivenessModelVersionPartD
   body: LivenessModel;
 }
 
-export interface CreateLivenessWithVerifySessionContentDeviceCorrelationIdPartDescriptor {
-  name: "deviceCorrelationId";
-  body: string;
-}
-
-export interface CreateLivenessWithVerifySessionContentAuthTokenTimeToLiveInSecondsPartDescriptor {
-  name: "authTokenTimeToLiveInSeconds";
-  body: number;
-}
-
 export interface CreateLivenessWithVerifySessionContentReturnVerifyImageHashPartDescriptor {
   name: "returnVerifyImageHash";
   body: boolean;
@@ -109,9 +109,36 @@ export interface CreateLivenessWithVerifySessionContentVerifyConfidenceThreshold
 
 export interface CreateLivenessWithVerifySessionContentVerifyImagePartDescriptor {
   name: "verifyImage";
-  body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream | File;
+  body: string | Uint8Array | ReadableStream<Uint8Array> | NodeReadableStream | File;
   filename?: string;
   contentType?: string;
+}
+
+export interface CreateLivenessWithVerifySessionContentDeviceCorrelationIdPartDescriptor {
+  name: "deviceCorrelationId";
+  body: string;
+}
+
+export interface CreateLivenessWithVerifySessionContentAuthTokenTimeToLiveInSecondsPartDescriptor {
+  name: "authTokenTimeToLiveInSeconds";
+  body: number;
+}
+
+export interface CreateLivenessWithVerifySessionContentNumberOfClientAttemptsAllowedPartDescriptor {
+  name: "numberOfClientAttemptsAllowed";
+  body: number;
+}
+
+/** Settings for liveness abuse monitoring. */
+export interface LivenessAbuseMonitoringSetting {
+  /** Whether liveness abuse monitoring is enabled */
+  enabled: boolean;
+}
+
+/** Response model for settings. */
+export interface Settings {
+  /** Liveness abuse monitoring settings */
+  livenessAbuseMonitoring: LivenessAbuseMonitoringSetting;
 }
 
 /** Alias for DetectionModel */
@@ -134,11 +161,12 @@ export type CreateLivenessWithVerifySessionContent =
       | CreateLivenessWithVerifySessionContentDeviceCorrelationIdSetInClientPartDescriptor
       | CreateLivenessWithVerifySessionContentEnableSessionImagePartDescriptor
       | CreateLivenessWithVerifySessionContentLivenessModelVersionPartDescriptor
-      | CreateLivenessWithVerifySessionContentDeviceCorrelationIdPartDescriptor
-      | CreateLivenessWithVerifySessionContentAuthTokenTimeToLiveInSecondsPartDescriptor
       | CreateLivenessWithVerifySessionContentReturnVerifyImageHashPartDescriptor
       | CreateLivenessWithVerifySessionContentVerifyConfidenceThresholdPartDescriptor
       | CreateLivenessWithVerifySessionContentVerifyImagePartDescriptor
+      | CreateLivenessWithVerifySessionContentDeviceCorrelationIdPartDescriptor
+      | CreateLivenessWithVerifySessionContentAuthTokenTimeToLiveInSecondsPartDescriptor
+      | CreateLivenessWithVerifySessionContentNumberOfClientAttemptsAllowedPartDescriptor
     >;
 /** API versions for Azure AI Face API. */
-export type Versions = "v1.1-preview.1" | "v1.2-preview.1" | "v1.2";
+export type Versions = "v1.1-preview.1" | "v1.2-preview.1" | "v1.2" | "v1.3-preview.1";
