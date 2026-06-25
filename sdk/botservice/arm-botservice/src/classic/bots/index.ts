@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureBotServiceContext } from "../../api/azureBotServiceContext.js";
+import { AzureBotServiceContext } from "../../api/azureBotServiceContext.js";
 import {
   getCheckNameAvailability,
   list,
@@ -11,7 +11,7 @@ import {
   create,
   get,
 } from "../../api/bots/operations.js";
-import type {
+import {
   BotsGetCheckNameAvailabilityOptionalParams,
   BotsListOptionalParams,
   BotsListByResourceGroupOptionalParams,
@@ -20,12 +20,12 @@ import type {
   BotsCreateOptionalParams,
   BotsGetOptionalParams,
 } from "../../api/bots/options.js";
-import type {
+import {
   Bot,
   CheckNameAvailabilityRequestBody,
   CheckNameAvailabilityResponseBody,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Bots operations. */
 export interface BotsOperations {

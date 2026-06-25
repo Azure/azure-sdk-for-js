@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to returns communication details for a support ticket.
  *
  * @summary returns communication details for a support ticket.
- * x-ms-original-file: 2025-06-01-preview/GetCommunicationDetailsForSupportTicket.json
+ * x-ms-original-file: 2026-06-01/GetCommunicationDetailsForSupportTicket.json
  */
 async function getCommunicationDetailsForANoSubscriptionSupportTicket(): Promise<void> {
   const credential = new DefaultAzureCredential();

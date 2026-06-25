@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DnsResolverManagementContext } from "../../api/dnsResolverManagementContext.js";
+import { DnsResolverManagementContext } from "../../api/dnsResolverManagementContext.js";
 import {
   list,
   $delete,
@@ -9,18 +9,17 @@ import {
   createOrUpdate,
   get,
 } from "../../api/dnsSecurityRules/operations.js";
-import type {
+import {
   DnsSecurityRulesListOptionalParams,
   DnsSecurityRulesDeleteOptionalParams,
   DnsSecurityRulesUpdateOptionalParams,
   DnsSecurityRulesCreateOrUpdateOptionalParams,
   DnsSecurityRulesGetOptionalParams,
 } from "../../api/dnsSecurityRules/options.js";
-import type { DnsSecurityRule, DnsSecurityRulePatch } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { DnsSecurityRule, DnsSecurityRulePatch } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a DnsSecurityRules operations. */
 export interface DnsSecurityRulesOperations {

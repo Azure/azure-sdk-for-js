@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { BotProperties, Sku, Kind } from "../../models/models.js";
-import type { OperationOptions } from "@azure-rest/core-client";
+import { BotProperties, Sku, Kind } from "../../models/models.js";
+import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface BotsGetCheckNameAvailabilityOptionalParams extends OperationOptions {}

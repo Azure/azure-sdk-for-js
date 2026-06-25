@@ -1,16 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CompanionAPIContext, CompanionAPIClientOptionalParams } from "./api/index.js";
-import { createCompanionAPI } from "./api/index.js";
-import type { OperationsOperations } from "./classic/operations/index.js";
-import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { OrganizationsOperations } from "./classic/organizations/index.js";
-import { _getOrganizationsOperations } from "./classic/organizations/index.js";
-import type { SaaSOperationGroupOperations } from "./classic/saaSOperationGroup/index.js";
-import { _getSaaSOperationGroupOperations } from "./classic/saaSOperationGroup/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import {
+  CompanionAPIContext,
+  CompanionAPIClientOptionalParams,
+  createCompanionAPI,
+} from "./api/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import {
+  OrganizationsOperations,
+  _getOrganizationsOperations,
+} from "./classic/organizations/index.js";
+import {
+  SaaSOperationGroupOperations,
+  _getSaaSOperationGroupOperations,
+} from "./classic/saaSOperationGroup/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { CompanionAPIClientOptionalParams } from "./api/companionAPIContext.js";
 

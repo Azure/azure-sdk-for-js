@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list all kubernetes versions.
  *
  * @summary list all kubernetes versions.
- * x-ms-original-file: 2026-04-01-preview/KubernetesVersions_ListBySubscriptionLocationResource_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-05-01-preview/KubernetesVersions_ListBySubscriptionLocationResource_MaximumSet_Gen.json
  */
 async function kubernetesVersionsListBySubscriptionLocationResourceMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

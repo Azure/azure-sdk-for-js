@@ -1,40 +1,40 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PaloAltoNetworksCloudngfwContext as Client } from "../index.js";
-import type {
+import { PaloAltoNetworksCloudngfwContext as Client } from "../index.js";
+import {
+  errorResponseDeserializer,
   GlobalRulestackResource,
+  globalRulestackResourceSerializer,
+  globalRulestackResourceDeserializer,
   GlobalRulestackResourceUpdate,
+  globalRulestackResourceUpdateSerializer,
   _GlobalRulestackResourceListResult,
+  _globalRulestackResourceListResultDeserializer,
   Changelog,
+  changelogDeserializer,
   AdvSecurityObjectListResponse,
+  advSecurityObjectListResponseDeserializer,
   ListAppIdResponse,
+  listAppIdResponseDeserializer,
   CountriesResponse,
+  countriesResponseDeserializer,
   ListFirewallsResponse,
+  listFirewallsResponseDeserializer,
   PredefinedUrlCategoriesResponse,
+  predefinedUrlCategoriesResponseDeserializer,
   SecurityServicesResponse,
+  securityServicesResponseDeserializer,
   AdvSecurityObjectTypeEnum,
   SecurityServicesTypeEnum,
 } from "../../models/models.js";
 import {
-  errorResponseDeserializer,
-  globalRulestackResourceSerializer,
-  globalRulestackResourceDeserializer,
-  globalRulestackResourceUpdateSerializer,
-  _globalRulestackResourceListResultDeserializer,
-  changelogDeserializer,
-  advSecurityObjectListResponseDeserializer,
-  listAppIdResponseDeserializer,
-  countriesResponseDeserializer,
-  listFirewallsResponseDeserializer,
-  predefinedUrlCategoriesResponseDeserializer,
-  securityServicesResponseDeserializer,
-} from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   GlobalRulestackRevertOptionalParams,
   GlobalRulestackListSecurityServicesOptionalParams,
   GlobalRulestackListPredefinedUrlCategoriesOptionalParams,
@@ -50,9 +50,13 @@ import type {
   GlobalRulestackCreateOrUpdateOptionalParams,
   GlobalRulestackGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _revertSend(
   context: Client,
@@ -115,10 +119,12 @@ export function _listSecurityServicesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listSecurityServicesDeserialize(
@@ -165,10 +171,12 @@ export function _listPredefinedUrlCategoriesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listPredefinedUrlCategoriesDeserialize(
@@ -212,10 +220,12 @@ export function _listFirewallsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listFirewallsDeserialize(
@@ -261,10 +271,12 @@ export function _listCountriesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listCountriesDeserialize(
@@ -312,10 +324,12 @@ export function _listAppIdsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listAppIdsDeserialize(
@@ -363,10 +377,12 @@ export function _listAdvancedSecurityObjectsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listAdvancedSecurityObjectsDeserialize(
@@ -416,10 +432,12 @@ export function _getChangeLogSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getChangeLogDeserialize(result: PathUncheckedResponse): Promise<Changelog> {
@@ -506,10 +524,12 @@ export function _listSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listDeserialize(
@@ -609,12 +629,14 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: globalRulestackResourceUpdateSerializer(properties),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: globalRulestackResourceUpdateSerializer(properties),
+    });
 }
 
 export async function _updateDeserialize(
@@ -660,12 +682,14 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: globalRulestackResourceSerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: globalRulestackResourceSerializer(resource),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -715,10 +739,12 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(

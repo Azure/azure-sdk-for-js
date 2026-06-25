@@ -2,18 +2,13 @@
 // Licensed under the MIT License.
 
 import { ImpactContext } from "../../api/impactContext.js";
-import {
-  insightsDelete,
-  insightsCreate,
-  insightsListBySubscription,
-  insightsGet,
-} from "../../api/insights/index.js";
+import { $delete, create, listBySubscription, get } from "../../api/insights/operations.js";
 import {
   InsightsDeleteOptionalParams,
   InsightsCreateOptionalParams,
   InsightsListBySubscriptionOptionalParams,
   InsightsGetOptionalParams,
-} from "../../api/options.js";
+} from "../../api/insights/options.js";
 import { Insight } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
@@ -51,19 +46,19 @@ function _getInsights(context: ImpactContext) {
       workloadImpactName: string,
       insightName: string,
       options?: InsightsDeleteOptionalParams,
-    ) => insightsDelete(context, workloadImpactName, insightName, options),
+    ) => $delete(context, workloadImpactName, insightName, options),
     create: (
       workloadImpactName: string,
       insightName: string,
       resource: Insight,
       options?: InsightsCreateOptionalParams,
-    ) => insightsCreate(context, workloadImpactName, insightName, resource, options),
+    ) => create(context, workloadImpactName, insightName, resource, options),
     listBySubscription: (
       workloadImpactName: string,
       options?: InsightsListBySubscriptionOptionalParams,
-    ) => insightsListBySubscription(context, workloadImpactName, options),
+    ) => listBySubscription(context, workloadImpactName, options),
     get: (workloadImpactName: string, insightName: string, options?: InsightsGetOptionalParams) =>
-      insightsGet(context, workloadImpactName, insightName, options),
+      get(context, workloadImpactName, insightName, options),
   };
 }
 

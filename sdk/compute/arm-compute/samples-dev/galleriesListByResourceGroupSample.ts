@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list galleries under a resource group.
  *
  * @summary list galleries under a resource group.
- * x-ms-original-file: 2025-03-03/galleryExamples/Gallery_ListByResourceGroup.json
+ * x-ms-original-file: 2025-12-03/galleryExamples/Gallery_ListByResourceGroup.json
  */
 async function listGalleriesInAResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CosmosDBManagementContext } from "../../api/cosmosDBManagementContext.js";
+import { CosmosDBManagementContext } from "../../api/cosmosDBManagementContext.js";
 import {
   complete,
   cancel,
@@ -11,7 +11,7 @@ import {
   create,
   get,
 } from "../../api/dataTransferJobs/operations.js";
-import type {
+import {
   DataTransferJobsCompleteOptionalParams,
   DataTransferJobsCancelOptionalParams,
   DataTransferJobsResumeOptionalParams,
@@ -20,8 +20,8 @@ import type {
   DataTransferJobsCreateOptionalParams,
   DataTransferJobsGetOptionalParams,
 } from "../../api/dataTransferJobs/options.js";
-import type { DataTransferJobGetResults, CreateJobRequest } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { DataTransferJobGetResults, CreateJobRequest } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a DataTransferJobs operations. */
 export interface DataTransferJobsOperations {

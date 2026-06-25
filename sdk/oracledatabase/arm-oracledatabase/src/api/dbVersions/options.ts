@@ -1,12 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  StorageManagementType,
-  BaseDbSystemShapes,
-  ShapeFamilyType,
-} from "../../models/models.js";
-import type { OperationOptions } from "@azure-rest/core-client";
+import { StorageManagementType, BaseDbSystemShapes, ShapeFamilyType } from "../../models/models.js";
+import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface DbVersionsListByLocationOptionalParams extends OperationOptions {

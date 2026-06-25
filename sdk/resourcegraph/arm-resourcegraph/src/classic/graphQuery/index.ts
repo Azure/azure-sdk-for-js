@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ResourceGraphContext } from "../../api/resourceGraphContext.js";
+import { ResourceGraphContext } from "../../api/resourceGraphContext.js";
 import {
   listBySubscription,
   list,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/graphQuery/operations.js";
-import type {
+import {
   GraphQueryListBySubscriptionOptionalParams,
   GraphQueryListOptionalParams,
   GraphQueryDeleteOptionalParams,
@@ -18,11 +18,11 @@ import type {
   GraphQueryCreateOrUpdateOptionalParams,
   GraphQueryGetOptionalParams,
 } from "../../api/graphQuery/options.js";
-import type {
+import {
   GraphQueryResource,
   GraphQueryUpdateParameters,
 } from "../../models/graphQueryApi/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a GraphQuery operations. */
 export interface GraphQueryOperations {

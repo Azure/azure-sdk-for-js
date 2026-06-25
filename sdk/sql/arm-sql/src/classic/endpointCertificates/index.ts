@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { listByInstance, get } from "../../api/endpointCertificates/operations.js";
-import type {
+import {
   EndpointCertificatesListByInstanceOptionalParams,
   EndpointCertificatesGetOptionalParams,
 } from "../../api/endpointCertificates/options.js";
-import type { EndpointCertificate } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { EndpointCertificate } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a EndpointCertificates operations. */
 export interface EndpointCertificatesOperations {

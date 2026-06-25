@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the properties of the specified credential set resource.
  *
  * @summary gets the properties of the specified credential set resource.
- * x-ms-original-file: 2026-01-01-preview/CredentialSetGet.json
+ * x-ms-original-file: 2026-03-01-preview/CredentialSetGet.json
  */
 async function credentialSetGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

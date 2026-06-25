@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NewRelicObservabilityContext } from "../../api/newRelicObservabilityContext.js";
+import { NewRelicObservabilityContext } from "../../api/newRelicObservabilityContext.js";
 import {
   resubscribe,
   linkSaaS,
@@ -22,7 +22,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/monitors/operations.js";
-import type {
+import {
   MonitorsResubscribeOptionalParams,
   MonitorsLinkSaaSOptionalParams,
   MonitorsLatestLinkedSaaSOptionalParams,
@@ -42,7 +42,7 @@ import type {
   MonitorsCreateOrUpdateOptionalParams,
   MonitorsGetOptionalParams,
 } from "../../api/monitors/options.js";
-import type {
+import {
   MetricRules,
   NewRelicMonitorResource,
   SaaSData,
@@ -60,10 +60,9 @@ import type {
   VMExtensionPayload,
   LatestLinkedSaaSResponse,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Monitors operations. */
 export interface MonitorsOperations {

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to retrieves the list of all Azure Cosmos DB Mongo User Definition.
  *
  * @summary retrieves the list of all Azure Cosmos DB Mongo User Definition.
- * x-ms-original-file: 2025-11-01-preview/CosmosDBMongoDBUserDefinitionList.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBMongoDBUserDefinitionList.json
  */
 async function cosmosDBMongoDBUserDefinitionList(): Promise<void> {
   const credential = new DefaultAzureCredential();

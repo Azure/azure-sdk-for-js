@@ -28,20 +28,22 @@ export function _classifyProblemsSend(
     "/providers/Microsoft.Support/services/{problemServiceName}/classifyProblems{?api%2Dversion}",
     {
       problemServiceName: problemServiceName,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: problemClassificationsClassificationInputSerializer(
-      problemClassificationsClassificationInput,
-    ),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: problemClassificationsClassificationInputSerializer(
+        problemClassificationsClassificationInput,
+      ),
+    });
 }
 
 export async function _classifyProblemsDeserialize(

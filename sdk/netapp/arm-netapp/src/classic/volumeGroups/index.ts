@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NetAppManagementContext } from "../../api/netAppManagementContext.js";
+import { NetAppManagementContext } from "../../api/netAppManagementContext.js";
 import { listByNetAppAccount, $delete, create, get } from "../../api/volumeGroups/operations.js";
-import type {
+import {
   VolumeGroupsListByNetAppAccountOptionalParams,
   VolumeGroupsDeleteOptionalParams,
   VolumeGroupsCreateOptionalParams,
   VolumeGroupsGetOptionalParams,
 } from "../../api/volumeGroups/options.js";
-import type { VolumeGroupDetails, VolumeGroup } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { VolumeGroupDetails, VolumeGroup } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a VolumeGroups operations. */
 export interface VolumeGroupsOperations {

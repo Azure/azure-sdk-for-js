@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the properties of the connected registry.
  *
  * @summary gets the properties of the connected registry.
- * x-ms-original-file: 2026-01-01-preview/ConnectedRegistryGet.json
+ * x-ms-original-file: 2026-03-01-preview/ConnectedRegistryGet.json
  */
 async function connectedRegistryGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -2,7 +2,7 @@
   "apiVersions": {
     "Microsoft.AppLink": "2025-08-01-preview"
   },
-  "emitterVersion": "0.51.0",
+  "emitterVersion": "0.55.0-dev.9",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.AppLink",
     "CrossLanguageDefinitionId": {

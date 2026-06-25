@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to merges the partitions of a SQL database
  *
  * @summary merges the partitions of a SQL database
- * x-ms-original-file: 2025-11-01-preview/CosmosDBSqlDatabasePartitionMerge.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBSqlDatabasePartitionMerge.json
  */
 async function cosmosDBSqlDatabasePartitionMerge(): Promise<void> {
   const credential = new DefaultAzureCredential();

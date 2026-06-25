@@ -51,7 +51,7 @@ async function createBackupInstance(): Promise<void> {
         identityDetails: {
           useSystemAssignedIdentity: false,
           userAssignedIdentityArmUrl:
-            "/subscriptions/f75d8d8b-6735-4697-82e1-1a7a3ff0d5d4/resourcegroups/rg-name/providers/Microsoft.ManagedIdentity/userAssignedIdentities/testUami",
+            "/subscriptions/f75d8d8b-6735-4697-82e1-1a7a3ff0d5d4/resourceGroups/rg-name/providers/Microsoft.ManagedIdentity/userAssignedIdentities/testUami",
         },
         objectType: "BackupInstance",
         policyInfo: {
@@ -318,7 +318,7 @@ async function createBackupInstanceWithKubernetesClusterBackupDatasourceParamete
       objectType: "BackupInstance",
       policyInfo: {
         policyId:
-          "/subscriptions/62b829ee-7936-40c9-a1c9-47a93f9f3965/resourcegroups/aksrg/providers/Microsoft.DataProtection/BackupVaults/aksvault/backupPolicies/akspolicy",
+          "/subscriptions/62b829ee-7936-40c9-a1c9-47a93f9f3965/resourceGroups/aksrg/providers/Microsoft.DataProtection/BackupVaults/aksvault/backupPolicies/akspolicy",
         policyParameters: {
           backupDatasourceParametersList: [
             {
@@ -408,7 +408,7 @@ async function createBackupInstanceToPerformCriticalOperationWithMUA(): Promise<
           },
         },
         resourceGuardOperationRequests: [
-          "/subscriptions/38304e13-357e-405e-9e9a-220351dcce8c/resourcegroups/ankurResourceGuard1/providers/Microsoft.DataProtection/resourceGuards/ResourceGuard38-1/dppModifyPolicy/default",
+          "/subscriptions/38304e13-357e-405e-9e9a-220351dcce8c/resourceGroups/ankurResourceGuard1/providers/Microsoft.DataProtection/resourceGuards/ResourceGuard38-1/dppModifyPolicy/default",
         ],
         validationType: "ShallowValidation",
       },

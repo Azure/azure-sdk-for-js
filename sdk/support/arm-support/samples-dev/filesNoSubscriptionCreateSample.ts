@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates a new file under a workspace.
  *
  * @summary creates a new file under a workspace.
- * x-ms-original-file: 2025-06-01-preview/CreateFile.json
+ * x-ms-original-file: 2026-06-01/CreateFile.json
  */
 async function createAFileWorkspace(): Promise<void> {
   const credential = new DefaultAzureCredential();

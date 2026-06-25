@@ -30,7 +30,7 @@ export interface MaintenanceConfigurationsOperations {
     resourceGroupName: string,
     resourceName: string,
     options?: MaintenanceConfigurationsDeleteOptionalParams,
-  ) => Promise<MaintenanceConfiguration>;
+  ) => Promise<MaintenanceConfiguration | undefined>;
   /** Patch configuration record */
   update: (
     resourceGroupName: string,

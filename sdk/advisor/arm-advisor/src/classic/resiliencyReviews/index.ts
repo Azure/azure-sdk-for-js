@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AdvisorManagementContext } from "../../api/advisorManagementContext.js";
+import { AdvisorManagementContext } from "../../api/advisorManagementContext.js";
 import { list, get } from "../../api/resiliencyReviews/operations.js";
-import type {
+import {
   ResiliencyReviewsListOptionalParams,
   ResiliencyReviewsGetOptionalParams,
 } from "../../api/resiliencyReviews/options.js";
-import type { ResiliencyReview } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { ResiliencyReview } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ResiliencyReviews operations. */
 export interface ResiliencyReviewsOperations {

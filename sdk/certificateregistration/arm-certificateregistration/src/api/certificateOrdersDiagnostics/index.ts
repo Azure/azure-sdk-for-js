@@ -5,7 +5,7 @@ export {
   listAppServiceCertificateOrderDetectorResponse,
   getAppServiceCertificateOrderDetectorResponse,
 } from "./operations.js";
-export {
+export type {
   CertificateOrdersDiagnosticsListAppServiceCertificateOrderDetectorResponseOptionalParams,
   CertificateOrdersDiagnosticsGetAppServiceCertificateOrderDetectorResponseOptionalParams,
 } from "./options.js";

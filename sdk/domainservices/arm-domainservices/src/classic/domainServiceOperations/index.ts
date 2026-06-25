@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DomainServicesResourceProviderContext } from "../../api/domainServicesResourceProviderContext.js";
+import { DomainServicesResourceProviderContext } from "../../api/domainServicesResourceProviderContext.js";
 import { list } from "../../api/domainServiceOperations/operations.js";
-import type { DomainServiceOperationsListOptionalParams } from "../../api/domainServiceOperations/options.js";
-import type { OperationEntity } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { DomainServiceOperationsListOptionalParams } from "../../api/domainServiceOperations/options.js";
+import { OperationEntity } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a DomainServiceOperations operations. */
 export interface DomainServiceOperationsOperations {

@@ -2,14 +2,6 @@
 // Licensed under the MIT License.
 
 import { DependencyMapContext } from "../../api/dependencyMapContext.js";
-import { DiscoverySourceResource, DiscoverySourceResourceTagsUpdate } from "../../models/models.js";
-import {
-  DiscoverySourcesListByMapsResourceOptionalParams,
-  DiscoverySourcesDeleteOptionalParams,
-  DiscoverySourcesUpdateOptionalParams,
-  DiscoverySourcesCreateOrUpdateOptionalParams,
-  DiscoverySourcesGetOptionalParams,
-} from "../../api/discoverySources/options.js";
 import {
   listByMapsResource,
   $delete,
@@ -17,6 +9,14 @@ import {
   createOrUpdate,
   get,
 } from "../../api/discoverySources/operations.js";
+import {
+  DiscoverySourcesListByMapsResourceOptionalParams,
+  DiscoverySourcesDeleteOptionalParams,
+  DiscoverySourcesUpdateOptionalParams,
+  DiscoverySourcesCreateOrUpdateOptionalParams,
+  DiscoverySourcesGetOptionalParams,
+} from "../../api/discoverySources/options.js";
+import { DiscoverySourceResource, DiscoverySourceResourceTagsUpdate } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -29,11 +29,6 @@ export interface DiscoverySourcesOperations {
     options?: DiscoverySourcesListByMapsResourceOptionalParams,
   ) => PagedAsyncIterableIterator<DiscoverySourceResource>;
   /** Delete a DiscoverySourceResource */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     mapName: string,

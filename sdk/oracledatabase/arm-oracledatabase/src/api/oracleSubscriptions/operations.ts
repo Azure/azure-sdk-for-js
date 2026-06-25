@@ -1,32 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { OracleDatabaseManagementContext as Client } from "../index.js";
-import type {
-  _OracleSubscriptionListResult,
-  OracleSubscription,
-  OracleSubscriptionUpdate,
-  CloudAccountDetails,
-  SaasSubscriptionDetails,
-  ActivationLinks,
-  AzureSubscriptions,
-} from "../../models/models.js";
+import { OracleDatabaseManagementContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  _OracleSubscriptionListResult,
   _oracleSubscriptionListResultDeserializer,
+  OracleSubscription,
   oracleSubscriptionSerializer,
   oracleSubscriptionDeserializer,
+  OracleSubscriptionUpdate,
   oracleSubscriptionUpdateSerializer,
+  CloudAccountDetails,
   cloudAccountDetailsDeserializer,
+  SaasSubscriptionDetails,
   saasSubscriptionDetailsDeserializer,
+  ActivationLinks,
   activationLinksDeserializer,
+  AzureSubscriptions,
   azureSubscriptionsSerializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   OracleSubscriptionsAddAzureSubscriptionsOptionalParams,
   OracleSubscriptionsListActivationLinksOptionalParams,
   OracleSubscriptionsListSaasSubscriptionDetailsOptionalParams,
@@ -37,41 +37,48 @@ import type {
   OracleSubscriptionsCreateOrUpdateOptionalParams,
   OracleSubscriptionsListBySubscriptionOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _addAzureSubscriptionsSend(
   context: Client,
   body: AzureSubscriptions,
-  options: OracleSubscriptionsAddAzureSubscriptionsOptionalParams = {
-    requestOptions: {},
-  },
+  options: OracleSubscriptionsAddAzureSubscriptionsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/providers/Oracle.Database/oracleSubscriptions/default/addAzureSubscriptions{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: azureSubscriptionsSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: azureSubscriptionsSerializer(body),
+    });
 }
 
 export async function _addAzureSubscriptionsDeserialize(
   result: PathUncheckedResponse,
 ): Promise<void> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -82,50 +89,49 @@ export async function _addAzureSubscriptionsDeserialize(
 export function addAzureSubscriptions(
   context: Client,
   body: AzureSubscriptions,
-  options: OracleSubscriptionsAddAzureSubscriptionsOptionalParams = {
-    requestOptions: {},
-  },
+  options: OracleSubscriptionsAddAzureSubscriptionsOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _addAzureSubscriptionsDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _addAzureSubscriptionsDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _addAzureSubscriptionsSend(context, body, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-09-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
 export function _listActivationLinksSend(
   context: Client,
-  options: OracleSubscriptionsListActivationLinksOptionalParams = {
-    requestOptions: {},
-  },
+  options: OracleSubscriptionsListActivationLinksOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/providers/Oracle.Database/oracleSubscriptions/default/listActivationLinks{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listActivationLinksDeserialize(
   result: PathUncheckedResponse,
 ): Promise<ActivationLinks> {
-  const expectedStatuses = ["200", "202"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -135,50 +141,49 @@ export async function _listActivationLinksDeserialize(
 /** List Activation Links */
 export function listActivationLinks(
   context: Client,
-  options: OracleSubscriptionsListActivationLinksOptionalParams = {
-    requestOptions: {},
-  },
+  options: OracleSubscriptionsListActivationLinksOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<ActivationLinks>, ActivationLinks> {
-  return getLongRunningPoller(context, _listActivationLinksDeserialize, ["200", "202"], {
+  return getLongRunningPoller(context, _listActivationLinksDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _listActivationLinksSend(context, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-09-01",
   }) as PollerLike<OperationState<ActivationLinks>, ActivationLinks>;
 }
 
 export function _listSaasSubscriptionDetailsSend(
   context: Client,
-  options: OracleSubscriptionsListSaasSubscriptionDetailsOptionalParams = {
-    requestOptions: {},
-  },
+  options: OracleSubscriptionsListSaasSubscriptionDetailsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/providers/Oracle.Database/oracleSubscriptions/default/listSaasSubscriptionDetails{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listSaasSubscriptionDetailsDeserialize(
   result: PathUncheckedResponse,
 ): Promise<SaasSubscriptionDetails> {
-  const expectedStatuses = ["200", "202"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -188,50 +193,54 @@ export async function _listSaasSubscriptionDetailsDeserialize(
 /** List Saas Subscription Details */
 export function listSaasSubscriptionDetails(
   context: Client,
-  options: OracleSubscriptionsListSaasSubscriptionDetailsOptionalParams = {
-    requestOptions: {},
-  },
+  options: OracleSubscriptionsListSaasSubscriptionDetailsOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<SaasSubscriptionDetails>, SaasSubscriptionDetails> {
-  return getLongRunningPoller(context, _listSaasSubscriptionDetailsDeserialize, ["200", "202"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () => _listSaasSubscriptionDetailsSend(context, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<SaasSubscriptionDetails>, SaasSubscriptionDetails>;
+  return getLongRunningPoller(
+    context,
+    _listSaasSubscriptionDetailsDeserialize,
+    ["200", "202", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () => _listSaasSubscriptionDetailsSend(context, options),
+      resourceLocationConfig: "location",
+      apiVersion: context.apiVersion ?? "2025-09-01",
+    },
+  ) as PollerLike<OperationState<SaasSubscriptionDetails>, SaasSubscriptionDetails>;
 }
 
 export function _listCloudAccountDetailsSend(
   context: Client,
-  options: OracleSubscriptionsListCloudAccountDetailsOptionalParams = {
-    requestOptions: {},
-  },
+  options: OracleSubscriptionsListCloudAccountDetailsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/providers/Oracle.Database/oracleSubscriptions/default/listCloudAccountDetails{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listCloudAccountDetailsDeserialize(
   result: PathUncheckedResponse,
 ): Promise<CloudAccountDetails> {
-  const expectedStatuses = ["200", "202"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -241,15 +250,14 @@ export async function _listCloudAccountDetailsDeserialize(
 /** List Cloud Account Details */
 export function listCloudAccountDetails(
   context: Client,
-  options: OracleSubscriptionsListCloudAccountDetailsOptionalParams = {
-    requestOptions: {},
-  },
+  options: OracleSubscriptionsListCloudAccountDetailsOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<CloudAccountDetails>, CloudAccountDetails> {
-  return getLongRunningPoller(context, _listCloudAccountDetailsDeserialize, ["200", "202"], {
+  return getLongRunningPoller(context, _listCloudAccountDetailsDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _listCloudAccountDetailsSend(context, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-09-01",
   }) as PollerLike<OperationState<CloudAccountDetails>, CloudAccountDetails>;
 }
 
@@ -261,7 +269,7 @@ export function _$deleteSend(
     "/subscriptions/{subscriptionId}/providers/Oracle.Database/oracleSubscriptions/default{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -274,7 +282,10 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -282,11 +293,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete a OracleSubscription */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   options: OracleSubscriptionsDeleteOptionalParams = { requestOptions: {} },
@@ -296,6 +302,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-09-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -308,30 +315,32 @@ export function _updateSend(
     "/subscriptions/{subscriptionId}/providers/Oracle.Database/oracleSubscriptions/default{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: oracleSubscriptionUpdateSerializer(properties),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: oracleSubscriptionUpdateSerializer(properties),
+    });
 }
 
 export async function _updateDeserialize(
   result: PathUncheckedResponse,
 ): Promise<OracleSubscription> {
-  const expectedStatuses = ["200", "202"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -344,11 +353,12 @@ export function update(
   properties: OracleSubscriptionUpdate,
   options: OracleSubscriptionsUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<OracleSubscription>, OracleSubscription> {
-  return getLongRunningPoller(context, _updateDeserialize, ["200", "202"], {
+  return getLongRunningPoller(context, _updateDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _updateSend(context, properties, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-09-01",
   }) as PollerLike<OperationState<OracleSubscription>, OracleSubscription>;
 }
 
@@ -360,26 +370,28 @@ export function _getSend(
     "/subscriptions/{subscriptionId}/providers/Oracle.Database/oracleSubscriptions/default{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<OracleSubscription> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -398,29 +410,26 @@ export async function get(
 export function _createOrUpdateSend(
   context: Client,
   resource: OracleSubscription,
-  options: OracleSubscriptionsCreateOrUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: OracleSubscriptionsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/providers/Oracle.Database/oracleSubscriptions/default{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: oracleSubscriptionSerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: oracleSubscriptionSerializer(resource),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -429,7 +438,10 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -440,41 +452,37 @@ export async function _createOrUpdateDeserialize(
 export function createOrUpdate(
   context: Client,
   resource: OracleSubscription,
-  options: OracleSubscriptionsCreateOrUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: OracleSubscriptionsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<OracleSubscription>, OracleSubscription> {
   return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _createOrUpdateSend(context, resource, options),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2025-09-01",
   }) as PollerLike<OperationState<OracleSubscription>, OracleSubscription>;
 }
 
 export function _listBySubscriptionSend(
   context: Client,
-  options: OracleSubscriptionsListBySubscriptionOptionalParams = {
-    requestOptions: {},
-  },
+  options: OracleSubscriptionsListBySubscriptionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/providers/Oracle.Database/oracleSubscriptions{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listBySubscriptionDeserialize(
@@ -483,7 +491,10 @@ export async function _listBySubscriptionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -493,15 +504,13 @@ export async function _listBySubscriptionDeserialize(
 /** List OracleSubscription resources by subscription ID */
 export function listBySubscription(
   context: Client,
-  options: OracleSubscriptionsListBySubscriptionOptionalParams = {
-    requestOptions: {},
-  },
+  options: OracleSubscriptionsListBySubscriptionOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<OracleSubscription> {
   return buildPagedAsyncIterator(
     context,
     () => _listBySubscriptionSend(context, options),
     _listBySubscriptionDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-09-01" },
   );
 }

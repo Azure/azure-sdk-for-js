@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
-import { AzureClouds } from "./static-helpers/cloudSettingHelpers.js";
-import type {
+import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
@@ -153,7 +152,6 @@ export type {
   SqlVulnerabilityAssessment,
   SqlVulnerabilityAssessmentPolicyProperties,
   SqlVulnerabilityAssessmentState,
-  SqlVulnerabilityAssessmentName,
   DatabaseSqlVulnerabilityAssessmentRuleBaseline,
   DatabaseSqlVulnerabilityAssessmentRuleBaselineProperties,
   DatabaseSqlVulnerabilityAssessmentRuleBaselineInput,
@@ -618,6 +616,7 @@ export type {
   JobAgentServiceLevelObjectiveCapability,
   SensitivityLabelSource,
   ReplicaType,
+  SqlVulnerabilityAssessmentName,
   VulnerabilityAssessmentPolicyBaselineName,
   AggregationFunctionType,
   MetricType,
@@ -664,7 +663,6 @@ export {
   KnownRecommendedActionCurrentState,
   KnownSecurityAlertPolicyName,
   KnownBaselineName,
-  KnownSqlVulnerabilityAssessmentName,
   KnownRuleStatus,
   KnownRuleSeverity,
   KnownRuleType,
@@ -762,6 +760,7 @@ export {
   KnownPauseDelayTimeUnit,
   KnownStorageCapabilityStorageAccountType,
   KnownReplicaType,
+  KnownSqlVulnerabilityAssessmentName,
   KnownAggregationFunctionType,
   KnownMetricType,
   KnownDatabaseState,

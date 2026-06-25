@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets content for an update.
  *
  * @summary gets content for an update.
- * x-ms-original-file: 2026-04-01-preview/UpdateContents_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-05-01-preview/UpdateContents_Get_MaximumSet_Gen.json
  */
 async function updateContentsGetMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

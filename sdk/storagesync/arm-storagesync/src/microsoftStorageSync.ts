@@ -1,36 +1,47 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   MicrosoftStorageSyncContext,
   MicrosoftStorageSyncOptionalParams,
+  createMicrosoftStorageSync,
 } from "./api/index.js";
-import { createMicrosoftStorageSync } from "./api/index.js";
 import { locationOperationStatus } from "./api/operations.js";
-import type { LocationOperationStatusOptionalParams } from "./api/options.js";
-import type { CloudEndpointsOperations } from "./classic/cloudEndpoints/index.js";
-import { _getCloudEndpointsOperations } from "./classic/cloudEndpoints/index.js";
-import type { OperationStatusOperationsOperations } from "./classic/operationStatusOperations/index.js";
-import { _getOperationStatusOperationsOperations } from "./classic/operationStatusOperations/index.js";
-import type { OperationsOperations } from "./classic/operations/index.js";
-import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { PrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
-import { _getPrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
-import type { PrivateLinkResourcesOperations } from "./classic/privateLinkResources/index.js";
-import { _getPrivateLinkResourcesOperations } from "./classic/privateLinkResources/index.js";
-import type { RegisteredServersOperations } from "./classic/registeredServers/index.js";
-import { _getRegisteredServersOperations } from "./classic/registeredServers/index.js";
-import type { ServerEndpointsOperations } from "./classic/serverEndpoints/index.js";
-import { _getServerEndpointsOperations } from "./classic/serverEndpoints/index.js";
-import type { StorageSyncServicesOperations } from "./classic/storageSyncServices/index.js";
-import { _getStorageSyncServicesOperations } from "./classic/storageSyncServices/index.js";
-import type { SyncGroupsOperations } from "./classic/syncGroups/index.js";
-import { _getSyncGroupsOperations } from "./classic/syncGroups/index.js";
-import type { WorkflowsOperations } from "./classic/workflows/index.js";
-import { _getWorkflowsOperations } from "./classic/workflows/index.js";
-import type { LocationOperationStatus } from "./models/models.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import { LocationOperationStatusOptionalParams } from "./api/options.js";
+import {
+  CloudEndpointsOperations,
+  _getCloudEndpointsOperations,
+} from "./classic/cloudEndpoints/index.js";
+import {
+  OperationStatusOperationsOperations,
+  _getOperationStatusOperationsOperations,
+} from "./classic/operationStatusOperations/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import {
+  PrivateEndpointConnectionsOperations,
+  _getPrivateEndpointConnectionsOperations,
+} from "./classic/privateEndpointConnections/index.js";
+import {
+  PrivateLinkResourcesOperations,
+  _getPrivateLinkResourcesOperations,
+} from "./classic/privateLinkResources/index.js";
+import {
+  RegisteredServersOperations,
+  _getRegisteredServersOperations,
+} from "./classic/registeredServers/index.js";
+import {
+  ServerEndpointsOperations,
+  _getServerEndpointsOperations,
+} from "./classic/serverEndpoints/index.js";
+import {
+  StorageSyncServicesOperations,
+  _getStorageSyncServicesOperations,
+} from "./classic/storageSyncServices/index.js";
+import { SyncGroupsOperations, _getSyncGroupsOperations } from "./classic/syncGroups/index.js";
+import { WorkflowsOperations, _getWorkflowsOperations } from "./classic/workflows/index.js";
+import { LocationOperationStatus } from "./models/models.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { MicrosoftStorageSyncOptionalParams } from "./api/microsoftStorageSyncContext.js";
 

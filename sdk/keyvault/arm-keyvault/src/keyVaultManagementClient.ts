@@ -1,35 +1,39 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   KeyVaultManagementContext,
   KeyVaultManagementClientOptionalParams,
+  createKeyVaultManagement,
 } from "./api/index.js";
-import { createKeyVaultManagement } from "./api/index.js";
-import type { KeysOperations } from "./classic/keys/index.js";
-import { _getKeysOperations } from "./classic/keys/index.js";
-import type { ManagedHsmKeysOperations } from "./classic/managedHsmKeys/index.js";
-import { _getManagedHsmKeysOperations } from "./classic/managedHsmKeys/index.js";
-import type { ManagedHsmsOperations } from "./classic/managedHsms/index.js";
-import { _getManagedHsmsOperations } from "./classic/managedHsms/index.js";
-import type { MhsmPrivateEndpointConnectionsOperations } from "./classic/mhsmPrivateEndpointConnections/index.js";
-import { _getMhsmPrivateEndpointConnectionsOperations } from "./classic/mhsmPrivateEndpointConnections/index.js";
-import type { MhsmPrivateLinkResourcesOperations } from "./classic/mhsmPrivateLinkResources/index.js";
-import { _getMhsmPrivateLinkResourcesOperations } from "./classic/mhsmPrivateLinkResources/index.js";
-import type { MhsmRegionsOperations } from "./classic/mhsmRegions/index.js";
-import { _getMhsmRegionsOperations } from "./classic/mhsmRegions/index.js";
-import type { OperationsOperations } from "./classic/operations/index.js";
-import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { PrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
-import { _getPrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
-import type { PrivateLinkResourcesOperations } from "./classic/privateLinkResources/index.js";
-import { _getPrivateLinkResourcesOperations } from "./classic/privateLinkResources/index.js";
-import type { SecretsOperations } from "./classic/secrets/index.js";
-import { _getSecretsOperations } from "./classic/secrets/index.js";
-import type { VaultsOperations } from "./classic/vaults/index.js";
-import { _getVaultsOperations } from "./classic/vaults/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import { KeysOperations, _getKeysOperations } from "./classic/keys/index.js";
+import {
+  ManagedHsmKeysOperations,
+  _getManagedHsmKeysOperations,
+} from "./classic/managedHsmKeys/index.js";
+import { ManagedHsmsOperations, _getManagedHsmsOperations } from "./classic/managedHsms/index.js";
+import {
+  MhsmPrivateEndpointConnectionsOperations,
+  _getMhsmPrivateEndpointConnectionsOperations,
+} from "./classic/mhsmPrivateEndpointConnections/index.js";
+import {
+  MhsmPrivateLinkResourcesOperations,
+  _getMhsmPrivateLinkResourcesOperations,
+} from "./classic/mhsmPrivateLinkResources/index.js";
+import { MhsmRegionsOperations, _getMhsmRegionsOperations } from "./classic/mhsmRegions/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import {
+  PrivateEndpointConnectionsOperations,
+  _getPrivateEndpointConnectionsOperations,
+} from "./classic/privateEndpointConnections/index.js";
+import {
+  PrivateLinkResourcesOperations,
+  _getPrivateLinkResourcesOperations,
+} from "./classic/privateLinkResources/index.js";
+import { SecretsOperations, _getSecretsOperations } from "./classic/secrets/index.js";
+import { VaultsOperations, _getVaultsOperations } from "./classic/vaults/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { KeyVaultManagementClientOptionalParams } from "./api/keyVaultManagementContext.js";
 

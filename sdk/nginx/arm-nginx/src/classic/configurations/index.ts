@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NginxManagementContext } from "../../api/nginxManagementContext.js";
+import { NginxManagementContext } from "../../api/nginxManagementContext.js";
 import {
   analysis,
   list,
@@ -9,18 +9,17 @@ import {
   createOrUpdate,
   get,
 } from "../../api/configurations/operations.js";
-import type {
+import {
   ConfigurationsAnalysisOptionalParams,
   ConfigurationsListOptionalParams,
   ConfigurationsDeleteOptionalParams,
   ConfigurationsCreateOrUpdateOptionalParams,
   ConfigurationsGetOptionalParams,
 } from "../../api/configurations/options.js";
-import type { NginxConfiguration, AnalysisResult } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { NginxConfiguration, AnalysisResult } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Configurations operations. */
 export interface ConfigurationsOperations {
@@ -38,11 +37,6 @@ export interface ConfigurationsOperations {
     options?: ConfigurationsListOptionalParams,
   ) => PagedAsyncIterableIterator<NginxConfiguration>;
   /** Reset the NGINX configuration of given NGINX deployment to default */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     deploymentName: string,

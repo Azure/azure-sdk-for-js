@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete ArcSetting resource details of HCI Cluster.
  *
  * @summary delete ArcSetting resource details of HCI Cluster.
- * x-ms-original-file: 2026-04-01-preview/DeleteArcSetting.json
+ * x-ms-original-file: 2026-05-01-preview/DeleteArcSetting.json
  */
 async function deleteArcSetting(): Promise<void> {
   const credential = new DefaultAzureCredential();

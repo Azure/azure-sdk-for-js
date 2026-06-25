@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { TrafficManagerManagementContext } from "../../api/trafficManagerManagementContext.js";
+import { TrafficManagerManagementContext } from "../../api/trafficManagerManagementContext.js";
 import { $delete, update, createOrUpdate, get } from "../../api/endpoints/operations.js";
-import type {
+import {
   EndpointsDeleteOptionalParams,
   EndpointsUpdateOptionalParams,
   EndpointsCreateOrUpdateOptionalParams,
   EndpointsGetOptionalParams,
 } from "../../api/endpoints/options.js";
-import type { Endpoint, DeleteOperationResult, EndpointType } from "../../models/models.js";
+import { Endpoint, DeleteOperationResult, EndpointType } from "../../models/models.js";
 
 /** Interface representing a Endpoints operations. */
 export interface EndpointsOperations {
@@ -20,7 +20,7 @@ export interface EndpointsOperations {
     endpointType: EndpointType,
     endpointName: string,
     options?: EndpointsDeleteOptionalParams,
-  ) => Promise<DeleteOperationResult>;
+  ) => Promise<DeleteOperationResult | undefined>;
   /** Update a Traffic Manager endpoint. */
   update: (
     resourceGroupName: string,

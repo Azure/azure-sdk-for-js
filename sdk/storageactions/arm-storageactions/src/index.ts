@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
 import {
   PageSettings,
   ContinuablePage,
@@ -8,78 +9,84 @@ import {
 } from "./static-helpers/pagingHelpers.js";
 
 export { StorageActionsManagementClient } from "./storageActionsManagementClient.js";
-export { restorePoller, type RestorePollerOptions } from "./restorePollerHelpers.js";
+export type { RestorePollerOptions } from "./restorePollerHelpers.js";
+export { restorePoller } from "./restorePollerHelpers.js";
+export type {
+  Operation,
+  OperationDisplay,
+  Origin,
+  ActionType,
+  ErrorResponse,
+  ErrorDetail,
+  ErrorAdditionalInfo,
+  StorageTask,
+  StorageTaskProperties,
+  StorageTaskAction,
+  IfCondition,
+  StorageTaskOperation,
+  StorageTaskOperationName,
+  OnSuccess,
+  OnFailure,
+  ElseCondition,
+  ProvisioningState,
+  ManagedServiceIdentity,
+  ManagedServiceIdentityType,
+  UserAssignedIdentity,
+  TrackedResource,
+  Resource,
+  SystemData,
+  CreatedByType,
+  StorageTaskUpdateParameters,
+  StorageTaskUpdateProperties,
+  StorageTaskPreviewAction,
+  StorageTaskPreviewActionProperties,
+  StorageTaskPreviewContainerProperties,
+  StorageTaskPreviewKeyValueProperties,
+  StorageTaskPreviewBlobProperties,
+  MatchedBlockName,
+  StorageTaskPreviewActionCondition,
+  StorageTaskPreviewActionIfCondition,
+  StorageTaskReportInstance,
+  StorageTaskReportProperties,
+  RunStatusEnum,
+  RunResult,
+  ProxyResource,
+  StorageTaskAssignment,
+} from "./models/index.js";
 export {
-  type Operation,
-  type OperationDisplay,
   KnownOrigin,
-  type Origin,
   KnownActionType,
-  type ActionType,
-  type ErrorResponse,
-  type ErrorDetail,
-  type ErrorAdditionalInfo,
-  type StorageTask,
-  type ManagedServiceIdentity,
-  KnownManagedServiceIdentityType,
-  type ManagedServiceIdentityType,
-  type UserAssignedIdentity,
-  type StorageTaskProperties,
-  type StorageTaskAction,
-  type IfCondition,
-  type StorageTaskOperation,
   KnownStorageTaskOperationName,
-  type StorageTaskOperationName,
   KnownOnSuccess,
-  type OnSuccess,
   KnownOnFailure,
-  type OnFailure,
-  type ElseCondition,
   KnownProvisioningState,
-  type ProvisioningState,
-  type TrackedResource,
-  type Resource,
-  type SystemData,
+  KnownManagedServiceIdentityType,
   KnownCreatedByType,
-  type CreatedByType,
-  type StorageTaskUpdateParameters,
-  type StorageTaskUpdateProperties,
-  type StorageTaskPreviewAction,
-  type StorageTaskPreviewActionProperties,
-  type StorageTaskPreviewContainerProperties,
-  type StorageTaskPreviewKeyValueProperties,
-  type StorageTaskPreviewBlobProperties,
   KnownMatchedBlockName,
-  type MatchedBlockName,
-  type StorageTaskPreviewActionCondition,
-  type StorageTaskPreviewActionIfCondition,
-  type StorageTaskReportInstance,
-  type StorageTaskReportProperties,
   KnownRunStatusEnum,
-  type RunStatusEnum,
   KnownRunResult,
-  type RunResult,
-  type ProxyResource,
-  type StorageTaskAssignment,
   KnownVersions,
 } from "./models/index.js";
-export { type StorageActionsManagementClientOptionalParams } from "./api/index.js";
-export { type OperationsListOptionalParams } from "./api/operations/index.js";
-export { type StorageTaskAssignmentListOptionalParams } from "./api/storageTaskAssignment/index.js";
-export {
-  type StorageTasksPreviewActionsOptionalParams,
-  type StorageTasksListBySubscriptionOptionalParams,
-  type StorageTasksListByResourceGroupOptionalParams,
-  type StorageTasksDeleteOptionalParams,
-  type StorageTasksUpdateOptionalParams,
-  type StorageTasksCreateOptionalParams,
-  type StorageTasksGetOptionalParams,
+export type { StorageActionsManagementClientOptionalParams } from "./api/index.js";
+export type { OperationsListOptionalParams } from "./api/operations/index.js";
+export type { StorageTaskAssignmentListOptionalParams } from "./api/storageTaskAssignment/index.js";
+export type {
+  StorageTasksPreviewActionsOptionalParams,
+  StorageTasksListBySubscriptionOptionalParams,
+  StorageTasksListByResourceGroupOptionalParams,
+  StorageTasksDeleteOptionalParams,
+  StorageTasksUpdateOptionalParams,
+  StorageTasksCreateOptionalParams,
+  StorageTasksGetOptionalParams,
 } from "./api/storageTasks/index.js";
-export { type StorageTasksReportListOptionalParams } from "./api/storageTasksReport/index.js";
-export {
-  type OperationsOperations,
-  type StorageTaskAssignmentOperations,
-  type StorageTasksOperations,
-  type StorageTasksReportOperations,
+export type { StorageTasksReportListOptionalParams } from "./api/storageTasksReport/index.js";
+export type {
+  OperationsOperations,
+  StorageTaskAssignmentOperations,
+  StorageTasksOperations,
+  StorageTasksReportOperations,
 } from "./classic/index.js";
-export { type PageSettings, type ContinuablePage, type PagedAsyncIterableIterator };
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { AzureClouds };
+export type { AzureSupportedClouds };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

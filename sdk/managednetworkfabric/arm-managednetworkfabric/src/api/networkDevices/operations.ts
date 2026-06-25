@@ -1,50 +1,50 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureNetworkFabricManagementServiceAPIContext as Client } from "../index.js";
-import type {
-  OperationStatusResult,
-  NetworkDevice,
-  NetworkDevicePatchParameters,
-  _NetworkDevicesListResult,
-  RebootProperties,
-  NetworkDeviceRefreshConfigurationResponse,
-  UpdateDeviceAdministrativeState,
-  NetworkDeviceUpdateAdministrativeStateResponse,
-  NetworkDeviceUpgradeRequest,
-  NetworkDeviceUpgradeResponse,
-  DeviceRoCommand,
-  CommonPostActionResponseForDeviceROCommandsOperationStatusResult,
-  DeviceRwCommand,
-  NetworkDeviceRunRwCommandResponse,
-  NetworkDeviceResyncPasswordsResponse,
-  NetworkFabricResyncCertificatesResponse,
-} from "../../models/models.js";
+import { AzureNetworkFabricManagementServiceAPIContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  OperationStatusResult,
   operationStatusResultDeserializer,
+  NetworkDevice,
   networkDeviceSerializer,
   networkDeviceDeserializer,
+  NetworkDevicePatchParameters,
   networkDevicePatchParametersSerializer,
+  _NetworkDevicesListResult,
   _networkDevicesListResultDeserializer,
+  RebootProperties,
   rebootPropertiesSerializer,
+  NetworkDeviceRefreshConfigurationResponse,
   networkDeviceRefreshConfigurationResponseDeserializer,
+  UpdateDeviceAdministrativeState,
   updateDeviceAdministrativeStateSerializer,
+  NetworkDeviceUpdateAdministrativeStateResponse,
   networkDeviceUpdateAdministrativeStateResponseDeserializer,
+  NetworkDeviceUpgradeRequest,
   networkDeviceUpgradeRequestSerializer,
+  NetworkDeviceUpgradeResponse,
   networkDeviceUpgradeResponseDeserializer,
+  DeviceRoCommand,
   deviceRoCommandSerializer,
+  CommonPostActionResponseForDeviceROCommandsOperationStatusResult,
   commonPostActionResponseForDeviceROCommandsOperationStatusResultDeserializer,
+  DeviceRwCommand,
   deviceRwCommandSerializer,
+  NetworkDeviceRunRwCommandResponse,
   networkDeviceRunRwCommandResponseDeserializer,
+  NetworkDeviceResyncPasswordsResponse,
   networkDeviceResyncPasswordsResponseDeserializer,
+  NetworkFabricResyncCertificatesResponse,
   networkFabricResyncCertificatesResponseDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   NetworkDevicesResyncCertificatesOptionalParams,
   NetworkDevicesResyncPasswordsOptionalParams,
   NetworkDevicesRunRwCommandOptionalParams,
@@ -60,9 +60,13 @@ import type {
   NetworkDevicesCreateOptionalParams,
   NetworkDevicesGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _resyncCertificatesSend(
   context: Client,
@@ -82,10 +86,12 @@ export function _resyncCertificatesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _resyncCertificatesDeserialize(
@@ -145,10 +151,12 @@ export function _resyncPasswordsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _resyncPasswordsDeserialize(
@@ -209,12 +217,14 @@ export function _runRwCommandSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: deviceRwCommandSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: deviceRwCommandSerializer(body),
+    });
 }
 
 export async function _runRwCommandDeserialize(
@@ -276,12 +286,14 @@ export function _runRoCommandSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: deviceRoCommandSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: deviceRoCommandSerializer(body),
+    });
 }
 
 export async function _runRoCommandDeserialize(
@@ -343,12 +355,14 @@ export function _upgradeSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: networkDeviceUpgradeRequestSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: networkDeviceUpgradeRequestSerializer(body),
+    });
 }
 
 export async function _upgradeDeserialize(
@@ -404,12 +418,14 @@ export function _updateAdministrativeStateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: updateDeviceAdministrativeStateSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: updateDeviceAdministrativeStateSerializer(body),
+    });
 }
 
 export async function _updateAdministrativeStateDeserialize(
@@ -481,10 +497,12 @@ export function _refreshConfigurationSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _refreshConfigurationDeserialize(
@@ -545,12 +563,14 @@ export function _rebootSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: rebootPropertiesSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: rebootPropertiesSerializer(body),
+    });
 }
 
 export async function _rebootDeserialize(
@@ -601,10 +621,12 @@ export function _listBySubscriptionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listBySubscriptionDeserialize(
@@ -653,10 +675,12 @@ export function _listByResourceGroupSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listByResourceGroupDeserialize(
@@ -760,12 +784,14 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: networkDevicePatchParametersSerializer(body),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: networkDevicePatchParametersSerializer(body),
+    });
 }
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<NetworkDevice> {
@@ -819,12 +845,14 @@ export function _createSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: networkDeviceSerializer(body),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: networkDeviceSerializer(body),
+    });
 }
 
 export async function _createDeserialize(result: PathUncheckedResponse): Promise<NetworkDevice> {
@@ -877,10 +905,12 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<NetworkDevice> {

@@ -1,8 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ErrorDetails, ResultFormat } from "../resourceGraphCommon/models.js";
-import { errorDetailsArrayDeserializer } from "../resourceGraphCommon/models.js";
+import {
+  errorDetailsArrayDeserializer,
+  ErrorDetails,
+  ResultFormat,
+} from "../resourceGraphCommon/models.js";
 
 /**
  * This file contains only generated model types and their (de)serializers.

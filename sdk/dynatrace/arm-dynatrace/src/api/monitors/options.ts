@@ -1,12 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  LogStatusRequest,
-  MetricStatusRequest,
-  SSODetailsRequest,
-} from "../../models/models.js";
-import type { OperationOptions } from "@azure-rest/core-client";
+import { LogStatusRequest, MetricStatusRequest, SSODetailsRequest } from "../../models/models.js";
+import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface MonitorsGetMarketplaceSaaSResourceDetailsOptionalParams extends OperationOptions {}

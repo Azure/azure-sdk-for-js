@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DeveloperHubServiceContext } from "../../api/developerHubServiceContext.js";
+import { DeveloperHubServiceContext } from "../../api/developerHubServiceContext.js";
 import {
   sync,
   scale,
@@ -13,7 +13,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/iacProfiles/operations.js";
-import type {
+import {
   IacProfilesSyncOptionalParams,
   IacProfilesScaleOptionalParams,
   IacProfilesExportOptionalParams,
@@ -24,14 +24,14 @@ import type {
   IacProfilesCreateOrUpdateOptionalParams,
   IacProfilesGetOptionalParams,
 } from "../../api/iacProfiles/options.js";
-import type {
+import {
   IacProfile,
   TagsObject,
   ExportTemplateRequest,
   PrLinkResponse,
   ScaleTemplateRequest,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a IacProfiles operations. */
 export interface IacProfilesOperations {

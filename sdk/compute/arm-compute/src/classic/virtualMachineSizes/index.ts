@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeManagementContext } from "../../api/computeManagementContext.js";
+import { ComputeManagementContext } from "../../api/computeManagementContext.js";
 import { list } from "../../api/virtualMachineSizes/operations.js";
-import type { VirtualMachineSizesListOptionalParams } from "../../api/virtualMachineSizes/options.js";
-import type { VirtualMachineSize } from "../../models/compute/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { VirtualMachineSizesListOptionalParams } from "../../api/virtualMachineSizes/options.js";
+import { VirtualMachineSize } from "../../models/compute/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a VirtualMachineSizes operations. */
 export interface VirtualMachineSizesOperations {

@@ -10,14 +10,14 @@ import {
   _operatorApiPlanListResultDeserializer,
 } from "../../models/models.js";
 import {
-  OperatorApiPlansListBySubscriptionOptionalParams,
-  OperatorApiPlansGetOptionalParams,
-} from "./options.js";
-import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import {
+  OperatorApiPlansListBySubscriptionOptionalParams,
+  OperatorApiPlansGetOptionalParams,
+} from "./options.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -27,15 +27,13 @@ import {
 
 export function _listBySubscriptionSend(
   context: Client,
-  options: OperatorApiPlansListBySubscriptionOptionalParams = {
-    requestOptions: {},
-  },
+  options: OperatorApiPlansListBySubscriptionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/providers/Microsoft.ProgrammableConnectivity/operatorApiPlans{?api%2Dversion,%24filter,%24top,%24skip}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-03-30-preview",
       "%24filter": options?.filter,
       "%24top": options?.top,
       "%24skip": options?.skip,
@@ -44,13 +42,12 @@ export function _listBySubscriptionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listBySubscriptionDeserialize(
@@ -59,7 +56,10 @@ export async function _listBySubscriptionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -69,16 +69,18 @@ export async function _listBySubscriptionDeserialize(
 /** List OperatorApiPlan resources by subscription ID. */
 export function listBySubscription(
   context: Client,
-  options: OperatorApiPlansListBySubscriptionOptionalParams = {
-    requestOptions: {},
-  },
+  options: OperatorApiPlansListBySubscriptionOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<OperatorApiPlan> {
   return buildPagedAsyncIterator(
     context,
     () => _listBySubscriptionSend(context, options),
     _listBySubscriptionDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-03-30-preview",
+    },
   );
 }
 
@@ -92,26 +94,28 @@ export function _getSend(
     {
       subscriptionId: context.subscriptionId,
       operatorApiPlanName: operatorApiPlanName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-03-30-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<OperatorApiPlan> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 

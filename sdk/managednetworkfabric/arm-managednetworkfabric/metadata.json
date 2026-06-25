@@ -2,7 +2,7 @@
   "apiVersions": {
     "Microsoft.ManagedNetworkFabric": "2025-07-15"
   },
-  "emitterVersion": "0.54.1",
+  "emitterVersion": "0.55.0-dev.9",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.ManagedNetworkFabric",
     "CrossLanguageDefinitionId": {

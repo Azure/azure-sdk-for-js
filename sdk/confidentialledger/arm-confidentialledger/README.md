@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/confidentialledger/arm-confidentialledger)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-confidentialledger)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-confidentialledger?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-confidentialledger)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/confidentialledger/arm-confidentialledger/samples)
 
 ## Getting started

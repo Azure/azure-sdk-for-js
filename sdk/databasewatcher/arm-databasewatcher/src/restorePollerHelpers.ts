@@ -3,17 +3,17 @@
 
 import { DatabaseWatcherClient } from "./databaseWatcherClient.js";
 import {
-  _sharedPrivateLinkResourcesDeleteDeserialize,
-  _sharedPrivateLinkResourcesCreateDeserialize,
-} from "./api/sharedPrivateLinkResources/index.js";
-import { _healthValidationsStartValidationDeserialize } from "./api/healthValidations/index.js";
+  _$deleteDeserialize,
+  _createDeserialize,
+} from "./api/sharedPrivateLinkResources/operations.js";
+import { _startValidationDeserialize } from "./api/healthValidations/operations.js";
 import {
-  _watchersStopDeserialize,
-  _watchersStartDeserialize,
-  _watchersDeleteDeserialize,
-  _watchersUpdateDeserialize,
-  _watchersCreateOrUpdateDeserialize,
-} from "./api/watchers/index.js";
+  _stopDeserialize,
+  _startDeserialize,
+  _$deleteDeserialize as _$deleteDeserializeWatchers,
+  _updateDeserialize,
+  _createOrUpdateDeserialize,
+} from "./api/watchers/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
 import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
 import { AbortSignalLike } from "@azure/abort-controller";
@@ -67,6 +67,7 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
       `Please ensure the operation is in this client! We can't find its deserializeHelper for ${sourceOperation?.name}.`,
     );
   }
+  const apiVersion = getApiVersionFromUrl(initialRequestUrl);
   return getLongRunningPoller(
     (client as any)["_client"] ?? client,
     deserializeHelper as (result: TResponse) => Promise<TResult>,
@@ -77,56 +78,33 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
       resourceLocationConfig,
       restoreFrom: serializedState,
       initialRequestUrl,
+      apiVersion,
     },
   );
 }
 
 interface DeserializationHelper {
-  deserializer: Function;
+  deserializer: (result: PathUncheckedResponse) => Promise<any>;
   expectedStatuses: string[];
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}":
-    {
-      deserializer: _sharedPrivateLinkResourcesDeleteDeserialize,
-      expectedStatuses: ["202", "204", "200"],
-    },
+    { deserializer: _$deleteDeserialize, expectedStatuses: ["202", "204", "200"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}":
-    {
-      deserializer: _sharedPrivateLinkResourcesCreateDeserialize,
-      expectedStatuses: ["200", "201"],
-    },
+    { deserializer: _createDeserialize, expectedStatuses: ["200", "201", "202"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/healthValidations/{healthValidationName}/startValidation":
-    {
-      deserializer: _healthValidationsStartValidationDeserialize,
-      expectedStatuses: ["202", "200"],
-    },
+    { deserializer: _startValidationDeserialize, expectedStatuses: ["200", "202", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/stop":
-    {
-      deserializer: _watchersStopDeserialize,
-      expectedStatuses: ["202", "200"],
-    },
+    { deserializer: _stopDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}/start":
-    {
-      deserializer: _watchersStartDeserialize,
-      expectedStatuses: ["202", "200"],
-    },
+    { deserializer: _startDeserialize, expectedStatuses: ["202", "200", "201"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}":
-    {
-      deserializer: _watchersDeleteDeserialize,
-      expectedStatuses: ["202", "204", "200"],
-    },
+    { deserializer: _$deleteDeserializeWatchers, expectedStatuses: ["202", "204", "200"] },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}":
-    {
-      deserializer: _watchersUpdateDeserialize,
-      expectedStatuses: ["200", "202"],
-    },
+    { deserializer: _updateDeserialize, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DatabaseWatcher/watchers/{watcherName}":
-    {
-      deserializer: _watchersCreateOrUpdateDeserialize,
-      expectedStatuses: ["200", "201"],
-    },
+    { deserializer: _createOrUpdateDeserialize, expectedStatuses: ["200", "201", "202"] },
 };
 
 function getDeserializationHelper(
@@ -197,4 +175,9 @@ function getDeserializationHelper(
 function getPathFromMapKey(mapKey: string): string {
   const pathStart = mapKey.indexOf("/");
   return mapKey.slice(pathStart);
+}
+
+function getApiVersionFromUrl(urlStr: string): string | undefined {
+  const url = new URL(urlStr);
+  return url.searchParams.get("api-version") ?? undefined;
 }

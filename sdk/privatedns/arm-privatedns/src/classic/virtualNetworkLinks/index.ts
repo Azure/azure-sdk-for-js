@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PrivateDnsManagementContext } from "../../api/privateDnsManagementContext.js";
+import { PrivateDnsManagementContext } from "../../api/privateDnsManagementContext.js";
 import {
   list,
   $delete,
@@ -9,18 +9,17 @@ import {
   createOrUpdate,
   get,
 } from "../../api/virtualNetworkLinks/operations.js";
-import type {
+import {
   VirtualNetworkLinksListOptionalParams,
   VirtualNetworkLinksDeleteOptionalParams,
   VirtualNetworkLinksUpdateOptionalParams,
   VirtualNetworkLinksCreateOrUpdateOptionalParams,
   VirtualNetworkLinksGetOptionalParams,
 } from "../../api/virtualNetworkLinks/options.js";
-import type { VirtualNetworkLink } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { VirtualNetworkLink } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a VirtualNetworkLinks operations. */
 export interface VirtualNetworkLinksOperations {

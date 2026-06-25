@@ -1,6 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -46,7 +52,7 @@ export function operationDeserializer(item: any): Operation {
   };
 }
 
-/** Localized display information for and operation. */
+/** Localized display information for an operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
   readonly provider?: string;
@@ -170,24 +176,26 @@ export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo 
 
 /** Represents Storage Task. */
 export interface StorageTask extends TrackedResource {
-  /** The managed service identity of the resource. */
-  identity: ManagedServiceIdentity;
   /** Properties of the storage task. */
   properties: StorageTaskProperties;
+  /** The managed service identity of the resource. */
+  identity: ManagedServiceIdentity;
 }
 
 export function storageTaskSerializer(item: StorageTask): any {
   return {
     tags: item["tags"],
     location: item["location"],
-    identity: managedServiceIdentitySerializer(item["identity"]),
     properties: storageTaskPropertiesSerializer(item["properties"]),
+    identity: managedServiceIdentitySerializer(item["identity"]),
   };
 }
 
 export function storageTaskDeserializer(item: any): StorageTask {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -195,79 +203,8 @@ export function storageTaskDeserializer(item: any): StorageTask {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    identity: managedServiceIdentityDeserializer(item["identity"]),
     properties: storageTaskPropertiesDeserializer(item["properties"]),
-  };
-}
-
-/** Managed service identity (system assigned and/or user assigned identities) */
-export interface ManagedServiceIdentity {
-  /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  readonly principalId?: string;
-  /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  readonly tenantId?: string;
-  /** The type of managed identity assigned to this resource. */
-  type: ManagedServiceIdentityType;
-  /** The identities assigned to this resource by the user. */
-  userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
-}
-
-export function managedServiceIdentitySerializer(item: ManagedServiceIdentity): any {
-  return {
-    type: item["type"],
-    userAssignedIdentities: item["userAssignedIdentities"],
-  };
-}
-
-export function managedServiceIdentityDeserializer(item: any): ManagedServiceIdentity {
-  return {
-    principalId: item["principalId"],
-    tenantId: item["tenantId"],
-    type: item["type"],
-    userAssignedIdentities: item["userAssignedIdentities"],
-  };
-}
-
-/** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
-export enum KnownManagedServiceIdentityType {
-  /** No managed identity. */
-  None = "None",
-  /** System assigned managed identity. */
-  SystemAssigned = "SystemAssigned",
-  /** User assigned managed identity. */
-  UserAssigned = "UserAssigned",
-  /** System and user assigned managed identity. */
-  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
-}
-
-/**
- * Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). \
- * {@link KnownManagedServiceIdentityType} can be used interchangeably with ManagedServiceIdentityType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **None**: No managed identity. \
- * **SystemAssigned**: System assigned managed identity. \
- * **UserAssigned**: User assigned managed identity. \
- * **SystemAssigned,UserAssigned**: System and user assigned managed identity.
- */
-export type ManagedServiceIdentityType = string;
-
-/** User assigned identity properties */
-export interface UserAssignedIdentity {
-  /** The principal ID of the assigned identity. */
-  readonly principalId?: string;
-  /** The client ID of the assigned identity. */
-  readonly clientId?: string;
-}
-
-export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
-  return item;
-}
-
-export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
-  return {
-    principalId: item["principalId"],
-    clientId: item["clientId"],
+    identity: managedServiceIdentityDeserializer(item["identity"]),
   };
 }
 
@@ -388,7 +325,11 @@ export function storageTaskOperationSerializer(item: StorageTaskOperation): any 
 export function storageTaskOperationDeserializer(item: any): StorageTaskOperation {
   return {
     name: item["name"],
-    parameters: item["parameters"],
+    parameters: !item["parameters"]
+      ? item["parameters"]
+      : Object.fromEntries(
+          Object.entries(item["parameters"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
     onSuccess: item["onSuccess"],
     onFailure: item["onFailure"],
   };
@@ -396,12 +337,19 @@ export function storageTaskOperationDeserializer(item: any): StorageTaskOperatio
 
 /** The operation to be performed on the object. */
 export enum KnownStorageTaskOperationName {
+  /** SetBlobTier */
   SetBlobTier = "SetBlobTier",
+  /** SetBlobTags */
   SetBlobTags = "SetBlobTags",
+  /** SetBlobImmutabilityPolicy */
   SetBlobImmutabilityPolicy = "SetBlobImmutabilityPolicy",
+  /** SetBlobLegalHold */
   SetBlobLegalHold = "SetBlobLegalHold",
+  /** SetBlobExpiry */
   SetBlobExpiry = "SetBlobExpiry",
+  /** DeleteBlob */
   DeleteBlob = "DeleteBlob",
+  /** UndeleteBlob */
   UndeleteBlob = "UndeleteBlob",
 }
 
@@ -422,6 +370,7 @@ export type StorageTaskOperationName = string;
 
 /** Action to be taken when the operation is successful for a object. */
 export enum KnownOnSuccess {
+  /** continue */
   Continue = "continue",
 }
 
@@ -436,6 +385,7 @@ export type OnSuccess = string;
 
 /** Action to be taken when the operation fails for a object. */
 export enum KnownOnFailure {
+  /** break */
   Break = "break",
 }
 
@@ -455,9 +405,7 @@ export interface ElseCondition {
 }
 
 export function elseConditionSerializer(item: ElseCondition): any {
-  return {
-    operations: storageTaskOperationArraySerializer(item["operations"]),
-  };
+  return { operations: storageTaskOperationArraySerializer(item["operations"]) };
 }
 
 export function elseConditionDeserializer(item: any): ElseCondition {
@@ -468,13 +416,21 @@ export function elseConditionDeserializer(item: any): ElseCondition {
 
 /** Represents the provisioning state of the storage task. */
 export enum KnownProvisioningState {
+  /** ValidateSubscriptionQuotaBegin */
   ValidateSubscriptionQuotaBegin = "ValidateSubscriptionQuotaBegin",
+  /** ValidateSubscriptionQuotaEnd */
   ValidateSubscriptionQuotaEnd = "ValidateSubscriptionQuotaEnd",
+  /** Accepted */
   Accepted = "Accepted",
+  /** Creating */
   Creating = "Creating",
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Deleting */
   Deleting = "Deleting",
+  /** Canceled */
   Canceled = "Canceled",
+  /** Failed */
   Failed = "Failed",
 }
 
@@ -493,6 +449,81 @@ export enum KnownProvisioningState {
  * **Failed**
  */
 export type ProvisioningState = string;
+
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface ManagedServiceIdentity {
+  /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
+  readonly principalId?: string;
+  /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
+  readonly tenantId?: string;
+  /** The type of managed identity assigned to this resource. */
+  type: ManagedServiceIdentityType;
+  /** The identities assigned to this resource by the user. */
+  userAssignedIdentities?: Record<string, UserAssignedIdentity>;
+}
+
+export function managedServiceIdentitySerializer(item: ManagedServiceIdentity): any {
+  return { type: item["type"], userAssignedIdentities: item["userAssignedIdentities"] };
+}
+
+export function managedServiceIdentityDeserializer(item: any): ManagedServiceIdentity {
+  return {
+    principalId: item["principalId"],
+    tenantId: item["tenantId"],
+    type: item["type"],
+    userAssignedIdentities: !item["userAssignedIdentities"]
+      ? item["userAssignedIdentities"]
+      : Object.fromEntries(
+          Object.entries(item["userAssignedIdentities"]).map(([k, p]: [string, any]) => [
+            k,
+            !p ? p : userAssignedIdentityDeserializer(p),
+          ]),
+        ),
+  };
+}
+
+/** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
+export enum KnownManagedServiceIdentityType {
+  /** No managed identity. */
+  None = "None",
+  /** System assigned managed identity. */
+  SystemAssigned = "SystemAssigned",
+  /** User assigned managed identity. */
+  UserAssigned = "UserAssigned",
+  /** System and user assigned managed identity. */
+  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
+}
+
+/**
+ * Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). \
+ * {@link KnownManagedServiceIdentityType} can be used interchangeably with ManagedServiceIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None**: No managed identity. \
+ * **SystemAssigned**: System assigned managed identity. \
+ * **UserAssigned**: User assigned managed identity. \
+ * **SystemAssigned,UserAssigned**: System and user assigned managed identity.
+ */
+export type ManagedServiceIdentityType = string;
+
+/** User assigned identity properties */
+export interface UserAssignedIdentity {
+  /** The principal ID of the assigned identity. */
+  readonly principalId?: string;
+  /** The client ID of the assigned identity. */
+  readonly clientId?: string;
+}
+
+export function userAssignedIdentitySerializer(_item: UserAssignedIdentity): any {
+  return {};
+}
+
+export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
+  return {
+    principalId: item["principalId"],
+    clientId: item["clientId"],
+  };
+}
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
 export interface TrackedResource extends Resource {
@@ -514,7 +545,9 @@ export function trackedResourceDeserializer(item: any): TrackedResource {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
   };
 }
@@ -531,8 +564,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -589,7 +622,7 @@ export enum KnownCreatedByType {
 
 /**
  * The kind of entity that created the resource. \
- * {@link KnowncreatedByType} can be used interchangeably with createdByType,
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **User**: The entity was created by a user. \
@@ -679,9 +712,7 @@ export interface StorageTaskPreviewAction {
 }
 
 export function storageTaskPreviewActionSerializer(item: StorageTaskPreviewAction): any {
-  return {
-    properties: storageTaskPreviewActionPropertiesSerializer(item["properties"]),
-  };
+  return { properties: storageTaskPreviewActionPropertiesSerializer(item["properties"]) };
 }
 
 export function storageTaskPreviewActionDeserializer(item: any): StorageTaskPreviewAction {
@@ -856,8 +887,11 @@ export function storageTaskPreviewBlobPropertiesDeserializer(
 
 /** Represents the condition block name that matched blob properties. */
 export enum KnownMatchedBlockName {
+  /** If */
   If = "If",
+  /** Else */
   Else = "Else",
+  /** None */
   None = "None",
 }
 
@@ -1014,7 +1048,9 @@ export function storageTaskReportPropertiesDeserializer(item: any): StorageTaskR
 
 /** Represents the status of the execution. */
 export enum KnownRunStatusEnum {
+  /** InProgress */
   InProgress = "InProgress",
+  /** Finished */
   Finished = "Finished",
 }
 
@@ -1030,7 +1066,9 @@ export type RunStatusEnum = string;
 
 /** Represents the overall result of the execution for the run instance */
 export enum KnownRunResult {
+  /** Succeeded */
   Succeeded = "Succeeded",
+  /** Failed */
   Failed = "Failed",
 }
 

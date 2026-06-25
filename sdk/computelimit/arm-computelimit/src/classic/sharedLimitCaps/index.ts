@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeLimitContext } from "../../api/computeLimitContext.js";
+import { ComputeLimitContext } from "../../api/computeLimitContext.js";
 import {
   setMemberCapOverrides,
   listBySubscriptionLocationResource,
@@ -9,19 +9,19 @@ import {
   createOrUpdate,
   get,
 } from "../../api/sharedLimitCaps/operations.js";
-import type {
+import {
   SharedLimitCapsSetMemberCapOverridesOptionalParams,
   SharedLimitCapsListBySubscriptionLocationResourceOptionalParams,
   SharedLimitCapsDeleteOptionalParams,
   SharedLimitCapsCreateOrUpdateOptionalParams,
   SharedLimitCapsGetOptionalParams,
 } from "../../api/sharedLimitCaps/options.js";
-import type {
+import {
   SharedLimitCap,
   SetMemberCapOverridesRequest,
   SetMemberCapOverridesResult,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a SharedLimitCaps operations. */
 export interface SharedLimitCapsOperations {

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ApiManagementContext } from "../../api/apiManagementContext.js";
+import { ApiManagementContext } from "../../api/apiManagementContext.js";
 import {
   listByTags,
   listByService,
@@ -11,7 +11,7 @@ import {
   getEntityTag,
   get,
 } from "../../api/api/operations.js";
-import type {
+import {
   ApiListByTagsOptionalParams,
   ApiListByServiceOptionalParams,
   ApiDeleteOptionalParams,
@@ -20,16 +20,15 @@ import type {
   ApiGetEntityTagOptionalParams,
   ApiGetOptionalParams,
 } from "../../api/api/options.js";
-import type {
+import {
   ApiContract,
   ApiCreateOrUpdateParameter,
   ApiUpdateContract,
   TagResourceContract,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Api operations. */
 export interface ApiOperations {

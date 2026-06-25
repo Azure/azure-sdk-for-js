@@ -1,13 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { create } from "../../api/managedInstanceTdeCertificates/operations.js";
-import type { ManagedInstanceTdeCertificatesCreateOptionalParams } from "../../api/managedInstanceTdeCertificates/options.js";
-import type { TdeCertificate } from "../../models/models.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { ManagedInstanceTdeCertificatesCreateOptionalParams } from "../../api/managedInstanceTdeCertificates/options.js";
+import { TdeCertificate } from "../../models/models.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ManagedInstanceTdeCertificates operations. */
 export interface ManagedInstanceTdeCertificatesOperations {

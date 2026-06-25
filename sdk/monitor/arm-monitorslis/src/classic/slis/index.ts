@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { MonitorContext } from "../../api/monitorContext.js";
+import { MonitorContext } from "../../api/monitorContext.js";
 import { listByParent, $delete, createOrUpdate, get } from "../../api/slis/operations.js";
-import type {
+import {
   SlisListByParentOptionalParams,
   SlisDeleteOptionalParams,
   SlisCreateOrUpdateOptionalParams,
   SlisGetOptionalParams,
 } from "../../api/slis/options.js";
-import type { Sli } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { Sli } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Slis operations. */
 export interface SlisOperations {

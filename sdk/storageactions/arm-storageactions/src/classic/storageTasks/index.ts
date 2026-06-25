@@ -3,10 +3,14 @@
 
 import { StorageActionsManagementContext } from "../../api/storageActionsManagementContext.js";
 import {
-  StorageTask,
-  StorageTaskUpdateParameters,
-  StorageTaskPreviewAction,
-} from "../../models/models.js";
+  previewActions,
+  listBySubscription,
+  listByResourceGroup,
+  $delete,
+  update,
+  create,
+  get,
+} from "../../api/storageTasks/operations.js";
 import {
   StorageTasksPreviewActionsOptionalParams,
   StorageTasksListBySubscriptionOptionalParams,
@@ -17,14 +21,10 @@ import {
   StorageTasksGetOptionalParams,
 } from "../../api/storageTasks/options.js";
 import {
-  previewActions,
-  listBySubscription,
-  listByResourceGroup,
-  $delete,
-  update,
-  create,
-  get,
-} from "../../api/storageTasks/operations.js";
+  StorageTask,
+  StorageTaskUpdateParameters,
+  StorageTaskPreviewAction,
+} from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -46,11 +46,6 @@ export interface StorageTasksOperations {
     options?: StorageTasksListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<StorageTask>;
   /** Delete the storage task resource. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     storageTaskName: string,

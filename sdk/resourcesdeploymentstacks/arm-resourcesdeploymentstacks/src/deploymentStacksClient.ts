@@ -1,20 +1,31 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DeploymentStacksContext, DeploymentStacksClientOptionalParams } from "./api/index.js";
-import { createDeploymentStacks } from "./api/index.js";
-import type { DeploymentStacksOperations } from "./classic/deploymentStacks/index.js";
-import { _getDeploymentStacksOperations } from "./classic/deploymentStacks/index.js";
-import type { DeploymentStacksWhatIfResultsAtManagementGroupOperations } from "./classic/deploymentStacksWhatIfResultsAtManagementGroup/index.js";
-import { _getDeploymentStacksWhatIfResultsAtManagementGroupOperations } from "./classic/deploymentStacksWhatIfResultsAtManagementGroup/index.js";
-import type { DeploymentStacksWhatIfResultsAtResourceGroupOperations } from "./classic/deploymentStacksWhatIfResultsAtResourceGroup/index.js";
-import { _getDeploymentStacksWhatIfResultsAtResourceGroupOperations } from "./classic/deploymentStacksWhatIfResultsAtResourceGroup/index.js";
-import type { DeploymentStacksWhatIfResultsAtSubscriptionOperations } from "./classic/deploymentStacksWhatIfResultsAtSubscription/index.js";
-import { _getDeploymentStacksWhatIfResultsAtSubscriptionOperations } from "./classic/deploymentStacksWhatIfResultsAtSubscription/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import {
+  DeploymentStacksContext,
+  DeploymentStacksClientOptionalParams,
+  createDeploymentStacks,
+} from "./api/index.js";
+import {
+  DeploymentStacksOperations,
+  _getDeploymentStacksOperations,
+} from "./classic/deploymentStacks/index.js";
+import {
+  DeploymentStacksWhatIfResultsAtManagementGroupOperations,
+  _getDeploymentStacksWhatIfResultsAtManagementGroupOperations,
+} from "./classic/deploymentStacksWhatIfResultsAtManagementGroup/index.js";
+import {
+  DeploymentStacksWhatIfResultsAtResourceGroupOperations,
+  _getDeploymentStacksWhatIfResultsAtResourceGroupOperations,
+} from "./classic/deploymentStacksWhatIfResultsAtResourceGroup/index.js";
+import {
+  DeploymentStacksWhatIfResultsAtSubscriptionOperations,
+  _getDeploymentStacksWhatIfResultsAtSubscriptionOperations,
+} from "./classic/deploymentStacksWhatIfResultsAtSubscription/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
-export { type DeploymentStacksClientOptionalParams } from "./api/deploymentStacksContext.js";
+export type { DeploymentStacksClientOptionalParams } from "./api/deploymentStacksContext.js";
 
 export class DeploymentStacksClient {
   private _client: DeploymentStacksContext;

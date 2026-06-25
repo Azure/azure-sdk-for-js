@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AlertProcessingRulesManagementContext } from "../../api/alertProcessingRulesManagementContext.js";
+import { AlertProcessingRulesManagementContext } from "../../api/alertProcessingRulesManagementContext.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   getByName,
 } from "../../api/alertProcessingRules/operations.js";
-import type {
+import {
   AlertProcessingRulesListBySubscriptionOptionalParams,
   AlertProcessingRulesListByResourceGroupOptionalParams,
   AlertProcessingRulesDeleteOptionalParams,
@@ -18,8 +18,8 @@ import type {
   AlertProcessingRulesCreateOrUpdateOptionalParams,
   AlertProcessingRulesGetByNameOptionalParams,
 } from "../../api/alertProcessingRules/options.js";
-import type { AlertProcessingRule, PatchObject } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { AlertProcessingRule, PatchObject } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a AlertProcessingRules operations. */
 export interface AlertProcessingRulesOperations {
@@ -33,11 +33,6 @@ export interface AlertProcessingRulesOperations {
     options?: AlertProcessingRulesListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<AlertProcessingRule>;
   /** Delete an alert processing rule. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     alertProcessingRuleName: string,

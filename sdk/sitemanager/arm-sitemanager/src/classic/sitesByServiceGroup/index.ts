@@ -22,38 +22,33 @@ import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a SitesByServiceGroup operations. */
 export interface SitesByServiceGroupOperations {
-  /** delete Site at SG scope */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
+  /** Delete a Site */
   delete: (
     servicegroupName: string,
     siteName: string,
     options?: SitesByServiceGroupDeleteOptionalParams,
   ) => Promise<void>;
-  /** update Site at SG scope */
+  /** Update a Site */
   update: (
     servicegroupName: string,
     siteName: string,
     properties: SiteUpdate,
     options?: SitesByServiceGroupUpdateOptionalParams,
   ) => Promise<Site>;
-  /** create or update Site at SG scope */
+  /** Create a Site */
   createOrUpdate: (
     servicegroupName: string,
     siteName: string,
     resource: Site,
     options?: SitesByServiceGroupCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<Site>, Site>;
-  /** Get Site at SG scope */
+  /** Get a Site */
   get: (
     servicegroupName: string,
     siteName: string,
     options?: SitesByServiceGroupGetOptionalParams,
   ) => Promise<Site>;
-  /** list Site at SG scope */
+  /** List Site resources by scope */
   listByServiceGroup: (
     servicegroupName: string,
     options?: SitesByServiceGroupListByServiceGroupOptionalParams,

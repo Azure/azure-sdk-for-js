@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ContainerRegistryTasksManagementContext } from "../../api/containerRegistryTasksManagementContext.js";
+import { ContainerRegistryTasksManagementContext } from "../../api/containerRegistryTasksManagementContext.js";
 import { cancel, getLogSasUrl, list, update, get } from "../../api/runs/operations.js";
-import type {
+import {
   RunsCancelOptionalParams,
   RunsGetLogSasUrlOptionalParams,
   RunsListOptionalParams,
   RunsUpdateOptionalParams,
   RunsGetOptionalParams,
 } from "../../api/runs/options.js";
-import type { Run, RunUpdateParameters, RunGetLogResult } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { Run, RunUpdateParameters, RunGetLogResult } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Runs operations. */
 export interface RunsOperations {

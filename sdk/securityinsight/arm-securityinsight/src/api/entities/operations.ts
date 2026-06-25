@@ -1,33 +1,33 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SecurityInsightsContext as Client } from "../index.js";
-import type {
-  EntityUnion,
-  _EntityList,
-  EntityExpandParameters,
-  EntityExpandResponse,
-  _GetQueriesResponse,
-  EntityQueryItemUnion,
-  EntityGetInsightsParameters,
-  EntityGetInsightsResponse,
-  EntityItemQueryKind,
-} from "../../models/models.js";
+import { SecurityInsightsContext as Client } from "../index.js";
 import {
   cloudErrorDeserializer,
   entityUnionDeserializer,
+  EntityUnion,
+  _EntityList,
   _entityListDeserializer,
   entityManualTriggerRequestBodySerializer,
+  EntityExpandParameters,
   entityExpandParametersSerializer,
+  EntityExpandResponse,
   entityExpandResponseDeserializer,
+  _GetQueriesResponse,
   _getQueriesResponseDeserializer,
+  EntityQueryItemUnion,
+  EntityGetInsightsParameters,
   entityGetInsightsParametersSerializer,
+  EntityGetInsightsResponse,
   entityGetInsightsResponseDeserializer,
+  EntityItemQueryKind,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   EntitiesGetInsightsOptionalParams,
   EntitiesQueriesOptionalParams,
   EntitiesExpandOptionalParams,
@@ -35,8 +35,12 @@ import type {
   EntitiesListOptionalParams,
   EntitiesGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _getInsightsSend(
   context: Client,
@@ -59,12 +63,14 @@ export function _getInsightsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: entityGetInsightsParametersSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: entityGetInsightsParametersSerializer(parameters),
+    });
 }
 
 export async function _getInsightsDeserialize(
@@ -125,10 +131,12 @@ export function _queriesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _queriesDeserialize(
@@ -190,12 +198,14 @@ export function _expandSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: entityExpandParametersSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: entityExpandParametersSerializer(parameters),
+    });
 }
 
 export async function _expandDeserialize(
@@ -254,13 +264,15 @@ export function _runPlaybookSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: !options?.requestBody
-      ? options?.requestBody
-      : entityManualTriggerRequestBodySerializer(options?.requestBody),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: !options?.requestBody
+        ? options?.requestBody
+        : entityManualTriggerRequestBodySerializer(options?.requestBody),
+    });
 }
 
 export async function _runPlaybookDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -313,10 +325,12 @@ export function _listSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listDeserialize(result: PathUncheckedResponse): Promise<_EntityList> {
@@ -373,10 +387,12 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<EntityUnion> {

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
+import { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
 import {
   disconnect,
   connect,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/dataConnectors/operations.js";
-import type {
+import {
   DataConnectorsDisconnectOptionalParams,
   DataConnectorsConnectOptionalParams,
   DataConnectorsListOptionalParams,
@@ -18,8 +18,8 @@ import type {
   DataConnectorsCreateOrUpdateOptionalParams,
   DataConnectorsGetOptionalParams,
 } from "../../api/dataConnectors/options.js";
-import type { DataConnectorUnion, DataConnectorConnectBody } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { DataConnectorUnion, DataConnectorConnectBody } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a DataConnectors operations. */
 export interface DataConnectorsOperations {

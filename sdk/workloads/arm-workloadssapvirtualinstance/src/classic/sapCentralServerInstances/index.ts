@@ -3,10 +3,14 @@
 
 import { WorkloadsContext } from "../../api/workloadsContext.js";
 import {
-  OperationStatusResult,
-  SAPCentralServerInstance,
-  UpdateSAPCentralInstanceRequest,
-} from "../../models/models.js";
+  stop,
+  start,
+  list,
+  $delete,
+  update,
+  create,
+  get,
+} from "../../api/sapCentralServerInstances/operations.js";
 import {
   SAPCentralServerInstancesStopOptionalParams,
   SAPCentralServerInstancesStartOptionalParams,
@@ -17,14 +21,10 @@ import {
   SAPCentralServerInstancesGetOptionalParams,
 } from "../../api/sapCentralServerInstances/options.js";
 import {
-  stop,
-  start,
-  list,
-  $delete,
-  update,
-  create,
-  get,
-} from "../../api/sapCentralServerInstances/operations.js";
+  OperationStatusResult,
+  SAPCentralServerInstance,
+  UpdateSAPCentralInstanceRequest,
+} from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -51,11 +51,6 @@ export interface SAPCentralServerInstancesOperations {
     options?: SAPCentralServerInstancesListOptionalParams,
   ) => PagedAsyncIterableIterator<SAPCentralServerInstance>;
   /** Deletes the SAP Central Services Instance resource. &lt;br&gt;&lt;br&gt;This will be used by service only. Delete operation on this resource by end user will return a Bad Request error. You can delete the parent resource, which is the Virtual Instance for SAP solutions resource, using the delete operation on it. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     sapVirtualInstanceName: string,

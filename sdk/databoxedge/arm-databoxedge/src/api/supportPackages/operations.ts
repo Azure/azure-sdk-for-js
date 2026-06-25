@@ -1,18 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DataBoxEdgeManagementContext as Client } from "../index.js";
-import type { TriggerSupportPackageRequest } from "../../models/models.js";
+import { DataBoxEdgeManagementContext as Client } from "../index.js";
 import {
   cloudErrorDeserializer,
+  TriggerSupportPackageRequest,
   triggerSupportPackageRequestSerializer,
 } from "../../models/models.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type { SupportPackagesTriggerSupportPackageOptionalParams } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { SupportPackagesTriggerSupportPackageOptionalParams } from "./options.js";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _triggerSupportPackageSend(
   context: Client,
@@ -33,11 +37,13 @@ export function _triggerSupportPackageSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: triggerSupportPackageRequestSerializer(triggerSupportPackageRequest),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: triggerSupportPackageRequestSerializer(triggerSupportPackageRequest),
+    });
 }
 
 export async function _triggerSupportPackageDeserialize(

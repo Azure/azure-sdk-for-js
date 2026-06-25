@@ -1,72 +1,90 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ClientOptions } from "@azure-rest/core-client";
-import { getClient } from "@azure-rest/core-client";
-import { logger } from "../../../../../../../logger.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { OnlineExperimentationClient } from "./clientDefinitions.js";
+import {
+  OnlineExperimentationContext,
+  OnlineExperimentationClientOptionalParams,
+  createOnlineExperimentation,
+} from "./api/index.js";
+import {
+  listMetrics,
+  deleteMetric,
+  validateMetric,
+  createOrUpdateMetric,
+  getMetric,
+} from "./api/operations.js";
+import {
+  ListMetricsOptionalParams,
+  DeleteMetricOptionalParams,
+  ValidateMetricOptionalParams,
+  CreateOrUpdateMetricOptionalParams,
+  GetMetricOptionalParams,
+} from "./api/options.js";
+import { ExperimentMetric, ExperimentMetricValidationResult } from "./models/models.js";
+import { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
-/** The optional parameters for the client */
-export interface OnlineExperimentationClientOptions extends ClientOptions {
-  /** The api version option of the client */
-  apiVersion?: string;
-}
+export type { OnlineExperimentationClientOptionalParams } from "./api/onlineExperimentationContext.js";
 
-/**
- * Initialize a new instance of `OnlineExperimentationClient`
- * @param endpointParam - Endpoint URL for the Online Experimentation workspace.
- * @param credentials - uniquely identify client credential
- * @param options - the parameter for all optional parameters
- */
-export default function createClient(
-  endpointParam: string,
-  credentials: TokenCredential,
-  {
-    apiVersion = "2025-05-31-preview",
-    ...options
-  }: OnlineExperimentationClientOptions = {},
-): OnlineExperimentationClient {
-  const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpointParam}`;
-  const userAgentInfo = `azsdk-js-onlineexperimentation-rest/1.0.0-beta.1`;
-  const userAgentPrefix =
-    options.userAgentOptions && options.userAgentOptions.userAgentPrefix
-      ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
-      : `${userAgentInfo}`;
-  options = {
-    ...options,
-    userAgentOptions: {
-      userAgentPrefix,
-    },
-    loggingOptions: {
-      logger: options.loggingOptions?.logger ?? logger.info,
-    },
-    credentials: {
-      scopes: options.credentials?.scopes ?? ["https://exp.azure.net/.default"],
-    },
-  };
-  const client = getClient(
-    endpointUrl,
-    credentials,
-    options,
-  ) as OnlineExperimentationClient;
+export class OnlineExperimentationClient {
+  private _client: OnlineExperimentationContext;
+  /** The pipeline used by this client to make requests */
+  public readonly pipeline: Pipeline;
 
-  client.pipeline.removePolicy({ name: "ApiVersionPolicy" });
-  client.pipeline.addPolicy({
-    name: "ClientApiVersionPolicy",
-    sendRequest: (req, next) => {
-      // Use the apiVersion defined in request url directly
-      // Append one if there is no apiVersion and we have one at client options
-      const url = new URL(req.url);
-      if (!url.searchParams.get("api-version") && apiVersion) {
-        req.url = `${req.url}${
-          Array.from(url.searchParams.keys()).length > 0 ? "&" : "?"
-        }api-version=${apiVersion}`;
-      }
+  constructor(
+    endpointParam: string,
+    credential: TokenCredential,
+    options: OnlineExperimentationClientOptionalParams = {},
+  ) {
+    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
+    const userAgentPrefix = prefixFromOptions
+      ? `${prefixFromOptions} azsdk-js-client`
+      : `azsdk-js-client`;
+    this._client = createOnlineExperimentation(endpointParam, credential, {
+      ...options,
+      userAgentOptions: { userAgentPrefix },
+    });
+    this.pipeline = this._client.pipeline;
+  }
 
-      return next(req);
-    },
-  });
+  /** Lists experiment metrics. */
+  listMetrics(
+    options: ListMetricsOptionalParams = { requestOptions: {} },
+  ): PagedAsyncIterableIterator<ExperimentMetric> {
+    return listMetrics(this._client, options);
+  }
 
-  return client;
+  /** Deletes an experiment metric. */
+  deleteMetric(
+    experimentMetricId: string,
+    options: DeleteMetricOptionalParams = { requestOptions: {} },
+  ): Promise<void> {
+    return deleteMetric(this._client, experimentMetricId, options);
+  }
+
+  /** Validates an experiment metric definition. */
+  validateMetric(
+    body: ExperimentMetric,
+    options: ValidateMetricOptionalParams = { requestOptions: {} },
+  ): Promise<ExperimentMetricValidationResult> {
+    return validateMetric(this._client, body, options);
+  }
+
+  /** Creates or updates an experiment metric. */
+  createOrUpdateMetric(
+    experimentMetricId: string,
+    resource: ExperimentMetric,
+    options: CreateOrUpdateMetricOptionalParams = { requestOptions: {} },
+  ): Promise<ExperimentMetric> {
+    return createOrUpdateMetric(this._client, experimentMetricId, resource, options);
+  }
+
+  /** Fetches an experiment metric by ID. */
+  getMetric(
+    experimentMetricId: string,
+    options: GetMetricOptionalParams = { requestOptions: {} },
+  ): Promise<ExperimentMetric> {
+    return getMetric(this._client, experimentMetricId, options);
+  }
 }

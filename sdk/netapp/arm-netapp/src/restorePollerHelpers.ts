@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NetAppManagementClient } from "./netAppManagementClient.js";
+import { NetAppManagementClient } from "./netAppManagementClient.js";
 import { _updateNetworkSiblingSetDeserialize } from "./api/netAppResource/operations.js";
 import {
   _getMetadataDeserialize,
@@ -102,10 +102,14 @@ import {
   _createDeserialize as _createDeserializeVolumeGroups,
 } from "./api/volumeGroups/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
-import type { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
-import type { AbortSignalLike } from "@azure/abort-controller";
-import type { PollerLike, OperationState, ResourceLocationConfig } from "@azure/core-lro";
-import { deserializeState } from "@azure/core-lro";
+import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
+import { AbortSignalLike } from "@azure/abort-controller";
+import {
+  PollerLike,
+  OperationState,
+  deserializeState,
+  ResourceLocationConfig,
+} from "@azure/core-lro";
 
 export interface RestorePollerOptions<
   TResult,

@@ -29,9 +29,7 @@ export function _listByConfigTemplateSend(
   context: Client,
   resourceGroupName: string,
   configTemplateName: string,
-  options: ConfigTemplateVersionsListByConfigTemplateOptionalParams = {
-    requestOptions: {},
-  },
+  options: ConfigTemplateVersionsListByConfigTemplateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configTemplates/{configTemplateName}/versions{?api%2Dversion}",
@@ -39,19 +37,18 @@ export function _listByConfigTemplateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       configTemplateName: configTemplateName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listByConfigTemplateDeserialize(
@@ -60,7 +57,10 @@ export async function _listByConfigTemplateDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -72,16 +72,14 @@ export function listByConfigTemplate(
   context: Client,
   resourceGroupName: string,
   configTemplateName: string,
-  options: ConfigTemplateVersionsListByConfigTemplateOptionalParams = {
-    requestOptions: {},
-  },
+  options: ConfigTemplateVersionsListByConfigTemplateOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ConfigTemplateVersion> {
   return buildPagedAsyncIterator(
     context,
     () => _listByConfigTemplateSend(context, resourceGroupName, configTemplateName, options),
     _listByConfigTemplateDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-06-01" },
   );
 }
 
@@ -99,19 +97,18 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       configTemplateName: configTemplateName,
       configTemplateVersionName: configTemplateVersionName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(
@@ -120,7 +117,10 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 

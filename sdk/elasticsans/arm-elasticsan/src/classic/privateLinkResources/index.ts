@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ElasticSanManagementContext } from "../../api/elasticSanManagementContext.js";
+import { ElasticSanManagementContext } from "../../api/elasticSanManagementContext.js";
 import { listByElasticSan } from "../../api/privateLinkResources/operations.js";
-import type { PrivateLinkResourcesListByElasticSanOptionalParams } from "../../api/privateLinkResources/options.js";
-import type { PrivateLinkResourceListResult } from "../../models/models.js";
+import { PrivateLinkResourcesListByElasticSanOptionalParams } from "../../api/privateLinkResources/options.js";
+import { PrivateLinkResourceListResult } from "../../models/models.js";
 
 /** Interface representing a PrivateLinkResources operations. */
 export interface PrivateLinkResourcesOperations {

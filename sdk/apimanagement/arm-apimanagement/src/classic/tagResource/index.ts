@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ApiManagementContext } from "../../api/apiManagementContext.js";
+import { ApiManagementContext } from "../../api/apiManagementContext.js";
 import { listByService } from "../../api/tagResource/operations.js";
-import type { TagResourceListByServiceOptionalParams } from "../../api/tagResource/options.js";
-import type { TagResourceContract } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { TagResourceListByServiceOptionalParams } from "../../api/tagResource/options.js";
+import { TagResourceContract } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a TagResource operations. */
 export interface TagResourceOperations {

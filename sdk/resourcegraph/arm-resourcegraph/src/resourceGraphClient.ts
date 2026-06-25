@@ -1,35 +1,36 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ResourceGraphContext, ResourceGraphClientOptionalParams } from "./api/index.js";
-import { createResourceGraph } from "./api/index.js";
+import {
+  ResourceGraphContext,
+  ResourceGraphClientOptionalParams,
+  createResourceGraph,
+} from "./api/index.js";
 import {
   resourcesHistory,
   resources,
   resourceChangeDetails,
   resourceChanges,
 } from "./api/operations.js";
-import type {
+import {
   ResourcesHistoryOptionalParams,
   ResourcesOptionalParams,
   ResourceChangeDetailsOptionalParams,
   ResourceChangesOptionalParams,
 } from "./api/options.js";
-import type { GraphQueryOperations } from "./classic/graphQuery/index.js";
-import { _getGraphQueryOperations } from "./classic/graphQuery/index.js";
-import type { OperationsOperations } from "./classic/operations/index.js";
-import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { ResourcesHistoryResponse } from "./models/models.js";
-import type {
+import { GraphQueryOperations, _getGraphQueryOperations } from "./classic/graphQuery/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import { ResourcesHistoryResponse } from "./models/models.js";
+import {
   ResourceChangesRequestParameters,
   ResourceChangeList,
   ResourceChangeData,
   ResourceChangeDetailsRequestParameters,
 } from "./models/resourceChanges/models.js";
-import type { QueryRequest, QueryResponse } from "./models/resourceGraphApi/models.js";
-import type { ResourcesHistoryRequest } from "./models/resourceHistory/models.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import { QueryRequest, QueryResponse } from "./models/resourceGraphApi/models.js";
+import { ResourcesHistoryRequest } from "./models/resourceHistory/models.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { ResourceGraphClientOptionalParams } from "./api/resourceGraphContext.js";
 

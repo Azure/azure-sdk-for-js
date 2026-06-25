@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a gallery image version.
  *
  * @summary delete a gallery image version.
- * x-ms-original-file: 2025-03-03/galleryExamples/GalleryImageVersion_Delete.json
+ * x-ms-original-file: 2025-12-03/galleryExamples/GalleryImageVersion_Delete.json
  */
 async function deleteAGalleryImageVersion(): Promise<void> {
   const credential = new DefaultAzureCredential();

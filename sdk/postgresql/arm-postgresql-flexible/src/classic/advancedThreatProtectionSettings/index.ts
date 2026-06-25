@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PostgreSQLManagementFlexibleServerContext } from "../../api/postgreSQLManagementFlexibleServerContext.js";
+import { PostgreSQLManagementFlexibleServerContext } from "../../api/postgreSQLManagementFlexibleServerContext.js";
 import { listByServer, get } from "../../api/advancedThreatProtectionSettings/operations.js";
-import type {
+import {
   AdvancedThreatProtectionSettingsListByServerOptionalParams,
   AdvancedThreatProtectionSettingsGetOptionalParams,
 } from "../../api/advancedThreatProtectionSettings/options.js";
-import type {
+import {
   AdvancedThreatProtectionSettingsModel,
   ThreatProtectionName,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a AdvancedThreatProtectionSettings operations. */
 export interface AdvancedThreatProtectionSettingsOperations {

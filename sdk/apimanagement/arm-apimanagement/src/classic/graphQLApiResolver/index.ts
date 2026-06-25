@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ApiManagementContext } from "../../api/apiManagementContext.js";
+import { ApiManagementContext } from "../../api/apiManagementContext.js";
 import {
   listByApi,
   $delete,
@@ -10,7 +10,7 @@ import {
   getEntityTag,
   get,
 } from "../../api/graphQLApiResolver/operations.js";
-import type {
+import {
   GraphQLApiResolverListByApiOptionalParams,
   GraphQLApiResolverDeleteOptionalParams,
   GraphQLApiResolverUpdateOptionalParams,
@@ -18,8 +18,8 @@ import type {
   GraphQLApiResolverGetEntityTagOptionalParams,
   GraphQLApiResolverGetOptionalParams,
 } from "../../api/graphQLApiResolver/options.js";
-import type { ResolverContract, ResolverUpdateContract } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { ResolverContract, ResolverUpdateContract } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a GraphQLApiResolver operations. */
 export interface GraphQLApiResolverOperations {

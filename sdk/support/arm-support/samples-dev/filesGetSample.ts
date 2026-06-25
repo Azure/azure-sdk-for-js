@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to returns details of a specific file in a work space.
  *
  * @summary returns details of a specific file in a work space.
- * x-ms-original-file: 2025-06-01-preview/GetFileDetailsForSubscription.json
+ * x-ms-original-file: 2026-06-01/GetFileDetailsForSubscription.json
  */
 async function getDetailsOfASubscriptionFile(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { OracleDatabaseManagementContext } from "../../api/oracleDatabaseManagementContext.js";
+import { OracleDatabaseManagementContext } from "../../api/oracleDatabaseManagementContext.js";
 import {
   addAzureSubscriptions,
   listActivationLinks,
@@ -13,7 +13,7 @@ import {
   createOrUpdate,
   listBySubscription,
 } from "../../api/oracleSubscriptions/operations.js";
-import type {
+import {
   OracleSubscriptionsAddAzureSubscriptionsOptionalParams,
   OracleSubscriptionsListActivationLinksOptionalParams,
   OracleSubscriptionsListSaasSubscriptionDetailsOptionalParams,
@@ -24,7 +24,7 @@ import type {
   OracleSubscriptionsCreateOrUpdateOptionalParams,
   OracleSubscriptionsListBySubscriptionOptionalParams,
 } from "../../api/oracleSubscriptions/options.js";
-import type {
+import {
   OracleSubscription,
   OracleSubscriptionUpdate,
   CloudAccountDetails,
@@ -32,8 +32,8 @@ import type {
   ActivationLinks,
   AzureSubscriptions,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a OracleSubscriptions operations. */
 export interface OracleSubscriptionsOperations {
@@ -55,11 +55,6 @@ export interface OracleSubscriptionsOperations {
     options?: OracleSubscriptionsListCloudAccountDetailsOptionalParams,
   ) => PollerLike<OperationState<CloudAccountDetails>, CloudAccountDetails>;
   /** Delete a OracleSubscription */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     options?: OracleSubscriptionsDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;

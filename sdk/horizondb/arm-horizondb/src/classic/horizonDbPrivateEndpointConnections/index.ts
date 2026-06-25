@@ -1,37 +1,31 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { HorizonDbContext } from "../../api/horizonDbContext.js";
+import { HorizonDbContext } from "../../api/horizonDbContext.js";
 import {
   $delete,
   update,
   list,
   get,
 } from "../../api/horizonDbPrivateEndpointConnections/operations.js";
-import type {
+import {
   HorizonDbPrivateEndpointConnectionsDeleteOptionalParams,
   HorizonDbPrivateEndpointConnectionsUpdateOptionalParams,
   HorizonDbPrivateEndpointConnectionsListOptionalParams,
   HorizonDbPrivateEndpointConnectionsGetOptionalParams,
 } from "../../api/horizonDbPrivateEndpointConnections/options.js";
-import type {
+import {
   PrivateEndpointConnectionResource,
   PrivateEndpointConnectionUpdate,
   PrivateEndpointConnection,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a HorizonDbPrivateEndpointConnections operations. */
 export interface HorizonDbPrivateEndpointConnectionsOperations {
   /** Deletes a private endpoint connection. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     privateEndpointConnectionName: string,
@@ -72,7 +66,7 @@ export interface HorizonDbPrivateEndpointConnectionsOperations {
     properties: PrivateEndpointConnectionUpdate,
     options?: HorizonDbPrivateEndpointConnectionsUpdateOptionalParams,
   ) => Promise<PrivateEndpointConnection>;
-  /** Lists private endpoint connections in a HorizonDb cluster. */
+  /** Lists private endpoint connections in a HorizonDB cluster. */
   list: (
     resourceGroupName: string,
     clusterName: string,

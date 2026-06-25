@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list gallery image definitions in a gallery.
  *
  * @summary list gallery image definitions in a gallery.
- * x-ms-original-file: 2025-03-03/galleryExamples/GalleryImage_ListByGallery.json
+ * x-ms-original-file: 2025-12-03/galleryExamples/GalleryImage_ListByGallery.json
  */
 async function listGalleryImagesInAGallery(): Promise<void> {
   const credential = new DefaultAzureCredential();

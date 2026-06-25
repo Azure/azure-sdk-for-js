@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RecoveryServicesBackupContext } from "../../api/recoveryServicesBackupContext.js";
+import { RecoveryServicesBackupContext } from "../../api/recoveryServicesBackupContext.js";
 import { list } from "../../api/recoveryPointsRecommendedForMove/operations.js";
-import type { RecoveryPointsRecommendedForMoveListOptionalParams } from "../../api/recoveryPointsRecommendedForMove/options.js";
-import type {
+import { RecoveryPointsRecommendedForMoveListOptionalParams } from "../../api/recoveryPointsRecommendedForMove/options.js";
+import {
   ListRecoveryPointsRecommendedForMoveRequest,
   RecoveryPointResource,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a RecoveryPointsRecommendedForMove operations. */
 export interface RecoveryPointsRecommendedForMoveOperations {

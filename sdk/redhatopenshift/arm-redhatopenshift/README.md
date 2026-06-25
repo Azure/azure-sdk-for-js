@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/redhatopenshift/arm-redhatopenshift)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-redhatopenshift)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-redhatopenshift?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-redhatopenshift)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/redhatopenshift/arm-redhatopenshift/samples)
 
 ## Getting started

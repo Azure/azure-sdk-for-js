@@ -1,24 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PaloAltoNetworksCloudngfwContext } from "../../api/paloAltoNetworksCloudngfwContext.js";
+import { PaloAltoNetworksCloudngfwContext } from "../../api/paloAltoNetworksCloudngfwContext.js";
 import {
   listByLocalRulestacks,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/prefixListLocalRulestack/operations.js";
-import type {
+import {
   PrefixListLocalRulestackListByLocalRulestacksOptionalParams,
   PrefixListLocalRulestackDeleteOptionalParams,
   PrefixListLocalRulestackCreateOrUpdateOptionalParams,
   PrefixListLocalRulestackGetOptionalParams,
 } from "../../api/prefixListLocalRulestack/options.js";
-import type { PrefixListResource } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PrefixListResource } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a PrefixListLocalRulestack operations. */
 export interface PrefixListLocalRulestackOperations {

@@ -5220,7 +5220,7 @@ export function sellerResourceListRequestSerializer(item: SellerResourceListRequ
   return {
     properties: areAllPropsUndefined(item, [
       "billingAccountResourceId",
-      "$filter",
+      "filter",
       "contributors",
       "milestones",
       "primaryResourceId",

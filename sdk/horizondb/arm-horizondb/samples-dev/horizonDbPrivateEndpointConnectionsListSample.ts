@@ -5,9 +5,9 @@ import { HorizonDbClient } from "@azure/arm-horizondb";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to lists private endpoint connections in a HorizonDb cluster.
+ * This sample demonstrates how to lists private endpoint connections in a HorizonDB cluster.
  *
- * @summary lists private endpoint connections in a HorizonDb cluster.
+ * @summary lists private endpoint connections in a HorizonDB cluster.
  * x-ms-original-file: 2026-01-20-preview/PrivateEndpointConnections_List.json
  */
 async function listAllPrivateEndpointConnectionsOnACluster(): Promise<void> {

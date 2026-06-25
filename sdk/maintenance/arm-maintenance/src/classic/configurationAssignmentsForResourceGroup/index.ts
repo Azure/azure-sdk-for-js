@@ -23,7 +23,7 @@ export interface ConfigurationAssignmentsForResourceGroupOperations {
     resourceGroupName: string,
     configurationAssignmentName: string,
     options?: ConfigurationAssignmentsForResourceGroupDeleteOptionalParams,
-  ) => Promise<ConfigurationAssignment>;
+  ) => Promise<ConfigurationAssignment | undefined>;
   /** Register configuration for resource. */
   update: (
     resourceGroupName: string,

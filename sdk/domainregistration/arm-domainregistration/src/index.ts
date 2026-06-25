@@ -1,61 +1,65 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureClouds, type AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
-import type {
+import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
 export { DomainRegistrationManagementClient } from "./domainRegistrationManagementClient.js";
-export { restorePoller, type RestorePollerOptions } from "./restorePollerHelpers.js";
+export type { SimplePollerLike } from "./static-helpers/simplePollerHelpers.js";
+export type { RestorePollerOptions } from "./restorePollerHelpers.js";
+export { restorePoller } from "./restorePollerHelpers.js";
+export type {
+  Domain,
+  DomainProperties,
+  Contact,
+  Address,
+  DomainStatus,
+  ProvisioningState,
+  HostName,
+  AzureResourceType,
+  CustomHostNameDnsRecordType,
+  HostNameType,
+  DomainPurchaseConsent,
+  ResourceNotRenewableReason,
+  DnsType,
+  TrackedResource,
+  Resource,
+  SystemData,
+  CreatedByType,
+  DefaultErrorResponse,
+  DefaultErrorResponseError,
+  DefaultErrorResponseErrorDetailsItem,
+  DomainPatchResource,
+  DomainPatchResourceProperties,
+  ProxyOnlyResource,
+  DomainOwnershipIdentifier,
+  DomainOwnershipIdentifierProperties,
+  ProxyResource,
+  NameIdentifier,
+  DomainAvailabilityCheckResult,
+  DomainType,
+  DomainControlCenterSsoRequest,
+  DomainRecommendationSearchParameters,
+  TopLevelDomain,
+  TopLevelDomainProperties,
+  TopLevelDomainAgreementOption,
+  TldLegalAgreement,
+  CsmOperationDescription,
+  CsmOperationDisplay,
+  CsmOperationDescriptionProperties,
+  ServiceSpecification,
+  MetricSpecification,
+  Dimension,
+  MetricAvailability,
+  LogSpecification,
+} from "./models/index.js";
 export {
-  type Domain,
-  type DomainProperties,
-  type Contact,
-  type Address,
-  type DomainStatus,
-  type ProvisioningState,
-  type HostName,
-  type AzureResourceType,
-  type CustomHostNameDnsRecordType,
-  type HostNameType,
-  type DomainPurchaseConsent,
   KnownResourceNotRenewableReason,
-  type ResourceNotRenewableReason,
-  type DnsType,
-  type TrackedResource,
-  type Resource,
-  type SystemData,
   KnownCreatedByType,
-  type CreatedByType,
-  type DefaultErrorResponse,
-  type DefaultErrorResponseError,
-  type DefaultErrorResponseErrorDetailsItem,
-  type DomainPatchResource,
-  type DomainPatchResourceProperties,
-  type ProxyOnlyResource,
-  type DomainOwnershipIdentifier,
-  type DomainOwnershipIdentifierProperties,
-  type ProxyResource,
-  type NameIdentifier,
-  type DomainAvailabilityCheckResult,
-  type DomainType,
-  type DomainControlCenterSsoRequest,
-  type DomainRecommendationSearchParameters,
-  type TopLevelDomain,
-  type TopLevelDomainProperties,
-  type TopLevelDomainAgreementOption,
-  type TldLegalAgreement,
-  type CsmOperationDescription,
-  type CsmOperationDisplay,
-  type CsmOperationDescriptionProperties,
-  type ServiceSpecification,
-  type MetricSpecification,
-  type Dimension,
-  type MetricAvailability,
-  type LogSpecification,
   KnownVersions,
 } from "./models/index.js";
 export type { DomainRegistrationManagementClientOptionalParams } from "./api/index.js";
@@ -89,4 +93,6 @@ export type {
   TopLevelDomainsOperations,
 } from "./classic/index.js";
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
-export { AzureClouds, type AzureSupportedClouds };
+export { AzureClouds };
+export type { AzureSupportedClouds };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

@@ -1,40 +1,55 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   AdvisorManagementContext,
   AdvisorManagementClientOptionalParams,
+  createAdvisorManagement,
 } from "./api/index.js";
-import { createAdvisorManagement } from "./api/index.js";
 import { predict } from "./api/operations.js";
-import type { PredictOptionalParams } from "./api/options.js";
-import type { AdvisorScoresOperations } from "./classic/advisorScores/index.js";
-import { _getAdvisorScoresOperations } from "./classic/advisorScores/index.js";
-import type { AssessmentTypesOperations } from "./classic/assessmentTypes/index.js";
-import { _getAssessmentTypesOperations } from "./classic/assessmentTypes/index.js";
-import type { AssessmentsOperations } from "./classic/assessments/index.js";
-import { _getAssessmentsOperations } from "./classic/assessments/index.js";
-import type { ConfigurationsOperations } from "./classic/configurations/index.js";
-import { _getConfigurationsOperations } from "./classic/configurations/index.js";
-import type { OperationsOperations } from "./classic/operations/index.js";
-import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { RecommendationMetadataOperations } from "./classic/recommendationMetadata/index.js";
-import { _getRecommendationMetadataOperations } from "./classic/recommendationMetadata/index.js";
-import type { RecommendationsOperations } from "./classic/recommendations/index.js";
-import { _getRecommendationsOperations } from "./classic/recommendations/index.js";
-import type { ResiliencyReviewsOperations } from "./classic/resiliencyReviews/index.js";
-import { _getResiliencyReviewsOperations } from "./classic/resiliencyReviews/index.js";
-import type { SuppressionsOperations } from "./classic/suppressions/index.js";
-import { _getSuppressionsOperations } from "./classic/suppressions/index.js";
-import type { TriageRecommendationsOperations } from "./classic/triageRecommendations/index.js";
-import { _getTriageRecommendationsOperations } from "./classic/triageRecommendations/index.js";
-import type { TriageResourcesOperations } from "./classic/triageResources/index.js";
-import { _getTriageResourcesOperations } from "./classic/triageResources/index.js";
-import type { WorkloadsOperations } from "./classic/workloads/index.js";
-import { _getWorkloadsOperations } from "./classic/workloads/index.js";
-import type { PredictionRequest, PredictionResponse } from "./models/models.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import { PredictOptionalParams } from "./api/options.js";
+import {
+  AdvisorScoresOperations,
+  _getAdvisorScoresOperations,
+} from "./classic/advisorScores/index.js";
+import {
+  AssessmentTypesOperations,
+  _getAssessmentTypesOperations,
+} from "./classic/assessmentTypes/index.js";
+import { AssessmentsOperations, _getAssessmentsOperations } from "./classic/assessments/index.js";
+import {
+  ConfigurationsOperations,
+  _getConfigurationsOperations,
+} from "./classic/configurations/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import {
+  RecommendationMetadataOperations,
+  _getRecommendationMetadataOperations,
+} from "./classic/recommendationMetadata/index.js";
+import {
+  RecommendationsOperations,
+  _getRecommendationsOperations,
+} from "./classic/recommendations/index.js";
+import {
+  ResiliencyReviewsOperations,
+  _getResiliencyReviewsOperations,
+} from "./classic/resiliencyReviews/index.js";
+import {
+  SuppressionsOperations,
+  _getSuppressionsOperations,
+} from "./classic/suppressions/index.js";
+import {
+  TriageRecommendationsOperations,
+  _getTriageRecommendationsOperations,
+} from "./classic/triageRecommendations/index.js";
+import {
+  TriageResourcesOperations,
+  _getTriageResourcesOperations,
+} from "./classic/triageResources/index.js";
+import { WorkloadsOperations, _getWorkloadsOperations } from "./classic/workloads/index.js";
+import { PredictionRequest, PredictionResponse } from "./models/models.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { AdvisorManagementClientOptionalParams } from "./api/advisorManagementContext.js";
 

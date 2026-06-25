@@ -1,13 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RecoveryServicesBackupContext } from "../../api/recoveryServicesBackupContext.js";
+import { RecoveryServicesBackupContext } from "../../api/recoveryServicesBackupContext.js";
 import { trigger } from "../../api/validateOperation/operations.js";
-import type { ValidateOperationTriggerOptionalParams } from "../../api/validateOperation/options.js";
-import type { ValidateOperationRequestResource } from "../../models/models.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { ValidateOperationTriggerOptionalParams } from "../../api/validateOperation/options.js";
+import { ValidateOperationRequestResource } from "../../models/models.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ValidateOperation operations. */
 export interface ValidateOperationOperations {

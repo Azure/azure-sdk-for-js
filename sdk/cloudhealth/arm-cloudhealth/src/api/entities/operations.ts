@@ -1,32 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CloudHealthContext as Client } from "../index.js";
-import type {
-  Entity,
-  _EntityListResult,
-  EntityHistoryRequest,
-  EntityHistoryResponse,
-  SignalHistoryRequest,
-  SignalHistoryResponse,
-  HealthReportRequest,
-} from "../../models/models.js";
+import { CloudHealthContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  Entity,
   entitySerializer,
   entityDeserializer,
+  _EntityListResult,
   _entityListResultDeserializer,
+  EntityHistoryRequest,
   entityHistoryRequestSerializer,
+  EntityHistoryResponse,
   entityHistoryResponseDeserializer,
+  SignalHistoryRequest,
   signalHistoryRequestSerializer,
+  SignalHistoryResponse,
   signalHistoryResponseDeserializer,
+  HealthReportRequest,
   healthReportRequestSerializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   EntitiesIngestHealthReportOptionalParams,
   EntitiesGetSignalHistoryOptionalParams,
   EntitiesGetHistoryOptionalParams,
@@ -35,9 +35,13 @@ import type {
   EntitiesCreateOrUpdateOptionalParams,
   EntitiesGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _ingestHealthReportSend(
   context: Client,
@@ -60,11 +64,13 @@ export function _ingestHealthReportSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: healthReportRequestSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: healthReportRequestSerializer(body),
+    });
 }
 
 export async function _ingestHealthReportDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -122,12 +128,14 @@ export function _getSignalHistorySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: signalHistoryRequestSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: signalHistoryRequestSerializer(body),
+    });
 }
 
 export async function _getSignalHistoryDeserialize(
@@ -187,12 +195,14 @@ export function _getHistorySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: entityHistoryRequestSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: entityHistoryRequestSerializer(body),
+    });
 }
 
 export async function _getHistoryDeserialize(
@@ -250,10 +260,12 @@ export function _listByHealthModelSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listByHealthModelDeserialize(
@@ -368,12 +380,14 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: entitySerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: entitySerializer(resource),
+    });
 }
 
 export async function _createOrUpdateDeserialize(result: PathUncheckedResponse): Promise<Entity> {
@@ -436,10 +450,12 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<Entity> {

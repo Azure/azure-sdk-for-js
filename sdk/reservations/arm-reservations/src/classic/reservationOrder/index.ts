@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureReservationAPIContext } from "../../api/azureReservationAPIContext.js";
+import { AzureReservationAPIContext } from "../../api/azureReservationAPIContext.js";
 import {
   calculate,
   changeDirectory,
@@ -9,24 +9,23 @@ import {
   purchase,
   get,
 } from "../../api/reservationOrder/operations.js";
-import type {
+import {
   ReservationOrderCalculateOptionalParams,
   ReservationOrderChangeDirectoryOptionalParams,
   ReservationOrderListOptionalParams,
   ReservationOrderPurchaseOptionalParams,
   ReservationOrderGetOptionalParams,
 } from "../../api/reservationOrder/options.js";
-import type {
+import {
   PurchaseRequest,
   ReservationOrderResponse,
   ChangeDirectoryRequest,
   ChangeDirectoryResponse,
   CalculatePriceResponse,
 } from "../../models/reservations/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ReservationOrder operations. */
 export interface ReservationOrderOperations {

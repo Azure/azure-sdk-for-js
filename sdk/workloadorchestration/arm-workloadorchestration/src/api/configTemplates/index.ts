@@ -11,13 +11,13 @@ export {
   createOrUpdate,
   get,
 } from "./operations.js";
-export {
-  type ConfigTemplatesListBySubscriptionOptionalParams,
-  type ConfigTemplatesListByResourceGroupOptionalParams,
-  type ConfigTemplatesDeleteOptionalParams,
-  type ConfigTemplatesRemoveVersionOptionalParams,
-  type ConfigTemplatesCreateVersionOptionalParams,
-  type ConfigTemplatesUpdateOptionalParams,
-  type ConfigTemplatesCreateOrUpdateOptionalParams,
-  type ConfigTemplatesGetOptionalParams,
+export type {
+  ConfigTemplatesListBySubscriptionOptionalParams,
+  ConfigTemplatesListByResourceGroupOptionalParams,
+  ConfigTemplatesDeleteOptionalParams,
+  ConfigTemplatesRemoveVersionOptionalParams,
+  ConfigTemplatesCreateVersionOptionalParams,
+  ConfigTemplatesUpdateOptionalParams,
+  ConfigTemplatesCreateOrUpdateOptionalParams,
+  ConfigTemplatesGetOptionalParams,
 } from "./options.js";

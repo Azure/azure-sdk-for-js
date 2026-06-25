@@ -1,24 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ContainerServiceContext } from "../../api/containerServiceContext.js";
+import { ContainerServiceContext } from "../../api/containerServiceContext.js";
 import {
   list,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/trustedAccessRoleBindings/operations.js";
-import type {
+import {
   TrustedAccessRoleBindingsListOptionalParams,
   TrustedAccessRoleBindingsDeleteOptionalParams,
   TrustedAccessRoleBindingsCreateOrUpdateOptionalParams,
   TrustedAccessRoleBindingsGetOptionalParams,
 } from "../../api/trustedAccessRoleBindings/options.js";
-import type { TrustedAccessRoleBinding } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { TrustedAccessRoleBinding } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a TrustedAccessRoleBindings operations. */
 export interface TrustedAccessRoleBindingsOperations {

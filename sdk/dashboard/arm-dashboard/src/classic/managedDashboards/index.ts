@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DashboardManagementContext } from "../../api/dashboardManagementContext.js";
+import { DashboardManagementContext } from "../../api/dashboardManagementContext.js";
 import {
   listBySubscription,
   list,
@@ -10,7 +10,7 @@ import {
   create,
   get,
 } from "../../api/managedDashboards/operations.js";
-import type {
+import {
   ManagedDashboardsListBySubscriptionOptionalParams,
   ManagedDashboardsListOptionalParams,
   ManagedDashboardsDeleteOptionalParams,
@@ -18,9 +18,9 @@ import type {
   ManagedDashboardsCreateOptionalParams,
   ManagedDashboardsGetOptionalParams,
 } from "../../api/managedDashboards/options.js";
-import type { ManagedDashboard, ManagedDashboardUpdateParameters } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { ManagedDashboard, ManagedDashboardUpdateParameters } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ManagedDashboards operations. */
 export interface ManagedDashboardsOperations {
@@ -34,11 +34,6 @@ export interface ManagedDashboardsOperations {
     options?: ManagedDashboardsListOptionalParams,
   ) => PagedAsyncIterableIterator<ManagedDashboard>;
   /** Delete a dashboard for Grafana resource. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     dashboardName: string,

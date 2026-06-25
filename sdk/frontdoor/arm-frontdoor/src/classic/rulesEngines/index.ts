@@ -1,24 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { FrontDoorManagementContext } from "../../api/frontDoorManagementContext.js";
+import { FrontDoorManagementContext } from "../../api/frontDoorManagementContext.js";
 import {
   listByFrontDoor,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/rulesEngines/operations.js";
-import type {
+import {
   RulesEnginesListByFrontDoorOptionalParams,
   RulesEnginesDeleteOptionalParams,
   RulesEnginesCreateOrUpdateOptionalParams,
   RulesEnginesGetOptionalParams,
 } from "../../api/rulesEngines/options.js";
-import type { RulesEngine } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { RulesEngine } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a RulesEngines operations. */
 export interface RulesEnginesOperations {

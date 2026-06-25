@@ -1,17 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureBotServiceContext as Client } from "../index.js";
-import type { BotChannel, SiteInfo, RegenerateKeysChannelName } from "../../models/models.js";
+import { AzureBotServiceContext as Client } from "../index.js";
 import {
   errorDeserializer,
+  BotChannel,
   botChannelDeserializer,
+  SiteInfo,
   siteInfoSerializer,
+  RegenerateKeysChannelName,
 } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type { DirectLineRegenerateKeysOptionalParams } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import { DirectLineRegenerateKeysOptionalParams } from "./options.js";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _regenerateKeysSend(
   context: Client,
@@ -34,12 +40,14 @@ export function _regenerateKeysSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: siteInfoSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: siteInfoSerializer(parameters),
+    });
 }
 
 export async function _regenerateKeysDeserialize(

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CommunicationServiceManagementContext } from "../../api/communicationServiceManagementContext.js";
+import { CommunicationServiceManagementContext } from "../../api/communicationServiceManagementContext.js";
 import {
   listVerifiedExchangeOnlineDomains,
   listBySubscription,
@@ -11,7 +11,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/emailServices/operations.js";
-import type {
+import {
   EmailServicesListVerifiedExchangeOnlineDomainsOptionalParams,
   EmailServicesListBySubscriptionOptionalParams,
   EmailServicesListByResourceGroupOptionalParams,
@@ -20,15 +20,14 @@ import type {
   EmailServicesCreateOrUpdateOptionalParams,
   EmailServicesGetOptionalParams,
 } from "../../api/emailServices/options.js";
-import type {
+import {
   EmailServiceResource,
   EmailServiceResourceUpdate,
   EmailServicesListVerifiedExchangeOnlineDomainsResponse,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a EmailServices operations. */
 export interface EmailServicesOperations {
@@ -46,11 +45,6 @@ export interface EmailServicesOperations {
     options?: EmailServicesListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<EmailServiceResource>;
   /** Operation to delete a EmailService. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     emailServiceName: string,

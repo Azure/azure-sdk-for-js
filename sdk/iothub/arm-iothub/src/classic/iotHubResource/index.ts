@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { IotHubContext } from "../../api/iotHubContext.js";
+import { IotHubContext } from "../../api/iotHubContext.js";
 import {
   checkNameAvailability,
   listEventHubConsumerGroups,
@@ -27,7 +27,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/iotHubResource/operations.js";
-import type {
+import {
   IotHubResourceCheckNameAvailabilityOptionalParams,
   IotHubResourceListEventHubConsumerGroupsOptionalParams,
   IotHubResourceDeleteEventHubConsumerGroupOptionalParams,
@@ -52,7 +52,7 @@ import type {
   IotHubResourceCreateOrUpdateOptionalParams,
   IotHubResourceGetOptionalParams,
 } from "../../api/iotHubResource/options.js";
-import type {
+import {
   IotHubDescription,
   SharedAccessSignatureAuthorizationRule,
   TagsResource,
@@ -72,10 +72,9 @@ import type {
   OperationInputs,
   IotHubNameAvailabilityInfo,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a IotHubResource operations. */
 export interface IotHubResourceOperations {

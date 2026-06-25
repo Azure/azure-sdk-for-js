@@ -43,7 +43,7 @@ export interface ConfigurationAssignmentsOperations {
     resourceName: string,
     configurationAssignmentName: string,
     options?: ConfigurationAssignmentsDeleteOptionalParams,
-  ) => Promise<ConfigurationAssignment>;
+  ) => Promise<ConfigurationAssignment | undefined>;
   /** Register configuration for resource. */
   createOrUpdate: (
     resourceGroupName: string,
@@ -83,7 +83,7 @@ export interface ConfigurationAssignmentsOperations {
     resourceName: string,
     configurationAssignmentName: string,
     options?: ConfigurationAssignmentsDeleteParentOptionalParams,
-  ) => Promise<ConfigurationAssignment>;
+  ) => Promise<ConfigurationAssignment | undefined>;
   /** Register configuration for resource. */
   createOrUpdateParent: (
     resourceGroupName: string,

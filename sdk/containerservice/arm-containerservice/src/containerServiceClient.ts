@@ -1,52 +1,82 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ContainerServiceContext, ContainerServiceClientOptionalParams } from "./api/index.js";
-import { createContainerService } from "./api/index.js";
-import type { AgentPoolsOperations } from "./classic/agentPools/index.js";
-import { _getAgentPoolsOperations } from "./classic/agentPools/index.js";
-import type { ContainerServiceOperations } from "./classic/containerService/index.js";
-import { _getContainerServiceOperations } from "./classic/containerService/index.js";
-import type { IdentityBindingsOperations } from "./classic/identityBindings/index.js";
-import { _getIdentityBindingsOperations } from "./classic/identityBindings/index.js";
-import type { JWTAuthenticatorsOperations } from "./classic/jwtAuthenticators/index.js";
-import { _getJWTAuthenticatorsOperations } from "./classic/jwtAuthenticators/index.js";
-import type { LoadBalancersOperations } from "./classic/loadBalancers/index.js";
-import { _getLoadBalancersOperations } from "./classic/loadBalancers/index.js";
-import type { MachinesOperations } from "./classic/machines/index.js";
-import { _getMachinesOperations } from "./classic/machines/index.js";
-import type { MaintenanceConfigurationsOperations } from "./classic/maintenanceConfigurations/index.js";
-import { _getMaintenanceConfigurationsOperations } from "./classic/maintenanceConfigurations/index.js";
-import type { MaintenanceWindowsOperations } from "./classic/maintenanceWindows/index.js";
-import { _getMaintenanceWindowsOperations } from "./classic/maintenanceWindows/index.js";
-import type { ManagedClusterSnapshotsOperations } from "./classic/managedClusterSnapshots/index.js";
-import { _getManagedClusterSnapshotsOperations } from "./classic/managedClusterSnapshots/index.js";
-import type { ManagedClustersOperations } from "./classic/managedClusters/index.js";
-import { _getManagedClustersOperations } from "./classic/managedClusters/index.js";
-import type { ManagedNamespacesOperations } from "./classic/managedNamespaces/index.js";
-import { _getManagedNamespacesOperations } from "./classic/managedNamespaces/index.js";
-import type { MeshMembershipsOperations } from "./classic/meshMemberships/index.js";
-import { _getMeshMembershipsOperations } from "./classic/meshMemberships/index.js";
-import type { OperationStatusResultOperations } from "./classic/operationStatusResult/index.js";
-import { _getOperationStatusResultOperations } from "./classic/operationStatusResult/index.js";
-import type { OperationsOperations } from "./classic/operations/index.js";
-import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { PrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
-import { _getPrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
-import type { PrivateLinkResourcesOperations } from "./classic/privateLinkResources/index.js";
-import { _getPrivateLinkResourcesOperations } from "./classic/privateLinkResources/index.js";
-import type { ResolvePrivateLinkServiceIdOperations } from "./classic/resolvePrivateLinkServiceId/index.js";
-import { _getResolvePrivateLinkServiceIdOperations } from "./classic/resolvePrivateLinkServiceId/index.js";
-import type { SnapshotsOperations } from "./classic/snapshots/index.js";
-import { _getSnapshotsOperations } from "./classic/snapshots/index.js";
-import type { TrustedAccessRoleBindingsOperations } from "./classic/trustedAccessRoleBindings/index.js";
-import { _getTrustedAccessRoleBindingsOperations } from "./classic/trustedAccessRoleBindings/index.js";
-import type { TrustedAccessRolesOperations } from "./classic/trustedAccessRoles/index.js";
-import { _getTrustedAccessRolesOperations } from "./classic/trustedAccessRoles/index.js";
-import type { VmSkusOperations } from "./classic/vmSkus/index.js";
-import { _getVmSkusOperations } from "./classic/vmSkus/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import {
+  ContainerServiceContext,
+  ContainerServiceClientOptionalParams,
+  createContainerService,
+} from "./api/index.js";
+import { AgentPoolsOperations, _getAgentPoolsOperations } from "./classic/agentPools/index.js";
+import {
+  ContainerServiceOperations,
+  _getContainerServiceOperations,
+} from "./classic/containerService/index.js";
+import {
+  IdentityBindingsOperations,
+  _getIdentityBindingsOperations,
+} from "./classic/identityBindings/index.js";
+import {
+  JWTAuthenticatorsOperations,
+  _getJWTAuthenticatorsOperations,
+} from "./classic/jwtAuthenticators/index.js";
+import {
+  LoadBalancersOperations,
+  _getLoadBalancersOperations,
+} from "./classic/loadBalancers/index.js";
+import { MachinesOperations, _getMachinesOperations } from "./classic/machines/index.js";
+import {
+  MaintenanceConfigurationsOperations,
+  _getMaintenanceConfigurationsOperations,
+} from "./classic/maintenanceConfigurations/index.js";
+import {
+  MaintenanceWindowsOperations,
+  _getMaintenanceWindowsOperations,
+} from "./classic/maintenanceWindows/index.js";
+import {
+  ManagedClusterSnapshotsOperations,
+  _getManagedClusterSnapshotsOperations,
+} from "./classic/managedClusterSnapshots/index.js";
+import {
+  ManagedClustersOperations,
+  _getManagedClustersOperations,
+} from "./classic/managedClusters/index.js";
+import {
+  ManagedNamespacesOperations,
+  _getManagedNamespacesOperations,
+} from "./classic/managedNamespaces/index.js";
+import {
+  MeshMembershipsOperations,
+  _getMeshMembershipsOperations,
+} from "./classic/meshMemberships/index.js";
+import {
+  OperationStatusResultOperations,
+  _getOperationStatusResultOperations,
+} from "./classic/operationStatusResult/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import {
+  PrivateEndpointConnectionsOperations,
+  _getPrivateEndpointConnectionsOperations,
+} from "./classic/privateEndpointConnections/index.js";
+import {
+  PrivateLinkResourcesOperations,
+  _getPrivateLinkResourcesOperations,
+} from "./classic/privateLinkResources/index.js";
+import {
+  ResolvePrivateLinkServiceIdOperations,
+  _getResolvePrivateLinkServiceIdOperations,
+} from "./classic/resolvePrivateLinkServiceId/index.js";
+import { SnapshotsOperations, _getSnapshotsOperations } from "./classic/snapshots/index.js";
+import {
+  TrustedAccessRoleBindingsOperations,
+  _getTrustedAccessRoleBindingsOperations,
+} from "./classic/trustedAccessRoleBindings/index.js";
+import {
+  TrustedAccessRolesOperations,
+  _getTrustedAccessRolesOperations,
+} from "./classic/trustedAccessRoles/index.js";
+import { VmSkusOperations, _getVmSkusOperations } from "./classic/vmSkus/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { ContainerServiceClientOptionalParams } from "./api/containerServiceContext.js";
 

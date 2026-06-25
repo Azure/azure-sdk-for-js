@@ -1,27 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   ServiceGroupsManagementContext,
   ServiceGroupsManagementClientOptionalParams,
+  createServiceGroupsManagement,
 } from "./api/index.js";
-import { createServiceGroupsManagement } from "./api/index.js";
 import {
   deleteServiceGroup,
   updateServiceGroup,
   createOrUpdateServiceGroup,
 } from "./api/operations.js";
-import type {
+import {
   DeleteServiceGroupOptionalParams,
   UpdateServiceGroupOptionalParams,
   CreateOrUpdateServiceGroupOptionalParams,
 } from "./api/options.js";
-import type { ServiceGroupsOperations } from "./classic/serviceGroups/index.js";
-import { _getServiceGroupsOperations } from "./classic/serviceGroups/index.js";
-import type { ServiceGroup } from "./models/models.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { PollerLike, OperationState } from "@azure/core-lro";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import {
+  ServiceGroupsOperations,
+  _getServiceGroupsOperations,
+} from "./classic/serviceGroups/index.js";
+import { ServiceGroup } from "./models/models.js";
+import { TokenCredential } from "@azure/core-auth";
+import { PollerLike, OperationState } from "@azure/core-lro";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { ServiceGroupsManagementClientOptionalParams } from "./api/serviceGroupsManagementContext.js";
 

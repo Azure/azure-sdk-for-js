@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { HealthcareApisManagementContext } from "../../api/healthcareApisManagementContext.js";
+import { HealthcareApisManagementContext } from "../../api/healthcareApisManagementContext.js";
 import {
   checkNameAvailability,
   list,
@@ -11,7 +11,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/services/operations.js";
-import type {
+import {
   ServicesCheckNameAvailabilityOptionalParams,
   ServicesListOptionalParams,
   ServicesListByResourceGroupOptionalParams,
@@ -20,16 +20,15 @@ import type {
   ServicesCreateOrUpdateOptionalParams,
   ServicesGetOptionalParams,
 } from "../../api/services/options.js";
-import type {
+import {
   ServicesDescription,
   ServicesPatchDescription,
   CheckNameAvailabilityParameters,
   ServicesNameAvailabilityInfo,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Services operations. */
 export interface ServicesOperations {

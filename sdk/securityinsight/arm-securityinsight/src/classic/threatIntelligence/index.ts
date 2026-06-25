@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
+import { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
 import { query, count } from "../../api/threatIntelligence/operations.js";
-import type {
+import {
   ThreatIntelligenceQueryOptionalParams,
   ThreatIntelligenceCountOptionalParams,
 } from "../../api/threatIntelligence/options.js";
-import type { ThreatIntelligenceCount, TIObjectUnion, TiType } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { ThreatIntelligenceCount, TIObjectUnion, TiType } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ThreatIntelligence operations. */
 export interface ThreatIntelligenceOperations {

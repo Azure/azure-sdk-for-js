@@ -1,4 +1,52 @@
 {
-  "apiVersion": "2025-04-01",
-  "emitterVersion": "0.42.0"
+  "apiVersions": {
+    "Microsoft.Carbon": "2025-04-01"
+  },
+  "emitterVersion": "0.55.0-dev.9",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "Microsoft.Carbon",
+    "CrossLanguageDefinitionId": {
+      "@azure/arm-carbonoptimization!OperationListResult:interface": "Azure.ResourceManager.CommonTypes.OperationListResult",
+      "@azure/arm-carbonoptimization!Operation:interface": "Azure.ResourceManager.CommonTypes.Operation",
+      "@azure/arm-carbonoptimization!OperationDisplay:interface": "Azure.ResourceManager.CommonTypes.OperationDisplay",
+      "@azure/arm-carbonoptimization!ErrorResponse:interface": "Azure.ResourceManager.CommonTypes.ErrorResponse",
+      "@azure/arm-carbonoptimization!ErrorDetail:interface": "Azure.ResourceManager.CommonTypes.ErrorDetail",
+      "@azure/arm-carbonoptimization!ErrorAdditionalInfo:interface": "Azure.ResourceManager.CommonTypes.ErrorAdditionalInfo",
+      "@azure/arm-carbonoptimization!QueryFilter:interface": "Microsoft.Carbon.QueryFilter",
+      "@azure/arm-carbonoptimization!DateRange:interface": "Microsoft.Carbon.DateRange",
+      "@azure/arm-carbonoptimization!OverallSummaryReportQueryFilter:interface": "Microsoft.Carbon.OverallSummaryReportQueryFilter",
+      "@azure/arm-carbonoptimization!MonthlySummaryReportQueryFilter:interface": "Microsoft.Carbon.MonthlySummaryReportQueryFilter",
+      "@azure/arm-carbonoptimization!TopItemsSummaryReportQueryFilter:interface": "Microsoft.Carbon.TopItemsSummaryReportQueryFilter",
+      "@azure/arm-carbonoptimization!TopItemsMonthlySummaryReportQueryFilter:interface": "Microsoft.Carbon.TopItemsMonthlySummaryReportQueryFilter",
+      "@azure/arm-carbonoptimization!ItemDetailsQueryFilter:interface": "Microsoft.Carbon.ItemDetailsQueryFilter",
+      "@azure/arm-carbonoptimization!CarbonEmissionDataListResult:interface": "Microsoft.Carbon.CarbonEmissionDataListResult",
+      "@azure/arm-carbonoptimization!CarbonEmissionData:interface": "Microsoft.Carbon.CarbonEmissionData",
+      "@azure/arm-carbonoptimization!CarbonEmissionOverallSummaryData:interface": "Microsoft.Carbon.CarbonEmissionOverallSummaryData",
+      "@azure/arm-carbonoptimization!CarbonEmissionMonthlySummaryData:interface": "Microsoft.Carbon.CarbonEmissionMonthlySummaryData",
+      "@azure/arm-carbonoptimization!CarbonEmissionTopItemsSummaryData:interface": "Microsoft.Carbon.CarbonEmissionTopItemsSummaryData",
+      "@azure/arm-carbonoptimization!ResourceCarbonEmissionTopItemsSummaryData:interface": "Microsoft.Carbon.ResourceCarbonEmissionTopItemsSummaryData",
+      "@azure/arm-carbonoptimization!ResourceGroupCarbonEmissionTopItemsSummaryData:interface": "Microsoft.Carbon.ResourceGroupCarbonEmissionTopItemsSummaryData",
+      "@azure/arm-carbonoptimization!CarbonEmissionTopItemMonthlySummaryData:interface": "Microsoft.Carbon.CarbonEmissionTopItemMonthlySummaryData",
+      "@azure/arm-carbonoptimization!ResourceCarbonEmissionTopItemMonthlySummaryData:interface": "Microsoft.Carbon.ResourceCarbonEmissionTopItemMonthlySummaryData",
+      "@azure/arm-carbonoptimization!ResourceGroupCarbonEmissionTopItemMonthlySummaryData:interface": "Microsoft.Carbon.ResourceGroupCarbonEmissionTopItemMonthlySummaryData",
+      "@azure/arm-carbonoptimization!CarbonEmissionItemDetailData:interface": "Microsoft.Carbon.CarbonEmissionItemDetailData",
+      "@azure/arm-carbonoptimization!ResourceCarbonEmissionItemDetailData:interface": "Microsoft.Carbon.ResourceCarbonEmissionItemDetailData",
+      "@azure/arm-carbonoptimization!ResourceGroupCarbonEmissionItemDetailData:interface": "Microsoft.Carbon.ResourceGroupCarbonEmissionItemDetailData",
+      "@azure/arm-carbonoptimization!SubscriptionAccessDecision:interface": "Microsoft.Carbon.SubscriptionAccessDecision",
+      "@azure/arm-carbonoptimization!CarbonEmissionDataAvailableDateRange:interface": "Microsoft.Carbon.CarbonEmissionDataAvailableDateRange",
+      "@azure/arm-carbonoptimization!KnownOrigin:enum": "Azure.ResourceManager.CommonTypes.Origin",
+      "@azure/arm-carbonoptimization!KnownActionType:enum": "Azure.ResourceManager.CommonTypes.ActionType",
+      "@azure/arm-carbonoptimization!KnownReportTypeEnum:enum": "Microsoft.Carbon.ReportTypeEnum",
+      "@azure/arm-carbonoptimization!KnownEmissionScopeEnum:enum": "Microsoft.Carbon.EmissionScopeEnum",
+      "@azure/arm-carbonoptimization!KnownCategoryTypeEnum:enum": "Microsoft.Carbon.CategoryTypeEnum",
+      "@azure/arm-carbonoptimization!KnownOrderByColumnEnum:enum": "Microsoft.Carbon.OrderByColumnEnum",
+      "@azure/arm-carbonoptimization!KnownSortDirectionEnum:enum": "Microsoft.Carbon.SortDirectionEnum",
+      "@azure/arm-carbonoptimization!KnownResponseDataTypeEnum:enum": "Microsoft.Carbon.ResponseDataTypeEnum",
+      "@azure/arm-carbonoptimization!KnownAccessDecisionEnum:enum": "Microsoft.Carbon.AccessDecisionEnum",
+      "@azure/arm-carbonoptimization!KnownVersions:enum": "Microsoft.Carbon.Versions",
+      "@azure/arm-carbonoptimization!CarbonServiceOperations#queryCarbonEmissionDataAvailableDateRange:member": "Microsoft.Carbon.CarbonService.queryCarbonEmissionDataAvailableDateRange",
+      "@azure/arm-carbonoptimization!CarbonServiceOperations#queryCarbonEmissionReports:member": "Microsoft.Carbon.CarbonService.queryCarbonEmissionReports",
+      "@azure/arm-carbonoptimization!OperationsOperations#list:member": "Azure.ResourceManager.Operations.list"
+    }
+  }
 }

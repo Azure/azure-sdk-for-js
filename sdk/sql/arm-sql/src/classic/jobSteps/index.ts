@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listByVersion,
   getByVersion,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/jobSteps/operations.js";
-import type {
+import {
   JobStepsListByVersionOptionalParams,
   JobStepsGetByVersionOptionalParams,
   JobStepsListByJobOptionalParams,
@@ -18,8 +18,8 @@ import type {
   JobStepsCreateOrUpdateOptionalParams,
   JobStepsGetOptionalParams,
 } from "../../api/jobSteps/options.js";
-import type { JobStep } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { JobStep } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a JobSteps operations. */
 export interface JobStepsOperations {

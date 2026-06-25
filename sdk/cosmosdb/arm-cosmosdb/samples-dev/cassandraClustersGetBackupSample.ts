@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the properties of an individual backup of this cluster that is available to restore.
  *
  * @summary get the properties of an individual backup of this cluster that is available to restore.
- * x-ms-original-file: 2025-11-01-preview/CosmosDBManagedCassandraBackup.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBManagedCassandraBackup.json
  */
 async function cosmosDBManagedCassandraBackup(): Promise<void> {
   const credential = new DefaultAzureCredential();

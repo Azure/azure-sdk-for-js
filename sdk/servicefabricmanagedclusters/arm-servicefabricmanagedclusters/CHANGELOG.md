@@ -1,60 +1,321 @@
 # Release History
 
-## 1.1.0-beta.1 (2026-05-19)
+## 1.1.0-beta.1 (2026-06-25)
 Compared with version 1.0.0
 
 ### Features Added
-  - Added operation ManagedClustersOperations.getFaultSimulation
-  - Added operation ManagedClustersOperations.listFaultSimulation
-  - Added operation ManagedClustersOperations.startFaultSimulation
-  - Added operation ManagedClustersOperations.stopFaultSimulation
-  - Added operation NodeTypesOperations.getFaultSimulation
-  - Added operation NodeTypesOperations.listFaultSimulation
-  - Added operation NodeTypesOperations.startFaultSimulation
-  - Added operation NodeTypesOperations.stopFaultSimulation
+  - Added operation group ApplicationsOperations
+  - Added operation group ApplicationTypesOperations
+  - Added operation group ApplicationTypeVersionsOperations
+  - Added operation group ManagedApplyMaintenanceWindowOperations
+  - Added operation group ManagedAzResiliencyStatusOperations
+  - Added operation group ManagedClustersOperations
+  - Added operation group ManagedClusterVersionOperations
+  - Added operation group ManagedMaintenanceWindowStatusOperations
+  - Added operation group ManagedUnsupportedVMSizesOperations
+  - Added operation group NodeTypeSkusOperations
+  - Added operation group NodeTypesOperations
+  - Added operation group OperationResultsOperations
+  - Added operation group OperationsOperations
+  - Added operation group OperationStatusOperations
+  - Added operation group ServicesOperations
+  - Added Class ServiceFabricManagedClustersManagementClient
+  - Added Interface AdditionalNetworkInterfaceConfiguration
+  - Added Interface AddRemoveIncrementalNamedPartitionScalingMechanism
+  - Added Interface ApplicationFetchHealthRequest
+  - Added Interface ApplicationHealthPolicy
+  - Added Interface ApplicationResource
+  - Added Interface ApplicationResourceProperties
+  - Added Interface ApplicationsCreateOrUpdateOptionalParams
+  - Added Interface ApplicationsDeleteOptionalParams
+  - Added Interface ApplicationsFetchHealthOptionalParams
+  - Added Interface ApplicationsGetOptionalParams
+  - Added Interface ApplicationsListOptionalParams
+  - Added Interface ApplicationsReadUpgradeOptionalParams
+  - Added Interface ApplicationsRestartDeployedCodePackageOptionalParams
+  - Added Interface ApplicationsResumeUpgradeOptionalParams
+  - Added Interface ApplicationsStartRollbackOptionalParams
+  - Added Interface ApplicationsUpdateOptionalParams
+  - Added Interface ApplicationsUpdateUpgradeOptionalParams
+  - Added Interface ApplicationTypeResource
+  - Added Interface ApplicationTypeResourceProperties
+  - Added Interface ApplicationTypesCreateOrUpdateOptionalParams
+  - Added Interface ApplicationTypesDeleteOptionalParams
+  - Added Interface ApplicationTypesGetOptionalParams
+  - Added Interface ApplicationTypesListOptionalParams
+  - Added Interface ApplicationTypesUpdateOptionalParams
+  - Added Interface ApplicationTypeUpdateParameters
+  - Added Interface ApplicationTypeVersionResource
+  - Added Interface ApplicationTypeVersionResourceProperties
+  - Added Interface ApplicationTypeVersionsCleanupPolicy
+  - Added Interface ApplicationTypeVersionsCreateOrUpdateOptionalParams
+  - Added Interface ApplicationTypeVersionsDeleteOptionalParams
+  - Added Interface ApplicationTypeVersionsGetOptionalParams
+  - Added Interface ApplicationTypeVersionsListByApplicationTypesOptionalParams
+  - Added Interface ApplicationTypeVersionsUpdateOptionalParams
+  - Added Interface ApplicationTypeVersionUpdateParameters
+  - Added Interface ApplicationUpdateParameters
+  - Added Interface ApplicationUpdateParametersProperties
+  - Added Interface ApplicationUpgradePolicy
+  - Added Interface ApplicationUserAssignedIdentity
   - Added Interface ApplyMaintenanceWindowRequest
+  - Added Interface AvailableOperationDisplay
+  - Added Interface AveragePartitionLoadScalingTrigger
+  - Added Interface AverageServiceLoadScalingTrigger
+  - Added Interface AzureActiveDirectory
+  - Added Interface ClientCertificate
+  - Added Interface ClusterHealthPolicy
+  - Added Interface ClusterMonitoringPolicy
+  - Added Interface ClusterUpgradeDeltaHealthPolicy
+  - Added Interface ClusterUpgradePolicy
+  - Added Interface EndpointRangeDescription
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorModelError
+  - Added Interface ErrorResponse
   - Added Interface FaultSimulation
   - Added Interface FaultSimulationConstraints
   - Added Interface FaultSimulationContent
   - Added Interface FaultSimulationContentWrapper
   - Added Interface FaultSimulationDetails
   - Added Interface FaultSimulationIdContent
+  - Added Interface FrontendConfiguration
   - Added Interface HostEndpointSettings
+  - Added Interface IpConfiguration
+  - Added Interface IPConfigurationPublicIPAddressConfiguration
+  - Added Interface IpTag
+  - Added Interface LoadBalancingRule
+  - Added Interface LongRunningOperationResult
+  - Added Interface ManagedApplyMaintenanceWindowPostOptionalParams
+  - Added Interface ManagedAzResiliencyStatus
+  - Added Interface ManagedAzResiliencyStatusGetOptionalParams
+  - Added Interface ManagedCluster
+  - Added Interface ManagedClusterCodeVersionResult
+  - Added Interface ManagedClusterProperties
+  - Added Interface ManagedClustersCreateOrUpdateOptionalParams
+  - Added Interface ManagedClustersDeleteOptionalParams
   - Added Interface ManagedClustersGetFaultSimulationOptionalParams
+  - Added Interface ManagedClustersGetOptionalParams
+  - Added Interface ManagedClustersListByResourceGroupOptionalParams
+  - Added Interface ManagedClustersListBySubscriptionOptionalParams
   - Added Interface ManagedClustersListFaultSimulationOptionalParams
   - Added Interface ManagedClustersStartFaultSimulationOptionalParams
   - Added Interface ManagedClustersStopFaultSimulationOptionalParams
+  - Added Interface ManagedClustersUpdateOptionalParams
+  - Added Interface ManagedClusterUpdateParameters
+  - Added Interface ManagedClusterVersionDetails
+  - Added Interface ManagedClusterVersionGetByEnvironmentOptionalParams
+  - Added Interface ManagedClusterVersionGetOptionalParams
+  - Added Interface ManagedClusterVersionListByEnvironmentOptionalParams
+  - Added Interface ManagedClusterVersionListOptionalParams
+  - Added Interface ManagedIdentity
+  - Added Interface ManagedMaintenanceWindowStatus
+  - Added Interface ManagedMaintenanceWindowStatusGetOptionalParams
+  - Added Interface ManagedUnsupportedVMSizesGetOptionalParams
+  - Added Interface ManagedUnsupportedVMSizesListOptionalParams
+  - Added Interface ManagedVMSize
+  - Added Interface NamedPartitionScheme
+  - Added Interface NetworkSecurityRule
+  - Added Interface NodeType
+  - Added Interface NodeTypeActionParameters
+  - Added Interface NodeTypeAvailableSku
   - Added Interface NodeTypeFaultSimulation
+  - Added Interface NodeTypeNatConfig
+  - Added Interface NodeTypeProperties
+  - Added Interface NodeTypesCreateOrUpdateOptionalParams
+  - Added Interface NodeTypesDeallocateOptionalParams
+  - Added Interface NodeTypesDeleteNodeOptionalParams
+  - Added Interface NodeTypesDeleteOptionalParams
   - Added Interface NodeTypesGetFaultSimulationOptionalParams
+  - Added Interface NodeTypesGetOptionalParams
+  - Added Interface NodeTypeSku
+  - Added Interface NodeTypeSkuCapacity
+  - Added Interface NodeTypeSkusListOptionalParams
+  - Added Interface NodeTypesListByManagedClustersOptionalParams
   - Added Interface NodeTypesListFaultSimulationOptionalParams
+  - Added Interface NodeTypesRedeployOptionalParams
+  - Added Interface NodeTypesReimageOptionalParams
+  - Added Interface NodeTypesRestartOptionalParams
   - Added Interface NodeTypesStartFaultSimulationOptionalParams
+  - Added Interface NodeTypesStartOptionalParams
   - Added Interface NodeTypesStopFaultSimulationOptionalParams
+  - Added Interface NodeTypesUpdateOptionalParams
+  - Added Interface NodeTypeSupportedSku
+  - Added Interface NodeTypeUpdateParameters
+  - Added Interface OperationResult
+  - Added Interface OperationResultsGetOptionalParams
+  - Added Interface OperationsListOptionalParams
+  - Added Interface OperationStatusGetOptionalParams
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface Partition
+  - Added Interface PartitionInstanceCountScaleMechanism
   - Added Interface ProxyAgentSettings
+  - Added Interface ProxyResource
+  - Added Interface Resource
+  - Added Interface ResourceAzStatus
+  - Added Interface RestartDeployedCodePackageRequest
+  - Added Interface RestartReplicaRequest
+  - Added Interface RestorePollerOptions
+  - Added Interface RollingUpgradeMonitoringPolicy
+  - Added Interface RuntimeApplicationHealthPolicy
+  - Added Interface RuntimeResumeApplicationUpgradeParameters
+  - Added Interface RuntimeRollingUpgradeUpdateMonitoringPolicy
+  - Added Interface RuntimeServiceTypeHealthPolicy
+  - Added Interface RuntimeUpdateApplicationUpgradeParameters
   - Added Interface ScaleInPolicy
+  - Added Interface ScalingMechanism
+  - Added Interface ScalingPolicy
+  - Added Interface ScalingTrigger
+  - Added Interface ServiceCorrelation
+  - Added Interface ServiceEndpoint
+  - Added Interface ServiceFabricManagedClustersManagementClientOptionalParams
+  - Added Interface ServiceLoadMetric
+  - Added Interface ServicePlacementInvalidDomainPolicy
+  - Added Interface ServicePlacementNonPartiallyPlaceServicePolicy
+  - Added Interface ServicePlacementPolicy
+  - Added Interface ServicePlacementPreferPrimaryDomainPolicy
+  - Added Interface ServicePlacementRequiredDomainPolicy
+  - Added Interface ServicePlacementRequireDomainDistributionPolicy
+  - Added Interface ServiceResource
+  - Added Interface ServiceResourceProperties
+  - Added Interface ServiceResourcePropertiesBase
+  - Added Interface ServicesCreateOrUpdateOptionalParams
+  - Added Interface ServicesDeleteOptionalParams
+  - Added Interface ServicesGetOptionalParams
+  - Added Interface ServicesListByApplicationsOptionalParams
+  - Added Interface ServicesRestartReplicaOptionalParams
+  - Added Interface ServicesUpdateOptionalParams
+  - Added Interface ServiceTypeHealthPolicy
+  - Added Interface ServiceUpdateParameters
+  - Added Interface SettingsParameterDescription
+  - Added Interface SettingsSectionDescription
+  - Added Interface SingletonPartitionScheme
+  - Added Interface Sku
+  - Added Interface StatefulServiceProperties
+  - Added Interface StatelessServiceProperties
+  - Added Interface Subnet
+  - Added Interface SubResource
+  - Added Interface SystemData
+  - Added Interface TrackedResource
+  - Added Interface UniformInt64RangePartitionScheme
+  - Added Interface UserAssignedIdentity
+  - Added Interface VaultCertificate
+  - Added Interface VaultSecretGroup
+  - Added Interface VmApplication
+  - Added Interface VmImagePlan
+  - Added Interface VmManagedIdentity
+  - Added Interface VMSize
+  - Added Interface VmssDataDisk
+  - Added Interface VmssExtension
+  - Added Interface VmssExtensionProperties
   - Added Interface ZoneFaultSimulationContent
-  - Interface ManagedApplyMaintenanceWindowPostOptionalParams has a new optional parameter body
-  - Interface NodeType has a new optional parameter proxyAgentSettings
-  - Interface NodeType has a new optional parameter scaleInPolicy
-  - Interface NodeTypeProperties has a new optional parameter proxyAgentSettings
-  - Interface NodeTypeProperties has a new optional parameter scaleInPolicy
+  - Added Type Alias Access
+  - Added Type Alias AutoGeneratedDomainNameLabelScope
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias ClusterState
+  - Added Type Alias ClusterUpgradeCadence
+  - Added Type Alias ClusterUpgradeMode
+  - Added Type Alias CreatedByType
+  - Added Type Alias Direction
+  - Added Type Alias DiskType
+  - Added Type Alias EvictionPolicyType
+  - Added Type Alias FailureAction
   - Added Type Alias FaultKind
   - Added Type Alias FaultSimulationContentUnion
   - Added Type Alias FaultSimulationStatus
+  - Added Type Alias HealthFilter
+  - Added Type Alias IPAddressType
+  - Added Type Alias ManagedClusterAddOnFeature
+  - Added Type Alias ManagedClusterVersionEnvironment
+  - Added Type Alias ManagedIdentityType
+  - Added Type Alias ManagedResourceProvisioningState
+  - Added Type Alias MoveCost
+  - Added Type Alias NodeTypeSkuScaleType
+  - Added Type Alias NsgProtocol
+  - Added Type Alias OsType
+  - Added Type Alias PartitionScheme
+  - Added Type Alias PartitionUnion
+  - Added Type Alias PrivateEndpointNetworkPolicies
+  - Added Type Alias PrivateIPAddressVersion
+  - Added Type Alias PrivateLinkServiceNetworkPolicies
+  - Added Type Alias ProbeProtocol
+  - Added Type Alias Protocol
+  - Added Type Alias PublicIPAddressVersion
+  - Added Type Alias RestartKind
+  - Added Type Alias RollingUpgradeMode
+  - Added Type Alias RuntimeFailureAction
+  - Added Type Alias RuntimeRollingUpgradeMode
+  - Added Type Alias RuntimeUpgradeKind
   - Added Type Alias ScaleInPolicyMode
+  - Added Type Alias ScalingMechanismUnion
+  - Added Type Alias ScalingTriggerUnion
+  - Added Type Alias SecurityEncryptionType
+  - Added Type Alias SecurityType
+  - Added Type Alias ServiceCorrelationScheme
+  - Added Type Alias ServiceKind
+  - Added Type Alias ServiceLoadMetricWeight
+  - Added Type Alias ServicePackageActivationMode
+  - Added Type Alias ServicePlacementPolicyType
+  - Added Type Alias ServicePlacementPolicyUnion
+  - Added Type Alias ServiceResourcePropertiesUnion
+  - Added Type Alias ServiceScalingMechanismKind
+  - Added Type Alias ServiceScalingTriggerKind
   - Added Type Alias SfmcOperationStatus
+  - Added Type Alias SkuName
+  - Added Type Alias UpdateType
+  - Added Type Alias VmSetupAction
+  - Added Type Alias VmssExtensionSetupOrder
+  - Added Type Alias ZonalUpdateMode
+  - Added Enum AzureClouds
+  - Added Enum KnownAccess
+  - Added Enum KnownAutoGeneratedDomainNameLabelScope
+  - Added Enum KnownClusterState
+  - Added Enum KnownClusterUpgradeCadence
+  - Added Enum KnownClusterUpgradeMode
+  - Added Enum KnownCreatedByType
+  - Added Enum KnownDirection
+  - Added Enum KnownDiskType
+  - Added Enum KnownEvictionPolicyType
+  - Added Enum KnownFailureAction
   - Added Enum KnownFaultKind
   - Added Enum KnownFaultSimulationStatus
+  - Added Enum KnownHealthFilter
+  - Added Enum KnownIPAddressType
+  - Added Enum KnownManagedClusterAddOnFeature
+  - Added Enum KnownManagedClusterVersionEnvironment
+  - Added Enum KnownManagedResourceProvisioningState
+  - Added Enum KnownMoveCost
+  - Added Enum KnownNodeTypeSkuScaleType
+  - Added Enum KnownNsgProtocol
+  - Added Enum KnownOsType
+  - Added Enum KnownPartitionScheme
+  - Added Enum KnownPrivateEndpointNetworkPolicies
+  - Added Enum KnownPrivateIPAddressVersion
+  - Added Enum KnownPrivateLinkServiceNetworkPolicies
+  - Added Enum KnownProbeProtocol
+  - Added Enum KnownProtocol
+  - Added Enum KnownPublicIPAddressVersion
+  - Added Enum KnownRestartKind
+  - Added Enum KnownRollingUpgradeMode
+  - Added Enum KnownRuntimeFailureAction
+  - Added Enum KnownRuntimeRollingUpgradeMode
+  - Added Enum KnownRuntimeUpgradeKind
   - Added Enum KnownScaleInPolicyMode
+  - Added Enum KnownSecurityEncryptionType
+  - Added Enum KnownSecurityType
+  - Added Enum KnownServiceCorrelationScheme
+  - Added Enum KnownServiceKind
+  - Added Enum KnownServiceLoadMetricWeight
+  - Added Enum KnownServicePackageActivationMode
+  - Added Enum KnownServicePlacementPolicyType
+  - Added Enum KnownServiceScalingMechanismKind
+  - Added Enum KnownServiceScalingTriggerKind
   - Added Enum KnownSfmcOperationStatus
-  - Enum KnownVersions has a new value V20241101Preview
-  - Enum KnownVersions has a new value V20250301Preview
-  - Enum KnownVersions has a new value V20250601Preview
-  - Enum KnownVersions has a new value V20251001Preview
-  - Enum KnownVersions has a new value V20260501Preview
+  - Added Enum KnownSkuName
+  - Added Enum KnownUpdateType
+  - Added Enum KnownVersions
+  - Added Enum KnownVmSetupAction
+  - Added Enum KnownVmssExtensionSetupOrder
+  - Added Enum KnownZonalUpdateMode
 
-    
-## 1.0.0 (2026-02-24)
-
-### Features Added
-
-This is the first stable version with the package of @azure/arm-servicefabricmanagedclusters

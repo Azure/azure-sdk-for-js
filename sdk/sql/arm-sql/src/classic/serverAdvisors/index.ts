@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { listByServer, update, get } from "../../api/serverAdvisors/operations.js";
-import type {
+import {
   ServerAdvisorsListByServerOptionalParams,
   ServerAdvisorsUpdateOptionalParams,
   ServerAdvisorsGetOptionalParams,
 } from "../../api/serverAdvisors/options.js";
-import type { Advisor } from "../../models/models.js";
+import { Advisor } from "../../models/models.js";
 
 /** Interface representing a ServerAdvisors operations. */
 export interface ServerAdvisorsOperations {

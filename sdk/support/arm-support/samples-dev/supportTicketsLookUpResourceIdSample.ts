@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to this operation fetches ARM resource id of support resource type.
  *
  * @summary this operation fetches ARM resource id of support resource type.
- * x-ms-original-file: 2025-06-01-preview/LookUpResourceId.json
+ * x-ms-original-file: 2026-06-01/LookUpResourceId.json
  */
 async function lookUpResourceIdOfSupportResourceType(): Promise<void> {
   const credential = new DefaultAzureCredential();

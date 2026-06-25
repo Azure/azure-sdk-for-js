@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { createAtlas, AtlasContext, AtlasClientOptionalParams } from "./api/index.js";
+import { AtlasContext, AtlasClientOptionalParams, createAtlas } from "./api/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
 import {
   OrganizationsOperations,
   _getOrganizationsOperations,
 } from "./classic/organizations/index.js";
-import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
-export { type AtlasClientOptionalParams } from "./api/atlasContext.js";
+export type { AtlasClientOptionalParams } from "./api/atlasContext.js";
 
 export class AtlasClient {
   private _client: AtlasContext;

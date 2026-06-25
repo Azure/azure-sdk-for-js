@@ -127,22 +127,10 @@
       }
     }
   },
-  "keywords": [
-    "node",
-    "azure",
-    "cloud",
-    "typescript",
-    "browser",
-    "isomorphic"
-  ],
+  "keywords": ["node", "azure", "cloud", "typescript", "browser", "isomorphic"],
   "author": "Microsoft Corporation",
   "license": "MIT",
-  "files": [
-    "dist/",
-    "!dist/**/*.d.*ts.map",
-    "README.md",
-    "LICENSE"
-  ],
+  "files": ["dist/", "!dist/**/*.d.*ts.map", "README.md", "LICENSE"],
   "sdk-type": "mgmt",
   "repository": {
     "type": "git",
@@ -209,9 +197,7 @@
   },
   "//sampleConfiguration": {
     "productName": "@azure/arm-trafficmanager",
-    "productSlugs": [
-      "azure"
-    ],
+    "productSlugs": ["azure"],
     "disableDocsMs": true,
     "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-trafficmanager?view=azure-node-preview"
   },

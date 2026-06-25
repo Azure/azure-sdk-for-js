@@ -1,24 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { KeyVaultManagementContext } from "../../api/keyVaultManagementContext.js";
+import { KeyVaultManagementContext } from "../../api/keyVaultManagementContext.js";
 import {
   listByResource,
   $delete,
   put,
   get,
 } from "../../api/mhsmPrivateEndpointConnections/operations.js";
-import type {
+import {
   MhsmPrivateEndpointConnectionsListByResourceOptionalParams,
   MhsmPrivateEndpointConnectionsDeleteOptionalParams,
   MhsmPrivateEndpointConnectionsPutOptionalParams,
   MhsmPrivateEndpointConnectionsGetOptionalParams,
 } from "../../api/mhsmPrivateEndpointConnections/options.js";
-import type { MhsmPrivateEndpointConnection } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { MhsmPrivateEndpointConnection } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a MhsmPrivateEndpointConnections operations. */
 export interface MhsmPrivateEndpointConnectionsOperations {
@@ -29,11 +28,6 @@ export interface MhsmPrivateEndpointConnectionsOperations {
     options?: MhsmPrivateEndpointConnectionsListByResourceOptionalParams,
   ) => PagedAsyncIterableIterator<MhsmPrivateEndpointConnection>;
   /** Deletes the specified private endpoint connection associated with the managed hsm pool. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     name: string,

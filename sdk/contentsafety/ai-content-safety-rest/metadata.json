@@ -1,0 +1,53 @@
+{
+  "apiVersions": {
+    "ContentSafety": "2024-09-01"
+  },
+  "emitterVersion": "0.55.0-dev.9",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "ContentSafety",
+    "CrossLanguageDefinitionId": {
+      "@azure-rest/ai-content-safety!AnalyzeImageOptions:interface": "ContentSafety.AnalyzeImageOptions",
+      "@azure-rest/ai-content-safety!ImageData:interface": "ContentSafety.ImageData",
+      "@azure-rest/ai-content-safety!AnalyzeImageResult:interface": "ContentSafety.AnalyzeImageResult",
+      "@azure-rest/ai-content-safety!ImageCategoriesAnalysis:interface": "ContentSafety.ImageCategoriesAnalysis",
+      "@azure-rest/ai-content-safety!ErrorResponse:interface": "Azure.Core.Foundations.ErrorResponse",
+      "@azure-rest/ai-content-safety!Error:interface": "Azure.Core.Foundations.Error",
+      "@azure-rest/ai-content-safety!InnerError:interface": "Azure.Core.Foundations.InnerError",
+      "@azure-rest/ai-content-safety!AnalyzeTextOptions:interface": "ContentSafety.AnalyzeTextOptions",
+      "@azure-rest/ai-content-safety!AnalyzeTextResult:interface": "ContentSafety.AnalyzeTextResult",
+      "@azure-rest/ai-content-safety!TextBlocklistMatch:interface": "ContentSafety.TextBlocklistMatch",
+      "@azure-rest/ai-content-safety!TextCategoriesAnalysis:interface": "ContentSafety.TextCategoriesAnalysis",
+      "@azure-rest/ai-content-safety!DetectTextProtectedMaterialOptions:interface": "ContentSafety.DetectTextProtectedMaterialOptions",
+      "@azure-rest/ai-content-safety!DetectTextProtectedMaterialResult:interface": "ContentSafety.DetectTextProtectedMaterialResult",
+      "@azure-rest/ai-content-safety!TextProtectedMaterialAnalysisResult:interface": "ContentSafety.TextProtectedMaterialAnalysisResult",
+      "@azure-rest/ai-content-safety!ShieldPromptOptions:interface": "ContentSafety.ShieldPromptOptions",
+      "@azure-rest/ai-content-safety!ShieldPromptResult:interface": "ContentSafety.ShieldPromptResult",
+      "@azure-rest/ai-content-safety!UserPromptInjectionAnalysisResult:interface": "ContentSafety.UserPromptInjectionAnalysisResult",
+      "@azure-rest/ai-content-safety!DocumentInjectionAnalysisResult:interface": "ContentSafety.DocumentInjectionAnalysisResult",
+      "@azure-rest/ai-content-safety!AddOrUpdateTextBlocklistItemsOptions:interface": "ContentSafety.AddOrUpdateTextBlocklistItemsOptions",
+      "@azure-rest/ai-content-safety!TextBlocklistItem:interface": "ContentSafety.TextBlocklistItem",
+      "@azure-rest/ai-content-safety!AddOrUpdateTextBlocklistItemsResult:interface": "ContentSafety.AddOrUpdateTextBlocklistItemsResult",
+      "@azure-rest/ai-content-safety!TextBlocklist:interface": "ContentSafety.TextBlocklist",
+      "@azure-rest/ai-content-safety!PagedTextBlocklistItem:interface": "Azure.Core.Foundations.CustomPage",
+      "@azure-rest/ai-content-safety!PagedTextBlocklist:interface": "Azure.Core.Foundations.CustomPage",
+      "@azure-rest/ai-content-safety!RemoveTextBlocklistItemsOptions:interface": "ContentSafety.RemoveTextBlocklistItemsOptions",
+      "@azure-rest/ai-content-safety!KnownImageCategory:enum": "ContentSafety.ImageCategory",
+      "@azure-rest/ai-content-safety!KnownAnalyzeImageOutputType:enum": "ContentSafety.AnalyzeImageOutputType",
+      "@azure-rest/ai-content-safety!KnownTextCategory:enum": "ContentSafety.TextCategory",
+      "@azure-rest/ai-content-safety!KnownAnalyzeTextOutputType:enum": "ContentSafety.AnalyzeTextOutputType",
+      "@azure-rest/ai-content-safety!KnownVersions:enum": "ContentSafety.Versions",
+      "@azure-rest/ai-content-safety!ContentSafetyClient#shieldPrompt:member(1)": "Customizations.ContentSafetyClient.shieldPrompt",
+      "@azure-rest/ai-content-safety!ContentSafetyClient#detectTextProtectedMaterial:member(1)": "Customizations.ContentSafetyClient.detectTextProtectedMaterial",
+      "@azure-rest/ai-content-safety!ContentSafetyClient#analyzeText:member(1)": "Customizations.ContentSafetyClient.analyzeText",
+      "@azure-rest/ai-content-safety!ContentSafetyClient#analyzeImage:member(1)": "Customizations.ContentSafetyClient.analyzeImage",
+      "@azure-rest/ai-content-safety!BlocklistClient#removeBlocklistItems:member(1)": "Customizations.BlocklistClient.removeBlocklistItems",
+      "@azure-rest/ai-content-safety!BlocklistClient#listTextBlocklists:member(1)": "Customizations.BlocklistClient.listTextBlocklists",
+      "@azure-rest/ai-content-safety!BlocklistClient#listTextBlocklistItems:member(1)": "Customizations.BlocklistClient.listTextBlocklistItems",
+      "@azure-rest/ai-content-safety!BlocklistClient#getTextBlocklistItem:member(1)": "Customizations.BlocklistClient.getTextBlocklistItem",
+      "@azure-rest/ai-content-safety!BlocklistClient#getTextBlocklist:member(1)": "Customizations.BlocklistClient.getTextBlocklist",
+      "@azure-rest/ai-content-safety!BlocklistClient#deleteTextBlocklist:member(1)": "Customizations.BlocklistClient.deleteTextBlocklist",
+      "@azure-rest/ai-content-safety!BlocklistClient#createOrUpdateTextBlocklist:member(1)": "Customizations.BlocklistClient.createOrUpdateTextBlocklist",
+      "@azure-rest/ai-content-safety!BlocklistClient#addOrUpdateBlocklistItems:member(1)": "Customizations.BlocklistClient.addOrUpdateBlocklistItems"
+    }
+  }
+}

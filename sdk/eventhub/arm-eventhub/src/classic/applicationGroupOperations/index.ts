@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { EventHubManagementContext } from "../../api/eventHubManagementContext.js";
+import { EventHubManagementContext } from "../../api/eventHubManagementContext.js";
 import {
   listByNamespace,
   $delete,
   createOrUpdateApplicationGroup,
   get,
 } from "../../api/applicationGroupOperations/operations.js";
-import type {
+import {
   ApplicationGroupOperationsListByNamespaceOptionalParams,
   ApplicationGroupOperationsDeleteOptionalParams,
   ApplicationGroupOperationsCreateOrUpdateApplicationGroupOptionalParams,
   ApplicationGroupOperationsGetOptionalParams,
 } from "../../api/applicationGroupOperations/options.js";
-import type { ApplicationGroup } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { ApplicationGroup } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ApplicationGroupOperations operations. */
 export interface ApplicationGroupOperationsOperations {

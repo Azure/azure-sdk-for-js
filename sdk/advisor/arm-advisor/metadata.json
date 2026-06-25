@@ -2,7 +2,7 @@
   "apiVersions": {
     "Microsoft.Advisor": "2026-02-01-preview"
   },
-  "emitterVersion": "0.54.0",
+  "emitterVersion": "0.55.0-dev.9",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.Advisor",
     "CrossLanguageDefinitionId": {

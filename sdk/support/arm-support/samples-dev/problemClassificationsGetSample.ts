@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get problem classification details for a specific Azure service.
  *
  * @summary get problem classification details for a specific Azure service.
- * x-ms-original-file: 2025-06-01-preview/GetProblemClassification.json
+ * x-ms-original-file: 2026-06-01/GetProblemClassification.json
  */
 async function getsDetailsOfProblemClassificationForAzureService(): Promise<void> {
   const credential = new DefaultAzureCredential();

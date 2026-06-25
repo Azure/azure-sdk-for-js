@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ApiManagementContext } from "../../api/apiManagementContext.js";
+import { ApiManagementContext } from "../../api/apiManagementContext.js";
 import {
   listByProduct,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/workspaceTagApiLink/operations.js";
-import type {
+import {
   WorkspaceTagApiLinkListByProductOptionalParams,
   WorkspaceTagApiLinkDeleteOptionalParams,
   WorkspaceTagApiLinkCreateOrUpdateOptionalParams,
   WorkspaceTagApiLinkGetOptionalParams,
 } from "../../api/workspaceTagApiLink/options.js";
-import type { TagApiLinkContract } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { TagApiLinkContract } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a WorkspaceTagApiLink operations. */
 export interface WorkspaceTagApiLinkOperations {

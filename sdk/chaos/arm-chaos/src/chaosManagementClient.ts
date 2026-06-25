@@ -1,40 +1,52 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ChaosManagementContext, ChaosManagementClientOptionalParams } from "./api/index.js";
-import { createChaosManagement } from "./api/index.js";
-import type { ActionVersionsOperations } from "./classic/actionVersions/index.js";
-import { _getActionVersionsOperations } from "./classic/actionVersions/index.js";
-import type { ActionsOperations } from "./classic/actions/index.js";
-import { _getActionsOperations } from "./classic/actions/index.js";
-import type { CapabilitiesOperations } from "./classic/capabilities/index.js";
-import { _getCapabilitiesOperations } from "./classic/capabilities/index.js";
-import type { CapabilityTypesOperations } from "./classic/capabilityTypes/index.js";
-import { _getCapabilityTypesOperations } from "./classic/capabilityTypes/index.js";
-import type { DiscoveredResourcesOperations } from "./classic/discoveredResources/index.js";
-import { _getDiscoveredResourcesOperations } from "./classic/discoveredResources/index.js";
-import type { ExperimentsOperations } from "./classic/experiments/index.js";
-import { _getExperimentsOperations } from "./classic/experiments/index.js";
-import type { OperationStatusesOperations } from "./classic/operationStatuses/index.js";
-import { _getOperationStatusesOperations } from "./classic/operationStatuses/index.js";
-import type { OperationsOperations } from "./classic/operations/index.js";
-import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { PrivateAccessesOperations } from "./classic/privateAccesses/index.js";
-import { _getPrivateAccessesOperations } from "./classic/privateAccesses/index.js";
-import type { ScenarioConfigurationsOperations } from "./classic/scenarioConfigurations/index.js";
-import { _getScenarioConfigurationsOperations } from "./classic/scenarioConfigurations/index.js";
-import type { ScenarioRunsOperations } from "./classic/scenarioRuns/index.js";
-import { _getScenarioRunsOperations } from "./classic/scenarioRuns/index.js";
-import type { ScenariosOperations } from "./classic/scenarios/index.js";
-import { _getScenariosOperations } from "./classic/scenarios/index.js";
-import type { TargetTypesOperations } from "./classic/targetTypes/index.js";
-import { _getTargetTypesOperations } from "./classic/targetTypes/index.js";
-import type { TargetsOperations } from "./classic/targets/index.js";
-import { _getTargetsOperations } from "./classic/targets/index.js";
-import type { WorkspacesOperations } from "./classic/workspaces/index.js";
-import { _getWorkspacesOperations } from "./classic/workspaces/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import {
+  ChaosManagementContext,
+  ChaosManagementClientOptionalParams,
+  createChaosManagement,
+} from "./api/index.js";
+import {
+  ActionVersionsOperations,
+  _getActionVersionsOperations,
+} from "./classic/actionVersions/index.js";
+import { ActionsOperations, _getActionsOperations } from "./classic/actions/index.js";
+import {
+  CapabilitiesOperations,
+  _getCapabilitiesOperations,
+} from "./classic/capabilities/index.js";
+import {
+  CapabilityTypesOperations,
+  _getCapabilityTypesOperations,
+} from "./classic/capabilityTypes/index.js";
+import {
+  DiscoveredResourcesOperations,
+  _getDiscoveredResourcesOperations,
+} from "./classic/discoveredResources/index.js";
+import { ExperimentsOperations, _getExperimentsOperations } from "./classic/experiments/index.js";
+import {
+  OperationStatusesOperations,
+  _getOperationStatusesOperations,
+} from "./classic/operationStatuses/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import {
+  PrivateAccessesOperations,
+  _getPrivateAccessesOperations,
+} from "./classic/privateAccesses/index.js";
+import {
+  ScenarioConfigurationsOperations,
+  _getScenarioConfigurationsOperations,
+} from "./classic/scenarioConfigurations/index.js";
+import {
+  ScenarioRunsOperations,
+  _getScenarioRunsOperations,
+} from "./classic/scenarioRuns/index.js";
+import { ScenariosOperations, _getScenariosOperations } from "./classic/scenarios/index.js";
+import { TargetTypesOperations, _getTargetTypesOperations } from "./classic/targetTypes/index.js";
+import { TargetsOperations, _getTargetsOperations } from "./classic/targets/index.js";
+import { WorkspacesOperations, _getWorkspacesOperations } from "./classic/workspaces/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { ChaosManagementClientOptionalParams } from "./api/chaosManagementContext.js";
 
@@ -58,8 +70,8 @@ export class ChaosManagementClient {
       userAgentOptions: { userAgentPrefix },
     });
     this.pipeline = this._client.pipeline;
-    this.scenarioConfigurations = _getScenarioConfigurationsOperations(this._client);
     this.scenarioRuns = _getScenarioRunsOperations(this._client);
+    this.scenarioConfigurations = _getScenarioConfigurationsOperations(this._client);
     this.scenarios = _getScenariosOperations(this._client);
     this.discoveredResources = _getDiscoveredResourcesOperations(this._client);
     this.workspaces = _getWorkspacesOperations(this._client);
@@ -75,10 +87,10 @@ export class ChaosManagementClient {
     this.capabilities = _getCapabilitiesOperations(this._client);
   }
 
-  /** The operation groups for scenarioConfigurations */
-  public readonly scenarioConfigurations: ScenarioConfigurationsOperations;
   /** The operation groups for scenarioRuns */
   public readonly scenarioRuns: ScenarioRunsOperations;
+  /** The operation groups for scenarioConfigurations */
+  public readonly scenarioConfigurations: ScenarioConfigurationsOperations;
   /** The operation groups for scenarios */
   public readonly scenarios: ScenariosOperations;
   /** The operation groups for discoveredResources */

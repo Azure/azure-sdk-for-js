@@ -47,10 +47,12 @@ export function _listByAccountSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listByAccountDeserialize(
@@ -59,7 +61,9 @@ export async function _listByAccountDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseModelDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseModelDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -114,7 +118,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseModelDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseModelDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -161,12 +167,14 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: kafkaConfigurationSerializer(kafkaConfiguration),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: kafkaConfigurationSerializer(kafkaConfiguration),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -175,7 +183,9 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseModelDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseModelDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -223,17 +233,21 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<KafkaConfiguration> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseModelDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseModelDeserializer(result.body);
+    }
 
     throw error;
   }

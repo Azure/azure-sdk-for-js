@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { IoTOperationsContext } from "../../api/ioTOperationsContext.js";
+import { IoTOperationsContext } from "../../api/ioTOperationsContext.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/instance/operations.js";
-import type {
+import {
   InstanceListBySubscriptionOptionalParams,
   InstanceListByResourceGroupOptionalParams,
   InstanceDeleteOptionalParams,
@@ -18,9 +18,9 @@ import type {
   InstanceCreateOrUpdateOptionalParams,
   InstanceGetOptionalParams,
 } from "../../api/instance/options.js";
-import type { InstanceResource, InstancePatchModel } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { InstanceResource, InstancePatchModel } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Instance operations. */
 export interface InstanceOperations {
@@ -34,11 +34,6 @@ export interface InstanceOperations {
     options?: InstanceListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<InstanceResource>;
   /** Delete a InstanceResource */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     instanceName: string,

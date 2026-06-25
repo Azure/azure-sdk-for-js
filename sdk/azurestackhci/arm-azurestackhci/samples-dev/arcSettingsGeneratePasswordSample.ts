@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to generate password for arc settings.
  *
  * @summary generate password for arc settings.
- * x-ms-original-file: 2026-04-01-preview/GeneratePassword.json
+ * x-ms-original-file: 2026-05-01-preview/GeneratePassword.json
  */
 async function generatePassword(): Promise<void> {
   const credential = new DefaultAzureCredential();

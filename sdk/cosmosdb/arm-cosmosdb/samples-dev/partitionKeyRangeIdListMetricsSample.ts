@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to retrieves the metrics determined by the given filter for the given partition key range id.
  *
  * @summary retrieves the metrics determined by the given filter for the given partition key range id.
- * x-ms-original-file: 2025-11-01-preview/CosmosDBPKeyRangeIdGetMetrics.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBPKeyRangeIdGetMetrics.json
  */
 async function cosmosDBDatabaseAccountRegionGetMetrics(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -21,7 +21,7 @@ async function cosmosDBDatabaseAccountRegionGetMetrics(): Promise<void> {
     "databaseRid",
     "collectionRid",
     "0",
-    "$filter=(name.value eq 'Max RUs Per Second') and timeGrain eq duration'PT1M' and startTime eq '2017-11-19T23:53:55.2780000Z' and endTime eq '2017-11-20T23:58:55.2780000Z",
+    "(name.value eq 'Max RUs Per Second') and timeGrain eq duration'PT1M' and startTime eq '2017-11-19T23:53:55.2780000Z' and endTime eq '2017-11-20T23:58:55.2780000Z",
   )) {
     resArray.push(item);
   }

@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeLimitContext } from "../../api/computeLimitContext.js";
+import { ComputeLimitContext } from "../../api/computeLimitContext.js";
 import {
   listByParent,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/memberCapOverrides/operations.js";
-import type {
+import {
   MemberCapOverridesListByParentOptionalParams,
   MemberCapOverridesDeleteOptionalParams,
   MemberCapOverridesCreateOrUpdateOptionalParams,
   MemberCapOverridesGetOptionalParams,
 } from "../../api/memberCapOverrides/options.js";
-import type { MemberCapOverride } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { MemberCapOverride } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a MemberCapOverrides operations. */
 export interface MemberCapOverridesOperations {

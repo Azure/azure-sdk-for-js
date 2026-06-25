@@ -1,116 +1,171 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   CognitiveServicesManagementContext,
   CognitiveServicesManagementClientOptionalParams,
+  createCognitiveServicesManagement,
 } from "./api/index.js";
-import { createCognitiveServicesManagement } from "./api/index.js";
 import {
   calculateModelCapacity,
   checkDomainAvailability,
   checkSkuAvailability,
 } from "./api/operations.js";
-import type {
+import {
   CalculateModelCapacityOptionalParams,
   CheckDomainAvailabilityOptionalParams,
   CheckSkuAvailabilityOptionalParams,
 } from "./api/options.js";
-import type { AccountCapabilityHostsOperations } from "./classic/accountCapabilityHosts/index.js";
-import { _getAccountCapabilityHostsOperations } from "./classic/accountCapabilityHosts/index.js";
-import type { AccountConnectionsOperations } from "./classic/accountConnections/index.js";
-import { _getAccountConnectionsOperations } from "./classic/accountConnections/index.js";
-import type { AccountsOperations } from "./classic/accounts/index.js";
-import { _getAccountsOperations } from "./classic/accounts/index.js";
-import type { AgentApplicationsOperations } from "./classic/agentApplications/index.js";
-import { _getAgentApplicationsOperations } from "./classic/agentApplications/index.js";
-import type { AgentDeploymentsOperations } from "./classic/agentDeployments/index.js";
-import { _getAgentDeploymentsOperations } from "./classic/agentDeployments/index.js";
-import type { CommitmentPlansOperations } from "./classic/commitmentPlans/index.js";
-import { _getCommitmentPlansOperations } from "./classic/commitmentPlans/index.js";
-import type { CommitmentTiersOperations } from "./classic/commitmentTiers/index.js";
-import { _getCommitmentTiersOperations } from "./classic/commitmentTiers/index.js";
-import type { ComputeOperationsOperations } from "./classic/computeOperations/index.js";
-import { _getComputeOperationsOperations } from "./classic/computeOperations/index.js";
-import type { ComputesOperations } from "./classic/computes/index.js";
-import { _getComputesOperations } from "./classic/computes/index.js";
-import type { DefenderForAISettingsOperations } from "./classic/defenderForAISettings/index.js";
-import { _getDefenderForAISettingsOperations } from "./classic/defenderForAISettings/index.js";
-import type { DeletedAccountsOperations } from "./classic/deletedAccounts/index.js";
-import { _getDeletedAccountsOperations } from "./classic/deletedAccounts/index.js";
-import type { DeploymentsOperations } from "./classic/deployments/index.js";
-import { _getDeploymentsOperations } from "./classic/deployments/index.js";
-import type { EncryptionScopesOperations } from "./classic/encryptionScopes/index.js";
-import { _getEncryptionScopesOperations } from "./classic/encryptionScopes/index.js";
-import type { LocationBasedModelCapacitiesOperations } from "./classic/locationBasedModelCapacities/index.js";
-import { _getLocationBasedModelCapacitiesOperations } from "./classic/locationBasedModelCapacities/index.js";
-import type { ManagedComputeCapacitiesOperations } from "./classic/managedComputeCapacities/index.js";
-import { _getManagedComputeCapacitiesOperations } from "./classic/managedComputeCapacities/index.js";
-import type { ManagedComputeDeploymentsOperations } from "./classic/managedComputeDeployments/index.js";
-import { _getManagedComputeDeploymentsOperations } from "./classic/managedComputeDeployments/index.js";
-import type { ManagedComputeUsagesOperationGroupOperations } from "./classic/managedComputeUsagesOperationGroup/index.js";
-import { _getManagedComputeUsagesOperationGroupOperations } from "./classic/managedComputeUsagesOperationGroup/index.js";
-import type { ManagedNetworkProvisionsOperations } from "./classic/managedNetworkProvisions/index.js";
-import { _getManagedNetworkProvisionsOperations } from "./classic/managedNetworkProvisions/index.js";
-import type { ManagedNetworkSettingsOperations } from "./classic/managedNetworkSettings/index.js";
-import { _getManagedNetworkSettingsOperations } from "./classic/managedNetworkSettings/index.js";
-import type { ModelCapacitiesOperations } from "./classic/modelCapacities/index.js";
-import { _getModelCapacitiesOperations } from "./classic/modelCapacities/index.js";
-import type { ModelsOperations } from "./classic/models/index.js";
-import { _getModelsOperations } from "./classic/models/index.js";
-import type { NetworkSecurityPerimeterConfigurationsOperations } from "./classic/networkSecurityPerimeterConfigurations/index.js";
-import { _getNetworkSecurityPerimeterConfigurationsOperations } from "./classic/networkSecurityPerimeterConfigurations/index.js";
-import type { OperationsOperations } from "./classic/operations/index.js";
-import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { OutboundRuleOperations } from "./classic/outboundRule/index.js";
-import { _getOutboundRuleOperations } from "./classic/outboundRule/index.js";
-import type { OutboundRulesOperations } from "./classic/outboundRules/index.js";
-import { _getOutboundRulesOperations } from "./classic/outboundRules/index.js";
-import type { PrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
-import { _getPrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
-import type { PrivateLinkResourcesOperations } from "./classic/privateLinkResources/index.js";
-import { _getPrivateLinkResourcesOperations } from "./classic/privateLinkResources/index.js";
-import type { ProjectCapabilityHostsOperations } from "./classic/projectCapabilityHosts/index.js";
-import { _getProjectCapabilityHostsOperations } from "./classic/projectCapabilityHosts/index.js";
-import type { ProjectConnectionsOperations } from "./classic/projectConnections/index.js";
-import { _getProjectConnectionsOperations } from "./classic/projectConnections/index.js";
-import type { ProjectsOperations } from "./classic/projects/index.js";
-import { _getProjectsOperations } from "./classic/projects/index.js";
-import type { QuotaTiersOperations } from "./classic/quotaTiers/index.js";
-import { _getQuotaTiersOperations } from "./classic/quotaTiers/index.js";
-import type { RaiBlocklistItemsOperations } from "./classic/raiBlocklistItems/index.js";
-import { _getRaiBlocklistItemsOperations } from "./classic/raiBlocklistItems/index.js";
-import type { RaiBlocklistsOperations } from "./classic/raiBlocklists/index.js";
-import { _getRaiBlocklistsOperations } from "./classic/raiBlocklists/index.js";
-import type { RaiContentFiltersOperations } from "./classic/raiContentFilters/index.js";
-import { _getRaiContentFiltersOperations } from "./classic/raiContentFilters/index.js";
-import type { RaiExternalSafetyProviderOperations } from "./classic/raiExternalSafetyProvider/index.js";
-import { _getRaiExternalSafetyProviderOperations } from "./classic/raiExternalSafetyProvider/index.js";
-import type { RaiExternalSafetyProvidersOperations } from "./classic/raiExternalSafetyProviders/index.js";
-import { _getRaiExternalSafetyProvidersOperations } from "./classic/raiExternalSafetyProviders/index.js";
-import type { RaiPoliciesOperations } from "./classic/raiPolicies/index.js";
-import { _getRaiPoliciesOperations } from "./classic/raiPolicies/index.js";
-import type { RaiToolLabelsOperations } from "./classic/raiToolLabels/index.js";
-import { _getRaiToolLabelsOperations } from "./classic/raiToolLabels/index.js";
-import type { RaiTopicsOperations } from "./classic/raiTopics/index.js";
-import { _getRaiTopicsOperations } from "./classic/raiTopics/index.js";
-import type { ResourceSkusOperations } from "./classic/resourceSkus/index.js";
-import { _getResourceSkusOperations } from "./classic/resourceSkus/index.js";
-import type { SubscriptionRaiPolicyOperations } from "./classic/subscriptionRaiPolicy/index.js";
-import { _getSubscriptionRaiPolicyOperations } from "./classic/subscriptionRaiPolicy/index.js";
-import type { TestRaiExternalSafetyProviderOperations } from "./classic/testRaiExternalSafetyProvider/index.js";
-import { _getTestRaiExternalSafetyProviderOperations } from "./classic/testRaiExternalSafetyProvider/index.js";
-import type { UsagesOperations } from "./classic/usages/index.js";
-import { _getUsagesOperations } from "./classic/usages/index.js";
-import type { WorkbenchesOperations } from "./classic/workbenches/index.js";
-import { _getWorkbenchesOperations } from "./classic/workbenches/index.js";
-import type {
+import {
+  AccountCapabilityHostsOperations,
+  _getAccountCapabilityHostsOperations,
+} from "./classic/accountCapabilityHosts/index.js";
+import {
+  AccountConnectionsOperations,
+  _getAccountConnectionsOperations,
+} from "./classic/accountConnections/index.js";
+import { AccountsOperations, _getAccountsOperations } from "./classic/accounts/index.js";
+import {
+  AgentApplicationsOperations,
+  _getAgentApplicationsOperations,
+} from "./classic/agentApplications/index.js";
+import {
+  AgentDeploymentsOperations,
+  _getAgentDeploymentsOperations,
+} from "./classic/agentDeployments/index.js";
+import {
+  CommitmentPlansOperations,
+  _getCommitmentPlansOperations,
+} from "./classic/commitmentPlans/index.js";
+import {
+  CommitmentTiersOperations,
+  _getCommitmentTiersOperations,
+} from "./classic/commitmentTiers/index.js";
+import {
+  ComputeOperationsOperations,
+  _getComputeOperationsOperations,
+} from "./classic/computeOperations/index.js";
+import { ComputesOperations, _getComputesOperations } from "./classic/computes/index.js";
+import {
+  DefenderForAISettingsOperations,
+  _getDefenderForAISettingsOperations,
+} from "./classic/defenderForAISettings/index.js";
+import {
+  DeletedAccountsOperations,
+  _getDeletedAccountsOperations,
+} from "./classic/deletedAccounts/index.js";
+import { DeploymentsOperations, _getDeploymentsOperations } from "./classic/deployments/index.js";
+import {
+  EncryptionScopesOperations,
+  _getEncryptionScopesOperations,
+} from "./classic/encryptionScopes/index.js";
+import {
+  LocationBasedModelCapacitiesOperations,
+  _getLocationBasedModelCapacitiesOperations,
+} from "./classic/locationBasedModelCapacities/index.js";
+import {
+  ManagedComputeCapacitiesOperations,
+  _getManagedComputeCapacitiesOperations,
+} from "./classic/managedComputeCapacities/index.js";
+import {
+  ManagedComputeDeploymentsOperations,
+  _getManagedComputeDeploymentsOperations,
+} from "./classic/managedComputeDeployments/index.js";
+import {
+  ManagedComputeUsagesOperationGroupOperations,
+  _getManagedComputeUsagesOperationGroupOperations,
+} from "./classic/managedComputeUsagesOperationGroup/index.js";
+import {
+  ManagedNetworkProvisionsOperations,
+  _getManagedNetworkProvisionsOperations,
+} from "./classic/managedNetworkProvisions/index.js";
+import {
+  ManagedNetworkSettingsOperations,
+  _getManagedNetworkSettingsOperations,
+} from "./classic/managedNetworkSettings/index.js";
+import {
+  ModelCapacitiesOperations,
+  _getModelCapacitiesOperations,
+} from "./classic/modelCapacities/index.js";
+import { ModelsOperations, _getModelsOperations } from "./classic/models/index.js";
+import {
+  NetworkSecurityPerimeterConfigurationsOperations,
+  _getNetworkSecurityPerimeterConfigurationsOperations,
+} from "./classic/networkSecurityPerimeterConfigurations/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import {
+  OutboundRuleOperations,
+  _getOutboundRuleOperations,
+} from "./classic/outboundRule/index.js";
+import {
+  OutboundRulesOperations,
+  _getOutboundRulesOperations,
+} from "./classic/outboundRules/index.js";
+import {
+  PrivateEndpointConnectionsOperations,
+  _getPrivateEndpointConnectionsOperations,
+} from "./classic/privateEndpointConnections/index.js";
+import {
+  PrivateLinkResourcesOperations,
+  _getPrivateLinkResourcesOperations,
+} from "./classic/privateLinkResources/index.js";
+import {
+  ProjectCapabilityHostsOperations,
+  _getProjectCapabilityHostsOperations,
+} from "./classic/projectCapabilityHosts/index.js";
+import {
+  ProjectConnectionsOperations,
+  _getProjectConnectionsOperations,
+} from "./classic/projectConnections/index.js";
+import { ProjectsOperations, _getProjectsOperations } from "./classic/projects/index.js";
+import { QuotaTiersOperations, _getQuotaTiersOperations } from "./classic/quotaTiers/index.js";
+import {
+  RaiBlocklistItemsOperations,
+  _getRaiBlocklistItemsOperations,
+} from "./classic/raiBlocklistItems/index.js";
+import {
+  RaiBlocklistsOperations,
+  _getRaiBlocklistsOperations,
+} from "./classic/raiBlocklists/index.js";
+import {
+  RaiContentFiltersOperations,
+  _getRaiContentFiltersOperations,
+} from "./classic/raiContentFilters/index.js";
+import {
+  RaiExternalSafetyProviderOperations,
+  _getRaiExternalSafetyProviderOperations,
+} from "./classic/raiExternalSafetyProvider/index.js";
+import {
+  RaiExternalSafetyProvidersOperations,
+  _getRaiExternalSafetyProvidersOperations,
+} from "./classic/raiExternalSafetyProviders/index.js";
+import { RaiPoliciesOperations, _getRaiPoliciesOperations } from "./classic/raiPolicies/index.js";
+import {
+  RaiToolLabelsOperations,
+  _getRaiToolLabelsOperations,
+} from "./classic/raiToolLabels/index.js";
+import { RaiTopicsOperations, _getRaiTopicsOperations } from "./classic/raiTopics/index.js";
+import {
+  ResourceSkusOperations,
+  _getResourceSkusOperations,
+} from "./classic/resourceSkus/index.js";
+import {
+  SubscriptionRaiPolicyOperations,
+  _getSubscriptionRaiPolicyOperations,
+} from "./classic/subscriptionRaiPolicy/index.js";
+import {
+  TestRaiExternalSafetyProviderOperations,
+  _getTestRaiExternalSafetyProviderOperations,
+} from "./classic/testRaiExternalSafetyProvider/index.js";
+import { UsagesOperations, _getUsagesOperations } from "./classic/usages/index.js";
+import { WorkbenchesOperations, _getWorkbenchesOperations } from "./classic/workbenches/index.js";
+import {
   SkuAvailabilityListResult,
   DomainAvailability,
   CalculateModelCapacityResult,
 } from "./models/models.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { CognitiveServicesManagementClientOptionalParams } from "./api/cognitiveServicesManagementContext.js";
 

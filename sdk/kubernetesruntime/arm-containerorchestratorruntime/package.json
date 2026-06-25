@@ -113,6 +113,90 @@
         "default": "./dist/commonjs/index.js"
       }
     },
+    "./api": {
+      "browser": {
+        "types": "./dist/browser/api/index.d.ts",
+        "default": "./dist/browser/api/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/index.d.ts",
+        "default": "./dist/esm/api/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/index.d.ts",
+        "default": "./dist/commonjs/api/index.js"
+      }
+    },
+    "./api/services": {
+      "browser": {
+        "types": "./dist/browser/api/services/index.d.ts",
+        "default": "./dist/browser/api/services/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/services/index.d.ts",
+        "default": "./dist/esm/api/services/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/services/index.d.ts",
+        "default": "./dist/commonjs/api/services/index.js"
+      }
+    },
+    "./api/bgpPeers": {
+      "browser": {
+        "types": "./dist/browser/api/bgpPeers/index.d.ts",
+        "default": "./dist/browser/api/bgpPeers/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/bgpPeers/index.d.ts",
+        "default": "./dist/esm/api/bgpPeers/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/bgpPeers/index.d.ts",
+        "default": "./dist/commonjs/api/bgpPeers/index.js"
+      }
+    },
+    "./api/loadBalancers": {
+      "browser": {
+        "types": "./dist/browser/api/loadBalancers/index.d.ts",
+        "default": "./dist/browser/api/loadBalancers/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/loadBalancers/index.d.ts",
+        "default": "./dist/esm/api/loadBalancers/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/loadBalancers/index.d.ts",
+        "default": "./dist/commonjs/api/loadBalancers/index.js"
+      }
+    },
+    "./api/operations": {
+      "browser": {
+        "types": "./dist/browser/api/operations/index.d.ts",
+        "default": "./dist/browser/api/operations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/operations/index.d.ts",
+        "default": "./dist/esm/api/operations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/operations/index.d.ts",
+        "default": "./dist/commonjs/api/operations/index.js"
+      }
+    },
+    "./api/storageClass": {
+      "browser": {
+        "types": "./dist/browser/api/storageClass/index.d.ts",
+        "default": "./dist/browser/api/storageClass/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/storageClass/index.d.ts",
+        "default": "./dist/esm/api/storageClass/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/storageClass/index.d.ts",
+        "default": "./dist/commonjs/api/storageClass/index.js"
+      }
+    },
     "./models": {
       "browser": {
         "types": "./dist/browser/models/index.d.ts",

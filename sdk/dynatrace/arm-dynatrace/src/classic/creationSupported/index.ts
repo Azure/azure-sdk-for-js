@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DynatraceObservabilityContext } from "../../api/dynatraceObservabilityContext.js";
+import { DynatraceObservabilityContext } from "../../api/dynatraceObservabilityContext.js";
 import { get, list } from "../../api/creationSupported/operations.js";
-import type {
+import {
   CreationSupportedGetOptionalParams,
   CreationSupportedListOptionalParams,
 } from "../../api/creationSupported/options.js";
-import type { CreateResourceSupportedResponse } from "../../models/models.js";
+import { CreateResourceSupportedResponse } from "../../models/models.js";
 
 /** Interface representing a CreationSupported operations. */
 export interface CreationSupportedOperations {

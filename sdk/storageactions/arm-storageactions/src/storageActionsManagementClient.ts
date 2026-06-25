@@ -2,27 +2,27 @@
 // Licensed under the MIT License.
 
 import {
-  createStorageActionsManagement,
   StorageActionsManagementContext,
   StorageActionsManagementClientOptionalParams,
+  createStorageActionsManagement,
 } from "./api/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
 import {
   StorageTaskAssignmentOperations,
   _getStorageTaskAssignmentOperations,
 } from "./classic/storageTaskAssignment/index.js";
 import {
-  StorageTasksReportOperations,
-  _getStorageTasksReportOperations,
-} from "./classic/storageTasksReport/index.js";
-import {
   StorageTasksOperations,
   _getStorageTasksOperations,
 } from "./classic/storageTasks/index.js";
-import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
+import {
+  StorageTasksReportOperations,
+  _getStorageTasksReportOperations,
+} from "./classic/storageTasksReport/index.js";
 import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
-export { type StorageActionsManagementClientOptionalParams } from "./api/storageActionsManagementContext.js";
+export type { StorageActionsManagementClientOptionalParams } from "./api/storageActionsManagementContext.js";
 
 export class StorageActionsManagementClient {
   private _client: StorageActionsManagementContext;

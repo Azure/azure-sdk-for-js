@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import {
-  createContentUnderstanding,
   ContentUnderstandingContext,
   ContentUnderstandingClientOptionalParams,
+  createContentUnderstanding,
 } from "./api/index.js";
 import {
   updateDefaults,
@@ -54,7 +54,7 @@ import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { PollerLike, OperationState } from "@azure/core-lro";
 import { Pipeline } from "@azure/core-rest-pipeline";
 
-export { ContentUnderstandingClientOptionalParams } from "./api/contentUnderstandingContext.js";
+export type { ContentUnderstandingClientOptionalParams } from "./api/contentUnderstandingContext.js";
 
 export class ContentUnderstandingClient {
   private _client: ContentUnderstandingContext;

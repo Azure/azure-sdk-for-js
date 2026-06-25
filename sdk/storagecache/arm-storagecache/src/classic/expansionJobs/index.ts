@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { StorageCacheManagementContext } from "../../api/storageCacheManagementContext.js";
+import { StorageCacheManagementContext } from "../../api/storageCacheManagementContext.js";
 import {
   listByAmlFilesystem,
   $delete,
@@ -9,18 +9,17 @@ import {
   createOrUpdate,
   get,
 } from "../../api/expansionJobs/operations.js";
-import type {
+import {
   ExpansionJobsListByAmlFilesystemOptionalParams,
   ExpansionJobsDeleteOptionalParams,
   ExpansionJobsUpdateOptionalParams,
   ExpansionJobsCreateOrUpdateOptionalParams,
   ExpansionJobsGetOptionalParams,
 } from "../../api/expansionJobs/options.js";
-import type { ExpansionJob, ExpansionJobUpdate } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { ExpansionJob, ExpansionJobUpdate } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ExpansionJobs operations. */
 export interface ExpansionJobsOperations {

@@ -1,0 +1,41 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+export {
+  updateFace,
+  getFace,
+  deleteFace,
+  addFace,
+  addFaceFromUrl,
+  getPersons,
+  updatePerson,
+  getPerson,
+  deletePerson,
+  createPerson,
+  train,
+  getTrainingStatus,
+  getLargePersonGroups,
+  update,
+  get,
+  $delete,
+  create,
+} from "./operations.js";
+export type {
+  LargePersonGroupUpdateFaceOptionalParams,
+  LargePersonGroupGetFaceOptionalParams,
+  LargePersonGroupDeleteFaceOptionalParams,
+  LargePersonGroupAddFaceOptionalParams,
+  LargePersonGroupAddFaceFromUrlOptionalParams,
+  LargePersonGroupGetPersonsOptionalParams,
+  LargePersonGroupUpdatePersonOptionalParams,
+  LargePersonGroupGetPersonOptionalParams,
+  LargePersonGroupDeletePersonOptionalParams,
+  LargePersonGroupCreatePersonOptionalParams,
+  LargePersonGroupTrainOptionalParams,
+  LargePersonGroupGetTrainingStatusOptionalParams,
+  LargePersonGroupGetLargePersonGroupsOptionalParams,
+  LargePersonGroupUpdateOptionalParams,
+  LargePersonGroupGetOptionalParams,
+  LargePersonGroupDeleteOptionalParams,
+  LargePersonGroupCreateOptionalParams,
+} from "./options.js";

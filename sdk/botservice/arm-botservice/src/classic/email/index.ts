@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureBotServiceContext } from "../../api/azureBotServiceContext.js";
+import { AzureBotServiceContext } from "../../api/azureBotServiceContext.js";
 import { createSignInUrl } from "../../api/email/operations.js";
-import type { EmailCreateSignInUrlOptionalParams } from "../../api/email/options.js";
-import type { CreateEmailSignInUrlResponse } from "../../models/models.js";
+import { EmailCreateSignInUrlOptionalParams } from "../../api/email/options.js";
+import { CreateEmailSignInUrlResponse } from "../../models/models.js";
 
 /** Interface representing a Email operations. */
 export interface EmailOperations {

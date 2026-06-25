@@ -1,27 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ChaosManagementContext as Client } from "../index.js";
-import type {
-  ScenarioConfiguration,
-  _ScenarioConfigurationListResult,
-  Validation,
-  PermissionsFix,
-} from "../../models/models.js";
+import { ChaosManagementContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  ScenarioConfiguration,
   scenarioConfigurationSerializer,
   scenarioConfigurationDeserializer,
+  _ScenarioConfigurationListResult,
   _scenarioConfigurationListResultDeserializer,
+  ScenarioRun,
+  scenarioRunDeserializer,
+  Validation,
   validationDeserializer,
   fixResourcePermissionsRequestSerializer,
+  PermissionsFix,
   permissionsFixDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   ScenarioConfigurationsFixResourcePermissionsOptionalParams,
   ScenarioConfigurationsValidateOptionalParams,
   ScenarioConfigurationsExecuteOptionalParams,
@@ -30,9 +32,13 @@ import type {
   ScenarioConfigurationsCreateOrUpdateOptionalParams,
   ScenarioConfigurationsGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _fixResourcePermissionsSend(
   context: Client,
@@ -56,13 +62,13 @@ export function _fixResourcePermissionsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: !options["body"]
-      ? options["body"]
-      : fixResourcePermissionsRequestSerializer(options["body"]),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: !options?.body ? options?.body : fixResourcePermissionsRequestSerializer(options?.body),
+    });
 }
 
 export async function _fixResourcePermissionsDeserialize(
@@ -71,7 +77,9 @@ export async function _fixResourcePermissionsDeserialize(
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -134,7 +142,9 @@ export async function _validateDeserialize(result: PathUncheckedResponse): Promi
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -193,36 +203,44 @@ export function _executeSend(
   return context.path(path).post({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _executeDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202"];
+export async function _executeDeserialize(result: PathUncheckedResponse): Promise<ScenarioRun> {
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
-  return;
+  return scenarioRunDeserializer(result.body);
 }
 
 /** Execute the scenario execution with the given scenario configuration. */
-export async function execute(
+export function execute(
   context: Client,
   resourceGroupName: string,
   workspaceName: string,
   scenarioName: string,
   scenarioConfigurationName: string,
   options: ScenarioConfigurationsExecuteOptionalParams = { requestOptions: {} },
-): Promise<void> {
-  const result = await _executeSend(
-    context,
-    resourceGroupName,
-    workspaceName,
-    scenarioName,
-    scenarioConfigurationName,
-    options,
-  );
-  return _executeDeserialize(result);
+): PollerLike<OperationState<ScenarioRun>, ScenarioRun> {
+  return getLongRunningPoller(context, _executeDeserialize, ["202", "200", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _executeSend(
+        context,
+        resourceGroupName,
+        workspaceName,
+        scenarioName,
+        scenarioConfigurationName,
+        options,
+      ),
+    resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+  }) as PollerLike<OperationState<ScenarioRun>, ScenarioRun>;
 }
 
 export function _listAllSend(
@@ -245,10 +263,12 @@ export function _listAllSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listAllDeserialize(
@@ -257,7 +277,9 @@ export async function _listAllDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -315,7 +337,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -372,12 +396,14 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: scenarioConfigurationSerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: scenarioConfigurationSerializer(resource),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -386,7 +412,9 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -444,10 +472,12 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(
@@ -456,7 +486,9 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

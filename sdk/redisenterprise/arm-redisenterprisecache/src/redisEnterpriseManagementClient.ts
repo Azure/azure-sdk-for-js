@@ -1,31 +1,37 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   RedisEnterpriseManagementContext,
   RedisEnterpriseManagementClientOptionalParams,
+  createRedisEnterpriseManagement,
 } from "./api/index.js";
-import { createRedisEnterpriseManagement } from "./api/index.js";
-import type { AccessPolicyAssignmentOperations } from "./classic/accessPolicyAssignment/index.js";
-import { _getAccessPolicyAssignmentOperations } from "./classic/accessPolicyAssignment/index.js";
-import type { DatabasesOperations } from "./classic/databases/index.js";
-import { _getDatabasesOperations } from "./classic/databases/index.js";
-import type { MigrationOperations } from "./classic/migration/index.js";
-import { _getMigrationOperations } from "./classic/migration/index.js";
-import type { MigrationsOperations } from "./classic/migrations/index.js";
-import { _getMigrationsOperations } from "./classic/migrations/index.js";
-import type { OperationsOperations } from "./classic/operations/index.js";
-import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { OperationsStatusOperations } from "./classic/operationsStatus/index.js";
-import { _getOperationsStatusOperations } from "./classic/operationsStatus/index.js";
-import type { PrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
-import { _getPrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
-import type { PrivateLinkResourcesOperations } from "./classic/privateLinkResources/index.js";
-import { _getPrivateLinkResourcesOperations } from "./classic/privateLinkResources/index.js";
-import type { RedisEnterpriseOperations } from "./classic/redisEnterprise/index.js";
-import { _getRedisEnterpriseOperations } from "./classic/redisEnterprise/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import {
+  AccessPolicyAssignmentOperations,
+  _getAccessPolicyAssignmentOperations,
+} from "./classic/accessPolicyAssignment/index.js";
+import { DatabasesOperations, _getDatabasesOperations } from "./classic/databases/index.js";
+import { MigrationOperations, _getMigrationOperations } from "./classic/migration/index.js";
+import { MigrationsOperations, _getMigrationsOperations } from "./classic/migrations/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import {
+  OperationsStatusOperations,
+  _getOperationsStatusOperations,
+} from "./classic/operationsStatus/index.js";
+import {
+  PrivateEndpointConnectionsOperations,
+  _getPrivateEndpointConnectionsOperations,
+} from "./classic/privateEndpointConnections/index.js";
+import {
+  PrivateLinkResourcesOperations,
+  _getPrivateLinkResourcesOperations,
+} from "./classic/privateLinkResources/index.js";
+import {
+  RedisEnterpriseOperations,
+  _getRedisEnterpriseOperations,
+} from "./classic/redisEnterprise/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { RedisEnterpriseManagementClientOptionalParams } from "./api/redisEnterpriseManagementContext.js";
 

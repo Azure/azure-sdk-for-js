@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DataBoxEdgeManagementContext } from "../../api/dataBoxEdgeManagementContext.js";
+import { DataBoxEdgeManagementContext } from "../../api/dataBoxEdgeManagementContext.js";
 import {
   listDCAccessCode,
   listByDataBoxEdgeDevice,
@@ -9,18 +9,17 @@ import {
   createOrUpdate,
   get,
 } from "../../api/orders/operations.js";
-import type {
+import {
   OrdersListDCAccessCodeOptionalParams,
   OrdersListByDataBoxEdgeDeviceOptionalParams,
   OrdersDeleteOptionalParams,
   OrdersCreateOrUpdateOptionalParams,
   OrdersGetOptionalParams,
 } from "../../api/orders/options.js";
-import type { Order, DCAccessCode } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { Order, DCAccessCode } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Orders operations. */
 export interface OrdersOperations {

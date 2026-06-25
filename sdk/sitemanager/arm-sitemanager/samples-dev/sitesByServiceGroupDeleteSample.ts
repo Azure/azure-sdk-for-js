@@ -5,15 +5,14 @@ import { EdgeClient } from "@azure/arm-sitemanager";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to delete Site at SG scope
+ * This sample demonstrates how to delete a Site
  *
- * @summary delete Site at SG scope
+ * @summary delete a Site
  * x-ms-original-file: 2025-06-01/SitesByServiceGroup_Delete_MaximumSet_Gen.json
  */
 async function sitesByServiceGroupDeleteGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const client = new EdgeClient(credential, subscriptionId);
+  const client = new EdgeClient(credential);
   await client.sitesByServiceGroup.delete("string", "string");
 }
 

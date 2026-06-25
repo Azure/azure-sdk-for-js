@@ -1,6 +1,8 @@
 {
-  "apiVersion": "2025-08-18-preview",
-  "emitterVersion": "0.50.0",
+  "apiVersions": {
+    "Microsoft.Confluent": "2025-08-18-preview"
+  },
+  "emitterVersion": "0.55.0-dev.9",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.Confluent",
     "CrossLanguageDefinitionId": {

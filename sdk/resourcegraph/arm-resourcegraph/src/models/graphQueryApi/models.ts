@@ -2,8 +2,7 @@
 // Licensed under the MIT License.
 
 import { areAllPropsUndefined } from "../../static-helpers/serialization/check-prop-undefined.js";
-import type { ProxyResource } from "../models.js";
-import { systemDataDeserializer } from "../models.js";
+import { ProxyResource, systemDataDeserializer } from "../models.js";
 
 /**
  * This file contains only generated model types and their (de)serializers.

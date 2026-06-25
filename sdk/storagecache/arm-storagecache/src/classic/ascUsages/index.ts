@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { StorageCacheManagementContext } from "../../api/storageCacheManagementContext.js";
+import { StorageCacheManagementContext } from "../../api/storageCacheManagementContext.js";
 import { list } from "../../api/ascUsages/operations.js";
-import type { AscUsagesListOptionalParams } from "../../api/ascUsages/options.js";
-import type { ResourceUsage } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { AscUsagesListOptionalParams } from "../../api/ascUsages/options.js";
+import { ResourceUsage } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a AscUsages operations. */
 export interface AscUsagesOperations {

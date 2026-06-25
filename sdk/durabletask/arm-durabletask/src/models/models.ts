@@ -452,8 +452,8 @@ export interface PrivateEndpoint {
   readonly id?: string;
 }
 
-export function privateEndpointSerializer(item: PrivateEndpoint): any {
-  return item;
+export function privateEndpointSerializer(_item: PrivateEndpoint): any {
+  return {};
 }
 
 export function privateEndpointDeserializer(item: any): PrivateEndpoint {
@@ -549,8 +549,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -891,8 +891,8 @@ export interface TaskHubProperties {
   readonly dashboardUrl?: string;
 }
 
-export function taskHubPropertiesSerializer(item: TaskHubProperties): any {
-  return item;
+export function taskHubPropertiesSerializer(_item: TaskHubProperties): any {
+  return {};
 }
 
 export function taskHubPropertiesDeserializer(item: any): TaskHubProperties {
@@ -905,8 +905,8 @@ export function taskHubPropertiesDeserializer(item: any): TaskHubProperties {
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
 }
 
 export function proxyResourceDeserializer(item: any): ProxyResource {

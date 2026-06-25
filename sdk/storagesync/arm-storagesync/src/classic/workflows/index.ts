@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { MicrosoftStorageSyncContext } from "../../api/microsoftStorageSyncContext.js";
+import { MicrosoftStorageSyncContext } from "../../api/microsoftStorageSyncContext.js";
 import { abort, listByStorageSyncService, get } from "../../api/workflows/operations.js";
-import type {
+import {
   WorkflowsAbortOptionalParams,
   WorkflowsListByStorageSyncServiceOptionalParams,
   WorkflowsGetOptionalParams,
 } from "../../api/workflows/options.js";
-import type { Workflow } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { Workflow } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Workflows operations. */
 export interface WorkflowsOperations {

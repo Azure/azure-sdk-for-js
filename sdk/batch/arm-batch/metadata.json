@@ -2,7 +2,7 @@
   "apiVersions": {
     "Microsoft.Batch": "2025-06-01"
   },
-  "emitterVersion": "0.51.0",
+  "emitterVersion": "0.55.0-dev.9",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.Batch",
     "CrossLanguageDefinitionId": {

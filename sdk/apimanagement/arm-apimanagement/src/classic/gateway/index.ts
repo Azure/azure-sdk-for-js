@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ApiManagementContext } from "../../api/apiManagementContext.js";
+import { ApiManagementContext } from "../../api/apiManagementContext.js";
 import {
   listTrace,
   listDebugCredentials,
@@ -16,7 +16,7 @@ import {
   getEntityTag,
   get,
 } from "../../api/gateway/operations.js";
-import type {
+import {
   GatewayListTraceOptionalParams,
   GatewayListDebugCredentialsOptionalParams,
   GatewayInvalidateDebugCredentialsOptionalParams,
@@ -30,7 +30,7 @@ import type {
   GatewayGetEntityTagOptionalParams,
   GatewayGetOptionalParams,
 } from "../../api/gateway/options.js";
-import type {
+import {
   GatewayContract,
   GatewayKeysContract,
   GatewayKeyRegenerationRequestContract,
@@ -40,7 +40,7 @@ import type {
   GatewayDebugCredentialsContract,
   GatewayListTraceContract,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Gateway operations. */
 export interface GatewayOperations {

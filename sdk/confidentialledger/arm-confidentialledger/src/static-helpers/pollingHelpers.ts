@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 import {
-  PollerLike,
+  OperationResponse,
   OperationState,
+  PollerLike,
   ResourceLocationConfig,
   RunningOperation,
   createHttpPoller,
-  OperationResponse,
 } from "@azure/core-lro";
 
 import { Client, PathUncheckedResponse, createRestError } from "@azure-rest/core-client";

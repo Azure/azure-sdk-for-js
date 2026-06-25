@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a shared gallery image version by subscription id or tenant id.
  *
  * @summary get a shared gallery image version by subscription id or tenant id.
- * x-ms-original-file: 2025-03-03/sharedGalleryExamples/SharedGalleryImageVersion_Get.json
+ * x-ms-original-file: 2025-12-03/sharedGalleryExamples/SharedGalleryImageVersion_Get.json
  */
 async function getASharedGalleryImageVersion(): Promise<void> {
   const credential = new DefaultAzureCredential();

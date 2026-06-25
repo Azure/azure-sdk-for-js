@@ -1,16 +1,46 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import DeidentificationClient from "./deidentificationClient.js";
+import {
+  PageSettings,
+  ContinuablePage,
+  PagedAsyncIterableIterator,
+} from "./static-helpers/pagingHelpers.js";
 
-export * from "./deidentificationClient.js";
-export type * from "./parameters.js";
-export type * from "./responses.js";
-export type * from "./clientDefinitions.js";
-export * from "./isUnexpected.js";
-export type * from "./models.js";
-export type * from "./outputModels.js";
-export * from "./paginateHelper.js";
-export * from "./pollingHelper.js";
-
-export default DeidentificationClient;
+export { DeidentificationClient } from "./deidentificationClient.js";
+export type { RestorePollerOptions } from "./restorePollerHelpers.js";
+export { restorePoller } from "./restorePollerHelpers.js";
+export type {
+  DeidentificationJob,
+  DeidentificationOperationType,
+  SourceStorageLocation,
+  TargetStorageLocation,
+  DeidentificationJobCustomizationOptions,
+  OperationState,
+  DeidentificationJobSummary,
+  DeidentificationDocumentDetails,
+  DeidentificationDocumentLocation,
+  DeidentificationContent,
+  TaggedPhiEntities,
+  TextEncodingType,
+  SimplePhiEntity,
+  PhiCategory,
+  DeidentificationCustomizationOptions,
+  DeidentificationResult,
+  PhiTaggerResult,
+  PhiEntity,
+  StringIndex,
+} from "./models/index.js";
+export { KnownVersions } from "./models/index.js";
+export type {
+  DeidentificationClientOptionalParams,
+  DeidentifyTextOptionalParams,
+  DeleteJobOptionalParams,
+  CancelJobOptionalParams,
+  ListJobDocumentsOptionalParams,
+  ListJobsOptionalParams,
+  DeidentifyDocumentsOptionalParams,
+  GetJobOptionalParams,
+} from "./api/index.js";
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

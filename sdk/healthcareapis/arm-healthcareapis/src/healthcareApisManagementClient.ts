@@ -1,39 +1,56 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   HealthcareApisManagementContext,
   HealthcareApisManagementClientOptionalParams,
+  createHealthcareApisManagement,
 } from "./api/index.js";
-import { createHealthcareApisManagement } from "./api/index.js";
-import type { DicomServicesOperations } from "./classic/dicomServices/index.js";
-import { _getDicomServicesOperations } from "./classic/dicomServices/index.js";
-import type { FhirDestinationsOperations } from "./classic/fhirDestinations/index.js";
-import { _getFhirDestinationsOperations } from "./classic/fhirDestinations/index.js";
-import type { FhirServicesOperations } from "./classic/fhirServices/index.js";
-import { _getFhirServicesOperations } from "./classic/fhirServices/index.js";
-import type { IotConnectorFhirDestinationOperations } from "./classic/iotConnectorFhirDestination/index.js";
-import { _getIotConnectorFhirDestinationOperations } from "./classic/iotConnectorFhirDestination/index.js";
-import type { IotConnectorsOperations } from "./classic/iotConnectors/index.js";
-import { _getIotConnectorsOperations } from "./classic/iotConnectors/index.js";
-import type { OperationResultsOperations } from "./classic/operationResults/index.js";
-import { _getOperationResultsOperations } from "./classic/operationResults/index.js";
-import type { OperationsOperations } from "./classic/operations/index.js";
-import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { PrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
-import { _getPrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
-import type { PrivateLinkResourcesOperations } from "./classic/privateLinkResources/index.js";
-import { _getPrivateLinkResourcesOperations } from "./classic/privateLinkResources/index.js";
-import type { ServicesOperations } from "./classic/services/index.js";
-import { _getServicesOperations } from "./classic/services/index.js";
-import type { WorkspacePrivateEndpointConnectionsOperations } from "./classic/workspacePrivateEndpointConnections/index.js";
-import { _getWorkspacePrivateEndpointConnectionsOperations } from "./classic/workspacePrivateEndpointConnections/index.js";
-import type { WorkspacePrivateLinkResourcesOperations } from "./classic/workspacePrivateLinkResources/index.js";
-import { _getWorkspacePrivateLinkResourcesOperations } from "./classic/workspacePrivateLinkResources/index.js";
-import type { WorkspacesOperations } from "./classic/workspaces/index.js";
-import { _getWorkspacesOperations } from "./classic/workspaces/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import {
+  DicomServicesOperations,
+  _getDicomServicesOperations,
+} from "./classic/dicomServices/index.js";
+import {
+  FhirDestinationsOperations,
+  _getFhirDestinationsOperations,
+} from "./classic/fhirDestinations/index.js";
+import {
+  FhirServicesOperations,
+  _getFhirServicesOperations,
+} from "./classic/fhirServices/index.js";
+import {
+  IotConnectorFhirDestinationOperations,
+  _getIotConnectorFhirDestinationOperations,
+} from "./classic/iotConnectorFhirDestination/index.js";
+import {
+  IotConnectorsOperations,
+  _getIotConnectorsOperations,
+} from "./classic/iotConnectors/index.js";
+import {
+  OperationResultsOperations,
+  _getOperationResultsOperations,
+} from "./classic/operationResults/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import {
+  PrivateEndpointConnectionsOperations,
+  _getPrivateEndpointConnectionsOperations,
+} from "./classic/privateEndpointConnections/index.js";
+import {
+  PrivateLinkResourcesOperations,
+  _getPrivateLinkResourcesOperations,
+} from "./classic/privateLinkResources/index.js";
+import { ServicesOperations, _getServicesOperations } from "./classic/services/index.js";
+import {
+  WorkspacePrivateEndpointConnectionsOperations,
+  _getWorkspacePrivateEndpointConnectionsOperations,
+} from "./classic/workspacePrivateEndpointConnections/index.js";
+import {
+  WorkspacePrivateLinkResourcesOperations,
+  _getWorkspacePrivateLinkResourcesOperations,
+} from "./classic/workspacePrivateLinkResources/index.js";
+import { WorkspacesOperations, _getWorkspacesOperations } from "./classic/workspaces/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { HealthcareApisManagementClientOptionalParams } from "./api/healthcareApisManagementContext.js";
 

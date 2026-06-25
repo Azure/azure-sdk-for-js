@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { MySQLManagementFlexibleServerContext } from "../../api/mySQLManagementFlexibleServerContext.js";
+import { MySQLManagementFlexibleServerContext } from "../../api/mySQLManagementFlexibleServerContext.js";
 import { listByServer } from "../../api/replicas/operations.js";
-import type { ReplicasListByServerOptionalParams } from "../../api/replicas/options.js";
-import type { Server } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { ReplicasListByServerOptionalParams } from "../../api/replicas/options.js";
+import { Server } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Replicas operations. */
 export interface ReplicasOperations {

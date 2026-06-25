@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export {
-  createProgrammableConnectivity,
-  type ProgrammableConnectivityContext,
-  type ProgrammableConnectivityClientOptionalParams,
+export type {
+  ProgrammableConnectivityContext,
+  ProgrammableConnectivityClientOptionalParams,
 } from "./programmableConnectivityContext.js";
+export { createProgrammableConnectivity } from "./programmableConnectivityContext.js";

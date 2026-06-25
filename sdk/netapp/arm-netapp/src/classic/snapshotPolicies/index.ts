@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NetAppManagementContext } from "../../api/netAppManagementContext.js";
+import { NetAppManagementContext } from "../../api/netAppManagementContext.js";
 import {
   listVolumes,
   list,
@@ -10,7 +10,7 @@ import {
   create,
   get,
 } from "../../api/snapshotPolicies/operations.js";
-import type {
+import {
   SnapshotPoliciesListVolumesOptionalParams,
   SnapshotPoliciesListOptionalParams,
   SnapshotPoliciesDeleteOptionalParams,
@@ -18,13 +18,13 @@ import type {
   SnapshotPoliciesCreateOptionalParams,
   SnapshotPoliciesGetOptionalParams,
 } from "../../api/snapshotPolicies/options.js";
-import type {
+import {
   SnapshotPolicy,
   SnapshotPolicyPatch,
   SnapshotPolicyVolumeList,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a SnapshotPolicies operations. */
 export interface SnapshotPoliciesOperations {

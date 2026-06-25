@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ApiManagementContext } from "../../api/apiManagementContext.js";
+import { ApiManagementContext } from "../../api/apiManagementContext.js";
 import {
   listByAuthorization,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/authorizationAccessPolicy/operations.js";
-import type {
+import {
   AuthorizationAccessPolicyListByAuthorizationOptionalParams,
   AuthorizationAccessPolicyDeleteOptionalParams,
   AuthorizationAccessPolicyCreateOrUpdateOptionalParams,
   AuthorizationAccessPolicyGetOptionalParams,
 } from "../../api/authorizationAccessPolicy/options.js";
-import type { AuthorizationAccessPolicyContract } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { AuthorizationAccessPolicyContract } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a AuthorizationAccessPolicy operations. */
 export interface AuthorizationAccessPolicyOperations {

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DataMigrationManagementContext } from "../../api/dataMigrationManagementContext.js";
+import { DataMigrationManagementContext } from "../../api/dataMigrationManagementContext.js";
 import {
   readWrite,
   read,
@@ -11,7 +11,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/files/operations.js";
-import type {
+import {
   FilesReadWriteOptionalParams,
   FilesReadOptionalParams,
   FilesListOptionalParams,
@@ -20,8 +20,8 @@ import type {
   FilesCreateOrUpdateOptionalParams,
   FilesGetOptionalParams,
 } from "../../api/files/options.js";
-import type { ProjectFile, FileStorageInfo } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { ProjectFile, FileStorageInfo } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Files operations. */
 export interface FilesOperations {

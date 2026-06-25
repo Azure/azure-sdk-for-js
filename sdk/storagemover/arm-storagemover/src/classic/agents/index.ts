@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { StorageMoverContext } from "../../api/storageMoverContext.js";
+import { StorageMoverContext } from "../../api/storageMoverContext.js";
 import { list, $delete, update, createOrUpdate, get } from "../../api/agents/operations.js";
-import type {
+import {
   AgentsListOptionalParams,
   AgentsDeleteOptionalParams,
   AgentsUpdateOptionalParams,
   AgentsCreateOrUpdateOptionalParams,
   AgentsGetOptionalParams,
 } from "../../api/agents/options.js";
-import type { Agent, AgentUpdateParameters } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { Agent, AgentUpdateParameters } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Agents operations. */
 export interface AgentsOperations {
@@ -23,11 +23,6 @@ export interface AgentsOperations {
     options?: AgentsListOptionalParams,
   ) => PagedAsyncIterableIterator<Agent>;
   /** Deletes an Agent resource. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     storageMoverName: string,

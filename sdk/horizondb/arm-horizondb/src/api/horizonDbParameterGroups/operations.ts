@@ -1,27 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { HorizonDbContext as Client } from "../index.js";
-import type {
+import { HorizonDbContext as Client } from "../index.js";
+import {
+  errorResponseDeserializer,
   HorizonDbParameterGroup,
+  horizonDbParameterGroupSerializer,
+  horizonDbParameterGroupDeserializer,
   HorizonDbParameterGroupForPatchUpdate,
+  horizonDbParameterGroupForPatchUpdateSerializer,
   _HorizonDbParameterGroupListResult,
+  _horizonDbParameterGroupListResultDeserializer,
   _HorizonDbParameterGroupConnectionPropertiesListResult,
+  _horizonDbParameterGroupConnectionPropertiesListResultDeserializer,
   HorizonDbParameterGroupConnectionProperties,
 } from "../../models/models.js";
 import {
-  errorResponseDeserializer,
-  horizonDbParameterGroupSerializer,
-  horizonDbParameterGroupDeserializer,
-  horizonDbParameterGroupForPatchUpdateSerializer,
-  _horizonDbParameterGroupListResultDeserializer,
-  _horizonDbParameterGroupConnectionPropertiesListResultDeserializer,
-} from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   HorizonDbParameterGroupsListVersionsOptionalParams,
   HorizonDbParameterGroupsListConnectionsOptionalParams,
   HorizonDbParameterGroupsListBySubscriptionOptionalParams,
@@ -31,9 +31,13 @@ import type {
   HorizonDbParameterGroupsCreateOrUpdateOptionalParams,
   HorizonDbParameterGroupsGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listVersionsSend(
   context: Client,
@@ -54,10 +58,12 @@ export function _listVersionsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listVersionsDeserialize(
@@ -66,7 +72,9 @@ export async function _listVersionsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -112,10 +120,12 @@ export function _listConnectionsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listConnectionsDeserialize(
@@ -124,7 +134,9 @@ export async function _listConnectionsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -166,10 +178,12 @@ export function _listBySubscriptionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listBySubscriptionDeserialize(
@@ -178,7 +192,9 @@ export async function _listBySubscriptionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -186,7 +202,7 @@ export async function _listBySubscriptionDeserialize(
   return _horizonDbParameterGroupListResultDeserializer(result.body);
 }
 
-/** Lists all HorizonDb parameter groups in a subscription. */
+/** Lists all HorizonDB parameter groups in a subscription. */
 export function listBySubscription(
   context: Client,
   options: HorizonDbParameterGroupsListBySubscriptionOptionalParams = { requestOptions: {} },
@@ -220,10 +236,12 @@ export function _listByResourceGroupSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listByResourceGroupDeserialize(
@@ -232,7 +250,9 @@ export async function _listByResourceGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -240,7 +260,7 @@ export async function _listByResourceGroupDeserialize(
   return _horizonDbParameterGroupListResultDeserializer(result.body);
 }
 
-/** Lists all HorizonDb parameter groups in a resource group. */
+/** Lists all HorizonDB parameter groups in a resource group. */
 export function listByResourceGroup(
   context: Client,
   resourceGroupName: string,
@@ -284,7 +304,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -292,12 +314,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   return;
 }
 
-/** Deletes a HorizonDb parameter group. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
+/** Deletes a HorizonDB parameter group. */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -332,12 +349,14 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: horizonDbParameterGroupForPatchUpdateSerializer(properties),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: horizonDbParameterGroupForPatchUpdateSerializer(properties),
+    });
 }
 
 export async function _updateDeserialize(
@@ -346,7 +365,9 @@ export async function _updateDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -354,7 +375,7 @@ export async function _updateDeserialize(
   return horizonDbParameterGroupDeserializer(result.body);
 }
 
-/** Updates an existing HorizonDb parameter group. */
+/** Updates an existing HorizonDB parameter group. */
 export function update(
   context: Client,
   resourceGroupName: string,
@@ -391,12 +412,14 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: horizonDbParameterGroupSerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: horizonDbParameterGroupSerializer(resource),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -405,7 +428,9 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -413,7 +438,7 @@ export async function _createOrUpdateDeserialize(
   return horizonDbParameterGroupDeserializer(result.body);
 }
 
-/** Creates a new HorizonDb parameter group or updates an existing parameter group. */
+/** Creates a new HorizonDB parameter group or updates an existing parameter group. */
 export function createOrUpdate(
   context: Client,
   resourceGroupName: string,
@@ -449,10 +474,12 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(
@@ -461,7 +488,9 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -469,7 +498,7 @@ export async function _getDeserialize(
   return horizonDbParameterGroupDeserializer(result.body);
 }
 
-/** Gets information about a HorizonDb parameter group. */
+/** Gets information about a HorizonDB parameter group. */
 export async function get(
   context: Client,
   resourceGroupName: string,

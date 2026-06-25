@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { MySQLManagementFlexibleServerContext } from "../../api/mySQLManagementFlexibleServerContext.js";
+import { MySQLManagementFlexibleServerContext } from "../../api/mySQLManagementFlexibleServerContext.js";
 import { list, get } from "../../api/longRunningBackups/operations.js";
-import type {
+import {
   LongRunningBackupsListOptionalParams,
   LongRunningBackupsGetOptionalParams,
 } from "../../api/longRunningBackups/options.js";
-import type { ServerBackupV2 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { ServerBackupV2 } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a LongRunningBackups operations. */
 export interface LongRunningBackupsOperations {

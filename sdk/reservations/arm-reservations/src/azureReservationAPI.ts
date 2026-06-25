@@ -1,35 +1,41 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureReservationAPIContext, AzureReservationAPIOptionalParams } from "./api/index.js";
-import { createAzureReservationAPI } from "./api/index.js";
+import {
+  AzureReservationAPIContext,
+  AzureReservationAPIOptionalParams,
+  createAzureReservationAPI,
+} from "./api/index.js";
 import { getAppliedReservationList, getCatalog } from "./api/operations.js";
-import type {
+import {
   GetAppliedReservationListOptionalParams,
   GetCatalogOptionalParams,
 } from "./api/options.js";
-import type { CalculateExchangeOperations } from "./classic/calculateExchange/index.js";
-import { _getCalculateExchangeOperations } from "./classic/calculateExchange/index.js";
-import type { CalculateRefundOperations } from "./classic/calculateRefund/index.js";
-import { _getCalculateRefundOperations } from "./classic/calculateRefund/index.js";
-import type { ExchangeOperations } from "./classic/exchange/index.js";
-import { _getExchangeOperations } from "./classic/exchange/index.js";
-import type { OperationOperations } from "./classic/operation/index.js";
-import { _getOperationOperations } from "./classic/operation/index.js";
-import type { QuotaOperations } from "./classic/quota/index.js";
-import { _getQuotaOperations } from "./classic/quota/index.js";
-import type { QuotaRequestStatusOperations } from "./classic/quotaRequestStatus/index.js";
-import { _getQuotaRequestStatusOperations } from "./classic/quotaRequestStatus/index.js";
-import type { ReservationOperations } from "./classic/reservation/index.js";
-import { _getReservationOperations } from "./classic/reservation/index.js";
-import type { ReservationOrderOperations } from "./classic/reservationOrder/index.js";
-import { _getReservationOrderOperations } from "./classic/reservationOrder/index.js";
-import type { ReturnOperations } from "./classic/return/index.js";
-import { _getReturnOperations } from "./classic/return/index.js";
-import type { Catalog, AppliedReservations } from "./models/reservations/models.js";
-import type { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import {
+  CalculateExchangeOperations,
+  _getCalculateExchangeOperations,
+} from "./classic/calculateExchange/index.js";
+import {
+  CalculateRefundOperations,
+  _getCalculateRefundOperations,
+} from "./classic/calculateRefund/index.js";
+import { ExchangeOperations, _getExchangeOperations } from "./classic/exchange/index.js";
+import { OperationOperations, _getOperationOperations } from "./classic/operation/index.js";
+import { QuotaOperations, _getQuotaOperations } from "./classic/quota/index.js";
+import {
+  QuotaRequestStatusOperations,
+  _getQuotaRequestStatusOperations,
+} from "./classic/quotaRequestStatus/index.js";
+import { ReservationOperations, _getReservationOperations } from "./classic/reservation/index.js";
+import {
+  ReservationOrderOperations,
+  _getReservationOrderOperations,
+} from "./classic/reservationOrder/index.js";
+import { ReturnOperations, _getReturnOperations } from "./classic/return/index.js";
+import { Catalog, AppliedReservations } from "./models/reservations/models.js";
+import { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { AzureReservationAPIOptionalParams } from "./api/azureReservationAPIContext.js";
 

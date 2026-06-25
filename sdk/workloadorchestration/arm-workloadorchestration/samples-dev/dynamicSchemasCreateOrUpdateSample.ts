@@ -18,12 +18,7 @@ async function dynamicSchemasCreateOrUpdateMaximumSet(): Promise<void> {
     "rgconfigurationmanager",
     "testname",
     "testname",
-    {
-      properties: {
-        configurationType: "Shared",
-        configurationModel: "Application",
-      },
-    },
+    { properties: {} },
   );
   console.log(result);
 }

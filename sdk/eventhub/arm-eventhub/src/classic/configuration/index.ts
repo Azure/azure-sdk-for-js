@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { EventHubManagementContext } from "../../api/eventHubManagementContext.js";
+import { EventHubManagementContext } from "../../api/eventHubManagementContext.js";
 import { get, patch } from "../../api/configuration/operations.js";
-import type {
+import {
   ConfigurationGetOptionalParams,
   ConfigurationPatchOptionalParams,
 } from "../../api/configuration/options.js";
-import type { ClusterQuotaConfigurationProperties } from "../../models/models.js";
+import { ClusterQuotaConfigurationProperties } from "../../models/models.js";
 
 /** Interface representing a Configuration operations. */
 export interface ConfigurationOperations {

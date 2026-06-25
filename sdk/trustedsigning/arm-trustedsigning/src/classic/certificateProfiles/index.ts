@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CodeSigningContext } from "../../api/codeSigningContext.js";
+import { CodeSigningContext } from "../../api/codeSigningContext.js";
 import {
   revokeCertificate,
   listByCodeSigningAccount,
@@ -9,16 +9,16 @@ import {
   create,
   get,
 } from "../../api/certificateProfiles/operations.js";
-import type {
+import {
   CertificateProfilesRevokeCertificateOptionalParams,
   CertificateProfilesListByCodeSigningAccountOptionalParams,
   CertificateProfilesDeleteOptionalParams,
   CertificateProfilesCreateOptionalParams,
   CertificateProfilesGetOptionalParams,
 } from "../../api/certificateProfiles/options.js";
-import type { CertificateProfile, RevokeCertificate } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { CertificateProfile, RevokeCertificate } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a CertificateProfiles operations. */
 export interface CertificateProfilesOperations {
@@ -30,18 +30,13 @@ export interface CertificateProfilesOperations {
     body: RevokeCertificate,
     options?: CertificateProfilesRevokeCertificateOptionalParams,
   ) => Promise<void>;
-  /** List certificate profiles under a trusted signing account. */
+  /** List certificate profiles under an artifact signing account. */
   listByCodeSigningAccount: (
     resourceGroupName: string,
     accountName: string,
     options?: CertificateProfilesListByCodeSigningAccountOptionalParams,
   ) => PagedAsyncIterableIterator<CertificateProfile>;
   /** Delete a certificate profile. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     accountName: string,

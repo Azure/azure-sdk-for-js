@@ -1,5 +1,25 @@
+# warp.config.yml — build configuration
 
-extends: ../../../warp.base.config.yml
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/scenarioRuns": "./src/api/scenarioRuns/index.ts"
+  "./api/scenarioConfigurations": "./src/api/scenarioConfigurations/index.ts"
+  "./api/scenarios": "./src/api/scenarios/index.ts"
+  "./api/discoveredResources": "./src/api/discoveredResources/index.ts"
+  "./api/workspaces": "./src/api/workspaces/index.ts"
+  "./api/operationStatuses": "./src/api/operationStatuses/index.ts"
+  "./api/targetTypes": "./src/api/targetTypes/index.ts"
+  "./api/actionVersions": "./src/api/actionVersions/index.ts"
+  "./api/actions": "./src/api/actions/index.ts"
+  "./api/privateAccesses": "./src/api/privateAccesses/index.ts"
+  "./api/experiments": "./src/api/experiments/index.ts"
+  "./api/capabilityTypes": "./src/api/capabilityTypes/index.ts"
+  "./api/targets": "./src/api/targets/index.ts"
+  "./api/operations": "./src/api/operations/index.ts"
+  "./api/capabilities": "./src/api/capabilities/index.ts"
+  "./models": "./src/models/index.ts"
 
 targets:
   - name: browser

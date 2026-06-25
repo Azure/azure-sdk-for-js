@@ -22,6 +22,7 @@ import {
 } from "../../api/connectedEnvironments/options.js";
 import {
   ConnectedEnvironment,
+  ConnectedEnvironmentPatchResource,
   CheckNameAvailabilityRequest,
   CheckNameAvailabilityResponse,
 } from "../../models/models.js";
@@ -69,6 +70,7 @@ export interface ConnectedEnvironmentsOperations {
   update: (
     resourceGroupName: string,
     connectedEnvironmentName: string,
+    environmentEnvelope: ConnectedEnvironmentPatchResource,
     options?: ConnectedEnvironmentsUpdateOptionalParams,
   ) => Promise<ConnectedEnvironment>;
   /** Creates or updates an connectedEnvironment. */
@@ -145,8 +147,9 @@ function _getConnectedEnvironments(context: ContainerAppsAPIContext) {
     update: (
       resourceGroupName: string,
       connectedEnvironmentName: string,
+      environmentEnvelope: ConnectedEnvironmentPatchResource,
       options?: ConnectedEnvironmentsUpdateOptionalParams,
-    ) => update(context, resourceGroupName, connectedEnvironmentName, options),
+    ) => update(context, resourceGroupName, connectedEnvironmentName, environmentEnvelope, options),
     createOrUpdate: (
       resourceGroupName: string,
       connectedEnvironmentName: string,

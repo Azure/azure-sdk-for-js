@@ -78,7 +78,6 @@ export class OperationalInsightsManagementClient {
     subscriptionId: string,
     options?: OperationalInsightsManagementClientOptionalParams,
   );
-  /** Provides NSP operations for working with Log Analytics. */
   constructor(
     credential: TokenCredential,
     subscriptionIdOrOptions?: string | OperationalInsightsManagementClientOptionalParams,

@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DeviceRegistryManagementContext } from "../../api/deviceRegistryManagementContext.js";
+import { DeviceRegistryManagementContext } from "../../api/deviceRegistryManagementContext.js";
 import {
   listBySchema,
   $delete,
   createOrReplace,
   get,
 } from "../../api/schemaVersions/operations.js";
-import type {
+import {
   SchemaVersionsListBySchemaOptionalParams,
   SchemaVersionsDeleteOptionalParams,
   SchemaVersionsCreateOrReplaceOptionalParams,
   SchemaVersionsGetOptionalParams,
 } from "../../api/schemaVersions/options.js";
-import type { SchemaVersion } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { SchemaVersion } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a SchemaVersions operations. */
 export interface SchemaVersionsOperations {
@@ -28,11 +28,6 @@ export interface SchemaVersionsOperations {
     options?: SchemaVersionsListBySchemaOptionalParams,
   ) => PagedAsyncIterableIterator<SchemaVersion>;
   /** Delete a SchemaVersion */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     schemaRegistryName: string,

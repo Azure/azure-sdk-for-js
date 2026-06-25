@@ -2,7 +2,7 @@
   "apiVersions": {
     "Microsoft.App": "2025-10-02-preview"
   },
-  "emitterVersion": "0.53.2",
+  "emitterVersion": "0.55.0-dev.9",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.App",
     "CrossLanguageDefinitionId": {
@@ -349,7 +349,7 @@
       "@azure/arm-appcontainers!AppResiliencyCollection:interface": "Microsoft.App.AppResiliencyCollection",
       "@azure/arm-appcontainers!BuildCollection:interface": "Microsoft.App.BuildCollection",
       "@azure/arm-appcontainers!BuildToken:interface": "Microsoft.App.BuildToken",
-      "@azure/arm-appcontainers!PrivateLinkResourceListResult:interface": "Azure.ResourceManager.ResourceListResult",
+      "@azure/arm-appcontainers!PrivateLinkResourceListResult:interface": "Microsoft.App.PrivateLinkResourceListResult",
       "@azure/arm-appcontainers!PrivateLinkResource:interface": "Microsoft.App.PrivateLinkResource",
       "@azure/arm-appcontainers!PrivateLinkResourceProperties:interface": "Microsoft.App.PrivateLinkResourceProperties",
       "@azure/arm-appcontainers!PrivateEndpointConnectionListResult:interface": "Azure.ResourceManager.ResourceListResult",

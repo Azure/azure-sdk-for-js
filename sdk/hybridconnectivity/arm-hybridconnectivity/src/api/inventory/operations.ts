@@ -29,28 +29,25 @@ export function _listBySolutionConfigurationSend(
   context: Client,
   resourceUri: string,
   solutionConfiguration: string,
-  options: InventoryListBySolutionConfigurationOptionalParams = {
-    requestOptions: {},
-  },
+  options: InventoryListBySolutionConfigurationOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/{+resourceUri}/providers/Microsoft.HybridConnectivity/solutionConfigurations/{solutionConfiguration}/inventory{?api%2Dversion}",
     {
       resourceUri: resourceUri,
       solutionConfiguration: solutionConfiguration,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2024-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listBySolutionConfigurationDeserialize(
@@ -59,7 +56,10 @@ export async function _listBySolutionConfigurationDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -71,16 +71,14 @@ export function listBySolutionConfiguration(
   context: Client,
   resourceUri: string,
   solutionConfiguration: string,
-  options: InventoryListBySolutionConfigurationOptionalParams = {
-    requestOptions: {},
-  },
+  options: InventoryListBySolutionConfigurationOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<InventoryResource> {
   return buildPagedAsyncIterator(
     context,
     () => _listBySolutionConfigurationSend(context, resourceUri, solutionConfiguration, options),
     _listBySolutionConfigurationDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2024-12-01" },
   );
 }
 
@@ -97,26 +95,28 @@ export function _getSend(
       resourceUri: resourceUri,
       solutionConfiguration: solutionConfiguration,
       inventoryId: inventoryId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2024-12-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<InventoryResource> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 

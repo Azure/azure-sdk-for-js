@@ -1,16 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { HanaManagementContext, HanaManagementClientOptionalParams } from "./api/index.js";
-import { createHanaManagement } from "./api/index.js";
-import type { OperationsOperations } from "./classic/operations/index.js";
-import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { ProviderInstancesOperations } from "./classic/providerInstances/index.js";
-import { _getProviderInstancesOperations } from "./classic/providerInstances/index.js";
-import type { SapMonitorsOperations } from "./classic/sapMonitors/index.js";
-import { _getSapMonitorsOperations } from "./classic/sapMonitors/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import {
+  HanaManagementContext,
+  HanaManagementClientOptionalParams,
+  createHanaManagement,
+} from "./api/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import {
+  ProviderInstancesOperations,
+  _getProviderInstancesOperations,
+} from "./classic/providerInstances/index.js";
+import { SapMonitorsOperations, _getSapMonitorsOperations } from "./classic/sapMonitors/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { HanaManagementClientOptionalParams } from "./api/hanaManagementContext.js";
 

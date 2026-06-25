@@ -1,19 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CosmosDBForPostgreSQLContext } from "../../api/cosmosDBForPostgreSQLContext.js";
+import { CosmosDBForPostgreSQLContext } from "../../api/cosmosDBForPostgreSQLContext.js";
 import { listByCluster, $delete, create, get } from "../../api/roles/operations.js";
-import type {
+import {
   RolesListByClusterOptionalParams,
   RolesDeleteOptionalParams,
   RolesCreateOptionalParams,
   RolesGetOptionalParams,
 } from "../../api/roles/options.js";
-import type { Role } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { Role } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Roles operations. */
 export interface RolesOperations {

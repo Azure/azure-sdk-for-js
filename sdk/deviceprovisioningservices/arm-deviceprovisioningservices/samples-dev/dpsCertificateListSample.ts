@@ -14,15 +14,8 @@ async function dpsGetCertificates(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "91d12660-3dec-467a-be2a-213b5544ddc0";
   const client = new IotDpsClient(credential, subscriptionId);
-  const resArray = new Array();
-  for await (const item of client.dpsCertificate.list(
-    "myResourceGroup",
-    "myFirstProvisioningService",
-  )) {
-    resArray.push(item);
-  }
-
-  console.log(resArray);
+  const result = await client.dpsCertificate.list("myResourceGroup", "myFirstProvisioningService");
+  console.log(result);
 }
 
 async function main(): Promise<void> {

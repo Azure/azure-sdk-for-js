@@ -10,12 +10,12 @@ export {
   create,
   get,
 } from "./operations.js";
-export {
-  type StorageTasksPreviewActionsOptionalParams,
-  type StorageTasksListBySubscriptionOptionalParams,
-  type StorageTasksListByResourceGroupOptionalParams,
-  type StorageTasksDeleteOptionalParams,
-  type StorageTasksUpdateOptionalParams,
-  type StorageTasksCreateOptionalParams,
-  type StorageTasksGetOptionalParams,
+export type {
+  StorageTasksPreviewActionsOptionalParams,
+  StorageTasksListBySubscriptionOptionalParams,
+  StorageTasksListByResourceGroupOptionalParams,
+  StorageTasksDeleteOptionalParams,
+  StorageTasksUpdateOptionalParams,
+  StorageTasksCreateOptionalParams,
+  StorageTasksGetOptionalParams,
 } from "./options.js";

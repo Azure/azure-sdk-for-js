@@ -1,20 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { FrontDoorManagementContext as Client } from "../index.js";
-import type {
-  CheckNameAvailabilityInput,
-  CheckNameAvailabilityOutput,
-} from "../../models/models.js";
+import { FrontDoorManagementContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  CheckNameAvailabilityInput,
   checkNameAvailabilityInputSerializer,
+  CheckNameAvailabilityOutput,
   checkNameAvailabilityOutputDeserializer,
 } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type { FrontDoorNameAvailabilityWithSubscriptionCheckOptionalParams } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import { FrontDoorNameAvailabilityWithSubscriptionCheckOptionalParams } from "./options.js";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _checkSend(
   context: Client,
@@ -31,12 +33,14 @@ export function _checkSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: checkNameAvailabilityInputSerializer(checkFrontDoorNameAvailabilityInput),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: checkNameAvailabilityInputSerializer(checkFrontDoorNameAvailabilityInput),
+    });
 }
 
 export async function _checkDeserialize(

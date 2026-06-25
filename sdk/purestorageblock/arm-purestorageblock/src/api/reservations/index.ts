@@ -12,14 +12,14 @@ export {
   create,
   get,
 } from "./operations.js";
-export {
-  type ReservationsGetBillingReportOptionalParams,
-  type ReservationsGetBillingStatusOptionalParams,
-  type ReservationsGetResourceLimitsOptionalParams,
-  type ReservationsListBySubscriptionOptionalParams,
-  type ReservationsListByResourceGroupOptionalParams,
-  type ReservationsDeleteOptionalParams,
-  type ReservationsUpdateOptionalParams,
-  type ReservationsCreateOptionalParams,
-  type ReservationsGetOptionalParams,
+export type {
+  ReservationsGetBillingReportOptionalParams,
+  ReservationsGetBillingStatusOptionalParams,
+  ReservationsGetResourceLimitsOptionalParams,
+  ReservationsListBySubscriptionOptionalParams,
+  ReservationsListByResourceGroupOptionalParams,
+  ReservationsDeleteOptionalParams,
+  ReservationsUpdateOptionalParams,
+  ReservationsCreateOptionalParams,
+  ReservationsGetOptionalParams,
 } from "./options.js";

@@ -16,13 +16,7 @@ async function workspacesUpdateMaximumSetGenGeneratedByMaximumSetRule(): Promise
   const client = new IoTFirmwareDefenseClient(credential, subscriptionId);
   const result = await client.workspaces.update("rgiotfirmwaredefense", "exampleWorkspaceName", {
     tags: {},
-    sku: {
-      name: "Free",
-      tier: "Free",
-      size: "Free",
-      family: "Free",
-      capacity: 25,
-    },
+    sku: { name: "Free", tier: "Free", size: "Free", family: "Free", capacity: 25 },
   });
   console.log(result);
 }

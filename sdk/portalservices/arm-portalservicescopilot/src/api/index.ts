@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export {
-  createPortalServices,
-  type PortalServicesContext,
-  type PortalServicesClientOptionalParams,
+export type {
+  PortalServicesContext,
+  PortalServicesClientOptionalParams,
 } from "./portalServicesContext.js";
+export { createPortalServices } from "./portalServicesContext.js";

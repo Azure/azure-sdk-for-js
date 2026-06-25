@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { BatchManagementContext } from "../../api/batchManagementContext.js";
+import { BatchManagementContext } from "../../api/batchManagementContext.js";
 import {
   stopResize,
   disableAutoScale,
@@ -11,7 +11,7 @@ import {
   create,
   get,
 } from "../../api/pool/operations.js";
-import type {
+import {
   PoolStopResizeOptionalParams,
   PoolDisableAutoScaleOptionalParams,
   PoolListByBatchAccountOptionalParams,
@@ -20,11 +20,10 @@ import type {
   PoolCreateOptionalParams,
   PoolGetOptionalParams,
 } from "../../api/pool/options.js";
-import type { Pool } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { Pool } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Pool operations. */
 export interface PoolOperations {
@@ -49,11 +48,6 @@ export interface PoolOperations {
     options?: PoolListByBatchAccountOptionalParams,
   ) => PagedAsyncIterableIterator<Pool>;
   /** Deletes the specified pool. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     accountName: string,

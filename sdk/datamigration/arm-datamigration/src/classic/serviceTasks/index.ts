@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DataMigrationManagementContext } from "../../api/dataMigrationManagementContext.js";
+import { DataMigrationManagementContext } from "../../api/dataMigrationManagementContext.js";
 import {
   cancel,
   list,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/serviceTasks/operations.js";
-import type {
+import {
   ServiceTasksCancelOptionalParams,
   ServiceTasksListOptionalParams,
   ServiceTasksDeleteOptionalParams,
@@ -18,8 +18,8 @@ import type {
   ServiceTasksCreateOrUpdateOptionalParams,
   ServiceTasksGetOptionalParams,
 } from "../../api/serviceTasks/options.js";
-import type { ProjectTask } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { ProjectTask } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ServiceTasks operations. */
 export interface ServiceTasksOperations {

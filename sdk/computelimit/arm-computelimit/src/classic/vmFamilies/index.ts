@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeLimitContext } from "../../api/computeLimitContext.js";
+import { ComputeLimitContext } from "../../api/computeLimitContext.js";
 import { listBySubscriptionLocationResource, get } from "../../api/vmFamilies/operations.js";
-import type {
+import {
   VmFamiliesListBySubscriptionLocationResourceOptionalParams,
   VmFamiliesGetOptionalParams,
 } from "../../api/vmFamilies/options.js";
-import type { VmFamily } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { VmFamily } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a VmFamilies operations. */
 export interface VmFamiliesOperations {

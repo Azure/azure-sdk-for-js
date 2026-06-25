@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export {
-  createWorkloadOrchestrationManagement,
-  type WorkloadOrchestrationManagementContext,
-  type WorkloadOrchestrationManagementClientOptionalParams,
+export type {
+  WorkloadOrchestrationManagementContext,
+  WorkloadOrchestrationManagementClientOptionalParams,
 } from "./workloadOrchestrationManagementContext.js";
+export { createWorkloadOrchestrationManagement } from "./workloadOrchestrationManagementContext.js";

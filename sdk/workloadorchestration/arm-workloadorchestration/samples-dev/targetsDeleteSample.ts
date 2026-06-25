@@ -14,9 +14,7 @@ async function targetsDeleteMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "9D54FE4C-00AF-4836-8F48-B6A9C4E47192";
   const client = new WorkloadOrchestrationManagementClient(credential, subscriptionId);
-  await client.targets.delete("rgconfigurationmanager", "testname", {
-    forceDelete: true,
-  });
+  await client.targets.delete("rgconfigurationmanager", "testname", { forceDelete: true });
 }
 
 async function main(): Promise<void> {

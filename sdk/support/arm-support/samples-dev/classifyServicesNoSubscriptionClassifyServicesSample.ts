@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to classify the list of right Azure services.
  *
  * @summary classify the list of right Azure services.
- * x-ms-original-file: 2025-06-01-preview/ClassifyServices.json
+ * x-ms-original-file: 2026-06-01/ClassifyServices.json
  */
 async function classifyListOfAzureServices(): Promise<void> {
   const credential = new DefaultAzureCredential();

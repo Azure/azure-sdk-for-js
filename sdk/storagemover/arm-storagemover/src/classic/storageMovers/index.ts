@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { StorageMoverContext } from "../../api/storageMoverContext.js";
+import { StorageMoverContext } from "../../api/storageMoverContext.js";
 import {
   listBySubscription,
   list,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/storageMovers/operations.js";
-import type {
+import {
   StorageMoversListBySubscriptionOptionalParams,
   StorageMoversListOptionalParams,
   StorageMoversDeleteOptionalParams,
@@ -18,9 +18,9 @@ import type {
   StorageMoversCreateOrUpdateOptionalParams,
   StorageMoversGetOptionalParams,
 } from "../../api/storageMovers/options.js";
-import type { StorageMover, StorageMoverUpdateParameters } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { StorageMover, StorageMoverUpdateParameters } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a StorageMovers operations. */
 export interface StorageMoversOperations {
@@ -34,11 +34,6 @@ export interface StorageMoversOperations {
     options?: StorageMoversListOptionalParams,
   ) => PagedAsyncIterableIterator<StorageMover>;
   /** Deletes a Storage Mover resource. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     storageMoverName: string,

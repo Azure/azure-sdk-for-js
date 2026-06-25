@@ -3,10 +3,14 @@
 
 import { AgriculturePlatformContext } from "../../api/agriculturePlatformContext.js";
 import {
-  AgriServiceResource,
-  AgriServiceResourceUpdate,
-  AvailableAgriSolutionListResult,
-} from "../../models/models.js";
+  listAvailableSolutions,
+  listBySubscription,
+  listByResourceGroup,
+  $delete,
+  update,
+  createOrUpdate,
+  get,
+} from "../../api/agriService/operations.js";
 import {
   AgriServiceListAvailableSolutionsOptionalParams,
   AgriServiceListBySubscriptionOptionalParams,
@@ -17,14 +21,10 @@ import {
   AgriServiceGetOptionalParams,
 } from "../../api/agriService/options.js";
 import {
-  listAvailableSolutions,
-  listBySubscription,
-  listByResourceGroup,
-  $delete,
-  update,
-  createOrUpdate,
-  get,
-} from "../../api/agriService/operations.js";
+  AgriServiceResource,
+  AgriServiceResourceUpdate,
+  AvailableAgriSolutionListResult,
+} from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -46,11 +46,6 @@ export interface AgriServiceOperations {
     options?: AgriServiceListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<AgriServiceResource>;
   /** Delete a AgriServiceResource */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     agriServiceResourceName: string,

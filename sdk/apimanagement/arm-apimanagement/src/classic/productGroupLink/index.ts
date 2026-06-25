@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ApiManagementContext } from "../../api/apiManagementContext.js";
+import { ApiManagementContext } from "../../api/apiManagementContext.js";
 import {
   listByProduct,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/productGroupLink/operations.js";
-import type {
+import {
   ProductGroupLinkListByProductOptionalParams,
   ProductGroupLinkDeleteOptionalParams,
   ProductGroupLinkCreateOrUpdateOptionalParams,
   ProductGroupLinkGetOptionalParams,
 } from "../../api/productGroupLink/options.js";
-import type { ProductGroupLinkContract } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { ProductGroupLinkContract } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ProductGroupLink operations. */
 export interface ProductGroupLinkOperations {

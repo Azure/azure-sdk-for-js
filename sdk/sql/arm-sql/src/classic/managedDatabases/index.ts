@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listInaccessibleByInstance,
   startMove,
@@ -15,7 +15,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/managedDatabases/operations.js";
-import type {
+import {
   ManagedDatabasesListInaccessibleByInstanceOptionalParams,
   ManagedDatabasesStartMoveOptionalParams,
   ManagedDatabasesReevaluateInaccessibleDatabaseStateOptionalParams,
@@ -28,17 +28,16 @@ import type {
   ManagedDatabasesCreateOrUpdateOptionalParams,
   ManagedDatabasesGetOptionalParams,
 } from "../../api/managedDatabases/options.js";
-import type {
+import {
   ManagedDatabase,
   ManagedDatabaseUpdate,
   ManagedDatabaseMoveDefinition,
   CompleteDatabaseRestoreDefinition,
   ManagedDatabaseStartMoveDefinition,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ManagedDatabases operations. */
 export interface ManagedDatabasesOperations {

@@ -2,7 +2,7 @@
   "apiVersions": {
     "Azure.Ai.Speech.Transcription": "2025-10-15"
   },
-  "emitterVersion": "0.52.3",
+  "emitterVersion": "0.55.0-dev.9",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Azure.Ai.Speech.Transcription",
     "CrossLanguageDefinitionId": {

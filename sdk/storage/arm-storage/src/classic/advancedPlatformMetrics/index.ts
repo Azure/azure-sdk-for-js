@@ -1,24 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { StorageManagementContext } from "../../api/storageManagementContext.js";
+import { StorageManagementContext } from "../../api/storageManagementContext.js";
 import {
   list,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/advancedPlatformMetrics/operations.js";
-import type {
+import {
   AdvancedPlatformMetricsListOptionalParams,
   AdvancedPlatformMetricsDeleteOptionalParams,
   AdvancedPlatformMetricsCreateOrUpdateOptionalParams,
   AdvancedPlatformMetricsGetOptionalParams,
 } from "../../api/advancedPlatformMetrics/options.js";
-import type {
+import {
   AdvancedPlatformMetricsRule,
   AdvancedPlatformMetricsRuleType,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a AdvancedPlatformMetrics operations. */
 export interface AdvancedPlatformMetricsOperations {

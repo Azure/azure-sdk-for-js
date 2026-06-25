@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { DevOpsInfrastructureContext } from "../../api/devOpsInfrastructureContext.js";
-import { SubscriptionUsagesUsagesOptionalParams } from "../../api/options.js";
-import { subscriptionUsagesUsages } from "../../api/subscriptionUsages/index.js";
+import { usages } from "../../api/subscriptionUsages/operations.js";
+import { SubscriptionUsagesUsagesOptionalParams } from "../../api/subscriptionUsages/options.js";
 import { Quota } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
@@ -16,21 +16,17 @@ export interface SubscriptionUsagesOperations {
   ) => PagedAsyncIterableIterator<Quota>;
 }
 
-export function getSubscriptionUsages(
-  context: DevOpsInfrastructureContext,
-  subscriptionId: string,
-) {
+function _getSubscriptionUsages(context: DevOpsInfrastructureContext) {
   return {
     usages: (location: string, options?: SubscriptionUsagesUsagesOptionalParams) =>
-      subscriptionUsagesUsages(context, subscriptionId, location, options),
+      usages(context, location, options),
   };
 }
 
-export function getSubscriptionUsagesOperations(
+export function _getSubscriptionUsagesOperations(
   context: DevOpsInfrastructureContext,
-  subscriptionId: string,
 ): SubscriptionUsagesOperations {
   return {
-    ...getSubscriptionUsages(context, subscriptionId),
+    ..._getSubscriptionUsages(context),
   };
 }

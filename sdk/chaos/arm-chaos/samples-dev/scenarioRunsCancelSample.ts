@@ -14,12 +14,13 @@ async function cancelARunningScenarioRun(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "6b052e15-03d3-4f17-b2e1-be7f07588291";
   const client = new ChaosManagementClient(credential, subscriptionId);
-  await client.scenarioRuns.cancel(
+  const result = await client.scenarioRuns.cancel(
     "exampleRG",
     "exampleWorkspace",
     "12345678-1234-1234-1234-123456789012",
     "abcd1234-5678-9012-3456-789012345678",
   );
+  console.log(result);
 }
 
 async function main(): Promise<void> {

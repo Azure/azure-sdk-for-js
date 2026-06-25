@@ -1,56 +1,99 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DataProtectionContext, DataProtectionClientOptionalParams } from "./api/index.js";
-import { createDataProtection } from "./api/index.js";
-import type { BackupInstancesOperations } from "./classic/backupInstances/index.js";
-import { _getBackupInstancesOperations } from "./classic/backupInstances/index.js";
-import type { BackupInstancesExtensionRoutingOperations } from "./classic/backupInstancesExtensionRouting/index.js";
-import { _getBackupInstancesExtensionRoutingOperations } from "./classic/backupInstancesExtensionRouting/index.js";
-import type { BackupPoliciesOperations } from "./classic/backupPolicies/index.js";
-import { _getBackupPoliciesOperations } from "./classic/backupPolicies/index.js";
-import type { BackupVaultOperationResultsOperations } from "./classic/backupVaultOperationResults/index.js";
-import { _getBackupVaultOperationResultsOperations } from "./classic/backupVaultOperationResults/index.js";
-import type { BackupVaultsOperations } from "./classic/backupVaults/index.js";
-import { _getBackupVaultsOperations } from "./classic/backupVaults/index.js";
-import type { DataProtectionOperations } from "./classic/dataProtection/index.js";
-import { _getDataProtectionOperations } from "./classic/dataProtection/index.js";
-import type { DataProtectionOperationsOperations } from "./classic/dataProtectionOperations/index.js";
-import { _getDataProtectionOperationsOperations } from "./classic/dataProtectionOperations/index.js";
-import type { DeletedBackupInstancesOperations } from "./classic/deletedBackupInstances/index.js";
-import { _getDeletedBackupInstancesOperations } from "./classic/deletedBackupInstances/index.js";
-import type { DeletedBackupVaultsOperations } from "./classic/deletedBackupVaults/index.js";
-import { _getDeletedBackupVaultsOperations } from "./classic/deletedBackupVaults/index.js";
-import type { DppResourceGuardProxyOperations } from "./classic/dppResourceGuardProxy/index.js";
-import { _getDppResourceGuardProxyOperations } from "./classic/dppResourceGuardProxy/index.js";
-import type { ExportJobsOperations } from "./classic/exportJobs/index.js";
-import { _getExportJobsOperations } from "./classic/exportJobs/index.js";
-import type { ExportJobsOperationResultOperations } from "./classic/exportJobsOperationResult/index.js";
-import { _getExportJobsOperationResultOperations } from "./classic/exportJobsOperationResult/index.js";
-import type { FetchCrossRegionRestoreJobOperations } from "./classic/fetchCrossRegionRestoreJob/index.js";
-import { _getFetchCrossRegionRestoreJobOperations } from "./classic/fetchCrossRegionRestoreJob/index.js";
-import type { FetchCrossRegionRestoreJobsOperations } from "./classic/fetchCrossRegionRestoreJobs/index.js";
-import { _getFetchCrossRegionRestoreJobsOperations } from "./classic/fetchCrossRegionRestoreJobs/index.js";
-import type { FetchSecondaryRecoveryPointsOperations } from "./classic/fetchSecondaryRecoveryPoints/index.js";
-import { _getFetchSecondaryRecoveryPointsOperations } from "./classic/fetchSecondaryRecoveryPoints/index.js";
-import type { JobsOperations } from "./classic/jobs/index.js";
-import { _getJobsOperations } from "./classic/jobs/index.js";
-import type { OperationResultOperations } from "./classic/operationResult/index.js";
-import { _getOperationResultOperations } from "./classic/operationResult/index.js";
-import type { OperationStatusOperations } from "./classic/operationStatus/index.js";
-import { _getOperationStatusOperations } from "./classic/operationStatus/index.js";
-import type { OperationStatusBackupVaultContextOperations } from "./classic/operationStatusBackupVaultContext/index.js";
-import { _getOperationStatusBackupVaultContextOperations } from "./classic/operationStatusBackupVaultContext/index.js";
-import type { OperationStatusResourceGroupContextOperations } from "./classic/operationStatusResourceGroupContext/index.js";
-import { _getOperationStatusResourceGroupContextOperations } from "./classic/operationStatusResourceGroupContext/index.js";
-import type { RecoveryPointsOperations } from "./classic/recoveryPoints/index.js";
-import { _getRecoveryPointsOperations } from "./classic/recoveryPoints/index.js";
-import type { ResourceGuardsOperations } from "./classic/resourceGuards/index.js";
-import { _getResourceGuardsOperations } from "./classic/resourceGuards/index.js";
-import type { RestorableTimeRangesOperations } from "./classic/restorableTimeRanges/index.js";
-import { _getRestorableTimeRangesOperations } from "./classic/restorableTimeRanges/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import {
+  DataProtectionContext,
+  DataProtectionClientOptionalParams,
+  createDataProtection,
+} from "./api/index.js";
+import {
+  BackupInstancesOperations,
+  _getBackupInstancesOperations,
+} from "./classic/backupInstances/index.js";
+import {
+  BackupInstancesExtensionRoutingOperations,
+  _getBackupInstancesExtensionRoutingOperations,
+} from "./classic/backupInstancesExtensionRouting/index.js";
+import {
+  BackupPoliciesOperations,
+  _getBackupPoliciesOperations,
+} from "./classic/backupPolicies/index.js";
+import {
+  BackupVaultOperationResultsOperations,
+  _getBackupVaultOperationResultsOperations,
+} from "./classic/backupVaultOperationResults/index.js";
+import {
+  BackupVaultsOperations,
+  _getBackupVaultsOperations,
+} from "./classic/backupVaults/index.js";
+import {
+  DataProtectionOperations,
+  _getDataProtectionOperations,
+} from "./classic/dataProtection/index.js";
+import {
+  DataProtectionOperationsOperations,
+  _getDataProtectionOperationsOperations,
+} from "./classic/dataProtectionOperations/index.js";
+import {
+  DeletedBackupInstancesOperations,
+  _getDeletedBackupInstancesOperations,
+} from "./classic/deletedBackupInstances/index.js";
+import {
+  DeletedBackupVaultsOperations,
+  _getDeletedBackupVaultsOperations,
+} from "./classic/deletedBackupVaults/index.js";
+import {
+  DppResourceGuardProxyOperations,
+  _getDppResourceGuardProxyOperations,
+} from "./classic/dppResourceGuardProxy/index.js";
+import { ExportJobsOperations, _getExportJobsOperations } from "./classic/exportJobs/index.js";
+import {
+  ExportJobsOperationResultOperations,
+  _getExportJobsOperationResultOperations,
+} from "./classic/exportJobsOperationResult/index.js";
+import {
+  FetchCrossRegionRestoreJobOperations,
+  _getFetchCrossRegionRestoreJobOperations,
+} from "./classic/fetchCrossRegionRestoreJob/index.js";
+import {
+  FetchCrossRegionRestoreJobsOperations,
+  _getFetchCrossRegionRestoreJobsOperations,
+} from "./classic/fetchCrossRegionRestoreJobs/index.js";
+import {
+  FetchSecondaryRecoveryPointsOperations,
+  _getFetchSecondaryRecoveryPointsOperations,
+} from "./classic/fetchSecondaryRecoveryPoints/index.js";
+import { JobsOperations, _getJobsOperations } from "./classic/jobs/index.js";
+import {
+  OperationResultOperations,
+  _getOperationResultOperations,
+} from "./classic/operationResult/index.js";
+import {
+  OperationStatusOperations,
+  _getOperationStatusOperations,
+} from "./classic/operationStatus/index.js";
+import {
+  OperationStatusBackupVaultContextOperations,
+  _getOperationStatusBackupVaultContextOperations,
+} from "./classic/operationStatusBackupVaultContext/index.js";
+import {
+  OperationStatusResourceGroupContextOperations,
+  _getOperationStatusResourceGroupContextOperations,
+} from "./classic/operationStatusResourceGroupContext/index.js";
+import {
+  RecoveryPointsOperations,
+  _getRecoveryPointsOperations,
+} from "./classic/recoveryPoints/index.js";
+import {
+  ResourceGuardsOperations,
+  _getResourceGuardsOperations,
+} from "./classic/resourceGuards/index.js";
+import {
+  RestorableTimeRangesOperations,
+  _getRestorableTimeRangesOperations,
+} from "./classic/restorableTimeRanges/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { DataProtectionClientOptionalParams } from "./api/dataProtectionContext.js";
 

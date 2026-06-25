@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ConsumptionManagementContext } from "../../api/consumptionManagementContext.js";
+import { ConsumptionManagementContext } from "../../api/consumptionManagementContext.js";
 import { list } from "../../api/charges/operations.js";
-import type { ChargesListOptionalParams } from "../../api/charges/options.js";
-import type { ChargesListResult } from "../../models/models.js";
+import { ChargesListOptionalParams } from "../../api/charges/options.js";
+import { ChargesListResult } from "../../models/models.js";
 
 /** Interface representing a Charges operations. */
 export interface ChargesOperations {

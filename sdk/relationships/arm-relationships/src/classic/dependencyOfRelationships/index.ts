@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RelationshipsContext } from "../../api/relationshipsContext.js";
+import { RelationshipsContext } from "../../api/relationshipsContext.js";
 import { $delete, get, createOrUpdate } from "../../api/dependencyOfRelationships/operations.js";
-import type {
+import {
   DependencyOfRelationshipsDeleteOptionalParams,
   DependencyOfRelationshipsGetOptionalParams,
   DependencyOfRelationshipsCreateOrUpdateOptionalParams,
 } from "../../api/dependencyOfRelationships/options.js";
-import type {
+import {
   DependencyOfRelationshipCreateOrUpdate,
   DependencyOfRelationship,
 } from "../../models/models.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a DependencyOfRelationships operations. */
 export interface DependencyOfRelationshipsOperations {

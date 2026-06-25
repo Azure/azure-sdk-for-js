@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NetAppManagementContext } from "../../api/netAppManagementContext.js";
+import { NetAppManagementContext } from "../../api/netAppManagementContext.js";
 import { list, $delete, update, create, get } from "../../api/backupPolicies/operations.js";
-import type {
+import {
   BackupPoliciesListOptionalParams,
   BackupPoliciesDeleteOptionalParams,
   BackupPoliciesUpdateOptionalParams,
   BackupPoliciesCreateOptionalParams,
   BackupPoliciesGetOptionalParams,
 } from "../../api/backupPolicies/options.js";
-import type { BackupPolicy, BackupPolicyPatch } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { BackupPolicy, BackupPolicyPatch } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a BackupPolicies operations. */
 export interface BackupPoliciesOperations {

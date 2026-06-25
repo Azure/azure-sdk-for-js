@@ -1,33 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   NewRelicObservabilityContext,
   NewRelicObservabilityOptionalParams,
+  createNewRelicObservability,
 } from "./api/index.js";
-import { createNewRelicObservability } from "./api/index.js";
-import type { AccountsOperations } from "./classic/accounts/index.js";
-import { _getAccountsOperations } from "./classic/accounts/index.js";
-import type { BillingInfoOperations } from "./classic/billingInfo/index.js";
-import { _getBillingInfoOperations } from "./classic/billingInfo/index.js";
-import type { ConnectedPartnerResourcesOperations } from "./classic/connectedPartnerResources/index.js";
-import { _getConnectedPartnerResourcesOperations } from "./classic/connectedPartnerResources/index.js";
-import type { MonitoredSubscriptionsOperations } from "./classic/monitoredSubscriptions/index.js";
-import { _getMonitoredSubscriptionsOperations } from "./classic/monitoredSubscriptions/index.js";
-import type { MonitorsOperations } from "./classic/monitors/index.js";
-import { _getMonitorsOperations } from "./classic/monitors/index.js";
-import type { OperationsOperations } from "./classic/operations/index.js";
-import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { OrganizationsOperations } from "./classic/organizations/index.js";
-import { _getOrganizationsOperations } from "./classic/organizations/index.js";
-import type { PlansOperations } from "./classic/plans/index.js";
-import { _getPlansOperations } from "./classic/plans/index.js";
-import type { SaaSOperations } from "./classic/saaS/index.js";
-import { _getSaaSOperations } from "./classic/saaS/index.js";
-import type { TagRulesOperations } from "./classic/tagRules/index.js";
-import { _getTagRulesOperations } from "./classic/tagRules/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import { AccountsOperations, _getAccountsOperations } from "./classic/accounts/index.js";
+import { BillingInfoOperations, _getBillingInfoOperations } from "./classic/billingInfo/index.js";
+import {
+  ConnectedPartnerResourcesOperations,
+  _getConnectedPartnerResourcesOperations,
+} from "./classic/connectedPartnerResources/index.js";
+import {
+  MonitoredSubscriptionsOperations,
+  _getMonitoredSubscriptionsOperations,
+} from "./classic/monitoredSubscriptions/index.js";
+import { MonitorsOperations, _getMonitorsOperations } from "./classic/monitors/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import {
+  OrganizationsOperations,
+  _getOrganizationsOperations,
+} from "./classic/organizations/index.js";
+import { PlansOperations, _getPlansOperations } from "./classic/plans/index.js";
+import { SaaSOperations, _getSaaSOperations } from "./classic/saaS/index.js";
+import { TagRulesOperations, _getTagRulesOperations } from "./classic/tagRules/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { NewRelicObservabilityOptionalParams } from "./api/newRelicObservabilityContext.js";
 

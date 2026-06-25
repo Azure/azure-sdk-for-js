@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { FrontDoorManagementContext } from "../../api/frontDoorManagementContext.js";
+import { FrontDoorManagementContext } from "../../api/frontDoorManagementContext.js";
 import { getTimeseries, getLatencyScorecards } from "../../api/reports/operations.js";
-import type {
+import {
   ReportsGetTimeseriesOptionalParams,
   ReportsGetLatencyScorecardsOptionalParams,
 } from "../../api/reports/options.js";
-import type {
+import {
   LatencyScorecard,
   Timeseries,
   TimeseriesType,

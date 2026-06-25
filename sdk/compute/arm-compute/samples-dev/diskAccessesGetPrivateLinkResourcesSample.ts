@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the private link resources possible under disk access resource
  *
  * @summary gets the private link resources possible under disk access resource
- * x-ms-original-file: 2025-01-02/diskAccessExamples/DiskAccessPrivateLinkResources_Get.json
+ * x-ms-original-file: 2026-03-02/diskAccessExamples/DiskAccessPrivateLinkResources_Get.json
  */
 async function listAllPossiblePrivateLinkResourcesUnderDiskAccessResource(): Promise<void> {
   const credential = new DefaultAzureCredential();

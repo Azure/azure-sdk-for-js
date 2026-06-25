@@ -4788,8 +4788,8 @@ export function l3IsolationDomainPatchSerializer(item: L3IsolationDomainPatch): 
       "aggregateRouteConfiguration",
       "connectedSubnetRoutePolicy",
       "staticRouteRoutePolicy",
-      "v4routePrefixLimit",
-      "v6routePrefixLimit",
+      "v4RoutePrefixLimit",
+      "v6RoutePrefixLimit",
       "exportPolicyConfiguration",
     ])
       ? undefined

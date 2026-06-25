@@ -1,24 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CostManagementContext as Client } from "../index.js";
-import type {
-  QueryDefinition,
-  QueryResult,
-  ExternalCloudProviderType,
-} from "../../models/models.js";
+import { CostManagementContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  QueryDefinition,
   queryDefinitionSerializer,
+  QueryResult,
   queryResultDeserializer,
+  ExternalCloudProviderType,
 } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   QueryUsageByExternalCloudProviderTypeOptionalParams,
   QueryUsageOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _usageByExternalCloudProviderTypeSend(
   context: Client,
@@ -38,12 +40,14 @@ export function _usageByExternalCloudProviderTypeSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: queryDefinitionSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: queryDefinitionSerializer(parameters),
+    });
 }
 
 export async function _usageByExternalCloudProviderTypeDeserialize(
@@ -96,12 +100,14 @@ export function _usageSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: queryDefinitionSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: queryDefinitionSerializer(parameters),
+    });
 }
 
 export async function _usageDeserialize(

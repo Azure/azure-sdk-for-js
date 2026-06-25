@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { MicrosoftStorageSyncContext } from "../../api/microsoftStorageSyncContext.js";
+import { MicrosoftStorageSyncContext } from "../../api/microsoftStorageSyncContext.js";
 import { listByStorageSyncService } from "../../api/privateLinkResources/operations.js";
-import type { PrivateLinkResourcesListByStorageSyncServiceOptionalParams } from "../../api/privateLinkResources/options.js";
-import type { PrivateLinkResourceListResult } from "../../models/models.js";
+import { PrivateLinkResourcesListByStorageSyncServiceOptionalParams } from "../../api/privateLinkResources/options.js";
+import { PrivateLinkResourceListResult } from "../../models/models.js";
 
 /** Interface representing a PrivateLinkResources operations. */
 export interface PrivateLinkResourcesOperations {

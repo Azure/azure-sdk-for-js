@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ServiceGroupsManagementContext } from "../../api/serviceGroupsManagementContext.js";
+import { ServiceGroupsManagementContext } from "../../api/serviceGroupsManagementContext.js";
 import { listAncestors, get } from "../../api/serviceGroups/operations.js";
-import type {
+import {
   ServiceGroupsListAncestorsOptionalParams,
   ServiceGroupsGetOptionalParams,
 } from "../../api/serviceGroups/options.js";
-import type { ServiceGroup, ServiceGroupCollectionResponse } from "../../models/models.js";
+import { ServiceGroup, ServiceGroupCollectionResponse } from "../../models/models.js";
 
 /** Interface representing a ServiceGroups operations. */
 export interface ServiceGroupsOperations {

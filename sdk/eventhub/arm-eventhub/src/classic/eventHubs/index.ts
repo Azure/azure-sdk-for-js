@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { EventHubManagementContext } from "../../api/eventHubManagementContext.js";
+import { EventHubManagementContext } from "../../api/eventHubManagementContext.js";
 import {
   listByNamespace,
   $delete,
@@ -14,7 +14,7 @@ import {
   createOrUpdateAuthorizationRule,
   getAuthorizationRule,
 } from "../../api/eventHubs/operations.js";
-import type {
+import {
   EventHubsListByNamespaceOptionalParams,
   EventHubsDeleteOptionalParams,
   EventHubsCreateOrUpdateOptionalParams,
@@ -26,13 +26,13 @@ import type {
   EventHubsCreateOrUpdateAuthorizationRuleOptionalParams,
   EventHubsGetAuthorizationRuleOptionalParams,
 } from "../../api/eventHubs/options.js";
-import type {
+import {
   AuthorizationRule,
   AccessKeys,
   RegenerateAccessKeyParameters,
   Eventhub,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a EventHubs operations. */
 export interface EventHubsOperations {

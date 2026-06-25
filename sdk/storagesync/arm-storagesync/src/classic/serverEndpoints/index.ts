@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { MicrosoftStorageSyncContext } from "../../api/microsoftStorageSyncContext.js";
+import { MicrosoftStorageSyncContext } from "../../api/microsoftStorageSyncContext.js";
 import {
   recallAction,
   listBySyncGroup,
@@ -10,7 +10,7 @@ import {
   create,
   get,
 } from "../../api/serverEndpoints/operations.js";
-import type {
+import {
   ServerEndpointsRecallActionOptionalParams,
   ServerEndpointsListBySyncGroupOptionalParams,
   ServerEndpointsDeleteOptionalParams,
@@ -18,15 +18,14 @@ import type {
   ServerEndpointsCreateOptionalParams,
   ServerEndpointsGetOptionalParams,
 } from "../../api/serverEndpoints/options.js";
-import type {
+import {
   ServerEndpoint,
   ServerEndpointCreateParameters,
   RecallActionParameters,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ServerEndpoints operations. */
 export interface ServerEndpointsOperations {

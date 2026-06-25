@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { BatchManagementContext } from "../../api/batchManagementContext.js";
+import { BatchManagementContext } from "../../api/batchManagementContext.js";
 import { list, $delete, update, create, get } from "../../api/application/operations.js";
-import type {
+import {
   ApplicationListOptionalParams,
   ApplicationDeleteOptionalParams,
   ApplicationUpdateOptionalParams,
   ApplicationCreateOptionalParams,
   ApplicationGetOptionalParams,
 } from "../../api/application/options.js";
-import type { Application } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { Application } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Application operations. */
 export interface ApplicationOperations {
@@ -22,11 +22,6 @@ export interface ApplicationOperations {
     options?: ApplicationListOptionalParams,
   ) => PagedAsyncIterableIterator<Application>;
   /** Deletes an application. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     accountName: string,

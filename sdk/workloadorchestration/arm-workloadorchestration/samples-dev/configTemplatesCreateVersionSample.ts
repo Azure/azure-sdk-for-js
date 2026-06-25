@@ -17,9 +17,7 @@ async function configTemplatesCreateVersionMaximumSet(): Promise<void> {
   const result = await client.configTemplates.createVersion("rgconfigurationmanager", "testname", {
     updateType: "Major",
     version: "1.0.0",
-    configTemplateVersion: {
-      properties: { configurations: "rgricnhvcbqykc" },
-    },
+    configTemplateVersion: { properties: { configurations: "rgricnhvcbqykc" } },
   });
   console.log(result);
 }

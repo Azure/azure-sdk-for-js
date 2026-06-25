@@ -1,14 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   VectorStoreConfiguration,
   VectorStoreExpirationPolicy,
   VectorStoreChunkingStrategyRequestUnion,
   ListSortOrder,
 } from "../../models/models.js";
-import type { OperationOptions } from "@azure-rest/core-client";
-import type { PollingOptionsParams } from "../options.js";
+import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface VectorStoresDeleteVectorStoreOptionalParams extends OperationOptions {}
@@ -27,8 +26,7 @@ export interface VectorStoresModifyVectorStoreOptionalParams extends OperationOp
 export interface VectorStoresGetVectorStoreOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface VectorStoresCreateVectorStoreOptionalParams
-  extends OperationOptions, PollingOptionsParams {
+export interface VectorStoresCreateVectorStoreOptionalParams extends OperationOptions {
   /** A list of file IDs that the vector store should use. Useful for tools like `file_search` that can access files. */
   fileIds?: string[];
   /** The name of the vector store. */
@@ -45,7 +43,7 @@ export interface VectorStoresCreateVectorStoreOptionalParams
 
 /** Optional parameters. */
 export interface VectorStoresListVectorStoresOptionalParams extends OperationOptions {
-  /** A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20. */
+  /** A limit on the number of objects to be returned on one page. Limit can range between 1 and 100, and the default is 20. */
   limit?: number;
   /** Sort order by the created_at timestamp of the objects. asc for ascending order and desc for descending order. */
   order?: ListSortOrder;

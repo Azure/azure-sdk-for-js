@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export {
+export type {
   WidgetSuite,
   FakedSharedModel,
   ResourceOperationStatusWidgetSuiteWidgetSuiteError,
-  KnownOperationState,
   OperationState,
-  KnownVersions,
 } from "./models.js";
+export { KnownOperationState, KnownVersions } from "./models.js";

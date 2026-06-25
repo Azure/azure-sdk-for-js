@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { listByInstancePool } from "../../api/usages/operations.js";
-import type { UsagesListByInstancePoolOptionalParams } from "../../api/usages/options.js";
-import type { Usage } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { UsagesListByInstancePoolOptionalParams } from "../../api/usages/options.js";
+import { Usage } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Usages operations. */
 export interface UsagesOperations {

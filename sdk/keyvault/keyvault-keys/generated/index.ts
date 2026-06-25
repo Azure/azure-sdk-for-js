@@ -15,8 +15,10 @@ export type {
   KeyAttributes,
   DeletionRecoveryLevel,
   KeyAttestation,
+  ExternalKey,
   JsonWebKeyCurveName,
   KeyReleasePolicy,
+  AKPAlgorithm,
   KeyBundle,
   JsonWebKey,
   KeyVaultError,
@@ -34,6 +36,10 @@ export type {
   JsonWebKeySignatureAlgorithm,
   KeyVerifyParameters,
   KeyVerifyResult,
+  SecureKeyWrapOperationParameters,
+  JsonWebKeyWrapAlgorithm,
+  SecureKeyOperationResult,
+  SecureKeyUnWrapOperationParameters,
   KeyReleaseParameters,
   KeyEncryptionAlgorithm,
   KeyReleaseResult,
@@ -52,8 +58,10 @@ export {
   KnownJsonWebKeyOperation,
   KnownDeletionRecoveryLevel,
   KnownJsonWebKeyCurveName,
+  KnownAKPAlgorithm,
   KnownJsonWebKeyEncryptionAlgorithm,
   KnownJsonWebKeySignatureAlgorithm,
+  KnownJsonWebKeyWrapAlgorithm,
   KnownKeyEncryptionAlgorithm,
   KnownVersions,
 } from "./models/index.js";
@@ -69,6 +77,8 @@ export type {
   GetDeletedKeysOptionalParams,
   ReleaseOptionalParams,
   UnwrapKeyOptionalParams,
+  SecureUnwrapKeyOptionalParams,
+  SecureWrapKeyOptionalParams,
   WrapKeyOptionalParams,
   VerifyOptionalParams,
   SignOptionalParams,
@@ -86,3 +96,4 @@ export type {
   CreateKeyOptionalParams,
 } from "./api/index.js";
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

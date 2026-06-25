@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update RUs per second of an Azure Cosmos DB Cassandra view
  *
  * @summary update RUs per second of an Azure Cosmos DB Cassandra view
- * x-ms-original-file: 2025-11-01-preview/CosmosDBCassandraViewThroughputUpdate.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBCassandraViewThroughputUpdate.json
  */
 async function cosmosDBCassandraViewThroughputUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

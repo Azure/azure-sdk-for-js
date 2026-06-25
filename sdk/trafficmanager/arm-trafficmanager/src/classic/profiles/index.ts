@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { TrafficManagerManagementContext } from "../../api/trafficManagerManagementContext.js";
+import { TrafficManagerManagementContext } from "../../api/trafficManagerManagementContext.js";
 import {
   checkTrafficManagerNameAvailabilityV2,
   checkTrafficManagerRelativeDnsNameAvailability,
@@ -12,7 +12,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/profiles/operations.js";
-import type {
+import {
   ProfilesCheckTrafficManagerNameAvailabilityV2OptionalParams,
   ProfilesCheckTrafficManagerRelativeDnsNameAvailabilityOptionalParams,
   ProfilesListByResourceGroupOptionalParams,
@@ -22,13 +22,13 @@ import type {
   ProfilesCreateOrUpdateOptionalParams,
   ProfilesGetOptionalParams,
 } from "../../api/profiles/options.js";
-import type {
+import {
   DeleteOperationResult,
   Profile,
   CheckTrafficManagerRelativeDnsNameAvailabilityParameters,
   TrafficManagerNameAvailability,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Profiles operations. */
 export interface ProfilesOperations {
@@ -56,7 +56,7 @@ export interface ProfilesOperations {
     resourceGroupName: string,
     profileName: string,
     options?: ProfilesDeleteOptionalParams,
-  ) => Promise<DeleteOperationResult>;
+  ) => Promise<DeleteOperationResult | undefined>;
   /** Update a Traffic Manager profile. */
   update: (
     resourceGroupName: string,

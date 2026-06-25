@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/reservations/arm-reservations)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-reservations)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-reservations?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-reservations)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/reservations/arm-reservations/samples)
 
 ## Getting started

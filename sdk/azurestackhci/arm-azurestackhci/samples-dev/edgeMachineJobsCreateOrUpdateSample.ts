@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a EdgeMachineJob
  *
  * @summary create a EdgeMachineJob
- * x-ms-original-file: 2026-04-01-preview/EdgeMachineJobs_CreateOrUpdate_CollectLog.json
+ * x-ms-original-file: 2026-05-01-preview/EdgeMachineJobs_CreateOrUpdate_CollectLog.json
  */
 async function edgeMachineJobsCreateOrUpdateCollectLog(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,7 @@ async function edgeMachineJobsCreateOrUpdateCollectLog(): Promise<void> {
  * This sample demonstrates how to create a EdgeMachineJob
  *
  * @summary create a EdgeMachineJob
- * x-ms-original-file: 2026-04-01-preview/EdgeMachineJobs_CreateOrUpdate_DownloadOs.json
+ * x-ms-original-file: 2026-05-01-preview/EdgeMachineJobs_CreateOrUpdate_DownloadOs.json
  */
 async function edgeMachineJobsCreateOrUpdateDownloadOs(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -64,7 +64,7 @@ async function edgeMachineJobsCreateOrUpdateDownloadOs(): Promise<void> {
  * This sample demonstrates how to create a EdgeMachineJob
  *
  * @summary create a EdgeMachineJob
- * x-ms-original-file: 2026-04-01-preview/EdgeMachineJobs_CreateOrUpdate_ProvisionOs.json
+ * x-ms-original-file: 2026-05-01-preview/EdgeMachineJobs_CreateOrUpdate_ProvisionOs.json
  */
 async function edgeMachineJobsCreateOrUpdateProvisionOs(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -140,7 +140,7 @@ async function edgeMachineJobsCreateOrUpdateProvisionOs(): Promise<void> {
  * This sample demonstrates how to create a EdgeMachineJob
  *
  * @summary create a EdgeMachineJob
- * x-ms-original-file: 2026-04-01-preview/EdgeMachineJobs_CreateOrUpdate_RemoteSupport.json
+ * x-ms-original-file: 2026-05-01-preview/EdgeMachineJobs_CreateOrUpdate_RemoteSupport.json
  */
 async function edgeMachineJobsCreateOrUpdateRemoteSupport(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -166,7 +166,7 @@ async function edgeMachineJobsCreateOrUpdateRemoteSupport(): Promise<void> {
  * This sample demonstrates how to create a EdgeMachineJob
  *
  * @summary create a EdgeMachineJob
- * x-ms-original-file: 2026-04-01-preview/EdgeMachineJobs_CreateOrUpdate_UpdateOs.json
+ * x-ms-original-file: 2026-05-01-preview/EdgeMachineJobs_CreateOrUpdate_UpdateOs.json
  */
 async function edgeMachineJobsCreateOrUpdateUpdateOs(): Promise<void> {
   const credential = new DefaultAzureCredential();

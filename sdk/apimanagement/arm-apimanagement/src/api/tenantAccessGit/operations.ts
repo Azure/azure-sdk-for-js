@@ -1,16 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ApiManagementContext as Client } from "../index.js";
-import type { AccessIdName } from "../../models/models.js";
-import { errorResponseDeserializer } from "../../models/models.js";
+import { ApiManagementContext as Client } from "../index.js";
+import { errorResponseDeserializer, AccessIdName } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   TenantAccessGitRegenerateSecondaryKeyOptionalParams,
   TenantAccessGitRegeneratePrimaryKeyOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _regenerateSecondaryKeySend(
   context: Client,

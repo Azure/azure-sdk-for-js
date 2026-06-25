@@ -22,7 +22,7 @@ export interface ConfigurationAssignmentsForSubscriptionsOperations {
   delete: (
     configurationAssignmentName: string,
     options?: ConfigurationAssignmentsForSubscriptionsDeleteOptionalParams,
-  ) => Promise<ConfigurationAssignment>;
+  ) => Promise<ConfigurationAssignment | undefined>;
   /** Register configuration for resource. */
   update: (
     configurationAssignmentName: string,

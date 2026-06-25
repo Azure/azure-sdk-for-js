@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { StorageCacheManagementContext } from "../../api/storageCacheManagementContext.js";
+import { StorageCacheManagementContext } from "../../api/storageCacheManagementContext.js";
 import { get } from "../../api/ascOperations/operations.js";
-import type { AscOperationsGetOptionalParams } from "../../api/ascOperations/options.js";
-import type { AscOperation } from "../../models/models.js";
+import { AscOperationsGetOptionalParams } from "../../api/ascOperations/options.js";
+import { AscOperation } from "../../models/models.js";
 
 /** Interface representing a AscOperations operations. */
 export interface AscOperationsOperations {

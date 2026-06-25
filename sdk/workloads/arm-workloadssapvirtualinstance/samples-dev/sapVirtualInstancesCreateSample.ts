@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { WorkloadsClient } from "@azure/arm-workloadssapvirtualinstance";
+import { DefaultAzureCredential } from "@azure/identity";
+
 /**
  * This sample demonstrates how to creates a Virtual Instance for SAP solutions (VIS) resource
  *
  * @summary creates a Virtual Instance for SAP solutions (VIS) resource
  * x-ms-original-file: 2024-09-01/SapVirtualInstances_CreateDetectDS.json
  */
-
-import { WorkloadsClient } from "@azure/arm-workloadssapvirtualinstance";
-import { DefaultAzureCredential } from "@azure/identity";
-
 async function detectSAPSoftwareInstallationOnADistributedSystem(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
@@ -39,10 +38,7 @@ async function detectSAPSoftwareInstallationOnADistributedSystem(): Promise<void
                 osConfiguration: {
                   disablePasswordAuthentication: true,
                   osType: "Linux",
-                  sshKeyPair: {
-                    privateKey: "{{privateKey}}",
-                    publicKey: "{{sshkey}}",
-                  },
+                  sshKeyPair: { privateKey: "{{privateKey}}", publicKey: "{{sshkey}}" },
                 },
               },
               vmSize: "Standard_E4ds_v4",
@@ -64,10 +60,7 @@ async function detectSAPSoftwareInstallationOnADistributedSystem(): Promise<void
                 osConfiguration: {
                   disablePasswordAuthentication: true,
                   osType: "Linux",
-                  sshKeyPair: {
-                    privateKey: "{{privateKey}}",
-                    publicKey: "{{sshkey}}",
-                  },
+                  sshKeyPair: { privateKey: "{{privateKey}}", publicKey: "{{sshkey}}" },
                 },
               },
               vmSize: "Standard_E4ds_v4",
@@ -89,10 +82,7 @@ async function detectSAPSoftwareInstallationOnADistributedSystem(): Promise<void
                 osConfiguration: {
                   disablePasswordAuthentication: true,
                   osType: "Linux",
-                  sshKeyPair: {
-                    privateKey: "{{privateKey}}",
-                    publicKey: "{{sshkey}}",
-                  },
+                  sshKeyPair: { privateKey: "{{privateKey}}", publicKey: "{{sshkey}}" },
                 },
               },
               vmSize: "Standard_M32ts",
@@ -540,32 +530,12 @@ async function createInfrastructureWithDiskAndOSConfigurationForDistributedSyste
             databaseType: "HANA",
             diskConfiguration: {
               diskVolumeConfigurations: {
-                backup: {
-                  count: 2,
-                  sizeGB: 256,
-                  sku: { name: "StandardSSD_LRS" },
-                },
-                "hana/data": {
-                  count: 4,
-                  sizeGB: 128,
-                  sku: { name: "Premium_LRS" },
-                },
-                "hana/log": {
-                  count: 3,
-                  sizeGB: 128,
-                  sku: { name: "Premium_LRS" },
-                },
-                "hana/shared": {
-                  count: 1,
-                  sizeGB: 256,
-                  sku: { name: "StandardSSD_LRS" },
-                },
+                backup: { count: 2, sizeGB: 256, sku: { name: "StandardSSD_LRS" } },
+                "hana/data": { count: 4, sizeGB: 128, sku: { name: "Premium_LRS" } },
+                "hana/log": { count: 3, sizeGB: 128, sku: { name: "Premium_LRS" } },
+                "hana/shared": { count: 1, sizeGB: 256, sku: { name: "StandardSSD_LRS" } },
                 os: { count: 1, sizeGB: 64, sku: { name: "StandardSSD_LRS" } },
-                "usr/sap": {
-                  count: 1,
-                  sizeGB: 128,
-                  sku: { name: "Premium_LRS" },
-                },
+                "usr/sap": { count: 1, sizeGB: 128, sku: { name: "Premium_LRS" } },
               },
             },
             instanceCount: 1,
@@ -667,32 +637,12 @@ async function createInfrastructureWithDiskAndOSConfigurationForHASystemWithAvai
             databaseType: "HANA",
             diskConfiguration: {
               diskVolumeConfigurations: {
-                backup: {
-                  count: 2,
-                  sizeGB: 256,
-                  sku: { name: "StandardSSD_LRS" },
-                },
-                "hana/data": {
-                  count: 4,
-                  sizeGB: 128,
-                  sku: { name: "Premium_LRS" },
-                },
-                "hana/log": {
-                  count: 3,
-                  sizeGB: 128,
-                  sku: { name: "Premium_LRS" },
-                },
-                "hana/shared": {
-                  count: 1,
-                  sizeGB: 256,
-                  sku: { name: "StandardSSD_LRS" },
-                },
+                backup: { count: 2, sizeGB: 256, sku: { name: "StandardSSD_LRS" } },
+                "hana/data": { count: 4, sizeGB: 128, sku: { name: "Premium_LRS" } },
+                "hana/log": { count: 3, sizeGB: 128, sku: { name: "Premium_LRS" } },
+                "hana/shared": { count: 1, sizeGB: 256, sku: { name: "StandardSSD_LRS" } },
                 os: { count: 1, sizeGB: 64, sku: { name: "StandardSSD_LRS" } },
-                "usr/sap": {
-                  count: 1,
-                  sizeGB: 128,
-                  sku: { name: "Premium_LRS" },
-                },
+                "usr/sap": { count: 1, sizeGB: 128, sku: { name: "Premium_LRS" } },
               },
             },
             instanceCount: 2,
@@ -795,32 +745,12 @@ async function createInfrastructureWithDiskAndOSConfigurationForHASystemWithAvai
             databaseType: "HANA",
             diskConfiguration: {
               diskVolumeConfigurations: {
-                backup: {
-                  count: 2,
-                  sizeGB: 256,
-                  sku: { name: "StandardSSD_LRS" },
-                },
-                "hana/data": {
-                  count: 4,
-                  sizeGB: 128,
-                  sku: { name: "Premium_LRS" },
-                },
-                "hana/log": {
-                  count: 3,
-                  sizeGB: 128,
-                  sku: { name: "Premium_LRS" },
-                },
-                "hana/shared": {
-                  count: 1,
-                  sizeGB: 256,
-                  sku: { name: "StandardSSD_LRS" },
-                },
+                backup: { count: 2, sizeGB: 256, sku: { name: "StandardSSD_LRS" } },
+                "hana/data": { count: 4, sizeGB: 128, sku: { name: "Premium_LRS" } },
+                "hana/log": { count: 3, sizeGB: 128, sku: { name: "Premium_LRS" } },
+                "hana/shared": { count: 1, sizeGB: 256, sku: { name: "StandardSSD_LRS" } },
                 os: { count: 1, sizeGB: 64, sku: { name: "StandardSSD_LRS" } },
-                "usr/sap": {
-                  count: 1,
-                  sizeGB: 128,
-                  sku: { name: "Premium_LRS" },
-                },
+                "usr/sap": { count: 1, sizeGB: 128, sku: { name: "Premium_LRS" } },
               },
             },
             instanceCount: 2,
@@ -878,32 +808,12 @@ async function createInfrastructureWithDiskAndOSConfigurationsForSingleServerSys
           databaseType: "HANA",
           dbDiskConfiguration: {
             diskVolumeConfigurations: {
-              backup: {
-                count: 2,
-                sizeGB: 256,
-                sku: { name: "StandardSSD_LRS" },
-              },
-              "hana/data": {
-                count: 4,
-                sizeGB: 128,
-                sku: { name: "Premium_LRS" },
-              },
-              "hana/log": {
-                count: 3,
-                sizeGB: 128,
-                sku: { name: "Premium_LRS" },
-              },
-              "hana/shared": {
-                count: 1,
-                sizeGB: 256,
-                sku: { name: "StandardSSD_LRS" },
-              },
+              backup: { count: 2, sizeGB: 256, sku: { name: "StandardSSD_LRS" } },
+              "hana/data": { count: 4, sizeGB: 128, sku: { name: "Premium_LRS" } },
+              "hana/log": { count: 3, sizeGB: 128, sku: { name: "Premium_LRS" } },
+              "hana/shared": { count: 1, sizeGB: 256, sku: { name: "StandardSSD_LRS" } },
               os: { count: 1, sizeGB: 64, sku: { name: "StandardSSD_LRS" } },
-              "usr/sap": {
-                count: 1,
-                sizeGB: 128,
-                sku: { name: "Premium_LRS" },
-              },
+              "usr/sap": { count: 1, sizeGB: 128, sku: { name: "Premium_LRS" } },
             },
           },
           deploymentType: "SingleServer",
@@ -2569,9 +2479,7 @@ async function createInfrastructureWithoutASAPTransportDirectoryFileshare(): Pro
             },
           },
           deploymentType: "ThreeTier",
-          storageConfiguration: {
-            transportFileShareConfiguration: { configurationType: "Skip" },
-          },
+          storageConfiguration: { transportFileShareConfiguration: { configurationType: "Skip" } },
         },
         osSapConfiguration: { sapFqdn: "xyz.test.com" },
       },
@@ -2617,10 +2525,7 @@ async function installSAPSoftwareOnDistributedSystem(): Promise<void> {
                 osConfiguration: {
                   disablePasswordAuthentication: true,
                   osType: "Linux",
-                  sshKeyPair: {
-                    privateKey: "{{privateKey}}",
-                    publicKey: "{{sshkey}}",
-                  },
+                  sshKeyPair: { privateKey: "{{privateKey}}", publicKey: "{{sshkey}}" },
                 },
               },
               vmSize: "Standard_E4ds_v4",
@@ -2642,10 +2547,7 @@ async function installSAPSoftwareOnDistributedSystem(): Promise<void> {
                 osConfiguration: {
                   disablePasswordAuthentication: true,
                   osType: "Linux",
-                  sshKeyPair: {
-                    privateKey: "{{privateKey}}",
-                    publicKey: "{{sshkey}}",
-                  },
+                  sshKeyPair: { privateKey: "{{privateKey}}", publicKey: "{{sshkey}}" },
                 },
               },
               vmSize: "Standard_E4ds_v4",
@@ -2667,10 +2569,7 @@ async function installSAPSoftwareOnDistributedSystem(): Promise<void> {
                 osConfiguration: {
                   disablePasswordAuthentication: true,
                   osType: "Linux",
-                  sshKeyPair: {
-                    privateKey: "{{privateKey}}",
-                    publicKey: "{{sshkey}}",
-                  },
+                  sshKeyPair: { privateKey: "{{privateKey}}", publicKey: "{{sshkey}}" },
                 },
               },
               vmSize: "Standard_M32ts",
@@ -2730,10 +2629,7 @@ async function installSAPSoftwareOnSingleServerSystem(): Promise<void> {
               osConfiguration: {
                 disablePasswordAuthentication: true,
                 osType: "Linux",
-                sshKeyPair: {
-                  privateKey: "{{privateKey}}",
-                  publicKey: "{{sshkey}}",
-                },
+                sshKeyPair: { privateKey: "{{privateKey}}", publicKey: "{{sshkey}}" },
               },
             },
             vmSize: "Standard_E32ds_v4",

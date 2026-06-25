@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RelationshipsContext } from "../../api/relationshipsContext.js";
+import { RelationshipsContext } from "../../api/relationshipsContext.js";
 import {
   $delete,
   get,
   createOrUpdate,
 } from "../../api/serviceGroupMemberRelationships/operations.js";
-import type {
+import {
   ServiceGroupMemberRelationshipsDeleteOptionalParams,
   ServiceGroupMemberRelationshipsGetOptionalParams,
   ServiceGroupMemberRelationshipsCreateOrUpdateOptionalParams,
 } from "../../api/serviceGroupMemberRelationships/options.js";
-import type {
+import {
   ServiceGroupMemberRelationshipCreateOrUpdate,
   ServiceGroupMemberRelationship,
 } from "../../models/models.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ServiceGroupMemberRelationships operations. */
 export interface ServiceGroupMemberRelationshipsOperations {

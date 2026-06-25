@@ -1,15 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   AlertRuleRecommendationsManagementContext,
   AlertRuleRecommendationsManagementClientOptionalParams,
+  createAlertRuleRecommendationsManagement,
 } from "./api/index.js";
-import { createAlertRuleRecommendationsManagement } from "./api/index.js";
-import type { AlertRuleRecommendationsOperations } from "./classic/alertRuleRecommendations/index.js";
-import { _getAlertRuleRecommendationsOperations } from "./classic/alertRuleRecommendations/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import {
+  AlertRuleRecommendationsOperations,
+  _getAlertRuleRecommendationsOperations,
+} from "./classic/alertRuleRecommendations/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { AlertRuleRecommendationsManagementClientOptionalParams } from "./api/alertRuleRecommendationsManagementContext.js";
 

@@ -31,9 +31,7 @@ export function _listByInstanceSend(
   targetName: string,
   solutionName: string,
   instanceName: string,
-  options: InstanceHistoriesListByInstanceOptionalParams = {
-    requestOptions: {},
-  },
+  options: InstanceHistoriesListByInstanceOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/solutions/{solutionName}/instances/{instanceName}/histories{?api%2Dversion}",
@@ -43,19 +41,18 @@ export function _listByInstanceSend(
       targetName: targetName,
       solutionName: solutionName,
       instanceName: instanceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listByInstanceDeserialize(
@@ -64,7 +61,10 @@ export async function _listByInstanceDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -78,9 +78,7 @@ export function listByInstance(
   targetName: string,
   solutionName: string,
   instanceName: string,
-  options: InstanceHistoriesListByInstanceOptionalParams = {
-    requestOptions: {},
-  },
+  options: InstanceHistoriesListByInstanceOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<InstanceHistory> {
   return buildPagedAsyncIterator(
     context,
@@ -95,7 +93,7 @@ export function listByInstance(
       ),
     _listByInstanceDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-06-01" },
   );
 }
 
@@ -117,26 +115,28 @@ export function _getSend(
       solutionName: solutionName,
       instanceName: instanceName,
       instanceHistoryName: instanceHistoryName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<InstanceHistory> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 

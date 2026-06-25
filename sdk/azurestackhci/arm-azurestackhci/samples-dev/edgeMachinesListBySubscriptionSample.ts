@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list all edge machines in a subscription.
  *
  * @summary list all edge machines in a subscription.
- * x-ms-original-file: 2026-04-01-preview/EdgeMachines_ListBySubscription.json
+ * x-ms-original-file: 2026-05-01-preview/EdgeMachines_ListBySubscription.json
  */
 async function listEdgeMachinesInAGivenSubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

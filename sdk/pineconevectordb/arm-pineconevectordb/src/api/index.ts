@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export {
-  createVectorDb,
-  type VectorDbContext,
-  type VectorDbClientOptionalParams,
-} from "./vectorDbContext.js";
+export type { VectorDbContext, VectorDbClientOptionalParams } from "./vectorDbContext.js";
+export { createVectorDb } from "./vectorDbContext.js";

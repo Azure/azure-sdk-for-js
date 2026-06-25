@@ -207,8 +207,8 @@ export function dependencyOfRelationshipPropertiesCreateOrUpdateSerializer(
 /** The base extension resource. */
 export interface ExtensionResource extends Resource {}
 
-export function extensionResourceSerializer(item: ExtensionResource): any {
-  return item;
+export function extensionResourceSerializer(_item: ExtensionResource): any {
+  return {};
 }
 
 export function extensionResourceDeserializer(item: any): ExtensionResource {
@@ -234,8 +234,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -524,5 +524,5 @@ export function serviceGroupMemberRelationshipPropertiesDeserializer(
 /** Relationships RP API Versions */
 export enum KnownVersions {
   /** 2023-09-01-preview version */
-  Versions20230901Preview = "2023-09-01-preview",
+  V20230901Preview = "2023-09-01-preview",
 }

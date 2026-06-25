@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RecoveryServicesBackupContext } from "../../api/recoveryServicesBackupContext.js";
+import { RecoveryServicesBackupContext } from "../../api/recoveryServicesBackupContext.js";
 import { validate } from "../../api/operation/operations.js";
-import type { OperationValidateOptionalParams } from "../../api/operation/options.js";
-import type {
+import { OperationValidateOptionalParams } from "../../api/operation/options.js";
+import {
   ValidateOperationRequestResource,
   ValidateOperationsResponse,
 } from "../../models/models.js";

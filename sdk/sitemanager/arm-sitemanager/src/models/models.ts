@@ -1,8 +1,41 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/** Site as ARM Resource */
-export interface Site extends ProxyResource {
+/**
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/** The response of a Site list operation. */
+export interface _SiteListResult {
+  /** The Site items on this page */
+  value: Site[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _siteListResultDeserializer(item: any): _SiteListResult {
+  return {
+    value: siteArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function siteArraySerializer(result: Array<Site>): any[] {
+  return result.map((item) => {
+    return siteSerializer(item);
+  });
+}
+
+export function siteArrayDeserializer(result: Array<Site>): any[] {
+  return result.map((item) => {
+    return siteDeserializer(item);
+  });
+}
+
+/** Site as Extension Resource */
+export interface Site extends ExtensionResource {
   /** The resource-specific properties for this resource. */
   properties?: SiteProperties;
 }
@@ -61,7 +94,9 @@ export function sitePropertiesDeserializer(item: any): SiteProperties {
     siteAddress: !item["siteAddress"]
       ? item["siteAddress"]
       : siteAddressPropertiesDeserializer(item["siteAddress"]),
-    labels: item["labels"],
+    labels: !item["labels"]
+      ? item["labels"]
+      : Object.fromEntries(Object.entries(item["labels"]).map(([k, p]: [string, any]) => [k, p])),
     provisioningState: item["provisioningState"],
   };
 }
@@ -125,14 +160,14 @@ export enum KnownResourceProvisioningState {
  */
 export type ResourceProvisioningState = string;
 
-/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export interface ProxyResource extends Resource {}
+/** The base extension resource. */
+export interface ExtensionResource extends Resource {}
 
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
+export function extensionResourceSerializer(_item: ExtensionResource): any {
+  return {};
 }
 
-export function proxyResourceDeserializer(item: any): ProxyResource {
+export function extensionResourceDeserializer(item: any): ExtensionResource {
   return {
     id: item["id"],
     name: item["name"],
@@ -155,8 +190,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -213,7 +248,7 @@ export enum KnownCreatedByType {
 
 /**
  * The kind of entity that created the resource. \
- * {@link KnowncreatedByType} can be used interchangeably with createdByType,
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **User**: The entity was created by a user. \
@@ -323,33 +358,6 @@ export function siteUpdatePropertiesSerializer(item: SiteUpdateProperties): any 
       : siteAddressPropertiesSerializer(item["siteAddress"]),
     labels: item["labels"],
   };
-}
-
-/** The response of a Site list operation. */
-export interface _SiteListResult {
-  /** The Site items on this page */
-  value: Site[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _siteListResultDeserializer(item: any): _SiteListResult {
-  return {
-    value: siteArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function siteArraySerializer(result: Array<Site>): any[] {
-  return result.map((item) => {
-    return siteSerializer(item);
-  });
-}
-
-export function siteArrayDeserializer(result: Array<Site>): any[] {
-  return result.map((item) => {
-    return siteDeserializer(item);
-  });
 }
 
 /** Supported API Versions */

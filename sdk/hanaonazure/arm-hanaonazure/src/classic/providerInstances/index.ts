@@ -1,19 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { HanaManagementContext } from "../../api/hanaManagementContext.js";
+import { HanaManagementContext } from "../../api/hanaManagementContext.js";
 import { list, $delete, create, get } from "../../api/providerInstances/operations.js";
-import type {
+import {
   ProviderInstancesListOptionalParams,
   ProviderInstancesDeleteOptionalParams,
   ProviderInstancesCreateOptionalParams,
   ProviderInstancesGetOptionalParams,
 } from "../../api/providerInstances/options.js";
-import type { ProviderInstance } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { ProviderInstance } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ProviderInstances operations. */
 export interface ProviderInstancesOperations {

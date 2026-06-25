@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list all edge machines in a resource group.
  *
  * @summary list all edge machines in a resource group.
- * x-ms-original-file: 2026-04-01-preview/EdgeMachines_ListByResourceGroup.json
+ * x-ms-original-file: 2026-05-01-preview/EdgeMachines_ListByResourceGroup.json
  */
 async function listEdgeMachinesInAGivenResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

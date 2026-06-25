@@ -41,11 +41,11 @@ export function tenantActivityLogAlertResourceArrayDeserializer(
 }
 
 /** A Tenant Activity Log Alert rule resource. */
-export interface TenantActivityLogAlertResource extends Resource {
-  /** Resource tags. */
-  tags?: Record<string, string>;
-  /** The geo-location where the resource lives */
+export interface TenantActivityLogAlertResource extends ProxyResource {
+  /** The location of the resource. Since Azure Activity Log Alerts is a global service, the location of the rules should always be 'global'. */
   location?: string;
+  /** The tags of the resource. */
+  tags?: Record<string, string>;
   /** The tenant GUID. Must be provided for tenant-level and management group events rules. */
   tenantScope?: string;
   /** A list of resource IDs that will be used as prefixes. The alert will only apply to Activity Log events with resource IDs that fall under one of these prefixes. This list must include at least one item. */
@@ -65,8 +65,8 @@ export function tenantActivityLogAlertResourceSerializer(
 ): any {
   return {
     properties: _tenantActivityLogAlertResourcePropertiesSerializer(item),
-    tags: item["tags"],
     location: item["location"],
+    tags: item["tags"],
   };
 }
 
@@ -81,10 +81,10 @@ export function tenantActivityLogAlertResourceDeserializer(
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
     ..._tenantActivityLogAlertResourcePropertiesDeserializer(item["properties"]),
+    location: item["location"],
     tags: !item["tags"]
       ? item["tags"]
       : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
-    location: item["location"],
   };
 }
 
@@ -332,6 +332,24 @@ export function actionGroupDeserializer(item: any): ActionGroup {
   };
 }
 
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
+
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
+}
+
+export function proxyResourceDeserializer(item: any): ProxyResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+  };
+}
+
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -344,8 +362,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {

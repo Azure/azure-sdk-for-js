@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CostManagementContext } from "../../api/costManagementContext.js";
+import { CostManagementContext } from "../../api/costManagementContext.js";
 import { listExternal, list, dismiss, get } from "../../api/alerts/operations.js";
-import type {
+import {
   AlertsListExternalOptionalParams,
   AlertsListOptionalParams,
   AlertsDismissOptionalParams,
   AlertsGetOptionalParams,
 } from "../../api/alerts/options.js";
-import type {
+import {
   Alert,
   DismissAlertPayload,
   AlertsResult,

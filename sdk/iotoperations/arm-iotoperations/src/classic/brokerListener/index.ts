@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { IoTOperationsContext } from "../../api/ioTOperationsContext.js";
+import { IoTOperationsContext } from "../../api/ioTOperationsContext.js";
 import {
   listByResourceGroup,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/brokerListener/operations.js";
-import type {
+import {
   BrokerListenerListByResourceGroupOptionalParams,
   BrokerListenerDeleteOptionalParams,
   BrokerListenerCreateOrUpdateOptionalParams,
   BrokerListenerGetOptionalParams,
 } from "../../api/brokerListener/options.js";
-import type { BrokerListenerResource } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { BrokerListenerResource } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a BrokerListener operations. */
 export interface BrokerListenerOperations {
@@ -28,11 +28,6 @@ export interface BrokerListenerOperations {
     options?: BrokerListenerListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<BrokerListenerResource>;
   /** Delete a BrokerListenerResource */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     instanceName: string,

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CosmosDBForPostgreSQLContext } from "../../api/cosmosDBForPostgreSQLContext.js";
+import { CosmosDBForPostgreSQLContext } from "../../api/cosmosDBForPostgreSQLContext.js";
 import {
   updateOnCoordinator,
   getCoordinator,
@@ -11,7 +11,7 @@ import {
   listByCluster,
   get,
 } from "../../api/configurations/operations.js";
-import type {
+import {
   ConfigurationsUpdateOnCoordinatorOptionalParams,
   ConfigurationsGetCoordinatorOptionalParams,
   ConfigurationsUpdateOnNodeOptionalParams,
@@ -20,11 +20,10 @@ import type {
   ConfigurationsListByClusterOptionalParams,
   ConfigurationsGetOptionalParams,
 } from "../../api/configurations/options.js";
-import type { Configuration, ServerConfiguration } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { Configuration, ServerConfiguration } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Configurations operations. */
 export interface ConfigurationsOperations {

@@ -1,13 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RedisEnterpriseManagementContext } from "../../api/redisEnterpriseManagementContext.js";
+import { RedisEnterpriseManagementContext } from "../../api/redisEnterpriseManagementContext.js";
 import { validate } from "../../api/migrations/operations.js";
-import type { MigrationsValidateOptionalParams } from "../../api/migrations/options.js";
-import type {
-  MigrationValidationRequest,
-  MigrationValidationResponse,
-} from "../../models/models.js";
+import { MigrationsValidateOptionalParams } from "../../api/migrations/options.js";
+import { MigrationValidationRequest, MigrationValidationResponse } from "../../models/models.js";
 
 /** Interface representing a Migrations operations. */
 export interface MigrationsOperations {

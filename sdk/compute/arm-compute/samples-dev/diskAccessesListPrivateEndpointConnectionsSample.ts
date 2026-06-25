@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list information about private endpoint connections under a disk access resource
  *
  * @summary list information about private endpoint connections under a disk access resource
- * x-ms-original-file: 2025-01-02/diskAccessExamples/DiskAccessPrivateEndpointConnection_ListByDiskAccess.json
+ * x-ms-original-file: 2026-03-02/diskAccessExamples/DiskAccessPrivateEndpointConnection_ListByDiskAccess.json
  */
 async function getInformationAboutAPrivateEndpointConnectionUnderADiskAccessResource(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ServiceFabricManagedClustersManagementContext } from "../../api/serviceFabricManagedClustersManagementContext.js";
+import { ServiceFabricManagedClustersManagementContext } from "../../api/serviceFabricManagedClustersManagementContext.js";
 import {
   listFaultSimulation,
   getFaultSimulation,
@@ -19,7 +19,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/nodeTypes/operations.js";
-import type {
+import {
   NodeTypesListFaultSimulationOptionalParams,
   NodeTypesGetFaultSimulationOptionalParams,
   NodeTypesStopFaultSimulationOptionalParams,
@@ -36,7 +36,7 @@ import type {
   NodeTypesCreateOrUpdateOptionalParams,
   NodeTypesGetOptionalParams,
 } from "../../api/nodeTypes/options.js";
-import type {
+import {
   FaultSimulationIdContent,
   FaultSimulation,
   FaultSimulationContentWrapper,
@@ -44,8 +44,8 @@ import type {
   NodeTypeUpdateParameters,
   NodeTypeActionParameters,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a NodeTypes operations. */
 export interface NodeTypesOperations {

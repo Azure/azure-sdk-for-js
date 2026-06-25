@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import {
-  createDependencyMap,
   DependencyMapContext,
   DependencyMapClientOptionalParams,
+  createDependencyMap,
 } from "./api/index.js";
 import {
   DiscoverySourcesOperations,
@@ -12,10 +12,10 @@ import {
 } from "./classic/discoverySources/index.js";
 import { MapsOperations, _getMapsOperations } from "./classic/maps/index.js";
 import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
-export { type DependencyMapClientOptionalParams } from "./api/dependencyMapContext.js";
+export type { DependencyMapClientOptionalParams } from "./api/dependencyMapContext.js";
 
 export class DependencyMapClient {
   private _client: DependencyMapContext;

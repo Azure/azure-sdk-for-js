@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cost-management/arm-costmanagement)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-costmanagement)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-costmanagement?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-costmanagement)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cost-management/arm-costmanagement/samples)
 
 ## Getting started

@@ -15,14 +15,7 @@
     "@azure/logger": "^1.2.0",
     "tslib": "^2.8.1"
   },
-  "keywords": [
-    "node",
-    "azure",
-    "cloud",
-    "typescript",
-    "browser",
-    "isomorphic"
-  ],
+  "keywords": ["node", "azure", "cloud", "typescript", "browser", "isomorphic"],
   "author": "Microsoft Corporation",
   "license": "MIT",
   "main": "./dist/commonjs/index.js",
@@ -55,12 +48,7 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "files": [
-    "dist/",
-    "!dist/**/*.d.*ts.map",
-    "README.md",
-    "LICENSE"
-  ],
+  "files": ["dist/", "!dist/**/*.d.*ts.map", "README.md", "LICENSE"],
   "sdk-type": "mgmt",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/deviceprovisioningservices/arm-deviceprovisioningservices/README.md",
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
@@ -91,9 +79,7 @@
   },
   "//sampleConfiguration": {
     "productName": "@azure/arm-deviceprovisioningservices",
-    "productSlugs": [
-      "azure"
-    ],
+    "productSlugs": ["azure"],
     "disableDocsMs": true,
     "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-deviceprovisioningservices?view=azure-node-preview"
   },

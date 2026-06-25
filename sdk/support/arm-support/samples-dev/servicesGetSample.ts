@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a specific Azure service for support ticket creation.
  *
  * @summary gets a specific Azure service for support ticket creation.
- * x-ms-original-file: 2025-06-01-preview/GetService.json
+ * x-ms-original-file: 2026-06-01/GetService.json
  */
 async function getsDetailsOfTheAzureService(): Promise<void> {
   const credential = new DefaultAzureCredential();

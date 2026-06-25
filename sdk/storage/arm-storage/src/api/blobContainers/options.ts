@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   LeaseContainerRequest,
   ImmutabilityPolicy,
   ListContainersInclude,
 } from "../../models/models.js";
-import type { OperationOptions } from "@azure-rest/core-client";
+import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface BlobContainersExtendImmutabilityPolicyOptionalParams extends OperationOptions {

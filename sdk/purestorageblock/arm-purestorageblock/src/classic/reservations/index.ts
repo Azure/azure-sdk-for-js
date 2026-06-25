@@ -3,12 +3,16 @@
 
 import { BlockContext } from "../../api/blockContext.js";
 import {
-  Reservation,
-  ReservationUpdate,
-  LimitDetails,
-  ReservationBillingStatus,
-  ReservationBillingUsageReport,
-} from "../../models/models.js";
+  getBillingReport,
+  getBillingStatus,
+  getResourceLimits,
+  listBySubscription,
+  listByResourceGroup,
+  $delete,
+  update,
+  create,
+  get,
+} from "../../api/reservations/operations.js";
 import {
   ReservationsGetBillingReportOptionalParams,
   ReservationsGetBillingStatusOptionalParams,
@@ -21,16 +25,12 @@ import {
   ReservationsGetOptionalParams,
 } from "../../api/reservations/options.js";
 import {
-  getBillingReport,
-  getBillingStatus,
-  getResourceLimits,
-  listBySubscription,
-  listByResourceGroup,
-  $delete,
-  update,
-  create,
-  get,
-} from "../../api/reservations/operations.js";
+  Reservation,
+  ReservationUpdate,
+  LimitDetails,
+  ReservationBillingStatus,
+  ReservationBillingUsageReport,
+} from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -64,11 +64,6 @@ export interface ReservationsOperations {
     options?: ReservationsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<Reservation>;
   /** Delete a reservation */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     reservationName: string,

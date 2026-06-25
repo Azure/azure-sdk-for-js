@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ContainerRegistryTasksManagementContext } from "../../api/containerRegistryTasksManagementContext.js";
+import { ContainerRegistryTasksManagementContext } from "../../api/containerRegistryTasksManagementContext.js";
 import { getDetails, list, $delete, update, create, get } from "../../api/tasks/operations.js";
-import type {
+import {
   TasksGetDetailsOptionalParams,
   TasksListOptionalParams,
   TasksDeleteOptionalParams,
@@ -11,8 +11,8 @@ import type {
   TasksCreateOptionalParams,
   TasksGetOptionalParams,
 } from "../../api/tasks/options.js";
-import type { Task, TaskUpdateParameters } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { Task, TaskUpdateParameters } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Tasks operations. */
 export interface TasksOperations {
@@ -30,11 +30,6 @@ export interface TasksOperations {
     options?: TasksListOptionalParams,
   ) => PagedAsyncIterableIterator<Task>;
   /** Deletes a specified task. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     registryName: string,

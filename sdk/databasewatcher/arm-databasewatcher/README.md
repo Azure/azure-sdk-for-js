@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/databasewatcher/arm-databasewatcher)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-databasewatcher)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-databasewatcher?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-databasewatcher)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/databasewatcher/arm-databasewatcher/samples)
 
 ## Getting started

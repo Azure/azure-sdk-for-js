@@ -13,18 +13,18 @@ import {
   _discoverySourceResourceListResultDeserializer,
 } from "../../models/models.js";
 import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import {
   DiscoverySourcesListByMapsResourceOptionalParams,
   DiscoverySourcesDeleteOptionalParams,
   DiscoverySourcesUpdateOptionalParams,
   DiscoverySourcesCreateOrUpdateOptionalParams,
   DiscoverySourcesGetOptionalParams,
 } from "./options.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -37,9 +37,7 @@ export function _listByMapsResourceSend(
   context: Client,
   resourceGroupName: string,
   mapName: string,
-  options: DiscoverySourcesListByMapsResourceOptionalParams = {
-    requestOptions: {},
-  },
+  options: DiscoverySourcesListByMapsResourceOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DependencyMap/maps/{mapName}/discoverySources{?api%2Dversion}",
@@ -47,19 +45,18 @@ export function _listByMapsResourceSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       mapName: mapName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listByMapsResourceDeserialize(
@@ -68,7 +65,10 @@ export async function _listByMapsResourceDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -80,16 +80,18 @@ export function listByMapsResource(
   context: Client,
   resourceGroupName: string,
   mapName: string,
-  options: DiscoverySourcesListByMapsResourceOptionalParams = {
-    requestOptions: {},
-  },
+  options: DiscoverySourcesListByMapsResourceOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<DiscoverySourceResource> {
   return buildPagedAsyncIterator(
     context,
     () => _listByMapsResourceSend(context, resourceGroupName, mapName, options),
     _listByMapsResourceDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-07-01-preview",
+    },
   );
 }
 
@@ -107,26 +109,23 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       mapName: mapName,
       sourceName: sourceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -134,11 +133,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete a DiscoverySourceResource */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -152,6 +146,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, mapName, sourceName, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-07-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -170,30 +165,32 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       mapName: mapName,
       sourceName: sourceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: discoverySourceResourceTagsUpdateSerializer(properties),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: discoverySourceResourceTagsUpdateSerializer(properties),
+    });
 }
 
 export async function _updateDeserialize(
   result: PathUncheckedResponse,
 ): Promise<DiscoverySourceResource> {
-  const expectedStatuses = ["200", "202"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -209,12 +206,13 @@ export function update(
   properties: DiscoverySourceResourceTagsUpdate,
   options: DiscoverySourcesUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<DiscoverySourceResource>, DiscoverySourceResource> {
-  return getLongRunningPoller(context, _updateDeserialize, ["200", "202"], {
+  return getLongRunningPoller(context, _updateDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, mapName, sourceName, properties, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-07-01-preview",
   }) as PollerLike<OperationState<DiscoverySourceResource>, DiscoverySourceResource>;
 }
 
@@ -224,9 +222,7 @@ export function _createOrUpdateSend(
   mapName: string,
   sourceName: string,
   resource: DiscoverySourceResource,
-  options: DiscoverySourcesCreateOrUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: DiscoverySourcesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DependencyMap/maps/{mapName}/discoverySources/{sourceName}{?api%2Dversion}",
@@ -235,30 +231,32 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       mapName: mapName,
       sourceName: sourceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: discoverySourceResourceSerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: discoverySourceResourceSerializer(resource),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
   result: PathUncheckedResponse,
 ): Promise<DiscoverySourceResource> {
-  const expectedStatuses = ["200", "201"];
+  const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -272,16 +270,15 @@ export function createOrUpdate(
   mapName: string,
   sourceName: string,
   resource: DiscoverySourceResource,
-  options: DiscoverySourcesCreateOrUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: DiscoverySourcesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<DiscoverySourceResource>, DiscoverySourceResource> {
-  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201"], {
+  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, mapName, sourceName, resource, options),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2025-07-01-preview",
   }) as PollerLike<OperationState<DiscoverySourceResource>, DiscoverySourceResource>;
 }
 
@@ -299,19 +296,18 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       mapName: mapName,
       sourceName: sourceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(
@@ -320,7 +316,10 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 

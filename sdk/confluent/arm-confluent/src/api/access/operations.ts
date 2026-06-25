@@ -1,38 +1,36 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ConfluentManagementContext as Client } from "../index.js";
-import type {
-  ListAccessRequestModel,
-  AccessListUsersSuccessResponse,
-  AccessListServiceAccountsSuccessResponse,
-  AccessListInvitationsSuccessResponse,
-  InvitationRecord,
-  AccessInviteUserAccountModel,
-  AccessListEnvironmentsSuccessResponse,
-  AccessListClusterSuccessResponse,
-  AccessListRoleBindingsSuccessResponse,
-  RoleBindingRecord,
-  AccessCreateRoleBindingRequestModel,
-  AccessRoleBindingNameListSuccessResponse,
-} from "../../models/models.js";
+import { ConfluentManagementContext as Client } from "../index.js";
 import {
   resourceProviderDefaultErrorResponseDeserializer,
+  ListAccessRequestModel,
   listAccessRequestModelSerializer,
+  AccessListUsersSuccessResponse,
   accessListUsersSuccessResponseDeserializer,
+  AccessListServiceAccountsSuccessResponse,
   accessListServiceAccountsSuccessResponseDeserializer,
+  AccessListInvitationsSuccessResponse,
   accessListInvitationsSuccessResponseDeserializer,
+  InvitationRecord,
   invitationRecordDeserializer,
+  AccessInviteUserAccountModel,
   accessInviteUserAccountModelSerializer,
+  AccessListEnvironmentsSuccessResponse,
   accessListEnvironmentsSuccessResponseDeserializer,
+  AccessListClusterSuccessResponse,
   accessListClusterSuccessResponseDeserializer,
+  AccessListRoleBindingsSuccessResponse,
   accessListRoleBindingsSuccessResponseDeserializer,
+  RoleBindingRecord,
   roleBindingRecordDeserializer,
+  AccessCreateRoleBindingRequestModel,
   accessCreateRoleBindingRequestModelSerializer,
+  AccessRoleBindingNameListSuccessResponse,
   accessRoleBindingNameListSuccessResponseDeserializer,
 } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   AccessListRoleBindingNameListOptionalParams,
   AccessCreateRoleBindingOptionalParams,
   AccessListRoleBindingsOptionalParams,
@@ -44,8 +42,12 @@ import type {
   AccessListUsersOptionalParams,
   AccessDeleteRoleBindingOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _listRoleBindingNameListSend(
   context: Client,
@@ -66,12 +68,14 @@ export function _listRoleBindingNameListSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: listAccessRequestModelSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: listAccessRequestModelSerializer(body),
+    });
 }
 
 export async function _listRoleBindingNameListDeserialize(
@@ -80,7 +84,9 @@ export async function _listRoleBindingNameListDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -125,12 +131,14 @@ export function _createRoleBindingSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: accessCreateRoleBindingRequestModelSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: accessCreateRoleBindingRequestModelSerializer(body),
+    });
 }
 
 export async function _createRoleBindingDeserialize(
@@ -139,7 +147,9 @@ export async function _createRoleBindingDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -184,12 +194,14 @@ export function _listRoleBindingsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: listAccessRequestModelSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: listAccessRequestModelSerializer(body),
+    });
 }
 
 export async function _listRoleBindingsDeserialize(
@@ -198,7 +210,9 @@ export async function _listRoleBindingsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -243,12 +257,14 @@ export function _listClustersSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: listAccessRequestModelSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: listAccessRequestModelSerializer(body),
+    });
 }
 
 export async function _listClustersDeserialize(
@@ -257,7 +273,9 @@ export async function _listClustersDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -302,12 +320,14 @@ export function _listEnvironmentsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: listAccessRequestModelSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: listAccessRequestModelSerializer(body),
+    });
 }
 
 export async function _listEnvironmentsDeserialize(
@@ -316,7 +336,9 @@ export async function _listEnvironmentsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -361,12 +383,14 @@ export function _inviteUserSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: accessInviteUserAccountModelSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: accessInviteUserAccountModelSerializer(body),
+    });
 }
 
 export async function _inviteUserDeserialize(
@@ -375,7 +399,9 @@ export async function _inviteUserDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -414,12 +440,14 @@ export function _listInvitationsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: listAccessRequestModelSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: listAccessRequestModelSerializer(body),
+    });
 }
 
 export async function _listInvitationsDeserialize(
@@ -428,7 +456,9 @@ export async function _listInvitationsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -473,12 +503,14 @@ export function _listServiceAccountsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: listAccessRequestModelSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: listAccessRequestModelSerializer(body),
+    });
 }
 
 export async function _listServiceAccountsDeserialize(
@@ -487,7 +519,9 @@ export async function _listServiceAccountsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -532,12 +566,14 @@ export function _listUsersSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: listAccessRequestModelSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: listAccessRequestModelSerializer(body),
+    });
 }
 
 export async function _listUsersDeserialize(
@@ -546,7 +582,9 @@ export async function _listUsersDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -593,7 +631,9 @@ export async function _deleteRoleBindingDeserialize(result: PathUncheckedRespons
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = resourceProviderDefaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

@@ -1,26 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { FrontDoorManagementContext as Client } from "../index.js";
-import type {
+import { FrontDoorManagementContext as Client } from "../index.js";
+import {
+  errorResponseDeserializer,
   LatencyScorecard,
+  latencyScorecardDeserializer,
   Timeseries,
+  timeseriesDeserializer,
   TimeseriesType,
   LatencyScorecardAggregationInterval,
   TimeseriesAggregationInterval,
 } from "../../models/models.js";
-import {
-  errorResponseDeserializer,
-  latencyScorecardDeserializer,
-  timeseriesDeserializer,
-} from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   ReportsGetTimeseriesOptionalParams,
   ReportsGetLatencyScorecardsOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _getTimeseriesSend(
   context: Client,
@@ -52,10 +54,12 @@ export function _getTimeseriesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getTimeseriesDeserialize(
@@ -124,10 +128,12 @@ export function _getLatencyScorecardsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getLatencyScorecardsDeserialize(

@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ApiManagementContext } from "../../api/apiManagementContext.js";
+import { ApiManagementContext } from "../../api/apiManagementContext.js";
 import { listByTags } from "../../api/operationOperations/operations.js";
-import type { OperationOperationsListByTagsOptionalParams } from "../../api/operationOperations/options.js";
-import type { TagResourceContract } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { OperationOperationsListByTagsOptionalParams } from "../../api/operationOperations/options.js";
+import { TagResourceContract } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a OperationOperations operations. */
 export interface OperationOperationsOperations {

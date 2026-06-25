@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DeviceRegistryManagementContext } from "../../api/deviceRegistryManagementContext.js";
+import { DeviceRegistryManagementContext } from "../../api/deviceRegistryManagementContext.js";
 import { listBySubscription, get } from "../../api/billingContainers/operations.js";
-import type {
+import {
   BillingContainersListBySubscriptionOptionalParams,
   BillingContainersGetOptionalParams,
 } from "../../api/billingContainers/options.js";
-import type { BillingContainer } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { BillingContainer } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a BillingContainers operations. */
 export interface BillingContainersOperations {

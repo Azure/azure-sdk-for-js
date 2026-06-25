@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeManagementContext } from "../../api/computeManagementContext.js";
+import { ComputeManagementContext } from "../../api/computeManagementContext.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/proximityPlacementGroups/operations.js";
-import type {
+import {
   ProximityPlacementGroupsListBySubscriptionOptionalParams,
   ProximityPlacementGroupsListByResourceGroupOptionalParams,
   ProximityPlacementGroupsDeleteOptionalParams,
@@ -18,11 +18,11 @@ import type {
   ProximityPlacementGroupsCreateOrUpdateOptionalParams,
   ProximityPlacementGroupsGetOptionalParams,
 } from "../../api/proximityPlacementGroups/options.js";
-import type {
+import {
   ProximityPlacementGroup,
   ProximityPlacementGroupUpdate,
 } from "../../models/compute/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ProximityPlacementGroups operations. */
 export interface ProximityPlacementGroupsOperations {

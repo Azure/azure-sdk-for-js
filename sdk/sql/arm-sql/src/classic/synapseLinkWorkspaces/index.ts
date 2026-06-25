@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { listByDatabase } from "../../api/synapseLinkWorkspaces/operations.js";
-import type { SynapseLinkWorkspacesListByDatabaseOptionalParams } from "../../api/synapseLinkWorkspaces/options.js";
-import type { SynapseLinkWorkspace } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SynapseLinkWorkspacesListByDatabaseOptionalParams } from "../../api/synapseLinkWorkspaces/options.js";
+import { SynapseLinkWorkspace } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a SynapseLinkWorkspaces operations. */
 export interface SynapseLinkWorkspacesOperations {

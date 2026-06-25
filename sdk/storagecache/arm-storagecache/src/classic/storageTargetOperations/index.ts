@@ -1,22 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { StorageCacheManagementContext } from "../../api/storageCacheManagementContext.js";
+import { StorageCacheManagementContext } from "../../api/storageCacheManagementContext.js";
 import {
   invalidate,
   resume,
   suspend,
   flush,
 } from "../../api/storageTargetOperations/operations.js";
-import type {
+import {
   StorageTargetOperationsInvalidateOptionalParams,
   StorageTargetOperationsResumeOptionalParams,
   StorageTargetOperationsSuspendOptionalParams,
   StorageTargetOperationsFlushOptionalParams,
 } from "../../api/storageTargetOperations/options.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a StorageTargetOperations operations. */
 export interface StorageTargetOperationsOperations {

@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CosmosDBForPostgreSQLContext } from "../../api/cosmosDBForPostgreSQLContext.js";
+import { CosmosDBForPostgreSQLContext } from "../../api/cosmosDBForPostgreSQLContext.js";
 import { listByCluster, get } from "../../api/servers/operations.js";
-import type {
+import {
   ServersListByClusterOptionalParams,
   ServersGetOptionalParams,
 } from "../../api/servers/options.js";
-import type { ClusterServer } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { ClusterServer } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Servers operations. */
 export interface ServersOperations {

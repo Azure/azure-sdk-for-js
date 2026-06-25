@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { CarbonOptimizationManagementClient } from "@azure/arm-carbonoptimization";
+import { DefaultAzureCredential } from "@azure/identity";
+
 /**
  * This sample demonstrates how to aPI for Carbon Emissions Reports
  *
  * @summary aPI for Carbon Emissions Reports
  * x-ms-original-file: 2025-04-01/queryCarbonEmissionsLocationItemDetailsReport.json
  */
-
-import { CarbonOptimizationManagementClient } from "@azure/arm-carbonoptimization";
-import { DefaultAzureCredential } from "@azure/identity";
-
 async function queryCarbonEmissionLocationItemDetailsReport(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new CarbonOptimizationManagementClient(credential);
@@ -28,7 +27,7 @@ async function queryCarbonEmissionLocationItemDetailsReport(): Promise<void> {
       "00000000-0000-0000-0000-000000000008",
     ],
     carbonScopeList: ["Scope1", "Scope3"],
-    dateRange: { start: "2024-05-01", end: "2024-05-01" },
+    dateRange: { start: new Date("2024-05-01"), end: new Date("2024-05-01") },
     categoryType: "Location",
     orderBy: "LatestMonthEmissions",
     sortDirection: "Desc",
@@ -50,7 +49,7 @@ async function queryCarbonEmissionOverallMonthlySummaryReport(): Promise<void> {
     reportType: "MonthlySummaryReport",
     subscriptionList: ["00000000-0000-0000-0000-000000000000"],
     carbonScopeList: ["Scope1", "Scope3"],
-    dateRange: { start: "2024-03-01", end: "2024-05-01" },
+    dateRange: { start: new Date("2024-03-01"), end: new Date("2024-05-01") },
   });
   console.log(result);
 }
@@ -68,7 +67,7 @@ async function queryCarbonEmissionMonthlySummaryReportWithOptionalFilterLocation
     reportType: "MonthlySummaryReport",
     subscriptionList: ["00000000-0000-0000-0000-000000000000"],
     carbonScopeList: ["Scope1", "Scope3"],
-    dateRange: { start: "2024-03-01", end: "2024-05-01" },
+    dateRange: { start: new Date("2024-03-01"), end: new Date("2024-05-01") },
     locationList: ["east us", "west us"],
     resourceTypeList: ["microsoft.storage/storageaccounts", "microsoft.databricks/workspaces"],
     resourceGroupUrlList: [
@@ -91,7 +90,7 @@ async function queryCarbonEmissionOverallSummaryReport(): Promise<void> {
     reportType: "OverallSummaryReport",
     subscriptionList: ["00000000-0000-0000-0000-000000000000"],
     carbonScopeList: ["Scope1", "Scope3"],
-    dateRange: { start: "2023-06-01", end: "2023-06-01" },
+    dateRange: { start: new Date("2023-06-01"), end: new Date("2023-06-01") },
   });
   console.log(result);
 }
@@ -109,7 +108,7 @@ async function queryCarbonEmissionOverallSummaryReportWithOptionalFilterLocation
     reportType: "OverallSummaryReport",
     subscriptionList: ["00000000-0000-0000-0000-000000000000"],
     carbonScopeList: ["Scope1", "Scope3"],
-    dateRange: { start: "2023-06-01", end: "2023-06-01" },
+    dateRange: { start: new Date("2023-06-01"), end: new Date("2023-06-01") },
     locationList: ["east us", "west us"],
     resourceTypeList: ["microsoft.storage/storageaccounts", "microsoft.databricks/workspaces"],
     resourceGroupUrlList: [
@@ -142,7 +141,7 @@ async function queryCarbonEmissionResourceGroupItemDetailsReport(): Promise<void
       "00000000-0000-0000-0000-000000000008",
     ],
     carbonScopeList: ["Scope1", "Scope3"],
-    dateRange: { start: "2024-05-01", end: "2024-05-01" },
+    dateRange: { start: new Date("2024-05-01"), end: new Date("2024-05-01") },
     categoryType: "ResourceGroup",
     orderBy: "LatestMonthEmissions",
     sortDirection: "Desc",
@@ -174,7 +173,7 @@ async function queryCarbonEmissionResourceItemDetailsReport(): Promise<void> {
       "00000000-0000-0000-0000-000000000008",
     ],
     carbonScopeList: ["Scope1", "Scope3"],
-    dateRange: { start: "2024-05-01", end: "2024-05-01" },
+    dateRange: { start: new Date("2024-05-01"), end: new Date("2024-05-01") },
     categoryType: "Resource",
     orderBy: "LatestMonthEmissions",
     sortDirection: "Desc",
@@ -206,7 +205,7 @@ async function queryCarbonEmissionResourceItemDetailsReportWithPaginationToken()
       "00000000-0000-0000-0000-000000000008",
     ],
     carbonScopeList: ["Scope1", "Scope3"],
-    dateRange: { start: "2024-05-01", end: "2024-05-01" },
+    dateRange: { start: new Date("2024-05-01"), end: new Date("2024-05-01") },
     categoryType: "Resource",
     orderBy: "LatestMonthEmissions",
     sortDirection: "Desc",
@@ -239,7 +238,7 @@ async function queryCarbonEmissionResourceTypeItemDetailsReport(): Promise<void>
       "00000000-0000-0000-0000-000000000008",
     ],
     carbonScopeList: ["Scope1", "Scope3"],
-    dateRange: { start: "2024-05-01", end: "2024-05-01" },
+    dateRange: { start: new Date("2024-05-01"), end: new Date("2024-05-01") },
     categoryType: "ResourceType",
     orderBy: "LatestMonthEmissions",
     sortDirection: "Desc",
@@ -271,7 +270,7 @@ async function queryCarbonEmissionSubscriptionsItemDetailsReport(): Promise<void
       "00000000-0000-0000-0000-000000000008",
     ],
     carbonScopeList: ["Scope1", "Scope3"],
-    dateRange: { start: "2024-05-01", end: "2024-05-01" },
+    dateRange: { start: new Date("2024-05-01"), end: new Date("2024-05-01") },
     categoryType: "Subscription",
     orderBy: "LatestMonthEmissions",
     sortDirection: "Desc",
@@ -303,7 +302,7 @@ async function queryCarbonEmissionTopNLocationsMonthlyReport(): Promise<void> {
       "00000000-0000-0000-0000-000000000008",
     ],
     carbonScopeList: ["Scope1", "Scope3"],
-    dateRange: { start: "2024-03-01", end: "2024-05-01" },
+    dateRange: { start: new Date("2024-03-01"), end: new Date("2024-05-01") },
     categoryType: "Location",
     topItems: 2,
   });
@@ -333,7 +332,7 @@ async function queryCarbonEmissionTopNLocationsReport(): Promise<void> {
       "00000000-0000-0000-0000-000000000008",
     ],
     carbonScopeList: ["Scope1", "Scope3"],
-    dateRange: { start: "2024-05-01", end: "2024-05-01" },
+    dateRange: { start: new Date("2024-05-01"), end: new Date("2024-05-01") },
     categoryType: "Location",
     topItems: 5,
   });
@@ -363,7 +362,7 @@ async function queryCarbonEmissionTopNResourceGroupMonthlyReport(): Promise<void
       "00000000-0000-0000-0000-000000000008",
     ],
     carbonScopeList: ["Scope1", "Scope3"],
-    dateRange: { start: "2024-03-01", end: "2024-05-01" },
+    dateRange: { start: new Date("2024-03-01"), end: new Date("2024-05-01") },
     categoryType: "ResourceGroup",
     topItems: 2,
   });
@@ -393,7 +392,7 @@ async function queryCarbonEmissionTopNResourceGroupReport(): Promise<void> {
       "00000000-0000-0000-0000-000000000008",
     ],
     carbonScopeList: ["Scope1", "Scope3"],
-    dateRange: { start: "2024-05-01", end: "2024-05-01" },
+    dateRange: { start: new Date("2024-05-01"), end: new Date("2024-05-01") },
     categoryType: "ResourceGroup",
     topItems: 5,
   });
@@ -423,7 +422,7 @@ async function queryCarbonEmissionTopNResourceMonthlyReport(): Promise<void> {
       "00000000-0000-0000-0000-000000000008",
     ],
     carbonScopeList: ["Scope1", "Scope3"],
-    dateRange: { start: "2024-03-01", end: "2024-05-01" },
+    dateRange: { start: new Date("2024-03-01"), end: new Date("2024-05-01") },
     categoryType: "Resource",
     topItems: 2,
   });
@@ -453,7 +452,7 @@ async function queryCarbonEmissionTopNResourceReport(): Promise<void> {
       "00000000-0000-0000-0000-000000000008",
     ],
     carbonScopeList: ["Scope1", "Scope3"],
-    dateRange: { start: "2024-05-01", end: "2024-05-01" },
+    dateRange: { start: new Date("2024-05-01"), end: new Date("2024-05-01") },
     categoryType: "Resource",
     topItems: 5,
   });
@@ -483,7 +482,7 @@ async function queryCarbonEmissionTopNResourceTypeMonthlyReport(): Promise<void>
       "00000000-0000-0000-0000-000000000008",
     ],
     carbonScopeList: ["Scope1", "Scope3"],
-    dateRange: { start: "2024-03-01", end: "2024-05-01" },
+    dateRange: { start: new Date("2024-03-01"), end: new Date("2024-05-01") },
     categoryType: "ResourceType",
     topItems: 2,
   });
@@ -513,7 +512,7 @@ async function queryCarbonEmissionTopNResourceTypeReport(): Promise<void> {
       "00000000-0000-0000-0000-000000000008",
     ],
     carbonScopeList: ["Scope1", "Scope3"],
-    dateRange: { start: "2024-05-01", end: "2024-05-01" },
+    dateRange: { start: new Date("2024-05-01"), end: new Date("2024-05-01") },
     categoryType: "ResourceType",
     topItems: 5,
   });
@@ -543,7 +542,7 @@ async function queryCarbonEmissionTopNSubscriptionsMonthlyReport(): Promise<void
       "00000000-0000-0000-0000-000000000008",
     ],
     carbonScopeList: ["Scope1", "Scope3"],
-    dateRange: { start: "2024-03-01", end: "2024-05-01" },
+    dateRange: { start: new Date("2024-03-01"), end: new Date("2024-05-01") },
     categoryType: "Subscription",
     topItems: 2,
   });
@@ -573,7 +572,7 @@ async function queryCarbonEmissionTopNSubscriptionsReport(): Promise<void> {
       "00000000-0000-0000-0000-000000000008",
     ],
     carbonScopeList: ["Scope1", "Scope3"],
-    dateRange: { start: "2024-05-01", end: "2024-05-01" },
+    dateRange: { start: new Date("2024-05-01"), end: new Date("2024-05-01") },
     categoryType: "Subscription",
     topItems: 5,
   });

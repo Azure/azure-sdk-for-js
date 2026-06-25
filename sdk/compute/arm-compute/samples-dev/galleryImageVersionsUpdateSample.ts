@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update a gallery image version.
  *
  * @summary update a gallery image version.
- * x-ms-original-file: 2025-03-03/galleryExamples/GalleryImageVersion_Update.json
+ * x-ms-original-file: 2025-12-03/galleryExamples/GalleryImageVersion_Update.json
  */
 async function updateASimpleGalleryImageVersionManagedImageAsSource(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -40,7 +40,7 @@ async function updateASimpleGalleryImageVersionManagedImageAsSource(): Promise<v
  * This sample demonstrates how to update a gallery image version.
  *
  * @summary update a gallery image version.
- * x-ms-original-file: 2025-03-03/galleryExamples/GalleryImageVersion_Update_RestoreSoftDeleted.json
+ * x-ms-original-file: 2025-12-03/galleryExamples/GalleryImageVersion_Update_RestoreSoftDeleted.json
  */
 async function restoreASoftDeletedGalleryImageVersion(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -60,7 +60,7 @@ async function restoreASoftDeletedGalleryImageVersion(): Promise<void> {
  * This sample demonstrates how to update a gallery image version.
  *
  * @summary update a gallery image version.
- * x-ms-original-file: 2025-03-03/galleryExamples/GalleryImageVersion_Update_WithoutSourceId.json
+ * x-ms-original-file: 2025-12-03/galleryExamples/GalleryImageVersion_Update_WithoutSourceId.json
  */
 async function updateASimpleGalleryImageVersionWithoutSourceId(): Promise<void> {
   const credential = new DefaultAzureCredential();

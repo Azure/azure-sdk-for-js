@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureMapsManagementContext } from "../../api/azureMapsManagementContext.js";
+import { AzureMapsManagementContext } from "../../api/azureMapsManagementContext.js";
 import {
   listByAccount,
   $delete,
@@ -9,15 +9,15 @@ import {
   createOrUpdate,
   get,
 } from "../../api/creators/operations.js";
-import type {
+import {
   CreatorsListByAccountOptionalParams,
   CreatorsDeleteOptionalParams,
   CreatorsUpdateOptionalParams,
   CreatorsCreateOrUpdateOptionalParams,
   CreatorsGetOptionalParams,
 } from "../../api/creators/options.js";
-import type { Creator, CreatorUpdateParameters } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { Creator, CreatorUpdateParameters } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Creators operations. */
 export interface CreatorsOperations {
@@ -28,11 +28,6 @@ export interface CreatorsOperations {
     options?: CreatorsListByAccountOptionalParams,
   ) => PagedAsyncIterableIterator<Creator>;
   /** Delete a Maps Creator resource. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     accountName: string,

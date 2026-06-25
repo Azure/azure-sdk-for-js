@@ -3,14 +3,20 @@
 
 import { DependencyMapContext } from "../../api/dependencyMapContext.js";
 import {
-  MapsResource,
-  MapsResourceTagsUpdate,
-  GetDependencyViewForFocusedMachineRequest,
-  GetConnectionsWithConnectedMachineForFocusedMachineRequest,
-  GetConnectionsForProcessOnFocusedMachineRequest,
-  ExportDependenciesRequest,
-} from "../../models/models.js";
+  getDependencyViewForAllMachines,
+  exportDependencies,
+  getConnectionsForProcessOnFocusedMachine,
+  getConnectionsWithConnectedMachineForFocusedMachine,
+  getDependencyViewForFocusedMachine,
+  listBySubscription,
+  listByResourceGroup,
+  $delete,
+  update,
+  createOrUpdate,
+  get,
+} from "../../api/maps/operations.js";
 import {
+  MapsGetDependencyViewForAllMachinesOptionalParams,
   MapsExportDependenciesOptionalParams,
   MapsGetConnectionsForProcessOnFocusedMachineOptionalParams,
   MapsGetConnectionsWithConnectedMachineForFocusedMachineOptionalParams,
@@ -23,29 +29,41 @@ import {
   MapsGetOptionalParams,
 } from "../../api/maps/options.js";
 import {
-  exportDependencies,
-  getConnectionsForProcessOnFocusedMachine,
-  getConnectionsWithConnectedMachineForFocusedMachine,
-  getDependencyViewForFocusedMachine,
-  listBySubscription,
-  listByResourceGroup,
-  $delete,
-  update,
-  createOrUpdate,
-  get,
-} from "../../api/maps/operations.js";
+  MapsResource,
+  MapsResourceTagsUpdate,
+  GetDependencyViewForFocusedMachineRequest,
+  GetConnectionsWithConnectedMachineForFocusedMachineRequest,
+  GetConnectionsForProcessOnFocusedMachineRequest,
+  ExportDependenciesRequest,
+  ExportDependenciesOperationResult,
+  GetDependencyViewForAllMachinesRequest,
+  GetDependencyViewForAllMachinesOperationResult,
+} from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Maps operations. */
 export interface MapsOperations {
+  /** Get dependencies for all machines */
+  getDependencyViewForAllMachines: (
+    resourceGroupName: string,
+    mapName: string,
+    body: GetDependencyViewForAllMachinesRequest,
+    options?: MapsGetDependencyViewForAllMachinesOptionalParams,
+  ) => PollerLike<
+    OperationState<GetDependencyViewForAllMachinesOperationResult>,
+    GetDependencyViewForAllMachinesOperationResult
+  >;
   /** Export dependencies */
   exportDependencies: (
     resourceGroupName: string,
     mapName: string,
     body: ExportDependenciesRequest,
     options?: MapsExportDependenciesOptionalParams,
-  ) => PollerLike<OperationState<void>, void>;
+  ) => PollerLike<
+    OperationState<ExportDependenciesOperationResult>,
+    ExportDependenciesOperationResult
+  >;
   /** Get network connections of a process */
   getConnectionsForProcessOnFocusedMachine: (
     resourceGroupName: string,
@@ -77,11 +95,6 @@ export interface MapsOperations {
     options?: MapsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<MapsResource>;
   /** Delete a MapsResource */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     mapName: string,
@@ -111,6 +124,12 @@ export interface MapsOperations {
 
 function _getMaps(context: DependencyMapContext) {
   return {
+    getDependencyViewForAllMachines: (
+      resourceGroupName: string,
+      mapName: string,
+      body: GetDependencyViewForAllMachinesRequest,
+      options?: MapsGetDependencyViewForAllMachinesOptionalParams,
+    ) => getDependencyViewForAllMachines(context, resourceGroupName, mapName, body, options),
     exportDependencies: (
       resourceGroupName: string,
       mapName: string,

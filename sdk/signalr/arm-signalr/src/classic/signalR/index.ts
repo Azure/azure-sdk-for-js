@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SignalRManagementContext } from "../../api/signalRManagementContext.js";
+import { SignalRManagementContext } from "../../api/signalRManagementContext.js";
 import {
   checkNameAvailability,
   listReplicaSkus,
@@ -16,7 +16,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/signalR/operations.js";
-import type {
+import {
   SignalRCheckNameAvailabilityOptionalParams,
   SignalRListReplicaSkusOptionalParams,
   SignalRListSkusOptionalParams,
@@ -30,7 +30,7 @@ import type {
   SignalRCreateOrUpdateOptionalParams,
   SignalRGetOptionalParams,
 } from "../../api/signalR/options.js";
-import type {
+import {
   SignalRResource,
   SignalRKeys,
   RegenerateKeyParameters,
@@ -38,10 +38,9 @@ import type {
   NameAvailabilityParameters,
   NameAvailability,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a SignalR operations. */
 export interface SignalROperations {

@@ -26,18 +26,20 @@ export function _classifyServicesSend(
   const path = expandUrlTemplate(
     "/providers/Microsoft.Support/classifyServices{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: serviceClassificationRequestSerializer(serviceClassificationRequest),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: serviceClassificationRequestSerializer(serviceClassificationRequest),
+    });
 }
 
 export async function _classifyServicesDeserialize(

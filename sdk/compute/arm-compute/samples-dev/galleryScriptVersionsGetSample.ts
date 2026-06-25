@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to custom ArmResourceRead operation template with CloudError as Error
  *
  * @summary custom ArmResourceRead operation template with CloudError as Error
- * x-ms-original-file: 2025-03-03/galleryScriptExamples/GalleryScriptVersion_Get.json
+ * x-ms-original-file: 2025-12-03/galleryScriptExamples/GalleryScriptVersion_Get.json
  */
 async function getAGalleryScriptVersion(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,7 @@ async function getAGalleryScriptVersion(): Promise<void> {
  * This sample demonstrates how to custom ArmResourceRead operation template with CloudError as Error
  *
  * @summary custom ArmResourceRead operation template with CloudError as Error
- * x-ms-original-file: 2025-03-03/galleryScriptExamples/GalleryScriptVersion_Get_WithReplicationStatus.json
+ * x-ms-original-file: 2025-12-03/galleryScriptExamples/GalleryScriptVersion_Get_WithReplicationStatus.json
  */
 async function getAGalleryScriptVersionWithReplicationStatus(): Promise<void> {
   const credential = new DefaultAzureCredential();

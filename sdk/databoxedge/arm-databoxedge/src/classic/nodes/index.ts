@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DataBoxEdgeManagementContext } from "../../api/dataBoxEdgeManagementContext.js";
+import { DataBoxEdgeManagementContext } from "../../api/dataBoxEdgeManagementContext.js";
 import { listByDataBoxEdgeDevice } from "../../api/nodes/operations.js";
-import type { NodesListByDataBoxEdgeDeviceOptionalParams } from "../../api/nodes/options.js";
-import type { Node } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { NodesListByDataBoxEdgeDeviceOptionalParams } from "../../api/nodes/options.js";
+import { Node } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Nodes operations. */
 export interface NodesOperations {

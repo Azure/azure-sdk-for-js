@@ -1,15 +1,41 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import OnlineExperimentationClient from "./onlineExperimentationClient.js";
+import {
+  PageSettings,
+  ContinuablePage,
+  PagedAsyncIterableIterator,
+} from "./static-helpers/pagingHelpers.js";
 
-export * from "./onlineExperimentationClient.js";
-export * from "./parameters.js";
-export * from "./responses.js";
-export * from "./clientDefinitions.js";
-export * from "./isUnexpected.js";
-export * from "./models.js";
-export * from "./outputModels.js";
-export * from "./paginateHelper.js";
-
-export default OnlineExperimentationClient;
+export { OnlineExperimentationClient } from "./onlineExperimentationClient.js";
+export type {
+  ExperimentMetric,
+  LifecycleStage,
+  DesiredDirection,
+  ExperimentMetricDefinition,
+  ExperimentMetricDefinitionUnion,
+  ExperimentMetricType,
+  EventCountMetricDefinition,
+  ObservedEvent,
+  UserCountMetricDefinition,
+  EventRateMetricDefinition,
+  UserRateMetricDefinition,
+  SumMetricDefinition,
+  AggregatedValue,
+  AverageMetricDefinition,
+  PercentileMetricDefinition,
+  ExperimentMetricValidationResult,
+  DiagnosticDetail,
+  DiagnosticCode,
+} from "./models/index.js";
+export { KnownVersions } from "./models/index.js";
+export type {
+  OnlineExperimentationClientOptionalParams,
+  ListMetricsOptionalParams,
+  DeleteMetricOptionalParams,
+  ValidateMetricOptionalParams,
+  CreateOrUpdateMetricOptionalParams,
+  GetMetricOptionalParams,
+} from "./api/index.js";
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

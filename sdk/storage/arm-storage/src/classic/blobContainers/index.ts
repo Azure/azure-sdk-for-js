@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { StorageManagementContext } from "../../api/storageManagementContext.js";
+import { StorageManagementContext } from "../../api/storageManagementContext.js";
 import {
   extendImmutabilityPolicy,
   lockImmutabilityPolicy,
@@ -18,7 +18,7 @@ import {
   create,
   get,
 } from "../../api/blobContainers/operations.js";
-import type {
+import {
   BlobContainersExtendImmutabilityPolicyOptionalParams,
   BlobContainersLockImmutabilityPolicyOptionalParams,
   BlobContainersDeleteImmutabilityPolicyOptionalParams,
@@ -34,17 +34,16 @@ import type {
   BlobContainersCreateOptionalParams,
   BlobContainersGetOptionalParams,
 } from "../../api/blobContainers/options.js";
-import type {
+import {
   BlobContainer,
   LegalHold,
   LeaseContainerResponse,
   ListContainerItem,
   ImmutabilityPolicy,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a BlobContainers operations. */
 export interface BlobContainersOperations {

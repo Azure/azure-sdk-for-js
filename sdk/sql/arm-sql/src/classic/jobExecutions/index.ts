@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   create,
   listByAgent,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/jobExecutions/operations.js";
-import type {
+import {
   JobExecutionsCreateOptionalParams,
   JobExecutionsListByAgentOptionalParams,
   JobExecutionsListByJobOptionalParams,
@@ -18,11 +18,10 @@ import type {
   JobExecutionsCreateOrUpdateOptionalParams,
   JobExecutionsGetOptionalParams,
 } from "../../api/jobExecutions/options.js";
-import type { JobExecution } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { JobExecution } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a JobExecutions operations. */
 export interface JobExecutionsOperations {

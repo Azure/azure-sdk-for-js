@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { EventHubManagementContext } from "../../api/eventHubManagementContext.js";
+import { EventHubManagementContext } from "../../api/eventHubManagementContext.js";
 import { get } from "../../api/privateLinkResources/operations.js";
-import type { PrivateLinkResourcesGetOptionalParams } from "../../api/privateLinkResources/options.js";
-import type { PrivateLinkResourcesListResult } from "../../models/models.js";
+import { PrivateLinkResourcesGetOptionalParams } from "../../api/privateLinkResources/options.js";
+import { PrivateLinkResourcesListResult } from "../../models/models.js";
 
 /** Interface representing a PrivateLinkResources operations. */
 export interface PrivateLinkResourcesOperations {

@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 import { ProgrammableConnectivityContext } from "../../api/programmableConnectivityContext.js";
-import { OperatorApiPlan } from "../../models/models.js";
+import { listBySubscription, get } from "../../api/operatorApiPlans/operations.js";
 import {
   OperatorApiPlansListBySubscriptionOptionalParams,
   OperatorApiPlansGetOptionalParams,
 } from "../../api/operatorApiPlans/options.js";
-import { listBySubscription, get } from "../../api/operatorApiPlans/operations.js";
+import { OperatorApiPlan } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a OperatorApiPlans operations. */

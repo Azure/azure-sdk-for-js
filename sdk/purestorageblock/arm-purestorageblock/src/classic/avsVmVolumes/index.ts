@@ -2,14 +2,14 @@
 // Licensed under the MIT License.
 
 import { BlockContext } from "../../api/blockContext.js";
-import { AvsVmVolumeUpdate, AvsVmVolume } from "../../models/models.js";
+import { listByAvsVm, $delete, get, update } from "../../api/avsVmVolumes/operations.js";
 import {
   AvsVmVolumesListByAvsVmOptionalParams,
   AvsVmVolumesDeleteOptionalParams,
   AvsVmVolumesGetOptionalParams,
   AvsVmVolumesUpdateOptionalParams,
 } from "../../api/avsVmVolumes/options.js";
-import { listByAvsVm, $delete, get, update } from "../../api/avsVmVolumes/operations.js";
+import { AvsVmVolumeUpdate, AvsVmVolume } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -23,11 +23,6 @@ export interface AvsVmVolumesOperations {
     options?: AvsVmVolumesListByAvsVmOptionalParams,
   ) => PagedAsyncIterableIterator<AvsVmVolume>;
   /** Delete a volume in an AVS VM */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     storagePoolName: string,

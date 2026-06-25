@@ -1,22 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ConnectedCacheContext, ConnectedCacheClientOptionalParams } from "./api/index.js";
-import { createConnectedCache } from "./api/index.js";
-import type { EnterpriseMccCacheNodesOperationsOperations } from "./classic/enterpriseMccCacheNodesOperations/index.js";
-import { _getEnterpriseMccCacheNodesOperationsOperations } from "./classic/enterpriseMccCacheNodesOperations/index.js";
-import type { EnterpriseMccCustomersOperations } from "./classic/enterpriseMccCustomers/index.js";
-import { _getEnterpriseMccCustomersOperations } from "./classic/enterpriseMccCustomers/index.js";
-import type { IspCacheNodesOperationsOperations } from "./classic/ispCacheNodesOperations/index.js";
-import { _getIspCacheNodesOperationsOperations } from "./classic/ispCacheNodesOperations/index.js";
-import type { IspCustomersOperations } from "./classic/ispCustomers/index.js";
-import { _getIspCustomersOperations } from "./classic/ispCustomers/index.js";
-import type { OperationsOperations } from "./classic/operations/index.js";
-import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import {
+  ConnectedCacheContext,
+  ConnectedCacheClientOptionalParams,
+  createConnectedCache,
+} from "./api/index.js";
+import {
+  EnterpriseMccCacheNodesOperationsOperations,
+  _getEnterpriseMccCacheNodesOperationsOperations,
+} from "./classic/enterpriseMccCacheNodesOperations/index.js";
+import {
+  EnterpriseMccCustomersOperations,
+  _getEnterpriseMccCustomersOperations,
+} from "./classic/enterpriseMccCustomers/index.js";
+import {
+  IspCacheNodesOperationsOperations,
+  _getIspCacheNodesOperationsOperations,
+} from "./classic/ispCacheNodesOperations/index.js";
+import {
+  IspCustomersOperations,
+  _getIspCustomersOperations,
+} from "./classic/ispCustomers/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
-export { type ConnectedCacheClientOptionalParams } from "./api/connectedCacheContext.js";
+export type { ConnectedCacheClientOptionalParams } from "./api/connectedCacheContext.js";
 
 export class ConnectedCacheClient {
   private _client: ConnectedCacheContext;

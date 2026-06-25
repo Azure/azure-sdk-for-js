@@ -1,195 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/** A connector is a resource that can be used to proactively report impacts against workloads in Azure to Microsoft. */
-export interface Connector extends ProxyResource {
-  /** The resource-specific properties for this resource. */
-  properties?: ConnectorProperties;
-}
-
-export function connectorSerializer(item: Connector): any {
-  return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : connectorPropertiesSerializer(item["properties"]),
-  };
-}
-
-export function connectorDeserializer(item: any): Connector {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
-      ? item["properties"]
-      : connectorPropertiesDeserializer(item["properties"]),
-  };
-}
-
-/** Details of the Connector. */
-export interface ConnectorProperties {
-  /** Resource provisioning state. */
-  readonly provisioningState?: ProvisioningState;
-  /** unique id of the connector. */
-  readonly connectorId: string;
-  /** tenant id of this connector */
-  readonly tenantId: string;
-  /** connector type */
-  connectorType: Platform;
-  /** last run time stamp of this connector in UTC time zone */
-  readonly lastRunTimeStamp: Date;
-}
-
-export function connectorPropertiesSerializer(item: ConnectorProperties): any {
-  return { connectorType: item["connectorType"] };
-}
-
-export function connectorPropertiesDeserializer(item: any): ConnectorProperties {
-  return {
-    provisioningState: item["provisioningState"],
-    connectorId: item["connectorId"],
-    tenantId: item["tenantId"],
-    connectorType: item["connectorType"],
-    lastRunTimeStamp: new Date(item["lastRunTimeStamp"]),
-  };
-}
-
-/** Provisioning state of the resource. */
-export enum KnownProvisioningState {
-  /** Provisioning Succeeded */
-  Succeeded = "Succeeded",
-  /** Provisioning Failed */
-  Failed = "Failed",
-  /** Provisioning Canceled */
-  Canceled = "Canceled",
-}
-
 /**
- * Provisioning state of the resource. \
- * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Succeeded**: Provisioning Succeeded \
- * **Failed**: Provisioning Failed \
- * **Canceled**: Provisioning Canceled
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
-export type ProvisioningState = string;
-
-/** Enum for connector types */
-export enum KnownPlatform {
-  /** Type of Azure Monitor */
-  AzureMonitor = "AzureMonitor",
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/** A successful response from getUploadToken will contain an 'uploadUrl' field. This uploadUrl field's value should follow the format: https://[storage-account-name].blob.core.windows.net/[container-name]/[your-blob.extension]?[SAS-token] */
+export interface UploadTokenResult {
+  /** The SAS token URL for uploading */
+  uploadUrl: string;
 }
 
-/**
- * Enum for connector types \
- * {@link KnownPlatform} can be used interchangeably with Platform,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **AzureMonitor**: Type of Azure Monitor
- */
-export type Platform = string;
-
-/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export interface ProxyResource extends Resource {}
-
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
-}
-
-export function proxyResourceDeserializer(item: any): ProxyResource {
+export function uploadTokenResultDeserializer(item: any): UploadTokenResult {
   return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
+    uploadUrl: item["uploadUrl"],
   };
 }
-
-/** Common fields that are returned in the response for all Azure Resource Manager resources */
-export interface Resource {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  readonly id?: string;
-  /** The name of the resource */
-  readonly name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  readonly type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  readonly systemData?: SystemData;
-}
-
-export function resourceSerializer(item: Resource): any {
-  return item;
-}
-
-export function resourceDeserializer(item: any): Resource {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-  };
-}
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
-}
-
-export function systemDataDeserializer(item: any): SystemData {
-  return {
-    createdBy: item["createdBy"],
-    createdByType: item["createdByType"],
-    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
-    lastModifiedBy: item["lastModifiedBy"],
-    lastModifiedByType: item["lastModifiedByType"],
-    lastModifiedAt: !item["lastModifiedAt"]
-      ? item["lastModifiedAt"]
-      : new Date(item["lastModifiedAt"]),
-  };
-}
-
-/** The kind of entity that created the resource. */
-export enum KnownCreatedByType {
-  /** The entity was created by a user. */
-  User = "User",
-  /** The entity was created by an application. */
-  Application = "Application",
-  /** The entity was created by a managed identity. */
-  ManagedIdentity = "ManagedIdentity",
-  /** The entity was created by a key. */
-  Key = "Key",
-}
-
-/**
- * The kind of entity that created the resource. \
- * {@link KnowncreatedByType} can be used interchangeably with createdByType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **User**: The entity was created by a user. \
- * **Application**: The entity was created by an application. \
- * **ManagedIdentity**: The entity was created by a managed identity. \
- * **Key**: The entity was created by a key.
- */
-export type CreatedByType = string;
 
 /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. */
 export interface ErrorResponse {
@@ -246,343 +74,117 @@ export interface ErrorAdditionalInfo {
   /** The additional info type. */
   readonly type?: string;
   /** The additional info. */
-  readonly info?: Record<string, any>;
+  readonly info?: any;
 }
 
 export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
   return {
     type: item["type"],
-    info: !item["info"] ? item["info"] : _errorAdditionalInfoInfoDeserializer(item["info"]),
+    info: item["info"],
   };
 }
 
-/** model interface _ErrorAdditionalInfoInfo */
-export interface _ErrorAdditionalInfoInfo {}
-
-export function _errorAdditionalInfoInfoDeserializer(item: any): _ErrorAdditionalInfoInfo {
-  return item;
-}
-
-/** The type used for update operations of the Connector. */
-export interface ConnectorUpdate {
-  /** The resource-specific properties for this resource. */
-  properties?: ConnectorUpdateProperties;
-}
-
-export function connectorUpdateSerializer(item: ConnectorUpdate): any {
-  return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : connectorUpdatePropertiesSerializer(item["properties"]),
-  };
-}
-
-/** The updatable properties of the Connector. */
-export interface ConnectorUpdateProperties {
-  /** connector type */
-  connectorType?: Platform;
-}
-
-export function connectorUpdatePropertiesSerializer(item: ConnectorUpdateProperties): any {
-  return { connectorType: item["connectorType"] };
-}
-
-/** The response of a Connector list operation. */
-export interface _ConnectorListResult {
-  /** The Connector items on this page */
-  value: Connector[];
+/** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
+export interface _OperationListResult {
+  /** The Operation items on this page */
+  value: Operation[];
   /** The link to the next page of items */
   nextLink?: string;
 }
 
-export function _connectorListResultDeserializer(item: any): _ConnectorListResult {
+export function _operationListResultDeserializer(item: any): _OperationListResult {
   return {
-    value: connectorArrayDeserializer(item["value"]),
+    value: operationArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function connectorArraySerializer(result: Array<Connector>): any[] {
+export function operationArrayDeserializer(result: Array<Operation>): any[] {
   return result.map((item) => {
-    return connectorSerializer(item);
+    return operationDeserializer(item);
   });
 }
 
-export function connectorArrayDeserializer(result: Array<Connector>): any[] {
-  return result.map((item) => {
-    return connectorDeserializer(item);
-  });
+/** Details of a REST API operation, returned from the Resource Provider Operations API */
+export interface Operation {
+  /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
+  readonly name?: string;
+  /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for Azure Resource Manager/control-plane operations. */
+  readonly isDataAction?: boolean;
+  /** Localized display information for this particular operation. */
+  display?: OperationDisplay;
+  /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
+  readonly origin?: Origin;
+  /** Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
+  readonly actionType?: ActionType;
 }
 
-/** Insight resource */
-export interface Insight extends ProxyResource {
-  /** The resource-specific properties for this resource. */
-  properties?: InsightProperties;
-}
-
-export function insightSerializer(item: Insight): any {
+export function operationDeserializer(item: any): Operation {
   return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : insightPropertiesSerializer(item["properties"]),
-  };
-}
-
-export function insightDeserializer(item: any): Insight {
-  return {
-    id: item["id"],
     name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
-      ? item["properties"]
-      : insightPropertiesDeserializer(item["properties"]),
+    isDataAction: item["isDataAction"],
+    display: !item["display"] ? item["display"] : operationDisplayDeserializer(item["display"]),
+    origin: item["origin"],
+    actionType: item["actionType"],
   };
 }
 
-/** Impact category properties. */
-export interface InsightProperties {
-  /** Resource provisioning state. */
-  readonly provisioningState?: ProvisioningState;
-  /** category of the insight. */
-  category: string;
-  /** status of the insight. example resolved, repaired, other. */
-  status?: string;
-  /** Identifier of the event that has been correlated with this insight. This can be used to aggregate insights for the same event. */
-  eventId?: string;
-  /** Identifier that can be used to group similar insights. */
-  groupId?: string;
-  /** Contains title & description for the insight */
-  content: Content;
-  /** Time of the event, which has been correlated the impact. */
-  eventTime?: Date;
-  /** unique id of the insight. */
-  insightUniqueId: string;
-  /** details of of the impact for which insight has been generated. */
-  impact: ImpactDetails;
-  /** additional details of the insight. */
-  additionalDetails?: Record<string, any>;
+/** Localized display information for an operation. */
+export interface OperationDisplay {
+  /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
+  readonly provider?: string;
+  /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
+  readonly resource?: string;
+  /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
+  readonly operation?: string;
+  /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
+  readonly description?: string;
 }
 
-export function insightPropertiesSerializer(item: InsightProperties): any {
+export function operationDisplayDeserializer(item: any): OperationDisplay {
   return {
-    category: item["category"],
-    status: item["status"],
-    eventId: item["eventId"],
-    groupId: item["groupId"],
-    content: contentSerializer(item["content"]),
-    eventTime: !item["eventTime"] ? item["eventTime"] : item["eventTime"].toISOString(),
-    insightUniqueId: item["insightUniqueId"],
-    impact: impactDetailsSerializer(item["impact"]),
-    additionalDetails: !item["additionalDetails"]
-      ? item["additionalDetails"]
-      : _insightPropertiesAdditionalDetailsSerializer(item["additionalDetails"]),
-  };
-}
-
-export function insightPropertiesDeserializer(item: any): InsightProperties {
-  return {
-    provisioningState: item["provisioningState"],
-    category: item["category"],
-    status: item["status"],
-    eventId: item["eventId"],
-    groupId: item["groupId"],
-    content: contentDeserializer(item["content"]),
-    eventTime: !item["eventTime"] ? item["eventTime"] : new Date(item["eventTime"]),
-    insightUniqueId: item["insightUniqueId"],
-    impact: impactDetailsDeserializer(item["impact"]),
-    additionalDetails: !item["additionalDetails"]
-      ? item["additionalDetails"]
-      : _insightPropertiesAdditionalDetailsDeserializer(item["additionalDetails"]),
-  };
-}
-
-/** Article details of the insight like title, description etc */
-export interface Content {
-  /** Title of the insight */
-  title: string;
-  /** Description of the insight */
-  description: string;
-}
-
-export function contentSerializer(item: Content): any {
-  return { title: item["title"], description: item["description"] };
-}
-
-export function contentDeserializer(item: any): Content {
-  return {
-    title: item["title"],
+    provider: item["provider"],
+    resource: item["resource"],
+    operation: item["operation"],
     description: item["description"],
   };
 }
 
-/** details of of the impact for which insight has been generated. */
-export interface ImpactDetails {
-  /** List of impacted Azure resources. */
-  impactedResourceId: string;
-  /** Time at which impact was started according to reported impact. */
-  startTime: Date;
-  /** Time at which impact was ended according to reported impact. */
-  endTime?: Date;
-  /** Azure Id of the impact. */
-  impactId: string;
+/** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
+export enum KnownOrigin {
+  /** Indicates the operation is initiated by a user. */
+  User = "user",
+  /** Indicates the operation is initiated by a system. */
+  System = "system",
+  /** Indicates the operation is initiated by a user or system. */
+  UserSystem = "user,system",
 }
 
-export function impactDetailsSerializer(item: ImpactDetails): any {
-  return {
-    impactedResourceId: item["impactedResourceId"],
-    startTime: item["startTime"].toISOString(),
-    endTime: !item["endTime"] ? item["endTime"] : item["endTime"].toISOString(),
-    impactId: item["impactId"],
-  };
+/**
+ * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" \
+ * {@link KnownOrigin} can be used interchangeably with Origin,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **user**: Indicates the operation is initiated by a user. \
+ * **system**: Indicates the operation is initiated by a system. \
+ * **user,system**: Indicates the operation is initiated by a user or system.
+ */
+export type Origin = string;
+
+/** Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
+export enum KnownActionType {
+  /** Actions are for internal-only APIs. */
+  Internal = "Internal",
 }
 
-export function impactDetailsDeserializer(item: any): ImpactDetails {
-  return {
-    impactedResourceId: item["impactedResourceId"],
-    startTime: new Date(item["startTime"]),
-    endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
-    impactId: item["impactId"],
-  };
-}
-
-/** model interface _InsightPropertiesAdditionalDetails */
-export interface _InsightPropertiesAdditionalDetails {}
-
-export function _insightPropertiesAdditionalDetailsSerializer(
-  item: _InsightPropertiesAdditionalDetails,
-): any {
-  return item;
-}
-
-export function _insightPropertiesAdditionalDetailsDeserializer(
-  item: any,
-): _InsightPropertiesAdditionalDetails {
-  return item;
-}
-
-/** The response of a Insight list operation. */
-export interface _InsightListResult {
-  /** The Insight items on this page */
-  value: Insight[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _insightListResultDeserializer(item: any): _InsightListResult {
-  return {
-    value: insightArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function insightArraySerializer(result: Array<Insight>): any[] {
-  return result.map((item) => {
-    return insightSerializer(item);
-  });
-}
-
-export function insightArrayDeserializer(result: Array<Insight>): any[] {
-  return result.map((item) => {
-    return insightDeserializer(item);
-  });
-}
-
-/** ImpactCategory resource */
-export interface ImpactCategory extends ProxyResource {
-  /** The resource-specific properties for this resource. */
-  properties?: ImpactCategoryProperties;
-}
-
-export function impactCategoryDeserializer(item: any): ImpactCategory {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
-      ? item["properties"]
-      : impactCategoryPropertiesDeserializer(item["properties"]),
-  };
-}
-
-/** Impact category properties. */
-export interface ImpactCategoryProperties {
-  /** Resource provisioning state. */
-  readonly provisioningState?: ProvisioningState;
-  /** Unique ID of the category */
-  categoryId: string;
-  /** Unique ID of the parent category */
-  parentCategoryId?: string;
-  /** Description of the category */
-  description?: string;
-  /** The workloadImpact properties which are required when reporting with the impact category */
-  requiredImpactProperties?: RequiredImpactProperties[];
-}
-
-export function impactCategoryPropertiesDeserializer(item: any): ImpactCategoryProperties {
-  return {
-    provisioningState: item["provisioningState"],
-    categoryId: item["categoryId"],
-    parentCategoryId: item["parentCategoryId"],
-    description: item["description"],
-    requiredImpactProperties: !item["requiredImpactProperties"]
-      ? item["requiredImpactProperties"]
-      : requiredImpactPropertiesArrayDeserializer(item["requiredImpactProperties"]),
-  };
-}
-
-export function requiredImpactPropertiesArrayDeserializer(
-  result: Array<RequiredImpactProperties>,
-): any[] {
-  return result.map((item) => {
-    return requiredImpactPropertiesDeserializer(item);
-  });
-}
-
-/** Required impact properties */
-export interface RequiredImpactProperties {
-  /** Name of the property */
-  name: string;
-  /** Allowed values values for the property */
-  allowedValues?: string[];
-}
-
-export function requiredImpactPropertiesDeserializer(item: any): RequiredImpactProperties {
-  return {
-    name: item["name"],
-    allowedValues: !item["allowedValues"]
-      ? item["allowedValues"]
-      : item["allowedValues"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-/** The response of a ImpactCategory list operation. */
-export interface _ImpactCategoryListResult {
-  /** The ImpactCategory items on this page */
-  value: ImpactCategory[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _impactCategoryListResultDeserializer(item: any): _ImpactCategoryListResult {
-  return {
-    value: impactCategoryArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function impactCategoryArrayDeserializer(result: Array<ImpactCategory>): any[] {
-  return result.map((item) => {
-    return impactCategoryDeserializer(item);
-  });
-}
+/**
+ * Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. \
+ * {@link KnownActionType} can be used interchangeably with ActionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Internal**: Actions are for internal-only APIs.
+ */
+export type ActionType = string;
 
 /** Workload Impact properties */
 export interface WorkloadImpact extends ProxyResource {
@@ -648,6 +250,20 @@ export interface WorkloadImpactProperties {
   confidenceLevel?: ConfidenceLevel;
   /** Client incident details ex: incidentId , incident source */
   clientIncidentDetails?: ClientIncidentDetails;
+  /** This field represents if an impact is ongoing or not. This is a boolean field. */
+  ongoingImpact?: boolean;
+  /** This field represents the severity of an impact. Severity can be from critical to low severity impact. Severity ranges from 1 to 5 with 1 being critical, 2 is high, 3 is medium and 4,5 represents low severity impact. */
+  severity?: Severity;
+  /** Captures the longest interruption duration within the specified start and end times. For example, it can be used to indicate network connectivity loss lasting longer than a specified number of seconds within the given time range. */
+  durationInSec?: number;
+  /** This field represents the type of impact. Possible values are MetricsThreshold, MetricsAnomaly, BusinessAlert. */
+  detectionType?: DetectionType;
+  /** This field represents the duration margin in seconds that can be provided while providing endDateTime. */
+  durationMarginInSec?: number;
+  /** This field represents the number of times a particular issue was observed over a given time range. */
+  hitCount?: number;
+  /** Insights grouped by category. Each category contains status and a list of insight references. */
+  readonly insightsByCategory?: InsightCategoryGroup[];
 }
 
 export function workloadImpactPropertiesSerializer(item: WorkloadImpactProperties): any {
@@ -668,9 +284,7 @@ export function workloadImpactPropertiesSerializer(item: WorkloadImpactPropertie
     connectivity: !item["connectivity"]
       ? item["connectivity"]
       : connectivitySerializer(item["connectivity"]),
-    additionalProperties: !item["additionalProperties"]
-      ? item["additionalProperties"]
-      : _workloadImpactPropertiesAdditionalPropertiesSerializer(item["additionalProperties"]),
+    additionalProperties: item["additionalProperties"],
     errorDetails: !item["errorDetails"]
       ? item["errorDetails"]
       : errorDetailPropertiesSerializer(item["errorDetails"]),
@@ -680,6 +294,12 @@ export function workloadImpactPropertiesSerializer(item: WorkloadImpactPropertie
     clientIncidentDetails: !item["clientIncidentDetails"]
       ? item["clientIncidentDetails"]
       : clientIncidentDetailsSerializer(item["clientIncidentDetails"]),
+    ongoingImpact: item["ongoingImpact"],
+    severity: item["severity"],
+    durationInSec: item["durationInSec"],
+    detectionType: item["detectionType"],
+    durationMarginInSec: item["durationMarginInSec"],
+    hitCount: item["hitCount"],
   };
 }
 
@@ -708,7 +328,9 @@ export function workloadImpactPropertiesDeserializer(item: any): WorkloadImpactP
       : connectivityDeserializer(item["connectivity"]),
     additionalProperties: !item["additionalProperties"]
       ? item["additionalProperties"]
-      : _workloadImpactPropertiesAdditionalPropertiesDeserializer(item["additionalProperties"]),
+      : Object.fromEntries(
+          Object.entries(item["additionalProperties"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
     errorDetails: !item["errorDetails"]
       ? item["errorDetails"]
       : errorDetailPropertiesDeserializer(item["errorDetails"]),
@@ -718,8 +340,38 @@ export function workloadImpactPropertiesDeserializer(item: any): WorkloadImpactP
     clientIncidentDetails: !item["clientIncidentDetails"]
       ? item["clientIncidentDetails"]
       : clientIncidentDetailsDeserializer(item["clientIncidentDetails"]),
+    ongoingImpact: item["ongoingImpact"],
+    severity: item["severity"],
+    durationInSec: item["durationInSec"],
+    detectionType: item["detectionType"],
+    durationMarginInSec: item["durationMarginInSec"],
+    hitCount: item["hitCount"],
+    insightsByCategory: !item["insightsByCategory"]
+      ? item["insightsByCategory"]
+      : insightCategoryGroupArrayDeserializer(item["insightsByCategory"]),
   };
 }
+
+/** Provisioning state of the resource. */
+export enum KnownProvisioningState {
+  /** Provisioning Succeeded */
+  Succeeded = "Succeeded",
+  /** Provisioning Failed */
+  Failed = "Failed",
+  /** Provisioning Canceled */
+  Canceled = "Canceled",
+}
+
+/**
+ * Provisioning state of the resource. \
+ * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded**: Provisioning Succeeded \
+ * **Failed**: Provisioning Failed \
+ * **Canceled**: Provisioning Canceled
+ */
+export type ProvisioningState = string;
 
 export function performanceArraySerializer(result: Array<Performance>): any[] {
   return result.map((item) => {
@@ -895,8 +547,8 @@ export enum KnownProtocol {
  * ### Known values supported by the service
  * **TCP**: When communication protocol is TCP \
  * **UDP**: When communication protocol is UDP \
- * **Http**: When communication protocol is HTTP \
- * **Https**: When communication protocol is HTTPS \
+ * **HTTP**: When communication protocol is HTTP \
+ * **HTTPS**: When communication protocol is HTTPS \
  * **RDP**: When communication protocol is RDP \
  * **FTP**: When communication protocol is FTP \
  * **SSH**: When communication protocol is SSH \
@@ -918,21 +570,6 @@ export function sourceOrTargetDeserializer(item: any): SourceOrTarget {
   return {
     azureResourceId: item["azureResourceId"],
   };
-}
-
-/** model interface _WorkloadImpactPropertiesAdditionalProperties */
-export interface _WorkloadImpactPropertiesAdditionalProperties {}
-
-export function _workloadImpactPropertiesAdditionalPropertiesSerializer(
-  item: _WorkloadImpactPropertiesAdditionalProperties,
-): any {
-  return item;
-}
-
-export function _workloadImpactPropertiesAdditionalPropertiesDeserializer(
-  item: any,
-): _WorkloadImpactPropertiesAdditionalProperties {
-  return item;
 }
 
 /** ARM error code and error message associated with the impact */
@@ -1082,6 +719,193 @@ export enum KnownIncidentSource {
  */
 export type IncidentSource = string;
 
+/** List of severity of an impact. */
+export enum KnownSeverity {
+  /** Use this when the issue is critical. Consider this to be similar to severity 1 incidents. */
+  Critical = "Critical",
+  /** Use this when the issue is high impact similar to severity 2 incidents. */
+  High = "High",
+  /** Use this when the issue is medium impact similar to severity 3 incidents. */
+  Medium = "Medium",
+  /** Use this for issues that are low impact similar to severity 4 and 5 incidents. */
+  Low = "Low",
+}
+
+/**
+ * List of severity of an impact. \
+ * {@link KnownSeverity} can be used interchangeably with Severity,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Critical**: Use this when the issue is critical. Consider this to be similar to severity 1 incidents. \
+ * **High**: Use this when the issue is high impact similar to severity 2 incidents. \
+ * **Medium**: Use this when the issue is medium impact similar to severity 3 incidents. \
+ * **Low**: Use this for issues that are low impact similar to severity 4 and 5 incidents.
+ */
+export type Severity = string;
+
+/** List of detection types */
+export enum KnownDetectionType {
+  /** Use this when impact is alert based. */
+  BusinessAlert = "BusinessAlert",
+  /** Use this when impact is metrics or expectations based. */
+  MetricsThreshold = "MetricsThreshold",
+  /** Use this when impact is outlier based. */
+  MetricsAnomaly = "MetricsAnomaly",
+}
+
+/**
+ * List of detection types \
+ * {@link KnownDetectionType} can be used interchangeably with DetectionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **BusinessAlert**: Use this when impact is alert based. \
+ * **MetricsThreshold**: Use this when impact is metrics or expectations based. \
+ * **MetricsAnomaly**: Use this when impact is outlier based.
+ */
+export type DetectionType = string;
+
+export function insightCategoryGroupArrayDeserializer(result: Array<InsightCategoryGroup>): any[] {
+  return result.map((item) => {
+    return insightCategoryGroupDeserializer(item);
+  });
+}
+
+/** Group of insights for a category */
+export interface InsightCategoryGroup {
+  /** Category name */
+  category: string;
+  /** Status of the insights in this category */
+  status?: string;
+  /** List of insight references in this category */
+  insights?: InsightReference[];
+}
+
+export function insightCategoryGroupDeserializer(item: any): InsightCategoryGroup {
+  return {
+    category: item["category"],
+    status: item["status"],
+    insights: !item["insights"]
+      ? item["insights"]
+      : insightReferenceArrayDeserializer(item["insights"]),
+  };
+}
+
+export function insightReferenceArrayDeserializer(result: Array<InsightReference>): any[] {
+  return result.map((item) => {
+    return insightReferenceDeserializer(item);
+  });
+}
+
+/** Reference to an Insight resource */
+export interface InsightReference {
+  /** Azure resource ID of the insight */
+  id: string;
+}
+
+export function insightReferenceDeserializer(item: any): InsightReference {
+  return {
+    id: item["id"],
+  };
+}
+
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
+
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
+}
+
+export function proxyResourceDeserializer(item: any): ProxyResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+  };
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  readonly id?: string;
+  /** The name of the resource */
+  readonly name?: string;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  readonly type?: string;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  readonly systemData?: SystemData;
+}
+
+export function resourceSerializer(_item: Resource): any {
+  return {};
+}
+
+export function resourceDeserializer(item: any): Resource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+  };
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
+export function systemDataDeserializer(item: any): SystemData {
+  return {
+    createdBy: item["createdBy"],
+    createdByType: item["createdByType"],
+    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
+    lastModifiedBy: item["lastModifiedBy"],
+    lastModifiedByType: item["lastModifiedByType"],
+    lastModifiedAt: !item["lastModifiedAt"]
+      ? item["lastModifiedAt"]
+      : new Date(item["lastModifiedAt"]),
+  };
+}
+
+/** The kind of entity that created the resource. */
+export enum KnownCreatedByType {
+  /** The entity was created by a user. */
+  User = "User",
+  /** The entity was created by an application. */
+  Application = "Application",
+  /** The entity was created by a managed identity. */
+  ManagedIdentity = "ManagedIdentity",
+  /** The entity was created by a key. */
+  Key = "Key",
+}
+
+/**
+ * The kind of entity that created the resource. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User**: The entity was created by a user. \
+ * **Application**: The entity was created by an application. \
+ * **ManagedIdentity**: The entity was created by a managed identity. \
+ * **Key**: The entity was created by a key.
+ */
+export type CreatedByType = string;
+
 /** The response of a WorkloadImpact list operation. */
 export interface _WorkloadImpactListResult {
   /** The WorkloadImpact items on this page */
@@ -1109,110 +933,459 @@ export function workloadImpactArrayDeserializer(result: Array<WorkloadImpact>): 
   });
 }
 
-/** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
-export interface _OperationListResult {
-  /** The Operation items on this page */
-  value: Operation[];
+/** ImpactCategory resource */
+export interface ImpactCategory extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: ImpactCategoryProperties;
+}
+
+export function impactCategoryDeserializer(item: any): ImpactCategory {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : impactCategoryPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Impact category properties. */
+export interface ImpactCategoryProperties {
+  /** Resource provisioning state. */
+  readonly provisioningState?: ProvisioningState;
+  /** Unique ID of the category */
+  categoryId: string;
+  /** Unique ID of the parent category */
+  parentCategoryId?: string;
+  /** Description of the category */
+  description?: string;
+  /** The workloadImpact properties which are required when reporting with the impact category */
+  requiredImpactProperties?: RequiredImpactProperties[];
+}
+
+export function impactCategoryPropertiesDeserializer(item: any): ImpactCategoryProperties {
+  return {
+    provisioningState: item["provisioningState"],
+    categoryId: item["categoryId"],
+    parentCategoryId: item["parentCategoryId"],
+    description: item["description"],
+    requiredImpactProperties: !item["requiredImpactProperties"]
+      ? item["requiredImpactProperties"]
+      : requiredImpactPropertiesArrayDeserializer(item["requiredImpactProperties"]),
+  };
+}
+
+export function requiredImpactPropertiesArrayDeserializer(
+  result: Array<RequiredImpactProperties>,
+): any[] {
+  return result.map((item) => {
+    return requiredImpactPropertiesDeserializer(item);
+  });
+}
+
+/** Required impact properties */
+export interface RequiredImpactProperties {
+  /** Name of the property */
+  name: string;
+  /** Allowed values values for the property */
+  allowedValues?: string[];
+}
+
+export function requiredImpactPropertiesDeserializer(item: any): RequiredImpactProperties {
+  return {
+    name: item["name"],
+    allowedValues: !item["allowedValues"]
+      ? item["allowedValues"]
+      : item["allowedValues"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** The response of a ImpactCategory list operation. */
+export interface _ImpactCategoryListResult {
+  /** The ImpactCategory items on this page */
+  value: ImpactCategory[];
   /** The link to the next page of items */
   nextLink?: string;
 }
 
-export function _operationListResultDeserializer(item: any): _OperationListResult {
+export function _impactCategoryListResultDeserializer(item: any): _ImpactCategoryListResult {
   return {
-    value: operationArrayDeserializer(item["value"]),
+    value: impactCategoryArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function operationArrayDeserializer(result: Array<Operation>): any[] {
+export function impactCategoryArrayDeserializer(result: Array<ImpactCategory>): any[] {
   return result.map((item) => {
-    return operationDeserializer(item);
+    return impactCategoryDeserializer(item);
   });
 }
 
-/** Details of a REST API operation, returned from the Resource Provider Operations API */
-export interface Operation {
-  /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  readonly name?: string;
-  /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for Azure Resource Manager/control-plane operations. */
-  readonly isDataAction?: boolean;
-  /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
-  /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  readonly origin?: Origin;
-  /** Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  readonly actionType?: ActionType;
+/** Insight resource */
+export interface Insight extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: InsightProperties;
 }
 
-export function operationDeserializer(item: any): Operation {
+export function insightSerializer(item: Insight): any {
   return {
-    name: item["name"],
-    isDataAction: item["isDataAction"],
-    display: !item["display"] ? item["display"] : operationDisplayDeserializer(item["display"]),
-    origin: item["origin"],
-    actionType: item["actionType"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : insightPropertiesSerializer(item["properties"]),
   };
 }
 
-/** Localized display information for and operation. */
-export interface OperationDisplay {
-  /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  readonly provider?: string;
-  /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  readonly resource?: string;
-  /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  readonly operation?: string;
-  /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  readonly description?: string;
+export function insightDeserializer(item: any): Insight {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : insightPropertiesDeserializer(item["properties"]),
+  };
 }
 
-export function operationDisplayDeserializer(item: any): OperationDisplay {
+/** Impact category properties. */
+export interface InsightProperties {
+  /** Resource provisioning state. */
+  readonly provisioningState?: ProvisioningState;
+  /** category of the insight. */
+  category: string;
+  /** status of the insight. example resolved, repaired, other. */
+  status?: string;
+  /** Identifier of the event that has been correlated with this insight. This can be used to aggregate insights for the same event. */
+  eventId?: string;
+  /** Identifier that can be used to group similar insights. */
+  groupId?: string;
+  /** Contains title & description for the insight */
+  content: Content;
+  /** Time of the event, which has been correlated the impact. */
+  eventTime?: Date;
+  /** unique id of the insight. */
+  insightUniqueId: string;
+  /** details of of the impact for which insight has been generated. */
+  impact: ImpactDetails;
+  /** additional details of the insight. */
+  additionalDetails?: Record<string, any>;
+}
+
+export function insightPropertiesSerializer(item: InsightProperties): any {
   return {
-    provider: item["provider"],
-    resource: item["resource"],
-    operation: item["operation"],
+    category: item["category"],
+    status: item["status"],
+    eventId: item["eventId"],
+    groupId: item["groupId"],
+    content: contentSerializer(item["content"]),
+    eventTime: !item["eventTime"] ? item["eventTime"] : item["eventTime"].toISOString(),
+    insightUniqueId: item["insightUniqueId"],
+    impact: impactDetailsSerializer(item["impact"]),
+    additionalDetails: !item["additionalDetails"]
+      ? item["additionalDetails"]
+      : _insightPropertiesAdditionalDetailsSerializer(item["additionalDetails"]),
+  };
+}
+
+export function insightPropertiesDeserializer(item: any): InsightProperties {
+  return {
+    provisioningState: item["provisioningState"],
+    category: item["category"],
+    status: item["status"],
+    eventId: item["eventId"],
+    groupId: item["groupId"],
+    content: contentDeserializer(item["content"]),
+    eventTime: !item["eventTime"] ? item["eventTime"] : new Date(item["eventTime"]),
+    insightUniqueId: item["insightUniqueId"],
+    impact: impactDetailsDeserializer(item["impact"]),
+    additionalDetails: !item["additionalDetails"]
+      ? item["additionalDetails"]
+      : _insightPropertiesAdditionalDetailsDeserializer(item["additionalDetails"]),
+  };
+}
+
+/** Article details of the insight like title, description etc */
+export interface Content {
+  /** Title of the insight */
+  title: string;
+  /** Description of the insight */
+  description: string;
+}
+
+export function contentSerializer(item: Content): any {
+  return { title: item["title"], description: item["description"] };
+}
+
+export function contentDeserializer(item: any): Content {
+  return {
+    title: item["title"],
     description: item["description"],
   };
 }
 
-/** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-export enum KnownOrigin {
-  /** Indicates the operation is initiated by a user. */
-  User = "user",
-  /** Indicates the operation is initiated by a system. */
-  System = "system",
-  /** Indicates the operation is initiated by a user or system. */
-  UserSystem = "user,system",
+/** details of of the impact for which insight has been generated. */
+export interface ImpactDetails {
+  /** List of impacted Azure resources. */
+  impactedResourceId: string;
+  /** Time at which impact was started according to reported impact. */
+  startTime: Date;
+  /** Time at which impact was ended according to reported impact. */
+  endTime?: Date;
+  /** Azure Id of the impact. */
+  impactId: string;
+}
+
+export function impactDetailsSerializer(item: ImpactDetails): any {
+  return {
+    impactedResourceId: item["impactedResourceId"],
+    startTime: item["startTime"].toISOString(),
+    endTime: !item["endTime"] ? item["endTime"] : item["endTime"].toISOString(),
+    impactId: item["impactId"],
+  };
+}
+
+export function impactDetailsDeserializer(item: any): ImpactDetails {
+  return {
+    impactedResourceId: item["impactedResourceId"],
+    startTime: new Date(item["startTime"]),
+    endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
+    impactId: item["impactId"],
+  };
+}
+
+/** model interface _InsightPropertiesAdditionalDetails */
+export interface _InsightPropertiesAdditionalDetails {}
+
+export function _insightPropertiesAdditionalDetailsSerializer(
+  _item: _InsightPropertiesAdditionalDetails,
+): any {
+  return {};
+}
+
+export function _insightPropertiesAdditionalDetailsDeserializer(
+  item: any,
+): _InsightPropertiesAdditionalDetails {
+  return item;
+}
+
+/** The response of a Insight list operation. */
+export interface _InsightListResult {
+  /** The Insight items on this page */
+  value: Insight[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _insightListResultDeserializer(item: any): _InsightListResult {
+  return {
+    value: insightArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function insightArraySerializer(result: Array<Insight>): any[] {
+  return result.map((item) => {
+    return insightSerializer(item);
+  });
+}
+
+export function insightArrayDeserializer(result: Array<Insight>): any[] {
+  return result.map((item) => {
+    return insightDeserializer(item);
+  });
+}
+
+/** A connector is a resource that can be used to proactively report impacts against workloads in Azure to Microsoft. */
+export interface Connector extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: ConnectorProperties;
+  /** The managed service identities assigned to this resource. */
+  identity?: ManagedServiceIdentityOnlyUserAssigned;
+}
+
+export function connectorSerializer(item: Connector): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : connectorPropertiesSerializer(item["properties"]),
+    identity: !item["identity"]
+      ? item["identity"]
+      : managedServiceIdentityOnlyUserAssignedSerializer(item["identity"]),
+  };
+}
+
+export function connectorDeserializer(item: any): Connector {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : connectorPropertiesDeserializer(item["properties"]),
+    identity: !item["identity"]
+      ? item["identity"]
+      : managedServiceIdentityOnlyUserAssignedDeserializer(item["identity"]),
+  };
+}
+
+/** Details of the Connector. */
+export interface ConnectorProperties {
+  /** Resource provisioning state. */
+  readonly provisioningState?: ProvisioningState;
+  /** unique id of the connector. */
+  readonly connectorId: string;
+  /** tenant id of this connector */
+  readonly tenantId: string;
+  /** connector type */
+  connectorType: Platform;
+  /** last run time stamp of this connector in UTC time zone */
+  readonly lastRunTimeStamp: Date;
+  /** returns the processing state of a connector */
+  readonly processingState: string;
+  /** detailed description of the state and if any associated action that can be taken */
+  readonly processingStateMessage: string;
+}
+
+export function connectorPropertiesSerializer(item: ConnectorProperties): any {
+  return { connectorType: item["connectorType"] };
+}
+
+export function connectorPropertiesDeserializer(item: any): ConnectorProperties {
+  return {
+    provisioningState: item["provisioningState"],
+    connectorId: item["connectorId"],
+    tenantId: item["tenantId"],
+    connectorType: item["connectorType"],
+    lastRunTimeStamp: new Date(item["lastRunTimeStamp"]),
+    processingState: item["processingState"],
+    processingStateMessage: item["processingStateMessage"],
+  };
+}
+
+/** Enum for connector types */
+export enum KnownPlatform {
+  /** Type of Azure Monitor */
+  AzureMonitor = "AzureMonitor",
 }
 
 /**
- * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" \
- * {@link KnownOrigin} can be used interchangeably with Origin,
+ * Enum for connector types \
+ * {@link KnownPlatform} can be used interchangeably with Platform,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **User**: Indicates the operation is initiated by a user. \
- * **System**: Indicates the operation is initiated by a system. \
- * **UserSystem**: Indicates the operation is initiated by a user or system.
+ * **AzureMonitor**: Type of Azure Monitor
  */
-export type Origin = string;
+export type Platform = string;
 
-/** Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-export enum KnownActionType {
-  /** Actions are for internal-only APIs. */
-  Internal = "Internal",
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface ManagedServiceIdentityOnlyUserAssigned {
+  /** The type of managed identity assigned to this resource. */
+  type: ManagedServiceIdentityTypeOnlyUserAssigned;
+  /** The identities assigned to this resource by the user. */
+  userAssignedIdentities?: Record<string, UserAssignedIdentity>;
+}
+
+export function managedServiceIdentityOnlyUserAssignedSerializer(
+  item: ManagedServiceIdentityOnlyUserAssigned,
+): any {
+  return { type: item["type"], userAssignedIdentities: item["userAssignedIdentities"] };
+}
+
+export function managedServiceIdentityOnlyUserAssignedDeserializer(
+  item: any,
+): ManagedServiceIdentityOnlyUserAssigned {
+  return {
+    type: item["type"],
+    userAssignedIdentities: !item["userAssignedIdentities"]
+      ? item["userAssignedIdentities"]
+      : Object.fromEntries(
+          Object.entries(item["userAssignedIdentities"]).map(([k, p]: [string, any]) => [
+            k,
+            !p ? p : userAssignedIdentityDeserializer(p),
+          ]),
+        ),
+  };
+}
+
+/** Type of managed service identity, where only UserAssigned type is allowed. */
+export enum KnownManagedServiceIdentityTypeOnlyUserAssigned {
+  /** User assigned managed identity. */
+  UserAssigned = "UserAssigned",
+  /** No identity. */
+  None = "None",
 }
 
 /**
- * Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. \
- * {@link KnownActionType} can be used interchangeably with ActionType,
+ * Type of managed service identity, where only UserAssigned type is allowed. \
+ * {@link KnownManagedServiceIdentityTypeOnlyUserAssigned} can be used interchangeably with ManagedServiceIdentityTypeOnlyUserAssigned,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Internal**: Actions are for internal-only APIs.
+ * **UserAssigned**: User assigned managed identity. \
+ * **None**: No identity.
  */
-export type ActionType = string;
+export type ManagedServiceIdentityTypeOnlyUserAssigned = string;
+
+/** User assigned identity properties */
+export interface UserAssignedIdentity {
+  /** The principal ID of the assigned identity. */
+  readonly principalId?: string;
+  /** The client ID of the assigned identity. */
+  readonly clientId?: string;
+}
+
+export function userAssignedIdentitySerializer(_item: UserAssignedIdentity): any {
+  return {};
+}
+
+export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
+  return {
+    principalId: item["principalId"],
+    clientId: item["clientId"],
+  };
+}
+
+/** The response of a Connector list operation. */
+export interface _ConnectorListResult {
+  /** The Connector items on this page */
+  value: Connector[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _connectorListResultDeserializer(item: any): _ConnectorListResult {
+  return {
+    value: connectorArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function connectorArraySerializer(result: Array<Connector>): any[] {
+  return result.map((item) => {
+    return connectorSerializer(item);
+  });
+}
+
+export function connectorArrayDeserializer(result: Array<Connector>): any[] {
+  return result.map((item) => {
+    return connectorDeserializer(item);
+  });
+}
 
 /** API Versions */
 export enum KnownVersions {
-  /** May 01, 2024 Preview API Version */
-  V20240501Preview = "2024-05-01-preview",
+  /** January 01, 2025 Preview API Version */
+  V20250101Preview = "2025-01-01-preview",
+  /** January 01, 2026 Preview API Version */
+  V20260101Preview = "2026-01-01-preview",
 }

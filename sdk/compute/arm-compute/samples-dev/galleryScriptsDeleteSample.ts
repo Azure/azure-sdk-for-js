@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a gallery Script Definition.
  *
  * @summary delete a gallery Script Definition.
- * x-ms-original-file: 2025-03-03/galleryScriptExamples/GalleryScript_Delete.json
+ * x-ms-original-file: 2025-12-03/galleryScriptExamples/GalleryScript_Delete.json
  */
 async function deleteAGalleryScript(): Promise<void> {
   const credential = new DefaultAzureCredential();

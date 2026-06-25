@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create ArcSetting for HCI cluster.
  *
  * @summary create ArcSetting for HCI cluster.
- * x-ms-original-file: 2026-04-01-preview/PutArcSetting.json
+ * x-ms-original-file: 2026-05-01-preview/PutArcSetting.json
  */
 async function createArcSetting(): Promise<void> {
   const credential = new DefaultAzureCredential();

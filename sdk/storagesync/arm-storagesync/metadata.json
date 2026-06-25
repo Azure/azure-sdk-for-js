@@ -2,7 +2,7 @@
   "apiVersions": {
     "Microsoft.StorageSync": "2022-09-01"
   },
-  "emitterVersion": "0.54.0",
+  "emitterVersion": "0.55.0-dev.9",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.StorageSync",
     "CrossLanguageDefinitionId": {

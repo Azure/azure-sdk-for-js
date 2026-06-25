@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to redistribute throughput for an Azure Cosmos DB SQL database
  *
  * @summary redistribute throughput for an Azure Cosmos DB SQL database
- * x-ms-original-file: 2025-11-01-preview/CosmosDBSqlDatabaseRedistributeThroughput.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBSqlDatabaseRedistributeThroughput.json
  */
 async function cosmosDBSqlDatabaseRedistributeThroughput(): Promise<void> {
   const credential = new DefaultAzureCredential();

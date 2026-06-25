@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CostManagementContext } from "../../api/costManagementContext.js";
+import { CostManagementContext } from "../../api/costManagementContext.js";
 import {
   list,
   deleteByScope,
   createOrUpdateByScope,
   getByScope,
 } from "../../api/settings/operations.js";
-import type {
+import {
   SettingsListOptionalParams,
   SettingsDeleteByScopeOptionalParams,
   SettingsCreateOrUpdateByScopeOptionalParams,
   SettingsGetByScopeOptionalParams,
 } from "../../api/settings/options.js";
-import type { SettingUnion, SettingType, SettingsListResult } from "../../models/models.js";
+import { SettingUnion, SettingType, SettingsListResult } from "../../models/models.js";
 
 /** Interface representing a Settings operations. */
 export interface SettingsOperations {

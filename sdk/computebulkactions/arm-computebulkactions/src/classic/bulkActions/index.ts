@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeBulkActionsContext } from "../../api/computeBulkActionsContext.js";
+import { ComputeBulkActionsContext } from "../../api/computeBulkActionsContext.js";
 import {
   virtualMachinesCancelOperations,
   virtualMachinesGetOperationStatus,
@@ -19,7 +19,7 @@ import {
   getOperationStatus,
   get,
 } from "../../api/bulkActions/operations.js";
-import type {
+import {
   BulkActionsVirtualMachinesCancelOperationsOptionalParams,
   BulkActionsVirtualMachinesGetOperationStatusOptionalParams,
   BulkActionsVirtualMachinesExecuteDeleteOptionalParams,
@@ -36,7 +36,7 @@ import type {
   BulkActionsGetOperationStatusOptionalParams,
   BulkActionsGetOptionalParams,
 } from "../../api/bulkActions/options.js";
-import type {
+import {
   LocationBasedLaunchBulkInstancesOperation,
   OperationStatusResult,
   VirtualMachine,
@@ -55,8 +55,8 @@ import type {
   CancelOperationsRequest,
   CancelOperationsResponse,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a BulkActions operations. */
 export interface BulkActionsOperations {
@@ -128,11 +128,6 @@ export interface BulkActionsOperations {
     options?: BulkActionsCancelOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
   /** Deletes LaunchBulkInstancesOperations. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     location: string,

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update a gallery Application Definition.
  *
  * @summary update a gallery Application Definition.
- * x-ms-original-file: 2025-03-03/galleryExamples/GalleryApplication_Update.json
+ * x-ms-original-file: 2025-12-03/galleryExamples/GalleryApplication_Update.json
  */
 async function updateASimpleGalleryApplication(): Promise<void> {
   const credential = new DefaultAzureCredential();

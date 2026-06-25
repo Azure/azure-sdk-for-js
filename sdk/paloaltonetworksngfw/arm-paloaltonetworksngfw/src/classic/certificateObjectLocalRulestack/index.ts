@@ -1,24 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PaloAltoNetworksCloudngfwContext } from "../../api/paloAltoNetworksCloudngfwContext.js";
+import { PaloAltoNetworksCloudngfwContext } from "../../api/paloAltoNetworksCloudngfwContext.js";
 import {
   listByLocalRulestacks,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/certificateObjectLocalRulestack/operations.js";
-import type {
+import {
   CertificateObjectLocalRulestackListByLocalRulestacksOptionalParams,
   CertificateObjectLocalRulestackDeleteOptionalParams,
   CertificateObjectLocalRulestackCreateOrUpdateOptionalParams,
   CertificateObjectLocalRulestackGetOptionalParams,
 } from "../../api/certificateObjectLocalRulestack/options.js";
-import type { CertificateObjectLocalRulestackResource } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { CertificateObjectLocalRulestackResource } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a CertificateObjectLocalRulestack operations. */
 export interface CertificateObjectLocalRulestackOperations {

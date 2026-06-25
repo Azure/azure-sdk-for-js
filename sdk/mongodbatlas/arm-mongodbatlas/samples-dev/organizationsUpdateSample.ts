@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { AtlasClient } from "@azure/arm-mongodbatlas";
+import { DefaultAzureCredential } from "@azure/identity";
+
 /**
  * This sample demonstrates how to update a OrganizationResource
  *
  * @summary update a OrganizationResource
  * x-ms-original-file: 2025-06-01/Organizations_Update_MaximumSet_Gen.json
  */
-
-import { AtlasClient } from "@azure/arm-mongodbatlas";
-import { DefaultAzureCredential } from "@azure/identity";
-
 async function organizationsUpdateMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "422A4D59-A5BC-4DBB-8831-EC666633F64F";

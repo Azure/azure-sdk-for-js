@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates an Azure Cosmos DB fleetspace account under a fleetspace.
  *
  * @summary creates an Azure Cosmos DB fleetspace account under a fleetspace.
- * x-ms-original-file: 2025-11-01-preview/fleet/CosmosDBFleetspaceAccountCreate.json
+ * x-ms-original-file: 2026-04-01-preview/fleet/CosmosDBFleetspaceAccountCreate.json
  */
 async function cosmosDBFleetspaceAccountCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();

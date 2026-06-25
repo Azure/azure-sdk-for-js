@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ApiManagementContext } from "../../api/apiManagementContext.js";
+import { ApiManagementContext } from "../../api/apiManagementContext.js";
 import { listByService } from "../../api/portalSettings/operations.js";
-import type { PortalSettingsListByServiceOptionalParams } from "../../api/portalSettings/options.js";
-import type { PortalSettingsCollection } from "../../models/models.js";
+import { PortalSettingsListByServiceOptionalParams } from "../../api/portalSettings/options.js";
+import { PortalSettingsCollection } from "../../models/models.js";
 
 /** Interface representing a PortalSettings operations. */
 export interface PortalSettingsOperations {
