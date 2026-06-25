@@ -44,25 +44,25 @@ const deploymentName = process.env["FOUNDRY_MODEL_NAME"] || "<model deployment n
 export async function main(): Promise<void> {
   // Dynamically import Azure SDK packages after instrumentation is registered.
   const { DefaultAzureCredential } = await import("@azure/identity");
-  const { AIProjectClient, enableGenAITracing } = await import("@azure/ai-projects");
-
-  // Enable GenAI tracing (experimental)
-  // To capture prompt and completion content in traces, set contentRecording to true.
-  // Note: content recording may include sensitive data such as user inputs and model outputs.
-  // Alternatively, you can set these options via environment variables:
-  //   contentRecording:           OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT (default: false)
-  //   traceContextPropagation:    AZURE_TRACING_GEN_AI_ENABLE_TRACE_CONTEXT_PROPAGATION (default: true)
-  //   experimental:               AZURE_EXPERIMENTAL_ENABLE_GENAI_TRACING (default: false)
-  enableGenAITracing({
-    contentRecording: false,
-    traceContextPropagation: true,
-    experimental: true,
-  });
+  const { AIProjectClient } = await import("@azure/ai-projects");
 
   const tracer = trace.getTracer("AgentBasicWithConsoleTraces");
 
-  // Create AI Project client
-  const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
+  // Create AI Project client with per-instance tracing options.
+  // To capture prompt and completion content in traces, set contentRecording to true.
+  // Note: content recording may include sensitive data such as user inputs and model outputs.
+  // Precedence: tracingOptions property > environment variable > default value.
+  // Environment variables (used when a property is omitted):
+  //   contentRecording:           OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT (default: false)
+  //   traceContextPropagation:    AZURE_TRACING_GEN_AI_ENABLE_TRACE_CONTEXT_PROPAGATION (default: true)
+  //   experimental:               AZURE_EXPERIMENTAL_ENABLE_GENAI_TRACING (default: false)
+  const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential(), {
+    tracingOptions: {
+      contentRecording: false,
+      traceContextPropagation: true,
+      experimental: true,
+    },
+  });
   const openAIClient = project.getOpenAIClient();
 
   // Create a parent span for the scenario
