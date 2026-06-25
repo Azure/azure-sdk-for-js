@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to regenerates the auth token for the notebook workspace
  *
  * @summary regenerates the auth token for the notebook workspace
- * x-ms-original-file: 2025-11-01-preview/CosmosDBNotebookWorkspaceRegenerateAuthToken.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBNotebookWorkspaceRegenerateAuthToken.json
  */
 async function cosmosDBNotebookWorkspaceRegenerateAuthToken(): Promise<void> {
   const credential = new DefaultAzureCredential();

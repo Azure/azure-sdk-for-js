@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DataProtectionContext } from "../../api/dataProtectionContext.js";
+import { DataProtectionContext } from "../../api/dataProtectionContext.js";
 import { list, $delete, createOrUpdate, get } from "../../api/backupPolicies/operations.js";
-import type {
+import {
   BackupPoliciesListOptionalParams,
   BackupPoliciesDeleteOptionalParams,
   BackupPoliciesCreateOrUpdateOptionalParams,
   BackupPoliciesGetOptionalParams,
 } from "../../api/backupPolicies/options.js";
-import type { BaseBackupPolicyResource } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { BaseBackupPolicyResource } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a BackupPolicies operations. */
 export interface BackupPoliciesOperations {
@@ -21,11 +21,6 @@ export interface BackupPoliciesOperations {
     options?: BackupPoliciesListOptionalParams,
   ) => PagedAsyncIterableIterator<BaseBackupPolicyResource>;
   /** Deletes a backup policy belonging to a backup vault */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     vaultName: string,

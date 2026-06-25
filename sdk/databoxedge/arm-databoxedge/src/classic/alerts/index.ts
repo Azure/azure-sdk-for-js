@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DataBoxEdgeManagementContext } from "../../api/dataBoxEdgeManagementContext.js";
+import { DataBoxEdgeManagementContext } from "../../api/dataBoxEdgeManagementContext.js";
 import { listByDataBoxEdgeDevice, get } from "../../api/alerts/operations.js";
-import type {
+import {
   AlertsListByDataBoxEdgeDeviceOptionalParams,
   AlertsGetOptionalParams,
 } from "../../api/alerts/options.js";
-import type { Alert } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { Alert } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Alerts operations. */
 export interface AlertsOperations {

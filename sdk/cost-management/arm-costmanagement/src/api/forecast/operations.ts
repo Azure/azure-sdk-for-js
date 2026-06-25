@@ -1,24 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CostManagementContext as Client } from "../index.js";
-import type {
-  ForecastDefinition,
-  ForecastResult,
-  ExternalCloudProviderType,
-} from "../../models/models.js";
+import { CostManagementContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  ForecastDefinition,
   forecastDefinitionSerializer,
+  ForecastResult,
   forecastResultDeserializer,
+  ExternalCloudProviderType,
 } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   ForecastExternalCloudProviderUsageOptionalParams,
   ForecastUsageOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _externalCloudProviderUsageSend(
   context: Client,
@@ -39,12 +41,14 @@ export function _externalCloudProviderUsageSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: forecastDefinitionSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: forecastDefinitionSerializer(parameters),
+    });
 }
 
 export async function _externalCloudProviderUsageDeserialize(
@@ -98,12 +102,14 @@ export function _usageSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: forecastDefinitionSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: forecastDefinitionSerializer(parameters),
+    });
 }
 
 export async function _usageDeserialize(

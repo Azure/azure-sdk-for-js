@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DataProtectionContext } from "../../api/dataProtectionContext.js";
+import { DataProtectionContext } from "../../api/dataProtectionContext.js";
 import {
   listBackupSecurityPINRequestsObjects,
   getDefaultBackupSecurityPINRequestsObject,
@@ -22,7 +22,7 @@ import {
   listDeleteResourceGuardProxyRequestsObjects,
   getDefaultDeleteResourceGuardProxyRequestsObject,
 } from "../../api/resourceGuards/operations.js";
-import type {
+import {
   ResourceGuardsListBackupSecurityPINRequestsObjectsOptionalParams,
   ResourceGuardsGetDefaultBackupSecurityPINRequestsObjectOptionalParams,
   ResourceGuardsListDeleteProtectedItemRequestsObjectsOptionalParams,
@@ -42,12 +42,12 @@ import type {
   ResourceGuardsListDeleteResourceGuardProxyRequestsObjectsOptionalParams,
   ResourceGuardsGetDefaultDeleteResourceGuardProxyRequestsObjectOptionalParams,
 } from "../../api/resourceGuards/options.js";
-import type {
+import {
   DppBaseResource,
   ResourceGuardResource,
   PatchResourceGuardInput,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ResourceGuards operations. */
 export interface ResourceGuardsOperations {
@@ -126,11 +126,6 @@ export interface ResourceGuardsOperations {
     options?: ResourceGuardsListResourcesInResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<ResourceGuardResource>;
   /** Deletes a ResourceGuard resource from the resource group. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     resourceGuardsName: string,

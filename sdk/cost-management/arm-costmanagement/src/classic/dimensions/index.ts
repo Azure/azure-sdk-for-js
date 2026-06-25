@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CostManagementContext } from "../../api/costManagementContext.js";
+import { CostManagementContext } from "../../api/costManagementContext.js";
 import { listByExternalCloudProviderType, list } from "../../api/dimensions/operations.js";
-import type {
+import {
   DimensionsListByExternalCloudProviderTypeOptionalParams,
   DimensionsListOptionalParams,
 } from "../../api/dimensions/options.js";
-import type { Dimension, ExternalCloudProviderType } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { Dimension, ExternalCloudProviderType } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Dimensions operations. */
 export interface DimensionsOperations {

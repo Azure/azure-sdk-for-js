@@ -1,29 +1,33 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   CosmosDBForPostgreSQLContext,
   CosmosDBForPostgreSQLOptionalParams,
+  createCosmosDBForPostgreSQL,
 } from "./api/index.js";
-import { createCosmosDBForPostgreSQL } from "./api/index.js";
-import type { ClustersOperations } from "./classic/clusters/index.js";
-import { _getClustersOperations } from "./classic/clusters/index.js";
-import type { ConfigurationsOperations } from "./classic/configurations/index.js";
-import { _getConfigurationsOperations } from "./classic/configurations/index.js";
-import type { FirewallRulesOperations } from "./classic/firewallRules/index.js";
-import { _getFirewallRulesOperations } from "./classic/firewallRules/index.js";
-import type { OperationsOperations } from "./classic/operations/index.js";
-import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { PrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
-import { _getPrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
-import type { PrivateLinkResourcesOperations } from "./classic/privateLinkResources/index.js";
-import { _getPrivateLinkResourcesOperations } from "./classic/privateLinkResources/index.js";
-import type { RolesOperations } from "./classic/roles/index.js";
-import { _getRolesOperations } from "./classic/roles/index.js";
-import type { ServersOperations } from "./classic/servers/index.js";
-import { _getServersOperations } from "./classic/servers/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import { ClustersOperations, _getClustersOperations } from "./classic/clusters/index.js";
+import {
+  ConfigurationsOperations,
+  _getConfigurationsOperations,
+} from "./classic/configurations/index.js";
+import {
+  FirewallRulesOperations,
+  _getFirewallRulesOperations,
+} from "./classic/firewallRules/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import {
+  PrivateEndpointConnectionsOperations,
+  _getPrivateEndpointConnectionsOperations,
+} from "./classic/privateEndpointConnections/index.js";
+import {
+  PrivateLinkResourcesOperations,
+  _getPrivateLinkResourcesOperations,
+} from "./classic/privateLinkResources/index.js";
+import { RolesOperations, _getRolesOperations } from "./classic/roles/index.js";
+import { ServersOperations, _getServersOperations } from "./classic/servers/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { CosmosDBForPostgreSQLOptionalParams } from "./api/cosmosDBForPostgreSQLContext.js";
 

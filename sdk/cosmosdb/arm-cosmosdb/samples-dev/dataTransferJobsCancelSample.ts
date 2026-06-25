@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to cancels a Data Transfer Job.
  *
  * @summary cancels a Data Transfer Job.
- * x-ms-original-file: 2025-11-01-preview/data-transfer-service/CosmosDBDataTransferJobCancel.json
+ * x-ms-original-file: 2026-04-01-preview/data-transfer-service/CosmosDBDataTransferJobCancel.json
  */
 async function cosmosDBDataTransferJobCancel(): Promise<void> {
   const credential = new DefaultAzureCredential();

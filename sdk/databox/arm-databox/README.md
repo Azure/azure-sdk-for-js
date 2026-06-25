@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/databox/arm-databox)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-databox)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-databox?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-databox)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/databox/arm-databox/samples)
 
 ## Getting started

@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DataMigrationManagementContext } from "../../api/dataMigrationManagementContext.js";
+import { DataMigrationManagementContext } from "../../api/dataMigrationManagementContext.js";
 import { list, $delete, update, createOrUpdate, get } from "../../api/projects/operations.js";
-import type {
+import {
   ProjectsListOptionalParams,
   ProjectsDeleteOptionalParams,
   ProjectsUpdateOptionalParams,
   ProjectsCreateOrUpdateOptionalParams,
   ProjectsGetOptionalParams,
 } from "../../api/projects/options.js";
-import type { Project } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { Project } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Projects operations. */
 export interface ProjectsOperations {

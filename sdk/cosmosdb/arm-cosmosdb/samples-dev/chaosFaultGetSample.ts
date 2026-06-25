@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get Chaos Fault for a CosmosdB account for a particular Chaos Fault.
  *
  * @summary get Chaos Fault for a CosmosdB account for a particular Chaos Fault.
- * x-ms-original-file: 2025-11-01-preview/ChaosFaultGet.json
+ * x-ms-original-file: 2026-04-01-preview/ChaosFaultGet.json
  */
 async function chaosFaultGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

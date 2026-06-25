@@ -1,50 +1,63 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CostManagementContext, CostManagementClientOptionalParams } from "./api/index.js";
-import { createCostManagement } from "./api/index.js";
-import type { AlertsOperations } from "./classic/alerts/index.js";
-import { _getAlertsOperations } from "./classic/alerts/index.js";
-import type { BenefitRecommendationsOperations } from "./classic/benefitRecommendations/index.js";
-import { _getBenefitRecommendationsOperations } from "./classic/benefitRecommendations/index.js";
-import type { BenefitUtilizationSummariesOperations } from "./classic/benefitUtilizationSummaries/index.js";
-import { _getBenefitUtilizationSummariesOperations } from "./classic/benefitUtilizationSummaries/index.js";
-import type { BudgetsOperations } from "./classic/budgets/index.js";
-import { _getBudgetsOperations } from "./classic/budgets/index.js";
-import type { CostAllocationRulesOperations } from "./classic/costAllocationRules/index.js";
-import { _getCostAllocationRulesOperations } from "./classic/costAllocationRules/index.js";
-import type { DimensionsOperations } from "./classic/dimensions/index.js";
-import { _getDimensionsOperations } from "./classic/dimensions/index.js";
-import type { ExportsOperations } from "./classic/exports/index.js";
-import { _getExportsOperations } from "./classic/exports/index.js";
-import type { ForecastOperations } from "./classic/forecast/index.js";
-import { _getForecastOperations } from "./classic/forecast/index.js";
-import type { GenerateBenefitUtilizationSummariesReportOperations } from "./classic/generateBenefitUtilizationSummariesReport/index.js";
-import { _getGenerateBenefitUtilizationSummariesReportOperations } from "./classic/generateBenefitUtilizationSummariesReport/index.js";
-import type { GenerateCostDetailsReportOperations } from "./classic/generateCostDetailsReport/index.js";
-import { _getGenerateCostDetailsReportOperations } from "./classic/generateCostDetailsReport/index.js";
-import type { GenerateDetailedCostReportOperations } from "./classic/generateDetailedCostReport/index.js";
-import { _getGenerateDetailedCostReportOperations } from "./classic/generateDetailedCostReport/index.js";
-import type { GenerateDetailedCostReportOperationResultsOperations } from "./classic/generateDetailedCostReportOperationResults/index.js";
-import { _getGenerateDetailedCostReportOperationResultsOperations } from "./classic/generateDetailedCostReportOperationResults/index.js";
-import type { GenerateDetailedCostReportOperationStatusOperations } from "./classic/generateDetailedCostReportOperationStatus/index.js";
-import { _getGenerateDetailedCostReportOperationStatusOperations } from "./classic/generateDetailedCostReportOperationStatus/index.js";
-import type { GenerateReservationDetailsReportOperations } from "./classic/generateReservationDetailsReport/index.js";
-import { _getGenerateReservationDetailsReportOperations } from "./classic/generateReservationDetailsReport/index.js";
-import type { OperationsOperations } from "./classic/operations/index.js";
-import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { PriceSheetOperations } from "./classic/priceSheet/index.js";
-import { _getPriceSheetOperations } from "./classic/priceSheet/index.js";
-import type { QueryOperations } from "./classic/query/index.js";
-import { _getQueryOperations } from "./classic/query/index.js";
-import type { ScheduledActionsOperations } from "./classic/scheduledActions/index.js";
-import { _getScheduledActionsOperations } from "./classic/scheduledActions/index.js";
-import type { SettingsOperations } from "./classic/settings/index.js";
-import { _getSettingsOperations } from "./classic/settings/index.js";
-import type { ViewsOperations } from "./classic/views/index.js";
-import { _getViewsOperations } from "./classic/views/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import {
+  CostManagementContext,
+  CostManagementClientOptionalParams,
+  createCostManagement,
+} from "./api/index.js";
+import { AlertsOperations, _getAlertsOperations } from "./classic/alerts/index.js";
+import {
+  BenefitRecommendationsOperations,
+  _getBenefitRecommendationsOperations,
+} from "./classic/benefitRecommendations/index.js";
+import {
+  BenefitUtilizationSummariesOperations,
+  _getBenefitUtilizationSummariesOperations,
+} from "./classic/benefitUtilizationSummaries/index.js";
+import { BudgetsOperations, _getBudgetsOperations } from "./classic/budgets/index.js";
+import {
+  CostAllocationRulesOperations,
+  _getCostAllocationRulesOperations,
+} from "./classic/costAllocationRules/index.js";
+import { DimensionsOperations, _getDimensionsOperations } from "./classic/dimensions/index.js";
+import { ExportsOperations, _getExportsOperations } from "./classic/exports/index.js";
+import { ForecastOperations, _getForecastOperations } from "./classic/forecast/index.js";
+import {
+  GenerateBenefitUtilizationSummariesReportOperations,
+  _getGenerateBenefitUtilizationSummariesReportOperations,
+} from "./classic/generateBenefitUtilizationSummariesReport/index.js";
+import {
+  GenerateCostDetailsReportOperations,
+  _getGenerateCostDetailsReportOperations,
+} from "./classic/generateCostDetailsReport/index.js";
+import {
+  GenerateDetailedCostReportOperations,
+  _getGenerateDetailedCostReportOperations,
+} from "./classic/generateDetailedCostReport/index.js";
+import {
+  GenerateDetailedCostReportOperationResultsOperations,
+  _getGenerateDetailedCostReportOperationResultsOperations,
+} from "./classic/generateDetailedCostReportOperationResults/index.js";
+import {
+  GenerateDetailedCostReportOperationStatusOperations,
+  _getGenerateDetailedCostReportOperationStatusOperations,
+} from "./classic/generateDetailedCostReportOperationStatus/index.js";
+import {
+  GenerateReservationDetailsReportOperations,
+  _getGenerateReservationDetailsReportOperations,
+} from "./classic/generateReservationDetailsReport/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import { PriceSheetOperations, _getPriceSheetOperations } from "./classic/priceSheet/index.js";
+import { QueryOperations, _getQueryOperations } from "./classic/query/index.js";
+import {
+  ScheduledActionsOperations,
+  _getScheduledActionsOperations,
+} from "./classic/scheduledActions/index.js";
+import { SettingsOperations, _getSettingsOperations } from "./classic/settings/index.js";
+import { ViewsOperations, _getViewsOperations } from "./classic/views/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { CostManagementClientOptionalParams } from "./api/costManagementContext.js";
 

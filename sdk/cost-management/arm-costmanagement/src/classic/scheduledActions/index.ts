@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CostManagementContext } from "../../api/costManagementContext.js";
+import { CostManagementContext } from "../../api/costManagementContext.js";
 import {
   checkNameAvailabilityByScope,
   checkNameAvailability,
@@ -16,7 +16,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/scheduledActions/operations.js";
-import type {
+import {
   ScheduledActionsCheckNameAvailabilityByScopeOptionalParams,
   ScheduledActionsCheckNameAvailabilityOptionalParams,
   ScheduledActionsRunByScopeOptionalParams,
@@ -30,12 +30,12 @@ import type {
   ScheduledActionsCreateOrUpdateOptionalParams,
   ScheduledActionsGetOptionalParams,
 } from "../../api/scheduledActions/options.js";
-import type {
+import {
   ScheduledAction,
   CheckNameAvailabilityRequest,
   CheckNameAvailabilityResponse,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ScheduledActions operations. */
 export interface ScheduledActionsOperations {

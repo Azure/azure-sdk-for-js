@@ -68,18 +68,22 @@ export function _markDevicesShippedSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: markDevicesShippedRequestSerializer(markDevicesShippedRequest),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: markDevicesShippedRequestSerializer(markDevicesShippedRequest),
+    });
 }
 
 export async function _markDevicesShippedDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -123,10 +127,12 @@ export function _listCredentialsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listCredentialsDeserialize(
@@ -135,7 +141,9 @@ export async function _listCredentialsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -178,18 +186,22 @@ export function _cancelSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: cancellationReasonSerializer(cancellationReason),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: cancellationReasonSerializer(cancellationReason),
+    });
 }
 
 export async function _cancelDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -234,12 +246,14 @@ export function _bookShipmentPickUpSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: shipmentPickUpRequestSerializer(shipmentPickUpRequest),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: shipmentPickUpRequestSerializer(shipmentPickUpRequest),
+    });
 }
 
 export async function _bookShipmentPickUpDeserialize(
@@ -248,7 +262,9 @@ export async function _bookShipmentPickUpDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -289,17 +305,21 @@ export function _listSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listDeserialize(result: PathUncheckedResponse): Promise<_JobResourceList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -338,10 +358,12 @@ export function _listByResourceGroupSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listByResourceGroupDeserialize(
@@ -350,7 +372,9 @@ export async function _listByResourceGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -398,7 +422,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -441,23 +467,27 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: jobResourceUpdateParameterSerializer(jobResourceUpdateParameter),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: jobResourceUpdateParameterSerializer(jobResourceUpdateParameter),
+    });
 }
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<JobResource> {
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -502,19 +532,23 @@ export function _createSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: jobResourceSerializer(jobResource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: jobResourceSerializer(jobResource),
+    });
 }
 
 export async function _createDeserialize(result: PathUncheckedResponse): Promise<JobResource> {
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -559,17 +593,21 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<JobResource> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorDeserializer(result.body);
+    }
 
     throw error;
   }

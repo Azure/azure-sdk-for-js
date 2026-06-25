@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DeveloperHubServiceContext } from "../../api/developerHubServiceContext.js";
+import { DeveloperHubServiceContext } from "../../api/developerHubServiceContext.js";
 import { list, get } from "../../api/adooAuth/operations.js";
-import type {
+import {
   AdooAuthListOptionalParams,
   AdooAuthGetOptionalParams,
 } from "../../api/adooAuth/options.js";
-import type { AdooAuthResponse } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { AdooAuthResponse } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a AdooAuth operations. */
 export interface AdooAuthOperations {

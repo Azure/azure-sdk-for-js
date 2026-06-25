@@ -1,17 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CostManagementContext } from "../../api/costManagementContext.js";
+import { CostManagementContext } from "../../api/costManagementContext.js";
 import { usageByExternalCloudProviderType, usage } from "../../api/query/operations.js";
-import type {
+import {
   QueryUsageByExternalCloudProviderTypeOptionalParams,
   QueryUsageOptionalParams,
 } from "../../api/query/options.js";
-import type {
-  QueryDefinition,
-  QueryResult,
-  ExternalCloudProviderType,
-} from "../../models/models.js";
+import { QueryDefinition, QueryResult, ExternalCloudProviderType } from "../../models/models.js";
 
 /** Interface representing a Query operations. */
 export interface QueryOperations {

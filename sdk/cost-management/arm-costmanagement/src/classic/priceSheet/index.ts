@@ -1,25 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CostManagementContext } from "../../api/costManagementContext.js";
+import { CostManagementContext } from "../../api/costManagementContext.js";
 import {
   downloadByBillingAccount,
   downloadByBillingProfile,
   downloadByInvoice,
 } from "../../api/priceSheet/operations.js";
-import type {
+import {
   PriceSheetDownloadByBillingAccountOptionalParams,
   PriceSheetDownloadByBillingProfileOptionalParams,
   PriceSheetDownloadByInvoiceOptionalParams,
 } from "../../api/priceSheet/options.js";
-import type {
-  DownloadURL,
-  OperationStatus,
-  PricesheetDownloadProperties,
-} from "../../models/models.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { DownloadURL, OperationStatus, PricesheetDownloadProperties } from "../../models/models.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a PriceSheet operations. */
 export interface PriceSheetOperations {

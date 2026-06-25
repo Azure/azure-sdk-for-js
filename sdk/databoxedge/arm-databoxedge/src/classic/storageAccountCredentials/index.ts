@@ -1,24 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DataBoxEdgeManagementContext } from "../../api/dataBoxEdgeManagementContext.js";
+import { DataBoxEdgeManagementContext } from "../../api/dataBoxEdgeManagementContext.js";
 import {
   listByDataBoxEdgeDevice,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/storageAccountCredentials/operations.js";
-import type {
+import {
   StorageAccountCredentialsListByDataBoxEdgeDeviceOptionalParams,
   StorageAccountCredentialsDeleteOptionalParams,
   StorageAccountCredentialsCreateOrUpdateOptionalParams,
   StorageAccountCredentialsGetOptionalParams,
 } from "../../api/storageAccountCredentials/options.js";
-import type { StorageAccountCredential } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { StorageAccountCredential } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a StorageAccountCredentials operations. */
 export interface StorageAccountCredentialsOperations {

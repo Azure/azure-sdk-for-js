@@ -1,6 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -46,7 +52,7 @@ export function operationDeserializer(item: any): Operation {
   };
 }
 
-/** Localized display information for and operation. */
+/** Localized display information for an operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
   readonly provider?: string;
@@ -251,8 +257,8 @@ export interface PrivateEndpoint {
   readonly id?: string;
 }
 
-export function privateEndpointSerializer(item: PrivateEndpoint): any {
-  return item;
+export function privateEndpointSerializer(_item: PrivateEndpoint): any {
+  return {};
 }
 
 export function privateEndpointDeserializer(item: any): PrivateEndpoint {
@@ -339,8 +345,8 @@ export type PrivateEndpointConnectionProvisioningState = string;
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
 }
 
 export function proxyResourceDeserializer(item: any): ProxyResource {
@@ -366,8 +372,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -583,7 +589,9 @@ export function integrationFabricSerializer(item: IntegrationFabric): any {
 
 export function integrationFabricDeserializer(item: any): IntegrationFabric {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -654,7 +662,9 @@ export function trackedResourceDeserializer(item: any): TrackedResource {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
   };
 }
@@ -743,7 +753,9 @@ export function managedDashboardSerializer(item: ManagedDashboard): any {
 
 export function managedDashboardDeserializer(item: any): ManagedDashboard {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -763,8 +775,8 @@ export interface ManagedDashboardProperties {
   readonly provisioningState?: ProvisioningState;
 }
 
-export function managedDashboardPropertiesSerializer(item: ManagedDashboardProperties): any {
-  return item;
+export function managedDashboardPropertiesSerializer(_item: ManagedDashboardProperties): any {
+  return {};
 }
 
 export function managedDashboardPropertiesDeserializer(item: any): ManagedDashboardProperties {
@@ -854,7 +866,9 @@ export function managedGrafanaDeserializer(item: any): ManagedGrafana {
       ? item["properties"]
       : managedGrafanaPropertiesDeserializer(item["properties"]),
     sku: !item["sku"] ? item["sku"] : resourceSkuDeserializer(item["sku"]),
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     identity: !item["identity"]
       ? item["identity"]
@@ -1089,9 +1103,7 @@ export interface AzureMonitorWorkspaceIntegration {
 export function azureMonitorWorkspaceIntegrationSerializer(
   item: AzureMonitorWorkspaceIntegration,
 ): any {
-  return {
-    azureMonitorWorkspaceResourceId: item["azureMonitorWorkspaceResourceId"],
-  };
+  return { azureMonitorWorkspaceResourceId: item["azureMonitorWorkspaceResourceId"] };
 }
 
 export function azureMonitorWorkspaceIntegrationDeserializer(
@@ -1294,10 +1306,7 @@ export interface Users {
 }
 
 export function usersSerializer(item: Users): any {
-  return {
-    viewersCanEdit: item["viewersCanEdit"],
-    editorsCanAdmin: item["editorsCanAdmin"],
-  };
+  return { viewersCanEdit: item["viewersCanEdit"], editorsCanAdmin: item["editorsCanAdmin"] };
 }
 
 export function usersDeserializer(item: any): Users {
@@ -1365,8 +1374,8 @@ export interface GrafanaPlugin {
   readonly pluginId?: string;
 }
 
-export function grafanaPluginSerializer(item: GrafanaPlugin): any {
-  return item;
+export function grafanaPluginSerializer(_item: GrafanaPlugin): any {
+  return {};
 }
 
 export function grafanaPluginDeserializer(item: any): GrafanaPlugin {
@@ -1496,8 +1505,8 @@ export interface UserAssignedIdentity {
   readonly clientId?: string;
 }
 
-export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
-  return item;
+export function userAssignedIdentitySerializer(_item: UserAssignedIdentity): any {
+  return {};
 }
 
 export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
@@ -1761,7 +1770,9 @@ export function managedPrivateEndpointModelSerializer(item: ManagedPrivateEndpoi
 
 export function managedPrivateEndpointModelDeserializer(item: any): ManagedPrivateEndpointModel {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],

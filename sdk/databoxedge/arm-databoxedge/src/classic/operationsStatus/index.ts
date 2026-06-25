@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DataBoxEdgeManagementContext } from "../../api/dataBoxEdgeManagementContext.js";
+import { DataBoxEdgeManagementContext } from "../../api/dataBoxEdgeManagementContext.js";
 import { get } from "../../api/operationsStatus/operations.js";
-import type { OperationsStatusGetOptionalParams } from "../../api/operationsStatus/options.js";
-import type { Job } from "../../models/models.js";
+import { OperationsStatusGetOptionalParams } from "../../api/operationsStatus/options.js";
+import { Job } from "../../models/models.js";
 
 /** Interface representing a OperationsStatus operations. */
 export interface OperationsStatusOperations {

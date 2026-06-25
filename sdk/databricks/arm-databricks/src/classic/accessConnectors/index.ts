@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureDatabricksManagementContext } from "../../api/azureDatabricksManagementContext.js";
+import { AzureDatabricksManagementContext } from "../../api/azureDatabricksManagementContext.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/accessConnectors/operations.js";
-import type {
+import {
   AccessConnectorsListBySubscriptionOptionalParams,
   AccessConnectorsListByResourceGroupOptionalParams,
   AccessConnectorsDeleteOptionalParams,
@@ -18,11 +18,10 @@ import type {
   AccessConnectorsCreateOrUpdateOptionalParams,
   AccessConnectorsGetOptionalParams,
 } from "../../api/accessConnectors/options.js";
-import type { AccessConnector, AccessConnectorUpdate } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { AccessConnector, AccessConnectorUpdate } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a AccessConnectors operations. */
 export interface AccessConnectorsOperations {

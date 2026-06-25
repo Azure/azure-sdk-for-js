@@ -3,8 +3,8 @@
 
 import { ContentUnderstandingContext as Client } from "./index.js";
 import {
-  AnalysisInput,
   analysisInputArraySerializer,
+  AnalysisInput,
   ContentAnalyzerAnalyzeOperationStatus,
   contentAnalyzerAnalyzeOperationStatusDeserializer,
   AnalysisResult,
@@ -724,9 +724,9 @@ export function _analyzeBinarySend(
     {
       analyzerId: analyzerId,
       "api%2Dversion": context.apiVersion ?? "2025-11-01",
-      stringEncoding: options?.stringEncoding,
+      stringEncoding: stringEncoding,
       processingLocation: options?.processingLocation,
-      range: options?.contentRange,
+      range: options?.range,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -738,7 +738,7 @@ export function _analyzeBinarySend(
       ...operationOptionsToRequestParameters(options),
       contentType: contentType,
       headers: { accept: "application/json", ...options.requestOptions?.headers },
-      body: binaryInput,
+      body: input,
     });
 }
 
@@ -791,7 +791,7 @@ export function _analyzeSend(
     {
       analyzerId: analyzerId,
       "api%2Dversion": context.apiVersion ?? "2025-11-01",
-      stringEncoding: options?.stringEncoding,
+      stringEncoding: stringEncoding,
       processingLocation: options?.processingLocation,
     },
     {

@@ -41,7 +41,7 @@ export interface DatasetsOperations {
     factoryName: string,
     datasetName: string,
     options?: DatasetsGetOptionalParams,
-  ) => Promise<DatasetResource>;
+  ) => Promise<DatasetResource | undefined>;
 }
 
 function _getDatasets(context: DataFactoryManagementContext) {

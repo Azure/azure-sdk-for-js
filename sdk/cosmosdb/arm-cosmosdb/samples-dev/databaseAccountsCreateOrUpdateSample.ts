@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates an Azure Cosmos DB database account. The "Update" method is preferred when performing updates on an account.
  *
  * @summary creates or updates an Azure Cosmos DB database account. The "Update" method is preferred when performing updates on an account.
- * x-ms-original-file: 2025-11-01-preview/CosmosDBDatabaseAccountCreateMax.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBDatabaseAccountCreateMax.json
  */
 async function cosmosDBDatabaseAccountCreateMax(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -68,6 +68,7 @@ async function cosmosDBDatabaseAccountCreateMax(): Promise<void> {
     capacityMode: "Provisioned",
     enableMaterializedViews: false,
     enableBurstCapacity: true,
+    enforceHierarchicalPartitionKeyIdLastLevel: false,
     minimalTlsVersion: "Tls12",
     enablePriorityBasedExecution: true,
     defaultPriorityLevel: "Low",
@@ -81,7 +82,7 @@ async function cosmosDBDatabaseAccountCreateMax(): Promise<void> {
  * This sample demonstrates how to creates or updates an Azure Cosmos DB database account. The "Update" method is preferred when performing updates on an account.
  *
  * @summary creates or updates an Azure Cosmos DB database account. The "Update" method is preferred when performing updates on an account.
- * x-ms-original-file: 2025-11-01-preview/CosmosDBDatabaseAccountCreateMin.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBDatabaseAccountCreateMin.json
  */
 async function cosmosDBDatabaseAccountCreateMin(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -100,7 +101,7 @@ async function cosmosDBDatabaseAccountCreateMin(): Promise<void> {
  * This sample demonstrates how to creates or updates an Azure Cosmos DB database account. The "Update" method is preferred when performing updates on an account.
  *
  * @summary creates or updates an Azure Cosmos DB database account. The "Update" method is preferred when performing updates on an account.
- * x-ms-original-file: 2025-11-01-preview/CosmosDBRestoreDatabaseAccountCreateUpdate.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBRestoreDatabaseAccountCreateUpdate.json
  */
 async function cosmosDBRestoreDatabaseAccountCreateUpdateJson(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -123,6 +124,7 @@ async function cosmosDBRestoreDatabaseAccountCreateUpdateJson(): Promise<void> {
     enableMaterializedViews: false,
     keyVaultKeyUri: "https://myKeyVault.vault.azure.net",
     locations: [{ failoverPriority: 0, isZoneRedundant: false, locationName: "southcentralus" }],
+    enforceHierarchicalPartitionKeyIdLastLevel: false,
     minimalTlsVersion: "Tls",
     restoreParameters: {
       databasesToRestore: [

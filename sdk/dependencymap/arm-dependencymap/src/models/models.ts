@@ -1,6 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -46,7 +52,7 @@ export function operationDeserializer(item: any): Operation {
   };
 }
 
-/** Localized display information for and operation. */
+/** Localized display information for an operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
   readonly provider?: string;
@@ -158,21 +164,14 @@ export interface ErrorAdditionalInfo {
   /** The additional info type. */
   readonly type?: string;
   /** The additional info. */
-  readonly info?: Record<string, any>;
+  readonly info?: any;
 }
 
 export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
   return {
     type: item["type"],
-    info: !item["info"] ? item["info"] : _errorAdditionalInfoInfoDeserializer(item["info"]),
+    info: item["info"],
   };
-}
-
-/** model interface _ErrorAdditionalInfoInfo */
-export interface _ErrorAdditionalInfoInfo {}
-
-export function _errorAdditionalInfoInfoDeserializer(item: any): _ErrorAdditionalInfoInfo {
-  return item;
 }
 
 /** A Maps resource */
@@ -193,7 +192,9 @@ export function mapsResourceSerializer(item: MapsResource): any {
 
 export function mapsResourceDeserializer(item: any): MapsResource {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -213,8 +214,8 @@ export interface MapsResourceProperties {
   readonly provisioningState?: ProvisioningState;
 }
 
-export function mapsResourcePropertiesSerializer(item: MapsResourceProperties): any {
-  return item;
+export function mapsResourcePropertiesSerializer(_item: MapsResourceProperties): any {
+  return {};
 }
 
 export function mapsResourcePropertiesDeserializer(item: any): MapsResourceProperties {
@@ -276,7 +277,9 @@ export function trackedResourceDeserializer(item: any): TrackedResource {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
   };
 }
@@ -293,8 +296,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -351,7 +354,7 @@ export enum KnownCreatedByType {
 
 /**
  * The kind of entity that created the resource. \
- * {@link KnowncreatedByType} can be used interchangeably with createdByType,
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **User**: The entity was created by a user. \
@@ -537,9 +540,11 @@ export function getConnectionsForProcessOnFocusedMachineRequestSerializer(
 /** ExportDependencies request model */
 export interface ExportDependenciesRequest {
   /** Machine arm id */
-  focusedMachineId: string;
+  focusedMachineId?: string;
   /** Filters for ExportDependencies */
   filters?: DependencyMapVisualizationFilter;
+  /** List of Appliance Names */
+  applianceNameList?: string[];
 }
 
 export function exportDependenciesRequestSerializer(item: ExportDependenciesRequest): any {
@@ -548,6 +553,180 @@ export function exportDependenciesRequestSerializer(item: ExportDependenciesRequ
     filters: !item["filters"]
       ? item["filters"]
       : dependencyMapVisualizationFilterSerializer(item["filters"]),
+    applianceNameList: !item["applianceNameList"]
+      ? item["applianceNameList"]
+      : item["applianceNameList"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** Model representing the result of the export dependencies asynchronous operation. */
+export interface ExportDependenciesOperationResult {
+  /** The status URL of export dependencies operation. */
+  id?: string;
+  /** The resource name of the operation status. It must match the last segment of 'id' field. */
+  name?: string;
+  /** The overall arm status of the operation. It has one of the terminal states - Succeeded/Failed/Canceled. */
+  status: string;
+  /** Contains error details if status is Failed/Canceled. */
+  error?: ErrorDetail;
+  /** The start time of the operation. */
+  startTime?: Date;
+  /** The end time of the operation. */
+  endTime?: Date;
+  /** Properties for export dependencies. These should only be set if the status is Succeeded. */
+  properties?: ExportDependenciesResultProperties;
+}
+
+export function exportDependenciesOperationResultDeserializer(
+  item: any,
+): ExportDependenciesOperationResult {
+  return {
+    id: item["id"],
+    name: item["name"],
+    status: item["status"],
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
+    startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"]),
+    endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : exportDependenciesResultPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Model representing properties returned upon successful completion of the export dependencies asynchronous operation. */
+export interface ExportDependenciesResultProperties {
+  /** The SAS URI of the blob containing the exported dependencies data. */
+  exportedDataSasUri?: string;
+  /** A status code returned by the service with additional context about the export dependencies operation. */
+  statusCode?: ExportDependenciesStatusCode;
+  /** Additional information about the exported data. */
+  additionalInfo?: ExportDependenciesAdditionalInfo;
+}
+
+export function exportDependenciesResultPropertiesDeserializer(
+  item: any,
+): ExportDependenciesResultProperties {
+  return {
+    exportedDataSasUri: item["exportedDataSasUri"],
+    statusCode: item["statusCode"],
+    additionalInfo: !item["additionalInfo"]
+      ? item["additionalInfo"]
+      : exportDependenciesAdditionalInfoDeserializer(item["additionalInfo"]),
+  };
+}
+
+/** Status codes for export dependencies operation */
+export enum KnownExportDependenciesStatusCode {
+  /** Operation completed but no data was found for the requested time range */
+  NoMatch = "NoMatch",
+  /** Operation completed with data found for the entire requested time range */
+  CompleteMatch = "CompleteMatch",
+  /** Operation completed with data found for a portion of the requested time range */
+  PartialMatch = "PartialMatch",
+}
+
+/**
+ * Status codes for export dependencies operation \
+ * {@link KnownExportDependenciesStatusCode} can be used interchangeably with ExportDependenciesStatusCode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NoMatch**: Operation completed but no data was found for the requested time range \
+ * **CompleteMatch**: Operation completed with data found for the entire requested time range \
+ * **PartialMatch**: Operation completed with data found for a portion of the requested time range
+ */
+export type ExportDependenciesStatusCode = string;
+
+/** Additional information about the exported dependencies data. */
+export interface ExportDependenciesAdditionalInfo {
+  /** Number of days for which data was available in the exported results. */
+  availableDaysCount?: number;
+}
+
+export function exportDependenciesAdditionalInfoDeserializer(
+  item: any,
+): ExportDependenciesAdditionalInfo {
+  return {
+    availableDaysCount: item["availableDaysCount"],
+  };
+}
+
+/** GetDependencyViewForAllMachines request model */
+export interface GetDependencyViewForAllMachinesRequest {
+  /** Filters for GetDependencyViewForAllMachines */
+  filters?: DependencyProcessFilter;
+}
+
+export function getDependencyViewForAllMachinesRequestSerializer(
+  item: GetDependencyViewForAllMachinesRequest,
+): any {
+  return {
+    filters: !item["filters"]
+      ? item["filters"]
+      : dependencyProcessFilterSerializer(item["filters"]),
+  };
+}
+
+/** DependencyProcessFilter model */
+export interface DependencyProcessFilter {
+  /** Process name filter */
+  processNameFilter?: ProcessNameFilter;
+}
+
+export function dependencyProcessFilterSerializer(item: DependencyProcessFilter): any {
+  return {
+    processNameFilter: !item["processNameFilter"]
+      ? item["processNameFilter"]
+      : processNameFilterSerializer(item["processNameFilter"]),
+  };
+}
+
+/** Model representing the result of the export dependencies asynchronous operation. */
+export interface GetDependencyViewForAllMachinesOperationResult {
+  /** The status URL of the asynchronous operation. */
+  id?: string;
+  /** The resource name of the operation status. It must match the last segment of 'id' field. */
+  name?: string;
+  /** The overall arm status of the operation. It has one of the terminal states - Succeeded/Failed/Canceled. */
+  status: string;
+  /** Contains error details if status is Failed/Canceled. */
+  error?: ErrorDetail;
+  /** The start time of the operation. */
+  startTime?: Date;
+  /** The end time of the operation. */
+  endTime?: Date;
+  /** Properties for export dependencies. These should only be set if the status is Succeeded. */
+  properties?: GetDependencyViewForAllMachinesResultProperties;
+}
+
+export function getDependencyViewForAllMachinesOperationResultDeserializer(
+  item: any,
+): GetDependencyViewForAllMachinesOperationResult {
+  return {
+    id: item["id"],
+    name: item["name"],
+    status: item["status"],
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
+    startTime: !item["startTime"] ? item["startTime"] : new Date(item["startTime"]),
+    endTime: !item["endTime"] ? item["endTime"] : new Date(item["endTime"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : getDependencyViewForAllMachinesResultPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Model representing properties returned upon successful completion of the export dependencies asynchronous operation. */
+export interface GetDependencyViewForAllMachinesResultProperties {
+  /** The SAS URI of the blob containing the layout file for the multi-server view. */
+  layoutFileSasUrl: string;
+}
+
+export function getDependencyViewForAllMachinesResultPropertiesDeserializer(
+  item: any,
+): GetDependencyViewForAllMachinesResultProperties {
+  return {
+    layoutFileSasUrl: item["layoutFileSasUrl"],
   };
 }
 
@@ -569,7 +748,9 @@ export function discoverySourceResourceSerializer(item: DiscoverySourceResource)
 
 export function discoverySourceResourceDeserializer(item: any): DiscoverySourceResource {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -632,7 +813,7 @@ export function discoverySourceResourcePropertiesUnionSerializer(
 export function discoverySourceResourcePropertiesUnionDeserializer(
   item: any,
 ): DiscoverySourceResourcePropertiesUnion {
-  switch (item.sourceType) {
+  switch (item["sourceType"]) {
     case "OffAzure":
       return offAzureDiscoverySourceResourcePropertiesDeserializer(
         item as OffAzureDiscoverySourceResourceProperties,
@@ -729,4 +910,8 @@ export function discoverySourceResourceArrayDeserializer(
 export enum KnownVersions {
   /** 2025-01-31-preview version */
   V20250131Preview = "2025-01-31-preview",
+  /** 2025-05-01-preview version */
+  V20250501Preview = "2025-05-01-preview",
+  /** 2025-07-01-preview version */
+  V20250701Preview = "2025-07-01-preview",
 }

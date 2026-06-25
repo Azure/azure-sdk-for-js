@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DeveloperHubServiceContext } from "../../api/developerHubServiceContext.js";
+import { DeveloperHubServiceContext } from "../../api/developerHubServiceContext.js";
 import { generate, list, get } from "../../api/versionedTemplate/operations.js";
-import type {
+import {
   VersionedTemplateGenerateOptionalParams,
   VersionedTemplateListOptionalParams,
   VersionedTemplateGetOptionalParams,
 } from "../../api/versionedTemplate/options.js";
-import type { VersionedTemplate, GenerateVersionedTemplateResponse } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { VersionedTemplate, GenerateVersionedTemplateResponse } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a VersionedTemplate operations. */
 export interface VersionedTemplateOperations {

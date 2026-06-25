@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to return a list of database and collection combo that exist on the account at the given timestamp and location. This helps in scenarios to validate what resources exist at given timestamp and location. This API requires 'Microsoft.DocumentDB/locations/restorableDatabaseAccounts/.../read' permission.
  *
  * @summary return a list of database and collection combo that exist on the account at the given timestamp and location. This helps in scenarios to validate what resources exist at given timestamp and location. This API requires 'Microsoft.DocumentDB/locations/restorableDatabaseAccounts/.../read' permission.
- * x-ms-original-file: 2025-11-01-preview/CosmosDBRestorableMongodbResourceList.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBRestorableMongodbResourceList.json
  */
 async function cosmosDBRestorableMongodbResourceList(): Promise<void> {
   const credential = new DefaultAzureCredential();

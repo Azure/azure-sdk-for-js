@@ -35,18 +35,22 @@ export function _mitigateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: mitigateJobRequestSerializer(mitigateJobRequest),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: mitigateJobRequestSerializer(mitigateJobRequest),
+    });
 }
 
 export async function _mitigateDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorDeserializer(result.body);
+    }
 
     throw error;
   }

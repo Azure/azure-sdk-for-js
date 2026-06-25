@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DataProtectionContext } from "../../api/dataProtectionContext.js";
+import { DataProtectionContext } from "../../api/dataProtectionContext.js";
 import { undelete, list, get } from "../../api/deletedBackupInstances/operations.js";
-import type {
+import {
   DeletedBackupInstancesUndeleteOptionalParams,
   DeletedBackupInstancesListOptionalParams,
   DeletedBackupInstancesGetOptionalParams,
 } from "../../api/deletedBackupInstances/options.js";
-import type { DeletedBackupInstanceResource } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { DeletedBackupInstanceResource } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a DeletedBackupInstances operations. */
 export interface DeletedBackupInstancesOperations {

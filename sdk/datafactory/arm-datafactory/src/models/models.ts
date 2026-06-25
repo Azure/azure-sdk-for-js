@@ -282,15 +282,15 @@ export function cloudErrorArrayDeserializer(result: Array<CloudError>): any[] {
 }
 
 /** Factory resource type. */
-export interface Factory extends Resource {
-  /** Resource tags. */
-  tags?: Record<string, string>;
-  /** The geo-location where the resource lives */
-  location?: string;
-  /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  readonly eTag?: string;
+export interface Factory extends ProxyResource {
   /** Managed service identity of the factory. */
   identity?: FactoryIdentity;
+  /** The resource location. */
+  location?: string;
+  /** The resource tags. */
+  tags?: Record<string, string>;
+  /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
+  readonly eTag?: string;
   /** Factory provisioning state, example Succeeded. */
   readonly provisioningState?: string;
   /** Time the factory was created in ISO8601 format. */
@@ -323,9 +323,9 @@ export function factorySerializer(item: Factory): any {
     ])
       ? undefined
       : _factoryPropertiesSerializer(item),
-    tags: item["tags"],
-    location: item["location"],
     identity: !item["identity"] ? item["identity"] : factoryIdentitySerializer(item["identity"]),
+    location: item["location"],
+    tags: item["tags"],
   };
 }
 
@@ -337,10 +337,10 @@ export function factoryDeserializer(item: any): Factory {
       "type",
       "systemData",
       "properties",
-      "tags",
-      "location",
-      "eTag",
       "identity",
+      "location",
+      "tags",
+      "eTag",
     ]),
     id: item["id"],
     name: item["name"],
@@ -351,12 +351,12 @@ export function factoryDeserializer(item: any): Factory {
     ...(!item["properties"]
       ? item["properties"]
       : _factoryPropertiesDeserializer(item["properties"])),
+    identity: !item["identity"] ? item["identity"] : factoryIdentityDeserializer(item["identity"]),
+    location: item["location"],
     tags: !item["tags"]
       ? item["tags"]
       : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
-    location: item["location"],
     eTag: item["eTag"],
-    identity: !item["identity"] ? item["identity"] : factoryIdentityDeserializer(item["identity"]),
   };
 }
 
@@ -801,6 +801,24 @@ export enum KnownFactoryIdentityType {
  * **SystemAssigned,UserAssigned**: SystemAssigned,UserAssigned
  */
 export type FactoryIdentityType = string;
+
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
+
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
+}
+
+export function proxyResourceDeserializer(item: any): ProxyResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+  };
+}
 
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
@@ -3056,24 +3074,6 @@ export function pipelineReferenceArrayDeserializer(result: Array<PipelineReferen
   return result.map((item) => {
     return pipelineReferenceDeserializer(item);
   });
-}
-
-/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export interface ProxyResource extends Resource {}
-
-export function proxyResourceSerializer(_item: ProxyResource): any {
-  return {};
-}
-
-export function proxyResourceDeserializer(item: any): ProxyResource {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-  };
 }
 
 /** A list of trigger resources. */

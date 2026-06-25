@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ContainerRegistryTasksManagementContext } from "../../api/containerRegistryTasksManagementContext.js";
+import { ContainerRegistryTasksManagementContext } from "../../api/containerRegistryTasksManagementContext.js";
 import { getDetails, list, $delete, update, create, get } from "../../api/taskRuns/operations.js";
-import type {
+import {
   TaskRunsGetDetailsOptionalParams,
   TaskRunsListOptionalParams,
   TaskRunsDeleteOptionalParams,
@@ -11,9 +11,9 @@ import type {
   TaskRunsCreateOptionalParams,
   TaskRunsGetOptionalParams,
 } from "../../api/taskRuns/options.js";
-import type { TaskRun, TaskRunUpdateParameters } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { TaskRun, TaskRunUpdateParameters } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a TaskRuns operations. */
 export interface TaskRunsOperations {
@@ -31,11 +31,6 @@ export interface TaskRunsOperations {
     options?: TaskRunsListOptionalParams,
   ) => PagedAsyncIterableIterator<TaskRun>;
   /** Deletes a specified task run resource. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     registryName: string,

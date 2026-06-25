@@ -2,7 +2,7 @@
   "apiVersions": {
     "Microsoft.DataBoxEdge": "2023-12-01"
   },
-  "emitterVersion": "0.54.1",
+  "emitterVersion": "0.55.0-dev.9",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.DataBoxEdge",
     "CrossLanguageDefinitionId": {

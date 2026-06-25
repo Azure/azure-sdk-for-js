@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/databricks/arm-databricks)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-databricks)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-databricks?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-databricks)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/databricks/arm-databricks/samples)
 
 ## Getting started

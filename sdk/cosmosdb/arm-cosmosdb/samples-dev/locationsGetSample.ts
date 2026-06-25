@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the properties of an existing Cosmos DB location
  *
  * @summary get the properties of an existing Cosmos DB location
- * x-ms-original-file: 2025-11-01-preview/CosmosDBLocationGet.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBLocationGet.json
  */
 async function cosmosDBLocationGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

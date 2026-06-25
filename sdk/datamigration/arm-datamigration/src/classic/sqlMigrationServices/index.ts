@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DataMigrationManagementContext } from "../../api/dataMigrationManagementContext.js";
+import { DataMigrationManagementContext } from "../../api/dataMigrationManagementContext.js";
 import {
   listMonitoringData,
   listMigrations,
@@ -15,7 +15,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/sqlMigrationServices/operations.js";
-import type {
+import {
   SqlMigrationServicesListMonitoringDataOptionalParams,
   SqlMigrationServicesListMigrationsOptionalParams,
   SqlMigrationServicesDeleteNodeOptionalParams,
@@ -28,7 +28,7 @@ import type {
   SqlMigrationServicesCreateOrUpdateOptionalParams,
   SqlMigrationServicesGetOptionalParams,
 } from "../../api/sqlMigrationServices/options.js";
-import type {
+import {
   SqlMigrationService,
   SqlMigrationServiceUpdate,
   AuthenticationKeys,
@@ -37,10 +37,9 @@ import type {
   DatabaseMigration,
   IntegrationRuntimeMonitoringData,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a SqlMigrationServices operations. */
 export interface SqlMigrationServicesOperations {

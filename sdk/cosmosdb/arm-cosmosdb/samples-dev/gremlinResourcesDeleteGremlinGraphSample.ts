@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes an existing Azure Cosmos DB Gremlin graph.
  *
  * @summary deletes an existing Azure Cosmos DB Gremlin graph.
- * x-ms-original-file: 2025-11-01-preview/CosmosDBGremlinGraphDelete.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBGremlinGraphDelete.json
  */
 async function cosmosDBGremlinGraphDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

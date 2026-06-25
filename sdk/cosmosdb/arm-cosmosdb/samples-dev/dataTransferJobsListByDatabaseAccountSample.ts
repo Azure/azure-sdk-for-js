@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a list of Data Transfer jobs.
  *
  * @summary get a list of Data Transfer jobs.
- * x-ms-original-file: 2025-11-01-preview/data-transfer-service/CosmosDBDataTransferJobFeed.json
+ * x-ms-original-file: 2026-04-01-preview/data-transfer-service/CosmosDBDataTransferJobFeed.json
  */
 async function cosmosDBDataTransferJobFeed(): Promise<void> {
   const credential = new DefaultAzureCredential();

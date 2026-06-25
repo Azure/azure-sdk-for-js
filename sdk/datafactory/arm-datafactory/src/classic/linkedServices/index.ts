@@ -46,7 +46,7 @@ export interface LinkedServicesOperations {
     factoryName: string,
     linkedServiceName: string,
     options?: LinkedServicesGetOptionalParams,
-  ) => Promise<LinkedServiceResource>;
+  ) => Promise<LinkedServiceResource | undefined>;
 }
 
 function _getLinkedServices(context: DataFactoryManagementContext) {

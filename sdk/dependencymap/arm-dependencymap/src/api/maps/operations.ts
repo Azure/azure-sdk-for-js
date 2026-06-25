@@ -19,8 +19,21 @@ import {
   getConnectionsForProcessOnFocusedMachineRequestSerializer,
   ExportDependenciesRequest,
   exportDependenciesRequestSerializer,
+  ExportDependenciesOperationResult,
+  exportDependenciesOperationResultDeserializer,
+  GetDependencyViewForAllMachinesRequest,
+  getDependencyViewForAllMachinesRequestSerializer,
+  GetDependencyViewForAllMachinesOperationResult,
+  getDependencyViewForAllMachinesOperationResultDeserializer,
 } from "../../models/models.js";
 import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import {
+  MapsGetDependencyViewForAllMachinesOptionalParams,
   MapsExportDependenciesOptionalParams,
   MapsGetConnectionsForProcessOnFocusedMachineOptionalParams,
   MapsGetConnectionsWithConnectedMachineForFocusedMachineOptionalParams,
@@ -32,12 +45,6 @@ import {
   MapsCreateOrUpdateOptionalParams,
   MapsGetOptionalParams,
 } from "./options.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -45,6 +52,80 @@ import {
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
 import { PollerLike, OperationState } from "@azure/core-lro";
+
+export function _getDependencyViewForAllMachinesSend(
+  context: Client,
+  resourceGroupName: string,
+  mapName: string,
+  body: GetDependencyViewForAllMachinesRequest,
+  options: MapsGetDependencyViewForAllMachinesOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DependencyMap/maps/{mapName}/getDependencyViewForAllMachines{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      mapName: mapName,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: getDependencyViewForAllMachinesRequestSerializer(body),
+    });
+}
+
+export async function _getDependencyViewForAllMachinesDeserialize(
+  result: PathUncheckedResponse,
+): Promise<GetDependencyViewForAllMachinesOperationResult> {
+  const expectedStatuses = ["200", "202", "201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return getDependencyViewForAllMachinesOperationResultDeserializer(result.body);
+}
+
+/** Get dependencies for all machines */
+export function getDependencyViewForAllMachines(
+  context: Client,
+  resourceGroupName: string,
+  mapName: string,
+  body: GetDependencyViewForAllMachinesRequest,
+  options: MapsGetDependencyViewForAllMachinesOptionalParams = { requestOptions: {} },
+): PollerLike<
+  OperationState<GetDependencyViewForAllMachinesOperationResult>,
+  GetDependencyViewForAllMachinesOperationResult
+> {
+  return getLongRunningPoller(
+    context,
+    _getDependencyViewForAllMachinesDeserialize,
+    ["200", "202", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _getDependencyViewForAllMachinesSend(context, resourceGroupName, mapName, body, options),
+      resourceLocationConfig: "azure-async-operation",
+      apiVersion: context.apiVersion ?? "2025-07-01-preview",
+    },
+  ) as PollerLike<
+    OperationState<GetDependencyViewForAllMachinesOperationResult>,
+    GetDependencyViewForAllMachinesOperationResult
+  >;
+}
 
 export function _exportDependenciesSend(
   context: Client,
@@ -59,32 +140,36 @@ export function _exportDependenciesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       mapName: mapName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: exportDependenciesRequestSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: exportDependenciesRequestSerializer(body),
+    });
 }
 
-export async function _exportDependenciesDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202", "200"];
+export async function _exportDependenciesDeserialize(
+  result: PathUncheckedResponse,
+): Promise<ExportDependenciesOperationResult> {
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
-  return;
+  return exportDependenciesOperationResultDeserializer(result.body);
 }
 
 /** Export dependencies */
@@ -94,14 +179,21 @@ export function exportDependencies(
   mapName: string,
   body: ExportDependenciesRequest,
   options: MapsExportDependenciesOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _exportDependenciesDeserialize, ["202", "200"], {
+): PollerLike<
+  OperationState<ExportDependenciesOperationResult>,
+  ExportDependenciesOperationResult
+> {
+  return getLongRunningPoller(context, _exportDependenciesDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _exportDependenciesSend(context, resourceGroupName, mapName, body, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+    resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2025-07-01-preview",
+  }) as PollerLike<
+    OperationState<ExportDependenciesOperationResult>,
+    ExportDependenciesOperationResult
+  >;
 }
 
 export function _getConnectionsForProcessOnFocusedMachineSend(
@@ -109,9 +201,7 @@ export function _getConnectionsForProcessOnFocusedMachineSend(
   resourceGroupName: string,
   mapName: string,
   body: GetConnectionsForProcessOnFocusedMachineRequest,
-  options: MapsGetConnectionsForProcessOnFocusedMachineOptionalParams = {
-    requestOptions: {},
-  },
+  options: MapsGetConnectionsForProcessOnFocusedMachineOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DependencyMap/maps/{mapName}/getConnectionsForProcessOnFocusedMachine{?api%2Dversion}",
@@ -119,30 +209,31 @@ export function _getConnectionsForProcessOnFocusedMachineSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       mapName: mapName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: getConnectionsForProcessOnFocusedMachineRequestSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: getConnectionsForProcessOnFocusedMachineRequestSerializer(body),
+    });
 }
 
 export async function _getConnectionsForProcessOnFocusedMachineDeserialize(
   result: PathUncheckedResponse,
 ): Promise<void> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -155,14 +246,12 @@ export function getConnectionsForProcessOnFocusedMachine(
   resourceGroupName: string,
   mapName: string,
   body: GetConnectionsForProcessOnFocusedMachineRequest,
-  options: MapsGetConnectionsForProcessOnFocusedMachineOptionalParams = {
-    requestOptions: {},
-  },
+  options: MapsGetConnectionsForProcessOnFocusedMachineOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
   return getLongRunningPoller(
     context,
     _getConnectionsForProcessOnFocusedMachineDeserialize,
-    ["202", "200"],
+    ["202", "200", "201"],
     {
       updateIntervalInMs: options?.updateIntervalInMs,
       abortSignal: options?.abortSignal,
@@ -175,6 +264,7 @@ export function getConnectionsForProcessOnFocusedMachine(
           options,
         ),
       resourceLocationConfig: "location",
+      apiVersion: context.apiVersion ?? "2025-07-01-preview",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -194,30 +284,31 @@ export function _getConnectionsWithConnectedMachineForFocusedMachineSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       mapName: mapName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: getConnectionsWithConnectedMachineForFocusedMachineRequestSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: getConnectionsWithConnectedMachineForFocusedMachineRequestSerializer(body),
+    });
 }
 
 export async function _getConnectionsWithConnectedMachineForFocusedMachineDeserialize(
   result: PathUncheckedResponse,
 ): Promise<void> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -237,7 +328,7 @@ export function getConnectionsWithConnectedMachineForFocusedMachine(
   return getLongRunningPoller(
     context,
     _getConnectionsWithConnectedMachineForFocusedMachineDeserialize,
-    ["202", "200"],
+    ["202", "200", "201"],
     {
       updateIntervalInMs: options?.updateIntervalInMs,
       abortSignal: options?.abortSignal,
@@ -250,6 +341,7 @@ export function getConnectionsWithConnectedMachineForFocusedMachine(
           options,
         ),
       resourceLocationConfig: "location",
+      apiVersion: context.apiVersion ?? "2025-07-01-preview",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -259,9 +351,7 @@ export function _getDependencyViewForFocusedMachineSend(
   resourceGroupName: string,
   mapName: string,
   body: GetDependencyViewForFocusedMachineRequest,
-  options: MapsGetDependencyViewForFocusedMachineOptionalParams = {
-    requestOptions: {},
-  },
+  options: MapsGetDependencyViewForFocusedMachineOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DependencyMap/maps/{mapName}/getDependencyViewForFocusedMachine{?api%2Dversion}",
@@ -269,30 +359,31 @@ export function _getDependencyViewForFocusedMachineSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       mapName: mapName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: getDependencyViewForFocusedMachineRequestSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: getDependencyViewForFocusedMachineRequestSerializer(body),
+    });
 }
 
 export async function _getDependencyViewForFocusedMachineDeserialize(
   result: PathUncheckedResponse,
 ): Promise<void> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -305,20 +396,19 @@ export function getDependencyViewForFocusedMachine(
   resourceGroupName: string,
   mapName: string,
   body: GetDependencyViewForFocusedMachineRequest,
-  options: MapsGetDependencyViewForFocusedMachineOptionalParams = {
-    requestOptions: {},
-  },
+  options: MapsGetDependencyViewForFocusedMachineOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
   return getLongRunningPoller(
     context,
     _getDependencyViewForFocusedMachineDeserialize,
-    ["202", "200"],
+    ["202", "200", "201"],
     {
       updateIntervalInMs: options?.updateIntervalInMs,
       abortSignal: options?.abortSignal,
       getInitialResponse: () =>
         _getDependencyViewForFocusedMachineSend(context, resourceGroupName, mapName, body, options),
       resourceLocationConfig: "location",
+      apiVersion: context.apiVersion ?? "2025-07-01-preview",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -331,19 +421,18 @@ export function _listBySubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.DependencyMap/maps{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listBySubscriptionDeserialize(
@@ -352,7 +441,10 @@ export async function _listBySubscriptionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -369,7 +461,11 @@ export function listBySubscription(
     () => _listBySubscriptionSend(context, options),
     _listBySubscriptionDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-07-01-preview",
+    },
   );
 }
 
@@ -383,19 +479,18 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listByResourceGroupDeserialize(
@@ -404,7 +499,10 @@ export async function _listByResourceGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -422,7 +520,11 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2025-07-01-preview",
+    },
   );
 }
 
@@ -438,26 +540,23 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       mapName: mapName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -465,11 +564,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete a MapsResource */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -481,6 +575,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, mapName, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-07-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -497,28 +592,30 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       mapName: mapName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: mapsResourceTagsUpdateSerializer(properties),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: mapsResourceTagsUpdateSerializer(properties),
+    });
 }
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<MapsResource> {
-  const expectedStatuses = ["200", "202"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -533,11 +630,12 @@ export function update(
   properties: MapsResourceTagsUpdate,
   options: MapsUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<MapsResource>, MapsResource> {
-  return getLongRunningPoller(context, _updateDeserialize, ["200", "202"], {
+  return getLongRunningPoller(context, _updateDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _updateSend(context, resourceGroupName, mapName, properties, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-07-01-preview",
   }) as PollerLike<OperationState<MapsResource>, MapsResource>;
 }
 
@@ -554,30 +652,32 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       mapName: mapName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: mapsResourceSerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: mapsResourceSerializer(resource),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
   result: PathUncheckedResponse,
 ): Promise<MapsResource> {
-  const expectedStatuses = ["200", "201"];
+  const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -592,12 +692,13 @@ export function createOrUpdate(
   resource: MapsResource,
   options: MapsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<MapsResource>, MapsResource> {
-  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201"], {
+  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, mapName, resource, options),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2025-07-01-preview",
   }) as PollerLike<OperationState<MapsResource>, MapsResource>;
 }
 
@@ -613,26 +714,28 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       mapName: mapName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<MapsResource> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
