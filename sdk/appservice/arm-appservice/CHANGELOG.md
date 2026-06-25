@@ -1,14 +1,8 @@
 # Release History
 
-## 19.0.1 (Unreleased)
+## 19.0.1 (2026-06-25)
 
 ### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
 
 ## 19.0.0 (2026-05-27)
 
