@@ -458,8 +458,6 @@ async function regenerateOnePackage(pkg, specRepoCloneDir, completedCount, total
   );
   let combinedLog = `===== TypeSpec-Project-Sync =====\n${syncResult.output}\nExit: ${syncResult.exitCode}\n`;
   let success = syncResult.exitCode === 0;
-  let skipped = false;
-  let skipReason = null;
 
   if (success) {
     // Pin the emitter to the SDK's existing api-version (see resolvePinnedApiVersion).
@@ -468,57 +466,27 @@ async function regenerateOnePackage(pkg, specRepoCloneDir, completedCount, total
     );
     combinedLog += `\n===== api-version: ${pinReason} =====\n`;
 
-    if (pinnedApiVersion && !apiVersionAvailableInSyncedSpec(pkg.packageDir, pinnedApiVersion)) {
-      // The locked api-version no longer exists in the latest spec, so we can't
-      // regenerate the matching SDK. Skip (not a failure — there is nothing to
-      // compare against in this snapshot).
-      skipped = true;
-      success = false;
-      skipReason = `api-version ${pinnedApiVersion} not in latest spec`;
-      combinedLog += `\n===== SKIPPED: ${skipReason} =====\n`;
-    } else {
-      const generateArgs = ["-File", TYPESPEC_GENERATE_SCRIPT, pkg.packageDir];
-      if (pinnedApiVersion) {
-        generateArgs.push("-TypespecAdditionalOptions", `api-version=${pinnedApiVersion}`);
-      }
-      const generateResult = await runCommandCapturing("pwsh", generateArgs, SDK_ROOT);
-      combinedLog += `\n===== TypeSpec-Project-Generate =====\n${generateResult.output}\nExit: ${generateResult.exitCode}\n`;
-      success = generateResult.exitCode === 0;
+    const generateArgs = ["-File", TYPESPEC_GENERATE_SCRIPT, pkg.packageDir];
+    if (pinnedApiVersion) {
+      generateArgs.push("-TypespecAdditionalOptions", `api-version=${pinnedApiVersion}`);
     }
+    const generateResult = await runCommandCapturing("pwsh", generateArgs, SDK_ROOT);
+    combinedLog += `\n===== TypeSpec-Project-Generate =====\n${generateResult.output}\nExit: ${generateResult.exitCode}\n`;
+    success = generateResult.exitCode === 0;
   }
 
   if (savedChangelog !== null) fs.writeFileSync(changelogPath, savedChangelog);
 
   const durationSeconds = ((Date.now() - startedAtMs) / 1000).toFixed(1);
   completedCount.value += 1;
-  const statusIcon = success ? "✅" : skipped ? "⏭️" : "❌";
+  const statusIcon = success ? "✅" : "❌";
   console.log(
     `  ${statusIcon} [${completedCount.value}/${totalPackageCount}] ${pkg.sdkPath} (${durationSeconds}s)`,
   );
   logCollapsedGroup(`regen log: ${pkg.sdkPath}`, combinedLog);
 
-  const errorTail = success || skipped ? null : extractLastNonEmptyLines(combinedLog, 25);
-  return { ...pkg, success, skipped, skipReason, errorTail };
-}
-
-// True if the locked api-version literal appears anywhere in the synced spec
-// (TempTypeSpecFiles). Spec versions are declared as string literals (e.g.
-// `v2023_11_01: "2023-11-01"`), so a substring match reliably detects presence.
-function apiVersionAvailableInSyncedSpec(packageDir, apiVersion) {
-  const tempSpecDir = path.join(packageDir, "TempTypeSpecFiles");
-  if (!fs.existsSync(tempSpecDir)) return false;
-  const specFiles = listFilesRecursively(tempSpecDir).filter((f) => /\.(tsp|ya?ml|json)$/.test(f));
-  return specFiles.some((file) => fs.readFileSync(file, "utf8").includes(apiVersion));
-}
-
-function listFilesRecursively(dir) {
-  const files = [];
-  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
-    const full = path.join(dir, entry.name);
-    if (entry.isDirectory()) files.push(...listFilesRecursively(full));
-    else files.push(full);
-  }
-  return files;
+  const errorTail = success ? null : extractLastNonEmptyLines(combinedLog, 25);
+  return { ...pkg, success, errorTail };
 }
 
 function extractLastNonEmptyLines(text, lineCount) {
@@ -726,11 +694,8 @@ function composeShardSummary({
   changelogOutcomes,
 }) {
   const regenerationFailures = regenerationOutcomes
-    .filter((o) => !o.success && !o.skipped)
+    .filter((o) => !o.success)
     .map((o) => ({ pkg: o.sdkPath, errorTail: o.errorTail }));
-  const regenerationSkips = regenerationOutcomes
-    .filter((o) => o.skipped)
-    .map((o) => ({ pkg: o.sdkPath, reason: o.skipReason }));
 
   return {
     packages: shardPackages.map((p) => p.sdkPath),
@@ -738,9 +703,7 @@ function composeShardSummary({
       total: shardPackages.length,
       success: regenerationOutcomes.filter((o) => o.success).length,
       failed: regenerationFailures.length,
-      skipped: regenerationSkips.length,
       failures: regenerationFailures,
-      skips: regenerationSkips,
     },
     build: buildOutcome.skipped
       ? null
@@ -842,41 +805,6 @@ function resolveHeadBranchName(headBranchOverride, buildId) {
 // Wraps eng/common/scripts/New-RegenerateMatrix.ps1 with fixed arguments.
 // ─────────────────────────────────────────────────────────────────────────────
 
-// Dataplane packages have no shared name prefix; they are simply the TypeSpec
-// packages whose directory name does NOT start with "arm-". Return their names
-// so the "dataplane-*" sentinel can be expanded into explicit filter patterns.
-function listDataplanePackageNames() {
-  const sdkDir = path.join(SDK_ROOT, "sdk");
-  const names = [];
-  for (const service of fs.readdirSync(sdkDir, { withFileTypes: true })) {
-    if (!service.isDirectory()) continue;
-    const serviceDir = path.join(sdkDir, service.name);
-    for (const pkg of fs.readdirSync(serviceDir, { withFileTypes: true })) {
-      if (!pkg.isDirectory() || pkg.name.startsWith("arm-")) continue;
-      if (fs.existsSync(path.join(serviceDir, pkg.name, "tsp-location.yaml"))) {
-        names.push(pkg.name);
-      }
-    }
-  }
-  return names;
-}
-
-// Expand the "dataplane-*" sentinel (an exact token, not a wildcard) into the
-// explicit non-arm package names. Other tokens pass through; mixing is allowed,
-// e.g. "dataplane-*,arm-foo".
-function resolveDirectoryFilterPattern(filter) {
-  const tokens = filter
-    .split(",")
-    .map((t) => t.trim())
-    .filter(Boolean);
-  const expanded = tokens.flatMap((t) => (t === "dataplane-*" ? listDataplanePackageNames() : [t]));
-  if (expanded.length === 0) {
-    console.error(`ERROR: filter '${filter}' matched no packages`);
-    process.exit(2);
-  }
-  return expanded.join(",");
-}
-
 function runBuildMatrix() {
   const outDir = values.outDir;
   if (!outDir) {
@@ -895,7 +823,7 @@ function runBuildMatrix() {
     "-OnlyTypeSpec",
     "true",
     "-DirectoryFilterPattern",
-    resolveDirectoryFilterPattern(values.filter),
+    values.filter,
   ]);
 }
 
@@ -907,9 +835,17 @@ function runBuildMatrix() {
 //   api.md and changelog → break-check deltas only (*.api.md + CHANGELOG.md).
 //   all            → the whole regenerated sdk/ tree (full SDK refresh),
 //                    minus transient TempTypeSpecFiles output.
+// Both exclude sdk/core/** : core packages aren't regen targets, but turbo
+// rebuilds them as shared deps in every shard, so staging their churn makes
+// concurrent shards race to push the same files (breaks git-push-changes.yml's
+// rebase + retry). See PR #39062 (core-lro api.md).
 const PR_STAGE_PATHSPECS = {
-  "api.md and changelog": ["sdk/*/*/review/*.api.md", "sdk/*/*/CHANGELOG.md"],
-  all: ["sdk/", ":(exclude)sdk/**/TempTypeSpecFiles/**"],
+  "api.md and changelog": [
+    "sdk/*/*/review/*.api.md",
+    "sdk/*/*/CHANGELOG.md",
+    ":(exclude)sdk/core/**",
+  ],
+  all: ["sdk/", ":(exclude)sdk/**/TempTypeSpecFiles/**", ":(exclude)sdk/core/**"],
 };
 
 // `git stash` away everything that wasn't explicitly staged: git-push-changes.yml

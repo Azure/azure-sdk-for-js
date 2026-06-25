@@ -9,8 +9,7 @@
 #                      builds, generates changelogs. Regeneration syncs from the
 #                      latest spec (azure-rest-api-specs main) and locks the
 #                      api-version via metadata.json, so the api-version matches
-#                      the existing SDK; packages whose locked api-version is gone
-#                      from the latest spec are skipped. In PR mode, pushes
+#                      the existing SDK. In PR mode, pushes
 #                      the files selected by PRPushMode (api.md + CHANGELOG.md
 #                      deltas, or the whole SDK refresh) to the PR branch.
 #
@@ -51,7 +50,7 @@ parameters:
     default: false
 
   - name: PackageFilter
-    displayName: "Package filter (wildcard, e.g. '*' = all, 'arm-*' = ARM only; or exact token 'dataplane-*' = data-plane only)"
+    displayName: "Package filter (comma-separated wildcards; 'arm-*' = all)"
     type: string
     default: 'arm-*'
 
