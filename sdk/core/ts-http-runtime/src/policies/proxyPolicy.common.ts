@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PipelineRequest, PipelineResponse, ProxySettings, SendRequest } from "../interfaces.js";
+import type {
+  PipelineRequest,
+  PipelineResponse,
+  ProxySettings,
+  SendRequest,
+} from "../interfaces.js";
 import type { PipelinePolicy } from "../pipeline.js";
 
 export const proxyPolicyName = "proxyPolicy";
@@ -9,6 +14,7 @@ export const proxyPolicyName = "proxyPolicy";
 /**
  * Proxy settings are not supported outside of Node.js, so there are no
  * settings to retrieve in this environment.
+ * @deprecated - Internally this method is no longer necessary when setting proxy information.
  */
 export function getDefaultProxySettings(_proxyUrl?: string): ProxySettings | undefined {
   return undefined;
