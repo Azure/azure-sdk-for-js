@@ -6,29 +6,63 @@
 
 import { AbortSignalLike } from '@azure/abort-controller';
 import { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import { OperationOptions } from '@azure-rest/core-client';
 import { OperationState } from '@azure/core-lro';
 import { PathUncheckedResponse } from '@azure-rest/core-client';
 import { Pipeline } from '@azure/core-rest-pipeline';
 import { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
-
-// @public
-export type AccountType = string;
 
 // @public
 export type ActionType = string;
 
 // @public
-export interface ApplicationProperties {
-    applicationDescription?: string;
-    applicationType?: string;
-    legalName?: string;
-    name?: string;
-    organizationDescription?: string;
-    privacyContactEmailAddress?: string;
-    taxNumber?: string;
+export interface ApplicationOwnerProperties {
+    contactEmailAddress: string;
+    dataProtectionOfficer: Person;
+    legalName: string;
+    legalRepresentative: Person;
+    localRepresentatives: LocalRepresentative[];
+    name: string;
+    organizationDescription: string;
+    organizationIdentificationId: string;
+    organizationIdentificationIssuer: string;
+    organizationIdentificationType: string;
+    organizationType: OrganizationType;
+    privacyManager: Person;
+    privacyPolicyUrl: string;
+    registeredGeographicAddress: GeographicAddress;
+    taxNumber: string;
+    tradingName: string;
 }
+
+// @public
+export interface ApplicationProperties {
+    applicationDescription: string;
+    category: Category;
+    commercialName: string;
+    name: string;
+    privacyPolicyUrl: string;
+    privacyRightsRequestEmailAddress: string;
+}
+
+// @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
+
+// @public
+export type Category = string;
+
+// @public
+export type Context = string;
 
 // @public
 export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
@@ -39,8 +73,29 @@ export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
 export type CreatedByType = string;
 
 // @public
+export interface DataProcessing {
+    contexts: Context[];
+    duration: Duration;
+    frequency: Frequency;
+    processingOperation: ProcessingOperation;
+    storageRegions: DataRegions[];
+    transitRegions: DataRegions[];
+}
+
+// @public
+export interface DataRegions {
+    commercialActivity: boolean;
+    commercialOrganization?: string;
+    countryCode: string;
+    dataPrivacyFrameworkUrl: string;
+}
+
+// @public
+export type Duration = string;
+
+// @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, any>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -59,12 +114,17 @@ export interface ErrorResponse {
 }
 
 // @public
+export type Frequency = string;
+
+// @public
 export interface Gateway extends TrackedResource {
     properties?: GatewayProperties;
 }
 
 // @public
 export interface GatewayProperties {
+    configuredApplication: ApplicationProperties;
+    configuredApplicationOwner: ApplicationOwnerProperties;
     readonly gatewayBaseUrl?: string;
     readonly operatorApiConnections?: string[];
     readonly provisioningState?: ProvisioningState;
@@ -112,14 +172,182 @@ export interface GatewayTagsUpdate {
 }
 
 // @public
-export enum KnownAccountType {
-    AzureManaged = "AzureManaged",
-    UserManaged = "UserManaged"
+export interface GeographicAddress {
+    city?: string;
+    countryCode: string;
+    locality?: string;
+    postalCode?: string;
+    stateOrProvince?: string;
+    streetName?: string;
+    streetNumber?: string;
 }
+
+export { isRestError }
 
 // @public
 export enum KnownActionType {
     Internal = "Internal"
+}
+
+// @public
+export enum KnownCategory {
+    Agriculture = "Agriculture",
+    ArtAndDesign = "Art and design",
+    AutoAndVehicle = "Auto and vehicle",
+    Beauty = "Beauty",
+    BooksAndReference = "Books and reference",
+    Business = "Business",
+    Construction = "Construction",
+    Defense = "Defense",
+    DeveloperTools = "Developer tools",
+    Education = "Education",
+    Engineering = "Engineering",
+    EventsAndEntertainment = "Events and entertainment",
+    Finance = "Finance",
+    FoodAndDrink = "Food and drink",
+    Games = "Games",
+    HealthAndFitness = "Health and fitness",
+    Healthcare = "Healthcare",
+    Information = "Information",
+    Kids = "Kids",
+    LibrariesAndDemo = "Libraries and demo",
+    Lifestyle = "Lifestyle",
+    Manufacturing = "Manufacturing",
+    MapsAndNavigation = "Maps and navigation",
+    Media = "Media",
+    Medical = "Medical",
+    Mining = "Mining",
+    MusicAndAudio = "Music and audio",
+    NewsAndMagazines = "News and magazines",
+    Organizations = "Organizations",
+    Other = "Other",
+    PhotoAndVideo = "Photo and video",
+    Productivity = "Productivity",
+    PublicService = "Public service",
+    RealEstate = "Real estate",
+    Shopping = "Shopping",
+    SocialNetworkingAndCommunications = "Social networking and communications",
+    Sports = "Sports",
+    Tourism = "Tourism",
+    Trading = "Trading",
+    Transportation = "Transportation",
+    TravelAndLocal = "Travel and local",
+    Utilities = "Utilities",
+    Water = "Water",
+    Weather = "Weather"
+}
+
+// @public
+export enum KnownContext {
+    AlgorithmicLogic = "Algorithmic logic",
+    AssistiveAutomation = "Assistive automation",
+    AutomatedDecisionMaking = "Automated decision making",
+    AutomatedScoringOfIndividuals = "Automated scoring of individuals",
+    AutomationLevel = "Automation level",
+    Autonomous = "Autonomous",
+    CannotChallengeProcess = "Cannot challenge process",
+    CannotChallengeProcessInput = "Cannot challenge process input",
+    CannotChallengeProcessOutput = "Cannot challenge process output",
+    CannotCorrectProcess = "Cannot correct process",
+    CannotCorrectProcessInput = "Cannot correct process input",
+    CannotCorrectProcessOutput = "Cannot correct process output",
+    CannotObjectToProcess = "Cannot object to process",
+    CannotOptInToProcess = "Cannot opt in to process",
+    CannotOptOutFromProcess = "Cannot opt out from process",
+    CannotReverseProcessEffects = "Cannot reverse process effects",
+    CannotReverseProcessInput = "Cannot reverse process input",
+    CannotReverseProcessOutput = "Cannot reverse process output",
+    CannotWithdrawFromProcess = "Cannot withdraw from process",
+    ChallengingProcess = "Challenging process",
+    ChallengingProcessInput = "Challenging process input",
+    ChallengingProcessOutput = "Challenging process output",
+    CompletelyManualProcessing = "Completely manual processing",
+    ConditionalAutomation = "Conditional automation",
+    ConsentControl = "Consent control",
+    CorrectingProcess = "Correcting process",
+    CorrectingProcessInput = "Correcting process input",
+    CorrectingProcessOutput = "Correcting process output",
+    DataControllerDataSource = "Data controller data source",
+    DataPublishedByDataSubject = "Data published by data subject",
+    DataSource = "Data source",
+    DataSubject = "Data subject",
+    DataSubjectDataSource = "Data subject data source",
+    DataSubjectScale = "Data subject scale",
+    DataVolume = "Data volume",
+    DecisionMaking = "Decision making",
+    EntityActiveInvolvement = "Entity active involvement",
+    EntityInvolvement = "Entity involvement",
+    EntityNonInvolvement = "Entity non involvement",
+    EntityNonPermissiveInvolvement = "Entity non permissive involvement",
+    EntityPassiveInvolvement = "Entity passive involvement",
+    EntityPermissiveInvolvement = "Entity permissive involvement",
+    EvaluationOfIndividuals = "Evaluation of individuals",
+    EvaluationScoring = "Evaluation scoring",
+    FullAutomation = "Full automation",
+    GeographicCoverage = "Geographic coverage",
+    GlobalScale = "Global scale",
+    HighAutomation = "High automation",
+    HugeDataVolume = "Huge data volume",
+    HugeScaleOfDataSubjects = "Huge scale of data subjects",
+    HumanInvolved = "Human involved",
+    HumanInvolvement = "Human involvement",
+    HumanInvolvementForControl = "Human involvement for control",
+    HumanInvolvementForDecision = "Human involvement for decision",
+    HumanInvolvementForInput = "Human involvement for input",
+    HumanInvolvementForIntervention = "Human involvement for intervention",
+    HumanInvolvementForOversight = "Human involvement for oversight",
+    HumanInvolvementForVerification = "Human involvement for verification",
+    HumanNotInvolved = "Human not involved",
+    InnovativeUseOfExistingTechnology = "Innovative use of existing technology",
+    InnovativeUseOfNewTechnologies = "Innovative use of new technologies",
+    InnovativeUseOfTechnology = "Innovative use of technology",
+    LargeDataVolume = "Large data volume",
+    LargeScaleOfDataSubjects = "Large scale of data subjects",
+    LargeScaleProcessing = "Large scale processing",
+    LocalEnvironmentScale = "Local environment scale",
+    LocalityScale = "Locality scale",
+    MediumDataVolume = "Medium data volume",
+    MediumScaleOfDataSubjects = "Medium scale of data subjects",
+    MediumScaleProcessing = "Medium scale processing",
+    MultiNationalScale = "Multi national scale",
+    NationalScale = "National scale",
+    NearlyGlobalScale = "Nearly global scale",
+    NonPublicDataSource = "Non public data source",
+    NotAutomated = "Not automated",
+    ObjectingToProcess = "Objecting to process",
+    ObtainConsent = "Obtain consent",
+    OptingInToProcess = "Opting in to process",
+    OptingOutFromProcess = "Opting out from process",
+    PartialAutomation = "Partial automation",
+    ProcessingCondition = "Processing condition",
+    ProcessingDuration = "Processing duration",
+    ProcessingLocation = "Processing location",
+    ProcessingScale = "Processing scale",
+    ProvideConsent = "Provide consent",
+    PublicDataSource = "Public data source",
+    ReaffirmConsent = "Reaffirm consent",
+    RegionalScale = "Regional scale",
+    ReversingProcessEffects = "Reversing process effects",
+    ReversingProcessInput = "Reversing process input",
+    ReversingProcessOutput = "Reversing process output",
+    Scale = "Scale",
+    ScoringOfIndividuals = "Scoring of individuals",
+    SingularDataVolume = "Singular data volume",
+    SingularScaleOfDataSubjects = "Singular scale of data subjects",
+    SmallDataVolume = "Small data volume",
+    SmallScaleOfDataSubjects = "Small scale of data subjects",
+    SmallScaleProcessing = "Small scale processing",
+    SporadicDataVolume = "Sporadic data volume",
+    SporadicScaleOfDataSubjects = "Sporadic scale of data subjects",
+    StorageCondition = "Storage condition",
+    StorageDeletion = "Storage deletion",
+    StorageDuration = "Storage duration",
+    StorageLocation = "Storage location",
+    StorageRestoration = "Storage restoration",
+    SystematicMonitoring = "Systematic monitoring",
+    ThirdPartyDataSource = "Third party data source",
+    WithdrawConsent = "Withdraw consent",
+    WithdrawingFromProcess = "Withdrawing from process"
 }
 
 // @public
@@ -131,10 +359,96 @@ export enum KnownCreatedByType {
 }
 
 // @public
+export enum KnownDuration {
+    EndlessDuration = "Endless",
+    FixedOccurrencesDuration = "Fixed occurrences",
+    IndeterminateDuration = "Indeterminate",
+    TemporalDuration = "Temporal",
+    UntilEventDuration = "Until event",
+    UntilTimeDuration = "Until time"
+}
+
+// @public
+export enum KnownFrequency {
+    ContinuousFrequency = "Continuous",
+    OftenFrequency = "Often",
+    SingularFrequency = "Singular",
+    SporadicFrequency = "Sporadic"
+}
+
+// @public
+export enum KnownOrganizationType {
+    AcademicScientificOrganization = "Academic scientific organization",
+    ForProfitOrganization = "For profit organization",
+    GovernmentalOrganization = "Governmental organization",
+    IndustryConsortium = "Industry consortium",
+    InternationalOrganization = "International organization",
+    NonGovernmentalOrganization = "Non-governmental organization",
+    NonProfitOrganization = "Non-profit organization",
+    OrganizationalUnit = "Organizational unit"
+}
+
+// @public
 export enum KnownOrigin {
     System = "system",
     User = "user",
     UserSystem = "user,system"
+}
+
+// @public
+export enum KnownProcessingOperation {
+    Access = "Access",
+    Acquire = "Acquire",
+    Adapt = "Adapt",
+    Aggregate = "Aggregate",
+    Align = "Align",
+    Alter = "Alter",
+    Analyze = "Analyze",
+    Anonymize = "Anonymize",
+    Assess = "Assess",
+    Collect = "Collect",
+    Combine = "Combine",
+    Consult = "Consult",
+    Copy = "Copy",
+    CrossBorderTransfer = "Cross border transfer",
+    Delete = "Delete",
+    Derive = "Derive",
+    Destruct = "Destruct",
+    Disclose = "Disclose",
+    DiscloseByTransmission = "Disclose by transmission",
+    Display = "Display",
+    Disseminate = "Disseminate",
+    Download = "Download",
+    Erase = "Erase",
+    Export = "Export",
+    Filter = "Filter",
+    Format = "Format",
+    Generate = "Generate",
+    Infer = "Infer",
+    MakeAvailable = "Make available",
+    Match = "Match",
+    Modify = "Modify",
+    Monitor = "Monitor",
+    Move = "Move",
+    Observe = "Observe",
+    Obtain = "Obtain",
+    Organize = "Organize",
+    Profiling = "Profiling",
+    Pseudonymize = "Pseudonymize",
+    Query = "Query",
+    Record = "Record",
+    Reformat = "Reformat",
+    Remove = "Remove",
+    Restrict = "Restrict",
+    Retrieve = "Retrieve",
+    Screen = "Screen",
+    Share = "Share",
+    Store = "Store",
+    Structure = "Structure",
+    Transfer = "Transfer",
+    Transform = "Transform",
+    Transmit = "Transmit",
+    Use = "Use"
 }
 
 // @public
@@ -149,17 +463,122 @@ export enum KnownProvisioningState {
 }
 
 // @public
+export enum KnownPurpose {
+    AcademicResearch = "Academic Research",
+    AccountManagement = "Account Management",
+    Advertising = "Advertising",
+    AgeVerification = "Age Verification",
+    CombatClimateChange = "Combat Climate Change",
+    CommercialPurpose = "Commercial Purpose",
+    CommercialResearch = "Commercial Research",
+    CommunicationForCustomerCare = "Communication For Customer Care",
+    CommunicationManagement = "Communication Management",
+    CounterMoneyLaundering = "Counter Money Laundering",
+    Counterterrorism = "Counter-terrorism",
+    CreditChecking = "Credit Checking",
+    CustomerCare = "Customer Care",
+    CustomerClaimsManagement = "Customer Claims Management",
+    CustomerManagement = "Customer Management",
+    CustomerOrderManagement = "Customer Order Management",
+    CustomerRelationshipManagement = "Customer Relationship Management",
+    CustomerSolvencyMonitoring = "Customer Solvency Monitoring",
+    DataAltruism = "Data Altruism",
+    DeliveryOfGoods = "Delivery Of Goods",
+    DirectMarketing = "Direct Marketing",
+    DisputeManagement = "Dispute Management",
+    EnforceAccessControl = "Enforce Access Control",
+    EnforceSecurity = "Enforce Security",
+    EstablishContractualAgreement = "Establish Contractual Agreement",
+    FraudPreventionAndDetection = "Fraud Prevention And Detection",
+    FulfillmentOfContractualObligation = "Fulfillment Of Contractual Obligation",
+    FulfillmentOfObligation = "Fulfillment Of Obligation",
+    HumanResourceManagement = "Human Resource Management",
+    IdentityAuthentication = "Identity Authentication",
+    IdentityVerification = "Identity Verification",
+    ImproveExistingProductsAndServices = "Improve Existing Products And Services",
+    ImproveHealthcare = "Improve Healthcare",
+    ImproveInternalCRMProcesses = "Improve Internal CRM Processes",
+    ImprovePublicServices = "Improve Public Services",
+    ImproveTransportMobility = "Improve Transport Mobility",
+    IncreaseServiceRobustness = "Increase Service Robustness",
+    InternalResourceOptimization = "Internal Resource Optimization",
+    LegalCompliance = "Legal Compliance",
+    MaintainCreditCheckingDatabase = "Maintain Credit Checking Database",
+    MaintainCreditRatingDatabase = "Maintain Credit Rating Database",
+    MaintainFraudDatabase = "Maintain Fraud Database",
+    Marketing = "Marketing",
+    MemberPartnerManagement = "Member Partner Management",
+    MisusePreventionAndDetection = "Misuse Prevention And Detection",
+    NonCommercialPurpose = "Non Commercial Purpose",
+    NonCommercialResearch = "Non Commercial Research",
+    OptimizationForConsumer = "Optimization For Consumer",
+    OptimizationForController = "Optimization For Controller",
+    OptimizeUserInterface = "Optimize User Interface",
+    OrganizationComplianceManagement = "Organization Compliance Management",
+    OrganizationGovernance = "Organization Governance",
+    OrganizationRiskManagement = "Organization Risk Management",
+    PaymentManagement = "Payment Management",
+    Personalization = "Personalization",
+    PersonalizedAdvertising = "Personalized Advertising",
+    PersonalizedBenefits = "Personalized Benefits",
+    PersonnelHiring = "Personnel Hiring",
+    PersonnelManagement = "Personnel Management",
+    PersonnelPayment = "Personnel Payment",
+    ProtectionOfIPR = "Protection Of IPR",
+    ProtectionOfNationalSecurity = "Protection Of National Security",
+    ProtectionOfPublicSecurity = "Protection Of Public Security",
+    ProvideEventRecommendations = "Provide Event Recommendations",
+    ProvideOfficialStatistics = "Provide Official Statistics",
+    ProvidePersonalizedRecommendations = "Provide Personalized Recommendations",
+    ProvideProductRecommendations = "Provide Product Recommendations",
+    PublicBenefit = "Public Benefit",
+    PublicPolicyMaking = "Public Policy Making",
+    PublicRelations = "Public Relations",
+    RecordManagement = "Record Management",
+    RepairImpairments = "Repair Impairments",
+    RequestedServiceProvision = "Requested Service Provision",
+    ResearchAndDevelopment = "Research And Development",
+    RightsFulfillment = "Rights Fulfillment",
+    ScientificResearch = "Scientific Research",
+    SearchFunctionalities = "Search Functionalities",
+    SellDataToThirdParties = "Sell Data To Third Parties",
+    SellInsightsFromData = "Sell Insights From Data",
+    SellProducts = "Sell Products",
+    SellProductsToDataSubject = "Sell Products To Data Subject",
+    Serviceoptimization = "Service Optimization",
+    ServicePersonalization = "Service Personalization",
+    ServiceProvision = "Service Provision",
+    ServiceRegistration = "Service Registration",
+    ServiceUsageAnalytics = "Service Usage Analytics",
+    SocialMediaMarketing = "Social Media Marketing",
+    TargetedAdvertising = "Targeted Advertising",
+    TechnicalServiceProvision = "Technical Service Provision",
+    UserInterfacePersonalization = "User Interface Personalization",
+    VendorManagement = "Vendor Management",
+    VendorPayment = "Vendor Payment",
+    VendorRecordsManagement = "Vendor Records Management",
+    VendorSelectionAssessment = "Vendor Selection Assessment",
+    Verification = "Verification"
+}
+
+// @public
 export enum KnownVersions {
-    V20240115Preview = "2024-01-15-preview"
+    V20240115Preview = "2024-01-15-preview",
+    V20250330Preview = "2025-03-30-preview"
+}
+
+// @public
+export interface LocalRepresentative {
+    countryCode: string;
+    representative: Person;
 }
 
 // @public
 export interface MarketplaceProperties {
-    legacyOfferId?: string;
     offerId?: string;
     planId?: string;
+    readonly planTermsAndConditionsLinks: string[];
     publisherId?: string;
-    termId?: string;
 }
 
 // @public
@@ -195,16 +614,16 @@ export interface OperatorApiConnection extends TrackedResource {
 
 // @public
 export interface OperatorApiConnectionProperties {
-    accountType: AccountType;
-    appId?: string;
-    appSecret?: string;
     readonly camaraApiName?: string;
-    configuredApplication?: ApplicationProperties;
+    dataProcessingList: DataProcessing[];
     gatewayId: string;
     operatorApiPlanId: string;
     readonly operatorName?: string;
+    planTermsAndConditionsAccepted: boolean;
+    readonly planTermsAndConditionsLinks?: string[];
     readonly provisioningState?: ProvisioningState;
-    saasProperties?: SaasProperties;
+    purposeReason: string;
+    purposes: Purpose[];
     readonly status?: Status;
 }
 
@@ -253,11 +672,11 @@ export interface OperatorApiConnectionUpdate {
 
 // @public
 export interface OperatorApiConnectionUpdateProperties {
-    appId?: string;
-    appSecret?: string;
-    configuredApplication?: ApplicationProperties;
+    dataProcessingList?: DataProcessing[];
     operatorApiPlanId?: string;
-    saasProperties?: SaasProperties;
+    planTermsAndConditionsAccepted?: boolean;
+    purposeReason?: string;
+    purposes?: Purpose[];
 }
 
 // @public
@@ -295,6 +714,9 @@ export interface OperatorApiPlansOperations {
 }
 
 // @public
+export type OrganizationType = string;
+
+// @public
 export type Origin = string;
 
 // @public
@@ -309,6 +731,16 @@ export interface PageSettings {
     continuationToken?: string;
 }
 
+// @public
+export interface Person {
+    emailAddress: string;
+    familyName: string;
+    givenName: string;
+}
+
+// @public
+export type ProcessingOperation = string;
+
 // @public (undocumented)
 export class ProgrammableConnectivityClient {
     constructor(credential: TokenCredential, subscriptionId: string, options?: ProgrammableConnectivityClientOptionalParams);
@@ -322,6 +754,7 @@ export class ProgrammableConnectivityClient {
 // @public
 export interface ProgrammableConnectivityClientOptionalParams extends ClientOptions {
     apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
@@ -332,12 +765,17 @@ export interface ProxyResource extends Resource {
 }
 
 // @public
+export type Purpose = string;
+
+// @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
     readonly systemData?: SystemData;
     readonly type?: string;
 }
+
+export { RestError }
 
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: ProgrammableConnectivityClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
@@ -347,12 +785,6 @@ export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedRe
     abortSignal?: AbortSignalLike;
     processResponseBody?: (result: TResponse) => Promise<TResult>;
     updateIntervalInMs?: number;
-}
-
-// @public
-export interface SaasProperties {
-    saasResourceId?: string;
-    saasSubscriptionId?: string;
 }
 
 // @public

@@ -1,14 +1,18 @@
 # Release History
 
-## 7.0.1 (Unreleased)
+## 7.1.0 (2026-06-25)
 
 ### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+  - Added operation DeletedVaultsOperations.beginUndelete
+  - Added operation DeletedVaultsOperations.beginUndeleteAndWait
+  - Added operation VaultsOperations.beginCreateOrUpdate
+  - Added operation VaultsOperations.beginCreateOrUpdateAndWait
+  - Added operation VaultsOperations.beginDelete
+  - Added operation VaultsOperations.beginDeleteAndWait
+  - Added operation VaultsOperations.beginUpdate
+  - Added operation VaultsOperations.beginUpdateAndWait
+  - Class RecoveryServicesClient has a new constructor "constructor(credential: TokenCredential, options?: RecoveryServicesClientOptionalParams);"
+  - Added Interface SimplePollerLike
 
 ## 7.0.0 (2025-09-29)
 
