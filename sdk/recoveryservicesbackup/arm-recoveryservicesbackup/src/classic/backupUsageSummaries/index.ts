@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RecoveryServicesBackupContext } from "../../api/recoveryServicesBackupContext.js";
+import { RecoveryServicesBackupContext } from "../../api/recoveryServicesBackupContext.js";
 import { list } from "../../api/backupUsageSummaries/operations.js";
-import type { BackupUsageSummariesListOptionalParams } from "../../api/backupUsageSummaries/options.js";
-import type { BackupManagementUsage } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { BackupUsageSummariesListOptionalParams } from "../../api/backupUsageSummaries/options.js";
+import { BackupManagementUsage } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a BackupUsageSummaries operations. */
 export interface BackupUsageSummariesOperations {

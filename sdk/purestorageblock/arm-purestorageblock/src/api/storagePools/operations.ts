@@ -23,6 +23,12 @@ import {
   storagePoolFinalizeAvsConnectionPostSerializer,
 } from "../../models/models.js";
 import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import {
   StoragePoolsRepairAvsConnectionOptionalParams,
   StoragePoolsFinalizeAvsConnectionOptionalParams,
   StoragePoolsDisableAvsConnectionOptionalParams,
@@ -37,12 +43,6 @@ import {
   StoragePoolsCreateOptionalParams,
   StoragePoolsGetOptionalParams,
 } from "./options.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -55,9 +55,7 @@ export function _repairAvsConnectionSend(
   context: Client,
   resourceGroupName: string,
   storagePoolName: string,
-  options: StoragePoolsRepairAvsConnectionOptionalParams = {
-    requestOptions: {},
-  },
+  options: StoragePoolsRepairAvsConnectionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PureStorage.Block/storagePools/{storagePoolName}/repairAvsConnection{?api%2Dversion}",
@@ -65,28 +63,25 @@ export function _repairAvsConnectionSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       storagePoolName: storagePoolName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2024-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context.path(path).post({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _repairAvsConnectionDeserialize(
   result: PathUncheckedResponse,
 ): Promise<void> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -98,16 +93,15 @@ export function repairAvsConnection(
   context: Client,
   resourceGroupName: string,
   storagePoolName: string,
-  options: StoragePoolsRepairAvsConnectionOptionalParams = {
-    requestOptions: {},
-  },
+  options: StoragePoolsRepairAvsConnectionOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _repairAvsConnectionDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _repairAvsConnectionDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _repairAvsConnectionSend(context, resourceGroupName, storagePoolName, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2024-11-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -116,9 +110,7 @@ export function _finalizeAvsConnectionSend(
   resourceGroupName: string,
   storagePoolName: string,
   properties: StoragePoolFinalizeAvsConnectionPost,
-  options: StoragePoolsFinalizeAvsConnectionOptionalParams = {
-    requestOptions: {},
-  },
+  options: StoragePoolsFinalizeAvsConnectionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PureStorage.Block/storagePools/{storagePoolName}/finalizeAvsConnection{?api%2Dversion}",
@@ -126,30 +118,31 @@ export function _finalizeAvsConnectionSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       storagePoolName: storagePoolName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2024-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: storagePoolFinalizeAvsConnectionPostSerializer(properties),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: storagePoolFinalizeAvsConnectionPostSerializer(properties),
+    });
 }
 
 export async function _finalizeAvsConnectionDeserialize(
   result: PathUncheckedResponse,
 ): Promise<void> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -162,16 +155,15 @@ export function finalizeAvsConnection(
   resourceGroupName: string,
   storagePoolName: string,
   properties: StoragePoolFinalizeAvsConnectionPost,
-  options: StoragePoolsFinalizeAvsConnectionOptionalParams = {
-    requestOptions: {},
-  },
+  options: StoragePoolsFinalizeAvsConnectionOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _finalizeAvsConnectionDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _finalizeAvsConnectionDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _finalizeAvsConnectionSend(context, resourceGroupName, storagePoolName, properties, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2024-11-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -179,9 +171,7 @@ export function _disableAvsConnectionSend(
   context: Client,
   resourceGroupName: string,
   storagePoolName: string,
-  options: StoragePoolsDisableAvsConnectionOptionalParams = {
-    requestOptions: {},
-  },
+  options: StoragePoolsDisableAvsConnectionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PureStorage.Block/storagePools/{storagePoolName}/disableAvsConnection{?api%2Dversion}",
@@ -189,28 +179,25 @@ export function _disableAvsConnectionSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       storagePoolName: storagePoolName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2024-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context.path(path).post({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _disableAvsConnectionDeserialize(
   result: PathUncheckedResponse,
 ): Promise<void> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -222,16 +209,15 @@ export function disableAvsConnection(
   context: Client,
   resourceGroupName: string,
   storagePoolName: string,
-  options: StoragePoolsDisableAvsConnectionOptionalParams = {
-    requestOptions: {},
-  },
+  options: StoragePoolsDisableAvsConnectionOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _disableAvsConnectionDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _disableAvsConnectionDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _disableAvsConnectionSend(context, resourceGroupName, storagePoolName, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2024-11-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -240,9 +226,7 @@ export function _enableAvsConnectionSend(
   resourceGroupName: string,
   storagePoolName: string,
   properties: StoragePoolEnableAvsConnectionPost,
-  options: StoragePoolsEnableAvsConnectionOptionalParams = {
-    requestOptions: {},
-  },
+  options: StoragePoolsEnableAvsConnectionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PureStorage.Block/storagePools/{storagePoolName}/enableAvsConnection{?api%2Dversion}",
@@ -250,30 +234,31 @@ export function _enableAvsConnectionSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       storagePoolName: storagePoolName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2024-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: storagePoolEnableAvsConnectionPostSerializer(properties),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: storagePoolEnableAvsConnectionPostSerializer(properties),
+    });
 }
 
 export async function _enableAvsConnectionDeserialize(
   result: PathUncheckedResponse,
 ): Promise<void> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -286,16 +271,15 @@ export function enableAvsConnection(
   resourceGroupName: string,
   storagePoolName: string,
   properties: StoragePoolEnableAvsConnectionPost,
-  options: StoragePoolsEnableAvsConnectionOptionalParams = {
-    requestOptions: {},
-  },
+  options: StoragePoolsEnableAvsConnectionOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _enableAvsConnectionDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _enableAvsConnectionDeserialize, ["202", "200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _enableAvsConnectionSend(context, resourceGroupName, storagePoolName, properties, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2024-11-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -311,26 +295,28 @@ export function _getAvsStatusSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       storagePoolName: storagePoolName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2024-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getAvsStatusDeserialize(result: PathUncheckedResponse): Promise<AvsStatus> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -360,19 +346,18 @@ export function _getAvsConnectionSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       storagePoolName: storagePoolName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2024-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getAvsConnectionDeserialize(
@@ -381,7 +366,10 @@ export async function _getAvsConnectionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -411,19 +399,18 @@ export function _getHealthStatusSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       storagePoolName: storagePoolName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2024-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getHealthStatusDeserialize(
@@ -432,7 +419,10 @@ export async function _getHealthStatusDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -452,27 +442,24 @@ export async function getHealthStatus(
 
 export function _listBySubscriptionSend(
   context: Client,
-  options: StoragePoolsListBySubscriptionOptionalParams = {
-    requestOptions: {},
-  },
+  options: StoragePoolsListBySubscriptionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/providers/PureStorage.Block/storagePools{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2024-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listBySubscriptionDeserialize(
@@ -481,7 +468,10 @@ export async function _listBySubscriptionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -491,44 +481,39 @@ export async function _listBySubscriptionDeserialize(
 /** List storage pools by Azure subscription ID */
 export function listBySubscription(
   context: Client,
-  options: StoragePoolsListBySubscriptionOptionalParams = {
-    requestOptions: {},
-  },
+  options: StoragePoolsListBySubscriptionOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<StoragePool> {
   return buildPagedAsyncIterator(
     context,
     () => _listBySubscriptionSend(context, options),
     _listBySubscriptionDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2024-11-01" },
   );
 }
 
 export function _listByResourceGroupSend(
   context: Client,
   resourceGroupName: string,
-  options: StoragePoolsListByResourceGroupOptionalParams = {
-    requestOptions: {},
-  },
+  options: StoragePoolsListByResourceGroupOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/PureStorage.Block/storagePools{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2024-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listByResourceGroupDeserialize(
@@ -537,7 +522,10 @@ export async function _listByResourceGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -548,16 +536,14 @@ export async function _listByResourceGroupDeserialize(
 export function listByResourceGroup(
   context: Client,
   resourceGroupName: string,
-  options: StoragePoolsListByResourceGroupOptionalParams = {
-    requestOptions: {},
-  },
+  options: StoragePoolsListByResourceGroupOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<StoragePool> {
   return buildPagedAsyncIterator(
     context,
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2024-11-01" },
   );
 }
 
@@ -573,26 +559,23 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       storagePoolName: storagePoolName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2024-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -600,11 +583,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete a storage pool */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -616,6 +594,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, storagePoolName, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2024-11-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -632,28 +611,30 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       storagePoolName: storagePoolName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2024-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: storagePoolUpdateSerializer(properties),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: storagePoolUpdateSerializer(properties),
+    });
 }
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<StoragePool> {
-  const expectedStatuses = ["200", "202"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -668,12 +649,13 @@ export function update(
   properties: StoragePoolUpdate,
   options: StoragePoolsUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<StoragePool>, StoragePool> {
-  return getLongRunningPoller(context, _updateDeserialize, ["200", "202"], {
+  return getLongRunningPoller(context, _updateDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, storagePoolName, properties, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2024-11-01",
   }) as PollerLike<OperationState<StoragePool>, StoragePool>;
 }
 
@@ -690,28 +672,30 @@ export function _createSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       storagePoolName: storagePoolName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2024-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: storagePoolSerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: storagePoolSerializer(resource),
+    });
 }
 
 export async function _createDeserialize(result: PathUncheckedResponse): Promise<StoragePool> {
-  const expectedStatuses = ["200", "201"];
+  const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -726,12 +710,13 @@ export function create(
   resource: StoragePool,
   options: StoragePoolsCreateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<StoragePool>, StoragePool> {
-  return getLongRunningPoller(context, _createDeserialize, ["200", "201"], {
+  return getLongRunningPoller(context, _createDeserialize, ["200", "201", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _createSend(context, resourceGroupName, storagePoolName, resource, options),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2024-11-01",
   }) as PollerLike<OperationState<StoragePool>, StoragePool>;
 }
 
@@ -747,26 +732,28 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       storagePoolName: storagePoolName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2024-11-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<StoragePool> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 

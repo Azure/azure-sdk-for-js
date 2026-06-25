@@ -2,7 +2,7 @@
   "apiVersions": {
     "Microsoft.Relationships": "2023-09-01-preview"
   },
-  "emitterVersion": "0.51.1",
+  "emitterVersion": "0.55.0-dev.9",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.Relationships",
     "CrossLanguageDefinitionId": {

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PowerPlatformContext } from "../../api/powerPlatformContext.js";
+import { PowerPlatformContext } from "../../api/powerPlatformContext.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/enterprisePolicies/operations.js";
-import type {
+import {
   EnterprisePoliciesListBySubscriptionOptionalParams,
   EnterprisePoliciesListByResourceGroupOptionalParams,
   EnterprisePoliciesDeleteOptionalParams,
@@ -18,8 +18,8 @@ import type {
   EnterprisePoliciesCreateOrUpdateOptionalParams,
   EnterprisePoliciesGetOptionalParams,
 } from "../../api/enterprisePolicies/options.js";
-import type { EnterprisePolicy, PatchEnterprisePolicy } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { EnterprisePolicy, PatchEnterprisePolicy } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a EnterprisePolicies operations. */
 export interface EnterprisePoliciesOperations {

@@ -1,20 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureReservationAPIContext as Client } from "../index.js";
-import type {
-  CalculateRefundRequest,
-  CalculateRefundResponse,
-} from "../../models/reservations/models.js";
+import { AzureReservationAPIContext as Client } from "../index.js";
 import {
   errorDeserializer,
+  CalculateRefundRequest,
   calculateRefundRequestSerializer,
+  CalculateRefundResponse,
   calculateRefundResponseDeserializer,
 } from "../../models/reservations/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type { CalculateRefundPostOptionalParams } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import { CalculateRefundPostOptionalParams } from "./options.js";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _postSend(
   context: Client,
@@ -32,12 +34,14 @@ export function _postSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: calculateRefundRequestSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: calculateRefundRequestSerializer(body),
+    });
 }
 
 export async function _postDeserialize(

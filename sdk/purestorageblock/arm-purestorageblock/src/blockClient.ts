@@ -1,12 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { createBlock, BlockContext, BlockClientOptionalParams } from "./api/index.js";
-import {
-  AvsVmVolumesOperations,
-  _getAvsVmVolumesOperations,
-} from "./classic/avsVmVolumes/index.js";
-import { AvsVmsOperations, _getAvsVmsOperations } from "./classic/avsVms/index.js";
+import { BlockContext, BlockClientOptionalParams, createBlock } from "./api/index.js";
 import {
   AvsStorageContainerVolumesOperations,
   _getAvsStorageContainerVolumesOperations,
@@ -16,18 +11,23 @@ import {
   _getAvsStorageContainersOperations,
 } from "./classic/avsStorageContainers/index.js";
 import {
-  StoragePoolsOperations,
-  _getStoragePoolsOperations,
-} from "./classic/storagePools/index.js";
+  AvsVmVolumesOperations,
+  _getAvsVmVolumesOperations,
+} from "./classic/avsVmVolumes/index.js";
+import { AvsVmsOperations, _getAvsVmsOperations } from "./classic/avsVms/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
 import {
   ReservationsOperations,
   _getReservationsOperations,
 } from "./classic/reservations/index.js";
-import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
+import {
+  StoragePoolsOperations,
+  _getStoragePoolsOperations,
+} from "./classic/storagePools/index.js";
 import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
-export { type BlockClientOptionalParams } from "./api/blockContext.js";
+export type { BlockClientOptionalParams } from "./api/blockContext.js";
 
 export class BlockClient {
   private _client: BlockContext;

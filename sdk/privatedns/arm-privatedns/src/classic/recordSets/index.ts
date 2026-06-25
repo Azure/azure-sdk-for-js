@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PrivateDnsManagementContext } from "../../api/privateDnsManagementContext.js";
+import { PrivateDnsManagementContext } from "../../api/privateDnsManagementContext.js";
 import {
   list,
   listByType,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/recordSets/operations.js";
-import type {
+import {
   RecordSetsListOptionalParams,
   RecordSetsListByTypeOptionalParams,
   RecordSetsDeleteOptionalParams,
@@ -18,8 +18,8 @@ import type {
   RecordSetsCreateOrUpdateOptionalParams,
   RecordSetsGetOptionalParams,
 } from "../../api/recordSets/options.js";
-import type { RecordSet, RecordType } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { RecordSet, RecordType } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a RecordSets operations. */
 export interface RecordSetsOperations {

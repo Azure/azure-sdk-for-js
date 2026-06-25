@@ -1,19 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RedisEnterpriseManagementContext } from "../../api/redisEnterpriseManagementContext.js";
+import { RedisEnterpriseManagementContext } from "../../api/redisEnterpriseManagementContext.js";
 import { list, $delete, createUpdate, get } from "../../api/accessPolicyAssignment/operations.js";
-import type {
+import {
   AccessPolicyAssignmentListOptionalParams,
   AccessPolicyAssignmentDeleteOptionalParams,
   AccessPolicyAssignmentCreateUpdateOptionalParams,
   AccessPolicyAssignmentGetOptionalParams,
 } from "../../api/accessPolicyAssignment/options.js";
-import type { AccessPolicyAssignment } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { AccessPolicyAssignment } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a AccessPolicyAssignment operations. */
 export interface AccessPolicyAssignmentOperations {

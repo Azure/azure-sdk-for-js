@@ -38,12 +38,14 @@ export function _subscriptionGetSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: batchFeatureRequestSerializer(featureRequest),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: batchFeatureRequestSerializer(featureRequest),
+    });
 }
 
 export async function _subscriptionGetDeserialize(
@@ -52,7 +54,9 @@ export async function _subscriptionGetDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseModelDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseModelDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -90,12 +94,14 @@ export function _accountGetSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: batchFeatureRequestSerializer(featureRequest),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: batchFeatureRequestSerializer(featureRequest),
+    });
 }
 
 export async function _accountGetDeserialize(
@@ -104,7 +110,9 @@ export async function _accountGetDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseModelDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseModelDeserializer(result.body);
+    }
 
     throw error;
   }

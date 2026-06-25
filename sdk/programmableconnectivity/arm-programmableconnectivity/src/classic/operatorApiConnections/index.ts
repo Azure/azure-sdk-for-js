@@ -2,15 +2,6 @@
 // Licensed under the MIT License.
 
 import { ProgrammableConnectivityContext } from "../../api/programmableConnectivityContext.js";
-import { OperatorApiConnection, OperatorApiConnectionUpdate } from "../../models/models.js";
-import {
-  OperatorApiConnectionsListBySubscriptionOptionalParams,
-  OperatorApiConnectionsListByResourceGroupOptionalParams,
-  OperatorApiConnectionsDeleteOptionalParams,
-  OperatorApiConnectionsUpdateOptionalParams,
-  OperatorApiConnectionsCreateOptionalParams,
-  OperatorApiConnectionsGetOptionalParams,
-} from "../../api/operatorApiConnections/options.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -19,6 +10,15 @@ import {
   create,
   get,
 } from "../../api/operatorApiConnections/operations.js";
+import {
+  OperatorApiConnectionsListBySubscriptionOptionalParams,
+  OperatorApiConnectionsListByResourceGroupOptionalParams,
+  OperatorApiConnectionsDeleteOptionalParams,
+  OperatorApiConnectionsUpdateOptionalParams,
+  OperatorApiConnectionsCreateOptionalParams,
+  OperatorApiConnectionsGetOptionalParams,
+} from "../../api/operatorApiConnections/options.js";
+import { OperatorApiConnection, OperatorApiConnectionUpdate } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -34,11 +34,6 @@ export interface OperatorApiConnectionsOperations {
     options?: OperatorApiConnectionsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<OperatorApiConnection>;
   /** Delete an Operator API Connection. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     operatorApiConnectionName: string,

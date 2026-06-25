@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/resourcehealth/arm-resourcehealth)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-resourcehealth)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-resourcehealth?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-resourcehealth)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/resourcehealth/arm-resourcehealth/samples)
 
 ## Getting started

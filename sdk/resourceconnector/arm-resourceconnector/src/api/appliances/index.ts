@@ -14,16 +14,16 @@ export {
   createOrUpdate,
   get,
 } from "./operations.js";
-export {
-  type AppliancesGetTelemetryConfigOptionalParams,
-  type AppliancesListOperationsOptionalParams,
-  type AppliancesGetUpgradeGraphOptionalParams,
-  type AppliancesListKeysOptionalParams,
-  type AppliancesListClusterUserCredentialOptionalParams,
-  type AppliancesListBySubscriptionOptionalParams,
-  type AppliancesListByResourceGroupOptionalParams,
-  type AppliancesDeleteOptionalParams,
-  type AppliancesUpdateOptionalParams,
-  type AppliancesCreateOrUpdateOptionalParams,
-  type AppliancesGetOptionalParams,
+export type {
+  AppliancesGetTelemetryConfigOptionalParams,
+  AppliancesListOperationsOptionalParams,
+  AppliancesGetUpgradeGraphOptionalParams,
+  AppliancesListKeysOptionalParams,
+  AppliancesListClusterUserCredentialOptionalParams,
+  AppliancesListBySubscriptionOptionalParams,
+  AppliancesListByResourceGroupOptionalParams,
+  AppliancesDeleteOptionalParams,
+  AppliancesUpdateOptionalParams,
+  AppliancesCreateOrUpdateOptionalParams,
+  AppliancesGetOptionalParams,
 } from "./options.js";

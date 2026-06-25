@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   ResourceConnectorManagementContext,
   ResourceConnectorManagementClientOptionalParams,
+  createResourceConnectorManagement,
 } from "./api/index.js";
-import { createResourceConnectorManagement } from "./api/index.js";
-import type { AppliancesOperations } from "./classic/appliances/index.js";
-import { _getAppliancesOperations } from "./classic/appliances/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import { AppliancesOperations, _getAppliancesOperations } from "./classic/appliances/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
-export { type ResourceConnectorManagementClientOptionalParams } from "./api/resourceConnectorManagementContext.js";
+export type { ResourceConnectorManagementClientOptionalParams } from "./api/resourceConnectorManagementContext.js";
 
 export class ResourceConnectorManagementClient {
   private _client: ResourceConnectorManagementContext;

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PowerPlatformContext } from "../../api/powerPlatformContext.js";
+import { PowerPlatformContext } from "../../api/powerPlatformContext.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/accounts/operations.js";
-import type {
+import {
   AccountsListBySubscriptionOptionalParams,
   AccountsListByResourceGroupOptionalParams,
   AccountsDeleteOptionalParams,
@@ -18,8 +18,8 @@ import type {
   AccountsCreateOrUpdateOptionalParams,
   AccountsGetOptionalParams,
 } from "../../api/accounts/options.js";
-import type { Account, PatchAccount } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { Account, PatchAccount } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Accounts operations. */
 export interface AccountsOperations {

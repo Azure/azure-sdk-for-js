@@ -2,19 +2,19 @@
 // Licensed under the MIT License.
 
 import { BlockContext } from "../../api/blockContext.js";
-import { AvsStorageContainerVolumeUpdate, AvsStorageContainerVolume } from "../../models/models.js";
-import {
-  AvsStorageContainerVolumesListByAvsStorageContainerOptionalParams,
-  AvsStorageContainerVolumesDeleteOptionalParams,
-  AvsStorageContainerVolumesGetOptionalParams,
-  AvsStorageContainerVolumesUpdateOptionalParams,
-} from "../../api/avsStorageContainerVolumes/options.js";
 import {
   listByAvsStorageContainer,
   $delete,
   get,
   update,
 } from "../../api/avsStorageContainerVolumes/operations.js";
+import {
+  AvsStorageContainerVolumesListByAvsStorageContainerOptionalParams,
+  AvsStorageContainerVolumesDeleteOptionalParams,
+  AvsStorageContainerVolumesGetOptionalParams,
+  AvsStorageContainerVolumesUpdateOptionalParams,
+} from "../../api/avsStorageContainerVolumes/options.js";
+import { AvsStorageContainerVolumeUpdate, AvsStorageContainerVolume } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -28,11 +28,6 @@ export interface AvsStorageContainerVolumesOperations {
     options?: AvsStorageContainerVolumesListByAvsStorageContainerOptionalParams,
   ) => PagedAsyncIterableIterator<AvsStorageContainerVolume>;
   /** Delete a volume in an AVS storage container */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     storagePoolName: string,

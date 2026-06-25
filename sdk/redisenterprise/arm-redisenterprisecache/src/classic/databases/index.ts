@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RedisEnterpriseManagementContext } from "../../api/redisEnterpriseManagementContext.js";
+import { RedisEnterpriseManagementContext } from "../../api/redisEnterpriseManagementContext.js";
 import {
   upgradeDBRedisVersion,
   flush,
@@ -17,7 +17,7 @@ import {
   create,
   get,
 } from "../../api/databases/operations.js";
-import type {
+import {
   DatabasesUpgradeDBRedisVersionOptionalParams,
   DatabasesFlushOptionalParams,
   DatabasesForceLinkToReplicationGroupOptionalParams,
@@ -32,7 +32,7 @@ import type {
   DatabasesCreateOptionalParams,
   DatabasesGetOptionalParams,
 } from "../../api/databases/options.js";
-import type {
+import {
   Database,
   DatabaseUpdate,
   AccessKeys,
@@ -42,10 +42,9 @@ import type {
   ForceUnlinkParameters,
   ForceLinkParameters,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Databases operations. */
 export interface DatabasesOperations {

@@ -4384,7 +4384,7 @@ export function resourceTypeRegistrationPropertiesSerializer(
     linkedAccessChecks: !item["linkedAccessChecks"]
       ? item["linkedAccessChecks"]
       : linkedAccessCheckArraySerializer(item["linkedAccessChecks"]),
-    defaultApiVersion: item["defaultApiVersion"] ?? "2024-09-01",
+    defaultApiVersion: item["defaultApiVersion"],
     loggingRules: !item["loggingRules"]
       ? item["loggingRules"]
       : loggingRuleArraySerializer(item["loggingRules"]),
@@ -4914,7 +4914,7 @@ export function resourceTypeEndpointSerializer(item: ResourceTypeEndpoint): any 
       : tokenAuthConfigurationSerializer(item["tokenAuthConfiguration"]),
     skuLink: item["skuLink"],
     endpointUri: item["endpointUri"],
-    apiVersion: item["apiVersion"] ?? "2024-09-01",
+    apiVersion: item["apiVersion"],
     zones: !item["zones"]
       ? item["zones"]
       : item["zones"].map((p: any) => {
@@ -5498,7 +5498,7 @@ export interface ResourceTypeRegistrationPropertiesResourceGraphConfiguration ex
 export function resourceTypeRegistrationPropertiesResourceGraphConfigurationSerializer(
   item: ResourceTypeRegistrationPropertiesResourceGraphConfiguration,
 ): any {
-  return { enabled: item["enabled"], apiVersion: item["apiVersion"] ?? "2024-09-01" };
+  return { enabled: item["enabled"], apiVersion: item["apiVersion"] };
 }
 
 export function resourceTypeRegistrationPropertiesResourceGraphConfigurationDeserializer(
@@ -5850,7 +5850,7 @@ export interface ApiProfile {
 }
 
 export function apiProfileSerializer(item: ApiProfile): any {
-  return { profileVersion: item["profileVersion"], apiVersion: item["apiVersion"] ?? "2024-09-01" };
+  return { profileVersion: item["profileVersion"], apiVersion: item["apiVersion"] };
 }
 
 export function apiProfileDeserializer(item: any): ApiProfile {
@@ -6271,7 +6271,7 @@ export interface ResourceTypeRegistrationPropertiesResourceManagementOptionsNest
 export function resourceTypeRegistrationPropertiesResourceManagementOptionsNestedProvisioningSupportSerializer(
   item: ResourceTypeRegistrationPropertiesResourceManagementOptionsNestedProvisioningSupport,
 ): any {
-  return { minimumApiVersion: item["minimumApiVersion"] ?? "2024-09-01" };
+  return { minimumApiVersion: item["minimumApiVersion"] };
 }
 
 export function resourceTypeRegistrationPropertiesResourceManagementOptionsNestedProvisioningSupportDeserializer(
@@ -6291,7 +6291,7 @@ export interface ResourceTypeRegistrationPropertiesResourceTypeCommonAttributeMa
 export function resourceTypeRegistrationPropertiesResourceTypeCommonAttributeManagementSerializer(
   item: ResourceTypeRegistrationPropertiesResourceTypeCommonAttributeManagement,
 ): any {
-  return { commonApiVersionsMergeMode: item["commonApiVersionsMergeMode"] ?? "2024-09-01" };
+  return { commonApiVersionsMergeMode: item["commonApiVersionsMergeMode"] };
 }
 
 export function resourceTypeRegistrationPropertiesResourceTypeCommonAttributeManagementDeserializer(
@@ -8209,7 +8209,7 @@ export interface ResourceGraphConfiguration {
 }
 
 export function resourceGraphConfigurationSerializer(item: ResourceGraphConfiguration): any {
-  return { enabled: item["enabled"], apiVersion: item["apiVersion"] ?? "2024-09-01" };
+  return { enabled: item["enabled"], apiVersion: item["apiVersion"] };
 }
 
 export function resourceGraphConfigurationDeserializer(item: any): ResourceGraphConfiguration {
@@ -9371,7 +9371,7 @@ export function frontloadPayloadPropertiesOverrideEndpointLevelFieldsSerializer(
       item["dstsConfiguration"],
     ),
     skuLink: item["skuLink"],
-    apiVersion: item["apiVersion"] ?? "2024-09-01",
+    apiVersion: item["apiVersion"],
     zones: item["zones"].map((p: any) => {
       return p;
     }),
@@ -9440,7 +9440,7 @@ export function resourceTypeEndpointBaseSerializer(item: ResourceTypeEndpointBas
       item["dstsConfiguration"],
     ),
     skuLink: item["skuLink"],
-    apiVersion: item["apiVersion"] ?? "2024-09-01",
+    apiVersion: item["apiVersion"],
     zones: item["zones"].map((p: any) => {
       return p;
     }),

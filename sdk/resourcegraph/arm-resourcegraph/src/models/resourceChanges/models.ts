@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DateTimeInterval } from "../resourceGraphCommon/models.js";
+import { DateTimeInterval } from "../resourceGraphCommon/models.js";
 
 /**
  * This file contains only generated model types and their (de)serializers.

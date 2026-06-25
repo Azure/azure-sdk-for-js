@@ -2,15 +2,6 @@
 // Licensed under the MIT License.
 
 import { ProgrammableConnectivityContext } from "../../api/programmableConnectivityContext.js";
-import { Gateway, GatewayTagsUpdate } from "../../models/models.js";
-import {
-  GatewaysListBySubscriptionOptionalParams,
-  GatewaysListByResourceGroupOptionalParams,
-  GatewaysDeleteOptionalParams,
-  GatewaysUpdateOptionalParams,
-  GatewaysCreateOrUpdateOptionalParams,
-  GatewaysGetOptionalParams,
-} from "../../api/gateways/options.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -19,6 +10,15 @@ import {
   createOrUpdate,
   get,
 } from "../../api/gateways/operations.js";
+import {
+  GatewaysListBySubscriptionOptionalParams,
+  GatewaysListByResourceGroupOptionalParams,
+  GatewaysDeleteOptionalParams,
+  GatewaysUpdateOptionalParams,
+  GatewaysCreateOrUpdateOptionalParams,
+  GatewaysGetOptionalParams,
+} from "../../api/gateways/options.js";
+import { Gateway, GatewayTagsUpdate } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -34,11 +34,6 @@ export interface GatewaysOperations {
     options?: GatewaysListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<Gateway>;
   /** Delete a Gateway. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     gatewayName: string,

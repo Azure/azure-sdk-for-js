@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/powerbidedicated/arm-powerbidedicated)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-powerbidedicated)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-powerbidedicated?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-powerbidedicated)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/powerbidedicated/arm-powerbidedicated/samples)
 
 ## Getting started

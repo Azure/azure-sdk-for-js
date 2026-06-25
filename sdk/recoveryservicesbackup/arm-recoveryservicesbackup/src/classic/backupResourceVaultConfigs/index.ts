@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RecoveryServicesBackupContext } from "../../api/recoveryServicesBackupContext.js";
+import { RecoveryServicesBackupContext } from "../../api/recoveryServicesBackupContext.js";
 import { update, put, get } from "../../api/backupResourceVaultConfigs/operations.js";
-import type {
+import {
   BackupResourceVaultConfigsUpdateOptionalParams,
   BackupResourceVaultConfigsPutOptionalParams,
   BackupResourceVaultConfigsGetOptionalParams,
 } from "../../api/backupResourceVaultConfigs/options.js";
-import type { BackupResourceVaultConfigResource } from "../../models/models.js";
+import { BackupResourceVaultConfigResource } from "../../models/models.js";
 
 /** Interface representing a BackupResourceVaultConfigs operations. */
 export interface BackupResourceVaultConfigsOperations {

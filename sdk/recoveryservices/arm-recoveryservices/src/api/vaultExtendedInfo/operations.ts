@@ -1,21 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RecoveryServicesContext as Client } from "../index.js";
-import type { VaultExtendedInfoResource } from "../../models/models.js";
+import { RecoveryServicesContext as Client } from "../index.js";
 import {
   cloudErrorDeserializer,
+  VaultExtendedInfoResource,
   vaultExtendedInfoResourceSerializer,
   vaultExtendedInfoResourceDeserializer,
 } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   VaultExtendedInfoUpdateOptionalParams,
   VaultExtendedInfoCreateOrUpdateOptionalParams,
   VaultExtendedInfoGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _updateSend(
   context: Client,
@@ -30,21 +34,20 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: vaultExtendedInfoResourceSerializer(resourceResourceExtendedInfoDetails),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: vaultExtendedInfoResourceSerializer(resourceResourceExtendedInfoDetails),
+    });
 }
 
 export async function _updateDeserialize(
@@ -53,7 +56,10 @@ export async function _updateDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -83,9 +89,7 @@ export function _createOrUpdateSend(
   resourceGroupName: string,
   vaultName: string,
   resourceResourceExtendedInfoDetails: VaultExtendedInfoResource,
-  options: VaultExtendedInfoCreateOrUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: VaultExtendedInfoCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/extendedInformation/vaultExtendedInfo{?api%2Dversion}",
@@ -93,21 +97,20 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: vaultExtendedInfoResourceSerializer(resourceResourceExtendedInfoDetails),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: vaultExtendedInfoResourceSerializer(resourceResourceExtendedInfoDetails),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -116,7 +119,10 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -129,9 +135,7 @@ export async function createOrUpdate(
   resourceGroupName: string,
   vaultName: string,
   resourceResourceExtendedInfoDetails: VaultExtendedInfoResource,
-  options: VaultExtendedInfoCreateOrUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: VaultExtendedInfoCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): Promise<VaultExtendedInfoResource> {
   const result = await _createOrUpdateSend(
     context,
@@ -155,19 +159,18 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-08-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(
@@ -176,7 +179,10 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
+
     throw error;
   }
 

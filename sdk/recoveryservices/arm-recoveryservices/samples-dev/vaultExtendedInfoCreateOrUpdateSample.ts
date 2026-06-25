@@ -17,12 +17,7 @@ async function putExtendedInfoOfResource(): Promise<void> {
   const result = await client.vaultExtendedInfo.createOrUpdate(
     "Default-RecoveryServices-ResourceGroup",
     "swaggerExample",
-    {
-      properties: {
-        algorithm: "None",
-        integrityKey: "J99wzS27fmJ+Wjot7xO5wA==",
-      },
-    },
+    { properties: { algorithm: "None", integrityKey: "J99wzS27fmJ+Wjot7xO5wA==" } },
   );
   console.log(result);
 }
