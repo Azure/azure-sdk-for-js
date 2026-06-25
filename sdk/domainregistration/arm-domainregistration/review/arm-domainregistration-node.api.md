@@ -4,14 +4,17 @@
 
 ```ts
 
-import type { AbortSignalLike } from '@azure/abort-controller';
-import type { ClientOptions } from '@azure-rest/core-client';
-import type { OperationOptions } from '@azure-rest/core-client';
-import type { OperationState } from '@azure/core-lro';
-import type { PathUncheckedResponse } from '@azure-rest/core-client';
-import type { Pipeline } from '@azure/core-rest-pipeline';
-import type { PollerLike } from '@azure/core-lro';
-import type { TokenCredential } from '@azure/core-auth';
+import { AbortSignalLike } from '@azure/abort-controller';
+import { CancelOnProgress } from '@azure/core-lro';
+import { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import { OperationOptions } from '@azure-rest/core-client';
+import { OperationState } from '@azure/core-lro';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface Address {
@@ -326,6 +329,10 @@ export interface DomainsListRecommendationsOptionalParams extends OperationOptio
 
 // @public
 export interface DomainsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, domainName: string, domain: Domain, options?: DomainsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Domain>, Domain>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, domainName: string, domain: Domain, options?: DomainsCreateOrUpdateOptionalParams) => Promise<Domain>;
     checkAvailability: (identifier: NameIdentifier, options?: DomainsCheckAvailabilityOptionalParams) => Promise<DomainAvailabilityCheckResult>;
     createOrUpdate: (resourceGroupName: string, domainName: string, domain: Domain, options?: DomainsCreateOrUpdateOptionalParams) => PollerLike<OperationState<Domain>, Domain>;
     createOrUpdateOwnershipIdentifier: (resourceGroupName: string, domainName: string, name: string, domainOwnershipIdentifier: DomainOwnershipIdentifier, options?: DomainsCreateOrUpdateOwnershipIdentifierOptionalParams) => Promise<DomainOwnershipIdentifier>;
@@ -378,6 +385,8 @@ export interface HostName {
 
 // @public
 export type HostNameType = "Verified" | "Managed";
+
+export { isRestError }
 
 // @public
 export enum KnownCreatedByType {
@@ -477,6 +486,8 @@ export interface Resource {
 // @public
 export type ResourceNotRenewableReason = string;
 
+export { RestError }
+
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: DomainRegistrationManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
 
@@ -491,6 +502,28 @@ export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedRe
 export interface ServiceSpecification {
     logSpecifications?: LogSpecification[];
     metricSpecifications?: MetricSpecification[];
+}
+
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
 }
 
 // @public
