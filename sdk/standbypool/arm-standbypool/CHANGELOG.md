@@ -1,5 +1,13 @@
 # Release History
 
+## 3.0.0 (2026-06-25)
+
+### Features Added
+  - Enum KnownVersions has a new value V20251001
+
+### Breaking Changes
+  - Enum KnownVersions no longer has value _20251001
+
 ## 2.1.0 (2026-06-12)
 
 ### Features Added
