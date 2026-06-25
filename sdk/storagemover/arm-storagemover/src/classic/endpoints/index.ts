@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { StorageMoverContext } from "../../api/storageMoverContext.js";
+import { StorageMoverContext } from "../../api/storageMoverContext.js";
 import { list, $delete, update, createOrUpdate, get } from "../../api/endpoints/operations.js";
-import type {
+import {
   EndpointsListOptionalParams,
   EndpointsDeleteOptionalParams,
   EndpointsUpdateOptionalParams,
   EndpointsCreateOrUpdateOptionalParams,
   EndpointsGetOptionalParams,
 } from "../../api/endpoints/options.js";
-import type { Endpoint, EndpointBaseUpdateParameters } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { Endpoint, EndpointBaseUpdateParameters } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Endpoints operations. */
 export interface EndpointsOperations {
@@ -23,11 +23,6 @@ export interface EndpointsOperations {
     options?: EndpointsListOptionalParams,
   ) => PagedAsyncIterableIterator<Endpoint>;
   /** Deletes an Endpoint resource. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     storageMoverName: string,

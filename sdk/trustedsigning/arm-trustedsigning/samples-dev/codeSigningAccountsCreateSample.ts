@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CodeSigningClient } from "@azure/arm-trustedsigning";
+import { CodeSigningClient } from "@azure/arm-artifactsigning";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to create a trusted Signing Account.
+ * This sample demonstrates how to create an artifact Signing Account.
  *
- * @summary create a trusted Signing Account.
+ * @summary create an artifact Signing Account.
  * x-ms-original-file: 2025-10-13/CodeSigningAccounts_Create.json
  */
-async function createATrustedSigningAccount(): Promise<void> {
+async function createAnArtifactSigningAccount(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new CodeSigningClient(credential, subscriptionId);
@@ -22,7 +22,7 @@ async function createATrustedSigningAccount(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await createATrustedSigningAccount();
+  await createAnArtifactSigningAccount();
 }
 
 main().catch(console.error);

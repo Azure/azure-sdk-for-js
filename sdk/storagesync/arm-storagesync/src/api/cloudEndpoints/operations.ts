@@ -1,35 +1,35 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { MicrosoftStorageSyncContext as Client } from "../index.js";
-import type {
-  CloudEndpoint,
-  CloudEndpointCreateParameters,
-  _CloudEndpointArray,
-  BackupRequest,
-  PostBackupResponse,
-  PreRestoreRequest,
-  PostRestoreRequest,
-  TriggerChangeDetectionParameters,
-  CloudEndpointAfsShareMetadataCertificatePublicKeys,
-} from "../../models/models.js";
+import { MicrosoftStorageSyncContext as Client } from "../index.js";
 import {
   storageSyncErrorDeserializer,
+  CloudEndpoint,
   cloudEndpointDeserializer,
+  CloudEndpointCreateParameters,
   cloudEndpointCreateParametersSerializer,
+  _CloudEndpointArray,
   _cloudEndpointArrayDeserializer,
+  BackupRequest,
   backupRequestSerializer,
+  PostBackupResponse,
   postBackupResponseDeserializer,
+  PreRestoreRequest,
   preRestoreRequestSerializer,
+  PostRestoreRequest,
   postRestoreRequestSerializer,
+  TriggerChangeDetectionParameters,
   triggerChangeDetectionParametersSerializer,
+  CloudEndpointAfsShareMetadataCertificatePublicKeys,
   cloudEndpointAfsShareMetadataCertificatePublicKeysDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   CloudEndpointsAfsShareMetadataCertificatePublicKeysOptionalParams,
   CloudEndpointsTriggerChangeDetectionOptionalParams,
   CloudEndpointsPostRestoreOptionalParams,
@@ -42,9 +42,13 @@ import type {
   CloudEndpointsCreateOptionalParams,
   CloudEndpointsGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _afsShareMetadataCertificatePublicKeysSend(
   context: Client,
@@ -70,10 +74,12 @@ export function _afsShareMetadataCertificatePublicKeysSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _afsShareMetadataCertificatePublicKeysDeserialize(
@@ -137,11 +143,13 @@ export function _triggerChangeDetectionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: triggerChangeDetectionParametersSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: triggerChangeDetectionParametersSerializer(parameters),
+    });
 }
 
 export async function _triggerChangeDetectionDeserialize(
@@ -211,11 +219,13 @@ export function _postRestoreSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: postRestoreRequestSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: postRestoreRequestSerializer(parameters),
+    });
 }
 
 export async function _postRestoreDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -342,11 +352,13 @@ export function _preRestoreSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: preRestoreRequestSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: preRestoreRequestSerializer(parameters),
+    });
 }
 
 export async function _preRestoreDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -414,12 +426,14 @@ export function _postBackupSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: backupRequestSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: backupRequestSerializer(parameters),
+    });
 }
 
 export async function _postBackupDeserialize(
@@ -489,11 +503,13 @@ export function _preBackupSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: backupRequestSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: backupRequestSerializer(parameters),
+    });
 }
 
 export async function _preBackupDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -558,10 +574,12 @@ export function _listBySyncGroupSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listBySyncGroupDeserialize(
@@ -692,12 +710,14 @@ export function _createSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: cloudEndpointCreateParametersSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: cloudEndpointCreateParametersSerializer(parameters),
+    });
 }
 
 export async function _createDeserialize(result: PathUncheckedResponse): Promise<CloudEndpoint> {
@@ -764,10 +784,12 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<CloudEndpoint> {

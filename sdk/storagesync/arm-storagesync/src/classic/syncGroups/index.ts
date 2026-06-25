@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { MicrosoftStorageSyncContext } from "../../api/microsoftStorageSyncContext.js";
+import { MicrosoftStorageSyncContext } from "../../api/microsoftStorageSyncContext.js";
 import { listByStorageSyncService, $delete, create, get } from "../../api/syncGroups/operations.js";
-import type {
+import {
   SyncGroupsListByStorageSyncServiceOptionalParams,
   SyncGroupsDeleteOptionalParams,
   SyncGroupsCreateOptionalParams,
   SyncGroupsGetOptionalParams,
 } from "../../api/syncGroups/options.js";
-import type { SyncGroup, SyncGroupCreateParameters } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SyncGroup, SyncGroupCreateParameters } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a SyncGroups operations. */
 export interface SyncGroupsOperations {

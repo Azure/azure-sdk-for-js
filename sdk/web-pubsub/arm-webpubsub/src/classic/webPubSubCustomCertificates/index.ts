@@ -1,24 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { WebPubSubManagementContext } from "../../api/webPubSubManagementContext.js";
+import { WebPubSubManagementContext } from "../../api/webPubSubManagementContext.js";
 import {
   list,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/webPubSubCustomCertificates/operations.js";
-import type {
+import {
   WebPubSubCustomCertificatesListOptionalParams,
   WebPubSubCustomCertificatesDeleteOptionalParams,
   WebPubSubCustomCertificatesCreateOrUpdateOptionalParams,
   WebPubSubCustomCertificatesGetOptionalParams,
 } from "../../api/webPubSubCustomCertificates/options.js";
-import type { CustomCertificate } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { CustomCertificate } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a WebPubSubCustomCertificates operations. */
 export interface WebPubSubCustomCertificatesOperations {

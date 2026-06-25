@@ -1,22 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { StorageCacheManagementContext as Client } from "../index.js";
-import type { Cache, _CachesListResult } from "../../models/models.js";
+import { StorageCacheManagementContext as Client } from "../index.js";
 import {
   cloudErrorDeserializer,
+  Cache,
   cacheSerializer,
   cacheDeserializer,
   primingJobSerializer,
   storageTargetSpaceAllocationArraySerializer,
+  _CachesListResult,
   _cachesListResultDeserializer,
   primingJobIdParameterSerializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   CachesSpaceAllocationOptionalParams,
   CachesUpgradeFirmwareOptionalParams,
   CachesResumePrimingJobOptionalParams,
@@ -34,9 +37,13 @@ import type {
   CachesCreateOrUpdateOptionalParams,
   CachesGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _spaceAllocationSend(
   context: Client,
@@ -56,13 +63,15 @@ export function _spaceAllocationSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: !options?.spaceAllocationParameter
-      ? options?.spaceAllocationParameter
-      : storageTargetSpaceAllocationArraySerializer(options?.spaceAllocationParameter),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: !options?.spaceAllocationParameter
+        ? options?.spaceAllocationParameter
+        : storageTargetSpaceAllocationArraySerializer(options?.spaceAllocationParameter),
+    });
 }
 
 export async function _spaceAllocationDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -164,13 +173,15 @@ export function _resumePrimingJobSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: !options?.primingJobId
-      ? options?.primingJobId
-      : primingJobIdParameterSerializer(options?.primingJobId),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: !options?.primingJobId
+        ? options?.primingJobId
+        : primingJobIdParameterSerializer(options?.primingJobId),
+    });
 }
 
 export async function _resumePrimingJobDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -221,13 +232,15 @@ export function _pausePrimingJobSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: !options?.primingJobId
-      ? options?.primingJobId
-      : primingJobIdParameterSerializer(options?.primingJobId),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: !options?.primingJobId
+        ? options?.primingJobId
+        : primingJobIdParameterSerializer(options?.primingJobId),
+    });
 }
 
 export async function _pausePrimingJobDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -278,13 +291,15 @@ export function _stopPrimingJobSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: !options?.primingJobId
-      ? options?.primingJobId
-      : primingJobIdParameterSerializer(options?.primingJobId),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: !options?.primingJobId
+        ? options?.primingJobId
+        : primingJobIdParameterSerializer(options?.primingJobId),
+    });
 }
 
 export async function _stopPrimingJobDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -335,11 +350,13 @@ export function _startPrimingJobSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: !options?.primingjob ? options?.primingjob : primingJobSerializer(options?.primingjob),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: !options?.primingjob ? options?.primingjob : primingJobSerializer(options?.primingjob),
+    });
 }
 
 export async function _startPrimingJobDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -590,10 +607,12 @@ export function _listSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listDeserialize(result: PathUncheckedResponse): Promise<_CachesListResult> {
@@ -640,10 +659,12 @@ export function _listByResourceGroupSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listByResourceGroupDeserialize(
@@ -746,12 +767,14 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: !options?.cache ? options?.cache : cacheSerializer(options?.cache),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: !options?.cache ? options?.cache : cacheSerializer(options?.cache),
+    });
 }
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<Cache> {
@@ -803,12 +826,14 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: cacheSerializer(cache),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: cacheSerializer(cache),
+    });
 }
 
 export async function _createOrUpdateDeserialize(result: PathUncheckedResponse): Promise<Cache> {
@@ -861,10 +886,12 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<Cache> {

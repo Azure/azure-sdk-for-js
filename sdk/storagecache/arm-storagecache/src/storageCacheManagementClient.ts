@@ -1,45 +1,53 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   StorageCacheManagementContext,
   StorageCacheManagementClientOptionalParams,
+  createStorageCacheManagement,
 } from "./api/index.js";
-import { createStorageCacheManagement } from "./api/index.js";
 import { getRequiredAmlFSSubnetsSize, checkAmlFSSubnets } from "./api/operations.js";
-import type {
+import {
   GetRequiredAmlFSSubnetsSizeOptionalParams,
   CheckAmlFSSubnetsOptionalParams,
 } from "./api/options.js";
-import type { AmlFilesystemsOperations } from "./classic/amlFilesystems/index.js";
-import { _getAmlFilesystemsOperations } from "./classic/amlFilesystems/index.js";
-import type { AscOperationsOperations } from "./classic/ascOperations/index.js";
-import { _getAscOperationsOperations } from "./classic/ascOperations/index.js";
-import type { AscUsagesOperations } from "./classic/ascUsages/index.js";
-import { _getAscUsagesOperations } from "./classic/ascUsages/index.js";
-import type { AutoExportJobsOperations } from "./classic/autoExportJobs/index.js";
-import { _getAutoExportJobsOperations } from "./classic/autoExportJobs/index.js";
-import type { AutoImportJobsOperations } from "./classic/autoImportJobs/index.js";
-import { _getAutoImportJobsOperations } from "./classic/autoImportJobs/index.js";
-import type { CachesOperations } from "./classic/caches/index.js";
-import { _getCachesOperations } from "./classic/caches/index.js";
-import type { ExpansionJobsOperations } from "./classic/expansionJobs/index.js";
-import { _getExpansionJobsOperations } from "./classic/expansionJobs/index.js";
-import type { ImportJobsOperations } from "./classic/importJobs/index.js";
-import { _getImportJobsOperations } from "./classic/importJobs/index.js";
-import type { OperationsOperations } from "./classic/operations/index.js";
-import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { SkusOperations } from "./classic/skus/index.js";
-import { _getSkusOperations } from "./classic/skus/index.js";
-import type { StorageTargetOperationsOperations } from "./classic/storageTargetOperations/index.js";
-import { _getStorageTargetOperationsOperations } from "./classic/storageTargetOperations/index.js";
-import type { StorageTargetsOperations } from "./classic/storageTargets/index.js";
-import { _getStorageTargetsOperations } from "./classic/storageTargets/index.js";
-import type { UsageModelsOperations } from "./classic/usageModels/index.js";
-import { _getUsageModelsOperations } from "./classic/usageModels/index.js";
-import type { RequiredAmlFilesystemSubnetsSize } from "./models/models.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import {
+  AmlFilesystemsOperations,
+  _getAmlFilesystemsOperations,
+} from "./classic/amlFilesystems/index.js";
+import {
+  AscOperationsOperations,
+  _getAscOperationsOperations,
+} from "./classic/ascOperations/index.js";
+import { AscUsagesOperations, _getAscUsagesOperations } from "./classic/ascUsages/index.js";
+import {
+  AutoExportJobsOperations,
+  _getAutoExportJobsOperations,
+} from "./classic/autoExportJobs/index.js";
+import {
+  AutoImportJobsOperations,
+  _getAutoImportJobsOperations,
+} from "./classic/autoImportJobs/index.js";
+import { CachesOperations, _getCachesOperations } from "./classic/caches/index.js";
+import {
+  ExpansionJobsOperations,
+  _getExpansionJobsOperations,
+} from "./classic/expansionJobs/index.js";
+import { ImportJobsOperations, _getImportJobsOperations } from "./classic/importJobs/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import { SkusOperations, _getSkusOperations } from "./classic/skus/index.js";
+import {
+  StorageTargetOperationsOperations,
+  _getStorageTargetOperationsOperations,
+} from "./classic/storageTargetOperations/index.js";
+import {
+  StorageTargetsOperations,
+  _getStorageTargetsOperations,
+} from "./classic/storageTargets/index.js";
+import { UsageModelsOperations, _getUsageModelsOperations } from "./classic/usageModels/index.js";
+import { RequiredAmlFilesystemSubnetsSize } from "./models/models.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { StorageCacheManagementClientOptionalParams } from "./api/storageCacheManagementContext.js";
 

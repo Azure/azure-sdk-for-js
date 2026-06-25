@@ -20,7 +20,7 @@ async function solutionVersionsCreateOrUpdateMaximumSet(): Promise<void> {
     "testname",
     "testname",
     {
-      properties: { specification: {}, state: "InReview", errorDetails: {} },
+      properties: { specification: {} },
       extendedLocation: { name: "szjrwimeqyiue", type: "EdgeZone" },
     },
   );

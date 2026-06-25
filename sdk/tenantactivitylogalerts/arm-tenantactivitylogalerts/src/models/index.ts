@@ -9,6 +9,7 @@ export type {
   AlertRuleLeafCondition,
   ActionList,
   ActionGroup,
+  ProxyResource,
   Resource,
   SystemData,
   CreatedByType,

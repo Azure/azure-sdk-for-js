@@ -80,7 +80,9 @@ export async function _addUserToGroupDeserialize(result: PathUncheckedResponse):
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDetailDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDetailDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -126,7 +128,9 @@ export async function _removeUserFromGroupDeserialize(
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDetailDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDetailDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -170,7 +174,9 @@ export async function _removeUserFromAllGroupsDeserialize(
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDetailDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDetailDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -221,7 +227,9 @@ export async function _sendToUserDeserialize(result: PathUncheckedResponse): Pro
   const expectedStatuses = ["202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDetailDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDetailDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -272,7 +280,9 @@ export async function _closeUserConnectionsDeserialize(
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDetailDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDetailDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -313,7 +323,9 @@ export async function _userExistsDeserialize(result: PathUncheckedResponse): Pro
   const expectedStatuses = ["200", "404"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDetailDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDetailDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -357,7 +369,9 @@ export async function _grantPermissionDeserialize(result: PathUncheckedResponse)
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDetailDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDetailDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -402,7 +416,9 @@ export async function _checkPermissionDeserialize(result: PathUncheckedResponse)
   const expectedStatuses = ["200", "404"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDetailDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDetailDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -447,7 +463,9 @@ export async function _revokePermissionDeserialize(result: PathUncheckedResponse
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDetailDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDetailDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -493,7 +511,9 @@ export async function _addConnectionToGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDetailDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDetailDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -539,7 +559,9 @@ export async function _removeConnectionFromGroupDeserialize(
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDetailDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDetailDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -591,7 +613,9 @@ export async function _listConnectionsInGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDetailDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDetailDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -652,7 +676,9 @@ export async function _sendToGroupDeserialize(result: PathUncheckedResponse): Pr
   const expectedStatuses = ["202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDetailDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDetailDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -703,7 +729,9 @@ export async function _closeGroupConnectionsDeserialize(
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDetailDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDetailDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -744,7 +772,9 @@ export async function _groupExistsDeserialize(result: PathUncheckedResponse): Pr
   const expectedStatuses = ["200", "404"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDetailDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDetailDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -787,7 +817,9 @@ export async function _removeConnectionFromAllGroupsDeserialize(
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDetailDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDetailDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -837,7 +869,9 @@ export async function _sendToConnectionDeserialize(result: PathUncheckedResponse
   const expectedStatuses = ["202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDetailDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDetailDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -880,7 +914,9 @@ export async function _connectionExistsDeserialize(result: PathUncheckedResponse
   const expectedStatuses = ["200", "404"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDetailDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDetailDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -922,7 +958,9 @@ export async function _closeConnectionDeserialize(result: PathUncheckedResponse)
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDetailDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDetailDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -976,7 +1014,9 @@ export async function _sendToAllDeserialize(result: PathUncheckedResponse): Prom
   const expectedStatuses = ["202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDetailDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDetailDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1025,7 +1065,9 @@ export async function _removeConnectionsFromGroupsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDetailDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDetailDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1070,7 +1112,15 @@ export function _generateClientTokenSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({ ...operationOptionsToRequestParameters(options) });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        accept: "text/plain, application/json, text/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _generateClientTokenDeserialize(
@@ -1079,7 +1129,9 @@ export async function _generateClientTokenDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDetailDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDetailDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1125,7 +1177,9 @@ export async function _closeAllConnectionsDeserialize(
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDetailDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDetailDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1172,7 +1226,9 @@ export async function _addConnectionsToGroupsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDetailDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDetailDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1210,7 +1266,9 @@ export async function _getServiceStatusDeserialize(result: PathUncheckedResponse
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDetailDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDetailDeserializer(result.body);
+    }
 
     throw error;
   }

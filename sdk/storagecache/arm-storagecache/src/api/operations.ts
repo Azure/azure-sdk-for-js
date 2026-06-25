@@ -1,22 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { StorageCacheManagementContext as Client } from "./index.js";
-import type { RequiredAmlFilesystemSubnetsSize } from "../models/models.js";
+import { StorageCacheManagementContext as Client } from "./index.js";
 import {
   amlFilesystemSubnetInfoSerializer,
   cloudErrorDeserializer,
   amlFilesystemCheckSubnetErrorDeserializer,
   requiredAmlFilesystemSubnetsSizeInfoSerializer,
+  RequiredAmlFilesystemSubnetsSize,
   requiredAmlFilesystemSubnetsSizeDeserializer,
 } from "../models/models.js";
 import { expandUrlTemplate } from "../static-helpers/urlTemplate.js";
-import type {
+import {
   GetRequiredAmlFSSubnetsSizeOptionalParams,
   CheckAmlFSSubnetsOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _getRequiredAmlFSSubnetsSizeSend(
   context: Client,
@@ -32,16 +36,18 @@ export function _getRequiredAmlFSSubnetsSizeSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: !options?.requiredAMLFilesystemSubnetsSizeInfo
-      ? options?.requiredAMLFilesystemSubnetsSizeInfo
-      : requiredAmlFilesystemSubnetsSizeInfoSerializer(
-          options?.requiredAMLFilesystemSubnetsSizeInfo,
-        ),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: !options?.requiredAMLFilesystemSubnetsSizeInfo
+        ? options?.requiredAMLFilesystemSubnetsSizeInfo
+        : requiredAmlFilesystemSubnetsSizeInfoSerializer(
+            options?.requiredAMLFilesystemSubnetsSizeInfo,
+          ),
+    });
 }
 
 export async function _getRequiredAmlFSSubnetsSizeDeserialize(
@@ -83,13 +89,15 @@ export function _checkAmlFSSubnetsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: !options?.amlFilesystemSubnetInfo
-      ? options?.amlFilesystemSubnetInfo
-      : amlFilesystemSubnetInfoSerializer(options?.amlFilesystemSubnetInfo),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: !options?.amlFilesystemSubnetInfo
+        ? options?.amlFilesystemSubnetInfo
+        : amlFilesystemSubnetInfoSerializer(options?.amlFilesystemSubnetInfo),
+    });
 }
 
 export async function _checkAmlFSSubnetsDeserialize(result: PathUncheckedResponse): Promise<void> {

@@ -1,6 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** DynamicSchema Resource */
 export interface DynamicSchema extends ProxyResource {
   /** The resource-specific properties for this resource. */
@@ -42,8 +48,8 @@ export interface DynamicSchemaProperties {
   readonly provisioningState?: ProvisioningState;
 }
 
-export function dynamicSchemaPropertiesSerializer(item: DynamicSchemaProperties): any {
-  return item;
+export function dynamicSchemaPropertiesSerializer(_item: DynamicSchemaProperties): any {
+  return {};
 }
 
 export function dynamicSchemaPropertiesDeserializer(item: any): DynamicSchemaProperties {
@@ -123,8 +129,8 @@ export type ProvisioningState = string;
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
 }
 
 export function proxyResourceDeserializer(item: any): ProxyResource {
@@ -150,8 +156,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -208,7 +214,7 @@ export enum KnownCreatedByType {
 
 /**
  * The kind of entity that created the resource. \
- * {@link KnowncreatedByType} can be used interchangeably with createdByType,
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **User**: The entity was created by a user. \
@@ -244,8 +250,8 @@ export interface ErrorDetail {
   readonly additionalInfo?: ErrorAdditionalInfo[];
 }
 
-export function errorDetailSerializer(item: ErrorDetail): any {
-  return item;
+export function errorDetailSerializer(_item: ErrorDetail): any {
+  return {};
 }
 
 export function errorDetailDeserializer(item: any): ErrorDetail {
@@ -340,7 +346,9 @@ export function schemaSerializer(item: Schema): any {
 
 export function schemaDeserializer(item: any): Schema {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -363,8 +371,8 @@ export interface SchemaProperties {
   readonly provisioningState?: ProvisioningState;
 }
 
-export function schemaPropertiesSerializer(item: SchemaProperties): any {
-  return item;
+export function schemaPropertiesSerializer(_item: SchemaProperties): any {
+  return {};
 }
 
 export function schemaPropertiesDeserializer(item: any): SchemaProperties {
@@ -394,12 +402,14 @@ export function trackedResourceDeserializer(item: any): TrackedResource {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
   };
 }
 
-/** The type used for update operations of the Schema. */
+/** The updatable properties of the Schema. */
 export interface SchemaUpdate {
   /** The resource-specific properties for this resource. */
   properties?: SchemaUpdateProperties;
@@ -417,10 +427,15 @@ export function schemaUpdateSerializer(item: SchemaUpdate): any {
 }
 
 /** The updatable properties of the Schema. */
-export interface SchemaUpdateProperties {}
+export interface SchemaUpdateProperties {
+  /** Current Version of schema */
+  readonly currentVersion?: string;
+  /** Provisioning state of resource */
+  readonly provisioningState?: ProvisioningState;
+}
 
-export function schemaUpdatePropertiesSerializer(item: SchemaUpdateProperties): any {
-  return item;
+export function schemaUpdatePropertiesSerializer(_item: SchemaUpdateProperties): any {
+  return {};
 }
 
 /** Schema Version With Update Type */
@@ -671,7 +686,9 @@ export function solutionVersionPropertiesDeserializer(item: any): SolutionVersio
     targetDisplayName: item["targetDisplayName"],
     configuration: item["configuration"],
     targetLevelConfiguration: item["targetLevelConfiguration"],
-    specification: item["specification"],
+    specification: Object.fromEntries(
+      Object.entries(item["specification"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
     reviewId: item["reviewId"],
     externalValidationId: item["externalValidationId"],
     state: item["state"],
@@ -957,7 +974,7 @@ export function jobParameterBaseDeserializer(item: any): JobParameterBase {
 export type JobParameterBaseUnion = DeployJobParameter | JobParameterBase;
 
 export function jobParameterBaseUnionDeserializer(item: any): JobParameterBaseUnion {
-  switch (item.jobType) {
+  switch (item["jobType"]) {
     case "deploy":
       return deployJobParameterDeserializer(item as DeployJobParameter);
 
@@ -1058,7 +1075,7 @@ export function jobStepStatisticsBaseDeserializer(item: any): JobStepStatisticsB
 export type JobStepStatisticsBaseUnion = DeployJobStepStatistics | JobStepStatisticsBase;
 
 export function jobStepStatisticsBaseUnionDeserializer(item: any): JobStepStatisticsBaseUnion {
-  switch (item.statisticsType) {
+  switch (item["statisticsType"]) {
     case "deploy":
       return deployJobStepStatisticsDeserializer(item as DeployJobStepStatistics);
 
@@ -1090,6 +1107,10 @@ export function deployJobStepStatisticsDeserializer(item: any): DeployJobStepSta
 
 /** The base extension resource. */
 export interface ExtensionResource extends Resource {}
+
+export function extensionResourceSerializer(_item: ExtensionResource): any {
+  return {};
+}
 
 export function extensionResourceDeserializer(item: any): ExtensionResource {
   return {
@@ -1147,7 +1168,9 @@ export function targetSerializer(item: Target): any {
 
 export function targetDeserializer(item: any): Target {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -1209,7 +1232,9 @@ export function targetPropertiesDeserializer(item: any): TargetProperties {
     description: item["description"],
     displayName: item["displayName"],
     contextId: item["contextId"],
-    targetSpecification: item["targetSpecification"],
+    targetSpecification: Object.fromEntries(
+      Object.entries(item["targetSpecification"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
     capabilities: item["capabilities"].map((p: any) => {
       return p;
     }),
@@ -1622,6 +1647,14 @@ export interface SchemaReference extends ExtensionResource {
   readonly eTag?: string;
 }
 
+export function schemaReferenceSerializer(item: SchemaReference): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : schemaReferencePropertiesSerializer(item["properties"]),
+  };
+}
+
 export function schemaReferenceDeserializer(item: any): SchemaReference {
   return {
     id: item["id"],
@@ -1645,6 +1678,10 @@ export interface SchemaReferenceProperties {
   readonly provisioningState?: ProvisioningState;
 }
 
+export function schemaReferencePropertiesSerializer(item: SchemaReferenceProperties): any {
+  return { schemaId: item["schemaId"] };
+}
+
 export function schemaReferencePropertiesDeserializer(item: any): SchemaReferenceProperties {
   return {
     schemaId: item["schemaId"],
@@ -1665,6 +1702,12 @@ export function _schemaReferenceListResultDeserializer(item: any): _SchemaRefere
     value: schemaReferenceArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
+}
+
+export function schemaReferenceArraySerializer(result: Array<SchemaReference>): any[] {
+  return result.map((item) => {
+    return schemaReferenceSerializer(item);
+  });
 }
 
 export function schemaReferenceArrayDeserializer(result: Array<SchemaReference>): any[] {
@@ -1721,8 +1764,8 @@ export interface SolutionProperties {
   readonly provisioningState?: ProvisioningState;
 }
 
-export function solutionPropertiesSerializer(item: SolutionProperties): any {
-  return item;
+export function solutionPropertiesSerializer(_item: SolutionProperties): any {
+  return {};
 }
 
 export function solutionPropertiesDeserializer(item: any): SolutionProperties {
@@ -1765,7 +1808,7 @@ export function availableSolutionTemplateVersionDeserializer(
   };
 }
 
-/** The type used for update operations of the Solution. */
+/** The updatable properties of the Solution. */
 export interface SolutionUpdate {
   /** The resource-specific properties for this resource. */
   properties?: SolutionUpdateProperties;
@@ -1780,10 +1823,17 @@ export function solutionUpdateSerializer(item: SolutionUpdate): any {
 }
 
 /** The updatable properties of the Solution. */
-export interface SolutionUpdateProperties {}
+export interface SolutionUpdateProperties {
+  /** Solution template Id */
+  readonly solutionTemplateId?: string;
+  /** List of latest revisions for available solution template versions */
+  readonly availableSolutionTemplateVersions?: AvailableSolutionTemplateVersion[];
+  /** Provisioning state of resource */
+  readonly provisioningState?: ProvisioningState;
+}
 
-export function solutionUpdatePropertiesSerializer(item: SolutionUpdateProperties): any {
-  return item;
+export function solutionUpdatePropertiesSerializer(_item: SolutionUpdateProperties): any {
+  return {};
 }
 
 /** The response of a Solution list operation. */
@@ -1871,7 +1921,9 @@ export function solutionTemplateVersionPropertiesDeserializer(
 ): SolutionTemplateVersionProperties {
   return {
     configurations: item["configurations"],
-    specification: item["specification"],
+    specification: Object.fromEntries(
+      Object.entries(item["specification"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
     orchestratorType: item["orchestratorType"],
     provisioningState: item["provisioningState"],
   };
@@ -1990,10 +2042,7 @@ export interface BulkPublishTargetDetails {
 }
 
 export function bulkPublishTargetDetailsSerializer(item: BulkPublishTargetDetails): any {
-  return {
-    targetId: item["targetId"],
-    solutionInstanceName: item["solutionInstanceName"],
-  };
+  return { targetId: item["targetId"], solutionInstanceName: item["solutionInstanceName"] };
 }
 
 /** Solution Template Resource. Contains capabilities and operations for creating versions. */
@@ -2016,7 +2065,9 @@ export function solutionTemplateSerializer(item: SolutionTemplate): any {
 
 export function solutionTemplateDeserializer(item: any): SolutionTemplate {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -2033,6 +2084,8 @@ export function solutionTemplateDeserializer(item: any): SolutionTemplate {
 
 /** Solution Template Properties */
 export interface SolutionTemplateProperties {
+  /** A unique identifier for the solution template, generated by the system */
+  readonly uniqueIdentifier?: string;
   /** Description of Solution template */
   description: string;
   /** List of capabilities */
@@ -2060,6 +2113,7 @@ export function solutionTemplatePropertiesSerializer(item: SolutionTemplatePrope
 
 export function solutionTemplatePropertiesDeserializer(item: any): SolutionTemplateProperties {
   return {
+    uniqueIdentifier: item["uniqueIdentifier"],
     description: item["description"],
     capabilities: item["capabilities"].map((p: any) => {
       return p;
@@ -2403,7 +2457,11 @@ export interface SolutionVersionSnapshot {
 export function solutionVersionSnapshotDeserializer(item: any): SolutionVersionSnapshot {
   return {
     solutionVersionId: item["solutionVersionId"],
-    specification: item["specification"],
+    specification: !item["specification"]
+      ? item["specification"]
+      : Object.fromEntries(
+          Object.entries(item["specification"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
   };
 }
 
@@ -2420,7 +2478,11 @@ export interface TargetSnapshot {
 export function targetSnapshotDeserializer(item: any): TargetSnapshot {
   return {
     targetId: item["targetId"],
-    targetSpecification: item["targetSpecification"],
+    targetSpecification: !item["targetSpecification"]
+      ? item["targetSpecification"]
+      : Object.fromEntries(
+          Object.entries(item["targetSpecification"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
     solutionScope: item["solutionScope"],
   };
 }
@@ -2466,7 +2528,9 @@ export function configTemplateSerializer(item: ConfigTemplate): any {
 
 export function configTemplateDeserializer(item: any): ConfigTemplate {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -2483,6 +2547,8 @@ export function configTemplateDeserializer(item: any): ConfigTemplate {
 
 /** Config Template Properties */
 export interface ConfigTemplateProperties {
+  /** A unique identifier for the config template, generated by the system */
+  readonly uniqueIdentifier?: string;
   /** Description of config template */
   description: string;
   /** Latest config template version */
@@ -2497,6 +2563,7 @@ export function configTemplatePropertiesSerializer(item: ConfigTemplatePropertie
 
 export function configTemplatePropertiesDeserializer(item: any): ConfigTemplateProperties {
   return {
+    uniqueIdentifier: item["uniqueIdentifier"],
     description: item["description"],
     latestVersion: item["latestVersion"],
     provisioningState: item["provisioningState"],
@@ -2710,8 +2777,8 @@ export interface WorkflowProperties {
   readonly provisioningState?: ProvisioningState;
 }
 
-export function workflowPropertiesSerializer(item: WorkflowProperties): any {
-  return item;
+export function workflowPropertiesSerializer(_item: WorkflowProperties): any {
+  return {};
 }
 
 export function workflowPropertiesDeserializer(item: any): WorkflowProperties {
@@ -2818,7 +2885,11 @@ export function workflowVersionPropertiesDeserializer(item: any): WorkflowVersio
     stageSpec: stageSpecArrayDeserializer(item["stageSpec"]),
     reviewId: item["reviewId"],
     state: item["state"],
-    specification: item["specification"],
+    specification: !item["specification"]
+      ? item["specification"]
+      : Object.fromEntries(
+          Object.entries(item["specification"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
     provisioningState: item["provisioningState"],
   };
 }
@@ -2859,7 +2930,11 @@ export function stageSpecSerializer(item: StageSpec): any {
 export function stageSpecDeserializer(item: any): StageSpec {
   return {
     name: item["name"],
-    specification: item["specification"],
+    specification: !item["specification"]
+      ? item["specification"]
+      : Object.fromEntries(
+          Object.entries(item["specification"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
     tasks: !item["tasks"] ? item["tasks"] : taskSpecArrayDeserializer(item["tasks"]),
     taskOption: !item["taskOption"]
       ? item["taskOption"]
@@ -2890,18 +2965,16 @@ export interface TaskSpec {
 }
 
 export function taskSpecSerializer(item: TaskSpec): any {
-  return {
-    name: item["name"],
-    targetId: item["targetId"],
-    specification: item["specification"],
-  };
+  return { name: item["name"], targetId: item["targetId"], specification: item["specification"] };
 }
 
 export function taskSpecDeserializer(item: any): TaskSpec {
   return {
     name: item["name"],
     targetId: item["targetId"],
-    specification: item["specification"],
+    specification: Object.fromEntries(
+      Object.entries(item["specification"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
   };
 }
 
@@ -2940,10 +3013,7 @@ export interface ErrorAction {
 }
 
 export function errorActionSerializer(item: ErrorAction): any {
-  return {
-    mode: item["mode"],
-    maxToleratedFailures: item["maxToleratedFailures"],
-  };
+  return { mode: item["mode"], maxToleratedFailures: item["maxToleratedFailures"] };
 }
 
 export function errorActionDeserializer(item: any): ErrorAction {
@@ -3052,16 +3122,17 @@ export interface ExecutionProperties {
 }
 
 export function executionPropertiesSerializer(item: ExecutionProperties): any {
-  return {
-    workflowVersionId: item["workflowVersionId"],
-    specification: item["specification"],
-  };
+  return { workflowVersionId: item["workflowVersionId"], specification: item["specification"] };
 }
 
 export function executionPropertiesDeserializer(item: any): ExecutionProperties {
   return {
     workflowVersionId: item["workflowVersionId"],
-    specification: item["specification"],
+    specification: !item["specification"]
+      ? item["specification"]
+      : Object.fromEntries(
+          Object.entries(item["specification"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
     status: !item["status"] ? item["status"] : executionStatusDeserializer(item["status"]),
     provisioningState: item["provisioningState"],
   };
@@ -3124,8 +3195,12 @@ export function stageStatusDeserializer(item: any): StageStatus {
     nextstage: item["nextstage"],
     errorMessage: item["errorMessage"],
     isActive: item["isActive"],
-    inputs: item["inputs"],
-    outputs: item["outputs"],
+    inputs: !item["inputs"]
+      ? item["inputs"]
+      : Object.fromEntries(Object.entries(item["inputs"]).map(([k, p]: [string, any]) => [k, p])),
+    outputs: !item["outputs"]
+      ? item["outputs"]
+      : Object.fromEntries(Object.entries(item["outputs"]).map(([k, p]: [string, any]) => [k, p])),
   };
 }
 
@@ -3180,7 +3255,9 @@ export function diagnosticSerializer(item: Diagnostic): any {
 
 export function diagnosticDeserializer(item: any): Diagnostic {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -3204,8 +3281,8 @@ export interface DiagnosticProperties {
   readonly provisioningState?: ProvisioningState;
 }
 
-export function diagnosticPropertiesSerializer(item: DiagnosticProperties): any {
-  return item;
+export function diagnosticPropertiesSerializer(_item: DiagnosticProperties): any {
+  return {};
 }
 
 export function diagnosticPropertiesDeserializer(item: any): DiagnosticProperties {
@@ -3214,7 +3291,7 @@ export function diagnosticPropertiesDeserializer(item: any): DiagnosticPropertie
   };
 }
 
-/** The type used for update operations of the Diagnostic. */
+/** The updatable properties of the Diagnostic. */
 export interface DiagnosticUpdate {
   /** The resource-specific properties for this resource. */
   properties?: DiagnosticUpdateProperties;
@@ -3232,10 +3309,13 @@ export function diagnosticUpdateSerializer(item: DiagnosticUpdate): any {
 }
 
 /** The updatable properties of the Diagnostic. */
-export interface DiagnosticUpdateProperties {}
+export interface DiagnosticUpdateProperties {
+  /** The status of the last operation. */
+  readonly provisioningState?: ProvisioningState;
+}
 
-export function diagnosticUpdatePropertiesSerializer(item: DiagnosticUpdateProperties): any {
-  return item;
+export function diagnosticUpdatePropertiesSerializer(_item: DiagnosticUpdateProperties): any {
+  return {};
 }
 
 /** The response of a Diagnostic list operation. */
@@ -3283,7 +3363,9 @@ export function contextSerializer(item: Context): any {
 
 export function contextDeserializer(item: any): Context {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -3345,11 +3427,7 @@ export interface Capability {
 }
 
 export function capabilitySerializer(item: Capability): any {
-  return {
-    name: item["name"],
-    description: item["description"],
-    state: item["state"],
-  };
+  return { name: item["name"], description: item["description"], state: item["state"] };
 }
 
 export function capabilityDeserializer(item: any): Capability {
@@ -3530,5 +3608,6 @@ export function siteReferenceArrayDeserializer(result: Array<SiteReference>): an
 
 /** The available API versions. */
 export enum KnownVersions {
+  /** 2025-06-01 */
   V20250601 = "2025-06-01",
 }

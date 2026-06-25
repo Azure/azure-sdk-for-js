@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all communications (attachments not included) for a support ticket. <br/></br> You can also filter support ticket communications by _CreatedDate_ or _CommunicationType_ using the $filter parameter. The only type of communication supported today is _Web_. Output will be a paged result with _nextLink_, using which you can retrieve the next set of Communication results. <br/><br/>Support ticket data is available for 18 months after ticket creation. If a ticket was created more than 18 months ago, a request for data might cause an error.
  *
  * @summary lists all communications (attachments not included) for a support ticket. <br/></br> You can also filter support ticket communications by _CreatedDate_ or _CommunicationType_ using the $filter parameter. The only type of communication supported today is _Web_. Output will be a paged result with _nextLink_, using which you can retrieve the next set of Communication results. <br/><br/>Support ticket data is available for 18 months after ticket creation. If a ticket was created more than 18 months ago, a request for data might cause an error.
- * x-ms-original-file: 2025-06-01-preview/ListCommunicationsForSupportTicket.json
+ * x-ms-original-file: 2026-06-01/ListCommunicationsForSupportTicket.json
  */
 async function listCommunicationsForANoSubscriptionSupportTicket(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -25,7 +25,7 @@ async function listCommunicationsForANoSubscriptionSupportTicket(): Promise<void
  * This sample demonstrates how to lists all communications (attachments not included) for a support ticket. <br/></br> You can also filter support ticket communications by _CreatedDate_ or _CommunicationType_ using the $filter parameter. The only type of communication supported today is _Web_. Output will be a paged result with _nextLink_, using which you can retrieve the next set of Communication results. <br/><br/>Support ticket data is available for 18 months after ticket creation. If a ticket was created more than 18 months ago, a request for data might cause an error.
  *
  * @summary lists all communications (attachments not included) for a support ticket. <br/></br> You can also filter support ticket communications by _CreatedDate_ or _CommunicationType_ using the $filter parameter. The only type of communication supported today is _Web_. Output will be a paged result with _nextLink_, using which you can retrieve the next set of Communication results. <br/><br/>Support ticket data is available for 18 months after ticket creation. If a ticket was created more than 18 months ago, a request for data might cause an error.
- * x-ms-original-file: 2025-06-01-preview/ListWebCommunicationsForSupportTicket.json
+ * x-ms-original-file: 2026-06-01/ListWebCommunicationsForSupportTicket.json
  */
 async function listWebCommunicationsForANoSubscriptionSupportTicket(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -44,7 +44,7 @@ async function listWebCommunicationsForANoSubscriptionSupportTicket(): Promise<v
  * This sample demonstrates how to lists all communications (attachments not included) for a support ticket. <br/></br> You can also filter support ticket communications by _CreatedDate_ or _CommunicationType_ using the $filter parameter. The only type of communication supported today is _Web_. Output will be a paged result with _nextLink_, using which you can retrieve the next set of Communication results. <br/><br/>Support ticket data is available for 18 months after ticket creation. If a ticket was created more than 18 months ago, a request for data might cause an error.
  *
  * @summary lists all communications (attachments not included) for a support ticket. <br/></br> You can also filter support ticket communications by _CreatedDate_ or _CommunicationType_ using the $filter parameter. The only type of communication supported today is _Web_. Output will be a paged result with _nextLink_, using which you can retrieve the next set of Communication results. <br/><br/>Support ticket data is available for 18 months after ticket creation. If a ticket was created more than 18 months ago, a request for data might cause an error.
- * x-ms-original-file: 2025-06-01-preview/ListWebCommunicationsForSupportTicketCreatedOnOrAfter.json
+ * x-ms-original-file: 2026-06-01/ListWebCommunicationsForSupportTicketCreatedOnOrAfter.json
  */
 async function listWebCommunicationCreatedOnOrAfterASpecificDateForANoSubscriptionSupportTicket(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { WebPubSubManagementContext } from "../../api/webPubSubManagementContext.js";
+import { WebPubSubManagementContext } from "../../api/webPubSubManagementContext.js";
 import { list } from "../../api/webPubSubPrivateLinkResources/operations.js";
-import type { WebPubSubPrivateLinkResourcesListOptionalParams } from "../../api/webPubSubPrivateLinkResources/options.js";
-import type { PrivateLinkResource } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { WebPubSubPrivateLinkResourcesListOptionalParams } from "../../api/webPubSubPrivateLinkResources/options.js";
+import { PrivateLinkResource } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a WebPubSubPrivateLinkResources operations. */
 export interface WebPubSubPrivateLinkResourcesOperations {

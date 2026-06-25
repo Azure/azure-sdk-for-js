@@ -24,10 +24,7 @@ async function instancesUpdateMaximumSet(): Promise<void> {
         solutionVersionId: "vrpzlamkvanqibtjarpxit",
         targetId: "tqkdvc",
         activeState: "active",
-        reconciliationPolicy: {
-          state: "inactive",
-          interval: "cmzlrjwnlshnkgv",
-        },
+        reconciliationPolicy: { state: "inactive", interval: "cmzlrjwnlshnkgv" },
         solutionScope: "testname",
       },
     },

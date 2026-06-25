@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import {
-  createWorkloadOrchestrationManagement,
   WorkloadOrchestrationManagementContext,
   WorkloadOrchestrationManagementClientOptionalParams,
+  createWorkloadOrchestrationManagement,
 } from "./api/index.js";
 import {
   ConfigTemplateVersionsOperations,
@@ -66,24 +66,42 @@ import { WorkflowsOperations, _getWorkflowsOperations } from "./classic/workflow
 import { TokenCredential } from "@azure/core-auth";
 import { Pipeline } from "@azure/core-rest-pipeline";
 
-export { type WorkloadOrchestrationManagementClientOptionalParams } from "./api/workloadOrchestrationManagementContext.js";
+export type { WorkloadOrchestrationManagementClientOptionalParams } from "./api/workloadOrchestrationManagementContext.js";
 
 export class WorkloadOrchestrationManagementClient {
   private _client: WorkloadOrchestrationManagementContext;
   /** The pipeline used by this client to make requests */
   public readonly pipeline: Pipeline;
 
-  /** Microsoft.Edge Resource Provider management API. */
+  constructor(
+    credential: TokenCredential,
+    options?: WorkloadOrchestrationManagementClientOptionalParams,
+  );
   constructor(
     credential: TokenCredential,
     subscriptionId: string,
-    options: WorkloadOrchestrationManagementClientOptionalParams = {},
+    options?: WorkloadOrchestrationManagementClientOptionalParams,
+  );
+  /** Microsoft.Edge Resource Provider management API. */
+  constructor(
+    credential: TokenCredential,
+    subscriptionIdOrOptions?: string | WorkloadOrchestrationManagementClientOptionalParams,
+    options?: WorkloadOrchestrationManagementClientOptionalParams,
   ) {
+    let subscriptionId: string | undefined;
+
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
+    }
+
+    options = options ?? {};
     const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
       : `azsdk-js-client`;
-    this._client = createWorkloadOrchestrationManagement(credential, subscriptionId, {
+    this._client = createWorkloadOrchestrationManagement(credential, subscriptionId ?? "", {
       ...options,
       userAgentOptions: { userAgentPrefix },
     });

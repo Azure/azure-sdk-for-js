@@ -1,24 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { WebPubSubManagementContext } from "../../api/webPubSubManagementContext.js";
+import { WebPubSubManagementContext } from "../../api/webPubSubManagementContext.js";
 import {
   list,
   $delete,
   update,
   get,
 } from "../../api/webPubSubPrivateEndpointConnections/operations.js";
-import type {
+import {
   WebPubSubPrivateEndpointConnectionsListOptionalParams,
   WebPubSubPrivateEndpointConnectionsDeleteOptionalParams,
   WebPubSubPrivateEndpointConnectionsUpdateOptionalParams,
   WebPubSubPrivateEndpointConnectionsGetOptionalParams,
 } from "../../api/webPubSubPrivateEndpointConnections/options.js";
-import type { PrivateEndpointConnection } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PrivateEndpointConnection } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a WebPubSubPrivateEndpointConnections operations. */
 export interface WebPubSubPrivateEndpointConnectionsOperations {

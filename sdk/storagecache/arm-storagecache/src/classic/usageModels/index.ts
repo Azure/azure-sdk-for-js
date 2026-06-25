@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { StorageCacheManagementContext } from "../../api/storageCacheManagementContext.js";
+import { StorageCacheManagementContext } from "../../api/storageCacheManagementContext.js";
 import { list } from "../../api/usageModels/operations.js";
-import type { UsageModelsListOptionalParams } from "../../api/usageModels/options.js";
-import type { UsageModel } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { UsageModelsListOptionalParams } from "../../api/usageModels/options.js";
+import { UsageModel } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a UsageModels operations. */
 export interface UsageModelsOperations {

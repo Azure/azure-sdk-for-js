@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export {
-  createStorageActionsManagement,
-  type StorageActionsManagementContext,
-  type StorageActionsManagementClientOptionalParams,
+export type {
+  StorageActionsManagementContext,
+  StorageActionsManagementClientOptionalParams,
 } from "./storageActionsManagementContext.js";
+export { createStorageActionsManagement } from "./storageActionsManagementContext.js";

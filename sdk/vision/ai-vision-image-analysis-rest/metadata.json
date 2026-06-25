@@ -1,0 +1,38 @@
+{
+  "apiVersions": {
+    "ImageAnalysis": "2023-10-01"
+  },
+  "emitterVersion": "0.55.0-dev.9",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "ImageAnalysis",
+    "CrossLanguageDefinitionId": {
+      "@azure-rest/ai-vision-image-analysis!ImageAnalysisResult:interface": "ImageAnalysis.ImageAnalysisResult",
+      "@azure-rest/ai-vision-image-analysis!CaptionResult:interface": "ImageAnalysis.CaptionResult",
+      "@azure-rest/ai-vision-image-analysis!DenseCaptionsResult:interface": "ImageAnalysis.DenseCaptionsResult",
+      "@azure-rest/ai-vision-image-analysis!DenseCaption:interface": "ImageAnalysis.DenseCaption",
+      "@azure-rest/ai-vision-image-analysis!ImageBoundingBox:interface": "ImageAnalysis.ImageBoundingBox",
+      "@azure-rest/ai-vision-image-analysis!ImageMetadata:interface": "ImageAnalysis.ImageMetadata",
+      "@azure-rest/ai-vision-image-analysis!ObjectsResult:interface": "ImageAnalysis.ObjectsResult",
+      "@azure-rest/ai-vision-image-analysis!DetectedObject:interface": "ImageAnalysis.DetectedObject",
+      "@azure-rest/ai-vision-image-analysis!DetectedTag:interface": "ImageAnalysis.DetectedTag",
+      "@azure-rest/ai-vision-image-analysis!PeopleResult:interface": "ImageAnalysis.PeopleResult",
+      "@azure-rest/ai-vision-image-analysis!DetectedPerson:interface": "ImageAnalysis.DetectedPerson",
+      "@azure-rest/ai-vision-image-analysis!ReadResult:interface": "ImageAnalysis.ReadResult",
+      "@azure-rest/ai-vision-image-analysis!DetectedTextBlock:interface": "ImageAnalysis.DetectedTextBlock",
+      "@azure-rest/ai-vision-image-analysis!DetectedTextLine:interface": "ImageAnalysis.DetectedTextLine",
+      "@azure-rest/ai-vision-image-analysis!ImagePoint:interface": "ImageAnalysis.ImagePoint",
+      "@azure-rest/ai-vision-image-analysis!DetectedTextWord:interface": "ImageAnalysis.DetectedTextWord",
+      "@azure-rest/ai-vision-image-analysis!SmartCropsResult:interface": "ImageAnalysis.SmartCropsResult",
+      "@azure-rest/ai-vision-image-analysis!CropRegion:interface": "ImageAnalysis.CropRegion",
+      "@azure-rest/ai-vision-image-analysis!TagsResult:interface": "ImageAnalysis.TagsResult",
+      "@azure-rest/ai-vision-image-analysis!ErrorResponse:interface": "Azure.Core.Foundations.ErrorResponse",
+      "@azure-rest/ai-vision-image-analysis!Error:interface": "Azure.Core.Foundations.Error",
+      "@azure-rest/ai-vision-image-analysis!InnerError:interface": "Azure.Core.Foundations.InnerError",
+      "@azure-rest/ai-vision-image-analysis!ImageUrl:interface": "ImageAnalysis.ImageUrl",
+      "@azure-rest/ai-vision-image-analysis!KnownVisualFeatures:enum": "ImageAnalysis.VisualFeatures",
+      "@azure-rest/ai-vision-image-analysis!KnownVersions:enum": "ImageAnalysis.Versions",
+      "@azure-rest/ai-vision-image-analysis!ImageAnalysisClient#analyzeFromUrl:member(1)": "ImageAnalysis.analyzeFromUrl",
+      "@azure-rest/ai-vision-image-analysis!ImageAnalysisClient#analyzeFromImageData:member(1)": "ImageAnalysis.analyzeFromImageData"
+    }
+  }
+}

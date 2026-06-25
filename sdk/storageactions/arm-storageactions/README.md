@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storageactions/arm-storageactions)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-storageactions)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-storageactions?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-storageactions)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storageactions/arm-storageactions/samples)
 
 ## Getting started

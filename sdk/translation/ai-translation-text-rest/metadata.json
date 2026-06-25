@@ -2,5 +2,39 @@
   "apiVersions": {
     "TextTranslation": "2026-06-06"
   },
-  "emitterVersion": "0.53.3"
+  "emitterVersion": "0.55.0-dev.9",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "TextTranslation",
+    "CrossLanguageDefinitionId": {
+      "@azure-rest/ai-translation-text!GetSupportedLanguagesResult:interface": "TextTranslation.GetSupportedLanguagesResult",
+      "@azure-rest/ai-translation-text!TranslationLanguage:interface": "TextTranslation.TranslationLanguage",
+      "@azure-rest/ai-translation-text!TransliterationLanguage:interface": "TextTranslation.TransliterationLanguage",
+      "@azure-rest/ai-translation-text!TransliterableScript:interface": "TextTranslation.TransliterableScript",
+      "@azure-rest/ai-translation-text!LanguageScript:interface": "TextTranslation.LanguageScript",
+      "@azure-rest/ai-translation-text!ErrorResponse:interface": "TextTranslation.ErrorResponse",
+      "@azure-rest/ai-translation-text!ErrorDetails:interface": "TextTranslation.ErrorDetails",
+      "@azure-rest/ai-translation-text!TranslateBody:interface": "TextTranslation.TranslateBody",
+      "@azure-rest/ai-translation-text!TranslateInputItem:interface": "TextTranslation.TranslateInputItem",
+      "@azure-rest/ai-translation-text!TranslationTarget:interface": "TextTranslation.TranslationTarget",
+      "@azure-rest/ai-translation-text!ReferenceTextPair:interface": "TextTranslation.ReferenceTextPair",
+      "@azure-rest/ai-translation-text!TranslationResult:interface": "TextTranslation.TranslationResult",
+      "@azure-rest/ai-translation-text!TranslatedTextItem:interface": "TextTranslation.TranslatedTextItem",
+      "@azure-rest/ai-translation-text!DetectedLanguage:interface": "TextTranslation.DetectedLanguage",
+      "@azure-rest/ai-translation-text!TranslationText:interface": "TextTranslation.TranslationText",
+      "@azure-rest/ai-translation-text!TransliterateBody:interface": "TextTranslation.TransliterateBody",
+      "@azure-rest/ai-translation-text!InputTextItem:interface": "TextTranslation.InputTextItem",
+      "@azure-rest/ai-translation-text!TransliterateResult:interface": "TextTranslation.TransliterateResult",
+      "@azure-rest/ai-translation-text!TransliteratedText:interface": "TextTranslation.TransliteratedText",
+      "@azure-rest/ai-translation-text!KnownLanguageDirectionality:enum": "TextTranslation.LanguageDirectionality",
+      "@azure-rest/ai-translation-text!KnownTextType:enum": "TextTranslation.TextType",
+      "@azure-rest/ai-translation-text!KnownProfanityAction:enum": "TextTranslation.ProfanityAction",
+      "@azure-rest/ai-translation-text!KnownProfanityMarker:enum": "TextTranslation.ProfanityMarker",
+      "@azure-rest/ai-translation-text!KnownTranslationTone:enum": "TextTranslation.TranslationTone",
+      "@azure-rest/ai-translation-text!KnownTranslationGender:enum": "TextTranslation.TranslationGender",
+      "@azure-rest/ai-translation-text!KnownAPIVersion:enum": "TextTranslation.APIVersion",
+      "@azure-rest/ai-translation-text!TextTranslationClient#transliterate:member(1)": "TextTranslation.transliterate",
+      "@azure-rest/ai-translation-text!TextTranslationClient#translate:member(1)": "TextTranslation.translate",
+      "@azure-rest/ai-translation-text!TextTranslationClient#getSupportedLanguages:member(1)": "TextTranslation.getSupportedLanguages"
+    }
+  }
 }

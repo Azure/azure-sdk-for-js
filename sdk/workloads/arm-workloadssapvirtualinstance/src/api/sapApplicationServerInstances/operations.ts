@@ -17,6 +17,12 @@ import {
   _sapApplicationServerInstanceListResultDeserializer,
 } from "../../models/models.js";
 import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import {
   SAPApplicationServerInstancesStopOptionalParams,
   SAPApplicationServerInstancesStartOptionalParams,
   SAPApplicationServerInstancesListOptionalParams,
@@ -25,12 +31,6 @@ import {
   SAPApplicationServerInstancesCreateOptionalParams,
   SAPApplicationServerInstancesGetOptionalParams,
 } from "./options.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -44,9 +44,7 @@ export function _stopSend(
   resourceGroupName: string,
   sapVirtualInstanceName: string,
   applicationInstanceName: string,
-  options: SAPApplicationServerInstancesStopOptionalParams = {
-    requestOptions: {},
-  },
+  options: SAPApplicationServerInstancesStopOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/sapVirtualInstances/{sapVirtualInstanceName}/applicationInstances/{applicationInstanceName}/stop{?api%2Dversion}",
@@ -55,30 +53,32 @@ export function _stopSend(
       resourceGroupName: resourceGroupName,
       sapVirtualInstanceName: sapVirtualInstanceName,
       applicationInstanceName: applicationInstanceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2024-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: !options["body"] ? options["body"] : stopRequestSerializer(options["body"]),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: !options?.body ? options?.body : stopRequestSerializer(options?.body),
+    });
 }
 
 export async function _stopDeserialize(
   result: PathUncheckedResponse,
 ): Promise<OperationStatusResult> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -91,11 +91,9 @@ export function stop(
   resourceGroupName: string,
   sapVirtualInstanceName: string,
   applicationInstanceName: string,
-  options: SAPApplicationServerInstancesStopOptionalParams = {
-    requestOptions: {},
-  },
+  options: SAPApplicationServerInstancesStopOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<OperationStatusResult>, OperationStatusResult> {
-  return getLongRunningPoller(context, _stopDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _stopDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -107,6 +105,7 @@ export function stop(
         options,
       ),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2024-09-01",
   }) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
 }
 
@@ -115,9 +114,7 @@ export function _startSend(
   resourceGroupName: string,
   sapVirtualInstanceName: string,
   applicationInstanceName: string,
-  options: SAPApplicationServerInstancesStartOptionalParams = {
-    requestOptions: {},
-  },
+  options: SAPApplicationServerInstancesStartOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/sapVirtualInstances/{sapVirtualInstanceName}/applicationInstances/{applicationInstanceName}/start{?api%2Dversion}",
@@ -126,30 +123,32 @@ export function _startSend(
       resourceGroupName: resourceGroupName,
       sapVirtualInstanceName: sapVirtualInstanceName,
       applicationInstanceName: applicationInstanceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2024-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: !options["body"] ? options["body"] : startRequestSerializer(options["body"]),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: !options?.body ? options?.body : startRequestSerializer(options?.body),
+    });
 }
 
 export async function _startDeserialize(
   result: PathUncheckedResponse,
 ): Promise<OperationStatusResult> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -162,11 +161,9 @@ export function start(
   resourceGroupName: string,
   sapVirtualInstanceName: string,
   applicationInstanceName: string,
-  options: SAPApplicationServerInstancesStartOptionalParams = {
-    requestOptions: {},
-  },
+  options: SAPApplicationServerInstancesStartOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<OperationStatusResult>, OperationStatusResult> {
-  return getLongRunningPoller(context, _startDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _startDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -178,6 +175,7 @@ export function start(
         options,
       ),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2024-09-01",
   }) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
 }
 
@@ -185,9 +183,7 @@ export function _listSend(
   context: Client,
   resourceGroupName: string,
   sapVirtualInstanceName: string,
-  options: SAPApplicationServerInstancesListOptionalParams = {
-    requestOptions: {},
-  },
+  options: SAPApplicationServerInstancesListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/sapVirtualInstances/{sapVirtualInstanceName}/applicationInstances{?api%2Dversion}",
@@ -195,19 +191,18 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       sapVirtualInstanceName: sapVirtualInstanceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2024-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listDeserialize(
@@ -216,7 +211,10 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -228,16 +226,14 @@ export function list(
   context: Client,
   resourceGroupName: string,
   sapVirtualInstanceName: string,
-  options: SAPApplicationServerInstancesListOptionalParams = {
-    requestOptions: {},
-  },
+  options: SAPApplicationServerInstancesListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<SAPApplicationServerInstance> {
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, resourceGroupName, sapVirtualInstanceName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2024-09-01" },
   );
 }
 
@@ -246,9 +242,7 @@ export function _$deleteSend(
   resourceGroupName: string,
   sapVirtualInstanceName: string,
   applicationInstanceName: string,
-  options: SAPApplicationServerInstancesDeleteOptionalParams = {
-    requestOptions: {},
-  },
+  options: SAPApplicationServerInstancesDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/sapVirtualInstances/{sapVirtualInstanceName}/applicationInstances/{applicationInstanceName}{?api%2Dversion}",
@@ -257,26 +251,23 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       sapVirtualInstanceName: sapVirtualInstanceName,
       applicationInstanceName: applicationInstanceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2024-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -284,19 +275,12 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Deletes the SAP Application Server Instance resource. &lt;br&gt;&lt;br&gt;This operation will be used by service only. Delete by end user will return a Bad Request error. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
   sapVirtualInstanceName: string,
   applicationInstanceName: string,
-  options: SAPApplicationServerInstancesDeleteOptionalParams = {
-    requestOptions: {},
-  },
+  options: SAPApplicationServerInstancesDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
   return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
     updateIntervalInMs: options?.updateIntervalInMs,
@@ -310,6 +294,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2024-09-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -319,9 +304,7 @@ export function _updateSend(
   sapVirtualInstanceName: string,
   applicationInstanceName: string,
   properties: UpdateSAPApplicationInstanceRequest,
-  options: SAPApplicationServerInstancesUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: SAPApplicationServerInstancesUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/sapVirtualInstances/{sapVirtualInstanceName}/applicationInstances/{applicationInstanceName}{?api%2Dversion}",
@@ -330,21 +313,20 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       sapVirtualInstanceName: sapVirtualInstanceName,
       applicationInstanceName: applicationInstanceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2024-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: updateSAPApplicationInstanceRequestSerializer(properties),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: updateSAPApplicationInstanceRequestSerializer(properties),
+    });
 }
 
 export async function _updateDeserialize(
@@ -353,7 +335,10 @@ export async function _updateDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -367,9 +352,7 @@ export async function update(
   sapVirtualInstanceName: string,
   applicationInstanceName: string,
   properties: UpdateSAPApplicationInstanceRequest,
-  options: SAPApplicationServerInstancesUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: SAPApplicationServerInstancesUpdateOptionalParams = { requestOptions: {} },
 ): Promise<SAPApplicationServerInstance> {
   const result = await _updateSend(
     context,
@@ -388,9 +371,7 @@ export function _createSend(
   sapVirtualInstanceName: string,
   applicationInstanceName: string,
   resource: SAPApplicationServerInstance,
-  options: SAPApplicationServerInstancesCreateOptionalParams = {
-    requestOptions: {},
-  },
+  options: SAPApplicationServerInstancesCreateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/sapVirtualInstances/{sapVirtualInstanceName}/applicationInstances/{applicationInstanceName}{?api%2Dversion}",
@@ -399,30 +380,32 @@ export function _createSend(
       resourceGroupName: resourceGroupName,
       sapVirtualInstanceName: sapVirtualInstanceName,
       applicationInstanceName: applicationInstanceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2024-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: sapApplicationServerInstanceSerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: sapApplicationServerInstanceSerializer(resource),
+    });
 }
 
 export async function _createDeserialize(
   result: PathUncheckedResponse,
 ): Promise<SAPApplicationServerInstance> {
-  const expectedStatuses = ["200", "201"];
+  const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -436,11 +419,9 @@ export function create(
   sapVirtualInstanceName: string,
   applicationInstanceName: string,
   resource: SAPApplicationServerInstance,
-  options: SAPApplicationServerInstancesCreateOptionalParams = {
-    requestOptions: {},
-  },
+  options: SAPApplicationServerInstancesCreateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<SAPApplicationServerInstance>, SAPApplicationServerInstance> {
-  return getLongRunningPoller(context, _createDeserialize, ["200", "201"], {
+  return getLongRunningPoller(context, _createDeserialize, ["200", "201", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -453,6 +434,7 @@ export function create(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2024-09-01",
   }) as PollerLike<OperationState<SAPApplicationServerInstance>, SAPApplicationServerInstance>;
 }
 
@@ -461,9 +443,7 @@ export function _getSend(
   resourceGroupName: string,
   sapVirtualInstanceName: string,
   applicationInstanceName: string,
-  options: SAPApplicationServerInstancesGetOptionalParams = {
-    requestOptions: {},
-  },
+  options: SAPApplicationServerInstancesGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/sapVirtualInstances/{sapVirtualInstanceName}/applicationInstances/{applicationInstanceName}{?api%2Dversion}",
@@ -472,19 +452,18 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       sapVirtualInstanceName: sapVirtualInstanceName,
       applicationInstanceName: applicationInstanceName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2024-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(
@@ -493,7 +472,10 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -506,9 +488,7 @@ export async function get(
   resourceGroupName: string,
   sapVirtualInstanceName: string,
   applicationInstanceName: string,
-  options: SAPApplicationServerInstancesGetOptionalParams = {
-    requestOptions: {},
-  },
+  options: SAPApplicationServerInstancesGetOptionalParams = { requestOptions: {} },
 ): Promise<SAPApplicationServerInstance> {
   const result = await _getSend(
     context,

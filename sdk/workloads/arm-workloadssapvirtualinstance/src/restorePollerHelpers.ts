@@ -80,6 +80,7 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
       `Please ensure the operation is in this client! We can't find its deserializeHelper for ${sourceOperation?.name}.`,
     );
   }
+  const apiVersion = getApiVersionFromUrl(initialRequestUrl);
   return getLongRunningPoller(
     (client as any)["_client"] ?? client,
     deserializeHelper as (result: TResponse) => Promise<TResult>,
@@ -90,36 +91,31 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
       resourceLocationConfig,
       restoreFrom: serializedState,
       initialRequestUrl,
+      apiVersion,
     },
   );
 }
 
 interface DeserializationHelper {
-  deserializer: Function;
+  deserializer: (result: PathUncheckedResponse) => Promise<any>;
   expectedStatuses: string[];
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/sapVirtualInstances/{sapVirtualInstanceName}/applicationInstances/{applicationInstanceName}/stop":
-    { deserializer: _stopDeserialize, expectedStatuses: ["202", "200"] },
+    { deserializer: _stopDeserialize, expectedStatuses: ["200", "202", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/sapVirtualInstances/{sapVirtualInstanceName}/applicationInstances/{applicationInstanceName}/start":
-    { deserializer: _startDeserialize, expectedStatuses: ["202", "200"] },
+    { deserializer: _startDeserialize, expectedStatuses: ["200", "202", "201"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/sapVirtualInstances/{sapVirtualInstanceName}/applicationInstances/{applicationInstanceName}":
-    {
-      deserializer: _$deleteDeserialize,
-      expectedStatuses: ["202", "204", "200"],
-    },
+    { deserializer: _$deleteDeserialize, expectedStatuses: ["202", "204", "200"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/sapVirtualInstances/{sapVirtualInstanceName}/applicationInstances/{applicationInstanceName}":
-    { deserializer: _createDeserialize, expectedStatuses: ["200", "201"] },
+    { deserializer: _createDeserialize, expectedStatuses: ["200", "201", "202"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/sapVirtualInstances/{sapVirtualInstanceName}/databaseInstances/{databaseInstanceName}/stop":
-    {
-      deserializer: _stopDeserializeSapDatabaseInstances,
-      expectedStatuses: ["202", "200"],
-    },
+    { deserializer: _stopDeserializeSapDatabaseInstances, expectedStatuses: ["200", "202", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/sapVirtualInstances/{sapVirtualInstanceName}/databaseInstances/{databaseInstanceName}/start":
     {
       deserializer: _startDeserializeSapDatabaseInstances,
-      expectedStatuses: ["202", "200"],
+      expectedStatuses: ["200", "202", "201"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/sapVirtualInstances/{sapVirtualInstanceName}/databaseInstances/{databaseInstanceName}":
     {
@@ -129,17 +125,17 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/sapVirtualInstances/{sapVirtualInstanceName}/databaseInstances/{databaseInstanceName}":
     {
       deserializer: _createDeserializeSapDatabaseInstances,
-      expectedStatuses: ["200", "201"],
+      expectedStatuses: ["200", "201", "202"],
     },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/sapVirtualInstances/{sapVirtualInstanceName}/centralInstances/{centralInstanceName}/stop":
     {
       deserializer: _stopDeserializeSapCentralServerInstances,
-      expectedStatuses: ["202", "200"],
+      expectedStatuses: ["200", "202", "201"],
     },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/sapVirtualInstances/{sapVirtualInstanceName}/centralInstances/{centralInstanceName}/start":
     {
       deserializer: _startDeserializeSapCentralServerInstances,
-      expectedStatuses: ["202", "200"],
+      expectedStatuses: ["200", "202", "201"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/sapVirtualInstances/{sapVirtualInstanceName}/centralInstances/{centralInstanceName}":
     {
@@ -149,29 +145,23 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/sapVirtualInstances/{sapVirtualInstanceName}/centralInstances/{centralInstanceName}":
     {
       deserializer: _createDeserializeSapCentralServerInstances,
-      expectedStatuses: ["200", "201"],
+      expectedStatuses: ["200", "201", "202"],
     },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/sapVirtualInstances/{sapVirtualInstanceName}/stop":
-    {
-      deserializer: _stopDeserializeSapVirtualInstances,
-      expectedStatuses: ["202", "200"],
-    },
+    { deserializer: _stopDeserializeSapVirtualInstances, expectedStatuses: ["200", "202", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/sapVirtualInstances/{sapVirtualInstanceName}/start":
-    {
-      deserializer: _startDeserializeSapVirtualInstances,
-      expectedStatuses: ["202", "200"],
-    },
+    { deserializer: _startDeserializeSapVirtualInstances, expectedStatuses: ["200", "202", "201"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/sapVirtualInstances/{sapVirtualInstanceName}":
     {
       deserializer: _$deleteDeserializeSapVirtualInstances,
       expectedStatuses: ["202", "204", "200"],
     },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/sapVirtualInstances/{sapVirtualInstanceName}":
-    { deserializer: _updateDeserialize, expectedStatuses: ["200", "202"] },
+    { deserializer: _updateDeserialize, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/sapVirtualInstances/{sapVirtualInstanceName}":
     {
       deserializer: _createDeserializeSapVirtualInstances,
-      expectedStatuses: ["200", "201"],
+      expectedStatuses: ["200", "201", "202"],
     },
 };
 
@@ -243,4 +233,9 @@ function getDeserializationHelper(
 function getPathFromMapKey(mapKey: string): string {
   const pathStart = mapKey.indexOf("/");
   return mapKey.slice(pathStart);
+}
+
+function getApiVersionFromUrl(urlStr: string): string | undefined {
+  const url = new URL(urlStr);
+  return url.searchParams.get("api-version") ?? undefined;
 }

@@ -155,22 +155,10 @@
       }
     }
   },
-  "keywords": [
-    "node",
-    "azure",
-    "cloud",
-    "typescript",
-    "browser",
-    "isomorphic"
-  ],
+  "keywords": ["node", "azure", "cloud", "typescript", "browser", "isomorphic"],
   "author": "Microsoft Corporation",
   "license": "MIT",
-  "files": [
-    "dist/",
-    "!dist/**/*.d.*ts.map",
-    "README.md",
-    "LICENSE"
-  ],
+  "files": ["dist/", "!dist/**/*.d.*ts.map", "README.md", "LICENSE"],
   "sdk-type": "mgmt",
   "repository": "github:Azure/azure-sdk-for-js",
   "bugs": {
@@ -234,10 +222,14 @@
   },
   "//sampleConfiguration": {
     "productName": "@azure/arm-subscriptions",
-    "productSlugs": [
-      "azure"
-    ],
+    "productSlugs": ["azure"],
     "disableDocsMs": true,
     "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-subscriptions?view=azure-node-preview"
+  },
+  "imports": {
+    "#platform/*": {
+      "browser": "./src/*-browser.mts",
+      "default": "./src/*.ts"
+    }
   }
 }

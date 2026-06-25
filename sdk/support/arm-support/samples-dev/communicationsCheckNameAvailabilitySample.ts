@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to check the availability of a resource name. This API should be used to check the uniqueness of the name for adding a new communication to the support ticket.
  *
  * @summary check the availability of a resource name. This API should be used to check the uniqueness of the name for adding a new communication to the support ticket.
- * x-ms-original-file: 2025-06-01-preview/CheckNameAvailabilityForSupportTicketCommunication.json
+ * x-ms-original-file: 2026-06-01/CheckNameAvailabilityForSupportTicketCommunication.json
  */
 async function checksWhetherNameIsAvailableForCommunicationResourceForASubscriptionSupportTicket(): Promise<void> {
   const credential = new DefaultAzureCredential();

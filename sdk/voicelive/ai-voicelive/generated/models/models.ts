@@ -4316,8 +4316,6 @@ export function responseMCPApprovalResponseItemDeserializer(
 export interface ResponseWebSearchCallItem extends ResponseItem {
   /** The type of the item. Always 'web_search_call'. */
   type: "web_search_call";
-  /** The unique ID of the web search tool call. */
-  id?: string;
   /** The status of the web search tool call. */
   status: string;
 }
@@ -4335,8 +4333,6 @@ export function responseWebSearchCallItemDeserializer(item: any): ResponseWebSea
 export interface ResponseFileSearchCallItem extends ResponseItem {
   /** The type of the item. Always 'file_search_call'. */
   type: "file_search_call";
-  /** The unique ID of the file search tool call. */
-  id?: string;
   /** The queries used for the file search. */
   queries?: string[];
   /** The status of the file search tool call. */

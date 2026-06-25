@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to classify the right problem classifications (categories) available for a specific Azure service.
  *
  * @summary classify the right problem classifications (categories) available for a specific Azure service.
- * x-ms-original-file: 2025-06-01-preview/ClassifyProblemClassificationsForSubscription.json
+ * x-ms-original-file: 2026-06-01/ClassifyProblemClassificationsForSubscription.json
  */
 async function classifyListOfProblemClassificationsForASpecifiedAzureServiceForASubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -1,25 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { StorageCacheManagementContext as Client } from "../index.js";
-import type {
-  AmlFilesystem,
-  AmlFilesystemUpdate,
-  _AmlFilesystemsListResult,
-} from "../../models/models.js";
+import { StorageCacheManagementContext as Client } from "../index.js";
 import {
   cloudErrorDeserializer,
+  AmlFilesystem,
   amlFilesystemSerializer,
   amlFilesystemDeserializer,
+  AmlFilesystemUpdate,
   amlFilesystemUpdateSerializer,
+  _AmlFilesystemsListResult,
   _amlFilesystemsListResultDeserializer,
   amlFilesystemArchiveInfoSerializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   AmlFilesystemsCancelArchiveOptionalParams,
   AmlFilesystemsArchiveOptionalParams,
   AmlFilesystemsListOptionalParams,
@@ -29,9 +29,13 @@ import type {
   AmlFilesystemsCreateOrUpdateOptionalParams,
   AmlFilesystemsGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _cancelArchiveSend(
   context: Client,
@@ -97,13 +101,15 @@ export function _archiveSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: !options?.archiveInfo
-      ? options?.archiveInfo
-      : amlFilesystemArchiveInfoSerializer(options?.archiveInfo),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: !options?.archiveInfo
+        ? options?.archiveInfo
+        : amlFilesystemArchiveInfoSerializer(options?.archiveInfo),
+    });
 }
 
 export async function _archiveDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -145,10 +151,12 @@ export function _listSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listDeserialize(
@@ -197,10 +205,12 @@ export function _listByResourceGroupSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listByResourceGroupDeserialize(
@@ -304,12 +314,14 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: amlFilesystemUpdateSerializer(amlFilesystem),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: amlFilesystemUpdateSerializer(amlFilesystem),
+    });
 }
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<AmlFilesystem> {
@@ -363,12 +375,14 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: amlFilesystemSerializer(amlFilesystem),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: amlFilesystemSerializer(amlFilesystem),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -423,10 +437,12 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<AmlFilesystem> {

@@ -1,6 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -46,7 +52,7 @@ export function operationDeserializer(item: any): Operation {
   };
 }
 
-/** Localized display information for and operation. */
+/** Localized display information for an operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
   readonly provider?: string;
@@ -158,21 +164,14 @@ export interface ErrorAdditionalInfo {
   /** The additional info type. */
   readonly type?: string;
   /** The additional info. */
-  readonly info?: Record<string, any>;
+  readonly info?: any;
 }
 
 export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
   return {
     type: item["type"],
-    info: !item["info"] ? item["info"] : _errorAdditionalInfoInfoDeserializer(item["info"]),
+    info: item["info"],
   };
-}
-
-/** model interface _ErrorAdditionalInfoInfo */
-export interface _ErrorAdditionalInfoInfo {}
-
-export function _errorAdditionalInfoInfoDeserializer(item: any): _ErrorAdditionalInfoInfo {
-  return item;
 }
 
 /** Define the Virtual Instance for SAP solutions resource. */
@@ -198,7 +197,9 @@ export function sapVirtualInstanceSerializer(item: SAPVirtualInstance): any {
 
 export function sapVirtualInstanceDeserializer(item: any): SAPVirtualInstance {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -366,7 +367,7 @@ export function sapConfigurationUnionSerializer(item: SAPConfigurationUnion): an
 }
 
 export function sapConfigurationUnionDeserializer(item: any): SAPConfigurationUnion {
-  switch (item.configurationType) {
+  switch (item["configurationType"]) {
     case "Discovery":
       return discoveryConfigurationDeserializer(item as DiscoveryConfiguration);
 
@@ -479,10 +480,7 @@ export interface InfrastructureConfiguration {
 }
 
 export function infrastructureConfigurationSerializer(item: InfrastructureConfiguration): any {
-  return {
-    appResourceGroup: item["appResourceGroup"],
-    deploymentType: item["deploymentType"],
-  };
+  return { appResourceGroup: item["appResourceGroup"], deploymentType: item["deploymentType"] };
 }
 
 export function infrastructureConfigurationDeserializer(item: any): InfrastructureConfiguration {
@@ -516,7 +514,7 @@ export function infrastructureConfigurationUnionSerializer(
 export function infrastructureConfigurationUnionDeserializer(
   item: any,
 ): InfrastructureConfigurationUnion {
-  switch (item.deploymentType) {
+  switch (item["deploymentType"]) {
     case "SingleServer":
       return singleServerConfigurationDeserializer(item as SingleServerConfiguration);
 
@@ -764,7 +762,7 @@ export function osConfigurationUnionSerializer(item: OSConfigurationUnion): any 
 }
 
 export function osConfigurationUnionDeserializer(item: any): OSConfigurationUnion {
-  switch (item.osType) {
+  switch (item["osType"]) {
     case "Windows":
       return windowsConfigurationDeserializer(item as WindowsConfiguration);
 
@@ -1069,7 +1067,7 @@ export function singleServerCustomResourceNamesUnionSerializer(
 export function singleServerCustomResourceNamesUnionDeserializer(
   item: any,
 ): SingleServerCustomResourceNamesUnion {
-  switch (item.namingPatternType) {
+  switch (item["namingPatternType"]) {
     case "FullResourceName":
       return singleServerFullResourceNamesDeserializer(item as SingleServerFullResourceNames);
 
@@ -1155,7 +1153,16 @@ export function virtualMachineResourceNamesDeserializer(item: any): VirtualMachi
       ? item["networkInterfaces"]
       : networkInterfaceResourceNamesArrayDeserializer(item["networkInterfaces"]),
     osDiskName: item["osDiskName"],
-    dataDiskNames: item["dataDiskNames"],
+    dataDiskNames: !item["dataDiskNames"]
+      ? item["dataDiskNames"]
+      : Object.fromEntries(
+          Object.entries(item["dataDiskNames"]).map(([k, p]: [string, any]) => [
+            k,
+            p.map((p1: any) => {
+              return p1;
+            }),
+          ]),
+        ),
   };
 }
 
@@ -1464,7 +1471,7 @@ export function fileShareConfigurationUnionSerializer(item: FileShareConfigurati
 }
 
 export function fileShareConfigurationUnionDeserializer(item: any): FileShareConfigurationUnion {
-  switch (item.configurationType) {
+  switch (item["configurationType"]) {
     case "Skip":
       return skipFileShareConfigurationDeserializer(item as SkipFileShareConfiguration);
 
@@ -1611,7 +1618,7 @@ export function threeTierCustomResourceNamesUnionSerializer(
 export function threeTierCustomResourceNamesUnionDeserializer(
   item: any,
 ): ThreeTierCustomResourceNamesUnion {
-  switch (item.namingPatternType) {
+  switch (item["namingPatternType"]) {
     case "FullResourceName":
       return threeTierFullResourceNamesDeserializer(item as ThreeTierFullResourceNames);
 
@@ -1915,7 +1922,7 @@ export function softwareConfigurationUnionSerializer(item: SoftwareConfiguration
 }
 
 export function softwareConfigurationUnionDeserializer(item: any): SoftwareConfigurationUnion {
-  switch (item.softwareInstallationType) {
+  switch (item["softwareInstallationType"]) {
     case "ServiceInitiated":
       return serviceInitiatedSoftwareConfigurationDeserializer(
         item as ServiceInitiatedSoftwareConfiguration,
@@ -2399,20 +2406,24 @@ export interface SAPVirtualInstanceIdentity {
   /** The type of managed identity assigned to this resource. */
   type: SAPVirtualInstanceIdentityType;
   /** The identities assigned to this resource by the user. */
-  userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
+  userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
 
 export function sapVirtualInstanceIdentitySerializer(item: SAPVirtualInstanceIdentity): any {
-  return {
-    type: item["type"],
-    userAssignedIdentities: item["userAssignedIdentities"],
-  };
+  return { type: item["type"], userAssignedIdentities: item["userAssignedIdentities"] };
 }
 
 export function sapVirtualInstanceIdentityDeserializer(item: any): SAPVirtualInstanceIdentity {
   return {
     type: item["type"],
-    userAssignedIdentities: item["userAssignedIdentities"],
+    userAssignedIdentities: !item["userAssignedIdentities"]
+      ? item["userAssignedIdentities"]
+      : Object.fromEntries(
+          Object.entries(item["userAssignedIdentities"]).map(([k, p]: [string, any]) => [
+            k,
+            !p ? p : userAssignedIdentityDeserializer(p),
+          ]),
+        ),
   };
 }
 
@@ -2436,20 +2447,20 @@ export type SAPVirtualInstanceIdentityType = string;
 
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
-  /** The client ID of the assigned identity. */
-  readonly clientId?: string;
   /** The principal ID of the assigned identity. */
   readonly principalId?: string;
+  /** The client ID of the assigned identity. */
+  readonly clientId?: string;
 }
 
-export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
-  return item;
+export function userAssignedIdentitySerializer(_item: UserAssignedIdentity): any {
+  return {};
 }
 
 export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
   return {
-    clientId: item["clientId"],
     principalId: item["principalId"],
+    clientId: item["clientId"],
   };
 }
 
@@ -2473,7 +2484,9 @@ export function trackedResourceDeserializer(item: any): TrackedResource {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
   };
 }
@@ -2490,8 +2503,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -2548,7 +2561,7 @@ export enum KnownCreatedByType {
 
 /**
  * The kind of entity that created the resource. \
- * {@link KnowncreatedByType} can be used interchangeably with createdByType,
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **User**: The entity was created by a user. \
@@ -2591,9 +2604,7 @@ export interface UpdateSAPVirtualInstanceProperties {
 export function updateSAPVirtualInstancePropertiesSerializer(
   item: UpdateSAPVirtualInstanceProperties,
 ): any {
-  return {
-    managedResourcesNetworkAccessType: item["managedResourcesNetworkAccessType"],
-  };
+  return { managedResourcesNetworkAccessType: item["managedResourcesNetworkAccessType"] };
 }
 
 /** The response of a SAPVirtualInstance list operation. */
@@ -2773,7 +2784,7 @@ export type SAPSizingRecommendationResultUnion =
 export function sapSizingRecommendationResultUnionDeserializer(
   item: any,
 ): SAPSizingRecommendationResultUnion {
-  switch (item.deploymentType) {
+  switch (item["deploymentType"]) {
     case "SingleServer":
       return singleServerRecommendationResultDeserializer(item as SingleServerRecommendationResult);
 
@@ -3084,7 +3095,9 @@ export function sapCentralServerInstanceSerializer(item: SAPCentralServerInstanc
 
 export function sapCentralServerInstanceDeserializer(item: any): SAPCentralServerInstance {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -3196,8 +3209,8 @@ export interface MessageServerProperties {
   readonly health?: SAPHealthState;
 }
 
-export function messageServerPropertiesSerializer(item: MessageServerProperties): any {
-  return item;
+export function messageServerPropertiesSerializer(_item: MessageServerProperties): any {
+  return {};
 }
 
 export function messageServerPropertiesDeserializer(item: any): MessageServerProperties {
@@ -3224,8 +3237,8 @@ export interface EnqueueServerProperties {
   readonly health?: SAPHealthState;
 }
 
-export function enqueueServerPropertiesSerializer(item: EnqueueServerProperties): any {
-  return item;
+export function enqueueServerPropertiesSerializer(_item: EnqueueServerProperties): any {
+  return {};
 }
 
 export function enqueueServerPropertiesDeserializer(item: any): EnqueueServerProperties {
@@ -3245,8 +3258,8 @@ export interface GatewayServerProperties {
   readonly health?: SAPHealthState;
 }
 
-export function gatewayServerPropertiesSerializer(item: GatewayServerProperties): any {
-  return item;
+export function gatewayServerPropertiesSerializer(_item: GatewayServerProperties): any {
+  return {};
 }
 
 export function gatewayServerPropertiesDeserializer(item: any): GatewayServerProperties {
@@ -3275,9 +3288,9 @@ export interface EnqueueReplicationServerProperties {
 }
 
 export function enqueueReplicationServerPropertiesSerializer(
-  item: EnqueueReplicationServerProperties,
+  _item: EnqueueReplicationServerProperties,
 ): any {
-  return item;
+  return {};
 }
 
 export function enqueueReplicationServerPropertiesDeserializer(
@@ -3466,7 +3479,9 @@ export function sapDatabaseInstanceSerializer(item: SAPDatabaseInstance): any {
 
 export function sapDatabaseInstanceDeserializer(item: any): SAPDatabaseInstance {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -3502,8 +3517,8 @@ export interface SAPDatabaseProperties {
   readonly errors?: SAPVirtualInstanceError;
 }
 
-export function sapDatabasePropertiesSerializer(item: SAPDatabaseProperties): any {
-  return item;
+export function sapDatabasePropertiesSerializer(_item: SAPDatabaseProperties): any {
+  return {};
 }
 
 export function sapDatabasePropertiesDeserializer(item: any): SAPDatabaseProperties {
@@ -3609,7 +3624,9 @@ export function sapApplicationServerInstanceSerializer(item: SAPApplicationServe
 
 export function sapApplicationServerInstanceDeserializer(item: any): SAPApplicationServerInstance {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -3660,9 +3677,9 @@ export interface SAPApplicationServerProperties {
 }
 
 export function sapApplicationServerPropertiesSerializer(
-  item: SAPApplicationServerProperties,
+  _item: SAPApplicationServerProperties,
 ): any {
-  return item;
+  return {};
 }
 
 export function sapApplicationServerPropertiesDeserializer(

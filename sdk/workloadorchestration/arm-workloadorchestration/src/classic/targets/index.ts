@@ -108,11 +108,6 @@ export interface TargetsOperations {
     options?: TargetsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<Target>;
   /** Delete a Target Resource */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     targetName: string,

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to this API allows you to upload content to a file
  *
  * @summary this API allows you to upload content to a file
- * x-ms-original-file: 2025-06-01-preview/UploadFile.json
+ * x-ms-original-file: 2026-06-01/UploadFile.json
  */
 async function uploadFile(): Promise<void> {
   const credential = new DefaultAzureCredential();

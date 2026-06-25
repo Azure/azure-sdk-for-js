@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all the Files information under a workspace for an Azure subscription.
  *
  * @summary lists all the Files information under a workspace for an Azure subscription.
- * x-ms-original-file: 2025-06-01-preview/ListFilesForSubscriptionUnderFileWorkspace.json
+ * x-ms-original-file: 2026-06-01/ListFilesForSubscriptionUnderFileWorkspace.json
  */
 async function listFilesUnderAWorkspaceForASubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

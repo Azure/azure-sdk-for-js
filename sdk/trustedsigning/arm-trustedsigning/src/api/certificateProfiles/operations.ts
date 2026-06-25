@@ -1,33 +1,37 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CodeSigningContext as Client } from "../index.js";
-import type {
-  CertificateProfile,
-  _CertificateProfileListResult,
-  RevokeCertificate,
-} from "../../models/models.js";
+import { CodeSigningContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  CertificateProfile,
   certificateProfileSerializer,
   certificateProfileDeserializer,
+  _CertificateProfileListResult,
   _certificateProfileListResultDeserializer,
+  RevokeCertificate,
   revokeCertificateSerializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   CertificateProfilesRevokeCertificateOptionalParams,
   CertificateProfilesListByCodeSigningAccountOptionalParams,
   CertificateProfilesDeleteOptionalParams,
   CertificateProfilesCreateOptionalParams,
   CertificateProfilesGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _revokeCertificateSend(
   context: Client,
@@ -35,9 +39,7 @@ export function _revokeCertificateSend(
   accountName: string,
   profileName: string,
   body: RevokeCertificate,
-  options: CertificateProfilesRevokeCertificateOptionalParams = {
-    requestOptions: {},
-  },
+  options: CertificateProfilesRevokeCertificateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CodeSigning/codeSigningAccounts/{accountName}/certificateProfiles/{profileName}/revokeCertificate{?api%2Dversion}",
@@ -46,24 +48,29 @@ export function _revokeCertificateSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       profileName: profileName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-10-13",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: revokeCertificateSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: revokeCertificateSerializer(body),
+    });
 }
 
 export async function _revokeCertificateDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -77,9 +84,7 @@ export async function revokeCertificate(
   accountName: string,
   profileName: string,
   body: RevokeCertificate,
-  options: CertificateProfilesRevokeCertificateOptionalParams = {
-    requestOptions: {},
-  },
+  options: CertificateProfilesRevokeCertificateOptionalParams = { requestOptions: {} },
 ): Promise<void> {
   const result = await _revokeCertificateSend(
     context,
@@ -96,9 +101,7 @@ export function _listByCodeSigningAccountSend(
   context: Client,
   resourceGroupName: string,
   accountName: string,
-  options: CertificateProfilesListByCodeSigningAccountOptionalParams = {
-    requestOptions: {},
-  },
+  options: CertificateProfilesListByCodeSigningAccountOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CodeSigning/codeSigningAccounts/{accountName}/certificateProfiles{?api%2Dversion}",
@@ -106,19 +109,18 @@ export function _listByCodeSigningAccountSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-10-13",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listByCodeSigningAccountDeserialize(
@@ -127,28 +129,29 @@ export async function _listByCodeSigningAccountDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
   return _certificateProfileListResultDeserializer(result.body);
 }
 
-/** List certificate profiles under a trusted signing account. */
+/** List certificate profiles under an artifact signing account. */
 export function listByCodeSigningAccount(
   context: Client,
   resourceGroupName: string,
   accountName: string,
-  options: CertificateProfilesListByCodeSigningAccountOptionalParams = {
-    requestOptions: {},
-  },
+  options: CertificateProfilesListByCodeSigningAccountOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<CertificateProfile> {
   return buildPagedAsyncIterator(
     context,
     () => _listByCodeSigningAccountSend(context, resourceGroupName, accountName, options),
     _listByCodeSigningAccountDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-10-13" },
   );
 }
 
@@ -166,7 +169,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       profileName: profileName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-10-13",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -179,7 +182,10 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -187,11 +193,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete a certificate profile. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -205,6 +206,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, accountName, profileName, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-10-13",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -223,21 +225,20 @@ export function _createSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       profileName: profileName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-10-13",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: certificateProfileSerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: certificateProfileSerializer(resource),
+    });
 }
 
 export async function _createDeserialize(
@@ -246,7 +247,10 @@ export async function _createDeserialize(
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -268,6 +272,7 @@ export function create(
     getInitialResponse: () =>
       _createSend(context, resourceGroupName, accountName, profileName, resource, options),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2025-10-13",
   }) as PollerLike<OperationState<CertificateProfile>, CertificateProfile>;
 }
 
@@ -285,26 +290,28 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       profileName: profileName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-10-13",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<CertificateProfile> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 

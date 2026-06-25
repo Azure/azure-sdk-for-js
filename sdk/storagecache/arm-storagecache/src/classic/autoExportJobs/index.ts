@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { StorageCacheManagementContext } from "../../api/storageCacheManagementContext.js";
+import { StorageCacheManagementContext } from "../../api/storageCacheManagementContext.js";
 import {
   listByAmlFilesystem,
   $delete,
@@ -9,18 +9,17 @@ import {
   createOrUpdate,
   get,
 } from "../../api/autoExportJobs/operations.js";
-import type {
+import {
   AutoExportJobsListByAmlFilesystemOptionalParams,
   AutoExportJobsDeleteOptionalParams,
   AutoExportJobsUpdateOptionalParams,
   AutoExportJobsCreateOrUpdateOptionalParams,
   AutoExportJobsGetOptionalParams,
 } from "../../api/autoExportJobs/options.js";
-import type { AutoExportJob, AutoExportJobUpdate } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { AutoExportJob, AutoExportJobUpdate } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a AutoExportJobs operations. */
 export interface AutoExportJobsOperations {

@@ -3,10 +3,14 @@
 
 import { WorkloadsContext } from "../../api/workloadsContext.js";
 import {
-  OperationStatusResult,
-  SAPDatabaseInstance,
-  UpdateSAPDatabaseInstanceRequest,
-} from "../../models/models.js";
+  stop,
+  start,
+  list,
+  $delete,
+  update,
+  create,
+  get,
+} from "../../api/sapDatabaseInstances/operations.js";
 import {
   SAPDatabaseInstancesStopOptionalParams,
   SAPDatabaseInstancesStartOptionalParams,
@@ -17,14 +21,10 @@ import {
   SAPDatabaseInstancesGetOptionalParams,
 } from "../../api/sapDatabaseInstances/options.js";
 import {
-  stop,
-  start,
-  list,
-  $delete,
-  update,
-  create,
-  get,
-} from "../../api/sapDatabaseInstances/operations.js";
+  OperationStatusResult,
+  SAPDatabaseInstance,
+  UpdateSAPDatabaseInstanceRequest,
+} from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -51,11 +51,6 @@ export interface SAPDatabaseInstancesOperations {
     options?: SAPDatabaseInstancesListOptionalParams,
   ) => PagedAsyncIterableIterator<SAPDatabaseInstance>;
   /** Deletes the Database resource corresponding to a Virtual Instance for SAP solutions resource. &lt;br&gt;&lt;br&gt;This will be used by service only. Delete by end user will return a Bad Request error. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     sapVirtualInstanceName: string,

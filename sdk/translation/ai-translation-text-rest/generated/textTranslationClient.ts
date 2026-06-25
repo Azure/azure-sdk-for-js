@@ -1,67 +1,74 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ClientOptions } from "@azure-rest/core-client";
-import { getClient } from "@azure-rest/core-client";
-import { logger } from "./logger.js";
-import type { TokenCredential, KeyCredential } from "@azure/core-auth";
-import type { TextTranslationClient } from "./clientDefinitions.js";
+import {
+  TextTranslationContext,
+  TextTranslationClientOptionalParams,
+  createTextTranslation,
+} from "./api/index.js";
+import { transliterate, translate, getSupportedLanguages } from "./api/operations.js";
+import {
+  TransliterateOptionalParams,
+  TranslateOptionalParams,
+  GetSupportedLanguagesOptionalParams,
+} from "./api/options.js";
+import {
+  GetSupportedLanguagesResult,
+  TranslateBody,
+  TranslationResult,
+  TransliterateBody,
+  TransliterateResult,
+} from "./models/models.js";
+import { KeyCredential, TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
-/** The optional parameters for the client */
-export interface TextTranslationClientOptions extends ClientOptions {
-  /** The api version option of the client */
-  apiVersion?: string;
-}
+export type { TextTranslationClientOptionalParams } from "./api/textTranslationContext.js";
 
-/**
- * Initialize a new instance of `TextTranslationClient`
- * @param endpointParam - Supported Text Translation endpoints (protocol and hostname, for example:
- *     https://api.cognitive.microsofttranslator.com).
- * @param credentials - uniquely identify client credential
- * @param options - the parameter for all optional parameters
- */
-export default function createClient(
-  endpointParam: string,
-  credentials: TokenCredential | KeyCredential,
-  { apiVersion = "2026-06-06", ...options }: TextTranslationClientOptions = {},
-): TextTranslationClient {
-  const endpointUrl = options.endpoint ?? `${endpointParam}`;
-  const userAgentInfo = `azsdk-js-ai-translation-text-rest/1.0.0-beta.1`;
-  const userAgentPrefix =
-    options.userAgentOptions && options.userAgentOptions.userAgentPrefix
-      ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
-      : `${userAgentInfo}`;
-  options = {
-    ...options,
-    userAgentOptions: {
-      userAgentPrefix,
-    },
-    loggingOptions: {
-      logger: options.loggingOptions?.logger ?? logger.info,
-    },
-    credentials: {
-      scopes: options.credentials?.scopes ?? ["https://cognitiveservices.azure.com/.default"],
-      apiKeyHeaderName: options.credentials?.apiKeyHeaderName ?? "Ocp-Apim-Subscription-Key",
-    },
-  };
-  const client = getClient(endpointUrl, credentials, options) as TextTranslationClient;
+export class TextTranslationClient {
+  private _client: TextTranslationContext;
+  /** The pipeline used by this client to make requests */
+  public readonly pipeline: Pipeline;
 
-  client.pipeline.removePolicy({ name: "ApiVersionPolicy" });
-  client.pipeline.addPolicy({
-    name: "ClientApiVersionPolicy",
-    sendRequest: (req, next) => {
-      // Use the apiVersion defined in request url directly
-      // Append one if there is no apiVersion and we have one at client options
-      const url = new URL(req.url);
-      if (!url.searchParams.get("api-version") && apiVersion) {
-        req.url = `${req.url}${
-          Array.from(url.searchParams.keys()).length > 0 ? "&" : "?"
-        }api-version=${apiVersion}`;
-      }
+  /** Azure Translator is a cloud-based, multilingual, neural machine translation service. The Text Translation API enables robust and scalable translation capabilities suitable for diverse applications. */
+  constructor(
+    endpointParam: string,
+    credential: any | KeyCredential | TokenCredential,
+    options: TextTranslationClientOptionalParams = {},
+  ) {
+    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
+    const userAgentPrefix = prefixFromOptions
+      ? `${prefixFromOptions} azsdk-js-client`
+      : `azsdk-js-client`;
+    this._client = createTextTranslation(endpointParam, credential, {
+      ...options,
+      userAgentOptions: { userAgentPrefix },
+    });
+    this.pipeline = this._client.pipeline;
+  }
 
-      return next(req);
-    },
-  });
+  /** Transliterate Text */
+  transliterate(
+    language: string,
+    fromScript: string,
+    toScript: string,
+    body: TransliterateBody,
+    options: TransliterateOptionalParams = { requestOptions: {} },
+  ): Promise<TransliterateResult> {
+    return transliterate(this._client, language, fromScript, toScript, body, options);
+  }
 
-  return client;
+  /** Translate Text */
+  translate(
+    body: TranslateBody,
+    options: TranslateOptionalParams = { requestOptions: {} },
+  ): Promise<TranslationResult> {
+    return translate(this._client, body, options);
+  }
+
+  /** Gets the set of languages currently supported by other operations of the Translator. */
+  getSupportedLanguages(
+    options: GetSupportedLanguagesOptionalParams = { requestOptions: {} },
+  ): Promise<GetSupportedLanguagesResult> {
+    return getSupportedLanguages(this._client, options);
+  }
 }

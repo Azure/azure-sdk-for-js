@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export {
-  createWorkloads,
-  type WorkloadsContext,
-  type WorkloadsClientOptionalParams,
-} from "./workloadsContext.js";
+export type { WorkloadsContext, WorkloadsClientOptionalParams } from "./workloadsContext.js";
+export { createWorkloads } from "./workloadsContext.js";

@@ -12,7 +12,7 @@ export interface SubscriptionOperationOperations {
   get: (
     operationId: string,
     options?: SubscriptionOperationGetOptionalParams,
-  ) => Promise<SubscriptionCreationResult>;
+  ) => Promise<SubscriptionCreationResult | undefined>;
 }
 
 function _getSubscriptionOperation(context: SubscriptionContext) {

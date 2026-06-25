@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CodeSigningClient } from "@azure/arm-trustedsigning";
+import { CodeSigningClient } from "@azure/arm-artifactsigning";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to update a trusted signing account.
+ * This sample demonstrates how to update an artifact signing account.
  *
- * @summary update a trusted signing account.
+ * @summary update an artifact signing account.
  * x-ms-original-file: 2025-10-13/CodeSigningAccounts_Update.json
  */
-async function updateATrustedSigningAccount(): Promise<void> {
+async function updateAnArtifactSigningAccount(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new CodeSigningClient(credential, subscriptionId);
@@ -21,7 +21,7 @@ async function updateATrustedSigningAccount(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await updateATrustedSigningAccount();
+  await updateAnArtifactSigningAccount();
 }
 
 main().catch(console.error);

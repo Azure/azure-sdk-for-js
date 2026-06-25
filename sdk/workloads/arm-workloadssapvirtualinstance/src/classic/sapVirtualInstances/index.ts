@@ -3,18 +3,19 @@
 
 import { WorkloadsContext } from "../../api/workloadsContext.js";
 import {
-  SAPVirtualInstance,
-  UpdateSAPVirtualInstanceRequest,
-  OperationStatusResult,
-  SAPSizingRecommendationRequest,
-  SAPSizingRecommendationResultUnion,
-  SAPSupportedSkusRequest,
-  SAPSupportedResourceSkusResult,
-  SAPDiskConfigurationsRequest,
-  SAPDiskConfigurationsResult,
-  SAPAvailabilityZoneDetailsRequest,
-  SAPAvailabilityZoneDetailsResult,
-} from "../../models/models.js";
+  getAvailabilityZoneDetails,
+  getDiskConfigurations,
+  getSapSupportedSku,
+  getSizingRecommendations,
+  stop,
+  start,
+  listBySubscription,
+  listByResourceGroup,
+  $delete,
+  update,
+  create,
+  get,
+} from "../../api/sapVirtualInstances/operations.js";
 import {
   SAPVirtualInstancesGetAvailabilityZoneDetailsOptionalParams,
   SAPVirtualInstancesGetDiskConfigurationsOptionalParams,
@@ -30,19 +31,18 @@ import {
   SAPVirtualInstancesGetOptionalParams,
 } from "../../api/sapVirtualInstances/options.js";
 import {
-  getAvailabilityZoneDetails,
-  getDiskConfigurations,
-  getSapSupportedSku,
-  getSizingRecommendations,
-  stop,
-  start,
-  listBySubscription,
-  listByResourceGroup,
-  $delete,
-  update,
-  create,
-  get,
-} from "../../api/sapVirtualInstances/operations.js";
+  SAPVirtualInstance,
+  UpdateSAPVirtualInstanceRequest,
+  OperationStatusResult,
+  SAPSizingRecommendationRequest,
+  SAPSizingRecommendationResultUnion,
+  SAPSupportedSkusRequest,
+  SAPSupportedResourceSkusResult,
+  SAPDiskConfigurationsRequest,
+  SAPDiskConfigurationsResult,
+  SAPAvailabilityZoneDetailsRequest,
+  SAPAvailabilityZoneDetailsResult,
+} from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -94,11 +94,6 @@ export interface SAPVirtualInstancesOperations {
     options?: SAPVirtualInstancesListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<SAPVirtualInstance>;
   /** Deletes a Virtual Instance for SAP solutions resource and its child resources, that is the associated Central Services Instance, Application Server Instances and Database Instance. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     sapVirtualInstanceName: string,
