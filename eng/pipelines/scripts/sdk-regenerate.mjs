@@ -19,6 +19,8 @@ const TYPESPEC_GENERATE_SCRIPT = path.join(
 );
 const RELEASE_TOOLS_DIR = "eng/tools/js-sdk-release-tools";
 const DEV_VERSION_SENTINEL = "dev"; // Special --input value meaning "resolve the npm next tag" (dev emitter builds).
+const SPEC_REPO_URL = "https://github.com/Azure/azure-rest-api-specs.git";
+const SPEC_REPO_BRANCH = "main";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Command-line argument parsing
@@ -287,11 +289,31 @@ function preinstallReleaseTools() {
   runShell(`npm --prefix ${RELEASE_TOOLS_DIR} ci`, SDK_ROOT);
 }
 
+// Shallow-clone azure-rest-api-specs main once per shard. Each package syncs from
+// this snapshot (Sync's LocalSpecRepoPath), so its tsp-location.yaml commit is
+// ignored. Latest main keeps specs compilable by the latest emitter; metadata.json
+// pins the api-version, and a released api-version's spec is frozen, so latest main
+// reproduces the SDK's spec content.
+function shallowCloneSpecRepoMain() {
+  const cloneDir = fs.mkdtempSync(path.join(os.tmpdir(), "spec-repo-"));
+  console.log(`\n===== Cloning ${SPEC_REPO_URL} (${SPEC_REPO_BRANCH}, depth 1) =====`);
+  runShellNoEcho("git", [
+    "clone",
+    "--depth",
+    "1",
+    "--branch",
+    SPEC_REPO_BRANCH,
+    SPEC_REPO_URL,
+    cloneDir,
+  ]);
+  return cloneDir;
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Subcommand: shard
 // Runs once per matrix shard. Phases:
-//   install tools → regenerate (fan-out) → build (turbo, batched) →
-//   changelog (fan-out).
+//   install tools + clone spec repo → regenerate (fan-out) → build (turbo,
+//   batched) → changelog (fan-out).
 // ─────────────────────────────────────────────────────────────────────────────
 
 async function runShard() {
@@ -304,11 +326,16 @@ async function runShard() {
 
   installGlobalCliTools();
   preinstallReleaseTools();
+  const specRepoCloneDir = shallowCloneSpecRepoMain();
 
   const shardPackages = loadShardPackages(directoryListFile);
   console.log(`Shard packages: ${shardPackages.length}`);
 
-  const regenerationOutcomes = await regenerateAll(shardPackages, perPackageConcurrency);
+  const regenerationOutcomes = await regenerateAll(
+    shardPackages,
+    perPackageConcurrency,
+    specRepoCloneDir,
+  );
   const successfullyRegenerated = regenerationOutcomes.filter((p) => p.success);
 
   const buildOutcome =
@@ -412,17 +439,19 @@ function resolveMetadataApiVersion(packageDir) {
   return { apiVersion, reason: `pinned ${namespaces[0]}=${apiVersion}` };
 }
 
-async function regenerateAll(packages, concurrency) {
+async function regenerateAll(packages, concurrency, specRepoCloneDir) {
   console.log(`\n===== Regenerate (concurrency=${concurrency}) =====`);
   const outcomes = [];
   const completedCount = { value: 0 };
   await runWithConcurrency(packages, concurrency, async (pkg) => {
-    outcomes.push(await regenerateOnePackage(pkg, completedCount, packages.length));
+    outcomes.push(
+      await regenerateOnePackage(pkg, completedCount, packages.length, specRepoCloneDir),
+    );
   });
   return outcomes;
 }
 
-async function regenerateOnePackage(pkg, completedCount, totalPackageCount) {
+async function regenerateOnePackage(pkg, completedCount, totalPackageCount, specRepoCloneDir) {
   const startedAtMs = Date.now();
 
   // typespec-ts emitter rewrites CHANGELOG.md from a template, wiping years of
@@ -433,10 +462,10 @@ async function regenerateOnePackage(pkg, completedCount, totalPackageCount) {
     ? fs.readFileSync(changelogPath, "utf8")
     : null;
 
-  // Sync from the spec commit pinned in this package's tsp-location.yaml.
+  // Sync from the latest spec snapshot (LocalSpecRepoPath); the pinned commit is ignored.
   const syncResult = await runCommandCapturing(
     "pwsh",
-    ["-File", TYPESPEC_SYNC_SCRIPT, pkg.packageDir],
+    ["-File", TYPESPEC_SYNC_SCRIPT, pkg.packageDir, specRepoCloneDir],
     SDK_ROOT,
   );
   let combinedLog = `===== TypeSpec-Project-Sync =====\n${syncResult.output}\nExit: ${syncResult.exitCode}\n`;
