@@ -8,7 +8,7 @@ export type { CodeContainersOperations } from "./codeContainers/index.js";
 export type { CodeVersionsOperations } from "./codeVersions/index.js";
 export type { ComponentContainersOperations } from "./componentContainers/index.js";
 export type { ComponentVersionsOperations } from "./componentVersions/index.js";
-export type { ComputeOperations } from "./compute/index.js";
+export type { ComputeOperationsOperations } from "./computeOperations/index.js";
 export type { ConnectionOperations } from "./connection/index.js";
 export type { ConnectionRaiBlocklistOperations } from "./connectionRaiBlocklist/index.js";
 export type { ConnectionRaiBlocklistItemOperations } from "./connectionRaiBlocklistItem/index.js";

@@ -20,8 +20,8 @@ import type { ComponentContainersOperations } from "./classic/componentContainer
 import { _getComponentContainersOperations } from "./classic/componentContainers/index.js";
 import type { ComponentVersionsOperations } from "./classic/componentVersions/index.js";
 import { _getComponentVersionsOperations } from "./classic/componentVersions/index.js";
-import type { ComputeOperations } from "./classic/compute/index.js";
-import { _getComputeOperations } from "./classic/compute/index.js";
+import type { ComputeOperationsOperations } from "./classic/computeOperations/index.js";
+import { _getComputeOperationsOperations } from "./classic/computeOperations/index.js";
 import type { ConnectionOperations } from "./classic/connection/index.js";
 import { _getConnectionOperations } from "./classic/connection/index.js";
 import type { ConnectionRaiBlocklistOperations } from "./classic/connectionRaiBlocklist/index.js";
@@ -198,7 +198,7 @@ export class AzureMachineLearningServicesManagementClient {
     this.privateLinkResources = _getPrivateLinkResourcesOperations(this._client);
     this.connection = _getConnectionOperations(this._client);
     this.workspaceFeatures = _getWorkspaceFeaturesOperations(this._client);
-    this.compute = _getComputeOperations(this._client);
+    this.computeOperations = _getComputeOperationsOperations(this._client);
     this.privateEndpointConnections = _getPrivateEndpointConnectionsOperations(this._client);
     this.raiPolicy = _getRaiPolicyOperations(this._client);
     this.serverlessEndpoints = _getServerlessEndpointsOperations(this._client);
@@ -300,8 +300,8 @@ export class AzureMachineLearningServicesManagementClient {
   public readonly connection: ConnectionOperations;
   /** The operation groups for workspaceFeatures */
   public readonly workspaceFeatures: WorkspaceFeaturesOperations;
-  /** The operation groups for compute */
-  public readonly compute: ComputeOperations;
+  /** The operation groups for computeOperations */
+  public readonly computeOperations: ComputeOperationsOperations;
   /** The operation groups for privateEndpointConnections */
   public readonly privateEndpointConnections: PrivateEndpointConnectionsOperations;
   /** The operation groups for raiPolicy */

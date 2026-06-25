@@ -377,7 +377,7 @@ export class AzureMachineLearningServicesManagementClient {
     readonly codeVersions: CodeVersionsOperations;
     readonly componentContainers: ComponentContainersOperations;
     readonly componentVersions: ComponentVersionsOperations;
-    readonly compute: ComputeOperations;
+    readonly computeOperations: ComputeOperationsOperations;
     readonly connection: ConnectionOperations;
     readonly connectionRaiBlocklist: ConnectionRaiBlocklistOperations;
     readonly connectionRaiBlocklistItem: ConnectionRaiBlocklistItemOperations;
@@ -1063,24 +1063,6 @@ export interface Compute {
 }
 
 // @public
-export interface ComputeCreateOrUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ComputeDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ComputeGetAllowedResizeSizesOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ComputeGetOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface ComputeInstance extends Compute {
     computeType: "ComputeInstance";
     properties?: ComputeInstanceProperties;
@@ -1207,63 +1189,118 @@ export interface ComputeInstanceVersion {
 }
 
 // @public
-export interface ComputeListKeysOptionalParams extends OperationOptions {
+export interface ComputeOperationsCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
-export interface ComputeListNodesOptionalParams extends OperationOptions {
+export interface ComputeOperationsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
-export interface ComputeListOptionalParams extends OperationOptions {
+export interface ComputeOperationsGetAllowedResizeSizesOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ComputeOperationsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ComputeOperationsListKeysOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ComputeOperationsListNodesOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ComputeOperationsListOptionalParams extends OperationOptions {
     skip?: string;
 }
 
 // @public
-export interface ComputeOperations {
+export interface ComputeOperationsOperations {
     // @deprecated (undocumented)
-    beginCreateOrUpdate: (resourceGroupName: string, workspaceName: string, computeName: string, parameters: ComputeResource, options?: ComputeCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<ComputeResource>, ComputeResource>>;
+    beginCreateOrUpdate: (resourceGroupName: string, workspaceName: string, computeName: string, parameters: ComputeResource, options?: ComputeOperationsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<ComputeResource>, ComputeResource>>;
     // @deprecated (undocumented)
-    beginCreateOrUpdateAndWait: (resourceGroupName: string, workspaceName: string, computeName: string, parameters: ComputeResource, options?: ComputeCreateOrUpdateOptionalParams) => Promise<ComputeResource>;
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, workspaceName: string, computeName: string, parameters: ComputeResource, options?: ComputeOperationsCreateOrUpdateOptionalParams) => Promise<ComputeResource>;
     // @deprecated (undocumented)
-    beginDelete: (resourceGroupName: string, workspaceName: string, computeName: string, underlyingResourceAction: UnderlyingResourceAction, options?: ComputeDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDelete: (resourceGroupName: string, workspaceName: string, computeName: string, underlyingResourceAction: UnderlyingResourceAction, options?: ComputeOperationsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
     // @deprecated (undocumented)
-    beginDeleteAndWait: (resourceGroupName: string, workspaceName: string, computeName: string, underlyingResourceAction: UnderlyingResourceAction, options?: ComputeDeleteOptionalParams) => Promise<void>;
+    beginDeleteAndWait: (resourceGroupName: string, workspaceName: string, computeName: string, underlyingResourceAction: UnderlyingResourceAction, options?: ComputeOperationsDeleteOptionalParams) => Promise<void>;
     // @deprecated (undocumented)
-    beginResize: (resourceGroupName: string, workspaceName: string, computeName: string, parameters: ResizeSchema, options?: ComputeResizeOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginResize: (resourceGroupName: string, workspaceName: string, computeName: string, parameters: ResizeSchema, options?: ComputeOperationsResizeOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
     // @deprecated (undocumented)
-    beginResizeAndWait: (resourceGroupName: string, workspaceName: string, computeName: string, parameters: ResizeSchema, options?: ComputeResizeOptionalParams) => Promise<void>;
+    beginResizeAndWait: (resourceGroupName: string, workspaceName: string, computeName: string, parameters: ResizeSchema, options?: ComputeOperationsResizeOptionalParams) => Promise<void>;
     // @deprecated (undocumented)
-    beginRestart: (resourceGroupName: string, workspaceName: string, computeName: string, options?: ComputeRestartOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginRestart: (resourceGroupName: string, workspaceName: string, computeName: string, options?: ComputeOperationsRestartOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
     // @deprecated (undocumented)
-    beginRestartAndWait: (resourceGroupName: string, workspaceName: string, computeName: string, options?: ComputeRestartOptionalParams) => Promise<void>;
+    beginRestartAndWait: (resourceGroupName: string, workspaceName: string, computeName: string, options?: ComputeOperationsRestartOptionalParams) => Promise<void>;
     // @deprecated (undocumented)
-    beginStart: (resourceGroupName: string, workspaceName: string, computeName: string, options?: ComputeStartOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginStart: (resourceGroupName: string, workspaceName: string, computeName: string, options?: ComputeOperationsStartOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
     // @deprecated (undocumented)
-    beginStartAndWait: (resourceGroupName: string, workspaceName: string, computeName: string, options?: ComputeStartOptionalParams) => Promise<void>;
+    beginStartAndWait: (resourceGroupName: string, workspaceName: string, computeName: string, options?: ComputeOperationsStartOptionalParams) => Promise<void>;
     // @deprecated (undocumented)
-    beginStop: (resourceGroupName: string, workspaceName: string, computeName: string, options?: ComputeStopOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginStop: (resourceGroupName: string, workspaceName: string, computeName: string, options?: ComputeOperationsStopOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
     // @deprecated (undocumented)
-    beginStopAndWait: (resourceGroupName: string, workspaceName: string, computeName: string, options?: ComputeStopOptionalParams) => Promise<void>;
+    beginStopAndWait: (resourceGroupName: string, workspaceName: string, computeName: string, options?: ComputeOperationsStopOptionalParams) => Promise<void>;
     // @deprecated (undocumented)
-    beginUpdate: (resourceGroupName: string, workspaceName: string, computeName: string, parameters: ClusterUpdateParameters, options?: ComputeUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<ComputeResource>, ComputeResource>>;
+    beginUpdate: (resourceGroupName: string, workspaceName: string, computeName: string, parameters: ClusterUpdateParameters, options?: ComputeOperationsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<ComputeResource>, ComputeResource>>;
     // @deprecated (undocumented)
-    beginUpdateAndWait: (resourceGroupName: string, workspaceName: string, computeName: string, parameters: ClusterUpdateParameters, options?: ComputeUpdateOptionalParams) => Promise<ComputeResource>;
-    createOrUpdate: (resourceGroupName: string, workspaceName: string, computeName: string, parameters: ComputeResource, options?: ComputeCreateOrUpdateOptionalParams) => PollerLike<OperationState<ComputeResource>, ComputeResource>;
-    delete: (resourceGroupName: string, workspaceName: string, computeName: string, underlyingResourceAction: UnderlyingResourceAction, options?: ComputeDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, workspaceName: string, computeName: string, options?: ComputeGetOptionalParams) => Promise<ComputeResource>;
-    getAllowedResizeSizes: (resourceGroupName: string, workspaceName: string, computeName: string, options?: ComputeGetAllowedResizeSizesOptionalParams) => Promise<VirtualMachineSizeListResult>;
-    list: (resourceGroupName: string, workspaceName: string, options?: ComputeListOptionalParams) => PagedAsyncIterableIterator<ComputeResource>;
-    listKeys: (resourceGroupName: string, workspaceName: string, computeName: string, options?: ComputeListKeysOptionalParams) => Promise<ComputeSecretsUnion>;
-    listNodes: (resourceGroupName: string, workspaceName: string, computeName: string, options?: ComputeListNodesOptionalParams) => PagedAsyncIterableIterator<AmlComputeNodeInformation>;
-    resize: (resourceGroupName: string, workspaceName: string, computeName: string, parameters: ResizeSchema, options?: ComputeResizeOptionalParams) => PollerLike<OperationState<void>, void>;
-    restart: (resourceGroupName: string, workspaceName: string, computeName: string, options?: ComputeRestartOptionalParams) => PollerLike<OperationState<void>, void>;
-    start: (resourceGroupName: string, workspaceName: string, computeName: string, options?: ComputeStartOptionalParams) => PollerLike<OperationState<void>, void>;
-    stop: (resourceGroupName: string, workspaceName: string, computeName: string, options?: ComputeStopOptionalParams) => PollerLike<OperationState<void>, void>;
-    update: (resourceGroupName: string, workspaceName: string, computeName: string, parameters: ClusterUpdateParameters, options?: ComputeUpdateOptionalParams) => PollerLike<OperationState<ComputeResource>, ComputeResource>;
-    updateCustomServices: (resourceGroupName: string, workspaceName: string, computeName: string, customServices: CustomService[], options?: ComputeUpdateCustomServicesOptionalParams) => Promise<void>;
-    updateDataMounts: (resourceGroupName: string, workspaceName: string, computeName: string, dataMounts: ComputeInstanceDataMount[], options?: ComputeUpdateDataMountsOptionalParams) => Promise<void>;
-    updateIdleShutdownSetting: (resourceGroupName: string, workspaceName: string, computeName: string, parameters: IdleShutdownSetting, options?: ComputeUpdateIdleShutdownSettingOptionalParams) => Promise<void>;
+    beginUpdateAndWait: (resourceGroupName: string, workspaceName: string, computeName: string, parameters: ClusterUpdateParameters, options?: ComputeOperationsUpdateOptionalParams) => Promise<ComputeResource>;
+    createOrUpdate: (resourceGroupName: string, workspaceName: string, computeName: string, parameters: ComputeResource, options?: ComputeOperationsCreateOrUpdateOptionalParams) => PollerLike<OperationState<ComputeResource>, ComputeResource>;
+    delete: (resourceGroupName: string, workspaceName: string, computeName: string, underlyingResourceAction: UnderlyingResourceAction, options?: ComputeOperationsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, workspaceName: string, computeName: string, options?: ComputeOperationsGetOptionalParams) => Promise<ComputeResource>;
+    getAllowedResizeSizes: (resourceGroupName: string, workspaceName: string, computeName: string, options?: ComputeOperationsGetAllowedResizeSizesOptionalParams) => Promise<VirtualMachineSizeListResult>;
+    list: (resourceGroupName: string, workspaceName: string, options?: ComputeOperationsListOptionalParams) => PagedAsyncIterableIterator<ComputeResource>;
+    listKeys: (resourceGroupName: string, workspaceName: string, computeName: string, options?: ComputeOperationsListKeysOptionalParams) => Promise<ComputeSecretsUnion>;
+    listNodes: (resourceGroupName: string, workspaceName: string, computeName: string, options?: ComputeOperationsListNodesOptionalParams) => PagedAsyncIterableIterator<AmlComputeNodeInformation>;
+    resize: (resourceGroupName: string, workspaceName: string, computeName: string, parameters: ResizeSchema, options?: ComputeOperationsResizeOptionalParams) => PollerLike<OperationState<void>, void>;
+    restart: (resourceGroupName: string, workspaceName: string, computeName: string, options?: ComputeOperationsRestartOptionalParams) => PollerLike<OperationState<void>, void>;
+    start: (resourceGroupName: string, workspaceName: string, computeName: string, options?: ComputeOperationsStartOptionalParams) => PollerLike<OperationState<void>, void>;
+    stop: (resourceGroupName: string, workspaceName: string, computeName: string, options?: ComputeOperationsStopOptionalParams) => PollerLike<OperationState<void>, void>;
+    update: (resourceGroupName: string, workspaceName: string, computeName: string, parameters: ClusterUpdateParameters, options?: ComputeOperationsUpdateOptionalParams) => PollerLike<OperationState<ComputeResource>, ComputeResource>;
+    updateCustomServices: (resourceGroupName: string, workspaceName: string, computeName: string, customServices: CustomService[], options?: ComputeOperationsUpdateCustomServicesOptionalParams) => Promise<void>;
+    updateDataMounts: (resourceGroupName: string, workspaceName: string, computeName: string, dataMounts: ComputeInstanceDataMount[], options?: ComputeOperationsUpdateDataMountsOptionalParams) => Promise<void>;
+    updateIdleShutdownSetting: (resourceGroupName: string, workspaceName: string, computeName: string, parameters: IdleShutdownSetting, options?: ComputeOperationsUpdateIdleShutdownSettingOptionalParams) => Promise<void>;
+}
+
+// @public
+export interface ComputeOperationsResizeOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ComputeOperationsRestartOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ComputeOperationsStartOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ComputeOperationsStopOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ComputeOperationsUpdateCustomServicesOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ComputeOperationsUpdateDataMountsOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ComputeOperationsUpdateIdleShutdownSettingOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ComputeOperationsUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -1281,22 +1318,12 @@ export interface ComputeRecurrenceSchedule {
 }
 
 // @public
-export interface ComputeResizeOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
 export interface ComputeResource extends ProxyResource {
     identity?: ManagedServiceIdentity;
     location?: string;
     properties?: ComputeUnion;
     sku?: Sku;
     tags?: Record<string, string>;
-}
-
-// @public
-export interface ComputeRestartOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
 }
 
 // @public
@@ -1319,11 +1346,6 @@ export interface ComputeSecrets {
 export type ComputeSecretsUnion = AksComputeSecrets | VirtualMachineSecrets | DatabricksComputeSecrets | ComputeSecrets;
 
 // @public
-export interface ComputeStartOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
 export interface ComputeStartStopSchedule {
     action?: ComputePowerAction;
     cron?: Cron;
@@ -1336,11 +1358,6 @@ export interface ComputeStartStopSchedule {
 }
 
 // @public
-export interface ComputeStopOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
 export type ComputeTriggerType = string;
 
 // @public
@@ -1348,23 +1365,6 @@ export type ComputeType = string;
 
 // @public
 export type ComputeUnion = AKS | Kubernetes | AmlCompute | ComputeInstance | VirtualMachine | HDInsight | DataFactory | Databricks | DataLakeAnalytics | SynapseSpark | Compute;
-
-// @public
-export interface ComputeUpdateCustomServicesOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ComputeUpdateDataMountsOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ComputeUpdateIdleShutdownSettingOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ComputeUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
 
 // @public
 export type ComputeWeekDay = string;

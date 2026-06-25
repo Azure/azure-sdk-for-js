@@ -78,10 +78,10 @@ import {
   _restartDeserialize,
   _stopDeserialize,
   _startDeserialize,
-  _$deleteDeserialize as _$deleteDeserializeCompute,
+  _$deleteDeserialize as _$deleteDeserializeComputeOperations,
   _updateDeserialize,
-  _createOrUpdateDeserialize as _createOrUpdateDeserializeCompute,
-} from "./api/compute/operations.js";
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeComputeOperations,
+} from "./api/computeOperations/operations.js";
 import {
   _$deleteDeserialize as _$deleteDeserializeRaiPolicy,
   _createDeserialize as _createDeserializeRaiPolicy,
@@ -423,11 +423,14 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}/start":
     { deserializer: _startDeserialize, expectedStatuses: ["202", "200", "201"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}":
-    { deserializer: _$deleteDeserializeCompute, expectedStatuses: ["200", "202", "204"] },
+    { deserializer: _$deleteDeserializeComputeOperations, expectedStatuses: ["200", "202", "204"] },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}":
     { deserializer: _updateDeserialize, expectedStatuses: ["200", "201", "202"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}":
-    { deserializer: _createOrUpdateDeserializeCompute, expectedStatuses: ["200", "201", "202"] },
+    {
+      deserializer: _createOrUpdateDeserializeComputeOperations,
+      expectedStatuses: ["200", "201", "202"],
+    },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/endpoints/{endpointName}/raiPolicies/{raiPolicyName}":
     { deserializer: _$deleteDeserializeRaiPolicy, expectedStatuses: ["202", "204", "200"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/endpoints/{endpointName}/raiPolicies/{raiPolicyName}":

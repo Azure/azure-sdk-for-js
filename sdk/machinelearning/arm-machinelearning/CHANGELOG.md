@@ -1,6 +1,6 @@
 # Release History
 
-## 4.0.0-beta.1 (2026-06-18)
+## 4.0.0-beta.1 (2026-06-25)
 Compared with version 3.0.0
 
 ### Features Added
@@ -31,19 +31,19 @@ Compared with version 3.0.0
   - Added operation BatchEndpointsOperations.update
   - Added operation CodeVersionsOperations.publish
   - Added operation ComponentVersionsOperations.publish
-  - Added operation ComputeOperations.beginResize
-  - Added operation ComputeOperations.beginResizeAndWait
-  - Added operation ComputeOperations.createOrUpdate
-  - Added operation ComputeOperations.delete
-  - Added operation ComputeOperations.getAllowedResizeSizes
-  - Added operation ComputeOperations.resize
-  - Added operation ComputeOperations.restart
-  - Added operation ComputeOperations.start
-  - Added operation ComputeOperations.stop
-  - Added operation ComputeOperations.update
-  - Added operation ComputeOperations.updateCustomServices
-  - Added operation ComputeOperations.updateDataMounts
-  - Added operation ComputeOperations.updateIdleShutdownSetting
+  - Added operation ComputeOperationsOperations.beginResize
+  - Added operation ComputeOperationsOperations.beginResizeAndWait
+  - Added operation ComputeOperationsOperations.createOrUpdate
+  - Added operation ComputeOperationsOperations.delete
+  - Added operation ComputeOperationsOperations.getAllowedResizeSizes
+  - Added operation ComputeOperationsOperations.resize
+  - Added operation ComputeOperationsOperations.restart
+  - Added operation ComputeOperationsOperations.start
+  - Added operation ComputeOperationsOperations.stop
+  - Added operation ComputeOperationsOperations.update
+  - Added operation ComputeOperationsOperations.updateCustomServices
+  - Added operation ComputeOperationsOperations.updateDataMounts
+  - Added operation ComputeOperationsOperations.updateIdleShutdownSetting
   - Added operation DataVersionsOperations.publish
   - Added operation EnvironmentVersionsOperations.publish
   - Added operation FeaturesetContainersOperations.createOrUpdate
@@ -123,12 +123,22 @@ Compared with version 3.0.0
   - Added Interface CapabilityHostsGetOptionalParams
   - Added Interface ClusterUpdateProperties
   - Added Interface CognitiveServicesSku
-  - Added Interface ComputeGetAllowedResizeSizesOptionalParams
   - Added Interface ComputeInstanceAutologgerSettings
-  - Added Interface ComputeResizeOptionalParams
-  - Added Interface ComputeUpdateCustomServicesOptionalParams
-  - Added Interface ComputeUpdateDataMountsOptionalParams
-  - Added Interface ComputeUpdateIdleShutdownSettingOptionalParams
+  - Added Interface ComputeOperationsCreateOrUpdateOptionalParams
+  - Added Interface ComputeOperationsDeleteOptionalParams
+  - Added Interface ComputeOperationsGetAllowedResizeSizesOptionalParams
+  - Added Interface ComputeOperationsGetOptionalParams
+  - Added Interface ComputeOperationsListKeysOptionalParams
+  - Added Interface ComputeOperationsListNodesOptionalParams
+  - Added Interface ComputeOperationsListOptionalParams
+  - Added Interface ComputeOperationsResizeOptionalParams
+  - Added Interface ComputeOperationsRestartOptionalParams
+  - Added Interface ComputeOperationsStartOptionalParams
+  - Added Interface ComputeOperationsStopOptionalParams
+  - Added Interface ComputeOperationsUpdateCustomServicesOptionalParams
+  - Added Interface ComputeOperationsUpdateDataMountsOptionalParams
+  - Added Interface ComputeOperationsUpdateIdleShutdownSettingOptionalParams
+  - Added Interface ComputeOperationsUpdateOptionalParams
   - Added Interface ConnectionCreateOrUpdateDeploymentOptionalParams
   - Added Interface ConnectionDeleteDeploymentOptionalParams
   - Added Interface ConnectionGetAllModelsOptionalParams
@@ -546,11 +556,11 @@ Compared with version 3.0.0
   - Operation BatchDeployments.beginUpdateAndWait has a new signature
   - Operation BatchDeployments.get has a new signature
   - Operation CodeVersions.createOrGetStartPendingUpload has a new signature
-  - Operation Compute.beginCreateOrUpdate has a new signature
-  - Operation Compute.beginCreateOrUpdateAndWait has a new signature
-  - Operation Compute.beginUpdateAndWait has a new signature
-  - Operation Compute.get has a new signature
-  - Operation Compute.listKeys has a new signature
+  - Operation ComputeOperations.beginCreateOrUpdate has a new signature
+  - Operation ComputeOperations.beginCreateOrUpdateAndWait has a new signature
+  - Operation ComputeOperations.beginUpdateAndWait has a new signature
+  - Operation ComputeOperations.get has a new signature
+  - Operation ComputeOperations.listKeys has a new signature
   - Operation Datastores.createOrUpdate has a new signature
   - Operation Datastores.get has a new signature
   - Operation Datastores.listSecrets has a new signature
@@ -585,7 +595,6 @@ Compared with version 3.0.0
   - Operation Workspaces.beginUpdateAndWait has a new signature
   - Operation Workspaces.get has a new signature
   - Class AzureMachineLearningServicesManagementClient no longer has parameter apiVersion
-  - Class AzureMachineLearningServicesManagementClient no longer has parameter computeOperations
   - Class AzureMachineLearningServicesManagementClient no longer has parameter subscriptionId
   - Removed Interface Aks
   - Removed Interface AksComputeSecretsProperties
@@ -595,8 +604,18 @@ Compared with version 3.0.0
   - Removed Interface AssetJobInput
   - Removed Interface AssetJobOutput
   - Removed Interface AzureDatastore
+  - Removed Interface ComputeCreateOrUpdateOptionalParams
+  - Removed Interface ComputeDeleteOptionalParams
+  - Removed Interface ComputeGetOptionalParams
   - Removed Interface ComputeInstanceSchema
+  - Removed Interface ComputeListKeysOptionalParams
+  - Removed Interface ComputeListNodesOptionalParams
+  - Removed Interface ComputeListOptionalParams
   - Removed Interface ComputeResourceSchema
+  - Removed Interface ComputeRestartOptionalParams
+  - Removed Interface ComputeStartOptionalParams
+  - Removed Interface ComputeStopOptionalParams
+  - Removed Interface ComputeUpdateOptionalParams
   - Removed Interface DatabricksComputeSecretsProperties
   - Removed Interface DatabricksSchema
   - Removed Interface DataLakeAnalyticsSchema

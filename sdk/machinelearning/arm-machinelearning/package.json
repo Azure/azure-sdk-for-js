@@ -510,18 +510,18 @@
         "default": "./dist/commonjs/api/workspaceFeatures/index.js"
       }
     },
-    "./api/compute": {
+    "./api/computeOperations": {
       "browser": {
-        "types": "./dist/browser/api/compute/index.d.ts",
-        "default": "./dist/browser/api/compute/index.js"
+        "types": "./dist/browser/api/computeOperations/index.d.ts",
+        "default": "./dist/browser/api/computeOperations/index.js"
       },
       "import": {
-        "types": "./dist/esm/api/compute/index.d.ts",
-        "default": "./dist/esm/api/compute/index.js"
+        "types": "./dist/esm/api/computeOperations/index.d.ts",
+        "default": "./dist/esm/api/computeOperations/index.js"
       },
       "require": {
-        "types": "./dist/commonjs/api/compute/index.d.ts",
-        "default": "./dist/commonjs/api/compute/index.js"
+        "types": "./dist/commonjs/api/computeOperations/index.d.ts",
+        "default": "./dist/commonjs/api/computeOperations/index.js"
       }
     },
     "./api/privateEndpointConnections": {

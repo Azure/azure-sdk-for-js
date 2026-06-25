@@ -37,7 +37,7 @@ exports:
   "./api/privateLinkResources": "./src/api/privateLinkResources/index.ts"
   "./api/connection": "./src/api/connection/index.ts"
   "./api/workspaceFeatures": "./src/api/workspaceFeatures/index.ts"
-  "./api/compute": "./src/api/compute/index.ts"
+  "./api/computeOperations": "./src/api/computeOperations/index.ts"
   "./api/privateEndpointConnections": "./src/api/privateEndpointConnections/index.ts"
   "./api/raiPolicy": "./src/api/raiPolicy/index.ts"
   "./api/serverlessEndpoints": "./src/api/serverlessEndpoints/index.ts"
