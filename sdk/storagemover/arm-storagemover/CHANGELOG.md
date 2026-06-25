@@ -1,6 +1,10 @@
 # Release History
 
-## 3.1.0 (2026-06-12)
+## 3.1.1 (2026-06-25)
+
+### Features Added
+
+## 3.1.0 (2026-04-06)
 
 ### Features Added
   - Added operation group ConnectionsOperations

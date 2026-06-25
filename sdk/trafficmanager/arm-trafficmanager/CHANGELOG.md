@@ -1,5 +1,28 @@
 # Release History
 
+## 7.0.0-beta.1 (2026-06-25)
+Compared with version 6.1.0
+
+### Features Added
+  - Class TrafficManagerManagementClient has a new constructor "constructor(credential: TokenCredential, options?: TrafficManagerManagementClientOptionalParams);"
+  - Added Interface EndpointProperties
+  - Added Interface GeographicHierarchyProperties
+  - Added Interface HeatMapProperties
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface ProfileProperties
+  - Added Interface UserMetricsProperties
+  - Interface Profile has a new optional parameter recordType
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias RecordType
+  - Added Enum AzureClouds
+  - Added Enum KnownRecordType
+  - Added Enum KnownVersions
+
+### Breaking Changes
+  - Class TrafficManagerManagementClient no longer has parameter apiVersion
+  - Class TrafficManagerManagementClient no longer has parameter subscriptionId
+
 ## 6.2.0-beta.1 (2026-05-27)
 Compared with version 6.1.0
 
