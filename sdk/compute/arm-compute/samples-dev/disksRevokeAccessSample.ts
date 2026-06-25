@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to revokes access to a disk.
  *
  * @summary revokes access to a disk.
- * x-ms-original-file: 2025-01-02/diskExamples/Disk_EndGetAccess.json
+ * x-ms-original-file: 2026-03-02/diskExamples/Disk_EndGetAccess.json
  */
 async function revokeAccessToAManagedDisk(): Promise<void> {
   const credential = new DefaultAzureCredential();

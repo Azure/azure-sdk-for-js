@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ChaosManagementContext } from "../../api/chaosManagementContext.js";
+import { ChaosManagementContext } from "../../api/chaosManagementContext.js";
 import { listByWorkspace, get } from "../../api/discoveredResources/operations.js";
-import type {
+import {
   DiscoveredResourcesListByWorkspaceOptionalParams,
   DiscoveredResourcesGetOptionalParams,
 } from "../../api/discoveredResources/options.js";
-import type { DiscoveredResource } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { DiscoveredResource } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a DiscoveredResources operations. */
 export interface DiscoveredResourcesOperations {

@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CognitiveServicesManagementContext } from "../../api/cognitiveServicesManagementContext.js";
+import { CognitiveServicesManagementContext } from "../../api/cognitiveServicesManagementContext.js";
 import { createOrUpdate } from "../../api/testRaiExternalSafetyProvider/operations.js";
-import type { TestRaiExternalSafetyProviderCreateOrUpdateOptionalParams } from "../../api/testRaiExternalSafetyProvider/options.js";
-import type { RaiExternalSafetyProviderSchema } from "../../models/models.js";
+import { TestRaiExternalSafetyProviderCreateOrUpdateOptionalParams } from "../../api/testRaiExternalSafetyProvider/options.js";
+import { RaiExternalSafetyProviderSchema } from "../../models/models.js";
 
 /** Interface representing a TestRaiExternalSafetyProvider operations. */
 export interface TestRaiExternalSafetyProviderOperations {

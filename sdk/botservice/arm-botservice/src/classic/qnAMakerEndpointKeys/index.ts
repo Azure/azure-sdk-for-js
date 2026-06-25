@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureBotServiceContext } from "../../api/azureBotServiceContext.js";
+import { AzureBotServiceContext } from "../../api/azureBotServiceContext.js";
 import { get } from "../../api/qnAMakerEndpointKeys/operations.js";
-import type { QnAMakerEndpointKeysGetOptionalParams } from "../../api/qnAMakerEndpointKeys/options.js";
-import type {
+import { QnAMakerEndpointKeysGetOptionalParams } from "../../api/qnAMakerEndpointKeys/options.js";
+import {
   QnAMakerEndpointKeysRequestBody,
   QnAMakerEndpointKeysResponse,
 } from "../../models/models.js";

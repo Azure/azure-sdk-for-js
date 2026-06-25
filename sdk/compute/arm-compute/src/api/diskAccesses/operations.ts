@@ -1,31 +1,31 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeManagementContext as Client } from "../index.js";
+import { ComputeManagementContext as Client } from "../index.js";
 import { cloudErrorDeserializer } from "../../models/common/models.js";
-import type {
-  DiskAccess,
-  PrivateEndpointConnection,
-  DiskAccessUpdate,
-  _DiskAccessList,
-  PrivateLinkResourceListResult,
-  _PrivateEndpointConnectionListResult,
-} from "../../models/computeDisk/models.js";
 import {
+  DiskAccess,
   diskAccessSerializer,
   diskAccessDeserializer,
+  PrivateEndpointConnection,
   privateEndpointConnectionSerializer,
   privateEndpointConnectionDeserializer,
+  DiskAccessUpdate,
   diskAccessUpdateSerializer,
+  _DiskAccessList,
   _diskAccessListDeserializer,
+  PrivateLinkResourceListResult,
   privateLinkResourceListResultDeserializer,
+  _PrivateEndpointConnectionListResult,
   _privateEndpointConnectionListResultDeserializer,
 } from "../../models/computeDisk/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   DiskAccessesListPrivateEndpointConnectionsOptionalParams,
   DiskAccessesDeleteAPrivateEndpointConnectionOptionalParams,
   DiskAccessesUpdateAPrivateEndpointConnectionOptionalParams,
@@ -38,9 +38,13 @@ import type {
   DiskAccessesCreateOrUpdateOptionalParams,
   DiskAccessesGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listPrivateEndpointConnectionsSend(
   context: Client,
@@ -54,16 +58,18 @@ export function _listPrivateEndpointConnectionsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       diskAccessName: diskAccessName,
-      "api%2Dversion": "2025-01-02",
+      "api%2Dversion": "2026-03-02",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listPrivateEndpointConnectionsDeserialize(
@@ -94,7 +100,7 @@ export function listPrivateEndpointConnections(
     () => _listPrivateEndpointConnectionsSend(context, resourceGroupName, diskAccessName, options),
     _listPrivateEndpointConnectionsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-01-02" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-02" },
   );
 }
 
@@ -112,7 +118,7 @@ export function _deleteAPrivateEndpointConnectionSend(
       resourceGroupName: resourceGroupName,
       diskAccessName: diskAccessName,
       privateEndpointConnectionName: privateEndpointConnectionName,
-      "api%2Dversion": "2025-01-02",
+      "api%2Dversion": "2026-03-02",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -161,7 +167,7 @@ export function deleteAPrivateEndpointConnection(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: "2025-01-02",
+      apiVersion: "2026-03-02",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -181,18 +187,20 @@ export function _updateAPrivateEndpointConnectionSend(
       resourceGroupName: resourceGroupName,
       diskAccessName: diskAccessName,
       privateEndpointConnectionName: privateEndpointConnectionName,
-      "api%2Dversion": "2025-01-02",
+      "api%2Dversion": "2026-03-02",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: privateEndpointConnectionSerializer(privateEndpointConnection),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: privateEndpointConnectionSerializer(privateEndpointConnection),
+    });
 }
 
 export async function _updateAPrivateEndpointConnectionDeserialize(
@@ -237,7 +245,7 @@ export function updateAPrivateEndpointConnection(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: "2025-01-02",
+      apiVersion: "2026-03-02",
     },
   ) as PollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>;
 }
@@ -256,16 +264,18 @@ export function _getAPrivateEndpointConnectionSend(
       resourceGroupName: resourceGroupName,
       diskAccessName: diskAccessName,
       privateEndpointConnectionName: privateEndpointConnectionName,
-      "api%2Dversion": "2025-01-02",
+      "api%2Dversion": "2026-03-02",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getAPrivateEndpointConnectionDeserialize(
@@ -314,16 +324,18 @@ export function _getPrivateLinkResourcesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       diskAccessName: diskAccessName,
-      "api%2Dversion": "2025-01-02",
+      "api%2Dversion": "2026-03-02",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getPrivateLinkResourcesDeserialize(
@@ -366,16 +378,18 @@ export function _listSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/diskAccesses{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": "2025-01-02",
+      "api%2Dversion": "2026-03-02",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listDeserialize(result: PathUncheckedResponse): Promise<_DiskAccessList> {
@@ -402,7 +416,7 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-01-02" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-02" },
   );
 }
 
@@ -416,16 +430,18 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": "2025-01-02",
+      "api%2Dversion": "2026-03-02",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listByResourceGroupDeserialize(
@@ -455,7 +471,7 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-01-02" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-02" },
   );
 }
 
@@ -471,7 +487,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       diskAccessName: diskAccessName,
-      "api%2Dversion": "2025-01-02",
+      "api%2Dversion": "2026-03-02",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -506,7 +522,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, diskAccessName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-01-02",
+    apiVersion: "2026-03-02",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -523,18 +539,20 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       diskAccessName: diskAccessName,
-      "api%2Dversion": "2025-01-02",
+      "api%2Dversion": "2026-03-02",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: diskAccessUpdateSerializer(diskAccess),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: diskAccessUpdateSerializer(diskAccess),
+    });
 }
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<DiskAccess> {
@@ -565,7 +583,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, diskAccessName, diskAccess, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-01-02",
+    apiVersion: "2026-03-02",
   }) as PollerLike<OperationState<DiskAccess>, DiskAccess>;
 }
 
@@ -582,18 +600,20 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       diskAccessName: diskAccessName,
-      "api%2Dversion": "2025-01-02",
+      "api%2Dversion": "2026-03-02",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: diskAccessSerializer(diskAccess),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: diskAccessSerializer(diskAccess),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -626,7 +646,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, diskAccessName, diskAccess, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-01-02",
+    apiVersion: "2026-03-02",
   }) as PollerLike<OperationState<DiskAccess>, DiskAccess>;
 }
 
@@ -642,16 +662,18 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       diskAccessName: diskAccessName,
-      "api%2Dversion": "2025-01-02",
+      "api%2Dversion": "2026-03-02",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<DiskAccess> {

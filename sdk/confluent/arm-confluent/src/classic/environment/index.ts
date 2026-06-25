@@ -1,25 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ConfluentManagementContext } from "../../api/confluentManagementContext.js";
+import { ConfluentManagementContext } from "../../api/confluentManagementContext.js";
 import { $delete, createOrUpdate } from "../../api/environment/operations.js";
-import type {
+import {
   EnvironmentDeleteOptionalParams,
   EnvironmentCreateOrUpdateOptionalParams,
 } from "../../api/environment/options.js";
-import type { SCEnvironmentRecord } from "../../models/models.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { SCEnvironmentRecord } from "../../models/models.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Environment operations. */
 export interface EnvironmentOperations {
   /** Delete confluent environment by id */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     organizationName: string,

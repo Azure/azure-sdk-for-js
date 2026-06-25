@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all the disk access resources under a resource group.
  *
  * @summary lists all the disk access resources under a resource group.
- * x-ms-original-file: 2025-01-02/diskAccessExamples/DiskAccess_ListByResourceGroup.json
+ * x-ms-original-file: 2026-03-02/diskAccessExamples/DiskAccess_ListByResourceGroup.json
  */
 async function listAllDiskAccessResourcesInAResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

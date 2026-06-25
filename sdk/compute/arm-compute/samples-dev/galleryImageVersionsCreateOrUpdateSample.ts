@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update a gallery image version.
  *
  * @summary create or update a gallery image version.
- * x-ms-original-file: 2025-03-03/galleryExamples/GalleryImageVersion_Create.json
+ * x-ms-original-file: 2025-12-03/galleryExamples/GalleryImageVersion_Create.json
  */
 async function createOrUpdateASimpleGalleryImageVersionUsingManagedImageAsSource(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -90,7 +90,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingManagedImageAsSource
  * This sample demonstrates how to create or update a gallery image version.
  *
  * @summary create or update a gallery image version.
- * x-ms-original-file: 2025-03-03/galleryExamples/GalleryImageVersion_Create_WithAdditionalReplicaSets.json
+ * x-ms-original-file: 2025-12-03/galleryExamples/GalleryImageVersion_Create_WithAdditionalReplicaSets.json
  */
 async function createOrUpdateASimpleGalleryImageVersionWithDirectDriveReplicas(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -109,7 +109,7 @@ async function createOrUpdateASimpleGalleryImageVersionWithDirectDriveReplicas()
             name: "West US",
             regionalReplicaCount: 1,
             additionalReplicaSets: [
-              { storageAccountType: "PreviumV2_LRS", regionalReplicaCount: 1 },
+              { storageAccountType: "PremiumV2_LRS", regionalReplicaCount: 1 },
             ],
             encryption: {
               osDiskImage: {
@@ -172,7 +172,7 @@ async function createOrUpdateASimpleGalleryImageVersionWithDirectDriveReplicas()
  * This sample demonstrates how to create or update a gallery image version.
  *
  * @summary create or update a gallery image version.
- * x-ms-original-file: 2025-03-03/galleryExamples/GalleryImageVersion_Create_WithCommunityImageVersionAsSource.json
+ * x-ms-original-file: 2025-12-03/galleryExamples/GalleryImageVersion_Create_WithCommunityImageVersionAsSource.json
  */
 async function createOrUpdateASimpleGalleryImageVersionUsingCommunityGalleryImageAsSource(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -255,7 +255,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingCommunityGalleryImag
  * This sample demonstrates how to create or update a gallery image version.
  *
  * @summary create or update a gallery image version.
- * x-ms-original-file: 2025-03-03/galleryExamples/GalleryImageVersion_Create_WithImageVersionAsSource.json
+ * x-ms-original-file: 2025-12-03/galleryExamples/GalleryImageVersion_Create_WithImageVersionAsSource.json
  */
 async function createOrUpdateASimpleGalleryImageVersionUsingSharedImageAsSource(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -337,7 +337,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingSharedImageAsSource(
  * This sample demonstrates how to create or update a gallery image version.
  *
  * @summary create or update a gallery image version.
- * x-ms-original-file: 2025-03-03/galleryExamples/GalleryImageVersion_Create_WithShallowReplicationMode.json
+ * x-ms-original-file: 2025-12-03/galleryExamples/GalleryImageVersion_Create_WithShallowReplicationMode.json
  */
 async function createOrUpdateASimpleGalleryImageVersionUsingShallowReplicationMode(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -372,7 +372,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingShallowReplicationMo
  * This sample demonstrates how to create or update a gallery image version.
  *
  * @summary create or update a gallery image version.
- * x-ms-original-file: 2025-03-03/galleryExamples/GalleryImageVersion_Create_WithSnapshotsAsSource.json
+ * x-ms-original-file: 2025-12-03/galleryExamples/GalleryImageVersion_Create_WithSnapshotsAsSource.json
  */
 async function createOrUpdateASimpleGalleryImageVersionUsingSnapshotsAsASource(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -456,7 +456,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingSnapshotsAsASource()
  * This sample demonstrates how to create or update a gallery image version.
  *
  * @summary create or update a gallery image version.
- * x-ms-original-file: 2025-03-03/galleryExamples/GalleryImageVersion_Create_WithStorageAccountStrategy.json
+ * x-ms-original-file: 2025-12-03/galleryExamples/GalleryImageVersion_Create_WithStorageAccountStrategy.json
  */
 async function createOrUpdateASimpleGalleryImageVersionWithStorageAccountStrategyAndRegionalStorageAccountTypeOverride(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -492,7 +492,7 @@ async function createOrUpdateASimpleGalleryImageVersionWithStorageAccountStrateg
  * This sample demonstrates how to create or update a gallery image version.
  *
  * @summary create or update a gallery image version.
- * x-ms-original-file: 2025-03-03/galleryExamples/GalleryImageVersion_Create_WithTargetExtendedLocations.json
+ * x-ms-original-file: 2025-12-03/galleryExamples/GalleryImageVersion_Create_WithTargetExtendedLocations.json
  */
 async function createOrUpdateASimpleGalleryImageVersionWithTargetExtendedLocationsSpecified(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -574,7 +574,7 @@ async function createOrUpdateASimpleGalleryImageVersionWithTargetExtendedLocatio
  * This sample demonstrates how to create or update a gallery image version.
  *
  * @summary create or update a gallery image version.
- * x-ms-original-file: 2025-03-03/galleryExamples/GalleryImageVersion_Create_WithVHD.json
+ * x-ms-original-file: 2025-12-03/galleryExamples/GalleryImageVersion_Create_WithVHD.json
  */
 async function createOrUpdateASimpleGalleryImageVersionUsingVhdAsASource(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -649,7 +649,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingVhdAsASource(): Prom
  * This sample demonstrates how to create or update a gallery image version.
  *
  * @summary create or update a gallery image version.
- * x-ms-original-file: 2025-03-03/galleryExamples/GalleryImageVersion_Create_WithVHD_UefiSettings.json
+ * x-ms-original-file: 2025-12-03/galleryExamples/GalleryImageVersion_Create_WithVHD_UefiSettings.json
  */
 async function createOrUpdateASimpleGalleryImageVersionUsingVhdAsASourceWithCustomUefiKeys(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -734,7 +734,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingVhdAsASourceWithCust
  * This sample demonstrates how to create or update a gallery image version.
  *
  * @summary create or update a gallery image version.
- * x-ms-original-file: 2025-03-03/galleryExamples/GalleryImageVersion_Create_WithVmAsSource.json
+ * x-ms-original-file: 2025-12-03/galleryExamples/GalleryImageVersion_Create_WithVmAsSource.json
  */
 async function createOrUpdateASimpleGalleryImageVersionUsingVMAsSource(): Promise<void> {
   const credential = new DefaultAzureCredential();

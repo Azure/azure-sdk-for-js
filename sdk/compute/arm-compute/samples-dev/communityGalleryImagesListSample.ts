@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list community gallery images inside a gallery.
  *
  * @summary list community gallery images inside a gallery.
- * x-ms-original-file: 2025-03-03/communityGalleryExamples/CommunityGalleryImage_List.json
+ * x-ms-original-file: 2025-12-03/communityGalleryExamples/CommunityGalleryImage_List.json
  */
 async function listCommunityGalleryImages(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ConsumptionManagementContext } from "../../api/consumptionManagementContext.js";
+import { ConsumptionManagementContext } from "../../api/consumptionManagementContext.js";
 import {
   downloadByBillingAccountPeriod,
   get,
   getByBillingPeriod,
 } from "../../api/priceSheet/operations.js";
-import type {
+import {
   PriceSheetDownloadByBillingAccountPeriodOptionalParams,
   PriceSheetGetOptionalParams,
   PriceSheetGetByBillingPeriodOptionalParams,
 } from "../../api/priceSheet/options.js";
-import type { PriceSheetResult, OperationStatus } from "../../models/models.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PriceSheetResult, OperationStatus } from "../../models/models.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a PriceSheet operations. */
 export interface PriceSheetOperations {

@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CertificateRegistrationManagementContext } from "../../api/certificateRegistrationManagementContext.js";
+import { CertificateRegistrationManagementContext } from "../../api/certificateRegistrationManagementContext.js";
 import { listOperations } from "../../api/certificateRegistrationProvider/operations.js";
-import type { CertificateRegistrationProviderListOperationsOptionalParams } from "../../api/certificateRegistrationProvider/options.js";
-import type { CsmOperationDescription } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { CertificateRegistrationProviderListOperationsOptionalParams } from "../../api/certificateRegistrationProvider/options.js";
+import { CsmOperationDescription } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a CertificateRegistrationProvider operations. */
 export interface CertificateRegistrationProviderOperations {

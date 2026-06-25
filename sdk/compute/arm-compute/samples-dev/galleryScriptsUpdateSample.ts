@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update a gallery Script Definition.
  *
  * @summary update a gallery Script Definition.
- * x-ms-original-file: 2025-03-03/galleryScriptExamples/GalleryScript_Update.json
+ * x-ms-original-file: 2025-12-03/galleryScriptExamples/GalleryScript_Update.json
  */
 async function updateASimpleGalleryScript(): Promise<void> {
   const credential = new DefaultAzureCredential();

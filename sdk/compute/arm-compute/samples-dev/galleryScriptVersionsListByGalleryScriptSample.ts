@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list gallery Script Versions in a gallery Script Definition.
  *
  * @summary list gallery Script Versions in a gallery Script Definition.
- * x-ms-original-file: 2025-03-03/galleryScriptExamples/GalleryScriptVersion_ListByGalleryScript.json
+ * x-ms-original-file: 2025-12-03/galleryScriptExamples/GalleryScriptVersion_ListByGalleryScript.json
  */
 async function listGalleryScriptVersionsInAGalleryScriptDefinition(): Promise<void> {
   const credential = new DefaultAzureCredential();

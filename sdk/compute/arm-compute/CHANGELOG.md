@@ -1,10 +1,376 @@
 # Release History
 
-## 24.1.0 (2026-06-17)
+## 24.2.0 (2026-06-25)
 
 ### Features Added
+  - Added operation group AvailabilitySetsOperations
+  - Added operation group CapacityReservationGroupsOperations
+  - Added operation group CapacityReservationsOperations
+  - Added operation group CommunityGalleriesOperations
+  - Added operation group CommunityGalleryImagesOperations
+  - Added operation group CommunityGalleryImageVersionsOperations
+  - Added operation group DedicatedHostGroupsOperations
+  - Added operation group DedicatedHostsOperations
+  - Added operation group DiskAccessesOperations
+  - Added operation group DiskEncryptionSetsOperations
+  - Added operation group DiskRestorePointOperations
+  - Added operation group DisksOperations
+  - Added operation group GalleriesOperations
+  - Added operation group GalleryApplicationsOperations
+  - Added operation group GalleryApplicationVersionsOperations
+  - Added operation group GalleryImagesOperations
+  - Added operation group GalleryImageVersionsOperations
+  - Added operation group GalleryInVMAccessControlProfilesOperations
+  - Added operation group GalleryInVMAccessControlProfileVersionsOperations
+  - Added operation group GalleryScriptsOperations
+  - Added operation group GalleryScriptVersionsOperations
+  - Added operation group GallerySharingProfileOperations
+  - Added operation group ImagesOperations
   - Added operation group InterconnectBlocksOperations
+  - Added operation group LogAnalyticsOperations
+  - Added operation group OperationsOperations
+  - Added operation group ProximityPlacementGroupsOperations
+  - Added operation group ResourceSkusOperations
+  - Added operation group RestorePointCollectionsOperations
+  - Added operation group RestorePointsOperations
+  - Added operation group SharedGalleriesOperations
+  - Added operation group SharedGalleryImagesOperations
+  - Added operation group SharedGalleryImageVersionsOperations
+  - Added operation group SharedGalleryInvitesOperations
+  - Added operation group SnapshotsOperations
+  - Added operation group SoftDeletedResourceOperations
+  - Added operation group SshPublicKeysOperations
+  - Added operation group TenantLevelSharedGalleryInvitesOperations
+  - Added operation group UsageOperations
+  - Added operation group VirtualMachineExtensionImagesOperations
+  - Added operation group VirtualMachineExtensionsOperations
+  - Added operation group VirtualMachineImagesEdgeZoneOperations
+  - Added operation group VirtualMachineImagesOperations
+  - Added operation group VirtualMachineRunCommandsOperations
+  - Added operation group VirtualMachineScaleSetExtensionsOperations
+  - Added operation group VirtualMachineScaleSetLifeCycleHookEventsOperations
+  - Added operation group VirtualMachineScaleSetRollingUpgradesOperations
+  - Added operation group VirtualMachineScaleSetsOperations
+  - Added operation group VirtualMachineScaleSetVMExtensionsOperations
+  - Added operation group VirtualMachineScaleSetVMRunCommandsOperations
+  - Added operation group VirtualMachineScaleSetVMsOperations
+  - Added operation group VirtualMachineSizesOperations
+  - Added operation group VirtualMachinesOperations
+  - Added Class ComputeManagementClient
+  - Added Interface AccessControlRules
+  - Added Interface AccessControlRulesIdentity
+  - Added Interface AccessControlRulesPrivilege
+  - Added Interface AccessControlRulesRole
+  - Added Interface AccessControlRulesRoleAssignment
+  - Added Interface AccessUri
+  - Added Interface AdditionalCapabilities
+  - Added Interface AdditionalReplicaSet
+  - Added Interface AdditionalUnattendContent
+  - Added Interface AllInstancesDown
+  - Added Interface AlternativeOption
+  - Added Interface ApiEntityReference
+  - Added Interface ApiError
+  - Added Interface ApiErrorBase
+  - Added Interface ApplicationProfile
+  - Added Interface AttachDetachDataDisksRequest
+  - Added Interface AutomaticOSUpgradePolicy
+  - Added Interface AutomaticOSUpgradeProperties
+  - Added Interface AutomaticRepairsPolicy
   - Added Interface AutomaticSkuMigrationPolicy
+  - Added Interface AutomaticZoneRebalancingPolicy
+  - Added Interface AvailabilityPolicy
+  - Added Interface AvailabilitySet
+  - Added Interface AvailabilitySetProperties
+  - Added Interface AvailabilitySetsCancelMigrationToVirtualMachineScaleSetOptionalParams
+  - Added Interface AvailabilitySetsConvertToVirtualMachineScaleSetOptionalParams
+  - Added Interface AvailabilitySetsCreateOrUpdateOptionalParams
+  - Added Interface AvailabilitySetsDeleteOptionalParams
+  - Added Interface AvailabilitySetsGetOptionalParams
+  - Added Interface AvailabilitySetsListAvailableSizesOptionalParams
+  - Added Interface AvailabilitySetsListBySubscriptionOptionalParams
+  - Added Interface AvailabilitySetsListOptionalParams
+  - Added Interface AvailabilitySetsStartMigrationToVirtualMachineScaleSetOptionalParams
+  - Added Interface AvailabilitySetsUpdateOptionalParams
+  - Added Interface AvailabilitySetsValidateMigrationToVirtualMachineScaleSetOptionalParams
+  - Added Interface AvailabilitySetUpdate
+  - Added Interface AvailablePatchSummary
+  - Added Interface BillingProfile
+  - Added Interface BootDiagnostics
+  - Added Interface BootDiagnosticsInstanceView
+  - Added Interface CapacityReservation
+  - Added Interface CapacityReservationGroup
+  - Added Interface CapacityReservationGroupInstanceView
+  - Added Interface CapacityReservationGroupProperties
+  - Added Interface CapacityReservationGroupsCreateOrUpdateOptionalParams
+  - Added Interface CapacityReservationGroupsDeleteOptionalParams
+  - Added Interface CapacityReservationGroupsGetOptionalParams
+  - Added Interface CapacityReservationGroupsListByResourceGroupOptionalParams
+  - Added Interface CapacityReservationGroupsListBySubscriptionOptionalParams
+  - Added Interface CapacityReservationGroupsUpdateOptionalParams
+  - Added Interface CapacityReservationGroupUpdate
+  - Added Interface CapacityReservationInstanceView
+  - Added Interface CapacityReservationInstanceViewWithName
+  - Added Interface CapacityReservationProfile
+  - Added Interface CapacityReservationProperties
+  - Added Interface CapacityReservationsCreateOrUpdateOptionalParams
+  - Added Interface CapacityReservationsDeleteOptionalParams
+  - Added Interface CapacityReservationsGetOptionalParams
+  - Added Interface CapacityReservationsListByCapacityReservationGroupOptionalParams
+  - Added Interface CapacityReservationsUpdateOptionalParams
+  - Added Interface CapacityReservationUpdate
+  - Added Interface CapacityReservationUtilization
+  - Added Interface CloudError
+  - Added Interface CommunityGalleriesGetOptionalParams
+  - Added Interface CommunityGallery
+  - Added Interface CommunityGalleryIdentifier
+  - Added Interface CommunityGalleryImage
+  - Added Interface CommunityGalleryImageIdentifier
+  - Added Interface CommunityGalleryImageProperties
+  - Added Interface CommunityGalleryImagesGetOptionalParams
+  - Added Interface CommunityGalleryImagesListOptionalParams
+  - Added Interface CommunityGalleryImageVersion
+  - Added Interface CommunityGalleryImageVersionProperties
+  - Added Interface CommunityGalleryImageVersionsGetOptionalParams
+  - Added Interface CommunityGalleryImageVersionsListOptionalParams
+  - Added Interface CommunityGalleryInfo
+  - Added Interface CommunityGalleryMetadata
+  - Added Interface CommunityGalleryProperties
+  - Added Interface ComputeManagementClientOptionalParams
+  - Added Interface ConvertToVirtualMachineScaleSetInput
+  - Added Interface CopyCompletionError
+  - Added Interface CreationData
+  - Added Interface DataDisk
+  - Added Interface DataDiskImage
+  - Added Interface DataDiskImageEncryption
+  - Added Interface DataDisksToAttach
+  - Added Interface DataDisksToDetach
+  - Added Interface DedicatedHost
+  - Added Interface DedicatedHostAllocatableVM
+  - Added Interface DedicatedHostAvailableCapacity
+  - Added Interface DedicatedHostGroup
+  - Added Interface DedicatedHostGroupInstanceView
+  - Added Interface DedicatedHostGroupProperties
+  - Added Interface DedicatedHostGroupPropertiesAdditionalCapabilities
+  - Added Interface DedicatedHostGroupsCreateOrUpdateOptionalParams
+  - Added Interface DedicatedHostGroupsDeleteOptionalParams
+  - Added Interface DedicatedHostGroupsGetOptionalParams
+  - Added Interface DedicatedHostGroupsListByResourceGroupOptionalParams
+  - Added Interface DedicatedHostGroupsListBySubscriptionOptionalParams
+  - Added Interface DedicatedHostGroupsUpdateOptionalParams
+  - Added Interface DedicatedHostGroupUpdate
+  - Added Interface DedicatedHostInstanceView
+  - Added Interface DedicatedHostInstanceViewWithName
+  - Added Interface DedicatedHostProperties
+  - Added Interface DedicatedHostsCreateOrUpdateOptionalParams
+  - Added Interface DedicatedHostsDeleteOptionalParams
+  - Added Interface DedicatedHostsGetOptionalParams
+  - Added Interface DedicatedHostsListAvailableSizesOptionalParams
+  - Added Interface DedicatedHostsListByHostGroupOptionalParams
+  - Added Interface DedicatedHostsRedeployOptionalParams
+  - Added Interface DedicatedHostsRestartOptionalParams
+  - Added Interface DedicatedHostsUpdateOptionalParams
+  - Added Interface DedicatedHostUpdate
+  - Added Interface DefaultVirtualMachineScaleSetInfo
+  - Added Interface DiagnosticsProfile
+  - Added Interface DiffDiskSettings
+  - Added Interface Disallowed
+  - Added Interface DisallowedConfiguration
+  - Added Interface Disk
+  - Added Interface DiskAccess
+  - Added Interface DiskAccessesCreateOrUpdateOptionalParams
+  - Added Interface DiskAccessesDeleteAPrivateEndpointConnectionOptionalParams
+  - Added Interface DiskAccessesDeleteOptionalParams
+  - Added Interface DiskAccessesGetAPrivateEndpointConnectionOptionalParams
+  - Added Interface DiskAccessesGetOptionalParams
+  - Added Interface DiskAccessesGetPrivateLinkResourcesOptionalParams
+  - Added Interface DiskAccessesListByResourceGroupOptionalParams
+  - Added Interface DiskAccessesListOptionalParams
+  - Added Interface DiskAccessesListPrivateEndpointConnectionsOptionalParams
+  - Added Interface DiskAccessesUpdateAPrivateEndpointConnectionOptionalParams
+  - Added Interface DiskAccessesUpdateOptionalParams
+  - Added Interface DiskAccessProperties
+  - Added Interface DiskAccessUpdate
+  - Added Interface DiskEncryptionSet
+  - Added Interface DiskEncryptionSetParameters
+  - Added Interface DiskEncryptionSetsCreateOrUpdateOptionalParams
+  - Added Interface DiskEncryptionSetsDeleteOptionalParams
+  - Added Interface DiskEncryptionSetsGetOptionalParams
+  - Added Interface DiskEncryptionSetsListAssociatedResourcesOptionalParams
+  - Added Interface DiskEncryptionSetsListByResourceGroupOptionalParams
+  - Added Interface DiskEncryptionSetsListOptionalParams
+  - Added Interface DiskEncryptionSetsUpdateOptionalParams
+  - Added Interface DiskEncryptionSettings
+  - Added Interface DiskEncryptionSetUpdate
+  - Added Interface DiskEncryptionSetUpdateProperties
+  - Added Interface DiskImageEncryption
+  - Added Interface DiskInstanceView
+  - Added Interface DiskProperties
+  - Added Interface DiskPurchasePlan
+  - Added Interface DiskRestorePoint
+  - Added Interface DiskRestorePointAttributes
+  - Added Interface DiskRestorePointGetOptionalParams
+  - Added Interface DiskRestorePointGrantAccessOptionalParams
+  - Added Interface DiskRestorePointInstanceView
+  - Added Interface DiskRestorePointListByRestorePointOptionalParams
+  - Added Interface DiskRestorePointProperties
+  - Added Interface DiskRestorePointReplicationStatus
+  - Added Interface DiskRestorePointRevokeAccessOptionalParams
+  - Added Interface DisksCreateOrUpdateOptionalParams
+  - Added Interface DisksDeleteOptionalParams
+  - Added Interface DiskSecurityProfile
+  - Added Interface DisksGetOptionalParams
+  - Added Interface DisksGrantAccessOptionalParams
+  - Added Interface DiskSku
+  - Added Interface DisksListByResourceGroupOptionalParams
+  - Added Interface DisksListOptionalParams
+  - Added Interface DisksRevokeAccessOptionalParams
+  - Added Interface DisksUpdateOptionalParams
+  - Added Interface DiskUpdate
+  - Added Interface DiskUpdateProperties
+  - Added Interface Encryption
+  - Added Interface EncryptionIdentity
+  - Added Interface EncryptionImages
+  - Added Interface EncryptionSetIdentity
+  - Added Interface EncryptionSetProperties
+  - Added Interface EncryptionSettingsCollection
+  - Added Interface EncryptionSettingsElement
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface EventGridAndResourceGraph
+  - Added Interface ExecutedValidation
+  - Added Interface ExtendedLocation
+  - Added Interface ExternalHealthPolicy
+  - Added Interface GalleriesCreateOrUpdateOptionalParams
+  - Added Interface GalleriesDeleteOptionalParams
+  - Added Interface GalleriesGetOptionalParams
+  - Added Interface GalleriesListByResourceGroupOptionalParams
+  - Added Interface GalleriesListOptionalParams
+  - Added Interface GalleriesUpdateOptionalParams
+  - Added Interface Gallery
+  - Added Interface GalleryApplication
+  - Added Interface GalleryApplicationCustomAction
+  - Added Interface GalleryApplicationCustomActionParameter
+  - Added Interface GalleryApplicationProperties
+  - Added Interface GalleryApplicationsCreateOrUpdateOptionalParams
+  - Added Interface GalleryApplicationsDeleteOptionalParams
+  - Added Interface GalleryApplicationsGetOptionalParams
+  - Added Interface GalleryApplicationsListByGalleryOptionalParams
+  - Added Interface GalleryApplicationsUpdateOptionalParams
+  - Added Interface GalleryApplicationUpdate
+  - Added Interface GalleryApplicationVersion
+  - Added Interface GalleryApplicationVersionProperties
+  - Added Interface GalleryApplicationVersionPublishingProfile
+  - Added Interface GalleryApplicationVersionSafetyProfile
+  - Added Interface GalleryApplicationVersionsCreateOrUpdateOptionalParams
+  - Added Interface GalleryApplicationVersionsDeleteOptionalParams
+  - Added Interface GalleryApplicationVersionsGetOptionalParams
+  - Added Interface GalleryApplicationVersionsListByGalleryApplicationOptionalParams
+  - Added Interface GalleryApplicationVersionsUpdateOptionalParams
+  - Added Interface GalleryApplicationVersionUpdate
+  - Added Interface GalleryArtifactPublishingProfileBase
+  - Added Interface GalleryArtifactSafetyProfileBase
+  - Added Interface GalleryArtifactVersionFullSource
+  - Added Interface GalleryArtifactVersionSource
+  - Added Interface GalleryDataDiskImage
+  - Added Interface GalleryDiskImage
+  - Added Interface GalleryDiskImageSource
+  - Added Interface GalleryExtendedLocation
+  - Added Interface GalleryIdentifier
+  - Added Interface GalleryIdentity
+  - Added Interface GalleryImage
+  - Added Interface GalleryImageFeature
+  - Added Interface GalleryImageIdentifier
+  - Added Interface GalleryImageProperties
+  - Added Interface GalleryImagesCreateOrUpdateOptionalParams
+  - Added Interface GalleryImagesDeleteOptionalParams
+  - Added Interface GalleryImagesGetOptionalParams
+  - Added Interface GalleryImagesListByGalleryOptionalParams
+  - Added Interface GalleryImagesUpdateOptionalParams
+  - Added Interface GalleryImageUpdate
+  - Added Interface GalleryImageVersion
+  - Added Interface GalleryImageVersionProperties
+  - Added Interface GalleryImageVersionPublishingProfile
+  - Added Interface GalleryImageVersionSafetyProfile
+  - Added Interface GalleryImageVersionsCreateOrUpdateOptionalParams
+  - Added Interface GalleryImageVersionsDeleteOptionalParams
+  - Added Interface GalleryImageVersionsGetOptionalParams
+  - Added Interface GalleryImageVersionsListByGalleryImageOptionalParams
+  - Added Interface GalleryImageVersionStorageProfile
+  - Added Interface GalleryImageVersionsUpdateOptionalParams
+  - Added Interface GalleryImageVersionUefiSettings
+  - Added Interface GalleryImageVersionUpdate
+  - Added Interface GalleryInVMAccessControlProfile
+  - Added Interface GalleryInVMAccessControlProfileProperties
+  - Added Interface GalleryInVMAccessControlProfilesCreateOrUpdateOptionalParams
+  - Added Interface GalleryInVMAccessControlProfilesDeleteOptionalParams
+  - Added Interface GalleryInVMAccessControlProfilesGetOptionalParams
+  - Added Interface GalleryInVMAccessControlProfilesListByGalleryOptionalParams
+  - Added Interface GalleryInVMAccessControlProfilesUpdateOptionalParams
+  - Added Interface GalleryInVMAccessControlProfileUpdate
+  - Added Interface GalleryInVMAccessControlProfileVersion
+  - Added Interface GalleryInVMAccessControlProfileVersionProperties
+  - Added Interface GalleryInVMAccessControlProfileVersionsCreateOrUpdateOptionalParams
+  - Added Interface GalleryInVMAccessControlProfileVersionsDeleteOptionalParams
+  - Added Interface GalleryInVMAccessControlProfileVersionsGetOptionalParams
+  - Added Interface GalleryInVMAccessControlProfileVersionsListByGalleryInVMAccessControlProfileOptionalParams
+  - Added Interface GalleryInVMAccessControlProfileVersionsUpdateOptionalParams
+  - Added Interface GalleryInVMAccessControlProfileVersionUpdate
+  - Added Interface GalleryOSDiskImage
+  - Added Interface GalleryProperties
+  - Added Interface GalleryResourceProfilePropertiesBase
+  - Added Interface GalleryResourceProfileVersionPropertiesBase
+  - Added Interface GalleryScript
+  - Added Interface GalleryScriptParameter
+  - Added Interface GalleryScriptProperties
+  - Added Interface GalleryScriptsCreateOrUpdateOptionalParams
+  - Added Interface GalleryScriptsDeleteOptionalParams
+  - Added Interface GalleryScriptsGetOptionalParams
+  - Added Interface GalleryScriptsListByGalleryOptionalParams
+  - Added Interface GalleryScriptsUpdateOptionalParams
+  - Added Interface GalleryScriptUpdate
+  - Added Interface GalleryScriptVersion
+  - Added Interface GalleryScriptVersionProperties
+  - Added Interface GalleryScriptVersionPublishingProfile
+  - Added Interface GalleryScriptVersionSafetyProfile
+  - Added Interface GalleryScriptVersionsCreateOrUpdateOptionalParams
+  - Added Interface GalleryScriptVersionsDeleteOptionalParams
+  - Added Interface GalleryScriptVersionsGetOptionalParams
+  - Added Interface GalleryScriptVersionsListByGalleryScriptOptionalParams
+  - Added Interface GalleryScriptVersionsUpdateOptionalParams
+  - Added Interface GalleryScriptVersionUpdate
+  - Added Interface GallerySharingProfileUpdateOptionalParams
+  - Added Interface GallerySoftDeletedResource
+  - Added Interface GallerySoftDeletedResourceProperties
+  - Added Interface GalleryTargetExtendedLocation
+  - Added Interface GalleryUpdate
+  - Added Interface GenericGalleryParameter
+  - Added Interface GrantAccessData
+  - Added Interface HardwareProfile
+  - Added Interface HostEndpointSettings
+  - Added Interface Image
+  - Added Interface ImageDataDisk
+  - Added Interface ImageDeprecationStatus
+  - Added Interface ImageDisk
+  - Added Interface ImageDiskReference
+  - Added Interface ImageOSDisk
+  - Added Interface ImageProperties
+  - Added Interface ImagePurchasePlan
+  - Added Interface ImageReference
+  - Added Interface ImagesCreateOrUpdateOptionalParams
+  - Added Interface ImagesDeleteOptionalParams
+  - Added Interface ImagesGetOptionalParams
+  - Added Interface ImagesListByResourceGroupOptionalParams
+  - Added Interface ImagesListOptionalParams
+  - Added Interface ImageStorageProfile
+  - Added Interface ImagesUpdateOptionalParams
+  - Added Interface ImageUpdate
+  - Added Interface ImageVersionSecurityProfile
+  - Added Interface ImmutabilityPolicy
+  - Added Interface ImmutabilityPolicyData
+  - Added Interface ImmutabilityPolicyLockData
+  - Added Interface InnerError
+  - Added Interface InstanceViewStatus
   - Added Interface InterconnectBlock
   - Added Interface InterconnectBlockInstanceView
   - Added Interface InterconnectBlockProfile
@@ -18,1559 +384,784 @@
   - Added Interface InterconnectBlockUpdate
   - Added Interface InterconnectGroupProfile
   - Added Interface InterconnectInstanceView
-  - Interface NetworkProfile has a new optional parameter interconnectGroupProfile
-  - Interface SkuProfile has a new optional parameter automaticSkuMigrationPolicy
-  - Interface VirtualMachine has a new optional parameter interconnectBlockProfile
-  - Interface VirtualMachineInstanceView has a new optional parameter interconnectInstanceView
-  - Interface VirtualMachineProperties has a new optional parameter interconnectBlockProfile
-  - Interface VirtualMachineScaleSetNetworkProfile has a new optional parameter interconnectGroupProfile
-  - Interface VirtualMachineScaleSetUpdateNetworkProfile has a new optional parameter interconnectGroupProfile
-  - Interface VirtualMachineScaleSetUpdateVMProfile has a new optional parameter interconnectBlockProfile
-  - Interface VirtualMachineScaleSetVM has a new optional parameter interconnectBlockProfile
-  - Interface VirtualMachineScaleSetVMInstanceView has a new optional parameter interconnectInstanceView
-  - Interface VirtualMachineScaleSetVMNetworkProfileConfiguration has a new optional parameter interconnectGroupProfile
-  - Interface VirtualMachineScaleSetVMProfile has a new optional parameter interconnectBlockProfile
-  - Interface VirtualMachineScaleSetVMProperties has a new optional parameter interconnectBlockProfile
-  - Interface VirtualMachineUpdate has a new optional parameter interconnectBlockProfile
-  - Added Type Alias InterconnectBlockExpandTypes
-  - Added Enum KnownInterconnectBlockExpandTypes
-
-## 24.0.0 (2026-04-28)
-
-### Features Added
-  - Added operation group VirtualMachineScaleSetLifeCycleHookEventsOperations
-  - Added operation AvailabilitySetsOperations.convertToVirtualMachineScaleSet
-  - Added operation CapacityReservationsOperations.createOrUpdate
-  - Added operation CapacityReservationsOperations.delete
-  - Added operation CapacityReservationsOperations.update
-  - Added operation DedicatedHostsOperations.createOrUpdate
-  - Added operation DedicatedHostsOperations.delete
-  - Added operation DedicatedHostsOperations.redeploy
-  - Added operation DedicatedHostsOperations.restart
-  - Added operation DedicatedHostsOperations.update
-  - Added operation DiskAccessesOperations.createOrUpdate
-  - Added operation DiskAccessesOperations.delete
-  - Added operation DiskAccessesOperations.deleteAPrivateEndpointConnection
-  - Added operation DiskAccessesOperations.update
-  - Added operation DiskAccessesOperations.updateAPrivateEndpointConnection
-  - Added operation DiskEncryptionSetsOperations.createOrUpdate
-  - Added operation DiskEncryptionSetsOperations.delete
-  - Added operation DiskEncryptionSetsOperations.update
-  - Added operation DiskRestorePointOperations.grantAccess
-  - Added operation DiskRestorePointOperations.revokeAccess
-  - Added operation DisksOperations.createOrUpdate
-  - Added operation DisksOperations.delete
-  - Added operation DisksOperations.grantAccess
-  - Added operation DisksOperations.revokeAccess
-  - Added operation DisksOperations.update
-  - Added operation GalleriesOperations.createOrUpdate
-  - Added operation GalleriesOperations.delete
-  - Added operation GalleriesOperations.update
-  - Added operation GalleryApplicationsOperations.createOrUpdate
-  - Added operation GalleryApplicationsOperations.delete
-  - Added operation GalleryApplicationsOperations.update
-  - Added operation GalleryApplicationVersionsOperations.createOrUpdate
-  - Added operation GalleryApplicationVersionsOperations.delete
-  - Added operation GalleryApplicationVersionsOperations.update
-  - Added operation GalleryImagesOperations.createOrUpdate
-  - Added operation GalleryImagesOperations.delete
-  - Added operation GalleryImagesOperations.update
-  - Added operation GalleryImageVersionsOperations.createOrUpdate
-  - Added operation GalleryImageVersionsOperations.delete
-  - Added operation GalleryImageVersionsOperations.update
-  - Added operation GalleryInVMAccessControlProfilesOperations.createOrUpdate
-  - Added operation GalleryInVMAccessControlProfilesOperations.delete
-  - Added operation GalleryInVMAccessControlProfilesOperations.update
-  - Added operation GalleryInVMAccessControlProfileVersionsOperations.createOrUpdate
-  - Added operation GalleryInVMAccessControlProfileVersionsOperations.delete
-  - Added operation GalleryInVMAccessControlProfileVersionsOperations.update
-  - Added operation GalleryScriptsOperations.createOrUpdate
-  - Added operation GalleryScriptsOperations.delete
-  - Added operation GalleryScriptsOperations.update
-  - Added operation GalleryScriptVersionsOperations.createOrUpdate
-  - Added operation GalleryScriptVersionsOperations.delete
-  - Added operation GalleryScriptVersionsOperations.update
-  - Added operation GallerySharingProfileOperations.update
-  - Added operation ImagesOperations.createOrUpdate
-  - Added operation ImagesOperations.delete
-  - Added operation ImagesOperations.update
-  - Added operation LogAnalyticsOperations.exportRequestRateByInterval
-  - Added operation LogAnalyticsOperations.exportThrottledRequests
-  - Added operation RestorePointCollectionsOperations.delete
-  - Added operation RestorePointsOperations.create
-  - Added operation RestorePointsOperations.delete
-  - Added operation SnapshotsOperations.createOrUpdate
-  - Added operation SnapshotsOperations.delete
-  - Added operation SnapshotsOperations.grantAccess
-  - Added operation SnapshotsOperations.revokeAccess
-  - Added operation SnapshotsOperations.update
-  - Added operation VirtualMachineExtensionsOperations.createOrUpdate
-  - Added operation VirtualMachineExtensionsOperations.delete
-  - Added operation VirtualMachineExtensionsOperations.update
-  - Added operation VirtualMachineRunCommandsOperations.createOrUpdate
-  - Added operation VirtualMachineRunCommandsOperations.delete
-  - Added operation VirtualMachineRunCommandsOperations.update
-  - Added operation VirtualMachinesOperations.assessPatches
-  - Added operation VirtualMachinesOperations.attachDetachDataDisks
-  - Added operation VirtualMachinesOperations.capture
-  - Added operation VirtualMachinesOperations.convertToManagedDisks
-  - Added operation VirtualMachinesOperations.createOrUpdate
-  - Added operation VirtualMachinesOperations.deallocate
-  - Added operation VirtualMachinesOperations.delete
-  - Added operation VirtualMachinesOperations.installPatches
-  - Added operation VirtualMachinesOperations.migrateToVMScaleSet
-  - Added operation VirtualMachinesOperations.performMaintenance
-  - Added operation VirtualMachinesOperations.powerOff
-  - Added operation VirtualMachinesOperations.reapply
-  - Added operation VirtualMachinesOperations.redeploy
-  - Added operation VirtualMachinesOperations.reimage
-  - Added operation VirtualMachinesOperations.restart
-  - Added operation VirtualMachinesOperations.runCommand
-  - Added operation VirtualMachinesOperations.start
-  - Added operation VirtualMachinesOperations.update
-  - Added operation VirtualMachineScaleSetExtensionsOperations.createOrUpdate
-  - Added operation VirtualMachineScaleSetExtensionsOperations.delete
-  - Added operation VirtualMachineScaleSetExtensionsOperations.update
-  - Added operation VirtualMachineScaleSetRollingUpgradesOperations.cancel
-  - Added operation VirtualMachineScaleSetRollingUpgradesOperations.startExtensionUpgrade
-  - Added operation VirtualMachineScaleSetRollingUpgradesOperations.startOSUpgrade
-  - Added operation VirtualMachineScaleSetsOperations.approveRollingUpgrade
-  - Added operation VirtualMachineScaleSetsOperations.createOrUpdate
-  - Added operation VirtualMachineScaleSetsOperations.deallocate
-  - Added operation VirtualMachineScaleSetsOperations.delete
-  - Added operation VirtualMachineScaleSetsOperations.deleteInstances
-  - Added operation VirtualMachineScaleSetsOperations.performMaintenance
-  - Added operation VirtualMachineScaleSetsOperations.powerOff
-  - Added operation VirtualMachineScaleSetsOperations.reapply
-  - Added operation VirtualMachineScaleSetsOperations.redeploy
-  - Added operation VirtualMachineScaleSetsOperations.reimage
-  - Added operation VirtualMachineScaleSetsOperations.reimageAll
-  - Added operation VirtualMachineScaleSetsOperations.restart
-  - Added operation VirtualMachineScaleSetsOperations.scaleOut
-  - Added operation VirtualMachineScaleSetsOperations.setOrchestrationServiceState
-  - Added operation VirtualMachineScaleSetsOperations.start
-  - Added operation VirtualMachineScaleSetsOperations.update
-  - Added operation VirtualMachineScaleSetsOperations.updateInstances
-  - Added operation VirtualMachineScaleSetVMExtensionsOperations.createOrUpdate
-  - Added operation VirtualMachineScaleSetVMExtensionsOperations.delete
-  - Added operation VirtualMachineScaleSetVMExtensionsOperations.update
-  - Added operation VirtualMachineScaleSetVMRunCommandsOperations.createOrUpdate
-  - Added operation VirtualMachineScaleSetVMRunCommandsOperations.delete
-  - Added operation VirtualMachineScaleSetVMRunCommandsOperations.update
-  - Added operation VirtualMachineScaleSetVMsOperations.approveRollingUpgrade
-  - Added operation VirtualMachineScaleSetVMsOperations.attachDetachDataDisks
-  - Added operation VirtualMachineScaleSetVMsOperations.deallocate
-  - Added operation VirtualMachineScaleSetVMsOperations.delete
-  - Added operation VirtualMachineScaleSetVMsOperations.performMaintenance
-  - Added operation VirtualMachineScaleSetVMsOperations.powerOff
-  - Added operation VirtualMachineScaleSetVMsOperations.redeploy
-  - Added operation VirtualMachineScaleSetVMsOperations.reimage
-  - Added operation VirtualMachineScaleSetVMsOperations.reimageAll
-  - Added operation VirtualMachineScaleSetVMsOperations.restart
-  - Added operation VirtualMachineScaleSetVMsOperations.runCommand
-  - Added operation VirtualMachineScaleSetVMsOperations.start
-  - Added operation VirtualMachineScaleSetVMsOperations.update
-  - Added Interface AvailabilitySetProperties
-  - Added Interface CapacityReservationGroupProperties
-  - Added Interface CapacityReservationProperties
-  - Added Interface CommunityGalleryIdentifier
-  - Added Interface CommunityGalleryImageProperties
-  - Added Interface CommunityGalleryImageVersionProperties
-  - Added Interface CommunityGalleryProperties
-  - Added Interface DedicatedHostGroupProperties
-  - Added Interface DedicatedHostProperties
-  - Added Interface DiskAccessProperties
-  - Added Interface DiskEncryptionSetUpdateProperties
-  - Added Interface DiskProperties
-  - Added Interface DiskRestorePointProperties
-  - Added Interface DiskUpdateProperties
-  - Added Interface EncryptionSetProperties
-  - Added Interface ExternalHealthPolicy
-  - Added Interface GalleryApplicationProperties
-  - Added Interface GalleryApplicationVersionProperties
-  - Added Interface GalleryImageProperties
-  - Added Interface GalleryImageVersionProperties
-  - Added Interface GalleryProperties
-  - Added Interface GallerySoftDeletedResourceProperties
-  - Added Interface ImageProperties
+  - Added Interface KeyForDiskEncryptionSet
+  - Added Interface KeyVaultAndKeyReference
+  - Added Interface KeyVaultAndSecretReference
+  - Added Interface KeyVaultKeyReference
+  - Added Interface KeyVaultSecretReference
+  - Added Interface LastPatchInstallationSummary
   - Added Interface LifecycleHook
   - Added Interface LifecycleHooksProfile
+  - Added Interface LinuxConfiguration
+  - Added Interface LinuxParameters
+  - Added Interface LinuxPatchSettings
+  - Added Interface LinuxVMGuestPatchAutomaticByPlatformSettings
+  - Added Interface LogAnalyticsExportRequestRateByIntervalOptionalParams
+  - Added Interface LogAnalyticsExportThrottledRequestsOptionalParams
+  - Added Interface LogAnalyticsInputBase
+  - Added Interface LogAnalyticsOperationResult
+  - Added Interface LogAnalyticsOutput
+  - Added Interface MaintenanceRedeployStatus
+  - Added Interface ManagedDiskParameters
+  - Added Interface MaxInstancePercentPerZonePolicy
+  - Added Interface MigrateToVirtualMachineScaleSetInput
+  - Added Interface MigrateVMToVirtualMachineScaleSetInput
+  - Added Interface NetworkInterfaceReference
   - Added Interface NetworkInterfaceReferenceProperties
+  - Added Interface NetworkProfile
+  - Added Interface Operation
+  - Added Interface OperationDisplay
   - Added Interface OperationRecoverySettings
+  - Added Interface OperationsListOptionalParams
+  - Added Interface OrchestrationServiceStateInput
+  - Added Interface OrchestrationServiceSummary
+  - Added Interface OSDisk
+  - Added Interface OSDiskImage
+  - Added Interface OSDiskImageEncryption
+  - Added Interface OSDiskImageSecurityProfile
+  - Added Interface OSImageNotificationProfile
+  - Added Interface OSProfile
+  - Added Interface OSProfileProvisioningData
   - Added Interface PagedAsyncIterableIterator
   - Added Interface PageSettings
+  - Added Interface PatchInstallationDetail
+  - Added Interface PatchSettings
+  - Added Interface PirCommunityGalleryResource
+  - Added Interface PirResource
+  - Added Interface PirSharedGalleryResource
+  - Added Interface Placement
+  - Added Interface Plan
+  - Added Interface PlatformAttribute
+  - Added Interface PolicyViolation
+  - Added Interface PriorityMixPolicy
+  - Added Interface PrivateEndpoint
+  - Added Interface PrivateEndpointConnection
   - Added Interface PrivateEndpointConnectionProperties
+  - Added Interface PrivateLinkResource
+  - Added Interface PrivateLinkResourceListResult
   - Added Interface PrivateLinkResourceProperties
+  - Added Interface PrivateLinkServiceConnectionState
+  - Added Interface PropertyUpdatesInProgress
+  - Added Interface ProximityPlacementGroup
   - Added Interface ProximityPlacementGroupProperties
+  - Added Interface ProximityPlacementGroupPropertiesIntent
+  - Added Interface ProximityPlacementGroupsCreateOrUpdateOptionalParams
+  - Added Interface ProximityPlacementGroupsDeleteOptionalParams
+  - Added Interface ProximityPlacementGroupsGetOptionalParams
+  - Added Interface ProximityPlacementGroupsListByResourceGroupOptionalParams
+  - Added Interface ProximityPlacementGroupsListBySubscriptionOptionalParams
+  - Added Interface ProximityPlacementGroupsUpdateOptionalParams
+  - Added Interface ProximityPlacementGroupUpdate
+  - Added Interface ProxyAgentSettings
+  - Added Interface ProxyResource
+  - Added Interface PublicIPAddressSku
+  - Added Interface PurchasePlan
+  - Added Interface RecommendedMachineConfiguration
+  - Added Interface RecoveryWalkResponse
+  - Added Interface RegionalReplicationStatus
+  - Added Interface RegionalSharingStatus
   - Added Interface ReimageRecoveryPolicy
+  - Added Interface ReplicationStatus
+  - Added Interface RequestRateByIntervalInput
+  - Added Interface ResiliencyPolicy
   - Added Interface ResiliencyProfile
+  - Added Interface ResilientVMCreationPolicy
+  - Added Interface ResilientVMDeletionPolicy
+  - Added Interface Resource
+  - Added Interface ResourceRange
+  - Added Interface ResourceSharingProfile
+  - Added Interface ResourceSku
+  - Added Interface ResourceSkuCapabilities
+  - Added Interface ResourceSkuCapacity
+  - Added Interface ResourceSkuCosts
+  - Added Interface ResourceSkuLocationInfo
+  - Added Interface ResourceSkuRestrictionInfo
+  - Added Interface ResourceSkuRestrictions
+  - Added Interface ResourceSkusListOptionalParams
+  - Added Interface ResourceSkuZoneDetails
   - Added Interface RestartRecoveryPolicy
+  - Added Interface RestorePoint
+  - Added Interface RestorePointCollection
   - Added Interface RestorePointCollectionProperties
+  - Added Interface RestorePointCollectionsCreateOrUpdateOptionalParams
+  - Added Interface RestorePointCollectionsDeleteOptionalParams
+  - Added Interface RestorePointCollectionsGetOptionalParams
+  - Added Interface RestorePointCollectionsListAllOptionalParams
+  - Added Interface RestorePointCollectionsListOptionalParams
+  - Added Interface RestorePointCollectionSourceProperties
+  - Added Interface RestorePointCollectionsUpdateOptionalParams
+  - Added Interface RestorePointCollectionUpdate
+  - Added Interface RestorePointEncryption
+  - Added Interface RestorePointInstanceView
   - Added Interface RestorePointProperties
+  - Added Interface RestorePointsCreateOptionalParams
+  - Added Interface RestorePointsDeleteOptionalParams
+  - Added Interface RestorePointsGetOptionalParams
+  - Added Interface RestorePointSourceMetadata
+  - Added Interface RestorePointSourceVMDataDisk
+  - Added Interface RestorePointSourceVmosDisk
+  - Added Interface RestorePointSourceVMStorageProfile
   - Added Interface RestorePollerOptions
+  - Added Interface RetrieveBootDiagnosticsDataResult
+  - Added Interface RollbackStatusInfo
+  - Added Interface RollingUpgradePolicy
+  - Added Interface RollingUpgradeProgressInfo
+  - Added Interface RollingUpgradeRunningStatus
+  - Added Interface RollingUpgradeStatusInfo
   - Added Interface RollingUpgradeStatusInfoProperties
+  - Added Interface RunCommandDocument
+  - Added Interface RunCommandDocumentBase
+  - Added Interface RunCommandInput
+  - Added Interface RunCommandInputParameter
+  - Added Interface RunCommandManagedIdentity
+  - Added Interface RunCommandParameterDefinition
+  - Added Interface RunCommandResult
+  - Added Interface ScaleInPolicy
+  - Added Interface ScheduledEventsAdditionalPublishingTargets
+  - Added Interface ScheduledEventsPolicy
+  - Added Interface ScheduledEventsProfile
+  - Added Interface ScheduleProfile
+  - Added Interface ScriptSource
+  - Added Interface SecurityPostureReference
+  - Added Interface SecurityPostureReferenceUpdate
+  - Added Interface SecurityProfile
+  - Added Interface ServiceArtifactReference
+  - Added Interface SharedGalleriesGetOptionalParams
+  - Added Interface SharedGalleriesListOptionalParams
+  - Added Interface SharedGallery
+  - Added Interface SharedGalleryDataDiskImage
+  - Added Interface SharedGalleryDiskImage
   - Added Interface SharedGalleryIdentifier
+  - Added Interface SharedGalleryImage
   - Added Interface SharedGalleryImageProperties
+  - Added Interface SharedGalleryImagesGetOptionalParams
+  - Added Interface SharedGalleryImagesListOptionalParams
+  - Added Interface SharedGalleryImageVersion
   - Added Interface SharedGalleryImageVersionProperties
+  - Added Interface SharedGalleryImageVersionsGetOptionalParams
+  - Added Interface SharedGalleryImageVersionsListOptionalParams
+  - Added Interface SharedGalleryImageVersionStorageProfile
+  - Added Interface SharedGalleryInvitesGallerySharingAcceptOptionalParams
+  - Added Interface SharedGalleryInvitesGallerySharingRejectOptionalParams
+  - Added Interface SharedGalleryOSDiskImage
   - Added Interface SharedGalleryProperties
+  - Added Interface ShareInfoElement
+  - Added Interface SharingProfile
+  - Added Interface SharingProfileGroup
+  - Added Interface SharingStatus
+  - Added Interface SharingUpdate
   - Added Interface SimplePollerLike
+  - Added Interface Sku
+  - Added Interface SkuProfile
+  - Added Interface SkuProfileVMSize
+  - Added Interface Snapshot
   - Added Interface SnapshotProperties
+  - Added Interface SnapshotsCreateOrUpdateOptionalParams
+  - Added Interface SnapshotsDeleteOptionalParams
+  - Added Interface SnapshotsGetOptionalParams
+  - Added Interface SnapshotsGrantAccessOptionalParams
+  - Added Interface SnapshotSku
+  - Added Interface SnapshotsListByResourceGroupOptionalParams
+  - Added Interface SnapshotsListOptionalParams
+  - Added Interface SnapshotsRevokeAccessOptionalParams
+  - Added Interface SnapshotsUpdateImmutabilityPolicyLockOptionalParams
+  - Added Interface SnapshotsUpdateImmutabilityPolicyOptionalParams
+  - Added Interface SnapshotsUpdateOptionalParams
+  - Added Interface SnapshotUpdate
   - Added Interface SnapshotUpdateProperties
+  - Added Interface SoftDeletedResourceListByArtifactNameOptionalParams
+  - Added Interface SoftDeletePolicy
+  - Added Interface SourceVault
+  - Added Interface SpotRestorePolicy
+  - Added Interface SshConfiguration
+  - Added Interface SshGenerateKeyPairInputParameters
+  - Added Interface SshPublicKey
+  - Added Interface SshPublicKeyGenerateKeyPairResult
+  - Added Interface SshPublicKeyResource
   - Added Interface SshPublicKeyResourceProperties
+  - Added Interface SshPublicKeysCreateOptionalParams
+  - Added Interface SshPublicKeysDeleteOptionalParams
+  - Added Interface SshPublicKeysGenerateKeyPairOptionalParams
+  - Added Interface SshPublicKeysGetOptionalParams
+  - Added Interface SshPublicKeysListByResourceGroupOptionalParams
+  - Added Interface SshPublicKeysListBySubscriptionOptionalParams
+  - Added Interface SshPublicKeysUpdateOptionalParams
+  - Added Interface SshPublicKeyUpdateResource
   - Added Interface StartRecoveryPolicy
+  - Added Interface StorageProfile
+  - Added Interface SubResource
+  - Added Interface SubResourceReadOnly
+  - Added Interface SubResourceWithColocationStatus
+  - Added Interface SupportedCapabilities
+  - Added Interface SystemData
+  - Added Interface TargetRegion
+  - Added Interface TenantLevelSharedGalleryInvitesTenantLevelGallerySharingAcceptOptionalParams
+  - Added Interface TenantLevelSharedGalleryInvitesTenantLevelGallerySharingRejectOptionalParams
+  - Added Interface TerminateNotificationProfile
+  - Added Interface ThrottledRequestsInput
+  - Added Interface TrackedResource
+  - Added Interface UefiKey
+  - Added Interface UefiKeySignatures
+  - Added Interface UefiSettings
+  - Added Interface UpdateResource
+  - Added Interface UpdateResourceDefinition
+  - Added Interface UpgradeOperationHistoricalStatusInfo
+  - Added Interface UpgradeOperationHistoricalStatusInfoProperties
+  - Added Interface UpgradeOperationHistoryStatus
+  - Added Interface UpgradePolicy
+  - Added Interface Usage
+  - Added Interface UsageListOptionalParams
+  - Added Interface UsageName
+  - Added Interface UserArtifactManage
+  - Added Interface UserArtifactSettings
+  - Added Interface UserArtifactSource
+  - Added Interface UserAssignedIdentitiesValue
+  - Added Interface UserInitiatedReboot
+  - Added Interface UserInitiatedRedeploy
+  - Added Interface ValidationsProfile
+  - Added Interface VaultCertificate
+  - Added Interface VaultSecretGroup
+  - Added Interface VirtualHardDisk
+  - Added Interface VirtualMachine
+  - Added Interface VirtualMachineAgentInstanceView
+  - Added Interface VirtualMachineAssessPatchesResult
+  - Added Interface VirtualMachineCaptureParameters
+  - Added Interface VirtualMachineCaptureResult
+  - Added Interface VirtualMachineExtension
+  - Added Interface VirtualMachineExtensionHandlerInstanceView
+  - Added Interface VirtualMachineExtensionImage
   - Added Interface VirtualMachineExtensionImageProperties
+  - Added Interface VirtualMachineExtensionImagesGetOptionalParams
+  - Added Interface VirtualMachineExtensionImagesListTypesOptionalParams
+  - Added Interface VirtualMachineExtensionImagesListVersionsOptionalParams
+  - Added Interface VirtualMachineExtensionInstanceView
   - Added Interface VirtualMachineExtensionProperties
+  - Added Interface VirtualMachineExtensionsCreateOrUpdateOptionalParams
+  - Added Interface VirtualMachineExtensionsDeleteOptionalParams
+  - Added Interface VirtualMachineExtensionsGetOptionalParams
+  - Added Interface VirtualMachineExtensionsListOptionalParams
+  - Added Interface VirtualMachineExtensionsListResult
+  - Added Interface VirtualMachineExtensionsUpdateOptionalParams
+  - Added Interface VirtualMachineExtensionUpdate
   - Added Interface VirtualMachineExtensionUpdateProperties
+  - Added Interface VirtualMachineHealthStatus
+  - Added Interface VirtualMachineIdentity
+  - Added Interface VirtualMachineImage
+  - Added Interface VirtualMachineImageFeature
   - Added Interface VirtualMachineImageProperties
+  - Added Interface VirtualMachineImageResource
+  - Added Interface VirtualMachineImagesEdgeZoneGetOptionalParams
+  - Added Interface VirtualMachineImagesEdgeZoneListOffersOptionalParams
+  - Added Interface VirtualMachineImagesEdgeZoneListOptionalParams
+  - Added Interface VirtualMachineImagesEdgeZoneListPublishersOptionalParams
+  - Added Interface VirtualMachineImagesEdgeZoneListSkusOptionalParams
+  - Added Interface VirtualMachineImagesGetOptionalParams
+  - Added Interface VirtualMachineImagesListByEdgeZoneOptionalParams
+  - Added Interface VirtualMachineImagesListOffersOptionalParams
+  - Added Interface VirtualMachineImagesListOptionalParams
+  - Added Interface VirtualMachineImagesListPublishersOptionalParams
+  - Added Interface VirtualMachineImagesListSkusOptionalParams
+  - Added Interface VirtualMachineImagesListWithPropertiesOptionalParams
+  - Added Interface VirtualMachineInstallPatchesParameters
+  - Added Interface VirtualMachineInstallPatchesResult
+  - Added Interface VirtualMachineInstanceView
+  - Added Interface VirtualMachineIpTag
+  - Added Interface VirtualMachineNetworkInterfaceConfiguration
   - Added Interface VirtualMachineNetworkInterfaceConfigurationProperties
+  - Added Interface VirtualMachineNetworkInterfaceDnsSettingsConfiguration
+  - Added Interface VirtualMachineNetworkInterfaceIPConfiguration
   - Added Interface VirtualMachineNetworkInterfaceIPConfigurationProperties
+  - Added Interface VirtualMachinePatchStatus
   - Added Interface VirtualMachineProperties
+  - Added Interface VirtualMachinePublicIPAddressConfiguration
   - Added Interface VirtualMachinePublicIPAddressConfigurationProperties
+  - Added Interface VirtualMachinePublicIPAddressDnsSettingsConfiguration
+  - Added Interface VirtualMachineReimageParameters
+  - Added Interface VirtualMachineRunCommand
+  - Added Interface VirtualMachineRunCommandInstanceView
   - Added Interface VirtualMachineRunCommandProperties
+  - Added Interface VirtualMachineRunCommandsCreateOrUpdateOptionalParams
+  - Added Interface VirtualMachineRunCommandScriptSource
+  - Added Interface VirtualMachineRunCommandsDeleteOptionalParams
+  - Added Interface VirtualMachineRunCommandsGetByVirtualMachineOptionalParams
+  - Added Interface VirtualMachineRunCommandsGetOptionalParams
+  - Added Interface VirtualMachineRunCommandsListByVirtualMachineOptionalParams
+  - Added Interface VirtualMachineRunCommandsListOptionalParams
+  - Added Interface VirtualMachineRunCommandsUpdateOptionalParams
+  - Added Interface VirtualMachineRunCommandUpdate
+  - Added Interface VirtualMachinesAssessPatchesOptionalParams
+  - Added Interface VirtualMachinesAttachDetachDataDisksOptionalParams
+  - Added Interface VirtualMachineScaleSet
+  - Added Interface VirtualMachineScaleSetDataDisk
+  - Added Interface VirtualMachineScaleSetExtension
+  - Added Interface VirtualMachineScaleSetExtensionProfile
   - Added Interface VirtualMachineScaleSetExtensionProperties
+  - Added Interface VirtualMachineScaleSetExtensionsCreateOrUpdateOptionalParams
+  - Added Interface VirtualMachineScaleSetExtensionsDeleteOptionalParams
+  - Added Interface VirtualMachineScaleSetExtensionsGetOptionalParams
+  - Added Interface VirtualMachineScaleSetExtensionsListOptionalParams
+  - Added Interface VirtualMachineScaleSetExtensionsUpdateOptionalParams
+  - Added Interface VirtualMachineScaleSetExtensionUpdate
+  - Added Interface VirtualMachineScaleSetHardwareProfile
+  - Added Interface VirtualMachineScaleSetIdentity
+  - Added Interface VirtualMachineScaleSetInstanceView
+  - Added Interface VirtualMachineScaleSetInstanceViewStatusesSummary
+  - Added Interface VirtualMachineScaleSetIPConfiguration
   - Added Interface VirtualMachineScaleSetIPConfigurationProperties
+  - Added Interface VirtualMachineScaleSetIpTag
   - Added Interface VirtualMachineScaleSetLifeCycleHookEventsGetOptionalParams
   - Added Interface VirtualMachineScaleSetLifeCycleHookEventsListOptionalParams
   - Added Interface VirtualMachineScaleSetLifeCycleHookEventsUpdateOptionalParams
+  - Added Interface VirtualMachineScaleSetManagedDiskParameters
+  - Added Interface VirtualMachineScaleSetMigrationInfo
+  - Added Interface VirtualMachineScaleSetNetworkConfiguration
+  - Added Interface VirtualMachineScaleSetNetworkConfigurationDnsSettings
   - Added Interface VirtualMachineScaleSetNetworkConfigurationProperties
+  - Added Interface VirtualMachineScaleSetNetworkProfile
+  - Added Interface VirtualMachineScaleSetOSDisk
+  - Added Interface VirtualMachineScaleSetOSProfile
   - Added Interface VirtualMachineScaleSetProperties
+  - Added Interface VirtualMachineScaleSetPublicIPAddressConfiguration
+  - Added Interface VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings
   - Added Interface VirtualMachineScaleSetPublicIPAddressConfigurationProperties
+  - Added Interface VirtualMachineScaleSetReimageParameters
+  - Added Interface VirtualMachineScaleSetRollingUpgradesCancelOptionalParams
+  - Added Interface VirtualMachineScaleSetRollingUpgradesGetLatestOptionalParams
+  - Added Interface VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeOptionalParams
+  - Added Interface VirtualMachineScaleSetRollingUpgradesStartOSUpgradeOptionalParams
+  - Added Interface VirtualMachineScaleSetsApproveRollingUpgradeOptionalParams
+  - Added Interface VirtualMachineScaleSetsConvertToSinglePlacementGroupOptionalParams
+  - Added Interface VirtualMachineScaleSetsCreateOrUpdateOptionalParams
+  - Added Interface VirtualMachineScaleSetsDeallocateOptionalParams
+  - Added Interface VirtualMachineScaleSetsDeleteInstancesOptionalParams
+  - Added Interface VirtualMachineScaleSetsDeleteOptionalParams
+  - Added Interface VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkOptionalParams
+  - Added Interface VirtualMachineScaleSetsGetInstanceViewOptionalParams
+  - Added Interface VirtualMachineScaleSetsGetOptionalParams
+  - Added Interface VirtualMachineScaleSetSku
+  - Added Interface VirtualMachineScaleSetSkuCapacity
+  - Added Interface VirtualMachineScaleSetsListAllOptionalParams
+  - Added Interface VirtualMachineScaleSetsListByLocationOptionalParams
+  - Added Interface VirtualMachineScaleSetsListOptionalParams
   - Added Interface VirtualMachineScaleSetsListOSUpgradeHistoryOptionalParams
+  - Added Interface VirtualMachineScaleSetsListSkusOptionalParams
+  - Added Interface VirtualMachineScaleSetsPerformMaintenanceOptionalParams
+  - Added Interface VirtualMachineScaleSetsPowerOffOptionalParams
+  - Added Interface VirtualMachineScaleSetsReapplyOptionalParams
+  - Added Interface VirtualMachineScaleSetsRedeployOptionalParams
+  - Added Interface VirtualMachineScaleSetsReimageAllOptionalParams
+  - Added Interface VirtualMachineScaleSetsReimageOptionalParams
+  - Added Interface VirtualMachineScaleSetsRestartOptionalParams
+  - Added Interface VirtualMachineScaleSetsScaleOutOptionalParams
+  - Added Interface VirtualMachineScaleSetsSetOrchestrationServiceStateOptionalParams
+  - Added Interface VirtualMachineScaleSetsStartOptionalParams
+  - Added Interface VirtualMachineScaleSetStorageProfile
+  - Added Interface VirtualMachineScaleSetsUpdateInstancesOptionalParams
+  - Added Interface VirtualMachineScaleSetsUpdateOptionalParams
+  - Added Interface VirtualMachineScaleSetUpdate
+  - Added Interface VirtualMachineScaleSetUpdateIPConfiguration
   - Added Interface VirtualMachineScaleSetUpdateIPConfigurationProperties
+  - Added Interface VirtualMachineScaleSetUpdateNetworkConfiguration
   - Added Interface VirtualMachineScaleSetUpdateNetworkConfigurationProperties
+  - Added Interface VirtualMachineScaleSetUpdateNetworkProfile
+  - Added Interface VirtualMachineScaleSetUpdateOSDisk
+  - Added Interface VirtualMachineScaleSetUpdateOSProfile
   - Added Interface VirtualMachineScaleSetUpdateProperties
+  - Added Interface VirtualMachineScaleSetUpdatePublicIPAddressConfiguration
   - Added Interface VirtualMachineScaleSetUpdatePublicIPAddressConfigurationProperties
+  - Added Interface VirtualMachineScaleSetUpdateStorageProfile
+  - Added Interface VirtualMachineScaleSetUpdateVMProfile
+  - Added Interface VirtualMachineScaleSetVM
+  - Added Interface VirtualMachineScaleSetVMExtension
+  - Added Interface VirtualMachineScaleSetVMExtensionsCreateOrUpdateOptionalParams
+  - Added Interface VirtualMachineScaleSetVMExtensionsDeleteOptionalParams
+  - Added Interface VirtualMachineScaleSetVMExtensionsGetOptionalParams
+  - Added Interface VirtualMachineScaleSetVMExtensionsListOptionalParams
+  - Added Interface VirtualMachineScaleSetVMExtensionsListResult
+  - Added Interface VirtualMachineScaleSetVMExtensionsSummary
+  - Added Interface VirtualMachineScaleSetVMExtensionsUpdateOptionalParams
+  - Added Interface VirtualMachineScaleSetVMExtensionUpdate
+  - Added Interface VirtualMachineScaleSetVMInstanceIDs
+  - Added Interface VirtualMachineScaleSetVMInstanceRequiredIDs
+  - Added Interface VirtualMachineScaleSetVMInstanceView
+  - Added Interface VirtualMachineScaleSetVMNetworkProfileConfiguration
+  - Added Interface VirtualMachineScaleSetVMProfile
   - Added Interface VirtualMachineScaleSetVMProperties
+  - Added Interface VirtualMachineScaleSetVMProtectionPolicy
+  - Added Interface VirtualMachineScaleSetVMReimageParameters
+  - Added Interface VirtualMachineScaleSetVMRunCommandsCreateOrUpdateOptionalParams
+  - Added Interface VirtualMachineScaleSetVMRunCommandsDeleteOptionalParams
+  - Added Interface VirtualMachineScaleSetVMRunCommandsGetOptionalParams
+  - Added Interface VirtualMachineScaleSetVMRunCommandsListOptionalParams
+  - Added Interface VirtualMachineScaleSetVMRunCommandsUpdateOptionalParams
+  - Added Interface VirtualMachineScaleSetVMsApproveRollingUpgradeOptionalParams
+  - Added Interface VirtualMachineScaleSetVMsAttachDetachDataDisksOptionalParams
+  - Added Interface VirtualMachineScaleSetVMsDeallocateOptionalParams
+  - Added Interface VirtualMachineScaleSetVMsDeleteOptionalParams
+  - Added Interface VirtualMachineScaleSetVMsGetInstanceViewOptionalParams
+  - Added Interface VirtualMachineScaleSetVMsGetOptionalParams
+  - Added Interface VirtualMachineScaleSetVMsListOptionalParams
+  - Added Interface VirtualMachineScaleSetVMsPerformMaintenanceOptionalParams
+  - Added Interface VirtualMachineScaleSetVMsPowerOffOptionalParams
+  - Added Interface VirtualMachineScaleSetVMsRedeployOptionalParams
+  - Added Interface VirtualMachineScaleSetVMsReimageAllOptionalParams
+  - Added Interface VirtualMachineScaleSetVMsReimageOptionalParams
+  - Added Interface VirtualMachineScaleSetVMsRestartOptionalParams
+  - Added Interface VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataOptionalParams
+  - Added Interface VirtualMachineScaleSetVMsRunCommandOptionalParams
+  - Added Interface VirtualMachineScaleSetVMsSimulateEvictionOptionalParams
+  - Added Interface VirtualMachineScaleSetVMsStartOptionalParams
+  - Added Interface VirtualMachineScaleSetVMsUpdateOptionalParams
+  - Added Interface VirtualMachinesCaptureOptionalParams
+  - Added Interface VirtualMachinesConvertToManagedDisksOptionalParams
+  - Added Interface VirtualMachinesCreateOrUpdateOptionalParams
+  - Added Interface VirtualMachinesDeallocateOptionalParams
+  - Added Interface VirtualMachinesDeleteOptionalParams
+  - Added Interface VirtualMachinesGeneralizeOptionalParams
+  - Added Interface VirtualMachinesGetOptionalParams
+  - Added Interface VirtualMachinesInstallPatchesOptionalParams
+  - Added Interface VirtualMachinesInstanceViewOptionalParams
+  - Added Interface VirtualMachineSize
+  - Added Interface VirtualMachineSizesListOptionalParams
+  - Added Interface VirtualMachinesListAllOptionalParams
+  - Added Interface VirtualMachinesListAvailableSizesOptionalParams
+  - Added Interface VirtualMachinesListByLocationOptionalParams
+  - Added Interface VirtualMachinesListOptionalParams
+  - Added Interface VirtualMachinesMigrateToVMScaleSetOptionalParams
+  - Added Interface VirtualMachineSoftwarePatchProperties
+  - Added Interface VirtualMachinesPerformMaintenanceOptionalParams
+  - Added Interface VirtualMachinesPowerOffOptionalParams
+  - Added Interface VirtualMachinesReapplyOptionalParams
+  - Added Interface VirtualMachinesRedeployOptionalParams
+  - Added Interface VirtualMachinesReimageOptionalParams
+  - Added Interface VirtualMachinesRestartOptionalParams
+  - Added Interface VirtualMachinesRetrieveBootDiagnosticsDataOptionalParams
+  - Added Interface VirtualMachinesRunCommandOptionalParams
+  - Added Interface VirtualMachinesSimulateEvictionOptionalParams
+  - Added Interface VirtualMachinesStartOptionalParams
+  - Added Interface VirtualMachineStatusCodeCount
+  - Added Interface VirtualMachinesUpdateOptionalParams
+  - Added Interface VirtualMachineUpdate
+  - Added Interface VMDiskSecurityProfile
+  - Added Interface VMGalleryApplication
+  - Added Interface VmImagesInEdgeZoneListResult
+  - Added Interface VMScaleSetConvertToSinglePlacementGroupInput
   - Added Interface VMScaleSetLifecycleHookEvent
   - Added Interface VMScaleSetLifecycleHookEventAdditionalContext
   - Added Interface VMScaleSetLifecycleHookEventProperties
   - Added Interface VMScaleSetLifecycleHookEventTargetResource
   - Added Interface VMScaleSetLifecycleHookEventUpdate
-  - Added Interface ZoneMovement
-  - Interface CapacityReservationsListByCapacityReservationGroupOptionalParams has a new optional parameter expand
-  - Interface DataDisk has a new optional parameter storageFaultDomainAlignment
-  - Interface DiffDiskSettings has a new optional parameter enableFullCaching
-  - Interface DiskInstanceView has a new optional parameter storageAlignmentStatus
-  - Interface OSDisk has a new optional parameter storageFaultDomainAlignment
-  - Interface ResiliencyPolicy has a new optional parameter operationRecoverySettings
-  - Interface VirtualMachine has a new optional parameter resiliencyProfile
-  - Interface VirtualMachineScaleSet has a new optional parameter externalHealthPolicy
-  - Interface VirtualMachineScaleSet has a new optional parameter lifecycleHooksProfile
-  - Interface VirtualMachineScaleSetDataDisk has a new optional parameter storageFaultDomainAlignment
-  - Interface VirtualMachineScaleSetOSDisk has a new optional parameter storageFaultDomainAlignment
-  - Interface VirtualMachineScaleSetUpdate has a new optional parameter lifecycleHooksProfile
-  - Interface VirtualMachineScaleSetUpdate has a new optional parameter placement
-  - Interface VirtualMachineScaleSetUpdateOSDisk has a new optional parameter storageFaultDomainAlignment
-  - Interface VirtualMachineScaleSetVM has a new optional parameter virtualMachineResourceId
-  - Interface VirtualMachineUpdate has a new optional parameter resiliencyProfile
-  - Added Type Alias AzureSupportedClouds
-  - Added Type Alias ComponentNames
-  - Added Type Alias LifecycleHookAction
-  - Added Type Alias LifecycleHookActionState
-  - Added Type Alias PassNames
-  - Added Type Alias StorageAlignmentStatus
-  - Added Type Alias StorageFaultDomainAlignmentType
-  - Added Type Alias VMScaleSetLifecycleHookEventState
-  - Added Type Alias VMScaleSetLifecycleHookEventType
-  - Added Enum AzureClouds
-  - Added Enum KnownLifecycleHookAction
-  - Added Enum KnownLifecycleHookActionState
-  - Added Enum KnownStorageAlignmentStatus
-  - Added Enum KnownStorageFaultDomainAlignmentType
-  - Added Enum KnownVMScaleSetLifecycleHookEventState
-  - Added Enum KnownVMScaleSetLifecycleHookEventType
-  - Enum KnownSecurityTypes has a new value Standard
-  - Enum KnownZonalPlatformFaultDomainAlignMode has a new value BestEffortAligned
-
-### Breaking Changes
-  - Operation AvailabilitySets.beginConvertToVirtualMachineScaleSetAndWait has a new signature
-  - Operation DedicatedHosts.beginRedeployAndWait has a new signature
-  - Operation DedicatedHosts.beginRestartAndWait has a new signature
-  - Operation GalleryInVMAccessControlProfiles.beginDeleteAndWait has a new signature
-  - Operation GalleryInVMAccessControlProfileVersions.beginDeleteAndWait has a new signature
-  - Operation GalleryScripts.beginDeleteAndWait has a new signature
-  - Operation GalleryScriptVersions.beginDeleteAndWait has a new signature
-  - Operation VirtualMachines.beginMigrateToVMScaleSetAndWait has a new signature
-  - Operation VirtualMachineScaleSets.beginApproveRollingUpgradeAndWait has a new signature
-  - Operation VirtualMachineScaleSetVMs.beginApproveRollingUpgradeAndWait has a new signature
-  - Removed Interface CloudService
-  - Removed Interface CloudServiceExtensionProfile
-  - Removed Interface CloudServiceExtensionProperties
-  - Removed Interface CloudServiceInstanceView
-  - Removed Interface CloudServiceNetworkProfile
-  - Removed Interface CloudServiceOperatingSystems
-  - Removed Interface CloudServiceOperatingSystemsGetOSFamilyOptionalParams
-  - Removed Interface CloudServiceOperatingSystemsGetOSVersionOptionalParams
-  - Removed Interface CloudServiceOperatingSystemsListOSFamiliesOptionalParams
-  - Removed Interface CloudServiceOperatingSystemsListOSVersionsOptionalParams
-  - Removed Interface CloudServiceOsProfile
-  - Removed Interface CloudServiceProperties
-  - Removed Interface CloudServiceRole
-  - Removed Interface CloudServiceRoleInstances
-  - Removed Interface CloudServiceRoleInstancesDeleteOptionalParams
-  - Removed Interface CloudServiceRoleInstancesGetInstanceViewOptionalParams
-  - Removed Interface CloudServiceRoleInstancesGetOptionalParams
-  - Removed Interface CloudServiceRoleInstancesGetRemoteDesktopFileOptionalParams
-  - Removed Interface CloudServiceRoleInstancesListOptionalParams
-  - Removed Interface CloudServiceRoleInstancesRebuildOptionalParams
-  - Removed Interface CloudServiceRoleInstancesReimageOptionalParams
-  - Removed Interface CloudServiceRoleInstancesRestartOptionalParams
-  - Removed Interface CloudServiceRoleProfile
-  - Removed Interface CloudServiceRoleProfileProperties
-  - Removed Interface CloudServiceRoleProperties
-  - Removed Interface CloudServiceRoles
-  - Removed Interface CloudServiceRolesGetOptionalParams
-  - Removed Interface CloudServiceRoleSku
-  - Removed Interface CloudServiceRolesListOptionalParams
-  - Removed Interface CloudServices
-  - Removed Interface CloudServicesCreateOrUpdateOptionalParams
-  - Removed Interface CloudServicesDeleteInstancesOptionalParams
-  - Removed Interface CloudServicesDeleteOptionalParams
-  - Removed Interface CloudServicesGetInstanceViewOptionalParams
-  - Removed Interface CloudServicesGetOptionalParams
-  - Removed Interface CloudServicesListAllOptionalParams
-  - Removed Interface CloudServicesListOptionalParams
-  - Removed Interface CloudServicesPowerOffOptionalParams
-  - Removed Interface CloudServicesRebuildOptionalParams
-  - Removed Interface CloudServicesReimageOptionalParams
-  - Removed Interface CloudServicesRestartOptionalParams
-  - Removed Interface CloudServicesStartOptionalParams
-  - Removed Interface CloudServicesUpdateDomain
-  - Removed Interface CloudServicesUpdateDomainGetUpdateDomainOptionalParams
-  - Removed Interface CloudServicesUpdateDomainListUpdateDomainsOptionalParams
-  - Removed Interface CloudServicesUpdateDomainWalkUpdateDomainOptionalParams
-  - Removed Interface CloudServicesUpdateOptionalParams
-  - Removed Interface CloudServiceUpdate
-  - Removed Interface CloudServiceVaultAndSecretReference
-  - Removed Interface CloudServiceVaultCertificate
-  - Removed Interface CloudServiceVaultSecretGroup
-  - Removed Interface CommunityGalleryImageList
-  - Removed Interface CommunityGalleryImageVersionList
-  - Removed Interface DiskAccessList
-  - Removed Interface DiskEncryptionSetList
-  - Removed Interface DiskList
-  - Removed Interface DiskRestorePointList
-  - Removed Interface Extension
-  - Removed Interface GalleryApplicationList
-  - Removed Interface GalleryApplicationVersionList
-  - Removed Interface GalleryImageList
-  - Removed Interface GalleryImageVersionList
-  - Removed Interface GalleryInVMAccessControlProfileList
-  - Removed Interface GalleryInVMAccessControlProfileVersionList
-  - Removed Interface GalleryList
-  - Removed Interface GalleryScriptList
-  - Removed Interface GalleryScriptVersionList
-  - Removed Interface GallerySoftDeletedResourceList
-  - Removed Interface InstanceSku
-  - Removed Interface InstanceViewStatusesSummary
-  - Removed Interface LoadBalancerConfiguration
-  - Removed Interface LoadBalancerConfigurationProperties
-  - Removed Interface LoadBalancerFrontendIpConfiguration
-  - Removed Interface LoadBalancerFrontendIpConfigurationProperties
-  - Removed Interface OSFamily
-  - Removed Interface OSFamilyProperties
-  - Removed Interface OSVersion
-  - Removed Interface OSVersionProperties
-  - Removed Interface OSVersionPropertiesBase
-  - Removed Interface ResourceInstanceViewStatus
-  - Removed Interface ResourceUriList
-  - Removed Interface ResourceWithOptionalLocation
-  - Removed Interface RoleInstance
-  - Removed Interface RoleInstanceNetworkProfile
-  - Removed Interface RoleInstanceProperties
-  - Removed Interface RoleInstances
-  - Removed Interface RoleInstanceView
-  - Removed Interface SharedGalleryImageList
-  - Removed Interface SharedGalleryImageVersionList
-  - Removed Interface SharedGalleryList
-  - Removed Interface SnapshotList
-  - Removed Interface StatusCodeCount
-  - Removed Interface UpdateDomain
-  - Removed Interface VirtualMachineScaleSetListOSUpgradeHistory
-  - Removed Interface VirtualMachineScaleSetsGetOSUpgradeHistoryOptionalParams
-  - Removed Type Alias AvailabilitySetSkuTypes
-  - Removed Type Alias CloudServiceSlotType
-  - Removed Type Alias CloudServiceUpgradeMode
-  - Removed Enum KnownAvailabilitySetSkuTypes
-  - Removed Enum KnownCloudServiceSlotType
-  - Removed Enum KnownCloudServiceUpgradeMode
-
-## 23.3.0 (2026-01-07)
-
-### Features Added
-  - Added operation group GalleryScripts
-  - Added operation group GalleryScriptVersions
-  - Added Interface GalleryScript
-  - Added Interface GalleryScriptList
-  - Added Interface GalleryScriptParameter
-  - Added Interface GalleryScriptProperties
-  - Added Interface GalleryScriptsCreateOrUpdateHeaders
-  - Added Interface GalleryScriptsCreateOrUpdateOptionalParams
-  - Added Interface GalleryScriptsDeleteHeaders
-  - Added Interface GalleryScriptsDeleteOptionalParams
-  - Added Interface GalleryScriptsGetOptionalParams
-  - Added Interface GalleryScriptsListByGalleryOptionalParams
-  - Added Interface GalleryScriptsUpdateHeaders
-  - Added Interface GalleryScriptsUpdateOptionalParams
-  - Added Interface GalleryScriptUpdate
-  - Added Interface GalleryScriptVersion
-  - Added Interface GalleryScriptVersionList
-  - Added Interface GalleryScriptVersionProperties
-  - Added Interface GalleryScriptVersionPublishingProfile
-  - Added Interface GalleryScriptVersionSafetyProfile
-  - Added Interface GalleryScriptVersionsCreateOrUpdateHeaders
-  - Added Interface GalleryScriptVersionsCreateOrUpdateOptionalParams
-  - Added Interface GalleryScriptVersionsDeleteHeaders
-  - Added Interface GalleryScriptVersionsDeleteOptionalParams
-  - Added Interface GalleryScriptVersionsGetOptionalParams
-  - Added Interface GalleryScriptVersionsListByGalleryScriptOptionalParams
-  - Added Interface GalleryScriptVersionsUpdateHeaders
-  - Added Interface GalleryScriptVersionsUpdateOptionalParams
-  - Added Interface GalleryScriptVersionUpdate
-  - Added Interface GenericGalleryParameter
-  - Added Interface ScriptSource
-  - Interface GalleryApplicationVersionPublishingProfile has a new optional parameter storageAccountStrategy
-  - Interface GalleryArtifactPublishingProfileBase has a new optional parameter storageAccountStrategy
-  - Interface GalleryImageVersionPublishingProfile has a new optional parameter storageAccountStrategy
-  - Added Type Alias GalleryScriptParameterType
-  - Added Type Alias GalleryScriptsCreateOrUpdateResponse
-  - Added Type Alias GalleryScriptsDeleteResponse
-  - Added Type Alias GalleryScriptsGetResponse
-  - Added Type Alias GalleryScriptsListByGalleryNextResponse
-  - Added Type Alias GalleryScriptsListByGalleryResponse
-  - Added Type Alias GalleryScriptsUpdateResponse
-  - Added Type Alias GalleryScriptVersionsCreateOrUpdateResponse
-  - Added Type Alias GalleryScriptVersionsDeleteResponse
-  - Added Type Alias GalleryScriptVersionsGetResponse
-  - Added Type Alias GalleryScriptVersionsListByGalleryScriptNextResponse
-  - Added Type Alias GalleryScriptVersionsListByGalleryScriptResponse
-  - Added Type Alias GalleryScriptVersionsUpdateResponse
-  - Added Type Alias StorageAccountStrategy
-  - Added Enum KnownGalleryScriptParameterType
-  - Added Enum KnownStorageAccountStrategy
-
-## 23.2.0 (2025-11-13)
-
-### Features Added
-  - Interface AdditionalCapabilities has a new optional parameter enableFips1403Encryption
-  - Interface DiskRestorePointInstanceView has a new optional parameter snapshotAccessState
-  - Interface RestorePoint has a new optional parameter instantAccessDurationMinutes
-  - Interface RestorePointCollection has a new optional parameter instantAccess
-  - Interface RestorePointCollectionUpdate has a new optional parameter instantAccess
-
-## 23.1.0 (2025-09-16)
-
-### Features Added
-  - Added operation VirtualMachineScaleSets.beginScaleOut
-  - Added operation VirtualMachineScaleSets.beginScaleOutAndWait
-  - Added Interface AllInstancesDown
-  - Added Interface MaxInstancePercentPerZonePolicy
-  - Added Interface ScheduleProfile
-  - Added Interface VirtualMachineScaleSetsScaleOutHeaders
-  - Added Interface VirtualMachineScaleSetsScaleOutOptionalParams
   - Added Interface VMScaleSetScaleOutInput
   - Added Interface VMScaleSetScaleOutInputProperties
-  - Added Interface ZoneAllocationPolicy
-  - Interface CapacityReservation has a new optional parameter scheduleProfile
-  - Interface CapacityReservationGroup has a new optional parameter reservationType
-  - Interface CapacityReservationGroupUpdate has a new optional parameter reservationType
-  - Interface CapacityReservationUpdate has a new optional parameter scheduleProfile
-  - Interface EventGridAndResourceGraph has a new optional parameter scheduledEventsApiVersion
-  - Interface OrchestrationServiceSummary has a new optional parameter lastStatusChangeTime
-  - Interface OrchestrationServiceSummary has a new optional parameter latestOperationStatus
-  - Interface ProxyAgentSettings has a new optional parameter addProxyAgentExtension
-  - Interface ResiliencyPolicy has a new optional parameter zoneAllocationPolicy
-  - Interface ScheduledEventsPolicy has a new optional parameter allInstancesDown
-  - Interface VirtualMachineNetworkInterfaceConfiguration has a new optional parameter tags
-  - Interface VirtualMachinePublicIPAddressConfiguration has a new optional parameter tags
-  - Interface VirtualMachineRunCommandScriptSource has a new optional parameter galleryScriptReferenceId
-  - Interface VirtualMachineRunCommandScriptSource has a new optional parameter scriptShell
-  - Interface VirtualMachineScaleSet has a new optional parameter highSpeedInterconnectPlacement
-  - Interface VirtualMachineScaleSet has a new optional parameter placement
-  - Interface VirtualMachineScaleSetNetworkConfiguration has a new optional parameter tags
-  - Interface VirtualMachineScaleSetPublicIPAddressConfiguration has a new optional parameter tags
-  - Interface VirtualMachineScaleSetUpdateNetworkConfiguration has a new optional parameter tags
-  - Interface VirtualMachineScaleSetUpdatePublicIPAddressConfiguration has a new optional parameter tags
-  - Interface WindowsParameters has a new optional parameter patchNameMasksToExclude
-  - Interface WindowsParameters has a new optional parameter patchNameMasksToInclude
-  - Added Type Alias HighSpeedInterconnectPlacement
-  - Added Type Alias OrchestrationServiceOperationStatus
-  - Added Type Alias ReservationType
-  - Added Type Alias ScriptShellTypes
-  - Added Enum KnownHighSpeedInterconnectPlacement
-  - Added Enum KnownOrchestrationServiceOperationStatus
-  - Added Enum KnownReservationType
-  - Added Enum KnownScriptShellTypes
-  - Enum KnownOrchestrationServiceNames has a new value AutomaticZoneRebalancing
-  - Enum KnownZonePlacementPolicyType has a new value Auto
-
-## 23.0.0 (2025-07-21)
-
-### Features Added
-  - Added Interface AvailabilityPolicy
-  - Added Interface AvailabilitySetsConvertToVirtualMachineScaleSetHeaders
-  - Added Interface CapacityReservationsCreateOrUpdateHeaders
-  - Added Interface CapacityReservationsDeleteHeaders
-  - Added Interface CapacityReservationsUpdateHeaders
-  - Added Interface DedicatedHostsCreateOrUpdateHeaders
-  - Added Interface DedicatedHostsDeleteHeaders
-  - Added Interface DedicatedHostsRestartHeaders
-  - Added Interface DedicatedHostsUpdateHeaders
-  - Added Interface DiskAccessesCreateOrUpdateHeaders
-  - Added Interface DiskAccessesDeleteAPrivateEndpointConnectionHeaders
-  - Added Interface DiskAccessesDeleteHeaders
-  - Added Interface DiskAccessesUpdateAPrivateEndpointConnectionHeaders
-  - Added Interface DiskAccessesUpdateHeaders
-  - Added Interface DiskEncryptionSetsCreateOrUpdateHeaders
-  - Added Interface DiskEncryptionSetsDeleteHeaders
-  - Added Interface DiskEncryptionSetsUpdateHeaders
-  - Added Interface DiskRestorePointGrantAccessHeaders
-  - Added Interface DiskRestorePointRevokeAccessHeaders
-  - Added Interface DisksCreateOrUpdateHeaders
-  - Added Interface DisksDeleteHeaders
-  - Added Interface DisksGrantAccessHeaders
-  - Added Interface DisksRevokeAccessHeaders
-  - Added Interface DisksUpdateHeaders
-  - Added Interface ErrorAdditionalInfo
-  - Added Interface ErrorDetail
-  - Added Interface ErrorResponse
-  - Added Interface GalleriesCreateOrUpdateHeaders
-  - Added Interface GalleriesDeleteHeaders
-  - Added Interface GalleriesUpdateHeaders
-  - Added Interface GalleryApplicationsCreateOrUpdateHeaders
-  - Added Interface GalleryApplicationsDeleteHeaders
-  - Added Interface GalleryApplicationsUpdateHeaders
-  - Added Interface GalleryApplicationVersionsCreateOrUpdateHeaders
-  - Added Interface GalleryApplicationVersionsDeleteHeaders
-  - Added Interface GalleryApplicationVersionsUpdateHeaders
-  - Added Interface GalleryImagesCreateOrUpdateHeaders
-  - Added Interface GalleryImagesDeleteHeaders
-  - Added Interface GalleryImagesUpdateHeaders
-  - Added Interface GalleryImageVersionsCreateOrUpdateHeaders
-  - Added Interface GalleryImageVersionsDeleteHeaders
-  - Added Interface GalleryImageVersionsUpdateHeaders
-  - Added Interface GalleryInVMAccessControlProfilesCreateOrUpdateHeaders
-  - Added Interface GalleryInVMAccessControlProfilesUpdateHeaders
-  - Added Interface GalleryInVMAccessControlProfileVersionsCreateOrUpdateHeaders
-  - Added Interface GalleryInVMAccessControlProfileVersionsUpdateHeaders
-  - Added Interface GallerySharingProfileUpdateHeaders
-  - Added Interface Image
-  - Added Interface ImagesCreateOrUpdateHeaders
-  - Added Interface ImagesDeleteHeaders
-  - Added Interface ImagesUpdateHeaders
-  - Added Interface LogAnalyticsExportRequestRateByIntervalHeaders
-  - Added Interface LogAnalyticsExportThrottledRequestsHeaders
-  - Added Interface Operation
-  - Added Interface OperationDisplay
-  - Added Interface OperationListResult
-  - Added Interface RestorePointCollectionsDeleteHeaders
-  - Added Interface RestorePointsCreateHeaders
-  - Added Interface RestorePointsDeleteHeaders
-  - Added Interface SnapshotsCreateOrUpdateHeaders
-  - Added Interface SnapshotsDeleteHeaders
-  - Added Interface SnapshotsGrantAccessHeaders
-  - Added Interface SnapshotsRevokeAccessHeaders
-  - Added Interface SnapshotsUpdateHeaders
-  - Added Interface TrackedResource
-  - Added Interface VirtualMachineExtensionsCreateOrUpdateHeaders
-  - Added Interface VirtualMachineExtensionsDeleteHeaders
-  - Added Interface VirtualMachineExtensionsUpdateHeaders
-  - Added Interface VirtualMachineRunCommandsCreateOrUpdateHeaders
-  - Added Interface VirtualMachineRunCommandsDeleteHeaders
-  - Added Interface VirtualMachineRunCommandsUpdateHeaders
-  - Added Interface VirtualMachinesAssessPatchesHeaders
-  - Added Interface VirtualMachineScaleSetExtensionsCreateOrUpdateHeaders
-  - Added Interface VirtualMachineScaleSetExtensionsDeleteHeaders
-  - Added Interface VirtualMachineScaleSetExtensionsUpdateHeaders
-  - Added Interface VirtualMachineScaleSetRollingUpgradesCancelHeaders
-  - Added Interface VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeHeaders
-  - Added Interface VirtualMachineScaleSetRollingUpgradesStartOSUpgradeHeaders
-  - Added Interface VirtualMachineScaleSetsCreateOrUpdateHeaders
-  - Added Interface VirtualMachineScaleSetsDeallocateHeaders
-  - Added Interface VirtualMachineScaleSetsDeleteHeaders
-  - Added Interface VirtualMachineScaleSetsDeleteInstancesHeaders
-  - Added Interface VirtualMachineScaleSetsPerformMaintenanceHeaders
-  - Added Interface VirtualMachineScaleSetsPowerOffHeaders
-  - Added Interface VirtualMachineScaleSetsRedeployHeaders
-  - Added Interface VirtualMachineScaleSetsReimageAllHeaders
-  - Added Interface VirtualMachineScaleSetsReimageHeaders
-  - Added Interface VirtualMachineScaleSetsRestartHeaders
-  - Added Interface VirtualMachineScaleSetsSetOrchestrationServiceStateHeaders
-  - Added Interface VirtualMachineScaleSetsStartHeaders
-  - Added Interface VirtualMachineScaleSetsUpdateHeaders
-  - Added Interface VirtualMachineScaleSetsUpdateInstancesHeaders
-  - Added Interface VirtualMachineScaleSetVMExtensionsCreateOrUpdateHeaders
-  - Added Interface VirtualMachineScaleSetVMExtensionsDeleteHeaders
-  - Added Interface VirtualMachineScaleSetVMExtensionsUpdateHeaders
-  - Added Interface VirtualMachineScaleSetVMRunCommandsCreateOrUpdateHeaders
-  - Added Interface VirtualMachineScaleSetVMRunCommandsDeleteHeaders
-  - Added Interface VirtualMachineScaleSetVMRunCommandsUpdateHeaders
-  - Added Interface VirtualMachineScaleSetVMsDeallocateHeaders
-  - Added Interface VirtualMachineScaleSetVMsDeleteHeaders
-  - Added Interface VirtualMachineScaleSetVMsPerformMaintenanceHeaders
-  - Added Interface VirtualMachineScaleSetVMsPowerOffHeaders
-  - Added Interface VirtualMachineScaleSetVMsRedeployHeaders
-  - Added Interface VirtualMachineScaleSetVMsReimageAllHeaders
-  - Added Interface VirtualMachineScaleSetVMsReimageHeaders
-  - Added Interface VirtualMachineScaleSetVMsRestartHeaders
-  - Added Interface VirtualMachineScaleSetVMsRunCommandHeaders
-  - Added Interface VirtualMachineScaleSetVMsStartHeaders
-  - Added Interface VirtualMachineScaleSetVMsUpdateHeaders
-  - Added Interface VirtualMachinesCaptureHeaders
-  - Added Interface VirtualMachinesConvertToManagedDisksHeaders
-  - Added Interface VirtualMachinesCreateOrUpdateHeaders
-  - Added Interface VirtualMachinesDeallocateHeaders
-  - Added Interface VirtualMachinesDeleteHeaders
-  - Added Interface VirtualMachinesInstallPatchesHeaders
-  - Added Interface VirtualMachinesMigrateToVMScaleSetHeaders
-  - Added Interface VirtualMachinesPerformMaintenanceHeaders
-  - Added Interface VirtualMachinesPowerOffHeaders
-  - Added Interface VirtualMachinesReapplyHeaders
-  - Added Interface VirtualMachinesRedeployHeaders
-  - Added Interface VirtualMachinesReimageHeaders
-  - Added Interface VirtualMachinesRestartHeaders
-  - Added Interface VirtualMachinesRunCommandHeaders
-  - Added Interface VirtualMachinesStartHeaders
-  - Added Interface VirtualMachinesUpdateHeaders
-  - Interface AccessUri has a new optional parameter securityMetadataAccessSAS
-  - Interface AvailabilitySet has a new optional parameter systemData
-  - Interface CapacityReservation has a new optional parameter systemData
-  - Interface CapacityReservationGroup has a new optional parameter systemData
-  - Interface CreationData has a new optional parameter instantAccessDurationMinutes
-  - Interface CreationData has a new optional parameter securityMetadataUri
-  - Interface DedicatedHost has a new optional parameter systemData
-  - Interface DedicatedHostGroup has a new optional parameter systemData
-  - Interface DedicatedHostSizeListResult has a new optional parameter nextLink
-  - Interface DedicatedHostsRedeployHeaders has a new optional parameter retryAfter
-  - Interface Disk has a new optional parameter availabilityPolicy
-  - Interface Disk has a new optional parameter systemData
-  - Interface DiskAccess has a new optional parameter systemData
-  - Interface DiskEncryptionSet has a new optional parameter systemData
-  - Interface DiskRestorePoint has a new optional parameter systemData
-  - Interface DiskUpdate has a new optional parameter availabilityPolicy
-  - Interface Gallery has a new optional parameter systemData
-  - Interface GalleryApplication has a new optional parameter systemData
-  - Interface GalleryApplicationVersion has a new optional parameter systemData
-  - Interface GalleryImage has a new optional parameter systemData
-  - Interface GalleryImageVersion has a new optional parameter systemData
-  - Interface GalleryInVMAccessControlProfile has a new optional parameter systemData
-  - Interface GalleryInVMAccessControlProfileVersion has a new optional parameter systemData
-  - Interface GallerySoftDeletedResource has a new optional parameter systemData
-  - Interface PrivateEndpointConnection has a new optional parameter systemData
-  - Interface ProximityPlacementGroup has a new optional parameter systemData
-  - Interface ProxyResource has a new optional parameter systemData
-  - Interface Resource has a new optional parameter systemData
-  - Interface RestorePoint has a new optional parameter systemData
-  - Interface RestorePointCollection has a new optional parameter systemData
-  - Interface RollingUpgradeStatusInfo has a new optional parameter systemData
-  - Interface Snapshot has a new optional parameter snapshotAccessState
-  - Interface Snapshot has a new optional parameter systemData
-  - Interface SnapshotUpdate has a new optional parameter snapshotAccessState
-  - Interface SshPublicKeyResource has a new optional parameter systemData
-  - Interface SupportedCapabilities has a new optional parameter supportedSecurityOption
-  - Interface SystemData has a new optional parameter createdBy
-  - Interface SystemData has a new optional parameter createdByType
-  - Interface SystemData has a new optional parameter lastModifiedBy
-  - Interface SystemData has a new optional parameter lastModifiedByType
-  - Interface VirtualMachine has a new optional parameter systemData
-  - Interface VirtualMachineExtension has a new optional parameter systemData
-  - Interface VirtualMachineExtensionImage has a new optional parameter systemData
-  - Interface VirtualMachineRunCommand has a new optional parameter systemData
-  - Interface VirtualMachinesAttachDetachDataDisksHeaders has a new optional parameter retryAfter
-  - Interface VirtualMachineScaleSet has a new optional parameter systemData
-  - Interface VirtualMachineScaleSetsApproveRollingUpgradeHeaders has a new optional parameter retryAfter
-  - Interface VirtualMachineScaleSetsReapplyHeaders has a new optional parameter retryAfter
-  - Interface VirtualMachineScaleSetVM has a new optional parameter systemData
-  - Interface VirtualMachineScaleSetVMsApproveRollingUpgradeHeaders has a new optional parameter retryAfter
-  - Interface VirtualMachineScaleSetVMsAttachDetachDataDisksHeaders has a new optional parameter retryAfter
-  - Interface VirtualMachineSizeListResult has a new optional parameter nextLink
-  - Added Type Alias ActionType
-  - Added Type Alias AvailabilityPolicyDiskDelay
-  - Added Type Alias AvailabilitySetsConvertToVirtualMachineScaleSetResponse
-  - Added Type Alias AvailabilitySetsListAvailableSizesNextResponse
-  - Added Type Alias CreatedByType
-  - Added Type Alias DedicatedHostsListAvailableSizesNextResponse
-  - Added Type Alias DedicatedHostsRestartResponse
-  - Added Type Alias OperationsListNextResponse
-  - Added Type Alias Origin
-  - Added Type Alias SnapshotAccessState
-  - Added Type Alias SupportedSecurityOption
-  - Added Type Alias VirtualMachineSizesListNextResponse
-  - Added Type Alias VirtualMachinesListAvailableSizesNextResponse
-  - Added Type Alias VirtualMachinesMigrateToVMScaleSetResponse
-  - Added Enum KnownActionType
-  - Added Enum KnownAvailabilityPolicyDiskDelay
-  - Added Enum KnownCreatedByType
-  - Added Enum KnownOrigin
-  - Added Enum KnownSnapshotAccessState
-  - Added Enum KnownSupportedSecurityOption
-
-### Breaking Changes
-  - Operation AvailabilitySets.beginConvertToVirtualMachineScaleSetAndWait has a new signature
-  - Operation DedicatedHosts.beginRestartAndWait has a new signature
-  - Operation VirtualMachines.beginMigrateToVMScaleSetAndWait has a new signature
-  - Removed Interface ComputeOperationListResult
-  - Removed Interface ComputeOperationValue
-  - Removed Interface GalleryArtifactSource
-  - Removed Interface Image_2
-  - Removed Interface LatestGalleryImageVersion
-  - Removed Interface ManagedArtifact
-  - Removed Interface ProxyOnlyResource
-  - Removed Interface VirtualMachineImagesWithPropertiesListResult
-  - Interface Resource no longer has parameter location
-  - Interface Resource no longer has parameter tags
-  - Parameter value of interface PrivateEndpointConnectionListResult is now required
-  - Parameter value of interface RestorePointCollectionListResult is now required
-  - Parameter location of interface VirtualMachineExtension is now required
-  - Removed Type Alias Expand
-  - Removed Type Alias VirtualMachineImagesListWithPropertiesNextResponse
-  - Type alias "VirtualMachineExtensionsUpdateResponse" has been changed
-  - Type alias "VirtualMachineImagesListWithPropertiesResponse" has been changed
-  - Type alias "VirtualMachinesUpdateResponse" has been changed
-  - Removed Enum KnownExpand
-  - Enum KnownOrchestrationServiceNames no longer has value DummyOrchestrationServiceName
-
-    
-## 22.4.0 (2025-03-18)
-    
-### Features Added
-
-  - Added operation AvailabilitySets.beginConvertToVirtualMachineScaleSet
-  - Added operation AvailabilitySets.beginConvertToVirtualMachineScaleSetAndWait
-  - Added operation AvailabilitySets.cancelMigrationToVirtualMachineScaleSet
-  - Added operation AvailabilitySets.startMigrationToVirtualMachineScaleSet
-  - Added operation AvailabilitySets.validateMigrationToVirtualMachineScaleSet
-  - Added operation VirtualMachineImages.listWithProperties
-  - Added operation VirtualMachines.beginMigrateToVMScaleSet
-  - Added operation VirtualMachines.beginMigrateToVMScaleSetAndWait
-  - Added Interface AutomaticZoneRebalancingPolicy
-  - Added Interface AvailabilitySetsCancelMigrationToVirtualMachineScaleSetOptionalParams
-  - Added Interface AvailabilitySetsConvertToVirtualMachineScaleSetOptionalParams
-  - Added Interface AvailabilitySetsStartMigrationToVirtualMachineScaleSetOptionalParams
-  - Added Interface AvailabilitySetsValidateMigrationToVirtualMachineScaleSetOptionalParams
-  - Added Interface ConvertToVirtualMachineScaleSetInput
-  - Added Interface DefaultVirtualMachineScaleSetInfo
-  - Added Interface HostEndpointSettings
-  - Added Interface MigrateToVirtualMachineScaleSetInput
-  - Added Interface MigrateVMToVirtualMachineScaleSetInput
-  - Added Interface Placement
-  - Added Interface VirtualMachineImagesListWithPropertiesNextOptionalParams
-  - Added Interface VirtualMachineImagesListWithPropertiesOptionalParams
-  - Added Interface VirtualMachineImagesWithPropertiesListResult
-  - Added Interface VirtualMachineScaleSetMigrationInfo
-  - Added Interface VirtualMachinesMigrateToVMScaleSetOptionalParams
-  - Added Type Alias Expand
-  - Added Type Alias Modes
-  - Added Type Alias RebalanceBehavior
-  - Added Type Alias RebalanceStrategy
-  - Added Type Alias ResilientVMDeletionStatus
-  - Added Type Alias VirtualMachineImagesListWithPropertiesNextResponse
-  - Added Type Alias VirtualMachineImagesListWithPropertiesResponse
-  - Added Type Alias ZonePlacementPolicyType
-  - Interface AvailabilitySet has a new optional parameter virtualMachineScaleSetMigrationInfo
-  - Interface AvailabilitySetUpdate has a new optional parameter virtualMachineScaleSetMigrationInfo
-  - Interface ProxyAgentSettings has a new optional parameter imds
-  - Interface ProxyAgentSettings has a new optional parameter wireServer
-  - Interface ResiliencyPolicy has a new optional parameter automaticZoneRebalancingPolicy
-  - Interface ScaleInPolicy has a new optional parameter prioritizeUnhealthyVMs
-  - Interface SkuProfileVMSize has a new optional parameter rank
-  - Interface StorageProfile has a new optional parameter alignRegionalDisksToVMZone
-  - Interface VirtualMachine has a new optional parameter placement
-  - Interface VirtualMachineScaleSetVM has a new optional parameter resilientVMDeletionStatus
-  - Added Enum KnownExpand
-  - Added Enum KnownModes
-  - Added Enum KnownRebalanceBehavior
-  - Added Enum KnownRebalanceStrategy
-  - Added Enum KnownResilientVMDeletionStatus
-  - Added Enum KnownZonePlacementPolicyType
-  - Enum KnownAllocationStrategy has a new value Prioritized
-  - Enum KnownNetworkApiVersion has a new value TwoThousandTwentyTwo1101
-    
-    
-## 22.3.0 (2025-01-09)
-    
-### Features Added
-
-  - Interface CloudServiceVaultCertificate has a new optional parameter isBootstrapCertificate
-    
-    
-## 22.2.0 (2024-12-11)
-    
-### Features Added
-
-  - Added operation group GalleryInVMAccessControlProfiles
-  - Added operation group GalleryInVMAccessControlProfileVersions
-  - Added operation group SoftDeletedResource
-  - Added Interface AccessControlRules
-  - Added Interface AccessControlRulesIdentity
-  - Added Interface AccessControlRulesPrivilege
-  - Added Interface AccessControlRulesRole
-  - Added Interface AccessControlRulesRoleAssignment
-  - Added Interface AdditionalReplicaSet
-  - Added Interface ExecutedValidation
-  - Added Interface GalleryIdentity
-  - Added Interface GalleryInVMAccessControlProfile
-  - Added Interface GalleryInVMAccessControlProfileList
-  - Added Interface GalleryInVMAccessControlProfileProperties
-  - Added Interface GalleryInVMAccessControlProfilesCreateOrUpdateOptionalParams
-  - Added Interface GalleryInVMAccessControlProfilesDeleteHeaders
-  - Added Interface GalleryInVMAccessControlProfilesDeleteOptionalParams
-  - Added Interface GalleryInVMAccessControlProfilesGetOptionalParams
-  - Added Interface GalleryInVMAccessControlProfilesListByGalleryNextOptionalParams
-  - Added Interface GalleryInVMAccessControlProfilesListByGalleryOptionalParams
-  - Added Interface GalleryInVMAccessControlProfilesUpdateOptionalParams
-  - Added Interface GalleryInVMAccessControlProfileUpdate
-  - Added Interface GalleryInVMAccessControlProfileVersion
-  - Added Interface GalleryInVMAccessControlProfileVersionList
-  - Added Interface GalleryInVMAccessControlProfileVersionProperties
-  - Added Interface GalleryInVMAccessControlProfileVersionsCreateOrUpdateOptionalParams
-  - Added Interface GalleryInVMAccessControlProfileVersionsDeleteHeaders
-  - Added Interface GalleryInVMAccessControlProfileVersionsDeleteOptionalParams
-  - Added Interface GalleryInVMAccessControlProfileVersionsGetOptionalParams
-  - Added Interface GalleryInVMAccessControlProfileVersionsListByGalleryInVMAccessControlProfileNextOptionalParams
-  - Added Interface GalleryInVMAccessControlProfileVersionsListByGalleryInVMAccessControlProfileOptionalParams
-  - Added Interface GalleryInVMAccessControlProfileVersionsUpdateOptionalParams
-  - Added Interface GalleryInVMAccessControlProfileVersionUpdate
-  - Added Interface GalleryResourceProfilePropertiesBase
-  - Added Interface GalleryResourceProfileVersionPropertiesBase
-  - Added Interface GallerySoftDeletedResource
-  - Added Interface GallerySoftDeletedResourceList
-  - Added Interface PlatformAttribute
-  - Added Interface SoftDeletedResourceListByArtifactNameNextOptionalParams
-  - Added Interface SoftDeletedResourceListByArtifactNameOptionalParams
-  - Added Interface ValidationsProfile
-  - Added Type Alias AccessControlRulesMode
-  - Added Type Alias EndpointAccess
-  - Added Type Alias EndpointTypes
-  - Added Type Alias GalleryApplicationScriptRebootBehavior
-  - Added Type Alias GalleryInVMAccessControlProfilesCreateOrUpdateResponse
-  - Added Type Alias GalleryInVMAccessControlProfilesDeleteResponse
-  - Added Type Alias GalleryInVMAccessControlProfilesGetResponse
-  - Added Type Alias GalleryInVMAccessControlProfilesListByGalleryNextResponse
-  - Added Type Alias GalleryInVMAccessControlProfilesListByGalleryResponse
-  - Added Type Alias GalleryInVMAccessControlProfilesUpdateResponse
-  - Added Type Alias GalleryInVMAccessControlProfileVersionsCreateOrUpdateResponse
-  - Added Type Alias GalleryInVMAccessControlProfileVersionsDeleteResponse
-  - Added Type Alias GalleryInVMAccessControlProfileVersionsGetResponse
-  - Added Type Alias GalleryInVMAccessControlProfileVersionsListByGalleryInVMAccessControlProfileNextResponse
-  - Added Type Alias GalleryInVMAccessControlProfileVersionsListByGalleryInVMAccessControlProfileResponse
-  - Added Type Alias GalleryInVMAccessControlProfileVersionsUpdateResponse
-  - Added Type Alias SoftDeletedArtifactTypes
-  - Added Type Alias SoftDeletedResourceListByArtifactNameNextResponse
-  - Added Type Alias SoftDeletedResourceListByArtifactNameResponse
-  - Added Type Alias ValidationStatus
-  - Interface Gallery has a new optional parameter identity
-  - Interface GalleryImage has a new optional parameter allowUpdateImage
-  - Interface GalleryImageFeature has a new optional parameter startsAtVersion
-  - Interface GalleryImageUpdate has a new optional parameter allowUpdateImage
-  - Interface GalleryImageVersion has a new optional parameter restore
-  - Interface GalleryImageVersion has a new optional parameter validationsProfile
-  - Interface GalleryImageVersionSafetyProfile has a new optional parameter blockDeletionBeforeEndOfLife
-  - Interface GalleryImageVersionUpdate has a new optional parameter restore
-  - Interface GalleryImageVersionUpdate has a new optional parameter validationsProfile
-  - Interface GalleryList has a new optional parameter securityProfile
-  - Interface GalleryUpdate has a new optional parameter identity
-  - Interface TargetRegion has a new optional parameter additionalReplicaSets
-  - Interface UserArtifactSettings has a new optional parameter scriptBehaviorAfterReboot
-  - Added Enum KnownAccessControlRulesMode
-  - Added Enum KnownEndpointAccess
-  - Added Enum KnownGalleryApplicationScriptRebootBehavior
-  - Added Enum KnownSoftDeletedArtifactTypes
-  - Added Enum KnownValidationStatus
-  - Enum KnownStorageAccountType has a new value PremiumV2LRS
-    
-    
-## 22.1.0 (2024-08-12)
-    
-### Features Added
-
-  - Added Interface SkuProfile
-  - Added Interface SkuProfileVMSize
-  - Added Type Alias AllocationStrategy
-  - Added Type Alias ZonalPlatformFaultDomainAlignMode
-  - Interface AvailabilitySet has a new optional parameter scheduledEventsPolicy
-  - Interface AvailabilitySetUpdate has a new optional parameter scheduledEventsPolicy
-  - Interface DiskRestorePoint has a new optional parameter logicalSectorSize
-  - Interface VirtualMachineScaleSet has a new optional parameter skuProfile
-  - Interface VirtualMachineScaleSet has a new optional parameter zonalPlatformFaultDomainAlignMode
-  - Interface VirtualMachineScaleSetUpdate has a new optional parameter skuProfile
-  - Interface VirtualMachineScaleSetUpdate has a new optional parameter zonalPlatformFaultDomainAlignMode
-  - Interface VirtualMachineScaleSetUpdate has a new optional parameter zones
-  - Added Enum KnownAllocationStrategy
-  - Added Enum KnownZonalPlatformFaultDomainAlignMode
-    
-    
-## 22.0.0 (2024-07-16)
-    
-### Features Added
-
-  - Added Interface DiskPurchasePlan
-  - Added Interface SecurityPostureReferenceUpdate
-  - Interface SecurityPostureReference has a new optional parameter isOverridable
-  - Interface VirtualMachineScaleSetUpdateVMProfile has a new optional parameter securityPostureReference
-
-### Breaking Changes
-
-  - Parameter id of interface SecurityPostureReference is now required
-  - Type of parameter purchasePlan of interface Disk is changed from PurchasePlanAutoGenerated to DiskPurchasePlan
-  - Type of parameter purchasePlan of interface DiskRestorePoint is changed from PurchasePlanAutoGenerated to DiskPurchasePlan
-  - Type of parameter purchasePlan of interface DiskUpdate is changed from PurchasePlanAutoGenerated to DiskPurchasePlan
-  - Type of parameter excludeExtensions of interface SecurityPostureReference is changed from VirtualMachineExtension[] to string[]
-  - Type of parameter purchasePlan of interface Snapshot is changed from PurchasePlanAutoGenerated to DiskPurchasePlan
-    
-    
-## 21.6.0 (2024-04-26)
-    
-### Features Added
-
-  - Added Interface EventGridAndResourceGraph
-  - Added Interface ScheduledEventsAdditionalPublishingTargets
-  - Added Interface ScheduledEventsPolicy
-  - Added Interface UserInitiatedReboot
-  - Added Interface UserInitiatedRedeploy
-  - Added Type Alias ResourceIdOptionsForGetCapacityReservationGroups
-  - Interface CapacityReservationGroupsListBySubscriptionOptionalParams has a new optional parameter resourceIdsOnly
-  - Interface DataDisk has a new optional parameter sourceResource
-  - Interface DataDisksToAttach has a new optional parameter caching
-  - Interface DataDisksToAttach has a new optional parameter deleteOption
-  - Interface DataDisksToAttach has a new optional parameter diskEncryptionSet
-  - Interface DataDisksToAttach has a new optional parameter writeAcceleratorEnabled
-  - Interface VirtualMachine has a new optional parameter scheduledEventsPolicy
-  - Interface VirtualMachineScaleSet has a new optional parameter scheduledEventsPolicy
-  - Interface VirtualMachineScaleSetUpdateOSDisk has a new optional parameter diffDiskSettings
-  - Interface VirtualMachineScaleSetVMReimageParameters has a new optional parameter forceUpdateOSDiskForEphemeral
-  - Interface VirtualMachineUpdate has a new optional parameter scheduledEventsPolicy
-  - Added Enum KnownResourceIdOptionsForGetCapacityReservationGroups
-  - Enum KnownDiffDiskPlacement has a new value NvmeDisk
-  - Enum KnownDiskCreateOptionTypes has a new value Copy
-  - Enum KnownDiskCreateOptionTypes has a new value Restore
-    
-    
-## 21.5.0 (2024-03-01)
-    
-### Features Added
-
-  - Interface GalleryArtifactVersionFullSource has a new optional parameter virtualMachineId
-    
-    
-## 21.4.0 (2023-12-28)
-    
-### Features Added
-
-  - Added Type Alias ProvisionedBandwidthCopyOption
-  - Interface CreationData has a new optional parameter provisionedBandwidthCopySpeed
-  - Added Enum KnownProvisionedBandwidthCopyOption
-  - Enum KnownDiskSecurityTypes has a new value ConfidentialVMNonPersistedTPM
-    
-    
-## 21.3.0 (2023-12-08)
-    
-### Features Added
-
-  - Added operation DedicatedHosts.beginRedeploy
-  - Added operation DedicatedHosts.beginRedeployAndWait
-  - Added operation VirtualMachines.beginAttachDetachDataDisks
-  - Added operation VirtualMachines.beginAttachDetachDataDisksAndWait
-  - Added operation VirtualMachineScaleSets.beginApproveRollingUpgrade
-  - Added operation VirtualMachineScaleSets.beginApproveRollingUpgradeAndWait
-  - Added operation VirtualMachineScaleSetVMs.beginApproveRollingUpgrade
-  - Added operation VirtualMachineScaleSetVMs.beginApproveRollingUpgradeAndWait
-  - Added operation VirtualMachineScaleSetVMs.beginAttachDetachDataDisks
-  - Added operation VirtualMachineScaleSetVMs.beginAttachDetachDataDisksAndWait
-  - Added Interface AttachDetachDataDisksRequest
-  - Added Interface CommunityGalleryMetadata
-  - Added Interface DataDisksToAttach
-  - Added Interface DataDisksToDetach
-  - Added Interface DedicatedHostsRedeployHeaders
-  - Added Interface DedicatedHostsRedeployOptionalParams
-  - Added Interface EncryptionIdentity
-  - Added Interface GalleryImageVersionUefiSettings
-  - Added Interface ImageVersionSecurityProfile
-  - Added Interface ProxyAgentSettings
-  - Added Interface ResiliencyPolicy
-  - Added Interface ResilientVMCreationPolicy
-  - Added Interface ResilientVMDeletionPolicy
-  - Added Interface ResourceSharingProfile
-  - Added Interface SshGenerateKeyPairInputParameters
-  - Added Interface UefiKey
-  - Added Interface UefiKeySignatures
-  - Added Interface VirtualMachinesAttachDetachDataDisksHeaders
-  - Added Interface VirtualMachinesAttachDetachDataDisksOptionalParams
-  - Added Interface VirtualMachineScaleSetsApproveRollingUpgradeHeaders
-  - Added Interface VirtualMachineScaleSetsApproveRollingUpgradeOptionalParams
-  - Added Interface VirtualMachineScaleSetVMsApproveRollingUpgradeHeaders
-  - Added Interface VirtualMachineScaleSetVMsApproveRollingUpgradeOptionalParams
-  - Added Interface VirtualMachineScaleSetVMsAttachDetachDataDisksHeaders
-  - Added Interface VirtualMachineScaleSetVMsAttachDetachDataDisksOptionalParams
-  - Added Type Alias DedicatedHostsRedeployResponse
-  - Added Type Alias Mode
-  - Added Type Alias SshEncryptionTypes
-  - Added Type Alias UefiKeyType
-  - Added Type Alias UefiSignatureTemplateName
-  - Added Type Alias VirtualMachinesAttachDetachDataDisksResponse
-  - Added Type Alias VirtualMachineScaleSetsApproveRollingUpgradeResponse
-  - Added Type Alias VirtualMachineScaleSetVMsApproveRollingUpgradeResponse
-  - Added Type Alias VirtualMachineScaleSetVMsAttachDetachDataDisksResponse
-  - Interface AutomaticOSUpgradePolicy has a new optional parameter osRollingUpgradeDeferral
-  - Interface CapacityReservationGroup has a new optional parameter sharingProfile
-  - Interface CapacityReservationGroupInstanceView has a new optional parameter sharedSubscriptionIds
-  - Interface CapacityReservationGroupUpdate has a new optional parameter sharingProfile
-  - Interface CommunityGallery has a new optional parameter artifactTags
-  - Interface CommunityGallery has a new optional parameter communityMetadata
-  - Interface CommunityGallery has a new optional parameter disclaimer
-  - Interface CommunityGalleryImage has a new optional parameter artifactTags
-  - Interface CommunityGalleryImage has a new optional parameter disclaimer
-  - Interface CommunityGalleryImageVersion has a new optional parameter artifactTags
-  - Interface CommunityGalleryImageVersion has a new optional parameter disclaimer
-  - Interface GalleryImageVersion has a new optional parameter securityProfile
-  - Interface GalleryImageVersionUpdate has a new optional parameter securityProfile
-  - Interface RestorePointSourceVMStorageProfile has a new optional parameter diskControllerType
-  - Interface SecurityProfile has a new optional parameter encryptionIdentity
-  - Interface SecurityProfile has a new optional parameter proxyAgentSettings
-  - Interface SharedGallery has a new optional parameter artifactTags
-  - Interface SharedGalleryImage has a new optional parameter artifactTags
-  - Interface SharedGalleryImageVersion has a new optional parameter artifactTags
-  - Interface SshPublicKeysGenerateKeyPairOptionalParams has a new optional parameter parameters
-  - Interface VirtualMachine has a new optional parameter etag
-  - Interface VirtualMachine has a new optional parameter managedBy
-  - Interface VirtualMachineInstanceView has a new optional parameter isVMInStandbyPool
-  - Interface VirtualMachineScaleSet has a new optional parameter etag
-  - Interface VirtualMachineScaleSet has a new optional parameter resiliencyPolicy
-  - Interface VirtualMachineScaleSetsCreateOrUpdateOptionalParams has a new optional parameter ifMatch
-  - Interface VirtualMachineScaleSetsCreateOrUpdateOptionalParams has a new optional parameter ifNoneMatch
-  - Interface VirtualMachineScaleSetsUpdateOptionalParams has a new optional parameter ifMatch
-  - Interface VirtualMachineScaleSetsUpdateOptionalParams has a new optional parameter ifNoneMatch
-  - Interface VirtualMachineScaleSetUpdate has a new optional parameter resiliencyPolicy
-  - Interface VirtualMachineScaleSetVM has a new optional parameter etag
-  - Interface VirtualMachineScaleSetVMProfile has a new optional parameter timeCreated
-  - Interface VirtualMachineScaleSetVMsUpdateOptionalParams has a new optional parameter ifMatch
-  - Interface VirtualMachineScaleSetVMsUpdateOptionalParams has a new optional parameter ifNoneMatch
-  - Interface VirtualMachinesCreateOrUpdateOptionalParams has a new optional parameter ifMatch
-  - Interface VirtualMachinesCreateOrUpdateOptionalParams has a new optional parameter ifNoneMatch
-  - Interface VirtualMachinesUpdateOptionalParams has a new optional parameter ifMatch
-  - Interface VirtualMachinesUpdateOptionalParams has a new optional parameter ifNoneMatch
-  - Added Enum KnownMode
-  - Added Enum KnownSshEncryptionTypes
-  - Added Enum KnownUefiKeyType
-  - Added Enum KnownUefiSignatureTemplateName
-  - Enum KnownConfidentialVMEncryptionType has a new value NonPersistedTPM
-  - Enum KnownReplicationStatusTypes has a new value UefiSettings
-  - Enum KnownSecurityEncryptionTypes has a new value NonPersistedTPM
-    
-    
-## 21.2.0 (2023-08-14)
-    
-### Features Added
-
-  - Added Type Alias DomainNameLabelScopeTypes
-  - Added Type Alias NetworkInterfaceAuxiliaryMode
-  - Added Type Alias NetworkInterfaceAuxiliarySku
-  - Interface CreationData has a new optional parameter elasticSanResourceId
-  - Interface Disk has a new optional parameter lastOwnershipUpdateTime
-  - Interface VirtualMachineNetworkInterfaceConfiguration has a new optional parameter auxiliaryMode
-  - Interface VirtualMachineNetworkInterfaceConfiguration has a new optional parameter auxiliarySku
-  - Interface VirtualMachinePublicIPAddressDnsSettingsConfiguration has a new optional parameter domainNameLabelScope
-  - Interface VirtualMachineScaleSetNetworkConfiguration has a new optional parameter auxiliaryMode
-  - Interface VirtualMachineScaleSetNetworkConfiguration has a new optional parameter auxiliarySku
-  - Interface VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings has a new optional parameter domainNameLabelScope
-  - Interface VirtualMachineScaleSetUpdateNetworkConfiguration has a new optional parameter auxiliaryMode
-  - Interface VirtualMachineScaleSetUpdateNetworkConfiguration has a new optional parameter auxiliarySku
-  - Interface VirtualMachineScaleSetVM has a new optional parameter timeCreated
-  - Added Enum KnownDomainNameLabelScopeTypes
-  - Added Enum KnownNetworkInterfaceAuxiliaryMode
-  - Added Enum KnownNetworkInterfaceAuxiliarySku
-  - Enum KnownDiskCreateOption has a new value CopyFromSanSnapshot
-    
-    
-## 21.1.0 (2023-07-07)
-    
-### Features Added
-
-  - Added Type Alias FileFormat
-  - Interface GrantAccessData has a new optional parameter fileFormat
-  - Added Enum KnownFileFormat
-    
-    
-## 21.0.0 (2023-05-17)
-    
-### Features Added
-
-  - Added operation DedicatedHosts.listAvailableSizes
-  - Added operation VirtualMachineScaleSets.beginReapply
-  - Added operation VirtualMachineScaleSets.beginReapplyAndWait
-  - Added Interface CommunityGalleryImageIdentifier
-  - Added Interface DedicatedHostSizeListResult
-  - Added Interface DedicatedHostsListAvailableSizesOptionalParams
-  - Added Interface DiskRestorePointAttributes
-  - Added Interface RestorePointEncryption
-  - Added Interface RunCommandManagedIdentity
-  - Added Interface SecurityPostureReference
-  - Added Interface VirtualMachineScaleSetsReapplyHeaders
-  - Added Interface VirtualMachineScaleSetsReapplyOptionalParams
-  - Added Type Alias DedicatedHostsListAvailableSizesResponse
-  - Added Type Alias EdgeZoneStorageAccountType
-  - Added Type Alias ExpandTypeForListVMs
-  - Added Type Alias ExpandTypesForListVMs
-  - Added Type Alias RestorePointEncryptionType
-  - Interface DedicatedHostUpdate has a new optional parameter sku
-  - Interface LinuxVMGuestPatchAutomaticByPlatformSettings has a new optional parameter bypassPlatformSafetyChecksOnUserSchedule
-  - Interface RestorePointSourceMetadata has a new optional parameter hyperVGeneration
-  - Interface RestorePointSourceVMDataDisk has a new optional parameter writeAcceleratorEnabled
-  - Interface RestorePointSourceVmosDisk has a new optional parameter writeAcceleratorEnabled
-  - Interface VirtualMachineExtension has a new optional parameter provisionAfterExtensions
-  - Interface VirtualMachineRunCommand has a new optional parameter errorBlobManagedIdentity
-  - Interface VirtualMachineRunCommand has a new optional parameter outputBlobManagedIdentity
-  - Interface VirtualMachineRunCommand has a new optional parameter treatFailureAsDeploymentFailure
-  - Interface VirtualMachineRunCommandScriptSource has a new optional parameter scriptUriManagedIdentity
-  - Interface VirtualMachineRunCommandUpdate has a new optional parameter errorBlobManagedIdentity
-  - Interface VirtualMachineRunCommandUpdate has a new optional parameter outputBlobManagedIdentity
-  - Interface VirtualMachineRunCommandUpdate has a new optional parameter treatFailureAsDeploymentFailure
-  - Interface VirtualMachineScaleSetsDeallocateOptionalParams has a new optional parameter hibernate
-  - Interface VirtualMachineScaleSetUpdate has a new optional parameter priorityMixPolicy
-  - Interface VirtualMachineScaleSetUpdate has a new optional parameter spotRestorePolicy
-  - Interface VirtualMachineScaleSetVMExtension has a new optional parameter location
-  - Interface VirtualMachineScaleSetVMExtension has a new optional parameter provisionAfterExtensions
-  - Interface VirtualMachineScaleSetVMInstanceView has a new optional parameter computerName
-  - Interface VirtualMachineScaleSetVMInstanceView has a new optional parameter hyperVGeneration
-  - Interface VirtualMachineScaleSetVMInstanceView has a new optional parameter osName
-  - Interface VirtualMachineScaleSetVMInstanceView has a new optional parameter osVersion
-  - Interface VirtualMachineScaleSetVMProfile has a new optional parameter securityPostureReference
-  - Interface VirtualMachinesListAllOptionalParams has a new optional parameter expand
-  - Interface VirtualMachinesListOptionalParams has a new optional parameter expand
-  - Interface WindowsVMGuestPatchAutomaticByPlatformSettings has a new optional parameter bypassPlatformSafetyChecksOnUserSchedule
-  - Added Enum KnownEdgeZoneStorageAccountType
-  - Added Enum KnownExpandTypeForListVMs
-  - Added Enum KnownExpandTypesForListVMs
-  - Added Enum KnownRestorePointEncryptionType
-
-### Breaking Changes
-
-  - Type of parameter identifier of interface CommunityGalleryImage is changed from GalleryImageIdentifier to CommunityGalleryImageIdentifier
-  - Type of parameter storageAccountType of interface GalleryTargetExtendedLocation is changed from StorageAccountType to EdgeZoneStorageAccountType
-  - Type of parameter diskRestorePoint of interface RestorePointSourceVMDataDisk is changed from ApiEntityReference to DiskRestorePointAttributes
-  - Type of parameter diskRestorePoint of interface RestorePointSourceVmosDisk is changed from ApiEntityReference to DiskRestorePointAttributes
-    
-    
-## 20.0.0 (2023-01-05)
-    
-### Features Added
-
-  - Added Interface AlternativeOption
-  - Added Interface GalleryApplicationCustomAction
-  - Added Interface GalleryApplicationCustomActionParameter
-  - Added Interface GalleryApplicationVersionSafetyProfile
-  - Added Interface GalleryArtifactSafetyProfileBase
-  - Added Interface GalleryArtifactVersionFullSource
-  - Added Interface GalleryDiskImageSource
-  - Added Interface GalleryImageVersionSafetyProfile
-  - Added Interface ImageDeprecationStatus
-  - Added Interface LatestGalleryImageVersion
-  - Added Interface LoadBalancerFrontendIpConfiguration
-  - Added Interface LoadBalancerFrontendIpConfigurationProperties
-  - Added Interface OSImageNotificationProfile
-  - Added Interface OSProfileProvisioningData
-  - Added Interface PolicyViolation
-  - Added Interface ServiceArtifactReference
-  - Added Type Alias AlternativeType
-  - Added Type Alias GalleryApplicationCustomActionParameterType
-  - Added Type Alias ImageState
-  - Added Type Alias PolicyViolationCategory
-  - Interface CloudService has a new optional parameter zones
-  - Interface GalleryApplication has a new optional parameter customActions
-  - Interface GalleryApplicationUpdate has a new optional parameter customActions
-  - Interface GalleryApplicationVersion has a new optional parameter safetyProfile
-  - Interface GalleryApplicationVersionPublishingProfile has a new optional parameter customActions
-  - Interface GalleryApplicationVersionUpdate has a new optional parameter safetyProfile
-  - Interface GalleryImageVersion has a new optional parameter safetyProfile
-  - Interface GalleryImageVersionUpdate has a new optional parameter safetyProfile
-  - Interface RestorePointSourceMetadata has a new optional parameter userData
-  - Interface RollingUpgradePolicy has a new optional parameter maxSurge
-  - Interface RollingUpgradePolicy has a new optional parameter rollbackFailedInstancesOnPolicyBreach
-  - Interface ScheduledEventsProfile has a new optional parameter osImageNotificationProfile
-  - Interface SharedGalleryImage has a new optional parameter eula
-  - Interface SharedGalleryImage has a new optional parameter privacyStatementUri
-  - Interface TargetRegion has a new optional parameter excludeFromLatest
-  - Interface VirtualMachineImage has a new optional parameter imageDeprecationStatus
-  - Interface VirtualMachineReimageParameters has a new optional parameter exactVersion
-  - Interface VirtualMachineReimageParameters has a new optional parameter osProfile
-  - Interface VirtualMachineScaleSet has a new optional parameter constrainedMaximumCapacity
-  - Interface VirtualMachineScaleSetOSProfile has a new optional parameter requireGuestProvisionSignal
-  - Interface VirtualMachineScaleSetVMProfile has a new optional parameter serviceArtifactReference
-  - Added Enum KnownAlternativeType
-  - Added Enum KnownImageState
-  - Added Enum KnownPolicyViolationCategory
-  - Added function getContinuationToken
-
-### Breaking Changes
-
-  - Interface AvailabilitySetsListBySubscriptionNextOptionalParams no longer has parameter expand
-  - Interface CapacityReservationGroupsListByResourceGroupNextOptionalParams no longer has parameter expand
-  - Interface CapacityReservationGroupsListBySubscriptionNextOptionalParams no longer has parameter expand
-  - Interface CloudServiceRoleInstancesListNextOptionalParams no longer has parameter expand
-  - Interface GalleryArtifactVersionSource no longer has parameter uri
-  - Interface LoadBalancerConfigurationProperties no longer has parameter frontendIPConfigurations
-  - Interface ResourceSkusListNextOptionalParams no longer has parameter filter
-  - Interface ResourceSkusListNextOptionalParams no longer has parameter includeExtendedLocations
-  - Interface SharedGalleriesListNextOptionalParams no longer has parameter sharedTo
-  - Interface SharedGalleryImagesListNextOptionalParams no longer has parameter sharedTo
-  - Interface SharedGalleryImageVersionsListNextOptionalParams no longer has parameter sharedTo
-  - Interface VirtualMachineRunCommandsListByVirtualMachineNextOptionalParams no longer has parameter expand
-  - Interface VirtualMachineScaleSetVMRunCommandsListNextOptionalParams no longer has parameter expand
-  - Interface VirtualMachineScaleSetVMsListNextOptionalParams no longer has parameter expand
-  - Interface VirtualMachineScaleSetVMsListNextOptionalParams no longer has parameter filter
-  - Interface VirtualMachineScaleSetVMsListNextOptionalParams no longer has parameter select
-  - Interface VirtualMachinesListAllNextOptionalParams no longer has parameter filter
-  - Interface VirtualMachinesListAllNextOptionalParams no longer has parameter statusOnly
-  - Interface VirtualMachinesListNextOptionalParams no longer has parameter filter
-  - Interface LoadBalancerConfigurationProperties has a new required parameter frontendIpConfigurations
-  - Type of parameter source of interface GalleryDiskImage is changed from GalleryArtifactVersionSource to GalleryDiskImageSource
-  - Type of parameter source of interface GalleryImageVersionStorageProfile is changed from GalleryArtifactVersionSource to GalleryArtifactVersionFullSource
-    
-    
-## 19.2.0 (2022-09-21)
-    
-### Features Added
-
-  - Added Interface PriorityMixPolicy
-  - Added Type Alias DiskControllerTypes
-  - Interface CapacityReservation has a new optional parameter platformFaultDomainCount
-  - Interface CapacityReservationUpdate has a new optional parameter platformFaultDomainCount
-  - Interface CapacityReservationUtilization has a new optional parameter currentCapacity
-  - Interface CreationData has a new optional parameter performancePlus
-  - Interface Disk has a new optional parameter burstingEnabledTime
-  - Interface Disk has a new optional parameter optimizedForFrequentAttach
-  - Interface DiskUpdate has a new optional parameter optimizedForFrequentAttach
-  - Interface LinuxConfiguration has a new optional parameter enableVMAgentPlatformUpdates
-  - Interface Snapshot has a new optional parameter incrementalSnapshotFamilyId
-  - Interface StorageProfile has a new optional parameter diskControllerType
-  - Interface SupportedCapabilities has a new optional parameter diskControllerTypes
-  - Interface VirtualMachineNetworkInterfaceConfiguration has a new optional parameter disableTcpStateTracking
-  - Interface VirtualMachineScaleSet has a new optional parameter priorityMixPolicy
-  - Interface VirtualMachineScaleSetNetworkConfiguration has a new optional parameter disableTcpStateTracking
-  - Interface VirtualMachineScaleSetStorageProfile has a new optional parameter diskControllerType
-  - Interface VirtualMachineScaleSetUpdateNetworkConfiguration has a new optional parameter disableTcpStateTracking
-  - Interface VirtualMachineScaleSetUpdateStorageProfile has a new optional parameter diskControllerType
-  - Interface VirtualMachineScaleSetUpdateVMProfile has a new optional parameter hardwareProfile
-  - Interface WindowsConfiguration has a new optional parameter enableVMAgentPlatformUpdates
-  - Added Enum KnownDiskControllerTypes
-    
-    
-## 19.1.0 (2022-06-27)
-    
-### Features Added
-
-  - Added Interface AvailabilitySet
-  - Added Interface AvailabilitySetUpdate
-  - Added Interface CapacityReservation
-  - Added Interface CapacityReservationGroup
-  - Added Interface CapacityReservationGroupUpdate
-  - Added Interface CapacityReservationInstanceViewWithName
-  - Added Interface CapacityReservationUpdate
-  - Added Interface CommunityGallery
-  - Added Interface CommunityGalleryImage
-  - Added Interface CommunityGalleryImageVersion
-  - Added Interface DataDiskImageEncryption
-  - Added Interface DedicatedHost
-  - Added Interface DedicatedHostGroup
-  - Added Interface DedicatedHostGroupUpdate
-  - Added Interface DedicatedHostInstanceViewWithName
-  - Added Interface DedicatedHostUpdate
-  - Added Interface Disk
-  - Added Interface DiskAccess
-  - Added Interface DiskEncryptionSet
-  - Added Interface DiskEncryptionSetParameters
-  - Added Interface DiskRestorePoint
-  - Added Interface Gallery
-  - Added Interface GalleryApplication
-  - Added Interface GalleryApplicationUpdate
-  - Added Interface GalleryApplicationVersion
-  - Added Interface GalleryApplicationVersionPublishingProfile
-  - Added Interface GalleryApplicationVersionUpdate
-  - Added Interface GalleryDataDiskImage
-  - Added Interface GalleryImage
-  - Added Interface GalleryImageUpdate
-  - Added Interface GalleryImageVersion
-  - Added Interface GalleryImageVersionPublishingProfile
-  - Added Interface GalleryImageVersionUpdate
-  - Added Interface GalleryOSDiskImage
-  - Added Interface GalleryUpdate
-  - Added Interface Image_2
-  - Added Interface ImageDataDisk
-  - Added Interface ImageOSDisk
-  - Added Interface ImageReference
-  - Added Interface ImageUpdate
-  - Added Interface ManagedDiskParameters
-  - Added Interface NetworkInterfaceReference
-  - Added Interface OSDiskImageEncryption
-  - Added Interface PirSharedGalleryResource
-  - Added Interface ProximityPlacementGroup
-  - Added Interface ProximityPlacementGroupUpdate
-  - Added Interface RequestRateByIntervalInput
-  - Added Interface RestorePoint
-  - Added Interface RestorePointCollection
-  - Added Interface RestorePointCollectionUpdate
-  - Added Interface RollingUpgradeStatusInfo
-  - Added Interface RunCommandDocument
-  - Added Interface SharedGallery
-  - Added Interface SharedGalleryDataDiskImage
-  - Added Interface SharedGalleryImage
-  - Added Interface SharedGalleryImageVersion
-  - Added Interface SharedGalleryOSDiskImage
-  - Added Interface Snapshot
-  - Added Interface SshPublicKeyResource
-  - Added Interface SshPublicKeyUpdateResource
-  - Added Interface SubResourceWithColocationStatus
-  - Added Interface SystemData
-  - Added Interface ThrottledRequestsInput
-  - Added Interface VirtualMachine
-  - Added Interface VirtualMachineCaptureResult
-  - Added Interface VirtualMachineExtension
-  - Added Interface VirtualMachineExtensionImage
-  - Added Interface VirtualMachineExtensionUpdate
-  - Added Interface VirtualMachineImage
-  - Added Interface VirtualMachineImageResource
-  - Added Interface VirtualMachineRunCommand
-  - Added Interface VirtualMachineRunCommandUpdate
-  - Added Interface VirtualMachineScaleSet
-  - Added Interface VirtualMachineScaleSetExtension
-  - Added Interface VirtualMachineScaleSetExtensionUpdate
-  - Added Interface VirtualMachineScaleSetIPConfiguration
-  - Added Interface VirtualMachineScaleSetNetworkConfiguration
-  - Added Interface VirtualMachineScaleSetReimageParameters
-  - Added Interface VirtualMachineScaleSetUpdate
-  - Added Interface VirtualMachineScaleSetUpdateIPConfiguration
-  - Added Interface VirtualMachineScaleSetUpdateNetworkConfiguration
-  - Added Interface VirtualMachineScaleSetVM
-  - Added Interface VirtualMachineScaleSetVMExtension
-  - Added Interface VirtualMachineScaleSetVMExtensionUpdate
-  - Added Interface VirtualMachineScaleSetVMReimageParameters
-  - Added Interface VirtualMachineUpdate
-  - Added Type Alias CloudServiceSlotType
-  - Interface CloudService has a new optional parameter systemData
-  - Interface CloudServiceNetworkProfile has a new optional parameter slotType
-  - Added Enum KnownCloudServiceSlotType
-    
-    
-## 19.0.0 (2022-06-06)
-    
-### Features Added
-
-  - Added operation CommunityGalleryImages.list
-  - Added operation CommunityGalleryImageVersions.list
-  - Added operation VirtualMachineImages.listByEdgeZone
-  - Added Interface CommunityGalleryImageList
-  - Added Interface CommunityGalleryImagesListNextOptionalParams
-  - Added Interface CommunityGalleryImagesListOptionalParams
-  - Added Interface CommunityGalleryImageVersionList
-  - Added Interface CommunityGalleryImageVersionsListNextOptionalParams
-  - Added Interface CommunityGalleryImageVersionsListOptionalParams
-  - Added Interface CopyCompletionError
-  - Added Interface SharedGalleryDiskImage
-  - Added Interface SharedGalleryImageVersionStorageProfile
-  - Added Interface UserArtifactSettings
-  - Added Interface VirtualMachineImagesListByEdgeZoneOptionalParams
-  - Added Interface VmImagesInEdgeZoneListResult
-  - Added Type Alias CommunityGalleryImagesListNextResponse
-  - Added Type Alias CommunityGalleryImagesListResponse
-  - Added Type Alias CommunityGalleryImageVersionsListNextResponse
-  - Added Type Alias CommunityGalleryImageVersionsListResponse
-  - Added Type Alias CopyCompletionErrorReason
-  - Added Type Alias GalleryProvisioningState
-  - Added Type Alias SharedGalleryDataDiskImage
-  - Added Type Alias SharedGalleryHostCaching
-  - Added Type Alias SharedGalleryOSDiskImage
-  - Added Type Alias VirtualMachineImagesListByEdgeZoneResponse
-  - Interface DiskEncryptionSetUpdate has a new optional parameter federatedClientId
-  - Interface EncryptionSetIdentity has a new optional parameter userAssignedIdentities
-  - Interface ImageDiskReference has a new optional parameter communityGalleryImageId
-  - Interface ImageDiskReference has a new optional parameter sharedGalleryImageId
-  - Type Alias CommunityGalleryImage has a new parameter architecture
-  - Type Alias CommunityGalleryImage has a new parameter privacyStatementUri
-  - Type Alias CommunityGalleryImage has a new parameter eula
-  - Type Alias CommunityGalleryImageVersion has a new parameter excludeFromLatest
-  - Type Alias CommunityGalleryImageVersion has a new parameter storageProfile
-  - Type Alias DiskEncryptionSet has a new parameter federatedClientId
-  - Type Alias DiskRestorePoint has a new parameter securityProfile
-  - Type Alias GalleryApplicationVersionPublishingProfile has a new parameter settings
-  - Type Alias SharedGalleryImage has a new parameter architecture
-  - Type Alias SharedGalleryImageVersion has a new parameter excludeFromLatest
-  - Type Alias SharedGalleryImageVersion has a new parameter storageProfile
-  - Type Alias Snapshot has a new parameter copyCompletionError
-  - Added Enum KnownCopyCompletionErrorReason
-  - Added Enum KnownGalleryProvisioningState
-  - Added Enum KnownSharedGalleryHostCaching
-  - Enum KnownDiskEncryptionSetIdentityType has a new value SystemAssignedUserAssigned
-  - Enum KnownDiskEncryptionSetIdentityType has a new value UserAssigned
-  - Enum KnownDiskStorageAccountTypes has a new value PremiumV2LRS
-  - Enum KnownGallerySharingPermissionTypes has a new value Community
-
-### Breaking Changes
-
-  - Removed Enum KnownGalleryApplicationVersionPropertiesProvisioningState
-  - Removed Enum KnownGalleryImagePropertiesProvisioningState
-  - Removed Enum KnownGalleryImageVersionPropertiesProvisioningState
-  - Removed Enum KnownGalleryPropertiesProvisioningState
-  - Enum KnownSharingProfileGroupTypes no longer has value Community
-    
-    
-## 18.0.0 (2022-05-23)
-    
-### Features Added
-
-  - Added Interface DedicatedHostGroupPropertiesAdditionalCapabilities
-  - Added Interface LinuxVMGuestPatchAutomaticByPlatformSettings
-  - Added Interface ProximityPlacementGroupPropertiesIntent
-  - Added Interface ResourceWithOptionalLocation
+  - Added Interface VMSizeProperties
+  - Added Interface WindowsConfiguration
+  - Added Interface WindowsParameters
   - Added Interface WindowsVMGuestPatchAutomaticByPlatformSettings
-  - Added Type Alias LinuxVMGuestPatchAutomaticByPlatformRebootSetting
-  - Added Type Alias WindowsVMGuestPatchAutomaticByPlatformRebootSetting
-  - Interface AutomaticOSUpgradePolicy has a new optional parameter useRollingUpgradePolicy
-  - Interface DiskRestorePointReplicationStatus has a new optional parameter completionPercent
-  - Interface LinuxPatchSettings has a new optional parameter automaticByPlatformSettings
-  - Interface PatchSettings has a new optional parameter automaticByPlatformSettings
-  - Interface VirtualMachineScaleSetDataDisk has a new optional parameter deleteOption
-  - Interface VirtualMachineScaleSetOSDisk has a new optional parameter deleteOption
-  - Interface VirtualMachineScaleSetUpdateOSDisk has a new optional parameter deleteOption
-  - Interface VMGalleryApplication has a new optional parameter enableAutomaticUpgrade
-  - Interface VMGalleryApplication has a new optional parameter treatFailureAsDeploymentFailure
-  - Add parameters of ResourceWithOptionalLocation to TypeAlias VirtualMachineExtension
-  - Type Alias DedicatedHostGroup has a new parameter additionalCapabilities
-  - Type Alias DedicatedHostGroupUpdate has a new parameter additionalCapabilities
-  - Type Alias ProximityPlacementGroup has a new parameter zones
-  - Type Alias ProximityPlacementGroup has a new parameter intent
-  - Type Alias VirtualMachineScaleSetVM has a new parameter identity
-  - Added Enum KnownLinuxVMGuestPatchAutomaticByPlatformRebootSetting
-  - Added Enum KnownWindowsVMGuestPatchAutomaticByPlatformRebootSetting
-  - Enum KnownStorageAccountTypes has a new value PremiumV2LRS
-
-### Breaking Changes
-
-  - Delete parameters of Resource in TypeAlias VirtualMachineExtension
-    
-## 17.3.1 (2022-04-06)
-
-**features**
-
-  -  Bug fix
-
-## 17.3.0 (2022-03-02)
-    
-### Features Added
-
+  - Added Interface WinRMConfiguration
+  - Added Interface WinRMListener
+  - Added Interface ZoneAllocationPolicy
+  - Added Interface ZoneMovement
+  - Added Type Alias AccessControlRulesMode
+  - Added Type Alias AccessLevel
+  - Added Type Alias ActionType
+  - Added Type Alias AggregatedReplicationState
+  - Added Type Alias AllocationStrategy
+  - Added Type Alias AlternativeType
   - Added Type Alias Architecture
   - Added Type Alias ArchitectureTypes
-  - Added Type Alias DataAccessAuthMode
-  - Interface DiskUpdate has a new optional parameter dataAccessAuthMode
-  - Interface SnapshotUpdate has a new optional parameter dataAccessAuthMode
-  - Interface SupportedCapabilities has a new optional parameter architecture
-  - Type Alias Disk has a new parameter dataAccessAuthMode
-  - Type Alias GalleryImage has a new parameter architecture
-  - Type Alias GalleryImageUpdate has a new parameter architecture
-  - Type Alias Snapshot has a new parameter dataAccessAuthMode
-  - Type Alias VirtualMachineImage has a new parameter architecture
-  - Added Enum KnownArchitecture
-  - Added Enum KnownArchitectureTypes
-  - Added Enum KnownDataAccessAuthMode
-    
-    
-## 17.2.0 (2022-02-14)
-    
-### Features Added
-
-  - Added operation DedicatedHosts.beginRestart
-  - Added operation DedicatedHosts.beginRestartAndWait
-  - Added Interface CommunityGalleryInfo
-  - Added Interface DedicatedHostsRestartOptionalParams
-  - Added Interface DiskRestorePointInstanceView
-  - Added Interface DiskRestorePointReplicationStatus
-  - Added Interface GalleryExtendedLocation
-  - Added Interface GalleryTargetExtendedLocation
-  - Added Interface OSDiskImageSecurityProfile
-  - Added Interface RegionalSharingStatus
-  - Added Interface RestorePointInstanceView
-  - Added Interface SharingStatus
-  - Added Interface VirtualMachineScaleSetHardwareProfile
-  - Added Interface VMDiskSecurityProfile
+  - Added Type Alias AvailabilityPolicyDiskDelay
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias CachingTypes
+  - Added Type Alias CapacityReservationGroupInstanceViewTypes
+  - Added Type Alias CapacityReservationInstanceViewTypes
+  - Added Type Alias ComponentNames
   - Added Type Alias ConfidentialVMEncryptionType
+  - Added Type Alias ConfidentialVMVersion
+  - Added Type Alias ConsistencyModeTypes
+  - Added Type Alias CopyCompletionErrorReason
+  - Added Type Alias CreatedByType
+  - Added Type Alias DataAccessAuthMode
+  - Added Type Alias DedicatedHostLicenseTypes
+  - Added Type Alias DeleteOptions
+  - Added Type Alias DiffDiskOptions
+  - Added Type Alias DiffDiskPlacement
+  - Added Type Alias DiskControllerTypes
+  - Added Type Alias DiskCreateOption
+  - Added Type Alias DiskCreateOptionTypes
+  - Added Type Alias DiskDeleteOptionTypes
+  - Added Type Alias DiskDetachOptionTypes
+  - Added Type Alias DiskEncryptionSetIdentityType
+  - Added Type Alias DiskEncryptionSetType
+  - Added Type Alias DiskSecurityTypes
+  - Added Type Alias DiskState
+  - Added Type Alias DiskStorageAccountTypes
+  - Added Type Alias DomainNameLabelScopeTypes
+  - Added Type Alias EdgeZoneStorageAccountType
+  - Added Type Alias EncryptionType
+  - Added Type Alias EndpointAccess
+  - Added Type Alias EndpointTypes
+  - Added Type Alias ExecutionState
+  - Added Type Alias ExpandTypeForListVMs
+  - Added Type Alias ExpandTypesForGetCapacityReservationGroups
+  - Added Type Alias ExpandTypesForGetVMScaleSets
+  - Added Type Alias ExpandTypesForListVMs
+  - Added Type Alias ExtendedLocationType
+  - Added Type Alias ExtendedLocationTypes
+  - Added Type Alias FileFormat
+  - Added Type Alias GalleryApplicationCustomActionParameterType
+  - Added Type Alias GalleryApplicationScriptRebootBehavior
   - Added Type Alias GalleryExpandParams
   - Added Type Alias GalleryExtendedLocationType
+  - Added Type Alias GalleryProvisioningState
+  - Added Type Alias GalleryScriptParameterType
+  - Added Type Alias GallerySharingPermissionTypes
+  - Added Type Alias HighSpeedInterconnectPlacement
+  - Added Type Alias HostCaching
+  - Added Type Alias HyperVGeneration
+  - Added Type Alias HyperVGenerationType
+  - Added Type Alias HyperVGenerationTypes
+  - Added Type Alias ImageState
+  - Added Type Alias ImmutabilityPolicyType
+  - Added Type Alias InstanceViewTypes
+  - Added Type Alias InterconnectBlockExpandTypes
+  - Added Type Alias IntervalInMins
+  - Added Type Alias IPVersion
+  - Added Type Alias IPVersions
+  - Added Type Alias LifecycleHookAction
+  - Added Type Alias LifecycleHookActionState
+  - Added Type Alias LinuxPatchAssessmentMode
+  - Added Type Alias LinuxVMGuestPatchAutomaticByPlatformRebootSetting
+  - Added Type Alias LinuxVMGuestPatchMode
+  - Added Type Alias MaintenanceOperationResultCodeTypes
+  - Added Type Alias Mode
+  - Added Type Alias Modes
+  - Added Type Alias NetworkAccessPolicy
+  - Added Type Alias NetworkApiVersion
+  - Added Type Alias NetworkInterfaceAuxiliaryMode
+  - Added Type Alias NetworkInterfaceAuxiliarySku
+  - Added Type Alias OperatingSystemStateTypes
+  - Added Type Alias OperatingSystemType
+  - Added Type Alias OperatingSystemTypes
+  - Added Type Alias OrchestrationMode
+  - Added Type Alias OrchestrationServiceNames
+  - Added Type Alias OrchestrationServiceOperationStatus
+  - Added Type Alias OrchestrationServiceState
+  - Added Type Alias OrchestrationServiceStateAction
+  - Added Type Alias Origin
+  - Added Type Alias PassNames
+  - Added Type Alias PatchAssessmentState
+  - Added Type Alias PatchInstallationState
+  - Added Type Alias PatchOperationStatus
+  - Added Type Alias PolicyViolationCategory
+  - Added Type Alias PrivateEndpointConnectionProvisioningState
+  - Added Type Alias PrivateEndpointServiceConnectionStatus
+  - Added Type Alias ProtocolTypes
+  - Added Type Alias ProvisionedBandwidthCopyOption
+  - Added Type Alias ProximityPlacementGroupType
+  - Added Type Alias PublicIPAddressSkuName
+  - Added Type Alias PublicIPAddressSkuTier
+  - Added Type Alias PublicIPAllocationMethod
+  - Added Type Alias PublicNetworkAccess
+  - Added Type Alias RebalanceBehavior
+  - Added Type Alias RebalanceStrategy
   - Added Type Alias RepairAction
+  - Added Type Alias ReplicationMode
+  - Added Type Alias ReplicationState
+  - Added Type Alias ReplicationStatusTypes
+  - Added Type Alias ReservationType
+  - Added Type Alias ResilientVMDeletionStatus
+  - Added Type Alias ResourceIdentityType
+  - Added Type Alias ResourceIdOptionsForGetCapacityReservationGroups
+  - Added Type Alias ResourceSkuCapacityScaleType
+  - Added Type Alias ResourceSkuRestrictionsReasonCode
+  - Added Type Alias ResourceSkuRestrictionsType
+  - Added Type Alias RestorePointCollectionExpandOptions
+  - Added Type Alias RestorePointEncryptionType
   - Added Type Alias RestorePointExpandOptions
+  - Added Type Alias RollingUpgradeActionType
+  - Added Type Alias RollingUpgradeStatusCode
+  - Added Type Alias ScriptShellTypes
   - Added Type Alias SecurityEncryptionTypes
+  - Added Type Alias SecurityTypes
+  - Added Type Alias SelectPermissions
+  - Added Type Alias SettingNames
+  - Added Type Alias SharedGalleryHostCaching
+  - Added Type Alias SharedToValues
+  - Added Type Alias SharingProfileGroupTypes
   - Added Type Alias SharingState
-  - Interface AutomaticRepairsPolicy has a new optional parameter repairAction
-  - Interface GalleriesGetOptionalParams has a new optional parameter expand
-  - Interface GalleryArtifactPublishingProfileBase has a new optional parameter targetExtendedLocations
-  - Interface RestorePointsGetOptionalParams has a new optional parameter expand
-  - Interface SharingProfile has a new optional parameter communityGalleryInfo
-  - Interface VirtualMachineScaleSetManagedDiskParameters has a new optional parameter securityProfile
-  - Interface VirtualMachineScaleSetOSProfile has a new optional parameter allowExtensionOperations
-  - Interface VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkOptionalParams has a new optional parameter placementGroupId
-  - Interface VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkOptionalParams has a new optional parameter zone
-  - Interface VirtualMachineScaleSetUpdatePublicIPAddressConfiguration has a new optional parameter publicIPPrefix
-  - Interface VirtualMachineScaleSetVMProfile has a new optional parameter hardwareProfile
-  - Interface VirtualMachinesListAllNextOptionalParams has a new optional parameter filter
-  - Interface VirtualMachinesListAllOptionalParams has a new optional parameter filter
-  - Interface VirtualMachinesListNextOptionalParams has a new optional parameter filter
-  - Interface VirtualMachinesListOptionalParams has a new optional parameter filter
-  - Type Alias CapacityReservation has a new parameter timeCreated
-  - Type Alias CapacityReservationUpdate has a new parameter timeCreated
-  - Type Alias DedicatedHost has a new parameter timeCreated
-  - Type Alias DedicatedHostUpdate has a new parameter timeCreated
-  - Type Alias Gallery has a new parameter sharingStatus
-  - Type Alias GalleryUpdate has a new parameter sharingStatus
-  - Type Alias ImageReference has a new parameter communityGalleryImageId
-  - Type Alias ManagedDiskParameters has a new parameter securityProfile
-  - Type Alias OSDiskImageEncryption has a new parameter securityProfile
-  - Type Alias RestorePoint has a new parameter sourceRestorePoint
-  - Type Alias RestorePoint has a new parameter instanceView
-  - Type Alias VirtualMachine has a new parameter timeCreated
-  - Type Alias VirtualMachineExtension has a new parameter protectedSettingsFromKeyVault
-  - Type Alias VirtualMachineExtensionUpdate has a new parameter protectedSettingsFromKeyVault
-  - Type Alias VirtualMachineScaleSet has a new parameter timeCreated
-  - Type Alias VirtualMachineScaleSetExtension has a new parameter protectedSettingsFromKeyVault
-  - Type Alias VirtualMachineScaleSetExtensionUpdate has a new parameter protectedSettingsFromKeyVault
-  - Type Alias VirtualMachineScaleSetVMExtension has a new parameter protectedSettingsFromKeyVault
-  - Type Alias VirtualMachineScaleSetVMExtensionUpdate has a new parameter protectedSettingsFromKeyVault
-  - Type Alias VirtualMachineUpdate has a new parameter timeCreated
+  - Added Type Alias SharingUpdateOperationTypes
+  - Added Type Alias SnapshotAccessState
+  - Added Type Alias SnapshotStorageAccountTypes
+  - Added Type Alias SoftDeletedArtifactTypes
+  - Added Type Alias SshEncryptionTypes
+  - Added Type Alias StatusLevelTypes
+  - Added Type Alias StorageAccountStrategy
+  - Added Type Alias StorageAccountType
+  - Added Type Alias StorageAccountTypes
+  - Added Type Alias StorageAlignmentStatus
+  - Added Type Alias StorageFaultDomainAlignmentType
+  - Added Type Alias SupportedSecurityOption
+  - Added Type Alias UefiKeyType
+  - Added Type Alias UefiSignatureTemplateName
+  - Added Type Alias UpgradeMode
+  - Added Type Alias UpgradeOperationInvoker
+  - Added Type Alias UpgradeState
+  - Added Type Alias ValidationStatus
+  - Added Type Alias VirtualMachineEvictionPolicyTypes
+  - Added Type Alias VirtualMachinePriorityTypes
+  - Added Type Alias VirtualMachineScaleSetScaleInRules
+  - Added Type Alias VirtualMachineScaleSetSkuScaleType
+  - Added Type Alias VirtualMachineSizeTypes
+  - Added Type Alias VmDiskTypes
+  - Added Type Alias VMGuestPatchClassificationLinux
+  - Added Type Alias VMGuestPatchClassificationWindows
+  - Added Type Alias VMGuestPatchRebootBehavior
+  - Added Type Alias VMGuestPatchRebootSetting
+  - Added Type Alias VMGuestPatchRebootStatus
+  - Added Type Alias VMScaleSetLifecycleHookEventState
+  - Added Type Alias VMScaleSetLifecycleHookEventType
+  - Added Type Alias WindowsPatchAssessmentMode
+  - Added Type Alias WindowsVMGuestPatchAutomaticByPlatformRebootSetting
+  - Added Type Alias WindowsVMGuestPatchMode
+  - Added Type Alias ZonalPlatformFaultDomainAlignMode
+  - Added Type Alias ZonePlacementPolicyType
+  - Added Enum AzureClouds
+  - Added Enum KnownAccessControlRulesMode
+  - Added Enum KnownAccessLevel
+  - Added Enum KnownActionType
+  - Added Enum KnownAggregatedReplicationState
+  - Added Enum KnownAllocationStrategy
+  - Added Enum KnownAlternativeType
+  - Added Enum KnownArchitecture
+  - Added Enum KnownArchitectureTypes
+  - Added Enum KnownAvailabilityPolicyDiskDelay
+  - Added Enum KnownCapacityReservationGroupInstanceViewTypes
+  - Added Enum KnownCapacityReservationInstanceViewTypes
   - Added Enum KnownConfidentialVMEncryptionType
+  - Added Enum KnownConfidentialVMVersion
+  - Added Enum KnownConsistencyModeTypes
+  - Added Enum KnownCopyCompletionErrorReason
+  - Added Enum KnownCreatedByType
+  - Added Enum KnownDataAccessAuthMode
+  - Added Enum KnownDeleteOptions
+  - Added Enum KnownDiffDiskOptions
+  - Added Enum KnownDiffDiskPlacement
+  - Added Enum KnownDiskControllerTypes
+  - Added Enum KnownDiskCreateOption
+  - Added Enum KnownDiskCreateOptionTypes
+  - Added Enum KnownDiskDeleteOptionTypes
+  - Added Enum KnownDiskDetachOptionTypes
+  - Added Enum KnownDiskEncryptionSetIdentityType
+  - Added Enum KnownDiskEncryptionSetType
+  - Added Enum KnownDiskSecurityTypes
+  - Added Enum KnownDiskState
+  - Added Enum KnownDiskStorageAccountTypes
+  - Added Enum KnownDomainNameLabelScopeTypes
+  - Added Enum KnownEdgeZoneStorageAccountType
+  - Added Enum KnownEncryptionType
+  - Added Enum KnownEndpointAccess
+  - Added Enum KnownExecutionState
+  - Added Enum KnownExpandTypeForListVMs
+  - Added Enum KnownExpandTypesForGetCapacityReservationGroups
+  - Added Enum KnownExpandTypesForGetVMScaleSets
+  - Added Enum KnownExpandTypesForListVMs
+  - Added Enum KnownExtendedLocationType
+  - Added Enum KnownExtendedLocationTypes
+  - Added Enum KnownFileFormat
+  - Added Enum KnownGalleryApplicationScriptRebootBehavior
   - Added Enum KnownGalleryExpandParams
   - Added Enum KnownGalleryExtendedLocationType
+  - Added Enum KnownGalleryProvisioningState
+  - Added Enum KnownGalleryScriptParameterType
+  - Added Enum KnownGallerySharingPermissionTypes
+  - Added Enum KnownHighSpeedInterconnectPlacement
+  - Added Enum KnownHyperVGeneration
+  - Added Enum KnownHyperVGenerationType
+  - Added Enum KnownHyperVGenerationTypes
+  - Added Enum KnownImageState
+  - Added Enum KnownImmutabilityPolicyType
+  - Added Enum KnownInterconnectBlockExpandTypes
+  - Added Enum KnownIPVersion
+  - Added Enum KnownIPVersions
+  - Added Enum KnownLifecycleHookAction
+  - Added Enum KnownLifecycleHookActionState
+  - Added Enum KnownLinuxPatchAssessmentMode
+  - Added Enum KnownLinuxVMGuestPatchAutomaticByPlatformRebootSetting
+  - Added Enum KnownLinuxVMGuestPatchMode
+  - Added Enum KnownMode
+  - Added Enum KnownModes
+  - Added Enum KnownNetworkAccessPolicy
+  - Added Enum KnownNetworkApiVersion
+  - Added Enum KnownNetworkInterfaceAuxiliaryMode
+  - Added Enum KnownNetworkInterfaceAuxiliarySku
+  - Added Enum KnownOperatingSystemType
+  - Added Enum KnownOrchestrationMode
+  - Added Enum KnownOrchestrationServiceNames
+  - Added Enum KnownOrchestrationServiceOperationStatus
+  - Added Enum KnownOrchestrationServiceState
+  - Added Enum KnownOrchestrationServiceStateAction
+  - Added Enum KnownOrigin
+  - Added Enum KnownPatchAssessmentState
+  - Added Enum KnownPatchInstallationState
+  - Added Enum KnownPatchOperationStatus
+  - Added Enum KnownPolicyViolationCategory
+  - Added Enum KnownPrivateEndpointConnectionProvisioningState
+  - Added Enum KnownPrivateEndpointServiceConnectionStatus
+  - Added Enum KnownProvisionedBandwidthCopyOption
+  - Added Enum KnownProximityPlacementGroupType
+  - Added Enum KnownPublicIPAddressSkuName
+  - Added Enum KnownPublicIPAddressSkuTier
+  - Added Enum KnownPublicIPAllocationMethod
+  - Added Enum KnownPublicNetworkAccess
+  - Added Enum KnownRebalanceBehavior
+  - Added Enum KnownRebalanceStrategy
   - Added Enum KnownRepairAction
+  - Added Enum KnownReplicationMode
+  - Added Enum KnownReplicationState
+  - Added Enum KnownReplicationStatusTypes
+  - Added Enum KnownReservationType
+  - Added Enum KnownResilientVMDeletionStatus
+  - Added Enum KnownResourceIdOptionsForGetCapacityReservationGroups
+  - Added Enum KnownRestorePointCollectionExpandOptions
+  - Added Enum KnownRestorePointEncryptionType
   - Added Enum KnownRestorePointExpandOptions
+  - Added Enum KnownScriptShellTypes
   - Added Enum KnownSecurityEncryptionTypes
+  - Added Enum KnownSecurityTypes
+  - Added Enum KnownSelectPermissions
+  - Added Enum KnownSharedGalleryHostCaching
+  - Added Enum KnownSharedToValues
+  - Added Enum KnownSharingProfileGroupTypes
   - Added Enum KnownSharingState
-  - Enum KnownSecurityTypes has a new value ConfidentialVM
-  - Enum KnownSharingProfileGroupTypes has a new value Community
-  - Enum KnownSharingUpdateOperationTypes has a new value EnableCommunity
-    
-    
-## 17.1.0 (2022-01-06)
-    
-### Features Added
+  - Added Enum KnownSharingUpdateOperationTypes
+  - Added Enum KnownSnapshotAccessState
+  - Added Enum KnownSnapshotStorageAccountTypes
+  - Added Enum KnownSoftDeletedArtifactTypes
+  - Added Enum KnownSshEncryptionTypes
+  - Added Enum KnownStorageAccountStrategy
+  - Added Enum KnownStorageAccountType
+  - Added Enum KnownStorageAccountTypes
+  - Added Enum KnownStorageAlignmentStatus
+  - Added Enum KnownStorageFaultDomainAlignmentType
+  - Added Enum KnownSupportedSecurityOption
+  - Added Enum KnownUefiKeyType
+  - Added Enum KnownUefiSignatureTemplateName
+  - Added Enum KnownValidationStatus
+  - Added Enum KnownVirtualMachineEvictionPolicyTypes
+  - Added Enum KnownVirtualMachinePriorityTypes
+  - Added Enum KnownVirtualMachineScaleSetScaleInRules
+  - Added Enum KnownVirtualMachineSizeTypes
+  - Added Enum KnownVmDiskTypes
+  - Added Enum KnownVMGuestPatchClassificationLinux
+  - Added Enum KnownVMGuestPatchClassificationWindows
+  - Added Enum KnownVMGuestPatchRebootBehavior
+  - Added Enum KnownVMGuestPatchRebootSetting
+  - Added Enum KnownVMGuestPatchRebootStatus
+  - Added Enum KnownVMScaleSetLifecycleHookEventState
+  - Added Enum KnownVMScaleSetLifecycleHookEventType
+  - Added Enum KnownWindowsPatchAssessmentMode
+  - Added Enum KnownWindowsVMGuestPatchAutomaticByPlatformRebootSetting
+  - Added Enum KnownWindowsVMGuestPatchMode
+  - Added Enum KnownZonalPlatformFaultDomainAlignMode
+  - Added Enum KnownZonePlacementPolicyType
 
-  - Interface AccessUri has a new optional parameter securityDataAccessSAS
-  - Interface CreationData has a new optional parameter securityDataUri
-  - Interface DiskSecurityProfile has a new optional parameter secureVMDiskEncryptionSetId
-  - Interface GrantAccessData has a new optional parameter getSecureVMGuestStateSAS
-  - Interface SnapshotUpdate has a new optional parameter supportedCapabilities
-  - Type Alias DiskRestorePoint has a new parameter replicationState
-  - Type Alias DiskRestorePoint has a new parameter sourceResourceLocation
-  - Type Alias Snapshot has a new parameter securityProfile
-  - Enum KnownDiskCreateOption has a new value ImportSecure
-  - Enum KnownDiskCreateOption has a new value UploadPreparedSecure
-  - Enum KnownDiskEncryptionSetType has a new value ConfidentialVmEncryptedWithCustomerKey
-  - Enum KnownDiskSecurityTypes has a new value ConfidentialVMDiskEncryptedWithCustomerKey
-  - Enum KnownDiskSecurityTypes has a new value ConfidentialVMDiskEncryptedWithPlatformKey
-  - Enum KnownDiskSecurityTypes has a new value ConfidentialVMVmguestStateOnlyEncryptedWithPlatformKey
-    
-    
-## 17.0.0 (2021-12-07)
-
-The package of @azure/arm-compute is using our next generation design principles since version 17.0.0, which contains breaking changes.
-
-To understand the detail of the change, please refer to [Changelog](https://aka.ms/js-track2-changelog).
-
-To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
-
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).

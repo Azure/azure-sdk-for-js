@@ -1,16 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureBotServiceContext as Client } from "../index.js";
-import type { PrivateLinkResourceListResult } from "../../models/models.js";
+import { AzureBotServiceContext as Client } from "../index.js";
 import {
   errorDeserializer,
+  PrivateLinkResourceListResult,
   privateLinkResourceListResultDeserializer,
 } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type { PrivateLinkResourcesListByBotResourceOptionalParams } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import { PrivateLinkResourcesListByBotResourceOptionalParams } from "./options.js";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _listByBotResourceSend(
   context: Client,
@@ -30,10 +34,12 @@ export function _listByBotResourceSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listByBotResourceDeserialize(

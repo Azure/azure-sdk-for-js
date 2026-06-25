@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ConsumptionManagementContext } from "../../api/consumptionManagementContext.js";
+import { ConsumptionManagementContext } from "../../api/consumptionManagementContext.js";
 import { get } from "../../api/credits/operations.js";
-import type { CreditsGetOptionalParams } from "../../api/credits/options.js";
-import type { CreditSummary } from "../../models/models.js";
+import { CreditsGetOptionalParams } from "../../api/credits/options.js";
+import { CreditSummary } from "../../models/models.js";
 
 /** Interface representing a Credits operations. */
 export interface CreditsOperations {

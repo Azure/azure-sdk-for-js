@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/carbonoptimization/arm-carbonoptimization)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-carbonoptimization)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-carbonoptimization?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-carbonoptimization)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/carbonoptimization/arm-carbonoptimization/samples)
 
 ## Getting started

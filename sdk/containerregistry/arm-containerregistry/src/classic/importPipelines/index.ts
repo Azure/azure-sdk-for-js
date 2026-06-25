@@ -1,19 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ContainerRegistryManagementContext } from "../../api/containerRegistryManagementContext.js";
+import { ContainerRegistryManagementContext } from "../../api/containerRegistryManagementContext.js";
 import { list, $delete, create, get } from "../../api/importPipelines/operations.js";
-import type {
+import {
   ImportPipelinesListOptionalParams,
   ImportPipelinesDeleteOptionalParams,
   ImportPipelinesCreateOptionalParams,
   ImportPipelinesGetOptionalParams,
 } from "../../api/importPipelines/options.js";
-import type { ImportPipeline } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { ImportPipeline } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ImportPipelines operations. */
 export interface ImportPipelinesOperations {
@@ -24,11 +23,6 @@ export interface ImportPipelinesOperations {
     options?: ImportPipelinesListOptionalParams,
   ) => PagedAsyncIterableIterator<ImportPipeline>;
   /** Deletes an import pipeline from a container registry. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     registryName: string,

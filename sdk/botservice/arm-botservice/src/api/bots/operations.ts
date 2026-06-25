@@ -1,27 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureBotServiceContext as Client } from "../index.js";
-import type {
-  Bot,
-  _BotResponseList,
-  CheckNameAvailabilityRequestBody,
-  CheckNameAvailabilityResponseBody,
-} from "../../models/models.js";
+import { AzureBotServiceContext as Client } from "../index.js";
 import {
   errorDeserializer,
+  Bot,
   botSerializer,
   botDeserializer,
   botPropertiesSerializer,
   skuSerializer,
+  _BotResponseList,
   _botResponseListDeserializer,
+  CheckNameAvailabilityRequestBody,
   checkNameAvailabilityRequestBodySerializer,
+  CheckNameAvailabilityResponseBody,
   checkNameAvailabilityResponseBodyDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   BotsGetCheckNameAvailabilityOptionalParams,
   BotsListOptionalParams,
   BotsListByResourceGroupOptionalParams,
@@ -30,8 +30,12 @@ import type {
   BotsCreateOptionalParams,
   BotsGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _getCheckNameAvailabilitySend(
   context: Client,
@@ -47,12 +51,14 @@ export function _getCheckNameAvailabilitySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: checkNameAvailabilityRequestBodySerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: checkNameAvailabilityRequestBodySerializer(parameters),
+    });
 }
 
 export async function _getCheckNameAvailabilityDeserialize(
@@ -95,10 +101,12 @@ export function _listSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listDeserialize(result: PathUncheckedResponse): Promise<_BotResponseList> {
@@ -149,10 +157,12 @@ export function _listByResourceGroupSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listByResourceGroupDeserialize(
@@ -254,21 +264,23 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: {
-      properties: !options?.properties
-        ? options?.properties
-        : botPropertiesSerializer(options?.properties),
-      location: options?.location,
-      tags: options?.tags,
-      sku: !options?.sku ? options?.sku : skuSerializer(options?.sku),
-      kind: options?.kind,
-      etag: options?.etag,
-    },
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: {
+        properties: !options?.properties
+          ? options?.properties
+          : botPropertiesSerializer(options?.properties),
+        location: options?.location,
+        tags: options?.tags,
+        sku: !options?.sku ? options?.sku : skuSerializer(options?.sku),
+        kind: options?.kind,
+        etag: options?.etag,
+      },
+    });
 }
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<Bot> {
@@ -315,12 +327,14 @@ export function _createSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: botSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: botSerializer(parameters),
+    });
 }
 
 export async function _createDeserialize(result: PathUncheckedResponse): Promise<Bot> {
@@ -367,10 +381,12 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<Bot> {

@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ConsumptionManagementContext } from "../../api/consumptionManagementContext.js";
+import { ConsumptionManagementContext } from "../../api/consumptionManagementContext.js";
 import {
   getForBillingPeriodByBillingAccount,
   getByBillingAccount,
 } from "../../api/balances/operations.js";
-import type {
+import {
   BalancesGetForBillingPeriodByBillingAccountOptionalParams,
   BalancesGetByBillingAccountOptionalParams,
 } from "../../api/balances/options.js";
-import type { Balance } from "../../models/models.js";
+import { Balance } from "../../models/models.js";
 
 /** Interface representing a Balances operations. */
 export interface BalancesOperations {

@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ConsumptionManagementContext } from "../../api/consumptionManagementContext.js";
+import { ConsumptionManagementContext } from "../../api/consumptionManagementContext.js";
 import {
   getForBillingPeriodByManagementGroup,
   getByManagementGroup,
 } from "../../api/aggregatedCost/operations.js";
-import type {
+import {
   AggregatedCostGetForBillingPeriodByManagementGroupOptionalParams,
   AggregatedCostGetByManagementGroupOptionalParams,
 } from "../../api/aggregatedCost/options.js";
-import type { ManagementGroupAggregatedCostResult } from "../../models/models.js";
+import { ManagementGroupAggregatedCostResult } from "../../models/models.js";
 
 /** Interface representing a AggregatedCost operations. */
 export interface AggregatedCostOperations {

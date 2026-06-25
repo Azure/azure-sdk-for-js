@@ -1,33 +1,37 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeManagementContext as Client } from "../index.js";
+import { ComputeManagementContext as Client } from "../index.js";
 import { cloudErrorDeserializer } from "../../models/common/models.js";
-import type {
-  GalleryImage,
-  GalleryImageUpdate,
-  _GalleryImageList,
-} from "../../models/computeGallery/models.js";
 import {
+  GalleryImage,
   galleryImageSerializer,
   galleryImageDeserializer,
+  GalleryImageUpdate,
   galleryImageUpdateSerializer,
+  _GalleryImageList,
   _galleryImageListDeserializer,
 } from "../../models/computeGallery/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   GalleryImagesListByGalleryOptionalParams,
   GalleryImagesDeleteOptionalParams,
   GalleryImagesUpdateOptionalParams,
   GalleryImagesCreateOrUpdateOptionalParams,
   GalleryImagesGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listByGallerySend(
   context: Client,
@@ -41,16 +45,18 @@ export function _listByGallerySend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       galleryName: galleryName,
-      "api%2Dversion": "2025-03-03",
+      "api%2Dversion": "2025-12-03",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listByGalleryDeserialize(
@@ -81,7 +87,7 @@ export function listByGallery(
     () => _listByGallerySend(context, resourceGroupName, galleryName, options),
     _listByGalleryDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-03-03" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-12-03" },
   );
 }
 
@@ -99,7 +105,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       galleryName: galleryName,
       galleryImageName: galleryImageName,
-      "api%2Dversion": "2025-03-03",
+      "api%2Dversion": "2025-12-03",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -136,7 +142,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, galleryName, galleryImageName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-03-03",
+    apiVersion: "2025-12-03",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -155,18 +161,20 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       galleryName: galleryName,
       galleryImageName: galleryImageName,
-      "api%2Dversion": "2025-03-03",
+      "api%2Dversion": "2025-12-03",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: galleryImageUpdateSerializer(galleryImage),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: galleryImageUpdateSerializer(galleryImage),
+    });
 }
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<GalleryImage> {
@@ -198,7 +206,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, galleryName, galleryImageName, galleryImage, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-03-03",
+    apiVersion: "2025-12-03",
   }) as PollerLike<OperationState<GalleryImage>, GalleryImage>;
 }
 
@@ -217,18 +225,20 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       galleryName: galleryName,
       galleryImageName: galleryImageName,
-      "api%2Dversion": "2025-03-03",
+      "api%2Dversion": "2025-12-03",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: galleryImageSerializer(galleryImage),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: galleryImageSerializer(galleryImage),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -269,7 +279,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2025-03-03",
+    apiVersion: "2025-12-03",
   }) as PollerLike<OperationState<GalleryImage>, GalleryImage>;
 }
 
@@ -287,16 +297,18 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       galleryName: galleryName,
       galleryImageName: galleryImageName,
-      "api%2Dversion": "2025-03-03",
+      "api%2Dversion": "2025-12-03",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<GalleryImage> {

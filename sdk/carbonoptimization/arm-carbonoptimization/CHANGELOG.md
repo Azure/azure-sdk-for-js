@@ -1,17 +1,65 @@
 # Release History
-    
-## 1.0.1 (Unreleased)
+
+## 1.1.0 (2026-06-25)
 
 ### Features Added
+  - Added operation group CarbonServiceOperations
+  - Added operation group OperationsOperations
+  - Added Class CarbonOptimizationManagementClient
+  - Added Interface CarbonEmissionData
+  - Added Interface CarbonEmissionDataAvailableDateRange
+  - Added Interface CarbonEmissionDataListResult
+  - Added Interface CarbonEmissionItemDetailData
+  - Added Interface CarbonEmissionMonthlySummaryData
+  - Added Interface CarbonEmissionOverallSummaryData
+  - Added Interface CarbonEmissionTopItemMonthlySummaryData
+  - Added Interface CarbonEmissionTopItemsSummaryData
+  - Added Interface CarbonOptimizationManagementClientOptionalParams
+  - Added Interface CarbonServiceQueryCarbonEmissionDataAvailableDateRangeOptionalParams
+  - Added Interface CarbonServiceQueryCarbonEmissionReportsOptionalParams
+  - Added Interface DateRange
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface ItemDetailsQueryFilter
+  - Added Interface MonthlySummaryReportQueryFilter
+  - Added Interface Operation
+  - Added Interface OperationDisplay
+  - Added Interface OperationsListOptionalParams
+  - Added Interface OverallSummaryReportQueryFilter
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface QueryFilter
+  - Added Interface ResourceCarbonEmissionItemDetailData
+  - Added Interface ResourceCarbonEmissionTopItemMonthlySummaryData
+  - Added Interface ResourceCarbonEmissionTopItemsSummaryData
+  - Added Interface ResourceGroupCarbonEmissionItemDetailData
+  - Added Interface ResourceGroupCarbonEmissionTopItemMonthlySummaryData
+  - Added Interface ResourceGroupCarbonEmissionTopItemsSummaryData
+  - Added Interface SubscriptionAccessDecision
+  - Added Interface TopItemsMonthlySummaryReportQueryFilter
+  - Added Interface TopItemsSummaryReportQueryFilter
+  - Added Type Alias AccessDecisionEnum
+  - Added Type Alias ActionType
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias CarbonEmissionDataUnion
+  - Added Type Alias CategoryTypeEnum
+  - Added Type Alias EmissionScopeEnum
+  - Added Type Alias OrderByColumnEnum
+  - Added Type Alias Origin
+  - Added Type Alias QueryFilterUnion
+  - Added Type Alias ReportTypeEnum
+  - Added Type Alias ResponseDataTypeEnum
+  - Added Type Alias SortDirectionEnum
+  - Added Enum AzureClouds
+  - Added Enum KnownAccessDecisionEnum
+  - Added Enum KnownActionType
+  - Added Enum KnownCategoryTypeEnum
+  - Added Enum KnownEmissionScopeEnum
+  - Added Enum KnownOrderByColumnEnum
+  - Added Enum KnownOrigin
+  - Added Enum KnownReportTypeEnum
+  - Added Enum KnownResponseDataTypeEnum
+  - Added Enum KnownSortDirectionEnum
+  - Added Enum KnownVersions
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 1.0.0 (2025-07-11)
-
-### Features Added
-
-This is the first stable version with the package of @azure/arm-carbonoptimization

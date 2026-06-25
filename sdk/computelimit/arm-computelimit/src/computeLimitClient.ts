@@ -1,24 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeLimitContext, ComputeLimitClientOptionalParams } from "./api/index.js";
-import { createComputeLimit } from "./api/index.js";
-import type { FeaturesOperations } from "./classic/features/index.js";
-import { _getFeaturesOperations } from "./classic/features/index.js";
-import type { GuestSubscriptionsOperations } from "./classic/guestSubscriptions/index.js";
-import { _getGuestSubscriptionsOperations } from "./classic/guestSubscriptions/index.js";
-import type { MemberCapOverridesOperations } from "./classic/memberCapOverrides/index.js";
-import { _getMemberCapOverridesOperations } from "./classic/memberCapOverrides/index.js";
-import type { OperationsOperations } from "./classic/operations/index.js";
-import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { SharedLimitCapsOperations } from "./classic/sharedLimitCaps/index.js";
-import { _getSharedLimitCapsOperations } from "./classic/sharedLimitCaps/index.js";
-import type { SharedLimitsOperations } from "./classic/sharedLimits/index.js";
-import { _getSharedLimitsOperations } from "./classic/sharedLimits/index.js";
-import type { VmFamiliesOperations } from "./classic/vmFamilies/index.js";
-import { _getVmFamiliesOperations } from "./classic/vmFamilies/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import {
+  ComputeLimitContext,
+  ComputeLimitClientOptionalParams,
+  createComputeLimit,
+} from "./api/index.js";
+import { FeaturesOperations, _getFeaturesOperations } from "./classic/features/index.js";
+import {
+  GuestSubscriptionsOperations,
+  _getGuestSubscriptionsOperations,
+} from "./classic/guestSubscriptions/index.js";
+import {
+  MemberCapOverridesOperations,
+  _getMemberCapOverridesOperations,
+} from "./classic/memberCapOverrides/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import {
+  SharedLimitCapsOperations,
+  _getSharedLimitCapsOperations,
+} from "./classic/sharedLimitCaps/index.js";
+import {
+  SharedLimitsOperations,
+  _getSharedLimitsOperations,
+} from "./classic/sharedLimits/index.js";
+import { VmFamiliesOperations, _getVmFamiliesOperations } from "./classic/vmFamilies/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { ComputeLimitClientOptionalParams } from "./api/computeLimitContext.js";
 

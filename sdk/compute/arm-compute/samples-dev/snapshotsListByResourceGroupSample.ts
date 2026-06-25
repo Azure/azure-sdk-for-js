@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists snapshots under a resource group.
  *
  * @summary lists snapshots under a resource group.
- * x-ms-original-file: 2025-01-02/snapshotExamples/Snapshot_ListByResourceGroup.json
+ * x-ms-original-file: 2026-03-02/snapshotExamples/Snapshot_ListByResourceGroup.json
  */
 async function listAllSnapshotsInAResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

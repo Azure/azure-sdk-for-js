@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list gallery Application Definitions in a gallery.
  *
  * @summary list gallery Application Definitions in a gallery.
- * x-ms-original-file: 2025-03-03/galleryExamples/GalleryApplication_ListByGallery.json
+ * x-ms-original-file: 2025-12-03/galleryExamples/GalleryApplication_ListByGallery.json
  */
 async function listGalleryApplicationsInAGallery(): Promise<void> {
   const credential = new DefaultAzureCredential();

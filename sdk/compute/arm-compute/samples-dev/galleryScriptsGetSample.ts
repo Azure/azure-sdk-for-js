@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to retrieves information about a gallery script definition.
  *
  * @summary retrieves information about a gallery script definition.
- * x-ms-original-file: 2025-03-03/galleryScriptExamples/GalleryScript_Get.json
+ * x-ms-original-file: 2025-12-03/galleryScriptExamples/GalleryScript_Get.json
  */
 async function getAGalleryScript(): Promise<void> {
   const credential = new DefaultAzureCredential();

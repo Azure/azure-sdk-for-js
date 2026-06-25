@@ -1,44 +1,44 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ContainerRegistryManagementContext as Client } from "../index.js";
-import type {
-  Registry,
-  RegistryUpdateParameters,
-  _RegistryListResult,
-  ImportImageParameters,
-  RegistryUsageListResult,
-  RegistryListCredentialsResult,
-  RegenerateCredentialParameters,
-  GenerateCredentialsParameters,
-  GenerateCredentialsResult,
-  RegistryNameCheckRequest,
-  RegistryNameStatus,
-  PrivateLinkResource,
-  _PrivateLinkResourceListResult,
-} from "../../models/models.js";
+import { ContainerRegistryManagementContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  Registry,
   registrySerializer,
   registryDeserializer,
+  RegistryUpdateParameters,
   registryUpdateParametersSerializer,
+  _RegistryListResult,
   _registryListResultDeserializer,
+  ImportImageParameters,
   importImageParametersSerializer,
+  RegistryUsageListResult,
   registryUsageListResultDeserializer,
+  RegistryListCredentialsResult,
   registryListCredentialsResultDeserializer,
+  RegenerateCredentialParameters,
   regenerateCredentialParametersSerializer,
+  GenerateCredentialsParameters,
   generateCredentialsParametersSerializer,
+  GenerateCredentialsResult,
   generateCredentialsResultDeserializer,
+  RegistryNameCheckRequest,
   registryNameCheckRequestSerializer,
+  RegistryNameStatus,
   registryNameStatusDeserializer,
-  privateLinkResourceDeserializer,
+  MyPrivateLinkResource,
+  myPrivateLinkResourceDeserializer,
+  _PrivateLinkResourceListResult,
   _privateLinkResourceListResultDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   RegistriesListPrivateLinkResourcesOptionalParams,
   RegistriesGetPrivateLinkResourceOptionalParams,
   RegistriesCheckNameAvailabilityOptionalParams,
@@ -54,9 +54,13 @@ import type {
   RegistriesCreateOptionalParams,
   RegistriesGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listPrivateLinkResourcesSend(
   context: Client,
@@ -70,16 +74,18 @@ export function _listPrivateLinkResourcesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       registryName: registryName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listPrivateLinkResourcesDeserialize(
@@ -88,7 +94,9 @@ export async function _listPrivateLinkResourcesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -102,7 +110,7 @@ export function listPrivateLinkResources(
   resourceGroupName: string,
   registryName: string,
   options: RegistriesListPrivateLinkResourcesOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<PrivateLinkResource> {
+): PagedAsyncIterableIterator<MyPrivateLinkResource> {
   return buildPagedAsyncIterator(
     context,
     () => _listPrivateLinkResourcesSend(context, resourceGroupName, registryName, options),
@@ -111,7 +119,7 @@ export function listPrivateLinkResources(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-01-01-preview",
+      apiVersion: context.apiVersion ?? "2026-03-01-preview",
     },
   );
 }
@@ -130,30 +138,34 @@ export function _getPrivateLinkResourceSend(
       resourceGroupName: resourceGroupName,
       registryName: registryName,
       groupName: groupName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getPrivateLinkResourceDeserialize(
   result: PathUncheckedResponse,
-): Promise<PrivateLinkResource> {
+): Promise<MyPrivateLinkResource> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
-  return privateLinkResourceDeserializer(result.body);
+  return myPrivateLinkResourceDeserializer(result.body);
 }
 
 /** Gets a private link resource by a specified group name for a container registry. */
@@ -163,7 +175,7 @@ export async function getPrivateLinkResource(
   registryName: string,
   groupName: string,
   options: RegistriesGetPrivateLinkResourceOptionalParams = { requestOptions: {} },
-): Promise<PrivateLinkResource> {
+): Promise<MyPrivateLinkResource> {
   const result = await _getPrivateLinkResourceSend(
     context,
     resourceGroupName,
@@ -183,18 +195,20 @@ export function _checkNameAvailabilitySend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerRegistry/checkNameAvailability{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: registryNameCheckRequestSerializer(registryNameCheckRequest),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: registryNameCheckRequestSerializer(registryNameCheckRequest),
+    });
 }
 
 export async function _checkNameAvailabilityDeserialize(
@@ -203,7 +217,9 @@ export async function _checkNameAvailabilityDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -234,27 +250,31 @@ export function _generateCredentialsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       registryName: registryName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: generateCredentialsParametersSerializer(generateCredentialsParameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: generateCredentialsParametersSerializer(generateCredentialsParameters),
+    });
 }
 
 export async function _generateCredentialsDeserialize(
   result: PathUncheckedResponse,
 ): Promise<GenerateCredentialsResult> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -270,7 +290,7 @@ export function generateCredentials(
   generateCredentialsParameters: GenerateCredentialsParameters,
   options: RegistriesGenerateCredentialsOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<GenerateCredentialsResult>, GenerateCredentialsResult> {
-  return getLongRunningPoller(context, _generateCredentialsDeserialize, ["202", "200", "201"], {
+  return getLongRunningPoller(context, _generateCredentialsDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -282,7 +302,7 @@ export function generateCredentials(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-01-01-preview",
+    apiVersion: context.apiVersion ?? "2026-03-01-preview",
   }) as PollerLike<OperationState<GenerateCredentialsResult>, GenerateCredentialsResult>;
 }
 
@@ -299,18 +319,20 @@ export function _regenerateCredentialSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       registryName: registryName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: regenerateCredentialParametersSerializer(regenerateCredentialParameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: regenerateCredentialParametersSerializer(regenerateCredentialParameters),
+    });
 }
 
 export async function _regenerateCredentialDeserialize(
@@ -319,7 +341,9 @@ export async function _regenerateCredentialDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -357,16 +381,18 @@ export function _listCredentialsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       registryName: registryName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listCredentialsDeserialize(
@@ -375,7 +401,9 @@ export async function _listCredentialsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -406,16 +434,18 @@ export function _listUsagesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       registryName: registryName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listUsagesDeserialize(
@@ -424,7 +454,9 @@ export async function _listUsagesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -456,24 +488,28 @@ export function _importImageSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       registryName: registryName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: importImageParametersSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: importImageParametersSerializer(parameters),
+    });
 }
 
 export async function _importImageDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -495,7 +531,7 @@ export function importImage(
     getInitialResponse: () =>
       _importImageSend(context, resourceGroupName, registryName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-01-01-preview",
+    apiVersion: context.apiVersion ?? "2026-03-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -507,16 +543,18 @@ export function _listSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerRegistry/registries{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listDeserialize(
@@ -525,7 +563,9 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -546,7 +586,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-01-01-preview",
+      apiVersion: context.apiVersion ?? "2026-03-01-preview",
     },
   );
 }
@@ -561,16 +601,18 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listByResourceGroupDeserialize(
@@ -579,7 +621,9 @@ export async function _listByResourceGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -601,7 +645,7 @@ export function listByResourceGroup(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-01-01-preview",
+      apiVersion: context.apiVersion ?? "2026-03-01-preview",
     },
   );
 }
@@ -618,7 +662,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       registryName: registryName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -631,7 +675,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -640,11 +686,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Deletes a container registry. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -656,7 +697,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, registryName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-01-01-preview",
+    apiVersion: context.apiVersion ?? "2026-03-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -673,25 +714,29 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       registryName: registryName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: registryUpdateParametersSerializer(registryUpdateParameters),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: registryUpdateParametersSerializer(registryUpdateParameters),
+    });
 }
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<Registry> {
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -713,7 +758,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, registryName, registryUpdateParameters, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-01-01-preview",
+    apiVersion: context.apiVersion ?? "2026-03-01-preview",
   }) as PollerLike<OperationState<Registry>, Registry>;
 }
 
@@ -730,25 +775,29 @@ export function _createSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       registryName: registryName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: registrySerializer(registry),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: registrySerializer(registry),
+    });
 }
 
 export async function _createDeserialize(result: PathUncheckedResponse): Promise<Registry> {
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -770,7 +819,7 @@ export function create(
     getInitialResponse: () =>
       _createSend(context, resourceGroupName, registryName, registry, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-01-01-preview",
+    apiVersion: context.apiVersion ?? "2026-03-01-preview",
   }) as PollerLike<OperationState<Registry>, Registry>;
 }
 
@@ -786,23 +835,27 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       registryName: registryName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<Registry> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

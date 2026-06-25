@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list gallery inVMAccessControlProfile versions in a gallery inVMAccessControlProfile
  *
  * @summary list gallery inVMAccessControlProfile versions in a gallery inVMAccessControlProfile
- * x-ms-original-file: 2025-03-03/galleryResourceProfileExamples/GalleryInVMAccessControlProfileVersion_ListByGalleryInVMAccessControlProfile.json
+ * x-ms-original-file: 2025-12-03/galleryResourceProfileExamples/GalleryInVMAccessControlProfileVersion_ListByGalleryInVMAccessControlProfile.json
  */
 async function listGalleryInVMAccessControlProfileVersionsInAGalleryInVMAccessControlProfile(): Promise<void> {
   const credential = new DefaultAzureCredential();

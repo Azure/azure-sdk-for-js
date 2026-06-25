@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ConsumptionManagementContext } from "../../api/consumptionManagementContext.js";
+import { ConsumptionManagementContext } from "../../api/consumptionManagementContext.js";
 import { list } from "../../api/marketplaces/operations.js";
-import type { MarketplacesListOptionalParams } from "../../api/marketplaces/options.js";
-import type { Marketplace } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { MarketplacesListOptionalParams } from "../../api/marketplaces/options.js";
+import { Marketplace } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Marketplaces operations. */
 export interface MarketplacesOperations {

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ChaosManagementContext } from "../../api/chaosManagementContext.js";
+import { ChaosManagementContext } from "../../api/chaosManagementContext.js";
 import {
   refreshRecommendations,
   listAll,
@@ -11,7 +11,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/workspaces/operations.js";
-import type {
+import {
   WorkspacesRefreshRecommendationsOptionalParams,
   WorkspacesListAllOptionalParams,
   WorkspacesListOptionalParams,
@@ -20,9 +20,9 @@ import type {
   WorkspacesCreateOrUpdateOptionalParams,
   WorkspacesGetOptionalParams,
 } from "../../api/workspaces/options.js";
-import type { Workspace, WorkspaceUpdate, WorkspaceEvaluation } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { Workspace, WorkspaceUpdate, WorkspaceEvaluation } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Workspaces operations. */
 export interface WorkspacesOperations {

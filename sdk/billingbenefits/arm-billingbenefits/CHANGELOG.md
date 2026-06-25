@@ -1,6 +1,6 @@
 # Release History
 
-## 2.0.0-beta.1 (2026-05-28)
+## 2.0.0-beta.2 (2026-06-25)
 Compared with version 1.0.0
 
 ### Features Added
@@ -20,6 +20,7 @@ Compared with version 1.0.0
   - Added operation SavingsPlanOperations.beginUpdate
   - Added operation SavingsPlanOperations.beginUpdateAndWait
   - Added operation SavingsPlanOrderAliasOperations.create
+  - Class BillingBenefitsRP has a new constructor "constructor(credential: TokenCredential, subscriptionId: string, options?: BillingBenefitsRPOptionalParams);"
   - Added Interface ApplicableMacc
   - Added Interface ApplicableMaccsListOptionalParams
   - Added Interface AutomaticShortfallSuppressReason
@@ -222,6 +223,8 @@ Compared with version 1.0.0
   - Enum KnownTerm has a new value P1M
 
 ### Breaking Changes
+  - Class BillingBenefitsRP has a new signature
+  - Class BillingBenefitsRP no longer has parameter apiVersion
   - Removed Interface BillingInformation
   - Removed Interface OperationResultError
   - Removed Interface PricingCurrencyTotal
@@ -233,7 +236,3 @@ Compared with version 1.0.0
   - Removed Type Alias PricingCurrencyDuration
   - Removed Enum KnownPricingCurrencyDuration
 
-    
-## 1.0.0 (2022-12-12)
-
-The package of @azure/arm-billingbenefits is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ConnectedCacheContext } from "../../api/connectedCacheContext.js";
+import { ConnectedCacheContext } from "../../api/connectedCacheContext.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/ispCustomers/operations.js";
-import type {
+import {
   IspCustomersListBySubscriptionOptionalParams,
   IspCustomersListByResourceGroupOptionalParams,
   IspCustomersDeleteOptionalParams,
@@ -18,9 +18,9 @@ import type {
   IspCustomersCreateOrUpdateOptionalParams,
   IspCustomersGetOptionalParams,
 } from "../../api/ispCustomers/options.js";
-import type { IspCustomerResource, ConnectedCachePatchResource } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { IspCustomerResource, ConnectedCachePatchResource } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a IspCustomers operations. */
 export interface IspCustomersOperations {
@@ -34,11 +34,6 @@ export interface IspCustomersOperations {
     options?: IspCustomersListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<IspCustomerResource>;
   /** This api deletes an existing ispCustomer resource */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     customerResourceName: string,

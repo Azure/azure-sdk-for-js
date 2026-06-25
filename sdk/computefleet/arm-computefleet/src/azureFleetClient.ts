@@ -1,14 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureFleetContext, AzureFleetClientOptionalParams } from "./api/index.js";
-import { createAzureFleet } from "./api/index.js";
-import type { FleetsOperations } from "./classic/fleets/index.js";
-import { _getFleetsOperations } from "./classic/fleets/index.js";
-import type { OperationsOperations } from "./classic/operations/index.js";
-import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import {
+  AzureFleetContext,
+  AzureFleetClientOptionalParams,
+  createAzureFleet,
+} from "./api/index.js";
+import { FleetsOperations, _getFleetsOperations } from "./classic/fleets/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { AzureFleetClientOptionalParams } from "./api/azureFleetContext.js";
 

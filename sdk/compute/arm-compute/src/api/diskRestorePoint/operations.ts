@@ -1,33 +1,37 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeManagementContext as Client } from "../index.js";
+import { ComputeManagementContext as Client } from "../index.js";
 import { cloudErrorDeserializer } from "../../models/common/models.js";
-import type {
-  GrantAccessData,
-  AccessUri,
-  DiskRestorePoint,
-  _DiskRestorePointList,
-} from "../../models/computeDisk/models.js";
 import {
+  GrantAccessData,
   grantAccessDataSerializer,
+  AccessUri,
   accessUriDeserializer,
+  DiskRestorePoint,
   diskRestorePointDeserializer,
+  _DiskRestorePointList,
   _diskRestorePointListDeserializer,
 } from "../../models/computeDisk/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   DiskRestorePointRevokeAccessOptionalParams,
   DiskRestorePointGrantAccessOptionalParams,
   DiskRestorePointListByRestorePointOptionalParams,
   DiskRestorePointGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _revokeAccessSend(
   context: Client,
@@ -45,7 +49,7 @@ export function _revokeAccessSend(
       restorePointCollectionName: restorePointCollectionName,
       vmRestorePointName: vmRestorePointName,
       diskRestorePointName: diskRestorePointName,
-      "api%2Dversion": "2025-01-02",
+      "api%2Dversion": "2026-03-02",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -90,7 +94,7 @@ export function revokeAccess(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2025-01-02",
+    apiVersion: "2026-03-02",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -111,18 +115,20 @@ export function _grantAccessSend(
       restorePointCollectionName: restorePointCollectionName,
       vmRestorePointName: vmRestorePointName,
       diskRestorePointName: diskRestorePointName,
-      "api%2Dversion": "2025-01-02",
+      "api%2Dversion": "2026-03-02",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: grantAccessDataSerializer(grantAccessData),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: grantAccessDataSerializer(grantAccessData),
+    });
 }
 
 export async function _grantAccessDeserialize(result: PathUncheckedResponse): Promise<AccessUri> {
@@ -163,7 +169,7 @@ export function grantAccess(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2025-01-02",
+    apiVersion: "2026-03-02",
   }) as PollerLike<OperationState<AccessUri>, AccessUri>;
 }
 
@@ -181,16 +187,18 @@ export function _listByRestorePointSend(
       resourceGroupName: resourceGroupName,
       restorePointCollectionName: restorePointCollectionName,
       vmRestorePointName: vmRestorePointName,
-      "api%2Dversion": "2025-01-02",
+      "api%2Dversion": "2026-03-02",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listByRestorePointDeserialize(
@@ -229,7 +237,7 @@ export function listByRestorePoint(
       ),
     _listByRestorePointDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-01-02" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-02" },
   );
 }
 
@@ -249,16 +257,18 @@ export function _getSend(
       restorePointCollectionName: restorePointCollectionName,
       vmRestorePointName: vmRestorePointName,
       diskRestorePointName: diskRestorePointName,
-      "api%2Dversion": "2025-01-02",
+      "api%2Dversion": "2026-03-02",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<DiskRestorePoint> {

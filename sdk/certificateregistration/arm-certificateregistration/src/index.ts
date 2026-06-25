@@ -9,8 +9,10 @@ import {
 } from "./static-helpers/pagingHelpers.js";
 
 export { CertificateRegistrationManagementClient } from "./certificateRegistrationManagementClient.js";
-export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
-export {
+export type { SimplePollerLike } from "./static-helpers/simplePollerHelpers.js";
+export type { RestorePollerOptions } from "./restorePollerHelpers.js";
+export { restorePoller } from "./restorePollerHelpers.js";
+export type {
   AppServiceCertificateOrder,
   AppServiceCertificateOrderProperties,
   AppServiceCertificate,
@@ -19,13 +21,11 @@ export {
   ProvisioningState,
   CertificateOrderStatus,
   CertificateDetails,
-  KnownResourceNotRenewableReason,
   ResourceNotRenewableReason,
   CertificateOrderContact,
   TrackedResource,
   Resource,
   SystemData,
-  KnownCreatedByType,
   CreatedByType,
   DefaultErrorResponse,
   DefaultErrorResponseError,
@@ -71,10 +71,14 @@ export {
   Dimension,
   MetricAvailability,
   LogSpecification,
+} from "./models/index.js";
+export {
+  KnownResourceNotRenewableReason,
+  KnownCreatedByType,
   KnownVersions,
 } from "./models/index.js";
-export { CertificateRegistrationManagementClientOptionalParams } from "./api/index.js";
-export {
+export type { CertificateRegistrationManagementClientOptionalParams } from "./api/index.js";
+export type {
   AppServiceCertificateOrdersValidatePurchaseInformationOptionalParams,
   AppServiceCertificateOrdersListCertificatesOptionalParams,
   AppServiceCertificateOrdersDeleteCertificateOptionalParams,
@@ -96,15 +100,17 @@ export {
   AppServiceCertificateOrdersCreateOrUpdateOptionalParams,
   AppServiceCertificateOrdersGetOptionalParams,
 } from "./api/appServiceCertificateOrders/index.js";
-export {
+export type {
   CertificateOrdersDiagnosticsListAppServiceCertificateOrderDetectorResponseOptionalParams,
   CertificateOrdersDiagnosticsGetAppServiceCertificateOrderDetectorResponseOptionalParams,
 } from "./api/certificateOrdersDiagnostics/index.js";
-export { CertificateRegistrationProviderListOperationsOptionalParams } from "./api/certificateRegistrationProvider/index.js";
-export {
+export type { CertificateRegistrationProviderListOperationsOptionalParams } from "./api/certificateRegistrationProvider/index.js";
+export type {
   AppServiceCertificateOrdersOperations,
   CertificateOrdersDiagnosticsOperations,
   CertificateRegistrationProviderOperations,
 } from "./classic/index.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
-export { AzureClouds, AzureSupportedClouds };
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { AzureClouds };
+export type { AzureSupportedClouds };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureBotServiceContext } from "../../api/azureBotServiceContext.js";
+import { AzureBotServiceContext } from "../../api/azureBotServiceContext.js";
 import { regenerateKeys } from "../../api/directLine/operations.js";
-import type { DirectLineRegenerateKeysOptionalParams } from "../../api/directLine/options.js";
-import type { BotChannel, SiteInfo, RegenerateKeysChannelName } from "../../models/models.js";
+import { DirectLineRegenerateKeysOptionalParams } from "../../api/directLine/options.js";
+import { BotChannel, SiteInfo, RegenerateKeysChannelName } from "../../models/models.js";
 
 /** Interface representing a DirectLine operations. */
 export interface DirectLineOperations {

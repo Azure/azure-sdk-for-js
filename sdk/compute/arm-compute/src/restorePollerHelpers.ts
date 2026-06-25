@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeManagementClient } from "./computeManagementClient.js";
+import { ComputeManagementClient } from "./computeManagementClient.js";
 import { _updateDeserialize } from "./api/gallerySharingProfile/operations.js";
 import {
   _revokeAccessDeserialize,
@@ -31,6 +31,14 @@ import {
   _startOSUpgradeDeserialize,
   _startExtensionUpgradeDeserialize,
 } from "./api/virtualMachineScaleSetRollingUpgrades/operations.js";
+import {
+  _tenantLevelGallerySharingRejectDeserialize,
+  _tenantLevelGallerySharingAcceptDeserialize,
+} from "./api/tenantLevelSharedGalleryInvites/operations.js";
+import {
+  _gallerySharingRejectDeserialize,
+  _gallerySharingAcceptDeserialize,
+} from "./api/sharedGalleryInvites/operations.js";
 import {
   _$deleteDeserialize as _$deleteDeserializeGalleryInVMAccessControlProfileVersions,
   _updateDeserialize as _updateDeserializeGalleryInVMAccessControlProfileVersions,
@@ -77,6 +85,8 @@ import {
   _createOrUpdateDeserialize as _createOrUpdateDeserializeGalleries,
 } from "./api/galleries/operations.js";
 import {
+  _updateImmutabilityPolicyLockDeserialize,
+  _updateImmutabilityPolicyDeserialize,
   _revokeAccessDeserialize as _revokeAccessDeserializeSnapshots,
   _grantAccessDeserialize as _grantAccessDeserializeSnapshots,
   _$deleteDeserialize as _$deleteDeserializeSnapshots,
@@ -195,10 +205,14 @@ import {
   _createOrUpdateDeserialize as _createOrUpdateDeserializeVirtualMachineScaleSets,
 } from "./api/virtualMachineScaleSets/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
-import type { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
-import type { AbortSignalLike } from "@azure/abort-controller";
-import type { PollerLike, OperationState, ResourceLocationConfig } from "@azure/core-lro";
-import { deserializeState } from "@azure/core-lro";
+import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
+import { AbortSignalLike } from "@azure/abort-controller";
+import {
+  PollerLike,
+  OperationState,
+  deserializeState,
+  ResourceLocationConfig,
+} from "@azure/core-lro";
 
 export interface RestorePollerOptions<
   TResult,
@@ -313,6 +327,26 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     { deserializer: _startOSUpgradeDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/extensionRollingUpgrade":
     { deserializer: _startExtensionUpgradeDeserialize, expectedStatuses: ["202", "200", "201"] },
+  "POST /providers/Microsoft.Compute/locations/{location}/tenantLevelSharedGallerySubscriptions/{sharedGallerySubscriptionId}/sharedGalleries/{sharedGalleryName}/reject":
+    {
+      deserializer: _tenantLevelGallerySharingRejectDeserialize,
+      expectedStatuses: ["202", "204", "200", "201"],
+    },
+  "POST /providers/Microsoft.Compute/locations/{location}/tenantLevelSharedGallerySubscriptions/{sharedGallerySubscriptionId}/sharedGalleries/{sharedGalleryName}/accept":
+    {
+      deserializer: _tenantLevelGallerySharingAcceptDeserialize,
+      expectedStatuses: ["202", "204", "200", "201"],
+    },
+  "POST /subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/sharedGallerySubscriptions/{sharedGallerySubscriptionId}/sharedGalleries/{sharedGalleryName}/reject":
+    {
+      deserializer: _gallerySharingRejectDeserialize,
+      expectedStatuses: ["202", "204", "200", "201"],
+    },
+  "POST /subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/sharedGallerySubscriptions/{sharedGallerySubscriptionId}/sharedGalleries/{sharedGalleryName}/accept":
+    {
+      deserializer: _gallerySharingAcceptDeserialize,
+      expectedStatuses: ["202", "204", "200", "201"],
+    },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/inVMAccessControlProfiles/{inVMAccessControlProfileName}/versions/{inVMAccessControlProfileVersionName}":
     {
       deserializer: _$deleteDeserializeGalleryInVMAccessControlProfileVersions,
@@ -424,6 +458,13 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     { deserializer: _updateDeserializeGalleries, expectedStatuses: ["200", "201", "202"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}":
     { deserializer: _createOrUpdateDeserializeGalleries, expectedStatuses: ["200", "201", "202"] },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}/updateImmutabilityPolicyLock":
+    {
+      deserializer: _updateImmutabilityPolicyLockDeserialize,
+      expectedStatuses: ["200", "202", "201"],
+    },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}/updateImmutabilityPolicy":
+    { deserializer: _updateImmutabilityPolicyDeserialize, expectedStatuses: ["200", "202", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}/endGetAccess":
     { deserializer: _revokeAccessDeserializeSnapshots, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}/beginGetAccess":

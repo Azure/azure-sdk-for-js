@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ContainerRegistryManagementContext } from "../../api/containerRegistryManagementContext.js";
+import { ContainerRegistryManagementContext } from "../../api/containerRegistryManagementContext.js";
 import {
   getCallbackConfig,
   listEvents,
@@ -12,7 +12,7 @@ import {
   create,
   get,
 } from "../../api/webhooks/operations.js";
-import type {
+import {
   WebhooksGetCallbackConfigOptionalParams,
   WebhooksListEventsOptionalParams,
   WebhooksPingOptionalParams,
@@ -22,7 +22,7 @@ import type {
   WebhooksCreateOptionalParams,
   WebhooksGetOptionalParams,
 } from "../../api/webhooks/options.js";
-import type {
+import {
   Webhook,
   WebhookCreateParameters,
   WebhookUpdateParameters,
@@ -30,10 +30,9 @@ import type {
   Event,
   CallbackConfig,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Webhooks operations. */
 export interface WebhooksOperations {
@@ -65,11 +64,6 @@ export interface WebhooksOperations {
     options?: WebhooksListOptionalParams,
   ) => PagedAsyncIterableIterator<Webhook>;
   /** Deletes a webhook from a container registry. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     registryName: string,

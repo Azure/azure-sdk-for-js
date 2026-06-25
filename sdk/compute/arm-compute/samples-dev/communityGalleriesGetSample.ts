@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a community gallery by gallery public name.
  *
  * @summary get a community gallery by gallery public name.
- * x-ms-original-file: 2025-03-03/communityGalleryExamples/CommunityGallery_Get.json
+ * x-ms-original-file: 2025-12-03/communityGalleryExamples/CommunityGallery_Get.json
  */
 async function getACommunityGallery(): Promise<void> {
   const credential = new DefaultAzureCredential();

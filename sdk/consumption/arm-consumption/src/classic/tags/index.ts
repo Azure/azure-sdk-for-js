@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ConsumptionManagementContext } from "../../api/consumptionManagementContext.js";
+import { ConsumptionManagementContext } from "../../api/consumptionManagementContext.js";
 import { get } from "../../api/tags/operations.js";
-import type { TagsGetOptionalParams } from "../../api/tags/options.js";
-import type { TagsResult } from "../../models/models.js";
+import { TagsGetOptionalParams } from "../../api/tags/options.js";
+import { TagsResult } from "../../models/models.js";
 
 /** Interface representing a Tags operations. */
 export interface TagsOperations {

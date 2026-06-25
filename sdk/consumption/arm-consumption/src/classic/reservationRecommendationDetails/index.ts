@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ConsumptionManagementContext } from "../../api/consumptionManagementContext.js";
+import { ConsumptionManagementContext } from "../../api/consumptionManagementContext.js";
 import { get } from "../../api/reservationRecommendationDetails/operations.js";
-import type { ReservationRecommendationDetailsGetOptionalParams } from "../../api/reservationRecommendationDetails/options.js";
-import type {
+import { ReservationRecommendationDetailsGetOptionalParams } from "../../api/reservationRecommendationDetails/options.js";
+import {
   ReservationRecommendationDetailsModel,
   Scope,
   Term,

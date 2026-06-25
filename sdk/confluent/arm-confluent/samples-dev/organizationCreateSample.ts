@@ -27,7 +27,6 @@ async function organizationCreateMaximumSet(): Promise<void> {
         privateOfferId:
           "goshpcnjukfzfhubmynjxiulurrwplzcjpjstebtsiigbkovchcrlfmgoymqfuayhihnxruthwjywtedlcsqqsgaelqthvfzvafyjhsfzfjwotsiajpcogwrwylgcphxfhvvwemynoyovnvqcetftiofkthgdzfvybvhpviqlwlslaupndcxlvjssdap",
         privateOfferIds: ["nrbzkbcpvsakewlgubfmej"],
-        status: "Started",
       },
       userDetail: {
         firstName: "gqxqhtniapwvnsliaifhvmbtvvrciebktpeadanapfcqzflomz",

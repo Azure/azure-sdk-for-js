@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to grants access to a disk.
  *
  * @summary grants access to a disk.
- * x-ms-original-file: 2025-01-02/diskExamples/Disk_BeginGetAccess.json
+ * x-ms-original-file: 2026-03-02/diskExamples/Disk_BeginGetAccess.json
  */
 async function getASasOnAManagedDisk(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function getASasOnAManagedDisk(): Promise<void> {
  * This sample demonstrates how to grants access to a disk.
  *
  * @summary grants access to a disk.
- * x-ms-original-file: 2025-01-02/diskExamples/Disk_BeginGetAccess_WithVMGuestState.json
+ * x-ms-original-file: 2026-03-02/diskExamples/Disk_BeginGetAccess_WithVMGuestState.json
  */
 async function getSasOnManagedDiskAndVMGuestState(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -44,7 +44,7 @@ async function getSasOnManagedDiskAndVMGuestState(): Promise<void> {
  * This sample demonstrates how to grants access to a disk.
  *
  * @summary grants access to a disk.
- * x-ms-original-file: 2025-01-02/diskExamples/Disk_BeginGetAccess_WithVMGuestStateAndVMMetadata.json
+ * x-ms-original-file: 2026-03-02/diskExamples/Disk_BeginGetAccess_WithVMGuestStateAndVMMetadata.json
  */
 async function getSasOnManagedDiskVMGuestStateAndVMMetadataForConfidentialVM(): Promise<void> {
   const credential = new DefaultAzureCredential();

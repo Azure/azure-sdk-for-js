@@ -1,6 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -46,7 +52,7 @@ export function operationDeserializer(item: any): Operation {
   };
 }
 
-/** Localized display information for and operation. */
+/** Localized display information for an operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
   readonly provider?: string;
@@ -278,13 +284,16 @@ export type ReportTypeEnum = string;
 /** Date range to be used with QueryParameter, it should be within 12 months between start and end date. In certain cases, start and end dates must be the same date. */
 export interface DateRange {
   /** Start date parameter in yyyy-MM-01 format. Only the first day of each month is accepted. */
-  start: string;
+  start: Date;
   /** End date parameter in yyyy-MM-01 format. Only the first day of each month is accepted. */
-  end: string;
+  end: Date;
 }
 
 export function dateRangeSerializer(item: DateRange): any {
-  return { start: item["start"], end: item["end"] };
+  return {
+    start: item["start"].toISOString().split("T")[0],
+    end: item["end"].toISOString().split("T")[0],
+  };
 }
 
 /** Supported carbon emission scopes to be used with QueryParameter, as defined by the GHG Protocol. At least one scope must be specified. The output will return a total of all specified scopes. */
@@ -657,7 +666,7 @@ export type CarbonEmissionDataUnion =
   | CarbonEmissionData;
 
 export function carbonEmissionDataUnionDeserializer(item: any): CarbonEmissionDataUnion {
-  switch (item.dataType) {
+  switch (item["dataType"]) {
     case "OverallSummaryData":
       return carbonEmissionOverallSummaryDataDeserializer(item as CarbonEmissionOverallSummaryData);
 

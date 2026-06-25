@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CognitiveServicesManagementContext } from "../../api/cognitiveServicesManagementContext.js";
+import { CognitiveServicesManagementContext } from "../../api/cognitiveServicesManagementContext.js";
 import {
   listBySubscription,
   update,
   createOrUpdate,
   get,
 } from "../../api/quotaTiers/operations.js";
-import type {
+import {
   QuotaTiersListBySubscriptionOptionalParams,
   QuotaTiersUpdateOptionalParams,
   QuotaTiersCreateOrUpdateOptionalParams,
   QuotaTiersGetOptionalParams,
 } from "../../api/quotaTiers/options.js";
-import type { QuotaTier } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { QuotaTier } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a QuotaTiers operations. */
 export interface QuotaTiersOperations {
