@@ -1067,6 +1067,21 @@ Be direct and efficient. When you reach the search results page, read and descri
     await project.beta.models.delete("my-model", "1");
   });
 
+  it("tracing_enable_disable", async function () {
+    const endpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
+    const credential = new DefaultAzureCredential();
+    // @ts-preserve-whitespace
+    // Tracing enabled
+    const project = new AIProjectClient(endpoint, credential, {
+      tracingOptions: { experimental: true },
+    });
+    // @ts-preserve-whitespace
+    // Tracing disabled (default — no tracingOptions passed)
+    const projectNoTrace = new AIProjectClient(endpoint, credential);
+    // @ts-preserve-whitespace
+    console.log(project, projectNoTrace);
+  });
+
   it("tracing_azure_monitor", async function () {
     const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
     // Configure Azure Monitor tracing (must be done before creating the client)
