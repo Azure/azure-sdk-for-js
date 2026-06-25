@@ -19,8 +19,6 @@ const TYPESPEC_GENERATE_SCRIPT = path.join(
 );
 const RELEASE_TOOLS_DIR = "eng/tools/js-sdk-release-tools";
 const DEV_VERSION_SENTINEL = "dev"; // Special --input value meaning "resolve the npm next tag" (dev emitter builds).
-const SPEC_REPO_URL = "https://github.com/Azure/azure-rest-api-specs.git";
-const SPEC_REPO_BRANCH = "main";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Command-line argument parsing
@@ -45,10 +43,7 @@ const options = {
   outDir: { type: "string", default: "" },
 };
 
-const {
-  values,
-  positionals,
-} = parseArgs({ options, allowPositionals: true });
+const { values, positionals } = parseArgs({ options, allowPositionals: true });
 
 const subcommandName = positionals[0];
 
@@ -292,30 +287,11 @@ function preinstallReleaseTools() {
   runShell(`npm --prefix ${RELEASE_TOOLS_DIR} ci`, SDK_ROOT);
 }
 
-// Shallow-clone azure-rest-api-specs main once per shard. Every package syncs
-// from this single latest snapshot (passed to Sync as LocalSpecRepoPath), so
-// the tsp-location.yaml commit/repo fields are ignored — api-version is locked
-// purely via metadata.json (see resolvePinnedApiVersion).
-function shallowCloneSpecRepoMain() {
-  const cloneDir = fs.mkdtempSync(path.join(os.tmpdir(), "spec-repo-"));
-  console.log(`\n===== Cloning ${SPEC_REPO_URL} (${SPEC_REPO_BRANCH}, depth 1) =====`);
-  runShellNoEcho("git", [
-    "clone",
-    "--depth",
-    "1",
-    "--branch",
-    SPEC_REPO_BRANCH,
-    SPEC_REPO_URL,
-    cloneDir,
-  ]);
-  return cloneDir;
-}
-
 // ─────────────────────────────────────────────────────────────────────────────
 // Subcommand: shard
 // Runs once per matrix shard. Phases:
-//   install tools + clone spec repo → regenerate (fan-out) → build (turbo,
-//   batched) → changelog (fan-out).
+//   install tools → regenerate (fan-out) → build (turbo, batched) →
+//   changelog (fan-out).
 // ─────────────────────────────────────────────────────────────────────────────
 
 async function runShard() {
@@ -328,16 +304,11 @@ async function runShard() {
 
   installGlobalCliTools();
   preinstallReleaseTools();
-  const specRepoCloneDir = shallowCloneSpecRepoMain();
 
   const shardPackages = loadShardPackages(directoryListFile);
   console.log(`Shard packages: ${shardPackages.length}`);
 
-  const regenerationOutcomes = await regenerateAll(
-    shardPackages,
-    perPackageConcurrency,
-    specRepoCloneDir,
-  );
+  const regenerationOutcomes = await regenerateAll(shardPackages, perPackageConcurrency);
   const successfullyRegenerated = regenerationOutcomes.filter((p) => p.success);
 
   const buildOutcome =
@@ -399,12 +370,7 @@ function buildPackageDescriptor(sdkRelativePath) {
 
 // ── Phase 1: regenerate ─────────────────────────────────────────────────────
 
-// Returns the api-version recorded in the package's metadata.json so the
-// emitter can be pinned to it. Without this, a newer emitter may pick a
-// different default api-version from the spec and silently change it.
-// Handles both shapes: { apiVersion: "x" } and { apiVersions: { ns: "x" } }.
-// Skips when there is no single api-version to pin (new/multi-namespace pkg).
-function resolvePinnedApiVersion(packageDir) {
+function resolveMetadataApiVersion(packageDir) {
   const metadataPath = path.join(packageDir, "metadata.json");
   if (!fs.existsSync(metadataPath)) return { apiVersion: null, reason: "no metadata.json" };
   let metadata;
@@ -418,27 +384,28 @@ function resolvePinnedApiVersion(packageDir) {
   }
   const versions = metadata.apiVersions;
   const namespaces = versions && typeof versions === "object" ? Object.keys(versions) : [];
-  // Residual risk: multi-namespace packages aren't pinned and may drift.
   if (namespaces.length !== 1) {
-    return { apiVersion: null, reason: `skipped (${namespaces.length} namespaces)` };
+    const detail =
+      namespaces.length > 1
+        ? `multi-service package (${namespaces.length} namespaces)`
+        : "no api-version in metadata";
+    return { apiVersion: null, reason: `using emitter default — ${detail}` };
   }
   const apiVersion = String(versions[namespaces[0]]);
   return { apiVersion, reason: `pinned ${namespaces[0]}=${apiVersion}` };
 }
 
-async function regenerateAll(packages, concurrency, specRepoCloneDir) {
+async function regenerateAll(packages, concurrency) {
   console.log(`\n===== Regenerate (concurrency=${concurrency}) =====`);
   const outcomes = [];
   const completedCount = { value: 0 };
   await runWithConcurrency(packages, concurrency, async (pkg) => {
-    outcomes.push(
-      await regenerateOnePackage(pkg, specRepoCloneDir, completedCount, packages.length),
-    );
+    outcomes.push(await regenerateOnePackage(pkg, completedCount, packages.length));
   });
   return outcomes;
 }
 
-async function regenerateOnePackage(pkg, specRepoCloneDir, completedCount, totalPackageCount) {
+async function regenerateOnePackage(pkg, completedCount, totalPackageCount) {
   const startedAtMs = Date.now();
 
   // typespec-ts emitter rewrites CHANGELOG.md from a template, wiping years of
@@ -449,19 +416,17 @@ async function regenerateOnePackage(pkg, specRepoCloneDir, completedCount, total
     ? fs.readFileSync(changelogPath, "utf8")
     : null;
 
-  // Sync from the latest spec snapshot (LocalSpecRepoPath), so tsp-location.yaml's
-  // commit/repo fields are ignored. api-version is locked purely via metadata.json.
+  // Sync from the spec commit pinned in this package's tsp-location.yaml.
   const syncResult = await runCommandCapturing(
     "pwsh",
-    ["-File", TYPESPEC_SYNC_SCRIPT, pkg.packageDir, specRepoCloneDir],
+    ["-File", TYPESPEC_SYNC_SCRIPT, pkg.packageDir],
     SDK_ROOT,
   );
   let combinedLog = `===== TypeSpec-Project-Sync =====\n${syncResult.output}\nExit: ${syncResult.exitCode}\n`;
   let success = syncResult.exitCode === 0;
 
   if (success) {
-    // Pin the emitter to the SDK's existing api-version (see resolvePinnedApiVersion).
-    const { apiVersion: pinnedApiVersion, reason: pinReason } = resolvePinnedApiVersion(
+    const { apiVersion: pinnedApiVersion, reason: pinReason } = resolveMetadataApiVersion(
       pkg.packageDir,
     );
     combinedLog += `\n===== api-version: ${pinReason} =====\n`;
@@ -749,10 +714,7 @@ function runCreatePr() {
   // prefix. (We can't use $(Build.SourceBranchName) — it loses slashes in
   // branch names like 'feature/break-check'.)
   const baseBranch = values.targetBranch.replace(/^refs\/heads\//, "");
-  const headBranchName = resolveHeadBranchName(
-    values.branch.trim(),
-    values.buildId,
-  );
+  const headBranchName = resolveHeadBranchName(values.branch.trim(), values.buildId);
   const emitterVersion = values.emitterVersion;
   const buildNumber = values.buildNumber;
   const buildUrl = values.buildUrl;
