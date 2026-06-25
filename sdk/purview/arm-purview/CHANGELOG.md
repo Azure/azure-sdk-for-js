@@ -1,5 +1,119 @@
 # Release History
 
+## 2.0.0-beta.2 (2026-06-25)
+Compared with version 1.1.0
+
+### Features Added
+  - Added operation group FeaturesOperations
+  - Added operation group IngestionPrivateEndpointConnectionsOperations
+  - Added operation group KafkaConfigurationsOperations
+  - Added operation group UsagesOperations
+  - Added operation AccountsOperations.createOrUpdate
+  - Added operation AccountsOperations.delete
+  - Added operation AccountsOperations.update
+  - Added operation PrivateEndpointConnectionsOperations.createOrUpdate
+  - Added operation PrivateEndpointConnectionsOperations.delete
+  - Class PurviewManagementClient has a new constructor "constructor(credential: TokenCredential, options?: PurviewManagementClientOptionalParams);"
+  - Added Interface AccountMergeInfo
+  - Added Interface AccountPropertiesAccountStatus
+  - Added Interface AccountStatus
+  - Added Interface AccountStatusErrorDetails
+  - Added Interface BatchFeatureRequest
+  - Added Interface BatchFeatureStatus
+  - Added Interface Credentials
+  - Added Interface DefaultAccountsSetOptionalParams
+  - Added Interface FeaturesAccountGetOptionalParams
+  - Added Interface FeaturesSubscriptionGetOptionalParams
+  - Added Interface IngestionPrivateEndpointConnectionsListOptionalParams
+  - Added Interface IngestionPrivateEndpointConnectionsUpdateStatusOptionalParams
+  - Added Interface IngestionStorage
+  - Added Interface KafkaConfiguration
+  - Added Interface KafkaConfigurationProperties
+  - Added Interface KafkaConfigurationsCreateOrUpdateOptionalParams
+  - Added Interface KafkaConfigurationsDeleteOptionalParams
+  - Added Interface KafkaConfigurationsGetOptionalParams
+  - Added Interface KafkaConfigurationsListByAccountOptionalParams
+  - Added Interface OperationProperties
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface PrivateEndpointConnectionProperties
+  - Added Interface PrivateEndpointConnectionStatusUpdateRequest
+  - Added Interface PrivateEndpointConnectionStatusUpdateResponse
+  - Added Interface QuotaName
+  - Added Interface Resource
+  - Added Interface RestorePollerOptions
+  - Added Interface SimplePollerLike
+  - Added Interface Usage
+  - Added Interface UsageList
+  - Added Interface UsageName
+  - Added Interface UsagesGetOptionalParams
+  - Interface Account has a new optional parameter accountStatus
+  - Interface Account has a new optional parameter defaultDomain
+  - Interface Account has a new optional parameter ingestionStorage
+  - Interface Account has a new optional parameter managedEventHubState
+  - Interface Account has a new optional parameter managedResourcesPublicNetworkAccess
+  - Interface Account has a new optional parameter mergeInfo
+  - Interface Account has a new optional parameter tenantEndpointState
+  - Interface AccountProperties has a new optional parameter accountStatus
+  - Interface AccountProperties has a new optional parameter defaultDomain
+  - Interface AccountProperties has a new optional parameter ingestionStorage
+  - Interface AccountProperties has a new optional parameter managedEventHubState
+  - Interface AccountProperties has a new optional parameter managedResourcesPublicNetworkAccess
+  - Interface AccountProperties has a new optional parameter mergeInfo
+  - Interface AccountProperties has a new optional parameter tenantEndpointState
+  - Interface PrivateEndpointConnection has a new optional parameter systemData
+  - Interface PrivateLinkResource has a new optional parameter systemData
+  - Interface ProxyResource has a new optional parameter systemData
+  - Added Type Alias AccountProvisioningState
+  - Added Type Alias AccountSkuName
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias EventHubType
+  - Added Type Alias EventStreamingState
+  - Added Type Alias EventStreamingType
+  - Added Type Alias KafkaConfigurationIdentityType
+  - Added Type Alias ManagedEventHubState
+  - Added Type Alias ManagedIdentityType
+  - Added Type Alias MergeAccountType
+  - Added Type Alias MergeStatus
+  - Added Type Alias PrivateEndpointConnectionStatus
+  - Added Type Alias TenantEndpointState
+  - Added Enum AzureClouds
+  - Added Enum KnownAccountProvisioningState
+  - Added Enum KnownAccountSkuName
+  - Added Enum KnownEventHubType
+  - Added Enum KnownEventStreamingState
+  - Added Enum KnownEventStreamingType
+  - Added Enum KnownKafkaConfigurationIdentityType
+  - Added Enum KnownManagedEventHubState
+  - Added Enum KnownManagedIdentityType
+  - Added Enum KnownMergeAccountType
+  - Added Enum KnownMergeStatus
+  - Added Enum KnownPrivateEndpointConnectionStatus
+  - Added Enum KnownTenantEndpointState
+  - Added Enum KnownVersions
+
+### Breaking Changes
+  - Class PurviewManagementClient no longer has parameter apiVersion
+  - Class PurviewManagementClient no longer has parameter subscriptionId
+  - Removed Interface AccountList
+  - Removed Interface AccountSkuAutoGenerated
+  - Removed Interface DefaultAccountsSetModelOptionalParams
+  - Removed Interface OperationList
+  - Removed Interface PrivateEndpointConnectionList
+  - Removed Interface PrivateLinkResourceList
+  - Removed Interface TrackedResource
+  - Removed Interface TrackedResourceSystemData
+  - Interface AccountEndpoints no longer has parameter guardian
+  - Interface AccountPropertiesEndpoints no longer has parameter guardian
+  - Removed Type Alias LastModifiedByType
+  - Removed Type Alias Name
+  - Removed Type Alias Status
+  - Removed Type Alias Type
+  - Removed Enum KnownLastModifiedByType
+  - Removed Enum KnownName
+  - Removed Enum KnownStatus
+  - Removed Enum KnownType
+
 ## 2.0.0-beta.1 (2026-05-26)
 Compared with version 1.1.0
 

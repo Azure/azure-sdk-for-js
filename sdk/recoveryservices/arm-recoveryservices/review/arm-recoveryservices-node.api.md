@@ -4,14 +4,16 @@
 
 ```ts
 
-import type { AbortSignalLike } from '@azure/abort-controller';
-import type { ClientOptions } from '@azure-rest/core-client';
-import type { OperationOptions } from '@azure-rest/core-client';
-import type { OperationState } from '@azure/core-lro';
-import type { PathUncheckedResponse } from '@azure-rest/core-client';
-import type { Pipeline } from '@azure/core-rest-pipeline';
-import type { PollerLike } from '@azure/core-lro';
-import type { TokenCredential } from '@azure/core-auth';
+import { AbortSignalLike } from '@azure/abort-controller';
+import { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import { OperationOptions } from '@azure-rest/core-client';
+import { OperationState } from '@azure/core-lro';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type AlertsState = string;
@@ -285,6 +287,8 @@ export type ImmutabilityState = string;
 
 // @public
 export type InfrastructureEncryptionState = string;
+
+export { isRestError }
 
 // @public
 export interface JobsSummary {
@@ -599,7 +603,9 @@ export interface PrivateEndpointConnectionVaultProperties {
 
 // @public
 export interface PrivateLinkResource extends ProxyResource {
-    properties?: PrivateLinkResourceProperties;
+    readonly groupId?: string;
+    readonly requiredMembers?: string[];
+    readonly requiredZoneNames?: string[];
 }
 
 // @public
@@ -656,9 +662,10 @@ export interface RecoveryServicesCheckNameAvailabilityOptionalParams extends Ope
 
 // @public (undocumented)
 export class RecoveryServicesClient {
+    constructor(credential: TokenCredential, options?: RecoveryServicesClientOptionalParams);
     constructor(credential: TokenCredential, subscriptionId: string, options?: RecoveryServicesClientOptionalParams);
     readonly deletedVaults: DeletedVaultsOperations;
-    getOperationResult(resourceGroupName: string, vaultName: string, operationId: string, options?: GetOperationResultOptionalParams): Promise<Vault | null>;
+    getOperationResult(resourceGroupName: string, vaultName: string, operationId: string, options?: GetOperationResultOptionalParams): Promise<Vault | undefined>;
     getOperationStatus(resourceGroupName: string, vaultName: string, operationId: string, options?: GetOperationStatusOptionalParams): Promise<OperationResource>;
     readonly operations: OperationsOperations;
     readonly pipeline: Pipeline;
@@ -771,6 +778,8 @@ export type ResourceIdentityType = string;
 
 // @public
 export type ResourceMoveState = string;
+
+export { RestError }
 
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: RecoveryServicesClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
@@ -935,8 +944,11 @@ export interface VaultExtendedInfoOperations {
 
 // @public
 export interface VaultExtendedInfoResource extends ProxyResource {
+    algorithm?: string;
+    encryptionKey?: string;
+    encryptionKeyThumbprint?: string;
     etag?: string;
-    properties?: VaultExtendedInfo;
+    integrityKey?: string;
 }
 
 // @public
