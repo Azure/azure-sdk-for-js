@@ -1,5 +1,12 @@
 # Release History
 
+## 1.13.0-beta.1 (Unreleased)
+
+### Features Added
+
+- Added dedicated feature flag operations that use the App Configuration feature flag endpoint: `setFeatureFlag`, `getFeatureFlag`, `deleteFeatureFlag`, `listFeatureFlags`, and `listFeatureFlagRevisions`, along with the `FeatureFlag` model and its related types (`FeatureFlagConditions`, `FeatureFlagFilter`, `FeatureFlagVariantDefinition`, `FeatureFlagAllocation`, `FeatureFlagTelemetryConfiguration`, and others). Requires the `2026-05-01-preview` API version or later.
+- Added a `resourceType` option to `listLabels`, allowing labels to be filtered by resource type (`"kv"` for key-values, `"ff"` for feature flags). Requires the `2026-05-01-preview` API version or later.
+
 ## 1.12.1 (2026-06-22)
 
 ### Bugs Fixed

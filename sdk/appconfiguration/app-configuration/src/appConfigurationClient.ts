@@ -17,13 +17,18 @@ import {
   type CreateSnapshotResponse,
   type DeleteConfigurationSettingOptions,
   type DeleteConfigurationSettingResponse,
+  type DeleteFeatureFlagOptions,
+  type FeatureFlag,
   type GetConfigurationSettingOptions,
   type GetConfigurationSettingResponse,
+  type GetFeatureFlagOptions,
   type GetSnapshotOptions,
   type GetSnapshotResponse,
   type ListConfigurationSettingPage,
   type ListConfigurationSettingsForSnapshotOptions,
   type ListConfigurationSettingsOptions,
+  type ListFeatureFlagRevisionsOptions,
+  type ListFeatureFlagsOptions,
   type ListLabelsOptions,
   type ListLabelsPage,
   type ListRevisionsOptions,
@@ -34,6 +39,7 @@ import {
   type SetConfigurationSettingOptions,
   type SetConfigurationSettingParam,
   type SetConfigurationSettingResponse,
+  type SetFeatureFlagOptions,
   type SetReadOnlyOptions,
   type SetReadOnlyResponse,
   type SettingLabel,
@@ -661,6 +667,210 @@ export class AppConfigurationClient {
       toElements: (page) => page.items,
     };
     return getPagedAsyncIterator(pagedResult);
+  }
+
+  /**
+   * Adds or updates a feature flag through the dedicated feature flag endpoint.
+   *
+   * Example usage:
+   * ```ts snippet:SetFeatureFlag
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { AppConfigurationClient } from "@azure/app-configuration";
+   *
+   * const endpoint = "https://example.azconfig.io";
+   * const credential = new DefaultAzureCredential();
+   * const client = new AppConfigurationClient(endpoint, credential);
+   *
+   * const result = await client.setFeatureFlag({
+   *   name: "MyFeatureFlag",
+   *   enabled: true,
+   * });
+   * ```
+   * @param featureFlag - The feature flag to add or update. Its `name` and `label` identify the resource.
+   * @param options - Optional parameters for the request.
+   */
+  setFeatureFlag(
+    featureFlag: FeatureFlag,
+    options: SetFeatureFlagOptions = {},
+  ): Promise<FeatureFlag> {
+    return tracingClient.withSpan(
+      "AppConfigurationClient.setFeatureFlag",
+      options,
+      async (updatedOptions) => {
+        const { onlyIfUnchanged, ...restOptions } = updatedOptions;
+        const { ifMatch } = checkAndFormatIfAndIfNoneMatch(
+          { etag: featureFlag.etag },
+          { onlyIfUnchanged },
+        );
+        return this.client.putFeatureFlag(featureFlag.name, {
+          ...restOptions,
+          entity: featureFlag,
+          label: featureFlag.label,
+          ifMatch,
+          requestOptions: {
+            ...restOptions.requestOptions,
+            skipUrlEncoding: true,
+          },
+        });
+      },
+    );
+  }
+
+  /**
+   * Get a feature flag through the dedicated feature flag endpoint.
+   *
+   * Example usage:
+   * ```ts snippet:GetFeatureFlag
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { AppConfigurationClient } from "@azure/app-configuration";
+   *
+   * const endpoint = "https://example.azconfig.io";
+   * const credential = new DefaultAzureCredential();
+   * const client = new AppConfigurationClient(endpoint, credential);
+   *
+   * const featureFlag = await client.getFeatureFlag("MyFeatureFlag");
+   * ```
+   * @param name - The name of the feature flag to retrieve.
+   * @param options - Optional parameters for the request.
+   */
+  getFeatureFlag(name: string, options: GetFeatureFlagOptions = {}): Promise<FeatureFlag> {
+    return tracingClient.withSpan(
+      "AppConfigurationClient.getFeatureFlag",
+      options,
+      async (updatedOptions) => {
+        const { label, etag, acceptDateTime, fields, onlyIfChanged, ...restOptions } =
+          updatedOptions;
+        const { ifMatch, ifNoneMatch } = checkAndFormatIfAndIfNoneMatch(
+          { etag },
+          { onlyIfChanged },
+        );
+        return this.client.getFeatureFlag(name, {
+          ...restOptions,
+          label,
+          select: fields,
+          acceptDatetime: acceptDateTime?.toISOString(),
+          ifMatch,
+          ifNoneMatch,
+          requestOptions: {
+            ...restOptions.requestOptions,
+            skipUrlEncoding: true,
+          },
+        });
+      },
+    );
+  }
+
+  /**
+   * Delete a feature flag through the dedicated feature flag endpoint.
+   *
+   * Example usage:
+   * ```ts snippet:DeleteFeatureFlag
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { AppConfigurationClient } from "@azure/app-configuration";
+   *
+   * const endpoint = "https://example.azconfig.io";
+   * const credential = new DefaultAzureCredential();
+   * const client = new AppConfigurationClient(endpoint, credential);
+   *
+   * await client.deleteFeatureFlag("MyFeatureFlag");
+   * ```
+   * @param name - The name of the feature flag to delete.
+   * @param options - Optional parameters for the request.
+   */
+  deleteFeatureFlag(
+    name: string,
+    options: DeleteFeatureFlagOptions = {},
+  ): Promise<FeatureFlag | undefined> {
+    return tracingClient.withSpan(
+      "AppConfigurationClient.deleteFeatureFlag",
+      options,
+      async (updatedOptions) => {
+        const { label, etag, onlyIfUnchanged, ...restOptions } = updatedOptions;
+        const { ifMatch } = checkAndFormatIfAndIfNoneMatch({ etag }, { onlyIfUnchanged });
+        return this.client.deleteFeatureFlag(name, {
+          ...restOptions,
+          label,
+          ifMatch,
+          requestOptions: {
+            ...restOptions.requestOptions,
+            skipUrlEncoding: true,
+          },
+        });
+      },
+    );
+  }
+
+  /**
+   * List feature flags through the dedicated feature flag endpoint.
+   *
+   * Example usage:
+   * ```ts snippet:ListFeatureFlags
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { AppConfigurationClient } from "@azure/app-configuration";
+   *
+   * const endpoint = "https://example.azconfig.io";
+   * const credential = new DefaultAzureCredential();
+   * const client = new AppConfigurationClient(endpoint, credential);
+   *
+   * for await (const featureFlag of client.listFeatureFlags()) {
+   *   console.log(`Feature flag: ${featureFlag.name}`);
+   * }
+   * ```
+   * @param options - Optional parameters for the request.
+   */
+  listFeatureFlags(
+    options: ListFeatureFlagsOptions = {},
+  ): PagedAsyncIterableIterator<FeatureFlag> {
+    const { nameFilter, labelFilter, tagsFilter, acceptDateTime, fields, ...restOptions } = options;
+    return this.client.getFeatureFlags({
+      ...restOptions,
+      name: nameFilter,
+      label: labelFilter,
+      tags: tagsFilter,
+      acceptDatetime: acceptDateTime?.toISOString(),
+      select: fields,
+      requestOptions: {
+        ...restOptions.requestOptions,
+        skipUrlEncoding: true,
+      },
+    });
+  }
+
+  /**
+   * List revisions of a feature flag through the dedicated feature flag endpoint.
+   *
+   * Example usage:
+   * ```ts snippet:ListFeatureFlagRevisions
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { AppConfigurationClient } from "@azure/app-configuration";
+   *
+   * const endpoint = "https://example.azconfig.io";
+   * const credential = new DefaultAzureCredential();
+   * const client = new AppConfigurationClient(endpoint, credential);
+   *
+   * for await (const featureFlag of client.listFeatureFlagRevisions({
+   *   nameFilter: "MyFeatureFlag",
+   * })) {
+   *   console.log(`Revision last modified: ${featureFlag.lastModified}`);
+   * }
+   * ```
+   * @param options - Optional parameters for the request.
+   */
+  listFeatureFlagRevisions(
+    options: ListFeatureFlagRevisionsOptions = {},
+  ): PagedAsyncIterableIterator<FeatureFlag> {
+    const { nameFilter, labelFilter, tagsFilter, fields, ...restOptions } = options;
+    return this.client.getFeatureFlagRevisions({
+      ...restOptions,
+      name: nameFilter,
+      label: labelFilter,
+      tags: tagsFilter,
+      select: fields,
+      requestOptions: {
+        ...restOptions.requestOptions,
+        skipUrlEncoding: true,
+      },
+    });
   }
 
   private get _context(): AppConfigurationContext {

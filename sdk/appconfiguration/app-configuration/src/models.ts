@@ -6,6 +6,22 @@ import type { FeatureFlagValue } from "./featureFlag.js";
 import type { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import type { SecretReferenceValue } from "./secretReference.js";
 import type { SnapshotReferenceValue } from "./snapshotReference.js";
+import type { FeatureFlagFields } from "./generated/models/index.js";
+
+export type {
+  FeatureFlag,
+  FeatureFlagConditions,
+  RequirementType,
+  FeatureFlagFilter,
+  FeatureFlagVariantDefinition,
+  StatusOverride,
+  FeatureFlagAllocation,
+  PercentileAllocation,
+  UserAllocation,
+  GroupAllocation,
+  FeatureFlagTelemetryConfiguration,
+  FeatureFlagFields,
+} from "./generated/models/index.js";
 
 /**
  * Defines values for SnapshotComposition.
@@ -133,6 +149,8 @@ export enum KnownAppConfigurationApiVersion {
   V20240901 = "2024-09-01",
   /** The 2026-04-01 API version */
   V20260401 = "2026-04-01",
+  /** The 2026-05-01-preview API version */
+  V20260501Preview = "2026-05-01-preview",
 }
 
 /**
@@ -471,6 +489,99 @@ export interface ListLabelsOptions extends OperationOptions, OptionalLabelsField
    * Requests the server to respond with the state of the resource at the specified time.
    */
   acceptDateTime?: Date;
+
+  /**
+   * A filter used to indicate the resource type of the labels.
+   * Accepted values: `"kv"` for key-value labels, `"ff"` for feature flag labels.
+   */
+  resourceType?: string;
+}
+
+/**
+ * Options used when creating or updating a feature flag through the dedicated
+ * feature flag endpoint.
+ */
+export interface SetFeatureFlagOptions extends OperationOptions, HttpOnlyIfUnchangedField {}
+
+/**
+ * Options for getting a feature flag through the dedicated feature flag endpoint.
+ */
+export interface GetFeatureFlagOptions extends OperationOptions, HttpOnlyIfChangedField {
+  /**
+   * The label used to identify the feature flag. Leaving this undefined means the
+   * feature flag does not have a label.
+   */
+  label?: string;
+
+  /**
+   * The etag to use for conditional retrieval, in conjunction with `onlyIfChanged`.
+   */
+  etag?: string;
+
+  /**
+   * Requests the server to respond with the state of the resource at the specified time.
+   */
+  acceptDateTime?: Date;
+
+  /**
+   * Which fields to return for the feature flag.
+   */
+  fields?: FeatureFlagFields[];
+}
+
+/**
+ * Options for deleting a feature flag through the dedicated feature flag endpoint.
+ */
+export interface DeleteFeatureFlagOptions extends OperationOptions, HttpOnlyIfUnchangedField {
+  /**
+   * The label used to identify the feature flag. Leaving this undefined means the
+   * feature flag does not have a label.
+   */
+  label?: string;
+
+  /**
+   * The etag to use for conditional delete, in conjunction with `onlyIfUnchanged`.
+   */
+  etag?: string;
+}
+
+/**
+ * Options for listFeatureFlags that allow for filtering based on name, label and tags.
+ */
+export interface ListFeatureFlagsOptions extends OperationOptions {
+  /** A filter for the name of the returned feature flags. */
+  nameFilter?: string;
+
+  /** A filter for the label of the returned feature flags. */
+  labelFilter?: string;
+
+  /** A filter used to query by tags. */
+  tagsFilter?: string[];
+
+  /**
+   * Requests the server to respond with the state of the resource at the specified time.
+   */
+  acceptDateTime?: Date;
+
+  /** Which fields to return for each feature flag. */
+  fields?: FeatureFlagFields[];
+}
+
+/**
+ * Options for listFeatureFlagRevisions that allow for filtering based on name, label and tags.
+ */
+export interface ListFeatureFlagRevisionsOptions extends OperationOptions {
+  /** A filter for the name of the returned feature flags. */
+  nameFilter?: string;
+
+  /** A filter for the label of the returned feature flags. */
+  labelFilter?: string;
+
+  /** A filter used to query by tags. */
+  tagsFilter?: string[];
+
+  /** Which fields to return for each feature flag. */
+  fields?: FeatureFlagFields[];
 }
 
 /**

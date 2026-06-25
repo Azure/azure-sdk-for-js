@@ -101,7 +101,7 @@ export interface KeyValue {
   /** The key of the key-value. */
   readonly key: string;
   /** The label the key-value belongs to. */
-  label?: string;
+  readonly label?: string;
   /** The content type of the value stored within the key-value. */
   contentType?: string;
   /** The value of the key-value. */
@@ -120,7 +120,6 @@ export interface KeyValue {
 
 export function keyValueSerializer(item: KeyValue): any {
   return {
-    label: item["label"],
     content_type: item["contentType"],
     value: item["value"],
     last_modified: item["lastModified"],
@@ -144,6 +143,396 @@ export function keyValueDeserializer(item: any): KeyValue {
     description: item["description"],
     locked: item["locked"],
     etag: item["etag"],
+  };
+}
+
+/** The result of a Feature Flag list request. */
+export interface _FeatureFlagListResult {
+  /** The collection value. */
+  items?: FeatureFlag[];
+  /** An identifier representing the returned state of the resource. */
+  etag?: string;
+  /** The URI that can be used to request the next set of paged results. */
+  nextLink?: string;
+}
+
+export function _featureFlagListResultDeserializer(item: any): _FeatureFlagListResult {
+  return {
+    items: !item["items"] ? item["items"] : featureFlagArrayDeserializer(item["items"]),
+    etag: item["etag"],
+    nextLink: item["@nextLink"],
+  };
+}
+
+export function featureFlagArraySerializer(result: Array<FeatureFlag>): any[] {
+  return result.map((item) => {
+    return featureFlagSerializer(item);
+  });
+}
+
+export function featureFlagArrayDeserializer(result: Array<FeatureFlag>): any[] {
+  return result.map((item) => {
+    return featureFlagDeserializer(item);
+  });
+}
+
+/** A feature flag. */
+export interface FeatureFlag {
+  /** The name of the feature flag. */
+  readonly name: string;
+  /** The enabled state of the feature flag. */
+  enabled?: boolean;
+  /** The label the feature flag belongs to. */
+  readonly label?: string;
+  /** The description of the feature flag. */
+  description?: string;
+  /** The conditions of the feature flag. */
+  conditions?: FeatureFlagConditions;
+  /** The variants of the feature flag. */
+  variants?: FeatureFlagVariantDefinition[];
+  /** The allocation of the feature flag. */
+  allocation?: FeatureFlagAllocation;
+  /** The telemetry settings of the feature flag. */
+  telemetry?: FeatureFlagTelemetryConfiguration;
+  /** The tags of the feature flag */
+  tags?: Record<string, string>;
+  /** A date representing the last time the feature flag was modified. */
+  readonly lastModified?: Date;
+  /** A value representing the current state of the resource. */
+  readonly etag?: string;
+}
+
+export function featureFlagSerializer(item: FeatureFlag): any {
+  return {
+    enabled: item["enabled"],
+    description: item["description"],
+    conditions: !item["conditions"]
+      ? item["conditions"]
+      : featureFlagConditionsSerializer(item["conditions"]),
+    variants: !item["variants"]
+      ? item["variants"]
+      : featureFlagVariantDefinitionArraySerializer(item["variants"]),
+    allocation: !item["allocation"]
+      ? item["allocation"]
+      : featureFlagAllocationSerializer(item["allocation"]),
+    telemetry: !item["telemetry"]
+      ? item["telemetry"]
+      : featureFlagTelemetryConfigurationSerializer(item["telemetry"]),
+    tags: item["tags"],
+  };
+}
+
+export function featureFlagDeserializer(item: any): FeatureFlag {
+  return {
+    name: item["name"],
+    enabled: item["enabled"],
+    label: item["label"],
+    description: item["description"],
+    conditions: !item["conditions"]
+      ? item["conditions"]
+      : featureFlagConditionsDeserializer(item["conditions"]),
+    variants: !item["variants"]
+      ? item["variants"]
+      : featureFlagVariantDefinitionArrayDeserializer(item["variants"]),
+    allocation: !item["allocation"]
+      ? item["allocation"]
+      : featureFlagAllocationDeserializer(item["allocation"]),
+    telemetry: !item["telemetry"]
+      ? item["telemetry"]
+      : featureFlagTelemetryConfigurationDeserializer(item["telemetry"]),
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    lastModified: !item["last_modified"] ? item["last_modified"] : new Date(item["last_modified"]),
+    etag: item["etag"],
+  };
+}
+
+/** The conditions that must be met for the feature flag to be enabled. */
+export interface FeatureFlagConditions {
+  /** The requirement type for the conditions. */
+  requirementType?: RequirementType;
+  /** The filters that will conditionally enable or disable the flag. */
+  filters?: FeatureFlagFilter[];
+}
+
+export function featureFlagConditionsSerializer(item: FeatureFlagConditions): any {
+  return {
+    requirement_type: item["requirementType"],
+    filters: !item["filters"] ? item["filters"] : featureFlagFilterArraySerializer(item["filters"]),
+  };
+}
+
+export function featureFlagConditionsDeserializer(item: any): FeatureFlagConditions {
+  return {
+    requirementType: item["requirement_type"],
+    filters: !item["filters"]
+      ? item["filters"]
+      : featureFlagFilterArrayDeserializer(item["filters"]),
+  };
+}
+
+/** Requirement Type. */
+export type RequirementType = "Any" | "All";
+
+export function featureFlagFilterArraySerializer(result: Array<FeatureFlagFilter>): any[] {
+  return result.map((item) => {
+    return featureFlagFilterSerializer(item);
+  });
+}
+
+export function featureFlagFilterArrayDeserializer(result: Array<FeatureFlagFilter>): any[] {
+  return result.map((item) => {
+    return featureFlagFilterDeserializer(item);
+  });
+}
+
+/** Feature Flag Filter object. */
+export interface FeatureFlagFilter {
+  /** The name of the filter. */
+  name: string;
+  /** The parameters used by the filter */
+  parameters?: Record<string, string>;
+}
+
+export function featureFlagFilterSerializer(item: FeatureFlagFilter): any {
+  return { name: item["name"], parameters: item["parameters"] };
+}
+
+export function featureFlagFilterDeserializer(item: any): FeatureFlagFilter {
+  return {
+    name: item["name"],
+    parameters: !item["parameters"]
+      ? item["parameters"]
+      : Object.fromEntries(
+          Object.entries(item["parameters"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
+  };
+}
+
+export function featureFlagVariantDefinitionArraySerializer(
+  result: Array<FeatureFlagVariantDefinition>,
+): any[] {
+  return result.map((item) => {
+    return featureFlagVariantDefinitionSerializer(item);
+  });
+}
+
+export function featureFlagVariantDefinitionArrayDeserializer(
+  result: Array<FeatureFlagVariantDefinition>,
+): any[] {
+  return result.map((item) => {
+    return featureFlagVariantDefinitionDeserializer(item);
+  });
+}
+
+/** Feature Flag Variants object. */
+export interface FeatureFlagVariantDefinition {
+  /** The name of the variant. */
+  name: string;
+  /** The value of the variant. */
+  value?: string;
+  /** The content type of the value stored within the key-value. */
+  contentType?: string;
+  /** Determines if the variant should override the status of the flag. */
+  statusOverride?: StatusOverride;
+}
+
+export function featureFlagVariantDefinitionSerializer(item: FeatureFlagVariantDefinition): any {
+  return {
+    name: item["name"],
+    value: item["value"],
+    content_type: item["contentType"],
+    status_override: item["statusOverride"],
+  };
+}
+
+export function featureFlagVariantDefinitionDeserializer(item: any): FeatureFlagVariantDefinition {
+  return {
+    name: item["name"],
+    value: item["value"],
+    contentType: item["content_type"],
+    statusOverride: item["status_override"],
+  };
+}
+
+/** Status Override. */
+export type StatusOverride = "None" | "Enabled" | "Disabled";
+
+/** Defines how to allocate variants based on context. */
+export interface FeatureFlagAllocation {
+  /** The default variant to use when disabled. */
+  defaultWhenDisabled?: string;
+  /** The default variant to use when enabled but not allocated. */
+  defaultWhenEnabled?: string;
+  /** Allocates percentiles to variants. */
+  percentile?: PercentileAllocation[];
+  /** Allocates users to variants. */
+  user?: UserAllocation[];
+  /** Allocates groups to variants. */
+  group?: GroupAllocation[];
+  /** The seed used for random allocation. */
+  seed?: string;
+}
+
+export function featureFlagAllocationSerializer(item: FeatureFlagAllocation): any {
+  return {
+    default_when_disabled: item["defaultWhenDisabled"],
+    default_when_enabled: item["defaultWhenEnabled"],
+    percentile: !item["percentile"]
+      ? item["percentile"]
+      : percentileAllocationArraySerializer(item["percentile"]),
+    user: !item["user"] ? item["user"] : userAllocationArraySerializer(item["user"]),
+    group: !item["group"] ? item["group"] : groupAllocationArraySerializer(item["group"]),
+    seed: item["seed"],
+  };
+}
+
+export function featureFlagAllocationDeserializer(item: any): FeatureFlagAllocation {
+  return {
+    defaultWhenDisabled: item["default_when_disabled"],
+    defaultWhenEnabled: item["default_when_enabled"],
+    percentile: !item["percentile"]
+      ? item["percentile"]
+      : percentileAllocationArrayDeserializer(item["percentile"]),
+    user: !item["user"] ? item["user"] : userAllocationArrayDeserializer(item["user"]),
+    group: !item["group"] ? item["group"] : groupAllocationArrayDeserializer(item["group"]),
+    seed: item["seed"],
+  };
+}
+
+export function percentileAllocationArraySerializer(result: Array<PercentileAllocation>): any[] {
+  return result.map((item) => {
+    return percentileAllocationSerializer(item);
+  });
+}
+
+export function percentileAllocationArrayDeserializer(result: Array<PercentileAllocation>): any[] {
+  return result.map((item) => {
+    return percentileAllocationDeserializer(item);
+  });
+}
+
+/** Feature Flag PercentileAllocation object. */
+export interface PercentileAllocation {
+  /** The variant to allocate these percentiles to. */
+  variant: string;
+  /** The lower bounds for this percentile allocation. */
+  from: number;
+  /** The upper bounds for this percentile allocation. */
+  to: number;
+}
+
+export function percentileAllocationSerializer(item: PercentileAllocation): any {
+  return { variant: item["variant"], from: item["from"], to: item["to"] };
+}
+
+export function percentileAllocationDeserializer(item: any): PercentileAllocation {
+  return {
+    variant: item["variant"],
+    from: item["from"],
+    to: item["to"],
+  };
+}
+
+export function userAllocationArraySerializer(result: Array<UserAllocation>): any[] {
+  return result.map((item) => {
+    return userAllocationSerializer(item);
+  });
+}
+
+export function userAllocationArrayDeserializer(result: Array<UserAllocation>): any[] {
+  return result.map((item) => {
+    return userAllocationDeserializer(item);
+  });
+}
+
+/** Feature Flag UserAllocation object. */
+export interface UserAllocation {
+  /** The variant to allocate these percentiles to. */
+  variant: string;
+  /** The users to get this variant. */
+  users: string[];
+}
+
+export function userAllocationSerializer(item: UserAllocation): any {
+  return {
+    variant: item["variant"],
+    users: item["users"].map((p: any) => {
+      return p;
+    }),
+  };
+}
+
+export function userAllocationDeserializer(item: any): UserAllocation {
+  return {
+    variant: item["variant"],
+    users: item["users"].map((p: any) => {
+      return p;
+    }),
+  };
+}
+
+export function groupAllocationArraySerializer(result: Array<GroupAllocation>): any[] {
+  return result.map((item) => {
+    return groupAllocationSerializer(item);
+  });
+}
+
+export function groupAllocationArrayDeserializer(result: Array<GroupAllocation>): any[] {
+  return result.map((item) => {
+    return groupAllocationDeserializer(item);
+  });
+}
+
+/** Feature Flag GroupAllocation object. */
+export interface GroupAllocation {
+  /** The variant to allocate these percentiles to. */
+  variant: string;
+  /** The groups to get this variant. */
+  groups: string[];
+}
+
+export function groupAllocationSerializer(item: GroupAllocation): any {
+  return {
+    variant: item["variant"],
+    groups: item["groups"].map((p: any) => {
+      return p;
+    }),
+  };
+}
+
+export function groupAllocationDeserializer(item: any): GroupAllocation {
+  return {
+    variant: item["variant"],
+    groups: item["groups"].map((p: any) => {
+      return p;
+    }),
+  };
+}
+
+/** Feature Flag Telemetry object. */
+export interface FeatureFlagTelemetryConfiguration {
+  /** The enabled state of the telemetry. */
+  enabled: boolean;
+  /** The metadata to include on outbound telemetry */
+  metadata?: Record<string, string>;
+}
+
+export function featureFlagTelemetryConfigurationSerializer(
+  item: FeatureFlagTelemetryConfiguration,
+): any {
+  return { enabled: item["enabled"], metadata: item["metadata"] };
+}
+
+export function featureFlagTelemetryConfigurationDeserializer(
+  item: any,
+): FeatureFlagTelemetryConfiguration {
+  return {
+    enabled: item["enabled"],
+    metadata: !item["metadata"]
+      ? item["metadata"]
+      : Object.fromEntries(Object.entries(item["metadata"]).map(([k, p]: [string, any]) => [k, p])),
   };
 }
 
@@ -357,7 +746,7 @@ export function labelArrayDeserializer(result: Array<Label>): any[] {
   });
 }
 
-/** Labels are used to group key-values. */
+/** Labels are used to group key values or feature flags. */
 export interface Label {
   /** The name of the label. */
   name?: string;
@@ -379,6 +768,19 @@ export type KeyValueFields =
   | "tags"
   | "description"
   | "locked"
+  | "etag";
+/** Feature Flag fields. */
+export type FeatureFlagFields =
+  | "name"
+  | "enabled"
+  | "label"
+  | "description"
+  | "conditions"
+  | "variants"
+  | "allocation"
+  | "telemetry"
+  | "tags"
+  | "last_modified"
   | "etag";
 /** Snapshot fields. */
 export type SnapshotFields =
@@ -405,4 +807,6 @@ export enum KnownVersions {
   V20240901 = "2024-09-01",
   /** The 2026-04-01 API version */
   V20260401 = "2026-04-01",
+  /** The 2026-05-01-preview API version */
+  V20260501Preview = "2026-05-01-preview",
 }

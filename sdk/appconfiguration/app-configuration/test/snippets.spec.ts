@@ -288,6 +288,32 @@ describe("snippets", () => {
     const result = await client.archiveSnapshot({ name: "MySnapshot" });
   });
 
+  it("FeatureFlag", async () => {
+    // The endpoint for your App Configuration resource
+    const endpoint = "https://example.azconfig.io";
+    const credential = new DefaultAzureCredential();
+    const client = new AppConfigurationClient(endpoint, credential);
+    // @ts-preserve-whitespace
+    // Create or update a feature flag through the dedicated feature flag endpoint.
+    await client.setFeatureFlag({
+      name: "my-feature",
+      enabled: true,
+      description: "A feature flag managed through the feature flag endpoint",
+    });
+    // @ts-preserve-whitespace
+    // Retrieve a single feature flag.
+    const flag = await client.getFeatureFlag("my-feature");
+    console.log(`Feature flag ${flag.name} is enabled: ${flag.enabled}`);
+    // @ts-preserve-whitespace
+    // List all feature flags.
+    for await (const item of client.listFeatureFlags()) {
+      console.log(`Found feature flag: ${item.name}`);
+    }
+    // @ts-preserve-whitespace
+    // Delete a feature flag.
+    await client.deleteFeatureFlag("my-feature");
+  });
+
   it("SetLogLevel", async () => {
     setLogLevel("info");
   });

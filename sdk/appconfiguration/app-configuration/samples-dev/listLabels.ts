@@ -63,6 +63,16 @@ export async function main() {
     console.log(`  Found label for development: ${label.name}`);
   }
 
+  // ex: using a resourceType filter to only return labels used by key-value
+  // settings. Accepted values are "kv" for key-values and "ff" for feature flags.
+  console.log(`Listing all the labels used by key-value settings`);
+
+  const keyValueLabels = client.listLabels({ resourceType: "kv" });
+
+  for await (const label of keyValueLabels) {
+    console.log(`  Found key-value label: ${label.name}`);
+  }
+
   ////////////////////////////////////////////////////////
   ///////////////  Example for .byPage()  ////////////////
   ////////////////////////////////////////////////////////

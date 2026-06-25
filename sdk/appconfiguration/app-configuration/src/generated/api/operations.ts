@@ -12,6 +12,11 @@ import {
   KeyValue,
   keyValueSerializer,
   keyValueDeserializer,
+  _FeatureFlagListResult,
+  _featureFlagListResultDeserializer,
+  FeatureFlag,
+  featureFlagSerializer,
+  featureFlagDeserializer,
   _SnapshotListResult,
   _snapshotListResultDeserializer,
   ConfigurationSnapshot,
@@ -45,6 +50,14 @@ import {
   GetSnapshotOptionalParams,
   CheckSnapshotsOptionalParams,
   GetSnapshotsOptionalParams,
+  CheckFeatureFlagRevisionsOptionalParams,
+  GetFeatureFlagRevisionsOptionalParams,
+  DeleteFeatureFlagOptionalParams,
+  PutFeatureFlagOptionalParams,
+  CheckFeatureFlagOptionalParams,
+  GetFeatureFlagOptionalParams,
+  CheckFeatureFlagsOptionalParams,
+  GetFeatureFlagsOptionalParams,
   CheckKeyValueOptionalParams,
   DeleteKeyValueOptionalParams,
   PutKeyValueOptionalParams,
@@ -69,7 +82,7 @@ export function _checkRevisionsSend(
   const path = expandUrlTemplate(
     "/revisions{?api%2Dversion,key,label,After,%24Select,tags*}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
       key: options?.key,
       label: options?.label,
       After: options?.after,
@@ -135,7 +148,7 @@ export function _getRevisionsSend(
   const path = expandUrlTemplate(
     "/revisions{?api%2Dversion,key,label,After,%24Select,tags*}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
       key: options?.key,
       label: options?.label,
       After: options?.after,
@@ -201,7 +214,7 @@ export function getRevisions(
     {
       itemName: "items",
       nextLinkName: "@nextLink",
-      apiVersion: context.apiVersion ?? "2026-04-01",
+      apiVersion: context.apiVersion ?? "2026-05-01-preview",
     },
   );
 }
@@ -215,7 +228,7 @@ export function _deleteLockSend(
     "/locks/{key}{?api%2Dversion,label}",
     {
       key: key,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
       label: options?.label,
     },
     {
@@ -272,7 +285,7 @@ export function _putLockSend(
     "/locks/{key}{?api%2Dversion,label}",
     {
       key: key,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
       label: options?.label,
     },
     {
@@ -325,9 +338,9 @@ export function _checkLabelsSend(
   options: CheckLabelsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/labels{?api%2Dversion,name,After,%24Select}",
+    "/labels{?api%2Dversion,name,After,%24Select,resourceType}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
       name: options?.name,
       After: options?.after,
       "%24Select": !options?.select
@@ -335,6 +348,7 @@ export function _checkLabelsSend(
         : options?.select.map((p: any) => {
             return p;
           }),
+      resourceType: options?.resourceType,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -385,9 +399,9 @@ export function _getLabelsSend(
   options: GetLabelsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/labels{?api%2Dversion,name,After,%24Select}",
+    "/labels{?api%2Dversion,name,After,%24Select,resourceType}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
       name: options?.name,
       After: options?.after,
       "%24Select": !options?.select
@@ -395,6 +409,7 @@ export function _getLabelsSend(
         : options?.select.map((p: any) => {
             return p;
           }),
+      resourceType: options?.resourceType,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -447,7 +462,7 @@ export function getLabels(
     {
       itemName: "items",
       nextLinkName: "@nextLink",
-      apiVersion: context.apiVersion ?? "2026-04-01",
+      apiVersion: context.apiVersion ?? "2026-05-01-preview",
     },
   );
 }
@@ -461,7 +476,7 @@ export function _checkSnapshotSend(
     "/snapshots/{name}{?api%2Dversion}",
     {
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -518,7 +533,7 @@ export function _updateSnapshotSend(
     "/snapshots/{name}{?api%2Dversion}",
     {
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -582,7 +597,7 @@ export function _createSnapshotSend(
     "/snapshots/{name}{?api%2Dversion}",
     {
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -631,7 +646,7 @@ export function createSnapshot(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _createSnapshotSend(context, contentType, name, entity, options),
     resourceLocationConfig: "original-uri",
-    apiVersion: context.apiVersion ?? "2026-04-01",
+    apiVersion: context.apiVersion ?? "2026-05-01-preview",
   }) as PollerLike<OperationState<ConfigurationSnapshot>, ConfigurationSnapshot>;
 }
 
@@ -643,7 +658,7 @@ export function _getOperationDetailsSend(
   const path = expandUrlTemplate(
     "/operations{?api%2Dversion,snapshot}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
       snapshot: snapshot,
     },
     {
@@ -699,7 +714,7 @@ export function _getSnapshotSend(
     "/snapshots/{name}{?api%2Dversion,%24Select}",
     {
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
       "%24Select": !options?.select
         ? options?.select
         : options?.select.map((p: any) => {
@@ -760,7 +775,7 @@ export function _checkSnapshotsSend(
   const path = expandUrlTemplate(
     "/snapshots{?api%2Dversion,After}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
       After: options?.after,
     },
     {
@@ -811,7 +826,7 @@ export function _getSnapshotsSend(
   const path = expandUrlTemplate(
     "/snapshots{?api%2Dversion,name,After,%24Select,status}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
       name: options?.name,
       After: options?.after,
       "%24Select": !options?.select
@@ -870,7 +885,558 @@ export function getSnapshots(
     {
       itemName: "items",
       nextLinkName: "@nextLink",
-      apiVersion: context.apiVersion ?? "2026-04-01",
+      apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    },
+  );
+}
+
+export function _checkFeatureFlagRevisionsSend(
+  context: Client,
+  options: CheckFeatureFlagRevisionsOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/ff-revisions{?api%2Dversion,name,label,After,%24Select,tags*}",
+    {
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      name: options?.name,
+      label: options?.label,
+      After: options?.after,
+      "%24Select": !options?.select
+        ? options?.select
+        : options?.select.map((p: any) => {
+            return p;
+          }),
+      tags: !options?.tags
+        ? options?.tags
+        : options?.tags.map((p: any) => {
+            return p;
+          }),
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .head({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
+        ...options.requestOptions?.headers,
+      },
+    });
+}
+
+export async function _checkFeatureFlagRevisionsDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return;
+}
+
+/** Requests the headers and status of the given resource. */
+export async function checkFeatureFlagRevisions(
+  context: Client,
+  options: CheckFeatureFlagRevisionsOptionalParams = { requestOptions: {} },
+): Promise<void> {
+  const result = await _checkFeatureFlagRevisionsSend(context, options);
+  return _checkFeatureFlagRevisionsDeserialize(result);
+}
+
+export function _getFeatureFlagRevisionsSend(
+  context: Client,
+  options: GetFeatureFlagRevisionsOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/ff-revisions{?api%2Dversion,name,label,After,%24Select,tags*}",
+    {
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      name: options?.name,
+      label: options?.label,
+      After: options?.after,
+      "%24Select": !options?.select
+        ? options?.select
+        : options?.select.map((p: any) => {
+            return p;
+          }),
+      tags: !options?.tags
+        ? options?.tags
+        : options?.tags.map((p: any) => {
+            return p;
+          }),
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.syncToken !== undefined ? { "sync-token": options?.syncToken } : {}),
+        ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+        ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
+        accept:
+          'application/json;profile="https://azconfig.io/mime-profiles/ffset";charset=utf-8, application/problem+json',
+        ...options.requestOptions?.headers,
+      },
+    });
+}
+
+export async function _getFeatureFlagRevisionsDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_FeatureFlagListResult> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return _featureFlagListResultDeserializer(result.body);
+}
+
+/** Gets a list of feature flag revisions. */
+export function getFeatureFlagRevisions(
+  context: Client,
+  options: GetFeatureFlagRevisionsOptionalParams = { requestOptions: {} },
+): PagedAsyncIterableIterator<FeatureFlag> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _getFeatureFlagRevisionsSend(context, options),
+    _getFeatureFlagRevisionsDeserialize,
+    ["200"],
+    {
+      itemName: "items",
+      nextLinkName: "@nextLink",
+      apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    },
+  );
+}
+
+export function _deleteFeatureFlagSend(
+  context: Client,
+  name: string,
+  options: DeleteFeatureFlagOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/ff/{name}{?api%2Dversion,label}",
+    {
+      name: name,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      label: options?.label,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.syncToken !== undefined ? { "sync-token": options?.syncToken } : {}),
+        ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
+        accept:
+          'application/json;profile="https://azconfig.io/mime-profiles/ff";charset=utf-8, application/problem+json',
+        ...options.requestOptions?.headers,
+      },
+    });
+}
+
+export async function _deleteFeatureFlagDeserialize(
+  result: PathUncheckedResponse,
+): Promise<FeatureFlag | undefined> {
+  const expectedStatuses = ["200", "204"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return result.body ? featureFlagDeserializer(result.body) : undefined;
+}
+
+/** Deletes a feature flag. */
+export async function deleteFeatureFlag(
+  context: Client,
+  name: string,
+  options: DeleteFeatureFlagOptionalParams = { requestOptions: {} },
+): Promise<FeatureFlag | undefined> {
+  const result = await _deleteFeatureFlagSend(context, name, options);
+  return _deleteFeatureFlagDeserialize(result);
+}
+
+export function _putFeatureFlagSend(
+  context: Client,
+  name: string,
+  options: PutFeatureFlagOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/ff/{name}{?api%2Dversion,label}",
+    {
+      name: name,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      label: options?.label,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: 'application/json;profile="https://azconfig.io/mime-profiles/ff";charset=utf-8',
+      headers: {
+        ...(options?.syncToken !== undefined ? { "sync-token": options?.syncToken } : {}),
+        ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+        ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
+        accept:
+          'application/json;profile="https://azconfig.io/mime-profiles/ff";charset=utf-8, application/problem+json',
+        ...options.requestOptions?.headers,
+      },
+      body: !options?.entity ? options?.entity : featureFlagSerializer(options?.entity),
+    });
+}
+
+export async function _putFeatureFlagDeserialize(
+  result: PathUncheckedResponse,
+): Promise<FeatureFlag> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return featureFlagDeserializer(result.body);
+}
+
+/** Creates a feature flag. */
+export async function putFeatureFlag(
+  context: Client,
+  name: string,
+  options: PutFeatureFlagOptionalParams = { requestOptions: {} },
+): Promise<FeatureFlag> {
+  const result = await _putFeatureFlagSend(context, name, options);
+  return _putFeatureFlagDeserialize(result);
+}
+
+export function _checkFeatureFlagSend(
+  context: Client,
+  name: string,
+  options: CheckFeatureFlagOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/ff/{name}{?api%2Dversion,label,%24Select,tags*}",
+    {
+      name: name,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      label: options?.label,
+      "%24Select": !options?.select
+        ? options?.select
+        : options?.select.map((p: any) => {
+            return p;
+          }),
+      tags: !options?.tags
+        ? options?.tags
+        : options?.tags.map((p: any) => {
+            return p;
+          }),
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .head({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.syncToken !== undefined ? { "sync-token": options?.syncToken } : {}),
+        ...(options?.acceptDatetime !== undefined
+          ? { "accept-datetime": options?.acceptDatetime }
+          : {}),
+        ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+        ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
+        ...options.requestOptions?.headers,
+      },
+    });
+}
+
+export async function _checkFeatureFlagDeserialize(result: PathUncheckedResponse): Promise<void> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return;
+}
+
+/** Requests the headers and status of the given resource. */
+export async function checkFeatureFlag(
+  context: Client,
+  name: string,
+  options: CheckFeatureFlagOptionalParams = { requestOptions: {} },
+): Promise<void> {
+  const result = await _checkFeatureFlagSend(context, name, options);
+  return _checkFeatureFlagDeserialize(result);
+}
+
+export function _getFeatureFlagSend(
+  context: Client,
+  name: string,
+  options: GetFeatureFlagOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/ff/{name}{?api%2Dversion,label,%24Select,tags*}",
+    {
+      name: name,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      label: options?.label,
+      "%24Select": !options?.select
+        ? options?.select
+        : options?.select.map((p: any) => {
+            return p;
+          }),
+      tags: !options?.tags
+        ? options?.tags
+        : options?.tags.map((p: any) => {
+            return p;
+          }),
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.syncToken !== undefined ? { "sync-token": options?.syncToken } : {}),
+        ...(options?.acceptDatetime !== undefined
+          ? { "accept-datetime": options?.acceptDatetime }
+          : {}),
+        ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+        ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
+        accept:
+          'application/json;profile="https://azconfig.io/mime-profiles/ff";charset=utf-8, application/problem+json',
+        ...options.requestOptions?.headers,
+      },
+    });
+}
+
+export async function _getFeatureFlagDeserialize(
+  result: PathUncheckedResponse,
+): Promise<FeatureFlag> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return featureFlagDeserializer(result.body);
+}
+
+/** Gets a single feature flag. */
+export async function getFeatureFlag(
+  context: Client,
+  name: string,
+  options: GetFeatureFlagOptionalParams = { requestOptions: {} },
+): Promise<FeatureFlag> {
+  const result = await _getFeatureFlagSend(context, name, options);
+  return _getFeatureFlagDeserialize(result);
+}
+
+export function _checkFeatureFlagsSend(
+  context: Client,
+  options: CheckFeatureFlagsOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/ff{?api%2Dversion,name,label,After,%24Select,tags*}",
+    {
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      name: options?.name,
+      label: options?.label,
+      After: options?.after,
+      "%24Select": !options?.select
+        ? options?.select
+        : options?.select.map((p: any) => {
+            return p;
+          }),
+      tags: !options?.tags
+        ? options?.tags
+        : options?.tags.map((p: any) => {
+            return p;
+          }),
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .head({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.syncToken !== undefined ? { "sync-token": options?.syncToken } : {}),
+        ...(options?.acceptDatetime !== undefined
+          ? { "accept-datetime": options?.acceptDatetime }
+          : {}),
+        ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+        ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
+        ...options.requestOptions?.headers,
+      },
+    });
+}
+
+export async function _checkFeatureFlagsDeserialize(result: PathUncheckedResponse): Promise<void> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return;
+}
+
+/** Requests the headers and status of the given resource. */
+export async function checkFeatureFlags(
+  context: Client,
+  options: CheckFeatureFlagsOptionalParams = { requestOptions: {} },
+): Promise<void> {
+  const result = await _checkFeatureFlagsSend(context, options);
+  return _checkFeatureFlagsDeserialize(result);
+}
+
+export function _getFeatureFlagsSend(
+  context: Client,
+  options: GetFeatureFlagsOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/ff{?api%2Dversion,name,label,After,%24Select,tags*}",
+    {
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+      name: options?.name,
+      label: options?.label,
+      After: options?.after,
+      "%24Select": !options?.select
+        ? options?.select
+        : options?.select.map((p: any) => {
+            return p;
+          }),
+      tags: !options?.tags
+        ? options?.tags
+        : options?.tags.map((p: any) => {
+            return p;
+          }),
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.syncToken !== undefined ? { "sync-token": options?.syncToken } : {}),
+        ...(options?.acceptDatetime !== undefined
+          ? { "accept-datetime": options?.acceptDatetime }
+          : {}),
+        ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+        ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
+        accept:
+          'application/json;profile="https://azconfig.io/mime-profiles/ffset";charset=utf-8, application/problem+json',
+        ...options.requestOptions?.headers,
+      },
+    });
+}
+
+export async function _getFeatureFlagsDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_FeatureFlagListResult> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return _featureFlagListResultDeserializer(result.body);
+}
+
+/** Gets a list of feature flags. */
+export function getFeatureFlags(
+  context: Client,
+  options: GetFeatureFlagsOptionalParams = { requestOptions: {} },
+): PagedAsyncIterableIterator<FeatureFlag> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _getFeatureFlagsSend(context, options),
+    _getFeatureFlagsDeserialize,
+    ["200"],
+    {
+      itemName: "items",
+      nextLinkName: "@nextLink",
+      apiVersion: context.apiVersion ?? "2026-05-01-preview",
     },
   );
 }
@@ -884,7 +1450,7 @@ export function _checkKeyValueSend(
     "/kv/{key}{?api%2Dversion,label,%24Select,tags*}",
     {
       key: key,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
       label: options?.label,
       "%24Select": !options?.select
         ? options?.select
@@ -953,7 +1519,7 @@ export function _deleteKeyValueSend(
     "/kv/{key}{?api%2Dversion,label}",
     {
       key: key,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
       label: options?.label,
     },
     {
@@ -1018,7 +1584,7 @@ export function _putKeyValueSend(
     "/kv/{key}{?api%2Dversion,label}",
     {
       key: key,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
       label: options?.label,
     },
     {
@@ -1084,7 +1650,7 @@ export function _getKeyValueSend(
     "/kv/{key}{?api%2Dversion,label,%24Select,tags*}",
     {
       key: key,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
       label: options?.label,
       "%24Select": !options?.select
         ? options?.select
@@ -1152,7 +1718,7 @@ export function _checkKeyValuesSend(
   const path = expandUrlTemplate(
     "/kv{?api%2Dversion,key,label,After,%24Select,snapshot,tags*}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
       key: options?.key,
       label: options?.label,
       After: options?.after,
@@ -1221,7 +1787,7 @@ export function _getKeyValuesSend(
   const path = expandUrlTemplate(
     "/kv{?api%2Dversion,key,label,After,%24Select,snapshot,tags*}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
       key: options?.key,
       label: options?.label,
       After: options?.after,
@@ -1287,7 +1853,7 @@ export function getKeyValues(
     {
       itemName: "items",
       nextLinkName: "@nextLink",
-      apiVersion: context.apiVersion ?? "2026-04-01",
+      apiVersion: context.apiVersion ?? "2026-05-01-preview",
     },
   );
 }
@@ -1299,7 +1865,7 @@ export function _checkKeysSend(
   const path = expandUrlTemplate(
     "/keys{?api%2Dversion,name,After}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
       name: options?.name,
       After: options?.after,
     },
@@ -1354,7 +1920,7 @@ export function _getKeysSend(
   const path = expandUrlTemplate(
     "/keys{?api%2Dversion,name,After}",
     {
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
       name: options?.name,
       After: options?.after,
     },
@@ -1404,7 +1970,7 @@ export function getKeys(
     {
       itemName: "items",
       nextLinkName: "@nextLink",
-      apiVersion: context.apiVersion ?? "2026-04-01",
+      apiVersion: context.apiVersion ?? "2026-05-01-preview",
     },
   );
 }

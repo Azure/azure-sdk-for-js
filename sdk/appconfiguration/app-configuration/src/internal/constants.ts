@@ -4,9 +4,9 @@
 /**
  * @internal
  */
-export const packageVersion = "1.12.1";
+export const packageVersion = "1.13.0-beta.1";
 
 /**
  * @internal
  */
-export const appConfigurationApiVersion = "2026-04-01";
+export const appConfigurationApiVersion = "2026-05-01-preview";

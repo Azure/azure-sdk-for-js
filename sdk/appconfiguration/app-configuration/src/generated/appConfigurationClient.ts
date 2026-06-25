@@ -20,6 +20,14 @@ import {
   getSnapshot,
   checkSnapshots,
   getSnapshots,
+  checkFeatureFlagRevisions,
+  getFeatureFlagRevisions,
+  deleteFeatureFlag,
+  putFeatureFlag,
+  checkFeatureFlag,
+  getFeatureFlag,
+  checkFeatureFlags,
+  getFeatureFlags,
   checkKeyValue,
   deleteKeyValue,
   putKeyValue,
@@ -43,6 +51,14 @@ import {
   GetSnapshotOptionalParams,
   CheckSnapshotsOptionalParams,
   GetSnapshotsOptionalParams,
+  CheckFeatureFlagRevisionsOptionalParams,
+  GetFeatureFlagRevisionsOptionalParams,
+  DeleteFeatureFlagOptionalParams,
+  PutFeatureFlagOptionalParams,
+  CheckFeatureFlagOptionalParams,
+  GetFeatureFlagOptionalParams,
+  CheckFeatureFlagsOptionalParams,
+  GetFeatureFlagsOptionalParams,
   CheckKeyValueOptionalParams,
   DeleteKeyValueOptionalParams,
   PutKeyValueOptionalParams,
@@ -55,6 +71,7 @@ import {
 import {
   Key,
   KeyValue,
+  FeatureFlag,
   ConfigurationSnapshot,
   OperationDetails,
   SnapshotUpdateParameters,
@@ -180,6 +197,66 @@ export class AppConfigurationClient {
     options: GetSnapshotsOptionalParams = { requestOptions: {} },
   ): PagedAsyncIterableIterator<ConfigurationSnapshot> {
     return getSnapshots(this._client, options);
+  }
+
+  /** Requests the headers and status of the given resource. */
+  checkFeatureFlagRevisions(
+    options: CheckFeatureFlagRevisionsOptionalParams = { requestOptions: {} },
+  ): Promise<void> {
+    return checkFeatureFlagRevisions(this._client, options);
+  }
+
+  /** Gets a list of feature flag revisions. */
+  getFeatureFlagRevisions(
+    options: GetFeatureFlagRevisionsOptionalParams = { requestOptions: {} },
+  ): PagedAsyncIterableIterator<FeatureFlag> {
+    return getFeatureFlagRevisions(this._client, options);
+  }
+
+  /** Deletes a feature flag. */
+  deleteFeatureFlag(
+    name: string,
+    options: DeleteFeatureFlagOptionalParams = { requestOptions: {} },
+  ): Promise<FeatureFlag | undefined> {
+    return deleteFeatureFlag(this._client, name, options);
+  }
+
+  /** Creates a feature flag. */
+  putFeatureFlag(
+    name: string,
+    options: PutFeatureFlagOptionalParams = { requestOptions: {} },
+  ): Promise<FeatureFlag> {
+    return putFeatureFlag(this._client, name, options);
+  }
+
+  /** Requests the headers and status of the given resource. */
+  checkFeatureFlag(
+    name: string,
+    options: CheckFeatureFlagOptionalParams = { requestOptions: {} },
+  ): Promise<void> {
+    return checkFeatureFlag(this._client, name, options);
+  }
+
+  /** Gets a single feature flag. */
+  getFeatureFlag(
+    name: string,
+    options: GetFeatureFlagOptionalParams = { requestOptions: {} },
+  ): Promise<FeatureFlag> {
+    return getFeatureFlag(this._client, name, options);
+  }
+
+  /** Requests the headers and status of the given resource. */
+  checkFeatureFlags(
+    options: CheckFeatureFlagsOptionalParams = { requestOptions: {} },
+  ): Promise<void> {
+    return checkFeatureFlags(this._client, options);
+  }
+
+  /** Gets a list of feature flags. */
+  getFeatureFlags(
+    options: GetFeatureFlagsOptionalParams = { requestOptions: {} },
+  ): PagedAsyncIterableIterator<FeatureFlag> {
+    return getFeatureFlags(this._client, options);
   }
 
   /** Requests the headers and status of the given resource. */

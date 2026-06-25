@@ -194,10 +194,11 @@ export function formatSnapshotFiltersAndSelect(
  */
 export function formatLabelsFiltersAndSelect(
   listLabelsOptions: ListLabelsOptions,
-): Pick<GetLabelsOptionalParams, "name" | "select"> {
+): Pick<GetLabelsOptionalParams, "name" | "select" | "resourceType"> {
   return {
     name: listLabelsOptions.nameFilter,
     select: listLabelsOptions.fields,
+    resourceType: listLabelsOptions.resourceType,
   };
 }
 /**
