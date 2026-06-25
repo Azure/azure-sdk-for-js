@@ -104,7 +104,7 @@ stages:
     steps:
       - checkout: self
         fetchDepth: 0
-        fetchTags: false
+        fetchTags: true
         submodules: false
       - task: NodeTool@0
         inputs: { versionSpec: $(nodeVersion) }
@@ -153,7 +153,7 @@ stages:
     steps:
       - checkout: self
         fetchDepth: 0
-        fetchTags: false
+        fetchTags: true
         submodules: false
 
       # PR mode: create the PR branch locally from the trigger branch HEAD.
@@ -209,7 +209,7 @@ stages:
       steps:
         - checkout: self
           fetchDepth: 0
-          fetchTags: false
+          fetchTags: true
           submodules: false
         - task: NodeTool@0
           inputs: { versionSpec: $(nodeVersion) }
