@@ -101,7 +101,7 @@ stages:
     timeoutInMinutes: 30
     steps:
       - checkout: self
-        fetchDepth: 1
+        fetchDepth: 0
         fetchTags: false
         submodules: false
       - task: NodeTool@0
@@ -150,7 +150,7 @@ stages:
       emitterVersion: $[ dependencies.Setup.outputs['resolveVersion.emitterVersion'] ]
     steps:
       - checkout: self
-        fetchDepth: 1
+        fetchDepth: 0
         fetchTags: false
         submodules: false
 
@@ -206,7 +206,7 @@ stages:
         emitterVersion: $[ dependencies.Setup.outputs['resolveVersion.emitterVersion'] ]
       steps:
         - checkout: self
-          fetchDepth: 1
+          fetchDepth: 0
           fetchTags: false
           submodules: false
         - task: NodeTool@0
