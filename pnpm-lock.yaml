@@ -1058,9 +1058,6 @@ importers:
       '@modelcontextprotocol/sdk':
         specifier: ^1.25.1
         version: 1.29.0(zod@4.4.3)
-      '@opentelemetry/api':
-        specifier: ^1.9.0
-        version: 1.9.1
       '@opentelemetry/instrumentation':
         specifier: ^0.57.0
         version: 0.57.2(@opentelemetry/api@1.9.1)
