@@ -8,21 +8,10 @@
   "sideEffects": false,
   "autoPublish": false,
   "type": "module",
-  "keywords": [
-    "node",
-    "azure",
-    "cloud",
-    "typescript",
-    "browser",
-    "isomorphic"
-  ],
+  "keywords": ["node", "azure", "cloud", "typescript", "browser", "isomorphic"],
   "author": "Microsoft Corporation",
   "license": "MIT",
-  "files": [
-    "dist",
-    "README.md",
-    "LICENSE"
-  ],
+  "files": ["dist", "README.md", "LICENSE"],
   "sdk-type": "client",
   "repository": {
     "type": "git",
@@ -36,12 +25,12 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/agentsClient.ts",
-        "prefix": "userAgentInfo"
-      },
-      {
         "path": "src/constants.ts",
         "prefix": "SDK_VERSION"
+      },
+      {
+        "path": "src/api/agentsContext.ts",
+        "prefix": "userAgentInfo"
       }
     ]
   },
@@ -112,10 +101,6 @@
         "types": "./dist/browser/index.d.ts",
         "default": "./dist/browser/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/index.d.ts",
-        "default": "./dist/react-native/index.js"
-      },
       "import": {
         "types": "./dist/esm/index.d.ts",
         "default": "./dist/esm/index.js"
@@ -124,18 +109,153 @@
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
       }
+    },
+    "./api": {
+      "browser": {
+        "types": "./dist/browser/api/index.d.ts",
+        "default": "./dist/browser/api/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/index.d.ts",
+        "default": "./dist/esm/api/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/index.d.ts",
+        "default": "./dist/commonjs/api/index.js"
+      }
+    },
+    "./api/vectorStoreFileBatches": {
+      "browser": {
+        "types": "./dist/browser/api/vectorStoreFileBatches/index.d.ts",
+        "default": "./dist/browser/api/vectorStoreFileBatches/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/vectorStoreFileBatches/index.d.ts",
+        "default": "./dist/esm/api/vectorStoreFileBatches/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/vectorStoreFileBatches/index.d.ts",
+        "default": "./dist/commonjs/api/vectorStoreFileBatches/index.js"
+      }
+    },
+    "./api/vectorStoreFiles": {
+      "browser": {
+        "types": "./dist/browser/api/vectorStoreFiles/index.d.ts",
+        "default": "./dist/browser/api/vectorStoreFiles/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/vectorStoreFiles/index.d.ts",
+        "default": "./dist/esm/api/vectorStoreFiles/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/vectorStoreFiles/index.d.ts",
+        "default": "./dist/commonjs/api/vectorStoreFiles/index.js"
+      }
+    },
+    "./api/vectorStores": {
+      "browser": {
+        "types": "./dist/browser/api/vectorStores/index.d.ts",
+        "default": "./dist/browser/api/vectorStores/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/vectorStores/index.d.ts",
+        "default": "./dist/esm/api/vectorStores/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/vectorStores/index.d.ts",
+        "default": "./dist/commonjs/api/vectorStores/index.js"
+      }
+    },
+    "./api/files": {
+      "browser": {
+        "types": "./dist/browser/api/files/index.d.ts",
+        "default": "./dist/browser/api/files/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/files/index.d.ts",
+        "default": "./dist/esm/api/files/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/files/index.d.ts",
+        "default": "./dist/commonjs/api/files/index.js"
+      }
+    },
+    "./api/runSteps": {
+      "browser": {
+        "types": "./dist/browser/api/runSteps/index.d.ts",
+        "default": "./dist/browser/api/runSteps/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/runSteps/index.d.ts",
+        "default": "./dist/esm/api/runSteps/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/runSteps/index.d.ts",
+        "default": "./dist/commonjs/api/runSteps/index.js"
+      }
+    },
+    "./api/runs": {
+      "browser": {
+        "types": "./dist/browser/api/runs/index.d.ts",
+        "default": "./dist/browser/api/runs/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/runs/index.d.ts",
+        "default": "./dist/esm/api/runs/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/runs/index.d.ts",
+        "default": "./dist/commonjs/api/runs/index.js"
+      }
+    },
+    "./api/messages": {
+      "browser": {
+        "types": "./dist/browser/api/messages/index.d.ts",
+        "default": "./dist/browser/api/messages/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/messages/index.d.ts",
+        "default": "./dist/esm/api/messages/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/messages/index.d.ts",
+        "default": "./dist/commonjs/api/messages/index.js"
+      }
+    },
+    "./api/threads": {
+      "browser": {
+        "types": "./dist/browser/api/threads/index.d.ts",
+        "default": "./dist/browser/api/threads/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/threads/index.d.ts",
+        "default": "./dist/esm/api/threads/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/threads/index.d.ts",
+        "default": "./dist/commonjs/api/threads/index.js"
+      }
+    },
+    "./models": {
+      "browser": {
+        "types": "./dist/browser/models/index.d.ts",
+        "default": "./dist/browser/models/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/models/index.d.ts",
+        "default": "./dist/esm/models/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/models/index.d.ts",
+        "default": "./dist/commonjs/models/index.js"
+      }
     }
   },
   "//sampleConfiguration": {
     "productName": "Azure AI Agents",
-    "productSlugs": [
-      "azure"
-    ],
+    "productSlugs": ["azure"],
     "extraFiles": {
-      "./data": [
-        "javascript/data",
-        "typescript/data"
-      ]
+      "./data": ["javascript/data", "typescript/data"]
     },
     "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/ai-projects"
   },
@@ -145,7 +265,6 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-agents/README.md",
   "imports": {
     "#platform/*": {
-      "react-native": "./src/*-react-native.mts",
       "browser": "./src/*-browser.mts",
       "default": "./src/*.ts"
     }

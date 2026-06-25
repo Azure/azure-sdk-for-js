@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { WebSiteManagementContext } from "../../api/webSiteManagementContext.js";
+import { WebSiteManagementContext } from "../../api/webSiteManagementContext.js";
 import {
   getSchemaJson,
   run,
@@ -9,22 +9,17 @@ import {
   list,
   get,
 } from "../../api/workflowTriggers/operations.js";
-import type {
+import {
   WorkflowTriggersGetSchemaJsonOptionalParams,
   WorkflowTriggersRunOptionalParams,
   WorkflowTriggersListCallbackUrlOptionalParams,
   WorkflowTriggersListOptionalParams,
   WorkflowTriggersGetOptionalParams,
 } from "../../api/workflowTriggers/options.js";
-import type {
-  WorkflowTrigger,
-  WorkflowTriggerCallbackUrl,
-  JsonSchema,
-} from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { WorkflowTrigger, WorkflowTriggerCallbackUrl, JsonSchema } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a WorkflowTriggers operations. */
 export interface WorkflowTriggersOperations {
@@ -119,7 +114,7 @@ function _getWorkflowTriggers(context: WebSiteManagementContext) {
       triggerName: string,
       options?: WorkflowTriggersRunOptionalParams,
     ) => {
-      return run(context, resourceGroupName, name, workflowName, triggerName, options);
+      return await run(context, resourceGroupName, name, workflowName, triggerName, options);
     },
     listCallbackUrl: (
       resourceGroupName: string,

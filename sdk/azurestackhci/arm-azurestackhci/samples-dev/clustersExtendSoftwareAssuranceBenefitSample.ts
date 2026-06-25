@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to extends Software Assurance Benefit to a cluster
  *
  * @summary extends Software Assurance Benefit to a cluster
- * x-ms-original-file: 2026-04-01-preview/ExtendSoftwareAssuranceBenefit.json
+ * x-ms-original-file: 2026-05-01-preview/ExtendSoftwareAssuranceBenefit.json
  */
 async function createClusterIdentity(): Promise<void> {
   const credential = new DefaultAzureCredential();

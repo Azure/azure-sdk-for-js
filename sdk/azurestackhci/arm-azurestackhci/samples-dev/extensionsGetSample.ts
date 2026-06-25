@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get particular Arc Extension of HCI Cluster.
  *
  * @summary get particular Arc Extension of HCI Cluster.
- * x-ms-original-file: 2026-04-01-preview/GetExtension.json
+ * x-ms-original-file: 2026-05-01-preview/GetExtension.json
  */
 async function getArcSettingsExtension(): Promise<void> {
   const credential = new DefaultAzureCredential();

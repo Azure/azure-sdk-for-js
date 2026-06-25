@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ApiManagementContext } from "../../api/apiManagementContext.js";
+import { ApiManagementContext } from "../../api/apiManagementContext.js";
 import { listByService } from "../../api/allPolicies/operations.js";
-import type { AllPoliciesListByServiceOptionalParams } from "../../api/allPolicies/options.js";
-import type { AllPoliciesContract } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { AllPoliciesListByServiceOptionalParams } from "../../api/allPolicies/options.js";
+import { AllPoliciesContract } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a AllPolicies operations. */
 export interface AllPoliciesOperations {

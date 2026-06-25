@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete particular Arc Extension of HCI Cluster.
  *
  * @summary delete particular Arc Extension of HCI Cluster.
- * x-ms-original-file: 2026-04-01-preview/DeleteExtension.json
+ * x-ms-original-file: 2026-05-01-preview/DeleteExtension.json
  */
 async function deleteArcExtension(): Promise<void> {
   const credential = new DefaultAzureCredential();

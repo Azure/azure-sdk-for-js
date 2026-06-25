@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create Extension for HCI cluster.
  *
  * @summary create Extension for HCI cluster.
- * x-ms-original-file: 2026-04-01-preview/PutExtension.json
+ * x-ms-original-file: 2026-05-01-preview/PutExtension.json
  */
 async function createArcExtension(): Promise<void> {
   const credential = new DefaultAzureCredential();

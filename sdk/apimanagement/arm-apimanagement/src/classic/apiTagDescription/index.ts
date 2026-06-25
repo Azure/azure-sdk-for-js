@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ApiManagementContext } from "../../api/apiManagementContext.js";
+import { ApiManagementContext } from "../../api/apiManagementContext.js";
 import {
   listByService,
   $delete,
@@ -9,18 +9,15 @@ import {
   getEntityTag,
   get,
 } from "../../api/apiTagDescription/operations.js";
-import type {
+import {
   ApiTagDescriptionListByServiceOptionalParams,
   ApiTagDescriptionDeleteOptionalParams,
   ApiTagDescriptionCreateOrUpdateOptionalParams,
   ApiTagDescriptionGetEntityTagOptionalParams,
   ApiTagDescriptionGetOptionalParams,
 } from "../../api/apiTagDescription/options.js";
-import type {
-  TagDescriptionContract,
-  TagDescriptionCreateParameters,
-} from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { TagDescriptionContract, TagDescriptionCreateParameters } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ApiTagDescription operations. */
 export interface ApiTagDescriptionOperations {

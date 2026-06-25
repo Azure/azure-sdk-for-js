@@ -1,297 +1,246 @@
 # Release History
 
-## 11.0.0 (2026-03-20)
+## 11.1.0 (2026-06-25)
 
 ### Features Added
+  - Added operation group ApplicationOperations
+  - Added operation group ApplicationPackageOperations
+  - Added operation group BatchAccountOperations
   - Added operation group LocationOperations
-  - Added operation BatchAccountOperations.create
-  - Added operation BatchAccountOperations.delete
-  - Added operation NetworkSecurityPerimeterOperations.reconcileConfiguration
-  - Added operation PoolOperations.delete
-  - Added operation PrivateEndpointConnectionOperations.delete
-  - Added operation PrivateEndpointConnectionOperations.update
-  - Added Interface ApplicationPackageProperties
-  - Added Interface ApplicationProperties
-  - Added Interface BatchAccountCreateProperties
-  - Added Interface BatchAccountProperties
-  - Added Interface BatchAccountUpdateProperties
-  - Added Interface DetectorResponseProperties
-  - Added Interface DiskCustomerManagedKey
-  - Added Interface DiskEncryptionSetParameters
-  - Added Interface HostEndpointSettings
-  - Added Interface IPTag
-  - Added Interface PagedAsyncIterableIterator
-  - Added Interface PageSettings
-  - Added Interface PoolProperties
-  - Added Interface PrivateEndpointConnectionProperties
-  - Added Interface PrivateLinkResourceProperties
-  - Added Interface ProxyAgentSettings
-  - Added Interface RestorePollerOptions
-  - Added Interface SimplePollerLike
-  - Added Interface TrackedResource
-  - Interface Application has a new optional parameter systemData
-  - Interface ApplicationPackage has a new optional parameter systemData
-  - Interface BatchAccount has a new optional parameter systemData
-  - Interface DataDisk has a new optional parameter managedDisk
-  - Interface DetectorResponse has a new optional parameter systemData
-  - Interface DiskEncryptionConfiguration has a new optional parameter customerManagedKey
-  - Interface ManagedDisk has a new optional parameter diskEncryptionSet
-  - Interface Pool has a new optional parameter systemData
-  - Interface PrivateEndpointConnection has a new optional parameter systemData
-  - Interface PrivateLinkResource has a new optional parameter systemData
-  - Interface PublicIPAddressConfiguration has a new optional parameter ipFamilies
-  - Interface PublicIPAddressConfiguration has a new optional parameter ipTags
-  - Interface SecurityProfile has a new optional parameter proxyAgentSettings
-  - Interface TaskSchedulingPolicy has a new optional parameter jobDefaultOrder
-  - Interface VMDiskSecurityProfile has a new optional parameter diskEncryptionSet
-  - Added Type Alias AzureSupportedClouds
-  - Added Type Alias DiffDiskPlacement
-  - Added Type Alias HostEndpointSettingsModeTypes
-  - Added Type Alias IPFamily
-  - Added Type Alias IPRuleAction
-  - Added Type Alias JobDefaultOrder
-  - Added Type Alias ResourceType
-  - Added Enum AzureClouds
-  - Added Enum KnownHostEndpointSettingsModeTypes
-  - Added Enum KnownIPFamily
-  - Added Enum KnownJobDefaultOrder
-  - Added Enum KnownVersions
-  - Enum KnownSecurityEncryptionTypes has a new value DiskWithVMGuestState
-
-### Breaking Changes
-  - Operation NetworkSecurityPerimeter.beginReconcileConfigurationAndWait has a new signature
-  - Operation PrivateEndpointConnection.beginDeleteAndWait has a new signature
-  - Removed Interface AzureProxyResource
-  - Removed Interface AzureResource
-  - Removed Interface Certificate
-  - Removed Interface CertificateBaseProperties
-  - Removed Interface CertificateCancelDeletionOptionalParams
-  - Removed Interface CertificateCreateOptionalParams
-  - Removed Interface CertificateCreateOrUpdateParameters
-  - Removed Interface CertificateCreateOrUpdateProperties
-  - Removed Interface CertificateDeleteOptionalParams
-  - Removed Interface CertificateGetOptionalParams
-  - Removed Interface CertificateListByBatchAccountOptionalParams
-  - Removed Interface CertificateOperations
-  - Removed Interface CertificateProperties
-  - Removed Interface CertificateReference
-  - Removed Interface CertificateUpdateOptionalParams
-  - Removed Interface DeleteCertificateError
-  - Removed Interface OutboundEnvironmentEndpointCollection
-  - Interface DataDisk no longer has parameter storageAccountType
-  - Interface Pool no longer has parameter applicationLicenses
-  - Interface Pool no longer has parameter certificates
-  - Interface Pool no longer has parameter currentNodeCommunicationMode
-  - Interface Pool no longer has parameter resourceTags
-  - Interface Pool no longer has parameter targetNodeCommunicationMode
-  - Parameter location of interface BatchAccount is now required
-  - Removed Type Alias CertificateFormat
-  - Removed Type Alias CertificateProvisioningState
-  - Removed Type Alias CertificateStoreLocation
-  - Removed Type Alias CertificateVisibility
-  - Removed Type Alias NodeCommunicationMode
-
-    
-## 10.0.0 (2024-09-11)
-    
-### Features Added
-
   - Added operation group NetworkSecurityPerimeterOperations
+  - Added operation group OperationsOperations
+  - Added operation group PoolOperations
+  - Added operation group PrivateEndpointConnectionOperations
+  - Added operation group PrivateLinkResourceOperations
+  - Added Class BatchManagementClient
   - Added Interface AccessRule
   - Added Interface AccessRuleProperties
   - Added Interface AccessRulePropertiesSubscriptionsItem
-  - Added Interface AzureProxyResource
-  - Added Interface AzureResource
+  - Added Interface ActivateApplicationPackageParameters
+  - Added Interface Application
+  - Added Interface ApplicationCreateOptionalParams
+  - Added Interface ApplicationDeleteOptionalParams
+  - Added Interface ApplicationGetOptionalParams
+  - Added Interface ApplicationListOptionalParams
+  - Added Interface ApplicationPackage
+  - Added Interface ApplicationPackageActivateOptionalParams
+  - Added Interface ApplicationPackageCreateOptionalParams
+  - Added Interface ApplicationPackageDeleteOptionalParams
+  - Added Interface ApplicationPackageGetOptionalParams
+  - Added Interface ApplicationPackageListOptionalParams
+  - Added Interface ApplicationPackageProperties
+  - Added Interface ApplicationPackageReference
+  - Added Interface ApplicationProperties
+  - Added Interface ApplicationUpdateOptionalParams
+  - Added Interface AutomaticOSUpgradePolicy
+  - Added Interface AutoScaleRun
+  - Added Interface AutoScaleRunError
+  - Added Interface AutoScaleSettings
+  - Added Interface AutoStorageBaseProperties
+  - Added Interface AutoStorageProperties
+  - Added Interface AutoUserSpecification
+  - Added Interface AzureBlobFileSystemConfiguration
+  - Added Interface AzureFileShareConfiguration
+  - Added Interface BatchAccount
+  - Added Interface BatchAccountCreateOptionalParams
+  - Added Interface BatchAccountCreateParameters
+  - Added Interface BatchAccountCreateProperties
+  - Added Interface BatchAccountDeleteOptionalParams
+  - Added Interface BatchAccountGetDetectorOptionalParams
+  - Added Interface BatchAccountGetKeysOptionalParams
+  - Added Interface BatchAccountGetOptionalParams
+  - Added Interface BatchAccountIdentity
+  - Added Interface BatchAccountKeys
+  - Added Interface BatchAccountListByResourceGroupOptionalParams
+  - Added Interface BatchAccountListDetectorsOptionalParams
+  - Added Interface BatchAccountListOptionalParams
+  - Added Interface BatchAccountListOutboundNetworkDependenciesEndpointsOptionalParams
+  - Added Interface BatchAccountProperties
+  - Added Interface BatchAccountRegenerateKeyOptionalParams
+  - Added Interface BatchAccountRegenerateKeyParameters
+  - Added Interface BatchAccountSynchronizeAutoStorageKeysOptionalParams
+  - Added Interface BatchAccountUpdateOptionalParams
+  - Added Interface BatchAccountUpdateParameters
+  - Added Interface BatchAccountUpdateProperties
+  - Added Interface BatchLocationQuota
+  - Added Interface BatchManagementClientOptionalParams
+  - Added Interface BatchPoolIdentity
+  - Added Interface CheckNameAvailabilityParameters
+  - Added Interface CheckNameAvailabilityResult
+  - Added Interface CifsMountConfiguration
+  - Added Interface CloudError
+  - Added Interface CloudErrorBody
+  - Added Interface ComputeNodeIdentityReference
+  - Added Interface ContainerConfiguration
   - Added Interface ContainerHostBatchBindMountEntry
+  - Added Interface ContainerRegistry
+  - Added Interface DataDisk
+  - Added Interface DeploymentConfiguration
+  - Added Interface DetectorResponse
+  - Added Interface DetectorResponseProperties
+  - Added Interface DiffDiskSettings
+  - Added Interface DiskCustomerManagedKey
+  - Added Interface DiskEncryptionConfiguration
+  - Added Interface DiskEncryptionSetParameters
+  - Added Interface EncryptionProperties
+  - Added Interface EndpointAccessProfile
+  - Added Interface EndpointDependency
+  - Added Interface EndpointDetail
+  - Added Interface EnvironmentSetting
   - Added Interface ErrorAdditionalInfo
   - Added Interface ErrorDetail
   - Added Interface ErrorResponse
+  - Added Interface FixedScaleSettings
+  - Added Interface HostEndpointSettings
+  - Added Interface ImageReference
+  - Added Interface InboundNatPool
+  - Added Interface IPRule
+  - Added Interface IPTag
+  - Added Interface KeyVaultProperties
+  - Added Interface KeyVaultReference
+  - Added Interface LinuxUserConfiguration
+  - Added Interface LocationCheckNameAvailabilityOptionalParams
+  - Added Interface LocationGetQuotasOptionalParams
+  - Added Interface LocationListSupportedVirtualMachineSkusOptionalParams
+  - Added Interface ManagedDisk
+  - Added Interface MetadataItem
+  - Added Interface MountConfiguration
+  - Added Interface NetworkConfiguration
+  - Added Interface NetworkProfile
+  - Added Interface NetworkSecurityGroupRule
   - Added Interface NetworkSecurityPerimeter
   - Added Interface NetworkSecurityPerimeterConfiguration
-  - Added Interface NetworkSecurityPerimeterConfigurationListResult
   - Added Interface NetworkSecurityPerimeterConfigurationProperties
   - Added Interface NetworkSecurityPerimeterGetConfigurationOptionalParams
-  - Added Interface NetworkSecurityPerimeterListConfigurationsNextOptionalParams
   - Added Interface NetworkSecurityPerimeterListConfigurationsOptionalParams
-  - Added Interface NetworkSecurityPerimeterReconcileConfigurationHeaders
   - Added Interface NetworkSecurityPerimeterReconcileConfigurationOptionalParams
   - Added Interface NetworkSecurityProfile
+  - Added Interface NFSMountConfiguration
+  - Added Interface NodePlacementConfiguration
+  - Added Interface Operation
+  - Added Interface OperationDisplay
+  - Added Interface OperationsListOptionalParams
+  - Added Interface OSDisk
+  - Added Interface OutboundEnvironmentEndpoint
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface Pool
+  - Added Interface PoolCreateOptionalParams
+  - Added Interface PoolDeleteOptionalParams
+  - Added Interface PoolDisableAutoScaleOptionalParams
+  - Added Interface PoolEndpointConfiguration
+  - Added Interface PoolGetOptionalParams
+  - Added Interface PoolListByBatchAccountOptionalParams
+  - Added Interface PoolProperties
+  - Added Interface PoolStopResizeOptionalParams
+  - Added Interface PoolUpdateOptionalParams
+  - Added Interface PrivateEndpoint
+  - Added Interface PrivateEndpointConnection
+  - Added Interface PrivateEndpointConnectionDeleteOptionalParams
+  - Added Interface PrivateEndpointConnectionGetOptionalParams
+  - Added Interface PrivateEndpointConnectionListByBatchAccountOptionalParams
+  - Added Interface PrivateEndpointConnectionProperties
+  - Added Interface PrivateEndpointConnectionUpdateOptionalParams
+  - Added Interface PrivateLinkResource
+  - Added Interface PrivateLinkResourceGetOptionalParams
+  - Added Interface PrivateLinkResourceListByBatchAccountOptionalParams
+  - Added Interface PrivateLinkResourceProperties
+  - Added Interface PrivateLinkServiceConnectionState
   - Added Interface ProvisioningIssue
   - Added Interface ProvisioningIssueProperties
+  - Added Interface ProxyAgentSettings
+  - Added Interface ProxyResource
+  - Added Interface PublicIPAddressConfiguration
+  - Added Interface ResizeError
+  - Added Interface ResizeOperationStatus
+  - Added Interface Resource
   - Added Interface ResourceAssociation
+  - Added Interface ResourceFile
+  - Added Interface RestorePollerOptions
+  - Added Interface RollingUpgradePolicy
+  - Added Interface ScaleSettings
+  - Added Interface SecurityProfile
+  - Added Interface ServiceArtifactReference
+  - Added Interface SimplePollerLike
+  - Added Interface SkuCapability
+  - Added Interface StartTask
+  - Added Interface SupportedSku
   - Added Interface SystemData
+  - Added Interface TaskContainerSettings
+  - Added Interface TaskSchedulingPolicy
+  - Added Interface TrackedResource
+  - Added Interface UefiSettings
+  - Added Interface UpgradePolicy
+  - Added Interface UserAccount
+  - Added Interface UserAssignedIdentities
+  - Added Interface UserIdentity
+  - Added Interface VirtualMachineConfiguration
+  - Added Interface VirtualMachineFamilyCoreQuota
   - Added Interface VMDiskSecurityProfile
+  - Added Interface VMExtension
+  - Added Interface WindowsConfiguration
+  - Added Interface WindowsUserConfiguration
   - Added Type Alias AccessRuleDirection
+  - Added Type Alias AccountKeyType
+  - Added Type Alias AllocationState
+  - Added Type Alias AuthenticationMode
+  - Added Type Alias AutoStorageAuthenticationMode
+  - Added Type Alias AutoUserScope
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias CachingType
+  - Added Type Alias ComputeNodeDeallocationOption
+  - Added Type Alias ComputeNodeFillType
   - Added Type Alias ContainerHostDataPath
+  - Added Type Alias ContainerType
+  - Added Type Alias ContainerWorkingDirectory
   - Added Type Alias CreatedByType
+  - Added Type Alias DiffDiskPlacement
+  - Added Type Alias DiskEncryptionTarget
+  - Added Type Alias DynamicVNetAssignmentScope
+  - Added Type Alias ElevationLevel
+  - Added Type Alias EndpointAccessDefaultAction
+  - Added Type Alias HostEndpointSettingsModeTypes
+  - Added Type Alias InboundEndpointProtocol
+  - Added Type Alias InterNodeCommunicationState
+  - Added Type Alias IPAddressProvisioningType
+  - Added Type Alias IPFamily
+  - Added Type Alias IPRuleAction
   - Added Type Alias IssueType
+  - Added Type Alias JobDefaultOrder
+  - Added Type Alias KeySource
+  - Added Type Alias LoginMode
+  - Added Type Alias NameAvailabilityReason
+  - Added Type Alias NetworkSecurityGroupRuleAccess
   - Added Type Alias NetworkSecurityPerimeterConfigurationProvisioningState
-  - Added Type Alias NetworkSecurityPerimeterGetConfigurationResponse
-  - Added Type Alias NetworkSecurityPerimeterListConfigurationsNextResponse
-  - Added Type Alias NetworkSecurityPerimeterListConfigurationsResponse
-  - Added Type Alias NetworkSecurityPerimeterReconcileConfigurationResponse
+  - Added Type Alias NodePlacementPolicyType
+  - Added Type Alias PackageState
+  - Added Type Alias PoolAllocationMode
+  - Added Type Alias PoolIdentityType
+  - Added Type Alias PoolProvisioningState
+  - Added Type Alias PrivateEndpointConnectionProvisioningState
+  - Added Type Alias PrivateLinkServiceConnectionStatus
+  - Added Type Alias ProvisioningState
+  - Added Type Alias PublicNetworkAccessType
   - Added Type Alias ResourceAssociationAccessMode
+  - Added Type Alias ResourceIdentityType
+  - Added Type Alias ResourceType
   - Added Type Alias SecurityEncryptionTypes
   - Added Type Alias SecurityTypes
   - Added Type Alias Severity
-  - Interface ImageReference has a new optional parameter communityGalleryImageId
-  - Interface ImageReference has a new optional parameter sharedGalleryImageId
-  - Interface ManagedDisk has a new optional parameter securityProfile
-  - Interface Resource has a new optional parameter systemData
-  - Interface TaskContainerSettings has a new optional parameter containerHostBatchBindMounts
+  - Added Type Alias StorageAccountType
+  - Added Type Alias UpgradeMode
+  - Added Enum AzureClouds
   - Added Enum KnownAccessRuleDirection
   - Added Enum KnownContainerHostDataPath
+  - Added Enum KnownContainerType
   - Added Enum KnownCreatedByType
+  - Added Enum KnownHostEndpointSettingsModeTypes
+  - Added Enum KnownIPFamily
   - Added Enum KnownIssueType
+  - Added Enum KnownJobDefaultOrder
   - Added Enum KnownNetworkSecurityPerimeterConfigurationProvisioningState
   - Added Enum KnownResourceAssociationAccessMode
   - Added Enum KnownSecurityEncryptionTypes
   - Added Enum KnownSeverity
+  - Added Enum KnownVersions
 
-### Breaking Changes
-
-  - Removed operation Location_2.listSupportedCloudServiceSkus
-  - Interface DeploymentConfiguration no longer has parameter cloudServiceConfiguration
-  - Interface ProxyResource no longer has parameter etag
-  - Interface Resource no longer has parameter location
-  - Interface Resource no longer has parameter tags
-  - Type of parameter securityType of interface SecurityProfile is changed from "trustedLaunch" to SecurityTypes
-    
-    
-## 9.2.0 (2024-03-13)
-    
-### Features Added
-
-  - Added Interface AutomaticOSUpgradePolicy
-  - Added Interface RollingUpgradePolicy
-  - Added Interface UpgradePolicy
-  - Added Type Alias UpgradeMode
-  - Interface Pool has a new optional parameter upgradePolicy
-  - Interface SupportedSku has a new optional parameter batchSupportEndOfLife
-    
-    
-## 9.1.0 (2023-12-08)
-    
-### Features Added
-
-  - Added Interface ManagedDisk
-  - Added Interface SecurityProfile
-  - Added Interface ServiceArtifactReference
-  - Added Interface UefiSettings
-  - Interface OSDisk has a new optional parameter caching
-  - Interface OSDisk has a new optional parameter diskSizeGB
-  - Interface OSDisk has a new optional parameter managedDisk
-  - Interface OSDisk has a new optional parameter writeAcceleratorEnabled
-  - Interface Pool has a new optional parameter resourceTags
-  - Interface VirtualMachineConfiguration has a new optional parameter securityProfile
-  - Interface VirtualMachineConfiguration has a new optional parameter serviceArtifactReference
-    
-    
-## 9.0.0 (2023-06-30)
-    
-### Features Added
-
-  - Added Type Alias ContainerType
-  - Interface NetworkConfiguration has a new optional parameter enableAcceleratedNetworking
-  - Interface VMExtension has a new optional parameter enableAutomaticUpgrade
-  - Added Enum KnownContainerType
-  - Interface ApplicationListNextOptionalParams no longer has parameter maxresults
-  - Interface ApplicationPackageListNextOptionalParams no longer has parameter maxresults
-  - Interface CertificateListByBatchAccountNextOptionalParams no longer has parameter filter
-  - Interface CertificateListByBatchAccountNextOptionalParams no longer has parameter maxresults
-  - Interface CertificateListByBatchAccountNextOptionalParams no longer has parameter select
-  - Interface LocationListSupportedCloudServiceSkusNextOptionalParams no longer has parameter filter
-  - Interface LocationListSupportedCloudServiceSkusNextOptionalParams no longer has parameter maxresults
-  - Interface LocationListSupportedVirtualMachineSkusNextOptionalParams no longer has parameter filter
-  - Interface LocationListSupportedVirtualMachineSkusNextOptionalParams no longer has parameter maxresults
-  - Interface PoolListByBatchAccountNextOptionalParams no longer has parameter filter
-  - Interface PoolListByBatchAccountNextOptionalParams no longer has parameter maxresults
-  - Interface PoolListByBatchAccountNextOptionalParams no longer has parameter select
-  - Interface PrivateEndpointConnectionListByBatchAccountNextOptionalParams no longer has parameter maxresults
-  - Interface PrivateLinkResourceListByBatchAccountNextOptionalParams no longer has parameter maxresults
-
-### Breaking Changes
-
-  - Type of parameter type of interface ContainerConfiguration is changed from "DockerCompatible" to ContainerType
-
-   
-## 8.0.0 (2022-11-10)
-    
-### Features Added
-
-  - Added Type Alias NodeCommunicationMode
-  - Interface NetworkConfiguration has a new optional parameter dynamicVnetAssignmentScope
-  - Interface Pool has a new optional parameter currentNodeCommunicationMode
-  - Interface Pool has a new optional parameter targetNodeCommunicationMode
-  - Interface PrivateLinkServiceConnectionState has a new optional parameter actionsRequired
-
-### Breaking Changes
-
-  - Interface CifsMountConfiguration no longer has parameter username
-  - Interface NetworkConfiguration no longer has parameter dynamicVNetAssignmentScope
-  - Interface PrivateLinkServiceConnectionState no longer has parameter actionRequired
-  - Interface CifsMountConfiguration has a new required parameter userName
-    
-    
-## 7.2.0 (2022-07-19)
-    
-### Features Added
-
-  - Added operation PrivateEndpointConnectionOperations.beginDelete
-  - Added operation PrivateEndpointConnectionOperations.beginDeleteAndWait
-  - Added Interface Application
-  - Added Interface ApplicationPackage
-  - Added Interface AutoStorageProperties
-  - Added Interface BatchAccount
-  - Added Interface Certificate
-  - Added Interface CertificateCreateOrUpdateParameters
-  - Added Interface CertificateCreateOrUpdateProperties
-  - Added Interface CertificateProperties
-  - Added Interface DetectorResponse
-  - Added Interface EndpointAccessProfile
-  - Added Interface IPRule
-  - Added Interface NetworkProfile
-  - Added Interface Pool
-  - Added Interface PrivateEndpointConnection
-  - Added Interface PrivateEndpointConnectionDeleteHeaders
-  - Added Interface PrivateEndpointConnectionDeleteOptionalParams
-  - Added Interface PrivateLinkResource
-  - Added Type Alias EndpointAccessDefaultAction
-  - Added Type Alias PrivateEndpointConnectionDeleteResponse
-  - Interface BatchAccountCreateParameters has a new optional parameter networkProfile
-  - Interface BatchAccountUpdateParameters has a new optional parameter networkProfile
-  - Interface BatchAccountUpdateParameters has a new optional parameter publicNetworkAccess
-    
-## 7.1.1 (2022-04-11)
-
-### Features Added
-
-  - Bug fix
-    
-## 7.1.0 (2022-03-02)
-    
-### Features Added
-
-  - Added operation BatchAccountOperations.getDetector
-  - Added operation BatchAccountOperations.listDetectors
-  - Added Interface BatchAccountGetDetectorOptionalParams
-  - Added Interface BatchAccountListDetectorsNextOptionalParams
-  - Added Interface BatchAccountListDetectorsOptionalParams
-  - Added Interface DetectorListResult
-  - Added Type Alias BatchAccountGetDetectorResponse
-  - Added Type Alias BatchAccountListDetectorsNextResponse
-  - Added Type Alias BatchAccountListDetectorsResponse
-  - Added Type Alias DetectorResponse
-  - Added Type Alias DynamicVNetAssignmentScope
-  - Interface NetworkConfiguration has a new optional parameter dynamicVNetAssignmentScope
-    
-    
-## 7.0.0 (2021-12-24)
-
-The package of @azure/arm-batch is using our next generation design principles since version 7.0.0, which contains breaking changes.
-
-To understand the detail of the change, please refer to [Changelog](https://aka.ms/js-track2-changelog).
-
-To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
-
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).

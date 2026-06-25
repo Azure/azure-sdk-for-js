@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ApiManagementContext } from "../../api/apiManagementContext.js";
+import { ApiManagementContext } from "../../api/apiManagementContext.js";
 import { listByService, get } from "../../api/issue/operations.js";
-import type {
+import {
   IssueListByServiceOptionalParams,
   IssueGetOptionalParams,
 } from "../../api/issue/options.js";
-import type { IssueContract } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { IssueContract } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Issue operations. */
 export interface IssueOperations {

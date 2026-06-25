@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ApiManagementContext } from "../../api/apiManagementContext.js";
+import { ApiManagementContext } from "../../api/apiManagementContext.js";
 import { listByProduct, $delete, createOrUpdate, get } from "../../api/tagApiLink/operations.js";
-import type {
+import {
   TagApiLinkListByProductOptionalParams,
   TagApiLinkDeleteOptionalParams,
   TagApiLinkCreateOrUpdateOptionalParams,
   TagApiLinkGetOptionalParams,
 } from "../../api/tagApiLink/options.js";
-import type { TagApiLinkContract } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { TagApiLinkContract } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a TagApiLink operations. */
 export interface TagApiLinkOperations {

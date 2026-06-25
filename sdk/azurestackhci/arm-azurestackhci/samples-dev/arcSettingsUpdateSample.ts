@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update ArcSettings for HCI cluster.
  *
  * @summary update ArcSettings for HCI cluster.
- * x-ms-original-file: 2026-04-01-preview/PatchArcSetting.json
+ * x-ms-original-file: 2026-05-01-preview/PatchArcSetting.json
  */
 async function patchArcSetting(): Promise<void> {
   const credential = new DefaultAzureCredential();

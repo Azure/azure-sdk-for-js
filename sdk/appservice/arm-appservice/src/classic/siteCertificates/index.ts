@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { WebSiteManagementContext } from "../../api/webSiteManagementContext.js";
+import { WebSiteManagementContext } from "../../api/webSiteManagementContext.js";
 import {
   listSlot,
   deleteSlot,
@@ -14,7 +14,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/siteCertificates/operations.js";
-import type {
+import {
   SiteCertificatesListSlotOptionalParams,
   SiteCertificatesDeleteSlotOptionalParams,
   SiteCertificatesUpdateSlotOptionalParams,
@@ -26,8 +26,8 @@ import type {
   SiteCertificatesCreateOrUpdateOptionalParams,
   SiteCertificatesGetOptionalParams,
 } from "../../api/siteCertificates/options.js";
-import type { Certificate, CertificatePatchResource } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { Certificate, CertificatePatchResource } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a SiteCertificates operations. */
 export interface SiteCertificatesOperations {

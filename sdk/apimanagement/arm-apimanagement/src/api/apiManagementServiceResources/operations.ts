@@ -1,19 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ApiManagementContext as Client } from "../index.js";
-import type { ConnectivityCheckRequest, ConnectivityCheckResponse } from "../../models/models.js";
+import { ApiManagementContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  ConnectivityCheckRequest,
   connectivityCheckRequestSerializer,
+  ConnectivityCheckResponse,
   connectivityCheckResponseDeserializer,
 } from "../../models/models.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type { ApiManagementServiceResourcesPerformConnectivityCheckAsyncOptionalParams } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { ApiManagementServiceResourcesPerformConnectivityCheckAsyncOptionalParams } from "./options.js";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _performConnectivityCheckAsyncSend(
   context: Client,
@@ -36,12 +41,14 @@ export function _performConnectivityCheckAsyncSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: connectivityCheckRequestSerializer(connectivityCheckRequestParams),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: connectivityCheckRequestSerializer(connectivityCheckRequestParams),
+    });
 }
 
 export async function _performConnectivityCheckAsyncDeserialize(

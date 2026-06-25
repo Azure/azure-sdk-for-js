@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ApiManagementContext } from "../../api/apiManagementContext.js";
+import { ApiManagementContext } from "../../api/apiManagementContext.js";
 import { list } from "../../api/userIdentities/operations.js";
-import type { UserIdentitiesListOptionalParams } from "../../api/userIdentities/options.js";
-import type { UserIdentityContract } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { UserIdentitiesListOptionalParams } from "../../api/userIdentities/options.js";
+import { UserIdentityContract } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a UserIdentities operations. */
 export interface UserIdentitiesOperations {

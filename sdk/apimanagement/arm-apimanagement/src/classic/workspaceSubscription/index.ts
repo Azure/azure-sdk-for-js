@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ApiManagementContext } from "../../api/apiManagementContext.js";
+import { ApiManagementContext } from "../../api/apiManagementContext.js";
 import {
   listSecrets,
   regenerateSecondaryKey,
@@ -13,7 +13,7 @@ import {
   getEntityTag,
   get,
 } from "../../api/workspaceSubscription/operations.js";
-import type {
+import {
   WorkspaceSubscriptionListSecretsOptionalParams,
   WorkspaceSubscriptionRegenerateSecondaryKeyOptionalParams,
   WorkspaceSubscriptionRegeneratePrimaryKeyOptionalParams,
@@ -24,13 +24,13 @@ import type {
   WorkspaceSubscriptionGetEntityTagOptionalParams,
   WorkspaceSubscriptionGetOptionalParams,
 } from "../../api/workspaceSubscription/options.js";
-import type {
+import {
   SubscriptionContract,
   SubscriptionCreateParameters,
   SubscriptionUpdateParameters,
   SubscriptionKeysContract,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a WorkspaceSubscription operations. */
 export interface WorkspaceSubscriptionOperations {

@@ -1,20 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { BatchManagementContext } from "../../api/batchManagementContext.js";
+import { BatchManagementContext } from "../../api/batchManagementContext.js";
 import { activate, list, $delete, create, get } from "../../api/applicationPackage/operations.js";
-import type {
+import {
   ApplicationPackageActivateOptionalParams,
   ApplicationPackageListOptionalParams,
   ApplicationPackageDeleteOptionalParams,
   ApplicationPackageCreateOptionalParams,
   ApplicationPackageGetOptionalParams,
 } from "../../api/applicationPackage/options.js";
-import type {
-  ApplicationPackage,
-  ActivateApplicationPackageParameters,
-} from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { ApplicationPackage, ActivateApplicationPackageParameters } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ApplicationPackage operations. */
 export interface ApplicationPackageOperations {
@@ -35,11 +32,6 @@ export interface ApplicationPackageOperations {
     options?: ApplicationPackageListOptionalParams,
   ) => PagedAsyncIterableIterator<ApplicationPackage>;
   /** Deletes an application package record and its associated binary file. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     accountName: string,

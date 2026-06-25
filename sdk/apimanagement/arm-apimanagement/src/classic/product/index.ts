@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ApiManagementContext } from "../../api/apiManagementContext.js";
+import { ApiManagementContext } from "../../api/apiManagementContext.js";
 import {
   listByService,
   $delete,
@@ -11,7 +11,7 @@ import {
   get,
   listByTags,
 } from "../../api/product/operations.js";
-import type {
+import {
   ProductListByServiceOptionalParams,
   ProductDeleteOptionalParams,
   ProductUpdateOptionalParams,
@@ -20,12 +20,12 @@ import type {
   ProductGetOptionalParams,
   ProductListByTagsOptionalParams,
 } from "../../api/product/options.js";
-import type {
+import {
   ProductContract,
   ProductUpdateParameters,
   TagResourceContract,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Product operations. */
 export interface ProductOperations {

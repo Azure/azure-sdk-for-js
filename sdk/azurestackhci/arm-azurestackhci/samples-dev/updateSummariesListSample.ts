@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list all Update summaries under the HCI cluster
  *
  * @summary list all Update summaries under the HCI cluster
- * x-ms-original-file: 2026-04-01-preview/ListUpdateSummaries.json
+ * x-ms-original-file: 2026-05-01-preview/ListUpdateSummaries.json
  */
 async function getUpdateSummariesUnderClusterResource(): Promise<void> {
   const credential = new DefaultAzureCredential();

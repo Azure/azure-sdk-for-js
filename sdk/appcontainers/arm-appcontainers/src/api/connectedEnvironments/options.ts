@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ConnectedEnvironmentPatchResource } from "../../models/models.js";
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
@@ -20,10 +19,7 @@ export interface ConnectedEnvironmentsDeleteOptionalParams extends OperationOpti
 }
 
 /** Optional parameters. */
-export interface ConnectedEnvironmentsUpdateOptionalParams extends OperationOptions {
-  /** Configuration details of the connectedEnvironment. */
-  environmentEnvelope?: ConnectedEnvironmentPatchResource;
-}
+export interface ConnectedEnvironmentsUpdateOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface ConnectedEnvironmentsCreateOrUpdateOptionalParams extends OperationOptions {

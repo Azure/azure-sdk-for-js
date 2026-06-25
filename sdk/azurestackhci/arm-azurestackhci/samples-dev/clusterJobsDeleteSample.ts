@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a ClusterJob
  *
  * @summary delete a ClusterJob
- * x-ms-original-file: 2026-04-01-preview/ClusterJobs_Delete.json
+ * x-ms-original-file: 2026-05-01-preview/ClusterJobs_Delete.json
  */
 async function clusterJobsDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

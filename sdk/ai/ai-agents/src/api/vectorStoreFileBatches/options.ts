@@ -1,20 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   VectorStoreDataSource,
   VectorStoreChunkingStrategyRequestUnion,
   ListSortOrder,
   VectorStoreFileStatusFilter,
 } from "../../models/models.js";
-import type { OperationOptions } from "@azure-rest/core-client";
-import type { PollingOptionsParams } from "../options.js";
+import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface VectorStoreFileBatchesListVectorStoreFileBatchFilesOptionalParams extends OperationOptions {
   /** Filter by file status. */
   filter?: VectorStoreFileStatusFilter;
-  /** A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20. */
+  /** A limit on the number of objects to be returned on one page. Limit can range between 1 and 100, and the default is 20. */
   limit?: number;
   /** Sort order by the created_at timestamp of the objects. asc for ascending order and desc for descending order. */
   order?: ListSortOrder;
@@ -31,8 +30,7 @@ export interface VectorStoreFileBatchesCancelVectorStoreFileBatchOptionalParams 
 export interface VectorStoreFileBatchesGetVectorStoreFileBatchOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface VectorStoreFileBatchesCreateVectorStoreFileBatchOptionalParams
-  extends OperationOptions, PollingOptionsParams {
+export interface VectorStoreFileBatchesCreateVectorStoreFileBatchOptionalParams extends OperationOptions {
   /** List of file identifiers. */
   fileIds?: string[];
   /** List of Azure assets. */

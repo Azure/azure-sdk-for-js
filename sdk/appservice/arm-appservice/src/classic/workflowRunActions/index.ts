@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { WebSiteManagementContext } from "../../api/webSiteManagementContext.js";
+import { WebSiteManagementContext } from "../../api/webSiteManagementContext.js";
 import { listExpressionTraces, list, get } from "../../api/workflowRunActions/operations.js";
-import type {
+import {
   WorkflowRunActionsListExpressionTracesOptionalParams,
   WorkflowRunActionsListOptionalParams,
   WorkflowRunActionsGetOptionalParams,
 } from "../../api/workflowRunActions/options.js";
-import type { WorkflowRunAction, ExpressionRoot } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { WorkflowRunAction, ExpressionRoot } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a WorkflowRunActions operations. */
 export interface WorkflowRunActionsOperations {

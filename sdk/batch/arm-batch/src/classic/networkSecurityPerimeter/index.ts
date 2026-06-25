@@ -1,22 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { BatchManagementContext } from "../../api/batchManagementContext.js";
+import { BatchManagementContext } from "../../api/batchManagementContext.js";
 import {
   reconcileConfiguration,
   listConfigurations,
   getConfiguration,
 } from "../../api/networkSecurityPerimeter/operations.js";
-import type {
+import {
   NetworkSecurityPerimeterReconcileConfigurationOptionalParams,
   NetworkSecurityPerimeterListConfigurationsOptionalParams,
   NetworkSecurityPerimeterGetConfigurationOptionalParams,
 } from "../../api/networkSecurityPerimeter/options.js";
-import type { NetworkSecurityPerimeterConfiguration } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { NetworkSecurityPerimeterConfiguration } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a NetworkSecurityPerimeter operations. */
 export interface NetworkSecurityPerimeterOperations {

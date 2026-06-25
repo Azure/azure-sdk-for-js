@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ApiManagementContext } from "../../api/apiManagementContext.js";
+import { ApiManagementContext } from "../../api/apiManagementContext.js";
 import {
   listByService,
   $delete,
@@ -10,7 +10,7 @@ import {
   getEntityTag,
   get,
 } from "../../api/documentation/operations.js";
-import type {
+import {
   DocumentationListByServiceOptionalParams,
   DocumentationDeleteOptionalParams,
   DocumentationUpdateOptionalParams,
@@ -18,8 +18,8 @@ import type {
   DocumentationGetEntityTagOptionalParams,
   DocumentationGetOptionalParams,
 } from "../../api/documentation/options.js";
-import type { DocumentationContract, DocumentationUpdateContract } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { DocumentationContract, DocumentationUpdateContract } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Documentation operations. */
 export interface DocumentationOperations {

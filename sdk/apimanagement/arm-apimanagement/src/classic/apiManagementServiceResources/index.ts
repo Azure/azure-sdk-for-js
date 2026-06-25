@@ -1,13 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ApiManagementContext } from "../../api/apiManagementContext.js";
+import { ApiManagementContext } from "../../api/apiManagementContext.js";
 import { performConnectivityCheckAsync } from "../../api/apiManagementServiceResources/operations.js";
-import type { ApiManagementServiceResourcesPerformConnectivityCheckAsyncOptionalParams } from "../../api/apiManagementServiceResources/options.js";
-import type { ConnectivityCheckRequest, ConnectivityCheckResponse } from "../../models/models.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { ApiManagementServiceResourcesPerformConnectivityCheckAsyncOptionalParams } from "../../api/apiManagementServiceResources/options.js";
+import { ConnectivityCheckRequest, ConnectivityCheckResponse } from "../../models/models.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ApiManagementServiceResources operations. */
 export interface ApiManagementServiceResourcesOperations {

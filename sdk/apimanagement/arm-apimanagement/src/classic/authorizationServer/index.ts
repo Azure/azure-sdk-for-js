@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ApiManagementContext } from "../../api/apiManagementContext.js";
+import { ApiManagementContext } from "../../api/apiManagementContext.js";
 import {
   listSecrets,
   listByService,
@@ -11,7 +11,7 @@ import {
   getEntityTag,
   get,
 } from "../../api/authorizationServer/operations.js";
-import type {
+import {
   AuthorizationServerListSecretsOptionalParams,
   AuthorizationServerListByServiceOptionalParams,
   AuthorizationServerDeleteOptionalParams,
@@ -20,12 +20,12 @@ import type {
   AuthorizationServerGetEntityTagOptionalParams,
   AuthorizationServerGetOptionalParams,
 } from "../../api/authorizationServer/options.js";
-import type {
+import {
   AuthorizationServerContract,
   AuthorizationServerUpdateContract,
   AuthorizationServerSecretsContract,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a AuthorizationServer operations. */
 export interface AuthorizationServerOperations {

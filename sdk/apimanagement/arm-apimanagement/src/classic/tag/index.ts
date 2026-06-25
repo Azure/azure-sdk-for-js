@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ApiManagementContext } from "../../api/apiManagementContext.js";
+import { ApiManagementContext } from "../../api/apiManagementContext.js";
 import {
   listByService,
   $delete,
@@ -25,7 +25,7 @@ import {
   getEntityStateByApi,
   getByApi,
 } from "../../api/tag/operations.js";
-import type {
+import {
   TagListByServiceOptionalParams,
   TagDeleteOptionalParams,
   TagUpdateOptionalParams,
@@ -48,8 +48,8 @@ import type {
   TagGetEntityStateByApiOptionalParams,
   TagGetByApiOptionalParams,
 } from "../../api/tag/options.js";
-import type { TagContract, TagCreateUpdateParameters } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { TagContract, TagCreateUpdateParameters } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Tag operations. */
 export interface TagOperations {

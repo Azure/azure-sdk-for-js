@@ -1,16 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ApiManagementContext } from "../../api/apiManagementContext.js";
+import { ApiManagementContext } from "../../api/apiManagementContext.js";
 import { update, listByService } from "../../api/quotaByCounterKeys/operations.js";
-import type {
+import {
   QuotaByCounterKeysUpdateOptionalParams,
   QuotaByCounterKeysListByServiceOptionalParams,
 } from "../../api/quotaByCounterKeys/options.js";
-import type {
-  QuotaCounterCollection,
-  QuotaCounterValueUpdateContract,
-} from "../../models/models.js";
+import { QuotaCounterCollection, QuotaCounterValueUpdateContract } from "../../models/models.js";
 
 /** Interface representing a QuotaByCounterKeys operations. */
 export interface QuotaByCounterKeysOperations {

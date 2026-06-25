@@ -1,18 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { WebSiteManagementContext } from "../../api/webSiteManagementContext.js";
+import { WebSiteManagementContext } from "../../api/webSiteManagementContext.js";
 import { resubmit, list, get } from "../../api/workflowTriggerHistories/operations.js";
-import type {
+import {
   WorkflowTriggerHistoriesResubmitOptionalParams,
   WorkflowTriggerHistoriesListOptionalParams,
   WorkflowTriggerHistoriesGetOptionalParams,
 } from "../../api/workflowTriggerHistories/options.js";
-import type { WorkflowTriggerHistory } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { WorkflowTriggerHistory } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a WorkflowTriggerHistories operations. */
 export interface WorkflowTriggerHistoriesOperations {
@@ -101,7 +100,7 @@ function _getWorkflowTriggerHistories(context: WebSiteManagementContext) {
       historyName: string,
       options?: WorkflowTriggerHistoriesResubmitOptionalParams,
     ) => {
-      return resubmit(
+      return await resubmit(
         context,
         resourceGroupName,
         name,

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to initializes ARC Disable process on the cluster
  *
  * @summary initializes ARC Disable process on the cluster
- * x-ms-original-file: 2026-04-01-preview/InitializeDisableProcess.json
+ * x-ms-original-file: 2026-05-01-preview/InitializeDisableProcess.json
  */
 async function triggerARCDisable(): Promise<void> {
   const credential = new DefaultAzureCredential();

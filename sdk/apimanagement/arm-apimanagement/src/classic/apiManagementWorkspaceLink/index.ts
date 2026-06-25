@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ApiManagementContext } from "../../api/apiManagementContext.js";
+import { ApiManagementContext } from "../../api/apiManagementContext.js";
 import { get } from "../../api/apiManagementWorkspaceLink/operations.js";
-import type { ApiManagementWorkspaceLinkGetOptionalParams } from "../../api/apiManagementWorkspaceLink/options.js";
-import type { ApiManagementWorkspaceLinksResource } from "../../models/models.js";
+import { ApiManagementWorkspaceLinkGetOptionalParams } from "../../api/apiManagementWorkspaceLink/options.js";
+import { ApiManagementWorkspaceLinksResource } from "../../models/models.js";
 
 /** Interface representing a ApiManagementWorkspaceLink operations. */
 export interface ApiManagementWorkspaceLinkOperations {

@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/attestation/arm-attestation)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-attestation)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-attestation?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-attestation)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/attestation/arm-attestation/samples)
 
 ## Getting started

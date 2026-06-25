@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list all Updates
  *
  * @summary list all Updates
- * x-ms-original-file: 2026-04-01-preview/ListUpdates.json
+ * x-ms-original-file: 2026-05-01-preview/ListUpdates.json
  */
 async function listAvailableUpdates(): Promise<void> {
   const credential = new DefaultAzureCredential();

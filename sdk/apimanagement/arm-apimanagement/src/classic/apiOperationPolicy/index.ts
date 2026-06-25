@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ApiManagementContext } from "../../api/apiManagementContext.js";
+import { ApiManagementContext } from "../../api/apiManagementContext.js";
 import {
   listByOperation,
   $delete,
@@ -9,14 +9,14 @@ import {
   getEntityTag,
   get,
 } from "../../api/apiOperationPolicy/operations.js";
-import type {
+import {
   ApiOperationPolicyListByOperationOptionalParams,
   ApiOperationPolicyDeleteOptionalParams,
   ApiOperationPolicyCreateOrUpdateOptionalParams,
   ApiOperationPolicyGetEntityTagOptionalParams,
   ApiOperationPolicyGetOptionalParams,
 } from "../../api/apiOperationPolicy/options.js";
-import type { PolicyContract, PolicyIdName, PolicyCollection } from "../../models/models.js";
+import { PolicyContract, PolicyIdName, PolicyCollection } from "../../models/models.js";
 
 /** Interface representing a ApiOperationPolicy operations. */
 export interface ApiOperationPolicyOperations {

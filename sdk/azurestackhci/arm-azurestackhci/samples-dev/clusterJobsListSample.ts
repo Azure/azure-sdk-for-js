@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list ClusterJob resources by Clusters
  *
  * @summary list ClusterJob resources by Clusters
- * x-ms-original-file: 2026-04-01-preview/ClusterJobs_List.json
+ * x-ms-original-file: 2026-05-01-preview/ClusterJobs_List.json
  */
 async function clusterJobsList(): Promise<void> {
   const credential = new DefaultAzureCredential();

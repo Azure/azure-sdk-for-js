@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a EdgeDevice
  *
  * @summary delete a EdgeDevice
- * x-ms-original-file: 2026-04-01-preview/DeleteEdgeDevices.json
+ * x-ms-original-file: 2026-05-01-preview/DeleteEdgeDevices.json
  */
 async function deleteEdgeDevices(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get SKU resource details within a offer of HCI Cluster.
  *
  * @summary get SKU resource details within a offer of HCI Cluster.
- * x-ms-original-file: 2026-04-01-preview/GetSku.json
+ * x-ms-original-file: 2026-05-01-preview/GetSku.json
  */
 async function getSku(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PolicyExportFormat } from "../../models/models.js";
-import type { OperationOptions } from "@azure-rest/core-client";
+import { PolicyExportFormat } from "../../models/models.js";
+import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface ApiPolicyListByApiOptionalParams extends OperationOptions {}

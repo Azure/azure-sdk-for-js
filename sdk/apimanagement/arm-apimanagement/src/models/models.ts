@@ -911,7 +911,7 @@ export function apiCreateOrUpdateParameterSerializer(item: ApiCreateOrUpdatePara
       "description",
       "authenticationSettings",
       "subscriptionKeyParameterNames",
-      "ApiType",
+      "apiType",
       "apiRevision",
       "apiVersion",
       "isCurrent",
@@ -926,8 +926,8 @@ export function apiCreateOrUpdateParameterSerializer(item: ApiCreateOrUpdatePara
       "value",
       "format",
       "wsdlSelector",
-      "SoapApiType",
-      "TranslateRequiredQueryParametersConduct",
+      "soapApiType",
+      "translateRequiredQueryParametersConduct",
     ])
       ? undefined
       : _apiCreateOrUpdateParameterPropertiesSerializer(item),
@@ -1184,7 +1184,7 @@ export function apiUpdateContractSerializer(item: ApiUpdateContract): any {
       "description",
       "authenticationSettings",
       "subscriptionKeyParameterNames",
-      "ApiType",
+      "apiType",
       "apiRevision",
       "apiVersion",
       "isCurrent",
@@ -6343,7 +6343,7 @@ export interface GlobalSchemaContract extends ProxyResource {
 
 export function globalSchemaContractSerializer(item: GlobalSchemaContract): any {
   return {
-    properties: areAllPropsUndefined(item, ["SchemaType", "description", "value", "document"])
+    properties: areAllPropsUndefined(item, ["schemaType", "description", "value", "document"])
       ? undefined
       : _globalSchemaContractPropertiesSerializer(item),
   };
@@ -11349,8 +11349,8 @@ export interface AuthorizationContract extends ProxyResource {
 export function authorizationContractSerializer(item: AuthorizationContract): any {
   return {
     properties: areAllPropsUndefined(item, [
-      "AuthorizationType",
-      "OAuth2GrantType",
+      "authorizationType",
+      "oAuth2GrantType",
       "parameters",
       "error",
       "status",

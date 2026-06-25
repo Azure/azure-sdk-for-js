@@ -63,7 +63,7 @@ export interface JobsOperations {
     jobName: string,
     options?: JobsListDetectorsOptionalParams,
   ) => PagedAsyncIterableIterator<Diagnostics>;
-  /** Get the properties of a Container App Job. */
+  /** Get the properties for a given Container App Job. */
   proxyGet: (
     resourceGroupName: string,
     jobName: string,

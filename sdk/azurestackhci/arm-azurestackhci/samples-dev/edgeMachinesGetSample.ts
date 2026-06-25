@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get an edge machine.
  *
  * @summary get an edge machine.
- * x-ms-original-file: 2026-04-01-preview/EdgeMachines_Get.json
+ * x-ms-original-file: 2026-05-01-preview/EdgeMachines_Get.json
  */
 async function edgeMachinesGetMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

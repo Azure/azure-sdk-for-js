@@ -52,7 +52,7 @@ export function operationDeserializer(item: any): Operation {
   };
 }
 
-/** Localized display information for and operation. */
+/** Localized display information for an operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
   readonly provider?: string;
@@ -277,7 +277,7 @@ export function addonPropertiesUnionSerializer(item: AddonPropertiesUnion): any 
 }
 
 export function addonPropertiesUnionDeserializer(item: any): AddonPropertiesUnion {
-  switch (item.addonType) {
+  switch (item["addonType"]) {
     case "SRM":
       return addonSrmPropertiesDeserializer(item as AddonSrmProperties);
 
@@ -446,8 +446,8 @@ export function addonArcPropertiesDeserializer(item: any): AddonArcProperties {
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
 }
 
 export function proxyResourceDeserializer(item: any): ProxyResource {
@@ -473,8 +473,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -1510,8 +1510,8 @@ export interface HcxEnterpriseSiteProperties {
   readonly status?: HcxEnterpriseSiteStatus;
 }
 
-export function hcxEnterpriseSitePropertiesSerializer(item: HcxEnterpriseSiteProperties): any {
-  return item;
+export function hcxEnterpriseSitePropertiesSerializer(_item: HcxEnterpriseSiteProperties): any {
+  return {};
 }
 
 export function hcxEnterpriseSitePropertiesDeserializer(item: any): HcxEnterpriseSiteProperties {
@@ -1655,7 +1655,7 @@ export type HostPropertiesUnion =
   | HostProperties;
 
 export function hostPropertiesUnionDeserializer(item: any): HostPropertiesUnion {
-  switch (item.kind) {
+  switch (item["kind"]) {
     case "General":
       return generalHostPropertiesDeserializer(item as GeneralHostProperties);
 
@@ -1956,7 +1956,7 @@ export function licensePropertiesUnionSerializer(item: LicensePropertiesUnion): 
 }
 
 export function licensePropertiesUnionDeserializer(item: any): LicensePropertiesUnion {
-  switch (item.kind) {
+  switch (item["kind"]) {
     case "VmwareFirewall":
       return vmwareFirewallLicensePropertiesDeserializer(item as VmwareFirewallLicenseProperties);
 
@@ -2388,7 +2388,7 @@ export type MaintenanceManagementOperationUnion =
 export function maintenanceManagementOperationUnionDeserializer(
   item: any,
 ): MaintenanceManagementOperationUnion {
-  switch (item.kind) {
+  switch (item["kind"]) {
     case "Schedule":
       return scheduleOperationDeserializer(item as ScheduleOperation);
 
@@ -2480,7 +2480,7 @@ export type ScheduleOperationConstraintUnion =
 export function scheduleOperationConstraintUnionDeserializer(
   item: any,
 ): ScheduleOperationConstraintUnion {
-  switch (item.kind) {
+  switch (item["kind"]) {
     case "SchedulingWindow":
       return schedulingWindowDeserializer(item as SchedulingWindow);
 
@@ -2682,7 +2682,7 @@ export type RescheduleOperationConstraintUnion =
 export function rescheduleOperationConstraintUnionDeserializer(
   item: any,
 ): RescheduleOperationConstraintUnion {
-  switch (item.kind) {
+  switch (item["kind"]) {
     case "AvailableWindowForMaintenance":
       return availableWindowForMaintenanceWhileRescheduleOperationDeserializer(
         item as AvailableWindowForMaintenanceWhileRescheduleOperation,
@@ -3102,7 +3102,7 @@ export function placementPolicyPropertiesUnionSerializer(
 export function placementPolicyPropertiesUnionDeserializer(
   item: any,
 ): PlacementPolicyPropertiesUnion {
-  switch (item.type) {
+  switch (item["type"]) {
     case "VmVm":
       return vmPlacementPolicyPropertiesDeserializer(item as VmPlacementPolicyProperties);
 
@@ -3950,8 +3950,8 @@ export interface Circuit {
   readonly expressRoutePrivatePeeringID?: string;
 }
 
-export function circuitSerializer(item: Circuit): any {
-  return item;
+export function circuitSerializer(_item: Circuit): any {
+  return {};
 }
 
 export function circuitDeserializer(item: any): Circuit {
@@ -4060,7 +4060,7 @@ export function vcfLicenseUnionSerializer(item: VcfLicenseUnion): any {
 }
 
 export function vcfLicenseUnionDeserializer(item: any): VcfLicenseUnion {
-  switch (item.kind) {
+  switch (item["kind"]) {
     case "vcf5":
       return vcf5LicenseDeserializer(item as Vcf5License);
 
@@ -4939,7 +4939,7 @@ export function scriptExecutionParameterUnionSerializer(item: ScriptExecutionPar
 export function scriptExecutionParameterUnionDeserializer(
   item: any,
 ): ScriptExecutionParameterUnion {
-  switch (item.type) {
+  switch (item["type"]) {
     case "SecureValue":
       return scriptSecureStringExecutionParameterDeserializer(
         item as ScriptSecureStringExecutionParameter,
@@ -5121,9 +5121,9 @@ export function _scriptExecutionPropertiesNamedOutputRecordDeserializer(
 export interface _ScriptExecutionPropertiesNamedOutput {}
 
 export function _scriptExecutionPropertiesNamedOutputSerializer(
-  item: _ScriptExecutionPropertiesNamedOutput,
+  _item: _ScriptExecutionPropertiesNamedOutput,
 ): any {
-  return item;
+  return {};
 }
 
 export function _scriptExecutionPropertiesNamedOutputDeserializer(
@@ -5781,7 +5781,7 @@ export function workloadNetworkDhcpEntityUnionSerializer(
 export function workloadNetworkDhcpEntityUnionDeserializer(
   item: any,
 ): WorkloadNetworkDhcpEntityUnion {
-  switch (item.dhcpType) {
+  switch (item["dhcpType"]) {
     case "SERVER":
       return workloadNetworkDhcpServerDeserializer(item as WorkloadNetworkDhcpServer);
 

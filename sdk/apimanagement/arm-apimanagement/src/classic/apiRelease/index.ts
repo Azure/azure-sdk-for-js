@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ApiManagementContext } from "../../api/apiManagementContext.js";
+import { ApiManagementContext } from "../../api/apiManagementContext.js";
 import {
   listByService,
   $delete,
@@ -10,7 +10,7 @@ import {
   getEntityTag,
   get,
 } from "../../api/apiRelease/operations.js";
-import type {
+import {
   ApiReleaseListByServiceOptionalParams,
   ApiReleaseDeleteOptionalParams,
   ApiReleaseUpdateOptionalParams,
@@ -18,8 +18,8 @@ import type {
   ApiReleaseGetEntityTagOptionalParams,
   ApiReleaseGetOptionalParams,
 } from "../../api/apiRelease/options.js";
-import type { ApiReleaseContract } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { ApiReleaseContract } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ApiRelease operations. */
 export interface ApiReleaseOperations {

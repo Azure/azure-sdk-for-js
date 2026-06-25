@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ApiManagementClient } from "./apiManagementClient.js";
+import { ApiManagementClient } from "./apiManagementClient.js";
 import { _$deleteDeserialize } from "./api/user/operations.js";
 import {
   _validateDeserialize,
@@ -65,10 +65,14 @@ import { _createOrUpdateDeserialize as _createOrUpdateDeserializeWorkspaceApiSch
 import { _performConnectivityCheckAsyncDeserialize } from "./api/apiManagementServiceResources/operations.js";
 import { _createOrUpdateDeserialize as _createOrUpdateDeserializeWorkspaceApi } from "./api/workspaceApi/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
-import type { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
-import type { AbortSignalLike } from "@azure/abort-controller";
-import type { PollerLike, OperationState, ResourceLocationConfig } from "@azure/core-lro";
-import { deserializeState } from "@azure/core-lro";
+import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
+import { AbortSignalLike } from "@azure/abort-controller";
+import {
+  PollerLike,
+  OperationState,
+  deserializeState,
+  ResourceLocationConfig,
+} from "@azure/core-lro";
 
 export interface RestorePollerOptions<
   TResult,

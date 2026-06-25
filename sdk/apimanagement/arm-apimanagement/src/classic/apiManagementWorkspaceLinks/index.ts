@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ApiManagementContext } from "../../api/apiManagementContext.js";
+import { ApiManagementContext } from "../../api/apiManagementContext.js";
 import { listByService } from "../../api/apiManagementWorkspaceLinks/operations.js";
-import type { ApiManagementWorkspaceLinksListByServiceOptionalParams } from "../../api/apiManagementWorkspaceLinks/options.js";
-import type { ApiManagementWorkspaceLinksResource } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { ApiManagementWorkspaceLinksListByServiceOptionalParams } from "../../api/apiManagementWorkspaceLinks/options.js";
+import { ApiManagementWorkspaceLinksResource } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ApiManagementWorkspaceLinks operations. */
 export interface ApiManagementWorkspaceLinksOperations {

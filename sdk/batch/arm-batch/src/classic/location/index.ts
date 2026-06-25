@@ -1,24 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { BatchManagementContext } from "../../api/batchManagementContext.js";
+import { BatchManagementContext } from "../../api/batchManagementContext.js";
 import {
   checkNameAvailability,
   listSupportedVirtualMachineSkus,
   getQuotas,
 } from "../../api/location/operations.js";
-import type {
+import {
   LocationCheckNameAvailabilityOptionalParams,
   LocationListSupportedVirtualMachineSkusOptionalParams,
   LocationGetQuotasOptionalParams,
 } from "../../api/location/options.js";
-import type {
+import {
   BatchLocationQuota,
   SupportedSku,
   CheckNameAvailabilityParameters,
   CheckNameAvailabilityResult,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Location operations. */
 export interface LocationOperations {

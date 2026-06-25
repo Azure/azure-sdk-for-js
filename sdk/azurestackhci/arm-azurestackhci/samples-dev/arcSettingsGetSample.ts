@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get ArcSetting resource details of HCI Cluster.
  *
  * @summary get ArcSetting resource details of HCI Cluster.
- * x-ms-original-file: 2026-04-01-preview/GetArcSetting.json
+ * x-ms-original-file: 2026-05-01-preview/GetArcSetting.json
  */
 async function getArcSetting(): Promise<void> {
   const credential = new DefaultAzureCredential();
