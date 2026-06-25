@@ -1,15 +1,16 @@
 # Release History
-    
-## 1.0.1 (Unreleased)
+
+## 1.1.0 (2026-06-25)
 
 ### Features Added
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Interface HealthDataAIServicesClientOptionalParams has a new optional parameter cloudSetting
+  - Added Type Alias AzureSupportedClouds
+  - Added Enum AzureClouds
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+    
 ## 1.0.0 (2024-11-25)
 
 ### Features Added

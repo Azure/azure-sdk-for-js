@@ -6,15 +6,27 @@
 
 import { AbortSignalLike } from '@azure/abort-controller';
 import { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import { OperationOptions } from '@azure-rest/core-client';
 import { OperationState } from '@azure/core-lro';
 import { PathUncheckedResponse } from '@azure-rest/core-client';
 import { Pipeline } from '@azure/core-rest-pipeline';
 import { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
+
+// @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
 export interface ClientIncidentDetails {
@@ -35,6 +47,7 @@ export interface Connectivity {
 
 // @public
 export interface Connector extends ProxyResource {
+    identity?: ManagedServiceIdentityOnlyUserAssigned;
     properties?: ConnectorProperties;
 }
 
@@ -43,6 +56,8 @@ export interface ConnectorProperties {
     readonly connectorId: string;
     connectorType: Platform;
     readonly lastRunTimeStamp: Date;
+    readonly processingState: string;
+    readonly processingStateMessage: string;
     readonly provisioningState?: ProvisioningState;
     readonly tenantId: string;
 }
@@ -70,21 +85,11 @@ export interface ConnectorsOperations {
     delete: (connectorName: string, options?: ConnectorsDeleteOptionalParams) => Promise<void>;
     get: (connectorName: string, options?: ConnectorsGetOptionalParams) => Promise<Connector>;
     listBySubscription: (options?: ConnectorsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<Connector>;
-    update: (connectorName: string, properties: ConnectorUpdate, options?: ConnectorsUpdateOptionalParams) => Promise<Connector>;
+    update: (connectorName: string, properties: Connector, options?: ConnectorsUpdateOptionalParams) => Promise<Connector>;
 }
 
 // @public
 export interface ConnectorsUpdateOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ConnectorUpdate {
-    properties?: ConnectorUpdateProperties;
-}
-
-// @public
-export interface ConnectorUpdateProperties {
-    connectorType?: Platform;
 }
 
 // @public
@@ -102,8 +107,11 @@ export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
 export type CreatedByType = string;
 
 // @public
+export type DetectionType = string;
+
+// @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, any>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -140,12 +148,13 @@ export interface ImpactCategoriesGetOptionalParams extends OperationOptions {
 // @public
 export interface ImpactCategoriesListBySubscriptionOptionalParams extends OperationOptions {
     categoryName?: string;
+    resourceType?: string;
 }
 
 // @public
 export interface ImpactCategoriesOperations {
     get: (impactCategoryName: string, options?: ImpactCategoriesGetOptionalParams) => Promise<ImpactCategory>;
-    listBySubscription: (resourceType: string, options?: ImpactCategoriesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<ImpactCategory>;
+    listBySubscription: (options?: ImpactCategoriesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<ImpactCategory>;
 }
 
 // @public
@@ -170,12 +179,14 @@ export class ImpactClient {
     readonly insights: InsightsOperations;
     readonly operations: OperationsOperations;
     readonly pipeline: Pipeline;
+    readonly uploadService: UploadServiceOperations;
     readonly workloadImpacts: WorkloadImpactsOperations;
 }
 
 // @public
 export interface ImpactClientOptionalParams extends ClientOptions {
     apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
@@ -195,6 +206,13 @@ export interface Insight extends ProxyResource {
 }
 
 // @public
+export interface InsightCategoryGroup {
+    category: string;
+    insights?: InsightReference[];
+    status?: string;
+}
+
+// @public
 export interface InsightProperties {
     additionalDetails?: Record<string, any>;
     category: string;
@@ -206,6 +224,11 @@ export interface InsightProperties {
     insightUniqueId: string;
     readonly provisioningState?: ProvisioningState;
     status?: string;
+}
+
+// @public
+export interface InsightReference {
+    id: string;
 }
 
 // @public
@@ -232,6 +255,8 @@ export interface InsightsOperations {
     listBySubscription: (workloadImpactName: string, options?: InsightsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<Insight>;
 }
 
+export { isRestError }
+
 // @public
 export enum KnownActionType {
     Internal = "Internal"
@@ -253,12 +278,25 @@ export enum KnownCreatedByType {
 }
 
 // @public
+export enum KnownDetectionType {
+    BusinessAlert = "BusinessAlert",
+    MetricsAnomaly = "MetricsAnomaly",
+    MetricsThreshold = "MetricsThreshold"
+}
+
+// @public
 export enum KnownIncidentSource {
     AzureDevops = "AzureDevops",
     ICM = "ICM",
     Jira = "Jira",
     Other = "Other",
     ServiceNow = "ServiceNow"
+}
+
+// @public
+export enum KnownManagedServiceIdentityTypeOnlyUserAssigned {
+    None = "None",
+    UserAssigned = "UserAssigned"
 }
 
 // @public
@@ -309,6 +347,14 @@ export enum KnownProvisioningState {
 }
 
 // @public
+export enum KnownSeverity {
+    Critical = "Critical",
+    High = "High",
+    Low = "Low",
+    Medium = "Medium"
+}
+
+// @public
 export enum KnownToolset {
     Ansible = "Ansible",
     ARM = "ARM",
@@ -323,8 +369,18 @@ export enum KnownToolset {
 
 // @public
 export enum KnownVersions {
-    V20240501Preview = "2024-05-01-preview"
+    V20250101Preview = "2025-01-01-preview",
+    V20260101Preview = "2026-01-01-preview"
 }
+
+// @public
+export interface ManagedServiceIdentityOnlyUserAssigned {
+    type: ManagedServiceIdentityTypeOnlyUserAssigned;
+    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
+}
+
+// @public
+export type ManagedServiceIdentityTypeOnlyUserAssigned = string;
 
 // @public
 export type MetricUnit = string;
@@ -406,6 +462,8 @@ export interface Resource {
     readonly type?: string;
 }
 
+export { RestError }
+
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: ImpactClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
 
@@ -415,6 +473,9 @@ export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedRe
     processResponseBody?: (result: TResponse) => Promise<TResult>;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type Severity = string;
 
 // @public
 export interface SourceOrTarget {
@@ -435,6 +496,26 @@ export interface SystemData {
 export type Toolset = string;
 
 // @public
+export interface UploadServiceGetUploadTokenOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface UploadServiceOperations {
+    getUploadToken: (options?: UploadServiceGetUploadTokenOptionalParams) => Promise<UploadTokenResult>;
+}
+
+// @public
+export interface UploadTokenResult {
+    uploadUrl: string;
+}
+
+// @public
+export interface UserAssignedIdentity {
+    readonly clientId?: string;
+    readonly principalId?: string;
+}
+
+// @public
 export interface Workload {
     context?: string;
     toolset?: Toolset;
@@ -452,16 +533,23 @@ export interface WorkloadImpactProperties {
     clientIncidentDetails?: ClientIncidentDetails;
     confidenceLevel?: ConfidenceLevel;
     connectivity?: Connectivity;
+    detectionType?: DetectionType;
+    durationInSec?: number;
+    durationMarginInSec?: number;
     endDateTime?: Date;
     errorDetails?: ErrorDetailProperties;
+    hitCount?: number;
     impactCategory: string;
     impactDescription?: string;
     impactedResourceId: string;
     impactGroupId?: string;
     readonly impactUniqueId?: string;
+    readonly insightsByCategory?: InsightCategoryGroup[];
+    ongoingImpact?: boolean;
     performance?: Performance[];
     readonly provisioningState?: ProvisioningState;
     readonly reportedTimeUtc?: Date;
+    severity?: Severity;
     startDateTime: Date;
     workload?: Workload;
 }
