@@ -8,7 +8,7 @@ domain and produces targeted, actionable feedback.
 
 | Agent | Label | Focus |
 |-------|-------|-------|
-| **Archie** | `architecture-review-needed` | Public API surface — naming, exports, breaking changes, type safety |
+| **Archie** | `architect-review-needed` | Public API surface — naming, exports, breaking changes, type safety |
 | **Dash** | `performance-review-needed` | Runtime performance — latency, memory, bundle size, async patterns |
 | **Dexter** | `dependency-review-needed` | Dependency management — version ranges, workspace protocol, new deps |
 | **Mgmt-review** | `mgmt-review-needed` | Management-plane SDKs — API design guidelines, tooling validation |
@@ -29,7 +29,7 @@ For example, to request an architecture review:
 
 1. Open your pull request on GitHub.
 2. If you have permission to manage labels, use the **Labels** sidebar to add
-   the `architecture-review-needed` label.
+   the `architect-review-needed` label.
 3. If you do not have label permissions (for example, you're an external
    contributor), leave a comment asking a maintainer to add the label for you.
 4. Once the label is applied, the **Archie** agent will run and post review
@@ -56,11 +56,11 @@ not duplicate findings from other agents.
 
 | Scenario | Labels to Apply |
 |----------|----------------|
-| New client library feature | `architecture-review-needed`, `test-review-needed`, `docs-review-needed` |
+| New client library feature | `architect-review-needed`, `test-review-needed`, `docs-review-needed` |
 | Dependency update | `dependency-review-needed`, `security-review-needed` |
 | Management SDK changes | `mgmt-review-needed` |
 | Performance-sensitive change | `performance-review-needed`, `test-review-needed` |
-| Full review | `architecture-review-needed`, `performance-review-needed`, `dependency-review-needed`, `docs-review-needed`, `security-review-needed`, `test-review-needed` |
+| Full review | `architect-review-needed`, `performance-review-needed`, `dependency-review-needed`, `docs-review-needed`, `security-review-needed`, `test-review-needed` |
 
 ## Using Agents Locally in VS Code
 

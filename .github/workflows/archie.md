@@ -14,7 +14,7 @@ on:
   steps:
     - name: Swap trigger label to in-progress
       id: swap_label
-      if: github.event_name == 'pull_request_target' && github.event.label.name == 'architecture-review-needed'
+      if: github.event_name == 'pull_request_target' && github.event.label.name == 'architect-review-needed'
       uses: actions/github-script@v8
       with:
         script: |
@@ -24,7 +24,7 @@ on:
             await github.rest.issues.removeLabel({
               ...context.repo,
               issue_number: pr,
-              name: 'architecture-review-needed'
+              name: 'architect-review-needed'
             });
           } catch (e) {
             core.warning(`Could not remove trigger label: ${e.message}`);
@@ -40,8 +40,8 @@ on:
             core.warning(`Could not add in-progress label: ${e.message}`);
           }
 checkout: false
-labels: [architecture-review-needed]
-if: github.event.label.name == 'architecture-review-needed' || github.event_name == 'workflow_dispatch'
+labels: [architect-review-needed]
+if: github.event.label.name == 'architect-review-needed' || github.event_name == 'workflow_dispatch'
 concurrency:
   group: "gh-aw-${{ github.workflow }}-${{ github.event.pull_request.number || github.event.inputs.item_number || github.run_id }}-${{ github.event.label.name || '' }}"
   cancel-in-progress: true
