@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DynatraceObservabilityContext } from "../../api/dynatraceObservabilityContext.js";
+import { DynatraceObservabilityContext } from "../../api/dynatraceObservabilityContext.js";
 import {
   getMarketplaceSaaSResourceDetails,
   getAllConnectedResourcesCount,
@@ -21,7 +21,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/monitors/operations.js";
-import type {
+import {
   MonitorsGetMarketplaceSaaSResourceDetailsOptionalParams,
   MonitorsGetAllConnectedResourcesCountOptionalParams,
   MonitorsListLinkableEnvironmentsOptionalParams,
@@ -40,7 +40,7 @@ import type {
   MonitorsCreateOrUpdateOptionalParams,
   MonitorsGetOptionalParams,
 } from "../../api/monitors/options.js";
-import type {
+import {
   MonitorResource,
   MonitorResourceUpdate,
   MonitoredResource,
@@ -58,10 +58,9 @@ import type {
   MarketplaceSaaSResourceDetailsRequest,
   MarketplaceSaaSResourceDetailsResponse,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Monitors operations. */
 export interface MonitorsOperations {

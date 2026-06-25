@@ -15,10 +15,10 @@ async function dpsVerifyCertificate(): Promise<void> {
   const subscriptionId = "91d12660-3dec-467a-be2a-213b5544ddc0";
   const client = new IotDpsClient(credential, subscriptionId);
   const result = await client.dpsCertificate.verifyCertificate(
-    "myResourceGroup",
-    "myFirstProvisioningService",
     "cert",
     "AAAAAAAADGk=",
+    "myResourceGroup",
+    "myFirstProvisioningService",
     { certificate: "#####################################" },
   );
   console.log(result);

@@ -1980,8 +1980,8 @@ export interface EHNamespace extends ProxyResource {
   platformCapabilities?: PlatformCapabilities;
   /** Geo Data Replication settings for the namespace */
   geoDataReplication?: GeoDataReplicationProperties;
-  /** Value that indicates whether IPv6 is enabled for public network access. */
-  ipV6Enabled?: boolean;
+  /** The IP address type for the namespace. Determines whether the namespace supports IPv4 only or both IPv4 and IPv6 (dual stack). */
+  ipAddressType?: IpAddressType;
 }
 
 export function ehNamespaceSerializer(item: EHNamespace): any {
@@ -2000,7 +2000,7 @@ export function ehNamespaceSerializer(item: EHNamespace): any {
       "alternateName",
       "platformCapabilities",
       "geoDataReplication",
-      "ipV6Enabled",
+      "ipAddressType",
     ])
       ? undefined
       : _ehNamespacePropertiesSerializer(item),
@@ -2070,8 +2070,8 @@ export interface EHNamespaceProperties {
   platformCapabilities?: PlatformCapabilities;
   /** Geo Data Replication settings for the namespace */
   geoDataReplication?: GeoDataReplicationProperties;
-  /** Value that indicates whether IPv6 is enabled for public network access. */
-  ipV6Enabled?: boolean;
+  /** The IP address type for the namespace. Determines whether the namespace supports IPv4 only or both IPv4 and IPv6 (dual stack). */
+  ipAddressType?: IpAddressType;
 }
 
 export function ehNamespacePropertiesSerializer(item: EHNamespaceProperties): any {
@@ -2095,7 +2095,7 @@ export function ehNamespacePropertiesSerializer(item: EHNamespaceProperties): an
     geoDataReplication: !item["geoDataReplication"]
       ? item["geoDataReplication"]
       : geoDataReplicationPropertiesSerializer(item["geoDataReplication"]),
-    ipV6Enabled: item["ipV6Enabled"],
+    ipAddressType: item["ipAddressType"],
   };
 }
 
@@ -2128,7 +2128,7 @@ export function ehNamespacePropertiesDeserializer(item: any): EHNamespacePropert
     geoDataReplication: !item["geoDataReplication"]
       ? item["geoDataReplication"]
       : geoDataReplicationPropertiesDeserializer(item["geoDataReplication"]),
-    ipV6Enabled: item["ipV6Enabled"],
+    ipAddressType: item["ipAddressType"],
   };
 }
 
@@ -2360,6 +2360,24 @@ export enum KnownGeoDRRoleType {
  * **Secondary**
  */
 export type GeoDRRoleType = string;
+
+/** The IP address type for the namespace. Determines whether the namespace supports IPv4 only or both IPv4 and IPv6 (dual stack). */
+export enum KnownIpAddressType {
+  /** The namespace supports IPv4 addresses only. */
+  IPv4 = "IPv4",
+  /** The namespace supports both IPv4 and IPv6 addresses (dual stack). */
+  DualStack = "DualStack",
+}
+
+/**
+ * The IP address type for the namespace. Determines whether the namespace supports IPv4 only or both IPv4 and IPv6 (dual stack). \
+ * {@link KnownIpAddressType} can be used interchangeably with IpAddressType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **IPv4**: The namespace supports IPv4 addresses only. \
+ * **DualStack**: The namespace supports both IPv4 and IPv6 addresses (dual stack).
+ */
+export type IpAddressType = string;
 
 /** SKU parameters supplied to the create namespace operation */
 export interface Sku {
@@ -3493,7 +3511,7 @@ export function _ehNamespacePropertiesSerializer(item: EHNamespace): any {
     geoDataReplication: !item["geoDataReplication"]
       ? item["geoDataReplication"]
       : geoDataReplicationPropertiesSerializer(item["geoDataReplication"]),
-    ipV6Enabled: item["ipV6Enabled"],
+    ipAddressType: item["ipAddressType"],
   };
 }
 
@@ -3526,7 +3544,7 @@ export function _ehNamespacePropertiesDeserializer(item: any) {
     geoDataReplication: !item["geoDataReplication"]
       ? item["geoDataReplication"]
       : geoDataReplicationPropertiesDeserializer(item["geoDataReplication"]),
-    ipV6Enabled: item["ipV6Enabled"],
+    ipAddressType: item["ipAddressType"],
   };
 }
 

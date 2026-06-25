@@ -16,8 +16,8 @@ async function dpsListKeys(): Promise<void> {
   const client = new IotDpsClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.iotDpsResource.listKeys(
-    "myResourceGroup",
     "myFirstProvisioningService",
+    "myResourceGroup",
   )) {
     resArray.push(item);
   }

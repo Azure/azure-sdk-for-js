@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/dynatrace/arm-dynatrace)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-dynatrace)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-dynatrace?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-dynatrace)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/dynatrace/arm-dynatrace/samples)
 
 ## Getting started

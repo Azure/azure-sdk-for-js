@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { EventHubManagementContext } from "../../api/eventHubManagementContext.js";
+import { EventHubManagementContext } from "../../api/eventHubManagementContext.js";
 import { list } from "../../api/networkSecurityPerimeterConfigurationOperations/operations.js";
-import type { NetworkSecurityPerimeterConfigurationOperationsListOptionalParams } from "../../api/networkSecurityPerimeterConfigurationOperations/options.js";
-import type { NetworkSecurityPerimeterConfigurationList } from "../../models/models.js";
+import { NetworkSecurityPerimeterConfigurationOperationsListOptionalParams } from "../../api/networkSecurityPerimeterConfigurationOperations/options.js";
+import { NetworkSecurityPerimeterConfigurationList } from "../../models/models.js";
 
 /** Interface representing a NetworkSecurityPerimeterConfigurationOperations operations. */
 export interface NetworkSecurityPerimeterConfigurationOperationsOperations {

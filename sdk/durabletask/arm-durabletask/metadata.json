@@ -2,7 +2,7 @@
   "apiVersions": {
     "Microsoft.DurableTask": "2026-02-01"
   },
-  "emitterVersion": "0.50.2",
+  "emitterVersion": "0.55.0-dev.9",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.DurableTask",
     "CrossLanguageDefinitionId": {

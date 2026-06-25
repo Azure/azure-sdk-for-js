@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export {
-  createDomainRegistrationManagement,
-  type DomainRegistrationManagementContext,
-  type DomainRegistrationManagementClientOptionalParams,
+export type {
+  DomainRegistrationManagementContext,
+  DomainRegistrationManagementClientOptionalParams,
 } from "./domainRegistrationManagementContext.js";
+export { createDomainRegistrationManagement } from "./domainRegistrationManagementContext.js";

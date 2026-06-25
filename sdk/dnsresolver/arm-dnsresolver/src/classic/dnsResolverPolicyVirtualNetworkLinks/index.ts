@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DnsResolverManagementContext } from "../../api/dnsResolverManagementContext.js";
+import { DnsResolverManagementContext } from "../../api/dnsResolverManagementContext.js";
 import {
   list,
   $delete,
@@ -9,21 +9,20 @@ import {
   createOrUpdate,
   get,
 } from "../../api/dnsResolverPolicyVirtualNetworkLinks/operations.js";
-import type {
+import {
   DnsResolverPolicyVirtualNetworkLinksListOptionalParams,
   DnsResolverPolicyVirtualNetworkLinksDeleteOptionalParams,
   DnsResolverPolicyVirtualNetworkLinksUpdateOptionalParams,
   DnsResolverPolicyVirtualNetworkLinksCreateOrUpdateOptionalParams,
   DnsResolverPolicyVirtualNetworkLinksGetOptionalParams,
 } from "../../api/dnsResolverPolicyVirtualNetworkLinks/options.js";
-import type {
+import {
   DnsResolverPolicyVirtualNetworkLink,
   DnsResolverPolicyVirtualNetworkLinkPatch,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a DnsResolverPolicyVirtualNetworkLinks operations. */
 export interface DnsResolverPolicyVirtualNetworkLinksOperations {

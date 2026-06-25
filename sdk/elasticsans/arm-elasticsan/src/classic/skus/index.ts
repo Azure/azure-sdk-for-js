@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ElasticSanManagementContext } from "../../api/elasticSanManagementContext.js";
+import { ElasticSanManagementContext } from "../../api/elasticSanManagementContext.js";
 import { list } from "../../api/skus/operations.js";
-import type { SkusListOptionalParams } from "../../api/skus/options.js";
-import type { SkuInformation } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SkusListOptionalParams } from "../../api/skus/options.js";
+import { SkuInformation } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Skus operations. */
 export interface SkusOperations {

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DnsResolverManagementContext } from "../../api/dnsResolverManagementContext.js";
+import { DnsResolverManagementContext } from "../../api/dnsResolverManagementContext.js";
 import {
   list,
   $delete,
@@ -9,15 +9,15 @@ import {
   createOrUpdate,
   get,
 } from "../../api/forwardingRules/operations.js";
-import type {
+import {
   ForwardingRulesListOptionalParams,
   ForwardingRulesDeleteOptionalParams,
   ForwardingRulesUpdateOptionalParams,
   ForwardingRulesCreateOrUpdateOptionalParams,
   ForwardingRulesGetOptionalParams,
 } from "../../api/forwardingRules/options.js";
-import type { ForwardingRule, ForwardingRulePatch } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { ForwardingRule, ForwardingRulePatch } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ForwardingRules operations. */
 export interface ForwardingRulesOperations {

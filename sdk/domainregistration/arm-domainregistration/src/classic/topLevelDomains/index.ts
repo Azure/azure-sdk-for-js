@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DomainRegistrationManagementContext } from "../../api/domainRegistrationManagementContext.js";
+import { DomainRegistrationManagementContext } from "../../api/domainRegistrationManagementContext.js";
 import { listAgreements, list, get } from "../../api/topLevelDomains/operations.js";
-import type {
+import {
   TopLevelDomainsListAgreementsOptionalParams,
   TopLevelDomainsListOptionalParams,
   TopLevelDomainsGetOptionalParams,
 } from "../../api/topLevelDomains/options.js";
-import type {
+import {
   TopLevelDomain,
   TopLevelDomainAgreementOption,
   TldLegalAgreement,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a TopLevelDomains operations. */
 export interface TopLevelDomainsOperations {

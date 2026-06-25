@@ -1,17 +1,129 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import DocumentIntelligence from "./documentIntelligence.js";
+import {
+  PageSettings,
+  ContinuablePage,
+  PagedAsyncIterableIterator,
+} from "./static-helpers/pagingHelpers.js";
 
-export * from "./documentIntelligence.js";
-export * from "./parameters.js";
-export * from "./responses.js";
-export * from "./clientDefinitions.js";
-export * from "./isUnexpected.js";
-export * from "./models.js";
-export * from "./outputModels.js";
-export * from "./paginateHelper.js";
-export * from "./pollingHelper.js";
-export * from "./utils.js";
-
-export default DocumentIntelligence;
+export { DocumentIntelligenceClient } from "./documentIntelligence/documentIntelligenceClient.js";
+export type { RestorePollerOptions } from "./documentIntelligence/restorePollerHelpers.js";
+export { restorePoller } from "./documentIntelligence/restorePollerHelpers.js";
+export type {
+  AnalyzeDocumentRequest,
+  DocumentIntelligenceErrorResponse,
+  DocumentIntelligenceError,
+  DocumentIntelligenceInnerError,
+  AnalyzeResult,
+  StringIndexType,
+  DocumentContentFormat,
+  DocumentPage,
+  LengthUnit,
+  DocumentSpan,
+  DocumentWord,
+  DocumentSelectionMark,
+  DocumentSelectionMarkState,
+  DocumentLine,
+  DocumentBarcode,
+  DocumentBarcodeKind,
+  DocumentFormula,
+  DocumentFormulaKind,
+  DocumentParagraph,
+  ParagraphRole,
+  BoundingRegion,
+  DocumentTable,
+  DocumentTableCell,
+  DocumentTableCellKind,
+  DocumentCaption,
+  DocumentFootnote,
+  DocumentFigure,
+  DocumentSection,
+  DocumentKeyValuePair,
+  DocumentKeyValueElement,
+  DocumentStyle,
+  DocumentFontStyle,
+  DocumentFontWeight,
+  DocumentLanguage,
+  AnalyzedDocument,
+  DocumentField,
+  DocumentFieldType,
+  DocumentSignatureType,
+  CurrencyValue,
+  AddressValue,
+  DocumentIntelligenceWarning,
+  DocumentIntelligenceOperationStatus,
+  AnalyzeBatchDocumentsRequest,
+  AzureBlobContentSource,
+  AzureBlobFileListContentSource,
+  AnalyzeBatchResult,
+  AnalyzeBatchOperationDetail,
+  AnalyzeBatchOperation,
+  ClassifyDocumentRequest,
+  BuildDocumentModelRequest,
+  DocumentBuildMode,
+  DocumentModelDetails,
+  SplitMode,
+  DocumentTypeDetails,
+  DocumentFieldSchema,
+  DocumentAnalysisFeature,
+  DocumentModelBuildOperationDetails,
+  DocumentIntelligenceOperationDetails,
+  DocumentIntelligenceOperationDetailsUnion,
+  OperationKind,
+  DocumentModelComposeOperationDetails,
+  DocumentModelCopyToOperationDetails,
+  DocumentClassifierCopyToOperationDetails,
+  DocumentClassifierDetails,
+  ClassifierDocumentTypeDetails,
+  ContentSourceKind,
+  DocumentClassifierBuildOperationDetails,
+  ComposeDocumentModelRequest,
+  AuthorizeCopyRequest,
+  ModelCopyAuthorization,
+  DocumentIntelligenceResourceDetails,
+  CustomDocumentModelsDetails,
+  BuildDocumentClassifierRequest,
+  AuthorizeClassifierCopyRequest,
+  ClassifierCopyAuthorization,
+  AnalyzeOutputOption,
+  GetAnalyzeResultFigureResponse,
+  GetAnalyzeResultPdfResponse,
+} from "./models/index.js";
+export { KnownVersions } from "./models/index.js";
+export type {
+  DocumentIntelligenceClientOptionalParams,
+  ClassifyDocumentOptionalParams,
+  GetAnalyzeBatchResultOptionalParams,
+  DeleteAnalyzeBatchResultOptionalParams,
+  ListAnalyzeBatchResultsOptionalParams,
+  AnalyzeBatchDocumentsOptionalParams,
+  DeleteAnalyzeResultOptionalParams,
+  GetAnalyzeResultFigureOptionalParams,
+  GetAnalyzeResultPdfOptionalParams,
+  AnalyzeDocumentOptionalParams,
+} from "./documentIntelligence/api/index.js";
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";
+export { DocumentIntelligenceAdministrationClient } from "./documentIntelligenceAdministration/documentIntelligenceAdministrationClient.js";
+export type { RestorePollerOptions as DocumentIntelligenceAdministrationClientRestorePollerOptions } from "./documentIntelligenceAdministration/restorePollerHelpers.js";
+export { restorePoller as DocumentIntelligenceAdministrationClientrestorePoller } from "./documentIntelligenceAdministration/restorePollerHelpers.js";
+export type {
+  DocumentIntelligenceAdministrationClientOptionalParams,
+  DeleteClassifierOptionalParams,
+  ListClassifiersOptionalParams,
+  GetClassifierOptionalParams,
+  CopyClassifierToOptionalParams,
+  AuthorizeClassifierCopyOptionalParams,
+  BuildClassifierOptionalParams,
+  ListOperationsOptionalParams,
+  GetOperationOptionalParams,
+  GetResourceDetailsOptionalParams,
+  DeleteModelOptionalParams,
+  ListModelsOptionalParams,
+  GetModelOptionalParams,
+  CopyModelToOptionalParams,
+  AuthorizeModelCopyOptionalParams,
+  ComposeModelOptionalParams,
+  BuildDocumentModelOptionalParams,
+} from "./documentIntelligenceAdministration/api/index.js";

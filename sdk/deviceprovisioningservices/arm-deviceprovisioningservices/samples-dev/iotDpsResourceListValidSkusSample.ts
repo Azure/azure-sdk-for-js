@@ -16,8 +16,8 @@ async function dpsGetValidSku(): Promise<void> {
   const client = new IotDpsClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.iotDpsResource.listValidSkus(
-    "myResourceGroup",
     "myFirstProvisioningService",
+    "myResourceGroup",
   )) {
     resArray.push(item);
   }

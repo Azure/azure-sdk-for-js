@@ -30,11 +30,13 @@ export function _redeemInvitationCodeSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: redeemRequestSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: redeemRequestSerializer(parameters),
+    });
 }
 
 export async function _redeemInvitationCodeDeserialize(
@@ -43,7 +45,9 @@ export async function _redeemInvitationCodeDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseBodyDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseBodyDeserializer(result.body);
+    }
 
     throw error;
   }
