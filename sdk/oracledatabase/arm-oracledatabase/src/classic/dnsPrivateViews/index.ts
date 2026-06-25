@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { OracleDatabaseManagementContext } from "../../api/oracleDatabaseManagementContext.js";
+import { OracleDatabaseManagementContext } from "../../api/oracleDatabaseManagementContext.js";
 import { listByLocation, get } from "../../api/dnsPrivateViews/operations.js";
-import type {
+import {
   DnsPrivateViewsListByLocationOptionalParams,
   DnsPrivateViewsGetOptionalParams,
 } from "../../api/dnsPrivateViews/options.js";
-import type { DnsPrivateView } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { DnsPrivateView } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a DnsPrivateViews operations. */
 export interface DnsPrivateViewsOperations {

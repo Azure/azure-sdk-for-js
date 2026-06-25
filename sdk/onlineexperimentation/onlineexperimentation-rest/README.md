@@ -1,27 +1,31 @@
-# Azure OnlineExperimentation REST client library for JavaScript
+# Azure OnlineExperimentation client library for JavaScript
+
+This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure OnlineExperimentation client.
 
 Azure Online Experimentation Service
-
-**Please rely heavily on our [REST client docs](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md) to use this library**
 
 Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/onlineexperimentation/onlineexperimentation-rest)
 - [Package (NPM)](https://www.npmjs.com/package/@azure-rest/onlineexperimentation)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure-rest/onlineexperimentation?view=azure-node-preview)
 
 ## Getting started
 
 ### Currently supported environments
 
-- LTS versions of Node.js
+- [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
+- Latest versions of Safari, Chrome, Edge and Firefox.
+
+See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
 
 ### Prerequisites
 
-- You must have an [Azure subscription](https://azure.microsoft.com/free/) to use this package.
+- An [Azure subscription][azure_sub].
 
 ### Install the `@azure-rest/onlineexperimentation` package
 
-Install the Azure OnlineExperimentation REST client REST client library for JavaScript with `npm`:
+Install the Azure OnlineExperimentation client library for JavaScript with `npm`:
 
 ```bash
 npm install @azure-rest/onlineexperimentation
@@ -29,59 +33,52 @@ npm install @azure-rest/onlineexperimentation
 
 ### Create and authenticate a `OnlineExperimentationClient`
 
-The Azure Online Experimentation client library initialization requires two parameters:
+To create a client object to access the Azure OnlineExperimentation API, you will need the `endpoint` of your Azure OnlineExperimentation resource and a `credential`. The Azure OnlineExperimentation client can use Microsoft Entra credentials to authenticate.
+You can find the endpoint for your Azure OnlineExperimentation resource in the [Azure Portal][azure_portal].
 
-- The `endpoint` property value from the [`Microsoft.OnlineExperimentation/workspaces`](https://learn.microsoft.com/azure/templates/microsoft.onlineexperimentation/workspaces) resource.
-- A `TokenCredential` for authentication, the simplest approach is to use [`DefaultAzureCredential`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential) from the `@azure/identity` library.
+You can authenticate with Microsoft Entra ID using a credential from the [@azure/identity][azure_identity] library or [an existing Microsoft Entra token](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token).
 
-```ts snippet:InitializeClient
+To use the [DefaultAzureCredential][defaultazurecredential] provider shown below, or other credential providers provided with the Azure SDK, please install the `@azure/identity` package:
+
+```bash
+npm install @azure/identity
+```
+
+You will also need to **register a new Microsoft Entra application and grant access to Azure OnlineExperimentation** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
+
+For more information about how to create a Microsoft Entra application check out [this guide](https://learn.microsoft.com/entra/identity-platform/howto-create-service-principal-portal).
+
+Using Node.js and Node-like environments, you can use the `DefaultAzureCredential` class to authenticate the client.
+
+```ts 
+import { OnlineExperimentationClient } from "@azure-rest/onlineexperimentation";
 import { DefaultAzureCredential } from "@azure/identity";
+
+const client = new OnlineExperimentationClient("<endpoint>", new DefaultAzureCredential());
+```
+
+For browser environments, use the `InteractiveBrowserCredential` from the `@azure/identity` package to authenticate.
+
+```ts 
+import { InteractiveBrowserCredential } from "@azure/identity";
 import { OnlineExperimentationClient } from "@azure-rest/onlineexperimentation";
 
-const endpoint = process.env.AZURE_ONLINEEXPERIMENTATION_ENDPOINT || "<endpoint>";
-const credential = new DefaultAzureCredential();
-// Initialize a client with default API version
-const client = OnlineExperimentationClient(endpoint, credential);
+const credential = new InteractiveBrowserCredential({
+  tenantId: "<YOUR_TENANT_ID>",
+  clientId: "<YOUR_CLIENT_ID>"
+ });
+const client = new OnlineExperimentationClient("<endpoint>", credential);
 ```
 
-## Examples
 
-- Full set of [examples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/onlineexperimentation/onlineexperimentation-rest/EXAMPLES.md) demonstrating individual API operations.
-- Example demonstrating experiment metrics management lifecycle: [TypeScript](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/onlineexperimentation/onlineexperimentation-rest/samples/v1-beta/typescript/README.md) and [JavaScript](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/onlineexperimentation/onlineexperimentation-rest/samples/v1-beta/javascript/README.md).
+### JavaScript Bundle
+To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
 
-### Quick Start - Initialize Client and List Experiment Metrics
+## Key concepts
 
-The Azure OnlineExperimentation REST client library initialization requires two parameters:
+### OnlineExperimentationClient
 
-- The `endpoint` property value from the [`Microsoft.OnlineExperimentation/workspaces`](https://learn.microsoft.com/azure/templates/microsoft.onlineexperimentation/workspaces) resource.
-- A `TokenCredential` for authentication, the simplest approach is to use [`DefaultAzureCredential`](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/README.md#defaultazurecredential).
-
-```ts snippet:ListExperimentMetrics
-import { DefaultAzureCredential } from "@azure/identity";
-import {
-  OnlineExperimentationClient,
-  isUnexpected,
-  paginate,
-} from "@azure-rest/onlineexperimentation";
-
-const endpoint = process.env.AZURE_ONLINEEXPERIMENTATION_ENDPOINT || "<endpoint>";
-const credential = new DefaultAzureCredential();
-const client = OnlineExperimentationClient(endpoint, credential);
-const listResponse = await client.path("/experiment-metrics").get({
-  queryParameters: {
-    top: 10,
-    skip: 0,
-  },
-});
-if (isUnexpected(listResponse)) {
-  throw listResponse;
-}
-for await (const metric of paginate(client, listResponse)) {
-  // Access metric properties
-  const id = metric.id;
-  const name = metric.displayName;
-}
-```
+`OnlineExperimentationClient` is the primary interface for developers using the Azure OnlineExperimentation client library. Explore the methods on this client object to understand the different features of the Azure OnlineExperimentation service that you can access.
 
 ## Troubleshooting
 
@@ -89,10 +86,24 @@ for await (const metric of paginate(client, listResponse)) {
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```ts snippet:SetLogLevel
+```ts 
 import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
 ```
 
 For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
+
+
+## Contributing
+
+If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
+
+## Related projects
+
+- [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
+
+[azure_sub]: https://azure.microsoft.com/free/
+[azure_portal]: https://portal.azure.com
+[azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity
+[defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential

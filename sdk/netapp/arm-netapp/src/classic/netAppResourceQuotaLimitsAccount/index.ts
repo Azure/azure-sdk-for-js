@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NetAppManagementContext } from "../../api/netAppManagementContext.js";
+import { NetAppManagementContext } from "../../api/netAppManagementContext.js";
 import { list, get } from "../../api/netAppResourceQuotaLimitsAccount/operations.js";
-import type {
+import {
   NetAppResourceQuotaLimitsAccountListOptionalParams,
   NetAppResourceQuotaLimitsAccountGetOptionalParams,
 } from "../../api/netAppResourceQuotaLimitsAccount/options.js";
-import type { QuotaItem } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { QuotaItem } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a NetAppResourceQuotaLimitsAccount operations. */
 export interface NetAppResourceQuotaLimitsAccountOperations {

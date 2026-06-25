@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PolicyContext } from "../../api/policyContext.js";
+import { PolicyContext } from "../../api/policyContext.js";
 import { acquireAtManagementGroup, acquire } from "../../api/policyTokens/operations.js";
-import type {
+import {
   PolicyTokensAcquireAtManagementGroupOptionalParams,
   PolicyTokensAcquireOptionalParams,
 } from "../../api/policyTokens/options.js";
-import type { PolicyTokenRequest, PolicyTokenResponse } from "../../models/models.js";
+import { PolicyTokenRequest, PolicyTokenResponse } from "../../models/models.js";
 
 /** Interface representing a PolicyTokens operations. */
 export interface PolicyTokensOperations {

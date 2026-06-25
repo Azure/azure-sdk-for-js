@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PaloAltoNetworksCloudngfwContext } from "../../api/paloAltoNetworksCloudngfwContext.js";
+import { PaloAltoNetworksCloudngfwContext } from "../../api/paloAltoNetworksCloudngfwContext.js";
 import { listByFirewalls, get } from "../../api/firewallStatus/operations.js";
-import type {
+import {
   FirewallStatusListByFirewallsOptionalParams,
   FirewallStatusGetOptionalParams,
 } from "../../api/firewallStatus/options.js";
-import type { FirewallStatusResource } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { FirewallStatusResource } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a FirewallStatus operations. */
 export interface FirewallStatusOperations {

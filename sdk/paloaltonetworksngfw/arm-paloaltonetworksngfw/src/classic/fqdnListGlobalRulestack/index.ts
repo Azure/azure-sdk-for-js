@@ -1,24 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PaloAltoNetworksCloudngfwContext } from "../../api/paloAltoNetworksCloudngfwContext.js";
+import { PaloAltoNetworksCloudngfwContext } from "../../api/paloAltoNetworksCloudngfwContext.js";
 import {
   list,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/fqdnListGlobalRulestack/operations.js";
-import type {
+import {
   FqdnListGlobalRulestackListOptionalParams,
   FqdnListGlobalRulestackDeleteOptionalParams,
   FqdnListGlobalRulestackCreateOrUpdateOptionalParams,
   FqdnListGlobalRulestackGetOptionalParams,
 } from "../../api/fqdnListGlobalRulestack/options.js";
-import type { FqdnListGlobalRulestackResource } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { FqdnListGlobalRulestackResource } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a FqdnListGlobalRulestack operations. */
 export interface FqdnListGlobalRulestackOperations {

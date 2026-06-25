@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NetAppManagementContext } from "../../api/netAppManagementContext.js";
+import { NetAppManagementContext } from "../../api/netAppManagementContext.js";
 import {
   changeKeyVault,
   getChangeKeyVaultInformation,
@@ -14,7 +14,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/accounts/operations.js";
-import type {
+import {
   AccountsChangeKeyVaultOptionalParams,
   AccountsGetChangeKeyVaultInformationOptionalParams,
   AccountsTransitionToCmkOptionalParams,
@@ -26,13 +26,13 @@ import type {
   AccountsCreateOrUpdateOptionalParams,
   AccountsGetOptionalParams,
 } from "../../api/accounts/options.js";
-import type {
+import {
   NetAppAccount,
   NetAppAccountPatch,
   GetKeyVaultStatusResponse,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Accounts operations. */
 export interface AccountsOperations {

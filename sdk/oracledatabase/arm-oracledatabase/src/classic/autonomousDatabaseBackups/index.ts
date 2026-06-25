@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { OracleDatabaseManagementContext } from "../../api/oracleDatabaseManagementContext.js";
+import { OracleDatabaseManagementContext } from "../../api/oracleDatabaseManagementContext.js";
 import {
   listByParent,
   update,
@@ -9,19 +9,16 @@ import {
   get,
   createOrUpdate,
 } from "../../api/autonomousDatabaseBackups/operations.js";
-import type {
+import {
   AutonomousDatabaseBackupsListByParentOptionalParams,
   AutonomousDatabaseBackupsUpdateOptionalParams,
   AutonomousDatabaseBackupsDeleteOptionalParams,
   AutonomousDatabaseBackupsGetOptionalParams,
   AutonomousDatabaseBackupsCreateOrUpdateOptionalParams,
 } from "../../api/autonomousDatabaseBackups/options.js";
-import type {
-  AutonomousDatabaseBackup,
-  AutonomousDatabaseBackupUpdate,
-} from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { AutonomousDatabaseBackup, AutonomousDatabaseBackupUpdate } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a AutonomousDatabaseBackups operations. */
 export interface AutonomousDatabaseBackupsOperations {
@@ -40,11 +37,6 @@ export interface AutonomousDatabaseBackupsOperations {
     options?: AutonomousDatabaseBackupsUpdateOptionalParams,
   ) => PollerLike<OperationState<AutonomousDatabaseBackup>, AutonomousDatabaseBackup>;
   /** Delete a AutonomousDatabaseBackup */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     autonomousdatabasename: string,

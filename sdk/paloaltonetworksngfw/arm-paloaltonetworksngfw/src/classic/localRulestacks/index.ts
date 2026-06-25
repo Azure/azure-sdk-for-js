@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PaloAltoNetworksCloudngfwContext } from "../../api/paloAltoNetworksCloudngfwContext.js";
+import { PaloAltoNetworksCloudngfwContext } from "../../api/paloAltoNetworksCloudngfwContext.js";
 import {
   revert,
   listSecurityServices,
@@ -20,7 +20,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/localRulestacks/operations.js";
-import type {
+import {
   LocalRulestacksRevertOptionalParams,
   LocalRulestacksListSecurityServicesOptionalParams,
   LocalRulestacksListPredefinedUrlCategoriesOptionalParams,
@@ -38,7 +38,7 @@ import type {
   LocalRulestacksCreateOrUpdateOptionalParams,
   LocalRulestacksGetOptionalParams,
 } from "../../api/localRulestacks/options.js";
-import type {
+import {
   Changelog,
   AdvSecurityObjectListResponse,
   Country,
@@ -51,10 +51,9 @@ import type {
   AdvSecurityObjectTypeEnum,
   SecurityServicesTypeEnum,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a LocalRulestacks operations. */
 export interface LocalRulestacksOperations {

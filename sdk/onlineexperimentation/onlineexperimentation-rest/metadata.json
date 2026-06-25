@@ -1,4 +1,38 @@
 {
-  "apiVersion": "2025-05-31-preview",
-  "emitterVersion": "0.41.0"
+  "apiVersions": {
+    "Azure.Analytics.OnlineExperimentation": "2025-05-31-preview"
+  },
+  "emitterVersion": "0.55.0-dev.9",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "Azure.Analytics.OnlineExperimentation",
+    "CrossLanguageDefinitionId": {
+      "@azure-rest/onlineexperimentation!ExperimentMetric:interface": "Azure.Analytics.OnlineExperimentation.ExperimentMetric",
+      "@azure-rest/onlineexperimentation!ExperimentMetricDefinition:interface": "Azure.Analytics.OnlineExperimentation.ExperimentMetricDefinition",
+      "@azure-rest/onlineexperimentation!EventCountMetricDefinition:interface": "Azure.Analytics.OnlineExperimentation.EventCountMetricDefinition",
+      "@azure-rest/onlineexperimentation!ObservedEvent:interface": "Azure.Analytics.OnlineExperimentation.ObservedEvent",
+      "@azure-rest/onlineexperimentation!UserCountMetricDefinition:interface": "Azure.Analytics.OnlineExperimentation.UserCountMetricDefinition",
+      "@azure-rest/onlineexperimentation!EventRateMetricDefinition:interface": "Azure.Analytics.OnlineExperimentation.EventRateMetricDefinition",
+      "@azure-rest/onlineexperimentation!UserRateMetricDefinition:interface": "Azure.Analytics.OnlineExperimentation.UserRateMetricDefinition",
+      "@azure-rest/onlineexperimentation!SumMetricDefinition:interface": "Azure.Analytics.OnlineExperimentation.SumMetricDefinition",
+      "@azure-rest/onlineexperimentation!AggregatedValue:interface": "Azure.Analytics.OnlineExperimentation.AggregatedValue",
+      "@azure-rest/onlineexperimentation!AverageMetricDefinition:interface": "Azure.Analytics.OnlineExperimentation.AverageMetricDefinition",
+      "@azure-rest/onlineexperimentation!PercentileMetricDefinition:interface": "Azure.Analytics.OnlineExperimentation.PercentileMetricDefinition",
+      "@azure-rest/onlineexperimentation!ErrorResponse:interface": "Azure.Core.Foundations.ErrorResponse",
+      "@azure-rest/onlineexperimentation!Error:interface": "Azure.Core.Foundations.Error",
+      "@azure-rest/onlineexperimentation!InnerError:interface": "Azure.Core.Foundations.InnerError",
+      "@azure-rest/onlineexperimentation!ExperimentMetricValidationResult:interface": "Azure.Analytics.OnlineExperimentation.ExperimentMetricValidationResult",
+      "@azure-rest/onlineexperimentation!DiagnosticDetail:interface": "Azure.Analytics.OnlineExperimentation.DiagnosticDetail",
+      "@azure-rest/onlineexperimentation!PagedExperimentMetric:interface": "Azure.Core.Foundations.CustomPage",
+      "@azure-rest/onlineexperimentation!KnownLifecycleStage:enum": "Azure.Analytics.OnlineExperimentation.LifecycleStage",
+      "@azure-rest/onlineexperimentation!KnownDesiredDirection:enum": "Azure.Analytics.OnlineExperimentation.DesiredDirection",
+      "@azure-rest/onlineexperimentation!KnownExperimentMetricType:enum": "Azure.Analytics.OnlineExperimentation.ExperimentMetricType",
+      "@azure-rest/onlineexperimentation!KnownDiagnosticCode:enum": "Azure.Analytics.OnlineExperimentation.DiagnosticCode",
+      "@azure-rest/onlineexperimentation!KnownVersions:enum": "Azure.Analytics.OnlineExperimentation.Versions",
+      "@azure-rest/onlineexperimentation!OnlineExperimentationClient#listMetrics:member(1)": "Azure.Analytics.OnlineExperimentation.listMetrics",
+      "@azure-rest/onlineexperimentation!OnlineExperimentationClient#deleteMetric:member(1)": "Azure.Analytics.OnlineExperimentation.deleteMetric",
+      "@azure-rest/onlineexperimentation!OnlineExperimentationClient#validateMetric:member(1)": "Azure.Analytics.OnlineExperimentation.validateMetric",
+      "@azure-rest/onlineexperimentation!OnlineExperimentationClient#createOrUpdateMetric:member(1)": "Azure.Analytics.OnlineExperimentation.createOrUpdateMetric",
+      "@azure-rest/onlineexperimentation!OnlineExperimentationClient#getMetric:member(1)": "Azure.Analytics.OnlineExperimentation.getMetric"
+    }
+  }
 }

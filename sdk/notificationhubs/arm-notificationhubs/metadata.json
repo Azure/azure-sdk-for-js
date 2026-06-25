@@ -2,7 +2,7 @@
   "apiVersions": {
     "Microsoft.NotificationHubs": "2023-10-01-preview"
   },
-  "emitterVersion": "0.53.3",
+  "emitterVersion": "0.55.0-dev.9",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.NotificationHubs",
     "CrossLanguageDefinitionId": {

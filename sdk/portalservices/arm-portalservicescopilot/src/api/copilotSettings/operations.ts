@@ -10,13 +10,13 @@ import {
   CopilotSettingsResourceUpdate,
   copilotSettingsResourceUpdateSerializer,
 } from "../../models/models.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   CopilotSettingsDeleteOptionalParams,
   CopilotSettingsUpdateOptionalParams,
   CopilotSettingsCreateOrUpdateOptionalParams,
   CopilotSettingsGetOptionalParams,
 } from "./options.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -31,26 +31,23 @@ export function _$deleteSend(
   const path = expandUrlTemplate(
     "/providers/Microsoft.PortalServices/copilotSettings/default{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2024-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -58,11 +55,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete a CopilotSettingsResource */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export async function $delete(
   context: Client,
   options: CopilotSettingsDeleteOptionalParams = { requestOptions: {} },
@@ -79,21 +71,20 @@ export function _updateSend(
   const path = expandUrlTemplate(
     "/providers/Microsoft.PortalServices/copilotSettings/default{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2024-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: copilotSettingsResourceUpdateSerializer(properties),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: copilotSettingsResourceUpdateSerializer(properties),
+    });
 }
 
 export async function _updateDeserialize(
@@ -102,7 +93,10 @@ export async function _updateDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -127,21 +121,20 @@ export function _createOrUpdateSend(
   const path = expandUrlTemplate(
     "/providers/Microsoft.PortalServices/copilotSettings/default{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2024-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: copilotSettingsResourceSerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: copilotSettingsResourceSerializer(resource),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -150,7 +143,10 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -174,19 +170,18 @@ export function _getSend(
   const path = expandUrlTemplate(
     "/providers/Microsoft.PortalServices/copilotSettings/default{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2024-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(
@@ -195,7 +190,10 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NewRelicObservabilityContext } from "../../api/newRelicObservabilityContext.js";
+import { NewRelicObservabilityContext } from "../../api/newRelicObservabilityContext.js";
 import {
   listByNewRelicMonitorResource,
   $delete,
@@ -9,18 +9,17 @@ import {
   createOrUpdate,
   get,
 } from "../../api/tagRules/operations.js";
-import type {
+import {
   TagRulesListByNewRelicMonitorResourceOptionalParams,
   TagRulesDeleteOptionalParams,
   TagRulesUpdateOptionalParams,
   TagRulesCreateOrUpdateOptionalParams,
   TagRulesGetOptionalParams,
 } from "../../api/tagRules/options.js";
-import type { TagRule, TagRuleUpdate } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { TagRule, TagRuleUpdate } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a TagRules operations. */
 export interface TagRulesOperations {

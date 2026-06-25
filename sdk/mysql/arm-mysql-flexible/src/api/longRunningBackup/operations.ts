@@ -1,22 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { MySQLManagementFlexibleServerContext as Client } from "../index.js";
-import type { ServerBackupV2 } from "../../models/models.js";
+import { MySQLManagementFlexibleServerContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  ServerBackupV2,
   serverBackupV2Serializer,
   serverBackupV2Deserializer,
 } from "../../models/models.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   LongRunningBackupDeleteOptionalParams,
   LongRunningBackupCreateOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _$deleteSend(
   context: Client,
@@ -45,7 +49,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -91,21 +97,25 @@ export function _createSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: !options?.parameters
-      ? options?.parameters
-      : serverBackupV2Serializer(options?.parameters),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: !options?.parameters
+        ? options?.parameters
+        : serverBackupV2Serializer(options?.parameters),
+    });
 }
 
 export async function _createDeserialize(result: PathUncheckedResponse): Promise<ServerBackupV2> {
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

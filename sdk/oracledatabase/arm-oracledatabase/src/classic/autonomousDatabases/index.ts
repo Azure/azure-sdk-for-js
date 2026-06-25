@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { OracleDatabaseManagementContext } from "../../api/oracleDatabaseManagementContext.js";
+import { OracleDatabaseManagementContext } from "../../api/oracleDatabaseManagementContext.js";
 import {
   action,
   changeDisasterRecoveryConfiguration,
@@ -17,7 +17,7 @@ import {
   createOrUpdate,
   listBySubscription,
 } from "../../api/autonomousDatabases/operations.js";
-import type {
+import {
   AutonomousDatabasesActionOptionalParams,
   AutonomousDatabasesChangeDisasterRecoveryConfigurationOptionalParams,
   AutonomousDatabasesShrinkOptionalParams,
@@ -32,7 +32,7 @@ import type {
   AutonomousDatabasesCreateOrUpdateOptionalParams,
   AutonomousDatabasesListBySubscriptionOptionalParams,
 } from "../../api/autonomousDatabases/options.js";
-import type {
+import {
   AutonomousDatabase,
   DisasterRecoveryConfigurationDetails,
   AutonomousDatabaseUpdate,
@@ -42,8 +42,8 @@ import type {
   RestoreAutonomousDatabaseDetails,
   AutonomousDatabaseLifecycleAction,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a AutonomousDatabases operations. */
 export interface AutonomousDatabasesOperations {
@@ -108,11 +108,6 @@ export interface AutonomousDatabasesOperations {
     options?: AutonomousDatabasesUpdateOptionalParams,
   ) => PollerLike<OperationState<AutonomousDatabase>, AutonomousDatabase>;
   /** Delete a AutonomousDatabase */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     autonomousdatabasename: string,

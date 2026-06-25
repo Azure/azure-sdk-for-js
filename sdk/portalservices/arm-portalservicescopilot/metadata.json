@@ -1,0 +1,34 @@
+{
+  "apiVersions": {
+    "Microsoft.PortalServices": "2024-04-01-preview"
+  },
+  "emitterVersion": "0.55.0-dev.9",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "Microsoft.PortalServices",
+    "CrossLanguageDefinitionId": {
+      "@azure/arm-portalservicescopilot!OperationListResult:interface": "Azure.ResourceManager.CommonTypes.OperationListResult",
+      "@azure/arm-portalservicescopilot!Operation:interface": "Azure.ResourceManager.CommonTypes.Operation",
+      "@azure/arm-portalservicescopilot!OperationDisplay:interface": "Azure.ResourceManager.CommonTypes.OperationDisplay",
+      "@azure/arm-portalservicescopilot!ErrorResponse:interface": "Azure.ResourceManager.CommonTypes.ErrorResponse",
+      "@azure/arm-portalservicescopilot!ErrorDetail:interface": "Azure.ResourceManager.CommonTypes.ErrorDetail",
+      "@azure/arm-portalservicescopilot!ErrorAdditionalInfo:interface": "Azure.ResourceManager.CommonTypes.ErrorAdditionalInfo",
+      "@azure/arm-portalservicescopilot!CopilotSettingsResource:interface": "Microsoft.PortalServices.CopilotSettingsResource",
+      "@azure/arm-portalservicescopilot!CopilotSettingsProperties:interface": "Microsoft.PortalServices.CopilotSettingsProperties",
+      "@azure/arm-portalservicescopilot!ProxyResource:interface": "Azure.ResourceManager.CommonTypes.ProxyResource",
+      "@azure/arm-portalservicescopilot!Resource:interface": "Azure.ResourceManager.CommonTypes.Resource",
+      "@azure/arm-portalservicescopilot!SystemData:interface": "Azure.ResourceManager.CommonTypes.SystemData",
+      "@azure/arm-portalservicescopilot!CopilotSettingsResourceUpdate:interface": "Azure.ResourceManager.Foundations.ResourceUpdateModel",
+      "@azure/arm-portalservicescopilot!CopilotSettingsResourceUpdateProperties:interface": "Azure.ResourceManager.Foundations.ResourceUpdateModelProperties",
+      "@azure/arm-portalservicescopilot!KnownOrigin:enum": "Azure.ResourceManager.CommonTypes.Origin",
+      "@azure/arm-portalservicescopilot!KnownActionType:enum": "Azure.ResourceManager.CommonTypes.ActionType",
+      "@azure/arm-portalservicescopilot!KnownResourceProvisioningState:enum": "Azure.ResourceManager.ResourceProvisioningState",
+      "@azure/arm-portalservicescopilot!KnowncreatedByType:enum": "Azure.ResourceManager.CommonTypes.createdByType",
+      "@azure/arm-portalservicescopilot!KnownVersions:enum": "Microsoft.PortalServices.Versions",
+      "@azure/arm-portalservicescopilot!CopilotSettingsOperations#delete:member": "Microsoft.PortalServices.CopilotSettings.delete",
+      "@azure/arm-portalservicescopilot!CopilotSettingsOperations#update:member": "Microsoft.PortalServices.CopilotSettings.update",
+      "@azure/arm-portalservicescopilot!CopilotSettingsOperations#createOrUpdate:member": "Microsoft.PortalServices.CopilotSettings.createOrUpdate",
+      "@azure/arm-portalservicescopilot!CopilotSettingsOperations#get:member": "Microsoft.PortalServices.CopilotSettings.get",
+      "@azure/arm-portalservicescopilot!OperationsOperations#list:member": "Azure.ResourceManager.Operations.list"
+    }
+  }
+}

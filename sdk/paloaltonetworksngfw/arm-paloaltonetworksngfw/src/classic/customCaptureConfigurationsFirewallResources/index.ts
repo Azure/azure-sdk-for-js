@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PaloAltoNetworksCloudngfwContext } from "../../api/paloAltoNetworksCloudngfwContext.js";
+import { PaloAltoNetworksCloudngfwContext } from "../../api/paloAltoNetworksCloudngfwContext.js";
 import {
   listByFirewall,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/customCaptureConfigurationsFirewallResources/operations.js";
-import type {
+import {
   CustomCaptureConfigurationsFirewallResourcesListByFirewallOptionalParams,
   CustomCaptureConfigurationsFirewallResourcesDeleteOptionalParams,
   CustomCaptureConfigurationsFirewallResourcesCreateOrUpdateOptionalParams,
   CustomCaptureConfigurationsFirewallResourcesGetOptionalParams,
 } from "../../api/customCaptureConfigurationsFirewallResources/options.js";
-import type { CustomCaptureConfigurationsFirewallResource } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { CustomCaptureConfigurationsFirewallResource } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a CustomCaptureConfigurationsFirewallResources operations. */
 export interface CustomCaptureConfigurationsFirewallResourcesOperations {

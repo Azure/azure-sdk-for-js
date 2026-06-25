@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { OracleDatabaseManagementContext } from "../../api/oracleDatabaseManagementContext.js";
+import { OracleDatabaseManagementContext } from "../../api/oracleDatabaseManagementContext.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -10,7 +10,7 @@ import {
   create,
   get,
 } from "../../api/exascaleDbStorageVaults/operations.js";
-import type {
+import {
   ExascaleDbStorageVaultsListBySubscriptionOptionalParams,
   ExascaleDbStorageVaultsListByResourceGroupOptionalParams,
   ExascaleDbStorageVaultsDeleteOptionalParams,
@@ -18,12 +18,9 @@ import type {
   ExascaleDbStorageVaultsCreateOptionalParams,
   ExascaleDbStorageVaultsGetOptionalParams,
 } from "../../api/exascaleDbStorageVaults/options.js";
-import type {
-  ExascaleDbStorageVault,
-  ExascaleDbStorageVaultTagsUpdate,
-} from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { ExascaleDbStorageVault, ExascaleDbStorageVaultTagsUpdate } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ExascaleDbStorageVaults operations. */
 export interface ExascaleDbStorageVaultsOperations {
@@ -37,11 +34,6 @@ export interface ExascaleDbStorageVaultsOperations {
     options?: ExascaleDbStorageVaultsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<ExascaleDbStorageVault>;
   /** Delete a ExascaleDbStorageVault */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     exascaleDbStorageVaultName: string,

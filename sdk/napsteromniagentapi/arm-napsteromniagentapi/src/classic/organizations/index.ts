@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CompanionAPIContext } from "../../api/companionAPIContext.js";
+import { CompanionAPIContext } from "../../api/companionAPIContext.js";
 import {
   latestLinkedSaaS,
   linkSaaS,
@@ -12,7 +12,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/organizations/operations.js";
-import type {
+import {
   OrganizationsLatestLinkedSaaSOptionalParams,
   OrganizationsLinkSaaSOptionalParams,
   OrganizationsListBySubscriptionOptionalParams,
@@ -22,14 +22,14 @@ import type {
   OrganizationsCreateOrUpdateOptionalParams,
   OrganizationsGetOptionalParams,
 } from "../../api/organizations/options.js";
-import type {
+import {
   OrganizationResource,
   OrganizationResourceUpdate,
   SaaSData,
   LatestLinkedSaaSResponse,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Organizations operations. */
 export interface OrganizationsOperations {

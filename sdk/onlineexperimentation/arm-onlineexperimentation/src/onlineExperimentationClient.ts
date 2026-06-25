@@ -2,19 +2,19 @@
 // Licensed under the MIT License.
 
 import {
-  createOnlineExperimentation,
   OnlineExperimentationContext,
   OnlineExperimentationClientOptionalParams,
+  createOnlineExperimentation,
 } from "./api/index.js";
 import {
   OnlineExperimentationWorkspacesOperations,
   _getOnlineExperimentationWorkspacesOperations,
 } from "./classic/onlineExperimentationWorkspaces/index.js";
 import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
-export { type OnlineExperimentationClientOptionalParams } from "./api/onlineExperimentationContext.js";
+export type { OnlineExperimentationClientOptionalParams } from "./api/onlineExperimentationContext.js";
 
 export class OnlineExperimentationClient {
   private _client: OnlineExperimentationContext;

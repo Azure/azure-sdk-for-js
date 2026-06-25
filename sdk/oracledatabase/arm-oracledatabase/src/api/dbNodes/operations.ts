@@ -1,26 +1,34 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { OracleDatabaseManagementContext as Client } from "../index.js";
-import type { DbNode, _DbNodeListResult, DbNodeAction } from "../../models/models.js";
+import { OracleDatabaseManagementContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  DbNode,
   dbNodeDeserializer,
+  _DbNodeListResult,
   _dbNodeListResultDeserializer,
+  DbNodeAction,
   dbNodeActionSerializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   DbNodesActionOptionalParams,
   DbNodesListByParentOptionalParams,
   DbNodesGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _actionSend(
   context: Client,
@@ -37,28 +45,30 @@ export function _actionSend(
       resourceGroupName: resourceGroupName,
       cloudvmclustername: cloudvmclustername,
       dbnodeocid: dbnodeocid,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: dbNodeActionSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: dbNodeActionSerializer(body),
+    });
 }
 
 export async function _actionDeserialize(result: PathUncheckedResponse): Promise<DbNode> {
-  const expectedStatuses = ["202", "200"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -74,12 +84,13 @@ export function action(
   body: DbNodeAction,
   options: DbNodesActionOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<DbNode>, DbNode> {
-  return getLongRunningPoller(context, _actionDeserialize, ["202", "200"], {
+  return getLongRunningPoller(context, _actionDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _actionSend(context, resourceGroupName, cloudvmclustername, dbnodeocid, body, options),
     resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-09-01",
   }) as PollerLike<OperationState<DbNode>, DbNode>;
 }
 
@@ -95,19 +106,18 @@ export function _listByParentSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       cloudvmclustername: cloudvmclustername,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listByParentDeserialize(
@@ -116,7 +126,10 @@ export async function _listByParentDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -135,7 +148,7 @@ export function listByParent(
     () => _listByParentSend(context, resourceGroupName, cloudvmclustername, options),
     _listByParentDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-09-01" },
   );
 }
 
@@ -153,26 +166,28 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       cloudvmclustername: cloudvmclustername,
       dbnodeocid: dbnodeocid,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-09-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<DbNode> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
