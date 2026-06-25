@@ -1,5 +1,149 @@
 # Release History
 
+## 2.1.0-beta.2 (2026-06-25)
+Compared with version 2.0.0
+
+### Features Added
+  - Added operation group ActionsOperations
+  - Added operation group ActionVersionsOperations
+  - Added operation group DiscoveredResourcesOperations
+  - Added operation group PrivateAccessesOperations
+  - Added operation group ScenarioConfigurationsOperations
+  - Added operation group ScenarioRunsOperations
+  - Added operation group ScenariosOperations
+  - Added operation group WorkspacesOperations
+  - Added Interface Action
+  - Added Interface ActionDependency
+  - Added Interface ActionProperties
+  - Added Interface ActionsGetOptionalParams
+  - Added Interface ActionsListOptionalParams
+  - Added Interface ActionSupportedTargetType
+  - Added Interface ActionVersion
+  - Added Interface ActionVersionsGetOptionalParams
+  - Added Interface ActionVersionsListOptionalParams
+  - Added Interface ConfigurationExclusions
+  - Added Interface ConfigurationFilters
+  - Added Interface CustomerDataStorageProperties
+  - Added Interface DiscoveredResource
+  - Added Interface DiscoveredResourceProperties
+  - Added Interface DiscoveredResourcesGetOptionalParams
+  - Added Interface DiscoveredResourcesListByWorkspaceOptionalParams
+  - Added Interface EntraIdentity
+  - Added Interface ExternalResource
+  - Added Interface FixResourcePermissionsRequest
+  - Added Interface OperationError
+  - Added Interface PermissionError
+  - Added Interface PermissionsFix
+  - Added Interface PermissionsFixProperties
+  - Added Interface PermissionsFixSummary
+  - Added Interface PhysicalToLogicalZoneMapping
+  - Added Interface PrivateAccess
+  - Added Interface PrivateAccessesCreateOrUpdateOptionalParams
+  - Added Interface PrivateAccessesDeleteAPrivateEndpointConnectionOptionalParams
+  - Added Interface PrivateAccessesDeleteOptionalParams
+  - Added Interface PrivateAccessesGetAPrivateEndpointConnectionOptionalParams
+  - Added Interface PrivateAccessesGetOptionalParams
+  - Added Interface PrivateAccessesGetPrivateLinkResourcesOptionalParams
+  - Added Interface PrivateAccessesListAllOptionalParams
+  - Added Interface PrivateAccessesListOptionalParams
+  - Added Interface PrivateAccessesListPrivateEndpointConnectionsOptionalParams
+  - Added Interface PrivateAccessesUpdateOptionalParams
+  - Added Interface PrivateAccessPatch
+  - Added Interface PrivateAccessProperties
+  - Added Interface PrivateEndpoint
+  - Added Interface PrivateEndpointConnection
+  - Added Interface PrivateEndpointConnectionProperties
+  - Added Interface PrivateLinkResource
+  - Added Interface PrivateLinkResourceListResult
+  - Added Interface PrivateLinkResourceProperties
+  - Added Interface PrivateLinkServiceConnectionState
+  - Added Interface Recommendation
+  - Added Interface ResourceStateError
+  - Added Interface RoleAssignmentError
+  - Added Interface RoleAssignmentResult
+  - Added Interface RunAfter
+  - Added Interface Scenario
+  - Added Interface ScenarioAction
+  - Added Interface ScenarioConfiguration
+  - Added Interface ScenarioConfigurationProperties
+  - Added Interface ScenarioConfigurationsCreateOrUpdateOptionalParams
+  - Added Interface ScenarioConfigurationsDeleteOptionalParams
+  - Added Interface ScenarioConfigurationsExecuteOptionalParams
+  - Added Interface ScenarioConfigurationsFixResourcePermissionsOptionalParams
+  - Added Interface ScenarioConfigurationsGetOptionalParams
+  - Added Interface ScenarioConfigurationsListAllOptionalParams
+  - Added Interface ScenarioConfigurationsValidateOptionalParams
+  - Added Interface ScenarioErrors
+  - Added Interface ScenarioEvaluationResultItem
+  - Added Interface ScenarioParameter
+  - Added Interface ScenarioProperties
+  - Added Interface ScenarioRun
+  - Added Interface ScenarioRunProperties
+  - Added Interface ScenarioRunResource
+  - Added Interface ScenarioRunsCancelOptionalParams
+  - Added Interface ScenarioRunsGetOptionalParams
+  - Added Interface ScenarioRunsListAllOptionalParams
+  - Added Interface ScenarioRunSummaryAction
+  - Added Interface ScenariosCreateOrUpdateOptionalParams
+  - Added Interface ScenariosDeleteOptionalParams
+  - Added Interface ScenariosGetOptionalParams
+  - Added Interface ScenariosListAllOptionalParams
+  - Added Interface Validation
+  - Added Interface ValidationProperties
+  - Added Interface Workspace
+  - Added Interface WorkspaceEvaluation
+  - Added Interface WorkspaceEvaluationProperties
+  - Added Interface WorkspaceProperties
+  - Added Interface WorkspacesCreateOrUpdateOptionalParams
+  - Added Interface WorkspacesDeleteOptionalParams
+  - Added Interface WorkspacesGetOptionalParams
+  - Added Interface WorkspacesListAllOptionalParams
+  - Added Interface WorkspacesListOptionalParams
+  - Added Interface WorkspacesRefreshRecommendationsOptionalParams
+  - Added Interface WorkspacesUpdateOptionalParams
+  - Added Interface WorkspaceUpdate
+  - Added Interface ZoneResolutionInfo
+  - Added Interface ZoneResolutionMapping
+  - Interface CapabilityProperties has a new optional parameter provisioningState
+  - Interface ChaosManagementClientOptionalParams has a new optional parameter cloudSetting
+  - Interface ExperimentExecutionDetailsProperties has a new optional parameter provisioningState
+  - Interface ExperimentExecutionProperties has a new optional parameter provisioningState
+  - Interface ExperimentProperties has a new optional parameter customerDataStorage
+  - Added Type Alias ActionDependencyType
+  - Added Type Alias ActionKind
+  - Added Type Alias ActionLifecycle
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias ParameterType
+  - Added Type Alias PermissionsFixState
+  - Added Type Alias PrivateEndpointServiceConnectionStatus
+  - Added Type Alias PublicNetworkAccessOption
+  - Added Type Alias RecommendationStatus
+  - Added Type Alias RoleAssignmentStatus
+  - Added Type Alias RunAfterBehavior
+  - Added Type Alias ScenarioRunState
+  - Added Type Alias ScenarioSummaryState
+  - Added Type Alias ScenarioValidationState
+  - Added Type Alias WorkspaceEvaluationStatus
+  - Added Type Alias ZoneResolutionMode
+  - Added Enum AzureClouds
+  - Added Enum KnownActionDependencyType
+  - Added Enum KnownActionKind
+  - Added Enum KnownActionLifecycle
+  - Added Enum KnownParameterType
+  - Added Enum KnownPermissionsFixState
+  - Added Enum KnownPrivateEndpointServiceConnectionStatus
+  - Added Enum KnownPublicNetworkAccessOption
+  - Added Enum KnownRecommendationStatus
+  - Added Enum KnownRoleAssignmentStatus
+  - Added Enum KnownRunAfterBehavior
+  - Added Enum KnownScenarioRunState
+  - Added Enum KnownScenarioSummaryState
+  - Added Enum KnownScenarioValidationState
+  - Added Enum KnownWorkspaceEvaluationStatus
+  - Added Enum KnownZoneResolutionMode
+  - Enum KnownProvisioningState has a new value Running
+  - Enum KnownVersions has a new value V20260501Preview
+
 ## 2.1.0-beta.1 (2026-06-12)
 Compared with version 2.0.0
 
