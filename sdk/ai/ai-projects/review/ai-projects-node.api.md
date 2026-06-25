@@ -21,6 +21,7 @@ export interface A2APreviewTool extends Tool {
     agent_card_path?: string;
     base_url?: string;
     project_connection_id?: string;
+    send_credentials_for_agent_card?: boolean;
     type: "a2a_preview";
 }
 
@@ -29,6 +30,7 @@ export interface A2APreviewToolboxTool extends ToolboxTool {
     agent_card_path?: string;
     base_url?: string;
     project_connection_id?: string;
+    send_credentials_for_agent_card?: boolean;
     // (undocumented)
     type: "a2a_preview";
 }
@@ -400,7 +402,7 @@ export interface AgentVersion {
     description?: string;
     id: string;
     readonly instance_identity?: AgentIdentity;
-    metadata: Record<string, string>;
+    metadata?: Record<string, string>;
     name: string;
     object: "agent.version";
     status?: AgentVersionStatus;
@@ -520,12 +522,16 @@ export type AzureAISearchQueryType = "simple" | "semantic" | "vector" | "vector_
 // @public
 export interface AzureAISearchTool extends Tool {
     azure_ai_search: AzureAISearchToolResource;
+    description?: string;
+    name?: string;
+    tool_configs?: Record<string, ToolConfig>;
     type: "azure_ai_search";
 }
 
 // @public
 export interface AzureAISearchToolboxTool extends ToolboxTool {
     azure_ai_search: AzureAISearchToolResource;
+    tool_configs?: Record<string, ToolConfig>;
     // (undocumented)
     type: "azure_ai_search";
 }
@@ -561,6 +567,7 @@ export interface AzureFunctionStorageQueue {
 // @public
 export interface AzureFunctionTool extends Tool {
     azure_function: AzureFunctionDefinition;
+    tool_configs?: Record<string, ToolConfig>;
     type: "azure_function";
 }
 
@@ -1064,17 +1071,14 @@ export interface BetaRoutinesOperations {
 
 // @public
 export interface BetaSchedulesCreateOrUpdateOptionalParams extends OperationOptions {
-    clientRequestId?: string;
 }
 
 // @public
 export interface BetaSchedulesDeleteOptionalParams extends OperationOptions {
-    clientRequestId?: string;
 }
 
 // @public
 export interface BetaSchedulesGetOptionalParams extends OperationOptions {
-    clientRequestId?: string;
 }
 
 // @public
@@ -1083,14 +1087,12 @@ export interface BetaSchedulesGetRunOptionalParams extends OperationOptions {
 
 // @public
 export interface BetaSchedulesListOptionalParams extends OperationOptions {
-    clientRequestId?: string;
     enabled?: boolean;
     scheduleType?: ScheduleTaskType;
 }
 
 // @public
 export interface BetaSchedulesListRunsOptionalParams extends OperationOptions {
-    clientRequestId?: string;
     enabled?: boolean;
     scheduleType?: ScheduleTaskType;
 }
@@ -1218,6 +1220,9 @@ export interface BingGroundingSearchToolParameters {
 // @public
 export interface BingGroundingTool extends Tool {
     bing_grounding: BingGroundingSearchToolParameters;
+    description?: string;
+    name?: string;
+    tool_configs?: Record<string, ToolConfig>;
     type: "bing_grounding";
 }
 
@@ -1271,7 +1276,10 @@ export interface BrowserAutomationToolParameters {
 
 // @public
 export interface CaptureStructuredOutputsTool extends Tool {
+    description?: string;
+    name?: string;
     outputs: StructuredOutputDefinition;
+    tool_configs?: Record<string, ToolConfig>;
     type: "capture_structured_outputs";
 }
 
@@ -1324,12 +1332,16 @@ export type CodeDependencyResolution = "bundled" | "remote_build";
 // @public
 export interface CodeInterpreterTool extends Tool {
     container?: string | AutoCodeInterpreterToolParam;
+    description?: string;
+    name?: string;
+    tool_configs?: Record<string, ToolConfig>;
     type: "code_interpreter";
 }
 
 // @public
 export interface CodeInterpreterToolboxTool extends ToolboxTool {
     container?: string | AutoCodeInterpreterToolParam;
+    tool_configs?: Record<string, ToolConfig>;
     // (undocumented)
     type: "code_interpreter";
 }
@@ -2232,9 +2244,12 @@ export interface FileDatasetVersion extends DatasetVersion {
 
 // @public
 export interface FileSearchTool extends Tool {
+    description?: string;
     filters?: Filters;
     max_num_results?: number;
+    name?: string;
     ranking_options?: RankingOptions;
+    tool_configs?: Record<string, ToolConfig>;
     type: "file_search";
     vector_store_ids: string[];
 }
@@ -2245,6 +2260,7 @@ export interface FileSearchToolboxTool extends ToolboxTool {
     filters?: Filters;
     max_num_results?: number;
     ranking_options?: RankingOptions;
+    tool_configs?: Record<string, ToolConfig>;
     // (undocumented)
     type: "file_search";
     vector_store_ids?: string[];
@@ -2291,7 +2307,10 @@ export type FoundryModelWeightType = "FullWeight" | "LoRA" | "DraftModel";
 
 // @public
 export interface FunctionShellToolParam extends Tool {
+    description?: string;
     environment?: FunctionShellToolParamEnvironmentUnion;
+    name?: string;
+    tool_configs?: Record<string, ToolConfig>;
     type: "shell";
 }
 
@@ -2323,8 +2342,8 @@ export interface FunctionTool extends Tool {
     defer_loading?: boolean;
     description?: string;
     name: string;
-    parameters: Record<string, unknown>;
-    strict: boolean;
+    parameters?: Record<string, unknown>;
+    strict?: boolean;
     type: "function";
 }
 
@@ -2404,15 +2423,18 @@ export type ImageGenAction = "generate" | "edit" | "auto";
 export interface ImageGenTool extends Tool {
     action?: ImageGenAction;
     background?: "transparent" | "opaque" | "auto";
+    description?: string;
     input_fidelity?: InputFidelity;
     input_image_mask?: ImageGenToolInputImageMask;
     model?: "gpt-image-1" | "gpt-image-1-mini" | "gpt-image-1.5";
     moderation?: "auto" | "low";
+    name?: string;
     output_compression?: number;
     output_format?: "png" | "webp" | "jpeg";
     partial_images?: number;
     quality?: "low" | "medium" | "high" | "auto";
     size?: "1024x1024" | "1024x1536" | "1536x1024" | "auto";
+    tool_configs?: Record<string, ToolConfig>;
     type: "image_generation";
 }
 
@@ -2619,6 +2641,9 @@ export enum KnownApiVersions {
 
 // @public
 export interface LocalShellToolParam extends Tool {
+    description?: string;
+    name?: string;
+    tool_configs?: Record<string, ToolConfig>;
     type: "local_shell";
 }
 
@@ -2666,6 +2691,7 @@ export interface MCPTool extends Tool {
     server_description?: string;
     server_label: string;
     server_url?: string;
+    tool_configs?: Record<string, ToolConfig>;
     type: "mcp";
 }
 
@@ -2684,6 +2710,7 @@ export interface MCPToolboxTool extends ToolboxTool {
     server_description?: string;
     server_label: string;
     server_url?: string;
+    tool_configs?: Record<string, ToolConfig>;
     // (undocumented)
     type: "mcp";
 }
@@ -2996,12 +3023,14 @@ export interface OpenApiProjectConnectionSecurityScheme {
 // @public
 export interface OpenApiTool extends Tool {
     openapi: OpenApiFunctionDefinition;
+    tool_configs?: Record<string, ToolConfig>;
     type: "openapi";
 }
 
 // @public
 export interface OpenApiToolboxTool extends ToolboxTool {
     openapi: OpenApiFunctionDefinition;
+    tool_configs?: Record<string, ToolConfig>;
     // (undocumented)
     type: "openapi";
 }
@@ -3601,7 +3630,7 @@ export interface StructuredOutputDefinition {
     description: string;
     name: string;
     schema: Record<string, unknown>;
-    strict: boolean;
+    strict?: boolean;
 }
 
 // @public
@@ -3829,7 +3858,7 @@ export interface ToolboxVersionObject {
     created_at: Date;
     description?: string;
     id: string;
-    metadata: Record<string, string>;
+    metadata: Record<string, string> | null;
     name: string;
     policies?: ToolboxPolicies;
     skills?: ToolboxSkillUnion[];
@@ -3958,7 +3987,7 @@ export interface ToolSearchToolParam extends Tool {
 export type ToolType = "function" | "file_search" | "computer" | "computer_use_preview" | "web_search" | "mcp" | "code_interpreter" | "image_generation" | "local_shell" | "shell" | "custom" | "namespace" | "tool_search" | "web_search_preview" | "apply_patch" | "a2a_preview" | "bing_custom_search_preview" | "browser_automation_preview" | "fabric_dataagent_preview" | "sharepoint_grounding_preview" | "memory_search_preview" | "reminder_preview" | "work_iq_preview" | "fabric_iq_preview" | "toolbox_search_preview" | "azure_ai_search" | "azure_function" | "bing_grounding" | "capture_structured_outputs" | "openapi";
 
 // @public
-export type ToolUnion = BingGroundingTool | MicrosoftFabricPreviewTool | SharepointPreviewTool | AzureAISearchTool | OpenApiTool | BingCustomSearchPreviewTool | BrowserAutomationPreviewTool | AzureFunctionTool | CaptureStructuredOutputsTool | A2APreviewTool | WorkIQPreviewTool | FabricIQPreviewTool | MemorySearchPreviewTool | ReminderPreviewTool | CodeInterpreterTool | FunctionTool | FileSearchTool | ComputerUsePreviewTool | WebSearchTool | MCPTool | ImageGenTool | LocalShellToolParam | FunctionShellToolParam | CustomToolParam | WebSearchPreviewTool | ApplyPatchToolParam | ComputerTool | NamespaceToolParam | ToolSearchToolParam | Tool;
+export type ToolUnion = BingGroundingTool | MicrosoftFabricPreviewTool | SharepointPreviewTool | AzureAISearchTool | OpenApiTool | BingCustomSearchPreviewTool | BrowserAutomationPreviewTool | AzureFunctionTool | CaptureStructuredOutputsTool | A2APreviewTool | WorkIQPreviewTool | FabricIQPreviewTool | MemorySearchPreviewTool | ReminderPreviewTool | CodeInterpreterTool | FileSearchTool | WebSearchTool | MCPTool | FunctionTool | ComputerUsePreviewTool | ImageGenTool | LocalShellToolParam | FunctionShellToolParam | CustomToolParam | WebSearchPreviewTool | ApplyPatchToolParam | ComputerTool | NamespaceToolParam | ToolSearchToolParam | Tool;
 
 // @public
 export interface ToolUseFineTuningDataGenerationJobOptions extends DataGenerationJobOptions {
@@ -4086,8 +4115,11 @@ export interface WebSearchPreviewTool extends Tool {
 // @public
 export interface WebSearchTool extends Tool {
     custom_search_configuration?: WebSearchConfiguration;
+    description?: string;
     filters?: WebSearchToolFilters;
+    name?: string;
     search_context_size?: "low" | "medium" | "high";
+    tool_configs?: Record<string, ToolConfig>;
     type: "web_search";
     user_location?: WebSearchApproximateLocation;
 }
@@ -4098,6 +4130,7 @@ export interface WebSearchToolboxTool extends ToolboxTool {
     // (undocumented)
     filters?: WebSearchToolFilters;
     search_context_size?: "low" | "medium" | "high";
+    tool_configs?: Record<string, ToolConfig>;
     // (undocumented)
     type: "web_search";
     // (undocumented)
