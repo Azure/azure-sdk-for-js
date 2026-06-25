@@ -1,14 +1,21 @@
 # Release History
 
-## 7.0.1 (Unreleased)
+## 8.0.0 (2026-06-25)
 
 ### Features Added
+  - Added Interface PolicyDefinitionVersionListResult
+  - Added Interface PolicySetDefinitionVersionListResult
 
 ### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+  - Interface PolicyLogInfo no longer has parameter ancestors
+  - Interface PolicyLogInfo no longer has parameter complianceReasonCode
+  - Interface PolicyLogInfo no longer has parameter policyAssignmentDisplayName
+  - Interface PolicyLogInfo no longer has parameter policyDefinitionDisplayName
+  - Interface PolicyLogInfo no longer has parameter policyDefinitionGroupNames
+  - Interface PolicyLogInfo no longer has parameter policyExemptionIds
+  - Interface PolicyLogInfo no longer has parameter policySetDefinitionCategory
+  - Interface PolicyLogInfo no longer has parameter policySetDefinitionDisplayName
+  - Interface PolicyLogInfo no longer has parameter resourceLocation
 
 ## 7.0.0 (2026-03-20)
 
