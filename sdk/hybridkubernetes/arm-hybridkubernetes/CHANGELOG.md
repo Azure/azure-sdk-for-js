@@ -1,5 +1,95 @@
 # Release History
 
+## 3.0.0 (2026-06-25)
+
+### Features Added
+  - Added operation ConnectedClusterOperationsOperations.beginCreateOrReplace
+  - Added operation ConnectedClusterOperationsOperations.beginCreateOrReplaceAndWait
+  - Added operation ConnectedClusterOperationsOperations.beginUpdateAsync
+  - Added operation ConnectedClusterOperationsOperations.beginUpdateAsyncAndWait
+  - Added operation ConnectedClusterOperationsOperations.createOrReplace
+  - Added operation ConnectedClusterOperationsOperations.delete
+  - Added operation ConnectedClusterOperationsOperations.updateAsync
+  - Class ConnectedKubernetesClient has a new constructor "constructor(credential: TokenCredential, options?: ConnectedKubernetesClientOptionalParams);"
+  - Added Interface AadProfile
+  - Added Interface AgentError
+  - Added Interface ArcAgentProfile
+  - Added Interface ArcAgentryConfigurations
+  - Added Interface ConnectedClusterOperationsCreateOrReplaceOptionalParams
+  - Added Interface ConnectedClusterOperationsDeleteOptionalParams
+  - Added Interface ConnectedClusterOperationsGetOptionalParams
+  - Added Interface ConnectedClusterOperationsListByResourceGroupOptionalParams
+  - Added Interface ConnectedClusterOperationsListBySubscriptionOptionalParams
+  - Added Interface ConnectedClusterOperationsListClusterUserCredentialOptionalParams
+  - Added Interface ConnectedClusterOperationsUpdateAsyncOptionalParams
+  - Added Interface ConnectedClusterPatchProperties
+  - Added Interface ConnectedClusterProperties
+  - Added Interface Gateway
+  - Added Interface OidcIssuerProfile
+  - Added Interface OperationsListOptionalParams
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface RestorePollerOptions
+  - Added Interface SecurityProfile
+  - Added Interface SecurityProfileWorkloadIdentity
+  - Added Interface SimplePollerLike
+  - Added Interface SystemComponent
+  - Interface ConnectedCluster has a new optional parameter aadProfile
+  - Interface ConnectedCluster has a new optional parameter arcAgentProfile
+  - Interface ConnectedCluster has a new optional parameter arcAgentryConfigurations
+  - Interface ConnectedCluster has a new optional parameter azureHybridBenefit
+  - Interface ConnectedCluster has a new optional parameter distributionVersion
+  - Interface ConnectedCluster has a new optional parameter gateway
+  - Interface ConnectedCluster has a new optional parameter kind
+  - Interface ConnectedCluster has a new optional parameter miscellaneousProperties
+  - Interface ConnectedCluster has a new optional parameter oidcIssuerProfile
+  - Interface ConnectedCluster has a new optional parameter privateLinkScopeResourceId
+  - Interface ConnectedCluster has a new optional parameter privateLinkState
+  - Interface ConnectedCluster has a new optional parameter securityProfile
+  - Interface HybridConnectionConfig has a new optional parameter relayTid
+  - Interface HybridConnectionConfig has a new optional parameter relayType
+  - Interface Operation has a new optional parameter actionType
+  - Interface Operation has a new optional parameter isDataAction
+  - Interface Operation has a new optional parameter origin
+  - Interface Resource has a new optional parameter systemData
+  - Interface TrackedResource has a new optional parameter systemData
+  - Added Type Alias ActionType
+  - Added Type Alias AutoUpgradeOptions
+  - Added Type Alias AzureHybridBenefit
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias ConnectedClusterKind
+  - Added Type Alias Origin
+  - Added Type Alias PrivateLinkState
+  - Added Enum AzureClouds
+  - Added Enum KnownActionType
+  - Added Enum KnownAutoUpgradeOptions
+  - Added Enum KnownAzureHybridBenefit
+  - Added Enum KnownConnectedClusterKind
+  - Added Enum KnownOrigin
+  - Added Enum KnownPrivateLinkState
+  - Added Enum KnownVersions
+  - Enum KnownConnectivityStatus has a new value AgentNotInstalled
+
+### Breaking Changes
+  - Removed operation ConnectedClusterOperations.beginCreate
+  - Removed operation ConnectedClusterOperations.beginCreateAndWait
+  - Removed operation ConnectedClusterOperations.update
+  - Class ConnectedKubernetesClient no longer has parameter apiVersion
+  - Class ConnectedKubernetesClient no longer has parameter subscriptionId
+  - Removed Interface ConnectedClusterCreateOptionalParams
+  - Removed Interface ConnectedClusterDeleteOptionalParams
+  - Removed Interface ConnectedClusterGetOptionalParams
+  - Removed Interface ConnectedClusterList
+  - Removed Interface ConnectedClusterListByResourceGroupOptionalParams
+  - Removed Interface ConnectedClusterListBySubscriptionOptionalParams
+  - Removed Interface ConnectedClusterListClusterUserCredentialOptionalParams
+  - Removed Interface ConnectedClusterUpdateOptionalParams
+  - Removed Interface OperationList
+  - Removed Interface OperationsGetOptionalParams
+  - Type of parameter properties of interface ConnectedClusterPatch is changed from Record<string, unknown> to ConnectedClusterPatchProperties
+  - Removed Type Alias LastModifiedByType
+  - Removed Enum KnownLastModifiedByType
+
 ## 3.0.0-beta.2 (2026-06-12)
 Compared with version 2.1.0
 
