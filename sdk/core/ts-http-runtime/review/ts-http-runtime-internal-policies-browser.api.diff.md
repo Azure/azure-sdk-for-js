@@ -25,7 +25,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
 -// @public @deprecated
 -export function getDefaultProxySettings(proxyUrl?: string): ProxySettings | undefined;
-+// @public (undocumented)
++// @public
 +export function getDefaultProxySettings(_proxyUrl?: string): ProxySettings | undefined;
  
  // @public
