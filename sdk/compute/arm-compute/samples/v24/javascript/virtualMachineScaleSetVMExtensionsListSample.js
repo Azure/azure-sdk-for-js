@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to the operation to get all extensions of an instance in Virtual Machine Scaleset.
  *
  * @summary the operation to get all extensions of an instance in Virtual Machine Scaleset.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMExtension_List.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMExtension_List.json
  */
 async function listExtensionsInVmssInstance() {
   const credential = new DefaultAzureCredential();
