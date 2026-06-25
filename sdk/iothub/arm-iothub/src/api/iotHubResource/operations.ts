@@ -1,65 +1,65 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { IotHubContext as Client } from "../index.js";
-import type {
-  IotHubDescription,
-  SharedAccessSignatureAuthorizationRule,
-  TagsResource,
-  _IotHubDescriptionListResult,
-  _IotHubSkuDescriptionListResult,
-  IotHubSkuDescription,
-  _JobResponseListResult,
-  JobResponse,
-  _IotHubQuotaMetricInfoListResult,
-  IotHubQuotaMetricInfo,
-  _EndpointHealthDataListResult,
-  EndpointHealthData,
-  TestAllRoutesInput,
-  TestAllRoutesResult,
-  TestRouteInput,
-  TestRouteResult,
-  _SharedAccessSignatureAuthorizationRuleListResult,
-  ExportDevicesRequest,
-  ImportDevicesRequest,
-  RegistryStatistics,
-  EventHubConsumerGroupInfo,
-  EventHubConsumerGroupBodyDescription,
-  _EventHubConsumerGroupsListResult,
-  OperationInputs,
-  IotHubNameAvailabilityInfo,
-} from "../../models/models.js";
+import { IotHubContext as Client } from "../index.js";
 import {
   errorDetailsDeserializer,
+  IotHubDescription,
   iotHubDescriptionSerializer,
   iotHubDescriptionDeserializer,
+  SharedAccessSignatureAuthorizationRule,
   sharedAccessSignatureAuthorizationRuleDeserializer,
+  TagsResource,
   tagsResourceSerializer,
+  _IotHubDescriptionListResult,
   _iotHubDescriptionListResultDeserializer,
+  _IotHubSkuDescriptionListResult,
   _iotHubSkuDescriptionListResultDeserializer,
+  IotHubSkuDescription,
+  _JobResponseListResult,
   _jobResponseListResultDeserializer,
+  JobResponse,
   jobResponseDeserializer,
+  _IotHubQuotaMetricInfoListResult,
   _iotHubQuotaMetricInfoListResultDeserializer,
+  IotHubQuotaMetricInfo,
+  _EndpointHealthDataListResult,
   _endpointHealthDataListResultDeserializer,
+  EndpointHealthData,
+  TestAllRoutesInput,
   testAllRoutesInputSerializer,
+  TestAllRoutesResult,
   testAllRoutesResultDeserializer,
+  TestRouteInput,
   testRouteInputSerializer,
+  TestRouteResult,
   testRouteResultDeserializer,
+  _SharedAccessSignatureAuthorizationRuleListResult,
   _sharedAccessSignatureAuthorizationRuleListResultDeserializer,
+  ExportDevicesRequest,
   exportDevicesRequestSerializer,
+  ImportDevicesRequest,
   importDevicesRequestSerializer,
+  RegistryStatistics,
   registryStatisticsDeserializer,
+  EventHubConsumerGroupInfo,
   eventHubConsumerGroupInfoDeserializer,
+  EventHubConsumerGroupBodyDescription,
   eventHubConsumerGroupBodyDescriptionSerializer,
+  _EventHubConsumerGroupsListResult,
   _eventHubConsumerGroupsListResultDeserializer,
+  OperationInputs,
   operationInputsSerializer,
+  IotHubNameAvailabilityInfo,
   iotHubNameAvailabilityInfoDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   IotHubResourceCheckNameAvailabilityOptionalParams,
   IotHubResourceListEventHubConsumerGroupsOptionalParams,
   IotHubResourceDeleteEventHubConsumerGroupOptionalParams,
@@ -84,9 +84,13 @@ import type {
   IotHubResourceCreateOrUpdateOptionalParams,
   IotHubResourceGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _checkNameAvailabilitySend(
   context: Client,
@@ -103,12 +107,14 @@ export function _checkNameAvailabilitySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: operationInputsSerializer(operationInputs),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: operationInputsSerializer(operationInputs),
+    });
 }
 
 export async function _checkNameAvailabilityDeserialize(
@@ -157,10 +163,12 @@ export function _listEventHubConsumerGroupsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listEventHubConsumerGroupsDeserialize(
@@ -291,12 +299,14 @@ export function _createEventHubConsumerGroupSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: eventHubConsumerGroupBodyDescriptionSerializer(consumerGroupBody),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: eventHubConsumerGroupBodyDescriptionSerializer(consumerGroupBody),
+    });
 }
 
 export async function _createEventHubConsumerGroupDeserialize(
@@ -359,10 +369,12 @@ export function _getEventHubConsumerGroupSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getEventHubConsumerGroupDeserialize(
@@ -419,10 +431,12 @@ export function _getStatsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getStatsDeserialize(
@@ -471,12 +485,14 @@ export function _importDevicesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: importDevicesRequestSerializer(importDevicesParameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: importDevicesRequestSerializer(importDevicesParameters),
+    });
 }
 
 export async function _importDevicesDeserialize(
@@ -532,12 +548,14 @@ export function _exportDevicesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: exportDevicesRequestSerializer(exportDevicesParameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: exportDevicesRequestSerializer(exportDevicesParameters),
+    });
 }
 
 export async function _exportDevicesDeserialize(
@@ -594,10 +612,12 @@ export function _getKeysForKeyNameSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getKeysForKeyNameDeserialize(
@@ -652,10 +672,12 @@ export function _listKeysSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listKeysDeserialize(
@@ -713,12 +735,14 @@ export function _testRouteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: testRouteInputSerializer(input),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: testRouteInputSerializer(input),
+    });
 }
 
 export async function _testRouteDeserialize(
@@ -768,12 +792,14 @@ export function _testAllRoutesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: testAllRoutesInputSerializer(input),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: testAllRoutesInputSerializer(input),
+    });
 }
 
 export async function _testAllRoutesDeserialize(
@@ -822,10 +848,12 @@ export function _listEndpointHealthSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listEndpointHealthDeserialize(
@@ -882,10 +910,12 @@ export function _listQuotaMetricsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listQuotaMetricsDeserialize(
@@ -944,10 +974,12 @@ export function _getJobSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getJobDeserialize(result: PathUncheckedResponse): Promise<JobResponse> {
@@ -994,10 +1026,12 @@ export function _listJobsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listJobsDeserialize(
@@ -1054,10 +1088,12 @@ export function _listValidSkusSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listValidSkusDeserialize(
@@ -1110,10 +1146,12 @@ export function _listBySubscriptionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listBySubscriptionDeserialize(
@@ -1166,10 +1204,12 @@ export function _listByResourceGroupSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listByResourceGroupDeserialize(
@@ -1225,10 +1265,12 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _$deleteDeserialize(
@@ -1288,12 +1330,14 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: tagsResourceSerializer(iotHubTags),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: tagsResourceSerializer(iotHubTags),
+    });
 }
 
 export async function _updateDeserialize(
@@ -1344,16 +1388,18 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: iotHubDescriptionSerializer(iotHubDescription),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: iotHubDescriptionSerializer(iotHubDescription),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -1408,10 +1454,12 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<IotHubDescription> {

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { FrontDoorManagementContext } from "../../api/frontDoorManagementContext.js";
+import { FrontDoorManagementContext } from "../../api/frontDoorManagementContext.js";
 import {
   validateCustomDomain,
   list,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/frontDoors/operations.js";
-import type {
+import {
   FrontDoorsValidateCustomDomainOptionalParams,
   FrontDoorsListOptionalParams,
   FrontDoorsListByResourceGroupOptionalParams,
@@ -18,15 +18,14 @@ import type {
   FrontDoorsCreateOrUpdateOptionalParams,
   FrontDoorsGetOptionalParams,
 } from "../../api/frontDoors/options.js";
-import type {
+import {
   FrontDoor,
   ValidateCustomDomainInput,
   ValidateCustomDomainOutput,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a FrontDoors operations. */
 export interface FrontDoorsOperations {

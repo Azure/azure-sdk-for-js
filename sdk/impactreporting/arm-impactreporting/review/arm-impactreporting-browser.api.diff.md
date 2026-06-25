@@ -7,7 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -370,15 +370,16 @@
+@@ -426,15 +426,16 @@
      continuationToken?: string;
  }
  
@@ -25,16 +25,16 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export type Platform = string;
  
-@@ -458,9 +459,9 @@
-     impactDescription?: string;
-     impactedResourceId: string;
+@@ -545,9 +546,9 @@
      impactGroupId?: string;
      readonly impactUniqueId?: string;
+     readonly insightsByCategory?: InsightCategoryGroup[];
+     ongoingImpact?: boolean;
 -    performance?: Performance[];
 +    performance?: Performance_2[];
      readonly provisioningState?: ProvisioningState;
      readonly reportedTimeUtc?: Date;
+     severity?: Severity;
      startDateTime: Date;
-     workload?: Workload;
 
 ```

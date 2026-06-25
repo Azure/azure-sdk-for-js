@@ -5,12 +5,12 @@ import { HorizonDbClient } from "@azure/arm-horizondb";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to deletes a HorizonDb parameter group.
+ * This sample demonstrates how to deletes a HorizonDB parameter group.
  *
- * @summary deletes a HorizonDb parameter group.
+ * @summary deletes a HorizonDB parameter group.
  * x-ms-original-file: 2026-01-20-preview/ParameterGroups_Delete.json
  */
-async function deleteAHorizonDbParameterGroup(): Promise<void> {
+async function deleteAHorizonDBParameterGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new HorizonDbClient(credential, subscriptionId);
@@ -18,7 +18,7 @@ async function deleteAHorizonDbParameterGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await deleteAHorizonDbParameterGroup();
+  await deleteAHorizonDBParameterGroup();
 }
 
 main().catch(console.error);

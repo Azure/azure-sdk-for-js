@@ -1,1 +1,28 @@
-extends: ../../../warp.base.config.yml
+# warp.config.yml — build configuration
+
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+  "./face": "./src/face/index.ts"
+  "./face/api": "./src/face/api/index.ts"
+  "./faceSession": "./src/faceSession/index.ts"
+  "./faceSession/api": "./src/faceSession/api/index.ts"
+  "./faceAdministration": "./src/faceAdministration/index.ts"
+  "./faceAdministration/api": "./src/faceAdministration/api/index.ts"
+  "./faceAdministration/api/largePersonGroup": "./src/faceAdministration/api/largePersonGroup/index.ts"
+  "./faceAdministration/api/largeFaceList": "./src/faceAdministration/api/largeFaceList/index.ts"
+  "./models": "./src/models/index.ts"
+  "./models/typeSpec/http": "./src/models/typeSpec/http/index.ts"
+
+targets:
+  - name: browser
+    tsconfig: "./config/tsconfig.src.browser.json"
+
+  - name: esm
+    condition: import
+    tsconfig: "./config/tsconfig.src.esm.json"
+
+  - name: commonjs
+    condition: require
+    tsconfig: "./config/tsconfig.src.cjs.json"
+    moduleType: commonjs

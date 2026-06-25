@@ -1,24 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { HealthcareApisManagementContext } from "../../api/healthcareApisManagementContext.js";
+import { HealthcareApisManagementContext } from "../../api/healthcareApisManagementContext.js";
 import {
   listByWorkspace,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/workspacePrivateEndpointConnections/operations.js";
-import type {
+import {
   WorkspacePrivateEndpointConnectionsListByWorkspaceOptionalParams,
   WorkspacePrivateEndpointConnectionsDeleteOptionalParams,
   WorkspacePrivateEndpointConnectionsCreateOrUpdateOptionalParams,
   WorkspacePrivateEndpointConnectionsGetOptionalParams,
 } from "../../api/workspacePrivateEndpointConnections/options.js";
-import type { PrivateEndpointConnectionDescription } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PrivateEndpointConnectionDescription } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a WorkspacePrivateEndpointConnections operations. */
 export interface WorkspacePrivateEndpointConnectionsOperations {

@@ -1,19 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { HybridComputeManagementContext } from "../../api/hybridComputeManagementContext.js";
+import { HybridComputeManagementContext } from "../../api/hybridComputeManagementContext.js";
 import { list, $delete, createOrUpdate, get } from "../../api/machineRunCommands/operations.js";
-import type {
+import {
   MachineRunCommandsListOptionalParams,
   MachineRunCommandsDeleteOptionalParams,
   MachineRunCommandsCreateOrUpdateOptionalParams,
   MachineRunCommandsGetOptionalParams,
 } from "../../api/machineRunCommands/options.js";
-import type { MachineRunCommand } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { MachineRunCommand } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a MachineRunCommands operations. */
 export interface MachineRunCommandsOperations {

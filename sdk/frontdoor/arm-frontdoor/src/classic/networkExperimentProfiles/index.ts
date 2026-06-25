@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { FrontDoorManagementContext } from "../../api/frontDoorManagementContext.js";
+import { FrontDoorManagementContext } from "../../api/frontDoorManagementContext.js";
 import {
   list,
   listByResourceGroup,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/networkExperimentProfiles/operations.js";
-import type {
+import {
   NetworkExperimentProfilesListOptionalParams,
   NetworkExperimentProfilesListByResourceGroupOptionalParams,
   NetworkExperimentProfilesDeleteOptionalParams,
@@ -18,11 +18,10 @@ import type {
   NetworkExperimentProfilesCreateOrUpdateOptionalParams,
   NetworkExperimentProfilesGetOptionalParams,
 } from "../../api/networkExperimentProfiles/options.js";
-import type { Profile, ProfileUpdateModel } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { Profile, ProfileUpdateModel } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a NetworkExperimentProfiles operations. */
 export interface NetworkExperimentProfilesOperations {

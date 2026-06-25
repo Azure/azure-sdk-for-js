@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { HorizonDbContext } from "../../api/horizonDbContext.js";
+import { HorizonDbContext } from "../../api/horizonDbContext.js";
 import {
   listVersions,
   listConnections,
@@ -12,7 +12,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/horizonDbParameterGroups/operations.js";
-import type {
+import {
   HorizonDbParameterGroupsListVersionsOptionalParams,
   HorizonDbParameterGroupsListConnectionsOptionalParams,
   HorizonDbParameterGroupsListBySubscriptionOptionalParams,
@@ -22,15 +22,14 @@ import type {
   HorizonDbParameterGroupsCreateOrUpdateOptionalParams,
   HorizonDbParameterGroupsGetOptionalParams,
 } from "../../api/horizonDbParameterGroups/options.js";
-import type {
+import {
   HorizonDbParameterGroup,
   HorizonDbParameterGroupForPatchUpdate,
   HorizonDbParameterGroupConnectionProperties,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a HorizonDbParameterGroups operations. */
 export interface HorizonDbParameterGroupsOperations {
@@ -46,21 +45,16 @@ export interface HorizonDbParameterGroupsOperations {
     parameterGroupName: string,
     options?: HorizonDbParameterGroupsListConnectionsOptionalParams,
   ) => PagedAsyncIterableIterator<HorizonDbParameterGroupConnectionProperties>;
-  /** Lists all HorizonDb parameter groups in a subscription. */
+  /** Lists all HorizonDB parameter groups in a subscription. */
   listBySubscription: (
     options?: HorizonDbParameterGroupsListBySubscriptionOptionalParams,
   ) => PagedAsyncIterableIterator<HorizonDbParameterGroup>;
-  /** Lists all HorizonDb parameter groups in a resource group. */
+  /** Lists all HorizonDB parameter groups in a resource group. */
   listByResourceGroup: (
     resourceGroupName: string,
     options?: HorizonDbParameterGroupsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<HorizonDbParameterGroup>;
-  /** Deletes a HorizonDb parameter group. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
+  /** Deletes a HorizonDB parameter group. */
   delete: (
     resourceGroupName: string,
     parameterGroupName: string,
@@ -78,7 +72,7 @@ export interface HorizonDbParameterGroupsOperations {
     parameterGroupName: string,
     options?: HorizonDbParameterGroupsDeleteOptionalParams,
   ) => Promise<void>;
-  /** Updates an existing HorizonDb parameter group. */
+  /** Updates an existing HorizonDB parameter group. */
   update: (
     resourceGroupName: string,
     parameterGroupName: string,
@@ -99,7 +93,7 @@ export interface HorizonDbParameterGroupsOperations {
     properties: HorizonDbParameterGroupForPatchUpdate,
     options?: HorizonDbParameterGroupsUpdateOptionalParams,
   ) => Promise<HorizonDbParameterGroup>;
-  /** Creates a new HorizonDb parameter group or updates an existing parameter group. */
+  /** Creates a new HorizonDB parameter group or updates an existing parameter group. */
   createOrUpdate: (
     resourceGroupName: string,
     parameterGroupName: string,
@@ -120,7 +114,7 @@ export interface HorizonDbParameterGroupsOperations {
     resource: HorizonDbParameterGroup,
     options?: HorizonDbParameterGroupsCreateOrUpdateOptionalParams,
   ) => Promise<HorizonDbParameterGroup>;
-  /** Gets information about a HorizonDb parameter group. */
+  /** Gets information about a HorizonDB parameter group. */
   get: (
     resourceGroupName: string,
     parameterGroupName: string,

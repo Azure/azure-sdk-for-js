@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { HybridComputeManagementContext } from "../../api/hybridComputeManagementContext.js";
+import { HybridComputeManagementContext } from "../../api/hybridComputeManagementContext.js";
 import { list } from "../../api/extensionPublisher/operations.js";
-import type { ExtensionPublisherListOptionalParams } from "../../api/extensionPublisher/options.js";
-import type { ExtensionPublisher } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { ExtensionPublisherListOptionalParams } from "../../api/extensionPublisher/options.js";
+import { ExtensionPublisher } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ExtensionPublisher operations. */
 export interface ExtensionPublisherOperations {

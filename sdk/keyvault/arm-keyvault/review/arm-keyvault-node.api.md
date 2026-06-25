@@ -4,15 +4,17 @@
 
 ```ts
 
-import type { AbortSignalLike } from '@azure/abort-controller';
-import type { CancelOnProgress } from '@azure/core-lro';
-import type { ClientOptions } from '@azure-rest/core-client';
-import type { OperationOptions } from '@azure-rest/core-client';
-import type { OperationState } from '@azure/core-lro';
-import type { PathUncheckedResponse } from '@azure-rest/core-client';
-import type { Pipeline } from '@azure/core-rest-pipeline';
-import type { PollerLike } from '@azure/core-lro';
-import type { TokenCredential } from '@azure/core-auth';
+import { AbortSignalLike } from '@azure/abort-controller';
+import { CancelOnProgress } from '@azure/core-lro';
+import { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import { OperationOptions } from '@azure-rest/core-client';
+import { OperationState } from '@azure/core-lro';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AccessPolicyEntry {
@@ -153,6 +155,8 @@ export type GeoReplicationRegionProvisioningState = string;
 export interface IPRule {
     value: string;
 }
+
+export { isRestError }
 
 // @public
 export type JsonWebKeyCurveName = string;
@@ -741,7 +745,7 @@ export interface ManagedHsmsOperations {
     checkMhsmNameAvailability: (mhsmName: CheckMhsmNameAvailabilityParameters, options?: ManagedHsmsCheckMhsmNameAvailabilityOptionalParams) => Promise<CheckMhsmNameAvailabilityResult>;
     createOrUpdate: (resourceGroupName: string, name: string, parameters: ManagedHsm, options?: ManagedHsmsCreateOrUpdateOptionalParams) => PollerLike<OperationState<ManagedHsm>, ManagedHsm>;
     delete: (resourceGroupName: string, name: string, options?: ManagedHsmsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, name: string, options?: ManagedHsmsGetOptionalParams) => Promise<ManagedHsm>;
+    get: (resourceGroupName: string, name: string, options?: ManagedHsmsGetOptionalParams) => Promise<ManagedHsm | undefined>;
     getDeleted: (name: string, location: string, options?: ManagedHsmsGetDeletedOptionalParams) => Promise<DeletedManagedHsm>;
     listByResourceGroup: (resourceGroupName: string, options?: ManagedHsmsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<ManagedHsm>;
     listBySubscription: (options?: ManagedHsmsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<ManagedHsm>;
@@ -1050,7 +1054,7 @@ export interface PrivateEndpointConnectionsOperations {
     // @deprecated (undocumented)
     beginDeleteAndWait: (resourceGroupName: string, vaultName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => Promise<PrivateEndpointConnection>;
     delete: (resourceGroupName: string, vaultName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => PollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>;
-    get: (resourceGroupName: string, vaultName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams) => Promise<PrivateEndpointConnection>;
+    get: (resourceGroupName: string, vaultName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams) => Promise<PrivateEndpointConnection | undefined>;
     listByResource: (resourceGroupName: string, vaultName: string, options?: PrivateEndpointConnectionsListByResourceOptionalParams) => PagedAsyncIterableIterator<PrivateEndpointConnection>;
     put: (resourceGroupName: string, vaultName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnection, options?: PrivateEndpointConnectionsPutOptionalParams) => Promise<PrivateEndpointConnection>;
 }
@@ -1119,6 +1123,8 @@ export interface Resource {
     readonly systemData?: SystemData;
     readonly type?: string;
 }
+
+export { RestError }
 
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: KeyVaultManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;

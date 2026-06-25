@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { KeyVaultManagementContext } from "../../api/keyVaultManagementContext.js";
+import { KeyVaultManagementContext } from "../../api/keyVaultManagementContext.js";
 import { listByResource } from "../../api/mhsmRegions/operations.js";
-import type { MhsmRegionsListByResourceOptionalParams } from "../../api/mhsmRegions/options.js";
-import type { MhsmGeoReplicatedRegion } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { MhsmRegionsListByResourceOptionalParams } from "../../api/mhsmRegions/options.js";
+import { MhsmGeoReplicatedRegion } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a MhsmRegions operations. */
 export interface MhsmRegionsOperations {

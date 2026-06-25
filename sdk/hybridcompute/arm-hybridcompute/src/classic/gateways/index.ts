@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { HybridComputeManagementContext } from "../../api/hybridComputeManagementContext.js";
+import { HybridComputeManagementContext } from "../../api/hybridComputeManagementContext.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/gateways/operations.js";
-import type {
+import {
   GatewaysListBySubscriptionOptionalParams,
   GatewaysListByResourceGroupOptionalParams,
   GatewaysDeleteOptionalParams,
@@ -18,11 +18,10 @@ import type {
   GatewaysCreateOrUpdateOptionalParams,
   GatewaysGetOptionalParams,
 } from "../../api/gateways/options.js";
-import type { Gateway, GatewayUpdate } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { Gateway, GatewayUpdate } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Gateways operations. */
 export interface GatewaysOperations {

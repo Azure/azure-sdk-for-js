@@ -5,12 +5,12 @@ import { HorizonDbClient } from "@azure/arm-horizondb";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to creates a new HorizonDb cluster or updates an existing cluster.
+ * This sample demonstrates how to creates a new HorizonDB cluster or updates an existing cluster.
  *
- * @summary creates a new HorizonDb cluster or updates an existing cluster.
+ * @summary creates a new HorizonDB cluster or updates an existing cluster.
  * x-ms-original-file: 2026-01-20-preview/Clusters_CreateOrUpdate.json
  */
-async function createOrUpdateAHorizonDbCluster(): Promise<void> {
+async function createOrUpdateAHorizonDBCluster(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new HorizonDbClient(credential, subscriptionId);
@@ -22,14 +22,12 @@ async function createOrUpdateAHorizonDbCluster(): Promise<void> {
       tags: { env: "dev" },
       properties: {
         createMode: "Create",
-        sourceClusterResourceId:
-          "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/examplesourceresourcegroup/providers/Microsoft.HorizonDb/clusters/examplesourcecluster",
         version: "17",
         administratorLogin: "exampleadministratorlogin",
         administratorLoginPassword: "examplepassword",
         vCores: 4,
         replicaCount: 2,
-        zonePlacementPolicy: "Strict",
+        zonePlacementPolicy: "BestEffort",
       },
     },
   );
@@ -37,7 +35,7 @@ async function createOrUpdateAHorizonDbCluster(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await createOrUpdateAHorizonDbCluster();
+  await createOrUpdateAHorizonDBCluster();
 }
 
 main().catch(console.error);

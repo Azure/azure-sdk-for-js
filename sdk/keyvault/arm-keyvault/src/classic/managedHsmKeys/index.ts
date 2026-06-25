@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { KeyVaultManagementContext } from "../../api/keyVaultManagementContext.js";
+import { KeyVaultManagementContext } from "../../api/keyVaultManagementContext.js";
 import {
   listVersions,
   getVersion,
@@ -9,15 +9,15 @@ import {
   createIfNotExist,
   get,
 } from "../../api/managedHsmKeys/operations.js";
-import type {
+import {
   ManagedHsmKeysListVersionsOptionalParams,
   ManagedHsmKeysGetVersionOptionalParams,
   ManagedHsmKeysListOptionalParams,
   ManagedHsmKeysCreateIfNotExistOptionalParams,
   ManagedHsmKeysGetOptionalParams,
 } from "../../api/managedHsmKeys/options.js";
-import type { ManagedHsmKey, ManagedHsmKeyCreateParameters } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { ManagedHsmKey, ManagedHsmKeyCreateParameters } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ManagedHsmKeys operations. */
 export interface ManagedHsmKeysOperations {

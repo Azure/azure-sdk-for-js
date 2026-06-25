@@ -244,7 +244,7 @@ export interface GuestConfigurationAssignmentsVmssListOptionalParams extends Ope
 // @public
 export interface GuestConfigurationAssignmentsVmssOperations {
     createOrUpdate: (resourceGroupName: string, vmssName: string, name: string, parameters: GuestConfigurationAssignment, options?: GuestConfigurationAssignmentsVmssCreateOrUpdateOptionalParams) => Promise<GuestConfigurationAssignment>;
-    delete: (resourceGroupName: string, vmssName: string, name: string, options?: GuestConfigurationAssignmentsVmssDeleteOptionalParams) => Promise<GuestConfigurationAssignment>;
+    delete: (resourceGroupName: string, vmssName: string, name: string, options?: GuestConfigurationAssignmentsVmssDeleteOptionalParams) => Promise<GuestConfigurationAssignment | undefined>;
     get: (resourceGroupName: string, vmssName: string, name: string, options?: GuestConfigurationAssignmentsVmssGetOptionalParams) => Promise<GuestConfigurationAssignment>;
     list: (resourceGroupName: string, vmssName: string, options?: GuestConfigurationAssignmentsVmssListOptionalParams) => PagedAsyncIterableIterator<GuestConfigurationAssignment>;
 }

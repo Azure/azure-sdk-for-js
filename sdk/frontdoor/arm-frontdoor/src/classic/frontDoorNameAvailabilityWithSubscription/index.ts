@@ -1,13 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { FrontDoorManagementContext } from "../../api/frontDoorManagementContext.js";
+import { FrontDoorManagementContext } from "../../api/frontDoorManagementContext.js";
 import { check } from "../../api/frontDoorNameAvailabilityWithSubscription/operations.js";
-import type { FrontDoorNameAvailabilityWithSubscriptionCheckOptionalParams } from "../../api/frontDoorNameAvailabilityWithSubscription/options.js";
-import type {
-  CheckNameAvailabilityInput,
-  CheckNameAvailabilityOutput,
-} from "../../models/models.js";
+import { FrontDoorNameAvailabilityWithSubscriptionCheckOptionalParams } from "../../api/frontDoorNameAvailabilityWithSubscription/options.js";
+import { CheckNameAvailabilityInput, CheckNameAvailabilityOutput } from "../../models/models.js";
 
 /** Interface representing a FrontDoorNameAvailabilityWithSubscription operations. */
 export interface FrontDoorNameAvailabilityWithSubscriptionOperations {

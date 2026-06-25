@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary list the operations for the provider
  * x-ms-original-file: 2026-01-20-preview/Operations_List.json
  */
-async function listOperationsForMicrosoftHorizonDb(): Promise<void> {
+async function listOperationsForMicrosoftHorizonDB(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new HorizonDbClient(credential, subscriptionId);
@@ -23,7 +23,7 @@ async function listOperationsForMicrosoftHorizonDb(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await listOperationsForMicrosoftHorizonDb();
+  await listOperationsForMicrosoftHorizonDB();
 }
 
 main().catch(console.error);

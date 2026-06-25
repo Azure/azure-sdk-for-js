@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { HybridComputeManagementContext } from "../../api/hybridComputeManagementContext.js";
+import { HybridComputeManagementContext } from "../../api/hybridComputeManagementContext.js";
 import {
   validateLicense,
   listBySubscription,
@@ -11,7 +11,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/licenses/operations.js";
-import type {
+import {
   LicensesValidateLicenseOptionalParams,
   LicensesListBySubscriptionOptionalParams,
   LicensesListByResourceGroupOptionalParams,
@@ -20,11 +20,10 @@ import type {
   LicensesCreateOrUpdateOptionalParams,
   LicensesGetOptionalParams,
 } from "../../api/licenses/options.js";
-import type { License, LicenseUpdate } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { License, LicenseUpdate } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Licenses operations. */
 export interface LicensesOperations {

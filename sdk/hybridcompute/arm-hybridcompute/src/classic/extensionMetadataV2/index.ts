@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { HybridComputeManagementContext } from "../../api/hybridComputeManagementContext.js";
+import { HybridComputeManagementContext } from "../../api/hybridComputeManagementContext.js";
 import { list, get } from "../../api/extensionMetadataV2/operations.js";
-import type {
+import {
   ExtensionMetadataV2ListOptionalParams,
   ExtensionMetadataV2GetOptionalParams,
 } from "../../api/extensionMetadataV2/options.js";
-import type { ExtensionValueV2 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { ExtensionValueV2 } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ExtensionMetadataV2 operations. */
 export interface ExtensionMetadataV2Operations {

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { HybridComputeManagementContext } from "../../api/hybridComputeManagementContext.js";
+import { HybridComputeManagementContext } from "../../api/hybridComputeManagementContext.js";
 import {
   getValidationDetails,
   list,
@@ -12,7 +12,7 @@ import {
   get,
   getValidationDetailsForMachine,
 } from "../../api/privateLinkScopes/operations.js";
-import type {
+import {
   PrivateLinkScopesGetValidationDetailsOptionalParams,
   PrivateLinkScopesListOptionalParams,
   PrivateLinkScopesListByResourceGroupOptionalParams,
@@ -22,15 +22,14 @@ import type {
   PrivateLinkScopesGetOptionalParams,
   PrivateLinkScopesGetValidationDetailsForMachineOptionalParams,
 } from "../../api/privateLinkScopes/options.js";
-import type {
+import {
   PrivateLinkScopeValidationDetails,
   HybridComputePrivateLinkScope,
   TagsResource,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a PrivateLinkScopes operations. */
 export interface PrivateLinkScopesOperations {

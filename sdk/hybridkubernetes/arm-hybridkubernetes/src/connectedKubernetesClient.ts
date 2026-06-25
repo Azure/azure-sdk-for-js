@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   ConnectedKubernetesContext,
   ConnectedKubernetesClientOptionalParams,
+  createConnectedKubernetes,
 } from "./api/index.js";
-import { createConnectedKubernetes } from "./api/index.js";
-import type { ConnectedClusterOperationsOperations } from "./classic/connectedClusterOperations/index.js";
-import { _getConnectedClusterOperationsOperations } from "./classic/connectedClusterOperations/index.js";
-import type { OperationsOperations } from "./classic/operations/index.js";
-import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import {
+  ConnectedClusterOperationsOperations,
+  _getConnectedClusterOperationsOperations,
+} from "./classic/connectedClusterOperations/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { ConnectedKubernetesClientOptionalParams } from "./api/connectedKubernetesContext.js";
 

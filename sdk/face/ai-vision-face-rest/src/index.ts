@@ -1,15 +1,145 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import FaceClient from "./faceClient.js";
+import { NodeReadableStream } from "#platform/static-helpers/platform-types";
+import { FileContents } from "./static-helpers/multipartHelpers.js";
 
-export * from "./faceClient.js";
-export type * from "./parameters.js";
-export type * from "./responses.js";
-export type * from "./clientDefinitions.js";
-export * from "./isUnexpected.js";
-export type * from "./models.js";
-export type * from "./outputModels.js";
-export * from "./pollingHelper.js";
-
-export default FaceClient;
+export { FaceClient } from "./face/faceClient.js";
+export type {
+  FaceDetectionResult,
+  FaceRecognitionModel,
+  FaceRectangle,
+  FaceLandmarks,
+  LandmarkCoordinate,
+  FaceAttributes,
+  FacialHair,
+  GlassesType,
+  HeadPose,
+  HairProperties,
+  HairColor,
+  HairColorType,
+  OcclusionProperties,
+  AccessoryItem,
+  AccessoryType,
+  BlurProperties,
+  BlurLevel,
+  ExposureProperties,
+  ExposureLevel,
+  NoiseProperties,
+  NoiseLevel,
+  MaskProperties,
+  MaskType,
+  QualityForRecognition,
+  FaceErrorResponse,
+  FaceError,
+  FindSimilarMatchMode,
+  FaceFindSimilarResult,
+  FaceVerificationResult,
+  FaceGroupingResult,
+  FaceIdentificationResult,
+  FaceIdentificationCandidate,
+  CreateLivenessSessionContent,
+  LivenessOperationMode,
+  LivenessModel,
+  LivenessSession,
+  OperationState,
+  LivenessSessionResults,
+  LivenessSessionAttempt,
+  LivenessResult,
+  FaceLivenessDecision,
+  LivenessDecisionTargets,
+  LivenessColorDecisionTarget,
+  LivenessError,
+  ClientInformation,
+  AbuseMonitoringResult,
+  OtherFlaggedSessions,
+  CreateLivenessWithVerifySessionContent,
+  LivenessWithVerifySession,
+  LivenessWithVerifySessionResults,
+  LivenessWithVerifyReference,
+  FaceImageType,
+  LivenessWithVerifySessionAttempt,
+  LivenessWithVerifyResult,
+  LivenessWithVerifyOutputs,
+  LargeFaceList,
+  FaceTrainingResult,
+  FaceOperationStatus,
+  AddFaceResult,
+  LargeFaceListFace,
+  LargePersonGroup,
+  CreatePersonResult,
+  LargePersonGroupPerson,
+  LargePersonGroupPersonFace,
+  FaceDetectionModel,
+  FaceAttributeType,
+  Versions,
+  GetSessionImageResponse,
+} from "./models/index.js";
+export type { HttpPart, HttpPart1, HttpPart2 } from "./models/typeSpec/http/index.js";
+export type {
+  FaceClientOptionalParams,
+  VerifyFromLargePersonGroupOptionalParams,
+  IdentifyFromLargePersonGroupOptionalParams,
+  FindSimilarFromLargeFaceListOptionalParams,
+  GroupOptionalParams,
+  VerifyFaceToFaceOptionalParams,
+  FindSimilarOptionalParams,
+  DetectOptionalParams,
+  DetectFromUrlOptionalParams,
+} from "./face/api/index.js";
+export type { FileContents, NodeReadableStream };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";
+export { FaceSessionClient } from "./faceSession/faceSessionClient.js";
+export type {
+  FaceSessionClientOptionalParams,
+  GetSessionImageOptionalParams,
+  DetectFromSessionImageOptionalParams,
+  GetLivenessWithVerifySessionResultOptionalParams,
+  DeleteLivenessWithVerifySessionOptionalParams,
+  CreateLivenessWithVerifySessionOptionalParams,
+  GetLivenessSessionResultOptionalParams,
+  DeleteLivenessSessionOptionalParams,
+  CreateLivenessSessionOptionalParams,
+} from "./faceSession/api/index.js";
+export { FaceAdministrationClient } from "./faceAdministration/faceAdministrationClient.js";
+export type { RestorePollerOptions } from "./faceAdministration/restorePollerHelpers.js";
+export { restorePoller } from "./faceAdministration/restorePollerHelpers.js";
+export type { FaceAdministrationClientOptionalParams } from "./faceAdministration/api/index.js";
+export type {
+  LargeFaceListGetFacesOptionalParams,
+  LargeFaceListUpdateFaceOptionalParams,
+  LargeFaceListGetFaceOptionalParams,
+  LargeFaceListDeleteFaceOptionalParams,
+  LargeFaceListAddFaceOptionalParams,
+  LargeFaceListAddFaceFromUrlOptionalParams,
+  LargeFaceListTrainOptionalParams,
+  LargeFaceListGetTrainingStatusOptionalParams,
+  LargeFaceListGetLargeFaceListsOptionalParams,
+  LargeFaceListUpdateOptionalParams,
+  LargeFaceListGetOptionalParams,
+  LargeFaceListDeleteOptionalParams,
+  LargeFaceListCreateOptionalParams,
+} from "./faceAdministration/api/largeFaceList/index.js";
+export type {
+  LargePersonGroupUpdateFaceOptionalParams,
+  LargePersonGroupGetFaceOptionalParams,
+  LargePersonGroupDeleteFaceOptionalParams,
+  LargePersonGroupAddFaceOptionalParams,
+  LargePersonGroupAddFaceFromUrlOptionalParams,
+  LargePersonGroupGetPersonsOptionalParams,
+  LargePersonGroupUpdatePersonOptionalParams,
+  LargePersonGroupGetPersonOptionalParams,
+  LargePersonGroupDeletePersonOptionalParams,
+  LargePersonGroupCreatePersonOptionalParams,
+  LargePersonGroupTrainOptionalParams,
+  LargePersonGroupGetTrainingStatusOptionalParams,
+  LargePersonGroupGetLargePersonGroupsOptionalParams,
+  LargePersonGroupUpdateOptionalParams,
+  LargePersonGroupGetOptionalParams,
+  LargePersonGroupDeleteOptionalParams,
+  LargePersonGroupCreateOptionalParams,
+} from "./faceAdministration/api/largePersonGroup/index.js";
+export type {
+  LargeFaceListOperations,
+  LargePersonGroupOperations,
+} from "./faceAdministration/classic/index.js";

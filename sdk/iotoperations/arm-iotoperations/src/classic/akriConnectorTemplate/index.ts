@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { IoTOperationsContext } from "../../api/ioTOperationsContext.js";
+import { IoTOperationsContext } from "../../api/ioTOperationsContext.js";
 import {
   listByInstanceResource,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/akriConnectorTemplate/operations.js";
-import type {
+import {
   AkriConnectorTemplateListByInstanceResourceOptionalParams,
   AkriConnectorTemplateDeleteOptionalParams,
   AkriConnectorTemplateCreateOrUpdateOptionalParams,
   AkriConnectorTemplateGetOptionalParams,
 } from "../../api/akriConnectorTemplate/options.js";
-import type { AkriConnectorTemplateResource } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { AkriConnectorTemplateResource } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a AkriConnectorTemplate operations. */
 export interface AkriConnectorTemplateOperations {
@@ -27,11 +27,6 @@ export interface AkriConnectorTemplateOperations {
     options?: AkriConnectorTemplateListByInstanceResourceOptionalParams,
   ) => PagedAsyncIterableIterator<AkriConnectorTemplateResource>;
   /** Delete a AkriConnectorTemplateResource */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     instanceName: string,
