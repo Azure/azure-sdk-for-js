@@ -1,0 +1,9 @@
+{
+  "pr": 39076,
+  "package": "@azure/arm-policyinsights",
+  "version": "7.0.0-beta.1",
+  "reviewedAt": "2026-06-25T03:15:02Z",
+  "outcome": "clean",
+  "summary": "Migration from Autorest v6.0.0 to TypeSpec-generated v7.0.0-beta.1. No API design or tooling issues found.",
+  "findings": []
+}
