@@ -3,6 +3,7 @@
 
 import type { FlatConfig, SharedConfig } from "@typescript-eslint/utils/ts-eslint";
 import { type FixupPluginDefinition, fixupPluginRules } from "@eslint/compat";
+import importX from "eslint-plugin-import-x";
 import n from "eslint-plugin-n";
 import noOnlyTests from "eslint-plugin-no-only-tests";
 import tsdoc from "eslint-plugin-tsdoc";
@@ -161,6 +162,77 @@ const tsdocCustomization = {
   },
 };
 
+// Production source must not load modules through `createRequire()` or by aliasing
+// the global `require`. Those patterns hide a dependency from the static module graph,
+// so bundlers, api-extractor, and dependency linting can't see it — which lets a
+// package acquire an undeclared (or dev-only) runtime dependency that silently fails
+// for consumers. Prefer `@azure/core-tracing` for tracing, or declare the package as a
+// regular runtime dependency and `import` it statically. Approved advanced cases
+// (e.g. platform shims) may opt out with an `eslint-disable` carrying a justification.
+const createRequireMessage =
+  "Do not use createRequire() in production source: it loads modules outside the static " +
+  "module graph, hiding the dependency from bundlers and dependency linting and allowing an " +
+  "undeclared or dev-only package to be loaded at runtime. Use @azure/core-tracing for tracing, " +
+  "or declare the package as a regular runtime dependency and import it statically. If this is an " +
+  "approved advanced case, disable this rule on the line with a justification comment.";
+const requireAliasMessage =
+  "Do not alias the global `require` in production source: it dodges the import/dependency rules " +
+  "the same way createRequire() does. Import the module statically and declare it as a runtime " +
+  "dependency. If this is an approved advanced case, disable this rule on the line with a " +
+  "justification comment.";
+
+const noDynamicModuleLoad: FlatConfig.Config = {
+  name: "azsdk/no-dynamic-module-load",
+  files: ["**/src/**/*.ts", "**/src/**/*.cts", "**/src/**/*.mts"],
+  rules: {
+    "no-restricted-syntax": [
+      "error",
+      { selector: "CallExpression[callee.name='createRequire']", message: createRequireMessage },
+      {
+        selector: "CallExpression[callee.property.name='createRequire']",
+        message: createRequireMessage,
+      },
+      { selector: "VariableDeclarator[init.name='require']", message: requireAliasMessage },
+      { selector: "AssignmentExpression[right.name='require']", message: requireAliasMessage },
+    ],
+  },
+};
+
+// Production source must import only declared *runtime* dependencies. Importing a package
+// that lives only in `devDependencies` resolves inside the monorepo and tests but is absent
+// for consumers, so it fails (often silently) once published. `includeTypes` is left at its
+// default (false): only runtime value imports are checked, since type-only imports
+// (`import type`) are erased at runtime and pose no runtime risk. See documentation/linting.md.
+// Scoped to `src/**` only, so tests and samples may freely import devDependencies.
+const srcRuntimeDepsOnly: FlatConfig.Config = {
+  name: "azsdk/src-runtime-deps-only",
+  files: ["**/src/**/*.ts", "**/src/**/*.cts", "**/src/**/*.mts"],
+  ignores: [
+    // Platform-variant shims import platform-provided modules (e.g. `react-native`) that are
+    // intentionally devDependencies — the consumer's bundler swaps them in, so they are not
+    // on the Node runtime path. (Observed in the repo-wide scan: react-native shims in core
+    // packages. Add browser/workerd patterns here only if/when they are observed as reds.)
+    "**/*-react-native.{ts,cts,mts}",
+    // Bin / codegen CLI scripts under src/bin are dev tooling, not shipped runtime code.
+    "**/src/bin/**",
+  ],
+  plugins: {
+    "import-x": importX as unknown as FixupPluginDefinition,
+  },
+  rules: {
+    // `includeTypes: false` (default): only runtime value imports are checked. Type-only
+    // imports (`import type`) are erased at runtime, so a dev-only type import is not a
+    // runtime failure; flagging them added noise without runtime risk.
+    "import-x/no-extraneous-dependencies": [
+      "error",
+      {
+        devDependencies: false,
+        includeTypes: false,
+      },
+    ],
+  },
+};
+
 const rules: Record<string, SharedConfig.RuleEntry> = {
   ...tsEslintCustomization,
   ...azsdkDefault,
@@ -226,4 +298,6 @@ export default (parser: FlatConfig.Parser): FlatConfig.ConfigArray => [
       "@azure/azure-sdk/ts-use-cjs-polyfill": "error",
     },
   },
+  noDynamicModuleLoad,
+  srcRuntimeDepsOnly,
 ];
