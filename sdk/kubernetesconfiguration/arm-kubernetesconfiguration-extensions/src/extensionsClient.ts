@@ -1,14 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ExtensionsContext, ExtensionsClientOptionalParams } from "./api/index.js";
-import { createExtensions } from "./api/index.js";
-import type { ExtensionsOperations } from "./classic/extensions/index.js";
-import { _getExtensionsOperations } from "./classic/extensions/index.js";
-import type { OperationStatusOperations } from "./classic/operationStatus/index.js";
-import { _getOperationStatusOperations } from "./classic/operationStatus/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import {
+  ExtensionsContext,
+  ExtensionsClientOptionalParams,
+  createExtensions,
+} from "./api/index.js";
+import { ExtensionsOperations, _getExtensionsOperations } from "./classic/extensions/index.js";
+import {
+  OperationStatusOperations,
+  _getOperationStatusOperations,
+} from "./classic/operationStatus/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { ExtensionsClientOptionalParams } from "./api/extensionsContext.js";
 

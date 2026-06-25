@@ -1,0 +1,50 @@
+{
+  "apiVersions": {
+    "Microsoft.WeightsAndBiases": "2024-09-18"
+  },
+  "emitterVersion": "0.55.0-dev.9",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "Microsoft.WeightsAndBiases",
+    "CrossLanguageDefinitionId": {
+      "@azure/arm-weightsandbiases!OperationListResult:interface": "Azure.ResourceManager.CommonTypes.OperationListResult",
+      "@azure/arm-weightsandbiases!Operation:interface": "Azure.ResourceManager.CommonTypes.Operation",
+      "@azure/arm-weightsandbiases!OperationDisplay:interface": "Azure.ResourceManager.CommonTypes.OperationDisplay",
+      "@azure/arm-weightsandbiases!ErrorResponse:interface": "Azure.ResourceManager.CommonTypes.ErrorResponse",
+      "@azure/arm-weightsandbiases!ErrorDetail:interface": "Azure.ResourceManager.CommonTypes.ErrorDetail",
+      "@azure/arm-weightsandbiases!ErrorAdditionalInfo:interface": "Azure.ResourceManager.CommonTypes.ErrorAdditionalInfo",
+      "@azure/arm-weightsandbiases!InstanceResource:interface": "Microsoft.WeightsAndBiases.InstanceResource",
+      "@azure/arm-weightsandbiases!InstanceProperties:interface": "Microsoft.WeightsAndBiases.InstanceProperties",
+      "@azure/arm-weightsandbiases!MarketplaceDetails:interface": "LiftrBase.MarketplaceDetails",
+      "@azure/arm-weightsandbiases!OfferDetails:interface": "LiftrBase.OfferDetails",
+      "@azure/arm-weightsandbiases!UserDetails:interface": "LiftrBase.UserDetails",
+      "@azure/arm-weightsandbiases!PartnerProperties:interface": "Microsoft.WeightsAndBiases.PartnerProperties",
+      "@azure/arm-weightsandbiases!SingleSignOnPropertiesV2:interface": "LiftrBase.SingleSignOnPropertiesV2",
+      "@azure/arm-weightsandbiases!ManagedServiceIdentity:interface": "Azure.ResourceManager.CommonTypes.ManagedServiceIdentity",
+      "@azure/arm-weightsandbiases!UserAssignedIdentity:interface": "Azure.ResourceManager.CommonTypes.UserAssignedIdentity",
+      "@azure/arm-weightsandbiases!TrackedResource:interface": "Azure.ResourceManager.CommonTypes.TrackedResource",
+      "@azure/arm-weightsandbiases!Resource:interface": "Azure.ResourceManager.CommonTypes.Resource",
+      "@azure/arm-weightsandbiases!SystemData:interface": "Azure.ResourceManager.CommonTypes.SystemData",
+      "@azure/arm-weightsandbiases!ArmOperationStatusResourceProvisioningState:interface": "Azure.ResourceManager.ArmOperationStatus",
+      "@azure/arm-weightsandbiases!InstanceResourceUpdate:interface": "Microsoft.WeightsAndBiases.InstanceResourceUpdate",
+      "@azure/arm-weightsandbiases!InstanceResourceListResult:interface": "Azure.ResourceManager.ResourceListResult",
+      "@azure/arm-weightsandbiases!KnownOrigin:enum": "Azure.ResourceManager.CommonTypes.Origin",
+      "@azure/arm-weightsandbiases!KnownActionType:enum": "Azure.ResourceManager.CommonTypes.ActionType",
+      "@azure/arm-weightsandbiases!KnownMarketplaceSubscriptionStatus:enum": "LiftrBase.MarketplaceSubscriptionStatus",
+      "@azure/arm-weightsandbiases!KnownResourceProvisioningState:enum": "Azure.ResourceManager.ResourceProvisioningState",
+      "@azure/arm-weightsandbiases!KnownRegion:enum": "Microsoft.WeightsAndBiases.Region",
+      "@azure/arm-weightsandbiases!KnownSingleSignOnType:enum": "LiftrBase.SingleSignOnType",
+      "@azure/arm-weightsandbiases!KnownSingleSignOnStates:enum": "LiftrBase.SingleSignOnStates",
+      "@azure/arm-weightsandbiases!KnownManagedServiceIdentityType:enum": "Azure.ResourceManager.CommonTypes.ManagedServiceIdentityType",
+      "@azure/arm-weightsandbiases!KnowncreatedByType:enum": "Azure.ResourceManager.CommonTypes.createdByType",
+      "@azure/arm-weightsandbiases!KnownVersions:enum": "Microsoft.WeightsAndBiases.Versions",
+      "@azure/arm-weightsandbiases!ManagedServiceIdentityUserAssignedIdentity:type": "Azure.ResourceManager.CommonTypes.ManagedServiceIdentity.userAssignedIdentity.anonymous",
+      "@azure/arm-weightsandbiases!InstancesOperations#listBySubscription:member": "Microsoft.WeightsAndBiases.Instances.listBySubscription",
+      "@azure/arm-weightsandbiases!InstancesOperations#listByResourceGroup:member": "Microsoft.WeightsAndBiases.Instances.listByResourceGroup",
+      "@azure/arm-weightsandbiases!InstancesOperations#delete:member": "Microsoft.WeightsAndBiases.Instances.delete",
+      "@azure/arm-weightsandbiases!InstancesOperations#update:member": "Microsoft.WeightsAndBiases.Instances.update",
+      "@azure/arm-weightsandbiases!InstancesOperations#createOrUpdate:member": "Microsoft.WeightsAndBiases.Instances.createOrUpdate",
+      "@azure/arm-weightsandbiases!InstancesOperations#get:member": "Microsoft.WeightsAndBiases.Instances.get",
+      "@azure/arm-weightsandbiases!OperationsOperations#list:member": "Azure.ResourceManager.Operations.list"
+    }
+  }
+}

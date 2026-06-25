@@ -2,19 +2,19 @@
 // Licensed under the MIT License.
 
 import {
-  createHyperExecute,
   HyperExecuteContext,
   HyperExecuteClientOptionalParams,
+  createHyperExecute,
 } from "./api/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
 import {
   OrganizationsOperations,
   _getOrganizationsOperations,
 } from "./classic/organizations/index.js";
-import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
-export { type HyperExecuteClientOptionalParams } from "./api/hyperExecuteContext.js";
+export type { HyperExecuteClientOptionalParams } from "./api/hyperExecuteContext.js";
 
 export class HyperExecuteClient {
   private _client: HyperExecuteContext;

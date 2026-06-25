@@ -1,16 +1,156 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import AzureLoadTesting from "./azureLoadTesting.js";
+import {
+  PageSettings,
+  ContinuablePage,
+  PagedAsyncIterableIterator,
+} from "./static-helpers/pagingHelpers.js";
 
-export * from "./azureLoadTesting.js";
-export type * from "./parameters.js";
-export type * from "./responses.js";
-export type * from "./clientDefinitions.js";
-export * from "./isUnexpected.js";
-export type * from "./models.js";
-export type * from "./outputModels.js";
-export * from "./paginateHelper.js";
-export * from "./pollingHelper.js";
-
-export default AzureLoadTesting;
+export { LoadTestAdministrationClient } from "./loadTestAdministration/loadTestAdministrationClient.js";
+export type { RestorePollerOptions } from "./loadTestAdministration/restorePollerHelpers.js";
+export { restorePoller } from "./loadTestAdministration/restorePollerHelpers.js";
+export type {
+  Test,
+  PassFailCriteria,
+  PassFailMetric,
+  PFMetrics,
+  PassFailAggregationFunction,
+  PassFailAction,
+  PassFailResult,
+  PassFailServerMetric,
+  AutoStopCriteria,
+  Secret,
+  SecretType,
+  CertificateMetadata,
+  CertificateType,
+  LoadTestConfiguration,
+  OptionalLoadTestConfiguration,
+  RegionalConfiguration,
+  TestInputArtifacts,
+  TestFileInfo,
+  FileType,
+  FileValidationStatus,
+  TestKind,
+  ManagedIdentityType,
+  TestPreferences,
+  TestAppComponents,
+  AppComponent,
+  TestServerMetricsConfiguration,
+  ResourceMetric,
+  Trigger,
+  TriggerUnion,
+  TriggerType,
+  TriggerState,
+  StateDetails,
+  ScheduleTestsTrigger,
+  RecurrenceStatus,
+  Recurrence,
+  RecurrenceUnion,
+  Frequency,
+  RecurrenceEnd,
+  DailyRecurrence,
+  HourlyRecurrence,
+  MonthlyRecurrenceByWeekDays,
+  WeekDays,
+  MonthlyRecurrenceByDates,
+  RecurrenceWithCron,
+  WeeklyRecurrence,
+  NotificationRule,
+  NotificationRuleUnion,
+  NotificationScopeType,
+  TestsNotificationRule,
+  TestsNotificationEventFilter,
+  TestsNotificationEventFilterUnion,
+  NotificationEventType,
+  TestRunEndedNotificationEventFilter,
+  TestRunEndedEventCondition,
+  TestRunStatus,
+  PassFailTestResult,
+  TestRunStartedNotificationEventFilter,
+  TriggerCompletedNotificationEventFilter,
+  TriggerDisabledNotificationEventFilter,
+  OperationState,
+  OperationStatus,
+  OperationKind,
+  TestRun,
+  ErrorDetails,
+  TestRunStatistics,
+  TestRunArtifacts,
+  TestRunInputArtifacts,
+  TestRunFileInfo,
+  TestRunOutputArtifacts,
+  ArtifactsContainerInfo,
+  RequestDataLevel,
+  CreatedByType,
+  TestRunAppComponents,
+  TestRunServerMetricsConfiguration,
+  MetricDefinitionCollection,
+  MetricDefinition,
+  NameAndDescription,
+  Aggregation,
+  MetricUnit,
+  MetricAvailability,
+  TimeGrain,
+  MetricNamespaceCollection,
+  MetricNamespace,
+  MetricRequestPayload,
+  DimensionFilter,
+  TimeSeriesElement,
+  MetricValue,
+  DimensionValue,
+  TestRunInsights,
+  TestRunInsightColumn,
+} from "./models/index.js";
+export { KnownAPIVersions } from "./models/index.js";
+export type {
+  LoadTestAdministrationClientOptionalParams,
+  GetOperationStatusOptionalParams,
+  GenerateTestPlanRecommendationsOptionalParams,
+  CloneTestOptionalParams,
+  ListNotificationRuleOptionalParams,
+  GetNotificationRuleOptionalParams,
+  DeleteNotificationRuleOptionalParams,
+  CreateOrUpdateNotificationRuleOptionalParams,
+  ListTriggerOptionalParams,
+  GetTriggerOptionalParams,
+  DeleteTriggerOptionalParams,
+  CreateOrUpdateTriggerOptionalParams,
+  DeleteTestOptionalParams,
+  DeleteTestFileOptionalParams,
+  UploadTestFileOptionalParams,
+  ListTestsOptionalParams,
+  ListTestFilesOptionalParams,
+  GetTestFileOptionalParams,
+  GetTestOptionalParams,
+  GetServerMetricsConfigOptionalParams,
+  GetAppComponentsOptionalParams,
+  CreateOrUpdateServerMetricsConfigOptionalParams,
+  CreateOrUpdateAppComponentsOptionalParams,
+  CreateOrUpdateTestOptionalParams,
+} from "./loadTestAdministration/api/index.js";
+export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";
+export { LoadTestRunClient } from "./loadTestRun/loadTestRunClient.js";
+export type { RestorePollerOptions as LoadTestRunClientRestorePollerOptions } from "./loadTestRun/restorePollerHelpers.js";
+export { restorePoller as LoadTestRunClientrestorePoller } from "./loadTestRun/restorePollerHelpers.js";
+export type {
+  LoadTestRunClientOptionalParams,
+  GenerateTestRunInsightsOptionalParams,
+  UpdateLatestTestRunInsightsOptionalParams,
+  GetLatestTestRunInsightsOptionalParams,
+  StopTestRunOptionalParams,
+  ListTestRunsOptionalParams,
+  ListMetricsOptionalParams,
+  ListMetricNamespacesOptionalParams,
+  ListMetricDefinitionsOptionalParams,
+  ListMetricDimensionValuesOptionalParams,
+  GetTestRunFileOptionalParams,
+  GetTestRunOptionalParams,
+  GetServerMetricsConfigOptionalParams as LoadTestRunClientGetServerMetricsConfigOptionalParams,
+  GetAppComponentsOptionalParams as LoadTestRunClientGetAppComponentsOptionalParams,
+  DeleteTestRunOptionalParams,
+  CreateOrUpdateServerMetricsConfigOptionalParams as LoadTestRunClientCreateOrUpdateServerMetricsConfigOptionalParams,
+  CreateOrUpdateAppComponentsOptionalParams as LoadTestRunClientCreateOrUpdateAppComponentsOptionalParams,
+  CreateOrUpdateTestRunOptionalParams,
+} from "./loadTestRun/api/index.js";

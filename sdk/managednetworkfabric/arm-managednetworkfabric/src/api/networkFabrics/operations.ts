@@ -1,63 +1,63 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureNetworkFabricManagementServiceAPIContext as Client } from "../index.js";
-import type {
-  UpdateAdministrativeState,
-  UpdateAdministrativeStateResponse,
-  OperationStatusResult,
-  ValidateConfigurationResponse,
-  NetworkFabricResyncCertificatesResponse,
-  NetworkFabric,
-  NetworkFabricPatch,
-  _NetworkFabricsListResult,
-  UpgradeNetworkFabricProperties,
-  ValidateConfigurationProperties,
-  GetTopologyResponse,
-  CommitConfigurationResponse,
-  CommitBatchStatusRequest,
-  CommitBatchStatusOperationResponse,
-  DiscardCommitBatchRequest,
-  DiscardCommitBatchOperationResponse,
-  NetworkFabricLockRequest,
-  ViewDeviceConfigurationOperationResponse,
-  ArmConfigurationDiffOperationResponse,
-  NetworkFabricRotatePasswordsResponse,
-  NetworkFabricResyncPasswordsResponse,
-  NetworkFabricRotateCertificatesResponse,
-} from "../../models/models.js";
+import { AzureNetworkFabricManagementServiceAPIContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  UpdateAdministrativeState,
   updateAdministrativeStateSerializer,
+  UpdateAdministrativeStateResponse,
   updateAdministrativeStateResponseDeserializer,
+  OperationStatusResult,
   operationStatusResultDeserializer,
+  ValidateConfigurationResponse,
   validateConfigurationResponseDeserializer,
+  NetworkFabricResyncCertificatesResponse,
   networkFabricResyncCertificatesResponseDeserializer,
+  NetworkFabric,
   networkFabricSerializer,
   networkFabricDeserializer,
+  NetworkFabricPatch,
   networkFabricPatchSerializer,
+  _NetworkFabricsListResult,
   _networkFabricsListResultDeserializer,
+  UpgradeNetworkFabricProperties,
   upgradeNetworkFabricPropertiesSerializer,
+  ValidateConfigurationProperties,
   validateConfigurationPropertiesSerializer,
+  GetTopologyResponse,
   getTopologyResponseDeserializer,
   commitConfigurationRequestSerializer,
+  CommitConfigurationResponse,
   commitConfigurationResponseDeserializer,
+  CommitBatchStatusRequest,
   commitBatchStatusRequestSerializer,
+  CommitBatchStatusOperationResponse,
   commitBatchStatusOperationResponseDeserializer,
+  DiscardCommitBatchRequest,
   discardCommitBatchRequestSerializer,
+  DiscardCommitBatchOperationResponse,
   discardCommitBatchOperationResponseDeserializer,
+  NetworkFabricLockRequest,
   networkFabricLockRequestSerializer,
+  ViewDeviceConfigurationOperationResponse,
   viewDeviceConfigurationOperationResponseDeserializer,
+  ArmConfigurationDiffOperationResponse,
   armConfigurationDiffOperationResponseDeserializer,
+  NetworkFabricRotatePasswordsResponse,
   networkFabricRotatePasswordsResponseDeserializer,
+  NetworkFabricResyncPasswordsResponse,
   networkFabricResyncPasswordsResponseDeserializer,
+  NetworkFabricRotateCertificatesResponse,
   networkFabricRotateCertificatesResponseDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   NetworkFabricsResyncCertificatesOptionalParams,
   NetworkFabricsRotateCertificatesOptionalParams,
   NetworkFabricsResyncPasswordsOptionalParams,
@@ -83,9 +83,13 @@ import type {
   NetworkFabricsCreateOptionalParams,
   NetworkFabricsGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _resyncCertificatesSend(
   context: Client,
@@ -105,10 +109,12 @@ export function _resyncCertificatesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _resyncCertificatesDeserialize(
@@ -168,10 +174,12 @@ export function _rotateCertificatesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _rotateCertificatesDeserialize(
@@ -231,10 +239,12 @@ export function _resyncPasswordsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _resyncPasswordsDeserialize(
@@ -298,10 +308,12 @@ export function _rotatePasswordsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _rotatePasswordsDeserialize(
@@ -368,10 +380,12 @@ export function _armConfigurationDiffSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _armConfigurationDiffDeserialize(
@@ -431,10 +445,12 @@ export function _viewDeviceConfigurationSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _viewDeviceConfigurationDeserialize(
@@ -495,12 +511,14 @@ export function _lockFabricSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: networkFabricLockRequestSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: networkFabricLockRequestSerializer(body),
+    });
 }
 
 export async function _lockFabricDeserialize(
@@ -556,12 +574,14 @@ export function _discardCommitBatchSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: discardCommitBatchRequestSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: discardCommitBatchRequestSerializer(body),
+    });
 }
 
 export async function _discardCommitBatchDeserialize(
@@ -623,12 +643,14 @@ export function _commitBatchStatusSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: commitBatchStatusRequestSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: commitBatchStatusRequestSerializer(body),
+    });
 }
 
 export async function _commitBatchStatusDeserialize(
@@ -689,12 +711,14 @@ export function _commitConfigurationSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: !options?.body ? options?.body : commitConfigurationRequestSerializer(options?.body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: !options?.body ? options?.body : commitConfigurationRequestSerializer(options?.body),
+    });
 }
 
 export async function _commitConfigurationDeserialize(
@@ -748,10 +772,12 @@ export function _getTopologySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getTopologyDeserialize(
@@ -806,12 +832,14 @@ export function _validateConfigurationSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: validateConfigurationPropertiesSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: validateConfigurationPropertiesSerializer(body),
+    });
 }
 
 export async function _validateConfigurationDeserialize(
@@ -869,12 +897,14 @@ export function _updateInfraManagementBfdConfigurationSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: updateAdministrativeStateSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: updateAdministrativeStateSerializer(body),
+    });
 }
 
 export async function _updateInfraManagementBfdConfigurationDeserialize(
@@ -951,12 +981,14 @@ export function _updateWorkloadManagementBfdConfigurationSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: updateAdministrativeStateSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: updateAdministrativeStateSerializer(body),
+    });
 }
 
 export async function _updateWorkloadManagementBfdConfigurationDeserialize(
@@ -1030,10 +1062,12 @@ export function _refreshConfigurationSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _refreshConfigurationDeserialize(
@@ -1088,12 +1122,14 @@ export function _upgradeSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: upgradeNetworkFabricPropertiesSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: upgradeNetworkFabricPropertiesSerializer(body),
+    });
 }
 
 export async function _upgradeDeserialize(
@@ -1148,10 +1184,12 @@ export function _deprovisionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _deprovisionDeserialize(
@@ -1205,10 +1243,12 @@ export function _provisionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _provisionDeserialize(
@@ -1258,10 +1298,12 @@ export function _listBySubscriptionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listBySubscriptionDeserialize(
@@ -1310,10 +1352,12 @@ export function _listByResourceGroupSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listByResourceGroupDeserialize(
@@ -1417,12 +1461,14 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: networkFabricPatchSerializer(body),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: networkFabricPatchSerializer(body),
+    });
 }
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<NetworkFabric> {
@@ -1476,12 +1522,14 @@ export function _createSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: networkFabricSerializer(body),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: networkFabricSerializer(body),
+    });
 }
 
 export async function _createDeserialize(result: PathUncheckedResponse): Promise<NetworkFabric> {
@@ -1534,10 +1582,12 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<NetworkFabric> {

@@ -27,6 +27,8 @@ export interface KeyCreateParameters {
   curve?: JsonWebKeyCurveName;
   /** The policy rules under which the key can be exported. */
   releasePolicy?: KeyReleasePolicy;
+  /** The algorithm for Algorithm Key Pair (AKP) keys. For valid values, see AKPAlgorithm. */
+  alg?: AKPAlgorithm;
 }
 
 export function keyCreateParametersSerializer(item: KeyCreateParameters): any {
@@ -47,11 +49,16 @@ export function keyCreateParametersSerializer(item: KeyCreateParameters): any {
     release_policy: !item["releasePolicy"]
       ? item["releasePolicy"]
       : keyReleasePolicySerializer(item["releasePolicy"]),
+    alg: item["alg"],
   };
 }
 
 /** JsonWebKey Key Type (kty), as defined in https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40. */
 export enum KnownJsonWebKeyType {
+  /** Algorithm Key Pair. */
+  AKP = "AKP",
+  /** Algorithm Key Pair with private key material stored in HSM. */
+  AKPHSM = "AKP-HSM",
   /** Elliptic Curve. */
   EC = "EC",
   /** Elliptic Curve with a private key which is stored in the HSM. */
@@ -71,6 +78,8 @@ export enum KnownJsonWebKeyType {
  * {@link KnownJsonWebKeyType} can be used interchangeably with JsonWebKeyType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
+ * **AKP**: Algorithm Key Pair. \
+ * **AKP-HSM**: Algorithm Key Pair with private key material stored in HSM. \
  * **EC**: Elliptic Curve. \
  * **EC-HSM**: Elliptic Curve with a private key which is stored in the HSM. \
  * **RSA**: RSA (https:\//tools.ietf.org\/html\/rfc3447) \
@@ -138,6 +147,10 @@ export interface KeyAttributes {
   readonly hsmPlatform?: string;
   /** The key or key version attestation information. */
   readonly attestation?: KeyAttestation;
+  /** The external key information. */
+  externalKey?: ExternalKey;
+  /** The optional key size in bits for symmetric keys. For example: 128, 192, or 256 for AES keys. */
+  readonly keySize?: number;
 }
 
 export function keyAttributesSerializer(item: KeyAttributes): any {
@@ -146,6 +159,9 @@ export function keyAttributesSerializer(item: KeyAttributes): any {
     nbf: !item["notBefore"] ? item["notBefore"] : (item["notBefore"].getTime() / 1000) | 0,
     exp: !item["expires"] ? item["expires"] : (item["expires"].getTime() / 1000) | 0,
     exportable: item["exportable"],
+    external_key: !item["externalKey"]
+      ? item["externalKey"]
+      : externalKeySerializer(item["externalKey"]),
   };
 }
 
@@ -163,6 +179,10 @@ export function keyAttributesDeserializer(item: any): KeyAttributes {
     attestation: !item["attestation"]
       ? item["attestation"]
       : keyAttestationDeserializer(item["attestation"]),
+    externalKey: !item["external_key"]
+      ? item["external_key"]
+      : externalKeyDeserializer(item["external_key"]),
+    keySize: item["key_size"],
   };
 }
 
@@ -232,6 +252,22 @@ export function keyAttestationDeserializer(item: any): KeyAttestation {
   };
 }
 
+/** External Key parameters. */
+export interface ExternalKey {
+  /** The external key identifier. The valid id can only contain characters in the set [a-zA-Z0-9-]. Maximum length is 64 characters. */
+  id: string;
+}
+
+export function externalKeySerializer(item: ExternalKey): any {
+  return { id: item["id"] };
+}
+
+export function externalKeyDeserializer(item: any): ExternalKey {
+  return {
+    id: item["id"],
+  };
+}
+
 /** Elliptic curve name. For valid values, see JsonWebKeyCurveName. */
 export enum KnownJsonWebKeyCurveName {
   /** The NIST P-256 elliptic curve, AKA SECG curve SECP256R1. */
@@ -287,6 +323,27 @@ export function keyReleasePolicyDeserializer(item: any): KeyReleasePolicy {
         : item["data"],
   };
 }
+
+/** The algorithm identifier for Algorithm Key Pair (AKP) keys. */
+export enum KnownAKPAlgorithm {
+  /** ML-DSA-44, as defined by FIPS 204 and draft-ietf-cose-dilithium. */
+  MLDSA44 = "ML-DSA-44",
+  /** ML-DSA-65, as defined by FIPS 204 and draft-ietf-cose-dilithium. */
+  MLDSA65 = "ML-DSA-65",
+  /** ML-DSA-87, as defined by FIPS 204 and draft-ietf-cose-dilithium. */
+  MLDSA87 = "ML-DSA-87",
+}
+
+/**
+ * The algorithm identifier for Algorithm Key Pair (AKP) keys. \
+ * {@link KnownAKPAlgorithm} can be used interchangeably with AKPAlgorithm,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ML-DSA-44**: ML-DSA-44, as defined by FIPS 204 and draft-ietf-cose-dilithium. \
+ * **ML-DSA-65**: ML-DSA-65, as defined by FIPS 204 and draft-ietf-cose-dilithium. \
+ * **ML-DSA-87**: ML-DSA-87, as defined by FIPS 204 and draft-ietf-cose-dilithium.
+ */
+export type AKPAlgorithm = string;
 
 /** A KeyBundle consisting of a WebKey plus its attributes. */
 export interface KeyBundle {
@@ -352,6 +409,10 @@ export interface JsonWebKey {
   x?: Uint8Array;
   /** Y component of an EC public key. */
   y?: Uint8Array;
+  /** The algorithm identifier. This parameter is required when kty is AKP. */
+  alg?: AKPAlgorithm;
+  /** The public key for Algorithm Key Pair (AKP) keys. */
+  pub?: Uint8Array;
 }
 
 export function jsonWebKeySerializer(item: JsonWebKey): any {
@@ -376,6 +437,8 @@ export function jsonWebKeySerializer(item: JsonWebKey): any {
     crv: item["crv"],
     x: !item["x"] ? item["x"] : uint8ArrayToString(item["x"], "base64url"),
     y: !item["y"] ? item["y"] : uint8ArrayToString(item["y"], "base64url"),
+    alg: item["alg"],
+    pub: !item["pub"] ? item["pub"] : uint8ArrayToString(item["pub"], "base64url"),
   };
 }
 
@@ -449,6 +512,12 @@ export function jsonWebKeyDeserializer(item: any): JsonWebKey {
       : typeof item["y"] === "string"
         ? stringToUint8Array(item["y"], "base64url")
         : item["y"],
+    alg: item["alg"],
+    pub: !item["pub"]
+      ? item["pub"]
+      : typeof item["pub"] === "string"
+        ? stringToUint8Array(item["pub"], "base64url")
+        : item["pub"],
   };
 }
 
@@ -791,13 +860,30 @@ export function keyOperationResultDeserializer(item: any): KeyOperationResult {
 /** The key operations parameters. */
 export interface KeySignParameters {
   /** The signing/verification algorithm identifier. For more information on possible algorithm types, see JsonWebKeySignatureAlgorithm. */
-  algorithm: JsonWebKeySignatureAlgorithm;
+  algorithm?: JsonWebKeySignatureAlgorithm;
   /** The value to operate on. */
-  value: Uint8Array;
+  value?: Uint8Array;
+  /**
+   * The pre-computed mu value for ML-DSA external mu mode (FIPS 204 Section 6.2). Must be exactly 64 bytes.
+   * When specified, the algorithm and value fields must not be set. Only supported for ML-DSA (AKP) keys.
+   */
+  externalMu?: Uint8Array;
+  /**
+   * The application context string for ML-DSA signing (FIPS 204 Section 5.2). Must be 0-255 bytes.
+   * Must not be set when external_mu is specified. Only supported for ML-DSA (AKP) keys.
+   */
+  context?: Uint8Array;
 }
 
 export function keySignParametersSerializer(item: KeySignParameters): any {
-  return { alg: item["algorithm"], value: uint8ArrayToString(item["value"], "base64url") };
+  return {
+    alg: item["algorithm"],
+    value: !item["value"] ? item["value"] : uint8ArrayToString(item["value"], "base64url"),
+    external_mu: !item["externalMu"]
+      ? item["externalMu"]
+      : uint8ArrayToString(item["externalMu"], "base64url"),
+    context: !item["context"] ? item["context"] : uint8ArrayToString(item["context"], "base64url"),
+  };
 }
 
 /** The signing/verification algorithm identifier. For more information on possible algorithm types, see JsonWebKeySignatureAlgorithm. */
@@ -857,18 +943,32 @@ export type JsonWebKeySignatureAlgorithm = string;
 /** The key verify parameters. */
 export interface KeyVerifyParameters {
   /** The signing/verification algorithm. For more information on possible algorithm types, see JsonWebKeySignatureAlgorithm. */
-  algorithm: JsonWebKeySignatureAlgorithm;
+  algorithm?: JsonWebKeySignatureAlgorithm;
   /** The digest used for signing. */
-  digest: Uint8Array;
+  digest?: Uint8Array;
   /** The signature to be verified. */
   signature: Uint8Array;
+  /**
+   * The pre-computed mu value for ML-DSA external mu mode (FIPS 204 Section 6.2). Must be exactly 64 bytes.
+   * When specified, the algorithm and digest fields must not be set. Only supported for ML-DSA (AKP) keys.
+   */
+  externalMu?: Uint8Array;
+  /**
+   * The application context string for ML-DSA verification (FIPS 204 Section 5.2). Must be 0-255 bytes.
+   * Must not be set when external_mu is specified. Only supported for ML-DSA (AKP) keys.
+   */
+  context?: Uint8Array;
 }
 
 export function keyVerifyParametersSerializer(item: KeyVerifyParameters): any {
   return {
     alg: item["algorithm"],
-    digest: uint8ArrayToString(item["digest"], "base64url"),
+    digest: !item["digest"] ? item["digest"] : uint8ArrayToString(item["digest"], "base64url"),
     value: uint8ArrayToString(item["signature"], "base64url"),
+    external_mu: !item["externalMu"]
+      ? item["externalMu"]
+      : uint8ArrayToString(item["externalMu"], "base64url"),
+    context: !item["context"] ? item["context"] : uint8ArrayToString(item["context"], "base64url"),
   };
 }
 
@@ -881,6 +981,98 @@ export interface KeyVerifyResult {
 export function keyVerifyResultDeserializer(item: any): KeyVerifyResult {
   return {
     value: item["value"],
+  };
+}
+
+/** The Secure Key wrap attributes. */
+export interface SecureKeyWrapOperationParameters {
+  /** algorithm identifier */
+  algorithm: JsonWebKeyWrapAlgorithm;
+}
+
+export function secureKeyWrapOperationParametersSerializer(
+  item: SecureKeyWrapOperationParameters,
+): any {
+  return { alg: item["algorithm"] };
+}
+
+/** An algorithm used for key wrapping and unwrapping. */
+export enum KnownJsonWebKeyWrapAlgorithm {
+  /** RSAES using Optimal Asymmetric Encryption Padding with a hash function of SHA-256 and a mask generation function of MGF1 with SHA-256. */
+  RSAOaep256 = "RSA-OAEP-256",
+  /** 128-bit AES key wrap. */
+  A128KW = "A128KW",
+  /** 192-bit AES key wrap. */
+  A192KW = "A192KW",
+  /** 256-bit AES key wrap. */
+  A256KW = "A256KW",
+  /** 128-bit AES key wrap with padding. */
+  A128Kwpad = "A128KWPAD",
+  /** 192-bit AES key wrap with padding. */
+  A192Kwpad = "A192KWPAD",
+  /** 256-bit AES key wrap with padding. */
+  A256Kwpad = "A256KWPAD",
+  /** CKM AES key wrap. */
+  CKMAESKEYWrap = "CKM_AES_KEY_WRAP",
+  /** CKM AES key wrap with padding. */
+  CKMAESKEYWrapPAD = "CKM_AES_KEY_WRAP_PAD",
+}
+
+/**
+ * An algorithm used for key wrapping and unwrapping. \
+ * {@link KnownJsonWebKeyWrapAlgorithm} can be used interchangeably with JsonWebKeyWrapAlgorithm,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **RSA-OAEP-256**: RSAES using Optimal Asymmetric Encryption Padding with a hash function of SHA-256 and a mask generation function of MGF1 with SHA-256. \
+ * **A128KW**: 128-bit AES key wrap. \
+ * **A192KW**: 192-bit AES key wrap. \
+ * **A256KW**: 256-bit AES key wrap. \
+ * **A128KWPAD**: 128-bit AES key wrap with padding. \
+ * **A192KWPAD**: 192-bit AES key wrap with padding. \
+ * **A256KWPAD**: 256-bit AES key wrap with padding. \
+ * **CKM_AES_KEY_WRAP**: CKM AES key wrap. \
+ * **CKM_AES_KEY_WRAP_PAD**: CKM AES key wrap with padding.
+ */
+export type JsonWebKeyWrapAlgorithm = string;
+
+/** The secure key wrap operation result. */
+export interface SecureKeyOperationResult {
+  /** Key identifier */
+  kid: string;
+  /** The algorithm used for the operation. */
+  algorithm: JsonWebKeyWrapAlgorithm;
+  /** The result of the operation. */
+  value: Uint8Array;
+}
+
+export function secureKeyOperationResultDeserializer(item: any): SecureKeyOperationResult {
+  return {
+    kid: item["kid"],
+    algorithm: item["alg"],
+    value:
+      typeof item["value"] === "string"
+        ? stringToUint8Array(item["value"], "base64url")
+        : item["value"],
+  };
+}
+
+/** The Secure Key unwrap attributes. */
+export interface SecureKeyUnWrapOperationParameters {
+  /** algorithm identifier */
+  algorithm: JsonWebKeyWrapAlgorithm;
+  /** The value to operate on. */
+  value: Uint8Array;
+  /** The attestation assertion for the target of the key release. */
+  targetAttestationToken: string;
+}
+
+export function secureKeyUnWrapOperationParametersSerializer(
+  item: SecureKeyUnWrapOperationParameters,
+): any {
+  return {
+    alg: item["algorithm"],
+    value: uint8ArrayToString(item["value"], "base64url"),
+    target: item["targetAttestationToken"],
   };
 }
 
@@ -1150,6 +1342,14 @@ export enum KnownVersions {
   V76Preview2 = "7.6-preview.2",
   /** The 7.6 API version. */
   V76 = "7.6",
+  /** The 2025-06-01-preview API version. */
+  V20250601Preview = "2025-06-01-preview",
   /** The 2025-07-01 API version. */
   V20250701 = "2025-07-01",
+  /** The 2026-01-01-preview API version. */
+  V20260101Preview = "2026-01-01-preview",
+  /** The 2026-03-01-preview API version. */
+  V20260301Preview = "2026-03-01-preview",
+  /** The 2026-05-01-preview API version. */
+  V20260501Preview = "2026-05-01-preview",
 }

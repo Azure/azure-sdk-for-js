@@ -2,39 +2,31 @@
 // Licensed under the MIT License.
 
 import { KubernetesRuntimeContext } from "../../api/kubernetesRuntimeContext.js";
+import { list, $delete, update, createOrUpdate, get } from "../../api/storageClass/operations.js";
 import {
-  StorageClassGetOptionalParams,
-  StorageClassCreateOrUpdateOptionalParams,
-  StorageClassUpdateOptionalParams,
-  StorageClassDeleteOptionalParams,
   StorageClassListOptionalParams,
-} from "../../api/options.js";
-import {
-  storageClassGet,
-  storageClassCreateOrUpdate,
-  storageClassUpdate,
-  storageClassDelete,
-  storageClassList,
-} from "../../api/storageClass/index.js";
+  StorageClassDeleteOptionalParams,
+  StorageClassUpdateOptionalParams,
+  StorageClassCreateOrUpdateOptionalParams,
+  StorageClassGetOptionalParams,
+} from "../../api/storageClass/options.js";
 import { StorageClassResource, StorageClassResourceUpdate } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a StorageClass operations. */
 export interface StorageClassOperations {
-  /** Get a StorageClassResource */
-  get: (
+  /** List StorageClassResource resources by parent */
+  list: (
+    resourceUri: string,
+    options?: StorageClassListOptionalParams,
+  ) => PagedAsyncIterableIterator<StorageClassResource>;
+  /** Delete a StorageClassResource */
+  delete: (
     resourceUri: string,
     storageClassName: string,
-    options?: StorageClassGetOptionalParams,
-  ) => Promise<StorageClassResource>;
-  /** Create a StorageClassResource */
-  createOrUpdate: (
-    resourceUri: string,
-    storageClassName: string,
-    resource: StorageClassResource,
-    options?: StorageClassCreateOrUpdateOptionalParams,
-  ) => PollerLike<OperationState<StorageClassResource>, StorageClassResource>;
+    options?: StorageClassDeleteOptionalParams,
+  ) => PollerLike<OperationState<void>, void>;
   /** Update a StorageClassResource */
   update: (
     resourceUri: string,
@@ -42,49 +34,51 @@ export interface StorageClassOperations {
     properties: StorageClassResourceUpdate,
     options?: StorageClassUpdateOptionalParams,
   ) => PollerLike<OperationState<StorageClassResource>, StorageClassResource>;
-  /** Delete a StorageClassResource */
-  delete: (
+  /** Create a StorageClassResource */
+  createOrUpdate: (
     resourceUri: string,
     storageClassName: string,
-    options?: StorageClassDeleteOptionalParams,
-  ) => PollerLike<OperationState<void>, void>;
-  /** List StorageClassResource resources by parent */
-  list: (
+    resource: StorageClassResource,
+    options?: StorageClassCreateOrUpdateOptionalParams,
+  ) => PollerLike<OperationState<StorageClassResource>, StorageClassResource>;
+  /** Get a StorageClassResource */
+  get: (
     resourceUri: string,
-    options?: StorageClassListOptionalParams,
-  ) => PagedAsyncIterableIterator<StorageClassResource>;
+    storageClassName: string,
+    options?: StorageClassGetOptionalParams,
+  ) => Promise<StorageClassResource>;
 }
 
-export function getStorageClass(context: KubernetesRuntimeContext) {
+function _getStorageClass(context: KubernetesRuntimeContext) {
   return {
-    get: (resourceUri: string, storageClassName: string, options?: StorageClassGetOptionalParams) =>
-      storageClassGet(context, resourceUri, storageClassName, options),
-    createOrUpdate: (
+    list: (resourceUri: string, options?: StorageClassListOptionalParams) =>
+      list(context, resourceUri, options),
+    delete: (
       resourceUri: string,
       storageClassName: string,
-      resource: StorageClassResource,
-      options?: StorageClassCreateOrUpdateOptionalParams,
-    ) => storageClassCreateOrUpdate(context, resourceUri, storageClassName, resource, options),
+      options?: StorageClassDeleteOptionalParams,
+    ) => $delete(context, resourceUri, storageClassName, options),
     update: (
       resourceUri: string,
       storageClassName: string,
       properties: StorageClassResourceUpdate,
       options?: StorageClassUpdateOptionalParams,
-    ) => storageClassUpdate(context, resourceUri, storageClassName, properties, options),
-    delete: (
+    ) => update(context, resourceUri, storageClassName, properties, options),
+    createOrUpdate: (
       resourceUri: string,
       storageClassName: string,
-      options?: StorageClassDeleteOptionalParams,
-    ) => storageClassDelete(context, resourceUri, storageClassName, options),
-    list: (resourceUri: string, options?: StorageClassListOptionalParams) =>
-      storageClassList(context, resourceUri, options),
+      resource: StorageClassResource,
+      options?: StorageClassCreateOrUpdateOptionalParams,
+    ) => createOrUpdate(context, resourceUri, storageClassName, resource, options),
+    get: (resourceUri: string, storageClassName: string, options?: StorageClassGetOptionalParams) =>
+      get(context, resourceUri, storageClassName, options),
   };
 }
 
-export function getStorageClassOperations(
+export function _getStorageClassOperations(
   context: KubernetesRuntimeContext,
 ): StorageClassOperations {
   return {
-    ...getStorageClass(context),
+    ..._getStorageClass(context),
   };
 }

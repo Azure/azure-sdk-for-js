@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export {
-  createObservabilityEval,
-  type ObservabilityEvalContext,
-  type ObservabilityEvalClientOptionalParams,
+export type {
+  ObservabilityEvalContext,
+  ObservabilityEvalClientOptionalParams,
 } from "./observabilityEvalContext.js";
+export { createObservabilityEval } from "./observabilityEvalContext.js";

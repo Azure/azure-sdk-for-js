@@ -1,6 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -46,7 +52,7 @@ export function operationDeserializer(item: any): Operation {
   };
 }
 
-/** Localized display information for and operation. */
+/** Localized display information for an operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
   readonly provider?: string;
@@ -158,21 +164,14 @@ export interface ErrorAdditionalInfo {
   /** The additional info type. */
   readonly type?: string;
   /** The additional info. */
-  readonly info?: Record<string, any>;
+  readonly info?: any;
 }
 
 export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
   return {
     type: item["type"],
-    info: !item["info"] ? item["info"] : _errorAdditionalInfoInfoDeserializer(item["info"]),
+    info: item["info"],
   };
-}
-
-/** model interface _ErrorAdditionalInfoInfo */
-export interface _ErrorAdditionalInfoInfo {}
-
-export function _errorAdditionalInfoInfoDeserializer(item: any): _ErrorAdditionalInfoInfo {
-  return item;
 }
 
 /** Concrete tracked resource types can be created by aliasing this type using a specific property type. */
@@ -198,7 +197,9 @@ export function organizationResourceSerializer(item: OrganizationResource): any 
 
 export function organizationResourceDeserializer(item: any): OrganizationResource {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -500,14 +501,11 @@ export interface ManagedServiceIdentity {
   /** The type of managed identity assigned to this resource. */
   type: ManagedServiceIdentityType;
   /** The identities assigned to this resource by the user. */
-  userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
+  userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
 
 export function managedServiceIdentitySerializer(item: ManagedServiceIdentity): any {
-  return {
-    type: item["type"],
-    userAssignedIdentities: item["userAssignedIdentities"],
-  };
+  return { type: item["type"], userAssignedIdentities: item["userAssignedIdentities"] };
 }
 
 export function managedServiceIdentityDeserializer(item: any): ManagedServiceIdentity {
@@ -515,7 +513,14 @@ export function managedServiceIdentityDeserializer(item: any): ManagedServiceIde
     principalId: item["principalId"],
     tenantId: item["tenantId"],
     type: item["type"],
-    userAssignedIdentities: item["userAssignedIdentities"],
+    userAssignedIdentities: !item["userAssignedIdentities"]
+      ? item["userAssignedIdentities"]
+      : Object.fromEntries(
+          Object.entries(item["userAssignedIdentities"]).map(([k, p]: [string, any]) => [
+            k,
+            !p ? p : userAssignedIdentityDeserializer(p),
+          ]),
+        ),
   };
 }
 
@@ -545,20 +550,20 @@ export type ManagedServiceIdentityType = string;
 
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
-  /** The client ID of the assigned identity. */
-  readonly clientId?: string;
   /** The principal ID of the assigned identity. */
   readonly principalId?: string;
+  /** The client ID of the assigned identity. */
+  readonly clientId?: string;
 }
 
-export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
-  return item;
+export function userAssignedIdentitySerializer(_item: UserAssignedIdentity): any {
+  return {};
 }
 
 export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
   return {
-    clientId: item["clientId"],
     principalId: item["principalId"],
+    clientId: item["clientId"],
   };
 }
 
@@ -582,7 +587,9 @@ export function trackedResourceDeserializer(item: any): TrackedResource {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
   };
 }
@@ -599,8 +606,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -657,7 +664,7 @@ export enum KnownCreatedByType {
 
 /**
  * The kind of entity that created the resource. \
- * {@link KnowncreatedByType} can be used interchangeably with createdByType,
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **User**: The entity was created by a user. \
@@ -715,5 +722,6 @@ export function organizationResourceArrayDeserializer(result: Array<Organization
 
 /** The available API versions. */
 export enum KnownVersions {
+  /** 2024-10-01 */
   V20241001 = "2024-10-01",
 }

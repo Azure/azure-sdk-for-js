@@ -44,9 +44,9 @@ import {
   _getPublicMaintenanceConfigurationsOperations,
 } from "./classic/publicMaintenanceConfigurations/index.js";
 import {
-  ScheduledEventOperations,
-  _getScheduledEventOperations,
-} from "./classic/scheduledEvent/index.js";
+  ScheduledEventsOperations,
+  _getScheduledEventsOperations,
+} from "./classic/scheduledEvents/index.js";
 import { UpdatesOperations, _getUpdatesOperations } from "./classic/updates/index.js";
 import { TokenCredential } from "@azure/core-auth";
 import { Pipeline } from "@azure/core-rest-pipeline";
@@ -90,7 +90,7 @@ export class MaintenanceManagementClient {
     this.pipeline = this._client.pipeline;
     this.updates = _getUpdatesOperations(this._client);
     this.applyUpdateForResourceGroup = _getApplyUpdateForResourceGroupOperations(this._client);
-    this.scheduledEvent = _getScheduledEventOperations(this._client);
+    this.scheduledEvents = _getScheduledEventsOperations(this._client);
     this.configurationAssignmentsWithinSubscription =
       _getConfigurationAssignmentsWithinSubscriptionOperations(this._client);
     this.maintenanceConfigurationsForResourceGroup =
@@ -112,8 +112,8 @@ export class MaintenanceManagementClient {
   public readonly updates: UpdatesOperations;
   /** The operation groups for applyUpdateForResourceGroup */
   public readonly applyUpdateForResourceGroup: ApplyUpdateForResourceGroupOperations;
-  /** The operation groups for scheduledEvent */
-  public readonly scheduledEvent: ScheduledEventOperations;
+  /** The operation groups for scheduledEvents */
+  public readonly scheduledEvents: ScheduledEventsOperations;
   /** The operation groups for configurationAssignmentsWithinSubscription */
   public readonly configurationAssignmentsWithinSubscription: ConfigurationAssignmentsWithinSubscriptionOperations;
   /** The operation groups for maintenanceConfigurationsForResourceGroup */

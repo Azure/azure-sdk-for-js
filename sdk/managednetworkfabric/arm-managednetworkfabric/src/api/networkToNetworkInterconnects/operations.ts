@@ -1,32 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureNetworkFabricManagementServiceAPIContext as Client } from "../index.js";
-import type {
-  UpdateAdministrativeState,
-  UpdateAdministrativeStateResponse,
-  NetworkToNetworkInterconnect,
-  NetworkToNetworkInterconnectPatch,
-  _NetworkToNetworkInterconnectsList,
-  NniUpdateBfdAdministrativeStateRequest,
-  NniUpdateBfdAdministrativeStateResponse,
-} from "../../models/models.js";
+import { AzureNetworkFabricManagementServiceAPIContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  UpdateAdministrativeState,
   updateAdministrativeStateSerializer,
+  UpdateAdministrativeStateResponse,
   updateAdministrativeStateResponseDeserializer,
+  NetworkToNetworkInterconnect,
   networkToNetworkInterconnectSerializer,
   networkToNetworkInterconnectDeserializer,
+  NetworkToNetworkInterconnectPatch,
   networkToNetworkInterconnectPatchSerializer,
+  _NetworkToNetworkInterconnectsList,
   _networkToNetworkInterconnectsListDeserializer,
+  NniUpdateBfdAdministrativeStateRequest,
   nniUpdateBfdAdministrativeStateRequestSerializer,
+  NniUpdateBfdAdministrativeStateResponse,
   nniUpdateBfdAdministrativeStateResponseDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   NetworkToNetworkInterconnectsUpdateBfdAdministrativeStateOptionalParams,
   NetworkToNetworkInterconnectsUpdateAdministrativeStateOptionalParams,
   NetworkToNetworkInterconnectsUpdateNpbStaticRouteBfdAdministrativeStateOptionalParams,
@@ -36,9 +36,13 @@ import type {
   NetworkToNetworkInterconnectsCreateOptionalParams,
   NetworkToNetworkInterconnectsGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _updateBfdAdministrativeStateSend(
   context: Client,
@@ -63,12 +67,14 @@ export function _updateBfdAdministrativeStateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: nniUpdateBfdAdministrativeStateRequestSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: nniUpdateBfdAdministrativeStateRequestSerializer(body),
+    });
 }
 
 export async function _updateBfdAdministrativeStateDeserialize(
@@ -149,12 +155,14 @@ export function _updateAdministrativeStateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: updateAdministrativeStateSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: updateAdministrativeStateSerializer(body),
+    });
 }
 
 export async function _updateAdministrativeStateDeserialize(
@@ -235,12 +243,14 @@ export function _updateNpbStaticRouteBfdAdministrativeStateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: updateAdministrativeStateSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: updateAdministrativeStateSerializer(body),
+    });
 }
 
 export async function _updateNpbStaticRouteBfdAdministrativeStateDeserialize(
@@ -316,10 +326,12 @@ export function _listByNetworkFabricSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listByNetworkFabricDeserialize(
@@ -436,12 +448,14 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: networkToNetworkInterconnectPatchSerializer(body),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: networkToNetworkInterconnectPatchSerializer(body),
+    });
 }
 
 export async function _updateDeserialize(
@@ -507,12 +521,14 @@ export function _createSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: networkToNetworkInterconnectSerializer(body),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: networkToNetworkInterconnectSerializer(body),
+    });
 }
 
 export async function _createDeserialize(
@@ -577,10 +593,12 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(

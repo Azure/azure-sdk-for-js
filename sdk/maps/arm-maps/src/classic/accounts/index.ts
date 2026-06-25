@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureMapsManagementContext } from "../../api/azureMapsManagementContext.js";
+import { AzureMapsManagementContext } from "../../api/azureMapsManagementContext.js";
 import {
   regenerateKeys,
   listKeys,
@@ -13,7 +13,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/accounts/operations.js";
-import type {
+import {
   AccountsRegenerateKeysOptionalParams,
   AccountsListKeysOptionalParams,
   AccountsListSasOptionalParams,
@@ -24,7 +24,7 @@ import type {
   AccountsCreateOrUpdateOptionalParams,
   AccountsGetOptionalParams,
 } from "../../api/accounts/options.js";
-import type {
+import {
   MapsAccount,
   MapsAccountUpdateParameters,
   AccountSasParameters,
@@ -32,7 +32,7 @@ import type {
   MapsAccountKeys,
   MapsKeySpecification,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Accounts operations. */
 export interface AccountsOperations {
@@ -72,11 +72,6 @@ export interface AccountsOperations {
     options?: AccountsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<MapsAccount>;
   /** Delete a Maps Account. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     accountName: string,

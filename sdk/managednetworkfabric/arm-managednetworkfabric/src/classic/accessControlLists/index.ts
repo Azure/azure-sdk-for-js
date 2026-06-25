@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureNetworkFabricManagementServiceAPIContext } from "../../api/azureNetworkFabricManagementServiceAPIContext.js";
+import { AzureNetworkFabricManagementServiceAPIContext } from "../../api/azureNetworkFabricManagementServiceAPIContext.js";
 import {
   validateConfiguration,
   resync,
@@ -13,7 +13,7 @@ import {
   create,
   get,
 } from "../../api/accessControlLists/operations.js";
-import type {
+import {
   AccessControlListsValidateConfigurationOptionalParams,
   AccessControlListsResyncOptionalParams,
   AccessControlListsUpdateAdministrativeStateOptionalParams,
@@ -24,7 +24,7 @@ import type {
   AccessControlListsCreateOptionalParams,
   AccessControlListsGetOptionalParams,
 } from "../../api/accessControlLists/options.js";
-import type {
+import {
   AccessControlList,
   AccessControlListPatch,
   UpdateAdministrativeState,
@@ -32,10 +32,9 @@ import type {
   CommonPostActionResponseForStateUpdate,
   ValidateConfigurationResponse,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a AccessControlLists operations. */
 export interface AccessControlListsOperations {

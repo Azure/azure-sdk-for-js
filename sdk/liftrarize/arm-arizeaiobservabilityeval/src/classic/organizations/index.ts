@@ -2,15 +2,6 @@
 // Licensed under the MIT License.
 
 import { ObservabilityEvalContext } from "../../api/observabilityEvalContext.js";
-import { OrganizationResource, OrganizationResourceUpdate } from "../../models/models.js";
-import {
-  OrganizationsListBySubscriptionOptionalParams,
-  OrganizationsListByResourceGroupOptionalParams,
-  OrganizationsDeleteOptionalParams,
-  OrganizationsUpdateOptionalParams,
-  OrganizationsCreateOrUpdateOptionalParams,
-  OrganizationsGetOptionalParams,
-} from "../../api/organizations/options.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -19,6 +10,15 @@ import {
   createOrUpdate,
   get,
 } from "../../api/organizations/operations.js";
+import {
+  OrganizationsListBySubscriptionOptionalParams,
+  OrganizationsListByResourceGroupOptionalParams,
+  OrganizationsDeleteOptionalParams,
+  OrganizationsUpdateOptionalParams,
+  OrganizationsCreateOrUpdateOptionalParams,
+  OrganizationsGetOptionalParams,
+} from "../../api/organizations/options.js";
+import { OrganizationResource, OrganizationResourceUpdate } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -34,11 +34,6 @@ export interface OrganizationsOperations {
     options?: OrganizationsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<OrganizationResource>;
   /** Delete a OrganizationResource */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     organizationname: string,

@@ -1,25 +1,33 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { MarketplaceContext, MarketplaceClientOptionalParams } from "./api/index.js";
-import { createMarketplace } from "./api/index.js";
+import {
+  MarketplaceContext,
+  MarketplaceClientOptionalParams,
+  createMarketplace,
+} from "./api/index.js";
 import { queryRules, setCollectionRules, queryUserRules } from "./api/operations.js";
-import type {
+import {
   QueryRulesOptionalParams,
   SetCollectionRulesOptionalParams,
   QueryUserRulesOptionalParams,
 } from "./api/options.js";
-import type { OperationsOperations } from "./classic/operations/index.js";
-import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { PrivateStoreOperations } from "./classic/privateStore/index.js";
-import { _getPrivateStoreOperations } from "./classic/privateStore/index.js";
-import type { PrivateStoreCollectionOperations } from "./classic/privateStoreCollection/index.js";
-import { _getPrivateStoreCollectionOperations } from "./classic/privateStoreCollection/index.js";
-import type { PrivateStoreCollectionOfferOperations } from "./classic/privateStoreCollectionOffer/index.js";
-import { _getPrivateStoreCollectionOfferOperations } from "./classic/privateStoreCollectionOffer/index.js";
-import type { RuleListResponse } from "./models/models.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import {
+  PrivateStoreOperations,
+  _getPrivateStoreOperations,
+} from "./classic/privateStore/index.js";
+import {
+  PrivateStoreCollectionOperations,
+  _getPrivateStoreCollectionOperations,
+} from "./classic/privateStoreCollection/index.js";
+import {
+  PrivateStoreCollectionOfferOperations,
+  _getPrivateStoreCollectionOfferOperations,
+} from "./classic/privateStoreCollectionOffer/index.js";
+import { RuleListResponse } from "./models/models.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { MarketplaceClientOptionalParams } from "./api/marketplaceContext.js";
 

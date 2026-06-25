@@ -2,7 +2,7 @@
   "apiVersions": {
     "Microsoft.KubernetesConfiguration": "2025-04-01"
   },
-  "emitterVersion": "0.51.0",
+  "emitterVersion": "0.55.0-dev.9",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.KubernetesConfiguration",
     "CrossLanguageDefinitionId": {
@@ -111,7 +111,7 @@
       "@azure/arm-kubernetesconfiguration-fluxconfigurations!KustomizationDefinitionSyncIntervalInSeconds:type": "Microsoft.KubernetesConfiguration.KustomizationDefinition.syncIntervalInSeconds.anonymous",
       "@azure/arm-kubernetesconfiguration-fluxconfigurations!KustomizationDefinitionRetryIntervalInSeconds:type": "Microsoft.KubernetesConfiguration.KustomizationDefinition.retryIntervalInSeconds.anonymous",
       "@azure/arm-kubernetesconfiguration-fluxconfigurations!KustomizationDefinitionPostBuild:type": "Microsoft.KubernetesConfiguration.KustomizationDefinition.postBuild.anonymous",
-      "@azure/arm-kubernetesconfiguration-fluxconfigurations!PostBuildDefinitionSubstitute:type": "Microsoft.KubernetesConfiguration.PostBuildDefinition.substitute.anonymous",
+      "@azure/arm-kubernetesconfiguration-fluxconfigurations!KustomizationDefinitionPostBuildSubstitute:type": "Microsoft.KubernetesConfiguration.KustomizationDefinition.postBuild.substitute.anonymous",
       "@azure/arm-kubernetesconfiguration-fluxconfigurations!FluxConfigurationPropertiesConfigurationProtectedSettings:type": "Microsoft.KubernetesConfiguration.FluxConfigurationProperties.configurationProtectedSettings.anonymous",
       "@azure/arm-kubernetesconfiguration-fluxconfigurations!FluxConfigurationPropertiesStatuses:type": "Microsoft.KubernetesConfiguration.FluxConfigurationProperties.statuses.anonymous",
       "@azure/arm-kubernetesconfiguration-fluxconfigurations!ObjectStatusDefinitionAppliedBy:type": "Microsoft.KubernetesConfiguration.ObjectStatusDefinition.appliedBy.anonymous",
@@ -178,8 +178,8 @@
       "@azure/arm-kubernetesconfiguration-fluxconfigurations!KustomizationPatchDefinitionForce:type": "Microsoft.KubernetesConfiguration.KustomizationPatchDefinition.force.anonymous",
       "@azure/arm-kubernetesconfiguration-fluxconfigurations!KustomizationPatchDefinitionWait:type": "Microsoft.KubernetesConfiguration.KustomizationPatchDefinition.wait.anonymous",
       "@azure/arm-kubernetesconfiguration-fluxconfigurations!KustomizationPatchDefinitionPostBuild:type": "Microsoft.KubernetesConfiguration.KustomizationPatchDefinition.postBuild.anonymous",
-      "@azure/arm-kubernetesconfiguration-fluxconfigurations!PostBuildPatchDefinitionSubstitute:type": "Microsoft.KubernetesConfiguration.PostBuildPatchDefinition.substitute.anonymous",
-      "@azure/arm-kubernetesconfiguration-fluxconfigurations!PostBuildPatchDefinitionSubstituteFrom:type": "Microsoft.KubernetesConfiguration.PostBuildPatchDefinition.substituteFrom.anonymous",
+      "@azure/arm-kubernetesconfiguration-fluxconfigurations!KustomizationPatchDefinitionPostBuildSubstitute:type": "Microsoft.KubernetesConfiguration.KustomizationPatchDefinition.postBuild.substitute.anonymous",
+      "@azure/arm-kubernetesconfiguration-fluxconfigurations!KustomizationPatchDefinitionPostBuildSubstituteFrom:type": "Microsoft.KubernetesConfiguration.KustomizationPatchDefinition.postBuild.substituteFrom.anonymous",
       "@azure/arm-kubernetesconfiguration-fluxconfigurations!FluxConfigOperationStatusOperations#Get:member": "Microsoft.KubernetesConfiguration.FluxConfigurations.fluxConfigOperationStatusGet",
       "@azure/arm-kubernetesconfiguration-fluxconfigurations!FluxConfigurationsOperations#list:member": "Microsoft.KubernetesConfiguration.FluxConfigurations.list",
       "@azure/arm-kubernetesconfiguration-fluxconfigurations!FluxConfigurationsOperations#delete:member": "Microsoft.KubernetesConfiguration.FluxConfigurations.delete",

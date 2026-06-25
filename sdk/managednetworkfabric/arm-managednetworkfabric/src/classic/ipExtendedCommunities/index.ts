@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureNetworkFabricManagementServiceAPIContext } from "../../api/azureNetworkFabricManagementServiceAPIContext.js";
+import { AzureNetworkFabricManagementServiceAPIContext } from "../../api/azureNetworkFabricManagementServiceAPIContext.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -10,7 +10,7 @@ import {
   create,
   get,
 } from "../../api/ipExtendedCommunities/operations.js";
-import type {
+import {
   IpExtendedCommunitiesListBySubscriptionOptionalParams,
   IpExtendedCommunitiesListByResourceGroupOptionalParams,
   IpExtendedCommunitiesDeleteOptionalParams,
@@ -18,11 +18,10 @@ import type {
   IpExtendedCommunitiesCreateOptionalParams,
   IpExtendedCommunitiesGetOptionalParams,
 } from "../../api/ipExtendedCommunities/options.js";
-import type { IpExtendedCommunity, IpExtendedCommunityPatch } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { IpExtendedCommunity, IpExtendedCommunityPatch } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a IpExtendedCommunities operations. */
 export interface IpExtendedCommunitiesOperations {

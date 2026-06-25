@@ -2,7 +2,7 @@
   "apiVersions": {
     "Microsoft.Marketplace": "2025-01-01"
   },
-  "emitterVersion": "0.50.4",
+  "emitterVersion": "0.55.0-dev.9",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.Marketplace",
     "CrossLanguageDefinitionId": {

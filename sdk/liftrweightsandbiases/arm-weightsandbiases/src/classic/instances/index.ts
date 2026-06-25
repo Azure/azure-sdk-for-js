@@ -2,15 +2,6 @@
 // Licensed under the MIT License.
 
 import { WeightsAndBiasesContext } from "../../api/weightsAndBiasesContext.js";
-import { InstanceResource, InstanceResourceUpdate } from "../../models/models.js";
-import {
-  InstancesListBySubscriptionOptionalParams,
-  InstancesListByResourceGroupOptionalParams,
-  InstancesDeleteOptionalParams,
-  InstancesUpdateOptionalParams,
-  InstancesCreateOrUpdateOptionalParams,
-  InstancesGetOptionalParams,
-} from "../../api/instances/options.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -19,6 +10,15 @@ import {
   createOrUpdate,
   get,
 } from "../../api/instances/operations.js";
+import {
+  InstancesListBySubscriptionOptionalParams,
+  InstancesListByResourceGroupOptionalParams,
+  InstancesDeleteOptionalParams,
+  InstancesUpdateOptionalParams,
+  InstancesCreateOrUpdateOptionalParams,
+  InstancesGetOptionalParams,
+} from "../../api/instances/options.js";
+import { InstanceResource, InstanceResourceUpdate } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -34,11 +34,6 @@ export interface InstancesOperations {
     options?: InstancesListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<InstanceResource>;
   /** Delete a InstanceResource */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     instancename: string,

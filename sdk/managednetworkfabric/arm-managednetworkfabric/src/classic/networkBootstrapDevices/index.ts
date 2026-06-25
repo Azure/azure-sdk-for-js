@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureNetworkFabricManagementServiceAPIContext } from "../../api/azureNetworkFabricManagementServiceAPIContext.js";
+import { AzureNetworkFabricManagementServiceAPIContext } from "../../api/azureNetworkFabricManagementServiceAPIContext.js";
 import {
   resyncPasswords,
   updateAdministrativeState,
@@ -15,7 +15,7 @@ import {
   create,
   get,
 } from "../../api/networkBootstrapDevices/operations.js";
-import type {
+import {
   NetworkBootstrapDevicesResyncPasswordsOptionalParams,
   NetworkBootstrapDevicesUpdateAdministrativeStateOptionalParams,
   NetworkBootstrapDevicesUpgradeOptionalParams,
@@ -28,7 +28,7 @@ import type {
   NetworkBootstrapDevicesCreateOptionalParams,
   NetworkBootstrapDevicesGetOptionalParams,
 } from "../../api/networkBootstrapDevices/options.js";
-import type {
+import {
   UpdateDeviceAdministrativeState,
   UpdateVersion,
   NetworkBootstrapDevice,
@@ -39,10 +39,9 @@ import type {
   NetworkBootstrapDeviceUpdateAdministrativeStateResponse,
   NetworkBootstrapDeviceResyncPasswordsResponse,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a NetworkBootstrapDevices operations. */
 export interface NetworkBootstrapDevicesOperations {

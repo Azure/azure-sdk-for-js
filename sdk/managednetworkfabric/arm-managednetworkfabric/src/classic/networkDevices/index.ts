@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureNetworkFabricManagementServiceAPIContext } from "../../api/azureNetworkFabricManagementServiceAPIContext.js";
+import { AzureNetworkFabricManagementServiceAPIContext } from "../../api/azureNetworkFabricManagementServiceAPIContext.js";
 import {
   resyncCertificates,
   resyncPasswords,
@@ -18,7 +18,7 @@ import {
   create,
   get,
 } from "../../api/networkDevices/operations.js";
-import type {
+import {
   NetworkDevicesResyncCertificatesOptionalParams,
   NetworkDevicesResyncPasswordsOptionalParams,
   NetworkDevicesRunRwCommandOptionalParams,
@@ -34,7 +34,7 @@ import type {
   NetworkDevicesCreateOptionalParams,
   NetworkDevicesGetOptionalParams,
 } from "../../api/networkDevices/options.js";
-import type {
+import {
   OperationStatusResult,
   NetworkDevice,
   NetworkDevicePatchParameters,
@@ -51,10 +51,9 @@ import type {
   NetworkDeviceResyncPasswordsResponse,
   NetworkFabricResyncCertificatesResponse,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a NetworkDevices operations. */
 export interface NetworkDevicesOperations {

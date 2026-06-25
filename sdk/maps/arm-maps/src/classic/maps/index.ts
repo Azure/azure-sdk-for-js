@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureMapsManagementContext } from "../../api/azureMapsManagementContext.js";
+import { AzureMapsManagementContext } from "../../api/azureMapsManagementContext.js";
 import { listOperations } from "../../api/maps/operations.js";
-import type { MapsListOperationsOptionalParams } from "../../api/maps/options.js";
-import type { Operation } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { MapsListOperationsOptionalParams } from "../../api/maps/options.js";
+import { Operation } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Maps operations. */
 export interface MapsOperations {

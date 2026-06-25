@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureNetworkFabricManagementServiceAPIContext } from "../../api/azureNetworkFabricManagementServiceAPIContext.js";
+import { AzureNetworkFabricManagementServiceAPIContext } from "../../api/azureNetworkFabricManagementServiceAPIContext.js";
 import {
   updateAdministrativeState,
   listBySubscription,
@@ -11,7 +11,7 @@ import {
   create,
   get,
 } from "../../api/networkMonitors/operations.js";
-import type {
+import {
   NetworkMonitorsUpdateAdministrativeStateOptionalParams,
   NetworkMonitorsListBySubscriptionOptionalParams,
   NetworkMonitorsListByResourceGroupOptionalParams,
@@ -20,16 +20,15 @@ import type {
   NetworkMonitorsCreateOptionalParams,
   NetworkMonitorsGetOptionalParams,
 } from "../../api/networkMonitors/options.js";
-import type {
+import {
   UpdateAdministrativeState,
   NetworkMonitor,
   NetworkMonitorPatch,
   CommonPostActionResponseForDeviceUpdate,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a NetworkMonitors operations. */
 export interface NetworkMonitorsOperations {
