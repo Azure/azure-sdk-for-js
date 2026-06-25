@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { VitestTestContext } from "@azure-tools/test-recorder";
-import { AIProjectClient, DatasetVersion, RestError, enableGenAITracing } from "../src/index.js";
+import { AIProjectClient, DatasetVersion, RestError } from "../src/index.js";
 import type { VersionRefIndicator } from "../src/index.js";
 import {
   useAzureMonitor,
@@ -1069,23 +1069,20 @@ Be direct and efficient. When you reach the search results page, read and descri
 
   it("tracing_azure_monitor", async function () {
     const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
-    const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-
-    // Get Application Insights connection string from the project
-    const connectionString = await project.telemetry.getApplicationInsightsConnectionString();
-
-    // Configure Azure Monitor tracing
+    // Configure Azure Monitor tracing (must be done before creating the client)
+    const connectionString = process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] || "<connection string>";
     useAzureMonitor({
       azureMonitorExporterOptions: { connectionString },
       samplingRatio: 1,
       tracesPerSecond: 0,
     });
-
-    // Enable GenAI tracing (experimental)
-    enableGenAITracing({
-      contentRecording: false,
-      traceContextPropagation: true,
-      experimental: true,
+    // Create client with tracing enabled (experimental)
+    const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential(), {
+      tracingOptions: {
+        experimental: true,
+        contentRecording: false,
+        traceContextPropagation: true,
+      },
     });
   });
 
@@ -1113,16 +1110,19 @@ Be direct and efficient. When you reach the search results page, read and descri
   });
 
   it("tracing_console", async function () {
-    // Set up OpenTelemetry with a console exporter
+    // Set up OpenTelemetry with a console exporter (must be done before creating the client)
     const provider = new NodeTracerProvider({
       spanProcessors: [new SimpleSpanProcessor(new ConsoleSpanExporter())],
     });
     provider.register();
-    // Enable GenAI tracing (experimental)
-    enableGenAITracing({
-      contentRecording: false,
-      traceContextPropagation: true,
-      experimental: true,
+    // Create client with tracing enabled (experimental)
+    const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
+    const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential(), {
+      tracingOptions: {
+        experimental: true,
+        contentRecording: false,
+        traceContextPropagation: true,
+      },
     });
   });
 

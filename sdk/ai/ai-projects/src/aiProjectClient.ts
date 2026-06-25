@@ -31,6 +31,8 @@ import { getOpenAIDefaultHeaders } from "./util.js";
 import type { OpenAIClientOptionsWithAzureAgent } from "./azureAgent.interface.js";
 import { KnownApiVersions } from "./models/models.js";
 import { getTracingFetch } from "./tracing/tracingFetch.js";
+import { resolveTracingConfig } from "./tracing/configuration.js";
+import type { ResolvedTracingConfig } from "./tracing/configuration.js";
 
 export type { AIProjectClientOptionalParams } from "./api/aiProjectContext.js";
 
@@ -70,6 +72,7 @@ export class AIProjectClient {
   private _endpoint: string;
   private _credential: TokenCredential;
   private _options: AIProjectClientOptionalParams;
+  private _tracingConfig: ResolvedTracingConfig;
 
   constructor(
     endpoint: string,
@@ -79,6 +82,7 @@ export class AIProjectClient {
     this._endpoint = endpoint;
     this._credential = credential;
     this._options = options;
+    this._tracingConfig = resolveTracingConfig(options.tracingOptions);
     const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
@@ -102,7 +106,7 @@ export class AIProjectClient {
     this.datasets = _getDatasetsOperations(this._azureScopeClient, this._options);
     this.connections = _getConnectionsOperations(this._azureScopeClient);
     this.evaluationRules = _getEvaluationRulesOperations(this._azureScopeClient);
-    this.agents = _getAgentsOperations(this._azureScopeClient);
+    this.agents = _getAgentsOperations(this._azureScopeClient, this._tracingConfig);
     this.beta = _getBetaOperations(this._cognitiveScopeClient);
     this.telemetry = _getTelemetryOperations(this.connections);
   }
@@ -153,7 +157,7 @@ export class AIProjectClient {
     }
 
     // Wrap fetch with tracing to inject traceparent/tracestate headers
-    customFetch = getTracingFetch(customFetch);
+    customFetch = getTracingFetch(customFetch, this._tracingConfig);
 
     let baseURL: string;
     if (opts?.baseURL) {
@@ -202,7 +206,7 @@ export class AIProjectClient {
     };
 
     const openaiClient = new OpenAI(openAIOptions);
-    return overwriteOpenAIClient(openaiClient, this._endpoint);
+    return overwriteOpenAIClient(openaiClient, this._endpoint, this._tracingConfig);
   }
   /**
    * gets the endpoint of the client

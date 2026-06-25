@@ -4,7 +4,6 @@
 import type { Response as OAIResponse } from "openai/resources/responses/responses";
 import type { Span } from "@opentelemetry/api";
 import { startSpan, runInSpanContext } from "./tracingClient.js";
-import { isContentRecordingEnabled } from "./configuration.js";
 import {
   parseEndpoint,
   setCommonAttributes,
@@ -37,6 +36,7 @@ export async function traceNonStreamingResponse(
   operationName: string,
   endpoint: string,
   agentName?: string,
+  contentRecording: boolean = false,
 ): Promise<unknown> {
   const startTime = performance.now();
   const { serverAddress, serverPort } = parseEndpoint(endpoint);
@@ -45,12 +45,12 @@ export async function traceNonStreamingResponse(
 
   const { span, ctx } = startSpan(spanName);
   try {
-    setCommonSpanAttributes(span, operationName, serverAddress, serverPort, body, agentName);
+    setCommonSpanAttributes(span, operationName, serverAddress, serverPort, body, agentName, contentRecording);
     const response = (await runInSpanContext(ctx, () =>
       responsesCreate(body, options),
     )) as OAIResponse;
-    setResponseSpanAttributes(span, response);
-    addWorkflowActionEvents(span, response);
+    setResponseSpanAttributes(span, response, contentRecording);
+    addWorkflowActionEvents(span, response, contentRecording);
     responseModel = typeof response.model === "string" ? response.model : undefined;
 
     // Record metrics
@@ -97,11 +97,12 @@ export async function traceStreamingResponse(
   operationName: string,
   endpoint: string,
   agentName?: string,
+  contentRecording: boolean = false,
 ): Promise<unknown> {
   const startTime = performance.now();
   const { serverAddress, serverPort } = parseEndpoint(endpoint);
   const { span, ctx } = startSpan(spanName);
-  setCommonSpanAttributes(span, operationName, serverAddress, serverPort, body, agentName);
+  setCommonSpanAttributes(span, operationName, serverAddress, serverPort, body, agentName, contentRecording);
 
   try {
     const stream = await runInSpanContext(
@@ -113,7 +114,7 @@ export async function traceStreamingResponse(
       operationName,
       serverAddress,
       serverPort,
-    });
+    }, contentRecording);
   } catch (error) {
     setErrorAttributes(span, error);
     span.setStatus({ code: 2, message: error instanceof Error ? error.message : "Error" });
@@ -135,6 +136,7 @@ function wrapStream(
   innerStream: AsyncIterable<unknown>,
   span: Span,
   metricsCtx: StreamMetricsContext,
+  contentRecording: boolean = false,
 ): AsyncIterable<unknown> {
   const iterator = innerStream[Symbol.asyncIterator]();
   let completedResponse: OAIResponse | undefined;
@@ -181,12 +183,12 @@ function wrapStream(
         if (event?.type === "response.output_item.done") {
           const item = (event as { item?: Record<string, unknown> }).item;
           if (item?.type === "workflow_action") {
-            addSingleWorkflowActionEvent(span, item);
+            addSingleWorkflowActionEvent(span, item, contentRecording);
           }
         }
         if (event?.type === "response.completed" && event.response) {
           completedResponse = event.response as OAIResponse;
-          setResponseSpanAttributes(span, completedResponse);
+          setResponseSpanAttributes(span, completedResponse, contentRecording);
         }
         return result;
       } catch (error) {
@@ -239,10 +241,14 @@ function wrapStream(
 /**
  * Emits a gen_ai.workflow.action event for a single workflow action item.
  */
-function addSingleWorkflowActionEvent(span: Span, item: Record<string, unknown>): void {
+function addSingleWorkflowActionEvent(
+  span: Span,
+  item: Record<string, unknown>,
+  contentRecording: boolean = false,
+): void {
   const workflowDetails: Record<string, unknown> = {};
   if (item.status) workflowDetails.status = item.status;
-  if (isContentRecordingEnabled()) {
+  if (contentRecording) {
     if (item.action_id) workflowDetails.action_id = item.action_id;
     if (item.previous_action_id) workflowDetails.previous_action_id = item.previous_action_id;
   }
@@ -263,7 +269,11 @@ function addSingleWorkflowActionEvent(span: Span, item: Record<string, unknown>)
 /**
  * Emits workflow action events from a non-streaming response.
  */
-function addWorkflowActionEvents(span: Span, response: OAIResponse): void {
+function addWorkflowActionEvents(
+  span: Span,
+  response: OAIResponse,
+  contentRecording: boolean = false,
+): void {
   const output = (response as unknown as Record<string, unknown>).output;
   if (!Array.isArray(output)) return;
   for (const item of output) {
@@ -272,7 +282,7 @@ function addWorkflowActionEvents(span: Span, response: OAIResponse): void {
       typeof item === "object" &&
       (item as Record<string, unknown>).type === "workflow_action"
     ) {
-      addSingleWorkflowActionEvent(span, item as Record<string, unknown>);
+      addSingleWorkflowActionEvent(span, item as Record<string, unknown>, contentRecording);
     }
   }
 }

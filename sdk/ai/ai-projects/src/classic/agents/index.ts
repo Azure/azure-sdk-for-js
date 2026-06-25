@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import type { AIProjectContext } from "../../api/aiProjectContext.js";
+import type { ResolvedTracingConfig } from "../../tracing/configuration.js";
 import {
   deleteSessionFile,
   listSessionFiles,
@@ -309,7 +310,7 @@ export interface AgentsOperations {
   get: (agentName: string, options?: AgentsGetOptionalParams) => Promise<Agent>;
 }
 
-function _getAgents(context: AIProjectContext) {
+function _getAgents(context: AIProjectContext, tracingConfig?: ResolvedTracingConfig) {
   return {
     deleteSessionFile: (
       agentName: string,
@@ -400,6 +401,7 @@ function _getAgents(context: AIProjectContext) {
           definitionOrManifestId,
           optionsOrParameterValues as Record<string, unknown>,
           options,
+          tracingConfig,
         );
       }
       // Otherwise, it's the definition case (3 params)
@@ -408,6 +410,7 @@ function _getAgents(context: AIProjectContext) {
         agentName,
         definitionOrManifestId,
         optionsOrParameterValues as AgentsCreateVersionOptionalParams | undefined,
+        tracingConfig,
       );
     },
     list: (options?: AgentsListOptionalParams) => list(context, options),
@@ -427,6 +430,7 @@ function _getAgents(context: AIProjectContext) {
           definitionOrManifestId,
           optionsOrParameterValues as Record<string, unknown>,
           options,
+          tracingConfig,
         );
       }
       // Otherwise, it's the definition case (3 params)
@@ -435,6 +439,7 @@ function _getAgents(context: AIProjectContext) {
         agentName,
         definitionOrManifestId,
         optionsOrParameterValues as AgentsUpdateOptionalParams | undefined,
+        tracingConfig,
       );
     },
     create(
@@ -451,6 +456,7 @@ function _getAgents(context: AIProjectContext) {
           definitionOrManifestId,
           optionsOrParameterValues as Record<string, unknown>,
           options,
+          tracingConfig,
         );
       }
       // Otherwise, it's the definition case (3 params)
@@ -459,14 +465,18 @@ function _getAgents(context: AIProjectContext) {
         name,
         definitionOrManifestId,
         optionsOrParameterValues as AgentsCreateOptionalParams | undefined,
+        tracingConfig,
       );
     },
     get: (agentName: string, options?: AgentsGetOptionalParams) => get(context, agentName, options),
   };
 }
 
-export function _getAgentsOperations(context: AIProjectContext): AgentsOperations {
+export function _getAgentsOperations(
+  context: AIProjectContext,
+  tracingConfig?: ResolvedTracingConfig,
+): AgentsOperations {
   return {
-    ..._getAgents(context),
+    ..._getAgents(context, tracingConfig),
   };
 }

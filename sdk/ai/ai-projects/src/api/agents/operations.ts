@@ -74,7 +74,7 @@ import type {
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import { isGenAITracingApplied } from "../../tracing/configuration.js";
+import type { ResolvedTracingConfig } from "../../tracing/configuration.js";
 import { startSpan } from "../../tracing/tracingClient.js";
 import {
   setAgentAttributes,
@@ -1197,8 +1197,9 @@ export async function createAgentVersionFromManifest(
   manifestId: string,
   parameterValues: Record<string, unknown>,
   options: AgentsCreateAgentVersionFromManifestOptionalParams = { requestOptions: {} },
+  tracingConfig?: ResolvedTracingConfig,
 ): Promise<AgentVersion> {
-  if (!isGenAITracingApplied()) {
+  if (!tracingConfig?.enabled) {
     const result = await _createAgentVersionFromManifestSend(
       context,
       agentName,
@@ -1219,7 +1220,7 @@ export async function createAgentVersionFromManifest(
       options,
     );
     const version = await _createAgentVersionFromManifestDeserialize(result);
-    setAgentVersionAttributes(span, version);
+    setAgentVersionAttributes(span, version, tracingConfig.contentRecording);
     return version;
   } finally {
     span.end();
@@ -1285,8 +1286,9 @@ export async function createVersion(
   agentName: string,
   definition: AgentDefinitionUnion,
   options: AgentsCreateVersionOptionalParams = { requestOptions: {} },
+  tracingConfig?: ResolvedTracingConfig,
 ): Promise<AgentVersion> {
-  if (!isGenAITracingApplied()) {
+  if (!tracingConfig?.enabled) {
     const result = await _createVersionSend(context, agentName, definition, options);
     return _createVersionDeserialize(result);
   }
@@ -1295,7 +1297,7 @@ export async function createVersion(
     setCommonAttributes(span, OperationName.CREATE_AGENT, context.endpoint);
     const result = await _createVersionSend(context, agentName, definition, options);
     const version = await _createVersionDeserialize(result);
-    setAgentVersionAttributes(span, version);
+    setAgentVersionAttributes(span, version, tracingConfig.contentRecording);
     return version;
   } finally {
     span.end();
@@ -1469,6 +1471,7 @@ export async function updateAgentFromManifest(
   manifestId: string,
   parameterValues: Record<string, unknown>,
   options: AgentsUpdateAgentFromManifestOptionalParams = { requestOptions: {} },
+  _tracingConfig?: ResolvedTracingConfig,
 ): Promise<Agent> {
   const result = await _updateAgentFromManifestSend(
     context,
@@ -1533,8 +1536,9 @@ export async function createAgentFromManifest(
   manifestId: string,
   parameterValues: Record<string, unknown>,
   options: AgentsCreateAgentFromManifestOptionalParams = { requestOptions: {} },
+  tracingConfig?: ResolvedTracingConfig,
 ): Promise<Agent> {
-  if (!isGenAITracingApplied()) {
+  if (!tracingConfig?.enabled) {
     const result = await _createAgentFromManifestSend(
       context,
       name,
@@ -1555,7 +1559,7 @@ export async function createAgentFromManifest(
       options,
     );
     const agent = await _createAgentFromManifestDeserialize(result);
-    setAgentAttributes(span, agent);
+    setAgentAttributes(span, agent, tracingConfig.contentRecording);
     return agent;
   } finally {
     span.end();
@@ -1622,6 +1626,7 @@ export async function update(
   agentName: string,
   definition: AgentDefinitionUnion,
   options: AgentsUpdateOptionalParams = { requestOptions: {} },
+  _tracingConfig?: ResolvedTracingConfig,
 ): Promise<Agent> {
   const result = await _updateSend(context, agentName, definition, options);
   return _updateDeserialize(result);
@@ -1691,8 +1696,9 @@ export async function create(
   name: string,
   definition: AgentDefinitionUnion,
   options: AgentsCreateOptionalParams = { requestOptions: {} },
+  tracingConfig?: ResolvedTracingConfig,
 ): Promise<Agent> {
-  if (!isGenAITracingApplied()) {
+  if (!tracingConfig?.enabled) {
     const result = await _createSend(context, name, definition, options);
     return _createDeserialize(result);
   }
@@ -1701,7 +1707,7 @@ export async function create(
     setCommonAttributes(span, OperationName.CREATE_AGENT, context.endpoint);
     const result = await _createSend(context, name, definition, options);
     const agent = await _createDeserialize(result);
-    setAgentAttributes(span, agent);
+    setAgentAttributes(span, agent, tracingConfig.contentRecording);
     return agent;
   } finally {
     span.end();
