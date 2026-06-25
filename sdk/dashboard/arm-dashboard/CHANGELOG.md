@@ -1,14 +1,31 @@
 # Release History
 
-## 2.0.1 (Unreleased)
+## 3.0.0 (2026-06-25)
 
 ### Features Added
+  - Interface ManagedDashboard has a new optional parameter provisioningState
+  - Interface ManagedPrivateEndpointModel has a new optional parameter connectionState
+  - Interface ManagedPrivateEndpointModel has a new optional parameter groupIds
+  - Interface ManagedPrivateEndpointModel has a new optional parameter privateLinkResourceId
+  - Interface ManagedPrivateEndpointModel has a new optional parameter privateLinkResourceRegion
+  - Interface ManagedPrivateEndpointModel has a new optional parameter privateLinkServicePrivateIP
+  - Interface ManagedPrivateEndpointModel has a new optional parameter privateLinkServiceUrl
+  - Interface ManagedPrivateEndpointModel has a new optional parameter provisioningState
+  - Interface ManagedPrivateEndpointModel has a new optional parameter requestMessage
+  - Interface PrivateEndpointConnection has a new optional parameter groupIds
+  - Interface PrivateEndpointConnection has a new optional parameter privateEndpoint
+  - Interface PrivateEndpointConnection has a new optional parameter privateLinkServiceConnectionState
+  - Interface PrivateEndpointConnection has a new optional parameter provisioningState
+  - Interface PrivateLinkResource has a new optional parameter groupId
+  - Interface PrivateLinkResource has a new optional parameter provisioningState
+  - Interface PrivateLinkResource has a new optional parameter requiredMembers
+  - Interface PrivateLinkResource has a new optional parameter requiredZoneNames
 
 ### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+  - Interface ManagedDashboard no longer has parameter properties
+  - Interface ManagedPrivateEndpointModel no longer has parameter properties
+  - Interface PrivateEndpointConnection no longer has parameter properties
+  - Interface PrivateLinkResource no longer has parameter properties
 
 ## 2.0.0 (2025-10-21)
 
