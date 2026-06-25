@@ -7435,7 +7435,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.4
+        version: 3.8.3
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -18346,7 +18346,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.4
+        version: 3.8.3
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -18723,7 +18723,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.4
+        version: 3.8.3
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -25331,10 +25331,10 @@ importers:
         version: 22.20.0
       '@vitest/browser-playwright':
         specifier: catalog:testing
-        version: 4.1.8(playwright@1.60.0)(vite@7.3.3(@types/node@22.20.0)(terser@5.48.0)(tsx@4.22.4)(yaml@2.9.0))(vitest@4.1.8)
+        version: 4.1.7(playwright@1.60.0)(vite@7.3.3(@types/node@22.20.0)(terser@5.48.0)(tsx@4.22.4)(yaml@2.9.0))(vitest@4.1.7)
       '@vitest/coverage-istanbul':
         specifier: catalog:testing
-        version: 4.1.8(vitest@4.1.8)
+        version: 4.1.7(vitest@4.1.7)
       cross-env:
         specifier: 'catalog:'
         version: 10.1.0
@@ -25349,7 +25349,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.4
+        version: 3.8.3
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -25358,7 +25358,7 @@ importers:
         version: 6.0.3
       vitest:
         specifier: catalog:testing
-        version: 4.1.8(@opentelemetry/api@1.9.1)(@types/node@22.20.0)(@vitest/browser-playwright@4.1.8)(@vitest/coverage-istanbul@4.1.8)(vite@7.3.3(@types/node@22.20.0)(terser@5.48.0)(tsx@4.22.4)(yaml@2.9.0))
+        version: 4.1.7(@opentelemetry/api@1.9.1)(@types/node@22.20.0)(@vitest/browser-playwright@4.1.7)(@vitest/coverage-istanbul@4.1.7)(vite@7.3.3(@types/node@22.20.0)(terser@5.48.0)(tsx@4.22.4)(yaml@2.9.0))
 
   sdk/programmableconnectivity/arm-programmableconnectivity:
     dependencies:
@@ -27118,10 +27118,10 @@ importers:
         version: 22.20.0
       '@vitest/browser-playwright':
         specifier: catalog:testing
-        version: 4.1.8(playwright@1.60.0)(vite@7.3.3(@types/node@22.20.0)(terser@5.48.0)(tsx@4.22.4)(yaml@2.9.0))(vitest@4.1.8)
+        version: 4.1.7(playwright@1.60.0)(vite@7.3.3(@types/node@22.20.0)(terser@5.48.0)(tsx@4.22.4)(yaml@2.9.0))(vitest@4.1.7)
       '@vitest/coverage-istanbul':
         specifier: catalog:testing
-        version: 4.1.8(vitest@4.1.8)
+        version: 4.1.7(vitest@4.1.7)
       cross-env:
         specifier: 'catalog:'
         version: 10.1.0
@@ -27136,7 +27136,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.4
+        version: 3.8.3
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -27145,7 +27145,7 @@ importers:
         version: 6.0.3
       vitest:
         specifier: catalog:testing
-        version: 4.1.8(@opentelemetry/api@1.9.1)(@types/node@22.20.0)(@vitest/browser-playwright@4.1.8)(@vitest/coverage-istanbul@4.1.8)(vite@7.3.3(@types/node@22.20.0)(terser@5.48.0)(tsx@4.22.4)(yaml@2.9.0))
+        version: 4.1.7(@opentelemetry/api@1.9.1)(@types/node@22.20.0)(@vitest/browser-playwright@4.1.7)(@vitest/coverage-istanbul@4.1.7)(vite@7.3.3(@types/node@22.20.0)(terser@5.48.0)(tsx@4.22.4)(yaml@2.9.0))
 
   sdk/resourceconnector/arm-resourceconnector:
     dependencies:
