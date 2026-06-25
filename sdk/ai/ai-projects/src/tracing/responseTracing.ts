@@ -45,7 +45,15 @@ export async function traceNonStreamingResponse(
 
   const { span, ctx } = startSpan(spanName);
   try {
-    setCommonSpanAttributes(span, operationName, serverAddress, serverPort, body, agentName, contentRecording);
+    setCommonSpanAttributes(
+      span,
+      operationName,
+      serverAddress,
+      serverPort,
+      body,
+      agentName,
+      contentRecording,
+    );
     const response = (await runInSpanContext(ctx, () =>
       responsesCreate(body, options),
     )) as OAIResponse;
@@ -102,19 +110,32 @@ export async function traceStreamingResponse(
   const startTime = performance.now();
   const { serverAddress, serverPort } = parseEndpoint(endpoint);
   const { span, ctx } = startSpan(spanName);
-  setCommonSpanAttributes(span, operationName, serverAddress, serverPort, body, agentName, contentRecording);
+  setCommonSpanAttributes(
+    span,
+    operationName,
+    serverAddress,
+    serverPort,
+    body,
+    agentName,
+    contentRecording,
+  );
 
   try {
     const stream = await runInSpanContext(
       ctx,
       () => responsesCreate(body, options) as Promise<AsyncIterable<unknown>>,
     );
-    return wrapStream(stream, span, {
-      startTime,
-      operationName,
-      serverAddress,
-      serverPort,
-    }, contentRecording);
+    return wrapStream(
+      stream,
+      span,
+      {
+        startTime,
+        operationName,
+        serverAddress,
+        serverPort,
+      },
+      contentRecording,
+    );
   } catch (error) {
     setErrorAttributes(span, error);
     span.setStatus({ code: 2, message: error instanceof Error ? error.message : "Error" });

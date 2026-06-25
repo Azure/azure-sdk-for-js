@@ -1070,7 +1070,8 @@ Be direct and efficient. When you reach the search results page, read and descri
   it("tracing_azure_monitor", async function () {
     const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
     // Configure Azure Monitor tracing (must be done before creating the client)
-    const connectionString = process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] || "<connection string>";
+    const connectionString =
+      process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] || "<connection string>";
     useAzureMonitor({
       azureMonitorExporterOptions: { connectionString },
       samplingRatio: 1,

@@ -7,13 +7,7 @@
  * @internal
  */
 
-import {
-  trace,
-  context,
-  propagation,
-  SpanKind,
-  defaultTextMapSetter,
-} from "@opentelemetry/api";
+import { trace, context, propagation, SpanKind, defaultTextMapSetter } from "@opentelemetry/api";
 import type { Span, Context } from "@opentelemetry/api";
 import { PACKAGE_NAME, SDK_VERSION } from "../constants.js";
 

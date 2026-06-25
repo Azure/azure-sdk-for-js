@@ -15,7 +15,10 @@ type FetchFn = NonNullable<NonNullable<ConstructorParameters<typeof OpenAI>[0]>[
  * @param tracingConfig - The resolved tracing config for this client instance.
  * @returns A fetch-compatible function that injects tracing headers.
  */
-export function getTracingFetch(innerFetch?: FetchFn, tracingConfig?: ResolvedTracingConfig): FetchFn {
+export function getTracingFetch(
+  innerFetch?: FetchFn,
+  tracingConfig?: ResolvedTracingConfig,
+): FetchFn {
   const baseFetch = innerFetch ?? (globalThis.fetch as FetchFn);
   return async function (resource, options): Promise<Response> {
     if (!tracingConfig?.enabled || !tracingConfig.traceContextPropagation) {
