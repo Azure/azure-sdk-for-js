@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Fixed missing Azure SDK dependency spans (Service Bus, Event Grid, Storage, etc.) when running as an ESM application on Node.js 22+ — most notably in Azure Functions, where the `--import @azure/monitor-opentelemetry/loader` flag cannot be configured. The distro now wires the Azure SDK instrumenter into `@azure/core-tracing` directly, so Azure SDK tracing works in ESM even when the OpenTelemetry module hooks never fire.
+
 ### Other Changes
 
 ## 1.18.1 (2026-05-29)
