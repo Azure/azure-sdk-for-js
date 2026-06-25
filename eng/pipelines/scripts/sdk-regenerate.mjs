@@ -320,27 +320,44 @@ async function runShard() {
           turboBuildConcurrency,
         );
 
-  const changelogOutcomes = buildOutcome.skipped
-    ? []
-    : await generateChangelogsForBuilt(
-        successfullyRegenerated,
-        buildOutcome.builtPackages,
-        perPackageConcurrency,
-      );
-
-  const shardSummary = composeShardSummary({
-    shardPackages,
-    regenerationOutcomes,
-    buildOutcome,
-    changelogOutcomes,
-  });
-
-  console.log("\n========== SHARD SUMMARY ==========\n" + JSON.stringify(shardSummary, null, 2));
+  if (!buildOutcome.skipped) {
+    await generateChangelogsForBuilt(
+      successfullyRegenerated,
+      buildOutcome.builtPackages,
+      perPackageConcurrency,
+    );
+  }
 
   // DO NOT exit 1 on per-package regen/build failures — that would skip the
   // push step in git-push-changes.yml (gated on succeeded()), losing the
-  // successful packages' changes. Failures are visible in the SHARD SUMMARY
-  // log above and in the ADO build view.
+  // successful packages' changes. Instead, surface failures as ADO warnings and
+  // mark the job SucceededWithIssues (orange) so they're visible at a glance.
+  reportShardIssues(regenerationOutcomes, buildOutcome);
+}
+
+// Turn per-package regen/build failures into ADO warnings and flip the job to
+// SucceededWithIssues (orange) without failing it (the process still exits 0,
+// so the push in git-push-changes.yml runs for the successful packages).
+function reportShardIssues(regenerationOutcomes, buildOutcome) {
+  const warnings = [];
+  for (const outcome of regenerationOutcomes) {
+    if (!outcome.success) warnings.push(`Regeneration failed: ${outcome.sdkPath}`);
+  }
+  if (!buildOutcome.skipped) {
+    for (const sdkPath of buildOutcome.failedPackages) {
+      warnings.push(`Build failed: ${sdkPath}`);
+    }
+    for (const sdkPath of buildOutcome.notBuiltPackages) {
+      warnings.push(`Build cancelled after another package's build failure: ${sdkPath}`);
+    }
+  }
+  if (warnings.length === 0) return;
+  for (const message of warnings) {
+    console.log(`##vso[task.logissue type=warning]${message}`);
+  }
+  console.log(
+    `##vso[task.complete result=SucceededWithIssues;]${warnings.length} package issue(s) in this shard`,
+  );
 }
 
 function requireReadablePath(flagName, value) {
@@ -572,14 +589,10 @@ async function generateChangelogsForBuilt(successfullyRegenerated, builtSdkPaths
   const packagesNeedingChangelog = successfullyRegenerated.filter((p) =>
     builtSdkPathSet.has(p.sdkPath),
   );
-  if (packagesNeedingChangelog.length === 0) return [];
+  if (packagesNeedingChangelog.length === 0) return;
 
   console.log(`\n===== Changelog (${packagesNeedingChangelog.length} packages) =====`);
-  const outcomes = [];
-  await runWithConcurrency(packagesNeedingChangelog, concurrency, async (pkg) => {
-    outcomes.push(await generateChangelogForOnePackage(pkg));
-  });
-  return outcomes;
+  await runWithConcurrency(packagesNeedingChangelog, concurrency, generateChangelogForOnePackage);
 }
 
 async function generateChangelogForOnePackage(pkg) {
@@ -601,100 +614,7 @@ async function generateChangelogForOnePackage(pkg) {
     ],
     SDK_ROOT,
   );
-
-  const { hasBreakingChanges, breakingChangesText } = extractBreakingChangesFromChangelog(
-    pkg.packageDir,
-  );
-
   logCollapsedGroup(`changelog log: ${pkg.sdkPath}`, result.output);
-  return {
-    pkg: pkg.sdkPath,
-    success: result.exitCode === 0,
-    hasBreaking: hasBreakingChanges,
-    breakingText: breakingChangesText,
-  };
-}
-
-function extractBreakingChangesFromChangelog(packageDir) {
-  const empty = { hasBreakingChanges: false, breakingChangesText: "" };
-  const changelogPath = path.join(packageDir, "CHANGELOG.md");
-  if (!fs.existsSync(changelogPath)) return empty;
-
-  try {
-    const changelogTop = fs
-      .readFileSync(changelogPath, "utf8")
-      .split("\n")
-      .slice(0, 200)
-      .join("\n");
-    const firstVersionHeadingIndex = changelogTop.indexOf("\n## ");
-    const secondVersionHeadingIndex =
-      firstVersionHeadingIndex >= 0
-        ? changelogTop.indexOf("\n## ", firstVersionHeadingIndex + 1)
-        : -1;
-    const topUnreleasedSection =
-      firstVersionHeadingIndex < 0
-        ? changelogTop
-        : changelogTop.slice(
-            0,
-            secondVersionHeadingIndex > 0 ? secondVersionHeadingIndex : changelogTop.length,
-          );
-
-    const breakingChangesMatch = topUnreleasedSection.match(
-      /^###\s+Breaking Changes\b[^\n]*\n([\s\S]*?)(?=\n###\s|\n##\s|$)/m,
-    );
-    return breakingChangesMatch
-      ? { hasBreakingChanges: true, breakingChangesText: breakingChangesMatch[1].trim() }
-      : empty;
-  } catch {
-    return empty;
-  }
-}
-
-// ── Compose shard outputs ───────────────────────────────────────────────────
-
-function composeShardSummary({
-  shardPackages,
-  regenerationOutcomes,
-  buildOutcome,
-  changelogOutcomes,
-}) {
-  const regenerationFailures = regenerationOutcomes
-    .filter((o) => !o.success)
-    .map((o) => ({ pkg: o.sdkPath, errorTail: o.errorTail }));
-
-  return {
-    packages: shardPackages.map((p) => p.sdkPath),
-    regeneration: {
-      total: shardPackages.length,
-      success: regenerationOutcomes.filter((o) => o.success).length,
-      failed: regenerationFailures.length,
-      failures: regenerationFailures,
-    },
-    build: buildOutcome.skipped
-      ? null
-      : {
-          total:
-            buildOutcome.builtPackages.length +
-            buildOutcome.failedPackages.length +
-            buildOutcome.notBuiltPackages.length,
-          success: buildOutcome.builtPackages.length,
-          failed: buildOutcome.failedPackages.length,
-          notBuilt: buildOutcome.notBuiltPackages.length,
-          failures: buildOutcome.failedPackages.map((sdkPath) => ({ pkg: sdkPath })),
-          notBuiltPackages: buildOutcome.notBuiltPackages.map((sdkPath) => ({ pkg: sdkPath })),
-        },
-    changelog: buildOutcome.skipped
-      ? null
-      : {
-          total: changelogOutcomes.length,
-          generated: changelogOutcomes.filter((o) => o.success).length,
-          failed: changelogOutcomes.filter((o) => !o.success).map((o) => o.pkg),
-          withBreaking: changelogOutcomes.filter((o) => o.success && o.hasBreaking).length,
-          breakingPackages: changelogOutcomes
-            .filter((o) => o.success && o.hasBreaking)
-            .map((o) => ({ pkg: o.pkg, breakingText: o.breakingText })),
-        },
-  };
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
