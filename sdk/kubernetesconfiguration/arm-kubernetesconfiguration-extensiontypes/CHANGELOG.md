@@ -1,5 +1,34 @@
 # Release History
 
+## 1.0.0-beta.3 (2026-06-25)
+Compared with version 1.0.0-beta.1
+
+### Features Added
+  - Added Interface ClusterScopeSettingsProperties
+  - Added Interface ExtensionTypesListClusterListVersionsOptionalParams
+  - Added Interface ExtensionTypesListLocationListOptionalParams
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface SystemData
+  - Interface ClusterScopeSettings has a new optional parameter systemData
+  - Interface ExtensionType has a new optional parameter systemData
+  - Interface ExtensionTypeVersionForReleaseTrain has a new optional parameter systemData
+  - Interface ProxyResource has a new optional parameter systemData
+  - Interface Resource has a new optional parameter systemData
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias CreatedByType
+  - Added Enum AzureClouds
+  - Added Enum KnownCreatedByType
+  - Added Enum KnownVersions
+
+### Breaking Changes
+  - Class ExtensionTypesClient no longer has parameter apiVersion
+  - Class ExtensionTypesClient no longer has parameter subscriptionId
+  - Removed Interface ExtensionTypesClusterListVersionsOptionalParams
+  - Removed Interface ExtensionTypesList
+  - Removed Interface ExtensionTypesLocationListOptionalParams
+  - Removed Interface ExtensionTypeVersionsList
+
 ## 1.0.0-beta.2 (2026-03-17)
 Compared with version 1.0.0-beta.1
 

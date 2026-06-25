@@ -136,7 +136,7 @@ export interface ConfigurationAssignmentsForResourceGroupGetOptionalParams exten
 // @public
 export interface ConfigurationAssignmentsForResourceGroupOperations {
     createOrUpdate: (resourceGroupName: string, configurationAssignmentName: string, configurationAssignment: ConfigurationAssignment, options?: ConfigurationAssignmentsForResourceGroupCreateOrUpdateOptionalParams) => Promise<ConfigurationAssignment>;
-    delete: (resourceGroupName: string, configurationAssignmentName: string, options?: ConfigurationAssignmentsForResourceGroupDeleteOptionalParams) => Promise<ConfigurationAssignment>;
+    delete: (resourceGroupName: string, configurationAssignmentName: string, options?: ConfigurationAssignmentsForResourceGroupDeleteOptionalParams) => Promise<ConfigurationAssignment | undefined>;
     get: (resourceGroupName: string, configurationAssignmentName: string, options?: ConfigurationAssignmentsForResourceGroupGetOptionalParams) => Promise<ConfigurationAssignment>;
     update: (resourceGroupName: string, configurationAssignmentName: string, configurationAssignment: ConfigurationAssignment, options?: ConfigurationAssignmentsForResourceGroupUpdateOptionalParams) => Promise<ConfigurationAssignment>;
 }
@@ -160,7 +160,7 @@ export interface ConfigurationAssignmentsForSubscriptionsGetOptionalParams exten
 // @public
 export interface ConfigurationAssignmentsForSubscriptionsOperations {
     createOrUpdate: (configurationAssignmentName: string, configurationAssignment: ConfigurationAssignment, options?: ConfigurationAssignmentsForSubscriptionsCreateOrUpdateOptionalParams) => Promise<ConfigurationAssignment>;
-    delete: (configurationAssignmentName: string, options?: ConfigurationAssignmentsForSubscriptionsDeleteOptionalParams) => Promise<ConfigurationAssignment>;
+    delete: (configurationAssignmentName: string, options?: ConfigurationAssignmentsForSubscriptionsDeleteOptionalParams) => Promise<ConfigurationAssignment | undefined>;
     get: (configurationAssignmentName: string, options?: ConfigurationAssignmentsForSubscriptionsGetOptionalParams) => Promise<ConfigurationAssignment>;
     update: (configurationAssignmentName: string, configurationAssignment: ConfigurationAssignment, options?: ConfigurationAssignmentsForSubscriptionsUpdateOptionalParams) => Promise<ConfigurationAssignment>;
 }
@@ -189,8 +189,8 @@ export interface ConfigurationAssignmentsListParentOptionalParams extends Operat
 export interface ConfigurationAssignmentsOperations {
     createOrUpdate: (resourceGroupName: string, providerName: string, resourceType: string, resourceName: string, configurationAssignmentName: string, configurationAssignment: ConfigurationAssignment, options?: ConfigurationAssignmentsCreateOrUpdateOptionalParams) => Promise<ConfigurationAssignment>;
     createOrUpdateParent: (resourceGroupName: string, providerName: string, resourceParentType: string, resourceParentName: string, resourceType: string, resourceName: string, configurationAssignmentName: string, configurationAssignment: ConfigurationAssignment, options?: ConfigurationAssignmentsCreateOrUpdateParentOptionalParams) => Promise<ConfigurationAssignment>;
-    delete: (resourceGroupName: string, providerName: string, resourceType: string, resourceName: string, configurationAssignmentName: string, options?: ConfigurationAssignmentsDeleteOptionalParams) => Promise<ConfigurationAssignment>;
-    deleteParent: (resourceGroupName: string, providerName: string, resourceParentType: string, resourceParentName: string, resourceType: string, resourceName: string, configurationAssignmentName: string, options?: ConfigurationAssignmentsDeleteParentOptionalParams) => Promise<ConfigurationAssignment>;
+    delete: (resourceGroupName: string, providerName: string, resourceType: string, resourceName: string, configurationAssignmentName: string, options?: ConfigurationAssignmentsDeleteOptionalParams) => Promise<ConfigurationAssignment | undefined>;
+    deleteParent: (resourceGroupName: string, providerName: string, resourceParentType: string, resourceParentName: string, resourceType: string, resourceName: string, configurationAssignmentName: string, options?: ConfigurationAssignmentsDeleteParentOptionalParams) => Promise<ConfigurationAssignment | undefined>;
     get: (resourceGroupName: string, providerName: string, resourceType: string, resourceName: string, configurationAssignmentName: string, options?: ConfigurationAssignmentsGetOptionalParams) => Promise<ConfigurationAssignment>;
     getParent: (resourceGroupName: string, providerName: string, resourceParentType: string, resourceParentName: string, resourceType: string, resourceName: string, configurationAssignmentName: string, options?: ConfigurationAssignmentsGetParentOptionalParams) => Promise<ConfigurationAssignment>;
     list: (resourceGroupName: string, providerName: string, resourceType: string, resourceName: string, options?: ConfigurationAssignmentsListOptionalParams) => PagedAsyncIterableIterator<ConfigurationAssignment>;
@@ -370,7 +370,7 @@ export interface MaintenanceConfigurationsListOptionalParams extends OperationOp
 // @public
 export interface MaintenanceConfigurationsOperations {
     createOrUpdate: (resourceGroupName: string, resourceName: string, configuration: MaintenanceConfiguration, options?: MaintenanceConfigurationsCreateOrUpdateOptionalParams) => Promise<MaintenanceConfiguration>;
-    delete: (resourceGroupName: string, resourceName: string, options?: MaintenanceConfigurationsDeleteOptionalParams) => Promise<MaintenanceConfiguration>;
+    delete: (resourceGroupName: string, resourceName: string, options?: MaintenanceConfigurationsDeleteOptionalParams) => Promise<MaintenanceConfiguration | undefined>;
     get: (resourceGroupName: string, resourceName: string, options?: MaintenanceConfigurationsGetOptionalParams) => Promise<MaintenanceConfiguration>;
     list: (options?: MaintenanceConfigurationsListOptionalParams) => PagedAsyncIterableIterator<MaintenanceConfiguration>;
     update: (resourceGroupName: string, resourceName: string, configuration: MaintenanceConfiguration, options?: MaintenanceConfigurationsUpdateOptionalParams) => Promise<MaintenanceConfiguration>;
