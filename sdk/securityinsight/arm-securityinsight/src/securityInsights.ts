@@ -1,140 +1,216 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SecurityInsightsContext, SecurityInsightsOptionalParams } from "./api/index.js";
-import { createSecurityInsights } from "./api/index.js";
+import {
+  SecurityInsightsContext,
+  SecurityInsightsOptionalParams,
+  createSecurityInsights,
+} from "./api/index.js";
 import { listWhoisByDomain, listGeodataByIp } from "./api/operations.js";
-import type {
-  ListWhoisByDomainOptionalParams,
-  ListGeodataByIpOptionalParams,
-} from "./api/options.js";
-import type { ActionsOperations } from "./classic/actions/index.js";
-import { _getActionsOperations } from "./classic/actions/index.js";
-import type { AlertRuleOperations } from "./classic/alertRule/index.js";
-import { _getAlertRuleOperations } from "./classic/alertRule/index.js";
-import type { AlertRuleTemplatesOperations } from "./classic/alertRuleTemplates/index.js";
-import { _getAlertRuleTemplatesOperations } from "./classic/alertRuleTemplates/index.js";
-import type { AlertRulesOperations } from "./classic/alertRules/index.js";
-import { _getAlertRulesOperations } from "./classic/alertRules/index.js";
-import type { AutomationRulesOperations } from "./classic/automationRules/index.js";
-import { _getAutomationRulesOperations } from "./classic/automationRules/index.js";
-import type { BillingStatisticsOperations } from "./classic/billingStatistics/index.js";
-import { _getBillingStatisticsOperations } from "./classic/billingStatistics/index.js";
-import type { BookmarkOperationsOperations } from "./classic/bookmarkOperations/index.js";
-import { _getBookmarkOperationsOperations } from "./classic/bookmarkOperations/index.js";
-import type { BookmarkRelationsOperations } from "./classic/bookmarkRelations/index.js";
-import { _getBookmarkRelationsOperations } from "./classic/bookmarkRelations/index.js";
-import type { BookmarksOperations } from "./classic/bookmarks/index.js";
-import { _getBookmarksOperations } from "./classic/bookmarks/index.js";
-import type { ContentPackageOperations } from "./classic/contentPackage/index.js";
-import { _getContentPackageOperations } from "./classic/contentPackage/index.js";
-import type { ContentPackagesOperations } from "./classic/contentPackages/index.js";
-import { _getContentPackagesOperations } from "./classic/contentPackages/index.js";
-import type { ContentTemplateOperations } from "./classic/contentTemplate/index.js";
-import { _getContentTemplateOperations } from "./classic/contentTemplate/index.js";
-import type { ContentTemplatesOperations } from "./classic/contentTemplates/index.js";
-import { _getContentTemplatesOperations } from "./classic/contentTemplates/index.js";
-import type { DataConnectorDefinitionsOperations } from "./classic/dataConnectorDefinitions/index.js";
-import { _getDataConnectorDefinitionsOperations } from "./classic/dataConnectorDefinitions/index.js";
-import type { DataConnectorsOperations } from "./classic/dataConnectors/index.js";
-import { _getDataConnectorsOperations } from "./classic/dataConnectors/index.js";
-import type { DataConnectorsCheckRequirementsOperationsOperations } from "./classic/dataConnectorsCheckRequirementsOperations/index.js";
-import { _getDataConnectorsCheckRequirementsOperationsOperations } from "./classic/dataConnectorsCheckRequirementsOperations/index.js";
-import type { EntitiesOperations } from "./classic/entities/index.js";
-import { _getEntitiesOperations } from "./classic/entities/index.js";
-import type { EntitiesGetTimelineOperations } from "./classic/entitiesGetTimeline/index.js";
-import { _getEntitiesGetTimelineOperations } from "./classic/entitiesGetTimeline/index.js";
-import type { EntitiesRelationsOperations } from "./classic/entitiesRelations/index.js";
-import { _getEntitiesRelationsOperations } from "./classic/entitiesRelations/index.js";
-import type { EntityQueriesOperations } from "./classic/entityQueries/index.js";
-import { _getEntityQueriesOperations } from "./classic/entityQueries/index.js";
-import type { EntityQueryTemplatesOperations } from "./classic/entityQueryTemplates/index.js";
-import { _getEntityQueryTemplatesOperations } from "./classic/entityQueryTemplates/index.js";
-import type { EntityRelationsOperations } from "./classic/entityRelations/index.js";
-import { _getEntityRelationsOperations } from "./classic/entityRelations/index.js";
-import type { FileImportsOperations } from "./classic/fileImports/index.js";
-import { _getFileImportsOperations } from "./classic/fileImports/index.js";
-import type { GetOperations } from "./classic/get/index.js";
-import { _getGetOperations } from "./classic/get/index.js";
-import type { GetRecommendationsOperations } from "./classic/getRecommendations/index.js";
-import { _getGetRecommendationsOperations } from "./classic/getRecommendations/index.js";
-import type { GetTriggeredAnalyticsRuleRunsOperations } from "./classic/getTriggeredAnalyticsRuleRuns/index.js";
-import { _getGetTriggeredAnalyticsRuleRunsOperations } from "./classic/getTriggeredAnalyticsRuleRuns/index.js";
-import type { HuntCommentsOperations } from "./classic/huntComments/index.js";
-import { _getHuntCommentsOperations } from "./classic/huntComments/index.js";
-import type { HuntRelationsOperations } from "./classic/huntRelations/index.js";
-import { _getHuntRelationsOperations } from "./classic/huntRelations/index.js";
-import type { HuntsOperations } from "./classic/hunts/index.js";
-import { _getHuntsOperations } from "./classic/hunts/index.js";
-import type { IncidentCommentsOperations } from "./classic/incidentComments/index.js";
-import { _getIncidentCommentsOperations } from "./classic/incidentComments/index.js";
-import type { IncidentRelationsOperations } from "./classic/incidentRelations/index.js";
-import { _getIncidentRelationsOperations } from "./classic/incidentRelations/index.js";
-import type { IncidentTasksOperations } from "./classic/incidentTasks/index.js";
-import { _getIncidentTasksOperations } from "./classic/incidentTasks/index.js";
-import type { IncidentsOperations } from "./classic/incidents/index.js";
-import { _getIncidentsOperations } from "./classic/incidents/index.js";
-import type { MetadataOperations } from "./classic/metadata/index.js";
-import { _getMetadataOperations } from "./classic/metadata/index.js";
-import type { OfficeConsentsOperations } from "./classic/officeConsents/index.js";
-import { _getOfficeConsentsOperations } from "./classic/officeConsents/index.js";
-import type { OperationsOperations } from "./classic/operations/index.js";
-import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { ProductPackageOperations } from "./classic/productPackage/index.js";
-import { _getProductPackageOperations } from "./classic/productPackage/index.js";
-import type { ProductPackagesOperations } from "./classic/productPackages/index.js";
-import { _getProductPackagesOperations } from "./classic/productPackages/index.js";
-import type { ProductSettingsOperations } from "./classic/productSettings/index.js";
-import { _getProductSettingsOperations } from "./classic/productSettings/index.js";
-import type { ProductTemplateOperations } from "./classic/productTemplate/index.js";
-import { _getProductTemplateOperations } from "./classic/productTemplate/index.js";
-import type { ProductTemplatesOperations } from "./classic/productTemplates/index.js";
-import { _getProductTemplatesOperations } from "./classic/productTemplates/index.js";
-import type { ReevaluateOperations } from "./classic/reevaluate/index.js";
-import { _getReevaluateOperations } from "./classic/reevaluate/index.js";
-import type { SecurityMLAnalyticsSettingsOperations } from "./classic/securityMLAnalyticsSettings/index.js";
-import { _getSecurityMLAnalyticsSettingsOperations } from "./classic/securityMLAnalyticsSettings/index.js";
-import type { SentinelOnboardingStatesOperations } from "./classic/sentinelOnboardingStates/index.js";
-import { _getSentinelOnboardingStatesOperations } from "./classic/sentinelOnboardingStates/index.js";
-import type { SourceControlOperationsOperations } from "./classic/sourceControlOperations/index.js";
-import { _getSourceControlOperationsOperations } from "./classic/sourceControlOperations/index.js";
-import type { SourceControlsOperations } from "./classic/sourceControls/index.js";
-import { _getSourceControlsOperations } from "./classic/sourceControls/index.js";
-import type { ThreatIntelligenceOperations } from "./classic/threatIntelligence/index.js";
-import { _getThreatIntelligenceOperations } from "./classic/threatIntelligence/index.js";
-import type { ThreatIntelligenceIndicatorOperations } from "./classic/threatIntelligenceIndicator/index.js";
-import { _getThreatIntelligenceIndicatorOperations } from "./classic/threatIntelligenceIndicator/index.js";
-import type { ThreatIntelligenceIndicatorMetricsOperations } from "./classic/threatIntelligenceIndicatorMetrics/index.js";
-import { _getThreatIntelligenceIndicatorMetricsOperations } from "./classic/threatIntelligenceIndicatorMetrics/index.js";
-import type { ThreatIntelligenceIndicatorsOperations } from "./classic/threatIntelligenceIndicators/index.js";
-import { _getThreatIntelligenceIndicatorsOperations } from "./classic/threatIntelligenceIndicators/index.js";
-import type { TriggeredAnalyticsRuleRunOperations } from "./classic/triggeredAnalyticsRuleRun/index.js";
-import { _getTriggeredAnalyticsRuleRunOperations } from "./classic/triggeredAnalyticsRuleRun/index.js";
-import type { UpdateOperations } from "./classic/update/index.js";
-import { _getUpdateOperations } from "./classic/update/index.js";
-import type { WatchlistItemsOperations } from "./classic/watchlistItems/index.js";
-import { _getWatchlistItemsOperations } from "./classic/watchlistItems/index.js";
-import type { WatchlistsOperations } from "./classic/watchlists/index.js";
-import { _getWatchlistsOperations } from "./classic/watchlists/index.js";
-import type { WorkspaceManagerAssignmentJobsOperations } from "./classic/workspaceManagerAssignmentJobs/index.js";
-import { _getWorkspaceManagerAssignmentJobsOperations } from "./classic/workspaceManagerAssignmentJobs/index.js";
-import type { WorkspaceManagerAssignmentsOperations } from "./classic/workspaceManagerAssignments/index.js";
-import { _getWorkspaceManagerAssignmentsOperations } from "./classic/workspaceManagerAssignments/index.js";
-import type { WorkspaceManagerConfigurationsOperations } from "./classic/workspaceManagerConfigurations/index.js";
-import { _getWorkspaceManagerConfigurationsOperations } from "./classic/workspaceManagerConfigurations/index.js";
-import type { WorkspaceManagerGroupsOperations } from "./classic/workspaceManagerGroups/index.js";
-import { _getWorkspaceManagerGroupsOperations } from "./classic/workspaceManagerGroups/index.js";
-import type { WorkspaceManagerMembersOperations } from "./classic/workspaceManagerMembers/index.js";
-import { _getWorkspaceManagerMembersOperations } from "./classic/workspaceManagerMembers/index.js";
-import type {
+import { ListWhoisByDomainOptionalParams, ListGeodataByIpOptionalParams } from "./api/options.js";
+import { ActionsOperations, _getActionsOperations } from "./classic/actions/index.js";
+import { AlertRuleOperations, _getAlertRuleOperations } from "./classic/alertRule/index.js";
+import {
+  AlertRuleTemplatesOperations,
+  _getAlertRuleTemplatesOperations,
+} from "./classic/alertRuleTemplates/index.js";
+import { AlertRulesOperations, _getAlertRulesOperations } from "./classic/alertRules/index.js";
+import {
+  AutomationRulesOperations,
+  _getAutomationRulesOperations,
+} from "./classic/automationRules/index.js";
+import {
+  BillingStatisticsOperations,
+  _getBillingStatisticsOperations,
+} from "./classic/billingStatistics/index.js";
+import {
+  BookmarkOperationsOperations,
+  _getBookmarkOperationsOperations,
+} from "./classic/bookmarkOperations/index.js";
+import {
+  BookmarkRelationsOperations,
+  _getBookmarkRelationsOperations,
+} from "./classic/bookmarkRelations/index.js";
+import { BookmarksOperations, _getBookmarksOperations } from "./classic/bookmarks/index.js";
+import {
+  ContentPackageOperations,
+  _getContentPackageOperations,
+} from "./classic/contentPackage/index.js";
+import {
+  ContentPackagesOperations,
+  _getContentPackagesOperations,
+} from "./classic/contentPackages/index.js";
+import {
+  ContentTemplateOperations,
+  _getContentTemplateOperations,
+} from "./classic/contentTemplate/index.js";
+import {
+  ContentTemplatesOperations,
+  _getContentTemplatesOperations,
+} from "./classic/contentTemplates/index.js";
+import {
+  DataConnectorDefinitionsOperations,
+  _getDataConnectorDefinitionsOperations,
+} from "./classic/dataConnectorDefinitions/index.js";
+import {
+  DataConnectorsOperations,
+  _getDataConnectorsOperations,
+} from "./classic/dataConnectors/index.js";
+import {
+  DataConnectorsCheckRequirementsOperationsOperations,
+  _getDataConnectorsCheckRequirementsOperationsOperations,
+} from "./classic/dataConnectorsCheckRequirementsOperations/index.js";
+import { EntitiesOperations, _getEntitiesOperations } from "./classic/entities/index.js";
+import {
+  EntitiesGetTimelineOperations,
+  _getEntitiesGetTimelineOperations,
+} from "./classic/entitiesGetTimeline/index.js";
+import {
+  EntitiesRelationsOperations,
+  _getEntitiesRelationsOperations,
+} from "./classic/entitiesRelations/index.js";
+import {
+  EntityQueriesOperations,
+  _getEntityQueriesOperations,
+} from "./classic/entityQueries/index.js";
+import {
+  EntityQueryTemplatesOperations,
+  _getEntityQueryTemplatesOperations,
+} from "./classic/entityQueryTemplates/index.js";
+import {
+  EntityRelationsOperations,
+  _getEntityRelationsOperations,
+} from "./classic/entityRelations/index.js";
+import { FileImportsOperations, _getFileImportsOperations } from "./classic/fileImports/index.js";
+import { GetOperations, _getGetOperations } from "./classic/get/index.js";
+import {
+  GetRecommendationsOperations,
+  _getGetRecommendationsOperations,
+} from "./classic/getRecommendations/index.js";
+import {
+  GetTriggeredAnalyticsRuleRunsOperations,
+  _getGetTriggeredAnalyticsRuleRunsOperations,
+} from "./classic/getTriggeredAnalyticsRuleRuns/index.js";
+import {
+  HuntCommentsOperations,
+  _getHuntCommentsOperations,
+} from "./classic/huntComments/index.js";
+import {
+  HuntRelationsOperations,
+  _getHuntRelationsOperations,
+} from "./classic/huntRelations/index.js";
+import { HuntsOperations, _getHuntsOperations } from "./classic/hunts/index.js";
+import {
+  IncidentCommentsOperations,
+  _getIncidentCommentsOperations,
+} from "./classic/incidentComments/index.js";
+import {
+  IncidentRelationsOperations,
+  _getIncidentRelationsOperations,
+} from "./classic/incidentRelations/index.js";
+import {
+  IncidentTasksOperations,
+  _getIncidentTasksOperations,
+} from "./classic/incidentTasks/index.js";
+import { IncidentsOperations, _getIncidentsOperations } from "./classic/incidents/index.js";
+import { MetadataOperations, _getMetadataOperations } from "./classic/metadata/index.js";
+import {
+  OfficeConsentsOperations,
+  _getOfficeConsentsOperations,
+} from "./classic/officeConsents/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import {
+  ProductPackageOperations,
+  _getProductPackageOperations,
+} from "./classic/productPackage/index.js";
+import {
+  ProductPackagesOperations,
+  _getProductPackagesOperations,
+} from "./classic/productPackages/index.js";
+import {
+  ProductSettingsOperations,
+  _getProductSettingsOperations,
+} from "./classic/productSettings/index.js";
+import {
+  ProductTemplateOperations,
+  _getProductTemplateOperations,
+} from "./classic/productTemplate/index.js";
+import {
+  ProductTemplatesOperations,
+  _getProductTemplatesOperations,
+} from "./classic/productTemplates/index.js";
+import { ReevaluateOperations, _getReevaluateOperations } from "./classic/reevaluate/index.js";
+import {
+  SecurityMLAnalyticsSettingsOperations,
+  _getSecurityMLAnalyticsSettingsOperations,
+} from "./classic/securityMLAnalyticsSettings/index.js";
+import {
+  SentinelOnboardingStatesOperations,
+  _getSentinelOnboardingStatesOperations,
+} from "./classic/sentinelOnboardingStates/index.js";
+import {
+  SourceControlOperationsOperations,
+  _getSourceControlOperationsOperations,
+} from "./classic/sourceControlOperations/index.js";
+import {
+  SourceControlsOperations,
+  _getSourceControlsOperations,
+} from "./classic/sourceControls/index.js";
+import {
+  ThreatIntelligenceOperations,
+  _getThreatIntelligenceOperations,
+} from "./classic/threatIntelligence/index.js";
+import {
+  ThreatIntelligenceIndicatorOperations,
+  _getThreatIntelligenceIndicatorOperations,
+} from "./classic/threatIntelligenceIndicator/index.js";
+import {
+  ThreatIntelligenceIndicatorMetricsOperations,
+  _getThreatIntelligenceIndicatorMetricsOperations,
+} from "./classic/threatIntelligenceIndicatorMetrics/index.js";
+import {
+  ThreatIntelligenceIndicatorsOperations,
+  _getThreatIntelligenceIndicatorsOperations,
+} from "./classic/threatIntelligenceIndicators/index.js";
+import {
+  TriggeredAnalyticsRuleRunOperations,
+  _getTriggeredAnalyticsRuleRunOperations,
+} from "./classic/triggeredAnalyticsRuleRun/index.js";
+import { UpdateOperations, _getUpdateOperations } from "./classic/update/index.js";
+import {
+  WatchlistItemsOperations,
+  _getWatchlistItemsOperations,
+} from "./classic/watchlistItems/index.js";
+import { WatchlistsOperations, _getWatchlistsOperations } from "./classic/watchlists/index.js";
+import {
+  WorkspaceManagerAssignmentJobsOperations,
+  _getWorkspaceManagerAssignmentJobsOperations,
+} from "./classic/workspaceManagerAssignmentJobs/index.js";
+import {
+  WorkspaceManagerAssignmentsOperations,
+  _getWorkspaceManagerAssignmentsOperations,
+} from "./classic/workspaceManagerAssignments/index.js";
+import {
+  WorkspaceManagerConfigurationsOperations,
+  _getWorkspaceManagerConfigurationsOperations,
+} from "./classic/workspaceManagerConfigurations/index.js";
+import {
+  WorkspaceManagerGroupsOperations,
+  _getWorkspaceManagerGroupsOperations,
+} from "./classic/workspaceManagerGroups/index.js";
+import {
+  WorkspaceManagerMembersOperations,
+  _getWorkspaceManagerMembersOperations,
+} from "./classic/workspaceManagerMembers/index.js";
+import {
   EnrichmentIpAddressBody,
   EnrichmentIpGeodata,
   EnrichmentDomainBody,
   EnrichmentDomainWhois,
   EnrichmentType,
 } from "./models/models.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { SecurityInsightsOptionalParams } from "./api/securityInsightsContext.js";
 

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DeploymentStacksContext } from "../../api/deploymentStacksContext.js";
+import { DeploymentStacksContext } from "../../api/deploymentStacksContext.js";
 import {
   exportTemplateAtManagementGroup,
   deleteAtManagementGroup,
@@ -22,7 +22,7 @@ import {
   listAtResourceGroup,
   getAtResourceGroup,
 } from "../../api/deploymentStacks/operations.js";
-import type {
+import {
   DeploymentStacksExportTemplateAtManagementGroupOptionalParams,
   DeploymentStacksDeleteAtManagementGroupOptionalParams,
   DeploymentStacksCreateOrUpdateAtManagementGroupOptionalParams,
@@ -42,15 +42,14 @@ import type {
   DeploymentStacksListAtResourceGroupOptionalParams,
   DeploymentStacksGetAtResourceGroupOptionalParams,
 } from "../../api/deploymentStacks/options.js";
-import type {
+import {
   DeploymentStack,
   DeploymentStackValidateResult,
   DeploymentStackTemplateDefinition,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a DeploymentStacks operations. */
 export interface DeploymentStacksOperations {

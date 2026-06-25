@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { listByJobExecution, get } from "../../api/jobStepExecutions/operations.js";
-import type {
+import {
   JobStepExecutionsListByJobExecutionOptionalParams,
   JobStepExecutionsGetOptionalParams,
 } from "../../api/jobStepExecutions/options.js";
-import type { JobExecution } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { JobExecution } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a JobStepExecutions operations. */
 export interface JobStepExecutionsOperations {

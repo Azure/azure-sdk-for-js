@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { listByInstance, get } from "../../api/restorableDroppedManagedDatabases/operations.js";
-import type {
+import {
   RestorableDroppedManagedDatabasesListByInstanceOptionalParams,
   RestorableDroppedManagedDatabasesGetOptionalParams,
 } from "../../api/restorableDroppedManagedDatabases/options.js";
-import type { RestorableDroppedManagedDatabase } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { RestorableDroppedManagedDatabase } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a RestorableDroppedManagedDatabases operations. */
 export interface RestorableDroppedManagedDatabasesOperations {

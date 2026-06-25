@@ -1,30 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlManagementContext as Client } from "../index.js";
-import type {
-  ManagedDatabase,
-  ManagedDatabaseUpdate,
-  _ManagedDatabaseListResult,
-  ManagedDatabaseMoveDefinition,
-  CompleteDatabaseRestoreDefinition,
-  ManagedDatabaseStartMoveDefinition,
-} from "../../models/models.js";
+import { SqlManagementContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  ManagedDatabase,
   managedDatabaseSerializer,
   managedDatabaseDeserializer,
+  ManagedDatabaseUpdate,
   managedDatabaseUpdateSerializer,
+  _ManagedDatabaseListResult,
   _managedDatabaseListResultDeserializer,
+  ManagedDatabaseMoveDefinition,
   managedDatabaseMoveDefinitionSerializer,
+  CompleteDatabaseRestoreDefinition,
   completeDatabaseRestoreDefinitionSerializer,
+  ManagedDatabaseStartMoveDefinition,
   managedDatabaseStartMoveDefinitionSerializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   ManagedDatabasesListInaccessibleByInstanceOptionalParams,
   ManagedDatabasesStartMoveOptionalParams,
   ManagedDatabasesReevaluateInaccessibleDatabaseStateOptionalParams,
@@ -37,9 +37,13 @@ import type {
   ManagedDatabasesCreateOrUpdateOptionalParams,
   ManagedDatabasesGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listInaccessibleByInstanceSend(
   context: Client,
@@ -59,10 +63,12 @@ export function _listInaccessibleByInstanceSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listInaccessibleByInstanceDeserialize(
@@ -118,11 +124,13 @@ export function _startMoveSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: managedDatabaseStartMoveDefinitionSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: managedDatabaseStartMoveDefinitionSerializer(parameters),
+    });
 }
 
 export async function _startMoveDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -187,10 +195,12 @@ export function _reevaluateInaccessibleDatabaseStateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _reevaluateInaccessibleDatabaseStateDeserialize(
@@ -261,11 +271,13 @@ export function _completeRestoreSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: completeDatabaseRestoreDefinitionSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: completeDatabaseRestoreDefinitionSerializer(parameters),
+    });
 }
 
 export async function _completeRestoreDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -329,11 +341,13 @@ export function _completeMoveSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: managedDatabaseMoveDefinitionSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: managedDatabaseMoveDefinitionSerializer(parameters),
+    });
 }
 
 export async function _completeMoveDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -397,11 +411,13 @@ export function _cancelMoveSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: managedDatabaseMoveDefinitionSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: managedDatabaseMoveDefinitionSerializer(parameters),
+    });
 }
 
 export async function _cancelMoveDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -462,10 +478,12 @@ export function _listByInstanceSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listByInstanceDeserialize(
@@ -576,12 +594,14 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: managedDatabaseUpdateSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: managedDatabaseUpdateSerializer(parameters),
+    });
 }
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<ManagedDatabase> {
@@ -645,12 +665,14 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: managedDatabaseSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: managedDatabaseSerializer(parameters),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -715,10 +737,12 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<ManagedDatabase> {

@@ -387,8 +387,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -1307,5 +1307,5 @@ export enum KnownVersions {
   /** API Version 2025-03-01. */
   _20250301 = "2025-03-01",
   /** API Version 2025-10-01. */
-  _20251001 = "2025-10-01",
+  V20251001 = "2025-10-01",
 }

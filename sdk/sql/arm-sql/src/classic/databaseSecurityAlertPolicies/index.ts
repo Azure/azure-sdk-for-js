@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listByDatabase,
   createOrUpdate,
   get,
 } from "../../api/databaseSecurityAlertPolicies/operations.js";
-import type {
+import {
   DatabaseSecurityAlertPoliciesListByDatabaseOptionalParams,
   DatabaseSecurityAlertPoliciesCreateOrUpdateOptionalParams,
   DatabaseSecurityAlertPoliciesGetOptionalParams,
 } from "../../api/databaseSecurityAlertPolicies/options.js";
-import type { DatabaseSecurityAlertPolicy, SecurityAlertPolicyName } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { DatabaseSecurityAlertPolicy, SecurityAlertPolicyName } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a DatabaseSecurityAlertPolicies operations. */
 export interface DatabaseSecurityAlertPoliciesOperations {

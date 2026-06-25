@@ -1,4 +1,42 @@
 {
-  "apiVersion": "2025-06-01",
-  "emitterVersion": "0.43.0"
+  "apiVersions": {
+    "Microsoft.Edge": "2025-06-01"
+  },
+  "emitterVersion": "0.55.0-dev.9",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "Microsoft.Edge",
+    "CrossLanguageDefinitionId": {
+      "@azure/arm-sitemanager!SiteListResult:interface": "Azure.ResourceManager.ResourceListResult",
+      "@azure/arm-sitemanager!Site:interface": "Microsoft.Edge.Site",
+      "@azure/arm-sitemanager!SiteProperties:interface": "Microsoft.Edge.SiteProperties",
+      "@azure/arm-sitemanager!SiteAddressProperties:interface": "Microsoft.Edge.SiteAddressProperties",
+      "@azure/arm-sitemanager!ExtensionResource:interface": "Azure.ResourceManager.CommonTypes.ExtensionResource",
+      "@azure/arm-sitemanager!Resource:interface": "Azure.ResourceManager.CommonTypes.Resource",
+      "@azure/arm-sitemanager!SystemData:interface": "Azure.ResourceManager.CommonTypes.SystemData",
+      "@azure/arm-sitemanager!ErrorResponse:interface": "Azure.ResourceManager.CommonTypes.ErrorResponse",
+      "@azure/arm-sitemanager!ErrorDetail:interface": "Azure.ResourceManager.CommonTypes.ErrorDetail",
+      "@azure/arm-sitemanager!ErrorAdditionalInfo:interface": "Azure.ResourceManager.CommonTypes.ErrorAdditionalInfo",
+      "@azure/arm-sitemanager!ArmOperationStatusResourceProvisioningState:interface": "Azure.ResourceManager.ArmOperationStatus",
+      "@azure/arm-sitemanager!SiteUpdate:interface": "Microsoft.Edge.SiteUpdate",
+      "@azure/arm-sitemanager!SiteUpdateProperties:interface": "Microsoft.Edge.SiteUpdateProperties",
+      "@azure/arm-sitemanager!KnownResourceProvisioningState:enum": "Azure.ResourceManager.ResourceProvisioningState",
+      "@azure/arm-sitemanager!KnowncreatedByType:enum": "Azure.ResourceManager.CommonTypes.createdByType",
+      "@azure/arm-sitemanager!KnownVersions:enum": "Microsoft.Edge.Versions",
+      "@azure/arm-sitemanager!SitesByServiceGroupOperations#delete:member": "Microsoft.Edge.SitesByServiceGroup.delete",
+      "@azure/arm-sitemanager!SitesByServiceGroupOperations#update:member": "Microsoft.Edge.SitesByServiceGroup.update",
+      "@azure/arm-sitemanager!SitesByServiceGroupOperations#createOrUpdate:member": "Microsoft.Edge.SitesByServiceGroup.createOrUpdate",
+      "@azure/arm-sitemanager!SitesByServiceGroupOperations#get:member": "Microsoft.Edge.SitesByServiceGroup.get",
+      "@azure/arm-sitemanager!SitesByServiceGroupOperations#ListByServiceGroup:member": "Microsoft.Edge.SitesByServiceGroup.list",
+      "@azure/arm-sitemanager!SitesBySubscriptionOperations#delete:member": "Microsoft.Edge.SitesBySubscription.delete",
+      "@azure/arm-sitemanager!SitesBySubscriptionOperations#update:member": "Microsoft.Edge.SitesBySubscription.update",
+      "@azure/arm-sitemanager!SitesBySubscriptionOperations#createOrUpdate:member": "Microsoft.Edge.SitesBySubscription.createOrUpdate",
+      "@azure/arm-sitemanager!SitesBySubscriptionOperations#get:member": "Microsoft.Edge.SitesBySubscription.get",
+      "@azure/arm-sitemanager!SitesBySubscriptionOperations#list:member": "Microsoft.Edge.SitesBySubscription.list",
+      "@azure/arm-sitemanager!SitesOperations#delete:member": "Microsoft.Edge.Sites.delete",
+      "@azure/arm-sitemanager!SitesOperations#update:member": "Microsoft.Edge.Sites.update",
+      "@azure/arm-sitemanager!SitesOperations#createOrUpdate:member": "Microsoft.Edge.Sites.createOrUpdate",
+      "@azure/arm-sitemanager!SitesOperations#get:member": "Microsoft.Edge.Sites.get",
+      "@azure/arm-sitemanager!SitesOperations#ListByResourceGroup:member": "Microsoft.Edge.Sites.list"
+    }
+  }
 }

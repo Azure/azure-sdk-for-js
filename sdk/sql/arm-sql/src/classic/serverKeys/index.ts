@@ -1,19 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { listByServer, $delete, createOrUpdate, get } from "../../api/serverKeys/operations.js";
-import type {
+import {
   ServerKeysListByServerOptionalParams,
   ServerKeysDeleteOptionalParams,
   ServerKeysCreateOrUpdateOptionalParams,
   ServerKeysGetOptionalParams,
 } from "../../api/serverKeys/options.js";
-import type { ServerKey } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { ServerKey } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ServerKeys operations. */
 export interface ServerKeysOperations {

@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
+import { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
 import {
   list,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/securityMLAnalyticsSettings/operations.js";
-import type {
+import {
   SecurityMLAnalyticsSettingsListOptionalParams,
   SecurityMLAnalyticsSettingsDeleteOptionalParams,
   SecurityMLAnalyticsSettingsCreateOrUpdateOptionalParams,
   SecurityMLAnalyticsSettingsGetOptionalParams,
 } from "../../api/securityMLAnalyticsSettings/options.js";
-import type { SecurityMLAnalyticsSettingUnion } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SecurityMLAnalyticsSettingUnion } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a SecurityMLAnalyticsSettings operations. */
 export interface SecurityMLAnalyticsSettingsOperations {

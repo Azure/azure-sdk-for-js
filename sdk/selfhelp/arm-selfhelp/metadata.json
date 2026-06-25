@@ -2,7 +2,7 @@
   "apiVersions": {
     "Microsoft.Help": "2024-03-01-preview"
   },
-  "emitterVersion": "0.53.3",
+  "emitterVersion": "0.55.0-dev.9",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.Help",
     "CrossLanguageDefinitionId": {

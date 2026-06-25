@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
+import { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
 import { getRelation } from "../../api/entityRelations/operations.js";
-import type { EntityRelationsGetRelationOptionalParams } from "../../api/entityRelations/options.js";
-import type { Relation } from "../../models/models.js";
+import { EntityRelationsGetRelationOptionalParams } from "../../api/entityRelations/options.js";
+import { Relation } from "../../models/models.js";
 
 /** Interface representing a EntityRelations operations. */
 export interface EntityRelationsOperations {

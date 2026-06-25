@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
-import { AzureClouds } from "./static-helpers/cloudSettingHelpers.js";
-import type {
+import { AzureClouds, AzureSupportedClouds } from "./static-helpers/cloudSettingHelpers.js";
+import {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,
@@ -85,6 +84,7 @@ export type {
   GeoDataReplicationProperties,
   NamespaceReplicaLocation,
   GeoDRRoleType,
+  IpAddressType,
   SBSku,
   SkuName,
   SkuTier,
@@ -124,6 +124,7 @@ export {
   KnownPublicNetworkAccess,
   KnownMode,
   KnownGeoDRRoleType,
+  KnownIpAddressType,
   KnownDefaultAction,
   KnownNetworkRuleIPAction,
   KnownPublicNetworkAccessFlag,

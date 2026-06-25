@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ServiceBusManagementContext } from "../../api/serviceBusManagementContext.js";
+import { ServiceBusManagementContext } from "../../api/serviceBusManagementContext.js";
 import {
   revert,
   completeMigration,
@@ -10,7 +10,7 @@ import {
   createAndStartMigration,
   get,
 } from "../../api/migrationConfigs/operations.js";
-import type {
+import {
   MigrationConfigsRevertOptionalParams,
   MigrationConfigsCompleteMigrationOptionalParams,
   MigrationConfigsListOptionalParams,
@@ -18,11 +18,10 @@ import type {
   MigrationConfigsCreateAndStartMigrationOptionalParams,
   MigrationConfigsGetOptionalParams,
 } from "../../api/migrationConfigs/options.js";
-import type { MigrationConfigProperties, MigrationConfigurationName } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { MigrationConfigProperties, MigrationConfigurationName } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a MigrationConfigs operations. */
 export interface MigrationConfigsOperations {

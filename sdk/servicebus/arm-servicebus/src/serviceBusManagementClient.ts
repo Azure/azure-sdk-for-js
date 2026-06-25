@@ -1,37 +1,46 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   ServiceBusManagementContext,
   ServiceBusManagementClientOptionalParams,
+  createServiceBusManagement,
 } from "./api/index.js";
-import { createServiceBusManagement } from "./api/index.js";
-import type { DisasterRecoveryConfigsOperations } from "./classic/disasterRecoveryConfigs/index.js";
-import { _getDisasterRecoveryConfigsOperations } from "./classic/disasterRecoveryConfigs/index.js";
-import type { MigrationConfigsOperations } from "./classic/migrationConfigs/index.js";
-import { _getMigrationConfigsOperations } from "./classic/migrationConfigs/index.js";
-import type { NamespacesOperations } from "./classic/namespaces/index.js";
-import { _getNamespacesOperations } from "./classic/namespaces/index.js";
-import type { NetworkSecurityPerimeterConfigurationOperations } from "./classic/networkSecurityPerimeterConfiguration/index.js";
-import { _getNetworkSecurityPerimeterConfigurationOperations } from "./classic/networkSecurityPerimeterConfiguration/index.js";
-import type { NetworkSecurityPerimeterConfigurationsOperations } from "./classic/networkSecurityPerimeterConfigurations/index.js";
-import { _getNetworkSecurityPerimeterConfigurationsOperations } from "./classic/networkSecurityPerimeterConfigurations/index.js";
-import type { OperationsOperations } from "./classic/operations/index.js";
-import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { PrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
-import { _getPrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
-import type { PrivateLinkResourcesOperations } from "./classic/privateLinkResources/index.js";
-import { _getPrivateLinkResourcesOperations } from "./classic/privateLinkResources/index.js";
-import type { QueuesOperations } from "./classic/queues/index.js";
-import { _getQueuesOperations } from "./classic/queues/index.js";
-import type { RulesOperations } from "./classic/rules/index.js";
-import { _getRulesOperations } from "./classic/rules/index.js";
-import type { SubscriptionsOperations } from "./classic/subscriptions/index.js";
-import { _getSubscriptionsOperations } from "./classic/subscriptions/index.js";
-import type { TopicsOperations } from "./classic/topics/index.js";
-import { _getTopicsOperations } from "./classic/topics/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import {
+  DisasterRecoveryConfigsOperations,
+  _getDisasterRecoveryConfigsOperations,
+} from "./classic/disasterRecoveryConfigs/index.js";
+import {
+  MigrationConfigsOperations,
+  _getMigrationConfigsOperations,
+} from "./classic/migrationConfigs/index.js";
+import { NamespacesOperations, _getNamespacesOperations } from "./classic/namespaces/index.js";
+import {
+  NetworkSecurityPerimeterConfigurationOperations,
+  _getNetworkSecurityPerimeterConfigurationOperations,
+} from "./classic/networkSecurityPerimeterConfiguration/index.js";
+import {
+  NetworkSecurityPerimeterConfigurationsOperations,
+  _getNetworkSecurityPerimeterConfigurationsOperations,
+} from "./classic/networkSecurityPerimeterConfigurations/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import {
+  PrivateEndpointConnectionsOperations,
+  _getPrivateEndpointConnectionsOperations,
+} from "./classic/privateEndpointConnections/index.js";
+import {
+  PrivateLinkResourcesOperations,
+  _getPrivateLinkResourcesOperations,
+} from "./classic/privateLinkResources/index.js";
+import { QueuesOperations, _getQueuesOperations } from "./classic/queues/index.js";
+import { RulesOperations, _getRulesOperations } from "./classic/rules/index.js";
+import {
+  SubscriptionsOperations,
+  _getSubscriptionsOperations,
+} from "./classic/subscriptions/index.js";
+import { TopicsOperations, _getTopicsOperations } from "./classic/topics/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { ServiceBusManagementClientOptionalParams } from "./api/serviceBusManagementContext.js";
 

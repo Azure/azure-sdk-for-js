@@ -1,21 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export {
-  type Site,
-  type SiteProperties,
-  type SiteAddressProperties,
-  KnownResourceProvisioningState,
-  type ResourceProvisioningState,
-  type ProxyResource,
-  type Resource,
-  type SystemData,
-  KnownCreatedByType,
-  type CreatedByType,
-  type ErrorResponse,
-  type ErrorDetail,
-  type ErrorAdditionalInfo,
-  type SiteUpdate,
-  type SiteUpdateProperties,
-  KnownVersions,
+export type {
+  Site,
+  SiteProperties,
+  SiteAddressProperties,
+  ResourceProvisioningState,
+  ExtensionResource,
+  Resource,
+  SystemData,
+  CreatedByType,
+  ErrorResponse,
+  ErrorDetail,
+  ErrorAdditionalInfo,
+  SiteUpdate,
+  SiteUpdateProperties,
 } from "./models.js";
+export { KnownResourceProvisioningState, KnownCreatedByType, KnownVersions } from "./models.js";

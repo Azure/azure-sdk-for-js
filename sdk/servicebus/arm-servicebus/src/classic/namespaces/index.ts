@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ServiceBusManagementContext } from "../../api/serviceBusManagementContext.js";
+import { ServiceBusManagementContext } from "../../api/serviceBusManagementContext.js";
 import {
   checkNameAvailability,
   regenerateKeys,
@@ -21,7 +21,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/namespaces/operations.js";
-import type {
+import {
   NamespacesCheckNameAvailabilityOptionalParams,
   NamespacesRegenerateKeysOptionalParams,
   NamespacesListKeysOptionalParams,
@@ -40,7 +40,7 @@ import type {
   NamespacesCreateOrUpdateOptionalParams,
   NamespacesGetOptionalParams,
 } from "../../api/namespaces/options.js";
-import type {
+import {
   SBAuthorizationRule,
   AccessKeys,
   CheckNameAvailability,
@@ -51,10 +51,9 @@ import type {
   FailOver,
   NetworkRuleSet,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Namespaces operations. */
 export interface NamespacesOperations {

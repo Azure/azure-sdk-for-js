@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ServiceBusManagementContext } from "../../api/serviceBusManagementContext.js";
+import { ServiceBusManagementContext } from "../../api/serviceBusManagementContext.js";
 import { listBySubscriptions, $delete, createOrUpdate, get } from "../../api/rules/operations.js";
-import type {
+import {
   RulesListBySubscriptionsOptionalParams,
   RulesDeleteOptionalParams,
   RulesCreateOrUpdateOptionalParams,
   RulesGetOptionalParams,
 } from "../../api/rules/options.js";
-import type { Rule } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { Rule } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Rules operations. */
 export interface RulesOperations {

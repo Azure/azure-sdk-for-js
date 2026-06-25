@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listByResourceGroupServer,
   listByResourceGroupLocation,
@@ -28,7 +28,7 @@ import {
   $delete,
   get,
 } from "../../api/longTermRetentionBackups/operations.js";
-import type {
+import {
   LongTermRetentionBackupsListByResourceGroupServerOptionalParams,
   LongTermRetentionBackupsListByResourceGroupLocationOptionalParams,
   LongTermRetentionBackupsListByServerOptionalParams,
@@ -54,17 +54,16 @@ import type {
   LongTermRetentionBackupsDeleteOptionalParams,
   LongTermRetentionBackupsGetOptionalParams,
 } from "../../api/longTermRetentionBackups/options.js";
-import type {
+import {
   LongTermRetentionBackup,
   ChangeLongTermRetentionBackupAccessTierParameters,
   CopyLongTermRetentionBackupParameters,
   LongTermRetentionBackupOperationResult,
   UpdateLongTermRetentionBackupParameters,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a LongTermRetentionBackups operations. */
 export interface LongTermRetentionBackupsOperations {

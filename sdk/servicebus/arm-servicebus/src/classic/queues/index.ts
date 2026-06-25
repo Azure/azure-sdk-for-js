@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ServiceBusManagementContext } from "../../api/serviceBusManagementContext.js";
+import { ServiceBusManagementContext } from "../../api/serviceBusManagementContext.js";
 import {
   listByNamespace,
   $delete,
@@ -14,7 +14,7 @@ import {
   createOrUpdateAuthorizationRule,
   getAuthorizationRule,
 } from "../../api/queues/operations.js";
-import type {
+import {
   QueuesListByNamespaceOptionalParams,
   QueuesDeleteOptionalParams,
   QueuesCreateOrUpdateOptionalParams,
@@ -26,13 +26,13 @@ import type {
   QueuesCreateOrUpdateAuthorizationRuleOptionalParams,
   QueuesGetAuthorizationRuleOptionalParams,
 } from "../../api/queues/options.js";
-import type {
+import {
   SBAuthorizationRule,
   AccessKeys,
   RegenerateAccessKeyParameters,
   SBQueue,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Queues operations. */
 export interface QueuesOperations {

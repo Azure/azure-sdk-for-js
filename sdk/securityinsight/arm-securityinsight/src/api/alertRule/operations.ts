@@ -1,19 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SecurityInsightsContext as Client } from "../index.js";
-import type { AlertRuleUnion, AnalyticsRuleRunTrigger } from "../../models/models.js";
+import { SecurityInsightsContext as Client } from "../index.js";
 import {
   alertRuleUnionDeserializer,
+  AlertRuleUnion,
   errorResponseDeserializer,
+  AnalyticsRuleRunTrigger,
   analyticsRuleRunTriggerSerializer,
 } from "../../models/models.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type { AlertRuleTriggerRuleRunOptionalParams } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { AlertRuleTriggerRuleRunOptionalParams } from "./options.js";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _triggerRuleRunSend(
   context: Client,
@@ -36,11 +41,13 @@ export function _triggerRuleRunSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: analyticsRuleRunTriggerSerializer(analyticsRuleRunTriggerParameter),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: analyticsRuleRunTriggerSerializer(analyticsRuleRunTriggerParameter),
+    });
 }
 
 export async function _triggerRuleRunDeserialize(

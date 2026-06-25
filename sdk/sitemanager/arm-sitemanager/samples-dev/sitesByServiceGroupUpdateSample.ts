@@ -5,15 +5,14 @@ import { EdgeClient } from "@azure/arm-sitemanager";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to update Site at SG scope
+ * This sample demonstrates how to update a Site
  *
- * @summary update Site at SG scope
+ * @summary update a Site
  * x-ms-original-file: 2025-06-01/SitesByServiceGroup_Update_MaximumSet_Gen.json
  */
 async function sitesByServiceGroupUpdateGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const client = new EdgeClient(credential, subscriptionId);
+  const client = new EdgeClient(credential);
   const result = await client.sitesByServiceGroup.update("string", "string", {
     properties: {
       displayName: "string",

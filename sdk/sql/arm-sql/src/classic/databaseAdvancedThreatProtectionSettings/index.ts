@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listByDatabase,
   createOrUpdate,
   get,
 } from "../../api/databaseAdvancedThreatProtectionSettings/operations.js";
-import type {
+import {
   DatabaseAdvancedThreatProtectionSettingsListByDatabaseOptionalParams,
   DatabaseAdvancedThreatProtectionSettingsCreateOrUpdateOptionalParams,
   DatabaseAdvancedThreatProtectionSettingsGetOptionalParams,
 } from "../../api/databaseAdvancedThreatProtectionSettings/options.js";
-import type {
+import {
   DatabaseAdvancedThreatProtection,
   AdvancedThreatProtectionName,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a DatabaseAdvancedThreatProtectionSettings operations. */
 export interface DatabaseAdvancedThreatProtectionSettingsOperations {

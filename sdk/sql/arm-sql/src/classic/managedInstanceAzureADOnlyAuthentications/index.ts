@@ -1,27 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listByInstance,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/managedInstanceAzureADOnlyAuthentications/operations.js";
-import type {
+import {
   ManagedInstanceAzureADOnlyAuthenticationsListByInstanceOptionalParams,
   ManagedInstanceAzureADOnlyAuthenticationsDeleteOptionalParams,
   ManagedInstanceAzureADOnlyAuthenticationsCreateOrUpdateOptionalParams,
   ManagedInstanceAzureADOnlyAuthenticationsGetOptionalParams,
 } from "../../api/managedInstanceAzureADOnlyAuthentications/options.js";
-import type {
+import {
   ManagedInstanceAzureADOnlyAuthentication,
   AuthenticationName,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ManagedInstanceAzureADOnlyAuthentications operations. */
 export interface ManagedInstanceAzureADOnlyAuthenticationsOperations {

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { StandbyPoolManagementContext } from "../../api/standbyPoolManagementContext.js";
+import { StandbyPoolManagementContext } from "../../api/standbyPoolManagementContext.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/standbyVirtualMachinePools/operations.js";
-import type {
+import {
   StandbyVirtualMachinePoolsListBySubscriptionOptionalParams,
   StandbyVirtualMachinePoolsListByResourceGroupOptionalParams,
   StandbyVirtualMachinePoolsUpdateOptionalParams,
@@ -18,12 +18,12 @@ import type {
   StandbyVirtualMachinePoolsCreateOrUpdateOptionalParams,
   StandbyVirtualMachinePoolsGetOptionalParams,
 } from "../../api/standbyVirtualMachinePools/options.js";
-import type {
+import {
   StandbyVirtualMachinePoolResource,
   StandbyVirtualMachinePoolResourceUpdate,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a StandbyVirtualMachinePools operations. */
 export interface StandbyVirtualMachinePoolsOperations {
@@ -44,11 +44,6 @@ export interface StandbyVirtualMachinePoolsOperations {
     options?: StandbyVirtualMachinePoolsUpdateOptionalParams,
   ) => Promise<StandbyVirtualMachinePoolResource>;
   /** Delete a StandbyVirtualMachinePoolResource */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     standbyVirtualMachinePoolName: string,

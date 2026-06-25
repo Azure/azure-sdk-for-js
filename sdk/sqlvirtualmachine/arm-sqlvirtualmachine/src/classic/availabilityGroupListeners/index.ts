@@ -1,24 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlVirtualMachineManagementContext } from "../../api/sqlVirtualMachineManagementContext.js";
+import { SqlVirtualMachineManagementContext } from "../../api/sqlVirtualMachineManagementContext.js";
 import {
   listByGroup,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/availabilityGroupListeners/operations.js";
-import type {
+import {
   AvailabilityGroupListenersListByGroupOptionalParams,
   AvailabilityGroupListenersDeleteOptionalParams,
   AvailabilityGroupListenersCreateOrUpdateOptionalParams,
   AvailabilityGroupListenersGetOptionalParams,
 } from "../../api/availabilityGroupListeners/options.js";
-import type { AvailabilityGroupListener } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { AvailabilityGroupListener } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a AvailabilityGroupListeners operations. */
 export interface AvailabilityGroupListenersOperations {

@@ -1,13 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
+import { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
 import { triggerRuleRun } from "../../api/alertRule/operations.js";
-import type { AlertRuleTriggerRuleRunOptionalParams } from "../../api/alertRule/options.js";
-import type { AlertRuleUnion, AnalyticsRuleRunTrigger } from "../../models/models.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { AlertRuleTriggerRuleRunOptionalParams } from "../../api/alertRule/options.js";
+import { AlertRuleUnion, AnalyticsRuleRunTrigger } from "../../models/models.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a AlertRule operations. */
 export interface AlertRuleOperations {

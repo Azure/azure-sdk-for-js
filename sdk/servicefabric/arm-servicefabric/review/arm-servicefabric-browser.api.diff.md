@@ -7,7 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -344,9 +344,9 @@
+@@ -346,9 +346,9 @@
      fabricSettings?: SettingsSectionDescription[];
      infrastructureServiceManager?: boolean;
      managementEndpoint?: string;
@@ -18,7 +18,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      reliabilityLevel?: ReliabilityLevel;
      reverseProxyCertificate?: CertificateDescription;
      reverseProxyCertificateCommonNames?: ServerCertificateCommonNames;
-@@ -407,9 +407,9 @@
+@@ -409,9 +409,9 @@
      fabricSettings?: SettingsSectionDescription[];
      infrastructureServiceManager?: boolean;
      managementEndpoint: string;
@@ -29,7 +29,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      reliabilityLevel?: ReliabilityLevel;
      reverseProxyCertificate?: CertificateDescription;
      reverseProxyCertificateCommonNames?: ServerCertificateCommonNames;
-@@ -437,9 +437,9 @@
+@@ -439,9 +439,9 @@
      eventStoreServiceEnabled?: boolean;
      fabricSettings?: SettingsSectionDescription[];
      infrastructureServiceManager?: boolean;
@@ -40,7 +40,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      reverseProxyCertificate?: CertificateDescription;
      sfZonalUpgradeMode?: SfZonalUpgradeMode;
      upgradeDescription?: ClusterUpgradePolicy;
-@@ -517,9 +517,9 @@
+@@ -519,9 +519,9 @@
      eventStoreServiceEnabled?: boolean;
      fabricSettings?: SettingsSectionDescription[];
      infrastructureServiceManager?: boolean;
@@ -51,7 +51,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      reverseProxyCertificate?: CertificateDescription;
      sfZonalUpgradeMode?: SfZonalUpgradeMode;
      tags?: Record<string, string>;
-@@ -862,14 +862,15 @@
+@@ -866,14 +866,15 @@
      vmInstanceCount: number;
  }
  

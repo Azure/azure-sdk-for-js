@@ -8,6 +8,7 @@ import {
 } from "./static-helpers/pagingHelpers.js";
 
 export { SearchClient } from "./search/searchClient.js";
+export type { GetDocumentCountResponse } from "./models/index.js";
 export { KnownVersions } from "./models/index.js";
 export type {
   ErrorResponse,
@@ -622,6 +623,7 @@ export type {
   SearchClientOptionalParams,
 } from "./search/api/index.js";
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";
 export { SearchIndexClient } from "./searchIndex/searchIndexClient.js";
 export type {
   ListIndexStatsSummaryOptionalParams,

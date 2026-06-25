@@ -19,6 +19,7 @@ import {
   AutocompleteResult,
   autocompleteResultDeserializer,
 } from "../../models/azure/search/documents/models.js";
+import { GetDocumentCountResponse } from "../../models/models.js";
 import { buildCsvCollection } from "../../static-helpers/serialization/build-csv-collection.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
@@ -94,7 +95,9 @@ export async function _autocompletePostDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -143,18 +146,20 @@ export function _autocompleteGetSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      ...(options?.accept !== undefined
-        ? { accept: !options?.accept ? options?.accept : "application/json;odata.metadata=none" }
-        : {}),
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.accept !== undefined
+          ? { accept: !options?.accept ? options?.accept : "application/json;odata.metadata=none" }
+          : {}),
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _autocompleteGetDeserialize(
@@ -163,7 +168,9 @@ export async function _autocompleteGetDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -197,20 +204,22 @@ export function _indexSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      ...(options?.accept !== undefined
-        ? { accept: !options?.accept ? options?.accept : "application/json;odata.metadata=none" }
-        : {}),
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
-      ...options.requestOptions?.headers,
-    },
-    body: indexDocumentsBatchSerializer(batch),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        ...(options?.accept !== undefined
+          ? { accept: !options?.accept ? options?.accept : "application/json;odata.metadata=none" }
+          : {}),
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
+        ...options.requestOptions?.headers,
+      },
+      body: indexDocumentsBatchSerializer(batch),
+    });
 }
 
 export async function _indexDeserialize(
@@ -219,7 +228,9 @@ export async function _indexDeserialize(
   const expectedStatuses = ["200", "207"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -253,32 +264,34 @@ export function _suggestPostSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      ...(options?.accept !== undefined
-        ? { accept: !options?.accept ? options?.accept : "application/json;odata.metadata=none" }
-        : {}),
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
-      ...options.requestOptions?.headers,
-    },
-    body: {
-      filter: options?.filter,
-      fuzzy: options?.useFuzzyMatching,
-      highlightPostTag: options?.highlightPostTag,
-      highlightPreTag: options?.highlightPreTag,
-      minimumCoverage: options?.minimumCoverage,
-      orderby: options?.orderBy,
-      search: searchText,
-      searchFields: options?.searchFields,
-      select: options?.select,
-      suggesterName: suggesterName,
-      top: options?.top,
-    },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        ...(options?.accept !== undefined
+          ? { accept: !options?.accept ? options?.accept : "application/json;odata.metadata=none" }
+          : {}),
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
+        ...options.requestOptions?.headers,
+      },
+      body: {
+        filter: options?.filter,
+        fuzzy: options?.useFuzzyMatching,
+        highlightPostTag: options?.highlightPostTag,
+        highlightPreTag: options?.highlightPreTag,
+        minimumCoverage: options?.minimumCoverage,
+        orderby: options?.orderBy,
+        search: searchText,
+        searchFields: options?.searchFields,
+        select: options?.select,
+        suggesterName: suggesterName,
+        top: options?.top,
+      },
+    });
 }
 
 export async function _suggestPostDeserialize(
@@ -287,7 +300,9 @@ export async function _suggestPostDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -333,18 +348,20 @@ export function _suggestGetSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      ...(options?.accept !== undefined
-        ? { accept: !options?.accept ? options?.accept : "application/json;odata.metadata=none" }
-        : {}),
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.accept !== undefined
+          ? { accept: !options?.accept ? options?.accept : "application/json;odata.metadata=none" }
+          : {}),
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _suggestGetDeserialize(
@@ -353,7 +370,9 @@ export async function _suggestGetDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -389,24 +408,26 @@ export function _getDocumentSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      ...(options?.accept !== undefined
-        ? { accept: !options?.accept ? options?.accept : "application/json;odata.metadata=none" }
-        : {}),
-      ...(options?.querySourceAuthorization !== undefined
-        ? { "x-ms-query-source-authorization": options?.querySourceAuthorization }
-        : {}),
-      ...(options?.enableElevatedRead !== undefined
-        ? { "x-ms-enable-elevated-read": options?.enableElevatedRead }
-        : {}),
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.accept !== undefined
+          ? { accept: !options?.accept ? options?.accept : "application/json;odata.metadata=none" }
+          : {}),
+        ...(options?.querySourceAuthorization !== undefined
+          ? { "x-ms-query-source-authorization": options?.querySourceAuthorization }
+          : {}),
+        ...(options?.enableElevatedRead !== undefined
+          ? { "x-ms-enable-elevated-read": options?.enableElevatedRead }
+          : {}),
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _getDocumentDeserialize(
@@ -415,7 +436,9 @@ export async function _getDocumentDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -533,7 +556,9 @@ export async function _searchPostDeserialize(
   const expectedStatuses = ["200", "206"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -610,24 +635,26 @@ export function _searchGetSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      ...(options?.accept !== undefined
-        ? { accept: !options?.accept ? options?.accept : "application/json;odata.metadata=none" }
-        : {}),
-      ...(options?.querySourceAuthorization !== undefined
-        ? { "x-ms-query-source-authorization": options?.querySourceAuthorization }
-        : {}),
-      ...(options?.enableElevatedRead !== undefined
-        ? { "x-ms-enable-elevated-read": options?.enableElevatedRead }
-        : {}),
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.accept !== undefined
+          ? { accept: !options?.accept ? options?.accept : "application/json;odata.metadata=none" }
+          : {}),
+        ...(options?.querySourceAuthorization !== undefined
+          ? { "x-ms-query-source-authorization": options?.querySourceAuthorization }
+          : {}),
+        ...(options?.enableElevatedRead !== undefined
+          ? { "x-ms-enable-elevated-read": options?.enableElevatedRead }
+          : {}),
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _searchGetDeserialize(
@@ -636,7 +663,9 @@ export async function _searchGetDeserialize(
   const expectedStatuses = ["200", "206"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -667,37 +696,43 @@ export function _getDocumentCountSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      ...(options?.accept !== undefined
-        ? { accept: !options?.accept ? options?.accept : "application/json;odata.metadata=none" }
-        : {}),
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.accept !== undefined
+          ? { accept: !options?.accept ? options?.accept : "application/json;odata.metadata=none" }
+          : {}),
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
-export async function _getDocumentCountDeserialize(result: PathUncheckedResponse): Promise<number> {
+export async function _getDocumentCountDeserialize(
+  result: PathUncheckedResponse,
+): Promise<GetDocumentCountResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
-  return result.body;
+  return { body: result.body };
 }
 
 /** Queries the number of documents in the index. */
 export async function getDocumentCount(
   context: Client,
   options: GetDocumentCountOptionalParams = { requestOptions: {} },
-): Promise<number> {
+): Promise<GetDocumentCountResponse> {
   const result = await _getDocumentCountSend(context, options);
   return _getDocumentCountDeserialize(result);
 }

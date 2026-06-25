@@ -31,7 +31,7 @@ export interface GovernanceRulesOperations {
     ruleId: string,
     operationId: string,
     options?: GovernanceRulesOperationResultsOptionalParams,
-  ) => Promise<OperationResult>;
+  ) => Promise<OperationResult | undefined>;
   /** Execute a governance rule */
   execute: (
     scope: string,

@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SignalRManagementContext } from "../../api/signalRManagementContext.js";
+import { SignalRManagementContext } from "../../api/signalRManagementContext.js";
 import { list } from "../../api/signalRPrivateLinkResources/operations.js";
-import type { SignalRPrivateLinkResourcesListOptionalParams } from "../../api/signalRPrivateLinkResources/options.js";
-import type { PrivateLinkResource } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SignalRPrivateLinkResourcesListOptionalParams } from "../../api/signalRPrivateLinkResources/options.js";
+import { PrivateLinkResource } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a SignalRPrivateLinkResources operations. */
 export interface SignalRPrivateLinkResourcesOperations {

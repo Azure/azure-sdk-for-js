@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlManagementClient } from "./sqlManagementClient.js";
+import { SqlManagementClient } from "./sqlManagementClient.js";
 import {
   _suspendDeserialize,
   _resumeDeserialize,
@@ -266,10 +266,14 @@ import {
   _createOrUpdateDeserialize as _createOrUpdateDeserializeBackupShortTermRetentionPolicies,
 } from "./api/backupShortTermRetentionPolicies/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
-import type { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
-import type { AbortSignalLike } from "@azure/abort-controller";
-import type { PollerLike, OperationState, ResourceLocationConfig } from "@azure/core-lro";
-import { deserializeState } from "@azure/core-lro";
+import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
+import { AbortSignalLike } from "@azure/abort-controller";
+import {
+  PollerLike,
+  OperationState,
+  deserializeState,
+  ResourceLocationConfig,
+} from "@azure/core-lro";
 
 export interface RestorePollerOptions<
   TResult,

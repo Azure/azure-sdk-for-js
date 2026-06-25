@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DeploymentStacksClient } from "./deploymentStacksClient.js";
+import { DeploymentStacksClient } from "./deploymentStacksClient.js";
 import {
   _deleteAtManagementGroupDeserialize,
   _createOrUpdateAtManagementGroupDeserialize,
@@ -26,10 +26,14 @@ import {
   _createOrUpdateDeserialize as _createOrUpdateDeserializeDeploymentStacksWhatIfResultsAtResourceGroup,
 } from "./api/deploymentStacksWhatIfResultsAtResourceGroup/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
-import type { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
-import type { AbortSignalLike } from "@azure/abort-controller";
-import type { PollerLike, OperationState, ResourceLocationConfig } from "@azure/core-lro";
-import { deserializeState } from "@azure/core-lro";
+import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
+import { AbortSignalLike } from "@azure/abort-controller";
+import {
+  PollerLike,
+  OperationState,
+  deserializeState,
+  ResourceLocationConfig,
+} from "@azure/core-lro";
 
 export interface RestorePollerOptions<
   TResult,
@@ -106,7 +110,7 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "POST /providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Resources/deploymentStacks/{deploymentStackName}/validate":
     {
       deserializer: _validateStackAtManagementGroupDeserialize,
-      expectedStatuses: ["202", "200", "400", "201"],
+      expectedStatuses: ["200", "202", "400", "201"],
     },
   "DELETE /subscriptions/{subscriptionId}/providers/Microsoft.Resources/deploymentStacks/{deploymentStackName}":
     { deserializer: _deleteAtSubscriptionDeserialize, expectedStatuses: ["200", "202", "204"] },
@@ -118,7 +122,7 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "POST /subscriptions/{subscriptionId}/providers/Microsoft.Resources/deploymentStacks/{deploymentStackName}/validate":
     {
       deserializer: _validateStackAtSubscriptionDeserialize,
-      expectedStatuses: ["202", "200", "400", "201"],
+      expectedStatuses: ["200", "202", "400", "201"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Resources/deploymentStacks/{deploymentStackName}":
     { deserializer: _deleteAtResourceGroupDeserialize, expectedStatuses: ["200", "202", "204"] },
@@ -130,16 +134,16 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Resources/deploymentStacks/{deploymentStackName}/validate":
     {
       deserializer: _validateStackAtResourceGroupDeserialize,
-      expectedStatuses: ["202", "200", "400", "201"],
+      expectedStatuses: ["200", "202", "400", "201"],
     },
   "POST /providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Resources/deploymentStacksWhatIfResults/{deploymentStacksWhatIfResultName}/whatIf":
-    { deserializer: _whatIfDeserialize, expectedStatuses: ["202", "200", "201"] },
+    { deserializer: _whatIfDeserialize, expectedStatuses: ["200", "202", "201"] },
   "PUT /providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Resources/deploymentStacksWhatIfResults/{deploymentStacksWhatIfResultName}":
     { deserializer: _createOrUpdateDeserialize, expectedStatuses: ["200", "201", "202"] },
   "POST /subscriptions/{subscriptionId}/providers/Microsoft.Resources/deploymentStacksWhatIfResults/{deploymentStacksWhatIfResultName}/whatIf":
     {
       deserializer: _whatIfDeserializeDeploymentStacksWhatIfResultsAtSubscription,
-      expectedStatuses: ["202", "200", "201"],
+      expectedStatuses: ["200", "202", "201"],
     },
   "PUT /subscriptions/{subscriptionId}/providers/Microsoft.Resources/deploymentStacksWhatIfResults/{deploymentStacksWhatIfResultName}":
     {
@@ -149,7 +153,7 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Resources/deploymentStacksWhatIfResults/{deploymentStacksWhatIfResultName}/whatIf":
     {
       deserializer: _whatIfDeserializeDeploymentStacksWhatIfResultsAtResourceGroup,
-      expectedStatuses: ["202", "200", "201"],
+      expectedStatuses: ["200", "202", "201"],
     },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Resources/deploymentStacksWhatIfResults/{deploymentStacksWhatIfResultName}":
     {

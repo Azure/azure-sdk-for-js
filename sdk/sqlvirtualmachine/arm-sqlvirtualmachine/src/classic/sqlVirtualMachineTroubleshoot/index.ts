@@ -1,13 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlVirtualMachineManagementContext } from "../../api/sqlVirtualMachineManagementContext.js";
+import { SqlVirtualMachineManagementContext } from "../../api/sqlVirtualMachineManagementContext.js";
 import { troubleshoot } from "../../api/sqlVirtualMachineTroubleshoot/operations.js";
-import type { SqlVirtualMachineTroubleshootTroubleshootOptionalParams } from "../../api/sqlVirtualMachineTroubleshoot/options.js";
-import type { SqlVmTroubleshooting } from "../../models/models.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { SqlVirtualMachineTroubleshootTroubleshootOptionalParams } from "../../api/sqlVirtualMachineTroubleshoot/options.js";
+import { SqlVmTroubleshooting } from "../../models/models.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a SqlVirtualMachineTroubleshoot operations. */
 export interface SqlVirtualMachineTroubleshootOperations {

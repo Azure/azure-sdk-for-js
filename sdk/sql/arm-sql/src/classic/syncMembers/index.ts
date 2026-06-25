@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listMemberSchemas,
   refreshMemberSchema,
@@ -11,7 +11,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/syncMembers/operations.js";
-import type {
+import {
   SyncMembersListMemberSchemasOptionalParams,
   SyncMembersRefreshMemberSchemaOptionalParams,
   SyncMembersListBySyncGroupOptionalParams,
@@ -20,11 +20,10 @@ import type {
   SyncMembersCreateOrUpdateOptionalParams,
   SyncMembersGetOptionalParams,
 } from "../../api/syncMembers/options.js";
-import type { SyncFullSchemaProperties, SyncMember } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { SyncFullSchemaProperties, SyncMember } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a SyncMembers operations. */
 export interface SyncMembersOperations {

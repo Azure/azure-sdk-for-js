@@ -1,31 +1,51 @@
 # Release History
 
-## 2.0.0 (2026-02-11)
+## 2.1.0 (2026-06-25)
 
 ### Features Added
+  - Added operation group DeploymentStacksOperations
   - Added operation group DeploymentStacksWhatIfResultsAtManagementGroupOperations
   - Added operation group DeploymentStacksWhatIfResultsAtResourceGroupOperations
   - Added operation group DeploymentStacksWhatIfResultsAtSubscriptionOperations
-  - Added operation DeploymentStacksOperations.createOrUpdateAtManagementGroup
-  - Added operation DeploymentStacksOperations.createOrUpdateAtResourceGroup
-  - Added operation DeploymentStacksOperations.createOrUpdateAtSubscription
-  - Added operation DeploymentStacksOperations.deleteAtManagementGroup
-  - Added operation DeploymentStacksOperations.deleteAtResourceGroup
-  - Added operation DeploymentStacksOperations.deleteAtSubscription
-  - Added operation DeploymentStacksOperations.validateStackAtManagementGroup
-  - Added operation DeploymentStacksOperations.validateStackAtResourceGroup
-  - Added operation DeploymentStacksOperations.validateStackAtSubscription
+  - Added Class DeploymentStacksClient
+  - Added Interface ActionOnUnmanage
+  - Added Interface DenySettings
   - Added Interface DeploymentExtension
   - Added Interface DeploymentExtensionConfig
   - Added Interface DeploymentExtensionConfigItem
   - Added Interface DeploymentExternalInput
   - Added Interface DeploymentExternalInputDefinition
+  - Added Interface DeploymentParameter
+  - Added Interface DeploymentStack
+  - Added Interface DeploymentStackProperties
   - Added Interface DeploymentStacksChangeBase
   - Added Interface DeploymentStacksChangeBaseDenyStatusMode
   - Added Interface DeploymentStacksChangeBaseDeploymentStacksManagementStatus
   - Added Interface DeploymentStacksChangeDeltaDenySettings
   - Added Interface DeploymentStacksChangeDeltaRecord
+  - Added Interface DeploymentStacksClientOptionalParams
+  - Added Interface DeploymentStacksCreateOrUpdateAtManagementGroupOptionalParams
+  - Added Interface DeploymentStacksCreateOrUpdateAtResourceGroupOptionalParams
+  - Added Interface DeploymentStacksCreateOrUpdateAtSubscriptionOptionalParams
+  - Added Interface DeploymentStacksDebugSetting
+  - Added Interface DeploymentStacksDeleteAtManagementGroupOptionalParams
+  - Added Interface DeploymentStacksDeleteAtResourceGroupOptionalParams
+  - Added Interface DeploymentStacksDeleteAtSubscriptionOptionalParams
   - Added Interface DeploymentStacksDiagnostic
+  - Added Interface DeploymentStacksExportTemplateAtManagementGroupOptionalParams
+  - Added Interface DeploymentStacksExportTemplateAtResourceGroupOptionalParams
+  - Added Interface DeploymentStacksExportTemplateAtSubscriptionOptionalParams
+  - Added Interface DeploymentStacksGetAtManagementGroupOptionalParams
+  - Added Interface DeploymentStacksGetAtResourceGroupOptionalParams
+  - Added Interface DeploymentStacksGetAtSubscriptionOptionalParams
+  - Added Interface DeploymentStacksListAtManagementGroupOptionalParams
+  - Added Interface DeploymentStacksListAtResourceGroupOptionalParams
+  - Added Interface DeploymentStacksListAtSubscriptionOptionalParams
+  - Added Interface DeploymentStacksParametersLink
+  - Added Interface DeploymentStacksTemplateLink
+  - Added Interface DeploymentStacksValidateStackAtManagementGroupOptionalParams
+  - Added Interface DeploymentStacksValidateStackAtResourceGroupOptionalParams
+  - Added Interface DeploymentStacksValidateStackAtSubscriptionOptionalParams
   - Added Interface DeploymentStacksWhatIfChange
   - Added Interface DeploymentStacksWhatIfPropertyChange
   - Added Interface DeploymentStacksWhatIfResourceChange
@@ -46,64 +66,55 @@
   - Added Interface DeploymentStacksWhatIfResultsAtSubscriptionGetOptionalParams
   - Added Interface DeploymentStacksWhatIfResultsAtSubscriptionListOptionalParams
   - Added Interface DeploymentStacksWhatIfResultsAtSubscriptionWhatIfOptionalParams
+  - Added Interface DeploymentStackTemplateDefinition
+  - Added Interface DeploymentStackValidateProperties
+  - Added Interface DeploymentStackValidateResult
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
   - Added Interface ErrorResponse
+  - Added Interface KeyVaultParameterReference
+  - Added Interface KeyVaultReference
+  - Added Interface ManagedResourceReference
   - Added Interface PagedAsyncIterableIterator
   - Added Interface PageSettings
   - Added Interface ProxyResource
   - Added Interface Resource
+  - Added Interface ResourceReference
+  - Added Interface ResourceReferenceExtended
   - Added Interface RestorePollerOptions
   - Added Interface SimplePollerLike
-  - Interface ActionOnUnmanage has a new optional parameter resourcesWithoutDeleteSupport
-  - Interface DeploymentParameter has a new optional parameter expression
-  - Interface DeploymentStackProperties has a new optional parameter deploymentExtensions
-  - Interface DeploymentStackProperties has a new optional parameter extensionConfigs
-  - Interface DeploymentStackProperties has a new optional parameter externalInputDefinitions
-  - Interface DeploymentStackProperties has a new optional parameter externalInputs
-  - Interface DeploymentStackProperties has a new optional parameter validationLevel
-  - Interface DeploymentStackValidateProperties has a new optional parameter deploymentExtensions
-  - Interface DeploymentStackValidateProperties has a new optional parameter validationLevel
-  - Interface ManagedResourceReference has a new optional parameter apiVersion
-  - Interface ManagedResourceReference has a new optional parameter extension
-  - Interface ManagedResourceReference has a new optional parameter identifiers
-  - Interface ManagedResourceReference has a new optional parameter type
-  - Interface ResourceReference has a new optional parameter apiVersion
-  - Interface ResourceReference has a new optional parameter extension
-  - Interface ResourceReference has a new optional parameter identifiers
-  - Interface ResourceReference has a new optional parameter type
-  - Interface ResourceReferenceExtended has a new optional parameter apiVersion
-  - Interface ResourceReferenceExtended has a new optional parameter extension
-  - Interface ResourceReferenceExtended has a new optional parameter identifiers
-  - Interface ResourceReferenceExtended has a new optional parameter type
+  - Added Interface SystemData
   - Added Type Alias AzureSupportedClouds
+  - Added Type Alias CreatedByType
+  - Added Type Alias DenySettingsMode
+  - Added Type Alias DenyStatusMode
+  - Added Type Alias DeploymentStackProvisioningState
   - Added Type Alias DeploymentStacksDiagnosticLevel
   - Added Type Alias DeploymentStacksManagementStatus
   - Added Type Alias DeploymentStacksWhatIfChangeCertainty
   - Added Type Alias DeploymentStacksWhatIfChangeType
   - Added Type Alias DeploymentStacksWhatIfPropertyChangeType
+  - Added Type Alias ResourceStatusMode
   - Added Type Alias ResourcesWithoutDeleteSupportAction
+  - Added Type Alias UnmanageActionManagementGroupMode
+  - Added Type Alias UnmanageActionResourceGroupMode
+  - Added Type Alias UnmanageActionResourceMode
   - Added Type Alias ValidationLevel
   - Added Enum AzureClouds
+  - Added Enum KnownCreatedByType
+  - Added Enum KnownDenySettingsMode
+  - Added Enum KnownDenyStatusMode
+  - Added Enum KnownDeploymentStackProvisioningState
   - Added Enum KnownDeploymentStacksDiagnosticLevel
   - Added Enum KnownDeploymentStacksManagementStatus
   - Added Enum KnownDeploymentStacksWhatIfChangeCertainty
   - Added Enum KnownDeploymentStacksWhatIfChangeType
   - Added Enum KnownDeploymentStacksWhatIfPropertyChangeType
+  - Added Enum KnownResourceStatusMode
   - Added Enum KnownResourcesWithoutDeleteSupportAction
+  - Added Enum KnownUnmanageActionManagementGroupMode
+  - Added Enum KnownUnmanageActionResourceGroupMode
+  - Added Enum KnownUnmanageActionResourceMode
   - Added Enum KnownValidationLevel
   - Added Enum KnownVersions
-  - Enum KnownDenyStatusMode has a new value Unknown
-  - Enum KnownDeploymentStackProvisioningState has a new value Initializing
-  - Enum KnownDeploymentStackProvisioningState has a new value Running
 
-### Breaking Changes
-  - Removed Interface AzureResourceBase
-  - Removed Interface DeploymentStacksError
-  - Removed Type Alias DeploymentStacksDeleteDetachEnum
-  - Removed Enum KnownDeploymentStacksDeleteDetachEnum
-
-    
-## 1.0.0 (2024-06-24)
-
-### Features Added
-
-This is the first GA for @azure/arm-resourcesdeploymentstacks and the package is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).

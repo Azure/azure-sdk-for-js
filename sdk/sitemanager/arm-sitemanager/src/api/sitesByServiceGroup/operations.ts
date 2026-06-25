@@ -3,14 +3,14 @@
 
 import { EdgeContext as Client } from "../index.js";
 import {
+  _SiteListResult,
+  _siteListResultDeserializer,
   Site,
   siteSerializer,
   siteDeserializer,
   errorResponseDeserializer,
   SiteUpdate,
   siteUpdateSerializer,
-  _SiteListResult,
-  _siteListResultDeserializer,
 } from "../../models/models.js";
 import {
   PagedAsyncIterableIterator,
@@ -44,7 +44,7 @@ export function _$deleteSend(
     {
       servicegroupName: servicegroupName,
       siteName: siteName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -57,19 +57,17 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
   return;
 }
 
-/** delete Site at SG scope */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
+/** Delete a Site */
 export async function $delete(
   context: Client,
   servicegroupName: string,
@@ -92,35 +90,37 @@ export function _updateSend(
     {
       servicegroupName: servicegroupName,
       siteName: siteName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: siteUpdateSerializer(properties),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: siteUpdateSerializer(properties),
+    });
 }
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<Site> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
   return siteDeserializer(result.body);
 }
 
-/** update Site at SG scope */
+/** Update a Site */
 export async function update(
   context: Client,
   servicegroupName: string,
@@ -137,52 +137,50 @@ export function _createOrUpdateSend(
   servicegroupName: string,
   siteName: string,
   resource: Site,
-  options: SitesByServiceGroupCreateOrUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: SitesByServiceGroupCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/providers/Microsoft.Management/serviceGroups/{servicegroupName}/providers/Microsoft.Edge/sites/{siteName}{?api%2Dversion}",
     {
       servicegroupName: servicegroupName,
       siteName: siteName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: siteSerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: siteSerializer(resource),
+    });
 }
 
 export async function _createOrUpdateDeserialize(result: PathUncheckedResponse): Promise<Site> {
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
   return siteDeserializer(result.body);
 }
 
-/** create or update Site at SG scope */
+/** Create a Site */
 export function createOrUpdate(
   context: Client,
   servicegroupName: string,
   siteName: string,
   resource: Site,
-  options: SitesByServiceGroupCreateOrUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: SitesByServiceGroupCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<Site>, Site> {
   return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
@@ -190,6 +188,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, servicegroupName, siteName, resource, options),
     resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2025-06-01",
   }) as PollerLike<OperationState<Site>, Site>;
 }
 
@@ -204,33 +203,35 @@ export function _getSend(
     {
       servicegroupName: servicegroupName,
       siteName: siteName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<Site> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
   return siteDeserializer(result.body);
 }
 
-/** Get Site at SG scope */
+/** Get a Site */
 export async function get(
   context: Client,
   servicegroupName: string,
@@ -244,27 +245,24 @@ export async function get(
 export function _listByServiceGroupSend(
   context: Client,
   servicegroupName: string,
-  options: SitesByServiceGroupListByServiceGroupOptionalParams = {
-    requestOptions: {},
-  },
+  options: SitesByServiceGroupListByServiceGroupOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/providers/Microsoft.Management/serviceGroups/{servicegroupName}/providers/Microsoft.Edge/sites{?api%2Dversion}",
     {
       servicegroupName: servicegroupName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2025-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listByServiceGroupDeserialize(
@@ -273,26 +271,27 @@ export async function _listByServiceGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
   return _siteListResultDeserializer(result.body);
 }
 
-/** list Site at SG scope */
+/** List Site resources by scope */
 export function listByServiceGroup(
   context: Client,
   servicegroupName: string,
-  options: SitesByServiceGroupListByServiceGroupOptionalParams = {
-    requestOptions: {},
-  },
+  options: SitesByServiceGroupListByServiceGroupOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<Site> {
   return buildPagedAsyncIterator(
     context,
     () => _listByServiceGroupSend(context, servicegroupName, options),
     _listByServiceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-06-01" },
   );
 }

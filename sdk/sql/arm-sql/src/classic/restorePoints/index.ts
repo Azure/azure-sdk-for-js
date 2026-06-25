@@ -1,19 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { create, listByDatabase, $delete, get } from "../../api/restorePoints/operations.js";
-import type {
+import {
   RestorePointsCreateOptionalParams,
   RestorePointsListByDatabaseOptionalParams,
   RestorePointsDeleteOptionalParams,
   RestorePointsGetOptionalParams,
 } from "../../api/restorePoints/options.js";
-import type { RestorePoint, CreateDatabaseRestorePointDefinition } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { RestorePoint, CreateDatabaseRestorePointDefinition } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a RestorePoints operations. */
 export interface RestorePointsOperations {
