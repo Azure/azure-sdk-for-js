@@ -3,6 +3,7 @@
 
 import type { AzureNetworkFabricManagementServiceAPIContext } from "../../api/azureNetworkFabricManagementServiceAPIContext.js";
 import {
+  resync,
   listBySubscription,
   listByResourceGroup,
   $delete,
@@ -11,6 +12,7 @@ import {
   get,
 } from "../../api/neighborGroups/operations.js";
 import type {
+  NeighborGroupsResyncOptionalParams,
   NeighborGroupsListBySubscriptionOptionalParams,
   NeighborGroupsListByResourceGroupOptionalParams,
   NeighborGroupsDeleteOptionalParams,
@@ -18,7 +20,11 @@ import type {
   NeighborGroupsCreateOptionalParams,
   NeighborGroupsGetOptionalParams,
 } from "../../api/neighborGroups/options.js";
-import type { NeighborGroup, NeighborGroupPatch } from "../../models/models.js";
+import type {
+  NeighborGroup,
+  NeighborGroupPatch,
+  NeighborGroupResyncResponse,
+} from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
@@ -26,6 +32,26 @@ import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a NeighborGroups operations. */
 export interface NeighborGroupsOperations {
+  /** Resync the Neighbor Group after a configuration change. */
+  resync: (
+    resourceGroupName: string,
+    neighborGroupName: string,
+    options?: NeighborGroupsResyncOptionalParams,
+  ) => PollerLike<OperationState<NeighborGroupResyncResponse>, NeighborGroupResyncResponse>;
+  /** @deprecated use resync instead */
+  beginResync: (
+    resourceGroupName: string,
+    neighborGroupName: string,
+    options?: NeighborGroupsResyncOptionalParams,
+  ) => Promise<
+    SimplePollerLike<OperationState<NeighborGroupResyncResponse>, NeighborGroupResyncResponse>
+  >;
+  /** @deprecated use resync instead */
+  beginResyncAndWait: (
+    resourceGroupName: string,
+    neighborGroupName: string,
+    options?: NeighborGroupsResyncOptionalParams,
+  ) => Promise<NeighborGroupResyncResponse>;
   /** Displays NeighborGroups list by subscription GET method. */
   listBySubscription: (
     options?: NeighborGroupsListBySubscriptionOptionalParams,
@@ -36,11 +62,6 @@ export interface NeighborGroupsOperations {
     options?: NeighborGroupsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<NeighborGroup>;
   /** Implements Neighbor Group DELETE method. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     neighborGroupName: string,
@@ -110,6 +131,27 @@ export interface NeighborGroupsOperations {
 
 function _getNeighborGroups(context: AzureNetworkFabricManagementServiceAPIContext) {
   return {
+    resync: (
+      resourceGroupName: string,
+      neighborGroupName: string,
+      options?: NeighborGroupsResyncOptionalParams,
+    ) => resync(context, resourceGroupName, neighborGroupName, options),
+    beginResync: async (
+      resourceGroupName: string,
+      neighborGroupName: string,
+      options?: NeighborGroupsResyncOptionalParams,
+    ) => {
+      const poller = resync(context, resourceGroupName, neighborGroupName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginResyncAndWait: async (
+      resourceGroupName: string,
+      neighborGroupName: string,
+      options?: NeighborGroupsResyncOptionalParams,
+    ) => {
+      return await resync(context, resourceGroupName, neighborGroupName, options);
+    },
     listBySubscription: (options?: NeighborGroupsListBySubscriptionOptionalParams) =>
       listBySubscription(context, options),
     listByResourceGroup: (

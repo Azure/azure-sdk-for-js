@@ -100,7 +100,7 @@ Replace your AutoRest generation script with TypeSpec generation and customizati
 ```json
 {
   "scripts": {
-    "generate:client": "tsp-client update -d && npm run format && dev-tool run customization apply --skip index.ts",
+    "generate:client": "tsp-client update -d && npm run format && dev-tool customization apply --skip index.ts",
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "test": "npm run test:node && npm run test:browser",
     "test:node": "dev-tool run build-test --no-browser-test && dev-tool run test:vitest"
@@ -124,7 +124,7 @@ Update your `package.json` dependencies to use the new core packages:
     "@azure/core-util": "^1.11.0"
   },
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   }
 }
 ```

@@ -20,7 +20,7 @@ import type {
 } from "../../api/networkInterfaces/options.js";
 import type {
   UpdateAdministrativeState,
-  CommonPostActionResponseForStateUpdate,
+  UpdateAdministrativeStateResponse,
   NetworkInterface,
   NetworkInterfacePatch,
 } from "../../models/models.js";
@@ -39,8 +39,8 @@ export interface NetworkInterfacesOperations {
     body: UpdateAdministrativeState,
     options?: NetworkInterfacesUpdateAdministrativeStateOptionalParams,
   ) => PollerLike<
-    OperationState<CommonPostActionResponseForStateUpdate>,
-    CommonPostActionResponseForStateUpdate
+    OperationState<UpdateAdministrativeStateResponse>,
+    UpdateAdministrativeStateResponse
   >;
   /** @deprecated use updateAdministrativeState instead */
   beginUpdateAdministrativeState: (
@@ -51,8 +51,8 @@ export interface NetworkInterfacesOperations {
     options?: NetworkInterfacesUpdateAdministrativeStateOptionalParams,
   ) => Promise<
     SimplePollerLike<
-      OperationState<CommonPostActionResponseForStateUpdate>,
-      CommonPostActionResponseForStateUpdate
+      OperationState<UpdateAdministrativeStateResponse>,
+      UpdateAdministrativeStateResponse
     >
   >;
   /** @deprecated use updateAdministrativeState instead */
@@ -62,7 +62,7 @@ export interface NetworkInterfacesOperations {
     networkInterfaceName: string,
     body: UpdateAdministrativeState,
     options?: NetworkInterfacesUpdateAdministrativeStateOptionalParams,
-  ) => Promise<CommonPostActionResponseForStateUpdate>;
+  ) => Promise<UpdateAdministrativeStateResponse>;
   /** List all the Network Interface resources in a given resource group. */
   listByNetworkDevice: (
     resourceGroupName: string,
@@ -70,11 +70,6 @@ export interface NetworkInterfacesOperations {
     options?: NetworkInterfacesListByNetworkDeviceOptionalParams,
   ) => PagedAsyncIterableIterator<NetworkInterface>;
   /** Delete the Network Interface resource. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     networkDeviceName: string,

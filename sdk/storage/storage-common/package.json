@@ -3,7 +3,7 @@
   "sdk-type": "client",
   "sideEffects": false,
   "author": "Microsoft Corporation",
-  "version": "12.4.0",
+  "version": "12.4.2",
   "description": "Azure Storage Common Client Library for JavaScript",
   "license": "MIT",
   "repository": {
@@ -24,7 +24,7 @@
   "browser": "./dist/browser/index.js",
   "types": "./dist/commonjs/index.d.ts",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "imports": {
     "#platform/*": {

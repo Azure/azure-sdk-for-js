@@ -9,6 +9,9 @@
 ### Bugs Fixed
 
 - Fixed missing Azure SDK dependency spans (Service Bus, Event Grid, Storage, etc.) when running as an ESM application on Node.js 22+ — most notably in Azure Functions, where the `--import @azure/monitor-opentelemetry/loader` flag cannot be configured. The distro now wires the Azure SDK instrumenter into `@azure/core-tracing` directly, so Azure SDK tracing works in ESM even when the OpenTelemetry module hooks never fire.
+- Fixed Azure SDK spans being silently dropped when any Azure SDK package is imported before `useAzureMonitor()`. The fix eagerly installs the `@azure/core-tracing` OpenTelemetry bridge after SDK initialization, handling the case where the RITM hook could not intercept an already-loaded `@azure/core-tracing`.
+- Fixed a CPU-saturating deactivate/reactivate loop in Live Metrics that occurred when live-endpoint posts failed while subscribed.
+- Hardened Live Metrics (QuickPulse) redirect handling so a `x-ms-qps-service-endpoint-redirect-v2` header is only followed when the target host matches the configured endpoint or a known Azure Monitor ingestion domain. This prevents an attacker-controlled redirect from causing the bearer auth token (and telemetry body) to be sent to an untrusted host.
 
 ### Other Changes
 

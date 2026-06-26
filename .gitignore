@@ -201,3 +201,9 @@ sdk/**/sshKey.pub
 # vitest browser test artifacts
 .vitest-attachments/
 **/__screenshots__/
+
+# agentic workflow logs
+.github/aw/logs/
+
+# gh-aw trial run artifacts (local only)
+trials/

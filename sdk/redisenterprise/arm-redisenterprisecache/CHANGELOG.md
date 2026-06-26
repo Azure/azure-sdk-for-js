@@ -1,5 +1,101 @@
 # Release History
 
+## 5.0.0-beta.2 (2026-06-11)
+Compared with version 4.0.0
+
+### Features Added
+  - Added operation group MigrationOperations
+  - Added operation group MigrationsOperations
+  - Added operation AccessPolicyAssignmentOperations.createUpdate
+  - Added operation AccessPolicyAssignmentOperations.delete
+  - Added operation DatabasesOperations.create
+  - Added operation DatabasesOperations.delete
+  - Added operation DatabasesOperations.export
+  - Added operation DatabasesOperations.flush
+  - Added operation DatabasesOperations.forceLinkToReplicationGroup
+  - Added operation DatabasesOperations.forceUnlink
+  - Added operation DatabasesOperations.import
+  - Added operation DatabasesOperations.regenerateKey
+  - Added operation DatabasesOperations.update
+  - Added operation DatabasesOperations.upgradeDBRedisVersion
+  - Added operation PrivateEndpointConnectionsOperations.delete
+  - Added operation PrivateEndpointConnectionsOperations.put
+  - Added operation RedisEnterpriseOperations.create
+  - Added operation RedisEnterpriseOperations.delete
+  - Added operation RedisEnterpriseOperations.update
+  - Added Interface AccessPolicyAssignmentProperties
+  - Added Interface AzureCacheForRedisMigrationProperties
+  - Added Interface MaintenanceConfiguration
+  - Added Interface MaintenanceWindow
+  - Added Interface MaintenanceWindowSchedule
+  - Added Interface Migration
+  - Added Interface MigrationCancelOptionalParams
+  - Added Interface MigrationGetOptionalParams
+  - Added Interface MigrationListOptionalParams
+  - Added Interface MigrationProperties
+  - Added Interface MigrationStartOptionalParams
+  - Added Interface MigrationsValidateOptionalParams
+  - Added Interface MigrationValidationDisparity
+  - Added Interface MigrationValidationError
+  - Added Interface MigrationValidationRequest
+  - Added Interface MigrationValidationResponse
+  - Added Interface MigrationValidationWarning
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface PrivateEndpointConnectionProperties
+  - Added Interface PrivateLinkResourceProperties
+  - Added Interface RestorePollerOptions
+  - Added Interface SimplePollerLike
+  - Interface AccessPolicyAssignment has a new optional parameter systemData
+  - Interface Cluster has a new optional parameter maintenanceConfiguration
+  - Interface Cluster has a new optional parameter migratedEndpoint
+  - Interface Cluster has a new optional parameter systemData
+  - Interface ClusterCommonProperties has a new optional parameter maintenanceConfiguration
+  - Interface ClusterCommonProperties has a new optional parameter migratedEndpoint
+  - Interface ClusterCreateProperties has a new optional parameter maintenanceConfiguration
+  - Interface ClusterCreateProperties has a new optional parameter migratedEndpoint
+  - Interface ClusterUpdate has a new optional parameter maintenanceConfiguration
+  - Interface ClusterUpdate has a new optional parameter migratedEndpoint
+  - Interface ClusterUpdateProperties has a new optional parameter maintenanceConfiguration
+  - Interface ClusterUpdateProperties has a new optional parameter migratedEndpoint
+  - Interface Database has a new optional parameter notifyKeyspaceEvents
+  - Interface DatabaseCommonProperties has a new optional parameter notifyKeyspaceEvents
+  - Interface DatabaseCreateProperties has a new optional parameter notifyKeyspaceEvents
+  - Interface DatabaseUpdate has a new optional parameter notifyKeyspaceEvents
+  - Interface DatabaseUpdateProperties has a new optional parameter notifyKeyspaceEvents
+  - Interface PrivateEndpointConnection has a new optional parameter groupIds
+  - Interface PrivateEndpointConnection has a new optional parameter systemData
+  - Interface PrivateLinkResource has a new optional parameter systemData
+  - Interface Resource has a new optional parameter systemData
+  - Interface TrackedResource has a new optional parameter systemData
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias MaintenanceDayOfWeek
+  - Added Type Alias MaintenanceWindowType
+  - Added Type Alias MigrationPropertiesUnion
+  - Added Type Alias MigrationProvisioningState
+  - Added Type Alias SourceType
+  - Added Enum AzureClouds
+  - Added Enum KnownMaintenanceDayOfWeek
+  - Added Enum KnownMaintenanceWindowType
+  - Added Enum KnownMigrationProvisioningState
+  - Added Enum KnownSourceType
+  - Added Enum KnownVersions
+
+### Breaking Changes
+  - Operation AccessPolicyAssignment.beginDeleteAndWait has a new signature
+  - Operation Databases.beginForceLinkToReplicationGroupAndWait has a new signature
+  - Operation Databases.beginUpgradeDBRedisVersionAndWait has a new signature
+  - Class RedisEnterpriseManagementClient no longer has parameter accessPolicyAssignmentOperations
+  - Class RedisEnterpriseManagementClient no longer has parameter apiVersion
+  - Class RedisEnterpriseManagementClient no longer has parameter subscriptionId
+  - Removed Interface AccessPolicyAssignmentList
+  - Removed Interface ClusterList
+  - Removed Interface DatabaseList
+  - Removed Interface ErrorDetailAutoGenerated
+  - Removed Interface ErrorResponseAutoGenerated
+  - Removed Interface ProxyResourceAutoGenerated
+  - Removed Interface ResourceAutoGenerated
+
 ## 5.0.0-beta.1 (2026-05-25)
 Compared with version 4.0.0
 

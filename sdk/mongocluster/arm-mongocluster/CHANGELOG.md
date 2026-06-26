@@ -1,6 +1,15 @@
 # Release History
 
-## 1.2.0-beta.1 (2026-05-19)
+## 1.2.0 (2026-06-24)
+
+### Features Added
+  - Interface MongoClusterProperties has a new optional parameter networkBypassMode
+  - Interface MongoClusterUpdateProperties has a new optional parameter networkBypassMode
+  - Added Type Alias NetworkBypassMode
+  - Added Enum KnownNetworkBypassMode
+  - Enum KnownVersions has a new value V20260601
+
+## 1.2.0-beta.1 (2026-06-12)
 Compared with version 1.1.0
 
 ### Features Added
@@ -126,4 +135,3 @@ Compared with version 1.0.1
   - Added Enum KnownStorageType
   - Added Enum KnownUserRole
   - Added Enum KnownVersions
-

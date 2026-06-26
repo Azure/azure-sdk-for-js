@@ -1,0 +1,35 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+const { AzureNetworkFabricManagementServiceAPI } = require("@azure/arm-managednetworkfabric");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+/**
+ * This sample demonstrates how to creates a Network Fabric Service Internet Gateway resource instance.
+ *
+ * @summary creates a Network Fabric Service Internet Gateway resource instance.
+ * x-ms-original-file: 2025-07-15/InternetGateways_Create.json
+ */
+async function internetGatewaysCreateMaximumSetGen() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "0000ABCD-0A0B-0000-0000-000000ABCDEF";
+  const client = new AzureNetworkFabricManagementServiceAPI(credential, subscriptionId);
+  const result = await client.internetGateways.create("example-rg", "example-internetGateway", {
+    annotation: "annotation",
+    internetGatewayRuleId:
+      "/subscriptions/xxxx-xxxx-xxxx-xxxx/providers/Microsoft.ManagedNetworkFabric/internetGatewayRules/example-internetGatewayRule",
+    typePropertiesType: "Infrastructure",
+    internetGatewayType: "Infrastructure",
+    networkFabricControllerId:
+      "/subscriptions/xxxx-xxxx-xxxx-xxxx/resourcegroups/example-rg/providers/Microsoft.ManagedNetworkFabric/networkFabricControllers/example-networkFabricController",
+    tags: { keyId: "KeyValue" },
+    location: "eastus",
+  });
+  console.log(result);
+}
+
+async function main() {
+  await internetGatewaysCreateMaximumSetGen();
+}
+
+main().catch(console.error);
