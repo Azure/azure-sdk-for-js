@@ -1,0 +1,242 @@
+# JS SDK TypeSpec breaking-change check pipeline (ARM and data-plane).
+#
+# Stages / jobs:
+#   Setup              Resolve emitter version, build shard matrix, pin
+#                      eng/emitter-package* to the resolved version, and
+#                      publish them as artifacts.
+#
+#   RegenerateAndBuild Matrix shards. Each downloads its slice, regenerates +
+#                      builds, generates changelogs. Regeneration syncs from the
+#                      latest spec (azure-rest-api-specs main) and locks the
+#                      api-version via metadata.json; since a released
+#                      api-version's spec is frozen, latest main reproduces the
+#                      SDK's spec content while staying compilable by the latest
+#                      emitter. In PR mode, pushes
+#                      the files selected by PRPushMode (api.md + CHANGELOG.md
+#                      deltas, or the whole SDK refresh) to the PR branch.
+#
+#   CreatePR           Opens the GitHub PR. Body is minimal; per-package
+#                      outcomes are in the build log.
+#
+# All shard logic lives in eng/pipelines/scripts/sdk-regenerate.mjs.
+
+trigger:
+  branches: { include: [main] }
+  paths:
+    include:
+      - eng/emitter-package.json
+      - eng/pipelines/sdk-regenerate.yml
+      - eng/pipelines/scripts/sdk-regenerate.mjs
+
+pr:
+  branches: { include: [main] }
+  paths:
+    include:
+      - eng/emitter-package.json
+      - eng/pipelines/sdk-regenerate.yml
+      - eng/pipelines/scripts/sdk-regenerate.mjs
+
+schedules:
+  - cron: "0 2 * * *"
+    displayName: Daily TypeSpec break check (2AM UTC)
+    branches: { include: [main] }
+
+parameters:
+  - name: EmitterVersion
+    displayName: "Emitter version ('dev' = npm next tag)"
+    type: string
+    default: 'dev'
+
+  - name: PackageFilter
+    displayName: "Package filter (comma-separated wildcards)"
+    type: string
+    default: 'arm-*'
+
+  - name: CreatePullRequest
+    type: boolean
+    default: false
+
+  - name: PullRequestBranch
+    displayName: "PR source branch ('auto' = sdk-regenerate-<buildId>)"
+    type: string
+    default: 'auto'
+
+  - name: PRPushMode
+    displayName: "PR contents"
+    type: string
+    default: 'all (full SDK refresh)'
+    values:
+      - all (full SDK refresh)
+      - api.md and changelog (check breaking changes)
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  # Provides $(azuresdk-github-pat) for git-push-changes.yml and the
+  # create-pr step.
+  - group: Release Secrets for GitHub
+  - name: sdkRoot
+    value: $(Build.SourcesDirectory)
+  - name: nodeVersion
+    value: '22.x'
+  - name: shardScript
+    value: $(Build.SourcesDirectory)/eng/pipelines/scripts/sdk-regenerate.mjs
+  - ${{ if eq(parameters.PullRequestBranch, 'auto') }}:
+    - name: prBranchName
+      value: sdk-regenerate-$(Build.BuildId)
+  - ${{ else }}:
+    - name: prBranchName
+      value: ${{ parameters.PullRequestBranch }}
+
+stages:
+- stage: SDKRegenerate
+  displayName: 'TypeSpec emitter breaking-change check'
+  jobs:
+
+  - job: Setup
+    displayName: 'Resolve emitter + build matrix + publish artifacts'
+    timeoutInMinutes: 30
+    steps:
+      - checkout: self
+        fetchDepth: 0
+        fetchTags: true
+        submodules: false
+      - task: NodeTool@0
+        inputs: { versionSpec: $(nodeVersion) }
+
+      # run runResolveEmitter()
+      - bash: node $(shardScript) resolve-emitter --input '${{ parameters.EmitterVersion }}'
+        name: resolveVersion
+        displayName: 'Resolve emitter version'
+        env:
+          AZURE_DEVOPS_EXT_PAT: $(System.AccessToken)
+
+      - bash: |
+          node $(shardScript) build-matrix \
+            --filter "${{ parameters.PackageFilter }}" \
+            --outDir "$(Build.ArtifactStagingDirectory)/matrix"
+        name: generateMatrix
+        displayName: 'Build shard matrix'
+
+      - publish: $(Build.ArtifactStagingDirectory)/matrix
+        artifact: matrix_artifacts
+
+      # Pin eng/emitter-package.json + lock to the resolved emitter version.
+      - bash: |
+          node $(shardScript) regenerate-emitter \
+            --emitterVersion "$(resolveVersion.emitterVersion)"
+        displayName: 'Regenerate emitter-package files'
+
+      - bash: |
+          mkdir -p "$(Build.ArtifactStagingDirectory)/emitter"
+          cp "$(sdkRoot)/eng/emitter-package.json"      "$(Build.ArtifactStagingDirectory)/emitter/"
+          cp "$(sdkRoot)/eng/emitter-package-lock.json" "$(Build.ArtifactStagingDirectory)/emitter/"
+        displayName: 'Stage emitter artifact'
+
+      - publish: $(Build.ArtifactStagingDirectory)/emitter
+        artifact: emitter_artifacts
+
+  - job: RegenerateAndBuild
+    displayName: 'Regenerate + build shards'
+    dependsOn: Setup
+    condition: and(succeeded(), eq(dependencies.Setup.outputs['resolveVersion.shouldRun'], 'true'))
+    timeoutInMinutes: 180
+    strategy:
+      matrix: $[ dependencies.Setup.outputs['generateMatrix.matrix'] ]
+    variables:
+      emitterVersion: $[ dependencies.Setup.outputs['resolveVersion.emitterVersion'] ]
+    steps:
+      - checkout: self
+        fetchDepth: 0
+        fetchTags: true
+        submodules: false
+
+      # PR mode: create the PR branch locally from the trigger branch HEAD.
+      # The first shard's push creates the remote branch; git-push-changes.yml
+      # handles the concurrent-first-push race via rebase + retry.
+      - ${{ if parameters.CreatePullRequest }}:
+        - bash: git checkout -B "$(prBranchName)" HEAD
+          displayName: 'Create local PR branch'
+
+      - task: NodeTool@0
+        inputs: { versionSpec: $(nodeVersion) }
+
+      - download: current
+        artifact: matrix_artifacts
+      - download: current
+        artifact: emitter_artifacts
+
+      # Overlay the pinned emitter-package files from Setup's artifact.
+      - bash: |
+          cp "$(Pipeline.Workspace)/emitter_artifacts/emitter-package.json"      "$(sdkRoot)/eng/emitter-package.json"
+          cp "$(Pipeline.Workspace)/emitter_artifacts/emitter-package-lock.json" "$(sdkRoot)/eng/emitter-package-lock.json"
+        displayName: 'Apply pinned emitter-package files'
+
+      - bash: |
+          node $(shardScript) shard \
+            --directoryList  "$(Pipeline.Workspace)/matrix_artifacts/$(DirectoryList)"
+        displayName: 'Regenerate + build shard'
+        workingDirectory: $(sdkRoot)
+
+      - ${{ if parameters.CreatePullRequest }}:
+        # Stage only the files this PR should contain so git-push-changes.yml's
+        # `git commit -am` pushes nothing else. Logic lives in the stage-pr
+        # subcommand (keyed by PRPushMode).
+        - bash: node $(shardScript) stage-pr --prPushMode "${{ parameters.PRPushMode }}"
+          displayName: 'Stage PR changes (${{ parameters.PRPushMode }})'
+          workingDirectory: $(sdkRoot)
+
+        - template: /eng/common/pipelines/templates/steps/git-push-changes.yml
+          parameters:
+            BaseRepoOwner:  Azure
+            BaseRepoBranch: $(prBranchName)
+            CommitMsg:      'Regenerate shard $(JobKey) (emitter $(emitterVersion))'
+
+  - ${{ if parameters.CreatePullRequest }}:
+    - job: CreatePR
+      displayName: 'Open pull request'
+      dependsOn: [Setup, RegenerateAndBuild]
+      condition: and(succeeded('Setup'), succeededOrFailed('RegenerateAndBuild'))
+      timeoutInMinutes: 15
+      variables:
+        emitterVersion: $[ dependencies.Setup.outputs['resolveVersion.emitterVersion'] ]
+      steps:
+        - checkout: self
+          fetchDepth: 0
+          fetchTags: true
+          submodules: false
+        - task: NodeTool@0
+          inputs: { versionSpec: $(nodeVersion) }
+
+        - bash: |
+            node $(shardScript) create-pr \
+              --sourceRepo     "$(Build.Repository.Name)" \
+              --targetBranch   "$(Build.SourceBranch)" \
+              --branch         "$(prBranchName)" \
+              --buildId        "$(Build.BuildId)" \
+              --emitterVersion "$(emitterVersion)" \
+              --buildNumber    "$(Build.BuildNumber)" \
+              --buildUrl       "$(System.CollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)" \
+              --definitionName "$(Build.DefinitionName)"
+          displayName: 'Open pull request'
+          env:
+            AUTH_TOKEN: $(azuresdk-github-pat)
+
+  - job: RecordEmitterVersion
+    displayName: 'Tag build with emitter version'
+    dependsOn: [Setup, RegenerateAndBuild]
+    condition: and(succeeded('RegenerateAndBuild'), eq(variables['Build.Reason'], 'Schedule'))
+    variables:
+      emitterVersion: $[ dependencies.Setup.outputs['resolveVersion.emitterVersion'] ]
+    steps:
+      - checkout: none
+      - bash: |
+          az pipelines build tag add \
+            --build-id $(Build.BuildId) \
+            --tags "emitter_$(emitterVersion)" \
+            --org $(System.CollectionUri) \
+            --project "$(System.TeamProject)"
+        displayName: 'Tag build with emitter version'
+        env:
+          AZURE_DEVOPS_EXT_PAT: $(System.AccessToken)
