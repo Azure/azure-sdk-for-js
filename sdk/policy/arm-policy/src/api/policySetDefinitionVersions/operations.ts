@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PolicyContext as Client } from "../index.js";
-import type {
-  PolicySetDefinitionVersion,
-  _PolicySetDefinitionVersionListResult,
-} from "../../models/models.js";
+import { PolicyContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  PolicySetDefinitionVersion,
   policySetDefinitionVersionSerializer,
   policySetDefinitionVersionDeserializer,
-  _policySetDefinitionVersionListResultDeserializer,
+  PolicySetDefinitionVersionListResult,
+  policySetDefinitionVersionListResultDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   PolicySetDefinitionVersionsListAllOptionalParams,
   PolicySetDefinitionVersionsListAllAtManagementGroupOptionalParams,
   PolicySetDefinitionVersionsListAllBuiltinsOptionalParams,
@@ -30,8 +30,12 @@ import type {
   PolicySetDefinitionVersionsCreateOrUpdateOptionalParams,
   PolicySetDefinitionVersionsGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _listAllSend(
   context: Client,
@@ -47,30 +51,35 @@ export function _listAllSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listAllDeserialize(
   result: PathUncheckedResponse,
-): Promise<_PolicySetDefinitionVersionListResult> {
+): Promise<PolicySetDefinitionVersionListResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
-  return _policySetDefinitionVersionListResultDeserializer(result.body);
+  return policySetDefinitionVersionListResultDeserializer(result.body);
 }
 
 /** This operation lists all the policy set definition versions for all policy set definitions within a subscription. */
 export async function listAll(
   context: Client,
   options: PolicySetDefinitionVersionsListAllOptionalParams = { requestOptions: {} },
-): Promise<_PolicySetDefinitionVersionListResult> {
+): Promise<PolicySetDefinitionVersionListResult> {
   const result = await _listAllSend(context, options);
   return _listAllDeserialize(result);
 }
@@ -92,23 +101,28 @@ export function _listAllAtManagementGroupSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listAllAtManagementGroupDeserialize(
   result: PathUncheckedResponse,
-): Promise<_PolicySetDefinitionVersionListResult> {
+): Promise<PolicySetDefinitionVersionListResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
-  return _policySetDefinitionVersionListResultDeserializer(result.body);
+  return policySetDefinitionVersionListResultDeserializer(result.body);
 }
 
 /** This operation lists all the policy set definition versions for all policy set definitions at the management group scope. */
@@ -118,7 +132,7 @@ export async function listAllAtManagementGroup(
   options: PolicySetDefinitionVersionsListAllAtManagementGroupOptionalParams = {
     requestOptions: {},
   },
-): Promise<_PolicySetDefinitionVersionListResult> {
+): Promise<PolicySetDefinitionVersionListResult> {
   const result = await _listAllAtManagementGroupSend(context, managementGroupName, options);
   return _listAllAtManagementGroupDeserialize(result);
 }
@@ -136,30 +150,35 @@ export function _listAllBuiltinsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listAllBuiltinsDeserialize(
   result: PathUncheckedResponse,
-): Promise<_PolicySetDefinitionVersionListResult> {
+): Promise<PolicySetDefinitionVersionListResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
-  return _policySetDefinitionVersionListResultDeserializer(result.body);
+  return policySetDefinitionVersionListResultDeserializer(result.body);
 }
 
 /** This operation lists all the built-in policy set definition versions for all built-in policy set definitions. */
 export async function listAllBuiltins(
   context: Client,
   options: PolicySetDefinitionVersionsListAllBuiltinsOptionalParams = { requestOptions: {} },
-): Promise<_PolicySetDefinitionVersionListResult> {
+): Promise<PolicySetDefinitionVersionListResult> {
   const result = await _listAllBuiltinsSend(context, options);
   return _listAllBuiltinsDeserialize(result);
 }
@@ -183,23 +202,28 @@ export function _listByManagementGroupSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listByManagementGroupDeserialize(
   result: PathUncheckedResponse,
-): Promise<_PolicySetDefinitionVersionListResult> {
+): Promise<PolicySetDefinitionVersionListResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
-  return _policySetDefinitionVersionListResultDeserializer(result.body);
+  return policySetDefinitionVersionListResultDeserializer(result.body);
 }
 
 /** This operation retrieves a list of all the policy set definition versions for the given policy set definition in a given management group. */
@@ -249,7 +273,10 @@ export async function _deleteAtManagementGroupDeserialize(
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -298,12 +325,14 @@ export function _createOrUpdateAtManagementGroupSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: policySetDefinitionVersionSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: policySetDefinitionVersionSerializer(parameters),
+    });
 }
 
 export async function _createOrUpdateAtManagementGroupDeserialize(
@@ -312,7 +341,10 @@ export async function _createOrUpdateAtManagementGroupDeserialize(
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -361,10 +393,12 @@ export function _getAtManagementGroupSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getAtManagementGroupDeserialize(
@@ -373,7 +407,10 @@ export async function _getAtManagementGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -415,23 +452,28 @@ export function _listBuiltInSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listBuiltInDeserialize(
   result: PathUncheckedResponse,
-): Promise<_PolicySetDefinitionVersionListResult> {
+): Promise<PolicySetDefinitionVersionListResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
-  return _policySetDefinitionVersionListResultDeserializer(result.body);
+  return policySetDefinitionVersionListResultDeserializer(result.body);
 }
 
 /** This operation retrieves a list of all the built-in policy set definition versions for the given built-in policy set definition. */
@@ -467,10 +509,12 @@ export function _getBuiltInSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getBuiltInDeserialize(
@@ -479,7 +523,10 @@ export async function _getBuiltInDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -520,23 +567,28 @@ export function _listSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listDeserialize(
   result: PathUncheckedResponse,
-): Promise<_PolicySetDefinitionVersionListResult> {
+): Promise<PolicySetDefinitionVersionListResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
-  return _policySetDefinitionVersionListResultDeserializer(result.body);
+  return policySetDefinitionVersionListResultDeserializer(result.body);
 }
 
 /** This operation retrieves a list of all the policy set definition versions for the given policy set definition. */
@@ -579,7 +631,10 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -587,11 +642,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** This operation deletes the policy set definition version in the given subscription with the given name and version. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export async function $delete(
   context: Client,
   policySetDefinitionName: string,
@@ -626,12 +676,14 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: policySetDefinitionVersionSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: policySetDefinitionVersionSerializer(parameters),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -640,7 +692,10 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -684,10 +739,12 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(
@@ -696,7 +753,10 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 

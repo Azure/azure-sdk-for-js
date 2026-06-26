@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PostgreSQLManagementFlexibleServerContext } from "../../api/postgreSQLManagementFlexibleServerContext.js";
+import { PostgreSQLManagementFlexibleServerContext } from "../../api/postgreSQLManagementFlexibleServerContext.js";
 import { list, get } from "../../api/majorVersionUpgradePrecheck/operations.js";
-import type {
+import {
   MajorVersionUpgradePrecheckListOptionalParams,
   MajorVersionUpgradePrecheckGetOptionalParams,
 } from "../../api/majorVersionUpgradePrecheck/options.js";
-import type { MajorVersionUpgradePrecheckResource } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { MajorVersionUpgradePrecheckResource } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a MajorVersionUpgradePrecheck operations. */
 export interface MajorVersionUpgradePrecheckOperations {

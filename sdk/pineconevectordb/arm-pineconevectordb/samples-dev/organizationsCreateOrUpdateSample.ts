@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { VectorDbClient } from "@azure/arm-pineconevectordb";
+import { DefaultAzureCredential } from "@azure/identity";
+
 /**
  * This sample demonstrates how to create a OrganizationResource
  *
  * @summary create a OrganizationResource
  * x-ms-original-file: 2024-10-22-preview/Organizations_CreateOrUpdate_MaximumSet_Gen.json
  */
-
-import { VectorDbClient } from "@azure/arm-pineconevectordb";
-import { DefaultAzureCredential } from "@azure/identity";
-
 async function organizationsCreateOrUpdateMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "76a38ef6-c8c1-4f0d-bfe0-00ec782c8077";
@@ -22,7 +21,6 @@ async function organizationsCreateOrUpdateMaximumSet(): Promise<void> {
       properties: {
         marketplace: {
           subscriptionId: "76a38ef6-c8c1-4f0d-bfe0-00ec782c8077",
-          subscriptionStatus: "PendingFulfillmentStart",
           offerDetails: {
             publisherId: "4d194daf-fa20-46a8-bfb4-5b7d96cae009",
             offerId: "013124d0-bf05-4eab-a6bb-01fa83870642",
@@ -48,10 +46,7 @@ async function organizationsCreateOrUpdateMaximumSet(): Promise<void> {
           aadDomains: ["exampledomain"],
         },
       },
-      identity: {
-        type: "None",
-        userAssignedIdentities: { ident904655400: {} },
-      },
+      identity: { type: "None", userAssignedIdentities: { ident904655400: {} } },
       tags: { "my-tag": "tag.value" },
       location: "us-east",
     },

@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NetAppManagementContext } from "../../api/netAppManagementContext.js";
+import { NetAppManagementContext } from "../../api/netAppManagementContext.js";
 import { migrateBackups } from "../../api/backupsUnderVolume/operations.js";
-import type { BackupsUnderVolumeMigrateBackupsOptionalParams } from "../../api/backupsUnderVolume/options.js";
-import type { BackupsMigrationRequest } from "../../models/models.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { BackupsUnderVolumeMigrateBackupsOptionalParams } from "../../api/backupsUnderVolume/options.js";
+import { BackupsMigrationRequest } from "../../models/models.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a BackupsUnderVolume operations. */
 export interface BackupsUnderVolumeOperations {

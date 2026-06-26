@@ -1,13 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NewRelicObservabilityContext } from "../../api/newRelicObservabilityContext.js";
+import { NewRelicObservabilityContext } from "../../api/newRelicObservabilityContext.js";
 import { activateResource } from "../../api/saaS/operations.js";
-import type { SaaSActivateResourceOptionalParams } from "../../api/saaS/options.js";
-import type {
-  ActivateSaaSParameterRequest,
-  SaaSResourceDetailsResponse,
-} from "../../models/models.js";
+import { SaaSActivateResourceOptionalParams } from "../../api/saaS/options.js";
+import { ActivateSaaSParameterRequest, SaaSResourceDetailsResponse } from "../../models/models.js";
 
 /** Interface representing a SaaS operations. */
 export interface SaaSOperations {

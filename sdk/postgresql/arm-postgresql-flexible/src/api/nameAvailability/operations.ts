@@ -1,20 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PostgreSQLManagementFlexibleServerContext as Client } from "../index.js";
-import type { CheckNameAvailabilityRequest, NameAvailabilityModel } from "../../models/models.js";
+import { PostgreSQLManagementFlexibleServerContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  CheckNameAvailabilityRequest,
   checkNameAvailabilityRequestSerializer,
+  NameAvailabilityModel,
   nameAvailabilityModelDeserializer,
 } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   NameAvailabilityCheckWithLocationOptionalParams,
   NameAvailabilityCheckGloballyOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _checkWithLocationSend(
   context: Client,
@@ -33,12 +38,14 @@ export function _checkWithLocationSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: checkNameAvailabilityRequestSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: checkNameAvailabilityRequestSerializer(parameters),
+    });
 }
 
 export async function _checkWithLocationDeserialize(
@@ -83,12 +90,14 @@ export function _checkGloballySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: checkNameAvailabilityRequestSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: checkNameAvailabilityRequestSerializer(parameters),
+    });
 }
 
 export async function _checkGloballyDeserialize(

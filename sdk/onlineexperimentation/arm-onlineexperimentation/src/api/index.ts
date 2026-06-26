@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export {
-  createOnlineExperimentation,
-  type OnlineExperimentationContext,
-  type OnlineExperimentationClientOptionalParams,
+export type {
+  OnlineExperimentationContext,
+  OnlineExperimentationClientOptionalParams,
 } from "./onlineExperimentationContext.js";
+export { createOnlineExperimentation } from "./onlineExperimentationContext.js";

@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { OracleDatabaseManagementContext } from "../../api/oracleDatabaseManagementContext.js";
+import { OracleDatabaseManagementContext } from "../../api/oracleDatabaseManagementContext.js";
 import { listByLocation, get } from "../../api/systemVersions/operations.js";
-import type {
+import {
   SystemVersionsListByLocationOptionalParams,
   SystemVersionsGetOptionalParams,
 } from "../../api/systemVersions/options.js";
-import type { SystemVersion } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SystemVersion } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a SystemVersions operations. */
 export interface SystemVersionsOperations {

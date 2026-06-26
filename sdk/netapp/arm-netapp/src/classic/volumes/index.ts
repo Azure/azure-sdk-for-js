@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NetAppManagementContext } from "../../api/netAppManagementContext.js";
+import { NetAppManagementContext } from "../../api/netAppManagementContext.js";
 import {
   listQuotaReport,
   revertRelocation,
@@ -32,7 +32,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/volumes/operations.js";
-import type {
+import {
   VolumesListQuotaReportOptionalParams,
   VolumesRevertRelocationOptionalParams,
   VolumesFinalizeRelocationOptionalParams,
@@ -62,7 +62,7 @@ import type {
   VolumesCreateOrUpdateOptionalParams,
   VolumesGetOptionalParams,
 } from "../../api/volumes/options.js";
-import type {
+import {
   Volume,
   VolumePatch,
   VolumeRevert,
@@ -78,8 +78,8 @@ import type {
   PoolChangeRequest,
   ListQuotaReportResult,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Volumes operations. */
 export interface VolumesOperations {

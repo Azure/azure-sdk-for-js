@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NetAppManagementContext } from "../../api/netAppManagementContext.js";
+import { NetAppManagementContext } from "../../api/netAppManagementContext.js";
 import { clearSuspects, list, get } from "../../api/ransomwareReports/operations.js";
-import type {
+import {
   RansomwareReportsClearSuspectsOptionalParams,
   RansomwareReportsListOptionalParams,
   RansomwareReportsGetOptionalParams,
 } from "../../api/ransomwareReports/options.js";
-import type { RansomwareReport, RansomwareSuspectsClearRequest } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { RansomwareReport, RansomwareSuspectsClearRequest } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a RansomwareReports operations. */
 export interface RansomwareReportsOperations {

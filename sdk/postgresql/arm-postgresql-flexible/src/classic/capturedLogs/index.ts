@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PostgreSQLManagementFlexibleServerContext } from "../../api/postgreSQLManagementFlexibleServerContext.js";
+import { PostgreSQLManagementFlexibleServerContext } from "../../api/postgreSQLManagementFlexibleServerContext.js";
 import { listByServer } from "../../api/capturedLogs/operations.js";
-import type { CapturedLogsListByServerOptionalParams } from "../../api/capturedLogs/options.js";
-import type { CapturedLog } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { CapturedLogsListByServerOptionalParams } from "../../api/capturedLogs/options.js";
+import { CapturedLog } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a CapturedLogs operations. */
 export interface CapturedLogsOperations {

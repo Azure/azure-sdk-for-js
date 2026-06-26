@@ -1,26 +1,33 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { NginxManagementContext, NginxManagementClientOptionalParams } from "./api/index.js";
-import { createNginxManagement } from "./api/index.js";
-import type { ApiKeysOperations } from "./classic/apiKeys/index.js";
-import { _getApiKeysOperations } from "./classic/apiKeys/index.js";
-import type { CertificatesOperations } from "./classic/certificates/index.js";
-import { _getCertificatesOperations } from "./classic/certificates/index.js";
-import type { ConfigurationsOperations } from "./classic/configurations/index.js";
-import { _getConfigurationsOperations } from "./classic/configurations/index.js";
-import type { DefaultWafPolicyOperations } from "./classic/defaultWafPolicy/index.js";
-import { _getDefaultWafPolicyOperations } from "./classic/defaultWafPolicy/index.js";
-import type { DeploymentsOperations } from "./classic/deployments/index.js";
-import { _getDeploymentsOperations } from "./classic/deployments/index.js";
-import type { NginxDeploymentWafPoliciesOperations } from "./classic/nginxDeploymentWafPolicies/index.js";
-import { _getNginxDeploymentWafPoliciesOperations } from "./classic/nginxDeploymentWafPolicies/index.js";
-import type { OperationsOperations } from "./classic/operations/index.js";
-import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { WafPolicyOperations } from "./classic/wafPolicy/index.js";
-import { _getWafPolicyOperations } from "./classic/wafPolicy/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import {
+  NginxManagementContext,
+  NginxManagementClientOptionalParams,
+  createNginxManagement,
+} from "./api/index.js";
+import { ApiKeysOperations, _getApiKeysOperations } from "./classic/apiKeys/index.js";
+import {
+  CertificatesOperations,
+  _getCertificatesOperations,
+} from "./classic/certificates/index.js";
+import {
+  ConfigurationsOperations,
+  _getConfigurationsOperations,
+} from "./classic/configurations/index.js";
+import {
+  DefaultWafPolicyOperations,
+  _getDefaultWafPolicyOperations,
+} from "./classic/defaultWafPolicy/index.js";
+import { DeploymentsOperations, _getDeploymentsOperations } from "./classic/deployments/index.js";
+import {
+  NginxDeploymentWafPoliciesOperations,
+  _getNginxDeploymentWafPoliciesOperations,
+} from "./classic/nginxDeploymentWafPolicies/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import { WafPolicyOperations, _getWafPolicyOperations } from "./classic/wafPolicy/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { NginxManagementClientOptionalParams } from "./api/nginxManagementContext.js";
 

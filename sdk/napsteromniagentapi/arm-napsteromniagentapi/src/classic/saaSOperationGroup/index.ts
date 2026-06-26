@@ -1,14 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CompanionAPIContext } from "../../api/companionAPIContext.js";
+import { CompanionAPIContext } from "../../api/companionAPIContext.js";
 import { activateResource } from "../../api/saaSOperationGroup/operations.js";
-import type { SaaSOperationGroupActivateResourceOptionalParams } from "../../api/saaSOperationGroup/options.js";
-import type {
-  ActivateSaaSParameterRequest,
-  SaaSResourceDetailsResponse,
-} from "../../models/models.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { SaaSOperationGroupActivateResourceOptionalParams } from "../../api/saaSOperationGroup/options.js";
+import { ActivateSaaSParameterRequest, SaaSResourceDetailsResponse } from "../../models/models.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a SaaSOperationGroup operations. */
 export interface SaaSOperationGroupOperations {

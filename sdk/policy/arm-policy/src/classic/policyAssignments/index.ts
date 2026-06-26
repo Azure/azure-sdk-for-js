@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PolicyContext } from "../../api/policyContext.js";
+import { PolicyContext } from "../../api/policyContext.js";
 import {
   listForResource,
   list,
@@ -12,7 +12,7 @@ import {
   create,
   get,
 } from "../../api/policyAssignments/operations.js";
-import type {
+import {
   PolicyAssignmentsListForResourceOptionalParams,
   PolicyAssignmentsListOptionalParams,
   PolicyAssignmentsListForManagementGroupOptionalParams,
@@ -22,8 +22,8 @@ import type {
   PolicyAssignmentsCreateOptionalParams,
   PolicyAssignmentsGetOptionalParams,
 } from "../../api/policyAssignments/options.js";
-import type { PolicyAssignment, PolicyAssignmentUpdate } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PolicyAssignment, PolicyAssignmentUpdate } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a PolicyAssignments operations. */
 export interface PolicyAssignmentsOperations {
@@ -51,16 +51,11 @@ export interface PolicyAssignmentsOperations {
     options?: PolicyAssignmentsListForResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<PolicyAssignment>;
   /** This operation deletes a policy assignment, given its name and the scope it was created in. The scope of a policy assignment is the part of its ID preceding '/providers/Microsoft.Authorization/policyAssignments/{policyAssignmentName}'. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     scope: string,
     policyAssignmentName: string,
     options?: PolicyAssignmentsDeleteOptionalParams,
-  ) => Promise<PolicyAssignment>;
+  ) => Promise<PolicyAssignment | undefined>;
   /** This operation updates a policy assignment with the given scope and name. Policy assignments apply to all resources contained within their scope. For example, when you assign a policy at resource group scope, that policy applies to all resources in the group. */
   update: (
     scope: string,

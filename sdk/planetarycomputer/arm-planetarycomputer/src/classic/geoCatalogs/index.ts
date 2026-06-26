@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SpatioContext } from "../../api/spatioContext.js";
+import { SpatioContext } from "../../api/spatioContext.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -10,7 +10,7 @@ import {
   create,
   get,
 } from "../../api/geoCatalogs/operations.js";
-import type {
+import {
   GeoCatalogsListBySubscriptionOptionalParams,
   GeoCatalogsListByResourceGroupOptionalParams,
   GeoCatalogsDeleteOptionalParams,
@@ -18,9 +18,9 @@ import type {
   GeoCatalogsCreateOptionalParams,
   GeoCatalogsGetOptionalParams,
 } from "../../api/geoCatalogs/options.js";
-import type { GeoCatalog, GeoCatalogUpdate } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { GeoCatalog, GeoCatalogUpdate } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a GeoCatalogs operations. */
 export interface GeoCatalogsOperations {
@@ -34,11 +34,6 @@ export interface GeoCatalogsOperations {
     options?: GeoCatalogsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<GeoCatalog>;
   /** Delete a GeoCatalog */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     catalogName: string,

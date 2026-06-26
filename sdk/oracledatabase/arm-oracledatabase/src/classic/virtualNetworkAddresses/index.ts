@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { OracleDatabaseManagementContext } from "../../api/oracleDatabaseManagementContext.js";
+import { OracleDatabaseManagementContext } from "../../api/oracleDatabaseManagementContext.js";
 import {
   listByParent,
   $delete,
   get,
   createOrUpdate,
 } from "../../api/virtualNetworkAddresses/operations.js";
-import type {
+import {
   VirtualNetworkAddressesListByParentOptionalParams,
   VirtualNetworkAddressesDeleteOptionalParams,
   VirtualNetworkAddressesGetOptionalParams,
   VirtualNetworkAddressesCreateOrUpdateOptionalParams,
 } from "../../api/virtualNetworkAddresses/options.js";
-import type { VirtualNetworkAddress } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { VirtualNetworkAddress } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a VirtualNetworkAddresses operations. */
 export interface VirtualNetworkAddressesOperations {
@@ -27,11 +27,6 @@ export interface VirtualNetworkAddressesOperations {
     options?: VirtualNetworkAddressesListByParentOptionalParams,
   ) => PagedAsyncIterableIterator<VirtualNetworkAddress>;
   /** Delete a VirtualNetworkAddress */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     cloudvmclustername: string,

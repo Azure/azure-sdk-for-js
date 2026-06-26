@@ -1,20 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { MySQLManagementFlexibleServerContext as Client } from "../index.js";
-import type {
-  VirtualNetworkSubnetUsageParameter,
-  VirtualNetworkSubnetUsageResult,
-} from "../../models/models.js";
+import { MySQLManagementFlexibleServerContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  VirtualNetworkSubnetUsageParameter,
   virtualNetworkSubnetUsageParameterSerializer,
+  VirtualNetworkSubnetUsageResult,
   virtualNetworkSubnetUsageResultDeserializer,
 } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type { CheckVirtualNetworkSubnetUsageExecuteOptionalParams } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import { CheckVirtualNetworkSubnetUsageExecuteOptionalParams } from "./options.js";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _executeSend(
   context: Client,
@@ -33,12 +35,14 @@ export function _executeSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: virtualNetworkSubnetUsageParameterSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: virtualNetworkSubnetUsageParameterSerializer(parameters),
+    });
 }
 
 export async function _executeDeserialize(
@@ -47,7 +51,9 @@ export async function _executeDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
