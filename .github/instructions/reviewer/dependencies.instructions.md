@@ -45,6 +45,7 @@ Hardcoded versions for cataloged deps are wrong:
 - **Beta package depending on beta:** Must use exact pin (e.g., `"1.0.0-beta.1"`) to protect against breaking changes
 
 ## New Dependency Evaluation
+0. **Approval gate (runtime deps in client/mgmt libraries)**: New third-party runtime `dependencies` in shipped libraries (`sdk-type` `client`/`mgmt`) must be first-party (`@azure*`, `@microsoft/*`, `@typespec/*`) or listed in `eng/approved-third-party-dependencies.yml` (`allowed`, or an `exceptions` entry naming the package). Enforced by the `@azure/azure-sdk/ts-package-json-approved-dependencies` ESLint rule. Flag any new runtime dep not covered there.
 1. **Necessity**: Already in `@azure/core-*`?
    - `core-util`: `delay`, `isNode`, `randomUUID`
    - `core-rest-pipeline`: HTTP client, retry, logging
