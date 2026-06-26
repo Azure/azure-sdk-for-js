@@ -1,14 +1,20 @@
 # Release History
 
-## 7.0.1 (Unreleased)
+## 8.0.0 (2026-06-25)
 
 ### Features Added
+  - Class RecoveryServicesClient has a new constructor "constructor(credential: TokenCredential, options?: RecoveryServicesClientOptionalParams);"
+  - Interface PrivateLinkResource has a new optional parameter groupId
+  - Interface PrivateLinkResource has a new optional parameter requiredMembers
+  - Interface PrivateLinkResource has a new optional parameter requiredZoneNames
+  - Interface VaultExtendedInfoResource has a new optional parameter algorithm
+  - Interface VaultExtendedInfoResource has a new optional parameter encryptionKey
+  - Interface VaultExtendedInfoResource has a new optional parameter encryptionKeyThumbprint
+  - Interface VaultExtendedInfoResource has a new optional parameter integrityKey
 
 ### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+  - Interface PrivateLinkResource no longer has parameter properties
+  - Interface VaultExtendedInfoResource no longer has parameter properties
 
 ## 7.0.0 (2025-09-29)
 

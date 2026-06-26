@@ -1,14 +1,58 @@
 # Release History
 
-## 2.0.1 (Unreleased)
+## 3.0.0 (2026-06-25)
 
 ### Features Added
+  - Interface GroupQuotaDetails has a new optional parameter localizedValue
+  - Interface GroupQuotaDetails has a new optional parameter value
+  - Interface GroupQuotaLimitProperties has a new optional parameter localizedValue
+  - Interface GroupQuotaLimitProperties has a new optional parameter value
+  - Interface GroupQuotaRequestBase has a new optional parameter comments
+  - Interface GroupQuotaRequestBase has a new optional parameter limit
+  - Interface GroupQuotaRequestBase has a new optional parameter name
+  - Interface GroupQuotaRequestBase has a new optional parameter region
+  - Interface GroupQuotaRequestBaseProperties has a new optional parameter localizedValue
+  - Interface GroupQuotaRequestBaseProperties has a new optional parameter value
+  - Interface GroupQuotaUsagesBase has a new optional parameter localizedValue
+  - Interface GroupQuotaUsagesBase has a new optional parameter value
+  - Interface QuotaAllocationRequestBase has a new optional parameter limit
+  - Interface QuotaAllocationRequestBase has a new optional parameter name
+  - Interface QuotaAllocationRequestBase has a new optional parameter region
+  - Interface QuotaAllocationRequestBaseProperties has a new optional parameter localizedValue
+  - Interface QuotaAllocationRequestBaseProperties has a new optional parameter value
+  - Interface QuotaAllocationRequestStatus has a new optional parameter faultCode
+  - Interface QuotaAllocationRequestStatus has a new optional parameter provisioningState
+  - Interface QuotaAllocationRequestStatus has a new optional parameter requestedResource
+  - Interface QuotaAllocationRequestStatus has a new optional parameter requestSubmitTime
+  - Interface QuotaRequestDetails has a new optional parameter error
+  - Interface QuotaRequestDetails has a new optional parameter message
+  - Interface QuotaRequestDetails has a new optional parameter provisioningState
+  - Interface QuotaRequestDetails has a new optional parameter requestSubmitTime
+  - Interface QuotaRequestDetails has a new optional parameter value
+  - Interface SubscriptionQuotaAllocationsProperties has a new optional parameter localizedValue
+  - Interface SubscriptionQuotaAllocationsProperties has a new optional parameter value
+  - Interface SubscriptionQuotaDetails has a new optional parameter localizedValue
+  - Interface SubscriptionQuotaDetails has a new optional parameter value
 
 ### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+  - Operation GroupQuotaLimitsRequestOperations.get has a new signature
+  - Operation GroupQuotaLimitsRequestOperations.list has a new signature
+  - Operation QuotaOperations.createOrUpdate has a new signature
+  - Operation QuotaOperations.get has a new signature
+  - Operation QuotaOperations.update has a new signature
+  - Operation QuotaRequestStatusOperations.get has a new signature
+  - Operation UsagesOperations.get has a new signature
+  - Interface GroupQuotaDetails no longer has parameter name
+  - Interface GroupQuotaLimitProperties no longer has parameter name
+  - Interface GroupQuotaRequestBase no longer has parameter properties
+  - Interface GroupQuotaRequestBaseProperties no longer has parameter name
+  - Interface GroupQuotaUsagesBase no longer has parameter name
+  - Interface QuotaAllocationRequestBase no longer has parameter properties
+  - Interface QuotaAllocationRequestBaseProperties no longer has parameter name
+  - Interface QuotaAllocationRequestStatus no longer has parameter properties
+  - Interface QuotaRequestDetails no longer has parameter properties
+  - Interface SubscriptionQuotaAllocationsProperties no longer has parameter name
+  - Interface SubscriptionQuotaDetails no longer has parameter name
 
 ## 2.0.0 (2025-09-24)
 

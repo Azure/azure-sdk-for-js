@@ -1,5 +1,70 @@
 # Release History
 
+## 4.0.0-beta.2 (2026-06-25)
+Compared with version 3.0.0
+
+### Features Added
+  - Added operation group ClassifyProblemsNoSubscriptionOperations
+  - Added operation group ClassifyProblemsOperations
+  - Added operation group ClassifyServicesNoSubscriptionOperations
+  - Added operation group ClassifyServicesOperations
+  - Added operation CommunicationsOperations.create
+  - Added operation CommunicationsNoSubscriptionOperations.create
+  - Added operation SupportTicketsOperations.create
+  - Added operation SupportTicketsOperations.lookUpResourceId
+  - Added operation SupportTicketsNoSubscriptionOperations.create
+  - Added Interface ChatTranscriptDetailsProperties
+  - Added Interface ClassificationService
+  - Added Interface ClassifyProblemsClassifyProblemsOptionalParams
+  - Added Interface ClassifyProblemsNoSubscriptionClassifyProblemsOptionalParams
+  - Added Interface ClassifyServicesClassifyServicesOptionalParams
+  - Added Interface ClassifyServicesNoSubscriptionClassifyServicesOptionalParams
+  - Added Interface CommunicationDetailsProperties
+  - Added Interface DirectConnectEscalation
+  - Added Interface FileDetailsProperties
+  - Added Interface FileWorkspaceDetailsProperties
+  - Added Interface LookUpResourceIdRequest
+  - Added Interface LookUpResourceIdResponse
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface ProblemClassificationProperties
+  - Added Interface ProblemClassificationsClassificationInput
+  - Added Interface ProblemClassificationsClassificationOutput
+  - Added Interface ProblemClassificationsClassificationResult
+  - Added Interface RestorePollerOptions
+  - Added Interface ServiceClassificationAnswer
+  - Added Interface ServiceClassificationOutput
+  - Added Interface ServiceClassificationRequest
+  - Added Interface ServiceProperties
+  - Added Interface SimplePollerLike
+  - Added Interface SupportTicketDetailsProperties
+  - Added Interface SupportTicketsLookUpResourceIdOptionalParams
+  - Interface CommunicationDetails has a new optional parameter systemData
+  - Interface Operation has a new optional parameter actionType
+  - Interface Operation has a new optional parameter isDataAction
+  - Interface Operation has a new optional parameter origin
+  - Interface ProblemClassification has a new optional parameter systemData
+  - Interface Service has a new optional parameter systemData
+  - Interface SupportTicketDetails has a new optional parameter communityForumPost
+  - Interface SupportTicketDetails has a new optional parameter directConnectEscalation
+  - Interface SupportTicketDetails has a new optional parameter systemData
+  - Interface UpdateSupportTicket has a new optional parameter directConnectEscalation
+  - Added Type Alias ActionType
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias EscalationStatus
+  - Added Type Alias Origin
+  - Added Enum AzureClouds
+  - Added Enum KnownActionType
+  - Added Enum KnownEscalationStatus
+  - Added Enum KnownOrigin
+  - Added Enum KnownVersions
+
+### Breaking Changes
+  - Class MicrosoftSupport no longer has parameter apiVersion
+  - Class MicrosoftSupport no longer has parameter subscriptionId
+  - Removed Type Alias TranscriptContentType
+  - Removed Enum KnownTranscriptContentType
+
 ## 4.0.0-beta.1 (2026-06-02)
 Compared with version 3.0.0
 

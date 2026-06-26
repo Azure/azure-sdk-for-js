@@ -1,6 +1,6 @@
 # Release History
 
-## 11.0.0 (2026-06-05)
+## 11.0.0 (2026-06-25)
 
 ### Features Added
   - Added operation group InstancePoolOperationsOperations
@@ -10,7 +10,7 @@
   - Added operation BackupShortTermRetentionPoliciesOperations.update
   - Added operation DatabaseEncryptionProtectorsOperations.revalidate
   - Added operation DatabaseEncryptionProtectorsOperations.revert
-  - Added operation DatabaseExtensionsOperationsOperations.createOrUpdate
+  - Added operation DatabaseExtensionsOperations.createOrUpdate
   - Added operation DatabasesOperations.createOrUpdate
   - Added operation DatabasesOperations.delete
   - Added operation DatabasesOperations.export
@@ -60,8 +60,8 @@
   - Added operation JobAgentsOperations.update
   - Added operation JobExecutionsOperations.create
   - Added operation JobExecutionsOperations.createOrUpdate
-  - Added operation LedgerDigestUploadsOperationsOperations.createOrUpdate
-  - Added operation LedgerDigestUploadsOperationsOperations.disable
+  - Added operation LedgerDigestUploadsOperations.createOrUpdate
+  - Added operation LedgerDigestUploadsOperations.disable
   - Added operation LongTermRetentionBackupsOperations.beginChangeAccessTier
   - Added operation LongTermRetentionBackupsOperations.beginChangeAccessTierAndWait
   - Added operation LongTermRetentionBackupsOperations.beginChangeAccessTierByResourceGroup
@@ -147,8 +147,8 @@
   - Added operation ManagedInstancesOperations.update
   - Added operation ManagedInstancesOperations.validateAzureKeyVaultEncryptionKey
   - Added operation ManagedInstanceTdeCertificatesOperations.create
-  - Added operation ManagedLedgerDigestUploadsOperationsOperations.createOrUpdate
-  - Added operation ManagedLedgerDigestUploadsOperationsOperations.disable
+  - Added operation ManagedLedgerDigestUploadsOperations.createOrUpdate
+  - Added operation ManagedLedgerDigestUploadsOperations.disable
   - Added operation ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesOperations.createOrUpdate
   - Added operation ManagedRestorableDroppedDatabaseBackupShortTermRetentionPoliciesOperations.update
   - Added operation ManagedServerDnsAliasesOperations.acquire
@@ -236,14 +236,9 @@
   - Added Interface CertificateInfo
   - Added Interface ChangeLongTermRetentionBackupAccessTierParameters
   - Added Interface CopyLongTermRetentionBackupParametersProperties
-  - Added Interface DatabaseAutomaticTuningOperationsGetOptionalParams
-  - Added Interface DatabaseAutomaticTuningOperationsUpdateOptionalParams
   - Added Interface DatabaseAutomaticTuningProperties
   - Added Interface DatabaseBlobAuditingPolicyProperties
   - Added Interface DatabaseColumnProperties
-  - Added Interface DatabaseExtensionsOperationsCreateOrUpdateOptionalParams
-  - Added Interface DatabaseExtensionsOperationsGetOptionalParams
-  - Added Interface DatabaseExtensionsOperationsListByDatabaseOptionalParams
   - Added Interface DatabaseExtensionsProperties
   - Added Interface DatabaseOperationProperties
   - Added Interface DatabaseProperties
@@ -259,8 +254,6 @@
   - Added Interface DatabaseVulnerabilityAssessmentScanExportProperties
   - Added Interface DataMaskingPolicyProperties
   - Added Interface DataMaskingRuleProperties
-  - Added Interface DataWarehouseUserActivitiesOperationsGetOptionalParams
-  - Added Interface DataWarehouseUserActivitiesOperationsListByDatabaseOptionalParams
   - Added Interface DataWarehouseUserActivitiesProperties
   - Added Interface DeletedServerProperties
   - Added Interface DistributedAvailabilityGroupDatabase
@@ -311,10 +304,6 @@
   - Added Interface JobProperties
   - Added Interface JobStepProperties
   - Added Interface JobTargetGroupProperties
-  - Added Interface LedgerDigestUploadsOperationsCreateOrUpdateOptionalParams
-  - Added Interface LedgerDigestUploadsOperationsDisableOptionalParams
-  - Added Interface LedgerDigestUploadsOperationsGetOptionalParams
-  - Added Interface LedgerDigestUploadsOperationsListByDatabaseOptionalParams
   - Added Interface LedgerDigestUploadsProperties
   - Added Interface LongTermRetentionBackupProperties
   - Added Interface LongTermRetentionBackupsChangeAccessTierByResourceGroupOptionalParams
@@ -329,10 +318,7 @@
   - Added Interface LongTermRetentionBackupsSetLegalHoldImmutabilityOptionalParams
   - Added Interface LongTermRetentionOperationResultProperties
   - Added Interface LongTermRetentionPolicyProperties
-  - Added Interface MaintenanceWindowOptionsOperationsGetOptionalParams
   - Added Interface MaintenanceWindowOptionsProperties
-  - Added Interface MaintenanceWindowsOperationsCreateOrUpdateOptionalParams
-  - Added Interface MaintenanceWindowsOperationsGetOptionalParams
   - Added Interface MaintenanceWindowsProperties
   - Added Interface ManagedBackupShortTermRetentionPolicyProperties
   - Added Interface ManagedDatabaseExtendedAccessibilityInfo
@@ -356,10 +342,6 @@
   - Added Interface ManagedInstancesValidateAzureKeyVaultEncryptionKeyOptionalParams
   - Added Interface ManagedInstanceValidateAzureKeyVaultEncryptionKeyRequest
   - Added Interface ManagedInstanceVulnerabilityAssessmentProperties
-  - Added Interface ManagedLedgerDigestUploadsOperationsCreateOrUpdateOptionalParams
-  - Added Interface ManagedLedgerDigestUploadsOperationsDisableOptionalParams
-  - Added Interface ManagedLedgerDigestUploadsOperationsGetOptionalParams
-  - Added Interface ManagedLedgerDigestUploadsOperationsListByDatabaseOptionalParams
   - Added Interface ManagedLedgerDigestUploadsProperties
   - Added Interface ManagedServerDnsAliasProperties
   - Added Interface ManagedTransparentDataEncryptionProperties
@@ -405,8 +387,6 @@
   - Added Interface SensitivityLabelProperties
   - Added Interface SensitivityLabelsListByDatabaseOptionalParams
   - Added Interface SensitivityLabelUpdateProperties
-  - Added Interface ServerAutomaticTuningOperationsGetOptionalParams
-  - Added Interface ServerAutomaticTuningOperationsUpdateOptionalParams
   - Added Interface ServerBlobAuditingPolicyProperties
   - Added Interface ServerConfigurationOptionProperties
   - Added Interface ServerConnectionPolicyProperties
@@ -795,20 +775,21 @@
   - Operation Servers.beginImportDatabase has a new signature
   - Operation Servers.beginImportDatabaseAndWait has a new signature
   - Class SqlManagementClient has a new signature
+  - Class SqlManagementClient no longer has parameter databaseAutomaticTuningOperations
+  - Class SqlManagementClient no longer has parameter databaseExtensionsOperations
+  - Class SqlManagementClient no longer has parameter dataWarehouseUserActivitiesOperations
   - Class SqlManagementClient no longer has parameter elasticPoolActivities
   - Class SqlManagementClient no longer has parameter elasticPoolDatabaseActivities
+  - Class SqlManagementClient no longer has parameter ledgerDigestUploadsOperations
+  - Class SqlManagementClient no longer has parameter maintenanceWindowOptionsOperations
+  - Class SqlManagementClient no longer has parameter maintenanceWindowsOperations
+  - Class SqlManagementClient no longer has parameter managedLedgerDigestUploadsOperations
+  - Class SqlManagementClient no longer has parameter serverAutomaticTuningOperations
   - Class SqlManagementClient no longer has parameter serverCommunicationLinks
   - Class SqlManagementClient no longer has parameter serviceObjectives
   - Class SqlManagementClient no longer has parameter subscriptionId
-  - Removed Interface DatabaseAutomaticTuningGetOptionalParams
-  - Removed Interface DatabaseAutomaticTuningUpdateOptionalParams
-  - Removed Interface DatabaseExtensionsCreateOrUpdateOptionalParams
-  - Removed Interface DatabaseExtensionsGetOptionalParams
-  - Removed Interface DatabaseExtensionsListByDatabaseOptionalParams
   - Removed Interface DatabasesListMetricDefinitionsOptionalParams
   - Removed Interface DatabasesListMetricsOptionalParams
-  - Removed Interface DataWarehouseUserActivitiesGetOptionalParams
-  - Removed Interface DataWarehouseUserActivitiesListByDatabaseOptionalParams
   - Removed Interface ElasticPoolActivities
   - Removed Interface ElasticPoolActivitiesListByElasticPoolOptionalParams
   - Removed Interface ElasticPoolActivity
@@ -818,18 +799,7 @@
   - Removed Interface ElasticPoolsListMetricDefinitionsOptionalParams
   - Removed Interface ElasticPoolsListMetricsOptionalParams
   - Removed Interface GeoBackupPoliciesListByDatabaseOptionalParams
-  - Removed Interface LedgerDigestUploadsCreateOrUpdateOptionalParams
-  - Removed Interface LedgerDigestUploadsDisableOptionalParams
-  - Removed Interface LedgerDigestUploadsGetOptionalParams
-  - Removed Interface LedgerDigestUploadsListByDatabaseOptionalParams
-  - Removed Interface MaintenanceWindowOptionsGetOptionalParams
-  - Removed Interface MaintenanceWindowsCreateOrUpdateOptionalParams
-  - Removed Interface MaintenanceWindowsGetOptionalParams
   - Removed Interface ManagedInstanceQueryStatistics
-  - Removed Interface ManagedLedgerDigestUploadsCreateOrUpdateOptionalParams
-  - Removed Interface ManagedLedgerDigestUploadsDisableOptionalParams
-  - Removed Interface ManagedLedgerDigestUploadsGetOptionalParams
-  - Removed Interface ManagedLedgerDigestUploadsListByDatabaseOptionalParams
   - Removed Interface Metric
   - Removed Interface MetricAvailability
   - Removed Interface MetricDefinition
@@ -839,8 +809,6 @@
   - Removed Interface OutboundEnvironmentEndpointCollection
   - Removed Interface SecurityEventCollection
   - Removed Interface SecurityEventsFilterParameters
-  - Removed Interface ServerAutomaticTuningGetOptionalParams
-  - Removed Interface ServerAutomaticTuningUpdateOptionalParams
   - Removed Interface ServerCommunicationLink
   - Removed Interface ServerCommunicationLinks
   - Removed Interface ServerCommunicationLinksCreateOrUpdateOptionalParams

@@ -1,14 +1,10 @@
 # Release History
 
-## 7.0.1 (Unreleased)
+## 7.1.0 (2026-06-25)
 
 ### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+  - Added Interface PolicyDefinitionVersionListResult
+  - Added Interface PolicySetDefinitionVersionListResult
 
 ## 7.0.0 (2026-03-20)
 

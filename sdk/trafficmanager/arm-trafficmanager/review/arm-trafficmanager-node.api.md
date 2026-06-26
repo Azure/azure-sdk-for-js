@@ -4,12 +4,12 @@
 
 ```ts
 
-import type { ClientOptions } from '@azure-rest/core-client';
+import { ClientOptions } from '@azure-rest/core-client';
 import { isRestError } from '@azure/core-rest-pipeline';
-import type { OperationOptions } from '@azure-rest/core-client';
-import type { Pipeline } from '@azure/core-rest-pipeline';
+import { OperationOptions } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
 import { RestError } from '@azure/core-rest-pipeline';
-import type { TokenCredential } from '@azure/core-auth';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type AllowedEndpointRecordType = string;
@@ -130,7 +130,7 @@ export interface EndpointsGetOptionalParams extends OperationOptions {
 // @public
 export interface EndpointsOperations {
     createOrUpdate: (resourceGroupName: string, profileName: string, endpointType: EndpointType, endpointName: string, parameters: Endpoint, options?: EndpointsCreateOrUpdateOptionalParams) => Promise<Endpoint>;
-    delete: (resourceGroupName: string, profileName: string, endpointType: EndpointType, endpointName: string, options?: EndpointsDeleteOptionalParams) => Promise<DeleteOperationResult>;
+    delete: (resourceGroupName: string, profileName: string, endpointType: EndpointType, endpointName: string, options?: EndpointsDeleteOptionalParams) => Promise<DeleteOperationResult | undefined>;
     get: (resourceGroupName: string, profileName: string, endpointType: EndpointType, endpointName: string, options?: EndpointsGetOptionalParams) => Promise<Endpoint>;
     update: (resourceGroupName: string, profileName: string, endpointType: EndpointType, endpointName: string, parameters: Endpoint, options?: EndpointsUpdateOptionalParams) => Promise<Endpoint>;
 }
@@ -378,7 +378,7 @@ export interface ProfilesOperations {
     checkTrafficManagerNameAvailabilityV2: (parameters: CheckTrafficManagerRelativeDnsNameAvailabilityParameters, options?: ProfilesCheckTrafficManagerNameAvailabilityV2OptionalParams) => Promise<TrafficManagerNameAvailability>;
     checkTrafficManagerRelativeDnsNameAvailability: (parameters: CheckTrafficManagerRelativeDnsNameAvailabilityParameters, options?: ProfilesCheckTrafficManagerRelativeDnsNameAvailabilityOptionalParams) => Promise<TrafficManagerNameAvailability>;
     createOrUpdate: (resourceGroupName: string, profileName: string, parameters: Profile, options?: ProfilesCreateOrUpdateOptionalParams) => Promise<Profile>;
-    delete: (resourceGroupName: string, profileName: string, options?: ProfilesDeleteOptionalParams) => Promise<DeleteOperationResult>;
+    delete: (resourceGroupName: string, profileName: string, options?: ProfilesDeleteOptionalParams) => Promise<DeleteOperationResult | undefined>;
     get: (resourceGroupName: string, profileName: string, options?: ProfilesGetOptionalParams) => Promise<Profile>;
     listByResourceGroup: (resourceGroupName: string, options?: ProfilesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Profile>;
     listBySubscription: (options?: ProfilesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<Profile>;

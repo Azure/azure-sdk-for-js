@@ -4,14 +4,16 @@
 
 ```ts
 
-import type { AbortSignalLike } from '@azure/abort-controller';
-import type { ClientOptions } from '@azure-rest/core-client';
-import type { OperationOptions } from '@azure-rest/core-client';
-import type { OperationState } from '@azure/core-lro';
-import type { PathUncheckedResponse } from '@azure-rest/core-client';
-import type { Pipeline } from '@azure/core-rest-pipeline';
-import type { PollerLike } from '@azure/core-lro';
-import type { TokenCredential } from '@azure/core-auth';
+import { AbortSignalLike } from '@azure/abort-controller';
+import { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import { OperationOptions } from '@azure-rest/core-client';
+import { OperationState } from '@azure/core-lro';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type AccessRightsDescription = string;
@@ -115,10 +117,10 @@ export interface DpsCertificateListOptionalParams extends OperationOptions {
 export interface DpsCertificateOperations {
     createOrUpdate: (resourceGroupName: string, provisioningServiceName: string, certificateName: string, certificateDescription: CertificateResponse, options?: DpsCertificateCreateOrUpdateOptionalParams) => Promise<CertificateResponse>;
     delete: (resourceGroupName: string, provisioningServiceName: string, certificateName: string, ifMatch: string, options?: DpsCertificateDeleteOptionalParams) => Promise<void>;
-    generateVerificationCode: (certificateName: string, ifMatch: string, resourceGroupName: string, provisioningServiceName: string, options?: DpsCertificateGenerateVerificationCodeOptionalParams) => Promise<VerificationCodeResponse>;
-    get: (certificateName: string, resourceGroupName: string, provisioningServiceName: string, options?: DpsCertificateGetOptionalParams) => Promise<CertificateResponse>;
+    generateVerificationCode: (resourceGroupName: string, provisioningServiceName: string, certificateName: string, ifMatch: string, options?: DpsCertificateGenerateVerificationCodeOptionalParams) => Promise<VerificationCodeResponse>;
+    get: (resourceGroupName: string, provisioningServiceName: string, certificateName: string, options?: DpsCertificateGetOptionalParams) => Promise<CertificateResponse>;
     list: (resourceGroupName: string, provisioningServiceName: string, options?: DpsCertificateListOptionalParams) => PagedAsyncIterableIterator<CertificateResponse>;
-    verifyCertificate: (certificateName: string, ifMatch: string, resourceGroupName: string, provisioningServiceName: string, request: VerificationCodeRequest, options?: DpsCertificateVerifyCertificateOptionalParams) => Promise<CertificateResponse>;
+    verifyCertificate: (resourceGroupName: string, provisioningServiceName: string, certificateName: string, ifMatch: string, request: VerificationCodeRequest, options?: DpsCertificateVerifyCertificateOptionalParams) => Promise<CertificateResponse>;
 }
 
 // @public
@@ -182,6 +184,7 @@ export interface GroupIdInformationProperties {
 
 // @public (undocumented)
 export class IotDpsClient {
+    constructor(credential: TokenCredential, options?: IotDpsClientOptionalParams);
     constructor(credential: TokenCredential, subscriptionId: string, options?: IotDpsClientOptionalParams);
     readonly dpsCertificate: DpsCertificateOperations;
     readonly iotDpsResource: IotDpsResourceOperations;
@@ -289,16 +292,16 @@ export interface IotDpsResourceOperations {
     delete: (resourceGroupName: string, provisioningServiceName: string, options?: IotDpsResourceDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     deletePrivateEndpointConnection: (resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, options?: IotDpsResourceDeletePrivateEndpointConnectionOptionalParams) => PollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>;
     get: (resourceGroupName: string, provisioningServiceName: string, options?: IotDpsResourceGetOptionalParams) => Promise<ProvisioningServiceDescription>;
-    getOperationResult: (operationId: string, resourceGroupName: string, provisioningServiceName: string, asyncinfo: string, options?: IotDpsResourceGetOperationResultOptionalParams) => Promise<AsyncOperationResult>;
+    getOperationResult: (resourceGroupName: string, provisioningServiceName: string, operationId: string, asyncinfo: string, options?: IotDpsResourceGetOperationResultOptionalParams) => Promise<AsyncOperationResult>;
     getPrivateEndpointConnection: (resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, options?: IotDpsResourceGetPrivateEndpointConnectionOptionalParams) => Promise<PrivateEndpointConnection>;
     getPrivateLinkResources: (resourceGroupName: string, resourceName: string, groupId: string, options?: IotDpsResourceGetPrivateLinkResourcesOptionalParams) => Promise<GroupIdInformation>;
     listByResourceGroup: (resourceGroupName: string, options?: IotDpsResourceListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<ProvisioningServiceDescription>;
     listBySubscription: (options?: IotDpsResourceListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<ProvisioningServiceDescription>;
-    listKeys: (provisioningServiceName: string, resourceGroupName: string, options?: IotDpsResourceListKeysOptionalParams) => PagedAsyncIterableIterator<SharedAccessSignatureAuthorizationRuleAccessRightsDescription>;
-    listKeysForKeyName: (provisioningServiceName: string, keyName: string, resourceGroupName: string, options?: IotDpsResourceListKeysForKeyNameOptionalParams) => Promise<SharedAccessSignatureAuthorizationRuleAccessRightsDescription>;
+    listKeys: (resourceGroupName: string, provisioningServiceName: string, options?: IotDpsResourceListKeysOptionalParams) => PagedAsyncIterableIterator<SharedAccessSignatureAuthorizationRuleAccessRightsDescription>;
+    listKeysForKeyName: (resourceGroupName: string, provisioningServiceName: string, keyName: string, options?: IotDpsResourceListKeysForKeyNameOptionalParams) => Promise<SharedAccessSignatureAuthorizationRuleAccessRightsDescription>;
     listPrivateEndpointConnections: (resourceGroupName: string, resourceName: string, options?: IotDpsResourceListPrivateEndpointConnectionsOptionalParams) => Promise<PrivateEndpointConnection[]>;
     listPrivateLinkResources: (resourceGroupName: string, resourceName: string, options?: IotDpsResourceListPrivateLinkResourcesOptionalParams) => PagedAsyncIterableIterator<GroupIdInformation>;
-    listValidSkus: (provisioningServiceName: string, resourceGroupName: string, options?: IotDpsResourceListValidSkusOptionalParams) => PagedAsyncIterableIterator<IotDpsSkuDefinition>;
+    listValidSkus: (resourceGroupName: string, provisioningServiceName: string, options?: IotDpsResourceListValidSkusOptionalParams) => PagedAsyncIterableIterator<IotDpsSkuDefinition>;
     update: (resourceGroupName: string, provisioningServiceName: string, provisioningServiceTags: TagsResource, options?: IotDpsResourceUpdateOptionalParams) => PollerLike<OperationState<ProvisioningServiceDescription>, ProvisioningServiceDescription>;
 }
 
@@ -344,6 +347,8 @@ export interface IpFilterRule {
 
 // @public
 export type IpFilterTargetType = "all" | "serviceApi" | "deviceApi";
+
+export { isRestError }
 
 // @public
 export enum KnownAccessRightsDescription {
@@ -543,6 +548,8 @@ export interface Resource {
     readonly systemData?: SystemData;
     readonly type?: string;
 }
+
+export { RestError }
 
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: IotDpsClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;

@@ -1,5 +1,156 @@
 # Release History
 
+## 10.0.0-beta.3 (2026-06-25)
+Compared with version 9.0.0
+
+### Features Added
+  - Added operation group MaintenanceEventsOperations
+  - Added operation group MajorVersionUpgradePrecheckOperations
+  - Added operation AdministratorsMicrosoftEntraOperations.createOrUpdate
+  - Added operation AdministratorsMicrosoftEntraOperations.delete
+  - Added operation BackupsAutomaticAndOnDemandOperations.create
+  - Added operation BackupsAutomaticAndOnDemandOperations.delete
+  - Added operation BackupsLongTermRetentionOperations.start
+  - Added operation ConfigurationsOperations.put
+  - Added operation ConfigurationsOperations.update
+  - Added operation DatabasesOperations.create
+  - Added operation DatabasesOperations.delete
+  - Added operation FirewallRulesOperations.createOrUpdate
+  - Added operation FirewallRulesOperations.delete
+  - Added operation PrivateEndpointConnectionsOperations.delete
+  - Added operation PrivateEndpointConnectionsOperations.update
+  - Added operation ServersOperations.beginMigrateNetworkMode
+  - Added operation ServersOperations.beginMigrateNetworkModeAndWait
+  - Added operation ServersOperations.beginStartMajorVersionUpgradePrecheck
+  - Added operation ServersOperations.beginStartMajorVersionUpgradePrecheckAndWait
+  - Added operation ServersOperations.createOrUpdate
+  - Added operation ServersOperations.delete
+  - Added operation ServersOperations.migrateNetworkMode
+  - Added operation ServersOperations.restart
+  - Added operation ServersOperations.start
+  - Added operation ServersOperations.startMajorVersionUpgradePrecheck
+  - Added operation ServersOperations.stop
+  - Added operation ServersOperations.update
+  - Added operation ServerThreatProtectionSettingsOperations.createOrUpdate
+  - Added operation VirtualEndpointsOperations.create
+  - Added operation VirtualEndpointsOperations.delete
+  - Added operation VirtualEndpointsOperations.update
+  - Added Interface AdministratorMicrosoftEntraProperties
+  - Added Interface AdministratorMicrosoftEntraPropertiesForAdd
+  - Added Interface AdvancedThreatProtectionSettingsProperties
+  - Added Interface BackupAutomaticAndOnDemandProperties
+  - Added Interface BackupsLongTermRetentionResponseProperties
+  - Added Interface CapturedLogProperties
+  - Added Interface ConfigurationProperties
+  - Added Interface DatabaseProperties
+  - Added Interface FirewallRuleProperties
+  - Added Interface LogSpecification
+  - Added Interface LtrBackupOperationResponseProperties
+  - Added Interface MaintenanceEventActionResponse
+  - Added Interface MaintenanceEventRescheduleRequest
+  - Added Interface MaintenanceEventResource
+  - Added Interface MaintenanceEventResourceProperties
+  - Added Interface MaintenanceEventsApplyNowOptionalParams
+  - Added Interface MaintenanceEventsGetOptionalParams
+  - Added Interface MaintenanceEventsListOptionalParams
+  - Added Interface MaintenanceEventsRescheduleOptionalParams
+  - Added Interface MajorVersionUpgradePrecheckGetOptionalParams
+  - Added Interface MajorVersionUpgradePrecheckListOptionalParams
+  - Added Interface MajorVersionUpgradePrecheckResource
+  - Added Interface MajorVersionUpgradePrecheckResourceProperties
+  - Added Interface MetricSpecification
+  - Added Interface MigrateNetworkStatus
+  - Added Interface MigrationProperties
+  - Added Interface MigrationPropertiesForPatch
+  - Added Interface ObjectRecommendationProperties
+  - Added Interface OperationProperties
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface PolicyDetail
+  - Added Interface PrecheckErrorInfo
+  - Added Interface PrecheckResult
+  - Added Interface PrivateEndpointConnectionProperties
+  - Added Interface PrivateLinkResourceProperties
+  - Added Interface RestorePollerOptions
+  - Added Interface ServerProperties
+  - Added Interface ServerPropertiesForPatch
+  - Added Interface ServersMigrateNetworkModeOptionalParams
+  - Added Interface ServersStartMajorVersionUpgradePrecheckOptionalParams
+  - Added Interface ServiceSpecification
+  - Added Interface SimplePollerLike
+  - Added Interface StartMajorVersionUpgradePrecheckRequest
+  - Added Interface StartMajorVersionUpgradePrecheckResponse
+  - Added Interface Storage_2
+  - Added Interface TuningOptionsOperationsGetOptionalParams
+  - Added Interface TuningOptionsOperationsListByServerOptionalParams
+  - Added Interface TuningOptionsOperationsListRecommendationsOptionalParams
+  - Added Interface TuningOptionsProperties
+  - Added Interface UpgradeSequence
+  - Added Interface VirtualEndpointResourceProperties
+  - Interface DataEncryption has a new optional parameter geoBackupFederatedIdentityClientId
+  - Interface DataEncryption has a new optional parameter primaryFederatedIdentityClientId
+  - Interface TuningOptions has a new optional parameter properties
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias MaintenanceEventStatus
+  - Added Type Alias MaintenanceEventStatusFilter
+  - Added Type Alias MaintenanceType
+  - Added Type Alias MajorVersionUpgradePrecheckStatus
+  - Added Type Alias NetworkMigrationState
+  - Added Type Alias PostgreSqlFlexibleServerHighAvailabilityMode
+  - Added Enum AzureClouds
+  - Added Enum KnownMaintenanceEventStatus
+  - Added Enum KnownMaintenanceEventStatusFilter
+  - Added Enum KnownMaintenanceType
+  - Added Enum KnownMajorVersionUpgradePrecheckStatus
+  - Added Enum KnownNetworkMigrationState
+  - Added Enum KnownPostgreSqlFlexibleServerHighAvailabilityMode
+  - Added Enum KnownVersions
+  - Enum KnownHighAvailabilityState has a new value ComputeUpdatingByFailover
+  - Enum KnownHighAvailabilityState has a new value RecreatingStandby
+  - Enum KnownRecommendationTypeEnum has a new value VacuumTable
+  - Enum KnownRecommendationTypeParameterEnum has a new value VacuumTable
+
+### Breaking Changes
+  - Operation AdministratorsMicrosoftEntra.beginDeleteAndWait has a new signature
+  - Operation BackupsAutomaticAndOnDemand.beginDeleteAndWait has a new signature
+  - Operation Databases.beginDeleteAndWait has a new signature
+  - Operation FirewallRules.beginDeleteAndWait has a new signature
+  - Operation PrivateEndpointConnections.beginDeleteAndWait has a new signature
+  - Operation Servers.beginDeleteAndWait has a new signature
+  - Operation Servers.beginRestartAndWait has a new signature
+  - Operation Servers.beginStartAndWait has a new signature
+  - Operation Servers.beginStopAndWait has a new signature
+  - Operation VirtualEndpoints.beginDeleteAndWait has a new signature
+  - Class PostgreSQLManagementFlexibleServerClient no longer has parameter apiVersion
+  - Class PostgreSQLManagementFlexibleServerClient no longer has parameter subscriptionId
+  - Removed Interface AdministratorMicrosoftEntraList
+  - Removed Interface AdvancedThreatProtectionSettingsList
+  - Removed Interface BackupAutomaticAndOnDemandList
+  - Removed Interface CapabilityList
+  - Removed Interface CapturedLogList
+  - Removed Interface ConfigurationList
+  - Removed Interface DatabaseList
+  - Removed Interface FirewallRuleList
+  - Removed Interface LtrServerBackupOperationList
+  - Removed Interface MigrationList
+  - Removed Interface ObjectRecommendationList
+  - Removed Interface OperationList
+  - Removed Interface PrivateEndpointConnectionList
+  - Removed Interface PrivateLinkResourceList
+  - Removed Interface QuotaUsageList
+  - Removed Interface ServerList
+  - Removed Interface Storage
+  - Removed Interface TuningOptionsGetOptionalParams
+  - Removed Interface TuningOptionsList
+  - Removed Interface TuningOptionsListByServerOptionalParams
+  - Removed Interface TuningOptionsListRecommendationsOptionalParams
+  - Removed Interface VirtualEndpointsList
+  - Type of parameter properties of interface Operation is changed from {
+        [propertyName: string]: Record<string, unknown>;
+    } to OperationProperties
+  - Removed Type Alias MigrationDetailsLevel
+  - Removed Enum KnownMigrationDetailsLevel
+
 ## 10.0.0-beta.2 (2026-06-08)
 Compared with version 9.0.0
 
