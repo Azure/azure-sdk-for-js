@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- Added experimental GenAI tracing support via `enableGenAITracing()`. When enabled, OpenTelemetry spans are emitted for Responses API calls with GenAI semantic convention attributes, token usage metrics, and optional content recording.
+- Added experimental GenAI tracing support. When enabled, OpenTelemetry spans are emitted for Responses API calls with GenAI semantic convention attributes, token usage metrics, and optional content recording.
 - Added `"a2a"` as a supported `AgentProtocol` value.
 - Added `supported_evaluation_levels` to `EvaluatorVersion`.
 - Added `RoutineRunStatus` and updated `RoutineRun.status` to use it.
