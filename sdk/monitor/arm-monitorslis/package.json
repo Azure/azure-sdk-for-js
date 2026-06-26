@@ -159,9 +159,9 @@
     "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-monitorslis?view=azure-node-preview"
   },
   "imports": {
-    "#platform/*.js": {
-      "browser": "./src/*-browser.mjs",
-      "default": "./src/*.js"
+    "#platform/*": {
+      "browser": "./src/*-browser.mts",
+      "default": "./src/*.ts"
     }
   }
 }

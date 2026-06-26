@@ -4,4 +4,4 @@
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface ScheduledEventAcknowledgeOptionalParams extends OperationOptions {}
+export interface ScheduledEventsAcknowledgeOptionalParams extends OperationOptions {}

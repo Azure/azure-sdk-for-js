@@ -76,18 +76,18 @@
         "default": "./dist/commonjs/api/applyUpdateForResourceGroup/index.js"
       }
     },
-    "./api/scheduledEvent": {
+    "./api/scheduledEvents": {
       "browser": {
-        "types": "./dist/browser/api/scheduledEvent/index.d.ts",
-        "default": "./dist/browser/api/scheduledEvent/index.js"
+        "types": "./dist/browser/api/scheduledEvents/index.d.ts",
+        "default": "./dist/browser/api/scheduledEvents/index.js"
       },
       "import": {
-        "types": "./dist/esm/api/scheduledEvent/index.d.ts",
-        "default": "./dist/esm/api/scheduledEvent/index.js"
+        "types": "./dist/esm/api/scheduledEvents/index.d.ts",
+        "default": "./dist/esm/api/scheduledEvents/index.js"
       },
       "require": {
-        "types": "./dist/commonjs/api/scheduledEvent/index.d.ts",
-        "default": "./dist/commonjs/api/scheduledEvent/index.js"
+        "types": "./dist/commonjs/api/scheduledEvents/index.d.ts",
+        "default": "./dist/commonjs/api/scheduledEvents/index.js"
       }
     },
     "./api/configurationAssignmentsWithinSubscription": {

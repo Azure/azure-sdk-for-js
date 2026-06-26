@@ -1,12 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureMapsManagementContext } from "../../api/azureMapsManagementContext.js";
+import { AzureMapsManagementContext } from "../../api/azureMapsManagementContext.js";
 import { get } from "../../api/operationResult/operations.js";
-import type { OperationResultGetOptionalParams } from "../../api/operationResult/options.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { OperationResultGetOptionalParams } from "../../api/operationResult/options.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a OperationResult operations. */
 export interface OperationResultOperations {

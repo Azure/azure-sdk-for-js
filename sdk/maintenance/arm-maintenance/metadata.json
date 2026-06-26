@@ -2,7 +2,7 @@
   "apiVersions": {
     "Microsoft.Maintenance": "2023-10-01-preview"
   },
-  "emitterVersion": "0.53.3",
+  "emitterVersion": "0.55.0-dev.10",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.Maintenance",
     "CrossLanguageDefinitionId": {
@@ -29,7 +29,7 @@
       "@azure/arm-maintenance!ConfigurationAssignmentFilterProperties:interface": "Microsoft.Maintenance.ConfigurationAssignmentFilterProperties",
       "@azure/arm-maintenance!TagSettingsProperties:interface": "Microsoft.Maintenance.TagSettingsProperties",
       "@azure/arm-maintenance!ListConfigurationAssignmentsResult:interface": "Microsoft.Maintenance.ListConfigurationAssignmentsResult",
-      "@azure/arm-maintenance!ScheduledEventApproveResponse:interface": "Microsoft.Maintenance.ScheduledEventApproveResponse",
+      "@azure/arm-maintenance!ScheduledEventsApproveResponse:interface": "Microsoft.Maintenance.ScheduledEventsApproveResponse",
       "@azure/arm-maintenance!ListUpdatesResult:interface": "Microsoft.Maintenance.ListUpdatesResult",
       "@azure/arm-maintenance!Update:interface": "Microsoft.Maintenance.Update",
       "@azure/arm-maintenance!UpdateProperties:interface": "Microsoft.Maintenance.UpdateProperties",
@@ -46,7 +46,7 @@
       "@azure/arm-maintenance!UpdatesOperations#list:member": "Microsoft.Maintenance.UpdatesOperationGroup.list",
       "@azure/arm-maintenance!UpdatesOperations#listParent:member": "Microsoft.Maintenance.UpdatesOperationGroup.listParent",
       "@azure/arm-maintenance!ApplyUpdateForResourceGroupOperations#list:member": "Microsoft.Maintenance.ApplyUpdateForResourceGroupOperationGroup.list",
-      "@azure/arm-maintenance!ScheduledEventOperations#acknowledge:member": "Microsoft.Maintenance.ScheduledEventOperationGroup.acknowledge",
+      "@azure/arm-maintenance!ScheduledEventsOperations#acknowledge:member": "Microsoft.Maintenance.ScheduledEventOperationGroup.acknowledge",
       "@azure/arm-maintenance!ConfigurationAssignmentsWithinSubscriptionOperations#list:member": "Microsoft.Maintenance.ConfigurationAssignmentsForSubscriptions.list",
       "@azure/arm-maintenance!MaintenanceConfigurationsForResourceGroupOperations#list:member": "Microsoft.Maintenance.MaintenanceConfigurationOperationGroup.list",
       "@azure/arm-maintenance!PublicMaintenanceConfigurationsOperations#list:member": "Microsoft.Maintenance.MaintenanceConfigurations.list",

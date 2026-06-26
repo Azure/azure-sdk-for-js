@@ -1,17 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   FluxConfigurationContext,
   FluxConfigurationClientOptionalParams,
+  createFluxConfiguration,
 } from "./api/index.js";
-import { createFluxConfiguration } from "./api/index.js";
-import type { FluxConfigOperationStatusOperations } from "./classic/fluxConfigOperationStatus/index.js";
-import { _getFluxConfigOperationStatusOperations } from "./classic/fluxConfigOperationStatus/index.js";
-import type { FluxConfigurationsOperations } from "./classic/fluxConfigurations/index.js";
-import { _getFluxConfigurationsOperations } from "./classic/fluxConfigurations/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import {
+  FluxConfigOperationStatusOperations,
+  _getFluxConfigOperationStatusOperations,
+} from "./classic/fluxConfigOperationStatus/index.js";
+import {
+  FluxConfigurationsOperations,
+  _getFluxConfigurationsOperations,
+} from "./classic/fluxConfigurations/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { FluxConfigurationClientOptionalParams } from "./api/fluxConfigurationContext.js";
 

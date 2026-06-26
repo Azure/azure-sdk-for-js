@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { MarketplaceContext } from "../../api/marketplaceContext.js";
+import { MarketplaceContext } from "../../api/marketplaceContext.js";
 import {
   post,
   disableApproveAllItems,
@@ -12,7 +12,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/privateStoreCollection/operations.js";
-import type {
+import {
   PrivateStoreCollectionPostOptionalParams,
   PrivateStoreCollectionDisableApproveAllItemsOptionalParams,
   PrivateStoreCollectionApproveAllItemsOptionalParams,
@@ -22,7 +22,7 @@ import type {
   PrivateStoreCollectionCreateOrUpdateOptionalParams,
   PrivateStoreCollectionGetOptionalParams,
 } from "../../api/privateStoreCollection/options.js";
-import type { Collection, CollectionsList, TransferOffersResponse } from "../../models/models.js";
+import { Collection, CollectionsList, TransferOffersResponse } from "../../models/models.js";
 
 /** Interface representing a PrivateStoreCollection operations. */
 export interface PrivateStoreCollectionOperations {
@@ -56,11 +56,6 @@ export interface PrivateStoreCollectionOperations {
     options?: PrivateStoreCollectionListOptionalParams,
   ) => Promise<CollectionsList>;
   /** Delete a collection from the given private store. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     privateStoreId: string,
     collectionId: string,

@@ -37,7 +37,7 @@ export type {
   ConfigurationAssignmentFilterProperties,
   TagSettingsProperties,
   TagOperators,
-  ScheduledEventApproveResponse,
+  ScheduledEventsApproveResponse,
   Update,
   ImpactType,
   UpdateProperties,
@@ -99,7 +99,7 @@ export type {
   PublicMaintenanceConfigurationsListOptionalParams,
   PublicMaintenanceConfigurationsGetOptionalParams,
 } from "./api/publicMaintenanceConfigurations/index.js";
-export type { ScheduledEventAcknowledgeOptionalParams } from "./api/scheduledEvent/index.js";
+export type { ScheduledEventsAcknowledgeOptionalParams } from "./api/scheduledEvents/index.js";
 export type {
   UpdatesListOptionalParams,
   UpdatesListParentOptionalParams,
@@ -115,7 +115,7 @@ export type {
   MaintenanceConfigurationsForResourceGroupOperations,
   OperationsOperations,
   PublicMaintenanceConfigurationsOperations,
-  ScheduledEventOperations,
+  ScheduledEventsOperations,
   UpdatesOperations,
 } from "./classic/index.js";
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };

@@ -1,4 +1,47 @@
 {
-  "apiVersion": "2025-06-01",
-  "emitterVersion": "0.41.0"
+  "apiVersions": {
+    "MongoDB.Atlas": "2025-06-01"
+  },
+  "emitterVersion": "0.55.0-dev.10",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "MongoDB.Atlas",
+    "CrossLanguageDefinitionId": {
+      "@azure/arm-mongodbatlas!OperationListResult:interface": "Azure.ResourceManager.CommonTypes.OperationListResult",
+      "@azure/arm-mongodbatlas!Operation:interface": "Azure.ResourceManager.CommonTypes.Operation",
+      "@azure/arm-mongodbatlas!OperationDisplay:interface": "Azure.ResourceManager.CommonTypes.OperationDisplay",
+      "@azure/arm-mongodbatlas!ErrorResponse:interface": "Azure.ResourceManager.CommonTypes.ErrorResponse",
+      "@azure/arm-mongodbatlas!ErrorDetail:interface": "Azure.ResourceManager.CommonTypes.ErrorDetail",
+      "@azure/arm-mongodbatlas!ErrorAdditionalInfo:interface": "Azure.ResourceManager.CommonTypes.ErrorAdditionalInfo",
+      "@azure/arm-mongodbatlas!OrganizationResource:interface": "MongoDB.Atlas.OrganizationResource",
+      "@azure/arm-mongodbatlas!OrganizationProperties:interface": "MongoDB.Atlas.OrganizationProperties",
+      "@azure/arm-mongodbatlas!MarketplaceDetails:interface": "LiftrBase.MarketplaceDetails",
+      "@azure/arm-mongodbatlas!OfferDetails:interface": "LiftrBase.OfferDetails",
+      "@azure/arm-mongodbatlas!UserDetails:interface": "MongoDB.Atlas.UserDetails",
+      "@azure/arm-mongodbatlas!PartnerProperties:interface": "MongoDB.Atlas.PartnerProperties",
+      "@azure/arm-mongodbatlas!ManagedServiceIdentity:interface": "Azure.ResourceManager.CommonTypes.ManagedServiceIdentity",
+      "@azure/arm-mongodbatlas!UserAssignedIdentity:interface": "Azure.ResourceManager.CommonTypes.UserAssignedIdentity",
+      "@azure/arm-mongodbatlas!TrackedResource:interface": "Azure.ResourceManager.CommonTypes.TrackedResource",
+      "@azure/arm-mongodbatlas!Resource:interface": "Azure.ResourceManager.CommonTypes.Resource",
+      "@azure/arm-mongodbatlas!SystemData:interface": "Azure.ResourceManager.CommonTypes.SystemData",
+      "@azure/arm-mongodbatlas!ArmOperationStatusResourceProvisioningState:interface": "Azure.ResourceManager.ArmOperationStatus",
+      "@azure/arm-mongodbatlas!OrganizationResourceUpdate:interface": "Azure.ResourceManager.Foundations.ResourceUpdateModel",
+      "@azure/arm-mongodbatlas!OrganizationResourceUpdateProperties:interface": "Azure.ResourceManager.Foundations.ResourceUpdateModelProperties",
+      "@azure/arm-mongodbatlas!OrganizationResourceListResult:interface": "Azure.ResourceManager.ResourceListResult",
+      "@azure/arm-mongodbatlas!KnownOrigin:enum": "Azure.ResourceManager.CommonTypes.Origin",
+      "@azure/arm-mongodbatlas!KnownActionType:enum": "Azure.ResourceManager.CommonTypes.ActionType",
+      "@azure/arm-mongodbatlas!KnownMarketplaceSubscriptionStatus:enum": "LiftrBase.MarketplaceSubscriptionStatus",
+      "@azure/arm-mongodbatlas!KnownResourceProvisioningState:enum": "Azure.ResourceManager.ResourceProvisioningState",
+      "@azure/arm-mongodbatlas!KnownManagedServiceIdentityType:enum": "Azure.ResourceManager.CommonTypes.ManagedServiceIdentityType",
+      "@azure/arm-mongodbatlas!KnowncreatedByType:enum": "Azure.ResourceManager.CommonTypes.createdByType",
+      "@azure/arm-mongodbatlas!KnownVersions:enum": "MongoDB.Atlas.Versions",
+      "@azure/arm-mongodbatlas!ManagedServiceIdentityUserAssignedIdentity:type": "Azure.ResourceManager.CommonTypes.ManagedServiceIdentity.userAssignedIdentity.anonymous",
+      "@azure/arm-mongodbatlas!OrganizationsOperations#listBySubscription:member": "MongoDB.Atlas.Organizations.listBySubscription",
+      "@azure/arm-mongodbatlas!OrganizationsOperations#listByResourceGroup:member": "MongoDB.Atlas.Organizations.listByResourceGroup",
+      "@azure/arm-mongodbatlas!OrganizationsOperations#delete:member": "MongoDB.Atlas.Organizations.delete",
+      "@azure/arm-mongodbatlas!OrganizationsOperations#update:member": "MongoDB.Atlas.Organizations.update",
+      "@azure/arm-mongodbatlas!OrganizationsOperations#createOrUpdate:member": "MongoDB.Atlas.Organizations.createOrUpdate",
+      "@azure/arm-mongodbatlas!OrganizationsOperations#get:member": "MongoDB.Atlas.Organizations.get",
+      "@azure/arm-mongodbatlas!OperationsOperations#list:member": "Azure.ResourceManager.Operations.list"
+    }
+  }
 }

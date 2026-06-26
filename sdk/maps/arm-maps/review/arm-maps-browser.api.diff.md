@@ -7,9 +7,9 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -220,9 +220,10 @@
- // @public
- export type InfrastructureEncryption = string;
+@@ -224,9 +224,10 @@
+ 
+ export { isRestError }
  
  // @public
 -export type KeyType = string;
@@ -19,7 +19,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export type Kind = string;
  
-@@ -390,9 +391,9 @@
+@@ -394,9 +395,9 @@
  }
  
  // @public

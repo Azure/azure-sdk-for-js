@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { MongoClusterManagementContext } from "../../api/mongoClusterManagementContext.js";
+import { MongoClusterManagementContext } from "../../api/mongoClusterManagementContext.js";
 import { listByMongoCluster, $delete, createOrUpdate, get } from "../../api/users/operations.js";
-import type {
+import {
   UsersListByMongoClusterOptionalParams,
   UsersDeleteOptionalParams,
   UsersCreateOrUpdateOptionalParams,
   UsersGetOptionalParams,
 } from "../../api/users/options.js";
-import type { User } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { User } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Users operations. */
 export interface UsersOperations {

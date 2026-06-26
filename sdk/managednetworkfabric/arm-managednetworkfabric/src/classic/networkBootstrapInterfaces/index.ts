@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureNetworkFabricManagementServiceAPIContext } from "../../api/azureNetworkFabricManagementServiceAPIContext.js";
+import { AzureNetworkFabricManagementServiceAPIContext } from "../../api/azureNetworkFabricManagementServiceAPIContext.js";
 import {
   updateAdministrativeState,
   listByNetworkBootstrapDevice,
@@ -10,7 +10,7 @@ import {
   create,
   get,
 } from "../../api/networkBootstrapInterfaces/operations.js";
-import type {
+import {
   NetworkBootstrapInterfacesUpdateAdministrativeStateOptionalParams,
   NetworkBootstrapInterfacesListByNetworkBootstrapDeviceOptionalParams,
   NetworkBootstrapInterfacesDeleteOptionalParams,
@@ -18,16 +18,15 @@ import type {
   NetworkBootstrapInterfacesCreateOptionalParams,
   NetworkBootstrapInterfacesGetOptionalParams,
 } from "../../api/networkBootstrapInterfaces/options.js";
-import type {
+import {
   UpdateAdministrativeState,
   CommonPostActionResponseForStateUpdate,
   NetworkBootstrapInterface,
   NetworkBootstrapInterfacePatch,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a NetworkBootstrapInterfaces operations. */
 export interface NetworkBootstrapInterfacesOperations {

@@ -2,29 +2,29 @@
 // Licensed under the MIT License.
 
 import { KubernetesRuntimeContext } from "../../api/kubernetesRuntimeContext.js";
+import { list, $delete, createOrUpdate, get } from "../../api/services/operations.js";
 import {
-  ServicesGetOptionalParams,
-  ServicesCreateOrUpdateOptionalParams,
-  ServicesDeleteOptionalParams,
   ServicesListOptionalParams,
-} from "../../api/options.js";
-import {
-  servicesGet,
-  servicesCreateOrUpdate,
-  servicesDelete,
-  servicesList,
-} from "../../api/services/index.js";
+  ServicesDeleteOptionalParams,
+  ServicesCreateOrUpdateOptionalParams,
+  ServicesGetOptionalParams,
+} from "../../api/services/options.js";
 import { ServiceResource } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Services operations. */
 export interface ServicesOperations {
-  /** Get a ServiceResource */
-  get: (
+  /** List ServiceResource resources by parent */
+  list: (
+    resourceUri: string,
+    options?: ServicesListOptionalParams,
+  ) => PagedAsyncIterableIterator<ServiceResource>;
+  /** Delete a ServiceResource */
+  delete: (
     resourceUri: string,
     serviceName: string,
-    options?: ServicesGetOptionalParams,
-  ) => Promise<ServiceResource>;
+    options?: ServicesDeleteOptionalParams,
+  ) => Promise<void>;
   /** Create a ServiceResource */
   createOrUpdate: (
     resourceUri: string,
@@ -32,38 +32,33 @@ export interface ServicesOperations {
     resource: ServiceResource,
     options?: ServicesCreateOrUpdateOptionalParams,
   ) => Promise<ServiceResource>;
-  /** Delete a ServiceResource */
-  delete: (
+  /** Get a ServiceResource */
+  get: (
     resourceUri: string,
     serviceName: string,
-    options?: ServicesDeleteOptionalParams,
-  ) => Promise<void>;
-  /** List ServiceResource resources by parent */
-  list: (
-    resourceUri: string,
-    options?: ServicesListOptionalParams,
-  ) => PagedAsyncIterableIterator<ServiceResource>;
+    options?: ServicesGetOptionalParams,
+  ) => Promise<ServiceResource>;
 }
 
-export function getServices(context: KubernetesRuntimeContext) {
+function _getServices(context: KubernetesRuntimeContext) {
   return {
-    get: (resourceUri: string, serviceName: string, options?: ServicesGetOptionalParams) =>
-      servicesGet(context, resourceUri, serviceName, options),
+    list: (resourceUri: string, options?: ServicesListOptionalParams) =>
+      list(context, resourceUri, options),
+    delete: (resourceUri: string, serviceName: string, options?: ServicesDeleteOptionalParams) =>
+      $delete(context, resourceUri, serviceName, options),
     createOrUpdate: (
       resourceUri: string,
       serviceName: string,
       resource: ServiceResource,
       options?: ServicesCreateOrUpdateOptionalParams,
-    ) => servicesCreateOrUpdate(context, resourceUri, serviceName, resource, options),
-    delete: (resourceUri: string, serviceName: string, options?: ServicesDeleteOptionalParams) =>
-      servicesDelete(context, resourceUri, serviceName, options),
-    list: (resourceUri: string, options?: ServicesListOptionalParams) =>
-      servicesList(context, resourceUri, options),
+    ) => createOrUpdate(context, resourceUri, serviceName, resource, options),
+    get: (resourceUri: string, serviceName: string, options?: ServicesGetOptionalParams) =>
+      get(context, resourceUri, serviceName, options),
   };
 }
 
-export function getServicesOperations(context: KubernetesRuntimeContext): ServicesOperations {
+export function _getServicesOperations(context: KubernetesRuntimeContext): ServicesOperations {
   return {
-    ...getServices(context),
+    ..._getServices(context),
   };
 }

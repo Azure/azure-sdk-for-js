@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export {
-  createWeightsAndBiases,
-  type WeightsAndBiasesContext,
-  type WeightsAndBiasesClientOptionalParams,
+export type {
+  WeightsAndBiasesContext,
+  WeightsAndBiasesClientOptionalParams,
 } from "./weightsAndBiasesContext.js";
+export { createWeightsAndBiases } from "./weightsAndBiasesContext.js";

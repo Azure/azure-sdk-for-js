@@ -2,7 +2,7 @@
   "apiVersions": {
     "Microsoft.Maps": "2025-10-01-preview"
   },
-  "emitterVersion": "0.51.0",
+  "emitterVersion": "0.55.0-dev.10",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.Maps",
     "CrossLanguageDefinitionId": {

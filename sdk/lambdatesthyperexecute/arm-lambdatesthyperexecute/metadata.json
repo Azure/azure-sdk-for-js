@@ -1,0 +1,49 @@
+{
+  "apiVersions": {
+    "LambdaTest.HyperExecute": "2024-02-01"
+  },
+  "emitterVersion": "0.55.0-dev.10",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "LambdaTest.HyperExecute",
+    "CrossLanguageDefinitionId": {
+      "@azure/arm-lambdatesthyperexecute!OperationListResult:interface": "Azure.ResourceManager.CommonTypes.OperationListResult",
+      "@azure/arm-lambdatesthyperexecute!Operation:interface": "Azure.ResourceManager.CommonTypes.Operation",
+      "@azure/arm-lambdatesthyperexecute!OperationDisplay:interface": "Azure.ResourceManager.CommonTypes.OperationDisplay",
+      "@azure/arm-lambdatesthyperexecute!ErrorResponse:interface": "Azure.ResourceManager.CommonTypes.ErrorResponse",
+      "@azure/arm-lambdatesthyperexecute!ErrorDetail:interface": "Azure.ResourceManager.CommonTypes.ErrorDetail",
+      "@azure/arm-lambdatesthyperexecute!ErrorAdditionalInfo:interface": "Azure.ResourceManager.CommonTypes.ErrorAdditionalInfo",
+      "@azure/arm-lambdatesthyperexecute!OrganizationResource:interface": "LambdaTest.HyperExecute.OrganizationResource",
+      "@azure/arm-lambdatesthyperexecute!OrganizationProperties:interface": "LambdaTest.HyperExecute.OrganizationProperties",
+      "@azure/arm-lambdatesthyperexecute!MarketplaceDetails:interface": "LiftrBase.MarketplaceDetails",
+      "@azure/arm-lambdatesthyperexecute!OfferDetails:interface": "LiftrBase.OfferDetails",
+      "@azure/arm-lambdatesthyperexecute!UserDetails:interface": "LiftrBase.UserDetails",
+      "@azure/arm-lambdatesthyperexecute!PartnerProperties:interface": "LambdaTest.HyperExecute.PartnerProperties",
+      "@azure/arm-lambdatesthyperexecute!SingleSignOnPropertiesV2:interface": "LiftrBase.SingleSignOnPropertiesV2",
+      "@azure/arm-lambdatesthyperexecute!ManagedServiceIdentity:interface": "Azure.ResourceManager.CommonTypes.ManagedServiceIdentity",
+      "@azure/arm-lambdatesthyperexecute!UserAssignedIdentity:interface": "Azure.ResourceManager.CommonTypes.UserAssignedIdentity",
+      "@azure/arm-lambdatesthyperexecute!TrackedResource:interface": "Azure.ResourceManager.CommonTypes.TrackedResource",
+      "@azure/arm-lambdatesthyperexecute!Resource:interface": "Azure.ResourceManager.CommonTypes.Resource",
+      "@azure/arm-lambdatesthyperexecute!SystemData:interface": "Azure.ResourceManager.CommonTypes.SystemData",
+      "@azure/arm-lambdatesthyperexecute!ArmOperationStatusResourceProvisioningState:interface": "Azure.ResourceManager.ArmOperationStatus",
+      "@azure/arm-lambdatesthyperexecute!OrganizationResourceUpdate:interface": "LambdaTest.HyperExecute.OrganizationResourceUpdate",
+      "@azure/arm-lambdatesthyperexecute!OrganizationResourceListResult:interface": "Azure.ResourceManager.ResourceListResult",
+      "@azure/arm-lambdatesthyperexecute!KnownOrigin:enum": "Azure.ResourceManager.CommonTypes.Origin",
+      "@azure/arm-lambdatesthyperexecute!KnownActionType:enum": "Azure.ResourceManager.CommonTypes.ActionType",
+      "@azure/arm-lambdatesthyperexecute!KnownMarketplaceSubscriptionStatus:enum": "LiftrBase.MarketplaceSubscriptionStatus",
+      "@azure/arm-lambdatesthyperexecute!KnownResourceProvisioningState:enum": "Azure.ResourceManager.ResourceProvisioningState",
+      "@azure/arm-lambdatesthyperexecute!KnownSingleSignOnType:enum": "LiftrBase.SingleSignOnType",
+      "@azure/arm-lambdatesthyperexecute!KnownSingleSignOnStates:enum": "LiftrBase.SingleSignOnStates",
+      "@azure/arm-lambdatesthyperexecute!KnownManagedServiceIdentityType:enum": "Azure.ResourceManager.CommonTypes.ManagedServiceIdentityType",
+      "@azure/arm-lambdatesthyperexecute!KnowncreatedByType:enum": "Azure.ResourceManager.CommonTypes.createdByType",
+      "@azure/arm-lambdatesthyperexecute!KnownVersions:enum": "LambdaTest.HyperExecute.Versions",
+      "@azure/arm-lambdatesthyperexecute!ManagedServiceIdentityUserAssignedIdentity:type": "Azure.ResourceManager.CommonTypes.ManagedServiceIdentity.userAssignedIdentity.anonymous",
+      "@azure/arm-lambdatesthyperexecute!OrganizationsOperations#listBySubscription:member": "LambdaTest.HyperExecute.Organizations.listBySubscription",
+      "@azure/arm-lambdatesthyperexecute!OrganizationsOperations#listByResourceGroup:member": "LambdaTest.HyperExecute.Organizations.listByResourceGroup",
+      "@azure/arm-lambdatesthyperexecute!OrganizationsOperations#delete:member": "LambdaTest.HyperExecute.Organizations.delete",
+      "@azure/arm-lambdatesthyperexecute!OrganizationsOperations#update:member": "LambdaTest.HyperExecute.Organizations.update",
+      "@azure/arm-lambdatesthyperexecute!OrganizationsOperations#createOrUpdate:member": "LambdaTest.HyperExecute.Organizations.createOrUpdate",
+      "@azure/arm-lambdatesthyperexecute!OrganizationsOperations#get:member": "LambdaTest.HyperExecute.Organizations.get",
+      "@azure/arm-lambdatesthyperexecute!OperationsOperations#list:member": "Azure.ResourceManager.Operations.list"
+    }
+  }
+}

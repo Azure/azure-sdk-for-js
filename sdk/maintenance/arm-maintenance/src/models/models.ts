@@ -973,15 +973,15 @@ export function configurationAssignmentArrayDeserializer(
   });
 }
 
-/** Response of scheduled event acknowledge */
-export interface ScheduledEventApproveResponse {
+/** Response of ScheduledEvents acknowledge */
+export interface ScheduledEventsApproveResponse {
   /** Successfully Approved */
   value?: string;
 }
 
-export function scheduledEventApproveResponseDeserializer(
+export function scheduledEventsApproveResponseDeserializer(
   item: any,
-): ScheduledEventApproveResponse {
+): ScheduledEventsApproveResponse {
   return {
     value: item["value"],
   };
@@ -1075,7 +1075,10 @@ export function updatePropertiesDeserializer(item: any): UpdateProperties {
 
 /** The available API versions. */
 export enum KnownVersions {
-  /** The 2023-10-01-preview API version. */
+  /**
+   * The 2023-10-01-preview API version.
+   * This API version includes new API to acknowledge ScheduledEvents
+   */
   V20231001Preview = "2023-10-01-preview",
 }
 

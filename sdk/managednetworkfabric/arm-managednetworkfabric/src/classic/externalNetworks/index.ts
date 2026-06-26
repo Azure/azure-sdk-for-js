@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureNetworkFabricManagementServiceAPIContext } from "../../api/azureNetworkFabricManagementServiceAPIContext.js";
+import { AzureNetworkFabricManagementServiceAPIContext } from "../../api/azureNetworkFabricManagementServiceAPIContext.js";
 import {
   updateBfdAdministrativeState,
   updateStaticRouteBfdAdministrativeState,
@@ -12,7 +12,7 @@ import {
   create,
   get,
 } from "../../api/externalNetworks/operations.js";
-import type {
+import {
   ExternalNetworksUpdateBfdAdministrativeStateOptionalParams,
   ExternalNetworksUpdateStaticRouteBfdAdministrativeStateOptionalParams,
   ExternalNetworksUpdateAdministrativeStateOptionalParams,
@@ -22,7 +22,7 @@ import type {
   ExternalNetworksCreateOptionalParams,
   ExternalNetworksGetOptionalParams,
 } from "../../api/externalNetworks/options.js";
-import type {
+import {
   UpdateAdministrativeState,
   UpdateAdministrativeStateResponse,
   ExternalNetwork,
@@ -30,10 +30,9 @@ import type {
   ExternalNetworkUpdateBfdAdministrativeStateRequest,
   ExternalNetworkUpdateBfdAdministrativeStateResponse,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ExternalNetworks operations. */
 export interface ExternalNetworksOperations {
