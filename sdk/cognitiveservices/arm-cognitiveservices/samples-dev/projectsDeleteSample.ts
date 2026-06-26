@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a Cognitive Services project from the resource group.
  *
  * @summary deletes a Cognitive Services project from the resource group.
- * x-ms-original-file: 2026-03-15-preview/DeleteProject.json
+ * x-ms-original-file: 2026-05-15-preview/DeleteProject.json
  */
 async function deleteProject(): Promise<void> {
   const credential = new DefaultAzureCredential();

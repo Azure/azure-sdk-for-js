@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list managed compute quota usages for a subscription and location.
  *
  * @summary list managed compute quota usages for a subscription and location.
- * x-ms-original-file: 2026-03-15-preview/ListManagedComputeUsages.json
+ * x-ms-original-file: 2026-05-15-preview/ListManagedComputeUsages.json
  */
 async function listManagedComputeUsages() {
   const credential = new DefaultAzureCredential();
