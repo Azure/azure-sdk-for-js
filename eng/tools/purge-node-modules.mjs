@@ -14,7 +14,7 @@ function purge(dir) {
     if (!e.isDirectory()) continue;
     const full = join(dir, e.name);
     if (e.name === "node_modules") {
-      rmSync(full, { recursive: true, force: true, maxRetries: 3, retryDelay: 100 });
+      rmSync(full, { recursive: true, force: true, maxRetries: 300, retryDelay: 100 });
     } else {
       purge(full);
     }
