@@ -59,7 +59,7 @@ describe("agents - sharepoint tool", () => {
       },
       {
         body: {
-          agent: { name: agent.name, type: "agent_reference" },
+          agent_reference: { name: agent.name, type: "agent_reference" },
         },
       },
     );
