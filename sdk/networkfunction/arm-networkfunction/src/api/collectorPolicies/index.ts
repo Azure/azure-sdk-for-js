@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { list, $delete, updateTags, get, createOrUpdate } from "./operations.js";
+export { list, $delete, updateTags, createOrUpdate, get } from "./operations.js";
 export type {
   CollectorPoliciesListOptionalParams,
   CollectorPoliciesDeleteOptionalParams,
   CollectorPoliciesUpdateTagsOptionalParams,
-  CollectorPoliciesGetOptionalParams,
   CollectorPoliciesCreateOrUpdateOptionalParams,
+  CollectorPoliciesGetOptionalParams,
 } from "./options.js";

@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 export type {
-  ResourceReference,
   AzureTrafficCollector,
   AzureTrafficCollectorPropertiesFormat,
+  ResourceReference,
   ProvisioningState,
   ProxyResource,
   Resource,
@@ -13,6 +13,8 @@ export type {
   CloudError,
   CloudErrorBody,
   TagsObject,
+  CollectorPolicy,
+  CollectorPolicyPropertiesFormat,
   IngestionPolicyPropertiesFormat,
   IngestionType,
   IngestionSourcesPropertiesFormat,
@@ -21,8 +23,6 @@ export type {
   EmissionType,
   EmissionPolicyDestination,
   DestinationType,
-  CollectorPolicy,
-  CollectorPolicyPropertiesFormat,
   Operation,
   OperationDisplay,
 } from "./models.js";

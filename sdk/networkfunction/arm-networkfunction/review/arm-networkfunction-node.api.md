@@ -81,9 +81,7 @@ export interface AzureTrafficCollectorsBySubscriptionOperations {
 
 // @public
 export interface AzureTrafficCollectorsCreateOrUpdateOptionalParams extends OperationOptions {
-    tags?: Record<string, string>;
     updateIntervalInMs?: number;
-    virtualHub?: ResourceReference;
 }
 
 // @public
@@ -98,15 +96,14 @@ export interface AzureTrafficCollectorsGetOptionalParams extends OperationOption
 // @public
 export interface AzureTrafficCollectorsOperations {
     // @deprecated (undocumented)
-    beginCreateOrUpdate: (resourceGroupName: string, azureTrafficCollectorName: string, location: string, options?: AzureTrafficCollectorsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<AzureTrafficCollector>, AzureTrafficCollector>>;
+    beginCreateOrUpdate: (resourceGroupName: string, azureTrafficCollectorName: string, parameters: AzureTrafficCollector, options?: AzureTrafficCollectorsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<AzureTrafficCollector>, AzureTrafficCollector>>;
     // @deprecated (undocumented)
-    beginCreateOrUpdateAndWait: (resourceGroupName: string, azureTrafficCollectorName: string, location: string, options?: AzureTrafficCollectorsCreateOrUpdateOptionalParams) => Promise<AzureTrafficCollector>;
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, azureTrafficCollectorName: string, parameters: AzureTrafficCollector, options?: AzureTrafficCollectorsCreateOrUpdateOptionalParams) => Promise<AzureTrafficCollector>;
     // @deprecated (undocumented)
     beginDelete: (resourceGroupName: string, azureTrafficCollectorName: string, options?: AzureTrafficCollectorsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
     // @deprecated (undocumented)
     beginDeleteAndWait: (resourceGroupName: string, azureTrafficCollectorName: string, options?: AzureTrafficCollectorsDeleteOptionalParams) => Promise<void>;
-    // (undocumented)
-    createOrUpdate: (resourceGroupName: string, azureTrafficCollectorName: string, location: string, options?: AzureTrafficCollectorsCreateOrUpdateOptionalParams) => PollerLike<OperationState<AzureTrafficCollector>, AzureTrafficCollector>;
+    createOrUpdate: (resourceGroupName: string, azureTrafficCollectorName: string, parameters: AzureTrafficCollector, options?: AzureTrafficCollectorsCreateOrUpdateOptionalParams) => PollerLike<OperationState<AzureTrafficCollector>, AzureTrafficCollector>;
     delete: (resourceGroupName: string, azureTrafficCollectorName: string, options?: AzureTrafficCollectorsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, azureTrafficCollectorName: string, options?: AzureTrafficCollectorsGetOptionalParams) => Promise<AzureTrafficCollector>;
     updateTags: (resourceGroupName: string, azureTrafficCollectorName: string, parameters: TagsObject, options?: AzureTrafficCollectorsUpdateTagsOptionalParams) => Promise<AzureTrafficCollector>;
@@ -131,9 +128,6 @@ export interface CloudErrorBody {
 
 // @public
 export interface CollectorPoliciesCreateOrUpdateOptionalParams extends OperationOptions {
-    emissionPolicies?: EmissionPoliciesPropertiesFormat[];
-    ingestionPolicy?: IngestionPolicyPropertiesFormat;
-    tags?: Record<string, string>;
     updateIntervalInMs?: number;
 }
 
@@ -153,15 +147,14 @@ export interface CollectorPoliciesListOptionalParams extends OperationOptions {
 // @public
 export interface CollectorPoliciesOperations {
     // @deprecated (undocumented)
-    beginCreateOrUpdate: (resourceGroupName: string, azureTrafficCollectorName: string, collectorPolicyName: string, location: string, options?: CollectorPoliciesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<CollectorPolicy>, CollectorPolicy>>;
+    beginCreateOrUpdate: (resourceGroupName: string, azureTrafficCollectorName: string, collectorPolicyName: string, parameters: CollectorPolicy, options?: CollectorPoliciesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<CollectorPolicy>, CollectorPolicy>>;
     // @deprecated (undocumented)
-    beginCreateOrUpdateAndWait: (resourceGroupName: string, azureTrafficCollectorName: string, collectorPolicyName: string, location: string, options?: CollectorPoliciesCreateOrUpdateOptionalParams) => Promise<CollectorPolicy>;
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, azureTrafficCollectorName: string, collectorPolicyName: string, parameters: CollectorPolicy, options?: CollectorPoliciesCreateOrUpdateOptionalParams) => Promise<CollectorPolicy>;
     // @deprecated (undocumented)
     beginDelete: (resourceGroupName: string, azureTrafficCollectorName: string, collectorPolicyName: string, options?: CollectorPoliciesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
     // @deprecated (undocumented)
     beginDeleteAndWait: (resourceGroupName: string, azureTrafficCollectorName: string, collectorPolicyName: string, options?: CollectorPoliciesDeleteOptionalParams) => Promise<void>;
-    // (undocumented)
-    createOrUpdate: (resourceGroupName: string, azureTrafficCollectorName: string, collectorPolicyName: string, location: string, options?: CollectorPoliciesCreateOrUpdateOptionalParams) => PollerLike<OperationState<CollectorPolicy>, CollectorPolicy>;
+    createOrUpdate: (resourceGroupName: string, azureTrafficCollectorName: string, collectorPolicyName: string, parameters: CollectorPolicy, options?: CollectorPoliciesCreateOrUpdateOptionalParams) => PollerLike<OperationState<CollectorPolicy>, CollectorPolicy>;
     delete: (resourceGroupName: string, azureTrafficCollectorName: string, collectorPolicyName: string, options?: CollectorPoliciesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, azureTrafficCollectorName: string, collectorPolicyName: string, options?: CollectorPoliciesGetOptionalParams) => Promise<CollectorPolicy>;
     list: (resourceGroupName: string, azureTrafficCollectorName: string, options?: CollectorPoliciesListOptionalParams) => PagedAsyncIterableIterator<CollectorPolicy>;

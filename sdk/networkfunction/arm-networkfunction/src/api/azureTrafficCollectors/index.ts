@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { $delete, updateTags, get, createOrUpdate } from "./operations.js";
+export { $delete, updateTags, createOrUpdate, get } from "./operations.js";
 export type {
   AzureTrafficCollectorsDeleteOptionalParams,
   AzureTrafficCollectorsUpdateTagsOptionalParams,
-  AzureTrafficCollectorsGetOptionalParams,
   AzureTrafficCollectorsCreateOrUpdateOptionalParams,
+  AzureTrafficCollectorsGetOptionalParams,
 } from "./options.js";

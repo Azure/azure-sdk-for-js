@@ -6,15 +6,15 @@ import {
   list,
   $delete,
   updateTags,
-  get,
   createOrUpdate,
+  get,
 } from "../../api/collectorPolicies/operations.js";
 import type {
   CollectorPoliciesListOptionalParams,
   CollectorPoliciesDeleteOptionalParams,
   CollectorPoliciesUpdateTagsOptionalParams,
-  CollectorPoliciesGetOptionalParams,
   CollectorPoliciesCreateOrUpdateOptionalParams,
+  CollectorPoliciesGetOptionalParams,
 } from "../../api/collectorPolicies/options.js";
 import type { TagsObject, CollectorPolicy } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
@@ -59,18 +59,12 @@ export interface CollectorPoliciesOperations {
     parameters: TagsObject,
     options?: CollectorPoliciesUpdateTagsOptionalParams,
   ) => Promise<CollectorPolicy>;
-  /** Gets the collector policy in a specified Traffic Collector */
-  get: (
-    resourceGroupName: string,
-    azureTrafficCollectorName: string,
-    collectorPolicyName: string,
-    options?: CollectorPoliciesGetOptionalParams,
-  ) => Promise<CollectorPolicy>;
+  /** Creates or updates a Collector Policy resource */
   createOrUpdate: (
     resourceGroupName: string,
     azureTrafficCollectorName: string,
     collectorPolicyName: string,
-    location: string,
+    parameters: CollectorPolicy,
     options?: CollectorPoliciesCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<CollectorPolicy>, CollectorPolicy>;
   /** @deprecated use createOrUpdate instead */
@@ -78,7 +72,7 @@ export interface CollectorPoliciesOperations {
     resourceGroupName: string,
     azureTrafficCollectorName: string,
     collectorPolicyName: string,
-    location: string,
+    parameters: CollectorPolicy,
     options?: CollectorPoliciesCreateOrUpdateOptionalParams,
   ) => Promise<SimplePollerLike<OperationState<CollectorPolicy>, CollectorPolicy>>;
   /** @deprecated use createOrUpdate instead */
@@ -86,8 +80,15 @@ export interface CollectorPoliciesOperations {
     resourceGroupName: string,
     azureTrafficCollectorName: string,
     collectorPolicyName: string,
-    location: string,
+    parameters: CollectorPolicy,
     options?: CollectorPoliciesCreateOrUpdateOptionalParams,
+  ) => Promise<CollectorPolicy>;
+  /** Gets the collector policy in a specified Traffic Collector */
+  get: (
+    resourceGroupName: string,
+    azureTrafficCollectorName: string,
+    collectorPolicyName: string,
+    options?: CollectorPoliciesGetOptionalParams,
   ) => Promise<CollectorPolicy>;
 }
 
@@ -150,17 +151,11 @@ function _getCollectorPolicies(context: AzureTrafficCollectorContext) {
         parameters,
         options,
       ),
-    get: (
-      resourceGroupName: string,
-      azureTrafficCollectorName: string,
-      collectorPolicyName: string,
-      options?: CollectorPoliciesGetOptionalParams,
-    ) => get(context, resourceGroupName, azureTrafficCollectorName, collectorPolicyName, options),
     createOrUpdate: (
       resourceGroupName: string,
       azureTrafficCollectorName: string,
       collectorPolicyName: string,
-      location: string,
+      parameters: CollectorPolicy,
       options?: CollectorPoliciesCreateOrUpdateOptionalParams,
     ) =>
       createOrUpdate(
@@ -168,14 +163,14 @@ function _getCollectorPolicies(context: AzureTrafficCollectorContext) {
         resourceGroupName,
         azureTrafficCollectorName,
         collectorPolicyName,
-        location,
+        parameters,
         options,
       ),
     beginCreateOrUpdate: async (
       resourceGroupName: string,
       azureTrafficCollectorName: string,
       collectorPolicyName: string,
-      location: string,
+      parameters: CollectorPolicy,
       options?: CollectorPoliciesCreateOrUpdateOptionalParams,
     ) => {
       const poller = createOrUpdate(
@@ -183,7 +178,7 @@ function _getCollectorPolicies(context: AzureTrafficCollectorContext) {
         resourceGroupName,
         azureTrafficCollectorName,
         collectorPolicyName,
-        location,
+        parameters,
         options,
       );
       await poller.submitted();
@@ -193,7 +188,7 @@ function _getCollectorPolicies(context: AzureTrafficCollectorContext) {
       resourceGroupName: string,
       azureTrafficCollectorName: string,
       collectorPolicyName: string,
-      location: string,
+      parameters: CollectorPolicy,
       options?: CollectorPoliciesCreateOrUpdateOptionalParams,
     ) => {
       return await createOrUpdate(
@@ -201,10 +196,16 @@ function _getCollectorPolicies(context: AzureTrafficCollectorContext) {
         resourceGroupName,
         azureTrafficCollectorName,
         collectorPolicyName,
-        location,
+        parameters,
         options,
       );
     },
+    get: (
+      resourceGroupName: string,
+      azureTrafficCollectorName: string,
+      collectorPolicyName: string,
+      options?: CollectorPoliciesGetOptionalParams,
+    ) => get(context, resourceGroupName, azureTrafficCollectorName, collectorPolicyName, options),
   };
 }
 

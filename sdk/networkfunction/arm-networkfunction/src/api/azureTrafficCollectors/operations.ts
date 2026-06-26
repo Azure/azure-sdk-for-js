@@ -4,7 +4,7 @@
 import type { AzureTrafficCollectorContext as Client } from "../index.js";
 import type { AzureTrafficCollector, TagsObject } from "../../models/models.js";
 import {
-  resourceReferenceSerializer,
+  azureTrafficCollectorSerializer,
   azureTrafficCollectorDeserializer,
   cloudErrorDeserializer,
   tagsObjectSerializer,
@@ -14,8 +14,8 @@ import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
   AzureTrafficCollectorsDeleteOptionalParams,
   AzureTrafficCollectorsUpdateTagsOptionalParams,
-  AzureTrafficCollectorsGetOptionalParams,
   AzureTrafficCollectorsCreateOrUpdateOptionalParams,
+  AzureTrafficCollectorsGetOptionalParams,
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
@@ -134,6 +134,73 @@ export async function updateTags(
   return _updateTagsDeserialize(result);
 }
 
+export function _createOrUpdateSend(
+  context: Client,
+  resourceGroupName: string,
+  azureTrafficCollectorName: string,
+  parameters: AzureTrafficCollector,
+  options: AzureTrafficCollectorsCreateOrUpdateOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkFunction/azureTrafficCollectors/{azureTrafficCollectorName}{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      azureTrafficCollectorName: azureTrafficCollectorName,
+      "api%2Dversion": context.apiVersion ?? "2022-11-01",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).put({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: azureTrafficCollectorSerializer(parameters),
+  });
+}
+
+export async function _createOrUpdateDeserialize(
+  result: PathUncheckedResponse,
+): Promise<AzureTrafficCollector> {
+  const expectedStatuses = ["200", "201", "202"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return azureTrafficCollectorDeserializer(result.body);
+}
+
+/** Creates or updates a Azure Traffic Collector resource */
+export function createOrUpdate(
+  context: Client,
+  resourceGroupName: string,
+  azureTrafficCollectorName: string,
+  parameters: AzureTrafficCollector,
+  options: AzureTrafficCollectorsCreateOrUpdateOptionalParams = { requestOptions: {} },
+): PollerLike<OperationState<AzureTrafficCollector>, AzureTrafficCollector> {
+  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _createOrUpdateSend(
+        context,
+        resourceGroupName,
+        azureTrafficCollectorName,
+        parameters,
+        options,
+      ),
+    resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2022-11-01",
+  }) as PollerLike<OperationState<AzureTrafficCollector>, AzureTrafficCollector>;
+}
+
 export function _getSend(
   context: Client,
   resourceGroupName: string,
@@ -183,70 +250,4 @@ export async function get(
 ): Promise<AzureTrafficCollector> {
   const result = await _getSend(context, resourceGroupName, azureTrafficCollectorName, options);
   return _getDeserialize(result);
-}
-
-export function _createOrUpdateSend(
-  context: Client,
-  resourceGroupName: string,
-  azureTrafficCollectorName: string,
-  location: string,
-  options: AzureTrafficCollectorsCreateOrUpdateOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkFunction/azureTrafficCollectors/{azureTrafficCollectorName}{?api%2Dversion}",
-    {
-      subscriptionId: context.subscriptionId,
-      resourceGroupName: resourceGroupName,
-      azureTrafficCollectorName: azureTrafficCollectorName,
-      "api%2Dversion": context.apiVersion ?? "2022-11-01",
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: {
-      location: location,
-      tags: options?.tags,
-      virtualHub: !options?.virtualHub
-        ? options?.virtualHub
-        : resourceReferenceSerializer(options?.virtualHub),
-    },
-  });
-}
-
-export async function _createOrUpdateDeserialize(
-  result: PathUncheckedResponse,
-): Promise<AzureTrafficCollector> {
-  const expectedStatuses = ["200", "201", "202"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    if (result.body) {
-      error.details = cloudErrorDeserializer(result.body);
-    }
-
-    throw error;
-  }
-
-  return azureTrafficCollectorDeserializer(result.body);
-}
-
-export function createOrUpdate(
-  context: Client,
-  resourceGroupName: string,
-  azureTrafficCollectorName: string,
-  location: string,
-  options: AzureTrafficCollectorsCreateOrUpdateOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<AzureTrafficCollector>, AzureTrafficCollector> {
-  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _createOrUpdateSend(context, resourceGroupName, azureTrafficCollectorName, location, options),
-    resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2022-11-01",
-  }) as PollerLike<OperationState<AzureTrafficCollector>, AzureTrafficCollector>;
 }

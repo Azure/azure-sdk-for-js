@@ -32,6 +32,7 @@ export class AzureTrafficCollectorClient {
     subscriptionId: string,
     options?: AzureTrafficCollectorClientOptionalParams,
   );
+  /** Azure Traffic Collector service */
   constructor(
     credential: TokenCredential,
     subscriptionIdOrOptions?: string | AzureTrafficCollectorClientOptionalParams,

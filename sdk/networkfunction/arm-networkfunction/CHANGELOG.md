@@ -1,6 +1,6 @@
 # Release History
 
-## 3.0.0-beta.1 (2026-06-24)
+## 3.0.0-beta.1 (2026-06-26)
 Compared with version 2.0.0
 
 ### Features Added
@@ -23,6 +23,10 @@ Compared with version 2.0.0
   - Added Enum KnownVersions
 
 ### Breaking Changes
+  - Operation AzureTrafficCollectors.beginCreateOrUpdate has a new signature
+  - Operation AzureTrafficCollectors.beginCreateOrUpdateAndWait has a new signature
+  - Operation CollectorPolicies.beginCreateOrUpdate has a new signature
+  - Operation CollectorPolicies.beginCreateOrUpdateAndWait has a new signature
   - Class AzureTrafficCollectorClient no longer has parameter apiVersion
   - Class AzureTrafficCollectorClient no longer has parameter subscriptionId
   - Removed Interface TrackedResource
