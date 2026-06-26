@@ -6,11 +6,13 @@
 
 import { AbortSignalLike } from '@azure/abort-controller';
 import { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import { OperationOptions } from '@azure-rest/core-client';
 import { OperationState } from '@azure/core-lro';
 import { PathUncheckedResponse } from '@azure-rest/core-client';
 import { Pipeline } from '@azure/core-rest-pipeline';
 import { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -80,6 +82,7 @@ export interface ConfigTemplateProperties {
     description: string;
     readonly latestVersion?: string;
     readonly provisioningState?: ProvisioningState;
+    readonly uniqueIdentifier?: string;
 }
 
 // @public
@@ -333,6 +336,7 @@ export interface DiagnosticUpdate {
 
 // @public
 export interface DiagnosticUpdateProperties {
+    readonly provisioningState?: ProvisioningState;
 }
 
 // @public
@@ -610,6 +614,8 @@ export interface InstancesUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
+export { isRestError }
+
 // @public
 export interface Job extends ExtensionResource {
     readonly eTag?: string;
@@ -789,7 +795,6 @@ export enum KnownValidationStatus {
 
 // @public
 export enum KnownVersions {
-    // (undocumented)
     V20250601 = "2025-06-01"
 }
 
@@ -851,6 +856,8 @@ export interface Resource {
 // @public
 export type ResourceState = string;
 
+export { RestError }
+
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: WorkloadOrchestrationManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
 
@@ -886,6 +893,16 @@ export interface SchemaReferenceProperties {
 }
 
 // @public
+export interface SchemaReferencesCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface SchemaReferencesDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface SchemaReferencesGetOptionalParams extends OperationOptions {
 }
 
@@ -895,8 +912,15 @@ export interface SchemaReferencesListByResourceGroupOptionalParams extends Opera
 
 // @public
 export interface SchemaReferencesOperations {
+    createOrUpdate: (resourceUri: string, schemaReferenceName: string, resource: SchemaReference, options?: SchemaReferencesCreateOrUpdateOptionalParams) => PollerLike<OperationState<SchemaReference>, SchemaReference>;
+    delete: (resourceUri: string, schemaReferenceName: string, options?: SchemaReferencesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceUri: string, schemaReferenceName: string, options?: SchemaReferencesGetOptionalParams) => Promise<SchemaReference>;
     listByResourceGroup: (resourceUri: string, options?: SchemaReferencesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<SchemaReference>;
+    update: (resourceUri: string, schemaReferenceName: string, properties: SchemaReference, options?: SchemaReferencesUpdateOptionalParams) => Promise<SchemaReference>;
+}
+
+// @public
+export interface SchemaReferencesUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -954,6 +978,8 @@ export interface SchemaUpdate {
 
 // @public
 export interface SchemaUpdateProperties {
+    readonly currentVersion?: string;
+    readonly provisioningState?: ProvisioningState;
 }
 
 // @public
@@ -1136,6 +1162,7 @@ export interface SolutionTemplateProperties {
     readonly latestVersion?: string;
     readonly provisioningState?: ProvisioningState;
     state?: ResourceState;
+    readonly uniqueIdentifier?: string;
 }
 
 // @public
@@ -1254,6 +1281,9 @@ export interface SolutionUpdate {
 
 // @public
 export interface SolutionUpdateProperties {
+    readonly availableSolutionTemplateVersions?: AvailableSolutionTemplateVersion[];
+    readonly provisioningState?: ProvisioningState;
+    readonly solutionTemplateId?: string;
 }
 
 // @public
@@ -1636,6 +1666,7 @@ export interface WorkflowVersionsUpdateOptionalParams extends OperationOptions {
 
 // @public (undocumented)
 export class WorkloadOrchestrationManagementClient {
+    constructor(credential: TokenCredential, options?: WorkloadOrchestrationManagementClientOptionalParams);
     constructor(credential: TokenCredential, subscriptionId: string, options?: WorkloadOrchestrationManagementClientOptionalParams);
     readonly configTemplates: ConfigTemplatesOperations;
     readonly configTemplateVersions: ConfigTemplateVersionsOperations;

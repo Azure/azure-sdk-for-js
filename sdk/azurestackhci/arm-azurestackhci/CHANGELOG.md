@@ -1,5 +1,371 @@
 # Release History
 
+## 5.0.0-beta.1 (2026-06-25)
+Compared with version 4.0.0
+
+### Features Added
+  - Added operation group ClusterJobsOperations
+  - Added operation group DevicePoolsOperations
+  - Added operation group EdgeMachineDiskJobsOperations
+  - Added operation group EdgeMachineDiskPrivilegedJobsOperations
+  - Added operation group EdgeMachineDisksOperations
+  - Added operation group EdgeMachineGpuJobsOperations
+  - Added operation group EdgeMachineGpusOperations
+  - Added operation group EdgeMachineJobsOperations
+  - Added operation group EdgeMachineNetworkAdapterJobsOperations
+  - Added operation group EdgeMachineNetworkAdaptersOperations
+  - Added operation group EdgeMachinesOperations
+  - Added operation group EdgeMachineUpdatesOperations
+  - Added operation group EdgeMachineVolumesOperations
+  - Added operation group KubernetesVersionsOperations
+  - Added operation group OsImagesOperations
+  - Added operation group OwnershipVouchersOperations
+  - Added operation group PlatformUpdatesOperations
+  - Added operation group PublishersOperations
+  - Added operation group UpdateContentsOperations
+  - Added operation group UpdateSummariesOperationGroupOperations
+  - Added operation ClustersOperations.beginChangeRing
+  - Added operation ClustersOperations.beginChangeRingAndWait
+  - Added operation ClustersOperations.changeRing
+  - Added operation UpdatesOperations.beginPrepare
+  - Added operation UpdatesOperations.beginPrepareAndWait
+  - Added operation UpdatesOperations.prepare
+  - Added Interface AddServerJobServerDetails
+  - Added Interface ApplyConfigurationNetworkAdapterJobProperties
+  - Added Interface AssignPartitionGpuJobProperties
+  - Added Interface ChangeRingRequest
+  - Added Interface ChangeRingRequestProperties
+  - Added Interface CheckUpdatesRequest
+  - Added Interface ClaimDeviceRequest
+  - Added Interface ClusterBillingProperties
+  - Added Interface ClusterJob
+  - Added Interface ClusterJobProperties
+  - Added Interface ClusterJobsCreateOrUpdateOptionalParams
+  - Added Interface ClusterJobsDeleteOptionalParams
+  - Added Interface ClusterJobsGetOptionalParams
+  - Added Interface ClusterJobsListOptionalParams
+  - Added Interface ClustersChangeRingOptionalParams
+  - Added Interface ClusterSdnProperties
+  - Added Interface ConfidentialVmProfile
+  - Added Interface ConfidentialVmProperties
+  - Added Interface ContentPayload
+  - Added Interface CreatePartitionGpuJobProperties
+  - Added Interface CreateVolumeJobProperties
+  - Added Interface DdaDetails
+  - Added Interface DeleteVolumeJobProperties
+  - Added Interface DeviceDetail
+  - Added Interface DevicePool
+  - Added Interface DevicePoolPatch
+  - Added Interface DevicePoolProperties
+  - Added Interface DevicePoolsClaimDevicesOptionalParams
+  - Added Interface DevicePoolsCreateOrUpdateOptionalParams
+  - Added Interface DevicePoolsDeleteOptionalParams
+  - Added Interface DevicePoolsGetOptionalParams
+  - Added Interface DevicePoolsListByResourceGroupOptionalParams
+  - Added Interface DevicePoolsListBySubscriptionOptionalParams
+  - Added Interface DevicePoolsReleaseDevicesOptionalParams
+  - Added Interface DevicePoolsUpdateOptionalParams
+  - Added Interface DiskActionStatus
+  - Added Interface DiskConfiguration
+  - Added Interface DiskDeploymentStep
+  - Added Interface DiskJobReportedProperties
+  - Added Interface DiskReportedProperties
+  - Added Interface DiskVolumeConfiguration
+  - Added Interface DiskVolumeReportedProperties
+  - Added Interface DownloadOsJobProperties
+  - Added Interface DownloadOsProfile
+  - Added Interface DownloadRequest
+  - Added Interface EdgeDeviceDisks
+  - Added Interface EdgeMachine
+  - Added Interface EdgeMachineCollectLogJobProperties
+  - Added Interface EdgeMachineCollectLogJobReportedProperties
+  - Added Interface EdgeMachineDisk
+  - Added Interface EdgeMachineDiskJob
+  - Added Interface EdgeMachineDiskJobProperties
+  - Added Interface EdgeMachineDiskJobsCreateOrUpdateOptionalParams
+  - Added Interface EdgeMachineDiskJobsDeleteOptionalParams
+  - Added Interface EdgeMachineDiskJobsGetOptionalParams
+  - Added Interface EdgeMachineDiskJobsListOptionalParams
+  - Added Interface EdgeMachineDiskPrivilegedJob
+  - Added Interface EdgeMachineDiskPrivilegedJobProperties
+  - Added Interface EdgeMachineDiskPrivilegedJobsCreateOrUpdateOptionalParams
+  - Added Interface EdgeMachineDiskPrivilegedJobsDeleteOptionalParams
+  - Added Interface EdgeMachineDiskPrivilegedJobsGetOptionalParams
+  - Added Interface EdgeMachineDiskPrivilegedJobsListOptionalParams
+  - Added Interface EdgeMachineDiskProperties
+  - Added Interface EdgeMachineDisksCreateOrUpdateOptionalParams
+  - Added Interface EdgeMachineDisksDeleteOptionalParams
+  - Added Interface EdgeMachineDisksGetOptionalParams
+  - Added Interface EdgeMachineDisksListOptionalParams
+  - Added Interface EdgeMachineGpu
+  - Added Interface EdgeMachineGpuJob
+  - Added Interface EdgeMachineGpuJobProperties
+  - Added Interface EdgeMachineGpuJobsCreateOrUpdateOptionalParams
+  - Added Interface EdgeMachineGpuJobsDeleteOptionalParams
+  - Added Interface EdgeMachineGpuJobsGetOptionalParams
+  - Added Interface EdgeMachineGpuJobsListOptionalParams
+  - Added Interface EdgeMachineGpuProperties
+  - Added Interface EdgeMachineGpusCreateOrUpdateOptionalParams
+  - Added Interface EdgeMachineGpusDeleteOptionalParams
+  - Added Interface EdgeMachineGpusGetOptionalParams
+  - Added Interface EdgeMachineGpusListOptionalParams
+  - Added Interface EdgeMachineJob
+  - Added Interface EdgeMachineJobProperties
+  - Added Interface EdgeMachineJobsCreateOrUpdateOptionalParams
+  - Added Interface EdgeMachineJobsDeleteOptionalParams
+  - Added Interface EdgeMachineJobsGetOptionalParams
+  - Added Interface EdgeMachineJobsListOptionalParams
+  - Added Interface EdgeMachineNetworkAdapter
+  - Added Interface EdgeMachineNetworkAdapterJob
+  - Added Interface EdgeMachineNetworkAdapterJobProperties
+  - Added Interface EdgeMachineNetworkAdapterJobsCreateOrUpdateOptionalParams
+  - Added Interface EdgeMachineNetworkAdapterJobsDeleteOptionalParams
+  - Added Interface EdgeMachineNetworkAdapterJobsGetOptionalParams
+  - Added Interface EdgeMachineNetworkAdapterJobsListOptionalParams
+  - Added Interface EdgeMachineNetworkAdapterProperties
+  - Added Interface EdgeMachineNetworkAdaptersGetOptionalParams
+  - Added Interface EdgeMachineNetworkAdaptersListOptionalParams
+  - Added Interface EdgeMachineNetworkProfile
+  - Added Interface EdgeMachineNicDetail
+  - Added Interface EdgeMachinePatch
+  - Added Interface EdgeMachineProperties
+  - Added Interface EdgeMachineRemoteSupportJobProperties
+  - Added Interface EdgeMachineRemoteSupportJobReportedProperties
+  - Added Interface EdgeMachineRemoteSupportNodeSettings
+  - Added Interface EdgeMachineReportedProperties
+  - Added Interface EdgeMachinesCreateOrUpdateOptionalParams
+  - Added Interface EdgeMachinesDeleteOptionalParams
+  - Added Interface EdgeMachinesGetOptionalParams
+  - Added Interface EdgeMachinesListByResourceGroupOptionalParams
+  - Added Interface EdgeMachinesListBySubscriptionOptionalParams
+  - Added Interface EdgeMachinesUpdateOptionalParams
+  - Added Interface EdgeMachinesValidateOptionalParams
+  - Added Interface EdgeMachineUpdate
+  - Added Interface EdgeMachineUpdateInfo
+  - Added Interface EdgeMachineUpdateProperties
+  - Added Interface EdgeMachineUpdatesCreateOrUpdateOptionalParams
+  - Added Interface EdgeMachineUpdatesDeleteOptionalParams
+  - Added Interface EdgeMachineUpdatesGetOptionalParams
+  - Added Interface EdgeMachineUpdatesListOptionalParams
+  - Added Interface EdgeMachineValidateRequest
+  - Added Interface EdgeMachineValidateResponse
+  - Added Interface EdgeMachineVolume
+  - Added Interface EdgeMachineVolumeProperties
+  - Added Interface EdgeMachineVolumesCreateOrUpdateOptionalParams
+  - Added Interface EdgeMachineVolumesDeleteOptionalParams
+  - Added Interface EdgeMachineVolumesGetOptionalParams
+  - Added Interface EdgeMachineVolumesListOptionalParams
+  - Added Interface EdgeMachineWorkloadInventoryItem
+  - Added Interface ForcePushNetworkAdapterJobProperties
+  - Added Interface GpuCreatePartitionJobProperties
+  - Added Interface GpuPartitionDetails
+  - Added Interface GpuSwitchModeJobProperties
+  - Added Interface HardwareProfile
+  - Added Interface HciAddServerJobProperties
+  - Added Interface HciConfigureCvmJobProperties
+  - Added Interface HciConfigureSdnIntegrationJobProperties
+  - Added Interface HciRepairServerJobProperties
+  - Added Interface IgvmStatusDetail
+  - Added Interface IpAddressRange
+  - Added Interface JobReportedProperties
+  - Added Interface KubernetesVersion
+  - Added Interface KubernetesVersionProperties
+  - Added Interface KubernetesVersionsListBySubscriptionLocationResourceOptionalParams
+  - Added Interface LifecycleDetails
+  - Added Interface LifecycleStage
+  - Added Interface LifecycleStatus
+  - Added Interface NetworkAdapter
+  - Added Interface NetworkAdapterActionStatus
+  - Added Interface NetworkAdapterConfiguration
+  - Added Interface NetworkAdapterDeploymentStep
+  - Added Interface NetworkAdapterJobReportedProperties
+  - Added Interface NetworkAdapterProvisioningStatus
+  - Added Interface NetworkAdapterReportedProperties
+  - Added Interface NetworkAdapterStatus
+  - Added Interface NetworkConfiguration
+  - Added Interface NextBillingModel
+  - Added Interface OnboardingConfiguration
+  - Added Interface OperationDetail
+  - Added Interface OsImage
+  - Added Interface OsImageProperties
+  - Added Interface OsImagesGetOptionalParams
+  - Added Interface OsImagesListBySubscriptionLocationResourceOptionalParams
+  - Added Interface OsProfile
+  - Added Interface OsProvisionProfile
+  - Added Interface OwnershipVoucherDetails
+  - Added Interface OwnershipVouchersValidateOptionalParams
+  - Added Interface OwnershipVoucherValidationDetails
+  - Added Interface PartitionDetails
+  - Added Interface PlatformPayload
+  - Added Interface PlatformUpdate
+  - Added Interface PlatformUpdateDetails
+  - Added Interface PlatformUpdateProperties
+  - Added Interface PlatformUpdatesGetOptionalParams
+  - Added Interface PlatformUpdatesListOptionalParams
+  - Added Interface ProvisioningDetails
+  - Added Interface ProvisioningRequest
+  - Added Interface ProvisionOsJobProperties
+  - Added Interface ProvisionOsReportedProperties
+  - Added Interface Publisher
+  - Added Interface PublisherProperties
+  - Added Interface PublishersGetOptionalParams
+  - Added Interface PublishersListByClusterOptionalParams
+  - Added Interface ReleaseDeviceRequest
+  - Added Interface RemovePartitionGpuJobProperties
+  - Added Interface RepairServerJobServerDetails
+  - Added Interface SanAdapterIPConfig
+  - Added Interface SanAdapterProperties
+  - Added Interface SanClusterNetworkConfig
+  - Added Interface SanNetworks
+  - Added Interface SdnProperties
+  - Added Interface SiteDetails
+  - Added Interface Storage_2
+  - Added Interface StorageConfiguration
+  - Added Interface StorageProfile
+  - Added Interface StorageS2DConfig
+  - Added Interface StorageSanConfig
+  - Added Interface SwitchModeGpuJobProperties
+  - Added Interface SyncConfigurationJobProperties
+  - Added Interface SyncConfigurationNetworkAdapterJobProperties
+  - Added Interface TargetDeviceConfiguration
+  - Added Interface TimeConfiguration
+  - Added Interface UpdateContent
+  - Added Interface UpdateContentProperties
+  - Added Interface UpdateContentsGetOptionalParams
+  - Added Interface UpdateContentsListOptionalParams
+  - Added Interface UpdatesPrepareOptionalParams
+  - Added Interface UpdateSummariesOperationGroupCheckHealthOptionalParams
+  - Added Interface UpdateSummariesOperationGroupCheckUpdatesOptionalParams
+  - Added Interface UserDetails
+  - Added Interface ValidateOwnershipVouchersRequest
+  - Added Interface ValidateOwnershipVouchersResponse
+  - Added Interface VmConnectJobDetails
+  - Added Interface VmConnectProvisionJobProperties
+  - Added Interface VmConnectRemoveJobProperties
+  - Added Interface VolumeConfiguration
+  - Added Interface VolumeReportedProperties
+  - Added Interface WebProxyConfiguration
+  - Added Interface WifiConfigurationDesiredProperties
+  - Added Interface WifiConfigurationReportedProperties
+  - Added Interface WifiSecret
+  - Added Interface WorkloadDetails
+  - Interface Cluster has a new optional parameter billingProperties
+  - Interface Cluster has a new optional parameter confidentialVmProperties
+  - Interface Cluster has a new optional parameter kind
+  - Interface Cluster has a new optional parameter ring
+  - Interface Cluster has a new optional parameter sdnProperties
+  - Interface Cluster has a new optional parameter storageType
+  - Interface ClusterProperties has a new optional parameter billingProperties
+  - Interface ClusterProperties has a new optional parameter confidentialVmProperties
+  - Interface ClusterProperties has a new optional parameter ring
+  - Interface ClusterProperties has a new optional parameter sdnProperties
+  - Interface ClusterProperties has a new optional parameter storageType
+  - Interface DeploymentSettingHostNetwork has a new optional parameter sanNetworks
+  - Interface DeploymentStep has a new optional parameter error
+  - Interface HciNetworkProfile has a new optional parameter sdnProperties
+  - Interface HciReportedProperties has a new optional parameter confidentialVmProfile
+  - Interface HciReportedProperties has a new optional parameter lastSyncTimestamp
+  - Interface HciStorageProfile has a new optional parameter disks
+  - Interface PerNodeRemoteSupportSession has a new optional parameter transcriptLocation
+  - Interface RemoteSupportProperties has a new optional parameter remoteSupportProvisioningState
+  - Interface ReportedProperties has a new optional parameter confidentialVmProfile
+  - Interface ReportedProperties has a new optional parameter lastSyncTimestamp
+  - Added Type Alias AuthenticationType
+  - Added Type Alias ClusterJobPropertiesUnion
+  - Added Type Alias ConfidentialVmIntent
+  - Added Type Alias ConfidentialVmStatus
+  - Added Type Alias ConnectionState
+  - Added Type Alias DiskFileSystemType
+  - Added Type Alias DiskJobType
+  - Added Type Alias DiskState
+  - Added Type Alias DiskType
+  - Added Type Alias EAPMethod
+  - Added Type Alias EdgeMachineConnectivityStatus
+  - Added Type Alias EdgeMachineDiskJobPropertiesUnion
+  - Added Type Alias EdgeMachineDiskPrivilegedJobPropertiesUnion
+  - Added Type Alias EdgeMachineGpuJobPropertiesUnion
+  - Added Type Alias EdgeMachineGpuJobType
+  - Added Type Alias EdgeMachineJobPropertiesUnion
+  - Added Type Alias EdgeMachineJobType
+  - Added Type Alias EdgeMachineKind
+  - Added Type Alias EdgeMachineLifecycleStatus
+  - Added Type Alias EdgeMachineNetworkAdapterJobPropertiesUnion
+  - Added Type Alias EdgeMachineState
+  - Added Type Alias GpuMode
+  - Added Type Alias HciJobType
+  - Added Type Alias IgvmStatus
+  - Added Type Alias InterfaceState
+  - Added Type Alias IpAssignmentType
+  - Added Type Alias IpInterfaceType
+  - Added Type Alias LifecycleOperationStatus
+  - Added Type Alias NetworkAdapterJobType
+  - Added Type Alias NetworkAdapterOperationStatus
+  - Added Type Alias NetworkInterfaceType
+  - Added Type Alias OnboardingResourceType
+  - Added Type Alias OSOperationType
+  - Added Type Alias OverprovisioningRatio
+  - Added Type Alias OwnerKeyType
+  - Added Type Alias OwnershipVoucherValidationStatus
+  - Added Type Alias PrivilegedJobType
+  - Added Type Alias ProvisioningOsType
+  - Added Type Alias RemoteSupportProvisioningState
+  - Added Type Alias ResolutionStrategy
+  - Added Type Alias SdnIntegrationIntent
+  - Added Type Alias SdnStatus
+  - Added Type Alias SecretType
+  - Added Type Alias StorageType
+  - Added Type Alias VolumeType
+  - Added Type Alias WifiSecretType
+  - Added Type Alias WitnessType
+  - Added Enum KnownAuthenticationType
+  - Added Enum KnownConfidentialVmIntent
+  - Added Enum KnownConfidentialVmStatus
+  - Added Enum KnownConnectionState
+  - Added Enum KnownDiskFileSystemType
+  - Added Enum KnownDiskJobType
+  - Added Enum KnownDiskState
+  - Added Enum KnownDiskType
+  - Added Enum KnownEAPMethod
+  - Added Enum KnownEdgeMachineConnectivityStatus
+  - Added Enum KnownEdgeMachineGpuJobType
+  - Added Enum KnownEdgeMachineJobType
+  - Added Enum KnownEdgeMachineKind
+  - Added Enum KnownEdgeMachineLifecycleStatus
+  - Added Enum KnownEdgeMachineState
+  - Added Enum KnownGpuMode
+  - Added Enum KnownHciJobType
+  - Added Enum KnownIgvmStatus
+  - Added Enum KnownInterfaceState
+  - Added Enum KnownIpAssignmentType
+  - Added Enum KnownIpInterfaceType
+  - Added Enum KnownLifecycleOperationStatus
+  - Added Enum KnownNetworkAdapterJobType
+  - Added Enum KnownNetworkAdapterOperationStatus
+  - Added Enum KnownNetworkInterfaceType
+  - Added Enum KnownOnboardingResourceType
+  - Added Enum KnownOSOperationType
+  - Added Enum KnownOverprovisioningRatio
+  - Added Enum KnownOwnerKeyType
+  - Added Enum KnownOwnershipVoucherValidationStatus
+  - Added Enum KnownPrivilegedJobType
+  - Added Enum KnownProvisioningOsType
+  - Added Enum KnownRemoteSupportProvisioningState
+  - Added Enum KnownResolutionStrategy
+  - Added Enum KnownSdnIntegrationIntent
+  - Added Enum KnownSdnStatus
+  - Added Enum KnownSecretType
+  - Added Enum KnownStorageType
+  - Added Enum KnownVolumeType
+  - Added Enum KnownWifiSecretType
+  - Added Enum KnownWitnessType
+  - Enum KnownState has a new value HealthCheckExpired
+  - Enum KnownState has a new value PendingOEMValidation
+  - Enum KnownVersions has a new value V20260430
+  - Enum KnownVersions has a new value V20260501Preview
+
+### Breaking Changes
+  - Removed Interface Storage
+
 ## 4.1.0-beta.1 (2026-04-13)
 Compared with version 4.0.0
 

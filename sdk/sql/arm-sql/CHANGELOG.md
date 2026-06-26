@@ -1,6 +1,6 @@
 # Release History
 
-## 11.0.0 (2026-06-05)
+## 11.0.0 (2026-06-25)
 
 ### Features Added
   - Added operation group InstancePoolOperationsOperations
@@ -761,6 +761,7 @@
   - Enum KnownCapabilityGroup has a new value SupportedJobAgentVersions
   - Enum KnownOperationMode has a new value Export
   - Enum KnownOperationMode has a new value Import
+  - Enum KnownServerNetworkAccessFlag has a new value SecuredByPerimeter
   - Enum KnownStorageCapabilityStorageAccountType has a new value Gzrs
   - Enum KnownStorageKeyType has a new value ManagedIdentity
 
@@ -865,8 +866,6 @@
   - Interface DistributedAvailabilityGroup no longer has parameter targetDatabase
   - Interface DistributedAvailabilityGroup no longer has parameter targetReplicaId
   - Interface ManagedInstanceEditionCapability no longer has parameter zoneRedundant
-  - Interface ServerUsage no longer has parameter nextResetTime
-  - Interface ServerUsage no longer has parameter resourceName
   - Parameter administratorLoginPassword of interface ExportDatabaseDefinition is now optional
   - Parameter state of interface GeoBackupPolicy is now optional
   - Parameter administratorLoginPassword of interface ImportExistingDatabaseDefinition is now optional

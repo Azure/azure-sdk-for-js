@@ -1,5 +1,35 @@
 # Release History
 
+## 24.2.0 (2026-06-25)
+
+### Features Added
+  - Added operation group SharedGalleryInvitesOperations
+  - Added operation group TenantLevelSharedGalleryInvitesOperations
+  - Added operation SnapshotsOperations.beginUpdateImmutabilityPolicy
+  - Added operation SnapshotsOperations.beginUpdateImmutabilityPolicyAndWait
+  - Added operation SnapshotsOperations.beginUpdateImmutabilityPolicyLock
+  - Added operation SnapshotsOperations.beginUpdateImmutabilityPolicyLockAndWait
+  - Added operation SnapshotsOperations.updateImmutabilityPolicy
+  - Added operation SnapshotsOperations.updateImmutabilityPolicyLock
+  - Added Interface ImmutabilityPolicy
+  - Added Interface ImmutabilityPolicyData
+  - Added Interface ImmutabilityPolicyLockData
+  - Added Interface SharedGalleryInvitesGallerySharingAcceptOptionalParams
+  - Added Interface SharedGalleryInvitesGallerySharingRejectOptionalParams
+  - Added Interface SnapshotsUpdateImmutabilityPolicyLockOptionalParams
+  - Added Interface SnapshotsUpdateImmutabilityPolicyOptionalParams
+  - Added Interface TenantLevelSharedGalleryInvitesTenantLevelGallerySharingAcceptOptionalParams
+  - Added Interface TenantLevelSharedGalleryInvitesTenantLevelGallerySharingRejectOptionalParams
+  - Interface DiskRestorePoint has a new optional parameter snapshotAccessState
+  - Interface DiskRestorePointProperties has a new optional parameter snapshotAccessState
+  - Interface DiskSecurityProfile has a new optional parameter confidentialVMVersion
+  - Interface Snapshot has a new optional parameter immutabilityPolicy
+  - Interface SnapshotProperties has a new optional parameter immutabilityPolicy
+  - Added Type Alias ConfidentialVMVersion
+  - Added Type Alias ImmutabilityPolicyType
+  - Added Enum KnownConfidentialVMVersion
+  - Added Enum KnownImmutabilityPolicyType
+
 ## 24.1.0 (2026-06-17)
 
 ### Features Added

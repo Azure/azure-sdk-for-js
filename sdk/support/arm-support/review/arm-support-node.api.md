@@ -30,6 +30,9 @@ export enum AzureClouds {
 export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
+export type ChatConversationStatus = string;
+
+// @public
 export interface ChatTranscriptDetails extends ProxyResource {
     messages?: MessageProperties[];
     readonly startTime?: Date;
@@ -382,6 +385,12 @@ export enum KnownActionType {
 }
 
 // @public
+export enum KnownChatConversationStatus {
+    Active = "Active",
+    Closed = "Closed"
+}
+
+// @public
 export enum KnownCommunicationDirection {
     Inbound = "inbound",
     Outbound = "outbound"
@@ -450,6 +459,12 @@ export enum KnownStatus {
 }
 
 // @public
+export enum KnownSupportChannel {
+    Chat = "Chat",
+    Web = "Web"
+}
+
+// @public
 export enum KnownUserConsent {
     No = "No",
     Yes = "Yes"
@@ -458,7 +473,7 @@ export enum KnownUserConsent {
 // @public
 export enum KnownVersions {
     V20240401 = "2024-04-01",
-    V20250601Preview = "2025-06-01-preview"
+    V20260601 = "2026-06-01"
 }
 
 // @public
@@ -730,6 +745,9 @@ export interface SimplePollerLike<TState extends OperationState<TResult>, TResul
 export type Status = string;
 
 // @public
+export type SupportChannel = string;
+
+// @public
 export interface SupportEngineer {
     readonly emailAddress?: string;
 }
@@ -737,6 +755,7 @@ export interface SupportEngineer {
 // @public
 export interface SupportTicketDetails extends ProxyResource {
     advancedDiagnosticConsent: Consent;
+    readonly chatConversationStatus?: ChatConversationStatus;
     communityForumPost?: string;
     contactDetails: ContactProfile;
     readonly createdDate?: Date;
@@ -758,6 +777,7 @@ export interface SupportTicketDetails extends ProxyResource {
     serviceLevelAgreement?: ServiceLevelAgreement;
     severity: SeverityLevel;
     readonly status?: string;
+    readonly supportChannel?: SupportChannel;
     supportEngineer?: SupportEngineer;
     readonly supportPlanDisplayName?: string;
     supportPlanId?: string;
@@ -770,6 +790,7 @@ export interface SupportTicketDetails extends ProxyResource {
 // @public
 export interface SupportTicketDetailsProperties {
     advancedDiagnosticConsent: Consent;
+    readonly chatConversationStatus?: ChatConversationStatus;
     communityForumPost?: string;
     contactDetails: ContactProfile;
     readonly createdDate?: Date;
@@ -791,6 +812,7 @@ export interface SupportTicketDetailsProperties {
     serviceLevelAgreement?: ServiceLevelAgreement;
     severity: SeverityLevel;
     readonly status?: string;
+    readonly supportChannel?: SupportChannel;
     supportEngineer?: SupportEngineer;
     readonly supportPlanDisplayName?: string;
     supportPlanId?: string;

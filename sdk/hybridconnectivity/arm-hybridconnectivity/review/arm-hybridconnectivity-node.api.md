@@ -6,11 +6,13 @@
 
 import { AbortSignalLike } from '@azure/abort-controller';
 import { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import { OperationOptions } from '@azure-rest/core-client';
 import { OperationState } from '@azure/core-lro';
 import { PathUncheckedResponse } from '@azure-rest/core-client';
 import { Pipeline } from '@azure/core-rest-pipeline';
 import { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -57,7 +59,12 @@ export type CreatedByType = string;
 
 // @public
 export interface EndpointAccessResource {
-    relay?: RelayNamespaceAccessProperties;
+    readonly accessKey?: string;
+    expiresOn?: number;
+    hybridConnectionName?: string;
+    namespaceName?: string;
+    namespaceNameSuffix?: string;
+    serviceConfigurationToken?: string;
 }
 
 // @public
@@ -168,6 +175,7 @@ export type HostType = string;
 
 // @public (undocumented)
 export class HybridConnectivityManagementAPI {
+    constructor(credential: TokenCredential, options?: HybridConnectivityManagementAPIOptionalParams);
     constructor(credential: TokenCredential, subscriptionId: string, options?: HybridConnectivityManagementAPIOptionalParams);
     readonly endpoints: EndpointsOperations;
     readonly generateAwsTemplate: GenerateAwsTemplateOperations;
@@ -188,14 +196,21 @@ export interface HybridConnectivityManagementAPIOptionalParams extends ClientOpt
 
 // @public
 export interface IngressGatewayResource {
-    ingress?: IngressProfileProperties;
-    relay?: RelayNamespaceAccessProperties;
+    aadProfile?: AADProfileProperties;
+    readonly accessKey?: string;
+    expiresOn?: number;
+    hostname?: string;
+    hybridConnectionName?: string;
+    namespaceName?: string;
+    namespaceNameSuffix?: string;
+    serviceConfigurationToken?: string;
 }
 
 // @public
 export interface IngressProfileProperties {
-    aadProfile: AADProfileProperties;
     hostname: string;
+    serverId: string;
+    tenantId: string;
 }
 
 // @public
@@ -226,6 +241,8 @@ export interface InventoryProperties {
 export interface InventoryResource extends ProxyResource {
     properties?: InventoryProperties;
 }
+
+export { isRestError }
 
 // @public
 export enum KnownActionType {
@@ -259,15 +276,10 @@ export enum KnownOrigin {
 
 // @public
 export enum KnownProvisioningState {
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     Updating = "Updating"
 }
 
@@ -280,9 +292,7 @@ export enum KnownResourceProvisioningState {
 
 // @public
 export enum KnownServiceName {
-    // (undocumented)
     SSH = "SSH",
-    // (undocumented)
     WAC = "WAC"
 }
 
@@ -296,9 +306,7 @@ export enum KnownSolutionConfigurationStatus {
 
 // @public
 export enum KnownType {
-    // (undocumented)
     Custom = "custom",
-    // (undocumented)
     Default = "default"
 }
 
@@ -476,6 +484,8 @@ export interface Resource {
 // @public
 export type ResourceProvisioningState = string;
 
+export { RestError }
+
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: HybridConnectivityManagementAPI, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
 
@@ -501,12 +511,15 @@ export interface ServiceConfigurationPropertiesPatch {
 
 // @public
 export interface ServiceConfigurationResource extends ExtensionResource {
-    properties?: ServiceConfigurationProperties;
+    port?: number;
+    readonly provisioningState?: ProvisioningState;
+    resourceId?: string;
+    serviceName?: ServiceName;
 }
 
 // @public
 export interface ServiceConfigurationResourcePatch {
-    properties?: ServiceConfigurationPropertiesPatch;
+    port?: number;
 }
 
 // @public
