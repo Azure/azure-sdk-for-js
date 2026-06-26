@@ -1,6 +1,6 @@
 # Release History
 
-## 8.0.0-beta.7 (2026-06-05)
+## 8.0.0-beta.7 (2026-06-26)
 Compared with version 7.0.0
 
 ### Features Added
