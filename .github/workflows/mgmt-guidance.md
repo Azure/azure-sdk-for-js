@@ -17,7 +17,7 @@ on:
   # env: vars in steps use the full GitHub Actions expression context —
   # gh-aw's expression allowlist only restricts frontmatter YAML field values.
   steps:
-    - name: Gate — verify CI complete and PR is under mgmt review
+    - name: Gate — verify CI complete and PR is a mgmt PR
       id: gate
       uses: actions/github-script@v9.0.0
       env:
@@ -50,21 +50,20 @@ on:
             return;
           }
 
-          // Filter to mgmt PRs in the review flow: accept either
-          // 'mgmt-review-added' (review complete) or 'mgmt-review-in-progress'
-          // (review running). Accepting in-progress decouples guidance from the
-          // mgmt-review agent's final in-progress → added label hand-off — an
-          // LLM step that can be skipped — so guidance still fires once CI
-          // completes.
+          // Filter to mgmt PRs: a PR qualifies if it carries the 'Mgmt' label
+          // (applied automatically by the path-based labeler on sdk/*/arm-*
+          // changes) or its title contains 'AutoPR' (auto-generated SDK PRs).
+          // Fully decoupled from the mgmt-review flow — guidance fires once CI
+          // completes, regardless of review state.
           const { data: pr } = await github.rest.pulls.get({
             owner: context.repo.owner,
             repo:  context.repo.repo,
             pull_number: prNum,
           });
           const labels = (pr.labels || []).map(l => l.name);
-          const reviewLabels = ['mgmt-review-added', 'mgmt-review-in-progress'];
-          if (!labels.some((l) => reviewLabels.includes(l))) {
-            core.info(`PR #${prNum} has no mgmt-review label (${labels.join(', ') || 'none'}) — not a mgmt PR under review.`);
+          const isMgmtPr = labels.includes('Mgmt') || (pr.title || '').includes('AutoPR');
+          if (!isMgmtPr) {
+            core.info(`PR #${prNum} is not a mgmt PR (labels: ${labels.join(', ') || 'none'}; title: ${pr.title || ''}) — skipping.`);
             core.setOutput('ready', 'false');
             return;
           }
