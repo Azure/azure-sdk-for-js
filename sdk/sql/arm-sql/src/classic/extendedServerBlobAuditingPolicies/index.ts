@@ -1,22 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listByServer,
   createOrUpdate,
   get,
 } from "../../api/extendedServerBlobAuditingPolicies/operations.js";
-import type {
+import {
   ExtendedServerBlobAuditingPoliciesListByServerOptionalParams,
   ExtendedServerBlobAuditingPoliciesCreateOrUpdateOptionalParams,
   ExtendedServerBlobAuditingPoliciesGetOptionalParams,
 } from "../../api/extendedServerBlobAuditingPolicies/options.js";
-import type { ExtendedServerBlobAuditingPolicy } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { ExtendedServerBlobAuditingPolicy } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ExtendedServerBlobAuditingPolicies operations. */
 export interface ExtendedServerBlobAuditingPoliciesOperations {

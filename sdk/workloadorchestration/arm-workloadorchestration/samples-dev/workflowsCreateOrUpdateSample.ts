@@ -18,10 +18,7 @@ async function workflowsCreateOrUpdateMaximumSet(): Promise<void> {
     "rgconfigurationmanager",
     "testname",
     "testname",
-    {
-      properties: {},
-      extendedLocation: { name: "szjrwimeqyiue", type: "EdgeZone" },
-    },
+    { properties: {}, extendedLocation: { name: "szjrwimeqyiue", type: "EdgeZone" } },
   );
   console.log(result);
 }

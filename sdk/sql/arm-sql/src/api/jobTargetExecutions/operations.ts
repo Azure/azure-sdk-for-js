@@ -1,23 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlManagementContext as Client } from "../index.js";
-import type { JobExecution, _JobExecutionListResult } from "../../models/models.js";
+import { SqlManagementContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  JobExecution,
   jobExecutionDeserializer,
+  _JobExecutionListResult,
   _jobExecutionListResultDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   JobTargetExecutionsListByJobExecutionOptionalParams,
   JobTargetExecutionsListByStepOptionalParams,
   JobTargetExecutionsGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _listByJobExecutionSend(
   context: Client,
@@ -54,10 +61,12 @@ export function _listByJobExecutionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listByJobExecutionDeserialize(
@@ -141,10 +150,12 @@ export function _listByStepSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listByStepDeserialize(
@@ -221,10 +232,12 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<JobExecution> {

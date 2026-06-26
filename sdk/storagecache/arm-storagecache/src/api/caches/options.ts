@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   Cache,
   PrimingJob,
   StorageTargetSpaceAllocation,
   PrimingJobIdParameter,
 } from "../../models/models.js";
-import type { OperationOptions } from "@azure-rest/core-client";
+import { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface CachesSpaceAllocationOptionalParams extends OperationOptions {

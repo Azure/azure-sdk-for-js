@@ -23,11 +23,6 @@ import { PollerLike, OperationState } from "@azure/core-lro";
 /** Interface representing a SitesBySubscription operations. */
 export interface SitesBySubscriptionOperations {
   /** Delete a Site */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (siteName: string, options?: SitesBySubscriptionDeleteOptionalParams) => Promise<void>;
   /** Update a Site */
   update: (
@@ -43,7 +38,7 @@ export interface SitesBySubscriptionOperations {
   ) => PollerLike<OperationState<Site>, Site>;
   /** Get a Site */
   get: (siteName: string, options?: SitesBySubscriptionGetOptionalParams) => Promise<Site>;
-  /** List Site resources by subscription ID */
+  /** List Site resources by scope */
   list: (options?: SitesBySubscriptionListOptionalParams) => PagedAsyncIterableIterator<Site>;
 }
 

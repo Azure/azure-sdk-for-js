@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { WebPubSubManagementContext } from "../../api/webPubSubManagementContext.js";
+import { WebPubSubManagementContext } from "../../api/webPubSubManagementContext.js";
 import {
   restart,
   list,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/webPubSubReplicas/operations.js";
-import type {
+import {
   WebPubSubReplicasRestartOptionalParams,
   WebPubSubReplicasListOptionalParams,
   WebPubSubReplicasDeleteOptionalParams,
@@ -18,11 +18,10 @@ import type {
   WebPubSubReplicasCreateOrUpdateOptionalParams,
   WebPubSubReplicasGetOptionalParams,
 } from "../../api/webPubSubReplicas/options.js";
-import type { Replica } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { Replica } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a WebPubSubReplicas operations. */
 export interface WebPubSubReplicasOperations {

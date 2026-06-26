@@ -28,16 +28,18 @@ export function _listSend(
   const path = expandUrlTemplate(
     "/providers/Microsoft.Support/operations{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listDeserialize(
@@ -66,10 +68,6 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-06-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }

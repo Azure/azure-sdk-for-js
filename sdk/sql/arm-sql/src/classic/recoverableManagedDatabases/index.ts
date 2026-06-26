@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { listByInstance, get } from "../../api/recoverableManagedDatabases/operations.js";
-import type {
+import {
   RecoverableManagedDatabasesListByInstanceOptionalParams,
   RecoverableManagedDatabasesGetOptionalParams,
 } from "../../api/recoverableManagedDatabases/options.js";
-import type { RecoverableManagedDatabase } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { RecoverableManagedDatabase } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a RecoverableManagedDatabases operations. */
 export interface RecoverableManagedDatabasesOperations {

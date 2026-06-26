@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { update, get } from "../../api/serverAutomaticTuningOperations/operations.js";
-import type {
+import {
   ServerAutomaticTuningOperationsUpdateOptionalParams,
   ServerAutomaticTuningOperationsGetOptionalParams,
 } from "../../api/serverAutomaticTuningOperations/options.js";
-import type { ServerAutomaticTuning } from "../../models/models.js";
+import { ServerAutomaticTuning } from "../../models/models.js";
 
 /** Interface representing a ServerAutomaticTuningOperations operations. */
 export interface ServerAutomaticTuningOperationsOperations {

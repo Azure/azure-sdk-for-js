@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { StorageCacheManagementContext } from "../../api/storageCacheManagementContext.js";
+import { StorageCacheManagementContext } from "../../api/storageCacheManagementContext.js";
 import {
   restoreDefaults,
   dnsRefresh,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/storageTargets/operations.js";
-import type {
+import {
   StorageTargetsRestoreDefaultsOptionalParams,
   StorageTargetsDnsRefreshOptionalParams,
   StorageTargetsListByCacheOptionalParams,
@@ -18,11 +18,10 @@ import type {
   StorageTargetsCreateOrUpdateOptionalParams,
   StorageTargetsGetOptionalParams,
 } from "../../api/storageTargets/options.js";
-import type { StorageTarget } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { StorageTarget } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a StorageTargets operations. */
 export interface StorageTargetsOperations {

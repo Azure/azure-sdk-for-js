@@ -1,17 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import { listByDatabase, get } from "../../api/dataWarehouseUserActivitiesOperations/operations.js";
-import type {
+import {
   DataWarehouseUserActivitiesOperationsListByDatabaseOptionalParams,
   DataWarehouseUserActivitiesOperationsGetOptionalParams,
 } from "../../api/dataWarehouseUserActivitiesOperations/options.js";
-import type {
-  DataWarehouseUserActivities,
-  DataWarehouseUserActivityName,
-} from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { DataWarehouseUserActivities, DataWarehouseUserActivityName } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a DataWarehouseUserActivitiesOperations operations. */
 export interface DataWarehouseUserActivitiesOperationsOperations {

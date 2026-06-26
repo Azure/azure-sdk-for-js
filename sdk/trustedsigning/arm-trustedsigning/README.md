@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/trustedsigning/arm-trustedsigning)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-trustedsigning)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-trustedsigning?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-artifactsigning)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/trustedsigning/arm-trustedsigning/samples)
 
 ## Getting started

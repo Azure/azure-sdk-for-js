@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CodeSigningClient } from "@azure/arm-trustedsigning";
+import { CodeSigningClient } from "@azure/arm-artifactsigning";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**

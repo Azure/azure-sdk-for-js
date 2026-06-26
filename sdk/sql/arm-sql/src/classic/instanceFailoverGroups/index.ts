@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   forceFailoverAllowDataLoss,
   failover,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/instanceFailoverGroups/operations.js";
-import type {
+import {
   InstanceFailoverGroupsForceFailoverAllowDataLossOptionalParams,
   InstanceFailoverGroupsFailoverOptionalParams,
   InstanceFailoverGroupsListByLocationOptionalParams,
@@ -18,11 +18,10 @@ import type {
   InstanceFailoverGroupsCreateOrUpdateOptionalParams,
   InstanceFailoverGroupsGetOptionalParams,
 } from "../../api/instanceFailoverGroups/options.js";
-import type { InstanceFailoverGroup } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { InstanceFailoverGroup } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a InstanceFailoverGroups operations. */
 export interface InstanceFailoverGroupsOperations {

@@ -1,25 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlManagementContext as Client } from "../index.js";
-import type { IPv6FirewallRule, _IPv6FirewallRuleListResult } from "../../models/models.js";
+import { SqlManagementContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  IPv6FirewallRule,
   iPv6FirewallRuleSerializer,
   iPv6FirewallRuleDeserializer,
+  _IPv6FirewallRuleListResult,
   _iPv6FirewallRuleListResultDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   IPv6FirewallRulesListByServerOptionalParams,
   IPv6FirewallRulesDeleteOptionalParams,
   IPv6FirewallRulesCreateOrUpdateOptionalParams,
   IPv6FirewallRulesGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _listByServerSend(
   context: Client,
@@ -39,10 +46,12 @@ export function _listByServerSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listByServerDeserialize(
@@ -153,12 +162,14 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: iPv6FirewallRuleSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: iPv6FirewallRuleSerializer(parameters),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -217,10 +228,12 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<IPv6FirewallRule> {

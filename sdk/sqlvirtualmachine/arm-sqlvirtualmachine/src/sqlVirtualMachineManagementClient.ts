@@ -1,23 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   SqlVirtualMachineManagementContext,
   SqlVirtualMachineManagementClientOptionalParams,
+  createSqlVirtualMachineManagement,
 } from "./api/index.js";
-import { createSqlVirtualMachineManagement } from "./api/index.js";
-import type { AvailabilityGroupListenersOperations } from "./classic/availabilityGroupListeners/index.js";
-import { _getAvailabilityGroupListenersOperations } from "./classic/availabilityGroupListeners/index.js";
-import type { OperationsOperations } from "./classic/operations/index.js";
-import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { SqlVirtualMachineGroupsOperations } from "./classic/sqlVirtualMachineGroups/index.js";
-import { _getSqlVirtualMachineGroupsOperations } from "./classic/sqlVirtualMachineGroups/index.js";
-import type { SqlVirtualMachineTroubleshootOperations } from "./classic/sqlVirtualMachineTroubleshoot/index.js";
-import { _getSqlVirtualMachineTroubleshootOperations } from "./classic/sqlVirtualMachineTroubleshoot/index.js";
-import type { SqlVirtualMachinesOperations } from "./classic/sqlVirtualMachines/index.js";
-import { _getSqlVirtualMachinesOperations } from "./classic/sqlVirtualMachines/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import {
+  AvailabilityGroupListenersOperations,
+  _getAvailabilityGroupListenersOperations,
+} from "./classic/availabilityGroupListeners/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import {
+  SqlVirtualMachineGroupsOperations,
+  _getSqlVirtualMachineGroupsOperations,
+} from "./classic/sqlVirtualMachineGroups/index.js";
+import {
+  SqlVirtualMachineTroubleshootOperations,
+  _getSqlVirtualMachineTroubleshootOperations,
+} from "./classic/sqlVirtualMachineTroubleshoot/index.js";
+import {
+  SqlVirtualMachinesOperations,
+  _getSqlVirtualMachinesOperations,
+} from "./classic/sqlVirtualMachines/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { SqlVirtualMachineManagementClientOptionalParams } from "./api/sqlVirtualMachineManagementContext.js";
 

@@ -17,11 +17,7 @@ async function contextsUpdateMaximumSet(): Promise<void> {
   const result = await client.contexts.update("rgconfigurationmanager", "testname", {
     properties: {
       capabilities: [
-        {
-          name: "tpylinjcmlnycfpofpxjtqmt",
-          description: "banbenutsngwytoqh",
-          state: "active",
-        },
+        { name: "tpylinjcmlnycfpofpxjtqmt", description: "banbenutsngwytoqh", state: "active" },
       ],
       hierarchies: [{ name: "upqe", description: "vg" }],
     },

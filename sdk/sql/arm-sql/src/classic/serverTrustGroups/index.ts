@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listByInstance,
   listByLocation,
@@ -9,18 +9,17 @@ import {
   createOrUpdate,
   get,
 } from "../../api/serverTrustGroups/operations.js";
-import type {
+import {
   ServerTrustGroupsListByInstanceOptionalParams,
   ServerTrustGroupsListByLocationOptionalParams,
   ServerTrustGroupsDeleteOptionalParams,
   ServerTrustGroupsCreateOrUpdateOptionalParams,
   ServerTrustGroupsGetOptionalParams,
 } from "../../api/serverTrustGroups/options.js";
-import type { ServerTrustGroup } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { ServerTrustGroup } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ServerTrustGroups operations. */
 export interface ServerTrustGroupsOperations {

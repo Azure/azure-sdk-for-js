@@ -1,19 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { WebPubSubManagementContext } from "../../api/webPubSubManagementContext.js";
+import { WebPubSubManagementContext } from "../../api/webPubSubManagementContext.js";
 import { list, $delete, createOrUpdate, get } from "../../api/webPubSubCustomDomains/operations.js";
-import type {
+import {
   WebPubSubCustomDomainsListOptionalParams,
   WebPubSubCustomDomainsDeleteOptionalParams,
   WebPubSubCustomDomainsCreateOrUpdateOptionalParams,
   WebPubSubCustomDomainsGetOptionalParams,
 } from "../../api/webPubSubCustomDomains/options.js";
-import type { CustomDomain } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { CustomDomain } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a WebPubSubCustomDomains operations. */
 export interface WebPubSubCustomDomainsOperations {

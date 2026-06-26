@@ -2,7 +2,7 @@
   "apiVersions": {
     "Microsoft.StorageMover": "2025-12-01"
   },
-  "emitterVersion": "0.52.0",
+  "emitterVersion": "0.55.0-dev.10",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.StorageMover",
     "CrossLanguageDefinitionId": {

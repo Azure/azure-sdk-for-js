@@ -4,10 +4,12 @@
 
 ```ts
 
-import type { ClientOptions } from '@azure-rest/core-client';
-import type { OperationOptions } from '@azure-rest/core-client';
-import type { Pipeline } from '@azure/core-rest-pipeline';
-import type { TokenCredential } from '@azure/core-auth';
+import { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import { OperationOptions } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { RestError } from '@azure/core-rest-pipeline';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface ActionGroup {
@@ -86,6 +88,8 @@ export interface ErrorResponse {
     error?: ErrorDetail;
 }
 
+export { isRestError }
+
 // @public
 export enum KnownCreatedByType {
     Application = "Application",
@@ -112,12 +116,18 @@ export interface PageSettings {
 }
 
 // @public
+export interface ProxyResource extends Resource {
+}
+
+// @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
     readonly systemData?: SystemData;
     readonly type?: string;
 }
+
+export { RestError }
 
 // @public
 export interface SystemData {
@@ -130,7 +140,7 @@ export interface SystemData {
 }
 
 // @public
-export interface TenantActivityLogAlertResource extends Resource {
+export interface TenantActivityLogAlertResource extends ProxyResource {
     actions: ActionList;
     condition: AlertRuleAllOfCondition;
     description?: string;

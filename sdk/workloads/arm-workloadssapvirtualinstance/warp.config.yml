@@ -1,5 +1,15 @@
+# warp.config.yml — build configuration
 
-extends: ../../../warp.base.config.yml
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/sapApplicationServerInstances": "./src/api/sapApplicationServerInstances/index.ts"
+  "./api/sapDatabaseInstances": "./src/api/sapDatabaseInstances/index.ts"
+  "./api/sapCentralServerInstances": "./src/api/sapCentralServerInstances/index.ts"
+  "./api/sapVirtualInstances": "./src/api/sapVirtualInstances/index.ts"
+  "./api/operations": "./src/api/operations/index.ts"
+  "./models": "./src/models/index.ts"
 
 targets:
   - name: browser

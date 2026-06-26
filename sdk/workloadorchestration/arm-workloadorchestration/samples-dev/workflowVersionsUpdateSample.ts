@@ -35,10 +35,7 @@ async function workflowVersionsUpdateMaximumSet(): Promise<void> {
             ],
             taskOption: {
               concurrency: 3,
-              errorAction: {
-                mode: "stopOnAnyFailure",
-                maxToleratedFailures: 0,
-              },
+              errorAction: { mode: "stopOnAnyFailure", maxToleratedFailures: 0 },
             },
           },
         ],

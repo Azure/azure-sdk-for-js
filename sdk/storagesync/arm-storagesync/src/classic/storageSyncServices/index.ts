@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { MicrosoftStorageSyncContext } from "../../api/microsoftStorageSyncContext.js";
+import { MicrosoftStorageSyncContext } from "../../api/microsoftStorageSyncContext.js";
 import {
   checkNameAvailability,
   listBySubscription,
@@ -11,7 +11,7 @@ import {
   create,
   get,
 } from "../../api/storageSyncServices/operations.js";
-import type {
+import {
   StorageSyncServicesCheckNameAvailabilityOptionalParams,
   StorageSyncServicesListBySubscriptionOptionalParams,
   StorageSyncServicesListByResourceGroupOptionalParams,
@@ -20,16 +20,15 @@ import type {
   StorageSyncServicesCreateOptionalParams,
   StorageSyncServicesGetOptionalParams,
 } from "../../api/storageSyncServices/options.js";
-import type {
+import {
   StorageSyncService,
   StorageSyncServiceCreateParameters,
   CheckNameAvailabilityParameters,
   CheckNameAvailabilityResult,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a StorageSyncServices operations. */
 export interface StorageSyncServicesOperations {

@@ -1,14 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { StorageMoverContext } from "../../api/storageMoverContext.js";
+import { StorageMoverContext } from "../../api/storageMoverContext.js";
 import { list, get } from "../../api/jobRuns/operations.js";
-import type {
-  JobRunsListOptionalParams,
-  JobRunsGetOptionalParams,
-} from "../../api/jobRuns/options.js";
-import type { JobRun } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { JobRunsListOptionalParams, JobRunsGetOptionalParams } from "../../api/jobRuns/options.js";
+import { JobRun } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a JobRuns operations. */
 export interface JobRunsOperations {

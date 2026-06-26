@@ -1,15 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   TenantActivityLogAlertsManagementContext,
   TenantActivityLogAlertsManagementClientOptionalParams,
+  createTenantActivityLogAlertsManagement,
 } from "./api/index.js";
-import { createTenantActivityLogAlertsManagement } from "./api/index.js";
-import type { TenantActivityLogAlertsOperations } from "./classic/tenantActivityLogAlerts/index.js";
-import { _getTenantActivityLogAlertsOperations } from "./classic/tenantActivityLogAlerts/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import {
+  TenantActivityLogAlertsOperations,
+  _getTenantActivityLogAlertsOperations,
+} from "./classic/tenantActivityLogAlerts/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { TenantActivityLogAlertsManagementClientOptionalParams } from "./api/tenantActivityLogAlertsManagementContext.js";
 

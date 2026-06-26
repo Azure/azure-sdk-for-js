@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { TrafficManagerManagementContext } from "../../api/trafficManagerManagementContext.js";
+import { TrafficManagerManagementContext } from "../../api/trafficManagerManagementContext.js";
 import { getDefault } from "../../api/geographicHierarchies/operations.js";
-import type { GeographicHierarchiesGetDefaultOptionalParams } from "../../api/geographicHierarchies/options.js";
-import type { TrafficManagerGeographicHierarchy } from "../../models/models.js";
+import { GeographicHierarchiesGetDefaultOptionalParams } from "../../api/geographicHierarchies/options.js";
+import { TrafficManagerGeographicHierarchy } from "../../models/models.js";
 
 /** Interface representing a GeographicHierarchies operations. */
 export interface GeographicHierarchiesOperations {

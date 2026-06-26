@@ -1,27 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { TrafficManagerManagementContext as Client } from "../index.js";
-import type {
-  DeleteOperationResult,
-  Profile,
-  _ProfileListResult,
-  CheckTrafficManagerRelativeDnsNameAvailabilityParameters,
-  TrafficManagerNameAvailability,
-} from "../../models/models.js";
+import { TrafficManagerManagementContext as Client } from "../index.js";
 import {
   cloudErrorDeserializer,
+  DeleteOperationResult,
   deleteOperationResultDeserializer,
+  Profile,
   profileSerializer,
   profileDeserializer,
+  _ProfileListResult,
   _profileListResultDeserializer,
+  CheckTrafficManagerRelativeDnsNameAvailabilityParameters,
   checkTrafficManagerRelativeDnsNameAvailabilityParametersSerializer,
+  TrafficManagerNameAvailability,
   trafficManagerNameAvailabilityDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   ProfilesCheckTrafficManagerNameAvailabilityV2OptionalParams,
   ProfilesCheckTrafficManagerRelativeDnsNameAvailabilityOptionalParams,
   ProfilesListByResourceGroupOptionalParams,
@@ -31,8 +31,12 @@ import type {
   ProfilesCreateOrUpdateOptionalParams,
   ProfilesGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _checkTrafficManagerNameAvailabilityV2Send(
   context: Client,
@@ -49,12 +53,14 @@ export function _checkTrafficManagerNameAvailabilityV2Send(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: checkTrafficManagerRelativeDnsNameAvailabilityParametersSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: checkTrafficManagerRelativeDnsNameAvailabilityParametersSerializer(parameters),
+    });
 }
 
 export async function _checkTrafficManagerNameAvailabilityV2Deserialize(
@@ -63,7 +69,9 @@ export async function _checkTrafficManagerNameAvailabilityV2Deserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -97,12 +105,14 @@ export function _checkTrafficManagerRelativeDnsNameAvailabilitySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: checkTrafficManagerRelativeDnsNameAvailabilityParametersSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: checkTrafficManagerRelativeDnsNameAvailabilityParametersSerializer(parameters),
+    });
 }
 
 export async function _checkTrafficManagerRelativeDnsNameAvailabilityDeserialize(
@@ -111,7 +121,9 @@ export async function _checkTrafficManagerRelativeDnsNameAvailabilityDeserialize
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -151,10 +163,12 @@ export function _listByResourceGroupSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listByResourceGroupDeserialize(
@@ -163,7 +177,9 @@ export async function _listByResourceGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -204,10 +220,12 @@ export function _listBySubscriptionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listBySubscriptionDeserialize(
@@ -216,7 +234,9 @@ export async function _listBySubscriptionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -260,24 +280,28 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _$deleteDeserialize(
   result: PathUncheckedResponse,
-): Promise<DeleteOperationResult> {
+): Promise<DeleteOperationResult | undefined> {
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
 
-  return deleteOperationResultDeserializer(result.body);
+  return result.body ? deleteOperationResultDeserializer(result.body) : undefined;
 }
 
 /** Deletes a Traffic Manager profile. */
@@ -286,7 +310,7 @@ export async function $delete(
   resourceGroupName: string,
   profileName: string,
   options: ProfilesDeleteOptionalParams = { requestOptions: {} },
-): Promise<DeleteOperationResult> {
+): Promise<DeleteOperationResult | undefined> {
   const result = await _$deleteSend(context, resourceGroupName, profileName, options);
   return _$deleteDeserialize(result);
 }
@@ -310,19 +334,23 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: profileSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: profileSerializer(parameters),
+    });
 }
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<Profile> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -361,19 +389,23 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: profileSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: profileSerializer(parameters),
+    });
 }
 
 export async function _createOrUpdateDeserialize(result: PathUncheckedResponse): Promise<Profile> {
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -417,17 +449,21 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<Profile> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }

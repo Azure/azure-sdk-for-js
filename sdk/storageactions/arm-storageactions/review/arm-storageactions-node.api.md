@@ -6,15 +6,27 @@
 
 import { AbortSignalLike } from '@azure/abort-controller';
 import { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import { OperationOptions } from '@azure-rest/core-client';
 import { OperationState } from '@azure/core-lro';
 import { PathUncheckedResponse } from '@azure-rest/core-client';
 import { Pipeline } from '@azure/core-rest-pipeline';
 import { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
+
+// @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
 export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
@@ -55,6 +67,8 @@ export interface IfCondition {
     operations: StorageTaskOperation[];
 }
 
+export { isRestError }
+
 // @public
 export enum KnownActionType {
     Internal = "Internal"
@@ -78,23 +92,18 @@ export enum KnownManagedServiceIdentityType {
 
 // @public
 export enum KnownMatchedBlockName {
-    // (undocumented)
     Else = "Else",
-    // (undocumented)
     If = "If",
-    // (undocumented)
     None = "None"
 }
 
 // @public
 export enum KnownOnFailure {
-    // (undocumented)
     Break = "break"
 }
 
 // @public
 export enum KnownOnSuccess {
-    // (undocumented)
     Continue = "continue"
 }
 
@@ -107,55 +116,36 @@ export enum KnownOrigin {
 
 // @public
 export enum KnownProvisioningState {
-    // (undocumented)
     Accepted = "Accepted",
-    // (undocumented)
     Canceled = "Canceled",
-    // (undocumented)
     Creating = "Creating",
-    // (undocumented)
     Deleting = "Deleting",
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded",
-    // (undocumented)
     ValidateSubscriptionQuotaBegin = "ValidateSubscriptionQuotaBegin",
-    // (undocumented)
     ValidateSubscriptionQuotaEnd = "ValidateSubscriptionQuotaEnd"
 }
 
 // @public
 export enum KnownRunResult {
-    // (undocumented)
     Failed = "Failed",
-    // (undocumented)
     Succeeded = "Succeeded"
 }
 
 // @public
 export enum KnownRunStatusEnum {
-    // (undocumented)
     Finished = "Finished",
-    // (undocumented)
     InProgress = "InProgress"
 }
 
 // @public
 export enum KnownStorageTaskOperationName {
-    // (undocumented)
     DeleteBlob = "DeleteBlob",
-    // (undocumented)
     SetBlobExpiry = "SetBlobExpiry",
-    // (undocumented)
     SetBlobImmutabilityPolicy = "SetBlobImmutabilityPolicy",
-    // (undocumented)
     SetBlobLegalHold = "SetBlobLegalHold",
-    // (undocumented)
     SetBlobTags = "SetBlobTags",
-    // (undocumented)
     SetBlobTier = "SetBlobTier",
-    // (undocumented)
     UndeleteBlob = "UndeleteBlob"
 }
 
@@ -169,7 +159,7 @@ export interface ManagedServiceIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type: ManagedServiceIdentityType;
-    userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
+    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
 
 // @public
@@ -240,6 +230,8 @@ export interface Resource {
     readonly type?: string;
 }
 
+export { RestError }
+
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: StorageActionsManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
 
@@ -269,6 +261,7 @@ export class StorageActionsManagementClient {
 // @public
 export interface StorageActionsManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public

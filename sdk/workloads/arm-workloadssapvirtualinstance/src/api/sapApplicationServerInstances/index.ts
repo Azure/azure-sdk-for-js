@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 export { stop, start, list, $delete, update, create, get } from "./operations.js";
-export {
-  type SAPApplicationServerInstancesStopOptionalParams,
-  type SAPApplicationServerInstancesStartOptionalParams,
-  type SAPApplicationServerInstancesListOptionalParams,
-  type SAPApplicationServerInstancesDeleteOptionalParams,
-  type SAPApplicationServerInstancesUpdateOptionalParams,
-  type SAPApplicationServerInstancesCreateOptionalParams,
-  type SAPApplicationServerInstancesGetOptionalParams,
+export type {
+  SAPApplicationServerInstancesStopOptionalParams,
+  SAPApplicationServerInstancesStartOptionalParams,
+  SAPApplicationServerInstancesListOptionalParams,
+  SAPApplicationServerInstancesDeleteOptionalParams,
+  SAPApplicationServerInstancesUpdateOptionalParams,
+  SAPApplicationServerInstancesCreateOptionalParams,
+  SAPApplicationServerInstancesGetOptionalParams,
 } from "./options.js";

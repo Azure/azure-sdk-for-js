@@ -5,9 +5,9 @@ import { EdgeClient } from "@azure/arm-sitemanager";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to list Site resources by resource group
+ * This sample demonstrates how to list Site resources by scope
  *
- * @summary list Site resources by resource group
+ * @summary list Site resources by scope
  * x-ms-original-file: 2025-06-01/Sites_ListByResourceGroup_MaximumSet_Gen.json
  */
 async function listBySiteSubscriptionGeneratedByMaximumSetRule(): Promise<void> {

@@ -113,6 +113,48 @@
         "default": "./dist/commonjs/index.js"
       }
     },
+    "./api": {
+      "browser": {
+        "types": "./dist/browser/api/index.d.ts",
+        "default": "./dist/browser/api/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/index.d.ts",
+        "default": "./dist/esm/api/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/index.d.ts",
+        "default": "./dist/commonjs/api/index.js"
+      }
+    },
+    "./api/terraform": {
+      "browser": {
+        "types": "./dist/browser/api/terraform/index.d.ts",
+        "default": "./dist/browser/api/terraform/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/terraform/index.d.ts",
+        "default": "./dist/esm/api/terraform/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/terraform/index.d.ts",
+        "default": "./dist/commonjs/api/terraform/index.js"
+      }
+    },
+    "./api/operations": {
+      "browser": {
+        "types": "./dist/browser/api/operations/index.d.ts",
+        "default": "./dist/browser/api/operations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/operations/index.d.ts",
+        "default": "./dist/esm/api/operations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/operations/index.d.ts",
+        "default": "./dist/commonjs/api/operations/index.js"
+      }
+    },
     "./models": {
       "browser": {
         "types": "./dist/browser/models/index.d.ts",

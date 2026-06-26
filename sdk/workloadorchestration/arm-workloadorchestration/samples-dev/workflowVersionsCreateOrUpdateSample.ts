@@ -35,14 +35,10 @@ async function workflowVersionsCreateOrUpdateMaximumSet(): Promise<void> {
             ],
             taskOption: {
               concurrency: 3,
-              errorAction: {
-                mode: "stopOnAnyFailure",
-                maxToleratedFailures: 0,
-              },
+              errorAction: { mode: "stopOnAnyFailure", maxToleratedFailures: 0 },
             },
           },
         ],
-        state: "InReview",
         specification: {},
       },
       extendedLocation: { name: "szjrwimeqyiue", type: "EdgeZone" },

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { StorageCacheManagementContext } from "../../api/storageCacheManagementContext.js";
+import { StorageCacheManagementContext } from "../../api/storageCacheManagementContext.js";
 import {
   cancelArchive,
   archive,
@@ -12,7 +12,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/amlFilesystems/operations.js";
-import type {
+import {
   AmlFilesystemsCancelArchiveOptionalParams,
   AmlFilesystemsArchiveOptionalParams,
   AmlFilesystemsListOptionalParams,
@@ -22,11 +22,10 @@ import type {
   AmlFilesystemsCreateOrUpdateOptionalParams,
   AmlFilesystemsGetOptionalParams,
 } from "../../api/amlFilesystems/options.js";
-import type { AmlFilesystem, AmlFilesystemUpdate } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { AmlFilesystem, AmlFilesystemUpdate } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a AmlFilesystems operations. */
 export interface AmlFilesystemsOperations {

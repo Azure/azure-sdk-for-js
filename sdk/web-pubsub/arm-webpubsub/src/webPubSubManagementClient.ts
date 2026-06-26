@@ -1,35 +1,48 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   WebPubSubManagementContext,
   WebPubSubManagementClientOptionalParams,
+  createWebPubSubManagement,
 } from "./api/index.js";
-import { createWebPubSubManagement } from "./api/index.js";
-import type { OperationsOperations } from "./classic/operations/index.js";
-import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { UsagesOperations } from "./classic/usages/index.js";
-import { _getUsagesOperations } from "./classic/usages/index.js";
-import type { WebPubSubOperations } from "./classic/webPubSub/index.js";
-import { _getWebPubSubOperations } from "./classic/webPubSub/index.js";
-import type { WebPubSubCustomCertificatesOperations } from "./classic/webPubSubCustomCertificates/index.js";
-import { _getWebPubSubCustomCertificatesOperations } from "./classic/webPubSubCustomCertificates/index.js";
-import type { WebPubSubCustomDomainsOperations } from "./classic/webPubSubCustomDomains/index.js";
-import { _getWebPubSubCustomDomainsOperations } from "./classic/webPubSubCustomDomains/index.js";
-import type { WebPubSubHubsOperations } from "./classic/webPubSubHubs/index.js";
-import { _getWebPubSubHubsOperations } from "./classic/webPubSubHubs/index.js";
-import type { WebPubSubPrivateEndpointConnectionsOperations } from "./classic/webPubSubPrivateEndpointConnections/index.js";
-import { _getWebPubSubPrivateEndpointConnectionsOperations } from "./classic/webPubSubPrivateEndpointConnections/index.js";
-import type { WebPubSubPrivateLinkResourcesOperations } from "./classic/webPubSubPrivateLinkResources/index.js";
-import { _getWebPubSubPrivateLinkResourcesOperations } from "./classic/webPubSubPrivateLinkResources/index.js";
-import type { WebPubSubReplicaSharedPrivateLinkResourcesOperations } from "./classic/webPubSubReplicaSharedPrivateLinkResources/index.js";
-import { _getWebPubSubReplicaSharedPrivateLinkResourcesOperations } from "./classic/webPubSubReplicaSharedPrivateLinkResources/index.js";
-import type { WebPubSubReplicasOperations } from "./classic/webPubSubReplicas/index.js";
-import { _getWebPubSubReplicasOperations } from "./classic/webPubSubReplicas/index.js";
-import type { WebPubSubSharedPrivateLinkResourcesOperations } from "./classic/webPubSubSharedPrivateLinkResources/index.js";
-import { _getWebPubSubSharedPrivateLinkResourcesOperations } from "./classic/webPubSubSharedPrivateLinkResources/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import { UsagesOperations, _getUsagesOperations } from "./classic/usages/index.js";
+import { WebPubSubOperations, _getWebPubSubOperations } from "./classic/webPubSub/index.js";
+import {
+  WebPubSubCustomCertificatesOperations,
+  _getWebPubSubCustomCertificatesOperations,
+} from "./classic/webPubSubCustomCertificates/index.js";
+import {
+  WebPubSubCustomDomainsOperations,
+  _getWebPubSubCustomDomainsOperations,
+} from "./classic/webPubSubCustomDomains/index.js";
+import {
+  WebPubSubHubsOperations,
+  _getWebPubSubHubsOperations,
+} from "./classic/webPubSubHubs/index.js";
+import {
+  WebPubSubPrivateEndpointConnectionsOperations,
+  _getWebPubSubPrivateEndpointConnectionsOperations,
+} from "./classic/webPubSubPrivateEndpointConnections/index.js";
+import {
+  WebPubSubPrivateLinkResourcesOperations,
+  _getWebPubSubPrivateLinkResourcesOperations,
+} from "./classic/webPubSubPrivateLinkResources/index.js";
+import {
+  WebPubSubReplicaSharedPrivateLinkResourcesOperations,
+  _getWebPubSubReplicaSharedPrivateLinkResourcesOperations,
+} from "./classic/webPubSubReplicaSharedPrivateLinkResources/index.js";
+import {
+  WebPubSubReplicasOperations,
+  _getWebPubSubReplicasOperations,
+} from "./classic/webPubSubReplicas/index.js";
+import {
+  WebPubSubSharedPrivateLinkResourcesOperations,
+  _getWebPubSubSharedPrivateLinkResourcesOperations,
+} from "./classic/webPubSubSharedPrivateLinkResources/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { WebPubSubManagementClientOptionalParams } from "./api/webPubSubManagementContext.js";
 

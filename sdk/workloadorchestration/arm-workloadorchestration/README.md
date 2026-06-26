@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/workloadorchestration/arm-workloadorchestration)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-workloadorchestration)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-workloadorchestration?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-workloadorchestration)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/workloadorchestration/arm-workloadorchestration/samples)
 
 ## Getting started

@@ -1,22 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { WebPubSubManagementContext } from "../../api/webPubSubManagementContext.js";
+import { WebPubSubManagementContext } from "../../api/webPubSubManagementContext.js";
 import {
   list,
   createOrUpdate,
   get,
 } from "../../api/webPubSubReplicaSharedPrivateLinkResources/operations.js";
-import type {
+import {
   WebPubSubReplicaSharedPrivateLinkResourcesListOptionalParams,
   WebPubSubReplicaSharedPrivateLinkResourcesCreateOrUpdateOptionalParams,
   WebPubSubReplicaSharedPrivateLinkResourcesGetOptionalParams,
 } from "../../api/webPubSubReplicaSharedPrivateLinkResources/options.js";
-import type { SharedPrivateLinkResource } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { SharedPrivateLinkResource } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a WebPubSubReplicaSharedPrivateLinkResources operations. */
 export interface WebPubSubReplicaSharedPrivateLinkResourcesOperations {

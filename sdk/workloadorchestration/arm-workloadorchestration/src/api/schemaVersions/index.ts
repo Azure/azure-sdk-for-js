@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 export { listBySchema, $delete, update, createOrUpdate, get } from "./operations.js";
-export {
-  type SchemaVersionsListBySchemaOptionalParams,
-  type SchemaVersionsDeleteOptionalParams,
-  type SchemaVersionsUpdateOptionalParams,
-  type SchemaVersionsCreateOrUpdateOptionalParams,
-  type SchemaVersionsGetOptionalParams,
+export type {
+  SchemaVersionsListBySchemaOptionalParams,
+  SchemaVersionsDeleteOptionalParams,
+  SchemaVersionsUpdateOptionalParams,
+  SchemaVersionsCreateOrUpdateOptionalParams,
+  SchemaVersionsGetOptionalParams,
 } from "./options.js";

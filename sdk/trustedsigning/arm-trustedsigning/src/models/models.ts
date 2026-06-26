@@ -1,6 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -46,7 +52,7 @@ export function operationDeserializer(item: any): Operation {
   };
 }
 
-/** Localized display information for and operation. */
+/** Localized display information for an operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
   readonly provider?: string;
@@ -168,7 +174,7 @@ export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo 
   };
 }
 
-/** Trusted signing account resource. */
+/** Artifact signing account resource. */
 export interface CodeSigningAccount extends TrackedResource {
   /** The resource-specific properties for this resource. */
   properties?: CodeSigningAccountProperties;
@@ -186,7 +192,9 @@ export function codeSigningAccountSerializer(item: CodeSigningAccount): any {
 
 export function codeSigningAccountDeserializer(item: any): CodeSigningAccount {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -200,20 +208,18 @@ export function codeSigningAccountDeserializer(item: any): CodeSigningAccount {
   };
 }
 
-/** Properties of the trusted signing account. */
+/** Properties of the artifact signing account. */
 export interface CodeSigningAccountProperties {
-  /** The URI of the trusted signing account which is used during signing files. */
+  /** The URI of the artifact signing account which is used during signing files. */
   readonly accountUri?: string;
-  /** SKU of the trusted signing account. */
+  /** SKU of the artifact signing account. */
   sku?: AccountSku;
-  /** Status of the current operation on trusted signing account. */
+  /** Status of the current operation on artifact signing account. */
   readonly provisioningState?: ProvisioningState;
 }
 
 export function codeSigningAccountPropertiesSerializer(item: CodeSigningAccountProperties): any {
-  return {
-    sku: !item["sku"] ? item["sku"] : accountSkuSerializer(item["sku"]),
-  };
+  return { sku: !item["sku"] ? item["sku"] : accountSkuSerializer(item["sku"]) };
 }
 
 export function codeSigningAccountPropertiesDeserializer(item: any): CodeSigningAccountProperties {
@@ -224,7 +230,7 @@ export function codeSigningAccountPropertiesDeserializer(item: any): CodeSigning
   };
 }
 
-/** SKU of the trusted signing account. */
+/** SKU of the artifact signing account. */
 export interface AccountSku {
   /** Name of the SKU. */
   name: SkuName;
@@ -308,7 +314,9 @@ export function trackedResourceDeserializer(item: any): TrackedResource {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
   };
 }
@@ -325,8 +333,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -393,11 +401,11 @@ export enum KnownCreatedByType {
  */
 export type CreatedByType = string;
 
-/** Parameters for creating or updating a trusted signing account. */
+/** Parameters for creating or updating an artifact signing account. */
 export interface CodeSigningAccountPatch {
   /** Resource tags. */
   tags?: Record<string, string>;
-  /** Properties of the trusted signing account. */
+  /** Properties of the artifact signing account. */
   properties?: CodeSigningAccountPatchProperties;
 }
 
@@ -410,21 +418,19 @@ export function codeSigningAccountPatchSerializer(item: CodeSigningAccountPatch)
   };
 }
 
-/** Properties of the trusted signing account. */
+/** Properties of the artifact signing account. */
 export interface CodeSigningAccountPatchProperties {
-  /** SKU of the trusted signing account. */
+  /** SKU of the artifact signing account. */
   sku?: AccountSkuPatch;
 }
 
 export function codeSigningAccountPatchPropertiesSerializer(
   item: CodeSigningAccountPatchProperties,
 ): any {
-  return {
-    sku: !item["sku"] ? item["sku"] : accountSkuPatchSerializer(item["sku"]),
-  };
+  return { sku: !item["sku"] ? item["sku"] : accountSkuPatchSerializer(item["sku"]) };
 }
 
-/** SKU of the trusted signing account. */
+/** SKU of the artifact signing account. */
 export interface AccountSkuPatch {
   /** Name of the SKU. */
   name?: SkuName;
@@ -463,21 +469,23 @@ export function codeSigningAccountArrayDeserializer(result: Array<CodeSigningAcc
   });
 }
 
-/** The parameters used to check the availability of the trusted signing account name. */
+/** The parameters used to check the availability of the artifact signing account name. */
 export interface CheckNameAvailability {
-  /** Trusted signing account name. */
+  /** The type of the resource, "Microsoft.CodeSigning/codeSigningAccounts". */
+  type: string;
+  /** Artifact signing account name. */
   name: string;
 }
 
 export function checkNameAvailabilitySerializer(item: CheckNameAvailability): any {
-  return { name: item["name"] };
+  return { type: item["type"], name: item["name"] };
 }
 
 /** The CheckNameAvailability operation response. */
 export interface CheckNameAvailabilityResult {
   /** A boolean value that indicates whether the name is available for you to use. If true, the name is available. If false, the name has already been taken or is invalid and cannot be used. */
   readonly nameAvailable?: boolean;
-  /** The reason that a trusted signing account name could not be used. The Reason element is only returned if nameAvailable is false. */
+  /** The reason that an artifact signing account name could not be used. The Reason element is only returned if nameAvailable is false. */
   readonly reason?: NameUnavailabilityReason;
   /** An error message explaining the Reason value in more detail. */
   readonly message?: string;
@@ -491,7 +499,7 @@ export function checkNameAvailabilityResultDeserializer(item: any): CheckNameAva
   };
 }
 
-/** The reason that a trusted signing account name could not be used. The Reason element is only returned if nameAvailable is false. */
+/** The reason that an artifact signing account name could not be used. The Reason element is only returned if nameAvailable is false. */
 export enum KnownNameUnavailabilityReason {
   /** Account name is invalid */
   AccountNameInvalid = "AccountNameInvalid",
@@ -500,7 +508,7 @@ export enum KnownNameUnavailabilityReason {
 }
 
 /**
- * The reason that a trusted signing account name could not be used. The Reason element is only returned if nameAvailable is false. \
+ * The reason that an artifact signing account name could not be used. The Reason element is only returned if nameAvailable is false. \
  * {@link KnownNameUnavailabilityReason} can be used interchangeably with NameUnavailabilityReason,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
@@ -751,8 +759,8 @@ export type RevocationStatus = string;
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
 }
 
 export function proxyResourceDeserializer(item: any): ProxyResource {

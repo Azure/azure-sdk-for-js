@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listByManagedInstance,
   get,
 } from "../../api/managedInstancePrivateLinkResources/operations.js";
-import type {
+import {
   ManagedInstancePrivateLinkResourcesListByManagedInstanceOptionalParams,
   ManagedInstancePrivateLinkResourcesGetOptionalParams,
 } from "../../api/managedInstancePrivateLinkResources/options.js";
-import type { ManagedInstancePrivateLink } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { ManagedInstancePrivateLink } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ManagedInstancePrivateLinkResources operations. */
 export interface ManagedInstancePrivateLinkResourcesOperations {

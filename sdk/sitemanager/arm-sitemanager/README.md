@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/sitemanager/arm-sitemanager)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-sitemanager)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-sitemanager?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-sitemanager)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/sitemanager/arm-sitemanager/samples)
 
 ## Getting started

@@ -1,24 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listByManagedInstance,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/managedInstancePrivateEndpointConnections/operations.js";
-import type {
+import {
   ManagedInstancePrivateEndpointConnectionsListByManagedInstanceOptionalParams,
   ManagedInstancePrivateEndpointConnectionsDeleteOptionalParams,
   ManagedInstancePrivateEndpointConnectionsCreateOrUpdateOptionalParams,
   ManagedInstancePrivateEndpointConnectionsGetOptionalParams,
 } from "../../api/managedInstancePrivateEndpointConnections/options.js";
-import type { ManagedInstancePrivateEndpointConnection } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { ManagedInstancePrivateEndpointConnection } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ManagedInstancePrivateEndpointConnections operations. */
 export interface ManagedInstancePrivateEndpointConnectionsOperations {

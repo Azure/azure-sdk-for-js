@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { TrafficManagerManagementContext } from "../../api/trafficManagerManagementContext.js";
+import { TrafficManagerManagementContext } from "../../api/trafficManagerManagementContext.js";
 import { get } from "../../api/heatMap/operations.js";
-import type { HeatMapGetOptionalParams } from "../../api/heatMap/options.js";
-import type { HeatMapModel } from "../../models/models.js";
+import { HeatMapGetOptionalParams } from "../../api/heatMap/options.js";
+import { HeatMapModel } from "../../models/models.js";
 
 /** Interface representing a HeatMap operations. */
 export interface HeatMapOperations {

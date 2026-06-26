@@ -5,15 +5,14 @@ import { EdgeClient } from "@azure/arm-sitemanager";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to get Site at SG scope
+ * This sample demonstrates how to get a Site
  *
- * @summary get Site at SG scope
+ * @summary get a Site
  * x-ms-original-file: 2025-06-01/SitesByServiceGroup_Get_MaximumSet_Gen.json
  */
 async function sitesByServiceGroupGetGeneratedByMaximumSetRule(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-00000000000";
-  const client = new EdgeClient(credential, subscriptionId);
+  const client = new EdgeClient(credential);
   const result = await client.sitesByServiceGroup.get("string", "string");
   console.log(result);
 }

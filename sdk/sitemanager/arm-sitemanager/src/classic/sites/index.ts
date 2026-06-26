@@ -3,18 +3,18 @@
 
 import { EdgeContext } from "../../api/edgeContext.js";
 import {
-  listByResourceGroup,
   $delete,
   update,
   createOrUpdate,
   get,
+  listByResourceGroup,
 } from "../../api/sites/operations.js";
 import {
-  SitesListByResourceGroupOptionalParams,
   SitesDeleteOptionalParams,
   SitesUpdateOptionalParams,
   SitesCreateOrUpdateOptionalParams,
   SitesGetOptionalParams,
+  SitesListByResourceGroupOptionalParams,
 } from "../../api/sites/options.js";
 import { Site, SiteUpdate } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
@@ -22,17 +22,7 @@ import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Sites operations. */
 export interface SitesOperations {
-  /** List Site resources by resource group */
-  listByResourceGroup: (
-    resourceGroupName: string,
-    options?: SitesListByResourceGroupOptionalParams,
-  ) => PagedAsyncIterableIterator<Site>;
   /** Delete a Site */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     siteName: string,
@@ -58,14 +48,15 @@ export interface SitesOperations {
     siteName: string,
     options?: SitesGetOptionalParams,
   ) => Promise<Site>;
+  /** List Site resources by scope */
+  listByResourceGroup: (
+    resourceGroupName: string,
+    options?: SitesListByResourceGroupOptionalParams,
+  ) => PagedAsyncIterableIterator<Site>;
 }
 
 function _getSites(context: EdgeContext) {
   return {
-    listByResourceGroup: (
-      resourceGroupName: string,
-      options?: SitesListByResourceGroupOptionalParams,
-    ) => listByResourceGroup(context, resourceGroupName, options),
     delete: (resourceGroupName: string, siteName: string, options?: SitesDeleteOptionalParams) =>
       $delete(context, resourceGroupName, siteName, options),
     update: (
@@ -82,6 +73,10 @@ function _getSites(context: EdgeContext) {
     ) => createOrUpdate(context, resourceGroupName, siteName, resource, options),
     get: (resourceGroupName: string, siteName: string, options?: SitesGetOptionalParams) =>
       get(context, resourceGroupName, siteName, options),
+    listByResourceGroup: (
+      resourceGroupName: string,
+      options?: SitesListByResourceGroupOptionalParams,
+    ) => listByResourceGroup(context, resourceGroupName, options),
   };
 }
 

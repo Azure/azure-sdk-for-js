@@ -1,32 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlManagementContext as Client } from "../index.js";
-import type {
-  Database,
-  DatabaseUpdate,
-  _DatabaseListResult,
-  ExportDatabaseDefinition,
-  ImportExportOperationResult,
-  ImportExistingDatabaseDefinition,
-  ResourceMoveDefinition,
-} from "../../models/models.js";
+import { SqlManagementContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  Database,
   databaseSerializer,
   databaseDeserializer,
+  DatabaseUpdate,
   databaseUpdateSerializer,
+  _DatabaseListResult,
   _databaseListResultDeserializer,
+  ExportDatabaseDefinition,
   exportDatabaseDefinitionSerializer,
+  ImportExportOperationResult,
   importExportOperationResultDeserializer,
+  ImportExistingDatabaseDefinition,
   importExistingDatabaseDefinitionSerializer,
+  ResourceMoveDefinition,
   resourceMoveDefinitionSerializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   DatabasesListByElasticPoolOptionalParams,
   DatabasesListInaccessibleByServerOptionalParams,
   DatabasesUpgradeDataWarehouseOptionalParams,
@@ -42,9 +42,13 @@ import type {
   DatabasesCreateOrUpdateOptionalParams,
   DatabasesGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listByElasticPoolSend(
   context: Client,
@@ -66,10 +70,12 @@ export function _listByElasticPoolSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listByElasticPoolDeserialize(
@@ -123,10 +129,12 @@ export function _listInaccessibleByServerSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listInaccessibleByServerDeserialize(
@@ -238,10 +246,12 @@ export function _resumeSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _resumeDeserialize(result: PathUncheckedResponse): Promise<Database> {
@@ -296,10 +306,12 @@ export function _pauseSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _pauseDeserialize(result: PathUncheckedResponse): Promise<Database> {
@@ -355,11 +367,13 @@ export function _renameSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: resourceMoveDefinitionSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: resourceMoveDefinitionSerializer(parameters),
+    });
 }
 
 export async function _renameDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -417,12 +431,14 @@ export function _$importSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: importExistingDatabaseDefinitionSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: importExistingDatabaseDefinitionSerializer(parameters),
+    });
 }
 
 export async function _$importDeserialize(
@@ -537,12 +553,14 @@ export function _$exportSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: exportDatabaseDefinitionSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: exportDatabaseDefinitionSerializer(parameters),
+    });
 }
 
 export async function _$exportDeserialize(
@@ -599,10 +617,12 @@ export function _listByServerSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listByServerDeserialize(
@@ -713,12 +733,14 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: databaseUpdateSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: databaseUpdateSerializer(parameters),
+    });
 }
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<Database> {
@@ -775,12 +797,14 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: databaseSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: databaseSerializer(parameters),
+    });
 }
 
 export async function _createOrUpdateDeserialize(result: PathUncheckedResponse): Promise<Database> {
@@ -845,10 +869,12 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<Database> {

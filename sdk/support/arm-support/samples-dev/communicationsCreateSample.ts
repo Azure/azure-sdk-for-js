@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to adds a new customer communication to an Azure support ticket.
  *
  * @summary adds a new customer communication to an Azure support ticket.
- * x-ms-original-file: 2025-06-01-preview/CreateSupportTicketCommunication.json
+ * x-ms-original-file: 2026-06-01/CreateSupportTicketCommunication.json
  */
 async function addCommunicationToSubscriptionTicket(): Promise<void> {
   const credential = new DefaultAzureCredential();

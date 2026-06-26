@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { listByResourceGroup, $delete, update, createOrUpdate, get } from "./operations.js";
-export {
-  type SitesListByResourceGroupOptionalParams,
-  type SitesDeleteOptionalParams,
-  type SitesUpdateOptionalParams,
-  type SitesCreateOrUpdateOptionalParams,
-  type SitesGetOptionalParams,
+export { $delete, update, createOrUpdate, get, listByResourceGroup } from "./operations.js";
+export type {
+  SitesDeleteOptionalParams,
+  SitesUpdateOptionalParams,
+  SitesCreateOrUpdateOptionalParams,
+  SitesGetOptionalParams,
+  SitesListByResourceGroupOptionalParams,
 } from "./options.js";

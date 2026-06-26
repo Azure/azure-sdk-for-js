@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.Support": "2025-06-01-preview"
+    "Microsoft.Support": "2026-06-01"
   },
-  "emitterVersion": "0.54.0",
+  "emitterVersion": "0.55.0-dev.10",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.Support",
     "CrossLanguageDefinitionId": {
@@ -73,6 +73,8 @@
       "@azure/arm-support!KnownIsTemporaryTicket:enum": "Microsoft.Support.IsTemporaryTicket",
       "@azure/arm-support!KnownUserConsent:enum": "Microsoft.Support.UserConsent",
       "@azure/arm-support!KnownEscalationStatus:enum": "Microsoft.Support.EscalationStatus",
+      "@azure/arm-support!KnownSupportChannel:enum": "Microsoft.Support.SupportChannel",
+      "@azure/arm-support!KnownChatConversationStatus:enum": "Microsoft.Support.ChatConversationStatus",
       "@azure/arm-support!KnownStatus:enum": "Microsoft.Support.Status",
       "@azure/arm-support!KnownVersions:enum": "Microsoft.Support.Versions",
       "@azure/arm-support!FilesNoSubscriptionOperations#upload:member": "Microsoft.Support.FilesNoSubscription.upload",

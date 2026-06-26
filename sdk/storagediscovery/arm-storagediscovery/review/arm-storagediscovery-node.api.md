@@ -4,10 +4,12 @@
 
 ```ts
 
-import type { ClientOptions } from '@azure-rest/core-client';
-import type { OperationOptions } from '@azure-rest/core-client';
-import type { Pipeline } from '@azure/core-rest-pipeline';
-import type { TokenCredential } from '@azure/core-auth';
+import { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import { OperationOptions } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { RestError } from '@azure/core-rest-pipeline';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
@@ -49,6 +51,8 @@ export interface ErrorDetail {
 export interface ErrorResponse {
     error?: ErrorDetail;
 }
+
+export { isRestError }
 
 // @public
 export enum KnownActionType {
@@ -144,6 +148,8 @@ export interface Resource {
 
 // @public
 export type ResourceProvisioningState = string;
+
+export { RestError }
 
 // @public (undocumented)
 export class StorageDiscoveryClient {

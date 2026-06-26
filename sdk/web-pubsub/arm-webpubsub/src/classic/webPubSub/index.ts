@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { WebPubSubManagementContext } from "../../api/webPubSubManagementContext.js";
+import { WebPubSubManagementContext } from "../../api/webPubSubManagementContext.js";
 import {
   checkNameAvailability,
   listReplicaSkus,
@@ -16,7 +16,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/webPubSub/operations.js";
-import type {
+import {
   WebPubSubCheckNameAvailabilityOptionalParams,
   WebPubSubListReplicaSkusOptionalParams,
   WebPubSubListSkusOptionalParams,
@@ -30,7 +30,7 @@ import type {
   WebPubSubCreateOrUpdateOptionalParams,
   WebPubSubGetOptionalParams,
 } from "../../api/webPubSub/options.js";
-import type {
+import {
   WebPubSubResource,
   WebPubSubKeys,
   RegenerateKeyParameters,
@@ -38,10 +38,9 @@ import type {
   NameAvailabilityParameters,
   NameAvailability,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a WebPubSub operations. */
 export interface WebPubSubOperations {

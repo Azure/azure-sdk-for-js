@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlVirtualMachineManagementContext } from "../../api/sqlVirtualMachineManagementContext.js";
+import { SqlVirtualMachineManagementContext } from "../../api/sqlVirtualMachineManagementContext.js";
 import {
   list,
   listByResourceGroup,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/sqlVirtualMachineGroups/operations.js";
-import type {
+import {
   SqlVirtualMachineGroupsListOptionalParams,
   SqlVirtualMachineGroupsListByResourceGroupOptionalParams,
   SqlVirtualMachineGroupsDeleteOptionalParams,
@@ -18,11 +18,10 @@ import type {
   SqlVirtualMachineGroupsCreateOrUpdateOptionalParams,
   SqlVirtualMachineGroupsGetOptionalParams,
 } from "../../api/sqlVirtualMachineGroups/options.js";
-import type { SqlVirtualMachineGroup, SqlVirtualMachineGroupUpdate } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { SqlVirtualMachineGroup, SqlVirtualMachineGroupUpdate } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a SqlVirtualMachineGroups operations. */
 export interface SqlVirtualMachineGroupsOperations {

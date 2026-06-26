@@ -1,28 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { MicrosoftStorageSyncContext as Client } from "../index.js";
-import type {
-  RegisteredServer,
-  RegisteredServerCreateParameters,
-  RegisteredServerUpdateParameters,
-  _RegisteredServerArray,
-  TriggerRolloverRequest,
-} from "../../models/models.js";
+import { MicrosoftStorageSyncContext as Client } from "../index.js";
 import {
   storageSyncErrorDeserializer,
+  RegisteredServer,
   registeredServerDeserializer,
+  RegisteredServerCreateParameters,
   registeredServerCreateParametersSerializer,
+  RegisteredServerUpdateParameters,
   registeredServerUpdateParametersSerializer,
   errorResponseDeserializer,
+  _RegisteredServerArray,
   _registeredServerArrayDeserializer,
+  TriggerRolloverRequest,
   triggerRolloverRequestSerializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   RegisteredServersTriggerRolloverOptionalParams,
   RegisteredServersListByStorageSyncServiceOptionalParams,
   RegisteredServersDeleteOptionalParams,
@@ -30,9 +30,13 @@ import type {
   RegisteredServersCreateOptionalParams,
   RegisteredServersGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _triggerRolloverSend(
   context: Client,
@@ -55,11 +59,13 @@ export function _triggerRolloverSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: triggerRolloverRequestSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: triggerRolloverRequestSerializer(parameters),
+    });
 }
 
 export async function _triggerRolloverDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -120,10 +126,12 @@ export function _listByStorageSyncServiceSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listByStorageSyncServiceDeserialize(
@@ -235,12 +243,14 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: registeredServerUpdateParametersSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: registeredServerUpdateParametersSerializer(parameters),
+    });
 }
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<RegisteredServer> {
@@ -304,12 +314,14 @@ export function _createSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: registeredServerCreateParametersSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: registeredServerCreateParametersSerializer(parameters),
+    });
 }
 
 export async function _createDeserialize(result: PathUncheckedResponse): Promise<RegisteredServer> {
@@ -372,10 +384,12 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<RegisteredServer> {

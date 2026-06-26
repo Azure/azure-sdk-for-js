@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { StorageManagementContext } from "../../api/storageManagementContext.js";
+import { StorageManagementContext } from "../../api/storageManagementContext.js";
 import { list, $delete, put, get } from "../../api/privateEndpointConnections/operations.js";
-import type {
+import {
   PrivateEndpointConnectionsListOptionalParams,
   PrivateEndpointConnectionsDeleteOptionalParams,
   PrivateEndpointConnectionsPutOptionalParams,
   PrivateEndpointConnectionsGetOptionalParams,
 } from "../../api/privateEndpointConnections/options.js";
-import type { PrivateEndpointConnection } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PrivateEndpointConnection } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a PrivateEndpointConnections operations. */
 export interface PrivateEndpointConnectionsOperations {

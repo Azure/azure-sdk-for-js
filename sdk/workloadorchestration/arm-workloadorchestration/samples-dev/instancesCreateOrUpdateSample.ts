@@ -24,32 +24,8 @@ async function instancesCreateOrUpdateMaximumSet(): Promise<void> {
         solutionVersionId: "acpddbkfclsgxg",
         targetId: "eguutiftuxrsavvckjrv",
         activeState: "active",
-        reconciliationPolicy: {
-          state: "inactive",
-          interval: "szucgzdbydcowvhprhx",
-        },
+        reconciliationPolicy: { state: "inactive", interval: "szucgzdbydcowvhprhx" },
         solutionScope: "testname",
-        status: {
-          lastModified: new Date("2025-06-09T10:12:04.224Z"),
-          deployed: 24,
-          expectedRunningJobId: 19,
-          runningJobId: 6,
-          status: "nnpksn",
-          statusDetails: "bslqqnfciczenaltdcmrgg",
-          generation: 21,
-          targetStatuses: [
-            {
-              name: "jpbfbxmjvr",
-              status: "gsgkxfwtyoaepwa",
-              componentStatuses: [
-                {
-                  name: "lxzbkoblvaoubknkblwplf",
-                  status: "txtthlvducufbblgtctegtgpzkzgyi",
-                },
-              ],
-            },
-          ],
-        },
       },
       extendedLocation: { name: "szjrwimeqyiue", type: "EdgeZone" },
     },

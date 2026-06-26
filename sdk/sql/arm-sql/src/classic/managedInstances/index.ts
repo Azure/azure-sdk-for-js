@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listByInstancePool,
   validateAzureKeyVaultEncryptionKey,
@@ -19,7 +19,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/managedInstances/operations.js";
-import type {
+import {
   ManagedInstancesListByInstancePoolOptionalParams,
   ManagedInstancesValidateAzureKeyVaultEncryptionKeyOptionalParams,
   ManagedInstancesListByManagedInstanceOptionalParams,
@@ -36,7 +36,7 @@ import type {
   ManagedInstancesCreateOrUpdateOptionalParams,
   ManagedInstancesGetOptionalParams,
 } from "../../api/managedInstances/options.js";
-import type {
+import {
   ManagedInstance,
   ManagedInstanceUpdate,
   OutboundEnvironmentEndpoint,
@@ -44,10 +44,9 @@ import type {
   TopQueries,
   ManagedInstanceValidateAzureKeyVaultEncryptionKeyRequest,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ManagedInstances operations. */
 export interface ManagedInstancesOperations {

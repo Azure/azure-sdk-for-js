@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all chat transcripts for a support ticket
  *
  * @summary lists all chat transcripts for a support ticket
- * x-ms-original-file: 2025-06-01-preview/ListChatTranscriptsForSupportTicket.json
+ * x-ms-original-file: 2026-06-01/ListChatTranscriptsForSupportTicket.json
  */
 async function listChatTranscriptsForANoSubscriptionSupportTicket(): Promise<void> {
   const credential = new DefaultAzureCredential();

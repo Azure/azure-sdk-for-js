@@ -1,0 +1,33 @@
+{
+  "apiVersions": {
+    "Microsoft.AzureTerraform": "2025-09-01-preview"
+  },
+  "emitterVersion": "0.55.0-dev.10",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "Microsoft.AzureTerraform",
+    "CrossLanguageDefinitionId": {
+      "@azure/arm-terraform!OperationListResult:interface": "Azure.ResourceManager.CommonTypes.OperationListResult",
+      "@azure/arm-terraform!Operation:interface": "Azure.ResourceManager.CommonTypes.Operation",
+      "@azure/arm-terraform!OperationDisplay:interface": "Azure.ResourceManager.CommonTypes.OperationDisplay",
+      "@azure/arm-terraform!ErrorResponse:interface": "Azure.ResourceManager.CommonTypes.ErrorResponse",
+      "@azure/arm-terraform!ErrorDetail:interface": "Azure.ResourceManager.CommonTypes.ErrorDetail",
+      "@azure/arm-terraform!ErrorAdditionalInfo:interface": "Azure.ResourceManager.CommonTypes.ErrorAdditionalInfo",
+      "@azure/arm-terraform!BaseExportModel:interface": "Microsoft.AzureTerraform.BaseExportModel",
+      "@azure/arm-terraform!ExportQuery:interface": "Microsoft.AzureTerraform.ExportQuery",
+      "@azure/arm-terraform!ExportResource:interface": "Microsoft.AzureTerraform.ExportResource",
+      "@azure/arm-terraform!ExportResourceGroup:interface": "Microsoft.AzureTerraform.ExportResourceGroup",
+      "@azure/arm-terraform!TerraformOperationStatus:interface": "Microsoft.AzureTerraform.TerraformOperationStatus",
+      "@azure/arm-terraform!ExportResult:interface": "Microsoft.AzureTerraform.ExportResult",
+      "@azure/arm-terraform!ArmOperationStatusResourceProvisioningState:interface": "Azure.ResourceManager.ArmOperationStatus",
+      "@azure/arm-terraform!KnownOrigin:enum": "Azure.ResourceManager.CommonTypes.Origin",
+      "@azure/arm-terraform!KnownActionType:enum": "Azure.ResourceManager.CommonTypes.ActionType",
+      "@azure/arm-terraform!KnownType:enum": "Microsoft.AzureTerraform.Type",
+      "@azure/arm-terraform!KnowntargetProvider:enum": "Microsoft.AzureTerraform.targetProvider",
+      "@azure/arm-terraform!KnownauthorizationScopeFilter:enum": "Microsoft.AzureTerraform.authorizationScopeFilter",
+      "@azure/arm-terraform!KnownResourceProvisioningState:enum": "Azure.ResourceManager.ResourceProvisioningState",
+      "@azure/arm-terraform!KnownVersions:enum": "Microsoft.AzureTerraform.Versions",
+      "@azure/arm-terraform!TerraformOperations#exportTerraform:member": "Microsoft.AzureTerraform.Terraform.exportTerraform",
+      "@azure/arm-terraform!OperationsOperations#list:member": "Azure.ResourceManager.Operations.list"
+    }
+  }
+}

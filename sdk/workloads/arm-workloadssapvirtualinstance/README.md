@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/workloads/arm-workloadssapvirtualinstance)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-workloadssapvirtualinstance)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-workloadssapvirtualinstance?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-workloadssapvirtualinstance)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/workloads/arm-workloadssapvirtualinstance/samples)
 
 ## Getting started

@@ -3386,6 +3386,8 @@ export enum KnownServerNetworkAccessFlag {
   Enabled = "Enabled",
   /** Disabled */
   Disabled = "Disabled",
+  /** SecuredByPerimeter */
+  SecuredByPerimeter = "SecuredByPerimeter",
 }
 
 /**
@@ -3394,7 +3396,8 @@ export enum KnownServerNetworkAccessFlag {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Enabled**: Enabled \
- * **Disabled**: Disabled
+ * **Disabled**: Disabled \
+ * **SecuredByPerimeter**: SecuredByPerimeter
  */
 export type ServerNetworkAccessFlag = string;
 
@@ -6001,15 +6004,6 @@ export function sqlVulnerabilityAssessmentPolicyPropertiesDeserializer(
 
 /** Specifies the state of the SQL Vulnerability Assessment, whether it is enabled or disabled or a state has not been applied yet on the specific database or server. */
 export type SqlVulnerabilityAssessmentState = "Enabled" | "Disabled";
-
-/** Known values of {@link SqlVulnerabilityAssessmentName} that the service accepts. */
-export enum KnownSqlVulnerabilityAssessmentName {
-  /** default */
-  Default = "default",
-}
-
-/** Type of SqlVulnerabilityAssessmentName */
-export type SqlVulnerabilityAssessmentName = string;
 
 /** The response of a SqlVulnerabilityAssessment list operation. */
 export interface _SqlVulnerabilityAssessmentListResult {
@@ -18790,6 +18784,10 @@ export interface ServerUsage extends ProxyResource {
   readonly limit?: number;
   /** Unit of the metric. */
   readonly unit?: string;
+  /** The name of the resource. */
+  readonly resourceName?: string;
+  /** The next reset time for the metric (ISO8601 format). */
+  readonly nextResetTime?: Date;
 }
 
 export function serverUsageDeserializer(item: any): ServerUsage {
@@ -18816,6 +18814,10 @@ export interface ServerUsageProperties {
   readonly limit?: number;
   /** Unit of the metric. */
   readonly unit?: string;
+  /** The name of the resource. */
+  readonly resourceName?: string;
+  /** The next reset time for the metric (ISO8601 format). */
+  readonly nextResetTime?: Date;
 }
 
 export function serverUsagePropertiesDeserializer(item: any): ServerUsageProperties {
@@ -18824,6 +18826,8 @@ export function serverUsagePropertiesDeserializer(item: any): ServerUsagePropert
     currentValue: item["currentValue"],
     limit: item["limit"],
     unit: item["unit"],
+    resourceName: item["resourceName"],
+    nextResetTime: !item["nextResetTime"] ? item["nextResetTime"] : new Date(item["nextResetTime"]),
   };
 }
 
@@ -22688,6 +22692,15 @@ export enum KnownReplicaType {
 
 /** Type of ReplicaType */
 export type ReplicaType = string;
+
+/** Known values of {@link SqlVulnerabilityAssessmentName} that the service accepts. */
+export enum KnownSqlVulnerabilityAssessmentName {
+  /** default */
+  Default = "default",
+}
+
+/** Type of SqlVulnerabilityAssessmentName */
+export type SqlVulnerabilityAssessmentName = string;
 /** Type of VulnerabilityAssessmentPolicyBaselineName */
 export type VulnerabilityAssessmentPolicyBaselineName = "master" | "default";
 
@@ -25379,6 +25392,8 @@ export function _serverUsagePropertiesDeserializer(item: any) {
     currentValue: item["currentValue"],
     limit: item["limit"],
     unit: item["unit"],
+    resourceName: item["resourceName"],
+    nextResetTime: !item["nextResetTime"] ? item["nextResetTime"] : new Date(item["nextResetTime"]),
   };
 }
 

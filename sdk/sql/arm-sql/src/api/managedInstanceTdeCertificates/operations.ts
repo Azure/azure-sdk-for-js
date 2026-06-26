@@ -1,15 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlManagementContext as Client } from "../index.js";
-import type { TdeCertificate } from "../../models/models.js";
-import { errorResponseDeserializer, tdeCertificateSerializer } from "../../models/models.js";
+import { SqlManagementContext as Client } from "../index.js";
+import {
+  errorResponseDeserializer,
+  TdeCertificate,
+  tdeCertificateSerializer,
+} from "../../models/models.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type { ManagedInstanceTdeCertificatesCreateOptionalParams } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { ManagedInstanceTdeCertificatesCreateOptionalParams } from "./options.js";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _createSend(
   context: Client,
@@ -30,11 +37,13 @@ export function _createSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: tdeCertificateSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: tdeCertificateSerializer(parameters),
+    });
 }
 
 export async function _createDeserialize(result: PathUncheckedResponse): Promise<void> {

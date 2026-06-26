@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
-import { getTerraformOperations, TerraformOperations } from "./classic/terraform/index.js";
 import {
-  createAzureTerraform,
   AzureTerraformContext,
   AzureTerraformClientOptionalParams,
+  createAzureTerraform,
 } from "./api/index.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import { TerraformOperations, _getTerraformOperations } from "./classic/terraform/index.js";
 import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
-export { type AzureTerraformClientOptionalParams } from "./api/azureTerraformContext.js";
+export type { AzureTerraformClientOptionalParams } from "./api/azureTerraformContext.js";
 
 export class AzureTerraformClient {
   private _client: AzureTerraformContext;
@@ -28,17 +28,17 @@ export class AzureTerraformClient {
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
       : `azsdk-js-client`;
-    this._client = createAzureTerraform(credential, {
+    this._client = createAzureTerraform(credential, subscriptionId, {
       ...options,
       userAgentOptions: { userAgentPrefix },
     });
     this.pipeline = this._client.pipeline;
-    this.operations = getOperationsOperations(this._client);
-    this.terraform = getTerraformOperations(this._client, subscriptionId);
+    this.terraform = _getTerraformOperations(this._client);
+    this.operations = _getOperationsOperations(this._client);
   }
 
-  /** The operation groups for Operations */
-  public readonly operations: OperationsOperations;
-  /** The operation groups for Terraform */
+  /** The operation groups for terraform */
   public readonly terraform: TerraformOperations;
+  /** The operation groups for operations */
+  public readonly operations: OperationsOperations;
 }

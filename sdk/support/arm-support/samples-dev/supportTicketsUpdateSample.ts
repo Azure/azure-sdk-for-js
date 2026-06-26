@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to this API allows you to update the severity level, ticket status, advanced diagnostic consent and your contact information in the support ticket.<br/><br/>Note: The severity levels cannot be changed if a support ticket is actively being worked upon by an Azure support engineer. In such a case, contact your support engineer to request severity update by adding a new communication using the Communications API.
  *
  * @summary this API allows you to update the severity level, ticket status, advanced diagnostic consent and your contact information in the support ticket.<br/><br/>Note: The severity levels cannot be changed if a support ticket is actively being worked upon by an Azure support engineer. In such a case, contact your support engineer to request severity update by adding a new communication using the Communications API.
- * x-ms-original-file: 2025-06-01-preview/UpdateAdvancedDiagnosticConsentOfSupportTicketForSubscription.json
+ * x-ms-original-file: 2026-06-01/UpdateAdvancedDiagnosticConsentOfSupportTicketForSubscription.json
  */
 async function updateAdvancedDiagnosticConsentOfASubscriptionSupportTicket(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -24,7 +24,7 @@ async function updateAdvancedDiagnosticConsentOfASubscriptionSupportTicket(): Pr
  * This sample demonstrates how to this API allows you to update the severity level, ticket status, advanced diagnostic consent and your contact information in the support ticket.<br/><br/>Note: The severity levels cannot be changed if a support ticket is actively being worked upon by an Azure support engineer. In such a case, contact your support engineer to request severity update by adding a new communication using the Communications API.
  *
  * @summary this API allows you to update the severity level, ticket status, advanced diagnostic consent and your contact information in the support ticket.<br/><br/>Note: The severity levels cannot be changed if a support ticket is actively being worked upon by an Azure support engineer. In such a case, contact your support engineer to request severity update by adding a new communication using the Communications API.
- * x-ms-original-file: 2025-06-01-preview/UpdateContactDetailsOfSupportTicketForSubscription.json
+ * x-ms-original-file: 2026-06-01/UpdateContactDetailsOfSupportTicketForSubscription.json
  */
 async function updateContactDetailsOfASubscriptionSupportTicket(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -50,7 +50,7 @@ async function updateContactDetailsOfASubscriptionSupportTicket(): Promise<void>
  * This sample demonstrates how to this API allows you to update the severity level, ticket status, advanced diagnostic consent and your contact information in the support ticket.<br/><br/>Note: The severity levels cannot be changed if a support ticket is actively being worked upon by an Azure support engineer. In such a case, contact your support engineer to request severity update by adding a new communication using the Communications API.
  *
  * @summary this API allows you to update the severity level, ticket status, advanced diagnostic consent and your contact information in the support ticket.<br/><br/>Note: The severity levels cannot be changed if a support ticket is actively being worked upon by an Azure support engineer. In such a case, contact your support engineer to request severity update by adding a new communication using the Communications API.
- * x-ms-original-file: 2025-06-01-preview/UpdateEscalationStatusOfSupportTicketForSubscription.json
+ * x-ms-original-file: 2026-06-01/UpdateEscalationStatusOfSupportTicketForSubscription.json
  */
 async function updateEscalationStatusOfASubscriptionSupportTicket(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -70,7 +70,7 @@ async function updateEscalationStatusOfASubscriptionSupportTicket(): Promise<voi
  * This sample demonstrates how to this API allows you to update the severity level, ticket status, advanced diagnostic consent and your contact information in the support ticket.<br/><br/>Note: The severity levels cannot be changed if a support ticket is actively being worked upon by an Azure support engineer. In such a case, contact your support engineer to request severity update by adding a new communication using the Communications API.
  *
  * @summary this API allows you to update the severity level, ticket status, advanced diagnostic consent and your contact information in the support ticket.<br/><br/>Note: The severity levels cannot be changed if a support ticket is actively being worked upon by an Azure support engineer. In such a case, contact your support engineer to request severity update by adding a new communication using the Communications API.
- * x-ms-original-file: 2025-06-01-preview/UpdateSeverityOfSupportTicketForSubscription.json
+ * x-ms-original-file: 2026-06-01/UpdateSeverityOfSupportTicketForSubscription.json
  */
 async function updateSeverityOfASubscriptionSupportTicket(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -84,7 +84,7 @@ async function updateSeverityOfASubscriptionSupportTicket(): Promise<void> {
  * This sample demonstrates how to this API allows you to update the severity level, ticket status, advanced diagnostic consent and your contact information in the support ticket.<br/><br/>Note: The severity levels cannot be changed if a support ticket is actively being worked upon by an Azure support engineer. In such a case, contact your support engineer to request severity update by adding a new communication using the Communications API.
  *
  * @summary this API allows you to update the severity level, ticket status, advanced diagnostic consent and your contact information in the support ticket.<br/><br/>Note: The severity levels cannot be changed if a support ticket is actively being worked upon by an Azure support engineer. In such a case, contact your support engineer to request severity update by adding a new communication using the Communications API.
- * x-ms-original-file: 2025-06-01-preview/UpdateStatusOfSupportTicketForSubscription.json
+ * x-ms-original-file: 2026-06-01/UpdateStatusOfSupportTicketForSubscription.json
  */
 async function updateStatusOfASubscriptionSupportTicket(): Promise<void> {
   const credential = new DefaultAzureCredential();

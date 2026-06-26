@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { MicrosoftStorageSyncContext } from "../../api/microsoftStorageSyncContext.js";
+import { MicrosoftStorageSyncContext } from "../../api/microsoftStorageSyncContext.js";
 import {
   afsShareMetadataCertificatePublicKeys,
   triggerChangeDetection,
@@ -15,7 +15,7 @@ import {
   create,
   get,
 } from "../../api/cloudEndpoints/operations.js";
-import type {
+import {
   CloudEndpointsAfsShareMetadataCertificatePublicKeysOptionalParams,
   CloudEndpointsTriggerChangeDetectionOptionalParams,
   CloudEndpointsPostRestoreOptionalParams,
@@ -28,7 +28,7 @@ import type {
   CloudEndpointsCreateOptionalParams,
   CloudEndpointsGetOptionalParams,
 } from "../../api/cloudEndpoints/options.js";
-import type {
+import {
   CloudEndpoint,
   CloudEndpointCreateParameters,
   BackupRequest,
@@ -38,10 +38,9 @@ import type {
   TriggerChangeDetectionParameters,
   CloudEndpointAfsShareMetadataCertificatePublicKeys,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a CloudEndpoints operations. */
 export interface CloudEndpointsOperations {

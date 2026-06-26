@@ -1,22 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SqlManagementContext } from "../../api/sqlManagementContext.js";
+import { SqlManagementContext } from "../../api/sqlManagementContext.js";
 import {
   listByManagedInstance,
   createOrUpdate,
   get,
 } from "../../api/managedInstanceDtcs/operations.js";
-import type {
+import {
   ManagedInstanceDtcsListByManagedInstanceOptionalParams,
   ManagedInstanceDtcsCreateOrUpdateOptionalParams,
   ManagedInstanceDtcsGetOptionalParams,
 } from "../../api/managedInstanceDtcs/options.js";
-import type { ManagedInstanceDtc, DtcName } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { ManagedInstanceDtc, DtcName } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ManagedInstanceDtcs operations. */
 export interface ManagedInstanceDtcsOperations {

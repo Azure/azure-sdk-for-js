@@ -30,11 +30,6 @@ export interface DynamicSchemaVersionsOperations {
     options?: DynamicSchemaVersionsListByDynamicSchemaOptionalParams,
   ) => PagedAsyncIterableIterator<DynamicSchemaVersion>;
   /** Delete a Dynamic Schema Version Resource */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     schemaName: string,
