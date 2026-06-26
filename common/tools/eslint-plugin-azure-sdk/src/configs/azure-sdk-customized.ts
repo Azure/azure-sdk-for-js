@@ -177,6 +177,12 @@ const requireAliasMessage =
   "the same way createRequire() does. Import the module statically and declare it as a runtime " +
   "dependency. If this is an approved advanced case, disable this rule on the line with a " +
   "justification comment.";
+const dynamicImportMessage =
+  "Do not use a dynamic import() with a non-literal specifier in production source: the module " +
+  "is hidden from the static module graph, bundlers, api-extractor, and dependency linting, so " +
+  "an undeclared or dev-only package can be loaded at runtime. Use a static import with a literal " +
+  "specifier and declare the dependency. If this is an approved advanced case, disable this rule " +
+  "on the line with a justification comment.";
 
 const noDynamicModuleLoad: FlatConfig.Config = {
   name: "azsdk/no-dynamic-module-load",
@@ -191,6 +197,9 @@ const noDynamicModuleLoad: FlatConfig.Config = {
       },
       { selector: "VariableDeclarator[init.name='require']", message: requireAliasMessage },
       { selector: "AssignmentExpression[right.name='require']", message: requireAliasMessage },
+      // Literal `import("pkg")` stays allowed (and is covered by import-x); only a non-literal
+      // specifier — `import(expr)` / `import(`${x}`)` — hides the dependency and is flagged here.
+      { selector: "ImportExpression[source.type!='Literal']", message: dynamicImportMessage },
     ],
   },
 };
