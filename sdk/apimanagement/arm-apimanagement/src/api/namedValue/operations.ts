@@ -1,27 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ApiManagementContext as Client } from "../index.js";
-import type {
-  NamedValueContract,
-  NamedValueCreateContract,
-  NamedValueUpdateParameters,
-  _NamedValueCollection,
-  NamedValueSecretContract,
-} from "../../models/models.js";
+import { ApiManagementContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  NamedValueContract,
   namedValueContractDeserializer,
+  NamedValueCreateContract,
   namedValueCreateContractSerializer,
+  NamedValueUpdateParameters,
   namedValueUpdateParametersSerializer,
+  _NamedValueCollection,
   _namedValueCollectionDeserializer,
+  NamedValueSecretContract,
   namedValueSecretContractDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   NamedValueRefreshSecretOptionalParams,
   NamedValueListValueOptionalParams,
   NamedValueListByServiceOptionalParams,
@@ -31,9 +31,13 @@ import type {
   NamedValueGetEntityTagOptionalParams,
   NamedValueGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _refreshSecretSend(
   context: Client,
@@ -55,10 +59,12 @@ export function _refreshSecretSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _refreshSecretDeserialize(
@@ -115,10 +121,12 @@ export function _listValueSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listValueDeserialize(
@@ -177,10 +185,12 @@ export function _listByServiceSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listByServiceDeserialize(
@@ -240,10 +250,12 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: { "if-match": ifMatch, ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: { "if-match": ifMatch, ...options.requestOptions?.headers },
+    });
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -302,16 +314,18 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      "if-match": ifMatch,
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: namedValueUpdateParametersSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        "if-match": ifMatch,
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: namedValueUpdateParametersSerializer(parameters),
+    });
 }
 
 export async function _updateDeserialize(
@@ -379,16 +393,18 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: namedValueCreateContractSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: namedValueCreateContractSerializer(parameters),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -508,10 +524,12 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<NamedValueContract> {

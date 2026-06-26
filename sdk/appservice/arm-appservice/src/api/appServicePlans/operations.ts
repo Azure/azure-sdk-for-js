@@ -1,58 +1,58 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { WebSiteManagementContext as Client } from "../index.js";
-import type {
-  Capability,
-  _WebAppCollection,
-  Site,
-  Operation,
-  _AppServicePlanCollection,
-  AppServicePlan,
-  _CsmUsageQuotaCollection,
-  CsmUsageQuota,
-  HybridConnection,
-  VnetInfoResource,
-  VnetRoute,
-  VnetGateway,
-  ServerFarmRdpDetails,
-  ServerFarmInstanceDetails,
-  AppServicePlanPatchResource,
-  _HybridConnectionCollection,
-  HybridConnectionKey,
-  _ResourceCollection,
-  HybridConnectionLimits,
-} from "../../models/models.js";
+import { WebSiteManagementContext as Client } from "../index.js";
 import {
   defaultErrorResponseDeserializer,
   capabilityArrayDeserializer,
+  Capability,
+  _WebAppCollection,
   _webAppCollectionDeserializer,
+  Site,
+  Operation,
   operationDeserializer,
+  _AppServicePlanCollection,
   _appServicePlanCollectionDeserializer,
+  AppServicePlan,
   appServicePlanSerializer,
   appServicePlanDeserializer,
+  _CsmUsageQuotaCollection,
   _csmUsageQuotaCollectionDeserializer,
+  CsmUsageQuota,
+  HybridConnection,
   hybridConnectionDeserializer,
+  VnetInfoResource,
   vnetInfoResourceDeserializer,
   vnetRouteArrayDeserializer,
+  VnetRoute,
   vnetRouteSerializer,
   vnetRouteDeserializer,
+  VnetGateway,
   vnetGatewaySerializer,
   vnetGatewayDeserializer,
+  ServerFarmRdpDetails,
   serverFarmRdpDetailsDeserializer,
+  ServerFarmInstanceDetails,
   serverFarmInstanceDetailsDeserializer,
+  AppServicePlanPatchResource,
   appServicePlanPatchResourceSerializer,
+  _HybridConnectionCollection,
   _hybridConnectionCollectionDeserializer,
+  HybridConnectionKey,
   hybridConnectionKeyDeserializer,
+  _ResourceCollection,
   _resourceCollectionDeserializer,
+  HybridConnectionLimits,
   hybridConnectionLimitsDeserializer,
   vnetInfoResourceArrayDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   AppServicePlansListRoutesForVnetOptionalParams,
   AppServicePlansDeleteVnetRouteOptionalParams,
   AppServicePlansUpdateVnetRouteOptionalParams,
@@ -84,9 +84,13 @@ import type {
   AppServicePlansRecycleManagedInstanceWorkerOptionalParams,
   AppServicePlansGetServerFarmRdpPasswordOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listRoutesForVnetSend(
   context: Client,
@@ -108,10 +112,12 @@ export function _listRoutesForVnetSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listRoutesForVnetDeserialize(
@@ -120,7 +126,9 @@ export async function _listRoutesForVnetDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -169,7 +177,9 @@ export async function _deleteVnetRouteDeserialize(result: PathUncheckedResponse)
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -220,12 +230,14 @@ export function _updateVnetRouteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: vnetRouteSerializer(route),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: vnetRouteSerializer(route),
+    });
 }
 
 export async function _updateVnetRouteDeserialize(
@@ -234,7 +246,9 @@ export async function _updateVnetRouteDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -287,12 +301,14 @@ export function _createOrUpdateVnetRouteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: vnetRouteSerializer(route),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: vnetRouteSerializer(route),
+    });
 }
 
 export async function _createOrUpdateVnetRouteDeserialize(
@@ -301,7 +317,9 @@ export async function _createOrUpdateVnetRouteDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -353,10 +371,12 @@ export function _getRouteForVnetSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getRouteForVnetDeserialize(
@@ -365,7 +385,9 @@ export async function _getRouteForVnetDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -416,12 +438,14 @@ export function _updateVnetGatewaySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: vnetGatewaySerializer(connectionEnvelope),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: vnetGatewaySerializer(connectionEnvelope),
+    });
 }
 
 export async function _updateVnetGatewayDeserialize(
@@ -430,7 +454,9 @@ export async function _updateVnetGatewayDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -482,10 +508,12 @@ export function _getVnetGatewaySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getVnetGatewayDeserialize(
@@ -494,7 +522,9 @@ export async function _getVnetGatewayDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -540,10 +570,12 @@ export function _listVnetsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listVnetsDeserialize(
@@ -552,7 +584,9 @@ export async function _listVnetsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -591,10 +625,12 @@ export function _getVnetFromServerFarmSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getVnetFromServerFarmDeserialize(
@@ -603,7 +639,9 @@ export async function _getVnetFromServerFarmDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -647,10 +685,12 @@ export function _getHybridConnectionPlanLimitSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getHybridConnectionPlanLimitDeserialize(
@@ -659,7 +699,9 @@ export async function _getHybridConnectionPlanLimitDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -700,10 +742,12 @@ export function _listWebAppsByHybridConnectionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listWebAppsByHybridConnectionDeserialize(
@@ -712,7 +756,9 @@ export async function _listWebAppsByHybridConnectionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -768,10 +814,12 @@ export function _listHybridConnectionKeysSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listHybridConnectionKeysDeserialize(
@@ -780,7 +828,9 @@ export async function _listHybridConnectionKeysDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -839,7 +889,9 @@ export async function _deleteHybridConnectionDeserialize(
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -889,10 +941,12 @@ export function _getHybridConnectionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getHybridConnectionDeserialize(
@@ -901,7 +955,9 @@ export async function _getHybridConnectionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -956,7 +1012,9 @@ export async function _rebootWorkerDeserialize(result: PathUncheckedResponse): P
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -995,10 +1053,12 @@ export function _listUsagesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listUsagesDeserialize(
@@ -1007,7 +1067,9 @@ export async function _listUsagesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1049,10 +1111,12 @@ export function _getServerFarmSkusSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getServerFarmSkusDeserialize(
@@ -1061,7 +1125,9 @@ export async function _getServerFarmSkusDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1101,10 +1167,12 @@ export function _listWebAppsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listWebAppsDeserialize(
@@ -1113,7 +1181,9 @@ export async function _listWebAppsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1163,7 +1233,9 @@ export async function _restartWebAppsDeserialize(result: PathUncheckedResponse):
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1200,10 +1272,12 @@ export function _listHybridConnectionsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listHybridConnectionsDeserialize(
@@ -1212,7 +1286,9 @@ export async function _listHybridConnectionsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1254,10 +1330,12 @@ export function _listCapabilitiesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listCapabilitiesDeserialize(
@@ -1266,7 +1344,9 @@ export async function _listCapabilitiesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1300,10 +1380,12 @@ export function _listSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listDeserialize(
@@ -1312,7 +1394,9 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1350,10 +1434,12 @@ export function _listByResourceGroupSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listByResourceGroupDeserialize(
@@ -1362,7 +1448,9 @@ export async function _listByResourceGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1410,7 +1498,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1448,19 +1538,23 @@ export function _updateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: appServicePlanPatchResourceSerializer(appServicePlan),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: appServicePlanPatchResourceSerializer(appServicePlan),
+    });
 }
 
 export async function _updateDeserialize(result: PathUncheckedResponse): Promise<AppServicePlan> {
   const expectedStatuses = ["200", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1499,12 +1593,14 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: appServicePlanSerializer(appServicePlan),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: appServicePlanSerializer(appServicePlan),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -1513,7 +1609,9 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1557,17 +1655,21 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<AppServicePlan> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1604,10 +1706,12 @@ export function _getServerFarmInstanceDetailsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getServerFarmInstanceDetailsDeserialize(
@@ -1616,7 +1720,9 @@ export async function _getServerFarmInstanceDetailsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1655,10 +1761,12 @@ export function _recycleManagedInstanceWorkerSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _recycleManagedInstanceWorkerDeserialize(
@@ -1667,7 +1775,9 @@ export async function _recycleManagedInstanceWorkerDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1711,10 +1821,12 @@ export function _getServerFarmRdpPasswordSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getServerFarmRdpPasswordDeserialize(
@@ -1723,7 +1835,9 @@ export async function _getServerFarmRdpPasswordDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

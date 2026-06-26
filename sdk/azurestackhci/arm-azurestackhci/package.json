@@ -56,6 +56,118 @@
         "default": "./dist/commonjs/api/updateSummaries/index.js"
       }
     },
+    "./api/edgeMachineDiskPrivilegedJobs": {
+      "browser": {
+        "types": "./dist/browser/api/edgeMachineDiskPrivilegedJobs/index.d.ts",
+        "default": "./dist/browser/api/edgeMachineDiskPrivilegedJobs/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/edgeMachineDiskPrivilegedJobs/index.d.ts",
+        "default": "./dist/esm/api/edgeMachineDiskPrivilegedJobs/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/edgeMachineDiskPrivilegedJobs/index.d.ts",
+        "default": "./dist/commonjs/api/edgeMachineDiskPrivilegedJobs/index.js"
+      }
+    },
+    "./api/edgeMachineDiskJobs": {
+      "browser": {
+        "types": "./dist/browser/api/edgeMachineDiskJobs/index.d.ts",
+        "default": "./dist/browser/api/edgeMachineDiskJobs/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/edgeMachineDiskJobs/index.d.ts",
+        "default": "./dist/esm/api/edgeMachineDiskJobs/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/edgeMachineDiskJobs/index.d.ts",
+        "default": "./dist/commonjs/api/edgeMachineDiskJobs/index.js"
+      }
+    },
+    "./api/edgeMachineVolumes": {
+      "browser": {
+        "types": "./dist/browser/api/edgeMachineVolumes/index.d.ts",
+        "default": "./dist/browser/api/edgeMachineVolumes/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/edgeMachineVolumes/index.d.ts",
+        "default": "./dist/esm/api/edgeMachineVolumes/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/edgeMachineVolumes/index.d.ts",
+        "default": "./dist/commonjs/api/edgeMachineVolumes/index.js"
+      }
+    },
+    "./api/edgeMachineDisks": {
+      "browser": {
+        "types": "./dist/browser/api/edgeMachineDisks/index.d.ts",
+        "default": "./dist/browser/api/edgeMachineDisks/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/edgeMachineDisks/index.d.ts",
+        "default": "./dist/esm/api/edgeMachineDisks/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/edgeMachineDisks/index.d.ts",
+        "default": "./dist/commonjs/api/edgeMachineDisks/index.js"
+      }
+    },
+    "./api/edgeMachineNetworkAdapterJobs": {
+      "browser": {
+        "types": "./dist/browser/api/edgeMachineNetworkAdapterJobs/index.d.ts",
+        "default": "./dist/browser/api/edgeMachineNetworkAdapterJobs/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/edgeMachineNetworkAdapterJobs/index.d.ts",
+        "default": "./dist/esm/api/edgeMachineNetworkAdapterJobs/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/edgeMachineNetworkAdapterJobs/index.d.ts",
+        "default": "./dist/commonjs/api/edgeMachineNetworkAdapterJobs/index.js"
+      }
+    },
+    "./api/edgeMachineNetworkAdapters": {
+      "browser": {
+        "types": "./dist/browser/api/edgeMachineNetworkAdapters/index.d.ts",
+        "default": "./dist/browser/api/edgeMachineNetworkAdapters/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/edgeMachineNetworkAdapters/index.d.ts",
+        "default": "./dist/esm/api/edgeMachineNetworkAdapters/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/edgeMachineNetworkAdapters/index.d.ts",
+        "default": "./dist/commonjs/api/edgeMachineNetworkAdapters/index.js"
+      }
+    },
+    "./api/edgeMachineGpuJobs": {
+      "browser": {
+        "types": "./dist/browser/api/edgeMachineGpuJobs/index.d.ts",
+        "default": "./dist/browser/api/edgeMachineGpuJobs/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/edgeMachineGpuJobs/index.d.ts",
+        "default": "./dist/esm/api/edgeMachineGpuJobs/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/edgeMachineGpuJobs/index.d.ts",
+        "default": "./dist/commonjs/api/edgeMachineGpuJobs/index.js"
+      }
+    },
+    "./api/edgeMachineGpus": {
+      "browser": {
+        "types": "./dist/browser/api/edgeMachineGpus/index.d.ts",
+        "default": "./dist/browser/api/edgeMachineGpus/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/edgeMachineGpus/index.d.ts",
+        "default": "./dist/esm/api/edgeMachineGpus/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/edgeMachineGpus/index.d.ts",
+        "default": "./dist/commonjs/api/edgeMachineGpus/index.js"
+      }
+    },
     "./api/devicePools": {
       "browser": {
         "types": "./dist/browser/api/devicePools/index.d.ts",
@@ -96,6 +208,20 @@
       "require": {
         "types": "./dist/commonjs/api/ownershipVouchers/index.d.ts",
         "default": "./dist/commonjs/api/ownershipVouchers/index.js"
+      }
+    },
+    "./api/edgeMachineUpdates": {
+      "browser": {
+        "types": "./dist/browser/api/edgeMachineUpdates/index.d.ts",
+        "default": "./dist/browser/api/edgeMachineUpdates/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/edgeMachineUpdates/index.d.ts",
+        "default": "./dist/esm/api/edgeMachineUpdates/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/edgeMachineUpdates/index.d.ts",
+        "default": "./dist/commonjs/api/edgeMachineUpdates/index.js"
       }
     },
     "./api/edgeMachineJobs": {
@@ -498,6 +624,7 @@
   },
   "imports": {
     "#platform/*": {
+      "browser": "./src/*-browser.mts",
       "default": "./src/*.ts"
     }
   }

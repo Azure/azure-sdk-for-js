@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get Offer resource details within a publisher of HCI Cluster.
  *
  * @summary get Offer resource details within a publisher of HCI Cluster.
- * x-ms-original-file: 2026-04-01-preview/GetOffer.json
+ * x-ms-original-file: 2026-05-01-preview/GetOffer.json
  */
 async function getOffer(): Promise<void> {
   const credential = new DefaultAzureCredential();

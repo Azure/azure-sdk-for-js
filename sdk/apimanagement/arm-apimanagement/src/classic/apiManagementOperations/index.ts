@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ApiManagementContext } from "../../api/apiManagementContext.js";
+import { ApiManagementContext } from "../../api/apiManagementContext.js";
 import { list } from "../../api/apiManagementOperations/operations.js";
-import type { ApiManagementOperationsListOptionalParams } from "../../api/apiManagementOperations/options.js";
-import type { Operation } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { ApiManagementOperationsListOptionalParams } from "../../api/apiManagementOperations/options.js";
+import { Operation } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ApiManagementOperations operations. */
 export interface ApiManagementOperationsOperations {

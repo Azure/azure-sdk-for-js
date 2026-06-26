@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureVMwareSolutionAPIContext } from "../../api/azureVMwareSolutionAPIContext.js";
+import { AzureVMwareSolutionAPIContext } from "../../api/azureVMwareSolutionAPIContext.js";
 import {
   listZones,
   $delete,
@@ -10,7 +10,7 @@ import {
   get,
   list,
 } from "../../api/clusters/operations.js";
-import type {
+import {
   ClustersListZonesOptionalParams,
   ClustersDeleteOptionalParams,
   ClustersUpdateOptionalParams,
@@ -18,9 +18,9 @@ import type {
   ClustersGetOptionalParams,
   ClustersListOptionalParams,
 } from "../../api/clusters/options.js";
-import type { Cluster, ClusterUpdate, ClusterZoneList } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { Cluster, ClusterUpdate, ClusterZoneList } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Clusters operations. */
 export interface ClustersOperations {
@@ -32,11 +32,6 @@ export interface ClustersOperations {
     options?: ClustersListZonesOptionalParams,
   ) => Promise<ClusterZoneList>;
   /** Delete a Cluster */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     privateCloudName: string,

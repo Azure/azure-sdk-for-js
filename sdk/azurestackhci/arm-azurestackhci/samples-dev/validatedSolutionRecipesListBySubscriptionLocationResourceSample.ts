@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list all validated solution recipes.
  *
  * @summary list all validated solution recipes.
- * x-ms-original-file: 2026-04-01-preview/ValidatedSolutionRecipes_ListBySubscriptionLocationResource.json
+ * x-ms-original-file: 2026-05-01-preview/ValidatedSolutionRecipes_ListBySubscriptionLocationResource.json
  */
 async function validatedSolutionRecipesListBySubscriptionLocationResource(): Promise<void> {
   const credential = new DefaultAzureCredential();

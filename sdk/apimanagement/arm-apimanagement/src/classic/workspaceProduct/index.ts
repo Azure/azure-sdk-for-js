@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ApiManagementContext } from "../../api/apiManagementContext.js";
+import { ApiManagementContext } from "../../api/apiManagementContext.js";
 import {
   listByService,
   $delete,
@@ -10,7 +10,7 @@ import {
   getEntityTag,
   get,
 } from "../../api/workspaceProduct/operations.js";
-import type {
+import {
   WorkspaceProductListByServiceOptionalParams,
   WorkspaceProductDeleteOptionalParams,
   WorkspaceProductUpdateOptionalParams,
@@ -18,8 +18,8 @@ import type {
   WorkspaceProductGetEntityTagOptionalParams,
   WorkspaceProductGetOptionalParams,
 } from "../../api/workspaceProduct/options.js";
-import type { ProductContract, ProductUpdateParameters } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { ProductContract, ProductUpdateParameters } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a WorkspaceProduct operations. */
 export interface WorkspaceProductOperations {

@@ -59,6 +59,36 @@ export interface ApiContract extends ProxyResource {
   readonly provisioningState?: string;
 }
 
+export function apiContractSerializer(item: ApiContract): any {
+  return {
+    properties: areAllPropsUndefined(item, [
+      "description",
+      "authenticationSettings",
+      "subscriptionKeyParameterNames",
+      "apiType",
+      "apiRevision",
+      "apiVersion",
+      "isCurrent",
+      "apiRevisionDescription",
+      "apiVersionDescription",
+      "apiVersionSetId",
+      "subscriptionRequired",
+      "termsOfServiceUrl",
+      "contact",
+      "license",
+      "mcpProperties",
+      "sourceApiId",
+      "displayName",
+      "serviceUrl",
+      "path",
+      "protocols",
+      "apiVersionSet",
+    ])
+      ? undefined
+      : _apiContractPropertiesSerializer(item),
+  };
+}
+
 export function apiContractDeserializer(item: any): ApiContract {
   return {
     id: item["id"],
@@ -911,7 +941,7 @@ export function apiCreateOrUpdateParameterSerializer(item: ApiCreateOrUpdatePara
       "description",
       "authenticationSettings",
       "subscriptionKeyParameterNames",
-      "ApiType",
+      "apiType",
       "apiRevision",
       "apiVersion",
       "isCurrent",
@@ -926,8 +956,8 @@ export function apiCreateOrUpdateParameterSerializer(item: ApiCreateOrUpdatePara
       "value",
       "format",
       "wsdlSelector",
-      "SoapApiType",
-      "TranslateRequiredQueryParametersConduct",
+      "soapApiType",
+      "translateRequiredQueryParametersConduct",
     ])
       ? undefined
       : _apiCreateOrUpdateParameterPropertiesSerializer(item),
@@ -1184,7 +1214,7 @@ export function apiUpdateContractSerializer(item: ApiUpdateContract): any {
       "description",
       "authenticationSettings",
       "subscriptionKeyParameterNames",
-      "ApiType",
+      "apiType",
       "apiRevision",
       "apiVersion",
       "isCurrent",
@@ -1268,6 +1298,12 @@ export function _apiCollectionDeserializer(item: any): _ApiCollection {
     count: item["count"],
     nextLink: item["nextLink"],
   };
+}
+
+export function apiContractArraySerializer(result: Array<ApiContract>): any[] {
+  return result.map((item) => {
+    return apiContractSerializer(item);
+  });
 }
 
 export function apiContractArrayDeserializer(result: Array<ApiContract>): any[] {
@@ -1432,6 +1468,12 @@ export function httpHeaderArraySerializer(result: Array<HttpHeader>): any[] {
   });
 }
 
+export function httpHeaderArrayDeserializer(result: Array<HttpHeader>): any[] {
+  return result.map((item) => {
+    return httpHeaderDeserializer(item);
+  });
+}
+
 /** HTTP header and it's value. */
 export interface HttpHeader {
   /** Header name. */
@@ -1442,6 +1484,13 @@ export interface HttpHeader {
 
 export function httpHeaderSerializer(item: HttpHeader): any {
   return { name: item["name"], value: item["value"] };
+}
+
+export function httpHeaderDeserializer(item: any): HttpHeader {
+  return {
+    name: item["name"],
+    value: item["value"],
+  };
 }
 
 /** Information on the connectivity status. */
@@ -1474,6 +1523,12 @@ export function connectivityCheckResponseDeserializer(item: any): ConnectivityCh
   };
 }
 
+export function connectivityHopArraySerializer(result: Array<ConnectivityHop>): any[] {
+  return result.map((item) => {
+    return connectivityHopSerializer(item);
+  });
+}
+
 export function connectivityHopArrayDeserializer(result: Array<ConnectivityHop>): any[] {
   return result.map((item) => {
     return connectivityHopDeserializer(item);
@@ -1494,6 +1549,10 @@ export interface ConnectivityHop {
   readonly nextHopIds?: string[];
   /** List of issues. */
   readonly issues?: ConnectivityIssue[];
+}
+
+export function connectivityHopSerializer(_item: ConnectivityHop): any {
+  return {};
 }
 
 export function connectivityHopDeserializer(item: any): ConnectivityHop {
@@ -2358,6 +2417,14 @@ export interface TagContract extends ProxyResource {
   displayName?: string;
 }
 
+export function tagContractSerializer(item: TagContract): any {
+  return {
+    properties: areAllPropsUndefined(item, ["displayName"])
+      ? undefined
+      : _tagContractPropertiesSerializer(item),
+  };
+}
+
 export function tagContractDeserializer(item: any): TagContract {
   return {
     id: item["id"],
@@ -2404,6 +2471,12 @@ export function _tagCollectionDeserializer(item: any): _TagCollection {
     count: item["count"],
     nextLink: item["nextLink"],
   };
+}
+
+export function tagContractArraySerializer(result: Array<TagContract>): any[] {
+  return result.map((item) => {
+    return tagContractSerializer(item);
+  });
 }
 
 export function tagContractArrayDeserializer(result: Array<TagContract>): any[] {
@@ -4557,6 +4630,14 @@ export interface CertificateContract extends ProxyResource {
   keyVault?: KeyVaultContractProperties;
 }
 
+export function certificateContractSerializer(item: CertificateContract): any {
+  return {
+    properties: areAllPropsUndefined(item, ["subject", "thumbprint", "expirationDate", "keyVault"])
+      ? undefined
+      : _certificateContractPropertiesSerializer(item),
+  };
+}
+
 export function certificateContractDeserializer(item: any): CertificateContract {
   return {
     id: item["id"],
@@ -4583,6 +4664,17 @@ export interface CertificateContractProperties {
   keyVault?: KeyVaultContractProperties;
 }
 
+export function certificateContractPropertiesSerializer(item: CertificateContractProperties): any {
+  return {
+    subject: item["subject"],
+    thumbprint: item["thumbprint"],
+    expirationDate: item["expirationDate"].toISOString(),
+    keyVault: !item["keyVault"]
+      ? item["keyVault"]
+      : keyVaultContractPropertiesSerializer(item["keyVault"]),
+  };
+}
+
 export function certificateContractPropertiesDeserializer(
   item: any,
 ): CertificateContractProperties {
@@ -4600,6 +4692,16 @@ export function certificateContractPropertiesDeserializer(
 export interface KeyVaultContractProperties extends KeyVaultContractCreateProperties {
   /** Last time sync and refresh status of secret from key vault. */
   lastStatus?: KeyVaultLastAccessStatusContractProperties;
+}
+
+export function keyVaultContractPropertiesSerializer(item: KeyVaultContractProperties): any {
+  return {
+    secretIdentifier: item["secretIdentifier"],
+    identityClientId: item["identityClientId"],
+    lastStatus: !item["lastStatus"]
+      ? item["lastStatus"]
+      : keyVaultLastAccessStatusContractPropertiesSerializer(item["lastStatus"]),
+  };
 }
 
 export function keyVaultContractPropertiesDeserializer(item: any): KeyVaultContractProperties {
@@ -4620,6 +4722,16 @@ export interface KeyVaultLastAccessStatusContractProperties {
   message?: string;
   /** Last time secret was accessed. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard. */
   timeStampUtc?: Date;
+}
+
+export function keyVaultLastAccessStatusContractPropertiesSerializer(
+  item: KeyVaultLastAccessStatusContractProperties,
+): any {
+  return {
+    code: item["code"],
+    message: item["message"],
+    timeStampUtc: !item["timeStampUtc"] ? item["timeStampUtc"] : item["timeStampUtc"].toISOString(),
+  };
 }
 
 export function keyVaultLastAccessStatusContractPropertiesDeserializer(
@@ -4715,6 +4827,12 @@ export function _certificateCollectionDeserializer(item: any): _CertificateColle
   };
 }
 
+export function certificateContractArraySerializer(result: Array<CertificateContract>): any[] {
+  return result.map((item) => {
+    return certificateContractSerializer(item);
+  });
+}
+
 export function certificateContractArrayDeserializer(result: Array<CertificateContract>): any[] {
   return result.map((item) => {
     return certificateContractDeserializer(item);
@@ -4733,6 +4851,14 @@ export interface GroupContract extends ProxyResource {
   typePropertiesType?: GroupType;
   /** For external groups, this property contains the id of the group from the external identity provider, e.g. for Azure Active Directory `aad://<tenant>.onmicrosoft.com/groups/<group object id>`; otherwise the value is null. */
   externalId?: string;
+}
+
+export function groupContractSerializer(item: GroupContract): any {
+  return {
+    properties: areAllPropsUndefined(item, ["displayName", "description", "type", "externalId"])
+      ? undefined
+      : _groupContractPropertiesSerializer(item),
+  };
 }
 
 export function groupContractDeserializer(item: any): GroupContract {
@@ -4761,6 +4887,15 @@ export interface GroupContractProperties {
   type?: GroupType;
   /** For external groups, this property contains the id of the group from the external identity provider, e.g. for Azure Active Directory `aad://<tenant>.onmicrosoft.com/groups/<group object id>`; otherwise the value is null. */
   externalId?: string;
+}
+
+export function groupContractPropertiesSerializer(item: GroupContractProperties): any {
+  return {
+    displayName: item["displayName"],
+    description: item["description"],
+    type: item["type"],
+    externalId: item["externalId"],
+  };
 }
 
 export function groupContractPropertiesDeserializer(item: any): GroupContractProperties {
@@ -4796,6 +4931,14 @@ export function groupCreateParametersSerializer(item: GroupCreateParameters): an
   };
 }
 
+export function groupCreateParametersDeserializer(item: any): GroupCreateParameters {
+  return {
+    ...(!item["properties"]
+      ? item["properties"]
+      : _groupCreateParametersPropertiesDeserializer(item["properties"])),
+  };
+}
+
 /** Parameters supplied to the Create Group operation. */
 export interface GroupCreateParametersProperties {
   /** Group name. */
@@ -4811,6 +4954,17 @@ export interface GroupCreateParametersProperties {
 export function groupCreateParametersPropertiesSerializer(
   item: GroupCreateParametersProperties,
 ): any {
+  return {
+    displayName: item["displayName"],
+    description: item["description"],
+    type: item["type"],
+    externalId: item["externalId"],
+  };
+}
+
+export function groupCreateParametersPropertiesDeserializer(
+  item: any,
+): GroupCreateParametersProperties {
   return {
     displayName: item["displayName"],
     description: item["description"],
@@ -4878,6 +5032,12 @@ export function _groupCollectionDeserializer(item: any): _GroupCollection {
     count: item["count"],
     nextLink: item["nextLink"],
   };
+}
+
+export function groupContractArraySerializer(result: Array<GroupContract>): any[] {
+  return result.map((item) => {
+    return groupContractSerializer(item);
+  });
 }
 
 export function groupContractArrayDeserializer(result: Array<GroupContract>): any[] {
@@ -5085,6 +5245,14 @@ export interface NamedValueContract extends ProxyResource {
   readonly provisioningState?: string;
 }
 
+export function namedValueContractSerializer(item: NamedValueContract): any {
+  return {
+    properties: areAllPropsUndefined(item, ["tags", "secret", "displayName", "value", "keyVault"])
+      ? undefined
+      : _namedValueContractPropertiesSerializer(item),
+  };
+}
+
 export function namedValueContractDeserializer(item: any): NamedValueContract {
   return {
     id: item["id"],
@@ -5109,6 +5277,22 @@ export interface NamedValueContractProperties extends NamedValueEntityBaseParame
   keyVault?: KeyVaultContractProperties;
   /** The provisioning state */
   readonly provisioningState?: string;
+}
+
+export function namedValueContractPropertiesSerializer(item: NamedValueContractProperties): any {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : item["tags"].map((p: any) => {
+          return p;
+        }),
+    secret: item["secret"],
+    displayName: item["displayName"],
+    value: item["value"],
+    keyVault: !item["keyVault"]
+      ? item["keyVault"]
+      : keyVaultContractPropertiesSerializer(item["keyVault"]),
+  };
 }
 
 export function namedValueContractPropertiesDeserializer(item: any): NamedValueContractProperties {
@@ -5184,6 +5368,20 @@ export function namedValueCreateContractSerializer(item: NamedValueCreateContrac
   };
 }
 
+export function namedValueCreateContractDeserializer(item: any): NamedValueCreateContract {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    ...(!item["properties"]
+      ? item["properties"]
+      : _namedValueCreateContractPropertiesDeserializer(item["properties"])),
+  };
+}
+
 /** NamedValue Contract properties. */
 export interface NamedValueCreateContractProperties extends NamedValueEntityBaseParameters {
   /** Unique name of NamedValue. It may contain only letters, digits, period, dash, and underscore characters. */
@@ -5209,6 +5407,24 @@ export function namedValueCreateContractPropertiesSerializer(
     keyVault: !item["keyVault"]
       ? item["keyVault"]
       : keyVaultContractCreatePropertiesSerializer(item["keyVault"]),
+  };
+}
+
+export function namedValueCreateContractPropertiesDeserializer(
+  item: any,
+): NamedValueCreateContractProperties {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : item["tags"].map((p: any) => {
+          return p;
+        }),
+    secret: item["secret"],
+    displayName: item["displayName"],
+    value: item["value"],
+    keyVault: !item["keyVault"]
+      ? item["keyVault"]
+      : keyVaultContractCreatePropertiesDeserializer(item["keyVault"]),
   };
 }
 
@@ -5280,6 +5496,12 @@ export function _namedValueCollectionDeserializer(item: any): _NamedValueCollect
   };
 }
 
+export function namedValueContractArraySerializer(result: Array<NamedValueContract>): any[] {
+  return result.map((item) => {
+    return namedValueContractSerializer(item);
+  });
+}
+
 export function namedValueContractArrayDeserializer(result: Array<NamedValueContract>): any[] {
   return result.map((item) => {
     return namedValueContractDeserializer(item);
@@ -5308,6 +5530,14 @@ export interface NotificationContract extends ProxyResource {
   recipients?: RecipientsContractProperties;
 }
 
+export function notificationContractSerializer(item: NotificationContract): any {
+  return {
+    properties: areAllPropsUndefined(item, ["title", "description", "recipients"])
+      ? undefined
+      : _notificationContractPropertiesSerializer(item),
+  };
+}
+
 export function notificationContractDeserializer(item: any): NotificationContract {
   return {
     id: item["id"],
@@ -5332,6 +5562,18 @@ export interface NotificationContractProperties {
   recipients?: RecipientsContractProperties;
 }
 
+export function notificationContractPropertiesSerializer(
+  item: NotificationContractProperties,
+): any {
+  return {
+    title: item["title"],
+    description: item["description"],
+    recipients: !item["recipients"]
+      ? item["recipients"]
+      : recipientsContractPropertiesSerializer(item["recipients"]),
+  };
+}
+
 export function notificationContractPropertiesDeserializer(
   item: any,
 ): NotificationContractProperties {
@@ -5350,6 +5592,21 @@ export interface RecipientsContractProperties {
   emails?: string[];
   /** List of Users subscribed for the notification. */
   users?: string[];
+}
+
+export function recipientsContractPropertiesSerializer(item: RecipientsContractProperties): any {
+  return {
+    emails: !item["emails"]
+      ? item["emails"]
+      : item["emails"].map((p: any) => {
+          return p;
+        }),
+    users: !item["users"]
+      ? item["users"]
+      : item["users"].map((p: any) => {
+          return p;
+        }),
+  };
 }
 
 export function recipientsContractPropertiesDeserializer(item: any): RecipientsContractProperties {
@@ -5404,6 +5661,12 @@ export function _notificationCollectionDeserializer(item: any): _NotificationCol
     count: item["count"],
     nextLink: item["nextLink"],
   };
+}
+
+export function notificationContractArraySerializer(result: Array<NotificationContract>): any[] {
+  return result.map((item) => {
+    return notificationContractSerializer(item);
+  });
 }
 
 export function notificationContractArrayDeserializer(result: Array<NotificationContract>): any[] {
@@ -5540,6 +5803,14 @@ export function resourceCollectionDeserializer(item: any): ResourceCollection {
   };
 }
 
+export function resourceCollectionValueItemArraySerializer(
+  result: Array<ResourceCollectionValueItem>,
+): any[] {
+  return result.map((item) => {
+    return resourceCollectionValueItemSerializer(item);
+  });
+}
+
 export function resourceCollectionValueItemArrayDeserializer(
   result: Array<ResourceCollectionValueItem>,
 ): any[] {
@@ -5550,6 +5821,10 @@ export function resourceCollectionValueItemArrayDeserializer(
 
 /** model interface ResourceCollectionValueItem */
 export interface ResourceCollectionValueItem extends ProxyResource {}
+
+export function resourceCollectionValueItemSerializer(_item: ResourceCollectionValueItem): any {
+  return {};
+}
 
 export function resourceCollectionValueItemDeserializer(item: any): ResourceCollectionValueItem {
   return {
@@ -6343,7 +6618,7 @@ export interface GlobalSchemaContract extends ProxyResource {
 
 export function globalSchemaContractSerializer(item: GlobalSchemaContract): any {
   return {
-    properties: areAllPropsUndefined(item, ["SchemaType", "description", "value", "document"])
+    properties: areAllPropsUndefined(item, ["schemaType", "description", "value", "document"])
       ? undefined
       : _globalSchemaContractPropertiesSerializer(item),
   };
@@ -6478,6 +6753,27 @@ export interface SubscriptionContract extends ProxyResource {
   allowTracing?: boolean;
 }
 
+export function subscriptionContractSerializer(item: SubscriptionContract): any {
+  return {
+    properties: areAllPropsUndefined(item, [
+      "ownerId",
+      "scope",
+      "displayName",
+      "state",
+      "startDate",
+      "expirationDate",
+      "endDate",
+      "notificationDate",
+      "primaryKey",
+      "secondaryKey",
+      "stateComment",
+      "allowTracing",
+    ])
+      ? undefined
+      : _subscriptionContractPropertiesSerializer(item),
+  };
+}
+
 export function subscriptionContractDeserializer(item: any): SubscriptionContract {
   return {
     id: item["id"],
@@ -6520,6 +6816,29 @@ export interface SubscriptionContractProperties {
   stateComment?: string;
   /** Determines whether tracing is enabled */
   allowTracing?: boolean;
+}
+
+export function subscriptionContractPropertiesSerializer(
+  item: SubscriptionContractProperties,
+): any {
+  return {
+    ownerId: item["ownerId"],
+    scope: item["scope"],
+    displayName: item["displayName"],
+    state: item["state"],
+    startDate: !item["startDate"] ? item["startDate"] : item["startDate"].toISOString(),
+    expirationDate: !item["expirationDate"]
+      ? item["expirationDate"]
+      : item["expirationDate"].toISOString(),
+    endDate: !item["endDate"] ? item["endDate"] : item["endDate"].toISOString(),
+    notificationDate: !item["notificationDate"]
+      ? item["notificationDate"]
+      : item["notificationDate"].toISOString(),
+    primaryKey: item["primaryKey"],
+    secondaryKey: item["secondaryKey"],
+    stateComment: item["stateComment"],
+    allowTracing: item["allowTracing"],
+  };
 }
 
 export function subscriptionContractPropertiesDeserializer(
@@ -6573,6 +6892,12 @@ export function _subscriptionCollectionDeserializer(item: any): _SubscriptionCol
   };
 }
 
+export function subscriptionContractArraySerializer(result: Array<SubscriptionContract>): any[] {
+  return result.map((item) => {
+    return subscriptionContractSerializer(item);
+  });
+}
+
 export function subscriptionContractArrayDeserializer(result: Array<SubscriptionContract>): any[] {
   return result.map((item) => {
     return subscriptionContractDeserializer(item);
@@ -6613,6 +6938,14 @@ export function subscriptionCreateParametersSerializer(item: SubscriptionCreateP
   };
 }
 
+export function subscriptionCreateParametersDeserializer(item: any): SubscriptionCreateParameters {
+  return {
+    ...(!item["properties"]
+      ? item["properties"]
+      : _subscriptionCreateParametersPropertiesDeserializer(item["properties"])),
+  };
+}
+
 /** Parameters supplied to the Create subscription operation. */
 export interface SubscriptionCreateParameterProperties {
   /** User (user id path) for whom subscription is being created in form /users/{userId} */
@@ -6634,6 +6967,20 @@ export interface SubscriptionCreateParameterProperties {
 export function subscriptionCreateParameterPropertiesSerializer(
   item: SubscriptionCreateParameterProperties,
 ): any {
+  return {
+    ownerId: item["ownerId"],
+    scope: item["scope"],
+    displayName: item["displayName"],
+    primaryKey: item["primaryKey"],
+    secondaryKey: item["secondaryKey"],
+    state: item["state"],
+    allowTracing: item["allowTracing"],
+  };
+}
+
+export function subscriptionCreateParameterPropertiesDeserializer(
+  item: any,
+): SubscriptionCreateParameterProperties {
   return {
     ownerId: item["ownerId"],
     scope: item["scope"],
@@ -7698,6 +8045,12 @@ export interface OperationTagResourceContractProperties {
   readonly method?: string;
   /** Relative URL template identifying the target resource for this operation. May include parameters. Example: /customers/{cid}/orders/{oid}/?date={date} */
   readonly urlTemplate?: string;
+}
+
+export function operationTagResourceContractPropertiesSerializer(
+  item: OperationTagResourceContractProperties,
+): any {
+  return { id: item["id"] };
 }
 
 export function operationTagResourceContractPropertiesDeserializer(
@@ -9475,6 +9828,12 @@ export function _allPoliciesCollectionDeserializer(item: any): _AllPoliciesColle
   };
 }
 
+export function allPoliciesContractArraySerializer(result: Array<AllPoliciesContract>): any[] {
+  return result.map((item) => {
+    return allPoliciesContractSerializer(item);
+  });
+}
+
 export function allPoliciesContractArrayDeserializer(result: Array<AllPoliciesContract>): any[] {
   return result.map((item) => {
     return allPoliciesContractDeserializer(item);
@@ -9487,6 +9846,14 @@ export interface AllPoliciesContract extends ProxyResource {
   referencePolicyId?: string;
   /** Policy Restriction Compliance State */
   complianceState?: PolicyComplianceState;
+}
+
+export function allPoliciesContractSerializer(item: AllPoliciesContract): any {
+  return {
+    properties: areAllPropsUndefined(item, ["referencePolicyId", "complianceState"])
+      ? undefined
+      : _allPoliciesContractPropertiesSerializer(item),
+  };
 }
 
 export function allPoliciesContractDeserializer(item: any): AllPoliciesContract {
@@ -9509,6 +9876,10 @@ export interface AllPoliciesContractProperties {
   referencePolicyId?: string;
   /** Policy Restriction Compliance State */
   complianceState?: PolicyComplianceState;
+}
+
+export function allPoliciesContractPropertiesSerializer(item: AllPoliciesContractProperties): any {
+  return { referencePolicyId: item["referencePolicyId"], complianceState: item["complianceState"] };
 }
 
 export function allPoliciesContractPropertiesDeserializer(
@@ -9834,6 +10205,14 @@ export function policyDescriptionCollectionDeserializer(item: any): PolicyDescri
   };
 }
 
+export function policyDescriptionContractArraySerializer(
+  result: Array<PolicyDescriptionContract>,
+): any[] {
+  return result.map((item) => {
+    return policyDescriptionContractSerializer(item);
+  });
+}
+
 export function policyDescriptionContractArrayDeserializer(
   result: Array<PolicyDescriptionContract>,
 ): any[] {
@@ -9848,6 +10227,14 @@ export interface PolicyDescriptionContract extends ProxyResource {
   readonly description?: string;
   /** Binary OR value of the Snippet scope. */
   readonly scope?: number;
+}
+
+export function policyDescriptionContractSerializer(item: PolicyDescriptionContract): any {
+  return {
+    properties: areAllPropsUndefined(item, [])
+      ? undefined
+      : _policyDescriptionContractPropertiesSerializer(item),
+  };
 }
 
 export function policyDescriptionContractDeserializer(item: any): PolicyDescriptionContract {
@@ -9870,6 +10257,12 @@ export interface PolicyDescriptionContractProperties {
   readonly description?: string;
   /** Binary OR value of the Snippet scope. */
   readonly scope?: number;
+}
+
+export function policyDescriptionContractPropertiesSerializer(
+  _item: PolicyDescriptionContractProperties,
+): any {
+  return {};
 }
 
 export function policyDescriptionContractPropertiesDeserializer(
@@ -9897,6 +10290,21 @@ export interface OperationResultContract extends ProxyResource {
   error?: ErrorResponseBody;
   /** This property if only provided as part of the TenantConfiguration_Validate operation. It contains the log the entities which will be updated/created/deleted as part of the TenantConfiguration_Deploy operation. */
   readonly actionLog?: OperationResultLogItemContract[];
+}
+
+export function operationResultContractSerializer(item: OperationResultContract): any {
+  return {
+    properties: areAllPropsUndefined(item, [
+      "id",
+      "status",
+      "started",
+      "updated",
+      "resultInfo",
+      "error",
+    ])
+      ? undefined
+      : _operationResultContractPropertiesSerializer(item),
+  };
 }
 
 export function operationResultContractDeserializer(item: any): OperationResultContract {
@@ -9931,6 +10339,19 @@ export interface OperationResultContractProperties {
   readonly actionLog?: OperationResultLogItemContract[];
 }
 
+export function operationResultContractPropertiesSerializer(
+  item: OperationResultContractProperties,
+): any {
+  return {
+    id: item["id"],
+    status: item["status"],
+    started: !item["started"] ? item["started"] : item["started"].toISOString(),
+    updated: !item["updated"] ? item["updated"] : item["updated"].toISOString(),
+    resultInfo: item["resultInfo"],
+    error: !item["error"] ? item["error"] : errorResponseBodySerializer(item["error"]),
+  };
+}
+
 export function operationResultContractPropertiesDeserializer(
   item: any,
 ): OperationResultContractProperties {
@@ -9960,6 +10381,16 @@ export interface ErrorResponseBody {
   details?: ErrorFieldContract[];
 }
 
+export function errorResponseBodySerializer(item: ErrorResponseBody): any {
+  return {
+    code: item["code"],
+    message: item["message"],
+    details: !item["details"]
+      ? item["details"]
+      : errorFieldContractArraySerializer(item["details"]),
+  };
+}
+
 export function errorResponseBodyDeserializer(item: any): ErrorResponseBody {
   return {
     code: item["code"],
@@ -9968,6 +10399,12 @@ export function errorResponseBodyDeserializer(item: any): ErrorResponseBody {
       ? item["details"]
       : errorFieldContractArrayDeserializer(item["details"]),
   };
+}
+
+export function errorFieldContractArraySerializer(result: Array<ErrorFieldContract>): any[] {
+  return result.map((item) => {
+    return errorFieldContractSerializer(item);
+  });
 }
 
 export function errorFieldContractArrayDeserializer(result: Array<ErrorFieldContract>): any[] {
@@ -9984,6 +10421,10 @@ export interface ErrorFieldContract {
   message?: string;
   /** Property name. */
   target?: string;
+}
+
+export function errorFieldContractSerializer(item: ErrorFieldContract): any {
+  return { code: item["code"], message: item["message"], target: item["target"] };
 }
 
 export function errorFieldContractDeserializer(item: any): ErrorFieldContract {
@@ -10037,6 +10478,14 @@ export function portalSettingsCollectionDeserializer(item: any): PortalSettingsC
   };
 }
 
+export function portalSettingsContractArraySerializer(
+  result: Array<PortalSettingsContract>,
+): any[] {
+  return result.map((item) => {
+    return portalSettingsContractSerializer(item);
+  });
+}
+
 export function portalSettingsContractArrayDeserializer(
   result: Array<PortalSettingsContract>,
 ): any[] {
@@ -10059,6 +10508,21 @@ export interface PortalSettingsContract extends ProxyResource {
   enabled?: boolean;
   /** Terms of service contract properties. */
   termsOfService?: TermsOfServiceProperties;
+}
+
+export function portalSettingsContractSerializer(item: PortalSettingsContract): any {
+  return {
+    properties: areAllPropsUndefined(item, [
+      "url",
+      "validationKey",
+      "subscriptions",
+      "userRegistration",
+      "enabled",
+      "termsOfService",
+    ])
+      ? undefined
+      : _portalSettingsContractPropertiesSerializer(item),
+  };
 }
 
 export function portalSettingsContractDeserializer(item: any): PortalSettingsContract {
@@ -10089,6 +10553,25 @@ export interface PortalSettingsContractProperties {
   enabled?: boolean;
   /** Terms of service contract properties. */
   termsOfService?: TermsOfServiceProperties;
+}
+
+export function portalSettingsContractPropertiesSerializer(
+  item: PortalSettingsContractProperties,
+): any {
+  return {
+    url: item["url"],
+    validationKey: item["validationKey"],
+    subscriptions: !item["subscriptions"]
+      ? item["subscriptions"]
+      : subscriptionsDelegationSettingsPropertiesSerializer(item["subscriptions"]),
+    userRegistration: !item["userRegistration"]
+      ? item["userRegistration"]
+      : registrationDelegationSettingsPropertiesSerializer(item["userRegistration"]),
+    enabled: item["enabled"],
+    termsOfService: !item["termsOfService"]
+      ? item["termsOfService"]
+      : termsOfServicePropertiesSerializer(item["termsOfService"]),
+  };
 }
 
 export function portalSettingsContractPropertiesDeserializer(
@@ -10813,6 +11296,20 @@ export interface TagDescriptionContract extends ProxyResource {
   displayName?: string;
 }
 
+export function tagDescriptionContractSerializer(item: TagDescriptionContract): any {
+  return {
+    properties: areAllPropsUndefined(item, [
+      "description",
+      "externalDocsUrl",
+      "externalDocsDescription",
+      "tagId",
+      "displayName",
+    ])
+      ? undefined
+      : _tagDescriptionContractPropertiesSerializer(item),
+  };
+}
+
 export function tagDescriptionContractDeserializer(item: any): TagDescriptionContract {
   return {
     id: item["id"],
@@ -10833,6 +11330,18 @@ export interface TagDescriptionContractProperties extends TagDescriptionBaseProp
   tagId?: string;
   /** Tag name. */
   displayName?: string;
+}
+
+export function tagDescriptionContractPropertiesSerializer(
+  item: TagDescriptionContractProperties,
+): any {
+  return {
+    description: item["description"],
+    externalDocsUrl: item["externalDocsUrl"],
+    externalDocsDescription: item["externalDocsDescription"],
+    tagId: item["tagId"],
+    displayName: item["displayName"],
+  };
 }
 
 export function tagDescriptionContractPropertiesDeserializer(
@@ -10913,6 +11422,14 @@ export function _tagDescriptionCollectionDeserializer(item: any): _TagDescriptio
     count: item["count"],
     nextLink: item["nextLink"],
   };
+}
+
+export function tagDescriptionContractArraySerializer(
+  result: Array<TagDescriptionContract>,
+): any[] {
+  return result.map((item) => {
+    return tagDescriptionContractSerializer(item);
+  });
 }
 
 export function tagDescriptionContractArrayDeserializer(
@@ -11349,8 +11866,8 @@ export interface AuthorizationContract extends ProxyResource {
 export function authorizationContractSerializer(item: AuthorizationContract): any {
   return {
     properties: areAllPropsUndefined(item, [
-      "AuthorizationType",
-      "OAuth2GrantType",
+      "authorizationType",
+      "oAuth2GrantType",
       "parameters",
       "error",
       "status",
@@ -12525,6 +13042,14 @@ export interface DeletedServiceContract extends ProxyResource {
   deletionDate?: Date;
 }
 
+export function deletedServiceContractSerializer(item: DeletedServiceContract): any {
+  return {
+    properties: areAllPropsUndefined(item, ["serviceId", "scheduledPurgeDate", "deletionDate"])
+      ? undefined
+      : _deletedServiceContractPropertiesSerializer(item),
+  };
+}
+
 export function deletedServiceContractDeserializer(item: any): DeletedServiceContract {
   return {
     id: item["id"],
@@ -12548,6 +13073,18 @@ export interface DeletedServiceContractProperties {
   scheduledPurgeDate?: Date;
   /** UTC Timestamp when the service was soft-deleted. The date conforms to the following format: yyyy-MM-ddTHH:mm:ssZ as specified by the ISO 8601 standard. */
   deletionDate?: Date;
+}
+
+export function deletedServiceContractPropertiesSerializer(
+  item: DeletedServiceContractProperties,
+): any {
+  return {
+    serviceId: item["serviceId"],
+    scheduledPurgeDate: !item["scheduledPurgeDate"]
+      ? item["scheduledPurgeDate"]
+      : item["scheduledPurgeDate"].toISOString(),
+    deletionDate: !item["deletionDate"] ? item["deletionDate"] : item["deletionDate"].toISOString(),
+  };
 }
 
 export function deletedServiceContractPropertiesDeserializer(
@@ -12575,6 +13112,14 @@ export function _deletedServicesCollectionDeserializer(item: any): _DeletedServi
     value: !item["value"] ? item["value"] : deletedServiceContractArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
+}
+
+export function deletedServiceContractArraySerializer(
+  result: Array<DeletedServiceContract>,
+): any[] {
+  return result.map((item) => {
+    return deletedServiceContractSerializer(item);
+  });
 }
 
 export function deletedServiceContractArrayDeserializer(
@@ -12699,6 +13244,20 @@ export interface EmailTemplateContract extends ProxyResource {
   parameters?: EmailTemplateParametersContractProperties[];
 }
 
+export function emailTemplateContractSerializer(item: EmailTemplateContract): any {
+  return {
+    properties: areAllPropsUndefined(item, [
+      "subject",
+      "body",
+      "title",
+      "description",
+      "parameters",
+    ])
+      ? undefined
+      : _emailTemplateContractPropertiesSerializer(item),
+  };
+}
+
 export function emailTemplateContractDeserializer(item: any): EmailTemplateContract {
   return {
     id: item["id"],
@@ -12727,6 +13286,20 @@ export interface EmailTemplateContractProperties {
   readonly isDefault?: boolean;
   /** Email Template Parameter values. */
   parameters?: EmailTemplateParametersContractProperties[];
+}
+
+export function emailTemplateContractPropertiesSerializer(
+  item: EmailTemplateContractProperties,
+): any {
+  return {
+    subject: item["subject"],
+    body: item["body"],
+    title: item["title"],
+    description: item["description"],
+    parameters: !item["parameters"]
+      ? item["parameters"]
+      : emailTemplateParametersContractPropertiesArraySerializer(item["parameters"]),
+  };
 }
 
 export function emailTemplateContractPropertiesDeserializer(
@@ -12893,6 +13466,12 @@ export function _emailTemplateCollectionDeserializer(item: any): _EmailTemplateC
     count: item["count"],
     nextLink: item["nextLink"],
   };
+}
+
+export function emailTemplateContractArraySerializer(result: Array<EmailTemplateContract>): any[] {
+  return result.map((item) => {
+    return emailTemplateContractSerializer(item);
+  });
 }
 
 export function emailTemplateContractArrayDeserializer(
@@ -13767,6 +14346,12 @@ export function _userCollectionDeserializer(item: any): _UserCollection {
   };
 }
 
+export function userContractArraySerializer(result: Array<UserContract>): any[] {
+  return result.map((item) => {
+    return userContractSerializer(item);
+  });
+}
+
 export function userContractArrayDeserializer(result: Array<UserContract>): any[] {
   return result.map((item) => {
     return userContractDeserializer(item);
@@ -13791,6 +14376,22 @@ export interface UserContract extends ProxyResource {
   registrationDate?: Date;
   /** Collection of groups user is part of. */
   readonly groups?: GroupContractProperties[];
+}
+
+export function userContractSerializer(item: UserContract): any {
+  return {
+    properties: areAllPropsUndefined(item, [
+      "state",
+      "note",
+      "identities",
+      "firstName",
+      "lastName",
+      "email",
+      "registrationDate",
+    ])
+      ? undefined
+      : _userContractPropertiesSerializer(item),
+  };
 }
 
 export function userContractDeserializer(item: any): UserContract {
@@ -13821,6 +14422,22 @@ export interface UserContractProperties extends UserEntityBaseParameters {
   readonly groups?: GroupContractProperties[];
 }
 
+export function userContractPropertiesSerializer(item: UserContractProperties): any {
+  return {
+    state: item["state"],
+    note: item["note"],
+    identities: !item["identities"]
+      ? item["identities"]
+      : userIdentityContractArraySerializer(item["identities"]),
+    firstName: item["firstName"],
+    lastName: item["lastName"],
+    email: item["email"],
+    registrationDate: !item["registrationDate"]
+      ? item["registrationDate"]
+      : item["registrationDate"].toISOString(),
+  };
+}
+
 export function userContractPropertiesDeserializer(item: any): UserContractProperties {
   return {
     state: item["state"],
@@ -13838,6 +14455,14 @@ export function userContractPropertiesDeserializer(item: any): UserContractPrope
       ? item["groups"]
       : groupContractPropertiesArrayDeserializer(item["groups"]),
   };
+}
+
+export function groupContractPropertiesArraySerializer(
+  result: Array<GroupContractProperties>,
+): any[] {
+  return result.map((item) => {
+    return groupContractPropertiesSerializer(item);
+  });
 }
 
 export function groupContractPropertiesArrayDeserializer(
@@ -13961,6 +14586,27 @@ export interface IdentityProviderContract extends ProxyResource {
   certificateId?: string;
 }
 
+export function identityProviderContractSerializer(item: IdentityProviderContract): any {
+  return {
+    properties: areAllPropsUndefined(item, [
+      "type",
+      "signinTenant",
+      "allowedTenants",
+      "authority",
+      "signupPolicyName",
+      "signinPolicyName",
+      "profileEditingPolicyName",
+      "passwordResetPolicyName",
+      "clientLibrary",
+      "clientId",
+      "clientSecret",
+      "certificateId",
+    ])
+      ? undefined
+      : _identityProviderContractPropertiesSerializer(item),
+  };
+}
+
 export function identityProviderContractDeserializer(item: any): IdentityProviderContract {
   return {
     id: item["id"],
@@ -13983,6 +14629,29 @@ export interface IdentityProviderContractProperties extends IdentityProviderBase
   clientSecret?: string;
   /** Certificate full resource ID used in external Identity Provider */
   certificateId?: string;
+}
+
+export function identityProviderContractPropertiesSerializer(
+  item: IdentityProviderContractProperties,
+): any {
+  return {
+    type: item["type"],
+    signinTenant: item["signinTenant"],
+    allowedTenants: !item["allowedTenants"]
+      ? item["allowedTenants"]
+      : item["allowedTenants"].map((p: any) => {
+          return p;
+        }),
+    authority: item["authority"],
+    signupPolicyName: item["signupPolicyName"],
+    signinPolicyName: item["signinPolicyName"],
+    profileEditingPolicyName: item["profileEditingPolicyName"],
+    passwordResetPolicyName: item["passwordResetPolicyName"],
+    clientLibrary: item["clientLibrary"],
+    clientId: item["clientId"],
+    clientSecret: item["clientSecret"],
+    certificateId: item["certificateId"],
+  };
 }
 
 export function identityProviderContractPropertiesDeserializer(
@@ -14140,6 +14809,22 @@ export function identityProviderCreateContractSerializer(
   };
 }
 
+export function identityProviderCreateContractDeserializer(
+  item: any,
+): IdentityProviderCreateContract {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    ...(!item["properties"]
+      ? item["properties"]
+      : _identityProviderCreateContractPropertiesDeserializer(item["properties"])),
+  };
+}
+
 /** The external Identity Providers like Facebook, Google, Microsoft, Twitter or Azure Active Directory which can be used to enable access to the API Management service developer portal for all users. */
 export interface IdentityProviderCreateContractProperties extends IdentityProviderBaseParameters {
   /** Client Id of the Application in the external Identity Provider. It is App ID for Facebook login, Client ID for Google login, App ID for Microsoft. */
@@ -14153,6 +14838,29 @@ export interface IdentityProviderCreateContractProperties extends IdentityProvid
 export function identityProviderCreateContractPropertiesSerializer(
   item: IdentityProviderCreateContractProperties,
 ): any {
+  return {
+    type: item["type"],
+    signinTenant: item["signinTenant"],
+    allowedTenants: !item["allowedTenants"]
+      ? item["allowedTenants"]
+      : item["allowedTenants"].map((p: any) => {
+          return p;
+        }),
+    authority: item["authority"],
+    signupPolicyName: item["signupPolicyName"],
+    signinPolicyName: item["signinPolicyName"],
+    profileEditingPolicyName: item["profileEditingPolicyName"],
+    passwordResetPolicyName: item["passwordResetPolicyName"],
+    clientLibrary: item["clientLibrary"],
+    clientId: item["clientId"],
+    clientSecret: item["clientSecret"],
+    certificateId: item["certificateId"],
+  };
+}
+
+export function identityProviderCreateContractPropertiesDeserializer(
+  item: any,
+): IdentityProviderCreateContractProperties {
   return {
     type: item["type"],
     signinTenant: item["signinTenant"],
@@ -14277,6 +14985,14 @@ export function _identityProviderListDeserializer(item: any): _IdentityProviderL
   };
 }
 
+export function identityProviderContractArraySerializer(
+  result: Array<IdentityProviderContract>,
+): any[] {
+  return result.map((item) => {
+    return identityProviderContractSerializer(item);
+  });
+}
+
 export function identityProviderContractArrayDeserializer(
   result: Array<IdentityProviderContract>,
 ): any[] {
@@ -14315,6 +15031,12 @@ export function recipientUserCollectionDeserializer(item: any): RecipientUserCol
   };
 }
 
+export function recipientUserContractArraySerializer(result: Array<RecipientUserContract>): any[] {
+  return result.map((item) => {
+    return recipientUserContractSerializer(item);
+  });
+}
+
 export function recipientUserContractArrayDeserializer(
   result: Array<RecipientUserContract>,
 ): any[] {
@@ -14327,6 +15049,14 @@ export function recipientUserContractArrayDeserializer(
 export interface RecipientUserContract extends ProxyResource {
   /** API Management UserId subscribed to notification. */
   userId?: string;
+}
+
+export function recipientUserContractSerializer(item: RecipientUserContract): any {
+  return {
+    properties: areAllPropsUndefined(item, ["userId"])
+      ? undefined
+      : _recipientUserContractPropertiesSerializer(item),
+  };
 }
 
 export function recipientUserContractDeserializer(item: any): RecipientUserContract {
@@ -14347,6 +15077,12 @@ export function recipientUserContractDeserializer(item: any): RecipientUserContr
 export interface RecipientUsersContractProperties {
   /** API Management UserId subscribed to notification. */
   userId?: string;
+}
+
+export function recipientUsersContractPropertiesSerializer(
+  item: RecipientUsersContractProperties,
+): any {
+  return { userId: item["userId"] };
 }
 
 export function recipientUsersContractPropertiesDeserializer(
@@ -14375,6 +15111,14 @@ export function recipientEmailCollectionDeserializer(item: any): RecipientEmailC
   };
 }
 
+export function recipientEmailContractArraySerializer(
+  result: Array<RecipientEmailContract>,
+): any[] {
+  return result.map((item) => {
+    return recipientEmailContractSerializer(item);
+  });
+}
+
 export function recipientEmailContractArrayDeserializer(
   result: Array<RecipientEmailContract>,
 ): any[] {
@@ -14387,6 +15131,14 @@ export function recipientEmailContractArrayDeserializer(
 export interface RecipientEmailContract extends ProxyResource {
   /** User Email subscribed to notification. */
   email?: string;
+}
+
+export function recipientEmailContractSerializer(item: RecipientEmailContract): any {
+  return {
+    properties: areAllPropsUndefined(item, ["email"])
+      ? undefined
+      : _recipientEmailContractPropertiesSerializer(item),
+  };
 }
 
 export function recipientEmailContractDeserializer(item: any): RecipientEmailContract {
@@ -14407,6 +15159,12 @@ export function recipientEmailContractDeserializer(item: any): RecipientEmailCon
 export interface RecipientEmailContractProperties {
   /** User Email subscribed to notification. */
   email?: string;
+}
+
+export function recipientEmailContractPropertiesSerializer(
+  item: RecipientEmailContractProperties,
+): any {
+  return { email: item["email"] };
 }
 
 export function recipientEmailContractPropertiesDeserializer(
@@ -15446,6 +16204,14 @@ export interface PrivateEndpointConnection extends Resource {
   readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
 }
 
+export function privateEndpointConnectionSerializer(item: PrivateEndpointConnection): any {
+  return {
+    properties: areAllPropsUndefined(item, ["privateEndpoint", "privateLinkServiceConnectionState"])
+      ? undefined
+      : _privateEndpointConnectionPropertiesSerializer(item),
+  };
+}
+
 export function privateEndpointConnectionDeserializer(item: any): PrivateEndpointConnection {
   return {
     id: item["id"],
@@ -15472,6 +16238,19 @@ export interface PrivateEndpointConnectionProperties {
   readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
 }
 
+export function privateEndpointConnectionPropertiesSerializer(
+  item: PrivateEndpointConnectionProperties,
+): any {
+  return {
+    privateEndpoint: !item["privateEndpoint"]
+      ? item["privateEndpoint"]
+      : privateEndpointSerializer(item["privateEndpoint"]),
+    privateLinkServiceConnectionState: privateLinkServiceConnectionStateSerializer(
+      item["privateLinkServiceConnectionState"],
+    ),
+  };
+}
+
 export function privateEndpointConnectionPropertiesDeserializer(
   item: any,
 ): PrivateEndpointConnectionProperties {
@@ -15495,6 +16274,10 @@ export function privateEndpointConnectionPropertiesDeserializer(
 export interface PrivateEndpoint {
   /** The resource identifier of the private endpoint */
   readonly id?: string;
+}
+
+export function privateEndpointSerializer(_item: PrivateEndpoint): any {
+  return {};
 }
 
 export function privateEndpointDeserializer(item: any): PrivateEndpoint {
@@ -15579,6 +16362,14 @@ export function _privateEndpointConnectionListResultDeserializer(
   };
 }
 
+export function privateEndpointConnectionArraySerializer(
+  result: Array<PrivateEndpointConnection>,
+): any[] {
+  return result.map((item) => {
+    return privateEndpointConnectionSerializer(item);
+  });
+}
+
 export function privateEndpointConnectionArrayDeserializer(
   result: Array<PrivateEndpointConnection>,
 ): any[] {
@@ -15595,6 +16386,14 @@ export interface PrivateLinkResource extends Resource {
   readonly requiredMembers?: string[];
   /** The private link resource private link DNS zone name. */
   requiredZoneNames?: string[];
+}
+
+export function privateLinkResourceSerializer(item: PrivateLinkResource): any {
+  return {
+    properties: areAllPropsUndefined(item, ["requiredZoneNames"])
+      ? undefined
+      : _privateLinkResourcePropertiesSerializer(item),
+  };
 }
 
 export function privateLinkResourceDeserializer(item: any): PrivateLinkResource {
@@ -15619,6 +16418,16 @@ export interface PrivateLinkResourceProperties {
   readonly requiredMembers?: string[];
   /** The private link resource private link DNS zone name. */
   requiredZoneNames?: string[];
+}
+
+export function privateLinkResourcePropertiesSerializer(item: PrivateLinkResourceProperties): any {
+  return {
+    requiredZoneNames: !item["requiredZoneNames"]
+      ? item["requiredZoneNames"]
+      : item["requiredZoneNames"].map((p: any) => {
+          return p;
+        }),
+  };
 }
 
 export function privateLinkResourcePropertiesDeserializer(
@@ -15656,6 +16465,12 @@ export function privateLinkResourceListResultDeserializer(
   };
 }
 
+export function privateLinkResourceArraySerializer(result: Array<PrivateLinkResource>): any[] {
+  return result.map((item) => {
+    return privateLinkResourceSerializer(item);
+  });
+}
+
 export function privateLinkResourceArrayDeserializer(result: Array<PrivateLinkResource>): any[] {
   return result.map((item) => {
     return privateLinkResourceDeserializer(item);
@@ -15666,6 +16481,14 @@ export function privateLinkResourceArrayDeserializer(result: Array<PrivateLinkRe
 export interface TenantSettingsContract extends ProxyResource {
   /** Tenant settings */
   settings?: Record<string, string>;
+}
+
+export function tenantSettingsContractSerializer(item: TenantSettingsContract): any {
+  return {
+    properties: areAllPropsUndefined(item, ["settings"])
+      ? undefined
+      : _tenantSettingsContractPropertiesSerializer(item),
+  };
 }
 
 export function tenantSettingsContractDeserializer(item: any): TenantSettingsContract {
@@ -15686,6 +16509,12 @@ export function tenantSettingsContractDeserializer(item: any): TenantSettingsCon
 export interface TenantSettingsContractProperties {
   /** Tenant settings */
   settings?: Record<string, string>;
+}
+
+export function tenantSettingsContractPropertiesSerializer(
+  item: TenantSettingsContractProperties,
+): any {
+  return { settings: item["settings"] };
 }
 
 export function tenantSettingsContractPropertiesDeserializer(
@@ -15722,6 +16551,14 @@ export function _tenantSettingsCollectionDeserializer(item: any): _TenantSetting
   };
 }
 
+export function tenantSettingsContractArraySerializer(
+  result: Array<TenantSettingsContract>,
+): any[] {
+  return result.map((item) => {
+    return tenantSettingsContractSerializer(item);
+  });
+}
+
 export function tenantSettingsContractArrayDeserializer(
   result: Array<TenantSettingsContract>,
 ): any[] {
@@ -15738,6 +16575,14 @@ export interface AccessInformationContract extends ProxyResource {
   principalId?: string;
   /** Determines whether direct access is enabled. */
   enabled?: boolean;
+}
+
+export function accessInformationContractSerializer(item: AccessInformationContract): any {
+  return {
+    properties: areAllPropsUndefined(item, ["id", "principalId", "enabled"])
+      ? undefined
+      : _accessInformationContractPropertiesSerializer(item),
+  };
 }
 
 export function accessInformationContractDeserializer(item: any): AccessInformationContract {
@@ -15762,6 +16607,12 @@ export interface AccessInformationContractProperties {
   principalId?: string;
   /** Determines whether direct access is enabled. */
   enabled?: boolean;
+}
+
+export function accessInformationContractPropertiesSerializer(
+  item: AccessInformationContractProperties,
+): any {
+  return { id: item["id"], principalId: item["principalId"], enabled: item["enabled"] };
 }
 
 export function accessInformationContractPropertiesDeserializer(
@@ -15878,6 +16729,14 @@ export function _accessInformationCollectionDeserializer(item: any): _AccessInfo
   };
 }
 
+export function accessInformationContractArraySerializer(
+  result: Array<AccessInformationContract>,
+): any[] {
+  return result.map((item) => {
+    return accessInformationContractSerializer(item);
+  });
+}
+
 export function accessInformationContractArrayDeserializer(
   result: Array<AccessInformationContract>,
 ): any[] {
@@ -15928,6 +16787,16 @@ export function deployConfigurationParametersSerializer(item: DeployConfiguratio
   };
 }
 
+export function deployConfigurationParametersDeserializer(
+  item: any,
+): DeployConfigurationParameters {
+  return {
+    ...(!item["properties"]
+      ? item["properties"]
+      : _deployConfigurationParametersPropertiesDeserializer(item["properties"])),
+  };
+}
+
 /** Parameters supplied to the Deploy Configuration operation. */
 export interface DeployConfigurationParameterProperties {
   /** The name of the Git branch from which the configuration is to be deployed to the configuration database. */
@@ -15940,6 +16809,15 @@ export function deployConfigurationParameterPropertiesSerializer(
   item: DeployConfigurationParameterProperties,
 ): any {
   return { branch: item["branch"], force: item["force"] };
+}
+
+export function deployConfigurationParameterPropertiesDeserializer(
+  item: any,
+): DeployConfigurationParameterProperties {
+  return {
+    branch: item["branch"],
+    force: item["force"],
+  };
 }
 
 /** Save Tenant Configuration Contract details. */
@@ -15958,6 +16836,14 @@ export function saveConfigurationParameterSerializer(item: SaveConfigurationPara
   };
 }
 
+export function saveConfigurationParameterDeserializer(item: any): SaveConfigurationParameter {
+  return {
+    ...(!item["properties"]
+      ? item["properties"]
+      : _saveConfigurationParameterPropertiesDeserializer(item["properties"])),
+  };
+}
+
 /** Parameters supplied to the Save Tenant Configuration operation. */
 export interface SaveConfigurationParameterProperties {
   /** The name of the Git branch in which to commit the current configuration snapshot. */
@@ -15970,6 +16856,15 @@ export function saveConfigurationParameterPropertiesSerializer(
   item: SaveConfigurationParameterProperties,
 ): any {
   return { branch: item["branch"], force: item["force"] };
+}
+
+export function saveConfigurationParameterPropertiesDeserializer(
+  item: any,
+): SaveConfigurationParameterProperties {
+  return {
+    branch: item["branch"],
+    force: item["force"],
+  };
 }
 
 /** Result of Tenant Configuration Sync State. */
@@ -15990,6 +16885,25 @@ export interface TenantConfigurationSyncStateContract extends ProxyResource {
   configurationChangeDate?: Date;
   /** Most recent tenant configuration operation identifier */
   lastOperationId?: string;
+}
+
+export function tenantConfigurationSyncStateContractSerializer(
+  item: TenantConfigurationSyncStateContract,
+): any {
+  return {
+    properties: areAllPropsUndefined(item, [
+      "branch",
+      "commitId",
+      "isExport",
+      "isSynced",
+      "isGitEnabled",
+      "syncDate",
+      "configurationChangeDate",
+      "lastOperationId",
+    ])
+      ? undefined
+      : _tenantConfigurationSyncStateContractPropertiesSerializer(item),
+  };
 }
 
 export function tenantConfigurationSyncStateContractDeserializer(
@@ -16026,6 +16940,23 @@ export interface TenantConfigurationSyncStateContractProperties {
   configurationChangeDate?: Date;
   /** Most recent tenant configuration operation identifier */
   lastOperationId?: string;
+}
+
+export function tenantConfigurationSyncStateContractPropertiesSerializer(
+  item: TenantConfigurationSyncStateContractProperties,
+): any {
+  return {
+    branch: item["branch"],
+    commitId: item["commitId"],
+    isExport: item["isExport"],
+    isSynced: item["isSynced"],
+    isGitEnabled: item["isGitEnabled"],
+    syncDate: !item["syncDate"] ? item["syncDate"] : item["syncDate"].toISOString(),
+    configurationChangeDate: !item["configurationChangeDate"]
+      ? item["configurationChangeDate"]
+      : item["configurationChangeDate"].toISOString(),
+    lastOperationId: item["lastOperationId"],
+  };
 }
 
 export function tenantConfigurationSyncStateContractPropertiesDeserializer(
@@ -16085,6 +17016,14 @@ export function userCreateParametersSerializer(item: UserCreateParameters): any 
   };
 }
 
+export function userCreateParametersDeserializer(item: any): UserCreateParameters {
+  return {
+    ...(!item["properties"]
+      ? item["properties"]
+      : _userCreateParametersPropertiesDeserializer(item["properties"])),
+  };
+}
+
 /** Parameters supplied to the Create User operation. */
 export interface UserCreateParameterProperties extends UserEntityBaseParameters {
   /** Email address. Must not be empty and must be unique within the service instance. */
@@ -16108,6 +17047,24 @@ export function userCreateParameterPropertiesSerializer(item: UserCreateParamete
     identities: !item["identities"]
       ? item["identities"]
       : userIdentityContractArraySerializer(item["identities"]),
+    email: item["email"],
+    firstName: item["firstName"],
+    lastName: item["lastName"],
+    password: item["password"],
+    appType: item["appType"],
+    confirmation: item["confirmation"],
+  };
+}
+
+export function userCreateParameterPropertiesDeserializer(
+  item: any,
+): UserCreateParameterProperties {
+  return {
+    state: item["state"],
+    note: item["note"],
+    identities: !item["identities"]
+      ? item["identities"]
+      : userIdentityContractArrayDeserializer(item["identities"]),
     email: item["email"],
     firstName: item["firstName"],
     lastName: item["lastName"],
@@ -16236,6 +17193,14 @@ export function userTokenParametersSerializer(item: UserTokenParameters): any {
   };
 }
 
+export function userTokenParametersDeserializer(item: any): UserTokenParameters {
+  return {
+    ...(!item["properties"]
+      ? item["properties"]
+      : _userTokenParametersPropertiesDeserializer(item["properties"])),
+  };
+}
+
 /** Parameters supplied to the Get User Token operation. */
 export interface UserTokenParameterProperties {
   /** The Key to be used to generate token for user. */
@@ -16246,6 +17211,13 @@ export interface UserTokenParameterProperties {
 
 export function userTokenParameterPropertiesSerializer(item: UserTokenParameterProperties): any {
   return { keyType: item["keyType"], expiry: item["expiry"].toISOString() };
+}
+
+export function userTokenParameterPropertiesDeserializer(item: any): UserTokenParameterProperties {
+  return {
+    keyType: item["keyType"],
+    expiry: new Date(item["expiry"]),
+  };
 }
 
 /** Get User Token response details. */
@@ -16288,6 +17260,12 @@ export interface ApiManagementWorkspaceLinksResource extends ProxyResource {
   gateways?: WorkspaceLinksGateway[];
 }
 
+export function apiManagementWorkspaceLinksResourceSerializer(
+  item: ApiManagementWorkspaceLinksResource,
+): any {
+  return { properties: _apiManagementWorkspaceLinksResourcePropertiesSerializer(item) };
+}
+
 export function apiManagementWorkspaceLinksResourceDeserializer(
   item: any,
 ): ApiManagementWorkspaceLinksResource {
@@ -16305,6 +17283,17 @@ export function apiManagementWorkspaceLinksResourceDeserializer(
 
 /** Properties of an API Management workspaceLinks resource. */
 export interface ApiManagementWorkspaceLinksProperties extends WorkspaceLinksBaseProperties {}
+
+export function apiManagementWorkspaceLinksPropertiesSerializer(
+  item: ApiManagementWorkspaceLinksProperties,
+): any {
+  return {
+    workspaceId: item["workspaceId"],
+    gateways: !item["gateways"]
+      ? item["gateways"]
+      : workspaceLinksGatewayArraySerializer(item["gateways"]),
+  };
+}
 
 export function apiManagementWorkspaceLinksPropertiesDeserializer(
   item: any,
@@ -16325,6 +17314,15 @@ export interface WorkspaceLinksBaseProperties {
   gateways?: WorkspaceLinksGateway[];
 }
 
+export function workspaceLinksBasePropertiesSerializer(item: WorkspaceLinksBaseProperties): any {
+  return {
+    workspaceId: item["workspaceId"],
+    gateways: !item["gateways"]
+      ? item["gateways"]
+      : workspaceLinksGatewayArraySerializer(item["gateways"]),
+  };
+}
+
 export function workspaceLinksBasePropertiesDeserializer(item: any): WorkspaceLinksBaseProperties {
   return {
     workspaceId: item["workspaceId"],
@@ -16332,6 +17330,12 @@ export function workspaceLinksBasePropertiesDeserializer(item: any): WorkspaceLi
       ? item["gateways"]
       : workspaceLinksGatewayArrayDeserializer(item["gateways"]),
   };
+}
+
+export function workspaceLinksGatewayArraySerializer(result: Array<WorkspaceLinksGateway>): any[] {
+  return result.map((item) => {
+    return workspaceLinksGatewaySerializer(item);
+  });
 }
 
 export function workspaceLinksGatewayArrayDeserializer(
@@ -16346,6 +17350,10 @@ export function workspaceLinksGatewayArrayDeserializer(
 export interface WorkspaceLinksGateway {
   /** The link to the API Management gateway. */
   id?: string;
+}
+
+export function workspaceLinksGatewaySerializer(item: WorkspaceLinksGateway): any {
+  return { id: item["id"] };
 }
 
 export function workspaceLinksGatewayDeserializer(item: any): WorkspaceLinksGateway {
@@ -16369,6 +17377,14 @@ export function _apiManagementWorkspaceLinksListResultDeserializer(
     value: apiManagementWorkspaceLinksResourceArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
+}
+
+export function apiManagementWorkspaceLinksResourceArraySerializer(
+  result: Array<ApiManagementWorkspaceLinksResource>,
+): any[] {
+  return result.map((item) => {
+    return apiManagementWorkspaceLinksResourceSerializer(item);
+  });
 }
 
 export function apiManagementWorkspaceLinksResourceArrayDeserializer(
@@ -17432,6 +18448,19 @@ export function _backendUpdateParametersPropertiesSerializer(item: BackendUpdate
   };
 }
 
+export function _certificateContractPropertiesSerializer(item: CertificateContract): any {
+  return {
+    subject: item["subject"],
+    thumbprint: item["thumbprint"],
+    expirationDate: !item["expirationDate"]
+      ? item["expirationDate"]
+      : item["expirationDate"].toISOString(),
+    keyVault: !item["keyVault"]
+      ? item["keyVault"]
+      : keyVaultContractPropertiesSerializer(item["keyVault"]),
+  };
+}
+
 export function _certificateContractPropertiesDeserializer(item: any) {
   return {
     subject: item["subject"],
@@ -17457,6 +18486,15 @@ export function _certificateCreateOrUpdateParametersPropertiesSerializer(
   };
 }
 
+export function _groupContractPropertiesSerializer(item: GroupContract): any {
+  return {
+    displayName: item["displayName"],
+    description: item["description"],
+    type: item["typePropertiesType"],
+    externalId: item["externalId"],
+  };
+}
+
 export function _groupContractPropertiesDeserializer(item: any) {
   return {
     displayName: item["displayName"],
@@ -17468,6 +18506,15 @@ export function _groupContractPropertiesDeserializer(item: any) {
 }
 
 export function _groupCreateParametersPropertiesSerializer(item: GroupCreateParameters): any {
+  return {
+    displayName: item["displayName"],
+    description: item["description"],
+    type: item["type"],
+    externalId: item["externalId"],
+  };
+}
+
+export function _groupCreateParametersPropertiesDeserializer(item: any) {
   return {
     displayName: item["displayName"],
     description: item["description"],
@@ -17518,6 +18565,22 @@ export function _loggerUpdateContractPropertiesSerializer(item: LoggerUpdateCont
   };
 }
 
+export function _namedValueContractPropertiesSerializer(item: NamedValueContract): any {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : item["tags"].map((p: any) => {
+          return p;
+        }),
+    secret: item["secret"],
+    displayName: item["displayName"],
+    value: item["value"],
+    keyVault: !item["keyVault"]
+      ? item["keyVault"]
+      : keyVaultContractPropertiesSerializer(item["keyVault"]),
+  };
+}
+
 export function _namedValueContractPropertiesDeserializer(item: any) {
   return {
     tags: !item["tags"]
@@ -17551,6 +18614,22 @@ export function _namedValueCreateContractPropertiesSerializer(item: NamedValueCr
   };
 }
 
+export function _namedValueCreateContractPropertiesDeserializer(item: any) {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : item["tags"].map((p: any) => {
+          return p;
+        }),
+    secret: item["secret"],
+    displayName: item["displayName"],
+    value: item["value"],
+    keyVault: !item["keyVault"]
+      ? item["keyVault"]
+      : keyVaultContractCreatePropertiesDeserializer(item["keyVault"]),
+  };
+}
+
 export function _namedValueUpdateParametersPropertiesSerializer(
   item: NamedValueUpdateParameters,
 ): any {
@@ -17566,6 +18645,16 @@ export function _namedValueUpdateParametersPropertiesSerializer(
     keyVault: !item["keyVault"]
       ? item["keyVault"]
       : keyVaultContractCreatePropertiesSerializer(item["keyVault"]),
+  };
+}
+
+export function _notificationContractPropertiesSerializer(item: NotificationContract): any {
+  return {
+    title: item["title"],
+    description: item["description"],
+    recipients: !item["recipients"]
+      ? item["recipients"]
+      : recipientsContractPropertiesSerializer(item["recipients"]),
   };
 }
 
@@ -17745,6 +18834,27 @@ export function _globalSchemaContractPropertiesDeserializer(item: any) {
   };
 }
 
+export function _subscriptionContractPropertiesSerializer(item: SubscriptionContract): any {
+  return {
+    ownerId: item["ownerId"],
+    scope: item["scope"],
+    displayName: item["displayName"],
+    state: item["state"],
+    startDate: !item["startDate"] ? item["startDate"] : item["startDate"].toISOString(),
+    expirationDate: !item["expirationDate"]
+      ? item["expirationDate"]
+      : item["expirationDate"].toISOString(),
+    endDate: !item["endDate"] ? item["endDate"] : item["endDate"].toISOString(),
+    notificationDate: !item["notificationDate"]
+      ? item["notificationDate"]
+      : item["notificationDate"].toISOString(),
+    primaryKey: item["primaryKey"],
+    secondaryKey: item["secondaryKey"],
+    stateComment: item["stateComment"],
+    allowTracing: item["allowTracing"],
+  };
+}
+
 export function _subscriptionContractPropertiesDeserializer(item: any) {
   return {
     ownerId: item["ownerId"],
@@ -17770,6 +18880,18 @@ export function _subscriptionContractPropertiesDeserializer(item: any) {
 export function _subscriptionCreateParametersPropertiesSerializer(
   item: SubscriptionCreateParameters,
 ): any {
+  return {
+    ownerId: item["ownerId"],
+    scope: item["scope"],
+    displayName: item["displayName"],
+    primaryKey: item["primaryKey"],
+    secondaryKey: item["secondaryKey"],
+    state: item["state"],
+    allowTracing: item["allowTracing"],
+  };
+}
+
+export function _subscriptionCreateParametersPropertiesDeserializer(item: any) {
   return {
     ownerId: item["ownerId"],
     scope: item["scope"],
@@ -18061,6 +19183,10 @@ export function _apiManagementServiceUpdateParametersPropertiesSerializer(
   };
 }
 
+export function _allPoliciesContractPropertiesSerializer(item: AllPoliciesContract): any {
+  return { referencePolicyId: item["referencePolicyId"], complianceState: item["complianceState"] };
+}
+
 export function _allPoliciesContractPropertiesDeserializer(item: any) {
   return {
     referencePolicyId: item["referencePolicyId"],
@@ -18068,10 +19194,27 @@ export function _allPoliciesContractPropertiesDeserializer(item: any) {
   };
 }
 
+export function _policyDescriptionContractPropertiesSerializer(
+  _item: PolicyDescriptionContract,
+): any {
+  return {};
+}
+
 export function _policyDescriptionContractPropertiesDeserializer(item: any) {
   return {
     description: item["description"],
     scope: item["scope"],
+  };
+}
+
+export function _operationResultContractPropertiesSerializer(item: OperationResultContract): any {
+  return {
+    id: item["idPropertiesId"],
+    status: item["status"],
+    started: !item["started"] ? item["started"] : item["started"].toISOString(),
+    updated: !item["updated"] ? item["updated"] : item["updated"].toISOString(),
+    resultInfo: item["resultInfo"],
+    error: !item["error"] ? item["error"] : errorResponseBodySerializer(item["error"]),
   };
 }
 
@@ -18086,6 +19229,23 @@ export function _operationResultContractPropertiesDeserializer(item: any) {
     actionLog: !item["actionLog"]
       ? item["actionLog"]
       : operationResultLogItemContractArrayDeserializer(item["actionLog"]),
+  };
+}
+
+export function _portalSettingsContractPropertiesSerializer(item: PortalSettingsContract): any {
+  return {
+    url: item["url"],
+    validationKey: item["validationKey"],
+    subscriptions: !item["subscriptions"]
+      ? item["subscriptions"]
+      : subscriptionsDelegationSettingsPropertiesSerializer(item["subscriptions"]),
+    userRegistration: !item["userRegistration"]
+      ? item["userRegistration"]
+      : registrationDelegationSettingsPropertiesSerializer(item["userRegistration"]),
+    enabled: item["enabled"],
+    termsOfService: !item["termsOfService"]
+      ? item["termsOfService"]
+      : termsOfServicePropertiesSerializer(item["termsOfService"]),
   };
 }
 
@@ -18171,6 +19331,16 @@ export function _issueAttachmentContractPropertiesDeserializer(item: any) {
     title: item["title"],
     contentFormat: item["contentFormat"],
     content: item["content"],
+  };
+}
+
+export function _tagDescriptionContractPropertiesSerializer(item: TagDescriptionContract): any {
+  return {
+    description: item["description"],
+    externalDocsUrl: item["externalDocsUrl"],
+    externalDocsDescription: item["externalDocsDescription"],
+    tagId: item["tagId"],
+    displayName: item["displayName"],
   };
 }
 
@@ -18468,6 +19638,16 @@ export function _contentTypeContractPropertiesDeserializer(item: any) {
   };
 }
 
+export function _deletedServiceContractPropertiesSerializer(item: DeletedServiceContract): any {
+  return {
+    serviceId: item["serviceId"],
+    scheduledPurgeDate: !item["scheduledPurgeDate"]
+      ? item["scheduledPurgeDate"]
+      : item["scheduledPurgeDate"].toISOString(),
+    deletionDate: !item["deletionDate"] ? item["deletionDate"] : item["deletionDate"].toISOString(),
+  };
+}
+
 export function _deletedServiceContractPropertiesDeserializer(item: any) {
   return {
     serviceId: item["serviceId"],
@@ -18499,6 +19679,18 @@ export function _documentationUpdateContractPropertiesDeserializer(item: any) {
   return {
     title: item["title"],
     content: item["content"],
+  };
+}
+
+export function _emailTemplateContractPropertiesSerializer(item: EmailTemplateContract): any {
+  return {
+    subject: item["subject"],
+    body: item["body"],
+    title: item["title"],
+    description: item["description"],
+    parameters: !item["parameters"]
+      ? item["parameters"]
+      : emailTemplateParametersContractPropertiesArraySerializer(item["parameters"]),
   };
 }
 
@@ -18633,6 +19825,22 @@ export function _gatewayCertificateAuthorityContractPropertiesDeserializer(item:
   };
 }
 
+export function _userContractPropertiesSerializer(item: UserContract): any {
+  return {
+    state: item["state"],
+    note: item["note"],
+    identities: !item["identities"]
+      ? item["identities"]
+      : userIdentityContractArraySerializer(item["identities"]),
+    firstName: item["firstName"],
+    lastName: item["lastName"],
+    email: item["email"],
+    registrationDate: !item["registrationDate"]
+      ? item["registrationDate"]
+      : item["registrationDate"].toISOString(),
+  };
+}
+
 export function _userContractPropertiesDeserializer(item: any) {
   return {
     state: item["state"],
@@ -18649,6 +19857,27 @@ export function _userContractPropertiesDeserializer(item: any) {
     groups: !item["groups"]
       ? item["groups"]
       : groupContractPropertiesArrayDeserializer(item["groups"]),
+  };
+}
+
+export function _identityProviderContractPropertiesSerializer(item: IdentityProviderContract): any {
+  return {
+    type: item["typePropertiesType"],
+    signinTenant: item["signinTenant"],
+    allowedTenants: !item["allowedTenants"]
+      ? item["allowedTenants"]
+      : item["allowedTenants"].map((p: any) => {
+          return p;
+        }),
+    authority: item["authority"],
+    signupPolicyName: item["signupPolicyName"],
+    signinPolicyName: item["signinPolicyName"],
+    profileEditingPolicyName: item["profileEditingPolicyName"],
+    passwordResetPolicyName: item["passwordResetPolicyName"],
+    clientLibrary: item["clientLibrary"],
+    clientId: item["clientId"],
+    clientSecret: item["clientSecret"],
+    certificateId: item["certificateId"],
   };
 }
 
@@ -18696,6 +19925,27 @@ export function _identityProviderCreateContractPropertiesSerializer(
   };
 }
 
+export function _identityProviderCreateContractPropertiesDeserializer(item: any) {
+  return {
+    typePropertiesType: item["type"],
+    signinTenant: item["signinTenant"],
+    allowedTenants: !item["allowedTenants"]
+      ? item["allowedTenants"]
+      : item["allowedTenants"].map((p: any) => {
+          return p;
+        }),
+    authority: item["authority"],
+    signupPolicyName: item["signupPolicyName"],
+    signinPolicyName: item["signinPolicyName"],
+    profileEditingPolicyName: item["profileEditingPolicyName"],
+    passwordResetPolicyName: item["passwordResetPolicyName"],
+    clientLibrary: item["clientLibrary"],
+    clientId: item["clientId"],
+    clientSecret: item["clientSecret"],
+    certificateId: item["certificateId"],
+  };
+}
+
 export function _identityProviderUpdateParametersPropertiesSerializer(
   item: IdentityProviderUpdateParameters,
 ): any {
@@ -18719,10 +19969,18 @@ export function _identityProviderUpdateParametersPropertiesSerializer(
   };
 }
 
+export function _recipientUserContractPropertiesSerializer(item: RecipientUserContract): any {
+  return { userId: item["userId"] };
+}
+
 export function _recipientUserContractPropertiesDeserializer(item: any) {
   return {
     userId: item["userId"],
   };
+}
+
+export function _recipientEmailContractPropertiesSerializer(item: RecipientEmailContract): any {
+  return { email: item["email"] };
 }
 
 export function _recipientEmailContractPropertiesDeserializer(item: any) {
@@ -18884,6 +20142,19 @@ export function _portalRevisionContractPropertiesDeserializer(item: any) {
   };
 }
 
+export function _privateEndpointConnectionPropertiesSerializer(
+  item: PrivateEndpointConnection,
+): any {
+  return {
+    privateEndpoint: !item["privateEndpoint"]
+      ? item["privateEndpoint"]
+      : privateEndpointSerializer(item["privateEndpoint"]),
+    privateLinkServiceConnectionState: !item["privateLinkServiceConnectionState"]
+      ? item["privateLinkServiceConnectionState"]
+      : privateLinkServiceConnectionStateSerializer(item["privateLinkServiceConnectionState"]),
+  };
+}
+
 export function _privateEndpointConnectionPropertiesDeserializer(item: any) {
   return {
     groupIds: !item["groupIds"]
@@ -18898,6 +20169,16 @@ export function _privateEndpointConnectionPropertiesDeserializer(item: any) {
       ? item["privateLinkServiceConnectionState"]
       : privateLinkServiceConnectionStateDeserializer(item["privateLinkServiceConnectionState"]),
     provisioningState: item["provisioningState"],
+  };
+}
+
+export function _privateLinkResourcePropertiesSerializer(item: PrivateLinkResource): any {
+  return {
+    requiredZoneNames: !item["requiredZoneNames"]
+      ? item["requiredZoneNames"]
+      : item["requiredZoneNames"].map((p: any) => {
+          return p;
+        }),
   };
 }
 
@@ -18917,12 +20198,22 @@ export function _privateLinkResourcePropertiesDeserializer(item: any) {
   };
 }
 
+export function _tenantSettingsContractPropertiesSerializer(item: TenantSettingsContract): any {
+  return { settings: item["settings"] };
+}
+
 export function _tenantSettingsContractPropertiesDeserializer(item: any) {
   return {
     settings: !item["settings"]
       ? item["settings"]
       : Object.fromEntries(Object.entries(item["settings"]).map(([k, p]: [string, any]) => [k, p])),
   };
+}
+
+export function _accessInformationContractPropertiesSerializer(
+  item: AccessInformationContract,
+): any {
+  return { id: item["idPropertiesId"], principalId: item["principalId"], enabled: item["enabled"] };
 }
 
 export function _accessInformationContractPropertiesDeserializer(item: any) {
@@ -18956,10 +20247,41 @@ export function _deployConfigurationParametersPropertiesSerializer(
   return { branch: item["branch"], force: item["force"] };
 }
 
+export function _deployConfigurationParametersPropertiesDeserializer(item: any) {
+  return {
+    branch: item["branch"],
+    force: item["force"],
+  };
+}
+
 export function _saveConfigurationParameterPropertiesSerializer(
   item: SaveConfigurationParameter,
 ): any {
   return { branch: item["branch"], force: item["force"] };
+}
+
+export function _saveConfigurationParameterPropertiesDeserializer(item: any) {
+  return {
+    branch: item["branch"],
+    force: item["force"],
+  };
+}
+
+export function _tenantConfigurationSyncStateContractPropertiesSerializer(
+  item: TenantConfigurationSyncStateContract,
+): any {
+  return {
+    branch: item["branch"],
+    commitId: item["commitId"],
+    isExport: item["isExport"],
+    isSynced: item["isSynced"],
+    isGitEnabled: item["isGitEnabled"],
+    syncDate: !item["syncDate"] ? item["syncDate"] : item["syncDate"].toISOString(),
+    configurationChangeDate: !item["configurationChangeDate"]
+      ? item["configurationChangeDate"]
+      : item["configurationChangeDate"].toISOString(),
+    lastOperationId: item["lastOperationId"],
+  };
 }
 
 export function _tenantConfigurationSyncStateContractPropertiesDeserializer(item: any) {
@@ -18993,6 +20315,22 @@ export function _userCreateParametersPropertiesSerializer(item: UserCreateParame
   };
 }
 
+export function _userCreateParametersPropertiesDeserializer(item: any) {
+  return {
+    state: item["state"],
+    note: item["note"],
+    identities: !item["identities"]
+      ? item["identities"]
+      : userIdentityContractArrayDeserializer(item["identities"]),
+    email: item["email"],
+    firstName: item["firstName"],
+    lastName: item["lastName"],
+    password: item["password"],
+    appType: item["appType"],
+    confirmation: item["confirmation"],
+  };
+}
+
 export function _userUpdateParametersPropertiesSerializer(item: UserUpdateParameters): any {
   return {
     state: item["state"],
@@ -19011,6 +20349,24 @@ export function _userTokenParametersPropertiesSerializer(item: UserTokenParamete
   return {
     keyType: item["keyType"],
     expiry: !item["expiry"] ? item["expiry"] : item["expiry"].toISOString(),
+  };
+}
+
+export function _userTokenParametersPropertiesDeserializer(item: any) {
+  return {
+    keyType: item["keyType"],
+    expiry: !item["expiry"] ? item["expiry"] : new Date(item["expiry"]),
+  };
+}
+
+export function _apiManagementWorkspaceLinksResourcePropertiesSerializer(
+  item: ApiManagementWorkspaceLinksResource,
+): any {
+  return {
+    workspaceId: item["workspaceId"],
+    gateways: !item["gateways"]
+      ? item["gateways"]
+      : workspaceLinksGatewayArraySerializer(item["gateways"]),
   };
 }
 

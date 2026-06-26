@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create an HCI cluster.
  *
  * @summary create an HCI cluster.
- * x-ms-original-file: 2026-04-01-preview/CreateCluster.json
+ * x-ms-original-file: 2026-05-01-preview/CreateCluster.json
  */
 async function createCluster(): Promise<void> {
   const credential = new DefaultAzureCredential();

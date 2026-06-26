@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list all device pools in a subscription.
  *
  * @summary list all device pools in a subscription.
- * x-ms-original-file: 2026-04-01-preview/DevicePools_ListBySubscription.json
+ * x-ms-original-file: 2026-05-01-preview/DevicePools_ListBySubscription.json
  */
 async function listDevicePoolsInAGivenSubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

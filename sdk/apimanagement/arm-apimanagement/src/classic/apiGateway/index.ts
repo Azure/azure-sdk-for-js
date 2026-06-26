@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ApiManagementContext } from "../../api/apiManagementContext.js";
+import { ApiManagementContext } from "../../api/apiManagementContext.js";
 import {
   list,
   listByResourceGroup,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/apiGateway/operations.js";
-import type {
+import {
   ApiGatewayListOptionalParams,
   ApiGatewayListByResourceGroupOptionalParams,
   ApiGatewayDeleteOptionalParams,
@@ -18,14 +18,13 @@ import type {
   ApiGatewayCreateOrUpdateOptionalParams,
   ApiGatewayGetOptionalParams,
 } from "../../api/apiGateway/options.js";
-import type {
+import {
   ApiManagementGatewayResource,
   ApiManagementGatewayUpdateParameters,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ApiGateway operations. */
 export interface ApiGatewayOperations {

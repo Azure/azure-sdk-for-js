@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ApiManagementContext } from "../../api/apiManagementContext.js";
+import { ApiManagementContext } from "../../api/apiManagementContext.js";
 import {
   listByService,
   $delete,
@@ -10,7 +10,7 @@ import {
   getEntityTag,
   get,
 } from "../../api/apiVersionSet/operations.js";
-import type {
+import {
   ApiVersionSetListByServiceOptionalParams,
   ApiVersionSetDeleteOptionalParams,
   ApiVersionSetUpdateOptionalParams,
@@ -18,8 +18,8 @@ import type {
   ApiVersionSetGetEntityTagOptionalParams,
   ApiVersionSetGetOptionalParams,
 } from "../../api/apiVersionSet/options.js";
-import type { ApiVersionSetContract, ApiVersionSetUpdateParameters } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { ApiVersionSetContract, ApiVersionSetUpdateParameters } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ApiVersionSet operations. */
 export interface ApiVersionSetOperations {

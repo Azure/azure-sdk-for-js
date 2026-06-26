@@ -1,17 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AdvisorManagementContext as Client } from "./index.js";
-import type { PredictionRequest, PredictionResponse } from "../models/models.js";
+import { AdvisorManagementContext as Client } from "./index.js";
 import {
+  PredictionRequest,
   predictionRequestSerializer,
+  PredictionResponse,
   predictionResponseDeserializer,
   armErrorResponseDeserializer,
 } from "../models/models.js";
 import { expandUrlTemplate } from "../static-helpers/urlTemplate.js";
-import type { PredictOptionalParams } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import { PredictOptionalParams } from "./options.js";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _predictSend(
   context: Client,
@@ -28,12 +33,14 @@ export function _predictSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: predictionRequestSerializer(predictionRequest),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: predictionRequestSerializer(predictionRequest),
+    });
 }
 
 export async function _predictDeserialize(

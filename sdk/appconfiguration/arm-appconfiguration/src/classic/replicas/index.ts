@@ -1,19 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AppConfigurationManagementContext } from "../../api/appConfigurationManagementContext.js";
+import { AppConfigurationManagementContext } from "../../api/appConfigurationManagementContext.js";
 import { listByConfigurationStore, $delete, create, get } from "../../api/replicas/operations.js";
-import type {
+import {
   ReplicasListByConfigurationStoreOptionalParams,
   ReplicasDeleteOptionalParams,
   ReplicasCreateOptionalParams,
   ReplicasGetOptionalParams,
 } from "../../api/replicas/options.js";
-import type { Replica } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { Replica } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Replicas operations. */
 export interface ReplicasOperations {

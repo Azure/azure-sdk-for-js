@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete specified Update Run
  *
  * @summary delete specified Update Run
- * x-ms-original-file: 2026-04-01-preview/DeleteUpdateRuns.json
+ * x-ms-original-file: 2026-05-01-preview/DeleteUpdateRuns.json
  */
 async function deleteAnUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

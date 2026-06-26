@@ -13,7 +13,7 @@
     "WorkbooksApi": "2023-06-01",
     "WorkbookTemplatesApi": "2020-11-20"
   },
-  "emitterVersion": "0.53.2",
+  "emitterVersion": "0.55.0-dev.10",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "AnalyticsItems",
     "CrossLanguageDefinitionId": {

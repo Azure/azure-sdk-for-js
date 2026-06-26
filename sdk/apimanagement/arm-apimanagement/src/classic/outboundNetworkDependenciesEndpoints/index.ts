@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ApiManagementContext } from "../../api/apiManagementContext.js";
+import { ApiManagementContext } from "../../api/apiManagementContext.js";
 import { listByService } from "../../api/outboundNetworkDependenciesEndpoints/operations.js";
-import type { OutboundNetworkDependenciesEndpointsListByServiceOptionalParams } from "../../api/outboundNetworkDependenciesEndpoints/options.js";
-import type { OutboundEnvironmentEndpointList } from "../../models/models.js";
+import { OutboundNetworkDependenciesEndpointsListByServiceOptionalParams } from "../../api/outboundNetworkDependenciesEndpoints/options.js";
+import { OutboundEnvironmentEndpointList } from "../../models/models.js";
 
 /** Interface representing a OutboundNetworkDependenciesEndpoints operations. */
 export interface OutboundNetworkDependenciesEndpointsOperations {

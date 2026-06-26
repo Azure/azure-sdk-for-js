@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a DevicePool
  *
  * @summary create a DevicePool
- * x-ms-original-file: 2026-04-01-preview/DevicePools_CreateOrUpdate.json
+ * x-ms-original-file: 2026-05-01-preview/DevicePools_CreateOrUpdate.json
  */
 async function devicePoolsCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -25,7 +25,7 @@ async function devicePoolsCreateOrUpdate(): Promise<void> {
  * This sample demonstrates how to create a DevicePool
  *
  * @summary create a DevicePool
- * x-ms-original-file: 2026-04-01-preview/DevicePools_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-05-01-preview/DevicePools_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function devicePoolsCreateOrUpdateMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

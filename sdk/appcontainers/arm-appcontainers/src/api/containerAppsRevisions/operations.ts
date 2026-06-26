@@ -55,7 +55,9 @@ export async function _restartRevisionDeserialize(result: PathUncheckedResponse)
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -108,7 +110,9 @@ export async function _deactivateRevisionDeserialize(result: PathUncheckedRespon
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -161,7 +165,9 @@ export async function _activateRevisionDeserialize(result: PathUncheckedResponse
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -206,10 +212,12 @@ export function _listRevisionsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listRevisionsDeserialize(
@@ -218,7 +226,9 @@ export async function _listRevisionsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -266,17 +276,21 @@ export function _getRevisionSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getRevisionDeserialize(result: PathUncheckedResponse): Promise<Revision> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

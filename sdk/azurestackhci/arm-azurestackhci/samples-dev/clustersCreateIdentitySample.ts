@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create cluster identity.
  *
  * @summary create cluster identity.
- * x-ms-original-file: 2026-04-01-preview/CreateClusterIdentity.json
+ * x-ms-original-file: 2026-05-01-preview/CreateClusterIdentity.json
  */
 async function createClusterIdentity(): Promise<void> {
   const credential = new DefaultAzureCredential();

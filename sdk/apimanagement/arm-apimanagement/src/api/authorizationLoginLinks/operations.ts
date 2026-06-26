@@ -1,20 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ApiManagementContext as Client } from "../index.js";
-import type {
-  AuthorizationLoginRequestContract,
-  AuthorizationLoginResponseContract,
-} from "../../models/models.js";
+import { ApiManagementContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  AuthorizationLoginRequestContract,
   authorizationLoginRequestContractSerializer,
+  AuthorizationLoginResponseContract,
   authorizationLoginResponseContractDeserializer,
 } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type { AuthorizationLoginLinksPostOptionalParams } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import { AuthorizationLoginLinksPostOptionalParams } from "./options.js";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _postSend(
   context: Client,
@@ -39,12 +41,14 @@ export function _postSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: authorizationLoginRequestContractSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: authorizationLoginRequestContractSerializer(parameters),
+    });
 }
 
 export async function _postDeserialize(

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list all os images.
  *
  * @summary list all os images.
- * x-ms-original-file: 2026-04-01-preview/OsImages_ListBySubscriptionLocationResource_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-05-01-preview/OsImages_ListBySubscriptionLocationResource_MaximumSet_Gen.json
  */
 async function osImagesListBySubscriptionLocationResourceMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

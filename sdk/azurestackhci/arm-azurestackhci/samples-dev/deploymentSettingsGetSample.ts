@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a DeploymentSetting
  *
  * @summary get a DeploymentSetting
- * x-ms-original-file: 2026-04-01-preview/GetDeploymentSettings.json
+ * x-ms-original-file: 2026-05-01-preview/GetDeploymentSettings.json
  */
 async function getDeploymentSettings(): Promise<void> {
   const credential = new DefaultAzureCredential();

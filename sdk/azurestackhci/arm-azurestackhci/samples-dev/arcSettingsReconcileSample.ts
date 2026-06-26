@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to reconcile Arc Settings with information related to all nodes.
  *
  * @summary reconcile Arc Settings with information related to all nodes.
- * x-ms-original-file: 2026-04-01-preview/reconcileArcSettings.json
+ * x-ms-original-file: 2026-05-01-preview/reconcileArcSettings.json
  */
 async function reconcileArcSettings(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -45,10 +45,12 @@ export function _listLabelHistorySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listLabelHistoryDeserialize(
@@ -57,7 +59,9 @@ export async function _listLabelHistoryDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -112,7 +116,9 @@ export async function _deleteLabelHistoryDeserialize(result: PathUncheckedRespon
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -158,10 +164,12 @@ export function _getLabelHistorySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getLabelHistoryDeserialize(
@@ -170,7 +178,9 @@ export async function _getLabelHistoryDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = defaultErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = defaultErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

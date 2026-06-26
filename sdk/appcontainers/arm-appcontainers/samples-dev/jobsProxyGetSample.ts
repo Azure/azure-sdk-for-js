@@ -5,9 +5,9 @@ import { ContainerAppsAPIClient } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to get the properties of a Container App Job.
+ * This sample demonstrates how to get the properties for a given Container App Job.
  *
- * @summary get the properties of a Container App Job.
+ * @summary get the properties for a given Container App Job.
  * x-ms-original-file: 2025-10-02-preview/Job_ProxyGet.json
  */
 async function getContainerAppJobByName(): Promise<void> {

@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AlertRuleRecommendationsManagementContext } from "../../api/alertRuleRecommendationsManagementContext.js";
+import { AlertRuleRecommendationsManagementContext } from "../../api/alertRuleRecommendationsManagementContext.js";
 import { listByTargetType, listByResource } from "../../api/alertRuleRecommendations/operations.js";
-import type {
+import {
   AlertRuleRecommendationsListByTargetTypeOptionalParams,
   AlertRuleRecommendationsListByResourceOptionalParams,
 } from "../../api/alertRuleRecommendations/options.js";
-import type { AlertRuleRecommendationResource } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { AlertRuleRecommendationResource } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a AlertRuleRecommendations operations. */
 export interface AlertRuleRecommendationsOperations {

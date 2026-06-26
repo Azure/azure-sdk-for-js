@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureVMwareSolutionAPIContext } from "../../api/azureVMwareSolutionAPIContext.js";
+import { AzureVMwareSolutionAPIContext } from "../../api/azureVMwareSolutionAPIContext.js";
 import {
   deleteVMGroup,
   updateVMGroup,
@@ -44,7 +44,7 @@ import {
   list,
   get,
 } from "../../api/workloadNetworks/operations.js";
-import type {
+import {
   WorkloadNetworksDeleteVMGroupOptionalParams,
   WorkloadNetworksUpdateVMGroupOptionalParams,
   WorkloadNetworksCreateVMGroupOptionalParams,
@@ -86,7 +86,7 @@ import type {
   WorkloadNetworksListOptionalParams,
   WorkloadNetworksGetOptionalParams,
 } from "../../api/workloadNetworks/options.js";
-import type {
+import {
   WorkloadNetwork,
   WorkloadNetworkDhcp,
   WorkloadNetworkDnsService,
@@ -98,8 +98,8 @@ import type {
   WorkloadNetworkVirtualMachine,
   WorkloadNetworkVMGroup,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a WorkloadNetworks operations. */
 export interface WorkloadNetworksOperations {

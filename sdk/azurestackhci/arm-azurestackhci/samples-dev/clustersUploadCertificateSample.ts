@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to upload certificate.
  *
  * @summary upload certificate.
- * x-ms-original-file: 2026-04-01-preview/UploadCertificate.json
+ * x-ms-original-file: 2026-05-01-preview/UploadCertificate.json
  */
 async function uploadCertificate(): Promise<void> {
   const credential = new DefaultAzureCredential();

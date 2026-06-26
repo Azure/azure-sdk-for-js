@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to configure RemoteSupport on a cluster
  *
  * @summary configure RemoteSupport on a cluster
- * x-ms-original-file: 2026-04-01-preview/ConfigureRemoteSupport.json
+ * x-ms-original-file: 2026-05-01-preview/ConfigureRemoteSupport.json
  */
 async function configureRemoteSupport(): Promise<void> {
   const credential = new DefaultAzureCredential();

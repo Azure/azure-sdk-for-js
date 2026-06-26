@@ -1,13 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ApiManagementContext as Client } from "../index.js";
-import type { ApiExportResult, ExportFormat, ExportApi } from "../../models/models.js";
-import { errorResponseDeserializer, apiExportResultDeserializer } from "../../models/models.js";
+import { ApiManagementContext as Client } from "../index.js";
+import {
+  errorResponseDeserializer,
+  ApiExportResult,
+  apiExportResultDeserializer,
+  ExportFormat,
+  ExportApi,
+} from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type { WorkspaceApiExportGetOptionalParams } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import { WorkspaceApiExportGetOptionalParams } from "./options.js";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _getSend(
   context: Client,
@@ -35,10 +44,12 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<ApiExportResult> {

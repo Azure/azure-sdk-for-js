@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureVMwareSolutionAPIContext } from "../../api/azureVMwareSolutionAPIContext.js";
+import { AzureVMwareSolutionAPIContext } from "../../api/azureVMwareSolutionAPIContext.js";
 import {
   getVcfLicense,
   listAdminCredentials,
@@ -14,7 +14,7 @@ import {
   listInSubscription,
   list,
 } from "../../api/privateClouds/operations.js";
-import type {
+import {
   PrivateCloudsGetVcfLicenseOptionalParams,
   PrivateCloudsListAdminCredentialsOptionalParams,
   PrivateCloudsRotateNsxtPasswordOptionalParams,
@@ -26,14 +26,14 @@ import type {
   PrivateCloudsListInSubscriptionOptionalParams,
   PrivateCloudsListOptionalParams,
 } from "../../api/privateClouds/options.js";
-import type {
+import {
   PrivateCloud,
   VcfLicenseUnion,
   PrivateCloudUpdate,
   AdminCredentials,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a PrivateClouds operations. */
 export interface PrivateCloudsOperations {
@@ -62,11 +62,6 @@ export interface PrivateCloudsOperations {
     options?: PrivateCloudsRotateVcenterPasswordOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
   /** Delete a PrivateCloud */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     privateCloudName: string,

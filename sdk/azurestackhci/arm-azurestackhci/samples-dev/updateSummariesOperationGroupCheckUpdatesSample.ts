@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to check for updates
  *
  * @summary check for updates
- * x-ms-original-file: 2026-04-01-preview/UpdateSummaries_CheckUpdates.json
+ * x-ms-original-file: 2026-05-01-preview/UpdateSummaries_CheckUpdates.json
  */
 async function checkForUpdates(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -21,7 +21,7 @@ async function checkForUpdates(): Promise<void> {
  * This sample demonstrates how to check for updates
  *
  * @summary check for updates
- * x-ms-original-file: 2026-04-01-preview/UpdateSummaries_CheckUpdates_MaximumSet.json
+ * x-ms-original-file: 2026-05-01-preview/UpdateSummaries_CheckUpdates_MaximumSet.json
  */
 async function checkForSpecificUpdateByName(): Promise<void> {
   const credential = new DefaultAzureCredential();

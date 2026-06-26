@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update cluster secrets locations.
  *
  * @summary update cluster secrets locations.
- * x-ms-original-file: 2026-04-01-preview/Clusters_UpdateSecretsLocations.json
+ * x-ms-original-file: 2026-05-01-preview/Clusters_UpdateSecretsLocations.json
  */
 async function updateSecretsLocationsForACluster(): Promise<void> {
   const credential = new DefaultAzureCredential();

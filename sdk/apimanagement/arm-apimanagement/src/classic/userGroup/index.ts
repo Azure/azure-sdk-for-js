@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ApiManagementContext } from "../../api/apiManagementContext.js";
+import { ApiManagementContext } from "../../api/apiManagementContext.js";
 import { list } from "../../api/userGroup/operations.js";
-import type { UserGroupListOptionalParams } from "../../api/userGroup/options.js";
-import type { GroupContract } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { UserGroupListOptionalParams } from "../../api/userGroup/options.js";
+import { GroupContract } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a UserGroup operations. */
 export interface UserGroupOperations {

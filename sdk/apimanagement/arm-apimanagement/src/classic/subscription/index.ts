@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ApiManagementContext } from "../../api/apiManagementContext.js";
+import { ApiManagementContext } from "../../api/apiManagementContext.js";
 import {
   listSecrets,
   regenerateSecondaryKey,
@@ -13,7 +13,7 @@ import {
   getEntityTag,
   get,
 } from "../../api/subscription/operations.js";
-import type {
+import {
   SubscriptionListSecretsOptionalParams,
   SubscriptionRegenerateSecondaryKeyOptionalParams,
   SubscriptionRegeneratePrimaryKeyOptionalParams,
@@ -24,13 +24,13 @@ import type {
   SubscriptionGetEntityTagOptionalParams,
   SubscriptionGetOptionalParams,
 } from "../../api/subscription/options.js";
-import type {
+import {
   SubscriptionContract,
   SubscriptionCreateParameters,
   SubscriptionUpdateParameters,
   SubscriptionKeysContract,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Subscription operations. */
 export interface SubscriptionOperations {

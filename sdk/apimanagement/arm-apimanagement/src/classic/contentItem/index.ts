@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ApiManagementContext } from "../../api/apiManagementContext.js";
+import { ApiManagementContext } from "../../api/apiManagementContext.js";
 import {
   listByService,
   $delete,
@@ -9,15 +9,15 @@ import {
   getEntityTag,
   get,
 } from "../../api/contentItem/operations.js";
-import type {
+import {
   ContentItemListByServiceOptionalParams,
   ContentItemDeleteOptionalParams,
   ContentItemCreateOrUpdateOptionalParams,
   ContentItemGetEntityTagOptionalParams,
   ContentItemGetOptionalParams,
 } from "../../api/contentItem/options.js";
-import type { ContentItemContract } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { ContentItemContract } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ContentItem operations. */
 export interface ContentItemOperations {

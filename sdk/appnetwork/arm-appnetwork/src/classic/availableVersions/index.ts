@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AppLinkContext } from "../../api/appLinkContext.js";
+import { AppLinkContext } from "../../api/appLinkContext.js";
 import { listByLocation } from "../../api/availableVersions/operations.js";
-import type { AvailableVersionsListByLocationOptionalParams } from "../../api/availableVersions/options.js";
-import type { AvailableVersion } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { AvailableVersionsListByLocationOptionalParams } from "../../api/availableVersions/options.js";
+import { AvailableVersion } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a AvailableVersions operations. */
 export interface AvailableVersionsOperations {

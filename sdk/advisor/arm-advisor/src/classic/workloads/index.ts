@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AdvisorManagementContext } from "../../api/advisorManagementContext.js";
+import { AdvisorManagementContext } from "../../api/advisorManagementContext.js";
 import { list } from "../../api/workloads/operations.js";
-import type { WorkloadsListOptionalParams } from "../../api/workloads/options.js";
-import type { WorkloadResult } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { WorkloadsListOptionalParams } from "../../api/workloads/options.js";
+import { WorkloadResult } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Workloads operations. */
 export interface WorkloadsOperations {

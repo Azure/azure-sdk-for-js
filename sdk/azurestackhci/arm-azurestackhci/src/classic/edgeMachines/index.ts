@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureStackHCIContext } from "../../api/azureStackHCIContext.js";
+import { AzureStackHCIContext } from "../../api/azureStackHCIContext.js";
 import {
+  validate,
   listBySubscription,
   listByResourceGroup,
   $delete,
@@ -10,7 +11,8 @@ import {
   createOrUpdate,
   get,
 } from "../../api/edgeMachines/operations.js";
-import type {
+import {
+  EdgeMachinesValidateOptionalParams,
   EdgeMachinesListBySubscriptionOptionalParams,
   EdgeMachinesListByResourceGroupOptionalParams,
   EdgeMachinesDeleteOptionalParams,
@@ -18,14 +20,41 @@ import type {
   EdgeMachinesCreateOrUpdateOptionalParams,
   EdgeMachinesGetOptionalParams,
 } from "../../api/edgeMachines/options.js";
-import type { EdgeMachine, EdgeMachinePatch } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  EdgeMachine,
+  EdgeMachinePatch,
+  EdgeMachineValidateRequest,
+  EdgeMachineValidateResponse,
+} from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a EdgeMachines operations. */
 export interface EdgeMachinesOperations {
+  /** A long-running resource action to validate the edge machine. */
+  validate: (
+    resourceGroupName: string,
+    edgeMachineName: string,
+    body: EdgeMachineValidateRequest,
+    options?: EdgeMachinesValidateOptionalParams,
+  ) => PollerLike<OperationState<EdgeMachineValidateResponse>, EdgeMachineValidateResponse>;
+  /** @deprecated use validate instead */
+  beginValidate: (
+    resourceGroupName: string,
+    edgeMachineName: string,
+    body: EdgeMachineValidateRequest,
+    options?: EdgeMachinesValidateOptionalParams,
+  ) => Promise<
+    SimplePollerLike<OperationState<EdgeMachineValidateResponse>, EdgeMachineValidateResponse>
+  >;
+  /** @deprecated use validate instead */
+  beginValidateAndWait: (
+    resourceGroupName: string,
+    edgeMachineName: string,
+    body: EdgeMachineValidateRequest,
+    options?: EdgeMachinesValidateOptionalParams,
+  ) => Promise<EdgeMachineValidateResponse>;
   /** List all edge machines in a subscription. */
   listBySubscription: (
     options?: EdgeMachinesListBySubscriptionOptionalParams,
@@ -36,11 +65,6 @@ export interface EdgeMachinesOperations {
     options?: EdgeMachinesListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<EdgeMachine>;
   /** Delete an edge machine. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     edgeMachineName: string,
@@ -110,6 +134,30 @@ export interface EdgeMachinesOperations {
 
 function _getEdgeMachines(context: AzureStackHCIContext) {
   return {
+    validate: (
+      resourceGroupName: string,
+      edgeMachineName: string,
+      body: EdgeMachineValidateRequest,
+      options?: EdgeMachinesValidateOptionalParams,
+    ) => validate(context, resourceGroupName, edgeMachineName, body, options),
+    beginValidate: async (
+      resourceGroupName: string,
+      edgeMachineName: string,
+      body: EdgeMachineValidateRequest,
+      options?: EdgeMachinesValidateOptionalParams,
+    ) => {
+      const poller = validate(context, resourceGroupName, edgeMachineName, body, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginValidateAndWait: async (
+      resourceGroupName: string,
+      edgeMachineName: string,
+      body: EdgeMachineValidateRequest,
+      options?: EdgeMachinesValidateOptionalParams,
+    ) => {
+      return await validate(context, resourceGroupName, edgeMachineName, body, options);
+    },
     listBySubscription: (options?: EdgeMachinesListBySubscriptionOptionalParams) =>
       listBySubscription(context, options),
     listByResourceGroup: (

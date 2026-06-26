@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to put specified Update
  *
  * @summary put specified Update
- * x-ms-original-file: 2026-04-01-preview/PutUpdates.json
+ * x-ms-original-file: 2026-05-01-preview/PutUpdates.json
  */
 async function putASpecificUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

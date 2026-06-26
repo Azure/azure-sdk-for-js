@@ -2,7 +2,7 @@
   "apiVersions": {
     "Microsoft.AlertsManagement": "2025-05-25-preview"
   },
-  "emitterVersion": "0.52.3",
+  "emitterVersion": "0.55.0-dev.10",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.AlertsManagement",
     "CrossLanguageDefinitionId": {

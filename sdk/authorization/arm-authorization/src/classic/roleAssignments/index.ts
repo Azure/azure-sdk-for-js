@@ -38,7 +38,7 @@ export interface RoleAssignmentsOperations {
   deleteById: (
     roleAssignmentId: string,
     options?: RoleAssignmentsDeleteByIdOptionalParams,
-  ) => Promise<RoleAssignment>;
+  ) => Promise<RoleAssignment | undefined>;
   /** Create or update a role assignment by ID. */
   createById: (
     roleAssignmentId: string,
@@ -77,7 +77,7 @@ export interface RoleAssignmentsOperations {
     scope: string,
     roleAssignmentName: string,
     options?: RoleAssignmentsDeleteOptionalParams,
-  ) => Promise<RoleAssignment>;
+  ) => Promise<RoleAssignment | undefined>;
   /** Create or update a role assignment by scope and name. */
   create: (
     scope: string,

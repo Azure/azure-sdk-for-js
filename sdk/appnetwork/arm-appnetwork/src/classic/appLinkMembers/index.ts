@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AppLinkContext } from "../../api/appLinkContext.js";
+import { AppLinkContext } from "../../api/appLinkContext.js";
 import {
   listByAppLink,
   $delete,
@@ -9,16 +9,16 @@ import {
   createOrUpdate,
   get,
 } from "../../api/appLinkMembers/operations.js";
-import type {
+import {
   AppLinkMembersListByAppLinkOptionalParams,
   AppLinkMembersDeleteOptionalParams,
   AppLinkMembersUpdateOptionalParams,
   AppLinkMembersCreateOrUpdateOptionalParams,
   AppLinkMembersGetOptionalParams,
 } from "../../api/appLinkMembers/options.js";
-import type { AppLinkMember, AppLinkMemberUpdate } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { AppLinkMember, AppLinkMemberUpdate } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a AppLinkMembers operations. */
 export interface AppLinkMembersOperations {
@@ -29,11 +29,6 @@ export interface AppLinkMembersOperations {
     options?: AppLinkMembersListByAppLinkOptionalParams,
   ) => PagedAsyncIterableIterator<AppLinkMember>;
   /** Delete an AppLinkMember. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     appLinkName: string,

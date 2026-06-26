@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ApiManagementContext } from "../../api/apiManagementContext.js";
+import { ApiManagementContext } from "../../api/apiManagementContext.js";
 import {
   listByService,
   update,
@@ -9,15 +9,15 @@ import {
   getEntityTag,
   get,
 } from "../../api/portalConfig/operations.js";
-import type {
+import {
   PortalConfigListByServiceOptionalParams,
   PortalConfigUpdateOptionalParams,
   PortalConfigCreateOrUpdateOptionalParams,
   PortalConfigGetEntityTagOptionalParams,
   PortalConfigGetOptionalParams,
 } from "../../api/portalConfig/options.js";
-import type { PortalConfigContract } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PortalConfigContract } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a PortalConfig operations. */
 export interface PortalConfigOperations {

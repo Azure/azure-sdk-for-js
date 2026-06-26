@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete an edge machine.
  *
  * @summary delete an edge machine.
- * x-ms-original-file: 2026-04-01-preview/EdgeMachines_Delete.json
+ * x-ms-original-file: 2026-05-01-preview/EdgeMachines_Delete.json
  */
 async function edgeMachinesDeleteMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

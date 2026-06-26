@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ApiManagementContext } from "../../api/apiManagementContext.js";
+import { ApiManagementContext } from "../../api/apiManagementContext.js";
 import { listByService, $delete, createOrUpdate, get } from "../../api/contentType/operations.js";
-import type {
+import {
   ContentTypeListByServiceOptionalParams,
   ContentTypeDeleteOptionalParams,
   ContentTypeCreateOrUpdateOptionalParams,
   ContentTypeGetOptionalParams,
 } from "../../api/contentType/options.js";
-import type { ContentTypeContract } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { ContentTypeContract } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ContentType operations. */
 export interface ContentTypeOperations {

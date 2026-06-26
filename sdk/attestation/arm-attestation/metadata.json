@@ -2,7 +2,7 @@
   "apiVersions": {
     "Microsoft.Attestation": "2021-06-01"
   },
-  "emitterVersion": "0.53.2",
+  "emitterVersion": "0.55.0-dev.10",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.Attestation",
     "CrossLanguageDefinitionId": {
