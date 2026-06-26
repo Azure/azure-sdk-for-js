@@ -5,6 +5,7 @@ import type { OperationOptions } from "@azure/core-client";
 import type { PipelinePolicy } from "@azure/core-rest-pipeline";
 import { getSecondaryUrlFromPrimary } from "#platform/getSecondaryUrlFromPrimary";
 import type { OperationOptions as RestOperationOptions } from "@azure-rest/core-client";
+import { toRestOperationOptions } from "./utils/operationOptionsAdapter.js";
 
 /**
  * The programmatic identifier of the tablesSecondaryEndpointPolicy.
@@ -36,14 +37,14 @@ export const tablesSecondaryEndpointPolicy: PipelinePolicy = {
  * @internal
  */
 export function injectSecondaryEndpointHeader(options: OperationOptions): RestOperationOptions {
-  const headerToInject = { [SecondaryLocationHeaderName]: "true" };
+  const restOptions = toRestOperationOptions(options);
   return {
-    ...options,
+    ...restOptions,
     requestOptions: {
-      ...options.requestOptions,
+      ...restOptions.requestOptions,
       headers: {
-        ...options.requestOptions?.customHeaders,
-        ...headerToInject,
+        ...restOptions.requestOptions?.headers,
+        [SecondaryLocationHeaderName]: "true",
       },
     },
   };

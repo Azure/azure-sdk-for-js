@@ -404,7 +404,7 @@ export class TableServiceClient {
     const result = await _querySend(this.context, {
       ...toRestOperationOptions(restOptions),
       filter: queryOptions?.filter,
-      top: (queryOptions as any)?.top,
+      top: queryOptions?.top,
       nextTableName,
     });
     const deserialized = await _queryDeserialize(result);

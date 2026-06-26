@@ -526,8 +526,8 @@ export class TableClient {
     const { disableTypeConversion = false } = options;
     const queryOptions = serializeQueryOptions(options.queryOptions || {});
     const listEntitiesOptions: TableQueryEntitiesOptionalParams = {
-      ...(queryOptions as any),
-      top: (options.queryOptions as any)?.top,
+      ...queryOptions,
+      top: options.queryOptions?.top,
     };
 
     // If a continuation token is used, decode it and set the next row and partition key

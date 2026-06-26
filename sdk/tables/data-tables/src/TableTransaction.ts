@@ -26,17 +26,11 @@ import {
   transactionRequestAssemblePolicyName,
 } from "./TablePolicies.js";
 
-import type { TableClientLike } from "./utils/internalModels.js";
+import type { TableClientLike, TableServiceErrorOdataError } from "./utils/internalModels.js";
 import { cosmosPatchPolicy } from "./cosmosPathPolicy.js";
 import { getTransactionHeaders } from "#platform/utils/transactionHeaders";
 import { isCosmosEndpoint } from "./utils/isCosmosEndpoint.js";
 import { tracingClient } from "./utils/tracing.js";
-
-// The raw OData error shape from the Azure Tables service
-interface TableServiceErrorOdataError {
-  code?: string;
-  message?: { value?: string };
-}
 
 // Interface for sending HTTP requests (replaces ServiceClient dependency)
 interface RequestSender {

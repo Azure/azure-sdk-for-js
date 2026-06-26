@@ -4,12 +4,7 @@
 import type { OperationOptions, OperationRequest } from "@azure/core-client";
 import type { PipelineResponse, RestError } from "@azure/core-rest-pipeline";
 import type { AzureLogger } from "@azure/logger";
-
-// The raw OData error shape from the Azure Tables service
-interface TableServiceErrorOdataError {
-  code?: string;
-  message?: { value?: string };
-}
+import type { TableServiceErrorOdataError } from "./internalModels.js";
 
 export type TableServiceErrorResponse = PipelineResponse & {
   /**
