@@ -31,7 +31,7 @@ const options = {
   input: { type: "string", default: "" },
   skipBuild: { type: "string", default: "false" },
   filter: { type: "string", default: "arm-*" },
-  prPushMode: { type: "string", default: "api.md and changelog" },
+  prPushMode: { type: "string", default: "all" },
   branch: { type: "string", default: "" },
   // ADO built-in variables and job outputs passed in by the YAML
   emitterVersion: { type: "string", default: "" },
@@ -745,26 +745,31 @@ function runBuildMatrix() {
 // Files staged before the PR push, keyed by --prPushMode:
 //   api.md and changelog → break-check deltas only (*.api.md + CHANGELOG.md).
 //   all            → the whole regenerated sdk/ tree (full SDK refresh),
-//                    minus transient TempTypeSpecFiles output.
+//                    minus transient TempTypeSpecFiles output and CHANGELOG.md.
 // Both exclude sdk/core/** : core packages aren't regen targets, but turbo
 // rebuilds them as shared deps in every shard, so staging their churn makes
 // concurrent shards race to push the same files (breaks git-push-changes.yml's
-// rebase + retry). See PR #39062 (core-lro api.md).
+// rebase + retry).
 const PR_STAGE_PATHSPECS = {
   "api.md and changelog": [
     "sdk/*/*/review/*.api.md",
     "sdk/*/*/CHANGELOG.md",
     ":(exclude)sdk/core/**",
   ],
-  all: ["sdk/", ":(exclude)sdk/**/TempTypeSpecFiles/**", ":(exclude)sdk/core/**"],
+  all: [
+    "sdk/",
+    ":(exclude)sdk/**/TempTypeSpecFiles/**",
+    ":(exclude)sdk/core/**",
+    ":(exclude)sdk/**/CHANGELOG.md",
+  ],
 };
 
 // `git stash` away everything that wasn't explicitly staged: git-push-changes.yml
 // commits with `git commit -am`, whose `-a` would otherwise sweep in untracked
 // output and workspace churn.
 async function runStagePr() {
-  const mode = values.prPushMode || "api.md and changelog";
-  const pathspecs = PR_STAGE_PATHSPECS[mode] ?? PR_STAGE_PATHSPECS["api.md and changelog"];
+  const mode = values.prPushMode || "all";
+  const pathspecs = PR_STAGE_PATHSPECS[mode] ?? PR_STAGE_PATHSPECS["all"];
   console.log(`Staging PR changes (mode: ${mode}): ${pathspecs.join(" ")}`);
 
   // Tolerate non-zero exits (e.g. `git stash` when there is nothing to stash)

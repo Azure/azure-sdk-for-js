@@ -68,7 +68,7 @@ parameters:
   - name: PRPushMode
     displayName: "PR contents ('api.md and changelog' = break-check; 'all' = full SDK refresh)"
     type: string
-    default: 'api.md and changelog'
+    default: 'all'
     values:
       - api.md and changelog
       - all
