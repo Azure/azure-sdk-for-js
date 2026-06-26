@@ -1,6 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -46,7 +52,7 @@ export function operationDeserializer(item: any): Operation {
   };
 }
 
-/** Localized display information for and operation. */
+/** Localized display information for an operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
   readonly provider?: string;
@@ -191,7 +197,9 @@ export function organizationResourceSerializer(item: OrganizationResource): any 
 
 export function organizationResourceDeserializer(item: any): OrganizationResource {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -422,14 +430,11 @@ export interface ManagedServiceIdentity {
   /** The type of managed identity assigned to this resource. */
   type: ManagedServiceIdentityType;
   /** The identities assigned to this resource by the user. */
-  userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
+  userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
 
 export function managedServiceIdentitySerializer(item: ManagedServiceIdentity): any {
-  return {
-    type: item["type"],
-    userAssignedIdentities: item["userAssignedIdentities"],
-  };
+  return { type: item["type"], userAssignedIdentities: item["userAssignedIdentities"] };
 }
 
 export function managedServiceIdentityDeserializer(item: any): ManagedServiceIdentity {
@@ -437,7 +442,14 @@ export function managedServiceIdentityDeserializer(item: any): ManagedServiceIde
     principalId: item["principalId"],
     tenantId: item["tenantId"],
     type: item["type"],
-    userAssignedIdentities: item["userAssignedIdentities"],
+    userAssignedIdentities: !item["userAssignedIdentities"]
+      ? item["userAssignedIdentities"]
+      : Object.fromEntries(
+          Object.entries(item["userAssignedIdentities"]).map(([k, p]: [string, any]) => [
+            k,
+            !p ? p : userAssignedIdentityDeserializer(p),
+          ]),
+        ),
   };
 }
 
@@ -473,8 +485,8 @@ export interface UserAssignedIdentity {
   readonly clientId?: string;
 }
 
-export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
-  return item;
+export function userAssignedIdentitySerializer(_item: UserAssignedIdentity): any {
+  return {};
 }
 
 export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
@@ -504,7 +516,9 @@ export function trackedResourceDeserializer(item: any): TrackedResource {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
   };
 }
@@ -521,8 +535,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -579,7 +593,7 @@ export enum KnownCreatedByType {
 
 /**
  * The kind of entity that created the resource. \
- * {@link KnowncreatedByType} can be used interchangeably with createdByType,
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **User**: The entity was created by a user. \
@@ -659,8 +673,306 @@ export function organizationResourceArrayDeserializer(result: Array<Organization
   });
 }
 
+/** The MongoDB Atlas Project resource type. A project is a logical grouping of clusters within an organization. */
+export interface Project extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: ProjectProperties;
+}
+
+export function projectSerializer(item: Project): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : projectPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function projectDeserializer(item: any): Project {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : projectPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Properties specific to a MongoDB Atlas Project. */
+export interface ProjectProperties {
+  /** Atlas project id. */
+  readonly projectId?: string;
+  /** Atlas project name. */
+  readonly projectName?: string;
+  /** Atlas organization id. */
+  readonly organizationId?: string;
+  /** Number of clusters in the project. */
+  readonly clusterCount?: number;
+  /** Provisioning state of the resource. */
+  readonly provisioningState?: ResourceProvisioningState;
+}
+
+export function projectPropertiesSerializer(_item: ProjectProperties): any {
+  return {};
+}
+
+export function projectPropertiesDeserializer(item: any): ProjectProperties {
+  return {
+    projectId: item["projectId"],
+    projectName: item["projectName"],
+    organizationId: item["organizationId"],
+    clusterCount: item["clusterCount"],
+    provisioningState: item["provisioningState"],
+  };
+}
+
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
+
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
+}
+
+export function proxyResourceDeserializer(item: any): ProxyResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+  };
+}
+
+/** The response of a Project list operation. */
+export interface _ProjectListResult {
+  /** The Project items on this page */
+  value: Project[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _projectListResultDeserializer(item: any): _ProjectListResult {
+  return {
+    value: projectArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function projectArraySerializer(result: Array<Project>): any[] {
+  return result.map((item) => {
+    return projectSerializer(item);
+  });
+}
+
+export function projectArrayDeserializer(result: Array<Project>): any[] {
+  return result.map((item) => {
+    return projectDeserializer(item);
+  });
+}
+
+/** Response for tier limit check. */
+export interface TierLimitReachedResponse {
+  /** List of project limit statuses. */
+  readonly limits: ProjectLimitStatus[];
+}
+
+export function tierLimitReachedResponseDeserializer(item: any): TierLimitReachedResponse {
+  return {
+    limits: projectLimitStatusArrayDeserializer(item["limits"]),
+  };
+}
+
+export function projectLimitStatusArrayDeserializer(result: Array<ProjectLimitStatus>): any[] {
+  return result.map((item) => {
+    return projectLimitStatusDeserializer(item);
+  });
+}
+
+/** Usage and limit status for a resource quota in a MongoDB Atlas project. */
+export interface ProjectLimitStatus {
+  /** Type of the limit. */
+  type: ClusterTier;
+  /** Maximum allowed value. */
+  maximum: number;
+  /** Current value. */
+  current: number;
+  /** Whether the limit has been reached. */
+  isReached: boolean;
+}
+
+export function projectLimitStatusDeserializer(item: any): ProjectLimitStatus {
+  return {
+    type: item["type"],
+    maximum: item["maximum"],
+    current: item["current"],
+    isReached: item["isReached"],
+  };
+}
+
+/** Cluster tier options for MongoDB Atlas. */
+export enum KnownClusterTier {
+  /** Free tier cluster. */
+  Free = "FREE",
+  /** Flex tier cluster. */
+  Flex = "FLEX",
+  /** M10 tier cluster. */
+  M10 = "M10",
+  /** M30 tier cluster. */
+  M30 = "M30",
+}
+
+/**
+ * Cluster tier options for MongoDB Atlas. \
+ * {@link KnownClusterTier} can be used interchangeably with ClusterTier,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **FREE**: Free tier cluster. \
+ * **FLEX**: Flex tier cluster. \
+ * **M10**: M10 tier cluster. \
+ * **M30**: M30 tier cluster.
+ */
+export type ClusterTier = string;
+
+/** Response for regions by cluster tier. */
+export interface RegionsByTierResponse {
+  /** Atlas organization id. */
+  readonly organizationId: string;
+  /** Atlas project id. */
+  readonly projectId: string;
+  /** List of cluster tiers and their supported regions. */
+  readonly regionsByTier: TierRegions[];
+}
+
+export function regionsByTierResponseDeserializer(item: any): RegionsByTierResponse {
+  return {
+    organizationId: item["organizationId"],
+    projectId: item["projectId"],
+    regionsByTier: tierRegionsArrayDeserializer(item["regionsByTier"]),
+  };
+}
+
+export function tierRegionsArrayDeserializer(result: Array<TierRegions>): any[] {
+  return result.map((item) => {
+    return tierRegionsDeserializer(item);
+  });
+}
+
+/** Cluster tier and its supported regions. */
+export interface TierRegions {
+  /** Cluster tier name. */
+  tier: ClusterTier;
+  /** Supported region names. */
+  regions: string[];
+}
+
+export function tierRegionsDeserializer(item: any): TierRegions {
+  return {
+    tier: item["tier"],
+    regions: item["regions"].map((p: any) => {
+      return p;
+    }),
+  };
+}
+
+/** The MongoDB Atlas Cluster resource type. A cluster is a managed database deployment within a project. */
+export interface Cluster extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: ClusterProperties;
+}
+
+export function clusterSerializer(item: Cluster): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : clusterPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function clusterDeserializer(item: any): Cluster {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : clusterPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Properties specific to a MongoDB Atlas Cluster. */
+export interface ClusterProperties {
+  /** Name of the MongoDB Atlas Cluster. */
+  readonly clusterName?: string;
+  /** Cluster tier (FREE, FLEX, M10, M30). */
+  clusterTier: ClusterTier;
+  /** Azure region where the cluster is deployed. */
+  regionName: string;
+  /** MongoDB version running on the cluster. */
+  readonly mongoDbVersion?: string;
+  /** Whether backups are active for the cluster; null if undetermined. */
+  readonly backups?: boolean;
+  /** Current state of the cluster. */
+  readonly state?: string;
+  /** Provisioning state of the resource. */
+  readonly provisioningState?: ResourceProvisioningState;
+}
+
+export function clusterPropertiesSerializer(item: ClusterProperties): any {
+  return { clusterTier: item["clusterTier"], regionName: item["regionName"] };
+}
+
+export function clusterPropertiesDeserializer(item: any): ClusterProperties {
+  return {
+    clusterName: item["clusterName"],
+    clusterTier: item["clusterTier"],
+    regionName: item["regionName"],
+    mongoDbVersion: item["mongoDbVersion"],
+    backups: item["backups"],
+    state: item["state"],
+    provisioningState: item["provisioningState"],
+  };
+}
+
+/** The response of a Cluster list operation. */
+export interface _ClusterListResult {
+  /** The Cluster items on this page */
+  value: Cluster[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _clusterListResultDeserializer(item: any): _ClusterListResult {
+  return {
+    value: clusterArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function clusterArraySerializer(result: Array<Cluster>): any[] {
+  return result.map((item) => {
+    return clusterSerializer(item);
+  });
+}
+
+export function clusterArrayDeserializer(result: Array<Cluster>): any[] {
+  return result.map((item) => {
+    return clusterDeserializer(item);
+  });
+}
+
 /** Supported versions for the MongoDB.Atlas resource model */
 export enum KnownVersions {
+  /** 2024-11-18 preview version */
+  V20241118Preview = "2024-11-18-preview",
   /** 2025-06-01 version */
   V20250601 = "2025-06-01",
+  /** 2026-03-01 preview version */
+  V20260301Preview = "2026-03-01-preview",
 }
