@@ -81,10 +81,11 @@ export function isScopeWildcard(pattern: string): boolean {
  */
 export function dependencyMatchesPattern(pattern: string, dependencyName: string): boolean {
   if (isScopeWildcard(pattern)) {
-    // Drop the trailing "*", keeping the trailing slash, so that
+    // Strip the trailing "*" (keeping the scope's slash) so that
     // "@opentelemetry/*" matches "@opentelemetry/api" but not
     // "@opentelemetry-foo/api".
-    return dependencyName.startsWith(pattern.slice(0, -1));
+    const scopePrefix = pattern.slice(0, pattern.indexOf("*"));
+    return dependencyName.startsWith(scopePrefix);
   }
   return pattern === dependencyName;
 }
