@@ -1,19 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   DomainRegistrationManagementContext,
   DomainRegistrationManagementClientOptionalParams,
+  createDomainRegistrationManagement,
 } from "./api/index.js";
-import { createDomainRegistrationManagement } from "./api/index.js";
-import type { DomainRegistrationProviderOperations } from "./classic/domainRegistrationProvider/index.js";
-import { _getDomainRegistrationProviderOperations } from "./classic/domainRegistrationProvider/index.js";
-import type { DomainsOperations } from "./classic/domains/index.js";
-import { _getDomainsOperations } from "./classic/domains/index.js";
-import type { TopLevelDomainsOperations } from "./classic/topLevelDomains/index.js";
-import { _getTopLevelDomainsOperations } from "./classic/topLevelDomains/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import {
+  DomainRegistrationProviderOperations,
+  _getDomainRegistrationProviderOperations,
+} from "./classic/domainRegistrationProvider/index.js";
+import { DomainsOperations, _getDomainsOperations } from "./classic/domains/index.js";
+import {
+  TopLevelDomainsOperations,
+  _getTopLevelDomainsOperations,
+} from "./classic/topLevelDomains/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { DomainRegistrationManagementClientOptionalParams } from "./api/domainRegistrationManagementContext.js";
 

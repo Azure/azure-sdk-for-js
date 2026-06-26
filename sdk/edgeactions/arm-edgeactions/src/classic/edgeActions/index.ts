@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { EdgeActionsManagementContext } from "../../api/edgeActionsManagementContext.js";
+import { EdgeActionsManagementContext } from "../../api/edgeActionsManagementContext.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -10,7 +10,7 @@ import {
   create,
   get,
 } from "../../api/edgeActions/operations.js";
-import type {
+import {
   EdgeActionsListBySubscriptionOptionalParams,
   EdgeActionsListByResourceGroupOptionalParams,
   EdgeActionsDeleteOptionalParams,
@@ -18,9 +18,9 @@ import type {
   EdgeActionsCreateOptionalParams,
   EdgeActionsGetOptionalParams,
 } from "../../api/edgeActions/options.js";
-import type { EdgeAction, EdgeActionUpdate } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { EdgeAction, EdgeActionUpdate } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a EdgeActions operations. */
 export interface EdgeActionsOperations {
@@ -34,11 +34,6 @@ export interface EdgeActionsOperations {
     options?: EdgeActionsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<EdgeAction>;
   /** Delete a EdgeAction */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     edgeActionName: string,

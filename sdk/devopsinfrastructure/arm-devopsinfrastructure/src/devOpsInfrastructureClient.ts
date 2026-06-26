@@ -1,30 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
-import { getPoolsOperations, PoolsOperations } from "./classic/pools/index.js";
 import {
-  getResourceDetailsOperations,
-  ResourceDetailsOperations,
-} from "./classic/resourceDetails/index.js";
-import { getSkuOperations, SkuOperations } from "./classic/sku/index.js";
-import {
-  getSubscriptionUsagesOperations,
-  SubscriptionUsagesOperations,
-} from "./classic/subscriptionUsages/index.js";
-import {
-  getImageVersionsOperations,
-  ImageVersionsOperations,
-} from "./classic/imageVersions/index.js";
-import {
-  createDevOpsInfrastructure,
   DevOpsInfrastructureContext,
   DevOpsInfrastructureClientOptionalParams,
+  createDevOpsInfrastructure,
 } from "./api/index.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
+import {
+  ImageVersionsOperations,
+  _getImageVersionsOperations,
+} from "./classic/imageVersions/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import { PoolsOperations, _getPoolsOperations } from "./classic/pools/index.js";
+import {
+  ResourceDetailsOperations,
+  _getResourceDetailsOperations,
+} from "./classic/resourceDetails/index.js";
+import { SkuOperations, _getSkuOperations } from "./classic/sku/index.js";
+import {
+  SubscriptionUsagesOperations,
+  _getSubscriptionUsagesOperations,
+} from "./classic/subscriptionUsages/index.js";
 import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
-export { type DevOpsInfrastructureClientOptionalParams } from "./api/devOpsInfrastructureContext.js";
+export type { DevOpsInfrastructureClientOptionalParams } from "./api/devOpsInfrastructureContext.js";
 
 export class DevOpsInfrastructureClient {
   private _client: DevOpsInfrastructureContext;
@@ -40,29 +40,29 @@ export class DevOpsInfrastructureClient {
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
       : `azsdk-js-client`;
-    this._client = createDevOpsInfrastructure(credential, {
+    this._client = createDevOpsInfrastructure(credential, subscriptionId, {
       ...options,
       userAgentOptions: { userAgentPrefix },
     });
     this.pipeline = this._client.pipeline;
-    this.operations = getOperationsOperations(this._client);
-    this.pools = getPoolsOperations(this._client, subscriptionId);
-    this.resourceDetails = getResourceDetailsOperations(this._client, subscriptionId);
-    this.sku = getSkuOperations(this._client, subscriptionId);
-    this.subscriptionUsages = getSubscriptionUsagesOperations(this._client, subscriptionId);
-    this.imageVersions = getImageVersionsOperations(this._client, subscriptionId);
+    this.imageVersions = _getImageVersionsOperations(this._client);
+    this.subscriptionUsages = _getSubscriptionUsagesOperations(this._client);
+    this.sku = _getSkuOperations(this._client);
+    this.resourceDetails = _getResourceDetailsOperations(this._client);
+    this.pools = _getPoolsOperations(this._client);
+    this.operations = _getOperationsOperations(this._client);
   }
 
-  /** The operation groups for Operations */
-  public readonly operations: OperationsOperations;
-  /** The operation groups for Pools */
-  public readonly pools: PoolsOperations;
-  /** The operation groups for ResourceDetails */
-  public readonly resourceDetails: ResourceDetailsOperations;
-  /** The operation groups for Sku */
-  public readonly sku: SkuOperations;
-  /** The operation groups for SubscriptionUsages */
-  public readonly subscriptionUsages: SubscriptionUsagesOperations;
-  /** The operation groups for ImageVersions */
+  /** The operation groups for imageVersions */
   public readonly imageVersions: ImageVersionsOperations;
+  /** The operation groups for subscriptionUsages */
+  public readonly subscriptionUsages: SubscriptionUsagesOperations;
+  /** The operation groups for sku */
+  public readonly sku: SkuOperations;
+  /** The operation groups for resourceDetails */
+  public readonly resourceDetails: ResourceDetailsOperations;
+  /** The operation groups for pools */
+  public readonly pools: PoolsOperations;
+  /** The operation groups for operations */
+  public readonly operations: OperationsOperations;
 }

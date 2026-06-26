@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { EdgeActionsManagementContext } from "../../api/edgeActionsManagementContext.js";
+import { EdgeActionsManagementContext } from "../../api/edgeActionsManagementContext.js";
 import {
   listByEdgeAction,
   $delete,
@@ -9,19 +9,16 @@ import {
   create,
   get,
 } from "../../api/edgeActionExecutionFilters/operations.js";
-import type {
+import {
   EdgeActionExecutionFiltersListByEdgeActionOptionalParams,
   EdgeActionExecutionFiltersDeleteOptionalParams,
   EdgeActionExecutionFiltersUpdateOptionalParams,
   EdgeActionExecutionFiltersCreateOptionalParams,
   EdgeActionExecutionFiltersGetOptionalParams,
 } from "../../api/edgeActionExecutionFilters/options.js";
-import type {
-  EdgeActionExecutionFilter,
-  EdgeActionExecutionFilterUpdate,
-} from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { EdgeActionExecutionFilter, EdgeActionExecutionFilterUpdate } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a EdgeActionExecutionFilters operations. */
 export interface EdgeActionExecutionFiltersOperations {
@@ -32,11 +29,6 @@ export interface EdgeActionExecutionFiltersOperations {
     options?: EdgeActionExecutionFiltersListByEdgeActionOptionalParams,
   ) => PagedAsyncIterableIterator<EdgeActionExecutionFilter>;
   /** Delete a EdgeActionExecutionFilter */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     edgeActionName: string,

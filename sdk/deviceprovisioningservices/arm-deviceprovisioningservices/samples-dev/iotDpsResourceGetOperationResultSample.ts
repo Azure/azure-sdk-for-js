@@ -15,9 +15,9 @@ async function dpsGetOperationResult(): Promise<void> {
   const subscriptionId = "91d12660-3dec-467a-be2a-213b5544ddc0";
   const client = new IotDpsClient(credential, subscriptionId);
   const result = await client.iotDpsResource.getOperationResult(
+    "MTY5OTNmZDctODI5Yy00N2E2LTkxNDQtMDU1NGIyYzY1ZjRl",
     "myResourceGroup",
     "myFirstProvisioningService",
-    "MTY5OTNmZDctODI5Yy00N2E2LTkxNDQtMDU1NGIyYzY1ZjRl",
     "1508265712453",
   );
   console.log(result);

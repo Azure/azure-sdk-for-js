@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { IotDpsContext } from "../../api/iotDpsContext.js";
+import { IotDpsContext } from "../../api/iotDpsContext.js";
 import {
   checkProvisioningServiceNameAvailability,
   listPrivateEndpointConnections,
@@ -21,7 +21,7 @@ import {
   get,
   getOperationResult,
 } from "../../api/iotDpsResource/operations.js";
-import type {
+import {
   IotDpsResourceCheckProvisioningServiceNameAvailabilityOptionalParams,
   IotDpsResourceListPrivateEndpointConnectionsOptionalParams,
   IotDpsResourceDeletePrivateEndpointConnectionOptionalParams,
@@ -40,7 +40,7 @@ import type {
   IotDpsResourceGetOptionalParams,
   IotDpsResourceGetOperationResultOptionalParams,
 } from "../../api/iotDpsResource/options.js";
-import type {
+import {
   AsyncOperationResult,
   ProvisioningServiceDescription,
   PrivateEndpointConnection,
@@ -48,11 +48,12 @@ import type {
   TagsResource,
   IotDpsSkuDefinition,
   GroupIdInformation,
+  PrivateLinkResources,
   OperationInputs,
   NameAvailabilityInfo,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a IotDpsResource operations. */
 export interface IotDpsResourceOperations {
@@ -94,7 +95,7 @@ export interface IotDpsResourceOperations {
     resourceGroupName: string,
     resourceName: string,
     options?: IotDpsResourceListPrivateLinkResourcesOptionalParams,
-  ) => PagedAsyncIterableIterator<GroupIdInformation>;
+  ) => Promise<PrivateLinkResources>;
   /** Get the specified private link resource for the given provisioning service */
   getPrivateLinkResources: (
     resourceGroupName: string,
@@ -131,11 +132,6 @@ export interface IotDpsResourceOperations {
     options?: IotDpsResourceListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<ProvisioningServiceDescription>;
   /** Deletes the Provisioning Service. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     provisioningServiceName: string,

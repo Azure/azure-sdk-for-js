@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { EventHubManagementContext } from "../../api/eventHubManagementContext.js";
+import { EventHubManagementContext } from "../../api/eventHubManagementContext.js";
 import {
   listByNamespace,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/schemaRegistry/operations.js";
-import type {
+import {
   SchemaRegistryListByNamespaceOptionalParams,
   SchemaRegistryDeleteOptionalParams,
   SchemaRegistryCreateOrUpdateOptionalParams,
   SchemaRegistryGetOptionalParams,
 } from "../../api/schemaRegistry/options.js";
-import type { SchemaGroup } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SchemaGroup } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a SchemaRegistry operations. */
 export interface SchemaRegistryOperations {

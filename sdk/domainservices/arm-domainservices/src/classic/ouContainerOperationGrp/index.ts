@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DomainServicesResourceProviderContext } from "../../api/domainServicesResourceProviderContext.js";
+import { DomainServicesResourceProviderContext } from "../../api/domainServicesResourceProviderContext.js";
 import {
   list,
   $delete,
@@ -9,18 +9,17 @@ import {
   create,
   get,
 } from "../../api/ouContainerOperationGrp/operations.js";
-import type {
+import {
   OuContainerOperationGrpListOptionalParams,
   OuContainerOperationGrpDeleteOptionalParams,
   OuContainerOperationGrpUpdateOptionalParams,
   OuContainerOperationGrpCreateOptionalParams,
   OuContainerOperationGrpGetOptionalParams,
 } from "../../api/ouContainerOperationGrp/options.js";
-import type { OuContainer, ContainerAccount } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { OuContainer, ContainerAccount } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a OuContainerOperationGrp operations. */
 export interface OuContainerOperationGrpOperations {

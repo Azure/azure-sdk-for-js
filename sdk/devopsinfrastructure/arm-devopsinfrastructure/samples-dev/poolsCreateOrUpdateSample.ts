@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { DevOpsInfrastructureClient } from "@azure/arm-devopsinfrastructure";
+import { DefaultAzureCredential } from "@azure/identity";
+
 /**
  * This sample demonstrates how to create a Pool
  *
  * @summary create a Pool
- * x-ms-original-file: 2024-10-19/CreateOrUpdatePool.json
+ * x-ms-original-file: 2026-04-17-preview/CreateOrUpdatePool.json
  */
-
-import { DevOpsInfrastructureClient } from "@azure/arm-devopsinfrastructure";
-import { DefaultAzureCredential } from "@azure/identity";
-
 async function poolsCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "a2e95d27-c161-4b61-bda4-11512c14c2c2";
@@ -24,7 +23,7 @@ async function poolsCreateOrUpdate(): Promise<void> {
         "/subscriptions/222e81d0-cf38-4dab-baa5-289bf16baaa4/resourceGroups/rg-1es-devcenter/providers/Microsoft.DevCenter/projects/1ES",
       organizationProfile: {
         kind: "AzureDevOps",
-        organizations: [{ url: "https://mseng.visualstudio.com" }],
+        organizations: [{ url: "https://mseng.visualstudio.com", openAccess: true }],
       },
       agentProfile: { kind: "Stateless" },
       fabricProfile: {
@@ -33,8 +32,21 @@ async function poolsCreateOrUpdate(): Promise<void> {
         images: [
           {
             resourceId: "/MicrosoftWindowsServer/WindowsServer/2019-Datacenter/latest",
+            ephemeralType: "Automatic",
           },
         ],
+        osProfile: {
+          secretsManagementSettings: {
+            certificateStoreName: "Root",
+            observedCertificates: ["https://abc.vault.azure.net/secrets/one"],
+            keyExportable: false,
+          },
+        },
+        networkProfile: {
+          subnetId:
+            "/subscriptions/a2e95d27-c161-4b61-bda4-11512c14c2c2/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnet/subnets/subnet",
+          staticIpAddressCount: 2,
+        },
       },
     },
   });

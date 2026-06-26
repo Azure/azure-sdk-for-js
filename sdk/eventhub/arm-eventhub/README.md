@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/arm-eventhub)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-eventhub)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-eventhub?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-eventhub)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/arm-eventhub/samples)
 
 ## Getting started

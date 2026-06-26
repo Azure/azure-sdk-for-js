@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { EventHubManagementContext } from "../../api/eventHubManagementContext.js";
+import { EventHubManagementContext } from "../../api/eventHubManagementContext.js";
 import {
   listByEventHub,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/consumerGroups/operations.js";
-import type {
+import {
   ConsumerGroupsListByEventHubOptionalParams,
   ConsumerGroupsDeleteOptionalParams,
   ConsumerGroupsCreateOrUpdateOptionalParams,
   ConsumerGroupsGetOptionalParams,
 } from "../../api/consumerGroups/options.js";
-import type { ConsumerGroup } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { ConsumerGroup } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ConsumerGroups operations. */
 export interface ConsumerGroupsOperations {

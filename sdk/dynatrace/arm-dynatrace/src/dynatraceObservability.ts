@@ -1,25 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   DynatraceObservabilityContext,
   DynatraceObservabilityOptionalParams,
+  createDynatraceObservability,
 } from "./api/index.js";
-import { createDynatraceObservability } from "./api/index.js";
-import type { CreationSupportedOperations } from "./classic/creationSupported/index.js";
-import { _getCreationSupportedOperations } from "./classic/creationSupported/index.js";
-import type { MonitoredSubscriptionsOperations } from "./classic/monitoredSubscriptions/index.js";
-import { _getMonitoredSubscriptionsOperations } from "./classic/monitoredSubscriptions/index.js";
-import type { MonitorsOperations } from "./classic/monitors/index.js";
-import { _getMonitorsOperations } from "./classic/monitors/index.js";
-import type { OperationsOperations } from "./classic/operations/index.js";
-import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { SingleSignOnOperations } from "./classic/singleSignOn/index.js";
-import { _getSingleSignOnOperations } from "./classic/singleSignOn/index.js";
-import type { TagRulesOperations } from "./classic/tagRules/index.js";
-import { _getTagRulesOperations } from "./classic/tagRules/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import {
+  CreationSupportedOperations,
+  _getCreationSupportedOperations,
+} from "./classic/creationSupported/index.js";
+import {
+  MonitoredSubscriptionsOperations,
+  _getMonitoredSubscriptionsOperations,
+} from "./classic/monitoredSubscriptions/index.js";
+import { MonitorsOperations, _getMonitorsOperations } from "./classic/monitors/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import {
+  SingleSignOnOperations,
+  _getSingleSignOnOperations,
+} from "./classic/singleSignOn/index.js";
+import { TagRulesOperations, _getTagRulesOperations } from "./classic/tagRules/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { DynatraceObservabilityOptionalParams } from "./api/dynatraceObservabilityContext.js";
 

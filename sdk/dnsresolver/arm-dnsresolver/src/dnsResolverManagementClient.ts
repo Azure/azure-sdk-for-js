@@ -1,33 +1,53 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   DnsResolverManagementContext,
   DnsResolverManagementClientOptionalParams,
+  createDnsResolverManagement,
 } from "./api/index.js";
-import { createDnsResolverManagement } from "./api/index.js";
-import type { DnsForwardingRulesetsOperations } from "./classic/dnsForwardingRulesets/index.js";
-import { _getDnsForwardingRulesetsOperations } from "./classic/dnsForwardingRulesets/index.js";
-import type { DnsResolverDomainListsOperations } from "./classic/dnsResolverDomainLists/index.js";
-import { _getDnsResolverDomainListsOperations } from "./classic/dnsResolverDomainLists/index.js";
-import type { DnsResolverPoliciesOperations } from "./classic/dnsResolverPolicies/index.js";
-import { _getDnsResolverPoliciesOperations } from "./classic/dnsResolverPolicies/index.js";
-import type { DnsResolverPolicyVirtualNetworkLinksOperations } from "./classic/dnsResolverPolicyVirtualNetworkLinks/index.js";
-import { _getDnsResolverPolicyVirtualNetworkLinksOperations } from "./classic/dnsResolverPolicyVirtualNetworkLinks/index.js";
-import type { DnsResolversOperations } from "./classic/dnsResolvers/index.js";
-import { _getDnsResolversOperations } from "./classic/dnsResolvers/index.js";
-import type { DnsSecurityRulesOperations } from "./classic/dnsSecurityRules/index.js";
-import { _getDnsSecurityRulesOperations } from "./classic/dnsSecurityRules/index.js";
-import type { ForwardingRulesOperations } from "./classic/forwardingRules/index.js";
-import { _getForwardingRulesOperations } from "./classic/forwardingRules/index.js";
-import type { InboundEndpointsOperations } from "./classic/inboundEndpoints/index.js";
-import { _getInboundEndpointsOperations } from "./classic/inboundEndpoints/index.js";
-import type { OutboundEndpointsOperations } from "./classic/outboundEndpoints/index.js";
-import { _getOutboundEndpointsOperations } from "./classic/outboundEndpoints/index.js";
-import type { VirtualNetworkLinksOperations } from "./classic/virtualNetworkLinks/index.js";
-import { _getVirtualNetworkLinksOperations } from "./classic/virtualNetworkLinks/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import {
+  DnsForwardingRulesetsOperations,
+  _getDnsForwardingRulesetsOperations,
+} from "./classic/dnsForwardingRulesets/index.js";
+import {
+  DnsResolverDomainListsOperations,
+  _getDnsResolverDomainListsOperations,
+} from "./classic/dnsResolverDomainLists/index.js";
+import {
+  DnsResolverPoliciesOperations,
+  _getDnsResolverPoliciesOperations,
+} from "./classic/dnsResolverPolicies/index.js";
+import {
+  DnsResolverPolicyVirtualNetworkLinksOperations,
+  _getDnsResolverPolicyVirtualNetworkLinksOperations,
+} from "./classic/dnsResolverPolicyVirtualNetworkLinks/index.js";
+import {
+  DnsResolversOperations,
+  _getDnsResolversOperations,
+} from "./classic/dnsResolvers/index.js";
+import {
+  DnsSecurityRulesOperations,
+  _getDnsSecurityRulesOperations,
+} from "./classic/dnsSecurityRules/index.js";
+import {
+  ForwardingRulesOperations,
+  _getForwardingRulesOperations,
+} from "./classic/forwardingRules/index.js";
+import {
+  InboundEndpointsOperations,
+  _getInboundEndpointsOperations,
+} from "./classic/inboundEndpoints/index.js";
+import {
+  OutboundEndpointsOperations,
+  _getOutboundEndpointsOperations,
+} from "./classic/outboundEndpoints/index.js";
+import {
+  VirtualNetworkLinksOperations,
+  _getVirtualNetworkLinksOperations,
+} from "./classic/virtualNetworkLinks/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { DnsResolverManagementClientOptionalParams } from "./api/dnsResolverManagementContext.js";
 

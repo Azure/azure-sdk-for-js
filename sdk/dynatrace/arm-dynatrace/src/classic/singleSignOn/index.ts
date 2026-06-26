@@ -1,18 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DynatraceObservabilityContext } from "../../api/dynatraceObservabilityContext.js";
+import { DynatraceObservabilityContext } from "../../api/dynatraceObservabilityContext.js";
 import { list, createOrUpdate, get } from "../../api/singleSignOn/operations.js";
-import type {
+import {
   SingleSignOnListOptionalParams,
   SingleSignOnCreateOrUpdateOptionalParams,
   SingleSignOnGetOptionalParams,
 } from "../../api/singleSignOn/options.js";
-import type { DynatraceSingleSignOnResource } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { DynatraceSingleSignOnResource } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a SingleSignOn operations. */
 export interface SingleSignOnOperations {

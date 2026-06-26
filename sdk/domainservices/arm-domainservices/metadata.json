@@ -2,7 +2,7 @@
   "apiVersions": {
     "Microsoft.AAD": "2025-10-01-preview"
   },
-  "emitterVersion": "0.54.1",
+  "emitterVersion": "0.55.0-dev.10",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.AAD",
     "CrossLanguageDefinitionId": {

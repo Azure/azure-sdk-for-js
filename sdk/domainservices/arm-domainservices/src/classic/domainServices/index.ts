@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DomainServicesResourceProviderContext } from "../../api/domainServicesResourceProviderContext.js";
+import { DomainServicesResourceProviderContext } from "../../api/domainServicesResourceProviderContext.js";
 import {
   unsuspend,
   list,
@@ -11,7 +11,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/domainServices/operations.js";
-import type {
+import {
   DomainServicesUnsuspendOptionalParams,
   DomainServicesListOptionalParams,
   DomainServicesListByResourceGroupOptionalParams,
@@ -20,11 +20,10 @@ import type {
   DomainServicesCreateOrUpdateOptionalParams,
   DomainServicesGetOptionalParams,
 } from "../../api/domainServices/options.js";
-import type { DomainService, UnsuspendDomainServiceResponse } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { DomainService, UnsuspendDomainServiceResponse } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a DomainServices operations. */
 export interface DomainServicesOperations {

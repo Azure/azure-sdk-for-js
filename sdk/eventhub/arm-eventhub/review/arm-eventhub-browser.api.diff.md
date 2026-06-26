@@ -7,7 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -664,9 +664,10 @@
+@@ -667,9 +667,10 @@
  
  export { isRestError }
  
@@ -19,7 +19,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export interface KeyVaultProperties {
      // (undocumented)
-@@ -1299,9 +1300,9 @@
+@@ -1308,9 +1309,9 @@
  
  // @public
  export interface RegenerateAccessKeyParameters {

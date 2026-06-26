@@ -2,7 +2,7 @@
   "apiVersions": {
     "Microsoft.EventHub": "2026-01-01"
   },
-  "emitterVersion": "0.54.1",
+  "emitterVersion": "0.55.0-dev.10",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.EventHub",
     "CrossLanguageDefinitionId": {
@@ -118,6 +118,7 @@
       "@azure/arm-eventhub!KnownTlsVersion:enum": "Microsoft.EventHub.TlsVersion",
       "@azure/arm-eventhub!KnownPublicNetworkAccess:enum": "Microsoft.EventHub.PublicNetworkAccess",
       "@azure/arm-eventhub!KnownGeoDRRoleType:enum": "Microsoft.EventHub.GeoDRRoleType",
+      "@azure/arm-eventhub!KnownIpAddressType:enum": "Microsoft.EventHub.IpAddressType",
       "@azure/arm-eventhub!KnownSkuName:enum": "Microsoft.EventHub.SkuName",
       "@azure/arm-eventhub!KnownSkuTier:enum": "Microsoft.EventHub.SkuTier",
       "@azure/arm-eventhub!KnownManagedServiceIdentityType:enum": "Microsoft.EventHub.ManagedServiceIdentityType",

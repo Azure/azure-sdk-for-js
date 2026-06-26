@@ -7,7 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -324,11 +324,12 @@
+@@ -326,11 +326,12 @@
  // @public
  export type CreatedByType = string;
  
@@ -21,7 +21,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export interface CredentialProperties {
      readonly provisioningState?: ProvisioningState;
-@@ -353,14 +354,14 @@
+@@ -355,14 +356,14 @@
  }
  
  // @public

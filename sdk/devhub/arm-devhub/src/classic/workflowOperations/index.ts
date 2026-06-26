@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DeveloperHubServiceContext } from "../../api/developerHubServiceContext.js";
+import { DeveloperHubServiceContext } from "../../api/developerHubServiceContext.js";
 import {
   list,
   listByResourceGroup,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/workflowOperations/operations.js";
-import type {
+import {
   WorkflowOperationsListOptionalParams,
   WorkflowOperationsListByResourceGroupOptionalParams,
   WorkflowOperationsDeleteOptionalParams,
@@ -18,8 +18,8 @@ import type {
   WorkflowOperationsCreateOrUpdateOptionalParams,
   WorkflowOperationsGetOptionalParams,
 } from "../../api/workflowOperations/options.js";
-import type { TagsObject, Workflow, DeleteWorkflowResponse } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { TagsObject, Workflow, DeleteWorkflowResponse } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a WorkflowOperations operations. */
 export interface WorkflowOperationsOperations {
