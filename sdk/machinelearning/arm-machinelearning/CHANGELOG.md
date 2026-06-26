@@ -593,8 +593,6 @@ Compared with version 3.0.0
   - Operation Workspaces.beginUpdate has a new signature
   - Operation Workspaces.beginUpdateAndWait has a new signature
   - Operation Workspaces.get has a new signature
-  - Class AzureMachineLearningServicesManagementClient no longer has parameter apiVersion
-  - Class AzureMachineLearningServicesManagementClient no longer has parameter subscriptionId
   - Removed Interface Aks
   - Removed Interface AksComputeSecretsProperties
   - Removed Interface AKSSchema
