@@ -166,14 +166,11 @@ const tsdocCustomization = {
 // the global `require`. Those patterns hide a dependency from the static module graph,
 // so bundlers, api-extractor, and dependency linting can't see it — which lets a
 // package acquire an undeclared (or dev-only) runtime dependency that silently fails
-// for consumers. Prefer `@azure/core-tracing` for tracing, or declare the package as a
-// regular runtime dependency and `import` it statically. Approved advanced cases
-// (e.g. platform shims) may opt out with an `eslint-disable` carrying a justification.
+// for consumers.
 const createRequireMessage =
   "Do not use createRequire() in production source: it loads modules outside the static " +
   "module graph, hiding the dependency from bundlers and dependency linting and allowing an " +
-  "undeclared or dev-only package to be loaded at runtime. Use @azure/core-tracing for tracing, " +
-  "or declare the package as a regular runtime dependency and import it statically. If this is an " +
+  "undeclared or dev-only package to be loaded at runtime. If this is an " +
   "approved advanced case, disable this rule on the line with a justification comment.";
 const requireAliasMessage =
   "Do not alias the global `require` in production source: it dodges the import/dependency rules " +
