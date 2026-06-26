@@ -18,7 +18,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      name?: string;
      volumes?: VolumeDefinition[];
  }
-@@ -3237,14 +3237,15 @@
+@@ -3234,14 +3234,15 @@
      idleTimeBeforeShutdown?: string;
  }
  
@@ -35,7 +35,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export interface ImageClassification extends AutoMLVertical {
      limitSettings: ImageLimitSettings;
-@@ -3867,9 +3868,10 @@
+@@ -3864,9 +3865,10 @@
      language?: string;
  }
  

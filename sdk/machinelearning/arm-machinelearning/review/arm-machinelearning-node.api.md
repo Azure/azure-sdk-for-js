@@ -2521,9 +2521,6 @@ export interface EndpointScheduleAction extends ScheduleActionBase {
 }
 
 // @public
-export type EndpointServiceConnectionStatus = string;
-
-// @public
 export type EndpointType = string;
 
 // @public
@@ -4474,15 +4471,6 @@ export enum KnownEndpointProvisioningState {
 }
 
 // @public
-export enum KnownEndpointServiceConnectionStatus {
-    Approved = "Approved",
-    Disconnected = "Disconnected",
-    Pending = "Pending",
-    Rejected = "Rejected",
-    Timeout = "Timeout"
-}
-
-// @public
 export enum KnownEndpointType {
     AzureContentSafety = "Azure.ContentSafety",
     AzureLlama = "Azure.Llama",
@@ -5072,6 +5060,15 @@ export enum KnownPrivateEndpointConnectionProvisioningState {
 }
 
 // @public
+export enum KnownPrivateEndpointServiceConnectionStatus {
+    Approved = "Approved",
+    Disconnected = "Disconnected",
+    Pending = "Pending",
+    Rejected = "Rejected",
+    Timeout = "Timeout"
+}
+
+// @public
 export enum KnownProtocol {
     Http = "http",
     Tcp = "tcp",
@@ -5097,7 +5094,7 @@ export enum KnownProvisioningStatus {
 }
 
 // @public
-export enum KnownPublicNetworkAccessType {
+export enum KnownPublicNetworkAccess {
     Disabled = "Disabled",
     Enabled = "Enabled"
 }
@@ -6467,7 +6464,7 @@ export interface OnlineEndpointProperties extends EndpointPropertiesBase {
     compute?: string;
     mirrorTraffic?: Record<string, number>;
     readonly provisioningState?: EndpointProvisioningState;
-    publicNetworkAccess?: PublicNetworkAccessType;
+    publicNetworkAccess?: PublicNetworkAccess;
     traffic?: Record<string, number>;
 }
 
@@ -6935,6 +6932,9 @@ export interface PrivateEndpointResource extends PrivateEndpoint {
 }
 
 // @public
+export type PrivateEndpointServiceConnectionStatus = string;
+
+// @public
 export interface PrivateLinkResource extends Resource {
     groupId?: string;
     // (undocumented)
@@ -6967,7 +6967,7 @@ export interface PrivateLinkResourcesOperations {
 export interface PrivateLinkServiceConnectionState {
     actionsRequired?: string;
     description?: string;
-    status?: EndpointServiceConnectionStatus;
+    status?: PrivateEndpointServiceConnectionStatus;
 }
 
 // @public
@@ -7039,7 +7039,7 @@ export interface PTUQuotaOperations {
 }
 
 // @public
-export type PublicNetworkAccessType = string;
+export type PublicNetworkAccess = string;
 
 // @public
 export interface PyTorch extends DistributionConfiguration {
@@ -7753,7 +7753,7 @@ export interface RegistryPrivateEndpointConnectionProperties {
 export interface RegistryPrivateLinkServiceConnectionState {
     actionsRequired?: string;
     description?: string;
-    status?: EndpointServiceConnectionStatus;
+    status?: PrivateEndpointServiceConnectionStatus;
 }
 
 // @public
@@ -8302,7 +8302,7 @@ export interface SharedPrivateLinkResource {
     name?: string;
     privateLinkResourceId?: string;
     requestMessage?: string;
-    status?: EndpointServiceConnectionStatus;
+    status?: PrivateEndpointServiceConnectionStatus;
 }
 
 // @public
@@ -8310,7 +8310,7 @@ export interface SharedPrivateLinkResourceProperty {
     groupId?: string;
     privateLinkResourceId?: string;
     requestMessage?: string;
-    status?: EndpointServiceConnectionStatus;
+    status?: PrivateEndpointServiceConnectionStatus;
 }
 
 // @public
@@ -9077,7 +9077,7 @@ export interface Workspace extends ProxyResource {
     readonly privateLinkCount?: number;
     readonly provisioningState?: ProvisioningState;
     provisionNetworkNow?: boolean;
-    publicNetworkAccess?: PublicNetworkAccessType;
+    publicNetworkAccess?: PublicNetworkAccess;
     serverlessComputeSettings?: ServerlessComputeSettings;
     serviceManagedResourcesSettings?: ServiceManagedResourcesSettings;
     readonly serviceProvisionedResourceGroup?: string;
@@ -9326,7 +9326,7 @@ export interface WorkspaceProperties {
     readonly privateLinkCount?: number;
     readonly provisioningState?: ProvisioningState;
     provisionNetworkNow?: boolean;
-    publicNetworkAccess?: PublicNetworkAccessType;
+    publicNetworkAccess?: PublicNetworkAccess;
     serverlessComputeSettings?: ServerlessComputeSettings;
     serviceManagedResourcesSettings?: ServiceManagedResourcesSettings;
     readonly serviceProvisionedResourceGroup?: string;
@@ -9363,7 +9363,7 @@ export interface WorkspacePropertiesUpdateParameters {
     managedNetwork?: ManagedNetworkSettings;
     networkAcls?: NetworkAcls;
     primaryUserAssignedIdentity?: string;
-    publicNetworkAccess?: PublicNetworkAccessType;
+    publicNetworkAccess?: PublicNetworkAccess;
     serverlessComputeSettings?: ServerlessComputeSettings;
     serviceManagedResourcesSettings?: ServiceManagedResourcesSettings;
     softDeleteRetentionInDays?: number;
@@ -9507,7 +9507,7 @@ export interface WorkspaceUpdateParameters {
     managedNetwork?: ManagedNetworkSettings;
     networkAcls?: NetworkAcls;
     primaryUserAssignedIdentity?: string;
-    publicNetworkAccess?: PublicNetworkAccessType;
+    publicNetworkAccess?: PublicNetworkAccess;
     serverlessComputeSettings?: ServerlessComputeSettings;
     serviceManagedResourcesSettings?: ServiceManagedResourcesSettings;
     sku?: Sku;

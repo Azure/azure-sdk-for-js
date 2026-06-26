@@ -771,7 +771,7 @@ export interface Workspace extends ProxyResource {
   /** The current deployment state of workspace resource. The provisioningState is to indicate states for resource provisioning. */
   readonly provisioningState?: ProvisioningState;
   /** Whether requests from Public Network are allowed. */
-  publicNetworkAccess?: PublicNetworkAccessType;
+  publicNetworkAccess?: PublicNetworkAccess;
   /** Settings for serverless compute in a workspace */
   serverlessComputeSettings?: ServerlessComputeSettings;
   /** The service managed resource settings. */
@@ -891,7 +891,7 @@ export interface WorkspaceProperties {
   /** The current deployment state of workspace resource. The provisioningState is to indicate states for resource provisioning. */
   readonly provisioningState?: ProvisioningState;
   /** Whether requests from Public Network are allowed. */
-  publicNetworkAccess?: PublicNetworkAccessType;
+  publicNetworkAccess?: PublicNetworkAccess;
   /** Settings for serverless compute in a workspace */
   serverlessComputeSettings?: ServerlessComputeSettings;
   /** The service managed resource settings. */
@@ -1983,7 +1983,7 @@ export interface PrivateLinkServiceConnectionState {
   /** User-defined message that, per NRP doc, may be used for approval-related message. */
   description?: string;
   /** Connection status of the service consumer with the service provider\r\nPossible state transitions\r\nPending -> Approved (Service provider approves the connection request)\r\nPending -> Rejected (Service provider rejects the connection request)\r\nPending -> Disconnected (Service provider deletes the connection)\r\nApproved -> Rejected (Service provider rejects the approved connection)\r\nApproved -> Disconnected (Service provider deletes the connection)\r\nRejected -> Pending (Service consumer re-initiates the connection request that was rejected)\r\nRejected -> Disconnected (Service provider deletes the connection) */
-  status?: EndpointServiceConnectionStatus;
+  status?: PrivateEndpointServiceConnectionStatus;
 }
 
 export function privateLinkServiceConnectionStateSerializer(
@@ -2007,7 +2007,7 @@ export function privateLinkServiceConnectionStateDeserializer(
 }
 
 /** Connection status of the service consumer with the service provider */
-export enum KnownEndpointServiceConnectionStatus {
+export enum KnownPrivateEndpointServiceConnectionStatus {
   /** Approved */
   Approved = "Approved",
   /** Pending */
@@ -2022,7 +2022,7 @@ export enum KnownEndpointServiceConnectionStatus {
 
 /**
  * Connection status of the service consumer with the service provider \
- * {@link KnownEndpointServiceConnectionStatus} can be used interchangeably with EndpointServiceConnectionStatus,
+ * {@link KnownPrivateEndpointServiceConnectionStatus} can be used interchangeably with PrivateEndpointServiceConnectionStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Approved** \
@@ -2031,7 +2031,7 @@ export enum KnownEndpointServiceConnectionStatus {
  * **Disconnected** \
  * **Timeout**
  */
-export type EndpointServiceConnectionStatus = string;
+export type PrivateEndpointServiceConnectionStatus = string;
 
 /** The current provisioning state. */
 export enum KnownPrivateEndpointConnectionProvisioningState {
@@ -2223,7 +2223,7 @@ export enum KnownProvisioningState {
 export type ProvisioningState = string;
 
 /** Enum to determine whether PublicNetworkAccess is Enabled or Disabled. */
-export enum KnownPublicNetworkAccessType {
+export enum KnownPublicNetworkAccess {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
@@ -2232,13 +2232,13 @@ export enum KnownPublicNetworkAccessType {
 
 /**
  * Enum to determine whether PublicNetworkAccess is Enabled or Disabled. \
- * {@link KnownPublicNetworkAccessType} can be used interchangeably with PublicNetworkAccessType,
+ * {@link KnownPublicNetworkAccess} can be used interchangeably with PublicNetworkAccess,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Enabled** \
  * **Disabled**
  */
-export type PublicNetworkAccessType = string;
+export type PublicNetworkAccess = string;
 
 /** model interface ServerlessComputeSettings */
 export interface ServerlessComputeSettings {
@@ -2325,7 +2325,7 @@ export interface SharedPrivateLinkResource {
   /** Request message */
   requestMessage?: string;
   /** Connection status of the service consumer with the service provider\r\nPossible state transitions\r\nPending -> Approved (Service provider approves the connection request)\r\nPending -> Rejected (Service provider rejects the connection request)\r\nPending -> Disconnected (Service provider deletes the connection)\r\nApproved -> Rejected (Service provider rejects the approved connection)\r\nApproved -> Disconnected (Service provider deletes the connection)\r\nRejected -> Pending (Service consumer re-initiates the connection request that was rejected)\r\nRejected -> Disconnected (Service provider deletes the connection) */
-  status?: EndpointServiceConnectionStatus;
+  status?: PrivateEndpointServiceConnectionStatus;
 }
 
 export function sharedPrivateLinkResourceSerializer(item: SharedPrivateLinkResource): any {
@@ -2360,7 +2360,7 @@ export interface SharedPrivateLinkResourceProperty {
   /** Request message */
   requestMessage?: string;
   /** Connection status of the service consumer with the service provider\r\nPossible state transitions\r\nPending -> Approved (Service provider approves the connection request)\r\nPending -> Rejected (Service provider rejects the connection request)\r\nPending -> Disconnected (Service provider deletes the connection)\r\nApproved -> Rejected (Service provider rejects the approved connection)\r\nApproved -> Disconnected (Service provider deletes the connection)\r\nRejected -> Pending (Service consumer re-initiates the connection request that was rejected)\r\nRejected -> Disconnected (Service provider deletes the connection) */
-  status?: EndpointServiceConnectionStatus;
+  status?: PrivateEndpointServiceConnectionStatus;
 }
 
 export function sharedPrivateLinkResourcePropertySerializer(
@@ -2466,7 +2466,7 @@ export interface WorkspaceUpdateParameters {
   /** The user assigned identity resource id that represents the workspace identity. */
   primaryUserAssignedIdentity?: string;
   /** Whether requests from Public Network are allowed. */
-  publicNetworkAccess?: PublicNetworkAccessType;
+  publicNetworkAccess?: PublicNetworkAccess;
   /** Settings for serverless compute in a workspace */
   serverlessComputeSettings?: ServerlessComputeSettings;
   /** The service managed resource settings. */
@@ -2540,7 +2540,7 @@ export interface WorkspacePropertiesUpdateParameters {
   /** The user assigned identity resource id that represents the workspace identity. */
   primaryUserAssignedIdentity?: string;
   /** Whether requests from Public Network are allowed. */
-  publicNetworkAccess?: PublicNetworkAccessType;
+  publicNetworkAccess?: PublicNetworkAccess;
   /** Settings for serverless compute in a workspace */
   serverlessComputeSettings?: ServerlessComputeSettings;
   /** The service managed resource settings. */
@@ -3525,7 +3525,7 @@ export interface RegistryPrivateLinkServiceConnectionState {
   /** User-defined message that, per NRP doc, may be used for approval-related message. */
   description?: string;
   /** Connection status of the service consumer with the service provider */
-  status?: EndpointServiceConnectionStatus;
+  status?: PrivateEndpointServiceConnectionStatus;
 }
 
 export function registryPrivateLinkServiceConnectionStateSerializer(
@@ -9992,7 +9992,7 @@ export interface OnlineEndpointProperties extends EndpointPropertiesBase {
   /** Provisioning state for the endpoint. */
   readonly provisioningState?: EndpointProvisioningState;
   /** Enum to determine whether PublicNetworkAccess is Enabled or Disabled. */
-  publicNetworkAccess?: PublicNetworkAccessType;
+  publicNetworkAccess?: PublicNetworkAccess;
   /** Percentage of traffic from endpoint to divert to each deployment. Traffic values need to sum to 100. */
   traffic?: Record<string, number>;
 }

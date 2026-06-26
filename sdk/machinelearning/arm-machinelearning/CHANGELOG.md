@@ -1,6 +1,6 @@
 # Release History
 
-## 4.0.0-beta.1 (2026-06-25)
+## 4.0.0-beta.1 (2026-06-26)
 Compared with version 3.0.0
 
 ### Features Added
@@ -539,7 +539,6 @@ Compared with version 3.0.0
   - Enum KnownConnectionCategory has a new value RemoteTool
   - Enum KnownConnectionCategory has a new value Sharepoint
   - Enum KnownDistributionType has a new value Ray
-  - Enum KnownEndpointServiceConnectionStatus has a new value Timeout
   - Enum KnownJobType has a new value Distillation
   - Enum KnownJobType has a new value FineTuning
   - Enum KnownOperationName has a new value Resize
@@ -766,9 +765,9 @@ Compared with version 3.0.0
   - Interface UsernamePasswordAuthTypeWorkspaceConnectionProperties no longer has parameter valueFormat
   - Interface WorkspaceConnectionPropertiesV2 no longer has parameter value
   - Interface WorkspaceConnectionPropertiesV2 no longer has parameter valueFormat
+  - Removed Type Alias EndpointServiceConnectionStatus
   - Removed Type Alias KeyType_2
-  - Removed Type Alias PrivateEndpointServiceConnectionStatus
-  - Removed Type Alias PublicNetworkAccess
+  - Removed Type Alias PublicNetworkAccessType
   - Removed Type Alias ValueFormat
   - Type alias "AssetReferenceBaseUnion" has been changed
   - Type alias "AutoMLVerticalUnion" has been changed
@@ -811,8 +810,8 @@ Compared with version 3.0.0
   - Type alias "TriggerBaseUnion" has been changed
   - Type alias "WebhookUnion" has been changed
   - Type alias "WorkspaceConnectionPropertiesV2Union" has been changed
-  - Removed Enum KnownPrivateEndpointServiceConnectionStatus
-  - Removed Enum KnownPublicNetworkAccess
+  - Removed Enum KnownEndpointServiceConnectionStatus
+  - Removed Enum KnownPublicNetworkAccessType
   - Removed Enum KnownValueFormat
 
     
