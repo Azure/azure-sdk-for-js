@@ -27,8 +27,6 @@ Compared with version 2.0.0
   - Operation AzureTrafficCollectors.beginCreateOrUpdateAndWait has a new signature
   - Operation CollectorPolicies.beginCreateOrUpdate has a new signature
   - Operation CollectorPolicies.beginCreateOrUpdateAndWait has a new signature
-  - Class AzureTrafficCollectorClient no longer has parameter apiVersion
-  - Class AzureTrafficCollectorClient no longer has parameter subscriptionId
   - Removed Interface TrackedResource
   - Removed Interface TrackedResourceSystemData
   - Removed Type Alias ApiVersionParameter
