@@ -31,7 +31,7 @@ export interface GuestConfigurationAssignmentsVmssOperations {
     vmssName: string,
     name: string,
     options?: GuestConfigurationAssignmentsVmssDeleteOptionalParams,
-  ) => Promise<GuestConfigurationAssignment>;
+  ) => Promise<GuestConfigurationAssignment | undefined>;
   /** Creates an association between a VMSS and guest configuration */
   createOrUpdate: (
     resourceGroupName: string,

@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { IoTOperationsContext } from "../../api/ioTOperationsContext.js";
+import { IoTOperationsContext } from "../../api/ioTOperationsContext.js";
 import {
   listByResourceGroup,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/dataflowProfile/operations.js";
-import type {
+import {
   DataflowProfileListByResourceGroupOptionalParams,
   DataflowProfileDeleteOptionalParams,
   DataflowProfileCreateOrUpdateOptionalParams,
   DataflowProfileGetOptionalParams,
 } from "../../api/dataflowProfile/options.js";
-import type { DataflowProfileResource } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { DataflowProfileResource } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a DataflowProfile operations. */
 export interface DataflowProfileOperations {
@@ -27,11 +27,6 @@ export interface DataflowProfileOperations {
     options?: DataflowProfileListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<DataflowProfileResource>;
   /** Delete a DataflowProfileResource */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     instanceName: string,

@@ -5,12 +5,12 @@ import { HorizonDbClient } from "@azure/arm-horizondb";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to lists all HorizonDb parameter groups in a resource group.
+ * This sample demonstrates how to lists all HorizonDB parameter groups in a resource group.
  *
- * @summary lists all HorizonDb parameter groups in a resource group.
+ * @summary lists all HorizonDB parameter groups in a resource group.
  * x-ms-original-file: 2026-01-20-preview/ParameterGroups_ListByResourceGroup.json
  */
-async function listHorizonDbParameterGroupsInAResourceGroup(): Promise<void> {
+async function listHorizonDBParameterGroupsInAResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new HorizonDbClient(credential, subscriptionId);
@@ -25,7 +25,7 @@ async function listHorizonDbParameterGroupsInAResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await listHorizonDbParameterGroupsInAResourceGroup();
+  await listHorizonDBParameterGroupsInAResourceGroup();
 }
 
 main().catch(console.error);

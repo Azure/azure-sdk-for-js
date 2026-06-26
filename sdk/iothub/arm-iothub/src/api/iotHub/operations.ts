@@ -1,15 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { IotHubContext as Client } from "../index.js";
-import type { FailoverInput } from "../../models/models.js";
-import { errorDetailsDeserializer, failoverInputSerializer } from "../../models/models.js";
+import { IotHubContext as Client } from "../index.js";
+import {
+  errorDetailsDeserializer,
+  FailoverInput,
+  failoverInputSerializer,
+} from "../../models/models.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type { IotHubManualFailoverOptionalParams } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { IotHubManualFailoverOptionalParams } from "./options.js";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _manualFailoverSend(
   context: Client,
@@ -30,11 +37,13 @@ export function _manualFailoverSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: failoverInputSerializer(failoverInput),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: failoverInputSerializer(failoverInput),
+    });
 }
 
 export async function _manualFailoverDeserialize(result: PathUncheckedResponse): Promise<void> {

@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { ImpactClient } from "@azure/arm-impactreporting";
+import { DefaultAzureCredential } from "@azure/identity";
+
 /**
  * This sample demonstrates how to get a Connector
  *
  * @summary get a Connector
- * x-ms-original-file: 2024-05-01-preview/Connectors_Get.json
+ * x-ms-original-file: 2026-01-01-preview/Connectors_Get.json
  */
-
-import { ImpactClient } from "@azure/arm-impactreporting";
-import { DefaultAzureCredential } from "@azure/identity";
-
-async function connectorsGet(): Promise<void> {
+async function getConnector(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "74f5e23f-d4d9-410a-bb4d-8f0608adb10d";
   const client = new ImpactClient(credential, subscriptionId);
@@ -20,7 +19,7 @@ async function connectorsGet(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await connectorsGet();
+  await getConnector();
 }
 
 main().catch(console.error);

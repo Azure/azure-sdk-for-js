@@ -2460,7 +2460,7 @@ export function routingMessageSerializer(item: RoutingMessage): any {
 /** Twin reference input parameter. This is an optional parameter */
 export interface RoutingTwin {
   /** Twin Tags */
-  tags?: any;
+  tags?: Record<string, any>;
   properties?: RoutingTwinProperties;
 }
 
@@ -2476,9 +2476,9 @@ export function routingTwinSerializer(item: RoutingTwin): any {
 /** model interface RoutingTwinProperties */
 export interface RoutingTwinProperties {
   /** Twin desired properties */
-  desired?: any;
-  /** Twin desired properties */
-  reported?: any;
+  desired?: Record<string, any>;
+  /** Twin reported properties */
+  reported?: Record<string, any>;
 }
 
 export function routingTwinPropertiesSerializer(item: RoutingTwinProperties): any {

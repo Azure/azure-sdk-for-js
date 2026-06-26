@@ -40,11 +40,6 @@ export interface SolutionConfigurationsOperations {
     options?: SolutionConfigurationsListOptionalParams,
   ) => PagedAsyncIterableIterator<SolutionConfiguration>;
   /** Delete a SolutionConfiguration */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceUri: string,
     solutionConfiguration: string,

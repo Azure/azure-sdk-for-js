@@ -5,12 +5,12 @@ import { HorizonDbClient } from "@azure/arm-horizondb";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to updates an existing HorizonDb replica (e.g., role).
+ * This sample demonstrates how to updates an existing HorizonDB replica (e.g., role).
  *
- * @summary updates an existing HorizonDb replica (e.g., role).
+ * @summary updates an existing HorizonDB replica (e.g., role).
  * x-ms-original-file: 2026-01-20-preview/Replicas_Update.json
  */
-async function updateAHorizonDbReplica(): Promise<void> {
+async function updateAHorizonDBReplica(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new HorizonDbClient(credential, subscriptionId);
@@ -25,7 +25,7 @@ async function updateAHorizonDbReplica(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await updateAHorizonDbReplica();
+  await updateAHorizonDBReplica();
 }
 
 main().catch(console.error);

@@ -1,22 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to list Insight resources by workloadImpactName
- *
- * @summary list Insight resources by workloadImpactName
- * x-ms-original-file: 2024-05-01-preview/Insights_ListBySubscription.json
- */
-
 import { ImpactClient } from "@azure/arm-impactreporting";
 import { DefaultAzureCredential } from "@azure/identity";
 
-async function listInsightResourcesByWorkloadImpactName(): Promise<void> {
+/**
+ * This sample demonstrates how to list the operations for the provider
+ *
+ * @summary list the operations for the provider
+ * x-ms-original-file: 2026-01-01-preview/Operations_List.json
+ */
+async function operationsList(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ImpactClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.insights.listBySubscription("impactid22")) {
+  for await (const item of client.operations.list()) {
     resArray.push(item);
   }
 
@@ -24,7 +23,7 @@ async function listInsightResourcesByWorkloadImpactName(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await listInsightResourcesByWorkloadImpactName();
+  await operationsList();
 }
 
 main().catch(console.error);

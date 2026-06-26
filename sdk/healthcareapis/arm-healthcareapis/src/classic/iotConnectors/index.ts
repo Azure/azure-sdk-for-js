@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { HealthcareApisManagementContext } from "../../api/healthcareApisManagementContext.js";
+import { HealthcareApisManagementContext } from "../../api/healthcareApisManagementContext.js";
 import {
   $delete,
   update,
@@ -9,18 +9,17 @@ import {
   createOrUpdate,
   get,
 } from "../../api/iotConnectors/operations.js";
-import type {
+import {
   IotConnectorsDeleteOptionalParams,
   IotConnectorsUpdateOptionalParams,
   IotConnectorsListByWorkspaceOptionalParams,
   IotConnectorsCreateOrUpdateOptionalParams,
   IotConnectorsGetOptionalParams,
 } from "../../api/iotConnectors/options.js";
-import type { IotConnector, IotConnectorPatchResource } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { IotConnector, IotConnectorPatchResource } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a IotConnectors operations. */
 export interface IotConnectorsOperations {

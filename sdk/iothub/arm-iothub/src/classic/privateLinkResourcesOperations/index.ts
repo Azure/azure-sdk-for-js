@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { IotHubContext } from "../../api/iotHubContext.js";
+import { IotHubContext } from "../../api/iotHubContext.js";
 import { list, get } from "../../api/privateLinkResourcesOperations/operations.js";
-import type {
+import {
   PrivateLinkResourcesOperationsListOptionalParams,
   PrivateLinkResourcesOperationsGetOptionalParams,
 } from "../../api/privateLinkResourcesOperations/options.js";
-import type { GroupIdInformation, PrivateLinkResources } from "../../models/models.js";
+import { GroupIdInformation, PrivateLinkResources } from "../../models/models.js";
 
 /** Interface representing a PrivateLinkResourcesOperations operations. */
 export interface PrivateLinkResourcesOperationsOperations {

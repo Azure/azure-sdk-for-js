@@ -5,12 +5,12 @@ import { HorizonDbClient } from "@azure/arm-horizondb";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to gets information about a HorizonDb parameter group.
+ * This sample demonstrates how to gets information about a HorizonDB parameter group.
  *
- * @summary gets information about a HorizonDb parameter group.
+ * @summary gets information about a HorizonDB parameter group.
  * x-ms-original-file: 2026-01-20-preview/ParameterGroups_Get.json
  */
-async function getAHorizonDbParameterGroup(): Promise<void> {
+async function getAHorizonDBParameterGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new HorizonDbClient(credential, subscriptionId);
@@ -22,7 +22,7 @@ async function getAHorizonDbParameterGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await getAHorizonDbParameterGroup();
+  await getAHorizonDBParameterGroup();
 }
 
 main().catch(console.error);

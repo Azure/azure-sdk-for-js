@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { HorizonDbContext } from "../../api/horizonDbContext.js";
+import { HorizonDbContext } from "../../api/horizonDbContext.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/horizonDbClusters/operations.js";
-import type {
+import {
   HorizonDbClustersListBySubscriptionOptionalParams,
   HorizonDbClustersListByResourceGroupOptionalParams,
   HorizonDbClustersDeleteOptionalParams,
@@ -18,29 +18,23 @@ import type {
   HorizonDbClustersCreateOrUpdateOptionalParams,
   HorizonDbClustersGetOptionalParams,
 } from "../../api/horizonDbClusters/options.js";
-import type { HorizonDbCluster, HorizonDbClusterForPatchUpdate } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { HorizonDbCluster, HorizonDbClusterForPatchUpdate } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a HorizonDbClusters operations. */
 export interface HorizonDbClustersOperations {
-  /** Lists all HorizonDb clusters in a subscription. */
+  /** Lists all HorizonDB clusters in a subscription. */
   listBySubscription: (
     options?: HorizonDbClustersListBySubscriptionOptionalParams,
   ) => PagedAsyncIterableIterator<HorizonDbCluster>;
-  /** Lists all HorizonDb clusters in a resource group. */
+  /** Lists all HorizonDB clusters in a resource group. */
   listByResourceGroup: (
     resourceGroupName: string,
     options?: HorizonDbClustersListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<HorizonDbCluster>;
-  /** Deletes a HorizonDb cluster. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
+  /** Deletes a HorizonDB cluster. */
   delete: (
     resourceGroupName: string,
     clusterName: string,
@@ -58,7 +52,7 @@ export interface HorizonDbClustersOperations {
     clusterName: string,
     options?: HorizonDbClustersDeleteOptionalParams,
   ) => Promise<void>;
-  /** Updates an existing HorizonDb cluster (e.g., tags, virtual cores, replica count). */
+  /** Updates an existing HorizonDB cluster (e.g., tags, virtual cores, replica count). */
   update: (
     resourceGroupName: string,
     clusterName: string,
@@ -79,7 +73,7 @@ export interface HorizonDbClustersOperations {
     properties: HorizonDbClusterForPatchUpdate,
     options?: HorizonDbClustersUpdateOptionalParams,
   ) => Promise<HorizonDbCluster>;
-  /** Creates a new HorizonDb cluster or updates an existing cluster. */
+  /** Creates a new HorizonDB cluster or updates an existing cluster. */
   createOrUpdate: (
     resourceGroupName: string,
     clusterName: string,
@@ -100,7 +94,7 @@ export interface HorizonDbClustersOperations {
     resource: HorizonDbCluster,
     options?: HorizonDbClustersCreateOrUpdateOptionalParams,
   ) => Promise<HorizonDbCluster>;
-  /** Gets information about a HorizonDb cluster. */
+  /** Gets information about a HorizonDB cluster. */
   get: (
     resourceGroupName: string,
     clusterName: string,

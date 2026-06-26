@@ -1,56 +1,71 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   HybridComputeManagementContext,
   HybridComputeManagementClientOptionalParams,
+  createHybridComputeManagement,
 } from "./api/index.js";
-import { createHybridComputeManagement } from "./api/index.js";
 import { setupExtensions, upgradeExtensions } from "./api/operations.js";
-import type {
-  SetupExtensionsOptionalParams,
-  UpgradeExtensionsOptionalParams,
-} from "./api/options.js";
-import type { ExtensionMetadataOperations } from "./classic/extensionMetadata/index.js";
-import { _getExtensionMetadataOperations } from "./classic/extensionMetadata/index.js";
-import type { ExtensionMetadataV2Operations } from "./classic/extensionMetadataV2/index.js";
-import { _getExtensionMetadataV2Operations } from "./classic/extensionMetadataV2/index.js";
-import type { ExtensionPublisherOperations } from "./classic/extensionPublisher/index.js";
-import { _getExtensionPublisherOperations } from "./classic/extensionPublisher/index.js";
-import type { ExtensionTypeOperations } from "./classic/extensionType/index.js";
-import { _getExtensionTypeOperations } from "./classic/extensionType/index.js";
-import type { GatewaysOperations } from "./classic/gateways/index.js";
-import { _getGatewaysOperations } from "./classic/gateways/index.js";
-import type { LicenseProfilesOperations } from "./classic/licenseProfiles/index.js";
-import { _getLicenseProfilesOperations } from "./classic/licenseProfiles/index.js";
-import type { LicensesOperations } from "./classic/licenses/index.js";
-import { _getLicensesOperations } from "./classic/licenses/index.js";
-import type { MachineExtensionsOperations } from "./classic/machineExtensions/index.js";
-import { _getMachineExtensionsOperations } from "./classic/machineExtensions/index.js";
-import type { MachineRunCommandsOperations } from "./classic/machineRunCommands/index.js";
-import { _getMachineRunCommandsOperations } from "./classic/machineRunCommands/index.js";
-import type { MachinesOperations } from "./classic/machines/index.js";
-import { _getMachinesOperations } from "./classic/machines/index.js";
-import type { NetworkProfileOperationsOperations } from "./classic/networkProfileOperations/index.js";
-import { _getNetworkProfileOperationsOperations } from "./classic/networkProfileOperations/index.js";
-import type { NetworkSecurityPerimeterConfigurationsOperations } from "./classic/networkSecurityPerimeterConfigurations/index.js";
-import { _getNetworkSecurityPerimeterConfigurationsOperations } from "./classic/networkSecurityPerimeterConfigurations/index.js";
-import type { OperationsOperations } from "./classic/operations/index.js";
-import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { PrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
-import { _getPrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
-import type { PrivateLinkResourcesOperations } from "./classic/privateLinkResources/index.js";
-import { _getPrivateLinkResourcesOperations } from "./classic/privateLinkResources/index.js";
-import type { PrivateLinkScopesOperations } from "./classic/privateLinkScopes/index.js";
-import { _getPrivateLinkScopesOperations } from "./classic/privateLinkScopes/index.js";
-import type { SettingsOperations } from "./classic/settings/index.js";
-import { _getSettingsOperations } from "./classic/settings/index.js";
-import type { MachineExtensionUpgrade, SetupExtensionRequest } from "./models/models.js";
-import type { SimplePollerLike } from "./static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "./static-helpers/simplePollerHelpers.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { PollerLike, OperationState } from "@azure/core-lro";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import { SetupExtensionsOptionalParams, UpgradeExtensionsOptionalParams } from "./api/options.js";
+import {
+  ExtensionMetadataOperations,
+  _getExtensionMetadataOperations,
+} from "./classic/extensionMetadata/index.js";
+import {
+  ExtensionMetadataV2Operations,
+  _getExtensionMetadataV2Operations,
+} from "./classic/extensionMetadataV2/index.js";
+import {
+  ExtensionPublisherOperations,
+  _getExtensionPublisherOperations,
+} from "./classic/extensionPublisher/index.js";
+import {
+  ExtensionTypeOperations,
+  _getExtensionTypeOperations,
+} from "./classic/extensionType/index.js";
+import { GatewaysOperations, _getGatewaysOperations } from "./classic/gateways/index.js";
+import {
+  LicenseProfilesOperations,
+  _getLicenseProfilesOperations,
+} from "./classic/licenseProfiles/index.js";
+import { LicensesOperations, _getLicensesOperations } from "./classic/licenses/index.js";
+import {
+  MachineExtensionsOperations,
+  _getMachineExtensionsOperations,
+} from "./classic/machineExtensions/index.js";
+import {
+  MachineRunCommandsOperations,
+  _getMachineRunCommandsOperations,
+} from "./classic/machineRunCommands/index.js";
+import { MachinesOperations, _getMachinesOperations } from "./classic/machines/index.js";
+import {
+  NetworkProfileOperationsOperations,
+  _getNetworkProfileOperationsOperations,
+} from "./classic/networkProfileOperations/index.js";
+import {
+  NetworkSecurityPerimeterConfigurationsOperations,
+  _getNetworkSecurityPerimeterConfigurationsOperations,
+} from "./classic/networkSecurityPerimeterConfigurations/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import {
+  PrivateEndpointConnectionsOperations,
+  _getPrivateEndpointConnectionsOperations,
+} from "./classic/privateEndpointConnections/index.js";
+import {
+  PrivateLinkResourcesOperations,
+  _getPrivateLinkResourcesOperations,
+} from "./classic/privateLinkResources/index.js";
+import {
+  PrivateLinkScopesOperations,
+  _getPrivateLinkScopesOperations,
+} from "./classic/privateLinkScopes/index.js";
+import { SettingsOperations, _getSettingsOperations } from "./classic/settings/index.js";
+import { MachineExtensionUpgrade, SetupExtensionRequest } from "./models/models.js";
+import { SimplePollerLike, getSimplePoller } from "./static-helpers/simplePollerHelpers.js";
+import { TokenCredential } from "@azure/core-auth";
+import { PollerLike, OperationState } from "@azure/core-lro";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { HybridComputeManagementClientOptionalParams } from "./api/hybridComputeManagementContext.js";
 

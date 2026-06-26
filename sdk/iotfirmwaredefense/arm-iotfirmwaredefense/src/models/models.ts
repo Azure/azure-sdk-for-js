@@ -1,6 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -46,7 +52,7 @@ export function operationDeserializer(item: any): Operation {
   };
 }
 
-/** Localized display information for and operation. */
+/** Localized display information for an operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
   readonly provider?: string;
@@ -340,8 +346,8 @@ export type ProvisioningState = string;
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
 }
 
 export function proxyResourceDeserializer(item: any): ProxyResource {
@@ -367,8 +373,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -425,7 +431,7 @@ export enum KnownCreatedByType {
 
 /**
  * The kind of entity that created the resource. \
- * {@link KnowncreatedByType} can be used interchangeably with createdByType,
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **User**: The entity was created by a user. \
@@ -497,7 +503,9 @@ export function workspaceSerializer(item: Workspace): any {
 
 export function workspaceDeserializer(item: any): Workspace {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -518,8 +526,8 @@ export interface WorkspaceProperties {
   readonly provisioningState?: ProvisioningState;
 }
 
-export function workspacePropertiesSerializer(item: WorkspaceProperties): any {
-  return item;
+export function workspacePropertiesSerializer(_item: WorkspaceProperties): any {
+  return {};
 }
 
 export function workspacePropertiesDeserializer(item: any): WorkspaceProperties {
@@ -585,7 +593,9 @@ export function trackedResourceDeserializer(item: any): TrackedResource {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
   };
 }
@@ -599,10 +609,7 @@ export interface WorkspaceUpdate {
 }
 
 export function workspaceUpdateSerializer(item: WorkspaceUpdate): any {
-  return {
-    sku: !item["sku"] ? item["sku"] : skuSerializer(item["sku"]),
-    tags: item["tags"],
-  };
+  return { sku: !item["sku"] ? item["sku"] : skuSerializer(item["sku"]), tags: item["tags"] };
 }
 
 /** The response of a Workspace list operation. */
@@ -1164,13 +1171,13 @@ export interface CveResult {
   cveName?: string;
   /** Legacy property for what is now componentName */
   component?: CveComponent;
-  /** Legacy property for the effective CVE score. */
+  /** Legacy property for the effective CVE score (deprecated). */
   cvssScore?: string;
-  /** Legacy property for the CVE CVSS version 2 score, if one existed. */
+  /** Legacy property for the CVE CVSS version 2 score, if one existed. (deprecated) */
   cvssV2Score?: string;
-  /** Legacy property for the CVE CVSS version 3 score, if one existed. */
+  /** Legacy property for the CVE CVSS version 3 score, if one existed. (deprecated) */
   cvssV3Score?: string;
-  /** Legacy property for the what CVSS version score was stored in the cvssScore property */
+  /** Legacy property for the what CVSS version score was stored in the cvssScore property (deprecated). */
   cvssVersion?: string;
   /** The most recent CVSS score of the CVE. */
   effectiveCvssScore?: number;
@@ -1470,7 +1477,7 @@ export type SummaryResourcePropertiesUnion =
 export function summaryResourcePropertiesUnionDeserializer(
   item: any,
 ): SummaryResourcePropertiesUnion {
-  switch (item.summaryType) {
+  switch (item["summaryType"]) {
     case "Firmware":
       return firmwareSummaryDeserializer(item as FirmwareSummary);
 
@@ -1495,7 +1502,7 @@ export function summaryResourcePropertiesUnionDeserializer(
 export enum KnownSummaryType {
   /** The summary contains information about the submitted firmware */
   Firmware = "Firmware",
-  /** The summary contains information about the Common Vulnerabilities and Exposures analysis results */
+  /** The summary contains information about the CVE (Common Vulnerabilities and Exposures) analysis results (deprecated) */
   CommonVulnerabilitiesAndExposures = "CommonVulnerabilitiesAndExposures",
   /** The summary contains information about the binary hardening analysis results */
   BinaryHardening = "BinaryHardening",
@@ -1511,7 +1518,7 @@ export enum KnownSummaryType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Firmware**: The summary contains information about the submitted firmware \
- * **CommonVulnerabilitiesAndExposures**: The summary contains information about the Common Vulnerabilities and Exposures analysis results \
+ * **CommonVulnerabilitiesAndExposures**: The summary contains information about the CVE (Common Vulnerabilities and Exposures) analysis results (deprecated) \
  * **BinaryHardening**: The summary contains information about the binary hardening analysis results \
  * **CryptoCertificate**: The summary contains information about the cryptographic certificate analysis results \
  * **CryptoKey**: The summary contains information about the cryptographic key analysis results
@@ -1552,7 +1559,7 @@ export function firmwareSummaryDeserializer(item: any): FirmwareSummary {
   };
 }
 
-/** Properties for a CVE analysis summary. */
+/** Properties for a CVE (Common Vulnerabilities and Exposures) analysis summary (deprecated). */
 export interface CveSummary extends SummaryResourceProperties {
   /** The total number of critical severity CVEs detected */
   criticalCveCount?: number;

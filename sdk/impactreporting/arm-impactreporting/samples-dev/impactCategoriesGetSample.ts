@@ -1,25 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to delete Insight resource, This is Admin only operation
- *
- * @summary delete Insight resource, This is Admin only operation
- * x-ms-original-file: 2024-05-01-preview/Insights_Delete.json
- */
-
 import { ImpactClient } from "@azure/arm-impactreporting";
 import { DefaultAzureCredential } from "@azure/identity";
 
-async function deleteAnInsight(): Promise<void> {
+/**
+ * This sample demonstrates how to get a ImpactCategory
+ *
+ * @summary get a ImpactCategory
+ * x-ms-original-file: 2026-01-01-preview/ImpactCategories_Get.json
+ */
+async function getWorkloadImpactResourceByName(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ImpactClient(credential, subscriptionId);
-  await client.insights.delete("impactid22", "insightId12");
+  const result = await client.impactCategories.get("ARMOperation.Create");
+  console.log(result);
 }
 
 async function main(): Promise<void> {
-  await deleteAnInsight();
+  await getWorkloadImpactResourceByName();
 }
 
 main().catch(console.error);

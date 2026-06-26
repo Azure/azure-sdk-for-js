@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { HybridComputeManagementContext } from "../../api/hybridComputeManagementContext.js";
+import { HybridComputeManagementContext } from "../../api/hybridComputeManagementContext.js";
 import { patch, update, get } from "../../api/settings/operations.js";
-import type {
+import {
   SettingsPatchOptionalParams,
   SettingsUpdateOptionalParams,
   SettingsGetOptionalParams,
 } from "../../api/settings/options.js";
-import type { Settings } from "../../models/models.js";
+import { Settings } from "../../models/models.js";
 
 /** Interface representing a Settings operations. */
 export interface SettingsOperations {

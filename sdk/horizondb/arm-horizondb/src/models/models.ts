@@ -174,7 +174,7 @@ export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo 
   };
 }
 
-/** Represents the HorizonDb cluster. */
+/** Represents the HorizonDB cluster. */
 export interface HorizonDbCluster extends TrackedResource {
   /** The resource-specific properties for this resource. */
   properties?: HorizonDbClusterProperties;
@@ -208,15 +208,15 @@ export function horizonDbClusterDeserializer(item: any): HorizonDbCluster {
   };
 }
 
-/** Properties of a HorizonDb cluster. */
+/** Properties of a HorizonDB cluster. */
 export interface HorizonDbClusterProperties {
   /** The administrator login name. */
   administratorLogin: string;
   /** The administrator login password. */
   administratorLoginPassword?: string;
-  /** The version of the HorizonDb cluster. */
+  /** The version of the HorizonDB cluster. */
   version?: string;
-  /** The mode to create a new HorizonDb cluster. */
+  /** The mode to create a new HorizonDB cluster. */
   createMode?: CreateModeCluster;
   /** Restore point creation time specifying the time to restore from. */
   pointInTimeUTC?: Date;
@@ -228,7 +228,7 @@ export interface HorizonDbClusterProperties {
   replicaCount?: number;
   /** Number of vCores. */
   vCores?: number;
-  /** The processor type for the HorizonDb cluster. */
+  /** The processor type for the HorizonDB cluster. */
   processorType?: string;
   /** The network related info. */
   network?: Network;
@@ -294,7 +294,7 @@ export function horizonDbClusterPropertiesDeserializer(item: any): HorizonDbClus
   };
 }
 
-/** The mode to create a new HorizonDb cluster. */
+/** The mode to create a new HorizonDB cluster. */
 export enum KnownCreateModeCluster {
   /** Create a new cluster */
   Create = "Create",
@@ -305,7 +305,7 @@ export enum KnownCreateModeCluster {
 }
 
 /**
- * The mode to create a new HorizonDb cluster. \
+ * The mode to create a new HorizonDB cluster. \
  * {@link KnownCreateModeCluster} can be used interchangeably with CreateModeCluster,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
@@ -321,8 +321,8 @@ export interface Network {
   readonly publicNetworkAccess?: PublicNetworkAccessState;
 }
 
-export function networkSerializer(item: Network): any {
-  return item;
+export function networkSerializer(_item: Network): any {
+  return {};
 }
 
 export function networkDeserializer(item: any): Network {
@@ -430,11 +430,11 @@ export enum KnownZonePlacementPolicy {
  */
 export type ZonePlacementPolicy = string;
 
-/** Connection information for HorizonDb parameter group. */
+/** Connection information for HorizonDB parameter group. */
 export interface HorizonDbClusterParameterGroupConnectionProperties {
   /** The resource ID of the connected parameter group. */
   id?: string;
-  /** Indication of if parameter group is applied on HorizonDb resource. */
+  /** Indication of if parameter group is applied on HorizonDB resource. */
   readonly syncStatus?: string;
   /** Indicates whether the parameters should be applied immediately. */
   applyImmediately?: boolean;
@@ -495,8 +495,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -563,11 +563,11 @@ export enum KnownCreatedByType {
  */
 export type CreatedByType = string;
 
-/** HorizonDb cluster for update operations. */
+/** HorizonDB cluster for update operations. */
 export interface HorizonDbClusterForPatchUpdate {
   /** Resource tags. */
   tags?: Record<string, string>;
-  /** The properties that can be updated for a HorizonDb cluster. */
+  /** The properties that can be updated for a HorizonDB cluster. */
   properties?: HorizonDbClusterPropertiesForPatchUpdate;
 }
 
@@ -582,7 +582,7 @@ export function horizonDbClusterForPatchUpdateSerializer(
   };
 }
 
-/** Properties of a HorizonDb cluster for update operations. */
+/** Properties of a HorizonDB cluster for update operations. */
 export interface HorizonDbClusterPropertiesForPatchUpdate {
   /** The administrator login password. */
   administratorLoginPassword?: string;
@@ -631,7 +631,7 @@ export function horizonDbClusterArrayDeserializer(result: Array<HorizonDbCluster
   });
 }
 
-/** Represents the HorizonDb pool. */
+/** Represents the HorizonDB pool. */
 export interface HorizonDbPool extends ProxyResource {
   /** The resource-specific properties for this resource. */
   properties?: HorizonDbPoolProperties;
@@ -656,15 +656,15 @@ export function horizonDbPoolDeserializer(item: any): HorizonDbPool {
   };
 }
 
-/** Properties of a HorizonDb pool. */
+/** Properties of a HorizonDB pool. */
 export interface HorizonDbPoolProperties {
-  /** The location of the HorizonDb pool. */
+  /** The location of the HorizonDB pool. */
   location?: string;
   /** Current state of the pool. */
   readonly state?: State;
   /** Number of replicas in the pool. */
   readonly replicaCount?: number;
-  /** The version of the HorizonDb pool. */
+  /** The version of the HorizonDB pool. */
   readonly version?: string;
   /** The create mode for the pool. */
   readonly createMode?: CreateModePool;
@@ -683,7 +683,7 @@ export function horizonDbPoolPropertiesDeserializer(item: any): HorizonDbPoolPro
   };
 }
 
-/** The mode to create a new HorizonDb cluster. */
+/** The mode to create a new HorizonDB cluster. */
 export enum KnownCreateModePool {
   /** Create a new pool */
   Create = "Create",
@@ -692,7 +692,7 @@ export enum KnownCreateModePool {
 }
 
 /**
- * The mode to create a new HorizonDb cluster. \
+ * The mode to create a new HorizonDB cluster. \
  * {@link KnownCreateModePool} can be used interchangeably with CreateModePool,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
@@ -704,8 +704,8 @@ export type CreateModePool = string;
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
 }
 
 export function proxyResourceDeserializer(item: any): ProxyResource {
@@ -740,7 +740,7 @@ export function horizonDbPoolArrayDeserializer(result: Array<HorizonDbPool>): an
   });
 }
 
-/** Represents the HorizonDb replica. */
+/** Represents the HorizonDB replica. */
 export interface HorizonDbReplica extends ProxyResource {
   /** The resource-specific properties for this resource. */
   properties?: HorizonDbReplicaProperties;
@@ -768,7 +768,7 @@ export function horizonDbReplicaDeserializer(item: any): HorizonDbReplica {
   };
 }
 
-/** Properties of a HorizonDb replica. */
+/** Properties of a HorizonDB replica. */
 export interface HorizonDbReplicaProperties {
   /** Role of the replica. */
   role?: ReplicaRole;
@@ -841,9 +841,9 @@ export function horizonDbReplicaArrayDeserializer(result: Array<HorizonDbReplica
   });
 }
 
-/** HorizonDb replica for update operations. */
+/** HorizonDB replica for update operations. */
 export interface HorizonDbReplicaForPatchUpdate {
-  /** Properties of a HorizonDb replica for update operations. */
+  /** Properties of a HorizonDB replica for update operations. */
   properties?: HorizonDbReplicaPropertiesForPatchUpdate;
 }
 
@@ -857,7 +857,7 @@ export function horizonDbReplicaForPatchUpdateSerializer(
   };
 }
 
-/** Properties of a HorizonDb replica for update operations. */
+/** Properties of a HorizonDB replica for update operations. */
 export interface HorizonDbReplicaPropertiesForPatchUpdate {
   /** Role of the replica. */
   role?: ReplicaRole;
@@ -869,7 +869,7 @@ export function horizonDbReplicaPropertiesForPatchUpdateSerializer(
   return { role: item["role"] };
 }
 
-/** Represents the HorizonDb firewall rule. */
+/** Represents the HorizonDB firewall rule. */
 export interface HorizonDbFirewallRule extends ProxyResource {
   /** The resource-specific properties for this resource. */
   properties?: HorizonDbFirewallRuleProperties;
@@ -897,13 +897,13 @@ export function horizonDbFirewallRuleDeserializer(item: any): HorizonDbFirewallR
   };
 }
 
-/** Properties of a HorizonDb firewall rule. */
+/** Properties of a HorizonDB firewall rule. */
 export interface HorizonDbFirewallRuleProperties {
   /** The start IP address of the firewall rule (IPv4). */
   startIpAddress: string;
   /** The end IP address of the firewall rule (IPv4). */
   endIpAddress: string;
-  /** The description of the HorizonDb firewall rule. */
+  /** The description of the HorizonDB firewall rule. */
   description?: string;
   /** The provisioning state of the firewall rule. */
   readonly provisioningState?: ProvisioningState;
@@ -1020,8 +1020,8 @@ export interface PrivateEndpoint {
   readonly id?: string;
 }
 
-export function privateEndpointSerializer(item: PrivateEndpoint): any {
-  return item;
+export function privateEndpointSerializer(_item: PrivateEndpoint): any {
+  return {};
 }
 
 export function privateEndpointDeserializer(item: any): PrivateEndpoint {
@@ -1187,7 +1187,7 @@ export function privateEndpointConnectionDeserializer(item: any): PrivateEndpoin
   };
 }
 
-/** Represents the HorizonDb private link resource. */
+/** Represents the HorizonDB private link resource. */
 export interface HorizonDbPrivateLinkResource extends ProxyResource {
   /** The resource-specific properties for this resource. */
   properties?: PrivateLinkResourceProperties;
@@ -1260,7 +1260,7 @@ export function horizonDbPrivateLinkResourceArrayDeserializer(
   });
 }
 
-/** Represents the HorizonDb parameter group. */
+/** Represents the HorizonDB parameter group. */
 export interface HorizonDbParameterGroup extends TrackedResource {
   /** The resource-specific properties for this resource. */
   properties?: HorizonDbParameterGroupProperties;
@@ -1294,7 +1294,7 @@ export function horizonDbParameterGroupDeserializer(item: any): HorizonDbParamet
   };
 }
 
-/** Properties of a HorizonDb parameter group. */
+/** Properties of a HorizonDB parameter group. */
 export interface HorizonDbParameterGroupProperties {
   /** Parameters in the parameter group. */
   parameters?: ParameterProperties[];
@@ -1350,7 +1350,7 @@ export function parameterPropertiesArrayDeserializer(result: Array<ParameterProp
   });
 }
 
-/** Properties of a HorizonDb parameters. */
+/** Properties of a HorizonDB parameters. */
 export interface ParameterProperties {
   /** The name of the parameter. */
   name?: string;
@@ -1390,11 +1390,11 @@ export function parameterPropertiesDeserializer(item: any): ParameterProperties 
   };
 }
 
-/** HorizonDb parameter group for update operations. */
+/** HorizonDB parameter group for update operations. */
 export interface HorizonDbParameterGroupForPatchUpdate {
   /** Resource tags. */
   tags?: Record<string, string>;
-  /** The properties that can be updated for a HorizonDb parameter group. */
+  /** The properties that can be updated for a HorizonDB parameter group. */
   properties?: HorizonDbParameterGroupPropertiesForPatchUpdate;
 }
 
@@ -1409,7 +1409,7 @@ export function horizonDbParameterGroupForPatchUpdateSerializer(
   };
 }
 
-/** Properties of a HorizonDb parameter group for update operations. */
+/** Properties of a HorizonDB parameter group for update operations. */
 export interface HorizonDbParameterGroupPropertiesForPatchUpdate {
   /** Parameters in the parameter group. */
   parameters?: ParameterProperties[];
@@ -1489,7 +1489,7 @@ export function horizonDbParameterGroupConnectionPropertiesArrayDeserializer(
   });
 }
 
-/** Connection information for HorizonDb parameter group. */
+/** Connection information for HorizonDB parameter group. */
 export interface HorizonDbParameterGroupConnectionProperties {
   /** The name of the connected resource. */
   readonly name?: string;

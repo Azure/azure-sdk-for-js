@@ -1,26 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to get a ImpactCategory
- *
- * @summary get a ImpactCategory
- * x-ms-original-file: 2024-05-01-preview/ImpactCategories_Get.json
- */
-
 import { ImpactClient } from "@azure/arm-impactreporting";
 import { DefaultAzureCredential } from "@azure/identity";
 
-async function getWorkloadImpactResourceByName(): Promise<void> {
+/**
+ * This sample demonstrates how to delete a WorkloadImpact
+ *
+ * @summary delete a WorkloadImpact
+ * x-ms-original-file: 2026-01-01-preview/WorkloadImpact_Delete.json
+ */
+async function deleteWorkloadImpactResourceByNameExample(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new ImpactClient(credential, subscriptionId);
-  const result = await client.impactCategories.get("ARMOperation.Create");
-  console.log(result);
+  await client.workloadImpacts.delete("impact-001");
 }
 
 async function main(): Promise<void> {
-  await getWorkloadImpactResourceByName();
+  await deleteWorkloadImpactResourceByNameExample();
 }
 
 main().catch(console.error);

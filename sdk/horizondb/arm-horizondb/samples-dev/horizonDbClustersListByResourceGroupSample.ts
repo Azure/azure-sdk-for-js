@@ -5,12 +5,12 @@ import { HorizonDbClient } from "@azure/arm-horizondb";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to lists all HorizonDb clusters in a resource group.
+ * This sample demonstrates how to lists all HorizonDB clusters in a resource group.
  *
- * @summary lists all HorizonDb clusters in a resource group.
+ * @summary lists all HorizonDB clusters in a resource group.
  * x-ms-original-file: 2026-01-20-preview/Clusters_ListByResourceGroup.json
  */
-async function listHorizonDbClustersInAResourceGroup(): Promise<void> {
+async function listHorizonDBClustersInAResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const client = new HorizonDbClient(credential, subscriptionId);
@@ -23,7 +23,7 @@ async function listHorizonDbClustersInAResourceGroup(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  await listHorizonDbClustersInAResourceGroup();
+  await listHorizonDBClustersInAResourceGroup();
 }
 
 main().catch(console.error);

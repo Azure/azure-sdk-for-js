@@ -1,23 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { IotHubContext as Client } from "../index.js";
-import type {
-  CertificateDescription,
-  CertificateListDescription,
-  CertificateWithNonceDescription,
-  CertificateVerificationDescription,
-} from "../../models/models.js";
+import { IotHubContext as Client } from "../index.js";
 import {
   errorDetailsDeserializer,
+  CertificateDescription,
   certificateDescriptionSerializer,
   certificateDescriptionDeserializer,
+  CertificateListDescription,
   certificateListDescriptionDeserializer,
+  CertificateWithNonceDescription,
   certificateWithNonceDescriptionDeserializer,
+  CertificateVerificationDescription,
   certificateVerificationDescriptionSerializer,
 } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   CertificatesVerifyOptionalParams,
   CertificatesGenerateVerificationCodeOptionalParams,
   CertificatesListByIotHubOptionalParams,
@@ -25,8 +23,12 @@ import type {
   CertificatesCreateOrUpdateOptionalParams,
   CertificatesGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _verifySend(
   context: Client,
@@ -50,16 +52,18 @@ export function _verifySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      "if-match": ifMatch,
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: certificateVerificationDescriptionSerializer(certificateVerificationBody),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        "if-match": ifMatch,
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: certificateVerificationDescriptionSerializer(certificateVerificationBody),
+    });
 }
 
 export async function _verifyDeserialize(
@@ -121,14 +125,16 @@ export function _generateVerificationCodeSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      "if-match": ifMatch,
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        "if-match": ifMatch,
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _generateVerificationCodeDeserialize(
@@ -185,10 +191,12 @@ export function _listByIotHubSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listByIotHubDeserialize(
@@ -239,10 +247,12 @@ export function _$deleteSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: { "if-match": ifMatch, ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: { "if-match": ifMatch, ...options.requestOptions?.headers },
+    });
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -300,16 +310,18 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: certificateDescriptionSerializer(certificateDescription),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: certificateDescriptionSerializer(certificateDescription),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -368,10 +380,12 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(

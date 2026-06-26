@@ -2,7 +2,7 @@
   "apiVersions": {
     "Microsoft.GuestConfiguration": "2024-04-05"
   },
-  "emitterVersion": "0.53.3",
+  "emitterVersion": "0.55.0-dev.10",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.GuestConfiguration",
     "CrossLanguageDefinitionId": {

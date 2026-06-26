@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { HealthcareApisManagementContext } from "../../api/healthcareApisManagementContext.js";
+import { HealthcareApisManagementContext } from "../../api/healthcareApisManagementContext.js";
 import { get } from "../../api/operationResults/operations.js";
-import type { OperationResultsGetOptionalParams } from "../../api/operationResults/options.js";
-import type { OperationResultsDescription } from "../../models/models.js";
+import { OperationResultsGetOptionalParams } from "../../api/operationResults/options.js";
+import { OperationResultsDescription } from "../../models/models.js";
 
 /** Interface representing a OperationResults operations. */
 export interface OperationResultsOperations {
