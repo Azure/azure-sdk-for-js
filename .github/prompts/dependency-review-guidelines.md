@@ -22,34 +22,52 @@ Review changes to **dependency declarations and package metadata** in
 
 ### 1. Workspace protocol
 
-Internal `@azure/*` packages that exist in this monorepo follow two
-conventions depending on usage:
+Internal `@azure/*` packages that exist in this monorepo can be
+referenced in two ways for runtime dependencies — **both are
+acceptable**:
 
-- **Dev-only or internal tool dependencies** use the `workspace:^`
-  protocol (e.g., `@azure-tools/test-recorder`, `@azure/dev-tool`).
-- **Published runtime dependencies** (packages shipped to npm as
-  `dependencies` or `peerDependencies`) typically use **semver caret
-  ranges** (e.g., `"@azure/core-rest-pipeline": "^1.19.0"`). This is
-  intentional — `pnpm`'s `link-workspace-packages` resolves them to
-  the local copy during development while publishing real ranges.
+- **`workspace:^` protocol** (e.g., `"@azure/core-rest-pipeline":
+  "workspace:^"`). At `pnpm pack`/publish time, pnpm rewrites this to
+  `^<local package version>`. Because we no longer bump a package's
+  version until it has source changes, the local version normally
+  matches the latest version already published to npm, so the rewritten
+  range is safe.
+- **Explicit semver caret ranges** (e.g., `"@azure/core-rest-pipeline":
+  "^1.19.0"`). Use this when you need to depend on a specific minimum
+  published version.
+
+Internal dev tools and test utils (e.g., `@azure-tools/test-recorder`,
+`@azure/dev-tool`) should continue to use `workspace:^`.
 
 ```jsonc
 // ✅ Correct — dev/internal tool
 "@azure-tools/test-recorder": "workspace:^"
 
-// ✅ Also correct — published runtime dep with semver range
+// ✅ Correct — published runtime dep, explicit semver range
 "@azure/core-rest-pipeline": "^1.19.0"
 
-// ❌ Wrong — `workspace:^` for a published runtime dependency
-//    pnpm pack/publish replaces it, but risks depending on a
-//    local version that hasn't been published to npm yet
+// ✅ Also correct — published runtime dep using the workspace protocol
 "@azure/core-rest-pipeline": "workspace:^"
 ```
 
-Only flag `workspace:^` for a **published runtime dependency** — while
-`pnpm pack` replaces it with a real range, it locks to whatever local
-version is built, which may not be published yet. Only flag a semver
-range for an **internal dev tool** that should use `workspace:^`.
+**When a `workspace:` runtime dependency has unreleased source
+changes:** if the dependency package has source changes that bump its
+local version ahead of what is published on npm, `workspace:^` is
+rewritten at pack time to a range pointing at that not-yet-published
+version. In that case the consuming package should:
+
+- Ensure the dependency is released **together with or before** the
+  consumer, so the version pnpm writes at pack time exists on npm.
+- Bump the consumer's own version and update its `CHANGELOG.md` when it
+  now relies on the dependency's new features.
+- If the consumer does **not** need the new features yet, use an
+  explicit caret range against the last published version instead of
+  `workspace:^`, to avoid coupling its release to the dependency's.
+
+Only flag `workspace:^` on a published runtime dependency when its local
+version is ahead of npm (unreleased source changes) **and** the consumer
+is not being released alongside it. Only flag a semver range for an
+**internal dev tool** that should use `workspace:^`.
 
 ### 2. Catalog usage
 
@@ -80,7 +98,7 @@ The defined catalogs are:
 
 | Dependency type | Expected range |
 |----------------|---------------|
-| Published runtime dependencies | `^` (caret — allows minor/patch) |
+| Published runtime dependencies | `^` (caret — allows minor/patch) or `workspace:^` |
 | Peer dependencies | `>=` range matching compatibility window |
 | Dev dependencies | `catalog:` reference or `^` |
 | Internal dev tools & test utils | `workspace:^` |
