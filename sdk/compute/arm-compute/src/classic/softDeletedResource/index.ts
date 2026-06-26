@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeManagementContext } from "../../api/computeManagementContext.js";
+import { ComputeManagementContext } from "../../api/computeManagementContext.js";
 import { listByArtifactName } from "../../api/softDeletedResource/operations.js";
-import type { SoftDeletedResourceListByArtifactNameOptionalParams } from "../../api/softDeletedResource/options.js";
-import type { GallerySoftDeletedResource } from "../../models/computeGallery/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SoftDeletedResourceListByArtifactNameOptionalParams } from "../../api/softDeletedResource/options.js";
+import { GallerySoftDeletedResource } from "../../models/computeGallery/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a SoftDeletedResource operations. */
 export interface SoftDeletedResourceOperations {

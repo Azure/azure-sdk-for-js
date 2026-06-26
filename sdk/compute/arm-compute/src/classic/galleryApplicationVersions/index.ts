@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeManagementContext } from "../../api/computeManagementContext.js";
+import { ComputeManagementContext } from "../../api/computeManagementContext.js";
 import {
   listByGalleryApplication,
   $delete,
@@ -9,21 +9,20 @@ import {
   createOrUpdate,
   get,
 } from "../../api/galleryApplicationVersions/operations.js";
-import type {
+import {
   GalleryApplicationVersionsListByGalleryApplicationOptionalParams,
   GalleryApplicationVersionsDeleteOptionalParams,
   GalleryApplicationVersionsUpdateOptionalParams,
   GalleryApplicationVersionsCreateOrUpdateOptionalParams,
   GalleryApplicationVersionsGetOptionalParams,
 } from "../../api/galleryApplicationVersions/options.js";
-import type {
+import {
   GalleryApplicationVersion,
   GalleryApplicationVersionUpdate,
 } from "../../models/computeGallery/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a GalleryApplicationVersions operations. */
 export interface GalleryApplicationVersionsOperations {

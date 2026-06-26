@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists snapshots under a subscription.
  *
  * @summary lists snapshots under a subscription.
- * x-ms-original-file: 2025-01-02/snapshotExamples/Snapshot_ListBySubscription.json
+ * x-ms-original-file: 2026-03-02/snapshotExamples/Snapshot_ListBySubscription.json
  */
 async function listAllSnapshotsInASubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

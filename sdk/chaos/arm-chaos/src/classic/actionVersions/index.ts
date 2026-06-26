@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ChaosManagementContext } from "../../api/chaosManagementContext.js";
+import { ChaosManagementContext } from "../../api/chaosManagementContext.js";
 import { list, get } from "../../api/actionVersions/operations.js";
-import type {
+import {
   ActionVersionsListOptionalParams,
   ActionVersionsGetOptionalParams,
 } from "../../api/actionVersions/options.js";
-import type { ActionVersion } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { ActionVersion } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ActionVersions operations. */
 export interface ActionVersionsOperations {

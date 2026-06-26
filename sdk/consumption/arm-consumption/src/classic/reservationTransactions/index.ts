@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ConsumptionManagementContext } from "../../api/consumptionManagementContext.js";
+import { ConsumptionManagementContext } from "../../api/consumptionManagementContext.js";
 import { listByBillingProfile, list } from "../../api/reservationTransactions/operations.js";
-import type {
+import {
   ReservationTransactionsListByBillingProfileOptionalParams,
   ReservationTransactionsListOptionalParams,
 } from "../../api/reservationTransactions/options.js";
-import type { ReservationTransaction, ModernReservationTransaction } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { ReservationTransaction, ModernReservationTransaction } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ReservationTransactions operations. */
 export interface ReservationTransactionsOperations {

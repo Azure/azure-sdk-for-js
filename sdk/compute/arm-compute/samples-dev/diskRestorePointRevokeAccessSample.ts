@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to revokes access to a diskRestorePoint.
  *
  * @summary revokes access to a diskRestorePoint.
- * x-ms-original-file: 2025-01-02/diskRestorePointExamples/DiskRestorePoint_EndGetAccess.json
+ * x-ms-original-file: 2026-03-02/diskRestorePointExamples/DiskRestorePoint_EndGetAccess.json
  */
 async function revokesAccessToADiskRestorePoint(): Promise<void> {
   const credential = new DefaultAzureCredential();

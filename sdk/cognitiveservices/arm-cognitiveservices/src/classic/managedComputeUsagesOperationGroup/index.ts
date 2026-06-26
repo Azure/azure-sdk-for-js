@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CognitiveServicesManagementContext } from "../../api/cognitiveServicesManagementContext.js";
+import { CognitiveServicesManagementContext } from "../../api/cognitiveServicesManagementContext.js";
 import { list } from "../../api/managedComputeUsagesOperationGroup/operations.js";
-import type { ManagedComputeUsagesOperationGroupListOptionalParams } from "../../api/managedComputeUsagesOperationGroup/options.js";
-import type { ManagedComputeUsage } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { ManagedComputeUsagesOperationGroupListOptionalParams } from "../../api/managedComputeUsagesOperationGroup/options.js";
+import { ManagedComputeUsage } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ManagedComputeUsagesOperationGroup operations. */
 export interface ManagedComputeUsagesOperationGroupOperations {

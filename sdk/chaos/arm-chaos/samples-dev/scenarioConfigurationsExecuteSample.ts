@@ -14,12 +14,13 @@ async function executeTheScenarioExecutionWithTheGivenScenarioConfiguration(): P
   const credential = new DefaultAzureCredential();
   const subscriptionId = "6b052e15-03d3-4f17-b2e1-be7f07588291";
   const client = new ChaosManagementClient(credential, subscriptionId);
-  await client.scenarioConfigurations.execute(
+  const result = await client.scenarioConfigurations.execute(
     "exampleRG",
     "exampleWorkspace",
     "12345678-1234-1234-1234-123456789012",
     "config-5678-9012-3456-789012345678",
   );
+  console.log(result);
 }
 
 async function main(): Promise<void> {

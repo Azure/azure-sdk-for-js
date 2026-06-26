@@ -2,24 +2,21 @@
 // Licensed under the MIT License.
 
 import { areAllPropsUndefined } from "../../static-helpers/serialization/check-prop-undefined.js";
-import type {
+import {
   ApiError,
+  apiErrorDeserializer,
   OperatingSystemTypes,
+  userAssignedIdentitiesValueRecordSerializer,
+  userAssignedIdentitiesValueRecordDeserializer,
   UserAssignedIdentitiesValue,
   ExtendedLocation,
+  extendedLocationSerializer,
+  extendedLocationDeserializer,
   SnapshotAccessState,
   HyperVGeneration,
   Architecture,
 } from "../common/models.js";
-import {
-  apiErrorDeserializer,
-  userAssignedIdentitiesValueRecordSerializer,
-  userAssignedIdentitiesValueRecordDeserializer,
-  extendedLocationSerializer,
-  extendedLocationDeserializer,
-} from "../common/models.js";
-import type { TrackedResource, ProxyResource } from "../models.js";
-import { systemDataDeserializer } from "../models.js";
+import { TrackedResource, systemDataDeserializer, ProxyResource } from "../models.js";
 
 /**
  * This file contains only generated model types and their (de)serializers.
@@ -119,9 +116,9 @@ export function diskSerializer(item: Disk): any {
       "creationData",
       "diskSizeGB",
       "encryptionSettingsCollection",
-      "diskIOPSReadWrite",
+      "diskIopsReadWrite",
       "diskMBpsReadWrite",
-      "diskIOPSReadOnly",
+      "diskIopsReadOnly",
       "diskMBpsReadOnly",
       "encryption",
       "maxShares",
@@ -864,6 +861,8 @@ export interface DiskSecurityProfile {
   securityType?: DiskSecurityTypes;
   /** ResourceId of the disk encryption set associated to Confidential VM supported disk encrypted with customer managed key */
   secureVMDiskEncryptionSetId?: string;
+  /** Indicates the version of Confidential VM for the resource. */
+  readonly confidentialVMVersion?: ConfidentialVMVersion;
 }
 
 export function diskSecurityProfileSerializer(item: DiskSecurityProfile): any {
@@ -877,6 +876,7 @@ export function diskSecurityProfileDeserializer(item: any): DiskSecurityProfile 
   return {
     securityType: item["securityType"],
     secureVMDiskEncryptionSetId: item["secureVMDiskEncryptionSetId"],
+    confidentialVMVersion: item["confidentialVMVersion"],
   };
 }
 
@@ -906,6 +906,24 @@ export enum KnownDiskSecurityTypes {
  * **ConfidentialVM_NonPersistedTPM**: Indicates Confidential VM disk with a ephemeral vTPM. vTPM state is not persisted across VM reboots.
  */
 export type DiskSecurityTypes = string;
+
+/** Indicates the version of Confidential VM for the resource. */
+export enum KnownConfidentialVMVersion {
+  /** V1 indicates the resource does not have an associated Virtual Machine Metadata. */
+  V1 = "V1",
+  /** V2 indicates the resource has an associated Virtual Machine Metadata. */
+  V2 = "V2",
+}
+
+/**
+ * Indicates the version of Confidential VM for the resource. \
+ * {@link KnownConfidentialVMVersion} can be used interchangeably with ConfidentialVMVersion,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **V1**: V1 indicates the resource does not have an associated Virtual Machine Metadata. \
+ * **V2**: V2 indicates the resource has an associated Virtual Machine Metadata.
+ */
+export type ConfidentialVMVersion = string;
 
 /** Policy for controlling export on the disk. */
 export enum KnownPublicNetworkAccess {
@@ -1085,9 +1103,9 @@ export function diskUpdateSerializer(item: DiskUpdate): any {
       "osType",
       "diskSizeGB",
       "encryptionSettingsCollection",
-      "diskIOPSReadWrite",
+      "diskIopsReadWrite",
       "diskMBpsReadWrite",
-      "diskIOPSReadOnly",
+      "diskIopsReadOnly",
       "diskMBpsReadOnly",
       "maxShares",
       "encryption",
@@ -2050,6 +2068,8 @@ export interface Snapshot extends TrackedResource {
   dataAccessAuthMode?: DataAccessAuthMode;
   /** The state of snapshot which determines the access availability of the snapshot. */
   readonly snapshotAccessState?: SnapshotAccessState;
+  /** The immutability policy currently applied to this snapshot. Present only when an immutability policy has been configured. */
+  readonly immutabilityPolicy?: ImmutabilityPolicy;
 }
 
 export function snapshotSerializer(item: Snapshot): any {
@@ -2157,6 +2177,8 @@ export interface SnapshotProperties {
   dataAccessAuthMode?: DataAccessAuthMode;
   /** The state of snapshot which determines the access availability of the snapshot. */
   readonly snapshotAccessState?: SnapshotAccessState;
+  /** The immutability policy currently applied to this snapshot. Present only when an immutability policy has been configured. */
+  readonly immutabilityPolicy?: ImmutabilityPolicy;
 }
 
 export function snapshotPropertiesSerializer(item: SnapshotProperties): any {
@@ -2229,6 +2251,9 @@ export function snapshotPropertiesDeserializer(item: any): SnapshotProperties {
       : copyCompletionErrorDeserializer(item["copyCompletionError"]),
     dataAccessAuthMode: item["dataAccessAuthMode"],
     snapshotAccessState: item["snapshotAccessState"],
+    immutabilityPolicy: !item["immutabilityPolicy"]
+      ? item["immutabilityPolicy"]
+      : immutabilityPolicyDeserializer(item["immutabilityPolicy"]),
   };
 }
 
@@ -2265,6 +2290,52 @@ export enum KnownCopyCompletionErrorReason {
  * **CopySourceNotFound**: Indicates that the source snapshot was deleted while the background copy of the resource created via CopyStart operation was in progress.
  */
 export type CopyCompletionErrorReason = string;
+
+/** The immutability policy currently applied to a snapshot. */
+export interface ImmutabilityPolicy {
+  /** The immutability duration for the snapshot, in number of days. */
+  readonly immutabilityDurationDays?: number;
+  /** The type of the immutability policy. */
+  readonly type?: ImmutabilityPolicyType;
+  /** The time when the immutability policy was set on the snapshot. */
+  readonly policyStartTime?: Date;
+  /** The time when the immutability policy will expire on the snapshot. */
+  readonly policyExpirationTime?: Date;
+  /** Indicates whether the immutability policy has expired. */
+  readonly isPolicyExpired?: boolean;
+}
+
+export function immutabilityPolicyDeserializer(item: any): ImmutabilityPolicy {
+  return {
+    immutabilityDurationDays: item["immutabilityDurationDays"],
+    type: item["type"],
+    policyStartTime: !item["policyStartTime"]
+      ? item["policyStartTime"]
+      : new Date(item["policyStartTime"]),
+    policyExpirationTime: !item["policyExpirationTime"]
+      ? item["policyExpirationTime"]
+      : new Date(item["policyExpirationTime"]),
+    isPolicyExpired: item["isPolicyExpired"],
+  };
+}
+
+/** The type of the immutability policy. 'Unlocked' allows the policy to be modified by privileged users; 'Locked' prevents reduction of the immutability duration but allows extension of the lock period. */
+export enum KnownImmutabilityPolicyType {
+  /** Privileged users can modify the snapshot's immutability policy, if it is unlocked type. */
+  Unlocked = "Unlocked",
+  /** The snapshot immutability policy duration cannot be reduced but can be extended. The policy cannot be removed until the lock period expires. */
+  Locked = "Locked",
+}
+
+/**
+ * The type of the immutability policy. 'Unlocked' allows the policy to be modified by privileged users; 'Locked' prevents reduction of the immutability duration but allows extension of the lock period. \
+ * {@link KnownImmutabilityPolicyType} can be used interchangeably with ImmutabilityPolicyType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unlocked**: Privileged users can modify the snapshot's immutability policy, if it is unlocked type. \
+ * **Locked**: The snapshot immutability policy duration cannot be reduced but can be extended. The policy cannot be removed until the lock period expires.
+ */
+export type ImmutabilityPolicyType = string;
 
 /** The snapshots sku name. Can be Standard_LRS, Premium_LRS, or Standard_ZRS. This is an optional parameter for incremental snapshot and the default behavior is the SKU will be set to the same sku as the previous snapshot */
 export interface SnapshotSku {
@@ -2429,6 +2500,30 @@ export function snapshotArrayDeserializer(result: Array<Snapshot>): any[] {
   });
 }
 
+/** Data used for updating the immutability policy of a snapshot. */
+export interface ImmutabilityPolicyData {
+  /** The immutability duration for the snapshot, in number of days. */
+  immutabilityDurationDays: number;
+  /** The type of the immutability policy. 'Unlocked' allows the policy to be modified by privileged users; 'Locked' prevents reduction of the immutability duration but allows extension of the lock period. */
+  type: ImmutabilityPolicyType;
+}
+
+export function immutabilityPolicyDataSerializer(item: ImmutabilityPolicyData): any {
+  return { immutabilityDurationDays: item["immutabilityDurationDays"], type: item["type"] };
+}
+
+/** Data used for locking the immutability policy of a snapshot. */
+export interface ImmutabilityPolicyLockData {
+  /** The immutability duration for the snapshot, in number of days. */
+  immutabilityDurationDays: number;
+  /** The type of the immutability policy. 'Unlocked' allows the policy to be modified by privileged users; 'Locked' prevents reduction of the immutability duration but allows extension of the lock period. */
+  type: ImmutabilityPolicyType;
+}
+
+export function immutabilityPolicyLockDataSerializer(item: ImmutabilityPolicyLockData): any {
+  return { immutabilityDurationDays: item["immutabilityDurationDays"], type: item["type"] };
+}
+
 /** Properties of disk restore point */
 export interface DiskRestorePoint extends ProxyResource {
   /** The timestamp of restorePoint creation */
@@ -2467,6 +2562,8 @@ export interface DiskRestorePoint extends ProxyResource {
   securityProfile?: DiskSecurityProfile;
   /** Logical sector size in bytes for disk restore points of UltraSSD_LRS and PremiumV2_LRS disks. Supported values are 512 and 4096. 4096 is the default. */
   readonly logicalSectorSize?: number;
+  /** The state of snapshot which determines the access availability of the snapshot. */
+  readonly snapshotAccessState?: SnapshotAccessState;
 }
 
 export function diskRestorePointDeserializer(item: any): DiskRestorePoint {
@@ -2521,6 +2618,8 @@ export interface DiskRestorePointProperties {
   securityProfile?: DiskSecurityProfile;
   /** Logical sector size in bytes for disk restore points of UltraSSD_LRS and PremiumV2_LRS disks. Supported values are 512 and 4096. 4096 is the default. */
   readonly logicalSectorSize?: number;
+  /** The state of snapshot which determines the access availability of the snapshot. */
+  readonly snapshotAccessState?: SnapshotAccessState;
 }
 
 export function diskRestorePointPropertiesDeserializer(item: any): DiskRestorePointProperties {
@@ -2551,6 +2650,7 @@ export function diskRestorePointPropertiesDeserializer(item: any): DiskRestorePo
       ? item["securityProfile"]
       : diskSecurityProfileDeserializer(item["securityProfile"]),
     logicalSectorSize: item["logicalSectorSize"],
+    snapshotAccessState: item["snapshotAccessState"],
   };
 }
 
@@ -2878,6 +2978,9 @@ export function _snapshotPropertiesDeserializer(item: any) {
       : copyCompletionErrorDeserializer(item["copyCompletionError"]),
     dataAccessAuthMode: item["dataAccessAuthMode"],
     snapshotAccessState: item["snapshotAccessState"],
+    immutabilityPolicy: !item["immutabilityPolicy"]
+      ? item["immutabilityPolicy"]
+      : immutabilityPolicyDeserializer(item["immutabilityPolicy"]),
   };
 }
 
@@ -2928,5 +3031,6 @@ export function _diskRestorePointPropertiesDeserializer(item: any) {
       ? item["securityProfile"]
       : diskSecurityProfileDeserializer(item["securityProfile"]),
     logicalSectorSize: item["logicalSectorSize"],
+    snapshotAccessState: item["snapshotAccessState"],
   };
 }

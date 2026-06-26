@@ -1,5 +1,19 @@
+# warp.config.yml — build configuration
 
-extends: ../../../warp.base.config.yml
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/validations": "./src/api/validations/index.ts"
+  "./api/marketplaceAgreements": "./src/api/marketplaceAgreements/index.ts"
+  "./api/topics": "./src/api/topics/index.ts"
+  "./api/connector": "./src/api/connector/index.ts"
+  "./api/cluster": "./src/api/cluster/index.ts"
+  "./api/environment": "./src/api/environment/index.ts"
+  "./api/access": "./src/api/access/index.ts"
+  "./api/organization": "./src/api/organization/index.ts"
+  "./api/organizationOperations": "./src/api/organizationOperations/index.ts"
+  "./models": "./src/models/index.ts"
 
 targets:
   - name: browser

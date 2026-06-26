@@ -3012,6 +3012,234 @@ export function scenarioArrayDeserializer(result: Array<Scenario>): any[] {
   });
 }
 
+/** Model that represents the scenario. */
+export interface ScenarioConfiguration extends ProxyResource {
+  /** The properties of scenario definition. */
+  properties?: ScenarioConfigurationProperties;
+}
+
+export function scenarioConfigurationSerializer(item: ScenarioConfiguration): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : scenarioConfigurationPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function scenarioConfigurationDeserializer(item: any): ScenarioConfiguration {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : scenarioConfigurationPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Model that represents the properties of the scenario configuration. */
+export interface ScenarioConfigurationProperties {
+  /** Resource ID of the scenario this configuration applies to. */
+  scenarioId: string;
+  /** Runtime parameter values for the scenario. Keys must match parameter names defined in the scenario. */
+  parameters?: KeyValuePair[];
+  /** Exclusion criteria for protecting resources from fault injection. */
+  exclusions?: ConfigurationExclusions;
+  /** Most recent provisioning state for the given scenario resource. */
+  readonly provisioningState?: ProvisioningState;
+  /** Filter criteria used to constrain which discovered resources participate in fault injection. */
+  filters?: ConfigurationFilters;
+}
+
+export function scenarioConfigurationPropertiesSerializer(
+  item: ScenarioConfigurationProperties,
+): any {
+  return {
+    scenarioId: item["scenarioId"],
+    parameters: !item["parameters"]
+      ? item["parameters"]
+      : keyValuePairArraySerializer(item["parameters"]),
+    exclusions: !item["exclusions"]
+      ? item["exclusions"]
+      : configurationExclusionsSerializer(item["exclusions"]),
+    filters: !item["filters"] ? item["filters"] : configurationFiltersSerializer(item["filters"]),
+  };
+}
+
+export function scenarioConfigurationPropertiesDeserializer(
+  item: any,
+): ScenarioConfigurationProperties {
+  return {
+    scenarioId: item["scenarioId"],
+    parameters: !item["parameters"]
+      ? item["parameters"]
+      : keyValuePairArrayDeserializer(item["parameters"]),
+    exclusions: !item["exclusions"]
+      ? item["exclusions"]
+      : configurationExclusionsDeserializer(item["exclusions"]),
+    provisioningState: item["provisioningState"],
+    filters: !item["filters"] ? item["filters"] : configurationFiltersDeserializer(item["filters"]),
+  };
+}
+
+/**
+ * Model that represents exclusion criteria for protecting resources from fault injection.
+ * Uses union (OR) logic - a resource is excluded if it matches ANY criteria.
+ */
+export interface ConfigurationExclusions {
+  /** Array of specific resource IDs to exclude from fault injection. */
+  resources?: string[];
+  /** Array of tag key-value pairs. Resources with matching tags are excluded. */
+  tags?: KeyValuePair[];
+  /** Array of resource types. All resources of these types are excluded. */
+  types?: string[];
+}
+
+export function configurationExclusionsSerializer(item: ConfigurationExclusions): any {
+  return {
+    resources: !item["resources"]
+      ? item["resources"]
+      : item["resources"].map((p: any) => {
+          return p;
+        }),
+    tags: !item["tags"] ? item["tags"] : keyValuePairArraySerializer(item["tags"]),
+    types: !item["types"]
+      ? item["types"]
+      : item["types"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function configurationExclusionsDeserializer(item: any): ConfigurationExclusions {
+  return {
+    resources: !item["resources"]
+      ? item["resources"]
+      : item["resources"].map((p: any) => {
+          return p;
+        }),
+    tags: !item["tags"] ? item["tags"] : keyValuePairArrayDeserializer(item["tags"]),
+    types: !item["types"]
+      ? item["types"]
+      : item["types"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/**
+ * Model that represents filter criteria for constraining which discovered
+ * resources participate in fault injection.
+ *
+ * Uses intersection (AND) logic — a resource is included only if it matches all criteria.
+ */
+export interface ConfigurationFilters {
+  /**
+   * Array of Azure location strings. Only resources in these locations are included.
+   *
+   * Null or omitted means all locations (no filter). Empty array means include nothing.
+   */
+  locations?: string[];
+  /**
+   * Array of availability zone identifiers ("1", "2", "3", "zone-redundant").
+   * Only resources whose zones intersect this list are included.
+   *
+   * Null or omitted means all zones (including non-zonal). Empty array means include nothing.
+   *
+   * Mutually exclusive with `physicalZones` — set one or the other, not both.
+   */
+  zones?: string[];
+  /**
+   * Array of physical availability zone identifiers in `{region}-az{N}` format
+   * (e.g., `"westus2-az1"`). Only resources in the corresponding logical zone
+   * for each subscription are included.
+   *
+   * At execution time, each physical zone is resolved to per-subscription
+   * logical zones via the Azure locations API. The resolved mapping is surfaced
+   * on the scenario run response (`zoneResolution`).
+   *
+   * Null or omitted means physical zone targeting is not used.
+   * Only one physical zone is supported in preview.
+   *
+   * Mutually exclusive with `zones` — set one or the other, not both.
+   */
+  physicalZones?: string[];
+}
+
+export function configurationFiltersSerializer(item: ConfigurationFilters): any {
+  return {
+    locations: !item["locations"]
+      ? item["locations"]
+      : item["locations"].map((p: any) => {
+          return p;
+        }),
+    zones: !item["zones"]
+      ? item["zones"]
+      : item["zones"].map((p: any) => {
+          return p;
+        }),
+    physicalZones: !item["physicalZones"]
+      ? item["physicalZones"]
+      : item["physicalZones"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function configurationFiltersDeserializer(item: any): ConfigurationFilters {
+  return {
+    locations: !item["locations"]
+      ? item["locations"]
+      : item["locations"].map((p: any) => {
+          return p;
+        }),
+    zones: !item["zones"]
+      ? item["zones"]
+      : item["zones"].map((p: any) => {
+          return p;
+        }),
+    physicalZones: !item["physicalZones"]
+      ? item["physicalZones"]
+      : item["physicalZones"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** Model that represents a list of scenario configurations and a link for pagination. */
+export interface _ScenarioConfigurationListResult {
+  /** The ScenarioConfiguration items on this page */
+  value: ScenarioConfiguration[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _scenarioConfigurationListResultDeserializer(
+  item: any,
+): _ScenarioConfigurationListResult {
+  return {
+    value: scenarioConfigurationArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function scenarioConfigurationArraySerializer(result: Array<ScenarioConfiguration>): any[] {
+  return result.map((item) => {
+    return scenarioConfigurationSerializer(item);
+  });
+}
+
+export function scenarioConfigurationArrayDeserializer(
+  result: Array<ScenarioConfiguration>,
+): any[] {
+  return result.map((item) => {
+    return scenarioConfigurationDeserializer(item);
+  });
+}
+
 /** Model that represents the scenario run. */
 export interface ScenarioRun extends ProxyResource {
   /** The properties of scenario run. */
@@ -3441,255 +3669,6 @@ export function physicalToLogicalZoneMappingDeserializer(item: any): PhysicalToL
   };
 }
 
-/** Model that represents a list of scenario runs and a link for pagination. */
-export interface _ScenarioRunListResult {
-  /** The ScenarioRun items on this page */
-  value: ScenarioRun[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _scenarioRunListResultDeserializer(item: any): _ScenarioRunListResult {
-  return {
-    value: scenarioRunArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function scenarioRunArrayDeserializer(result: Array<ScenarioRun>): any[] {
-  return result.map((item) => {
-    return scenarioRunDeserializer(item);
-  });
-}
-
-/** Model that represents the scenario. */
-export interface ScenarioConfiguration extends ProxyResource {
-  /** The properties of scenario definition. */
-  properties?: ScenarioConfigurationProperties;
-}
-
-export function scenarioConfigurationSerializer(item: ScenarioConfiguration): any {
-  return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : scenarioConfigurationPropertiesSerializer(item["properties"]),
-  };
-}
-
-export function scenarioConfigurationDeserializer(item: any): ScenarioConfiguration {
-  return {
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    properties: !item["properties"]
-      ? item["properties"]
-      : scenarioConfigurationPropertiesDeserializer(item["properties"]),
-  };
-}
-
-/** Model that represents the properties of the scenario configuration. */
-export interface ScenarioConfigurationProperties {
-  /** Resource ID of the scenario this configuration applies to. */
-  scenarioId: string;
-  /** Runtime parameter values for the scenario. Keys must match parameter names defined in the scenario. */
-  parameters?: KeyValuePair[];
-  /** Exclusion criteria for protecting resources from fault injection. */
-  exclusions?: ConfigurationExclusions;
-  /** Most recent provisioning state for the given scenario resource. */
-  readonly provisioningState?: ProvisioningState;
-  /** Filter criteria used to constrain which discovered resources participate in fault injection. */
-  filters?: ConfigurationFilters;
-}
-
-export function scenarioConfigurationPropertiesSerializer(
-  item: ScenarioConfigurationProperties,
-): any {
-  return {
-    scenarioId: item["scenarioId"],
-    parameters: !item["parameters"]
-      ? item["parameters"]
-      : keyValuePairArraySerializer(item["parameters"]),
-    exclusions: !item["exclusions"]
-      ? item["exclusions"]
-      : configurationExclusionsSerializer(item["exclusions"]),
-    filters: !item["filters"] ? item["filters"] : configurationFiltersSerializer(item["filters"]),
-  };
-}
-
-export function scenarioConfigurationPropertiesDeserializer(
-  item: any,
-): ScenarioConfigurationProperties {
-  return {
-    scenarioId: item["scenarioId"],
-    parameters: !item["parameters"]
-      ? item["parameters"]
-      : keyValuePairArrayDeserializer(item["parameters"]),
-    exclusions: !item["exclusions"]
-      ? item["exclusions"]
-      : configurationExclusionsDeserializer(item["exclusions"]),
-    provisioningState: item["provisioningState"],
-    filters: !item["filters"] ? item["filters"] : configurationFiltersDeserializer(item["filters"]),
-  };
-}
-
-/**
- * Model that represents exclusion criteria for protecting resources from fault injection.
- * Uses union (OR) logic - a resource is excluded if it matches ANY criteria.
- */
-export interface ConfigurationExclusions {
-  /** Array of specific resource IDs to exclude from fault injection. */
-  resources?: string[];
-  /** Array of tag key-value pairs. Resources with matching tags are excluded. */
-  tags?: KeyValuePair[];
-  /** Array of resource types. All resources of these types are excluded. */
-  types?: string[];
-}
-
-export function configurationExclusionsSerializer(item: ConfigurationExclusions): any {
-  return {
-    resources: !item["resources"]
-      ? item["resources"]
-      : item["resources"].map((p: any) => {
-          return p;
-        }),
-    tags: !item["tags"] ? item["tags"] : keyValuePairArraySerializer(item["tags"]),
-    types: !item["types"]
-      ? item["types"]
-      : item["types"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-export function configurationExclusionsDeserializer(item: any): ConfigurationExclusions {
-  return {
-    resources: !item["resources"]
-      ? item["resources"]
-      : item["resources"].map((p: any) => {
-          return p;
-        }),
-    tags: !item["tags"] ? item["tags"] : keyValuePairArrayDeserializer(item["tags"]),
-    types: !item["types"]
-      ? item["types"]
-      : item["types"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-/**
- * Model that represents filter criteria for constraining which discovered
- * resources participate in fault injection.
- *
- * Uses intersection (AND) logic — a resource is included only if it matches all criteria.
- */
-export interface ConfigurationFilters {
-  /**
-   * Array of Azure location strings. Only resources in these locations are included.
-   *
-   * Null or omitted means all locations (no filter). Empty array means include nothing.
-   */
-  locations?: string[];
-  /**
-   * Array of availability zone identifiers ("1", "2", "3", "zone-redundant").
-   * Only resources whose zones intersect this list are included.
-   *
-   * Null or omitted means all zones (including non-zonal). Empty array means include nothing.
-   *
-   * Mutually exclusive with `physicalZones` — set one or the other, not both.
-   */
-  zones?: string[];
-  /**
-   * Array of physical availability zone identifiers in `{region}-az{N}` format
-   * (e.g., `"westus2-az1"`). Only resources in the corresponding logical zone
-   * for each subscription are included.
-   *
-   * At execution time, each physical zone is resolved to per-subscription
-   * logical zones via the Azure locations API. The resolved mapping is surfaced
-   * on the scenario run response (`zoneResolution`).
-   *
-   * Null or omitted means physical zone targeting is not used.
-   * Only one physical zone is supported in preview.
-   *
-   * Mutually exclusive with `zones` — set one or the other, not both.
-   */
-  physicalZones?: string[];
-}
-
-export function configurationFiltersSerializer(item: ConfigurationFilters): any {
-  return {
-    locations: !item["locations"]
-      ? item["locations"]
-      : item["locations"].map((p: any) => {
-          return p;
-        }),
-    zones: !item["zones"]
-      ? item["zones"]
-      : item["zones"].map((p: any) => {
-          return p;
-        }),
-    physicalZones: !item["physicalZones"]
-      ? item["physicalZones"]
-      : item["physicalZones"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-export function configurationFiltersDeserializer(item: any): ConfigurationFilters {
-  return {
-    locations: !item["locations"]
-      ? item["locations"]
-      : item["locations"].map((p: any) => {
-          return p;
-        }),
-    zones: !item["zones"]
-      ? item["zones"]
-      : item["zones"].map((p: any) => {
-          return p;
-        }),
-    physicalZones: !item["physicalZones"]
-      ? item["physicalZones"]
-      : item["physicalZones"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-/** Model that represents a list of scenario configurations and a link for pagination. */
-export interface _ScenarioConfigurationListResult {
-  /** The ScenarioConfiguration items on this page */
-  value: ScenarioConfiguration[];
-  /** The link to the next page of items */
-  nextLink?: string;
-}
-
-export function _scenarioConfigurationListResultDeserializer(
-  item: any,
-): _ScenarioConfigurationListResult {
-  return {
-    value: scenarioConfigurationArrayDeserializer(item["value"]),
-    nextLink: item["nextLink"],
-  };
-}
-
-export function scenarioConfigurationArraySerializer(result: Array<ScenarioConfiguration>): any[] {
-  return result.map((item) => {
-    return scenarioConfigurationSerializer(item);
-  });
-}
-
-export function scenarioConfigurationArrayDeserializer(
-  result: Array<ScenarioConfiguration>,
-): any[] {
-  return result.map((item) => {
-    return scenarioConfigurationDeserializer(item);
-  });
-}
-
 /** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
 export interface Validation extends ProxyResource {
   /** The resource-specific properties for this resource. */
@@ -3967,6 +3946,27 @@ export function permissionsFixSummaryDeserializer(item: any): PermissionsFixSumm
     failed: item["failed"],
     skipped: item["skipped"],
   };
+}
+
+/** Model that represents a list of scenario runs and a link for pagination. */
+export interface _ScenarioRunListResult {
+  /** The ScenarioRun items on this page */
+  value: ScenarioRun[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _scenarioRunListResultDeserializer(item: any): _ScenarioRunListResult {
+  return {
+    value: scenarioRunArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function scenarioRunArrayDeserializer(result: Array<ScenarioRun>): any[] {
+  return result.map((item) => {
+    return scenarioRunDeserializer(item);
+  });
 }
 
 /** The available API versions. */

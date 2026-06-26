@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CertificateRegistrationManagementContext } from "../../api/certificateRegistrationManagementContext.js";
+import { CertificateRegistrationManagementContext } from "../../api/certificateRegistrationManagementContext.js";
 import {
   listAppServiceCertificateOrderDetectorResponse,
   getAppServiceCertificateOrderDetectorResponse,
 } from "../../api/certificateOrdersDiagnostics/operations.js";
-import type {
+import {
   CertificateOrdersDiagnosticsListAppServiceCertificateOrderDetectorResponseOptionalParams,
   CertificateOrdersDiagnosticsGetAppServiceCertificateOrderDetectorResponseOptionalParams,
 } from "../../api/certificateOrdersDiagnostics/options.js";
-import type { DetectorResponse } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { DetectorResponse } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a CertificateOrdersDiagnostics operations. */
 export interface CertificateOrdersDiagnosticsOperations {

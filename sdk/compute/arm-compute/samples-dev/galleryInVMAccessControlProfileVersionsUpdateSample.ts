@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update a gallery inVMAccessControlProfile version.
  *
  * @summary update a gallery inVMAccessControlProfile version.
- * x-ms-original-file: 2025-03-03/galleryResourceProfileExamples/GalleryInVMAccessControlProfileVersion_Update.json
+ * x-ms-original-file: 2025-12-03/galleryResourceProfileExamples/GalleryInVMAccessControlProfileVersion_Update.json
  */
 async function updateAGalleryInVMAccessControlProfileVersion(): Promise<void> {
   const credential = new DefaultAzureCredential();

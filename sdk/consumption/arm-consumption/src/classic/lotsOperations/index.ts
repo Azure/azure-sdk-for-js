@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ConsumptionManagementContext } from "../../api/consumptionManagementContext.js";
+import { ConsumptionManagementContext } from "../../api/consumptionManagementContext.js";
 import {
   listByCustomer,
   listByBillingAccount,
   listByBillingProfile,
 } from "../../api/lotsOperations/operations.js";
-import type {
+import {
   LotsOperationsListByCustomerOptionalParams,
   LotsOperationsListByBillingAccountOptionalParams,
   LotsOperationsListByBillingProfileOptionalParams,
 } from "../../api/lotsOperations/options.js";
-import type { LotSummary } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { LotSummary } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a LotsOperations operations. */
 export interface LotsOperationsOperations {

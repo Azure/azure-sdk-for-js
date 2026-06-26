@@ -4,14 +4,16 @@
 
 ```ts
 
-import type { AbortSignalLike } from '@azure/abort-controller';
-import type { ClientOptions } from '@azure-rest/core-client';
-import type { OperationOptions } from '@azure-rest/core-client';
-import type { OperationState } from '@azure/core-lro';
-import type { PathUncheckedResponse } from '@azure-rest/core-client';
-import type { Pipeline } from '@azure/core-rest-pipeline';
-import type { PollerLike } from '@azure/core-lro';
-import type { TokenCredential } from '@azure/core-auth';
+import { AbortSignalLike } from '@azure/abort-controller';
+import { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import { OperationOptions } from '@azure-rest/core-client';
+import { OperationState } from '@azure/core-lro';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface Action extends ProxyResource {
@@ -549,6 +551,8 @@ export interface FixResourcePermissionsRequest {
     whatIf?: boolean;
 }
 
+export { isRestError }
+
 // @public
 export interface KeyValuePair {
     key: string;
@@ -1045,6 +1049,8 @@ export interface ResourceStateError {
     readonly resourceId: string;
 }
 
+export { RestError }
+
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: ChaosManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
 
@@ -1129,6 +1135,7 @@ export interface ScenarioConfigurationsDeleteOptionalParams extends OperationOpt
 
 // @public
 export interface ScenarioConfigurationsExecuteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -1150,7 +1157,7 @@ export interface ScenarioConfigurationsListAllOptionalParams extends OperationOp
 export interface ScenarioConfigurationsOperations {
     createOrUpdate: (resourceGroupName: string, workspaceName: string, scenarioName: string, scenarioConfigurationName: string, resource: ScenarioConfiguration, options?: ScenarioConfigurationsCreateOrUpdateOptionalParams) => PollerLike<OperationState<ScenarioConfiguration>, ScenarioConfiguration>;
     delete: (resourceGroupName: string, workspaceName: string, scenarioName: string, scenarioConfigurationName: string, options?: ScenarioConfigurationsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    execute: (resourceGroupName: string, workspaceName: string, scenarioName: string, scenarioConfigurationName: string, options?: ScenarioConfigurationsExecuteOptionalParams) => Promise<void>;
+    execute: (resourceGroupName: string, workspaceName: string, scenarioName: string, scenarioConfigurationName: string, options?: ScenarioConfigurationsExecuteOptionalParams) => PollerLike<OperationState<ScenarioRun>, ScenarioRun>;
     fixResourcePermissions: (resourceGroupName: string, workspaceName: string, scenarioName: string, scenarioConfigurationName: string, options?: ScenarioConfigurationsFixResourcePermissionsOptionalParams) => PollerLike<OperationState<PermissionsFix>, PermissionsFix>;
     get: (resourceGroupName: string, workspaceName: string, scenarioName: string, scenarioConfigurationName: string, options?: ScenarioConfigurationsGetOptionalParams) => Promise<ScenarioConfiguration>;
     listAll: (resourceGroupName: string, workspaceName: string, scenarioName: string, options?: ScenarioConfigurationsListAllOptionalParams) => PagedAsyncIterableIterator<ScenarioConfiguration>;
@@ -1225,6 +1232,7 @@ export interface ScenarioRunResource {
 
 // @public
 export interface ScenarioRunsCancelOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -1237,7 +1245,7 @@ export interface ScenarioRunsListAllOptionalParams extends OperationOptions {
 
 // @public
 export interface ScenarioRunsOperations {
-    cancel: (resourceGroupName: string, workspaceName: string, scenarioName: string, runId: string, options?: ScenarioRunsCancelOptionalParams) => Promise<void>;
+    cancel: (resourceGroupName: string, workspaceName: string, scenarioName: string, runId: string, options?: ScenarioRunsCancelOptionalParams) => PollerLike<OperationState<ScenarioRun>, ScenarioRun>;
     get: (resourceGroupName: string, workspaceName: string, scenarioName: string, runId: string, options?: ScenarioRunsGetOptionalParams) => Promise<ScenarioRun>;
     listAll: (resourceGroupName: string, workspaceName: string, scenarioName: string, options?: ScenarioRunsListAllOptionalParams) => PagedAsyncIterableIterator<ScenarioRun>;
 }

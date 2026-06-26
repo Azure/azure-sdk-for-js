@@ -3,18 +3,18 @@
 
 import { CarbonOptimizationManagementContext } from "../../api/carbonOptimizationManagementContext.js";
 import {
-  QueryFilterUnion,
-  CarbonEmissionDataListResult,
-  CarbonEmissionDataAvailableDateRange,
-} from "../../models/models.js";
+  queryCarbonEmissionDataAvailableDateRange,
+  queryCarbonEmissionReports,
+} from "../../api/carbonService/operations.js";
 import {
   CarbonServiceQueryCarbonEmissionDataAvailableDateRangeOptionalParams,
   CarbonServiceQueryCarbonEmissionReportsOptionalParams,
 } from "../../api/carbonService/options.js";
 import {
-  queryCarbonEmissionDataAvailableDateRange,
-  queryCarbonEmissionReports,
-} from "../../api/carbonService/operations.js";
+  QueryFilterUnion,
+  CarbonEmissionDataListResult,
+  CarbonEmissionDataAvailableDateRange,
+} from "../../models/models.js";
 
 /** Interface representing a CarbonService operations. */
 export interface CarbonServiceOperations {

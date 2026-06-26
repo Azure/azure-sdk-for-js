@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeManagementContext } from "../../api/computeManagementContext.js";
+import { ComputeManagementContext } from "../../api/computeManagementContext.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/interconnectBlocks/operations.js";
-import type {
+import {
   InterconnectBlocksListBySubscriptionOptionalParams,
   InterconnectBlocksListByResourceGroupOptionalParams,
   InterconnectBlocksDeleteOptionalParams,
@@ -18,11 +18,10 @@ import type {
   InterconnectBlocksCreateOrUpdateOptionalParams,
   InterconnectBlocksGetOptionalParams,
 } from "../../api/interconnectBlocks/options.js";
-import type { InterconnectBlock, InterconnectBlockUpdate } from "../../models/compute/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { InterconnectBlock, InterconnectBlockUpdate } from "../../models/compute/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a InterconnectBlocks operations. */
 export interface InterconnectBlocksOperations {

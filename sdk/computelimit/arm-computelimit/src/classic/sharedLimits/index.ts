@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeLimitContext } from "../../api/computeLimitContext.js";
+import { ComputeLimitContext } from "../../api/computeLimitContext.js";
 import {
   listBySubscriptionLocationResource,
   $delete,
   create,
   get,
 } from "../../api/sharedLimits/operations.js";
-import type {
+import {
   SharedLimitsListBySubscriptionLocationResourceOptionalParams,
   SharedLimitsDeleteOptionalParams,
   SharedLimitsCreateOptionalParams,
   SharedLimitsGetOptionalParams,
 } from "../../api/sharedLimits/options.js";
-import type { SharedLimit } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SharedLimit } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a SharedLimits operations. */
 export interface SharedLimitsOperations {

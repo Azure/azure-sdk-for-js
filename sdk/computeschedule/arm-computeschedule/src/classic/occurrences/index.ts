@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ComputeScheduleContext } from "../../api/computeScheduleContext.js";
+import { ComputeScheduleContext } from "../../api/computeScheduleContext.js";
 import {
   delay,
   cancel,
@@ -9,22 +9,22 @@ import {
   listByScheduledAction,
   get,
 } from "../../api/occurrences/operations.js";
-import type {
+import {
   OccurrencesDelayOptionalParams,
   OccurrencesCancelOptionalParams,
   OccurrencesListResourcesOptionalParams,
   OccurrencesListByScheduledActionOptionalParams,
   OccurrencesGetOptionalParams,
 } from "../../api/occurrences/options.js";
-import type {
+import {
   RecurringActionsResourceOperationResult,
   CancelOccurrenceRequest,
   Occurrence,
   OccurrenceResource,
   DelayRequest,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Occurrences operations. */
 export interface OccurrencesOperations {

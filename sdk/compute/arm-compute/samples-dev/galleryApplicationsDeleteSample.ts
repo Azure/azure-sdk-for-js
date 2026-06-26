@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a gallery Application.
  *
  * @summary delete a gallery Application.
- * x-ms-original-file: 2025-03-03/galleryExamples/GalleryApplication_Delete.json
+ * x-ms-original-file: 2025-12-03/galleryExamples/GalleryApplication_Delete.json
  */
 async function deleteAGalleryApplication(): Promise<void> {
   const credential = new DefaultAzureCredential();

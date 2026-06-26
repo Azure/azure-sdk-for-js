@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ConsumptionManagementContext } from "../../api/consumptionManagementContext.js";
+import { ConsumptionManagementContext } from "../../api/consumptionManagementContext.js";
 import {
   listByBillingAccount,
   listByBillingProfile,
 } from "../../api/eventsOperations/operations.js";
-import type {
+import {
   EventsOperationsListByBillingAccountOptionalParams,
   EventsOperationsListByBillingProfileOptionalParams,
 } from "../../api/eventsOperations/options.js";
-import type { EventSummary } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { EventSummary } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a EventsOperations operations. */
 export interface EventsOperationsOperations {

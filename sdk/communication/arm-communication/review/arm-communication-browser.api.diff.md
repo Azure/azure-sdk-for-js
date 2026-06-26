@@ -7,9 +7,9 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -407,9 +407,10 @@
-     error?: ErrorDetail;
- }
+@@ -411,9 +411,10 @@
+ 
+ export { isRestError }
  
  // @public
 -export type KeyType = "Primary" | "Secondary";
@@ -19,7 +19,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export enum KnownActionType {
      Internal = "Internal"
-@@ -619,9 +620,9 @@
+@@ -623,9 +624,9 @@
  export type PublicNetworkAccess = string;
  
  // @public

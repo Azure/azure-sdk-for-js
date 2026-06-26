@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ConsumptionManagementContext } from "../../api/consumptionManagementContext.js";
+import { ConsumptionManagementContext } from "../../api/consumptionManagementContext.js";
 import {
   list,
   listByReservationOrderAndReservation,
   listByReservationOrder,
 } from "../../api/reservationsSummaries/operations.js";
-import type {
+import {
   ReservationsSummariesListOptionalParams,
   ReservationsSummariesListByReservationOrderAndReservationOptionalParams,
   ReservationsSummariesListByReservationOrderOptionalParams,
 } from "../../api/reservationsSummaries/options.js";
-import type { ReservationSummary, Datagrain } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { ReservationSummary, Datagrain } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ReservationsSummaries operations. */
 export interface ReservationsSummariesOperations {

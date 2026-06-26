@@ -29,7 +29,6 @@ async function organizationValidateProxyResource(): Promise<void> {
         privateOfferId:
           "goshpcnjukfzfhubmynjxiulurrwplzcjpjstebtsiigbkovchcrlfmgoymqfuayhihnxruthwjywtedlcsqqsgaelqthvfzvafyjhsfzfjwotsiajpcogwrwylgcphxfhvvwemynoyovnvqcetftiofkthgdzfvybvhpviqlwlslaupndcxlvjssdap",
         privateOfferIds: ["nrbzkbcpvsakewlgubfmej"],
-        status: "Started",
       },
       userDetail: {
         firstName: "gqxqhtniapwvnsliaifhvmbtvvrciebktpeadanapfcqzflomz",

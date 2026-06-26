@@ -7,7 +7,19 @@ import { DefaultAzureCredential } from "@azure/identity";
 /**
  * This sample demonstrates how to get a scenario run.
  *
+ * This endpoint is also the polling target for ScenarioConfigurations.execute
+ * and ScenarioRuns.cancel (final-state-via: location). While the run is in
+ * progress the service returns 202 with a Location header pointing back to
+ * this URL; clients must keep polling until they receive 200, which carries
+ * the final ScenarioRun body.
+ *
  * @summary get a scenario run.
+ *
+ * This endpoint is also the polling target for ScenarioConfigurations.execute
+ * and ScenarioRuns.cancel (final-state-via: location). While the run is in
+ * progress the service returns 202 with a Location header pointing back to
+ * this URL; clients must keep polling until they receive 200, which carries
+ * the final ScenarioRun body.
  * x-ms-original-file: 2026-05-01-preview/ScenarioRuns_Get.json
  */
 async function getAScenarioRun(): Promise<void> {

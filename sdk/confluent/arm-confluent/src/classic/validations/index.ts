@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ConfluentManagementContext } from "../../api/confluentManagementContext.js";
+import { ConfluentManagementContext } from "../../api/confluentManagementContext.js";
 import { validateOrganizationV2, validateOrganization } from "../../api/validations/operations.js";
-import type {
+import {
   ValidationsValidateOrganizationV2OptionalParams,
   ValidationsValidateOrganizationOptionalParams,
 } from "../../api/validations/options.js";
-import type { OrganizationResource, ValidationResponse } from "../../models/models.js";
+import { OrganizationResource, ValidationResponse } from "../../models/models.js";
 
 /** Interface representing a Validations operations. */
 export interface ValidationsOperations {

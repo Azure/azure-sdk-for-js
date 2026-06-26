@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates a disk access resource
  *
  * @summary creates or updates a disk access resource
- * x-ms-original-file: 2025-01-02/diskAccessExamples/DiskAccess_Create.json
+ * x-ms-original-file: 2026-03-02/diskAccessExamples/DiskAccess_Create.json
  */
 async function createADiskAccessResource(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -23,7 +23,7 @@ export {
   createOrUpdate,
   get,
 } from "./operations.js";
-export {
+export type {
   AppServiceCertificateOrdersValidatePurchaseInformationOptionalParams,
   AppServiceCertificateOrdersListCertificatesOptionalParams,
   AppServiceCertificateOrdersDeleteCertificateOptionalParams,

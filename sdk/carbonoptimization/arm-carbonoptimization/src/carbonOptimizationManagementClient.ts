@@ -2,19 +2,19 @@
 // Licensed under the MIT License.
 
 import {
-  createCarbonOptimizationManagement,
   CarbonOptimizationManagementContext,
   CarbonOptimizationManagementClientOptionalParams,
+  createCarbonOptimizationManagement,
 } from "./api/index.js";
 import {
   CarbonServiceOperations,
   _getCarbonServiceOperations,
 } from "./classic/carbonService/index.js";
 import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
-export { type CarbonOptimizationManagementClientOptionalParams } from "./api/carbonOptimizationManagementContext.js";
+export type { CarbonOptimizationManagementClientOptionalParams } from "./api/carbonOptimizationManagementContext.js";
 
 export class CarbonOptimizationManagementClient {
   private _client: CarbonOptimizationManagementContext;

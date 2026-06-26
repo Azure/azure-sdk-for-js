@@ -1,47 +1,60 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   ConsumptionManagementContext,
   ConsumptionManagementClientOptionalParams,
+  createConsumptionManagement,
 } from "./api/index.js";
-import { createConsumptionManagement } from "./api/index.js";
-import type { AggregatedCostOperations } from "./classic/aggregatedCost/index.js";
-import { _getAggregatedCostOperations } from "./classic/aggregatedCost/index.js";
-import type { BalancesOperations } from "./classic/balances/index.js";
-import { _getBalancesOperations } from "./classic/balances/index.js";
-import type { BudgetsOperations } from "./classic/budgets/index.js";
-import { _getBudgetsOperations } from "./classic/budgets/index.js";
-import type { ChargesOperations } from "./classic/charges/index.js";
-import { _getChargesOperations } from "./classic/charges/index.js";
-import type { CreditsOperations } from "./classic/credits/index.js";
-import { _getCreditsOperations } from "./classic/credits/index.js";
-import type { EventsOperationsOperations } from "./classic/eventsOperations/index.js";
-import { _getEventsOperationsOperations } from "./classic/eventsOperations/index.js";
-import type { LotsOperationsOperations } from "./classic/lotsOperations/index.js";
-import { _getLotsOperationsOperations } from "./classic/lotsOperations/index.js";
-import type { MarketplacesOperations } from "./classic/marketplaces/index.js";
-import { _getMarketplacesOperations } from "./classic/marketplaces/index.js";
-import type { OperationsOperations } from "./classic/operations/index.js";
-import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { PriceSheetOperations } from "./classic/priceSheet/index.js";
-import { _getPriceSheetOperations } from "./classic/priceSheet/index.js";
-import type { ReservationRecommendationDetailsOperations } from "./classic/reservationRecommendationDetails/index.js";
-import { _getReservationRecommendationDetailsOperations } from "./classic/reservationRecommendationDetails/index.js";
-import type { ReservationRecommendationsOperations } from "./classic/reservationRecommendations/index.js";
-import { _getReservationRecommendationsOperations } from "./classic/reservationRecommendations/index.js";
-import type { ReservationTransactionsOperations } from "./classic/reservationTransactions/index.js";
-import { _getReservationTransactionsOperations } from "./classic/reservationTransactions/index.js";
-import type { ReservationsDetailsOperations } from "./classic/reservationsDetails/index.js";
-import { _getReservationsDetailsOperations } from "./classic/reservationsDetails/index.js";
-import type { ReservationsSummariesOperations } from "./classic/reservationsSummaries/index.js";
-import { _getReservationsSummariesOperations } from "./classic/reservationsSummaries/index.js";
-import type { TagsOperations } from "./classic/tags/index.js";
-import { _getTagsOperations } from "./classic/tags/index.js";
-import type { UsageDetailsOperations } from "./classic/usageDetails/index.js";
-import { _getUsageDetailsOperations } from "./classic/usageDetails/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import {
+  AggregatedCostOperations,
+  _getAggregatedCostOperations,
+} from "./classic/aggregatedCost/index.js";
+import { BalancesOperations, _getBalancesOperations } from "./classic/balances/index.js";
+import { BudgetsOperations, _getBudgetsOperations } from "./classic/budgets/index.js";
+import { ChargesOperations, _getChargesOperations } from "./classic/charges/index.js";
+import { CreditsOperations, _getCreditsOperations } from "./classic/credits/index.js";
+import {
+  EventsOperationsOperations,
+  _getEventsOperationsOperations,
+} from "./classic/eventsOperations/index.js";
+import {
+  LotsOperationsOperations,
+  _getLotsOperationsOperations,
+} from "./classic/lotsOperations/index.js";
+import {
+  MarketplacesOperations,
+  _getMarketplacesOperations,
+} from "./classic/marketplaces/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import { PriceSheetOperations, _getPriceSheetOperations } from "./classic/priceSheet/index.js";
+import {
+  ReservationRecommendationDetailsOperations,
+  _getReservationRecommendationDetailsOperations,
+} from "./classic/reservationRecommendationDetails/index.js";
+import {
+  ReservationRecommendationsOperations,
+  _getReservationRecommendationsOperations,
+} from "./classic/reservationRecommendations/index.js";
+import {
+  ReservationTransactionsOperations,
+  _getReservationTransactionsOperations,
+} from "./classic/reservationTransactions/index.js";
+import {
+  ReservationsDetailsOperations,
+  _getReservationsDetailsOperations,
+} from "./classic/reservationsDetails/index.js";
+import {
+  ReservationsSummariesOperations,
+  _getReservationsSummariesOperations,
+} from "./classic/reservationsSummaries/index.js";
+import { TagsOperations, _getTagsOperations } from "./classic/tags/index.js";
+import {
+  UsageDetailsOperations,
+  _getUsageDetailsOperations,
+} from "./classic/usageDetails/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { ConsumptionManagementClientOptionalParams } from "./api/consumptionManagementContext.js";
 

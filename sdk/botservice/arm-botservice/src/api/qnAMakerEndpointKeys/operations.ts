@@ -1,20 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureBotServiceContext as Client } from "../index.js";
-import type {
-  QnAMakerEndpointKeysRequestBody,
-  QnAMakerEndpointKeysResponse,
-} from "../../models/models.js";
+import { AzureBotServiceContext as Client } from "../index.js";
 import {
   errorDeserializer,
+  QnAMakerEndpointKeysRequestBody,
   qnAMakerEndpointKeysRequestBodySerializer,
+  QnAMakerEndpointKeysResponse,
   qnAMakerEndpointKeysResponseDeserializer,
 } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type { QnAMakerEndpointKeysGetOptionalParams } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import { QnAMakerEndpointKeysGetOptionalParams } from "./options.js";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _getSend(
   context: Client,
@@ -31,12 +33,14 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: qnAMakerEndpointKeysRequestBodySerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: qnAMakerEndpointKeysRequestBodySerializer(parameters),
+    });
 }
 
 export async function _getDeserialize(

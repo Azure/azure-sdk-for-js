@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureBotServiceContext } from "../../api/azureBotServiceContext.js";
+import { AzureBotServiceContext } from "../../api/azureBotServiceContext.js";
 import {
   listWithKeys,
   listByResourceGroup,
@@ -10,7 +10,7 @@ import {
   create,
   get,
 } from "../../api/channels/operations.js";
-import type {
+import {
   ChannelsListWithKeysOptionalParams,
   ChannelsListByResourceGroupOptionalParams,
   ChannelsDeleteOptionalParams,
@@ -18,8 +18,8 @@ import type {
   ChannelsCreateOptionalParams,
   ChannelsGetOptionalParams,
 } from "../../api/channels/options.js";
-import type { BotChannel, ListChannelWithKeysResponse, ChannelName } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { BotChannel, ListChannelWithKeysResponse, ChannelName } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Channels operations. */
 export interface ChannelsOperations {

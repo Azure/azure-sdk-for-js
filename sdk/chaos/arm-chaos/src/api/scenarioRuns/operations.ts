@@ -1,23 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ChaosManagementContext as Client } from "../index.js";
-import type { ScenarioRun, _ScenarioRunListResult } from "../../models/models.js";
+import { ChaosManagementContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  ScenarioRun,
   scenarioRunDeserializer,
+  _ScenarioRunListResult,
   _scenarioRunListResultDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   ScenarioRunsCancelOptionalParams,
   ScenarioRunsListAllOptionalParams,
   ScenarioRunsGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _cancelSend(
   context: Client,
@@ -44,36 +53,37 @@ export function _cancelSend(
   return context.path(path).post({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _cancelDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["202"];
+export async function _cancelDeserialize(result: PathUncheckedResponse): Promise<ScenarioRun> {
+  const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
-  return;
+  return scenarioRunDeserializer(result.body);
 }
 
 /** Cancel the currently running scenario execution. */
-export async function cancel(
+export function cancel(
   context: Client,
   resourceGroupName: string,
   workspaceName: string,
   scenarioName: string,
   runId: string,
   options: ScenarioRunsCancelOptionalParams = { requestOptions: {} },
-): Promise<void> {
-  const result = await _cancelSend(
-    context,
-    resourceGroupName,
-    workspaceName,
-    scenarioName,
-    runId,
-    options,
-  );
-  return _cancelDeserialize(result);
+): PollerLike<OperationState<ScenarioRun>, ScenarioRun> {
+  return getLongRunningPoller(context, _cancelDeserialize, ["202", "200", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _cancelSend(context, resourceGroupName, workspaceName, scenarioName, runId, options),
+    resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+  }) as PollerLike<OperationState<ScenarioRun>, ScenarioRun>;
 }
 
 export function _listAllSend(
@@ -96,10 +106,12 @@ export function _listAllSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listAllDeserialize(
@@ -108,7 +120,9 @@ export async function _listAllDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -159,17 +173,21 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(result: PathUncheckedResponse): Promise<ScenarioRun> {
   const expectedStatuses = ["200", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -177,7 +195,15 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Sc
   return scenarioRunDeserializer(result.body);
 }
 
-/** Get a scenario run. */
+/**
+ * Get a scenario run.
+ *
+ * This endpoint is also the polling target for ScenarioConfigurations.execute
+ * and ScenarioRuns.cancel (final-state-via: location). While the run is in
+ * progress the service returns 202 with a Location header pointing back to
+ * this URL; clients must keep polling until they receive 200, which carries
+ * the final ScenarioRun body.
+ */
 export async function get(
   context: Client,
   resourceGroupName: string,
