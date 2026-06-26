@@ -47,12 +47,8 @@ parameters:
     type: string
     default: 'dev'
 
-  - name: SkipBuild
-    type: boolean
-    default: false
-
   - name: PackageFilter
-    displayName: "Package filter (comma-separated wildcards; 'arm-*' = all)"
+    displayName: "Package filter (comma-separated wildcards)"
     type: string
     default: 'arm-*'
 
@@ -66,12 +62,12 @@ parameters:
     default: 'auto'
 
   - name: PRPushMode
-    displayName: "PR contents ('api.md and changelog' = break-check; 'all' = full SDK refresh)"
+    displayName: "PR contents"
     type: string
-    default: 'all'
+    default: 'all (full SDK refresh)'
     values:
-      - api.md and changelog
-      - all
+      - all (full SDK refresh)
+      - api.md and changelog (check breaking changes)
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -179,8 +175,7 @@ stages:
 
       - bash: |
           node $(shardScript) shard \
-            --directoryList  "$(Pipeline.Workspace)/matrix_artifacts/$(DirectoryList)" \
-            --skipBuild      "${{ parameters.SkipBuild }}"
+            --directoryList  "$(Pipeline.Workspace)/matrix_artifacts/$(DirectoryList)"
         displayName: 'Regenerate + build shard'
         workingDirectory: $(sdkRoot)
 

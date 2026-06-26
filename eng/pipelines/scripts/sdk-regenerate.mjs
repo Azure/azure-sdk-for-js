@@ -29,9 +29,8 @@ const SPEC_REPO_BRANCH = "main";
 const options = {
   // Parameters configurable when running the pipeline manually
   input: { type: "string", default: "" },
-  skipBuild: { type: "string", default: "false" },
   filter: { type: "string", default: "arm-*" },
-  prPushMode: { type: "string", default: "all" },
+  prPushMode: { type: "string", default: "all (full SDK refresh)" },
   branch: { type: "string", default: "" },
   // ADO built-in variables and job outputs passed in by the YAML
   emitterVersion: { type: "string", default: "" },
@@ -320,7 +319,6 @@ async function runShard() {
   const directoryListFile = values.directoryList;
   const perPackageConcurrency = 4;
   const turboBuildConcurrency = 4;
-  const skipBuild = values.skipBuild.toLowerCase() === "true";
 
   requireReadablePath("--directoryList", directoryListFile);
 
@@ -339,7 +337,7 @@ async function runShard() {
   const successfullyRegenerated = regenerationOutcomes.filter((p) => p.success);
 
   const buildOutcome =
-    skipBuild || successfullyRegenerated.length === 0
+    successfullyRegenerated.length === 0
       ? { skipped: true, builtPackages: [], failedPackages: [], notBuiltPackages: [] }
       : await buildRegeneratedPackages(
           shardPackages,
@@ -743,24 +741,24 @@ function runBuildMatrix() {
 // ─────────────────────────────────────────────────────────────────────────────
 
 // Files staged before the PR push, keyed by --prPushMode:
+//   all                  → the whole regenerated sdk/ tree (full SDK refresh),
+//                          minus transient TempTypeSpecFiles output and CHANGELOG.md.
 //   api.md and changelog → break-check deltas only (*.api.md + CHANGELOG.md).
-//   all            → the whole regenerated sdk/ tree (full SDK refresh),
-//                    minus transient TempTypeSpecFiles output and CHANGELOG.md.
 // Both exclude sdk/core/** : core packages aren't regen targets, but turbo
 // rebuilds them as shared deps in every shard, so staging their churn makes
 // concurrent shards race to push the same files (breaks git-push-changes.yml's
 // rebase + retry).
 const PR_STAGE_PATHSPECS = {
-  "api.md and changelog": [
-    "sdk/*/*/review/*.api.md",
-    "sdk/*/*/CHANGELOG.md",
-    ":(exclude)sdk/core/**",
-  ],
-  all: [
+  "all (full SDK refresh)": [
     "sdk/",
     ":(exclude)sdk/**/TempTypeSpecFiles/**",
     ":(exclude)sdk/core/**",
     ":(exclude)sdk/**/CHANGELOG.md",
+  ],
+  "api.md and changelog (check breaking changes)": [
+    "sdk/*/*/review/*.api.md",
+    "sdk/*/*/CHANGELOG.md",
+    ":(exclude)sdk/core/**",
   ],
 };
 
@@ -768,8 +766,8 @@ const PR_STAGE_PATHSPECS = {
 // commits with `git commit -am`, whose `-a` would otherwise sweep in untracked
 // output and workspace churn.
 async function runStagePr() {
-  const mode = values.prPushMode || "all";
-  const pathspecs = PR_STAGE_PATHSPECS[mode] ?? PR_STAGE_PATHSPECS["all"];
+  const mode = values.prPushMode || "all (full SDK refresh)";
+  const pathspecs = PR_STAGE_PATHSPECS[mode] ?? PR_STAGE_PATHSPECS["all (full SDK refresh)"];
   console.log(`Staging PR changes (mode: ${mode}): ${pathspecs.join(" ")}`);
 
   // Tolerate non-zero exits (e.g. `git stash` when there is nothing to stash)
