@@ -1,19 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   PrivateDnsManagementContext,
   PrivateDnsManagementClientOptionalParams,
+  createPrivateDnsManagement,
 } from "./api/index.js";
-import { createPrivateDnsManagement } from "./api/index.js";
-import type { PrivateZonesOperations } from "./classic/privateZones/index.js";
-import { _getPrivateZonesOperations } from "./classic/privateZones/index.js";
-import type { RecordSetsOperations } from "./classic/recordSets/index.js";
-import { _getRecordSetsOperations } from "./classic/recordSets/index.js";
-import type { VirtualNetworkLinksOperations } from "./classic/virtualNetworkLinks/index.js";
-import { _getVirtualNetworkLinksOperations } from "./classic/virtualNetworkLinks/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import {
+  PrivateZonesOperations,
+  _getPrivateZonesOperations,
+} from "./classic/privateZones/index.js";
+import { RecordSetsOperations, _getRecordSetsOperations } from "./classic/recordSets/index.js";
+import {
+  VirtualNetworkLinksOperations,
+  _getVirtualNetworkLinksOperations,
+} from "./classic/virtualNetworkLinks/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { PrivateDnsManagementClientOptionalParams } from "./api/privateDnsManagementContext.js";
 

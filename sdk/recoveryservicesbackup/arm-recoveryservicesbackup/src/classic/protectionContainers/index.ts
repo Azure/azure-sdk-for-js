@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RecoveryServicesBackupContext } from "../../api/recoveryServicesBackupContext.js";
+import { RecoveryServicesBackupContext } from "../../api/recoveryServicesBackupContext.js";
 import {
   refresh,
   inquire,
@@ -9,17 +9,16 @@ import {
   register,
   get,
 } from "../../api/protectionContainers/operations.js";
-import type {
+import {
   ProtectionContainersRefreshOptionalParams,
   ProtectionContainersInquireOptionalParams,
   ProtectionContainersUnregisterOptionalParams,
   ProtectionContainersRegisterOptionalParams,
   ProtectionContainersGetOptionalParams,
 } from "../../api/protectionContainers/options.js";
-import type { ProtectionContainerResource } from "../../models/models.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { ProtectionContainerResource } from "../../models/models.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ProtectionContainers operations. */
 export interface ProtectionContainersOperations {

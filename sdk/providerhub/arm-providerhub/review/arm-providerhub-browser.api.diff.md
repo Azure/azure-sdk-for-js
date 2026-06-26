@@ -7,7 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -1367,12 +1367,13 @@
+@@ -1371,12 +1371,13 @@
  export interface NewRegionFrontloadReleaseStopOptionalParams extends OperationOptions {
  }
  
@@ -22,7 +22,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export interface NotificationEndpoint {
      locations?: string[];
-@@ -1385,9 +1386,10 @@
+@@ -1389,9 +1390,10 @@
  // @public
  export type NotificationMode = string;
  
@@ -34,7 +34,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export interface NotificationRegistration extends ProxyResource {
      // (undocumented)
-@@ -1889,9 +1891,9 @@
+@@ -1893,9 +1895,9 @@
      linkedNotificationRules?: FanoutLinkedNotificationRule[];
      management?: ResourceProviderManifestManagement;
      metadata?: any;
@@ -45,7 +45,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      providerAuthorizations?: ResourceProviderAuthorization[];
      providerType?: ResourceProviderType;
      providerVersion?: string;
-@@ -1927,10 +1929,10 @@
+@@ -1931,10 +1933,10 @@
      management?: ResourceProviderManifestPropertiesManagement;
      managementGroupGlobalNotificationEndpoints?: ResourceProviderEndpoint[];
      metadata?: any;
@@ -58,7 +58,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      optionalFeatures?: string[];
      providerAuthentication?: ResourceProviderManifestPropertiesProviderAuthentication;
      providerAuthorizations?: ResourceProviderAuthorization[];
-@@ -2031,9 +2033,9 @@
+@@ -2035,9 +2037,9 @@
      loggingRules?: LoggingRule[];
      marketplaceType?: MarketplaceType;
      metadata?: any;
@@ -69,7 +69,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      requestHeaderOptions?: ResourceTypeRequestHeaderOptions;
      requiredFeatures?: string[];
      resourceDeletionPolicy?: ManifestResourceDeletionPolicy;
-@@ -2192,9 +2194,9 @@
+@@ -2196,9 +2198,9 @@
      manifestLink?: string;
      marketplaceOptions?: ResourceTypeRegistrationPropertiesMarketplaceOptions;
      marketplaceType?: MarketplaceType;

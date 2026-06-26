@@ -2,7 +2,7 @@
   "apiVersions": {
     "Microsoft.PowerBIDedicated": "2021-01-01"
   },
-  "emitterVersion": "0.53.3",
+  "emitterVersion": "0.55.0-dev.10",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.PowerBIDedicated",
     "CrossLanguageDefinitionId": {

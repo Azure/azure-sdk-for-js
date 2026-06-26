@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RecoveryServicesBackupContext } from "../../api/recoveryServicesBackupContext.js";
+import { RecoveryServicesBackupContext } from "../../api/recoveryServicesBackupContext.js";
 import { unlockDelete, $delete, put, get } from "../../api/resourceGuardProxy/operations.js";
-import type {
+import {
   ResourceGuardProxyUnlockDeleteOptionalParams,
   ResourceGuardProxyDeleteOptionalParams,
   ResourceGuardProxyPutOptionalParams,
   ResourceGuardProxyGetOptionalParams,
 } from "../../api/resourceGuardProxy/options.js";
-import type {
+import {
   ResourceGuardProxyBaseResource,
   UnlockDeleteRequest,
   UnlockDeleteResponse,

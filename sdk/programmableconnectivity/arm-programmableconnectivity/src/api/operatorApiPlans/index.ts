@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export { listBySubscription, get } from "./operations.js";
-export {
-  type OperatorApiPlansListBySubscriptionOptionalParams,
-  type OperatorApiPlansGetOptionalParams,
+export type {
+  OperatorApiPlansListBySubscriptionOptionalParams,
+  OperatorApiPlansGetOptionalParams,
 } from "./options.js";

@@ -2,24 +2,24 @@
 // Licensed under the MIT License.
 
 import {
-  createProgrammableConnectivity,
   ProgrammableConnectivityContext,
   ProgrammableConnectivityClientOptionalParams,
+  createProgrammableConnectivity,
 } from "./api/index.js";
-import {
-  OperatorApiPlansOperations,
-  _getOperatorApiPlansOperations,
-} from "./classic/operatorApiPlans/index.js";
+import { GatewaysOperations, _getGatewaysOperations } from "./classic/gateways/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
 import {
   OperatorApiConnectionsOperations,
   _getOperatorApiConnectionsOperations,
 } from "./classic/operatorApiConnections/index.js";
-import { GatewaysOperations, _getGatewaysOperations } from "./classic/gateways/index.js";
-import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
-import { Pipeline } from "@azure/core-rest-pipeline";
+import {
+  OperatorApiPlansOperations,
+  _getOperatorApiPlansOperations,
+} from "./classic/operatorApiPlans/index.js";
 import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
-export { type ProgrammableConnectivityClientOptionalParams } from "./api/programmableConnectivityContext.js";
+export type { ProgrammableConnectivityClientOptionalParams } from "./api/programmableConnectivityContext.js";
 
 export class ProgrammableConnectivityClient {
   private _client: ProgrammableConnectivityContext;

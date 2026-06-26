@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RedisEnterpriseManagementContext } from "../../api/redisEnterpriseManagementContext.js";
+import { RedisEnterpriseManagementContext } from "../../api/redisEnterpriseManagementContext.js";
 import { get } from "../../api/operationsStatus/operations.js";
-import type { OperationsStatusGetOptionalParams } from "../../api/operationsStatus/options.js";
-import type { OperationStatus } from "../../models/models.js";
+import { OperationsStatusGetOptionalParams } from "../../api/operationsStatus/options.js";
+import { OperationStatus } from "../../models/models.js";
 
 /** Interface representing a OperationsStatus operations. */
 export interface OperationsStatusOperations {

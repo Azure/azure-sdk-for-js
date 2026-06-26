@@ -1,138 +1,220 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   RecoveryServicesBackupContext,
   RecoveryServicesBackupClientOptionalParams,
+  createRecoveryServicesBackup,
 } from "./api/index.js";
-import { createRecoveryServicesBackup } from "./api/index.js";
 import {
   moveRecoveryPoint,
   getOperationStatus,
   bmsTriggerDataMove,
   bmsPrepareDataMove,
 } from "./api/operations.js";
-import type {
+import {
   MoveRecoveryPointOptionalParams,
   GetOperationStatusOptionalParams,
   BMSTriggerDataMoveOptionalParams,
   BMSPrepareDataMoveOptionalParams,
 } from "./api/options.js";
-import type { BackupEnginesOperations } from "./classic/backupEngines/index.js";
-import { _getBackupEnginesOperations } from "./classic/backupEngines/index.js";
-import type { BackupJobsOperations } from "./classic/backupJobs/index.js";
-import { _getBackupJobsOperations } from "./classic/backupJobs/index.js";
-import type { BackupOperationResultsOperations } from "./classic/backupOperationResults/index.js";
-import { _getBackupOperationResultsOperations } from "./classic/backupOperationResults/index.js";
-import type { BackupOperationStatusesOperations } from "./classic/backupOperationStatuses/index.js";
-import { _getBackupOperationStatusesOperations } from "./classic/backupOperationStatuses/index.js";
-import type { BackupPoliciesOperations } from "./classic/backupPolicies/index.js";
-import { _getBackupPoliciesOperations } from "./classic/backupPolicies/index.js";
-import type { BackupProtectableItemsOperations } from "./classic/backupProtectableItems/index.js";
-import { _getBackupProtectableItemsOperations } from "./classic/backupProtectableItems/index.js";
-import type { BackupProtectedItemsOperations } from "./classic/backupProtectedItems/index.js";
-import { _getBackupProtectedItemsOperations } from "./classic/backupProtectedItems/index.js";
-import type { BackupProtectionContainersOperations } from "./classic/backupProtectionContainers/index.js";
-import { _getBackupProtectionContainersOperations } from "./classic/backupProtectionContainers/index.js";
-import type { BackupProtectionIntentOperations } from "./classic/backupProtectionIntent/index.js";
-import { _getBackupProtectionIntentOperations } from "./classic/backupProtectionIntent/index.js";
-import type { BackupResourceEncryptionConfigsOperations } from "./classic/backupResourceEncryptionConfigs/index.js";
-import { _getBackupResourceEncryptionConfigsOperations } from "./classic/backupResourceEncryptionConfigs/index.js";
-import type { BackupResourceStorageConfigsNonCRROperations } from "./classic/backupResourceStorageConfigsNonCRR/index.js";
-import { _getBackupResourceStorageConfigsNonCRROperations } from "./classic/backupResourceStorageConfigsNonCRR/index.js";
-import type { BackupResourceVaultConfigsOperations } from "./classic/backupResourceVaultConfigs/index.js";
-import { _getBackupResourceVaultConfigsOperations } from "./classic/backupResourceVaultConfigs/index.js";
-import type { BackupStatusOperations } from "./classic/backupStatus/index.js";
-import { _getBackupStatusOperations } from "./classic/backupStatus/index.js";
-import type { BackupUsageSummariesOperations } from "./classic/backupUsageSummaries/index.js";
-import { _getBackupUsageSummariesOperations } from "./classic/backupUsageSummaries/index.js";
-import type { BackupWorkloadItemsOperations } from "./classic/backupWorkloadItems/index.js";
-import { _getBackupWorkloadItemsOperations } from "./classic/backupWorkloadItems/index.js";
-import type { BackupsOperations } from "./classic/backups/index.js";
-import { _getBackupsOperations } from "./classic/backups/index.js";
-import type { BMSPrepareDataMoveOperationResultOperations } from "./classic/bmsPrepareDataMoveOperationResult/index.js";
-import { _getBMSPrepareDataMoveOperationResultOperations } from "./classic/bmsPrepareDataMoveOperationResult/index.js";
-import type { DeletedProtectionContainersOperations } from "./classic/deletedProtectionContainers/index.js";
-import { _getDeletedProtectionContainersOperations } from "./classic/deletedProtectionContainers/index.js";
-import type { ExportJobsOperationResultsOperations } from "./classic/exportJobsOperationResults/index.js";
-import { _getExportJobsOperationResultsOperations } from "./classic/exportJobsOperationResults/index.js";
-import type { FeatureSupportOperations } from "./classic/featureSupport/index.js";
-import { _getFeatureSupportOperations } from "./classic/featureSupport/index.js";
-import type { FetchTieringCostOperations } from "./classic/fetchTieringCost/index.js";
-import { _getFetchTieringCostOperations } from "./classic/fetchTieringCost/index.js";
-import type { GetTieringCostOperationResultOperations } from "./classic/getTieringCostOperationResult/index.js";
-import { _getGetTieringCostOperationResultOperations } from "./classic/getTieringCostOperationResult/index.js";
-import type { ItemLevelRecoveryConnectionsOperations } from "./classic/itemLevelRecoveryConnections/index.js";
-import { _getItemLevelRecoveryConnectionsOperations } from "./classic/itemLevelRecoveryConnections/index.js";
-import type { JobCancellationsOperations } from "./classic/jobCancellations/index.js";
-import { _getJobCancellationsOperations } from "./classic/jobCancellations/index.js";
-import type { JobDetailsOperations } from "./classic/jobDetails/index.js";
-import { _getJobDetailsOperations } from "./classic/jobDetails/index.js";
-import type { JobOperationResultsOperations } from "./classic/jobOperationResults/index.js";
-import { _getJobOperationResultsOperations } from "./classic/jobOperationResults/index.js";
-import type { JobsOperations } from "./classic/jobs/index.js";
-import { _getJobsOperations } from "./classic/jobs/index.js";
-import type { OperationOperations } from "./classic/operation/index.js";
-import { _getOperationOperations } from "./classic/operation/index.js";
-import type { OperationsOperations } from "./classic/operations/index.js";
-import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { PrivateEndpointOperations } from "./classic/privateEndpoint/index.js";
-import { _getPrivateEndpointOperations } from "./classic/privateEndpoint/index.js";
-import type { PrivateEndpointConnectionOperations } from "./classic/privateEndpointConnection/index.js";
-import { _getPrivateEndpointConnectionOperations } from "./classic/privateEndpointConnection/index.js";
-import type { ProtectableContainersOperations } from "./classic/protectableContainers/index.js";
-import { _getProtectableContainersOperations } from "./classic/protectableContainers/index.js";
-import type { ProtectedItemOperationResultsOperations } from "./classic/protectedItemOperationResults/index.js";
-import { _getProtectedItemOperationResultsOperations } from "./classic/protectedItemOperationResults/index.js";
-import type { ProtectedItemOperationStatusesOperations } from "./classic/protectedItemOperationStatuses/index.js";
-import { _getProtectedItemOperationStatusesOperations } from "./classic/protectedItemOperationStatuses/index.js";
-import type { ProtectedItemsOperations } from "./classic/protectedItems/index.js";
-import { _getProtectedItemsOperations } from "./classic/protectedItems/index.js";
-import type { ProtectionContainerOperationResultsOperations } from "./classic/protectionContainerOperationResults/index.js";
-import { _getProtectionContainerOperationResultsOperations } from "./classic/protectionContainerOperationResults/index.js";
-import type { ProtectionContainerRefreshOperationResultsOperations } from "./classic/protectionContainerRefreshOperationResults/index.js";
-import { _getProtectionContainerRefreshOperationResultsOperations } from "./classic/protectionContainerRefreshOperationResults/index.js";
-import type { ProtectionContainersOperations } from "./classic/protectionContainers/index.js";
-import { _getProtectionContainersOperations } from "./classic/protectionContainers/index.js";
-import type { ProtectionIntentOperations } from "./classic/protectionIntent/index.js";
-import { _getProtectionIntentOperations } from "./classic/protectionIntent/index.js";
-import type { ProtectionPoliciesOperations } from "./classic/protectionPolicies/index.js";
-import { _getProtectionPoliciesOperations } from "./classic/protectionPolicies/index.js";
-import type { ProtectionPolicyOperationResultsOperations } from "./classic/protectionPolicyOperationResults/index.js";
-import { _getProtectionPolicyOperationResultsOperations } from "./classic/protectionPolicyOperationResults/index.js";
-import type { ProtectionPolicyOperationStatusesOperations } from "./classic/protectionPolicyOperationStatuses/index.js";
-import { _getProtectionPolicyOperationStatusesOperations } from "./classic/protectionPolicyOperationStatuses/index.js";
-import type { RecoveryPointsOperations } from "./classic/recoveryPoints/index.js";
-import { _getRecoveryPointsOperations } from "./classic/recoveryPoints/index.js";
-import type { RecoveryPointsRecommendedForMoveOperations } from "./classic/recoveryPointsRecommendedForMove/index.js";
-import { _getRecoveryPointsRecommendedForMoveOperations } from "./classic/recoveryPointsRecommendedForMove/index.js";
-import type { ResourceGuardProxiesOperations } from "./classic/resourceGuardProxies/index.js";
-import { _getResourceGuardProxiesOperations } from "./classic/resourceGuardProxies/index.js";
-import type { ResourceGuardProxyOperations } from "./classic/resourceGuardProxy/index.js";
-import { _getResourceGuardProxyOperations } from "./classic/resourceGuardProxy/index.js";
-import type { RestoresOperations } from "./classic/restores/index.js";
-import { _getRestoresOperations } from "./classic/restores/index.js";
-import type { SecurityPINsOperations } from "./classic/securityPINs/index.js";
-import { _getSecurityPINsOperations } from "./classic/securityPINs/index.js";
-import type { TieringCostOperationStatusOperations } from "./classic/tieringCostOperationStatus/index.js";
-import { _getTieringCostOperationStatusOperations } from "./classic/tieringCostOperationStatus/index.js";
-import type { ValidateOperationOperations } from "./classic/validateOperation/index.js";
-import { _getValidateOperationOperations } from "./classic/validateOperation/index.js";
-import type { ValidateOperationResultsOperations } from "./classic/validateOperationResults/index.js";
-import { _getValidateOperationResultsOperations } from "./classic/validateOperationResults/index.js";
-import type { ValidateOperationStatusesOperations } from "./classic/validateOperationStatuses/index.js";
-import { _getValidateOperationStatusesOperations } from "./classic/validateOperationStatuses/index.js";
-import type {
+import {
+  BackupEnginesOperations,
+  _getBackupEnginesOperations,
+} from "./classic/backupEngines/index.js";
+import { BackupJobsOperations, _getBackupJobsOperations } from "./classic/backupJobs/index.js";
+import {
+  BackupOperationResultsOperations,
+  _getBackupOperationResultsOperations,
+} from "./classic/backupOperationResults/index.js";
+import {
+  BackupOperationStatusesOperations,
+  _getBackupOperationStatusesOperations,
+} from "./classic/backupOperationStatuses/index.js";
+import {
+  BackupPoliciesOperations,
+  _getBackupPoliciesOperations,
+} from "./classic/backupPolicies/index.js";
+import {
+  BackupProtectableItemsOperations,
+  _getBackupProtectableItemsOperations,
+} from "./classic/backupProtectableItems/index.js";
+import {
+  BackupProtectedItemsOperations,
+  _getBackupProtectedItemsOperations,
+} from "./classic/backupProtectedItems/index.js";
+import {
+  BackupProtectionContainersOperations,
+  _getBackupProtectionContainersOperations,
+} from "./classic/backupProtectionContainers/index.js";
+import {
+  BackupProtectionIntentOperations,
+  _getBackupProtectionIntentOperations,
+} from "./classic/backupProtectionIntent/index.js";
+import {
+  BackupResourceEncryptionConfigsOperations,
+  _getBackupResourceEncryptionConfigsOperations,
+} from "./classic/backupResourceEncryptionConfigs/index.js";
+import {
+  BackupResourceStorageConfigsNonCRROperations,
+  _getBackupResourceStorageConfigsNonCRROperations,
+} from "./classic/backupResourceStorageConfigsNonCRR/index.js";
+import {
+  BackupResourceVaultConfigsOperations,
+  _getBackupResourceVaultConfigsOperations,
+} from "./classic/backupResourceVaultConfigs/index.js";
+import {
+  BackupStatusOperations,
+  _getBackupStatusOperations,
+} from "./classic/backupStatus/index.js";
+import {
+  BackupUsageSummariesOperations,
+  _getBackupUsageSummariesOperations,
+} from "./classic/backupUsageSummaries/index.js";
+import {
+  BackupWorkloadItemsOperations,
+  _getBackupWorkloadItemsOperations,
+} from "./classic/backupWorkloadItems/index.js";
+import { BackupsOperations, _getBackupsOperations } from "./classic/backups/index.js";
+import {
+  BMSPrepareDataMoveOperationResultOperations,
+  _getBMSPrepareDataMoveOperationResultOperations,
+} from "./classic/bmsPrepareDataMoveOperationResult/index.js";
+import {
+  DeletedProtectionContainersOperations,
+  _getDeletedProtectionContainersOperations,
+} from "./classic/deletedProtectionContainers/index.js";
+import {
+  ExportJobsOperationResultsOperations,
+  _getExportJobsOperationResultsOperations,
+} from "./classic/exportJobsOperationResults/index.js";
+import {
+  FeatureSupportOperations,
+  _getFeatureSupportOperations,
+} from "./classic/featureSupport/index.js";
+import {
+  FetchTieringCostOperations,
+  _getFetchTieringCostOperations,
+} from "./classic/fetchTieringCost/index.js";
+import {
+  GetTieringCostOperationResultOperations,
+  _getGetTieringCostOperationResultOperations,
+} from "./classic/getTieringCostOperationResult/index.js";
+import {
+  ItemLevelRecoveryConnectionsOperations,
+  _getItemLevelRecoveryConnectionsOperations,
+} from "./classic/itemLevelRecoveryConnections/index.js";
+import {
+  JobCancellationsOperations,
+  _getJobCancellationsOperations,
+} from "./classic/jobCancellations/index.js";
+import { JobDetailsOperations, _getJobDetailsOperations } from "./classic/jobDetails/index.js";
+import {
+  JobOperationResultsOperations,
+  _getJobOperationResultsOperations,
+} from "./classic/jobOperationResults/index.js";
+import { JobsOperations, _getJobsOperations } from "./classic/jobs/index.js";
+import { OperationOperations, _getOperationOperations } from "./classic/operation/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import {
+  PrivateEndpointOperations,
+  _getPrivateEndpointOperations,
+} from "./classic/privateEndpoint/index.js";
+import {
+  PrivateEndpointConnectionOperations,
+  _getPrivateEndpointConnectionOperations,
+} from "./classic/privateEndpointConnection/index.js";
+import {
+  ProtectableContainersOperations,
+  _getProtectableContainersOperations,
+} from "./classic/protectableContainers/index.js";
+import {
+  ProtectedItemOperationResultsOperations,
+  _getProtectedItemOperationResultsOperations,
+} from "./classic/protectedItemOperationResults/index.js";
+import {
+  ProtectedItemOperationStatusesOperations,
+  _getProtectedItemOperationStatusesOperations,
+} from "./classic/protectedItemOperationStatuses/index.js";
+import {
+  ProtectedItemsOperations,
+  _getProtectedItemsOperations,
+} from "./classic/protectedItems/index.js";
+import {
+  ProtectionContainerOperationResultsOperations,
+  _getProtectionContainerOperationResultsOperations,
+} from "./classic/protectionContainerOperationResults/index.js";
+import {
+  ProtectionContainerRefreshOperationResultsOperations,
+  _getProtectionContainerRefreshOperationResultsOperations,
+} from "./classic/protectionContainerRefreshOperationResults/index.js";
+import {
+  ProtectionContainersOperations,
+  _getProtectionContainersOperations,
+} from "./classic/protectionContainers/index.js";
+import {
+  ProtectionIntentOperations,
+  _getProtectionIntentOperations,
+} from "./classic/protectionIntent/index.js";
+import {
+  ProtectionPoliciesOperations,
+  _getProtectionPoliciesOperations,
+} from "./classic/protectionPolicies/index.js";
+import {
+  ProtectionPolicyOperationResultsOperations,
+  _getProtectionPolicyOperationResultsOperations,
+} from "./classic/protectionPolicyOperationResults/index.js";
+import {
+  ProtectionPolicyOperationStatusesOperations,
+  _getProtectionPolicyOperationStatusesOperations,
+} from "./classic/protectionPolicyOperationStatuses/index.js";
+import {
+  RecoveryPointsOperations,
+  _getRecoveryPointsOperations,
+} from "./classic/recoveryPoints/index.js";
+import {
+  RecoveryPointsRecommendedForMoveOperations,
+  _getRecoveryPointsRecommendedForMoveOperations,
+} from "./classic/recoveryPointsRecommendedForMove/index.js";
+import {
+  ResourceGuardProxiesOperations,
+  _getResourceGuardProxiesOperations,
+} from "./classic/resourceGuardProxies/index.js";
+import {
+  ResourceGuardProxyOperations,
+  _getResourceGuardProxyOperations,
+} from "./classic/resourceGuardProxy/index.js";
+import { RestoresOperations, _getRestoresOperations } from "./classic/restores/index.js";
+import {
+  SecurityPINsOperations,
+  _getSecurityPINsOperations,
+} from "./classic/securityPINs/index.js";
+import {
+  TieringCostOperationStatusOperations,
+  _getTieringCostOperationStatusOperations,
+} from "./classic/tieringCostOperationStatus/index.js";
+import {
+  ValidateOperationOperations,
+  _getValidateOperationOperations,
+} from "./classic/validateOperation/index.js";
+import {
+  ValidateOperationResultsOperations,
+  _getValidateOperationResultsOperations,
+} from "./classic/validateOperationResults/index.js";
+import {
+  ValidateOperationStatusesOperations,
+  _getValidateOperationStatusesOperations,
+} from "./classic/validateOperationStatuses/index.js";
+import {
   PrepareDataMoveRequest,
   TriggerDataMoveRequest,
   OperationStatus,
   MoveRPAcrossTiersRequest,
 } from "./models/models.js";
-import type { SimplePollerLike } from "./static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "./static-helpers/simplePollerHelpers.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { PollerLike, OperationState } from "@azure/core-lro";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import { SimplePollerLike, getSimplePoller } from "./static-helpers/simplePollerHelpers.js";
+import { TokenCredential } from "@azure/core-auth";
+import { PollerLike, OperationState } from "@azure/core-lro";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { RecoveryServicesBackupClientOptionalParams } from "./api/recoveryServicesBackupContext.js";
 

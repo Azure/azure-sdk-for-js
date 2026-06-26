@@ -3,14 +3,20 @@
 
 import { BlockContext } from "../../api/blockContext.js";
 import {
-  StoragePool,
-  StoragePoolUpdate,
-  StoragePoolHealthInfo,
-  AvsConnection,
-  AvsStatus,
-  StoragePoolEnableAvsConnectionPost,
-  StoragePoolFinalizeAvsConnectionPost,
-} from "../../models/models.js";
+  repairAvsConnection,
+  finalizeAvsConnection,
+  disableAvsConnection,
+  enableAvsConnection,
+  getAvsStatus,
+  getAvsConnection,
+  getHealthStatus,
+  listBySubscription,
+  listByResourceGroup,
+  $delete,
+  update,
+  create,
+  get,
+} from "../../api/storagePools/operations.js";
 import {
   StoragePoolsRepairAvsConnectionOptionalParams,
   StoragePoolsFinalizeAvsConnectionOptionalParams,
@@ -27,20 +33,14 @@ import {
   StoragePoolsGetOptionalParams,
 } from "../../api/storagePools/options.js";
 import {
-  repairAvsConnection,
-  finalizeAvsConnection,
-  disableAvsConnection,
-  enableAvsConnection,
-  getAvsStatus,
-  getAvsConnection,
-  getHealthStatus,
-  listBySubscription,
-  listByResourceGroup,
-  $delete,
-  update,
-  create,
-  get,
-} from "../../api/storagePools/operations.js";
+  StoragePool,
+  StoragePoolUpdate,
+  StoragePoolHealthInfo,
+  AvsConnection,
+  AvsStatus,
+  StoragePoolEnableAvsConnectionPost,
+  StoragePoolFinalizeAvsConnectionPost,
+} from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -100,11 +100,6 @@ export interface StoragePoolsOperations {
     options?: StoragePoolsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<StoragePool>;
   /** Delete a storage pool */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     storagePoolName: string,

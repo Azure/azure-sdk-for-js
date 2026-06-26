@@ -9,11 +9,11 @@ export {
   create,
   get,
 } from "./operations.js";
-export {
-  type OperatorApiConnectionsListBySubscriptionOptionalParams,
-  type OperatorApiConnectionsListByResourceGroupOptionalParams,
-  type OperatorApiConnectionsDeleteOptionalParams,
-  type OperatorApiConnectionsUpdateOptionalParams,
-  type OperatorApiConnectionsCreateOptionalParams,
-  type OperatorApiConnectionsGetOptionalParams,
+export type {
+  OperatorApiConnectionsListBySubscriptionOptionalParams,
+  OperatorApiConnectionsListByResourceGroupOptionalParams,
+  OperatorApiConnectionsDeleteOptionalParams,
+  OperatorApiConnectionsUpdateOptionalParams,
+  OperatorApiConnectionsCreateOptionalParams,
+  OperatorApiConnectionsGetOptionalParams,
 } from "./options.js";
