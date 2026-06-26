@@ -167,7 +167,7 @@ To take a new third-party runtime dependency:
 
 1. Get the dependency approved (size, license, maintenance, and supply-chain
    considerations — see the dependency review guidance).
-2. Add it to [`eng/approved-third-party-dependencies.yml`](../eng/approved-third-party-dependencies.yml):
+2. Add it to [`eng/approved-third-party-dependencies.yml`](https://github.com/Azure/azure-sdk-for-js/blob/main/eng/approved-third-party-dependencies.yml):
    - Add it under `allowed` if every package should be able to use it.
    - Add a scoped entry under `exceptions` if only specific packages should be
      able to use it:

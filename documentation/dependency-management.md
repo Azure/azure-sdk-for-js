@@ -8,7 +8,7 @@ In this document we'll outline a few options available to you when a transitive 
 
 > **SDK authors:** for the policy on taking a _new_ third-party runtime
 > dependency in a shipped library, see
-> [Adding a new third-party runtime dependency](./steps-after-generations.md#adding-a-new-third-party-runtime-dependency).
+> [Adding a new third-party runtime dependency](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/steps-after-generations.md#adding-a-new-third-party-runtime-dependency).
 
 ## Example scenario
 
