@@ -25,7 +25,7 @@ package for every shipped library.
 
 To take a new third-party runtime dependency, get it approved and then add it to
 the allow-list. See
-[dependency management](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/dependency-management.md#adding-a-new-third-party-runtime-dependency).
+[Adding a new third-party runtime dependency](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/steps-after-generations.md#adding-a-new-third-party-runtime-dependency).
 
 ## Examples
 

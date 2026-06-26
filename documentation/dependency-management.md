@@ -6,43 +6,9 @@ There are times when a dependency needs to be updated, such as when a security v
 
 In this document we'll outline a few options available to you when a transitive dependency must be updated.
 
-## Adding a new third-party runtime dependency
-
-Shipped client and management libraries (those with `"sdk-type": "client"` or
-`"sdk-type": "mgmt"` in `package.json`) may not take a new third-party runtime
-dependency without approval. This is enforced in CI by the
-`@azure/azure-sdk/ts-package-json-approved-dependencies` ESLint rule, which
-validates the `dependencies` field of every in-scope `package.json` against a
-central allow-list. `devDependencies` and `peerDependencies` are not checked,
-and samples, tests, perf tests, and utility/tooling packages are out of scope.
-
-First-party dependencies are always allowed and do not need to be listed:
-`@azure/`, `@azure-rest/`, `@azure-tools/`, `@microsoft/`, and `@typespec/`.
-
-To take a new third-party runtime dependency:
-
-1. Get the dependency approved (size, license, maintenance, and supply-chain
-   considerations — see the dependency review guidance).
-2. Add it to [`eng/approved-third-party-dependencies.yml`](../eng/approved-third-party-dependencies.yml):
-   - Add it under `allowed` if every package should be able to use it.
-   - Add a scoped entry under `exceptions` if only specific packages should be
-     able to use it:
-
-     ```yaml
-     exceptions:
-       - dependency: some-package
-         packages:
-           - "@azure/your-package"
-     ```
-
-Entries are normally exact package names. A **scope wildcard** of the form
-`@scope/*` is also supported (in both `allowed` and `exceptions`) and matches
-every package in that npm scope — for example, `"@opentelemetry/*"` under
-`allowed` approves the entire OpenTelemetry ecosystem for every package.
-
-If a package declares a runtime dependency that is neither first-party nor
-approved, `pnpm lint` (and CI) will fail with a message pointing at the
-allow-list.
+> **SDK authors:** for the policy on taking a _new_ third-party runtime
+> dependency in a shipped library, see
+> [Adding a new third-party runtime dependency](./steps-after-generations.md#adding-a-new-third-party-runtime-dependency).
 
 ## Example scenario
 
