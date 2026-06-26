@@ -1,101 +1,23 @@
 {
   "name": "@azure/arm-cdn",
-  "sdk-type": "mgmt",
-  "author": "Microsoft Corporation",
+  "version": "10.0.0-beta.1",
   "description": "A generated SDK for CdnManagementClient.",
-  "version": "9.1.2",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
-  "dependencies": {
-    "@azure/abort-controller": "^2.1.2",
-    "@azure/core-auth": "^1.9.0",
-    "@azure/core-client": "^1.9.2",
-    "@azure/core-lro": "^2.7.2",
-    "@azure/core-paging": "^1.6.2",
-    "@azure/core-rest-pipeline": "^1.18.2",
-    "tslib": "^2.8.1"
-  },
-  "keywords": [
-    "node",
-    "azure",
-    "typescript",
-    "browser",
-    "isomorphic",
-    "cloud"
-  ],
-  "license": "MIT",
+  "sideEffects": false,
+  "autoPublish": false,
+  "type": "module",
   "main": "./dist/commonjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/commonjs/index.d.ts",
-  "devDependencies": {
-    "@azure-tools/test-credential": "workspace:^",
-    "@azure-tools/test-recorder": "workspace:^",
-    "@azure-tools/test-utils-vitest": "workspace:^",
-    "@azure/dev-tool": "workspace:^",
-    "@azure/identity": "catalog:internal",
-    "@azure/logger": "^1.1.4",
-    "@types/node": "catalog:",
-    "@vitest/browser-playwright": "catalog:testing",
-    "@vitest/coverage-istanbul": "catalog:testing",
-    "cross-env": "catalog:",
-    "dotenv": "catalog:testing",
-    "playwright": "catalog:testing",
-    "rimraf": "catalog:",
-    "typescript": "catalog:",
-    "vitest": "catalog:testing"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Azure/azure-sdk-for-js",
-    "directory": "sdk/cdn/arm-cdn"
-  },
-  "bugs": {
-    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
-  },
-  "files": [
-    "dist/",
-    "README.md",
-    "LICENSE",
-    "review/",
-    "CHANGELOG.md"
-  ],
-  "scripts": {
-    "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
-    "build:samples": "tsc -p config/tsconfig.samples.json && dev-tool samples publish -f",
-    "check-format": "echo skipped",
-    "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
-    "execute:samples": "echo skipped",
-    "extract-api": "dev-tool run extract-api",
-    "format": "echo skipped",
-    "lint": "echo skipped",
-    "pack": "pnpm pack 2>&1",
-    "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
-    "test:browser": "echo skipped",
-    "test:node": "dev-tool run test:vitest",
-    "update-snippets": "dev-tool run update-snippets"
-  },
-  "sideEffects": false,
-  "//metadata": {
-    "constantPaths": [
-      {
-        "path": "src/cdnManagementClient.ts",
-        "prefix": "packageDetails"
-      }
-    ]
-  },
-  "autoPublish": true,
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cdn/arm-cdn/README.md",
-  "//sampleConfiguration": {
-    "productName": "",
-    "productSlugs": [
-      "azure"
-    ],
-    "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-cdn?view=azure-node-preview"
-  },
-  "type": "module",
   "browser": "./dist/browser/index.js",
+  "imports": {
+    "#platform/*": {
+      "browser": "./src/*-browser.mts",
+      "default": "./src/*.ts"
+    }
+  },
   "exports": {
     "./package.json": "./package.json",
     ".": {
@@ -111,12 +33,417 @@
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
       }
+    },
+    "./api": {
+      "browser": {
+        "types": "./dist/browser/api/index.d.ts",
+        "default": "./dist/browser/api/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/index.d.ts",
+        "default": "./dist/esm/api/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/index.d.ts",
+        "default": "./dist/commonjs/api/index.js"
+      }
+    },
+    "./api/managedRuleSets": {
+      "browser": {
+        "types": "./dist/browser/api/managedRuleSets/index.d.ts",
+        "default": "./dist/browser/api/managedRuleSets/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/managedRuleSets/index.d.ts",
+        "default": "./dist/esm/api/managedRuleSets/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/managedRuleSets/index.d.ts",
+        "default": "./dist/commonjs/api/managedRuleSets/index.js"
+      }
+    },
+    "./api/edgeNodes": {
+      "browser": {
+        "types": "./dist/browser/api/edgeNodes/index.d.ts",
+        "default": "./dist/browser/api/edgeNodes/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/edgeNodes/index.d.ts",
+        "default": "./dist/esm/api/edgeNodes/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/edgeNodes/index.d.ts",
+        "default": "./dist/commonjs/api/edgeNodes/index.js"
+      }
+    },
+    "./api/resourceUsageOperations": {
+      "browser": {
+        "types": "./dist/browser/api/resourceUsageOperations/index.d.ts",
+        "default": "./dist/browser/api/resourceUsageOperations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/resourceUsageOperations/index.d.ts",
+        "default": "./dist/esm/api/resourceUsageOperations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/resourceUsageOperations/index.d.ts",
+        "default": "./dist/commonjs/api/resourceUsageOperations/index.js"
+      }
+    },
+    "./api/policies": {
+      "browser": {
+        "types": "./dist/browser/api/policies/index.d.ts",
+        "default": "./dist/browser/api/policies/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/policies/index.d.ts",
+        "default": "./dist/esm/api/policies/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/policies/index.d.ts",
+        "default": "./dist/commonjs/api/policies/index.js"
+      }
+    },
+    "./api/logAnalytics": {
+      "browser": {
+        "types": "./dist/browser/api/logAnalytics/index.d.ts",
+        "default": "./dist/browser/api/logAnalytics/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/logAnalytics/index.d.ts",
+        "default": "./dist/esm/api/logAnalytics/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/logAnalytics/index.d.ts",
+        "default": "./dist/commonjs/api/logAnalytics/index.js"
+      }
+    },
+    "./api/afdProfiles": {
+      "browser": {
+        "types": "./dist/browser/api/afdProfiles/index.d.ts",
+        "default": "./dist/browser/api/afdProfiles/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/afdProfiles/index.d.ts",
+        "default": "./dist/esm/api/afdProfiles/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/afdProfiles/index.d.ts",
+        "default": "./dist/commonjs/api/afdProfiles/index.js"
+      }
+    },
+    "./api/afdCustomDomains": {
+      "browser": {
+        "types": "./dist/browser/api/afdCustomDomains/index.d.ts",
+        "default": "./dist/browser/api/afdCustomDomains/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/afdCustomDomains/index.d.ts",
+        "default": "./dist/esm/api/afdCustomDomains/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/afdCustomDomains/index.d.ts",
+        "default": "./dist/commonjs/api/afdCustomDomains/index.js"
+      }
+    },
+    "./api/customDomains": {
+      "browser": {
+        "types": "./dist/browser/api/customDomains/index.d.ts",
+        "default": "./dist/browser/api/customDomains/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/customDomains/index.d.ts",
+        "default": "./dist/esm/api/customDomains/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/customDomains/index.d.ts",
+        "default": "./dist/commonjs/api/customDomains/index.js"
+      }
+    },
+    "./api/originGroups": {
+      "browser": {
+        "types": "./dist/browser/api/originGroups/index.d.ts",
+        "default": "./dist/browser/api/originGroups/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/originGroups/index.d.ts",
+        "default": "./dist/esm/api/originGroups/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/originGroups/index.d.ts",
+        "default": "./dist/commonjs/api/originGroups/index.js"
+      }
+    },
+    "./api/origins": {
+      "browser": {
+        "types": "./dist/browser/api/origins/index.d.ts",
+        "default": "./dist/browser/api/origins/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/origins/index.d.ts",
+        "default": "./dist/esm/api/origins/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/origins/index.d.ts",
+        "default": "./dist/commonjs/api/origins/index.js"
+      }
+    },
+    "./api/endpoints": {
+      "browser": {
+        "types": "./dist/browser/api/endpoints/index.d.ts",
+        "default": "./dist/browser/api/endpoints/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/endpoints/index.d.ts",
+        "default": "./dist/esm/api/endpoints/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/endpoints/index.d.ts",
+        "default": "./dist/commonjs/api/endpoints/index.js"
+      }
+    },
+    "./api/secrets": {
+      "browser": {
+        "types": "./dist/browser/api/secrets/index.d.ts",
+        "default": "./dist/browser/api/secrets/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/secrets/index.d.ts",
+        "default": "./dist/esm/api/secrets/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/secrets/index.d.ts",
+        "default": "./dist/commonjs/api/secrets/index.js"
+      }
+    },
+    "./api/securityPolicies": {
+      "browser": {
+        "types": "./dist/browser/api/securityPolicies/index.d.ts",
+        "default": "./dist/browser/api/securityPolicies/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/securityPolicies/index.d.ts",
+        "default": "./dist/esm/api/securityPolicies/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/securityPolicies/index.d.ts",
+        "default": "./dist/commonjs/api/securityPolicies/index.js"
+      }
+    },
+    "./api/rules": {
+      "browser": {
+        "types": "./dist/browser/api/rules/index.d.ts",
+        "default": "./dist/browser/api/rules/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/rules/index.d.ts",
+        "default": "./dist/esm/api/rules/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/rules/index.d.ts",
+        "default": "./dist/commonjs/api/rules/index.js"
+      }
+    },
+    "./api/ruleSets": {
+      "browser": {
+        "types": "./dist/browser/api/ruleSets/index.d.ts",
+        "default": "./dist/browser/api/ruleSets/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/ruleSets/index.d.ts",
+        "default": "./dist/esm/api/ruleSets/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/ruleSets/index.d.ts",
+        "default": "./dist/commonjs/api/ruleSets/index.js"
+      }
+    },
+    "./api/routes": {
+      "browser": {
+        "types": "./dist/browser/api/routes/index.d.ts",
+        "default": "./dist/browser/api/routes/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/routes/index.d.ts",
+        "default": "./dist/esm/api/routes/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/routes/index.d.ts",
+        "default": "./dist/commonjs/api/routes/index.js"
+      }
+    },
+    "./api/afdOrigins": {
+      "browser": {
+        "types": "./dist/browser/api/afdOrigins/index.d.ts",
+        "default": "./dist/browser/api/afdOrigins/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/afdOrigins/index.d.ts",
+        "default": "./dist/esm/api/afdOrigins/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/afdOrigins/index.d.ts",
+        "default": "./dist/commonjs/api/afdOrigins/index.js"
+      }
+    },
+    "./api/afdOriginGroups": {
+      "browser": {
+        "types": "./dist/browser/api/afdOriginGroups/index.d.ts",
+        "default": "./dist/browser/api/afdOriginGroups/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/afdOriginGroups/index.d.ts",
+        "default": "./dist/esm/api/afdOriginGroups/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/afdOriginGroups/index.d.ts",
+        "default": "./dist/commonjs/api/afdOriginGroups/index.js"
+      }
+    },
+    "./api/afdEndpoints": {
+      "browser": {
+        "types": "./dist/browser/api/afdEndpoints/index.d.ts",
+        "default": "./dist/browser/api/afdEndpoints/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/afdEndpoints/index.d.ts",
+        "default": "./dist/esm/api/afdEndpoints/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/afdEndpoints/index.d.ts",
+        "default": "./dist/commonjs/api/afdEndpoints/index.js"
+      }
+    },
+    "./api/profiles": {
+      "browser": {
+        "types": "./dist/browser/api/profiles/index.d.ts",
+        "default": "./dist/browser/api/profiles/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/profiles/index.d.ts",
+        "default": "./dist/esm/api/profiles/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/profiles/index.d.ts",
+        "default": "./dist/commonjs/api/profiles/index.js"
+      }
+    },
+    "./api/operations": {
+      "browser": {
+        "types": "./dist/browser/api/operations/index.d.ts",
+        "default": "./dist/browser/api/operations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/operations/index.d.ts",
+        "default": "./dist/esm/api/operations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/operations/index.d.ts",
+        "default": "./dist/commonjs/api/operations/index.js"
+      }
+    },
+    "./models": {
+      "browser": {
+        "types": "./dist/browser/models/index.d.ts",
+        "default": "./dist/browser/models/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/models/index.d.ts",
+        "default": "./dist/esm/models/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/models/index.d.ts",
+        "default": "./dist/commonjs/models/index.js"
+      }
     }
   },
-  "imports": {
-    "#platform/*": {
-      "browser": "./src/*-browser.mts",
-      "default": "./src/*.ts"
-    }
+  "keywords": [
+    "node",
+    "azure",
+    "cloud",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "files": [
+    "dist/",
+    "!dist/**/*.d.*ts.map",
+    "README.md",
+    "LICENSE"
+  ],
+  "sdk-type": "mgmt",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/cdn/arm-cdn"
+  },
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cdn/arm-cdn/README.md",
+  "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/api/cdnManagementContext.ts",
+        "prefix": "userAgentInfo"
+      }
+    ]
+  },
+  "dependencies": {
+    "@azure/core-util": "^1.12.0",
+    "@azure-rest/core-client": "^2.3.1",
+    "@azure/abort-controller": "^2.1.2",
+    "@azure/core-auth": "^1.9.0",
+    "@azure/core-lro": "^3.1.0",
+    "@azure/core-rest-pipeline": "^1.20.0",
+    "@azure/logger": "^1.2.0",
+    "tslib": "^2.8.1"
+  },
+  "devDependencies": {
+    "@azure-tools/test-credential": "workspace:^",
+    "@azure-tools/test-recorder": "workspace:^",
+    "@azure-tools/test-utils-vitest": "workspace:^",
+    "@azure/dev-tool": "workspace:^",
+    "@azure/eslint-plugin-azure-sdk": "workspace:^",
+    "@azure/identity": "catalog:internal",
+    "@types/node": "catalog:",
+    "cross-env": "catalog:",
+    "eslint": "catalog:",
+    "prettier": "catalog:",
+    "rimraf": "catalog:",
+    "@vitest/browser-playwright": "catalog:testing",
+    "@vitest/coverage-istanbul": "catalog:testing",
+    "dotenv": "catalog:testing",
+    "playwright": "catalog:testing",
+    "typescript": "catalog:",
+    "vitest": "catalog:testing"
+  },
+  "scripts": {
+    "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
+    "extract-api": "rimraf review && dev-tool run extract-api",
+    "pack": "pnpm pack 2>&1",
+    "lint": "echo skipped",
+    "lint:fix": "echo skipped",
+    "build:samples": "tsc -p config/tsconfig.samples.json && dev-tool samples publish -f",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" \"samples-dev/*.ts\"",
+    "execute:samples": "dev-tool samples run samples-dev",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" \"samples-dev/*.ts\"",
+    "generate:client": "echo skipped",
+    "test:browser": "dev-tool run test:vitest --browser",
+    "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
+    "test:node": "dev-tool run test:vitest",
+    "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
+    "update-snippets": "dev-tool run update-snippets"
+  },
+  "//sampleConfiguration": {
+    "productName": "@azure/arm-cdn",
+    "productSlugs": [
+      "azure"
+    ],
+    "disableDocsMs": true,
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-cdn?view=azure-node-preview"
   }
 }
