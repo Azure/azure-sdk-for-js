@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/resources-subscriptions/arm-resources-subscriptions)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-resources-subscriptions)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-resources-subscriptions?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-resources-subscriptions)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/resources-subscriptions/arm-resources-subscriptions/samples)
 
 ## Getting started

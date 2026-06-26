@@ -1,26 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SecurityInsightsContext as Client } from "../index.js";
-import type {
-  ThreatIntelligenceInformationUnion,
-  ThreatIntelligenceIndicatorModel,
-  ThreatIntelligenceAppendTags,
-  ThreatIntelligenceFilteringCriteria,
-  _ThreatIntelligenceInformationList,
-} from "../../models/models.js";
+import { SecurityInsightsContext as Client } from "../index.js";
 import {
   cloudErrorDeserializer,
   threatIntelligenceInformationUnionDeserializer,
+  ThreatIntelligenceInformationUnion,
+  ThreatIntelligenceIndicatorModel,
   threatIntelligenceIndicatorModelSerializer,
+  ThreatIntelligenceAppendTags,
   threatIntelligenceAppendTagsSerializer,
+  ThreatIntelligenceFilteringCriteria,
   threatIntelligenceFilteringCriteriaSerializer,
+  _ThreatIntelligenceInformationList,
   _threatIntelligenceInformationListDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   ThreatIntelligenceIndicatorListQueryIndicatorsOptionalParams,
   ThreatIntelligenceIndicatorCreateIndicatorOptionalParams,
   ThreatIntelligenceIndicatorReplaceTagsOptionalParams,
@@ -29,8 +29,12 @@ import type {
   ThreatIntelligenceIndicatorCreateOptionalParams,
   ThreatIntelligenceIndicatorGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _listQueryIndicatorsSend(
   context: Client,
@@ -51,12 +55,14 @@ export function _listQueryIndicatorsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: threatIntelligenceFilteringCriteriaSerializer(threatIntelligenceFilteringCriteria),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: threatIntelligenceFilteringCriteriaSerializer(threatIntelligenceFilteringCriteria),
+    });
 }
 
 export async function _listQueryIndicatorsDeserialize(
@@ -122,12 +128,14 @@ export function _createIndicatorSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: threatIntelligenceIndicatorModelSerializer(threatIntelligenceProperties),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: threatIntelligenceIndicatorModelSerializer(threatIntelligenceProperties),
+    });
 }
 
 export async function _createIndicatorDeserialize(
@@ -185,12 +193,14 @@ export function _replaceTagsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: threatIntelligenceIndicatorModelSerializer(threatIntelligenceReplaceTags),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: threatIntelligenceIndicatorModelSerializer(threatIntelligenceReplaceTags),
+    });
 }
 
 export async function _replaceTagsDeserialize(
@@ -250,11 +260,13 @@ export function _appendTagsSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: threatIntelligenceAppendTagsSerializer(threatIntelligenceAppendTags),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: threatIntelligenceAppendTagsSerializer(threatIntelligenceAppendTags),
+    });
 }
 
 export async function _appendTagsDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -361,12 +373,14 @@ export function _createSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: threatIntelligenceIndicatorModelSerializer(threatIntelligenceProperties),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: threatIntelligenceIndicatorModelSerializer(threatIntelligenceProperties),
+    });
 }
 
 export async function _createDeserialize(
@@ -425,10 +439,12 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(

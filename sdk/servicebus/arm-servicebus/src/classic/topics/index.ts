@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ServiceBusManagementContext } from "../../api/serviceBusManagementContext.js";
+import { ServiceBusManagementContext } from "../../api/serviceBusManagementContext.js";
 import {
   listByNamespace,
   $delete,
@@ -14,7 +14,7 @@ import {
   createOrUpdateAuthorizationRule,
   getAuthorizationRule,
 } from "../../api/topics/operations.js";
-import type {
+import {
   TopicsListByNamespaceOptionalParams,
   TopicsDeleteOptionalParams,
   TopicsCreateOrUpdateOptionalParams,
@@ -26,13 +26,13 @@ import type {
   TopicsCreateOrUpdateAuthorizationRuleOptionalParams,
   TopicsGetAuthorizationRuleOptionalParams,
 } from "../../api/topics/options.js";
-import type {
+import {
   SBAuthorizationRule,
   AccessKeys,
   RegenerateAccessKeyParameters,
   SBTopic,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Topics operations. */
 export interface TopicsOperations {

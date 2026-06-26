@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
+import { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
 import { list, $delete, createOrUpdate, get } from "../../api/workspaceManagerGroups/operations.js";
-import type {
+import {
   WorkspaceManagerGroupsListOptionalParams,
   WorkspaceManagerGroupsDeleteOptionalParams,
   WorkspaceManagerGroupsCreateOrUpdateOptionalParams,
   WorkspaceManagerGroupsGetOptionalParams,
 } from "../../api/workspaceManagerGroups/options.js";
-import type { WorkspaceManagerGroup } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { WorkspaceManagerGroup } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a WorkspaceManagerGroups operations. */
 export interface WorkspaceManagerGroupsOperations {

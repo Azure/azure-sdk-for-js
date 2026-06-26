@@ -1,19 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
+import { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
 import { list, $delete, createOrUpdate, get } from "../../api/watchlists/operations.js";
-import type {
+import {
   WatchlistsListOptionalParams,
   WatchlistsDeleteOptionalParams,
   WatchlistsCreateOrUpdateOptionalParams,
   WatchlistsGetOptionalParams,
 } from "../../api/watchlists/options.js";
-import type { Watchlist } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { Watchlist } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Watchlists operations. */
 export interface WatchlistsOperations {

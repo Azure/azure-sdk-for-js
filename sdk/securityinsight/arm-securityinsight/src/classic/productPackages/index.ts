@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
+import { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
 import { list } from "../../api/productPackages/operations.js";
-import type { ProductPackagesListOptionalParams } from "../../api/productPackages/options.js";
-import type { ProductPackageModel } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { ProductPackagesListOptionalParams } from "../../api/productPackages/options.js";
+import { ProductPackageModel } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ProductPackages operations. */
 export interface ProductPackagesOperations {

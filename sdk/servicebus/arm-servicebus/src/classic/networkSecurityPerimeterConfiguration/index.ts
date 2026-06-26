@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ServiceBusManagementContext } from "../../api/serviceBusManagementContext.js";
+import { ServiceBusManagementContext } from "../../api/serviceBusManagementContext.js";
 import { list } from "../../api/networkSecurityPerimeterConfiguration/operations.js";
-import type { NetworkSecurityPerimeterConfigurationListOptionalParams } from "../../api/networkSecurityPerimeterConfiguration/options.js";
-import type { NetworkSecurityPerimeterConfiguration } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { NetworkSecurityPerimeterConfigurationListOptionalParams } from "../../api/networkSecurityPerimeterConfiguration/options.js";
+import { NetworkSecurityPerimeterConfiguration } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a NetworkSecurityPerimeterConfiguration operations. */
 export interface NetworkSecurityPerimeterConfigurationOperations {

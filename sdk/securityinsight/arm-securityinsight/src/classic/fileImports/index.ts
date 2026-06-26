@@ -1,19 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
+import { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
 import { list, $delete, create, get } from "../../api/fileImports/operations.js";
-import type {
+import {
   FileImportsListOptionalParams,
   FileImportsDeleteOptionalParams,
   FileImportsCreateOptionalParams,
   FileImportsGetOptionalParams,
 } from "../../api/fileImports/options.js";
-import type { FileImport } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { FileImport } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a FileImports operations. */
 export interface FileImportsOperations {

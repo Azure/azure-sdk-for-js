@@ -357,7 +357,7 @@
   "types": "./dist/commonjs/index.d.ts",
   "module": "./dist/esm/index.js",
   "imports": {
-    "#platform/*.js": {
+    "#platform/*": {
       "browser": "./src/*-browser.mts",
       "default": "./src/*.ts"
     }

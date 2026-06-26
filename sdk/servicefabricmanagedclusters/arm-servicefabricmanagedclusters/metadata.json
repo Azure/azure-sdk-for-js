@@ -2,7 +2,7 @@
   "apiVersions": {
     "Microsoft.ServiceFabric": "2026-05-01-preview"
   },
-  "emitterVersion": "0.53.2",
+  "emitterVersion": "0.55.0-dev.10",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.ServiceFabric",
     "CrossLanguageDefinitionId": {

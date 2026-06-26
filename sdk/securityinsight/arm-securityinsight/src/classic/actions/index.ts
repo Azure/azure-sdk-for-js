@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
+import { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
 import { listByAlertRule, $delete, createOrUpdate, get } from "../../api/actions/operations.js";
-import type {
+import {
   ActionsListByAlertRuleOptionalParams,
   ActionsDeleteOptionalParams,
   ActionsCreateOrUpdateOptionalParams,
   ActionsGetOptionalParams,
 } from "../../api/actions/options.js";
-import type { ActionResponse, ActionRequest } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { ActionResponse, ActionRequest } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Actions operations. */
 export interface ActionsOperations {

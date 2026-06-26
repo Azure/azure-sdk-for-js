@@ -1,20 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SecurityInsightsContext as Client } from "../index.js";
-import type {
-  DataConnectorsCheckRequirementsUnion,
-  DataConnectorRequirementsState,
-} from "../../models/models.js";
+import { SecurityInsightsContext as Client } from "../index.js";
 import {
   cloudErrorDeserializer,
   dataConnectorsCheckRequirementsUnionSerializer,
+  DataConnectorsCheckRequirementsUnion,
+  DataConnectorRequirementsState,
   dataConnectorRequirementsStateDeserializer,
 } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type { DataConnectorsCheckRequirementsOperationsPostOptionalParams } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import { DataConnectorsCheckRequirementsOperationsPostOptionalParams } from "./options.js";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _postSend(
   context: Client,
@@ -35,12 +37,14 @@ export function _postSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: dataConnectorsCheckRequirementsUnionSerializer(dataConnectorsCheckRequirements),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: dataConnectorsCheckRequirementsUnionSerializer(dataConnectorsCheckRequirements),
+    });
 }
 
 export async function _postDeserialize(

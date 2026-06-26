@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicebus/arm-servicebus)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-servicebus)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-servicebus?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-servicebus)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicebus/arm-servicebus/samples)
 
 ## Getting started

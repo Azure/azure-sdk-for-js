@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
+import { SecurityInsightsContext } from "../../api/securityInsightsContext.js";
 import { uninstall, install } from "../../api/contentPackage/operations.js";
-import type {
+import {
   ContentPackageUninstallOptionalParams,
   ContentPackageInstallOptionalParams,
 } from "../../api/contentPackage/options.js";
-import type { PackageModel } from "../../models/models.js";
+import { PackageModel } from "../../models/models.js";
 
 /** Interface representing a ContentPackage operations. */
 export interface ContentPackageOperations {
