@@ -35,18 +35,19 @@ For a generated package whose name starts with `@azure/arm-` or `@azure-rest/`, 
 # No dynamic module loading in production source
 
 The shared config bans dynamic module loaders in `src/**` via the core
-`no-restricted-syntax` rule: `createRequire(...)` and aliasing the global `require`
-(`const r = require; r("pkg")`). These patterns load a module outside the static module
+`no-restricted-syntax` rule: `createRequire(...)`, aliasing the global `require`
+(`const r = require; r("pkg")`), and dynamic `import()` with a non-literal specifier
+(`import(expr)`). These patterns load a module outside the static module
 graph, so bundlers, api-extractor, and dependency linting can't see the dependency — which
 lets a package acquire an **undeclared or dev-only runtime dependency** that resolves in the
 monorepo but fails (often silently) for consumers.
 
 What to do instead:
 
-- For tracing, use `@azure/core-tracing` (`createTracingClient`) — it is already a runtime
-  dependency of tracing-enabled packages and routes spans/propagation through the standard
-  pipeline. Do not import/require `@opentelemetry/api` directly.
-- Otherwise, declare the package as a regular runtime `dependency` and `import` it statically.
+- Declare the package as a regular runtime `dependency` and `import` it statically with a
+  literal specifier.
+- If the functionality you need already exists behind an `@azure/core-*` abstraction, prefer
+  routing through that abstraction instead of reaching for the underlying package directly.
 
 This rule is a **core** ESLint rule (not an `@azure/eslint-plugin-azure-sdk` rule), so unlike
 the plugin rules it **may** be disabled for a genuinely approved advanced case (e.g. a
