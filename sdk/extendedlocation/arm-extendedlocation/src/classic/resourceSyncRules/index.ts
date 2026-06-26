@@ -5,16 +5,16 @@ import type { CustomLocationsManagementContext } from "../../api/customLocations
 import {
   listByCustomLocationID,
   $delete,
+  update,
   createOrUpdate,
   get,
-  update,
 } from "../../api/resourceSyncRules/operations.js";
 import type {
   ResourceSyncRulesListByCustomLocationIDOptionalParams,
   ResourceSyncRulesDeleteOptionalParams,
+  ResourceSyncRulesUpdateOptionalParams,
   ResourceSyncRulesCreateOrUpdateOptionalParams,
   ResourceSyncRulesGetOptionalParams,
-  ResourceSyncRulesUpdateOptionalParams,
 } from "../../api/resourceSyncRules/options.js";
 import type { ResourceSyncRule } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
@@ -37,6 +37,27 @@ export interface ResourceSyncRulesOperations {
     childResourceName: string,
     options?: ResourceSyncRulesDeleteOptionalParams,
   ) => Promise<void>;
+  /** Updates a Resource Sync Rule with the specified Resource Sync Rule name in the specified Resource Group, Subscription and Custom Location name. */
+  update: (
+    resourceGroupName: string,
+    resourceName: string,
+    childResourceName: string,
+    options?: ResourceSyncRulesUpdateOptionalParams,
+  ) => PollerLike<OperationState<ResourceSyncRule>, ResourceSyncRule>;
+  /** @deprecated use update instead */
+  beginUpdate: (
+    resourceGroupName: string,
+    resourceName: string,
+    childResourceName: string,
+    options?: ResourceSyncRulesUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<ResourceSyncRule>, ResourceSyncRule>>;
+  /** @deprecated use update instead */
+  beginUpdateAndWait: (
+    resourceGroupName: string,
+    resourceName: string,
+    childResourceName: string,
+    options?: ResourceSyncRulesUpdateOptionalParams,
+  ) => Promise<ResourceSyncRule>;
   /** Creates or updates a Resource Sync Rule in the parent Custom Location, Subscription Id and Resource Group */
   createOrUpdate: (
     resourceGroupName: string,
@@ -68,26 +89,6 @@ export interface ResourceSyncRulesOperations {
     childResourceName: string,
     options?: ResourceSyncRulesGetOptionalParams,
   ) => Promise<ResourceSyncRule>;
-  update: (
-    resourceGroupName: string,
-    resourceName: string,
-    childResourceName: string,
-    options?: ResourceSyncRulesUpdateOptionalParams,
-  ) => PollerLike<OperationState<ResourceSyncRule>, ResourceSyncRule>;
-  /** @deprecated use update instead */
-  beginUpdate: (
-    resourceGroupName: string,
-    resourceName: string,
-    childResourceName: string,
-    options?: ResourceSyncRulesUpdateOptionalParams,
-  ) => Promise<SimplePollerLike<OperationState<ResourceSyncRule>, ResourceSyncRule>>;
-  /** @deprecated use update instead */
-  beginUpdateAndWait: (
-    resourceGroupName: string,
-    resourceName: string,
-    childResourceName: string,
-    options?: ResourceSyncRulesUpdateOptionalParams,
-  ) => Promise<ResourceSyncRule>;
 }
 
 function _getResourceSyncRules(context: CustomLocationsManagementContext) {
@@ -103,6 +104,30 @@ function _getResourceSyncRules(context: CustomLocationsManagementContext) {
       childResourceName: string,
       options?: ResourceSyncRulesDeleteOptionalParams,
     ) => $delete(context, resourceGroupName, resourceName, childResourceName, options),
+    update: (
+      resourceGroupName: string,
+      resourceName: string,
+      childResourceName: string,
+      options?: ResourceSyncRulesUpdateOptionalParams,
+    ) => update(context, resourceGroupName, resourceName, childResourceName, options),
+    beginUpdate: async (
+      resourceGroupName: string,
+      resourceName: string,
+      childResourceName: string,
+      options?: ResourceSyncRulesUpdateOptionalParams,
+    ) => {
+      const poller = update(context, resourceGroupName, resourceName, childResourceName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginUpdateAndWait: async (
+      resourceGroupName: string,
+      resourceName: string,
+      childResourceName: string,
+      options?: ResourceSyncRulesUpdateOptionalParams,
+    ) => {
+      return await update(context, resourceGroupName, resourceName, childResourceName, options);
+    },
     createOrUpdate: (
       resourceGroupName: string,
       resourceName: string,
@@ -158,30 +183,6 @@ function _getResourceSyncRules(context: CustomLocationsManagementContext) {
       childResourceName: string,
       options?: ResourceSyncRulesGetOptionalParams,
     ) => get(context, resourceGroupName, resourceName, childResourceName, options),
-    update: (
-      resourceGroupName: string,
-      resourceName: string,
-      childResourceName: string,
-      options?: ResourceSyncRulesUpdateOptionalParams,
-    ) => update(context, resourceGroupName, resourceName, childResourceName, options),
-    beginUpdate: async (
-      resourceGroupName: string,
-      resourceName: string,
-      childResourceName: string,
-      options?: ResourceSyncRulesUpdateOptionalParams,
-    ) => {
-      const poller = update(context, resourceGroupName, resourceName, childResourceName, options);
-      await poller.submitted();
-      return getSimplePoller(poller);
-    },
-    beginUpdateAndWait: async (
-      resourceGroupName: string,
-      resourceName: string,
-      childResourceName: string,
-      options?: ResourceSyncRulesUpdateOptionalParams,
-    ) => {
-      return await update(context, resourceGroupName, resourceName, childResourceName, options);
-    },
   };
 }
 

@@ -8,10 +8,10 @@ import {
   listBySubscription,
   listByResourceGroup,
   $delete,
+  update,
   createOrUpdate,
   get,
   listOperations,
-  update,
 } from "../../api/customLocations/operations.js";
 import type {
   CustomLocationsFindTargetResourceGroupOptionalParams,
@@ -19,14 +19,14 @@ import type {
   CustomLocationsListBySubscriptionOptionalParams,
   CustomLocationsListByResourceGroupOptionalParams,
   CustomLocationsDeleteOptionalParams,
+  CustomLocationsUpdateOptionalParams,
   CustomLocationsCreateOrUpdateOptionalParams,
   CustomLocationsGetOptionalParams,
   CustomLocationsListOperationsOptionalParams,
-  CustomLocationsUpdateOptionalParams,
 } from "../../api/customLocations/options.js";
 import type {
-  CustomLocation,
   CustomLocationOperation,
+  CustomLocation,
   EnabledResourceType,
   CustomLocationFindTargetResourceGroupProperties,
   CustomLocationFindTargetResourceGroupResult,
@@ -78,6 +78,12 @@ export interface CustomLocationsOperations {
     resourceName: string,
     options?: CustomLocationsDeleteOptionalParams,
   ) => Promise<void>;
+  /** Updates a Custom Location with the specified Resource Name in the specified Resource Group and Subscription. */
+  update: (
+    resourceGroupName: string,
+    resourceName: string,
+    options?: CustomLocationsUpdateOptionalParams,
+  ) => Promise<CustomLocation>;
   /** Creates or updates a Custom Location in the specified Subscription and Resource Group */
   createOrUpdate: (
     resourceGroupName: string,
@@ -109,11 +115,6 @@ export interface CustomLocationsOperations {
   listOperations: (
     options?: CustomLocationsListOperationsOptionalParams,
   ) => PagedAsyncIterableIterator<CustomLocationOperation>;
-  update: (
-    resourceGroupName: string,
-    resourceName: string,
-    options?: CustomLocationsUpdateOptionalParams,
-  ) => Promise<CustomLocation>;
 }
 
 function _getCustomLocations(context: CustomLocationsManagementContext) {
@@ -156,6 +157,11 @@ function _getCustomLocations(context: CustomLocationsManagementContext) {
     ) => {
       return await $delete(context, resourceGroupName, resourceName, options);
     },
+    update: (
+      resourceGroupName: string,
+      resourceName: string,
+      options?: CustomLocationsUpdateOptionalParams,
+    ) => update(context, resourceGroupName, resourceName, options),
     createOrUpdate: (
       resourceGroupName: string,
       resourceName: string,
@@ -187,11 +193,6 @@ function _getCustomLocations(context: CustomLocationsManagementContext) {
     ) => get(context, resourceGroupName, resourceName, options),
     listOperations: (options?: CustomLocationsListOperationsOptionalParams) =>
       listOperations(context, options),
-    update: (
-      resourceGroupName: string,
-      resourceName: string,
-      options?: CustomLocationsUpdateOptionalParams,
-    ) => update(context, resourceGroupName, resourceName, options),
   };
 }
 

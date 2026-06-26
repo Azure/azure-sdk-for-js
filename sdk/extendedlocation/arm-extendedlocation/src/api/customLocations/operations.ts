@@ -3,9 +3,9 @@
 
 import type { CustomLocationsManagementContext as Client } from "../index.js";
 import type {
-  CustomLocation,
   _CustomLocationOperationsList,
   CustomLocationOperation,
+  CustomLocation,
   _CustomLocationListResult,
   _EnabledResourceTypesListResult,
   EnabledResourceType,
@@ -13,12 +13,12 @@ import type {
   CustomLocationFindTargetResourceGroupResult,
 } from "../../models/models.js";
 import {
-  identitySerializer,
-  customLocationPropertiesAuthenticationSerializer,
+  _customLocationOperationsListDeserializer,
+  errorResponseDeserializer,
   customLocationSerializer,
   customLocationDeserializer,
-  errorResponseDeserializer,
-  _customLocationOperationsListDeserializer,
+  customLocationPropertiesSerializer,
+  identitySerializer,
   _customLocationListResultDeserializer,
   _enabledResourceTypesListResultDeserializer,
   customLocationFindTargetResourceGroupPropertiesSerializer,
@@ -34,10 +34,10 @@ import type {
   CustomLocationsListBySubscriptionOptionalParams,
   CustomLocationsListByResourceGroupOptionalParams,
   CustomLocationsDeleteOptionalParams,
+  CustomLocationsUpdateOptionalParams,
   CustomLocationsCreateOrUpdateOptionalParams,
   CustomLocationsGetOptionalParams,
   CustomLocationsListOperationsOptionalParams,
-  CustomLocationsUpdateOptionalParams,
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
@@ -328,6 +328,63 @@ export function $delete(
   }) as PollerLike<OperationState<void>, void>;
 }
 
+export function _updateSend(
+  context: Client,
+  resourceGroupName: string,
+  resourceName: string,
+  options: CustomLocationsUpdateOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ExtendedLocation/customLocations/{resourceName}{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      resourceName: resourceName,
+      "api%2Dversion": context.apiVersion ?? "2021-08-31-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).patch({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: {
+      identity: !options?.identity ? options?.identity : identitySerializer(options?.identity),
+      properties: !options?.properties
+        ? options?.properties
+        : customLocationPropertiesSerializer(options?.properties),
+      tags: options?.tags,
+    },
+  });
+}
+
+export async function _updateDeserialize(result: PathUncheckedResponse): Promise<CustomLocation> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return customLocationDeserializer(result.body);
+}
+
+/** Updates a Custom Location with the specified Resource Name in the specified Resource Group and Subscription. */
+export async function update(
+  context: Client,
+  resourceGroupName: string,
+  resourceName: string,
+  options: CustomLocationsUpdateOptionalParams = { requestOptions: {} },
+): Promise<CustomLocation> {
+  const result = await _updateSend(context, resourceGroupName, resourceName, options);
+  return _updateDeserialize(result);
+}
+
 export function _createOrUpdateSend(
   context: Client,
   resourceGroupName: string,
@@ -489,70 +546,4 @@ export function listOperations(
       apiVersion: context.apiVersion ?? "2021-08-31-preview",
     },
   );
-}
-
-export function _updateSend(
-  context: Client,
-  resourceGroupName: string,
-  resourceName: string,
-  options: CustomLocationsUpdateOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ExtendedLocation/customLocations/{resourceName}{?api%2Dversion}",
-    {
-      subscriptionId: context.subscriptionId,
-      resourceGroupName: resourceGroupName,
-      resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2021-08-31-preview",
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: {
-      identity: !options?.identity ? options?.identity : identitySerializer(options?.identity),
-      authentication: !options?.authentication
-        ? options?.authentication
-        : customLocationPropertiesAuthenticationSerializer(options?.authentication),
-      clusterExtensionIds: !options?.clusterExtensionIds
-        ? options?.clusterExtensionIds
-        : options?.clusterExtensionIds.map((p: any) => {
-            return p;
-          }),
-      displayName: options?.displayName,
-      hostResourceId: options?.hostResourceId,
-      hostType: options?.hostType,
-      namespace: options?.namespace,
-      provisioningState: options?.provisioningState,
-      tags: options?.tags,
-    },
-  });
-}
-
-export async function _updateDeserialize(result: PathUncheckedResponse): Promise<CustomLocation> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    if (result.body) {
-      error.details = errorResponseDeserializer(result.body);
-    }
-
-    throw error;
-  }
-
-  return customLocationDeserializer(result.body);
-}
-
-export async function update(
-  context: Client,
-  resourceGroupName: string,
-  resourceName: string,
-  options: CustomLocationsUpdateOptionalParams = { requestOptions: {} },
-): Promise<CustomLocation> {
-  const result = await _updateSend(context, resourceGroupName, resourceName, options);
-  return _updateDeserialize(result);
 }

@@ -9,83 +9,147 @@ import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-/** Identity for the resource. */
-export interface Identity {
-  /** The principal ID of resource identity. */
-  readonly principalId?: string;
-  /** The tenant ID of resource. */
-  readonly tenantId?: string;
-  /** The identity type. */
-  type?: ResourceIdentityType;
+/** Collection of CustomLocationOperation items */
+export interface _CustomLocationOperationsList {
+  /** The link to the next page of items */
+  nextLink?: string;
+  /** The CustomLocationOperation items */
+  value: CustomLocationOperation[];
 }
 
-export function identitySerializer(item: Identity): any {
-  return { type: item["type"] };
-}
-
-export function identityDeserializer(item: any): Identity {
-  return {
-    principalId: item["principalId"],
-    tenantId: item["tenantId"],
-    type: item["type"],
-  };
-}
-
-/** The identity type. */
-export enum KnownResourceIdentityType {
-  /** SystemAssigned */
-  SystemAssigned = "SystemAssigned",
-  /** None */
-  None = "None",
-}
-
-/**
- * The identity type. \
- * {@link KnownResourceIdentityType} can be used interchangeably with ResourceIdentityType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **SystemAssigned**: SystemAssigned \
- * **None**: None
- */
-export type ResourceIdentityType = string;
-
-/** This is optional input that contains the authentication that should be used to generate the namespace. */
-export interface CustomLocationPropertiesAuthentication {
-  /** The type of the Custom Locations authentication */
-  type?: string;
-  /** The kubeconfig value. */
-  value?: string;
-}
-
-export function customLocationPropertiesAuthenticationSerializer(
-  item: CustomLocationPropertiesAuthentication,
-): any {
-  return { type: item["type"], value: item["value"] };
-}
-
-export function customLocationPropertiesAuthenticationDeserializer(
+export function _customLocationOperationsListDeserializer(
   item: any,
-): CustomLocationPropertiesAuthentication {
+): _CustomLocationOperationsList {
   return {
-    type: item["type"],
-    value: item["value"],
+    nextLink: item["nextLink"],
+    value: customLocationOperationArrayDeserializer(item["value"]),
   };
 }
 
-/** Type of host the Custom Locations is referencing (Kubernetes, etc...). */
-export enum KnownHostType {
-  /** Kubernetes */
-  Kubernetes = "Kubernetes",
+export function customLocationOperationArrayDeserializer(
+  result: Array<CustomLocationOperation>,
+): any[] {
+  return result.map((item) => {
+    return customLocationOperationDeserializer(item);
+  });
 }
 
-/**
- * Type of host the Custom Locations is referencing (Kubernetes, etc...). \
- * {@link KnownHostType} can be used interchangeably with HostType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Kubernetes**: Kubernetes
- */
-export type HostType = string;
+/** Custom Locations operation. */
+export interface CustomLocationOperation {
+  /** Is this Operation a data plane operation */
+  readonly isDataAction?: boolean;
+  /** The name of the compute operation. */
+  readonly name?: string;
+  /** The origin of the compute operation. */
+  readonly origin?: string;
+  /** The description of the operation. */
+  readonly description?: string;
+  /** The display name of the compute operation. */
+  readonly operation?: string;
+  /** The resource provider for the operation. */
+  readonly provider?: string;
+  /** The display name of the resource the operation applies to. */
+  readonly resource?: string;
+}
+
+export function customLocationOperationDeserializer(item: any): CustomLocationOperation {
+  return {
+    ...(!item["display"]
+      ? item["display"]
+      : _customLocationOperationDisplayDeserializer(item["display"])),
+    isDataAction: item["isDataAction"],
+    name: item["name"],
+    origin: item["origin"],
+  };
+}
+
+/** Describes the properties of a Custom Locations Operation Value Display. */
+export interface CustomLocationOperationValueDisplay {
+  /** The description of the operation. */
+  readonly description?: string;
+  /** The display name of the compute operation. */
+  readonly operation?: string;
+  /** The resource provider for the operation. */
+  readonly provider?: string;
+  /** The display name of the resource the operation applies to. */
+  readonly resource?: string;
+}
+
+export function customLocationOperationValueDisplayDeserializer(
+  item: any,
+): CustomLocationOperationValueDisplay {
+  return {
+    description: item["description"],
+    operation: item["operation"],
+    provider: item["provider"],
+    resource: item["resource"],
+  };
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+export function errorResponseDeserializer(item: any): ErrorResponse {
+  return {
+    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
+  };
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /** The error code. */
+  readonly code?: string;
+  /** The error message. */
+  readonly message?: string;
+  /** The error target. */
+  readonly target?: string;
+  /** The error details. */
+  readonly details?: ErrorDetail[];
+  /** The error additional info. */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+export function errorDetailDeserializer(item: any): ErrorDetail {
+  return {
+    code: item["code"],
+    message: item["message"],
+    target: item["target"],
+    details: !item["details"] ? item["details"] : errorDetailArrayDeserializer(item["details"]),
+    additionalInfo: !item["additionalInfo"]
+      ? item["additionalInfo"]
+      : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
+  };
+}
+
+export function errorDetailArrayDeserializer(result: Array<ErrorDetail>): any[] {
+  return result.map((item) => {
+    return errorDetailDeserializer(item);
+  });
+}
+
+export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
+  return result.map((item) => {
+    return errorAdditionalInfoDeserializer(item);
+  });
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /** The additional info type. */
+  readonly type?: string;
+  /** The additional info. */
+  readonly info?: any;
+}
+
+export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
+  return {
+    type: item["type"],
+    info: item["info"],
+  };
+}
 
 /** Custom Locations definition. */
 export interface CustomLocation extends TrackedResource {
@@ -199,6 +263,84 @@ export function customLocationPropertiesDeserializer(item: any): CustomLocationP
   };
 }
 
+/** This is optional input that contains the authentication that should be used to generate the namespace. */
+export interface CustomLocationPropertiesAuthentication {
+  /** The type of the Custom Locations authentication */
+  type?: string;
+  /** The kubeconfig value. */
+  value?: string;
+}
+
+export function customLocationPropertiesAuthenticationSerializer(
+  item: CustomLocationPropertiesAuthentication,
+): any {
+  return { type: item["type"], value: item["value"] };
+}
+
+export function customLocationPropertiesAuthenticationDeserializer(
+  item: any,
+): CustomLocationPropertiesAuthentication {
+  return {
+    type: item["type"],
+    value: item["value"],
+  };
+}
+
+/** Type of host the Custom Locations is referencing (Kubernetes, etc...). */
+export enum KnownHostType {
+  /** Kubernetes */
+  Kubernetes = "Kubernetes",
+}
+
+/**
+ * Type of host the Custom Locations is referencing (Kubernetes, etc...). \
+ * {@link KnownHostType} can be used interchangeably with HostType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Kubernetes**: Kubernetes
+ */
+export type HostType = string;
+
+/** Identity for the resource. */
+export interface Identity {
+  /** The principal ID of resource identity. */
+  readonly principalId?: string;
+  /** The tenant ID of resource. */
+  readonly tenantId?: string;
+  /** The identity type. */
+  type?: ResourceIdentityType;
+}
+
+export function identitySerializer(item: Identity): any {
+  return { type: item["type"] };
+}
+
+export function identityDeserializer(item: any): Identity {
+  return {
+    principalId: item["principalId"],
+    tenantId: item["tenantId"],
+    type: item["type"],
+  };
+}
+
+/** The identity type. */
+export enum KnownResourceIdentityType {
+  /** SystemAssigned */
+  SystemAssigned = "SystemAssigned",
+  /** None */
+  None = "None",
+}
+
+/**
+ * The identity type. \
+ * {@link KnownResourceIdentityType} can be used interchangeably with ResourceIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SystemAssigned**: SystemAssigned \
+ * **None**: None
+ */
+export type ResourceIdentityType = string;
+
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
 export interface TrackedResource extends Resource {
   /** Resource tags. */
@@ -306,145 +448,23 @@ export enum KnownCreatedByType {
  */
 export type CreatedByType = string;
 
-/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. */
-export interface ErrorResponse {
-  /** The error object. */
-  error?: ErrorDetail;
+/** The Custom Locations patchable resource definition. */
+export interface PatchableCustomLocations {
+  /** Identity for the resource. */
+  identity?: Identity;
+  /** The Custom Locations patchable properties. */
+  properties?: CustomLocationProperties;
+  /** Resource tags */
+  tags?: Record<string, string>;
 }
 
-export function errorResponseDeserializer(item: any): ErrorResponse {
+export function patchableCustomLocationsSerializer(item: PatchableCustomLocations): any {
   return {
-    error: !item["error"] ? item["error"] : errorDetailDeserializer(item["error"]),
-  };
-}
-
-/** The error detail. */
-export interface ErrorDetail {
-  /** The error code. */
-  readonly code?: string;
-  /** The error message. */
-  readonly message?: string;
-  /** The error target. */
-  readonly target?: string;
-  /** The error details. */
-  readonly details?: ErrorDetail[];
-  /** The error additional info. */
-  readonly additionalInfo?: ErrorAdditionalInfo[];
-}
-
-export function errorDetailDeserializer(item: any): ErrorDetail {
-  return {
-    code: item["code"],
-    message: item["message"],
-    target: item["target"],
-    details: !item["details"] ? item["details"] : errorDetailArrayDeserializer(item["details"]),
-    additionalInfo: !item["additionalInfo"]
-      ? item["additionalInfo"]
-      : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
-  };
-}
-
-export function errorDetailArrayDeserializer(result: Array<ErrorDetail>): any[] {
-  return result.map((item) => {
-    return errorDetailDeserializer(item);
-  });
-}
-
-export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
-  return result.map((item) => {
-    return errorAdditionalInfoDeserializer(item);
-  });
-}
-
-/** The resource management error additional info. */
-export interface ErrorAdditionalInfo {
-  /** The additional info type. */
-  readonly type?: string;
-  /** The additional info. */
-  readonly info?: any;
-}
-
-export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
-  return {
-    type: item["type"],
-    info: item["info"],
-  };
-}
-
-/** Collection of CustomLocationOperation items */
-export interface _CustomLocationOperationsList {
-  /** The link to the next page of items */
-  nextLink?: string;
-  /** The CustomLocationOperation items */
-  value: CustomLocationOperation[];
-}
-
-export function _customLocationOperationsListDeserializer(
-  item: any,
-): _CustomLocationOperationsList {
-  return {
-    nextLink: item["nextLink"],
-    value: customLocationOperationArrayDeserializer(item["value"]),
-  };
-}
-
-export function customLocationOperationArrayDeserializer(
-  result: Array<CustomLocationOperation>,
-): any[] {
-  return result.map((item) => {
-    return customLocationOperationDeserializer(item);
-  });
-}
-
-/** Custom Locations operation. */
-export interface CustomLocationOperation {
-  /** Is this Operation a data plane operation */
-  readonly isDataAction?: boolean;
-  /** The name of the compute operation. */
-  readonly name?: string;
-  /** The origin of the compute operation. */
-  readonly origin?: string;
-  /** The description of the operation. */
-  readonly description?: string;
-  /** The display name of the compute operation. */
-  readonly operation?: string;
-  /** The resource provider for the operation. */
-  readonly provider?: string;
-  /** The display name of the resource the operation applies to. */
-  readonly resource?: string;
-}
-
-export function customLocationOperationDeserializer(item: any): CustomLocationOperation {
-  return {
-    ...(!item["display"]
-      ? item["display"]
-      : _customLocationOperationDisplayDeserializer(item["display"])),
-    isDataAction: item["isDataAction"],
-    name: item["name"],
-    origin: item["origin"],
-  };
-}
-
-/** Describes the properties of a Custom Locations Operation Value Display. */
-export interface CustomLocationOperationValueDisplay {
-  /** The description of the operation. */
-  readonly description?: string;
-  /** The display name of the compute operation. */
-  readonly operation?: string;
-  /** The resource provider for the operation. */
-  readonly provider?: string;
-  /** The display name of the resource the operation applies to. */
-  readonly resource?: string;
-}
-
-export function customLocationOperationValueDisplayDeserializer(
-  item: any,
-): CustomLocationOperationValueDisplay {
-  return {
-    description: item["description"],
-    operation: item["operation"],
-    provider: item["provider"],
-    resource: item["resource"],
+    identity: !item["identity"] ? item["identity"] : identitySerializer(item["identity"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : customLocationPropertiesSerializer(item["properties"]),
+    tags: item["tags"],
   };
 }
 
@@ -617,6 +637,79 @@ export function customLocationFindTargetResourceGroupResultDeserializer(
   };
 }
 
+/** Resource Sync Rules definition. */
+export interface ResourceSyncRule extends TrackedResource {
+  /** Priority represents a priority of the Resource Sync Rule */
+  priority?: number;
+  /** Provisioning State for the Resource Sync Rule. */
+  readonly provisioningState?: string;
+  /** A label selector is composed of two parts, matchLabels and matchExpressions. The first part, matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is 'key', the operator is 'In', and the values array contains only 'value'. The second part, matchExpressions is a list of resource selector requirements. Valid operators include In, NotIn, Exists, and DoesNotExist. The values set must be non-empty in the case of In and NotIn. The values set must be empty in the case of Exists and DoesNotExist. All of the requirements, from both matchLabels and matchExpressions must all be satisfied in order to match. */
+  selector?: ResourceSyncRulePropertiesSelector;
+  /** For an unmapped custom resource, its labels will be used to find matching resource sync rules. If this resource sync rule is one of the matching rules with highest priority, then the unmapped custom resource will be projected to the target resource group associated with this resource sync rule. The user creating this resource sync rule should have write permissions on the target resource group and this write permission will be validated when creating the resource sync rule. */
+  targetResourceGroup?: string;
+}
+
+export function resourceSyncRuleSerializer(item: ResourceSyncRule): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: areAllPropsUndefined(item, ["priority", "selector", "targetResourceGroup"])
+      ? undefined
+      : _resourceSyncRulePropertiesSerializer(item),
+  };
+}
+
+export function resourceSyncRuleDeserializer(item: any): ResourceSyncRule {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    ...(!item["properties"]
+      ? item["properties"]
+      : _resourceSyncRulePropertiesDeserializer(item["properties"])),
+  };
+}
+
+/** Properties for a resource sync rule. For an unmapped custom resource, its labels will be used to find out matching resource sync rules using the selector property of the resource sync rule. If this resource sync rule has highest priority among all matching rules, then the unmapped custom resource will be projected to the target resource group associated with this resource sync rule. */
+export interface ResourceSyncRuleProperties {
+  /** Priority represents a priority of the Resource Sync Rule */
+  priority?: number;
+  /** Provisioning State for the Resource Sync Rule. */
+  readonly provisioningState?: string;
+  /** A label selector is composed of two parts, matchLabels and matchExpressions. The first part, matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is 'key', the operator is 'In', and the values array contains only 'value'. The second part, matchExpressions is a list of resource selector requirements. Valid operators include In, NotIn, Exists, and DoesNotExist. The values set must be non-empty in the case of In and NotIn. The values set must be empty in the case of Exists and DoesNotExist. All of the requirements, from both matchLabels and matchExpressions must all be satisfied in order to match. */
+  selector?: ResourceSyncRulePropertiesSelector;
+  /** For an unmapped custom resource, its labels will be used to find matching resource sync rules. If this resource sync rule is one of the matching rules with highest priority, then the unmapped custom resource will be projected to the target resource group associated with this resource sync rule. The user creating this resource sync rule should have write permissions on the target resource group and this write permission will be validated when creating the resource sync rule. */
+  targetResourceGroup?: string;
+}
+
+export function resourceSyncRulePropertiesSerializer(item: ResourceSyncRuleProperties): any {
+  return {
+    priority: item["priority"],
+    selector: !item["selector"]
+      ? item["selector"]
+      : resourceSyncRulePropertiesSelectorSerializer(item["selector"]),
+    targetResourceGroup: item["targetResourceGroup"],
+  };
+}
+
+export function resourceSyncRulePropertiesDeserializer(item: any): ResourceSyncRuleProperties {
+  return {
+    priority: item["priority"],
+    provisioningState: item["provisioningState"],
+    selector: !item["selector"]
+      ? item["selector"]
+      : resourceSyncRulePropertiesSelectorDeserializer(item["selector"]),
+    targetResourceGroup: item["targetResourceGroup"],
+  };
+}
+
 /** A label selector is composed of two parts, matchLabels and matchExpressions. The first part, matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is 'key', the operator is 'In', and the values array contains only 'value'. The second part, matchExpressions is a list of resource selector requirements. Valid operators include In, NotIn, Exists, and DoesNotExist. The values set must be non-empty in the case of In and NotIn. The values set must be empty in the case of Exists and DoesNotExist. All of the requirements, from both matchLabels and matchExpressions must all be satisfied in order to match. */
 export interface ResourceSyncRulePropertiesSelector {
   /** MatchExpressions is a list of resource selector requirements. Valid operators include In, NotIn, Exists, and DoesNotExist. The values set must be non-empty in the case of In and NotIn. The values set must be empty in the case of Exists and DoesNotExist. */
@@ -701,76 +794,20 @@ export function matchExpressionsPropertiesDeserializer(item: any): MatchExpressi
   };
 }
 
-/** Resource Sync Rules definition. */
-export interface ResourceSyncRule extends TrackedResource {
-  /** Priority represents a priority of the Resource Sync Rule */
-  priority?: number;
-  /** Provisioning State for the Resource Sync Rule. */
-  readonly provisioningState?: string;
-  /** A label selector is composed of two parts, matchLabels and matchExpressions. The first part, matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is 'key', the operator is 'In', and the values array contains only 'value'. The second part, matchExpressions is a list of resource selector requirements. Valid operators include In, NotIn, Exists, and DoesNotExist. The values set must be non-empty in the case of In and NotIn. The values set must be empty in the case of Exists and DoesNotExist. All of the requirements, from both matchLabels and matchExpressions must all be satisfied in order to match. */
-  selector?: ResourceSyncRulePropertiesSelector;
-  /** For an unmapped custom resource, its labels will be used to find matching resource sync rules. If this resource sync rule is one of the matching rules with highest priority, then the unmapped custom resource will be projected to the target resource group associated with this resource sync rule. The user creating this resource sync rule should have write permissions on the target resource group and this write permission will be validated when creating the resource sync rule. */
-  targetResourceGroup?: string;
+/** The Resource Sync Rules patchable resource definition. */
+export interface PatchableResourceSyncRule {
+  /** The Resource Sync Rules patchable properties. */
+  properties?: ResourceSyncRuleProperties;
+  /** Resource tags */
+  tags?: Record<string, string>;
 }
 
-export function resourceSyncRuleSerializer(item: ResourceSyncRule): any {
+export function patchableResourceSyncRuleSerializer(item: PatchableResourceSyncRule): any {
   return {
-    tags: item["tags"],
-    location: item["location"],
-    properties: areAllPropsUndefined(item, ["priority", "selector", "targetResourceGroup"])
-      ? undefined
-      : _resourceSyncRulePropertiesSerializer(item),
-  };
-}
-
-export function resourceSyncRuleDeserializer(item: any): ResourceSyncRule {
-  return {
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
-    location: item["location"],
-    id: item["id"],
-    name: item["name"],
-    type: item["type"],
-    systemData: !item["systemData"]
-      ? item["systemData"]
-      : systemDataDeserializer(item["systemData"]),
-    ...(!item["properties"]
+    properties: !item["properties"]
       ? item["properties"]
-      : _resourceSyncRulePropertiesDeserializer(item["properties"])),
-  };
-}
-
-/** Properties for a resource sync rule. For an unmapped custom resource, its labels will be used to find out matching resource sync rules using the selector property of the resource sync rule. If this resource sync rule has highest priority among all matching rules, then the unmapped custom resource will be projected to the target resource group associated with this resource sync rule. */
-export interface ResourceSyncRuleProperties {
-  /** Priority represents a priority of the Resource Sync Rule */
-  priority?: number;
-  /** Provisioning State for the Resource Sync Rule. */
-  readonly provisioningState?: string;
-  /** A label selector is composed of two parts, matchLabels and matchExpressions. The first part, matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is 'key', the operator is 'In', and the values array contains only 'value'. The second part, matchExpressions is a list of resource selector requirements. Valid operators include In, NotIn, Exists, and DoesNotExist. The values set must be non-empty in the case of In and NotIn. The values set must be empty in the case of Exists and DoesNotExist. All of the requirements, from both matchLabels and matchExpressions must all be satisfied in order to match. */
-  selector?: ResourceSyncRulePropertiesSelector;
-  /** For an unmapped custom resource, its labels will be used to find matching resource sync rules. If this resource sync rule is one of the matching rules with highest priority, then the unmapped custom resource will be projected to the target resource group associated with this resource sync rule. The user creating this resource sync rule should have write permissions on the target resource group and this write permission will be validated when creating the resource sync rule. */
-  targetResourceGroup?: string;
-}
-
-export function resourceSyncRulePropertiesSerializer(item: ResourceSyncRuleProperties): any {
-  return {
-    priority: item["priority"],
-    selector: !item["selector"]
-      ? item["selector"]
-      : resourceSyncRulePropertiesSelectorSerializer(item["selector"]),
-    targetResourceGroup: item["targetResourceGroup"],
-  };
-}
-
-export function resourceSyncRulePropertiesDeserializer(item: any): ResourceSyncRuleProperties {
-  return {
-    priority: item["priority"],
-    provisioningState: item["provisioningState"],
-    selector: !item["selector"]
-      ? item["selector"]
-      : resourceSyncRulePropertiesSelectorDeserializer(item["selector"]),
-    targetResourceGroup: item["targetResourceGroup"],
+      : resourceSyncRulePropertiesSerializer(item["properties"]),
+    tags: item["tags"],
   };
 }
 
@@ -807,6 +844,15 @@ export enum KnownVersions {
   V20210831Preview = "2021-08-31-preview",
 }
 
+export function _customLocationOperationDisplayDeserializer(item: any) {
+  return {
+    description: item["description"],
+    operation: item["operation"],
+    provider: item["provider"],
+    resource: item["resource"],
+  };
+}
+
 export function _customLocationPropertiesSerializer(item: CustomLocation): any {
   return {
     authentication: !item["authentication"]
@@ -840,15 +886,6 @@ export function _customLocationPropertiesDeserializer(item: any) {
     hostType: item["hostType"],
     namespace: item["namespace"],
     provisioningState: item["provisioningState"],
-  };
-}
-
-export function _customLocationOperationDisplayDeserializer(item: any) {
-  return {
-    description: item["description"],
-    operation: item["operation"],
-    provider: item["provider"],
-    resource: item["resource"],
   };
 }
 

@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.5 (2026-06-24)
+## 1.0.0-beta.5 (2026-06-26)
 Compared with version 1.0.0-beta.3
 
 ### Features Added
@@ -17,6 +17,9 @@ Compared with version 1.0.0-beta.3
   - Added Interface ResourceSyncRuleProperties
   - Added Interface RestorePollerOptions
   - Added Interface SimplePollerLike
+  - Interface CustomLocationsUpdateOptionalParams has a new optional parameter properties
+  - Interface PatchableCustomLocations has a new optional parameter properties
+  - Interface PatchableResourceSyncRule has a new optional parameter properties
   - Interface ProxyResource has a new optional parameter systemData
   - Interface Resource has a new optional parameter systemData
   - Interface TrackedResource has a new optional parameter systemData
@@ -25,9 +28,27 @@ Compared with version 1.0.0-beta.3
   - Added Enum KnownVersions
 
 ### Breaking Changes
+  - Class CustomLocationsManagementClient no longer has parameter apiVersion
+  - Class CustomLocationsManagementClient no longer has parameter subscriptionId
   - Removed Interface CustomLocationOperationsList
-  - Removed Interface PatchableCustomLocations
-  - Removed Interface PatchableResourceSyncRule
+  - Interface CustomLocationsUpdateOptionalParams no longer has parameter authentication
+  - Interface CustomLocationsUpdateOptionalParams no longer has parameter clusterExtensionIds
+  - Interface CustomLocationsUpdateOptionalParams no longer has parameter displayName
+  - Interface CustomLocationsUpdateOptionalParams no longer has parameter hostResourceId
+  - Interface CustomLocationsUpdateOptionalParams no longer has parameter hostType
+  - Interface CustomLocationsUpdateOptionalParams no longer has parameter namespace
+  - Interface CustomLocationsUpdateOptionalParams no longer has parameter provisioningState
+  - Interface PatchableCustomLocations no longer has parameter authentication
+  - Interface PatchableCustomLocations no longer has parameter clusterExtensionIds
+  - Interface PatchableCustomLocations no longer has parameter displayName
+  - Interface PatchableCustomLocations no longer has parameter hostResourceId
+  - Interface PatchableCustomLocations no longer has parameter hostType
+  - Interface PatchableCustomLocations no longer has parameter namespace
+  - Interface PatchableCustomLocations no longer has parameter provisioningState
+  - Interface PatchableResourceSyncRule no longer has parameter priority
+  - Interface PatchableResourceSyncRule no longer has parameter provisioningState
+  - Interface PatchableResourceSyncRule no longer has parameter selector
+  - Interface PatchableResourceSyncRule no longer has parameter targetResourceGroup
 
 ## 1.0.0-beta.3 (2023-01-10)
 

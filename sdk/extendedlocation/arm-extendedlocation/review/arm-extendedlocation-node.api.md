@@ -160,20 +160,14 @@ export interface CustomLocationsOperations {
     listBySubscription: (options?: CustomLocationsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<CustomLocation>;
     listEnabledResourceTypes: (resourceGroupName: string, resourceName: string, options?: CustomLocationsListEnabledResourceTypesOptionalParams) => PagedAsyncIterableIterator<EnabledResourceType>;
     listOperations: (options?: CustomLocationsListOperationsOptionalParams) => PagedAsyncIterableIterator<CustomLocationOperation>;
-    // (undocumented)
     update: (resourceGroupName: string, resourceName: string, options?: CustomLocationsUpdateOptionalParams) => Promise<CustomLocation>;
 }
 
 // @public
 export interface CustomLocationsUpdateOptionalParams extends OperationOptions {
-    authentication?: CustomLocationPropertiesAuthentication;
-    clusterExtensionIds?: string[];
-    displayName?: string;
-    hostResourceId?: string;
-    hostType?: HostType;
     identity?: Identity;
-    namespace?: string;
-    provisioningState?: string;
+    // (undocumented)
+    properties?: CustomLocationProperties;
     tags?: Record<string, string>;
 }
 
@@ -275,6 +269,19 @@ export interface PageSettings {
 }
 
 // @public
+export interface PatchableCustomLocations {
+    identity?: Identity;
+    properties?: CustomLocationProperties;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface PatchableResourceSyncRule {
+    properties?: ResourceSyncRuleProperties;
+    tags?: Record<string, string>;
+}
+
+// @public
 export interface ProxyResource extends Resource {
 }
 
@@ -342,16 +349,14 @@ export interface ResourceSyncRulesOperations {
     delete: (resourceGroupName: string, resourceName: string, childResourceName: string, options?: ResourceSyncRulesDeleteOptionalParams) => Promise<void>;
     get: (resourceGroupName: string, resourceName: string, childResourceName: string, options?: ResourceSyncRulesGetOptionalParams) => Promise<ResourceSyncRule>;
     listByCustomLocationID: (resourceGroupName: string, resourceName: string, options?: ResourceSyncRulesListByCustomLocationIDOptionalParams) => PagedAsyncIterableIterator<ResourceSyncRule>;
-    // (undocumented)
     update: (resourceGroupName: string, resourceName: string, childResourceName: string, options?: ResourceSyncRulesUpdateOptionalParams) => PollerLike<OperationState<ResourceSyncRule>, ResourceSyncRule>;
 }
 
 // @public
 export interface ResourceSyncRulesUpdateOptionalParams extends OperationOptions {
-    priority?: number;
-    selector?: ResourceSyncRulePropertiesSelector;
+    // (undocumented)
+    properties?: ResourceSyncRuleProperties;
     tags?: Record<string, string>;
-    targetResourceGroup?: string;
     updateIntervalInMs?: number;
 }
 

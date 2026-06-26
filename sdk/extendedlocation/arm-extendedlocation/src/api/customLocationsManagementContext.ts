@@ -9,6 +9,7 @@ import type { Client, ClientOptions } from "@azure-rest/core-client";
 import { getClient } from "@azure-rest/core-client";
 import type { TokenCredential } from "@azure/core-auth";
 
+/** The customLocations Rest API spec. */
 export interface CustomLocationsManagementContext extends Client {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -26,6 +27,7 @@ export interface CustomLocationsManagementClientOptionalParams extends ClientOpt
   cloudSetting?: AzureSupportedClouds;
 }
 
+/** The customLocations Rest API spec. */
 export function createCustomLocationsManagement(
   credential: TokenCredential,
   subscriptionId: string,

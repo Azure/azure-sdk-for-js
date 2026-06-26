@@ -26,6 +26,7 @@ export class CustomLocationsManagementClient {
     subscriptionId: string,
     options?: CustomLocationsManagementClientOptionalParams,
   );
+  /** The customLocations Rest API spec. */
   constructor(
     credential: TokenCredential,
     subscriptionIdOrOptions?: string | CustomLocationsManagementClientOptionalParams,

@@ -7,10 +7,10 @@ export {
   listBySubscription,
   listByResourceGroup,
   $delete,
+  update,
   createOrUpdate,
   get,
   listOperations,
-  update,
 } from "./operations.js";
 export type {
   CustomLocationsFindTargetResourceGroupOptionalParams,
@@ -18,8 +18,8 @@ export type {
   CustomLocationsListBySubscriptionOptionalParams,
   CustomLocationsListByResourceGroupOptionalParams,
   CustomLocationsDeleteOptionalParams,
+  CustomLocationsUpdateOptionalParams,
   CustomLocationsCreateOrUpdateOptionalParams,
   CustomLocationsGetOptionalParams,
   CustomLocationsListOperationsOptionalParams,
-  CustomLocationsUpdateOptionalParams,
 } from "./options.js";
