@@ -2,11 +2,11 @@
 // Licensed under the MIT License.
 
 export { getDetails, list, $delete, update, create, get } from "./operations.js";
-export {
-  type TasksGetDetailsOptionalParams,
-  type TasksListOptionalParams,
-  type TasksDeleteOptionalParams,
-  type TasksUpdateOptionalParams,
-  type TasksCreateOptionalParams,
-  type TasksGetOptionalParams,
+export type {
+  TasksGetDetailsOptionalParams,
+  TasksListOptionalParams,
+  TasksDeleteOptionalParams,
+  TasksUpdateOptionalParams,
+  TasksCreateOptionalParams,
+  TasksGetOptionalParams,
 } from "./options.js";

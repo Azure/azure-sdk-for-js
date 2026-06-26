@@ -1,22 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CostManagementContext as Client } from "../index.js";
-import type {
-  GenerateDetailedCostReportOperationResult,
-  GenerateDetailedCostReportDefinition,
-} from "../../models/models.js";
+import { CostManagementContext as Client } from "../index.js";
 import {
+  GenerateDetailedCostReportOperationResult,
   generateDetailedCostReportOperationResultDeserializer,
+  GenerateDetailedCostReportDefinition,
   generateDetailedCostReportDefinitionSerializer,
   generateDetailedCostReportErrorResponseDeserializer,
 } from "../../models/models.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type { GenerateDetailedCostReportCreateOperationOptionalParams } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { GenerateDetailedCostReportCreateOperationOptionalParams } from "./options.js";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _createOperationSend(
   context: Client,
@@ -34,12 +36,14 @@ export function _createOperationSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: generateDetailedCostReportDefinitionSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: generateDetailedCostReportDefinitionSerializer(parameters),
+    });
 }
 
 export async function _createOperationDeserialize(

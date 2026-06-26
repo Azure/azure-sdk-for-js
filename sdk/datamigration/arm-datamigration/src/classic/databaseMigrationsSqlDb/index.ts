@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DataMigrationManagementContext } from "../../api/dataMigrationManagementContext.js";
+import { DataMigrationManagementContext } from "../../api/dataMigrationManagementContext.js";
 import {
   retry,
   cancel,
@@ -9,17 +9,16 @@ import {
   createOrUpdate,
   get,
 } from "../../api/databaseMigrationsSqlDb/operations.js";
-import type {
+import {
   DatabaseMigrationsSqlDbRetryOptionalParams,
   DatabaseMigrationsSqlDbCancelOptionalParams,
   DatabaseMigrationsSqlDbDeleteOptionalParams,
   DatabaseMigrationsSqlDbCreateOrUpdateOptionalParams,
   DatabaseMigrationsSqlDbGetOptionalParams,
 } from "../../api/databaseMigrationsSqlDb/options.js";
-import type { DatabaseMigrationSqlDb, MigrationOperationInput } from "../../models/models.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { DatabaseMigrationSqlDb, MigrationOperationInput } from "../../models/models.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a DatabaseMigrationsSqlDb operations. */
 export interface DatabaseMigrationsSqlDbOperations {

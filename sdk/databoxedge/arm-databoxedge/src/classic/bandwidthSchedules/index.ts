@@ -1,24 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DataBoxEdgeManagementContext } from "../../api/dataBoxEdgeManagementContext.js";
+import { DataBoxEdgeManagementContext } from "../../api/dataBoxEdgeManagementContext.js";
 import {
   listByDataBoxEdgeDevice,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/bandwidthSchedules/operations.js";
-import type {
+import {
   BandwidthSchedulesListByDataBoxEdgeDeviceOptionalParams,
   BandwidthSchedulesDeleteOptionalParams,
   BandwidthSchedulesCreateOrUpdateOptionalParams,
   BandwidthSchedulesGetOptionalParams,
 } from "../../api/bandwidthSchedules/options.js";
-import type { BandwidthSchedule } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { BandwidthSchedule } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a BandwidthSchedules operations. */
 export interface BandwidthSchedulesOperations {

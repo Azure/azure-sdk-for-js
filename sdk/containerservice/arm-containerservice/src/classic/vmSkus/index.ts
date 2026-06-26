@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ContainerServiceContext } from "../../api/containerServiceContext.js";
+import { ContainerServiceContext } from "../../api/containerServiceContext.js";
 import { list } from "../../api/vmSkus/operations.js";
-import type { VmSkusListOptionalParams } from "../../api/vmSkus/options.js";
-import type { ResourceSku } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { VmSkusListOptionalParams } from "../../api/vmSkus/options.js";
+import { ResourceSku } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a VmSkus operations. */
 export interface VmSkusOperations {

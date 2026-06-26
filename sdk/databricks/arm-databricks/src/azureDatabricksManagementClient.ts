@@ -1,27 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   AzureDatabricksManagementContext,
   AzureDatabricksManagementClientOptionalParams,
+  createAzureDatabricksManagement,
 } from "./api/index.js";
-import { createAzureDatabricksManagement } from "./api/index.js";
-import type { AccessConnectorsOperations } from "./classic/accessConnectors/index.js";
-import { _getAccessConnectorsOperations } from "./classic/accessConnectors/index.js";
-import type { OperationsOperations } from "./classic/operations/index.js";
-import { _getOperationsOperations } from "./classic/operations/index.js";
-import type { OutboundNetworkDependenciesEndpointsOperations } from "./classic/outboundNetworkDependenciesEndpoints/index.js";
-import { _getOutboundNetworkDependenciesEndpointsOperations } from "./classic/outboundNetworkDependenciesEndpoints/index.js";
-import type { PrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
-import { _getPrivateEndpointConnectionsOperations } from "./classic/privateEndpointConnections/index.js";
-import type { PrivateLinkResourcesOperations } from "./classic/privateLinkResources/index.js";
-import { _getPrivateLinkResourcesOperations } from "./classic/privateLinkResources/index.js";
-import type { VNetPeeringOperations } from "./classic/vNetPeering/index.js";
-import { _getVNetPeeringOperations } from "./classic/vNetPeering/index.js";
-import type { WorkspacesOperations } from "./classic/workspaces/index.js";
-import { _getWorkspacesOperations } from "./classic/workspaces/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import {
+  AccessConnectorsOperations,
+  _getAccessConnectorsOperations,
+} from "./classic/accessConnectors/index.js";
+import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import {
+  OutboundNetworkDependenciesEndpointsOperations,
+  _getOutboundNetworkDependenciesEndpointsOperations,
+} from "./classic/outboundNetworkDependenciesEndpoints/index.js";
+import {
+  PrivateEndpointConnectionsOperations,
+  _getPrivateEndpointConnectionsOperations,
+} from "./classic/privateEndpointConnections/index.js";
+import {
+  PrivateLinkResourcesOperations,
+  _getPrivateLinkResourcesOperations,
+} from "./classic/privateLinkResources/index.js";
+import { VNetPeeringOperations, _getVNetPeeringOperations } from "./classic/vNetPeering/index.js";
+import { WorkspacesOperations, _getWorkspacesOperations } from "./classic/workspaces/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { AzureDatabricksManagementClientOptionalParams } from "./api/azureDatabricksManagementContext.js";
 

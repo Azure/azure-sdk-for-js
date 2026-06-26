@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DataProtectionContext } from "../../api/dataProtectionContext.js";
+import { DataProtectionContext } from "../../api/dataProtectionContext.js";
 import { list } from "../../api/fetchCrossRegionRestoreJobs/operations.js";
-import type { FetchCrossRegionRestoreJobsListOptionalParams } from "../../api/fetchCrossRegionRestoreJobs/options.js";
-import type { AzureBackupJobResource, CrossRegionRestoreJobsRequest } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { FetchCrossRegionRestoreJobsListOptionalParams } from "../../api/fetchCrossRegionRestoreJobs/options.js";
+import { AzureBackupJobResource, CrossRegionRestoreJobsRequest } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a FetchCrossRegionRestoreJobs operations. */
 export interface FetchCrossRegionRestoreJobsOperations {

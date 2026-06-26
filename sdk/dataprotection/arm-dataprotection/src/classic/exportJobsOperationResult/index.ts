@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DataProtectionContext } from "../../api/dataProtectionContext.js";
+import { DataProtectionContext } from "../../api/dataProtectionContext.js";
 import { get } from "../../api/exportJobsOperationResult/operations.js";
-import type { ExportJobsOperationResultGetOptionalParams } from "../../api/exportJobsOperationResult/options.js";
-import type { ExportJobsResult } from "../../models/models.js";
+import { ExportJobsOperationResultGetOptionalParams } from "../../api/exportJobsOperationResult/options.js";
+import { ExportJobsResult } from "../../models/models.js";
 
 /** Interface representing a ExportJobsOperationResult operations. */
 export interface ExportJobsOperationResultOperations {
@@ -14,7 +14,7 @@ export interface ExportJobsOperationResultOperations {
     vaultName: string,
     operationId: string,
     options?: ExportJobsOperationResultGetOptionalParams,
-  ) => Promise<ExportJobsResult>;
+  ) => Promise<ExportJobsResult | undefined>;
 }
 
 function _getExportJobsOperationResult(context: DataProtectionContext) {

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DataProtectionContext } from "../../api/dataProtectionContext.js";
+import { DataProtectionContext } from "../../api/dataProtectionContext.js";
 import {
   checkNameAvailability,
   listInResourceGroup,
@@ -11,7 +11,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/backupVaults/operations.js";
-import type {
+import {
   BackupVaultsCheckNameAvailabilityOptionalParams,
   BackupVaultsListInResourceGroupOptionalParams,
   BackupVaultsListInSubscriptionOptionalParams,
@@ -20,14 +20,14 @@ import type {
   BackupVaultsCreateOrUpdateOptionalParams,
   BackupVaultsGetOptionalParams,
 } from "../../api/backupVaults/options.js";
-import type {
+import {
   BackupVaultResource,
   PatchResourceRequestInput,
   CheckNameAvailabilityRequest,
   CheckNameAvailabilityResult,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a BackupVaults operations. */
 export interface BackupVaultsOperations {
@@ -48,11 +48,6 @@ export interface BackupVaultsOperations {
     options?: BackupVaultsListInSubscriptionOptionalParams,
   ) => PagedAsyncIterableIterator<BackupVaultResource>;
   /** Deletes a BackupVault resource from the resource group. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     vaultName: string,

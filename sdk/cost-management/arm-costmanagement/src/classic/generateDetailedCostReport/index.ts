@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CostManagementContext } from "../../api/costManagementContext.js";
+import { CostManagementContext } from "../../api/costManagementContext.js";
 import { createOperation } from "../../api/generateDetailedCostReport/operations.js";
-import type { GenerateDetailedCostReportCreateOperationOptionalParams } from "../../api/generateDetailedCostReport/options.js";
-import type {
+import { GenerateDetailedCostReportCreateOperationOptionalParams } from "../../api/generateDetailedCostReport/options.js";
+import {
   GenerateDetailedCostReportOperationResult,
   GenerateDetailedCostReportDefinition,
 } from "../../models/models.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a GenerateDetailedCostReport operations. */
 export interface GenerateDetailedCostReportOperations {

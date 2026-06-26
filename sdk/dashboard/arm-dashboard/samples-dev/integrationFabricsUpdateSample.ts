@@ -18,10 +18,7 @@ async function integrationFabricsUpdate(): Promise<void> {
     "myResourceGroup",
     "myWorkspace",
     "sampleIntegration",
-    {
-      properties: { scenarios: ["scenario1"] },
-      tags: { Environment: "Dev 2" },
-    },
+    { properties: { scenarios: ["scenario1"] }, tags: { Environment: "Dev 2" } },
   );
   console.log(result);
 }

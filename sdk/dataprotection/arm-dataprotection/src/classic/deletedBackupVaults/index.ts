@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DataProtectionContext } from "../../api/dataProtectionContext.js";
+import { DataProtectionContext } from "../../api/dataProtectionContext.js";
 import { listByLocation, get } from "../../api/deletedBackupVaults/operations.js";
-import type {
+import {
   DeletedBackupVaultsListByLocationOptionalParams,
   DeletedBackupVaultsGetOptionalParams,
 } from "../../api/deletedBackupVaults/options.js";
-import type { DeletedBackupVaultResource } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { DeletedBackupVaultResource } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a DeletedBackupVaults operations. */
 export interface DeletedBackupVaultsOperations {

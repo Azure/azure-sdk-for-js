@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DataBoxEdgeManagementContext } from "../../api/dataBoxEdgeManagementContext.js";
+import { DataBoxEdgeManagementContext } from "../../api/dataBoxEdgeManagementContext.js";
 import { getDeviceCapacityInfo } from "../../api/deviceCapacityInfo/operations.js";
-import type { DeviceCapacityInfoGetDeviceCapacityInfoOptionalParams } from "../../api/deviceCapacityInfo/options.js";
-import type { DeviceCapacityInfo } from "../../models/models.js";
+import { DeviceCapacityInfoGetDeviceCapacityInfoOptionalParams } from "../../api/deviceCapacityInfo/options.js";
+import { DeviceCapacityInfo } from "../../models/models.js";
 
 /** Interface representing a DeviceCapacityInfo operations. */
 export interface DeviceCapacityInfoOperations {

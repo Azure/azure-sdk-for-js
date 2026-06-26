@@ -1,30 +1,34 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DataMigrationManagementContext as Client } from "../index.js";
-import type {
-  DatabaseMigrationCosmosDbMongo,
-  _DatabaseMigrationCosmosDbMongoListResult,
-} from "../../models/models.js";
+import { DataMigrationManagementContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  DatabaseMigrationCosmosDbMongo,
   databaseMigrationCosmosDbMongoSerializer,
   databaseMigrationCosmosDbMongoDeserializer,
+  _DatabaseMigrationCosmosDbMongoListResult,
   _databaseMigrationCosmosDbMongoListResultDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   DatabaseMigrationsMongoToCosmosDbvCoreMongoListForScopeOptionalParams,
   DatabaseMigrationsMongoToCosmosDbvCoreMongoDeleteOptionalParams,
   DatabaseMigrationsMongoToCosmosDbvCoreMongoCreateOptionalParams,
   DatabaseMigrationsMongoToCosmosDbvCoreMongoGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listForScopeSend(
   context: Client,
@@ -46,10 +50,12 @@ export function _listForScopeSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listForScopeDeserialize(
@@ -167,12 +173,14 @@ export function _createSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: databaseMigrationCosmosDbMongoSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: databaseMigrationCosmosDbMongoSerializer(parameters),
+    });
 }
 
 export async function _createDeserialize(
@@ -237,10 +245,12 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(

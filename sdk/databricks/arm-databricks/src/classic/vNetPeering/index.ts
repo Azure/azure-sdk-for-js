@@ -1,19 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureDatabricksManagementContext } from "../../api/azureDatabricksManagementContext.js";
+import { AzureDatabricksManagementContext } from "../../api/azureDatabricksManagementContext.js";
 import { listByWorkspace, $delete, createOrUpdate, get } from "../../api/vNetPeering/operations.js";
-import type {
+import {
   VNetPeeringListByWorkspaceOptionalParams,
   VNetPeeringDeleteOptionalParams,
   VNetPeeringCreateOrUpdateOptionalParams,
   VNetPeeringGetOptionalParams,
 } from "../../api/vNetPeering/options.js";
-import type { VirtualNetworkPeering } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { VirtualNetworkPeering } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a VNetPeering operations. */
 export interface VNetPeeringOperations {

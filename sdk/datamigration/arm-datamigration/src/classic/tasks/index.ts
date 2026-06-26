@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DataMigrationManagementContext } from "../../api/dataMigrationManagementContext.js";
+import { DataMigrationManagementContext } from "../../api/dataMigrationManagementContext.js";
 import {
   command,
   cancel,
@@ -11,7 +11,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/tasks/operations.js";
-import type {
+import {
   TasksCommandOptionalParams,
   TasksCancelOptionalParams,
   TasksListOptionalParams,
@@ -20,8 +20,8 @@ import type {
   TasksCreateOrUpdateOptionalParams,
   TasksGetOptionalParams,
 } from "../../api/tasks/options.js";
-import type { ProjectTask, CommandPropertiesUnion } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { ProjectTask, CommandPropertiesUnion } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Tasks operations. */
 export interface TasksOperations {

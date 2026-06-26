@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update a managed Cassandra cluster. When updating, you must specify all writable properties. To update only some properties, use PATCH.
  *
  * @summary create or update a managed Cassandra cluster. When updating, you must specify all writable properties. To update only some properties, use PATCH.
- * x-ms-original-file: 2025-11-01-preview/CosmosDBManagedCassandraClusterCreate.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBManagedCassandraClusterCreate.json
  */
 async function cosmosDBManagedCassandraClusterCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();

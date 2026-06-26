@@ -560,6 +560,48 @@
         "default": "./dist/commonjs/api/chaosFault/index.js"
       }
     },
+    "./api/softDeletedSqlContainers": {
+      "browser": {
+        "types": "./dist/browser/api/softDeletedSqlContainers/index.d.ts",
+        "default": "./dist/browser/api/softDeletedSqlContainers/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/softDeletedSqlContainers/index.d.ts",
+        "default": "./dist/esm/api/softDeletedSqlContainers/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/softDeletedSqlContainers/index.d.ts",
+        "default": "./dist/commonjs/api/softDeletedSqlContainers/index.js"
+      }
+    },
+    "./api/softDeletedSqlDatabases": {
+      "browser": {
+        "types": "./dist/browser/api/softDeletedSqlDatabases/index.d.ts",
+        "default": "./dist/browser/api/softDeletedSqlDatabases/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/softDeletedSqlDatabases/index.d.ts",
+        "default": "./dist/esm/api/softDeletedSqlDatabases/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/softDeletedSqlDatabases/index.d.ts",
+        "default": "./dist/commonjs/api/softDeletedSqlDatabases/index.js"
+      }
+    },
+    "./api/softDeletedDatabaseAccounts": {
+      "browser": {
+        "types": "./dist/browser/api/softDeletedDatabaseAccounts/index.d.ts",
+        "default": "./dist/browser/api/softDeletedDatabaseAccounts/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/softDeletedDatabaseAccounts/index.d.ts",
+        "default": "./dist/esm/api/softDeletedDatabaseAccounts/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/softDeletedDatabaseAccounts/index.d.ts",
+        "default": "./dist/commonjs/api/softDeletedDatabaseAccounts/index.js"
+      }
+    },
     "./api/privateLinkResources": {
       "browser": {
         "types": "./dist/browser/api/privateLinkResources/index.d.ts",
@@ -876,6 +918,7 @@
   },
   "imports": {
     "#platform/*": {
+      "browser": "./src/*-browser.mts",
       "default": "./src/*.ts"
     }
   }

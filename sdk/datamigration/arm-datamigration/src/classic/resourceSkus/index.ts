@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DataMigrationManagementContext } from "../../api/dataMigrationManagementContext.js";
+import { DataMigrationManagementContext } from "../../api/dataMigrationManagementContext.js";
 import { listSkus } from "../../api/resourceSkus/operations.js";
-import type { ResourceSkusListSkusOptionalParams } from "../../api/resourceSkus/options.js";
-import type { ResourceSku } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { ResourceSkusListSkusOptionalParams } from "../../api/resourceSkus/options.js";
+import { ResourceSku } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ResourceSkus operations. */
 export interface ResourceSkusOperations {

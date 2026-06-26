@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to retrieves the properties of an existing Azure Cosmos DB database account.
  *
  * @summary retrieves the properties of an existing Azure Cosmos DB database account.
- * x-ms-original-file: 2025-11-01-preview/CosmosDBDatabaseAccountGet.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBDatabaseAccountGet.json
  */
 async function cosmosDBDatabaseAccountGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

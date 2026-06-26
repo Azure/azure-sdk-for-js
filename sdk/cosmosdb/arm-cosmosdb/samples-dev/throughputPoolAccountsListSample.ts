@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all the Azure Cosmos DB accounts available under the subscription.
  *
  * @summary lists all the Azure Cosmos DB accounts available under the subscription.
- * x-ms-original-file: 2025-11-01-preview/throughputPool/CosmosDBThroughputPoolAccountsList.json
+ * x-ms-original-file: 2026-04-01-preview/throughputPool/CosmosDBThroughputPoolAccountsList.json
  */
 async function cosmosDBThroughputPoolAccountList(): Promise<void> {
   const credential = new DefaultAzureCredential();

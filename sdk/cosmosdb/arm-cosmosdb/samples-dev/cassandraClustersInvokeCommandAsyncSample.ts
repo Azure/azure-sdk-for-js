@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to invoke a command like nodetool for cassandra maintenance asynchronously
  *
  * @summary invoke a command like nodetool for cassandra maintenance asynchronously
- * x-ms-original-file: 2025-11-01-preview/CosmosDBManagedCassandraCommandAsync.json
+ * x-ms-original-file: 2026-04-01-preview/CosmosDBManagedCassandraCommandAsync.json
  */
 async function cosmosDBManagedCassandraCommandAsync(): Promise<void> {
   const credential = new DefaultAzureCredential();

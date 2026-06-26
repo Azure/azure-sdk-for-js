@@ -2,7 +2,7 @@
   "apiVersions": {
     "Microsoft.DataFactory": "2018-06-01"
   },
-  "emitterVersion": "0.52.3",
+  "emitterVersion": "0.55.0-dev.10",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.DataFactory",
     "CrossLanguageDefinitionId": {
@@ -28,6 +28,7 @@
       "@azure/arm-datafactory!EncryptionConfiguration:interface": "Microsoft.DataFactory.EncryptionConfiguration",
       "@azure/arm-datafactory!CMKIdentityDefinition:interface": "Microsoft.DataFactory.CMKIdentityDefinition",
       "@azure/arm-datafactory!FactoryIdentity:interface": "Microsoft.DataFactory.FactoryIdentity",
+      "@azure/arm-datafactory!ProxyResource:interface": "Azure.ResourceManager.CommonTypes.ProxyResource",
       "@azure/arm-datafactory!Resource:interface": "Azure.ResourceManager.CommonTypes.Resource",
       "@azure/arm-datafactory!SystemData:interface": "Azure.ResourceManager.CommonTypes.SystemData",
       "@azure/arm-datafactory!FactoryUpdateParameters:interface": "Microsoft.DataFactory.FactoryUpdateParameters",
@@ -81,7 +82,6 @@
       "@azure/arm-datafactory!RerunTumblingWindowTriggerTypeProperties:interface": "Microsoft.DataFactory.RerunTumblingWindowTriggerTypeProperties",
       "@azure/arm-datafactory!ChainingTrigger:interface": "Microsoft.DataFactory.ChainingTrigger",
       "@azure/arm-datafactory!ChainingTriggerTypeProperties:interface": "Microsoft.DataFactory.ChainingTriggerTypeProperties",
-      "@azure/arm-datafactory!ProxyResource:interface": "Azure.ResourceManager.CommonTypes.ProxyResource",
       "@azure/arm-datafactory!TriggerListResponse:interface": "Microsoft.DataFactory.TriggerListResponse",
       "@azure/arm-datafactory!TriggerSubscriptionOperationStatus:interface": "Microsoft.DataFactory.TriggerSubscriptionOperationStatus",
       "@azure/arm-datafactory!ArmOperationStatusResourceProvisioningState:interface": "Azure.ResourceManager.ArmOperationStatus",

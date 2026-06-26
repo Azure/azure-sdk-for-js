@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ContainerServiceContext } from "../../api/containerServiceContext.js";
+import { ContainerServiceContext } from "../../api/containerServiceContext.js";
 import { get, list, getByAgentPool } from "../../api/operationStatusResult/operations.js";
-import type {
+import {
   OperationStatusResultGetOptionalParams,
   OperationStatusResultListOptionalParams,
   OperationStatusResultGetByAgentPoolOptionalParams,
 } from "../../api/operationStatusResult/options.js";
-import type { OperationStatusResult } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { OperationStatusResult } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a OperationStatusResult operations. */
 export interface OperationStatusResultOperations {

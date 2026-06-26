@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets list of effective Network Security Perimeter Configuration for cosmos db account
  *
  * @summary gets list of effective Network Security Perimeter Configuration for cosmos db account
- * x-ms-original-file: 2025-11-01-preview/NetworkSecurityPerimeterConfigurationList.json
+ * x-ms-original-file: 2026-04-01-preview/NetworkSecurityPerimeterConfigurationList.json
  */
 async function namspaceNetworkSecurityPerimeterConfigurationList(): Promise<void> {
   const credential = new DefaultAzureCredential();

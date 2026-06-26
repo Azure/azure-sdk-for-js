@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CosmosDBManagementContext } from "../../api/cosmosDBManagementContext.js";
+import { CosmosDBManagementContext } from "../../api/cosmosDBManagementContext.js";
 import { listMetrics } from "../../api/partitionKeyRangeIdRegion/operations.js";
-import type { PartitionKeyRangeIdRegionListMetricsOptionalParams } from "../../api/partitionKeyRangeIdRegion/options.js";
-import type { PartitionMetric } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PartitionKeyRangeIdRegionListMetricsOptionalParams } from "../../api/partitionKeyRangeIdRegion/options.js";
+import { PartitionMetric } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a PartitionKeyRangeIdRegion operations. */
 export interface PartitionKeyRangeIdRegionOperations {

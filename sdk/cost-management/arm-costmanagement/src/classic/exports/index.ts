@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CostManagementContext } from "../../api/costManagementContext.js";
+import { CostManagementContext } from "../../api/costManagementContext.js";
 import {
   getExecutionHistory,
   execute,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/exports/operations.js";
-import type {
+import {
   ExportsGetExecutionHistoryOptionalParams,
   ExportsExecuteOptionalParams,
   ExportsListOptionalParams,
@@ -18,7 +18,7 @@ import type {
   ExportsCreateOrUpdateOptionalParams,
   ExportsGetOptionalParams,
 } from "../../api/exports/options.js";
-import type { Export, ExportExecutionListResult, ExportListResult } from "../../models/models.js";
+import { Export, ExportExecutionListResult, ExportListResult } from "../../models/models.js";
 
 /** Interface representing a Exports operations. */
 export interface ExportsOperations {

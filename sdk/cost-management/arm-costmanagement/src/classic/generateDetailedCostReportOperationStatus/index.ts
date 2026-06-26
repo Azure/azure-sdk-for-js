@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CostManagementContext } from "../../api/costManagementContext.js";
+import { CostManagementContext } from "../../api/costManagementContext.js";
 import { get } from "../../api/generateDetailedCostReportOperationStatus/operations.js";
-import type { GenerateDetailedCostReportOperationStatusGetOptionalParams } from "../../api/generateDetailedCostReportOperationStatus/options.js";
-import type { GenerateDetailedCostReportOperationStatuses } from "../../models/models.js";
+import { GenerateDetailedCostReportOperationStatusGetOptionalParams } from "../../api/generateDetailedCostReportOperationStatus/options.js";
+import { GenerateDetailedCostReportOperationStatuses } from "../../models/models.js";
 
 /** Interface representing a GenerateDetailedCostReportOperationStatus operations. */
 export interface GenerateDetailedCostReportOperationStatusOperations {

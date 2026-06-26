@@ -17,7 +17,7 @@ async function suspendBackupsWithMUA(): Promise<void> {
   await client.backupInstances.suspendBackups("testrg", "testvault", "testbi", {
     parameters: {
       resourceGuardOperationRequests: [
-        "/subscriptions/754ec39f-8d2a-44cf-bfbf-13107ac85c36/resourcegroups/mua-testing/providers/Microsoft.DataProtection/resourceGuards/gvjreddy-test-ecy-rg-reader/dppDisableSuspendBackupsRequests/default",
+        "/subscriptions/754ec39f-8d2a-44cf-bfbf-13107ac85c36/resourceGroups/mua-testing/providers/Microsoft.DataProtection/resourceGuards/gvjreddy-test-ecy-rg-reader/dppDisableSuspendBackupsRequests/default",
       ],
     },
   });

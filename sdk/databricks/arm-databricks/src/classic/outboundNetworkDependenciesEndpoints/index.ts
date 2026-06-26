@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureDatabricksManagementContext } from "../../api/azureDatabricksManagementContext.js";
+import { AzureDatabricksManagementContext } from "../../api/azureDatabricksManagementContext.js";
 import { list } from "../../api/outboundNetworkDependenciesEndpoints/operations.js";
-import type { OutboundNetworkDependenciesEndpointsListOptionalParams } from "../../api/outboundNetworkDependenciesEndpoints/options.js";
-import type { OutboundEnvironmentEndpoint } from "../../models/models.js";
+import { OutboundNetworkDependenciesEndpointsListOptionalParams } from "../../api/outboundNetworkDependenciesEndpoints/options.js";
+import { OutboundEnvironmentEndpoint } from "../../models/models.js";
 
 /** Interface representing a OutboundNetworkDependenciesEndpoints operations. */
 export interface OutboundNetworkDependenciesEndpointsOperations {

@@ -1,26 +1,31 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DataMigrationManagementContext as Client } from "../index.js";
-import type { DatabaseMigrationSqlDb, MigrationOperationInput } from "../../models/models.js";
+import { DataMigrationManagementContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  DatabaseMigrationSqlDb,
   databaseMigrationSqlDbSerializer,
   databaseMigrationSqlDbDeserializer,
+  MigrationOperationInput,
   migrationOperationInputSerializer,
 } from "../../models/models.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   DatabaseMigrationsSqlDbRetryOptionalParams,
   DatabaseMigrationsSqlDbCancelOptionalParams,
   DatabaseMigrationsSqlDbDeleteOptionalParams,
   DatabaseMigrationsSqlDbCreateOrUpdateOptionalParams,
   DatabaseMigrationsSqlDbGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _retrySend(
   context: Client,
@@ -43,12 +48,14 @@ export function _retrySend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: migrationOperationInputSerializer(migrationOperationInput),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: migrationOperationInputSerializer(migrationOperationInput),
+    });
 }
 
 export async function _retryDeserialize(
@@ -114,11 +121,13 @@ export function _cancelSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: migrationOperationInputSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: migrationOperationInputSerializer(parameters),
+    });
 }
 
 export async function _cancelDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -231,12 +240,14 @@ export function _createOrUpdateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: databaseMigrationSqlDbSerializer(parameters),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+      body: databaseMigrationSqlDbSerializer(parameters),
+    });
 }
 
 export async function _createOrUpdateDeserialize(
@@ -303,10 +314,12 @@ export function _getSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDeserialize(

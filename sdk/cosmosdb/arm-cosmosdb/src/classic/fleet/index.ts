@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CosmosDBManagementContext } from "../../api/cosmosDBManagementContext.js";
+import { CosmosDBManagementContext } from "../../api/cosmosDBManagementContext.js";
 import {
   list,
   listByResourceGroup,
@@ -10,7 +10,7 @@ import {
   create,
   get,
 } from "../../api/fleet/operations.js";
-import type {
+import {
   FleetListOptionalParams,
   FleetListByResourceGroupOptionalParams,
   FleetDeleteOptionalParams,
@@ -18,11 +18,10 @@ import type {
   FleetCreateOptionalParams,
   FleetGetOptionalParams,
 } from "../../api/fleet/options.js";
-import type { FleetResource } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
-import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { FleetResource } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Fleet operations. */
 export interface FleetOperations {
@@ -34,11 +33,6 @@ export interface FleetOperations {
     options?: FleetListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<FleetResource>;
   /** Deletes an existing Azure Cosmos DB Fleet. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     fleetName: string,

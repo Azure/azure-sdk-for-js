@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { CostManagementContext } from "../../api/costManagementContext.js";
+import { CostManagementContext } from "../../api/costManagementContext.js";
 import {
   checkNameAvailability,
   list,
@@ -9,19 +9,19 @@ import {
   createOrUpdate,
   get,
 } from "../../api/costAllocationRules/operations.js";
-import type {
+import {
   CostAllocationRulesCheckNameAvailabilityOptionalParams,
   CostAllocationRulesListOptionalParams,
   CostAllocationRulesDeleteOptionalParams,
   CostAllocationRulesCreateOrUpdateOptionalParams,
   CostAllocationRulesGetOptionalParams,
 } from "../../api/costAllocationRules/options.js";
-import type {
+import {
   CostAllocationRuleDefinition,
   CostAllocationRuleCheckNameAvailabilityRequest,
   CostAllocationRuleCheckNameAvailabilityResponse,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a CostAllocationRules operations. */
 export interface CostAllocationRulesOperations {

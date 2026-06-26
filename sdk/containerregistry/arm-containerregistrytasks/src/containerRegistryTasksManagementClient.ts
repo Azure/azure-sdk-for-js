@@ -1,25 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   ContainerRegistryTasksManagementContext,
   ContainerRegistryTasksManagementClientOptionalParams,
+  createContainerRegistryTasksManagement,
 } from "./api/index.js";
-import { createContainerRegistryTasksManagement } from "./api/index.js";
-import type { AgentPoolsOperations } from "./classic/agentPools/index.js";
-import { _getAgentPoolsOperations } from "./classic/agentPools/index.js";
-import type { RegistriesOperations } from "./classic/registries/index.js";
-import { _getRegistriesOperations } from "./classic/registries/index.js";
-import type { RunsOperations } from "./classic/runs/index.js";
-import { _getRunsOperations } from "./classic/runs/index.js";
-import type { TaskRunsOperations } from "./classic/taskRuns/index.js";
-import { _getTaskRunsOperations } from "./classic/taskRuns/index.js";
-import type { TasksOperations } from "./classic/tasks/index.js";
-import { _getTasksOperations } from "./classic/tasks/index.js";
-import type { TokenCredential } from "@azure/core-auth";
-import type { Pipeline } from "@azure/core-rest-pipeline";
+import { AgentPoolsOperations, _getAgentPoolsOperations } from "./classic/agentPools/index.js";
+import { RegistriesOperations, _getRegistriesOperations } from "./classic/registries/index.js";
+import { RunsOperations, _getRunsOperations } from "./classic/runs/index.js";
+import { TaskRunsOperations, _getTaskRunsOperations } from "./classic/taskRuns/index.js";
+import { TasksOperations, _getTasksOperations } from "./classic/tasks/index.js";
+import { TokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 
-export { type ContainerRegistryTasksManagementClientOptionalParams } from "./api/containerRegistryTasksManagementContext.js";
+export type { ContainerRegistryTasksManagementClientOptionalParams } from "./api/containerRegistryTasksManagementContext.js";
 
 export class ContainerRegistryTasksManagementClient {
   private _client: ContainerRegistryTasksManagementContext;
