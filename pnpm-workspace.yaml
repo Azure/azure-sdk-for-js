@@ -73,3 +73,11 @@ supportedArchitectures:
   libc:
     - glibc
     - musl
+
+allowBuilds:
+  '@azure/msal-node-extensions': false
+  '@azure/msal-node-runtime': false
+  autorest: false
+  esbuild: false
+  keytar: false
+  protobufjs: false
