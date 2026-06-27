@@ -108,6 +108,8 @@ export interface AgentVersion {
   created_at: Date;
   /** The definition of the agent. */
   definition: AgentDefinitionUnion;
+  /** Whether this agent version is a draft (candidate) rather than a release. Draft versions are recorded but excluded from default 'latest' resolution and are not auto-promoted. Defaults to false. */
+  draft?: boolean;
   /** The provisioning status of the agent version. Defaults to 'active' for non-hosted agents. For hosted agents, reflects infrastructure readiness. */
   status?: AgentVersionStatus;
   /** The instance identity of the agent */
@@ -131,6 +133,7 @@ export function agentVersionDeserializer(item: any): AgentVersion {
     description: item["description"],
     created_at: new Date(item["created_at"] * 1000),
     definition: agentDefinitionUnionDeserializer(item["definition"]),
+    draft: item["draft"],
     instance_identity: !item["instance_identity"]
       ? item["instance_identity"]
       : agentIdentityDeserializer(item["instance_identity"]),
@@ -245,11 +248,6 @@ export function raiConfigDeserializer(item: any): RaiConfig {
 /** The hosted agent definition. */
 export interface HostedAgentDefinition extends AgentDefinition {
   kind: "hosted";
-  /**
-   * An array of tools the hosted agent's model may call while generating a response. You
-   * can specify which tool to use by setting the `tool_choice` parameter.
-   */
-  tools?: ToolUnion[];
   /** The CPU configuration for the hosted agent. */
   cpu: string;
   /** The memory configuration for the hosted agent. */
@@ -270,7 +268,6 @@ export function hostedAgentDefinitionSerializer(item: HostedAgentDefinition): an
   return {
     kind: item["kind"],
     rai_config: !item["rai_config"] ? item["rai_config"] : raiConfigSerializer(item["rai_config"]),
-    tools: !item["tools"] ? item["tools"] : toolUnionArraySerializer(item["tools"]),
     cpu: item["cpu"],
     memory: item["memory"],
     environment_variables: item["environment_variables"],
@@ -295,7 +292,6 @@ export function hostedAgentDefinitionDeserializer(item: any): HostedAgentDefinit
     rai_config: !item["rai_config"]
       ? item["rai_config"]
       : raiConfigDeserializer(item["rai_config"]),
-    tools: !item["tools"] ? item["tools"] : toolUnionArrayDeserializer(item["tools"]),
     cpu: item["cpu"],
     memory: item["memory"],
     environment_variables: item["environment_variables"],
@@ -7111,8 +7107,6 @@ export interface CodeInterpreterToolboxTool extends ToolboxTool {
    * If not provided, the service assumes auto.
    */
   container?: string | AutoCodeInterpreterToolParam;
-  /** Deprecated. This property is deprecated and will be removed in a future version. */
-  tool_configs?: Record<string, ToolConfig>;
 }
 
 export function codeInterpreterToolboxToolSerializer(item: CodeInterpreterToolboxTool): any {
@@ -7151,8 +7145,6 @@ export interface FileSearchToolboxTool extends ToolboxTool {
   /** Ranking options for search. */
   ranking_options?: RankingOptions;
   filters?: Filters;
-  /** Deprecated. This property is deprecated and will be removed in a future version. */
-  tool_configs?: Record<string, ToolConfig>;
   /** The IDs of the vector stores to search. */
   vector_store_ids?: string[];
 }
@@ -7206,8 +7198,6 @@ export interface WebSearchToolboxTool extends ToolboxTool {
   user_location?: WebSearchApproximateLocation;
   /** High level guidance for the amount of context window space to use for the search. One of `low`, `medium`, or `high`. `medium` is the default. */
   search_context_size?: "low" | "medium" | "high";
-  /** Deprecated. This property is deprecated and will be removed in a future version. */
-  tool_configs?: Record<string, ToolConfig>;
   /**
    * The project connections attached to this tool. There can be a maximum of 1 connection
    * resource attached to the tool.
@@ -7301,8 +7291,6 @@ export interface MCPToolboxTool extends ToolboxTool {
   defer_loading?: boolean;
   /** The connection ID in the project for the MCP server. The connection stores authentication and other connection details needed to connect to the MCP server. */
   project_connection_id?: string;
-  /** Deprecated. This property is deprecated and will be removed in a future version. */
-  tool_configs?: Record<string, ToolConfig>;
 }
 
 export function mcpToolboxToolSerializer(item: MCPToolboxTool): any {
@@ -7362,8 +7350,6 @@ export function mcpToolboxToolDeserializer(item: any): MCPToolboxTool {
 /** An Azure AI Search tool stored in a toolbox. */
 export interface AzureAISearchToolboxTool extends ToolboxTool {
   type: "azure_ai_search";
-  /** Deprecated. This property is deprecated and will be removed in a future version. */
-  tool_configs?: Record<string, ToolConfig>;
   /** The azure ai search index resource. */
   azure_ai_search: AzureAISearchToolResource;
 }
@@ -7395,8 +7381,6 @@ export function azureAISearchToolboxToolDeserializer(item: any): AzureAISearchTo
 /** An OpenAPI tool stored in a toolbox. */
 export interface OpenApiToolboxTool extends ToolboxTool {
   type: "openapi";
-  /** Deprecated. This property is deprecated and will be removed in a future version. */
-  tool_configs?: Record<string, ToolConfig>;
   /** The openapi function definition. */
   openapi: OpenApiFunctionDefinition;
 }
@@ -13391,7 +13375,10 @@ export type AgentType =
   | "agent.version.deleted"
   | "agent.container";
 /** Feature opt-in keys for agent definition operations supporting hosted or workflow agents. */
-export type AgentDefinitionOptInKeys = "WorkflowAgents=V1Preview" | "ExternalAgents=V1Preview";
+export type AgentDefinitionOptInKeys =
+  | "WorkflowAgents=V1Preview"
+  | "ExternalAgents=V1Preview"
+  | "DraftAgents=V1Preview";
 /** Type of PageOrder */
 export type PageOrder = "asc" | "desc";
 /** Type of FoundryFeaturesOptInKeys */
