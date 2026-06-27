@@ -33,7 +33,7 @@ catalogs:
       version: 9.39.4
     prettier:
       specifier: ^3.6.2
-      version: 3.8.3
+      version: 3.8.4
     rimraf:
       specifier: ^6.1.0
       version: 6.1.3
@@ -112,13 +112,13 @@ importers:
         version: 9.8.0
       prettier-plugin-packagejson:
         specifier: ^2.5.22
-        version: 2.5.22(prettier@3.8.3)
+        version: 2.5.22(prettier@3.8.4)
       rimraf:
         specifier: ^6.1.3
         version: 6.1.3
       turbo:
         specifier: ^2.8.9
-        version: 2.9.16
+        version: 2.9.18
 
   common/tools/dev-tool:
     dependencies:
@@ -133,7 +133,7 @@ importers:
         version: 4.13.0
       '@microsoft/api-extractor':
         specifier: ^7.52.4
-        version: 7.58.7(@types/node@22.20.0)
+        version: 7.58.9(@types/node@22.20.0)
       '@microsoft/api-extractor-model':
         specifier: ^7.30.5
         version: 7.33.8(@types/node@22.20.0)
@@ -169,16 +169,16 @@ importers:
         version: 5.2.1
       memfs:
         specifier: ^4.14.1
-        version: 4.57.6(tslib@2.8.1)
+        version: 4.57.7(tslib@2.8.1)
       minimist:
         specifier: ^1.2.8
         version: 1.2.8
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       semver:
         specifier: ^7.6.0
-        version: 7.8.2
+        version: 7.8.4
       strip-json-comments:
         specifier: ^5.0.1
         version: 5.0.3
@@ -333,7 +333,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: ^3.3.3
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: ^6.0.1
         version: 6.1.3
@@ -358,7 +358,7 @@ importers:
         version: 9.39.4
       prettier:
         specifier: ^3.3.3
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: ^6.0.1
         version: 6.1.3
@@ -395,7 +395,7 @@ importers:
         version: 9.39.4
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -416,7 +416,7 @@ importers:
         version: 4.13.1
       '@azure/storage-blob':
         specifier: ^12.27.0
-        version: 12.33.0
+        version: link:../../../sdk/storage/storage-blob
       '@fastify/multipart':
         specifier: ^9.0.3
         version: 9.4.0
@@ -450,7 +450,7 @@ importers:
         version: 13.1.3
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -529,7 +529,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -608,7 +608,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -687,7 +687,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -860,7 +860,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: ^3.2.5
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -939,7 +939,7 @@ importers:
         version: 0.200.0(@opentelemetry/api@1.9.1)
       '@opentelemetry/sdk-trace-node':
         specifier: ^2.0.0
-        version: 2.7.1(@opentelemetry/api@1.9.1)
+        version: 2.8.0(@opentelemetry/api@1.9.1)
       '@types/node':
         specifier: 'catalog:'
         version: 22.20.0
@@ -969,7 +969,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -1020,7 +1020,7 @@ importers:
         version: link:../../core/logger
       '@azure/storage-blob':
         specifier: ^12.26.0
-        version: 12.33.0
+        version: link:../../storage/storage-blob
       openai:
         specifier: ^6.16.0
         version: 6.42.0(ws@8.21.0)(zod@4.4.3)
@@ -1066,7 +1066,7 @@ importers:
         version: 0.57.2(@opentelemetry/api@1.9.1)
       '@opentelemetry/sdk-trace-node':
         specifier: ^2.0.0
-        version: 2.7.1(@opentelemetry/api@1.9.1)
+        version: 2.8.0(@opentelemetry/api@1.9.1)
       '@types/node':
         specifier: 'catalog:'
         version: 22.20.0
@@ -1093,7 +1093,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -1172,7 +1172,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -1245,7 +1245,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -1318,7 +1318,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -1483,7 +1483,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@rollup/plugin-node-resolve':
         specifier: ^15.2.3
-        version: 15.3.1(rollup@4.61.1)
+        version: 15.3.1(rollup@4.62.0)
       '@types/mustache':
         specifier: ^4.2.1
         version: 4.2.6
@@ -1507,13 +1507,13 @@ importers:
         version: 0.30.21
       prettier:
         specifier: ^3.3.3
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
       rollup:
         specifier: ^4.14.0
-        version: 4.61.1
+        version: 4.62.0
       typescript:
         specifier: 'catalog:'
         version: 6.0.3
@@ -1531,7 +1531,7 @@ importers:
         version: 4.13.1
       '@azure/storage-blob':
         specifier: ^12.17.0
-        version: 12.33.0
+        version: link:../../storage/storage-blob
       mime:
         specifier: ^4.0.1
         version: 4.1.0
@@ -1565,7 +1565,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -1644,7 +1644,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -1814,7 +1814,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -1863,7 +1863,7 @@ importers:
         version: 9.39.4
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -1939,7 +1939,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -2018,7 +2018,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -2091,7 +2091,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -2170,7 +2170,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -2249,7 +2249,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -2395,7 +2395,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -2474,7 +2474,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -2617,7 +2617,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -2699,7 +2699,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -2784,7 +2784,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -3061,7 +3061,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -3268,7 +3268,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -3347,7 +3347,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -3502,7 +3502,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -3599,7 +3599,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -3693,7 +3693,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -3775,7 +3775,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -3854,7 +3854,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -3933,7 +3933,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -4006,7 +4006,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -4085,7 +4085,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -4164,7 +4164,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -4304,7 +4304,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -4383,7 +4383,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -4468,7 +4468,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -4535,7 +4535,7 @@ importers:
         version: 4.13.0
       '@azure/storage-blob':
         specifier: ^12.26.0
-        version: 12.33.0
+        version: link:../../storage/storage-blob
       '@types/node':
         specifier: 'catalog:'
         version: 22.20.0
@@ -4565,7 +4565,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -4617,7 +4617,7 @@ importers:
         version: 9.39.4
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -4693,7 +4693,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -4766,7 +4766,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -4909,7 +4909,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -4997,7 +4997,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -5103,7 +5103,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -5194,7 +5194,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -5279,7 +5279,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -5364,7 +5364,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -5461,7 +5461,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -5543,7 +5543,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -5637,7 +5637,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -5731,7 +5731,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -5825,7 +5825,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -5913,7 +5913,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -6007,7 +6007,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -6095,7 +6095,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -6189,7 +6189,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -6280,7 +6280,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -6362,7 +6362,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -6514,7 +6514,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -6587,7 +6587,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -6666,7 +6666,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -6745,7 +6745,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -6824,7 +6824,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -6903,7 +6903,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -6982,7 +6982,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -7049,7 +7049,7 @@ importers:
         version: 9.39.4
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -7128,7 +7128,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -7207,7 +7207,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -7356,7 +7356,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -7435,7 +7435,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -7514,7 +7514,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -7593,7 +7593,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -7675,7 +7675,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -7718,7 +7718,7 @@ importers:
         version: 9.39.4
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -7794,7 +7794,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -7873,7 +7873,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -7952,7 +7952,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -8031,7 +8031,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -8110,7 +8110,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -8198,7 +8198,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -8247,7 +8247,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -8305,7 +8305,7 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@rollup/plugin-inject':
         specifier: catalog:testing
-        version: 5.0.5(rollup@4.61.1)
+        version: 5.0.5(rollup@4.62.0)
       '@types/debug':
         specifier: ^4.1.12
         version: 4.1.13
@@ -8338,7 +8338,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -8396,7 +8396,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -8466,7 +8466,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -8530,7 +8530,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -8585,7 +8585,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -8649,7 +8649,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -8698,7 +8698,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -8768,7 +8768,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -8801,7 +8801,7 @@ importers:
         version: 2.8.1
       undici:
         specifier: ^8.0.2
-        version: 8.4.0
+        version: 8.4.1
     devDependencies:
       '@azure/dev-tool':
         specifier: workspace:^
@@ -8829,7 +8829,7 @@ importers:
         version: 5.2.1
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -8899,7 +8899,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -8954,7 +8954,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -9012,7 +9012,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -9067,7 +9067,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -9122,7 +9122,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -9180,7 +9180,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -9265,7 +9265,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -9362,7 +9362,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -9444,7 +9444,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -9523,7 +9523,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -9669,7 +9669,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -9748,7 +9748,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -9821,7 +9821,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -9900,7 +9900,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -9979,7 +9979,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -10128,7 +10128,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -10271,7 +10271,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -10350,7 +10350,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -10496,7 +10496,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -10575,7 +10575,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -10724,7 +10724,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -10803,7 +10803,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -11013,7 +11013,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -11089,7 +11089,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -11168,7 +11168,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -11247,7 +11247,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -11399,7 +11399,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -11481,7 +11481,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -11770,7 +11770,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -11846,7 +11846,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -11925,7 +11925,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -12004,7 +12004,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -12153,7 +12153,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -12232,7 +12232,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -12311,7 +12311,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -12393,7 +12393,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -12472,7 +12472,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -12551,7 +12551,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -12630,7 +12630,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -12700,7 +12700,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -12782,7 +12782,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -12861,7 +12861,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -12934,7 +12934,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -13007,7 +13007,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -13086,7 +13086,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -13165,7 +13165,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -13235,7 +13235,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -13317,7 +13317,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -13396,7 +13396,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -13481,7 +13481,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -13527,7 +13527,7 @@ importers:
         version: 9.39.4
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -13585,7 +13585,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -13673,7 +13673,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -13819,7 +13819,7 @@ importers:
         version: link:../../keyvault/keyvault-secrets
       '@rollup/plugin-inject':
         specifier: catalog:testing
-        version: 5.0.5(rollup@4.61.1)
+        version: 5.0.5(rollup@4.62.0)
       '@types/chai-as-promised':
         specifier: catalog:testing
         version: 8.0.2
@@ -13876,7 +13876,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -13934,7 +13934,7 @@ importers:
         version: 9.39.4
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -13958,7 +13958,7 @@ importers:
         version: link:../../core/logger
       '@azure/storage-blob':
         specifier: ^12.26.0
-        version: 12.33.0
+        version: link:../../storage/storage-blob
       tslib:
         specifier: ^2.6.3
         version: 2.8.1
@@ -13989,7 +13989,7 @@ importers:
         version: 4.13.0
       '@rollup/plugin-inject':
         specifier: catalog:testing
-        version: 5.0.5(rollup@4.61.1)
+        version: 5.0.5(rollup@4.62.0)
       '@types/chai-as-promised':
         specifier: catalog:testing
         version: 8.0.2
@@ -14031,7 +14031,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       process:
         specifier: ^0.11.10
         version: 0.11.10
@@ -14086,7 +14086,7 @@ importers:
         version: 4.13.0
       '@rollup/plugin-inject':
         specifier: catalog:testing
-        version: 5.0.5(rollup@4.61.1)
+        version: 5.0.5(rollup@4.62.0)
       '@types/chai-as-promised':
         specifier: catalog:testing
         version: 8.0.2
@@ -14128,7 +14128,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       process:
         specifier: ^0.11.10
         version: 0.11.10
@@ -14186,7 +14186,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -14335,7 +14335,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: ^3.2.5
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -14411,7 +14411,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: ^3.2.5
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -14554,7 +14554,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -14685,7 +14685,7 @@ importers:
         version: 4.13.0
       '@rollup/plugin-node-resolve':
         specifier: ^15.0.0
-        version: 15.3.1(rollup@4.61.1)
+        version: 15.3.1(rollup@4.62.0)
       '@types/node':
         specifier: 'catalog:'
         version: 22.20.0
@@ -14712,7 +14712,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: ^3.3.3
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -14721,7 +14721,7 @@ importers:
         version: 6.1.3
       rollup:
         specifier: ^4.0.0
-        version: 4.61.1
+        version: 4.62.0
       typescript:
         specifier: 'catalog:'
         version: 6.0.3
@@ -14764,7 +14764,7 @@ importers:
         version: 9.39.4
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -14840,7 +14840,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -14983,7 +14983,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -15062,7 +15062,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -15141,7 +15141,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -15220,7 +15220,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -15299,7 +15299,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -15378,7 +15378,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -15457,7 +15457,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -15536,7 +15536,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -15618,7 +15618,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -15697,7 +15697,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -15776,7 +15776,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -15925,7 +15925,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -16031,10 +16031,10 @@ importers:
         version: link:../../core/logger
       '@azure/msal-browser':
         specifier: ^5.5.0
-        version: 5.12.0
+        version: 5.13.0
       '@azure/msal-node':
         specifier: ^5.1.0
-        version: 5.2.3
+        version: 5.2.4
       open:
         specifier: ^11.0.0
         version: 11.0.0
@@ -16095,7 +16095,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -16116,10 +16116,10 @@ importers:
         version: 4.13.1
       '@azure/msal-node':
         specifier: ^5.1.0
-        version: 5.2.3
+        version: 5.2.4
       '@azure/msal-node-extensions':
         specifier: ^5.1.0
-        version: 5.2.3
+        version: 5.2.4
       tslib:
         specifier: ^2.2.0
         version: 2.8.1
@@ -16168,7 +16168,7 @@ importers:
         version: 9.39.4
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -16189,10 +16189,10 @@ importers:
         version: 4.13.1
       '@azure/msal-node':
         specifier: ^5.1.0
-        version: 5.2.3
+        version: 5.2.4
       '@azure/msal-node-extensions':
         specifier: ^5.1.0
-        version: 5.2.3
+        version: 5.2.4
       keytar:
         specifier: ^7.6.0
         version: 7.9.0
@@ -16241,7 +16241,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -16287,7 +16287,7 @@ importers:
         version: 9.39.4
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -16302,10 +16302,10 @@ importers:
         version: 4.13.1
       '@azure/msal-node':
         specifier: ^5.1.0
-        version: 5.2.3
+        version: 5.2.4
       '@azure/msal-node-extensions':
         specifier: ^5.1.0
-        version: 5.2.3
+        version: 5.2.4
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -16351,7 +16351,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -16430,7 +16430,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -16509,7 +16509,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -16603,13 +16603,13 @@ importers:
         version: 1.9.1
       '@opentelemetry/core':
         specifier: ^2.0.0
-        version: 2.7.1(@opentelemetry/api@1.9.1)
+        version: 2.8.0(@opentelemetry/api@1.9.1)
       '@opentelemetry/instrumentation':
         specifier: ^0.211.0
         version: 0.211.0(@opentelemetry/api@1.9.1)
       '@opentelemetry/sdk-trace-web':
         specifier: ^2.0.0
-        version: 2.7.1(@opentelemetry/api@1.9.1)
+        version: 2.8.0(@opentelemetry/api@1.9.1)
       tslib:
         specifier: ^2.7.0
         version: 2.8.1
@@ -16625,10 +16625,10 @@ importers:
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@opentelemetry/sdk-trace-base':
         specifier: ^2.0.0
-        version: 2.7.1(@opentelemetry/api@1.9.1)
+        version: 2.8.0(@opentelemetry/api@1.9.1)
       '@opentelemetry/sdk-trace-node':
         specifier: ^2.0.0
-        version: 2.7.1(@opentelemetry/api@1.9.1)
+        version: 2.8.0(@opentelemetry/api@1.9.1)
       '@types/node':
         specifier: 'catalog:'
         version: 22.20.0
@@ -16652,7 +16652,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -16722,7 +16722,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -16871,7 +16871,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -16950,7 +16950,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -17099,7 +17099,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -17178,7 +17178,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -17339,7 +17339,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -17430,7 +17430,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -17479,7 +17479,7 @@ importers:
         version: 9.39.4
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -17543,7 +17543,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -17631,7 +17631,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -17677,7 +17677,7 @@ importers:
         version: 9.39.4
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -17762,7 +17762,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -17811,7 +17811,7 @@ importers:
         version: 9.39.4
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -17957,7 +17957,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -18030,7 +18030,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -18109,7 +18109,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -18188,7 +18188,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -18267,7 +18267,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -18346,7 +18346,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -18495,7 +18495,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -18644,7 +18644,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -18723,7 +18723,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -18802,7 +18802,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -18988,7 +18988,7 @@ importers:
         version: 9.39.4
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -19067,7 +19067,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -19097,7 +19097,7 @@ importers:
         version: link:../../core/logger
       '@azure/storage-blob':
         specifier: ^12.24.0
-        version: 12.33.0
+        version: link:../../storage/storage-blob
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -19137,7 +19137,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -19795,7 +19795,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -19944,7 +19944,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -20023,7 +20023,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -20102,7 +20102,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -20245,7 +20245,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -20309,7 +20309,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -20391,7 +20391,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -20473,7 +20473,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -20558,7 +20558,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -20643,7 +20643,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -20728,7 +20728,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -20871,7 +20871,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -21218,7 +21218,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -21297,7 +21297,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -21516,7 +21516,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -21595,7 +21595,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -21686,7 +21686,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -21735,7 +21735,7 @@ importers:
         version: 9.39.4
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -21874,7 +21874,7 @@ importers:
         version: 9.39.4
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -21977,7 +21977,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -22029,7 +22029,7 @@ importers:
         version: 9.39.4
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -22123,7 +22123,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -22214,7 +22214,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -22290,7 +22290,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -22436,7 +22436,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -22515,7 +22515,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -22594,7 +22594,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -22670,7 +22670,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -22819,7 +22819,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -22898,7 +22898,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -22977,7 +22977,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -23056,7 +23056,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -23135,7 +23135,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -23214,7 +23214,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -23293,7 +23293,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -23442,7 +23442,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -23509,7 +23509,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -23591,7 +23591,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -23676,7 +23676,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -23822,7 +23822,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -23971,7 +23971,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -24044,7 +24044,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -24123,7 +24123,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -24202,7 +24202,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -24281,7 +24281,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -24360,7 +24360,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -24433,7 +24433,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -24704,7 +24704,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -24850,7 +24850,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -24911,7 +24911,7 @@ importers:
         version: 9.39.4
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -24921,85 +24921,6 @@ importers:
       vitest:
         specifier: catalog:testing
         version: 4.1.8(@opentelemetry/api@1.9.1)(@types/node@22.20.0)(@vitest/browser-playwright@4.1.8)(@vitest/coverage-istanbul@4.1.8)(vite@7.3.3(@types/node@22.20.0)(terser@5.48.0)(tsx@4.22.4)(yaml@2.9.0))
-
-  sdk/postgresqlhsc/arm-postgresqlhsc:
-    dependencies:
-      '@azure-rest/core-client':
-        specifier: ^2.3.1
-        version: link:../../core/core-client-rest
-      '@azure/abort-controller':
-        specifier: ^2.1.2
-        version: link:../../core/abort-controller
-      '@azure/core-auth':
-        specifier: ^1.9.0
-        version: link:../../core/core-auth
-      '@azure/core-lro':
-        specifier: ^3.1.0
-        version: link:../../core/core-lro
-      '@azure/core-rest-pipeline':
-        specifier: link:../../core/core-rest-pipeline
-        version: link:../../core/core-rest-pipeline
-      '@azure/core-util':
-        specifier: ^1.12.0
-        version: link:../../core/core-util
-      '@azure/logger':
-        specifier: ^1.2.0
-        version: link:../../core/logger
-      tslib:
-        specifier: ^2.8.1
-        version: 2.8.1
-    devDependencies:
-      '@azure-tools/test-credential':
-        specifier: workspace:^
-        version: link:../../test-utils/test-credential
-      '@azure-tools/test-recorder':
-        specifier: workspace:^
-        version: link:../../test-utils/recorder
-      '@azure-tools/test-utils-vitest':
-        specifier: workspace:^
-        version: link:../../test-utils/test-utils-vitest
-      '@azure/dev-tool':
-        specifier: workspace:^
-        version: link:../../../common/tools/dev-tool
-      '@azure/eslint-plugin-azure-sdk':
-        specifier: workspace:^
-        version: link:../../../common/tools/eslint-plugin-azure-sdk
-      '@azure/identity':
-        specifier: catalog:internal
-        version: 4.13.0
-      '@types/node':
-        specifier: 'catalog:'
-        version: 20.19.42
-      '@vitest/browser-playwright':
-        specifier: catalog:testing
-        version: 4.1.8(playwright@1.60.0)(vite@7.3.3(@types/node@20.19.42)(terser@5.48.0)(tsx@4.22.4)(yaml@2.9.0))(vitest@4.1.8)
-      '@vitest/coverage-istanbul':
-        specifier: catalog:testing
-        version: 4.1.8(vitest@4.1.8)
-      cross-env:
-        specifier: 'catalog:'
-        version: 10.1.0
-      dotenv:
-        specifier: catalog:testing
-        version: 16.6.1
-      eslint:
-        specifier: 'catalog:'
-        version: 9.39.4
-      playwright:
-        specifier: catalog:testing
-        version: 1.60.0
-      prettier:
-        specifier: 'catalog:'
-        version: 3.8.3
-      rimraf:
-        specifier: 'catalog:'
-        version: 6.1.3
-      typescript:
-        specifier: 'catalog:'
-        version: 6.0.3
-      vitest:
-        specifier: catalog:testing
-        version: 4.1.8(@opentelemetry/api@1.9.1)(@types/node@20.19.42)(@vitest/browser-playwright@4.1.8)(@vitest/coverage-istanbul@4.1.8)(vite@7.3.3(@types/node@20.19.42)(terser@5.48.0)(tsx@4.22.4)(yaml@2.9.0))
 
   sdk/powerbidedicated/arm-powerbidedicated:
     dependencies:
@@ -25069,7 +24990,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -25209,7 +25130,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -25282,7 +25203,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -25361,7 +25282,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -25440,7 +25361,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -25519,7 +25440,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -25592,7 +25513,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -25671,7 +25592,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -25750,7 +25671,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -25829,7 +25750,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -25899,7 +25820,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -25975,7 +25896,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -26054,7 +25975,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -26136,7 +26057,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -26212,7 +26133,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -26358,7 +26279,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -26431,7 +26352,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -26513,7 +26434,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -26592,7 +26513,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -26671,7 +26592,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -26750,7 +26671,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -26832,7 +26753,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -26911,7 +26832,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -26990,7 +26911,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -27069,7 +26990,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -27148,7 +27069,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -27227,7 +27148,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -27306,7 +27227,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -27379,7 +27300,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -27452,7 +27373,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -27595,7 +27516,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -27674,7 +27595,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -27817,7 +27738,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -27896,7 +27817,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -27975,7 +27896,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -28051,7 +27972,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -28115,7 +28036,7 @@ importers:
         version: 4.13.0
       '@rollup/plugin-inject':
         specifier: catalog:testing
-        version: 5.0.5(rollup@4.61.1)
+        version: 5.0.5(rollup@4.62.0)
       '@types/node':
         specifier: 'catalog:'
         version: 22.20.0
@@ -28142,7 +28063,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       process:
         specifier: ^0.11.10
         version: 0.11.10
@@ -28200,7 +28121,7 @@ importers:
         version: 9.39.4
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -28252,7 +28173,7 @@ importers:
         version: 4.13.0
       '@rollup/plugin-inject':
         specifier: catalog:testing
-        version: 5.0.5(rollup@4.61.1)
+        version: 5.0.5(rollup@4.62.0)
       '@types/node':
         specifier: 'catalog:'
         version: 22.20.0
@@ -28282,7 +28203,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -28434,7 +28355,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -28513,7 +28434,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -28565,7 +28486,7 @@ importers:
         version: 9.39.4
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -28641,7 +28562,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -28790,7 +28711,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -28869,7 +28790,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -28942,7 +28863,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -29085,7 +29006,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -29179,7 +29100,7 @@ importers:
         version: 4.13.0
       '@rollup/plugin-inject':
         specifier: catalog:testing
-        version: 5.0.5(rollup@4.61.1)
+        version: 5.0.5(rollup@4.62.0)
       '@types/chai-as-promised':
         specifier: catalog:testing
         version: 8.0.2
@@ -29233,7 +29154,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -29285,7 +29206,7 @@ importers:
         version: 9.39.4
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -29361,7 +29282,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -29443,7 +29364,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -29522,7 +29443,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -29665,7 +29586,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -29814,7 +29735,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -29893,7 +29814,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -29972,7 +29893,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -30191,7 +30112,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -30270,7 +30191,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -30349,7 +30270,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -30428,7 +30349,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -30577,7 +30498,7 @@ importers:
         version: 4.13.0
       '@azure/storage-file-share':
         specifier: ^12.27.0
-        version: 12.32.0
+        version: link:../storage-file-share
       '@types/node':
         specifier: 'catalog:'
         version: 22.20.0
@@ -30601,7 +30522,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -30646,7 +30567,7 @@ importers:
         version: link:../../core/logger
       '@azure/storage-blob':
         specifier: ^12.26.0
-        version: 12.33.0
+        version: link:../storage-blob
       '@azure/storage-internal-avro':
         specifier: ^1.0.0
         version: link:../storage-internal-avro
@@ -30695,7 +30616,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -30719,7 +30640,7 @@ importers:
         version: link:../../core/core-rest-pipeline
       '@azure/storage-blob':
         specifier: ^12.27.0
-        version: 12.33.0
+        version: link:../storage-blob
       dotenv:
         specifier: ^16.0.0
         version: 16.6.1
@@ -30744,7 +30665,7 @@ importers:
         version: 9.39.4
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -30811,7 +30732,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -30914,7 +30835,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -30935,7 +30856,7 @@ importers:
         version: link:../../test-utils/perf
       '@azure/storage-file-datalake':
         specifier: ^12.26.0
-        version: 12.31.0
+        version: link:../storage-file-datalake
       dotenv:
         specifier: ^16.0.0
         version: 16.6.1
@@ -30960,7 +30881,7 @@ importers:
         version: 9.39.4
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -31057,7 +30978,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -31078,7 +30999,7 @@ importers:
         version: link:../../test-utils/perf
       '@azure/storage-file-share':
         specifier: ^12.27.0
-        version: 12.32.0
+        version: link:../storage-file-share
       dotenv:
         specifier: ^16.0.0
         version: 16.6.1
@@ -31103,7 +31024,7 @@ importers:
         version: 9.39.4
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -31158,7 +31079,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -31252,7 +31173,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -31337,7 +31258,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -31416,7 +31337,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -31495,7 +31416,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -31650,7 +31571,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -31729,7 +31650,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -32012,7 +31933,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -32155,7 +32076,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -32298,7 +32219,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -32374,7 +32295,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -32456,7 +32377,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -32532,7 +32453,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -32602,7 +32523,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -32675,7 +32596,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -32763,7 +32684,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -32809,7 +32730,7 @@ importers:
         version: 9.39.4
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -32885,7 +32806,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -32958,7 +32879,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -33007,7 +32928,7 @@ importers:
         version: 9.39.4
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -33138,7 +33059,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -33217,7 +33138,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -33272,7 +33193,7 @@ importers:
         version: 9.39.4
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -33333,7 +33254,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -33397,7 +33318,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -33464,7 +33385,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -33549,7 +33470,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -33598,7 +33519,7 @@ importers:
         version: 9.39.4
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -33738,7 +33659,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -33811,7 +33732,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -33872,7 +33793,7 @@ importers:
         version: 4.13.0
       '@azure/storage-blob':
         specifier: ^12.26.0
-        version: 12.33.0
+        version: link:../../storage/storage-blob
       '@types/node':
         specifier: 'catalog:'
         version: 22.20.0
@@ -33899,7 +33820,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -33975,7 +33896,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -34057,7 +33978,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -34130,7 +34051,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -34361,7 +34282,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -34513,7 +34434,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -34601,7 +34522,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -34680,7 +34601,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -34707,7 +34628,7 @@ importers:
         version: 5.3.2
       protobufjs:
         specifier: ^7.4.0
-        version: 7.6.2
+        version: 7.6.4
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -34756,10 +34677,10 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       protobufjs-cli:
         specifier: ^1.1.3
-        version: 1.3.2(protobufjs@7.6.2)
+        version: 1.3.3(protobufjs@7.6.4)
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -34826,7 +34747,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       react-native:
         specifier: catalog:testing
         version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
@@ -34908,7 +34829,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -35057,7 +34978,7 @@ importers:
         version: 1.60.0
       prettier:
         specifier: 'catalog:'
-        version: 3.8.3
+        version: 3.8.4
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -35259,8 +35180,8 @@ packages:
     resolution: {integrity: sha1-MPuveuJtmrdnGqvKPUH5xS0qOTc=}
     engines: {node: '>=0.8.0'}
 
-  '@azure/msal-browser@5.12.0':
-    resolution: {integrity: sha1-s5d6M5Crj+/d/tFV2KYWA83WnJY=}
+  '@azure/msal-browser@5.13.0':
+    resolution: {integrity: sha1-dUsKJuClDZ33uv2pJ6cgD12iEuM=}
     engines: {node: '>=0.8.0'}
 
   '@azure/msal-common@14.16.1':
@@ -35271,12 +35192,12 @@ packages:
     resolution: {integrity: sha1-rjwDN4yFJkKxyaMDOA6UXCuJfwI=}
     engines: {node: '>=0.8.0'}
 
-  '@azure/msal-common@16.7.0':
-    resolution: {integrity: sha1-7j8+schpYbxVng2yor09FH+AAd0=}
+  '@azure/msal-common@16.8.0':
+    resolution: {integrity: sha1-jwd7JDnV3IATrCJnzQmpnEsuRCo=}
     engines: {node: '>=0.8.0'}
 
-  '@azure/msal-node-extensions@5.2.3':
-    resolution: {integrity: sha1-Wj2K+MlTfPBIa6JPXmam+HY+FnI=}
+  '@azure/msal-node-extensions@5.2.4':
+    resolution: {integrity: sha1-x0J8+LRo0pNJmSPzn28JtLlDgyw=}
     engines: {node: '>=20'}
 
   '@azure/msal-node-runtime@0.20.5':
@@ -35290,8 +35211,8 @@ packages:
     resolution: {integrity: sha1-RMkAkFsCPmMUbOrSmZcg8JBsdMo=}
     engines: {node: '>=16'}
 
-  '@azure/msal-node@5.2.3':
-    resolution: {integrity: sha1-0ZLSCPhlun2w1lKE/XNMOTl/+as=}
+  '@azure/msal-node@5.2.4':
+    resolution: {integrity: sha1-F0jI3Aff012MVK1woixzJ5PTMcw=}
     engines: {node: '>=20'}
 
   '@azure/opentelemetry-instrumentation-azure-sdk@1.0.0':
@@ -35318,21 +35239,9 @@ packages:
     resolution: {integrity: sha1-l7Cb4r9qtZc5uGLt2BJHmDYs5yA=}
     engines: {node: '>=20.0.0'}
 
-  '@azure/storage-blob@12.33.0':
-    resolution: {integrity: sha1-EK1FhvSSJzG4t5zIa+ytp1Z6H6s=}
-    engines: {node: '>=22.0.0'}
-
-  '@azure/storage-common@12.4.1':
-    resolution: {integrity: sha1-eMI6si3QTOJ7E9/omRtFtv3ts0U=}
+  '@azure/storage-common@12.4.0':
+    resolution: {integrity: sha1-kBzWbch2lMv5OvSPy5FcsBmN8y4=}
     engines: {node: '>=20.0.0'}
-
-  '@azure/storage-file-datalake@12.31.0':
-    resolution: {integrity: sha1-A+QzXVvQdRw9ja3odM9OC0+zz1M=}
-    engines: {node: '>=22.0.0'}
-
-  '@azure/storage-file-share@12.32.0':
-    resolution: {integrity: sha1-TCmcfde3pwDTgTpgAK08t7xyNlI=}
-    engines: {node: '>=22.0.0'}
 
   '@azure/web-pubsub-client@1.0.0-beta.2':
     resolution: {integrity: sha1-55aCrdFArY9cdOnsriB/a7lQ8ls=}
@@ -35749,8 +35658,8 @@ packages:
     cpu: [ppc64]
     os: [aix]
 
-  '@esbuild/aix-ppc64@0.28.0':
-    resolution: {integrity: sha1-eiicFY4py/WeoK/IPMgPBtHIlAI=}
+  '@esbuild/aix-ppc64@0.28.1':
+    resolution: {integrity: sha1-egGo0uwvuy2seK2tCbD6eB5Agr4=}
     engines: {node: '>=18'}
     cpu: [ppc64]
     os: [aix]
@@ -35761,8 +35670,8 @@ packages:
     cpu: [arm64]
     os: [android]
 
-  '@esbuild/android-arm64@0.28.0':
-    resolution: {integrity: sha1-uIKNnt+jqSZgZE643m5PPCA9exc=}
+  '@esbuild/android-arm64@0.28.1':
+    resolution: {integrity: sha1-tUCifRTkr9BYSWpNvsTT9BTbEQo=}
     engines: {node: '>=18'}
     cpu: [arm64]
     os: [android]
@@ -35773,8 +35682,8 @@ packages:
     cpu: [arm]
     os: [android]
 
-  '@esbuild/android-arm@0.28.0':
-    resolution: {integrity: sha1-XsGEdgXgW12+XfkNuf9+PkxY3Kc=}
+  '@esbuild/android-arm@0.28.1':
+    resolution: {integrity: sha1-cEvSl95tdi3lTqu+r79V9nVqvi8=}
     engines: {node: '>=18'}
     cpu: [arm]
     os: [android]
@@ -35785,8 +35694,8 @@ packages:
     cpu: [x64]
     os: [android]
 
-  '@esbuild/android-x64@0.28.0':
-    resolution: {integrity: sha1-OQZCF1uI74K61MzgP4qxP+mxkS4=}
+  '@esbuild/android-x64@0.28.1':
+    resolution: {integrity: sha1-0csWbTSw+/D+irRgpVlPJKN4cB4=}
     engines: {node: '>=18'}
     cpu: [x64]
     os: [android]
@@ -35797,8 +35706,8 @@ packages:
     cpu: [arm64]
     os: [darwin]
 
-  '@esbuild/darwin-arm64@0.28.0':
-    resolution: {integrity: sha1-rkUyWWDVlQzWlR5PlzlvTh/32NM=}
+  '@esbuild/darwin-arm64@0.28.1':
+    resolution: {integrity: sha1-EDSyZFf8iGNo/mG70J9lP2r6jlQ=}
     engines: {node: '>=18'}
     cpu: [arm64]
     os: [darwin]
@@ -35809,8 +35718,8 @@ packages:
     cpu: [x64]
     os: [darwin]
 
-  '@esbuild/darwin-x64@0.28.0':
-    resolution: {integrity: sha1-wHkkfViba5lEllnZTwaVG4S/8uQ=}
+  '@esbuild/darwin-x64@0.28.1':
+    resolution: {integrity: sha1-ZVVqQyoeTXIDLYIYwZMvzKGkl3I=}
     engines: {node: '>=18'}
     cpu: [x64]
     os: [darwin]
@@ -35821,8 +35730,8 @@ packages:
     cpu: [arm64]
     os: [freebsd]
 
-  '@esbuild/freebsd-arm64@0.28.0':
-    resolution: {integrity: sha1-RcRWIVpIZZPJSQApcgLcEciAo3o=}
+  '@esbuild/freebsd-arm64@0.28.1':
+    resolution: {integrity: sha1-LmHgWS+QMNfj2uGO4l68U1kYrvY=}
     engines: {node: '>=18'}
     cpu: [arm64]
     os: [freebsd]
@@ -35833,8 +35742,8 @@ packages:
     cpu: [x64]
     os: [freebsd]
 
-  '@esbuild/freebsd-x64@0.28.0':
-    resolution: {integrity: sha1-A5lJTByF5DiOm3BAvWDUjypbDSw=}
+  '@esbuild/freebsd-x64@0.28.1':
+    resolution: {integrity: sha1-yV7CiZWe+AecTcqBeh4sS+Zrm9M=}
     engines: {node: '>=18'}
     cpu: [x64]
     os: [freebsd]
@@ -35845,8 +35754,8 @@ packages:
     cpu: [arm64]
     os: [linux]
 
-  '@esbuild/linux-arm64@0.28.0':
-    resolution: {integrity: sha1-1tnwnvDeVBFr9Fmk1TysfglS/jk=}
+  '@esbuild/linux-arm64@0.28.1':
+    resolution: {integrity: sha1-QLIhdd2gYYLz7oFBGGxf8wTEpxc=}
     engines: {node: '>=18'}
     cpu: [arm64]
     os: [linux]
@@ -35857,8 +35766,8 @@ packages:
     cpu: [arm]
     os: [linux]
 
-  '@esbuild/linux-arm@0.28.0':
-    resolution: {integrity: sha1-e0L/qEwoiulP3EMcGyionjw7kng=}
+  '@esbuild/linux-arm@0.28.1':
+    resolution: {integrity: sha1-wJoPZ5F1kqwN6JKpvk04FN69Kmw=}
     engines: {node: '>=18'}
     cpu: [arm]
     os: [linux]
@@ -35869,8 +35778,8 @@ packages:
     cpu: [ia32]
     os: [linux]
 
-  '@esbuild/linux-ia32@0.28.0':
-    resolution: {integrity: sha1-3rFdES7Y3WBTRra5U9I6If+BJT8=}
+  '@esbuild/linux-ia32@0.28.1':
+    resolution: {integrity: sha1-pYD5xnZ5eDOJHlGfx6EzfIr9jbM=}
     engines: {node: '>=18'}
     cpu: [ia32]
     os: [linux]
@@ -35881,8 +35790,8 @@ packages:
     cpu: [loong64]
     os: [linux]
 
-  '@esbuild/linux-loong64@0.28.0':
-    resolution: {integrity: sha1-gfuJ0H7sx5sVfephAzdXcm/ODKQ=}
+  '@esbuild/linux-loong64@0.28.1':
+    resolution: {integrity: sha1-RkUs8yHcf56Rwvp4Cla7Vuec1os=}
     engines: {node: '>=18'}
     cpu: [loong64]
     os: [linux]
@@ -35893,8 +35802,8 @@ packages:
     cpu: [mips64el]
     os: [linux]
 
-  '@esbuild/linux-mips64el@0.28.0':
-    resolution: {integrity: sha1-0OQmkbP/evn7Ihe3D8AfNDvbYrs=}
+  '@esbuild/linux-mips64el@0.28.1':
+    resolution: {integrity: sha1-QhGzGE3WYI9T3LIuOfXTTuCIUsg=}
     engines: {node: '>=18'}
     cpu: [mips64el]
     os: [linux]
@@ -35905,8 +35814,8 @@ packages:
     cpu: [ppc64]
     os: [linux]
 
-  '@esbuild/linux-ppc64@0.28.0':
-    resolution: {integrity: sha1-OJ8+XpjxfUd8RnzIcTbhoHburYc=}
+  '@esbuild/linux-ppc64@0.28.1':
+    resolution: {integrity: sha1-aXhXwqYcubC2u2ZS5AwdxeHKjl0=}
     engines: {node: '>=18'}
     cpu: [ppc64]
     os: [linux]
@@ -35917,8 +35826,8 @@ packages:
     cpu: [riscv64]
     os: [linux]
 
-  '@esbuild/linux-riscv64@0.28.0':
-    resolution: {integrity: sha1-djvWDVmyQr4S2h5n1XKfMCTGBfo=}
+  '@esbuild/linux-riscv64@0.28.1':
+    resolution: {integrity: sha1-0ZKUPrFGpArExkl9DPe+NbmGvwg=}
     engines: {node: '>=18'}
     cpu: [riscv64]
     os: [linux]
@@ -35929,8 +35838,8 @@ packages:
     cpu: [s390x]
     os: [linux]
 
-  '@esbuild/linux-s390x@0.28.0':
-    resolution: {integrity: sha1-qsYGFjSHLkZ33mk7zoAw1zsf0FU=}
+  '@esbuild/linux-s390x@0.28.1':
+    resolution: {integrity: sha1-rOoDVtoODrwI+Xz3ucLkAeHmSNw=}
     engines: {node: '>=18'}
     cpu: [s390x]
     os: [linux]
@@ -35941,8 +35850,8 @@ packages:
     cpu: [x64]
     os: [linux]
 
-  '@esbuild/linux-x64@0.28.0':
-    resolution: {integrity: sha1-TykXdHGI/ndjK87GWy2EtCJBl3k=}
+  '@esbuild/linux-x64@0.28.1':
+    resolution: {integrity: sha1-bww84MtkxTS3DExF7LLBbTTjXf0=}
     engines: {node: '>=18'}
     cpu: [x64]
     os: [linux]
@@ -35953,8 +35862,8 @@ packages:
     cpu: [arm64]
     os: [netbsd]
 
-  '@esbuild/netbsd-arm64@0.28.0':
-    resolution: {integrity: sha1-gU3wrlegw4aBRJG4OX7rqCCUqUc=}
+  '@esbuild/netbsd-arm64@0.28.1':
+    resolution: {integrity: sha1-i813B3oNzjN4tXT+2ybSolO3PTY=}
     engines: {node: '>=18'}
     cpu: [arm64]
     os: [netbsd]
@@ -35965,8 +35874,8 @@ packages:
     cpu: [x64]
     os: [netbsd]
 
-  '@esbuild/netbsd-x64@0.28.0':
-    resolution: {integrity: sha1-4BvffmD6GgjkbUbZYLDZu4rCEK8=}
+  '@esbuild/netbsd-x64@0.28.1':
+    resolution: {integrity: sha1-5/sqAemcgwyU5mI82f77TI+1g0c=}
     engines: {node: '>=18'}
     cpu: [x64]
     os: [netbsd]
@@ -35977,8 +35886,8 @@ packages:
     cpu: [arm64]
     os: [openbsd]
 
-  '@esbuild/openbsd-arm64@0.28.0':
-    resolution: {integrity: sha1-ShXDaqzKaNLVpMkLcQwGdZ9MH/o=}
+  '@esbuild/openbsd-arm64@0.28.1':
+    resolution: {integrity: sha1-xSkJNy24uG4sVeBaiUADO1Zgo7I=}
     engines: {node: '>=18'}
     cpu: [arm64]
     os: [openbsd]
@@ -35989,8 +35898,8 @@ packages:
     cpu: [x64]
     os: [openbsd]
 
-  '@esbuild/openbsd-x64@0.28.0':
-    resolution: {integrity: sha1-R15hAUmKjszjAI18OIER16J8F70=}
+  '@esbuild/openbsd-x64@0.28.1':
+    resolution: {integrity: sha1-xCe5vlpkwmL/mn63C1+7qt9EbGw=}
     engines: {node: '>=18'}
     cpu: [x64]
     os: [openbsd]
@@ -36001,8 +35910,8 @@ packages:
     cpu: [arm64]
     os: [openharmony]
 
-  '@esbuild/openharmony-arm64@0.28.0':
-    resolution: {integrity: sha1-z9w5V/C3pp8b3hKarRf8wvb6Az4=}
+  '@esbuild/openharmony-arm64@0.28.1':
+    resolution: {integrity: sha1-3JsUe6yi5sSzyFVxdB70hgpIkJc=}
     engines: {node: '>=18'}
     cpu: [arm64]
     os: [openharmony]
@@ -36013,8 +35922,8 @@ packages:
     cpu: [x64]
     os: [sunos]
 
-  '@esbuild/sunos-x64@0.28.0':
-    resolution: {integrity: sha1-oBPIVv7KzRw67Jhciv4dHLAXSX0=}
+  '@esbuild/sunos-x64@0.28.1':
+    resolution: {integrity: sha1-zoZtEt8TwV5MmfBzo9Rm9uBkmzo=}
     engines: {node: '>=18'}
     cpu: [x64]
     os: [sunos]
@@ -36025,8 +35934,8 @@ packages:
     cpu: [arm64]
     os: [win32]
 
-  '@esbuild/win32-arm64@0.28.0':
-    resolution: {integrity: sha1-6uBeDzUnHK04mLQxaNPpo7uvR+U=}
+  '@esbuild/win32-arm64@0.28.1':
+    resolution: {integrity: sha1-dGjjaS0B1inVlB5dg4F7uA+eObQ=}
     engines: {node: '>=18'}
     cpu: [arm64]
     os: [win32]
@@ -36037,8 +35946,8 @@ packages:
     cpu: [ia32]
     os: [win32]
 
-  '@esbuild/win32-ia32@0.28.0':
-    resolution: {integrity: sha1-BhYevFv3XAjWn+s8ayJWBRWROZg=}
+  '@esbuild/win32-ia32@0.28.1':
+    resolution: {integrity: sha1-pbwAY/sryrbQ7WPyoVN5WLwmnsY=}
     engines: {node: '>=18'}
     cpu: [ia32]
     os: [win32]
@@ -36049,8 +35958,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@esbuild/win32-x64@0.28.0':
-    resolution: {integrity: sha1-BNkNV1K0zmXStqwl66CP92JP4Hw=}
+  '@esbuild/win32-x64@0.28.1':
+    resolution: {integrity: sha1-EAZO5E9DR7kMmgK0Rrv4CpFjKxI=}
     engines: {node: '>=18'}
     cpu: [x64]
     os: [win32]
@@ -36410,50 +36319,50 @@ packages:
     peerDependencies:
       tslib: '2'
 
-  '@jsonjoy.com/fs-core@4.57.6':
-    resolution: {integrity: sha1-asNUGdSKjKVYs1cgPy/WFTE1ZH8=}
+  '@jsonjoy.com/fs-core@4.57.7':
+    resolution: {integrity: sha1-XUv7yVFHQHyCZdS7Z2BcDBjHYqE=}
     engines: {node: '>=10.0'}
     peerDependencies:
       tslib: '2'
 
-  '@jsonjoy.com/fs-fsa@4.57.6':
-    resolution: {integrity: sha1-OFiQRk9XFGunG9BXrZjJYdFEuWw=}
+  '@jsonjoy.com/fs-fsa@4.57.7':
+    resolution: {integrity: sha1-LAmpnqmvKSr3RHyet4U3djv4VDM=}
     engines: {node: '>=10.0'}
     peerDependencies:
       tslib: '2'
 
-  '@jsonjoy.com/fs-node-builtins@4.57.6':
-    resolution: {integrity: sha1-dqKjMAydDx1eRexFeF8qrK7CEr4=}
+  '@jsonjoy.com/fs-node-builtins@4.57.7':
+    resolution: {integrity: sha1-zA/RIfWHBYeM6bPzcvwAvX2JfOM=}
     engines: {node: '>=10.0'}
     peerDependencies:
       tslib: '2'
 
-  '@jsonjoy.com/fs-node-to-fsa@4.57.6':
-    resolution: {integrity: sha1-28zH14Sx4jfE1qgvjU7jmiNh2ow=}
+  '@jsonjoy.com/fs-node-to-fsa@4.57.7':
+    resolution: {integrity: sha1-LEsYB70ae+WZU21H/t+AJwa2s2Y=}
     engines: {node: '>=10.0'}
     peerDependencies:
       tslib: '2'
 
-  '@jsonjoy.com/fs-node-utils@4.57.6':
-    resolution: {integrity: sha1-Z/HK/xztg22CBr12ns86TT8EyjU=}
+  '@jsonjoy.com/fs-node-utils@4.57.7':
+    resolution: {integrity: sha1-UTCMS9/HF8y7FVdZ/n35yRr+wJk=}
     engines: {node: '>=10.0'}
     peerDependencies:
       tslib: '2'
 
-  '@jsonjoy.com/fs-node@4.57.6':
-    resolution: {integrity: sha1-F3LJ40wES8emW85J44gsfikHoUA=}
+  '@jsonjoy.com/fs-node@4.57.7':
+    resolution: {integrity: sha1-PWL5OvHM3/051DkVTzYVXX4+tcY=}
     engines: {node: '>=10.0'}
     peerDependencies:
       tslib: '2'
 
-  '@jsonjoy.com/fs-print@4.57.6':
-    resolution: {integrity: sha1-Yr4T0DNipPjBxxGk+B1LzVF4o70=}
+  '@jsonjoy.com/fs-print@4.57.7':
+    resolution: {integrity: sha1-rsjj9dZs1k6Q4fyZE6X6SBHYJLE=}
     engines: {node: '>=10.0'}
     peerDependencies:
       tslib: '2'
 
-  '@jsonjoy.com/fs-snapshot@4.57.6':
-    resolution: {integrity: sha1-a95JpRigrkqUaaBG+kNZwS9PWI0=}
+  '@jsonjoy.com/fs-snapshot@4.57.7':
+    resolution: {integrity: sha1-Nwz0BbrDWKT/Qm2Ei3M9+exRSdI=}
     engines: {node: '>=10.0'}
     peerDependencies:
       tslib: '2'
@@ -36500,8 +36409,8 @@ packages:
   '@microsoft/api-extractor-model@7.33.8':
     resolution: {integrity: sha1-1xWwCQYQzOYsCySKPrB0ZssQ6fE=}
 
-  '@microsoft/api-extractor@7.58.7':
-    resolution: {integrity: sha1-FcPwMWVpHymIdNE8Je39zMtCDn4=}
+  '@microsoft/api-extractor@7.58.9':
+    resolution: {integrity: sha1-1sJt/alfvnFrGDtfO8V0SqxId5Y=}
     hasBin: true
 
   '@microsoft/applicationinsights-web-snippet@1.2.3':
@@ -36526,8 +36435,8 @@ packages:
       '@cfworker/json-schema':
         optional: true
 
-  '@nodable/entities@2.1.1':
-    resolution: {integrity: sha1-zkGTHptyYG1/BZjWZeRuiJKF14o=}
+  '@nodable/entities@2.2.0':
+    resolution: {integrity: sha1-odRamSsCJZGxwrA6d5Nck5N1tkI=}
 
   '@nodelib/fs.scandir@2.1.5':
     resolution: {integrity: sha1-dhnC6yGyVIP20WdUi0z9WnSIw9U=}
@@ -36582,12 +36491,6 @@ packages:
   '@opentelemetry/context-async-hooks@1.30.1':
     resolution: {integrity: sha1-T3YoBpGnQll/0L9oKYISaFdiKUg=}
     engines: {node: '>=14'}
-    peerDependencies:
-      '@opentelemetry/api': '>=1.0.0 <1.10.0'
-
-  '@opentelemetry/context-async-hooks@2.7.1':
-    resolution: {integrity: sha1-FVWm+yaVlkFtjGJv0CDD8sOOBx8=}
-    engines: {node: ^18.19.0 || >=20.6.0}
     peerDependencies:
       '@opentelemetry/api': '>=1.0.0 <1.10.0'
 
@@ -36877,12 +36780,6 @@ packages:
     peerDependencies:
       '@opentelemetry/api': '>=1.0.0 <1.10.0'
 
-  '@opentelemetry/sdk-trace-base@2.7.1':
-    resolution: {integrity: sha1-kWDDr57yIZwmVjq9E24i+30Zs08=}
-    engines: {node: ^18.19.0 || >=20.6.0}
-    peerDependencies:
-      '@opentelemetry/api': '>=1.3.0 <1.10.0'
-
   '@opentelemetry/sdk-trace-base@2.8.0':
     resolution: {integrity: sha1-7JwdaeLm+6JWyd8Mjo1n1COG1Ss=}
     engines: {node: ^18.19.0 || >=20.6.0}
@@ -36895,20 +36792,14 @@ packages:
     peerDependencies:
       '@opentelemetry/api': '>=1.0.0 <1.10.0'
 
-  '@opentelemetry/sdk-trace-node@2.7.1':
-    resolution: {integrity: sha1-VN7bjnf6UabQL8IZIJdzkmbIIWg=}
-    engines: {node: ^18.19.0 || >=20.6.0}
-    peerDependencies:
-      '@opentelemetry/api': '>=1.0.0 <1.10.0'
-
   '@opentelemetry/sdk-trace-node@2.8.0':
     resolution: {integrity: sha1-y/aPgXoVv0yl2f+ftg7zpz9hM30=}
     engines: {node: ^18.19.0 || >=20.6.0}
     peerDependencies:
       '@opentelemetry/api': '>=1.0.0 <1.10.0'
 
-  '@opentelemetry/sdk-trace-web@2.7.1':
-    resolution: {integrity: sha1-T7/WFH7DZv+HtGBXq6ezWQD0zC4=}
+  '@opentelemetry/sdk-trace-web@2.8.0':
+    resolution: {integrity: sha1-1ZxuJHSsDRFcm3XCWjSmjH6ruzM=}
     engines: {node: ^18.19.0 || >=20.6.0}
     peerDependencies:
       '@opentelemetry/api': '>=1.0.0 <1.10.0'
@@ -36991,9 +36882,6 @@ packages:
 
   '@protobufjs/float@1.0.2':
     resolution: {integrity: sha1-Xp4avctz/Ap8uLKR33jIy9l7h9E=}
-
-  '@protobufjs/inquire@1.1.2':
-    resolution: {integrity: sha1-rmT7wBT/RMi/rQPdTJPNLWpMgts=}
 
   '@protobufjs/path@1.1.2':
     resolution: {integrity: sha1-bMKyDFya1q0NzP0hynZz2Nf79o0=}
@@ -37087,141 +36975,141 @@ packages:
       rollup:
         optional: true
 
-  '@rollup/rollup-android-arm-eabi@4.61.1':
-    resolution: {integrity: sha1-zoPyWVgaT15iVdkpAiSfA2ahXdM=}
+  '@rollup/rollup-android-arm-eabi@4.62.0':
+    resolution: {integrity: sha1-Y0sCWMxQG+8jU87gmoh7Q0gm6B8=}
     cpu: [arm]
     os: [android]
 
-  '@rollup/rollup-android-arm64@4.61.1':
-    resolution: {integrity: sha1-GnYzKf+8KhkFcSisJmoaRngqXxc=}
+  '@rollup/rollup-android-arm64@4.62.0':
+    resolution: {integrity: sha1-14BP+cMcK458Udlm/trGWkyChXg=}
     cpu: [arm64]
     os: [android]
 
-  '@rollup/rollup-darwin-arm64@4.61.1':
-    resolution: {integrity: sha1-/5z/4QLSngUvSeUBf9A2FC+bt+8=}
+  '@rollup/rollup-darwin-arm64@4.62.0':
+    resolution: {integrity: sha1-8m0DIo5IyL1V/2voRyQjCNv9tQ0=}
     cpu: [arm64]
     os: [darwin]
 
-  '@rollup/rollup-darwin-x64@4.61.1':
-    resolution: {integrity: sha1-HvHo9b0Whl2NLzd6WOdiKCCz3aM=}
+  '@rollup/rollup-darwin-x64@4.62.0':
+    resolution: {integrity: sha1-bpA3zPyAanSaoESwYyVqJq0yM50=}
     cpu: [x64]
     os: [darwin]
 
-  '@rollup/rollup-freebsd-arm64@4.61.1':
-    resolution: {integrity: sha1-y30EEBB4ghOHn2Y9MQDEMgwJENk=}
+  '@rollup/rollup-freebsd-arm64@4.62.0':
+    resolution: {integrity: sha1-/0SGBbNsxHNqb+qJvQ63RlPwnLw=}
     cpu: [arm64]
     os: [freebsd]
 
-  '@rollup/rollup-freebsd-x64@4.61.1':
-    resolution: {integrity: sha1-JdS01+UrsaFE/RMCCXMuXQUYJRo=}
+  '@rollup/rollup-freebsd-x64@4.62.0':
+    resolution: {integrity: sha1-ow/gCoZRtXeWYCLR2x+xvWd2EF4=}
     cpu: [x64]
     os: [freebsd]
 
-  '@rollup/rollup-linux-arm-gnueabihf@4.61.1':
-    resolution: {integrity: sha1-lWmo3YhKIpUN9EYd6LJsdQOQUxw=}
+  '@rollup/rollup-linux-arm-gnueabihf@4.62.0':
+    resolution: {integrity: sha1-C6hbY4k+sX4RBSvSH+KAmvxHWoI=}
     cpu: [arm]
     os: [linux]
     libc: [glibc]
 
-  '@rollup/rollup-linux-arm-musleabihf@4.61.1':
-    resolution: {integrity: sha1-M9AIC4zOYt+MPmJAh1q/DWwSXNo=}
+  '@rollup/rollup-linux-arm-musleabihf@4.62.0':
+    resolution: {integrity: sha1-mCvyP8/k6OEwApEtQHP1ai7qKjk=}
     cpu: [arm]
     os: [linux]
     libc: [musl]
 
-  '@rollup/rollup-linux-arm64-gnu@4.61.1':
-    resolution: {integrity: sha1-nGaptNF0ZZVoDuxpHhNvjvz+PXg=}
+  '@rollup/rollup-linux-arm64-gnu@4.62.0':
+    resolution: {integrity: sha1-yU0ei9EW6itWmqs33QSmzKt08as=}
     cpu: [arm64]
     os: [linux]
     libc: [glibc]
 
-  '@rollup/rollup-linux-arm64-musl@4.61.1':
-    resolution: {integrity: sha1-43qpcDmvnbt2oyQUjbBsYmasyaA=}
+  '@rollup/rollup-linux-arm64-musl@4.62.0':
+    resolution: {integrity: sha1-p9eQFLo8XdLRQDCXMDZdQTl22yQ=}
     cpu: [arm64]
     os: [linux]
     libc: [musl]
 
-  '@rollup/rollup-linux-loong64-gnu@4.61.1':
-    resolution: {integrity: sha1-IpUfVoa2U5aGGdIaArJXLVy+Udw=}
+  '@rollup/rollup-linux-loong64-gnu@4.62.0':
+    resolution: {integrity: sha1-XdlDxYvaVdiyaUJr1gpH3Zwnd24=}
     cpu: [loong64]
     os: [linux]
     libc: [glibc]
 
-  '@rollup/rollup-linux-loong64-musl@4.61.1':
-    resolution: {integrity: sha1-d4yYPQBQeS2Fpi4sdACf/4IeVgY=}
+  '@rollup/rollup-linux-loong64-musl@4.62.0':
+    resolution: {integrity: sha1-CLG502LGSEcwb+qXm5Nek6JZDE4=}
     cpu: [loong64]
     os: [linux]
     libc: [musl]
 
-  '@rollup/rollup-linux-ppc64-gnu@4.61.1':
-    resolution: {integrity: sha1-dPNHZLaIpggcj3XhVbWNLNs5ES8=}
+  '@rollup/rollup-linux-ppc64-gnu@4.62.0':
+    resolution: {integrity: sha1-HF3laJZtEQkSgbIrx2Tuet+SZns=}
     cpu: [ppc64]
     os: [linux]
     libc: [glibc]
 
-  '@rollup/rollup-linux-ppc64-musl@4.61.1':
-    resolution: {integrity: sha1-ghzNpFMdzbQuVq3dwXiQdhWm2gc=}
+  '@rollup/rollup-linux-ppc64-musl@4.62.0':
+    resolution: {integrity: sha1-Td4cm5QXSOpJ4Hz8lsZLGCNiJc0=}
     cpu: [ppc64]
     os: [linux]
     libc: [musl]
 
-  '@rollup/rollup-linux-riscv64-gnu@4.61.1':
-    resolution: {integrity: sha1-hJ+lxrQ/xsTSV2cfzr1wH+aUe9Y=}
+  '@rollup/rollup-linux-riscv64-gnu@4.62.0':
+    resolution: {integrity: sha1-Id0QFAM7lw3SMYnR1NPNq0Xef5o=}
     cpu: [riscv64]
     os: [linux]
     libc: [glibc]
 
-  '@rollup/rollup-linux-riscv64-musl@4.61.1':
-    resolution: {integrity: sha1-gKhxGvbDFs5Ei5MpTEoIkcLdrL4=}
+  '@rollup/rollup-linux-riscv64-musl@4.62.0':
+    resolution: {integrity: sha1-RmTguuIFo6GOtkB8EAVMS43X84E=}
     cpu: [riscv64]
     os: [linux]
     libc: [musl]
 
-  '@rollup/rollup-linux-s390x-gnu@4.61.1':
-    resolution: {integrity: sha1-kKy6VDY8Eotz27MQZCuXe15rnao=}
+  '@rollup/rollup-linux-s390x-gnu@4.62.0':
+    resolution: {integrity: sha1-sFprOvag08m5976cJT608QGmeEg=}
     cpu: [s390x]
     os: [linux]
     libc: [glibc]
 
-  '@rollup/rollup-linux-x64-gnu@4.61.1':
-    resolution: {integrity: sha1-MghcP1MsWSaYJO2SOeE/Wsvhgrk=}
+  '@rollup/rollup-linux-x64-gnu@4.62.0':
+    resolution: {integrity: sha1-hd2nKqCM3CVvgPRtiBsqmIuwzOI=}
     cpu: [x64]
     os: [linux]
     libc: [glibc]
 
-  '@rollup/rollup-linux-x64-musl@4.61.1':
-    resolution: {integrity: sha1-vs8OninXfn0E3oQb2mNen3O4nfs=}
+  '@rollup/rollup-linux-x64-musl@4.62.0':
+    resolution: {integrity: sha1-159b5ipIS1io7E1a4jrPew6xqP8=}
     cpu: [x64]
     os: [linux]
     libc: [musl]
 
-  '@rollup/rollup-openbsd-x64@4.61.1':
-    resolution: {integrity: sha1-2EeOI6V1dF8P673ghnoTPPKf4WQ=}
+  '@rollup/rollup-openbsd-x64@4.62.0':
+    resolution: {integrity: sha1-jrr+DWbN4cirCoZ82dzqieIu57E=}
     cpu: [x64]
     os: [openbsd]
 
-  '@rollup/rollup-openharmony-arm64@4.61.1':
-    resolution: {integrity: sha1-s2e8STVbfsJQjLrZcHIax4tBvww=}
+  '@rollup/rollup-openharmony-arm64@4.62.0':
+    resolution: {integrity: sha1-EFU3vPyy/YJ5ZRgYTpla5Dlrt5I=}
     cpu: [arm64]
     os: [openharmony]
 
-  '@rollup/rollup-win32-arm64-msvc@4.61.1':
-    resolution: {integrity: sha1-1740eLRdZDTRPL5izOKcT7Y2aUg=}
+  '@rollup/rollup-win32-arm64-msvc@4.62.0':
+    resolution: {integrity: sha1-COvPwBtbOxBq4HS642kulKY7USU=}
     cpu: [arm64]
     os: [win32]
 
-  '@rollup/rollup-win32-ia32-msvc@4.61.1':
-    resolution: {integrity: sha1-fsWAFznK478Rn0Gbd6EMsNxJ9A8=}
+  '@rollup/rollup-win32-ia32-msvc@4.62.0':
+    resolution: {integrity: sha1-STAFyw/KsAnoZszbrTyXxRLCv0s=}
     cpu: [ia32]
     os: [win32]
 
-  '@rollup/rollup-win32-x64-gnu@4.61.1':
-    resolution: {integrity: sha1-lKg1cr8VF3LZRf/Ud33tMFzYw0Y=}
+  '@rollup/rollup-win32-x64-gnu@4.62.0':
+    resolution: {integrity: sha1-R7QClN7wNSaDKdX/1TZDR79ybl8=}
     cpu: [x64]
     os: [win32]
 
-  '@rollup/rollup-win32-x64-msvc@4.61.1':
-    resolution: {integrity: sha1-y5ileatu7JlAvaenNt9eK5TrCic=}
+  '@rollup/rollup-win32-x64-msvc@4.62.0':
+    resolution: {integrity: sha1-aFBDT9tpHpskCN7Ztl6jV7+DY20=}
     cpu: [x64]
     os: [win32]
 
@@ -37252,8 +37140,8 @@ packages:
       '@types/node':
         optional: true
 
-  '@rushstack/ts-command-line@5.3.9':
-    resolution: {integrity: sha1-eB3fzpzmUrbH4N5Trwb/x2cb1QY=}
+  '@rushstack/ts-command-line@5.3.10':
+    resolution: {integrity: sha1-tlu6dEtLjG7mqWRgzV1hEVV/4lM=}
 
   '@sinclair/typebox@0.27.10':
     resolution: {integrity: sha1-vu/mdfGFP3NnauzJFbK9KsmMT8Y=}
@@ -37278,33 +37166,33 @@ packages:
   '@ts-morph/common@0.28.1':
     resolution: {integrity: sha1-EOxSGC1cMQgytmmvd4SjT8PaPKE=}
 
-  '@turbo/darwin-64@2.9.16':
-    resolution: {integrity: sha1-9BRuq5jgINZYqaXX/rhGrLplNUY=}
+  '@turbo/darwin-64@2.9.18':
+    resolution: {integrity: sha1-dmwWoLcbbMsRCsAuungYiihLK14=}
     cpu: [x64]
     os: [darwin]
 
-  '@turbo/darwin-arm64@2.9.16':
-    resolution: {integrity: sha1-HQHKIy/BiQRdak26R0H0YuA0O4w=}
+  '@turbo/darwin-arm64@2.9.18':
+    resolution: {integrity: sha1-HwHt3sHX2j3dkNFjbBN37LGeWMw=}
     cpu: [arm64]
     os: [darwin]
 
-  '@turbo/linux-64@2.9.16':
-    resolution: {integrity: sha1-jbYw5uVoGi6kj33xvKV7vZvfPiU=}
+  '@turbo/linux-64@2.9.18':
+    resolution: {integrity: sha1-UU4SNU+WvL7WF+CYMRWsm8bfNsQ=}
     cpu: [x64]
     os: [linux]
 
-  '@turbo/linux-arm64@2.9.16':
-    resolution: {integrity: sha1-0d6C/IB1xHdLIU3S9ejiVwuwNkM=}
+  '@turbo/linux-arm64@2.9.18':
+    resolution: {integrity: sha1-NeeJ7/PKFiGTpXQ8QizPBa0h8F8=}
     cpu: [arm64]
     os: [linux]
 
-  '@turbo/windows-64@2.9.16':
-    resolution: {integrity: sha1-42nFHt1zeXhlHC9rTOSbWCl21m8=}
+  '@turbo/windows-64@2.9.18':
+    resolution: {integrity: sha1-0ADmKSTscP17XF9CP827citmw5o=}
     cpu: [x64]
     os: [win32]
 
-  '@turbo/windows-arm64@2.9.16':
-    resolution: {integrity: sha1-27Kyhj6A65yo2ovY2mPizEV+Rww=}
+  '@turbo/windows-arm64@2.9.18':
+    resolution: {integrity: sha1-5YfHSB3w7QZKv4akAuqyWBH54gA=}
     cpu: [arm64]
     os: [win32]
 
@@ -37416,9 +37304,6 @@ packages:
 
   '@types/node-forge@1.3.14':
     resolution: {integrity: sha1-AGwmFszWVVBWDCdX2EcuttPs6gs=}
-
-  '@types/node@20.19.42':
-    resolution: {integrity: sha1-ACEJ7GBfKnP0bpZ3E52LJ6LYg5Q=}
 
   '@types/node@22.20.0':
     resolution: {integrity: sha1-Qx9QBzlrwaGke5x99g8+XgtbcwQ=}
@@ -37668,8 +37553,8 @@ packages:
     peerDependencies:
       acorn: ^6.0.0 || ^7.0.0 || ^8.0.0
 
-  acorn@8.16.0:
-    resolution: {integrity: sha1-TOecib5Ar+ev6POtuQKh8c6awIo=}
+  acorn@8.17.0:
+    resolution: {integrity: sha1-F4WtuE+vjYrdEDabk4Jvwr0I8f4=}
     engines: {node: '>=0.4.0'}
     hasBin: true
 
@@ -37739,6 +37624,9 @@ packages:
   anymatch@3.1.3:
     resolution: {integrity: sha1-eQxYsZuhcgqEIFtXxhjVrYUklz4=}
     engines: {node: '>= 8'}
+
+  anynum@1.0.0:
+    resolution: {integrity: sha1-r+Pzp4xmIfvfHhBxVPrAHu9xHMU=}
 
   argparse@1.0.10:
     resolution: {integrity: sha1-vNZ5HqWuCXJeF+WtmIE0zUCz2RE=}
@@ -37822,8 +37710,8 @@ packages:
   base64-js@1.5.1:
     resolution: {integrity: sha1-GxtEAWClv3rUC2UPCVljSBkDkwo=}
 
-  baseline-browser-mapping@2.10.34:
-    resolution: {integrity: sha1-3ttgY2JEZ3fP4yjTDU7hUFbQYwM=}
+  baseline-browser-mapping@2.10.37:
+    resolution: {integrity: sha1-PmNkdbaykyROKyPixxoqudnmun0=}
     engines: {node: '>=6.0.0'}
     hasBin: true
 
@@ -37917,8 +37805,8 @@ packages:
     resolution: {integrity: sha1-VoW5XrIJrJwMF3Rnd4ychN9Yupo=}
     engines: {node: '>=10'}
 
-  caniuse-lite@1.0.30001797:
-    resolution: {integrity: sha1-EzJwnhQ58B/5IIXdFwAeCkWJfsA=}
+  caniuse-lite@1.0.30001799:
+    resolution: {integrity: sha1-XJCROMJ/GmEhnT4JIHHBzH0y3FU=}
 
   caseless@0.12.0:
     resolution: {integrity: sha1-G2gcIf+EAzyCZUMJBolCDRhxUdw=}
@@ -38286,8 +38174,8 @@ packages:
   ee-first@1.1.1:
     resolution: {integrity: sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=}
 
-  electron-to-chromium@1.5.368:
-    resolution: {integrity: sha1-jo1GAMX18B6JH4+EO0qUGvtkBBI=}
+  electron-to-chromium@1.5.372:
+    resolution: {integrity: sha1-rorGmUKjeyMXc7j7AXWfc3M1meM=}
 
   emoji-regex@8.0.0:
     resolution: {integrity: sha1-6Bj9ac5cz8tARZT4QpY79TFkzDc=}
@@ -38306,8 +38194,8 @@ packages:
   end-of-stream@1.4.5:
     resolution: {integrity: sha1-c0TXEd6kDgt0q8LtSXeHQ8ztsIw=}
 
-  enhanced-resolve@5.23.0:
-    resolution: {integrity: sha1-39+NHJBl5LUvilmDVhOJMcBzBfk=}
+  enhanced-resolve@5.24.0:
+    resolution: {integrity: sha1-zxS5dop3TLalCHIgwNxuVd9uw1o=}
     engines: {node: '>=10.13.0'}
 
   entities@4.5.0:
@@ -38348,8 +38236,8 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
-  esbuild@0.28.0:
-    resolution: {integrity: sha1-Xe40f/s+OHQhKjWmmDawd7HObZY=}
+  esbuild@0.28.1:
+    resolution: {integrity: sha1-70W0Y0ycnZeilq6kEUpfmED5VXg=}
     engines: {node: '>=18'}
     hasBin: true
 
@@ -38827,8 +38715,8 @@ packages:
   highlight.js@10.7.3:
     resolution: {integrity: sha1-aXJy45kTVuQMPKxWanTu9oF1ZTE=}
 
-  hono@4.12.23:
-    resolution: {integrity: sha1-mYuRZRaGFJ8Obtu4Vk1gTaBPPPg=}
+  hono@4.12.25:
+    resolution: {integrity: sha1-8tmZalToycDF9d4cjzqWLkOpjE4=}
     engines: {node: '>=16.9.0'}
 
   hosted-git-info@4.1.0:
@@ -38892,8 +38780,8 @@ packages:
   import-in-the-middle@2.0.6:
     resolution: {integrity: sha1-GXIze/4CDQX2teAgwTM0VnQ2Mk8=}
 
-  import-in-the-middle@3.0.1:
-    resolution: {integrity: sha1-igoSMMm4ZcDhJpgXFkauHj//aR0=}
+  import-in-the-middle@3.0.2:
+    resolution: {integrity: sha1-bq4+5PNaycE+Z8HAJKq+6dfxqiY=}
     engines: {node: '>=18'}
 
   import-lazy@4.0.0:
@@ -39384,8 +39272,8 @@ packages:
     resolution: {integrity: sha1-ardLjy0zIPIGSyqHo455Mf86VWE=}
     engines: {node: '>= 0.8'}
 
-  memfs@4.57.6:
-    resolution: {integrity: sha1-7HyDOI62gi/xBGpXYpJ0OvvSL6U=}
+  memfs@4.57.7:
+    resolution: {integrity: sha1-uti8FoDYtTSdpldbCVd5lW9ribA=}
     peerDependencies:
       tslib: '2'
 
@@ -39650,8 +39538,8 @@ packages:
     resolution: {integrity: sha1-g3UmXiG8IND6WCwi4bE0hdbgAhM=}
     engines: {node: '>= 0.4'}
 
-  obug@2.1.2:
-    resolution: {integrity: sha1-Ak1wTc6uQ474dVVuv54i5H/ZUcI=}
+  obug@2.1.3:
+    resolution: {integrity: sha1-wCxg+Vq9YDQJMw52fbfygjGTMx4=}
     engines: {node: '>=12.20.0'}
 
   on-exit-leak-free@2.1.2:
@@ -39943,8 +39831,8 @@ packages:
       prettier:
         optional: true
 
-  prettier@3.8.3:
-    resolution: {integrity: sha1-Vg8t5VvwG0wFA7xinV35m5odCbA=}
+  prettier@3.8.4:
+    resolution: {integrity: sha1-8zTwE6wEqWZ28k2rwjwcSuG65BE=}
     engines: {node: '>=14'}
     hasBin: true
 
@@ -39979,15 +39867,15 @@ packages:
     resolution: {integrity: sha1-QM3tqxgIXHkjNOZPCsFyVtOPmkU=}
     engines: {node: '>= 8'}
 
-  protobufjs-cli@1.3.2:
-    resolution: {integrity: sha1-GXWJgvWzgM7+3lBddXr20d4Pkg8=}
+  protobufjs-cli@1.3.3:
+    resolution: {integrity: sha1-cu1UubY06RkTUdKk22g2Pd52/Eo=}
     engines: {node: '>=12.0.0'}
     hasBin: true
     peerDependencies:
       protobufjs: ^7.6.2
 
-  protobufjs@7.6.2:
-    resolution: {integrity: sha1-Jln3e9jVR3iBTCdNwN+Aj1TIiRg=}
+  protobufjs@7.6.4:
+    resolution: {integrity: sha1-i7AAMAAm79Y+t5UdJuXbs49WWPI=}
     engines: {node: '>=12.0.0'}
 
   proxy-addr@2.0.7:
@@ -40164,8 +40052,8 @@ packages:
     resolution: {integrity: sha1-f/oqeoMD4UOHb6ZPte7ZAi0wTus=}
     engines: {node: '>=8.3'}
 
-  rollup@4.61.1:
-    resolution: {integrity: sha1-SgUyBJEukIPlHLOgvwL/3DlyZPs=}
+  rollup@4.62.0:
+    resolution: {integrity: sha1-9olWyWbzxKUdr7r8XVOIVTJEGRs=}
     engines: {node: '>=18.0.0', npm: '>=8.0.0'}
     hasBin: true
 
@@ -40227,8 +40115,8 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
-  semver@7.8.2:
-    resolution: {integrity: sha1-GUvWVyOijPglQtK/F2uRwms0O+E=}
+  semver@7.8.4:
+    resolution: {integrity: sha1-xz7O664GFpNL6N/yin/XB1fI5pY=}
     engines: {node: '>=10'}
     hasBin: true
 
@@ -40330,8 +40218,8 @@ packages:
     resolution: {integrity: sha1-Ed2hnVNo5Azp7CvcH7DsvAeQ7Oo=}
     engines: {node: '>= 0.4'}
 
-  side-channel@1.1.0:
-    resolution: {integrity: sha1-w/z/nE2pMnhIczNeyXZfqU/2a8k=}
+  side-channel@1.1.1:
+    resolution: {integrity: sha1-6gLGLgXcS+pn1EQvD7ce4ZL44Ks=}
     engines: {node: '>= 0.4'}
 
   siginfo@2.0.0:
@@ -40487,8 +40375,8 @@ packages:
     resolution: {integrity: sha1-tzBCSd1ALuZ/1RitqZOrNZNFi88=}
     engines: {node: '>=14.16'}
 
-  strnum@2.3.0:
-    resolution: {integrity: sha1-gb+/71PbjDIX6mKpjAJohuxKJ2E=}
+  strnum@2.4.0:
+    resolution: {integrity: sha1-MEiBwymbAXhV8ZNKTOhb+2Cxyio=}
 
   supports-color@7.2.0:
     resolution: {integrity: sha1-G33NyzK4E4gBs+R4umpRyqiWSNo=}
@@ -40640,8 +40528,8 @@ packages:
   tunnel-agent@0.6.0:
     resolution: {integrity: sha1-J6XeoGs2sEoKmWZ3SykIaPD8QP0=}
 
-  turbo@2.9.16:
-    resolution: {integrity: sha1-7XL/Z5wsVL3g46LkAQdBYYHiA6Q=}
+  turbo@2.9.18:
+    resolution: {integrity: sha1-1ARkShKaivgICmXzSZ4KVXWvibQ=}
     hasBin: true
 
   type-check@0.3.2:
@@ -40712,8 +40600,8 @@ packages:
   undici-types@6.21.0:
     resolution: {integrity: sha1-aR0ArzkJvpOn+qE75hs6W1DvEss=}
 
-  undici@8.4.0:
-    resolution: {integrity: sha1-WhvEu696Fidzk+BaZrnWQf2WY0A=}
+  undici@8.4.1:
+    resolution: {integrity: sha1-BgrRWvKwetZXDXx40/i0N0Jqsnk=}
     engines: {node: '>=22.19.0'}
 
   unicode-emoji-modifier-base@1.0.0:
@@ -41034,7 +40922,7 @@ snapshots:
       commander: 10.0.1
       marked: 9.1.6
       marked-terminal: 7.3.0(marked@9.1.6)
-      semver: 7.8.2
+      semver: 7.8.4
 
   '@arethetypeswrong/core@0.17.4':
     dependencies:
@@ -41043,7 +40931,7 @@ snapshots:
       cjs-module-lexer: 1.4.3
       fflate: 0.8.3
       lru-cache: 10.4.3
-      semver: 7.8.2
+      semver: 7.8.4
       typescript: 5.6.1-rc
       validate-npm-package-name: 5.0.1
 
@@ -41081,7 +40969,7 @@ snapshots:
     dependencies:
       '@azure/app-configuration': 1.11.0
       '@azure/core-rest-pipeline': link:sdk/core/core-rest-pipeline
-      '@azure/identity': 4.13.1
+      '@azure/identity': 4.13.0
       '@azure/keyvault-secrets': 4.11.2
       jsonc-parser: 3.3.1
     transitivePeerDependencies:
@@ -41427,8 +41315,8 @@ snapshots:
       '@azure/core-tracing': 1.3.1
       '@azure/core-util': 1.13.1
       '@azure/logger': 1.3.0
-      '@azure/msal-browser': 5.12.0
-      '@azure/msal-node': 5.2.3
+      '@azure/msal-browser': 5.13.0
+      '@azure/msal-node': 5.2.4
       open: 10.2.0
       tslib: 2.8.1
     transitivePeerDependencies:
@@ -41537,19 +41425,19 @@ snapshots:
     dependencies:
       '@azure/msal-common': 15.17.0
 
-  '@azure/msal-browser@5.12.0':
+  '@azure/msal-browser@5.13.0':
     dependencies:
-      '@azure/msal-common': 16.7.0
+      '@azure/msal-common': 16.8.0
 
   '@azure/msal-common@14.16.1': {}
 
   '@azure/msal-common@15.17.0': {}
 
-  '@azure/msal-common@16.7.0': {}
+  '@azure/msal-common@16.8.0': {}
 
-  '@azure/msal-node-extensions@5.2.3':
+  '@azure/msal-node-extensions@5.2.4':
     dependencies:
-      '@azure/msal-common': 16.7.0
+      '@azure/msal-common': 16.8.0
       '@azure/msal-node-runtime': 0.20.5
       keytar: 7.9.0
 
@@ -41567,9 +41455,9 @@ snapshots:
       jsonwebtoken: 9.0.3
       uuid: 8.3.2
 
-  '@azure/msal-node@5.2.3':
+  '@azure/msal-node@5.2.4':
     dependencies:
-      '@azure/msal-common': 16.7.0
+      '@azure/msal-common': 16.8.0
       jsonwebtoken: 9.0.3
 
   '@azure/opentelemetry-instrumentation-azure-sdk@1.0.0':
@@ -41579,7 +41467,7 @@ snapshots:
       '@opentelemetry/api': 1.9.1
       '@opentelemetry/core': 2.8.0(@opentelemetry/api@1.9.1)
       '@opentelemetry/instrumentation': 0.211.0(@opentelemetry/api@1.9.1)
-      '@opentelemetry/sdk-trace-web': 2.7.1(@opentelemetry/api@1.9.1)
+      '@opentelemetry/sdk-trace-web': 2.8.0(@opentelemetry/api@1.9.1)
       tslib: 2.8.1
     transitivePeerDependencies:
       - supports-color
@@ -41662,32 +41550,13 @@ snapshots:
       '@azure/core-util': 1.13.1
       '@azure/core-xml': 1.5.1
       '@azure/logger': 1.3.0
-      '@azure/storage-common': 12.4.1(@azure/core-client@1.10.2)
+      '@azure/storage-common': 12.4.0(@azure/core-client@1.10.2)
       events: 3.3.0
       tslib: 2.8.1
     transitivePeerDependencies:
       - supports-color
 
-  '@azure/storage-blob@12.33.0':
-    dependencies:
-      '@azure/abort-controller': 2.1.2
-      '@azure/core-auth': 1.10.1
-      '@azure/core-client': 1.10.2
-      '@azure/core-http-compat': 2.4.0(@azure/core-client@1.10.2)(@azure/core-rest-pipeline@sdk+core+core-rest-pipeline)
-      '@azure/core-lro': 2.7.2
-      '@azure/core-paging': 1.6.2
-      '@azure/core-rest-pipeline': link:sdk/core/core-rest-pipeline
-      '@azure/core-tracing': 1.3.1
-      '@azure/core-util': 1.13.1
-      '@azure/core-xml': 1.5.1
-      '@azure/logger': 1.3.0
-      '@azure/storage-common': 12.4.1(@azure/core-client@1.10.2)
-      events: 3.3.0
-      tslib: 2.8.1
-    transitivePeerDependencies:
-      - supports-color
-
-  '@azure/storage-common@12.4.1(@azure/core-client@1.10.2)':
+  '@azure/storage-common@12.4.0(@azure/core-client@1.10.2)':
     dependencies:
       '@azure/abort-controller': 2.1.2
       '@azure/core-auth': 1.10.1
@@ -41700,43 +41569,6 @@ snapshots:
       tslib: 2.8.1
     transitivePeerDependencies:
       - '@azure/core-client'
-      - supports-color
-
-  '@azure/storage-file-datalake@12.31.0':
-    dependencies:
-      '@azure/abort-controller': 2.1.2
-      '@azure/core-auth': 1.10.1
-      '@azure/core-client': 1.10.2
-      '@azure/core-http-compat': 2.4.0(@azure/core-client@1.10.2)(@azure/core-rest-pipeline@sdk+core+core-rest-pipeline)
-      '@azure/core-paging': 1.6.2
-      '@azure/core-rest-pipeline': link:sdk/core/core-rest-pipeline
-      '@azure/core-tracing': 1.3.1
-      '@azure/core-util': 1.13.1
-      '@azure/core-xml': 1.5.1
-      '@azure/logger': 1.3.0
-      '@azure/storage-blob': 12.33.0
-      '@azure/storage-common': 12.4.1(@azure/core-client@1.10.2)
-      events: 3.3.0
-      tslib: 2.8.1
-    transitivePeerDependencies:
-      - supports-color
-
-  '@azure/storage-file-share@12.32.0':
-    dependencies:
-      '@azure/abort-controller': 2.1.2
-      '@azure/core-auth': 1.10.1
-      '@azure/core-client': 1.10.2
-      '@azure/core-http-compat': 2.4.0(@azure/core-client@1.10.2)(@azure/core-rest-pipeline@sdk+core+core-rest-pipeline)
-      '@azure/core-paging': 1.6.2
-      '@azure/core-rest-pipeline': link:sdk/core/core-rest-pipeline
-      '@azure/core-tracing': 1.3.1
-      '@azure/core-util': 1.13.1
-      '@azure/core-xml': 1.5.1
-      '@azure/logger': 1.3.0
-      '@azure/storage-common': 12.4.1(@azure/core-client@1.10.2)
-      events: 3.3.0
-      tslib: 2.8.1
-    transitivePeerDependencies:
       - supports-color
 
   '@azure/web-pubsub-client@1.0.0-beta.2':
@@ -42167,157 +41999,157 @@ snapshots:
   '@esbuild/aix-ppc64@0.27.7':
     optional: true
 
-  '@esbuild/aix-ppc64@0.28.0':
+  '@esbuild/aix-ppc64@0.28.1':
     optional: true
 
   '@esbuild/android-arm64@0.27.7':
     optional: true
 
-  '@esbuild/android-arm64@0.28.0':
+  '@esbuild/android-arm64@0.28.1':
     optional: true
 
   '@esbuild/android-arm@0.27.7':
     optional: true
 
-  '@esbuild/android-arm@0.28.0':
+  '@esbuild/android-arm@0.28.1':
     optional: true
 
   '@esbuild/android-x64@0.27.7':
     optional: true
 
-  '@esbuild/android-x64@0.28.0':
+  '@esbuild/android-x64@0.28.1':
     optional: true
 
   '@esbuild/darwin-arm64@0.27.7':
     optional: true
 
-  '@esbuild/darwin-arm64@0.28.0':
+  '@esbuild/darwin-arm64@0.28.1':
     optional: true
 
   '@esbuild/darwin-x64@0.27.7':
     optional: true
 
-  '@esbuild/darwin-x64@0.28.0':
+  '@esbuild/darwin-x64@0.28.1':
     optional: true
 
   '@esbuild/freebsd-arm64@0.27.7':
     optional: true
 
-  '@esbuild/freebsd-arm64@0.28.0':
+  '@esbuild/freebsd-arm64@0.28.1':
     optional: true
 
   '@esbuild/freebsd-x64@0.27.7':
     optional: true
 
-  '@esbuild/freebsd-x64@0.28.0':
+  '@esbuild/freebsd-x64@0.28.1':
     optional: true
 
   '@esbuild/linux-arm64@0.27.7':
     optional: true
 
-  '@esbuild/linux-arm64@0.28.0':
+  '@esbuild/linux-arm64@0.28.1':
     optional: true
 
   '@esbuild/linux-arm@0.27.7':
     optional: true
 
-  '@esbuild/linux-arm@0.28.0':
+  '@esbuild/linux-arm@0.28.1':
     optional: true
 
   '@esbuild/linux-ia32@0.27.7':
     optional: true
 
-  '@esbuild/linux-ia32@0.28.0':
+  '@esbuild/linux-ia32@0.28.1':
     optional: true
 
   '@esbuild/linux-loong64@0.27.7':
     optional: true
 
-  '@esbuild/linux-loong64@0.28.0':
+  '@esbuild/linux-loong64@0.28.1':
     optional: true
 
   '@esbuild/linux-mips64el@0.27.7':
     optional: true
 
-  '@esbuild/linux-mips64el@0.28.0':
+  '@esbuild/linux-mips64el@0.28.1':
     optional: true
 
   '@esbuild/linux-ppc64@0.27.7':
     optional: true
 
-  '@esbuild/linux-ppc64@0.28.0':
+  '@esbuild/linux-ppc64@0.28.1':
     optional: true
 
   '@esbuild/linux-riscv64@0.27.7':
     optional: true
 
-  '@esbuild/linux-riscv64@0.28.0':
+  '@esbuild/linux-riscv64@0.28.1':
     optional: true
 
   '@esbuild/linux-s390x@0.27.7':
     optional: true
 
-  '@esbuild/linux-s390x@0.28.0':
+  '@esbuild/linux-s390x@0.28.1':
     optional: true
 
   '@esbuild/linux-x64@0.27.7':
     optional: true
 
-  '@esbuild/linux-x64@0.28.0':
+  '@esbuild/linux-x64@0.28.1':
     optional: true
 
   '@esbuild/netbsd-arm64@0.27.7':
     optional: true
 
-  '@esbuild/netbsd-arm64@0.28.0':
+  '@esbuild/netbsd-arm64@0.28.1':
     optional: true
 
   '@esbuild/netbsd-x64@0.27.7':
     optional: true
 
-  '@esbuild/netbsd-x64@0.28.0':
+  '@esbuild/netbsd-x64@0.28.1':
     optional: true
 
   '@esbuild/openbsd-arm64@0.27.7':
     optional: true
 
-  '@esbuild/openbsd-arm64@0.28.0':
+  '@esbuild/openbsd-arm64@0.28.1':
     optional: true
 
   '@esbuild/openbsd-x64@0.27.7':
     optional: true
 
-  '@esbuild/openbsd-x64@0.28.0':
+  '@esbuild/openbsd-x64@0.28.1':
     optional: true
 
   '@esbuild/openharmony-arm64@0.27.7':
     optional: true
 
-  '@esbuild/openharmony-arm64@0.28.0':
+  '@esbuild/openharmony-arm64@0.28.1':
     optional: true
 
   '@esbuild/sunos-x64@0.27.7':
     optional: true
 
-  '@esbuild/sunos-x64@0.28.0':
+  '@esbuild/sunos-x64@0.28.1':
     optional: true
 
   '@esbuild/win32-arm64@0.27.7':
     optional: true
 
-  '@esbuild/win32-arm64@0.28.0':
+  '@esbuild/win32-arm64@0.28.1':
     optional: true
 
   '@esbuild/win32-ia32@0.27.7':
     optional: true
 
-  '@esbuild/win32-ia32@0.28.0':
+  '@esbuild/win32-ia32@0.28.1':
     optional: true
 
   '@esbuild/win32-x64@0.27.7':
     optional: true
 
-  '@esbuild/win32-x64@0.28.0':
+  '@esbuild/win32-x64@0.28.1':
     optional: true
 
   '@eslint-community/eslint-utils@4.9.1(eslint@9.39.4)':
@@ -42420,7 +42252,7 @@ snapshots:
     dependencies:
       lodash.camelcase: 4.3.0
       long: 5.3.2
-      protobufjs: 7.6.2
+      protobufjs: 7.6.4
       yargs: 17.7.2
 
   '@hapi/boom@10.0.1':
@@ -42429,9 +42261,9 @@ snapshots:
 
   '@hapi/hoek@11.0.7': {}
 
-  '@hono/node-server@1.19.14(hono@4.12.23)':
+  '@hono/node-server@1.19.14(hono@4.12.25)':
     dependencies:
-      hono: 4.12.23
+      hono: 4.12.25
 
   '@humanfs/core@0.19.2':
     dependencies:
@@ -42691,58 +42523,58 @@ snapshots:
     dependencies:
       tslib: 2.8.1
 
-  '@jsonjoy.com/fs-core@4.57.6(tslib@2.8.1)':
+  '@jsonjoy.com/fs-core@4.57.7(tslib@2.8.1)':
     dependencies:
-      '@jsonjoy.com/fs-node-builtins': 4.57.6(tslib@2.8.1)
-      '@jsonjoy.com/fs-node-utils': 4.57.6(tslib@2.8.1)
+      '@jsonjoy.com/fs-node-builtins': 4.57.7(tslib@2.8.1)
+      '@jsonjoy.com/fs-node-utils': 4.57.7(tslib@2.8.1)
       thingies: 2.6.0(tslib@2.8.1)
       tslib: 2.8.1
 
-  '@jsonjoy.com/fs-fsa@4.57.6(tslib@2.8.1)':
+  '@jsonjoy.com/fs-fsa@4.57.7(tslib@2.8.1)':
     dependencies:
-      '@jsonjoy.com/fs-core': 4.57.6(tslib@2.8.1)
-      '@jsonjoy.com/fs-node-builtins': 4.57.6(tslib@2.8.1)
-      '@jsonjoy.com/fs-node-utils': 4.57.6(tslib@2.8.1)
+      '@jsonjoy.com/fs-core': 4.57.7(tslib@2.8.1)
+      '@jsonjoy.com/fs-node-builtins': 4.57.7(tslib@2.8.1)
+      '@jsonjoy.com/fs-node-utils': 4.57.7(tslib@2.8.1)
       thingies: 2.6.0(tslib@2.8.1)
       tslib: 2.8.1
 
-  '@jsonjoy.com/fs-node-builtins@4.57.6(tslib@2.8.1)':
+  '@jsonjoy.com/fs-node-builtins@4.57.7(tslib@2.8.1)':
     dependencies:
       tslib: 2.8.1
 
-  '@jsonjoy.com/fs-node-to-fsa@4.57.6(tslib@2.8.1)':
+  '@jsonjoy.com/fs-node-to-fsa@4.57.7(tslib@2.8.1)':
     dependencies:
-      '@jsonjoy.com/fs-fsa': 4.57.6(tslib@2.8.1)
-      '@jsonjoy.com/fs-node-builtins': 4.57.6(tslib@2.8.1)
-      '@jsonjoy.com/fs-node-utils': 4.57.6(tslib@2.8.1)
+      '@jsonjoy.com/fs-fsa': 4.57.7(tslib@2.8.1)
+      '@jsonjoy.com/fs-node-builtins': 4.57.7(tslib@2.8.1)
+      '@jsonjoy.com/fs-node-utils': 4.57.7(tslib@2.8.1)
       tslib: 2.8.1
 
-  '@jsonjoy.com/fs-node-utils@4.57.6(tslib@2.8.1)':
+  '@jsonjoy.com/fs-node-utils@4.57.7(tslib@2.8.1)':
     dependencies:
-      '@jsonjoy.com/fs-node-builtins': 4.57.6(tslib@2.8.1)
+      '@jsonjoy.com/fs-node-builtins': 4.57.7(tslib@2.8.1)
       tslib: 2.8.1
 
-  '@jsonjoy.com/fs-node@4.57.6(tslib@2.8.1)':
+  '@jsonjoy.com/fs-node@4.57.7(tslib@2.8.1)':
     dependencies:
-      '@jsonjoy.com/fs-core': 4.57.6(tslib@2.8.1)
-      '@jsonjoy.com/fs-node-builtins': 4.57.6(tslib@2.8.1)
-      '@jsonjoy.com/fs-node-utils': 4.57.6(tslib@2.8.1)
-      '@jsonjoy.com/fs-print': 4.57.6(tslib@2.8.1)
-      '@jsonjoy.com/fs-snapshot': 4.57.6(tslib@2.8.1)
+      '@jsonjoy.com/fs-core': 4.57.7(tslib@2.8.1)
+      '@jsonjoy.com/fs-node-builtins': 4.57.7(tslib@2.8.1)
+      '@jsonjoy.com/fs-node-utils': 4.57.7(tslib@2.8.1)
+      '@jsonjoy.com/fs-print': 4.57.7(tslib@2.8.1)
+      '@jsonjoy.com/fs-snapshot': 4.57.7(tslib@2.8.1)
       glob-to-regex.js: 1.2.0(tslib@2.8.1)
       thingies: 2.6.0(tslib@2.8.1)
       tslib: 2.8.1
 
-  '@jsonjoy.com/fs-print@4.57.6(tslib@2.8.1)':
+  '@jsonjoy.com/fs-print@4.57.7(tslib@2.8.1)':
     dependencies:
-      '@jsonjoy.com/fs-node-utils': 4.57.6(tslib@2.8.1)
+      '@jsonjoy.com/fs-node-utils': 4.57.7(tslib@2.8.1)
       tree-dump: 1.1.0(tslib@2.8.1)
       tslib: 2.8.1
 
-  '@jsonjoy.com/fs-snapshot@4.57.6(tslib@2.8.1)':
+  '@jsonjoy.com/fs-snapshot@4.57.7(tslib@2.8.1)':
     dependencies:
       '@jsonjoy.com/buffers': 17.67.0(tslib@2.8.1)
-      '@jsonjoy.com/fs-node-utils': 4.57.6(tslib@2.8.1)
+      '@jsonjoy.com/fs-node-utils': 4.57.7(tslib@2.8.1)
       '@jsonjoy.com/json-pack': 17.67.0(tslib@2.8.1)
       '@jsonjoy.com/util': 17.67.0(tslib@2.8.1)
       tslib: 2.8.1
@@ -42806,7 +42638,7 @@ snapshots:
     transitivePeerDependencies:
       - '@types/node'
 
-  '@microsoft/api-extractor@7.58.7(@types/node@22.20.0)':
+  '@microsoft/api-extractor@7.58.9(@types/node@22.20.0)':
     dependencies:
       '@microsoft/api-extractor-model': 7.33.8(@types/node@22.20.0)
       '@microsoft/tsdoc': 0.16.0
@@ -42814,7 +42646,7 @@ snapshots:
       '@rushstack/node-core-library': 5.23.1(@types/node@22.20.0)
       '@rushstack/rig-package': 0.7.3
       '@rushstack/terminal': 0.24.0(@types/node@22.20.0)
-      '@rushstack/ts-command-line': 5.3.9(@types/node@22.20.0)
+      '@rushstack/ts-command-line': 5.3.10(@types/node@22.20.0)
       diff: 8.0.4
       minimatch: 10.2.3
       resolve: 1.22.12
@@ -42839,7 +42671,7 @@ snapshots:
 
   '@modelcontextprotocol/sdk@1.29.0(zod@4.4.3)':
     dependencies:
-      '@hono/node-server': 1.19.14(hono@4.12.23)
+      '@hono/node-server': 1.19.14(hono@4.12.25)
       ajv: 8.20.0
       ajv-formats: 3.0.1(ajv@8.20.0)
       content-type: 1.0.5
@@ -42849,7 +42681,7 @@ snapshots:
       eventsource-parser: 3.1.0
       express: 5.2.1
       express-rate-limit: 8.5.2(express@5.2.1)
-      hono: 4.12.23
+      hono: 4.12.25
       jose: 6.2.3
       json-schema-typed: 8.0.2
       pkce-challenge: 5.0.1
@@ -42859,7 +42691,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@nodable/entities@2.1.1': {}
+  '@nodable/entities@2.2.0': {}
 
   '@nodelib/fs.scandir@2.1.5':
     dependencies:
@@ -42910,10 +42742,6 @@ snapshots:
       yaml: 2.9.0
 
   '@opentelemetry/context-async-hooks@1.30.1(@opentelemetry/api@1.9.1)':
-    dependencies:
-      '@opentelemetry/api': 1.9.1
-
-  '@opentelemetry/context-async-hooks@2.7.1(@opentelemetry/api@1.9.1)':
     dependencies:
       '@opentelemetry/api': 1.9.1
 
@@ -43136,7 +42964,7 @@ snapshots:
     dependencies:
       '@opentelemetry/api': 1.9.1
       '@opentelemetry/api-logs': 0.217.0
-      import-in-the-middle: 3.0.1
+      import-in-the-middle: 3.0.2
       require-in-the-middle: 8.0.1
     transitivePeerDependencies:
       - supports-color
@@ -43145,7 +42973,7 @@ snapshots:
     dependencies:
       '@opentelemetry/api': 1.9.1
       '@opentelemetry/api-logs': 0.219.0
-      import-in-the-middle: 3.0.1
+      import-in-the-middle: 3.0.2
       require-in-the-middle: 8.0.1
     transitivePeerDependencies:
       - supports-color
@@ -43157,7 +42985,7 @@ snapshots:
       '@types/shimmer': 1.2.0
       import-in-the-middle: 1.15.0
       require-in-the-middle: 7.5.2
-      semver: 7.8.2
+      semver: 7.8.4
       shimmer: 1.2.1
     transitivePeerDependencies:
       - supports-color
@@ -43169,7 +42997,7 @@ snapshots:
       '@types/shimmer': 1.2.0
       import-in-the-middle: 1.15.0
       require-in-the-middle: 7.5.2
-      semver: 7.8.2
+      semver: 7.8.4
       shimmer: 1.2.1
     transitivePeerDependencies:
       - supports-color
@@ -43319,13 +43147,6 @@ snapshots:
       '@opentelemetry/resources': 1.30.1(@opentelemetry/api@1.9.1)
       '@opentelemetry/semantic-conventions': 1.28.0
 
-  '@opentelemetry/sdk-trace-base@2.7.1(@opentelemetry/api@1.9.1)':
-    dependencies:
-      '@opentelemetry/api': 1.9.1
-      '@opentelemetry/core': 2.7.1(@opentelemetry/api@1.9.1)
-      '@opentelemetry/resources': 2.7.1(@opentelemetry/api@1.9.1)
-      '@opentelemetry/semantic-conventions': 1.41.1
-
   '@opentelemetry/sdk-trace-base@2.8.0(@opentelemetry/api@1.9.1)':
     dependencies:
       '@opentelemetry/api': 1.9.1
@@ -43341,14 +43162,7 @@ snapshots:
       '@opentelemetry/propagator-b3': 1.30.1(@opentelemetry/api@1.9.1)
       '@opentelemetry/propagator-jaeger': 1.30.1(@opentelemetry/api@1.9.1)
       '@opentelemetry/sdk-trace-base': 1.30.1(@opentelemetry/api@1.9.1)
-      semver: 7.8.2
-
-  '@opentelemetry/sdk-trace-node@2.7.1(@opentelemetry/api@1.9.1)':
-    dependencies:
-      '@opentelemetry/api': 1.9.1
-      '@opentelemetry/context-async-hooks': 2.7.1(@opentelemetry/api@1.9.1)
-      '@opentelemetry/core': 2.7.1(@opentelemetry/api@1.9.1)
-      '@opentelemetry/sdk-trace-base': 2.7.1(@opentelemetry/api@1.9.1)
+      semver: 7.8.4
 
   '@opentelemetry/sdk-trace-node@2.8.0(@opentelemetry/api@1.9.1)':
     dependencies:
@@ -43357,11 +43171,11 @@ snapshots:
       '@opentelemetry/core': 2.8.0(@opentelemetry/api@1.9.1)
       '@opentelemetry/sdk-trace-base': 2.8.0(@opentelemetry/api@1.9.1)
 
-  '@opentelemetry/sdk-trace-web@2.7.1(@opentelemetry/api@1.9.1)':
+  '@opentelemetry/sdk-trace-web@2.8.0(@opentelemetry/api@1.9.1)':
     dependencies:
       '@opentelemetry/api': 1.9.1
-      '@opentelemetry/core': 2.7.1(@opentelemetry/api@1.9.1)
-      '@opentelemetry/sdk-trace-base': 2.7.1(@opentelemetry/api@1.9.1)
+      '@opentelemetry/core': 2.8.0(@opentelemetry/api@1.9.1)
+      '@opentelemetry/sdk-trace-base': 2.8.0(@opentelemetry/api@1.9.1)
 
   '@opentelemetry/semantic-conventions@1.28.0': {}
 
@@ -43427,8 +43241,6 @@ snapshots:
 
   '@protobufjs/float@1.0.2': {}
 
-  '@protobufjs/inquire@1.1.2': {}
-
   '@protobufjs/path@1.1.2': {}
 
   '@protobufjs/pool@1.1.0': {}
@@ -43455,7 +43267,7 @@ snapshots:
       metro: 0.83.7
       metro-config: 0.83.7
       metro-core: 0.83.7
-      semver: 7.8.2
+      semver: 7.8.4
     transitivePeerDependencies:
       - bufferutil
       - supports-color
@@ -43505,105 +43317,105 @@ snapshots:
     optionalDependencies:
       '@types/react': 19.2.17
 
-  '@rollup/plugin-inject@5.0.5(rollup@4.61.1)':
+  '@rollup/plugin-inject@5.0.5(rollup@4.62.0)':
     dependencies:
-      '@rollup/pluginutils': 5.4.0(rollup@4.61.1)
+      '@rollup/pluginutils': 5.4.0(rollup@4.62.0)
       estree-walker: 2.0.2
       magic-string: 0.30.21
     optionalDependencies:
-      rollup: 4.61.1
+      rollup: 4.62.0
 
-  '@rollup/plugin-node-resolve@15.3.1(rollup@4.61.1)':
+  '@rollup/plugin-node-resolve@15.3.1(rollup@4.62.0)':
     dependencies:
-      '@rollup/pluginutils': 5.4.0(rollup@4.61.1)
+      '@rollup/pluginutils': 5.4.0(rollup@4.62.0)
       '@types/resolve': 1.20.2
       deepmerge: 4.3.1
       is-module: 1.0.0
       resolve: 1.22.12
     optionalDependencies:
-      rollup: 4.61.1
+      rollup: 4.62.0
 
-  '@rollup/pluginutils@5.4.0(rollup@4.61.1)':
+  '@rollup/pluginutils@5.4.0(rollup@4.62.0)':
     dependencies:
       '@types/estree': 1.0.9
       estree-walker: 2.0.2
       picomatch: 4.0.4
     optionalDependencies:
-      rollup: 4.61.1
+      rollup: 4.62.0
 
-  '@rollup/rollup-android-arm-eabi@4.61.1':
+  '@rollup/rollup-android-arm-eabi@4.62.0':
     optional: true
 
-  '@rollup/rollup-android-arm64@4.61.1':
+  '@rollup/rollup-android-arm64@4.62.0':
     optional: true
 
-  '@rollup/rollup-darwin-arm64@4.61.1':
+  '@rollup/rollup-darwin-arm64@4.62.0':
     optional: true
 
-  '@rollup/rollup-darwin-x64@4.61.1':
+  '@rollup/rollup-darwin-x64@4.62.0':
     optional: true
 
-  '@rollup/rollup-freebsd-arm64@4.61.1':
+  '@rollup/rollup-freebsd-arm64@4.62.0':
     optional: true
 
-  '@rollup/rollup-freebsd-x64@4.61.1':
+  '@rollup/rollup-freebsd-x64@4.62.0':
     optional: true
 
-  '@rollup/rollup-linux-arm-gnueabihf@4.61.1':
+  '@rollup/rollup-linux-arm-gnueabihf@4.62.0':
     optional: true
 
-  '@rollup/rollup-linux-arm-musleabihf@4.61.1':
+  '@rollup/rollup-linux-arm-musleabihf@4.62.0':
     optional: true
 
-  '@rollup/rollup-linux-arm64-gnu@4.61.1':
+  '@rollup/rollup-linux-arm64-gnu@4.62.0':
     optional: true
 
-  '@rollup/rollup-linux-arm64-musl@4.61.1':
+  '@rollup/rollup-linux-arm64-musl@4.62.0':
     optional: true
 
-  '@rollup/rollup-linux-loong64-gnu@4.61.1':
+  '@rollup/rollup-linux-loong64-gnu@4.62.0':
     optional: true
 
-  '@rollup/rollup-linux-loong64-musl@4.61.1':
+  '@rollup/rollup-linux-loong64-musl@4.62.0':
     optional: true
 
-  '@rollup/rollup-linux-ppc64-gnu@4.61.1':
+  '@rollup/rollup-linux-ppc64-gnu@4.62.0':
     optional: true
 
-  '@rollup/rollup-linux-ppc64-musl@4.61.1':
+  '@rollup/rollup-linux-ppc64-musl@4.62.0':
     optional: true
 
-  '@rollup/rollup-linux-riscv64-gnu@4.61.1':
+  '@rollup/rollup-linux-riscv64-gnu@4.62.0':
     optional: true
 
-  '@rollup/rollup-linux-riscv64-musl@4.61.1':
+  '@rollup/rollup-linux-riscv64-musl@4.62.0':
     optional: true
 
-  '@rollup/rollup-linux-s390x-gnu@4.61.1':
+  '@rollup/rollup-linux-s390x-gnu@4.62.0':
     optional: true
 
-  '@rollup/rollup-linux-x64-gnu@4.61.1':
+  '@rollup/rollup-linux-x64-gnu@4.62.0':
     optional: true
 
-  '@rollup/rollup-linux-x64-musl@4.61.1':
+  '@rollup/rollup-linux-x64-musl@4.62.0':
     optional: true
 
-  '@rollup/rollup-openbsd-x64@4.61.1':
+  '@rollup/rollup-openbsd-x64@4.62.0':
     optional: true
 
-  '@rollup/rollup-openharmony-arm64@4.61.1':
+  '@rollup/rollup-openharmony-arm64@4.62.0':
     optional: true
 
-  '@rollup/rollup-win32-arm64-msvc@4.61.1':
+  '@rollup/rollup-win32-arm64-msvc@4.62.0':
     optional: true
 
-  '@rollup/rollup-win32-ia32-msvc@4.61.1':
+  '@rollup/rollup-win32-ia32-msvc@4.62.0':
     optional: true
 
-  '@rollup/rollup-win32-x64-gnu@4.61.1':
+  '@rollup/rollup-win32-x64-gnu@4.62.0':
     optional: true
 
-  '@rollup/rollup-win32-x64-msvc@4.61.1':
+  '@rollup/rollup-win32-x64-msvc@4.62.0':
     optional: true
 
   '@rushstack/node-core-library@5.23.1(@types/node@22.20.0)':
@@ -43636,7 +43448,7 @@ snapshots:
     optionalDependencies:
       '@types/node': 22.20.0
 
-  '@rushstack/ts-command-line@5.3.9(@types/node@22.20.0)':
+  '@rushstack/ts-command-line@5.3.10(@types/node@22.20.0)':
     dependencies:
       '@rushstack/terminal': 0.24.0(@types/node@22.20.0)
       '@types/argparse': 1.0.38
@@ -43667,22 +43479,22 @@ snapshots:
       path-browserify: 1.0.1
       tinyglobby: 0.2.17
 
-  '@turbo/darwin-64@2.9.16':
+  '@turbo/darwin-64@2.9.18':
     optional: true
 
-  '@turbo/darwin-arm64@2.9.16':
+  '@turbo/darwin-arm64@2.9.18':
     optional: true
 
-  '@turbo/linux-64@2.9.16':
+  '@turbo/linux-64@2.9.18':
     optional: true
 
-  '@turbo/linux-arm64@2.9.16':
+  '@turbo/linux-arm64@2.9.18':
     optional: true
 
-  '@turbo/windows-64@2.9.16':
+  '@turbo/windows-64@2.9.18':
     optional: true
 
-  '@turbo/windows-arm64@2.9.16':
+  '@turbo/windows-arm64@2.9.18':
     optional: true
 
   '@types/argparse@1.0.38': {}
@@ -43821,10 +43633,6 @@ snapshots:
     dependencies:
       '@types/node': 22.20.0
 
-  '@types/node@20.19.42':
-    dependencies:
-      undici-types: 6.21.0
-
   '@types/node@22.20.0':
     dependencies:
       undici-types: 6.21.0
@@ -43954,7 +43762,7 @@ snapshots:
       eslint: 9.39.4
       json-stable-stringify-without-jsonify: 1.0.1
       lodash.merge: 4.6.2
-      semver: 7.8.2
+      semver: 7.8.4
       typescript: 6.0.3
     transitivePeerDependencies:
       - supports-color
@@ -44001,7 +43809,7 @@ snapshots:
       '@typescript-eslint/visitor-keys': 8.56.1
       debug: 4.4.3
       minimatch: 10.2.5
-      semver: 7.8.2
+      semver: 7.8.4
       tinyglobby: 0.2.17
       ts-api-utils: 2.5.0(typescript@6.0.3)
       typescript: 6.0.3
@@ -44016,7 +43824,7 @@ snapshots:
       '@typescript-eslint/visitor-keys': 8.60.1
       debug: 4.4.3
       minimatch: 10.2.5
-      semver: 7.8.2
+      semver: 7.8.4
       tinyglobby: 0.2.17
       ts-api-utils: 2.5.0(typescript@6.0.3)
       typescript: 6.0.3
@@ -44063,19 +43871,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@vitest/browser-playwright@4.1.8(playwright@1.60.0)(vite@7.3.3(@types/node@20.19.42)(terser@5.48.0)(tsx@4.22.4)(yaml@2.9.0))(vitest@4.1.8)':
-    dependencies:
-      '@vitest/browser': 4.1.8(vite@7.3.3(@types/node@20.19.42)(terser@5.48.0)(tsx@4.22.4)(yaml@2.9.0))(vitest@4.1.8)
-      '@vitest/mocker': 4.1.8(vite@7.3.3(@types/node@20.19.42)(terser@5.48.0)(tsx@4.22.4)(yaml@2.9.0))
-      playwright: 1.60.0
-      tinyrainbow: 3.1.0
-      vitest: 4.1.8(@opentelemetry/api@1.9.1)(@types/node@20.19.42)(@vitest/browser-playwright@4.1.8)(@vitest/coverage-istanbul@4.1.8)(vite@7.3.3(@types/node@20.19.42)(terser@5.48.0)(tsx@4.22.4)(yaml@2.9.0))
-    transitivePeerDependencies:
-      - bufferutil
-      - msw
-      - utf-8-validate
-      - vite
-
   '@vitest/browser-playwright@4.1.8(playwright@1.60.0)(vite@7.3.3(@types/node@22.20.0)(terser@5.48.0)(tsx@4.22.4)(yaml@2.9.0))(vitest@4.1.8)':
     dependencies:
       '@vitest/browser': 4.1.8(vite@7.3.3(@types/node@22.20.0)(terser@5.48.0)(tsx@4.22.4)(yaml@2.9.0))(vitest@4.1.8)
@@ -44083,23 +43878,6 @@ snapshots:
       playwright: 1.60.0
       tinyrainbow: 3.1.0
       vitest: 4.1.8(@opentelemetry/api@1.9.1)(@types/node@22.20.0)(@vitest/browser-playwright@4.1.8)(@vitest/coverage-istanbul@4.1.8)(vite@7.3.3(@types/node@22.20.0)(terser@5.48.0)(tsx@4.22.4)(yaml@2.9.0))
-    transitivePeerDependencies:
-      - bufferutil
-      - msw
-      - utf-8-validate
-      - vite
-
-  '@vitest/browser@4.1.8(vite@7.3.3(@types/node@20.19.42)(terser@5.48.0)(tsx@4.22.4)(yaml@2.9.0))(vitest@4.1.8)':
-    dependencies:
-      '@blazediff/core': 1.9.1
-      '@vitest/mocker': 4.1.8(vite@7.3.3(@types/node@20.19.42)(terser@5.48.0)(tsx@4.22.4)(yaml@2.9.0))
-      '@vitest/utils': 4.1.8
-      magic-string: 0.30.21
-      pngjs: 7.0.0
-      sirv: 3.0.2
-      tinyrainbow: 3.1.0
-      vitest: 4.1.8(@opentelemetry/api@1.9.1)(@types/node@20.19.42)(@vitest/browser-playwright@4.1.8)(@vitest/coverage-istanbul@4.1.8)(vite@7.3.3(@types/node@20.19.42)(terser@5.48.0)(tsx@4.22.4)(yaml@2.9.0))
-      ws: 8.21.0
     transitivePeerDependencies:
       - bufferutil
       - msw
@@ -44133,7 +43911,7 @@ snapshots:
       istanbul-lib-report: 3.0.1
       istanbul-reports: 3.2.0
       magicast: 0.5.3
-      obug: 2.1.2
+      obug: 2.1.3
       tinyrainbow: 3.1.0
       vitest: 4.1.8(@opentelemetry/api@1.9.1)(@types/node@22.20.0)(@vitest/browser-playwright@4.1.8)(@vitest/coverage-istanbul@4.1.8)(vite@7.3.3(@types/node@22.20.0)(terser@5.48.0)(tsx@4.22.4)(yaml@2.9.0))
     transitivePeerDependencies:
@@ -44147,14 +43925,6 @@ snapshots:
       '@vitest/utils': 4.1.8
       chai: 6.2.2
       tinyrainbow: 3.1.0
-
-  '@vitest/mocker@4.1.8(vite@7.3.3(@types/node@20.19.42)(terser@5.48.0)(tsx@4.22.4)(yaml@2.9.0))':
-    dependencies:
-      '@vitest/spy': 4.1.8
-      estree-walker: 3.0.3
-      magic-string: 0.30.21
-    optionalDependencies:
-      vite: 7.3.3(@types/node@20.19.42)(terser@5.48.0)(tsx@4.22.4)(yaml@2.9.0)
 
   '@vitest/mocker@4.1.8(vite@7.3.3(@types/node@22.20.0)(terser@5.48.0)(tsx@4.22.4)(yaml@2.9.0))':
     dependencies:
@@ -44199,15 +43969,15 @@ snapshots:
       mime-types: 3.0.2
       negotiator: 1.0.0
 
-  acorn-import-attributes@1.9.5(acorn@8.16.0):
+  acorn-import-attributes@1.9.5(acorn@8.17.0):
     dependencies:
-      acorn: 8.16.0
+      acorn: 8.17.0
 
-  acorn-jsx@5.3.2(acorn@8.16.0):
+  acorn-jsx@5.3.2(acorn@8.17.0):
     dependencies:
-      acorn: 8.16.0
+      acorn: 8.17.0
 
-  acorn@8.16.0: {}
+  acorn@8.17.0: {}
 
   agent-base@5.1.1: {}
 
@@ -44274,6 +44044,8 @@ snapshots:
     dependencies:
       normalize-path: 3.0.0
       picomatch: 2.3.2
+
+  anynum@1.0.0: {}
 
   argparse@1.0.10:
     dependencies:
@@ -44371,7 +44143,7 @@ snapshots:
 
   base64-js@1.5.1: {}
 
-  baseline-browser-mapping@2.10.34: {}
+  baseline-browser-mapping@2.10.37: {}
 
   bent@7.3.12:
     dependencies:
@@ -44420,9 +44192,9 @@ snapshots:
 
   browserslist@4.28.2:
     dependencies:
-      baseline-browser-mapping: 2.10.34
-      caniuse-lite: 1.0.30001797
-      electron-to-chromium: 1.5.368
+      baseline-browser-mapping: 2.10.37
+      caniuse-lite: 1.0.30001799
+      electron-to-chromium: 1.5.372
       node-releases: 2.0.47
       update-browserslist-db: 1.2.3(browserslist@4.28.2)
 
@@ -44484,7 +44256,7 @@ snapshots:
 
   camelcase@6.3.0: {}
 
-  caniuse-lite@1.0.30001797: {}
+  caniuse-lite@1.0.30001799: {}
 
   caseless@0.12.0: {}
 
@@ -44783,7 +44555,7 @@ snapshots:
       cspell-lib: 9.8.0
       fast-json-stable-stringify: 2.1.0
       flatted: 3.4.2
-      semver: 7.8.2
+      semver: 7.8.4
       tinyglobby: 0.2.17
 
   csstype@3.2.3: {}
@@ -44870,7 +44642,7 @@ snapshots:
 
   ee-first@1.1.1: {}
 
-  electron-to-chromium@1.5.368: {}
+  electron-to-chromium@1.5.372: {}
 
   emoji-regex@8.0.0: {}
 
@@ -44884,7 +44656,7 @@ snapshots:
     dependencies:
       once: 1.4.0
 
-  enhanced-resolve@5.23.0:
+  enhanced-resolve@5.24.0:
     dependencies:
       graceful-fs: 4.2.11
       tapable: 2.3.3
@@ -44944,34 +44716,34 @@ snapshots:
       '@esbuild/win32-ia32': 0.27.7
       '@esbuild/win32-x64': 0.27.7
 
-  esbuild@0.28.0:
+  esbuild@0.28.1:
     optionalDependencies:
-      '@esbuild/aix-ppc64': 0.28.0
-      '@esbuild/android-arm': 0.28.0
-      '@esbuild/android-arm64': 0.28.0
-      '@esbuild/android-x64': 0.28.0
-      '@esbuild/darwin-arm64': 0.28.0
-      '@esbuild/darwin-x64': 0.28.0
-      '@esbuild/freebsd-arm64': 0.28.0
-      '@esbuild/freebsd-x64': 0.28.0
-      '@esbuild/linux-arm': 0.28.0
-      '@esbuild/linux-arm64': 0.28.0
-      '@esbuild/linux-ia32': 0.28.0
-      '@esbuild/linux-loong64': 0.28.0
-      '@esbuild/linux-mips64el': 0.28.0
-      '@esbuild/linux-ppc64': 0.28.0
-      '@esbuild/linux-riscv64': 0.28.0
-      '@esbuild/linux-s390x': 0.28.0
-      '@esbuild/linux-x64': 0.28.0
-      '@esbuild/netbsd-arm64': 0.28.0
-      '@esbuild/netbsd-x64': 0.28.0
-      '@esbuild/openbsd-arm64': 0.28.0
-      '@esbuild/openbsd-x64': 0.28.0
-      '@esbuild/openharmony-arm64': 0.28.0
-      '@esbuild/sunos-x64': 0.28.0
-      '@esbuild/win32-arm64': 0.28.0
-      '@esbuild/win32-ia32': 0.28.0
-      '@esbuild/win32-x64': 0.28.0
+      '@esbuild/aix-ppc64': 0.28.1
+      '@esbuild/android-arm': 0.28.1
+      '@esbuild/android-arm64': 0.28.1
+      '@esbuild/android-x64': 0.28.1
+      '@esbuild/darwin-arm64': 0.28.1
+      '@esbuild/darwin-x64': 0.28.1
+      '@esbuild/freebsd-arm64': 0.28.1
+      '@esbuild/freebsd-x64': 0.28.1
+      '@esbuild/linux-arm': 0.28.1
+      '@esbuild/linux-arm64': 0.28.1
+      '@esbuild/linux-ia32': 0.28.1
+      '@esbuild/linux-loong64': 0.28.1
+      '@esbuild/linux-mips64el': 0.28.1
+      '@esbuild/linux-ppc64': 0.28.1
+      '@esbuild/linux-riscv64': 0.28.1
+      '@esbuild/linux-s390x': 0.28.1
+      '@esbuild/linux-x64': 0.28.1
+      '@esbuild/netbsd-arm64': 0.28.1
+      '@esbuild/netbsd-x64': 0.28.1
+      '@esbuild/openbsd-arm64': 0.28.1
+      '@esbuild/openbsd-x64': 0.28.1
+      '@esbuild/openharmony-arm64': 0.28.1
+      '@esbuild/sunos-x64': 0.28.1
+      '@esbuild/win32-arm64': 0.28.1
+      '@esbuild/win32-ia32': 0.28.1
+      '@esbuild/win32-x64': 0.28.1
 
   escalade@3.2.0: {}
 
@@ -44993,7 +44765,7 @@ snapshots:
   eslint-compat-utils@0.5.1(eslint@9.39.4):
     dependencies:
       eslint: 9.39.4
-      semver: 7.8.2
+      semver: 7.8.4
 
   eslint-config-prettier@10.1.8(eslint@9.39.4):
     dependencies:
@@ -45009,14 +44781,14 @@ snapshots:
   eslint-plugin-n@17.24.0(eslint@9.39.4)(typescript@6.0.3):
     dependencies:
       '@eslint-community/eslint-utils': 4.9.1(eslint@9.39.4)
-      enhanced-resolve: 5.23.0
+      enhanced-resolve: 5.24.0
       eslint: 9.39.4
       eslint-plugin-es-x: 7.8.0(eslint@9.39.4)
       get-tsconfig: 4.14.0
       globals: 15.15.0
       globrex: 0.1.2
       ignore: 5.3.2
-      semver: 7.8.2
+      semver: 7.8.4
       ts-declaration-location: 1.0.7(typescript@6.0.3)
     transitivePeerDependencies:
       - typescript
@@ -45090,14 +44862,14 @@ snapshots:
 
   espree@10.4.0:
     dependencies:
-      acorn: 8.16.0
-      acorn-jsx: 5.3.2(acorn@8.16.0)
+      acorn: 8.17.0
+      acorn-jsx: 5.3.2(acorn@8.17.0)
       eslint-visitor-keys: 4.2.1
 
   espree@9.6.1:
     dependencies:
-      acorn: 8.16.0
-      acorn-jsx: 5.3.2(acorn@8.16.0)
+      acorn: 8.17.0
+      acorn-jsx: 5.3.2(acorn@8.17.0)
       eslint-visitor-keys: 3.4.3
 
   esprima@4.0.1: {}
@@ -45234,10 +45006,10 @@ snapshots:
 
   fast-xml-parser@5.8.0:
     dependencies:
-      '@nodable/entities': 2.1.1
+      '@nodable/entities': 2.2.0
       fast-xml-builder: 1.2.0
       path-expression-matcher: 1.5.0
-      strnum: 2.3.0
+      strnum: 2.4.0
       xml-naming: 0.1.0
 
   fastify-plugin@5.1.0: {}
@@ -45257,7 +45029,7 @@ snapshots:
       process-warning: 5.0.0
       rfdc: 1.4.1
       secure-json-parse: 4.1.0
-      semver: 7.8.2
+      semver: 7.8.4
       toad-cache: 3.7.1
 
   fastq@1.20.1:
@@ -45513,7 +45285,7 @@ snapshots:
 
   highlight.js@10.7.3: {}
 
-  hono@4.12.23: {}
+  hono@4.12.25: {}
 
   hosted-git-info@4.1.0:
     dependencies:
@@ -45577,22 +45349,22 @@ snapshots:
 
   import-in-the-middle@1.15.0:
     dependencies:
-      acorn: 8.16.0
-      acorn-import-attributes: 1.9.5(acorn@8.16.0)
+      acorn: 8.17.0
+      acorn-import-attributes: 1.9.5(acorn@8.17.0)
       cjs-module-lexer: 1.4.3
       module-details-from-path: 1.0.4
 
   import-in-the-middle@2.0.6:
     dependencies:
-      acorn: 8.16.0
-      acorn-import-attributes: 1.9.5(acorn@8.16.0)
+      acorn: 8.17.0
+      acorn-import-attributes: 1.9.5(acorn@8.17.0)
       cjs-module-lexer: 2.2.0
       module-details-from-path: 1.0.4
 
-  import-in-the-middle@3.0.1:
+  import-in-the-middle@3.0.2:
     dependencies:
-      acorn: 8.16.0
-      acorn-import-attributes: 1.9.5(acorn@8.16.0)
+      acorn: 8.17.0
+      acorn-import-attributes: 1.9.5(acorn@8.17.0)
       cjs-module-lexer: 2.2.0
       module-details-from-path: 1.0.4
 
@@ -45902,7 +45674,7 @@ snapshots:
       lodash.isstring: 4.0.1
       lodash.once: 4.1.1
       ms: 2.1.3
-      semver: 7.8.2
+      semver: 7.8.4
 
   jsrsasign@11.1.3: {}
 
@@ -46042,7 +45814,7 @@ snapshots:
 
   make-dir@4.0.0:
     dependencies:
-      semver: 7.8.2
+      semver: 7.8.4
 
   makeerror@1.0.12:
     dependencies:
@@ -46089,16 +45861,16 @@ snapshots:
 
   media-typer@1.1.0: {}
 
-  memfs@4.57.6(tslib@2.8.1):
+  memfs@4.57.7(tslib@2.8.1):
     dependencies:
-      '@jsonjoy.com/fs-core': 4.57.6(tslib@2.8.1)
-      '@jsonjoy.com/fs-fsa': 4.57.6(tslib@2.8.1)
-      '@jsonjoy.com/fs-node': 4.57.6(tslib@2.8.1)
-      '@jsonjoy.com/fs-node-builtins': 4.57.6(tslib@2.8.1)
-      '@jsonjoy.com/fs-node-to-fsa': 4.57.6(tslib@2.8.1)
-      '@jsonjoy.com/fs-node-utils': 4.57.6(tslib@2.8.1)
-      '@jsonjoy.com/fs-print': 4.57.6(tslib@2.8.1)
-      '@jsonjoy.com/fs-snapshot': 4.57.6(tslib@2.8.1)
+      '@jsonjoy.com/fs-core': 4.57.7(tslib@2.8.1)
+      '@jsonjoy.com/fs-fsa': 4.57.7(tslib@2.8.1)
+      '@jsonjoy.com/fs-node': 4.57.7(tslib@2.8.1)
+      '@jsonjoy.com/fs-node-builtins': 4.57.7(tslib@2.8.1)
+      '@jsonjoy.com/fs-node-to-fsa': 4.57.7(tslib@2.8.1)
+      '@jsonjoy.com/fs-node-utils': 4.57.7(tslib@2.8.1)
+      '@jsonjoy.com/fs-print': 4.57.7(tslib@2.8.1)
+      '@jsonjoy.com/fs-snapshot': 4.57.7(tslib@2.8.1)
       '@jsonjoy.com/json-pack': 1.21.0(tslib@2.8.1)
       '@jsonjoy.com/util': 1.9.0(tslib@2.8.1)
       glob-to-regex.js: 1.2.0(tslib@2.8.1)
@@ -46425,7 +46197,7 @@ snapshots:
 
   node-abi@3.92.0:
     dependencies:
-      semver: 7.8.2
+      semver: 7.8.4
 
   node-addon-api@4.3.0: {}
 
@@ -46451,7 +46223,7 @@ snapshots:
     dependencies:
       hosted-git-info: 4.1.0
       is-core-module: 2.16.2
-      semver: 7.8.2
+      semver: 7.8.4
       validate-npm-package-license: 3.0.4
 
   normalize-path@3.0.0: {}
@@ -46466,7 +46238,7 @@ snapshots:
 
   object-inspect@1.13.4: {}
 
-  obug@2.1.2: {}
+  obug@2.1.3: {}
 
   on-exit-leak-free@2.1.2: {}
 
@@ -46747,13 +46519,13 @@ snapshots:
 
   prelude-ls@1.2.1: {}
 
-  prettier-plugin-packagejson@2.5.22(prettier@3.8.3):
+  prettier-plugin-packagejson@2.5.22(prettier@3.8.4):
     dependencies:
       sort-package-json: 3.6.0
     optionalDependencies:
-      prettier: 3.8.3
+      prettier: 3.8.4
 
-  prettier@3.8.3: {}
+  prettier@3.8.4: {}
 
   pretty-format@29.7.0:
     dependencies:
@@ -46782,7 +46554,7 @@ snapshots:
 
   propagate@2.0.1: {}
 
-  protobufjs-cli@1.3.2(protobufjs@7.6.2):
+  protobufjs-cli@1.3.3(protobufjs@7.6.4):
     dependencies:
       chalk: 4.1.2
       escodegen: 1.14.3
@@ -46791,12 +46563,12 @@ snapshots:
       glob: 8.1.0
       jsdoc: 4.0.5
       minimist: 1.2.8
-      protobufjs: 7.6.2
-      semver: 7.8.2
+      protobufjs: 7.6.4
+      semver: 7.8.4
       tmp: 0.2.7
       uglify-js: 3.19.3
 
-  protobufjs@7.6.2:
+  protobufjs@7.6.4:
     dependencies:
       '@protobufjs/aspromise': 1.1.2
       '@protobufjs/base64': 1.1.2
@@ -46804,7 +46576,6 @@ snapshots:
       '@protobufjs/eventemitter': 1.1.1
       '@protobufjs/fetch': 1.1.1
       '@protobufjs/float': 1.0.2
-      '@protobufjs/inquire': 1.1.2
       '@protobufjs/path': 1.1.2
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.1
@@ -46827,7 +46598,7 @@ snapshots:
 
   qs@6.15.2:
     dependencies:
-      side-channel: 1.1.0
+      side-channel: 1.1.1
 
   queue-microtask@1.2.3: {}
 
@@ -46897,7 +46668,7 @@ snapshots:
       react-refresh: 0.14.2
       regenerator-runtime: 0.13.11
       scheduler: 0.27.0
-      semver: 7.8.2
+      semver: 7.8.4
       stacktrace-parser: 0.1.11
       tinyglobby: 0.2.17
       whatwg-fetch: 3.6.20
@@ -47044,35 +46815,35 @@ snapshots:
       globby: 10.0.1
       is-plain-object: 3.0.1
 
-  rollup@4.61.1:
+  rollup@4.62.0:
     dependencies:
       '@types/estree': 1.0.9
     optionalDependencies:
-      '@rollup/rollup-android-arm-eabi': 4.61.1
-      '@rollup/rollup-android-arm64': 4.61.1
-      '@rollup/rollup-darwin-arm64': 4.61.1
-      '@rollup/rollup-darwin-x64': 4.61.1
-      '@rollup/rollup-freebsd-arm64': 4.61.1
-      '@rollup/rollup-freebsd-x64': 4.61.1
-      '@rollup/rollup-linux-arm-gnueabihf': 4.61.1
-      '@rollup/rollup-linux-arm-musleabihf': 4.61.1
-      '@rollup/rollup-linux-arm64-gnu': 4.61.1
-      '@rollup/rollup-linux-arm64-musl': 4.61.1
-      '@rollup/rollup-linux-loong64-gnu': 4.61.1
-      '@rollup/rollup-linux-loong64-musl': 4.61.1
-      '@rollup/rollup-linux-ppc64-gnu': 4.61.1
-      '@rollup/rollup-linux-ppc64-musl': 4.61.1
-      '@rollup/rollup-linux-riscv64-gnu': 4.61.1
-      '@rollup/rollup-linux-riscv64-musl': 4.61.1
-      '@rollup/rollup-linux-s390x-gnu': 4.61.1
-      '@rollup/rollup-linux-x64-gnu': 4.61.1
-      '@rollup/rollup-linux-x64-musl': 4.61.1
-      '@rollup/rollup-openbsd-x64': 4.61.1
-      '@rollup/rollup-openharmony-arm64': 4.61.1
-      '@rollup/rollup-win32-arm64-msvc': 4.61.1
-      '@rollup/rollup-win32-ia32-msvc': 4.61.1
-      '@rollup/rollup-win32-x64-gnu': 4.61.1
-      '@rollup/rollup-win32-x64-msvc': 4.61.1
+      '@rollup/rollup-android-arm-eabi': 4.62.0
+      '@rollup/rollup-android-arm64': 4.62.0
+      '@rollup/rollup-darwin-arm64': 4.62.0
+      '@rollup/rollup-darwin-x64': 4.62.0
+      '@rollup/rollup-freebsd-arm64': 4.62.0
+      '@rollup/rollup-freebsd-x64': 4.62.0
+      '@rollup/rollup-linux-arm-gnueabihf': 4.62.0
+      '@rollup/rollup-linux-arm-musleabihf': 4.62.0
+      '@rollup/rollup-linux-arm64-gnu': 4.62.0
+      '@rollup/rollup-linux-arm64-musl': 4.62.0
+      '@rollup/rollup-linux-loong64-gnu': 4.62.0
+      '@rollup/rollup-linux-loong64-musl': 4.62.0
+      '@rollup/rollup-linux-ppc64-gnu': 4.62.0
+      '@rollup/rollup-linux-ppc64-musl': 4.62.0
+      '@rollup/rollup-linux-riscv64-gnu': 4.62.0
+      '@rollup/rollup-linux-riscv64-musl': 4.62.0
+      '@rollup/rollup-linux-s390x-gnu': 4.62.0
+      '@rollup/rollup-linux-x64-gnu': 4.62.0
+      '@rollup/rollup-linux-x64-musl': 4.62.0
+      '@rollup/rollup-openbsd-x64': 4.62.0
+      '@rollup/rollup-openharmony-arm64': 4.62.0
+      '@rollup/rollup-win32-arm64-msvc': 4.62.0
+      '@rollup/rollup-win32-ia32-msvc': 4.62.0
+      '@rollup/rollup-win32-x64-gnu': 4.62.0
+      '@rollup/rollup-win32-x64-msvc': 4.62.0
       fsevents: 2.3.3
 
   router@2.2.0:
@@ -47125,7 +46896,7 @@ snapshots:
 
   semver@7.7.4: {}
 
-  semver@7.8.2: {}
+  semver@7.8.4: {}
 
   send@0.19.2:
     dependencies:
@@ -47175,7 +46946,7 @@ snapshots:
       moment-timezone: 0.5.48
       pg-connection-string: 2.13.0
       retry-as-promised: 7.1.1
-      semver: 7.8.2
+      semver: 7.8.4
       sequelize-pool: 7.1.0
       toposort-class: 1.0.1
       uuid: 8.3.2
@@ -47251,7 +47022,7 @@ snapshots:
       object-inspect: 1.13.4
       side-channel-map: 1.0.1
 
-  side-channel@1.1.0:
+  side-channel@1.1.1:
     dependencies:
       es-errors: 1.3.0
       object-inspect: 1.13.4
@@ -47303,7 +47074,7 @@ snapshots:
       detect-newline: 4.0.1
       git-hooks-list: 4.2.1
       is-plain-obj: 4.1.0
-      semver: 7.8.2
+      semver: 7.8.4
       sort-object-keys: 2.1.0
       tinyglobby: 0.2.17
 
@@ -47390,7 +47161,9 @@ snapshots:
 
   strip-json-comments@5.0.3: {}
 
-  strnum@2.3.0: {}
+  strnum@2.4.0:
+    dependencies:
+      anynum: 1.0.0
 
   supports-color@7.2.0:
     dependencies:
@@ -47435,13 +47208,13 @@ snapshots:
   terser@5.48.0:
     dependencies:
       '@jridgewell/source-map': 0.3.11
-      acorn: 8.16.0
+      acorn: 8.17.0
       commander: 2.20.3
       source-map-support: 0.5.21
 
   tersify@3.12.1:
     dependencies:
-      acorn: 8.16.0
+      acorn: 8.17.0
       is-buffer: 2.0.5
       unpartial: 1.0.5
 
@@ -47529,7 +47302,7 @@ snapshots:
 
   tsx@4.22.4:
     dependencies:
-      esbuild: 0.28.0
+      esbuild: 0.28.1
     optionalDependencies:
       fsevents: 2.3.3
 
@@ -47537,14 +47310,14 @@ snapshots:
     dependencies:
       safe-buffer: 5.2.1
 
-  turbo@2.9.16:
+  turbo@2.9.18:
     optionalDependencies:
-      '@turbo/darwin-64': 2.9.16
-      '@turbo/darwin-arm64': 2.9.16
-      '@turbo/linux-64': 2.9.16
-      '@turbo/linux-arm64': 2.9.16
-      '@turbo/windows-64': 2.9.16
-      '@turbo/windows-arm64': 2.9.16
+      '@turbo/darwin-64': 2.9.18
+      '@turbo/darwin-arm64': 2.9.18
+      '@turbo/linux-64': 2.9.18
+      '@turbo/linux-arm64': 2.9.18
+      '@turbo/windows-64': 2.9.18
+      '@turbo/windows-arm64': 2.9.18
 
   type-check@0.3.2:
     dependencies:
@@ -47598,7 +47371,7 @@ snapshots:
 
   undici-types@6.21.0: {}
 
-  undici@8.4.0: {}
+  undici@8.4.1: {}
 
   unicode-emoji-modifier-base@1.0.0: {}
 
@@ -47659,28 +47432,13 @@ snapshots:
 
   vary@1.1.2: {}
 
-  vite@7.3.3(@types/node@20.19.42)(terser@5.48.0)(tsx@4.22.4)(yaml@2.9.0):
-    dependencies:
-      esbuild: 0.27.7
-      fdir: 6.5.0(picomatch@4.0.4)
-      picomatch: 4.0.4
-      postcss: 8.5.15
-      rollup: 4.61.1
-      tinyglobby: 0.2.17
-    optionalDependencies:
-      '@types/node': 20.19.42
-      fsevents: 2.3.3
-      terser: 5.48.0
-      tsx: 4.22.4
-      yaml: 2.9.0
-
   vite@7.3.3(@types/node@22.20.0)(terser@5.48.0)(tsx@4.22.4)(yaml@2.9.0):
     dependencies:
       esbuild: 0.27.7
       fdir: 6.5.0(picomatch@4.0.4)
       picomatch: 4.0.4
       postcss: 8.5.15
-      rollup: 4.61.1
+      rollup: 4.62.0
       tinyglobby: 0.2.17
     optionalDependencies:
       '@types/node': 22.20.0
@@ -47688,36 +47446,6 @@ snapshots:
       terser: 5.48.0
       tsx: 4.22.4
       yaml: 2.9.0
-
-  vitest@4.1.8(@opentelemetry/api@1.9.1)(@types/node@20.19.42)(@vitest/browser-playwright@4.1.8)(@vitest/coverage-istanbul@4.1.8)(vite@7.3.3(@types/node@20.19.42)(terser@5.48.0)(tsx@4.22.4)(yaml@2.9.0)):
-    dependencies:
-      '@vitest/expect': 4.1.8
-      '@vitest/mocker': 4.1.8(vite@7.3.3(@types/node@20.19.42)(terser@5.48.0)(tsx@4.22.4)(yaml@2.9.0))
-      '@vitest/pretty-format': 4.1.8
-      '@vitest/runner': 4.1.8
-      '@vitest/snapshot': 4.1.8
-      '@vitest/spy': 4.1.8
-      '@vitest/utils': 4.1.8
-      es-module-lexer: 2.1.0
-      expect-type: 1.3.0
-      magic-string: 0.30.21
-      obug: 2.1.2
-      pathe: 2.0.3
-      picomatch: 4.0.4
-      std-env: 4.1.0
-      tinybench: 2.9.0
-      tinyexec: 1.2.4
-      tinyglobby: 0.2.17
-      tinyrainbow: 3.1.0
-      vite: 7.3.3(@types/node@20.19.42)(terser@5.48.0)(tsx@4.22.4)(yaml@2.9.0)
-      why-is-node-running: 2.3.0
-    optionalDependencies:
-      '@opentelemetry/api': 1.9.1
-      '@types/node': 20.19.42
-      '@vitest/browser-playwright': 4.1.8(playwright@1.60.0)(vite@7.3.3(@types/node@20.19.42)(terser@5.48.0)(tsx@4.22.4)(yaml@2.9.0))(vitest@4.1.8)
-      '@vitest/coverage-istanbul': 4.1.8(vitest@4.1.8)
-    transitivePeerDependencies:
-      - msw
 
   vitest@4.1.8(@opentelemetry/api@1.9.1)(@types/node@22.20.0)(@vitest/browser-playwright@4.1.8)(@vitest/coverage-istanbul@4.1.8)(vite@7.3.3(@types/node@22.20.0)(terser@5.48.0)(tsx@4.22.4)(yaml@2.9.0)):
     dependencies:
@@ -47731,7 +47459,7 @@ snapshots:
       es-module-lexer: 2.1.0
       expect-type: 1.3.0
       magic-string: 0.30.21
-      obug: 2.1.2
+      obug: 2.1.3
       pathe: 2.0.3
       picomatch: 4.0.4
       std-env: 4.1.0
