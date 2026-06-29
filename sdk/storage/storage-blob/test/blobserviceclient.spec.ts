@@ -417,16 +417,26 @@ describe("BlobServiceClient", () => {
     assert.deepStrictEqual(accountInfo.isHierarchicalNamespaceEnabled, false);
   });
 
-  it("createContainer and deleteContainer", async () => {
+  it("createContainer and deleteContainer", async (ctx) => {
     const blobServiceClient = getBSU(recorder);
     const containerName = recorder.variable("container", getUniqueName("container"));
     const access = "container";
     const metadata = { key: "value" };
 
-    const { containerClient } = await blobServiceClient.createContainer(containerName, {
-      access,
-      metadata,
-    });
+    let containerClient;
+    try {
+      ({ containerClient } = await blobServiceClient.createContainer(containerName, {
+        access,
+        metadata,
+      }));
+    } catch (error: any) {
+      // Some test subscriptions disable anonymous/public blob access via policy;
+      // skip rather than fail when public container access cannot be configured.
+      if (error?.code === "PublicAccessNotPermitted") {
+        ctx.skip();
+      }
+      throw error;
+    }
     const result = await containerClient.getProperties();
     assert.deepEqual(result.blobPublicAccess, access);
     assert.deepEqual(result.metadata, metadata);

@@ -97,13 +97,22 @@ describe("DataLakeFileSystemClient", () => {
     // create() with default parameters has been tested in beforeEach
   });
 
-  it("create with all parameters configured", async () => {
+  it("create with all parameters configured", async (ctx) => {
     const cClient = serviceClient.getFileSystemClient(
       recorder.variable(fileSystemName, getUniqueName(fileSystemName)),
     );
     const metadata = { key: "value" };
     const access = "filesystem";
-    await cClient.create({ metadata, access });
+    try {
+      await cClient.create({ metadata, access });
+    } catch (err: any) {
+      // Some test subscriptions disable anonymous/public access via policy;
+      // skip rather than fail when public filesystem access cannot be configured.
+      if (err?.code === "PublicAccessNotPermitted") {
+        ctx.skip();
+      }
+      throw err;
+    }
     const result = await cClient.getProperties();
     assert.deepEqual(result.publicAccess, access);
     assert.deepEqual(result.metadata, metadata);
@@ -153,13 +162,23 @@ describe("DataLakeFileSystemClient", () => {
     await cClient.delete();
   });
 
-  it("createIfNotExists", async () => {
+  it("createIfNotExists", async (ctx) => {
     const cClient = serviceClient.getFileSystemClient(
       recorder.variable(fileSystemName, getUniqueName(fileSystemName)),
     );
     const metadata = { key: "value" };
     const access = "filesystem";
-    const createRes = await cClient.createIfNotExists({ metadata, access });
+    let createRes;
+    try {
+      createRes = await cClient.createIfNotExists({ metadata, access });
+    } catch (err: any) {
+      // Some test subscriptions disable anonymous/public access via policy;
+      // skip rather than fail when public filesystem access cannot be configured.
+      if (err?.code === "PublicAccessNotPermitted") {
+        ctx.skip();
+      }
+      throw err;
+    }
     assert.isTrue(createRes.succeeded);
     assert.isDefined(createRes.etag);
 

@@ -125,13 +125,22 @@ describe("ContainerClient", () => {
     // create() with default parameters has been tested in beforeEach
   });
 
-  it("create with all parameters configured", async () => {
+  it("create with all parameters configured", async (ctx) => {
     const cClient = blobServiceClient.getContainerClient(
       recorder.variable(containerName, getUniqueName(containerName)),
     );
     const metadata = { key: "value" };
     const access = "container";
-    await cClient.create({ metadata, access });
+    try {
+      await cClient.create({ metadata, access });
+    } catch (err: any) {
+      // Some test subscriptions disable anonymous/public blob access via policy;
+      // skip rather than fail when public container access cannot be configured.
+      if (err?.code === "PublicAccessNotPermitted") {
+        ctx.skip();
+      }
+      throw err;
+    }
     const result = await cClient.getProperties();
     assert.deepEqual(result.blobPublicAccess, access);
     assert.deepEqual(result.metadata, metadata);
