@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-resources",
-  "version": "8.0.0-beta.1",
+  "version": "8.0.0-beta.2",
   "description": "A generated SDK for ResourceManagementClient.",
   "engines": {
     "node": ">=22.0.0"

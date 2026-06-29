@@ -1,5 +1,15 @@
 # Release History
 
+## 10.0.0-beta.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 10.0.0-beta.1 (2026-06-18)
 Compared with version 9.1.0
 
