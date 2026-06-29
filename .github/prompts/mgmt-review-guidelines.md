@@ -80,7 +80,7 @@ However we should report the following cases:
 
 Spec Issue Comment: Review comments on public API often request changes to the generated API surface — renaming types, renaming properties, or changing property types to be more user-friendly. These changes are made in the spec repo's `client.tsp` using TypeSpec decorators (primarily `@clientName`). For these comments, do NOT request changes to generated code; instead, suggest updating the specification repository and triggering SDK regeneration.
 
-Tool Issue Comment: For issues that do not require spec changes, use the validation rules to detect tool issues. We can directly suggest changes in generated code and recommend reporting issues in the [generation tool repository](https://github.com/Azure/autorest.typescript/issues).
+Tool Issue Comment: For issues that do not require spec changes, use the validation rules to detect tool issues. We can directly suggest changes in generated code and recommend reporting issues in the [generation tool repository](https://github.com/Azure/typespec-azure/issues).
 
 ### Format
 
@@ -107,7 +107,7 @@ If the API surface and tool validation look good, say so explicitly in one sente
 > 🔴 **Tool Issue** — `CHANGELOG.md:42`
 > `Compared with 1.0.0-alpha.20260311.1:`.
 > We should not compare with alpha versions in `CHANGELOG.md`; this suggests a tooling bug.
-> **Fix:** Update the changelog to compare with the latest preview or stable version, and report the issue in the [generation tool repository](https://github.com/Azure/autorest.typescript/issues).
+> **Fix:** Update the changelog to compare with the latest preview or stable version, and report the issue in the [generation tool repository](https://github.com/Azure/typespec-azure/issues).
 
 ### Bad finding (too noisy — do NOT flag these)
 
