@@ -2,13 +2,11 @@
 // Licensed under the MIT License.
 
 import { assert } from "vitest";
-import type { AuthenticationError } from "@azure/identity";
-import { AzureAuthorityHosts } from "@azure/identity";
 
 /**
  * The default authority host.
  */
-export const DefaultAuthorityHost = AzureAuthorityHosts.AzurePublicCloud;
+export const DefaultAuthorityHost = "https://login.microsoftonline.com";
 /**
  * Waits for the given promise to resolve, then returns the resulted error.
  * Throws an exception if the promise doesn't reject.
@@ -58,6 +56,6 @@ export function isExpectedError(expectedErrorName: string): (error: any) => bool
     if (!(error.name === "AuthenticationError")) {
       assert.ifError(error);
     }
-    return (error as AuthenticationError).errorResponse.error === expectedErrorName;
+    return (error as { errorResponse: { error: string } }).errorResponse.error === expectedErrorName;
   };
 }
