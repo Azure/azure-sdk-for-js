@@ -11,7 +11,7 @@ import type {
   UpdateTableEntityOptions,
 } from "./models.js";
 import type { NamedKeyCredential, SASCredential, TokenCredential } from "@azure/core-auth";
-import type { OperationOptions, ServiceClient } from "@azure/core-client";
+import type { OperationOptions } from "@azure/core-client";
 import { serializationPolicy, serializationPolicyName } from "@azure/core-client";
 import type { Pipeline, PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
 import { RestError, createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
@@ -26,12 +26,16 @@ import {
   transactionRequestAssemblePolicyName,
 } from "./TablePolicies.js";
 
-import type { TableClientLike } from "./utils/internalModels.js";
-import type { TableServiceErrorOdataError } from "./generated/index.js";
+import type { TableClientLike, TableServiceErrorOdataError } from "./utils/internalModels.js";
 import { cosmosPatchPolicy } from "./cosmosPathPolicy.js";
 import { getTransactionHeaders } from "#platform/utils/transactionHeaders";
 import { isCosmosEndpoint } from "./utils/isCosmosEndpoint.js";
 import { tracingClient } from "./utils/tracing.js";
+
+// Interface for sending HTTP requests (replaces ServiceClient dependency)
+interface RequestSender {
+  sendRequest(request: PipelineRequest): Promise<PipelineResponse>;
+}
 
 /**
  * Helper to build a list of transaction actions
@@ -137,7 +141,7 @@ export class InternalTableTransaction {
   };
   private interceptClient: TableClientLike;
   private allowInsecureConnection: boolean;
-  private client: ServiceClient;
+  private client: RequestSender;
 
   /**
    * @param url - Tables account url
@@ -149,8 +153,7 @@ export class InternalTableTransaction {
     partitionKey: string,
     transactionId: string,
     changesetId: string,
-    // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
-    client: ServiceClient,
+    client: RequestSender,
     interceptClient: TableClientLike,
     credential?: NamedKeyCredential | SASCredential | TokenCredential,
     allowInsecureConnection: boolean = false,

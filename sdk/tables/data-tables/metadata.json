@@ -1,0 +1,45 @@
+{
+  "apiVersions": {
+    "Data.Tables": "2019-02-02"
+  },
+  "emitterVersion": "0.52.1",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "Data.Tables",
+    "CrossLanguageDefinitionId": {
+      "AzureTables!TableQueryResponse:interface": "Data.Tables.TableQueryResponse",
+      "AzureTables!TableProperties:interface": "Data.Tables.TableProperties",
+      "AzureTables!TablesError:interface": "Data.Tables.TablesError",
+      "AzureTables!TableResponse:interface": "Data.Tables.TableResponse",
+      "AzureTables!TableEntityQueryResponse:interface": "Data.Tables.TableEntityQueryResponse",
+      "AzureTables!SignedIdentifiers:interface": "Data.Tables.SignedIdentifiers",
+      "AzureTables!SignedIdentifier:interface": "Data.Tables.SignedIdentifier",
+      "AzureTables!AccessPolicy:interface": "Data.Tables.AccessPolicy",
+      "AzureTables!TableServiceError:interface": "Data.Tables.TablesServiceError",
+      "AzureTables!TableServiceProperties:interface": "Data.Tables.TableServiceProperties",
+      "AzureTables!Logging:interface": "Data.Tables.Logging",
+      "AzureTables!RetentionPolicy:interface": "Data.Tables.RetentionPolicy",
+      "AzureTables!Metrics:interface": "Data.Tables.Metrics",
+      "AzureTables!CorsRule:interface": "Data.Tables.CorsRule",
+      "AzureTables!TableServiceStats:interface": "Data.Tables.TableServiceStats",
+      "AzureTables!GeoReplication:interface": "Data.Tables.GeoReplication",
+      "AzureTables!KnownOdataMetadataFormat:enum": "Data.Tables.OdataMetadataFormat",
+      "AzureTables!KnownResponseFormat:enum": "Data.Tables.ResponseFormat",
+      "AzureTables!KnownGeoReplicationStatusType:enum": "Data.Tables.GeoReplicationStatusType",
+      "AzureTables!KnownVersions:enum": "Data.Tables.Versions",
+      "AzureTables!ServiceOperations#getStatistics:member": "Data.Tables.Service.getStatistics",
+      "AzureTables!ServiceOperations#getProperties:member": "Data.Tables.Service.getProperties",
+      "AzureTables!ServiceOperations#setProperties:member": "Data.Tables.Service.setProperties",
+      "AzureTables!TableOperations#setAccessPolicy:member": "Data.Tables.Table.setAccessPolicy",
+      "AzureTables!TableOperations#getAccessPolicy:member": "Data.Tables.Table.getAccessPolicy",
+      "AzureTables!TableOperations#insertEntity:member": "Data.Tables.Table.insertEntity",
+      "AzureTables!TableOperations#deleteEntity:member": "Data.Tables.Table.deleteEntity",
+      "AzureTables!TableOperations#mergeEntity:member": "Data.Tables.Table.mergeEntity",
+      "AzureTables!TableOperations#updateEntity:member": "Data.Tables.Table.updateEntity",
+      "AzureTables!TableOperations#queryEntityWithPartitionAndRowKey:member": "Data.Tables.Table.queryEntityWithPartitionAndRowKey",
+      "AzureTables!TableOperations#queryEntities:member": "Data.Tables.Table.queryEntities",
+      "AzureTables!TableOperations#delete:member": "Data.Tables.Table.delete",
+      "AzureTables!TableOperations#create:member": "Data.Tables.Table.create",
+      "AzureTables!TableOperations#query:member": "Data.Tables.Table.query"
+    }
+  }
+}
