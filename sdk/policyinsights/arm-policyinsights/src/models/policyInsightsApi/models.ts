@@ -347,7 +347,7 @@ export interface TypedErrorInfo {
   /** The type of included error details. */
   readonly type?: string;
   /** The scenario specific error details. */
-  readonly info?: any;
+  readonly info?: Record<string, unknown>;
 }
 
 export function typedErrorInfoDeserializer(item: any): TypedErrorInfo {
@@ -462,7 +462,7 @@ export interface Attestation extends ProxyResource {
   /** The time the evidence was assessed */
   assessmentDate?: Date;
   /** Additional metadata for this attestation */
-  metadata?: any;
+  metadata?: Record<string, unknown>;
 }
 
 export function attestationSerializer(item: Attestation): any {
@@ -504,7 +504,7 @@ export interface AttestationProperties {
   /** The time the evidence was assessed */
   assessmentDate?: Date;
   /** Additional metadata for this attestation */
-  metadata?: any;
+  metadata?: Record<string, unknown>;
 }
 
 export function attestationPropertiesSerializer(item: AttestationProperties): any {
@@ -639,7 +639,7 @@ export interface PolicyMetadata extends ProxyResource {
   /** Url for getting additional content about the resource metadata. */
   readonly additionalContentUrl?: string;
   /** Additional metadata. */
-  readonly metadata?: any;
+  readonly metadata?: Record<string, unknown>;
   /** The description of the policy metadata. */
   readonly description?: string;
   /** The requirements of the policy metadata. */
@@ -694,7 +694,7 @@ export interface PolicyMetadataSlimProperties {
   /** Url for getting additional content about the resource metadata. */
   readonly additionalContentUrl?: string;
   /** Additional metadata. */
-  readonly metadata?: any;
+  readonly metadata?: Record<string, unknown>;
 }
 
 export function policyMetadataSlimPropertiesDeserializer(item: any): PolicyMetadataSlimProperties {
@@ -748,7 +748,7 @@ export interface SlimPolicyMetadata {
   /** Url for getting additional content about the resource metadata. */
   readonly additionalContentUrl?: string;
   /** Additional metadata. */
-  readonly metadata?: any;
+  readonly metadata?: Record<string, unknown>;
 }
 
 export function slimPolicyMetadataDeserializer(item: any): SlimPolicyMetadata {
@@ -854,7 +854,7 @@ export interface PolicyEvent {
   /** Components events records populated only when URL contains $expand=components clause. */
   components?: ComponentEventDetails[];
   /** Additional properties */
-  additionalProperties?: Record<string, any>;
+  additionalProperties?: Record<string, Record<string, unknown>>;
 }
 
 export function policyEventDeserializer(item: any): PolicyEvent {
@@ -953,7 +953,7 @@ export interface ComponentEventDetails {
   /** Policy definition action, i.e. effect. */
   policyDefinitionAction?: string;
   /** Additional properties */
-  additionalProperties?: Record<string, any>;
+  additionalProperties?: Record<string, Record<string, unknown>>;
 }
 
 export function componentEventDetailsDeserializer(item: any): ComponentEventDetails {
@@ -1075,7 +1075,7 @@ export interface PolicyState {
   /** Evaluated policy assignment version. */
   readonly policyAssignmentVersion?: string;
   /** Additional properties */
-  additionalProperties?: Record<string, any>;
+  additionalProperties?: Record<string, Record<string, unknown>>;
 }
 
 export function policyStateDeserializer(item: any): PolicyState {
@@ -1199,9 +1199,9 @@ export interface ExpressionEvaluationDetails {
   /** Property path if the expression is a field or an alias. */
   path?: string;
   /** Value of the expression. */
-  expressionValue?: any;
+  expressionValue?: Record<string, unknown>;
   /** Target value to be compared with the expression value. */
-  targetValue?: any;
+  targetValue?: Record<string, unknown>;
   /** Operator to compare the expression value and the target value. */
   operator?: string;
 }
@@ -1254,7 +1254,7 @@ export interface ComponentStateDetails {
   /** Component compliance state. */
   complianceState?: string;
   /** Additional properties */
-  additionalProperties?: Record<string, any>;
+  additionalProperties?: Record<string, Record<string, unknown>>;
 }
 
 export function componentStateDetailsDeserializer(item: any): ComponentStateDetails {
@@ -1491,7 +1491,7 @@ export function checkRestrictionsRequestSerializer(item: CheckRestrictionsReques
 /** The information about the resource that will be evaluated. */
 export interface CheckRestrictionsResourceDetails {
   /** The resource content. This should include whatever properties are already known and can be a partial set of all resource properties. */
-  resourceContent: any;
+  resourceContent: Record<string, unknown>;
   /** The api-version of the resource content. */
   apiVersion?: string;
   /** The scope where the resource is being created. For example, if the resource is a child resource this would be the parent resource's resource ID. */
@@ -1858,7 +1858,7 @@ export interface ComponentPolicyState {
   /** Evaluated policy assignment version. */
   readonly policyAssignmentVersion?: string;
   /** Additional properties */
-  additionalProperties?: Record<string, any>;
+  additionalProperties?: Record<string, Record<string, unknown>>;
 }
 
 export function componentPolicyStateDeserializer(item: any): ComponentPolicyState {
@@ -1976,9 +1976,9 @@ export interface ComponentExpressionEvaluationDetails {
   /** Property path if the expression is a field or an alias. */
   readonly path?: string;
   /** Value of the expression. */
-  readonly expressionValue?: any;
+  readonly expressionValue?: Record<string, unknown>;
   /** Target value to be compared with the expression value. */
-  readonly targetValue?: any;
+  readonly targetValue?: Record<string, unknown>;
   /** Operator to compare the expression value and the target value. */
   readonly operator?: string;
 }

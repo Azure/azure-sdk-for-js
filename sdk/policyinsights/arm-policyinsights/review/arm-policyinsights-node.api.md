@@ -24,7 +24,7 @@ export interface Attestation extends ProxyResource {
     evidence?: AttestationEvidence[];
     expiresOn?: Date;
     readonly lastComplianceStateChangeAt?: Date;
-    metadata?: any;
+    metadata?: Record<string, unknown>;
     owner?: string;
     policyAssignmentId: string;
     policyDefinitionReferenceId?: string;
@@ -45,7 +45,7 @@ export interface AttestationProperties {
     evidence?: AttestationEvidence[];
     expiresOn?: Date;
     readonly lastComplianceStateChangeAt?: Date;
-    metadata?: any;
+    metadata?: Record<string, unknown>;
     owner?: string;
     policyAssignmentId: string;
     policyDefinitionReferenceId?: string;
@@ -188,7 +188,7 @@ export interface CheckRestrictionsRequest {
 // @public
 export interface CheckRestrictionsResourceDetails {
     apiVersion?: string;
-    resourceContent: any;
+    resourceContent: Record<string, unknown>;
     scope?: string;
 }
 
@@ -214,7 +214,7 @@ export type ComplianceState = string;
 
 // @public
 export interface ComponentEventDetails {
-    additionalProperties?: Record<string, any>;
+    additionalProperties?: Record<string, Record<string, unknown>>;
     id?: string;
     name?: string;
     policyDefinitionAction?: string;
@@ -228,11 +228,11 @@ export interface ComponentEventDetails {
 export interface ComponentExpressionEvaluationDetails {
     readonly expression?: string;
     readonly expressionKind?: string;
-    readonly expressionValue?: any;
+    readonly expressionValue?: Record<string, unknown>;
     readonly operator?: string;
     readonly path?: string;
     result?: string;
-    readonly targetValue?: any;
+    readonly targetValue?: Record<string, unknown>;
 }
 
 // @public
@@ -243,7 +243,7 @@ export interface ComponentPolicyEvaluationDetails {
 
 // @public
 export interface ComponentPolicyState {
-    additionalProperties?: Record<string, any>;
+    additionalProperties?: Record<string, Record<string, unknown>>;
     readonly complianceState?: string;
     readonly componentId?: string;
     readonly componentName?: string;
@@ -367,7 +367,7 @@ export type ComponentPolicyStatesResource = string;
 
 // @public
 export interface ComponentStateDetails {
-    additionalProperties?: Record<string, any>;
+    additionalProperties?: Record<string, Record<string, unknown>>;
     complianceState?: string;
     id?: string;
     name?: string;
@@ -401,11 +401,11 @@ export interface ErrorResponse {
 export interface ExpressionEvaluationDetails {
     expression?: string;
     readonly expressionKind?: string;
-    expressionValue?: any;
+    expressionValue?: Record<string, unknown>;
     operator?: string;
     path?: string;
     result?: string;
-    targetValue?: any;
+    targetValue?: Record<string, unknown>;
 }
 
 // @public
@@ -587,7 +587,7 @@ export interface PolicyEvaluationResult {
 
 // @public
 export interface PolicyEvent {
-    additionalProperties?: Record<string, any>;
+    additionalProperties?: Record<string, Record<string, unknown>>;
     complianceState?: string;
     components?: ComponentEventDetails[];
     effectiveParameters?: string;
@@ -813,7 +813,7 @@ export interface PolicyMetadata extends ProxyResource {
     readonly additionalContentUrl?: string;
     readonly category?: string;
     readonly description?: string;
-    readonly metadata?: any;
+    readonly metadata?: Record<string, unknown>;
     readonly metadataId?: string;
     readonly owner?: string;
     readonly requirements?: string;
@@ -851,7 +851,7 @@ export interface PolicyMetadataProperties extends PolicyMetadataSlimProperties {
 export interface PolicyMetadataSlimProperties {
     readonly additionalContentUrl?: string;
     readonly category?: string;
-    readonly metadata?: any;
+    readonly metadata?: Record<string, unknown>;
     readonly metadataId?: string;
     readonly owner?: string;
     readonly title?: string;
@@ -886,7 +886,7 @@ export interface PolicyRestrictionsOperations {
 
 // @public
 export interface PolicyState {
-    additionalProperties?: Record<string, any>;
+    additionalProperties?: Record<string, Record<string, unknown>>;
     complianceState?: string;
     components?: ComponentStateDetails[];
     effectiveParameters?: string;
@@ -1606,7 +1606,7 @@ export interface SlimPolicyMetadata {
     readonly additionalContentUrl?: string;
     readonly category?: string;
     readonly id?: string;
-    readonly metadata?: any;
+    readonly metadata?: Record<string, unknown>;
     readonly metadataId?: string;
     readonly name?: string;
     readonly owner?: string;
@@ -1658,7 +1658,7 @@ export interface TrackedResourceModificationDetails {
 
 // @public
 export interface TypedErrorInfo {
-    readonly info?: any;
+    readonly info?: Record<string, unknown>;
     readonly type?: string;
 }
 
