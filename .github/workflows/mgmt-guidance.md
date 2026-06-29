@@ -50,9 +50,10 @@ on:
             return;
           }
 
-          // Filter to mgmt PRs: a PR qualifies if it carries the 'Mgmt' label
-          // (applied automatically by the path-based labeler on sdk/*/arm-*
-          // changes) or its title contains 'AutoPR' (auto-generated SDK PRs).
+          // Filter to mgmt PRs: a PR qualifies only if it carries the 'Mgmt'
+          // label (applied automatically by the path-based labeler on
+          // sdk/*/arm-* changes) and its title contains 'AutoPR' — AutoPR PRs
+          // can also be generated for data-plane, so the title alone is not enough.
           // Fully decoupled from the mgmt-review flow — guidance fires once CI
           // completes, regardless of review state.
           const { data: pr } = await github.rest.pulls.get({
@@ -61,7 +62,7 @@ on:
             pull_number: prNum,
           });
           const labels = (pr.labels || []).map(l => l.name);
-          const isMgmtPr = labels.includes('Mgmt') || (pr.title || '').includes('AutoPR');
+          const isMgmtPr = labels.includes('Mgmt') && (pr.title || '').includes('AutoPR');
           if (!isMgmtPr) {
             core.info(`PR #${prNum} is not a mgmt PR (labels: ${labels.join(', ') || 'none'}; title: ${pr.title || ''}) — skipping.`);
             core.setOutput('ready', 'false');
