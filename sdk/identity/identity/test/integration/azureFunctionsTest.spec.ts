@@ -2,8 +2,6 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import { requireEnvVar } from "../authTestUtils.js";
-import { isLiveMode } from "../liveTestUtils.js";
 
 describe("AzureFunctions Integration test", function () {
   it.skipIf(!isLiveMode())(
@@ -26,4 +24,16 @@ describe("AzureFunctions Integration test", function () {
 function baseUrl(): string {
   const functionName = requireEnvVar("IDENTITY_FUNCTION_NAME");
   return `https://${functionName}.azurewebsites.net/api/authenticateStorage`;
+}
+
+function isLiveMode(): boolean {
+  return process.env.TEST_MODE?.toLowerCase() === "live";
+}
+
+function requireEnvVar(name: string): string {
+  const value = process.env[name];
+  if (!value) {
+    throw new Error(`Required environment variable ${name} is not set`);
+  }
+  return value;
 }

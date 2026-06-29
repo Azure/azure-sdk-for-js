@@ -2,11 +2,13 @@
 // Licensed under the MIT License.
 
 import { assert } from "vitest";
+import type { AuthenticationError } from "@azure/identity";
+import { AzureAuthorityHosts } from "@azure/identity";
 
 /**
  * The default authority host.
  */
-export const DefaultAuthorityHost = "https://login.microsoftonline.com";
+export const DefaultAuthorityHost = AzureAuthorityHosts.AzurePublicCloud;
 /**
  * Waits for the given promise to resolve, then returns the resulted error.
  * Throws an exception if the promise doesn't reject.
@@ -56,19 +58,6 @@ export function isExpectedError(expectedErrorName: string): (error: any) => bool
     if (!(error.name === "AuthenticationError")) {
       assert.ifError(error);
     }
-    return (error as { errorResponse: { error: string } }).errorResponse.error === expectedErrorName;
+    return (error as AuthenticationError).errorResponse.error === expectedErrorName;
   };
-}
-
-/**
- * Gets a required environment variable.
- *
- * @throws Error if the env var is missing or empty.
- */
-export function requireEnvVar(name: string): string {
-  const value = process.env[name];
-  if (!value) {
-    throw new Error(`Required environment variable ${name} is not set`);
-  }
-  return value;
 }
