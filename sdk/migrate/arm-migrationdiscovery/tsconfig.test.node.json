@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.test.node.base.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-migrationdiscovery": ["./src/index.ts"],
+      "@azure/arm-migrationdiscovery/*": ["./src/*"],
+      "$internal/*": ["./src/*"]
+    }
+  }
+}
