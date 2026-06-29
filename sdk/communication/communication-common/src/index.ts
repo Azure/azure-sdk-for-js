@@ -11,3 +11,4 @@ export type { EntraCommunicationTokenCredentialOptions } from "./entraTokenCrede
 export * from "./credential/index.js";
 export * from "./identifierModels.js";
 export * from "./identifierModelSerializer.js";
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

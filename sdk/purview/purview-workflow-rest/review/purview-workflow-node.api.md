@@ -7,8 +7,10 @@
 import type { Client } from '@azure-rest/core-client';
 import type { ClientOptions } from '@azure-rest/core-client';
 import type { HttpResponse } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { RequestParameters } from '@azure-rest/core-client';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { StreamableMethod } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
 
@@ -247,6 +249,8 @@ export interface GetWorkflowTaskDefaultResponse extends HttpResponse {
 
 // @public (undocumented)
 export type GetWorkflowTaskParameters = RequestParameters;
+
+export { isRestError }
 
 // @public (undocumented)
 export function isUnexpected(response: ListWorkflows200Response | ListWorkflowsDefaultResponse): response is ListWorkflowsDefaultResponse;
@@ -512,6 +516,8 @@ export interface RejectApprovalTaskMediaTypesParam {
 
 // @public (undocumented)
 export type RejectApprovalTaskParameters = RejectApprovalTaskMediaTypesParam & RejectApprovalTaskBodyParam & RequestParameters;
+
+export { RestError }
 
 // @public (undocumented)
 export interface Routes {

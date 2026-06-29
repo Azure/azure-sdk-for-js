@@ -12,10 +12,12 @@ import type { CreateHttpPollerOptions } from '@azure/core-lro';
 import type { ErrorModel } from '@azure-rest/core-client';
 import type { ErrorResponse } from '@azure-rest/core-client';
 import type { HttpResponse } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationState } from '@azure/core-lro';
 import type { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import type { RequestParameters } from '@azure-rest/core-client';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { StreamableMethod } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
 
@@ -821,6 +823,8 @@ export interface ImageReferenceOutput {
     readonly version?: string;
 }
 
+export { isRestError }
+
 // @public (undocumented)
 export function isUnexpected(response: ListProjects200Response | ListProjectsDefaultResponse): response is ListProjectsDefaultResponse;
 
@@ -1531,6 +1535,8 @@ export interface RestartDevBoxLogicalResponse extends HttpResponse {
 
 // @public (undocumented)
 export type RestartDevBoxParameters = RequestParameters;
+
+export { RestError }
 
 // @public (undocumented)
 export interface Routes {

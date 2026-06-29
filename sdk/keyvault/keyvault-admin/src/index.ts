@@ -11,3 +11,4 @@ export * from "./settingsClient.js";
 export type * from "./settingsClientModels.js";
 
 export { LATEST_API_VERSION, SDK_VERSION, type SUPPORTED_API_VERSIONS } from "./constants.js";
+export { RestError, isRestError } from "@azure/core-rest-pipeline";
