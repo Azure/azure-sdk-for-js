@@ -1,15 +1,90 @@
 # Release History
-    
-## 6.0.1 (Unreleased)
+
+## 7.0.0-beta.1 (2026-06-29)
+Compared with version 6.0.0
 
 ### Features Added
+  - Added operation AttestationsOperations.createOrUpdateAtResource
+  - Added operation AttestationsOperations.createOrUpdateAtResourceGroup
+  - Added operation AttestationsOperations.createOrUpdateAtSubscription
+  - Added operation PolicyStatesOperations.triggerResourceGroupEvaluation
+  - Added operation PolicyStatesOperations.triggerSubscriptionEvaluation
+  - Class PolicyInsightsClient has a new constructor "constructor(credential: TokenCredential, options?: PolicyInsightsClientOptionalParams);"
+  - Class PolicyInsightsClient has a new constructor "constructor(credential: TokenCredential, subscriptionId: string, options?: PolicyInsightsClientOptionalParams);"
+  - Added Interface AttestationProperties
+  - Added Interface AttestationsListForResourceGroupQueryOptions
+  - Added Interface AttestationsListForResourceQueryOptions
+  - Added Interface AttestationsListForSubscriptionQueryOptions
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface PolicyEventsListQueryResultsForManagementGroupQueryOptions
+  - Added Interface PolicyEventsListQueryResultsForPolicyDefinitionQueryOptions
+  - Added Interface PolicyEventsListQueryResultsForPolicySetDefinitionQueryOptions
+  - Added Interface PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentQueryOptions
+  - Added Interface PolicyEventsListQueryResultsForResourceGroupQueryOptions
+  - Added Interface PolicyEventsListQueryResultsForResourceQueryOptions
+  - Added Interface PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentQueryOptions
+  - Added Interface PolicyEventsListQueryResultsForSubscriptionQueryOptions
+  - Added Interface PolicyMetadataListQueryOptions
+  - Added Interface PolicyMetadataOperationsGetResourceOptionalParams
+  - Added Interface PolicyMetadataOperationsListOptionalParams
+  - Added Interface PolicyStatesListQueryResultsForManagementGroupQueryOptions
+  - Added Interface PolicyStatesListQueryResultsForPolicyDefinitionQueryOptions
+  - Added Interface PolicyStatesListQueryResultsForPolicySetDefinitionQueryOptions
+  - Added Interface PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentQueryOptions
+  - Added Interface PolicyStatesListQueryResultsForResourceGroupQueryOptions
+  - Added Interface PolicyStatesListQueryResultsForResourceQueryOptions
+  - Added Interface PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentQueryOptions
+  - Added Interface PolicyStatesListQueryResultsForSubscriptionQueryOptions
+  - Added Interface PolicyStatesSummarizeForManagementGroupQueryOptions
+  - Added Interface PolicyStatesSummarizeForPolicyDefinitionQueryOptions
+  - Added Interface PolicyStatesSummarizeForPolicySetDefinitionQueryOptions
+  - Added Interface PolicyStatesSummarizeForResourceGroupLevelPolicyAssignmentQueryOptions
+  - Added Interface PolicyStatesSummarizeForResourceGroupQueryOptions
+  - Added Interface PolicyStatesSummarizeForResourceQueryOptions
+  - Added Interface PolicyStatesSummarizeForSubscriptionLevelPolicyAssignmentQueryOptions
+  - Added Interface PolicyStatesSummarizeForSubscriptionQueryOptions
+  - Added Interface PolicyTrackedResourcesListQueryResultsForManagementGroupQueryOptions
+  - Added Interface PolicyTrackedResourcesListQueryResultsForResourceGroupQueryOptions
+  - Added Interface PolicyTrackedResourcesListQueryResultsForResourceQueryOptions
+  - Added Interface PolicyTrackedResourcesListQueryResultsForSubscriptionQueryOptions
+  - Added Interface ProxyResource
+  - Added Interface RemediationProperties
+  - Added Interface RemediationsListDeploymentsAtManagementGroupQueryOptions
+  - Added Interface RemediationsListDeploymentsAtResourceGroupQueryOptions
+  - Added Interface RemediationsListDeploymentsAtResourceQueryOptions
+  - Added Interface RemediationsListDeploymentsAtSubscriptionQueryOptions
+  - Added Interface RemediationsListForManagementGroupQueryOptions
+  - Added Interface RemediationsListForResourceGroupQueryOptions
+  - Added Interface RemediationsListForResourceQueryOptions
+  - Added Interface RemediationsListForSubscriptionQueryOptions
+  - Added Interface RestorePollerOptions
+  - Added Interface SimplePollerLike
+  - Interface ComponentEventDetails has a new optional parameter additionalProperties
+  - Interface ComponentPolicyState has a new optional parameter additionalProperties
+  - Interface ComponentStateDetails has a new optional parameter additionalProperties
+  - Interface PolicyEvent has a new optional parameter additionalProperties
+  - Interface PolicyMetadata has a new optional parameter systemData
+  - Interface PolicyState has a new optional parameter additionalProperties
+  - Interface Resource has a new optional parameter systemData
+  - Added Type Alias AzureSupportedClouds
+  - Added Enum AzureClouds
 
 ### Breaking Changes
+  - Class PolicyInsightsClient has a new signature
+  - Removed Interface ErrorDefinitionAutoGenerated
+  - Removed Interface ErrorDefinitionAutoGenerated2
+  - Removed Interface ErrorResponseAutoGenerated
+  - Removed Interface ErrorResponseAutoGenerated2
+  - Removed Interface PolicyEventsQueryResults
+  - Removed Interface PolicyMetadataCollection
+  - Removed Interface PolicyMetadataGetResourceOptionalParams
+  - Removed Interface PolicyMetadataListOptionalParams
+  - Removed Interface PolicyStatesQueryResults
+  - Removed Interface PolicyTrackedResourcesQueryResults
+  - Removed Interface QueryOptions
 
-### Bugs Fixed
-
-### Other Changes
-
+    
 ## 6.0.0 (2025-01-09)
 Compared with version 5.0.0
     
