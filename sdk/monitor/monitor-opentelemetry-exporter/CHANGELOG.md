@@ -12,6 +12,7 @@
 
 - Throttle startup replay of persisted telemetry to avoid a fleet-wide thundering herd against the ingestion endpoint. After an outage, replay now begins after a randomized startup delay (de-synchronizing replicas that restart together) and spaces out each persisted file with a jittered inter-batch delay, instead of draining the entire on-disk backlog back-to-back.
 - Fixed customer SDK Stats not counting telemetry that was dropped while saving to disk.
+- Clamp the server-controlled `Retry-After` header to a maximum of 24 hours, preventing a malformed value from overflowing `setTimeout` or stalling offline retries.
 - Refuse to follow server-issued 307/308 redirects whose `Location` header points outside the configured ingestion host or the known Azure Monitor / Application Insights ingestion domain suffixes. Previously a single attacker-controlled redirect could permanently re-point the exporter at a foreign host, causing every subsequent telemetry call (and the AAD bearer token attached by the auth policy) to be sent to the attacker.
 
 ### Other Changes

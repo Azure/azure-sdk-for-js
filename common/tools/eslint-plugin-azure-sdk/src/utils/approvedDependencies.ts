@@ -27,18 +27,22 @@ export const FIRST_PARTY_PREFIXES = [
 ] as const;
 
 /**
+ * The path segments, relative to the monorepo root, of the allow-list file.
+ * Single source of truth so the platform-specific and display paths below
+ * cannot drift apart if the location ever changes.
+ */
+const APPROVED_DEPENDENCIES_PATH_SEGMENTS = ["eng", "approved-third-party-dependencies.yml"];
+
+/**
  * The path, relative to the monorepo root, of the allow-list file.
  */
-export const APPROVED_DEPENDENCIES_RELATIVE_PATH = path.join(
-  "eng",
-  "approved-third-party-dependencies.yml",
-);
+export const APPROVED_DEPENDENCIES_RELATIVE_PATH = path.join(...APPROVED_DEPENDENCIES_PATH_SEGMENTS);
 
 /**
  * The allow-list path as displayed in user-facing messages, always using
  * forward slashes regardless of platform.
  */
-export const APPROVED_DEPENDENCIES_DISPLAY_PATH = "eng/approved-third-party-dependencies.yml";
+export const APPROVED_DEPENDENCIES_DISPLAY_PATH = APPROVED_DEPENDENCIES_PATH_SEGMENTS.join("/");
 
 /**
  * The parsed and normalized allow-list.
