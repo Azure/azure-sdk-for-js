@@ -27,6 +27,10 @@ const logger: AzureLogger = createClientLogger("InferenceService");
 /** Keys that are not part of the inference service payload. */
 const NON_PAYLOAD_KEYS = new Set(["abortSignal"]);
 
+/** HTTP success-range bounds (kept local so they are not exported in the public API). */
+const HTTP_OK = 200;
+const HTTP_MULTIPLE_CHOICES = 300;
+
 /**
  * Provides functionality to interact with the Cosmos DB Inference Service for semantic reranking.
  * @internal
@@ -165,45 +169,39 @@ export class InferenceService {
    * This is the actual service response format, not a bug.
    */
   private parseResponse(response: PipelineResponse): SemanticRerankResult {
-    if (response.status < 200 || response.status >= 300) {
-      let serviceCode: string | number = response.status;
-      let serviceMessage = `Semantic rerank request failed with status ${response.status}`;
-
-      // Parse the error payload to surface the service's code, message, and details
-      try {
-        const errorBody = JSON.parse(response.bodyAsText || "{}");
-        if (errorBody.code) {
-          serviceCode = errorBody.code;
-        }
-        if (errorBody.message) {
-          serviceMessage = errorBody.message;
-        }
-        if (errorBody.details) {
-          serviceMessage += ` Details: ${JSON.stringify(errorBody.details)}`;
-        }
-      } catch {
-        // If parsing fails, fall back to raw body text
-        serviceMessage += `: ${response.bodyAsText}`;
-      }
-
-      const errorResponse = new ErrorResponse(serviceMessage);
-      errorResponse.code = serviceCode;
+    if (response.status < HTTP_OK || response.status >= HTTP_MULTIPLE_CHOICES) {
+      // Surface the service's raw error payload (code/message/details) directly to the caller.
+      const errorResponse = new ErrorResponse(
+        response.bodyAsText || `Semantic rerank request failed with status ${response.status}`,
+      );
+      errorResponse.code = response.status;
       errorResponse.headers = response.headers.toJSON() as Record<string, string>;
       throw errorResponse;
     }
 
-    const body = JSON.parse(response.bodyAsText || "{}");
-
-    const rerankScores: RerankScore[] = [];
-    if (Array.isArray(body.Scores)) {
-      for (const item of body.Scores) {
-        rerankScores.push({
-          document: item.document ?? null,
-          score: typeof item.score === "number" ? item.score : 0,
-          index: typeof item.index === "number" ? item.index : -1,
-        });
-      }
+    if (!response.bodyAsText) {
+      const errorResponse = new ErrorResponse("Semantic rerank response body was empty.");
+      errorResponse.code = response.status;
+      errorResponse.headers = response.headers.toJSON() as Record<string, string>;
+      throw errorResponse;
     }
+
+    const body = JSON.parse(response.bodyAsText);
+
+    if (!Array.isArray(body.Scores)) {
+      const errorResponse = new ErrorResponse(
+        "Semantic rerank response did not contain a Scores array.",
+      );
+      errorResponse.code = response.status;
+      errorResponse.headers = response.headers.toJSON() as Record<string, string>;
+      throw errorResponse;
+    }
+
+    const rerankScores: RerankScore[] = body.Scores.map((item: Record<string, unknown>) => ({
+      document: (item.document as string) ?? null,
+      score: typeof item.score === "number" ? item.score : 0,
+      index: typeof item.index === "number" ? item.index : -1,
+    }));
 
     return {
       rerankScores,

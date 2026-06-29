@@ -196,7 +196,7 @@ describe("InferenceService", { timeout: 10000 }, () => {
         await service.semanticRerank("query", ["doc"]);
         assert.fail("Should have thrown");
       } catch (e: any) {
-        assert.include(e.message, "status 500");
+        assert.equal(e.code, 500);
         assert.include(e.message, "Internal Server Error");
       }
     });
@@ -220,7 +220,7 @@ describe("InferenceService", { timeout: 10000 }, () => {
         await service.semanticRerank("query", ["doc"]);
         assert.fail("Should have thrown");
       } catch (e: any) {
-        assert.equal(e.code, "InvalidRequest");
+        assert.equal(e.code, 400);
         assert.include(e.message, "Error while formatting json document");
         assert.isDefined(e.headers);
       }
@@ -252,7 +252,7 @@ describe("InferenceService", { timeout: 10000 }, () => {
       assert.equal(parsedBody.target_paths, "/name,/description");
     });
 
-    it("should handle empty scores in response", async () => {
+    it("should throw when response has no Scores array", async () => {
       const service = new InferenceService(createMockOptions());
 
       const pipeline = (service as any).pipeline;
@@ -263,10 +263,12 @@ describe("InferenceService", { timeout: 10000 }, () => {
         bodyAsText: JSON.stringify({}),
       });
 
-      const result = await service.semanticRerank("query", ["doc"]);
-      assert.deepEqual(result.rerankScores, []);
-      assert.isUndefined(result.latency);
-      assert.isUndefined(result.tokenUsage);
+      try {
+        await service.semanticRerank("query", ["doc"]);
+        assert.fail("Should have thrown");
+      } catch (e: any) {
+        assert.include(e.message, "Scores array");
+      }
     });
 
     it("should handle null document in score", async () => {
