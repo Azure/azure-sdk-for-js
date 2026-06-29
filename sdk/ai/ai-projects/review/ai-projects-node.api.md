@@ -117,7 +117,7 @@ export interface AgentDefinition {
 }
 
 // @public
-export type AgentDefinitionOptInKeys = "WorkflowAgents=V1Preview" | "ExternalAgents=V1Preview";
+export type AgentDefinitionOptInKeys = "WorkflowAgents=V1Preview" | "ExternalAgents=V1Preview" | "DraftAgents=V1Preview";
 
 // @public
 export type AgentDefinitionUnion = HostedAgentDefinition | PromptAgentDefinition | WorkflowAgentDefinition | ExternalAgentDefinition | AgentDefinition;
@@ -400,6 +400,7 @@ export interface AgentVersion {
     created_at: Date;
     definition: AgentDefinitionUnion;
     description?: string;
+    draft?: boolean;
     id: string;
     readonly instance_identity?: AgentIdentity;
     metadata?: Record<string, string>;
@@ -532,7 +533,6 @@ export interface AzureAISearchTool extends Tool {
 // @public
 export interface AzureAISearchToolboxTool extends ToolboxTool {
     azure_ai_search: AzureAISearchToolResource;
-    tool_configs?: Record<string, ToolConfig>;
     // (undocumented)
     type: "azure_ai_search";
 }
@@ -1342,7 +1342,6 @@ export interface CodeInterpreterTool extends Tool {
 // @public
 export interface CodeInterpreterToolboxTool extends ToolboxTool {
     container?: string | AutoCodeInterpreterToolParam;
-    tool_configs?: Record<string, ToolConfig>;
     // (undocumented)
     type: "code_interpreter";
 }
@@ -2251,7 +2250,6 @@ export interface FileSearchToolboxTool extends ToolboxTool {
     filters?: Filters;
     max_num_results?: number;
     ranking_options?: RankingOptions;
-    tool_configs?: Record<string, ToolConfig>;
     // (undocumented)
     type: "file_search";
     vector_store_ids?: string[];
@@ -2394,7 +2392,6 @@ export interface HostedAgentDefinition extends AgentDefinition {
     memory: string;
     protocol_versions?: ProtocolVersionRecord[];
     telemetry_config?: TelemetryConfig;
-    tools?: ToolUnion[];
 }
 
 // @public
@@ -2708,7 +2705,6 @@ export interface MCPToolboxTool extends ToolboxTool {
     server_description?: string;
     server_label: string;
     server_url?: string;
-    tool_configs?: Record<string, ToolConfig>;
     // (undocumented)
     type: "mcp";
 }
@@ -3028,7 +3024,6 @@ export interface OpenApiTool extends Tool {
 // @public
 export interface OpenApiToolboxTool extends ToolboxTool {
     openapi: OpenApiFunctionDefinition;
-    tool_configs?: Record<string, ToolConfig>;
     // (undocumented)
     type: "openapi";
 }
@@ -4128,7 +4123,6 @@ export interface WebSearchToolboxTool extends ToolboxTool {
     // (undocumented)
     filters?: WebSearchToolFilters;
     search_context_size?: "low" | "medium" | "high";
-    tool_configs?: Record<string, ToolConfig>;
     // (undocumented)
     type: "web_search";
     // (undocumented)
