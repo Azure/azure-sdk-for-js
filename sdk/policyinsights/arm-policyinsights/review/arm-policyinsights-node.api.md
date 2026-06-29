@@ -796,7 +796,7 @@ export class PolicyInsightsClient {
     readonly operations: OperationsOperations;
     readonly pipeline: Pipeline;
     readonly policyEvents: PolicyEventsOperations;
-    readonly policyMetadata: PolicyMetadataOperations;
+    readonly policyMetadataOperations: PolicyMetadataOperationsOperations;
     readonly policyRestrictions: PolicyRestrictionsOperations;
     readonly policyStates: PolicyStatesOperations;
     readonly policyTrackedResources: PolicyTrackedResourcesOperations;
@@ -821,24 +821,24 @@ export interface PolicyMetadata extends ProxyResource {
 }
 
 // @public
-export interface PolicyMetadataGetResourceOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface PolicyMetadataListOptionalParams extends OperationOptions {
-    // (undocumented)
-    queryOptions?: PolicyMetadataListQueryOptions;
-}
-
-// @public
 export interface PolicyMetadataListQueryOptions {
     top?: number;
 }
 
 // @public
-export interface PolicyMetadataOperations {
-    getResource: (resourceName: string, options?: PolicyMetadataGetResourceOptionalParams) => Promise<PolicyMetadata>;
-    list: (options?: PolicyMetadataListOptionalParams) => PagedAsyncIterableIterator<SlimPolicyMetadata>;
+export interface PolicyMetadataOperationsGetResourceOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface PolicyMetadataOperationsListOptionalParams extends OperationOptions {
+    // (undocumented)
+    queryOptions?: PolicyMetadataListQueryOptions;
+}
+
+// @public
+export interface PolicyMetadataOperationsOperations {
+    getResource: (resourceName: string, options?: PolicyMetadataOperationsGetResourceOptionalParams) => Promise<PolicyMetadata>;
+    list: (options?: PolicyMetadataOperationsListOptionalParams) => PagedAsyncIterableIterator<SlimPolicyMetadata>;
 }
 
 // @public

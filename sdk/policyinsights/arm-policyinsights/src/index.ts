@@ -167,9 +167,9 @@ export type {
   PolicyEventsListQueryResultsForManagementGroupOptionalParams,
 } from "./api/policyEvents/index.js";
 export type {
-  PolicyMetadataListOptionalParams,
-  PolicyMetadataGetResourceOptionalParams,
-} from "./api/policyMetadata/index.js";
+  PolicyMetadataOperationsListOptionalParams,
+  PolicyMetadataOperationsGetResourceOptionalParams,
+} from "./api/policyMetadataOperations/index.js";
 export type {
   PolicyRestrictionsCheckAtManagementGroupScopeOptionalParams,
   PolicyRestrictionsCheckAtResourceGroupScopeOptionalParams,
@@ -232,7 +232,7 @@ export type {
   ComponentPolicyStatesOperations,
   OperationsOperations,
   PolicyEventsOperations,
-  PolicyMetadataOperations,
+  PolicyMetadataOperationsOperations,
   PolicyRestrictionsOperations,
   PolicyStatesOperations,
   PolicyTrackedResourcesOperations,

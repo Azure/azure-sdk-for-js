@@ -1,4 +1,4 @@
 directory: specification/policyinsights/resource-manager/Microsoft.PolicyInsights/PolicyInsights
-commit: 859380562a2e3c80c473d270c0c05f496240eb75
+commit: b3a7b56aaffd80f8d5a77afe08ccb3eaffe851fc
 repo: Azure/azure-rest-api-specs
 additionalDirectories: 

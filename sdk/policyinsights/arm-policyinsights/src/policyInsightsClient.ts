@@ -11,8 +11,8 @@ import type { OperationsOperations } from "./classic/operations/index.js";
 import { _getOperationsOperations } from "./classic/operations/index.js";
 import type { PolicyEventsOperations } from "./classic/policyEvents/index.js";
 import { _getPolicyEventsOperations } from "./classic/policyEvents/index.js";
-import type { PolicyMetadataOperations } from "./classic/policyMetadata/index.js";
-import { _getPolicyMetadataOperations } from "./classic/policyMetadata/index.js";
+import type { PolicyMetadataOperationsOperations } from "./classic/policyMetadataOperations/index.js";
+import { _getPolicyMetadataOperationsOperations } from "./classic/policyMetadataOperations/index.js";
 import type { PolicyRestrictionsOperations } from "./classic/policyRestrictions/index.js";
 import { _getPolicyRestrictionsOperations } from "./classic/policyRestrictions/index.js";
 import type { PolicyStatesOperations } from "./classic/policyStates/index.js";
@@ -65,7 +65,7 @@ export class PolicyInsightsClient {
     this.policyRestrictions = _getPolicyRestrictionsOperations(this._client);
     this.policyStates = _getPolicyStatesOperations(this._client);
     this.policyEvents = _getPolicyEventsOperations(this._client);
-    this.policyMetadata = _getPolicyMetadataOperations(this._client);
+    this.policyMetadataOperations = _getPolicyMetadataOperationsOperations(this._client);
     this.attestations = _getAttestationsOperations(this._client);
     this.remediations = _getRemediationsOperations(this._client);
     this.operations = _getOperationsOperations(this._client);
@@ -81,8 +81,8 @@ export class PolicyInsightsClient {
   public readonly policyStates: PolicyStatesOperations;
   /** The operation groups for policyEvents */
   public readonly policyEvents: PolicyEventsOperations;
-  /** The operation groups for policyMetadata */
-  public readonly policyMetadata: PolicyMetadataOperations;
+  /** The operation groups for policyMetadataOperations */
+  public readonly policyMetadataOperations: PolicyMetadataOperationsOperations;
   /** The operation groups for attestations */
   public readonly attestations: AttestationsOperations;
   /** The operation groups for remediations */

@@ -3,7 +3,7 @@
     "PolicyInsightsApi": "2024-10-01",
     "PolicyTrackedResourcesApi": "2018-07-01-preview"
   },
-  "emitterVersion": "0.54.2",
+  "emitterVersion": "0.55.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "PolicyInsightsApi",
     "CrossLanguageDefinitionId": {
@@ -163,8 +163,8 @@
       "@azure/arm-policyinsights!PolicyEventsOperations#listQueryResultsForResourceGroup:member": "PolicyInsightsApi.PolicyEventsOperationGroup.listQueryResultsForResourceGroup",
       "@azure/arm-policyinsights!PolicyEventsOperations#listQueryResultsForSubscription:member": "PolicyInsightsApi.PolicyEventsOperationGroup.listQueryResultsForSubscription",
       "@azure/arm-policyinsights!PolicyEventsOperations#listQueryResultsForManagementGroup:member": "PolicyInsightsApi.PolicyEventsOperationGroup.listQueryResultsForManagementGroup",
-      "@azure/arm-policyinsights!PolicyMetadataOperations#list:member": "PolicyInsightsApi.PolicyMetadataNonResourceOperationGroup.list",
-      "@azure/arm-policyinsights!PolicyMetadataOperations#getResource:member": "PolicyInsightsApi.PolicyMetadataOperationGroup.getResource",
+      "@azure/arm-policyinsights!PolicyMetadataOperationsOperations#list:member": "PolicyInsightsApi.PolicyMetadataNonResourceOperationGroup.list",
+      "@azure/arm-policyinsights!PolicyMetadataOperationsOperations#getResource:member": "PolicyInsightsApi.PolicyMetadataOperationGroup.getResource",
       "@azure/arm-policyinsights!AttestationsOperations#listForResource:member": "PolicyInsightsApi.Attestations.listForResource",
       "@azure/arm-policyinsights!AttestationsOperations#deleteAtResource:member": "PolicyInsightsApi.Attestations.deleteAtResource",
       "@azure/arm-policyinsights!AttestationsOperations#createOrUpdateAtResource:member": "PolicyInsightsApi.Attestations.createOrUpdateAtResource",
