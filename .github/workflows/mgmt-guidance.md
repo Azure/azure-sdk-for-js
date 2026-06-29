@@ -19,7 +19,7 @@ on:
   steps:
     - name: Gate — verify CI complete and PR has mgmt-review-added label
       id: gate
-      uses: actions/github-script@v9.0.0
+      uses: actions/github-script@v9
       env:
         CHECK_SUITE_APP: ${{ github.event.check_suite.app.name }}
         HEAD_SHA: ${{ github.event.check_suite.head_sha }}
