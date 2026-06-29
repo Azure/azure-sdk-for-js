@@ -1,25 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureStackHCIContext as Client } from "../index.js";
+import type { AzureStackHCIContext as Client } from "../index.js";
+import type {
+  CheckUpdatesRequest} from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  CheckUpdatesRequest,
   checkUpdatesRequestSerializer,
 } from "../../models/models.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   UpdateSummariesOperationGroupCheckHealthOptionalParams,
   UpdateSummariesOperationGroupCheckUpdatesOptionalParams,
 } from "./options.js";
-import {
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _checkHealthSend(
   context: Client,

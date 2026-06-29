@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureStackHCIContext } from "../../api/azureStackHCIContext.js";
+import type { AzureStackHCIContext } from "../../api/azureStackHCIContext.js";
 import { listByCluster, listByPublisher, get } from "../../api/offers/operations.js";
-import {
+import type {
   OffersListByClusterOptionalParams,
   OffersListByPublisherOptionalParams,
   OffersGetOptionalParams,
 } from "../../api/offers/options.js";
-import { Offer } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { Offer } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Offers operations. */
 export interface OffersOperations {

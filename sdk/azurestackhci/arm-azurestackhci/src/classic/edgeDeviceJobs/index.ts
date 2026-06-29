@@ -1,23 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureStackHCIContext } from "../../api/azureStackHCIContext.js";
+import type { AzureStackHCIContext } from "../../api/azureStackHCIContext.js";
 import {
   listByEdgeDevice,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/edgeDeviceJobs/operations.js";
-import {
+import type {
   EdgeDeviceJobsListByEdgeDeviceOptionalParams,
   EdgeDeviceJobsDeleteOptionalParams,
   EdgeDeviceJobsCreateOrUpdateOptionalParams,
   EdgeDeviceJobsGetOptionalParams,
 } from "../../api/edgeDeviceJobs/options.js";
-import { EdgeDeviceJobUnion } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { EdgeDeviceJobUnion } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike} from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a EdgeDeviceJobs operations. */
 export interface EdgeDeviceJobsOperations {

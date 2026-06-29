@@ -1,46 +1,62 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   AzureStackHCIContext,
-  AzureStackHCIClientOptionalParams,
+  AzureStackHCIClientOptionalParams} from "./api/index.js";
+import {
   createAzureStackHCI,
 } from "./api/index.js";
-import { ArcSettingsOperations, _getArcSettingsOperations } from "./classic/arcSettings/index.js";
-import { ClustersOperations, _getClustersOperations } from "./classic/clusters/index.js";
+import type { ArcSettingsOperations} from "./classic/arcSettings/index.js";
+import { _getArcSettingsOperations } from "./classic/arcSettings/index.js";
+import type { ClustersOperations} from "./classic/clusters/index.js";
+import { _getClustersOperations } from "./classic/clusters/index.js";
+import type {
+  DeploymentSettingsOperations} from "./classic/deploymentSettings/index.js";
 import {
-  DeploymentSettingsOperations,
   _getDeploymentSettingsOperations,
 } from "./classic/deploymentSettings/index.js";
+import type {
+  EdgeDeviceJobsOperations} from "./classic/edgeDeviceJobs/index.js";
 import {
-  EdgeDeviceJobsOperations,
   _getEdgeDeviceJobsOperations,
 } from "./classic/edgeDeviceJobs/index.js";
-import { EdgeDevicesOperations, _getEdgeDevicesOperations } from "./classic/edgeDevices/index.js";
-import { ExtensionsOperations, _getExtensionsOperations } from "./classic/extensions/index.js";
-import { OffersOperations, _getOffersOperations } from "./classic/offers/index.js";
-import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
+import type { EdgeDevicesOperations} from "./classic/edgeDevices/index.js";
+import { _getEdgeDevicesOperations } from "./classic/edgeDevices/index.js";
+import type { ExtensionsOperations} from "./classic/extensions/index.js";
+import { _getExtensionsOperations } from "./classic/extensions/index.js";
+import type { OffersOperations} from "./classic/offers/index.js";
+import { _getOffersOperations } from "./classic/offers/index.js";
+import type { OperationsOperations} from "./classic/operations/index.js";
+import { _getOperationsOperations } from "./classic/operations/index.js";
+import type {
+  SecuritySettingsOperations} from "./classic/securitySettings/index.js";
 import {
-  SecuritySettingsOperations,
   _getSecuritySettingsOperations,
 } from "./classic/securitySettings/index.js";
-import { SkusOperations, _getSkusOperations } from "./classic/skus/index.js";
-import { UpdateRunsOperations, _getUpdateRunsOperations } from "./classic/updateRuns/index.js";
+import type { SkusOperations} from "./classic/skus/index.js";
+import { _getSkusOperations } from "./classic/skus/index.js";
+import type { UpdateRunsOperations} from "./classic/updateRuns/index.js";
+import { _getUpdateRunsOperations } from "./classic/updateRuns/index.js";
+import type {
+  UpdateSummariesOperations} from "./classic/updateSummaries/index.js";
 import {
-  UpdateSummariesOperations,
   _getUpdateSummariesOperations,
 } from "./classic/updateSummaries/index.js";
+import type {
+  UpdateSummariesOperationGroupOperations} from "./classic/updateSummariesOperationGroup/index.js";
 import {
-  UpdateSummariesOperationGroupOperations,
   _getUpdateSummariesOperationGroupOperations,
 } from "./classic/updateSummariesOperationGroup/index.js";
-import { UpdatesOperations, _getUpdatesOperations } from "./classic/updates/index.js";
+import type { UpdatesOperations} from "./classic/updates/index.js";
+import { _getUpdatesOperations } from "./classic/updates/index.js";
+import type {
+  ValidatedSolutionRecipesOperations} from "./classic/validatedSolutionRecipes/index.js";
 import {
-  ValidatedSolutionRecipesOperations,
   _getValidatedSolutionRecipesOperations,
 } from "./classic/validatedSolutionRecipes/index.js";
-import { TokenCredential } from "@azure/core-auth";
-import { Pipeline } from "@azure/core-rest-pipeline";
+import type { TokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { AzureStackHCIClientOptionalParams } from "./api/azureStackHCIContext.js";
 

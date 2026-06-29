@@ -1,18 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureStackHCIContext } from "../../api/azureStackHCIContext.js";
+import type { AzureStackHCIContext } from "../../api/azureStackHCIContext.js";
 import { list, $delete, put, get } from "../../api/updateSummaries/operations.js";
-import {
+import type {
   UpdateSummariesListOptionalParams,
   UpdateSummariesDeleteOptionalParams,
   UpdateSummariesPutOptionalParams,
   UpdateSummariesGetOptionalParams,
 } from "../../api/updateSummaries/options.js";
-import { UpdateSummaries } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { UpdateSummaries } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike} from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a UpdateSummaries operations. */
 export interface UpdateSummariesOperations {

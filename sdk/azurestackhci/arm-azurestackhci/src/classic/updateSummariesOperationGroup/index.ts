@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureStackHCIContext } from "../../api/azureStackHCIContext.js";
+import type { AzureStackHCIContext } from "../../api/azureStackHCIContext.js";
 import { checkHealth, checkUpdates } from "../../api/updateSummariesOperationGroup/operations.js";
-import {
+import type {
   UpdateSummariesOperationGroupCheckHealthOptionalParams,
   UpdateSummariesOperationGroupCheckUpdatesOptionalParams,
 } from "../../api/updateSummariesOperationGroup/options.js";
-import { CheckUpdatesRequest } from "../../models/models.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { CheckUpdatesRequest } from "../../models/models.js";
+import type { SimplePollerLike} from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a UpdateSummariesOperationGroup operations. */
 export interface UpdateSummariesOperationGroupOperations {

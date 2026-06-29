@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureStackHCIContext } from "../../api/azureStackHCIContext.js";
+import type { AzureStackHCIContext } from "../../api/azureStackHCIContext.js";
 import {
   initializeDisableProcess,
   consentAndInstallDefaultExtensions,
@@ -14,7 +14,7 @@ import {
   create,
   get,
 } from "../../api/arcSettings/operations.js";
-import {
+import type {
   ArcSettingsInitializeDisableProcessOptionalParams,
   ArcSettingsConsentAndInstallDefaultExtensionsOptionalParams,
   ArcSettingsReconcileOptionalParams,
@@ -26,16 +26,17 @@ import {
   ArcSettingsCreateOptionalParams,
   ArcSettingsGetOptionalParams,
 } from "../../api/arcSettings/options.js";
-import {
+import type {
   ArcSetting,
   ArcSettingsPatch,
   PasswordCredential,
   ArcIdentityResponse,
   ReconcileArcSettingsRequest,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike} from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a ArcSettings operations. */
 export interface ArcSettingsOperations {
