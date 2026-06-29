@@ -26,17 +26,7 @@ type Model = {
 };
 
 type ModelFields =
-  | "key"
-  | "a"
-  | "b"
-  | "b/a"
-  | "b/b"
-  | "c"
-  | "d"
-  | "d/a"
-  | "d/b"
-  | "d/b/a"
-  | "d/b/b";
+  "key" | "a" | "b" | "b/a" | "b/b" | "c" | "d" | "d/a" | "d/b" | "d/b/a" | "d/b/b";
 
 type NarrowedModel = {
   key?: string;
