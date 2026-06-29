@@ -1,0 +1,11 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.browser.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/ai-form-recognizer": ["../src/index.ts"],
+      "@azure/ai-form-recognizer/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  },
+  "include": ["../test/**/*.spec.ts", "../test/utils/setup.ts"]
+}

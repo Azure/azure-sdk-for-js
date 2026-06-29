@@ -7,6 +7,7 @@
 import { AzureKeyCredential } from '@azure/core-auth';
 import type { CommonClientOptions } from '@azure/core-client';
 import type { KeyCredential } from '@azure/core-auth';
+import type { NodeReadableStream } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure/core-client';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
 import type { PollerLike } from '@azure/core-lro';
@@ -636,7 +637,7 @@ export const FormRecognizerFeature: {
 };
 
 // @public
-export type FormRecognizerRequestBody = NodeJS.ReadableStream | Blob | ArrayBuffer | ArrayBufferView;
+export type FormRecognizerRequestBody = NodeReadableStream | Blob | ArrayBuffer | ArrayBufferView;
 
 // @public
 export interface GetCopyAuthorizationOptions extends OperationOptions, CommonModelCreationOptions {

@@ -858,24 +858,28 @@ export class DocumentModelAdministrationClient {
    * // The ID of the prebuilt business card model
    * const prebuiltModelId = "prebuilt-businessCard";
    *
+   * const model = await client.getDocumentModel(prebuiltModelId);
    * const {
    *   modelId, // identical to the modelId given when calling `getDocumentModel`
    *   description, // a textual description of the model, if provided during model creation
    *   createdOn, // the Date (timestamp) that the model was created
    *   // information about the document types in the model and their field schemas
-   *   docTypes: {
-   *     // the document type of the prebuilt business card model
-   *     "prebuilt:businesscard": {
-   *       // an optional, textual description of this document type
-   *       description: businessCardDescription,
-   *       // the schema of the fields in this document type, see the FieldSchema type
-   *       fieldSchema,
-   *       // the service's confidences in the fields (an object with field names as properties and numeric confidence
-   *       // values)
-   *       fieldConfidence,
-   *     },
-   *   },
-   * } = await client.getDocumentModel(prebuiltModelId);
+   *   docTypes,
+   * } = model;
+   *
+   * // the document type of the prebuilt business card model
+   * const businessCardDocType = docTypes?.["prebuilt:businesscard"];
+   * if (businessCardDocType) {
+   *   const {
+   *     // an optional, textual description of this document type
+   *     description: businessCardDescription,
+   *     // the schema of the fields in this document type, see the FieldSchema type
+   *     fieldSchema,
+   *     // the service's confidences in the fields (an object with field names as properties and numeric confidence
+   *     // values)
+   *     fieldConfidence,
+   *   } = businessCardDocType;
+   * }
    * ```
    *
    * @param modelId - the unique ID of the model to query

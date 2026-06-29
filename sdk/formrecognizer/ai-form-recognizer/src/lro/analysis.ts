@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import type { PollOperationState, PollerLike } from "@azure/core-lro";
+import type { NodeReadableStream } from "@azure/core-rest-pipeline";
 import { FormRecognizerError } from "../error.js";
 import type {
   AnalyzeResult as GeneratedAnalyzeResult,
@@ -41,11 +42,7 @@ import type {
  * inputs as URLs, so to send a string as a _binary_ input, first convert the string to one of the following input
  * types.
  */
-export type FormRecognizerRequestBody =
-  | NodeJS.ReadableStream
-  | Blob
-  | ArrayBuffer
-  | ArrayBufferView;
+export type FormRecognizerRequestBody = NodeReadableStream | Blob | ArrayBuffer | ArrayBufferView;
 
 /**
  * An extracted document object.
