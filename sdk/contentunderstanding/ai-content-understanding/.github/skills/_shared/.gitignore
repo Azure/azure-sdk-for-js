@@ -1,0 +1,5 @@
+# Skill tool dependencies — installed per-user via `npm install`, never committed.
+node_modules/
+package-lock.json
+dist/
+.tshy/
