@@ -350,7 +350,7 @@
 # PRLabel: %Mgmt
 /sdk/appcomplianceautomation/arm-appcomplianceautomation/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/apicenter/arm-apicenter/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed

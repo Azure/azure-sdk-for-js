@@ -1,0 +1,30 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+const { ApiCenterClient } = require("@azure/arm-apicenter");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+/**
+ * This sample demonstrates how to returns details of the API source.
+ *
+ * @summary returns details of the API source.
+ * x-ms-original-file: 2024-06-01-preview/ApiSources_Get.json
+ */
+async function apiSourcesGet() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ApiCenterClient(credential, subscriptionId);
+  const result = await client.apiSources.get(
+    "contoso-resources",
+    "contoso",
+    "default",
+    "contoso-api-management",
+  );
+  console.log(result);
+}
+
+async function main() {
+  await apiSourcesGet();
+}
+
+main().catch(console.error);

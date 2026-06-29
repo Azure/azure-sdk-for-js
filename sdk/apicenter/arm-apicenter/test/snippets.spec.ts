@@ -1,24 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it } from "vitest";
-import { setLogLevel } from "@azure/logger";
+import { ApiCenterClient } from "../src/index.js";
 import { DefaultAzureCredential, InteractiveBrowserCredential } from "@azure/identity";
-import { AzureAPICenter } from "@azure/arm-apicenter";
+import { setLogLevel } from "@azure/logger";
+import { describe, it } from "vitest";
 
 describe("snippets", () => {
   it("ReadmeSampleCreateClient_Node", async () => {
     const subscriptionId = "00000000-0000-0000-0000-000000000000";
-    const client = new AzureAPICenter(new DefaultAzureCredential(), subscriptionId);
+    const client = new ApiCenterClient(new DefaultAzureCredential(), subscriptionId);
   });
 
   it("ReadmeSampleCreateClient_Browser", async () => {
-    const subscriptionId = "00000000-0000-0000-0000-000000000000";
     const credential = new InteractiveBrowserCredential({
       tenantId: "<YOUR_TENANT_ID>",
       clientId: "<YOUR_CLIENT_ID>",
     });
-    const client = new AzureAPICenter(credential, subscriptionId);
+    const subscriptionId = "00000000-0000-0000-0000-000000000000";
+    const client = new ApiCenterClient(credential, subscriptionId);
   });
 
   it("SetLogLevel", async () => {

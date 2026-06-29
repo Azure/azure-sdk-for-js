@@ -1,7 +1,26 @@
+# warp.config.yml — build configuration
 
-extends: ../../../warp.base.config.yml
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/environments": "./src/api/environments/index.ts"
+  "./api/deployments": "./src/api/deployments/index.ts"
+  "./api/apiSources": "./src/api/apiSources/index.ts"
+  "./api/apiDefinitions": "./src/api/apiDefinitions/index.ts"
+  "./api/apiVersions": "./src/api/apiVersions/index.ts"
+  "./api/apis": "./src/api/apis/index.ts"
+  "./api/workspaces": "./src/api/workspaces/index.ts"
+  "./api/metadataSchemas": "./src/api/metadataSchemas/index.ts"
+  "./api/deletedServices": "./src/api/deletedServices/index.ts"
+  "./api/services": "./src/api/services/index.ts"
+  "./api/operations": "./src/api/operations/index.ts"
+  "./models": "./src/models/index.ts"
 
 targets:
+  - name: browser
+    tsconfig: "./config/tsconfig.src.browser.json"
+
   - name: esm
     condition: import
     tsconfig: "./config/tsconfig.src.esm.json"
