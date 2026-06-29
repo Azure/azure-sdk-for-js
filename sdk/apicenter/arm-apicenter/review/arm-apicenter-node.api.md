@@ -833,7 +833,7 @@ export interface ServicesOperations {
     get: (resourceGroupName: string, serviceName: string, options?: ServicesGetOptionalParams) => Promise<Service>;
     listByResourceGroup: (resourceGroupName: string, options?: ServicesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Service>;
     listBySubscription: (options?: ServicesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<Service>;
-    update: (resourceGroupName: string, serviceName: string, payload: ServiceUpdate, options?: ServicesUpdateOptionalParams) => Promise<Service>;
+    update: (resourceGroupName: string, serviceName: string, properties: ServiceUpdate, options?: ServicesUpdateOptionalParams) => Promise<Service>;
 }
 
 // @public

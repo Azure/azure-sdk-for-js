@@ -75,7 +75,7 @@ export interface ServicesOperations {
   update: (
     resourceGroupName: string,
     serviceName: string,
-    payload: ServiceUpdate,
+    properties: ServiceUpdate,
     options?: ServicesUpdateOptionalParams,
   ) => Promise<Service>;
   /** Creates new or updates existing API. */
@@ -139,9 +139,9 @@ function _getServices(context: ApiCenterContext) {
     update: (
       resourceGroupName: string,
       serviceName: string,
-      payload: ServiceUpdate,
+      properties: ServiceUpdate,
       options?: ServicesUpdateOptionalParams,
-    ) => update(context, resourceGroupName, serviceName, payload, options),
+    ) => update(context, resourceGroupName, serviceName, properties, options),
     createOrUpdate: (
       resourceGroupName: string,
       serviceName: string,

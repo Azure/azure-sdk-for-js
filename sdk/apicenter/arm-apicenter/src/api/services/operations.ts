@@ -257,7 +257,7 @@ export function _updateSend(
   context: Client,
   resourceGroupName: string,
   serviceName: string,
-  payload: ServiceUpdate,
+  properties: ServiceUpdate,
   options: ServicesUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -276,7 +276,7 @@ export function _updateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: serviceUpdateSerializer(payload),
+    body: serviceUpdateSerializer(properties),
   });
 }
 
@@ -299,10 +299,10 @@ export async function update(
   context: Client,
   resourceGroupName: string,
   serviceName: string,
-  payload: ServiceUpdate,
+  properties: ServiceUpdate,
   options: ServicesUpdateOptionalParams = { requestOptions: {} },
 ): Promise<Service> {
-  const result = await _updateSend(context, resourceGroupName, serviceName, payload, options);
+  const result = await _updateSend(context, resourceGroupName, serviceName, properties, options);
   return _updateDeserialize(result);
 }
 
