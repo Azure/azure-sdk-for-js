@@ -15,6 +15,9 @@
 /documentation/ @Azure/azure-sdk-js-dev
 /samples/       @Azure/azure-sdk-js-dev
 
+# Approved third-party runtime dependency allow-list
+/eng/approved-third-party-dependencies.yml @Azure/azure-sdk-js-dev
+
 ################
 # Architecture
 ################

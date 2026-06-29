@@ -288,6 +288,9 @@ importers:
       glob:
         specifier: ^13.0.0
         version: 13.0.6
+      js-yaml:
+        specifier: ^4.1.1
+        version: 4.2.0
       tslib:
         specifier: ^2.6.2
         version: 2.8.1
@@ -304,6 +307,9 @@ importers:
       '@types/eslint-config-prettier':
         specifier: 6.11.3
         version: 6.11.3
+      '@types/js-yaml':
+        specifier: ^4.0.9
+        version: 4.0.9
       '@types/node':
         specifier: 'catalog:'
         version: 22.20.0
@@ -37298,6 +37304,9 @@ packages:
   '@types/istanbul-reports@3.0.4':
     resolution: {integrity: sha1-DwPj0vZw+9rFhuNLQzeDBwzBb1Q=}
 
+  '@types/js-yaml@4.0.9':
+    resolution: {integrity: sha1-zYI4LE+QL+2WkaLteexoxYmK9MI=}
+
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha1-WWoXRyM2lNUPatinhp/Lb1bPWEE=}
 
@@ -43625,6 +43634,8 @@ snapshots:
   '@types/istanbul-reports@3.0.4':
     dependencies:
       '@types/istanbul-lib-report': 3.0.3
+
+  '@types/js-yaml@4.0.9': {}
 
   '@types/json-schema@7.0.15': {}
 
