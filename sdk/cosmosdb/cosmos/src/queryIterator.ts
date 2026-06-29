@@ -116,6 +116,8 @@ export class QueryIterator<T> {
   ): AsyncIterable<FeedResponse<T>> {
     this.reset();
     this.queryPlanPromise = this.fetchQueryPlan(diagnosticNode);
+    await this.forceQueryPlanExecutionContext(diagnosticNode);
+    this.isInitialized = true;
     while (this.queryExecutionContext.hasMoreResults()) {
       let response: Response<any>;
       try {
@@ -301,6 +303,8 @@ export class QueryIterator<T> {
   public reset(): void {
     this.correlatedActivityId = randomUUID();
     this.queryPlanPromise = undefined;
+    this.isInitialized = false;
+    this.initPromise = undefined;
     this.fetchAllLastResHeaders = getInitialHeader();
     this.fetchAllTempResources = [];
     this.queryExecutionContext = new DefaultQueryExecutionContext(
@@ -441,7 +445,7 @@ export class QueryIterator<T> {
     }
   }
 
-  private initPromise: Promise<void>;
+  private initPromise: Promise<void> | undefined;
   /**
    * @internal
    */
@@ -455,10 +459,30 @@ export class QueryIterator<T> {
     return this.initPromise;
   }
   private async _init(diagnosticNode: DiagnosticNodeInternal): Promise<void> {
-    if (this.options.forceQueryPlan === true && this.resourceType === ResourceType.item) {
+    await this.forceQueryPlanExecutionContext(diagnosticNode);
+    this.isInitialized = true;
+  }
+
+  /**
+   * Forces the query-plan / pipelined path for item queries when `forceQueryPlan` or
+   * `enableQueryControl` is set. In query-control mode the continuation token is an SDK-internal
+   * composite token the gateway cannot parse, so it must never reach the optimistic
+   * {@link DefaultQueryExecutionContext} (which would forward it raw as `x-ms-continuation`).
+   */
+  private shouldForceQueryPlan(): boolean {
+    if (this.resourceType !== ResourceType.item) {
+      return false;
+    }
+    return this.options.forceQueryPlan === true || this.options.enableQueryControl === true;
+  }
+
+  /** Eagerly builds the pipelined execution context when {@link shouldForceQueryPlan} is true. */
+  private async forceQueryPlanExecutionContext(
+    diagnosticNode: DiagnosticNodeInternal,
+  ): Promise<void> {
+    if (this.shouldForceQueryPlan()) {
       await this.createExecutionContext(diagnosticNode);
     }
-    this.isInitialized = true;
   }
 
   private handleSplitError(err: any): void {
