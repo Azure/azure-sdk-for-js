@@ -12,7 +12,7 @@ let catalogs: Catalogs | undefined = undefined;
 export async function loadPnpmWorkspaceCatalogs() {
   if (!catalogs) {
     const manifest = await readWorkspaceManifest(await resolveRoot());
-    if (!manifest?.catalog || !manifest?.catalogs) {
+    if (!manifest || (!manifest.catalog && !manifest.catalogs)) {
       throw new Error("No catalog or catalogs found in the workspace manifest!");
     }
     catalogs = getCatalogsFromWorkspaceManifest(
