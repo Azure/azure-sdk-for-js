@@ -24,7 +24,6 @@ trigger:
   branches: { include: [main] }
   paths:
     include:
-      - eng/emitter-package.json
       - eng/pipelines/sdk-regenerate.yml
       - eng/pipelines/scripts/sdk-regenerate.mjs
 
@@ -32,7 +31,6 @@ pr:
   branches: { include: [main] }
   paths:
     include:
-      - eng/emitter-package.json
       - eng/pipelines/sdk-regenerate.yml
       - eng/pipelines/scripts/sdk-regenerate.mjs
 
