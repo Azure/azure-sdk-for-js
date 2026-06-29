@@ -32,11 +32,7 @@ jobs:
       demands: ImageOverride -equals $(LINUXVMIMAGE)
 
     steps:
-      - template: /eng/pipelines/templates/steps/common.yml
-
-      - script: |
-          npm install -g pnpm
-        displayName: "Install Pnpm"
+      - template: /eng/pipelines/templates/steps/install-pnpm.yml
 
       - script: |
           pnpm install

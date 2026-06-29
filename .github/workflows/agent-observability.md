@@ -28,6 +28,7 @@ permissions:
   actions: read
   pull-requests: read
   issues: read
+  copilot-requests: write
 # DataOps: collect every metric in a deterministic, authenticated shell
 # step (GH_TOKEN → 5000 req/hr, runs outside the agent sandbox). The
 # agent never makes API calls; it only reads /tmp/gh-aw/agent/*.json.

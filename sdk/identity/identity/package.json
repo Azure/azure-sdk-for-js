@@ -53,7 +53,7 @@
     ]
   },
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "repository": {
     "type": "git",
@@ -124,13 +124,13 @@
   "exports": {
     "./package.json": "./package.json",
     ".": {
-      "browser": {
-        "types": "./dist/browser/index.d.ts",
-        "default": "./dist/browser/index.js"
-      },
       "workerd": {
         "types": "./dist/workerd/index.d.ts",
         "default": "./dist/workerd/index.js"
+      },
+      "browser": {
+        "types": "./dist/browser/index.d.ts",
+        "default": "./dist/browser/index.js"
       },
       "import": {
         "types": "./dist/esm/index.d.ts",

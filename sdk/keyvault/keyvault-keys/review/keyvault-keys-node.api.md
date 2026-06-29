@@ -172,6 +172,11 @@ export interface EncryptResult {
 }
 
 // @public
+export interface ExternalKey {
+    id: string;
+}
+
+// @public
 export interface GetCryptographyClientOptions {
     keyVersion?: string;
 }
@@ -248,6 +253,7 @@ export class KeyClient {
     beginDeleteKey(name: string, options?: BeginDeleteKeyOptions): Promise<PollerLike<PollOperationState<DeletedKey>, DeletedKey>>;
     beginRecoverDeletedKey(name: string, options?: BeginRecoverDeletedKeyOptions): Promise<PollerLike<PollOperationState<DeletedKey>, DeletedKey>>;
     createEcKey(name: string, options?: CreateEcKeyOptions): Promise<KeyVaultKey>;
+    createExternalKey(name: string, externalKey: ExternalKey, options?: CreateKeyOptions): Promise<KeyVaultKey>;
     createKey(name: string, keyType: KeyType, options?: CreateKeyOptions): Promise<KeyVaultKey>;
     createOctKey(name: string, options?: CreateOctKeyOptions): Promise<KeyVaultKey>;
     createRsaKey(name: string, options?: CreateRsaKeyOptions): Promise<KeyVaultKey>;
@@ -265,6 +271,8 @@ export class KeyClient {
     releaseKey(name: string, targetAttestationToken: string, options?: ReleaseKeyOptions): Promise<ReleaseKeyResult>;
     restoreKeyBackup(backup: Uint8Array, options?: RestoreKeyBackupOptions): Promise<KeyVaultKey>;
     rotateKey(name: string, options?: RotateKeyOptions): Promise<KeyVaultKey>;
+    secureUnwrapKey(name: string, algorithm: SecureKeyWrapAlgorithm, value: Uint8Array, targetAttestationToken: string, options?: SecureUnwrapKeyOptions): Promise<SecureKeyOperationResult>;
+    secureWrapKey(name: string, algorithm: SecureKeyWrapAlgorithm, options?: SecureWrapKeyOptions): Promise<SecureKeyOperationResult>;
     updateKeyProperties(name: string, keyVersion: string, options?: UpdateKeyPropertiesOptions): Promise<KeyVaultKey>;
     updateKeyProperties(name: string, options?: UpdateKeyPropertiesOptions): Promise<KeyVaultKey>;
     updateKeyRotationPolicy(keyName: string, policy: KeyRotationPolicyProperties, options?: UpdateKeyRotationPolicyOptions): Promise<KeyRotationPolicy>;
@@ -299,8 +307,10 @@ export interface KeyProperties {
     enabled?: boolean;
     expiresOn?: Date;
     exportable?: boolean;
+    externalKey?: ExternalKey;
     readonly hsmPlatform?: string;
     id?: string;
+    readonly keySize?: number;
     readonly managed?: boolean;
     name: string;
     notBefore?: Date;
@@ -421,6 +431,8 @@ export enum KnownKeyOperations {
     Decrypt = "decrypt",
     Encrypt = "encrypt",
     Import = "import",
+    SecureUnwrapKey = "secureUnwrapKey",
+    SecureWrapKey = "secureWrapKey",
     Sign = "sign",
     UnwrapKey = "unwrapKey",
     Verify = "verify",
@@ -520,6 +532,26 @@ export type RsaEncryptionAlgorithm = "RSA1_5" | "RSA-OAEP" | "RSA-OAEP-256";
 export interface RsaEncryptParameters {
     algorithm: RsaEncryptionAlgorithm;
     plaintext: Uint8Array;
+}
+
+// @public
+export interface SecureKeyOperationResult {
+    algorithm: SecureKeyWrapAlgorithm;
+    keyID: string;
+    result: Uint8Array;
+}
+
+// @public
+export type SecureKeyWrapAlgorithm = "RSA-OAEP-256" | "A128KW" | "A192KW" | "A256KW" | "A128KWPAD" | "A192KWPAD" | "A256KWPAD" | "CKM_AES_KEY_WRAP" | "CKM_AES_KEY_WRAP_PAD";
+
+// @public
+export interface SecureUnwrapKeyOptions extends coreClient.OperationOptions {
+    version?: string;
+}
+
+// @public
+export interface SecureWrapKeyOptions extends coreClient.OperationOptions {
+    version?: string;
 }
 
 // @public

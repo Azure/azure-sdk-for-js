@@ -87,6 +87,7 @@ const azsdkDefault: Record<string, SharedConfig.RuleEntry> = {
   "@azure/azure-sdk/ts-no-const-enums": "warn",
   "@azure/azure-sdk/ts-no-invalid-test-imports": "off",
   "@azure/azure-sdk/ts-no-window": "error",
+  "@azure/azure-sdk/ts-package-json-approved-dependencies": "error",
   "@azure/azure-sdk/ts-package-json-author": "error",
   "@azure/azure-sdk/ts-package-json-bugs": "error",
   "@azure/azure-sdk/ts-package-json-engine-is-present": "error",

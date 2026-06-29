@@ -32,7 +32,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      properties: KeyProperties & {
          readonly recoveryId?: string;
          readonly scheduledPurgeDate?: Date;
-@@ -213,26 +213,27 @@
+@@ -218,26 +218,27 @@
  
  export { isRestError }
  
@@ -62,11 +62,11 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export interface KeyAttestation {
      certificatePemFile?: Uint8Array;
-@@ -247,18 +248,18 @@
-     backupKey(name: string, options?: BackupKeyOptions): Promise<Uint8Array | undefined>;
+@@ -253,18 +254,18 @@
      beginDeleteKey(name: string, options?: BeginDeleteKeyOptions): Promise<PollerLike<PollOperationState<DeletedKey>, DeletedKey>>;
      beginRecoverDeletedKey(name: string, options?: BeginRecoverDeletedKeyOptions): Promise<PollerLike<PollOperationState<DeletedKey>, DeletedKey>>;
      createEcKey(name: string, options?: CreateEcKeyOptions): Promise<KeyVaultKey>;
+     createExternalKey(name: string, externalKey: ExternalKey, options?: CreateKeyOptions): Promise<KeyVaultKey>;
 -    createKey(name: string, keyType: KeyType, options?: CreateKeyOptions): Promise<KeyVaultKey>;
 +    createKey(name: string, keyType: KeyType_2, options?: CreateKeyOptions): Promise<KeyVaultKey>;
      createOctKey(name: string, options?: CreateOctKeyOptions): Promise<KeyVaultKey>;
@@ -83,7 +83,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      listPropertiesOfKeys(options?: ListPropertiesOfKeysOptions): PagedAsyncIterableIterator<KeyProperties>;
      listPropertiesOfKeyVersions(name: string, options?: ListPropertiesOfKeyVersionsOptions): PagedAsyncIterableIterator<KeyProperties>;
      purgeDeletedKey(name: string, options?: PurgeDeletedKeyOptions): Promise<void>;
-@@ -345,16 +346,17 @@
+@@ -355,16 +356,17 @@
      lifetimeActions?: KeyRotationLifetimeAction[];
  }
  
