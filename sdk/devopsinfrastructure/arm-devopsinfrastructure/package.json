@@ -1,9 +1,9 @@
 {
   "name": "@azure/arm-devopsinfrastructure",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A generated SDK for DevOpsInfrastructureClient.",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "sideEffects": false,
   "autoPublish": false,

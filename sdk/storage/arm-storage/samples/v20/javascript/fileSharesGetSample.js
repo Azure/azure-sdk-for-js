@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets properties of a specified share.
  *
  * @summary gets properties of a specified share.
- * x-ms-original-file: 2025-08-01/FileSharesGet.json
+ * x-ms-original-file: 2026-04-01/FileSharesGet.json
  */
 async function getShares() {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function getShares() {
  * This sample demonstrates how to gets properties of a specified share.
  *
  * @summary gets properties of a specified share.
- * x-ms-original-file: 2025-08-01/FileSharesGet_PaidBursting.json
+ * x-ms-original-file: 2026-04-01/FileSharesGet_PaidBursting.json
  */
 async function getSharePaidBursting() {
   const credential = new DefaultAzureCredential();
@@ -36,7 +36,7 @@ async function getSharePaidBursting() {
  * This sample demonstrates how to gets properties of a specified share.
  *
  * @summary gets properties of a specified share.
- * x-ms-original-file: 2025-08-01/FileSharesGet_ProvisionedV2.json
+ * x-ms-original-file: 2026-04-01/FileSharesGet_ProvisionedV2.json
  */
 async function getShareProvisionedV2() {
   const credential = new DefaultAzureCredential();
@@ -50,7 +50,7 @@ async function getShareProvisionedV2() {
  * This sample demonstrates how to gets properties of a specified share.
  *
  * @summary gets properties of a specified share.
- * x-ms-original-file: 2025-08-01/FileSharesGet_Stats.json
+ * x-ms-original-file: 2026-04-01/FileSharesGet_Stats.json
  */
 async function getShareStats() {
   const credential = new DefaultAzureCredential();

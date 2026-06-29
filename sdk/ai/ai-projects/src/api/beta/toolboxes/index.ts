@@ -12,12 +12,12 @@ export {
   createVersion,
 } from "./operations.js";
 export type {
-  BetaToolboxesDeleteVersionOptionalParams,
+  DeleteVersionOptionalParams,
   BetaToolboxesDeleteOptionalParams,
   BetaToolboxesUpdateOptionalParams,
-  BetaToolboxesGetVersionOptionalParams,
-  BetaToolboxesListVersionsOptionalParams,
+  GetVersionOptionalParams,
+  ListVersionsOptionalParams,
   BetaToolboxesListOptionalParams,
   BetaToolboxesGetOptionalParams,
-  BetaToolboxesCreateVersionOptionalParams,
+  CreateVersionOptionalParams,
 } from "./options.js";

@@ -38,7 +38,7 @@ export function _reconcileSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       nspConfigurationName: nspConfigurationName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -53,7 +53,7 @@ export function _reconcileSend(
 export async function _reconcileDeserialize(
   result: PathUncheckedResponse,
 ): Promise<NetworkSecurityPerimeterConfiguration> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
@@ -75,13 +75,13 @@ export function reconcile(
   OperationState<NetworkSecurityPerimeterConfiguration>,
   NetworkSecurityPerimeterConfiguration
 > {
-  return getLongRunningPoller(context, _reconcileDeserialize, ["202", "200", "201"], {
+  return getLongRunningPoller(context, _reconcileDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _reconcileSend(context, resourceGroupName, accountName, nspConfigurationName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-01-15-preview",
+    apiVersion: context.apiVersion ?? "2026-03-15-preview",
   }) as PollerLike<
     OperationState<NetworkSecurityPerimeterConfiguration>,
     NetworkSecurityPerimeterConfiguration
@@ -100,7 +100,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -141,7 +141,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-01-15-preview",
+      apiVersion: context.apiVersion ?? "2026-03-15-preview",
     },
   );
 }
@@ -160,7 +160,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       nspConfigurationName: nspConfigurationName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

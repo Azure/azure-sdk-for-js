@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get usages for the requested Cognitive Services account
  *
  * @summary get usages for the requested Cognitive Services account
- * x-ms-original-file: 2026-01-15-preview/GetUsages.json
+ * x-ms-original-file: 2026-03-15-preview/GetUsages.json
  */
 async function getUsages(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function getUsages(): Promise<void> {
  * This sample demonstrates how to get usages for the requested Cognitive Services account
  *
  * @summary get usages for the requested Cognitive Services account
- * x-ms-original-file: 2026-01-15-preview/GetUsagesClassicScope.json
+ * x-ms-original-file: 2026-03-15-preview/GetUsagesClassicScope.json
  */
 async function getUsagesClassicScope(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -36,7 +36,7 @@ async function getUsagesClassicScope(): Promise<void> {
  * This sample demonstrates how to get usages for the requested Cognitive Services account
  *
  * @summary get usages for the requested Cognitive Services account
- * x-ms-original-file: 2026-01-15-preview/GetUsagesDataZoneScope.json
+ * x-ms-original-file: 2026-03-15-preview/GetUsagesDataZoneScope.json
  */
 async function getUsagesDataZoneScope(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -50,7 +50,7 @@ async function getUsagesDataZoneScope(): Promise<void> {
  * This sample demonstrates how to get usages for the requested Cognitive Services account
  *
  * @summary get usages for the requested Cognitive Services account
- * x-ms-original-file: 2026-01-15-preview/GetUsagesGlobalScope.json
+ * x-ms-original-file: 2026-03-15-preview/GetUsagesGlobalScope.json
  */
 async function getUsagesGlobalScope(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -24,13 +24,13 @@ export interface BetaEvaluationTaxonomiesOperations {
   /** Update an evaluation taxonomy. */
   update: (
     name: string,
-    body: EvaluationTaxonomy,
+    taxonomy: EvaluationTaxonomy,
     options?: BetaEvaluationTaxonomiesUpdateOptionalParams,
   ) => Promise<EvaluationTaxonomy>;
   /** Create an evaluation taxonomy. */
   create: (
     name: string,
-    body: EvaluationTaxonomy,
+    taxonomy: EvaluationTaxonomy,
     options?: BetaEvaluationTaxonomiesCreateOptionalParams,
   ) => Promise<EvaluationTaxonomy>;
   /** Delete an evaluation taxonomy by name. */
@@ -50,14 +50,14 @@ function _getBetaEvaluationTaxonomies(context: AIProjectContext) {
   return {
     update: (
       name: string,
-      body: EvaluationTaxonomy,
+      taxonomy: EvaluationTaxonomy,
       options?: BetaEvaluationTaxonomiesUpdateOptionalParams,
-    ) => update(context, name, body, options),
+    ) => update(context, name, taxonomy, options),
     create: (
       name: string,
-      body: EvaluationTaxonomy,
+      taxonomy: EvaluationTaxonomy,
       options?: BetaEvaluationTaxonomiesCreateOptionalParams,
-    ) => create(context, name, body, options),
+    ) => create(context, name, taxonomy, options),
     delete: (name: string, options?: BetaEvaluationTaxonomiesDeleteOptionalParams) =>
       $delete(context, name, options),
     list: (options?: BetaEvaluationTaxonomiesListOptionalParams) => list(context, options),

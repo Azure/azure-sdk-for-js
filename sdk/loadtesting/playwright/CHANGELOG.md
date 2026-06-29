@@ -1,14 +1,17 @@
 # Release History
 
-## 1.1.6 (Unreleased)
+## 1.1.6 (2026-06-05)
 
 ### Features Added
 
-### Breaking Changes
+- Added a `sourceType` option to `createAzurePlaywrightConfig` and `getConnectOptions`
+  that sets the `sourceType` query parameter on the remote browser WebSocket
+  endpoint. Supported values are `PlaywrightWorkspacesTestRun` (default) and
+  `Others`. Defaults remain unchanged for existing callers.
 
 ### Bugs Fixed
 
-### Other Changes
+- Validated workspace `storageUri` against an Azure Storage Blob allowlist before uploading reports.
 
 ## 1.1.5 (2026-04-24)
 

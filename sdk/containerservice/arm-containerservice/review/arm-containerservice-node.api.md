@@ -7,11 +7,13 @@
 import type { AbortSignalLike } from '@azure/abort-controller';
 import type { CancelOnProgress } from '@azure/core-lro';
 import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
 import type { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { Pipeline } from '@azure/core-rest-pipeline';
 import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -383,6 +385,18 @@ export type AzureSupportedClouds = `${AzureClouds}`;
 export type BackendPoolType = string;
 
 // @public
+export interface BastionProfile {
+    readonly bastionId?: string;
+    enabled?: boolean;
+    publicIpAddressId?: string;
+    scaleUnits?: number;
+    sku?: BastionSku;
+}
+
+// @public
+export type BastionSku = string;
+
+// @public
 export type ClusterServiceLoadBalancerHealthProbeMode = string;
 
 // @public
@@ -439,6 +453,7 @@ export class ContainerServiceClient {
     readonly loadBalancers: LoadBalancersOperations;
     readonly machines: MachinesOperations;
     readonly maintenanceConfigurations: MaintenanceConfigurationsOperations;
+    readonly maintenanceWindows: MaintenanceWindowsOperations;
     readonly managedClusters: ManagedClustersOperations;
     readonly managedClusterSnapshots: ManagedClusterSnapshotsOperations;
     readonly managedNamespaces: ManagedNamespacesOperations;
@@ -474,6 +489,7 @@ export interface ContainerServiceListNodeImageVersionsOptionalParams extends Ope
 // @public
 export interface ContainerServiceNetworkProfile {
     advancedNetworking?: AdvancedNetworking;
+    bastionProfile?: BastionProfile;
     dnsServiceIP?: string;
     ipFamilies?: IpFamily[];
     kubeProxyConfig?: ContainerServiceNetworkProfileKubeProxyConfig;
@@ -743,6 +759,8 @@ export interface IPTag {
 // @public
 export type IpvsScheduler = string;
 
+export { isRestError }
+
 // @public
 export interface IstioCertificateAuthority {
     plugin?: IstioPluginCertificateAuthority;
@@ -938,6 +956,12 @@ export enum KnownArtifactSource {
 export enum KnownBackendPoolType {
     NodeIP = "NodeIP",
     NodeIPConfiguration = "NodeIPConfiguration"
+}
+
+// @public
+export enum KnownBastionSku {
+    Premium = "Premium",
+    Standard = "Standard"
 }
 
 // @public
@@ -1402,6 +1426,13 @@ export enum KnownResourceIdentityType {
 }
 
 // @public
+export enum KnownResourceProvisioningState {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    Succeeded = "Succeeded"
+}
+
+// @public
 export enum KnownResourceSkuCapacityScaleType {
     Automatic = "Automatic",
     Manual = "Manual",
@@ -1526,7 +1557,8 @@ export enum KnownVersions {
     V20260101 = "2026-01-01",
     V20260201 = "2026-02-01",
     V20260301 = "2026-03-01",
-    V20260302Preview = "2026-03-02-preview"
+    V20260401 = "2026-04-01",
+    V20260402Preview = "2026-04-02-preview"
 }
 
 // @public
@@ -1906,6 +1938,66 @@ export interface MaintenanceWindow {
     startDate?: Date;
     startTime: string;
     utcOffset?: string;
+}
+
+// @public
+export interface MaintenanceWindowResource extends TrackedResource {
+    properties?: MaintenanceWindowResourceProperties;
+}
+
+// @public
+export interface MaintenanceWindowResourceProperties {
+    durationHours: number;
+    notAllowedDates?: DateSpan[];
+    readonly provisioningState?: ResourceProvisioningState;
+    schedule: Schedule;
+    startDate?: Date;
+    startTime: string;
+    utcOffset?: string;
+}
+
+// @public
+export interface MaintenanceWindowsCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface MaintenanceWindowsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface MaintenanceWindowsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface MaintenanceWindowsListBySubscriptionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface MaintenanceWindowsListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface MaintenanceWindowsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, maintenanceWindowName: string, resource: MaintenanceWindowResource, options?: MaintenanceWindowsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<MaintenanceWindowResource>, MaintenanceWindowResource>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, maintenanceWindowName: string, resource: MaintenanceWindowResource, options?: MaintenanceWindowsCreateOrUpdateOptionalParams) => Promise<MaintenanceWindowResource>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, maintenanceWindowName: string, options?: MaintenanceWindowsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, maintenanceWindowName: string, options?: MaintenanceWindowsDeleteOptionalParams) => Promise<void>;
+    createOrUpdate: (resourceGroupName: string, maintenanceWindowName: string, resource: MaintenanceWindowResource, options?: MaintenanceWindowsCreateOrUpdateOptionalParams) => PollerLike<OperationState<MaintenanceWindowResource>, MaintenanceWindowResource>;
+    delete: (resourceGroupName: string, maintenanceWindowName: string, options?: MaintenanceWindowsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, maintenanceWindowName: string, options?: MaintenanceWindowsGetOptionalParams) => Promise<MaintenanceWindowResource>;
+    list: (resourceGroupName: string, options?: MaintenanceWindowsListOptionalParams) => PagedAsyncIterableIterator<MaintenanceWindowResource>;
+    listBySubscription: (options?: MaintenanceWindowsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<MaintenanceWindowResource>;
+    updateTags: (resourceGroupName: string, maintenanceWindowName: string, properties: TagsObject, options?: MaintenanceWindowsUpdateTagsOptionalParams) => Promise<MaintenanceWindowResource>;
+}
+
+// @public
+export interface MaintenanceWindowsUpdateTagsOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -2741,7 +2833,7 @@ export interface ManagedClustersOperations {
     delete: (resourceGroupName: string, resourceName: string, options?: ManagedClustersDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, resourceName: string, options?: ManagedClustersGetOptionalParams) => Promise<ManagedCluster>;
     getAccessProfile: (resourceGroupName: string, resourceName: string, roleName: string, options?: ManagedClustersGetAccessProfileOptionalParams) => Promise<ManagedClusterAccessProfile>;
-    getCommandResult: (resourceGroupName: string, resourceName: string, commandId: string, options?: ManagedClustersGetCommandResultOptionalParams) => Promise<RunCommandResult>;
+    getCommandResult: (resourceGroupName: string, resourceName: string, commandId: string, options?: ManagedClustersGetCommandResultOptionalParams) => Promise<RunCommandResult | undefined>;
     getGuardrailsVersions: (location: string, version: string, options?: ManagedClustersGetGuardrailsVersionsOptionalParams) => Promise<GuardrailsAvailableVersion>;
     getMeshRevisionProfile: (location: string, mode: string, options?: ManagedClustersGetMeshRevisionProfileOptionalParams) => Promise<MeshRevisionProfile>;
     getMeshUpgradeProfile: (resourceGroupName: string, resourceName: string, mode: string, options?: ManagedClustersGetMeshUpgradeProfileOptionalParams) => Promise<MeshUpgradeProfile>;
@@ -3382,6 +3474,9 @@ export interface Resource {
 export type ResourceIdentityType = string;
 
 // @public
+export type ResourceProvisioningState = string;
+
+// @public
 export interface ResourceQuota {
     cpuLimit?: string;
     cpuRequest?: string;
@@ -3469,6 +3564,8 @@ export interface ResourceSkuZoneDetails {
     readonly capabilities?: ResourceSkuCapabilities[];
     readonly name?: string[];
 }
+
+export { RestError }
 
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: ContainerServiceClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;

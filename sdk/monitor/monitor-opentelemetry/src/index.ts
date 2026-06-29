@@ -27,6 +27,7 @@ import type { SpanProcessor } from "@opentelemetry/sdk-trace-base";
 import type { LogRecordProcessor } from "@opentelemetry/sdk-logs";
 import { getInstance } from "./utils/statsbeat.js";
 import { patchOpenTelemetryInstrumentationEnable } from "./utils/opentelemetryInstrumentationPatcher.js";
+import { ensureAzureSdkTracingBridge } from "./utils/azureSdkTracingBridge.js";
 import { isFunctionApp, parseResourceDetectorsFromEnvVar } from "./utils/common.js";
 import { Logger } from "./shared/logging/index.js";
 import { AZURE_MONITOR_AUTO_ATTACH } from "./types.js";
@@ -113,7 +114,7 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): voi
   // must match", resulting in Noop providers. Deleting the global object forces
   // registerGlobal() to create a fresh one with the correct version.
   const globalOpentelemetryApiKey = Symbol.for("opentelemetry.js.api.1");
-  delete (globalThis as Record<symbol, unknown>)[globalOpentelemetryApiKey];
+  Reflect.deleteProperty(globalThis, globalOpentelemetryApiKey);
 
   // Create internal handlers
   const metricHandler = new MetricHandler(config);
@@ -163,6 +164,10 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): voi
   setSdkPrefix();
   sendAttachWarning();
   sdk.start();
+
+  // Eagerly install the Azure SDK tracing bridge in case @azure/core-tracing
+  // was loaded before useAzureMonitor() (the RITM hook misses it otherwise).
+  ensureAzureSdkTracingBridge();
 }
 
 /**

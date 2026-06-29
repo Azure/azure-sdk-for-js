@@ -3,33 +3,30 @@
 
 const { DnsResolverManagementClient } = require("@azure/arm-dnsresolver");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Lists forwarding rules in a DNS forwarding ruleset.
+ * This sample demonstrates how to lists forwarding rules in a DNS forwarding ruleset.
  *
- * @summary Lists forwarding rules in a DNS forwarding ruleset.
- * x-ms-original-file: specification/dnsresolver/resource-manager/Microsoft.Network/DnsResolver/preview/2025-10-01-preview/examples/ForwardingRule_List.json
+ * @summary lists forwarding rules in a DNS forwarding ruleset.
+ * x-ms-original-file: 2025-10-01-preview/ForwardingRule_List.json
  */
-async function listForwardingRulesInADnsForwardingRuleset() {
-  const subscriptionId =
-    process.env["DNSRESOLVER_SUBSCRIPTION_ID"] || "abdd4249-9f34-4cc6-8e42-c2e32110603e";
-  const resourceGroupName = process.env["DNSRESOLVER_RESOURCE_GROUP"] || "sampleResourceGroup";
-  const dnsForwardingRulesetName = "sampleDnsForwardingRuleset";
+async function listForwardingRulesInADNSForwardingRuleset() {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "abdd4249-9f34-4cc6-8e42-c2e32110603e";
   const client = new DnsResolverManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (const item of client.forwardingRules.list(
-    resourceGroupName,
-    dnsForwardingRulesetName,
+    "sampleResourceGroup",
+    "sampleDnsForwardingRuleset",
   )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
 async function main() {
-  await listForwardingRulesInADnsForwardingRuleset();
+  await listForwardingRulesInADNSForwardingRuleset();
 }
 
 main().catch(console.error);

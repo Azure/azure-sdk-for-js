@@ -1,9 +1,9 @@
 {
   "name": "@azure/arm-postgresql-flexible",
-  "version": "10.0.0-beta.1",
+  "version": "10.0.0-beta.2",
   "description": "A generated SDK for PostgreSQLManagementFlexibleServerClient.",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "sideEffects": false,
   "autoPublish": false,
@@ -198,18 +198,18 @@
         "default": "./dist/commonjs/api/capabilitiesByLocation/index.js"
       }
     },
-    "./api/tuningOptions": {
+    "./api/tuningOptionsOperations": {
       "browser": {
-        "types": "./dist/browser/api/tuningOptions/index.d.ts",
-        "default": "./dist/browser/api/tuningOptions/index.js"
+        "types": "./dist/browser/api/tuningOptionsOperations/index.d.ts",
+        "default": "./dist/browser/api/tuningOptionsOperations/index.js"
       },
       "import": {
-        "types": "./dist/esm/api/tuningOptions/index.d.ts",
-        "default": "./dist/esm/api/tuningOptions/index.js"
+        "types": "./dist/esm/api/tuningOptionsOperations/index.d.ts",
+        "default": "./dist/esm/api/tuningOptionsOperations/index.js"
       },
       "require": {
-        "types": "./dist/commonjs/api/tuningOptions/index.d.ts",
-        "default": "./dist/commonjs/api/tuningOptions/index.js"
+        "types": "./dist/commonjs/api/tuningOptionsOperations/index.d.ts",
+        "default": "./dist/commonjs/api/tuningOptionsOperations/index.js"
       }
     },
     "./api/backupsAutomaticAndOnDemand": {
@@ -322,6 +322,34 @@
       "require": {
         "types": "./dist/commonjs/api/administratorsMicrosoftEntra/index.d.ts",
         "default": "./dist/commonjs/api/administratorsMicrosoftEntra/index.js"
+      }
+    },
+    "./api/majorVersionUpgradePrecheck": {
+      "browser": {
+        "types": "./dist/browser/api/majorVersionUpgradePrecheck/index.d.ts",
+        "default": "./dist/browser/api/majorVersionUpgradePrecheck/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/majorVersionUpgradePrecheck/index.d.ts",
+        "default": "./dist/esm/api/majorVersionUpgradePrecheck/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/majorVersionUpgradePrecheck/index.d.ts",
+        "default": "./dist/commonjs/api/majorVersionUpgradePrecheck/index.js"
+      }
+    },
+    "./api/maintenanceEvents": {
+      "browser": {
+        "types": "./dist/browser/api/maintenanceEvents/index.d.ts",
+        "default": "./dist/browser/api/maintenanceEvents/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/maintenanceEvents/index.d.ts",
+        "default": "./dist/esm/api/maintenanceEvents/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/maintenanceEvents/index.d.ts",
+        "default": "./dist/commonjs/api/maintenanceEvents/index.js"
       }
     },
     "./api/virtualEndpoints": {
@@ -470,6 +498,7 @@
   "module": "./dist/esm/index.js",
   "imports": {
     "#platform/*": {
+      "browser": "./src/*-browser.mts",
       "default": "./src/*.ts"
     }
   }

@@ -99,6 +99,8 @@ export class LiveMetrics {
   private quickpulseExporter: QuickpulseMetricExporter;
   private pingSender: QuickpulseSender;
   private isCollectingData: boolean;
+  private isDeactivating: boolean = false;
+  private deactivatingPromise: Promise<void> | undefined;
   private lastSuccessTime: number = Date.now();
   private handle: NodeJS.Timer;
   // Monitoring data point with common properties
@@ -196,14 +198,21 @@ export class LiveMetrics {
     this.pingInterval = PING_INTERVAL; // Default
     this.postInterval = POST_INTERVAL;
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
-    this.handle = <any>setTimeout(this.goQuickpulse.bind(this), this.pingInterval);
+    this.handle = setTimeout(this.goQuickpulse.bind(this), this.pingInterval);
     this.handle.unref(); // Don't block apps from terminating
     this.lastCpuUsage = process.cpuUsage();
     this.lastHrTime = process.hrtime.bigint();
   }
 
-  public shutdown(): void {
-    this.meterProvider?.shutdown();
+  public async shutdown(): Promise<void> {
+    // Force collecting=false before tearing down so the shutdown's final
+    // force-flush export, if it fails, cannot trigger the deactivate/
+    // reactivate fallback in quickPulseDone(). Delegate to deactivateMetrics()
+    // which manages the in-flight deactivation promise so callers (including
+    // a concurrent failure-fallback in quickPulseDone) all observe the same
+    // completion and shutdown waits for any in-flight deactivation to finish.
+    this.isCollectingData = false;
+    await this.deactivateMetrics();
   }
 
   private async goQuickpulse(): Promise<void> {
@@ -223,7 +232,7 @@ export class LiveMetrics {
         this.quickPulseDone(undefined);
       }
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
-      this.handle = <any>setTimeout(this.goQuickpulse.bind(this), this.pingInterval);
+      this.handle = setTimeout(this.goQuickpulse.bind(this), this.pingInterval);
       this.handle.unref();
     }
     if (this.isCollectingData) {
@@ -231,7 +240,6 @@ export class LiveMetrics {
     }
   }
 
-  // eslint-disable-next-line @typescript-eslint/require-await
   private async quickPulseDone(response: QuickpulseResponse | undefined): Promise<void> {
     if (!response) {
       if (!this.isCollectingData) {
@@ -240,9 +248,36 @@ export class LiveMetrics {
         }
       } else {
         if (Date.now() - this.lastSuccessTime >= MAX_POST_WAIT_TIME) {
+          // Re-entrancy guard: MeterProvider.shutdown() triggers a final
+          // force-flush export which, on failure, re-invokes this callback
+          // synchronously from inside the shutdown's export call. If a
+          // deactivation is already in flight, bail out — awaiting the
+          // in-flight promise here would deadlock the exporter's callback.
+          if (this.isDeactivating) {
+            return;
+          }
           this.postInterval = FALLBACK_INTERVAL;
-          this.deactivateMetrics();
-          this.activateMetrics({ collectionInterval: this.postInterval });
+          try {
+            await this.deactivateMetrics();
+          } catch (error) {
+            // The exporter invokes postCallback without awaiting it, so a
+            // rejection here would surface as an unhandled rejection. Swallow
+            // and log so the failure path stays contained.
+            Logger.getInstance().warn(
+              "Failed to deactivate Live Metrics during failure fallback",
+              error,
+            );
+          }
+          // Reset the success-time baseline so the FALLBACK_INTERVAL backoff
+          // can take effect before we consider deactivating again.
+          this.lastSuccessTime = Date.now();
+          // Re-check after the await: shutdown() may have run concurrently and
+          // flipped isCollectingData to false. Don't restart collection in
+          // that case — doing so would re-create the meterProvider after
+          // shutdown has begun.
+          if (this.isCollectingData) {
+            this.activateMetrics({ collectionInterval: this.postInterval });
+          }
         }
       }
     } else {
@@ -258,9 +293,9 @@ export class LiveMetrics {
       // If collecting was stoped
       if (!this.isCollectingData && this.meterProvider) {
         this.etag = "";
-        this.deactivateMetrics();
+        await this.deactivateMetrics();
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
-        this.handle = <any>setTimeout(this.goQuickpulse.bind(this), this.pingInterval);
+        this.handle = setTimeout(this.goQuickpulse.bind(this), this.pingInterval);
         this.handle.unref();
       }
 
@@ -387,16 +422,37 @@ export class LiveMetrics {
   /**
    * Deactivate metric collection
    */
-  public deactivateMetrics(): void {
-    this.documents = [];
-    this.validDocumentFilterConjuctionGroupInfos.clear();
-    this.errorTracker.clearRunTimeErrors();
-    this.errorTracker.clearValidationTimeErrors();
-    this.validDerivedMetrics.clear();
-    this.derivedMetricProjection.clearProjectionMaps();
-    this.seenMetricIds.clear();
-    this.meterProvider?.shutdown();
-    this.meterProvider = undefined;
+  public async deactivateMetrics(): Promise<void> {
+    // Coalesce concurrent deactivations: callers (shutdown(), the
+    // failure-fallback in quickPulseDone(), and the "unsubscribed" branch in
+    // goQuickpulse()) can all race. Return the in-flight promise so every
+    // caller awaits the same completion and the underlying meterProvider
+    // shutdown only runs once.
+    if (this.deactivatingPromise) {
+      return this.deactivatingPromise;
+    }
+    this.isDeactivating = true;
+    this.deactivatingPromise = (async () => {
+      try {
+        this.documents = [];
+        this.validDocumentFilterConjuctionGroupInfos.clear();
+        this.errorTracker.clearRunTimeErrors();
+        this.errorTracker.clearValidationTimeErrors();
+        this.validDerivedMetrics.clear();
+        this.derivedMetricProjection.clearProjectionMaps();
+        this.seenMetricIds.clear();
+        // Capture and clear the reference before awaiting shutdown so any
+        // re-entrant calls triggered by the shutdown's final force-flush
+        // export observe meterProvider as undefined and exit early.
+        const provider = this.meterProvider;
+        this.meterProvider = undefined;
+        await provider?.shutdown();
+      } finally {
+        this.isDeactivating = false;
+        this.deactivatingPromise = undefined;
+      }
+    })();
+    return this.deactivatingPromise;
   }
 
   /**

@@ -4,28 +4,34 @@
 
 ```ts
 
-import type * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
+import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
-import type { PagedAsyncIterableIterator } from '@azure/core-paging';
-import type { SimplePollerLike } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type AccessRights = "RegistryRead" | "RegistryWrite" | "ServiceConnect" | "DeviceConnect" | "RegistryRead, RegistryWrite" | "RegistryRead, ServiceConnect" | "RegistryRead, DeviceConnect" | "RegistryWrite, ServiceConnect" | "RegistryWrite, DeviceConnect" | "ServiceConnect, DeviceConnect" | "RegistryRead, RegistryWrite, ServiceConnect" | "RegistryRead, RegistryWrite, DeviceConnect" | "RegistryRead, ServiceConnect, DeviceConnect" | "RegistryWrite, ServiceConnect, DeviceConnect" | "RegistryRead, RegistryWrite, ServiceConnect, DeviceConnect";
 
-// @public (undocumented)
+// @public
 export interface ArmIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type?: ResourceIdentityType;
-    userAssignedIdentities?: {
-        [propertyName: string]: ArmUserIdentity;
-    };
+    userAssignedIdentities?: Record<string, ArmUserIdentity>;
 }
 
-// @public (undocumented)
+// @public
 export interface ArmUserIdentity {
+    // (undocumented)
     readonly clientId?: string;
+    // (undocumented)
     readonly principalId?: string;
 }
 
@@ -33,21 +39,22 @@ export interface ArmUserIdentity {
 export type AuthenticationType = string;
 
 // @public
-export type Capabilities = string;
-
-// @public
-export interface CertificateBodyDescription {
-    certificate?: string;
-    isVerified?: boolean;
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
 }
 
 // @public
-export interface CertificateDescription {
+export type AzureSupportedClouds = `${AzureClouds}`;
+
+// @public
+export type Capabilities = string;
+
+// @public
+export interface CertificateDescription extends ProxyResource {
     readonly etag?: string;
-    readonly id?: string;
-    readonly name?: string;
     properties?: CertificateProperties;
-    readonly type?: string;
 }
 
 // @public
@@ -81,54 +88,39 @@ export interface CertificatePropertiesWithNonce {
 }
 
 // @public
-export interface Certificates {
-    createOrUpdate(resourceGroupName: string, resourceName: string, certificateName: string, certificateDescription: CertificateDescription, options?: CertificatesCreateOrUpdateOptionalParams): Promise<CertificatesCreateOrUpdateResponse>;
-    delete(resourceGroupName: string, resourceName: string, certificateName: string, ifMatch: string, options?: CertificatesDeleteOptionalParams): Promise<void>;
-    generateVerificationCode(resourceGroupName: string, resourceName: string, certificateName: string, ifMatch: string, options?: CertificatesGenerateVerificationCodeOptionalParams): Promise<CertificatesGenerateVerificationCodeResponse>;
-    get(resourceGroupName: string, resourceName: string, certificateName: string, options?: CertificatesGetOptionalParams): Promise<CertificatesGetResponse>;
-    listByIotHub(resourceGroupName: string, resourceName: string, options?: CertificatesListByIotHubOptionalParams): Promise<CertificatesListByIotHubResponse>;
-    verify(resourceGroupName: string, resourceName: string, certificateName: string, ifMatch: string, certificateVerificationBody: CertificateVerificationDescription, options?: CertificatesVerifyOptionalParams): Promise<CertificatesVerifyResponse>;
-}
-
-// @public
-export interface CertificatesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface CertificatesCreateOrUpdateOptionalParams extends OperationOptions {
     ifMatch?: string;
 }
 
 // @public
-export type CertificatesCreateOrUpdateResponse = CertificateDescription;
-
-// @public
-export interface CertificatesDeleteOptionalParams extends coreClient.OperationOptions {
+export interface CertificatesDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface CertificatesGenerateVerificationCodeOptionalParams extends coreClient.OperationOptions {
+export interface CertificatesGenerateVerificationCodeOptionalParams extends OperationOptions {
 }
 
 // @public
-export type CertificatesGenerateVerificationCodeResponse = CertificateWithNonceDescription;
-
-// @public
-export interface CertificatesGetOptionalParams extends coreClient.OperationOptions {
+export interface CertificatesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type CertificatesGetResponse = CertificateDescription;
-
-// @public
-export interface CertificatesListByIotHubOptionalParams extends coreClient.OperationOptions {
+export interface CertificatesListByIotHubOptionalParams extends OperationOptions {
 }
 
 // @public
-export type CertificatesListByIotHubResponse = CertificateListDescription;
-
-// @public
-export interface CertificatesVerifyOptionalParams extends coreClient.OperationOptions {
+export interface CertificatesOperations {
+    createOrUpdate: (resourceGroupName: string, resourceName: string, certificateName: string, certificateDescription: CertificateDescription, options?: CertificatesCreateOrUpdateOptionalParams) => Promise<CertificateDescription>;
+    delete: (resourceGroupName: string, resourceName: string, certificateName: string, ifMatch: string, options?: CertificatesDeleteOptionalParams) => Promise<void>;
+    generateVerificationCode: (resourceGroupName: string, resourceName: string, certificateName: string, ifMatch: string, options?: CertificatesGenerateVerificationCodeOptionalParams) => Promise<CertificateWithNonceDescription>;
+    get: (resourceGroupName: string, resourceName: string, certificateName: string, options?: CertificatesGetOptionalParams) => Promise<CertificateDescription>;
+    listByIotHub: (resourceGroupName: string, resourceName: string, options?: CertificatesListByIotHubOptionalParams) => Promise<CertificateListDescription>;
+    verify: (resourceGroupName: string, resourceName: string, certificateName: string, ifMatch: string, certificateVerificationBody: CertificateVerificationDescription, options?: CertificatesVerifyOptionalParams) => Promise<CertificateDescription>;
 }
 
 // @public
-export type CertificatesVerifyResponse = CertificateDescription;
+export interface CertificatesVerifyOptionalParams extends OperationOptions {
+}
 
 // @public
 export interface CertificateVerificationDescription {
@@ -150,6 +142,11 @@ export interface CloudToDeviceProperties {
     feedback?: FeedbackProperties;
     maxDeliveryCount?: number;
 }
+
+// @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
 
 // @public
 export type CreatedByType = string;
@@ -180,12 +177,6 @@ export interface EndpointHealthData {
 }
 
 // @public
-export interface EndpointHealthDataListResult {
-    readonly nextLink?: string;
-    value?: EndpointHealthData[];
-}
-
-// @public
 export type EndpointHealthStatus = string;
 
 // @public
@@ -209,25 +200,14 @@ export interface EventHubConsumerGroupBodyDescription {
 }
 
 // @public
-export interface EventHubConsumerGroupInfo {
+export interface EventHubConsumerGroupInfo extends ProxyResource {
     readonly etag?: string;
-    readonly id?: string;
-    readonly name?: string;
-    properties?: {
-        [propertyName: string]: any;
-    };
-    readonly type?: string;
+    properties?: Record<string, any>;
 }
 
 // @public
 export interface EventHubConsumerGroupName {
     name: string;
-}
-
-// @public
-export interface EventHubConsumerGroupsListResult {
-    readonly nextLink?: string;
-    value?: EventHubConsumerGroupInfo[];
 }
 
 // @public
@@ -272,7 +252,7 @@ export interface FeedbackProperties {
 }
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
+export type GatewayVersion = string;
 
 // @public
 export interface GroupIdInformation {
@@ -302,12 +282,6 @@ export interface ImportDevicesRequest {
 }
 
 // @public
-export interface IotHub {
-    beginManualFailover(iotHubName: string, resourceGroupName: string, failoverInput: FailoverInput, options?: IotHubManualFailoverOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginManualFailoverAndWait(iotHubName: string, resourceGroupName: string, failoverInput: FailoverInput, options?: IotHubManualFailoverOptionalParams): Promise<void>;
-}
-
-// @public
 export interface IotHubCapacity {
     readonly default?: number;
     readonly maximum?: number;
@@ -316,50 +290,36 @@ export interface IotHubCapacity {
 }
 
 // @public (undocumented)
-export class IotHubClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: IotHubClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    certificates: Certificates;
-    // (undocumented)
-    iotHub: IotHub;
-    // (undocumented)
-    iotHubResource: IotHubResource;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    privateEndpointConnections: PrivateEndpointConnections;
-    // (undocumented)
-    privateLinkResourcesOperations: PrivateLinkResourcesOperations;
-    // (undocumented)
-    resourceProviderCommon: ResourceProviderCommon;
-    // (undocumented)
-    subscriptionId: string;
+export class IotHubClient {
+    constructor(credential: TokenCredential, options?: IotHubClientOptionalParams);
+    constructor(credential: TokenCredential, subscriptionId: string, options?: IotHubClientOptionalParams);
+    readonly certificates: CertificatesOperations;
+    readonly iotHub: IotHubOperations;
+    readonly iotHubResource: IotHubResourceOperations;
+    readonly operations: OperationsOperations;
+    readonly pipeline: Pipeline;
+    readonly privateEndpointConnections: PrivateEndpointConnectionsOperations;
+    readonly privateLinkResourcesOperations: PrivateLinkResourcesOperationsOperations;
+    readonly resourceProviderCommon: ResourceProviderCommonOperations;
 }
 
 // @public
-export interface IotHubClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface IotHubClientOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
-export interface IotHubDescription extends Resource {
+export interface IotHubDescription extends TrackedResource {
     etag?: string;
     identity?: ArmIdentity;
     properties?: IotHubProperties;
     sku: IotHubSkuInfo;
-    readonly systemData?: SystemData;
 }
 
 // @public
-export interface IotHubDescriptionListResult {
-    readonly nextLink?: string;
-    value?: IotHubDescription[];
+export interface IotHubDetails {
+    gatewayVersion?: GatewayVersion;
 }
 
 // @public
@@ -369,15 +329,7 @@ export interface IotHubLocationDescription {
 }
 
 // @public
-export interface IotHubManualFailoverHeaders {
-    azureAsyncOperation?: string;
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface IotHubManualFailoverOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface IotHubManualFailoverOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
@@ -392,11 +344,21 @@ export interface IotHubNameAvailabilityInfo {
 export type IotHubNameUnavailabilityReason = "Invalid" | "AlreadyExists";
 
 // @public
+export interface IotHubOperations {
+    // @deprecated (undocumented)
+    beginManualFailover: (iotHubName: string, resourceGroupName: string, failoverInput: FailoverInput, options?: IotHubManualFailoverOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginManualFailoverAndWait: (iotHubName: string, resourceGroupName: string, failoverInput: FailoverInput, options?: IotHubManualFailoverOptionalParams) => Promise<void>;
+    manualFailover: (iotHubName: string, resourceGroupName: string, failoverInput: FailoverInput, options?: IotHubManualFailoverOptionalParams) => PollerLike<OperationState<void>, void>;
+}
+
+// @public
 export interface IotHubProperties {
     allowedFqdnList?: string[];
     authorizationPolicies?: SharedAccessSignatureAuthorizationRule[];
     cloudToDevice?: CloudToDeviceProperties;
     comments?: string;
+    readonly deviceHostName?: string;
     deviceRegistry?: DeviceRegistry;
     deviceStreams?: IotHubPropertiesDeviceStreams;
     disableDeviceSAS?: boolean;
@@ -405,17 +367,14 @@ export interface IotHubProperties {
     enableDataResidency?: boolean;
     enableFileUploadNotifications?: boolean;
     encryption?: EncryptionPropertiesDescription;
-    eventHubEndpoints?: {
-        [propertyName: string]: EventHubProperties;
-    };
+    eventHubEndpoints?: Record<string, EventHubProperties>;
     features?: Capabilities;
     readonly hostName?: string;
+    readonly iotHubDetails?: IotHubDetails;
     ipFilterRules?: IpFilterRule[];
     ipVersion?: IpVersion;
     readonly locations?: IotHubLocationDescription[];
-    messagingEndpoints?: {
-        [propertyName: string]: MessagingEndpointProperties;
-    };
+    messagingEndpoints?: Record<string, MessagingEndpointProperties>;
     minTlsVersion?: string;
     networkRuleSets?: NetworkRuleSetProperties;
     privateEndpointConnections?: PrivateEndpointConnection[];
@@ -424,10 +383,9 @@ export interface IotHubProperties {
     restrictOutboundNetworkAccess?: boolean;
     rootCertificate?: RootCertificateProperties;
     routing?: RoutingProperties;
+    readonly serviceHostName?: string;
     readonly state?: string;
-    storageEndpoints?: {
-        [propertyName: string]: StorageEndpointProperties;
-    };
+    storageEndpoints?: Record<string, StorageEndpointProperties>;
 }
 
 // @public
@@ -443,281 +401,142 @@ export interface IotHubQuotaMetricInfo {
 }
 
 // @public
-export interface IotHubQuotaMetricInfoListResult {
-    readonly nextLink?: string;
-    value?: IotHubQuotaMetricInfo[];
-}
-
-// @public
 export type IotHubReplicaRoleType = string;
 
 // @public
-export interface IotHubResource {
-    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, iotHubDescription: IotHubDescription, options?: IotHubResourceCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<IotHubResourceCreateOrUpdateResponse>, IotHubResourceCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, resourceName: string, iotHubDescription: IotHubDescription, options?: IotHubResourceCreateOrUpdateOptionalParams): Promise<IotHubResourceCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, resourceName: string, options?: IotHubResourceDeleteOptionalParams): Promise<SimplePollerLike<OperationState<IotHubResourceDeleteResponse>, IotHubResourceDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, resourceName: string, options?: IotHubResourceDeleteOptionalParams): Promise<IotHubResourceDeleteResponse>;
-    beginUpdate(resourceGroupName: string, resourceName: string, iotHubTags: TagsResource, options?: IotHubResourceUpdateOptionalParams): Promise<SimplePollerLike<OperationState<IotHubResourceUpdateResponse>, IotHubResourceUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, resourceName: string, iotHubTags: TagsResource, options?: IotHubResourceUpdateOptionalParams): Promise<IotHubResourceUpdateResponse>;
-    checkNameAvailability(operationInputs: OperationInputs, options?: IotHubResourceCheckNameAvailabilityOptionalParams): Promise<IotHubResourceCheckNameAvailabilityResponse>;
-    createEventHubConsumerGroup(resourceGroupName: string, resourceName: string, eventHubEndpointName: string, name: string, consumerGroupBody: EventHubConsumerGroupBodyDescription, options?: IotHubResourceCreateEventHubConsumerGroupOptionalParams): Promise<IotHubResourceCreateEventHubConsumerGroupResponse>;
-    deleteEventHubConsumerGroup(resourceGroupName: string, resourceName: string, eventHubEndpointName: string, name: string, options?: IotHubResourceDeleteEventHubConsumerGroupOptionalParams): Promise<void>;
-    exportDevices(resourceGroupName: string, resourceName: string, exportDevicesParameters: ExportDevicesRequest, options?: IotHubResourceExportDevicesOptionalParams): Promise<IotHubResourceExportDevicesResponse>;
-    get(resourceGroupName: string, resourceName: string, options?: IotHubResourceGetOptionalParams): Promise<IotHubResourceGetResponse>;
-    getEventHubConsumerGroup(resourceGroupName: string, resourceName: string, eventHubEndpointName: string, name: string, options?: IotHubResourceGetEventHubConsumerGroupOptionalParams): Promise<IotHubResourceGetEventHubConsumerGroupResponse>;
-    getJob(resourceGroupName: string, resourceName: string, jobId: string, options?: IotHubResourceGetJobOptionalParams): Promise<IotHubResourceGetJobResponse>;
-    getKeysForKeyName(resourceGroupName: string, resourceName: string, keyName: string, options?: IotHubResourceGetKeysForKeyNameOptionalParams): Promise<IotHubResourceGetKeysForKeyNameResponse>;
-    getStats(resourceGroupName: string, resourceName: string, options?: IotHubResourceGetStatsOptionalParams): Promise<IotHubResourceGetStatsResponse>;
-    importDevices(resourceGroupName: string, resourceName: string, importDevicesParameters: ImportDevicesRequest, options?: IotHubResourceImportDevicesOptionalParams): Promise<IotHubResourceImportDevicesResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: IotHubResourceListByResourceGroupOptionalParams): PagedAsyncIterableIterator<IotHubDescription>;
-    listBySubscription(options?: IotHubResourceListBySubscriptionOptionalParams): PagedAsyncIterableIterator<IotHubDescription>;
-    listEndpointHealth(resourceGroupName: string, iotHubName: string, options?: IotHubResourceGetEndpointHealthOptionalParams): PagedAsyncIterableIterator<EndpointHealthData>;
-    listEventHubConsumerGroups(resourceGroupName: string, resourceName: string, eventHubEndpointName: string, options?: IotHubResourceListEventHubConsumerGroupsOptionalParams): PagedAsyncIterableIterator<EventHubConsumerGroupInfo>;
-    listJobs(resourceGroupName: string, resourceName: string, options?: IotHubResourceListJobsOptionalParams): PagedAsyncIterableIterator<JobResponse>;
-    listKeys(resourceGroupName: string, resourceName: string, options?: IotHubResourceListKeysOptionalParams): PagedAsyncIterableIterator<SharedAccessSignatureAuthorizationRule>;
-    listQuotaMetrics(resourceGroupName: string, resourceName: string, options?: IotHubResourceGetQuotaMetricsOptionalParams): PagedAsyncIterableIterator<IotHubQuotaMetricInfo>;
-    listValidSkus(resourceGroupName: string, resourceName: string, options?: IotHubResourceGetValidSkusOptionalParams): PagedAsyncIterableIterator<IotHubSkuDescription>;
-    testAllRoutes(iotHubName: string, resourceGroupName: string, input: TestAllRoutesInput, options?: IotHubResourceTestAllRoutesOptionalParams): Promise<IotHubResourceTestAllRoutesResponse>;
-    testRoute(iotHubName: string, resourceGroupName: string, input: TestRouteInput, options?: IotHubResourceTestRouteOptionalParams): Promise<IotHubResourceTestRouteResponse>;
+export interface IotHubResourceCheckNameAvailabilityOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface IotHubResourceCheckNameAvailabilityOptionalParams extends coreClient.OperationOptions {
+export interface IotHubResourceCreateEventHubConsumerGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type IotHubResourceCheckNameAvailabilityResponse = IotHubNameAvailabilityInfo;
-
-// @public
-export interface IotHubResourceCreateEventHubConsumerGroupOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type IotHubResourceCreateEventHubConsumerGroupResponse = EventHubConsumerGroupInfo;
-
-// @public
-export interface IotHubResourceCreateOrUpdateHeaders {
-    azureAsyncOperation?: string;
-}
-
-// @public
-export interface IotHubResourceCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface IotHubResourceCreateOrUpdateOptionalParams extends OperationOptions {
     ifMatch?: string;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type IotHubResourceCreateOrUpdateResponse = IotHubDescription;
-
-// @public
-export interface IotHubResourceDeleteEventHubConsumerGroupOptionalParams extends coreClient.OperationOptions {
+export interface IotHubResourceDeleteEventHubConsumerGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface IotHubResourceDeleteHeaders {
-    azureAsyncOperation?: string;
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface IotHubResourceDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface IotHubResourceDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type IotHubResourceDeleteResponse = IotHubDescription;
-
-// @public
-export interface IotHubResourceExportDevicesOptionalParams extends coreClient.OperationOptions {
+export interface IotHubResourceExportDevicesOptionalParams extends OperationOptions {
 }
 
 // @public
-export type IotHubResourceExportDevicesResponse = JobResponse;
-
-// @public
-export interface IotHubResourceGetEndpointHealthNextOptionalParams extends coreClient.OperationOptions {
+export interface IotHubResourceGetEventHubConsumerGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type IotHubResourceGetEndpointHealthNextResponse = EndpointHealthDataListResult;
-
-// @public
-export interface IotHubResourceGetEndpointHealthOptionalParams extends coreClient.OperationOptions {
+export interface IotHubResourceGetJobOptionalParams extends OperationOptions {
 }
 
 // @public
-export type IotHubResourceGetEndpointHealthResponse = EndpointHealthDataListResult;
-
-// @public
-export interface IotHubResourceGetEventHubConsumerGroupOptionalParams extends coreClient.OperationOptions {
+export interface IotHubResourceGetKeysForKeyNameOptionalParams extends OperationOptions {
 }
 
 // @public
-export type IotHubResourceGetEventHubConsumerGroupResponse = EventHubConsumerGroupInfo;
-
-// @public
-export interface IotHubResourceGetJobOptionalParams extends coreClient.OperationOptions {
+export interface IotHubResourceGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type IotHubResourceGetJobResponse = JobResponse;
-
-// @public
-export interface IotHubResourceGetKeysForKeyNameOptionalParams extends coreClient.OperationOptions {
+export interface IotHubResourceGetStatsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type IotHubResourceGetKeysForKeyNameResponse = SharedAccessSignatureAuthorizationRule;
-
-// @public
-export interface IotHubResourceGetOptionalParams extends coreClient.OperationOptions {
+export interface IotHubResourceImportDevicesOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface IotHubResourceGetQuotaMetricsNextOptionalParams extends coreClient.OperationOptions {
+export interface IotHubResourceListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type IotHubResourceGetQuotaMetricsNextResponse = IotHubQuotaMetricInfoListResult;
-
-// @public
-export interface IotHubResourceGetQuotaMetricsOptionalParams extends coreClient.OperationOptions {
+export interface IotHubResourceListBySubscriptionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type IotHubResourceGetQuotaMetricsResponse = IotHubQuotaMetricInfoListResult;
-
-// @public
-export type IotHubResourceGetResponse = IotHubDescription;
-
-// @public
-export interface IotHubResourceGetStatsOptionalParams extends coreClient.OperationOptions {
+export interface IotHubResourceListEndpointHealthOptionalParams extends OperationOptions {
 }
 
 // @public
-export type IotHubResourceGetStatsResponse = RegistryStatistics;
-
-// @public
-export interface IotHubResourceGetValidSkusNextOptionalParams extends coreClient.OperationOptions {
+export interface IotHubResourceListEventHubConsumerGroupsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type IotHubResourceGetValidSkusNextResponse = IotHubSkuDescriptionListResult;
-
-// @public
-export interface IotHubResourceGetValidSkusOptionalParams extends coreClient.OperationOptions {
+export interface IotHubResourceListJobsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type IotHubResourceGetValidSkusResponse = IotHubSkuDescriptionListResult;
-
-// @public
-export interface IotHubResourceImportDevicesOptionalParams extends coreClient.OperationOptions {
+export interface IotHubResourceListKeysOptionalParams extends OperationOptions {
 }
 
 // @public
-export type IotHubResourceImportDevicesResponse = JobResponse;
-
-// @public
-export interface IotHubResourceListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface IotHubResourceListQuotaMetricsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type IotHubResourceListByResourceGroupNextResponse = IotHubDescriptionListResult;
-
-// @public
-export interface IotHubResourceListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface IotHubResourceListValidSkusOptionalParams extends OperationOptions {
 }
 
 // @public
-export type IotHubResourceListByResourceGroupResponse = IotHubDescriptionListResult;
-
-// @public
-export interface IotHubResourceListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+export interface IotHubResourceOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, resourceName: string, iotHubDescription: IotHubDescription, options?: IotHubResourceCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<IotHubDescription>, IotHubDescription>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, resourceName: string, iotHubDescription: IotHubDescription, options?: IotHubResourceCreateOrUpdateOptionalParams) => Promise<IotHubDescription>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, resourceName: string, options?: IotHubResourceDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<IotHubDescription>, IotHubDescription>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, resourceName: string, options?: IotHubResourceDeleteOptionalParams) => Promise<IotHubDescription>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, resourceName: string, iotHubTags: TagsResource, options?: IotHubResourceUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<IotHubDescription>, IotHubDescription>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, resourceName: string, iotHubTags: TagsResource, options?: IotHubResourceUpdateOptionalParams) => Promise<IotHubDescription>;
+    checkNameAvailability: (operationInputs: OperationInputs, options?: IotHubResourceCheckNameAvailabilityOptionalParams) => Promise<IotHubNameAvailabilityInfo>;
+    createEventHubConsumerGroup: (resourceGroupName: string, resourceName: string, eventHubEndpointName: string, name: string, consumerGroupBody: EventHubConsumerGroupBodyDescription, options?: IotHubResourceCreateEventHubConsumerGroupOptionalParams) => Promise<EventHubConsumerGroupInfo>;
+    createOrUpdate: (resourceGroupName: string, resourceName: string, iotHubDescription: IotHubDescription, options?: IotHubResourceCreateOrUpdateOptionalParams) => PollerLike<OperationState<IotHubDescription>, IotHubDescription>;
+    delete: (resourceGroupName: string, resourceName: string, options?: IotHubResourceDeleteOptionalParams) => PollerLike<OperationState<IotHubDescription>, IotHubDescription>;
+    deleteEventHubConsumerGroup: (resourceGroupName: string, resourceName: string, eventHubEndpointName: string, name: string, options?: IotHubResourceDeleteEventHubConsumerGroupOptionalParams) => Promise<void>;
+    exportDevices: (resourceGroupName: string, resourceName: string, exportDevicesParameters: ExportDevicesRequest, options?: IotHubResourceExportDevicesOptionalParams) => Promise<JobResponse>;
+    get: (resourceGroupName: string, resourceName: string, options?: IotHubResourceGetOptionalParams) => Promise<IotHubDescription>;
+    getEventHubConsumerGroup: (resourceGroupName: string, resourceName: string, eventHubEndpointName: string, name: string, options?: IotHubResourceGetEventHubConsumerGroupOptionalParams) => Promise<EventHubConsumerGroupInfo>;
+    getJob: (resourceGroupName: string, resourceName: string, jobId: string, options?: IotHubResourceGetJobOptionalParams) => Promise<JobResponse>;
+    getKeysForKeyName: (resourceGroupName: string, resourceName: string, keyName: string, options?: IotHubResourceGetKeysForKeyNameOptionalParams) => Promise<SharedAccessSignatureAuthorizationRule>;
+    getStats: (resourceGroupName: string, resourceName: string, options?: IotHubResourceGetStatsOptionalParams) => Promise<RegistryStatistics>;
+    importDevices: (resourceGroupName: string, resourceName: string, importDevicesParameters: ImportDevicesRequest, options?: IotHubResourceImportDevicesOptionalParams) => Promise<JobResponse>;
+    listByResourceGroup: (resourceGroupName: string, options?: IotHubResourceListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<IotHubDescription>;
+    listBySubscription: (options?: IotHubResourceListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<IotHubDescription>;
+    listEndpointHealth: (resourceGroupName: string, iotHubName: string, options?: IotHubResourceListEndpointHealthOptionalParams) => PagedAsyncIterableIterator<EndpointHealthData>;
+    listEventHubConsumerGroups: (resourceGroupName: string, resourceName: string, eventHubEndpointName: string, options?: IotHubResourceListEventHubConsumerGroupsOptionalParams) => PagedAsyncIterableIterator<EventHubConsumerGroupInfo>;
+    listJobs: (resourceGroupName: string, resourceName: string, options?: IotHubResourceListJobsOptionalParams) => PagedAsyncIterableIterator<JobResponse>;
+    listKeys: (resourceGroupName: string, resourceName: string, options?: IotHubResourceListKeysOptionalParams) => PagedAsyncIterableIterator<SharedAccessSignatureAuthorizationRule>;
+    listQuotaMetrics: (resourceGroupName: string, resourceName: string, options?: IotHubResourceListQuotaMetricsOptionalParams) => PagedAsyncIterableIterator<IotHubQuotaMetricInfo>;
+    listValidSkus: (resourceGroupName: string, resourceName: string, options?: IotHubResourceListValidSkusOptionalParams) => PagedAsyncIterableIterator<IotHubSkuDescription>;
+    testAllRoutes: (iotHubName: string, resourceGroupName: string, input: TestAllRoutesInput, options?: IotHubResourceTestAllRoutesOptionalParams) => Promise<TestAllRoutesResult>;
+    testRoute: (iotHubName: string, resourceGroupName: string, input: TestRouteInput, options?: IotHubResourceTestRouteOptionalParams) => Promise<TestRouteResult>;
+    update: (resourceGroupName: string, resourceName: string, iotHubTags: TagsResource, options?: IotHubResourceUpdateOptionalParams) => PollerLike<OperationState<IotHubDescription>, IotHubDescription>;
 }
 
 // @public
-export type IotHubResourceListBySubscriptionNextResponse = IotHubDescriptionListResult;
-
-// @public
-export interface IotHubResourceListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+export interface IotHubResourceTestAllRoutesOptionalParams extends OperationOptions {
 }
 
 // @public
-export type IotHubResourceListBySubscriptionResponse = IotHubDescriptionListResult;
-
-// @public
-export interface IotHubResourceListEventHubConsumerGroupsNextOptionalParams extends coreClient.OperationOptions {
+export interface IotHubResourceTestRouteOptionalParams extends OperationOptions {
 }
 
 // @public
-export type IotHubResourceListEventHubConsumerGroupsNextResponse = EventHubConsumerGroupsListResult;
-
-// @public
-export interface IotHubResourceListEventHubConsumerGroupsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type IotHubResourceListEventHubConsumerGroupsResponse = EventHubConsumerGroupsListResult;
-
-// @public
-export interface IotHubResourceListJobsNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type IotHubResourceListJobsNextResponse = JobResponseListResult;
-
-// @public
-export interface IotHubResourceListJobsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type IotHubResourceListJobsResponse = JobResponseListResult;
-
-// @public
-export interface IotHubResourceListKeysNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type IotHubResourceListKeysNextResponse = SharedAccessSignatureAuthorizationRuleListResult;
-
-// @public
-export interface IotHubResourceListKeysOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type IotHubResourceListKeysResponse = SharedAccessSignatureAuthorizationRuleListResult;
-
-// @public
-export interface IotHubResourceTestAllRoutesOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type IotHubResourceTestAllRoutesResponse = TestAllRoutesResult;
-
-// @public
-export interface IotHubResourceTestRouteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type IotHubResourceTestRouteResponse = TestRouteResult;
-
-// @public
-export interface IotHubResourceUpdateHeaders {
-    azureAsyncOperation?: string;
-}
-
-// @public
-export interface IotHubResourceUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface IotHubResourceUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type IotHubResourceUpdateResponse = IotHubResourceUpdateHeaders & IotHubDescription;
 
 // @public
 export type IotHubScaleType = "Automatic" | "Manual" | "None";
@@ -730,12 +549,6 @@ export interface IotHubSkuDescription {
     capacity: IotHubCapacity;
     readonly resourceType?: string;
     sku: IotHubSkuInfo;
-}
-
-// @public
-export interface IotHubSkuDescriptionListResult {
-    readonly nextLink?: string;
-    value?: IotHubSkuDescription[];
 }
 
 // @public
@@ -761,6 +574,8 @@ export interface IpFilterRule {
 // @public
 export type IpVersion = string;
 
+export { isRestError }
+
 // @public
 export interface JobResponse {
     readonly endTimeUtc?: Date;
@@ -771,12 +586,6 @@ export interface JobResponse {
     readonly status?: JobStatus;
     readonly statusMessage?: string;
     readonly type?: JobType;
-}
-
-// @public
-export interface JobResponseListResult {
-    readonly nextLink?: string;
-    value?: JobResponse[];
 }
 
 // @public
@@ -824,6 +633,12 @@ export enum KnownEndpointHealthStatus {
     Healthy = "healthy",
     Unhealthy = "unhealthy",
     Unknown = "unknown"
+}
+
+// @public
+export enum KnownGatewayVersion {
+    V1 = "V1",
+    V2 = "V2"
 }
 
 // @public
@@ -917,6 +732,11 @@ export enum KnownTestResultStatus {
 }
 
 // @public
+export enum KnownVersions {
+    V20260301Preview = "2026-03-01-preview"
+}
+
+// @public
 export interface ManagedIdentity {
     userAssignedIdentity?: string;
 }
@@ -976,29 +796,25 @@ export interface OperationInputs {
 }
 
 // @public
-export interface OperationListResult {
-    readonly nextLink?: string;
-    readonly value?: Operation[];
+export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
+export interface OperationsOperations {
+    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
 
 // @public
-export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
 }
 
 // @public
-export type OperationsListNextResponse = OperationListResult;
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
+export interface PageSettings {
+    continuationToken?: string;
 }
-
-// @public
-export type OperationsListResponse = OperationListResult;
 
 // @public
 export interface PrivateEndpoint {
@@ -1006,11 +822,8 @@ export interface PrivateEndpoint {
 }
 
 // @public
-export interface PrivateEndpointConnection {
-    readonly id?: string;
-    readonly name?: string;
+export interface PrivateEndpointConnection extends ProxyResource {
     properties: PrivateEndpointConnectionProperties;
-    readonly type?: string;
 }
 
 // @public
@@ -1020,58 +833,38 @@ export interface PrivateEndpointConnectionProperties {
 }
 
 // @public
-export interface PrivateEndpointConnections {
-    beginDelete(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<PrivateEndpointConnectionsDeleteResponse>, PrivateEndpointConnectionsDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<PrivateEndpointConnectionsDeleteResponse>;
-    beginUpdate(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, privateEndpointConnection: PrivateEndpointConnection, options?: PrivateEndpointConnectionsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PrivateEndpointConnectionsUpdateResponse>, PrivateEndpointConnectionsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, privateEndpointConnection: PrivateEndpointConnection, options?: PrivateEndpointConnectionsUpdateOptionalParams): Promise<PrivateEndpointConnectionsUpdateResponse>;
-    get(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams): Promise<PrivateEndpointConnectionsGetResponse>;
-    list(resourceGroupName: string, resourceName: string, options?: PrivateEndpointConnectionsListOptionalParams): Promise<PrivateEndpointConnectionsListResponse>;
-}
-
-// @public
-export interface PrivateEndpointConnectionsDeleteHeaders {
-    azureAsyncOperation?: string;
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface PrivateEndpointConnectionsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface PrivateEndpointConnectionsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type PrivateEndpointConnectionsDeleteResponse = PrivateEndpointConnection;
-
-// @public
-export interface PrivateEndpointConnectionsGetOptionalParams extends coreClient.OperationOptions {
+export interface PrivateEndpointConnectionsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection;
-
-// @public
-export interface PrivateEndpointConnectionsListOptionalParams extends coreClient.OperationOptions {
+export interface PrivateEndpointConnectionsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnection[];
-
-// @public
-export interface PrivateEndpointConnectionsUpdateHeaders {
-    azureAsyncOperation?: string;
+export interface PrivateEndpointConnectionsOperations {
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => Promise<PrivateEndpointConnection>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, privateEndpointConnection: PrivateEndpointConnection, options?: PrivateEndpointConnectionsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, privateEndpointConnection: PrivateEndpointConnection, options?: PrivateEndpointConnectionsUpdateOptionalParams) => Promise<PrivateEndpointConnection>;
+    delete: (resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => PollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>;
+    get: (resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams) => Promise<PrivateEndpointConnection>;
+    list: (resourceGroupName: string, resourceName: string, options?: PrivateEndpointConnectionsListOptionalParams) => Promise<PrivateEndpointConnection[]>;
+    update: (resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, privateEndpointConnection: PrivateEndpointConnection, options?: PrivateEndpointConnectionsUpdateOptionalParams) => PollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>;
 }
 
 // @public
-export interface PrivateEndpointConnectionsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface PrivateEndpointConnectionsUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type PrivateEndpointConnectionsUpdateResponse = PrivateEndpointConnection;
 
 // @public
 export interface PrivateLinkResources {
@@ -1079,23 +872,17 @@ export interface PrivateLinkResources {
 }
 
 // @public
-export interface PrivateLinkResourcesGetOptionalParams extends coreClient.OperationOptions {
+export interface PrivateLinkResourcesOperationsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PrivateLinkResourcesGetResponse = GroupIdInformation;
-
-// @public
-export interface PrivateLinkResourcesListOptionalParams extends coreClient.OperationOptions {
+export interface PrivateLinkResourcesOperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type PrivateLinkResourcesListResponse = PrivateLinkResources;
-
-// @public
-export interface PrivateLinkResourcesOperations {
-    get(resourceGroupName: string, resourceName: string, groupId: string, options?: PrivateLinkResourcesGetOptionalParams): Promise<PrivateLinkResourcesGetResponse>;
-    list(resourceGroupName: string, resourceName: string, options?: PrivateLinkResourcesListOptionalParams): Promise<PrivateLinkResourcesListResponse>;
+export interface PrivateLinkResourcesOperationsOperations {
+    get: (resourceGroupName: string, resourceName: string, groupId: string, options?: PrivateLinkResourcesOperationsGetOptionalParams) => Promise<GroupIdInformation>;
+    list: (resourceGroupName: string, resourceName: string, options?: PrivateLinkResourcesOperationsListOptionalParams) => Promise<PrivateLinkResources>;
 }
 
 // @public
@@ -1107,6 +894,10 @@ export interface PrivateLinkServiceConnectionState {
 
 // @public
 export type PrivateLinkServiceConnectionStatus = string;
+
+// @public
+export interface ProxyResource extends Resource {
+}
 
 // @public
 export type PublicNetworkAccess = string;
@@ -1121,11 +912,8 @@ export interface RegistryStatistics {
 // @public
 export interface Resource {
     readonly id?: string;
-    location: string;
     readonly name?: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
@@ -1133,16 +921,25 @@ export interface Resource {
 export type ResourceIdentityType = "SystemAssigned" | "UserAssigned" | "SystemAssigned, UserAssigned" | "None";
 
 // @public
-export interface ResourceProviderCommon {
-    getSubscriptionQuota(options?: ResourceProviderCommonGetSubscriptionQuotaOptionalParams): Promise<ResourceProviderCommonGetSubscriptionQuotaResponse>;
+export interface ResourceProviderCommonGetSubscriptionQuotaOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ResourceProviderCommonGetSubscriptionQuotaOptionalParams extends coreClient.OperationOptions {
+export interface ResourceProviderCommonOperations {
+    getSubscriptionQuota: (options?: ResourceProviderCommonGetSubscriptionQuotaOptionalParams) => Promise<UserSubscriptionQuotaListResult>;
 }
 
+export { RestError }
+
 // @public
-export type ResourceProviderCommonGetSubscriptionQuotaResponse = UserSubscriptionQuotaListResult;
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: IotHubClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
+}
 
 // @public
 export interface RootCertificateProperties {
@@ -1222,13 +1019,9 @@ export interface RoutingEventHubProperties {
 
 // @public
 export interface RoutingMessage {
-    appProperties?: {
-        [propertyName: string]: string;
-    };
+    appProperties?: Record<string, string>;
     body?: string;
-    systemProperties?: {
-        [propertyName: string]: string;
-    };
+    systemProperties?: Record<string, string>;
 }
 
 // @public
@@ -1292,13 +1085,13 @@ export type RoutingStorageContainerPropertiesEncoding = string;
 export interface RoutingTwin {
     // (undocumented)
     properties?: RoutingTwinProperties;
-    tags?: Record<string, unknown>;
+    tags?: any;
 }
 
-// @public (undocumented)
+// @public
 export interface RoutingTwinProperties {
-    desired?: Record<string, unknown>;
-    reported?: Record<string, unknown>;
+    desired?: any;
+    reported?: any;
 }
 
 // @public
@@ -1310,9 +1103,25 @@ export interface SharedAccessSignatureAuthorizationRule {
 }
 
 // @public
-export interface SharedAccessSignatureAuthorizationRuleListResult {
-    readonly nextLink?: string;
-    value?: SharedAccessSignatureAuthorizationRule[];
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
 }
 
 // @public
@@ -1336,9 +1145,7 @@ export interface SystemData {
 
 // @public
 export interface TagsResource {
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -1375,6 +1182,12 @@ export interface TestRouteResultDetails {
 }
 
 // @public
+export interface TrackedResource extends Resource {
+    location: string;
+    tags?: Record<string, string>;
+}
+
+// @public
 export interface UserSubscriptionQuota {
     currentValue?: number;
     id?: string;
@@ -1387,7 +1200,6 @@ export interface UserSubscriptionQuota {
 // @public
 export interface UserSubscriptionQuotaListResult {
     readonly nextLink?: string;
-    // (undocumented)
     value?: UserSubscriptionQuota[];
 }
 

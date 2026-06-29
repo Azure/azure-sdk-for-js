@@ -77,6 +77,20 @@ describe("snippets", () => {
     });
   });
 
+  it("ReadmeSampleRealtimeNativeVoice", async () => {
+    const credential = new DefaultAzureCredential();
+    const endpoint = "https://your-resource.cognitiveservices.azure.com";
+    const client = new VoiceLiveClient(endpoint, credential);
+    const session = await client.startSession("azure-realtime");
+    // @ts-preserve-whitespace
+    await session.updateSession({
+      voice: {
+        type: "azure-realtime-native",
+        name: "ava",
+      },
+    });
+  });
+
   it("ReadmeSampleEventHandling", async () => {
     const credential = new DefaultAzureCredential();
     const endpoint = "https://your-resource.cognitiveservices.azure.com";

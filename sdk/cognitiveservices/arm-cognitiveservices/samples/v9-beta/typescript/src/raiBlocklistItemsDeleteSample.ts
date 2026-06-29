@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes the specified blocklist Item associated with the custom blocklist.
  *
  * @summary deletes the specified blocklist Item associated with the custom blocklist.
- * x-ms-original-file: 2026-01-15-preview/DeleteRaiBlocklistItem.json
+ * x-ms-original-file: 2026-03-15-preview/DeleteRaiBlocklistItem.json
  */
 async function deleteRaiBlocklistItem(): Promise<void> {
   const credential = new DefaultAzureCredential();

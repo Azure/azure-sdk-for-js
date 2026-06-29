@@ -3809,24 +3809,24 @@ export function storageAccountCreateParametersSerializer(
       "keyPolicy",
       "customDomain",
       "encryption",
-      "NetworkRuleSet",
+      "networkRuleSet",
       "accessTier",
       "azureFilesIdentityBasedAuthentication",
-      "EnableHttpsTrafficOnly",
-      "IsSftpEnabled",
-      "IsLocalUserEnabled",
-      "EnableExtendedGroups",
-      "IsHnsEnabled",
+      "enableHttpsTrafficOnly",
+      "isSftpEnabled",
+      "isLocalUserEnabled",
+      "enableExtendedGroups",
+      "isHnsEnabled",
       "largeFileSharesState",
-      "RoutingPreference",
+      "routingPreference",
       "dualStackEndpointPreference",
-      "AllowBlobPublicAccess",
+      "allowBlobPublicAccess",
       "minimumTlsVersion",
       "allowSharedKeyAccess",
-      "EnableNfsV3",
+      "enableNfsV3",
       "allowCrossTenantReplication",
       "defaultToOAuthAuthentication",
-      "ImmutableStorageWithVersioning",
+      "immutableStorageWithVersioning",
       "dnsEndpointType",
       "geoPriorityReplicationStatus",
       "allowSharedKeyAccessForServices",
@@ -4036,21 +4036,21 @@ export function storageAccountUpdateParametersSerializer(
       "keyPolicy",
       "accessTier",
       "azureFilesIdentityBasedAuthentication",
-      "EnableHttpsTrafficOnly",
-      "IsSftpEnabled",
-      "IsLocalUserEnabled",
-      "EnableExtendedGroups",
-      "NetworkRuleSet",
+      "enableHttpsTrafficOnly",
+      "isSftpEnabled",
+      "isLocalUserEnabled",
+      "enableExtendedGroups",
+      "networkRuleSet",
       "largeFileSharesState",
-      "RoutingPreference",
+      "routingPreference",
       "dualStackEndpointPreference",
-      "AllowBlobPublicAccess",
+      "allowBlobPublicAccess",
       "minimumTlsVersion",
       "allowSharedKeyAccess",
       "allowCrossTenantReplication",
       "defaultToOAuthAuthentication",
       "publicNetworkAccess",
-      "ImmutableStorageWithVersioning",
+      "immutableStorageWithVersioning",
       "allowedCopyScope",
       "dnsEndpointType",
       "geoPriorityReplicationStatus",
@@ -5439,6 +5439,10 @@ export interface FileShareLimits {
   readonly minProvisionedBandwidthMiBPerSec?: number;
   /** The maximum provisioned bandwidth limit in mebibytes per second for a file share in the storage account. */
   readonly maxProvisionedBandwidthMiBPerSec?: number;
+  /** The IO scalar used for guardrail calculations for a file share in the storage account. */
+  readonly guardrailIOScalar?: number;
+  /** The bandwidth scalar used for guardrail calculations for a file share in the storage account. */
+  readonly guardrailBandwidthScalar?: number;
 }
 
 export function fileShareLimitsDeserializer(item: any): FileShareLimits {
@@ -5449,6 +5453,8 @@ export function fileShareLimitsDeserializer(item: any): FileShareLimits {
     maxProvisionedIops: item["maxProvisionedIOPS"],
     minProvisionedBandwidthMiBPerSec: item["minProvisionedBandwidthMiBPerSec"],
     maxProvisionedBandwidthMiBPerSec: item["maxProvisionedBandwidthMiBPerSec"],
+    guardrailIOScalar: item["guardrailIOScalar"],
+    guardrailBandwidthScalar: item["guardrailBandwidthScalar"],
   };
 }
 
@@ -8577,6 +8583,196 @@ export function dataShareArrayDeserializer(result: Array<DataShare>): any[] {
   });
 }
 
+/** The advanced platform metrics rule for the storage account. */
+export interface AdvancedPlatformMetricsRule extends ProxyResource {
+  /** Returns the advanced platform metrics rule. */
+  properties?: AdvancedPlatformMetricsRuleProperties;
+}
+
+export function advancedPlatformMetricsRuleSerializer(item: AdvancedPlatformMetricsRule): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : advancedPlatformMetricsRulePropertiesSerializer(item["properties"]),
+  };
+}
+
+export function advancedPlatformMetricsRuleDeserializer(item: any): AdvancedPlatformMetricsRule {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : advancedPlatformMetricsRulePropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** An object that defines the advanced platform metrics rule. */
+export interface AdvancedPlatformMetricsRuleProperties {
+  /** Indicates the type of the advanced platform metrics rule. Possible values include: ContainerLevelCapacityMetrics. */
+  readonly ruleType?: AdvancedPlatformMetricsRuleType;
+  /** A boolean flag which enables the advanced platform metrics rule. */
+  enabled: boolean;
+  /** Gets the last modification date and time of the advanced platform metrics rule in UTC. */
+  readonly lastModifiedTime?: Date;
+  /** The metrics emitted by the rule. Metrics are mapped according to the rule type from RuleTypeProperty. Rule type to metrics mapping: ContainerLevelCapacityMetrics => {ContainerUsedSize, ContainerBlobCount}. */
+  readonly metricsEmitted?: MetricsEmitted[];
+  /** Configuration for the advanced platform metrics rule. */
+  ruleConfig: AdvancedPlatformMetricsRuleConfig;
+}
+
+export function advancedPlatformMetricsRulePropertiesSerializer(
+  item: AdvancedPlatformMetricsRuleProperties,
+): any {
+  return {
+    enabled: item["enabled"],
+    ruleConfig: advancedPlatformMetricsRuleConfigSerializer(item["ruleConfig"]),
+  };
+}
+
+export function advancedPlatformMetricsRulePropertiesDeserializer(
+  item: any,
+): AdvancedPlatformMetricsRuleProperties {
+  return {
+    ruleType: item["ruleType"],
+    enabled: item["enabled"],
+    lastModifiedTime: !item["lastModifiedTime"]
+      ? item["lastModifiedTime"]
+      : new Date(item["lastModifiedTime"]),
+    metricsEmitted: !item["metricsEmitted"]
+      ? item["metricsEmitted"]
+      : item["metricsEmitted"].map((p: any) => {
+          return p;
+        }),
+    ruleConfig: advancedPlatformMetricsRuleConfigDeserializer(item["ruleConfig"]),
+  };
+}
+
+/** The type of the advanced platform metrics rule. */
+export enum KnownAdvancedPlatformMetricsRuleType {
+  /** Container level capacity metrics rule type */
+  ContainerLevelCapacityMetrics = "ContainerLevelCapacityMetrics",
+}
+
+/**
+ * The type of the advanced platform metrics rule. \
+ * {@link KnownAdvancedPlatformMetricsRuleType} can be used interchangeably with AdvancedPlatformMetricsRuleType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ContainerLevelCapacityMetrics**: Container level capacity metrics rule type
+ */
+export type AdvancedPlatformMetricsRuleType = string;
+
+/** The metrics emitted by the advanced platform metrics rule. */
+export enum KnownMetricsEmitted {
+  /** Container blob count metric */
+  ContainerBlobCount = "ContainerBlobCount",
+  /** Container used size metric */
+  ContainerUsedSize = "ContainerUsedSize",
+}
+
+/**
+ * The metrics emitted by the advanced platform metrics rule. \
+ * {@link KnownMetricsEmitted} can be used interchangeably with MetricsEmitted,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ContainerBlobCount**: Container blob count metric \
+ * **ContainerUsedSize**: Container used size metric
+ */
+export type MetricsEmitted = string;
+
+/** Configuration for the advanced platform metrics rule. */
+export interface AdvancedPlatformMetricsRuleConfig {
+  /** The type of filter applied to the rule. Possible values include: AllContainersFilter, ContainerPrefixFilter, ContainerListFilter. */
+  filterType?: AdvancedPlatformMetricsFilterType;
+  /** The values for the filter applied to the rule. If filter type is AllContainersFilter, filter values should be empty. If filter type is ContainerPrefixFilter, filter values should contain a list of container prefixes. If filter type is ContainerListFilter, filter values should contain a list of container names. */
+  filterValues?: string[];
+}
+
+export function advancedPlatformMetricsRuleConfigSerializer(
+  item: AdvancedPlatformMetricsRuleConfig,
+): any {
+  return {
+    filterType: item["filterType"],
+    filterValues: !item["filterValues"]
+      ? item["filterValues"]
+      : item["filterValues"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function advancedPlatformMetricsRuleConfigDeserializer(
+  item: any,
+): AdvancedPlatformMetricsRuleConfig {
+  return {
+    filterType: item["filterType"],
+    filterValues: !item["filterValues"]
+      ? item["filterValues"]
+      : item["filterValues"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** The type of filter applied to the advanced platform metrics rule. */
+export enum KnownAdvancedPlatformMetricsFilterType {
+  /** Filter applies to all containers */
+  AllContainersFilter = "AllContainersFilter",
+  /** Filter applies to containers matching a prefix */
+  ContainerPrefixFilter = "ContainerPrefixFilter",
+  /** Filter applies to a specific list of containers */
+  ContainerListFilter = "ContainerListFilter",
+}
+
+/**
+ * The type of filter applied to the advanced platform metrics rule. \
+ * {@link KnownAdvancedPlatformMetricsFilterType} can be used interchangeably with AdvancedPlatformMetricsFilterType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AllContainersFilter**: Filter applies to all containers \
+ * **ContainerPrefixFilter**: Filter applies to containers matching a prefix \
+ * **ContainerListFilter**: Filter applies to a specific list of containers
+ */
+export type AdvancedPlatformMetricsFilterType = string;
+
+/** The response of a AdvancedPlatformMetricsRule list operation. */
+export interface _AdvancedPlatformMetricsRuleListResult {
+  /** The AdvancedPlatformMetricsRule items on this page */
+  value: AdvancedPlatformMetricsRule[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _advancedPlatformMetricsRuleListResultDeserializer(
+  item: any,
+): _AdvancedPlatformMetricsRuleListResult {
+  return {
+    value: advancedPlatformMetricsRuleArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function advancedPlatformMetricsRuleArraySerializer(
+  result: Array<AdvancedPlatformMetricsRule>,
+): any[] {
+  return result.map((item) => {
+    return advancedPlatformMetricsRuleSerializer(item);
+  });
+}
+
+export function advancedPlatformMetricsRuleArrayDeserializer(
+  result: Array<AdvancedPlatformMetricsRule>,
+): any[] {
+  return result.map((item) => {
+    return advancedPlatformMetricsRuleDeserializer(item);
+  });
+}
+
 /** A list of private link resources */
 export interface PrivateLinkResourceListResult {
   /** Array of private link resources */
@@ -9759,6 +9955,8 @@ export enum KnownVersions {
   V20250601 = "2025-06-01",
   /** The 2025-08-01 API version. */
   V20250801 = "2025-08-01",
+  /** The 2026-04-01 API version. */
+  V20260401 = "2026-04-01",
 }
 
 export function _operationOperationPropertiesDeserializer(item: any) {

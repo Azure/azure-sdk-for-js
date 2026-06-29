@@ -11,6 +11,7 @@ import { AzureLogger } from '@azure/logger';
 import { BaseRequestPolicy } from '@azure/storage-common';
 import type { BlobLeaseClient } from '@azure/storage-blob';
 import type { BlobQueryArrowConfiguration } from '@azure/storage-blob';
+import type { BlobTags } from '@azure/storage-blob';
 import type { ContainerRenameResponse } from '@azure/storage-blob';
 import type { ContainerUndeleteResponse } from '@azure/storage-blob';
 import * as coreClient from '@azure/core-client';
@@ -57,6 +58,7 @@ import { StorageRetryPolicyFactory } from '@azure/storage-common';
 import { StorageRetryPolicyType } from '@azure/storage-common';
 import { StorageSharedKeyCredential } from '@azure/storage-common';
 import { StorageSharedKeyCredentialPolicy } from '@azure/storage-common';
+import { Tags } from '@azure/storage-blob';
 import type { TokenCredential } from '@azure/core-auth';
 import type { TransferProgressEvent } from '@azure/core-rest-pipeline';
 import type { UserAgentPolicyOptions } from '@azure/core-rest-pipeline';
@@ -297,9 +299,6 @@ export interface DataLakeClientConfig {
 }
 
 // @public
-export type DataLakeClientOptions = StoragePipelineOptions & DataLakeClientConfig;
-
-// @public
 export class DataLakeDirectoryClient extends DataLakePathClient {
     create(resourceType: PathResourceTypeModel, options?: PathCreateOptions): Promise<PathCreateResponse>;
     create(options?: DirectoryCreateOptions): Promise<DirectoryCreateResponse>;
@@ -315,7 +314,7 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
 
 // @public
 export class DataLakeFileClient extends DataLakePathClient {
-    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: DataLakeClientOptions);
+    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: DataLakeFileClientOptions);
     constructor(url: string, pipeline: Pipeline, options?: DataLakeClientConfig);
     append(body: HttpRequestBody, offset: number, length: number, options?: FileAppendOptions): Promise<FileAppendResponse>;
     create(resourceType: PathResourceTypeModel, options?: PathCreateOptions): Promise<PathCreateResponse>;
@@ -338,11 +337,14 @@ export class DataLakeFileClient extends DataLakePathClient {
     uploadStream(stream: Readable, options?: FileParallelUploadOptions): Promise<FileUploadResponse>;
 }
 
+// @public
+export type DataLakeFileClientOptions = StoragePipelineOptions & DataLakeClientConfig;
+
 // Warning: (ae-forgotten-export) The symbol "StorageClient" needs to be exported by the entry point index.d.ts
 //
 // @public
 export class DataLakeFileSystemClient extends StorageClient {
-    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: DataLakeClientOptions);
+    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: DataLakeFileSystemClientOptions);
     constructor(url: string, pipeline: Pipeline, options?: DataLakeClientConfig);
     create(options?: FileSystemCreateOptions): Promise<FileSystemCreateResponse>;
     createIfNotExists(options?: FileSystemCreateOptions): Promise<FileSystemCreateIfNotExistsResponse>;
@@ -365,6 +367,9 @@ export class DataLakeFileSystemClient extends StorageClient {
     setMetadata(metadata?: Metadata, options?: FileSystemSetMetadataOptions): Promise<FileSystemSetMetadataResponse>;
     undeletePath(deletedPath: string, deletionId: string, options?: FileSystemUndeletePathOption): Promise<FileSystemUndeletePathResponse>;
 }
+
+// @public
+export type DataLakeFileSystemClientOptions = StoragePipelineOptions & DataLakeClientConfig;
 
 // @public
 export interface DataLakeGetUserDelegationKeyParameters {
@@ -394,7 +399,7 @@ export class DataLakeLeaseClient {
 
 // @public
 export class DataLakePathClient extends StorageClient {
-    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: DataLakeClientOptions);
+    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: DataLakePathClientOptions);
     constructor(url: string, pipeline: Pipeline, options?: DataLakeClientConfig);
     create(resourceType: PathResourceTypeModel, options?: PathCreateOptions): Promise<PathCreateResponse>;
     createIfNotExists(resourceType: PathResourceTypeModel, options?: PathCreateIfNotExistsOptions): Promise<PathCreateIfNotExistsResponse>;
@@ -405,6 +410,8 @@ export class DataLakePathClient extends StorageClient {
     getAccessControl(options?: PathGetAccessControlOptions): Promise<PathGetAccessControlResponse>;
     getDataLakeLeaseClient(proposeLeaseId?: string): DataLakeLeaseClient;
     getProperties(options?: PathGetPropertiesOptions): Promise<PathGetPropertiesResponse>;
+    getSystemProperties(options?: PathGetSystemPropertiesOptions): Promise<PathGetSystemPropertiesResponse>;
+    getTags(options?: PathGetTagsOptions): Promise<PathGetTagsResponse>;
     move(destinationPath: string, options?: PathMoveOptions): Promise<PathMoveResponse>;
     move(destinationFileSystem: string, destinationPath: string, options?: PathMoveOptions): Promise<PathMoveResponse>;
     get name(): string;
@@ -414,10 +421,14 @@ export class DataLakePathClient extends StorageClient {
     setHttpHeaders(httpHeaders: PathHttpHeaders, options?: PathSetHttpHeadersOptions): Promise<PathSetHttpHeadersResponse>;
     setMetadata(metadata?: Metadata, options?: PathSetMetadataOptions): Promise<PathSetMetadataResponse>;
     setPermissions(permissions: PathPermissions, options?: PathSetPermissionsOptions): Promise<PathSetPermissionsResponse>;
+    setTags(tags: Tags, options?: PathSetTagsOptions): Promise<PathSetTagsResponse>;
     toDirectoryClient(): DataLakeDirectoryClient;
     toFileClient(): DataLakeFileClient;
     updateAccessControlRecursive(acl: PathAccessControlItem[], options?: PathChangeAccessControlRecursiveOptions): Promise<PathChangeAccessControlRecursiveResponse>;
 }
+
+// @public
+export type DataLakePathClientOptions = StoragePipelineOptions & DataLakeClientConfig;
 
 // @public (undocumented)
 export interface DataLakeRequestConditions extends ModifiedAccessConditions, LeaseAccessConditions {
@@ -434,6 +445,7 @@ export class DataLakeSASPermissions {
     move: boolean;
     static parse(permissions: string): DataLakeSASPermissions;
     read: boolean;
+    tag: boolean;
     toString(): string;
     write: boolean;
 }
@@ -468,9 +480,9 @@ export interface DataLakeSASSignatureValues {
 
 // @public
 export class DataLakeServiceClient extends StorageClient {
-    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: DataLakeClientOptions);
+    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: DataLakeServiceClientOptions);
     constructor(url: string, pipeline: Pipeline, options?: DataLakeClientConfig);
-    static fromConnectionString(connectionString: string, options?: DataLakeClientOptions): DataLakeServiceClient;
+    static fromConnectionString(connectionString: string, options?: DataLakeServiceClientOptions): DataLakeServiceClient;
     generateAccountSasUrl(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
     generateSasStringToSign(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
     getFileSystemClient(fileSystemName: string): DataLakeFileSystemClient;
@@ -484,6 +496,9 @@ export class DataLakeServiceClient extends StorageClient {
         fileSystemUndeleteResponse: FileSystemUndeleteResponse;
     }>;
 }
+
+// @public
+export type DataLakeServiceClientOptions = StoragePipelineOptions & DataLakeClientConfig;
 
 export { DataLakeServiceGetPropertiesResponse }
 
@@ -1041,6 +1056,7 @@ export class FileSystemSASPermissions {
     move: boolean;
     static parse(permissions: string): FileSystemSASPermissions;
     read: boolean;
+    tag: boolean;
     toString(): string;
     write: boolean;
 }
@@ -1608,6 +1624,70 @@ export interface PathGetPropertiesOptions extends CommonOptions {
 // @public (undocumented)
 export type PathGetPropertiesResponse = WithResponse<PathGetPropertiesHeaders, PathGetPropertiesHeaders>;
 
+// @public
+export interface PathGetSystemPropertiesHeaders {
+    acceptRanges?: string;
+    acl?: string;
+    cacheControl?: string;
+    contentDisposition?: string;
+    contentEncoding?: string;
+    contentLanguage?: string;
+    contentLength?: number;
+    contentMD5?: string;
+    contentRange?: string;
+    contentType?: string;
+    creationTime?: Date;
+    date?: Date;
+    encryptionContext?: string;
+    encryptionKeySha256?: string;
+    encryptionScope?: string;
+    errorCode?: string;
+    etag?: string;
+    expiresOn?: Date;
+    group?: string;
+    isDirectory?: boolean;
+    isServerEncrypted?: boolean;
+    lastModified?: Date;
+    leaseDuration?: string;
+    leaseState?: string;
+    leaseStatus?: string;
+    owner?: string;
+    permissions?: PathPermissions;
+    properties?: string;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
+export interface PathGetSystemPropertiesOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+    conditions?: DataLakeRequestConditions;
+    userPrincipalName?: boolean;
+}
+
+// @public
+export type PathGetSystemPropertiesResponse = WithResponse<PathGetSystemPropertiesHeaders, PathGetPropertiesHeadersModel>;
+
+// @public
+export interface PathGetTagsHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
+export interface PathGetTagsOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+    conditions?: TagConditions & LeaseAccessConditions & ModifiedAccessConditions;
+}
+
+// @public
+export type PathGetTagsResponse = WithResponse<{
+    tags: Tags;
+} & PathGetTagsHeaders, PathGetTagsHeaders, BlobTags>;
+
 // @public (undocumented)
 export interface PathHttpHeaders {
     // (undocumented)
@@ -1827,6 +1907,24 @@ export interface PathSetPermissionsOptions extends CommonOptions {
 
 // @public (undocumented)
 export type PathSetPermissionsResponse = WithResponse<PathSetAccessControlHeaders, PathSetAccessControlHeaders>;
+
+// @public
+export interface PathSetTagsHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
+export interface PathSetTagsOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+    conditions?: TagConditions & LeaseAccessConditions & ModifiedAccessConditions;
+}
+
+// @public
+export type PathSetTagsResponse = WithResponse<PathSetTagsHeaders, PathSetTagsHeaders>;
 
 // @public
 export interface PathUndeleteHeaders {
@@ -2091,6 +2189,11 @@ export { StorageRetryPolicyType }
 export { StorageSharedKeyCredential }
 
 export { StorageSharedKeyCredentialPolicy }
+
+// @public
+export interface TagConditions {
+    tagConditions?: string;
+}
 
 // @public (undocumented)
 export const ToBlobEndpointHostMappings: string[][];

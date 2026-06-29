@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to retrieves information about a dedicated host.
  *
  * @summary retrieves information about a dedicated host.
- * x-ms-original-file: 2025-11-01/dedicatedHostExamples/DedicatedHost_Get.json
+ * x-ms-original-file: 2026-03-01/dedicatedHostExamples/DedicatedHost_Get.json
  */
 async function getADedicatedHost() {
   const credential = new DefaultAzureCredential();

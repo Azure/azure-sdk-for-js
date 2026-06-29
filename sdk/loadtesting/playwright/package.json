@@ -21,7 +21,7 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "sideEffects": false,
   "main": "./dist/commonjs/index.js",
@@ -110,5 +110,11 @@
       "Azure Playwright workspace": "https://learn.microsoft.com/azure/playwright-testing/"
     }
   },
-  "type": "module"
+  "type": "module",
+  "imports": {
+    "#platform/*": {
+      "require": "./src/*-cjs.ts",
+      "default": "./src/*.ts"
+    }
+  }
 }

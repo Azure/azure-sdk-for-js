@@ -53,7 +53,7 @@ export interface AccessPolicy {
 }
 
 // @public
-export type AccessTier = "P4" | "P6" | "P10" | "P15" | "P20" | "P30" | "P40" | "P50" | "P60" | "P70" | "P80" | "Hot" | "Cool" | "Archive" | "Cold";
+export type AccessTier = "P4" | "P6" | "P10" | "P15" | "P20" | "P30" | "P40" | "P50" | "P60" | "P70" | "P80" | "Hot" | "Cool" | "Archive" | "Cold" | "Smart";
 
 // @public
 export interface AccessTierModifiedConditions {
@@ -207,8 +207,8 @@ export type AppendBlobAppendBlockResponse = WithResponse<AppendBlobAppendBlockHe
 
 // @public
 export class AppendBlobClient extends BlobClient {
-    constructor(connectionString: string, containerName: string, blobName: string, options?: BlobClientOptions);
-    constructor(url: string, credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: BlobClientOptions);
+    constructor(connectionString: string, containerName: string, blobName: string, options?: AppendBlobClientOptions);
+    constructor(url: string, credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: AppendBlobClientOptions);
     constructor(url: string, pipeline: PipelineLike, options?: BlobClientConfig);
     appendBlock(body: HttpRequestBody, contentLength: number, options?: AppendBlobAppendBlockOptions): Promise<AppendBlobAppendBlockResponse>;
     appendBlockFromURL(sourceURL: string, sourceOffset: number, count: number, options?: AppendBlobAppendBlockFromURLOptions): Promise<AppendBlobAppendBlockFromUrlResponse>;
@@ -217,6 +217,9 @@ export class AppendBlobClient extends BlobClient {
     seal(options?: AppendBlobSealOptions): Promise<AppendBlobAppendBlockResponse>;
     withSnapshot(snapshot: string): AppendBlobClient;
 }
+
+// @public
+export type AppendBlobClientOptions = StoragePipelineOptions & BlobClientConfig;
 
 // @public
 export interface AppendBlobCreateHeaders {
@@ -283,7 +286,7 @@ export interface AppendPositionAccessConditions {
 }
 
 // @public
-export type ArchiveStatus = "rehydrate-pending-to-hot" | "rehydrate-pending-to-cool" | "rehydrate-pending-to-cold";
+export type ArchiveStatus = "rehydrate-pending-to-hot" | "rehydrate-pending-to-cool" | "rehydrate-pending-to-cold" | "rehydrate-pending-to-smart";
 
 export { BaseRequestPolicy }
 
@@ -671,6 +674,7 @@ export interface BlobFlatListSegmentModel {
 
 // @public
 export interface BlobGenerateSasUrlOptions extends CommonGenerateSasUrlOptions {
+    isDirectory?: boolean;
     permissions?: BlobSASPermissions;
 }
 
@@ -747,6 +751,7 @@ export interface BlobGetPropertiesHeaders {
     };
     rehydratePriority?: RehydratePriority;
     requestId?: string;
+    smartAccessTier?: string;
     tagCount?: number;
     version?: string;
     versionId?: string;
@@ -979,6 +984,7 @@ export interface BlobProperties {
     remainingRetentionDays?: number;
     // (undocumented)
     serverEncrypted?: boolean;
+    smartAccessTier?: AccessTier;
     // (undocumented)
     tagCount?: number;
 }
@@ -1143,6 +1149,7 @@ export interface BlobSASSignatureValues {
     expiresOn?: Date;
     identifier?: string;
     ipRange?: SasIPRange;
+    isDirectory?: boolean;
     permissions?: BlobSASPermissions | ContainerSASPermissions;
     preauthorizedAgentObjectId?: string;
     protocol?: SASProtocol;
@@ -1156,7 +1163,7 @@ export interface BlobSASSignatureValues {
 
 // @public
 export class BlobServiceClient extends StorageClient {
-    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: BlobClientOptions);
+    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: BlobServiceClientOptions);
     constructor(url: string, pipeline: PipelineLike, options?: BlobClientConfig);
     createContainer(containerName: string, options?: ContainerCreateOptions): Promise<{
         containerClient: ContainerClient;
@@ -1164,7 +1171,7 @@ export class BlobServiceClient extends StorageClient {
     }>;
     deleteContainer(containerName: string, options?: ContainerDeleteMethodOptions): Promise<ContainerDeleteResponse>;
     findBlobsByTags(tagFilterSqlExpression: string, options?: ServiceFindBlobByTagsOptions): PagedAsyncIterableIterator<FilterBlobItem, ServiceFindBlobsByTagsSegmentResponse>;
-    static fromConnectionString(connectionString: string, options?: BlobClientOptions): BlobServiceClient;
+    static fromConnectionString(connectionString: string, options?: BlobServiceClientOptions): BlobServiceClient;
     generateAccountSasUrl(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
     generateSasStringToSign(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
     getAccountInfo(options?: ServiceGetAccountInfoOptions): Promise<ServiceGetAccountInfoResponse>;
@@ -1181,6 +1188,9 @@ export class BlobServiceClient extends StorageClient {
         containerUndeleteResponse: ContainerUndeleteResponse;
     }>;
 }
+
+// @public
+export type BlobServiceClientOptions = StoragePipelineOptions & BlobClientConfig;
 
 // @public
 export interface BlobServiceProperties {
@@ -1414,7 +1424,7 @@ export interface Block {
 // @public
 export class BlockBlobClient extends BlobClient {
     constructor(connectionString: string, containerName: string, blobName: string, options?: StoragePipelineOptions);
-    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: BlobClientOptions);
+    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: BlockBlobClientOptions);
     constructor(url: string, pipeline: PipelineLike, options?: BlobClientConfig);
     commitBlockList(blocks: string[], options?: BlockBlobCommitBlockListOptions): Promise<BlockBlobCommitBlockListResponse>;
     getBlockList(listType: BlockListType, options?: BlockBlobGetBlockListOptions): Promise<BlockBlobGetBlockListResponse>;
@@ -1430,6 +1440,9 @@ export class BlockBlobClient extends BlobClient {
     uploadStream(stream: Readable, bufferSize?: number, maxConcurrency?: number, options?: BlockBlobUploadStreamOptions): Promise<BlobUploadCommonResponse>;
     withSnapshot(snapshot: string): BlockBlobClient;
 }
+
+// @public
+export type BlockBlobClientOptions = StoragePipelineOptions & BlobClientConfig;
 
 // @public
 export interface BlockBlobCommitBlockListHeaders {
@@ -1749,7 +1762,7 @@ export interface ContainerChangeLeaseOptions extends CommonOptions {
 // @public
 export class ContainerClient extends StorageClient {
     constructor(connectionString: string, containerName: string, options?: StoragePipelineOptions);
-    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: BlobClientOptions);
+    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: ContainerClientOptions);
     constructor(url: string, pipeline: PipelineLike, options?: BlobClientConfig);
     get containerName(): string;
     create(options?: ContainerCreateOptions): Promise<ContainerCreateResponse>;
@@ -1785,6 +1798,9 @@ export class ContainerClient extends StorageClient {
         response: BlockBlobUploadResponse;
     }>;
 }
+
+// @public
+export type ContainerClientOptions = StoragePipelineOptions & BlobClientConfig;
 
 // @public
 export interface ContainerCreateHeaders {
@@ -2511,8 +2527,8 @@ export type PageBlobClearPagesResponse = WithResponse<PageBlobClearPagesHeaders,
 
 // @public
 export class PageBlobClient extends BlobClient {
-    constructor(connectionString: string, containerName: string, blobName: string, options?: BlobClientOptions);
-    constructor(url: string, credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: BlobClientOptions);
+    constructor(connectionString: string, containerName: string, blobName: string, options?: PageBlobClientOptions);
+    constructor(url: string, credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: PageBlobClientOptions);
     constructor(url: string, pipeline: PipelineLike, options?: BlobClientConfig);
     clearPages(offset?: number, count?: number, options?: PageBlobClearPagesOptions): Promise<PageBlobClearPagesResponse>;
     create(size: number, options?: PageBlobCreateOptions): Promise<PageBlobCreateResponse>;
@@ -2529,6 +2545,9 @@ export class PageBlobClient extends BlobClient {
     uploadPagesFromURL(sourceURL: string, sourceOffset: number, destOffset: number, count: number, options?: PageBlobUploadPagesFromURLOptions): Promise<PageBlobUploadPagesFromURLResponse>;
     withSnapshot(snapshot: string): PageBlobClient;
 }
+
+// @public
+export type PageBlobClientOptions = StoragePipelineOptions & BlobClientConfig;
 
 // @public
 export interface PageBlobCopyIncrementalHeaders {
@@ -2953,7 +2972,7 @@ export enum SASProtocol {
 
 // @public
 export class SASQueryParameters {
-    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, cacheControl?: string, contentDisposition?: string, contentEncoding?: string, contentLanguage?: string, contentType?: string, userDelegationKey?: UserDelegationKey, preauthorizedAgentObjectId?: string, correlationId?: string, encryptionScope?: string, delegatedUserObjectId?: string, requestHeaderKeys?: string, requestQueryParameterKeys?: string);
+    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, cacheControl?: string, contentDisposition?: string, contentEncoding?: string, contentLanguage?: string, contentType?: string, userDelegationKey?: UserDelegationKey, preauthorizedAgentObjectId?: string, correlationId?: string, encryptionScope?: string, delegatedUserObjectId?: string, requestHeaderKeys?: string, requestQueryParameterKeys?: string, directoryDepth?: number);
     constructor(version: string, signature: string, options?: SASQueryParametersOptions);
     readonly cacheControl?: string;
     readonly contentDisposition?: string;
@@ -2962,6 +2981,7 @@ export class SASQueryParameters {
     readonly contentType?: string;
     readonly correlationId?: string;
     readonly delegatedUserObjectId?: string;
+    readonly directoryDepth?: number;
     readonly encryptionScope?: string;
     readonly expiresOn?: Date;
     readonly identifier?: string;
@@ -2989,6 +3009,7 @@ export interface SASQueryParametersOptions {
     contentType?: string;
     correlationId?: string;
     delegatedUserObjectId?: string;
+    directoryDepth?: number;
     encryptionScope?: string;
     expiresOn?: Date;
     identifier?: string;

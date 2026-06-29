@@ -3,10 +3,10 @@
 
 import type { AbortSignalLike } from "@azure/abort-controller";
 import type { WebPubSubClientProtocol } from "../protocols/index.js";
-import type { JSONTypes } from "../webPubSubClient.js";
 import type {
   DisconnectedMessage,
   GroupDataMessage,
+  JSONTypes,
   ServerDataMessage,
   StreamDataError,
   StreamInfo,
@@ -180,9 +180,9 @@ export interface InvokeEventOptions {
 }
 
 /**
- * streamToGroup operation options.
+ * openGroupStream operation options.
  */
-export interface StreamToGroupOptions {
+export interface OpenGroupStreamOptions {
   /**
    * Optional stream identifier. If not specified, client will generate one.
    */
@@ -195,13 +195,13 @@ export interface StreamToGroupOptions {
   /**
    * Optional stream idle timeout in milliseconds.
    */
-  idleTimeoutMs?: number;
+  idleTimeoutInMs?: number;
 }
 
 /**
- * Send stream data options.
+ * Group stream write options.
  */
-export interface SendStreamDataOptions {
+export interface GroupStreamWriteOptions {
   /**
    * Optional abort signal.
    */
@@ -209,9 +209,9 @@ export interface SendStreamDataOptions {
 }
 
 /**
- * Send stream keepalive options.
+ * End group stream options.
  */
-export interface SendStreamKeepaliveOptions {
+export interface EndGroupStreamOptions {
   /**
    * Optional abort signal.
    */
@@ -219,13 +219,9 @@ export interface SendStreamKeepaliveOptions {
 }
 
 /**
- * End stream options.
+ * Abort group stream options.
  */
-export interface EndStreamOptions {
-  /**
-   * Optional stream end error.
-   */
-  error?: StreamEndError;
+export interface AbortGroupStreamOptions {
   /**
    * Optional abort signal.
    */
@@ -233,29 +229,29 @@ export interface EndStreamOptions {
 }
 
 /**
- * Stream publisher abstraction for sending one logical stream.
+ * Group stream writer abstraction for sending one logical stream to a group.
  */
-export interface StreamPublisher {
+export interface GroupStreamWriter {
   /**
    * Stream identifier.
    */
   readonly streamId: string;
   /**
-   * Publish a stream fragment.
+   * Write a stream fragment.
    */
-  publish(
+  write(
     content: JSONTypes | ArrayBuffer,
-    dataType?: WebPubSubDataType,
-    options?: SendStreamDataOptions,
+    dataType: WebPubSubDataType,
+    options?: GroupStreamWriteOptions,
   ): Promise<void>;
   /**
-   * Send stream keepalive.
+   * End the stream successfully.
    */
-  keepalive(options?: SendStreamKeepaliveOptions): Promise<void>;
+  end(options?: EndGroupStreamOptions): Promise<void>;
   /**
-   * Complete the stream.
+   * Abort the stream with an error.
    */
-  complete(options?: EndStreamOptions): Promise<void>;
+  abort(error: StreamEndError, options?: AbortGroupStreamOptions): Promise<void>;
   /**
    * Register outbound stream error callback.
    * Returns a function to unregister this callback.
@@ -331,99 +327,108 @@ export interface OnRejoinGroupFailedArgs {
 }
 
 /**
- * Stream message delivered to a stream handler.
+ * One inbound fragment of a group stream.
  */
-export interface OnGroupStreamDataArgs {
+export interface GroupStreamMessage {
   /**
    * Group name.
    */
-  group: string;
+  readonly groupName: string;
   /**
    * Sender user id.
    */
-  fromUserId: string;
+  readonly fromUserId: string;
   /**
    * Connection-scoped reliable sequence id.
    */
-  sequenceId?: number;
+  readonly sequenceId?: number;
   /**
    * Message data type.
    */
-  dataType: WebPubSubDataType;
+  readonly dataType: WebPubSubDataType;
   /**
    * Message payload.
    */
-  data: JSONTypes | ArrayBuffer;
+  readonly data: JSONTypes | ArrayBuffer;
   /**
    * Stream metadata.
    */
-  stream: StreamInfo;
+  readonly stream: StreamInfo;
 }
 
 /**
- * Stream terminal event.
+ * A single inbound group stream.
  */
-export interface OnGroupStreamEndArgs {
-  /**
-   * Stream identifier.
-   */
-  streamId: string;
+export interface GroupStream extends AsyncIterable<GroupStreamMessage> {
   /**
    * Group name.
    */
-  group: string;
+  readonly groupName: string;
   /**
-   * Optional terminal error.
+   * Stream identifier.
    */
-  error?: StreamDataError;
+  readonly streamId: string;
+  /**
+   * Aborts when the stream completes, fails, times out, or its subscription is closed.
+   */
+  readonly abortSignal: AbortSignal;
 }
 
 /**
- * Callback contract for consuming one logical stream.
- */
-export interface GroupStreamHandler {
-  /**
-   * Called for every stream fragment.
-   */
-  onMessage?: (args: OnGroupStreamDataArgs) => void;
-  /**
-   * Called when the stream completes without error.
-   */
-  onComplete?: (args: OnGroupStreamEndArgs) => void;
-  /**
-   * Called when the stream ends with error.
-   */
-  onError?: (args: OnGroupStreamEndArgs) => void;
-}
-
-/**
- * onGroupStream operation options.
- */
-export interface OnGroupStreamOptions {
-  /**
-   * Inactivity timeout in milliseconds for a stream handler in the client-side registry.
-   * The timer is reset whenever a new stream fragment is received.
-   * If no fragment arrives within this duration, the stream handler is evicted.
-   * Default: 300000 (5 minutes).
-   */
-  ttlInMs?: number;
-  /**
-   * Whether to require the first observed fragment for a stream to start at `streamSequenceId === 1`.
-   * If true and the first observed fragment is mid-stream, that stream is ignored until its terminal
-   * frame arrives.
-   * Default: false.
-   */
-  handleFromStart?: boolean;
-}
-
-/**
- * Group stream subscription handle returned by `onGroupStream`.
+ * Subscription returned by `client.onGroupStream(...)`.
  */
 export interface GroupStreamSubscription {
   /**
-   * Unregister this stream subscription.
+   * Close the subscription and stop delivering inbound streams to its callback.
    */
-  close(): void;
+  close(): Promise<void>;
+  /**
+   * Whether this subscription is still active.
+   */
+  readonly isActive: boolean;
+  /**
+   * Close the subscription when used with `await using`.
+   */
+  [Symbol.asyncDispose](): Promise<void>;
+}
+
+/**
+ * Options controlling how inbound group streams are tracked and dispatched for a
+ * single callback registered via `client.onGroupStream(callback, options)`.
+ *
+ * Granularity is two-level:
+ * - The option *values* are scoped to the registration (i.e. per handler): each
+ *   `onGroupStream` call carries its own values, and different handlers may use
+ *   different values.
+ * - The option *effects* are applied independently to each stream, identified by
+ *   its `(group, streamId)` pair. Concurrent streams — even two streams in the
+ *   same group observed by the same handler — each get their own idle timer and
+ *   their own `handleFromStart` gate. Nothing is shared or aggregated across
+ *   streams or across groups.
+ */
+export interface OnGroupStreamOptions {
+  /**
+   * Inactivity timeout in milliseconds, applied independently to each stream
+   * (identified by its `(group, streamId)` pair). Every stream has its own timer
+   * that is reset whenever a fragment for that stream arrives. If no fragment
+   * arrives within this duration, only that stream is terminated with an
+   * `IdleTimeout` error; sibling streams of the same handler are unaffected.
+   * Default: 300000 (5 minutes).
+   */
+  idleTimeoutInMs?: number;
+  /**
+   * Whether to require the first observed fragment of a stream to start at
+   * `streamSequenceId === 1`, evaluated independently per stream (identified by
+   * its `(group, streamId)` pair). If true and the first observed fragment for a
+   * stream is mid-stream, that stream is ignored until its terminal frame
+   * arrives, without affecting any other concurrent stream.
+   * Default: false.
+   */
+  handleFromStart?: boolean;
+  /**
+   * Optional group names to receive streams from. When omitted, streams from all groups are received.
+   */
+  groupNames?: string[];
 }
 
 /**

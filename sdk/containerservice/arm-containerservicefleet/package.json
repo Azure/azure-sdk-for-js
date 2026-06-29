@@ -1,9 +1,9 @@
 {
   "name": "@azure/arm-containerservicefleet",
-  "version": "2.1.0-beta.3",
+  "version": "2.1.0-beta.4",
   "description": "A generated SDK for ContainerServiceFleetClient.",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "sideEffects": false,
   "autoPublish": false,
@@ -240,6 +240,20 @@
         "default": "./dist/commonjs/api/fleets/index.js"
       }
     },
+    "./api/clusterMeshProfiles": {
+      "browser": {
+        "types": "./dist/browser/api/clusterMeshProfiles/index.d.ts",
+        "default": "./dist/browser/api/clusterMeshProfiles/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/clusterMeshProfiles/index.d.ts",
+        "default": "./dist/esm/api/clusterMeshProfiles/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/clusterMeshProfiles/index.d.ts",
+        "default": "./dist/commonjs/api/clusterMeshProfiles/index.js"
+      }
+    },
     "./api/operations": {
       "browser": {
         "types": "./dist/browser/api/operations/index.d.ts",
@@ -274,6 +288,7 @@
   "module": "./dist/esm/index.js",
   "imports": {
     "#platform/*": {
+      "browser": "./src/*-browser.mts",
       "default": "./src/*.ts"
     }
   }

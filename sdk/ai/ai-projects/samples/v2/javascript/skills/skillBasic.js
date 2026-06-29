@@ -35,17 +35,17 @@ async function main() {
 
   // Create a new skill
   const created = await project.beta.skills.create(skillName, {
-    description: "Example skill created by the @azure/ai-projects sample.",
-    instructions: "You are a helpful assistant that answers questions concisely.",
-    metadata: { owner: "sample" },
+    inlineContent: {
+      description: "Example skill created by the @azure/ai-projects sample.",
+      instructions: "You are a helpful assistant that answers questions concisely.",
+      metadata: { owner: "sample" },
+    },
   });
-  console.log(`Skill created: ${created.name} (id: ${created.skill_id})`);
+  console.log(`Skill created: ${created.name} (id: ${created.id})`);
 
   // Retrieve the skill
   const fetched = await project.beta.skills.get(skillName);
-  console.log(
-    `Retrieved skill: ${fetched.name} (id: ${fetched.skill_id}), ${JSON.stringify(fetched)}`,
-  );
+  console.log(`Retrieved skill: ${fetched.name} (id: ${fetched.id}), ${JSON.stringify(fetched)}`);
 
   // List skills
   const skills = [];
@@ -54,7 +54,7 @@ async function main() {
   }
   console.log(`Found ${skills.length} skill(s)`);
   for (const item of skills) {
-    console.log(`  - ${item.name} (id: ${item.skill_id})`);
+    console.log(`  - ${item.name} (id: ${item.id})`);
   }
 
   // Delete the skill

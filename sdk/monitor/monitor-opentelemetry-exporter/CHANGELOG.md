@@ -1,6 +1,25 @@
 # Release History
 
-## Unreleased
+## 1.0.0-beta.43 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+- Renamed customer SDK Stats attribute keys to camelCase: `drop.code` → `dropCode`, `drop.reason` → `dropReason`, `retry.code` → `retryCode`, `retry.reason` → `retryReason`, `telemetry_type` → `telemetryType`, `telemetry_success` → `telemetrySuccess`.
+
+### Bugs Fixed
+
+- Fixed customer SDK Stats not counting telemetry that was dropped while saving to disk.
+- Refuse to follow server-issued 307/308 redirects whose `Location` header points outside the configured ingestion host or the known Azure Monitor / Application Insights ingestion domain suffixes. Previously a single attacker-controlled redirect could permanently re-point the exporter at a foreign host, causing every subsequent telemetry call (and the AAD bearer token attached by the auth policy) to be sent to the attacker.
+
+### Other Changes
+
+## 1.0.0-beta.42 (2026-05-29)
+
+### Bugs Fixed
+
+- Allow `microsoft.gen_ai.main_agent.*` span attributes (`name`, `id`, `version`, `conversation_id`) to flow through to `customDimensions`.
 
 ### Other Changes
 

@@ -1,5 +1,19 @@
+# warp.config.yml — build configuration
 
-extends: ../../../warp.base.config.yml
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/subnetServiceAssociationLink": "./src/api/subnetServiceAssociationLink/index.ts"
+  "./api/location": "./src/api/location/index.ts"
+  "./api/cgProfiles": "./src/api/cgProfiles/index.ts"
+  "./api/containers": "./src/api/containers/index.ts"
+  "./api/sandboxGroups": "./src/api/sandboxGroups/index.ts"
+  "./api/cgProfile": "./src/api/cgProfile/index.ts"
+  "./api/nGroups": "./src/api/nGroups/index.ts"
+  "./api/containerGroups": "./src/api/containerGroups/index.ts"
+  "./api/operations": "./src/api/operations/index.ts"
+  "./models": "./src/models/index.ts"
 
 targets:
   - name: browser

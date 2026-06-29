@@ -5,17 +5,22 @@ import type {
   ConnectedMessage,
   DisconnectedMessage,
   GroupDataMessage,
+  GroupStateSnapshotMessage,
+  GroupStateUpdateMessage,
   JoinGroupMessage,
   LeaveGroupMessage,
   SendEventMessage,
   SendToGroupMessage,
   SequenceAckMessage,
   ServerDataMessage,
+  SetGroupStateMessage,
   StreamAckMessage,
   StreamClosedMessage,
   StreamDataMessage,
   StreamEndMessage,
   StreamNackMessage,
+  SubscribeGroupStateMessage,
+  UnsubscribeGroupStateMessage,
   WebPubSubMessage,
 } from "../src/models/index.js";
 import { WebPubSubJsonReliableProtocol } from "../src/protocols/index.js";
@@ -181,7 +186,7 @@ describe("JsonProtocol", function () {
           noEcho: true,
           stream: {
             streamId: "stream1",
-            idleTimeoutMs: 15000,
+            idleTimeoutInMs: 15000,
           },
         } as SendToGroupMessage,
         payload: {
@@ -212,7 +217,7 @@ describe("JsonProtocol", function () {
         },
       },
       {
-        testName: "streamKeepalive1",
+        testName: "streamKeepAlive1",
         message: { kind: "streamData", streamId: "stream1" } as StreamDataMessage,
         payload: { type: "streamData", streamId: "stream1" },
       },
@@ -227,6 +232,60 @@ describe("JsonProtocol", function () {
           type: "streamEnd",
           streamId: "stream1",
           error: { message: "detail", userErrorCode: "app" },
+        },
+      },
+      {
+        testName: "setGroupState with state",
+        message: {
+          kind: "setGroupState",
+          group: "chat-room",
+          state: { activity: "typing" },
+          ackId: 1,
+        } as SetGroupStateMessage,
+        payload: {
+          type: "setGroupState",
+          group: "chat-room",
+          state: { activity: "typing" },
+          ackId: 1,
+        },
+      },
+      {
+        testName: "setGroupState clear (no state)",
+        message: {
+          kind: "setGroupState",
+          group: "chat-room",
+          ackId: 2,
+        } as SetGroupStateMessage,
+        payload: {
+          type: "setGroupState",
+          group: "chat-room",
+          ackId: 2,
+        },
+      },
+      {
+        testName: "subscribeGroupState",
+        message: {
+          kind: "subscribeGroupState",
+          group: "chat-room",
+          ackId: 3,
+        } as SubscribeGroupStateMessage,
+        payload: {
+          type: "subscribeGroupState",
+          group: "chat-room",
+          ackId: 3,
+        },
+      },
+      {
+        testName: "unsubscribeGroupState",
+        message: {
+          kind: "unsubscribeGroupState",
+          group: "chat-room",
+          ackId: 4,
+        } as UnsubscribeGroupStateMessage,
+        payload: {
+          type: "unsubscribeGroupState",
+          group: "chat-room",
+          ackId: 4,
         },
       },
     ];
@@ -405,6 +464,24 @@ describe("JsonProtocol", function () {
         },
       },
       {
+        testName: "event-stream-metadata-ignored",
+        message: {
+          type: "message",
+          from: "server",
+          dataType: "text",
+          data: "xyz",
+          stream: {
+            streamId: "stream1",
+            streamSequenceId: 1,
+          },
+        },
+        assertFunc: (msg: WebPubSubMessage) => {
+          assert.equal(msg.kind, "serverData");
+          const typedMessage = msg as ServerDataMessage;
+          assert.notProperty(typedMessage, "stream");
+        },
+      },
+      {
         testName: "event3",
         message: { type: "message", from: "server", dataType: "binary", data: "eHl6" },
         assertFunc: (msg: WebPubSubMessage) => {
@@ -506,6 +583,101 @@ describe("JsonProtocol", function () {
             name: "IdleTimeout",
             message: "Stream idle timeout.",
           });
+        },
+      },
+      {
+        testName: "groupStateSnapshot",
+        message: {
+          type: "groupStateSnapshot",
+          group: "chat-room",
+          items: [
+            {
+              connectionId: "conn-a1",
+              userId: "alice",
+              state: { activity: "typing" },
+              updatedAt: 1741652400000,
+            },
+            {
+              connectionId: "conn-b1",
+              userId: "bob",
+              state: { hand: "raised" },
+              updatedAt: 1741652380000,
+            },
+          ],
+        },
+        assertFunc: (msg: WebPubSubMessage) => {
+          assert.equal(msg.kind, "groupStateSnapshot");
+          const typedMessage = msg as GroupStateSnapshotMessage;
+          assert.equal(typedMessage.group, "chat-room");
+          assert.equal(typedMessage.items.length, 2);
+          assert.equal(typedMessage.items[0].connectionId, "conn-a1");
+          assert.equal(typedMessage.items[0].userId, "alice");
+          assert.deepEqual(typedMessage.items[0].state, { activity: "typing" });
+          assert.equal(typedMessage.items[0].updatedAt, 1741652400000);
+          assert.equal(typedMessage.items[1].connectionId, "conn-b1");
+          assert.equal(typedMessage.items[1].userId, "bob");
+          assert.deepEqual(typedMessage.items[1].state, { hand: "raised" });
+          assert.equal(typedMessage.items[1].updatedAt, 1741652380000);
+        },
+      },
+      {
+        testName: "groupStateSnapshot empty",
+        message: {
+          type: "groupStateSnapshot",
+          group: "empty-room",
+          items: [],
+        },
+        assertFunc: (msg: WebPubSubMessage) => {
+          assert.equal(msg.kind, "groupStateSnapshot");
+          const typedMessage = msg as GroupStateSnapshotMessage;
+          assert.equal(typedMessage.group, "empty-room");
+          assert.equal(typedMessage.items.length, 0);
+        },
+      },
+      {
+        testName: "groupStateUpdate with state",
+        message: {
+          type: "groupStateUpdate",
+          group: "chat-room",
+          items: [
+            {
+              connectionId: "conn-a1",
+              userId: "alice",
+              state: { activity: "typing" },
+              updatedAt: 1741652400000,
+            },
+          ],
+        },
+        assertFunc: (msg: WebPubSubMessage) => {
+          assert.equal(msg.kind, "groupStateUpdate");
+          const typedMessage = msg as GroupStateUpdateMessage;
+          assert.equal(typedMessage.group, "chat-room");
+          assert.equal(typedMessage.items.length, 1);
+          assert.equal(typedMessage.items[0].connectionId, "conn-a1");
+          assert.equal(typedMessage.items[0].userId, "alice");
+          assert.deepEqual(typedMessage.items[0].state, { activity: "typing" });
+          assert.equal(typedMessage.items[0].updatedAt, 1741652400000);
+        },
+      },
+      {
+        testName: "groupStateUpdate with state cleared",
+        message: {
+          type: "groupStateUpdate",
+          group: "chat-room",
+          items: [
+            {
+              connectionId: "conn-a1",
+              userId: "alice",
+              updatedAt: 1741652405000,
+            },
+          ],
+        },
+        assertFunc: (msg: WebPubSubMessage) => {
+          assert.equal(msg.kind, "groupStateUpdate");
+          const typedMessage = msg as GroupStateUpdateMessage;
+          assert.equal(typedMessage.items[0].connectionId, "conn-a1");
+          assert.isUndefined(typedMessage.items[0].state);
+          assert.equal(typedMessage.items[0].updatedAt, 1741652405000);
         },
       },
     ];

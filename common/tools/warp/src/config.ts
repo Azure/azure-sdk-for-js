@@ -4,13 +4,7 @@
 import * as fsp from "node:fs/promises";
 import * as path from "node:path";
 import { parse as parseYaml } from "yaml";
-import type {
-  WarpConfig,
-  WarpTarget,
-  ResolvedWarpConfig,
-  ConfigSource,
-  ModuleType,
-} from "./types.ts";
+import type { WarpConfig, WarpTarget, ResolvedWarpConfig, ConfigSource } from "./types.ts";
 import { WarpError } from "./types.ts";
 import { getLogger } from "./logger.ts";
 
@@ -379,12 +373,16 @@ function validateConfig(raw: unknown, source: string): WarpConfig {
         : typeof entry.polyfillSuffix === "string"
           ? entry.polyfillSuffix
           : undefined;
+    const resolvedModuleType =
+      entry.moduleType === "module" || entry.moduleType === "commonjs"
+        ? entry.moduleType
+        : undefined;
     const target: WarpTarget = {
       name,
       condition: typeof entry.condition === "string" ? entry.condition : name,
       tsconfig: entry.tsconfig as string,
       ...(resolvedPolyfillSuffix !== undefined && { polyfillSuffix: resolvedPolyfillSuffix }),
-      ...(typeof entry.moduleType === "string" && { moduleType: entry.moduleType as ModuleType }),
+      ...(resolvedModuleType !== undefined && { moduleType: resolvedModuleType }),
     };
 
     // Backward compat: infer moduleType from condition for targets that haven't

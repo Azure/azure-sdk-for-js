@@ -4,12 +4,13 @@
 
 ```ts
 
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
 import type { CommonClientOptions } from '@azure/core-client';
 import type { CompatResponse } from '@azure/core-http-compat';
 import type { OperationOptions } from '@azure/core-client';
 import type { OperationState } from '@azure/core-lro';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
-import type { SimplePollerLike } from '@azure/core-lro';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -76,6 +77,7 @@ export type ConfigurationSettingParam<T extends string | FeatureFlagValue | Secr
     tags?: {
         [propertyName: string]: string;
     };
+    description?: string;
 } & (T extends string ? {
     value?: string;
 } : {
@@ -96,6 +98,7 @@ export interface ConfigurationSettingsFilter {
 export interface ConfigurationSnapshot {
     compositionType?: SnapshotComposition;
     readonly createdOn?: Date;
+    description?: string;
     readonly etag?: string;
     readonly expiresOn?: Date;
     filters: ConfigurationSettingsFilter[];
@@ -213,6 +216,13 @@ export enum KnownAppConfigAudience {
     AzureChina = "https://appconfig.azure.cn",
     AzureGovernment = "https://appconfig.azure.us",
     AzurePublicCloud = "https://appconfig.azure.com"
+}
+
+// @public
+export enum KnownAppConfigurationApiVersion {
+    V20231101 = "2023-11-01",
+    V20240901 = "2024-09-01",
+    V20260401 = "2026-04-01"
 }
 
 // @public
@@ -354,11 +364,29 @@ export interface SettingLabel {
 }
 
 // @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<void>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    stopPolling(): void;
+    toString(): string;
+}
+
+// @public
 export type SnapshotComposition = string;
 
 // @public
 export interface SnapshotInfo {
     compositionType?: SnapshotComposition;
+    description?: string;
     filters: ConfigurationSettingsFilter[];
     name: string;
     retentionPeriodInSeconds?: number;
