@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import { requireEnvVar } from "../envTestUtils.js";
-import { isLiveMode } from "../../../../test-utils/recorder/src/utils/utils.js";
+import { requireEnvVar } from "../authTestUtils.js";
+import { isLiveMode } from "../liveTestUtils.js";
 
 describe("AzureFunctions Integration test", function () {
   it.skipIf(!isLiveMode())(

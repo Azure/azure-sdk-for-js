@@ -61,6 +61,10 @@ if ($CI) {
 }
 
 Write-Host "##[group]Deploying Azure Functions App"
+Push-Location "$webappRoot/AzureFunctions/RunTest"
+npm install --no-fund
+npm run build
+Pop-Location
 Compress-Archive -Path "$workingFolder/AzureFunctions/RunTest/*" -DestinationPath "$workingFolder/AzureFunctions/app.zip" -Force
 az functionapp deployment source config-zip -g $identityResourceGroup -n $DeploymentOutputs['IDENTITY_FUNCTION_NAME'] --src "$workingFolder/AzureFunctions/app.zip"
 Remove-Item -Force "$workingFolder/AzureFunctions/app.zip"
