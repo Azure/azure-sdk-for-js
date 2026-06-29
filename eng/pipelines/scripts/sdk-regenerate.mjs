@@ -324,6 +324,10 @@ async function runShard() {
 
   installGlobalCliTools();
   preinstallReleaseTools();
+  // Pre-install powershell-yaml once before concurrent regen. TypeSpec-Project-Sync.ps1
+  // auto-installs it per package, so 4 concurrent first packages would race to register
+  // the same package source and corrupt it; pre-installing makes that step a no-op.
+  runShell(`pwsh -NoProfile -Command "Install-Module powershell-yaml -RequiredVersion 0.4.7 -Force -Scope CurrentUser"`, SDK_ROOT);
   const specRepoCloneDir = shallowCloneSpecRepoMain();
 
   const shardPackages = loadShardPackages(directoryListFile);
