@@ -2,6 +2,8 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
+import { requireEnvVar } from "../envTestUtils.js";
+import { isLiveMode } from "../../../../test-utils/recorder/src/utils/utils.js";
 
 describe("AzureFunctions Integration test", function () {
   it.skipIf(!isLiveMode())(
@@ -24,16 +26,4 @@ describe("AzureFunctions Integration test", function () {
 function baseUrl(): string {
   const functionName = requireEnvVar("IDENTITY_FUNCTION_NAME");
   return `https://${functionName}.azurewebsites.net/api/authenticateStorage`;
-}
-
-function isLiveMode(): boolean {
-  return process.env.TEST_MODE?.toLowerCase() === "live";
-}
-
-function requireEnvVar(name: string): string {
-  const value = process.env[name];
-  if (!value) {
-    throw new Error(`Required env var ${name} is not set`);
-  }
-  return value;
 }
