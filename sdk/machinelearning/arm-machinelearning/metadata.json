@@ -2,7 +2,7 @@
   "apiVersions": {
     "Microsoft.MachineLearningServices": "2026-03-15-preview"
   },
-  "emitterVersion": "0.54.2",
+  "emitterVersion": "0.55.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.MachineLearningServices",
     "CrossLanguageDefinitionId": {
@@ -847,7 +847,6 @@
       "@azure/arm-machinelearning!RegistryPropertiesRegistryPrivateEndpointConnections:type": "Microsoft.MachineLearningServices.RegistryProperties.registryPrivateEndpointConnections.anonymous",
       "@azure/arm-machinelearning!RegistryPrivateEndpointConnectionId:type": "Microsoft.MachineLearningServices.RegistryPrivateEndpointConnection.id.anonymous",
       "@azure/arm-machinelearning!RegistryPrivateEndpointConnectionLocation:type": "Microsoft.MachineLearningServices.RegistryPrivateEndpointConnection.location.anonymous",
-      "@azure/arm-machinelearning!RegistryPrivateEndpointConnectionProperties1:type": "Microsoft.MachineLearningServices.RegistryPrivateEndpointConnection.properties.anonymous",
       "@azure/arm-machinelearning!RegistryPrivateEndpointConnectionPropertiesGroupIds:type": "Microsoft.MachineLearningServices.RegistryPrivateEndpointConnection.properties.groupIds.anonymous",
       "@azure/arm-machinelearning!RegistryPrivateEndpointConnectionPropertiesPrivateEndpoint:type": "Microsoft.MachineLearningServices.RegistryPrivateEndpointConnection.properties.privateEndpoint.anonymous",
       "@azure/arm-machinelearning!RegistryPrivateEndpointConnectionPropertiesPrivateEndpointSubnetArmId:type": "Microsoft.MachineLearningServices.RegistryPrivateEndpointConnection.properties.privateEndpoint.subnetArmId.anonymous",

@@ -1,6 +1,6 @@
 # Release History
 
-## 4.0.0-beta.1 (2026-06-26)
+## 4.0.0-beta.1 (2026-06-29)
 Compared with version 3.0.0
 
 ### Features Added
@@ -396,7 +396,6 @@ Compared with version 3.0.0
   - Interface PrivateEndpointOutboundRule has a new optional parameter errorInformation
   - Interface PrivateEndpointOutboundRule has a new optional parameter parentRuleNames
   - Interface Registry has a new optional parameter managedResourceGroupSettings
-  - Interface RegistryPrivateEndpointConnection has a new optional parameter properties
   - Interface SASAuthTypeWorkspaceConnectionProperties has a new optional parameter error
   - Interface SASAuthTypeWorkspaceConnectionProperties has a new optional parameter peRequirement
   - Interface SASAuthTypeWorkspaceConnectionProperties has a new optional parameter peStatus
@@ -593,6 +592,8 @@ Compared with version 3.0.0
   - Operation Workspaces.beginUpdate has a new signature
   - Operation Workspaces.beginUpdateAndWait has a new signature
   - Operation Workspaces.get has a new signature
+  - Class AzureMachineLearningServicesManagementClient no longer has parameter apiVersion
+  - Class AzureMachineLearningServicesManagementClient no longer has parameter subscriptionId
   - Removed Interface Aks
   - Removed Interface AksComputeSecretsProperties
   - Removed Interface AKSSchema
@@ -750,10 +751,6 @@ Compared with version 3.0.0
   - Interface OAuth2AuthTypeWorkspaceConnectionProperties no longer has parameter valueFormat
   - Interface PATAuthTypeWorkspaceConnectionProperties no longer has parameter value
   - Interface PATAuthTypeWorkspaceConnectionProperties no longer has parameter valueFormat
-  - Interface RegistryPrivateEndpointConnection no longer has parameter groupIds
-  - Interface RegistryPrivateEndpointConnection no longer has parameter privateEndpoint
-  - Interface RegistryPrivateEndpointConnection no longer has parameter provisioningState
-  - Interface RegistryPrivateEndpointConnection no longer has parameter registryPrivateLinkServiceConnectionState
   - Interface SASAuthTypeWorkspaceConnectionProperties no longer has parameter value
   - Interface SASAuthTypeWorkspaceConnectionProperties no longer has parameter valueFormat
   - Interface ServicePrincipalAuthTypeWorkspaceConnectionProperties no longer has parameter value

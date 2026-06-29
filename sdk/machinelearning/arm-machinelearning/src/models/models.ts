@@ -3419,8 +3419,14 @@ export interface RegistryPrivateEndpointConnection {
   id?: string;
   /** Same as workspace location. */
   location?: string;
-  /** Properties of the Private Endpoint Connection */
-  properties?: RegistryPrivateEndpointConnectionProperties;
+  /** The group ids */
+  groupIds?: string[];
+  /** The PE network resource that is linked to this PE connection. */
+  privateEndpoint?: PrivateEndpointResource;
+  /** The connection state. */
+  registryPrivateLinkServiceConnectionState?: RegistryPrivateLinkServiceConnectionState;
+  /** One of null, "Succeeded", "Provisioning", "Failed". While not approved, it's null. */
+  provisioningState?: string;
 }
 
 export function registryPrivateEndpointConnectionSerializer(
@@ -3429,9 +3435,14 @@ export function registryPrivateEndpointConnectionSerializer(
   return {
     id: item["id"],
     location: item["location"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : registryPrivateEndpointConnectionPropertiesSerializer(item["properties"]),
+    properties: areAllPropsUndefined(item, [
+      "groupIds",
+      "privateEndpoint",
+      "registryPrivateLinkServiceConnectionState",
+      "provisioningState",
+    ])
+      ? undefined
+      : _registryPrivateEndpointConnectionPropertiesSerializer(item),
   };
 }
 
@@ -3441,9 +3452,9 @@ export function registryPrivateEndpointConnectionDeserializer(
   return {
     id: item["id"],
     location: item["location"],
-    properties: !item["properties"]
+    ...(!item["properties"]
       ? item["properties"]
-      : registryPrivateEndpointConnectionPropertiesDeserializer(item["properties"]),
+      : _registryPrivateEndpointConnectionPropertiesDeserializer(item["properties"])),
   };
 }
 
@@ -28857,6 +28868,46 @@ export function _workspaceUpdateParametersPropertiesSerializer(
     softDeleteRetentionInDays: item["softDeleteRetentionInDays"],
     systemDatastoresAuthMode: item["systemDatastoresAuthMode"],
     v1LegacyMode: item["v1LegacyMode"],
+  };
+}
+
+export function _registryPrivateEndpointConnectionPropertiesSerializer(
+  item: RegistryPrivateEndpointConnection,
+): any {
+  return {
+    groupIds: !item["groupIds"]
+      ? item["groupIds"]
+      : item["groupIds"].map((p: any) => {
+          return p;
+        }),
+    privateEndpoint: !item["privateEndpoint"]
+      ? item["privateEndpoint"]
+      : privateEndpointResourceSerializer(item["privateEndpoint"]),
+    registryPrivateLinkServiceConnectionState: !item["registryPrivateLinkServiceConnectionState"]
+      ? item["registryPrivateLinkServiceConnectionState"]
+      : registryPrivateLinkServiceConnectionStateSerializer(
+          item["registryPrivateLinkServiceConnectionState"],
+        ),
+    provisioningState: item["provisioningState"],
+  };
+}
+
+export function _registryPrivateEndpointConnectionPropertiesDeserializer(item: any) {
+  return {
+    groupIds: !item["groupIds"]
+      ? item["groupIds"]
+      : item["groupIds"].map((p1: any) => {
+          return p1;
+        }),
+    privateEndpoint: !item["privateEndpoint"]
+      ? item["privateEndpoint"]
+      : privateEndpointResourceDeserializer(item["privateEndpoint"]),
+    registryPrivateLinkServiceConnectionState: !item["registryPrivateLinkServiceConnectionState"]
+      ? item["registryPrivateLinkServiceConnectionState"]
+      : registryPrivateLinkServiceConnectionStateDeserializer(
+          item["registryPrivateLinkServiceConnectionState"],
+        ),
+    provisioningState: item["provisioningState"],
   };
 }
 

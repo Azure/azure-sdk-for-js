@@ -7736,9 +7736,12 @@ export interface RegistryPartialManagedServiceIdentity extends ManagedServiceIde
 
 // @public
 export interface RegistryPrivateEndpointConnection {
+    groupIds?: string[];
     id?: string;
     location?: string;
-    properties?: RegistryPrivateEndpointConnectionProperties;
+    privateEndpoint?: PrivateEndpointResource;
+    provisioningState?: string;
+    registryPrivateLinkServiceConnectionState?: RegistryPrivateLinkServiceConnectionState;
 }
 
 // @public

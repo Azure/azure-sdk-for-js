@@ -52,15 +52,13 @@ async function removeRegionsFromRegistry(): Promise<void> {
       {
         id: "string",
         location: "string",
-        properties: {
-          groupIds: ["string"],
-          privateEndpoint: { subnetArmId: "string" },
-          provisioningState: "string",
-          registryPrivateLinkServiceConnectionState: {
-            description: "string",
-            actionsRequired: "string",
-            status: "Approved",
-          },
+        groupIds: ["string"],
+        privateEndpoint: { subnetArmId: "string" },
+        provisioningState: "string",
+        registryPrivateLinkServiceConnectionState: {
+          description: "string",
+          actionsRequired: "string",
+          status: "Approved",
         },
       },
     ],
