@@ -14,6 +14,7 @@
     The script validates the package path and runs the changes report tool.
 .PARAMETER SdkRepoPath
     The absolute path to the root folder of the local SDK repository.
+    Optional; defaults to the repository root (two levels above this script).
 .PARAMETER PackagePath
     The absolute path to the root folder of the local SDK project (package).
     Must contain a valid package.json file.
@@ -32,8 +33,8 @@
 #>
 [CmdletBinding()]
 param (
-  [Parameter(Mandatory = $true, HelpMessage = "Absolute path to the SDK repository root")]
-  [string]$SdkRepoPath,
+  [Parameter(Mandatory = $false, HelpMessage = "Absolute path to the SDK repository root")]
+  [string]$SdkRepoPath = (Resolve-Path (Join-Path $PSScriptRoot ".." "..")).Path,
 
   [Parameter(Mandatory = $true, HelpMessage = "Absolute path to the SDK package directory")]
   [string]$PackagePath,
