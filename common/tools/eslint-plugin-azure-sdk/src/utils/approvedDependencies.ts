@@ -55,6 +55,14 @@ interface CacheEntry {
   config: ApprovedDependenciesConfig;
 }
 
+/**
+ * Allow-list cache keyed by file path. In a one-shot CLI lint this is loaded
+ * once and never invalidated, but the VS Code ESLint extension runs a
+ * long-lived language server that loads this plugin once and reuses it across
+ * every lint for the whole session. Caching on mtime lets that server share a
+ * single parse across all packages while still picking up edits to the
+ * allow-list without requiring a window reload.
+ */
 const cache = new Map<string, CacheEntry>();
 
 /**
