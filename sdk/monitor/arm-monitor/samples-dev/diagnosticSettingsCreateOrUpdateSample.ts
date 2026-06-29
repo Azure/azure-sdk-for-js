@@ -13,7 +13,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function createOrUpdateAServiceDiagnosticSetting(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential);
-  const result = await client.serviceDiagnosticSettings.createOrUpdate(
+  const result = await client.diagnosticSettings.createOrUpdate(
     "subscriptions/1a66ce04-b633-4a0b-b2bc-a912ec8986a6/resourcegroups/viruela1/providers/microsoft.logic/workflows/viruela6",
     {
       location: "",

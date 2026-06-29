@@ -2,59 +2,59 @@
 // Licensed under the MIT License.
 
 import type { MonitorContext } from "../../api/monitorContext.js";
-import { update, createOrUpdate, get } from "../../api/serviceDiagnosticSettings/operations.js";
+import { update, createOrUpdate, get } from "../../api/diagnosticSettings/operations.js";
 import type {
-  ServiceDiagnosticSettingsUpdateOptionalParams,
-  ServiceDiagnosticSettingsCreateOrUpdateOptionalParams,
-  ServiceDiagnosticSettingsGetOptionalParams,
-} from "../../api/serviceDiagnosticSettings/options.js";
+  DiagnosticSettingsUpdateOptionalParams,
+  DiagnosticSettingsCreateOrUpdateOptionalParams,
+  DiagnosticSettingsGetOptionalParams,
+} from "../../api/diagnosticSettings/options.js";
 import type {
   ServiceDiagnosticSettingsResource,
   ServiceDiagnosticSettingsResourcePatch,
 } from "../../models/serviceDiagnosticsSettingsApi/models.js";
 
-/** Interface representing a ServiceDiagnosticSettings operations. */
-export interface ServiceDiagnosticSettingsOperations {
+/** Interface representing a DiagnosticSettings operations. */
+export interface DiagnosticSettingsOperations {
   /** Updates an existing ServiceDiagnosticSettingsResource. To update other fields use the CreateOrUpdate method. **WARNING**: This method will be deprecated in future releases. */
   update: (
     resourceUri: string,
     serviceDiagnosticSettingsResource: ServiceDiagnosticSettingsResourcePatch,
-    options?: ServiceDiagnosticSettingsUpdateOptionalParams,
+    options?: DiagnosticSettingsUpdateOptionalParams,
   ) => Promise<ServiceDiagnosticSettingsResource>;
   /** Create or update new diagnostic settings for the specified resource. **WARNING**: This method will be deprecated in future releases. */
   createOrUpdate: (
     resourceUri: string,
     parameters: ServiceDiagnosticSettingsResource,
-    options?: ServiceDiagnosticSettingsCreateOrUpdateOptionalParams,
+    options?: DiagnosticSettingsCreateOrUpdateOptionalParams,
   ) => Promise<ServiceDiagnosticSettingsResource>;
   /** Gets the active diagnostic settings for the specified resource. **WARNING**: This method will be deprecated in future releases. */
   get: (
     resourceUri: string,
-    options?: ServiceDiagnosticSettingsGetOptionalParams,
+    options?: DiagnosticSettingsGetOptionalParams,
   ) => Promise<ServiceDiagnosticSettingsResource>;
 }
 
-function _getServiceDiagnosticSettings(context: MonitorContext) {
+function _getDiagnosticSettings(context: MonitorContext) {
   return {
     update: (
       resourceUri: string,
       serviceDiagnosticSettingsResource: ServiceDiagnosticSettingsResourcePatch,
-      options?: ServiceDiagnosticSettingsUpdateOptionalParams,
+      options?: DiagnosticSettingsUpdateOptionalParams,
     ) => update(context, resourceUri, serviceDiagnosticSettingsResource, options),
     createOrUpdate: (
       resourceUri: string,
       parameters: ServiceDiagnosticSettingsResource,
-      options?: ServiceDiagnosticSettingsCreateOrUpdateOptionalParams,
+      options?: DiagnosticSettingsCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, resourceUri, parameters, options),
-    get: (resourceUri: string, options?: ServiceDiagnosticSettingsGetOptionalParams) =>
+    get: (resourceUri: string, options?: DiagnosticSettingsGetOptionalParams) =>
       get(context, resourceUri, options),
   };
 }
 
-export function _getServiceDiagnosticSettingsOperations(
+export function _getDiagnosticSettingsOperations(
   context: MonitorContext,
-): ServiceDiagnosticSettingsOperations {
+): DiagnosticSettingsOperations {
   return {
-    ..._getServiceDiagnosticSettings(context),
+    ..._getDiagnosticSettings(context),
   };
 }

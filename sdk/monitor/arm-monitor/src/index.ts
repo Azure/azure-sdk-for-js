@@ -511,6 +511,11 @@ export type {
   DataCollectionRulesCreateOptionalParams,
   DataCollectionRulesGetOptionalParams,
 } from "./api/dataCollectionRules/index.js";
+export type {
+  DiagnosticSettingsUpdateOptionalParams,
+  DiagnosticSettingsCreateOrUpdateOptionalParams,
+  DiagnosticSettingsGetOptionalParams,
+} from "./api/diagnosticSettings/index.js";
 export type { EventCategoriesListOptionalParams } from "./api/eventCategories/index.js";
 export type {
   LogProfilesListOptionalParams,
@@ -580,11 +585,6 @@ export type {
   ScheduledQueryRulesCreateOrUpdateOptionalParams,
   ScheduledQueryRulesGetOptionalParams,
 } from "./api/scheduledQueryRules/index.js";
-export type {
-  ServiceDiagnosticSettingsUpdateOptionalParams,
-  ServiceDiagnosticSettingsCreateOrUpdateOptionalParams,
-  ServiceDiagnosticSettingsGetOptionalParams,
-} from "./api/serviceDiagnosticSettings/index.js";
 export type { TenantActivityLogsListOptionalParams } from "./api/tenantActivityLogs/index.js";
 export type {
   ActionGroupsOperations,
@@ -596,6 +596,7 @@ export type {
   DataCollectionEndpointsOperations,
   DataCollectionRuleAssociationsOperations,
   DataCollectionRulesOperations,
+  DiagnosticSettingsOperations,
   EventCategoriesOperations,
   LogProfilesOperations,
   MetricAlertsOperations,
@@ -611,7 +612,6 @@ export type {
   PrivateLinkScopesOperations,
   ScheduledQueryRuleOperations,
   ScheduledQueryRulesOperations,
-  ServiceDiagnosticSettingsOperations,
   TenantActivityLogsOperations,
 } from "./classic/index.js";
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
