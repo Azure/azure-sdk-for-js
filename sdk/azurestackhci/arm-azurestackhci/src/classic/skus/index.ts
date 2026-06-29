@@ -3,7 +3,10 @@
 
 import type { AzureStackHCIContext } from "../../api/azureStackHCIContext.js";
 import { listByOffer, get } from "../../api/skus/operations.js";
-import type { SkusListByOfferOptionalParams, SkusGetOptionalParams } from "../../api/skus/options.js";
+import type {
+  SkusListByOfferOptionalParams,
+  SkusGetOptionalParams,
+} from "../../api/skus/options.js";
 import type { Sku } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 

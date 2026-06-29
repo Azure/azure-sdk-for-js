@@ -6,7 +6,8 @@ import type {
   Extension,
   ExtensionPatch,
   _ExtensionList,
-  ExtensionUpgradeParameters} from "../../models/models.js";
+  ExtensionUpgradeParameters,
+} from "../../models/models.js";
 import {
   errorResponseDeserializer,
   extensionSerializer,
@@ -15,11 +16,8 @@ import {
   _extensionListDeserializer,
   extensionUpgradeParametersSerializer,
 } from "../../models/models.js";
-import type {
-  PagedAsyncIterableIterator} from "../../static-helpers/pagingHelpers.js";
-import {
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
@@ -30,13 +28,8 @@ import type {
   ExtensionsCreateOptionalParams,
   ExtensionsGetOptionalParams,
 } from "./options.js";
-import type {
-  StreamableMethod,
-  PathUncheckedResponse} from "@azure-rest/core-client";
-import {
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _upgradeSend(

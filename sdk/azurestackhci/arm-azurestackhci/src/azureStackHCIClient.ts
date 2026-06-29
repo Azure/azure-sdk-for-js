@@ -1,60 +1,38 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
-  AzureStackHCIContext,
-  AzureStackHCIClientOptionalParams} from "./api/index.js";
-import {
-  createAzureStackHCI,
-} from "./api/index.js";
-import type { ArcSettingsOperations} from "./classic/arcSettings/index.js";
+import type { AzureStackHCIContext, AzureStackHCIClientOptionalParams } from "./api/index.js";
+import { createAzureStackHCI } from "./api/index.js";
+import type { ArcSettingsOperations } from "./classic/arcSettings/index.js";
 import { _getArcSettingsOperations } from "./classic/arcSettings/index.js";
-import type { ClustersOperations} from "./classic/clusters/index.js";
+import type { ClustersOperations } from "./classic/clusters/index.js";
 import { _getClustersOperations } from "./classic/clusters/index.js";
-import type {
-  DeploymentSettingsOperations} from "./classic/deploymentSettings/index.js";
-import {
-  _getDeploymentSettingsOperations,
-} from "./classic/deploymentSettings/index.js";
-import type {
-  EdgeDeviceJobsOperations} from "./classic/edgeDeviceJobs/index.js";
-import {
-  _getEdgeDeviceJobsOperations,
-} from "./classic/edgeDeviceJobs/index.js";
-import type { EdgeDevicesOperations} from "./classic/edgeDevices/index.js";
+import type { DeploymentSettingsOperations } from "./classic/deploymentSettings/index.js";
+import { _getDeploymentSettingsOperations } from "./classic/deploymentSettings/index.js";
+import type { EdgeDeviceJobsOperations } from "./classic/edgeDeviceJobs/index.js";
+import { _getEdgeDeviceJobsOperations } from "./classic/edgeDeviceJobs/index.js";
+import type { EdgeDevicesOperations } from "./classic/edgeDevices/index.js";
 import { _getEdgeDevicesOperations } from "./classic/edgeDevices/index.js";
-import type { ExtensionsOperations} from "./classic/extensions/index.js";
+import type { ExtensionsOperations } from "./classic/extensions/index.js";
 import { _getExtensionsOperations } from "./classic/extensions/index.js";
-import type { OffersOperations} from "./classic/offers/index.js";
+import type { OffersOperations } from "./classic/offers/index.js";
 import { _getOffersOperations } from "./classic/offers/index.js";
-import type { OperationsOperations} from "./classic/operations/index.js";
+import type { OperationsOperations } from "./classic/operations/index.js";
 import { _getOperationsOperations } from "./classic/operations/index.js";
-import type {
-  SecuritySettingsOperations} from "./classic/securitySettings/index.js";
-import {
-  _getSecuritySettingsOperations,
-} from "./classic/securitySettings/index.js";
-import type { SkusOperations} from "./classic/skus/index.js";
+import type { SecuritySettingsOperations } from "./classic/securitySettings/index.js";
+import { _getSecuritySettingsOperations } from "./classic/securitySettings/index.js";
+import type { SkusOperations } from "./classic/skus/index.js";
 import { _getSkusOperations } from "./classic/skus/index.js";
-import type { UpdateRunsOperations} from "./classic/updateRuns/index.js";
+import type { UpdateRunsOperations } from "./classic/updateRuns/index.js";
 import { _getUpdateRunsOperations } from "./classic/updateRuns/index.js";
-import type {
-  UpdateSummariesOperations} from "./classic/updateSummaries/index.js";
-import {
-  _getUpdateSummariesOperations,
-} from "./classic/updateSummaries/index.js";
-import type {
-  UpdateSummariesOperationGroupOperations} from "./classic/updateSummariesOperationGroup/index.js";
-import {
-  _getUpdateSummariesOperationGroupOperations,
-} from "./classic/updateSummariesOperationGroup/index.js";
-import type { UpdatesOperations} from "./classic/updates/index.js";
+import type { UpdateSummariesOperations } from "./classic/updateSummaries/index.js";
+import { _getUpdateSummariesOperations } from "./classic/updateSummaries/index.js";
+import type { UpdateSummariesOperationGroupOperations } from "./classic/updateSummariesOperationGroup/index.js";
+import { _getUpdateSummariesOperationGroupOperations } from "./classic/updateSummariesOperationGroup/index.js";
+import type { UpdatesOperations } from "./classic/updates/index.js";
 import { _getUpdatesOperations } from "./classic/updates/index.js";
-import type {
-  ValidatedSolutionRecipesOperations} from "./classic/validatedSolutionRecipes/index.js";
-import {
-  _getValidatedSolutionRecipesOperations,
-} from "./classic/validatedSolutionRecipes/index.js";
+import type { ValidatedSolutionRecipesOperations } from "./classic/validatedSolutionRecipes/index.js";
+import { _getValidatedSolutionRecipesOperations } from "./classic/validatedSolutionRecipes/index.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 

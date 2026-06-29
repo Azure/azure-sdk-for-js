@@ -2,20 +2,15 @@
 // Licensed under the MIT License.
 
 import type { AzureStackHCIContext as Client } from "../index.js";
-import type {
-  SecuritySetting,
-  _SecuritySettingListResult} from "../../models/models.js";
+import type { SecuritySetting, _SecuritySettingListResult } from "../../models/models.js";
 import {
   errorResponseDeserializer,
   securitySettingSerializer,
   securitySettingDeserializer,
   _securitySettingListResultDeserializer,
 } from "../../models/models.js";
-import type {
-  PagedAsyncIterableIterator} from "../../static-helpers/pagingHelpers.js";
-import {
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
@@ -24,13 +19,8 @@ import type {
   SecuritySettingsCreateOrUpdateOptionalParams,
   SecuritySettingsGetOptionalParams,
 } from "./options.js";
-import type {
-  StreamableMethod,
-  PathUncheckedResponse} from "@azure-rest/core-client";
-import {
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listByClustersSend(
