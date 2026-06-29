@@ -16,18 +16,18 @@
 
 - Includes all features released in 12.32.0-beta.1.
 
-## 12.31.0 (2026-05-22)
-
-### Features Added
-
-- Includes all features released in 12.31.0-beta.1.
-
 ## 12.32.0-beta.1 (2026-04-29)
 
 ### Features Added
 
 - Added support for service version 2026-06-06.
 - Added support for uploading up to 4 MiB of data with shareFileClient.create().
+
+## 12.31.0 (2026-05-22)
+
+### Features Added
+
+- Includes all features released in 12.31.0-beta.1.
 
 ## 12.31.0-beta.1 (2026-03-05)
 
