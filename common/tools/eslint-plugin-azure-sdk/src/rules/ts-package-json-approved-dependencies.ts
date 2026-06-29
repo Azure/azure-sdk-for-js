@@ -8,8 +8,8 @@
  * Only packages with `"sdk-type": "client"` or `"sdk-type": "mgmt"` are checked;
  * samples, tests, perf tests, and utility/tooling packages are out of scope. A
  * package may only declare a runtime dependency (`dependencies`) on a
- * third-party package if that package is first-party (an `@azure`, `@microsoft`,
- * or `@typespec` scope) or it appears in the central allow-list at
+ * third-party package if that package is first-party (one of the
+ * `FIRST_PARTY_PREFIXES` scopes) or it appears in the central allow-list at
  * `eng/approved-third-party-dependencies.yml`. `devDependencies` and
  * `peerDependencies` are not checked.
  */
@@ -17,6 +17,7 @@
 import { TSESTree } from "@typescript-eslint/utils";
 import path from "node:path";
 import {
+  APPROVED_DEPENDENCIES_DISPLAY_PATH,
   checkDependencyApproval,
   createRule,
   loadApprovedDependencies,
@@ -140,7 +141,7 @@ export default createRule<Options, MessageIds>({
           context.report({
             node: dependenciesProperty,
             messageId: "rootNotFound",
-            data: { configFile: "eng/approved-third-party-dependencies.yml" },
+            data: { configFile: APPROVED_DEPENDENCIES_DISPLAY_PATH },
           });
           return;
         }
@@ -157,7 +158,7 @@ export default createRule<Options, MessageIds>({
           return;
         }
 
-        const configFile = "eng/approved-third-party-dependencies.yml";
+        const configFile = APPROVED_DEPENDENCIES_DISPLAY_PATH;
 
         for (const dependency of dependenciesProperty.value.properties) {
           if (dependency.type !== "Property") {

@@ -35,6 +35,12 @@ export const APPROVED_DEPENDENCIES_RELATIVE_PATH = path.join(
 );
 
 /**
+ * The allow-list path as displayed in user-facing messages, always using
+ * forward slashes regardless of platform.
+ */
+export const APPROVED_DEPENDENCIES_DISPLAY_PATH = "eng/approved-third-party-dependencies.yml";
+
+/**
  * The parsed and normalized allow-list.
  */
 export interface ApprovedDependenciesConfig {
