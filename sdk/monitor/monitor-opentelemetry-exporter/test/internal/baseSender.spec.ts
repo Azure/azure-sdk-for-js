@@ -1786,7 +1786,7 @@ describe("BaseSender", () => {
       vi.useRealTimers();
     });
 
-    it("does not replay synchronously and survives a clean process exit (timer unref'd)", () => {
+    it("schedules startup replay on an unref'd timer so it never keeps the process alive", () => {
       vi.useFakeTimers();
       const sendAllSpy = vi.spyOn(BaseSender.prototype as any, "sendAllPersistedFiles");
 
@@ -1799,7 +1799,11 @@ describe("BaseSender", () => {
 
       // Constructor must not drain the backlog inline
       expect(sendAllSpy).not.toHaveBeenCalled();
-      expect(throttledSender).toBeDefined();
+
+      // The pending replay timer must be unref'd so it can't hold the event loop open
+      const replayTimer = (throttledSender as any).startupReplayTimer as NodeJS.Timeout;
+      expect(replayTimer).not.toBeNull();
+      expect(replayTimer.hasRef()).toBe(false);
 
       sendAllSpy.mockRestore();
       vi.useRealTimers();
