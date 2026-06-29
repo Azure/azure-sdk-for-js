@@ -37,11 +37,15 @@ function Invoke-Suite {
     # Invoke via `cmd /c` so the child's real exit code reaches $LASTEXITCODE.
     # (Calling the npm/npx PowerShell shims directly with `&` does not reliably
     # propagate the underlying process exit code, which can mask test failures.)
+    # Pipe to `Out-Host` so the runner's stdout is displayed but does NOT leak
+    # into this function's output stream — otherwise the captured value becomes
+    # an array (stdout lines + boolean), which is always truthy and silently
+    # defeats the playback-failure gate. `Out-Host` does not reset $LASTEXITCODE.
     if ($TestFilter) {
-      & cmd /c "npx dev-tool run build-test --no-browser-test && npx dev-tool run test:vitest -- ""$TestFilter"""
+      & cmd /c "npx dev-tool run build-test --no-browser-test && npx dev-tool run test:vitest -- ""$TestFilter""" | Out-Host
     }
     else {
-      & cmd /c "npm run test:node"
+      & cmd /c "npm run test:node" | Out-Host
     }
     $code = $LASTEXITCODE
     return ($code -eq 0)
@@ -96,7 +100,9 @@ Write-Host "==> Playback verification PASSED for the selected specs." -Foregroun
 # --- Step 5: Push (optional) ----------------------------------------------------------
 if ($Push) {
   Write-Host "==> Pushing recordings to Azure/azure-sdk-assets" -ForegroundColor Cyan
-  & npx dev-tool test-proxy push
+  # Wrap in `cmd /c` so the push failure is reliably reflected in $LASTEXITCODE
+  # (the npm/npx PowerShell shims do not reliably propagate the child exit code).
+  & cmd /c "npx dev-tool test-proxy push"
   if ($LASTEXITCODE -ne 0) { throw "dev-tool test-proxy push failed." }
 
   Write-Host ""
