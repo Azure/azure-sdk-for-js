@@ -1,15 +1,813 @@
 # Release History
-    
-## 3.0.1 (Unreleased)
+
+## 4.0.0-beta.1 (2026-06-29)
+Compared with version 3.0.0
 
 ### Features Added
+  - Added operation group CapabilityHostsOperations
+  - Added operation group ConnectionOperations
+  - Added operation group ConnectionRaiBlocklistItemOperations
+  - Added operation group ConnectionRaiBlocklistItemsOperations
+  - Added operation group ConnectionRaiBlocklistOperations
+  - Added operation group ConnectionRaiBlocklistsOperations
+  - Added operation group ConnectionRaiPoliciesOperations
+  - Added operation group ConnectionRaiPolicyOperations
+  - Added operation group EndpointDeploymentOperations
+  - Added operation group EndpointOperations
+  - Added operation group InferenceEndpointsOperations
+  - Added operation group InferenceGroupsOperations
+  - Added operation group InferencePoolsOperations
+  - Added operation group ManagedNetworkSettingsOperations
+  - Added operation group OutboundRuleOperations
+  - Added operation group OutboundRulesOperations
+  - Added operation group PTUQuotaOperations
+  - Added operation group RaiPoliciesOperations
+  - Added operation group RaiPolicyOperations
+  - Added operation BatchDeploymentsOperations.createOrUpdate
+  - Added operation BatchDeploymentsOperations.delete
+  - Added operation BatchDeploymentsOperations.update
+  - Added operation BatchEndpointsOperations.createOrUpdate
+  - Added operation BatchEndpointsOperations.delete
+  - Added operation BatchEndpointsOperations.update
+  - Added operation CodeVersionsOperations.publish
+  - Added operation ComponentVersionsOperations.publish
+  - Added operation ComputeOperationsOperations.beginResize
+  - Added operation ComputeOperationsOperations.beginResizeAndWait
+  - Added operation ComputeOperationsOperations.createOrUpdate
+  - Added operation ComputeOperationsOperations.delete
+  - Added operation ComputeOperationsOperations.getAllowedResizeSizes
+  - Added operation ComputeOperationsOperations.resize
+  - Added operation ComputeOperationsOperations.restart
+  - Added operation ComputeOperationsOperations.start
+  - Added operation ComputeOperationsOperations.stop
+  - Added operation ComputeOperationsOperations.update
+  - Added operation ComputeOperationsOperations.updateCustomServices
+  - Added operation ComputeOperationsOperations.updateDataMounts
+  - Added operation ComputeOperationsOperations.updateIdleShutdownSetting
+  - Added operation DataVersionsOperations.publish
+  - Added operation EnvironmentVersionsOperations.publish
+  - Added operation FeaturesetContainersOperations.createOrUpdate
+  - Added operation FeaturesetContainersOperations.delete
+  - Added operation FeaturesetVersionsOperations.backfill
+  - Added operation FeaturesetVersionsOperations.createOrUpdate
+  - Added operation FeaturesetVersionsOperations.delete
+  - Added operation FeaturestoreEntityContainersOperations.createOrUpdate
+  - Added operation FeaturestoreEntityContainersOperations.delete
+  - Added operation FeaturestoreEntityVersionsOperations.createOrUpdate
+  - Added operation FeaturestoreEntityVersionsOperations.delete
+  - Added operation JobsOperations.cancel
+  - Added operation JobsOperations.delete
+  - Added operation ManagedNetworkProvisionsOperations.provisionManagedNetwork
+  - Added operation ManagedNetworkSettingsRuleOperations.createOrUpdate
+  - Added operation ManagedNetworkSettingsRuleOperations.delete
+  - Added operation MarketplaceSubscriptionsOperations.createOrUpdate
+  - Added operation MarketplaceSubscriptionsOperations.delete
+  - Added operation ModelVersionsOperations.publish
+  - Added operation OnlineDeploymentsOperations.createOrUpdate
+  - Added operation OnlineDeploymentsOperations.delete
+  - Added operation OnlineDeploymentsOperations.update
+  - Added operation OnlineEndpointsOperations.createOrUpdate
+  - Added operation OnlineEndpointsOperations.delete
+  - Added operation OnlineEndpointsOperations.regenerateKeys
+  - Added operation OnlineEndpointsOperations.update
+  - Added operation RegistriesOperations.createOrUpdate
+  - Added operation RegistriesOperations.delete
+  - Added operation RegistriesOperations.removeRegions
+  - Added operation RegistryCodeContainersOperations.createOrUpdate
+  - Added operation RegistryCodeContainersOperations.delete
+  - Added operation RegistryCodeVersionsOperations.createOrUpdate
+  - Added operation RegistryCodeVersionsOperations.delete
+  - Added operation RegistryComponentContainersOperations.createOrUpdate
+  - Added operation RegistryComponentContainersOperations.delete
+  - Added operation RegistryComponentVersionsOperations.createOrUpdate
+  - Added operation RegistryComponentVersionsOperations.delete
+  - Added operation RegistryDataContainersOperations.createOrUpdate
+  - Added operation RegistryDataContainersOperations.delete
+  - Added operation RegistryDataVersionsOperations.createOrUpdate
+  - Added operation RegistryDataVersionsOperations.delete
+  - Added operation RegistryEnvironmentContainersOperations.createOrUpdate
+  - Added operation RegistryEnvironmentContainersOperations.delete
+  - Added operation RegistryEnvironmentVersionsOperations.createOrUpdate
+  - Added operation RegistryEnvironmentVersionsOperations.delete
+  - Added operation RegistryModelContainersOperations.createOrUpdate
+  - Added operation RegistryModelContainersOperations.delete
+  - Added operation RegistryModelVersionsOperations.createOrUpdate
+  - Added operation RegistryModelVersionsOperations.delete
+  - Added operation SchedulesOperations.createOrUpdate
+  - Added operation SchedulesOperations.delete
+  - Added operation ServerlessEndpointsOperations.createOrUpdate
+  - Added operation ServerlessEndpointsOperations.delete
+  - Added operation ServerlessEndpointsOperations.regenerateKeys
+  - Added operation ServerlessEndpointsOperations.update
+  - Added operation WorkspaceConnectionsOperations.beginTestConnection
+  - Added operation WorkspaceConnectionsOperations.beginTestConnectionAndWait
+  - Added operation WorkspaceConnectionsOperations.testConnection
+  - Added operation WorkspaceConnectionsOperations.update
+  - Added operation WorkspacesOperations.createOrUpdate
+  - Added operation WorkspacesOperations.delete
+  - Added operation WorkspacesOperations.diagnose
+  - Added operation WorkspacesOperations.prepareNotebook
+  - Added operation WorkspacesOperations.resyncKeys
+  - Added operation WorkspacesOperations.update
+  - Added Interface AccountApiKeys
+  - Added Interface ActualCapacityInfo
+  - Added Interface AKS
+  - Added Interface AvailableQuota
+  - Added Interface AvailableQuotaProperties
+  - Added Interface AzureOpenAiFineTuning
+  - Added Interface AzureOpenAiHyperParameters
+  - Added Interface CapabilityHost
+  - Added Interface CapabilityHostProperties
+  - Added Interface CapabilityHostsCreateOrUpdateOptionalParams
+  - Added Interface CapabilityHostsDeleteOptionalParams
+  - Added Interface CapabilityHostsGetOptionalParams
+  - Added Interface ClusterUpdateProperties
+  - Added Interface CognitiveServicesSku
+  - Added Interface ComputeInstanceAutologgerSettings
+  - Added Interface ComputeOperationsCreateOrUpdateOptionalParams
+  - Added Interface ComputeOperationsDeleteOptionalParams
+  - Added Interface ComputeOperationsGetAllowedResizeSizesOptionalParams
+  - Added Interface ComputeOperationsGetOptionalParams
+  - Added Interface ComputeOperationsListKeysOptionalParams
+  - Added Interface ComputeOperationsListNodesOptionalParams
+  - Added Interface ComputeOperationsListOptionalParams
+  - Added Interface ComputeOperationsResizeOptionalParams
+  - Added Interface ComputeOperationsRestartOptionalParams
+  - Added Interface ComputeOperationsStartOptionalParams
+  - Added Interface ComputeOperationsStopOptionalParams
+  - Added Interface ComputeOperationsUpdateCustomServicesOptionalParams
+  - Added Interface ComputeOperationsUpdateDataMountsOptionalParams
+  - Added Interface ComputeOperationsUpdateIdleShutdownSettingOptionalParams
+  - Added Interface ComputeOperationsUpdateOptionalParams
+  - Added Interface ConnectionCreateOrUpdateDeploymentOptionalParams
+  - Added Interface ConnectionDeleteDeploymentOptionalParams
+  - Added Interface ConnectionGetAllModelsOptionalParams
+  - Added Interface ConnectionGetDeploymentOptionalParams
+  - Added Interface ConnectionGetModelsOptionalParams
+  - Added Interface ConnectionListDeploymentsOptionalParams
+  - Added Interface ConnectionRaiBlocklistCreateOptionalParams
+  - Added Interface ConnectionRaiBlocklistDeleteOptionalParams
+  - Added Interface ConnectionRaiBlocklistGetOptionalParams
+  - Added Interface ConnectionRaiBlocklistItemAddBulkOptionalParams
+  - Added Interface ConnectionRaiBlocklistItemCreateOptionalParams
+  - Added Interface ConnectionRaiBlocklistItemDeleteBulkOptionalParams
+  - Added Interface ConnectionRaiBlocklistItemDeleteOptionalParams
+  - Added Interface ConnectionRaiBlocklistItemGetOptionalParams
+  - Added Interface ConnectionRaiBlocklistItemsListOptionalParams
+  - Added Interface ConnectionRaiBlocklistsListOptionalParams
+  - Added Interface ConnectionRaiPoliciesListOptionalParams
+  - Added Interface ConnectionRaiPolicyCreateOptionalParams
+  - Added Interface ConnectionRaiPolicyDeleteOptionalParams
+  - Added Interface ConnectionRaiPolicyGetOptionalParams
+  - Added Interface ContentSafetyEndpointDeploymentResourceProperties
+  - Added Interface ContentSafetyEndpointResourceProperties
+  - Added Interface CustomModelFineTuning
+  - Added Interface DataGenerationVertical
+  - Added Interface DatasetReference
+  - Added Interface DeltaModelCurrentState
+  - Added Interface DeltaModelListRequest
+  - Added Interface DeltaModelModifyRequest
+  - Added Interface DeltaModelStatusRequest
+  - Added Interface DeltaModelStatusResponse
+  - Added Interface DistillationJob
+  - Added Interface EndpointCreateOrUpdateOptionalParams
+  - Added Interface EndpointDeploymentCreateOrUpdateOptionalParams
+  - Added Interface EndpointDeploymentDeleteOptionalParams
+  - Added Interface EndpointDeploymentGetInWorkspaceOptionalParams
+  - Added Interface EndpointDeploymentGetOptionalParams
+  - Added Interface EndpointDeploymentListOptionalParams
+  - Added Interface EndpointDeploymentModel
+  - Added Interface EndpointDeploymentResourceProperties
+  - Added Interface EndpointDeploymentResourcePropertiesBasicResource
+  - Added Interface EndpointGetModelsOptionalParams
+  - Added Interface EndpointGetOptionalParams
+  - Added Interface EndpointKeys
+  - Added Interface EndpointListKeysOptionalParams
+  - Added Interface EndpointListOptionalParams
+  - Added Interface EndpointModelDeprecationProperties
+  - Added Interface EndpointModelProperties
+  - Added Interface EndpointModels
+  - Added Interface EndpointModelSkuCapacityProperties
+  - Added Interface EndpointModelSkuProperties
+  - Added Interface EndpointModelSkuRateLimitProperties
+  - Added Interface EndpointModelSkuRateLimitRulePatternProperties
+  - Added Interface EndpointModelSkuRateLimitRuleProperties
+  - Added Interface EndpointRegenerateKeysOptionalParams
+  - Added Interface EndpointResourceProperties
+  - Added Interface EndpointResourcePropertiesBasicResource
+  - Added Interface FinetuningDetails
+  - Added Interface FineTuningJob
+  - Added Interface FineTuningVertical
+  - Added Interface FqdnEndpointsPropertyBag
+  - Added Interface GroupEnvironmentConfiguration
+  - Added Interface GroupModelConfiguration
+  - Added Interface GroupStatus
+  - Added Interface Image
+  - Added Interface ImageDetails
+  - Added Interface ImageInfo
+  - Added Interface InferenceEndpoint
+  - Added Interface InferenceEndpointProperties
+  - Added Interface InferenceEndpointsCreateOrUpdateOptionalParams
+  - Added Interface InferenceEndpointsDeleteOptionalParams
+  - Added Interface InferenceEndpointsGetOptionalParams
+  - Added Interface InferenceEndpointsListOptionalParams
+  - Added Interface InferenceEndpointsUpdateOptionalParams
+  - Added Interface InferenceGroup
+  - Added Interface InferenceGroupProperties
+  - Added Interface InferenceGroupsCreateOrUpdateOptionalParams
+  - Added Interface InferenceGroupsDeleteOptionalParams
+  - Added Interface InferenceGroupsGetDeltaModelsStatusAsyncOptionalParams
+  - Added Interface InferenceGroupsGetOptionalParams
+  - Added Interface InferenceGroupsGetStatusOptionalParams
+  - Added Interface InferenceGroupsListDeltaModelsAsyncOptionalParams
+  - Added Interface InferenceGroupsListOptionalParams
+  - Added Interface InferenceGroupsListSkusOptionalParams
+  - Added Interface InferenceGroupsModifyDeltaModelsAsyncOptionalParams
+  - Added Interface InferenceGroupsUpdateOptionalParams
+  - Added Interface InferencePool
+  - Added Interface InferencePoolProperties
+  - Added Interface InferencePoolsCreateOrUpdateOptionalParams
+  - Added Interface InferencePoolsDeleteOptionalParams
+  - Added Interface InferencePoolsGetOptionalParams
+  - Added Interface InferencePoolsListOptionalParams
+  - Added Interface InferencePoolsUpdateOptionalParams
+  - Added Interface IPRule
+  - Added Interface JobResources
+  - Added Interface JupyterKernelConfig
+  - Added Interface KeyVaultProperties
+  - Added Interface LabelGeneration
+  - Added Interface ManagedNetworkSettingsBasicResource
+  - Added Interface ManagedNetworkSettingsEx
+  - Added Interface ManagedNetworkSettingsGetOptionalParams
+  - Added Interface ManagedNetworkSettingsListOptionalParams
+  - Added Interface ManagedNetworkSettingsPatchOptionalParams
+  - Added Interface ManagedNetworkSettingsProperties
+  - Added Interface ManagedNetworkSettingsPropertiesBasicResource
+  - Added Interface ManagedNetworkSettingsPutOptionalParams
+  - Added Interface ManagedOnlineEndpointDeploymentResourceProperties
+  - Added Interface ManagedOnlineEndpointResourceProperties
+  - Added Interface ManagedResourceGroupAssignedIdentities
+  - Added Interface ManagedResourceGroupSettings
+  - Added Interface NetworkAcls
+  - Added Interface OpenAIEndpointDeploymentResourceProperties
+  - Added Interface OpenAIEndpointResourceProperties
+  - Added Interface OsPatchingStatus
+  - Added Interface OutboundRuleCreateOrUpdateOptionalParams
+  - Added Interface OutboundRuleDeleteOptionalParams
+  - Added Interface OutboundRuleGetOptionalParams
+  - Added Interface OutboundRuleListOptionalParams
+  - Added Interface OutboundRulesPostOptionalParams
+  - Added Interface PackageDetails
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface PrivateEndpointConnectionProperties
+  - Added Interface PrivateLinkResourceProperties
+  - Added Interface PromptSettings
+  - Added Interface PropertiesBase
+  - Added Interface PTUDeploymentUsage
+  - Added Interface PTUQuotaGetAvailableOptionalParams
+  - Added Interface PTUQuotaListAvailableOptionalParams
+  - Added Interface PTUQuotaListOptionalParams
+  - Added Interface RaiBlocklistConfig
+  - Added Interface RaiBlocklistItemBulkRequest
+  - Added Interface RaiBlocklistItemProperties
+  - Added Interface RaiBlocklistItemPropertiesBasicResource
+  - Added Interface RaiBlocklistProperties
+  - Added Interface RaiBlocklistPropertiesBasicResource
+  - Added Interface RaiPoliciesListOptionalParams
+  - Added Interface RaiPolicyContentFilter
+  - Added Interface RaiPolicyCreateOptionalParams
+  - Added Interface RaiPolicyDeleteOptionalParams
+  - Added Interface RaiPolicyGetOptionalParams
+  - Added Interface RaiPolicyProperties
+  - Added Interface RaiPolicyPropertiesBasicResource
+  - Added Interface Ray
+  - Added Interface RegenerateServiceAccountKeyContent
+  - Added Interface RegistryPrivateEndpointConnectionProperties
+  - Added Interface RegistryProperties
+  - Added Interface RequestConfiguration
+  - Added Interface ResizeSchema
+  - Added Interface RestorePollerOptions
+  - Added Interface ScaleUnitConfiguration
+  - Added Interface SecretExpiry
+  - Added Interface ServerlessEndpointCapacityReservation
+  - Added Interface ServerlessEndpointContentSafety
+  - Added Interface ServerlessEndpointInferenceEndpoint
+  - Added Interface ServerlessEndpointModelSettings
+  - Added Interface ServerlessEndpointResourceProperties
+  - Added Interface ServerlessOffer
+  - Added Interface SharedPrivateLinkResourceProperty
+  - Added Interface SimplePollerLike
+  - Added Interface SpeechEndpointDeploymentResourceProperties
+  - Added Interface SpeechEndpointResourceProperties
+  - Added Interface StringStringKeyValuePair
+  - Added Interface TeacherModelEndpoint
+  - Added Interface TeacherModelEndpointRequestSettings
+  - Added Interface TeacherModelSettings
+  - Added Interface UsageAndQuotaDetails
+  - Added Interface VulnerabilityDetails
+  - Added Interface VulnerabilityFindings
+  - Added Interface WorkspaceConnectionsTestConnectionOptionalParams
+  - Added Interface WorkspaceConnectionsUpdateOptionalParams
+  - Added Interface WorkspaceConnectionUpdateParameter
+  - Added Interface WorkspacePrivateEndpointResource
+  - Added Interface WorkspaceProperties
+  - Added Interface WorkspacePropertiesUpdateParameters
+  - Interface AADAuthTypeWorkspaceConnectionProperties has a new optional parameter error
+  - Interface AADAuthTypeWorkspaceConnectionProperties has a new optional parameter peRequirement
+  - Interface AADAuthTypeWorkspaceConnectionProperties has a new optional parameter peStatus
+  - Interface AADAuthTypeWorkspaceConnectionProperties has a new optional parameter useWorkspaceManagedIdentity
+  - Interface AccessKeyAuthTypeWorkspaceConnectionProperties has a new optional parameter error
+  - Interface AccessKeyAuthTypeWorkspaceConnectionProperties has a new optional parameter peRequirement
+  - Interface AccessKeyAuthTypeWorkspaceConnectionProperties has a new optional parameter peStatus
+  - Interface AccessKeyAuthTypeWorkspaceConnectionProperties has a new optional parameter useWorkspaceManagedIdentity
+  - Interface AccountKeyAuthTypeWorkspaceConnectionProperties has a new optional parameter error
+  - Interface AccountKeyAuthTypeWorkspaceConnectionProperties has a new optional parameter peRequirement
+  - Interface AccountKeyAuthTypeWorkspaceConnectionProperties has a new optional parameter peStatus
+  - Interface AccountKeyAuthTypeWorkspaceConnectionProperties has a new optional parameter useWorkspaceManagedIdentity
+  - Interface ApiKeyAuthWorkspaceConnectionProperties has a new optional parameter error
+  - Interface ApiKeyAuthWorkspaceConnectionProperties has a new optional parameter peRequirement
+  - Interface ApiKeyAuthWorkspaceConnectionProperties has a new optional parameter peStatus
+  - Interface ApiKeyAuthWorkspaceConnectionProperties has a new optional parameter useWorkspaceManagedIdentity
+  - Interface AutoMLJob has a new optional parameter parentJobName
+  - Interface CommandJob has a new optional parameter parentJobName
+  - Interface ComputeInstanceDataMount has a new optional parameter mountMode
+  - Interface ComputeInstanceProperties has a new optional parameter autologgerSettings
+  - Interface ComputeInstanceProperties has a new optional parameter enableOSPatching
+  - Interface ComputeInstanceProperties has a new optional parameter enableRootAccess
+  - Interface ComputeInstanceProperties has a new optional parameter enableSSO
+  - Interface ComputeInstanceProperties has a new optional parameter idleTimeBeforeShutdown
+  - Interface ComputeInstanceProperties has a new optional parameter releaseQuotaOnStop
+  - Interface ContentSafety has a new optional parameter contentSafetyLevel
+  - Interface CustomKeysWorkspaceConnectionProperties has a new optional parameter error
+  - Interface CustomKeysWorkspaceConnectionProperties has a new optional parameter peRequirement
+  - Interface CustomKeysWorkspaceConnectionProperties has a new optional parameter peStatus
+  - Interface CustomKeysWorkspaceConnectionProperties has a new optional parameter useWorkspaceManagedIdentity
+  - Interface CustomModelJobOutput has a new optional parameter assetName
+  - Interface CustomService has a new optional parameter additionalProperties
+  - Interface CustomService has a new optional parameter kernel
+  - Interface DatastoresListSecretsOptionalParams has a new optional parameter body
+  - Interface DiagnoseRequestProperties has a new optional parameter requiredResourceProviders
+  - Interface Docker has a new optional parameter additionalProperties
+  - Interface EncryptionProperty has a new optional parameter cosmosDbResourceId
+  - Interface EncryptionProperty has a new optional parameter searchAccountResourceId
+  - Interface EncryptionProperty has a new optional parameter storageAccountResourceId
+  - Interface EnvironmentVariable has a new optional parameter additionalProperties
+  - Interface EnvironmentVersionProperties has a new optional parameter imageDetails
+  - Interface FqdnEndpoints has a new optional parameter category
+  - Interface FqdnEndpoints has a new optional parameter endpoints
+  - Interface FqdnOutboundRule has a new optional parameter errorInformation
+  - Interface FqdnOutboundRule has a new optional parameter parentRuleNames
+  - Interface ImageMetadata has a new optional parameter osPatchingStatus
+  - Interface InferenceContainerProperties has a new optional parameter startupRoute
+  - Interface JobBaseProperties has a new optional parameter parentJobName
+  - Interface JobResourceConfiguration has a new optional parameter dockerArgsList
+  - Interface KubernetesOnlineDeployment has a new optional parameter startupProbe
+  - Interface ManagedIdentityAuthTypeWorkspaceConnectionProperties has a new optional parameter error
+  - Interface ManagedIdentityAuthTypeWorkspaceConnectionProperties has a new optional parameter peRequirement
+  - Interface ManagedIdentityAuthTypeWorkspaceConnectionProperties has a new optional parameter peStatus
+  - Interface ManagedIdentityAuthTypeWorkspaceConnectionProperties has a new optional parameter useWorkspaceManagedIdentity
+  - Interface ManagedNetworkSettings has a new optional parameter enableNetworkMonitor
+  - Interface ManagedNetworkSettings has a new optional parameter firewallPublicIpAddress
+  - Interface ManagedNetworkSettings has a new optional parameter firewallSku
+  - Interface ManagedNetworkSettings has a new optional parameter managedNetworkKind
+  - Interface ManagedOnlineDeployment has a new optional parameter startupProbe
+  - Interface MLFlowModelJobOutput has a new optional parameter assetName
+  - Interface MLTableJobOutput has a new optional parameter assetName
+  - Interface ModelVersionProperties has a new optional parameter datasets
+  - Interface NoneAuthTypeWorkspaceConnectionProperties has a new optional parameter error
+  - Interface NoneAuthTypeWorkspaceConnectionProperties has a new optional parameter peRequirement
+  - Interface NoneAuthTypeWorkspaceConnectionProperties has a new optional parameter peStatus
+  - Interface NoneAuthTypeWorkspaceConnectionProperties has a new optional parameter useWorkspaceManagedIdentity
+  - Interface NotebookResourceInfo has a new optional parameter isPrivateLinkEnabled
+  - Interface OAuth2AuthTypeWorkspaceConnectionProperties has a new optional parameter error
+  - Interface OAuth2AuthTypeWorkspaceConnectionProperties has a new optional parameter peRequirement
+  - Interface OAuth2AuthTypeWorkspaceConnectionProperties has a new optional parameter peStatus
+  - Interface OAuth2AuthTypeWorkspaceConnectionProperties has a new optional parameter useWorkspaceManagedIdentity
+  - Interface OnlineDeploymentProperties has a new optional parameter startupProbe
+  - Interface OutboundRule has a new optional parameter errorInformation
+  - Interface OutboundRule has a new optional parameter parentRuleNames
+  - Interface PATAuthTypeWorkspaceConnectionProperties has a new optional parameter error
+  - Interface PATAuthTypeWorkspaceConnectionProperties has a new optional parameter peRequirement
+  - Interface PATAuthTypeWorkspaceConnectionProperties has a new optional parameter peStatus
+  - Interface PATAuthTypeWorkspaceConnectionProperties has a new optional parameter useWorkspaceManagedIdentity
+  - Interface PipelineJob has a new optional parameter parentJobName
+  - Interface PrivateEndpointOutboundRule has a new optional parameter fqdns
+  - Interface PrivateEndpointOutboundRule has a new optional parameter errorInformation
+  - Interface PrivateEndpointOutboundRule has a new optional parameter parentRuleNames
+  - Interface Registry has a new optional parameter managedResourceGroupSettings
+  - Interface SASAuthTypeWorkspaceConnectionProperties has a new optional parameter error
+  - Interface SASAuthTypeWorkspaceConnectionProperties has a new optional parameter peRequirement
+  - Interface SASAuthTypeWorkspaceConnectionProperties has a new optional parameter peStatus
+  - Interface SASAuthTypeWorkspaceConnectionProperties has a new optional parameter useWorkspaceManagedIdentity
+  - Interface ServicePrincipalAuthTypeWorkspaceConnectionProperties has a new optional parameter error
+  - Interface ServicePrincipalAuthTypeWorkspaceConnectionProperties has a new optional parameter peRequirement
+  - Interface ServicePrincipalAuthTypeWorkspaceConnectionProperties has a new optional parameter peStatus
+  - Interface ServicePrincipalAuthTypeWorkspaceConnectionProperties has a new optional parameter useWorkspaceManagedIdentity
+  - Interface ServiceTagOutboundRule has a new optional parameter errorInformation
+  - Interface ServiceTagOutboundRule has a new optional parameter parentRuleNames
+  - Interface SparkJob has a new optional parameter parentJobName
+  - Interface SweepJob has a new optional parameter parentJobName
+  - Interface TritonModelJobOutput has a new optional parameter assetName
+  - Interface UriFileJobOutput has a new optional parameter assetName
+  - Interface UriFolderJobOutput has a new optional parameter assetName
+  - Interface UsernamePasswordAuthTypeWorkspaceConnectionProperties has a new optional parameter error
+  - Interface UsernamePasswordAuthTypeWorkspaceConnectionProperties has a new optional parameter peRequirement
+  - Interface UsernamePasswordAuthTypeWorkspaceConnectionProperties has a new optional parameter peStatus
+  - Interface UsernamePasswordAuthTypeWorkspaceConnectionProperties has a new optional parameter useWorkspaceManagedIdentity
+  - Interface Workspace has a new optional parameter agentsEndpointUri
+  - Interface Workspace has a new optional parameter allowRoleAssignmentOnRG
+  - Interface Workspace has a new optional parameter containerRegistries
+  - Interface Workspace has a new optional parameter enableServiceSideCMKEncryption
+  - Interface Workspace has a new optional parameter enableSimplifiedCmk
+  - Interface Workspace has a new optional parameter enableSoftwareBillOfMaterials
+  - Interface Workspace has a new optional parameter existingWorkspaces
+  - Interface Workspace has a new optional parameter ipAllowlist
+  - Interface Workspace has a new optional parameter keyVaults
+  - Interface Workspace has a new optional parameter networkAcls
+  - Interface Workspace has a new optional parameter provisionNetworkNow
+  - Interface Workspace has a new optional parameter softDeleteRetentionInDays
+  - Interface Workspace has a new optional parameter storageAccounts
+  - Interface Workspace has a new optional parameter systemDatastoresAuthMode
+  - Interface WorkspaceConnectionPropertiesV2 has a new optional parameter error
+  - Interface WorkspaceConnectionPropertiesV2 has a new optional parameter peRequirement
+  - Interface WorkspaceConnectionPropertiesV2 has a new optional parameter peStatus
+  - Interface WorkspaceConnectionPropertiesV2 has a new optional parameter useWorkspaceManagedIdentity
+  - Interface WorkspaceConnectionsCreateOptionalParams has a new optional parameter body
+  - Interface WorkspaceConnectionsListOptionalParams has a new optional parameter includeAll
+  - Interface WorkspacesListByResourceGroupOptionalParams has a new optional parameter aiCapabilities
+  - Interface WorkspacesListByResourceGroupOptionalParams has a new optional parameter kind
+  - Interface WorkspacesListBySubscriptionOptionalParams has a new optional parameter aiCapabilities
+  - Interface WorkspacesListBySubscriptionOptionalParams has a new optional parameter kind
+  - Interface WorkspaceUpdateParameters has a new optional parameter allowRoleAssignmentOnRG
+  - Interface WorkspaceUpdateParameters has a new optional parameter enableSoftwareBillOfMaterials
+  - Interface WorkspaceUpdateParameters has a new optional parameter ipAllowlist
+  - Interface WorkspaceUpdateParameters has a new optional parameter networkAcls
+  - Interface WorkspaceUpdateParameters has a new optional parameter softDeleteRetentionInDays
+  - Interface WorkspaceUpdateParameters has a new optional parameter systemDatastoresAuthMode
+  - Added Type Alias AllowedContentLevel
+  - Added Type Alias AuthMode
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias CapabilityHostKind
+  - Added Type Alias CapabilityHostProvisioningState
+  - Added Type Alias ContentSafetyLevel
+  - Added Type Alias DataGenerationTaskType
+  - Added Type Alias DataGenerationType
+  - Added Type Alias DataGenerationVerticalUnion
+  - Added Type Alias DefaultActionType
+  - Added Type Alias DefaultResourceProvisioningState
+  - Added Type Alias DeploymentModelVersionUpgradeOption
+  - Added Type Alias EndpointDeploymentResourcePropertiesUnion
+  - Added Type Alias EndpointResourcePropertiesUnion
+  - Added Type Alias EndpointType
+  - Added Type Alias FineTuningTaskType
+  - Added Type Alias FineTuningVerticalUnion
+  - Added Type Alias FirewallSku
+  - Added Type Alias KeyType
+  - Added Type Alias ManagedNetworkKind
+  - Added Type Alias ManagedNetworkProvisioningState
+  - Added Type Alias ManagedPERequirement
+  - Added Type Alias ManagedPEStatus
+  - Added Type Alias MlflowAutologger
+  - Added Type Alias ModelLifecycleStatus
+  - Added Type Alias ModelProvider
+  - Added Type Alias MountMode
+  - Added Type Alias PatchStatus
+  - Added Type Alias PoolProvisioningState
+  - Added Type Alias RaiPolicyContentSource
+  - Added Type Alias RaiPolicyMode
+  - Added Type Alias RaiPolicyType
+  - Added Type Alias ServiceAccountKeyName
+  - Added Type Alias SystemDatastoresAuthMode
+  - Added Type Alias VulnerabilityRisk
+  - Added Enum AzureClouds
+  - Added Enum KnownAllowedContentLevel
+  - Added Enum KnownAuthMode
+  - Added Enum KnownCapabilityHostKind
+  - Added Enum KnownCapabilityHostProvisioningState
+  - Added Enum KnownContentSafetyLevel
+  - Added Enum KnownDataGenerationTaskType
+  - Added Enum KnownDataGenerationType
+  - Added Enum KnownDefaultActionType
+  - Added Enum KnownDefaultResourceProvisioningState
+  - Added Enum KnownDeploymentModelVersionUpgradeOption
+  - Added Enum KnownEndpointType
+  - Added Enum KnownFineTuningTaskType
+  - Added Enum KnownFirewallSku
+  - Added Enum KnownManagedNetworkKind
+  - Added Enum KnownManagedNetworkProvisioningState
+  - Added Enum KnownManagedPERequirement
+  - Added Enum KnownManagedPEStatus
+  - Added Enum KnownMlflowAutologger
+  - Added Enum KnownModelLifecycleStatus
+  - Added Enum KnownModelProvider
+  - Added Enum KnownMountMode
+  - Added Enum KnownPatchStatus
+  - Added Enum KnownPoolProvisioningState
+  - Added Enum KnownRaiPolicyContentSource
+  - Added Enum KnownRaiPolicyMode
+  - Added Enum KnownRaiPolicyType
+  - Added Enum KnownServiceAccountKeyName
+  - Added Enum KnownSystemDatastoresAuthMode
+  - Added Enum KnownVersions
+  - Added Enum KnownVulnerabilityRisk
+  - Enum KnownComputeInstanceState has a new value Resizing
+  - Enum KnownConnectionAuthType has a new value AccountManagedIdentity
+  - Enum KnownConnectionAuthType has a new value AgenticIdentityToken
+  - Enum KnownConnectionAuthType has a new value AgenticUser
+  - Enum KnownConnectionAuthType has a new value AgentUserImpersonation
+  - Enum KnownConnectionAuthType has a new value DelegatedSAS
+  - Enum KnownConnectionAuthType has a new value ProjectManagedIdentity
+  - Enum KnownConnectionAuthType has a new value UserEntraToken
+  - Enum KnownConnectionCategory has a new value ApiManagement
+  - Enum KnownConnectionCategory has a new value AppConfig
+  - Enum KnownConnectionCategory has a new value AppInsights
+  - Enum KnownConnectionCategory has a new value AzureContainerAppEnvironment
+  - Enum KnownConnectionCategory has a new value AzureKeyVault
+  - Enum KnownConnectionCategory has a new value AzureStorageAccount
+  - Enum KnownConnectionCategory has a new value Databricks
+  - Enum KnownConnectionCategory has a new value Elasticsearch
+  - Enum KnownConnectionCategory has a new value GroundingWithBingSearch
+  - Enum KnownConnectionCategory has a new value GroundingWithCustomSearch
+  - Enum KnownConnectionCategory has a new value ManagedOnlineEndpoint
+  - Enum KnownConnectionCategory has a new value MicrosoftFabric
+  - Enum KnownConnectionCategory has a new value ModelGateway
+  - Enum KnownConnectionCategory has a new value Pinecone
+  - Enum KnownConnectionCategory has a new value PowerPlatformEnvironment
+  - Enum KnownConnectionCategory has a new value RemoteA2A
+  - Enum KnownConnectionCategory has a new value RemoteTool
+  - Enum KnownConnectionCategory has a new value Sharepoint
+  - Enum KnownDistributionType has a new value Ray
+  - Enum KnownJobType has a new value Distillation
+  - Enum KnownJobType has a new value FineTuning
+  - Enum KnownOperationName has a new value Resize
+  - Enum KnownOperationStatus has a new value ResizeFailed
+  - Enum KnownRuleStatus has a new value Deleting
+  - Enum KnownRuleStatus has a new value Failed
+  - Enum KnownRuleStatus has a new value Provisioning
+  - Enum KnownServerlessInferenceEndpointAuthMode has a new value AAD
+  - Enum KnownServerlessInferenceEndpointAuthMode has a new value KeyAndAAD
 
 ### Breaking Changes
+  - Operation BatchDeployments.beginCreateOrUpdate has a new signature
+  - Operation BatchDeployments.beginCreateOrUpdateAndWait has a new signature
+  - Operation BatchDeployments.beginUpdateAndWait has a new signature
+  - Operation BatchDeployments.get has a new signature
+  - Operation CodeVersions.createOrGetStartPendingUpload has a new signature
+  - Operation ComputeOperations.beginCreateOrUpdate has a new signature
+  - Operation ComputeOperations.beginCreateOrUpdateAndWait has a new signature
+  - Operation ComputeOperations.beginUpdateAndWait has a new signature
+  - Operation ComputeOperations.get has a new signature
+  - Operation ComputeOperations.listKeys has a new signature
+  - Operation Datastores.createOrUpdate has a new signature
+  - Operation Datastores.get has a new signature
+  - Operation Datastores.listSecrets has a new signature
+  - Operation FeaturesetVersions.beginCreateOrUpdate has a new signature
+  - Operation FeaturesetVersions.beginCreateOrUpdateAndWait has a new signature
+  - Operation FeaturesetVersions.get has a new signature
+  - Operation Jobs.createOrUpdate has a new signature
+  - Operation Jobs.get has a new signature
+  - Operation ManagedNetworkSettingsRule.beginCreateOrUpdate has a new signature
+  - Operation ManagedNetworkSettingsRule.beginCreateOrUpdateAndWait has a new signature
+  - Operation ManagedNetworkSettingsRule.get has a new signature
+  - Operation MarketplaceSubscriptions.beginDeleteAndWait has a new signature
+  - Operation OnlineDeployments.beginCreateOrUpdate has a new signature
+  - Operation OnlineDeployments.beginCreateOrUpdateAndWait has a new signature
+  - Operation OnlineDeployments.beginUpdateAndWait has a new signature
+  - Operation OnlineDeployments.get has a new signature
+  - Operation PrivateLinkResources.list has a new signature
+  - Operation RegistryCodeVersions.createOrGetStartPendingUpload has a new signature
+  - Operation RegistryDataReferences.getBlobReferenceSAS has a new signature
+  - Operation RegistryDataVersions.createOrGetStartPendingUpload has a new signature
+  - Operation RegistryModelVersions.createOrGetStartPendingUpload has a new signature
+  - Operation Schedules.beginCreateOrUpdate has a new signature
+  - Operation Schedules.beginCreateOrUpdateAndWait has a new signature
+  - Operation Schedules.get has a new signature
+  - Operation ServerlessEndpoints.beginDeleteAndWait has a new signature
+  - Operation WorkspaceConnections.create has a new signature
+  - Operation WorkspaceConnections.get has a new signature
+  - Operation WorkspaceConnections.listSecrets has a new signature
+  - Operation Workspaces.beginCreateOrUpdate has a new signature
+  - Operation Workspaces.beginCreateOrUpdateAndWait has a new signature
+  - Operation Workspaces.beginUpdate has a new signature
+  - Operation Workspaces.beginUpdateAndWait has a new signature
+  - Operation Workspaces.get has a new signature
+  - Removed Interface Aks
+  - Removed Interface AksComputeSecretsProperties
+  - Removed Interface AKSSchema
+  - Removed Interface AmlComputeNodesInformation
+  - Removed Interface AmlComputeSchema
+  - Removed Interface AssetJobInput
+  - Removed Interface AssetJobOutput
+  - Removed Interface AzureDatastore
+  - Removed Interface ComputeCreateOrUpdateOptionalParams
+  - Removed Interface ComputeDeleteOptionalParams
+  - Removed Interface ComputeGetOptionalParams
+  - Removed Interface ComputeInstanceSchema
+  - Removed Interface ComputeListKeysOptionalParams
+  - Removed Interface ComputeListNodesOptionalParams
+  - Removed Interface ComputeListOptionalParams
+  - Removed Interface ComputeResourceSchema
+  - Removed Interface ComputeRestartOptionalParams
+  - Removed Interface ComputeStartOptionalParams
+  - Removed Interface ComputeStopOptionalParams
+  - Removed Interface ComputeUpdateOptionalParams
+  - Removed Interface DatabricksComputeSecretsProperties
+  - Removed Interface DatabricksSchema
+  - Removed Interface DataLakeAnalyticsSchema
+  - Removed Interface EncryptionKeyVaultProperties
+  - Removed Interface FqdnEndpointsProperties
+  - Removed Interface HDInsightSchema
+  - Removed Interface Image_2
+  - Removed Interface ImageClassificationBase
+  - Removed Interface ImageObjectDetectionBase
+  - Removed Interface ImageVertical
+  - Removed Interface KubernetesSchema
+  - Removed Interface ListWorkspaceQuotas
+  - Removed Interface NlpVertical
+  - Removed Interface PaginatedComputeResourcesList
+  - Removed Interface TableVertical
+  - Removed Interface UserCreatedAcrAccount
+  - Removed Interface UserCreatedStorageAccount
+  - Removed Interface VirtualMachineSchema
+  - Removed Interface VirtualMachineSecretsSchema
+  - Type of parameter referenceType of interface AssetReferenceBase is changed from "Id" | "DataPath" | "OutputPath" to ReferenceType
+  - Type of parameter outputs of interface AutoMLJob is changed from {
+        [propertyName: string]: JobOutputUnion | null;
+    } to Record<string, JobOutputUnion>
+  - Type of parameter services of interface AutoMLJob is changed from {
+        [propertyName: string]: JobService | null;
+    } to Record<string, JobService>
+  - Type of parameter taskType of interface AutoMLVertical is changed from "Classification" | "Forecasting" | "ImageClassification" | "ImageClassificationMultilabel" | "ImageInstanceSegmentation" | "ImageObjectDetection" | "Regression" | "TextClassification" | "TextClassificationMultilabel" | "TextNER" to TaskType
+  - Type of parameter deploymentConfigurationType of interface BatchDeploymentConfiguration is changed from "PipelineComponent" to BatchDeploymentConfigurationType
+  - Type of parameter inputs of interface CommandJob is changed from {
+        [propertyName: string]: JobInputUnion | null;
+    } to Record<string, JobInputUnion>
+  - Type of parameter outputs of interface CommandJob is changed from {
+        [propertyName: string]: JobOutputUnion | null;
+    } to Record<string, JobOutputUnion>
+  - Type of parameter services of interface CommandJob is changed from {
+        [propertyName: string]: JobService | null;
+    } to Record<string, JobService>
+  - Type of parameter computeType of interface Compute is changed from "AKS" | "Kubernetes" | "AmlCompute" | "ComputeInstance" | "VirtualMachine" | "HDInsight" | "DataFactory" | "Databricks" | "DataLakeAnalytics" | "SynapseSpark" to ComputeType
+  - Type of parameter computeType of interface ComputeSecrets is changed from "AKS" | "VirtualMachine" | "Databricks" to ComputeType
+  - Type of parameter inputAssets of interface CustomMonitoringSignal is changed from {
+        [propertyName: string]: MonitoringInputDataBaseUnion | null;
+    } to Record<string, MonitoringInputDataBaseUnion>
+  - Type of parameter inputs of interface CustomMonitoringSignal is changed from {
+        [propertyName: string]: JobInputUnion | null;
+    } to Record<string, JobInputUnion>
+  - Type of parameter dataType of interface DataDriftMetricThresholdBase is changed from "Categorical" | "Numerical" to MonitoringFeatureDataType
+  - Type of parameter dataType of interface DataQualityMetricThresholdBase is changed from "Categorical" | "Numerical" to MonitoringFeatureDataType
+  - Type of parameter credentialType of interface DataReferenceCredential is changed from "NoCredentials" | "DockerCredentials" | "ManagedIdentity" | "SAS" to DataReferenceCredentialType
+  - Type of parameter credentialsType of interface DatastoreCredentials is changed from "AccountKey" | "Certificate" | "None" | "Sas" | "ServicePrincipal" to CredentialsType
+  - Type of parameter secretsType of interface DatastoreSecrets is changed from "AccountKey" | "Certificate" | "Sas" | "ServicePrincipal" to SecretsType
+  - Type of parameter distributionType of interface DistributionConfiguration is changed from "Mpi" | "PyTorch" | "TensorFlow" to DistributionType
+  - Type of parameter policyType of interface EarlyTerminationPolicy is changed from "Bandit" | "MedianStopping" | "TruncationSelection" to EarlyTerminationPolicyType
+  - Type of parameter mode of interface ForecastHorizon is changed from "Auto" | "Custom" to ForecastHorizonMode
+  - Type of parameter identityType of interface IdentityConfiguration is changed from "AMLToken" | "Managed" | "UserIdentity" to IdentityConfigurationType
+  - Type of parameter services of interface JobBaseProperties is changed from {
+        [propertyName: string]: JobService | null;
+    } to Record<string, JobService>
+  - Type of parameter jobInputType of interface JobInput is changed from "mltable" | "custom_model" | "mlflow_model" | "literal" | "triton_model" | "uri_file" | "uri_folder" to JobInputType
+  - Type of parameter jobLimitsType of interface JobLimits is changed from "Command" | "Sweep" to JobLimitsType
+  - Type of parameter jobOutputType of interface JobOutput is changed from "custom_model" | "mlflow_model" | "mltable" | "triton_model" | "uri_file" | "uri_folder" to JobOutputType
+  - Type of parameter outboundRules of interface ManagedNetworkSettings is changed from {
+        [propertyName: string]: OutboundRuleUnion;
+    } to Record<string, OutboundRuleUnion>
+  - Type of parameter computeType of interface MonitorComputeConfigurationBase is changed from "ServerlessSpark" to MonitorComputeType
+  - Type of parameter computeIdentityType of interface MonitorComputeIdentityBase is changed from "AmlToken" | "ManagedIdentity" to MonitorComputeIdentityType
+  - Type of parameter signals of interface MonitorDefinition is changed from {
+        [propertyName: string]: MonitoringSignalBaseUnion | null;
+    } to Record<string, MonitoringSignalBaseUnion | null>
+  - Type of parameter filterType of interface MonitoringFeatureFilterBase is changed from "AllFeatures" | "FeatureSubset" | "TopNByAttribution" to MonitoringFeatureFilterType
+  - Type of parameter inputDataType of interface MonitoringInputDataBase is changed from "Fixed" | "Rolling" | "Static" to MonitoringInputDataType
+  - Type of parameter signalType of interface MonitoringSignalBase is changed from "Custom" | "DataDrift" | "DataQuality" | "FeatureAttributionDrift" | "PredictionDrift" to MonitoringSignalType
+  - Type of parameter mode of interface NCrossValidations is changed from "Auto" | "Custom" to NCrossValidationsMode
+  - Type of parameter nodesValueType of interface Nodes is changed from "All" to NodesValueType
+  - Type of parameter webhooks of interface NotificationSetting is changed from {
+        [propertyName: string]: WebhookUnion | null;
+    } to Record<string, WebhookUnion>
+  - Type of parameter artifactType of interface OneLakeArtifact is changed from "LakeHouse" to OneLakeArtifactType
+  - Type of parameter scaleType of interface OnlineScaleSettings is changed from "Default" | "TargetUtilization" to ScaleType
+  - Type of parameter type of interface OutboundRule is changed from "PrivateEndpoint" | "ServiceTag" | "FQDN" to RuleType
+  - Type of parameter credentialType of interface PendingUploadCredentialDto is changed from "SAS" to PendingUploadCredentialType
+  - Type of parameter inputs of interface PipelineJob is changed from {
+        [propertyName: string]: JobInputUnion | null;
+    } to Record<string, JobInputUnion>
+  - Type of parameter outputs of interface PipelineJob is changed from {
+        [propertyName: string]: JobOutputUnion | null;
+    } to Record<string, JobOutputUnion>
+  - Type of parameter services of interface PipelineJob is changed from {
+        [propertyName: string]: JobService | null;
+    } to Record<string, JobService>
+  - Type of parameter dataType of interface PredictionDriftMetricThresholdBase is changed from "Categorical" | "Numerical" to MonitoringFeatureDataType
+  - Type of parameter samplingAlgorithmType of interface SamplingAlgorithm is changed from "Bayesian" | "Grid" | "Random" to SamplingAlgorithmType
+  - Type of parameter actionType of interface ScheduleActionBase is changed from "CreateMonitor" | "InvokeBatchEndpoint" | "CreateJob" to ScheduleActionType
+  - Type of parameter mode of interface Seasonality is changed from "Auto" | "Custom" to SeasonalityMode
+  - Type of parameter inputs of interface SparkJob is changed from {
+        [propertyName: string]: JobInputUnion | null;
+    } to Record<string, JobInputUnion>
+  - Type of parameter outputs of interface SparkJob is changed from {
+        [propertyName: string]: JobOutputUnion | null;
+    } to Record<string, JobOutputUnion>
+  - Type of parameter services of interface SparkJob is changed from {
+        [propertyName: string]: JobService | null;
+    } to Record<string, JobService>
+  - Type of parameter sparkJobEntryType of interface SparkJobEntry is changed from "SparkJobPythonEntry" | "SparkJobScalaEntry" to SparkJobEntryType
+  - Type of parameter inputs of interface SweepJob is changed from {
+        [propertyName: string]: JobInputUnion | null;
+    } to Record<string, JobInputUnion>
+  - Type of parameter outputs of interface SweepJob is changed from {
+        [propertyName: string]: JobOutputUnion | null;
+    } to Record<string, JobOutputUnion>
+  - Type of parameter services of interface SweepJob is changed from {
+        [propertyName: string]: JobService | null;
+    } to Record<string, JobService>
+  - Type of parameter mode of interface TargetLags is changed from "Auto" | "Custom" to TargetLagsMode
+  - Type of parameter mode of interface TargetRollingWindowSize is changed from "Auto" | "Custom" to TargetRollingWindowSizeMode
+  - Type of parameter triggerType of interface TriggerBase is changed from "Recurrence" | "Cron" to TriggerType
+  - Type of parameter webhookType of interface Webhook is changed from "AzureDevOps" to WebhookType
+  - Type of parameter authType of interface WorkspaceConnectionPropertiesV2 is changed from "PAT" | "SAS" | "UsernamePassword" | "None" | "ManagedIdentity" | "AAD" | "AccessKey" | "AccountKey" | "ApiKey" | "CustomKeys" | "OAuth2" | "ServicePrincipal" to ConnectionAuthType
+  - Interface AADAuthTypeWorkspaceConnectionProperties no longer has parameter value
+  - Interface AADAuthTypeWorkspaceConnectionProperties no longer has parameter valueFormat
+  - Interface AccessKeyAuthTypeWorkspaceConnectionProperties no longer has parameter value
+  - Interface AccessKeyAuthTypeWorkspaceConnectionProperties no longer has parameter valueFormat
+  - Interface AccountKeyAuthTypeWorkspaceConnectionProperties no longer has parameter value
+  - Interface AccountKeyAuthTypeWorkspaceConnectionProperties no longer has parameter valueFormat
+  - Interface AcrDetails no longer has parameter userCreatedAcrAccount
+  - Interface ApiKeyAuthWorkspaceConnectionProperties no longer has parameter value
+  - Interface ApiKeyAuthWorkspaceConnectionProperties no longer has parameter valueFormat
+  - Interface CustomKeysWorkspaceConnectionProperties no longer has parameter value
+  - Interface CustomKeysWorkspaceConnectionProperties no longer has parameter valueFormat
+  - Interface FqdnEndpoints no longer has parameter properties
+  - Interface ManagedIdentityAuthTypeWorkspaceConnectionProperties no longer has parameter value
+  - Interface ManagedIdentityAuthTypeWorkspaceConnectionProperties no longer has parameter valueFormat
+  - Interface NoneAuthTypeWorkspaceConnectionProperties no longer has parameter value
+  - Interface NoneAuthTypeWorkspaceConnectionProperties no longer has parameter valueFormat
+  - Interface OAuth2AuthTypeWorkspaceConnectionProperties no longer has parameter value
+  - Interface OAuth2AuthTypeWorkspaceConnectionProperties no longer has parameter valueFormat
+  - Interface PATAuthTypeWorkspaceConnectionProperties no longer has parameter value
+  - Interface PATAuthTypeWorkspaceConnectionProperties no longer has parameter valueFormat
+  - Interface SASAuthTypeWorkspaceConnectionProperties no longer has parameter value
+  - Interface SASAuthTypeWorkspaceConnectionProperties no longer has parameter valueFormat
+  - Interface ServicePrincipalAuthTypeWorkspaceConnectionProperties no longer has parameter value
+  - Interface ServicePrincipalAuthTypeWorkspaceConnectionProperties no longer has parameter valueFormat
+  - Interface StorageAccountDetails no longer has parameter userCreatedStorageAccount
+  - Interface UsernamePasswordAuthTypeWorkspaceConnectionProperties no longer has parameter value
+  - Interface UsernamePasswordAuthTypeWorkspaceConnectionProperties no longer has parameter valueFormat
+  - Interface WorkspaceConnectionPropertiesV2 no longer has parameter value
+  - Interface WorkspaceConnectionPropertiesV2 no longer has parameter valueFormat
+  - Removed Type Alias EndpointServiceConnectionStatus
+  - Removed Type Alias KeyType_2
+  - Removed Type Alias PublicNetworkAccessType
+  - Removed Type Alias ValueFormat
+  - Type alias "AssetReferenceBaseUnion" has been changed
+  - Type alias "AutoMLVerticalUnion" has been changed
+  - Type alias "BatchDeploymentConfigurationUnion" has been changed
+  - Type alias "ComputeSecretsUnion" has been changed
+  - Type alias "ComputeUnion" has been changed
+  - Type alias "DataDriftMetricThresholdBaseUnion" has been changed
+  - Type alias "DataQualityMetricThresholdBaseUnion" has been changed
+  - Type alias "DataReferenceCredentialUnion" has been changed
+  - Type alias "DatastoreCredentialsUnion" has been changed
+  - Type alias "DatastorePropertiesUnion" has been changed
+  - Type alias "DatastoreSecretsUnion" has been changed
+  - Type alias "DistributionConfigurationUnion" has been changed
+  - Type alias "EarlyTerminationPolicyUnion" has been changed
+  - Type alias "ForecastHorizonUnion" has been changed
+  - Type alias "IdentityConfigurationUnion" has been changed
+  - Type alias "JobBasePropertiesUnion" has been changed
+  - Type alias "JobInputUnion" has been changed
+  - Type alias "JobLimitsUnion" has been changed
+  - Type alias "JobOutputUnion" has been changed
+  - Type alias "MonitorComputeConfigurationBaseUnion" has been changed
+  - Type alias "MonitorComputeIdentityBaseUnion" has been changed
+  - Type alias "MonitoringFeatureFilterBaseUnion" has been changed
+  - Type alias "MonitoringInputDataBaseUnion" has been changed
+  - Type alias "MonitoringSignalBaseUnion" has been changed
+  - Type alias "NCrossValidationsUnion" has been changed
+  - Type alias "NodesUnion" has been changed
+  - Type alias "OneLakeArtifactUnion" has been changed
+  - Type alias "OnlineDeploymentPropertiesUnion" has been changed
+  - Type alias "OnlineScaleSettingsUnion" has been changed
+  - Type alias "OutboundRuleUnion" has been changed
+  - Type alias "PendingUploadCredentialDtoUnion" has been changed
+  - Type alias "PredictionDriftMetricThresholdBaseUnion" has been changed
+  - Type alias "SamplingAlgorithmUnion" has been changed
+  - Type alias "ScheduleActionBaseUnion" has been changed
+  - Type alias "SeasonalityUnion" has been changed
+  - Type alias "SparkJobEntryUnion" has been changed
+  - Type alias "TargetLagsUnion" has been changed
+  - Type alias "TargetRollingWindowSizeUnion" has been changed
+  - Type alias "TriggerBaseUnion" has been changed
+  - Type alias "WebhookUnion" has been changed
+  - Type alias "WorkspaceConnectionPropertiesV2Union" has been changed
+  - Removed Enum KnownEndpointServiceConnectionStatus
+  - Removed Enum KnownPublicNetworkAccessType
+  - Removed Enum KnownValueFormat
 
-### Bugs Fixed
-
-### Other Changes
-
+    
 ## 3.0.0 (2024-08-15)
     
 ### Features Added
