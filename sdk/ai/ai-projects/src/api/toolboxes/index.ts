@@ -13,11 +13,11 @@ export {
 } from "./operations.js";
 export type {
   DeleteVersionOptionalParams,
-  BetaToolboxesDeleteOptionalParams,
-  BetaToolboxesUpdateOptionalParams,
+  ToolboxesDeleteOptionalParams,
+  ToolboxesUpdateOptionalParams,
   GetVersionOptionalParams,
   ListVersionsOptionalParams,
-  BetaToolboxesListOptionalParams,
-  BetaToolboxesGetOptionalParams,
+  ToolboxesListOptionalParams,
+  ToolboxesGetOptionalParams,
   CreateVersionOptionalParams,
 } from "./options.js";

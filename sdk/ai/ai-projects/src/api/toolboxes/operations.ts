@@ -1,35 +1,35 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AIProjectContext as Client } from "../../index.js";
+import type { AIProjectContext as Client } from "../index.js";
 import type {
-  ToolUnion,
+  ToolboxToolUnion,
   ToolboxVersionObject,
   ToolboxObject,
   _AgentsPagedResultToolboxObject,
   _AgentsPagedResultToolboxVersionObject,
-} from "../../../models/models.js";
+} from "../../models/models.js";
 import {
-  toolUnionArraySerializer,
+  toolboxToolUnionArraySerializer,
   apiErrorResponseDeserializer,
+  toolboxSkillUnionArraySerializer,
   toolboxPoliciesSerializer,
   toolboxVersionObjectDeserializer,
   toolboxObjectDeserializer,
   _agentsPagedResultToolboxObjectDeserializer,
   _agentsPagedResultToolboxVersionObjectDeserializer,
-  toolboxSkillUnionArraySerializer,
-} from "../../../models/models.js";
+} from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { buildPagedAsyncIterator } from "../../../static-helpers/pagingHelpers.js";
-import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
   DeleteVersionOptionalParams,
-  BetaToolboxesDeleteOptionalParams,
-  BetaToolboxesUpdateOptionalParams,
+  ToolboxesDeleteOptionalParams,
+  ToolboxesUpdateOptionalParams,
   GetVersionOptionalParams,
   ListVersionsOptionalParams,
-  BetaToolboxesListOptionalParams,
-  BetaToolboxesGetOptionalParams,
+  ToolboxesListOptionalParams,
+  ToolboxesGetOptionalParams,
   CreateVersionOptionalParams,
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
@@ -41,7 +41,6 @@ export function _deleteVersionSend(
   version: string,
   options: DeleteVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "Toolboxes=V1Preview";
   const path = expandUrlTemplate(
     "/toolboxes/{name}/versions/{version}{?api-version}",
     {
@@ -55,7 +54,7 @@ export function _deleteVersionSend(
   );
   return context.path(path).delete({
     ...operationOptionsToRequestParameters(options),
-    headers: { "foundry-features": foundryFeatures, ...options.requestOptions?.headers },
+    headers: { ...options.requestOptions?.headers },
   });
 }
 
@@ -63,7 +62,9 @@ export async function _deleteVersionDeserialize(result: PathUncheckedResponse): 
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -71,7 +72,7 @@ export async function _deleteVersionDeserialize(result: PathUncheckedResponse): 
   return;
 }
 
-/** Delete a specific version of a toolbox. */
+/** Removes the specified version of a toolbox. */
 export async function deleteVersion(
   context: Client,
   name: string,
@@ -85,9 +86,8 @@ export async function deleteVersion(
 export function _$deleteSend(
   context: Client,
   name: string,
-  options: BetaToolboxesDeleteOptionalParams = { requestOptions: {} },
+  options: ToolboxesDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "Toolboxes=V1Preview";
   const path = expandUrlTemplate(
     "/toolboxes/{name}{?api-version}",
     {
@@ -100,7 +100,7 @@ export function _$deleteSend(
   );
   return context.path(path).delete({
     ...operationOptionsToRequestParameters(options),
-    headers: { "foundry-features": foundryFeatures, ...options.requestOptions?.headers },
+    headers: { ...options.requestOptions?.headers },
   });
 }
 
@@ -108,7 +108,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -116,11 +118,11 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   return;
 }
 
-/** Delete a toolbox and all its versions. */
+/** Removes the specified toolbox along with all of its versions. */
 export async function $delete(
   context: Client,
   name: string,
-  options: BetaToolboxesDeleteOptionalParams = { requestOptions: {} },
+  options: ToolboxesDeleteOptionalParams = { requestOptions: {} },
 ): Promise<void> {
   const result = await _$deleteSend(context, name, options);
   return _$deleteDeserialize(result);
@@ -130,9 +132,8 @@ export function _updateSend(
   context: Client,
   name: string,
   defaultVersion: string,
-  options: BetaToolboxesUpdateOptionalParams = { requestOptions: {} },
+  options: ToolboxesUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "Toolboxes=V1Preview";
   const path = expandUrlTemplate(
     "/toolboxes/{name}{?api-version}",
     {
@@ -146,11 +147,7 @@ export function _updateSend(
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      "foundry-features": foundryFeatures,
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: { default_version: defaultVersion },
   });
 }
@@ -159,7 +156,9 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -167,12 +166,12 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   return toolboxObjectDeserializer(result.body);
 }
 
-/** Update a toolbox to point to a specific version. */
+/** Updates the toolbox's default version pointer to the specified version. */
 export async function update(
   context: Client,
   name: string,
   defaultVersion: string,
-  options: BetaToolboxesUpdateOptionalParams = { requestOptions: {} },
+  options: ToolboxesUpdateOptionalParams = { requestOptions: {} },
 ): Promise<ToolboxObject> {
   const result = await _updateSend(context, name, defaultVersion, options);
   return _updateDeserialize(result);
@@ -184,7 +183,6 @@ export function _getVersionSend(
   version: string,
   options: GetVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "Toolboxes=V1Preview";
   const path = expandUrlTemplate(
     "/toolboxes/{name}/versions/{version}{?api-version}",
     {
@@ -198,11 +196,7 @@ export function _getVersionSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      "foundry-features": foundryFeatures,
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -212,7 +206,9 @@ export async function _getVersionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -220,7 +216,7 @@ export async function _getVersionDeserialize(
   return toolboxVersionObjectDeserializer(result.body);
 }
 
-/** Retrieve a specific version of a toolbox. */
+/** Retrieves the specified version of a toolbox by name and version identifier. */
 export async function getVersion(
   context: Client,
   name: string,
@@ -236,7 +232,6 @@ export function _listVersionsSend(
   name: string,
   options: ListVersionsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "Toolboxes=V1Preview";
   const path = expandUrlTemplate(
     "/toolboxes/{name}/versions{?limit,order,after,before,api-version}",
     {
@@ -253,11 +248,7 @@ export function _listVersionsSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      "foundry-features": foundryFeatures,
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -267,7 +258,9 @@ export async function _listVersionsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -275,7 +268,7 @@ export async function _listVersionsDeserialize(
   return _agentsPagedResultToolboxVersionObjectDeserializer(result.body);
 }
 
-/** List all versions of a toolbox. */
+/** Returns the available versions for the specified toolbox. */
 export function listVersions(
   context: Client,
   name: string,
@@ -289,7 +282,6 @@ export function listVersions(
     {
       itemName: "data",
       apiVersion: context.apiVersion,
-      nextPageRequestOptions: { headers: { "foundry-features": "Toolboxes=V1Preview" } },
       cursorFieldName: "last_id",
       hasMoreFieldName: "has_more",
     },
@@ -298,9 +290,8 @@ export function listVersions(
 
 export function _listSend(
   context: Client,
-  options: BetaToolboxesListOptionalParams = { requestOptions: {} },
+  options: ToolboxesListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "Toolboxes=V1Preview";
   const path = expandUrlTemplate(
     "/toolboxes{?limit,order,after,before,api-version}",
     {
@@ -316,11 +307,7 @@ export function _listSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      "foundry-features": foundryFeatures,
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -330,7 +317,9 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -338,10 +327,10 @@ export async function _listDeserialize(
   return _agentsPagedResultToolboxObjectDeserializer(result.body);
 }
 
-/** List all toolboxes. */
+/** Returns the toolboxes available in the current project. */
 export function list(
   context: Client,
-  options: BetaToolboxesListOptionalParams = { requestOptions: {} },
+  options: ToolboxesListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<ToolboxObject> {
   return buildPagedAsyncIterator(
     context,
@@ -351,7 +340,6 @@ export function list(
     {
       itemName: "data",
       apiVersion: context.apiVersion,
-      nextPageRequestOptions: { headers: { "foundry-features": "Toolboxes=V1Preview" } },
       cursorFieldName: "last_id",
       hasMoreFieldName: "has_more",
     },
@@ -361,9 +349,8 @@ export function list(
 export function _getSend(
   context: Client,
   name: string,
-  options: BetaToolboxesGetOptionalParams = { requestOptions: {} },
+  options: ToolboxesGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "Toolboxes=V1Preview";
   const path = expandUrlTemplate(
     "/toolboxes/{name}{?api-version}",
     {
@@ -376,11 +363,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      "foundry-features": foundryFeatures,
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -388,7 +371,9 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<To
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -396,11 +381,11 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<To
   return toolboxObjectDeserializer(result.body);
 }
 
-/** Retrieve a toolbox. */
+/** Retrieves the specified toolbox and its current configuration. */
 export async function get(
   context: Client,
   name: string,
-  options: BetaToolboxesGetOptionalParams = { requestOptions: {} },
+  options: ToolboxesGetOptionalParams = { requestOptions: {} },
 ): Promise<ToolboxObject> {
   const result = await _getSend(context, name, options);
   return _getDeserialize(result);
@@ -409,10 +394,9 @@ export async function get(
 export function _createVersionSend(
   context: Client,
   name: string,
-  tools: ToolUnion[],
+  tools: ToolboxToolUnion[],
   options: CreateVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
-  const foundryFeatures = "Toolboxes=V1Preview";
   const path = expandUrlTemplate(
     "/toolboxes/{name}/versions{?api-version}",
     {
@@ -426,15 +410,11 @@ export function _createVersionSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      "foundry-features": foundryFeatures,
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: {
       description: options?.description,
       metadata: options?.metadata,
-      tools: toolUnionArraySerializer(tools),
+      tools: toolboxToolUnionArraySerializer(tools),
       skills: !options?.skills
         ? options?.skills
         : toolboxSkillUnionArraySerializer(options?.skills),
@@ -451,7 +431,9 @@ export async function _createVersionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -459,11 +441,11 @@ export async function _createVersionDeserialize(
   return toolboxVersionObjectDeserializer(result.body);
 }
 
-/** Create a new version of a toolbox. If the toolbox does not exist, it will be created. */
+/** Creates a new toolbox version, provisioning the toolbox itself if it does not already exist. */
 export async function createVersion(
   context: Client,
   name: string,
-  tools: ToolUnion[],
+  tools: ToolboxToolUnion[],
   options: CreateVersionOptionalParams = { requestOptions: {} },
 ): Promise<ToolboxVersionObject> {
   const result = await _createVersionSend(context, name, tools, options);

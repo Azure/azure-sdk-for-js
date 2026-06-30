@@ -57,7 +57,9 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -65,7 +67,7 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
   return _pagedInsightDeserializer(result.body);
 }
 
-/** List all insights in reverse chronological order (newest first). */
+/** Returns insights in reverse chronological order, with the most recent entries first. */
 export function list(
   context: Client,
   options: BetaInsightsListOptionalParams = { requestOptions: {} },
@@ -95,7 +97,7 @@ export function _getSend(
 ): StreamableMethod {
   const foundryFeatures = "Insights=V1Preview";
   const path = expandUrlTemplate(
-    "/insights/{id}{?api-version,includeCoordinates}",
+    "/insights/{id}{?includeCoordinates,api-version}",
     {
       id: insightId,
       includeCoordinates: options?.includeCoordinates,
@@ -122,7 +124,9 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<In
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -130,7 +134,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<In
   return insightDeserializer(result.body);
 }
 
-/** Get a specific insight by Id. */
+/** Retrieves the specified insight report and its results. */
 export async function get(
   context: Client,
   insightId: string,
@@ -184,7 +188,9 @@ export async function _generateDeserialize(result: PathUncheckedResponse): Promi
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -192,7 +198,7 @@ export async function _generateDeserialize(result: PathUncheckedResponse): Promi
   return insightDeserializer(result.body);
 }
 
-/** Generate Insights */
+/** Generates an insights report from the provided evaluation configuration. */
 export async function generate(
   context: Client,
   insight: InsightGenerationRequest,

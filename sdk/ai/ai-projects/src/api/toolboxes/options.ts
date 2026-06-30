@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ToolboxSkillUnion, ToolboxPolicies, PageOrder } from "../../../models/models.js";
+import type { ToolboxSkillUnion, ToolboxPolicies, PageOrder } from "../../models/models.js";
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface DeleteVersionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface BetaToolboxesDeleteOptionalParams extends OperationOptions {}
+export interface ToolboxesDeleteOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface BetaToolboxesUpdateOptionalParams extends OperationOptions {}
+export interface ToolboxesUpdateOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface GetVersionOptionalParams extends OperationOptions {}
@@ -43,7 +43,7 @@ export interface ListVersionsOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface BetaToolboxesListOptionalParams extends OperationOptions {
+export interface ToolboxesListOptionalParams extends OperationOptions {
   /**
    * A limit on the number of objects to be returned. Limit can range between 1 and 100, and the
    * default is 20.
@@ -69,7 +69,7 @@ export interface BetaToolboxesListOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface BetaToolboxesGetOptionalParams extends OperationOptions {}
+export interface ToolboxesGetOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface CreateVersionOptionalParams extends OperationOptions {

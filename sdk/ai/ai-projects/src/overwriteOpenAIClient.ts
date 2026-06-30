@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type OpenAI from "openai";
-import { isGenAITracingApplied } from "./tracing/configuration.js";
+import type { ResolvedTracingConfig } from "./tracing/configuration.js";
 import { OperationName } from "./tracing/constants.js";
 import {
   traceNonStreamingResponse,
@@ -10,7 +10,11 @@ import {
   traceConversationCreate,
 } from "./tracing/responseTracing.js";
 
-export function overwriteOpenAIClient(openaiClient: OpenAI, endpoint: string = ""): OpenAI {
+export function overwriteOpenAIClient(
+  openaiClient: OpenAI,
+  endpoint: string = "",
+  tracingConfig?: ResolvedTracingConfig,
+): OpenAI {
   const responsesCreate = openaiClient.responses.create.bind(openaiClient.responses);
   openaiClient.responses.create = ((...args: Parameters<typeof responsesCreate>) => {
     const [body, options = {}] = args;
@@ -20,7 +24,7 @@ export function overwriteOpenAIClient(openaiClient: OpenAI, endpoint: string = "
     } as Record<string, unknown>;
     const { body: _, ...nextOptions } = options as Record<string, unknown>;
 
-    if (!isGenAITracingApplied()) {
+    if (!tracingConfig?.enabled) {
       return responsesCreate(nextBody, nextOptions);
     }
 
@@ -60,6 +64,7 @@ export function overwriteOpenAIClient(openaiClient: OpenAI, endpoint: string = "
         operationName,
         endpoint,
         agentName,
+        tracingConfig.contentRecording,
       );
     }
     return traceNonStreamingResponse(
@@ -70,6 +75,7 @@ export function overwriteOpenAIClient(openaiClient: OpenAI, endpoint: string = "
       operationName,
       endpoint,
       agentName,
+      tracingConfig.contentRecording,
     );
   }) as typeof responsesCreate;
 
@@ -77,7 +83,7 @@ export function overwriteOpenAIClient(openaiClient: OpenAI, endpoint: string = "
   if (openaiClient.conversations?.create) {
     const conversationsCreate = openaiClient.conversations.create.bind(openaiClient.conversations);
     openaiClient.conversations.create = ((...args: unknown[]) => {
-      if (!isGenAITracingApplied()) {
+      if (!tracingConfig?.enabled) {
         return (conversationsCreate as (...a: unknown[]) => unknown)(...args);
       }
       return traceConversationCreate(
