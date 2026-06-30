@@ -19,8 +19,11 @@ import {
   BlobClient,
   SASProtocol,
   BlobBatch,
+  AppendBlobClient,
+  BlockBlobClient,
 } from "../../src/index.js";
 import {
+  base64encode,
   configureBlobStorageClient,
   customizeRequestPolicy,
   getBSU,
@@ -47,7 +50,10 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
   beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["playback", "record"]);
+    await recorder.addSanitizers(
+      { uriSanitizers, removeHeaderSanitizer: { headersForRemoval: ["x-ms-copy-source"] } },
+      ["playback", "record"],
+    );
     blobServiceClient = getBSU(recorder);
   });
 
@@ -321,6 +327,160 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const result = (await containerClientWithSAS.listBlobsFlat().byPage().next()).value;
     assert.isAbove(result.serviceEndpoint.length, 0);
     assert.deepStrictEqual(result.continuationToken, "");
+    await containerClient.delete();
+  });
+
+  it("generateBlobSASQueryParameters should work for virtual directory", async () => {
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
+    now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
+
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
+    tmr.setDate(tmr.getDate() + 1);
+
+    const sharedKeyCredential = blobServiceClient.credential as StorageSharedKeyCredential;
+
+    const containerName = recorder.variable("container", getUniqueName("container"));
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+
+    const dirName =
+      recorder.variable("dir1", getUniqueName("dir1")) +
+      "/" +
+      recorder.variable("dir2", getUniqueName("dir2"));
+    const dirClient = containerClient.getBlobClient(dirName);
+
+    const versions = ["2020-02-10", "2020-12-06", SERVICE_VERSION];
+    const blobName = recorder.variable("blob", getUniqueName("blob"));
+
+    for (let i = 0; i < versions.length; ++i) {
+      const blobSAS = generateBlobSASQueryParameters(
+        {
+          containerName: containerClient.containerName,
+          blobName: dirName,
+          isDirectory: true,
+          expiresOn: tmr,
+          permissions: ContainerSASPermissions.parse("racwd"),
+          protocol: SASProtocol.HttpsAndHttp,
+          startsOn: now,
+          version: versions[i],
+        },
+        sharedKeyCredential,
+      );
+
+      const sasClient = `${dirClient.url}?${blobSAS}`;
+      const dirClientWithSAS = new AppendBlobClient(
+        sasClient,
+        newPipeline(new AnonymousCredential()),
+      );
+      configureBlobStorageClient(recorder, dirClientWithSAS);
+      await dirClientWithSAS.createIfNotExists();
+
+      const blobClient = containerClient.getBlobClient(dirName + "/" + blobName);
+      const blobClientWithSAS = new AppendBlobClient(
+        `${blobClient.url}?${blobSAS}`,
+        newPipeline(new AnonymousCredential()),
+      );
+      configureBlobStorageClient(recorder, blobClientWithSAS);
+      await blobClientWithSAS.createIfNotExists();
+      await blobClientWithSAS.appendBlock("hello", 5);
+    }
+    await containerClient.delete();
+  });
+
+  it("stageBlock with create permission should work", async () => {
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
+    now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
+
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
+    tmr.setDate(tmr.getDate() + 1);
+
+    const sharedKeyCredential = blobServiceClient.credential as StorageSharedKeyCredential;
+
+    const containerName = recorder.variable("container", getUniqueName("container"));
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+    const blobName = recorder.variable("blob", getUniqueName("blob"));
+
+    const blobSAS = generateBlobSASQueryParameters(
+      {
+        containerName: containerClient.containerName,
+        blobName: blobName,
+        isDirectory: true,
+        expiresOn: tmr,
+        permissions: ContainerSASPermissions.parse("c"),
+        protocol: SASProtocol.HttpsAndHttp,
+        startsOn: now,
+      },
+      sharedKeyCredential,
+    );
+
+    const blobClient = containerClient.getBlobClient(blobName);
+    const blobClientWithSAS = new BlockBlobClient(
+      `${blobClient.url}?${blobSAS}`,
+      newPipeline(new AnonymousCredential()),
+    );
+    configureBlobStorageClient(recorder, blobClientWithSAS);
+    const body = "HelloWorld";
+    await blobClientWithSAS.stageBlock(base64encode("1"), body, body.length);
+    await blobClientWithSAS.stageBlock(base64encode("2"), body, body.length);
+
+    await blobClientWithSAS.commitBlockList([base64encode("1"), base64encode("2")]);
+    await containerClient.delete();
+  });
+
+  it("stageBlockFromURL with create permission should work", async () => {
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
+    now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
+
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
+    tmr.setDate(tmr.getDate() + 1);
+
+    const sharedKeyCredential = blobServiceClient.credential as StorageSharedKeyCredential;
+
+    const containerName = recorder.variable("container", getUniqueName("container"));
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+    const sourceBlobName = recorder.variable("sourceblob", getUniqueName("sourceblob"));
+    const sourceBlobClient = containerClient.getBlockBlobClient(sourceBlobName);
+    const content = "Hello, world";
+    await sourceBlobClient.upload(content, content.length);
+
+    const sourceBlobSAS = generateBlobSASQueryParameters(
+      {
+        containerName: containerClient.containerName,
+        blobName: sourceBlobName,
+        expiresOn: tmr,
+        permissions: ContainerSASPermissions.parse("r"),
+        protocol: SASProtocol.HttpsAndHttp,
+        startsOn: now,
+      },
+      sharedKeyCredential,
+    );
+
+    const sourceBlobUrl = `${sourceBlobClient.url}?${sourceBlobSAS}`;
+
+    const blobName = recorder.variable("blob", getUniqueName("blob"));
+    const blobClient = containerClient.getBlobClient(blobName);
+
+    const blobSAS = generateBlobSASQueryParameters(
+      {
+        containerName: containerClient.containerName,
+        blobName: blobName,
+        expiresOn: tmr,
+        permissions: ContainerSASPermissions.parse("c"),
+        protocol: SASProtocol.HttpsAndHttp,
+        startsOn: now,
+      },
+      sharedKeyCredential,
+    );
+
+    const blobClientWithSAS = new BlockBlobClient(
+      `${blobClient.url}?${blobSAS}`,
+      newPipeline(new AnonymousCredential()),
+    );
+    configureBlobStorageClient(recorder, blobClientWithSAS);
+    await blobClientWithSAS.stageBlockFromURL(base64encode("1"), sourceBlobUrl);
+    await blobClientWithSAS.commitBlockList([base64encode("1")]);
     await containerClient.delete();
   });
 
@@ -1053,6 +1213,77 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const result = (await containerClientWithSAS.listBlobsFlat().byPage().next()).value;
     assert.isAbove(result.serviceEndpoint.length, 0);
     assert.deepStrictEqual(result.continuationToken, "");
+    await containerClient.delete();
+  });
+
+  it("GenerateUserDelegationSAS should work for virtual directory", async (ctx) => {
+    // Try to get BlobServiceClient object with DefaultCredential
+    // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variables are set
+    let blobServiceClientWithToken: BlobServiceClient;
+    try {
+      blobServiceClientWithToken = getTokenBSUWithDefaultCredential(recorder);
+    } catch {
+      // Requires bearer token for this case which cannot be generated in the runtime
+      // Make sure this case passed in sanity test
+      ctx.skip();
+    }
+
+    const now = new Date(recorder.variable("now", new Date().toISOString()));
+    now.setHours(now.getHours() - 1);
+    const tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
+    tmr.setDate(tmr.getDate() + 1);
+    const userDelegationKey = await blobServiceClientWithToken!.getUserDelegationKey(now, tmr);
+
+    const sharedKeyCredential = blobServiceClient.credential as StorageSharedKeyCredential;
+
+    const accountName = sharedKeyCredential.accountName;
+
+    const containerName = recorder.variable("container", getUniqueName("container"));
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+
+    const dirName = recorder.variable("dir", getUniqueName("dir"));
+    const dirClient = containerClient.getBlobClient(dirName);
+
+    const versions = ["2020-02-10", "2020-12-06", "2025-07-05", "2026-04-06", SERVICE_VERSION];
+    const blobName = recorder.variable("blob", getUniqueName("blob"));
+
+    for (let i = 0; i < versions.length; ++i) {
+      const blobSAS = generateBlobSASQueryParameters(
+        {
+          containerName: containerClient.containerName,
+          expiresOn: tmr,
+          // ipRange: {
+          //   start: "0000:0000:0000:0000:0000:000:000:0000",
+          //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
+          // },
+          permissions: ContainerSASPermissions.parse("racwd"),
+          protocol: SASProtocol.HttpsAndHttp,
+          startsOn: now,
+          version: versions[i],
+        },
+        userDelegationKey,
+        accountName,
+      );
+
+      const sasClient = `${dirClient.url}?${blobSAS}`;
+      const dirClientWithSAS = new AppendBlobClient(
+        sasClient,
+        newPipeline(new AnonymousCredential()),
+      );
+      configureBlobStorageClient(recorder, dirClientWithSAS);
+      await dirClientWithSAS.createIfNotExists();
+
+      const blobClient = containerClient.getBlobClient(dirName + "/" + blobName);
+      const blobClientWithSAS = new AppendBlobClient(
+        `${blobClient.url}?${blobSAS}`,
+        newPipeline(new AnonymousCredential()),
+      );
+      configureBlobStorageClient(recorder, blobClientWithSAS);
+      await blobClientWithSAS.createIfNotExists();
+      await blobClientWithSAS.appendBlock("hello", 5);
+    }
+
     await containerClient.delete();
   });
 

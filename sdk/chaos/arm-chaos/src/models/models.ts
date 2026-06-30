@@ -807,10 +807,7 @@ export function chaosExperimentActionDeserializer(item: any): ChaosExperimentAct
 
 /** Alias for ChaosExperimentActionUnion */
 export type ChaosExperimentActionUnion =
-  | ContinuousAction
-  | DelayAction
-  | DiscreteAction
-  | ChaosExperimentAction;
+  ContinuousAction | DelayAction | DiscreteAction | ChaosExperimentAction;
 
 export function chaosExperimentActionUnionSerializer(item: ChaosExperimentActionUnion): any {
   switch (item.type) {
@@ -1021,9 +1018,7 @@ export function chaosTargetSelectorDeserializer(item: any): ChaosTargetSelector 
 
 /** Alias for ChaosTargetSelectorUnion */
 export type ChaosTargetSelectorUnion =
-  | ChaosTargetListSelector
-  | ChaosTargetQuerySelector
-  | ChaosTargetSelector;
+  ChaosTargetListSelector | ChaosTargetQuerySelector | ChaosTargetSelector;
 
 export function chaosTargetSelectorUnionSerializer(item: ChaosTargetSelectorUnion): any {
   switch (item.type) {

@@ -1,9 +1,9 @@
 {
   "name": "@azure/arm-standbypool",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "A generated SDK for StandbyPoolClient.",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "sideEffects": false,
   "autoPublish": false,

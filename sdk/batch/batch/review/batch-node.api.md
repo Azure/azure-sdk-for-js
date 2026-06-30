@@ -6,9 +6,11 @@
 
 import type { AzureNamedKeyCredential } from '@azure/core-auth';
 import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
 import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -1755,6 +1757,8 @@ export interface IPTag {
     tag?: string;
 }
 
+export { isRestError }
+
 // @public
 export interface JobScheduleExistsOptionalParams extends OperationOptions {
     clientRequestId?: string;
@@ -2202,6 +2206,8 @@ export interface ResourceFile {
     identityReference?: BatchNodeIdentityReference;
     storageContainerUrl?: string;
 }
+
+export { RestError }
 
 // @public
 export interface RollingUpgradePolicy {

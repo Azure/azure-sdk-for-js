@@ -5,9 +5,11 @@
 ```ts
 
 import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { KeyCredential } from '@azure/core-auth';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { Pipeline } from '@azure/core-rest-pipeline';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -25,6 +27,8 @@ export interface EnhancedModeOptions {
 
 // @public
 export type FileContents = NodeJS.ReadableStream | ReadableStream<Uint8Array> | Uint8Array | Blob;
+
+export { isRestError }
 
 // @public
 export enum KnownProfanityFilterModes {
@@ -47,6 +51,8 @@ export interface PhraseListOptions {
 
 // @public
 export type ProfanityFilterMode = string;
+
+export { RestError }
 
 // @public
 export interface TranscribedPhrase {

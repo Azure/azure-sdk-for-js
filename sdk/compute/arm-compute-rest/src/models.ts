@@ -2499,13 +2499,7 @@ export interface VirtualMachineRunCommandScriptSource {
 export interface VirtualMachineRunCommandInstanceView {
   /** Script execution status. */
   executionState?:
-    | "Unknown"
-    | "Pending"
-    | "Running"
-    | "Failed"
-    | "Succeeded"
-    | "TimedOut"
-    | "Canceled";
+    "Unknown" | "Pending" | "Running" | "Failed" | "Succeeded" | "TimedOut" | "Canceled";
   /** Communicate script configuration errors or execution messages. */
   executionMessage?: string;
   /** Exit code returned from script execution. */
@@ -3241,9 +3235,7 @@ export interface OSDiskImageEncryption extends DiskImageEncryption {
 export interface OSDiskImageSecurityProfile {
   /** confidential VM encryption types */
   confidentialVMEncryptionType?:
-    | "EncryptedVMGuestStateOnlyWithPmk"
-    | "EncryptedWithPmk"
-    | "EncryptedWithCmk";
+    "EncryptedVMGuestStateOnlyWithPmk" | "EncryptedWithPmk" | "EncryptedWithCmk";
   /** secure VM disk encryption set id */
   secureVMDiskEncryptionSetId?: string;
 }

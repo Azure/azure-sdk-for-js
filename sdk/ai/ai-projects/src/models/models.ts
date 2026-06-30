@@ -5189,6 +5189,14 @@ export function invocationsWsProtocolConfigurationDeserializer(
 ): InvocationsWsProtocolConfiguration {
   return item;
 }
+/** Type of AgentEndpointProtocol */
+export type AgentEndpointProtocol =
+  | "activity"
+  | "responses"
+  | "a2a"
+  | "mcp"
+  | "invocations"
+  | "invocations_ws";
 
 export function agentEndpointAuthorizationSchemeUnionArraySerializer(
   result: Array<AgentEndpointAuthorizationSchemeUnion>,

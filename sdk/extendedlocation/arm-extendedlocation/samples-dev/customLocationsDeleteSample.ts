@@ -1,26 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Deletes the Custom Location with the specified Resource Name, Resource Group, and Subscription Id.
- *
- * @summary Deletes the Custom Location with the specified Resource Name, Resource Group, and Subscription Id.
- * x-ms-original-file: specification/extendedlocation/resource-manager/Microsoft.ExtendedLocation/preview/2021-08-31-preview/examples/CustomLocationsDelete.json
- */
-
 import { CustomLocationsManagementClient } from "@azure/arm-extendedlocation";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to deletes the Custom Location with the specified Resource Name, Resource Group, and Subscription Id.
+ *
+ * @summary deletes the Custom Location with the specified Resource Name, Resource Group, and Subscription Id.
+ * x-ms-original-file: 2021-08-31-preview/CustomLocationsDelete.json
+ */
 async function deleteCustomLocation(): Promise<void> {
-  const subscriptionId =
-    process.env["EXTENDEDLOCATION_SUBSCRIPTION_ID"] || "11111111-2222-3333-4444-555555555555";
-  const resourceGroupName = process.env["EXTENDEDLOCATION_RESOURCE_GROUP"] || "testresourcegroup";
-  const resourceName = "customLocation01";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "11111111-2222-3333-4444-555555555555";
   const client = new CustomLocationsManagementClient(credential, subscriptionId);
-  const result = await client.customLocations.beginDeleteAndWait(resourceGroupName, resourceName);
-  console.log(result);
+  await client.customLocations.delete("testresourcegroup", "customLocation01");
 }
 
 async function main(): Promise<void> {

@@ -21,3 +21,4 @@ export type {
 } from "./registryArtifact.js";
 export * from "./models.js";
 export * from "./content/index.js";
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

@@ -1,9 +1,9 @@
 {
   "name": "@azure/arm-networkcloud",
-  "version": "2.0.0-beta.2",
+  "version": "2.0.0-beta.3",
   "description": "A generated SDK for NetworkCloudClient.",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "sideEffects": false,
   "autoPublish": false,
@@ -34,10 +34,6 @@
         "types": "./dist/browser/api/index.d.ts",
         "default": "./dist/browser/api/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/index.d.ts",
-        "default": "./dist/react-native/api/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/index.d.ts",
         "default": "./dist/esm/api/index.js"
@@ -51,10 +47,6 @@
       "browser": {
         "types": "./dist/browser/api/metricsConfigurations/index.d.ts",
         "default": "./dist/browser/api/metricsConfigurations/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/metricsConfigurations/index.d.ts",
-        "default": "./dist/react-native/api/metricsConfigurations/index.js"
       },
       "import": {
         "types": "./dist/esm/api/metricsConfigurations/index.d.ts",
@@ -70,10 +62,6 @@
         "types": "./dist/browser/api/consoles/index.d.ts",
         "default": "./dist/browser/api/consoles/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/consoles/index.d.ts",
-        "default": "./dist/react-native/api/consoles/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/consoles/index.d.ts",
         "default": "./dist/esm/api/consoles/index.js"
@@ -87,10 +75,6 @@
       "browser": {
         "types": "./dist/browser/api/kubernetesClusterFeatures/index.d.ts",
         "default": "./dist/browser/api/kubernetesClusterFeatures/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/kubernetesClusterFeatures/index.d.ts",
-        "default": "./dist/react-native/api/kubernetesClusterFeatures/index.js"
       },
       "import": {
         "types": "./dist/esm/api/kubernetesClusterFeatures/index.d.ts",
@@ -106,10 +90,6 @@
         "types": "./dist/browser/api/agentPools/index.d.ts",
         "default": "./dist/browser/api/agentPools/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/agentPools/index.d.ts",
-        "default": "./dist/react-native/api/agentPools/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/agentPools/index.d.ts",
         "default": "./dist/esm/api/agentPools/index.js"
@@ -123,10 +103,6 @@
       "browser": {
         "types": "./dist/browser/api/bmcKeySets/index.d.ts",
         "default": "./dist/browser/api/bmcKeySets/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/bmcKeySets/index.d.ts",
-        "default": "./dist/react-native/api/bmcKeySets/index.js"
       },
       "import": {
         "types": "./dist/esm/api/bmcKeySets/index.d.ts",
@@ -142,10 +118,6 @@
         "types": "./dist/browser/api/bareMetalMachineKeySets/index.d.ts",
         "default": "./dist/browser/api/bareMetalMachineKeySets/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/bareMetalMachineKeySets/index.d.ts",
-        "default": "./dist/react-native/api/bareMetalMachineKeySets/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/bareMetalMachineKeySets/index.d.ts",
         "default": "./dist/esm/api/bareMetalMachineKeySets/index.js"
@@ -159,10 +131,6 @@
       "browser": {
         "types": "./dist/browser/api/volumes/index.d.ts",
         "default": "./dist/browser/api/volumes/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/volumes/index.d.ts",
-        "default": "./dist/react-native/api/volumes/index.js"
       },
       "import": {
         "types": "./dist/esm/api/volumes/index.d.ts",
@@ -178,10 +146,6 @@
         "types": "./dist/browser/api/virtualMachines/index.d.ts",
         "default": "./dist/browser/api/virtualMachines/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/virtualMachines/index.d.ts",
-        "default": "./dist/react-native/api/virtualMachines/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/virtualMachines/index.d.ts",
         "default": "./dist/esm/api/virtualMachines/index.js"
@@ -195,10 +159,6 @@
       "browser": {
         "types": "./dist/browser/api/trunkedNetworks/index.d.ts",
         "default": "./dist/browser/api/trunkedNetworks/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/trunkedNetworks/index.d.ts",
-        "default": "./dist/react-native/api/trunkedNetworks/index.js"
       },
       "import": {
         "types": "./dist/esm/api/trunkedNetworks/index.d.ts",
@@ -214,10 +174,6 @@
         "types": "./dist/browser/api/storageAppliances/index.d.ts",
         "default": "./dist/browser/api/storageAppliances/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/storageAppliances/index.d.ts",
-        "default": "./dist/react-native/api/storageAppliances/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/storageAppliances/index.d.ts",
         "default": "./dist/esm/api/storageAppliances/index.js"
@@ -231,10 +187,6 @@
       "browser": {
         "types": "./dist/browser/api/racks/index.d.ts",
         "default": "./dist/browser/api/racks/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/racks/index.d.ts",
-        "default": "./dist/react-native/api/racks/index.js"
       },
       "import": {
         "types": "./dist/esm/api/racks/index.d.ts",
@@ -250,10 +202,6 @@
         "types": "./dist/browser/api/rackSkus/index.d.ts",
         "default": "./dist/browser/api/rackSkus/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/rackSkus/index.d.ts",
-        "default": "./dist/react-native/api/rackSkus/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/rackSkus/index.d.ts",
         "default": "./dist/esm/api/rackSkus/index.js"
@@ -267,10 +215,6 @@
       "browser": {
         "types": "./dist/browser/api/l3Networks/index.d.ts",
         "default": "./dist/browser/api/l3Networks/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/l3Networks/index.d.ts",
-        "default": "./dist/react-native/api/l3Networks/index.js"
       },
       "import": {
         "types": "./dist/esm/api/l3Networks/index.d.ts",
@@ -286,10 +230,6 @@
         "types": "./dist/browser/api/l2Networks/index.d.ts",
         "default": "./dist/browser/api/l2Networks/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/l2Networks/index.d.ts",
-        "default": "./dist/react-native/api/l2Networks/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/l2Networks/index.d.ts",
         "default": "./dist/esm/api/l2Networks/index.js"
@@ -303,10 +243,6 @@
       "browser": {
         "types": "./dist/browser/api/kubernetesVersions/index.d.ts",
         "default": "./dist/browser/api/kubernetesVersions/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/kubernetesVersions/index.d.ts",
-        "default": "./dist/react-native/api/kubernetesVersions/index.js"
       },
       "import": {
         "types": "./dist/esm/api/kubernetesVersions/index.d.ts",
@@ -322,10 +258,6 @@
         "types": "./dist/browser/api/kubernetesClusters/index.d.ts",
         "default": "./dist/browser/api/kubernetesClusters/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/kubernetesClusters/index.d.ts",
-        "default": "./dist/react-native/api/kubernetesClusters/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/kubernetesClusters/index.d.ts",
         "default": "./dist/esm/api/kubernetesClusters/index.js"
@@ -339,10 +271,6 @@
       "browser": {
         "types": "./dist/browser/api/clusters/index.d.ts",
         "default": "./dist/browser/api/clusters/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/clusters/index.d.ts",
-        "default": "./dist/react-native/api/clusters/index.js"
       },
       "import": {
         "types": "./dist/esm/api/clusters/index.d.ts",
@@ -358,10 +286,6 @@
         "types": "./dist/browser/api/clusterManagers/index.d.ts",
         "default": "./dist/browser/api/clusterManagers/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/clusterManagers/index.d.ts",
-        "default": "./dist/react-native/api/clusterManagers/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/clusterManagers/index.d.ts",
         "default": "./dist/esm/api/clusterManagers/index.js"
@@ -375,10 +299,6 @@
       "browser": {
         "types": "./dist/browser/api/cloudServicesNetworks/index.d.ts",
         "default": "./dist/browser/api/cloudServicesNetworks/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/cloudServicesNetworks/index.d.ts",
-        "default": "./dist/react-native/api/cloudServicesNetworks/index.js"
       },
       "import": {
         "types": "./dist/esm/api/cloudServicesNetworks/index.d.ts",
@@ -394,10 +314,6 @@
         "types": "./dist/browser/api/bareMetalMachines/index.d.ts",
         "default": "./dist/browser/api/bareMetalMachines/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/bareMetalMachines/index.d.ts",
-        "default": "./dist/react-native/api/bareMetalMachines/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/bareMetalMachines/index.d.ts",
         "default": "./dist/esm/api/bareMetalMachines/index.js"
@@ -411,10 +327,6 @@
       "browser": {
         "types": "./dist/browser/api/accessBridges/index.d.ts",
         "default": "./dist/browser/api/accessBridges/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/accessBridges/index.d.ts",
-        "default": "./dist/react-native/api/accessBridges/index.js"
       },
       "import": {
         "types": "./dist/esm/api/accessBridges/index.d.ts",
@@ -430,10 +342,6 @@
         "types": "./dist/browser/api/operations/index.d.ts",
         "default": "./dist/browser/api/operations/index.js"
       },
-      "react-native": {
-        "types": "./dist/react-native/api/operations/index.d.ts",
-        "default": "./dist/react-native/api/operations/index.js"
-      },
       "import": {
         "types": "./dist/esm/api/operations/index.d.ts",
         "default": "./dist/esm/api/operations/index.js"
@@ -447,10 +355,6 @@
       "browser": {
         "types": "./dist/browser/models/index.d.ts",
         "default": "./dist/browser/models/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/models/index.d.ts",
-        "default": "./dist/react-native/models/index.js"
       },
       "import": {
         "types": "./dist/esm/models/index.d.ts",
