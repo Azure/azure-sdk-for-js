@@ -60,18 +60,16 @@ if ($CI) {
   az account set --subscription $SubscriptionId
 }
 
-# Azure Functions app deployment
-# TODO: Skip Azure Functions deployment for timeout error
-# Write-Host "Building the code for functions app"
-# Push-Location "$webappRoot/AzureFunctions/RunTest"
-# npm install
-# npm run build
-# Pop-Location
-# Write-Host "starting azure functions deployment"
-# Compress-Archive -Path "$workingFolder/AzureFunctions/RunTest/*"  -DestinationPath "$workingFolder/AzureFunctions/app.zip" -Force
-# az functionapp deployment source config-zip -g $identityResourceGroup -n $DeploymentOutputs['IDENTITY_FUNCTION_NAME'] --src "$workingFolder/AzureFunctions/app.zip"
-# Remove-Item -Force "$workingFolder/AzureFunctions/app.zip"
-# Write-Host "Deployed function app"
+Write-Host "##[group]Deploying Azure Functions App"
+Push-Location "$webappRoot/AzureFunctions/RunTest"
+npm install --no-fund
+npm run build
+Pop-Location
+Compress-Archive -Path "$workingFolder/AzureFunctions/RunTest/*" -DestinationPath "$workingFolder/AzureFunctions/app.zip" -Force
+az functionapp deployment source config-zip -g $identityResourceGroup -n $DeploymentOutputs['IDENTITY_FUNCTION_NAME'] --src "$workingFolder/AzureFunctions/app.zip"
+Remove-Item -Force "$workingFolder/AzureFunctions/app.zip"
+Write-Host "Deployed function app"
+Write-Host "##[endgroup]"
 
 Write-Host "##[group]Deploying Identity Web App"
 Push-Location "$webappRoot/AzureWebApps"
