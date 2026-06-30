@@ -63,33 +63,6 @@ New third-party runtime `dependencies` in shipped libraries (`sdk-type` `client`
 - Type-only (`@types/*`): `devDependencies`
 - Used in both source and tests: `dependencies`
 
-### Production `src/**` may only use declared runtime dependencies
-- Any package whose **values** are imported (or otherwise loaded) from `src/**` must be a
-  regular `dependency` — **not** a `devDependency`. A `devDependency` is absent for consumers,
-  so the import resolves in the monorepo/tests but fails (often silently) once published.
-  Enforced by `import-x/no-extraneous-dependencies` (`devDependencies: false`) in the shared
-  eslint config.
-- **Type-only** references (`import type`, `typeof import("pkg")`) are *not* lint-enforced
-  (they are erased at runtime, so a dev-only type import is not a runtime failure). Still
-  prefer sourcing shared types from their canonical home (e.g. `TokenCredential` from
-  `@azure/core-auth`, `AbortSignalLike` from `@azure/core-util`) and declaring the package as
-  a runtime dependency when the type is part of your public API.
-- **Do not load modules dynamically to dodge this.** `createRequire(...)`, aliasing the
-  global `require` (`const r = require; r("pkg")`), or non-literal `import(expr)` hide the
-  dependency from the module graph, bundlers, api-extractor, and dependency linting — which
-  is exactly how an undeclared/dev-only runtime dependency slips through. Import statically
-  and declare the dependency. (Enforced for `createRequire`/`require`-aliasing by the
-  `no-restricted-syntax` block in the shared eslint config; see `documentation/linting.md`.)
-- **Tracing:** use `@azure/core-tracing` (`createTracingClient`), which is already a runtime
-  dependency of tracing-enabled packages. Do **not** import/require `@opentelemetry/api`
-  directly for spans or context propagation.
-- **Avoid optional runtime dependencies.** Prefer routing the need through an `@azure/core-*`
-  abstraction. A genuinely optional runtime load is an advanced exception (e.g. platform
-  shims in `monitor-opentelemetry`) — it must use the justified `eslint-disable` escape hatch
-  **and** emit an `@azure/logger` diagnostic on load failure (never a bare `catch {}`), so the
-  degraded behavior is observable instead of silent. Do **not** introduce `peerDependencies`
-  in client libraries to model this.
-
 ## Dependency Removal Checks
 
 - Verify no remaining imports in source/tests
