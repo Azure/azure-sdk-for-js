@@ -14,21 +14,32 @@ import { parseToken } from "./tokenParser.js";
  */
 export interface CommunicationTokenRefreshOptions {
   /**
-   * Callback function that returns a string JWT token acquired from the Communication Identity API.
+   * Callback that returns a token acquired from the Communication Identity API.
    * The returned token must be valid (expiration date must be in the future).
+   *
+   * Return a `string` to have the expiry read from the JWT, or an `AccessToken`
+   * to supply the expiry explicitly (required for encrypted access tokens that
+   * cannot be decoded).
    */
-  tokenRefresher: (abortSignal?: AbortSignalLike) => Promise<string>;
+  tokenRefresher: (abortSignal?: AbortSignalLike) => Promise<string | AccessToken>;
 
   /**
-   * Optional token to initialize.
+   * Optional token to initialize. May be a `string` or an `AccessToken` carrying
+   * an explicit expiry.
    */
-  token?: string;
+  token?: string | AccessToken;
 
   /**
    * Indicates whether the token should be proactively renewed prior to expiry or only renew on demand.
    * By default false.
    */
   refreshProactively?: boolean;
+
+  /**
+   * Lifetime, in minutes, assumed for a returned token that cannot be decoded and
+   * carries no explicit expiry (e.g. an encrypted access token). Defaults to 10.
+   */
+  undecodableTokenRefreshIntervalInMinutes?: number;
 }
 
 const expiredToken = { token: "", expiresOnTimestamp: -10 };
@@ -37,22 +48,30 @@ const defaultExpiringSoonInterval = minutesToMs(10);
 const defaultRefreshAfterLifetimePercentage = 0.5;
 
 export class AutoRefreshTokenCredential implements TokenCredential {
-  private readonly refresh: (abortSignal?: AbortSignalLike) => Promise<string>;
+  private readonly refresh: (abortSignal?: AbortSignalLike) => Promise<string | AccessToken>;
   private readonly refreshProactively: boolean;
   private readonly expiringSoonIntervalInMs: number = defaultExpiringSoonInterval;
   private readonly refreshAfterLifetimePercentage = defaultRefreshAfterLifetimePercentage;
+  private readonly undecodableTokenExpiryIntervalInMs: number | undefined;
 
   private currentToken: AccessToken;
   private activeTimeout: ReturnType<typeof setTimeout> | undefined;
-  private activeTokenFetching: Promise<string> | null = null;
+  private activeTokenFetching: Promise<string | AccessToken> | null = null;
   private activeTokenUpdating: Promise<void> | null = null;
   private disposed = false;
 
   constructor(refreshArgs: CommunicationTokenRefreshOptions) {
-    const { tokenRefresher, token, refreshProactively } = refreshArgs;
+    const { tokenRefresher, token, refreshProactively, undecodableTokenRefreshIntervalInMinutes } =
+      refreshArgs;
 
     this.refresh = tokenRefresher;
-    this.currentToken = token ? parseToken(token) : expiredToken;
+    this.undecodableTokenExpiryIntervalInMs =
+      undecodableTokenRefreshIntervalInMinutes !== undefined
+        ? minutesToMs(undecodableTokenRefreshIntervalInMinutes)
+        : undefined;
+    this.currentToken = token
+      ? parseToken(token, this.undecodableTokenExpiryIntervalInMs)
+      : expiredToken;
     this.refreshProactively = refreshProactively ?? false;
 
     if (this.refreshProactively) {
@@ -113,7 +132,7 @@ export class AutoRefreshTokenCredential implements TokenCredential {
       if (!this.activeTokenFetching) {
         this.activeTokenFetching = this.refresh(abortSignal);
       }
-      return parseToken(await this.activeTokenFetching);
+      return parseToken(await this.activeTokenFetching, this.undecodableTokenExpiryIntervalInMs);
     } finally {
       this.activeTokenFetching = null;
     }
