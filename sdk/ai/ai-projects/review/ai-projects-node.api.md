@@ -2630,8 +2630,6 @@ export interface InvokeAgentResponsesApiRoutineAction extends RoutineAction {
 
 export { isRestError }
 
-export { isRestError }
-
 // @public
 export type JobStatus = "queued" | "in_progress" | "succeeded" | "failed" | "cancelled";
 
