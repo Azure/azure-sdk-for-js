@@ -18,6 +18,7 @@ import { CredentialPolicyCreator } from '@azure/storage-common';
 import { HttpHeadersLike as HttpHeaders } from '@azure/core-http-compat';
 import { CompatResponse as HttpOperationResponse } from '@azure/core-http-compat';
 import type { RequestBodyType as HttpRequestBody } from '@azure/core-rest-pipeline';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { KeepAliveOptions } from '@azure/core-http-compat';
 import type { NodeJSReadableStream } from '@azure/storage-common';
 import type { OperationTracingOptions } from '@azure/core-tracing';
@@ -534,15 +535,21 @@ export interface FileCreateHeaders {
     lastModified?: Date;
     posixProperties?: FilePosixProperties;
     requestId?: string;
+    structuredBodyType?: string;
     version?: string;
 }
 
 // @public
 export interface FileCreateOptions extends FileAndDirectoryCreateCommonOptions, CommonOptions {
     abortSignal?: AbortSignalLike;
+    content?: HttpRequestBody;
+    contentChecksumAlgorithm?: StorageChecksumAlgorithm;
+    contentLength?: number;
+    contentMD5?: Uint8Array;
     fileHttpHeaders?: FileHttpHeaders;
     leaseAccessConditions?: LeaseAccessConditions;
     metadata?: Metadata;
+    onProgress?: (progress: TransferProgressEvent) => void;
 }
 
 // @public
@@ -1210,6 +1217,8 @@ export interface HttpResponse {
 
 // @public
 export function isPipelineLike(pipeline: unknown): pipeline is PipelineLike;
+
+export { isRestError }
 
 // @public
 export enum KnownShareTokenIntent {

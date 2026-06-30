@@ -1,6 +1,6 @@
 {
   "name": "@azure/web-pubsub-client",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Azure Web PubSub Client",
   "sdk-type": "client",
   "main": "./dist/commonjs/index.js",
@@ -44,7 +44,7 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/web-pubsub/web-pubsub-client/README.md",
   "sideEffects": false,

@@ -6,7 +6,6 @@
  */
 
 import fs from "node:fs";
-
 import { AnonymousCredential, ShareServiceClient, newPipeline } from "@azure/storage-file-share";
 
 // Load the .env file if it exists
@@ -24,13 +23,13 @@ export async function main(): Promise<void> {
     userAgentOptions: { userAgentPrefix: "AdvancedSample V1.0.0" }, // Customized user-agent string
     keepAliveOptions: {
       // Keep alive is enabled by default, disable keep alive by setting false
-      enable: false
-    }
+      enable: false,
+    },
   });
 
   const serviceClient = new ShareServiceClient(
-    `https://${account}.file.core.windows.net?${accountSas}`,
-    pipeline
+    `https://${account}.file.core.windows.net${accountSas}`,
+    pipeline,
   );
 
   // Create a share
@@ -55,7 +54,7 @@ export async function main(): Promise<void> {
   await fileClient.uploadFile(localFilePath, {
     rangeSize: 4 * 1024 * 1024, // 4MB range size
     concurrency: 20, // 20 concurrency
-    onProgress: (ev) => console.log(ev)
+    onProgress: (ev) => console.log(ev),
   });
   console.log("uploadFile succeeded");
 
@@ -63,7 +62,7 @@ export async function main(): Promise<void> {
   // ShareFileClient.uploadStream() is only available in Node.js
   await fileClient.uploadStream(fs.createReadStream(localFilePath), fileSize, 4 * 1024 * 1024, 20, {
     abortSignal: AbortSignal.timeout(30 * 60 * 1000), // Abort uploading with timeout in 30mins
-    onProgress: (ev: any) => console.log(ev)
+    onProgress: (ev: any) => console.log(ev),
   });
   console.log("uploadStream succeeded");
 
@@ -85,7 +84,7 @@ export async function main(): Promise<void> {
     abortSignal: AbortSignal.timeout(30 * 60 * 1000),
     rangeSize: 4 * 1024 * 1024, // 4MB range size
     concurrency: 20, // 20 concurrency
-    onProgress: (ev) => console.log(ev)
+    onProgress: (ev) => console.log(ev),
   });
   console.log("downloadToBuffer succeeded");
 

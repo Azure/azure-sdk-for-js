@@ -121,3 +121,4 @@ export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
 // LLM-friendly text (YAML front matter + markdown). Mirrors the Python `to_llm_input`
 // and .NET `LlmInputHelper.ToLlmInput` helpers.
 export { toLlmInput, type ToLlmInputOptions } from "./static-helpers/llmInputHelper.js";
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

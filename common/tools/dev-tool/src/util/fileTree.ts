@@ -145,10 +145,7 @@ export function copy(name: string, source: string): FileTreeFactory {
  * - a deferred computation (function/thunk) that yields one of the above.
  */
 export type FileContents =
-  | Buffer
-  | string
-  | (() => Buffer | string)
-  | (() => Promise<Buffer | string>);
+  Buffer | string | (() => Buffer | string) | (() => Promise<Buffer | string>);
 
 /**
  * A file tree factory that creates a file with the given contents.

@@ -3,9 +3,9 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for NetworkManagementClient.",
-  "version": "36.0.0",
+  "version": "36.0.1",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "dependencies": {
     "@azure/core-lro": "^2.5.4",

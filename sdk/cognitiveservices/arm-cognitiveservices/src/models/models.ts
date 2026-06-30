@@ -1733,10 +1733,7 @@ export function identityDeserializer(item: any): Identity {
 
 /** The identity type. */
 export type ResourceIdentityType =
-  | "None"
-  | "SystemAssigned"
-  | "UserAssigned"
-  | "SystemAssigned, UserAssigned";
+  "None" | "SystemAssigned" | "UserAssigned" | "SystemAssigned, UserAssigned";
 
 export function userAssignedIdentityRecordSerializer(
   item: Record<string, UserAssignedIdentity>,
@@ -8000,9 +7997,7 @@ export function computePropertiesDeserializer(item: any): ComputeProperties {
 
 /** Alias for ComputePropertiesUnion */
 export type ComputePropertiesUnion =
-  | ClusterComputeProperties
-  | ContainerInstanceComputeProperties
-  | ComputeProperties;
+  ClusterComputeProperties | ContainerInstanceComputeProperties | ComputeProperties;
 
 export function computePropertiesUnionSerializer(item: ComputePropertiesUnion): any {
   switch (item.computeType) {
@@ -8921,10 +8916,7 @@ export function outboundRuleDeserializer(item: any): OutboundRule {
 
 /** Alias for OutboundRuleUnion */
 export type OutboundRuleUnion =
-  | FqdnOutboundRule
-  | PrivateEndpointOutboundRule
-  | ServiceTagOutboundRule
-  | OutboundRule;
+  FqdnOutboundRule | PrivateEndpointOutboundRule | ServiceTagOutboundRule | OutboundRule;
 
 export function outboundRuleUnionSerializer(item: OutboundRuleUnion): any {
   switch (item.type) {
@@ -9690,9 +9682,7 @@ export function agentDeploymentPropertiesDeserializer(item: any): AgentDeploymen
 
 /** Alias for AgentDeploymentPropertiesUnion */
 export type AgentDeploymentPropertiesUnion =
-  | ManagedAgentDeployment
-  | HostedAgentDeployment
-  | AgentDeploymentProperties;
+  ManagedAgentDeployment | HostedAgentDeployment | AgentDeploymentProperties;
 
 export function agentDeploymentPropertiesUnionSerializer(
   item: AgentDeploymentPropertiesUnion,

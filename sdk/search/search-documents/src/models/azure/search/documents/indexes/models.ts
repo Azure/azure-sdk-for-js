@@ -165,9 +165,7 @@ export function searchIndexerDataIdentityDeserializer(item: any): SearchIndexerD
 
 /** Alias for SearchIndexerDataIdentityUnion */
 export type SearchIndexerDataIdentityUnion =
-  | SearchIndexerDataNoneIdentity
-  | SearchIndexerDataUserAssignedIdentity
-  | SearchIndexerDataIdentity;
+  SearchIndexerDataNoneIdentity | SearchIndexerDataUserAssignedIdentity | SearchIndexerDataIdentity;
 
 export function searchIndexerDataIdentityUnionSerializer(
   item: SearchIndexerDataIdentityUnion,
@@ -1302,12 +1300,7 @@ export function tagScoringParametersDeserializer(item: any): TagScoringParameter
 
 /** Defines the aggregation function used to combine the results of all the scoring functions in a scoring profile. */
 export type ScoringFunctionAggregation =
-  | "sum"
-  | "average"
-  | "minimum"
-  | "maximum"
-  | "firstMatching"
-  | "product";
+  "sum" | "average" | "minimum" | "maximum" | "firstMatching" | "product";
 
 /** Defines options to control Cross-Origin Resource Sharing (CORS) for an index. */
 export interface CorsOptions {
@@ -1411,11 +1404,7 @@ export function lexicalAnalyzerDeserializer(item: any): LexicalAnalyzer {
 
 /** Alias for LexicalAnalyzerUnion */
 export type LexicalAnalyzerUnion =
-  | CustomAnalyzer
-  | PatternAnalyzer
-  | LuceneStandardAnalyzer
-  | StopAnalyzer
-  | LexicalAnalyzer;
+  CustomAnalyzer | PatternAnalyzer | LuceneStandardAnalyzer | StopAnalyzer | LexicalAnalyzer;
 
 export function lexicalAnalyzerUnionSerializer(item: LexicalAnalyzerUnion): any {
   switch (item.odatatype) {
@@ -4922,9 +4911,7 @@ export function vectorSearchCompressionDeserializer(item: any): VectorSearchComp
 
 /** Alias for VectorSearchCompressionUnion */
 export type VectorSearchCompressionUnion =
-  | ScalarQuantizationCompression
-  | BinaryQuantizationCompression
-  | VectorSearchCompression;
+  ScalarQuantizationCompression | BinaryQuantizationCompression | VectorSearchCompression;
 
 export function vectorSearchCompressionUnionSerializer(item: VectorSearchCompressionUnion): any {
   switch (item.kind) {

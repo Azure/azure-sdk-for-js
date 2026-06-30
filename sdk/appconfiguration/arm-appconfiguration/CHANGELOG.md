@@ -1,5 +1,15 @@
 # Release History
 
+## 6.0.0-beta.3 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 6.0.0-beta.2 (2026-04-28)
 Compared with version 5.0.0
 

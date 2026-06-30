@@ -1,6 +1,6 @@
 {
   "name": "@azure/communication-common",
-  "version": "2.4.2",
+  "version": "2.4.3",
   "description": "Common package for Azure Communication services.",
   "sdk-type": "client",
   "main": "./dist/commonjs/index.js",
@@ -47,7 +47,7 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-common/README.md",
   "sideEffects": false,

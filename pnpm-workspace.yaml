@@ -18,11 +18,11 @@ packages:
   - '!sdk/eventhub/event-hubs/test/stress/**'
 
 catalog:
-  '@types/node': ^20.19.25
+  '@types/node': ^22.0.0
   autorest: latest
   cross-env: ^10.1.0
   eslint: ^9.39.1
-  prettier: ^3.6.2
+  prettier: ^3.9.1
   rimraf: ^6.1.0
   tslib: ^2.8.1
   tsx: ^4.20.4
