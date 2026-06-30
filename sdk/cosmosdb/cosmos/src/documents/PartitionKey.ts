@@ -15,11 +15,7 @@ export type PartitionKey = PrimitivePartitionKeyValue | PrimitivePartitionKeyVal
  * A primitive Partition Key value.
  */
 export type PrimitivePartitionKeyValue =
-  | string
-  | number
-  | boolean
-  | NullPartitionKeyType
-  | NonePartitionKeyType;
+  string | number | boolean | NullPartitionKeyType | NonePartitionKeyType;
 
 /**
  * The returned object represents a partition key value that allows creating and accessing items

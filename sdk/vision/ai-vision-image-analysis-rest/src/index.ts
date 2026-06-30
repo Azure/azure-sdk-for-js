@@ -13,3 +13,4 @@ export type * from "./outputModels.js";
 
 // eslint-disable-next-line @azure/azure-sdk/ts-modules-only-named
 export default ImageAnalysisClient;
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

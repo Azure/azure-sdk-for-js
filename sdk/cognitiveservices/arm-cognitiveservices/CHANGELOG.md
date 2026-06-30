@@ -1,6 +1,6 @@
 # Release History
 
-## 9.0.0-beta.3 (2026-06-26)
+## 9.0.0-beta.3 (Unreleased)
 Compared with version 8.1.0
 
 ### Features Added
@@ -343,7 +343,6 @@ Compared with version 8.1.0
   - Type of parameter authType of interface ConnectionPropertiesV2 is changed from "PAT" | "ManagedIdentity" | "UsernamePassword" | "None" | "SAS" | "AccountKey" | "ServicePrincipal" | "AccessKey" | "ApiKey" | "CustomKeys" | "OAuth2" | "AAD" to ConnectionAuthType
   - Interface RaiPolicyProperties no longer has parameter customTopics
   - Type alias "ConnectionPropertiesV2Union" has been changed
-
 ## 9.0.0-beta.2 (2026-05-26)
 Compared with version 8.1.0
 

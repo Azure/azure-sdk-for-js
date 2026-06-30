@@ -124,8 +124,7 @@ export class InvocationManager {
 class InvocationEntity {
   private readonly _promise: Promise<InvokeResponseMessage>;
   private _resolve:
-    | ((value: InvokeResponseMessage | PromiseLike<InvokeResponseMessage>) => void)
-    | undefined;
+    ((value: InvokeResponseMessage | PromiseLike<InvokeResponseMessage>) => void) | undefined;
   private _reject: ((reason?: unknown) => void) | undefined;
 
   constructor(public readonly invocationId: string) {

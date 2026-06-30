@@ -7,8 +7,10 @@
 import type { AbortSignalLike } from '@azure/abort-controller';
 import type { CancelOnProgress } from '@azure/core-lro';
 import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -49,6 +51,8 @@ export interface GetSettingOptions extends OperationOptions {
 
 // @public
 export function isBooleanSetting(setting: KeyVaultSetting): setting is BooleanKeyVaultSetting;
+
+export { isRestError }
 
 // @public
 export class KeyVaultAccessControlClient {
@@ -305,6 +309,8 @@ export interface PollerLike<TState extends KeyVaultAdminPollOperationState<TResu
     stopPolling(): void;
     toString(): string;
 }
+
+export { RestError }
 
 // @public
 export const SDK_VERSION: string;

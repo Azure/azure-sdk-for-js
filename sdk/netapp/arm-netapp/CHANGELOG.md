@@ -1,5 +1,15 @@
 # Release History
 
+## 24.1.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 24.1.0 (2026-06-10)
 
 ### Features Added

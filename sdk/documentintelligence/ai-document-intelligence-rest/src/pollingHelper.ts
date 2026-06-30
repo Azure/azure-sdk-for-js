@@ -102,8 +102,7 @@ export function getLongRunningPoller<
 ): PollerLike<OperationState<TResult>, TResult>;
 export function getLongRunningPoller<
   TResult extends
-    | AnalyzeDocumentFromStreamLogicalResponse
-    | AnalyzeDocumentFromStreamDefaultResponse,
+    AnalyzeDocumentFromStreamLogicalResponse | AnalyzeDocumentFromStreamDefaultResponse,
 >(
   client: Client,
   initialResponse: AnalyzeDocumentFromStream202Response | AnalyzeDocumentFromStreamDefaultResponse,
@@ -111,13 +110,11 @@ export function getLongRunningPoller<
 ): PollerLike<OperationState<TResult>, TResult>;
 export function getLongRunningPoller<
   TResult extends
-    | ClassifyDocumentFromStreamLogicalResponse
-    | ClassifyDocumentFromStreamDefaultResponse,
+    ClassifyDocumentFromStreamLogicalResponse | ClassifyDocumentFromStreamDefaultResponse,
 >(
   client: Client,
   initialResponse:
-    | ClassifyDocumentFromStream202Response
-    | ClassifyDocumentFromStreamDefaultResponse,
+    ClassifyDocumentFromStream202Response | ClassifyDocumentFromStreamDefaultResponse,
   options?: GetLongRunningPollerOptions,
 ): PollerLike<OperationState<TResult>, TResult>;
 export function getLongRunningPoller<TResult extends HttpResponse>(
