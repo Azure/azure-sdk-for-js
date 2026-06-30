@@ -11,6 +11,12 @@ const generateToken = (validForMinutes: number): string => {
   return `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.${base64Token}.adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fSvpF4cWs`;
 };
 
+// Produces a structurally-valid but undecodable encrypted JWT (JWE: five segments).
+const generateEncryptedToken = (): string => {
+  const segment = uint8ArrayToString(stringToUint8Array("opaque", "utf-8"), "base64");
+  return [segment, segment, segment, segment, segment].join(".");
+};
+
 const exposeInternalTimeout = (
   tokenCredential: AzureCommunicationTokenCredential,
 ): ReturnType<typeof setTimeout> => {
@@ -251,6 +257,66 @@ describe("CommunicationTokenCredential", function () {
     vi.advanceTimersByTime(19 * 60 * 1000);
     await tokenCredential.getToken();
     expect(tokenRefresher).toHaveBeenCalledOnce();
+  });
+
+  it("accepts an encrypted (undecodable) token using the fallback expiry", async function () {
+    const encryptedToken = generateEncryptedToken();
+    const tokenCredential = new AzureCommunicationTokenCredential(encryptedToken);
+    const result = await tokenCredential.getToken();
+    assert.strictEqual(result.token, encryptedToken);
+    // fallback lifetime is 10 minutes
+    assert.strictEqual(result.expiresOnTimestamp, Date.now() + 10 * 60 * 1000);
+  });
+
+  it("uses a caller-supplied expiry without decoding the token", async function () {
+    const encryptedToken = generateEncryptedToken();
+    const expiresOnTimestamp = Date.now() + 8 * 60 * 60 * 1000;
+    const tokenRefresher = vi.fn().mockResolvedValue({ token: encryptedToken, expiresOnTimestamp });
+    const tokenCredential = new AzureCommunicationTokenCredential({ tokenRefresher });
+    const result = await tokenCredential.getToken();
+    assert.strictEqual(result.token, encryptedToken);
+    assert.strictEqual(result.expiresOnTimestamp, expiresOnTimestamp);
+  });
+
+  it("accepts a static AccessToken with an explicit expiry", async function () {
+    const encryptedToken = generateEncryptedToken();
+    const expiresOnTimestamp = Date.now() + 60 * 60 * 1000;
+    const tokenCredential = new AzureCommunicationTokenCredential({
+      token: encryptedToken,
+      expiresOnTimestamp,
+    });
+    const result = await tokenCredential.getToken();
+    assert.strictEqual(result.token, encryptedToken);
+    assert.strictEqual(result.expiresOnTimestamp, expiresOnTimestamp);
+  });
+
+  it("honors undecodableTokenRefreshIntervalInMinutes for an undecodable token", async function () {
+    const encryptedToken = generateEncryptedToken();
+    const tokenRefresher = vi.fn().mockResolvedValue(encryptedToken);
+    const tokenCredential = new AzureCommunicationTokenCredential({
+      tokenRefresher,
+      undecodableTokenRefreshIntervalInMinutes: 30,
+    });
+    const result = await tokenCredential.getToken();
+    assert.strictEqual(result.expiresOnTimestamp, Date.now() + 30 * 60 * 1000);
+  });
+
+  it("proactively refreshes an undecodable token at half its fallback lifetime", async function () {
+    const tokenRefresher = vi.fn().mockResolvedValue(generateEncryptedToken());
+    new AzureCommunicationTokenCredential({
+      tokenRefresher,
+      refreshProactively: true,
+      token: generateEncryptedToken(),
+    });
+    // 10-min fallback lands on the expiring-soon boundary, so refresh is scheduled at half-life (5 min)
+    vi.advanceTimersByTime(4 * 60 * 1000);
+    expect(tokenRefresher).not.toHaveBeenCalled();
+    vi.advanceTimersByTime(60 * 1000 + 1000);
+    expect(tokenRefresher).toHaveBeenCalledOnce();
+  });
+
+  it("still throws for a malformed token string", async function () {
+    assert.throws(() => new AzureCommunicationTokenCredential("not.a.real.token"), /Invalid token/);
   });
 
   it("applies fractional backoff when the token is about to expire", async function () {
