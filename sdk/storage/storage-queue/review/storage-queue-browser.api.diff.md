@@ -7,7 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -12,84 +12,32 @@
+@@ -12,85 +12,32 @@
  import * as coreClient from '@azure/core-client';
  import * as coreHttpCompat from '@azure/core-http-compat';
  import { Credential as Credential_2 } from '@azure/storage-common';
@@ -16,6 +16,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 -import { HttpHeadersLike as HttpHeaders } from '@azure/core-http-compat';
 -import { CompatResponse as HttpOperationResponse } from '@azure/core-http-compat';
 -import type { RequestBodyType as HttpRequestBody } from '@azure/core-rest-pipeline';
+-import { isRestError } from '@azure/core-rest-pipeline';
 +import type { HttpHeadersLike } from '@azure/core-http-compat';
  import type { KeepAliveOptions } from '@azure/core-http-compat';
  import type { OperationTracingOptions } from '@azure/core-tracing';
@@ -95,7 +96,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  export { AnonymousCredentialPolicy }
  
-@@ -112,10 +60,8 @@
+@@ -113,10 +60,8 @@
  export { Credential_2 as Credential }
  
  export { CredentialPolicy }
@@ -106,7 +107,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  export interface DequeuedMessageItem {
      dequeueCount: number;
      expiresOn: Date;
-@@ -135,17 +81,8 @@
+@@ -136,17 +81,8 @@
      popReceipt: string;
  }
  
@@ -124,7 +125,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      lastSyncOn: Date;
      status: GeoReplicationStatusType;
  }
-@@ -153,30 +90,18 @@
+@@ -154,32 +90,18 @@
  // @public
  export type GeoReplicationStatusType = "live" | "bootstrap" | "unavailable";
  
@@ -149,6 +150,8 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export function isPipelineLike(pipeline: unknown): pipeline is PipelineLike;
  
+-export { isRestError }
+-
  // @public
 -export type ListQueuesIncludeType = "metadata";
 -
@@ -157,7 +160,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      // (undocumented)
      continuationToken: string;
      // (undocumented)
-@@ -436,8 +361,9 @@
+@@ -439,8 +361,9 @@
      expiresOn?: Date;
      identifier?: string;
      ipRange?: SasIPRange;
@@ -167,7 +170,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      startsOn?: Date;
      version?: string;
  }
-@@ -528,21 +454,8 @@
+@@ -531,21 +454,8 @@
      update: boolean;
  }
  
@@ -189,7 +192,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      abortSignal?: AbortSignalLike;
  }
  
-@@ -561,8 +474,9 @@
+@@ -564,8 +474,9 @@
      constructor(url: string, pipeline: Pipeline);
      createQueue(queueName: string, options?: QueueCreateOptions): Promise<QueueCreateResponse>;
      deleteQueue(queueName: string, options?: QueueDeleteOptions): Promise<QueueDeleteResponse>;
@@ -199,7 +202,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      generateSasStringToSign(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
      getProperties(options?: ServiceGetPropertiesOptions): Promise<ServiceGetPropertiesResponse>;
      getQueueClient(queueName: string): QueueClient;
-@@ -630,15 +544,8 @@
+@@ -633,15 +544,8 @@
  
  // @public
  export type ReceivedMessageItem = DequeuedMessageItem;
@@ -215,7 +218,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  export interface ResponseLike {
      _response: HttpResponse;
  }
-@@ -673,32 +580,8 @@
+@@ -676,32 +580,8 @@
      start: string;
  }
  
@@ -248,7 +251,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      httpClient?: RequestPolicy;
      requestPolicyFactories?: RequestPolicyFactory[] | ((defaultRequestPolicyFactories: RequestPolicyFactory[]) => void | RequestPolicyFactory[]);
  }
-@@ -813,11 +696,8 @@
+@@ -816,11 +696,8 @@
  
  export { StorageBrowserPolicyFactory }
  
@@ -260,7 +263,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      audience?: string;
      httpClient?: RequestPolicy;
      keepAliveOptions?: KeepAliveOptions;
-@@ -825,25 +705,10 @@
+@@ -828,25 +705,10 @@
      retryOptions?: StorageRetryOptions;
      userAgentOptions?: UserAgentPolicyOptions;
  }
@@ -286,7 +289,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  
  // @public
  export interface UserDelegationKeyModel {
-@@ -856,10 +721,8 @@
+@@ -859,10 +721,8 @@
      signedVersion: string;
      value: string;
  }

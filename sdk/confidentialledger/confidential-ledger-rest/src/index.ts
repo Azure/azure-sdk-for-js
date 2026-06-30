@@ -12,3 +12,4 @@ export type * from "./outputModels.js";
 export * from "./paginateHelper.js";
 export { type LedgerIdentity, getLedgerIdentity } from "./getLedgerIdentity.js";
 export default ConfidentialLedger;
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

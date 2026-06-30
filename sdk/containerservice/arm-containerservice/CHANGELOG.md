@@ -1,5 +1,15 @@
 # Release History
 
+## 25.4.0-beta.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 25.4.0-beta.1 (2026-06-09)
 Compared with version 25.3.0
 

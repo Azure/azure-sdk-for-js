@@ -11,13 +11,9 @@ export type FirewallPolicyRuleCollectionUnion =
   | FirewallPolicyNatRuleCollection
   | FirewallPolicyFilterRuleCollection;
 export type ActiveBaseSecurityAdminRuleUnion =
-  | ActiveBaseSecurityAdminRule
-  | ActiveSecurityAdminRule
-  | ActiveDefaultSecurityAdminRule;
+  ActiveBaseSecurityAdminRule | ActiveSecurityAdminRule | ActiveDefaultSecurityAdminRule;
 export type EffectiveBaseSecurityAdminRuleUnion =
-  | EffectiveBaseSecurityAdminRule
-  | EffectiveSecurityAdminRule
-  | EffectiveDefaultSecurityAdminRule;
+  EffectiveBaseSecurityAdminRule | EffectiveSecurityAdminRule | EffectiveDefaultSecurityAdminRule;
 export type FirewallPolicyRuleUnion = FirewallPolicyRule | ApplicationRule | NatRule | NetworkRule;
 export type BaseAdminRuleUnion = BaseAdminRule | AdminRule | DefaultAdminRule;
 
@@ -20180,16 +20176,10 @@ export enum KnownHubVirtualNetworkConnectionStatus {
 export type HubVirtualNetworkConnectionStatus = string;
 /** Defines values for ResourceIdentityType. */
 export type ResourceIdentityType =
-  | "SystemAssigned"
-  | "UserAssigned"
-  | "SystemAssigned, UserAssigned"
-  | "None";
+  "SystemAssigned" | "UserAssigned" | "SystemAssigned, UserAssigned" | "None";
 /** Defines values for PublicIpAddressDnsSettingsDomainNameLabelScope. */
 export type PublicIpAddressDnsSettingsDomainNameLabelScope =
-  | "TenantReuse"
-  | "SubscriptionReuse"
-  | "ResourceGroupReuse"
-  | "NoReuse";
+  "TenantReuse" | "SubscriptionReuse" | "ResourceGroupReuse" | "NoReuse";
 /** Defines values for SlotType. */
 export type SlotType = "Production" | "Staging";
 /** Defines values for FirewallPolicyIdpsSignatureMode. */

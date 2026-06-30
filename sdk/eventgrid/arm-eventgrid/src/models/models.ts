@@ -2466,8 +2466,7 @@ export function partnerClientAuthenticationDeserializer(item: any): PartnerClien
 
 /** Alias for PartnerClientAuthenticationUnion */
 export type PartnerClientAuthenticationUnion =
-  | AzureADPartnerClientAuthentication
-  | PartnerClientAuthentication;
+  AzureADPartnerClientAuthentication | PartnerClientAuthentication;
 
 export function partnerClientAuthenticationUnionSerializer(
   item: PartnerClientAuthenticationUnion,
@@ -2694,8 +2693,7 @@ export function partnerUpdateDestinationInfoSerializer(item: PartnerUpdateDestin
 
 /** Alias for PartnerUpdateDestinationInfoUnion */
 export type PartnerUpdateDestinationInfoUnion =
-  | WebhookUpdatePartnerDestinationInfo
-  | PartnerUpdateDestinationInfo;
+  WebhookUpdatePartnerDestinationInfo | PartnerUpdateDestinationInfo;
 
 export function partnerUpdateDestinationInfoUnionSerializer(
   item: PartnerUpdateDestinationInfoUnion,
@@ -4765,9 +4763,7 @@ export function deliveryAttributeMappingDeserializer(item: any): DeliveryAttribu
 
 /** Alias for DeliveryAttributeMappingUnion */
 export type DeliveryAttributeMappingUnion =
-  | StaticDeliveryAttributeMapping
-  | DynamicDeliveryAttributeMapping
-  | DeliveryAttributeMapping;
+  StaticDeliveryAttributeMapping | DynamicDeliveryAttributeMapping | DeliveryAttributeMapping;
 
 export function deliveryAttributeMappingUnionSerializer(item: DeliveryAttributeMappingUnion): any {
   switch (item.type) {

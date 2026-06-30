@@ -147,8 +147,7 @@ export type AnalyzeHealthcareEntitiesErrorResult = TextAnalyticsErrorResult;
  * The result of the healthcare operation on a single document.
  */
 export type AnalyzeHealthcareEntitiesResult =
-  | AnalyzeHealthcareEntitiesSuccessResult
-  | AnalyzeHealthcareEntitiesErrorResult;
+  AnalyzeHealthcareEntitiesSuccessResult | AnalyzeHealthcareEntitiesErrorResult;
 
 /**
  * Array of {@link AnalyzeHealthcareEntitiesResult}
@@ -216,17 +215,15 @@ function makeHealthcareRelations(
   entities: HealthcareEntity[],
   relations: HealthcareRelation[],
 ): HealthcareEntityRelation[] {
-  return relations.map(
-    (relation: HealthcareRelation): HealthcareEntityRelation => ({
-      relationType: relation.relationType,
-      roles: relation.entities.map(
-        (role: HealthcareRelationEntity): HealthcareEntityRelationRole => ({
-          entity: entities[parseHealthcareEntityIndex(role.ref)],
-          name: role.role,
-        }),
-      ),
-    }),
-  );
+  return relations.map((relation: HealthcareRelation): HealthcareEntityRelation => ({
+    relationType: relation.relationType,
+    roles: relation.entities.map(
+      (role: HealthcareRelationEntity): HealthcareEntityRelationRole => ({
+        entity: entities[parseHealthcareEntityIndex(role.ref)],
+        name: role.role,
+      }),
+    ),
+  }));
 }
 
 /**
