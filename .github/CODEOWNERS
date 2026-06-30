@@ -1686,6 +1686,9 @@ sdk/napsteromniagentapi/arm-napsteromniagentapi/ @qiaozha @MaryGao @JialinHuang8
 sdk/programenrollment/arm-programenrollment/ @qiaozha @MaryGao @JialinHuang803
 sdk/resiliencemanagement/arm-resiliencemanagement/ @qiaozha @MaryGao @JialinHuang803
 
+# PRLabel: %Mgmt %mgmt-review-needed
+sdk/containerservice/arm-containerservicepreparedimagespecification/ @qiaozha @MaryGao @JialinHuang803
+
 ###########
 # Config
 ###########
