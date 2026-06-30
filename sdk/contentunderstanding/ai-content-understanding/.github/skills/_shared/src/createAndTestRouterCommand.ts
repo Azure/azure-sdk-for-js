@@ -22,11 +22,7 @@ import {
   iterFields,
   stripComments,
 } from "./createAndTestCommand.js";
-import {
-  buildClient,
-  enumerateInputs,
-  stripExtension,
-} from "./clientHelpers.js";
+import { buildClient, enumerateInputs, stripExtension } from "./clientHelpers.js";
 import { validateFile } from "./schemaValidator.js";
 
 interface RouterOptions {
@@ -102,9 +98,10 @@ export async function runCreateAndTestRouter(args: string[]): Promise<number> {
     }
     return 2;
   }
-  const outerSchema = stripComments(
-    JSON.parse(readFileSync(opts.outerSchema, "utf-8")),
-  ) as Record<string, unknown>;
+  const outerSchema = stripComments(JSON.parse(readFileSync(opts.outerSchema, "utf-8"))) as Record<
+    string,
+    unknown
+  >;
 
   const aliasToSchema = new Map<string, Record<string, unknown>>();
   for (const [alias, path] of aliasToPath.entries()) {
@@ -155,9 +152,7 @@ export async function runCreateAndTestRouter(args: string[]): Promise<number> {
   // 3. Compute deterministic IDs (or timestamp IDs when --reuse not set).
   let outerId = opts.analyzerId;
   if (!outerId) {
-    const stem = stripExtension(
-      opts.outerSchema.substring(opts.outerSchema.lastIndexOf("/") + 1),
-    );
+    const stem = stripExtension(opts.outerSchema.substring(opts.outerSchema.lastIndexOf("/") + 1));
     // Include the inner hashes in the outer hash so any inner-schema edit
     // forces a fresh outer ID. Otherwise --reuse could pick up an outer
     // that points at stale inner IDs.
@@ -212,10 +207,7 @@ export async function runCreateAndTestRouter(args: string[]): Promise<number> {
         const r = await analyzeFile(client, outerId, file);
         writeFileSync(outPath, JSON.stringify(r.doc, null, 2));
         if (r.llmMarkdown) {
-          writeFileSync(
-            join(opts.output, `${stem}.llm.md`),
-            r.llmMarkdown,
-          );
+          writeFileSync(join(opts.output, `${stem}.llm.md`), r.llmMarkdown);
         }
         results.push({ name: stem, doc: r.doc });
       } catch (ex) {
@@ -239,9 +231,7 @@ export async function runCreateAndTestRouter(args: string[]): Promise<number> {
     } else if (reused) {
       console.log(`[KEEP]    reused analyzers retained`);
     } else {
-      console.log(
-        `[KEEP]    analyzers retained (use --ephemeral to delete)`,
-      );
+      console.log(`[KEEP]    analyzers retained (use --ephemeral to delete)`);
       console.log(`           outer: ${outerId}`);
       for (const [alias, id] of aliasToId.entries()) {
         console.log(`           inner [${alias}]: ${id}`);
@@ -267,12 +257,7 @@ export function wireInnerIds(
     return out;
   }
   for (const [alias, entry] of Object.entries(cats as Record<string, unknown>)) {
-    if (
-      entry &&
-      typeof entry === "object" &&
-      !Array.isArray(entry) &&
-      aliasToId.has(alias)
-    ) {
+    if (entry && typeof entry === "object" && !Array.isArray(entry) && aliasToId.has(alias)) {
       (entry as Record<string, unknown>)["analyzerId"] = aliasToId.get(alias);
     }
   }
@@ -294,7 +279,10 @@ export function summarizeRouted(results: NamedDoc[]): string {
     if (Array.isArray(contents)) {
       for (const c of contents) {
         const cat =
-          c && typeof c === "object" && !Array.isArray(c) && typeof (c as Record<string, unknown>)["category"] === "string"
+          c &&
+          typeof c === "object" &&
+          !Array.isArray(c) &&
+          typeof (c as Record<string, unknown>)["category"] === "string"
             ? ((c as Record<string, unknown>)["category"] as string)
             : "";
         segCounts.set(cat, (segCounts.get(cat) ?? 0) + 1);
@@ -333,18 +321,17 @@ export function summarizeRouted(results: NamedDoc[]): string {
     lines.push("", header, "-".repeat(header.length));
     lines.push(`  ${"field".padEnd(30)} fill rate   avg conf`);
     const perField = table.get(cat)!;
-    const fieldEntries = [...perField.entries()].sort((a, b) =>
-      a[0].localeCompare(b[0]),
-    );
+    const fieldEntries = [...perField.entries()].sort((a, b) => a[0].localeCompare(b[0]));
     for (const [fname, rows] of fieldEntries) {
-      // Use the field's own row count as the denominator so array leaves
-      // don't inflate the rate. Mirrors single-type create-and-test.
-      const denom = rows.length;
+      // Denominator is the per-category segment count so a field that's
+      // only meaningful in one category isn't penalised by other
+      // categories' segment counts, but a field that's missing from some
+      // segments in this category still reports the correct fraction.
+      // Mirrors Python's summarize_routed and .NET's SummarizeRouted.
+      const denom = segCount;
       const filled = rows.filter((r) => r.value !== null);
       const fillRate = denom === 0 ? 0 : filled.length / denom;
-      const confidences = filled
-        .map((r) => r.confidence)
-        .filter((c): c is number => c !== null);
+      const confidences = filled.map((r) => r.confidence).filter((c): c is number => c !== null);
       const confStr =
         confidences.length === 0
           ? "  n/a"
@@ -369,9 +356,7 @@ export function summarizeRouted(results: NamedDoc[]): string {
     lows.sort((a, b) => a.conf - b.conf);
     lines.push("", "lowest-confidence fields across all categories:");
     for (const row of lows.slice(0, 3)) {
-      lines.push(
-        `  ${row.conf.toFixed(3)}  [${row.cat}] ${row.field}  (${row.doc})`,
-      );
+      lines.push(`  ${row.conf.toFixed(3)}  [${row.cat}] ${row.field}  (${row.doc})`);
     }
   }
   lines.push("=".repeat(72));
@@ -465,9 +450,7 @@ function parseArgs(args: string[]): RouterOptions | null {
     return null;
   }
   if (opts.innerSchemas.length === 0 && !opts.schemaDir) {
-    console.error(
-      "provide at least one --inner-schema ALIAS=PATH or --schema-dir DIR",
-    );
+    console.error("provide at least one --inner-schema ALIAS=PATH or --schema-dir DIR");
     printUsage();
     return null;
   }
@@ -478,17 +461,13 @@ function printUsage(): void {
   console.error("Usage:");
   console.error("  cu-skill create-and-test-router");
   console.error("    --outer-schema <file>");
-  console.error(
-    "    (--inner-schema ALIAS=PATH [--inner-schema ...] | --schema-dir <dir>)",
-  );
+  console.error("    (--inner-schema ALIAS=PATH [--inner-schema ...] | --schema-dir <dir>)");
   console.error("    --input <file-or-folder>");
   console.error("    --output <dir>");
   console.error("    [--analyzer-id <id>]");
   console.error("    [--ephemeral]");
   console.error("    [--reuse]");
   console.error("");
-  console.error(
-    "Classify-and-route Stage 2: validate, create N inner analyzers + 1",
-  );
+  console.error("Classify-and-route Stage 2: validate, create N inner analyzers + 1");
   console.error("outer classifier, batch-test, print a category-aware summary.");
 }
