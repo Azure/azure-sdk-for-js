@@ -17,7 +17,7 @@ on:
   # env: vars in steps use the full GitHub Actions expression context —
   # gh-aw's expression allowlist only restricts frontmatter YAML field values.
   steps:
-    - name: Gate — verify CI complete and PR has mgmt-review-added label
+    - name: Gate — verify CI complete and PR is a mgmt PR
       id: gate
       uses: actions/github-script@v9.0.0
       env:
@@ -50,16 +50,21 @@ on:
             return;
           }
 
-          // Filter to mgmt PRs only: must have 'mgmt-review-added' label,
-          // which is set exclusively by the mgmt-review agent after it completes.
+          // Filter to mgmt PRs: a PR qualifies only if it carries the 'Mgmt'
+          // label (applied automatically by the path-based labeler on
+          // sdk/*/arm-* changes) and its title contains 'AutoPR' — AutoPR PRs
+          // can also be generated for data-plane, so the title alone is not enough.
+          // Fully decoupled from the mgmt-review flow — guidance fires once CI
+          // completes, regardless of review state.
           const { data: pr } = await github.rest.pulls.get({
             owner: context.repo.owner,
             repo:  context.repo.repo,
             pull_number: prNum,
           });
           const labels = (pr.labels || []).map(l => l.name);
-          if (!labels.includes('mgmt-review-added')) {
-            core.info(`PR #${prNum} does not have 'mgmt-review-added' label (${labels.join(', ') || 'none'}) — not a mgmt PR or review not yet complete.`);
+          const isMgmtPr = labels.includes('Mgmt') && (pr.title || '').includes('AutoPR');
+          if (!isMgmtPr) {
+            core.info(`PR #${prNum} is not a mgmt PR (labels: ${labels.join(', ') || 'none'}; title: ${pr.title || ''}) — skipping.`);
             core.setOutput('ready', 'false');
             return;
           }
