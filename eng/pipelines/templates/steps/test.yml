@@ -88,3 +88,17 @@ steps:
         ArtifactPath: '$(Build.ArtifactStagingDirectory)/test-proxy.log'
         ArtifactName: 'test proxy logs $(Agent.JobName)'
         SbomEnabled: false
+
+  - task: PublishCodeCoverageResults@2
+    displayName: "Publish NodeJs Code Coverage to DevOps"
+    continueOnError: true
+    condition: and(succeededOrFailed(),eq(variables['TestType'], 'node'),eq(variables['PublishCodeCoverage'], true))
+    inputs:
+      summaryFileLocation: "$(System.DefaultWorkingDirectory)/sdk/${{ parameters.ServiceDirectory }}/**/coverage/cobertura-coverage.xml"
+
+  #- template: /eng/common/pipelines/templates/steps/publish-1es-artifact.yml
+  #  parameters:
+  #    ArtifactPath: "$(System.DefaultWorkingDirectory)/sdk/${{ parameters.ServiceDirectory }}/**/coverage/coverage-browser"
+  #    ArtifactName: BrowserCodeCoverageReport
+  #    CustomCondition: and(succeededOrFailed(),eq(variables['TestType'], 'browser'),eq(variables['PublishCodeCoverage'], true))
+  #    SbomEnabled: false

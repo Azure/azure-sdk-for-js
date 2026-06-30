@@ -64,8 +64,16 @@ export function makeAliases(
 }
 
 function shouldCollectCoverage(rootDir: string) {
+  const publishCodeCoverage =
+    (process.env["PublishCodeCoverage"] ?? process.env["PUBLISHCODECOVERAGE"] ?? "")
+      .toString()
+      .toLowerCase();
+
+  const ciCoverageEnabled = publishCodeCoverage === "true" || publishCodeCoverage === "1";
+
   return (
     process.env["TEST_MODE"] === "live" ||
+    ciCoverageEnabled ||
     rootDir.includes("/sdk/core/") ||
     rootDir.includes("\\sdk\\core\\")
   );
