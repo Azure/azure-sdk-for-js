@@ -15,11 +15,13 @@ import type { CommunicationIdentifier } from '@azure/communication-common';
 import type { CommunicationIdentifierKind } from '@azure/communication-common';
 import type { CommunicationTokenCredential } from '@azure/communication-common';
 import * as coreClient from '@azure/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure/core-client';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
 import type { ParticipantsAddedEvent } from '@azure/communication-signaling';
 import type { ParticipantsRemovedEvent } from '@azure/communication-signaling';
 import type { ReadReceiptReceivedEvent } from '@azure/communication-signaling';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TypingIndicatorReceivedEvent } from '@azure/communication-signaling';
 
 // @public
@@ -227,6 +229,8 @@ export type GetMessageOptions = OperationOptions;
 // @public
 export type GetPropertiesOptions = OperationOptions;
 
+export { isRestError }
+
 // @public
 export type ListChatThreadsOptions = RestListChatThreadsOptions;
 
@@ -257,6 +261,8 @@ export { ReadReceiptReceivedEvent }
 
 // @public
 export type RemoveParticipantOptions = OperationOptions;
+
+export { RestError }
 
 // @public
 export interface RestListChatThreadsOptions extends coreClient.OperationOptions {

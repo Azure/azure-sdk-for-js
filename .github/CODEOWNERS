@@ -824,7 +824,7 @@
 # PRLabel: %Mgmt
 /sdk/policy/arm-policy-profile-2020-09-01-hybrid/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/policyinsights/arm-policyinsights/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -1740,6 +1740,8 @@ sdk/resiliencemanagement/arm-resiliencemanagement/ @qiaozha @MaryGao @JialinHuan
 /eng/vitestconfigs/                      @Azure/azure-sdk-for-js-core
 /eng/common/                             @Azure/azure-sdk-eng
 /eng/ignore-links.txt                    @Azure/azure-sdk-eng @Azure/azure-sdk-js-dev
+# Approved third-party runtime dependency allow-list
+/eng/approved-third-party-dependencies.yml @Azure/azure-sdk-js-dev
 /.config/1espt/                          @benbp @mikeharder
 
 /.github/workflows/                      @Azure/azure-sdk-eng

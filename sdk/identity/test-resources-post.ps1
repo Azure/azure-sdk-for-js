@@ -90,9 +90,12 @@ $image = "$loginServer/identity-aks-test-image"
 $kubernetesContext = "$workingFolder/AzureKubernetes"
 $kubernetesNpmrc = "$kubernetesContext/.npmrc"
 $sourceNpmrc = $env:NPM_CONFIG_USERCONFIG
+if ([string]::IsNullOrEmpty($sourceNpmrc)) {
+  $sourceNpmrc = Join-Path $HOME '.npmrc'
+}
 
-if ([string]::IsNullOrEmpty($sourceNpmrc) -or -not (Test-Path -LiteralPath $sourceNpmrc)) {
-  throw "NPM_CONFIG_USERCONFIG is not set or points to a missing file: '$sourceNpmrc'"
+if (-not (Test-Path -LiteralPath $sourceNpmrc)) {
+  throw "No authenticated npmrc found. Checked NPM_CONFIG_USERCONFIG and fallback path: '$sourceNpmrc'"
 }
 
 Write-Host "Copying authenticated .npmrc from $sourceNpmrc to $kubernetesNpmrc"

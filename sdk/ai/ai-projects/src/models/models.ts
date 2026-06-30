@@ -1053,11 +1053,7 @@ export function aiSearchIndexResourceDeserializer(item: any): AISearchIndexResou
 
 /** Available query types for Azure AI Search tool. */
 export type AzureAISearchQueryType =
-  | "simple"
-  | "semantic"
-  | "vector"
-  | "vector_simple_hybrid"
-  | "vector_semantic_hybrid";
+  "simple" | "semantic" | "vector" | "vector_simple_hybrid" | "vector_semantic_hybrid";
 
 /** The input definition information for an OpenAPI tool as used to configure an agent. */
 export interface OpenApiTool extends Tool {
@@ -3242,9 +3238,7 @@ export function functionShellToolParamEnvironmentUnionDeserializer(
 
 /** Type of FunctionShellToolParamEnvironmentType */
 export type FunctionShellToolParamEnvironmentType =
-  | "container_auto"
-  | "local"
-  | "container_reference";
+  "container_auto" | "local" | "container_reference";
 
 /** model interface FunctionShellToolParamEnvironmentLocalEnvironmentParam */
 export interface FunctionShellToolParamEnvironmentLocalEnvironmentParam extends FunctionShellToolParamEnvironment {
@@ -3555,9 +3549,7 @@ export function customToolParamFormatDeserializer(item: any): CustomToolParamFor
 
 /** Alias for CustomToolParamFormatUnion */
 export type CustomToolParamFormatUnion =
-  | CustomTextFormatParam
-  | CustomGrammarFormatParam
-  | CustomToolParamFormat;
+  CustomTextFormatParam | CustomGrammarFormatParam | CustomToolParamFormat;
 
 export function customToolParamFormatUnionSerializer(item: CustomToolParamFormatUnion): any {
   switch (item.type) {
@@ -3932,11 +3924,7 @@ export function protocolVersionRecordDeserializer(item: any): ProtocolVersionRec
 
 /** Type of AgentProtocol */
 export type AgentProtocol =
-  | "activity_protocol"
-  | "responses"
-  | "mcp"
-  | "invocations"
-  | "invocations_ws";
+  "activity_protocol" | "responses" | "mcp" | "invocations" | "invocations_ws";
 
 /** Code-based deployment configuration for a hosted agent. */
 export interface CodeConfiguration {
@@ -5068,8 +5056,7 @@ export function agentBlueprintReferenceDeserializer(item: any): AgentBlueprintRe
 
 /** Alias for AgentBlueprintReferenceUnion */
 export type AgentBlueprintReferenceUnion =
-  | ManagedAgentIdentityBlueprintReference
-  | AgentBlueprintReference;
+  ManagedAgentIdentityBlueprintReference | AgentBlueprintReference;
 
 export function agentBlueprintReferenceUnionSerializer(item: AgentBlueprintReferenceUnion): any {
   switch (item.type) {
@@ -5275,12 +5262,7 @@ export function fixedRatioVersionSelectionRuleDeserializer(
 
 /** Type of AgentEndpointProtocol */
 export type AgentEndpointProtocol =
-  | "activity"
-  | "responses"
-  | "a2a"
-  | "mcp"
-  | "invocations"
-  | "invocations_ws";
+  "activity" | "responses" | "a2a" | "mcp" | "invocations" | "invocations_ws";
 
 export function agentEndpointAuthorizationSchemeUnionArraySerializer(
   result: Array<AgentEndpointAuthorizationSchemeUnion>,
@@ -5407,9 +5389,7 @@ export function isolationKeySourceDeserializer(item: any): IsolationKeySource {
 
 /** Alias for IsolationKeySourceUnion */
 export type IsolationKeySourceUnion =
-  | EntraIsolationKeySource
-  | HeaderIsolationKeySource
-  | IsolationKeySource;
+  EntraIsolationKeySource | HeaderIsolationKeySource | IsolationKeySource;
 
 export function isolationKeySourceUnionSerializer(item: IsolationKeySourceUnion): any {
   switch (item.kind) {
@@ -5802,9 +5782,7 @@ export function evaluationRuleActionDeserializer(item: any): EvaluationRuleActio
 
 /** Alias for EvaluationRuleActionUnion */
 export type EvaluationRuleActionUnion =
-  | ContinuousEvaluationRuleAction
-  | HumanEvaluationPreviewRuleAction
-  | EvaluationRuleAction;
+  ContinuousEvaluationRuleAction | HumanEvaluationPreviewRuleAction | EvaluationRuleAction;
 
 export function evaluationRuleActionUnionSerializer(item: EvaluationRuleActionUnion): any {
   switch (item.type) {
@@ -6033,12 +6011,7 @@ export function baseCredentialsUnionDeserializer(item: any): BaseCredentialsUnio
 
 /** The credential type used by the connection */
 export type CredentialType =
-  | "ApiKey"
-  | "AAD"
-  | "SAS"
-  | "CustomKeys"
-  | "None"
-  | "AgenticIdentityToken_Preview";
+  "ApiKey" | "AAD" | "SAS" | "CustomKeys" | "None" | "AgenticIdentityToken_Preview";
 
 /** API Key Credential definition */
 export interface ApiKeyCredentials extends BaseCredentials {
@@ -6924,14 +6897,7 @@ export function agentSessionResourceDeserializer(item: any): AgentSessionResourc
 
 /** The status of an agent session. */
 export type AgentSessionStatus =
-  | "creating"
-  | "active"
-  | "idle"
-  | "updating"
-  | "failed"
-  | "deleting"
-  | "deleted"
-  | "expired";
+  "creating" | "active" | "idle" | "updating" | "failed" | "deleting" | "deleted" | "expired";
 
 /** The response data for a requested list of items. */
 export interface _AgentsPagedResultAgentSessionResource {
@@ -8274,12 +8240,7 @@ export function evaluatorDefinitionUnionDeserializer(item: any): EvaluatorDefini
 
 /** The type of evaluator definition */
 export type EvaluatorDefinitionType =
-  | "prompt"
-  | "code"
-  | "prompt_and_code"
-  | "service"
-  | "openai_graders"
-  | "rubric";
+  "prompt" | "code" | "prompt_and_code" | "service" | "openai_graders" | "rubric";
 
 export function evaluatorMetricRecordSerializer(
   item: Record<string, EvaluatorMetric>,
@@ -9046,9 +9007,7 @@ export function insightRequestUnionDeserializer(item: any): InsightRequestUnion 
 
 /** The request of the insights. */
 export type InsightType =
-  | "EvaluationRunClusterInsight"
-  | "AgentClusterInsight"
-  | "EvaluationComparison";
+  "EvaluationRunClusterInsight" | "AgentClusterInsight" | "EvaluationComparison";
 
 /** Insights on set of Evaluation Results */
 export interface EvaluationRunClusterInsightRequest extends InsightRequest {
@@ -9315,11 +9274,7 @@ export function evalRunResultCompareItemDeserializer(item: any): EvalRunResultCo
 
 /** Treatment Effect Type. */
 export type TreatmentEffectType =
-  | "TooFewSamples"
-  | "Inconclusive"
-  | "Changed"
-  | "Improved"
-  | "Degraded";
+  "TooFewSamples" | "Inconclusive" | "Changed" | "Improved" | "Degraded";
 
 /** Insights from the evaluation run cluster analysis. */
 export interface EvaluationRunClusterInsightResult extends InsightResult {
@@ -9869,10 +9824,7 @@ export function memoryItemDeserializer(item: any): MemoryItem {
 
 /** Alias for MemoryItemUnion */
 export type MemoryItemUnion =
-  | UserProfileMemoryItem
-  | ChatSummaryMemoryItem
-  | ProceduralMemoryItem
-  | MemoryItem;
+  UserProfileMemoryItem | ChatSummaryMemoryItem | ProceduralMemoryItem | MemoryItem;
 
 export function memoryItemUnionDeserializer(item: any): MemoryItemUnion {
   switch (item.kind) {
@@ -10026,11 +9978,7 @@ export function memoryStoreUpdateResponseDeserializer(item: any): MemoryStoreUpd
 
 /** Status of a memory store update operation. */
 export type MemoryStoreUpdateStatus =
-  | "queued"
-  | "in_progress"
-  | "completed"
-  | "failed"
-  | "superseded";
+  "queued" | "in_progress" | "completed" | "failed" | "superseded";
 
 /** Memory update result. */
 export interface MemoryStoreUpdateCompletedResult {
@@ -10347,11 +10295,7 @@ export function artifactProfileDeserializer(item: any): ArtifactProfile {
 export type FoundryModelArtifactProfileCategory = "DataOnly" | "RuntimeDependent" | "Unknown";
 /** Signals detected in the model artifact. */
 export type FoundryModelArtifactProfileSignal =
-  | "PickleDeserialization"
-  | "CustomPythonCode"
-  | "DynamicOps"
-  | "NativeBinary"
-  | "UnknownFormat";
+  "PickleDeserialization" | "CustomPythonCode" | "DynamicOps" | "NativeBinary" | "UnknownFormat";
 
 export function foundryModelWarningArrayDeserializer(result: Array<FoundryModelWarning>): any[] {
   return result.map((item) => {
@@ -10847,9 +10791,7 @@ export function routineActionDeserializer(item: any): RoutineAction {
 
 /** Alias for RoutineActionUnion */
 export type RoutineActionUnion =
-  | InvokeAgentResponsesApiRoutineAction
-  | InvokeAgentInvocationsApiRoutineAction
-  | RoutineAction;
+  InvokeAgentResponsesApiRoutineAction | InvokeAgentInvocationsApiRoutineAction | RoutineAction;
 
 export function routineActionUnionSerializer(item: RoutineActionUnion): any {
   switch (item.type) {
@@ -11133,11 +11075,7 @@ export function routineRunDeserializer(item: any): RoutineRun {
 export type RoutineRunPhase = "queued" | "dispatching" | "completed" | "failed";
 /** Known source paths that can produce a routine run. */
 export type RoutineAttemptSource =
-  | "event_fire"
-  | "manual_dispatch"
-  | "queued_dispatch"
-  | "schedule_delivery"
-  | "timer_delivery";
+  "event_fire" | "manual_dispatch" | "queued_dispatch" | "schedule_delivery" | "timer_delivery";
 
 /** Base model for a manual dispatch payload. */
 export interface RoutineDispatchPayload {
@@ -11175,8 +11113,7 @@ export function routineDispatchPayloadUnionSerializer(item: RoutineDispatchPaylo
 
 /** The discriminator values supported for manual routine dispatch payloads. */
 export type RoutineDispatchPayloadType =
-  | "invoke_agent_responses_api"
-  | "invoke_agent_invocations_api";
+  "invoke_agent_responses_api" | "invoke_agent_invocations_api";
 
 /** A manual payload used to test a responses API routine dispatch. */
 export interface InvokeAgentResponsesApiDispatchPayload extends RoutineDispatchPayload {
@@ -11277,11 +11214,7 @@ export function scheduleDeserializer(item: any): Schedule {
 
 /** Schedule provisioning status. */
 export type ScheduleProvisioningStatus =
-  | "Creating"
-  | "Updating"
-  | "Deleting"
-  | "Succeeded"
-  | "Failed";
+  "Creating" | "Updating" | "Deleting" | "Succeeded" | "Failed";
 
 /** Base model for Trigger of the schedule. */
 export interface Trigger {
@@ -11538,13 +11471,7 @@ export function weeklyRecurrenceScheduleDeserializer(item: any): WeeklyRecurrenc
 
 /** Days of the week for recurrence schedule. */
 export type DayOfWeek =
-  | "Sunday"
-  | "Monday"
-  | "Tuesday"
-  | "Wednesday"
-  | "Thursday"
-  | "Friday"
-  | "Saturday";
+  "Sunday" | "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday";
 
 /** Monthly recurrence schedule. */
 export interface MonthlyRecurrenceSchedule extends RecurrenceSchedule {
@@ -12676,9 +12603,7 @@ export function toolUseFineTuningDataGenerationJobOptionsDeserializer(
 
 /** The supported scenarios for a data generation job. */
 export type DataGenerationJobScenario =
-  | "supervised_finetuning"
-  | "reinforcement_finetuning"
-  | "evaluation";
+  "supervised_finetuning" | "reinforcement_finetuning" | "evaluation";
 
 /** Output options for data generation job. */
 export interface DataGenerationJobOutputOptions {
@@ -12753,9 +12678,7 @@ export function dataGenerationJobOutputDeserializer(item: any): DataGenerationJo
 
 /** Alias for DataGenerationJobOutputUnion */
 export type DataGenerationJobOutputUnion =
-  | FileDataGenerationJobOutput
-  | DatasetDataGenerationJobOutput
-  | DataGenerationJobOutput;
+  FileDataGenerationJobOutput | DatasetDataGenerationJobOutput | DataGenerationJobOutput;
 
 export function dataGenerationJobOutputUnionDeserializer(item: any): DataGenerationJobOutputUnion {
   switch (item["type"]) {
@@ -12896,11 +12819,7 @@ export function _listVersionsRequestTypeSerializer(item: _ListVersionsRequestTyp
 
 /** Type of AgentType */
 export type AgentType =
-  | "agent"
-  | "agent.version"
-  | "agent.deleted"
-  | "agent.version.deleted"
-  | "agent.container";
+  "agent" | "agent.version" | "agent.deleted" | "agent.version.deleted" | "agent.container";
 /** Feature opt-in keys for agent definition operations supporting hosted or workflow agents. */
 export type AgentDefinitionOptInKeys =
   | "HostedAgents=V1Preview"

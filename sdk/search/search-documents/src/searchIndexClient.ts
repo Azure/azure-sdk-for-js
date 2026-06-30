@@ -827,9 +827,8 @@ export class SearchIndexClient {
    * @param options - Options to the list knowledge sources operation.
    */
   public listKnowledgeSources(options: ListKnowledgeSourcesOptions = {}): KnowledgeSourceIterator {
-    return utils.mapPagedAsyncIterable(
-      this.client.listKnowledgeSources(options),
-      (ks) => utils.convertKnowledgeSourceToPublic(ks)!,
+    return utils.mapPagedAsyncIterable(this.client.listKnowledgeSources(options), (ks) =>
+      utils.convertKnowledgeSourceToPublic(ks)!,
     );
   }
 

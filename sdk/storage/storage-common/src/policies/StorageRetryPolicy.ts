@@ -185,8 +185,9 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
   ): boolean {
     if (attempt >= this.retryOptions.maxTries!) {
       logger.info(
-        `RetryPolicy: Attempt(s) ${attempt} >= maxTries ${this.retryOptions
-          .maxTries!}, no further try.`,
+        `RetryPolicy: Attempt(s) ${attempt} >= maxTries ${
+          this.retryOptions.maxTries!
+        }, no further try.`,
       );
       return false;
     }

@@ -6,8 +6,10 @@
 
 import type { CommonClientOptions } from '@azure/core-client';
 import type { CommunicationUserIdentifier } from '@azure/communication-common';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { KeyCredential } from '@azure/core-auth';
 import type { OperationOptions } from '@azure/core-client';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -68,6 +70,10 @@ export interface GetTokenForTeamsUserOptions extends OperationOptions {
 export interface GetTokenOptions extends OperationOptions {
     tokenExpiresInMinutes?: number;
 }
+
+export { isRestError }
+
+export { RestError }
 
 // @public
 export type TokenScope = "chat" | "voip" | "chat.join" | "chat.join.limited" | "voip.join";
