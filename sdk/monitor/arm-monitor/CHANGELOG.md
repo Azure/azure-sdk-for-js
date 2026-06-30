@@ -411,7 +411,6 @@ Compared with version 7.0.0
   - Class MonitorClient no longer has parameter diagnosticSettings
   - Class MonitorClient no longer has parameter diagnosticSettingsCategory
   - Class MonitorClient no longer has parameter operations
-  - Class MonitorClient no longer has parameter subscriptionId
   - Class MonitorClient no longer has parameter vMInsights
   - Removed Interface Action
   - Removed Interface ActionGroupList
