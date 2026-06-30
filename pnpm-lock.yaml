@@ -141,16 +141,16 @@ importers:
         specifier: workspace:^
         version: link:../warp
       '@pnpm/catalogs.config':
-        specifier: ^1000.0.2
-        version: 1000.0.6
+        specifier: ^1100.0.2
+        version: 1100.0.2
       '@pnpm/catalogs.resolver':
-        specifier: ^1000.0.3
-        version: 1000.0.5
+        specifier: ^1100.0.0
+        version: 1100.0.0
       '@pnpm/catalogs.types':
-        specifier: ^1000.0.0
-        version: 1000.0.0
+        specifier: ^1100.0.0
+        version: 1100.0.0
       '@pnpm/workspace.read-manifest':
-        specifier: ^1000.1.5
+        specifier: ^1000.3.1
         version: 1000.3.1
       chalk:
         specifier: ^5.4.1
@@ -36885,29 +36885,37 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
-  '@pnpm/catalogs.config@1000.0.6':
-    resolution: {integrity: sha1-b1YTWnAEmvQUp4oaBPGs+ZNfcp8=}
-    engines: {node: '>=18.12'}
+  '@pnpm/catalogs.config@1100.0.2':
+    resolution: {integrity: sha1-SBeVTOzYgL9MwusKOYAZxYaL+Ik=}
+    engines: {node: '>=22.13'}
 
-  '@pnpm/catalogs.protocol-parser@1001.0.0':
-    resolution: {integrity: sha1-Ao89ErMWS8A04LfS2f2dlrxsIxg=}
-    engines: {node: '>=18.12'}
+  '@pnpm/catalogs.protocol-parser@1100.0.0':
+    resolution: {integrity: sha1-wGXJ7Da4DIpOa6/2Wn5iOzbRvG4=}
+    engines: {node: '>=22.13'}
 
-  '@pnpm/catalogs.resolver@1000.0.5':
-    resolution: {integrity: sha1-/quh/HM28wlSq/orW0ENRVJndEk=}
-    engines: {node: '>=18.12'}
+  '@pnpm/catalogs.resolver@1100.0.0':
+    resolution: {integrity: sha1-UQzyY6O9Iewr/Jq6ys4s8npNRKs=}
+    engines: {node: '>=22.13'}
 
-  '@pnpm/catalogs.types@1000.0.0':
-    resolution: {integrity: sha1-aawuq/rIK1sH70KTPhsLT25n97U=}
-    engines: {node: '>=18.12'}
+  '@pnpm/catalogs.types@1100.0.0':
+    resolution: {integrity: sha1-4UDH7TYSU3aKaFCytKyrqAqjh6M=}
+    engines: {node: '>=22.13'}
 
   '@pnpm/constants@1001.3.1':
     resolution: {integrity: sha1-viYLiQIckXK1VhLGnPDoWNBLfD0=}
     engines: {node: '>=18.12'}
 
+  '@pnpm/constants@1100.0.0':
+    resolution: {integrity: sha1-8ibEXX/5aE2kpgQAKF9Zxdydmyk=}
+    engines: {node: '>=22.13'}
+
   '@pnpm/error@1000.1.0':
     resolution: {integrity: sha1-+FjGoy+zZSjiaYs9eBALwyX1U3M=}
     engines: {node: '>=18.12'}
+
+  '@pnpm/error@1100.0.1':
+    resolution: {integrity: sha1-4zTTWnXaaflF/wC51wtJkkoT26c=}
+    engines: {node: '>=22.13'}
 
   '@pnpm/types@1001.3.0':
     resolution: {integrity: sha1-4LP3EZ/jQ7SD9tA2jHfpk2SQIHM=}
@@ -43272,24 +43280,30 @@ snapshots:
     dependencies:
       playwright: 1.60.0
 
-  '@pnpm/catalogs.config@1000.0.6':
+  '@pnpm/catalogs.config@1100.0.2':
     dependencies:
-      '@pnpm/error': 1000.1.0
+      '@pnpm/error': 1100.0.1
 
-  '@pnpm/catalogs.protocol-parser@1001.0.0': {}
+  '@pnpm/catalogs.protocol-parser@1100.0.0': {}
 
-  '@pnpm/catalogs.resolver@1000.0.5':
+  '@pnpm/catalogs.resolver@1100.0.0':
     dependencies:
-      '@pnpm/catalogs.protocol-parser': 1001.0.0
-      '@pnpm/error': 1000.1.0
+      '@pnpm/catalogs.protocol-parser': 1100.0.0
+      '@pnpm/error': 1100.0.1
 
-  '@pnpm/catalogs.types@1000.0.0': {}
+  '@pnpm/catalogs.types@1100.0.0': {}
 
   '@pnpm/constants@1001.3.1': {}
+
+  '@pnpm/constants@1100.0.0': {}
 
   '@pnpm/error@1000.1.0':
     dependencies:
       '@pnpm/constants': 1001.3.1
+
+  '@pnpm/error@1100.0.1':
+    dependencies:
+      '@pnpm/constants': 1100.0.0
 
   '@pnpm/types@1001.3.0': {}
 
