@@ -1985,9 +1985,7 @@ export function resourceCertificateDetailsDeserializer(item: any): ResourceCerti
 
 /** Alias for ResourceCertificateDetailsUnion */
 export type ResourceCertificateDetailsUnion =
-  | ResourceCertificateAndAadDetails
-  | ResourceCertificateAndAcsDetails
-  | ResourceCertificateDetails;
+  ResourceCertificateAndAadDetails | ResourceCertificateAndAcsDetails | ResourceCertificateDetails;
 
 export function resourceCertificateDetailsUnionDeserializer(
   item: any,

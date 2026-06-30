@@ -106,7 +106,7 @@ export abstract class BaseSender {
     this.persister = new FileSystemPersist(
       options.instrumentationKey,
       options.exporterOptions,
-      this.customerSDKStatsMetrics,
+      () => this.customerSDKStatsMetrics,
     );
     this.retryTimer = null;
     this.isStatsbeatSender = options.isStatsbeatSender || false;

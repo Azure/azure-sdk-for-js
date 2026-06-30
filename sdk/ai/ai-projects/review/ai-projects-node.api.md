@@ -6,6 +6,7 @@
 
 import type { ClientOptions } from '@azure-rest/core-client';
 import type { ClientOptions as ClientOptions_2 } from 'openai';
+import { isRestError } from '@azure/core-rest-pipeline';
 import OpenAI from 'openai';
 import { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState as OperationState_2 } from '@azure/core-lro';
@@ -2741,6 +2742,8 @@ export type IsolationKeySourceKind = "Entra" | "Header";
 
 // @public
 export type IsolationKeySourceUnion = EntraIsolationKeySource | HeaderIsolationKeySource | IsolationKeySource;
+
+export { isRestError }
 
 // @public
 export type JobStatus = "queued" | "in_progress" | "succeeded" | "failed" | "cancelled";

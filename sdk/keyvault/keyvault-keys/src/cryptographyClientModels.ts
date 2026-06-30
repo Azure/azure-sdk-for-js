@@ -237,12 +237,7 @@ export interface AesGcmEncryptParameters {
  * A union type representing all supported AES-CBC encryption algorithms.
  */
 export type AesCbcEncryptionAlgorithm =
-  | "A128CBC"
-  | "A192CBC"
-  | "A256CBC"
-  | "A128CBCPAD"
-  | "A192CBCPAD"
-  | "A256CBCPAD";
+  "A128CBC" | "A192CBC" | "A256CBC" | "A128CBCPAD" | "A192CBCPAD" | "A256CBCPAD";
 
 /**
  * Encryption parameters for AES-CBC encryption algorithms.
@@ -269,9 +264,7 @@ export interface AesCbcEncryptParameters {
  * A type representing all currently supported encryption parameters as they apply to different encryption algorithms.
  */
 export type EncryptParameters =
-  | RsaEncryptParameters
-  | AesGcmEncryptParameters
-  | AesCbcEncryptParameters;
+  RsaEncryptParameters | AesGcmEncryptParameters | AesCbcEncryptParameters;
 
 /**
  * Decryption parameters for RSA encryption algorithms.
@@ -339,9 +332,7 @@ export interface AesCbcDecryptParameters {
  * A type representing all currently supported decryption parameters as they apply to different encryption algorithms.
  */
 export type DecryptParameters =
-  | RsaDecryptParameters
-  | AesGcmDecryptParameters
-  | AesCbcDecryptParameters;
+  RsaDecryptParameters | AesGcmDecryptParameters | AesCbcDecryptParameters;
 
 /**
  * The various key types a {@link CryptographyClient} can hold.

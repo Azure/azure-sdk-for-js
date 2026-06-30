@@ -4671,9 +4671,7 @@ export function hciEdgeDeviceJobPropertiesDeserializer(item: any): HciEdgeDevice
 
 /** Alias for HciEdgeDeviceJobPropertiesUnion */
 export type HciEdgeDeviceJobPropertiesUnion =
-  | HciCollectLogJobProperties
-  | HciRemoteSupportJobProperties
-  | HciEdgeDeviceJobProperties;
+  HciCollectLogJobProperties | HciRemoteSupportJobProperties | HciEdgeDeviceJobProperties;
 
 export function hciEdgeDeviceJobPropertiesUnionSerializer(
   item: HciEdgeDeviceJobPropertiesUnion,
@@ -9800,9 +9798,7 @@ export function clusterJobPropertiesDeserializer(item: any): ClusterJobPropertie
 
 /** Alias for ClusterJobPropertiesUnion */
 export type ClusterJobPropertiesUnion =
-  | HciConfigureSdnIntegrationJobProperties
-  | HciConfigureCvmJobProperties
-  | ClusterJobProperties;
+  HciConfigureSdnIntegrationJobProperties | HciConfigureCvmJobProperties | ClusterJobProperties;
 
 export function clusterJobPropertiesUnionSerializer(item: ClusterJobPropertiesUnion): any {
   switch (item.jobType) {

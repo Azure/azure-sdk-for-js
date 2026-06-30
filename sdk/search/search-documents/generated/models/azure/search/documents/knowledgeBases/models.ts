@@ -313,8 +313,7 @@ export function knowledgeSourceVectorizerDeserializer(item: any): KnowledgeSourc
 
 /** Alias for KnowledgeSourceVectorizerUnion */
 export type KnowledgeSourceVectorizerUnion =
-  | KnowledgeSourceAzureOpenAIVectorizer
-  | KnowledgeSourceVectorizer;
+  KnowledgeSourceAzureOpenAIVectorizer | KnowledgeSourceVectorizer;
 
 export function knowledgeSourceVectorizerUnionSerializer(
   item: KnowledgeSourceVectorizerUnion,
@@ -752,9 +751,7 @@ export function knowledgeBaseMessageContentDeserializer(item: any): KnowledgeBas
 
 /** Alias for KnowledgeBaseMessageContentUnion */
 export type KnowledgeBaseMessageContentUnion =
-  | KnowledgeBaseMessageTextContent
-  | KnowledgeBaseMessageImageContent
-  | KnowledgeBaseMessageContent;
+  KnowledgeBaseMessageTextContent | KnowledgeBaseMessageImageContent | KnowledgeBaseMessageContent;
 
 export function knowledgeBaseMessageContentUnionSerializer(
   item: KnowledgeBaseMessageContentUnion,
@@ -887,8 +884,7 @@ export function knowledgeRetrievalIntentSerializer(item: KnowledgeRetrievalInten
 
 /** Alias for KnowledgeRetrievalIntentUnion */
 export type KnowledgeRetrievalIntentUnion =
-  | KnowledgeRetrievalSemanticIntent
-  | KnowledgeRetrievalIntent;
+  KnowledgeRetrievalSemanticIntent | KnowledgeRetrievalIntent;
 
 export function knowledgeRetrievalIntentUnionSerializer(item: KnowledgeRetrievalIntentUnion): any {
   switch (item.type) {

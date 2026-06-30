@@ -133,6 +133,7 @@ describe("Keys client - create, read, update and delete operations for managed H
       const releaseResult = await hsmClient.releaseKey(keyName, attestation);
 
       assert.exists(releaseResult.value);
+      await testClient.flushKey(keyName);
     });
 
     it("can import an exportable key and release it", async () => {
@@ -157,6 +158,7 @@ describe("Keys client - create, read, update and delete operations for managed H
       });
 
       assert.exists(releaseResult.value);
+      await testClient.flushKey(keyName);
     });
 
     it("can update a key's release policy", async () => {
@@ -200,6 +202,7 @@ describe("Keys client - create, read, update and delete operations for managed H
 
         assert.equal(decodedReleasePolicy.anyOf[0].anyOf[0].equals, "false");
       }
+      await testClient.flushKey(keyName);
     });
 
     it("errors when key is exportable without a release policy", async () => {
@@ -226,12 +229,196 @@ describe("Keys client - create, read, update and delete operations for managed H
   });
 
   it("can get a key with its attestation blob", async () => {
-    await hsmClient.createRsaKey("keyAttestation");
-    const key = await hsmClient.getKey("keyAttestation");
+    const keyName = recorder.variable(
+      "keyAttestation",
+      `keyAttestation-${Math.floor(Math.random() * 100000)}`,
+    );
+
+    await hsmClient.createRsaKey(keyName);
+    const key = await hsmClient.getKey(keyName);
     expect(key.properties.attestation).toBeUndefined();
-    const keyWithAttestation = await hsmClient.getKeyAttestation("keyAttestation");
+    const keyWithAttestation = await hsmClient.getKeyAttestation(keyName);
     expect(keyWithAttestation.properties.attestation).toBeDefined();
     expect(keyWithAttestation.properties.attestation?.privateKeyAttestation).toBeDefined();
     expect(keyWithAttestation.properties.attestation?.publicKeyAttestation).toBeDefined();
+
+    await testClient.flushKey(keyName);
+  });
+
+  describe("secureWrapKey & secureUnwrapKey", () => {
+    let attestation: string;
+    let encodedReleasePolicy: Uint8Array;
+
+    beforeEach(async () => {
+      const attestationUri = env.AZURE_KEYVAULT_ATTESTATION_URI;
+      const releasePolicy = {
+        anyOf: [
+          {
+            allOf: [
+              {
+                claim: "sdk-test",
+                equals: "true",
+              },
+            ],
+            authority: attestationUri,
+          },
+        ],
+        version: "1.0",
+      };
+
+      encodedReleasePolicy = stringToUint8Array(JSON.stringify(releasePolicy));
+
+      if (!isPlaybackMode()) {
+        const client = createDefaultHttpClient();
+        const response = await client.sendRequest(
+          createPipelineRequest({ url: `${attestationUri}/generate-test-token` }),
+        );
+        attestation = JSON.parse(response.bodyAsText!).token;
+        recorder.variable("attestation", attestation);
+      } else {
+        attestation = recorder.variable("attestation", attestation);
+      }
+    });
+
+    it("can secure wrap and unwrap a key using RSA-OAEP-256", async () => {
+      const keyName = recorder.variable(
+        "securewrapkey",
+        `securewrapkey-${Math.floor(Math.random() * 100000)}`,
+      );
+
+      await hsmClient.createRsaKey(keyName, {
+        keyOps: ["secureWrapKey", "secureUnwrapKey"],
+        releasePolicy: { encodedPolicy: encodedReleasePolicy },
+      });
+
+      const wrapped = await hsmClient.secureWrapKey(keyName, "RSA-OAEP-256");
+      assert.exists(wrapped.result);
+      assert.isAbove(wrapped.result.byteLength, 0);
+      assert.equal(wrapped.algorithm, "RSA-OAEP-256");
+      assert.isNotEmpty(wrapped.keyID);
+
+      const unwrapped = await hsmClient.secureUnwrapKey(
+        keyName,
+        wrapped.algorithm,
+        wrapped.result,
+        attestation,
+      );
+      assert.exists(unwrapped.result);
+      assert.isAbove(unwrapped.result.byteLength, 0);
+      assert.equal(unwrapped.algorithm, "RSA-OAEP-256");
+      assert.isNotEmpty(unwrapped.keyID);
+
+      await testClient.flushKey(keyName);
+    });
+
+    it("can secure wrap and unwrap targeting a specific key version", async () => {
+      const keyName = recorder.variable(
+        "securewrapkey-version",
+        `securewrapkey-version-${Math.floor(Math.random() * 100000)}`,
+      );
+
+      const createdKey = await hsmClient.createRsaKey(keyName, {
+        keyOps: ["secureWrapKey", "secureUnwrapKey"],
+        releasePolicy: { encodedPolicy: encodedReleasePolicy },
+      });
+      const version = createdKey.properties.version!;
+
+      const wrapped = await hsmClient.secureWrapKey(keyName, "RSA-OAEP-256", { version });
+      assert.exists(wrapped.result);
+      assert.include(wrapped.keyID, version);
+
+      const unwrapped = await hsmClient.secureUnwrapKey(
+        keyName,
+        wrapped.algorithm,
+        wrapped.result,
+        attestation,
+        { version },
+      );
+      assert.exists(unwrapped.result);
+      assert.include(unwrapped.keyID, version);
+      await testClient.flushKey(keyName);
+    });
+
+    it("secureUnwrapKey throws when the attestation token is invalid", async () => {
+      const keyName = recorder.variable(
+        "securewrapkey-badattest",
+        `securewrapkey-badattest-${Math.floor(Math.random() * 100000)}`,
+      );
+
+      await hsmClient.createRsaKey(keyName, {
+        keyOps: ["secureWrapKey", "secureUnwrapKey"],
+        releasePolicy: { encodedPolicy: encodedReleasePolicy },
+      });
+
+      const wrapped = await hsmClient.secureWrapKey(keyName, "RSA-OAEP-256");
+      await expect(
+        hsmClient.secureUnwrapKey(
+          keyName,
+          wrapped.algorithm,
+          wrapped.result,
+          "not-a-valid-attestation-token",
+        ),
+      ).rejects.toThrow();
+
+      await testClient.flushKey(keyName);
+    });
+
+    it("secureWrapKey throws when the key has no release policy", async () => {
+      const keyName = recorder.variable(
+        "securewrapkey-nopolicy",
+        `securewrapkey-nopolicy-${Math.floor(Math.random() * 100000)}`,
+      );
+
+      await expect(
+        hsmClient.createRsaKey(keyName, { keyOps: ["secureWrapKey", "secureUnwrapKey"] }),
+      ).rejects.toThrow();
+    });
+  });
+
+  describe("createExternalKey", () => {
+    beforeEach(async () => {
+      // The test proxy's central sanitizer AZSDK3430 rewrites every `id`
+      // field in JSON response bodies to "Sanitized". The external key id
+      // isn't a secret and the test needs to read it back, so override that
+      // value at the specific JSON path. The override runs after the central
+      // sanitizer, so the recorded response sees the real value.
+      await recorder.addSanitizers(
+        {
+          bodyKeySanitizers: [{ jsonPath: "$.attributes.external_key.id", value: "test-aes-key" }],
+        },
+        ["record", "playback"],
+      );
+    });
+
+    it("can create a key backed by an external key", async () => {
+      const keyName = recorder.variable(
+        "externalkey",
+        `externalkey-${Math.floor(Math.random() * 100000)}`,
+      );
+      const externalKeyId = recorder.variable("external-key-id", "test-aes-key");
+
+      console.log(`Creating external key with name ${keyName} in vault ${hsmClient.vaultUrl}`);
+      const result = await hsmClient.createExternalKey(keyName, {
+        id: externalKeyId,
+      });
+
+      assert.equal(result.name, keyName, "Unexpected key name in result from createExternalKey().");
+      assert.exists(result.properties.externalKey);
+      assert.equal(result.properties.externalKey!.id, externalKeyId);
+      await testClient.flushKey(keyName);
+    });
+
+    it("supports tracing", async () => {
+      const keyName = recorder.variable(
+        "externalkey-tracing",
+        `externalkey-tracing-${Math.floor(Math.random() * 100000)}`,
+      );
+      const externalKeyId = "test-aes-key";
+
+      await expect((options: any) =>
+        hsmClient.createExternalKey(keyName, { id: externalKeyId }, options),
+      ).toSupportTracing(["KeyClient.createExternalKey"]);
+      await testClient.flushKey(keyName);
+    });
   });
 });

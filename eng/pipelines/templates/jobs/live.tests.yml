@@ -336,17 +336,9 @@ jobs:
 
       # Unlink node_modules folders to significantly improve performance of subsequent tasks
       # which need to walk the directory tree (and are hardcoded to follow symlinks).
-      # Retry for 30 seconds, since this command may fail with error.
-      - pwsh: |
-          for ($i=0; $i -lt 30; $i++) {
-            pnpm purge
-            if ($lastexitcode -eq 0) {
-              break
-            }
-            else {
-              start-sleep 1
-            }
-          }
+      # The script retries removal internally (up to ~30 seconds) to handle transient errors.
+      - script: |
+          node eng/tools/purge-node-modules.mjs sdk common
         condition: always()
         displayName: "Purge dependencies"
 
