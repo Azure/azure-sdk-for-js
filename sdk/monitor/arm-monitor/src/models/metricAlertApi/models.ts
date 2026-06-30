@@ -872,9 +872,7 @@ export function multiPromQLCriteriaDeserializer(item: any): MultiPromQLCriteria 
 
 /** Alias for MultiPromQLCriteriaUnion */
 export type MultiPromQLCriteriaUnion =
-  | StaticPromQLCriteria
-  | DynamicPromQLCriteria
-  | MultiPromQLCriteria;
+  StaticPromQLCriteria | DynamicPromQLCriteria | MultiPromQLCriteria;
 
 export function multiPromQLCriteriaUnionSerializer(item: MultiPromQLCriteriaUnion): any {
   switch (item.criterionType) {

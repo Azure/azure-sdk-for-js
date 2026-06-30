@@ -279,12 +279,7 @@ export type MetricStatisticType = "Average" | "Min" | "Max" | "Sum" | "Count";
 export type TimeAggregationType = "Average" | "Minimum" | "Maximum" | "Total" | "Count" | "Last";
 /** the operator that is used to compare the metric data and the threshold. */
 export type ComparisonOperationType =
-  | "Equals"
-  | "NotEquals"
-  | "GreaterThan"
-  | "GreaterThanOrEqual"
-  | "LessThan"
-  | "LessThanOrEqual";
+  "Equals" | "NotEquals" | "GreaterThan" | "GreaterThanOrEqual" | "LessThan" | "LessThanOrEqual";
 
 export function scaleRuleMetricDimensionArraySerializer(
   result: Array<ScaleRuleMetricDimension>,
@@ -384,10 +379,7 @@ export function scaleActionDeserializer(item: any): ScaleAction {
 export type ScaleDirection = "None" | "Increase" | "Decrease";
 /** the type of action that should occur when the scale rule fires. */
 export type ScaleType =
-  | "ChangeCount"
-  | "PercentChangeCount"
-  | "ExactCount"
-  | "ServiceAllowedNextValue";
+  "ChangeCount" | "PercentChangeCount" | "ExactCount" | "ServiceAllowedNextValue";
 
 /** A specific date-time for the profile. */
 export interface TimeWindow {
@@ -436,14 +428,7 @@ export function recurrenceDeserializer(item: any): Recurrence {
 
 /** the recurrence frequency. How often the schedule profile should take effect. This value must be Week, meaning each week will have the same set of profiles. For example, to set a daily schedule, set **schedule** to every day of the week. The frequency property specifies that the schedule is repeated weekly. */
 export type RecurrenceFrequency =
-  | "None"
-  | "Second"
-  | "Minute"
-  | "Hour"
-  | "Day"
-  | "Week"
-  | "Month"
-  | "Year";
+  "None" | "Second" | "Minute" | "Hour" | "Day" | "Week" | "Month" | "Year";
 
 /** The scheduling constraints for when the profile begins. */
 export interface RecurrentSchedule {
