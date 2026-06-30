@@ -320,6 +320,7 @@ export type {
   PromptBasedEvaluatorDefinition,
   RubricBasedEvaluatorDefinition,
   Dimension,
+  EndpointBasedEvaluatorDefinition,
   EvaluatorGenerationArtifacts,
   DatasetReference,
   EvaluatorCredentialRequest,

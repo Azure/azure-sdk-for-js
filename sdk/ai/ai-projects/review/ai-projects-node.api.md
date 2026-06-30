@@ -674,17 +674,14 @@ export interface BetaEvaluationTaxonomiesCreateOptionalParams extends OperationO
 
 // @public
 export interface BetaEvaluationTaxonomiesDeleteOptionalParams extends OperationOptions {
-    clientRequestId?: string;
 }
 
 // @public
 export interface BetaEvaluationTaxonomiesGetOptionalParams extends OperationOptions {
-    clientRequestId?: string;
 }
 
 // @public
 export interface BetaEvaluationTaxonomiesListOptionalParams extends OperationOptions {
-    clientRequestId?: string;
     inputName?: string;
     inputType?: string;
 }
@@ -1875,6 +1872,13 @@ export interface EmptyModelParam {
 }
 
 // @public
+export interface EndpointBasedEvaluatorDefinition extends EvaluatorDefinition {
+    connection_name: string;
+    // (undocumented)
+    type: "endpoint";
+}
+
+// @public
 export interface EntraAuthorizationScheme extends AgentEndpointAuthorizationScheme {
     // (undocumented)
     type: "Entra";
@@ -2082,10 +2086,10 @@ export interface EvaluatorDefinition {
 }
 
 // @public
-export type EvaluatorDefinitionType = "prompt" | "code" | "prompt_and_code" | "service" | "openai_graders" | "rubric";
+export type EvaluatorDefinitionType = "prompt" | "code" | "prompt_and_code" | "service" | "openai_graders" | "endpoint" | "rubric";
 
 // @public
-export type EvaluatorDefinitionUnion = CodeBasedEvaluatorDefinition | PromptBasedEvaluatorDefinition | RubricBasedEvaluatorDefinition | EvaluatorDefinition;
+export type EvaluatorDefinitionUnion = CodeBasedEvaluatorDefinition | PromptBasedEvaluatorDefinition | RubricBasedEvaluatorDefinition | EndpointBasedEvaluatorDefinition | EvaluatorDefinition;
 
 // @public
 export interface EvaluatorGenerationArtifacts {
