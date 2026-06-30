@@ -21,8 +21,6 @@ import type { DataCollectionRuleAssociationsOperations } from "./classic/dataCol
 import { _getDataCollectionRuleAssociationsOperations } from "./classic/dataCollectionRuleAssociations/index.js";
 import type { DataCollectionRulesOperations } from "./classic/dataCollectionRules/index.js";
 import { _getDataCollectionRulesOperations } from "./classic/dataCollectionRules/index.js";
-import type { DiagnosticSettingsOperations } from "./classic/diagnosticSettings/index.js";
-import { _getDiagnosticSettingsOperations } from "./classic/diagnosticSettings/index.js";
 import type { EventCategoriesOperations } from "./classic/eventCategories/index.js";
 import { _getEventCategoriesOperations } from "./classic/eventCategories/index.js";
 import type { LogProfilesOperations } from "./classic/logProfiles/index.js";
@@ -53,6 +51,8 @@ import type { ScheduledQueryRuleOperations } from "./classic/scheduledQueryRule/
 import { _getScheduledQueryRuleOperations } from "./classic/scheduledQueryRule/index.js";
 import type { ScheduledQueryRulesOperations } from "./classic/scheduledQueryRules/index.js";
 import { _getScheduledQueryRulesOperations } from "./classic/scheduledQueryRules/index.js";
+import type { ServiceDiagnosticSettingsOperations } from "./classic/serviceDiagnosticSettings/index.js";
+import { _getServiceDiagnosticSettingsOperations } from "./classic/serviceDiagnosticSettings/index.js";
 import type { TenantActivityLogsOperations } from "./classic/tenantActivityLogs/index.js";
 import { _getTenantActivityLogsOperations } from "./classic/tenantActivityLogs/index.js";
 import type { TokenCredential } from "@azure/core-auth";
@@ -102,7 +102,7 @@ export class MonitorClient {
     this.activityLogAlerts = _getActivityLogAlertsOperations(this._client);
     this.logProfiles = _getLogProfilesOperations(this._client);
     this.alertRuleIncidents = _getAlertRuleIncidentsOperations(this._client);
-    this.diagnosticSettings = _getDiagnosticSettingsOperations(this._client);
+    this.serviceDiagnosticSettings = _getServiceDiagnosticSettingsOperations(this._client);
     this.metrics = _getMetricsOperations(this._client);
     this.metricNamespaces = _getMetricNamespacesOperations(this._client);
     this.metricDefinitions = _getMetricDefinitionsOperations(this._client);
@@ -142,8 +142,8 @@ export class MonitorClient {
   public readonly logProfiles: LogProfilesOperations;
   /** The operation groups for alertRuleIncidents */
   public readonly alertRuleIncidents: AlertRuleIncidentsOperations;
-  /** The operation groups for diagnosticSettings */
-  public readonly diagnosticSettings: DiagnosticSettingsOperations;
+  /** The operation groups for serviceDiagnosticSettings */
+  public readonly serviceDiagnosticSettings: ServiceDiagnosticSettingsOperations;
   /** The operation groups for metrics */
   public readonly metrics: MetricsOperations;
   /** The operation groups for metricNamespaces */

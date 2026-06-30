@@ -3,7 +3,7 @@
 
 export { update, createOrUpdate, get } from "./operations.js";
 export type {
-  DiagnosticSettingsUpdateOptionalParams,
-  DiagnosticSettingsCreateOrUpdateOptionalParams,
-  DiagnosticSettingsGetOptionalParams,
+  ServiceDiagnosticSettingsUpdateOptionalParams,
+  ServiceDiagnosticSettingsCreateOrUpdateOptionalParams,
+  ServiceDiagnosticSettingsGetOptionalParams,
 } from "./options.js";

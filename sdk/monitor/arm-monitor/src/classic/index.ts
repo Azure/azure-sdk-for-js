@@ -10,7 +10,6 @@ export type { BaselinesOperations } from "./baselines/index.js";
 export type { DataCollectionEndpointsOperations } from "./dataCollectionEndpoints/index.js";
 export type { DataCollectionRuleAssociationsOperations } from "./dataCollectionRuleAssociations/index.js";
 export type { DataCollectionRulesOperations } from "./dataCollectionRules/index.js";
-export type { DiagnosticSettingsOperations } from "./diagnosticSettings/index.js";
 export type { EventCategoriesOperations } from "./eventCategories/index.js";
 export type { LogProfilesOperations } from "./logProfiles/index.js";
 export type { MetricAlertsOperations } from "./metricAlerts/index.js";
@@ -26,4 +25,5 @@ export type { PrivateLinkScopeOperationStatusOperations } from "./privateLinkSco
 export type { PrivateLinkScopesOperations } from "./privateLinkScopes/index.js";
 export type { ScheduledQueryRuleOperations } from "./scheduledQueryRule/index.js";
 export type { ScheduledQueryRulesOperations } from "./scheduledQueryRules/index.js";
+export type { ServiceDiagnosticSettingsOperations } from "./serviceDiagnosticSettings/index.js";
 export type { TenantActivityLogsOperations } from "./tenantActivityLogs/index.js";

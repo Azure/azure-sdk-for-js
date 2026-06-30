@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MonitorClient } from "@azure/arm-monitor";
-import { DefaultAzureCredential } from "@azure/identity";
+const { MonitorClient } = require("@azure/arm-monitor");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to updates an existing ServiceDiagnosticSettingsResource. To update other fields use the CreateOrUpdate method. **WARNING**: This method will be deprecated in future releases.
@@ -10,10 +10,10 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary updates an existing ServiceDiagnosticSettingsResource. To update other fields use the CreateOrUpdate method. **WARNING**: This method will be deprecated in future releases.
  * x-ms-original-file: 2016-09-01/updateServiceDiagnosticSetting.json
  */
-async function updateAServiceDiagnosticSetting(): Promise<void> {
+async function updateAServiceDiagnosticSetting() {
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential);
-  const result = await client.diagnosticSettings.update(
+  const result = await client.serviceDiagnosticSettings.update(
     "subscriptions/1a66ce04-b633-4a0b-b2bc-a912ec8986a6/resourcegroups/viruela1/providers/microsoft.logic/workflows/viruela6",
     {
       eventHubAuthorizationRuleId:
@@ -36,7 +36,7 @@ async function updateAServiceDiagnosticSetting(): Promise<void> {
   console.log(result);
 }
 
-async function main(): Promise<void> {
+async function main() {
   await updateAServiceDiagnosticSetting();
 }
 

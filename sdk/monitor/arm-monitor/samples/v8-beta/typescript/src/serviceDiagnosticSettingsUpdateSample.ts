@@ -1,32 +1,31 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { MonitorClient } = require("@azure/arm-monitor");
-const { DefaultAzureCredential } = require("@azure/identity");
+import { MonitorClient } from "@azure/arm-monitor";
+import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to create or update new diagnostic settings for the specified resource. **WARNING**: This method will be deprecated in future releases.
+ * This sample demonstrates how to updates an existing ServiceDiagnosticSettingsResource. To update other fields use the CreateOrUpdate method. **WARNING**: This method will be deprecated in future releases.
  *
- * @summary create or update new diagnostic settings for the specified resource. **WARNING**: This method will be deprecated in future releases.
- * x-ms-original-file: 2016-09-01/createOrUpdateServiceDiagnosticSetting.json
+ * @summary updates an existing ServiceDiagnosticSettingsResource. To update other fields use the CreateOrUpdate method. **WARNING**: This method will be deprecated in future releases.
+ * x-ms-original-file: 2016-09-01/updateServiceDiagnosticSetting.json
  */
-async function createOrUpdateAServiceDiagnosticSetting() {
+async function updateAServiceDiagnosticSetting(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential);
-  const result = await client.diagnosticSettings.createOrUpdate(
+  const result = await client.serviceDiagnosticSettings.update(
     "subscriptions/1a66ce04-b633-4a0b-b2bc-a912ec8986a6/resourcegroups/viruela1/providers/microsoft.logic/workflows/viruela6",
     {
-      location: "",
       eventHubAuthorizationRuleId:
         "/subscriptions/1a66ce04-b633-4a0b-b2bc-a912ec8986a6/resourceGroups/montest/providers/microsoft.eventhub/namespaces/mynamespace/eventhubs/myeventhub/authorizationrules/myrule",
       logs: [
         {
           category: "WorkflowRuntime",
           enabled: true,
-          retentionPolicy: { days: 0, enabled: false },
+          retentionPolicy: { days: 5, enabled: false },
         },
       ],
-      metrics: [{ enabled: true, retentionPolicy: { days: 0, enabled: false }, timeGrain: "PT1M" }],
+      metrics: [{ enabled: true, retentionPolicy: { days: 3, enabled: false }, timeGrain: "PT1M" }],
       serviceBusRuleId:
         "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/andy1101/providers/Microsoft.EventHub/namespaces/andy1101/authorizationrules/RootManageSharedAccessKey",
       storageAccountId:
@@ -37,8 +36,8 @@ async function createOrUpdateAServiceDiagnosticSetting() {
   console.log(result);
 }
 
-async function main() {
-  await createOrUpdateAServiceDiagnosticSetting();
+async function main(): Promise<void> {
+  await updateAServiceDiagnosticSetting();
 }
 
 main().catch(console.error);

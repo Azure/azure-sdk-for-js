@@ -995,25 +995,6 @@ export interface DestinationsSpecAzureMonitorMetrics extends AzureMonitorMetrics
 }
 
 // @public
-export interface DiagnosticSettingsCreateOrUpdateOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface DiagnosticSettingsGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface DiagnosticSettingsOperations {
-    createOrUpdate: (resourceUri: string, parameters: ServiceDiagnosticSettingsResource, options?: DiagnosticSettingsCreateOrUpdateOptionalParams) => Promise<ServiceDiagnosticSettingsResource>;
-    get: (resourceUri: string, options?: DiagnosticSettingsGetOptionalParams) => Promise<ServiceDiagnosticSettingsResource>;
-    update: (resourceUri: string, serviceDiagnosticSettingsResource: ServiceDiagnosticSettingsResourcePatch, options?: DiagnosticSettingsUpdateOptionalParams) => Promise<ServiceDiagnosticSettingsResource>;
-}
-
-// @public
-export interface DiagnosticSettingsUpdateOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface Dimension {
     name: string;
     operator: DimensionOperator;
@@ -2355,9 +2336,10 @@ export type MetricResultType = string;
 
 // @public
 export interface MetricSettings {
+    category?: string;
     enabled: boolean;
     retentionPolicy?: RetentionPolicy;
-    timeGrain: string;
+    timeGrain?: string;
 }
 
 // @public
@@ -2481,7 +2463,6 @@ export class MonitorClient {
     readonly dataCollectionEndpoints: DataCollectionEndpointsOperations;
     readonly dataCollectionRuleAssociations: DataCollectionRuleAssociationsOperations;
     readonly dataCollectionRules: DataCollectionRulesOperations;
-    readonly diagnosticSettings: DiagnosticSettingsOperations;
     readonly eventCategories: EventCategoriesOperations;
     readonly logProfiles: LogProfilesOperations;
     readonly metricAlerts: MetricAlertsOperations;
@@ -2498,6 +2479,7 @@ export class MonitorClient {
     readonly privateLinkScopes: PrivateLinkScopesOperations;
     readonly scheduledQueryRule: ScheduledQueryRuleOperations;
     readonly scheduledQueryRules: ScheduledQueryRulesOperations;
+    readonly serviceDiagnosticSettings: ServiceDiagnosticSettingsOperations;
     readonly tenantActivityLogs: TenantActivityLogsOperations;
 }
 
@@ -3314,6 +3296,21 @@ export interface ServiceDiagnosticSettings {
 }
 
 // @public
+export interface ServiceDiagnosticSettingsCreateOrUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ServiceDiagnosticSettingsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ServiceDiagnosticSettingsOperations {
+    createOrUpdate: (resourceUri: string, parameters: ServiceDiagnosticSettingsResource, options?: ServiceDiagnosticSettingsCreateOrUpdateOptionalParams) => Promise<ServiceDiagnosticSettingsResource>;
+    get: (resourceUri: string, options?: ServiceDiagnosticSettingsGetOptionalParams) => Promise<ServiceDiagnosticSettingsResource>;
+    update: (resourceUri: string, serviceDiagnosticSettingsResource: ServiceDiagnosticSettingsResourcePatch, options?: ServiceDiagnosticSettingsUpdateOptionalParams) => Promise<ServiceDiagnosticSettingsResource>;
+}
+
+// @public
 export interface ServiceDiagnosticSettingsResource extends ExtensionResource {
     eventHubAuthorizationRuleId?: string;
     location: string;
@@ -3334,6 +3331,10 @@ export interface ServiceDiagnosticSettingsResourcePatch {
     storageAccountId?: string;
     tags?: Record<string, string>;
     workspaceId?: string;
+}
+
+// @public
+export interface ServiceDiagnosticSettingsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public

@@ -15,7 +15,7 @@
     "ActionGroupsApi": "2024-10-01-preview",
     "NetworkSecurityPerimeterApi": "2021-10-01"
   },
-  "emitterVersion": "0.54.2",
+  "emitterVersion": "0.55.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "DataCollectionApi",
     "CrossLanguageDefinitionId": {
@@ -204,7 +204,7 @@
       "@azure/arm-monitor!SubscriptionScopeMetricsRequestBodyParameters:interface": "MetricsApi.SubscriptionScopeMetricsRequestBodyParameters",
       "@azure/arm-monitor!ServiceDiagnosticSettingsResource:interface": "ServiceDiagnosticsSettingsApi.ServiceDiagnosticSettingsResource",
       "@azure/arm-monitor!ServiceDiagnosticSettings:interface": "ServiceDiagnosticsSettingsApi.ServiceDiagnosticSettings",
-      "@azure/arm-monitor!MetricSettings:interface": "ServiceDiagnosticsSettingsApi.MetricSettings",
+      "@azure/arm-monitor!MetricSettings:interface": "Microsoft.InsightsCombinedClient.MetricSettings",
       "@azure/arm-monitor!RetentionPolicy:interface": "Microsoft.Common.RetentionPolicy",
       "@azure/arm-monitor!LogSettings:interface": "ServiceDiagnosticsSettingsApi.LogSettings",
       "@azure/arm-monitor!ServiceDiagnosticSettingsResourcePatch:interface": "ServiceDiagnosticsSettingsApi.ServiceDiagnosticSettingsResourcePatch",
@@ -416,9 +416,9 @@
       "@azure/arm-monitor!LogProfilesOperations#get:member": "LogProfilesApi.LogProfileResources.get",
       "@azure/arm-monitor!AlertRuleIncidentsOperations#listByAlertRule:member": "AlertRulesIncidentsApi.AlertRuleIncidentsOperationGroup.listByAlertRule",
       "@azure/arm-monitor!AlertRuleIncidentsOperations#get:member": "AlertRulesIncidentsApi.AlertRuleIncidentsOperationGroup.get",
-      "@azure/arm-monitor!DiagnosticSettingsOperations#update:member": "ServiceDiagnosticsSettingsApi.ServiceDiagnosticSettingsResources.update",
-      "@azure/arm-monitor!DiagnosticSettingsOperations#createOrUpdate:member": "ServiceDiagnosticsSettingsApi.ServiceDiagnosticSettingsResources.createOrUpdate",
-      "@azure/arm-monitor!DiagnosticSettingsOperations#get:member": "ServiceDiagnosticsSettingsApi.ServiceDiagnosticSettingsResources.get",
+      "@azure/arm-monitor!ServiceDiagnosticSettingsOperations#update:member": "ServiceDiagnosticsSettingsApi.ServiceDiagnosticSettingsResources.update",
+      "@azure/arm-monitor!ServiceDiagnosticSettingsOperations#createOrUpdate:member": "ServiceDiagnosticsSettingsApi.ServiceDiagnosticSettingsResources.createOrUpdate",
+      "@azure/arm-monitor!ServiceDiagnosticSettingsOperations#get:member": "ServiceDiagnosticsSettingsApi.ServiceDiagnosticSettingsResources.get",
       "@azure/arm-monitor!MetricsOperations#list:member": "MetricsApi.MetricsOperationGroup.list",
       "@azure/arm-monitor!MetricsOperations#listAtSubscriptionScopePost:member": "MetricsApi.MetricsOperationGroup.listAtSubscriptionScopePost",
       "@azure/arm-monitor!MetricsOperations#listAtSubscriptionScope:member": "MetricsApi.MetricsOperationGroup.listAtSubscriptionScope",

@@ -7,6 +7,11 @@ import {
   retentionPolicySerializer,
   retentionPolicyDeserializer,
 } from "../microsoft/common/models.js";
+import type { MetricSettings } from "../microsoft/insightsCombinedClient/models.js";
+import {
+  metricSettingsArraySerializer,
+  metricSettingsArrayDeserializer,
+} from "../microsoft/insightsCombinedClient/models.js";
 import type { ExtensionResource } from "../models.js";
 import { systemDataDeserializer } from "../models.js";
 
@@ -110,48 +115,6 @@ export function serviceDiagnosticSettingsDeserializer(item: any): ServiceDiagnos
     metrics: !item["metrics"] ? item["metrics"] : metricSettingsArrayDeserializer(item["metrics"]),
     logs: !item["logs"] ? item["logs"] : logSettingsArrayDeserializer(item["logs"]),
     workspaceId: item["workspaceId"],
-  };
-}
-
-export function metricSettingsArraySerializer(result: Array<MetricSettings>): any[] {
-  return result.map((item) => {
-    return metricSettingsSerializer(item);
-  });
-}
-
-export function metricSettingsArrayDeserializer(result: Array<MetricSettings>): any[] {
-  return result.map((item) => {
-    return metricSettingsDeserializer(item);
-  });
-}
-
-/** Part of MultiTenantDiagnosticSettings. Specifies the settings for a particular metric. */
-export interface MetricSettings {
-  /** the timegrain of the metric in ISO8601 format. */
-  timeGrain: string;
-  /** a value indicating whether this timegrain is enabled. */
-  enabled: boolean;
-  /** the retention policy for this timegrain. */
-  retentionPolicy?: RetentionPolicy;
-}
-
-export function metricSettingsSerializer(item: MetricSettings): any {
-  return {
-    timeGrain: item["timeGrain"],
-    enabled: item["enabled"],
-    retentionPolicy: !item["retentionPolicy"]
-      ? item["retentionPolicy"]
-      : retentionPolicySerializer(item["retentionPolicy"]),
-  };
-}
-
-export function metricSettingsDeserializer(item: any): MetricSettings {
-  return {
-    timeGrain: item["timeGrain"],
-    enabled: item["enabled"],
-    retentionPolicy: !item["retentionPolicy"]
-      ? item["retentionPolicy"]
-      : retentionPolicyDeserializer(item["retentionPolicy"]),
   };
 }
 

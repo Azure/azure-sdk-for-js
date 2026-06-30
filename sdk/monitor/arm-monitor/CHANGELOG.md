@@ -1,11 +1,12 @@
 # Release History
 
-## 8.0.0-beta.7 (2026-06-29)
+## 8.0.0-beta.7 (2026-06-30)
 Compared with version 7.0.0
 
 ### Features Added
   - Added operation group PredictiveMetricOperations
   - Added operation group ScheduledQueryRuleOperations
+  - Added operation group ServiceDiagnosticSettingsOperations
   - Added operation ActionGroupsOperations.beginCreateNotificationsAtActionGroupResourceLevel
   - Added operation ActionGroupsOperations.beginCreateNotificationsAtActionGroupResourceLevelAndWait
   - Added operation ActionGroupsOperations.beginReconcileNSP
@@ -21,7 +22,6 @@ Compared with version 7.0.0
   - Added operation DataCollectionEndpointsOperations.listNSP
   - Added operation DataCollectionEndpointsOperations.reconcileNSP
   - Added operation DataCollectionRuleAssociationsOperations.listByDataCollectionEndpoint
-  - Added operation DiagnosticSettingsOperations.update
   - Added operation MetricDefinitionsOperations.listAtSubscriptionScope
   - Added operation MetricsOperations.listAtSubscriptionScope
   - Added operation MetricsOperations.listAtSubscriptionScopePost
@@ -100,7 +100,6 @@ Compared with version 7.0.0
   - Added Interface DataImportSourcesEventHub
   - Added Interface DataSourcesSpecDataImports
   - Added Interface DestinationsSpecAzureMonitorMetrics
-  - Added Interface DiagnosticSettingsUpdateOptionalParams
   - Added Interface DirectDataSourcesSpec
   - Added Interface DynamicMetricCriteria
   - Added Interface DynamicPromQLCriteria
@@ -199,8 +198,11 @@ Compared with version 7.0.0
   - Added Interface ScopedResource
   - Added Interface ScopedResourceProperties
   - Added Interface ServiceDiagnosticSettings
+  - Added Interface ServiceDiagnosticSettingsCreateOrUpdateOptionalParams
+  - Added Interface ServiceDiagnosticSettingsGetOptionalParams
   - Added Interface ServiceDiagnosticSettingsResource
   - Added Interface ServiceDiagnosticSettingsResourcePatch
+  - Added Interface ServiceDiagnosticSettingsUpdateOptionalParams
   - Added Interface SimplePollerLike
   - Added Interface Sku
   - Added Interface StaticPromQLCriteria
@@ -386,16 +388,12 @@ Compared with version 7.0.0
   - Removed operation ActionGroups.beginPostTestNotifications
   - Removed operation ActionGroups.beginPostTestNotificationsAndWait
   - Removed operation ActionGroups.getTestNotifications
-  - Removed operation DiagnosticSettings.delete
-  - Removed operation DiagnosticSettings.list
   - Operation ActionGroups.createOrUpdate has a new signature
   - Operation ActionGroups.get has a new signature
   - Operation ActionGroups.update has a new signature
   - Operation ActivityLogAlerts.createOrUpdate has a new signature
   - Operation ActivityLogAlerts.get has a new signature
   - Operation ActivityLogAlerts.update has a new signature
-  - Operation DiagnosticSettings.createOrUpdate has a new signature
-  - Operation DiagnosticSettings.get has a new signature
   - Operation MetricAlerts.createOrUpdate has a new signature
   - Operation MetricAlerts.get has a new signature
   - Operation MetricAlerts.update has a new signature
@@ -410,6 +408,7 @@ Compared with version 7.0.0
   - Operation ScheduledQueryRules.update has a new signature
   - Class MonitorClient has a new signature
   - Class MonitorClient no longer has parameter alertRules
+  - Class MonitorClient no longer has parameter diagnosticSettings
   - Class MonitorClient no longer has parameter diagnosticSettingsCategory
   - Class MonitorClient no longer has parameter operations
   - Class MonitorClient no longer has parameter subscriptionId
@@ -437,11 +436,14 @@ Compared with version 7.0.0
   - Removed Interface AzureResource
   - Removed Interface Criteria
   - Removed Interface DataContainer
+  - Removed Interface DiagnosticSettings
   - Removed Interface DiagnosticSettingsCategory
   - Removed Interface DiagnosticSettingsCategoryGetOptionalParams
   - Removed Interface DiagnosticSettingsCategoryListOptionalParams
   - Removed Interface DiagnosticSettingsCategoryResourceCollection
+  - Removed Interface DiagnosticSettingsCreateOrUpdateOptionalParams
   - Removed Interface DiagnosticSettingsDeleteOptionalParams
+  - Removed Interface DiagnosticSettingsGetOptionalParams
   - Removed Interface DiagnosticSettingsListOptionalParams
   - Removed Interface DiagnosticSettingsResourceCollection
   - Removed Interface ErrorModel
@@ -480,12 +482,10 @@ Compared with version 7.0.0
   - Type of parameter odataType of interface MetricAlertCriteria is changed from "Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria" | "Microsoft.Azure.Monitor.WebtestLocationAvailabilityCriteria" | "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria" to Odatatype
   - Type of parameter criterionType of interface MultiMetricCriteria is changed from "StaticThresholdCriterion" | "DynamicThresholdCriterion" to CriterionType
   - Interface ErrorDetail no longer has parameter details
-  - Interface MetricSettings no longer has parameter category
   - Interface Resource no longer has parameter location
   - Interface Resource no longer has parameter tags
   - Interface ScheduledQueryRulesListByResourceGroupOptionalParams no longer has parameter filter
   - Interface ScheduledQueryRulesListBySubscriptionOptionalParams no longer has parameter filter
-  - Parameter timeGrain of interface MetricSettings is now required
   - Parameter value of interface PrivateLinkResourceListResult is now required
   - Removed Type Alias ActionGroupResource
   - Removed Type Alias ActionUnion

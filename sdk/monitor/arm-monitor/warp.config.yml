@@ -19,6 +19,7 @@ exports:
   "./models/scheduledQueryRuleApi": "./src/models/scheduledQueryRuleApi/index.ts"
   "./models/serviceDiagnosticsSettingsApi": "./src/models/serviceDiagnosticsSettingsApi/index.ts"
   "./models/microsoft/common": "./src/models/microsoft/common/index.ts"
+  "./models/microsoft/insightsCombinedClient": "./src/models/microsoft/insightsCombinedClient/index.ts"
 
 targets:
   - name: browser

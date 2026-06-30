@@ -14,9 +14,9 @@ import {
 } from "../../models/serviceDiagnosticsSettingsApi/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
-  DiagnosticSettingsUpdateOptionalParams,
-  DiagnosticSettingsCreateOrUpdateOptionalParams,
-  DiagnosticSettingsGetOptionalParams,
+  ServiceDiagnosticSettingsUpdateOptionalParams,
+  ServiceDiagnosticSettingsCreateOrUpdateOptionalParams,
+  ServiceDiagnosticSettingsGetOptionalParams,
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
@@ -25,7 +25,7 @@ export function _updateSend(
   context: Client,
   resourceUri: string,
   serviceDiagnosticSettingsResource: ServiceDiagnosticSettingsResourcePatch,
-  options: DiagnosticSettingsUpdateOptionalParams = { requestOptions: {} },
+  options: ServiceDiagnosticSettingsUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/{+resourceUri}/providers/microsoft.insights/diagnosticSettings/service{?api%2Dversion}",
@@ -66,7 +66,7 @@ export async function update(
   context: Client,
   resourceUri: string,
   serviceDiagnosticSettingsResource: ServiceDiagnosticSettingsResourcePatch,
-  options: DiagnosticSettingsUpdateOptionalParams = { requestOptions: {} },
+  options: ServiceDiagnosticSettingsUpdateOptionalParams = { requestOptions: {} },
 ): Promise<ServiceDiagnosticSettingsResource> {
   const result = await _updateSend(
     context,
@@ -81,7 +81,7 @@ export function _createOrUpdateSend(
   context: Client,
   resourceUri: string,
   parameters: ServiceDiagnosticSettingsResource,
-  options: DiagnosticSettingsCreateOrUpdateOptionalParams = { requestOptions: {} },
+  options: ServiceDiagnosticSettingsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/{+resourceUri}/providers/microsoft.insights/diagnosticSettings/service{?api%2Dversion}",
@@ -122,7 +122,7 @@ export async function createOrUpdate(
   context: Client,
   resourceUri: string,
   parameters: ServiceDiagnosticSettingsResource,
-  options: DiagnosticSettingsCreateOrUpdateOptionalParams = { requestOptions: {} },
+  options: ServiceDiagnosticSettingsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): Promise<ServiceDiagnosticSettingsResource> {
   const result = await _createOrUpdateSend(context, resourceUri, parameters, options);
   return _createOrUpdateDeserialize(result);
@@ -131,7 +131,7 @@ export async function createOrUpdate(
 export function _getSend(
   context: Client,
   resourceUri: string,
-  options: DiagnosticSettingsGetOptionalParams = { requestOptions: {} },
+  options: ServiceDiagnosticSettingsGetOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/{+resourceUri}/providers/microsoft.insights/diagnosticSettings/service{?api%2Dversion}",
@@ -169,7 +169,7 @@ export async function _getDeserialize(
 export async function get(
   context: Client,
   resourceUri: string,
-  options: DiagnosticSettingsGetOptionalParams = { requestOptions: {} },
+  options: ServiceDiagnosticSettingsGetOptionalParams = { requestOptions: {} },
 ): Promise<ServiceDiagnosticSettingsResource> {
   const result = await _getSend(context, resourceUri, options);
   return _getDeserialize(result);

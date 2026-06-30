@@ -257,6 +257,20 @@
         "types": "./dist/commonjs/models/microsoft/common/index.d.ts",
         "default": "./dist/commonjs/models/microsoft/common/index.js"
       }
+    },
+    "./models/microsoft/insightsCombinedClient": {
+      "browser": {
+        "types": "./dist/browser/models/microsoft/insightsCombinedClient/index.d.ts",
+        "default": "./dist/browser/models/microsoft/insightsCombinedClient/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/models/microsoft/insightsCombinedClient/index.d.ts",
+        "default": "./dist/esm/models/microsoft/insightsCombinedClient/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/models/microsoft/insightsCombinedClient/index.d.ts",
+        "default": "./dist/commonjs/models/microsoft/insightsCombinedClient/index.js"
+      }
     }
   },
   "keywords": [
