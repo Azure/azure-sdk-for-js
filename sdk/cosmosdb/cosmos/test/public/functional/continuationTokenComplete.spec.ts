@@ -792,19 +792,18 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
     query: string,
     container: Container,
     queryOptions: any,
-    isOrderByQuery: boolean = false,
   ): Promise<any[]> {
     let queryIterator = container.items.query(query, queryOptions);
     const allResults: any[] = [];
 
     while (queryIterator.hasMoreResults()) {
       let result = await queryIterator.fetchNext();
-      if (isOrderByQuery) {
-        while (queryIterator.hasMoreResults() && result.resources.length === 0) {
-          result = await queryIterator.fetchNext();
-        }
-        if (result.resources.length === 0) break;
+      // Query control may return empty pages while partitions are still being scanned; skip them
+      // so the rebuild-from-token loop makes progress instead of resubmitting the same token.
+      while (queryIterator.hasMoreResults() && result.resources.length === 0) {
+        result = await queryIterator.fetchNext();
       }
+      if (result.resources.length === 0) break;
       allResults.push(...result.resources);
       if (result.continuationToken && queryIterator.hasMoreResults()) {
         queryIterator = container.items.query(query, {
@@ -963,7 +962,6 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
         query,
         multiPartitionContainer,
         queryOptions,
-        true,
       );
 
       validateNumericOrdering(allResults, "amount", true);
@@ -1002,7 +1000,6 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
         query,
         multiPartitionContainer,
         queryOptions,
-        true,
       );
       const categories = allResults.map((r) => r.category);
       const uniqueCategories = [...new Set(categories)];
@@ -1018,7 +1015,6 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
         query,
         multiPartitionContainer,
         queryOptions,
-        true,
       );
       expect(allResults.length).toBeLessThanOrEqual(20);
     });
@@ -1031,7 +1027,6 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
         query,
         multiPartitionContainer,
         queryOptions,
-        true,
       );
 
       expect(allResults.length).equal(10);
@@ -1711,7 +1706,6 @@ describe("Comprehensive Continuation Token Tests", { timeout: 120000 }, () => {
         "SELECT * FROM c ORDER BY c.sortField ASC",
         escapeContainer,
         { maxItemCount: 1, enableQueryControl: true, forceQueryPlan: true },
-        true,
       );
 
       expect(allResults.length).toBe(10);
