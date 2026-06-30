@@ -55,14 +55,22 @@ describe("The Secrets client should set the serviceVersion", () => {
     );
   });
 
-  // Adding this to the source would change the public API.
-  type ApiVersions = "7.0" | "7.1" | "7.2";
-
   it("it should allow us to specify an API version from a specific set of versions", async () => {
-    const versions: ApiVersions[] = ["7.0", "7.1", "7.2"];
-    for (const serviceVersion in versions) {
+    const versions = [
+      "7.0",
+      "7.1",
+      "7.2",
+      "7.3",
+      "7.4",
+      "7.5",
+      "7.6",
+      "2025-07-01",
+      "2026-01-01-preview",
+      "2026-03-01-preview",
+    ] as const;
+    for (const serviceVersion of versions) {
       const client = new SecretClient(keyVaultUrl, credential, {
-        serviceVersion: serviceVersion as ApiVersions,
+        serviceVersion,
         httpClient: mockHttpClient,
       });
       await client.setSecret("secretName", "value");

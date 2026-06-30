@@ -57,7 +57,7 @@ export function _restoreSecretSend(
   const path = expandUrlTemplate(
     "/secrets/restore{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -106,7 +106,7 @@ export function _backupSecretSend(
     "/secrets/{secret-name}/backup{?api%2Dversion}",
     {
       "secret-name": secretName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -153,7 +153,7 @@ export function _recoverDeletedSecretSend(
     "/deletedsecrets/{secret-name}/recover{?api%2Dversion}",
     {
       "secret-name": secretName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -200,7 +200,7 @@ export function _purgeDeletedSecretSend(
     "/deletedsecrets/{secret-name}{?api%2Dversion}",
     {
       "secret-name": secretName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -240,7 +240,7 @@ export function _getDeletedSecretSend(
     "/deletedsecrets/{secret-name}{?api%2Dversion}",
     {
       "secret-name": secretName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -285,7 +285,7 @@ export function _getDeletedSecretsSend(
   const path = expandUrlTemplate(
     "/deletedsecrets{?api%2Dversion,maxresults}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
       maxresults: options?.maxresults,
     },
     {
@@ -324,7 +324,11 @@ export function getDeletedSecrets(
     () => _getDeletedSecretsSend(context, options),
     _getDeletedSecretsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-03-01-preview",
+    },
   );
 }
 
@@ -337,7 +341,7 @@ export function _getSecretVersionsSend(
     "/secrets/{secret-name}/versions{?api%2Dversion,maxresults}",
     {
       "secret-name": secretName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
       maxresults: options?.maxresults,
     },
     {
@@ -377,7 +381,11 @@ export function getSecretVersions(
     () => _getSecretVersionsSend(context, secretName, options),
     _getSecretVersionsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-03-01-preview",
+    },
   );
 }
 
@@ -388,7 +396,7 @@ export function _getSecretsSend(
   const path = expandUrlTemplate(
     "/secrets{?api%2Dversion,maxresults}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
       maxresults: options?.maxresults,
     },
     {
@@ -427,7 +435,11 @@ export function getSecrets(
     () => _getSecretsSend(context, options),
     _getSecretsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-03-01-preview",
+    },
   );
 }
 
@@ -442,7 +454,7 @@ export function _getSecretSend(
     {
       "secret-name": secretName,
       "secret-version": secretVersion,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
       outContentType: options?.outContentType,
     },
     {
@@ -492,7 +504,7 @@ export function _updateSecretSend(
     {
       "secret-name": secretName,
       "secret-version": secretVersion,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -543,7 +555,7 @@ export function _deleteSecretSend(
     "/secrets/{secret-name}{?api%2Dversion}",
     {
       "secret-name": secretName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -591,7 +603,7 @@ export function _setSecretSend(
     "/secrets/{secret-name}{?api%2Dversion}",
     {
       "secret-name": secretName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
