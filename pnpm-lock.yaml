@@ -1012,9 +1012,6 @@ importers:
       '@azure/core-sse':
         specifier: ^2.1.3
         version: link:../../core/core-sse
-      '@azure/core-tracing':
-        specifier: ^1.2.0
-        version: link:../../core/core-tracing
       '@azure/core-util':
         specifier: ^1.9.0
         version: link:../../core/core-util
@@ -1027,6 +1024,9 @@ importers:
       '@azure/storage-blob':
         specifier: ^12.26.0
         version: link:../../storage/storage-blob
+      '@opentelemetry/api':
+        specifier: ^1.9.0
+        version: 1.9.1
       openai:
         specifier: ^6.16.0
         version: 6.42.0(ws@8.21.0)(zod@4.4.3)
@@ -1064,9 +1064,6 @@ importers:
       '@modelcontextprotocol/sdk':
         specifier: ^1.25.1
         version: 1.29.0(zod@4.4.3)
-      '@opentelemetry/api':
-        specifier: ^1.9.0
-        version: 1.9.1
       '@opentelemetry/instrumentation':
         specifier: ^0.57.0
         version: 0.57.2(@opentelemetry/api@1.9.1)
