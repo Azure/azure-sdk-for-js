@@ -2691,6 +2691,7 @@ export interface MCPTool extends Tool {
     server_label: string;
     server_url?: string;
     tool_configs?: Record<string, ToolConfig>;
+    tunnel_id?: string;
     type: "mcp";
 }
 
@@ -2709,6 +2710,7 @@ export interface MCPToolboxTool extends ToolboxTool {
     server_description?: string;
     server_label: string;
     server_url?: string;
+    tunnel_id?: string;
     // (undocumented)
     type: "mcp";
 }
@@ -3272,6 +3274,8 @@ export interface RankingOptions {
 
 // @public
 export interface Reasoning {
+    // (undocumented)
+    context?: "auto" | "current_turn" | "all_turns";
     // (undocumented)
     effort?: ReasoningEffort;
     // (undocumented)

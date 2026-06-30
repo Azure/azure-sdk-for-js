@@ -2668,6 +2668,11 @@ export interface MCPTool extends Tool {
     | "connector_outlookemail"
     | "connector_sharepoint";
   /**
+   * The Secure MCP Tunnel ID to use instead of a direct server URL. One of
+   *   `server_url`, `connector_id`, or `tunnel_id` must be provided.
+   */
+  tunnel_id?: string;
+  /**
    * An OAuth access token that can be used with a remote MCP server, either
    *   with a custom MCP server URL or a service connector. Your application
    *   must handle the OAuth authorization flow and provide the token here.
@@ -2695,6 +2700,7 @@ export function mcpToolSerializer(item: MCPTool): any {
     server_label: item["server_label"],
     server_url: item["server_url"],
     connector_id: item["connector_id"],
+    tunnel_id: item["tunnel_id"],
     authorization: item["authorization"],
     server_description: item["server_description"],
     headers: item["headers"],
@@ -2718,6 +2724,7 @@ export function mcpToolDeserializer(item: any): MCPTool {
     server_label: item["server_label"],
     server_url: item["server_url"],
     connector_id: item["connector_id"],
+    tunnel_id: item["tunnel_id"],
     authorization: item["authorization"],
     server_description: item["server_description"],
     headers: item["headers"],
@@ -4042,6 +4049,7 @@ export function promptAgentDefinitionDeserializer(item: any): PromptAgentDefinit
 export interface Reasoning {
   effort?: ReasoningEffort;
   summary?: "auto" | "concise" | "detailed";
+  context?: "auto" | "current_turn" | "all_turns";
   generate_summary?: "auto" | "concise" | "detailed";
 }
 
@@ -4049,6 +4057,7 @@ export function reasoningSerializer(item: Reasoning): any {
   return {
     effort: item["effort"],
     summary: item["summary"],
+    context: item["context"],
     generate_summary: item["generate_summary"],
   };
 }
@@ -4057,6 +4066,7 @@ export function reasoningDeserializer(item: any): Reasoning {
   return {
     effort: item["effort"],
     summary: item["summary"],
+    context: item["context"],
     generate_summary: item["generate_summary"],
   };
 }
@@ -5175,9 +5185,6 @@ export function invocationsWsProtocolConfigurationDeserializer(
 ): InvocationsWsProtocolConfiguration {
   return item;
 }
-/** Type of AgentEndpointProtocol */
-export type AgentEndpointProtocol =
-  "activity" | "responses" | "a2a" | "mcp" | "invocations" | "invocations_ws";
 
 export function agentEndpointAuthorizationSchemeUnionArraySerializer(
   result: Array<AgentEndpointAuthorizationSchemeUnion>,
@@ -7221,14 +7228,14 @@ export interface MCPToolboxTool extends ToolboxTool {
   /** A label for this MCP server, used to identify it in tool calls. */
   server_label: string;
   /**
-   * The URL for the MCP server. One of `server_url` or `connector_id` must be
-   *   provided.
+   * The URL for the MCP server. One of `server_url`, `connector_id`, or
+   *   `tunnel_id` must be provided.
    */
   server_url?: string;
   /**
    * Identifier for service connectors, like those available in ChatGPT. One of
-   *   `server_url` or `connector_id` must be provided. Learn more about service
-   *   connectors [here](/docs/guides/tools-remote-mcp#connectors).
+   *   `server_url`, `connector_id`, or `tunnel_id` must be provided. Learn more
+   *   about service connectors [here](/docs/guides/tools-remote-mcp#connectors).
    *   Currently supported `connector_id` values are:
    *   - Dropbox: `connector_dropbox`
    *   - Gmail: `connector_gmail`
@@ -7248,6 +7255,11 @@ export interface MCPToolboxTool extends ToolboxTool {
     | "connector_outlookcalendar"
     | "connector_outlookemail"
     | "connector_sharepoint";
+  /**
+   * The Secure MCP Tunnel ID to use instead of a direct server URL. One of
+   *   `server_url`, `connector_id`, or `tunnel_id` must be provided.
+   */
+  tunnel_id?: string;
   /**
    * An OAuth access token that can be used with a remote MCP server, either
    *   with a custom MCP server URL or a service connector. Your application
@@ -7276,6 +7288,7 @@ export function mcpToolboxToolSerializer(item: MCPToolboxTool): any {
     server_label: item["server_label"],
     server_url: item["server_url"],
     connector_id: item["connector_id"],
+    tunnel_id: item["tunnel_id"],
     authorization: item["authorization"],
     server_description: item["server_description"],
     headers: item["headers"],
@@ -7301,6 +7314,7 @@ export function mcpToolboxToolDeserializer(item: any): MCPToolboxTool {
     server_label: item["server_label"],
     server_url: item["server_url"],
     connector_id: item["connector_id"],
+    tunnel_id: item["tunnel_id"],
     authorization: item["authorization"],
     server_description: item["server_description"],
     headers: !item["headers"]
