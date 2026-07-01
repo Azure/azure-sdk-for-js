@@ -219,11 +219,9 @@ const srcRuntimeDepsOnly: FlatConfig.Config = {
     // on the Node runtime path. (Observed in the repo-wide scan: react-native shims in core
     // packages. Add browser/workerd patterns here only if/when they are observed as reds.)
     "**/*-react-native.{ts,cts,mts}",
-    // Bin / codegen CLI scripts under src/bin are dev tooling, not shipped runtime code.
-    "**/src/bin/**",
   ],
   plugins: {
-    "import-x": importX as unknown as FixupPluginDefinition,
+    "import-x": importX,
   },
   rules: {
     // `includeTypes: false` (default): only runtime value imports are checked. Type-only
