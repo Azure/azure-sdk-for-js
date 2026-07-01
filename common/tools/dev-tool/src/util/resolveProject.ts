@@ -119,7 +119,7 @@ export interface ProjectInfo {
   packageJson: PackageJson;
 }
 
-async function isAzureSDKPackage(packageObject: unknown): Promise<boolean> {
+async function isWorkspacePackage(packageObject: unknown): Promise<boolean> {
   if (typeof packageObject !== "object" || packageObject === null) {
     return false;
   }
@@ -130,7 +130,10 @@ async function isAzureSDKPackage(packageObject: unknown): Promise<boolean> {
     return false;
   } else if (/^@azure(-[a-z]+)?\//.test(packageObject.name)) {
     return true;
-  } else if (packageObject.name.startsWith("@typespec")) {
+  } else if (
+    packageObject.name.startsWith("@typespec") ||
+    packageObject.name === "@microsoft/warp"
+  ) {
     return true;
   } else {
     return false;
@@ -148,7 +151,7 @@ async function findAzSDKPackageJson(directory: string): Promise<[string, Package
     if (file === "package.json") {
       const fullPath = pathToFileURL(path.join(directory, file)).href;
       const { default: packageObject } = await import(fullPath, { with: { type: "json" } });
-      if (await isAzureSDKPackage(packageObject)) {
+      if (await isWorkspacePackage(packageObject)) {
         return [directory, packageObject];
       }
       debug(`found package.json at ${fullPath}, but it is not an Azure SDK package`);

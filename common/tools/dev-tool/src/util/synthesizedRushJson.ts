@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { isWindows } from "./platform.ts";
 import { resolveRoot } from "./resolveProject.ts";
 import { run } from "./run.ts";
 
@@ -56,10 +57,11 @@ export async function getRushJson(): Promise<any> {
   if (_rushJson) return _rushJson;
 
   _workspaceRoot = await resolveRoot();
-
-  const listPackagesCommand = await run(["pnpm", "list", "--recursive", "--json", "--depth=-1"], {
+  const pnpmCmd = isWindows() ? "pnpm.cmd" : "pnpm";
+  const listPackagesCommand = await run([pnpmCmd, "list", "--recursive", "--json", "--depth=-1"], {
     captureOutput: true,
     cwd: _workspaceRoot,
+    shell: isWindows(),
   });
 
   // console.log(listPackagesCommand.output);
