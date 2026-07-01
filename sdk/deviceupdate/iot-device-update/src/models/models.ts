@@ -1162,11 +1162,7 @@ export function deploymentStatusDeserializer(item: any): DeploymentStatus {
 
 /** Deployment state. */
 export type DeploymentState =
-  | "Active"
-  | "ActiveWithSubgroupFailures"
-  | "Failed"
-  | "Inactive"
-  | "Canceled";
+  "Active" | "ActiveWithSubgroupFailures" | "Failed" | "Inactive" | "Canceled";
 
 export function deviceClassSubgroupDeploymentStatusArrayDeserializer(
   result: Array<DeviceClassSubgroupDeploymentStatus>,
