@@ -16,16 +16,12 @@ import type {
 } from "./queryExecutionContext/index.js";
 import {
   DefaultQueryExecutionContext,
+  ExecutionContextFactory,
   getInitialHeader,
   mergeHeaders,
-  PipelinedQueryExecutionContext,
 } from "./queryExecutionContext/index.js";
 import type { Response } from "./request/index.js";
-import type {
-  ErrorResponse,
-  PartitionedQueryExecutionInfo,
-  QueryRange,
-} from "./request/ErrorResponse.js";
+import type { ErrorResponse, PartitionedQueryExecutionInfo } from "./request/ErrorResponse.js";
 import type { FeedOptions } from "./request/FeedOptions.js";
 import { FeedResponse } from "./request/FeedResponse.js";
 import {
@@ -35,8 +31,6 @@ import {
 } from "./utils/diagnostics.js";
 import { MetadataLookUpType } from "./CosmosDiagnostics.js";
 import { randomUUID } from "@azure/core-util";
-import { HybridQueryExecutionContext } from "./queryExecutionContext/hybridQueryExecutionContext.js";
-import type { PartitionKeyRangeCache } from "./routing/index.js";
 
 /**
  * Represents a QueryIterator Object, an implementation of feed or query response that enables
@@ -50,7 +44,7 @@ export class QueryIterator<T> {
   private queryPlanPromise: Promise<Response<PartitionedQueryExecutionInfo>>;
   private isInitialized: boolean;
   private correlatedActivityId: string;
-  private partitionKeyRangeCache: PartitionKeyRangeCache;
+  private executionContextFactory: ExecutionContextFactory;
   /**
    * @hidden
    */
@@ -69,7 +63,13 @@ export class QueryIterator<T> {
     this.fetchAllLastResHeaders = getInitialHeader();
     this.reset();
     this.isInitialized = false;
-    this.partitionKeyRangeCache = this.clientContext.partitionKeyRangeCache;
+    this.executionContextFactory = new ExecutionContextFactory(
+      this.clientContext,
+      this.resourceLink,
+      this.query,
+      this.options,
+      this.clientContext.partitionKeyRangeCache,
+    );
   }
 
   /**
@@ -360,56 +360,10 @@ export class QueryIterator<T> {
     }
 
     const queryPlan: PartitionedQueryExecutionInfo = queryPlanResponse.result;
-    if (queryPlan.hybridSearchQueryInfo && queryPlan.hybridSearchQueryInfo !== null) {
-      await this.createHybridQueryExecutionContext(queryPlan, diagnosticNode);
-    } else {
-      await this.createPipelinedExecutionContext(queryPlan);
-    }
-  }
-
-  private async createHybridQueryExecutionContext(
-    queryPlan: PartitionedQueryExecutionInfo,
-    diagnosticNode?: DiagnosticNodeInternal,
-  ): Promise<void> {
-    const allPartitionKeyRanges = (
-      await this.partitionKeyRangeCache.onCollectionRoutingMap(this.resourceLink, diagnosticNode)
-    ).getOrderedParitionKeyRanges();
-
-    // convert allPartitionKeyRanges to QueryRanges
-    const queryRanges: QueryRange[] = allPartitionKeyRanges.map((partitionKeyRange) => {
-      return {
-        min: partitionKeyRange.minInclusive,
-        max: partitionKeyRange.maxExclusive,
-        isMinInclusive: true,
-        isMaxInclusive: false,
-      };
-    });
-
-    this.queryExecutionContext = new HybridQueryExecutionContext(
-      this.clientContext,
-      this.resourceLink,
-      this.query,
-      this.options,
+    this.queryExecutionContext = await this.executionContextFactory.create(
       queryPlan,
       this.correlatedActivityId,
-      queryRanges,
-    );
-  }
-
-  private async createPipelinedExecutionContext(
-    queryPlan: PartitionedQueryExecutionInfo,
-  ): Promise<void> {
-    const queryInfo = queryPlan.queryInfo;
-    if (queryInfo.aggregates.length > 0 && queryInfo.hasSelectValue === false) {
-      throw new Error("Aggregate queries must use the VALUE keyword");
-    }
-    this.queryExecutionContext = new PipelinedQueryExecutionContext(
-      this.clientContext,
-      this.resourceLink,
-      this.query,
-      this.options,
-      queryPlan,
-      this.correlatedActivityId,
+      diagnosticNode,
     );
   }
 
