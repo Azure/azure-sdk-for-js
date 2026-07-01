@@ -172,7 +172,7 @@ describe("snippets", () => {
       `The optimized distance is ${summary.lengthInMeters} meters, and it takes ${summary.travelTimeInSeconds} seconds.`,
     );
     console.log("The route is optimized by: ");
-    routeDirectionsResult.body.optimizedWaypoints.forEach(
+    (routeDirectionsResult.body.optimizedWaypoints ?? []).forEach(
       ({ providedIndex, optimizedIndex }) => `Moving index ${providedIndex} to ${optimizedIndex}`,
     );
   });
