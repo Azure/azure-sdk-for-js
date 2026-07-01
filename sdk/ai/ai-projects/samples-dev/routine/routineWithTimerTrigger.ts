@@ -39,7 +39,6 @@ export async function main(): Promise<void> {
   const fireAt = new Date(Date.now() + 20_000);
 
   const routine = await project.beta.routines.createOrUpdate(routineName, {
-    // foundryFeatures: FOUNDRY_FEATURES,
     description: "Routine used by the timer-trigger sample.",
     enabled: true,
     triggers: {

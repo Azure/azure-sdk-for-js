@@ -54,9 +54,7 @@ export function _dispatchSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": "Routines=V1Preview",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -233,9 +231,7 @@ export function _listSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": "Routines=V1Preview",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -300,9 +296,7 @@ export function _disableSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": "Routines=V1Preview",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -351,9 +345,7 @@ export function _enableSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": "Routines=V1Preview",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -402,9 +394,7 @@ export function _getSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": "Routines=V1Preview",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
