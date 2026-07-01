@@ -13,9 +13,7 @@ import { isWebReadableStream } from "#platform/typeGuards";
  * @internal
  */
 export type ConcatSource =
-  | Uint8Array<ArrayBuffer>
-  | Blob
-  | { getReader(): unknown; tee(): unknown };
+  Uint8Array<ArrayBuffer> | Blob | { getReader(): unknown; tee(): unknown };
 
 /**
  * Utility function that concatenates a set of binary inputs into one combined output.

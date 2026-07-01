@@ -1740,16 +1740,12 @@ export interface FileQueryOptions extends CommonOptions {
    * Configurations for the query input.
    */
   inputTextConfiguration?:
-    | FileQueryJsonTextConfiguration
-    | FileQueryCsvTextConfiguration
-    | FileQueryParquetConfiguration;
+    FileQueryJsonTextConfiguration | FileQueryCsvTextConfiguration | FileQueryParquetConfiguration;
   /**
    * Configurations for the query output.
    */
   outputTextConfiguration?:
-    | FileQueryJsonTextConfiguration
-    | FileQueryCsvTextConfiguration
-    | FileQueryArrowConfiguration;
+    FileQueryJsonTextConfiguration | FileQueryCsvTextConfiguration | FileQueryArrowConfiguration;
   /**
    * Callback to receive events on the progress of query operation.
    */

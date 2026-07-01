@@ -8,11 +8,13 @@ import type { AbortSignalLike } from '@azure/abort-controller';
 import { AzureKeyCredential } from '@azure/core-auth';
 import type { CancelOnProgress } from '@azure/core-lro';
 import type { CommonClientOptions } from '@azure/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { KeyCredential } from '@azure/core-auth';
 import type { OperationOptions } from '@azure/core-client';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
 import type { PollerLike } from '@azure/core-lro';
 import type { PollOperationState } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -281,6 +283,8 @@ export type HealthcareEntityRelationType = string;
 // @public
 export type InnerErrorCodeValue = string;
 
+export { isRestError }
+
 // @public
 export enum KnownHealthcareEntityCategory {
     AdministrativeEvent = "ADMINISTRATIVE_EVENT",
@@ -532,6 +536,8 @@ export interface RecognizePiiEntitiesSuccessResult extends TextAnalyticsSuccessR
     readonly entities: PiiEntity[];
     redactedText: string;
 }
+
+export { RestError }
 
 // @public (undocumented)
 export interface SentenceAssessment {

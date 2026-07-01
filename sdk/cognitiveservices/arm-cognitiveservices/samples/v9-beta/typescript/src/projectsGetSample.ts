@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to returns a Cognitive Services project specified by the parameters.
  *
  * @summary returns a Cognitive Services project specified by the parameters.
- * x-ms-original-file: 2026-03-15-preview/GetProject.json
+ * x-ms-original-file: 2026-05-15-preview/GetProject.json
  */
 async function getProject(): Promise<void> {
   const credential = new DefaultAzureCredential();

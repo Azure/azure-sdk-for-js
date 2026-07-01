@@ -4,7 +4,6 @@
 export {
   configureRemoteSupport,
   triggerLogCollection,
-  changeRing,
   extendSoftwareAssuranceBenefit,
   createIdentity,
   uploadCertificate,
@@ -19,7 +18,6 @@ export {
 export type {
   ClustersConfigureRemoteSupportOptionalParams,
   ClustersTriggerLogCollectionOptionalParams,
-  ClustersChangeRingOptionalParams,
   ClustersExtendSoftwareAssuranceBenefitOptionalParams,
   ClustersCreateIdentityOptionalParams,
   ClustersUploadCertificateOptionalParams,

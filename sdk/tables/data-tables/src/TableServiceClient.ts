@@ -154,10 +154,7 @@ export class TableServiceClient {
   constructor(
     url: string,
     credentialOrOptions?:
-      | NamedKeyCredential
-      | SASCredential
-      | TokenCredential
-      | TableServiceClientOptions,
+      NamedKeyCredential | SASCredential | TokenCredential | TableServiceClientOptions,
     options?: TableServiceClientOptions,
   ) {
     this.url = url;

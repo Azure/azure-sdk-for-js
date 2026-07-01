@@ -16,12 +16,6 @@ export interface ClustersTriggerLogCollectionOptionalParams extends OperationOpt
 }
 
 /** Optional parameters. */
-export interface ClustersChangeRingOptionalParams extends OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-}
-
-/** Optional parameters. */
 export interface ClustersExtendSoftwareAssuranceBenefitOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;

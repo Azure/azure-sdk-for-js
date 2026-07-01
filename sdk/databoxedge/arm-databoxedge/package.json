@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-databoxedge",
-  "version": "3.0.0-beta.1",
+  "version": "3.0.0-beta.2",
   "description": "A generated SDK for DataBoxEdgeManagementClient.",
   "engines": {
     "node": ">=22.0.0"

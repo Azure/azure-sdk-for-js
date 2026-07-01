@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-sqlvirtualmachine",
-  "version": "5.0.0-beta.10",
+  "version": "5.0.0-beta.11",
   "description": "A generated SDK for SqlVirtualMachineClient.",
   "engines": {
     "node": ">=22.0.0"
