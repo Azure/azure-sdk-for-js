@@ -98,8 +98,8 @@ export interface SearchDocumentsResult {
   readonly semanticPartialResponseType?: SemanticSearchResultsType;
 }
 
-export function searchDocumentsResultSerializer(item: SearchDocumentsResult): any {
-  return item;
+export function searchDocumentsResultSerializer(_item: SearchDocumentsResult): any {
+  return {};
 }
 
 export function searchDocumentsResultDeserializer(item: any): SearchDocumentsResult {
@@ -1050,8 +1050,8 @@ export interface IndexingResult {
   readonly statusCode: number;
 }
 
-export function indexingResultSerializer(item: IndexingResult): any {
-  return item;
+export function indexingResultSerializer(_item: IndexingResult): any {
+  return {};
 }
 
 export function indexingResultDeserializer(item: any): IndexingResult {
@@ -1098,8 +1098,8 @@ export interface AutocompleteItem {
   readonly queryPlusText: string;
 }
 
-export function autocompleteItemSerializer(item: AutocompleteItem): any {
-  return item;
+export function autocompleteItemSerializer(_item: AutocompleteItem): any {
+  return {};
 }
 
 export function autocompleteItemDeserializer(item: any): AutocompleteItem {

@@ -1,5 +1,26 @@
 # Release History
 
+## 13.1.0 (Unreleased)
+
+### Features Added
+
+- Added new knowledge base activity record types: `KnowledgeBaseSearchIndexActivityRecord`, `KnowledgeBaseAzureBlobActivityRecord`, `KnowledgeBaseIndexedOneLakeActivityRecord`, and `KnowledgeBaseWebActivityRecord` for granular activity tracking per knowledge source kind.
+- Added corresponding activity arguments types: `KnowledgeBaseSearchIndexActivityArguments`, `KnowledgeBaseAzureBlobActivityArguments`, `KnowledgeBaseIndexedOneLakeActivityArguments`, and `KnowledgeBaseWebActivityArguments`.
+- Added `sourceDataFields` and `searchFields` properties to `SearchIndexKnowledgeSourceParams` for configurable field references.
+
+### Breaking Changes
+
+- Renamed `elapsedInMs` to `elapsedMs` on `BaseKnowledgeBaseActivityRecord`.
+
+### Bugs Fixed
+
+- Fixed deserialization error on empty response body for `getDocumentCount` operation by wrapping the response in `GetDocumentCountResponse`.
+
+### Other Changes
+
+- Upgraded TypeSpec emitter `@azure-tools/typespec-ts` to version 0.55.0.
+- Regenerated SDK from API version 2026-04-01 spec commit `491ca87fe55d91c1ae8670b3ffd9465b6ed7639d`.
+
 ## 13.0.0 (2026-05-01)
 
 ### Features Added

@@ -6,5 +6,12 @@
       "@azure/search-documents/*": ["../src/*"],
       "$internal/*": ["../src/*"]
     }
-  }
+  },
+  "exclude": [
+    "${configDir}/../test/**/browser",
+    "${configDir}/../test/**/react-native",
+    "${configDir}/../test/snippets.spec.ts",
+    "${configDir}/../test/stress",
+    "${configDir}/../test/**/preview"
+  ]
 }

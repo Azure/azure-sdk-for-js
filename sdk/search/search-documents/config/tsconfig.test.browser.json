@@ -6,5 +6,10 @@
       "@azure/search-documents/*": ["../src/*"],
       "$internal/*": ["../src/*"]
     }
-  }
+  },
+  "include": [
+    "${configDir}/../src/node-events.d.ts",
+    "${configDir}/../test",
+    "${configDir}/../src"
+  ]
 }

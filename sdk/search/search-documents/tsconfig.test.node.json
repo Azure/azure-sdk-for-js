@@ -6,5 +6,6 @@
       "@azure/search-documents/*": ["./src/*"],
       "$internal/*": ["./src/*"]
     }
-  }
+  },
+  "exclude": ["test/**/browser", "test/stress", "test/snippets.spec.ts", "test/**/preview"]
 }
