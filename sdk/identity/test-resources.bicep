@@ -20,9 +20,6 @@ param tenantId string
 @description('Provide a globally unique name of the Azure Container Registry')
 param acrName string = 'acr${uniqueString(resourceGroup().id)}'
 
-@description('The latest AKS version available in the region.')
-param latestAksVersion string
-
 @description('The SSH public key to use for the Linux VMs.')
 param sshPubKey string
 
@@ -44,7 +41,6 @@ module managedIdentityModule 'test-resources-managed-identity.bicep' = if (deplo
     testApplicationId: testApplicationId
     tenantId: tenantId
     acrName: acrName
-    latestAksVersion: latestAksVersion
     sshPubKey: sshPubKey
     adminUserName: adminUserName
     principalUserType: principalUserType

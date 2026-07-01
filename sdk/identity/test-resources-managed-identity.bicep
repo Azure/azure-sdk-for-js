@@ -20,9 +20,6 @@ param tenantId string
 @description('Provide a globally unique name of the Azure Container Registry')
 param acrName string = 'acr${uniqueString(resourceGroup().id)}'
 
-@description('The latest AKS version available in the region.')
-param latestAksVersion string
-
 @description('The SSH public key to use for the Linux VMs.')
 param sshPubKey string
 
@@ -37,9 +34,6 @@ var blobContributor = subscriptionResourceId('Microsoft.Authorization/roleDefini
 var serviceOwner = subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '17d1049b-9a84-46fb-8f53-869881c3d3ab')
 var acrPull = subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '7f951dda-4ed3-4680-a7ca-43fe172d538d') // ACR Pull
 var websiteContributor = subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'de139f84-1756-47ae-9be6-808fbbe84772') // Website Contributor
-
-// Cluster parameters
-var kubernetesVersion = latestAksVersion
 
 resource userAssignedIdentity 'Microsoft.ManagedIdentity/userAssignedIdentities@2018-11-30' = {
   name: baseName
@@ -298,7 +292,6 @@ resource kubernetesCluster 'Microsoft.ContainerService/managedClusters@2023-06-0
     type: 'SystemAssigned'
   }
   properties: {
-    kubernetesVersion: kubernetesVersion
     enableRBAC: true
     dnsPrefix: 'identitytest'
     agentPoolProfiles: [
@@ -311,7 +304,6 @@ resource kubernetesCluster 'Microsoft.ContainerService/managedClusters@2023-06-0
         kubeletDiskType: 'OS'
         type: 'VirtualMachineScaleSets'
         enableAutoScaling: false
-        orchestratorVersion: kubernetesVersion
         mode: 'System'
         osType: 'Linux'
         osSKU: 'Ubuntu'
