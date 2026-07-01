@@ -183,6 +183,9 @@
 # ServiceLabel: %Cosmos %Service Attention
 # ServiceOwners: @sajeetharan @simorenoh
 
+# PRLabel: %Device Update
+/sdk/deviceupdate/    @josephmsft @darkoa-msft @devlie
+
 # ServiceLabel: %Digital Twins
 # PRLabel: %Digital Twins
 /sdk/digitaltwins/    @johngallardo @olivakar @sjiherzig
