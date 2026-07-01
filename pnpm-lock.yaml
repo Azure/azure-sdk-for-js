@@ -334,6 +334,9 @@ importers:
       eslint:
         specifier: 'catalog:'
         version: 9.39.4
+      eslint-plugin-sonarjs:
+        specifier: ^3.0.2
+        version: 3.0.7(eslint@9.39.4)
       playwright:
         specifier: catalog:testing
         version: 1.61.1
@@ -36409,6 +36412,14 @@ packages:
       '@types/node':
         optional: true
 
+  '@isaacs/balanced-match@4.0.1':
+    resolution: {integrity: sha1-MIHa28NGBmG3UedZHX+upd853Sk=}
+    engines: {node: 20 || >=22}
+
+  '@isaacs/brace-expansion@5.0.1':
+    resolution: {integrity: sha1-DvWpLZHy//KjdkbOVNqeX1mfbv8=}
+    engines: {node: 20 || >=22}
+
   '@isaacs/fs-minipass@4.0.1':
     resolution: {integrity: sha1-LVmuOrSzj7QnC/oj0w+OLobH/jI=}
     engines: {node: '>=18.0.0'}
@@ -38476,6 +38487,11 @@ packages:
     peerDependencies:
       eslint: ^7.0.0 || ^8.0.0 || ^9.0.0 || ^10.0.0
 
+  eslint-plugin-sonarjs@3.0.7:
+    resolution: {integrity: sha1-wnh7GnpfkYtbkC2vZq8Fbepk4Dw=}
+    peerDependencies:
+      eslint: ^8.0.0 || ^9.0.0
+
   eslint-plugin-tsdoc@0.5.2:
     resolution: {integrity: sha1-UUMhDnf//fDfCV9AkNfdP2SUpKI=}
 
@@ -38761,6 +38777,9 @@ packages:
 
   function-bind@1.1.2:
     resolution: {integrity: sha1-LALYZNl/PqbIgwxGTL0Rq26rehw=}
+
+  functional-red-black-tree@1.0.1:
+    resolution: {integrity: sha1-GwqzvVU7Kg1jmdKcDj6gslIHgyc=}
 
   generator-function@2.0.1:
     resolution: {integrity: sha1-DnXdQQ0SQ2h6C6LpUblO7bj3N6I=}
@@ -39275,6 +39294,10 @@ packages:
   jssha@3.3.2:
     resolution: {integrity: sha1-MMUbWri/ix7PJBYBWAPUT1y/Bp4=}
 
+  jsx-ast-utils-x@0.1.0:
+    resolution: {integrity: sha1-sJM9ZqaeCqGuI/dPuHsHnsKYZS8=}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+
   junk@4.0.1:
     resolution: {integrity: sha1-fuMfh2OIwFF3/jZSnucUsHtQ++0=}
     engines: {node: '>=12.20'}
@@ -39573,6 +39596,10 @@ packages:
   mimic-response@3.1.0:
     resolution: {integrity: sha1-LR1Zr5wbEpgVrMwsRqAipc4fo8k=}
     engines: {node: '>=10'}
+
+  minimatch@10.1.2:
+    resolution: {integrity: sha1-bD8on53mbWKPo/6xhCgEOWpD2Bw=}
+    engines: {node: 20 || >=22}
 
   minimatch@10.2.3:
     resolution: {integrity: sha1-wO9YLyEHGwEjpbvydSUuvakh+/Y=}
@@ -40181,8 +40208,16 @@ packages:
     resolution: {integrity: sha1-DAunyquyQlerO7ek/ZXdHVxWgfk=}
     engines: {node: '>=12'}
 
+  refa@0.12.1:
+    resolution: {integrity: sha1-2sE8R4LcIra65szoGiuGOIjqOcY=}
+    engines: {node: ^12.0.0 || ^14.0.0 || >=16.0.0}
+
   regenerator-runtime@0.13.11:
     resolution: {integrity: sha1-9tyj587sIFkNB62nhWNqkM3KF/k=}
+
+  regexp-ast-analysis@0.7.1:
+    resolution: {integrity: sha1-wOJMsqkPbq3Uy6q6EpMX4p0pxII=}
+    engines: {node: ^12.0.0 || ^14.0.0 || >=16.0.0}
 
   require-directory@2.1.1:
     resolution: {integrity: sha1-jGStX9MNqxyXbiNE/+f3kqam30I=}
@@ -40299,6 +40334,10 @@ packages:
 
   scheduler@0.27.0:
     resolution: {integrity: sha1-DE74LWfR5cHjWej8dtOofwRf5b0=}
+
+  scslre@0.3.0:
+    resolution: {integrity: sha1-wyEem/xVR/yGseq6o07RplcGAVU=}
+    engines: {node: ^14.0.0 || >=16.0.0}
 
   secure-json-parse@4.1.0:
     resolution: {integrity: sha1-Txq0HGehNJfqG5Exu0GDoihlR3w=}
@@ -42581,6 +42620,12 @@ snapshots:
   '@inquirer/type@4.0.7(@types/node@22.20.0)':
     optionalDependencies:
       '@types/node': 22.20.0
+
+  '@isaacs/balanced-match@4.0.1': {}
+
+  '@isaacs/brace-expansion@5.0.1':
+    dependencies:
+      '@isaacs/balanced-match': 4.0.1
 
   '@isaacs/fs-minipass@4.0.1':
     dependencies:
@@ -44967,6 +45012,20 @@ snapshots:
       '@eslint-community/eslint-utils': 4.9.1(eslint@9.39.4)
       eslint: 9.39.4
 
+  eslint-plugin-sonarjs@3.0.7(eslint@9.39.4):
+    dependencies:
+      '@eslint-community/regexpp': 4.12.2
+      builtin-modules: 3.3.0
+      bytes: 3.1.2
+      eslint: 9.39.4
+      functional-red-black-tree: 1.0.1
+      jsx-ast-utils-x: 0.1.0
+      lodash.merge: 4.6.2
+      minimatch: 10.1.2
+      scslre: 0.3.0
+      semver: 7.7.4
+      typescript: 6.0.3
+
   eslint-plugin-tsdoc@0.5.2(eslint@9.39.4)(typescript@6.0.3):
     dependencies:
       '@microsoft/tsdoc': 0.16.0
@@ -45317,6 +45376,8 @@ snapshots:
     optional: true
 
   function-bind@1.1.2: {}
+
+  functional-red-black-tree@1.0.1: {}
 
   generator-function@2.0.1: {}
 
@@ -45856,6 +45917,8 @@ snapshots:
 
   jssha@3.3.2: {}
 
+  jsx-ast-utils-x@0.1.0: {}
+
   junk@4.0.1: {}
 
   jwa@2.0.1:
@@ -46283,6 +46346,10 @@ snapshots:
   mime@4.1.0: {}
 
   mimic-response@3.1.0: {}
+
+  minimatch@10.1.2:
+    dependencies:
+      '@isaacs/brace-expansion': 5.0.1
 
   minimatch@10.2.3:
     dependencies:
@@ -46917,7 +46984,16 @@ snapshots:
       indent-string: 5.0.0
       strip-indent: 4.1.1
 
+  refa@0.12.1:
+    dependencies:
+      '@eslint-community/regexpp': 4.12.2
+
   regenerator-runtime@0.13.11: {}
+
+  regexp-ast-analysis@0.7.1:
+    dependencies:
+      '@eslint-community/regexpp': 4.12.2
+      refa: 0.12.1
 
   require-directory@2.1.1: {}
 
@@ -47066,6 +47142,12 @@ snapshots:
   safer-buffer@2.1.2: {}
 
   scheduler@0.27.0: {}
+
+  scslre@0.3.0:
+    dependencies:
+      '@eslint-community/regexpp': 4.12.2
+      refa: 0.12.1
+      regexp-ast-analysis: 0.7.1
 
   secure-json-parse@4.1.0: {}
 
