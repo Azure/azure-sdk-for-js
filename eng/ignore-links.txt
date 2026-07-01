@@ -122,3 +122,5 @@ https://www.npmjs.com/package/@azure/arm-powerplatform
 https://learn.microsoft.com/javascript/api/@azure/arm-resiliencemanagement?view=azure-node-preview
 https://www.npmjs.com/package/@azure/arm-resiliencemanagement
 https://learn.microsoft.com/javascript/api/@azure/arm-voiceservices
+https://learn.microsoft.com/javascript/api/@azure/arm-containerservicepreparedimagespecification?view=azure-node-preview
+https://www.npmjs.com/package/@azure/arm-containerservicepreparedimagespecification
