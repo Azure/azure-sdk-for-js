@@ -54,9 +54,7 @@ export function _dispatchSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": "Routines=V1Preview",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -99,6 +97,7 @@ export function _listRunsSend(
   routineName: string,
   options: BetaRoutinesListRunsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "Routines=V1Preview";
   const path = expandUrlTemplate(
     "/routines/{routine_name}/runs{?filter,limit,after,before,order,api-version}",
     {
@@ -117,9 +116,7 @@ export function _listRunsSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": foundryFeatures,
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -153,7 +150,15 @@ export function listRuns(
     () => _listRunsSend(context, routineName, options),
     _listRunsDeserialize,
     ["200"],
-    { itemName: "data", apiVersion: context.apiVersion },
+    {
+      itemName: "data",
+      apiVersion: context.apiVersion,
+      nextPageRequestOptions: {
+        headers: {
+          "foundry-features": "Routines=V1Preview",
+        },
+      },
+    },
   );
 }
 
@@ -162,6 +167,7 @@ export function _$deleteSend(
   routineName: string,
   options: BetaRoutinesDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "Routines=V1Preview";
   const path = expandUrlTemplate(
     "/routines/{routine_name}{?api-version}",
     {
@@ -175,9 +181,7 @@ export function _$deleteSend(
   return context.path(path).delete({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": foundryFeatures,
       ...options.requestOptions?.headers,
     },
   });
@@ -227,9 +231,7 @@ export function _listSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": "Routines=V1Preview",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -294,9 +296,7 @@ export function _disableSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": "Routines=V1Preview",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -345,9 +345,7 @@ export function _enableSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": "Routines=V1Preview",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -396,9 +394,7 @@ export function _getSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": "Routines=V1Preview",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -434,6 +430,7 @@ export function _createOrUpdateSend(
   routineName: string,
   options: BetaRoutinesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
+  const foundryFeatures = "Routines=V1Preview";
   const path = expandUrlTemplate(
     "/routines/{routine_name}{?api-version}",
     {
@@ -448,9 +445,7 @@ export function _createOrUpdateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": foundryFeatures,
       accept: "application/json",
       ...options.requestOptions?.headers,
     },

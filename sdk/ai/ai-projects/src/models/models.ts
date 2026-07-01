@@ -353,7 +353,6 @@ export type ToolUnion =
   | WorkIQPreviewTool
   | FabricIQPreviewTool
   | MemorySearchPreviewTool
-  | ReminderPreviewTool
   | CodeInterpreterTool
   | FileSearchTool
   | WebSearchTool
@@ -411,9 +410,6 @@ export function toolUnionSerializer(item: ToolUnion): any {
 
     case "memory_search_preview":
       return memorySearchPreviewToolSerializer(item as MemorySearchPreviewTool);
-
-    case "reminder_preview":
-      return reminderPreviewToolSerializer(item as ReminderPreviewTool);
 
     case "code_interpreter":
       return codeInterpreterToolSerializer(item as CodeInterpreterTool);
@@ -506,9 +502,6 @@ export function toolUnionDeserializer(item: any): ToolUnion {
     case "memory_search_preview":
       return memorySearchPreviewToolDeserializer(item as MemorySearchPreviewTool);
 
-    case "reminder_preview":
-      return reminderPreviewToolDeserializer(item as ReminderPreviewTool);
-
     case "code_interpreter":
       return codeInterpreterToolDeserializer(item as CodeInterpreterTool);
 
@@ -582,7 +575,6 @@ export type ToolType =
   | "fabric_dataagent_preview"
   | "sharepoint_grounding_preview"
   | "memory_search_preview"
-  | "reminder_preview"
   | "work_iq_preview"
   | "fabric_iq_preview"
   | "toolbox_search_preview"
@@ -1883,38 +1875,6 @@ export function memorySearchOptionsDeserializer(item: any): MemorySearchOptions 
   };
 }
 
-/**
- * A built-in tool that schedules the agent to re-invoke itself after a delay.
- * The model passes a single `minutes` argument (positive integer) when calling
- * this tool. The service creates a one-shot timer routine that fires after the
- * specified delay and re-invokes the agent on the same conversation thread.
- * No pre-created routine is required.
- */
-export interface ReminderPreviewTool extends Tool {
-  /** The type of the tool. Always `reminder_preview`. */
-  type: "reminder_preview";
-  /** Optional user-defined name for this tool or configuration. */
-  name?: string;
-  /** Optional user-defined description for this tool or configuration. */
-  description?: string;
-}
-
-export function reminderPreviewToolSerializer(item: ReminderPreviewTool): any {
-  return {
-    type: item["type"],
-    name: item["name"],
-    description: item["description"],
-  };
-}
-
-export function reminderPreviewToolDeserializer(item: any): ReminderPreviewTool {
-  return {
-    type: item["type"],
-    name: item["name"],
-    description: item["description"],
-  };
-}
-
 /** A tool that runs Python code to help generate a response to a prompt. */
 export interface CodeInterpreterTool extends Tool {
   /** The type of the code interpreter tool. Always `code_interpreter`. */
@@ -2640,14 +2600,14 @@ export interface MCPTool extends Tool {
   /** A label for this MCP server, used to identify it in tool calls. */
   server_label: string;
   /**
-   * The URL for the MCP server. One of `server_url` or `connector_id` must be
-   *   provided.
+   * The URL for the MCP server. One of `server_url`, `connector_id`, or
+   *   `tunnel_id` must be provided.
    */
   server_url?: string;
   /**
    * Identifier for service connectors, like those available in ChatGPT. One of
-   *   `server_url` or `connector_id` must be provided. Learn more about service
-   *   connectors [here](https://platform.openai.com/docs/guides/tools-remote-mcp#connectors).
+   *   `server_url`, `connector_id`, or `tunnel_id` must be provided. Learn more
+   *   about service connectors [here](https://platform.openai.com/docs/guides/tools-remote-mcp#connectors).
    *   Currently supported `connector_id` values are:
    *   - Dropbox: `connector_dropbox`
    *   - Gmail: `connector_gmail`
