@@ -1,0 +1,43 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+/**
+ * This sample demonstrates how to create or update an Azure Cosmos DB MongoDB Collection
+ *
+ * @summary create or update an Azure Cosmos DB MongoDB Collection
+ * x-ms-original-file: 2026-03-15/CosmosDBMongoDBCollectionCreateUpdate.json
+ */
+async function cosmosDBMongoDBCollectionCreateUpdate() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new CosmosDBManagementClient(credential, subscriptionId);
+  const result = await client.mongoDBResources.createUpdateMongoDBCollection(
+    "rg1",
+    "ddb1",
+    "databaseName",
+    "collectionName",
+    {
+      location: "West US",
+      tags: {},
+      resource: {
+        id: "collectionName",
+        indexes: [
+          { keys: ["_ts"], options: { expireAfterSeconds: 100, unique: true } },
+          { keys: ["_id"] },
+        ],
+        shardKey: { testKey: "Hash" },
+      },
+      options: {},
+    },
+  );
+  console.log(result);
+}
+
+async function main() {
+  await cosmosDBMongoDBCollectionCreateUpdate();
+}
+
+main().catch(console.error);
