@@ -31,7 +31,7 @@ import { bytesToString, stringToBytes } from "./utils/utf8.js";
 import { _attestationResultFromGenerated } from "./models/attestationResult.js";
 import { _attestationSignerFromGenerated } from "./models/attestationSigner.js";
 import { AttestationTokenImpl } from "./models/attestationToken.js";
-import { Uint8ArrayFromInput } from "./utils/buffer.js";
+import { Uint8ArrayFromInput } from "#platform/utils/buffer";
 import { tracingClient } from "./generated/tracing.js";
 
 /**

@@ -413,7 +413,7 @@ const openEnclaveReport = new Uint8Array(0); // Open enclave report data
 try {
   await client.attestSgxEnclave(openEnclaveReport);
 } catch (error) {
-  console.log(`Exception thrown for invalid request: ${error.message}`);
+  console.log(`Exception thrown for invalid request: ${error}`);
 }
 ```
 
