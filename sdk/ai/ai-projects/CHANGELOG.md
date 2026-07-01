@@ -1,32 +1,42 @@
 # Release History
 
-## 2.3.0 (Unreleased)
+## 2.3.0 (2026-06-30)
 
 ### Features Added
 
-- Added experimental GenAI tracing support. When enabled, OpenTelemetry spans are emitted for Responses API calls with GenAI semantic convention attributes, token usage metrics, and optional content recording.
-- Added `"a2a"` as a supported `AgentProtocol` value.
-- Added `supported_evaluation_levels` to `EvaluatorVersion`.
-- Added `RoutineRunStatus` and updated `RoutineRun.status` to use it.
+- Changed GenAI tracing from a process-wide setting to a per-client configuration via `tracingOptions` on `AIProjectClientOptionalParams`. Tracing is now enabled by passing `tracingOptions: { experimental: true }` when constructing the client instead of calling the global `enableGenAITracing()` function.
+- Added `ReminderPreviewTool` as a new agent tool kind (`"reminder_preview"`) usable through `project.agents.createVersion` and the `ToolUnion` type.
+- Added `ProtocolConfiguration` and per-protocol configuration types (`ActivityProtocolConfiguration`, `ResponsesProtocolConfiguration`, `A2AProtocolConfiguration`, `McpProtocolConfiguration`, `InvocationsProtocolConfiguration`, `InvocationsWsProtocolConfiguration`) on the agent endpoint.
+- Added `BotServiceTenantAuthorizationScheme` as a new `AgentEndpointAuthorizationScheme` subtype.
+- Added `VersionSelectionRuleType` type alias.
+- Added `draft` property on `AgentVersion` to indicate whether a version is a draft candidate rather than a release.
 - Added `isRestError` and `NodeReadableStream` exports.
 - Added `enable` and `disable` methods on `project.agents` to control agent operational state.
 - Added `AgentState` type and `state` property on `Agent` to reflect whether an agent endpoint is enabled or disabled.
 - Promoted session operations (`createSession`, `getSession`, `deleteSession`, `stopSession`, `listSessions`, `getSessionLogStream`, `listSessionFiles`, `downloadSessionFile`, `uploadSessionFile`, `deleteSessionFile`) from `project.beta.agents` to `project.agents`.
 - Promoted `createVersionFromCode`, `downloadAgentCode`, and `updateAgentObject` from `project.beta.agents` to `project.agents`.
-- Promoted `project.beta.toolboxes` operations to `project.toolboxes`.
+- Promoted `project.beta.toolboxes` operations to `project.toolboxes`. Toolbox tool types now use `ToolboxToolUnion` and its subtypes (`CodeInterpreterToolboxTool`, `FileSearchToolboxTool`, `WebSearchToolboxTool`, `MCPToolboxTool`).
 
 ### Breaking Changes
 
+- Removed the global `enableGenAITracing()` and `disableGenAITracing()` functions. Use `tracingOptions` on `AIProjectClientOptionalParams` instead.
+- Removed `ToolboxSearchPreviewTool` from the `ToolUnion` (replaced by `ReminderPreviewTool`).
+- Removed `name`, `description`, and `tool_configs` properties from `MicrosoftFabricPreviewTool`, `SharepointPreviewTool`, and other preview tool interfaces. On `BingGroundingTool`, these properties are deprecated.
+- Removed `tools` property from `HostedAgentDefinition`.
+- Removed `AgentEndpointProtocol` type alias; replaced by `ProtocolConfiguration` on the agent endpoint.
 - Removed beta agent optimization candidate operations, including `listOptimizationCandidates`, `getOptimizationCandidate`, `getOptimizationCandidateConfig`, `getOptimizationCandidateResults`, `getCandidateFile`, and `promoteCandidate`.
 - Removed related beta agent optimization candidate response and metadata types, including `AgentsPagedResultOptimizationCandidate`, `CandidateMetadata`, `CandidateFileInfo`, `CandidateDeployConfig`, `CandidateResults`, `PromoteCandidateRequest`, `PromoteCandidateResponse`, and `BetaAgentsGetCandidateFileResponse`.
 - Changed `project.beta.agents.createOptimizationJob` to accept an `OptimizationJob` request body instead of `OptimizationJobInputs`.
 - Changed `project.beta.agents.listOptimizationJobs` to return `OptimizationJobListItem` values.
+- Changed `AgentVersion.metadata` from required to optional.
 - Renamed optimization model types from `AgentIdentifier` and `DatasetRef` to the new `Optimization*` model names (e.g., `OptimizationAgentIdentifier`, `OptimizationDatasetInput`, `OptimizationEvaluatorRef`).
 - Renamed `BetaAgentsCreateAgentVersionFromCodeOptionalParams` to `AgentsCreateVersionFromCodeOptionalParams`.
 - Renamed the `project.beta.models.update` request parameter from `body` to `modelVersionUpdate`.
 - Renamed `BetaToolboxesOperations` to `ToolboxesOperations` and moved toolbox option types from `api/beta/toolboxes` to `api/toolboxes`.
 - Renamed beta skills option types to include `BetaSkills` prefix (e.g., `DeleteVersionOptionalParams` → `BetaSkillsDeleteVersionOptionalParams`, `ListVersionsOptionalParams` → `BetaSkillsListVersionsOptionalParams`).
+- Renamed `VersionSelectorType` to `VersionSelectionRuleType`.
 - Removed `SystemDataV3` from the public API surface.
+- Removed the implicit `foundry-features` header injection for agent endpoints.
 
 ### Bugs Fixed
 
@@ -36,6 +46,8 @@
 
 ### Other Changes
 
+- Updated minimum Node.js version to 22.
+- Replaced `@azure/core-tracing` dependency with direct `@opentelemetry/api` dependency for GenAI tracing.
 - Updated `CodeConfiguration.runtime` description to reflect the current supported runtime (`python_3_14`).
 - Simplified deserializers by removing unnecessary identity-mapping of record properties.
 
