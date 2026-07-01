@@ -1,6 +1,6 @@
 # Release History
 
-## 4.1.0 (2026-05-28)
+## 4.1.0 (2026-07-01)
 
 ### Features Added
   - Added operation group UpdateSummariesOperationGroupOperations
