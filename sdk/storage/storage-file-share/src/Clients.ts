@@ -117,11 +117,6 @@ import type {
   ListFilesIncludeType,
   FileDownloadOptionalParams as FileDownloadOptionalParamsInternal,
 } from "./generated/index.js";
-import {
-  _downloadSend,
-  _downloadDeserialize,
-  _downloadDeserializeHeaders,
-} from "./generated/api/file/operations.js";
 import type { Pipeline, PipelineLike } from "./Pipeline.js";
 import { isPipelineLike, newPipeline } from "./Pipeline.js";
 import {
