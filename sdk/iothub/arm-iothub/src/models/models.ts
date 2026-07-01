@@ -2026,10 +2026,7 @@ export function armIdentityDeserializer(item: any): ArmIdentity {
 
 /** The type of identity used for the resource. The type 'SystemAssigned,UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the service. */
 export type ResourceIdentityType =
-  | "SystemAssigned"
-  | "UserAssigned"
-  | "SystemAssigned, UserAssigned"
-  | "None";
+  "SystemAssigned" | "UserAssigned" | "SystemAssigned, UserAssigned" | "None";
 
 export function armUserIdentityRecordSerializer(
   item: Record<string, ArmUserIdentity>,

@@ -7,36 +7,37 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -1613,9 +1613,9 @@
+@@ -1719,9 +1719,9 @@
+     additionalProperties?: Record<string, any>;
+     docker?: Docker;
      endpoints?: Endpoint[];
-     environmentVariables?: {
-         [propertyName: string]: EnvironmentVariable;
-     };
+     environmentVariables?: Record<string, EnvironmentVariable>;
 -    image?: Image;
 +    image?: Image_2;
+     kernel?: JupyterKernelConfig;
      name?: string;
      volumes?: VolumeDefinition[];
  }
- 
-@@ -3093,13 +3093,14 @@
+@@ -3234,14 +3234,15 @@
      idleTimeBeforeShutdown?: string;
  }
  
  // @public
 -export interface Image {
 +interface Image_2 {
-     [property: string]: any;
+     additionalProperties?: Record<string, any>;
      reference?: string;
      type?: ImageType;
+     version?: string;
  }
 +export { Image_2 as Image }
  
  // @public
- export interface ImageClassification extends ImageClassificationBase, AutoMLVertical {
-     primaryMetric?: ClassificationPrimaryMetrics;
-@@ -3494,9 +3495,10 @@
- // @public
- export type JobType = string;
+ export interface ImageClassification extends AutoMLVertical {
+     limitSettings: ImageLimitSettings;
+@@ -3864,9 +3865,10 @@
+     language?: string;
+ }
  
  // @public
 -export type KeyType = string;
@@ -44,12 +45,12 @@ For the complete API surface, see the corresponding -node.api.md file.
 +export { KeyType_2 as KeyType }
  
  // @public
- export enum KnownActionType {
-     Internal = "Internal"
-@@ -6518,9 +6520,9 @@
+ export interface KeyVaultProperties {
+     identityClientId?: string;
+@@ -7247,9 +7249,9 @@
  export type ReferenceType = string;
  
- // @public (undocumented)
+ // @public
  export interface RegenerateEndpointKeysRequest {
 -    keyType: KeyType;
 +    keyType: KeyType_2;

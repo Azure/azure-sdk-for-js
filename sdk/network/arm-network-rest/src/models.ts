@@ -2456,10 +2456,7 @@ export interface ExpressRouteCircuitPropertiesFormat {
   circuitProvisioningState?: string;
   /** The ServiceProviderProvisioningState state of the resource. */
   serviceProviderProvisioningState?:
-    | "NotProvisioned"
-    | "Provisioning"
-    | "Provisioned"
-    | "Deprovisioning";
+    "NotProvisioned" | "Provisioning" | "Provisioned" | "Deprovisioning";
   /** The list of authorizations. */
   authorizations?: Array<ExpressRouteCircuitAuthorization>;
   /** The list of peerings. */
@@ -2526,10 +2523,7 @@ export interface ExpressRouteCrossConnectionProperties {
   expressRouteCircuit?: ExpressRouteCircuitReference;
   /** The provisioning state of the circuit in the connectivity provider system. */
   serviceProviderProvisioningState?:
-    | "NotProvisioned"
-    | "Provisioning"
-    | "Provisioned"
-    | "Deprovisioning";
+    "NotProvisioned" | "Provisioning" | "Provisioned" | "Deprovisioning";
   /** Additional read only notes set by the connectivity provider. */
   serviceProviderNotes?: string;
   /** The list of peerings. */
@@ -4246,10 +4240,7 @@ export interface VirtualNetworkPeeringPropertiesFormat {
   peeringState?: "Initiated" | "Connected" | "Disconnected";
   /** The peering sync status of the virtual network peering. */
   peeringSyncLevel?:
-    | "FullyInSync"
-    | "RemoteNotInSync"
-    | "LocalNotInSync"
-    | "LocalAndRemoteNotInSync";
+    "FullyInSync" | "RemoteNotInSync" | "LocalNotInSync" | "LocalAndRemoteNotInSync";
   /** If we need to verify the provisioning state of the remote gateway. */
   doNotVerifyRemoteGateways?: boolean;
 }
@@ -4494,15 +4485,7 @@ export interface IpsecPolicy {
     | "DHGroup24";
   /** The Pfs Group used in IKE Phase 2 for new child SA. */
   pfsGroup:
-    | "None"
-    | "PFS1"
-    | "PFS2"
-    | "PFS2048"
-    | "ECP256"
-    | "ECP384"
-    | "PFS24"
-    | "PFS14"
-    | "PFSMM";
+    "None" | "PFS1" | "PFS2" | "PFS2048" | "ECP256" | "ECP384" | "PFS24" | "PFS14" | "PFSMM";
 }
 
 /** Radius Server Settings. */
@@ -4725,15 +4708,7 @@ export interface VpnClientIPsecParameters {
     | "DHGroup24";
   /** The Pfs Group used in IKE Phase 2 for new child SA. */
   pfsGroup:
-    | "None"
-    | "PFS1"
-    | "PFS2"
-    | "PFS2048"
-    | "ECP256"
-    | "ECP384"
-    | "PFS24"
-    | "PFS14"
-    | "PFSMM";
+    "None" | "PFS1" | "PFS2" | "PFS2048" | "ECP256" | "ECP384" | "PFS24" | "PFS14" | "PFSMM";
 }
 
 /** Vpn device configuration script generation parameters. */
@@ -6103,8 +6078,7 @@ export interface PatchRouteFilter extends SubResource {
 
 /** Properties of the rule collection. */
 export type FirewallPolicyRuleCollection =
-  | FirewallPolicyNatRuleCollection
-  | FirewallPolicyFilterRuleCollection;
+  FirewallPolicyNatRuleCollection | FirewallPolicyFilterRuleCollection;
 /** Network base admin rule. */
 export type BaseAdminRule = AdminRule | DefaultAdminRule;
 /** Properties of a rule. */

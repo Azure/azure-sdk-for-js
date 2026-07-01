@@ -2723,8 +2723,7 @@ export function checkNameRequestSerializer(item: CheckNameRequest): any {
 
 /** The type of resource, for instance Microsoft.Kusto/clusters/databases. */
 export type Type =
-  | "Microsoft.Kusto/clusters/databases"
-  | "Microsoft.Kusto/clusters/attachedDatabaseConfigurations";
+  "Microsoft.Kusto/clusters/databases" | "Microsoft.Kusto/clusters/attachedDatabaseConfigurations";
 
 /** Class representing an attached database configuration. */
 export interface AttachedDatabaseConfiguration extends ProxyResource {

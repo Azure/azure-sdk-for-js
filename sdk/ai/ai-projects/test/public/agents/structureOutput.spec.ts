@@ -116,7 +116,7 @@ describe("agents - structured output - execution flow", () => {
         ],
       },
       {
-        body: { agent: { name: agent.name, type: "agent_reference" } },
+        body: { agent_reference: { name: agent.name, type: "agent_reference" } },
       },
     );
     assert.isNotNull(response);
@@ -172,7 +172,7 @@ describe("agents - structured output - execution flow", () => {
         conversation: conversation.id,
       },
       {
-        body: { agent: { name: agent.name, type: "agent_reference" } },
+        body: { agent_reference: { name: agent.name, type: "agent_reference" } },
       },
     );
     assert.isNotNull(response);

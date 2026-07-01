@@ -67,12 +67,7 @@ export function extendedZonePropertiesDeserializer(item: any): ExtendedZonePrope
 
 /** Alias for ProvisioningState */
 export type ProvisioningState =
-  | string
-  | ResourceProvisioningState
-  | "Provisioning"
-  | "Updating"
-  | "Deleting"
-  | "Accepted";
+  string | ResourceProvisioningState | "Provisioning" | "Updating" | "Deleting" | "Accepted";
 
 export function provisioningStateSerializer(item: ProvisioningState): any {
   return item;

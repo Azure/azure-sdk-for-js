@@ -425,9 +425,7 @@ export function routeConfigurationDeserializer(item: any): RouteConfiguration {
 
 /** Alias for RouteConfigurationUnion */
 export type RouteConfigurationUnion =
-  | ForwardingConfiguration
-  | RedirectConfiguration
-  | RouteConfiguration;
+  ForwardingConfiguration | RedirectConfiguration | RouteConfiguration;
 
 export function routeConfigurationUnionSerializer(item: RouteConfigurationUnion): any {
   switch (item.odataType) {
@@ -4876,8 +4874,7 @@ export function checkNameAvailabilityInputSerializer(item: CheckNameAvailability
 
 /** Type of Front Door resource used in CheckNameAvailability. */
 export type ResourceType =
-  | "Microsoft.Network/frontDoors"
-  | "Microsoft.Network/frontDoors/frontendEndpoints";
+  "Microsoft.Network/frontDoors" | "Microsoft.Network/frontDoors/frontendEndpoints";
 
 /** Output of check name availability API. */
 export interface CheckNameAvailabilityOutput {

@@ -29,15 +29,15 @@ export function storageRequestFailureDetailsParserPolicy(): PipelinePolicy {
           response.bodyAsText.includes("<HeaderName>x-ms-version</HeaderName>")
         ) {
           // replace the error message with a more user-friendly one that includes a link to documentation
-          /* example reponse text:
+          /* example response text:
           `<?xml version="1.0" encoding="utf-8"?>
 <Error><Code>InvalidHeaderValue</Code><Message>The value for one of the HTTP headers is not in the correct format.
 RequestId:e5ea566c-101e-001c-1ec4-acf180000000
 Time:2026-03-05T17:24:34.6688015Z</Message><HeaderName>x-ms-version</HeaderName><HeaderValue>3025-01-01</HeaderValue></Error>`
           */
           response.bodyAsText = response.bodyAsText.replace(
-            "The value for one of the HTTP headers is not in the correct format.",
-            "The provided service version is not enabled on this storage account. Please see https://learn.microsoft.com/rest/api/storageservices/versioning-for-the-azure-storage-services for additional information.",
+            /<Message>.*<\/Message>/s,
+            "<Message>The provided service version is not enabled on this storage account. Please see https://learn.microsoft.com/rest/api/storageservices/versioning-for-the-azure-storage-services for additional information.</Message>",
           );
         }
         return response;

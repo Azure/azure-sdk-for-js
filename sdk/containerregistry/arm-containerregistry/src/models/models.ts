@@ -1354,10 +1354,7 @@ export function identityPropertiesDeserializer(item: any): IdentityProperties {
 
 /** The identity type. */
 export type ResourceIdentityType =
-  | "SystemAssigned"
-  | "UserAssigned"
-  | "SystemAssigned, UserAssigned"
-  | "None";
+  "SystemAssigned" | "UserAssigned" | "SystemAssigned, UserAssigned" | "None";
 
 export function userIdentityPropertiesRecordSerializer(
   item: Record<string, UserIdentityProperties>,

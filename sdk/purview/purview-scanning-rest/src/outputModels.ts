@@ -1151,10 +1151,7 @@ export interface AzureSubscriptionPropertiesOutput extends DataSourcePropertiesO
   resourceId?: string;
   /** The data use governance of azure subscription. */
   dataUseGovernance?:
-    | "Disabled"
-    | "DisabledByAnotherAccount"
-    | "Enabled"
-    | "EnabledAtAncestorScope";
+    "Disabled" | "DisabledByAnotherAccount" | "Enabled" | "EnabledAtAncestorScope";
 }
 
 /** Azure subscription data source. */
@@ -1174,10 +1171,7 @@ export interface AzureResourceGroupPropertiesOutput extends DataSourceProperties
   resourceId?: string;
   /** Data use governance. */
   dataUseGovernance?:
-    | "Disabled"
-    | "DisabledByAnotherAccount"
-    | "Enabled"
-    | "EnabledAtAncestorScope";
+    "Disabled" | "DisabledByAnotherAccount" | "Enabled" | "EnabledAtAncestorScope";
 }
 
 /** Azure resource group data source. */
@@ -1201,10 +1195,7 @@ export interface AzureDataSourcePropertiesOutput extends DataSourcePropertiesOut
   resourceId?: string;
   /** Data use governance. */
   dataUseGovernance?:
-    | "Disabled"
-    | "DisabledByAnotherAccount"
-    | "Enabled"
-    | "EnabledAtAncestorScope";
+    "Disabled" | "DisabledByAnotherAccount" | "Enabled" | "EnabledAtAncestorScope";
 }
 
 /** Azure synapse workspace data source properties. */
@@ -2806,8 +2797,7 @@ export interface PowerBISystemScanRulesetOutput extends SystemScanRulesetOutputP
 
 /** The classification rule. */
 export type ClassificationRuleOutput =
-  | SystemClassificationRuleOutput
-  | CustomClassificationRuleOutput;
+  SystemClassificationRuleOutput | CustomClassificationRuleOutput;
 /** The credential. */
 export type CredentialOutput =
   | AccountKeyAuthAzureKeyVaultCredentialOutput
@@ -2892,12 +2882,10 @@ export type ScanOutput =
   | PowerBIMsiScanOutput;
 /** Purview nested object which serves as a compute resource for activities. */
 export type IntegrationRuntimeOutput =
-  | ManagedIntegrationRuntimeOutput
-  | SelfHostedIntegrationRuntimeOutput;
+  ManagedIntegrationRuntimeOutput | SelfHostedIntegrationRuntimeOutput;
 /** Integration runtime status. */
 export type IntegrationRuntimeStatusOutput =
-  | SelfHostedIntegrationRuntimeStatusOutput
-  | ManagedIntegrationRuntimeStatusOutput;
+  SelfHostedIntegrationRuntimeStatusOutput | ManagedIntegrationRuntimeStatusOutput;
 /** The scan ruleset. */
 export type ScanRulesetOutput =
   | AzureSubscriptionScanRulesetOutput

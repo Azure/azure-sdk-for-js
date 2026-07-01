@@ -260,10 +260,7 @@ export type SipHeaderPrefix = "X-" | "X-MS-Custom-";
 
 /** Custom Calling Context */
 export type CustomCallingContext = (
-  | VoipHeader
-  | SipUserToUserHeader
-  | SipCustomHeader
-  | TeamsPhoneCallDetails
+  VoipHeader | SipUserToUserHeader | SipCustomHeader | TeamsPhoneCallDetails
 )[];
 
 /** AI options for the call. */
