@@ -308,6 +308,7 @@ export class ClientContext {
       resourceType,
       options,
       body: query,
+      partitionKey: options.partitionKey,
     };
     diagnosticNode.addData({
       operationType: OperationType.Read,

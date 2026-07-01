@@ -119,6 +119,7 @@ export class DocumentProducer {
       options,
       diagnosticNode,
       partitionKeyRangeId: this.targetPartitionKeyRange["id"],
+      partitionKey: options.partitionKey,
       correlatedActivityId: correlatedActivityId,
       startEpk: startEpk,
       endEpk: endEpk,
