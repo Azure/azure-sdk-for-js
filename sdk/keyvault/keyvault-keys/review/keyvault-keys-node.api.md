@@ -7,10 +7,12 @@
 import { AzureLogger } from '@azure/logger';
 import type * as coreClient from '@azure-rest/core-client';
 import type { ExtendedCommonClientOptions } from '@azure/keyvault-common';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
 import type { PageSettings } from '@azure/core-paging';
 import type { PollerLike } from '@azure/core-lro';
 import type { PollOperationState } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -213,6 +215,8 @@ export interface ImportKeyOptions extends coreClient.OperationOptions {
         [propertyName: string]: string;
     };
 }
+
+export { isRestError }
 
 // @public
 export interface JsonWebKey {
@@ -504,6 +508,8 @@ export interface ReleaseKeyOptions extends coreClient.OperationOptions {
 export interface ReleaseKeyResult {
     value: string;
 }
+
+export { RestError }
 
 // @public
 export interface RestoreKeyBackupOptions extends coreClient.OperationOptions {

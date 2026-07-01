@@ -6703,10 +6703,7 @@ export function globalValidationDeserializer(item: any): GlobalValidation {
 
 /** The action to take when an unauthenticated client attempts to access the app. */
 export type UnauthenticatedClientActionV2 =
-  | "RedirectToLoginPage"
-  | "AllowAnonymous"
-  | "Return401"
-  | "Return403";
+  "RedirectToLoginPage" | "AllowAnonymous" | "Return401" | "Return403";
 
 /** The configuration settings of each of the identity providers used to configure ContainerApp Service Authentication/Authorization. */
 export interface IdentityProviders {
@@ -11248,13 +11245,7 @@ export function scheduledEntryDeserializer(item: any): ScheduledEntry {
 
 /** Day of the week when a managed environment can be patched. */
 export type WeekDay =
-  | "Monday"
-  | "Tuesday"
-  | "Wednesday"
-  | "Thursday"
-  | "Friday"
-  | "Saturday"
-  | "Sunday";
+  "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday" | "Sunday";
 
 /** The response of list maintenance configuration resources. */
 export interface _MaintenanceConfigurationCollection {

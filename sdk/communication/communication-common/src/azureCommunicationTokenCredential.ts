@@ -44,9 +44,7 @@ export class AzureCommunicationTokenCredential implements CommunicationTokenCred
   constructor(entraOptions: EntraCommunicationTokenCredentialOptions);
   constructor(
     tokenOrRefreshOptionsOrEntraOptions:
-      | string
-      | CommunicationTokenRefreshOptions
-      | EntraCommunicationTokenCredentialOptions,
+      string | CommunicationTokenRefreshOptions | EntraCommunicationTokenCredentialOptions,
   ) {
     if (typeof tokenOrRefreshOptionsOrEntraOptions === "string") {
       this.tokenCredential = new StaticTokenCredential(

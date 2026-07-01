@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the list of Microsoft.CognitiveServices SKUs available for your Subscription.
  *
  * @summary gets the list of Microsoft.CognitiveServices SKUs available for your Subscription.
- * x-ms-original-file: 2026-03-15-preview/GetSkus.json
+ * x-ms-original-file: 2026-05-15-preview/GetSkus.json
  */
 async function regenerateKeys() {
   const credential = new DefaultAzureCredential();

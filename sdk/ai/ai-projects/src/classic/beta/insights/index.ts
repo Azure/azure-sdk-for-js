@@ -14,11 +14,11 @@ import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 /** Interface representing a BetaInsights operations. */
 export interface BetaInsightsOperations {
-  /** List all insights in reverse chronological order (newest first). */
+  /** Returns insights in reverse chronological order, with the most recent entries first. */
   list: (options?: BetaInsightsListOptionalParams) => PagedAsyncIterableIterator<Insight>;
-  /** Get a specific insight by Id. */
+  /** Retrieves the specified insight report and its results. */
   get: (insightId: string, options?: BetaInsightsGetOptionalParams) => Promise<Insight>;
-  /** Generate Insights */
+  /** Generates an insights report from the provided evaluation configuration. */
   generate: (
     insight: InsightGenerationRequest,
     options?: BetaInsightsGenerateOptionalParams,

@@ -1,6 +1,6 @@
 {
   "name": "@azure/planetarycomputer",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0",
   "description": "A generated SDK for PlanetaryComputerProClient.",
   "engines": {
     "node": ">=20.0.0"

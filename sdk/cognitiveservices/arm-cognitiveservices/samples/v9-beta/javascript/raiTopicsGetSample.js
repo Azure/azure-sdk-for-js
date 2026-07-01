@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the specified custom topic associated with the Azure OpenAI account.
  *
  * @summary gets the specified custom topic associated with the Azure OpenAI account.
- * x-ms-original-file: 2026-03-15-preview/GetRaiTopic.json
+ * x-ms-original-file: 2026-05-15-preview/GetRaiTopic.json
  */
 async function getRaiTopic() {
   const credential = new DefaultAzureCredential();
