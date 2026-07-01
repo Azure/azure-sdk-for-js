@@ -1672,6 +1672,8 @@ export interface BlockBlobUploadOptions extends CommonOptions {
     onProgress?: (progress: TransferProgressEvent) => void;
     tags?: Tags;
     tier?: BlockBlobTier | string;
+    transactionalContentCrc64?: Uint8Array;
+    transactionalContentMD5?: Uint8Array;
 }
 
 // @public
