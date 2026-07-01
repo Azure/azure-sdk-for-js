@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { FileContext as Client } from "../index.js";
-import { getBinaryStreamResponse } from "#platform/generated/static-helpers/serialization/get-binary-stream-response";
+import { getBinaryStreamResponse } from "@azure-rest/core-client";
 import {
   errorXmlDeserializer,
   ListHandlesResponse,
