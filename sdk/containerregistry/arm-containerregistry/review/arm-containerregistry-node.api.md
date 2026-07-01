@@ -7,11 +7,13 @@
 import type { AbortSignalLike } from '@azure/abort-controller';
 import type { CancelOnProgress } from '@azure/core-lro';
 import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
 import type { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { Pipeline } from '@azure/core-rest-pipeline';
 import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -32,6 +34,17 @@ export type ActivationStatus = string;
 export interface Actor {
     name?: string;
 }
+
+// @public
+export interface AdditionalAuthenticationProperties {
+    authenticationType: AdditionalAuthenticationType;
+}
+
+// @public
+export type AdditionalAuthenticationPropertiesUnion = GarAuthenticationProperties | AdditionalAuthenticationProperties;
+
+// @public
+export type AdditionalAuthenticationType = string;
 
 // @public
 export interface Archive extends ProxyResource {
@@ -190,6 +203,7 @@ export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
 export interface CacheRule extends ProxyResource {
+    additionalAuthenticationProperties?: AdditionalAuthenticationPropertiesUnion;
     readonly creationDate?: Date;
     credentialSetResourceId?: string;
     identity?: IdentityProperties;
@@ -200,6 +214,7 @@ export interface CacheRule extends ProxyResource {
 
 // @public
 export interface CacheRuleProperties {
+    additionalAuthenticationProperties?: AdditionalAuthenticationPropertiesUnion;
     readonly creationDate?: Date;
     credentialSetResourceId?: string;
     readonly provisioningState?: ProvisioningState;
@@ -253,12 +268,14 @@ export interface CacheRulesUpdateOptionalParams extends OperationOptions {
 
 // @public
 export interface CacheRuleUpdateParameters {
+    additionalAuthenticationProperties?: AdditionalAuthenticationPropertiesUnion;
     credentialSetResourceId?: string;
     identity?: IdentityProperties;
 }
 
 // @public
 export interface CacheRuleUpdateProperties {
+    additionalAuthenticationProperties?: AdditionalAuthenticationPropertiesUnion;
     credentialSetResourceId?: string;
 }
 
@@ -661,6 +678,15 @@ export interface ExportPolicy {
 export type ExportPolicyStatus = string;
 
 // @public
+export interface GarAuthenticationProperties extends AdditionalAuthenticationProperties {
+    // (undocumented)
+    authenticationType: "GoogleArtifactRegistry";
+    projectNumber: string;
+    workloadIdentityPool: string;
+    workloadIdentityProvider: string;
+}
+
+// @public
 export interface GarbageCollectionProperties {
     enabled?: boolean;
     schedule?: string;
@@ -778,6 +804,8 @@ export interface IPRule {
     iPAddressOrRange: string;
 }
 
+export { isRestError }
+
 // @public
 export interface KeyVaultProperties {
     identity?: string;
@@ -802,6 +830,11 @@ export enum KnownActionsRequired {
 export enum KnownActivationStatus {
     Active = "Active",
     Inactive = "Inactive"
+}
+
+// @public
+export enum KnownAdditionalAuthenticationType {
+    GoogleArtifactRegistry = "GoogleArtifactRegistry"
 }
 
 // @public
@@ -1070,7 +1103,7 @@ export enum KnownTrustPolicyType {
 // @public
 export enum KnownVersions {
     V20251101 = "2025-11-01",
-    VLatestPreview = "2026-01-01-preview"
+    VLatestPreview = "2026-03-01-preview"
 }
 
 // @public
@@ -1086,6 +1119,12 @@ export enum KnownWebhookAction {
 export enum KnownWebhookStatus {
     Disabled = "disabled",
     Enabled = "enabled"
+}
+
+// @public
+export enum KnownWritableCacheRepos {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
 }
 
 // @public
@@ -1113,12 +1152,18 @@ export type LogLevel = string;
 export type MetadataSearch = string;
 
 // @public
+export interface MyPrivateLinkResource extends Resource {
+    properties?: PrivateLinkResourceProperties;
+}
+
+// @public
 export type NetworkRuleBypassOptions = string;
 
 // @public
 export interface NetworkRuleSet {
     defaultAction: DefaultAction;
     ipRules?: IPRule[];
+    virtualNetworkRules?: VirtualNetworkRule[];
 }
 
 // @public
@@ -1383,11 +1428,6 @@ export interface PrivateEndpointConnectionsOperations {
 }
 
 // @public
-export interface PrivateLinkResource extends Resource {
-    properties?: PrivateLinkResourceProperties;
-}
-
-// @public
 export interface PrivateLinkResourceProperties {
     readonly groupId?: string;
     readonly requiredMembers?: string[];
@@ -1508,12 +1548,12 @@ export interface RegistriesOperations {
     delete: (resourceGroupName: string, registryName: string, options?: RegistriesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     generateCredentials: (resourceGroupName: string, registryName: string, generateCredentialsParameters: GenerateCredentialsParameters, options?: RegistriesGenerateCredentialsOptionalParams) => PollerLike<OperationState<GenerateCredentialsResult>, GenerateCredentialsResult>;
     get: (resourceGroupName: string, registryName: string, options?: RegistriesGetOptionalParams) => Promise<Registry>;
-    getPrivateLinkResource: (resourceGroupName: string, registryName: string, groupName: string, options?: RegistriesGetPrivateLinkResourceOptionalParams) => Promise<PrivateLinkResource>;
+    getPrivateLinkResource: (resourceGroupName: string, registryName: string, groupName: string, options?: RegistriesGetPrivateLinkResourceOptionalParams) => Promise<MyPrivateLinkResource>;
     importImage: (resourceGroupName: string, registryName: string, parameters: ImportImageParameters, options?: RegistriesImportImageOptionalParams) => PollerLike<OperationState<void>, void>;
     list: (options?: RegistriesListOptionalParams) => PagedAsyncIterableIterator<Registry>;
     listByResourceGroup: (resourceGroupName: string, options?: RegistriesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Registry>;
     listCredentials: (resourceGroupName: string, registryName: string, options?: RegistriesListCredentialsOptionalParams) => Promise<RegistryListCredentialsResult>;
-    listPrivateLinkResources: (resourceGroupName: string, registryName: string, options?: RegistriesListPrivateLinkResourcesOptionalParams) => PagedAsyncIterableIterator<PrivateLinkResource>;
+    listPrivateLinkResources: (resourceGroupName: string, registryName: string, options?: RegistriesListPrivateLinkResourcesOptionalParams) => PagedAsyncIterableIterator<MyPrivateLinkResource>;
     listUsages: (resourceGroupName: string, registryName: string, options?: RegistriesListUsagesOptionalParams) => Promise<RegistryUsageListResult>;
     regenerateCredential: (resourceGroupName: string, registryName: string, regenerateCredentialParameters: RegenerateCredentialParameters, options?: RegistriesRegenerateCredentialOptionalParams) => Promise<RegistryListCredentialsResult>;
     update: (resourceGroupName: string, registryName: string, registryUpdateParameters: RegistryUpdateParameters, options?: RegistriesUpdateOptionalParams) => PollerLike<OperationState<Registry>, Registry>;
@@ -1553,6 +1593,7 @@ export interface Registry extends TrackedResource {
     roleAssignmentMode?: RoleAssignmentMode;
     sku: Sku;
     readonly status?: Status;
+    writableCacheRepos?: WritableCacheRepos;
     zoneRedundancy?: ZoneRedundancy;
 }
 
@@ -1607,6 +1648,7 @@ export interface RegistryProperties {
     regionalEndpoints?: RegionalEndpoints;
     roleAssignmentMode?: RoleAssignmentMode;
     readonly status?: Status;
+    writableCacheRepos?: WritableCacheRepos;
     zoneRedundancy?: ZoneRedundancy;
 }
 
@@ -1625,6 +1667,7 @@ export interface RegistryPropertiesUpdateParameters {
     publicNetworkAccess?: PublicNetworkAccess;
     regionalEndpoints?: RegionalEndpoints;
     roleAssignmentMode?: RoleAssignmentMode;
+    writableCacheRepos?: WritableCacheRepos;
 }
 
 // @public
@@ -1654,6 +1697,7 @@ export interface RegistryUpdateParameters {
     roleAssignmentMode?: RoleAssignmentMode;
     sku?: Sku;
     tags?: Record<string, string>;
+    writableCacheRepos?: WritableCacheRepos;
 }
 
 // @public
@@ -1763,6 +1807,8 @@ export interface Resource {
 
 // @public
 export type ResourceIdentityType = "SystemAssigned" | "UserAssigned" | "SystemAssigned, UserAssigned" | "None";
+
+export { RestError }
 
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: ContainerRegistryManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
@@ -2120,6 +2166,12 @@ export interface UserIdentityProperties {
 }
 
 // @public
+export interface VirtualNetworkRule {
+    action?: Action;
+    virtualNetworkSubnetResourceId: string;
+}
+
+// @public
 export interface Webhook extends TrackedResource {
     actions?: WebhookAction[];
     readonly provisioningState?: ProvisioningState;
@@ -2238,6 +2290,9 @@ export interface WebhookUpdateParameters {
     status?: WebhookStatus;
     tags?: Record<string, string>;
 }
+
+// @public
+export type WritableCacheRepos = string;
 
 // @public
 export type ZoneRedundancy = string;
