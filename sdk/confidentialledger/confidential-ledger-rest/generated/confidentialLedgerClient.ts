@@ -3,9 +3,8 @@
 
 import type { ClientOptions } from "@azure-rest/core-client";
 import { getClient } from "@azure-rest/core-client";
-import { logger } from "./logger";
-import type { TokenCredential } from "@azure/core-auth";
-import type { ConfidentialLedgerClient } from "./clientDefinitions";
+import { logger } from "./logger.js";
+import type { ConfidentialLedgerClient } from "./clientDefinitions.js";
 
 /** The optional parameters for the client */
 export interface ConfidentialLedgerClientOptions extends ClientOptions {
@@ -15,21 +14,15 @@ export interface ConfidentialLedgerClientOptions extends ClientOptions {
 
 /**
  * Initialize a new instance of `ConfidentialLedgerClient`
- * @param ledgerEndpoint - The Confidential Ledger URL, for example https://contoso.confidentialledger.azure.com
- * @param credentials - uniquely identify client credential
+ * @param ledgerEndpoint - The Confidential Ledger URL, for example https://contoso.confidentialledger.azure.com.
  * @param options - the parameter for all optional parameters
  */
 export default function createClient(
   ledgerEndpoint: string,
-  credentials: TokenCredential,
-  {
-    apiVersion = "2024-12-09-preview",
-    ...options
-  }: ConfidentialLedgerClientOptions = {},
+  { apiVersion = "2026-02-23", ...options }: ConfidentialLedgerClientOptions = {},
 ): ConfidentialLedgerClient {
-  const endpointUrl =
-    options.endpoint ?? options.baseUrl ?? `${ledgerEndpoint}`;
-  const userAgentInfo = `azsdk-js-confidential-ledger-rest/1.1.2-beta.3`;
+  const endpointUrl = options.endpoint ?? `${ledgerEndpoint}`;
+  const userAgentInfo = `azsdk-js-confidential-ledger-rest/1.0.0-beta.1`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
@@ -42,17 +35,8 @@ export default function createClient(
     loggingOptions: {
       logger: options.loggingOptions?.logger ?? logger.info,
     },
-    credentials: {
-      scopes: options.credentials?.scopes ?? [
-        "https://confidential-ledger.azure.com/.default",
-      ],
-    },
   };
-  const client = getClient(
-    endpointUrl,
-    credentials,
-    options,
-  ) as ConfidentialLedgerClient;
+  const client = getClient(endpointUrl, options) as ConfidentialLedgerClient;
 
   client.pipeline.removePolicy({ name: "ApiVersionPolicy" });
   client.pipeline.addPolicy({
