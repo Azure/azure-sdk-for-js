@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Added a `loggerConfigurator` option to `AzureMonitorOpenTelemetryOptions` (and re-exported the upstream `createLoggerConfigurator` helper). This surfaces the OpenTelemetry logger configuration feature, allowing logs to be filtered by severity (verbosity) or disabled per logger scope at the logger level — before any processor or exporter runs — independently of trace-based sampling. Resolves [#33242](https://github.com/Azure/azure-sdk-for-js/issues/33242).
+
 ### Breaking Changes
 
 ### Bugs Fixed

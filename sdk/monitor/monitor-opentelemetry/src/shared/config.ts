@@ -14,6 +14,7 @@ import type {
   InstrumentationOptions,
 } from "../types.js";
 import type { Sampler } from "@opentelemetry/sdk-trace-base";
+import type { LoggerConfigurator } from "@opentelemetry/sdk-logs";
 import type { AzureMonitorExporterOptions } from "@azure/monitor-opentelemetry-exporter";
 import { EnvConfig } from "./envConfig.js";
 import { JsonConfig } from "./jsonConfig.js";
@@ -51,6 +52,8 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
   public metricExportIntervalMillis: number;
   /** Custom OpenTelemetry sampler (env-only) */
   public sampler?: Sampler;
+  /** Computes per-logger configuration (e.g. minimum severity) for the logger provider */
+  public loggerConfigurator?: LoggerConfigurator;
 
   private _resource: Resource = emptyResource();
 
@@ -130,6 +133,7 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
         options.enablePerformanceCounters !== undefined
           ? options.enablePerformanceCounters
           : this.enablePerformanceCounters;
+      this.loggerConfigurator = options.loggerConfigurator ?? this.loggerConfigurator;
     }
     // JSON configuration will take precedence over options provided
     this._mergeJsonConfig();

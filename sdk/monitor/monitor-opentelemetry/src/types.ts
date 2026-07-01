@@ -3,7 +3,7 @@
 import type { AzureMonitorExporterOptions } from "@azure/monitor-opentelemetry-exporter";
 import type { InstrumentationConfig } from "@opentelemetry/instrumentation";
 import type { Resource } from "@opentelemetry/resources";
-import type { LogRecordProcessor } from "@opentelemetry/sdk-logs";
+import type { LoggerConfigurator, LogRecordProcessor } from "@opentelemetry/sdk-logs";
 import type { MetricReader, ViewOptions } from "@opentelemetry/sdk-metrics";
 import type { SpanProcessor } from "@opentelemetry/sdk-trace-base";
 
@@ -33,6 +33,13 @@ export interface AzureMonitorOpenTelemetryOptions {
   browserSdkLoaderOptions?: BrowserSdkLoaderOptions;
   /** An array of log record processors to register to the logger provider.*/
   logRecordProcessors?: LogRecordProcessor[];
+  /**
+   * A function that computes the configuration (e.g. minimum severity, disabled state) for each
+   * logger, keyed by its instrumentation scope. Use {@link createLoggerConfigurator} to build one
+   * from a list of patterns. This enables filtering logs by verbosity/severity, independently of
+   * trace-based sampling, including logs emitted by libraries through the OpenTelemetry logger provider.
+   */
+  loggerConfigurator?: LoggerConfigurator;
   /** An array of span processors to register to the tracer provider.*/
   spanProcessors?: SpanProcessor[];
   /** An array of metric readers to register to the meter provider.*/

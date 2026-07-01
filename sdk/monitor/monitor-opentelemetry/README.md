@@ -201,6 +201,11 @@ useAzureMonitor(options);
     <td></td>
   </tr>
   <tr>
+    <td><code>loggerConfigurator</code></td>
+    <td>Function that computes per-logger configuration (e.g. minimum severity, disabled state), keyed by instrumentation scope. Use <code>createLoggerConfigurator</code> to build one. Enables filtering logs by verbosity/severity independently of trace-based sampling, including logs emitted by libraries through the logger provider.</td>
+    <td></td>
+  </tr>
+  <tr>
     <td><code>spanProcessors</code></td>
     <td>Array of span processors to register to the global tracer provider. </td>
     <td></td>
@@ -496,6 +501,28 @@ You might use the following ways to filter out telemetry before it leaves your a
           }
         }
       }
+      ```
+
+1.  Filter logs by severity (verbosity). Use `loggerConfigurator` to drop logs below a minimum severity, or to disable a specific logger entirely. Unlike a custom `LogRecordProcessor`, this filtering happens at the logger level — before any processor or exporter runs — so it works for logs emitted by libraries through the OpenTelemetry logger provider and is independent of trace-based sampling.
+
+      ```ts snippet:ReadmeSampleFilterLogsBySeverity
+      import {
+        AzureMonitorOpenTelemetryOptions,
+        createLoggerConfigurator,
+        useAzureMonitor,
+      } from "@azure/monitor-opentelemetry";
+      import { SeverityNumber } from "@opentelemetry/api-logs";
+
+      const options: AzureMonitorOpenTelemetryOptions = {
+        // Drop logs below WARN severity, except for the noisy "express" logger which
+        // is disabled entirely. Filtering happens at the logger level, before any
+        // processor or exporter, so it is independent of trace-based sampling.
+        loggerConfigurator: createLoggerConfigurator([
+          { pattern: "express", config: { disabled: true } },
+          { pattern: "*", config: { minimumSeverity: SeverityNumber.WARN } },
+        ]),
+      };
+      useAzureMonitor(options);
       ```
 
 ## Custom telemetry

@@ -25,6 +25,8 @@ import { BrowserSdkLoader } from "./browserSdkLoader/browserSdkLoader.js";
 import { setSdkPrefix } from "./metrics/quickpulse/utils.js";
 import type { SpanProcessor } from "@opentelemetry/sdk-trace-base";
 import type { LogRecordProcessor } from "@opentelemetry/sdk-logs";
+import { LoggerProvider } from "@opentelemetry/sdk-logs";
+import { detectResources } from "@opentelemetry/resources";
 import { getInstance } from "./utils/statsbeat.js";
 import { patchOpenTelemetryInstrumentationEnable } from "./utils/opentelemetryInstrumentationPatcher.js";
 import { ensureAzureSdkTracingBridge } from "./utils/azureSdkTracingBridge.js";
@@ -40,10 +42,13 @@ import { SEMRESATTRS_K8S_CLUSTER_NAME } from "@opentelemetry/semantic-convention
 const CLOUD_RESOURCE_ID_ATTRIBUTE = "cloud.resource_id";
 
 export type { AzureMonitorOpenTelemetryOptions, InstrumentationOptions, BrowserSdkLoaderOptions };
+export { createLoggerConfigurator } from "@opentelemetry/sdk-logs";
+export type { LoggerConfigurator, LoggerConfig, LoggerPattern } from "@opentelemetry/sdk-logs";
 
 process.env["AZURE_MONITOR_DISTRO_VERSION"] = AZURE_MONITOR_OPENTELEMETRY_VERSION;
 
 let sdk: NodeSDK;
+let loggerProvider: LoggerProvider | undefined;
 let browserSdkLoader: BrowserSdkLoader | undefined;
 
 /**
@@ -140,17 +145,34 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): voi
 
   const views: ViewOptions[] = metricHandler.getViews().concat(customViews);
 
+  // Build the LoggerProvider in the distro rather than letting NodeSDK own it.
+  // NodeSDK does not forward upstream logger configuration (e.g. severity-based
+  // filtering via loggerConfigurator), so we construct the provider ourselves and
+  // register it globally before sdk.start(). NodeSDK is then given an empty
+  // logRecordProcessors array, so the (empty) provider it builds fails to register
+  // (setGlobalLoggerProvider is a no-op once a provider is set) and stays inert.
+  let logResource = config.resource;
+  if (resourceDetectorsList.length > 0) {
+    logResource = logResource.merge(detectResources({ detectors: resourceDetectorsList }));
+  }
+  loggerProvider = new LoggerProvider({
+    resource: logResource,
+    processors: [
+      logHandler.getAzureLogRecordProcessor(),
+      ...logRecordProcessors,
+      logHandler.getBatchLogRecordProcessor(),
+    ],
+    loggerConfigurator: config.loggerConfigurator,
+  });
+  logs.setGlobalLoggerProvider(loggerProvider);
+
   // Initialize OpenTelemetry SDK
   const sdkConfig: Partial<NodeSDKConfiguration> = {
     autoDetectResources: true,
     metricReaders: metricReaders,
     views,
     instrumentations: instrumentations,
-    logRecordProcessors: [
-      logHandler.getAzureLogRecordProcessor(),
-      ...logRecordProcessors,
-      logHandler.getBatchLogRecordProcessor(),
-    ],
+    logRecordProcessors: [],
     resource: config.resource,
     sampler: traceHandler.getSampler(),
     spanProcessors: [
@@ -176,7 +198,9 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): voi
  */
 export function shutdownAzureMonitor(): Promise<void> {
   browserSdkLoader?.dispose();
-  return sdk?.shutdown();
+  const provider = loggerProvider;
+  loggerProvider = undefined;
+  return Promise.all([sdk?.shutdown(), provider?.shutdown()]).then(() => undefined);
 }
 
 /**
