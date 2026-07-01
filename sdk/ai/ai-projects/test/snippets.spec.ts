@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { VitestTestContext } from "@azure-tools/test-recorder";
-import { AIProjectClient, DatasetVersion, RestError, enableGenAITracing } from "../src/index.js";
+import { AIProjectClient, DatasetVersion, RestError } from "../src/index.js";
 import type { VersionRefIndicator } from "../src/index.js";
 import {
   useAzureMonitor,
@@ -1010,14 +1010,14 @@ Be direct and efficient. When you reach the search results page, read and descri
     ];
 
     // Create a new toolbox version
-    const created = await project.beta.toolboxes.createVersion(toolboxName, tools, {
+    const created = await project.toolboxes.createVersion(toolboxName, tools, {
       description: "Example toolbox created by the @azure/ai-projects sample.",
       metadata: { status: "created" },
     });
     console.log(`Toolbox: ${created.name} (tools: ${created.tools.length})`);
 
     // Retrieve the toolbox
-    const fetched = await project.beta.toolboxes.get(toolboxName);
+    const fetched = await project.toolboxes.get(toolboxName);
     console.log(`Retrieved toolbox: ${fetched.name} (${fetched.id})`);
   });
 
@@ -1067,25 +1067,38 @@ Be direct and efficient. When you reach the search results page, read and descri
     await project.beta.models.delete("my-model", "1");
   });
 
+  it("tracing_enable_disable", async function () {
+    const endpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
+    const credential = new DefaultAzureCredential();
+    // @ts-preserve-whitespace
+    // Tracing enabled
+    const project = new AIProjectClient(endpoint, credential, {
+      tracingOptions: { experimental: true },
+    });
+    // @ts-preserve-whitespace
+    // Tracing disabled (default — no tracingOptions passed)
+    const projectNoTrace = new AIProjectClient(endpoint, credential);
+    // @ts-preserve-whitespace
+    console.log(project, projectNoTrace);
+  });
+
   it("tracing_azure_monitor", async function () {
     const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
-    const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-
-    // Get Application Insights connection string from the project
-    const connectionString = await project.telemetry.getApplicationInsightsConnectionString();
-
-    // Configure Azure Monitor tracing
+    // Configure Azure Monitor tracing (must be done before creating the client)
+    const connectionString =
+      process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] || "<connection string>";
     useAzureMonitor({
       azureMonitorExporterOptions: { connectionString },
       samplingRatio: 1,
       tracesPerSecond: 0,
     });
-
-    // Enable GenAI tracing (experimental)
-    enableGenAITracing({
-      contentRecording: false,
-      traceContextPropagation: true,
-      experimental: true,
+    // Create client with tracing enabled (experimental)
+    const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential(), {
+      tracingOptions: {
+        experimental: true,
+        contentRecording: false,
+        traceContextPropagation: true,
+      },
     });
   });
 
@@ -1113,16 +1126,19 @@ Be direct and efficient. When you reach the search results page, read and descri
   });
 
   it("tracing_console", async function () {
-    // Set up OpenTelemetry with a console exporter
+    // Set up OpenTelemetry with a console exporter (must be done before creating the client)
     const provider = new NodeTracerProvider({
       spanProcessors: [new SimpleSpanProcessor(new ConsoleSpanExporter())],
     });
     provider.register();
-    // Enable GenAI tracing (experimental)
-    enableGenAITracing({
-      contentRecording: false,
-      traceContextPropagation: true,
-      experimental: true,
+    // Create client with tracing enabled (experimental)
+    const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
+    const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential(), {
+      tracingOptions: {
+        experimental: true,
+        contentRecording: false,
+        traceContextPropagation: true,
+      },
     });
   });
 

@@ -6,6 +6,10 @@
 
 import type * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import { RestError } from '@azure/core-rest-pipeline';
+
+export { isRestError }
 
 // @public
 export enum KnownLivyStatementStates {
@@ -96,6 +100,8 @@ export type LivyStates = string;
 
 // @public
 export type PluginCurrentState = string;
+
+export { RestError }
 
 // @public
 export type SchedulerCurrentState = string;

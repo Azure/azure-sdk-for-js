@@ -74,7 +74,9 @@ export async function _dispatchDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -82,7 +84,7 @@ export async function _dispatchDeserialize(
   return dispatchRoutineResponseDeserializer(result.body);
 }
 
-/** Queue an asynchronous routine dispatch. */
+/** Queues an asynchronous dispatch for the specified routine. */
 export async function dispatch(
   context: Client,
   routineName: string,
@@ -98,7 +100,7 @@ export function _listRunsSend(
   options: BetaRoutinesListRunsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/routines/{routine_name}/runs{?filter,limit,order,after,before,api-version}",
+    "/routines/{routine_name}/runs{?filter,limit,after,before,order,api-version}",
     {
       routine_name: routineName,
       filter: options?.filter,
@@ -130,7 +132,9 @@ export async function _listRunsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -138,7 +142,7 @@ export async function _listRunsDeserialize(
   return _agentsPagedResultRoutineRunDeserializer(result.body);
 }
 
-/** List prior runs for a routine. */
+/** Returns prior runs recorded for the specified routine. */
 export function listRuns(
   context: Client,
   routineName: string,
@@ -183,7 +187,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -191,7 +197,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   return;
 }
 
-/** Delete a routine. */
+/** Deletes the specified routine. */
 export async function $delete(
   context: Client,
   routineName: string,
@@ -206,12 +212,12 @@ export function _listSend(
   options: BetaRoutinesListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/routines{?limit,order,after,before,api-version}",
+    "/routines{?limit,after,before,order,api-version}",
     {
       limit: options?.limit,
-      order: options?.order,
       after: options?.after,
       before: options?.before,
+      order: options?.order,
       "api-version": context.apiVersion,
     },
     {
@@ -236,7 +242,9 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -250,7 +258,7 @@ export async function _listDeserialize(
   };
 }
 
-/** List routines. */
+/** Returns the routines available in the current project. */
 export function list(
   context: Client,
   options: BetaRoutinesListOptionalParams = { requestOptions: {} },
@@ -299,7 +307,9 @@ export async function _disableDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -307,7 +317,7 @@ export async function _disableDeserialize(result: PathUncheckedResponse): Promis
   return routineDeserializer(result.body);
 }
 
-/** Disable a routine. */
+/** Disables the specified routine so it no longer runs. */
 export async function disable(
   context: Client,
   routineName: string,
@@ -348,7 +358,9 @@ export async function _enableDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -356,7 +368,7 @@ export async function _enableDeserialize(result: PathUncheckedResponse): Promise
   return routineDeserializer(result.body);
 }
 
-/** Enable a routine. */
+/** Enables the specified routine so it can be dispatched. */
 export async function enable(
   context: Client,
   routineName: string,
@@ -397,7 +409,9 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ro
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -405,7 +419,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ro
   return routineDeserializer(result.body);
 }
 
-/** Retrieve a routine. */
+/** Retrieves the specified routine and its current configuration. */
 export async function get(
   context: Client,
   routineName: string,
@@ -455,7 +469,9 @@ export async function _createOrUpdateDeserialize(result: PathUncheckedResponse):
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -463,7 +479,7 @@ export async function _createOrUpdateDeserialize(result: PathUncheckedResponse):
   return routineDeserializer(result.body);
 }
 
-/** Create or update a routine. */
+/** Creates a new routine or replaces an existing routine with the supplied definition. */
 export async function createOrUpdate(
   context: Client,
   routineName: string,

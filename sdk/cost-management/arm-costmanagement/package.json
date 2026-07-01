@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-costmanagement",
-  "version": "1.0.0-beta.3",
+  "version": "1.0.0-beta.4",
   "description": "A generated SDK for CostManagementClient.",
   "engines": {
     "node": ">=22.0.0"

@@ -59,7 +59,7 @@ jobs:
   - template: /eng/pipelines/templates/steps/install-pnpm.yml
 
   - script: |
-      pnpm purge
+      node eng/tools/purge-node-modules.mjs sdk common
       git clean -xdf
     displayName: "Reset workspace"
 

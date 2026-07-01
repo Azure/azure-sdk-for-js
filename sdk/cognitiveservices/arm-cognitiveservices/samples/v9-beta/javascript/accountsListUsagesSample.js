@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get usages for the requested Cognitive Services account
  *
  * @summary get usages for the requested Cognitive Services account
- * x-ms-original-file: 2026-03-15-preview/GetUsages.json
+ * x-ms-original-file: 2026-05-15-preview/GetUsages.json
  */
 async function getUsages() {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function getUsages() {
  * This sample demonstrates how to get usages for the requested Cognitive Services account
  *
  * @summary get usages for the requested Cognitive Services account
- * x-ms-original-file: 2026-03-15-preview/GetUsagesClassicScope.json
+ * x-ms-original-file: 2026-05-15-preview/GetUsagesClassicScope.json
  */
 async function getUsagesClassicScope() {
   const credential = new DefaultAzureCredential();
@@ -36,7 +36,7 @@ async function getUsagesClassicScope() {
  * This sample demonstrates how to get usages for the requested Cognitive Services account
  *
  * @summary get usages for the requested Cognitive Services account
- * x-ms-original-file: 2026-03-15-preview/GetUsagesDataZoneScope.json
+ * x-ms-original-file: 2026-05-15-preview/GetUsagesDataZoneScope.json
  */
 async function getUsagesDataZoneScope() {
   const credential = new DefaultAzureCredential();
@@ -50,7 +50,7 @@ async function getUsagesDataZoneScope() {
  * This sample demonstrates how to get usages for the requested Cognitive Services account
  *
  * @summary get usages for the requested Cognitive Services account
- * x-ms-original-file: 2026-03-15-preview/GetUsagesGlobalScope.json
+ * x-ms-original-file: 2026-05-15-preview/GetUsagesGlobalScope.json
  */
 async function getUsagesGlobalScope() {
   const credential = new DefaultAzureCredential();

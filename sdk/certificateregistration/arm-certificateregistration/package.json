@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-certificateregistration",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A generated SDK for CertificateRegistrationManagementClient.",
   "engines": {
     "node": ">=22.0.0"

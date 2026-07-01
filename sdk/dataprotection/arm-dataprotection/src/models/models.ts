@@ -922,8 +922,7 @@ export function blobBackupDatasourceParametersDeserializer(
 
 /** Alias for BlobBackupDatasourceParametersUnion */
 export type BlobBackupDatasourceParametersUnion =
-  | AdlsBlobBackupDatasourceParameters
-  | BlobBackupDatasourceParameters;
+  AdlsBlobBackupDatasourceParameters | BlobBackupDatasourceParameters;
 
 export function blobBackupDatasourceParametersUnionSerializer(
   item: BlobBackupDatasourceParametersUnion,
@@ -1497,8 +1496,7 @@ export function blobBackupAutoProtectionSettingsDeserializer(
 
 /** Alias for BlobBackupAutoProtectionSettingsUnion */
 export type BlobBackupAutoProtectionSettingsUnion =
-  | BlobBackupRuleBasedAutoProtectionSettings
-  | BlobBackupAutoProtectionSettings;
+  BlobBackupRuleBasedAutoProtectionSettings | BlobBackupAutoProtectionSettings;
 
 export function blobBackupAutoProtectionSettingsUnionSerializer(
   item: BlobBackupAutoProtectionSettingsUnion,
@@ -1928,10 +1926,7 @@ export function restoreTargetInfoBaseSerializer(item: RestoreTargetInfoBase): an
 
 /** Alias for RestoreTargetInfoBaseUnion */
 export type RestoreTargetInfoBaseUnion =
-  | ItemLevelRestoreTargetInfo
-  | RestoreFilesTargetInfo
-  | RestoreTargetInfo
-  | RestoreTargetInfoBase;
+  ItemLevelRestoreTargetInfo | RestoreFilesTargetInfo | RestoreTargetInfo | RestoreTargetInfoBase;
 
 export function restoreTargetInfoBaseUnionSerializer(item: RestoreTargetInfoBaseUnion): any {
   switch (item.objectType) {
@@ -2452,8 +2447,7 @@ export type SourceDataStoreType = string;
 export interface AzureBackupRecoveryPointBasedRestoreRequest extends AzureBackupRestoreRequest {
   recoveryPointId: string;
   objectType:
-    | "AzureBackupRecoveryPointBasedRestoreRequest"
-    | "AzureBackupRestoreWithRehydrationRequest";
+    "AzureBackupRecoveryPointBasedRestoreRequest" | "AzureBackupRestoreWithRehydrationRequest";
 }
 
 export function azureBackupRecoveryPointBasedRestoreRequestSerializer(
@@ -2478,8 +2472,7 @@ export function azureBackupRecoveryPointBasedRestoreRequestSerializer(
 
 /** Alias for AzureBackupRecoveryPointBasedRestoreRequestUnion */
 export type AzureBackupRecoveryPointBasedRestoreRequestUnion =
-  | AzureBackupRestoreWithRehydrationRequest
-  | AzureBackupRecoveryPointBasedRestoreRequest;
+  AzureBackupRestoreWithRehydrationRequest | AzureBackupRecoveryPointBasedRestoreRequest;
 
 export function azureBackupRecoveryPointBasedRestoreRequestUnionSerializer(
   item: AzureBackupRecoveryPointBasedRestoreRequestUnion,
@@ -4300,9 +4293,7 @@ export function triggerContextDeserializer(item: any): TriggerContext {
 
 /** Alias for TriggerContextUnion */
 export type TriggerContextUnion =
-  | AdhocBasedTriggerContext
-  | ScheduleBasedTriggerContext
-  | TriggerContext;
+  AdhocBasedTriggerContext | ScheduleBasedTriggerContext | TriggerContext;
 
 export function triggerContextUnionSerializer(item: TriggerContextUnion): any {
   switch (item.objectType) {
@@ -4958,10 +4949,7 @@ export function copyOptionDeserializer(item: any): CopyOption {
 
 /** Alias for CopyOptionUnion */
 export type CopyOptionUnion =
-  | CopyOnExpiryOption
-  | CustomCopyOption
-  | ImmediateCopyOption
-  | CopyOption;
+  CopyOnExpiryOption | CustomCopyOption | ImmediateCopyOption | CopyOption;
 
 export function copyOptionUnionSerializer(item: CopyOptionUnion): any {
   switch (item.objectType) {
@@ -5241,8 +5229,7 @@ export function azureBackupRecoveryPointDeserializer(item: any): AzureBackupReco
 
 /** Alias for AzureBackupRecoveryPointUnion */
 export type AzureBackupRecoveryPointUnion =
-  | AzureBackupDiscreteRecoveryPoint
-  | AzureBackupRecoveryPoint;
+  AzureBackupDiscreteRecoveryPoint | AzureBackupRecoveryPoint;
 
 export function azureBackupRecoveryPointUnionDeserializer(
   item: any,
@@ -5939,8 +5926,7 @@ export function featureValidationRequestBaseSerializer(item: FeatureValidationRe
 
 /** Alias for FeatureValidationRequestBaseUnion */
 export type FeatureValidationRequestBaseUnion =
-  | FeatureValidationRequest
-  | FeatureValidationRequestBase;
+  FeatureValidationRequest | FeatureValidationRequestBase;
 
 export function featureValidationRequestBaseUnionSerializer(
   item: FeatureValidationRequestBaseUnion,
@@ -6007,8 +5993,7 @@ export function featureValidationResponseBaseDeserializer(
 
 /** Alias for FeatureValidationResponseBaseUnion */
 export type FeatureValidationResponseBaseUnion =
-  | FeatureValidationResponse
-  | FeatureValidationResponseBase;
+  FeatureValidationResponse | FeatureValidationResponseBase;
 
 export function featureValidationResponseBaseUnionDeserializer(
   item: any,

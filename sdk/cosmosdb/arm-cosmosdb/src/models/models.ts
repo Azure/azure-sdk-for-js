@@ -528,11 +528,7 @@ export function consistencyPolicyDeserializer(item: any): ConsistencyPolicy {
 
 /** The default consistency level and configuration settings of the Cosmos DB account. */
 export type DefaultConsistencyLevel =
-  | "Eventual"
-  | "Session"
-  | "BoundedStaleness"
-  | "Strong"
-  | "ConsistentPrefix";
+  "Eventual" | "Session" | "BoundedStaleness" | "Strong" | "ConsistentPrefix";
 
 export function capabilityArraySerializer(result: Array<Capability>): any[] {
   return result.map((item) => {
@@ -1165,9 +1161,7 @@ export function backupPolicyDeserializer(item: any): BackupPolicy {
 
 /** Alias for BackupPolicyUnion */
 export type BackupPolicyUnion =
-  | PeriodicModeBackupPolicy
-  | ContinuousModeBackupPolicy
-  | BackupPolicy;
+  PeriodicModeBackupPolicy | ContinuousModeBackupPolicy | BackupPolicy;
 
 export function backupPolicyUnionSerializer(item: BackupPolicyUnion): any {
   switch (item.type) {
@@ -1700,10 +1694,7 @@ export function managedServiceIdentityDeserializer(item: any): ManagedServiceIde
 
 /** The type of identity used for the resource. The type 'SystemAssigned,UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the service. */
 export type ResourceIdentityType =
-  | "SystemAssigned"
-  | "UserAssigned"
-  | "SystemAssigned,UserAssigned"
-  | "None";
+  "SystemAssigned" | "UserAssigned" | "SystemAssigned,UserAssigned" | "None";
 
 export function components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalpropertiesRecordSerializer(
   item: Record<
@@ -10222,10 +10213,7 @@ export type DataTransferComponent = string;
 export interface BaseCosmosDataTransferDataSourceSink extends DataTransferDataSourceSink {
   remoteAccountName?: string;
   component:
-    | "BaseCosmosDataTransferDataSourceSink"
-    | "CosmosDBCassandra"
-    | "CosmosDBMongo"
-    | "CosmosDBSql";
+    "BaseCosmosDataTransferDataSourceSink" | "CosmosDBCassandra" | "CosmosDBMongo" | "CosmosDBSql";
 }
 
 export function baseCosmosDataTransferDataSourceSinkSerializer(
