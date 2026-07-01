@@ -9,7 +9,6 @@ trigger:
   paths:
     include:
       - sdk/deviceupdate/
-      - sdk/deviceupdate/ci.yml
     exclude:
       - sdk/deviceupdate/arm-deviceupdate
       - sdk/deviceupdate/ci.mgmt.yml
@@ -23,7 +22,6 @@ pr:
   paths:
     include:
       - sdk/deviceupdate/
-      - sdk/deviceupdate/ci.yml
     exclude:
       - sdk/deviceupdate/arm-deviceupdate
       - sdk/deviceupdate/ci.mgmt.yml
