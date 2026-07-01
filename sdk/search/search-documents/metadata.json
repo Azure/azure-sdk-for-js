@@ -2,7 +2,7 @@
   "apiVersions": {
     "Search": "2026-04-01"
   },
-  "emitterVersion": "0.52.3",
+  "emitterVersion": "0.55.0",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Search",
     "CrossLanguageDefinitionId": {
@@ -263,6 +263,14 @@
       "@azure/search-documents!KnowledgeBaseActivityRecord:interface": "Search.KnowledgeBaseActivityRecord",
       "@azure/search-documents!KnowledgeBaseErrorDetail:interface": "Search.KnowledgeBaseErrorDetail",
       "@azure/search-documents!KnowledgeBaseErrorAdditionalInfo:interface": "Search.KnowledgeBaseErrorAdditionalInfo",
+      "@azure/search-documents!KnowledgeBaseSearchIndexActivityRecord:interface": "Search.KnowledgeBaseSearchIndexActivityRecord",
+      "@azure/search-documents!KnowledgeBaseSearchIndexActivityArguments:interface": "Search.KnowledgeBaseSearchIndexActivityArguments",
+      "@azure/search-documents!KnowledgeBaseAzureBlobActivityRecord:interface": "Search.KnowledgeBaseAzureBlobActivityRecord",
+      "@azure/search-documents!KnowledgeBaseAzureBlobActivityArguments:interface": "Search.KnowledgeBaseAzureBlobActivityArguments",
+      "@azure/search-documents!KnowledgeBaseIndexedOneLakeActivityRecord:interface": "Search.KnowledgeBaseIndexedOneLakeActivityRecord",
+      "@azure/search-documents!KnowledgeBaseIndexedOneLakeActivityArguments:interface": "Search.KnowledgeBaseIndexedOneLakeActivityArguments",
+      "@azure/search-documents!KnowledgeBaseWebActivityRecord:interface": "Search.KnowledgeBaseWebActivityRecord",
+      "@azure/search-documents!KnowledgeBaseWebActivityArguments:interface": "Search.KnowledgeBaseWebActivityArguments",
       "@azure/search-documents!KnowledgeBaseModelWebSummarizationActivityRecord:interface": "Search.KnowledgeBaseModelWebSummarizationActivityRecord",
       "@azure/search-documents!KnowledgeBaseAgenticReasoningActivityRecord:interface": "Search.KnowledgeBaseAgenticReasoningActivityRecord",
       "@azure/search-documents!KnowledgeRetrievalReasoningEffort:interface": "Search.KnowledgeRetrievalReasoningEffort",
@@ -272,7 +280,6 @@
       "@azure/search-documents!KnowledgeBaseAzureBlobReference:interface": "Search.KnowledgeBaseAzureBlobReference",
       "@azure/search-documents!KnowledgeBaseIndexedOneLakeReference:interface": "Search.KnowledgeBaseIndexedOneLakeReference",
       "@azure/search-documents!KnowledgeBaseWebReference:interface": "Search.KnowledgeBaseWebReference",
-      "@azure/search-documents!DebugInfo:interface": "Search.DebugInfo",
       "@azure/search-documents!IndexerResyncBody:interface": "Search.IndexerResyncBody",
       "@azure/search-documents!DocumentKeysOrIds:interface": "Search.DocumentKeysOrIds",
       "@azure/search-documents!SkillNames:interface": "Search.SkillNames",

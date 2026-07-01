@@ -16,6 +16,8 @@ import {
   azureOpenAIVectorizerParametersDeserializer,
   knowledgeBaseModelUnionSerializer,
   knowledgeBaseModelUnionDeserializer,
+  searchIndexFieldReferenceArrayDeserializer,
+  SearchIndexFieldReference,
   indexingScheduleSerializer,
   indexingScheduleDeserializer,
 } from "../indexes/models.js";
@@ -800,10 +802,10 @@ export interface KnowledgeBaseActivityRecord {
   /** The ID of the activity record. */
   id: number;
   /** The type of the activity record. */
-  /** The discriminator possible values: modelWebSummarization, agenticReasoning */
+  /** The discriminator possible values: searchIndex, azureBlob, indexedOneLake, web, modelWebSummarization, agenticReasoning */
   type: KnowledgeBaseActivityRecordType;
   /** The elapsed time in milliseconds for the retrieval activity. */
-  elapsedInMs?: number;
+  elapsedMs?: number;
   /** The error detail explaining why the operation failed. This property is only included when the activity does not succeed. */
   error?: KnowledgeBaseErrorDetail;
 }
@@ -812,13 +814,17 @@ export function knowledgeBaseActivityRecordDeserializer(item: any): KnowledgeBas
   return {
     id: item["id"],
     type: item["type"],
-    elapsedInMs: item["elapsedInMs"],
+    elapsedMs: item["elapsedMs"],
     error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
   };
 }
 
 /** Alias for KnowledgeBaseActivityRecordUnion */
 export type KnowledgeBaseActivityRecordUnion =
+  | KnowledgeBaseSearchIndexActivityRecord
+  | KnowledgeBaseAzureBlobActivityRecord
+  | KnowledgeBaseIndexedOneLakeActivityRecord
+  | KnowledgeBaseWebActivityRecord
   | KnowledgeBaseModelWebSummarizationActivityRecord
   | KnowledgeBaseAgenticReasoningActivityRecord
   | KnowledgeBaseActivityRecord;
@@ -827,6 +833,24 @@ export function knowledgeBaseActivityRecordUnionDeserializer(
   item: any,
 ): KnowledgeBaseActivityRecordUnion {
   switch (item["type"]) {
+    case "searchIndex":
+      return knowledgeBaseSearchIndexActivityRecordDeserializer(
+        item as KnowledgeBaseSearchIndexActivityRecord,
+      );
+
+    case "azureBlob":
+      return knowledgeBaseAzureBlobActivityRecordDeserializer(
+        item as KnowledgeBaseAzureBlobActivityRecord,
+      );
+
+    case "indexedOneLake":
+      return knowledgeBaseIndexedOneLakeActivityRecordDeserializer(
+        item as KnowledgeBaseIndexedOneLakeActivityRecord,
+      );
+
+    case "web":
+      return knowledgeBaseWebActivityRecordDeserializer(item as KnowledgeBaseWebActivityRecord);
+
     case "modelWebSummarization":
       return knowledgeBaseModelWebSummarizationActivityRecordDeserializer(
         item as KnowledgeBaseModelWebSummarizationActivityRecord,
@@ -935,6 +959,214 @@ export function knowledgeBaseErrorAdditionalInfoDeserializer(
   };
 }
 
+/** Represents a search index retrieval activity record. */
+export interface KnowledgeBaseSearchIndexActivityRecord extends KnowledgeBaseActivityRecord {
+  /** The knowledge source for the retrieval activity. */
+  knowledgeSourceName?: string;
+  /** The query time for this retrieval activity. */
+  queryTime?: Date;
+  /** The count of documents retrieved that were sufficiently relevant to pass the reranker threshold. */
+  count?: number;
+  /** The discriminator value. */
+  type: "searchIndex";
+  /** The search index arguments for the retrieval activity. */
+  searchIndexArguments?: KnowledgeBaseSearchIndexActivityArguments;
+}
+
+export function knowledgeBaseSearchIndexActivityRecordDeserializer(
+  item: any,
+): KnowledgeBaseSearchIndexActivityRecord {
+  return {
+    id: item["id"],
+    type: item["type"],
+    elapsedMs: item["elapsedMs"],
+    error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
+    knowledgeSourceName: item["knowledgeSourceName"],
+    queryTime: !item["queryTime"] ? item["queryTime"] : new Date(item["queryTime"]),
+    count: item["count"],
+    searchIndexArguments: !item["searchIndexArguments"]
+      ? item["searchIndexArguments"]
+      : knowledgeBaseSearchIndexActivityArgumentsDeserializer(item["searchIndexArguments"]),
+  };
+}
+
+/** Represents the arguments the search index retrieval activity was run with. */
+export interface KnowledgeBaseSearchIndexActivityArguments {
+  /** The search string used to query the search index. */
+  search?: string;
+  /** The filter string. */
+  filter?: string;
+  /** What fields were selected for search. */
+  sourceDataFields?: SearchIndexFieldReference[];
+  /** What fields were searched against. */
+  searchFields?: SearchIndexFieldReference[];
+  /** What semantic configuration was used from the search index. */
+  semanticConfigurationName?: string;
+}
+
+export function knowledgeBaseSearchIndexActivityArgumentsDeserializer(
+  item: any,
+): KnowledgeBaseSearchIndexActivityArguments {
+  return {
+    search: item["search"],
+    filter: item["filter"],
+    sourceDataFields: !item["sourceDataFields"]
+      ? item["sourceDataFields"]
+      : searchIndexFieldReferenceArrayDeserializer(item["sourceDataFields"]),
+    searchFields: !item["searchFields"]
+      ? item["searchFields"]
+      : searchIndexFieldReferenceArrayDeserializer(item["searchFields"]),
+    semanticConfigurationName: item["semanticConfigurationName"],
+  };
+}
+
+/** Represents a azure blob retrieval activity record. */
+export interface KnowledgeBaseAzureBlobActivityRecord extends KnowledgeBaseActivityRecord {
+  /** The knowledge source for the retrieval activity. */
+  knowledgeSourceName?: string;
+  /** The query time for this retrieval activity. */
+  queryTime?: Date;
+  /** The count of documents retrieved that were sufficiently relevant to pass the reranker threshold. */
+  count?: number;
+  /** The discriminator value. */
+  type: "azureBlob";
+  /** The azure blob arguments for the retrieval activity. */
+  azureBlobArguments?: KnowledgeBaseAzureBlobActivityArguments;
+}
+
+export function knowledgeBaseAzureBlobActivityRecordDeserializer(
+  item: any,
+): KnowledgeBaseAzureBlobActivityRecord {
+  return {
+    id: item["id"],
+    type: item["type"],
+    elapsedMs: item["elapsedMs"],
+    error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
+    knowledgeSourceName: item["knowledgeSourceName"],
+    queryTime: !item["queryTime"] ? item["queryTime"] : new Date(item["queryTime"]),
+    count: item["count"],
+    azureBlobArguments: !item["azureBlobArguments"]
+      ? item["azureBlobArguments"]
+      : knowledgeBaseAzureBlobActivityArgumentsDeserializer(item["azureBlobArguments"]),
+  };
+}
+
+/** Represents the arguments the azure blob retrieval activity was run with. */
+export interface KnowledgeBaseAzureBlobActivityArguments {
+  /** The search string used to query blob contents. */
+  search?: string;
+}
+
+export function knowledgeBaseAzureBlobActivityArgumentsDeserializer(
+  item: any,
+): KnowledgeBaseAzureBlobActivityArguments {
+  return {
+    search: item["search"],
+  };
+}
+
+/** Represents a indexed OneLake retrieval activity record. */
+export interface KnowledgeBaseIndexedOneLakeActivityRecord extends KnowledgeBaseActivityRecord {
+  /** The knowledge source for the retrieval activity. */
+  knowledgeSourceName?: string;
+  /** The query time for this retrieval activity. */
+  queryTime?: Date;
+  /** The count of documents retrieved that were sufficiently relevant to pass the reranker threshold. */
+  count?: number;
+  /** The discriminator value. */
+  type: "indexedOneLake";
+  /** The indexed OneLake arguments for the retrieval activity. */
+  indexedOneLakeArguments?: KnowledgeBaseIndexedOneLakeActivityArguments;
+}
+
+export function knowledgeBaseIndexedOneLakeActivityRecordDeserializer(
+  item: any,
+): KnowledgeBaseIndexedOneLakeActivityRecord {
+  return {
+    id: item["id"],
+    type: item["type"],
+    elapsedMs: item["elapsedMs"],
+    error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
+    knowledgeSourceName: item["knowledgeSourceName"],
+    queryTime: !item["queryTime"] ? item["queryTime"] : new Date(item["queryTime"]),
+    count: item["count"],
+    indexedOneLakeArguments: !item["indexedOneLakeArguments"]
+      ? item["indexedOneLakeArguments"]
+      : knowledgeBaseIndexedOneLakeActivityArgumentsDeserializer(item["indexedOneLakeArguments"]),
+  };
+}
+
+/** Represents the arguments the indexed OneLake retrieval activity was run with. */
+export interface KnowledgeBaseIndexedOneLakeActivityArguments {
+  /** The search string used to query indexed OneLake contents. */
+  search?: string;
+}
+
+export function knowledgeBaseIndexedOneLakeActivityArgumentsDeserializer(
+  item: any,
+): KnowledgeBaseIndexedOneLakeActivityArguments {
+  return {
+    search: item["search"],
+  };
+}
+
+/** Represents a web retrieval activity record. */
+export interface KnowledgeBaseWebActivityRecord extends KnowledgeBaseActivityRecord {
+  /** The knowledge source for the retrieval activity. */
+  knowledgeSourceName?: string;
+  /** The query time for this retrieval activity. */
+  queryTime?: Date;
+  /** The count of documents retrieved that were sufficiently relevant to pass the reranker threshold. */
+  count?: number;
+  /** The discriminator value. */
+  type: "web";
+  /** The web arguments for the retrieval activity. */
+  webArguments?: KnowledgeBaseWebActivityArguments;
+}
+
+export function knowledgeBaseWebActivityRecordDeserializer(
+  item: any,
+): KnowledgeBaseWebActivityRecord {
+  return {
+    id: item["id"],
+    type: item["type"],
+    elapsedMs: item["elapsedMs"],
+    error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
+    knowledgeSourceName: item["knowledgeSourceName"],
+    queryTime: !item["queryTime"] ? item["queryTime"] : new Date(item["queryTime"]),
+    count: item["count"],
+    webArguments: !item["webArguments"]
+      ? item["webArguments"]
+      : knowledgeBaseWebActivityArgumentsDeserializer(item["webArguments"]),
+  };
+}
+
+/** Represents the arguments the web retrieval activity was run with. */
+export interface KnowledgeBaseWebActivityArguments {
+  /** The search string used to query the web. */
+  search?: string;
+  /** The language for the retrieval activity. */
+  language?: string;
+  /** The market for the retrieval activity. */
+  market?: string;
+  /** The number of web results returned. */
+  count?: number;
+  /** The freshness for the retrieval activity. */
+  freshness?: string;
+}
+
+export function knowledgeBaseWebActivityArgumentsDeserializer(
+  item: any,
+): KnowledgeBaseWebActivityArguments {
+  return {
+    search: item["search"],
+    language: item["language"],
+    market: item["market"],
+    count: item["count"],
+    freshness: item["freshness"],
+  };
+}
+
 /** Represents an LLM web summarization activity record. */
 export interface KnowledgeBaseModelWebSummarizationActivityRecord extends KnowledgeBaseActivityRecord {
   /** The discriminator value. */
@@ -951,7 +1183,7 @@ export function knowledgeBaseModelWebSummarizationActivityRecordDeserializer(
   return {
     id: item["id"],
     type: item["type"],
-    elapsedInMs: item["elapsedInMs"],
+    elapsedMs: item["elapsedMs"],
     error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
     inputTokensCount: item["inputTokens"],
     outputTokensCount: item["outputTokens"],
@@ -974,7 +1206,7 @@ export function knowledgeBaseAgenticReasoningActivityRecordDeserializer(
   return {
     id: item["id"],
     type: item["type"],
-    elapsedInMs: item["elapsedInMs"],
+    elapsedMs: item["elapsedMs"],
     error: !item["error"] ? item["error"] : knowledgeBaseErrorDetailDeserializer(item["error"]),
     reasoningTokens: item["reasoningTokens"],
     retrievalReasoningEffort: !item["retrievalReasoningEffort"]

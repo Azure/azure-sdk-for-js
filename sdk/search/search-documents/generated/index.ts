@@ -8,6 +8,7 @@ import {
 } from "./static-helpers/pagingHelpers.js";
 
 export { SearchClient } from "./search/searchClient.js";
+export type { GetDocumentCountResponse } from "./models/index.js";
 export { KnownVersions } from "./models/index.js";
 export type {
   ErrorResponse,
@@ -52,7 +53,6 @@ export type {
   AutocompleteResult,
   AutocompleteItem,
   AutocompleteMode,
-  DebugInfo,
 } from "./models/azure/search/documents/index.js";
 export {
   KnownQueryType,
@@ -440,6 +440,14 @@ export type {
   KnowledgeBaseActivityRecordType,
   KnowledgeBaseErrorDetail,
   KnowledgeBaseErrorAdditionalInfo,
+  KnowledgeBaseSearchIndexActivityRecord,
+  KnowledgeBaseSearchIndexActivityArguments,
+  KnowledgeBaseAzureBlobActivityRecord,
+  KnowledgeBaseAzureBlobActivityArguments,
+  KnowledgeBaseIndexedOneLakeActivityRecord,
+  KnowledgeBaseIndexedOneLakeActivityArguments,
+  KnowledgeBaseWebActivityRecord,
+  KnowledgeBaseWebActivityArguments,
   KnowledgeBaseModelWebSummarizationActivityRecord,
   KnowledgeBaseAgenticReasoningActivityRecord,
   KnowledgeRetrievalReasoningEffort,
@@ -474,6 +482,7 @@ export type {
   SearchClientOptionalParams,
 } from "./search/api/index.js";
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";
 export { SearchIndexClient } from "./searchIndex/searchIndexClient.js";
 export type {
   GetServiceStatisticsOptionalParams,

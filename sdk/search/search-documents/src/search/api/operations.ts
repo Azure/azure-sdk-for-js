@@ -20,6 +20,7 @@ import {
   indexDocumentsResultDeserializer,
   autocompleteResultDeserializer,
 } from "../../models/azure/search/documents/models.js";
+import { GetDocumentCountResponse } from "../../models/models.js";
 import { buildCsvCollection } from "../../static-helpers/serialization/build-csv-collection.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
@@ -91,7 +92,9 @@ export async function _autocompletePostDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -160,7 +163,9 @@ export async function _autocompleteGetDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -216,7 +221,9 @@ export async function _indexDeserialize(
   const expectedStatuses = ["200", "207"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -284,7 +291,9 @@ export async function _suggestPostDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -350,7 +359,9 @@ export async function _suggestGetDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -406,7 +417,9 @@ export async function _getDocumentDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -505,7 +518,9 @@ export async function _searchPostDeserialize(
   const expectedStatuses = ["200", "206"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -594,7 +609,9 @@ export async function _searchGetDeserialize(
   const expectedStatuses = ["200", "206"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -639,23 +656,27 @@ export function _getDocumentCountSend(
   });
 }
 
-export async function _getDocumentCountDeserialize(result: PathUncheckedResponse): Promise<number> {
+export async function _getDocumentCountDeserialize(
+  result: PathUncheckedResponse,
+): Promise<GetDocumentCountResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
-  return result.body;
+  return { body: result.body };
 }
 
 /** Queries the number of documents in the index. */
 export async function getDocumentCount(
   context: Client,
   options: GetDocumentCountOptionalParams = { requestOptions: {} },
-): Promise<number> {
+): Promise<GetDocumentCountResponse> {
   const result = await _getDocumentCountSend(context, options);
   return _getDocumentCountDeserialize(result);
 }
