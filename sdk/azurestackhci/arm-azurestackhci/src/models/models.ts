@@ -4190,9 +4190,7 @@ export function hciEdgeDeviceJobPropertiesDeserializer(item: any): HciEdgeDevice
 
 /** Alias for HciEdgeDeviceJobPropertiesUnion */
 export type HciEdgeDeviceJobPropertiesUnion =
-  | HciCollectLogJobProperties
-  | HciRemoteSupportJobProperties
-  | HciEdgeDeviceJobProperties;
+  HciCollectLogJobProperties | HciRemoteSupportJobProperties | HciEdgeDeviceJobProperties;
 
 export function hciEdgeDeviceJobPropertiesUnionSerializer(
   item: HciEdgeDeviceJobPropertiesUnion,
