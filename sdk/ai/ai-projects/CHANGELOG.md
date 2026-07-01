@@ -5,7 +5,6 @@
 ### Features Added
 
 - Changed GenAI tracing from a process-wide setting to a per-client configuration via `tracingOptions` on `AIProjectClientOptionalParams`. Tracing is now enabled by passing `tracingOptions: { experimental: true }` when constructing the client instead of calling the global `enableGenAITracing()` function.
-- Added `ReminderPreviewTool` as a new agent tool kind (`"reminder_preview"`) usable through `project.agents.createVersion` and the `ToolUnion` type.
 - Added `ProtocolConfiguration` and per-protocol configuration types (`ActivityProtocolConfiguration`, `ResponsesProtocolConfiguration`, `A2AProtocolConfiguration`, `McpProtocolConfiguration`, `InvocationsProtocolConfiguration`, `InvocationsWsProtocolConfiguration`) on the agent endpoint.
 - Added `BotServiceTenantAuthorizationScheme` as a new `AgentEndpointAuthorizationScheme` subtype.
 - Added `VersionSelectionRuleType` type alias.
@@ -20,7 +19,7 @@
 ### Breaking Changes
 
 - Removed the global `enableGenAITracing()` and `disableGenAITracing()` functions. Use `tracingOptions` on `AIProjectClientOptionalParams` instead.
-- Removed `ToolboxSearchPreviewTool` from the `ToolUnion` (replaced by `ReminderPreviewTool`).
+- Removed `ToolboxSearchPreviewTool` from the `ToolUnion`.
 - Removed `name`, `description`, and `tool_configs` properties from `MicrosoftFabricPreviewTool`, `SharepointPreviewTool`, and other preview tool interfaces. On `BingGroundingTool`, these properties are deprecated.
 - Removed `tools` property from `HostedAgentDefinition`.
 - Removed `AgentEndpointProtocol` type alias; replaced by `ProtocolConfiguration` on the agent endpoint.
