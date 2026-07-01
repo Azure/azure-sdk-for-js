@@ -26,8 +26,6 @@ export interface BetaInsightsListOptionalParams extends OperationOptions {
   agentName?: string;
   /** Whether to include coordinates for visualization in the response. Defaults to false. */
   includeCoordinates?: boolean;
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
 }
 
 /** Optional parameters. */
@@ -36,8 +34,6 @@ export interface BetaInsightsGetOptionalParams extends OperationOptions {
   foundryFeatures?: "Insights=V1Preview";
   /** Whether to include coordinates for visualization in the response. Defaults to false. */
   includeCoordinates?: boolean;
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
 }
 
 /** Optional parameters. */
