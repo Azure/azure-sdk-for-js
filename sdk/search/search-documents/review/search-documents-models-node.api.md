@@ -4,6 +4,11 @@
 
 ```ts
 
+// @public (undocumented)
+export type GetDocumentCountResponse = {
+    body: number;
+};
+
 // @public
 export interface KnowledgeBaseModelWebSummarizationActivityRecord extends KnowledgeBaseActivityRecord {
     inputTokensCount?: number;

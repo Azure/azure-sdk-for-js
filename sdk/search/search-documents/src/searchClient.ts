@@ -238,8 +238,8 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
       "SearchClient-getDocumentsCount",
       options,
       async (updatedOptions) => {
-        const count = await this.client.getDocumentCount(updatedOptions);
-        return Number(count);
+        const result = await this.client.getDocumentCount(updatedOptions);
+        return Number(result.body);
       },
     );
   }
