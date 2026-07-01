@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 import { extractConnectionStringParts } from "../../src/utils/utils.common.js";
 import { Recorder } from "@azure-tools/test-recorder";
-import { recorderEnvSetup } from "../utils/index.js";
+import { createAndStartRecorder } from "../utils/index.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Utility Helpers Node.js only", () => {
@@ -33,8 +33,7 @@ describe("Utility Helpers Node.js only", () => {
   }
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
+    recorder = await createAndStartRecorder(ctx);
   });
 
   afterEach(async () => {
