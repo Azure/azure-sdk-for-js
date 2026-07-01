@@ -13,6 +13,23 @@ Add the broken links into [eng/ignore-links.txt](https://github.com/Azure/azure-
 
 For new service the error usually happens, fix spelling in code or in markdown at file [.vscode/cspell.json](https://github.com/Azure/azure-sdk-for-js/blob/main/.vscode/cspell.json). See an example in [devcenter PR](https://github.com/chrissmiller/azure-sdk-for-js/commit/ef18dccae59e98185e3854f8b087230b65735744).
 
+# Samples publish check
+
+This check ensures that samples in your package can be successfully published using the `dev-tool samples publish` command.
+
+Common reasons for failure:
+- Missing or invalid sample metadata in `package.json`
+- TypeScript compilation errors in `samples-dev/` files
+- Missing dependencies required by samples
+- Invalid sample file structure
+
+To fix:
+1. Run `npx dev-tool samples publish -o /tmp/test-output` locally in your package directory
+2. Review the error output to identify the specific issue
+3. Fix the issue and verify locally before pushing
+
+For more information about samples, see the [samples documentation](https://github.com/Azure/azure-sdk-for-js/tree/main/common/tools/dev-tool#samples).
+
 # Push failure\
 
 ## Spawn pwsh ENOENT
