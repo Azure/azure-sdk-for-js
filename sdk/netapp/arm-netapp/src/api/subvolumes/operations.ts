@@ -50,7 +50,7 @@ export function _getMetadataSend(
       poolName: poolName,
       volumeName: volumeName,
       subvolumeName: subvolumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -102,7 +102,7 @@ export function getMetadata(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-04-01",
+    apiVersion: context.apiVersion ?? "2026-04-15-preview",
   }) as PollerLike<OperationState<SubvolumeModel>, SubvolumeModel>;
 }
 
@@ -122,7 +122,7 @@ export function _listByVolumeSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -164,7 +164,11 @@ export function listByVolume(
     () => _listByVolumeSend(context, resourceGroupName, accountName, poolName, volumeName, options),
     _listByVolumeDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-04-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-04-15-preview",
+    },
   );
 }
 
@@ -186,7 +190,7 @@ export function _$deleteSend(
       poolName: poolName,
       volumeName: volumeName,
       subvolumeName: subvolumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -233,7 +237,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-04-01",
+    apiVersion: context.apiVersion ?? "2026-04-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -256,7 +260,7 @@ export function _updateSend(
       poolName: poolName,
       volumeName: volumeName,
       subvolumeName: subvolumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -310,7 +314,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-04-01",
+    apiVersion: context.apiVersion ?? "2026-04-15-preview",
   }) as PollerLike<OperationState<SubvolumeInfo>, SubvolumeInfo>;
 }
 
@@ -333,7 +337,7 @@ export function _createSend(
       poolName: poolName,
       volumeName: volumeName,
       subvolumeName: subvolumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -387,7 +391,7 @@ export function create(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-04-01",
+    apiVersion: context.apiVersion ?? "2026-04-15-preview",
   }) as PollerLike<OperationState<SubvolumeInfo>, SubvolumeInfo>;
 }
 
@@ -409,7 +413,7 @@ export function _getSend(
       poolName: poolName,
       volumeName: volumeName,
       subvolumeName: subvolumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-04-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

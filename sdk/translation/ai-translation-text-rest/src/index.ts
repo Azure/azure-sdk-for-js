@@ -17,3 +17,4 @@ export type {
 
 // eslint-disable-next-line @azure/azure-sdk/ts-modules-only-named
 export default TextTranslationClient;
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

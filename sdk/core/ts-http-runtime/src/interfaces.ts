@@ -337,14 +337,7 @@ export type TransferProgressEvent = {
  * Supported HTTP methods to use when making requests.
  */
 export type HttpMethods =
-  | "GET"
-  | "PUT"
-  | "POST"
-  | "DELETE"
-  | "PATCH"
-  | "HEAD"
-  | "OPTIONS"
-  | "TRACE";
+  "GET" | "PUT" | "POST" | "DELETE" | "PATCH" | "HEAD" | "OPTIONS" | "TRACE";
 
 /**
  * Options to configure a proxy for outgoing requests (Node.js only).

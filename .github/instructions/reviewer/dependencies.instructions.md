@@ -53,6 +53,10 @@ Hardcoded versions for cataloged deps are wrong:
 - **Stable package depending on beta:** ❌ Not allowed — flag and require stable dependency
 - **Beta package depending on beta:** Must use exact pin (e.g., `"1.0.0-beta.1"`) to protect against breaking changes
 
+## New Dependency Approval Gate
+
+New third-party runtime `dependencies` in shipped libraries (`sdk-type` `client`/`mgmt`) must be first-party (`@azure*`, `@microsoft/*`, `@typespec/*`) or listed in `eng/approved-third-party-dependencies.yml` (`allowed`, or an `exceptions` entry naming the package). Enforced by the `@azure/azure-sdk/ts-package-json-approved-dependencies` ESLint rule. Flag any new runtime dep not covered there.
+
 ## Dev vs Runtime Boundary
 
 - Test-only (`vitest`, `chai`, `playwright`, `nock`, `@vitest/coverage-istanbul`): `devDependencies`

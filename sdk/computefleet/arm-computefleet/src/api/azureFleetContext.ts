@@ -34,7 +34,7 @@ export function createAzureFleet(
   const endpointUrl =
     options.endpoint ?? getArmEndpoint(options.cloudSetting) ?? "https://management.azure.com";
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentInfo = `azsdk-js-arm-computefleet/2.0.0-beta.2`;
+  const userAgentInfo = `azsdk-js-arm-computefleet/2.0.0-beta.3`;
   const userAgentPrefix = prefixFromOptions
     ? `${prefixFromOptions} azsdk-js-api ${userAgentInfo}`
     : `azsdk-js-api ${userAgentInfo}`;

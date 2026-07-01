@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-qumulo",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "A generated SDK for QumuloStorage.",
   "engines": {
     "node": ">=22.0.0"

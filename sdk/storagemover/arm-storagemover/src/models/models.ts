@@ -639,13 +639,7 @@ export function weeklyRecurrenceDeserializer(item: any): WeeklyRecurrence {
 
 /** The day of week. */
 export type DayOfWeek =
-  | "Monday"
-  | "Tuesday"
-  | "Wednesday"
-  | "Thursday"
-  | "Friday"
-  | "Saturday"
-  | "Sunday";
+  "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday" | "Sunday";
 
 /** The schedule recurrence. */
 export interface Recurrence {
@@ -1448,9 +1442,7 @@ export function credentialsDeserializer(item: any): Credentials {
 
 /** Alias for CredentialsUnion */
 export type CredentialsUnion =
-  | AzureKeyVaultS3WithHmacCredentials
-  | AzureKeyVaultSmbCredentials
-  | Credentials;
+  AzureKeyVaultS3WithHmacCredentials | AzureKeyVaultSmbCredentials | Credentials;
 
 export function credentialsUnionSerializer(item: CredentialsUnion): any {
   switch (item.type) {

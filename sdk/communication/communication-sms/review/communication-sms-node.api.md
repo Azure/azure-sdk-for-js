@@ -5,8 +5,10 @@
 ```ts
 
 import type { CommonClientOptions } from '@azure/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { KeyCredential } from '@azure/core-auth';
 import type { OperationOptions } from '@azure/core-client';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -16,6 +18,8 @@ export interface AddOptions extends OperationOptions {
 // @public
 export interface CheckOptions extends OperationOptions {
 }
+
+export { isRestError }
 
 // @public
 export interface MessagingConnectOptions {
@@ -55,6 +59,8 @@ export interface OptOutsClient {
 // @public
 export interface RemoveOptions extends OperationOptions {
 }
+
+export { RestError }
 
 // @public
 export class SmsClient {

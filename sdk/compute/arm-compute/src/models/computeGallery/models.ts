@@ -2484,9 +2484,7 @@ export function galleryApplicationCustomActionParameterDeserializer(
 
 /** Specifies the type of the custom action parameter. Possible values are: String, ConfigurationDataBlob or LogOutputBlob */
 export type GalleryApplicationCustomActionParameterType =
-  | "String"
-  | "ConfigurationDataBlob"
-  | "LogOutputBlob";
+  "String" | "ConfigurationDataBlob" | "LogOutputBlob";
 
 /** Specifies information about the gallery Application Definition that you want to update. */
 export interface GalleryApplicationUpdate extends UpdateResourceDefinition {

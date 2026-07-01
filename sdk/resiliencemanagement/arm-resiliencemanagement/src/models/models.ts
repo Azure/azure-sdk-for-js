@@ -1236,9 +1236,7 @@ export function recoveryGroupBaseActionDeserializer(item: any): RecoveryGroupBas
 
 /** Alias for RecoveryGroupBaseActionUnion */
 export type RecoveryGroupBaseActionUnion =
-  | RecoveryGroupManualAction
-  | RecoveryGroupCustomRunbookAction
-  | RecoveryGroupBaseAction;
+  RecoveryGroupManualAction | RecoveryGroupCustomRunbookAction | RecoveryGroupBaseAction;
 
 export function recoveryGroupBaseActionUnionSerializer(item: RecoveryGroupBaseActionUnion): any {
   switch (item.type) {
@@ -3374,9 +3372,7 @@ export function jobResourcePropertiesDeserializer(item: any): JobResourcePropert
 
 /** Alias for JobResourcePropertiesUnion */
 export type JobResourcePropertiesUnion =
-  | RecoveryJobResourceProperties
-  | DrillRunResourceProperties
-  | JobResourceProperties;
+  RecoveryJobResourceProperties | DrillRunResourceProperties | JobResourceProperties;
 
 export function jobResourcePropertiesUnionDeserializer(item: any): JobResourcePropertiesUnion {
   switch (item["jobResourceType"]) {

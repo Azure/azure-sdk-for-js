@@ -8036,8 +8036,7 @@ export function storageConnectorAuthPropertiesDeserializer(
 
 /** Alias for StorageConnectorAuthPropertiesUnion */
 export type StorageConnectorAuthPropertiesUnion =
-  | ManagedIdentityAuthProperties
-  | StorageConnectorAuthProperties;
+  ManagedIdentityAuthProperties | StorageConnectorAuthProperties;
 
 export function storageConnectorAuthPropertiesUnionSerializer(
   item: StorageConnectorAuthPropertiesUnion,
@@ -8185,8 +8184,7 @@ export function storageConnectorSourceUpdateSerializer(item: StorageConnectorSou
 
 /** Alias for StorageConnectorSourceUpdateUnion */
 export type StorageConnectorSourceUpdateUnion =
-  | DataShareSourceUpdate
-  | StorageConnectorSourceUpdate;
+  DataShareSourceUpdate | StorageConnectorSourceUpdate;
 
 export function storageConnectorSourceUpdateUnionSerializer(
   item: StorageConnectorSourceUpdateUnion,
@@ -8232,8 +8230,7 @@ export function storageConnectorAuthPropertiesUpdateSerializer(
 
 /** Alias for StorageConnectorAuthPropertiesUpdateUnion */
 export type StorageConnectorAuthPropertiesUpdateUnion =
-  | ManagedIdentityAuthPropertiesUpdate
-  | StorageConnectorAuthPropertiesUpdate;
+  ManagedIdentityAuthPropertiesUpdate | StorageConnectorAuthPropertiesUpdate;
 
 export function storageConnectorAuthPropertiesUpdateUnionSerializer(
   item: StorageConnectorAuthPropertiesUpdateUnion,
@@ -9894,12 +9891,7 @@ export function usageDeserializer(item: any): Usage {
 
 /** Gets the unit of measurement. */
 export type UsageUnit =
-  | "Count"
-  | "Bytes"
-  | "Seconds"
-  | "Percent"
-  | "CountsPerSecond"
-  | "BytesPerSecond";
+  "Count" | "Bytes" | "Seconds" | "Percent" | "CountsPerSecond" | "BytesPerSecond";
 
 /** The usage names that can be used; currently limited to StorageAccount. */
 export interface UsageName {
