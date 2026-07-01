@@ -132,3 +132,4 @@ export type {
   ServiceOperations,
   ShareOperations,
 } from "./classic/index.js";
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

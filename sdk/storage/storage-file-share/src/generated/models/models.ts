@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { NodeReadableStream } from "#platform/generated/static-helpers/platform-types";
 import {
   XmlPropertyMetadata,
   XmlPropertyDeserializeMetadata,
@@ -3350,5 +3351,5 @@ export type FileDownloadResponse = {
    * The response body as a node.js Readable stream.
    * Always `undefined` in the browser.
    */
-  readableStreamBody?: NodeJS.ReadableStream;
+  readableStreamBody?: NodeReadableStream;
 };
