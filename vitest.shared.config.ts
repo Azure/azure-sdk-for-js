@@ -79,6 +79,10 @@ function shouldCollectCoverage(rootDir: string) {
   );
 }
 
+function getCoverageProjectRoot(rootDir: string): string {
+  return process.env["SYSTEM_DEFAULTWORKINGDIRECTORY"] ?? rootDir;
+}
+
 function makeNodeAliases(rootDir: string) {
   const [dist, indexFile] = isInDevopsPipeline() ? ["dist/esm", "index.js"] : ["src", "index.ts"];
   return makeAliases(rootDir, { distDir: `./${dist}`, indexFile });
@@ -142,7 +146,11 @@ export default defineConfig({
         "test/snippets.spec.ts",
       ],
       provider: "istanbul",
-      reporter: ["text", "cobertura", "html"],
+      reporter: [
+        "text",
+        ["cobertura", { file: "cobertura-coverage.xml", projectRoot: getCoverageProjectRoot(process.cwd()) }],
+        "html",
+      ],
       reportsDirectory: "coverage",
     },
   },
