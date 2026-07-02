@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.browser.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-powerplatform": ["../src/index.ts"],
+      "@azure/arm-powerplatform/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}

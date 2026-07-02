@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the specified deployments associated with the Cognitive Services account.
  *
  * @summary gets the specified deployments associated with the Cognitive Services account.
- * x-ms-original-file: 2026-03-15-preview/GetDeployment.json
+ * x-ms-original-file: 2026-05-15-preview/GetDeployment.json
  */
 async function getDeployment() {
   const credential = new DefaultAzureCredential();

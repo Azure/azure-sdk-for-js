@@ -7,13 +7,7 @@ import type { OperationOptions } from "@azure-rest/core-client";
 export interface BetaRedTeamsCreateOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface BetaRedTeamsListOptionalParams extends OperationOptions {
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
-}
+export interface BetaRedTeamsListOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface BetaRedTeamsGetOptionalParams extends OperationOptions {
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
-}
+export interface BetaRedTeamsGetOptionalParams extends OperationOptions {}

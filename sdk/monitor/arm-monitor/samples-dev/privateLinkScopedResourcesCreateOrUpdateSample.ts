@@ -1,41 +1,58 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Approve or reject a private endpoint connection with a given name.
- *
- * @summary Approve or reject a private endpoint connection with a given name.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2021-07-01-preview/examples/PrivateLinkScopedResourceUpdate.json
- */
-
-import type { ScopedResource } from "@azure/arm-monitor";
 import { MonitorClient } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to add an Azure monitor scoped resource in the private link scope.
+ *
+ * @summary add an Azure monitor scoped resource in the private link scope.
+ * x-ms-original-file: 2023-06-01-preview/PrivateLinkScopedResourceUpdate.json
+ */
 async function updateAScopedResourceInAPrivateLinkScope(): Promise<void> {
-  const subscriptionId =
-    process.env["MONITOR_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["MONITOR_RESOURCE_GROUP"] || "MyResourceGroup";
-  const scopeName = "MyPrivateLinkScope";
-  const name = "scoped-resource-name";
-  const parameters: ScopedResource = {
-    linkedResourceId:
-      "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/MyResourceGroup/providers/Microsoft.Insights/components/my-component",
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new MonitorClient(credential, subscriptionId);
-  const result = await client.privateLinkScopedResources.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    scopeName,
-    name,
-    parameters,
+  const result = await client.privateLinkScopedResources.createOrUpdate(
+    "MyResourceGroup",
+    "MyPrivateLinkScope",
+    "scoped-resource-name",
+    {
+      kind: "Resource",
+      linkedResourceId:
+        "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/MyResourceGroup/providers/Microsoft.Insights/components/my-component",
+    },
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to add an Azure monitor scoped resource in the private link scope.
+ *
+ * @summary add an Azure monitor scoped resource in the private link scope.
+ * x-ms-original-file: 2023-06-01-preview/PrivateLinkScopedResourceUpdatePlatformMetrics.json
+ */
+async function updateAScopedPlatformMetricsSubscriptionInAPrivateLinkScope(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new MonitorClient(credential, subscriptionId);
+  const result = await client.privateLinkScopedResources.createOrUpdate(
+    "MyResourceGroup",
+    "MyPrivateLinkScope",
+    "scoped-resource-name",
+    {
+      kind: "PlatformMetrics",
+      linkedResourceId: "/subscriptions/00000000-1111-2222-3333-444444444444",
+      subscriptionLocation: "eastus",
+    },
   );
   console.log(result);
 }
 
 async function main(): Promise<void> {
   await updateAScopedResourceInAPrivateLinkScope();
+  await updateAScopedPlatformMetricsSubscriptionInAPrivateLinkScope();
 }
 
 main().catch(console.error);

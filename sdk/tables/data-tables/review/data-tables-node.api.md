@@ -7,6 +7,7 @@
 import { AzureNamedKeyCredential } from '@azure/core-auth';
 import { AzureSASCredential } from '@azure/core-auth';
 import type { CommonClientOptions } from '@azure/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import { NamedKeyCredential } from '@azure/core-auth';
 import type { OperationOptions } from '@azure/core-client';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
@@ -120,6 +121,8 @@ export type GetTableEntityOptions = OperationOptions & {
 
 // @public
 export type GetTableEntityResponse<T extends object> = TableEntityResult<T>;
+
+export { isRestError }
 
 // @public
 export enum KnownGeoReplicationStatusType {

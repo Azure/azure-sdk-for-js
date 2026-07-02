@@ -183,14 +183,7 @@ export type TableEntity<T extends object = Record<string, unknown>> = T & {
  * Supported EDM Types by Azure Tables.
  */
 export type EdmTypes =
-  | "Binary"
-  | "Boolean"
-  | "DateTime"
-  | "Double"
-  | "Guid"
-  | "Int32"
-  | "Int64"
-  | "String";
+  "Binary" | "Boolean" | "DateTime" | "Double" | "Guid" | "Int32" | "Int64" | "String";
 
 /**
  * Entity Data Model representation for an entity property.

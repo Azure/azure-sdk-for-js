@@ -6,6 +6,7 @@
 
 import { AbortError } from '@azure/abort-controller';
 import type { HttpClient } from '@azure/core-rest-pipeline';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { Pipeline } from '@azure/core-rest-pipeline';
 import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
@@ -1410,6 +1411,8 @@ export enum IndexKind {
     Spatial = "Spatial"
 }
 
+export { isRestError }
+
 // @public
 export class Item {
     constructor(container: Container, id: string, clientContext: ClientContext, partitionKey?: PartitionKey);
@@ -2397,7 +2400,7 @@ export interface SharedOptions {
 // @public (undocumented)
 export interface SpatialIndex {
     // (undocumented)
-    boundingBox: {
+    boundingBox?: {
         xmin: number;
         ymin: number;
         xmax: number;

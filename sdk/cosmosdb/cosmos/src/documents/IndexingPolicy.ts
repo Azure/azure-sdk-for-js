@@ -32,7 +32,7 @@ export interface SpatialIndex {
   path: string;
   types: SpatialType[];
   /* Bounding box for geometry spatial path */
-  boundingBox: {
+  boundingBox?: {
     /* X-coordinate of the lower-left corner of the bounding box. */
     xmin: number;
     /* Y-coordinate of the lower-left corner of the bounding box. */
