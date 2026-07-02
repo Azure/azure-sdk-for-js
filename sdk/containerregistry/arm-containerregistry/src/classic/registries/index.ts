@@ -45,7 +45,7 @@ import type {
   GenerateCredentialsResult,
   RegistryNameCheckRequest,
   RegistryNameStatus,
-  PrivateLinkResource,
+  MyPrivateLinkResource,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
@@ -59,14 +59,14 @@ export interface RegistriesOperations {
     resourceGroupName: string,
     registryName: string,
     options?: RegistriesListPrivateLinkResourcesOptionalParams,
-  ) => PagedAsyncIterableIterator<PrivateLinkResource>;
+  ) => PagedAsyncIterableIterator<MyPrivateLinkResource>;
   /** Gets a private link resource by a specified group name for a container registry. */
   getPrivateLinkResource: (
     resourceGroupName: string,
     registryName: string,
     groupName: string,
     options?: RegistriesGetPrivateLinkResourceOptionalParams,
-  ) => Promise<PrivateLinkResource>;
+  ) => Promise<MyPrivateLinkResource>;
   /** Checks whether the container registry name is available for use. The name must contain only alphanumeric characters, be globally unique, and between 5 and 50 characters in length. */
   checkNameAvailability: (
     registryNameCheckRequest: RegistryNameCheckRequest,
@@ -143,11 +143,6 @@ export interface RegistriesOperations {
     options?: RegistriesListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<Registry>;
   /** Deletes a container registry. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     registryName: string,

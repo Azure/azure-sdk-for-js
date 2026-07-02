@@ -452,7 +452,7 @@
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/containerinstance/arm-containerinstance/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/containerregistry/arm-containerregistry/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
