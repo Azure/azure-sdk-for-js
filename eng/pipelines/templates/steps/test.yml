@@ -40,11 +40,15 @@ steps:
 
   - script: |
       node eng/tools/ci-runner/index.js test:node $(ChangedServices) -packages "$(ArtifactPackageNames)" -packageInfo "$(Build.ArtifactStagingDirectory)/PackageInfo" -changeInfo "$(Build.ArtifactStagingDirectory)/diff/diff.json" --ci
+    env:
+      PUBLISHCODECOVERAGE: $(PublishCodeCoverage)
     displayName: "Test libraries node NodeJS $(NodeTestVersion)"
     condition: and(succeeded(),eq(variables['TestType'], 'node'))
 
   - script: |
       node eng/tools/ci-runner/index.js test:browser $(ChangedServices) -packages "$(ArtifactPackageNames)" -packageInfo "$(Build.ArtifactStagingDirectory)/PackageInfo" -changeInfo "$(Build.ArtifactStagingDirectory)/diff/diff.json" --ci
+    env:
+      PUBLISHCODECOVERAGE: $(PublishCodeCoverage)
     displayName: "Test libraries browser NodeJS $(NodeTestVersion)"
     condition: and(succeeded(),eq(variables['TestType'], 'browser'))
 
@@ -88,3 +92,24 @@ steps:
         ArtifactPath: '$(Build.ArtifactStagingDirectory)/test-proxy.log'
         ArtifactName: 'test proxy logs $(Agent.JobName)'
         SbomEnabled: false
+
+  - pwsh: |
+      $coverageRoot = "$(System.DefaultWorkingDirectory)/sdk/${{ parameters.ServiceDirectory }}"
+      $coverageFiles = Get-ChildItem -Path $coverageRoot -Recurse -File -Filter "*cobertura*.xml"
+
+      if (-not $coverageFiles) {
+        Write-Host "No coverage files found under $coverageRoot"
+        exit 0
+      }
+
+      foreach ($coverageFile in $coverageFiles) {
+        $coverageDirectory = Split-Path -Parent $coverageFile.FullName
+        $packageDirectory = Split-Path -Parent $coverageDirectory
+        $packageName = Split-Path -Leaf $packageDirectory
+
+        Write-Host "Publishing coverage for package '$packageName' from $($coverageFile.FullName)"
+        Write-Host "##vso[codecoverage.publish codecoveragetool=Cobertura;summaryfile=$($coverageFile.FullName);reportdirectory=$coverageDirectory;]$packageName"
+      }
+    displayName: "Publish NodeJs Code Coverage to DevOps (per package)"
+    continueOnError: true
+    condition: and(succeededOrFailed(),eq(variables['TestType'], 'node'),eq(variables['PublishCodeCoverage'], 'true'))
