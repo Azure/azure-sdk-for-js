@@ -298,7 +298,7 @@
 
 # ServiceLabel: %Storage
 # PRLabel: %Storage
-/sdk/storage/    @blueww @EmmaZhu @jiacfan @ljian3377 @vinjiang @XiaoningLiu @jainakanksha-msft @aanubhav-msft
+/sdk/storage/    @blueww @EmmaZhu @jiacfan @ljian3377 @vinjiang @XiaoningLiu @jainakanksha-msft @aanubhav-msft @syeleti-msft @souravgupta-msft @tanyasethi-msft @gunjansingh-msft
 
 # AzureSdkOwners: @wanyang7
 # ServiceLabel: %Synapse
@@ -377,7 +377,7 @@
 # PRLabel: %Mgmt
 /sdk/authorization/arm-authorization-profile-2020-09-01-hybrid/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/automation/arm-automation/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -755,13 +755,13 @@
 # PRLabel: %Mgmt
 /sdk/migrate/arm-migrationassessment/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/monitor/arm-monitor/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/mongocluster/arm-mongocluster/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/mongodbatlas/arm-mongodbatlas/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -824,7 +824,7 @@
 # PRLabel: %Mgmt
 /sdk/policy/arm-policy-profile-2020-09-01-hybrid/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/policyinsights/arm-policyinsights/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -869,7 +869,7 @@
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/redisenterprise/arm-redisenterprisecache/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/relay/arm-relay/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
@@ -1686,6 +1686,9 @@ sdk/napsteromniagentapi/arm-napsteromniagentapi/ @qiaozha @MaryGao @JialinHuang8
 sdk/programenrollment/arm-programenrollment/ @qiaozha @MaryGao @JialinHuang803
 sdk/resiliencemanagement/arm-resiliencemanagement/ @qiaozha @MaryGao @JialinHuang803
 
+# PRLabel: %Mgmt %mgmt-review-needed
+sdk/commvaultcontentstore/arm-commvaultcontentstore/ @qiaozha @MaryGao @JialinHuang803
+
 ###########
 # Config
 ###########
@@ -1740,6 +1743,8 @@ sdk/resiliencemanagement/arm-resiliencemanagement/ @qiaozha @MaryGao @JialinHuan
 /eng/vitestconfigs/                      @Azure/azure-sdk-for-js-core
 /eng/common/                             @Azure/azure-sdk-eng
 /eng/ignore-links.txt                    @Azure/azure-sdk-eng @Azure/azure-sdk-js-dev
+# Approved third-party runtime dependency allow-list
+/eng/approved-third-party-dependencies.yml @Azure/azure-sdk-js-dev
 /.config/1espt/                          @benbp @mikeharder
 
 /.github/workflows/                      @Azure/azure-sdk-eng

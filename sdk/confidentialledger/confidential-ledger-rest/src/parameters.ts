@@ -7,16 +7,27 @@ import type {
   LedgerUser,
   LedgerUserMultipleRoles,
   Bundle,
-  JSRuntimeOptions,
+  JsRuntimeOptions,
   UserDefinedFunction,
   UserDefinedFunctionExecutionProperties,
-  Role,
+  UserDefinedRoles,
 } from "./models.js";
 
 export type GetConstitutionParameters = RequestParameters;
 export type ListConsortiumMembersParameters = RequestParameters;
 export type GetEnclaveQuotesParameters = RequestParameters;
 export type ListCollectionsParameters = RequestParameters;
+
+export interface ListTagsQueryParamProperties {
+  /** The collection id. */
+  collectionId?: string;
+}
+
+export interface ListTagsQueryParam {
+  queryParameters?: ListTagsQueryParamProperties;
+}
+
+export type ListTagsParameters = ListTagsQueryParam & RequestParameters;
 
 export interface ListLedgerEntriesQueryParamProperties {
   /** The collection id. */
@@ -51,13 +62,7 @@ export interface CreateLedgerEntryQueryParam {
   queryParameters?: CreateLedgerEntryQueryParamProperties;
 }
 
-export interface CreateLedgerEntryMediaTypesParam {
-  /** Request content type */
-  contentType?: "application/json";
-}
-
 export type CreateLedgerEntryParameters = CreateLedgerEntryQueryParam &
-  CreateLedgerEntryMediaTypesParam &
   CreateLedgerEntryBodyParam &
   RequestParameters;
 
@@ -97,8 +102,8 @@ export interface CreateOrUpdateUserBodyParam {
 }
 
 export interface CreateOrUpdateUserMediaTypesParam {
-  /** Request content type */
-  contentType?: "application/merge-patch+json";
+  /** application/merge-patch+json content-type */
+  contentType: "application/merge-patch+json";
 }
 
 export type CreateOrUpdateUserParameters = CreateOrUpdateUserMediaTypesParam &
@@ -115,8 +120,8 @@ export interface CreateOrUpdateLedgerUserBodyParam {
 }
 
 export interface CreateOrUpdateLedgerUserMediaTypesParam {
-  /** Request content type */
-  contentType?: "application/merge-patch+json";
+  /** application/merge-patch+json content-type */
+  contentType: "application/merge-patch+json";
 }
 
 export type CreateOrUpdateLedgerUserParameters = CreateOrUpdateLedgerUserMediaTypesParam &
@@ -125,32 +130,28 @@ export type CreateOrUpdateLedgerUserParameters = CreateOrUpdateLedgerUserMediaTy
 export type GetUserDefinedEndpointParameters = RequestParameters;
 
 export interface CreateUserDefinedEndpointBodyParam {
-  /** bundle parameter description */
+  /** Specify a user defined endpoint. */
   body: Bundle;
 }
 
-export interface CreateUserDefinedEndpointMediaTypesParam {
-  /** Request content type */
-  contentType?: "application/json";
-}
-
-export type CreateUserDefinedEndpointParameters = CreateUserDefinedEndpointMediaTypesParam &
-  CreateUserDefinedEndpointBodyParam &
+export type CreateUserDefinedEndpointParameters = CreateUserDefinedEndpointBodyParam &
   RequestParameters;
 export type GetRuntimeOptionsParameters = RequestParameters;
+/** JS Runtime options */
+export type JsRuntimeOptionsResourceMergeAndPatch = Partial<JsRuntimeOptions>;
 
-export interface UpdateRuntimeOptionsBodyParam {
-  /** JS runtime options */
-  body: JSRuntimeOptions;
+export interface UpdateRuntimeOptionsStableBodyParam {
+  /** JS Runtime options */
+  body: JsRuntimeOptionsResourceMergeAndPatch;
 }
 
-export interface UpdateRuntimeOptionsMediaTypesParam {
-  /** Request content type */
-  contentType?: "application/json";
+export interface UpdateRuntimeOptionsStableMediaTypesParam {
+  /** Content type */
+  contentType: "application/merge-patch+json";
 }
 
-export type UpdateRuntimeOptionsParameters = UpdateRuntimeOptionsMediaTypesParam &
-  UpdateRuntimeOptionsBodyParam &
+export type UpdateRuntimeOptionsStableParameters = UpdateRuntimeOptionsStableMediaTypesParam &
+  UpdateRuntimeOptionsStableBodyParam &
   RequestParameters;
 
 export interface GetUserDefinedEndpointsModuleQueryParamProperties {
@@ -173,13 +174,7 @@ export interface CreateUserDefinedFunctionBodyParam {
   body: UserDefinedFunction;
 }
 
-export interface CreateUserDefinedFunctionMediaTypesParam {
-  /** Request content type */
-  contentType?: "application/json";
-}
-
-export type CreateUserDefinedFunctionParameters = CreateUserDefinedFunctionMediaTypesParam &
-  CreateUserDefinedFunctionBodyParam &
+export type CreateUserDefinedFunctionParameters = CreateUserDefinedFunctionBodyParam &
   RequestParameters;
 
 export interface ExecuteUserDefinedFunctionBodyParam {
@@ -187,13 +182,7 @@ export interface ExecuteUserDefinedFunctionBodyParam {
   body?: UserDefinedFunctionExecutionProperties;
 }
 
-export interface ExecuteUserDefinedFunctionMediaTypesParam {
-  /** Request content type */
-  contentType?: "application/json";
-}
-
-export type ExecuteUserDefinedFunctionParameters = ExecuteUserDefinedFunctionMediaTypesParam &
-  ExecuteUserDefinedFunctionBodyParam &
+export type ExecuteUserDefinedFunctionParameters = ExecuteUserDefinedFunctionBodyParam &
   RequestParameters;
 
 export interface GetUserDefinedRoleQueryParamProperties {
@@ -207,41 +196,38 @@ export interface GetUserDefinedRoleQueryParam {
 
 export type GetUserDefinedRoleParameters = GetUserDefinedRoleQueryParam & RequestParameters;
 
-export interface CreateUserDefinedRoleBodyParam {
-  /** user defined role */
-  body: Array<Role>;
+export interface CreateUserDefinedRoleStableBodyParam {
+  /** Request body */
+  body: UserDefinedRoles;
 }
 
-export interface CreateUserDefinedRoleMediaTypesParam {
-  /** Request content type */
-  contentType?: "application/json";
+export type CreateUserDefinedRoleStableParameters = CreateUserDefinedRoleStableBodyParam &
+  RequestParameters;
+/** Request body */
+export type UserDefinedRolesResourceMergeAndPatch = Partial<UserDefinedRoles>;
+
+export interface UpdateUserDefinedRoleStableBodyParam {
+  /** Request body */
+  body: UserDefinedRolesResourceMergeAndPatch;
 }
 
-export type CreateUserDefinedRoleParameters = CreateUserDefinedRoleMediaTypesParam &
-  CreateUserDefinedRoleBodyParam &
+export interface UpdateUserDefinedRoleStableMediaTypesParam {
+  /** Content type */
+  contentType: "application/merge-patch+json";
+}
+
+export type UpdateUserDefinedRoleStableParameters = UpdateUserDefinedRoleStableMediaTypesParam &
+  UpdateUserDefinedRoleStableBodyParam &
   RequestParameters;
 
-export interface UpdateUserDefinedRoleBodyParam {
-  /** user defined role */
-  body: Array<Role>;
-}
-
-export interface UpdateUserDefinedRoleMediaTypesParam {
-  /** Request content type */
-  contentType?: "application/json";
-}
-
-export type UpdateUserDefinedRoleParameters = UpdateUserDefinedRoleMediaTypesParam &
-  UpdateUserDefinedRoleBodyParam &
-  RequestParameters;
-
-export interface DeleteUserDefinedRoleQueryParamProperties {
+export interface DeleteUserDefinedRoleStableQueryParamProperties {
   /** user defined role name */
   roleName: string;
 }
 
-export interface DeleteUserDefinedRoleQueryParam {
-  queryParameters: DeleteUserDefinedRoleQueryParamProperties;
+export interface DeleteUserDefinedRoleStableQueryParam {
+  queryParameters: DeleteUserDefinedRoleStableQueryParamProperties;
 }
 
-export type DeleteUserDefinedRoleParameters = DeleteUserDefinedRoleQueryParam & RequestParameters;
+export type DeleteUserDefinedRoleStableParameters = DeleteUserDefinedRoleStableQueryParam &
+  RequestParameters;

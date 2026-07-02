@@ -1534,11 +1534,7 @@ export function aiSearchIndexResourceDeserializer(item: any): AISearchIndexResou
 
 /** Available query types for Azure AI Search tool. */
 export type AzureAISearchQueryType =
-  | "simple"
-  | "semantic"
-  | "vector"
-  | "vector_simple_hybrid"
-  | "vector_semantic_hybrid";
+  "simple" | "semantic" | "vector" | "vector_simple_hybrid" | "vector_semantic_hybrid";
 
 export function mcpToolResourceArraySerializer(result: Array<MCPToolResource>): any[] {
   return result.map((item) => {
@@ -1721,10 +1717,7 @@ export function toolDefinitionUnionArrayDeserializer(result: Array<ToolDefinitio
 
 /** Alias for AgentsResponseFormatOption */
 export type AgentsResponseFormatOption =
-  | string
-  | AgentsResponseFormatMode
-  | AgentsResponseFormat
-  | ResponseFormatJsonSchemaType;
+  string | AgentsResponseFormatMode | AgentsResponseFormat | ResponseFormatJsonSchemaType;
 
 export function agentsResponseFormatOptionSerializer(item: AgentsResponseFormatOption): any {
   if (typeof item === "object" && item.type === "json_schema") {
@@ -2136,8 +2129,7 @@ export function messageAttachmentToolDefinitionArrayDeserializer(
 
 /** Alias for MessageAttachmentToolDefinition */
 export type MessageAttachmentToolDefinition =
-  | CodeInterpreterToolDefinition
-  | FileSearchToolDefinition;
+  CodeInterpreterToolDefinition | FileSearchToolDefinition;
 
 export function messageAttachmentToolDefinitionSerializer(
   item: MessageAttachmentToolDefinition,
@@ -2381,9 +2373,7 @@ export function requiredActionDeserializer(item: any): RequiredAction {
 
 /** Alias for RequiredActionUnion */
 export type RequiredActionUnion =
-  | SubmitToolOutputsAction
-  | SubmitToolApprovalAction
-  | RequiredAction;
+  SubmitToolOutputsAction | SubmitToolApprovalAction | RequiredAction;
 
 export function requiredActionUnionDeserializer(item: any): RequiredActionUnion {
   switch (item.type) {
@@ -2451,9 +2441,7 @@ export function requiredToolCallDeserializer(item: any): RequiredToolCall {
 
 /** Alias for RequiredToolCallUnion */
 export type RequiredToolCallUnion =
-  | RequiredFunctionToolCall
-  | RequiredMcpToolCall
-  | RequiredToolCall;
+  RequiredFunctionToolCall | RequiredMcpToolCall | RequiredToolCall;
 
 export function requiredToolCallUnionDeserializer(item: any): RequiredToolCallUnion {
   switch (item.type) {
@@ -2748,11 +2736,7 @@ export function messageIncompleteDetailsDeserializer(item: any): MessageIncomple
 
 /** A set of reasons describing why a message is marked as incomplete. */
 export type MessageIncompleteDetailsReason =
-  | "content_filter"
-  | "max_tokens"
-  | "run_cancelled"
-  | "run_failed"
-  | "run_expired";
+  "content_filter" | "max_tokens" | "run_cancelled" | "run_failed" | "run_expired";
 
 export function messageContentUnionArrayDeserializer(result: Array<MessageContentUnion>): any[] {
   return result.map((item) => {
@@ -3209,10 +3193,7 @@ export function runStepDetailsDeserializer(item: any): RunStepDetails {
 
 /** Alias for RunStepDetailsUnion */
 export type RunStepDetailsUnion =
-  | RunStepMessageCreationDetails
-  | RunStepToolCallDetails
-  | RunStepActivityDetails
-  | RunStepDetails;
+  RunStepMessageCreationDetails | RunStepToolCallDetails | RunStepActivityDetails | RunStepDetails;
 
 export function runStepDetailsUnionDeserializer(item: any): RunStepDetailsUnion {
   switch (item.type) {
@@ -4194,13 +4175,7 @@ export function fileInfoDeserializer(item: any): FileInfo {
 export type FilePurpose = "assistants" | "assistants_output" | "vision";
 /** The state of the file. */
 export type FileState =
-  | "uploaded"
-  | "pending"
-  | "running"
-  | "processed"
-  | "error"
-  | "deleting"
-  | "deleted";
+  "uploaded" | "pending" | "running" | "processed" | "error" | "deleting" | "deleted";
 
 /** model interface _UploadFileRequest */
 export interface _UploadFileRequest {
@@ -4751,9 +4726,7 @@ export function messageDeltaContentDeserializer(item: any): MessageDeltaContent 
 
 /** Alias for MessageDeltaContentUnion */
 export type MessageDeltaContentUnion =
-  | MessageDeltaImageFileContent
-  | MessageDeltaTextContent
-  | MessageDeltaContent;
+  MessageDeltaImageFileContent | MessageDeltaTextContent | MessageDeltaContent;
 
 export function messageDeltaContentUnionDeserializer(item: any): MessageDeltaContentUnion {
   switch (item.type) {

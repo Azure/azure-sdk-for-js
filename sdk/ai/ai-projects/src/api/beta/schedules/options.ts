@@ -6,8 +6,6 @@ import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface BetaSchedulesListRunsOptionalParams extends OperationOptions {
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
   /** Filter by the type of schedule. */
   scheduleType?: ScheduleTaskType;
   /** Filter by the enabled status. */
@@ -18,15 +16,10 @@ export interface BetaSchedulesListRunsOptionalParams extends OperationOptions {
 export interface BetaSchedulesGetRunOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface BetaSchedulesCreateOrUpdateOptionalParams extends OperationOptions {
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
-}
+export interface BetaSchedulesCreateOrUpdateOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface BetaSchedulesListOptionalParams extends OperationOptions {
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
   /** Filter by the type of schedule. */
   scheduleType?: ScheduleTaskType;
   /** Filter by the enabled status. */
@@ -34,13 +27,7 @@ export interface BetaSchedulesListOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface BetaSchedulesGetOptionalParams extends OperationOptions {
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
-}
+export interface BetaSchedulesGetOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface BetaSchedulesDeleteOptionalParams extends OperationOptions {
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
-}
+export interface BetaSchedulesDeleteOptionalParams extends OperationOptions {}

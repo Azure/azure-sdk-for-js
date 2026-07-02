@@ -25,8 +25,8 @@
     "semver": "^7.5.4",
     "yargs": "^18.0.0",
     "yargs-parser": "^22.0.0",
-    "@pnpm/config": "^1002.7.0",
-    "@pnpm/catalogs.resolver": "^1000.0.2"
+    "@pnpm/config": "^1004.11.0",
+    "@pnpm/catalogs.resolver": "^1100.0.0"
   },
   "devDependencies": {
     "@types/yargs": "^17.0.33",

@@ -19,6 +19,7 @@ import { CredentialPolicyCreator } from '@azure/storage-common';
 import { HttpHeadersLike as HttpHeaders } from '@azure/core-http-compat';
 import { CompatResponse as HttpOperationResponse } from '@azure/core-http-compat';
 import type { RequestBodyType as HttpRequestBody } from '@azure/core-rest-pipeline';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { KeepAliveOptions } from '@azure/core-http-compat';
 import { NodeJSReadableStream } from '@azure/storage-common';
 import type { OperationTracingOptions } from '@azure/core-tracing';
@@ -2296,6 +2297,8 @@ export interface HttpResponse {
 
 // @public
 export function isPipelineLike(pipeline: unknown): pipeline is PipelineLike;
+
+export { isRestError }
 
 // @public
 export enum KnownEncryptionAlgorithmType {

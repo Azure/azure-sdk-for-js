@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to returns a Cognitive Services commitment plan specified by the parameters.
  *
  * @summary returns a Cognitive Services commitment plan specified by the parameters.
- * x-ms-original-file: 2026-03-15-preview/GetSharedCommitmentPlan.json
+ * x-ms-original-file: 2026-05-15-preview/GetSharedCommitmentPlan.json
  */
 async function getCommitmentPlan(): Promise<void> {
   const credential = new DefaultAzureCredential();

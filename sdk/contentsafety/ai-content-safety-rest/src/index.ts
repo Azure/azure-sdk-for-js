@@ -13,3 +13,4 @@ export type * from "./outputModels.js";
 export * from "./paginateHelper.js";
 
 export default ContentSafetyClient;
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

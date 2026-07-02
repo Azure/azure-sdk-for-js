@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-cosmosdb",
-  "version": "17.0.0-beta.3",
+  "version": "17.0.0-beta.4",
   "description": "A generated SDK for CosmosDBManagementClient.",
   "engines": {
     "node": ">=22.0.0"
