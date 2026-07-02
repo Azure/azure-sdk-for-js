@@ -21,6 +21,7 @@ on:
 permissions:
   contents: read
   issues: read
+  copilot-requests: write
 
 concurrency:
   group: "gh-aw-${{ github.workflow }}-${{ github.event.issue.number || github.event.inputs.issue_number || github.run_id }}"
@@ -78,7 +79,7 @@ safe-outputs:
           type: string
       steps:
         - name: Post mention comment
-          uses: actions/github-script@v9
+          uses: actions/github-script@v9.0.0
           env:
             DISPATCH_ISSUE_NUMBER: "${{ github.event.inputs.issue_number || '' }}"
           with:

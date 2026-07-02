@@ -3205,12 +3205,7 @@ export interface SiteAuthSettingsProperties {
    * action is set to "RedirectToLoginPage".
    */
   defaultProvider?:
-    | "AzureActiveDirectory"
-    | "Facebook"
-    | "Google"
-    | "MicrosoftAccount"
-    | "Twitter"
-    | "Github";
+    "AzureActiveDirectory" | "Facebook" | "Google" | "MicrosoftAccount" | "Twitter" | "Github";
   /**
    * The number of hours after session token expiration that a session token can be used to
    * call the token refresh API. The default is 72 hours.
@@ -3421,10 +3416,7 @@ export interface GlobalValidation {
   requireAuthentication?: boolean;
   /** The action to take when an unauthenticated client attempts to access the app. */
   unauthenticatedClientAction?:
-    | "RedirectToLoginPage"
-    | "AllowAnonymous"
-    | "Return401"
-    | "Return403";
+    "RedirectToLoginPage" | "AllowAnonymous" | "Return401" | "Return403";
   /**
    * The default authentication provider to use when multiple providers are configured.
    * This setting is only needed if multiple providers are configured and the unauthenticated client

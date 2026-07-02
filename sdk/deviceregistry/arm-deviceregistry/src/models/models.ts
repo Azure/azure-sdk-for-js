@@ -2612,9 +2612,7 @@ export function eventDestinationDeserializer(item: any): EventDestination {
 
 /** Alias for EventDestinationUnion */
 export type EventDestinationUnion =
-  | EventMqttDestination
-  | EventStorageDestination
-  | EventDestination;
+  EventMqttDestination | EventStorageDestination | EventDestination;
 
 export function eventDestinationUnionSerializer(item: EventDestinationUnion): any {
   switch (item.target) {
@@ -2739,9 +2737,7 @@ export function streamDestinationDeserializer(item: any): StreamDestination {
 
 /** Alias for StreamDestinationUnion */
 export type StreamDestinationUnion =
-  | StreamMqttDestination
-  | StreamStorageDestination
-  | StreamDestination;
+  StreamMqttDestination | StreamStorageDestination | StreamDestination;
 
 export function streamDestinationUnionSerializer(item: StreamDestinationUnion): any {
   switch (item.target) {

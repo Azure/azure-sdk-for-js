@@ -5,12 +5,6 @@ import type { SkillInlineContent, PageOrder } from "../../../models/models.js";
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface BetaSkillsDeleteOptionalParams extends OperationOptions {}
-
-/** Optional parameters. */
-export interface BetaSkillsUpdateOptionalParams extends OperationOptions {}
-
-/** Optional parameters. */
 export interface DeleteVersionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
@@ -58,6 +52,12 @@ export interface BetaSkillsCreateOptionalParams extends OperationOptions {
   /** Whether to set this version as the default. */
   defaultParam?: boolean;
 }
+
+/** Optional parameters. */
+export interface BetaSkillsDeleteOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface BetaSkillsUpdateOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface BetaSkillsListOptionalParams extends OperationOptions {

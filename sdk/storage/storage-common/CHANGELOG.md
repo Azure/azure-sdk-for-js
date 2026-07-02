@@ -1,6 +1,20 @@
 # Release History
 
-## 12.4.1 (Unreleased)
+## 12.5.0 (Unreleased)
+
+### Features Added
+
+- add `storageRedirectRangeHeaderPolicy`
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Fixed the ESM build of the CRC64 checksum calculator crashing (`TypeError [ERR_INVALID_ARG_VALUE]` from `import.meta.url`) when an ESM consumer is bundled to CommonJS with a Node-targeted bundler such as esbuild. Because the WebAssembly module is base64-embedded, none of the Emscripten-generated filesystem/URL machinery is reachable, so the `import.meta.url` polyfill, `node:*` imports, `require('fs')`/`require('path')` reads, and the shell/web read hooks have been removed from `crc64.js`. The ESM, browser, and react-native builds are now identical, and the CommonJS copy differs only by its export statement. Issue [#39057](https://github.com/Azure/azure-sdk-for-js/issues/39057).
+
+### Other Changes
+
+## 12.4.1 (2026-06-22)
 
 ### Bugs Fixed
 

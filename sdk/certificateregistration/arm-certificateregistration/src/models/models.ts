@@ -255,8 +255,7 @@ export type KeyVaultSecretStatus =
   | "Unknown";
 /** Certificate product type. */
 export type CertificateProductType =
-  | "StandardDomainValidatedSsl"
-  | "StandardDomainValidatedWildCardSsl";
+  "StandardDomainValidatedSsl" | "StandardDomainValidatedWildCardSsl";
 /** Status of certificate order. */
 export type ProvisioningState = "Succeeded" | "Failed" | "Canceled" | "InProgress" | "Deleting";
 /** Current order status. */

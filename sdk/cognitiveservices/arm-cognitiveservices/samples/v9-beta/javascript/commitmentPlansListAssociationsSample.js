@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the associations of the Cognitive Services commitment plan.
  *
  * @summary gets the associations of the Cognitive Services commitment plan.
- * x-ms-original-file: 2026-03-15-preview/ListSharedCommitmentPlanAssociations.json
+ * x-ms-original-file: 2026-05-15-preview/ListSharedCommitmentPlanAssociations.json
  */
 async function listCommitmentPlans() {
   const credential = new DefaultAzureCredential();

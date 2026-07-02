@@ -4,6 +4,8 @@ parameters:
   TestPipeline: false
 
 steps:
+  - template: /eng/pipelines/templates/steps/common.yml
+  
   - template: /eng/common/pipelines/templates/steps/save-package-properties.yml
     parameters:
       ServiceDirectory: ${{parameters.ServiceDirectory}}
@@ -37,15 +39,6 @@ steps:
   - template: /eng/common/pipelines/templates/steps/verify-path-length.yml
     parameters:
       SourceDirectory: $(Build.SourcesDirectory)
-
-  - template: /eng/common/pipelines/templates/steps/verify-links.yml
-    parameters:
-      ${{ if eq(variables['Build.Reason'], 'PullRequest') }}:
-        Directory: ""
-        Urls: (eng/common/scripts/get-markdown-files-from-changed-files.ps1)
-      ${{ if ne(variables['Build.Reason'], 'PullRequest') }}:
-        Directory: sdk/${{ parameters.ServiceDirectory }}
-      CheckLinkGuidance: $true
 
   - template: /eng/common/pipelines/templates/steps/verify-samples.yml
     parameters:

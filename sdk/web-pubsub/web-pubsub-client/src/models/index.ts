@@ -126,6 +126,89 @@ export interface LeaveGroupOptions {
 }
 
 /**
+ * A group state value: string-to-string dictionary.
+ */
+export type GroupState = Record<string, string>;
+
+/**
+ * A connection's state record within a group.
+ */
+export interface GroupStateRecord {
+  /**
+   * The connection identifier.
+   */
+  connectionId: string;
+  /**
+   * The user id owning this connection. Undefined for anonymous connections.
+   */
+  userId?: string;
+  /**
+   * The current state dictionary. Undefined means state has been cleared.
+   */
+  state?: GroupState;
+  /**
+   * Server time, in Unix epoch milliseconds, when this state was last updated.
+   */
+  updatedAt: number;
+}
+
+/**
+ * Set group state operation options.
+ */
+export interface SetGroupStateOptions {
+  /**
+   * The optional ackId. If not specified, client will generate one.
+   */
+  ackId?: number;
+  /**
+   * The abort signal.
+   */
+  abortSignal?: AbortSignalLike;
+}
+
+/**
+ * Clear group state operation options.
+ */
+export interface ClearGroupStateOptions {
+  /**
+   * The optional ackId. If not specified, client will generate one.
+   */
+  ackId?: number;
+  /**
+   * The abort signal.
+   */
+  abortSignal?: AbortSignalLike;
+}
+
+/**
+ * Subscribe group states operation options.
+ */
+export interface SubscribeGroupStatesOptions {
+  /**
+   * The optional ackId. If not specified, client will generate one.
+   */
+  ackId?: number;
+  /**
+   * The abort signal.
+   */
+  abortSignal?: AbortSignalLike;
+}
+
+/**
+ * Unsubscribe group states operation options.
+ */
+export interface UnsubscribeGroupStatesOptions {
+  /**
+   * The optional ackId. If not specified, client will generate one.
+   */
+  ackId?: number;
+  /**
+   * The abort signal.
+   */
+  abortSignal?: AbortSignalLike;
+}
+
+/**
  * Send to group operation options
  */
 export interface SendToGroupOptions {
@@ -229,9 +312,9 @@ export interface AbortGroupStreamOptions {
 }
 
 /**
- * Group stream abstraction for sending one logical stream to a group.
+ * Group stream writer abstraction for sending one logical stream to a group.
  */
-export interface GroupStream {
+export interface GroupStreamWriter {
   /**
    * Stream identifier.
    */
@@ -327,91 +410,84 @@ export interface OnRejoinGroupFailedArgs {
 }
 
 /**
- * Stream message delivered to a stream handler.
+ * Parameter of group states changed callback.
  */
-export interface OnGroupStreamDataArgs {
+export interface OnGroupStatesChangedArgs {
+  /**
+   * The group name.
+   */
+  group: string;
+}
+
+/**
+ * One inbound fragment of a group stream.
+ */
+export interface GroupStreamMessage {
   /**
    * Group name.
    */
-  group: string;
+  readonly groupName: string;
   /**
    * Sender user id.
    */
-  fromUserId: string;
+  readonly fromUserId: string;
   /**
    * Connection-scoped reliable sequence id.
    */
-  sequenceId?: number;
+  readonly sequenceId?: number;
   /**
    * Message data type.
    */
-  dataType: WebPubSubDataType;
+  readonly dataType: WebPubSubDataType;
   /**
    * Message payload.
    */
-  data: JSONTypes | ArrayBuffer;
+  readonly data: JSONTypes | ArrayBuffer;
   /**
    * Stream metadata.
    */
-  stream: StreamInfo;
+  readonly stream: StreamInfo;
 }
 
 /**
- * Stream terminal event.
+ * A single inbound group stream.
  */
-export interface OnGroupStreamEndArgs {
-  /**
-   * Stream identifier.
-   */
-  streamId: string;
+export interface GroupStream extends AsyncIterable<GroupStreamMessage> {
   /**
    * Group name.
    */
-  group: string;
+  readonly groupName: string;
   /**
-   * Optional terminal error.
-   */
-  error?: StreamDataError;
-}
-
-/**
- * Per-stream value object passed to a factory registered via
- * `client.onGroupStream(...)`. A fresh `GroupStreamHandler` is created per
- * observed stream lifecycle, and its callbacks consume only that single stream.
- */
-export interface OnGroupStreamArgs {
-  /**
-   * The group this stream belongs to.
-   */
-  readonly group: string;
-  /**
-   * The stream identifier assigned when the outbound stream is opened.
+   * Stream identifier.
    */
   readonly streamId: string;
+  /**
+   * Aborts when the stream completes, fails, times out, or its subscription is closed.
+   */
+  readonly abortSignal: AbortSignal;
 }
 
 /**
- * Callbacks attached to a single inbound group stream. Returned by the factory
- * registered via `client.onGroupStream(factory)`. All callbacks are optional.
+ * Subscription returned by `client.onGroupStream(...)`.
  */
-export interface GroupStreamHandler {
+export interface GroupStreamSubscription {
   /**
-   * Called for each non-terminal data fragment.
+   * Close the subscription and stop delivering inbound streams to its callback.
    */
-  onMessage?: (args: OnGroupStreamDataArgs) => void;
+  close(): Promise<void>;
   /**
-   * Called once when the stream completes successfully.
+   * Whether this subscription is still active.
    */
-  onComplete?: (args: OnGroupStreamEndArgs) => void;
+  readonly isActive: boolean;
   /**
-   * Called once when the stream terminates with an error (including `IdleTimeout`).
+   * Close the subscription when used with `await using`.
    */
-  onError?: (args: OnGroupStreamEndArgs) => void;
+  [Symbol.asyncDispose](): Promise<void>;
 }
 
 /**
  * Options controlling how inbound group streams are tracked and dispatched for a
- * single factory registered via `client.onGroupStream(factory, options)`.
+ * single callback registered via `client.onGroupStream(callback, options)`.
  *
  * Granularity is two-level:
  * - The option *values* are scoped to the registration (i.e. per handler): each
@@ -442,6 +518,10 @@ export interface OnGroupStreamOptions {
    * Default: false.
    */
   handleFromStart?: boolean;
+  /**
+   * Optional group names to receive streams from. When omitted, streams from all groups are received.
+   */
+  groupNames?: string[];
 }
 
 /**

@@ -6,8 +6,10 @@
 
 import type { AbortSignalLike } from '@azure/abort-controller';
 import type { AccessToken } from '@azure/core-auth';
+import { isRestError } from '@azure/core-rest-pipeline';
 import { KeyCredential } from '@azure/core-auth';
 import { PipelinePolicy } from '@azure/core-rest-pipeline';
+import { RestError } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -100,6 +102,8 @@ export const isMicrosoftTeamsUserIdentifier: (identifier: CommunicationIdentifie
 // @public
 export const isPhoneNumberIdentifier: (identifier: CommunicationIdentifier) => identifier is PhoneNumberIdentifier;
 
+export { isRestError }
+
 // @public
 export const isTeamsExtensionUserIdentifier: (identifier: CommunicationIdentifier) => identifier is TeamsExtensionUserIdentifier;
 
@@ -149,6 +153,8 @@ export interface PhoneNumberIdentifier {
 export interface PhoneNumberKind extends PhoneNumberIdentifier {
     kind: "phoneNumber";
 }
+
+export { RestError }
 
 // @public
 export const serializeCommunicationIdentifier: (identifier: CommunicationIdentifier) => SerializedCommunicationIdentifier;

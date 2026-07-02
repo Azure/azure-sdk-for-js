@@ -8,11 +8,13 @@ import type { CommonClientOptions } from '@azure/core-client';
 import type { CommunicationIdentifier } from '@azure/communication-common';
 import type { CommunicationUserIdentifier } from '@azure/communication-common';
 import * as coreClient from '@azure/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { KeyCredential } from '@azure/core-auth';
 import type { MicrosoftTeamsAppIdentifier } from '@azure/communication-common';
 import type { MicrosoftTeamsUserIdentifier } from '@azure/communication-common';
 import type { OperationOptions } from '@azure/core-client';
 import type { PhoneNumberIdentifier } from '@azure/communication-common';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TeamsExtensionUserIdentifier } from '@azure/communication-common';
 import type { TokenCredential } from '@azure/core-auth';
 
@@ -139,7 +141,7 @@ export interface CallAutomationClientOptions extends CommonClientOptions {
 }
 
 // @public
-export type CallAutomationEvent = AddParticipantSucceeded | AddParticipantFailed | RemoveParticipantSucceeded | RemoveParticipantFailed | CallConnected | CallDisconnected | CallTransferAccepted | CallTransferFailed | ParticipantsUpdated | RecordingStateChanged | PlayCompleted | PlayFailed | PlayCanceled | RecognizeCompleted | RecognizeCanceled | RecognizeFailed | ContinuousDtmfRecognitionToneReceived | ContinuousDtmfRecognitionToneFailed | ContinuousDtmfRecognitionStopped | SendDtmfTonesCompleted | SendDtmfTonesFailed | CancelAddParticipantSucceeded | CancelAddParticipantFailed | TranscriptionStarted | TranscriptionStopped | TranscriptionUpdated | TranscriptionFailed | CreateCallFailed | AnswerFailed | HoldFailed | ConnectFailed | MediaStreamingStarted | MediaStreamingStopped | MediaStreamingFailed | PlayStarted | StartRecordingFailed;
+export type CallAutomationEvent = AddParticipantSucceeded | AddParticipantFailed | RemoveParticipantSucceeded | RemoveParticipantFailed | MoveParticipantSucceeded | MoveParticipantFailed | CallConnected | CallDisconnected | CallTransferAccepted | CallTransferFailed | ParticipantsUpdated | RecordingStateChanged | PlayCompleted | PlayFailed | PlayCanceled | RecognizeCompleted | RecognizeCanceled | RecognizeFailed | ContinuousDtmfRecognitionToneReceived | ContinuousDtmfRecognitionToneFailed | ContinuousDtmfRecognitionStopped | SendDtmfTonesCompleted | SendDtmfTonesFailed | CancelAddParticipantSucceeded | CancelAddParticipantFailed | TranscriptionStarted | TranscriptionStopped | TranscriptionUpdated | TranscriptionFailed | CreateCallFailed | AnswerFailed | HoldFailed | ConnectFailed | MediaStreamingStarted | MediaStreamingStopped | MediaStreamingFailed | PlayStarted | StartRecordingFailed;
 
 // @public
 export interface CallConnected
@@ -166,6 +168,7 @@ export class CallConnection {
     getParticipant(targetParticipant: CommunicationIdentifier, options?: GetParticipantOptions): Promise<CallParticipant>;
     hangUp(isForEveryone: boolean, options?: HangUpOptions): Promise<void>;
     listParticipants(options?: GetParticipantOptions): Promise<ListParticipantsResult>;
+    moveParticipants(targetParticipants: CommunicationIdentifier[], fromCall: string, options?: MoveParticipantsOptions): Promise<MoveParticipantsResult>;
     muteParticipant(participant: CommunicationIdentifier, options?: MuteParticipantOption): Promise<MuteParticipantResult>;
     removeParticipant(participant: CommunicationIdentifier, options?: RemoveParticipantsOption): Promise<RemoveParticipantResult>;
     transferCallToParticipant(targetParticipant: CommunicationIdentifier, options?: TransferCallToParticipantOptions): Promise<TransferCallResult>;
@@ -553,7 +556,7 @@ export function createOutboundAudioData(data: string): string;
 export function createOutboundStopAudioData(): string;
 
 // @public
-export type CustomCallingContext = (VoipHeader | SipUserToUserHeader | SipCustomHeader)[];
+export type CustomCallingContext = (VoipHeader | SipUserToUserHeader | SipCustomHeader | TeamsPhoneCallDetails)[];
 
 // @public
 export type DeleteRecordingOptions = OperationOptions;
@@ -638,6 +641,8 @@ export interface HoldOptions extends OperationOptions {
     operationContext?: string;
     playSource?: FileSource | TextSource | SsmlSource;
 }
+
+export { isRestError }
 
 // @public
 export enum KnownCallRejectReason {
@@ -744,6 +749,43 @@ export interface MediaStreamingUpdate {
     //
     // (undocumented)
     mediaStreamingStatusDetails?: MediaStreamingStatusDetails;
+}
+
+// @public
+export interface MoveParticipantFailed {
+    callConnectionId: string;
+    correlationId: string;
+    fromCall?: string;
+    kind: "MoveParticipantFailed";
+    operationContext?: string;
+    participant?: CommunicationIdentifier;
+    resultInformation?: ResultInformation;
+    serverCallId: string;
+}
+
+// @public
+export interface MoveParticipantsOptions extends OperationOptions {
+    operationCallbackUrl?: string;
+    operationContext?: string;
+}
+
+// @public
+export interface MoveParticipantsResult {
+    fromCall?: string;
+    operationContext?: string;
+    participants?: CallParticipant[];
+}
+
+// @public
+export interface MoveParticipantSucceeded {
+    callConnectionId: string;
+    correlationId: string;
+    fromCall?: string;
+    kind: "MoveParticipantSucceeded";
+    operationContext?: string;
+    participant?: CommunicationIdentifier;
+    resultInformation?: ResultInformation;
+    serverCallId: string;
 }
 
 // @public
@@ -1023,6 +1065,7 @@ export interface RestAddParticipantFailed {
     operationContext?: string;
     // Warning: (ae-forgotten-export) The symbol "CommunicationIdentifierModel" needs to be exported by the entry point index.d.ts
     participant?: CommunicationIdentifierModel;
+    // (undocumented)
     resultInformation?: RestResultInformation;
     serverCallId?: string;
 }
@@ -1033,6 +1076,7 @@ export interface RestAddParticipantSucceeded {
     correlationId?: string;
     operationContext?: string;
     participant?: CommunicationIdentifierModel;
+    // (undocumented)
     resultInformation?: RestResultInformation;
     serverCallId?: string;
 }
@@ -1042,6 +1086,7 @@ export interface RestAnswerFailed {
     callConnectionId?: string;
     correlationId?: string;
     operationContext?: string;
+    // (undocumented)
     resultInformation?: RestResultInformation;
     serverCallId?: string;
 }
@@ -1051,6 +1096,7 @@ export interface RestCallConnected {
     callConnectionId?: string;
     correlationId?: string;
     operationContext?: string;
+    // (undocumented)
     resultInformation?: RestResultInformation;
     serverCallId?: string;
 }
@@ -1060,6 +1106,7 @@ export interface RestCallDisconnected {
     callConnectionId?: string;
     correlationId?: string;
     operationContext?: string;
+    // (undocumented)
     resultInformation?: RestResultInformation;
     serverCallId?: string;
 }
@@ -1069,6 +1116,7 @@ export interface RestCallTransferAccepted {
     callConnectionId?: string;
     correlationId?: string;
     operationContext?: string;
+    // (undocumented)
     resultInformation?: RestResultInformation;
     serverCallId?: string;
     transferee?: CommunicationIdentifierModel;
@@ -1080,6 +1128,7 @@ export interface RestCallTransferFailed {
     callConnectionId?: string;
     correlationId?: string;
     operationContext?: string;
+    // (undocumented)
     resultInformation?: RestResultInformation;
     serverCallId?: string;
 }
@@ -1090,6 +1139,7 @@ export interface RestCancelAddParticipantFailed {
     correlationId?: string;
     invitationId?: string;
     operationContext?: string;
+    // (undocumented)
     resultInformation?: RestResultInformation;
     serverCallId?: string;
 }
@@ -1100,6 +1150,7 @@ export interface RestCancelAddParticipantSucceeded {
     correlationId?: string;
     invitationId?: string;
     operationContext?: string;
+    // (undocumented)
     resultInformation?: RestResultInformation;
     serverCallId?: string;
 }
@@ -1109,6 +1160,7 @@ export interface RestConnectFailed {
     callConnectionId?: string;
     correlationId?: string;
     operationContext?: string;
+    // (undocumented)
     resultInformation?: RestResultInformation;
     serverCallId?: string;
 }
@@ -1118,6 +1170,7 @@ export interface RestContinuousDtmfRecognitionStopped {
     callConnectionId?: string;
     correlationId?: string;
     operationContext?: string;
+    // (undocumented)
     resultInformation?: RestResultInformation;
     serverCallId?: string;
 }
@@ -1127,6 +1180,7 @@ export interface RestContinuousDtmfRecognitionToneFailed {
     callConnectionId?: string;
     correlationId?: string;
     operationContext?: string;
+    // (undocumented)
     resultInformation?: RestResultInformation;
     serverCallId?: string;
 }
@@ -1136,10 +1190,10 @@ export interface RestContinuousDtmfRecognitionToneReceived {
     callConnectionId?: string;
     correlationId?: string;
     operationContext?: string;
+    // (undocumented)
     resultInformation?: RestResultInformation;
     readonly sequenceId?: number;
     serverCallId?: string;
-    // (undocumented)
     tone?: Tone;
 }
 
@@ -1148,15 +1202,19 @@ export interface RestCreateCallFailed {
     callConnectionId?: string;
     correlationId?: string;
     operationContext?: string;
+    // (undocumented)
     resultInformation?: RestResultInformation;
     serverCallId?: string;
 }
+
+export { RestError }
 
 // @public (undocumented)
 export interface RestHoldFailed {
     callConnectionId?: string;
     correlationId?: string;
     operationContext?: string;
+    // (undocumented)
     resultInformation?: RestResultInformation;
     serverCallId?: string;
 }
@@ -1165,8 +1223,10 @@ export interface RestHoldFailed {
 export interface RestMediaStreamingFailed {
     callConnectionId?: string;
     correlationId?: string;
-    readonly mediaStreamingUpdate?: MediaStreamingUpdate;
+    // (undocumented)
+    mediaStreamingUpdate?: MediaStreamingUpdate;
     operationContext?: string;
+    // (undocumented)
     resultInformation?: RestResultInformation;
     serverCallId?: string;
 }
@@ -1175,8 +1235,10 @@ export interface RestMediaStreamingFailed {
 export interface RestMediaStreamingStarted {
     callConnectionId?: string;
     correlationId?: string;
-    readonly mediaStreamingUpdate?: MediaStreamingUpdate;
+    // (undocumented)
+    mediaStreamingUpdate?: MediaStreamingUpdate;
     operationContext?: string;
+    // (undocumented)
     resultInformation?: RestResultInformation;
     serverCallId?: string;
 }
@@ -1185,8 +1247,10 @@ export interface RestMediaStreamingStarted {
 export interface RestMediaStreamingStopped {
     callConnectionId?: string;
     correlationId?: string;
-    readonly mediaStreamingUpdate?: MediaStreamingUpdate;
+    // (undocumented)
+    mediaStreamingUpdate?: MediaStreamingUpdate;
     operationContext?: string;
+    // (undocumented)
     resultInformation?: RestResultInformation;
     serverCallId?: string;
 }
@@ -1197,6 +1261,7 @@ export interface RestParticipantsUpdated {
     correlationId?: string;
     // Warning: (ae-forgotten-export) The symbol "CallParticipantInternal" needs to be exported by the entry point index.d.ts
     participants?: CallParticipantInternal[];
+    // (undocumented)
     resultInformation?: RestResultInformation;
     sequenceNumber?: number;
     serverCallId?: string;
@@ -1207,6 +1272,7 @@ export interface RestPlayCanceled {
     callConnectionId?: string;
     correlationId?: string;
     operationContext?: string;
+    // (undocumented)
     resultInformation?: RestResultInformation;
     serverCallId?: string;
 }
@@ -1216,6 +1282,7 @@ export interface RestPlayCompleted {
     callConnectionId?: string;
     correlationId?: string;
     operationContext?: string;
+    // (undocumented)
     resultInformation?: RestResultInformation;
     serverCallId?: string;
 }
@@ -1226,6 +1293,7 @@ export interface RestPlayFailed {
     correlationId?: string;
     failedPlaySourceIndex?: number;
     operationContext?: string;
+    // (undocumented)
     resultInformation?: RestResultInformation;
     serverCallId?: string;
 }
@@ -1235,6 +1303,7 @@ export interface RestPlayStarted {
     callConnectionId?: string;
     correlationId?: string;
     operationContext?: string;
+    // (undocumented)
     resultInformation?: RestResultInformation;
     serverCallId?: string;
 }
@@ -1244,6 +1313,7 @@ export interface RestRecognizeCanceled {
     callConnectionId?: string;
     correlationId?: string;
     operationContext?: string;
+    // (undocumented)
     resultInformation?: RestResultInformation;
     serverCallId?: string;
 }
@@ -1251,14 +1321,17 @@ export interface RestRecognizeCanceled {
 // @public (undocumented)
 export interface RestRecognizeCompleted {
     callConnectionId?: string;
+    // (undocumented)
     choiceResult?: ChoiceResult;
     correlationId?: string;
+    // (undocumented)
     dtmfResult?: DtmfResult;
     operationContext?: string;
     recognitionType?: RecognitionType;
+    // (undocumented)
     resultInformation?: RestResultInformation;
     serverCallId?: string;
-    readonly speechResult?: SpeechResult;
+    speechResult?: SpeechResult;
 }
 
 // @public (undocumented)
@@ -1267,6 +1340,7 @@ export interface RestRecognizeFailed {
     correlationId?: string;
     failedPlaySourceIndex?: number;
     operationContext?: string;
+    // (undocumented)
     resultInformation?: RestResultInformation;
     serverCallId?: string;
 }
@@ -1278,6 +1352,7 @@ export interface RestRecordingStateChanged {
     readonly recordingId?: string;
     // (undocumented)
     recordingKind?: RecordingKind_2;
+    // (undocumented)
     resultInformation?: RestResultInformation;
     serverCallId?: string;
     readonly startDateTime?: Date;
@@ -1291,6 +1366,7 @@ export interface RestRemoveParticipantFailed {
     correlationId?: string;
     operationContext?: string;
     participant?: CommunicationIdentifierModel;
+    // (undocumented)
     resultInformation?: RestResultInformation;
     serverCallId?: string;
 }
@@ -1301,6 +1377,7 @@ export interface RestRemoveParticipantSucceeded {
     correlationId?: string;
     operationContext?: string;
     participant?: CommunicationIdentifierModel;
+    // (undocumented)
     resultInformation?: RestResultInformation;
     serverCallId?: string;
 }
@@ -1309,6 +1386,10 @@ export interface RestRemoveParticipantSucceeded {
 export interface RestResultInformation {
     code?: number;
     message?: string;
+    // (undocumented)
+    q850Details?: SipDiagnosticInfo;
+    // (undocumented)
+    sipDetails?: SipDiagnosticInfo;
     subCode?: number;
 }
 
@@ -1317,6 +1398,7 @@ export interface RestSendDtmfTonesCompleted {
     callConnectionId?: string;
     correlationId?: string;
     operationContext?: string;
+    // (undocumented)
     resultInformation?: RestResultInformation;
     serverCallId?: string;
 }
@@ -1326,6 +1408,7 @@ export interface RestSendDtmfTonesFailed {
     callConnectionId?: string;
     correlationId?: string;
     operationContext?: string;
+    // (undocumented)
     resultInformation?: RestResultInformation;
     serverCallId?: string;
 }
@@ -1335,9 +1418,11 @@ export interface RestTranscriptionFailed {
     callConnectionId?: string;
     correlationId?: string;
     operationContext?: string;
+    // (undocumented)
     resultInformation?: RestResultInformation;
     serverCallId?: string;
-    readonly transcriptionUpdate?: TranscriptionUpdate;
+    // (undocumented)
+    transcriptionUpdate?: TranscriptionUpdate;
 }
 
 // @public (undocumented)
@@ -1345,9 +1430,11 @@ export interface RestTranscriptionStarted {
     callConnectionId?: string;
     correlationId?: string;
     operationContext?: string;
+    // (undocumented)
     resultInformation?: RestResultInformation;
     serverCallId?: string;
-    readonly transcriptionUpdate?: TranscriptionUpdate;
+    // (undocumented)
+    transcriptionUpdate?: TranscriptionUpdate;
 }
 
 // @public (undocumented)
@@ -1355,9 +1442,11 @@ export interface RestTranscriptionStopped {
     callConnectionId?: string;
     correlationId?: string;
     operationContext?: string;
+    // (undocumented)
     resultInformation?: RestResultInformation;
     serverCallId?: string;
-    readonly transcriptionUpdate?: TranscriptionUpdate;
+    // (undocumented)
+    transcriptionUpdate?: TranscriptionUpdate;
 }
 
 // @public (undocumented)
@@ -1365,9 +1454,11 @@ export interface RestTranscriptionUpdated {
     callConnectionId?: string;
     correlationId?: string;
     operationContext?: string;
+    // (undocumented)
     resultInformation?: RestResultInformation;
     serverCallId?: string;
-    readonly transcriptionUpdate?: TranscriptionUpdate;
+    // (undocumented)
+    transcriptionUpdate?: TranscriptionUpdate;
 }
 
 // @public (undocumented)
@@ -1428,10 +1519,14 @@ export interface SendDtmfTonesResult {
 //
 // @public
 export interface SipCustomHeader extends CustomCallingContextHeader {
-    // (undocumented)
     kind: "sipx";
-    // (undocumented)
     sipHeaderPrefix?: SipHeaderPrefix;
+}
+
+// @public (undocumented)
+export interface SipDiagnosticInfo {
+    code?: number;
+    message?: string;
 }
 
 // @public
@@ -1439,7 +1534,6 @@ export type SipHeaderPrefix = "X-" | "X-MS-Custom-";
 
 // @public
 export interface SipUserToUserHeader extends CustomCallingContextHeader {
-    // (undocumented)
     kind: "sipuui";
 }
 
@@ -1470,6 +1564,7 @@ export interface StartRecordingFailed {
     callConnectionId: string;
     correlationId: string;
     kind: "StartRecordingFailed";
+    operationContext?: string;
     recordingId?: string;
     resultInformation?: ResultInformation;
     serverCallId: string;
@@ -1528,6 +1623,40 @@ export type StreamingDataKind = "AudioData" | "AudioMetadata" | "TranscriptionDa
 
 // @public (undocumented)
 export type StreamingDataResult = TranscriptionMetadata | TranscriptionData | AudioData | AudioMetadata | DtmfData;
+
+// @public
+export interface TeamsPhoneCallDetails {
+    callContext?: string;
+    callSentiment?: string;
+    callTopic?: string;
+    intent?: string;
+    // (undocumented)
+    kind: "TeamsPhoneCallDetails";
+    sessionId?: string;
+    suggestedActions?: string;
+    teamsPhoneCallerDetails?: TeamsPhoneCallerDetails;
+    teamsPhoneSourceDetails?: TeamsPhoneSourceDetails;
+    transcriptUrl?: string;
+}
+
+// @public
+export interface TeamsPhoneCallerDetails {
+    additionalCallerInformation?: Record<string, string>;
+    caller: CommunicationIdentifier;
+    isAuthenticated?: boolean;
+    name: string;
+    phoneNumber: string;
+    recordId?: string;
+    screenPopUrl?: string;
+}
+
+// @public
+export interface TeamsPhoneSourceDetails {
+    intendedTargets?: Record<string, CommunicationIdentifier>;
+    language: string;
+    source: CommunicationIdentifier;
+    status: string;
+}
 
 // @public
 export interface TextSource extends PlaySource {
@@ -1683,7 +1812,6 @@ export enum VoiceKind {
 
 // @public
 export interface VoipHeader extends CustomCallingContextHeader {
-    // (undocumented)
     kind: "voip";
 }
 

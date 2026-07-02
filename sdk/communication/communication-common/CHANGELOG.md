@@ -8,6 +8,12 @@
   - `tokenRefresher` may return an `AccessToken` (`{ token, expiresOnTimestamp }`) and the static constructor accepts an `AccessToken`, allowing the expiry to be supplied explicitly instead of decoded from the token.
   - Added `undecodableTokenRefreshIntervalInMinutes` to `CommunicationTokenRefreshOptions` to configure the lifetime assumed for an undecodable token without an explicit expiry (default 10 minutes).
 
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 2.4.2 (2026-06-02)
 
 ### Features Added

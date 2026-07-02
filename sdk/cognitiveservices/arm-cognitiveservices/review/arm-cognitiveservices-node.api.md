@@ -1295,6 +1295,7 @@ export interface DeploymentProperties {
     routing?: DeploymentRouting;
     scaleSettings?: DeploymentScaleSettings;
     serviceTier?: ServiceTier;
+    speculativeDecoding?: DeploymentSpeculativeDecoding;
     spilloverDeploymentName?: string;
     versionUpgradeOption?: DeploymentModelVersionUpgradeOption;
 }
@@ -1373,6 +1374,12 @@ export interface DeploymentsOperations {
 
 // @public
 export interface DeploymentsPauseOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface DeploymentSpeculativeDecoding {
+    draftModel: DeploymentModel;
+    draftTokenCount?: number;
 }
 
 // @public
@@ -2117,6 +2124,44 @@ export enum KnownRaiActionType {
 }
 
 // @public
+export enum KnownRaiEgressDefaultAction {
+    Allow = "Allow",
+    Deny = "Deny"
+}
+
+// @public
+export enum KnownRaiEgressHeaderOperation {
+    Insert = "Insert",
+    Remove = "Remove",
+    Set = "Set"
+}
+
+// @public
+export enum KnownRaiEgressMode {
+    Audit = "Audit",
+    Enforced = "Enforced"
+}
+
+// @public
+export enum KnownRaiEgressRuleActionType {
+    Allow = "Allow",
+    Deny = "Deny",
+    Rewrite = "Rewrite",
+    Transform = "Transform"
+}
+
+// @public
+export enum KnownRaiEgressRuleType {
+    Fqdn = "Fqdn"
+}
+
+// @public
+export enum KnownRaiEgressScheme {
+    Http = "http",
+    Https = "https"
+}
+
+// @public
 export enum KnownRaiPolicyContentSource {
     Completion = "Completion",
     PostRun = "PostRun",
@@ -2245,7 +2290,9 @@ export enum KnownVersions {
     V20251201 = "2025-12-01",
     V20260115Preview = "2026-01-15-preview",
     V20260301 = "2026-03-01",
-    V20260315Preview = "2026-03-15-preview"
+    V20260315Preview = "2026-03-15-preview",
+    V20260501 = "2026-05-01",
+    V20260515Preview = "2026-05-15-preview"
 }
 
 // @public
@@ -2289,7 +2336,6 @@ export interface ManagedComputeCapacityProperties {
     readonly acceleratorType?: string;
     readonly availableAccelerators?: number;
     readonly deploymentSizeCapacities?: DeploymentSizeCapacity[];
-    readonly location?: string;
 }
 
 // @public
@@ -2312,6 +2358,7 @@ export interface ManagedComputeDeploymentInfo {
 export interface ManagedComputeDeploymentProperties {
     readonly acceleratorsPerInstance?: number;
     acceleratorType?: string;
+    readonly capabilities?: Record<string, string>;
     computeId?: string;
     deploymentTemplate?: string;
     model: string;
@@ -3370,6 +3417,88 @@ export interface RaiContentFiltersOperations {
 }
 
 // @public
+export type RaiEgressDefaultAction = string;
+
+// @public
+export type RaiEgressHeaderOperation = string;
+
+// @public
+export interface RaiEgressHeaderTransform {
+    name: string;
+    operation: RaiEgressHeaderOperation;
+    value?: string;
+    valueRef?: RaiEgressHeaderValueRef;
+}
+
+// @public
+export interface RaiEgressHeaderValueRef {
+    managedIdentityRef?: RaiEgressManagedIdentityRef;
+    secretRef?: RaiEgressSecretRef;
+}
+
+// @public
+export interface RaiEgressManagedIdentityRef {
+    format?: string;
+    resource: string;
+}
+
+// @public
+export type RaiEgressMode = string;
+
+// @public
+export interface RaiEgressPolicyConfig {
+    defaultAction?: RaiEgressDefaultAction;
+    description?: string;
+    mode?: RaiEgressMode;
+    rules?: RaiEgressRule[];
+}
+
+// @public
+export interface RaiEgressRewriteTarget {
+    host?: string;
+    path?: string;
+    scheme?: RaiEgressScheme;
+}
+
+// @public
+export interface RaiEgressRule {
+    action: RaiEgressRuleAction;
+    description?: string;
+    match?: RaiEgressRuleMatch;
+    name: string;
+    ruleType: RaiEgressRuleType;
+}
+
+// @public
+export interface RaiEgressRuleAction {
+    actionType: RaiEgressRuleActionType;
+    headers?: RaiEgressHeaderTransform[];
+    rewrite?: RaiEgressRewriteTarget;
+}
+
+// @public
+export type RaiEgressRuleActionType = string;
+
+// @public
+export interface RaiEgressRuleMatch {
+    host?: string;
+    path?: string;
+}
+
+// @public
+export type RaiEgressRuleType = string;
+
+// @public
+export type RaiEgressScheme = string;
+
+// @public
+export interface RaiEgressSecretRef {
+    format?: string;
+    secretId: string;
+    secretKey?: string;
+}
+
+// @public
 export interface RaiExternalSafetyProviderCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
@@ -3485,6 +3614,7 @@ export interface RaiPolicyProperties {
     basePolicyName?: string;
     contentFilters?: RaiPolicyContentFilter[];
     customBlocklists?: CustomBlocklistConfig[];
+    egressPolicy?: RaiEgressPolicyConfig;
     mode?: RaiPolicyMode;
     safetyProviders?: SafetyProviderConfig[];
     readonly type?: RaiPolicyType;
