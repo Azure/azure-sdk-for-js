@@ -3,7 +3,7 @@
 
 import * as fsp from "node:fs/promises";
 import * as path from "node:path";
-import { parse as parseYaml } from "yaml";
+import { parse as parseYaml, parseDocument, isSeq, isMap } from "yaml";
 import type { WarpConfig, WarpTarget, ResolvedWarpConfig, ConfigSource } from "./types.ts";
 import { WarpError } from "./types.ts";
 import { getLogger } from "./logger.ts";
@@ -143,6 +143,90 @@ export async function findWarpConfig(
 }
 
 /**
+ * Physically remove the named targets from the config file that declares them,
+ * preserving comments and formatting.
+ *
+ * Used after platform-target pruning so a package's `warp.config.yml` stops
+ * declaring `browser` / `react-native` targets that produce output identical to
+ * the ESM build. Only target list-items literally present in `source` are
+ * removed — targets inherited from a base config (via `extends`) are not in this
+ * file, so the shared base config is never modified.
+ *
+ * @param source - The config source to edit (the package's own config file).
+ * @param targetNames - Names of targets to remove.
+ * @returns The names that were actually found and removed (empty when none matched).
+ */
+export async function removeTargetsFromConfigSource(
+  source: ConfigSource,
+  targetNames: ReadonlySet<string>,
+): Promise<string[]> {
+  if (targetNames.size === 0) return [];
+
+  const content = await fsp.readFile(source.path, "utf-8");
+
+  if (source.type === "yaml") {
+    const doc = parseDocument(content);
+    const targetsNode = doc.get("targets");
+    if (!isSeq(targetsNode)) return [];
+
+    const originalFirst = targetsNode.items[0];
+    const removed: string[] = [];
+    // Iterate from the end so splicing doesn't shift the indices still to visit.
+    for (let i = targetsNode.items.length - 1; i >= 0; i--) {
+      const item = targetsNode.items[i];
+      if (!isMap(item)) continue;
+      const name = item.get("name");
+      if (typeof name === "string" && targetNames.has(name)) {
+        targetsNode.items.splice(i, 1);
+        removed.push(name);
+      }
+    }
+    if (removed.length === 0) return [];
+
+    // When the original first target is removed, the new leading item inherits
+    // the blank line that used to separate it from the removed item, leaving a
+    // stray indented empty line directly under `targets:`. Drop that spacing so
+    // the surviving first target sits flush under the key.
+    const newFirst = targetsNode.items[0];
+    if (isMap(newFirst) && newFirst !== originalFirst) {
+      newFirst.spaceBefore = false;
+    }
+
+    await fsp.writeFile(source.path, doc.toString());
+    return removed.reverse();
+  }
+
+  // JSON config file or package.json "warp" key — no comments to preserve.
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(content);
+  } catch (err) {
+    throw new WarpError(
+      "CONFIG_INVALID",
+      `[warp] Failed to parse ${source.path}: ${err instanceof Error ? err.message : String(err)}`,
+      { cause: err },
+    );
+  }
+  if (!isRecord(parsed)) return [];
+
+  const container = source.type === "package.json" ? parsed.warp : parsed;
+  if (!isRecord(container) || !Array.isArray(container.targets)) return [];
+
+  const removed: string[] = [];
+  container.targets = container.targets.filter((t) => {
+    if (isRecord(t) && typeof t.name === "string" && targetNames.has(t.name)) {
+      removed.push(t.name);
+      return false;
+    }
+    return true;
+  });
+  if (removed.length === 0) return [];
+
+  await fsp.writeFile(source.path, `${JSON.stringify(parsed, null, 2)}\n`);
+  return removed;
+}
+
+/**
  * Resolve a config that may have an `extends` field, loading and merging the
  * base config recursively. Cycle detection uses a set of resolved file paths.
  *
@@ -215,6 +299,10 @@ async function resolveConfigWithExtends(
   const merged = {
     exports: { ...baseConfig.exports, ...(childExports ?? {}) },
     targets: childTargets ?? baseConfig.targets,
+    prunePlatformTargets:
+      typeof raw.prunePlatformTargets === "boolean"
+        ? raw.prunePlatformTargets
+        : baseConfig.prunePlatformTargets,
   };
 
   return validateConfig(merged, sourceLabel);
@@ -414,9 +502,20 @@ function validateConfig(raw: unknown, source: string): WarpConfig {
     validatedTargets.push(target);
   }
 
+  // Validate optional prunePlatformTargets flag
+  if (raw.prunePlatformTargets !== undefined && typeof raw.prunePlatformTargets !== "boolean") {
+    throw new WarpError(
+      "CONFIG_INVALID",
+      `[warp] Invalid config in ${source}: "prunePlatformTargets" must be a boolean`,
+    );
+  }
+
   return {
     exports: exports as Record<string, string>,
     targets: validatedTargets,
+    ...(typeof raw.prunePlatformTargets === "boolean" && {
+      prunePlatformTargets: raw.prunePlatformTargets,
+    }),
   };
 }
 
