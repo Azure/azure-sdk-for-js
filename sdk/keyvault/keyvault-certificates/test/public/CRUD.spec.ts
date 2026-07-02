@@ -17,6 +17,7 @@ import { authenticate } from "./utils/testAuthentication.js";
 import type TestClient from "./utils/testClient.js";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
+import { delay } from "@azure/core-util";
 expect.extend({ toSupportTracing });
 
 describe("Certificates client - create, read, update and delete", () => {
@@ -499,6 +500,12 @@ describe("Certificates client - create, read, update and delete", () => {
       testPollerProperties,
     );
 
+    // Wait for the certificate operation to be fully initialized on the server
+    // before attempting to read, cancel, or delete it to avoid race conditions
+    if (!isPlaybackMode()) {
+      await delay(2000);
+    }
+
     let certificateOperation: any;
 
     // Read
@@ -511,6 +518,11 @@ describe("Certificates client - create, read, update and delete", () => {
     await operationPoller.cancelOperation();
     certificateOperation = operationPoller.getOperationState().certificateOperation!;
     expect(certificateOperation.cancellationRequested).toEqual(true);
+
+    // Wait for the cancellation to propagate on the server side before deleting
+    if (!isPlaybackMode()) {
+      await delay(2000);
+    }
 
     // Delete
     await client.deleteCertificateOperation(certificateName);
