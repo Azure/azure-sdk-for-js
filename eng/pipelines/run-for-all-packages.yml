@@ -45,6 +45,11 @@ stages:
 
           - script: |
               pnpm build
+            env:
+              TURBO_TEAM: azsdkjs
+              TURBO_TEAMID: azsdkjs
+              TURBO_TOKEN: $(js-turborepo-cache-token)
+              TURBO_CACHE: local:rw,remote:rw
             displayName: "Build All Packages"
 
           - script: |
