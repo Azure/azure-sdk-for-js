@@ -49,6 +49,14 @@ try {
   exclude = [];
 }
 
+// A package's exported type Symbols, cached once per TypeScript Program (Programs are
+// shared across a package's files, so this preserves the original compute-once-per-package
+// memoization). This is deliberately kept OUT of `context.settings`: eslint-plugin-import's
+// resolver hashes `context.settings` with no cycle detection (see eslint-module-utils
+// resolve.js -> hash.js), and TS Symbol graphs are circular, so stashing them in settings
+// overflows the stack when resolving imports (observed on @azure/cosmos).
+const exportsByProgram = new WeakMap<object, Array<unknown>>();
+
 export default createRule({
   name: "ts-doc-internal",
   meta: {
@@ -67,7 +75,8 @@ export default createRule({
   defaultOptions: [],
   create(context) {
     const parserServices = ESLintUtils.getParserServices(context);
-    const typeChecker = parserServices.program.getTypeChecker();
+    const program = parserServices.program;
+    const typeChecker = program.getTypeChecker();
     const converter = parserServices.esTreeNodeToTSNodeMap;
 
     /**
@@ -81,7 +90,12 @@ export default createRule({
     const reportInternal = (node: TSESTree.Node): void => {
       const tsNode = converter.get(node as TSESTree.Node) as any;
       const symbol = typeChecker.getTypeAtLocation(tsNode).getSymbol();
-      const exported = context.settings.exported as Array<unknown>;
+      // Prefer the per-Program cache; fall back to `settings.exported` so tests/config can
+      // still inject a (non-circular) list. Never read circular Symbols back out of settings.
+      const exported =
+        exportsByProgram.get(program) ??
+        (context.settings.exported as Array<unknown> | undefined) ??
+        [];
 
       // if type is internal and has a TSDoc
       if (!exported.includes(symbol) && tsNode.jsDoc !== undefined) {
@@ -112,13 +126,17 @@ export default createRule({
 
     const fileName = context.filename;
 
-    // on the first run, if on a .ts file (program.getSourceFile is file-type dependent)
-    if (context.settings.exported === undefined && /\.ts|\.mts|\.cts$/.test(fileName)) {
+    // On the first run for a package, compute its exported Symbols once and cache them by
+    // Program. Guarded by `settings.exported === undefined` so an injected list (e.g. in
+    // tests) short-circuits the computation, matching the original behavior.
+    if (
+      !exportsByProgram.has(program) &&
+      context.settings.exported === undefined &&
+      /\.ts|\.mts|\.cts$/.test(fileName)
+    ) {
       const packageExports = getLocalExports(context);
-      if (packageExports !== undefined) {
-        context.settings.exported = packageExports;
-      } else {
-        context.settings.exported = [];
+      exportsByProgram.set(program, packageExports ?? []);
+      if (packageExports === undefined) {
         return {};
       }
     }
