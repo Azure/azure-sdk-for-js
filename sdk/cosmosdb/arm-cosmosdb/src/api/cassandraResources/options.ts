@@ -40,24 +40,6 @@ export interface CassandraResourcesCreateUpdateCassandraRoleDefinitionOptionalPa
 export interface CassandraResourcesGetCassandraRoleDefinitionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface CassandraResourcesListCassandraViewsOptionalParams extends OperationOptions {}
-
-/** Optional parameters. */
-export interface CassandraResourcesDeleteCassandraViewOptionalParams extends OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-}
-
-/** Optional parameters. */
-export interface CassandraResourcesCreateUpdateCassandraViewOptionalParams extends OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-}
-
-/** Optional parameters. */
-export interface CassandraResourcesGetCassandraViewOptionalParams extends OperationOptions {}
-
-/** Optional parameters. */
 export interface CassandraResourcesListCassandraTablesOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
@@ -92,27 +74,6 @@ export interface CassandraResourcesCreateUpdateCassandraKeyspaceOptionalParams e
 
 /** Optional parameters. */
 export interface CassandraResourcesGetCassandraKeyspaceOptionalParams extends OperationOptions {}
-
-/** Optional parameters. */
-export interface CassandraResourcesMigrateCassandraViewToManualThroughputOptionalParams extends OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-}
-
-/** Optional parameters. */
-export interface CassandraResourcesMigrateCassandraViewToAutoscaleOptionalParams extends OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-}
-
-/** Optional parameters. */
-export interface CassandraResourcesUpdateCassandraViewThroughputOptionalParams extends OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-}
-
-/** Optional parameters. */
-export interface CassandraResourcesGetCassandraViewThroughputOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface CassandraResourcesMigrateCassandraTableToManualThroughputOptionalParams extends OperationOptions {
