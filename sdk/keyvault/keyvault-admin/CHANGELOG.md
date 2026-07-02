@@ -1,14 +1,10 @@
 # Release History
 
-## 4.7.3 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 4.7.3 (2026-07-01)
 
 ### Other Changes
+
+- Key Vault API version `2026-01-01-preview` is now the default
 
 ## 4.7.2 (2026-06-09)
 
