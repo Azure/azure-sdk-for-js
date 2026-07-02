@@ -93,9 +93,27 @@ steps:
         ArtifactName: 'test proxy logs $(Agent.JobName)'
         SbomEnabled: false
 
-  - task: PublishCodeCoverageResults@2
-    displayName: "Publish NodeJs Code Coverage to DevOps"
+  - pwsh: |
+      $coverageRoot = "$(System.DefaultWorkingDirectory)/sdk/${{ parameters.ServiceDirectory }}"
+      $pathToSources = "$(System.DefaultWorkingDirectory)"
+      $coverageFiles = Get-ChildItem -Path $coverageRoot -Recurse -File -Filter "*cobertura*.xml"
+
+      if (-not $coverageFiles) {
+        Write-Host "No cobertura coverage files found under $coverageRoot"
+        exit 0
+      }
+
+      foreach ($coverageFile in $coverageFiles) {
+        $coverageDirectory = Split-Path -Parent $coverageFile.FullName
+        $packageDirectory = Split-Path -Parent $coverageDirectory
+        $packageName = Split-Path -Leaf $packageDirectory
+        $summaryFile = $coverageFile.FullName.Replace("\\", "/")
+        $reportDirectory = $coverageDirectory.Replace("\\", "/")
+        $sourceDirectory = $pathToSources.Replace("\\", "/")
+
+        Write-Host "Publishing coverage for '$packageName' from '$summaryFile'"
+        Write-Host "##vso[codecoverage.publish codecoveragetool=Cobertura;summaryfile=$summaryFile;reportdirectory=$reportDirectory;pathToSources=$sourceDirectory;]$packageName"
+      }
+    displayName: "Publish NodeJs Code Coverage to DevOps (per package)"
     continueOnError: true
-    condition: and(succeededOrFailed(),eq(variables['TestType'], 'node'),eq(variables['PublishCodeCoverage'], 'true'))
-    inputs:
-      summaryFileLocation: "$(System.DefaultWorkingDirectory)/sdk/${{ parameters.ServiceDirectory }}/**/coverage/*cobertura*.xml"
+    condition: and(succeededOrFailed(),eq(variables['TestType'], 'node'),in(lower(variables['PublishCodeCoverage']), 'true', '1'))
