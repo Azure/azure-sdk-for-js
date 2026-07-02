@@ -81,7 +81,7 @@ try {
   # Run the changelog-tool command using npm exec to generate the SDK changes report
   Write-Host "Generating SDK changes report..." -ForegroundColor Cyan
   Write-Host ""
-  $command = "npm --prefix $releaseToolsPath exec --no -- changelog-tool -- --packagePath `"$PackagePath`" --report-file `"$OutputJsonFile`""
+  $command = "npm --prefix $releaseToolsPath exec --no -- changelog-tool --packagePath `"$PackagePath`" --report-file `"$OutputJsonFile`""
   Invoke-LoggedCommand $command
 
   Write-Host ""
