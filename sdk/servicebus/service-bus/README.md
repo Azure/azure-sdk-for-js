@@ -215,6 +215,7 @@ The following sections provide code snippets that cover some of the common tasks
 - [Dead letter queues](#dead-letter-queues)
 - [Send messages using Sessions](#send-messages-using-sessions)
 - [Receive messages from Sessions](#receive-messages-from-sessions)
+- [List message sessions](#list-message-sessions)
 - [Manage resources of a service bus namespace](#manage-resources-of-a-service-bus-namespace)
 - [Additional samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicebus/service-bus/samples)
 
@@ -481,6 +482,29 @@ Once the receiver is created you can use choose between 3 ways to receive messag
 - [Use async iterator](#use-async-iterator)
 
 You can read more about how sessions work [here][docsms_messagesessions].
+
+### List message sessions
+
+To discover which sessions have active messages in a queue or subscription, use `listMessageSessions()`:
+
+```ts snippet:ReadmeSampleListMessageSessions
+import { DefaultAzureCredential } from "@azure/identity";
+import { ServiceBusClient } from "@azure/service-bus";
+
+const fullyQualifiedNamespace = "<name-of-service-bus-namespace>.servicebus.windows.net";
+const credential = new DefaultAzureCredential();
+const serviceBusClient = new ServiceBusClient(fullyQualifiedNamespace, credential);
+
+// List all sessions with active messages in a queue
+for await (const sessionId of serviceBusClient.listMessageSessions("my-session-queue")) {
+  console.log("Session ID:", sessionId);
+}
+
+// List sessions in a subscription
+for await (const sessionId of serviceBusClient.listMessageSessions("my-topic", "my-subscription")) {
+  console.log("Session ID:", sessionId);
+}
+```
 
 ### Manage resources of a service bus namespace
 
