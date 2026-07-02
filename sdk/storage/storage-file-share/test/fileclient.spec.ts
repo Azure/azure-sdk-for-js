@@ -10,6 +10,7 @@ import type {
   NfsFileMode,
   ShareClient,
   ShareDirectoryClient,
+  ShareFileRange,
   ShareServiceClient,
 } from "../src/index.js";
 import { ShareFileClient } from "../src/index.js";
@@ -1091,6 +1092,106 @@ describe("FileClient", () => {
     assert.isDefined(result.ranges);
     assert.deepStrictEqual(result.ranges!.length, 1);
     assert.deepStrictEqual(result.ranges![0], { start: 512, end: 1535 });
+  });
+
+  it("listRanges", async () => {
+    await fileClient.create(10);
+    await fileClient.uploadRange("Hello", 0, 5);
+    await fileClient.uploadRange("World", 5, 5);
+    await fileClient.clearRange(1, 8);
+
+    const ranges: ShareFileRange[] = [];
+    for await (const range of fileClient.listRanges()) {
+      ranges.push(range);
+    }
+    assert.deepStrictEqual(ranges.length, 1);
+    assert.deepStrictEqual(ranges[0], { start: 0, end: 9, isClear: false });
+  });
+
+  it("listRanges with share snapshot", async () => {
+    await fileClient.create(513); // 512-byte aligned
+    await fileClient.uploadRange("Hello", 0, 5);
+    await fileClient.uploadRange("World", 5, 5);
+    await fileClient.clearRange(0, 513);
+
+    const snapshotRes = await shareClient.createSnapshot();
+    assert.isDefined(snapshotRes.snapshot);
+
+    await fileClient.uploadRange("Hello", 0, 5);
+
+    const fileClientWithShareSnapShot = fileClient.withShareSnapshot(snapshotRes.snapshot!);
+    const ranges: ShareFileRange[] = [];
+    for await (const range of fileClientWithShareSnapShot.listRanges()) {
+      ranges.push(range);
+    }
+
+    assert.deepStrictEqual(ranges.length, 1);
+    assert.deepStrictEqual(ranges[0], { start: 512, end: 512, isClear: false });
+  });
+
+  it("listRanges by page", async () => {
+    await fileClient.create(512 * 4);
+    await fileClient.uploadRange("aaa", 0, 3);
+    await fileClient.uploadRange("bbb", 512, 3);
+    await fileClient.uploadRange("ccc", 1024, 3);
+
+    const foundRanges: ShareFileRange[] = [];
+    let pageCount = 0;
+    for await (const page of fileClient.listRanges().byPage({ maxPageSize: 1 })) {
+      ++pageCount;
+      for (const range of page.ranges ?? []) {
+        foundRanges.push({ start: range.start, end: range.end, isClear: false });
+      }
+    }
+
+    assert.deepStrictEqual(foundRanges.length, 3);
+    assert.isAtLeast(pageCount, 1);
+  });
+
+  it("listRanges with continuation token", async () => {
+    await fileClient.create(512 * 4);
+    await fileClient.uploadRange("aaa", 0, 3);
+    await fileClient.uploadRange("bbb", 512, 3);
+    await fileClient.uploadRange("ccc", 1024, 3);
+
+    let iterator = fileClient.listRanges().byPage({ maxPageSize: 1 });
+    let response = (await iterator.next()).value;
+    assert.deepStrictEqual(response.ranges!.length, 1);
+
+    const marker = response.continuationToken;
+    assert.isDefined(marker);
+
+    iterator = fileClient.listRanges().byPage({ continuationToken: marker, maxPageSize: 2 });
+    response = (await iterator.next()).value;
+    assert.isAtLeast(response.ranges!.length, 1);
+  });
+
+  it("listRangesDiff", async function (ctx) {
+    if (isLiveMode()) {
+      // Skipped for now as the result is not stable.
+      ctx.skip();
+    }
+    await fileClient.create(512 * 4 + 1);
+    await fileClient.uploadRange("Hello", 0, 5);
+
+    const snapshotRes = await shareClient.createSnapshot();
+    assert.isDefined(snapshotRes.snapshot);
+
+    await fileClient.clearRange(0, 1024);
+    await fileClient.uploadRange("World", 1023, 5);
+
+    const ranges: ShareFileRange[] = [];
+    for await (const range of fileClient.listRangesDiff(snapshotRes.snapshot!)) {
+      ranges.push(range);
+    }
+
+    const clearedRanges = ranges.filter((r) => r.isClear);
+    const populatedRanges = ranges.filter((r) => !r.isClear);
+
+    assert.deepStrictEqual(clearedRanges.length, 1);
+    assert.deepStrictEqual(clearedRanges[0], { start: 0, end: 511, isClear: true });
+    assert.deepStrictEqual(populatedRanges.length, 1);
+    assert.deepStrictEqual(populatedRanges[0], { start: 512, end: 1535, isClear: false });
   });
 
   it("download with with default parameters", async () => {

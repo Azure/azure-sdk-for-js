@@ -115,6 +115,7 @@ import type {
   DirectoryOperations,
   FileOperations,
   ListFilesIncludeType,
+  ShareFileRangeListSegment,
   FileDownloadOptionalParams as FileDownloadOptionalParamsInternal,
 } from "./generated/index.js";
 import type { Pipeline, PipelineLike } from "./Pipeline.js";
@@ -3465,6 +3466,164 @@ export type FileGetRangeListResponse = WithResponse<
 >;
 
 /**
+ * A range of bytes within an Azure file, as returned by {@link ShareFileClient.listRanges}
+ * and {@link ShareFileClient.listRangesDiff}.
+ */
+export interface ShareFileRange {
+  /**
+   * Start byte position of the range.
+   */
+  start: number;
+  /**
+   * End byte position of the range, inclusive.
+   */
+  end: number;
+  /**
+   * Indicates whether this range is a cleared range (`true`) or a valid data range (`false`).
+   * When listing ranges via {@link ShareFileClient.listRanges}, this is always `false`.
+   */
+  isClear: boolean;
+}
+
+/**
+ * Options to configure the {@link ShareFileClient.listRanges} operation.
+ */
+export interface FileListRangesOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   */
+  abortSignal?: AbortSignalLike;
+  /**
+   * Optional. Specifies the range of bytes over which to list ranges, inclusively.
+   */
+  range?: Range;
+  /**
+   * Lease access conditions.
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
+}
+
+/**
+ * Options to configure the {@link ShareFileClient.listRangesDiff} operation.
+ */
+export interface FileListRangesDiffOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   */
+  abortSignal?: AbortSignalLike;
+  /**
+   * Optional. Specifies the range of bytes over which to list ranges, inclusively.
+   */
+  range?: Range;
+  /**
+   * Lease access conditions.
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
+  /**
+   * This header is allowed only when prevShareSnapshot parameter is set.
+   * Determines whether the changed ranges for a file that has been renamed or moved between the target snapshot (or the live file) and the previous snapshot should be listed.
+   * If the value is true, the valid changed ranges for the file will be returned. If the value is false, the operation will result in a failure with 409 (Conflict) response.
+   * The default value is false.
+   */
+  includeRenames?: boolean;
+}
+
+/**
+ * Options to configure listing range segments, used internally by
+ * {@link ShareFileClient.listRanges} and {@link ShareFileClient.listRangesDiff}.
+ */
+interface FileListRangesSegmentOptions extends CommonOptions {
+  abortSignal?: AbortSignalLike;
+  range?: Range;
+  leaseAccessConditions?: LeaseAccessConditions;
+  includeRenames?: boolean;
+  /**
+   * The previous share snapshot to compare with, when listing range diffs.
+   */
+  prevShareSnapshot?: string;
+  /**
+   * Specifies the maximum number of ranges to return per page.
+   */
+  maxPageSize?: number;
+}
+
+/**
+ * The body of a single page of results for the {@link ShareFileClient.listRanges} and
+ * {@link ShareFileClient.listRangesDiff} operations.
+ */
+export interface FileRangeListSegment {
+  /**
+   * The valid data ranges for the file.
+   */
+  ranges?: RangeModel[];
+  /**
+   * The cleared ranges for the file. Present when listing range diffs.
+   */
+  clearRanges?: RangeModel[];
+  /**
+   * The next marker returned by the service if there are more ranges to list.
+   */
+  nextMarker?: string;
+}
+
+/**
+ * Contains a single page of results for the {@link ShareFileClient.listRanges} and
+ * {@link ShareFileClient.listRangesDiff} operations.
+ */
+export type FileListRangesSegmentResponse = WithResponse<
+  FileGetRangeListHeaders &
+    FileRangeListSegment & {
+      /**
+       * A token that identifies the portion of the list to be returned with the next list operation.
+       * The value is opaque to the client.
+       */
+      continuationToken?: string;
+    },
+  FileGetRangeListHeaders,
+  FileRangeListSegment
+>;
+
+/**
+ * Merges the valid ranges and cleared ranges returned by the service into a single
+ * ordered sequence of {@link ShareFileRange} items, sorted by start position.
+ */
+function* extractShareFileRangeItems(
+  ranges: RangeModel[] = [],
+  clearRanges: RangeModel[] = [],
+): IterableIterator<ShareFileRange> {
+  let rangeIndex = 0;
+  let clearRangeIndex = 0;
+
+  while (rangeIndex < ranges.length && clearRangeIndex < clearRanges.length) {
+    if (ranges[rangeIndex].start <= clearRanges[clearRangeIndex].start) {
+      yield { start: ranges[rangeIndex].start, end: ranges[rangeIndex].end, isClear: false };
+      ++rangeIndex;
+    } else {
+      yield {
+        start: clearRanges[clearRangeIndex].start,
+        end: clearRanges[clearRangeIndex].end,
+        isClear: true,
+      };
+      ++clearRangeIndex;
+    }
+  }
+
+  for (; rangeIndex < ranges.length; ++rangeIndex) {
+    yield { start: ranges[rangeIndex].start, end: ranges[rangeIndex].end, isClear: false };
+  }
+
+  for (; clearRangeIndex < clearRanges.length; ++clearRangeIndex) {
+    yield {
+      start: clearRanges[clearRangeIndex].start,
+      end: clearRanges[clearRangeIndex].end,
+      isClear: true,
+    };
+  }
+}
+
+/**
  * Options to configure the {@link ShareFileClient.startCopyFromURL} operation.
  */
 export interface FileStartCopyOptions extends CommonOptions {
@@ -5016,6 +5175,9 @@ export class ShareFileClient extends StorageClient {
   /**
    * Returns the list of valid ranges for a file.
    *
+   * @deprecated Use {@link ShareFileClient.listRanges} instead, which returns a paginated
+   * async iterable and supports files with a large number of ranges.
+   *
    * @param options - Options to File Get range List operation.
    */
   public async getRangeList(
@@ -5056,6 +5218,9 @@ export class ShareFileClient extends StorageClient {
   /**
    * Returns the list of ranges that differ between a previous share snapshot and this file.
    *
+   * @deprecated Use {@link ShareFileClient.listRangesDiff} instead, which returns a paginated
+   * async iterable and supports files with a large number of ranges.
+   *
    * @param prevShareSnapshot - The previous snapshot parameter is an opaque DateTime value that specifies the previous share snapshot to compare with.
    * @param options -
    */
@@ -5083,6 +5248,162 @@ export class ShareFileClient extends StorageClient {
             }),
           ),
         );
+      },
+    );
+  }
+
+  /**
+   * Returns the list of valid ranges for a file, as a paginated async iterable.
+   *
+   * `.byPage()` returns an async iterable iterator to list the ranges in pages.
+   *
+   * @see https://learn.microsoft.com/rest/api/storageservices/list-ranges
+   *
+   * @param options - Options to the File List Ranges operation.
+   * @returns An asyncIterableIterator that supports paging.
+   */
+  public listRanges(
+    options: FileListRangesOptions = {},
+  ): PagedAsyncIterableIterator<ShareFileRange, FileListRangesSegmentResponse> {
+    const iter = this.listRangeItems(options);
+    return {
+      /**
+       * The next method, part of the iteration protocol
+       */
+      async next() {
+        return iter.next();
+      },
+      /**
+       * The connection to the async iterator, part of the iteration protocol
+       */
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      /**
+       * Return an AsyncIterableIterator that works a page at a time
+       */
+      byPage: (settings: PageSettings = {}) => {
+        return this.iterateRangeSegments(removeEmptyString(settings.continuationToken), {
+          maxPageSize: settings.maxPageSize,
+          ...options,
+        });
+      },
+    };
+  }
+
+  /**
+   * Returns the list of ranges that differ between a previous share snapshot and this file,
+   * as a paginated async iterable.
+   *
+   * `.byPage()` returns an async iterable iterator to list the ranges in pages.
+   *
+   * @see https://learn.microsoft.com/rest/api/storageservices/list-ranges
+   *
+   * @param prevShareSnapshot - The previous snapshot parameter is an opaque DateTime value that specifies the previous share snapshot to compare with.
+   * @param options - Options to the File List Ranges Diff operation.
+   * @returns An asyncIterableIterator that supports paging.
+   */
+  public listRangesDiff(
+    prevShareSnapshot: string,
+    options: FileListRangesDiffOptions = {},
+  ): PagedAsyncIterableIterator<ShareFileRange, FileListRangesSegmentResponse> {
+    const iter = this.listRangeItems({ ...options, prevShareSnapshot });
+    return {
+      /**
+       * The next method, part of the iteration protocol
+       */
+      async next() {
+        return iter.next();
+      },
+      /**
+       * The connection to the async iterator, part of the iteration protocol
+       */
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      /**
+       * Return an AsyncIterableIterator that works a page at a time
+       */
+      byPage: (settings: PageSettings = {}) => {
+        return this.iterateRangeSegments(removeEmptyString(settings.continuationToken), {
+          maxPageSize: settings.maxPageSize,
+          ...options,
+          prevShareSnapshot,
+        });
+      },
+    };
+  }
+
+  /**
+   * Returns an AsyncIterableIterator for {@link ShareFileRange} items.
+   *
+   * @param options - Options to the File List Ranges operation.
+   */
+  private async *listRangeItems(
+    options: FileListRangesSegmentOptions = {},
+  ): AsyncIterableIterator<ShareFileRange> {
+    let marker: string | undefined;
+    for await (const segment of this.iterateRangeSegments(marker, options)) {
+      yield* extractShareFileRangeItems(segment.ranges, segment.clearRanges);
+    }
+  }
+
+  /**
+   * Returns an AsyncIterableIterator for {@link FileListRangesSegmentResponse} objects.
+   *
+   * @param marker - A string value that identifies the portion of the list to be returned with the next list operation.
+   * @param options - Options to the File List Ranges operation.
+   */
+  private async *iterateRangeSegments(
+    marker?: string,
+    options: FileListRangesSegmentOptions = {},
+  ): AsyncIterableIterator<FileListRangesSegmentResponse> {
+    let rangeSegment;
+    do {
+      rangeSegment = await this.listRangeSegment(marker, options);
+      marker = rangeSegment.continuationToken;
+      yield await rangeSegment;
+    } while (marker);
+  }
+
+  /**
+   * Returns a single segment of ranges for a file, starting from the specified marker.
+   *
+   * @param marker - A string value that identifies the portion of the list to be returned with the next list operation.
+   * @param options - Options to the File List Ranges operation.
+   */
+  private async listRangeSegment(
+    marker?: string,
+    options: FileListRangesSegmentOptions = {},
+  ): Promise<FileListRangesSegmentResponse> {
+    return tracingClient.withSpan(
+      "ShareFileClient-listRangeSegment",
+      options,
+      async (updatedOptions) => {
+        const response = assertResponse<
+          FileGetRangeListHeaders & ShareFileRangeListSegment,
+          FileGetRangeListHeaders,
+          ShareFileRangeListSegment
+        >(
+          adjustResponse(
+            await this.context.listAllRanges({
+              ...updatedOptions,
+              ...updatedOptions.leaseAccessConditions,
+              marker: marker === "" ? undefined : marker,
+              maxResults: options.maxPageSize,
+              prevsharesnapshot: options.prevShareSnapshot,
+              supportRename: options.includeRenames,
+              range: updatedOptions.range ? rangeToString(updatedOptions.range) : undefined,
+              ...this.shareClientConfig,
+            }),
+          ),
+        );
+
+        const wrappedResponse: FileListRangesSegmentResponse = {
+          ...response,
+          continuationToken: response.nextMarker ? response.nextMarker : undefined,
+        };
+        return wrappedResponse;
       },
     );
   }

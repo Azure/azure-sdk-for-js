@@ -2,13 +2,15 @@
 // Licensed under the MIT License.
 
 import { FileContext as Client } from "../index.js";
-import { getBinaryStreamResponse } from "@azure-rest/core-client";
+import { getBinaryStreamResponse } from "#platform/generated/static-helpers/serialization/get-binary-stream-response";
 import {
   errorXmlDeserializer,
   ListHandlesResponse,
   listHandlesResponseXmlDeserializer,
   ShareFileRangeList,
   shareFileRangeListXmlDeserializer,
+  ShareFileRangeListSegment,
+  shareFileRangeListSegmentXmlDeserializer,
   NfsFileType,
   CopyStatus,
   FileRangeWriteType,
@@ -30,6 +32,7 @@ import {
   FileListHandlesOptionalParams,
   FileAbortCopyOptionalParams,
   FileStartCopyOptionalParams,
+  FileListAllRangesOptionalParams,
   FileGetRangeListOptionalParams,
   FileUploadRangeFromUrlOptionalParams,
   FileUploadRangeOptionalParams,
@@ -71,7 +74,7 @@ export function _createHardLinkSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-10-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -278,7 +281,7 @@ export function _getSymbolicLinkSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-10-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -414,7 +417,7 @@ export function _createSymbolicLinkSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-10-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -621,7 +624,7 @@ export function _renameSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-10-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -859,7 +862,7 @@ export function _forceCloseHandlesSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-10-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1005,7 +1008,7 @@ export function _listHandlesSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-10-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1141,7 +1144,7 @@ export function _abortCopySend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-10-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1263,7 +1266,7 @@ export function _startCopySend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-10-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1429,6 +1432,161 @@ export async function startCopy(
   return addStorageCompatResponse(_storageCompat.getRawResponse()!, undefined, parsedHeaders);
 }
 
+export function _listAllRangesSend(
+  context: Client,
+  options: FileListAllRangesOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "?comp=rangelist{?sharesnapshot,prevsharesnapshot,timeout,marker,maxresults}",
+    {
+      sharesnapshot: options?.shareSnapshot,
+      prevsharesnapshot: options?.prevsharesnapshot,
+      timeout: options?.timeoutInSeconds,
+      marker: options?.marker,
+      maxresults: options?.maxResults,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        "x-ms-version": context.version ?? "2026-10-06",
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
+        ...(options?.range !== undefined ? { range: options?.range } : {}),
+        ...(options?.leaseId !== undefined ? { "x-ms-lease-id": options?.leaseId } : {}),
+        ...(options?.allowTrailingDot !== undefined
+          ? { "x-ms-allow-trailing-dot": options?.allowTrailingDot }
+          : {}),
+        ...(options?.fileRequestIntent !== undefined
+          ? { "x-ms-file-request-intent": options?.fileRequestIntent }
+          : {}),
+        ...(options?.supportRename !== undefined
+          ? { "x-ms-file-support-rename": options?.supportRename }
+          : {}),
+        accept: "application/xml",
+        ...options.requestOptions?.headers,
+      },
+    });
+}
+
+export async function _listAllRangesDeserialize(
+  result: PathUncheckedResponse,
+): Promise<ShareFileRangeListSegment> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorXmlDeserializer(result.body);
+    }
+    error.details = {
+      ...(error.details as any),
+      ..._listAllRangesDeserializeExceptionHeaders(result),
+    };
+    error.details = { ...(error.details as any), errorCode: result.headers["x-ms-error-code"] };
+    const restErrorCodeValue = result.headers["x-ms-error-code"];
+    if (restErrorCodeValue !== undefined) {
+      error.code = restErrorCodeValue;
+    }
+    throw error;
+  }
+
+  return shareFileRangeListSegmentXmlDeserializer(result.body);
+}
+
+export function _listAllRangesDeserializeHeaders(result: PathUncheckedResponse): {
+  lastModified: Date;
+  etag: string;
+  fileContentLength: number;
+  version: string;
+  requestId: string;
+  clientRequestId?: string;
+  date: Date;
+  contentType: "application/xml";
+} {
+  return {
+    lastModified: new Date(result.headers["last-modified"]),
+    etag: result.headers["etag"],
+    fileContentLength: Number(result.headers["x-ms-content-length"]),
+    version: result.headers["x-ms-version"],
+    requestId: result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+    date: new Date(result.headers["date"]),
+    contentType: result.headers["content-type"] as any,
+  };
+}
+
+export function _listAllRangesDeserializeExceptionHeaders(result: PathUncheckedResponse): {
+  errorCode?: string;
+  xMsCopySourceErrorCode?: string;
+  xMsCopySourceStatusCode?: number;
+} {
+  return {
+    errorCode:
+      result.headers["x-ms-error-code"] === undefined || result.headers["x-ms-error-code"] === null
+        ? result.headers["x-ms-error-code"]
+        : result.headers["x-ms-error-code"],
+    xMsCopySourceErrorCode:
+      result.headers["x-ms-copy-source-error-code"] === undefined ||
+      result.headers["x-ms-copy-source-error-code"] === null
+        ? result.headers["x-ms-copy-source-error-code"]
+        : result.headers["x-ms-copy-source-error-code"],
+    xMsCopySourceStatusCode:
+      result.headers["x-ms-copy-source-status-code"] === undefined ||
+      result.headers["x-ms-copy-source-status-code"] === null
+        ? result.headers["x-ms-copy-source-status-code"]
+        : Number(result.headers["x-ms-copy-source-status-code"]),
+  };
+}
+
+/** Returns a paginated list of valid page ranges for a file or snapshot of a file. */
+export async function listAllRanges(
+  context: Client,
+  options: FileListAllRangesOptionalParams = { requestOptions: {} },
+): Promise<
+  {
+    lastModified: Date;
+    etag: string;
+    fileContentLength: number;
+    version: string;
+    requestId: string;
+    clientRequestId?: string;
+    date: Date;
+    contentType: "application/xml";
+  } & ShareFileRangeListSegment &
+    StorageCompatResponseInfo<
+      ShareFileRangeListSegment,
+      {
+        lastModified: Date;
+        etag: string;
+        fileContentLength: number;
+        version: string;
+        requestId: string;
+        clientRequestId?: string;
+        date: Date;
+        contentType: "application/xml";
+      }
+    >
+> {
+  const _storageCompat = createStorageCompatOnResponse(options.onResponse);
+  const result = await _listAllRangesSend(context, {
+    ...options,
+    onResponse: _storageCompat.onResponse,
+  });
+  const parsedBody = await _listAllRangesDeserialize(result);
+  const parsedHeaders = _listAllRangesDeserializeHeaders(result);
+  return addStorageCompatResponse(_storageCompat.getRawResponse()!, parsedBody, parsedHeaders);
+}
+
 export function _getRangeListSend(
   context: Client,
   options: FileGetRangeListOptionalParams = { requestOptions: {} },
@@ -1449,7 +1607,7 @@ export function _getRangeListSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-10-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1604,7 +1762,7 @@ export function _uploadRangeFromUrlSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-10-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1823,7 +1981,7 @@ export function _uploadRangeSend(
       ...operationOptionsToRequestParameters(options),
       contentType: "application/octet-stream",
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-10-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -2014,7 +2172,7 @@ export function _breakLeaseSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-10-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -2165,7 +2323,7 @@ export function _changeLeaseSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-10-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -2313,7 +2471,7 @@ export function _releaseLeaseSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-10-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -2450,7 +2608,7 @@ export function _acquireLeaseSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-10-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -2598,7 +2756,7 @@ export function _setMetadataSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-10-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -2741,7 +2899,7 @@ export function _setHttpHeadersSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-10-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -3016,7 +3174,7 @@ export function _$deleteSend(
     .delete({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-10-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -3144,7 +3302,7 @@ export function _getPropertiesSend(
     .head({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-10-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -3499,7 +3657,7 @@ export function _downloadSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-10-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -3894,7 +4052,7 @@ export function _createSend(
       ...operationOptionsToRequestParameters(options),
       contentType: "application/octet-stream",
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-10-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),

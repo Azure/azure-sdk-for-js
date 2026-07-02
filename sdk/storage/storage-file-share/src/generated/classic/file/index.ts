@@ -11,6 +11,7 @@ import {
   listHandles,
   abortCopy,
   startCopy,
+  listAllRanges,
   getRangeList,
   uploadRangeFromUrl,
   uploadRange,
@@ -34,6 +35,7 @@ import {
   FileListHandlesOptionalParams,
   FileAbortCopyOptionalParams,
   FileStartCopyOptionalParams,
+  FileListAllRangesOptionalParams,
   FileGetRangeListOptionalParams,
   FileUploadRangeFromUrlOptionalParams,
   FileUploadRangeOptionalParams,
@@ -51,6 +53,7 @@ import {
 import {
   ListHandlesResponse,
   ShareFileRangeList,
+  ShareFileRangeListSegment,
   NfsFileType,
   CopyStatus,
   FileRangeWriteType,
@@ -302,6 +305,34 @@ export interface FileOperations {
         date: Date;
       }
     >
+  >;
+  /** Returns a paginated list of valid page ranges for a file or snapshot of a file. */
+  listAllRanges: (
+    options?: FileListAllRangesOptionalParams,
+  ) => Promise<
+    {
+      lastModified: Date;
+      etag: string;
+      fileContentLength: number;
+      version: string;
+      requestId: string;
+      clientRequestId?: string;
+      date: Date;
+      contentType: "application/xml";
+    } & ShareFileRangeListSegment &
+      StorageCompatResponseInfo<
+        ShareFileRangeListSegment,
+        {
+          lastModified: Date;
+          etag: string;
+          fileContentLength: number;
+          version: string;
+          requestId: string;
+          clientRequestId?: string;
+          date: Date;
+          contentType: "application/xml";
+        }
+      >
   >;
   /** Returns the list of valid page ranges for a file or snapshot of a file. */
   getRangeList: (
@@ -846,6 +877,7 @@ function _getFile(context: FileContext) {
       abortCopy(context, copyid, options),
     startCopy: (copySource: string, options?: FileStartCopyOptionalParams) =>
       startCopy(context, copySource, options),
+    listAllRanges: (options?: FileListAllRangesOptionalParams) => listAllRanges(context, options),
     getRangeList: (options?: FileGetRangeListOptionalParams) => getRangeList(context, options),
     uploadRangeFromUrl: (
       range: string,

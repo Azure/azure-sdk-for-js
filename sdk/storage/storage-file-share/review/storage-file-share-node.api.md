@@ -21,7 +21,6 @@ import type { RequestBodyType as HttpRequestBody } from '@azure/core-rest-pipeli
 import { isRestError } from '@azure/core-rest-pipeline';
 import type { KeepAliveOptions } from '@azure/core-http-compat';
 import type { NodeJSReadableStream } from '@azure/storage-common';
-import { NodeReadableStream } from '@azure/core-rest-pipeline';
 import { OperationOptions } from '@azure-rest/core-client';
 import type { OperationTracingOptions } from '@azure/core-tracing';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
@@ -851,6 +850,26 @@ export interface FileListHandlesSegmentOptions extends CommonOptions {
 }
 
 // @public
+export interface FileListRangesDiffOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+    includeRenames?: boolean;
+    leaseAccessConditions?: LeaseAccessConditions;
+    range?: Range_2;
+}
+
+// @public
+export interface FileListRangesOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+    leaseAccessConditions?: LeaseAccessConditions;
+    range?: Range_2;
+}
+
+// @public
+export type FileListRangesSegmentResponse = WithResponse<FileGetRangeListHeaders & FileRangeListSegment & {
+    continuationToken?: string;
+}, FileGetRangeListHeaders, FileRangeListSegment>;
+
+// @public
 export interface FileParallelUploadOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     concurrency?: number;
@@ -902,6 +921,13 @@ export interface FileProperty {
     lastModified?: Date;
     // (undocumented)
     lastWriteTime?: Date;
+}
+
+// @public
+export interface FileRangeListSegment {
+    clearRanges?: RangeModel[];
+    nextMarker?: string;
+    ranges?: RangeModel[];
 }
 
 // @public
@@ -1793,11 +1819,15 @@ export class ShareFileClient extends StorageClient {
     generateUserDelegationSasUrl(options: ShareGenerateSasUrlOptions, userDelegationKey: UserDelegationKey): string;
     generateUserDelegationStringToSign(options: ShareGenerateSasUrlOptions, userDelegationKey: UserDelegationKey): string;
     getProperties(options?: FileGetPropertiesOptions): Promise<FileGetPropertiesResponse>;
+    // @deprecated
     getRangeList(options?: FileGetRangeListOptions): Promise<FileGetRangeListResponse>;
+    // @deprecated
     getRangeListDiff(prevShareSnapshot: string, options?: FileGetRangeListOptions): Promise<FileGetRangeListDiffResponse>;
     getShareLeaseClient(proposeLeaseId?: string): ShareLeaseClient;
     getSymbolicLink(options?: FileGetSymbolicLinkOptions): Promise<FileGetSymbolicLinkResponse>;
     listHandles(options?: FileListHandlesOptions): PagedAsyncIterableIterator<HandleItem, FileListHandlesResponse>;
+    listRanges(options?: FileListRangesOptions): PagedAsyncIterableIterator<ShareFileRange, FileListRangesSegmentResponse>;
+    listRangesDiff(prevShareSnapshot: string, options?: FileListRangesDiffOptions): PagedAsyncIterableIterator<ShareFileRange, FileListRangesSegmentResponse>;
     get name(): string;
     get path(): string;
     rename(destinationPath: string, options?: FileRenameOptions): Promise<{
@@ -1822,6 +1852,13 @@ export class ShareFileClient extends StorageClient {
 
 // @public
 export type ShareFileHandleAccessRights = "Read" | "Write" | "Delete";
+
+// @public
+export interface ShareFileRange {
+    end: number;
+    isClear: boolean;
+    start: number;
+}
 
 // @public
 export interface ShareFileRangeList {
