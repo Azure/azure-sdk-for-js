@@ -8,28 +8,23 @@ import {
   _PagedChatMessage,
   _pagedChatMessageDeserializer,
   ChatMessage,
-  ChatMessageInput,
   chatMessageSerializer,
   chatMessageDeserializer,
   _PagedChatRole,
   _pagedChatRoleDeserializer,
   ChatRole,
-  ChatRoleInput,
   chatRoleSerializer,
   chatRoleDeserializer,
   ChatRoom,
-  ChatRoomInput,
   chatRoomSerializer,
   chatRoomDeserializer,
   _PagedChatRoomMember,
   _pagedChatRoomMemberDeserializer,
   ChatRoomMember,
-  ChatRoomMemberInput,
   chatRoomMemberSerializer,
   chatRoomMemberDeserializer,
   chatUserUnionSerializer,
   chatUserUnionDeserializer,
-  ChatUserInputUnion,
   ChatUserUnion,
 } from "../models/models.js";
 import {
@@ -79,28 +74,30 @@ export function _deleteUserSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
-      ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
-      ...(options?.ifUnmodifiedSince !== undefined
-        ? {
-            "if-unmodified-since": !options?.ifUnmodifiedSince
-              ? options?.ifUnmodifiedSince
-              : options?.ifUnmodifiedSince.toUTCString(),
-          }
-        : {}),
-      ...(options?.ifModifiedSince !== undefined
-        ? {
-            "if-modified-since": !options?.ifModifiedSince
-              ? options?.ifModifiedSince
-              : options?.ifModifiedSince.toUTCString(),
-          }
-        : {}),
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+        ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
+        ...(options?.ifUnmodifiedSince !== undefined
+          ? {
+              "if-unmodified-since": !options?.ifUnmodifiedSince
+                ? options?.ifUnmodifiedSince
+                : options?.ifUnmodifiedSince.toUTCString(),
+            }
+          : {}),
+        ...(options?.ifModifiedSince !== undefined
+          ? {
+              "if-modified-since": !options?.ifModifiedSince
+                ? options?.ifModifiedSince
+                : options?.ifModifiedSince.toUTCString(),
+            }
+          : {}),
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _deleteUserDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -125,7 +122,7 @@ export async function deleteUser(
 export function _createOrReplaceUserSend(
   context: Client,
   userId: string,
-  resource: ChatUserInputUnion,
+  resource: ChatUserUnion,
   options: CreateOrReplaceUserOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -139,31 +136,33 @@ export function _createOrReplaceUserSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
-      ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
-      ...(options?.ifUnmodifiedSince !== undefined
-        ? {
-            "if-unmodified-since": !options?.ifUnmodifiedSince
-              ? options?.ifUnmodifiedSince
-              : options?.ifUnmodifiedSince.toUTCString(),
-          }
-        : {}),
-      ...(options?.ifModifiedSince !== undefined
-        ? {
-            "if-modified-since": !options?.ifModifiedSince
-              ? options?.ifModifiedSince
-              : options?.ifModifiedSince.toUTCString(),
-          }
-        : {}),
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: chatUserUnionSerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+        ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
+        ...(options?.ifUnmodifiedSince !== undefined
+          ? {
+              "if-unmodified-since": !options?.ifUnmodifiedSince
+                ? options?.ifUnmodifiedSince
+                : options?.ifUnmodifiedSince.toUTCString(),
+            }
+          : {}),
+        ...(options?.ifModifiedSince !== undefined
+          ? {
+              "if-modified-since": !options?.ifModifiedSince
+                ? options?.ifModifiedSince
+                : options?.ifModifiedSince.toUTCString(),
+            }
+          : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: chatUserUnionSerializer(resource),
+    });
 }
 
 export async function _createOrReplaceUserDeserialize(
@@ -181,7 +180,7 @@ export async function _createOrReplaceUserDeserialize(
 export async function createOrReplaceUser(
   context: Client,
   userId: string,
-  resource: ChatUserInputUnion,
+  resource: ChatUserUnion,
   options: CreateOrReplaceUserOptionalParams = { requestOptions: {} },
 ): Promise<ChatUserUnion> {
   const result = await _createOrReplaceUserSend(context, userId, resource, options);
@@ -204,10 +203,12 @@ export function _getUserSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getUserDeserialize(result: PathUncheckedResponse): Promise<ChatUserUnion> {
@@ -247,28 +248,30 @@ export function _deleteRoomMemberSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
-      ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
-      ...(options?.ifUnmodifiedSince !== undefined
-        ? {
-            "if-unmodified-since": !options?.ifUnmodifiedSince
-              ? options?.ifUnmodifiedSince
-              : options?.ifUnmodifiedSince.toUTCString(),
-          }
-        : {}),
-      ...(options?.ifModifiedSince !== undefined
-        ? {
-            "if-modified-since": !options?.ifModifiedSince
-              ? options?.ifModifiedSince
-              : options?.ifModifiedSince.toUTCString(),
-          }
-        : {}),
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+        ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
+        ...(options?.ifUnmodifiedSince !== undefined
+          ? {
+              "if-unmodified-since": !options?.ifUnmodifiedSince
+                ? options?.ifUnmodifiedSince
+                : options?.ifUnmodifiedSince.toUTCString(),
+            }
+          : {}),
+        ...(options?.ifModifiedSince !== undefined
+          ? {
+              "if-modified-since": !options?.ifModifiedSince
+                ? options?.ifModifiedSince
+                : options?.ifModifiedSince.toUTCString(),
+            }
+          : {}),
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _deleteRoomMemberDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -295,7 +298,7 @@ export function _createOrReplaceRoomMemberSend(
   context: Client,
   roomId: string,
   userId: string,
-  resource: ChatRoomMemberInput,
+  resource: ChatRoomMember,
   options: CreateOrReplaceRoomMemberOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -310,31 +313,33 @@ export function _createOrReplaceRoomMemberSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
-      ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
-      ...(options?.ifUnmodifiedSince !== undefined
-        ? {
-            "if-unmodified-since": !options?.ifUnmodifiedSince
-              ? options?.ifUnmodifiedSince
-              : options?.ifUnmodifiedSince.toUTCString(),
-          }
-        : {}),
-      ...(options?.ifModifiedSince !== undefined
-        ? {
-            "if-modified-since": !options?.ifModifiedSince
-              ? options?.ifModifiedSince
-              : options?.ifModifiedSince.toUTCString(),
-          }
-        : {}),
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: chatRoomMemberSerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+        ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
+        ...(options?.ifUnmodifiedSince !== undefined
+          ? {
+              "if-unmodified-since": !options?.ifUnmodifiedSince
+                ? options?.ifUnmodifiedSince
+                : options?.ifUnmodifiedSince.toUTCString(),
+            }
+          : {}),
+        ...(options?.ifModifiedSince !== undefined
+          ? {
+              "if-modified-since": !options?.ifModifiedSince
+                ? options?.ifModifiedSince
+                : options?.ifModifiedSince.toUTCString(),
+            }
+          : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: chatRoomMemberSerializer(resource),
+    });
 }
 
 export async function _createOrReplaceRoomMemberDeserialize(
@@ -353,7 +358,7 @@ export async function createOrReplaceRoomMember(
   context: Client,
   roomId: string,
   userId: string,
-  resource: ChatRoomMemberInput,
+  resource: ChatRoomMember,
   options: CreateOrReplaceRoomMemberOptionalParams = { requestOptions: {} },
 ): Promise<ChatRoomMember> {
   const result = await _createOrReplaceRoomMemberSend(context, roomId, userId, resource, options);
@@ -378,10 +383,12 @@ export function _listRoomMembersSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listRoomMembersDeserialize(
@@ -430,28 +437,30 @@ export function _deleteRoomSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
-      ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
-      ...(options?.ifUnmodifiedSince !== undefined
-        ? {
-            "if-unmodified-since": !options?.ifUnmodifiedSince
-              ? options?.ifUnmodifiedSince
-              : options?.ifUnmodifiedSince.toUTCString(),
-          }
-        : {}),
-      ...(options?.ifModifiedSince !== undefined
-        ? {
-            "if-modified-since": !options?.ifModifiedSince
-              ? options?.ifModifiedSince
-              : options?.ifModifiedSince.toUTCString(),
-          }
-        : {}),
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+        ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
+        ...(options?.ifUnmodifiedSince !== undefined
+          ? {
+              "if-unmodified-since": !options?.ifUnmodifiedSince
+                ? options?.ifUnmodifiedSince
+                : options?.ifUnmodifiedSince.toUTCString(),
+            }
+          : {}),
+        ...(options?.ifModifiedSince !== undefined
+          ? {
+              "if-modified-since": !options?.ifModifiedSince
+                ? options?.ifModifiedSince
+                : options?.ifModifiedSince.toUTCString(),
+            }
+          : {}),
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _deleteRoomDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -489,10 +498,12 @@ export function _getRoomSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getRoomDeserialize(result: PathUncheckedResponse): Promise<ChatRoom> {
@@ -517,7 +528,7 @@ export async function getRoom(
 export function _createOrReplaceRoomSend(
   context: Client,
   roomId: string,
-  resource: ChatRoomInput,
+  resource: ChatRoom,
   options: CreateOrReplaceRoomOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -531,31 +542,33 @@ export function _createOrReplaceRoomSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
-      ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
-      ...(options?.ifUnmodifiedSince !== undefined
-        ? {
-            "if-unmodified-since": !options?.ifUnmodifiedSince
-              ? options?.ifUnmodifiedSince
-              : options?.ifUnmodifiedSince.toUTCString(),
-          }
-        : {}),
-      ...(options?.ifModifiedSince !== undefined
-        ? {
-            "if-modified-since": !options?.ifModifiedSince
-              ? options?.ifModifiedSince
-              : options?.ifModifiedSince.toUTCString(),
-          }
-        : {}),
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: chatRoomSerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+        ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
+        ...(options?.ifUnmodifiedSince !== undefined
+          ? {
+              "if-unmodified-since": !options?.ifUnmodifiedSince
+                ? options?.ifUnmodifiedSince
+                : options?.ifUnmodifiedSince.toUTCString(),
+            }
+          : {}),
+        ...(options?.ifModifiedSince !== undefined
+          ? {
+              "if-modified-since": !options?.ifModifiedSince
+                ? options?.ifModifiedSince
+                : options?.ifModifiedSince.toUTCString(),
+            }
+          : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: chatRoomSerializer(resource),
+    });
 }
 
 export async function _createOrReplaceRoomDeserialize(
@@ -573,7 +586,7 @@ export async function _createOrReplaceRoomDeserialize(
 export async function createOrReplaceRoom(
   context: Client,
   roomId: string,
-  resource: ChatRoomInput,
+  resource: ChatRoom,
   options: CreateOrReplaceRoomOptionalParams = { requestOptions: {} },
 ): Promise<ChatRoom> {
   const result = await _createOrReplaceRoomSend(context, roomId, resource, options);
@@ -596,28 +609,30 @@ export function _deleteRoleSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
-      ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
-      ...(options?.ifUnmodifiedSince !== undefined
-        ? {
-            "if-unmodified-since": !options?.ifUnmodifiedSince
-              ? options?.ifUnmodifiedSince
-              : options?.ifUnmodifiedSince.toUTCString(),
-          }
-        : {}),
-      ...(options?.ifModifiedSince !== undefined
-        ? {
-            "if-modified-since": !options?.ifModifiedSince
-              ? options?.ifModifiedSince
-              : options?.ifModifiedSince.toUTCString(),
-          }
-        : {}),
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+        ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
+        ...(options?.ifUnmodifiedSince !== undefined
+          ? {
+              "if-unmodified-since": !options?.ifUnmodifiedSince
+                ? options?.ifUnmodifiedSince
+                : options?.ifUnmodifiedSince.toUTCString(),
+            }
+          : {}),
+        ...(options?.ifModifiedSince !== undefined
+          ? {
+              "if-modified-since": !options?.ifModifiedSince
+                ? options?.ifModifiedSince
+                : options?.ifModifiedSince.toUTCString(),
+            }
+          : {}),
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _deleteRoleDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -642,7 +657,7 @@ export async function deleteRole(
 export function _createOrReplaceRoleSend(
   context: Client,
   roleName: string,
-  resource: ChatRoleInput,
+  resource: ChatRole,
   options: CreateOrReplaceRoleOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -656,31 +671,33 @@ export function _createOrReplaceRoleSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).put({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
-      ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
-      ...(options?.ifUnmodifiedSince !== undefined
-        ? {
-            "if-unmodified-since": !options?.ifUnmodifiedSince
-              ? options?.ifUnmodifiedSince
-              : options?.ifUnmodifiedSince.toUTCString(),
-          }
-        : {}),
-      ...(options?.ifModifiedSince !== undefined
-        ? {
-            "if-modified-since": !options?.ifModifiedSince
-              ? options?.ifModifiedSince
-              : options?.ifModifiedSince.toUTCString(),
-          }
-        : {}),
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: chatRoleSerializer(resource),
-  });
+  return context
+    .path(path)
+    .put({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      headers: {
+        ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+        ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
+        ...(options?.ifUnmodifiedSince !== undefined
+          ? {
+              "if-unmodified-since": !options?.ifUnmodifiedSince
+                ? options?.ifUnmodifiedSince
+                : options?.ifUnmodifiedSince.toUTCString(),
+            }
+          : {}),
+        ...(options?.ifModifiedSince !== undefined
+          ? {
+              "if-modified-since": !options?.ifModifiedSince
+                ? options?.ifModifiedSince
+                : options?.ifModifiedSince.toUTCString(),
+            }
+          : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: chatRoleSerializer(resource),
+    });
 }
 
 export async function _createOrReplaceRoleDeserialize(
@@ -698,7 +715,7 @@ export async function _createOrReplaceRoleDeserialize(
 export async function createOrReplaceRole(
   context: Client,
   roleName: string,
-  resource: ChatRoleInput,
+  resource: ChatRole,
   options: CreateOrReplaceRoleOptionalParams = { requestOptions: {} },
 ): Promise<ChatRole> {
   const result = await _createOrReplaceRoleSend(context, roleName, resource, options);
@@ -721,10 +738,12 @@ export function _getRoleSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getRoleDeserialize(result: PathUncheckedResponse): Promise<ChatRole> {
@@ -762,10 +781,12 @@ export function _listRolesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listRolesDeserialize(
@@ -801,7 +822,7 @@ export function _updateMessageSend(
   context: Client,
   conversationId: string,
   messageId: string,
-  resource: ChatMessageInput,
+  resource: ChatMessage,
   options: UpdateMessageOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -816,31 +837,33 @@ export function _updateMessageSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).patch({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/merge-patch+json",
-    headers: {
-      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
-      ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
-      ...(options?.ifUnmodifiedSince !== undefined
-        ? {
-            "if-unmodified-since": !options?.ifUnmodifiedSince
-              ? options?.ifUnmodifiedSince
-              : options?.ifUnmodifiedSince.toUTCString(),
-          }
-        : {}),
-      ...(options?.ifModifiedSince !== undefined
-        ? {
-            "if-modified-since": !options?.ifModifiedSince
-              ? options?.ifModifiedSince
-              : options?.ifModifiedSince.toUTCString(),
-          }
-        : {}),
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: chatMessageSerializer(resource),
-  });
+  return context
+    .path(path)
+    .patch({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/merge-patch+json",
+      headers: {
+        ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+        ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
+        ...(options?.ifUnmodifiedSince !== undefined
+          ? {
+              "if-unmodified-since": !options?.ifUnmodifiedSince
+                ? options?.ifUnmodifiedSince
+                : options?.ifUnmodifiedSince.toUTCString(),
+            }
+          : {}),
+        ...(options?.ifModifiedSince !== undefined
+          ? {
+              "if-modified-since": !options?.ifModifiedSince
+                ? options?.ifModifiedSince
+                : options?.ifModifiedSince.toUTCString(),
+            }
+          : {}),
+        accept: "application/json",
+        ...options.requestOptions?.headers,
+      },
+      body: chatMessageSerializer(resource),
+    });
 }
 
 export async function _updateMessageDeserialize(
@@ -859,7 +882,7 @@ export async function updateMessage(
   context: Client,
   conversationId: string,
   messageId: string,
-  resource: ChatMessageInput,
+  resource: ChatMessage,
   options: UpdateMessageOptionalParams = { requestOptions: {} },
 ): Promise<ChatMessage> {
   const result = await _updateMessageSend(context, conversationId, messageId, resource, options);
@@ -884,28 +907,30 @@ export function _deleteMessageSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
-      ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
-      ...(options?.ifUnmodifiedSince !== undefined
-        ? {
-            "if-unmodified-since": !options?.ifUnmodifiedSince
-              ? options?.ifUnmodifiedSince
-              : options?.ifUnmodifiedSince.toUTCString(),
-          }
-        : {}),
-      ...(options?.ifModifiedSince !== undefined
-        ? {
-            "if-modified-since": !options?.ifModifiedSince
-              ? options?.ifModifiedSince
-              : options?.ifModifiedSince.toUTCString(),
-          }
-        : {}),
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: {
+        ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
+        ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
+        ...(options?.ifUnmodifiedSince !== undefined
+          ? {
+              "if-unmodified-since": !options?.ifUnmodifiedSince
+                ? options?.ifUnmodifiedSince
+                : options?.ifUnmodifiedSince.toUTCString(),
+            }
+          : {}),
+        ...(options?.ifModifiedSince !== undefined
+          ? {
+              "if-modified-since": !options?.ifModifiedSince
+                ? options?.ifModifiedSince
+                : options?.ifModifiedSince.toUTCString(),
+            }
+          : {}),
+        ...options.requestOptions?.headers,
+      },
+    });
 }
 
 export async function _deleteMessageDeserialize(result: PathUncheckedResponse): Promise<void> {
@@ -947,10 +972,12 @@ export function _listMessagesSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _listMessagesDeserialize(
@@ -999,10 +1026,12 @@ export function _getConversationSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getConversationDeserialize(

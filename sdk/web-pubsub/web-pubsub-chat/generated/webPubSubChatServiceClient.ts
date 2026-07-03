@@ -47,124 +47,36 @@ import {
 import {
   ChatConversation,
   ChatMessage,
-  ChatMessageInput,
   ChatRole,
-  ChatRoleInput,
   ChatRoom,
-  ChatRoomInput,
   ChatRoomMember,
-  ChatRoomMemberInput,
-  ChatUserInputUnion,
   ChatUserUnion,
 } from "./models/models.js";
 import { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
-import { TokenCredential, AzureKeyCredential } from "@azure/core-auth";
+import { TokenCredential } from "@azure/core-auth";
 import { Pipeline } from "@azure/core-rest-pipeline";
-import { WebPubSubServiceClient } from "@azure/web-pubsub";
-import { parseConnectionString } from "./parseConnectionString.js";
-import { webPubSubChatCredentialPolicy } from "./webPubSubChatCredentialPolicy.js";
-import { webPubSubReverseProxyPolicy } from "./reverseProxyPolicy.js";
-import type { ClientAccessToken, GetClientAccessTokenOptions } from "./models/clientToken.js";
 
 export type { WebPubSubChatServiceClientOptionalParams } from "./api/webPubSubChatServiceContext.js";
 
-export interface WebPubSubChatServiceClientOptions extends WebPubSubChatServiceClientOptionalParams {
-  /** The reverse proxy endpoint (e.g. APIM gateway URL). */
-  reverseProxyEndpoint?: string;
-}
-
-const chatClientRoles = ["webpubsub.getGroupState", "webpubsub.setGroupState"];
-
-/** A client for managing chat resources in an Azure Web PubSub Chat hub. */
 export class WebPubSubChatServiceClient {
   private _client: WebPubSubChatServiceContext;
-  private _webPubSubServiceClient: WebPubSubServiceClient;
   /** The pipeline used by this client to make requests */
   public readonly pipeline: Pipeline;
 
-  /** Create from connection string */
-  constructor(connectionString: string, hub: string, options?: WebPubSubChatServiceClientOptions);
-  /** Create from endpoint and credential */
   constructor(
     endpointParam: string,
-    credential: TokenCredential | AzureKeyCredential,
+    credential: TokenCredential,
     hub: string,
-    options?: WebPubSubChatServiceClientOptions,
-  );
-  constructor(
-    endpointOrConnectionString: string,
-    credentialOrHub: TokenCredential | AzureKeyCredential | string,
-    hubOrOptions?: string | WebPubSubChatServiceClientOptions,
-    maybeOptions?: WebPubSubChatServiceClientOptions,
+    options: WebPubSubChatServiceClientOptionalParams = {},
   ) {
-    const isConnectionString = typeof credentialOrHub === "string";
-
-    let endpoint: string;
-    let credential: TokenCredential | AzureKeyCredential;
-    let hub: string;
-    let options: WebPubSubChatServiceClientOptions;
-
-    if (isConnectionString) {
-      const parsed = parseConnectionString(endpointOrConnectionString);
-      endpoint = parsed.endpoint;
-      credential = new AzureKeyCredential(parsed.accessKey);
-      hub = credentialOrHub;
-      options = (hubOrOptions as WebPubSubChatServiceClientOptions) ?? {};
-    } else {
-      endpoint = endpointOrConnectionString;
-      credential = credentialOrHub as TokenCredential | AzureKeyCredential;
-      hub = hubOrOptions as string;
-      options = maybeOptions ?? {};
-    }
-
     const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
       : `azsdk-js-client`;
-
-    if (credential instanceof AzureKeyCredential) {
-      const { credentials: _creds, ...restOptions } = options;
-      this._client = createWebPubSubChatService(
-        endpoint,
-        undefined as unknown as TokenCredential,
-        hub,
-        {
-          ...restOptions,
-          userAgentOptions: { userAgentPrefix },
-          credentials: undefined,
-        },
-      );
-      this._client.pipeline.addPolicy(webPubSubChatCredentialPolicy(credential));
-    } else {
-      this._client = createWebPubSubChatService(endpoint, credential, hub, {
-        ...options,
-        userAgentOptions: { userAgentPrefix },
-      });
-    }
-
-    if (options.reverseProxyEndpoint) {
-      this._client.pipeline.addPolicy(webPubSubReverseProxyPolicy(options.reverseProxyEndpoint));
-    }
-
-    // Create an internal WebPubSubServiceClient for token generation
-    const webPubSubOptions = options.reverseProxyEndpoint
-      ? { reverseProxyEndpoint: options.reverseProxyEndpoint }
-      : undefined;
-    if (isConnectionString) {
-      this._webPubSubServiceClient = new WebPubSubServiceClient(
-        endpointOrConnectionString,
-        hub,
-        webPubSubOptions,
-      );
-    } else {
-      this._webPubSubServiceClient = new WebPubSubServiceClient(
-        endpoint,
-        credential,
-        hub,
-        webPubSubOptions,
-      );
-    }
-
+    this._client = createWebPubSubChatService(endpointParam, credential, hub, {
+      ...options,
+      userAgentOptions: { userAgentPrefix },
+    });
     this.pipeline = this._client.pipeline;
   }
 
@@ -179,7 +91,7 @@ export class WebPubSubChatServiceClient {
   /** Create or replace a user. The request body is a polymorphic `ChatUser` (e.g. `HumanChatUser`) selected by the `kind` discriminator. */
   createOrReplaceUser(
     userId: string,
-    resource: ChatUserInputUnion,
+    resource: ChatUserUnion,
     options: CreateOrReplaceUserOptionalParams = { requestOptions: {} },
   ): Promise<ChatUserUnion> {
     return createOrReplaceUser(this._client, userId, resource, options);
@@ -206,7 +118,7 @@ export class WebPubSubChatServiceClient {
   createOrReplaceRoomMember(
     roomId: string,
     userId: string,
-    resource: ChatRoomMemberInput,
+    resource: ChatRoomMember,
     options: CreateOrReplaceRoomMemberOptionalParams = { requestOptions: {} },
   ): Promise<ChatRoomMember> {
     return createOrReplaceRoomMember(this._client, roomId, userId, resource, options);
@@ -239,7 +151,7 @@ export class WebPubSubChatServiceClient {
   /** Create or replace a room with a client-specified ID. */
   createOrReplaceRoom(
     roomId: string,
-    resource: ChatRoomInput,
+    resource: ChatRoom,
     options: CreateOrReplaceRoomOptionalParams = { requestOptions: {} },
   ): Promise<ChatRoom> {
     return createOrReplaceRoom(this._client, roomId, resource, options);
@@ -256,7 +168,7 @@ export class WebPubSubChatServiceClient {
   /** Create or replace a role. */
   createOrReplaceRole(
     roleName: string,
-    resource: ChatRoleInput,
+    resource: ChatRole,
     options: CreateOrReplaceRoleOptionalParams = { requestOptions: {} },
   ): Promise<ChatRole> {
     return createOrReplaceRole(this._client, roleName, resource, options);
@@ -281,7 +193,7 @@ export class WebPubSubChatServiceClient {
   updateMessage(
     conversationId: string,
     messageId: string,
-    resource: ChatMessageInput,
+    resource: ChatMessage,
     options: UpdateMessageOptionalParams = { requestOptions: {} },
   ): Promise<ChatMessage> {
     return updateMessage(this._client, conversationId, messageId, resource, options);
@@ -310,21 +222,5 @@ export class WebPubSubChatServiceClient {
     options: GetConversationOptionalParams = { requestOptions: {} },
   ): Promise<ChatConversation> {
     return getConversation(this._client, conversationId, options);
-  }
-
-  /**
-   * Generate a token for a client to connect to the Azure Web PubSub service.
-   *
-   * When using AzureKeyCredential, the token is generated locally using JWT signing.
-   * When using TokenCredential, the token is generated by calling the Web PubSub
-   * service's REST API.
-   */
-  async getClientAccessToken(
-    options: GetClientAccessTokenOptions = {},
-  ): Promise<ClientAccessToken> {
-    return this._webPubSubServiceClient.getClientAccessToken({
-      ...options,
-      roles: chatClientRoles,
-    });
   }
 }

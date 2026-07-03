@@ -4,12 +4,15 @@
 
 ```ts
 
+import { AzureKeyCredential } from '@azure/core-auth';
 import { ClientOptions } from '@azure-rest/core-client';
 import { isRestError } from '@azure/core-rest-pipeline';
 import { OperationOptions } from '@azure-rest/core-client';
 import { Pipeline } from '@azure/core-rest-pipeline';
 import { RestError } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
+
+export { AzureKeyCredential }
 
 // @public
 export interface ChatConversation {
@@ -28,6 +31,25 @@ export interface ChatMessage {
 }
 
 // @public
+export interface ChatMessageInput {
+    content: MessageContent;
+    createdBy: string;
+}
+
+// @public
+export type ChatPermission = (typeof ChatPermissions)[keyof typeof ChatPermissions];
+
+// @public
+export const ChatPermissions: {
+    readonly UserCreateRoom: "user.create_room";
+    readonly UserFetchAllRooms: "user.fetch_all_rooms";
+    readonly RoomPublishMessage: "room.publish_message";
+    readonly RoomHistory: "room.history";
+    readonly RoomInvite: "room.invite";
+    readonly RoomRemoveUser: "room.remove_user";
+};
+
+// @public
 export interface ChatRole {
     readonly etag: string;
     readonly name: string;
@@ -35,10 +57,30 @@ export interface ChatRole {
 }
 
 // @public
+export interface ChatRoleInput {
+    permissions: string[];
+}
+
+// @public
+export type ChatRoleName = (typeof ChatRoles)[keyof typeof ChatRoles];
+
+// @public
+export const ChatRoles: {
+    readonly UserNormal: "user.normal";
+    readonly RoomMember: "room.member";
+    readonly RoomOperator: "room.operator";
+};
+
+// @public
 export interface ChatRoom {
     readonly defaultConversation: string;
     readonly etag: string;
     readonly id: string;
+    title: string;
+}
+
+// @public
+export interface ChatRoomInput {
     title: string;
 }
 
@@ -50,6 +92,11 @@ export interface ChatRoomMember {
 }
 
 // @public
+export interface ChatRoomMemberInput {
+    roleName: string;
+}
+
+// @public
 export interface ChatUser {
     readonly etag: string;
     readonly id: string;
@@ -58,10 +105,26 @@ export interface ChatUser {
 }
 
 // @public
+export interface ChatUserInput {
+    kind: ChatUserKind;
+    nickname: string;
+}
+
+// @public
+export type ChatUserInputUnion = HumanChatUserInput | ChatUserInput;
+
+// @public
 export type ChatUserKind = "Human";
 
 // @public
 export type ChatUserUnion = HumanChatUser | ChatUser;
+
+// @public
+export interface ClientAccessToken {
+    baseUrl: string;
+    token: string;
+    url: string;
+}
 
 // @public
 export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
@@ -141,6 +204,12 @@ export interface DeleteUserOptionalParams extends OperationOptions {
 }
 
 // @public
+export interface GetClientAccessTokenOptions extends OperationOptions {
+    expirationTimeInMinutes?: number;
+    userId?: string;
+}
+
+// @public
 export interface GetConversationOptionalParams extends OperationOptions {
 }
 
@@ -158,6 +227,13 @@ export interface GetUserOptionalParams extends OperationOptions {
 
 // @public
 export interface HumanChatUser extends ChatUser {
+    // (undocumented)
+    kind: "Human";
+    roleName: string;
+}
+
+// @public
+export interface HumanChatUserInput extends ChatUserInput {
     // (undocumented)
     kind: "Human";
     roleName: string;
@@ -217,18 +293,20 @@ export interface UpdateMessageOptionalParams extends OperationOptions {
     ifUnmodifiedSince?: Date;
 }
 
-// @public (undocumented)
+// @public
 export class WebPubSubChatServiceClient {
-    constructor(endpointParam: string, credential: TokenCredential, hub: string, options?: WebPubSubChatServiceClientOptionalParams);
-    createOrReplaceRole(roleName: string, resource: ChatRole, options?: CreateOrReplaceRoleOptionalParams): Promise<ChatRole>;
-    createOrReplaceRoom(roomId: string, resource: ChatRoom, options?: CreateOrReplaceRoomOptionalParams): Promise<ChatRoom>;
-    createOrReplaceRoomMember(roomId: string, userId: string, resource: ChatRoomMember, options?: CreateOrReplaceRoomMemberOptionalParams): Promise<ChatRoomMember>;
-    createOrReplaceUser(userId: string, resource: ChatUserUnion, options?: CreateOrReplaceUserOptionalParams): Promise<ChatUserUnion>;
+    constructor(connectionString: string, hub: string, options?: WebPubSubChatServiceClientOptions);
+    constructor(endpointParam: string, credential: TokenCredential | AzureKeyCredential, hub: string, options?: WebPubSubChatServiceClientOptions);
+    createOrReplaceRole(roleName: string, resource: ChatRoleInput, options?: CreateOrReplaceRoleOptionalParams): Promise<ChatRole>;
+    createOrReplaceRoom(roomId: string, resource: ChatRoomInput, options?: CreateOrReplaceRoomOptionalParams): Promise<ChatRoom>;
+    createOrReplaceRoomMember(roomId: string, userId: string, resource: ChatRoomMemberInput, options?: CreateOrReplaceRoomMemberOptionalParams): Promise<ChatRoomMember>;
+    createOrReplaceUser(userId: string, resource: ChatUserInputUnion, options?: CreateOrReplaceUserOptionalParams): Promise<ChatUserUnion>;
     deleteMessage(conversationId: string, messageId: string, options?: DeleteMessageOptionalParams): Promise<void>;
     deleteRole(roleName: string, options?: DeleteRoleOptionalParams): Promise<void>;
     deleteRoom(roomId: string, options?: DeleteRoomOptionalParams): Promise<void>;
     deleteRoomMember(roomId: string, userId: string, options?: DeleteRoomMemberOptionalParams): Promise<void>;
     deleteUser(userId: string, options?: DeleteUserOptionalParams): Promise<void>;
+    getClientAccessToken(options?: GetClientAccessTokenOptions): Promise<ClientAccessToken>;
     getConversation(conversationId: string, options?: GetConversationOptionalParams): Promise<ChatConversation>;
     getRole(roleName: string, options?: GetRoleOptionalParams): Promise<ChatRole>;
     getRoom(roomId: string, options?: GetRoomOptionalParams): Promise<ChatRoom>;
@@ -237,7 +315,7 @@ export class WebPubSubChatServiceClient {
     listRoles(options?: ListRolesOptionalParams): PagedAsyncIterableIterator<ChatRole>;
     listRoomMembers(roomId: string, options?: ListRoomMembersOptionalParams): PagedAsyncIterableIterator<ChatRoomMember>;
     readonly pipeline: Pipeline;
-    updateMessage(conversationId: string, messageId: string, resource: ChatMessage, options?: UpdateMessageOptionalParams): Promise<ChatMessage>;
+    updateMessage(conversationId: string, messageId: string, resource: ChatMessageInput, options?: UpdateMessageOptionalParams): Promise<ChatMessage>;
 }
 
 // @public
@@ -245,6 +323,9 @@ export interface WebPubSubChatServiceClientOptionalParams extends ClientOptions 
     apiVersion?: string;
 }
 
-// (No @packageDocumentation comment for this package)
+// @public (undocumented)
+export interface WebPubSubChatServiceClientOptions extends WebPubSubChatServiceClientOptionalParams {
+    reverseProxyEndpoint?: string;
+}
 
 ```

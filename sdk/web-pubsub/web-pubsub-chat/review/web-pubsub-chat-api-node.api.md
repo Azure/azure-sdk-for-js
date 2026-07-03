@@ -10,7 +10,7 @@ import { OperationOptions } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export function createOrReplaceRole(context: WebPubSubChatServiceContext, roleName: string, resource: ChatRole, options?: CreateOrReplaceRoleOptionalParams): Promise<ChatRole>;
+export function createOrReplaceRole(context: WebPubSubChatServiceContext, roleName: string, resource: ChatRoleInput, options?: CreateOrReplaceRoleOptionalParams): Promise<ChatRole>;
 
 // @public
 export interface CreateOrReplaceRoleOptionalParams extends OperationOptions {
@@ -21,10 +21,10 @@ export interface CreateOrReplaceRoleOptionalParams extends OperationOptions {
 }
 
 // @public
-export function createOrReplaceRoom(context: WebPubSubChatServiceContext, roomId: string, resource: ChatRoom, options?: CreateOrReplaceRoomOptionalParams): Promise<ChatRoom>;
+export function createOrReplaceRoom(context: WebPubSubChatServiceContext, roomId: string, resource: ChatRoomInput, options?: CreateOrReplaceRoomOptionalParams): Promise<ChatRoom>;
 
 // @public
-export function createOrReplaceRoomMember(context: WebPubSubChatServiceContext, roomId: string, userId: string, resource: ChatRoomMember, options?: CreateOrReplaceRoomMemberOptionalParams): Promise<ChatRoomMember>;
+export function createOrReplaceRoomMember(context: WebPubSubChatServiceContext, roomId: string, userId: string, resource: ChatRoomMemberInput, options?: CreateOrReplaceRoomMemberOptionalParams): Promise<ChatRoomMember>;
 
 // @public
 export interface CreateOrReplaceRoomMemberOptionalParams extends OperationOptions {
@@ -43,7 +43,7 @@ export interface CreateOrReplaceRoomOptionalParams extends OperationOptions {
 }
 
 // @public
-export function createOrReplaceUser(context: WebPubSubChatServiceContext, userId: string, resource: ChatUserUnion, options?: CreateOrReplaceUserOptionalParams): Promise<ChatUserUnion>;
+export function createOrReplaceUser(context: WebPubSubChatServiceContext, userId: string, resource: ChatUserInputUnion, options?: CreateOrReplaceUserOptionalParams): Promise<ChatUserUnion>;
 
 // @public
 export interface CreateOrReplaceUserOptionalParams extends OperationOptions {
@@ -168,7 +168,7 @@ export interface ListRoomMembersOptionalParams extends OperationOptions {
 }
 
 // @public
-export function updateMessage(context: WebPubSubChatServiceContext, conversationId: string, messageId: string, resource: ChatMessage, options?: UpdateMessageOptionalParams): Promise<ChatMessage>;
+export function updateMessage(context: WebPubSubChatServiceContext, conversationId: string, messageId: string, resource: ChatMessageInput, options?: UpdateMessageOptionalParams): Promise<ChatMessage>;
 
 // @public
 export interface UpdateMessageOptionalParams extends OperationOptions {

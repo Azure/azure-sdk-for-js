@@ -1,23 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Recorder, RecorderStartOptions, VitestTestContext } from "@azure-tools/test-recorder";
-
-const replaceableVariables: Record<string, string> = {
-  SUBSCRIPTION_ID: "azure_subscription_id",
-};
-
-const recorderEnvSetup: RecorderStartOptions = {
-  envSetupForPlayback: replaceableVariables,
-};
+import { Recorder, type VitestTestContext } from "@azure-tools/test-recorder";
+import recorderOptions from "../../testEnv.js";
 
 /**
- * creates the recorder and reads the environment variables from the `.env` file.
- * Should be called first in the test suite to make sure environment variables are
- * read before they are being used.
+ * Creates and starts the recorder for a test context.
+ * Client creation is done separately in each test suite.
  */
 export async function createRecorder(context: VitestTestContext): Promise<Recorder> {
   const recorder = new Recorder(context);
-  await recorder.start(recorderEnvSetup);
+  await recorder.start(recorderOptions);
   return recorder;
 }
