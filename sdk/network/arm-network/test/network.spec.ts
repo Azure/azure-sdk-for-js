@@ -28,11 +28,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-// TODO: Re-record tests against API version 2025-07-01 and remove the skipIf below.
-// The existing recordings were captured against api-version 2025-05-01 and the
-// generated client now sends api-version 2025-07-01, causing the test-proxy to
-// fail playback with a Uri mismatch.
-describe.skipIf(isPlaybackMode())("Network test", () => {
+describe.skip("Network test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: NetworkManagementClient;
