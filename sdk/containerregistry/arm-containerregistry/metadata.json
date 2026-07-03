@@ -59,7 +59,7 @@
       "@azure/arm-containerregistry!TokenPassword:interface": "Microsoft.ContainerRegistry.TokenPassword",
       "@azure/arm-containerregistry!RegistryNameCheckRequest:interface": "Microsoft.ContainerRegistry.RegistryNameCheckRequest",
       "@azure/arm-containerregistry!RegistryNameStatus:interface": "Microsoft.ContainerRegistry.RegistryNameStatus",
-      "@azure/arm-containerregistry!MyPrivateLinkResource:interface": "Microsoft.ContainerRegistry.MyPrivateLinkResource",
+      "@azure/arm-containerregistry!PrivateLinkResource:interface": "Microsoft.ContainerRegistry.MyPrivateLinkResource",
       "@azure/arm-containerregistry!PrivateLinkResourceProperties:interface": "Azure.ResourceManager.CommonTypes.PrivateLinkResourceProperties",
       "@azure/arm-containerregistry!PrivateLinkResourceListResult:interface": "Microsoft.ContainerRegistry.PrivateLinkResourceListResult",
       "@azure/arm-containerregistry!Archive:interface": "Microsoft.ContainerRegistry.Archive",

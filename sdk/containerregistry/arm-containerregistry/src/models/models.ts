@@ -2074,12 +2074,12 @@ export function registryNameStatusDeserializer(item: any): RegistryNameStatus {
 }
 
 /** A private link resource. */
-export interface MyPrivateLinkResource extends Resource {
+export interface PrivateLinkResource extends Resource {
   /** A resource that supports private link capabilities. */
   properties?: PrivateLinkResourceProperties;
 }
 
-export function myPrivateLinkResourceDeserializer(item: any): MyPrivateLinkResource {
+export function privateLinkResourceDeserializer(item: any): PrivateLinkResource {
   return {
     id: item["id"],
     name: item["name"],
@@ -2124,7 +2124,7 @@ export function privateLinkResourcePropertiesDeserializer(
 /** The result of a request to list private link resources for a container registry. */
 export interface _PrivateLinkResourceListResult {
   /** The list of private link resources. Since this list may be incomplete, the nextLink field should be used to request the next list of private link resources. */
-  value?: MyPrivateLinkResource[];
+  value?: PrivateLinkResource[];
   /** The URI that can be used to request the next list of private link resources. */
   nextLink?: string;
 }
@@ -2133,16 +2133,14 @@ export function _privateLinkResourceListResultDeserializer(
   item: any,
 ): _PrivateLinkResourceListResult {
   return {
-    value: !item["value"] ? item["value"] : myPrivateLinkResourceArrayDeserializer(item["value"]),
+    value: !item["value"] ? item["value"] : privateLinkResourceArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function myPrivateLinkResourceArrayDeserializer(
-  result: Array<MyPrivateLinkResource>,
-): any[] {
+export function privateLinkResourceArrayDeserializer(result: Array<PrivateLinkResource>): any[] {
   return result.map((item) => {
-    return myPrivateLinkResourceDeserializer(item);
+    return privateLinkResourceDeserializer(item);
   });
 }
 

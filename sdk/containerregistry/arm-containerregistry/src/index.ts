@@ -92,7 +92,7 @@ export type {
   RegistryNameCheckRequest,
   ContainerRegistryResourceType,
   RegistryNameStatus,
-  MyPrivateLinkResource,
+  PrivateLinkResource,
   PrivateLinkResourceProperties,
   Archive,
   ArchiveProperties,

@@ -14,7 +14,7 @@ import type {
   GenerateCredentialsResult,
   RegistryNameCheckRequest,
   RegistryNameStatus,
-  MyPrivateLinkResource,
+  PrivateLinkResource,
   _PrivateLinkResourceListResult,
 } from "../../models/models.js";
 import {
@@ -31,7 +31,7 @@ import {
   generateCredentialsResultDeserializer,
   registryNameCheckRequestSerializer,
   registryNameStatusDeserializer,
-  myPrivateLinkResourceDeserializer,
+  privateLinkResourceDeserializer,
   _privateLinkResourceListResultDeserializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
@@ -104,7 +104,7 @@ export function listPrivateLinkResources(
   resourceGroupName: string,
   registryName: string,
   options: RegistriesListPrivateLinkResourcesOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<MyPrivateLinkResource> {
+): PagedAsyncIterableIterator<PrivateLinkResource> {
   return buildPagedAsyncIterator(
     context,
     () => _listPrivateLinkResourcesSend(context, resourceGroupName, registryName, options),
@@ -146,7 +146,7 @@ export function _getPrivateLinkResourceSend(
 
 export async function _getPrivateLinkResourceDeserialize(
   result: PathUncheckedResponse,
-): Promise<MyPrivateLinkResource> {
+): Promise<PrivateLinkResource> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -157,7 +157,7 @@ export async function _getPrivateLinkResourceDeserialize(
     throw error;
   }
 
-  return myPrivateLinkResourceDeserializer(result.body);
+  return privateLinkResourceDeserializer(result.body);
 }
 
 /** Gets a private link resource by a specified group name for a container registry. */
@@ -167,7 +167,7 @@ export async function getPrivateLinkResource(
   registryName: string,
   groupName: string,
   options: RegistriesGetPrivateLinkResourceOptionalParams = { requestOptions: {} },
-): Promise<MyPrivateLinkResource> {
+): Promise<PrivateLinkResource> {
   const result = await _getPrivateLinkResourceSend(
     context,
     resourceGroupName,

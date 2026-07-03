@@ -1152,11 +1152,6 @@ export type LogLevel = string;
 export type MetadataSearch = string;
 
 // @public
-export interface MyPrivateLinkResource extends Resource {
-    properties?: PrivateLinkResourceProperties;
-}
-
-// @public
 export type NetworkRuleBypassOptions = string;
 
 // @public
@@ -1428,6 +1423,11 @@ export interface PrivateEndpointConnectionsOperations {
 }
 
 // @public
+export interface PrivateLinkResource extends Resource {
+    properties?: PrivateLinkResourceProperties;
+}
+
+// @public
 export interface PrivateLinkResourceProperties {
     readonly groupId?: string;
     readonly requiredMembers?: string[];
@@ -1548,12 +1548,12 @@ export interface RegistriesOperations {
     delete: (resourceGroupName: string, registryName: string, options?: RegistriesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     generateCredentials: (resourceGroupName: string, registryName: string, generateCredentialsParameters: GenerateCredentialsParameters, options?: RegistriesGenerateCredentialsOptionalParams) => PollerLike<OperationState<GenerateCredentialsResult>, GenerateCredentialsResult>;
     get: (resourceGroupName: string, registryName: string, options?: RegistriesGetOptionalParams) => Promise<Registry>;
-    getPrivateLinkResource: (resourceGroupName: string, registryName: string, groupName: string, options?: RegistriesGetPrivateLinkResourceOptionalParams) => Promise<MyPrivateLinkResource>;
+    getPrivateLinkResource: (resourceGroupName: string, registryName: string, groupName: string, options?: RegistriesGetPrivateLinkResourceOptionalParams) => Promise<PrivateLinkResource>;
     importImage: (resourceGroupName: string, registryName: string, parameters: ImportImageParameters, options?: RegistriesImportImageOptionalParams) => PollerLike<OperationState<void>, void>;
     list: (options?: RegistriesListOptionalParams) => PagedAsyncIterableIterator<Registry>;
     listByResourceGroup: (resourceGroupName: string, options?: RegistriesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<Registry>;
     listCredentials: (resourceGroupName: string, registryName: string, options?: RegistriesListCredentialsOptionalParams) => Promise<RegistryListCredentialsResult>;
-    listPrivateLinkResources: (resourceGroupName: string, registryName: string, options?: RegistriesListPrivateLinkResourcesOptionalParams) => PagedAsyncIterableIterator<MyPrivateLinkResource>;
+    listPrivateLinkResources: (resourceGroupName: string, registryName: string, options?: RegistriesListPrivateLinkResourcesOptionalParams) => PagedAsyncIterableIterator<PrivateLinkResource>;
     listUsages: (resourceGroupName: string, registryName: string, options?: RegistriesListUsagesOptionalParams) => Promise<RegistryUsageListResult>;
     regenerateCredential: (resourceGroupName: string, registryName: string, regenerateCredentialParameters: RegenerateCredentialParameters, options?: RegistriesRegenerateCredentialOptionalParams) => Promise<RegistryListCredentialsResult>;
     update: (resourceGroupName: string, registryName: string, registryUpdateParameters: RegistryUpdateParameters, options?: RegistriesUpdateOptionalParams) => PollerLike<OperationState<Registry>, Registry>;

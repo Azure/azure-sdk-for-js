@@ -1,6 +1,6 @@
 # Release History
 
-## 13.0.0-beta.1 (2026-07-01)
+## 12.1.0-beta.2 (2026-07-03)
 Compared with version 12.0.0
 
 ### Features Added
@@ -43,7 +43,6 @@ Compared with version 12.0.0
   - Added Interface ImportPipelinesGetOptionalParams
   - Added Interface ImportPipelinesListOptionalParams
   - Added Interface ImportPipelineSourceProperties
-  - Added Interface MyPrivateLinkResource
   - Added Interface PipelineRun
   - Added Interface PipelineRunProperties
   - Added Interface PipelineRunRequest
@@ -127,9 +126,6 @@ Compared with version 12.0.0
   - Added Enum KnownTriggerStatus
   - Added Enum KnownWritableCacheRepos
   - Enum KnownVersions has a new value VLatestPreview
-
-### Breaking Changes
-  - Removed Interface PrivateLinkResource
 
 ## 12.1.0-beta.1 (2026-03-20)
 Compared with version 12.0.0
