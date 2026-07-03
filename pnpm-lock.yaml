@@ -31734,8 +31734,8 @@ importers:
         specifier: workspace:^
         version: link:../../authorization/arm-authorization
       '@azure/arm-network':
-        specifier: workspace:^
-        version: link:../../network/arm-network
+        specifier: 36.0.0
+        version: 36.0.0
       '@azure/arm-resources':
         specifier: catalog:arm
         version: 7.0.0
