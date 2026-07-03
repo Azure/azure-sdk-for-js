@@ -1689,6 +1689,9 @@ sdk/resiliencemanagement/arm-resiliencemanagement/ @qiaozha @MaryGao @JialinHuan
 # PRLabel: %Mgmt %mgmt-review-needed
 sdk/commvaultcontentstore/arm-commvaultcontentstore/ @qiaozha @MaryGao @JialinHuang803
 
+# PRLabel: %Mgmt %mgmt-review-needed
+sdk/azurearcdata/arm-azurearcdata/ @qiaozha @MaryGao @JialinHuang803
+
 ###########
 # Config
 ###########
