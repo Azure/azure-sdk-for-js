@@ -39,7 +39,7 @@ export interface CommunicationTokenRefreshOptions {
    * Lifetime, in minutes, assumed for a returned token that cannot be decoded and
    * carries no explicit expiry (e.g. an encrypted access token). Defaults to 10.
    */
-  undecodableTokenRefreshIntervalInMinutes?: number;
+  undecodableTokenExpiryIntervalInMinutes?: number;
 }
 
 const expiredToken = { token: "", expiresOnTimestamp: -10 };
@@ -61,13 +61,13 @@ export class AutoRefreshTokenCredential implements TokenCredential {
   private disposed = false;
 
   constructor(refreshArgs: CommunicationTokenRefreshOptions) {
-    const { tokenRefresher, token, refreshProactively, undecodableTokenRefreshIntervalInMinutes } =
+    const { tokenRefresher, token, refreshProactively, undecodableTokenExpiryIntervalInMinutes } =
       refreshArgs;
 
     this.refresh = tokenRefresher;
     this.undecodableTokenExpiryIntervalInMs =
-      undecodableTokenRefreshIntervalInMinutes !== undefined
-        ? minutesToMs(undecodableTokenRefreshIntervalInMinutes)
+      undecodableTokenExpiryIntervalInMinutes !== undefined
+        ? minutesToMs(undecodableTokenExpiryIntervalInMinutes)
         : undefined;
     this.currentToken = token
       ? parseToken(token, this.undecodableTokenExpiryIntervalInMs)

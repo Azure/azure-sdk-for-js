@@ -290,12 +290,12 @@ describe("CommunicationTokenCredential", function () {
     assert.strictEqual(result.expiresOnTimestamp, expiresOnTimestamp);
   });
 
-  it("honors undecodableTokenRefreshIntervalInMinutes for an undecodable token", async function () {
+  it("honors undecodableTokenExpiryIntervalInMinutes for an undecodable token", async function () {
     const encryptedToken = generateEncryptedToken();
     const tokenRefresher = vi.fn().mockResolvedValue(encryptedToken);
     const tokenCredential = new AzureCommunicationTokenCredential({
       tokenRefresher,
-      undecodableTokenRefreshIntervalInMinutes: 30,
+      undecodableTokenExpiryIntervalInMinutes: 30,
     });
     const result = await tokenCredential.getToken();
     assert.strictEqual(result.expiresOnTimestamp, Date.now() + 30 * 60 * 1000);
