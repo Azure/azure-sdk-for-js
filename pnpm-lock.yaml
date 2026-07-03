@@ -334,6 +334,9 @@ importers:
       eslint:
         specifier: 'catalog:'
         version: 9.39.4
+      eslint-plugin-import:
+        specifier: ^2.32.0
+        version: 2.32.0(@typescript-eslint/parser@8.60.1(eslint@9.39.4)(typescript@6.0.3))(eslint@9.39.4)
       playwright:
         specifier: catalog:testing
         version: 1.61.1
@@ -826,8 +829,8 @@ importers:
         specifier: ^1.11.1
         version: link:../../monitor/monitor-opentelemetry
       '@azure/monitor-opentelemetry-exporter':
-        specifier: 1.0.0-beta.42
-        version: 1.0.0-beta.42
+        specifier: 1.0.0-beta.43
+        version: link:../../monitor/monitor-opentelemetry-exporter
       '@azure/opentelemetry-instrumentation-azure-sdk':
         specifier: ^1.0.0
         version: 1.0.0
@@ -900,6 +903,9 @@ importers:
       '@azure/core-tracing':
         specifier: ^1.2.0
         version: link:../../core/core-tracing
+      '@azure/core-util':
+        specifier: ^1.12.0
+        version: link:../../core/core-util
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -919,9 +925,6 @@ importers:
       '@azure/core-sse':
         specifier: ^2.1.3
         version: link:../../core/core-sse
-      '@azure/core-util':
-        specifier: workspace:^
-        version: link:../../core/core-util
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
@@ -932,8 +935,8 @@ importers:
         specifier: catalog:internal
         version: 4.13.0
       '@azure/monitor-opentelemetry-exporter':
-        specifier: 1.0.0-beta.42
-        version: 1.0.0-beta.42
+        specifier: 1.0.0-beta.43
+        version: link:../../monitor/monitor-opentelemetry-exporter
       '@azure/opentelemetry-instrumentation-azure-sdk':
         specifier: ^1.0.0
         version: 1.0.0
@@ -5152,6 +5155,9 @@ importers:
       '@azure/core-tracing':
         specifier: ^1.0.0
         version: link:../../core/core-tracing
+      '@azure/core-util':
+        specifier: ^1.12.0
+        version: link:../../core/core-util
       '@azure/logger':
         specifier: ^1.0.0
         version: link:../../core/logger
@@ -5174,9 +5180,6 @@ importers:
       '@azure/communication-identity':
         specifier: ^1.3.1
         version: 1.3.1
-      '@azure/core-util':
-        specifier: workspace:^
-        version: link:../../core/core-util
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
@@ -11409,6 +11412,85 @@ importers:
       playwright:
         specifier: catalog:testing
         version: 1.61.1
+      rimraf:
+        specifier: 'catalog:'
+        version: 6.1.3
+      typescript:
+        specifier: 'catalog:'
+        version: 6.0.3
+      vitest:
+        specifier: catalog:testing
+        version: 4.1.9(@opentelemetry/api@1.9.1)(@types/node@22.20.0)(@vitest/browser-playwright@4.1.9)(@vitest/coverage-istanbul@4.1.9)(vite@7.3.3(@types/node@22.20.0)(terser@5.48.0)(tsx@4.22.4)(yaml@2.9.0))
+
+  sdk/deviceupdate/iot-device-update:
+    dependencies:
+      '@azure-rest/core-client':
+        specifier: ^2.3.1
+        version: link:../../core/core-client-rest
+      '@azure/abort-controller':
+        specifier: ^2.1.2
+        version: link:../../core/abort-controller
+      '@azure/core-auth':
+        specifier: ^1.9.0
+        version: link:../../core/core-auth
+      '@azure/core-lro':
+        specifier: ^3.1.0
+        version: link:../../core/core-lro
+      '@azure/core-rest-pipeline':
+        specifier: link:../../core/core-rest-pipeline
+        version: link:../../core/core-rest-pipeline
+      '@azure/core-util':
+        specifier: ^1.12.0
+        version: link:../../core/core-util
+      '@azure/logger':
+        specifier: ^1.2.0
+        version: link:../../core/logger
+      tslib:
+        specifier: ^2.8.1
+        version: 2.8.1
+    devDependencies:
+      '@azure-tools/test-credential':
+        specifier: workspace:^
+        version: link:../../test-utils/test-credential
+      '@azure-tools/test-recorder':
+        specifier: workspace:^
+        version: link:../../test-utils/recorder
+      '@azure-tools/test-utils-vitest':
+        specifier: workspace:^
+        version: link:../../test-utils/test-utils-vitest
+      '@azure/dev-tool':
+        specifier: workspace:^
+        version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
+      '@azure/identity':
+        specifier: catalog:internal
+        version: 4.13.0
+      '@types/node':
+        specifier: 'catalog:'
+        version: 22.20.0
+      '@vitest/browser-playwright':
+        specifier: catalog:testing
+        version: 4.1.9(playwright@1.61.1)(vite@7.3.3(@types/node@22.20.0)(terser@5.48.0)(tsx@4.22.4)(yaml@2.9.0))(vitest@4.1.9)
+      '@vitest/coverage-istanbul':
+        specifier: catalog:testing
+        version: 4.1.9(vitest@4.1.9)
+      cross-env:
+        specifier: 'catalog:'
+        version: 10.1.0
+      dotenv:
+        specifier: catalog:testing
+        version: 16.6.1
+      eslint:
+        specifier: 'catalog:'
+        version: 9.39.4
+      playwright:
+        specifier: catalog:testing
+        version: 1.61.1
+      prettier:
+        specifier: 'catalog:'
+        version: 3.9.3
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
@@ -21867,8 +21949,8 @@ importers:
         specifier: ^1.3.0
         version: link:../../core/logger
       '@azure/monitor-opentelemetry-exporter':
-        specifier: 1.0.0-beta.42
-        version: 1.0.0-beta.42
+        specifier: 1.0.0-beta.43
+        version: link:../monitor-opentelemetry-exporter
       '@azure/opentelemetry-instrumentation-azure-sdk':
         specifier: ^1.1.0-beta.1
         version: link:../../instrumentation/opentelemetry-instrumentation-azure-sdk
@@ -22195,8 +22277,8 @@ importers:
         specifier: catalog:internal
         version: 4.13.0
       '@azure/monitor-opentelemetry-exporter':
-        specifier: 1.0.0-beta.42
-        version: 1.0.0-beta.42
+        specifier: 1.0.0-beta.43
+        version: link:../monitor-opentelemetry-exporter
       '@opentelemetry/api':
         specifier: ^1.9.0
         version: 1.9.1
@@ -22286,8 +22368,8 @@ importers:
         specifier: catalog:internal
         version: 4.13.0
       '@azure/monitor-opentelemetry-exporter':
-        specifier: 1.0.0-beta.42
-        version: 1.0.0-beta.42
+        specifier: 1.0.0-beta.43
+        version: link:../monitor-opentelemetry-exporter
       '@opentelemetry/api':
         specifier: ^1.9.0
         version: 1.9.1
@@ -32362,6 +32444,9 @@ importers:
       '@azure/core-rest-pipeline':
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
+      '@azure/logger':
+        specifier: ^1.1.4
+        version: link:../../core/logger
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -32387,9 +32472,6 @@ importers:
       '@azure/identity':
         specifier: catalog:internal
         version: 4.13.0
-      '@azure/logger':
-        specifier: ^1.1.4
-        version: link:../../core/logger
       '@types/node':
         specifier: 'catalog:'
         version: 22.20.0
@@ -35289,10 +35371,6 @@ packages:
     resolution: {integrity: sha1-Cey+hAiSgQAjgn7y2DjyGaUcHDU=}
     engines: {node: '>=14.0.0'}
 
-  '@azure/monitor-opentelemetry-exporter@1.0.0-beta.42':
-    resolution: {integrity: sha1-26M1nCAaf9tazyR+cF+QD9X1cFQ=}
-    engines: {node: '>=20.0.0'}
-
   '@azure/msal-browser@4.30.0':
     resolution: {integrity: sha1-MPuveuJtmrdnGqvKPUH5xS0qOTc=}
     engines: {node: '>=0.8.0'}
@@ -36579,10 +36657,6 @@ packages:
     resolution: {integrity: sha1-fldzPjeRRg/n1XL9hMr+bXtx3hg=}
     engines: {node: '>=8.0.0'}
 
-  '@opentelemetry/api-logs@0.218.0':
-    resolution: {integrity: sha1-e5gY6N/fHT3KuIv+TWck8vgx9+w=}
-    engines: {node: '>=8.0.0'}
-
   '@opentelemetry/api-logs@0.219.0':
     resolution: {integrity: sha1-MwPxD0Pm/xdB+PYBnkOpJyN4FjA=}
     engines: {node: '>=8.0.0'}
@@ -36625,12 +36699,6 @@ packages:
 
   '@opentelemetry/core@2.0.0':
     resolution: {integrity: sha1-N+nw6d3sRHmyZ6ym8y2IdXyUGzo=}
-    engines: {node: ^18.19.0 || >=20.6.0}
-    peerDependencies:
-      '@opentelemetry/api': '>=1.0.0 <1.10.0'
-
-  '@opentelemetry/core@2.7.1':
-    resolution: {integrity: sha1-Fiv6tG1v9Nob7yQOpS4jqSaw/bw=}
     engines: {node: ^18.19.0 || >=20.6.0}
     peerDependencies:
       '@opentelemetry/api': '>=1.0.0 <1.10.0'
@@ -36849,12 +36917,6 @@ packages:
     peerDependencies:
       '@opentelemetry/api': '>=1.3.0 <1.10.0'
 
-  '@opentelemetry/resources@2.7.1':
-    resolution: {integrity: sha1-OyqRefYRm7Hyzd7+QbqbKFVQSl0=}
-    engines: {node: ^18.19.0 || >=20.6.0}
-    peerDependencies:
-      '@opentelemetry/api': '>=1.3.0 <1.10.0'
-
   '@opentelemetry/resources@2.8.0':
     resolution: {integrity: sha1-m8tlirYlTzMJn0qVVEtA1vU8yUY=}
     engines: {node: ^18.19.0 || >=20.6.0}
@@ -36863,12 +36925,6 @@ packages:
 
   '@opentelemetry/sdk-logs@0.200.0':
     resolution: {integrity: sha1-iT2GzvpvLAKnzQPVy0qVnu02U9E=}
-    engines: {node: ^18.19.0 || >=20.6.0}
-    peerDependencies:
-      '@opentelemetry/api': '>=1.4.0 <1.10.0'
-
-  '@opentelemetry/sdk-logs@0.218.0':
-    resolution: {integrity: sha1-eIhv4wC4KALO6ZYyCLKvMmuSivU=}
     engines: {node: ^18.19.0 || >=20.6.0}
     peerDependencies:
       '@opentelemetry/api': '>=1.4.0 <1.10.0'
@@ -37238,6 +37294,9 @@ packages:
     cpu: [x64]
     os: [win32]
 
+  '@rtsao/scc@1.1.0':
+    resolution: {integrity: sha1-kn3S+um8M2FAOsLHoAwy3c6a1+g=}
+
   '@rushstack/node-core-library@5.23.1':
     resolution: {integrity: sha1-JBPxtSgRz1NxgSR0pwBqeoxMTrY=}
     peerDependencies:
@@ -37401,6 +37460,9 @@ packages:
 
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha1-WWoXRyM2lNUPatinhp/Lb1bPWEE=}
+
+  '@types/json5@0.0.29':
+    resolution: {integrity: sha1-7ihweulOEdK4J7y+UnC86n8+ce4=}
 
   '@types/jsonwebtoken@9.0.10':
     resolution: {integrity: sha1-p5MqRxd9zUKDthRvO9XCbYJkfwk=}
@@ -37762,12 +37824,36 @@ packages:
   argparse@2.0.1:
     resolution: {integrity: sha1-JG9Q88p4oyQPbJl+ipvR6sSeSzg=}
 
+  array-buffer-byte-length@1.0.2:
+    resolution: {integrity: sha1-OE0So3KVrsN2mrAirTI6GKUcz4s=}
+    engines: {node: '>= 0.4'}
+
+  array-includes@3.1.9:
+    resolution: {integrity: sha1-HwzKoI6Qzbw+tDMhD5A60PF8Pzo=}
+    engines: {node: '>= 0.4'}
+
   array-timsort@1.0.3:
     resolution: {integrity: sha1-PJ5BmeVPsrnD/ll2OWohYU7w2SY=}
 
   array-union@2.1.0:
     resolution: {integrity: sha1-t5hCCtvrHego2ErNii4j0+/oXo0=}
     engines: {node: '>=8'}
+
+  array.prototype.findlastindex@1.2.6:
+    resolution: {integrity: sha1-z6EGXIHctk40VXybgdAS9qQhxWQ=}
+    engines: {node: '>= 0.4'}
+
+  array.prototype.flat@1.3.3:
+    resolution: {integrity: sha1-U0qvnm6N15+2uamRf4Oe8exjr+U=}
+    engines: {node: '>= 0.4'}
+
+  array.prototype.flatmap@1.3.3:
+    resolution: {integrity: sha1-cSzHkq5wNwrkBYYmRinjOqtd04s=}
+    engines: {node: '>= 0.4'}
+
+  arraybuffer.prototype.slice@1.0.4:
+    resolution: {integrity: sha1-nXYNhNvdBtDL+SyISWFaGnqzGDw=}
+    engines: {node: '>= 0.4'}
 
   arrify@1.0.1:
     resolution: {integrity: sha1-iYUI2iIm84DfkEcoRWhJwVAaSw0=}
@@ -37779,6 +37865,10 @@ packages:
   assertion-error@2.0.1:
     resolution: {integrity: sha1-9kGhlrM1aQsQcL8AtudZP+wZC/c=}
     engines: {node: '>=12'}
+
+  async-function@1.0.0:
+    resolution: {integrity: sha1-UJyfymDq+FA0xoKYOBiOTkyP+ys=}
+    engines: {node: '>= 0.4'}
 
   atomic-sleep@1.0.0:
     resolution: {integrity: sha1-64W3emAfyTLP5DLFrNNkqeLJB1s=}
@@ -38187,11 +38277,31 @@ packages:
   csstype@3.2.3:
     resolution: {integrity: sha1-7EjA8+mT5QZIyG2lWeJhCZXPmJo=}
 
+  data-view-buffer@1.0.2:
+    resolution: {integrity: sha1-IRoDupXsr3eYqMcZjXlTYhH4hXA=}
+    engines: {node: '>= 0.4'}
+
+  data-view-byte-length@1.0.2:
+    resolution: {integrity: sha1-noD3ylJFPOPpPSWjUxh2fqdwRzU=}
+    engines: {node: '>= 0.4'}
+
+  data-view-byte-offset@1.0.1:
+    resolution: {integrity: sha1-BoMH+bcat2274QKROJ4CCFZgYZE=}
+    engines: {node: '>= 0.4'}
+
   dateformat@4.6.3:
     resolution: {integrity: sha1-VW+mSX5SF/7beIIUJPihwi+j9LU=}
 
   debug@2.6.9:
     resolution: {integrity: sha1-XRKFFd8TT/Mn6QpMk/Tgd6U2NB8=}
+    peerDependencies:
+      supports-color: '*'
+    peerDependenciesMeta:
+      supports-color:
+        optional: true
+
+  debug@3.2.7:
+    resolution: {integrity: sha1-clgLfpFF+zm2Z2+cXl+xALk0F5o=}
     peerDependencies:
       supports-color: '*'
     peerDependenciesMeta:
@@ -38250,6 +38360,10 @@ packages:
     resolution: {integrity: sha1-27Ga37dG1/xtc0oGty9KANAhJV8=}
     engines: {node: '>=12'}
 
+  define-properties@1.2.1:
+    resolution: {integrity: sha1-EHgcxhbrlRqAoDS6/Kpzd/avK2w=}
+    engines: {node: '>= 0.4'}
+
   depd@2.0.0:
     resolution: {integrity: sha1-tpYWPMdXVg0JzyLMj60Vcbeedt8=}
     engines: {node: '>= 0.8'}
@@ -38281,6 +38395,10 @@ packages:
   dir-glob@3.0.1:
     resolution: {integrity: sha1-Vtv3PZkqSpO6FYT0U0Bj/S5BcX8=}
     engines: {node: '>=8'}
+
+  doctrine@2.1.0:
+    resolution: {integrity: sha1-XNAfwQFiG0LEzX9dGmYkNxbT850=}
+    engines: {node: '>=0.10.0'}
 
   dotenv@16.6.1:
     resolution: {integrity: sha1-dz8OaVJ6gxXHKF1e5zxEWdIKgCA=}
@@ -38344,6 +38462,14 @@ packages:
   error-stack-parser@2.1.4:
     resolution: {integrity: sha1-IpywHNv6hEQL+pGHYoW5RoAYgoY=}
 
+  es-abstract-get@1.0.0:
+    resolution: {integrity: sha1-Hq6HEB9Cvt62p0DoxQUSca74kIg=}
+    engines: {node: '>= 0.4'}
+
+  es-abstract@1.24.2:
+    resolution: {integrity: sha1-Lb04wYBzXumD93WFFAonBqlj7Zo=}
+    engines: {node: '>= 0.4'}
+
   es-define-property@1.0.1:
     resolution: {integrity: sha1-mD6y+aZyTpMD9hrd8BHHLgngsPo=}
     engines: {node: '>= 0.4'}
@@ -38357,6 +38483,18 @@ packages:
 
   es-object-atoms@1.1.2:
     resolution: {integrity: sha1-otCzcyBXJN+lJdI7DD4bHKWCyZs=}
+    engines: {node: '>= 0.4'}
+
+  es-set-tostringtag@2.1.0:
+    resolution: {integrity: sha1-8x274MGDsAptJutjJcgQwP0YvU0=}
+    engines: {node: '>= 0.4'}
+
+  es-shim-unscopables@1.1.0:
+    resolution: {integrity: sha1-Q43zVSDaxdEF85Q9knVJ6jsA9LU=}
+    engines: {node: '>= 0.4'}
+
+  es-to-primitive@1.3.4:
+    resolution: {integrity: sha1-DIVCkc8Ne0Oda55XceqDf/rx+ZE=}
     engines: {node: '>= 0.4'}
 
   esbuild@0.27.7:
@@ -38401,11 +38539,45 @@ packages:
     peerDependencies:
       eslint: '>=7.0.0'
 
+  eslint-import-resolver-node@0.3.10:
+    resolution: {integrity: sha1-hM4wBav8MAWIzyO7rBqr7B/G6ME=}
+
+  eslint-module-utils@2.13.0:
+    resolution: {integrity: sha1-iCvq9kknVnNYgWv03A8FD9UuD7k=}
+    engines: {node: '>=4'}
+    peerDependencies:
+      '@typescript-eslint/parser': '*'
+      eslint: '*'
+      eslint-import-resolver-node: '*'
+      eslint-import-resolver-typescript: '*'
+      eslint-import-resolver-webpack: '*'
+    peerDependenciesMeta:
+      '@typescript-eslint/parser':
+        optional: true
+      eslint:
+        optional: true
+      eslint-import-resolver-node:
+        optional: true
+      eslint-import-resolver-typescript:
+        optional: true
+      eslint-import-resolver-webpack:
+        optional: true
+
   eslint-plugin-es-x@7.8.0:
     resolution: {integrity: sha1-ogeqCNo3p5I/KpWZ5tPrc/P5K3Q=}
     engines: {node: ^14.18.0 || >=16.0.0}
     peerDependencies:
       eslint: '>=8'
+
+  eslint-plugin-import@2.32.0:
+    resolution: {integrity: sha1-YCtV+qbkyuql6XDBmLXACjdwiYA=}
+    engines: {node: '>=4'}
+    peerDependencies:
+      '@typescript-eslint/parser': '*'
+      eslint: ^2 || ^3 || ^4 || ^5 || ^6 || ^7.2.0 || ^8 || ^9
+    peerDependenciesMeta:
+      '@typescript-eslint/parser':
+        optional: true
 
   eslint-plugin-n@17.24.0:
     resolution: {integrity: sha1-tm+gX3psG6FnaPCSG4l0FH3d0GA=}
@@ -38709,6 +38881,13 @@ packages:
   function-bind@1.1.2:
     resolution: {integrity: sha1-LALYZNl/PqbIgwxGTL0Rq26rehw=}
 
+  function.prototype.name@1.2.0:
+    resolution: {integrity: sha1-dY8+hPpUJnJFS9XhTLCBpc4H9ww=}
+    engines: {node: '>= 0.4'}
+
+  functions-have-names@1.2.3:
+    resolution: {integrity: sha1-BAT+TuK6L2B/Dg7DyAuumUEzuDQ=}
+
   generator-function@2.0.1:
     resolution: {integrity: sha1-DnXdQQ0SQ2h6C6LpUblO7bj3N6I=}
     engines: {node: '>= 0.4'}
@@ -38735,6 +38914,10 @@ packages:
 
   get-proto@1.0.1:
     resolution: {integrity: sha1-FQs/J0OGnvPoUewMSdFbHRTQDuE=}
+    engines: {node: '>= 0.4'}
+
+  get-symbol-description@1.1.0:
+    resolution: {integrity: sha1-e91U4L7+j/yfO04gMiDZ8eiBtu4=}
     engines: {node: '>= 0.4'}
 
   get-tsconfig@4.14.0:
@@ -38785,6 +38968,10 @@ packages:
     resolution: {integrity: sha1-fEdhKZ1BwysHVxWkzh7eeJf/cqg=}
     engines: {node: '>=18'}
 
+  globalthis@1.0.4:
+    resolution: {integrity: sha1-dDDtOpddl7+1m8zkH1yruvplEjY=}
+    engines: {node: '>= 0.4'}
+
   globby@10.0.1:
     resolution: {integrity: sha1-R4LDTLdd1oM1EzXFgpzDQg5gayI=}
     engines: {node: '>=8'}
@@ -38807,12 +38994,20 @@ packages:
     resolution: {integrity: sha1-HG7aXBaFxjlCdm15u0Cudzzs2IM=}
     engines: {node: '>=6'}
 
+  has-bigints@1.1.0:
+    resolution: {integrity: sha1-KGB+llrJZ+A80qLHCiY2oe2tSf4=}
+    engines: {node: '>= 0.4'}
+
   has-flag@4.0.0:
     resolution: {integrity: sha1-lEdx/ZyByBJlxNaUGGDaBrtZR5s=}
     engines: {node: '>=8'}
 
   has-property-descriptors@1.0.2:
     resolution: {integrity: sha1-lj7X0HHce/XwhMW/vg0bYiJYaFQ=}
+
+  has-proto@1.2.0:
+    resolution: {integrity: sha1-XeWm6r2V/f/ZgYtDBV6AZeOf6dU=}
+    engines: {node: '>= 0.4'}
 
   has-symbols@1.1.0:
     resolution: {integrity: sha1-/JxqeDoISVHQuXH+EBjegTcHozg=}
@@ -38958,6 +39153,10 @@ packages:
       '@types/node':
         optional: true
 
+  internal-slot@1.1.0:
+    resolution: {integrity: sha1-HqyRdilH0vcFa8g42T4TsulgSWE=}
+    engines: {node: '>= 0.4'}
+
   invariant@2.2.4:
     resolution: {integrity: sha1-YQ88ksk1nOHbYW5TgAjSP/NRWOY=}
 
@@ -38977,8 +39176,24 @@ packages:
     resolution: {integrity: sha1-rVjGrs9WO3jvK/BN9UDaj119jhs=}
     engines: {node: '>= 0.4'}
 
+  is-array-buffer@3.0.5:
+    resolution: {integrity: sha1-ZXQuHmh70sxmYlMGj9hwf+TUQoA=}
+    engines: {node: '>= 0.4'}
+
   is-arrayish@0.2.1:
     resolution: {integrity: sha1-d8mYQFJ6qOyxqLppe4BkWnqSap0=}
+
+  is-async-function@2.1.1:
+    resolution: {integrity: sha1-PmkBjI4E5ztzh5PQIL/ohLn9NSM=}
+    engines: {node: '>= 0.4'}
+
+  is-bigint@1.1.0:
+    resolution: {integrity: sha1-3aejRF31ekJYPbQihoLrp8QXBnI=}
+    engines: {node: '>= 0.4'}
+
+  is-boolean-object@1.2.2:
+    resolution: {integrity: sha1-cGf0dwmAmjk8cf9bs+E12KkhXZ4=}
+    engines: {node: '>= 0.4'}
 
   is-buffer@2.0.5:
     resolution: {integrity: sha1-68JS5ADSL/jXf6CYiIIaJKZYwZE=}
@@ -38992,6 +39207,14 @@ packages:
     resolution: {integrity: sha1-PgdFCoCA684/vwysSU9NKrMk4II=}
     engines: {node: '>= 0.4'}
 
+  is-data-view@1.0.2:
+    resolution: {integrity: sha1-uuCkG5aImGwhiN2mZX5WuPnmO44=}
+    engines: {node: '>= 0.4'}
+
+  is-date-object@1.1.0:
+    resolution: {integrity: sha1-rYVUGZb8eqiycpcB0ntzGfldgvc=}
+    engines: {node: '>= 0.4'}
+
   is-docker@2.2.1:
     resolution: {integrity: sha1-M+6r4jz+hvFL3kQIoCwM+4U6zao=}
     engines: {node: '>=8'}
@@ -39002,9 +39225,17 @@ packages:
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     hasBin: true
 
+  is-document.all@1.0.0:
+    resolution: {integrity: sha1-FjpL+zYsbtexGM5GzezE433uMZU=}
+    engines: {node: '>= 0.4'}
+
   is-extglob@2.1.1:
     resolution: {integrity: sha1-qIwCU1eR8C7TfHahueqXc8gz+MI=}
     engines: {node: '>=0.10.0'}
+
+  is-finalizationregistry@1.1.1:
+    resolution: {integrity: sha1-7v3NxslN3QZ02chYh7+T+USpfJA=}
+    engines: {node: '>= 0.4'}
 
   is-fullwidth-code-point@3.0.0:
     resolution: {integrity: sha1-8Rb4Bk/pCz94RKOJl8C3UFEmnx0=}
@@ -39027,8 +39258,20 @@ packages:
     engines: {node: '>=14.16'}
     hasBin: true
 
+  is-map@2.0.3:
+    resolution: {integrity: sha1-7elrf+HicLPERl46RlZYdkkm1i4=}
+    engines: {node: '>= 0.4'}
+
   is-module@1.0.0:
     resolution: {integrity: sha1-Mlj7afeMFNW4FdZkM2tM/7ZEFZE=}
+
+  is-negative-zero@2.0.3:
+    resolution: {integrity: sha1-ztkDoCespjgbd3pXQwadc3akl0c=}
+    engines: {node: '>= 0.4'}
+
+  is-number-object@1.1.1:
+    resolution: {integrity: sha1-FEsh6VobwUggXcwoFKkTTsQbJUE=}
+    engines: {node: '>= 0.4'}
 
   is-number@7.0.0:
     resolution: {integrity: sha1-dTU0W4lnNNX4DE0GxQlVUnoU8Ss=}
@@ -39057,9 +39300,25 @@ packages:
     resolution: {integrity: sha1-+yLurQl8YUxHqmdN5deaFkilPmY=}
     engines: {node: '>=20'}
 
+  is-set@2.0.3:
+    resolution: {integrity: sha1-irIJ6kJGCBQTct7W4MsgDvHZ0B0=}
+    engines: {node: '>= 0.4'}
+
+  is-shared-array-buffer@1.0.4:
+    resolution: {integrity: sha1-m2eES9m38ka6BwjDqT40Jpx3T28=}
+    engines: {node: '>= 0.4'}
+
   is-stream@2.0.1:
     resolution: {integrity: sha1-+sHj1TuXrVqdCunO8jifWBClwHc=}
     engines: {node: '>=8'}
+
+  is-string@1.1.1:
+    resolution: {integrity: sha1-kuo/PVxbbgOcqGd+WsjQfqdzy7k=}
+    engines: {node: '>= 0.4'}
+
+  is-symbol@1.1.1:
+    resolution: {integrity: sha1-9HdhJ59TLisFpwJKdQbbvtrNBjQ=}
+    engines: {node: '>= 0.4'}
 
   is-typed-array@1.1.15:
     resolution: {integrity: sha1-S/tKRbYc7oOlpG+6d45OjVnAzgs=}
@@ -39067,6 +39326,18 @@ packages:
 
   is-unsafe@1.0.1:
     resolution: {integrity: sha1-zom1XewANDZPW+2kHhBIHvqPoxc=}
+
+  is-weakmap@2.0.2:
+    resolution: {integrity: sha1-v3JhXWSd/l9pkHnFS4PkfRrhnP0=}
+    engines: {node: '>= 0.4'}
+
+  is-weakref@1.1.1:
+    resolution: {integrity: sha1-7qQwGCvo1kF0vZa/+8RvIb8/kpM=}
+    engines: {node: '>= 0.4'}
+
+  is-weakset@2.0.4:
+    resolution: {integrity: sha1-yfXesLwZBsbW8QJ/KE3fRZJJ2so=}
+    engines: {node: '>= 0.4'}
 
   is-wsl@2.2.0:
     resolution: {integrity: sha1-dKTHbnfKn9P5MvKQwX6jJs0VcnE=}
@@ -39081,6 +39352,9 @@ packages:
 
   isarray@1.0.0:
     resolution: {integrity: sha1-u5NdSFgsuhaMBoNJV6VKPgcSTxE=}
+
+  isarray@2.0.5:
+    resolution: {integrity: sha1-ivHkwSISRMxiRZ+vOJQNTmRKVyM=}
 
   isexe@2.0.0:
     resolution: {integrity: sha1-6PvzdNxVb/iUehDcsFctYz8s+hA=}
@@ -39197,6 +39471,10 @@ packages:
 
   json-stringify-safe@5.0.1:
     resolution: {integrity: sha1-Epai1Y/UXxmg9s4B1lcB4sc1tus=}
+
+  json5@1.0.2:
+    resolution: {integrity: sha1-Y9mNYPIbMTt3xNbaGL+mnYDh1ZM=}
+    hasBin: true
 
   json5@2.2.3:
     resolution: {integrity: sha1-eM1vGhm9wStz21rQxh79ZsHikoM=}
@@ -39636,6 +39914,10 @@ packages:
     resolution: {integrity: sha1-HQAOPHbkYld4lb4bQ29KotZ2DrA=}
     engines: {node: '>=18'}
 
+  node-exports-info@1.6.2:
+    resolution: {integrity: sha1-JDoxBWd9Z4HNJuanI1D9kopctG8=}
+    engines: {node: '>= 0.4'}
+
   node-forge@1.4.0:
     resolution: {integrity: sha1-HHt9i9wtB4c59YKH1YnZA6EbL8I=}
     engines: {node: '>= 6.13.0'}
@@ -39671,6 +39953,30 @@ packages:
 
   object-inspect@1.13.4:
     resolution: {integrity: sha1-g3UmXiG8IND6WCwi4bE0hdbgAhM=}
+    engines: {node: '>= 0.4'}
+
+  object-keys@1.1.1:
+    resolution: {integrity: sha1-HEfyct8nfzsdrwYWd9nILiMixg4=}
+    engines: {node: '>= 0.4'}
+
+  object.assign@4.1.7:
+    resolution: {integrity: sha1-jBTKGkJMalYbC7KiL2b1BJqUXT0=}
+    engines: {node: '>= 0.4'}
+
+  object.entries@1.1.9:
+    resolution: {integrity: sha1-5HcKahREr7Yb05+YQBi1vt4l+LM=}
+    engines: {node: '>= 0.4'}
+
+  object.fromentries@2.0.8:
+    resolution: {integrity: sha1-9xldipuXvZXLwZmeqTns0aKwDGU=}
+    engines: {node: '>= 0.4'}
+
+  object.groupby@1.0.3:
+    resolution: {integrity: sha1-mxJcNiOBKfb3thlUoecXYUjVAC4=}
+    engines: {node: '>= 0.4'}
+
+  object.values@1.2.1:
+    resolution: {integrity: sha1-3u1SClCAn/f3Wnz9S8ZMegOMYhY=}
     engines: {node: '>= 0.4'}
 
   obug@2.1.3:
@@ -39732,6 +40038,10 @@ packages:
   optionator@0.9.4:
     resolution: {integrity: sha1-fqHBpdkddk+yghOciP4R4YKjpzQ=}
     engines: {node: '>= 0.8.0'}
+
+  own-keys@1.0.1:
+    resolution: {integrity: sha1-5ABpEKK/kTWFKJZ27r1vOQz1E1g=}
+    engines: {node: '>= 0.4'}
 
   p-event@6.0.1:
     resolution: {integrity: sha1-j2Kh42FtS8Afzjq9oSfgOD70cVs=}
@@ -40128,8 +40438,16 @@ packages:
     resolution: {integrity: sha1-DAunyquyQlerO7ek/ZXdHVxWgfk=}
     engines: {node: '>=12'}
 
+  reflect.getprototypeof@1.0.10:
+    resolution: {integrity: sha1-xikhnnijMW2LYEx2XvaJlpZOe/k=}
+    engines: {node: '>= 0.4'}
+
   regenerator-runtime@0.13.11:
     resolution: {integrity: sha1-9tyj587sIFkNB62nhWNqkM3KF/k=}
+
+  regexp.prototype.flags@1.5.4:
+    resolution: {integrity: sha1-GtbGLUSiWQB+VbOXDgD3Ru+8qhk=}
+    engines: {node: '>= 0.4'}
 
   require-directory@2.1.1:
     resolution: {integrity: sha1-jGStX9MNqxyXbiNE/+f3kqam30I=}
@@ -40163,6 +40481,11 @@ packages:
 
   resolve@1.22.12:
     resolution: {integrity: sha1-9bKmgIl8acI4oTzRaxVnH4tzVJ8=}
+    engines: {node: '>= 0.4'}
+    hasBin: true
+
+  resolve@2.0.0-next.7:
+    resolution: {integrity: sha1-ujsDXUse58UiQm7uc8q8sP1VFd0=}
     engines: {node: '>= 0.4'}
     hasBin: true
 
@@ -40223,11 +40546,19 @@ packages:
   rxjs@7.8.2:
     resolution: {integrity: sha1-lVvEc+2K8RoAKivlIHG/R1Y4YHs=}
 
+  safe-array-concat@1.1.4:
+    resolution: {integrity: sha1-pUzJthpX8ztCq608vdo6KzjMVxk=}
+    engines: {node: '>=0.4'}
+
   safe-buffer@5.1.2:
     resolution: {integrity: sha1-mR7GnSluAxN0fVm9/St0XDX4go0=}
 
   safe-buffer@5.2.1:
     resolution: {integrity: sha1-Hq+fqb2x/dTsdfWPnNtOa3gn7sY=}
+
+  safe-push-apply@1.0.0:
+    resolution: {integrity: sha1-AYUOmBwWAtOYyFCB82Dk5tA9J/U=}
+    engines: {node: '>= 0.4'}
 
   safe-regex-test@1.1.0:
     resolution: {integrity: sha1-f4fftnoxUHguqvGFg/9dFxGsEME=}
@@ -40330,6 +40661,14 @@ packages:
 
   set-function-length@1.2.2:
     resolution: {integrity: sha1-qscjFBmOrtl1z3eyw7a4gGleVEk=}
+    engines: {node: '>= 0.4'}
+
+  set-function-name@2.0.2:
+    resolution: {integrity: sha1-FqcFxaDcL15jjKltiozU4cK5CYU=}
+    engines: {node: '>= 0.4'}
+
+  set-proto@1.0.0:
+    resolution: {integrity: sha1-B2Dbz/MLLX6AH9bhmYPlbaM3Vl4=}
     engines: {node: '>= 0.4'}
 
   setprototypeof@1.2.0:
@@ -40479,6 +40818,10 @@ packages:
   std-env@4.1.0:
     resolution: {integrity: sha1-RYmavFkNhtaC6H8KzRAzp1CEzT8=}
 
+  stop-iteration-iterator@1.1.0:
+    resolution: {integrity: sha1-9IH/cKVI9hJNAxLDqhTL+nqlQq0=}
+    engines: {node: '>= 0.4'}
+
   stream@0.0.3:
     resolution: {integrity: sha1-Pzk0qQClYc4+K5/70oGc6tMmmdk=}
 
@@ -40489,6 +40832,18 @@ packages:
   string-width@4.2.3:
     resolution: {integrity: sha1-JpxxF9J7Ba0uU2gwqOyJXvnG0BA=}
     engines: {node: '>=8'}
+
+  string.prototype.trim@1.2.11:
+    resolution: {integrity: sha1-5r0ZzaOYXQWkLdox89300100MOM=}
+    engines: {node: '>= 0.4'}
+
+  string.prototype.trimend@1.0.10:
+    resolution: {integrity: sha1-vmvPTz/gRgvezNss9PlxsxD4NG4=}
+    engines: {node: '>= 0.4'}
+
+  string.prototype.trimstart@1.0.8:
+    resolution: {integrity: sha1-fug03ajHwX7/MRhHK7Nb/tqjTd4=}
+    engines: {node: '>= 0.4'}
 
   string_decoder@0.10.31:
     resolution: {integrity: sha1-YuIDvEF2bGwoyfyEMB2rHFMQ+pQ=}
@@ -40502,6 +40857,10 @@ packages:
   strip-ansi@6.0.1:
     resolution: {integrity: sha1-nibGPTD1NEPpSJSVshBdN7Z6hdk=}
     engines: {node: '>=8'}
+
+  strip-bom@3.0.0:
+    resolution: {integrity: sha1-IzTBjpx1n3vdVv3vfprj1YjmjtM=}
+    engines: {node: '>=4'}
 
   strip-bom@4.0.0:
     resolution: {integrity: sha1-nDUFwdtFvO3KPZz3oW9cWqOQGHg=}
@@ -40665,6 +41024,9 @@ packages:
   ts-morph@27.0.2:
     resolution: {integrity: sha1-ey/M5oIu7KOUL6bGAfFZ1ZILFCI=}
 
+  tsconfig-paths@3.15.0:
+    resolution: {integrity: sha1-UpnsYF5VsauyPsk57xXtr0gwcNQ=}
+
   tslib@2.8.1:
     resolution: {integrity: sha1-YS7+TtI11Wfoq6Xypfq3AoCt6D8=}
 
@@ -40707,6 +41069,22 @@ packages:
   type-plus@7.6.2:
     resolution: {integrity: sha1-du3CKwToA8BH35TFSmndvtcUGx0=}
 
+  typed-array-buffer@1.0.3:
+    resolution: {integrity: sha1-pyOVRQpIaewDP9VJNxtHrzou5TY=}
+    engines: {node: '>= 0.4'}
+
+  typed-array-byte-length@1.0.3:
+    resolution: {integrity: sha1-hAegT314aE89JSqhoUPSt3tBYM4=}
+    engines: {node: '>= 0.4'}
+
+  typed-array-byte-offset@1.0.4:
+    resolution: {integrity: sha1-rjaYuOyRqKuUUBYQiu8A1b/xI1U=}
+    engines: {node: '>= 0.4'}
+
+  typed-array-length@1.0.8:
+    resolution: {integrity: sha1-C3Dpgsnp2v4t721kWP9LPy0rbXA=}
+    engines: {node: '>= 0.4'}
+
   typescript-eslint@8.60.1:
     resolution: {integrity: sha1-E9sFxuq7iWad7sRFRbeIoOmu5kA=}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
@@ -40741,6 +41119,10 @@ packages:
     resolution: {integrity: sha1-gjFem7xvKyWIiFis0f/4RBA1t38=}
     engines: {node: '>=0.8.0'}
     hasBin: true
+
+  unbox-primitive@1.1.0:
+    resolution: {integrity: sha1-jZ0snt7qhGDH81AzqIhnlEk00eI=}
+    engines: {node: '>= 0.4'}
 
   underscore@1.13.8:
     resolution: {integrity: sha1-qTohGGwEnb8OhHSW26cre9jB6Ss=}
@@ -40924,6 +41306,18 @@ packages:
 
   whatwg-fetch@3.6.20:
     resolution: {integrity: sha1-WAzm15H6zskdN8cokJlaC0jTHHA=}
+
+  which-boxed-primitive@1.1.1:
+    resolution: {integrity: sha1-127Cfff6Fl8Y1YCDdKX+I8KbF24=}
+    engines: {node: '>= 0.4'}
+
+  which-builtin-type@1.2.1:
+    resolution: {integrity: sha1-iRg9obSQerCJprAgKcxdjWV0Jw4=}
+    engines: {node: '>= 0.4'}
+
+  which-collection@1.0.2:
+    resolution: {integrity: sha1-Yn73YkOSChB+fOjpYZHevksWwqA=}
+    engines: {node: '>= 0.4'}
 
   which-typed-array@1.1.22:
     resolution: {integrity: sha1-jzzHiu+0C0NzRt1Aodv6XR2kP+k=}
@@ -41547,25 +41941,6 @@ snapshots:
       '@azure/core-client': 1.10.2
       '@azure/core-lro': 2.7.2
       '@azure/core-rest-pipeline': link:sdk/core/core-rest-pipeline
-    transitivePeerDependencies:
-      - supports-color
-
-  '@azure/monitor-opentelemetry-exporter@1.0.0-beta.42':
-    dependencies:
-      '@azure-rest/core-client': 2.7.0
-      '@azure/core-auth': 1.10.1
-      '@azure/core-client': 1.10.2
-      '@azure/core-rest-pipeline': link:sdk/core/core-rest-pipeline
-      '@azure/core-util': 1.13.1
-      '@opentelemetry/api': 1.9.1
-      '@opentelemetry/api-logs': 0.218.0
-      '@opentelemetry/core': 2.8.0(@opentelemetry/api@1.9.1)
-      '@opentelemetry/resources': 2.8.0(@opentelemetry/api@1.9.1)
-      '@opentelemetry/sdk-logs': 0.218.0(@opentelemetry/api@1.9.1)
-      '@opentelemetry/sdk-metrics': 2.8.0(@opentelemetry/api@1.9.1)
-      '@opentelemetry/sdk-trace-base': 2.8.0(@opentelemetry/api@1.9.1)
-      '@opentelemetry/semantic-conventions': 1.41.1
-      tslib: 2.8.1
     transitivePeerDependencies:
       - supports-color
 
@@ -42865,10 +43240,6 @@ snapshots:
     dependencies:
       '@opentelemetry/api': 1.9.1
 
-  '@opentelemetry/api-logs@0.218.0':
-    dependencies:
-      '@opentelemetry/api': 1.9.1
-
   '@opentelemetry/api-logs@0.219.0':
     dependencies:
       '@opentelemetry/api': 1.9.1
@@ -42903,11 +43274,6 @@ snapshots:
       '@opentelemetry/semantic-conventions': 1.28.0
 
   '@opentelemetry/core@2.0.0(@opentelemetry/api@1.9.1)':
-    dependencies:
-      '@opentelemetry/api': 1.9.1
-      '@opentelemetry/semantic-conventions': 1.41.1
-
-  '@opentelemetry/core@2.7.1(@opentelemetry/api@1.9.1)':
     dependencies:
       '@opentelemetry/api': 1.9.1
       '@opentelemetry/semantic-conventions': 1.41.1
@@ -43215,12 +43581,6 @@ snapshots:
       '@opentelemetry/core': 2.0.0(@opentelemetry/api@1.9.1)
       '@opentelemetry/semantic-conventions': 1.41.1
 
-  '@opentelemetry/resources@2.7.1(@opentelemetry/api@1.9.1)':
-    dependencies:
-      '@opentelemetry/api': 1.9.1
-      '@opentelemetry/core': 2.7.1(@opentelemetry/api@1.9.1)
-      '@opentelemetry/semantic-conventions': 1.41.1
-
   '@opentelemetry/resources@2.8.0(@opentelemetry/api@1.9.1)':
     dependencies:
       '@opentelemetry/api': 1.9.1
@@ -43233,14 +43593,6 @@ snapshots:
       '@opentelemetry/api-logs': 0.200.0
       '@opentelemetry/core': 2.0.0(@opentelemetry/api@1.9.1)
       '@opentelemetry/resources': 2.0.0(@opentelemetry/api@1.9.1)
-
-  '@opentelemetry/sdk-logs@0.218.0(@opentelemetry/api@1.9.1)':
-    dependencies:
-      '@opentelemetry/api': 1.9.1
-      '@opentelemetry/api-logs': 0.218.0
-      '@opentelemetry/core': 2.7.1(@opentelemetry/api@1.9.1)
-      '@opentelemetry/resources': 2.7.1(@opentelemetry/api@1.9.1)
-      '@opentelemetry/semantic-conventions': 1.41.1
 
   '@opentelemetry/sdk-logs@0.219.0(@opentelemetry/api@1.9.1)':
     dependencies:
@@ -43572,6 +43924,8 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.62.2':
     optional: true
 
+  '@rtsao/scc@1.1.0': {}
+
   '@rushstack/node-core-library@5.23.1(@types/node@22.20.0)':
     dependencies:
       ajv: 8.18.0
@@ -43757,6 +44111,8 @@ snapshots:
 
   '@types/json-schema@7.0.15': {}
 
+  '@types/json5@0.0.29': {}
+
   '@types/jsonwebtoken@9.0.10':
     dependencies:
       '@types/ms': 2.1.0
@@ -43894,7 +44250,7 @@ snapshots:
   '@typescript-eslint/project-service@8.56.1(typescript@6.0.3)':
     dependencies:
       '@typescript-eslint/tsconfig-utils': 8.56.1(typescript@6.0.3)
-      '@typescript-eslint/types': 8.56.1
+      '@typescript-eslint/types': 8.60.1
       debug: 4.4.3
       typescript: 6.0.3
     transitivePeerDependencies:
@@ -44209,15 +44565,67 @@ snapshots:
 
   argparse@2.0.1: {}
 
+  array-buffer-byte-length@1.0.2:
+    dependencies:
+      call-bound: 1.0.4
+      is-array-buffer: 3.0.5
+
+  array-includes@3.1.9:
+    dependencies:
+      call-bind: 1.0.9
+      call-bound: 1.0.4
+      define-properties: 1.2.1
+      es-abstract: 1.24.2
+      es-object-atoms: 1.1.2
+      get-intrinsic: 1.3.0
+      is-string: 1.1.1
+      math-intrinsics: 1.1.0
+
   array-timsort@1.0.3: {}
 
   array-union@2.1.0: {}
+
+  array.prototype.findlastindex@1.2.6:
+    dependencies:
+      call-bind: 1.0.9
+      call-bound: 1.0.4
+      define-properties: 1.2.1
+      es-abstract: 1.24.2
+      es-errors: 1.3.0
+      es-object-atoms: 1.1.2
+      es-shim-unscopables: 1.1.0
+
+  array.prototype.flat@1.3.3:
+    dependencies:
+      call-bind: 1.0.9
+      define-properties: 1.2.1
+      es-abstract: 1.24.2
+      es-shim-unscopables: 1.1.0
+
+  array.prototype.flatmap@1.3.3:
+    dependencies:
+      call-bind: 1.0.9
+      define-properties: 1.2.1
+      es-abstract: 1.24.2
+      es-shim-unscopables: 1.1.0
+
+  arraybuffer.prototype.slice@1.0.4:
+    dependencies:
+      array-buffer-byte-length: 1.0.2
+      call-bind: 1.0.9
+      define-properties: 1.2.1
+      es-abstract: 1.24.2
+      es-errors: 1.3.0
+      get-intrinsic: 1.3.0
+      is-array-buffer: 3.0.5
 
   arrify@1.0.1: {}
 
   asap@2.0.6: {}
 
   assertion-error@2.0.1: {}
+
+  async-function@1.0.0: {}
 
   atomic-sleep@1.0.0: {}
 
@@ -44716,11 +45124,33 @@ snapshots:
 
   csstype@3.2.3: {}
 
+  data-view-buffer@1.0.2:
+    dependencies:
+      call-bound: 1.0.4
+      es-errors: 1.3.0
+      is-data-view: 1.0.2
+
+  data-view-byte-length@1.0.2:
+    dependencies:
+      call-bound: 1.0.4
+      es-errors: 1.3.0
+      is-data-view: 1.0.2
+
+  data-view-byte-offset@1.0.1:
+    dependencies:
+      call-bound: 1.0.4
+      es-errors: 1.3.0
+      is-data-view: 1.0.2
+
   dateformat@4.6.3: {}
 
   debug@2.6.9:
     dependencies:
       ms: 2.0.0
+
+  debug@3.2.7:
+    dependencies:
+      ms: 2.1.3
 
   debug@4.4.3:
     dependencies:
@@ -44760,6 +45190,12 @@ snapshots:
 
   define-lazy-prop@3.0.0: {}
 
+  define-properties@1.2.1:
+    dependencies:
+      define-data-property: 1.1.4
+      has-property-descriptors: 1.0.2
+      object-keys: 1.1.1
+
   depd@2.0.0: {}
 
   dequal@2.0.3: {}
@@ -44777,6 +45213,10 @@ snapshots:
   dir-glob@3.0.1:
     dependencies:
       path-type: 4.0.0
+
+  doctrine@2.1.0:
+    dependencies:
+      esutils: 2.0.3
 
   dotenv@16.6.1: {}
 
@@ -44833,6 +45273,70 @@ snapshots:
     dependencies:
       stackframe: 1.3.4
 
+  es-abstract-get@1.0.0:
+    dependencies:
+      es-errors: 1.3.0
+      es-object-atoms: 1.1.2
+      is-callable: 1.2.7
+      object-inspect: 1.13.4
+
+  es-abstract@1.24.2:
+    dependencies:
+      array-buffer-byte-length: 1.0.2
+      arraybuffer.prototype.slice: 1.0.4
+      available-typed-arrays: 1.0.7
+      call-bind: 1.0.9
+      call-bound: 1.0.4
+      data-view-buffer: 1.0.2
+      data-view-byte-length: 1.0.2
+      data-view-byte-offset: 1.0.1
+      es-define-property: 1.0.1
+      es-errors: 1.3.0
+      es-object-atoms: 1.1.2
+      es-set-tostringtag: 2.1.0
+      es-to-primitive: 1.3.4
+      function.prototype.name: 1.2.0
+      get-intrinsic: 1.3.0
+      get-proto: 1.0.1
+      get-symbol-description: 1.1.0
+      globalthis: 1.0.4
+      gopd: 1.2.0
+      has-property-descriptors: 1.0.2
+      has-proto: 1.2.0
+      has-symbols: 1.1.0
+      hasown: 2.0.4
+      internal-slot: 1.1.0
+      is-array-buffer: 3.0.5
+      is-callable: 1.2.7
+      is-data-view: 1.0.2
+      is-negative-zero: 2.0.3
+      is-regex: 1.2.1
+      is-set: 2.0.3
+      is-shared-array-buffer: 1.0.4
+      is-string: 1.1.1
+      is-typed-array: 1.1.15
+      is-weakref: 1.1.1
+      math-intrinsics: 1.1.0
+      object-inspect: 1.13.4
+      object-keys: 1.1.1
+      object.assign: 4.1.7
+      own-keys: 1.0.1
+      regexp.prototype.flags: 1.5.4
+      safe-array-concat: 1.1.4
+      safe-push-apply: 1.0.0
+      safe-regex-test: 1.1.0
+      set-proto: 1.0.0
+      stop-iteration-iterator: 1.1.0
+      string.prototype.trim: 1.2.11
+      string.prototype.trimend: 1.0.10
+      string.prototype.trimstart: 1.0.8
+      typed-array-buffer: 1.0.3
+      typed-array-byte-length: 1.0.3
+      typed-array-byte-offset: 1.0.4
+      typed-array-length: 1.0.8
+      unbox-primitive: 1.1.0
+      which-typed-array: 1.1.22
+
   es-define-property@1.0.1: {}
 
   es-errors@1.3.0: {}
@@ -44842,6 +45346,26 @@ snapshots:
   es-object-atoms@1.1.2:
     dependencies:
       es-errors: 1.3.0
+
+  es-set-tostringtag@2.1.0:
+    dependencies:
+      es-errors: 1.3.0
+      get-intrinsic: 1.3.0
+      has-tostringtag: 1.0.2
+      hasown: 2.0.4
+
+  es-shim-unscopables@1.1.0:
+    dependencies:
+      hasown: 2.0.4
+
+  es-to-primitive@1.3.4:
+    dependencies:
+      es-abstract-get: 1.0.0
+      es-define-property: 1.0.1
+      es-errors: 1.3.0
+      is-callable: 1.2.7
+      is-date-object: 1.1.0
+      is-symbol: 1.1.1
 
   esbuild@0.27.7:
     optionalDependencies:
@@ -44927,12 +45451,59 @@ snapshots:
     dependencies:
       eslint: 9.39.4
 
+  eslint-import-resolver-node@0.3.10:
+    dependencies:
+      debug: 3.2.7
+      is-core-module: 2.16.2
+      resolve: 2.0.0-next.7
+    transitivePeerDependencies:
+      - supports-color
+
+  eslint-module-utils@2.13.0(@typescript-eslint/parser@8.60.1(eslint@9.39.4)(typescript@6.0.3))(eslint-import-resolver-node@0.3.10)(eslint@9.39.4):
+    dependencies:
+      debug: 3.2.7
+    optionalDependencies:
+      '@typescript-eslint/parser': 8.60.1(eslint@9.39.4)(typescript@6.0.3)
+      eslint: 9.39.4
+      eslint-import-resolver-node: 0.3.10
+    transitivePeerDependencies:
+      - supports-color
+
   eslint-plugin-es-x@7.8.0(eslint@9.39.4):
     dependencies:
       '@eslint-community/eslint-utils': 4.9.1(eslint@9.39.4)
       '@eslint-community/regexpp': 4.12.2
       eslint: 9.39.4
       eslint-compat-utils: 0.5.1(eslint@9.39.4)
+
+  eslint-plugin-import@2.32.0(@typescript-eslint/parser@8.60.1(eslint@9.39.4)(typescript@6.0.3))(eslint@9.39.4):
+    dependencies:
+      '@rtsao/scc': 1.1.0
+      array-includes: 3.1.9
+      array.prototype.findlastindex: 1.2.6
+      array.prototype.flat: 1.3.3
+      array.prototype.flatmap: 1.3.3
+      debug: 3.2.7
+      doctrine: 2.1.0
+      eslint: 9.39.4
+      eslint-import-resolver-node: 0.3.10
+      eslint-module-utils: 2.13.0(@typescript-eslint/parser@8.60.1(eslint@9.39.4)(typescript@6.0.3))(eslint-import-resolver-node@0.3.10)(eslint@9.39.4)
+      hasown: 2.0.4
+      is-core-module: 2.16.2
+      is-glob: 4.0.3
+      minimatch: 3.1.5
+      object.fromentries: 2.0.8
+      object.groupby: 1.0.3
+      object.values: 1.2.1
+      semver: 6.3.1
+      string.prototype.trimend: 1.0.10
+      tsconfig-paths: 3.15.0
+    optionalDependencies:
+      '@typescript-eslint/parser': 8.60.1(eslint@9.39.4)(typescript@6.0.3)
+    transitivePeerDependencies:
+      - eslint-import-resolver-typescript
+      - eslint-import-resolver-webpack
+      - supports-color
 
   eslint-plugin-n@17.24.0(eslint@9.39.4)(typescript@6.0.3):
     dependencies:
@@ -45307,6 +45878,20 @@ snapshots:
 
   function-bind@1.1.2: {}
 
+  function.prototype.name@1.2.0:
+    dependencies:
+      call-bind: 1.0.9
+      call-bound: 1.0.4
+      es-define-property: 1.0.1
+      es-errors: 1.3.0
+      functions-have-names: 1.2.3
+      has-property-descriptors: 1.0.2
+      hasown: 2.0.4
+      is-callable: 1.2.7
+      is-document.all: 1.0.0
+
+  functions-have-names@1.2.3: {}
+
   generator-function@2.0.1: {}
 
   gensequence@8.0.8: {}
@@ -45334,6 +45919,12 @@ snapshots:
     dependencies:
       dunder-proto: 1.0.1
       es-object-atoms: 1.1.2
+
+  get-symbol-description@1.1.0:
+    dependencies:
+      call-bound: 1.0.4
+      es-errors: 1.3.0
+      get-intrinsic: 1.3.0
 
   get-tsconfig@4.14.0:
     dependencies:
@@ -45386,6 +45977,11 @@ snapshots:
 
   globals@15.15.0: {}
 
+  globalthis@1.0.4:
+    dependencies:
+      define-properties: 1.2.1
+      gopd: 1.2.0
+
   globby@10.0.1:
     dependencies:
       '@types/glob': 7.2.0
@@ -45414,11 +46010,17 @@ snapshots:
 
   hard-rejection@2.1.0: {}
 
+  has-bigints@1.1.0: {}
+
   has-flag@4.0.0: {}
 
   has-property-descriptors@1.0.2:
     dependencies:
       es-define-property: 1.0.1
+
+  has-proto@1.2.0:
+    dependencies:
+      dunder-proto: 1.0.1
 
   has-symbols@1.1.0: {}
 
@@ -45564,6 +46166,12 @@ snapshots:
     optionalDependencies:
       '@types/node': 22.20.0
 
+  internal-slot@1.1.0:
+    dependencies:
+      es-errors: 1.3.0
+      hasown: 2.0.4
+      side-channel: 1.1.1
+
   invariant@2.2.4:
     dependencies:
       loose-envify: 1.4.0
@@ -45579,7 +46187,30 @@ snapshots:
       call-bound: 1.0.4
       has-tostringtag: 1.0.2
 
+  is-array-buffer@3.0.5:
+    dependencies:
+      call-bind: 1.0.9
+      call-bound: 1.0.4
+      get-intrinsic: 1.3.0
+
   is-arrayish@0.2.1: {}
+
+  is-async-function@2.1.1:
+    dependencies:
+      async-function: 1.0.0
+      call-bound: 1.0.4
+      get-proto: 1.0.1
+      has-tostringtag: 1.0.2
+      safe-regex-test: 1.1.0
+
+  is-bigint@1.1.0:
+    dependencies:
+      has-bigints: 1.1.0
+
+  is-boolean-object@1.2.2:
+    dependencies:
+      call-bound: 1.0.4
+      has-tostringtag: 1.0.2
 
   is-buffer@2.0.5: {}
 
@@ -45589,11 +46220,30 @@ snapshots:
     dependencies:
       hasown: 2.0.4
 
+  is-data-view@1.0.2:
+    dependencies:
+      call-bound: 1.0.4
+      get-intrinsic: 1.3.0
+      is-typed-array: 1.1.15
+
+  is-date-object@1.1.0:
+    dependencies:
+      call-bound: 1.0.4
+      has-tostringtag: 1.0.2
+
   is-docker@2.2.1: {}
 
   is-docker@3.0.0: {}
 
+  is-document.all@1.0.0:
+    dependencies:
+      call-bound: 1.0.4
+
   is-extglob@2.1.1: {}
+
+  is-finalizationregistry@1.1.1:
+    dependencies:
+      call-bound: 1.0.4
 
   is-fullwidth-code-point@3.0.0: {}
 
@@ -45615,7 +46265,16 @@ snapshots:
     dependencies:
       is-docker: 3.0.0
 
+  is-map@2.0.3: {}
+
   is-module@1.0.0: {}
+
+  is-negative-zero@2.0.3: {}
+
+  is-number-object@1.1.1:
+    dependencies:
+      call-bound: 1.0.4
+      has-tostringtag: 1.0.2
 
   is-number@7.0.0: {}
 
@@ -45636,13 +46295,41 @@ snapshots:
 
   is-safe-filename@0.1.1: {}
 
+  is-set@2.0.3: {}
+
+  is-shared-array-buffer@1.0.4:
+    dependencies:
+      call-bound: 1.0.4
+
   is-stream@2.0.1: {}
+
+  is-string@1.1.1:
+    dependencies:
+      call-bound: 1.0.4
+      has-tostringtag: 1.0.2
+
+  is-symbol@1.1.1:
+    dependencies:
+      call-bound: 1.0.4
+      has-symbols: 1.1.0
+      safe-regex-test: 1.1.0
 
   is-typed-array@1.1.15:
     dependencies:
       which-typed-array: 1.1.22
 
   is-unsafe@1.0.1: {}
+
+  is-weakmap@2.0.2: {}
+
+  is-weakref@1.1.1:
+    dependencies:
+      call-bound: 1.0.4
+
+  is-weakset@2.0.4:
+    dependencies:
+      call-bound: 1.0.4
+      get-intrinsic: 1.3.0
 
   is-wsl@2.2.0:
     dependencies:
@@ -45655,6 +46342,8 @@ snapshots:
   isarray@0.0.1: {}
 
   isarray@1.0.0: {}
+
+  isarray@2.0.5: {}
 
   isexe@2.0.0: {}
 
@@ -45813,6 +46502,10 @@ snapshots:
   json-stable-stringify-without-jsonify@1.0.1: {}
 
   json-stringify-safe@5.0.1: {}
+
+  json5@1.0.2:
+    dependencies:
+      minimist: 1.2.8
 
   json5@2.2.3: {}
 
@@ -46373,6 +47066,13 @@ snapshots:
       emojilib: 2.4.0
       skin-tone: 2.0.0
 
+  node-exports-info@1.6.2:
+    dependencies:
+      array.prototype.flatmap: 1.3.3
+      es-errors: 1.3.0
+      object.entries: 1.1.9
+      semver: 6.3.1
+
   node-forge@1.4.0: {}
 
   node-int64@0.4.0: {}
@@ -46402,6 +47102,44 @@ snapshots:
   object-assign@4.1.1: {}
 
   object-inspect@1.13.4: {}
+
+  object-keys@1.1.1: {}
+
+  object.assign@4.1.7:
+    dependencies:
+      call-bind: 1.0.9
+      call-bound: 1.0.4
+      define-properties: 1.2.1
+      es-object-atoms: 1.1.2
+      has-symbols: 1.1.0
+      object-keys: 1.1.1
+
+  object.entries@1.1.9:
+    dependencies:
+      call-bind: 1.0.9
+      call-bound: 1.0.4
+      define-properties: 1.2.1
+      es-object-atoms: 1.1.2
+
+  object.fromentries@2.0.8:
+    dependencies:
+      call-bind: 1.0.9
+      define-properties: 1.2.1
+      es-abstract: 1.24.2
+      es-object-atoms: 1.1.2
+
+  object.groupby@1.0.3:
+    dependencies:
+      call-bind: 1.0.9
+      define-properties: 1.2.1
+      es-abstract: 1.24.2
+
+  object.values@1.2.1:
+    dependencies:
+      call-bind: 1.0.9
+      call-bound: 1.0.4
+      define-properties: 1.2.1
+      es-object-atoms: 1.1.2
 
   obug@2.1.3: {}
 
@@ -46467,6 +47205,12 @@ snapshots:
       prelude-ls: 1.2.1
       type-check: 0.4.0
       word-wrap: 1.2.5
+
+  own-keys@1.0.1:
+    dependencies:
+      get-intrinsic: 1.3.0
+      object-keys: 1.1.1
+      safe-push-apply: 1.0.0
 
   p-event@6.0.1:
     dependencies:
@@ -46906,7 +47650,27 @@ snapshots:
       indent-string: 5.0.0
       strip-indent: 4.1.1
 
+  reflect.getprototypeof@1.0.10:
+    dependencies:
+      call-bind: 1.0.9
+      define-properties: 1.2.1
+      es-abstract: 1.24.2
+      es-errors: 1.3.0
+      es-object-atoms: 1.1.2
+      get-intrinsic: 1.3.0
+      get-proto: 1.0.1
+      which-builtin-type: 1.2.1
+
   regenerator-runtime@0.13.11: {}
+
+  regexp.prototype.flags@1.5.4:
+    dependencies:
+      call-bind: 1.0.9
+      define-properties: 1.2.1
+      es-errors: 1.3.0
+      get-proto: 1.0.1
+      gopd: 1.2.0
+      set-function-name: 2.0.2
 
   require-directory@2.1.1: {}
 
@@ -46941,6 +47705,15 @@ snapshots:
     dependencies:
       es-errors: 1.3.0
       is-core-module: 2.16.2
+      path-parse: 1.0.7
+      supports-preserve-symlinks-flag: 1.0.0
+
+  resolve@2.0.0-next.7:
+    dependencies:
+      es-errors: 1.3.0
+      is-core-module: 2.16.2
+      node-exports-info: 1.6.2
+      object-keys: 1.1.1
       path-parse: 1.0.7
       supports-preserve-symlinks-flag: 1.0.0
 
@@ -47036,9 +47809,22 @@ snapshots:
     dependencies:
       tslib: 2.8.1
 
+  safe-array-concat@1.1.4:
+    dependencies:
+      call-bind: 1.0.9
+      call-bound: 1.0.4
+      get-intrinsic: 1.3.0
+      has-symbols: 1.1.0
+      isarray: 2.0.5
+
   safe-buffer@5.1.2: {}
 
   safe-buffer@5.2.1: {}
+
+  safe-push-apply@1.0.0:
+    dependencies:
+      es-errors: 1.3.0
+      isarray: 2.0.5
 
   safe-regex-test@1.1.0:
     dependencies:
@@ -47155,6 +47941,19 @@ snapshots:
       get-intrinsic: 1.3.0
       gopd: 1.2.0
       has-property-descriptors: 1.0.2
+
+  set-function-name@2.0.2:
+    dependencies:
+      define-data-property: 1.1.4
+      es-errors: 1.3.0
+      functions-have-names: 1.2.3
+      has-property-descriptors: 1.0.2
+
+  set-proto@1.0.0:
+    dependencies:
+      dunder-proto: 1.0.1
+      es-errors: 1.3.0
+      es-object-atoms: 1.1.2
 
   setprototypeof@1.2.0: {}
 
@@ -47293,6 +48092,11 @@ snapshots:
 
   std-env@4.1.0: {}
 
+  stop-iteration-iterator@1.1.0:
+    dependencies:
+      es-errors: 1.3.0
+      internal-slot: 1.1.0
+
   stream@0.0.3:
     dependencies:
       component-emitter: 2.0.0
@@ -47304,6 +48108,30 @@ snapshots:
       emoji-regex: 8.0.0
       is-fullwidth-code-point: 3.0.0
       strip-ansi: 6.0.1
+
+  string.prototype.trim@1.2.11:
+    dependencies:
+      call-bind: 1.0.9
+      call-bound: 1.0.4
+      define-data-property: 1.1.4
+      define-properties: 1.2.1
+      es-abstract: 1.24.2
+      es-object-atoms: 1.1.2
+      has-property-descriptors: 1.0.2
+      safe-regex-test: 1.1.0
+
+  string.prototype.trimend@1.0.10:
+    dependencies:
+      call-bind: 1.0.9
+      call-bound: 1.0.4
+      define-properties: 1.2.1
+      es-object-atoms: 1.1.2
+
+  string.prototype.trimstart@1.0.8:
+    dependencies:
+      call-bind: 1.0.9
+      define-properties: 1.2.1
+      es-object-atoms: 1.1.2
 
   string_decoder@0.10.31: {}
 
@@ -47318,6 +48146,8 @@ snapshots:
   strip-ansi@6.0.1:
     dependencies:
       ansi-regex: 5.0.1
+
+  strip-bom@3.0.0: {}
 
   strip-bom@4.0.0: {}
 
@@ -47466,6 +48296,13 @@ snapshots:
       '@ts-morph/common': 0.28.1
       code-block-writer: 13.0.3
 
+  tsconfig-paths@3.15.0:
+    dependencies:
+      '@types/json5': 0.0.29
+      json5: 1.0.2
+      minimist: 1.2.8
+      strip-bom: 3.0.0
+
   tslib@2.8.1: {}
 
   tsx@4.22.4:
@@ -47512,6 +48349,39 @@ snapshots:
       tersify: 3.12.1
       unpartial: 1.0.5
 
+  typed-array-buffer@1.0.3:
+    dependencies:
+      call-bound: 1.0.4
+      es-errors: 1.3.0
+      is-typed-array: 1.1.15
+
+  typed-array-byte-length@1.0.3:
+    dependencies:
+      call-bind: 1.0.9
+      for-each: 0.3.5
+      gopd: 1.2.0
+      has-proto: 1.2.0
+      is-typed-array: 1.1.15
+
+  typed-array-byte-offset@1.0.4:
+    dependencies:
+      available-typed-arrays: 1.0.7
+      call-bind: 1.0.9
+      for-each: 0.3.5
+      gopd: 1.2.0
+      has-proto: 1.2.0
+      is-typed-array: 1.1.15
+      reflect.getprototypeof: 1.0.10
+
+  typed-array-length@1.0.8:
+    dependencies:
+      call-bind: 1.0.9
+      for-each: 0.3.5
+      gopd: 1.2.0
+      is-typed-array: 1.1.15
+      possible-typed-array-names: 1.1.0
+      reflect.getprototypeof: 1.0.10
+
   typescript-eslint@8.60.1(eslint@9.39.4)(typescript@6.0.3):
     dependencies:
       '@typescript-eslint/eslint-plugin': 8.60.1(@typescript-eslint/parser@8.60.1(eslint@9.39.4)(typescript@6.0.3))(eslint@9.39.4)(typescript@6.0.3)
@@ -47534,6 +48404,13 @@ snapshots:
   uc.micro@2.1.0: {}
 
   uglify-js@3.19.3: {}
+
+  unbox-primitive@1.1.0:
+    dependencies:
+      call-bound: 1.0.4
+      has-bigints: 1.1.0
+      has-symbols: 1.1.0
+      which-boxed-primitive: 1.1.1
 
   underscore@1.13.8: {}
 
@@ -47658,6 +48535,37 @@ snapshots:
       makeerror: 1.0.12
 
   whatwg-fetch@3.6.20: {}
+
+  which-boxed-primitive@1.1.1:
+    dependencies:
+      is-bigint: 1.1.0
+      is-boolean-object: 1.2.2
+      is-number-object: 1.1.1
+      is-string: 1.1.1
+      is-symbol: 1.1.1
+
+  which-builtin-type@1.2.1:
+    dependencies:
+      call-bound: 1.0.4
+      function.prototype.name: 1.2.0
+      has-tostringtag: 1.0.2
+      is-async-function: 2.1.1
+      is-date-object: 1.1.0
+      is-finalizationregistry: 1.1.1
+      is-generator-function: 1.1.2
+      is-regex: 1.2.1
+      is-weakref: 1.1.1
+      isarray: 2.0.5
+      which-boxed-primitive: 1.1.1
+      which-collection: 1.0.2
+      which-typed-array: 1.1.22
+
+  which-collection@1.0.2:
+    dependencies:
+      is-map: 2.0.3
+      is-set: 2.0.3
+      is-weakmap: 2.0.2
+      is-weakset: 2.0.4
 
   which-typed-array@1.1.22:
     dependencies:
