@@ -48,11 +48,6 @@ param (
 
 # Main execution
 try {
-  # Validate SDK repository path
-  if (-not (Test-Path $SdkRepoPath)) {
-    throw "SDK repository path does not exist: $SdkRepoPath"
-  }
-
   # Validate package path
   if (-not (Test-Path $PackagePath)) {
     throw "Package path does not exist: $PackagePath"
