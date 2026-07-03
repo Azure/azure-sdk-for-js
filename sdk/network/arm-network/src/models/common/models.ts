@@ -3255,10 +3255,7 @@ export function managedServiceIdentityDeserializer(item: any): ManagedServiceIde
 
 /** The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine. */
 export type ResourceIdentityType =
-  | "SystemAssigned"
-  | "UserAssigned"
-  | "SystemAssigned, UserAssigned"
-  | "None";
+  "SystemAssigned" | "UserAssigned" | "SystemAssigned, UserAssigned" | "None";
 
 export function components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalpropertiesRecordSerializer(
   item: Record<
@@ -4152,10 +4149,7 @@ export function publicIPAddressDnsSettingsDeserializer(item: any): PublicIPAddre
 
 /** The domain name label scope. If a domain name label and a domain name label scope are specified, an A DNS record is created for the public IP in the Microsoft Azure DNS system with a hashed value includes in FQDN. */
 export type PublicIpAddressDnsSettingsDomainNameLabelScope =
-  | "TenantReuse"
-  | "SubscriptionReuse"
-  | "ResourceGroupReuse"
-  | "NoReuse";
+  "TenantReuse" | "SubscriptionReuse" | "ResourceGroupReuse" | "NoReuse";
 
 /** Contains the DDoS protection settings of the public IP. */
 export interface DdosSettings {

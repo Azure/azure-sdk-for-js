@@ -1671,12 +1671,12 @@ export type {
   DefaultSecurityRulesGetOptionalParams,
 } from "./api/defaultSecurityRules/index.js";
 export type {
-  DscpConfigurationListAllOptionalParams,
-  DscpConfigurationListOptionalParams,
-  DscpConfigurationDeleteOptionalParams,
-  DscpConfigurationCreateOrUpdateOptionalParams,
-  DscpConfigurationGetOptionalParams,
-} from "./api/dscpConfiguration/index.js";
+  DscpConfigurationOperationsListAllOptionalParams,
+  DscpConfigurationOperationsListOptionalParams,
+  DscpConfigurationOperationsDeleteOptionalParams,
+  DscpConfigurationOperationsCreateOrUpdateOptionalParams,
+  DscpConfigurationOperationsGetOptionalParams,
+} from "./api/dscpConfigurationOperations/index.js";
 export type {
   ExpressRouteCircuitAuthorizationsListOptionalParams,
   ExpressRouteCircuitAuthorizationsDeleteOptionalParams,
@@ -1832,9 +1832,9 @@ export type {
   InboundNatRulesGetOptionalParams,
 } from "./api/inboundNatRules/index.js";
 export type {
-  InboundSecurityRuleCreateOrUpdateOptionalParams,
-  InboundSecurityRuleGetOptionalParams,
-} from "./api/inboundSecurityRule/index.js";
+  InboundSecurityRuleOperationsCreateOrUpdateOptionalParams,
+  InboundSecurityRuleOperationsGetOptionalParams,
+} from "./api/inboundSecurityRuleOperations/index.js";
 export type {
   InterconnectGroupsGetNodeAvailabilityOptionalParams,
   InterconnectGroupsListAllOptionalParams,
@@ -1967,7 +1967,7 @@ export type {
   NetworkInterfaceTapConfigurationsGetOptionalParams,
 } from "./api/networkInterfaceTapConfigurations/index.js";
 export type { NetworkManagerCommitsPostOptionalParams } from "./api/networkManagerCommits/index.js";
-export type { NetworkManagerDeploymentStatusListOptionalParams } from "./api/networkManagerDeploymentStatus/index.js";
+export type { NetworkManagerDeploymentStatusOperationsListOptionalParams } from "./api/networkManagerDeploymentStatusOperations/index.js";
 export type {
   NetworkManagerRoutingConfigurationsListOptionalParams,
   NetworkManagerRoutingConfigurationsDeleteOptionalParams,
@@ -2210,11 +2210,11 @@ export type {
   RouteTablesGetOptionalParams,
 } from "./api/routeTables/index.js";
 export type {
-  RoutingIntentListOptionalParams,
-  RoutingIntentDeleteOptionalParams,
-  RoutingIntentCreateOrUpdateOptionalParams,
-  RoutingIntentGetOptionalParams,
-} from "./api/routingIntent/index.js";
+  RoutingIntentOperationsListOptionalParams,
+  RoutingIntentOperationsDeleteOptionalParams,
+  RoutingIntentOperationsCreateOrUpdateOptionalParams,
+  RoutingIntentOperationsGetOptionalParams,
+} from "./api/routingIntentOperations/index.js";
 export type {
   RoutingRuleCollectionsListOptionalParams,
   RoutingRuleCollectionsDeleteOptionalParams,
@@ -2298,7 +2298,7 @@ export type {
   ServiceGatewaysCreateOrUpdateOptionalParams,
   ServiceGatewaysGetOptionalParams,
 } from "./api/serviceGateways/index.js";
-export type { ServiceTagInformationListOptionalParams } from "./api/serviceTagInformation/index.js";
+export type { ServiceTagInformationOperationsListOptionalParams } from "./api/serviceTagInformationOperations/index.js";
 export type { ServiceTagsListOptionalParams } from "./api/serviceTags/index.js";
 export type {
   StaticCidrsListOptionalParams,
@@ -2585,7 +2585,7 @@ export type {
   DdosCustomPoliciesOperations,
   DdosProtectionPlansOperations,
   DefaultSecurityRulesOperations,
-  DscpConfigurationOperations,
+  DscpConfigurationOperationsOperations,
   ExpressRouteCircuitAuthorizationsOperations,
   ExpressRouteCircuitConnectionsOperations,
   ExpressRouteCircuitPeeringsOperations,
@@ -2612,7 +2612,7 @@ export type {
   HubRouteTablesOperations,
   HubVirtualNetworkConnectionsOperations,
   InboundNatRulesOperations,
-  InboundSecurityRuleOperations,
+  InboundSecurityRuleOperationsOperations,
   InterconnectGroupsOperations,
   IpAllocationsOperations,
   IpamPoolsOperations,
@@ -2634,7 +2634,7 @@ export type {
   NetworkInterfacesOperations,
   NetworkInterfaceTapConfigurationsOperations,
   NetworkManagerCommitsOperations,
-  NetworkManagerDeploymentStatusOperations,
+  NetworkManagerDeploymentStatusOperationsOperations,
   NetworkManagerRoutingConfigurationsOperations,
   NetworkManagersOperations,
   NetworkProfilesOperations,
@@ -2669,7 +2669,7 @@ export type {
   RouteMapsOperations,
   RoutesOperations,
   RouteTablesOperations,
-  RoutingIntentOperations,
+  RoutingIntentOperationsOperations,
   RoutingRuleCollectionsOperations,
   RoutingRulesOperations,
   ScopeConnectionsOperations,
@@ -2683,7 +2683,7 @@ export type {
   ServiceEndpointPoliciesOperations,
   ServiceEndpointPolicyDefinitionsOperations,
   ServiceGatewaysOperations,
-  ServiceTagInformationOperations,
+  ServiceTagInformationOperationsOperations,
   ServiceTagsOperations,
   StaticCidrsOperations,
   StaticMembersOperations,

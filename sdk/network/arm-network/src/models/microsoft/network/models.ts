@@ -1008,9 +1008,7 @@ export function activeBaseSecurityAdminRuleDeserializer(item: any): ActiveBaseSe
 
 /** Alias for ActiveBaseSecurityAdminRuleUnion */
 export type ActiveBaseSecurityAdminRuleUnion =
-  | ActiveSecurityAdminRule
-  | ActiveDefaultSecurityAdminRule
-  | ActiveBaseSecurityAdminRule;
+  ActiveSecurityAdminRule | ActiveDefaultSecurityAdminRule | ActiveBaseSecurityAdminRule;
 
 export function activeBaseSecurityAdminRuleUnionDeserializer(
   item: any,
@@ -1541,9 +1539,7 @@ export function effectiveBaseSecurityAdminRuleDeserializer(
 
 /** Alias for EffectiveBaseSecurityAdminRuleUnion */
 export type EffectiveBaseSecurityAdminRuleUnion =
-  | EffectiveSecurityAdminRule
-  | EffectiveDefaultSecurityAdminRule
-  | EffectiveBaseSecurityAdminRule;
+  EffectiveSecurityAdminRule | EffectiveDefaultSecurityAdminRule | EffectiveBaseSecurityAdminRule;
 
 export function effectiveBaseSecurityAdminRuleUnionDeserializer(
   item: any,

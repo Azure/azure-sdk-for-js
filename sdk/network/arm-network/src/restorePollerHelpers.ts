@@ -7,7 +7,10 @@ import {
   _deleteBastionShareableLinkByTokenDeserialize,
   _deleteBastionShareableLinkDeserialize,
 } from "./api/operations.js";
-import { _$deleteDeserialize, _createOrUpdateDeserialize } from "./api/routingIntent/operations.js";
+import {
+  _$deleteDeserialize,
+  _createOrUpdateDeserialize,
+} from "./api/routingIntentOperations/operations.js";
 import {
   _$deleteDeserialize as _$deleteDeserializeVirtualHubIpConfiguration,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeVirtualHubIpConfiguration,
@@ -82,7 +85,7 @@ import {
   _$deleteDeserialize as _$deleteDeserializePacketCaptures,
   _createDeserialize,
 } from "./api/packetCaptures/operations.js";
-import { _createOrUpdateDeserialize as _createOrUpdateDeserializeInboundSecurityRule } from "./api/inboundSecurityRule/operations.js";
+import { _createOrUpdateDeserialize as _createOrUpdateDeserializeInboundSecurityRuleOperations } from "./api/inboundSecurityRuleOperations/operations.js";
 import { _$deleteDeserialize as _$deleteDeserializeNetworkSecurityPerimeterLinkReferences } from "./api/networkSecurityPerimeterLinkReferences/operations.js";
 import { _$deleteDeserialize as _$deleteDeserializeNetworkSecurityPerimeterLinks } from "./api/networkSecurityPerimeterLinks/operations.js";
 import {
@@ -102,9 +105,9 @@ import {
   _$deleteDeserialize as _$deleteDeserializeExpressRouteCrossConnectionPeerings,
 } from "./api/expressRouteCrossConnectionPeerings/operations.js";
 import {
-  _$deleteDeserialize as _$deleteDeserializeDscpConfiguration,
-  _createOrUpdateDeserialize as _createOrUpdateDeserializeDscpConfiguration,
-} from "./api/dscpConfiguration/operations.js";
+  _$deleteDeserialize as _$deleteDeserializeDscpConfigurationOperations,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeDscpConfigurationOperations,
+} from "./api/dscpConfigurationOperations/operations.js";
 import {
   _$deleteDeserialize as _$deleteDeserializeCustomIPPrefixes,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeCustomIPPrefixes,
@@ -510,8 +513,7 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
     );
   }
   const resourceLocationConfig = metadata?.["resourceLocationConfig"] as
-    | ResourceLocationConfig
-    | undefined;
+    ResourceLocationConfig | undefined;
   const { deserializer, expectedStatuses = [] } =
     getDeserializationHelper(initialRequestUrl, requestMethod) ?? {};
   const deserializeHelper = options?.processResponseBody ?? deserializer;
@@ -720,7 +722,7 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     { deserializer: _createDeserialize, expectedStatuses: ["201", "200", "202"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}/inboundSecurityRules/{ruleCollectionName}":
     {
-      deserializer: _createOrUpdateDeserializeInboundSecurityRule,
+      deserializer: _createOrUpdateDeserializeInboundSecurityRuleOperations,
       expectedStatuses: ["200", "201", "202"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters/{networkSecurityPerimeterName}/linkReferences/{linkReferenceName}":
@@ -772,10 +774,13 @@ const deserializeMap: Record<string, DeserializationHelper> = {
       expectedStatuses: ["200", "202", "204"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dscpConfigurations/{dscpConfigurationName}":
-    { deserializer: _$deleteDeserializeDscpConfiguration, expectedStatuses: ["200", "202", "204"] },
+    {
+      deserializer: _$deleteDeserializeDscpConfigurationOperations,
+      expectedStatuses: ["200", "202", "204"],
+    },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dscpConfigurations/{dscpConfigurationName}":
     {
-      deserializer: _createOrUpdateDeserializeDscpConfiguration,
+      deserializer: _createOrUpdateDeserializeDscpConfigurationOperations,
       expectedStatuses: ["200", "201", "202"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/customIpPrefixes/{customIpPrefixName}":

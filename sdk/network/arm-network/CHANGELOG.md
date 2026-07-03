@@ -1,6 +1,6 @@
 # Release History
 
-## 37.0.0 (2026-06-29)
+## 37.0.0 (2026-07-03)
 
 ### Features Added
   - Added operation group CommitsOperations
@@ -42,8 +42,8 @@
   - Added operation DdosCustomPoliciesOperations.listAll
   - Added operation DdosProtectionPlansOperations.createOrUpdate
   - Added operation DdosProtectionPlansOperations.delete
-  - Added operation DscpConfigurationOperations.createOrUpdate
-  - Added operation DscpConfigurationOperations.delete
+  - Added operation DscpConfigurationOperationsOperations.createOrUpdate
+  - Added operation DscpConfigurationOperationsOperations.delete
   - Added operation ExpressRouteCircuitAuthorizationsOperations.createOrUpdate
   - Added operation ExpressRouteCircuitAuthorizationsOperations.delete
   - Added operation ExpressRouteCircuitConnectionsOperations.createOrUpdate
@@ -113,7 +113,7 @@
   - Added operation HubVirtualNetworkConnectionsOperations.delete
   - Added operation InboundNatRulesOperations.createOrUpdate
   - Added operation InboundNatRulesOperations.delete
-  - Added operation InboundSecurityRuleOperations.createOrUpdate
+  - Added operation InboundSecurityRuleOperationsOperations.createOrUpdate
   - Added operation IpAllocationsOperations.createOrUpdate
   - Added operation IpAllocationsOperations.delete
   - Added operation IpamPoolsOperations.create
@@ -209,8 +209,8 @@
   - Added operation RoutesOperations.delete
   - Added operation RouteTablesOperations.createOrUpdate
   - Added operation RouteTablesOperations.delete
-  - Added operation RoutingIntentOperations.createOrUpdate
-  - Added operation RoutingIntentOperations.delete
+  - Added operation RoutingIntentOperationsOperations.createOrUpdate
+  - Added operation RoutingIntentOperationsOperations.delete
   - Added operation RoutingRuleCollectionsOperations.delete
   - Added operation RoutingRulesOperations.delete
   - Added operation SecurityAdminConfigurationsOperations.delete
@@ -409,6 +409,11 @@
   - Added Interface DdosProtectionPlanPropertiesFormat
   - Added Interface DefaultAdminPropertiesFormat
   - Added Interface DefaultRuleSetPropertyFormat
+  - Added Interface DscpConfigurationOperationsCreateOrUpdateOptionalParams
+  - Added Interface DscpConfigurationOperationsDeleteOptionalParams
+  - Added Interface DscpConfigurationOperationsGetOptionalParams
+  - Added Interface DscpConfigurationOperationsListAllOptionalParams
+  - Added Interface DscpConfigurationOperationsListOptionalParams
   - Added Interface DscpConfigurationPropertiesFormat
   - Added Interface ExpressRouteCircuitConnectionPropertiesFormat
   - Added Interface ExpressRouteCircuitPeeringPropertiesFormat
@@ -452,6 +457,8 @@
   - Added Interface HubVirtualNetworkConnectionProperties
   - Added Interface InboundNatPoolPropertiesFormat
   - Added Interface InboundNatRulePropertiesFormat
+  - Added Interface InboundSecurityRuleOperationsCreateOrUpdateOptionalParams
+  - Added Interface InboundSecurityRuleOperationsGetOptionalParams
   - Added Interface InboundSecurityRuleProperties
   - Added Interface InterconnectGroup
   - Added Interface InterconnectGroupNodeAvailability
@@ -479,6 +486,7 @@
   - Added Interface NetworkInterfacePropertiesFormat
   - Added Interface NetworkInterfaceTapConfigurationPropertiesFormat
   - Added Interface NetworkManagerConnectionProperties
+  - Added Interface NetworkManagerDeploymentStatusOperationsListOptionalParams
   - Added Interface NetworkManagerProperties
   - Added Interface NetworkManagerRoutingConfigurationPropertiesFormat
   - Added Interface NetworkProfilePropertiesFormat
@@ -524,6 +532,10 @@
   - Added Interface RouteNextHopEcmp
   - Added Interface RoutePropertiesFormat
   - Added Interface RouteTablePropertiesFormat
+  - Added Interface RoutingIntentOperationsCreateOrUpdateOptionalParams
+  - Added Interface RoutingIntentOperationsDeleteOptionalParams
+  - Added Interface RoutingIntentOperationsGetOptionalParams
+  - Added Interface RoutingIntentOperationsListOptionalParams
   - Added Interface RoutingIntentProperties
   - Added Interface RoutingRuleCollectionPropertiesFormat
   - Added Interface RoutingRulePropertiesFormat
@@ -543,6 +555,7 @@
   - Added Interface ServiceGatewayServicePropertiesFormat
   - Added Interface ServiceGatewaysListAddressLocationsOptionalParams
   - Added Interface ServiceGatewaysListServicesOptionalParams
+  - Added Interface ServiceTagInformationOperationsListOptionalParams
   - Added Interface SimplePollerLike
   - Added Interface StaticMemberProperties
   - Added Interface Subgroup
@@ -670,28 +683,35 @@
   - Operation VirtualNetworkGateways.beginInvokeExecuteMigrationAndWait has a new signature
   - Operation VirtualNetworkGateways.beginInvokePrepareMigrationAndWait has a new signature
   - Class NetworkManagementClient has a new signature
-  - Class NetworkManagementClient no longer has parameter dscpConfigurationOperations
-  - Class NetworkManagementClient no longer has parameter inboundSecurityRuleOperations
-  - Class NetworkManagementClient no longer has parameter networkManagerDeploymentStatusOperations
-  - Class NetworkManagementClient no longer has parameter routingIntentOperations
-  - Class NetworkManagementClient no longer has parameter serviceTagInformationOperations
-  - Class NetworkManagementClient no longer has parameter subscriptionId
   - Removed Interface ApplicationGatewayAvailableSslPredefinedPolicies
   - Removed Interface ApplicationGatewayWafDynamicManifestResultList
   - Removed Interface ApplicationGatewayWafDynamicManifestsGetOptionalParams
   - Removed Interface ConnectionSharedKeyResultList
   - Removed Interface ConnectionStateSnapshot
+  - Removed Interface DscpConfigurationCreateOrUpdateOptionalParams
+  - Removed Interface DscpConfigurationDeleteOptionalParams
+  - Removed Interface DscpConfigurationGetOptionalParams
+  - Removed Interface DscpConfigurationListAllOptionalParams
+  - Removed Interface DscpConfigurationListOptionalParams
   - Removed Interface ExpressRouteCrossConnectionPeeringList
+  - Removed Interface InboundSecurityRuleCreateOrUpdateOptionalParams
+  - Removed Interface InboundSecurityRuleGetOptionalParams
   - Removed Interface IpamPoolList
   - Removed Interface ListVirtualHubBgpConnectionResults
   - Removed Interface ListVirtualHubIpConfigurationResults
+  - Removed Interface NetworkManagerDeploymentStatusListOptionalParams
   - Removed Interface NetworkVirtualApplianceConnectionList
   - Removed Interface PatchRouteFilter
   - Removed Interface PatchRouteFilterRule
   - Removed Interface PoolAssociationList
+  - Removed Interface RoutingIntentCreateOrUpdateOptionalParams
+  - Removed Interface RoutingIntentDeleteOptionalParams
+  - Removed Interface RoutingIntentGetOptionalParams
+  - Removed Interface RoutingIntentListOptionalParams
   - Removed Interface SecurityPerimeterSystemData
   - Removed Interface ServiceGatewaysGetAddressLocationsOptionalParams
   - Removed Interface ServiceGatewaysGetServicesOptionalParams
+  - Removed Interface ServiceTagInformationListOptionalParams
   - Removed Interface StaticCidrList
   - Removed Interface TrackedResource
   - Removed Interface VpnLinkConnectionsGetAllSharedKeysOptionalParams

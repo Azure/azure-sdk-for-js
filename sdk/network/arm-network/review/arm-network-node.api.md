@@ -3543,42 +3543,42 @@ export interface DscpConfiguration extends Resource {
 }
 
 // @public
-export interface DscpConfigurationCreateOrUpdateOptionalParams extends OperationOptions {
+export interface DscpConfigurationOperationsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface DscpConfigurationDeleteOptionalParams extends OperationOptions {
+export interface DscpConfigurationOperationsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface DscpConfigurationGetOptionalParams extends OperationOptions {
+export interface DscpConfigurationOperationsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface DscpConfigurationListAllOptionalParams extends OperationOptions {
+export interface DscpConfigurationOperationsListAllOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface DscpConfigurationListOptionalParams extends OperationOptions {
+export interface DscpConfigurationOperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface DscpConfigurationOperations {
+export interface DscpConfigurationOperationsOperations {
     // @deprecated (undocumented)
-    beginCreateOrUpdate: (resourceGroupName: string, dscpConfigurationName: string, parameters: DscpConfiguration, options?: DscpConfigurationCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<DscpConfiguration>, DscpConfiguration>>;
+    beginCreateOrUpdate: (resourceGroupName: string, dscpConfigurationName: string, parameters: DscpConfiguration, options?: DscpConfigurationOperationsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<DscpConfiguration>, DscpConfiguration>>;
     // @deprecated (undocumented)
-    beginCreateOrUpdateAndWait: (resourceGroupName: string, dscpConfigurationName: string, parameters: DscpConfiguration, options?: DscpConfigurationCreateOrUpdateOptionalParams) => Promise<DscpConfiguration>;
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, dscpConfigurationName: string, parameters: DscpConfiguration, options?: DscpConfigurationOperationsCreateOrUpdateOptionalParams) => Promise<DscpConfiguration>;
     // @deprecated (undocumented)
-    beginDelete: (resourceGroupName: string, dscpConfigurationName: string, options?: DscpConfigurationDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDelete: (resourceGroupName: string, dscpConfigurationName: string, options?: DscpConfigurationOperationsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
     // @deprecated (undocumented)
-    beginDeleteAndWait: (resourceGroupName: string, dscpConfigurationName: string, options?: DscpConfigurationDeleteOptionalParams) => Promise<void>;
-    createOrUpdate: (resourceGroupName: string, dscpConfigurationName: string, parameters: DscpConfiguration, options?: DscpConfigurationCreateOrUpdateOptionalParams) => PollerLike<OperationState<DscpConfiguration>, DscpConfiguration>;
-    delete: (resourceGroupName: string, dscpConfigurationName: string, options?: DscpConfigurationDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, dscpConfigurationName: string, options?: DscpConfigurationGetOptionalParams) => Promise<DscpConfiguration>;
-    list: (resourceGroupName: string, options?: DscpConfigurationListOptionalParams) => PagedAsyncIterableIterator<DscpConfiguration>;
-    listAll: (options?: DscpConfigurationListAllOptionalParams) => PagedAsyncIterableIterator<DscpConfiguration>;
+    beginDeleteAndWait: (resourceGroupName: string, dscpConfigurationName: string, options?: DscpConfigurationOperationsDeleteOptionalParams) => Promise<void>;
+    createOrUpdate: (resourceGroupName: string, dscpConfigurationName: string, parameters: DscpConfiguration, options?: DscpConfigurationOperationsCreateOrUpdateOptionalParams) => PollerLike<OperationState<DscpConfiguration>, DscpConfiguration>;
+    delete: (resourceGroupName: string, dscpConfigurationName: string, options?: DscpConfigurationOperationsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, dscpConfigurationName: string, options?: DscpConfigurationOperationsGetOptionalParams) => Promise<DscpConfiguration>;
+    list: (resourceGroupName: string, options?: DscpConfigurationOperationsListOptionalParams) => PagedAsyncIterableIterator<DscpConfiguration>;
+    listAll: (options?: DscpConfigurationOperationsListAllOptionalParams) => PagedAsyncIterableIterator<DscpConfiguration>;
 }
 
 // @public
@@ -6281,22 +6281,22 @@ export interface InboundSecurityRule extends SubResourceModel {
 }
 
 // @public
-export interface InboundSecurityRuleCreateOrUpdateOptionalParams extends OperationOptions {
+export interface InboundSecurityRuleOperationsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface InboundSecurityRuleGetOptionalParams extends OperationOptions {
+export interface InboundSecurityRuleOperationsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface InboundSecurityRuleOperations {
+export interface InboundSecurityRuleOperationsOperations {
     // @deprecated (undocumented)
-    beginCreateOrUpdate: (resourceGroupName: string, networkVirtualApplianceName: string, ruleCollectionName: string, parameters: InboundSecurityRule, options?: InboundSecurityRuleCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<InboundSecurityRule>, InboundSecurityRule>>;
+    beginCreateOrUpdate: (resourceGroupName: string, networkVirtualApplianceName: string, ruleCollectionName: string, parameters: InboundSecurityRule, options?: InboundSecurityRuleOperationsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<InboundSecurityRule>, InboundSecurityRule>>;
     // @deprecated (undocumented)
-    beginCreateOrUpdateAndWait: (resourceGroupName: string, networkVirtualApplianceName: string, ruleCollectionName: string, parameters: InboundSecurityRule, options?: InboundSecurityRuleCreateOrUpdateOptionalParams) => Promise<InboundSecurityRule>;
-    createOrUpdate: (resourceGroupName: string, networkVirtualApplianceName: string, ruleCollectionName: string, parameters: InboundSecurityRule, options?: InboundSecurityRuleCreateOrUpdateOptionalParams) => PollerLike<OperationState<InboundSecurityRule>, InboundSecurityRule>;
-    get: (resourceGroupName: string, networkVirtualApplianceName: string, ruleCollectionName: string, options?: InboundSecurityRuleGetOptionalParams) => Promise<InboundSecurityRule>;
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, networkVirtualApplianceName: string, ruleCollectionName: string, parameters: InboundSecurityRule, options?: InboundSecurityRuleOperationsCreateOrUpdateOptionalParams) => Promise<InboundSecurityRule>;
+    createOrUpdate: (resourceGroupName: string, networkVirtualApplianceName: string, ruleCollectionName: string, parameters: InboundSecurityRule, options?: InboundSecurityRuleOperationsCreateOrUpdateOptionalParams) => PollerLike<OperationState<InboundSecurityRule>, InboundSecurityRule>;
+    get: (resourceGroupName: string, networkVirtualApplianceName: string, ruleCollectionName: string, options?: InboundSecurityRuleOperationsGetOptionalParams) => Promise<InboundSecurityRule>;
 }
 
 // @public
@@ -9966,7 +9966,7 @@ export class NetworkManagementClient {
     deleteBastionShareableLink(resourceGroupName: string, bastionHostName: string, bslRequest: BastionShareableLinkListRequest, options?: DeleteBastionShareableLinkOptionalParams): PollerLike<OperationState<void>, void>;
     deleteBastionShareableLinkByToken(resourceGroupName: string, bastionHostName: string, bslTokenRequest: BastionShareableLinkTokenListRequest, options?: DeleteBastionShareableLinkByTokenOptionalParams): PollerLike<OperationState<void>, void>;
     disconnectActiveSessions(resourceGroupName: string, bastionHostName: string, sessionIds: SessionIds, options?: DisconnectActiveSessionsOptionalParams): PagedAsyncIterableIterator<BastionSessionState>;
-    readonly dscpConfiguration: DscpConfigurationOperations;
+    readonly dscpConfigurationOperations: DscpConfigurationOperationsOperations;
     readonly expressRouteCircuitAuthorizations: ExpressRouteCircuitAuthorizationsOperations;
     readonly expressRouteCircuitConnections: ExpressRouteCircuitConnectionsOperations;
     readonly expressRouteCircuitPeerings: ExpressRouteCircuitPeeringsOperations;
@@ -9997,7 +9997,7 @@ export class NetworkManagementClient {
     readonly hubRouteTables: HubRouteTablesOperations;
     readonly hubVirtualNetworkConnections: HubVirtualNetworkConnectionsOperations;
     readonly inboundNatRules: InboundNatRulesOperations;
-    readonly inboundSecurityRule: InboundSecurityRuleOperations;
+    readonly inboundSecurityRuleOperations: InboundSecurityRuleOperationsOperations;
     readonly interconnectGroups: InterconnectGroupsOperations;
     readonly ipAllocations: IpAllocationsOperations;
     readonly ipamPools: IpamPoolsOperations;
@@ -10023,7 +10023,7 @@ export class NetworkManagementClient {
     readonly networkInterfaces: NetworkInterfacesOperations;
     readonly networkInterfaceTapConfigurations: NetworkInterfaceTapConfigurationsOperations;
     readonly networkManagerCommits: NetworkManagerCommitsOperations;
-    readonly networkManagerDeploymentStatus: NetworkManagerDeploymentStatusOperations;
+    readonly networkManagerDeploymentStatusOperations: NetworkManagerDeploymentStatusOperationsOperations;
     readonly networkManagerRoutingConfigurations: NetworkManagerRoutingConfigurationsOperations;
     readonly networkManagers: NetworkManagersOperations;
     readonly networkProfiles: NetworkProfilesOperations;
@@ -10060,7 +10060,7 @@ export class NetworkManagementClient {
     readonly routeMaps: RouteMapsOperations;
     readonly routes: RoutesOperations;
     readonly routeTables: RouteTablesOperations;
-    readonly routingIntent: RoutingIntentOperations;
+    readonly routingIntentOperations: RoutingIntentOperationsOperations;
     readonly routingRuleCollections: RoutingRuleCollectionsOperations;
     readonly routingRules: RoutingRulesOperations;
     readonly scopeConnections: ScopeConnectionsOperations;
@@ -10074,7 +10074,7 @@ export class NetworkManagementClient {
     readonly serviceEndpointPolicies: ServiceEndpointPoliciesOperations;
     readonly serviceEndpointPolicyDefinitions: ServiceEndpointPolicyDefinitionsOperations;
     readonly serviceGateways: ServiceGatewaysOperations;
-    readonly serviceTagInformation: ServiceTagInformationOperations;
+    readonly serviceTagInformationOperations: ServiceTagInformationOperationsOperations;
     readonly serviceTags: ServiceTagsOperations;
     readonly staticCidrs: StaticCidrsOperations;
     readonly staticMembers: StaticMembersOperations;
@@ -10179,19 +10179,19 @@ export interface NetworkManagerDeploymentStatus {
 }
 
 // @public
-export interface NetworkManagerDeploymentStatusListOptionalParams extends OperationOptions {
-    top?: number;
-}
-
-// @public
 export interface NetworkManagerDeploymentStatusListResult {
     skipToken?: string;
     value?: NetworkManagerDeploymentStatus[];
 }
 
 // @public
-export interface NetworkManagerDeploymentStatusOperations {
-    list: (resourceGroupName: string, networkManagerName: string, parameters: NetworkManagerDeploymentStatusParameter, options?: NetworkManagerDeploymentStatusListOptionalParams) => Promise<NetworkManagerDeploymentStatusListResult>;
+export interface NetworkManagerDeploymentStatusOperationsListOptionalParams extends OperationOptions {
+    top?: number;
+}
+
+// @public
+export interface NetworkManagerDeploymentStatusOperationsOperations {
+    list: (resourceGroupName: string, networkManagerName: string, parameters: NetworkManagerDeploymentStatusParameter, options?: NetworkManagerDeploymentStatusOperationsListOptionalParams) => Promise<NetworkManagerDeploymentStatusListResult>;
 }
 
 // @public
@@ -13296,37 +13296,37 @@ export interface RoutingIntent extends SubResourceModel {
 }
 
 // @public
-export interface RoutingIntentCreateOrUpdateOptionalParams extends OperationOptions {
+export interface RoutingIntentOperationsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface RoutingIntentDeleteOptionalParams extends OperationOptions {
+export interface RoutingIntentOperationsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface RoutingIntentGetOptionalParams extends OperationOptions {
+export interface RoutingIntentOperationsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface RoutingIntentListOptionalParams extends OperationOptions {
+export interface RoutingIntentOperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface RoutingIntentOperations {
+export interface RoutingIntentOperationsOperations {
     // @deprecated (undocumented)
-    beginCreateOrUpdate: (resourceGroupName: string, virtualHubName: string, routingIntentName: string, routingIntentParameters: RoutingIntent, options?: RoutingIntentCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<RoutingIntent>, RoutingIntent>>;
+    beginCreateOrUpdate: (resourceGroupName: string, virtualHubName: string, routingIntentName: string, routingIntentParameters: RoutingIntent, options?: RoutingIntentOperationsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<RoutingIntent>, RoutingIntent>>;
     // @deprecated (undocumented)
-    beginCreateOrUpdateAndWait: (resourceGroupName: string, virtualHubName: string, routingIntentName: string, routingIntentParameters: RoutingIntent, options?: RoutingIntentCreateOrUpdateOptionalParams) => Promise<RoutingIntent>;
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, virtualHubName: string, routingIntentName: string, routingIntentParameters: RoutingIntent, options?: RoutingIntentOperationsCreateOrUpdateOptionalParams) => Promise<RoutingIntent>;
     // @deprecated (undocumented)
-    beginDelete: (resourceGroupName: string, virtualHubName: string, routingIntentName: string, options?: RoutingIntentDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDelete: (resourceGroupName: string, virtualHubName: string, routingIntentName: string, options?: RoutingIntentOperationsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
     // @deprecated (undocumented)
-    beginDeleteAndWait: (resourceGroupName: string, virtualHubName: string, routingIntentName: string, options?: RoutingIntentDeleteOptionalParams) => Promise<void>;
-    createOrUpdate: (resourceGroupName: string, virtualHubName: string, routingIntentName: string, routingIntentParameters: RoutingIntent, options?: RoutingIntentCreateOrUpdateOptionalParams) => PollerLike<OperationState<RoutingIntent>, RoutingIntent>;
-    delete: (resourceGroupName: string, virtualHubName: string, routingIntentName: string, options?: RoutingIntentDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, virtualHubName: string, routingIntentName: string, options?: RoutingIntentGetOptionalParams) => Promise<RoutingIntent>;
-    list: (resourceGroupName: string, virtualHubName: string, options?: RoutingIntentListOptionalParams) => PagedAsyncIterableIterator<RoutingIntent>;
+    beginDeleteAndWait: (resourceGroupName: string, virtualHubName: string, routingIntentName: string, options?: RoutingIntentOperationsDeleteOptionalParams) => Promise<void>;
+    createOrUpdate: (resourceGroupName: string, virtualHubName: string, routingIntentName: string, routingIntentParameters: RoutingIntent, options?: RoutingIntentOperationsCreateOrUpdateOptionalParams) => PollerLike<OperationState<RoutingIntent>, RoutingIntent>;
+    delete: (resourceGroupName: string, virtualHubName: string, routingIntentName: string, options?: RoutingIntentOperationsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, virtualHubName: string, routingIntentName: string, options?: RoutingIntentOperationsGetOptionalParams) => Promise<RoutingIntent>;
+    list: (resourceGroupName: string, virtualHubName: string, options?: RoutingIntentOperationsListOptionalParams) => PagedAsyncIterableIterator<RoutingIntent>;
 }
 
 // @public
@@ -14279,14 +14279,14 @@ export interface ServiceTagInformation {
 }
 
 // @public
-export interface ServiceTagInformationListOptionalParams extends OperationOptions {
+export interface ServiceTagInformationOperationsListOptionalParams extends OperationOptions {
     noAddressPrefixes?: boolean;
     tagName?: string;
 }
 
 // @public
-export interface ServiceTagInformationOperations {
-    list: (location: string, options?: ServiceTagInformationListOptionalParams) => PagedAsyncIterableIterator<ServiceTagInformation>;
+export interface ServiceTagInformationOperationsOperations {
+    list: (location: string, options?: ServiceTagInformationOperationsListOptionalParams) => PagedAsyncIterableIterator<ServiceTagInformation>;
 }
 
 // @public

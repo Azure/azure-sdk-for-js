@@ -90,8 +90,8 @@ import type { DdosProtectionPlansOperations } from "./classic/ddosProtectionPlan
 import { _getDdosProtectionPlansOperations } from "./classic/ddosProtectionPlans/index.js";
 import type { DefaultSecurityRulesOperations } from "./classic/defaultSecurityRules/index.js";
 import { _getDefaultSecurityRulesOperations } from "./classic/defaultSecurityRules/index.js";
-import type { DscpConfigurationOperations } from "./classic/dscpConfiguration/index.js";
-import { _getDscpConfigurationOperations } from "./classic/dscpConfiguration/index.js";
+import type { DscpConfigurationOperationsOperations } from "./classic/dscpConfigurationOperations/index.js";
+import { _getDscpConfigurationOperationsOperations } from "./classic/dscpConfigurationOperations/index.js";
 import type { ExpressRouteCircuitAuthorizationsOperations } from "./classic/expressRouteCircuitAuthorizations/index.js";
 import { _getExpressRouteCircuitAuthorizationsOperations } from "./classic/expressRouteCircuitAuthorizations/index.js";
 import type { ExpressRouteCircuitConnectionsOperations } from "./classic/expressRouteCircuitConnections/index.js";
@@ -144,8 +144,8 @@ import type { HubVirtualNetworkConnectionsOperations } from "./classic/hubVirtua
 import { _getHubVirtualNetworkConnectionsOperations } from "./classic/hubVirtualNetworkConnections/index.js";
 import type { InboundNatRulesOperations } from "./classic/inboundNatRules/index.js";
 import { _getInboundNatRulesOperations } from "./classic/inboundNatRules/index.js";
-import type { InboundSecurityRuleOperations } from "./classic/inboundSecurityRule/index.js";
-import { _getInboundSecurityRuleOperations } from "./classic/inboundSecurityRule/index.js";
+import type { InboundSecurityRuleOperationsOperations } from "./classic/inboundSecurityRuleOperations/index.js";
+import { _getInboundSecurityRuleOperationsOperations } from "./classic/inboundSecurityRuleOperations/index.js";
 import type { InterconnectGroupsOperations } from "./classic/interconnectGroups/index.js";
 import { _getInterconnectGroupsOperations } from "./classic/interconnectGroups/index.js";
 import type { IpAllocationsOperations } from "./classic/ipAllocations/index.js";
@@ -188,8 +188,8 @@ import type { NetworkInterfacesOperations } from "./classic/networkInterfaces/in
 import { _getNetworkInterfacesOperations } from "./classic/networkInterfaces/index.js";
 import type { NetworkManagerCommitsOperations } from "./classic/networkManagerCommits/index.js";
 import { _getNetworkManagerCommitsOperations } from "./classic/networkManagerCommits/index.js";
-import type { NetworkManagerDeploymentStatusOperations } from "./classic/networkManagerDeploymentStatus/index.js";
-import { _getNetworkManagerDeploymentStatusOperations } from "./classic/networkManagerDeploymentStatus/index.js";
+import type { NetworkManagerDeploymentStatusOperationsOperations } from "./classic/networkManagerDeploymentStatusOperations/index.js";
+import { _getNetworkManagerDeploymentStatusOperationsOperations } from "./classic/networkManagerDeploymentStatusOperations/index.js";
 import type { NetworkManagerRoutingConfigurationsOperations } from "./classic/networkManagerRoutingConfigurations/index.js";
 import { _getNetworkManagerRoutingConfigurationsOperations } from "./classic/networkManagerRoutingConfigurations/index.js";
 import type { NetworkManagersOperations } from "./classic/networkManagers/index.js";
@@ -258,8 +258,8 @@ import type { RouteTablesOperations } from "./classic/routeTables/index.js";
 import { _getRouteTablesOperations } from "./classic/routeTables/index.js";
 import type { RoutesOperations } from "./classic/routes/index.js";
 import { _getRoutesOperations } from "./classic/routes/index.js";
-import type { RoutingIntentOperations } from "./classic/routingIntent/index.js";
-import { _getRoutingIntentOperations } from "./classic/routingIntent/index.js";
+import type { RoutingIntentOperationsOperations } from "./classic/routingIntentOperations/index.js";
+import { _getRoutingIntentOperationsOperations } from "./classic/routingIntentOperations/index.js";
 import type { RoutingRuleCollectionsOperations } from "./classic/routingRuleCollections/index.js";
 import { _getRoutingRuleCollectionsOperations } from "./classic/routingRuleCollections/index.js";
 import type { RoutingRulesOperations } from "./classic/routingRules/index.js";
@@ -286,8 +286,8 @@ import type { ServiceEndpointPolicyDefinitionsOperations } from "./classic/servi
 import { _getServiceEndpointPolicyDefinitionsOperations } from "./classic/serviceEndpointPolicyDefinitions/index.js";
 import type { ServiceGatewaysOperations } from "./classic/serviceGateways/index.js";
 import { _getServiceGatewaysOperations } from "./classic/serviceGateways/index.js";
-import type { ServiceTagInformationOperations } from "./classic/serviceTagInformation/index.js";
-import { _getServiceTagInformationOperations } from "./classic/serviceTagInformation/index.js";
+import type { ServiceTagInformationOperationsOperations } from "./classic/serviceTagInformationOperations/index.js";
+import { _getServiceTagInformationOperationsOperations } from "./classic/serviceTagInformationOperations/index.js";
 import type { ServiceTagsOperations } from "./classic/serviceTags/index.js";
 import { _getServiceTagsOperations } from "./classic/serviceTags/index.js";
 import type { StaticCidrsOperations } from "./classic/staticCidrs/index.js";
@@ -425,7 +425,9 @@ export class NetworkManagementClient {
     });
     this.pipeline = this._client.pipeline;
     this.usages = _getUsagesOperations(this._client);
-    this.serviceTagInformation = _getServiceTagInformationOperations(this._client);
+    this.serviceTagInformationOperations = _getServiceTagInformationOperationsOperations(
+      this._client,
+    );
     this.serviceTags = _getServiceTagsOperations(this._client);
     this.bgpServiceCommunities = _getBgpServiceCommunitiesOperations(this._client);
     this.availablePrivateEndpointTypes = _getAvailablePrivateEndpointTypesOperations(this._client);
@@ -444,7 +446,7 @@ export class NetworkManagementClient {
       this._client,
     );
     this.availableDelegations = _getAvailableDelegationsOperations(this._client);
-    this.routingIntent = _getRoutingIntentOperations(this._client);
+    this.routingIntentOperations = _getRoutingIntentOperationsOperations(this._client);
     this.virtualHubIpConfiguration = _getVirtualHubIpConfigurationOperations(this._client);
     this.virtualHubBgpConnections = _getVirtualHubBgpConnectionsOperations(this._client);
     this.virtualHubBgpConnection = _getVirtualHubBgpConnectionOperations(this._client);
@@ -465,7 +467,7 @@ export class NetworkManagementClient {
     this.privateDnsZoneGroups = _getPrivateDnsZoneGroupsOperations(this._client);
     this.connectionMonitors = _getConnectionMonitorsOperations(this._client);
     this.packetCaptures = _getPacketCapturesOperations(this._client);
-    this.inboundSecurityRule = _getInboundSecurityRuleOperations(this._client);
+    this.inboundSecurityRuleOperations = _getInboundSecurityRuleOperationsOperations(this._client);
     this.virtualApplianceSkus = _getVirtualApplianceSkusOperations(this._client);
     this.networkSecurityPerimeterLoggingConfigurations =
       _getNetworkSecurityPerimeterLoggingConfigurationsOperations(this._client);
@@ -496,9 +498,8 @@ export class NetworkManagementClient {
       this._client,
     );
     this.loadBalancerNetworkInterfaces = _getLoadBalancerNetworkInterfacesOperations(this._client);
-    this.networkManagerDeploymentStatus = _getNetworkManagerDeploymentStatusOperations(
-      this._client,
-    );
+    this.networkManagerDeploymentStatusOperations =
+      _getNetworkManagerDeploymentStatusOperationsOperations(this._client);
     this.networkManagerCommits = _getNetworkManagerCommitsOperations(this._client);
     this.firewallPolicyDeployments = _getFirewallPolicyDeploymentsOperations(this._client);
     this.firewallPolicyIdpsSignaturesFilterValues =
@@ -508,7 +509,7 @@ export class NetworkManagementClient {
     this.expressRouteCrossConnectionPeerings = _getExpressRouteCrossConnectionPeeringsOperations(
       this._client,
     );
-    this.dscpConfiguration = _getDscpConfigurationOperations(this._client);
+    this.dscpConfigurationOperations = _getDscpConfigurationOperationsOperations(this._client);
     this.customIPPrefixes = _getCustomIPPrefixesOperations(this._client);
     this.vipSwap = _getVipSwapOperations(this._client);
     this.networkInterfaceLoadBalancers = _getNetworkInterfaceLoadBalancersOperations(this._client);
@@ -980,8 +981,8 @@ export class NetworkManagementClient {
 
   /** The operation groups for usages */
   public readonly usages: UsagesOperations;
-  /** The operation groups for serviceTagInformation */
-  public readonly serviceTagInformation: ServiceTagInformationOperations;
+  /** The operation groups for serviceTagInformationOperations */
+  public readonly serviceTagInformationOperations: ServiceTagInformationOperationsOperations;
   /** The operation groups for serviceTags */
   public readonly serviceTags: ServiceTagsOperations;
   /** The operation groups for bgpServiceCommunities */
@@ -1006,8 +1007,8 @@ export class NetworkManagementClient {
   public readonly availableResourceGroupDelegations: AvailableResourceGroupDelegationsOperations;
   /** The operation groups for availableDelegations */
   public readonly availableDelegations: AvailableDelegationsOperations;
-  /** The operation groups for routingIntent */
-  public readonly routingIntent: RoutingIntentOperations;
+  /** The operation groups for routingIntentOperations */
+  public readonly routingIntentOperations: RoutingIntentOperationsOperations;
   /** The operation groups for virtualHubIpConfiguration */
   public readonly virtualHubIpConfiguration: VirtualHubIpConfigurationOperations;
   /** The operation groups for virtualHubBgpConnections */
@@ -1046,8 +1047,8 @@ export class NetworkManagementClient {
   public readonly connectionMonitors: ConnectionMonitorsOperations;
   /** The operation groups for packetCaptures */
   public readonly packetCaptures: PacketCapturesOperations;
-  /** The operation groups for inboundSecurityRule */
-  public readonly inboundSecurityRule: InboundSecurityRuleOperations;
+  /** The operation groups for inboundSecurityRuleOperations */
+  public readonly inboundSecurityRuleOperations: InboundSecurityRuleOperationsOperations;
   /** The operation groups for virtualApplianceSkus */
   public readonly virtualApplianceSkus: VirtualApplianceSkusOperations;
   /** The operation groups for networkSecurityPerimeterLoggingConfigurations */
@@ -1078,8 +1079,8 @@ export class NetworkManagementClient {
   public readonly loadBalancerBackendAddressPools: LoadBalancerBackendAddressPoolsOperations;
   /** The operation groups for loadBalancerNetworkInterfaces */
   public readonly loadBalancerNetworkInterfaces: LoadBalancerNetworkInterfacesOperations;
-  /** The operation groups for networkManagerDeploymentStatus */
-  public readonly networkManagerDeploymentStatus: NetworkManagerDeploymentStatusOperations;
+  /** The operation groups for networkManagerDeploymentStatusOperations */
+  public readonly networkManagerDeploymentStatusOperations: NetworkManagerDeploymentStatusOperationsOperations;
   /** The operation groups for networkManagerCommits */
   public readonly networkManagerCommits: NetworkManagerCommitsOperations;
   /** The operation groups for firewallPolicyDeployments */
@@ -1092,8 +1093,8 @@ export class NetworkManagementClient {
   public readonly expressRouteLinks: ExpressRouteLinksOperations;
   /** The operation groups for expressRouteCrossConnectionPeerings */
   public readonly expressRouteCrossConnectionPeerings: ExpressRouteCrossConnectionPeeringsOperations;
-  /** The operation groups for dscpConfiguration */
-  public readonly dscpConfiguration: DscpConfigurationOperations;
+  /** The operation groups for dscpConfigurationOperations */
+  public readonly dscpConfigurationOperations: DscpConfigurationOperationsOperations;
   /** The operation groups for customIPPrefixes */
   public readonly customIPPrefixes: CustomIPPrefixesOperations;
   /** The operation groups for vipSwap */
