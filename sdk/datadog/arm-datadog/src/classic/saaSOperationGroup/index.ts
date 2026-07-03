@@ -1,10 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MicrosoftDatadogContext } from "../../api/microsoftDatadogContext.js";
+import type { MicrosoftDatadogContext } from "../../api/microsoftDatadogContext.js";
 import { activateResource } from "../../api/saaSOperationGroup/operations.js";
-import { SaaSOperationGroupActivateResourceOptionalParams } from "../../api/saaSOperationGroup/options.js";
-import { ActivateSaaSParameterRequest, SaaSResourceDetailsResponse } from "../../models/models.js";
+import type { SaaSOperationGroupActivateResourceOptionalParams } from "../../api/saaSOperationGroup/options.js";
+import type {
+  ActivateSaaSParameterRequest,
+  SaaSResourceDetailsResponse,
+} from "../../models/models.js";
 
 /** Interface representing a SaaSOperationGroup operations. */
 export interface SaaSOperationGroupOperations {

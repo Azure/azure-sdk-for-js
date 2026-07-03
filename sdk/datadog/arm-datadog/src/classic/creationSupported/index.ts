@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MicrosoftDatadogContext } from "../../api/microsoftDatadogContext.js";
+import type { MicrosoftDatadogContext } from "../../api/microsoftDatadogContext.js";
 import { get, list } from "../../api/creationSupported/operations.js";
-import {
+import type {
   CreationSupportedGetOptionalParams,
   CreationSupportedListOptionalParams,
 } from "../../api/creationSupported/options.js";
-import { CreateResourceSupportedResponse } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { CreateResourceSupportedResponse } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a CreationSupported operations. */
 export interface CreationSupportedOperations {

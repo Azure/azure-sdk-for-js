@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MicrosoftDatadogContext } from "../../api/microsoftDatadogContext.js";
+import type { MicrosoftDatadogContext } from "../../api/microsoftDatadogContext.js";
 import { list, createOrUpdate, get } from "../../api/tagRules/operations.js";
-import {
+import type {
   TagRulesListOptionalParams,
   TagRulesCreateOrUpdateOptionalParams,
   TagRulesGetOptionalParams,
 } from "../../api/tagRules/options.js";
-import { MonitoringTagRules } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { MonitoringTagRules } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a TagRules operations. */
 export interface TagRulesOperations {

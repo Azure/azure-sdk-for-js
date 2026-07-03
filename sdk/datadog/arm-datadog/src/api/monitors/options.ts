@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   DatadogMonitorResource,
   DatadogMonitorResourceUpdateParameters,
   DatadogApiKey,
 } from "../../models/models.js";
-import { OperationOptions } from "@azure-rest/core-client";
+import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
 export interface MonitorsRefreshSetPasswordLinkOptionalParams extends OperationOptions {}

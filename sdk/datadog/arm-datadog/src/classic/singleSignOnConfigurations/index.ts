@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MicrosoftDatadogContext } from "../../api/microsoftDatadogContext.js";
+import type { MicrosoftDatadogContext } from "../../api/microsoftDatadogContext.js";
 import { list, createOrUpdate, get } from "../../api/singleSignOnConfigurations/operations.js";
-import {
+import type {
   SingleSignOnConfigurationsListOptionalParams,
   SingleSignOnConfigurationsCreateOrUpdateOptionalParams,
   SingleSignOnConfigurationsGetOptionalParams,
 } from "../../api/singleSignOnConfigurations/options.js";
-import { DatadogSingleSignOnResource } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { DatadogSingleSignOnResource } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a SingleSignOnConfigurations operations. */
 export interface SingleSignOnConfigurationsOperations {

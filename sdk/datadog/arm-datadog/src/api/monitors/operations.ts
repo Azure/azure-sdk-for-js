@@ -1,45 +1,45 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MicrosoftDatadogContext as Client } from "../index.js";
+import type { MicrosoftDatadogContext as Client } from "../index.js";
+import type {
+  DatadogMonitorResource,
+  _DatadogMonitorResourceListResponse,
+  SreAgentConnectorRequest,
+  SreAgentConfigurationListResponse,
+  DatadogApplicationKey,
+  _DatadogApiKeyListResponse,
+  DatadogApiKey,
+  _DatadogHostListResponse,
+  DatadogHost,
+  _LinkedResourceListResponse,
+  LinkedResource,
+  _MonitoredResourceListResponse,
+  MonitoredResource,
+  DatadogSetPasswordLink,
+} from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  DatadogMonitorResource,
   datadogMonitorResourceSerializer,
   datadogMonitorResourceDeserializer,
   datadogMonitorResourceUpdateParametersSerializer,
-  _DatadogMonitorResourceListResponse,
   _datadogMonitorResourceListResponseDeserializer,
-  SreAgentConnectorRequest,
   sreAgentConnectorRequestSerializer,
-  SreAgentConfigurationListResponse,
   sreAgentConfigurationListResponseDeserializer,
-  DatadogApplicationKey,
   datadogApplicationKeyDeserializer,
-  _DatadogApiKeyListResponse,
   _datadogApiKeyListResponseDeserializer,
-  DatadogApiKey,
   datadogApiKeySerializer,
   datadogApiKeyDeserializer,
-  _DatadogHostListResponse,
   _datadogHostListResponseDeserializer,
-  DatadogHost,
-  _LinkedResourceListResponse,
   _linkedResourceListResponseDeserializer,
-  LinkedResource,
-  _MonitoredResourceListResponse,
   _monitoredResourceListResponseDeserializer,
-  MonitoredResource,
-  DatadogSetPasswordLink,
   datadogSetPasswordLinkDeserializer,
 } from "../../models/models.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   MonitorsRefreshSetPasswordLinkOptionalParams,
   MonitorsListMonitoredResourcesOptionalParams,
   MonitorsListLinkedResourcesOptionalParams,
@@ -56,13 +56,9 @@ import {
   MonitorsCreateOptionalParams,
   MonitorsGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _refreshSetPasswordLinkSend(
   context: Client,
@@ -94,7 +90,9 @@ export async function _refreshSetPasswordLinkDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -148,7 +146,9 @@ export async function _listMonitoredResourcesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -206,7 +206,9 @@ export async function _listLinkedResourcesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -264,7 +266,9 @@ export async function _listHostsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -321,7 +325,9 @@ export async function _setDefaultKeyDeserialize(result: PathUncheckedResponse): 
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -370,7 +376,9 @@ export async function _getDefaultKeyDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -419,7 +427,9 @@ export async function _listApiKeysDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -477,7 +487,9 @@ export async function _getDefaultApplicationKeyDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -534,7 +546,9 @@ export async function _manageSreAgentConnectorsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -586,7 +600,9 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -640,7 +656,9 @@ export async function _listByResourceGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -692,7 +710,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -750,7 +770,9 @@ export async function _updateDeserialize(
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -806,7 +828,9 @@ export async function _createDeserialize(
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -860,7 +884,9 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

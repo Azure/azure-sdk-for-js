@@ -1,20 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MicrosoftDatadogContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
-  BillingInfoResponse,
-  billingInfoResponseDeserializer,
-} from "../../models/models.js";
+import type { MicrosoftDatadogContext as Client } from "../index.js";
+import type { BillingInfoResponse } from "../../models/models.js";
+import { errorResponseDeserializer, billingInfoResponseDeserializer } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import { BillingInfoGetOptionalParams } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { BillingInfoGetOptionalParams } from "./options.js";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _getSend(
   context: Client,
@@ -44,7 +37,9 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Bi
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

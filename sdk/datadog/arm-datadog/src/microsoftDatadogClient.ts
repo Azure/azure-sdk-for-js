@@ -1,45 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  MicrosoftDatadogContext,
-  MicrosoftDatadogClientOptionalParams,
-  createMicrosoftDatadog,
-} from "./api/index.js";
-import { BillingInfoOperations, _getBillingInfoOperations } from "./classic/billingInfo/index.js";
-import {
-  CreationSupportedOperations,
-  _getCreationSupportedOperations,
-} from "./classic/creationSupported/index.js";
-import {
-  DatadogMonitorResourcesOperations,
-  _getDatadogMonitorResourcesOperations,
-} from "./classic/datadogMonitorResources/index.js";
-import {
-  MarketplaceAgreementsOperations,
-  _getMarketplaceAgreementsOperations,
-} from "./classic/marketplaceAgreements/index.js";
-import {
-  MonitoredSubscriptionsOperations,
-  _getMonitoredSubscriptionsOperations,
-} from "./classic/monitoredSubscriptions/index.js";
-import { MonitorsOperations, _getMonitorsOperations } from "./classic/monitors/index.js";
-import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
-import {
-  OrganizationsOperations,
-  _getOrganizationsOperations,
-} from "./classic/organizations/index.js";
-import {
-  SaaSOperationGroupOperations,
-  _getSaaSOperationGroupOperations,
-} from "./classic/saaSOperationGroup/index.js";
-import {
-  SingleSignOnConfigurationsOperations,
-  _getSingleSignOnConfigurationsOperations,
-} from "./classic/singleSignOnConfigurations/index.js";
-import { TagRulesOperations, _getTagRulesOperations } from "./classic/tagRules/index.js";
-import { TokenCredential } from "@azure/core-auth";
-import { Pipeline } from "@azure/core-rest-pipeline";
+import type { MicrosoftDatadogContext, MicrosoftDatadogClientOptionalParams } from "./api/index.js";
+import { createMicrosoftDatadog } from "./api/index.js";
+import type { BillingInfoOperations } from "./classic/billingInfo/index.js";
+import { _getBillingInfoOperations } from "./classic/billingInfo/index.js";
+import type { CreationSupportedOperations } from "./classic/creationSupported/index.js";
+import { _getCreationSupportedOperations } from "./classic/creationSupported/index.js";
+import type { DatadogMonitorResourcesOperations } from "./classic/datadogMonitorResources/index.js";
+import { _getDatadogMonitorResourcesOperations } from "./classic/datadogMonitorResources/index.js";
+import type { MarketplaceAgreementsOperations } from "./classic/marketplaceAgreements/index.js";
+import { _getMarketplaceAgreementsOperations } from "./classic/marketplaceAgreements/index.js";
+import type { MonitoredSubscriptionsOperations } from "./classic/monitoredSubscriptions/index.js";
+import { _getMonitoredSubscriptionsOperations } from "./classic/monitoredSubscriptions/index.js";
+import type { MonitorsOperations } from "./classic/monitors/index.js";
+import { _getMonitorsOperations } from "./classic/monitors/index.js";
+import type { OperationsOperations } from "./classic/operations/index.js";
+import { _getOperationsOperations } from "./classic/operations/index.js";
+import type { OrganizationsOperations } from "./classic/organizations/index.js";
+import { _getOrganizationsOperations } from "./classic/organizations/index.js";
+import type { SaaSOperationGroupOperations } from "./classic/saaSOperationGroup/index.js";
+import { _getSaaSOperationGroupOperations } from "./classic/saaSOperationGroup/index.js";
+import type { SingleSignOnConfigurationsOperations } from "./classic/singleSignOnConfigurations/index.js";
+import { _getSingleSignOnConfigurationsOperations } from "./classic/singleSignOnConfigurations/index.js";
+import type { TagRulesOperations } from "./classic/tagRules/index.js";
+import { _getTagRulesOperations } from "./classic/tagRules/index.js";
+import type { TokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { MicrosoftDatadogClientOptionalParams } from "./api/microsoftDatadogContext.js";
 

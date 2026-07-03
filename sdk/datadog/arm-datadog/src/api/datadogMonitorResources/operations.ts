@@ -1,29 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MicrosoftDatadogContext as Client } from "../index.js";
+import type { MicrosoftDatadogContext as Client } from "../index.js";
+import type {
+  LatestLinkedSaaSResponse,
+  SaaSData,
+  DatadogMonitorResource,
+} from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  LatestLinkedSaaSResponse,
   latestLinkedSaaSResponseDeserializer,
-  SaaSData,
   saaSDataSerializer,
-  DatadogMonitorResource,
   datadogMonitorResourceDeserializer,
 } from "../../models/models.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   DatadogMonitorResourcesLinkSaaSOptionalParams,
   DatadogMonitorResourcesLatestLinkedSaaSOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _linkSaaSSend(
   context: Client,
@@ -58,7 +56,9 @@ export async function _linkSaaSDeserialize(
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -113,7 +113,9 @@ export async function _latestLinkedSaaSDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

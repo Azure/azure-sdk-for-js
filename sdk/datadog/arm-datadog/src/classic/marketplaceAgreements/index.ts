@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MicrosoftDatadogContext } from "../../api/microsoftDatadogContext.js";
+import type { MicrosoftDatadogContext } from "../../api/microsoftDatadogContext.js";
 import { createOrUpdate, list } from "../../api/marketplaceAgreements/operations.js";
-import {
+import type {
   MarketplaceAgreementsCreateOrUpdateOptionalParams,
   MarketplaceAgreementsListOptionalParams,
 } from "../../api/marketplaceAgreements/options.js";
-import { DatadogAgreementResource } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { DatadogAgreementResource } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a MarketplaceAgreements operations. */
 export interface MarketplaceAgreementsOperations {

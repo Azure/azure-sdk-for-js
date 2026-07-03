@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MicrosoftDatadogContext } from "../../api/microsoftDatadogContext.js";
+import type { MicrosoftDatadogContext } from "../../api/microsoftDatadogContext.js";
 import { get } from "../../api/billingInfo/operations.js";
-import { BillingInfoGetOptionalParams } from "../../api/billingInfo/options.js";
-import { BillingInfoResponse } from "../../models/models.js";
+import type { BillingInfoGetOptionalParams } from "../../api/billingInfo/options.js";
+import type { BillingInfoResponse } from "../../models/models.js";
 
 /** Interface representing a BillingInfo operations. */
 export interface BillingInfoOperations {

@@ -1,15 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MicrosoftDatadogContext } from "../../api/microsoftDatadogContext.js";
+import type { MicrosoftDatadogContext } from "../../api/microsoftDatadogContext.js";
 import { linkSaaS, latestLinkedSaaS } from "../../api/datadogMonitorResources/operations.js";
-import {
+import type {
   DatadogMonitorResourcesLinkSaaSOptionalParams,
   DatadogMonitorResourcesLatestLinkedSaaSOptionalParams,
 } from "../../api/datadogMonitorResources/options.js";
-import { LatestLinkedSaaSResponse, SaaSData, DatadogMonitorResource } from "../../models/models.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type {
+  LatestLinkedSaaSResponse,
+  SaaSData,
+  DatadogMonitorResource,
+} from "../../models/models.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a DatadogMonitorResources operations. */
 export interface DatadogMonitorResourcesOperations {

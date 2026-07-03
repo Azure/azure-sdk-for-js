@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MicrosoftDatadogContext } from "../../api/microsoftDatadogContext.js";
+import type { MicrosoftDatadogContext } from "../../api/microsoftDatadogContext.js";
 import {
   refreshSetPasswordLink,
   listMonitoredResources,
@@ -19,7 +19,7 @@ import {
   create,
   get,
 } from "../../api/monitors/operations.js";
-import {
+import type {
   MonitorsRefreshSetPasswordLinkOptionalParams,
   MonitorsListMonitoredResourcesOptionalParams,
   MonitorsListLinkedResourcesOptionalParams,
@@ -36,7 +36,7 @@ import {
   MonitorsCreateOptionalParams,
   MonitorsGetOptionalParams,
 } from "../../api/monitors/options.js";
-import {
+import type {
   DatadogMonitorResource,
   SreAgentConnectorRequest,
   SreAgentConfigurationListResponse,
@@ -47,9 +47,10 @@ import {
   MonitoredResource,
   DatadogSetPasswordLink,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Monitors operations. */
 export interface MonitorsOperations {

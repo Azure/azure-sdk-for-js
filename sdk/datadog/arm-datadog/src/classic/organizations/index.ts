@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MicrosoftDatadogContext } from "../../api/microsoftDatadogContext.js";
+import type { MicrosoftDatadogContext } from "../../api/microsoftDatadogContext.js";
 import { resubscribe } from "../../api/organizations/operations.js";
-import { OrganizationsResubscribeOptionalParams } from "../../api/organizations/options.js";
-import { DatadogMonitorResource } from "../../models/models.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { OrganizationsResubscribeOptionalParams } from "../../api/organizations/options.js";
+import type { DatadogMonitorResource } from "../../models/models.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Organizations operations. */
 export interface OrganizationsOperations {

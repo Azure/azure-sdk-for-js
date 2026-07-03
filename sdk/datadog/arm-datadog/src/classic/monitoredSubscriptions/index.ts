@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MicrosoftDatadogContext } from "../../api/microsoftDatadogContext.js";
+import type { MicrosoftDatadogContext } from "../../api/microsoftDatadogContext.js";
 import {
   list,
   $delete,
@@ -9,17 +9,18 @@ import {
   createorUpdate,
   get,
 } from "../../api/monitoredSubscriptions/operations.js";
-import {
+import type {
   MonitoredSubscriptionsListOptionalParams,
   MonitoredSubscriptionsDeleteOptionalParams,
   MonitoredSubscriptionsUpdateOptionalParams,
   MonitoredSubscriptionsCreateorUpdateOptionalParams,
   MonitoredSubscriptionsGetOptionalParams,
 } from "../../api/monitoredSubscriptions/options.js";
-import { MonitoredSubscriptionProperties } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { MonitoredSubscriptionProperties } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
+import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a MonitoredSubscriptions operations. */
 export interface MonitoredSubscriptionsOperations {
