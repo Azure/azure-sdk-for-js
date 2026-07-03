@@ -21,9 +21,20 @@ export interface ChatMessage {
 }
 
 // @public
+export interface ChatMessageInput {
+    content: MessageContent;
+    createdBy: string;
+}
+
+// @public
 export interface ChatRole {
     readonly etag: string;
     readonly name: string;
+    permissions: string[];
+}
+
+// @public
+export interface ChatRoleInput {
     permissions: string[];
 }
 
@@ -36,10 +47,20 @@ export interface ChatRoom {
 }
 
 // @public
+export interface ChatRoomInput {
+    title: string;
+}
+
+// @public
 export interface ChatRoomMember {
     readonly etag: string;
     roleName: string;
     readonly userId: string;
+}
+
+// @public
+export interface ChatRoomMemberInput {
+    roleName: string;
 }
 
 // @public
@@ -51,6 +72,15 @@ export interface ChatUser {
 }
 
 // @public
+export interface ChatUserInput {
+    kind: ChatUserKind;
+    nickname: string;
+}
+
+// @public
+export type ChatUserInputUnion = HumanChatUserInput | ChatUserInput;
+
+// @public
 export type ChatUserKind = "Human";
 
 // @public
@@ -58,6 +88,13 @@ export type ChatUserUnion = HumanChatUser | ChatUser;
 
 // @public
 export interface HumanChatUser extends ChatUser {
+    // (undocumented)
+    kind: "Human";
+    roleName: string;
+}
+
+// @public
+export interface HumanChatUserInput extends ChatUserInput {
     // (undocumented)
     kind: "Human";
     roleName: string;
