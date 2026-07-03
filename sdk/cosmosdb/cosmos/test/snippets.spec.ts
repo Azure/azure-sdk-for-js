@@ -1847,6 +1847,9 @@ describe("snippets", () => {
     const client = new CosmosClient({
       endpoint,
       aadCredentials,
+      enablePreviewFeatures: {
+        inferenceEndpoint: "https://your-account.<region>.dbinference.azure.com",
+      },
     });
     // @ts-preserve-whitespace
     const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
@@ -1863,7 +1866,7 @@ describe("snippets", () => {
       const topResult = result.rerankScores[0];
       const topScore = topResult.score;
       const topDocument = topResult.document;
-      if (topDocument !== null) {
+      if (topDocument) {
         console.log("Top-ranked document:", topDocument);
       }
       console.log("Top score:", topScore);

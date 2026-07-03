@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- Added a semantic reranking API. Use `Container.semanticRerank(rerankContext, documents, options)` to score and reorder documents by relevance via the Cosmos DB Inference Service. Configure the inference endpoint through the `inferenceEndpoint` key of `enablePreviewFeatures` on `CosmosClientOptions` (or the `AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT` environment variable). Requires AAD authentication.
+- Added a semantic reranking API. Use `Container.semanticRerank(rerankContext, documents, options)` to score and reorder documents by relevance via the Cosmos DB Inference Service. Configure the inference endpoint through the `inferenceEndpoint` key of `enablePreviewFeatures` on `CosmosClientOptions`. Requires AAD authentication.
 - Added `enablePreviewFeatures` to `CosmosClientOptions`, a dictionary for opting into preview features of the SDK.
 
 ### Bugs Fixed

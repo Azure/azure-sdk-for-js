@@ -704,7 +704,7 @@ export class Container {
    * To use this feature, you must:
    * 1. Configure AAD authentication via `aadCredentials` in `CosmosClientOptions`
    * 2. Provide the inference endpoint via the `inferenceEndpoint` key of `enablePreviewFeatures`
-   *    in `CosmosClientOptions`, or set the `AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT` environment variable
+   *    in `CosmosClientOptions`
    *
    * @param rerankContext - The context (e.g. query string) to use for reranking the documents.
    * @param documents - A list of documents (as JSON strings) to be reranked.
@@ -730,6 +730,9 @@ export class Container {
    * const client = new CosmosClient({
    *   endpoint,
    *   aadCredentials,
+   *   enablePreviewFeatures: {
+   *     inferenceEndpoint: "https://your-account.<region>.dbinference.azure.com",
+   *   },
    * });
    *
    * const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
@@ -746,7 +749,7 @@ export class Container {
    *   const topResult = result.rerankScores[0];
    *   const topScore = topResult.score;
    *   const topDocument = topResult.document;
-   *   if (topDocument !== null) {
+   *   if (topDocument) {
    *     console.log("Top-ranked document:", topDocument);
    *   }
    *   console.log("Top score:", topScore);

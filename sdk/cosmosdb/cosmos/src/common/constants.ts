@@ -311,7 +311,6 @@ export const Constants = {
     UserAgent: "cosmos-inference-js",
     DefaultScope: "https://dbinference.azure.com/.default",
     DefaultTimeoutMs: 120_000, // 120 seconds
-    EndpointEnvVar: "AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT",
   },
 };
 

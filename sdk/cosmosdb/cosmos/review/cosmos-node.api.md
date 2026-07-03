@@ -705,7 +705,6 @@ export const Constants: {
         UserAgent: string;
         DefaultScope: string;
         DefaultTimeoutMs: number;
-        EndpointEnvVar: string;
     };
 };
 
@@ -2144,7 +2143,7 @@ export interface RequestOptions extends SharedOptions {
 
 // @public
 export interface RerankScore {
-    document: string | null;
+    document: string;
     index: number;
     score: number;
 }

@@ -5,8 +5,8 @@
  * Represents the score assigned to a document after a semantic reranking operation.
  */
 export interface RerankScore {
-  /** The document content that was reranked. May be null if `return_documents` was not set. */
-  document: string | null;
+  /** The document content that was reranked. Empty string if `return_documents` is false. */
+  document: string;
   /** The relevance score assigned to the document after reranking. */
   score: number;
   /** The original index of the document in the input list before reranking. */

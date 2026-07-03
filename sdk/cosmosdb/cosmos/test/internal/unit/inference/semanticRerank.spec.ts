@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { describe, it, assert } from "vitest";
 import type { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
 import { CosmosClient } from "../../../../src/CosmosClient.js";
 
@@ -15,22 +15,6 @@ class MockTokenCredential implements TokenCredential {
 }
 
 describe("Container.semanticRerank", { timeout: 10000 }, () => {
-  let originalEnv: string | undefined;
-
-  beforeEach(() => {
-    originalEnv = process.env.AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT;
-    process.env.AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT =
-      "https://test-inference.dbinference.azure.com";
-  });
-
-  afterEach(() => {
-    if (originalEnv !== undefined) {
-      process.env.AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT = originalEnv;
-    } else {
-      delete process.env.AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT;
-    }
-  });
-
   it("should throw when client is not using AAD authentication", async () => {
     const client = new CosmosClient({
       endpoint: "https://test-account.documents.azure.com:443/",
@@ -50,29 +34,20 @@ describe("Container.semanticRerank", { timeout: 10000 }, () => {
   });
 
   it("should throw when inference endpoint is not configured", async () => {
-    const savedEnv = process.env.AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT;
-    delete process.env.AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT;
+    const client = new CosmosClient({
+      endpoint: "https://test-account.documents.azure.com:443/",
+      aadCredentials: new MockTokenCredential(),
+    });
+
+    const container = client.database("testdb").container("testcol");
 
     try {
-      const client = new CosmosClient({
-        endpoint: "https://test-account.documents.azure.com:443/",
-        aadCredentials: new MockTokenCredential(),
-      });
-
-      const container = client.database("testdb").container("testcol");
-
-      try {
-        await container.semanticRerank("query", ["doc1"]);
-        assert.fail("Should have thrown");
-      } catch (e: any) {
-        assert.include(e.message, "Inference endpoint is required");
-      } finally {
-        client.dispose();
-      }
+      await container.semanticRerank("query", ["doc1"]);
+      assert.fail("Should have thrown");
+    } catch (e: any) {
+      assert.include(e.message, "Inference endpoint is required");
     } finally {
-      if (savedEnv !== undefined) {
-        process.env.AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT = savedEnv;
-      }
+      client.dispose();
     }
   });
 

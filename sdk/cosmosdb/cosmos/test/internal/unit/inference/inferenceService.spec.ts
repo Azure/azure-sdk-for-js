@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { describe, it, assert } from "vitest";
 import type { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
 import type { HttpClient, PipelineResponse } from "@azure/core-rest-pipeline";
 import { InferenceService } from "../../../../src/inference/InferenceService.js";
@@ -20,27 +20,14 @@ function createMockOptions(overrides?: Partial<CosmosClientOptions>): CosmosClie
   return {
     endpoint: "https://test-account.documents.azure.com:443/",
     aadCredentials: new MockTokenCredential(),
+    enablePreviewFeatures: {
+      inferenceEndpoint: "https://test-inference.dbinference.azure.com",
+    },
     ...overrides,
   };
 }
 
 describe("InferenceService", { timeout: 10000 }, () => {
-  let originalEnv: string | undefined;
-
-  beforeEach(() => {
-    originalEnv = process.env.AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT;
-    process.env.AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT =
-      "https://test-inference.dbinference.azure.com";
-  });
-
-  afterEach(() => {
-    if (originalEnv !== undefined) {
-      process.env.AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT = originalEnv;
-    } else {
-      delete process.env.AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT;
-    }
-  });
-
   describe("constructor", () => {
     it("should throw when aadCredentials is not provided", () => {
       assert.throws(
@@ -50,7 +37,6 @@ describe("InferenceService", { timeout: 10000 }, () => {
     });
 
     it("should throw when no inference endpoint is configured", () => {
-      delete process.env.AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT;
       assert.throws(
         () =>
           new InferenceService({
@@ -61,9 +47,7 @@ describe("InferenceService", { timeout: 10000 }, () => {
       );
     });
 
-    it("should use inferenceEndpoint from client options over environment variable", () => {
-      process.env.AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT =
-        "https://env-inference.dbinference.azure.com";
+    it("should use inferenceEndpoint from enablePreviewFeatures", () => {
       const service = new InferenceService(
         createMockOptions({
           enablePreviewFeatures: {
@@ -73,31 +57,11 @@ describe("InferenceService", { timeout: 10000 }, () => {
       );
       const resolvedUrl = (service as any).inferenceEndpointUrl as string;
       assert.include(resolvedUrl, "options-inference");
-      assert.notInclude(resolvedUrl, "env-inference");
-    });
-
-    it("should fall back to environment variable when inferenceEndpoint is not in client options", () => {
-      process.env.AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT =
-        "https://env-inference.dbinference.azure.com";
-      const service = new InferenceService(createMockOptions());
-      const resolvedUrl = (service as any).inferenceEndpointUrl as string;
-      assert.include(resolvedUrl, "env-inference");
     });
 
     it("should succeed with valid AAD credentials and inference endpoint", () => {
       const service = new InferenceService(createMockOptions());
       assert.isDefined(service);
-    });
-
-    it("should read inference endpoint from environment variable", () => {
-      process.env.AZURE_COSMOS_SEMANTIC_RERANKER_INFERENCE_ENDPOINT =
-        "https://env-inference.dbinference.azure.com";
-      const service = new InferenceService({
-        endpoint: "https://test.documents.azure.com",
-        aadCredentials: new MockTokenCredential(),
-      });
-      const resolvedUrl = (service as any).inferenceEndpointUrl as string;
-      assert.include(resolvedUrl, "env-inference");
     });
   });
 
@@ -222,6 +186,8 @@ describe("InferenceService", { timeout: 10000 }, () => {
       } catch (e: any) {
         assert.equal(e.code, 400);
         assert.include(e.message, "Error while formatting json document");
+        // Full service error payload (incl. `details`) is surfaced to the caller.
+        assert.include(e.message, "details");
         assert.isDefined(e.headers);
       }
     });
@@ -271,7 +237,7 @@ describe("InferenceService", { timeout: 10000 }, () => {
       }
     });
 
-    it("should handle null document in score", async () => {
+    it("should default document to empty string when the field is null", async () => {
       const service = new InferenceService(createMockOptions());
 
       const pipeline = (service as any).pipeline;
@@ -286,7 +252,7 @@ describe("InferenceService", { timeout: 10000 }, () => {
 
       const result = await service.semanticRerank("query", ["doc"]);
       assert.equal(result.rerankScores.length, 1);
-      assert.isNull(result.rerankScores[0].document);
+      assert.equal(result.rerankScores[0].document, "");
       assert.equal(result.rerankScores[0].score, 0.9);
     });
   });

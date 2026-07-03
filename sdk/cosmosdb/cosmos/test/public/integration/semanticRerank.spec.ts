@@ -34,6 +34,9 @@ describe.skipIf(!hasRequiredEnv)("SemanticRerankIntegration", { timeout: 120000 
     client = new CosmosClient({
       endpoint: accountEndpoint!,
       aadCredentials,
+      enablePreviewFeatures: {
+        inferenceEndpoint: inferenceEndpoint!,
+      },
     });
   });
 

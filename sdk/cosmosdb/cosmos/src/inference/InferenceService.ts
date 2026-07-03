@@ -19,6 +19,7 @@ import type { CosmosClientOptions } from "../CosmosClientOptions.js";
 import type { SemanticRerankOptions } from "./SemanticRerankOptions.js";
 import type { RerankScore, SemanticRerankResult } from "./SemanticRerankResult.js";
 import { Constants } from "../common/constants.js";
+import { StatusCodes } from "../common/statusCodes.js";
 import { getCachedDefaultHttpClient } from "../utils/cachedClient.js";
 import { ErrorResponse } from "../request/ErrorResponse.js";
 
@@ -27,8 +28,7 @@ const logger: AzureLogger = createClientLogger("InferenceService");
 /** Keys that are not part of the inference service payload. */
 const NON_PAYLOAD_KEYS = new Set(["abortSignal"]);
 
-/** HTTP success-range bounds (kept local so they are not exported in the public API). */
-const HTTP_OK = 200;
+/** HTTP redirection lower bound (kept local so it is not exported in the public API). */
 const HTTP_MULTIPLE_CHOICES = 300;
 
 /**
@@ -85,21 +85,16 @@ export class InferenceService {
   }
 
   /**
-   * Resolves the inference endpoint from client options or the environment variable.
-   * Client options take priority over the environment variable.
+   * Resolves the inference endpoint from the `inferenceEndpoint` key of `enablePreviewFeatures`.
    */
   private resolveInferenceEndpoint(cosmosClientOptions: CosmosClientOptions): string {
     const previewEndpoint = cosmosClientOptions.enablePreviewFeatures?.["inferenceEndpoint"];
-    const endpoint =
-      (typeof previewEndpoint === "string" ? previewEndpoint : undefined) ||
-      (typeof process !== "undefined"
-        ? process.env[Constants.Inference.EndpointEnvVar]
-        : undefined);
+    const endpoint = typeof previewEndpoint === "string" ? previewEndpoint : undefined;
 
     if (!endpoint) {
       throw new Error(
         `Inference endpoint is required for semantic reranking. ` +
-          `Set the 'inferenceEndpoint' key in 'enablePreviewFeatures' on CosmosClientOptions or the '${Constants.Inference.EndpointEnvVar}' environment variable.`,
+          `Set the 'inferenceEndpoint' key in 'enablePreviewFeatures' on CosmosClientOptions.`,
       );
     }
 
@@ -169,7 +164,7 @@ export class InferenceService {
    * This is the actual service response format, not a bug.
    */
   private parseResponse(response: PipelineResponse): SemanticRerankResult {
-    if (response.status < HTTP_OK || response.status >= HTTP_MULTIPLE_CHOICES) {
+    if (response.status < StatusCodes.Ok || response.status >= HTTP_MULTIPLE_CHOICES) {
       // Surface the service's raw error payload (code/message/details) directly to the caller.
       const errorResponse = new ErrorResponse(
         response.bodyAsText || `Semantic rerank request failed with status ${response.status}`,
@@ -198,7 +193,7 @@ export class InferenceService {
     }
 
     const rerankScores: RerankScore[] = body.Scores.map((item: Record<string, unknown>) => ({
-      document: (item.document as string) ?? null,
+      document: typeof item.document === "string" ? item.document : "",
       score: typeof item.score === "number" ? item.score : 0,
       index: typeof item.index === "number" ? item.index : -1,
     }));
