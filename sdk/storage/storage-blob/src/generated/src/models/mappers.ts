@@ -4299,6 +4299,34 @@ export const BlobDownloadHeaders: coreClient.CompositeMapper = {
           name: "Number",
         },
       },
+      accessTier: {
+        serializedName: "x-ms-access-tier",
+        xmlName: "x-ms-access-tier",
+        type: {
+          name: "String",
+        },
+      },
+      accessTierInferred: {
+        serializedName: "x-ms-access-tier-inferred",
+        xmlName: "x-ms-access-tier-inferred",
+        type: {
+          name: "Boolean",
+        },
+      },
+      accessTierChangedOn: {
+        serializedName: "x-ms-access-tier-change-time",
+        xmlName: "x-ms-access-tier-change-time",
+        type: {
+          name: "DateTimeRfc1123",
+        },
+      },
+      smartAccessTier: {
+        serializedName: "x-ms-smart-access-tier",
+        xmlName: "x-ms-smart-access-tier",
+        type: {
+          name: "String",
+        },
+      },
       errorCode: {
         serializedName: "x-ms-error-code",
         xmlName: "x-ms-error-code",
@@ -7999,6 +8027,13 @@ export const BlockBlobUploadHeaders: coreClient.CompositeMapper = {
           name: "ByteArray",
         },
       },
+      xMsContentCrc64: {
+        serializedName: "x-ms-content-crc64",
+        xmlName: "x-ms-content-crc64",
+        type: {
+          name: "ByteArray",
+        },
+      },
       clientRequestId: {
         serializedName: "x-ms-client-request-id",
         xmlName: "x-ms-client-request-id",
@@ -8113,6 +8148,13 @@ export const BlockBlobPutBlobFromUrlHeaders: coreClient.CompositeMapper = {
       contentMD5: {
         serializedName: "content-md5",
         xmlName: "content-md5",
+        type: {
+          name: "ByteArray",
+        },
+      },
+      xMsContentCrc64: {
+        serializedName: "x-ms-content-crc64",
+        xmlName: "x-ms-content-crc64",
         type: {
           name: "ByteArray",
         },

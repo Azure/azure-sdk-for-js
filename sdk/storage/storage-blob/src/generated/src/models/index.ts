@@ -296,7 +296,6 @@ export interface BlobPropertiesInternal {
   accessTier?: AccessTier;
   accessTierInferred?: boolean;
   archiveStatus?: ArchiveStatus;
-  /** The underlying tier of a smart tier blob. */
   smartAccessTier?: AccessTier;
   customerProvidedKeySha256?: string;
   /** The name of the encryption scope under which the blob is encrypted. */
@@ -1079,6 +1078,14 @@ export interface BlobDownloadHeaders {
   structuredBodyType?: string;
   /** The length of the blob/file content inside the message body when the response body is returned as a structured message. Will always be smaller than Content-Length. */
   structuredContentLength?: number;
+  /** The tier of page blob on a premium storage account or tier of block blob on blob storage LRS accounts. For a list of allowed premium page blob tiers, see https://learn.microsoft.com/azure/virtual-machines/disks-types#premium-ssd. For blob storage LRS accounts, valid values are Hot/Cool/Archive. */
+  accessTier?: string;
+  /** For page blobs on a premium storage account only. If the access tier is not explicitly set on the blob, the tier is inferred based on its content length and this header will be returned with true value. */
+  accessTierInferred?: boolean;
+  /** The time the tier was changed on the object. This is only returned if the tier on the block blob was ever set. */
+  accessTierChangedOn?: Date;
+  /** The underlying tier of a smart tier blob. Only returned if the blob is in Smart tier. */
+  smartAccessTier?: string;
   /** Error Code */
   errorCode?: string;
   /** If the request is to read a specified range and the x-ms-range-get-content-crc64 is set to true, then the request returns a crc64 for the range, as long as the range size is less than or equal to 4 MB. If both x-ms-range-get-content-crc64 & x-ms-range-get-content-md5 is specified in the same request, it will fail with 400(Bad Request). */
@@ -1564,7 +1571,7 @@ export interface BlobCopyFromURLHeaders {
   /** String identifier for this copy operation. */
   copyId?: string;
   /** State of the copy operation identified by x-ms-copy-id. */
-  copyStatus?: SyncCopyStatusType;
+  copyStatus?: "success";
   /** This response header is returned so that the client can check for the integrity of the copied content. This header is only returned if the source content MD5 was specified. */
   contentMD5?: Uint8Array;
   /** This response header is returned so that the client can check for the integrity of the copied content. */
@@ -2156,6 +2163,8 @@ export interface BlockBlobUploadHeaders {
   lastModified?: Date;
   /** If the blob has an MD5 hash and this operation is to read the full blob, this response header is returned so that the client can check for message content integrity. */
   contentMD5?: Uint8Array;
+  /** This header is returned so that the client can check for message content integrity. The value of this header is computed by the Blob service; it is not necessarily the same value specified in the request headers. */
+  xMsContentCrc64?: Uint8Array;
   /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
   clientRequestId?: string;
   /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
@@ -2191,6 +2200,8 @@ export interface BlockBlobPutBlobFromUrlHeaders {
   lastModified?: Date;
   /** If the blob has an MD5 hash and this operation is to read the full blob, this response header is returned so that the client can check for message content integrity. */
   contentMD5?: Uint8Array;
+  /** This header is returned so that the client can check for message content integrity. The value of this header is computed by the Blob service; it is not necessarily the same value specified in the request headers. */
+  xMsContentCrc64?: Uint8Array;
   /** If a client request id header is sent in the request, this header will be present in the response with the same value. */
   clientRequestId?: string;
   /** This header uniquely identifies the request that was made and can be used for troubleshooting the request. */
@@ -2945,8 +2956,6 @@ export type BlockListType = "committed" | "uncommitted" | "all";
 export type SequenceNumberActionType = "max" | "update" | "increment";
 /** Defines values for QueryFormatType. */
 export type QueryFormatType = "delimited" | "json" | "arrow" | "parquet";
-/** Defines values for SyncCopyStatusType. */
-export type SyncCopyStatusType = "success";
 
 /** Optional parameters. */
 export interface ServiceSetPropertiesOptionalParams

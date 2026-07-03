@@ -4,6 +4,9 @@
 
 ### Features Added
 
+- Added support for service version 2026-10-06.
+- Added `accessTier`, `accessTierInferred`, `accessTierChangedOn`, and `smartAccessTier` to the blob download response.
+
 ### Breaking Changes
 
 ### Bugs Fixed

@@ -754,6 +754,28 @@ describe("BlobClient", () => {
     assert.equal(properties.accessTier!, "Smart");
   });
 
+  it("download returns inferred access tier for a blob with no explicit tier", async () => {
+    // The blob uploaded in beforeEach has no explicit tier set, so the tier is inferred.
+    const downloadResponse = await blobClient.download();
+
+    assert.equal(downloadResponse.accessTier, "Hot");
+    assert.isTrue(downloadResponse.accessTierInferred);
+    // Never explicitly tiered and not a Smart-tier blob, so these are not returned.
+    assert.isUndefined(downloadResponse.accessTierChangedOn);
+    assert.isUndefined(downloadResponse.smartAccessTier);
+  });
+
+  it("download returns access tier properties", async () => {
+    await blockBlobClient.setAccessTier("Cool");
+
+    const downloadResponse = await blobClient.download();
+
+    assert.equal(downloadResponse.accessTier, "Cool");
+    // The tier was set explicitly, so it should not be reported as inferred.
+    assert.ok(!downloadResponse.accessTierInferred);
+    assert.isDefined(downloadResponse.accessTierChangedOn);
+  });
+
   it("setAccessTier set archive to hot", async () => {
     await blockBlobClient.setAccessTier("Archive");
     let properties = await blockBlobClient.getProperties();

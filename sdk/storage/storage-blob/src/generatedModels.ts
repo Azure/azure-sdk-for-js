@@ -477,10 +477,13 @@ export type {
   ContainerItem,
   ServiceSubmitBatchOptionalParams as ServiceSubmitBatchOptionalParamsModel,
   ContainerEncryptionScope,
-  SyncCopyStatusType,
 } from "./generated/src/models/index.js";
 
 // Following definitions are to avoid breaking change.
+
+/** Defines values for SyncCopyStatusType. */
+export type SyncCopyStatusType = "success";
+
 export interface BlobPrefix {
   name: string;
 }

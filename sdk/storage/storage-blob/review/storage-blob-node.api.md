@@ -458,7 +458,7 @@ export interface BlobCopyFromURLHeaders {
     clientRequestId?: string;
     contentMD5?: Uint8Array;
     copyId?: string;
-    copyStatus?: SyncCopyStatusType;
+    copyStatus?: "success";
     date?: Date;
     encryptionScope?: string;
     errorCode?: string;
@@ -546,6 +546,9 @@ export type BlobDeleteResponse = WithResponse<BlobDeleteHeaders, BlobDeleteHeade
 // @public
 export interface BlobDownloadHeaders {
     acceptRanges?: string;
+    accessTier?: string;
+    accessTierChangedOn?: Date;
+    accessTierInferred?: boolean;
     blobCommittedBlockCount?: number;
     blobContentMD5?: Uint8Array;
     blobSequenceNumber?: number;
@@ -592,6 +595,7 @@ export interface BlobDownloadHeaders {
         [propertyName: string]: string;
     };
     requestId?: string;
+    smartAccessTier?: string;
     structuredBodyType?: string;
     structuredContentLength?: number;
     tagCount?: number;
@@ -985,6 +989,7 @@ export interface BlobProperties {
     remainingRetentionDays?: number;
     // (undocumented)
     serverEncrypted?: boolean;
+    // (undocumented)
     smartAccessTier?: AccessTier;
     // (undocumented)
     tagCount?: number;
@@ -1536,6 +1541,7 @@ export interface BlockBlobPutBlobFromUrlHeaders {
     requestId?: string;
     version?: string;
     versionId?: string;
+    xMsContentCrc64?: Uint8Array;
 }
 
 // @public
@@ -1656,6 +1662,7 @@ export interface BlockBlobUploadHeaders {
     structuredBodyType?: string;
     version?: string;
     versionId?: string;
+    xMsContentCrc64?: Uint8Array;
 }
 
 // @public
