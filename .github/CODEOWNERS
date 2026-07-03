@@ -782,7 +782,7 @@
 # PRLabel: %Mgmt
 /sdk/nginx/arm-nginx/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/network/arm-network/      @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
