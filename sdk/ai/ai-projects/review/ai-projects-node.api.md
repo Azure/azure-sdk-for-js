@@ -794,7 +794,6 @@ export interface BetaInsightsGenerateOptionalParams extends OperationOptions {
 
 // @public
 export interface BetaInsightsGetOptionalParams extends OperationOptions {
-    clientRequestId?: string;
     foundryFeatures?: "Insights=V1Preview";
     includeCoordinates?: boolean;
 }
@@ -802,7 +801,6 @@ export interface BetaInsightsGetOptionalParams extends OperationOptions {
 // @public
 export interface BetaInsightsListOptionalParams extends OperationOptions {
     agentName?: string;
-    clientRequestId?: string;
     evalId?: string;
     foundryFeatures?: "Insights=V1Preview";
     includeCoordinates?: boolean;
@@ -986,12 +984,10 @@ export interface BetaRedTeamsCreateOptionalParams extends OperationOptions {
 
 // @public
 export interface BetaRedTeamsGetOptionalParams extends OperationOptions {
-    clientRequestId?: string;
 }
 
 // @public
 export interface BetaRedTeamsListOptionalParams extends OperationOptions {
-    clientRequestId?: string;
 }
 
 // @public
@@ -3332,13 +3328,6 @@ export interface RedTeamTargetConfig {
 export type RedTeamTargetConfigUnion = AzureOpenAIModelConfiguration | RedTeamTargetConfig;
 
 // @public
-export interface ReminderPreviewTool extends Tool {
-    description?: string;
-    name?: string;
-    type: "reminder_preview";
-}
-
-// @public
 export interface ReminderPreviewToolboxTool extends ToolboxTool {
     // (undocumented)
     type: "reminder_preview";
@@ -3985,10 +3974,10 @@ export interface ToolSearchToolParam extends Tool {
 }
 
 // @public
-export type ToolType = "function" | "file_search" | "computer" | "computer_use_preview" | "web_search" | "mcp" | "code_interpreter" | "image_generation" | "local_shell" | "shell" | "custom" | "namespace" | "tool_search" | "web_search_preview" | "apply_patch" | "a2a_preview" | "bing_custom_search_preview" | "browser_automation_preview" | "fabric_dataagent_preview" | "sharepoint_grounding_preview" | "memory_search_preview" | "reminder_preview" | "work_iq_preview" | "fabric_iq_preview" | "toolbox_search_preview" | "azure_ai_search" | "azure_function" | "bing_grounding" | "capture_structured_outputs" | "openapi";
+export type ToolType = "function" | "file_search" | "computer" | "computer_use_preview" | "web_search" | "mcp" | "code_interpreter" | "image_generation" | "local_shell" | "shell" | "custom" | "namespace" | "tool_search" | "web_search_preview" | "apply_patch" | "a2a_preview" | "bing_custom_search_preview" | "browser_automation_preview" | "fabric_dataagent_preview" | "sharepoint_grounding_preview" | "memory_search_preview" | "work_iq_preview" | "fabric_iq_preview" | "toolbox_search_preview" | "azure_ai_search" | "azure_function" | "bing_grounding" | "capture_structured_outputs" | "openapi";
 
 // @public
-export type ToolUnion = BingGroundingTool | MicrosoftFabricPreviewTool | SharepointPreviewTool | AzureAISearchTool | OpenApiTool | BingCustomSearchPreviewTool | BrowserAutomationPreviewTool | AzureFunctionTool | CaptureStructuredOutputsTool | A2APreviewTool | WorkIQPreviewTool | FabricIQPreviewTool | MemorySearchPreviewTool | ReminderPreviewTool | CodeInterpreterTool | FileSearchTool | WebSearchTool | MCPTool | FunctionTool | ComputerUsePreviewTool | ImageGenTool | LocalShellToolParam | FunctionShellToolParam | CustomToolParam | WebSearchPreviewTool | ApplyPatchToolParam | ComputerTool | NamespaceToolParam | ToolSearchToolParam | Tool;
+export type ToolUnion = BingGroundingTool | MicrosoftFabricPreviewTool | SharepointPreviewTool | AzureAISearchTool | OpenApiTool | BingCustomSearchPreviewTool | BrowserAutomationPreviewTool | AzureFunctionTool | CaptureStructuredOutputsTool | A2APreviewTool | WorkIQPreviewTool | FabricIQPreviewTool | MemorySearchPreviewTool | CodeInterpreterTool | FileSearchTool | WebSearchTool | MCPTool | FunctionTool | ComputerUsePreviewTool | ImageGenTool | LocalShellToolParam | FunctionShellToolParam | CustomToolParam | WebSearchPreviewTool | ApplyPatchToolParam | ComputerTool | NamespaceToolParam | ToolSearchToolParam | Tool;
 
 // @public
 export interface ToolUseFineTuningDataGenerationJobOptions extends DataGenerationJobOptions {
