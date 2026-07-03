@@ -1194,6 +1194,50 @@ describe("FileClient", () => {
     assert.deepStrictEqual(populatedRanges[0], { start: 512, end: 1535, isClear: false });
   });
 
+  it("listRanges on an empty file yields no ranges", async () => {
+    await fileClient.create(1024);
+
+    const ranges: ShareFileRange[] = [];
+    for await (const range of fileClient.listRanges()) {
+      ranges.push(range);
+    }
+    assert.deepStrictEqual(ranges.length, 0);
+  });
+
+  it("listRangesDiff interleaves cleared and populated ranges in start order", async function (ctx) {
+    if (isLiveMode()) {
+      // Skipped for now as the result is not stable.
+      ctx.skip();
+    }
+    // Baseline: write data into segments [0,511] and [1024,1535] so they can be cleared later.
+    await fileClient.create(512 * 4);
+    await fileClient.uploadRange("a", 0, 1);
+    await fileClient.uploadRange("c", 1024, 1);
+
+    const snapshotRes = await shareClient.createSnapshot();
+    assert.isDefined(snapshotRes.snapshot);
+
+    // After the snapshot, alternate clears and writes to produce an interleaved diff.
+    await fileClient.clearRange(0, 512); // -> cleared [0, 511]
+    await fileClient.uploadRange("b", 512, 1); // -> populated [512, 1023]
+    await fileClient.clearRange(1024, 512); // -> cleared [1024, 1535]
+    await fileClient.uploadRange("d", 1536, 1); // -> populated [1536, 2047]
+
+    const ranges: ShareFileRange[] = [];
+    for await (const range of fileClient.listRangesDiff(snapshotRes.snapshot!)) {
+      ranges.push(range);
+    }
+
+    // The two-pointer merge in extractShareFileRangeItems must yield a single sequence
+    // sorted by start, interleaving cleared and populated ranges.
+    assert.deepStrictEqual(ranges, [
+      { start: 0, end: 511, isClear: true },
+      { start: 512, end: 1023, isClear: false },
+      { start: 1024, end: 1535, isClear: true },
+      { start: 1536, end: 2047, isClear: false },
+    ]);
+  });
+
   it("download with with default parameters", async () => {
     await fileClient.create(content.length);
     await fileClient.uploadRange(content, 0, content.length);

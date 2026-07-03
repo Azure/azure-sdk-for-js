@@ -3588,6 +3588,10 @@ export type FileListRangesSegmentResponse = WithResponse<
 /**
  * Merges the valid ranges and cleared ranges returned by the service into a single
  * ordered sequence of {@link ShareFileRange} items, sorted by start position.
+ *
+ * This uses a two-pointer merge and assumes each input array is already sorted ascending
+ * by `start`, which is guaranteed by the List Ranges service response. If that invariant
+ * ever changes, the inputs must be sorted before merging to preserve output ordering.
  */
 function* extractShareFileRangeItems(
   ranges: RangeModel[] = [],
@@ -5390,9 +5394,9 @@ export class ShareFileClient extends StorageClient {
               ...updatedOptions,
               ...updatedOptions.leaseAccessConditions,
               marker: marker === "" ? undefined : marker,
-              maxResults: options.maxPageSize,
-              prevsharesnapshot: options.prevShareSnapshot,
-              supportRename: options.includeRenames,
+              maxResults: updatedOptions.maxPageSize,
+              prevsharesnapshot: updatedOptions.prevShareSnapshot,
+              supportRename: updatedOptions.includeRenames,
               range: updatedOptions.range ? rangeToString(updatedOptions.range) : undefined,
               ...this.shareClientConfig,
             }),
