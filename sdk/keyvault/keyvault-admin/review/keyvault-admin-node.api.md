@@ -322,7 +322,7 @@ export enum KnownKeyVaultRoleScope {
 }
 
 // @public
-export const LATEST_API_VERSION = "2025-07-01";
+export const LATEST_API_VERSION = "2026-01-01-preview";
 
 // @public
 export interface ListRoleAssignmentsOptions extends OperationOptions {
