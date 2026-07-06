@@ -48,7 +48,7 @@ For example:
 Which resource provider do you want to store your package in sdk folder? Please input it: purview
 ```
 
-You need to provide following information. You can refer to [README.md](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-catalog-rest/swagger/README.md) as an example.
+You need to provide following information. You can refer to `swagger/README.md` as an example.
 
 | parameter         | description                                                                                                                                                                                                                           |
 | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -70,7 +70,7 @@ Please refer to [template](https://github.com/Azure/azure-sdk-for-js/tree/main/s
 
 # Contribute
 
-If you want to contribute to this tool, please start from [src/llcCodegenAutomation.ts](src/llcCodegenAutomationCLI.ts).
+If you want to contribute to this tool, please start from [src/rlcCodegenCli.ts](../src/rlcCodegenCli.ts).
 Also, you need to know what the tool does:
 
 #### Generate Codes:

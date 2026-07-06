@@ -6,8 +6,8 @@ Special rule set for Azure REST level client: [rule set](../src/azure/rule-sets/
 
 ### Non-Breaking Changes
 
-- Operation name changes: [rule](../src/azure/common/rules/ignore-operation-interface-name-changes.ts)
-- Request parameter model name changes: [rule](../src/azure/common/rules/ignore-request-parameter-model-name-changes.ts)
+- Operation name changes
+- Request parameter model name changes
 - Response model name changes:
 - 
 
