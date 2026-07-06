@@ -35,7 +35,9 @@ describe.skipIf(!hasRequiredEnv)("SemanticRerankIntegration", { timeout: 120000 
       endpoint: accountEndpoint!,
       aadCredentials,
       enablePreviewFeatures: {
-        inferenceEndpoint: inferenceEndpoint!,
+        semanticRerank: {
+          inferenceEndpoint: inferenceEndpoint!,
+        },
       },
     });
   });

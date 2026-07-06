@@ -26,7 +26,9 @@ function createMockOptions(overrides?: Partial<CosmosClientOptions>): CosmosClie
     endpoint: "https://test-account.documents.azure.com:443/",
     aadCredentials: new MockTokenCredential(),
     enablePreviewFeatures: {
-      inferenceEndpoint: "https://test-inference.dbinference.azure.com",
+      semanticRerank: {
+        inferenceEndpoint: "https://test-inference.dbinference.azure.com",
+      },
     },
     ...overrides,
   };
@@ -56,7 +58,9 @@ describe("InferenceService", { timeout: 10000 }, () => {
       const service = new InferenceService(
         createMockOptions({
           enablePreviewFeatures: {
-            inferenceEndpoint: "https://options-inference.dbinference.azure.com",
+            semanticRerank: {
+              inferenceEndpoint: "https://options-inference.dbinference.azure.com",
+            },
           },
         }),
       );

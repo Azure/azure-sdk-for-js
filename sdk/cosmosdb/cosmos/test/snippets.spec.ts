@@ -1848,7 +1848,9 @@ describe("snippets", () => {
       endpoint,
       aadCredentials,
       enablePreviewFeatures: {
-        inferenceEndpoint: "https://your-account.<region>.dbinference.azure.com",
+        semanticRerank: {
+          inferenceEndpoint: "https://your-account.<region>.dbinference.azure.com",
+        },
       },
     });
     // @ts-preserve-whitespace

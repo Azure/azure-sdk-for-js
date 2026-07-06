@@ -17,6 +17,7 @@ import type { AzureLogger } from "@azure/logger";
 import { createClientLogger } from "@azure/logger";
 import type { CosmosClientOptions } from "../CosmosClientOptions.js";
 import type { SemanticRerankOptions } from "./SemanticRerankOptions.js";
+import type { SemanticRerankPreviewConfig } from "./SemanticRerankPreviewConfig.js";
 import type { RerankScore, SemanticRerankResult } from "./SemanticRerankResult.js";
 import { Constants } from "../common/constants.js";
 import { StatusCodes } from "../common/statusCodes.js";
@@ -51,7 +52,8 @@ export class InferenceService {
       );
     }
 
-    const endpoint = this.resolveInferenceEndpoint(cosmosClientOptions);
+    const semanticRerankConfig = this.getSemanticRerankConfig(cosmosClientOptions);
+    const endpoint = this.resolveInferenceEndpoint(semanticRerankConfig);
     this.inferenceEndpointUrl = `${endpoint}${Constants.Inference.BasePath}`;
 
     this.pipeline = this.createInferencePipeline(cosmosClientOptions.aadCredentials);
@@ -109,16 +111,30 @@ export class InferenceService {
   }
 
   /**
-   * Resolves the inference endpoint from the `inferenceEndpoint` key of `enablePreviewFeatures`.
+   * Reads the `semanticRerank` preview configuration object from `enablePreviewFeatures`, if present.
    */
-  private resolveInferenceEndpoint(cosmosClientOptions: CosmosClientOptions): string {
-    const previewEndpoint = cosmosClientOptions.enablePreviewFeatures?.["inferenceEndpoint"];
-    const endpoint = typeof previewEndpoint === "string" ? previewEndpoint : undefined;
+  private getSemanticRerankConfig(
+    cosmosClientOptions: CosmosClientOptions,
+  ): SemanticRerankPreviewConfig | undefined {
+    const config = cosmosClientOptions.enablePreviewFeatures?.["semanticRerank"];
+    return typeof config === "object" && config !== null
+      ? (config as SemanticRerankPreviewConfig)
+      : undefined;
+  }
+
+  /**
+   * Resolves the inference endpoint from `enablePreviewFeatures.semanticRerank.inferenceEndpoint`.
+   */
+  private resolveInferenceEndpoint(
+    semanticRerankConfig: SemanticRerankPreviewConfig | undefined,
+  ): string {
+    const endpointValue = semanticRerankConfig?.inferenceEndpoint;
+    const endpoint = typeof endpointValue === "string" ? endpointValue : undefined;
 
     if (!endpoint) {
       throw new Error(
         `Inference endpoint is required for semantic reranking. ` +
-          `Set the 'inferenceEndpoint' key in 'enablePreviewFeatures' on CosmosClientOptions.`,
+          `Set 'inferenceEndpoint' under the 'semanticRerank' key of 'enablePreviewFeatures' on CosmosClientOptions.`,
       );
     }
 
