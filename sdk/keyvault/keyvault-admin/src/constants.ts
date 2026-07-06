@@ -15,10 +15,4 @@ export const LATEST_API_VERSION = "2026-01-01-preview";
  * Supported API versions
  */
 export type SUPPORTED_API_VERSIONS =
-  | "7.2"
-  | "7.3"
-  | "7.4"
-  | "7.5"
-  | "7.6"
-  | "2025-07-01"
-  | "2026-01-01-preview";
+  "7.2" | "7.3" | "7.4" | "7.5" | "7.6" | "2025-07-01" | "2026-01-01-preview";
