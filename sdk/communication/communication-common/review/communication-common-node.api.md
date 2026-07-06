@@ -43,7 +43,7 @@ export interface CommunicationTokenRefreshOptions {
     refreshProactively?: boolean;
     token?: string | AccessToken;
     tokenRefresher: (abortSignal?: AbortSignalLike) => Promise<string | AccessToken>;
-    undecodableTokenExpiryIntervalInMinutes?: number;
+    undecodableTokenExpiryIntervalInSeconds?: number;
 }
 
 // @public

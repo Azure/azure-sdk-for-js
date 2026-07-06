@@ -6,7 +6,7 @@
 
 - `AzureCommunicationTokenCredential` now supports encrypted access tokens that cannot be decoded (e.g. for enterprise Entra users):
   - `tokenRefresher` may return an `AccessToken` (`{ token, expiresOnTimestamp }`) and the static constructor accepts an `AccessToken`, allowing the expiry to be supplied explicitly instead of decoded from the token.
-  - Added `undecodableTokenExpiryIntervalInMinutes` to `CommunicationTokenRefreshOptions` to configure the lifetime assumed for an undecodable token without an explicit expiry (default 10 minutes).
+  - Added `undecodableTokenExpiryIntervalInSeconds` to `CommunicationTokenRefreshOptions` to configure the lifetime assumed for an undecodable token without an explicit expiry (default 600 seconds).
 
 ### Breaking Changes
 

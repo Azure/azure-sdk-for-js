@@ -8,23 +8,28 @@ interface JwtToken {
   exp: number;
 }
 
-/** Default lifetime assumed for an encrypted/undecodable token when no expiry is supplied. */
-export const defaultUndecodableTokenExpiryIntervalInMs = 10 * 60 * 1000;
+/** Default lifetime (in seconds) assumed for an encrypted/undecodable token when no expiry is supplied. */
+export const defaultUndecodableTokenExpiryIntervalInSeconds = 10 * 60;
 
 // A compact JWE (encrypted JWT) has five segments; a signed JWT has three.
 const isEncryptedJwt = (token: string): boolean => token.split(".").length === 5;
 
+/** Type guard for a caller-supplied {@link AccessToken} (carries an explicit expiry). */
+export const isAccessToken = (value: unknown): value is AccessToken =>
+  typeof value === "object" && value !== null && "token" in value && "expiresOnTimestamp" in value;
+
 /**
  * Resolves a token into an {@link AccessToken}. Expiry is taken from a caller-supplied
  * `AccessToken` if present, otherwise from the JWT `exp` claim. Encrypted tokens that
- * can't be decoded fall back to `now + undecodableTokenExpiryIntervalInMs`; malformed
+ * can't be decoded fall back to `now + undecodableTokenExpiryIntervalInSeconds`; malformed
  * strings still throw.
  */
 export const parseToken = (
   token: string | AccessToken,
-  undecodableTokenExpiryIntervalInMs: number = defaultUndecodableTokenExpiryIntervalInMs,
+  undecodableTokenExpiryIntervalInSeconds: number = defaultUndecodableTokenExpiryIntervalInSeconds,
 ): AccessToken => {
-  if (typeof token !== "string") {
+  // Caller supplied an explicit expiry — use it as-is.
+  if (isAccessToken(token)) {
     return token;
   }
 
@@ -40,7 +45,7 @@ export const parseToken = (
     }
     return {
       token,
-      expiresOnTimestamp: Date.now() + undecodableTokenExpiryIntervalInMs,
+      expiresOnTimestamp: Date.now() + undecodableTokenExpiryIntervalInSeconds * 1000,
     };
   }
 };

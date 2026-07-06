@@ -36,10 +36,10 @@ export interface CommunicationTokenRefreshOptions {
   refreshProactively?: boolean;
 
   /**
-   * Lifetime, in minutes, assumed for a returned token that cannot be decoded and
-   * carries no explicit expiry (e.g. an encrypted access token). Defaults to 10.
+   * Lifetime, in seconds, assumed for a returned token that cannot be decoded and
+   * carries no explicit expiry (e.g. an encrypted access token). Defaults to 600 (10 minutes).
    */
-  undecodableTokenExpiryIntervalInMinutes?: number;
+  undecodableTokenExpiryIntervalInSeconds?: number;
 }
 
 const expiredToken = { token: "", expiresOnTimestamp: -10 };
@@ -52,7 +52,7 @@ export class AutoRefreshTokenCredential implements TokenCredential {
   private readonly refreshProactively: boolean;
   private readonly expiringSoonIntervalInMs: number = defaultExpiringSoonInterval;
   private readonly refreshAfterLifetimePercentage = defaultRefreshAfterLifetimePercentage;
-  private readonly undecodableTokenExpiryIntervalInMs: number | undefined;
+  private readonly undecodableTokenExpiryIntervalInSeconds: number | undefined;
 
   private currentToken: AccessToken;
   private activeTimeout: ReturnType<typeof setTimeout> | undefined;
@@ -61,16 +61,13 @@ export class AutoRefreshTokenCredential implements TokenCredential {
   private disposed = false;
 
   constructor(refreshArgs: CommunicationTokenRefreshOptions) {
-    const { tokenRefresher, token, refreshProactively, undecodableTokenExpiryIntervalInMinutes } =
+    const { tokenRefresher, token, refreshProactively, undecodableTokenExpiryIntervalInSeconds } =
       refreshArgs;
 
     this.refresh = tokenRefresher;
-    this.undecodableTokenExpiryIntervalInMs =
-      undecodableTokenExpiryIntervalInMinutes !== undefined
-        ? minutesToMs(undecodableTokenExpiryIntervalInMinutes)
-        : undefined;
+    this.undecodableTokenExpiryIntervalInSeconds = undecodableTokenExpiryIntervalInSeconds;
     this.currentToken = token
-      ? parseToken(token, this.undecodableTokenExpiryIntervalInMs)
+      ? parseToken(token, this.undecodableTokenExpiryIntervalInSeconds)
       : expiredToken;
     this.refreshProactively = refreshProactively ?? false;
 
@@ -132,7 +129,10 @@ export class AutoRefreshTokenCredential implements TokenCredential {
       if (!this.activeTokenFetching) {
         this.activeTokenFetching = this.refresh(abortSignal);
       }
-      return parseToken(await this.activeTokenFetching, this.undecodableTokenExpiryIntervalInMs);
+      return parseToken(
+        await this.activeTokenFetching,
+        this.undecodableTokenExpiryIntervalInSeconds,
+      );
     } finally {
       this.activeTokenFetching = null;
     }

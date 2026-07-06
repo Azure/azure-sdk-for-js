@@ -12,7 +12,7 @@ import type {
 } from "./communicationTokenCredential.js";
 import type { AccessToken } from "@azure/core-auth";
 import { StaticTokenCredential } from "./staticTokenCredential.js";
-import { parseToken } from "./tokenParser.js";
+import { isAccessToken, parseToken } from "./tokenParser.js";
 import {
   type EntraCommunicationTokenCredentialOptions,
   EntraTokenCredential,
@@ -52,7 +52,7 @@ export class AzureCommunicationTokenCredential implements CommunicationTokenCred
   ) {
     if (
       typeof tokenOrRefreshOptionsOrEntraOptions === "string" ||
-      "expiresOnTimestamp" in tokenOrRefreshOptionsOrEntraOptions
+      isAccessToken(tokenOrRefreshOptionsOrEntraOptions)
     ) {
       this.tokenCredential = new StaticTokenCredential(
         parseToken(tokenOrRefreshOptionsOrEntraOptions),
