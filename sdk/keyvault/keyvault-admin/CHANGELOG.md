@@ -9,10 +9,6 @@
   `createEkmConnection`, `updateEkmConnection`, `deleteEkmConnection`, `getEkmCertificate`, and `checkEkmConnection`.
 - Added `KeyVaultEkmConnection`, `KeyVaultEkmProxyClientCertificateInfo`, and `KeyVaultEkmProxyInfo` models supporting the EKM client.
 
-### Breaking Changes
-
-### Bugs Fixed
-
 ### Other Changes
 
 - Key Vault API version `2026-01-01-preview` is now the default.
