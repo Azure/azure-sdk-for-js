@@ -15,4 +15,10 @@
 export interface SemanticRerankPreviewConfig {
   /** Endpoint of the Cosmos DB Inference Service used for semantic reranking. */
   inferenceEndpoint?: string;
+  /**
+   * Per-request timeout, in milliseconds, for inference calls. This is a single-attempt budget
+   * with no retries; when it elapses the request fails with HTTP status 408 (Request Timeout).
+   * Defaults to 5000 (5 seconds).
+   */
+  inferenceRequestTimeout?: number;
 }

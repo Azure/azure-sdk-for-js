@@ -704,7 +704,7 @@ export const Constants: {
         BasePath: string;
         UserAgent: string;
         DefaultScope: string;
-        DefaultTimeoutMs: number;
+        DefaultRequestTimeoutMs: number;
     };
 };
 

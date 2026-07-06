@@ -68,6 +68,25 @@ describe("InferenceService", { timeout: 10000 }, () => {
       assert.include(resolvedUrl, "options-inference");
     });
 
+    it("should use inferenceRequestTimeout from enablePreviewFeatures", () => {
+      const service = new InferenceService(
+        createMockOptions({
+          enablePreviewFeatures: {
+            semanticRerank: {
+              inferenceEndpoint: "https://options-inference.dbinference.azure.com",
+              inferenceRequestTimeout: 30000,
+            },
+          },
+        }),
+      );
+      assert.equal((service as any).inferenceRequestTimeoutMs, 30000);
+    });
+
+    it("should default the request timeout to 5 seconds when not provided", () => {
+      const service = new InferenceService(createMockOptions());
+      assert.equal((service as any).inferenceRequestTimeoutMs, 5000);
+    });
+
     it("should succeed with valid AAD credentials and inference endpoint", () => {
       const service = new InferenceService(createMockOptions());
       assert.isDefined(service);
@@ -289,6 +308,63 @@ describe("InferenceService", { timeout: 10000 }, () => {
 
       assert.equal(node.children.length, 1);
       assert.equal(node.children[0].nodeType, DiagnosticNodeType.HTTP_REQUEST);
+    });
+
+    it("should throw a 408 error when the request exceeds the inference timeout", async () => {
+      const service = new InferenceService(
+        createMockOptions({
+          enablePreviewFeatures: {
+            semanticRerank: {
+              inferenceEndpoint: "https://test-inference.dbinference.azure.com",
+              inferenceRequestTimeout: 20,
+            },
+          },
+        }),
+      );
+
+      // Simulate a slow server that only settles once the request is aborted.
+      const pipeline = (service as any).pipeline;
+      pipeline.sendRequest = (_client: HttpClient, request: any) =>
+        new Promise((_resolve, reject) => {
+          const signal = request.abortSignal as AbortSignal;
+          signal.addEventListener("abort", () => reject(new Error("aborted")), { once: true });
+        });
+
+      try {
+        await service.semanticRerank("query", ["doc"]);
+        assert.fail("Should have thrown");
+      } catch (e: any) {
+        assert.equal(e.code, 408);
+        assert.equal(e.body.code, "RequestTimeout");
+        assert.include(e.body.message, "timed out");
+      }
+    });
+
+    it("should propagate caller cancellation instead of converting it to a timeout", async () => {
+      const service = new InferenceService(createMockOptions());
+
+      const pipeline = (service as any).pipeline;
+      pipeline.sendRequest = (_client: HttpClient, request: any) =>
+        new Promise((_resolve, reject) => {
+          const signal = request.abortSignal as AbortSignal;
+          signal.addEventListener("abort", () => reject(new Error("aborted by caller")), {
+            once: true,
+          });
+        });
+
+      const controller = new AbortController();
+      const promise = service.semanticRerank("query", ["doc"], {
+        abortSignal: controller.signal,
+      });
+      controller.abort();
+
+      try {
+        await promise;
+        assert.fail("Should have thrown");
+      } catch (e: any) {
+        assert.notEqual(e.code, 408);
+        assert.include(e.message, "aborted by caller");
+      }
     });
   });
 });

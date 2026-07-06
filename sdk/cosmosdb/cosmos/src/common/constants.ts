@@ -310,7 +310,7 @@ export const Constants = {
     BasePath: "/inference/semanticReranking",
     UserAgent: "cosmos-inference-js",
     DefaultScope: "https://dbinference.azure.com/.default",
-    DefaultTimeoutMs: 120_000, // 120 seconds
+    DefaultRequestTimeoutMs: 5_000, // 5 seconds (single-attempt inference budget; matches the .NET SDK default)
   },
 };
 

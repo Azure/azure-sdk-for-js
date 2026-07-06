@@ -44,6 +44,7 @@ export class InferenceService {
   private readonly pipeline: Pipeline;
   private readonly httpClient: HttpClient;
   private readonly inferenceEndpointUrl: string;
+  private readonly inferenceRequestTimeoutMs: number;
 
   constructor(cosmosClientOptions: CosmosClientOptions) {
     if (!cosmosClientOptions.aadCredentials) {
@@ -55,6 +56,7 @@ export class InferenceService {
     const semanticRerankConfig = this.getSemanticRerankConfig(cosmosClientOptions);
     const endpoint = this.resolveInferenceEndpoint(semanticRerankConfig);
     this.inferenceEndpointUrl = `${endpoint}${Constants.Inference.BasePath}`;
+    this.inferenceRequestTimeoutMs = this.resolveRequestTimeout(semanticRerankConfig);
 
     this.pipeline = this.createInferencePipeline(cosmosClientOptions.aadCredentials);
     this.httpClient = cosmosClientOptions.httpClient ?? getCachedDefaultHttpClient();
@@ -77,28 +79,61 @@ export class InferenceService {
     diagnosticNode?: DiagnosticNodeInternal,
   ): Promise<SemanticRerankResult> {
     const payload = this.buildPayload(rerankContext, documents, options);
+    const callerSignal = options?.["abortSignal"] as AbortSignal | undefined;
+
+    // Enforce a single-attempt, no-retry timeout for the inference request. A dedicated
+    // AbortController is the authoritative per-request budget (mirrors the .NET linked
+    // CancellationTokenSource). Caller cancellation is linked in so it still cancels the
+    // in-flight request, but it is surfaced unchanged rather than as a timeout.
+    const timeoutController = new AbortController();
+    const onCallerAbort = (): void => timeoutController.abort();
+    if (callerSignal) {
+      if (callerSignal.aborted) {
+        timeoutController.abort();
+      } else {
+        callerSignal.addEventListener("abort", onCallerAbort, { once: true });
+      }
+    }
 
     const request = createPipelineRequest({
       url: this.inferenceEndpointUrl,
       method: "POST",
       body: JSON.stringify(payload),
-      abortSignal: options?.["abortSignal"] as AbortSignal | undefined,
-      timeout: Constants.Inference.DefaultTimeoutMs,
+      abortSignal: timeoutController.signal,
     });
 
     this.setHeaders(request);
 
     const sendAndParse = async (node?: DiagnosticNodeInternal): Promise<SemanticRerankResult> => {
       const startTimeUTCInMs = getCurrentTimestampInMs();
-      const response = await this.pipeline.sendRequest(this.httpClient, request);
-      node?.addData({
-        startTimeUTCInMs,
-        durationInMs: getCurrentTimestampInMs() - startTimeUTCInMs,
-        requestPayloadLengthInBytes: request.body ? String(request.body).length : 0,
-        responsePayloadLengthInBytes: response.bodyAsText?.length ?? 0,
-        requestData: { url: this.inferenceEndpointUrl },
-      });
-      return this.parseResponse(response);
+      let timedOut = false;
+      const timeoutHandle = setTimeout(() => {
+        timedOut = true;
+        timeoutController.abort();
+      }, this.inferenceRequestTimeoutMs);
+
+      try {
+        const response = await this.pipeline.sendRequest(this.httpClient, request);
+        node?.addData({
+          startTimeUTCInMs,
+          durationInMs: getCurrentTimestampInMs() - startTimeUTCInMs,
+          requestPayloadLengthInBytes: request.body ? String(request.body).length : 0,
+          responsePayloadLengthInBytes: response.bodyAsText?.length ?? 0,
+          requestData: { url: this.inferenceEndpointUrl },
+        });
+        return this.parseResponse(response);
+      } catch (error) {
+        // Surface only our own timeout as 408; caller cancellation propagates unchanged.
+        if (timedOut && !callerSignal?.aborted) {
+          throw this.createTimeoutError(startTimeUTCInMs);
+        }
+        throw error;
+      } finally {
+        clearTimeout(timeoutHandle);
+        if (callerSignal) {
+          callerSignal.removeEventListener("abort", onCallerAbort);
+        }
+      }
     };
 
     return diagnosticNode
@@ -140,6 +175,20 @@ export class InferenceService {
 
     // Remove trailing slash if present
     return endpoint.replace(/\/+$/, "");
+  }
+
+  /**
+   * Resolves the per-request timeout (ms) from
+   * `enablePreviewFeatures.semanticRerank.inferenceRequestTimeout`, falling back to the default
+   * when not provided or invalid. This is a single-attempt budget with no retries.
+   */
+  private resolveRequestTimeout(
+    semanticRerankConfig: SemanticRerankPreviewConfig | undefined,
+  ): number {
+    const timeoutValue = semanticRerankConfig?.inferenceRequestTimeout;
+    return typeof timeoutValue === "number" && timeoutValue > 0
+      ? timeoutValue
+      : Constants.Inference.DefaultRequestTimeoutMs;
   }
 
   /**
@@ -292,6 +341,23 @@ export class InferenceService {
     errorResponse.body = errorBody;
     // All response headers (including x-correlation-id) are surfaced here.
     errorResponse.headers = response.headers.toJSON() as Record<string, string>;
+    return errorResponse;
+  }
+
+  /**
+   * Builds an ErrorResponse for a client-side inference request timeout, carrying HTTP status
+   * 408 (Request Timeout). No retries are attempted; this is a single-attempt budget.
+   */
+  private createTimeoutError(startTimeUTCInMs: number): ErrorResponse {
+    const elapsedMs = getCurrentTimestampInMs() - startTimeUTCInMs;
+    const message =
+      `Semantic rerank request timed out after ${this.inferenceRequestTimeoutMs} ms ` +
+      `(elapsed ${elapsedMs} ms). Adjust 'inferenceRequestTimeout' under ` +
+      `'enablePreviewFeatures.semanticRerank' on CosmosClientOptions to change this budget.`;
+    const errorBody: ErrorBody = { code: "RequestTimeout", message };
+    const errorResponse = new ErrorResponse(message);
+    errorResponse.code = StatusCodes.RequestTimeout;
+    errorResponse.body = errorBody;
     return errorResponse;
   }
 }
