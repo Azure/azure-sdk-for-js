@@ -47,7 +47,7 @@ You also need to enable `compilerOptions.allowSyntheticDefaultImports` in your t
 
 ## Authenticate the client
 
-In order to interact with the Azure Key Vault service, you will need to create an instance of either the [`KeyVaultAccessControlClient`](#create-keyvaultaccesscontrolclient) class or the [`KeyVaultBackupClient`](#create-keyvaultbackupclient) class, as well as a **vault url** (which you may see as "DNS Name" in the Azure Portal) and a credential object. The examples shown in this document use a credential object named [`DefaultAzureCredential`][default_azure_credential], which is appropriate for most scenarios, including local development and production environments. Additionally, we recommend using a [managed identity][managed_identity] for authentication in production environments.
+In order to interact with the Azure Key Vault service, you will need to create an instance of either the [`KeyVaultAccessControlClient`](#create-keyvaultaccesscontrolclient) class or the [`KeyVaultBackupClient`](#create-keyvaultbackupclient), [KeyVaultSettingsClient](#create-a-keyvaultsettingsclient), or [KeyVaultEkmClient](#create-a-keyvaultekmclient) class, as well as a **vault url** (which you may see as "DNS Name" in the Azure Portal) and a credential object. The examples shown in this document use a credential object named [`DefaultAzureCredential`][default_azure_credential], which is appropriate for most scenarios, including local development and production environments. Additionally, we recommend using a [managed identity][managed_identity] for authentication in production environments.
 
 You can find more information on different ways of authenticating and their corresponding credential types in the [Azure Identity documentation][azure_identity].
 
@@ -109,6 +109,18 @@ A `KeyVaultAccessControlClient` provides operations allowing for management of R
 ### KeyVaultBackupClient
 
 A `KeyVaultBackupClient` provides operations for performing full key backups, full key restores, and selective key restores.
+
+### KeyVaultSettingsClient
+
+A `KeyVaultSettingsClient` manages Managed HSM account settings.
+
+### KeyVaultEkmClient
+
+A `KeyVaultEkmClient` manages the Managed HSM's External Key Manager (EKM) connection.
+
+### EKM Connection
+
+An EKM connection represents the connection of an Azure Managed HSM resource with an external HSM.
 
 ### Long running operations
 

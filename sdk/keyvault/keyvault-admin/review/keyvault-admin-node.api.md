@@ -392,7 +392,7 @@ export interface SettingsClientOptions extends ClientOptions {
 }
 
 // @public
-export type SUPPORTED_API_VERSIONS = "7.2" | "7.3" | "7.4" | "7.5" | "7.6" | "2025-07-01";
+export type SUPPORTED_API_VERSIONS = "7.2" | "7.3" | "7.4" | "7.5" | "7.6" | "2025-07-01" | "2026-01-01-preview";
 
 // @public
 export interface UpdateEkmConnectionOptions extends OperationOptions {

@@ -2,15 +2,15 @@
 // Licensed under the MIT License.
 
 import { type Recorder } from "@azure-tools/test-recorder";
-import { stringToUint8Array } from "@azure/core-util";
 import type { EkmConnection } from "../../src/models/index.js";
+import type { KeyVaultEkmClient } from "#platform/ekmClient";
+import { stringToUint8Array } from "@azure/core-util";
 import { authenticate } from "./utils/authentication.js";
 import { describe, it, beforeEach, afterEach, expect } from "vitest";
 import { getEnvironmentVariable } from "./utils/common.js";
-import { KeyVaultEkmClient } from "#platform/ekmClient";
 
 describe("EKM connection operations", () => {
-  let client: KeyVaultEkmClientlient;
+  let client: KeyVaultEkmClient;
   let recorder: Recorder;
 
   function buildEkmConnection(): EkmConnection {

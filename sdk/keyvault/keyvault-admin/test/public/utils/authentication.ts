@@ -13,6 +13,7 @@ import {
   KeyVaultAccessControlClient,
   KeyVaultBackupClient,
   KeyVaultSettingsClient,
+  KeyVaultEkmClient,
 } from "../../../src/index.js";
 
 import { getEnvironmentVariable } from "./common.js";
@@ -98,7 +99,7 @@ export async function authenticate(that: TestInfo): Promise<any> {
     }),
   );
 
-  const ekmClient = createKeyVaultClient(
+  const ekmClient = new KeyVaultEkmClient(
     keyVaultHsmUrl,
     credential,
     recorder.configureClientOptions({
