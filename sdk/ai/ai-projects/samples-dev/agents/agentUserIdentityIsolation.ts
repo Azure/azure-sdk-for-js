@@ -11,8 +11,8 @@
  * continue a prior response chain only when the delegated user identity
  * matches the user who started it:
  *
- *   - First delegated user: "1 + 1 = ?" then "then + 10"
- *   - Second delegated user: attempting "then + 10" against the first user's
+ *   - First delegated user: "1 + 1 = ?" then "Then add 10 to the previous result"
+ *   - Second delegated user: attempting "Then add 10 to the previous result" against the first user's
  *     response chain is expected to fail with `404 NotFound`, confirming the
  *     response history is isolated per delegated user.
  *
@@ -83,7 +83,7 @@ export async function main(): Promise<void> {
         FOUNDRY_MODEL_NAME: modelName,
         AGENT_INSTRUCTIONS:
           "You are a helpful assistant that answers arithmetic questions. " +
-          "Use the prior response context to resolve follow-up math questions like 'then + 10'.",
+          "Use the prior response context to resolve follow-up math questions like 'Then add 10 to the previous result'.",
       },
       protocol_versions: [{ protocol: "responses", version: "1.0.0" }],
     };
@@ -157,12 +157,12 @@ export async function main(): Promise<void> {
 
     // Second delegated user tries to continue User 1's chain — expected to fail
     console.log(
-      "\nUser 2 input: then + 10.  Check whether the agent can continue User 1's response chain.",
+      "\nUser 2 input: Then add 10 to the previous result.  Check whether the agent can continue User 1's response chain.",
     );
     try {
       await openAIClient.responses.create(
         {
-          input: "then + 10",
+          input: "Then add 10 to the previous result",
           previous_response_id: response.id,
         },
         {
@@ -182,10 +182,10 @@ export async function main(): Promise<void> {
     }
 
     // First delegated user continues their own chain
-    console.log("\nUser 1 input: then + 10");
+    console.log("\nUser 1 input: Then add 10 to the previous result");
     const followUp = await openAIClient.responses.create(
       {
-        input: "then + 10",
+        input: "Then add 10 to the previous result",
         previous_response_id: response.id,
       },
       {
