@@ -25,8 +25,8 @@ async function cosmosDBMongoDBCollectionCreateUpdate(): Promise<void> {
       resource: {
         id: "collectionName",
         indexes: [
-          { keys: ["_ts"], options: { expireAfterSeconds: 100, unique: true } },
-          { keys: ["_id"] },
+          { key: { keys: ["_ts"] }, options: { expireAfterSeconds: 100, unique: true } },
+          { key: { keys: ["_id"] } },
         ],
         shardKey: { testKey: "Hash" },
       },

@@ -3019,7 +3019,7 @@ export interface MongoDBResourcesUpdateMongoDBDatabaseThroughputOptionalParams e
 
 // @public
 export interface MongoIndex {
-    keys?: string[];
+    key?: MongoIndexKeys;
     options?: MongoIndexOptions;
 }
 

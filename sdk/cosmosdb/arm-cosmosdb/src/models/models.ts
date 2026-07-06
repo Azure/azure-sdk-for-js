@@ -5762,22 +5762,22 @@ export function mongoIndexArrayDeserializer(result: Array<MongoIndex>): any[] {
 
 /** Cosmos DB MongoDB collection index key */
 export interface MongoIndex {
+  /** Cosmos DB MongoDB collection index keys */
+  key?: MongoIndexKeys;
   /** Cosmos DB MongoDB collection index key options */
   options?: MongoIndexOptions;
-  /** List of keys for each MongoDB collection in the Azure Cosmos DB service */
-  keys?: string[];
 }
 
 export function mongoIndexSerializer(item: MongoIndex): any {
   return {
-    key: areAllPropsUndefined(item, ["keys"]) ? undefined : _mongoIndexKeySerializer(item),
+    key: !item["key"] ? item["key"] : mongoIndexKeysSerializer(item["key"]),
     options: !item["options"] ? item["options"] : mongoIndexOptionsSerializer(item["options"]),
   };
 }
 
 export function mongoIndexDeserializer(item: any): MongoIndex {
   return {
-    ...(!item["key"] ? item["key"] : _mongoIndexKeyDeserializer(item["key"])),
+    key: !item["key"] ? item["key"] : mongoIndexKeysDeserializer(item["key"]),
     options: !item["options"] ? item["options"] : mongoIndexOptionsDeserializer(item["options"]),
   };
 }
@@ -12393,26 +12393,6 @@ export function _mongoDBCollectionGetResultsPropertiesDeserializer(item: any) {
     options: !item["options"]
       ? item["options"]
       : mongoDBCollectionGetPropertiesOptionsDeserializer(item["options"]),
-  };
-}
-
-export function _mongoIndexKeySerializer(item: MongoIndex): any {
-  return {
-    keys: !item["keys"]
-      ? item["keys"]
-      : item["keys"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-export function _mongoIndexKeyDeserializer(item: any) {
-  return {
-    keys: !item["keys"]
-      ? item["keys"]
-      : item["keys"].map((p: any) => {
-          return p;
-        }),
   };
 }
 

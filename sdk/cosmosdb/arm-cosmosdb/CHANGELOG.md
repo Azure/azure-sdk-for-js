@@ -1,6 +1,6 @@
 # Release History
 
-## 17.0.0 (2026-07-01)
+## 17.0.0 (2026-07-06)
 
 ### Features Added
   - Added operation group MongoMIResourcesOperations
@@ -289,7 +289,6 @@
   - Interface MongoDBDatabaseCreateUpdateParameters has a new optional parameter identity
   - Interface MongoDBDatabaseGetResults has a new optional parameter identity
   - Interface MongoDBDatabaseGetResults has a new optional parameter systemData
-  - Interface MongoIndex has a new optional parameter keys
   - Interface MongoRoleDefinitionGetResults has a new optional parameter systemData
   - Interface MongoUserDefinitionGetResults has a new optional parameter systemData
   - Interface NotebookWorkspace has a new optional parameter systemData
@@ -376,7 +375,6 @@
   - Type of parameter serviceType of interface ServiceResourceCreateUpdateProperties is changed from "DataTransfer" | "SqlDedicatedGateway" | "GraphAPICompute" | "MaterializedViewsBuilder" to ServiceType
   - Type of parameter serviceType of interface ServiceResourceProperties is changed from "DataTransfer" | "SqlDedicatedGateway" | "GraphAPICompute" | "MaterializedViewsBuilder" to ServiceType
   - Interface FleetUpdateOptionalParams no longer has parameter body
-  - Interface MongoIndex no longer has parameter key
   - Removed Type Alias NodeStatus
   - Type alias "BackupPolicyUnion" has been changed
   - Type alias "ServiceResourceCreateUpdatePropertiesUnion" has been changed
