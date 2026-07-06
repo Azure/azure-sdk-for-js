@@ -2,7 +2,7 @@
 
 ## Special Rule Set
 
-Special rule set for Azure REST level client: [rule set](../src/azure/rule-sets/rest-level-client-rule-sets.ts).
+Special rule set for Azure REST level client: [rule set](https://github.com/Azure/azure-sdk-for-js/blob/main/common/tools/js-sdk-release-tools/packages/typescript-codegen-breaking-change-detector/src/azure/rule-sets/rest-level-client-rule-sets.ts).
 
 ### Non-Breaking Changes
 

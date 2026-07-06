@@ -70,7 +70,7 @@ Please refer to [template](https://github.com/Azure/azure-sdk-for-js/tree/main/s
 
 # Contribute
 
-If you want to contribute to this tool, please start from [src/rlcCodegenCli.ts](../src/rlcCodegenCli.ts).
+If you want to contribute to this tool, please start from [src/rlcCodegenCli.ts].
 Also, you need to know what the tool does:
 
 #### Generate Codes:
