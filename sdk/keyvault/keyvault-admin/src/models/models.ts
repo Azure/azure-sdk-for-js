@@ -295,7 +295,7 @@ export function settingArrayDeserializer(result: Array<Setting>): any[] {
   });
 }
 
-/** A EkmConnection model object. */
+/** An EkmConnection model object. */
 export interface EkmConnection {
   /** EKM proxy FQDN (Fully Qualified Domain Name). Only allowed characters are a-z, A-Z, 0-9, hyphen (-), dot (.), and colon (:). */
   host: string;

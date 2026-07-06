@@ -91,7 +91,7 @@ export class KeyVaultClient {
     this.roleDefinitions = _getRoleDefinitionsOperations(this._client);
   }
 
-  /** The External Key Manager (EKM) deletes the existing EKM connection. If the EKM connection does not already exists, this operation fails. This operation requires ekm/delete permission. */
+  /** The External Key Manager (EKM) deletes the existing EKM connection. If the EKM connection does not already exist, this operation fails. This operation requires ekm/delete permission. */
   deleteEkmConnection(
     options: DeleteEkmConnectionOptionalParams = { requestOptions: {} },
   ): Promise<EkmConnection> {
