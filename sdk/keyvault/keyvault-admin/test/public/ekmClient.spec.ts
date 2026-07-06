@@ -33,49 +33,43 @@ describe("EKM connection operations", () => {
     await recorder.stop();
   });
 
-  it("creates an EKM connection", async () => {
-    const created = await client.createEkmConnection(buildEkmConnection());
+  it("manages the full EKM connection lifecycle", async () => {
+    let connectionCreated = false;
+    try {
+      const created = await client.createEkmConnection(buildEkmConnection());
+      connectionCreated = true;
+      expect(created.host).toEqual(getEnvironmentVariable("EKM_PROXY_HOST"));
+      expect(created.serverCaCertificates.length).toBeGreaterThan(0);
 
-    expect(created.host).toEqual(getEnvironmentVariable("EKM_PROXY_HOST"));
-    expect(created.serverCaCertificates.length).toBeGreaterThan(0);
-  });
+      const connection = await client.getEkmConnection();
+      expect(connection.host).toEqual(getEnvironmentVariable("EKM_PROXY_HOST"));
+      expect(connection.serverCaCertificates.length).toBeGreaterThan(0);
 
-  it("gets the EKM connection", async () => {
-    const connection = await client.getEkmConnection();
+      const ekmConnection = buildEkmConnection();
+      const updated = await client.updateEkmConnection(ekmConnection);
+      expect(updated.host).toEqual(getEnvironmentVariable("EKM_PROXY_HOST"));
+      expect(updated.serverSubjectCommonName).toEqual(ekmConnection.serverSubjectCommonName);
 
-    expect(connection.host).toEqual(getEnvironmentVariable("EKM_PROXY_HOST"));
-    expect(connection.serverCaCertificates.length).toBeGreaterThan(0);
-  });
+      const info = await client.checkEkmConnection();
+      expect(info.apiVersion).toBeDefined();
+      expect(info.proxyVendor).toBeDefined();
+      expect(info.proxyName).toBeDefined();
+      expect(info.ekmVendor).toBeDefined();
+      expect(info.ekmProduct).toBeDefined();
 
-  it("updates the EKM connection", async () => {
-    const connection = buildEkmConnection();
+      const certificate = await client.getEkmCertificate();
+      expect(certificate.caCertificates.length).toBeGreaterThan(0);
+      expect(certificate.subjectCommonName).toBeDefined();
 
-    const updated = await client.updateEkmConnection(connection);
-
-    expect(updated.host).toEqual(getEnvironmentVariable("EKM_PROXY_HOST"));
-    expect(updated.serverSubjectCommonName).toEqual(connection.serverSubjectCommonName);
-  });
-
-  it("checks the EKM connection", async () => {
-    const info = await client.checkEkmConnection();
-
-    expect(info.apiVersion).toBeDefined();
-    expect(info.proxyVendor).toBeDefined();
-    expect(info.proxyName).toBeDefined();
-    expect(info.ekmVendor).toBeDefined();
-    expect(info.ekmProduct).toBeDefined();
-  });
-
-  it("gets the EKM certificate", async () => {
-    const certificate = await client.getEkmCertificate();
-
-    expect(certificate.caCertificates.length).toBeGreaterThan(0);
-    expect(certificate.subjectCommonName).toBeDefined();
-  });
-
-  it("deletes the EKM connection", async () => {
-    const deleted = await client.deleteEkmConnection();
-
-    expect(deleted.host).toEqual(getEnvironmentVariable("EKM_PROXY_HOST"));
+      const deleted = await client.deleteEkmConnection();
+      connectionCreated = false;
+      expect(deleted.host).toEqual(getEnvironmentVariable("EKM_PROXY_HOST"));
+    } finally {
+      if (connectionCreated) {
+        await client.deleteEkmConnection().catch(() => {
+          // best-effort cleanup
+        });
+      }
+    }
   });
 });
