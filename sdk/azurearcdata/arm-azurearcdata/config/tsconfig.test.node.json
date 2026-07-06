@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.node.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-arcdata": ["../src/index.ts"],
+      "@azure/arm-arcdata/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}
