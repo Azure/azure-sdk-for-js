@@ -43,6 +43,12 @@ export const parseToken = (
     if (!isEncryptedJwt(token)) {
       throw error;
     }
+    if (
+      !Number.isFinite(undecodableTokenExpiryIntervalInSeconds) ||
+      undecodableTokenExpiryIntervalInSeconds <= 0
+    ) {
+      throw new Error("undecodableTokenExpiryIntervalInSeconds must be a positive number.");
+    }
     return {
       token,
       expiresOnTimestamp: Date.now() + undecodableTokenExpiryIntervalInSeconds * 1000,

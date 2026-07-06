@@ -301,6 +301,15 @@ describe("CommunicationTokenCredential", function () {
     assert.strictEqual(result.expiresOnTimestamp, Date.now() + 1800 * 1000);
   });
 
+  it("throws for a non-positive undecodableTokenExpiryIntervalInSeconds", async function () {
+    const tokenRefresher = vi.fn().mockResolvedValue(generateEncryptedToken());
+    const tokenCredential = new AzureCommunicationTokenCredential({
+      tokenRefresher,
+      undecodableTokenExpiryIntervalInSeconds: 0,
+    });
+    await expect(tokenCredential.getToken()).rejects.toThrow(/positive number/);
+  });
+
   it("proactively refreshes an undecodable token at half its fallback lifetime", async function () {
     const tokenRefresher = vi.fn().mockResolvedValue(generateEncryptedToken());
     new AzureCommunicationTokenCredential({
