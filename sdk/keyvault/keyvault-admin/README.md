@@ -77,6 +77,19 @@ const credentials = new DefaultAzureCredential();
 const client = new KeyVaultBackupClient(vaultUrl, credentials);
 ```
 
+### Create KeyVaultEkmClient
+
+Once you've authenticated with [the authentication method that suits you best][default_azure_credential], you can create a `KeyVaultEkmClient` to manage the External Key Manager (EKM) connection, substituting in your Managed HSM URL in the constructor:
+
+```ts snippet:ReadmeSampleCreateEkmClient
+import { DefaultAzureCredential } from "@azure/identity";
+import { KeyVaultEkmClient } from "@azure/keyvault-admin";
+
+const vaultUrl = `https://<MY KEY VAULT HERE>.managedhsm.azure.net`;
+const credentials = new DefaultAzureCredential();
+const client = new KeyVaultEkmClient(vaultUrl, credentials);
+```
+
 ## Key concepts
 
 ### KeyVaultRoleDefinition

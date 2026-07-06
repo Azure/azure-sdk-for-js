@@ -14,6 +14,7 @@ import {
   KeyVaultBackupClient,
   KeyVaultSettingsClient,
 } from "../../../src/index.js";
+import { createKeyVaultClient } from "../../../src/createKeyVaultClient.js";
 
 import { getEnvironmentVariable } from "./common.js";
 import { randomUUID } from "@azure/core-util";
@@ -37,6 +38,7 @@ export async function authenticate(that: TestInfo): Promise<any> {
       BLOB_STORAGE_SAS_TOKEN: "blob_storage_sas_token",
       BLOB_STORAGE_URI: "https://uri.blob.core.windows.net/",
       CLIENT_OBJECT_ID: "01ea9a65-813e-4238-8204-bf7328d63fc6",
+      EKM_PROXY_HOST: "ekm-proxy.managedhsm.azure.net:443",
     },
     sanitizerOptions: {
       generalSanitizers: [
@@ -96,12 +98,21 @@ export async function authenticate(that: TestInfo): Promise<any> {
     }),
   );
 
+  const ekmClient = createKeyVaultClient(
+    keyVaultHsmUrl,
+    credential,
+    recorder.configureClientOptions({
+      disableChallengeResourceVerification: true,
+    }),
+  );
+
   return {
     recorder,
     accessControlClient,
     backupClient,
     keyClient,
     settingsClient,
+    ekmClient,
     suffix,
     generateFakeUUID,
   };

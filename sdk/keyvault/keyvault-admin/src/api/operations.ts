@@ -14,6 +14,9 @@ import type {
   UpdateSettingRequest,
   Setting,
   SettingsListResult,
+  EkmConnection,
+  EkmProxyClientCertificateInfo,
+  EkmProxyInfo,
 } from "../models/models.js";
 import {
   fullBackupOperationDeserializer,
@@ -28,6 +31,10 @@ import {
   updateSettingRequestSerializer,
   settingDeserializer,
   settingsListResultDeserializer,
+  ekmConnectionSerializer,
+  ekmConnectionDeserializer,
+  ekmProxyClientCertificateInfoDeserializer,
+  ekmProxyInfoDeserializer,
 } from "../models/models.js";
 import type {
   GetSettingsOptionalParams,
@@ -41,12 +48,290 @@ import type {
   PreFullBackupOptionalParams,
   FullBackupOptionalParams,
   FullBackupStatusOptionalParams,
+  DeleteEkmConnectionOptionalParams,
+  UpdateEkmConnectionOptionalParams,
+  CreateEkmConnectionOptionalParams,
+  CheckEkmConnectionOptionalParams,
+  GetEkmCertificateOptionalParams,
+  GetEkmConnectionOptionalParams,
 } from "./options.js";
 import { getLongRunningPoller } from "../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../static-helpers/urlTemplate.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import type { PollerLike, OperationState } from "@azure/core-lro";
+
+export function _deleteEkmConnectionSend(
+  context: Client,
+  options: DeleteEkmConnectionOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/ekm{?api%2Dversion}",
+    {
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _deleteEkmConnectionDeserialize(
+  result: PathUncheckedResponse,
+): Promise<EkmConnection> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = keyVaultErrorDeserializer(result.body);
+    throw error;
+  }
+
+  return ekmConnectionDeserializer(result.body);
+}
+
+/** The External Key Manager (EKM) deletes the existing EKM connection. If the EKM connection does not already exists, this operation fails. This operation requires ekm/delete permission. */
+export async function deleteEkmConnection(
+  context: Client,
+  options: DeleteEkmConnectionOptionalParams = { requestOptions: {} },
+): Promise<EkmConnection> {
+  const result = await _deleteEkmConnectionSend(context, options);
+  return _deleteEkmConnectionDeserialize(result);
+}
+
+export function _updateEkmConnectionSend(
+  context: Client,
+  ekmConnection: EkmConnection,
+  options: UpdateEkmConnectionOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/ekm{?api%2Dversion}",
+    {
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).patch({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: ekmConnectionSerializer(ekmConnection),
+  });
+}
+
+export async function _updateEkmConnectionDeserialize(
+  result: PathUncheckedResponse,
+): Promise<EkmConnection> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = keyVaultErrorDeserializer(result.body);
+    throw error;
+  }
+
+  return ekmConnectionDeserializer(result.body);
+}
+
+/** The External Key Manager (EKM) updates the existing EKM connection. If the EKM connection does not exist, this operation fails. This operation requires ekm/write permission. */
+export async function updateEkmConnection(
+  context: Client,
+  ekmConnection: EkmConnection,
+  options: UpdateEkmConnectionOptionalParams = { requestOptions: {} },
+): Promise<EkmConnection> {
+  const result = await _updateEkmConnectionSend(context, ekmConnection, options);
+  return _updateEkmConnectionDeserialize(result);
+}
+
+export function _createEkmConnectionSend(
+  context: Client,
+  ekmConnection: EkmConnection,
+  options: CreateEkmConnectionOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/ekm/create{?api%2Dversion}",
+    {
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: ekmConnectionSerializer(ekmConnection),
+  });
+}
+
+export async function _createEkmConnectionDeserialize(
+  result: PathUncheckedResponse,
+): Promise<EkmConnection> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = keyVaultErrorDeserializer(result.body);
+    throw error;
+  }
+
+  return ekmConnectionDeserializer(result.body);
+}
+
+/** The External Key Manager (EKM) sets up the EKM connection. If the EKM connection already exists, this operation fails. This operation requires ekm/write permission. */
+export async function createEkmConnection(
+  context: Client,
+  ekmConnection: EkmConnection,
+  options: CreateEkmConnectionOptionalParams = { requestOptions: {} },
+): Promise<EkmConnection> {
+  const result = await _createEkmConnectionSend(context, ekmConnection, options);
+  return _createEkmConnectionDeserialize(result);
+}
+
+export function _checkEkmConnectionSend(
+  context: Client,
+  options: CheckEkmConnectionOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/ekm/check{?api%2Dversion}",
+    {
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _checkEkmConnectionDeserialize(
+  result: PathUncheckedResponse,
+): Promise<EkmProxyInfo> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = keyVaultErrorDeserializer(result.body);
+    throw error;
+  }
+
+  return ekmProxyInfoDeserializer(result.body);
+}
+
+/** The External Key Manager (EKM) Check operation checks the connectivity and authentication with the EKM proxy. This operation requires ekm/read permission. */
+export async function checkEkmConnection(
+  context: Client,
+  options: CheckEkmConnectionOptionalParams = { requestOptions: {} },
+): Promise<EkmProxyInfo> {
+  const result = await _checkEkmConnectionSend(context, options);
+  return _checkEkmConnectionDeserialize(result);
+}
+
+export function _getEkmCertificateSend(
+  context: Client,
+  options: GetEkmCertificateOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/ekm/certificate{?api%2Dversion}",
+    {
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _getEkmCertificateDeserialize(
+  result: PathUncheckedResponse,
+): Promise<EkmProxyClientCertificateInfo> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = keyVaultErrorDeserializer(result.body);
+    throw error;
+  }
+
+  return ekmProxyClientCertificateInfoDeserializer(result.body);
+}
+
+/** The External Key Manager (EKM) Certificate Get operation returns Proxy client certificate. This operation requires ekm/read permission. */
+export async function getEkmCertificate(
+  context: Client,
+  options: GetEkmCertificateOptionalParams = { requestOptions: {} },
+): Promise<EkmProxyClientCertificateInfo> {
+  const result = await _getEkmCertificateSend(context, options);
+  return _getEkmCertificateDeserialize(result);
+}
+
+export function _getEkmConnectionSend(
+  context: Client,
+  options: GetEkmConnectionOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/ekm{?api%2Dversion}",
+    {
+      "api%2Dversion": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _getEkmConnectionDeserialize(
+  result: PathUncheckedResponse,
+): Promise<EkmConnection> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    error.details = keyVaultErrorDeserializer(result.body);
+    throw error;
+  }
+
+  return ekmConnectionDeserializer(result.body);
+}
+
+/** The External Key Manager (EKM) Get operation returns EKM connection. This operation requires ekm/read permission. */
+export async function getEkmConnection(
+  context: Client,
+  options: GetEkmConnectionOptionalParams = { requestOptions: {} },
+): Promise<EkmConnection> {
+  const result = await _getEkmConnectionSend(context, options);
+  return _getEkmConnectionDeserialize(result);
+}
 
 export function _getSettingsSend(
   context: Client,
