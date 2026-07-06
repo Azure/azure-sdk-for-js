@@ -3,14 +3,14 @@
 
 import { type Recorder } from "@azure-tools/test-recorder";
 import { stringToUint8Array } from "@azure/core-util";
-import type { KeyVaultClient } from "../../src/keyVaultClient.js";
 import type { EkmConnection } from "../../src/models/index.js";
 import { authenticate } from "./utils/authentication.js";
 import { describe, it, beforeEach, afterEach, expect } from "vitest";
 import { getEnvironmentVariable } from "./utils/common.js";
+import { KeyVaultEkmClient } from "#platform/ekmClient";
 
 describe("EKM connection operations", () => {
-  let client: KeyVaultClient;
+  let client: KeyVaultEkmClientlient;
   let recorder: Recorder;
 
   function buildEkmConnection(): EkmConnection {
