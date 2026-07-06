@@ -13,7 +13,12 @@ import type {
 import type { NamedKeyCredential, SASCredential, TokenCredential } from "@azure/core-auth";
 import type { OperationOptions } from "@azure/core-client";
 import { serializationPolicy, serializationPolicyName } from "@azure/core-client";
-import type { Pipeline, PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
+import type {
+  HttpClient,
+  Pipeline,
+  PipelineRequest,
+  PipelineResponse,
+} from "@azure/core-rest-pipeline";
 import { RestError, createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 import {
   getInitialTransactionBody,
@@ -31,11 +36,6 @@ import { cosmosPatchPolicy } from "./cosmosPathPolicy.js";
 import { getTransactionHeaders } from "#platform/utils/transactionHeaders";
 import { isCosmosEndpoint } from "./utils/isCosmosEndpoint.js";
 import { tracingClient } from "./utils/tracing.js";
-
-// Interface for sending HTTP requests (replaces ServiceClient dependency)
-interface RequestSender {
-  sendRequest(request: PipelineRequest): Promise<PipelineResponse>;
-}
 
 /**
  * Helper to build a list of transaction actions
@@ -141,7 +141,7 @@ export class InternalTableTransaction {
   };
   private interceptClient: TableClientLike;
   private allowInsecureConnection: boolean;
-  private client: RequestSender;
+  private client: HttpClient;
 
   /**
    * @param url - Tables account url
@@ -153,7 +153,7 @@ export class InternalTableTransaction {
     partitionKey: string,
     transactionId: string,
     changesetId: string,
-    client: RequestSender,
+    client: HttpClient,
     interceptClient: TableClientLike,
     credential?: NamedKeyCredential | SASCredential | TokenCredential,
     allowInsecureConnection: boolean = false,
