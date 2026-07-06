@@ -49,8 +49,8 @@ See the [Javascript Codegen Quick Start for Test](https://github.com/Azure/azure
     You could follow the [basic RLC test interaction and recording example](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Quickstart-on-how-to-write-tests.md#example-1-basic-rlc-test-interaction-and-recording-for-azure-data-plane-service) to write your test step by step.
 
     Also, you could refer to the below examples for more cases:
-    - RLC example: [OpenAI Testing](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/openai/openai/test/public)
-    - DPG example: [Maps Route Testing](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-route-rest/test/public)
+    - RLC example: [Maps Route Testing](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-route-rest/test/public)
+    - DPG example: [OpenAI Testing](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/openai/openai/test/public)
     - MPG example: [Containerservice Fleet Testing](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerservice/arm-containerservicefleet/test/public/)
 
 2. **Run the test**
@@ -193,7 +193,7 @@ allow-list.
 Now, we can use the exact same steps to build a releasable artifact.
 
 ```shell
-pnpm update
+pnpm install
 pnpm turbo build --filter=<your-package-name>...
 cd <your-sdk-folder>
 export TEST_MODE=record && pnpm test

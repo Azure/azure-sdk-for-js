@@ -1,6 +1,6 @@
 # Reviewer Agents
 
-This repository includes seven specialized AI reviewer agents that can review
+This repository includes eight specialized AI reviewer agents that can review
 pull requests for specific quality dimensions. Each agent is an expert in its
 domain and produces targeted, actionable feedback.
 
@@ -15,6 +15,12 @@ domain and produces targeted, actionable feedback.
 | **Scribe** | `docs-review-needed` | Documentation — README, CHANGELOG, TSDoc, snippets, samples |
 | **Sentinel** | `security-review-needed` | Security — credential exposure, injection, unsafe patterns, supply chain |
 | **Tester** | `test-review-needed` | Testing — coverage, recorder setup, test quality, browser tests |
+
+### On-Demand Analysis Agent
+
+| Agent | Focus |
+|-------|-------|
+| **Mgmt-breaking-change-analysis** | ARM SDK breaking change analysis — categorizes and traces root causes for PRs migrating from Swagger/AutoRest to TypeSpec/emitter. Invoked on-demand; does not trigger via a PR label. |
 
 ## Using Agents on Pull Requests
 
@@ -115,6 +121,7 @@ In the Copilot Chat panel, use the `@` prefix to summon an agent by name:
 | `@dash` | Performance review |
 | `@dexter` | Dependency review |
 | `@mgmt-review` | Management SDK review |
+| `@mgmt-breaking-change-analysis` | ARM SDK breaking change analysis (on-demand) |
 | `@scribe` | Documentation review |
 | `@sentinel` | Security review |
 | `@tester` | Test coverage and quality review |
@@ -139,6 +146,7 @@ Agent definitions and their detailed review guidelines are stored in:
 │   ├── archie.agent.md
 │   ├── dash.agent.md
 │   ├── dexter.agent.md
+│   ├── mgmt-breaking-change-analysis.agent.md
 │   ├── mgmt-review.agent.md
 │   ├── scribe.agent.md
 │   ├── sentinel.agent.md
