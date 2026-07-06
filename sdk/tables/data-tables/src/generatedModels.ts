@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import type { OperationOptions } from "@azure/core-client";
-import type { CorsRule, Logging, Metrics } from "./generated/models/index.js";
 
 // Re-export types that exist in the new generated code
 export type { CorsRule, Logging, Metrics, RetentionPolicy } from "./generated/models/index.js";
@@ -34,17 +33,8 @@ export interface TableServiceStats {
   geoReplication?: GeoReplication;
 }
 
-/** The service properties. */
-export interface ServiceProperties {
-  /** The logging properties. */
-  logging?: Logging;
-  /** The hour metrics properties. */
-  hourMetrics?: Metrics;
-  /** The minute metrics properties. */
-  minuteMetrics?: Metrics;
-  /** The CORS properties. */
-  cors?: CorsRule[];
-}
+import type { TableServiceProperties as ServiceProperties } from "./generated/models/index.js";
+export { ServiceProperties };
 
 /** Options for setProperties operation. */
 export interface SetPropertiesOptions extends OperationOptions {
