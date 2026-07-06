@@ -45,16 +45,16 @@ describe("CommunicationTokenCredential", function () {
     new AzureCommunicationTokenCredential(generateToken(60));
   });
 
-  it("throws if non-JWT token", async function () {
-    assert.throws(() => new AzureCommunicationTokenCredential("IAmNotAToken"), /Invalid token/);
+  it("throws for an empty token", async function () {
+    assert.throws(() => new AzureCommunicationTokenCredential(""), /Invalid token/);
   });
 
-  it("throws if non-JWT passed as lambda", async function () {
-    await expect(() =>
-      new AzureCommunicationTokenCredential({
-        tokenRefresher: async () => "IAmNotAToken",
-      }).getToken(),
-    ).rejects.toThrow();
+  it("accepts a non-JWT (opaque) token from a lambda using the fallback expiry", async function () {
+    const tokenRefresher = vi.fn().mockResolvedValue("IAmNotAToken");
+    const tokenCredential = new AzureCommunicationTokenCredential({ tokenRefresher });
+    const result = await tokenCredential.getToken();
+    assert.strictEqual(result.token, "IAmNotAToken");
+    assert.strictEqual(result.expiresOnTimestamp, Date.now() + 10 * 60 * 1000);
   });
 
   it("returns token as expected", async function () {
@@ -324,8 +324,11 @@ describe("CommunicationTokenCredential", function () {
     expect(tokenRefresher).toHaveBeenCalledOnce();
   });
 
-  it("still throws for a malformed token string", async function () {
-    assert.throws(() => new AzureCommunicationTokenCredential("not.a.real.token"), /Invalid token/);
+  it("accepts a non-JWT (opaque) token string using the fallback expiry", async function () {
+    const tokenCredential = new AzureCommunicationTokenCredential("not.a.real.token");
+    const result = await tokenCredential.getToken();
+    assert.strictEqual(result.token, "not.a.real.token");
+    assert.strictEqual(result.expiresOnTimestamp, Date.now() + 10 * 60 * 1000);
   });
 
   it("applies fractional backoff when the token is about to expire", async function () {

@@ -9,10 +9,7 @@ interface JwtToken {
 }
 
 /** Default lifetime (in seconds) assumed for an encrypted/undecodable token when no expiry is supplied. */
-export const defaultUndecodableTokenExpiryIntervalInSeconds = 10 * 60;
-
-// A compact JWE (encrypted JWT) has five segments; a signed JWT has three.
-const isEncryptedJwt = (token: string): boolean => token.split(".").length === 5;
+const defaultUndecodableTokenExpiryIntervalInSeconds = 10 * 60;
 
 /** Type guard for a caller-supplied {@link AccessToken} (carries an explicit expiry). */
 export const isAccessToken = (value: unknown): value is AccessToken =>
@@ -20,9 +17,9 @@ export const isAccessToken = (value: unknown): value is AccessToken =>
 
 /**
  * Resolves a token into an {@link AccessToken}. Expiry is taken from a caller-supplied
- * `AccessToken` if present, otherwise from the JWT `exp` claim. Encrypted tokens that
- * can't be decoded fall back to `now + undecodableTokenExpiryIntervalInSeconds`; malformed
- * strings still throw.
+ * `AccessToken` if present, otherwise from the JWT `exp` claim. A token that can't be
+ * decoded (e.g. an encrypted/opaque token) is returned as-is with a fallback expiry of
+ * `now + undecodableTokenExpiryIntervalInSeconds`; only an empty/blank token throws.
  */
 export const parseToken = (
   token: string | AccessToken,
@@ -40,7 +37,9 @@ export const parseToken = (
       expiresOnTimestamp: exp * 1000,
     };
   } catch (error) {
-    if (!isEncryptedJwt(token)) {
+    // An empty/blank token is always a caller bug; anything else is treated as an
+    // opaque token and passed through with the fallback expiry.
+    if (token.trim().length === 0) {
       throw error;
     }
     if (
