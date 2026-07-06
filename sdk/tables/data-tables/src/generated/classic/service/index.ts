@@ -8,7 +8,13 @@ import {
   ServiceGetPropertiesOptionalParams,
   ServiceSetPropertiesOptionalParams,
 } from "../../api/service/options.js";
-import { TableServiceProperties, TableServiceStats } from "../../models/models.js";
+import {
+  TableServiceProperties,
+  Logging,
+  Metrics,
+  CorsRule,
+  GeoReplication,
+} from "../../models/models.js";
 
 /** Interface representing a Service operations. */
 export interface ServiceOperations {
@@ -17,12 +23,28 @@ export interface ServiceOperations {
    * available on the secondary location endpoint when read-access geo-redundant
    * replication is enabled for the account.
    */
-  getStatistics: (options?: ServiceGetStatisticsOptionalParams) => Promise<TableServiceStats>;
+  getStatistics: (options?: ServiceGetStatisticsOptionalParams) => Promise<{
+    geoReplication?: GeoReplication;
+    date: Date;
+    apiVersion: string;
+    requestId?: string;
+    clientRequestId?: string;
+    contentType: "application/xml";
+  }>;
   /**
    * Gets the properties of an account's Table service, including properties for
    * Analytics and CORS (Cross-Origin Resource Sharing) rules.
    */
-  getProperties: (options?: ServiceGetPropertiesOptionalParams) => Promise<TableServiceProperties>;
+  getProperties: (options?: ServiceGetPropertiesOptionalParams) => Promise<{
+    logging?: Logging;
+    hourMetrics?: Metrics;
+    minuteMetrics?: Metrics;
+    cors?: CorsRule[];
+    apiVersion: string;
+    requestId?: string;
+    clientRequestId?: string;
+    contentType: "application/xml";
+  }>;
   /**
    * Sets properties for an account's Table service endpoint, including properties
    * for Analytics and CORS (Cross-Origin Resource Sharing) rules.
@@ -30,7 +52,7 @@ export interface ServiceOperations {
   setProperties: (
     tableServiceProperties: TableServiceProperties,
     options?: ServiceSetPropertiesOptionalParams,
-  ) => Promise<void>;
+  ) => Promise<{ apiVersion: string; requestId?: string; clientRequestId?: string }>;
 }
 
 function _getService(context: TablesContext) {

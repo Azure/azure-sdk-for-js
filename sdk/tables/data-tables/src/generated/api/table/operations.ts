@@ -15,6 +15,7 @@ import {
   SignedIdentifiers,
   signedIdentifiersXmlSerializer,
   signedIdentifiersXmlDeserializer,
+  SignedIdentifier,
   tableServiceErrorXmlDeserializer,
 } from "../../models/models.js";
 import {
@@ -79,12 +80,49 @@ export async function _setAccessPolicyDeserialize(result: PathUncheckedResponse)
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = tableServiceErrorXmlDeserializer(result.body);
-
+    if (result.body) {
+      error.details = tableServiceErrorXmlDeserializer(result.body);
+    }
+    error.details = {
+      ...(error.details as any),
+      ..._setAccessPolicyDeserializeExceptionHeaders(result),
+    };
     throw error;
   }
 
   return;
+}
+
+export function _setAccessPolicyDeserializeHeaders(result: PathUncheckedResponse): {
+  date: Date;
+  apiVersion: string;
+  requestId?: string;
+  clientRequestId?: string;
+} {
+  return {
+    date: new Date(result.headers["date"]),
+    apiVersion: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+  };
+}
+
+export function _setAccessPolicyDeserializeExceptionHeaders(result: PathUncheckedResponse): {
+  errorCode?: string;
+} {
+  return {
+    errorCode:
+      result.headers["x-ms-error-code"] === undefined || result.headers["x-ms-error-code"] === null
+        ? result.headers["x-ms-error-code"]
+        : result.headers["x-ms-error-code"],
+  };
 }
 
 /**
@@ -96,9 +134,11 @@ export async function setAccessPolicy(
   table: string,
   tableAcl: SignedIdentifiers,
   options: TableSetAccessPolicyOptionalParams = { requestOptions: {} },
-): Promise<void> {
+): Promise<{ date: Date; apiVersion: string; requestId?: string; clientRequestId?: string }> {
   const result = await _setAccessPolicySend(context, table, tableAcl, options);
-  return _setAccessPolicyDeserialize(result);
+  const headers = _setAccessPolicyDeserializeHeaders(result);
+  await _setAccessPolicyDeserialize(result);
+  return { ...headers };
 }
 
 export function _getAccessPolicySend(
@@ -137,12 +177,51 @@ export async function _getAccessPolicyDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = tableServiceErrorXmlDeserializer(result.body);
-
+    if (result.body) {
+      error.details = tableServiceErrorXmlDeserializer(result.body);
+    }
+    error.details = {
+      ...(error.details as any),
+      ..._getAccessPolicyDeserializeExceptionHeaders(result),
+    };
     throw error;
   }
 
   return signedIdentifiersXmlDeserializer(result.body);
+}
+
+export function _getAccessPolicyDeserializeHeaders(result: PathUncheckedResponse): {
+  date: Date;
+  apiVersion: string;
+  requestId?: string;
+  clientRequestId?: string;
+  contentType: "application/xml";
+} {
+  return {
+    date: new Date(result.headers["date"]),
+    apiVersion: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+    contentType: result.headers["content-type"] as any,
+  };
+}
+
+export function _getAccessPolicyDeserializeExceptionHeaders(result: PathUncheckedResponse): {
+  errorCode?: string;
+} {
+  return {
+    errorCode:
+      result.headers["x-ms-error-code"] === undefined || result.headers["x-ms-error-code"] === null
+        ? result.headers["x-ms-error-code"]
+        : result.headers["x-ms-error-code"],
+  };
 }
 
 /**
@@ -153,9 +232,18 @@ export async function getAccessPolicy(
   context: Client,
   table: string,
   options: TableGetAccessPolicyOptionalParams = { requestOptions: {} },
-): Promise<SignedIdentifiers> {
+): Promise<{
+  identifiers: SignedIdentifier[];
+  date: Date;
+  apiVersion: string;
+  requestId?: string;
+  clientRequestId?: string;
+  contentType: "application/xml";
+}> {
   const result = await _getAccessPolicySend(context, table, options);
-  return _getAccessPolicyDeserialize(result);
+  const headers = _getAccessPolicyDeserializeHeaders(result);
+  const payload = await _getAccessPolicyDeserialize(result);
+  return { ...payload, ...headers };
 }
 
 export function _insertEntitySend(
@@ -189,24 +277,73 @@ export function _insertEntitySend(
         accept: "application/json;odata=minimalmetadata",
         ...options.requestOptions?.headers,
       },
-      body: !options["tableEntityProperties"]
-        ? options["tableEntityProperties"]
-        : options["tableEntityProperties"],
+      body: !options?.tableEntityProperties
+        ? options?.tableEntityProperties
+        : options?.tableEntityProperties,
     });
 }
 
 export async function _insertEntityDeserialize(
   result: PathUncheckedResponse,
-): Promise<Record<string, any>> {
+): Promise<Record<string, any> | undefined> {
   const expectedStatuses = ["201", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = tablesErrorDeserializer(result.body);
-
+    if (result.body) {
+      error.details = tablesErrorDeserializer(result.body);
+    }
+    error.details = {
+      ...(error.details as any),
+      ..._insertEntityDeserializeExceptionHeaders(result),
+    };
     throw error;
   }
 
   return Object.fromEntries(Object.entries(result.body).map(([k, p]: [string, any]) => [k, p]));
+}
+
+export function _insertEntityDeserializeHeaders(result: PathUncheckedResponse): {
+  preferenceApplied?: string;
+  apiVersion: string;
+  requestId?: string;
+  clientRequestId?: string;
+  date: Date;
+  eTag: string;
+  contentType: "application/json;odata=minimalmetadata";
+} {
+  return {
+    preferenceApplied:
+      result.headers["preference-applied"] === undefined ||
+      result.headers["preference-applied"] === null
+        ? result.headers["preference-applied"]
+        : result.headers["preference-applied"],
+    apiVersion: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+    date: new Date(result.headers["date"]),
+    eTag: result.headers["etag"],
+    contentType: result.headers["content-type"] as any,
+  };
+}
+
+export function _insertEntityDeserializeExceptionHeaders(result: PathUncheckedResponse): {
+  errorCode?: string;
+  contentType: "application/json";
+} {
+  return {
+    errorCode:
+      result.headers["x-ms-error-code"] === undefined || result.headers["x-ms-error-code"] === null
+        ? result.headers["x-ms-error-code"]
+        : result.headers["x-ms-error-code"],
+    contentType: result.headers["content-type"] as any,
+  };
 }
 
 /** Insert entity in a table. */
@@ -214,9 +351,11 @@ export async function insertEntity(
   context: Client,
   table: string,
   options: TableInsertEntityOptionalParams = { requestOptions: {} },
-): Promise<Record<string, any>> {
+): Promise<Record<string, any> | undefined> {
   const result = await _insertEntitySend(context, table, options);
-  return _insertEntityDeserialize(result);
+  const headers = _insertEntityDeserializeHeaders(result);
+  const payload = await _insertEntityDeserialize(result);
+  return { ...payload, ...headers };
 }
 
 export function _deleteEntitySend(
@@ -228,7 +367,7 @@ export function _deleteEntitySend(
   options: TableDeleteEntityOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{table}(PartitionKey='{+partitionKey}',RowKey='{+rowKey}'){?timeout}",
+    "/{table}(PartitionKey='{partitionKey}',RowKey='{rowKey}'){?timeout}",
     {
       table: table,
       partitionKey: partitionKey,
@@ -260,12 +399,51 @@ export async function _deleteEntityDeserialize(result: PathUncheckedResponse): P
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = tablesErrorDeserializer(result.body);
-
+    if (result.body) {
+      error.details = tablesErrorDeserializer(result.body);
+    }
+    error.details = {
+      ...(error.details as any),
+      ..._deleteEntityDeserializeExceptionHeaders(result),
+    };
     throw error;
   }
 
   return;
+}
+
+export function _deleteEntityDeserializeHeaders(result: PathUncheckedResponse): {
+  apiVersion: string;
+  requestId?: string;
+  clientRequestId?: string;
+  date: Date;
+} {
+  return {
+    apiVersion: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+    date: new Date(result.headers["date"]),
+  };
+}
+
+export function _deleteEntityDeserializeExceptionHeaders(result: PathUncheckedResponse): {
+  errorCode?: string;
+  contentType: "application/json";
+} {
+  return {
+    errorCode:
+      result.headers["x-ms-error-code"] === undefined || result.headers["x-ms-error-code"] === null
+        ? result.headers["x-ms-error-code"]
+        : result.headers["x-ms-error-code"],
+    contentType: result.headers["content-type"] as any,
+  };
 }
 
 /** Deletes the specified entity in a table. */
@@ -276,9 +454,11 @@ export async function deleteEntity(
   partitionKey: string,
   rowKey: string,
   options: TableDeleteEntityOptionalParams = { requestOptions: {} },
-): Promise<void> {
+): Promise<{ apiVersion: string; requestId?: string; clientRequestId?: string; date: Date }> {
   const result = await _deleteEntitySend(context, table, ifMatch, partitionKey, rowKey, options);
-  return _deleteEntityDeserialize(result);
+  const headers = _deleteEntityDeserializeHeaders(result);
+  await _deleteEntityDeserialize(result);
+  return { ...headers };
 }
 
 export function _mergeEntitySend(
@@ -289,7 +469,7 @@ export function _mergeEntitySend(
   options: TableMergeEntityOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{table}(PartitionKey='{+partitionKey}',RowKey='{+rowKey}'){?timeout}",
+    "/{table}(PartitionKey='{partitionKey}',RowKey='{rowKey}'){?timeout}",
     {
       table: table,
       partitionKey: partitionKey,
@@ -315,9 +495,9 @@ export function _mergeEntitySend(
         ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
         ...options.requestOptions?.headers,
       },
-      body: !options["tableEntityProperties"]
-        ? options["tableEntityProperties"]
-        : options["tableEntityProperties"],
+      body: !options?.tableEntityProperties
+        ? options?.tableEntityProperties
+        : options?.tableEntityProperties,
     });
 }
 
@@ -325,12 +505,53 @@ export async function _mergeEntityDeserialize(result: PathUncheckedResponse): Pr
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = tablesErrorDeserializer(result.body);
-
+    if (result.body) {
+      error.details = tablesErrorDeserializer(result.body);
+    }
+    error.details = {
+      ...(error.details as any),
+      ..._mergeEntityDeserializeExceptionHeaders(result),
+    };
     throw error;
   }
 
   return;
+}
+
+export function _mergeEntityDeserializeHeaders(result: PathUncheckedResponse): {
+  eTag: string;
+  apiVersion: string;
+  requestId?: string;
+  clientRequestId?: string;
+  date: Date;
+} {
+  return {
+    eTag: result.headers["etag"],
+    apiVersion: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+    date: new Date(result.headers["date"]),
+  };
+}
+
+export function _mergeEntityDeserializeExceptionHeaders(result: PathUncheckedResponse): {
+  errorCode?: string;
+  contentType: "application/json";
+} {
+  return {
+    errorCode:
+      result.headers["x-ms-error-code"] === undefined || result.headers["x-ms-error-code"] === null
+        ? result.headers["x-ms-error-code"]
+        : result.headers["x-ms-error-code"],
+    contentType: result.headers["content-type"] as any,
+  };
 }
 
 /** Merge entity in a table. */
@@ -340,9 +561,17 @@ export async function mergeEntity(
   partitionKey: string,
   rowKey: string,
   options: TableMergeEntityOptionalParams = { requestOptions: {} },
-): Promise<void> {
+): Promise<{
+  eTag: string;
+  apiVersion: string;
+  requestId?: string;
+  clientRequestId?: string;
+  date: Date;
+}> {
   const result = await _mergeEntitySend(context, table, partitionKey, rowKey, options);
-  return _mergeEntityDeserialize(result);
+  const headers = _mergeEntityDeserializeHeaders(result);
+  await _mergeEntityDeserialize(result);
+  return { ...headers };
 }
 
 export function _updateEntitySend(
@@ -353,7 +582,7 @@ export function _updateEntitySend(
   options: TableUpdateEntityOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{table}(PartitionKey='{+partitionKey}',RowKey='{+rowKey}'){?timeout}",
+    "/{table}(PartitionKey='{partitionKey}',RowKey='{rowKey}'){?timeout}",
     {
       table: table,
       partitionKey: partitionKey,
@@ -379,9 +608,9 @@ export function _updateEntitySend(
         ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
         ...options.requestOptions?.headers,
       },
-      body: !options["tableEntityProperties"]
-        ? options["tableEntityProperties"]
-        : options["tableEntityProperties"],
+      body: !options?.tableEntityProperties
+        ? options?.tableEntityProperties
+        : options?.tableEntityProperties,
     });
 }
 
@@ -389,12 +618,53 @@ export async function _updateEntityDeserialize(result: PathUncheckedResponse): P
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = tablesErrorDeserializer(result.body);
-
+    if (result.body) {
+      error.details = tablesErrorDeserializer(result.body);
+    }
+    error.details = {
+      ...(error.details as any),
+      ..._updateEntityDeserializeExceptionHeaders(result),
+    };
     throw error;
   }
 
   return;
+}
+
+export function _updateEntityDeserializeHeaders(result: PathUncheckedResponse): {
+  eTag: string;
+  apiVersion: string;
+  requestId?: string;
+  clientRequestId?: string;
+  date: Date;
+} {
+  return {
+    eTag: result.headers["etag"],
+    apiVersion: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+    date: new Date(result.headers["date"]),
+  };
+}
+
+export function _updateEntityDeserializeExceptionHeaders(result: PathUncheckedResponse): {
+  errorCode?: string;
+  contentType: "application/json";
+} {
+  return {
+    errorCode:
+      result.headers["x-ms-error-code"] === undefined || result.headers["x-ms-error-code"] === null
+        ? result.headers["x-ms-error-code"]
+        : result.headers["x-ms-error-code"],
+    contentType: result.headers["content-type"] as any,
+  };
 }
 
 /** Update entity in a table. */
@@ -404,9 +674,17 @@ export async function updateEntity(
   partitionKey: string,
   rowKey: string,
   options: TableUpdateEntityOptionalParams = { requestOptions: {} },
-): Promise<void> {
+): Promise<{
+  eTag: string;
+  apiVersion: string;
+  requestId?: string;
+  clientRequestId?: string;
+  date: Date;
+}> {
   const result = await _updateEntitySend(context, table, partitionKey, rowKey, options);
-  return _updateEntityDeserialize(result);
+  const headers = _updateEntityDeserializeHeaders(result);
+  await _updateEntityDeserialize(result);
+  return { ...headers };
 }
 
 export function _queryEntityWithPartitionAndRowKeySend(
@@ -417,7 +695,7 @@ export function _queryEntityWithPartitionAndRowKeySend(
   options: TableQueryEntityWithPartitionAndRowKeyOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{table}(PartitionKey='{+partitionKey}',RowKey='{+rowKey}'){?timeout,%24format,%24select,%24filter}",
+    "/{table}(PartitionKey='{partitionKey}',RowKey='{rowKey}'){?timeout,%24format,%24select,%24filter}",
     {
       table: table,
       partitionKey: partitionKey,
@@ -453,12 +731,68 @@ export async function _queryEntityWithPartitionAndRowKeyDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = tablesErrorDeserializer(result.body);
-
+    if (result.body) {
+      error.details = tablesErrorDeserializer(result.body);
+    }
+    error.details = {
+      ...(error.details as any),
+      ..._queryEntityWithPartitionAndRowKeyDeserializeExceptionHeaders(result),
+    };
     throw error;
   }
 
   return Object.fromEntries(Object.entries(result.body).map(([k, p]: [string, any]) => [k, p]));
+}
+
+export function _queryEntityWithPartitionAndRowKeyDeserializeHeaders(
+  result: PathUncheckedResponse,
+): {
+  eTag: string;
+  nextPartitionKey?: string;
+  nextRowKey?: string;
+  apiVersion: string;
+  requestId?: string;
+  clientRequestId?: string;
+  date: Date;
+  contentType: "application/json;odata=minimalmetadata";
+} {
+  return {
+    eTag: result.headers["etag"],
+    nextPartitionKey:
+      result.headers["x-ms-continuation-nextpartitionkey"] === undefined ||
+      result.headers["x-ms-continuation-nextpartitionkey"] === null
+        ? result.headers["x-ms-continuation-nextpartitionkey"]
+        : result.headers["x-ms-continuation-nextpartitionkey"],
+    nextRowKey:
+      result.headers["x-ms-continuation-nextrowkey"] === undefined ||
+      result.headers["x-ms-continuation-nextrowkey"] === null
+        ? result.headers["x-ms-continuation-nextrowkey"]
+        : result.headers["x-ms-continuation-nextrowkey"],
+    apiVersion: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+    date: new Date(result.headers["date"]),
+    contentType: result.headers["content-type"] as any,
+  };
+}
+
+export function _queryEntityWithPartitionAndRowKeyDeserializeExceptionHeaders(
+  result: PathUncheckedResponse,
+): { errorCode?: string; contentType: "application/json" } {
+  return {
+    errorCode:
+      result.headers["x-ms-error-code"] === undefined || result.headers["x-ms-error-code"] === null
+        ? result.headers["x-ms-error-code"]
+        : result.headers["x-ms-error-code"],
+    contentType: result.headers["content-type"] as any,
+  };
 }
 
 /** Retrieve a single entity. */
@@ -476,7 +810,9 @@ export async function queryEntityWithPartitionAndRowKey(
     rowKey,
     options,
   );
-  return _queryEntityWithPartitionAndRowKeyDeserialize(result);
+  const headers = _queryEntityWithPartitionAndRowKeyDeserializeHeaders(result);
+  const payload = await _queryEntityWithPartitionAndRowKeyDeserialize(result);
+  return { ...payload, ...headers };
 }
 
 export function _queryEntitiesSend(
@@ -522,12 +858,65 @@ export async function _queryEntitiesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = tablesErrorDeserializer(result.body);
-
+    if (result.body) {
+      error.details = tablesErrorDeserializer(result.body);
+    }
+    error.details = {
+      ...(error.details as any),
+      ..._queryEntitiesDeserializeExceptionHeaders(result),
+    };
     throw error;
   }
 
   return tableEntityQueryResponseDeserializer(result.body);
+}
+
+export function _queryEntitiesDeserializeHeaders(result: PathUncheckedResponse): {
+  nextPartitionKey?: string;
+  nextRowKey?: string;
+  apiVersion: string;
+  requestId?: string;
+  clientRequestId?: string;
+  date: Date;
+  contentType: "application/json;odata=minimalmetadata";
+} {
+  return {
+    nextPartitionKey:
+      result.headers["x-ms-continuation-nextpartitionkey"] === undefined ||
+      result.headers["x-ms-continuation-nextpartitionkey"] === null
+        ? result.headers["x-ms-continuation-nextpartitionkey"]
+        : result.headers["x-ms-continuation-nextpartitionkey"],
+    nextRowKey:
+      result.headers["x-ms-continuation-nextrowkey"] === undefined ||
+      result.headers["x-ms-continuation-nextrowkey"] === null
+        ? result.headers["x-ms-continuation-nextrowkey"]
+        : result.headers["x-ms-continuation-nextrowkey"],
+    apiVersion: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+    date: new Date(result.headers["date"]),
+    contentType: result.headers["content-type"] as any,
+  };
+}
+
+export function _queryEntitiesDeserializeExceptionHeaders(result: PathUncheckedResponse): {
+  errorCode?: string;
+  contentType: "application/json";
+} {
+  return {
+    errorCode:
+      result.headers["x-ms-error-code"] === undefined || result.headers["x-ms-error-code"] === null
+        ? result.headers["x-ms-error-code"]
+        : result.headers["x-ms-error-code"],
+    contentType: result.headers["content-type"] as any,
+  };
 }
 
 /** Queries entities under the given table. */
@@ -535,9 +924,21 @@ export async function queryEntities(
   context: Client,
   table: string,
   options: TableQueryEntitiesOptionalParams = { requestOptions: {} },
-): Promise<TableEntityQueryResponse> {
+): Promise<{
+  odataMetadata?: string;
+  value?: Record<string, any>[];
+  nextPartitionKey?: string;
+  nextRowKey?: string;
+  apiVersion: string;
+  requestId?: string;
+  clientRequestId?: string;
+  date: Date;
+  contentType: "application/json;odata=minimalmetadata";
+}> {
   const result = await _queryEntitiesSend(context, table, options);
-  return _queryEntitiesDeserialize(result);
+  const headers = _queryEntitiesDeserializeHeaders(result);
+  const payload = await _queryEntitiesDeserialize(result);
+  return { ...payload, ...headers };
 }
 
 export function _$deleteSend(
@@ -573,12 +974,48 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = tablesErrorDeserializer(result.body);
-
+    if (result.body) {
+      error.details = tablesErrorDeserializer(result.body);
+    }
+    error.details = { ...(error.details as any), ..._$deleteDeserializeExceptionHeaders(result) };
     throw error;
   }
 
   return;
+}
+
+export function _$deleteDeserializeHeaders(result: PathUncheckedResponse): {
+  apiVersion: string;
+  requestId?: string;
+  clientRequestId?: string;
+  date: Date;
+} {
+  return {
+    apiVersion: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+    date: new Date(result.headers["date"]),
+  };
+}
+
+export function _$deleteDeserializeExceptionHeaders(result: PathUncheckedResponse): {
+  errorCode?: string;
+  contentType: "application/json";
+} {
+  return {
+    errorCode:
+      result.headers["x-ms-error-code"] === undefined || result.headers["x-ms-error-code"] === null
+        ? result.headers["x-ms-error-code"]
+        : result.headers["x-ms-error-code"],
+    contentType: result.headers["content-type"] as any,
+  };
 }
 
 /** Deletes an existing table. */
@@ -591,9 +1028,11 @@ export async function $delete(
   context: Client,
   table: string,
   options: TableDeleteOptionalParams = { requestOptions: {} },
-): Promise<void> {
+): Promise<{ apiVersion: string; requestId?: string; clientRequestId?: string; date: Date }> {
   const result = await _$deleteSend(context, table, options);
-  return _$deleteDeserialize(result);
+  const headers = _$deleteDeserializeHeaders(result);
+  await _$deleteDeserialize(result);
+  return { ...headers };
 }
 
 export function _createSend(
@@ -629,16 +1068,62 @@ export function _createSend(
     });
 }
 
-export async function _createDeserialize(result: PathUncheckedResponse): Promise<TableResponse> {
+export async function _createDeserialize(
+  result: PathUncheckedResponse,
+): Promise<TableResponse | undefined> {
   const expectedStatuses = ["201", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = tablesErrorDeserializer(result.body);
-
+    if (result.body) {
+      error.details = tablesErrorDeserializer(result.body);
+    }
+    error.details = { ...(error.details as any), ..._createDeserializeExceptionHeaders(result) };
     throw error;
   }
 
-  return tableResponseDeserializer(result.body);
+  return result.body ? tableResponseDeserializer(result.body) : undefined;
+}
+
+export function _createDeserializeHeaders(result: PathUncheckedResponse): {
+  preferenceApplied?: string;
+  apiVersion: string;
+  requestId?: string;
+  clientRequestId?: string;
+  date: Date;
+  contentType: "application/json;odata=minimalmetadata";
+} {
+  return {
+    preferenceApplied:
+      result.headers["preference-applied"] === undefined ||
+      result.headers["preference-applied"] === null
+        ? result.headers["preference-applied"]
+        : result.headers["preference-applied"],
+    apiVersion: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+    date: new Date(result.headers["date"]),
+    contentType: result.headers["content-type"] as any,
+  };
+}
+
+export function _createDeserializeExceptionHeaders(result: PathUncheckedResponse): {
+  errorCode?: string;
+  contentType: "application/json";
+} {
+  return {
+    errorCode:
+      result.headers["x-ms-error-code"] === undefined || result.headers["x-ms-error-code"] === null
+        ? result.headers["x-ms-error-code"]
+        : result.headers["x-ms-error-code"],
+    contentType: result.headers["content-type"] as any,
+  };
 }
 
 /** Creates a new table under the given account. */
@@ -646,9 +1131,26 @@ export async function create(
   context: Client,
   tableProperties: TableProperties,
   options: TableCreateOptionalParams = { requestOptions: {} },
-): Promise<TableResponse> {
+): Promise<
+  | {
+      tableName?: string;
+      odataType?: string;
+      odataId?: string;
+      odataEditLink?: string;
+      odataMetadata?: string;
+      preferenceApplied?: string;
+      apiVersion: string;
+      requestId?: string;
+      clientRequestId?: string;
+      date: Date;
+      contentType: "application/json;odata=minimalmetadata";
+    }
+  | undefined
+> {
   const result = await _createSend(context, tableProperties, options);
-  return _createDeserialize(result);
+  const headers = _createDeserializeHeaders(result);
+  const payload = await _createDeserialize(result);
+  return { ...payload, ...headers };
 }
 
 export function _querySend(
@@ -690,12 +1192,56 @@ export async function _queryDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = tablesErrorDeserializer(result.body);
-
+    if (result.body) {
+      error.details = tablesErrorDeserializer(result.body);
+    }
+    error.details = { ...(error.details as any), ..._queryDeserializeExceptionHeaders(result) };
     throw error;
   }
 
   return _tableQueryResponseDeserializer(result.body);
+}
+
+export function _queryDeserializeHeaders(result: PathUncheckedResponse): {
+  nextTableName?: string;
+  apiVersion: string;
+  requestId?: string;
+  clientRequestId?: string;
+  date: Date;
+  contentType: "application/json;odata=minimalmetadata";
+} {
+  return {
+    nextTableName:
+      result.headers["x-ms-continuation-nexttablename"] === undefined ||
+      result.headers["x-ms-continuation-nexttablename"] === null
+        ? result.headers["x-ms-continuation-nexttablename"]
+        : result.headers["x-ms-continuation-nexttablename"],
+    apiVersion: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+    date: new Date(result.headers["date"]),
+    contentType: result.headers["content-type"] as any,
+  };
+}
+
+export function _queryDeserializeExceptionHeaders(result: PathUncheckedResponse): {
+  errorCode?: string;
+  contentType: "application/json";
+} {
+  return {
+    errorCode:
+      result.headers["x-ms-error-code"] === undefined || result.headers["x-ms-error-code"] === null
+        ? result.headers["x-ms-error-code"]
+        : result.headers["x-ms-error-code"],
+    contentType: result.headers["content-type"] as any,
+  };
 }
 
 /** Queries tables under the given account. */

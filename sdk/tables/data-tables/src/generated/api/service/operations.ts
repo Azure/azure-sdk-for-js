@@ -7,8 +7,12 @@ import {
   TableServiceProperties,
   tableServicePropertiesXmlSerializer,
   tableServicePropertiesXmlDeserializer,
+  Logging,
+  Metrics,
+  CorsRule,
   TableServiceStats,
   tableServiceStatsXmlDeserializer,
+  GeoReplication,
 } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import {
@@ -57,12 +61,51 @@ export async function _getStatisticsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = tableServiceErrorXmlDeserializer(result.body);
-
+    if (result.body) {
+      error.details = tableServiceErrorXmlDeserializer(result.body);
+    }
+    error.details = {
+      ...(error.details as any),
+      ..._getStatisticsDeserializeExceptionHeaders(result),
+    };
     throw error;
   }
 
   return tableServiceStatsXmlDeserializer(result.body);
+}
+
+export function _getStatisticsDeserializeHeaders(result: PathUncheckedResponse): {
+  date: Date;
+  apiVersion: string;
+  requestId?: string;
+  clientRequestId?: string;
+  contentType: "application/xml";
+} {
+  return {
+    date: new Date(result.headers["date"]),
+    apiVersion: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+    contentType: result.headers["content-type"] as any,
+  };
+}
+
+export function _getStatisticsDeserializeExceptionHeaders(result: PathUncheckedResponse): {
+  errorCode?: string;
+} {
+  return {
+    errorCode:
+      result.headers["x-ms-error-code"] === undefined || result.headers["x-ms-error-code"] === null
+        ? result.headers["x-ms-error-code"]
+        : result.headers["x-ms-error-code"],
+  };
 }
 
 /**
@@ -73,9 +116,18 @@ export async function _getStatisticsDeserialize(
 export async function getStatistics(
   context: Client,
   options: ServiceGetStatisticsOptionalParams = { requestOptions: {} },
-): Promise<TableServiceStats> {
+): Promise<{
+  geoReplication?: GeoReplication;
+  date: Date;
+  apiVersion: string;
+  requestId?: string;
+  clientRequestId?: string;
+  contentType: "application/xml";
+}> {
   const result = await _getStatisticsSend(context, options);
-  return _getStatisticsDeserialize(result);
+  const headers = _getStatisticsDeserializeHeaders(result);
+  const payload = await _getStatisticsDeserialize(result);
+  return { ...payload, ...headers };
 }
 
 export function _getPropertiesSend(
@@ -112,12 +164,49 @@ export async function _getPropertiesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = tableServiceErrorXmlDeserializer(result.body);
-
+    if (result.body) {
+      error.details = tableServiceErrorXmlDeserializer(result.body);
+    }
+    error.details = {
+      ...(error.details as any),
+      ..._getPropertiesDeserializeExceptionHeaders(result),
+    };
     throw error;
   }
 
   return tableServicePropertiesXmlDeserializer(result.body);
+}
+
+export function _getPropertiesDeserializeHeaders(result: PathUncheckedResponse): {
+  apiVersion: string;
+  requestId?: string;
+  clientRequestId?: string;
+  contentType: "application/xml";
+} {
+  return {
+    apiVersion: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+    contentType: result.headers["content-type"] as any,
+  };
+}
+
+export function _getPropertiesDeserializeExceptionHeaders(result: PathUncheckedResponse): {
+  errorCode?: string;
+} {
+  return {
+    errorCode:
+      result.headers["x-ms-error-code"] === undefined || result.headers["x-ms-error-code"] === null
+        ? result.headers["x-ms-error-code"]
+        : result.headers["x-ms-error-code"],
+  };
 }
 
 /**
@@ -127,9 +216,20 @@ export async function _getPropertiesDeserialize(
 export async function getProperties(
   context: Client,
   options: ServiceGetPropertiesOptionalParams = { requestOptions: {} },
-): Promise<TableServiceProperties> {
+): Promise<{
+  logging?: Logging;
+  hourMetrics?: Metrics;
+  minuteMetrics?: Metrics;
+  cors?: CorsRule[];
+  apiVersion: string;
+  requestId?: string;
+  clientRequestId?: string;
+  contentType: "application/xml";
+}> {
   const result = await _getPropertiesSend(context, options);
-  return _getPropertiesDeserialize(result);
+  const headers = _getPropertiesDeserializeHeaders(result);
+  const payload = await _getPropertiesDeserialize(result);
+  return { ...payload, ...headers };
 }
 
 export function _setPropertiesSend(
@@ -167,12 +267,47 @@ export async function _setPropertiesDeserialize(result: PathUncheckedResponse): 
   const expectedStatuses = ["202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = tableServiceErrorXmlDeserializer(result.body);
-
+    if (result.body) {
+      error.details = tableServiceErrorXmlDeserializer(result.body);
+    }
+    error.details = {
+      ...(error.details as any),
+      ..._setPropertiesDeserializeExceptionHeaders(result),
+    };
     throw error;
   }
 
   return;
+}
+
+export function _setPropertiesDeserializeHeaders(result: PathUncheckedResponse): {
+  apiVersion: string;
+  requestId?: string;
+  clientRequestId?: string;
+} {
+  return {
+    apiVersion: result.headers["x-ms-version"],
+    requestId:
+      result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
+        ? result.headers["x-ms-request-id"]
+        : result.headers["x-ms-request-id"],
+    clientRequestId:
+      result.headers["x-ms-client-request-id"] === undefined ||
+      result.headers["x-ms-client-request-id"] === null
+        ? result.headers["x-ms-client-request-id"]
+        : result.headers["x-ms-client-request-id"],
+  };
+}
+
+export function _setPropertiesDeserializeExceptionHeaders(result: PathUncheckedResponse): {
+  errorCode?: string;
+} {
+  return {
+    errorCode:
+      result.headers["x-ms-error-code"] === undefined || result.headers["x-ms-error-code"] === null
+        ? result.headers["x-ms-error-code"]
+        : result.headers["x-ms-error-code"],
+  };
 }
 
 /**
@@ -183,7 +318,9 @@ export async function setProperties(
   context: Client,
   tableServiceProperties: TableServiceProperties,
   options: ServiceSetPropertiesOptionalParams = { requestOptions: {} },
-): Promise<void> {
+): Promise<{ apiVersion: string; requestId?: string; clientRequestId?: string }> {
   const result = await _setPropertiesSend(context, tableServiceProperties, options);
-  return _setPropertiesDeserialize(result);
+  const headers = _setPropertiesDeserializeHeaders(result);
+  await _setPropertiesDeserialize(result);
+  return { ...headers };
 }

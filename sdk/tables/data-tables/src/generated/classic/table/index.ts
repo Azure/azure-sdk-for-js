@@ -28,12 +28,7 @@ import {
   TableCreateOptionalParams,
   TableQueryOptionalParams,
 } from "../../api/table/options.js";
-import {
-  TableProperties,
-  TableResponse,
-  TableEntityQueryResponse,
-  SignedIdentifiers,
-} from "../../models/models.js";
+import { TableProperties, SignedIdentifiers, SignedIdentifier } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Table operations. */
@@ -46,7 +41,7 @@ export interface TableOperations {
     table: string,
     tableAcl: SignedIdentifiers,
     options?: TableSetAccessPolicyOptionalParams,
-  ) => Promise<void>;
+  ) => Promise<{ date: Date; apiVersion: string; requestId?: string; clientRequestId?: string }>;
   /**
    * Retrieves details about any stored access policies specified on the table that
    * may be used with Shared Access Signatures.
@@ -54,12 +49,19 @@ export interface TableOperations {
   getAccessPolicy: (
     table: string,
     options?: TableGetAccessPolicyOptionalParams,
-  ) => Promise<SignedIdentifiers>;
+  ) => Promise<{
+    identifiers: SignedIdentifier[];
+    date: Date;
+    apiVersion: string;
+    requestId?: string;
+    clientRequestId?: string;
+    contentType: "application/xml";
+  }>;
   /** Insert entity in a table. */
   insertEntity: (
     table: string,
     options?: TableInsertEntityOptionalParams,
-  ) => Promise<Record<string, any>>;
+  ) => Promise<Record<string, any> | undefined>;
   /** Deletes the specified entity in a table. */
   deleteEntity: (
     table: string,
@@ -67,21 +69,33 @@ export interface TableOperations {
     partitionKey: string,
     rowKey: string,
     options?: TableDeleteEntityOptionalParams,
-  ) => Promise<void>;
+  ) => Promise<{ apiVersion: string; requestId?: string; clientRequestId?: string; date: Date }>;
   /** Merge entity in a table. */
   mergeEntity: (
     table: string,
     partitionKey: string,
     rowKey: string,
     options?: TableMergeEntityOptionalParams,
-  ) => Promise<void>;
+  ) => Promise<{
+    eTag: string;
+    apiVersion: string;
+    requestId?: string;
+    clientRequestId?: string;
+    date: Date;
+  }>;
   /** Update entity in a table. */
   updateEntity: (
     table: string,
     partitionKey: string,
     rowKey: string,
     options?: TableUpdateEntityOptionalParams,
-  ) => Promise<void>;
+  ) => Promise<{
+    eTag: string;
+    apiVersion: string;
+    requestId?: string;
+    clientRequestId?: string;
+    date: Date;
+  }>;
   /** Retrieve a single entity. */
   queryEntityWithPartitionAndRowKey: (
     table: string,
@@ -93,19 +107,47 @@ export interface TableOperations {
   queryEntities: (
     table: string,
     options?: TableQueryEntitiesOptionalParams,
-  ) => Promise<TableEntityQueryResponse>;
+  ) => Promise<{
+    odataMetadata?: string;
+    value?: Record<string, any>[];
+    nextPartitionKey?: string;
+    nextRowKey?: string;
+    apiVersion: string;
+    requestId?: string;
+    clientRequestId?: string;
+    date: Date;
+    contentType: "application/json;odata=minimalmetadata";
+  }>;
   /** Deletes an existing table. */
   /**
    *  @fixme delete is a reserved word that cannot be used as an operation name.
    *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
    *         to the operation to override the generated name.
    */
-  delete: (table: string, options?: TableDeleteOptionalParams) => Promise<void>;
+  delete: (
+    table: string,
+    options?: TableDeleteOptionalParams,
+  ) => Promise<{ apiVersion: string; requestId?: string; clientRequestId?: string; date: Date }>;
   /** Creates a new table under the given account. */
   create: (
     tableProperties: TableProperties,
     options?: TableCreateOptionalParams,
-  ) => Promise<TableResponse>;
+  ) => Promise<
+    | {
+        tableName?: string;
+        odataType?: string;
+        odataId?: string;
+        odataEditLink?: string;
+        odataMetadata?: string;
+        preferenceApplied?: string;
+        apiVersion: string;
+        requestId?: string;
+        clientRequestId?: string;
+        date: Date;
+        contentType: "application/json;odata=minimalmetadata";
+      }
+    | undefined
+  >;
   /** Queries tables under the given account. */
   query: (options?: TableQueryOptionalParams) => PagedAsyncIterableIterator<TableProperties>;
 }

@@ -1052,14 +1052,64 @@ export function geoReplicationXmlObjectDeserializer(
 }
 
 /** The status of the secondary location. */
-export type GeoReplicationStatusType = "live" | "bootstrap" | "unavailable";
+export enum KnownGeoReplicationStatusType {
+  /** The geo replication is live. */
+  Live = "live",
+  /** The geo replication is bootstrap. */
+  Bootstrap = "bootstrap",
+  /** The geo replication is unavailable. */
+  Unavailable = "unavailable",
+}
+
+/**
+ * The status of the secondary location. \
+ * {@link KnownGeoReplicationStatusType} can be used interchangeably with GeoReplicationStatusType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **live**: The geo replication is live. \
+ * **bootstrap**: The geo replication is bootstrap. \
+ * **unavailable**: The geo replication is unavailable.
+ */
+export type GeoReplicationStatusType = string;
+
 /** Specifies the level of metadata to be returned with the response. */
-export type OdataMetadataFormat =
-  | "application/json;odata=nometadata"
-  | "application/json;odata=minimalmetadata"
-  | "application/json;odata=fullmetadata";
+export enum KnownOdataMetadataFormat {
+  /** No metadata. */
+  NoMetadata = "application/json;odata=nometadata",
+  /** Minimal metadata. This is the default and the minimum required for full deserialization. */
+  MinimalMetadata = "application/json;odata=minimalmetadata",
+  /** Full metadata. */
+  FullMetadata = "application/json;odata=fullmetadata",
+}
+
+/**
+ * Specifies the level of metadata to be returned with the response. \
+ * {@link KnownOdataMetadataFormat} can be used interchangeably with OdataMetadataFormat,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **application\/json;odata=nometadata**: No metadata. \
+ * **application\/json;odata=minimalmetadata**: Minimal metadata. This is the default and the minimum required for full deserialization. \
+ * **application\/json;odata=fullmetadata**: Full metadata.
+ */
+export type OdataMetadataFormat = string;
+
 /** Specifies whether the response should echo the created content. */
-export type ResponseFormat = "return-no-content" | "return-content";
+export enum KnownResponseFormat {
+  /** Do not echo the created content. */
+  ReturnNoContent = "return-no-content",
+  /** Echo the created content. */
+  ReturnContent = "return-content",
+}
+
+/**
+ * Specifies whether the response should echo the created content. \
+ * {@link KnownResponseFormat} can be used interchangeably with ResponseFormat,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **return-no-content**: Do not echo the created content. \
+ * **return-content**: Echo the created content.
+ */
+export type ResponseFormat = string;
 
 /** The Azure Tables service versions. */
 export enum KnownVersions {

@@ -28,7 +28,12 @@ export type {
   OdataMetadataFormat,
   ResponseFormat,
 } from "./models/index.js";
-export { KnownVersions } from "./models/index.js";
+export {
+  KnownGeoReplicationStatusType,
+  KnownOdataMetadataFormat,
+  KnownResponseFormat,
+  KnownVersions,
+} from "./models/index.js";
 export type { TablesClientOptionalParams } from "./api/index.js";
 export type {
   ServiceGetStatisticsOptionalParams,
@@ -50,3 +55,4 @@ export type {
 } from "./api/table/index.js";
 export type { ServiceOperations, TableOperations } from "./classic/index.js";
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

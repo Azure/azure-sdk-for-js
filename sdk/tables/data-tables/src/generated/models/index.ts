@@ -21,4 +21,9 @@ export type {
   OdataMetadataFormat,
   ResponseFormat,
 } from "./models.js";
-export { KnownVersions } from "./models.js";
+export {
+  KnownGeoReplicationStatusType,
+  KnownOdataMetadataFormat,
+  KnownResponseFormat,
+  KnownVersions,
+} from "./models.js";
