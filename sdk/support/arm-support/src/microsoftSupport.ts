@@ -1,72 +1,44 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  MicrosoftSupportContext,
-  MicrosoftSupportOptionalParams,
-  createMicrosoftSupport,
-} from "./api/index.js";
-import {
-  ChatTranscriptsOperations,
-  _getChatTranscriptsOperations,
-} from "./classic/chatTranscripts/index.js";
-import {
-  ChatTranscriptsNoSubscriptionOperations,
-  _getChatTranscriptsNoSubscriptionOperations,
-} from "./classic/chatTranscriptsNoSubscription/index.js";
-import {
-  ClassifyProblemsOperations,
-  _getClassifyProblemsOperations,
-} from "./classic/classifyProblems/index.js";
-import {
-  ClassifyProblemsNoSubscriptionOperations,
-  _getClassifyProblemsNoSubscriptionOperations,
-} from "./classic/classifyProblemsNoSubscription/index.js";
-import {
-  ClassifyServicesOperations,
-  _getClassifyServicesOperations,
-} from "./classic/classifyServices/index.js";
-import {
-  ClassifyServicesNoSubscriptionOperations,
-  _getClassifyServicesNoSubscriptionOperations,
-} from "./classic/classifyServicesNoSubscription/index.js";
-import {
-  CommunicationsOperations,
-  _getCommunicationsOperations,
-} from "./classic/communications/index.js";
-import {
-  CommunicationsNoSubscriptionOperations,
-  _getCommunicationsNoSubscriptionOperations,
-} from "./classic/communicationsNoSubscription/index.js";
-import {
-  FileWorkspacesOperations,
-  _getFileWorkspacesOperations,
-} from "./classic/fileWorkspaces/index.js";
-import {
-  FileWorkspacesNoSubscriptionOperations,
-  _getFileWorkspacesNoSubscriptionOperations,
-} from "./classic/fileWorkspacesNoSubscription/index.js";
-import { FilesOperations, _getFilesOperations } from "./classic/files/index.js";
-import {
-  FilesNoSubscriptionOperations,
-  _getFilesNoSubscriptionOperations,
-} from "./classic/filesNoSubscription/index.js";
-import { OperationsOperations, _getOperationsOperations } from "./classic/operations/index.js";
-import {
-  ProblemClassificationsOperations,
-  _getProblemClassificationsOperations,
-} from "./classic/problemClassifications/index.js";
-import { ServicesOperations, _getServicesOperations } from "./classic/services/index.js";
-import {
-  SupportTicketsOperations,
-  _getSupportTicketsOperations,
-} from "./classic/supportTickets/index.js";
-import {
-  SupportTicketsNoSubscriptionOperations,
-  _getSupportTicketsNoSubscriptionOperations,
-} from "./classic/supportTicketsNoSubscription/index.js";
-import { TokenCredential } from "@azure/core-auth";
-import { Pipeline } from "@azure/core-rest-pipeline";
+import type { MicrosoftSupportContext, MicrosoftSupportOptionalParams } from "./api/index.js";
+import { createMicrosoftSupport } from "./api/index.js";
+import type { ChatTranscriptsOperations } from "./classic/chatTranscripts/index.js";
+import { _getChatTranscriptsOperations } from "./classic/chatTranscripts/index.js";
+import type { ChatTranscriptsNoSubscriptionOperations } from "./classic/chatTranscriptsNoSubscription/index.js";
+import { _getChatTranscriptsNoSubscriptionOperations } from "./classic/chatTranscriptsNoSubscription/index.js";
+import type { ClassifyProblemsOperations } from "./classic/classifyProblems/index.js";
+import { _getClassifyProblemsOperations } from "./classic/classifyProblems/index.js";
+import type { ClassifyProblemsNoSubscriptionOperations } from "./classic/classifyProblemsNoSubscription/index.js";
+import { _getClassifyProblemsNoSubscriptionOperations } from "./classic/classifyProblemsNoSubscription/index.js";
+import type { ClassifyServicesOperations } from "./classic/classifyServices/index.js";
+import { _getClassifyServicesOperations } from "./classic/classifyServices/index.js";
+import type { ClassifyServicesNoSubscriptionOperations } from "./classic/classifyServicesNoSubscription/index.js";
+import { _getClassifyServicesNoSubscriptionOperations } from "./classic/classifyServicesNoSubscription/index.js";
+import type { CommunicationsOperations } from "./classic/communications/index.js";
+import { _getCommunicationsOperations } from "./classic/communications/index.js";
+import type { CommunicationsNoSubscriptionOperations } from "./classic/communicationsNoSubscription/index.js";
+import { _getCommunicationsNoSubscriptionOperations } from "./classic/communicationsNoSubscription/index.js";
+import type { FileWorkspacesOperations } from "./classic/fileWorkspaces/index.js";
+import { _getFileWorkspacesOperations } from "./classic/fileWorkspaces/index.js";
+import type { FileWorkspacesNoSubscriptionOperations } from "./classic/fileWorkspacesNoSubscription/index.js";
+import { _getFileWorkspacesNoSubscriptionOperations } from "./classic/fileWorkspacesNoSubscription/index.js";
+import type { FilesOperations } from "./classic/files/index.js";
+import { _getFilesOperations } from "./classic/files/index.js";
+import type { FilesNoSubscriptionOperations } from "./classic/filesNoSubscription/index.js";
+import { _getFilesNoSubscriptionOperations } from "./classic/filesNoSubscription/index.js";
+import type { OperationsOperations } from "./classic/operations/index.js";
+import { _getOperationsOperations } from "./classic/operations/index.js";
+import type { ProblemClassificationsOperations } from "./classic/problemClassifications/index.js";
+import { _getProblemClassificationsOperations } from "./classic/problemClassifications/index.js";
+import type { ServicesOperations } from "./classic/services/index.js";
+import { _getServicesOperations } from "./classic/services/index.js";
+import type { SupportTicketsOperations } from "./classic/supportTickets/index.js";
+import { _getSupportTicketsOperations } from "./classic/supportTickets/index.js";
+import type { SupportTicketsNoSubscriptionOperations } from "./classic/supportTicketsNoSubscription/index.js";
+import { _getSupportTicketsNoSubscriptionOperations } from "./classic/supportTicketsNoSubscription/index.js";
+import type { TokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { MicrosoftSupportOptionalParams } from "./api/microsoftSupportContext.js";
 

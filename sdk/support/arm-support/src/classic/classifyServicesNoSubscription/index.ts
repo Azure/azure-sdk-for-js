@@ -1,10 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MicrosoftSupportContext } from "../../api/microsoftSupportContext.js";
+import type { MicrosoftSupportContext } from "../../api/microsoftSupportContext.js";
 import { classifyServices } from "../../api/classifyServicesNoSubscription/operations.js";
-import { ClassifyServicesNoSubscriptionClassifyServicesOptionalParams } from "../../api/classifyServicesNoSubscription/options.js";
-import { ServiceClassificationRequest, ServiceClassificationOutput } from "../../models/models.js";
+import type { ClassifyServicesNoSubscriptionClassifyServicesOptionalParams } from "../../api/classifyServicesNoSubscription/options.js";
+import type {
+  ServiceClassificationRequest,
+  ServiceClassificationOutput,
+} from "../../models/models.js";
 
 /** Interface representing a ClassifyServicesNoSubscription operations. */
 export interface ClassifyServicesNoSubscriptionOperations {

@@ -1,41 +1,37 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MicrosoftSupportContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
+import type { MicrosoftSupportContext as Client } from "../index.js";
+import type {
   CheckNameAvailabilityInput,
-  checkNameAvailabilityInputSerializer,
   CheckNameAvailabilityOutput,
-  checkNameAvailabilityOutputDeserializer,
   SupportTicketDetails,
-  supportTicketDetailsSerializer,
-  supportTicketDetailsDeserializer,
   UpdateSupportTicket,
-  updateSupportTicketSerializer,
   _SupportTicketsListResult,
-  _supportTicketsListResultDeserializer,
 } from "../../models/models.js";
 import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+  errorResponseDeserializer,
+  checkNameAvailabilityInputSerializer,
+  checkNameAvailabilityOutputDeserializer,
+  supportTicketDetailsSerializer,
+  supportTicketDetailsDeserializer,
+  updateSupportTicketSerializer,
+  _supportTicketsListResultDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   SupportTicketsNoSubscriptionCheckNameAvailabilityOptionalParams,
   SupportTicketsNoSubscriptionListOptionalParams,
   SupportTicketsNoSubscriptionUpdateOptionalParams,
   SupportTicketsNoSubscriptionCreateOptionalParams,
   SupportTicketsNoSubscriptionGetOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _checkNameAvailabilitySend(
   context: Client,
@@ -45,7 +41,7 @@ export function _checkNameAvailabilitySend(
   const path = expandUrlTemplate(
     "/providers/Microsoft.Support/checkNameAvailability{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -92,7 +88,7 @@ export function _listSend(
   const path = expandUrlTemplate(
     "/providers/Microsoft.Support/supportTickets{?api%2Dversion,%24top,%24filter}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
       "%24top": options?.top,
       "%24filter": options?.filter,
     },
@@ -132,11 +128,7 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-06-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
   );
 }
 
@@ -150,7 +142,7 @@ export function _updateSend(
     "/providers/Microsoft.Support/supportTickets/{supportTicketName}{?api%2Dversion}",
     {
       supportTicketName: supportTicketName,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -201,7 +193,7 @@ export function _createSend(
     "/providers/Microsoft.Support/supportTickets/{supportTicketName}{?api%2Dversion}",
     {
       supportTicketName: supportTicketName,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -244,7 +236,7 @@ export function create(
     getInitialResponse: () =>
       _createSend(context, supportTicketName, createSupportTicketParameters, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2025-06-01-preview",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<SupportTicketDetails>, SupportTicketDetails>;
 }
 
@@ -257,7 +249,7 @@ export function _getSend(
     "/providers/Microsoft.Support/supportTickets/{supportTicketName}{?api%2Dversion}",
     {
       supportTicketName: supportTicketName,
-      "api%2Dversion": context.apiVersion ?? "2025-06-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

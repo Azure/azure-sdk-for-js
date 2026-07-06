@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MicrosoftSupportContext } from "../../api/microsoftSupportContext.js";
+import type { MicrosoftSupportContext } from "../../api/microsoftSupportContext.js";
 import { create, get } from "../../api/fileWorkspaces/operations.js";
-import {
+import type {
   FileWorkspacesCreateOptionalParams,
   FileWorkspacesGetOptionalParams,
 } from "../../api/fileWorkspaces/options.js";
-import { FileWorkspaceDetails } from "../../models/models.js";
+import type { FileWorkspaceDetails } from "../../models/models.js";
 
 /** Interface representing a FileWorkspaces operations. */
 export interface FileWorkspacesOperations {

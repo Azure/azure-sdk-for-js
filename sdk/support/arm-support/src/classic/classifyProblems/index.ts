@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MicrosoftSupportContext } from "../../api/microsoftSupportContext.js";
+import type { MicrosoftSupportContext } from "../../api/microsoftSupportContext.js";
 import { classifyProblems } from "../../api/classifyProblems/operations.js";
-import { ClassifyProblemsClassifyProblemsOptionalParams } from "../../api/classifyProblems/options.js";
-import {
+import type { ClassifyProblemsClassifyProblemsOptionalParams } from "../../api/classifyProblems/options.js";
+import type {
   ProblemClassificationsClassificationInput,
   ProblemClassificationsClassificationOutput,
 } from "../../models/models.js";
