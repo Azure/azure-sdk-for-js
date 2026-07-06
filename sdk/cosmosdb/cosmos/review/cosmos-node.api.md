@@ -2397,6 +2397,7 @@ export type SemanticRerankOptions = Record<string, unknown>;
 
 // @public
 export interface SemanticRerankResult {
+    diagnostics: CosmosDiagnostics;
     headers: Record<string, string>;
     latency: Record<string, unknown> | undefined;
     rerankScores: RerankScore[];

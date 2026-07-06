@@ -22,6 +22,10 @@ import { Constants } from "../common/constants.js";
 import { StatusCodes } from "../common/statusCodes.js";
 import { getCachedDefaultHttpClient } from "../utils/cachedClient.js";
 import { ErrorResponse, type ErrorBody } from "../request/ErrorResponse.js";
+import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal.js";
+import { DiagnosticNodeType } from "../diagnostics/DiagnosticNodeInternal.js";
+import { addDiagnosticChild, getEmptyCosmosDiagnostics } from "../utils/diagnostics.js";
+import { getCurrentTimestampInMs } from "../utils/time.js";
 
 const logger: AzureLogger = createClientLogger("InferenceService");
 
@@ -61,12 +65,14 @@ export class InferenceService {
    * @param rerankContext - The context (e.g. query string) to use for reranking.
    * @param documents - The documents to be reranked.
    * @param options - Optional settings for the reranking request.
+   * @param diagnosticNode - Optional diagnostic node used to record the inference REST call.
    * @returns The reranking results including scores, latency, and token usage.
    */
   async semanticRerank(
     rerankContext: string,
     documents: string[],
     options?: SemanticRerankOptions,
+    diagnosticNode?: DiagnosticNodeInternal,
   ): Promise<SemanticRerankResult> {
     const payload = this.buildPayload(rerankContext, documents, options);
 
@@ -80,8 +86,26 @@ export class InferenceService {
 
     this.setHeaders(request);
 
-    const response = await this.pipeline.sendRequest(this.httpClient, request);
-    return this.parseResponse(response);
+    const sendAndParse = async (node?: DiagnosticNodeInternal): Promise<SemanticRerankResult> => {
+      const startTimeUTCInMs = getCurrentTimestampInMs();
+      const response = await this.pipeline.sendRequest(this.httpClient, request);
+      node?.addData({
+        startTimeUTCInMs,
+        durationInMs: getCurrentTimestampInMs() - startTimeUTCInMs,
+        requestPayloadLengthInBytes: request.body ? String(request.body).length : 0,
+        responsePayloadLengthInBytes: response.bodyAsText?.length ?? 0,
+        requestData: { url: this.inferenceEndpointUrl },
+      });
+      return this.parseResponse(response);
+    };
+
+    return diagnosticNode
+      ? addDiagnosticChild(
+          (childNode) => sendAndParse(childNode),
+          diagnosticNode,
+          DiagnosticNodeType.HTTP_REQUEST,
+        )
+      : sendAndParse();
   }
 
   /**
@@ -202,6 +226,7 @@ export class InferenceService {
       latency: body.latency ?? undefined,
       tokenUsage: body.token_usage ?? undefined,
       headers: response.headers.toJSON() as Record<string, string>,
+      diagnostics: getEmptyCosmosDiagnostics(),
     };
   }
 

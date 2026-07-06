@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { CosmosDiagnostics } from "../CosmosDiagnostics.js";
+
 /**
  * Represents the score assigned to a document after a semantic reranking operation.
  */
@@ -26,4 +28,6 @@ export interface SemanticRerankResult {
   tokenUsage: Record<string, unknown> | undefined;
   /** HTTP response headers from the inference service. */
   headers: Record<string, string>;
+  /** Diagnostic information for the semantic rerank operation. */
+  diagnostics: CosmosDiagnostics;
 }

@@ -6,6 +6,11 @@ import type { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-
 import type { HttpClient, PipelineResponse } from "@azure/core-rest-pipeline";
 import { InferenceService } from "../../../../src/inference/InferenceService.js";
 import type { CosmosClientOptions } from "../../../../src/CosmosClientOptions.js";
+import {
+  DiagnosticNodeInternal,
+  DiagnosticNodeType,
+} from "../../../../src/diagnostics/DiagnosticNodeInternal.js";
+import { CosmosDbDiagnosticLevel } from "../../../../src/diagnostics/CosmosDbDiagnosticLevel.js";
 
 class MockTokenCredential implements TokenCredential {
   async getToken(scopes: string | string[], _options?: GetTokenOptions): Promise<AccessToken> {
@@ -257,6 +262,29 @@ describe("InferenceService", { timeout: 10000 }, () => {
       assert.equal(result.rerankScores.length, 1);
       assert.equal(result.rerankScores[0].document, "");
       assert.equal(result.rerankScores[0].score, 0.9);
+    });
+
+    it("should record an HTTP_REQUEST diagnostic child when a diagnostic node is provided", async () => {
+      const service = new InferenceService(createMockOptions());
+
+      const pipeline = (service as any).pipeline;
+      pipeline.sendRequest = async () => ({
+        headers: { toJSON: () => ({}) } as any,
+        request: {} as any,
+        status: 200,
+        bodyAsText: JSON.stringify({ Scores: [] }),
+      });
+
+      const node = new DiagnosticNodeInternal(
+        CosmosDbDiagnosticLevel.debug,
+        DiagnosticNodeType.CLIENT_REQUEST_NODE,
+        null as any,
+      );
+
+      await service.semanticRerank("query", ["doc"], undefined, node);
+
+      assert.equal(node.children.length, 1);
+      assert.equal(node.children[0].nodeType, DiagnosticNodeType.HTTP_REQUEST);
     });
   });
 });

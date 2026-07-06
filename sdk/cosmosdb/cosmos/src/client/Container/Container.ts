@@ -761,7 +761,11 @@ export class Container {
     documents: string[],
     options?: SemanticRerankOptions,
   ): Promise<SemanticRerankResult> {
-    return this.clientContext.semanticRerank(rerankContext, documents, options);
+    return withDiagnostics(
+      (diagnosticNode: DiagnosticNodeInternal) =>
+        this.clientContext.semanticRerank(rerankContext, documents, options, diagnosticNode),
+      this.clientContext,
+    );
   }
 
   /**

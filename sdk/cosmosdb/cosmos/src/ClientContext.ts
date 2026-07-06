@@ -1124,16 +1124,18 @@ export class ClientContext {
    * @param rerankContext - The context (e.g. query string) to use for reranking.
    * @param documents - The documents to be reranked.
    * @param options - Optional settings for the reranking request.
+   * @param diagnosticNode - The diagnostic node for the current operation.
    * @returns The reranking results including scores, latency, and token usage.
    * @internal
    */
   public async semanticRerank(
     rerankContext: string,
     documents: string[],
-    options?: SemanticRerankOptions,
+    options: SemanticRerankOptions | undefined,
+    diagnosticNode: DiagnosticNodeInternal,
   ): Promise<SemanticRerankResult> {
     const service = this.getOrCreateInferenceService();
-    return service.semanticRerank(rerankContext, documents, options);
+    return service.semanticRerank(rerankContext, documents, options, diagnosticNode);
   }
 
   /**
