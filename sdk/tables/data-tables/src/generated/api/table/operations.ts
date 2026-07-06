@@ -367,7 +367,7 @@ export function _deleteEntitySend(
   options: TableDeleteEntityOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{table}(PartitionKey='{partitionKey}',RowKey='{rowKey}'){?timeout}",
+    "/{table}(PartitionKey='{+partitionKey}',RowKey='{+rowKey}'){?timeout}",
     {
       table: table,
       partitionKey: partitionKey,
@@ -469,7 +469,7 @@ export function _mergeEntitySend(
   options: TableMergeEntityOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{table}(PartitionKey='{partitionKey}',RowKey='{rowKey}'){?timeout}",
+    "/{table}(PartitionKey='{+partitionKey}',RowKey='{+rowKey}'){?timeout}",
     {
       table: table,
       partitionKey: partitionKey,
@@ -582,7 +582,7 @@ export function _updateEntitySend(
   options: TableUpdateEntityOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{table}(PartitionKey='{partitionKey}',RowKey='{rowKey}'){?timeout}",
+    "/{table}(PartitionKey='{+partitionKey}',RowKey='{+rowKey}'){?timeout}",
     {
       table: table,
       partitionKey: partitionKey,
@@ -695,7 +695,7 @@ export function _queryEntityWithPartitionAndRowKeySend(
   options: TableQueryEntityWithPartitionAndRowKeyOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{table}(PartitionKey='{partitionKey}',RowKey='{rowKey}'){?timeout,%24format,%24select,%24filter}",
+    "/{table}(PartitionKey='{+partitionKey}',RowKey='{+rowKey}'){?timeout,%24format,%24select,%24filter}",
     {
       table: table,
       partitionKey: partitionKey,
