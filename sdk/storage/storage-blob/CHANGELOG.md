@@ -13,6 +13,8 @@
 
 ### Other Changes
 
+- For service version 2026-10-06 and later, upload operations now return the service-computed CRC64 checksum (`xMsContentCrc64`) in addition to `contentMD5` when a Content-MD5 is provided. This applies to `stageBlock`, `stageBlockFromURL`, `uploadPages`, `uploadPagesFromURL`, `appendBlock`, `appendBlockFromURL`, `upload`, and `syncUploadFromURL`.
+
 ## 12.33.0 (2026-06-24)
 
 ### Features Added

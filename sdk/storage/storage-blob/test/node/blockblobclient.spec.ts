@@ -302,6 +302,159 @@ describe("BlockBlobClient Node.js only", () => {
   });
 });
 
+describe("MD5/CRC64 combined return", () => {
+  let recorder: Recorder;
+  let containerClient: ContainerClient;
+  let blobClient: BlobClient;
+  let sourceBlobURLWithSAS: string;
+
+  const content = "Hello World";
+  const contentMD5 = (): Uint8Array => crypto.createHash("md5").update(Buffer.from(content)).digest();
+
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers(
+      {
+        uriSanitizers,
+        removeHeaderSanitizer: {
+          headersForRemoval: [
+            "x-ms-copy-source",
+            "x-ms-copy-source-authorization",
+            "x-ms-encryption-key",
+          ],
+        },
+      },
+      ["playback", "record"],
+    );
+    const blobServiceClient = getBSU(recorder);
+    const containerName = recorder.variable("container", getUniqueName("container"));
+    containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+    blobClient = containerClient.getBlobClient(recorder.variable("blob", getUniqueName("blob")));
+
+    // Create a source blob with a read SAS URL for the from-URL operations.
+    const srcBlobName = recorder.variable("srcblob", getUniqueName("srcblob"));
+    const sourceBlob = containerClient.getBlockBlobClient(srcBlobName);
+    await sourceBlob.upload(content, content.length);
+    const expiryTime = new Date(recorder.variable("expiry", new Date().toISOString()));
+    expiryTime.setDate(expiryTime.getDate() + 1);
+    const sas = generateBlobSASQueryParameters(
+      {
+        expiresOn: expiryTime,
+        permissions: BlobSASPermissions.parse("r"),
+        containerName,
+        blobName: srcBlobName,
+      },
+      sourceBlob.credential as StorageSharedKeyCredential,
+    );
+    sourceBlobURLWithSAS = sourceBlob.url + "?" + sas;
+  });
+
+  afterEach(async () => {
+    if (containerClient) {
+      await containerClient.delete();
+    }
+    await recorder.stop();
+  });
+
+  it("stageBlock returns CRC64 when a Content-MD5 is provided", async () => {
+    const blockBlobClient = blobClient.getBlockBlobClient();
+    const result = await blockBlobClient.stageBlock(base64encode("1"), content, content.length, {
+      contentChecksumAlgorithm: "Customized",
+      transactionalContentMD5: contentMD5(),
+    });
+    assert.isDefined(result.contentMD5);
+    assert.isDefined(result.xMsContentCrc64);
+  });
+
+  it("appendBlock returns CRC64 when a Content-MD5 is provided", async () => {
+    const appendBlobClient = blobClient.getAppendBlobClient();
+    await appendBlobClient.create();
+    const result = await appendBlobClient.appendBlock(content, content.length, {
+      contentChecksumAlgorithm: "Customized",
+      transactionalContentMD5: contentMD5(),
+    });
+    assert.isDefined(result.contentMD5);
+    assert.isDefined(result.xMsContentCrc64);
+  });
+
+  it("uploadPages returns CRC64 when a Content-MD5 is provided", async () => {
+    const pageContent = "a".repeat(512);
+    const pageBlobClient = blobClient.getPageBlobClient();
+    await pageBlobClient.create(512);
+    const result = await pageBlobClient.uploadPages(pageContent, 0, 512, {
+      contentChecksumAlgorithm: "Customized",
+      transactionalContentMD5: crypto.createHash("md5").update(Buffer.from(pageContent)).digest(),
+    });
+    assert.isDefined(result.contentMD5);
+    assert.isDefined(result.xMsContentCrc64);
+  });
+
+  it("stageBlockFromURL returns CRC64 when a source Content-MD5 is provided", async () => {
+    const blockBlobClient = blobClient.getBlockBlobClient();
+    const result = await blockBlobClient.stageBlockFromURL(
+      base64encode("1"),
+      sourceBlobURLWithSAS,
+      0,
+      content.length,
+      { sourceContentMD5: contentMD5() },
+    );
+    assert.isDefined(result.contentMD5);
+    assert.isDefined(result.xMsContentCrc64);
+  });
+
+  it("appendBlockFromURL returns CRC64 when a source Content-MD5 is provided", async () => {
+    const appendBlobClient = blobClient.getAppendBlobClient();
+    await appendBlobClient.create();
+    const result = await appendBlobClient.appendBlockFromURL(
+      sourceBlobURLWithSAS,
+      0,
+      content.length,
+      { sourceContentMD5: contentMD5() },
+    );
+    assert.isDefined(result.contentMD5);
+    assert.isDefined(result.xMsContentCrc64);
+  });
+
+  it("syncUploadFromURL returns CRC64 when a source Content-MD5 is provided", async () => {
+    const blockBlobClient = blobClient.getBlockBlobClient();
+    const result = await blockBlobClient.syncUploadFromURL(sourceBlobURLWithSAS, {
+      sourceContentMD5: contentMD5(),
+    });
+    assert.isDefined(result.contentMD5);
+    assert.isDefined(result.xMsContentCrc64);
+  });
+
+  it("uploadPagesFromURL returns CRC64 when a source Content-MD5 is provided", async () => {
+    // Page operations require 512-byte alignment, so use a dedicated 512-byte source.
+    const pageContent = "a".repeat(512);
+    const pageSrcName = recorder.variable("pagesrc", getUniqueName("pagesrc"));
+    const pageSource = containerClient.getBlockBlobClient(pageSrcName);
+    await pageSource.upload(pageContent, pageContent.length);
+    const expiryTime = new Date(recorder.variable("pageexpiry", new Date().toISOString()));
+    expiryTime.setDate(expiryTime.getDate() + 1);
+    const sas = generateBlobSASQueryParameters(
+      {
+        expiresOn: expiryTime,
+        permissions: BlobSASPermissions.parse("r"),
+        containerName: containerClient.containerName,
+        blobName: pageSrcName,
+      },
+      pageSource.credential as StorageSharedKeyCredential,
+    );
+    const pageSourceURLWithSAS = pageSource.url + "?" + sas;
+
+    const pageBlobClient = blobClient.getPageBlobClient();
+    await pageBlobClient.create(512);
+    const result = await pageBlobClient.uploadPagesFromURL(pageSourceURLWithSAS, 0, 0, 512, {
+      sourceContentMD5: crypto.createHash("md5").update(Buffer.from(pageContent)).digest(),
+    });
+    assert.isDefined(result.contentMD5);
+    assert.isDefined(result.xMsContentCrc64);
+  });
+});
+
 describe("syncUploadFromURL", () => {
   let recorder: Recorder;
   let containerClient: ContainerClient;
