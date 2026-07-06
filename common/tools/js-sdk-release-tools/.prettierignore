@@ -1,0 +1,6 @@
+node_modules
+dist
+packages
+src/test/**/testCases
+*.md
+*.yml

@@ -1,0 +1,4 @@
+node_modules
+build
+coverage
+src/tests/e2e/cases

@@ -80,7 +80,7 @@ test/data/test_package.zip
 
 # Nuget packages and corresponding codegen sources
 .nuget
-packages
+/packages
 
 # Visual Studio #
 *.suo

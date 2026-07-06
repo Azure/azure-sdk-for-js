@@ -1,0 +1,8 @@
+{
+  "apiVersion": "2025-09-01",
+  "emitterVersion": "0.47.1",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "Microsoft.Test",
+    "CrossLanguageDefinitionId": {}
+  }
+}

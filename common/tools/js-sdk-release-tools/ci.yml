@@ -1,0 +1,86 @@
+# Node.js
+# Build a general Node.js project with npm.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+trigger:
+  branches:
+    include:
+      - main
+      - feature/*
+      - release/*
+      - hotfix/*
+  paths:
+    include:
+      - tools/js-sdk-release-tools
+
+pr:
+  branches:
+    include:
+      - main
+      - feature/*
+      - release/*
+      - hotfix/*
+  paths:
+    include:
+      - tools/js-sdk-release-tools
+
+extends:
+  template: /eng/pipelines/templates/stages/archetype-sdk-publish-js.yml
+  parameters:
+    BuildStageName: InstallAndBuild
+    ArtifactName: drop
+    PackageJsonPath: $(Build.SourcesDirectory)/tools/js-sdk-release-tools
+    BuildStages:
+      - stage: InstallAndBuild
+        variables:
+          - template: /eng/pipelines/templates/variables/globals.yml
+          - template: /eng/pipelines/templates/variables/image.yml
+          - name: NodeVersion
+            value: '22.x'
+
+        jobs:
+          - job: Build
+            pool:
+              name: $(LINUXPOOL)
+              image: $(LINUXVMIMAGE)
+              os: linux
+            steps:
+            - task: NodeTool@0
+              inputs:
+                versionSpec: '$(NodeVersion)'
+              displayName: 'Install Node.js'
+
+            - script: |
+                npm ci
+              displayName: 'npm ci'
+              workingDirectory: $(System.DefaultWorkingDirectory)/tools/js-sdk-release-tools
+
+            - script: |
+                npm run format:check
+              displayName: 'Prettier format check'
+              workingDirectory: $(System.DefaultWorkingDirectory)/tools/js-sdk-release-tools
+
+            - script: |
+                npm run build
+              displayName: 'npm run build'
+              workingDirectory: $(System.DefaultWorkingDirectory)/tools/js-sdk-release-tools
+
+            - script: |
+                npm run test
+              displayName: 'npm run test'
+              workingDirectory: $(System.DefaultWorkingDirectory)/tools/js-sdk-release-tools
+
+            - script: |
+                npm pack
+              displayName: 'npm pack'
+              workingDirectory: $(System.DefaultWorkingDirectory)/tools/js-sdk-release-tools
+
+            - script: 'cp azure-tools-js-sdk-release-tools-*.tgz $(Build.ArtifactStagingDirectory)'
+              displayName: 'copy to staging dir'
+              workingDirectory: $(System.DefaultWorkingDirectory)/tools/js-sdk-release-tools
+
+            - template: /eng/common/pipelines/templates/steps/publish-1es-artifact.yml
+              parameters:
+                  ArtifactName: drop
+                  ArtifactPath: $(Build.ArtifactStagingDirectory)
