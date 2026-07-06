@@ -21,7 +21,7 @@ import type { RerankScore, SemanticRerankResult } from "./SemanticRerankResult.j
 import { Constants } from "../common/constants.js";
 import { StatusCodes } from "../common/statusCodes.js";
 import { getCachedDefaultHttpClient } from "../utils/cachedClient.js";
-import { ErrorResponse } from "../request/ErrorResponse.js";
+import { ErrorResponse, type ErrorBody } from "../request/ErrorResponse.js";
 
 const logger: AzureLogger = createClientLogger("InferenceService");
 
@@ -165,31 +165,30 @@ export class InferenceService {
    */
   private parseResponse(response: PipelineResponse): SemanticRerankResult {
     if (response.status < StatusCodes.Ok || response.status >= HTTP_MULTIPLE_CHOICES) {
-      // Surface the service's raw error payload (code/message/details) directly to the caller.
-      const errorResponse = new ErrorResponse(
-        response.bodyAsText || `Semantic rerank request failed with status ${response.status}`,
+      const { code, message } = this.parseServiceError(response.bodyAsText);
+      throw this.createInferenceError(
+        response,
+        code ?? String(response.status),
+        message ?? `Semantic rerank request failed with status ${response.status}`,
       );
-      errorResponse.code = response.status;
-      errorResponse.headers = response.headers.toJSON() as Record<string, string>;
-      throw errorResponse;
     }
 
     if (!response.bodyAsText) {
-      const errorResponse = new ErrorResponse("Semantic rerank response body was empty.");
-      errorResponse.code = response.status;
-      errorResponse.headers = response.headers.toJSON() as Record<string, string>;
-      throw errorResponse;
+      throw this.createInferenceError(
+        response,
+        String(response.status),
+        "Semantic rerank response body was empty.",
+      );
     }
 
     const body = JSON.parse(response.bodyAsText);
 
     if (!Array.isArray(body.Scores)) {
-      const errorResponse = new ErrorResponse(
+      throw this.createInferenceError(
+        response,
+        String(response.status),
         "Semantic rerank response did not contain a Scores array.",
       );
-      errorResponse.code = response.status;
-      errorResponse.headers = response.headers.toJSON() as Record<string, string>;
-      throw errorResponse;
     }
 
     const rerankScores: RerankScore[] = body.Scores.map((item: Record<string, unknown>) => ({
@@ -204,5 +203,54 @@ export class InferenceService {
       tokenUsage: body.token_usage ?? undefined,
       headers: response.headers.toJSON() as Record<string, string>,
     };
+  }
+
+  /**
+   * Parses a service error body into `{ code, message }`. `message` is the body's `message` field
+   * followed by every other field except `code` (kept even when null) so no detail is lost. A
+   * non-JSON body is returned verbatim in `message`; an empty body yields an empty object.
+   */
+  private parseServiceError(text: string | null | undefined): { code?: string; message?: string } {
+    if (!text) {
+      return {};
+    }
+    let parsed: unknown;
+    try {
+      parsed = JSON.parse(text);
+    } catch {
+      return { message: text };
+    }
+    if (typeof parsed !== "object" || parsed === null) {
+      return { message: text };
+    }
+    const { code, message, ...rest } = parsed as Record<string, unknown>;
+    const parts: string[] = [];
+    if (message !== undefined) {
+      parts.push(typeof message === "string" ? message : String(JSON.stringify(message)));
+    }
+    for (const [key, value] of Object.entries(rest)) {
+      parts.push(`${key}: ${typeof value === "string" ? value : String(JSON.stringify(value))}`);
+    }
+    return {
+      code: code != null ? String(code) : undefined,
+      message: parts.join(" ") || undefined,
+    };
+  }
+
+  /**
+   * Builds an ErrorResponse carrying the HTTP status on `code` and the service error on `body`.
+   */
+  private createInferenceError(
+    response: PipelineResponse,
+    serviceCode: string,
+    message: string,
+  ): ErrorResponse {
+    const errorBody: ErrorBody = { code: serviceCode, message };
+    const errorResponse = new ErrorResponse(message);
+    errorResponse.code = response.status;
+    errorResponse.body = errorBody;
+    // All response headers (including x-correlation-id) are surfaced here.
+    errorResponse.headers = response.headers.toJSON() as Record<string, string>;
+    return errorResponse;
   }
 }

@@ -161,7 +161,8 @@ describe("InferenceService", { timeout: 10000 }, () => {
         assert.fail("Should have thrown");
       } catch (e: any) {
         assert.equal(e.code, 500);
-        assert.include(e.message, "Internal Server Error");
+        assert.equal(e.body.code, "500");
+        assert.include(e.body.message, "Internal Server Error");
       }
     });
 
@@ -184,10 +185,12 @@ describe("InferenceService", { timeout: 10000 }, () => {
         await service.semanticRerank("query", ["doc"]);
         assert.fail("Should have thrown");
       } catch (e: any) {
+        // HTTP status on `code`; service error payload on `body`.
         assert.equal(e.code, 400);
-        assert.include(e.message, "Error while formatting json document");
-        // Full service error payload (incl. `details`) is surfaced to the caller.
-        assert.include(e.message, "details");
+        assert.equal(e.body.code, "InvalidRequest");
+        assert.include(e.body.message, "Error while formatting json document");
+        // Non-`code` fields are appended even when null.
+        assert.include(e.body.message, "details: null");
         assert.isDefined(e.headers);
       }
     });
