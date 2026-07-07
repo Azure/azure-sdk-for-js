@@ -1692,6 +1692,9 @@ sdk/commvaultcontentstore/arm-commvaultcontentstore/ @qiaozha @MaryGao @JialinHu
 # PRLabel: %Mgmt %mgmt-review-needed
 sdk/azurearcdata/arm-azurearcdata/ @qiaozha @MaryGao @JialinHuang803
 
+# PRLabel: %Mgmt %mgmt-review-needed
+sdk/arcdata/arm-arcdata/ @qiaozha @MaryGao @JialinHuang803
+
 ###########
 # Config
 ###########
