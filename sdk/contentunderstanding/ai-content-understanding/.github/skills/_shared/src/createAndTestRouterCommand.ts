@@ -118,29 +118,10 @@ export async function runCreateAndTestRouter(args: string[]): Promise<number> {
     );
   }
 
-  // Cross-check: every contentCategories[alias].analyzerId placeholder in
-  // the outer schema should have a matching inner alias.
-  const config = outerSchema["config"];
-  if (config && typeof config === "object" && !Array.isArray(config)) {
-    const cats = (config as Record<string, unknown>)["contentCategories"];
-    if (cats && typeof cats === "object" && !Array.isArray(cats)) {
-      for (const [cat, catEntry] of Object.entries(cats as Record<string, unknown>)) {
-        if (
-          catEntry &&
-          typeof catEntry === "object" &&
-          !Array.isArray(catEntry) &&
-          "analyzerId" in catEntry &&
-          !aliasToSchema.has(cat)
-        ) {
-          console.error(
-            `[VALIDATE] outer category '${cat}' references an inner analyzer ` +
-              `but no --inner-schema with that alias was provided`,
-          );
-          return 2;
-        }
-      }
-    }
-  }
+  // Cross-check is handled by wireInnerIds() below in one place: every
+  // outer contentCategories[].analyzerId must either start with "prebuilt-"
+  // (a service prebuilt) or resolve to an --inner-schema alias, and no
+  // --inner-schema may be unused.
 
   const inputs = enumerateInputs(opts.input);
   if (inputs.length === 0) {
@@ -174,8 +155,18 @@ export async function runCreateAndTestRouter(args: string[]): Promise<number> {
     aliasToId.set(alias, `${outerId}_inner_${alias}_${suffix}`);
   }
 
-  // 4. Patch outer schema to point at the real inner IDs.
-  const wiredOuter = wireInnerIds(outerSchema, aliasToId);
+  // 4. Patch outer schema to point at the real inner IDs. This also
+  //    validates that every outer contentCategories[].analyzerId resolves
+  //    to an --inner-schema alias (or starts with "prebuilt-") and that
+  //    no --inner-schema is unused.
+  const wired = wireInnerIds(outerSchema, aliasToId);
+  if (wired.errors.length > 0) {
+    for (const e of wired.errors) {
+      console.error(`[VALIDATE] ${e}`);
+    }
+    return 2;
+  }
+  const wiredOuter = wired.patched;
 
   const client = buildClient();
   let reused = false;
@@ -243,25 +234,80 @@ export async function runCreateAndTestRouter(args: string[]): Promise<number> {
   return fail === 0 ? 0 : 1;
 }
 
+export interface WireResult {
+  patched: Record<string, unknown>;
+  errors: string[];
+}
+
+/**
+ * Replace each `contentCategories[].analyzerId` placeholder in the outer
+ * schema with the real inner analyzer ID from `aliasToId`.
+ *
+ * Rules (parity with Python's `_patch_outer_analyzer_ids` and .NET's
+ * `WireInnerIds`):
+ *
+ *  - Categories that omit `analyzerId` are left as-is (a classification-only
+ *    "other" bucket).
+ *  - `analyzerId` values that start with `"prebuilt-"` are kept as-is — those
+ *    are Azure-side prebuilt analyzers and don't need an `--inner-schema`.
+ *  - Any other value must match an alias in `aliasToId`; otherwise a
+ *    validation error is returned.
+ *  - Every alias in `aliasToId` must be referenced by some category (typo
+ *    check); otherwise an "unused" error is returned.
+ */
 export function wireInnerIds(
   outerSchema: Record<string, unknown>,
   aliasToId: Map<string, string>,
-): Record<string, unknown> {
-  const out = JSON.parse(JSON.stringify(outerSchema)) as Record<string, unknown>;
-  const config = out["config"];
+): WireResult {
+  const errors: string[] = [];
+  const patched = JSON.parse(JSON.stringify(outerSchema)) as Record<string, unknown>;
+  const config = patched["config"];
   if (!config || typeof config !== "object" || Array.isArray(config)) {
-    return out;
+    return { patched, errors };
   }
   const cats = (config as Record<string, unknown>)["contentCategories"];
   if (!cats || typeof cats !== "object" || Array.isArray(cats)) {
-    return out;
+    return { patched, errors };
   }
-  for (const [alias, entry] of Object.entries(cats as Record<string, unknown>)) {
-    if (entry && typeof entry === "object" && !Array.isArray(entry) && aliasToId.has(alias)) {
-      (entry as Record<string, unknown>)["analyzerId"] = aliasToId.get(alias);
+
+  const usedRealIds = new Set<string>();
+  for (const [catName, catEntry] of Object.entries(cats as Record<string, unknown>)) {
+    if (!catEntry || typeof catEntry !== "object" || Array.isArray(catEntry)) {
+      continue;
+    }
+    const entryObj = catEntry as Record<string, unknown>;
+    const aliasVal = entryObj["analyzerId"];
+    if (aliasVal === undefined || aliasVal === null) {
+      continue;
+    }
+    const alias = String(aliasVal);
+    if (alias.startsWith("prebuilt-")) {
+      usedRealIds.add(alias);
+      continue;
+    }
+    const real = aliasToId.get(alias);
+    if (real === undefined) {
+      const known = [...aliasToId.keys()].sort();
+      errors.push(
+        `category '${catName}' references analyzerId='${alias}', but no ` +
+          `--inner-schema entry matches alias '${alias}'. Known aliases: [${known.join(", ")}]`,
+      );
+      continue;
+    }
+    entryObj["analyzerId"] = real;
+    usedRealIds.add(real);
+  }
+
+  // Catch unused inner schemas (cheap typo check).
+  for (const [alias, real] of aliasToId.entries()) {
+    if (!usedRealIds.has(real)) {
+      errors.push(
+        `--inner-schema '${alias}' was supplied but no category in the outer schema routes to it`,
+      );
     }
   }
-  return out;
+
+  return { patched, errors };
 }
 
 interface RowEntry {

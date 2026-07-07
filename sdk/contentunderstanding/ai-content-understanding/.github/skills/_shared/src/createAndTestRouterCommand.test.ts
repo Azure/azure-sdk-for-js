@@ -5,11 +5,6 @@
  * Unit tests for pure helpers in createAndTestRouterCommand.ts. Mirrors
  * the portion of Python's tests/test_skills_classify_route_router.py that
  * does not require mocking the Azure client.
- *
- * Note: JS wireInnerIds returns only the patched schema (errors are
- * surfaced elsewhere in runCreateAndTestRouter), so the "errors on
- * missing alias" / "errors on extra inner" tests from Python are covered
- * at the integration level, not here.
  */
 
 import { strict as assert } from "node:assert";
@@ -83,7 +78,69 @@ describe("summarizeRouted — per-category denominator", () => {
 });
 
 describe("wireInnerIds — alias-to-id substitution", () => {
-  it("substitutes analyzerId for matching aliases and leaves the rest alone", () => {
+  it("substitutes analyzerId for matching aliases (keyed by value, not category name)", () => {
+    // Category name is deliberately different from the analyzerId value
+    // to catch the "keyed off cat name instead of alias" regression.
+    const outer = {
+      baseAnalyzerId: "prebuilt-document",
+      config: {
+        enableSegment: true,
+        contentCategories: {
+          invoice_bucket: { description: "d", analyzerId: "invoice" },
+          loan_bucket: { description: "d", analyzerId: "loan_application" },
+        },
+      },
+    };
+
+    const wired = wireInnerIds(
+      outer,
+      new Map([
+        ["invoice", "real-invoice-id"],
+        ["loan_application", "real-loan-id"],
+      ]),
+    );
+
+    assert.deepEqual(wired.errors, [], "expected no errors");
+    const cats = (wired.patched["config"] as Record<string, unknown>)[
+      "contentCategories"
+    ] as Record<string, Record<string, unknown>>;
+    assert.equal(cats["invoice_bucket"]["analyzerId"], "real-invoice-id");
+    assert.equal(cats["loan_bucket"]["analyzerId"], "real-loan-id");
+    // Outer schema must not be mutated in place.
+    assert.equal(
+      (
+        (outer.config as Record<string, unknown>)["contentCategories"] as Record<
+          string,
+          Record<string, unknown>
+        >
+      )["invoice_bucket"]["analyzerId"],
+      "invoice",
+      "wireInnerIds mutated its input",
+    );
+  });
+
+  it("keeps 'prebuilt-*' analyzerId values as-is (no --inner-schema required)", () => {
+    const outer = {
+      baseAnalyzerId: "prebuilt-document",
+      config: {
+        enableSegment: true,
+        contentCategories: {
+          invoice: { description: "d", analyzerId: "prebuilt-invoice" },
+          receipt: { description: "d", analyzerId: "prebuilt-receipt" },
+        },
+      },
+    };
+
+    const wired = wireInnerIds(outer, new Map());
+    assert.deepEqual(wired.errors, [], "prebuilt-* values must not require aliases");
+    const cats = (wired.patched["config"] as Record<string, unknown>)[
+      "contentCategories"
+    ] as Record<string, Record<string, unknown>>;
+    assert.equal(cats["invoice"]["analyzerId"], "prebuilt-invoice");
+    assert.equal(cats["receipt"]["analyzerId"], "prebuilt-receipt");
+  });
+
+  it("returns an error when a category references an unknown alias", () => {
     const outer = {
       baseAnalyzerId: "prebuilt-document",
       config: {
@@ -95,23 +152,56 @@ describe("wireInnerIds — alias-to-id substitution", () => {
       },
     };
 
-    const patched = wireInnerIds(outer, new Map([["invoice", "real-invoice-id"]]));
-    const cats = (patched["config"] as Record<string, unknown>)["contentCategories"] as Record<
-      string,
-      Record<string, unknown>
-    >;
-    assert.equal(cats["invoice"]["analyzerId"], "real-invoice-id");
-    // Unmatched alias retained — the caller (runCreateAndTestRouter) is
-    // responsible for surfacing this as an error to the user.
-    assert.equal(cats["loan"]["analyzerId"], "loan_application");
-    // Outer schema must not be mutated in place.
-    assert.equal(
-      ((outer.config as Record<string, unknown>)["contentCategories"] as Record<
-        string,
-        Record<string, unknown>
-      >)["invoice"]["analyzerId"],
-      "invoice",
-      "wireInnerIds mutated its input",
+    const wired = wireInnerIds(outer, new Map([["invoice", "real-invoice-id"]]));
+    assert.ok(wired.errors.length > 0, "expected an error for missing alias");
+    assert.ok(
+      wired.errors.some((e) => e.includes("loan_application") && e.includes("loan")),
+      `expected error to name missing alias + category, got: ${JSON.stringify(wired.errors)}`,
     );
+  });
+
+  it("returns an error when an inner-schema alias is supplied but never used", () => {
+    const outer = {
+      baseAnalyzerId: "prebuilt-document",
+      config: {
+        enableSegment: true,
+        contentCategories: {
+          invoice: { description: "d", analyzerId: "invoice" },
+        },
+      },
+    };
+
+    const wired = wireInnerIds(
+      outer,
+      new Map([
+        ["invoice", "real-invoice-id"],
+        ["extra", "real-extra-id"],
+      ]),
+    );
+    assert.ok(wired.errors.length > 0, "expected an error for unused alias");
+    assert.ok(
+      wired.errors.some((e) => e.includes("extra") && e.includes("no category")),
+      `expected error to name unused alias, got: ${JSON.stringify(wired.errors)}`,
+    );
+  });
+
+  it("allows categories without analyzerId (classification-only bucket)", () => {
+    const outer = {
+      baseAnalyzerId: "prebuilt-document",
+      config: {
+        enableSegment: true,
+        contentCategories: {
+          invoice: { description: "d", analyzerId: "invoice" },
+          other: { description: "catch-all classification bucket" },
+        },
+      },
+    };
+
+    const wired = wireInnerIds(outer, new Map([["invoice", "real-invoice-id"]]));
+    assert.deepEqual(wired.errors, [], "categories without analyzerId must be allowed");
+    const cats = (wired.patched["config"] as Record<string, unknown>)[
+      "contentCategories"
+    ] as Record<string, Record<string, unknown>>;
+    assert.ok(!("analyzerId" in cats["other"]), "'other' must remain analyzerId-less");
   });
 });
