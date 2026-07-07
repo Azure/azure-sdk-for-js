@@ -5,31 +5,33 @@ const { CloudHealthClient } = require("@azure/arm-cloudhealth");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to retrieve the time series history for a signal on an entity
+ * This sample demonstrates how to add a data annotation to an entity
  *
- * @summary retrieve the time series history for a signal on an entity
- * x-ms-original-file: 2026-05-01-preview/Entities_GetSignalHistory.json
+ * @summary add a data annotation to an entity
+ * x-ms-original-file: 2026-05-01-preview/Entities_AddDataAnnotation.json
  */
-async function entitiesGetSignalHistory() {
+async function entitiesAddDataAnnotation() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "abcdef12-3456-7890-abcd-ef1234567890";
   const client = new CloudHealthClient(credential, subscriptionId);
-  const result = await client.entities.getSignalHistory(
+  const result = await client.entities.addDataAnnotation(
     "online-store-rg",
     "online-store",
     "web-frontend",
     {
-      signalName: "http-5xx",
-      startAt: new Date("2026-05-03T09:30:00Z"),
-      endAt: new Date("2026-05-04T09:30:00Z"),
-      top: 7,
+      annotationDetails: {
+        environment: "production",
+        deploymentId: "deploy-2026-05-04-001",
+        changedBy: "release-pipeline",
+      },
+      description: "Deployed release 2.4.1 to the web frontend.",
     },
   );
   console.log(result);
 }
 
 async function main() {
-  await entitiesGetSignalHistory();
+  await entitiesAddDataAnnotation();
 }
 
 main().catch(console.error);
