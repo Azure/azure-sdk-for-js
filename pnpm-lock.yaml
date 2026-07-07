@@ -1837,7 +1837,7 @@ importers:
   sdk/appconfiguration/app-configuration-perf-tests:
     dependencies:
       '@azure-tools/test-perf':
-        specifier: ^1.0.0
+        specifier: workspace:^
         version: link:../../test-utils/perf
       '@azure/app-configuration':
         specifier: 1.8.0
@@ -4600,7 +4600,7 @@ importers:
   sdk/cognitivelanguage/ai-language-text-perf-tests:
     dependencies:
       '@azure-tools/test-perf':
-        specifier: ^1.0.0
+        specifier: workspace:^
         version: link:../../test-utils/perf
       '@azure/ai-language-text':
         specifier: ^1.1.0
@@ -7783,7 +7783,7 @@ importers:
   sdk/containerregistry/container-registry-perf-tests:
     dependencies:
       '@azure-tools/test-perf':
-        specifier: ^1.0.0
+        specifier: workspace:^
         version: link:../../test-utils/perf
       '@azure/container-registry':
         specifier: ^1.1.0
@@ -8879,7 +8879,7 @@ importers:
   sdk/core/core-rest-pipeline-perf-tests:
     dependencies:
       '@azure-tools/test-perf':
-        specifier: ^1.0.0
+        specifier: workspace:^
         version: link:../../test-utils/perf
       '@azure/core-auth':
         specifier: ^1.10.0
@@ -9389,7 +9389,7 @@ importers:
         version: link:../../core/core-util
       '@azure/keyvault-keys':
         specifier: ^4.9.0
-        version: link:../../keyvault/keyvault-keys
+        version: 4.10.0(@azure/core-client@sdk+core+core-client)
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -13671,7 +13671,7 @@ importers:
   sdk/eventgrid/eventgrid-perf-tests:
     dependencies:
       '@azure-tools/test-perf':
-        specifier: ^1.0.0
+        specifier: workspace:^
         version: link:../../test-utils/perf
       '@azure/eventgrid':
         specifier: ^5.11.0
@@ -13967,7 +13967,7 @@ importers:
         version: 0.12.5
     devDependencies:
       '@azure-tools/mock-hub':
-        specifier: ^1.0.0
+        specifier: workspace:^
         version: link:../mock-hub
       '@azure-tools/test-credential':
         specifier: workspace:^
@@ -14072,7 +14072,7 @@ importers:
   sdk/eventhub/event-hubs-perf-tests:
     dependencies:
       '@azure-tools/test-perf':
-        specifier: ^1.0.0
+        specifier: workspace:^
         version: link:../../test-utils/perf
       '@azure/core-amqp':
         specifier: ^4.3.6
@@ -14914,7 +14914,7 @@ importers:
   sdk/formrecognizer/ai-form-recognizer-perf-tests:
     dependencies:
       '@azure-tools/test-perf':
-        specifier: ^1.0.0
+        specifier: workspace:^
         version: link:../../test-utils/perf
       '@azure/ai-form-recognizer':
         specifier: ^5.0.0
@@ -16437,7 +16437,7 @@ importers:
   sdk/identity/identity-perf-tests:
     dependencies:
       '@azure-tools/test-perf':
-        specifier: ^1.0.0
+        specifier: workspace:^
         version: link:../../test-utils/perf
       '@azure/identity':
         specifier: ^4.8.0
@@ -17497,7 +17497,7 @@ importers:
         version: 4.13.0
       '@azure/keyvault-keys':
         specifier: ^4.9.0
-        version: link:../keyvault-keys
+        version: 4.10.0(@azure/core-client@sdk+core+core-client)
       '@types/node':
         specifier: 'catalog:'
         version: 22.20.0
@@ -17629,7 +17629,7 @@ importers:
   sdk/keyvault/keyvault-certificates-perf-tests:
     dependencies:
       '@azure-tools/test-perf':
-        specifier: ^1.0.0
+        specifier: workspace:^
         version: link:../../test-utils/perf
       '@azure/identity':
         specifier: ^4.8.0
@@ -17827,14 +17827,14 @@ importers:
   sdk/keyvault/keyvault-keys-perf-tests:
     dependencies:
       '@azure-tools/test-perf':
-        specifier: ^1.0.0
+        specifier: workspace:^
         version: link:../../test-utils/perf
       '@azure/identity':
         specifier: ^4.8.0
         version: 4.13.1
       '@azure/keyvault-keys':
         specifier: ^4.9.0
-        version: link:../keyvault-keys
+        version: 4.10.0(@azure/core-client@sdk+core+core-client)
       dotenv:
         specifier: ^16.0.0
         version: 16.6.1
@@ -17961,7 +17961,7 @@ importers:
   sdk/keyvault/keyvault-secrets-perf-tests:
     dependencies:
       '@azure-tools/test-perf':
-        specifier: ^1.0.0
+        specifier: workspace:^
         version: link:../../test-utils/perf
       '@azure/identity':
         specifier: ^4.8.0
@@ -21891,7 +21891,7 @@ importers:
   sdk/monitor/monitor-ingestion-perf-tests:
     dependencies:
       '@azure-tools/test-perf':
-        specifier: ^1.0.0
+        specifier: workspace:^
         version: link:../../test-utils/perf
       '@azure/identity':
         specifier: ^4.8.0
@@ -22179,7 +22179,7 @@ importers:
   sdk/monitor/monitor-opentelemetry-perf-tests:
     dependencies:
       '@azure-tools/test-perf':
-        specifier: ^1.0.0
+        specifier: workspace:^
         version: link:../../test-utils/perf
       '@azure/monitor-opentelemetry':
         specifier: ^1.17.0
@@ -28286,7 +28286,7 @@ importers:
   sdk/schemaregistry/schema-registry-avro-perf-tests:
     dependencies:
       '@azure-tools/test-perf':
-        specifier: ^1.0.0
+        specifier: workspace:^
         version: link:../../test-utils/perf
       '@azure/identity':
         specifier: ^4.8.0
@@ -28654,7 +28654,7 @@ importers:
   sdk/search/search-documents-perf-tests:
     dependencies:
       '@azure-tools/test-perf':
-        specifier: ^1.0.0
+        specifier: workspace:^
         version: link:../../test-utils/perf
       '@azure/identity':
         specifier: ^4.8.0
@@ -29374,7 +29374,7 @@ importers:
   sdk/servicebus/service-bus-perf-tests:
     dependencies:
       '@azure-tools/test-perf':
-        specifier: ^1.0.0
+        specifier: workspace:^
         version: link:../../test-utils/perf
       '@azure/service-bus':
         specifier: ^7.9.5
@@ -30679,7 +30679,7 @@ importers:
         specifier: workspace:^
         version: link:../../test-utils/test-credential
       '@azure-tools/test-perf':
-        specifier: ^1.0.0
+        specifier: workspace:^
         version: link:../../test-utils/perf
       '@azure-tools/test-recorder':
         specifier: workspace:^
@@ -30769,7 +30769,7 @@ importers:
         specifier: ^12.26.0
         version: link:../storage-blob
       '@azure/storage-internal-avro':
-        specifier: ^1.0.0
+        specifier: workspace:^
         version: link:../storage-internal-avro
       tslib:
         specifier: ^2.8.1
@@ -30833,7 +30833,7 @@ importers:
   sdk/storage/storage-blob-perf-tests:
     dependencies:
       '@azure-tools/test-perf':
-        specifier: ^1.0.0
+        specifier: workspace:^
         version: link:../../test-utils/perf
       '@azure/core-rest-pipeline':
         specifier: link:../../core/core-rest-pipeline
@@ -30995,7 +30995,7 @@ importers:
         specifier: workspace:^
         version: link:../../test-utils/test-credential
       '@azure-tools/test-perf':
-        specifier: ^1.0.0
+        specifier: workspace:^
         version: link:../../test-utils/perf
       '@azure-tools/test-recorder':
         specifier: workspace:^
@@ -31052,7 +31052,7 @@ importers:
   sdk/storage/storage-file-datalake-perf-tests:
     dependencies:
       '@azure-tools/test-perf':
-        specifier: ^1.0.0
+        specifier: workspace:^
         version: link:../../test-utils/perf
       '@azure/storage-file-datalake':
         specifier: ^12.26.0
@@ -31135,7 +31135,7 @@ importers:
         specifier: workspace:^
         version: link:../../test-utils/test-credential
       '@azure-tools/test-perf':
-        specifier: ^1.0.0
+        specifier: workspace:^
         version: link:../../test-utils/perf
       '@azure-tools/test-recorder':
         specifier: workspace:^
@@ -31195,7 +31195,7 @@ importers:
   sdk/storage/storage-file-share-perf-tests:
     dependencies:
       '@azure-tools/test-perf':
-        specifier: ^1.0.0
+        specifier: workspace:^
         version: link:../../test-utils/perf
       '@azure/storage-file-share':
         specifier: ^12.27.0
@@ -32904,7 +32904,7 @@ importers:
   sdk/tables/data-tables-perf-tests:
     dependencies:
       '@azure-tools/test-perf':
-        specifier: ^1.0.0
+        specifier: workspace:^
         version: link:../../test-utils/perf
       '@azure/data-tables':
         specifier: ^13.3.0
@@ -33099,7 +33099,7 @@ importers:
   sdk/template/template-perf-tests:
     dependencies:
       '@azure-tools/test-perf':
-        specifier: ^1.0.0
+        specifier: workspace:^
         version: link:../../test-utils/perf
       '@azure/identity':
         specifier: ^4.8.0
@@ -33690,7 +33690,7 @@ importers:
   sdk/textanalytics/ai-text-analytics-perf-tests:
     dependencies:
       '@azure-tools/test-perf':
-        specifier: ^1.0.0
+        specifier: workspace:^
         version: link:../../test-utils/perf
       '@azure/ai-text-analytics':
         specifier: ^5.1.0
