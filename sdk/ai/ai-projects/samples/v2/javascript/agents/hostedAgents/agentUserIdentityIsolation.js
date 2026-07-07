@@ -26,10 +26,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 const { createHash, randomUUID } = require("node:crypto");
 const { readFileSync } = require("node:fs");
 const path = require("node:path");
-const { fileURLToPath } = require("node:url");
 require("dotenv/config");
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
 const modelName = process.env["FOUNDRY_MODEL_NAME"] || "<model deployment name>";
