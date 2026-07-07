@@ -6,10 +6,10 @@ The AzureArcData management API provides a RESTful set of web APIs to manage Azu
 
 Key links:
 
-- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/azurearcdata/arm-azurearcdata)
+- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/arcdata/arm-arcdata)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-arcdata)
 - [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-arcdata?view=azure-node-preview)
-- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/azurearcdata/arm-azurearcdata/samples)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/arcdata/arm-arcdata/samples)
 
 ## Getting started
 
@@ -99,7 +99,7 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 
 ## Next steps
 
-Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/azurearcdata/arm-azurearcdata/samples) directory for detailed examples on how to use this library.
+Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/arcdata/arm-arcdata/samples) directory for detailed examples on how to use this library.
 
 ## Contributing
 

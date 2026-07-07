@@ -11,8 +11,8 @@ trigger:
       - feature/v4
   paths:
     include:
-      - sdk/azurearcdata/arm-azurearcdata
-      - sdk/azurearcdata/ci.mgmt.yml
+      - sdk/arcdata/arm-arcdata
+      - sdk/arcdata/ci.mgmt.yml
 pr:
   branches:
     include:
@@ -24,12 +24,12 @@ pr:
       - feature/v4
   paths:
     include:
-      - sdk/azurearcdata/arm-azurearcdata
-      - sdk/azurearcdata/ci.mgmt.yml
+      - sdk/arcdata/arm-arcdata
+      - sdk/arcdata/ci.mgmt.yml
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
-    ServiceDirectory: azurearcdata
+    ServiceDirectory: arcdata
     Artifacts:
       - name: azure-arm-arcdata
         safeName: azurearmarcdata

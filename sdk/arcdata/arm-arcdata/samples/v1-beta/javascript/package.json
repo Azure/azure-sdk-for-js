@@ -9,7 +9,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
-    "directory": "sdk/azurearcdata/arm-azurearcdata"
+    "directory": "sdk/arcdata/arm-arcdata"
   },
   "keywords": [
     "node",
@@ -24,7 +24,7 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/azurearcdata/arm-azurearcdata",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/arcdata/arm-arcdata",
   "dependencies": {
     "@azure/arm-arcdata": "beta",
     "dotenv": "latest",
