@@ -1,6 +1,6 @@
 # Release History
 
-## 1.13.2 (Unreleased)
+## 1.14.0 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,8 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+- Update `engines` to `"node": ">=22.0.0"`. Please refer to our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more information on our supported Node.js versions.
 
 ## 1.13.1 (2025-09-11)
 

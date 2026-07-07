@@ -5,9 +5,8 @@ import {
   getQSU,
   getSASConnectionStringFromEnvironment,
   configureStorageClient,
+  createAndStartRecorder,
   getUniqueName,
-  recorderEnvSetup,
-  uriSanitizers,
 } from "./utils/index.js";
 import type { QueueServiceClient } from "../src/index.js";
 import { QueueClient } from "../src/index.js";
@@ -34,9 +33,7 @@ describe("QueueClient", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    recorder = await createAndStartRecorder(ctx);
     queueServiceClient = getQSU(recorder);
     queueName = recorder.variable("queue", getUniqueName("queue"));
     queueClient = queueServiceClient.getQueueClient(queueName);
@@ -293,9 +290,7 @@ describe("QueueClient", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    recorder = await createAndStartRecorder(ctx);
     queueServiceClient = getQSU(recorder);
     queueName = recorder.variable("queue", getUniqueName("queue"));
     queueClient = queueServiceClient.getQueueClient(queueName);
@@ -318,13 +313,13 @@ describe("QueueClient", () => {
   it("Invalid service version", async () => {
     const injector = XMSVersioninjectorPolicy(`3025-01-01`);
 
-    const pipeline: Pipeline = (queueClient as any).storageClientContext.pipeline;
+    const pipeline: Pipeline = (queueClient as any).storageClientContext.queuesClient.pipeline;
     pipeline.addPolicy(injector, { afterPhase: "Retry" });
     try {
       await queueClient.create();
     } catch (err) {
       assert.isTrue(
-        (err as any).message.startsWith(
+        (err as any).details.message.startsWith(
           "The provided service version is not enabled on this storage account. Please see",
         ),
       );

@@ -9,13 +9,18 @@ import { keyVaultAuthenticationPolicy } from "@azure/keyvault-common";
 import type { AccessControlClientOptions } from "./accessControlModels.js";
 import type { KeyVaultBackupClientOptions } from "./backupClientModels.js";
 import type { SettingsClientOptions } from "./settingsClientModels.js";
+import type { EkmClientOptions } from "./ekmClientModels.js";
 import { LATEST_API_VERSION, SDK_VERSION } from "./constants.js";
 import { logger } from "./logger.js";
 
 export function createKeyVaultClient(
   vaultUrl: string,
   credential: TokenCredential,
-  options: AccessControlClientOptions | KeyVaultBackupClientOptions | SettingsClientOptions,
+  options:
+    | AccessControlClientOptions
+    | KeyVaultBackupClientOptions
+    | SettingsClientOptions
+    | EkmClientOptions,
 ): KeyVaultClient {
   const clientOptions: KeyVaultClientOptionalParams = {
     ...options,
