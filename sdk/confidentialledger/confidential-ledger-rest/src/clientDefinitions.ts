@@ -6,6 +6,7 @@ import type {
   ListConsortiumMembersParameters,
   GetEnclaveQuotesParameters,
   ListCollectionsParameters,
+  ListTagsParameters,
   ListLedgerEntriesParameters,
   CreateLedgerEntryParameters,
   GetLedgerEntryParameters,
@@ -23,7 +24,7 @@ import type {
   GetUserDefinedEndpointParameters,
   CreateUserDefinedEndpointParameters,
   GetRuntimeOptionsParameters,
-  UpdateRuntimeOptionsParameters,
+  UpdateRuntimeOptionsStableParameters,
   GetUserDefinedEndpointsModuleParameters,
   ListUserDefinedFunctionsParameters,
   DeleteUserDefinedFunctionParameters,
@@ -31,9 +32,9 @@ import type {
   CreateUserDefinedFunctionParameters,
   ExecuteUserDefinedFunctionParameters,
   GetUserDefinedRoleParameters,
-  CreateUserDefinedRoleParameters,
-  UpdateUserDefinedRoleParameters,
-  DeleteUserDefinedRoleParameters,
+  CreateUserDefinedRoleStableParameters,
+  UpdateUserDefinedRoleStableParameters,
+  DeleteUserDefinedRoleStableParameters,
 } from "./parameters.js";
 import type {
   GetConstitution200Response,
@@ -44,6 +45,8 @@ import type {
   GetEnclaveQuotesDefaultResponse,
   ListCollections200Response,
   ListCollectionsDefaultResponse,
+  ListTags200Response,
+  ListTagsDefaultResponse,
   ListLedgerEntries200Response,
   ListLedgerEntriesDefaultResponse,
   CreateLedgerEntry200Response,
@@ -78,8 +81,8 @@ import type {
   CreateUserDefinedEndpointDefaultResponse,
   GetRuntimeOptions200Response,
   GetRuntimeOptionsDefaultResponse,
-  UpdateRuntimeOptions200Response,
-  UpdateRuntimeOptionsDefaultResponse,
+  UpdateRuntimeOptionsStable200Response,
+  UpdateRuntimeOptionsStableDefaultResponse,
   GetUserDefinedEndpointsModule200Response,
   GetUserDefinedEndpointsModuleDefaultResponse,
   ListUserDefinedFunctions200Response,
@@ -95,17 +98,20 @@ import type {
   ExecuteUserDefinedFunctionDefaultResponse,
   GetUserDefinedRole200Response,
   GetUserDefinedRoleDefaultResponse,
-  CreateUserDefinedRole200Response,
-  CreateUserDefinedRoleDefaultResponse,
-  UpdateUserDefinedRole200Response,
-  UpdateUserDefinedRoleDefaultResponse,
-  DeleteUserDefinedRole200Response,
-  DeleteUserDefinedRoleDefaultResponse,
+  CreateUserDefinedRoleStable200Response,
+  CreateUserDefinedRoleStableDefaultResponse,
+  UpdateUserDefinedRoleStable200Response,
+  UpdateUserDefinedRoleStableDefaultResponse,
+  DeleteUserDefinedRoleStable204Response,
+  DeleteUserDefinedRoleStableDefaultResponse,
 } from "./responses.js";
 import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface GetConstitution {
-  /** The constitution is a script that assesses and applies proposals from consortium members. */
+  /**
+   * The constitution is a script that assesses and applies proposals from
+   * consortium members.
+   */
   get(
     options?: GetConstitutionParameters,
   ): StreamableMethod<GetConstitution200Response | GetConstitutionDefaultResponse>;
@@ -119,7 +125,10 @@ export interface ListConsortiumMembers {
 }
 
 export interface GetEnclaveQuotes {
-  /** A quote is an SGX enclave measurement that can be used to verify the validity of a node and its enclave. */
+  /**
+   * A quote is an SGX enclave measurement that can be used to verify the validity
+   * of a node and its enclave.
+   */
   get(
     options?: GetEnclaveQuotesParameters,
   ): StreamableMethod<GetEnclaveQuotes200Response | GetEnclaveQuotesDefaultResponse>;
@@ -132,8 +141,18 @@ export interface ListCollections {
   ): StreamableMethod<ListCollections200Response | ListCollectionsDefaultResponse>;
 }
 
+export interface ListTags {
+  /** Retrieves the tags associated with a collection. */
+  get(
+    options?: ListTagsParameters,
+  ): StreamableMethod<ListTags200Response | ListTagsDefaultResponse>;
+}
+
 export interface ListLedgerEntries {
-  /** A collection id may optionally be specified. Only entries in the specified (or default) collection will be returned. */
+  /**
+   * A collection id may optionally be specified. Only entries in the specified (or
+   * default) collection will be returned.
+   */
   get(
     options?: ListLedgerEntriesParameters,
   ): StreamableMethod<ListLedgerEntries200Response | ListLedgerEntriesDefaultResponse>;
@@ -144,7 +163,12 @@ export interface ListLedgerEntries {
 }
 
 export interface GetLedgerEntry {
-  /** To return older ledger entries, the relevant sections of the ledger must be read from disk and validated. To prevent blocking within the enclave, the response will indicate whether the entry is ready and part of the response, or if the loading is still ongoing. */
+  /**
+   * To return older ledger entries, the relevant sections of the ledger must be
+   * read from disk and validated. To prevent blocking within the enclave, the
+   * response will indicate whether the entry is ready and part of the response, or
+   * if the loading is still ongoing.
+   */
   get(
     options?: GetLedgerEntryParameters,
   ): StreamableMethod<GetLedgerEntry200Response | GetLedgerEntryDefaultResponse>;
@@ -235,8 +259,10 @@ export interface GetRuntimeOptions {
   ): StreamableMethod<GetRuntimeOptions200Response | GetRuntimeOptionsDefaultResponse>;
   /** Updates the runtime options. */
   patch(
-    options: UpdateRuntimeOptionsParameters,
-  ): StreamableMethod<UpdateRuntimeOptions200Response | UpdateRuntimeOptionsDefaultResponse>;
+    options: UpdateRuntimeOptionsStableParameters,
+  ): StreamableMethod<
+    UpdateRuntimeOptionsStable200Response | UpdateRuntimeOptionsStableDefaultResponse
+  >;
 }
 
 export interface GetUserDefinedEndpointsModule {
@@ -294,16 +320,25 @@ export interface GetUserDefinedRole {
   ): StreamableMethod<GetUserDefinedRole200Response | GetUserDefinedRoleDefaultResponse>;
   /** User defined roles allow users to define and manage app specific AuthZ policy. */
   put(
-    options: CreateUserDefinedRoleParameters,
-  ): StreamableMethod<CreateUserDefinedRole200Response | CreateUserDefinedRoleDefaultResponse>;
+    options: CreateUserDefinedRoleStableParameters,
+  ): StreamableMethod<
+    CreateUserDefinedRoleStable200Response | CreateUserDefinedRoleStableDefaultResponse
+  >;
   /** User defined roles allow users to define and manage app specific AuthZ policy. */
   patch(
-    options: UpdateUserDefinedRoleParameters,
-  ): StreamableMethod<UpdateUserDefinedRole200Response | UpdateUserDefinedRoleDefaultResponse>;
-  /** A user defined role allows the users to create and manage their own role actions using the API. */
+    options: UpdateUserDefinedRoleStableParameters,
+  ): StreamableMethod<
+    UpdateUserDefinedRoleStable200Response | UpdateUserDefinedRoleStableDefaultResponse
+  >;
+  /**
+   * A user defined role allows the users to create and manage their own role
+   * actions using the API.
+   */
   delete(
-    options: DeleteUserDefinedRoleParameters,
-  ): StreamableMethod<DeleteUserDefinedRole200Response | DeleteUserDefinedRoleDefaultResponse>;
+    options: DeleteUserDefinedRoleStableParameters,
+  ): StreamableMethod<
+    DeleteUserDefinedRoleStable204Response | DeleteUserDefinedRoleStableDefaultResponse
+  >;
 }
 
 export interface Routes {
@@ -315,6 +350,8 @@ export interface Routes {
   (path: "/app/enclaveQuotes"): GetEnclaveQuotes;
   /** Resource for '/app/collections' has methods for the following verbs: get */
   (path: "/app/collections"): ListCollections;
+  /** Resource for '/app/collections/tags' has methods for the following verbs: get */
+  (path: "/app/collections/tags"): ListTags;
   /** Resource for '/app/transactions' has methods for the following verbs: get, post */
   (path: "/app/transactions"): ListLedgerEntries;
   /** Resource for '/app/transactions/\{transactionId\}' has methods for the following verbs: get */

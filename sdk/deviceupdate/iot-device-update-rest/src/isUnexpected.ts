@@ -230,8 +230,7 @@ export function isUnexpected(
 ): response is DeviceUpdateGetFileDefaultResponse;
 export function isUnexpected(
   response:
-    | DeviceUpdateListOperationStatuses200Response
-    | DeviceUpdateListOperationStatusesDefaultResponse,
+    DeviceUpdateListOperationStatuses200Response | DeviceUpdateListOperationStatusesDefaultResponse,
 ): response is DeviceUpdateListOperationStatusesDefaultResponse;
 export function isUnexpected(
   response:
@@ -241,23 +240,19 @@ export function isUnexpected(
 ): response is DeviceUpdateGetOperationStatusDefaultResponse;
 export function isUnexpected(
   response:
-    | DeviceManagementListDeviceClasses200Response
-    | DeviceManagementListDeviceClassesDefaultResponse,
+    DeviceManagementListDeviceClasses200Response | DeviceManagementListDeviceClassesDefaultResponse,
 ): response is DeviceManagementListDeviceClassesDefaultResponse;
 export function isUnexpected(
   response:
-    | DeviceManagementGetDeviceClass200Response
-    | DeviceManagementGetDeviceClassDefaultResponse,
+    DeviceManagementGetDeviceClass200Response | DeviceManagementGetDeviceClassDefaultResponse,
 ): response is DeviceManagementGetDeviceClassDefaultResponse;
 export function isUnexpected(
   response:
-    | DeviceManagementUpdateDeviceClass200Response
-    | DeviceManagementUpdateDeviceClassDefaultResponse,
+    DeviceManagementUpdateDeviceClass200Response | DeviceManagementUpdateDeviceClassDefaultResponse,
 ): response is DeviceManagementUpdateDeviceClassDefaultResponse;
 export function isUnexpected(
   response:
-    | DeviceManagementDeleteDeviceClass204Response
-    | DeviceManagementDeleteDeviceClassDefaultResponse,
+    DeviceManagementDeleteDeviceClass204Response | DeviceManagementDeleteDeviceClassDefaultResponse,
 ): response is DeviceManagementDeleteDeviceClassDefaultResponse;
 export function isUnexpected(
   response:
@@ -275,8 +270,7 @@ export function isUnexpected(
 ): response is DeviceManagementGetDeviceDefaultResponse;
 export function isUnexpected(
   response:
-    | DeviceManagementGetDeviceModule200Response
-    | DeviceManagementGetDeviceModuleDefaultResponse,
+    DeviceManagementGetDeviceModule200Response | DeviceManagementGetDeviceModuleDefaultResponse,
 ): response is DeviceManagementGetDeviceModuleDefaultResponse;
 export function isUnexpected(
   response:
@@ -317,8 +311,7 @@ export function isUnexpected(
 ): response is DeviceManagementCreateOrUpdateDeploymentDefaultResponse;
 export function isUnexpected(
   response:
-    | DeviceManagementDeleteDeployment204Response
-    | DeviceManagementDeleteDeploymentDefaultResponse,
+    DeviceManagementDeleteDeployment204Response | DeviceManagementDeleteDeploymentDefaultResponse,
 ): response is DeviceManagementDeleteDeploymentDefaultResponse;
 export function isUnexpected(
   response:
@@ -367,13 +360,11 @@ export function isUnexpected(
 ): response is DeviceManagementDeleteDeploymentForDeviceClassSubgroupDefaultResponse;
 export function isUnexpected(
   response:
-    | DeviceManagementStopDeployment200Response
-    | DeviceManagementStopDeploymentDefaultResponse,
+    DeviceManagementStopDeployment200Response | DeviceManagementStopDeploymentDefaultResponse,
 ): response is DeviceManagementStopDeploymentDefaultResponse;
 export function isUnexpected(
   response:
-    | DeviceManagementRetryDeployment200Response
-    | DeviceManagementRetryDeploymentDefaultResponse,
+    DeviceManagementRetryDeployment200Response | DeviceManagementRetryDeploymentDefaultResponse,
 ): response is DeviceManagementRetryDeploymentDefaultResponse;
 export function isUnexpected(
   response:
@@ -403,8 +394,7 @@ export function isUnexpected(
 ): response is DeviceManagementStartLogCollectionDefaultResponse;
 export function isUnexpected(
   response:
-    | DeviceManagementGetLogCollection200Response
-    | DeviceManagementGetLogCollectionDefaultResponse,
+    DeviceManagementGetLogCollection200Response | DeviceManagementGetLogCollectionDefaultResponse,
 ): response is DeviceManagementGetLogCollectionDefaultResponse;
 export function isUnexpected(
   response:

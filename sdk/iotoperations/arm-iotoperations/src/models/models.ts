@@ -1720,8 +1720,7 @@ export function brokerRetainMessagesPolicyDeserializer(item: any): BrokerRetainM
 
 /** Alias for BrokerRetainMessagesPolicyUnion */
 export type BrokerRetainMessagesPolicyUnion =
-  | BrokerRetainMessagesCustomPolicy
-  | BrokerRetainMessagesPolicy;
+  BrokerRetainMessagesCustomPolicy | BrokerRetainMessagesPolicy;
 
 export function brokerRetainMessagesPolicyUnionSerializer(
   item: BrokerRetainMessagesPolicyUnion,
@@ -2042,8 +2041,7 @@ export function brokerSubscriberQueuePolicyDeserializer(item: any): BrokerSubscr
 
 /** Alias for BrokerSubscriberQueuePolicyUnion */
 export type BrokerSubscriberQueuePolicyUnion =
-  | BrokerSubscriberQueueCustomPolicy
-  | BrokerSubscriberQueuePolicy;
+  BrokerSubscriberQueueCustomPolicy | BrokerSubscriberQueuePolicy;
 
 export function brokerSubscriberQueuePolicyUnionSerializer(
   item: BrokerSubscriberQueuePolicyUnion,
@@ -7139,8 +7137,7 @@ export function akriConnectorTemplateRuntimeConfigurationDeserializer(
 
 /** Alias for AkriConnectorTemplateRuntimeConfigurationUnion */
 export type AkriConnectorTemplateRuntimeConfigurationUnion =
-  | AkriConnectorTemplateManagedConfiguration
-  | AkriConnectorTemplateRuntimeConfiguration;
+  AkriConnectorTemplateManagedConfiguration | AkriConnectorTemplateRuntimeConfiguration;
 
 export function akriConnectorTemplateRuntimeConfigurationUnionSerializer(
   item: AkriConnectorTemplateRuntimeConfigurationUnion,
@@ -7379,8 +7376,7 @@ export function akriConnectorTemplateAllocationDeserializer(
 
 /** Alias for AkriConnectorTemplateAllocationUnion */
 export type AkriConnectorTemplateAllocationUnion =
-  | AkriConnectorTemplateBucketizedAllocation
-  | AkriConnectorTemplateAllocation;
+  AkriConnectorTemplateBucketizedAllocation | AkriConnectorTemplateAllocation;
 
 export function akriConnectorTemplateAllocationUnionSerializer(
   item: AkriConnectorTemplateAllocationUnion,
@@ -7900,9 +7896,7 @@ export function akriConnectorsTagDigestSettingsDeserializer(
 
 /** Alias for AkriConnectorsTagDigestSettingsUnion */
 export type AkriConnectorsTagDigestSettingsUnion =
-  | AkriConnectorsTag
-  | AkriConnectorsDigest
-  | AkriConnectorsTagDigestSettings;
+  AkriConnectorsTag | AkriConnectorsDigest | AkriConnectorsTagDigestSettings;
 
 export function akriConnectorsTagDigestSettingsUnionSerializer(
   item: AkriConnectorsTagDigestSettingsUnion,
@@ -8221,8 +8215,7 @@ export function akriConnectorsMqttAuthenticationDeserializer(
 
 /** Alias for AkriConnectorsMqttAuthenticationUnion */
 export type AkriConnectorsMqttAuthenticationUnion =
-  | AkriConnectorsServiceAccountAuthentication
-  | AkriConnectorsMqttAuthentication;
+  AkriConnectorsServiceAccountAuthentication | AkriConnectorsMqttAuthentication;
 
 export function akriConnectorsMqttAuthenticationUnionSerializer(
   item: AkriConnectorsMqttAuthenticationUnion,

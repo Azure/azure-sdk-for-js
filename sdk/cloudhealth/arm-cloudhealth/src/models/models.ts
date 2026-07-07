@@ -1022,8 +1022,7 @@ export function authenticationSettingPropertiesDeserializer(
 
 /** Alias for AuthenticationSettingPropertiesUnion */
 export type AuthenticationSettingPropertiesUnion =
-  | ManagedIdentityAuthenticationSettingProperties
-  | AuthenticationSettingProperties;
+  ManagedIdentityAuthenticationSettingProperties | AuthenticationSettingProperties;
 
 export function authenticationSettingPropertiesUnionSerializer(
   item: AuthenticationSettingPropertiesUnion,

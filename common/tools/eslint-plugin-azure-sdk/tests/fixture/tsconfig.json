@@ -17,6 +17,7 @@
     "service-bus-rest/package.json",
     "service-bus/not_package.json",
     "service-bus/api-extractor.json",
+    "sdk/test-package/package.json",
     "test.js"
   ]
 }

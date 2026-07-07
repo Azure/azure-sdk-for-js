@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to generate keys for a token of a specified container registry.
  *
  * @summary generate keys for a token of a specified container registry.
- * x-ms-original-file: 2026-01-01-preview/RegistryGenerateCredentials.json
+ * x-ms-original-file: 2026-03-01-preview/RegistryGenerateCredentials.json
  */
 async function registryGenerateCredentials() {
   const credential = new DefaultAzureCredential();

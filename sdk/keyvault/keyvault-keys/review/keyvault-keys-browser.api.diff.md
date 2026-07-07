@@ -7,7 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -92,9 +92,9 @@
+@@ -94,9 +94,9 @@
  
  // @public
  export class CryptographyClient {
@@ -18,7 +18,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      // @deprecated
      decrypt(algorithm: EncryptionAlgorithm, ciphertext: Uint8Array, options?: DecryptOptions): Promise<DecryptResult>;
      encrypt(encryptParameters: EncryptParameters, options?: EncryptOptions): Promise<EncryptResult>;
-@@ -134,11 +134,11 @@
+@@ -136,11 +136,11 @@
  
  // @public
  export interface DeletedKey {
@@ -32,9 +32,9 @@ For the complete API surface, see the corresponding -node.api.md file.
      properties: KeyProperties & {
          readonly recoveryId?: string;
          readonly scheduledPurgeDate?: Date;
-@@ -214,26 +214,27 @@
-     };
- }
+@@ -218,26 +218,27 @@
+ 
+ export { isRestError }
  
  // @public
 -export interface JsonWebKey {
@@ -62,7 +62,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export interface KeyAttestation {
      certificatePemFile?: Uint8Array;
-@@ -249,18 +250,18 @@
+@@ -253,18 +254,18 @@
      beginDeleteKey(name: string, options?: BeginDeleteKeyOptions): Promise<PollerLike<PollOperationState<DeletedKey>, DeletedKey>>;
      beginRecoverDeletedKey(name: string, options?: BeginRecoverDeletedKeyOptions): Promise<PollerLike<PollOperationState<DeletedKey>, DeletedKey>>;
      createEcKey(name: string, options?: CreateEcKeyOptions): Promise<KeyVaultKey>;
@@ -83,7 +83,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      listPropertiesOfKeys(options?: ListPropertiesOfKeysOptions): PagedAsyncIterableIterator<KeyProperties>;
      listPropertiesOfKeyVersions(name: string, options?: ListPropertiesOfKeyVersionsOptions): PagedAsyncIterableIterator<KeyProperties>;
      purgeDeletedKey(name: string, options?: PurgeDeletedKeyOptions): Promise<void>;
-@@ -351,16 +352,17 @@
+@@ -355,16 +356,17 @@
      lifetimeActions?: KeyRotationLifetimeAction[];
  }
  

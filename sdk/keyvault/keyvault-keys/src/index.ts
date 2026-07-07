@@ -1484,3 +1484,4 @@ export class KeyClient {
     );
   }
 }
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

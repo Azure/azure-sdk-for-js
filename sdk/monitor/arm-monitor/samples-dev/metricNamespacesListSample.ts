@@ -1,29 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Lists the metric namespaces for the resource.
- *
- * @summary Lists the metric namespaces for the resource.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2024-02-01/examples/GetMetricNamespaces.json
- */
-
-import type { MetricNamespacesListOptionalParams } from "@azure/arm-monitor";
 import { MonitorClient } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to lists the metric namespaces for the resource.
+ *
+ * @summary lists the metric namespaces for the resource.
+ * x-ms-original-file: 2024-02-01/GetMetricNamespaces.json
+ */
 async function getMetricNamespacesWithoutFilter(): Promise<void> {
-  const resourceUri =
-    "subscriptions/182c901a-129a-4f5d-86e4-cc6b294590a2/resourceGroups/hyr-log/providers/microsoft.insights/components/f1-bill";
-  const startTime = "2020-08-31T15:53:00Z";
-  const options: MetricNamespacesListOptionalParams = { startTime };
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential);
   const resArray = new Array();
-  for await (const item of client.metricNamespaces.list(resourceUri, options)) {
+  for await (const item of client.metricNamespaces.list(
+    "subscriptions/182c901a-129a-4f5d-86e4-cc6b294590a2/resourceGroups/hyr-log/providers/microsoft.insights/components/f1-bill",
+    { startTime: "2020-08-31T15:53:00Z" },
+  )) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 
