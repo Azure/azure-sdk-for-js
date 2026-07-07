@@ -64,7 +64,7 @@ export async function _disableDeserialize(
   return operationStatusResultDeserializer(result.body);
 }
 
-/** Disables a compute limit feature for the subscription at the specified location. */
+/** Disables a compute limit feature for the subscription at the specified location. Requires the Contributor role. */
 export function disable(
   context: Client,
   location: string,
@@ -122,7 +122,7 @@ export async function _enableDeserialize(
   return operationStatusResultDeserializer(result.body);
 }
 
-/** Enables a compute limit feature for the subscription at the specified location. */
+/** Enables a compute limit feature for the subscription at the specified location. Requires the Contributor role. */
 export function enable(
   context: Client,
   location: string,
