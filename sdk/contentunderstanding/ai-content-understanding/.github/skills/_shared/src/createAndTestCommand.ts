@@ -74,7 +74,7 @@ export async function runCore(opts: CreateAndTestOptions): Promise<number> {
       console.error(
         "[WARN]   schema has fieldSchema but no models.completion; " +
           "this will fail unless resource defaults are configured " +
-          "(see samples/sample_update_defaults.py).",
+          "(see samples-dev/updateDefaults.ts).",
       );
     }
   }
