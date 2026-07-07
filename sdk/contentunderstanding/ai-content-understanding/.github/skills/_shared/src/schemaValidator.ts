@@ -25,8 +25,8 @@ import { existsSync, readFileSync } from "node:fs";
 
 /**
  * Valid `baseAnalyzerId` values for custom analyzers. Only modality-level
- * prebuilts are accepted by the service for `baseAnalyzerId`; `*Search`
- * variants and task-specific prebuilts (`prebuilt-invoice`,
+ * prebuilt analyzers are accepted by the service for `baseAnalyzerId`; `*Search`
+ * variants and task-specific prebuilt analyzers (`prebuilt-invoice`,
  * `prebuilt-receipt`) return `InvalidBaseAnalyzerId` if used here. See
  * https://learn.microsoft.com/azure/ai-services/content-understanding/concepts/analyzer-reference#baseanalyzerid
  */

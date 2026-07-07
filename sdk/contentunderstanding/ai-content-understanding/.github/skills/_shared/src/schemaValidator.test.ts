@@ -252,11 +252,11 @@ describe("SchemaValidator — file loading", () => {
 });
 
 describe("SchemaValidator — allow-list surface", () => {
-  it("KNOWN_BASE_ANALYZER_IDS contains only modality prebuilts", () => {
+  it("KNOWN_BASE_ANALYZER_IDS contains only modality prebuilt analyzers", () => {
     // Sanity check: the allow-list must NOT include `*Search` variants,
     // `prebuilt-invoice`, or `prebuilt-receipt` — these return
     // `InvalidBaseAnalyzerId` if used as `baseAnalyzerId` for a custom
-    // analyzer. Only modality-level prebuilts are valid.
+    // analyzer. Only modality-level prebuilt analyzers are valid.
     const expected = new Set([
       "prebuilt-document",
       "prebuilt-audio",
