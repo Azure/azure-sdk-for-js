@@ -44,6 +44,9 @@ import {
   _updateEntityDeserialize,
   _deleteEntitySend,
   _deleteEntityDeserialize,
+  _updateEntityDeserializeHeaders,
+  _mergeEntityDeserializeHeaders,
+  _deleteEntityDeserializeHeaders,
 } from "./generated/api/table/operations.js";
 import { getClient, createRestError } from "@azure-rest/core-client";
 import type { NamedKeyCredential, SASCredential, TokenCredential } from "@azure/core-auth";
@@ -81,17 +84,6 @@ import {
 import { tablesNamedKeyCredentialPolicy } from "#platform/tablesNamedCredentialPolicy";
 import { tablesSASTokenPolicy } from "./tablesSASTokenPolicy.js";
 import { tracingClient } from "./utils/tracing.js";
-import type { PathUncheckedResponse } from "@azure-rest/core-client";
-
-function extractResponseHeaders(result: PathUncheckedResponse): Record<string, any> {
-  return {
-    clientRequestId: result.headers["x-ms-client-request-id"],
-    requestId: result.headers["x-ms-request-id"],
-    version: result.headers["x-ms-version"],
-    date: result.headers["date"] ? new Date(result.headers["date"] as string) : undefined,
-    etag: result.headers["etag"],
-  };
-}
 
 /**
  * A TableClient represents a Client to the Azure Tables service allowing you
@@ -537,7 +529,11 @@ export class TableClient {
       listEntitiesOptions.nextPartitionKey = continuationToken.nextPartitionKey;
     }
 
-    const result = await _queryEntitiesSend(this.context, tableName, listEntitiesOptions);
+    const result = await _queryEntitiesSend(
+      this.context,
+      tableName,
+      toRestOperationOptions(listEntitiesOptions),
+    );
     const deserialized = await _queryEntitiesDeserialize(result);
 
     const nextPartitionKey = result.headers?.["x-ms-continuation-nextpartitionkey"];
@@ -650,7 +646,7 @@ export class TableClient {
         toRestOperationOptions(rest),
       );
       await _deleteEntityDeserialize(result);
-      return extractResponseHeaders(result) as DeleteTableEntityResponse;
+      return _deleteEntityDeserializeHeaders(result);
     });
   }
 
@@ -724,7 +720,7 @@ export class TableClient {
             },
           );
           await _mergeEntityDeserialize(result);
-          return extractResponseHeaders(result) as UpdateEntityResponse;
+          return _mergeEntityDeserializeHeaders(result);
         }
         if (mode === "Replace") {
           const result = await _updateEntitySend(
@@ -739,7 +735,7 @@ export class TableClient {
             },
           );
           await _updateEntityDeserialize(result);
-          return extractResponseHeaders(result) as UpdateEntityResponse;
+          return _updateEntityDeserializeHeaders(result);
         }
 
         throw new Error(`Unexpected value for update mode: ${mode}`);
@@ -816,7 +812,7 @@ export class TableClient {
             },
           );
           await _mergeEntityDeserialize(result);
-          return extractResponseHeaders(result) as UpsertEntityResponse;
+          return _mergeEntityDeserializeHeaders(result);
         }
 
         if (mode === "Replace") {
@@ -831,7 +827,7 @@ export class TableClient {
             },
           );
           await _updateEntityDeserialize(result);
-          return extractResponseHeaders(result) as UpsertEntityResponse;
+          return _updateEntityDeserializeHeaders(result);
         }
         throw new Error(`Unexpected value for update mode: ${mode}`);
       },
@@ -857,7 +853,7 @@ export class TableClient {
           this.tableName,
           toRestOperationOptions(updatedOptions),
         );
-        return deserializeSignedIdentifier((result as any).identifiers ?? []);
+        return deserializeSignedIdentifier(result.identifiers ?? []);
       },
     );
   }
@@ -876,12 +872,11 @@ export class TableClient {
       options,
       async (updatedOptions) => {
         const serlializedAcl = serializeSignedIdentifiers(tableAcl);
-        await this.table.setAccessPolicy(
+        return await this.table.setAccessPolicy(
           this.tableName,
           { identifiers: serlializedAcl } as any,
           toRestOperationOptions(updatedOptions),
         );
-        return {} as SetAccessPolicyResponse;
       },
     );
   }

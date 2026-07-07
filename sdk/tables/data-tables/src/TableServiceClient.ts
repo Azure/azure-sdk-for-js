@@ -210,10 +210,7 @@ export class TableServiceClient {
       "TableServiceClient.getStatistics",
       options,
       async (updatedOptions) => {
-        const body = await this.service.getStatistics(
-          injectSecondaryEndpointHeader(updatedOptions),
-        );
-        return { ...body } as GetStatisticsResponse;
+        return await this.service.getStatistics(injectSecondaryEndpointHeader(updatedOptions));
       },
     );
   }
@@ -228,8 +225,7 @@ export class TableServiceClient {
       "TableServiceClient.getProperties",
       options,
       async (updatedOptions) => {
-        const body = await this.service.getProperties(toRestOperationOptions(updatedOptions));
-        return { ...body } as GetPropertiesResponse;
+        return await this.service.getProperties(toRestOperationOptions(updatedOptions));
       },
     );
   }
@@ -249,11 +245,10 @@ export class TableServiceClient {
       options,
       async (updatedOptions) => {
         const { requestId, ...rest } = updatedOptions;
-        await this.service.setProperties(properties, {
+        return await this.service.setProperties(properties, {
           ...toRestOperationOptions(rest),
           clientRequestId: requestId,
         });
-        return {} as SetPropertiesResponse;
       },
     );
   }
