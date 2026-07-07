@@ -237,12 +237,12 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Azure/azure-sdk-for-js",
-    "directory": "sdk/azurearcdata/arm-azurearcdata"
+    "directory": "sdk/arcdata/arm-arcdata"
   },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/azurearcdata/arm-azurearcdata/README.md",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/arcdata/arm-arcdata/README.md",
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "//metadata": {
     "constantPaths": [
