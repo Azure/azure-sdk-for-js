@@ -4,14 +4,14 @@
 
 ### Features Added
 
-- Added support for service API version `2026-01-01-preview` [#46895](https://github.com/Azure/azure-sdk-for-python/pull/46895)
+- Added support for service API version `2026-01-01-preview` [#40761](https://github.com/Azure/azure-rest-api-specs/pull/40761)
 - Added `KeyVaultEkmClient` for managing Managed HSM External Key Manager (EKM) connections. This new client exposes `getEkmConnection`,
   `createEkmConnection`, `updateEkmConnection`, `deleteEkmConnection`, `getEkmCertificate`, and `checkEkmConnection`.
-- Added `KeyVaultEkmConnection`, `KeyVaultEkmProxyClientCertificateInfo`, and `KeyVaultEkmProxyInfo` models supporting the EKM client.
+- Added `EkmConnection`, `EkmProxyClientCertificateInfo`, and `EkmProxyInfo` models supporting the EKM client.
 
 ### Other Changes
 
-- Key Vault API version `2026-01-01-preview` is now the default.
+- Key Vault API version `2026-01-01-preview` is now the default. [#40761](https://github.com/Azure/azure-rest-api-specs/pull/40761)
 
 ## 4.7.2 (2026-06-09)
 

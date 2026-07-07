@@ -96,7 +96,7 @@ export async function _deleteEkmConnectionDeserialize(
   return ekmConnectionDeserializer(result.body);
 }
 
-/** The External Key Manager (EKM) deletes the existing EKM connection. If the EKM connection does not already exists, this operation fails. This operation requires ekm/delete permission. */
+/** The External Key Manager (EKM) deletes the existing EKM connection. If the EKM connection does not already exist, this operation fails. This operation requires ekm/delete permission. */
 export async function deleteEkmConnection(
   context: Client,
   options: DeleteEkmConnectionOptionalParams = { requestOptions: {} },
