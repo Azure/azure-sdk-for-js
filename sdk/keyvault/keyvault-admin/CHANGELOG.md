@@ -1,6 +1,6 @@
 # Release History
 
-## 4.7.3 (2026-07-01)
+## 4.7.3-beta.1 (2026-07-07)
 
 ### Other Changes
 
