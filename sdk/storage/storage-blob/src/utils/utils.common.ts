@@ -6,6 +6,7 @@ import type { TokenCredential } from "@azure/core-auth";
 import type { HttpHeaders } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { isNodeLike } from "@azure/core-util";
+import { StorageResponseFormat } from "@azure/storage-common";
 
 import type {
   BlobQueryArrowConfiguration,
@@ -817,6 +818,21 @@ export function parseObjectReplicationRecord(
     }
   }
   return orProperties;
+}
+
+/**
+ * Resolves a {@link StorageResponseFormat} to the concrete format the client should use.
+ * `Auto` currently resolves to `Xml`; this mapping may change in a future service version.
+ *
+ * @param responseFormat - The requested response format, or undefined to use the default.
+ */
+export function resolveResponseFormat(
+  responseFormat?: StorageResponseFormat,
+): StorageResponseFormat {
+  if (responseFormat === undefined || responseFormat === StorageResponseFormat.Auto) {
+    return StorageResponseFormat.Xml;
+  }
+  return responseFormat;
 }
 
 /**

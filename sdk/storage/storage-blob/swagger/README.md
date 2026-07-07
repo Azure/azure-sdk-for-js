@@ -12,7 +12,7 @@ enable-xml: true
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/33687e934eb68f8269f8183e148035aeb52ee8c2/specification/storage/data-plane/Microsoft.BlobStorage/stable/2026-10-06/blob.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/52424fa89006699e353d864e8b04600ed84aeb6d/specification/storage/data-plane/Microsoft.BlobStorage/stable/2026-12-06/blob.json
 model-date-time-as-string: true
 optional-response-headers: true
 v3: true
@@ -1475,11 +1475,11 @@ directive:
       $["properties"]["AuthenticationErrorDetail"] = { "type": "string" };
 ```
 
-### Set service version to "2026-10-06"
+### Set service version to "2026-12-06"
 
 ```yaml
 directive:
   - from: swagger-document
     where: $.parameters.ApiVersionParameter
-    transform: $.enum = [ "2026-10-06" ];
+    transform: $.enum = [ "2026-12-06" ];
 ```

@@ -40,10 +40,16 @@ import {
   ContainerChangeLeaseResponse,
   ContainerListBlobFlatSegmentOptionalParams,
   ContainerListBlobFlatSegmentResponse,
+  ContainerListBlobFlatSegmentApacheArrowOptionalParams,
+  ContainerListBlobFlatSegmentApacheArrowResponse,
   ContainerListBlobHierarchySegmentOptionalParams,
   ContainerListBlobHierarchySegmentResponse,
+  ContainerListBlobHierarchySegmentApacheArrowOptionalParams,
+  ContainerListBlobHierarchySegmentApacheArrowResponse,
   ContainerGetAccountInfoOptionalParams,
   ContainerGetAccountInfoResponse,
+  ContainerListBlobHierarchySegmentApacheArrowNextOptionalParams,
+  ContainerListBlobHierarchySegmentApacheArrowNextResponse,
 } from "../models/index.js";
 
 /** Interface representing a Container. */
@@ -191,6 +197,14 @@ export interface Container {
     options?: ContainerListBlobFlatSegmentOptionalParams,
   ): Promise<ContainerListBlobFlatSegmentResponse>;
   /**
+   * The List Blobs operation returns a list of the blobs under the specified container. This operation
+   * is for Apache Arrow use case so response is returned as raw to be deserialized by the client.
+   * @param options The options parameters.
+   */
+  listBlobFlatSegmentApacheArrow(
+    options?: ContainerListBlobFlatSegmentApacheArrowOptionalParams,
+  ): Promise<ContainerListBlobFlatSegmentApacheArrowResponse>;
+  /**
    * [Update] The List Blobs operation returns a list of the blobs under the specified container
    * @param delimiter When the request includes this parameter, the operation returns a BlobPrefix
    *                  element in the response body that acts as a placeholder for all blobs whose names begin with the
@@ -203,10 +217,34 @@ export interface Container {
     options?: ContainerListBlobHierarchySegmentOptionalParams,
   ): Promise<ContainerListBlobHierarchySegmentResponse>;
   /**
+   * [Update] The List Blobs operation returns a list of the blobs under the specified container. This
+   * operation is for Apache Arrow use case so response is returned as raw to be deserialized by the
+   * client.
+   * @param delimiter When the request includes this parameter, the operation returns a BlobPrefix
+   *                  element in the response body that acts as a placeholder for all blobs whose names begin with the
+   *                  same substring up to the appearance of the delimiter character. The delimiter may be a single
+   *                  character or a string.
+   * @param options The options parameters.
+   */
+  listBlobHierarchySegmentApacheArrow(
+    delimiter: string,
+    options?: ContainerListBlobHierarchySegmentApacheArrowOptionalParams,
+  ): Promise<ContainerListBlobHierarchySegmentApacheArrowResponse>;
+  /**
    * Returns the sku name and account kind
    * @param options The options parameters.
    */
   getAccountInfo(
     options?: ContainerGetAccountInfoOptionalParams,
   ): Promise<ContainerGetAccountInfoResponse>;
+  /**
+   * ListBlobHierarchySegmentApacheArrowNext
+   * @param nextLink The nextLink from the previous successful call to the
+   *                 ListBlobHierarchySegmentApacheArrow method.
+   * @param options The options parameters.
+   */
+  listBlobHierarchySegmentApacheArrowNext(
+    nextLink: string,
+    options?: ContainerListBlobHierarchySegmentApacheArrowNextOptionalParams,
+  ): Promise<ContainerListBlobHierarchySegmentApacheArrowNextResponse>;
 }

@@ -17,6 +17,13 @@ export const REQUEST_TIMEOUT: number = 100 * 1000; // In ms
  */
 export const StorageOAuthScopes: string | string[] = "https://storage.azure.com/.default";
 
+/**
+ * The media type returned by the List Blobs Apache Arrow operation when Apache Arrow
+ * is enabled for the account. When the response Content-Type differs from this value,
+ * the service has fallen back to XML.
+ */
+export const ApacheArrowContentType: string = "application/vnd.apache.arrow.stream";
+
 export const URLConstants = {
   Parameters: {
     FORCE_BROWSER_NO_CACHE: "_",

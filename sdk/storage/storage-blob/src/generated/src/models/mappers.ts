@@ -3797,6 +3797,70 @@ export const ContainerListBlobFlatSegmentExceptionHeaders: coreClient.CompositeM
     },
   };
 
+export const ContainerListBlobFlatSegmentApacheArrowHeaders: coreClient.CompositeMapper =
+  {
+    serializedName: "Container_listBlobFlatSegmentApacheArrowHeaders",
+    type: {
+      name: "Composite",
+      className: "ContainerListBlobFlatSegmentApacheArrowHeaders",
+      modelProperties: {
+        contentType: {
+          serializedName: "content-type",
+          xmlName: "content-type",
+          type: {
+            name: "String",
+          },
+        },
+        clientRequestId: {
+          serializedName: "x-ms-client-request-id",
+          xmlName: "x-ms-client-request-id",
+          type: {
+            name: "String",
+          },
+        },
+        requestId: {
+          serializedName: "x-ms-request-id",
+          xmlName: "x-ms-request-id",
+          type: {
+            name: "String",
+          },
+        },
+        version: {
+          serializedName: "x-ms-version",
+          xmlName: "x-ms-version",
+          type: {
+            name: "String",
+          },
+        },
+        date: {
+          serializedName: "date",
+          xmlName: "date",
+          type: {
+            name: "DateTimeRfc1123",
+          },
+        },
+      },
+    },
+  };
+
+export const ContainerListBlobFlatSegmentApacheArrowExceptionHeaders: coreClient.CompositeMapper =
+  {
+    serializedName: "Container_listBlobFlatSegmentApacheArrowExceptionHeaders",
+    type: {
+      name: "Composite",
+      className: "ContainerListBlobFlatSegmentApacheArrowExceptionHeaders",
+      modelProperties: {
+        errorCode: {
+          serializedName: "x-ms-error-code",
+          xmlName: "x-ms-error-code",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
 export const ContainerListBlobHierarchySegmentHeaders: coreClient.CompositeMapper =
   {
     serializedName: "Container_listBlobHierarchySegmentHeaders",
@@ -3856,6 +3920,71 @@ export const ContainerListBlobHierarchySegmentExceptionHeaders: coreClient.Compo
     type: {
       name: "Composite",
       className: "ContainerListBlobHierarchySegmentExceptionHeaders",
+      modelProperties: {
+        errorCode: {
+          serializedName: "x-ms-error-code",
+          xmlName: "x-ms-error-code",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const ContainerListBlobHierarchySegmentApacheArrowHeaders: coreClient.CompositeMapper =
+  {
+    serializedName: "Container_listBlobHierarchySegmentApacheArrowHeaders",
+    type: {
+      name: "Composite",
+      className: "ContainerListBlobHierarchySegmentApacheArrowHeaders",
+      modelProperties: {
+        contentType: {
+          serializedName: "content-type",
+          xmlName: "content-type",
+          type: {
+            name: "String",
+          },
+        },
+        clientRequestId: {
+          serializedName: "x-ms-client-request-id",
+          xmlName: "x-ms-client-request-id",
+          type: {
+            name: "String",
+          },
+        },
+        requestId: {
+          serializedName: "x-ms-request-id",
+          xmlName: "x-ms-request-id",
+          type: {
+            name: "String",
+          },
+        },
+        version: {
+          serializedName: "x-ms-version",
+          xmlName: "x-ms-version",
+          type: {
+            name: "String",
+          },
+        },
+        date: {
+          serializedName: "date",
+          xmlName: "date",
+          type: {
+            name: "DateTimeRfc1123",
+          },
+        },
+      },
+    },
+  };
+
+export const ContainerListBlobHierarchySegmentApacheArrowExceptionHeaders: coreClient.CompositeMapper =
+  {
+    serializedName:
+      "Container_listBlobHierarchySegmentApacheArrowExceptionHeaders",
+    type: {
+      name: "Composite",
+      className: "ContainerListBlobHierarchySegmentApacheArrowExceptionHeaders",
       modelProperties: {
         errorCode: {
           serializedName: "x-ms-error-code",
@@ -3950,6 +4079,72 @@ export const ContainerGetAccountInfoExceptionHeaders: coreClient.CompositeMapper
     type: {
       name: "Composite",
       className: "ContainerGetAccountInfoExceptionHeaders",
+      modelProperties: {
+        errorCode: {
+          serializedName: "x-ms-error-code",
+          xmlName: "x-ms-error-code",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
+export const ContainerListBlobHierarchySegmentApacheArrowNextHeaders: coreClient.CompositeMapper =
+  {
+    serializedName: "Container_listBlobHierarchySegmentApacheArrowNextHeaders",
+    type: {
+      name: "Composite",
+      className: "ContainerListBlobHierarchySegmentApacheArrowNextHeaders",
+      modelProperties: {
+        contentType: {
+          serializedName: "content-type",
+          xmlName: "content-type",
+          type: {
+            name: "String",
+          },
+        },
+        clientRequestId: {
+          serializedName: "x-ms-client-request-id",
+          xmlName: "x-ms-client-request-id",
+          type: {
+            name: "String",
+          },
+        },
+        requestId: {
+          serializedName: "x-ms-request-id",
+          xmlName: "x-ms-request-id",
+          type: {
+            name: "String",
+          },
+        },
+        version: {
+          serializedName: "x-ms-version",
+          xmlName: "x-ms-version",
+          type: {
+            name: "String",
+          },
+        },
+        date: {
+          serializedName: "date",
+          xmlName: "date",
+          type: {
+            name: "DateTimeRfc1123",
+          },
+        },
+      },
+    },
+  };
+
+export const ContainerListBlobHierarchySegmentApacheArrowNextExceptionHeaders: coreClient.CompositeMapper =
+  {
+    serializedName:
+      "Container_listBlobHierarchySegmentApacheArrowNextExceptionHeaders",
+    type: {
+      name: "Composite",
+      className:
+        "ContainerListBlobHierarchySegmentApacheArrowNextExceptionHeaders",
       modelProperties: {
         errorCode: {
           serializedName: "x-ms-error-code",

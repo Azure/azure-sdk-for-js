@@ -34,6 +34,7 @@ import { RequestPolicyOptionsLike as RequestPolicyOptions } from '@azure/core-ht
 import { RestError } from '@azure/core-rest-pipeline';
 import { StorageBrowserPolicy } from '@azure/storage-common';
 import { StorageBrowserPolicyFactory } from '@azure/storage-common';
+import { StorageResponseFormat } from '@azure/storage-common';
 import { StorageRetryOptions } from '@azure/storage-common';
 import { StorageRetryPolicy } from '@azure/storage-common';
 import { StorageRetryPolicyFactory } from '@azure/storage-common';
@@ -2021,6 +2022,7 @@ export type ContainerListBlobHierarchySegmentResponse = WithResponse<ListBlobsHi
 // @public
 export interface ContainerListBlobsOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    endBefore?: string;
     includeCopy?: boolean;
     includeDeleted?: boolean;
     includeDeletedWithVersions?: boolean;
@@ -2032,6 +2034,7 @@ export interface ContainerListBlobsOptions extends CommonOptions {
     includeUncommitedBlobs?: boolean;
     includeVersions?: boolean;
     prefix?: string;
+    responseFormat?: StorageResponseFormat;
     startFrom?: string;
 }
 
@@ -3282,6 +3285,8 @@ export interface StoragePipelineOptions {
     retryOptions?: StorageRetryOptions;
     userAgentOptions?: UserAgentPolicyOptions;
 }
+
+export { StorageResponseFormat }
 
 export { StorageRetryOptions }
 

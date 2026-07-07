@@ -181,7 +181,7 @@ const appendBlockOperationSpec: coreClient.OperationSpec = {
     Parameters.transactionalContentMD5,
     Parameters.transactionalContentCrc64,
     Parameters.contentType1,
-    Parameters.accept2,
+    Parameters.accept3,
     Parameters.structuredContentLength,
     Parameters.maxSize,
     Parameters.appendPosition,

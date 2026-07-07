@@ -30662,6 +30662,9 @@ importers:
       '@azure/storage-common':
         specifier: ^12.5.0
         version: link:../storage-common
+      apache-arrow:
+        specifier: ^21.1.0
+        version: 21.1.0
       events:
         specifier: ^3.0.0
         version: 3.3.0
@@ -37374,6 +37377,9 @@ packages:
   '@standard-schema/spec@1.1.0':
     resolution: {integrity: sha1-p5tV26+GBIEvUtFAssmrQbwVC7g=}
 
+  '@swc/helpers@0.5.23':
+    resolution: {integrity: sha1-GSh9DYbZYrERN2A5pQx5KQLJqGo=}
+
   '@ts-morph/common@0.28.1':
     resolution: {integrity: sha1-EOxSGC1cMQgytmmvd4SjT8PaPKE=}
 
@@ -37433,6 +37439,12 @@ packages:
 
   '@types/chai@5.2.3':
     resolution: {integrity: sha1-jpzZ4cNYH6azQaWu1ViOsoW+C0o=}
+
+  '@types/command-line-args@5.2.3':
+    resolution: {integrity: sha1-VTzi/VrPFgtEjTB2SbOP/GDTljk=}
+
+  '@types/command-line-usage@5.0.4':
+    resolution: {integrity: sha1-N05MYtePvFpnCg822hAjWvh5oNU=}
 
   '@types/connect@3.4.38':
     resolution: {integrity: sha1-W6fzvE+73q/43e2VLl/yzFP42Fg=}
@@ -37521,6 +37533,9 @@ packages:
 
   '@types/node@22.20.0':
     resolution: {integrity: sha1-Qx9QBzlrwaGke5x99g8+XgtbcwQ=}
+
+  '@types/node@24.13.2':
+    resolution: {integrity: sha1-O5soCnBVEoNZ8SXrEGfZoZDzmFQ=}
 
   '@types/normalize-package-data@2.4.4':
     resolution: {integrity: sha1-VuLMJsOXwDj6sOOpF6EtXFkJ6QE=}
@@ -37842,11 +37857,19 @@ packages:
   anynum@1.0.1:
     resolution: {integrity: sha1-KqwA4I3603JsHUYuYNvC+DFlmkQ=}
 
+  apache-arrow@21.1.0:
+    resolution: {integrity: sha1-C40KhE16hswpkC81Yb+L54RLezY=}
+    hasBin: true
+
   argparse@1.0.10:
     resolution: {integrity: sha1-vNZ5HqWuCXJeF+WtmIE0zUCz2RE=}
 
   argparse@2.0.1:
     resolution: {integrity: sha1-JG9Q88p4oyQPbJl+ipvR6sSeSzg=}
+
+  array-back@6.2.3:
+    resolution: {integrity: sha1-1B5nWYgF5hTyOzGbnllg37zXKuI=}
+    engines: {node: '>=12.17'}
 
   array-timsort@1.0.3:
     resolution: {integrity: sha1-PJ5BmeVPsrnD/ll2OWohYU7w2SY=}
@@ -38043,6 +38066,10 @@ packages:
     resolution: {integrity: sha1-rkG1LJrKh3NFBTYnF/MlX6zaNg4=}
     engines: {node: '>=18'}
 
+  chalk-template@0.4.0:
+    resolution: {integrity: sha1-aSwDTQ7WJDa5BiwXB/rc0PdTIEs=}
+    engines: {node: '>=12'}
+
   chalk-template@1.1.2:
     resolution: {integrity: sha1-iP8T51ozPSMjBOE6vEjFtb4V8c4=}
     engines: {node: '>=14.16'}
@@ -38133,6 +38160,19 @@ packages:
 
   colorette@2.0.20:
     resolution: {integrity: sha1-nreT5oMwZ/cjWQL807CZF6AAqVo=}
+
+  command-line-args@6.0.2:
+    resolution: {integrity: sha1-pbiofT8SqhcHwSLF7Ti8ZFNVFKA=}
+    engines: {node: '>=12.20'}
+    peerDependencies:
+      '@75lb/nature': latest
+    peerDependenciesMeta:
+      '@75lb/nature':
+        optional: true
+
+  command-line-usage@7.0.4:
+    resolution: {integrity: sha1-dZRJusOcVBDiNRPx94VRtmnfFRQ=}
+    engines: {node: '>=12.20.0'}
 
   commander@10.0.1:
     resolution: {integrity: sha1-iB7ka0930cHczFgjQzqjmwIsvgY=}
@@ -38727,6 +38767,15 @@ packages:
     resolution: {integrity: sha1-2OeNmNArp0nIZSbtrKeAwJQHMxM=}
     engines: {node: '>=20'}
 
+  find-replace@5.0.2:
+    resolution: {integrity: sha1-/if/C+BZda72/GecETm7q+pWTiY=}
+    engines: {node: '>=14'}
+    peerDependencies:
+      '@75lb/nature': latest
+    peerDependenciesMeta:
+      '@75lb/nature':
+        optional: true
+
   find-up@4.1.0:
     resolution: {integrity: sha1-l6/n1s3AvFkoWEt8jXsW6KmqXRk=}
     engines: {node: '>=8'}
@@ -38738,6 +38787,9 @@ packages:
   flat-cache@4.0.1:
     resolution: {integrity: sha1-Ds45/LFO4BL0sEEL0z3ZwfAREnw=}
     engines: {node: '>=16'}
+
+  flatbuffers@25.9.23:
+    resolution: {integrity: sha1-NGgRVX/pMSq1ZHU155PHYenIHrE=}
 
   flatted@3.4.2:
     resolution: {integrity: sha1-9cI8EH8PN96NvfJPE3IrO5jVJyY=}
@@ -39259,6 +39311,10 @@ packages:
     resolution: {integrity: sha1-dNM1ojT2ftGZB/2t+sfM+dQJgl0=}
     engines: {node: '>=6'}
     hasBin: true
+
+  json-bignum@0.0.3:
+    resolution: {integrity: sha1-QRY7UENsdz2CQk28IO1w23YEuNc=}
+    engines: {node: '>=0.8'}
 
   json-buffer@3.0.1:
     resolution: {integrity: sha1-kziAKjDTtmBfvgYT4JQAjKjAWhM=}
@@ -40628,6 +40684,10 @@ packages:
     resolution: {integrity: sha1-btpL00SjyUrqN21MwxvHcxEDngk=}
     engines: {node: '>= 0.4'}
 
+  table-layout@4.1.1:
+    resolution: {integrity: sha1-D3KWXeGlwMFBnJuiHK5Oc6L3OkI=}
+    engines: {node: '>=12.17'}
+
   tapable@2.3.3:
     resolution: {integrity: sha1-XafJmSxGA4IhJnmFqyhCGoh58WA=}
     engines: {node: '>=6'}
@@ -40820,6 +40880,10 @@ packages:
     engines: {node: '>=14.17'}
     hasBin: true
 
+  typical@7.3.0:
+    resolution: {integrity: sha1-kwN2vjRCKHCfE0YTkR+iKqCWF6Q=}
+    engines: {node: '>=12.17'}
+
   uc.micro@2.1.0:
     resolution: {integrity: sha1-+NP30OxMPeo1p+PI76TLi0XJ5+4=}
 
@@ -40833,6 +40897,9 @@ packages:
 
   undici-types@6.21.0:
     resolution: {integrity: sha1-aR0ArzkJvpOn+qE75hs6W1DvEss=}
+
+  undici-types@7.18.2:
+    resolution: {integrity: sha1-KTV6iee3ykrvO/D9P9DNc4hCKek=}
 
   undici@8.5.0:
     resolution: {integrity: sha1-MbqQIaPYTBXmHMXii+LXxFHmamY=}
@@ -41035,6 +41102,10 @@ packages:
   word-wrap@1.2.5:
     resolution: {integrity: sha1-0sRcbdT7zmIaZvE2y+Mor9BBCzQ=}
     engines: {node: '>=0.10.0'}
+
+  wordwrapjs@5.1.1:
+    resolution: {integrity: sha1-v9HrQm8Pfuxzt98yz33x9hi/s6k=}
+    engines: {node: '>=12.17'}
 
   wrap-ansi@7.0.0:
     resolution: {integrity: sha1-Z+FFz/UQpqaYS98RUpEdadLrnkM=}
@@ -43731,6 +43802,10 @@ snapshots:
 
   '@standard-schema/spec@1.1.0': {}
 
+  '@swc/helpers@0.5.23':
+    dependencies:
+      tslib: 2.8.1
+
   '@ts-morph/common@0.28.1':
     dependencies:
       minimatch: 10.2.5
@@ -43795,6 +43870,10 @@ snapshots:
     dependencies:
       '@types/deep-eql': 4.0.2
       assertion-error: 2.0.1
+
+  '@types/command-line-args@5.2.3': {}
+
+  '@types/command-line-usage@5.0.4': {}
 
   '@types/connect@3.4.38':
     dependencies:
@@ -43896,6 +43975,10 @@ snapshots:
   '@types/node@22.20.0':
     dependencies:
       undici-types: 6.21.0
+
+  '@types/node@24.13.2':
+    dependencies:
+      undici-types: 7.18.2
 
   '@types/normalize-package-data@2.4.4': {}
 
@@ -44307,11 +44390,27 @@ snapshots:
 
   anynum@1.0.1: {}
 
+  apache-arrow@21.1.0:
+    dependencies:
+      '@swc/helpers': 0.5.23
+      '@types/command-line-args': 5.2.3
+      '@types/command-line-usage': 5.0.4
+      '@types/node': 24.13.2
+      command-line-args: 6.0.2
+      command-line-usage: 7.0.4
+      flatbuffers: 25.9.23
+      json-bignum: 0.0.3
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - '@75lb/nature'
+
   argparse@1.0.10:
     dependencies:
       sprintf-js: 1.0.3
 
   argparse@2.0.1: {}
+
+  array-back@6.2.3: {}
 
   array-timsort@1.0.3: {}
 
@@ -44536,6 +44635,10 @@ snapshots:
 
   chai@6.2.2: {}
 
+  chalk-template@0.4.0:
+    dependencies:
+      chalk: 4.1.2
+
   chalk-template@1.1.2:
     dependencies:
       chalk: 5.6.2
@@ -44630,6 +44733,20 @@ snapshots:
   colorette@1.4.0: {}
 
   colorette@2.0.20: {}
+
+  command-line-args@6.0.2:
+    dependencies:
+      array-back: 6.2.3
+      find-replace: 5.0.2
+      lodash.camelcase: 4.3.0
+      typical: 7.3.0
+
+  command-line-usage@7.0.4:
+    dependencies:
+      array-back: 6.2.3
+      chalk-template: 0.4.0
+      table-layout: 4.1.1
+      typical: 7.3.0
 
   commander@10.0.1: {}
 
@@ -45350,6 +45467,8 @@ snapshots:
       fast-querystring: 1.1.2
       safe-regex2: 5.1.1
 
+  find-replace@5.0.2: {}
+
   find-up@4.1.0:
     dependencies:
       locate-path: 5.0.0
@@ -45364,6 +45483,8 @@ snapshots:
     dependencies:
       flatted: 3.4.2
       keyv: 4.5.4
+
+  flatbuffers@25.9.23: {}
 
   flatted@3.4.2: {}
 
@@ -45899,6 +46020,8 @@ snapshots:
       underscore: 1.13.8
 
   jsesc@3.1.0: {}
+
+  json-bignum@0.0.3: {}
 
   json-buffer@3.0.1: {}
 
@@ -47452,6 +47575,11 @@ snapshots:
 
   supports-preserve-symlinks-flag@1.0.0: {}
 
+  table-layout@4.1.1:
+    dependencies:
+      array-back: 6.2.3
+      wordwrapjs: 5.1.1
+
   tapable@2.3.3: {}
 
   tar-fs@2.1.5:
@@ -47635,6 +47763,8 @@ snapshots:
 
   typescript@6.0.3: {}
 
+  typical@7.3.0: {}
+
   uc.micro@2.1.0: {}
 
   uglify-js@3.19.3: {}
@@ -47642,6 +47772,8 @@ snapshots:
   underscore@1.13.8: {}
 
   undici-types@6.21.0: {}
+
+  undici-types@7.18.2: {}
 
   undici@8.5.0: {}
 
@@ -47793,6 +47925,8 @@ snapshots:
       '@types/node': 22.20.0
 
   word-wrap@1.2.5: {}
+
+  wordwrapjs@5.1.1: {}
 
   wrap-ansi@7.0.0:
     dependencies:

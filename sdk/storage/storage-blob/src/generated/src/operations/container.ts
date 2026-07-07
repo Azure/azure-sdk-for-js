@@ -45,10 +45,16 @@ import {
   ContainerChangeLeaseResponse,
   ContainerListBlobFlatSegmentOptionalParams,
   ContainerListBlobFlatSegmentResponse,
+  ContainerListBlobFlatSegmentApacheArrowOptionalParams,
+  ContainerListBlobFlatSegmentApacheArrowResponse,
   ContainerListBlobHierarchySegmentOptionalParams,
   ContainerListBlobHierarchySegmentResponse,
+  ContainerListBlobHierarchySegmentApacheArrowOptionalParams,
+  ContainerListBlobHierarchySegmentApacheArrowResponse,
   ContainerGetAccountInfoOptionalParams,
   ContainerGetAccountInfoResponse,
+  ContainerListBlobHierarchySegmentApacheArrowNextOptionalParams,
+  ContainerListBlobHierarchySegmentApacheArrowNextResponse,
 } from "../models/index.js";
 
 /** Class containing Container operations. */
@@ -293,6 +299,20 @@ export class ContainerImpl implements Container {
   }
 
   /**
+   * The List Blobs operation returns a list of the blobs under the specified container. This operation
+   * is for Apache Arrow use case so response is returned as raw to be deserialized by the client.
+   * @param options The options parameters.
+   */
+  listBlobFlatSegmentApacheArrow(
+    options?: ContainerListBlobFlatSegmentApacheArrowOptionalParams,
+  ): Promise<ContainerListBlobFlatSegmentApacheArrowResponse> {
+    return this.client.sendOperationRequest(
+      { options },
+      listBlobFlatSegmentApacheArrowOperationSpec,
+    );
+  }
+
+  /**
    * [Update] The List Blobs operation returns a list of the blobs under the specified container
    * @param delimiter When the request includes this parameter, the operation returns a BlobPrefix
    *                  element in the response body that acts as a placeholder for all blobs whose names begin with the
@@ -311,6 +331,26 @@ export class ContainerImpl implements Container {
   }
 
   /**
+   * [Update] The List Blobs operation returns a list of the blobs under the specified container. This
+   * operation is for Apache Arrow use case so response is returned as raw to be deserialized by the
+   * client.
+   * @param delimiter When the request includes this parameter, the operation returns a BlobPrefix
+   *                  element in the response body that acts as a placeholder for all blobs whose names begin with the
+   *                  same substring up to the appearance of the delimiter character. The delimiter may be a single
+   *                  character or a string.
+   * @param options The options parameters.
+   */
+  listBlobHierarchySegmentApacheArrow(
+    delimiter: string,
+    options?: ContainerListBlobHierarchySegmentApacheArrowOptionalParams,
+  ): Promise<ContainerListBlobHierarchySegmentApacheArrowResponse> {
+    return this.client.sendOperationRequest(
+      { delimiter, options },
+      listBlobHierarchySegmentApacheArrowOperationSpec,
+    );
+  }
+
+  /**
    * Returns the sku name and account kind
    * @param options The options parameters.
    */
@@ -320,6 +360,22 @@ export class ContainerImpl implements Container {
     return this.client.sendOperationRequest(
       { options },
       getAccountInfoOperationSpec,
+    );
+  }
+
+  /**
+   * ListBlobHierarchySegmentApacheArrowNext
+   * @param nextLink The nextLink from the previous successful call to the
+   *                 ListBlobHierarchySegmentApacheArrow method.
+   * @param options The options parameters.
+   */
+  listBlobHierarchySegmentApacheArrowNext(
+    nextLink: string,
+    options?: ContainerListBlobHierarchySegmentApacheArrowNextOptionalParams,
+  ): Promise<ContainerListBlobHierarchySegmentApacheArrowNextResponse> {
+    return this.client.sendOperationRequest(
+      { nextLink, options },
+      listBlobHierarchySegmentApacheArrowNextOperationSpec,
     );
   }
 }
@@ -807,6 +863,43 @@ const listBlobFlatSegmentOperationSpec: coreClient.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer,
 };
+const listBlobFlatSegmentApacheArrowOperationSpec: coreClient.OperationSpec = {
+  path: "/{containerName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: {
+        type: { name: "Stream" },
+        serializedName: "parsedResponse",
+      },
+      headersMapper: Mappers.ContainerListBlobFlatSegmentApacheArrowHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.StorageError,
+      headersMapper:
+        Mappers.ContainerListBlobFlatSegmentApacheArrowExceptionHeaders,
+    },
+  },
+  queryParameters: [
+    Parameters.timeoutInSeconds,
+    Parameters.comp2,
+    Parameters.prefix,
+    Parameters.marker,
+    Parameters.maxPageSize,
+    Parameters.restype2,
+    Parameters.include1,
+    Parameters.startFrom,
+    Parameters.endBefore,
+  ],
+  urlParameters: [Parameters.url],
+  headerParameters: [
+    Parameters.version,
+    Parameters.requestId,
+    Parameters.accept2,
+  ],
+  isXML: true,
+  serializer: xmlSerializer,
+};
 const listBlobHierarchySegmentOperationSpec: coreClient.OperationSpec = {
   path: "/{containerName}",
   httpMethod: "GET",
@@ -840,6 +933,46 @@ const listBlobHierarchySegmentOperationSpec: coreClient.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer,
 };
+const listBlobHierarchySegmentApacheArrowOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/{containerName}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: {
+          type: { name: "Stream" },
+          serializedName: "parsedResponse",
+        },
+        headersMapper:
+          Mappers.ContainerListBlobHierarchySegmentApacheArrowHeaders,
+      },
+      default: {
+        bodyMapper: Mappers.StorageError,
+        headersMapper:
+          Mappers.ContainerListBlobHierarchySegmentApacheArrowExceptionHeaders,
+      },
+    },
+    queryParameters: [
+      Parameters.timeoutInSeconds,
+      Parameters.comp2,
+      Parameters.prefix,
+      Parameters.marker,
+      Parameters.maxPageSize,
+      Parameters.restype2,
+      Parameters.include1,
+      Parameters.startFrom,
+      Parameters.endBefore,
+      Parameters.delimiter,
+    ],
+    urlParameters: [Parameters.url],
+    headerParameters: [
+      Parameters.version,
+      Parameters.requestId,
+      Parameters.accept2,
+    ],
+    isXML: true,
+    serializer: xmlSerializer,
+  };
 const getAccountInfoOperationSpec: coreClient.OperationSpec = {
   path: "/{containerName}",
   httpMethod: "GET",
@@ -866,3 +999,31 @@ const getAccountInfoOperationSpec: coreClient.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer,
 };
+const listBlobHierarchySegmentApacheArrowNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: {
+          type: { name: "Stream" },
+          serializedName: "parsedResponse",
+        },
+        headersMapper:
+          Mappers.ContainerListBlobHierarchySegmentApacheArrowNextHeaders,
+      },
+      default: {
+        bodyMapper: Mappers.StorageError,
+        headersMapper:
+          Mappers.ContainerListBlobHierarchySegmentApacheArrowNextExceptionHeaders,
+      },
+    },
+    urlParameters: [Parameters.url, Parameters.nextLink],
+    headerParameters: [
+      Parameters.version,
+      Parameters.requestId,
+      Parameters.accept2,
+    ],
+    isXML: true,
+    serializer: xmlSerializer,
+  };
