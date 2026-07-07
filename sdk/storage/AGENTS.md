@@ -72,7 +72,7 @@ pnpm --filter @azure/storage-file-share test
 pnpm --filter @azure/storage-queue test
 ```
 
-Start Azurite emulator:
+Start Azurite emulator (Optional):
 
 ```bash
 npx azurite --silent --location /tmp/azurite --debug /tmp/azurite/debug.log
