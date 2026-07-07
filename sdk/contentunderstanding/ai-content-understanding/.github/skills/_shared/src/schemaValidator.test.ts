@@ -172,9 +172,7 @@ describe("SchemaValidator — classify-and-route rejections", () => {
       },
     });
     assert.equal(r.ok, false);
-    assert.ok(
-      r.errors.some((e) => e.includes("fieldSchema") && e.includes("inner")),
-    );
+    assert.ok(r.errors.some((e) => e.includes("fieldSchema") && e.includes("inner")));
   });
 
   it("rejects classify-route without enableSegment", () => {
@@ -279,9 +277,9 @@ describe("SchemaValidator — purity guard", () => {
     const src = locateSchemaValidatorSource();
     const text = readFileSync(src, "utf-8");
     const forbidden = [
-      "from \"@azure/",
+      'from "@azure/',
       "from '@azure/",
-      "import \"@azure/",
+      'import "@azure/',
       "import '@azure/",
       "node:http",
       "node:https",

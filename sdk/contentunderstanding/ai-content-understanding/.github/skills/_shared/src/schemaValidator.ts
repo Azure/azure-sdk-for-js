@@ -48,11 +48,7 @@ const ALLOWED_FIELD_TYPES: ReadonlySet<string> = new Set([
   "object",
 ]);
 
-const ALLOWED_FIELD_METHODS: ReadonlySet<string> = new Set([
-  "extract",
-  "generate",
-  "classify",
-]);
+const ALLOWED_FIELD_METHODS: ReadonlySet<string> = new Set(["extract", "generate", "classify"]);
 
 export interface ValidationResult {
   ok: boolean;
@@ -98,8 +94,7 @@ export function validate(schema: unknown): ValidationResult {
     }
   }
 
-  const isClassifyRoute =
-    isObject(config) && config["contentCategories"] !== undefined;
+  const isClassifyRoute = isObject(config) && config["contentCategories"] !== undefined;
 
   if (isClassifyRoute) {
     errors.push(...validateClassifyRoute(config as Record<string, unknown>));
@@ -156,8 +151,7 @@ function validateSingleType(schema: Record<string, unknown>): string[] {
   const fieldSchema = schema["fieldSchema"];
   if (fieldSchema === undefined || fieldSchema === null) {
     errors.push(
-      "missing required key: fieldSchema " +
-        "(single-type schemas must declare fields to extract)",
+      "missing required key: fieldSchema " + "(single-type schemas must declare fields to extract)",
     );
     return errors;
   }
@@ -185,11 +179,7 @@ function validateSingleType(schema: Record<string, unknown>): string[] {
   return errors;
 }
 
-function validateFieldDefinition(
-  name: string,
-  definition: unknown,
-  path: string | null,
-): string[] {
+function validateFieldDefinition(name: string, definition: unknown, path: string | null): string[] {
   const errors: string[] = [];
   const prefix = path ?? `fieldSchema.fields['${name}']`;
 
@@ -207,7 +197,10 @@ function validateFieldDefinition(
   } else {
     fieldType = typeEl;
     if (!ALLOWED_FIELD_TYPES.has(fieldType)) {
-      const allowed = [...ALLOWED_FIELD_TYPES].sort().map((s) => `'${s}'`).join(", ");
+      const allowed = [...ALLOWED_FIELD_TYPES]
+        .sort()
+        .map((s) => `'${s}'`)
+        .join(", ");
       errors.push(`${prefix}.type '${fieldType}' is not one of [${allowed}]`);
     }
   }
@@ -217,7 +210,10 @@ function validateFieldDefinition(
     if (typeof methodEl !== "string") {
       errors.push(`${prefix}.method must be a string`);
     } else if (!ALLOWED_FIELD_METHODS.has(methodEl)) {
-      const allowed = [...ALLOWED_FIELD_METHODS].sort().map((s) => `'${s}'`).join(", ");
+      const allowed = [...ALLOWED_FIELD_METHODS]
+        .sort()
+        .map((s) => `'${s}'`)
+        .join(", ");
       errors.push(`${prefix}.method '${methodEl}' is not one of [${allowed}]`);
     }
   }
@@ -235,11 +231,7 @@ function validateFieldDefinition(
       } else {
         for (const [childName, childDef] of Object.entries(propsEl)) {
           errors.push(
-            ...validateFieldDefinition(
-              childName,
-              childDef,
-              `${prefix}.properties['${childName}']`,
-            ),
+            ...validateFieldDefinition(childName, childDef, `${prefix}.properties['${childName}']`),
           );
         }
       }
