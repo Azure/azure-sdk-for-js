@@ -127,7 +127,11 @@ Fetch the PR using the GitHub API. If `mergeable_state == "clean"` and no check 
 Post this comment and stop:
 ```markdown
 ## Next Steps to Merge
-No further action is required from the service team. The SDK PR reviewer will handle the review and merge of this PR.
+✅ All CI checks have passed — this PR is ready for review!
+
+A SDK reviewer will take a look shortly. Once it's approved, you can go ahead and merge it. To make things easier, feel free to [enable auto-merge](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/incorporating-changes-from-a-pull-request/automatically-merging-a-pull-request) so it merges on its own right after approval.
+
+For more details, see the [management SDK release process](https://eng.ms/docs/products/azure-developer-experience/plan/mgmt-sdk-release-process).
 ```
 
 ## Step 2. Diagnose blocking items
@@ -179,4 +183,6 @@ Only failed checks and required actions are listed below.
 - ❌ <failed check name>: <short reason>. Action: <specific fix>. Review [ADO logs](<real target_url>).
 - ❌ Check-format: code not formatted. Action: Run `cd <package-dir> && pnpm format`, then commit and push. Review [ADO logs](<target_url>).
 - 🔄 pnpm-lock conflict: merge conflict in pnpm-lock.yaml. Follow the [conflict guide](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/resolve-pnpm-lock-merge-conflict.md).
+
+Need a hand? Feel free to ask in the [Language – JS & TS 🥷 Teams channel](https://teams.microsoft.com/l/channel/19%3A344f6b5b36ba414daa15473942c7477b%40thread.skype/Language%20%E2%80%93%20JS%E2%80%89%EF%BC%86%E2%80%89TS%20%F0%9F%A5%B7?groupId=3e17dcb0-4257-4a30-b843-77f47f1d4121&tenantId=72f988bf-86f1-41af-91ab-2d7cd011db47) — we're happy to help.
 ```
