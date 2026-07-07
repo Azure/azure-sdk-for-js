@@ -37,10 +37,11 @@ you're happy with both classification accuracy and extraction quality.
 
 ## Prerequisites
 
-Required: the `@azure/ai-content-understanding` SDK built locally (the skill
-tool references the built DLL by path), `.env` or environment variables
-with `CONTENTUNDERSTANDING_ENDPOINT` (plus `CONTENTUNDERSTANDING_KEY` or
-`az login`), and the model defaults configured for this resource (see
+Required: Node.js 18+ and npm (the skill tool is a standalone TypeScript
+CLI under `.github/skills/_shared/` that depends on the published
+`@azure/ai-content-understanding` package from npm), `.env` or environment
+variables with `CONTENTUNDERSTANDING_ENDPOINT` (plus `CONTENTUNDERSTANDING_KEY`
+or `az login`), and the model defaults configured for this resource (see
 [`updateDefaults.ts`](../../../samples-dev/updateDefaults.ts)).
 
 > **[COPILOT] Probe first, then route on failure — do not duplicate setup logic here.**
