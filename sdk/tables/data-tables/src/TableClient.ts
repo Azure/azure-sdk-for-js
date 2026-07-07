@@ -515,11 +515,11 @@ export class TableClient {
     tableName: string,
     options: InternalListTableEntitiesOptions = {},
   ): Promise<TableEntityResultPage<T>> {
-    const { disableTypeConversion = false } = options;
-    const queryOptions = serializeQueryOptions(options.queryOptions || {});
+    const { disableTypeConversion = false, queryOptions, ...others } = options;
+    const serializedQueryOptions = serializeQueryOptions(queryOptions || {});
     const listEntitiesOptions: TableQueryEntitiesOptionalParams = {
-      ...options,
-      ...queryOptions,
+      ...others,
+      ...serializedQueryOptions,
     };
 
     // If a continuation token is used, decode it and set the next row and partition key
