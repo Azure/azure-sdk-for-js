@@ -37,7 +37,7 @@ package — the same client `createAnalyzer.ts` and
 > - If the user says **document** → continue with this skill.
 > - If the user says **audio**, **video**, or **image** → stop this skill and
 >   point them at the typed-model samples
->   ([`createAnalyzer.ts`](../../../samples/createAnalyzer.ts)
+>   ([`createAnalyzer.ts`](../../../samples-dev/createAnalyzer.ts)
 >   with `prebuilt-audio` / `prebuilt-video` / `prebuilt-image`) or the
 >   [REST tutorial](https://learn.microsoft.com/azure/ai-services/content-understanding/tutorial/create-custom-analyzer).
 
@@ -47,7 +47,7 @@ Required: the `@azure/ai-content-understanding` SDK built locally (the skill
 tool references the built DLL by path), `.env` or environment variables
 with `CONTENTUNDERSTANDING_ENDPOINT` (plus `CONTENTUNDERSTANDING_KEY` or
 `az login`), and the model defaults configured for this resource (see
-[`updateDefaults.ts`](../../../samples/updateDefaults.ts)).
+[`updateDefaults.ts`](../../../samples-dev/updateDefaults.ts)).
 
 > **[COPILOT] Probe first, then route on failure — do not duplicate setup logic here.**
 >
@@ -65,7 +65,7 @@ with `CONTENTUNDERSTANDING_ENDPOINT` (plus `CONTENTUNDERSTANDING_KEY` or
 > | `npm: MISSING` | install npm (bundled with Node.js) |
 > | endpoint `MISSING` | create or edit `.env` at the repo root with `CONTENTUNDERSTANDING_ENDPOINT=https://<your-resource>.services.ai.azure.com/`, then resume |
 > | endpoint `ok`, key `empty`, `az: not logged in` | run `az login` **or** add `CONTENTUNDERSTANDING_KEY` to `.env`, then resume |
-> | All env checks pass but service calls fail with model errors | run [`updateDefaults.ts`](../../../samples/updateDefaults.ts) once for this resource, then resume |
+> | All env checks pass but service calls fail with model errors | run [`updateDefaults.ts`](../../../samples-dev/updateDefaults.ts) once for this resource, then resume |
 > | All ok | ✅ Proceed to Step 1. |
 >
 > Never ask the user to paste an endpoint or API key into chat — they edit `.env` directly or run `az login`.
@@ -132,7 +132,7 @@ want to extract from — labels (`"Invoice #:"`), section headings
 (`"Bill To"`), table headers, etc.
 
 > **Reference**: this is the same call pattern as
-> [`analyzeBinary.ts`](../../../samples/analyzeBinary.ts)
+> [`analyzeBinary.ts`](../../../samples-dev/analyzeBinary.ts)
 > using `prebuilt-documentSearch`.
 
 ### Step 2 — Draft a JSON field schema
@@ -187,7 +187,7 @@ shapes. Delete the example fields you don't need.
 > **`models.completion` is effectively required**: whenever `fieldSchema` is
 > present, the service needs a completion model. Leave the `models` block in
 > the template populated unless you've run
-> [`updateDefaults.ts`](../../../samples/updateDefaults.ts)
+> [`updateDefaults.ts`](../../../samples-dev/updateDefaults.ts)
 > to set resource defaults. Omitting it fails with `InvalidRequest:
 > 'models.completion' is not set` *after* a misleadingly successful
 > `[CREATE]` log line. `create-and-test` prints a `[WARN]` if the schema
@@ -235,7 +235,7 @@ The local validator (Step 3) rejects any value not on that list.
 ```
 
 > **Reference**: see
-> [`createAnalyzer.ts`](../../../samples/createAnalyzer.ts)
+> [`createAnalyzer.ts`](../../../samples-dev/createAnalyzer.ts)
 > for the typed-model equivalent. The `create-and-test` tool sends the JSON
 > directly so the schema may include any properties supported by the
 > service, even if the typed model doesn't expose them.
@@ -348,13 +348,13 @@ their own code.
 >    save it somewhere outside `.local_only/` for future reference; they
 >    can also inspect any existing analyzer's schema directly via the SDK
 >    (see
->    [`getAnalyzer.ts`](../../../samples/getAnalyzer.ts)).
+>    [`getAnalyzer.ts`](../../../samples-dev/getAnalyzer.ts)).
 > 3. **Next-step samples** — point the user to:
->    - [`createAnalyzer.ts`](../../../samples/createAnalyzer.ts)
+>    - [`createAnalyzer.ts`](../../../samples-dev/createAnalyzer.ts)
 >      — how to (re)create a custom analyzer from a schema JSON in their own code.
->    - [`analyzeBinary.ts`](../../../samples/analyzeBinary.ts)
+>    - [`analyzeBinary.ts`](../../../samples-dev/analyzeBinary.ts)
 >      and
->      [`analyzeUrl.ts`](../../../samples/analyzeUrl.ts)
+>      [`analyzeUrl.ts`](../../../samples-dev/analyzeUrl.ts)
 >      — how to call the analyzer on real input from their own code.
 >
 >    Remind the user that the analyzer you just built is **already deployed**
@@ -379,11 +379,11 @@ By default the analyzer is kept in your resource so you can re-use it. Pass
 > iterating. Edit the schema → hash changes → new analyzer is created.
 
 For explicit lifecycle management see
-[`getAnalyzer.ts`](../../../samples/getAnalyzer.ts),
-[`listAnalyzers.ts`](../../../samples/listAnalyzers.ts),
-[`updateAnalyzer.ts`](../../../samples/updateAnalyzer.ts),
+[`getAnalyzer.ts`](../../../samples-dev/getAnalyzer.ts),
+[`listAnalyzers.ts`](../../../samples-dev/listAnalyzers.ts),
+[`updateAnalyzer.ts`](../../../samples-dev/updateAnalyzer.ts),
 and
-[`deleteAnalyzer.ts`](../../../samples/deleteAnalyzer.ts).
+[`deleteAnalyzer.ts`](../../../samples-dev/deleteAnalyzer.ts).
 
 ## Exit codes
 

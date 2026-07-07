@@ -41,7 +41,7 @@ Required: the `@azure/ai-content-understanding` SDK built locally (the skill
 tool references the built DLL by path), `.env` or environment variables
 with `CONTENTUNDERSTANDING_ENDPOINT` (plus `CONTENTUNDERSTANDING_KEY` or
 `az login`), and the model defaults configured for this resource (see
-[`updateDefaults.ts`](../../../samples/updateDefaults.ts)).
+[`updateDefaults.ts`](../../../samples-dev/updateDefaults.ts)).
 
 > **[COPILOT] Probe first, then route on failure — do not duplicate setup logic here.**
 >
@@ -59,7 +59,7 @@ with `CONTENTUNDERSTANDING_ENDPOINT` (plus `CONTENTUNDERSTANDING_KEY` or
 > | `npm: MISSING` | install npm (bundled with Node.js) |
 > | endpoint `MISSING` | create or edit `.env` with `CONTENTUNDERSTANDING_ENDPOINT=https://<your-resource>.services.ai.azure.com/`, then resume |
 > | endpoint `ok`, key `empty`, `az: not logged in` | run `az login` **or** add `CONTENTUNDERSTANDING_KEY` to `.env`, then resume |
-> | All env checks pass but service calls fail with model errors | run [`updateDefaults.ts`](../../../samples/updateDefaults.ts) once for this resource, then resume |
+> | All env checks pass but service calls fail with model errors | run [`updateDefaults.ts`](../../../samples-dev/updateDefaults.ts) once for this resource, then resume |
 > | All ok | ✅ Proceed to the Packet check below. |
 >
 > Never ask the user to paste an endpoint or API key into chat — they edit `.env` directly or run `az login`.
@@ -184,7 +184,7 @@ the full field-schema walkthrough.
 > values, and keep the field count focused.
 
 > **Reference**:
-> [`createClassifier.ts`](../../../samples/createClassifier.ts)
+> [`createClassifier.ts`](../../../samples-dev/createClassifier.ts)
 > ships a complete worked example using
 > `samples/sample_files/mixed_financial_docs.pdf` with three categories —
 > Invoice, Bank_Statement, Loan_Application.
@@ -352,7 +352,7 @@ For each input document the tool writes two files into `--output`:
 > **`models.completion` for inner schemas**: each inner schema (which has a
 > `fieldSchema`) needs `models.completion` set unless the resource has
 > defaults configured via
-> [`updateDefaults.ts`](../../../samples/updateDefaults.ts).
+> [`updateDefaults.ts`](../../../samples-dev/updateDefaults.ts).
 > `create-and-test-router` prints a `[WARN]` per inner schema that is
 > missing it, before any service call.
 
@@ -436,15 +436,15 @@ from their own code.
 >    `.local_only/schemas/invoice_v3.json`, etc.). Recommend the user save
 >    them somewhere outside `.local_only/` for future reference; they can
 >    also inspect any existing analyzer's schema directly via the SDK (see
->    [`getAnalyzer.ts`](../../../samples/getAnalyzer.ts)).
+>    [`getAnalyzer.ts`](../../../samples-dev/getAnalyzer.ts)).
 > 3. **Next-step samples** — point the user to:
->    - [`createClassifier.ts`](../../../samples/createClassifier.ts)
+>    - [`createClassifier.ts`](../../../samples-dev/createClassifier.ts)
 >      — how to (re)build the full classify-and-route pipeline from schema
 >      JSON in their own code (handles inner-first creation ordering and
 >      `contentCategories.analyzerId` wiring the same way our tool did).
->    - [`analyzeBinary.ts`](../../../samples/analyzeBinary.ts)
+>    - [`analyzeBinary.ts`](../../../samples-dev/analyzeBinary.ts)
 >      and
->      [`analyzeUrl.ts`](../../../samples/analyzeUrl.ts)
+>      [`analyzeUrl.ts`](../../../samples-dev/analyzeUrl.ts)
 >      — how to call the analyzer on real input from their own code. Use
 >      the **outer classifier's** analyzer ID as `analyzerId`.
 >
