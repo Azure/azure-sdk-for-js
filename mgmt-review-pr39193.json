@@ -1,0 +1,9 @@
+{
+  "pr": 39193,
+  "package": "@azure/arm-recoveryservices",
+  "version": "7.1.0",
+  "reviewed_at": "2026-07-07",
+  "outcome": "clean",
+  "findings": [],
+  "notes": "Stable release 7.1.0 from 7.0.1 placeholder. New api-versions 2026-01-01, 2026-02-01, 2026-05-01 added to KnownVersions. New features: CostManagementSettings, ImmutabilityConfiguration, GranularityLevel, ImmutabilityType. Added begin* deprecated compat methods for LRO operations. New no-subscriptionId constructor overload. getOperationResult return type null->undefined (acceptable breaking). Versions aligned across package.json/CHANGELOG/context file. No naming, type-safety, or export issues found."
+}
