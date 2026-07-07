@@ -16,12 +16,11 @@ npm install -g @azure-tools/js-sdk-release-tools
 
 1. Install Any of the [LTS versions of Node.js](https://nodejs.org/en/about/releases/).
 2. Install autorest: `npm install -g autorest`.
-3. Install rush: `npm install -g @microsoft/rush`.
-4. use [Git](https://git-scm.com/) to clone [azure-sdk-for-js](https://github.com/Azure/azure-sdk-for-js) or [azure-sdk-for-js-pr](https://github.com/Azure/azure-sdk-for-js-pr). Then go to the root of sdk repository and run `rush update`. For example:
+3. use [Git](https://git-scm.com/) to clone [azure-sdk-for-js](https://github.com/Azure/azure-sdk-for-js) or [azure-sdk-for-js-pr](https://github.com/Azure/azure-sdk-for-js-pr). Then go to the root of sdk repository and run `pnpm install`. For example:
 
 ```shell
 cd azure-sdk-for-js
-rush update
+pnpm install
 ```
 
 ### Steps
@@ -78,11 +77,11 @@ Also, you need to know what the tool does:
 1. Generate `swagger/README.md`
 2. Generate source code by codegen
 3. Add/update ci.yml
-4. Update rush.json
+4. Add/update ci.yml
 
 #### Build Codes:
 
-1. Run `rush update`
-2. Run `rush build -t <your package name>`
+1. Run `pnpm install`
+2. Run `pnpm build --filter <your package name>...`
 3. Generate changelog(Because released package doesn't include review folder, so we generate an initial release changelog if there is no existing CHANGELOG.md.)
 4. Clean compiled codes

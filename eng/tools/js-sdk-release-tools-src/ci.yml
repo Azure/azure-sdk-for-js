@@ -7,7 +7,7 @@ trigger:
       - hotfix/*
   paths:
     include:
-      - common/tools/js-sdk-release-tools/
+      - eng/tools/js-sdk-release-tools-src/
 
 pr:
   branches:
@@ -18,7 +18,7 @@ pr:
       - hotfix/*
   paths:
     include:
-      - common/tools/js-sdk-release-tools/
+      - eng/tools/js-sdk-release-tools-src/
 
 jobs:
   - job: Build
@@ -43,31 +43,31 @@ jobs:
       - script: |
           npm install
         displayName: 'npm install'
-        workingDirectory: $(System.DefaultWorkingDirectory)/common/tools/js-sdk-release-tools
+        workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/js-sdk-release-tools-src
 
       - script: |
           npm run format:check
         displayName: 'Prettier format check'
-        workingDirectory: $(System.DefaultWorkingDirectory)/common/tools/js-sdk-release-tools
+        workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/js-sdk-release-tools-src
 
       - script: |
           npm run build
         displayName: 'npm run build'
-        workingDirectory: $(System.DefaultWorkingDirectory)/common/tools/js-sdk-release-tools
+        workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/js-sdk-release-tools-src
 
       - script: |
           npm run test
         displayName: 'npm run test'
-        workingDirectory: $(System.DefaultWorkingDirectory)/common/tools/js-sdk-release-tools
+        workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/js-sdk-release-tools-src
 
       - script: |
           npm pack
         displayName: 'npm pack'
-        workingDirectory: $(System.DefaultWorkingDirectory)/common/tools/js-sdk-release-tools
+        workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/js-sdk-release-tools-src
 
       - script: 'cp azure-tools-js-sdk-release-tools-*.tgz $(Build.ArtifactStagingDirectory)'
         displayName: 'copy to staging dir'
-        workingDirectory: $(System.DefaultWorkingDirectory)/common/tools/js-sdk-release-tools
+        workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/js-sdk-release-tools-src
 
       - template: /eng/common/pipelines/templates/steps/publish-1es-artifact.yml
         parameters:

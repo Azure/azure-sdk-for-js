@@ -2,7 +2,7 @@
 
 This package contains 3 tools used for azure track2 mgmt js sdk:
 
-1. Use Track2 Codegen to generate codes by inputting swagger, and then run `rush update & rush build`.
+1. Use Track2 Codegen to generate codes by inputting swagger, and then run `pnpm install && pnpm build`.
 2. Use Track2 Codegen to generate codes in swagger pipeline.
 3. Generate changelog and bump version for Azure Track2 JS SDK.
 
@@ -16,7 +16,7 @@ npm install -g @azure-tools/js-sdk-release-tools
 
 ### Use Track2 Codegen to generate codes by inputting swagger
 
-You can use this command to generate codes, and then run rush update, rush build, and pack the generated codes.
+You can use this command to generate codes, and then run pnpm install, pnpm build, and pack the generated codes.
 
 ```shell script
 cd azure-sdk-for-js
