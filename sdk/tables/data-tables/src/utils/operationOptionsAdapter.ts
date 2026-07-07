@@ -30,17 +30,11 @@ import { createHttpHeaders } from "@azure/core-rest-pipeline";
 export function toRestOperationOptions(
   options: CoreClientOperationOptions = {},
 ): RestOperationOptions {
-  const { abortSignal, tracingOptions, onResponse, requestOptions } = options;
+  const { onResponse, requestOptions, ...others } = options;
 
-  const restOptions: RestOperationOptions = {};
-
-  if (abortSignal !== undefined) {
-    restOptions.abortSignal = abortSignal;
-  }
-
-  if (tracingOptions !== undefined) {
-    restOptions.tracingOptions = tracingOptions;
-  }
+  const restOptions: RestOperationOptions = {
+    ...others,
+  } as RestOperationOptions;
 
   if (onResponse !== undefined) {
     // The user supplied an `@azure/core-client` onResponse callback. The generated rest layer
