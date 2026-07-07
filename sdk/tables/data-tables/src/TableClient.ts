@@ -518,7 +518,7 @@ export class TableClient {
     const { disableTypeConversion = false } = options;
     const queryOptions = serializeQueryOptions(options.queryOptions || {});
     const listEntitiesOptions: TableQueryEntitiesOptionalParams = {
-      ...toRestOperationOptions(options),
+      ...options,
       ...queryOptions,
     };
 
@@ -871,10 +871,10 @@ export class TableClient {
       "TableClient.setAccessPolicy",
       options,
       async (updatedOptions) => {
-        const serlializedAcl = serializeSignedIdentifiers(tableAcl);
-        return await this.table.setAccessPolicy(
+        const serializedAcl = serializeSignedIdentifiers(tableAcl);
+        return this.table.setAccessPolicy(
           this.tableName,
-          { identifiers: serlializedAcl } as any,
+          { identifiers: serializedAcl } as any,
           toRestOperationOptions(updatedOptions),
         );
       },

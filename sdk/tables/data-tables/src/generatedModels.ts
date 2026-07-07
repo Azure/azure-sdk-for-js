@@ -34,7 +34,7 @@ export interface TableServiceStats {
 }
 
 import type { TableServiceProperties as ServiceProperties } from "./generated/models/index.js";
-export { ServiceProperties };
+export type { ServiceProperties };
 
 /** Options for setProperties operation. */
 export interface SetPropertiesOptions extends OperationOptions {
