@@ -1,3 +1,11 @@
+# The skill tool is intentionally NOT registered as a pnpm workspace member
+# (its `package.json` would otherwise be picked up by the repo-root `sdk/**`
+# glob in pnpm-workspace.yaml, and Turbo would try to build it during CI
+# without any way to install its deps). Instead, `package.json.template` is
+# the tracked file; the skill scripts copy it into place before running
+# `npm install`. See README.md for the exact sequence.
+package.json
+
 # Skill tool dependencies — installed per-user via `npm install`, never committed.
 node_modules/
 package-lock.json

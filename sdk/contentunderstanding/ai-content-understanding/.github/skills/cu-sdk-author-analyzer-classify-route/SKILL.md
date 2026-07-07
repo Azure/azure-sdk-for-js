@@ -119,10 +119,14 @@ sdk/contentunderstanding/ai-content-understanding
 ```
 
 The skill tool builds against the local `@azure/ai-content-understanding (npm package)`,
-so before first use:
+so before first use (the `cp` copies the tracked template into place —
+`package.json` itself is `.gitignore`d so the tool directory is not picked up
+as a pnpm workspace member during CI):
 
 ```bash
-(cd sdk/contentunderstanding/ai-content-understanding/.github/skills/_shared && npm install)
+(cd sdk/contentunderstanding/ai-content-understanding/.github/skills/_shared && \
+    [ -f package.json ] || cp package.json.template package.json && \
+    npm install)
 ```
 
 ## Workflow

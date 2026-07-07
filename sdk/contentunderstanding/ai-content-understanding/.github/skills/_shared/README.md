@@ -38,18 +38,25 @@ Current modules:
 
 ## Install
 
-The npm package is **intentionally NOT part of any tshy/pnpm workspace** —
-it's a standalone tool that lives outside the published source tree under
+The tool is **intentionally NOT part of the pnpm workspace** — it's a
+standalone CLI that lives outside the published source tree under
 `.github/skills/_shared/`, so it has zero effect on the published
 `@azure/ai-content-understanding` artifact.
 
+To keep pnpm's repo-root `sdk/**` workspace glob from picking this directory
+up (which would fail CI because the tool's deps aren't in the top-level
+lockfile), the tracked file is `package.json.template` — the runtime
+`package.json` is `.gitignore`d and generated locally on install:
+
 ```bash
-(cd .github/skills/_shared && npm install)
+(cd .github/skills/_shared && \
+    [ -f package.json ] || cp package.json.template package.json && \
+    npm install)
 ```
 
 The tool depends on the published `@azure/ai-content-understanding` package
 from npm, not the in-tree source, so contributors can iterate without first
-running `rush build` or `pnpm install` on the larger workspace.
+running a repo-root build.
 
 ## Run
 
