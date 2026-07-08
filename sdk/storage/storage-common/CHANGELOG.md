@@ -5,6 +5,7 @@
 ### Features Added
 
 - add `storageRedirectRangeHeaderPolicy`
+- Added the `StorageResponseFormat` enum (`Auto`, `Xml`, `Arrow`), re-exported by `@azure/storage-blob` to opt into the Apache Arrow response format when listing blobs.
 
 ### Breaking Changes
 

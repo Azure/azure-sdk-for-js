@@ -88,21 +88,21 @@ export async function parseBlobListArrowBytes(
     const value = cell(rowIndex, columnName);
     return value === undefined || value === null ? undefined : Number(value);
   };
-  // Arrow stores each timestamp as an integer count of the column's TimeUnit since
-  // the Unix epoch, so read the column's unit from the schema and scale to the
-  // milliseconds a Date expects.
-  const timestampUnitOf = (columnName: string): number | undefined => {
-    const field = table.schema.fields.find((f) => f.name === columnName);
-    const fieldType = field?.type as { unit?: number } | undefined;
-    return typeof fieldType?.unit === "number" ? fieldType.unit : undefined;
-  };
   const asDate = (rowIndex: number, columnName: string): Date | undefined => {
     const value = cell(rowIndex, columnName);
     if (value === undefined || value === null) {
       return undefined;
     }
-    const millis = arrowTimestampToMillis(value, timestampUnitOf(columnName));
-    return millis === undefined ? undefined : new Date(millis);
+    // apache-arrow normalizes every Timestamp unit to epoch milliseconds when a
+    // cell is read (SECOND x1000, MICROSECOND /1000, NANOSECOND /1e6), so the
+    // value is already in the milliseconds a Date expects and must not be scaled
+    // again. Fall back to string parsing if a column ever arrives non-numeric.
+    const millis = Number(value);
+    if (Number.isNaN(millis)) {
+      const parsed = Date.parse(String(value));
+      return Number.isNaN(parsed) ? undefined : new Date(parsed);
+    }
+    return new Date(millis);
   };
   const asBytesFromBase64 = (rowIndex: number, columnName: string): Uint8Array | undefined => {
     const value = asString(rowIndex, columnName);
@@ -251,45 +251,6 @@ function readNodeStreamToBytes(stream: NodeJS.ReadableStream): Promise<Uint8Arra
     });
     stream.on("error", reject);
   });
-}
-
-/**
- * Scales an Apache Arrow timestamp value (an integer count of `unit`s since the
- * Unix epoch) to milliseconds. Arrow `TimeUnit` values: 0=second, 1=millisecond,
- * 2=microsecond, 3=nanosecond. Falls back to Date string parsing when the value
- * is not numeric.
- */
-function arrowTimestampToMillis(value: unknown, unit: number | undefined): number | undefined {
-  if (value === undefined || value === null) {
-    return undefined;
-  }
-  if (typeof value === "bigint") {
-    switch (unit) {
-      case 0:
-        return Number(value * 1000n);
-      case 2:
-        return Number(value / 1000n);
-      case 3:
-        return Number(value / 1000000n);
-      default:
-        return Number(value);
-    }
-  }
-  const numeric = Number(value);
-  if (Number.isNaN(numeric)) {
-    const parsed = Date.parse(String(value));
-    return Number.isNaN(parsed) ? undefined : parsed;
-  }
-  switch (unit) {
-    case 0:
-      return numeric * 1000;
-    case 2:
-      return numeric / 1000;
-    case 3:
-      return numeric / 1_000_000;
-    default:
-      return numeric;
-  }
 }
 
 const listBlobsXmlSerializer = coreClient.createSerializer(Mappers, /* isXml */ true);
