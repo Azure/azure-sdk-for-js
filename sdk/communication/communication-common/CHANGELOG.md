@@ -1,17 +1,20 @@
 # Release History
 
-## 2.4.3 (Unreleased)
+## 2.5.0 (Unreleased)
 
 ### Features Added
 
 - `AzureCommunicationTokenCredential` now supports encrypted/opaque access tokens that cannot be decoded (e.g. for enterprise Entra users):
-  - `tokenRefresher` may return an `AccessToken` (`{ token, expiresOnTimestamp }`) and the static constructor accepts an `AccessToken`, allowing the expiry to be supplied explicitly instead of decoded from the token.
-  - A token that cannot be decoded is now accepted as-is (instead of throwing) and assigned a fallback expiry; only an empty token is rejected.
+  - `tokenRefresher` may return an `AccessToken` (`{ token, expiresOnTimestamp }`) and the static constructor accepts an `AccessToken`, allowing the expiry to be supplied explicitly instead of decoded from the token. This is the recommended way to supply encrypted/opaque tokens.
+  - A token that cannot be decoded is now accepted as-is and assigned a fallback expiry, instead of throwing at construction as it did previously; only an empty token is rejected.
   - Added `undecodableTokenExpiryIntervalInSeconds` to `CommunicationTokenRefreshOptions` to configure the lifetime assumed for an undecodable token without an explicit expiry (default 600 seconds).
 
 ### Breaking Changes
 
 ### Bugs Fixed
+
+- Fixed `dispose()` not always cancelling the scheduled proactive token refresh, which could trigger a token refresh after the credential was disposed.
+- A token that decodes successfully but has no `exp` claim no longer yields a `NaN` expiry; it now uses the fallback expiry.
 
 ### Other Changes
 

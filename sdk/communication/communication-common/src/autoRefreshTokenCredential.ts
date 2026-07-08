@@ -44,6 +44,8 @@ export interface CommunicationTokenRefreshOptions {
 
 const expiredToken = { token: "", expiresOnTimestamp: -10 };
 const minutesToMs = (minutes: number): number => minutes * 1000 * 60;
+// Must stay in step with `defaultUndecodableTokenExpiryIntervalInSeconds` (600s) in tokenParser.ts —
+// an opaque token's fallback expiry is expected to land in this expiring-soon window.
 const defaultExpiringSoonInterval = minutesToMs(10);
 const defaultRefreshAfterLifetimePercentage = 0.5;
 
