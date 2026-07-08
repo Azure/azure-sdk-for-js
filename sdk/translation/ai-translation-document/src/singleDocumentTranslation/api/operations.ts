@@ -40,18 +40,20 @@ export function _translateSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "multipart/form-data",
-    headers: {
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
-      accept: "application/octet-stream",
-      ...options.requestOptions?.headers,
-    },
-    body: documentTranslateContentSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "multipart/form-data",
+      headers: {
+        ...(options?.clientRequestId !== undefined
+          ? { "x-ms-client-request-id": options?.clientRequestId }
+          : {}),
+        accept: "application/octet-stream",
+        ...options.requestOptions?.headers,
+      },
+      body: documentTranslateContentSerializer(body),
+    });
 }
 
 export async function _translateDeserialize(

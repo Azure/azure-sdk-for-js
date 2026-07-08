@@ -59,7 +59,7 @@ describe("DocumentTranslation tests", () => {
     // The modular client throws for unexpected responses; a fake key yields a 401.
     let statusCode: number | undefined;
     try {
-      await testClient.getSupportedFormats();
+      await testClient.getSupportedFormats("document");
     } catch (error: any) {
       statusCode = error.statusCode;
     }

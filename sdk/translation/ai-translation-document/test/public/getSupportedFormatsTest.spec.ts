@@ -19,17 +19,8 @@ describe("GetSupportedFormats tests", () => {
     await recorder.stop();
   });
 
-  it("all formats", async () => {
-    const fileFormatTypes = await client.getSupportedFormats();
-    fileFormatTypes.value.forEach((fileFormatType) => {
-      assert.isTrue(fileFormatType.format !== null);
-      assert.isTrue(fileFormatType.contentTypes !== null);
-      assert.isTrue(fileFormatType.fileExtensions !== null);
-    });
-  });
-
   it("document formats", async () => {
-    const fileFormatTypes = await client.getSupportedFormats({ typeParam: "document" });
+    const fileFormatTypes = await client.getSupportedFormats("document");
     fileFormatTypes.value.forEach((fileFormatType) => {
       assert.isTrue(fileFormatType.format !== null);
       assert.isTrue(fileFormatType.contentTypes !== null);
@@ -42,7 +33,7 @@ describe("GetSupportedFormats tests", () => {
   });
 
   it("glossary formats", async () => {
-    const fileFormatTypes = await client.getSupportedFormats({ typeParam: "glossary" });
+    const fileFormatTypes = await client.getSupportedFormats("glossary");
     fileFormatTypes.value.forEach((fileFormatType) => {
       assert.isTrue(fileFormatType.format !== null);
       assert.isTrue(fileFormatType.contentTypes !== null);

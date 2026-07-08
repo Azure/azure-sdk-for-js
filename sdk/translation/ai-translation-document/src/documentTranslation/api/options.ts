@@ -1,14 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { FileFormatType } from "../../models/models.js";
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface GetSupportedFormatsOptionalParams extends OperationOptions {
-  /** the type of format like document or glossary */
-  typeParam?: FileFormatType;
-}
+export interface GetSupportedFormatsOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface GetDocumentsStatusOptionalParams extends OperationOptions {

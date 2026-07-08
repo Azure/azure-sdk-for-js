@@ -12,6 +12,7 @@ import type {
   TranslationStatus,
   DocumentStatus,
   SupportedFileFormats,
+  FileFormatType,
 } from "../models/models.js";
 import type { PagedAsyncIterableIterator } from "../static-helpers/pagingHelpers.js";
 import {
@@ -66,9 +67,10 @@ export class DocumentTranslationClient {
    * content-type if using the upload API.
    */
   getSupportedFormats(
+    typeParam: FileFormatType,
     options: GetSupportedFormatsOptionalParams = { requestOptions: {} },
   ): Promise<SupportedFileFormats> {
-    return getSupportedFormats(this._client, options);
+    return getSupportedFormats(this._client, typeParam, options);
   }
 
   /**

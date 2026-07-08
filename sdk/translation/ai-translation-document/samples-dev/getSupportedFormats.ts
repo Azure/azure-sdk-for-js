@@ -19,7 +19,7 @@ export async function main(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new DocumentTranslationClient(endpoint, credential);
 
-  const fileFormats = await client.getSupportedFormats({ typeParam: "document" });
+  const fileFormats = await client.getSupportedFormats("document");
   for (const fileFormat of fileFormats.value) {
     console.log(fileFormat.format);
     console.log(fileFormat.contentTypes);

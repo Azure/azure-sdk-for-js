@@ -8,14 +8,15 @@ import type {
   _TranslationsStatus,
   DocumentStatus,
   _DocumentsStatus,
-  SupportedFileFormats} from "../../models/models.js";
+  SupportedFileFormats,
+  FileFormatType} from "../../models/models.js";
 import {
   startTranslationDetailsSerializer,
   translationStatusDeserializer,
   _translationsStatusDeserializer,
   documentStatusDeserializer,
   _documentsStatusDeserializer,
-  supportedFileFormatsDeserializer,
+  supportedFileFormatsDeserializer
 } from "../../models/models.js";
 import type {
   PagedAsyncIterableIterator} from "../../static-helpers/pagingHelpers.js";
@@ -44,22 +45,25 @@ import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _getSupportedFormatsSend(
   context: Client,
+  typeParam: FileFormatType,
   options: GetSupportedFormatsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/document/formats{?api%2Dversion,type}",
     {
       "api%2Dversion": context.apiVersion ?? "2026-03-01",
-      type: options?.typeParam,
+      type: typeParam,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getSupportedFormatsDeserialize(
@@ -81,9 +85,10 @@ export async function _getSupportedFormatsDeserialize(
  */
 export async function getSupportedFormats(
   context: Client,
+  typeParam: FileFormatType,
   options: GetSupportedFormatsOptionalParams = { requestOptions: {} },
 ): Promise<SupportedFileFormats> {
-  const result = await _getSupportedFormatsSend(context, options);
+  const result = await _getSupportedFormatsSend(context, typeParam, options);
   return _getSupportedFormatsDeserialize(result);
 }
 
@@ -126,10 +131,12 @@ export function _getDocumentsStatusSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDocumentsStatusDeserialize(
@@ -220,10 +227,12 @@ export function _cancelTranslationSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .delete({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _cancelTranslationDeserialize(
@@ -271,10 +280,12 @@ export function _getTranslationStatusSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getTranslationStatusDeserialize(
@@ -320,10 +331,12 @@ export function _getDocumentStatusSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getDocumentStatusDeserialize(
@@ -388,10 +401,12 @@ export function _getTranslationsStatusSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: { accept: "application/json", ...options.requestOptions?.headers },
-  });
+  return context
+    .path(path)
+    .get({
+      ...operationOptionsToRequestParameters(options),
+      headers: { accept: "application/json", ...options.requestOptions?.headers },
+    });
 }
 
 export async function _getTranslationsStatusDeserialize(
@@ -486,11 +501,13 @@ export function _startTranslationSend(
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    body: startTranslationDetailsSerializer(body),
-  });
+  return context
+    .path(path)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      contentType: "application/json",
+      body: startTranslationDetailsSerializer(body),
+    });
 }
 
 export async function _startTranslationDeserialize(
