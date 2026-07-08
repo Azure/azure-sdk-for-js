@@ -15,6 +15,7 @@ import { describe, it } from "node:test";
 import {
   discoverInnerFromDir,
   summarizeRouted,
+  versionSortKey,
   wireInnerIds,
 } from "./createAndTestRouterCommand.js";
 
@@ -213,6 +214,31 @@ describe("wireInnerIds — alias-to-id substitution", () => {
   });
 });
 
+describe("versionSortKey — pure key extractor", () => {
+  it("returns group 0 for the bare alias (no suffix)", () => {
+    const [g, v] = versionSortKey("invoice", "invoice");
+    assert.equal(g, 0);
+    assert.equal(v, 0);
+  });
+
+  it("returns group 1 with numeric version for `_v<N>` suffix (v10 > v9)", () => {
+    const v9 = versionSortKey("invoice_v9", "invoice");
+    const v10 = versionSortKey("invoice_v10", "invoice");
+    assert.deepEqual(v9, [1, 9, ""]);
+    assert.deepEqual(v10, [1, 10, ""]);
+    // The whole point of the fix.
+    assert.ok(v10[1] > v9[1], "v10 must sort higher than v9 by numeric version");
+  });
+
+  it("also recognises `_<N>` (no `v` prefix) as a numeric version", () => {
+    assert.deepEqual(versionSortKey("invoice_42", "invoice"), [1, 42, ""]);
+  });
+
+  it("returns group 2 with lexicographic suffix for non-numeric suffixes", () => {
+    assert.deepEqual(versionSortKey("invoice_draft", "invoice"), [2, 0, "draft"]);
+  });
+});
+
 describe("discoverInnerFromDir — alias-to-file resolution", () => {
   // Each test writes a fresh temp dir, sets up files, exercises the helper,
   // then rms. Mirrors the discovery behaviour of Python's
@@ -260,34 +286,39 @@ describe("discoverInnerFromDir — alias-to-file resolution", () => {
     });
   });
 
-  it("picks alphabetically-last suffix match (so `<alias>_v2.json` beats `_v1.json`)", () => {
+  it("picks natural version max, so `_v10` beats `_v9` (regression: alphabetical was wrong)", () => {
+    // Regression: the previous implementation did `.sort()` and took the
+    // last element, so alphabetical order applied — but '1' < '9' char-
+    // by-char, meaning `invoice_v10.json` sorted BEFORE `invoice_v9.json`.
+    // "Alphabetical last" then picked v9, silently loading the older
+    // schema. Copilot flagged this on the .NET PR (#60394); the natural
+    // version sort fix mirrors what .NET / Java / Python ship now.
     withTempDir((dir) => {
       writeFileSync(join(dir, "invoice_v1.json"), "{}");
       writeFileSync(join(dir, "invoice_v2.json"), "{}");
-      writeFileSync(join(dir, "invoice_v10.json"), "{}"); // beats v2 alphabetically
+      writeFileSync(join(dir, "invoice_v9.json"), "{}");
+      writeFileSync(join(dir, "invoice_v10.json"), "{}");
 
       const resolved = discoverInnerFromDir(outerWith(["invoice"]), dir);
       assert.ok(resolved !== null);
       assert.equal(
         resolved!.get("invoice"),
-        join(dir, "invoice_v2.json"),
-        "v2 > v10 > v1 alphabetically among invoice_* files",
+        join(dir, "invoice_v10.json"),
+        "v10 must beat v9 (natural version order, not alphabetical)",
       );
     });
   });
 
-  it("prefers exact match over suffix variants when both exist", () => {
-    // `invoice.json` sorts before `invoice_v1.json` alphabetically, so the
-    // "last wins" rule would pick `invoice_v1.json`. Verify the recorded
-    // behaviour so this rule is intentional (or flags a regression).
+  it("prefers versioned suffix over bare alias baseline", () => {
+    // A bare `<alias>.json` is group 0 (baseline); versioned files are
+    // group 1 (numeric) or group 2 (other suffix). So any versioned
+    // file beats the bare baseline as "newer".
     withTempDir((dir) => {
       writeFileSync(join(dir, "invoice.json"), "{}");
       writeFileSync(join(dir, "invoice_v1.json"), "{}");
 
       const resolved = discoverInnerFromDir(outerWith(["invoice"]), dir);
       assert.ok(resolved !== null);
-      // Alphabetically last wins: `invoice_v1.json` > `invoice.json`.
-      // Pins the "newer version beats un-suffixed baseline" behaviour.
       assert.equal(resolved!.get("invoice"), join(dir, "invoice_v1.json"));
     });
   });

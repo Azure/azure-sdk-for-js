@@ -263,9 +263,10 @@ export interface WireResult {
  * Auto-build `{alias: path}` from a directory of inner schema files. For
  * every category in the outer schema whose `analyzerId` is a non-prebuilt
  * alias, find a matching JSON file: filename stem equals the alias, or the
- * stem starts with `<alias>_` (in which case the alphabetically last match
- * wins — so `invoice_v2.json` beats `invoice_v1.json`). Missing aliases
- * are logged and null is returned.
+ * stem starts with `<alias>_`. When multiple files match, pick the highest-
+ * numbered version — so `invoice_v10.json` beats `invoice_v9.json`
+ * (plain alphabetical sort broke as soon as version numbers hit two digits).
+ * Missing aliases are logged and null is returned.
  *
  * Mirrors Python's `_discover_inner_from_dir` and .NET's `DiscoverInnerFromDir`.
  */
@@ -292,22 +293,27 @@ export function discoverInnerFromDir(
     }
   }
 
-  const jsonFiles = readdirSync(schemaDir)
-    .filter((n) => n.endsWith(".json"))
-    .sort();
+  const jsonFiles = readdirSync(schemaDir).filter((n) => n.endsWith(".json"));
 
   const resolved = new Map<string, string>();
   const missing: string[] = [];
   for (const alias of aliases) {
-    const matches = jsonFiles.filter((n) => {
-      const stem = stripExtension(n);
-      return stem === alias || stem.startsWith(`${alias}_`);
-    });
+    const matches = jsonFiles
+      .filter((n) => {
+        const stem = stripExtension(n);
+        return stem === alias || stem.startsWith(`${alias}_`);
+      })
+      // Sort so the LAST element is the "newest" per the version key.
+      .sort((a, b) =>
+        compareVersionKeys(
+          versionSortKey(stripExtension(a), alias),
+          versionSortKey(stripExtension(b), alias),
+        ),
+      );
     if (matches.length === 0) {
       missing.push(alias);
       continue;
     }
-    // Alphabetically last => newest (`invoice_v2.json` beats `invoice_v1.json`).
     resolved.set(alias, join(schemaDir, matches[matches.length - 1]!));
   }
 
@@ -319,6 +325,36 @@ export function discoverInnerFromDir(
     return null;
   }
   return resolved;
+}
+
+/**
+ * Sort key for `<alias>[_suffix]` filename stems. Higher tuple = newer.
+ *
+ *   Group 0: bare `<alias>` (no suffix)          — oldest baseline.
+ *   Group 1: numeric suffix `<alias>_v<N>` or
+ *            `<alias>_<N>` — sorted by N as an integer, so v10 beats v9.
+ *   Group 2: any other suffix `<alias>_<suffix>` — lexicographic tiebreaker.
+ *
+ * Exported for unit testing; the compare helper below turns the tuple into
+ * an `Array.prototype.sort` comparator.
+ */
+export function versionSortKey(stem: string, alias: string): [number, number, string] {
+  if (stem === alias) return [0, 0, ""];
+  // We only get here for stems that already matched the `<alias>_` filter,
+  // so the underscore is guaranteed to be at index alias.length.
+  const suffix = stem.substring(alias.length + 1);
+  const m = /^v?(\d+)$/.exec(suffix);
+  if (m) {
+    const n = Number.parseInt(m[1]!, 10);
+    if (Number.isFinite(n)) return [1, n, ""];
+  }
+  return [2, 0, suffix];
+}
+
+function compareVersionKeys(a: [number, number, string], b: [number, number, string]): number {
+  if (a[0] !== b[0]) return a[0] - b[0];
+  if (a[1] !== b[1]) return a[1] - b[1];
+  return a[2] < b[2] ? -1 : a[2] > b[2] ? 1 : 0;
 }
 
 /**
