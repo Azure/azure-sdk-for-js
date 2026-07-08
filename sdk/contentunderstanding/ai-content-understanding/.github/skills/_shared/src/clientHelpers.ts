@@ -182,21 +182,33 @@ export async function createAnalyzerRaw(
 /**
  * Recursively rename wire-format keys that the JS typed model serializer
  * expects under different names:
- *   - `items` → `itemDefinition` (under any field definition)
- *   - `$ref`  → `ref`            (under any field definition)
+ *   - `items` → `itemDefinition` — but ONLY on field-descriptor objects
+ *     (siblings of `"type": "array"`), NOT on arbitrary map keys. Users
+ *     may legitimately name a field literally "items" (very common for
+ *     line-item arrays) and that key must be preserved.
+ *   - `$ref`  → `ref` — likewise only on field descriptors.
+ *
+ * A field descriptor is any object that has a `type` string property. The
+ * children of `fieldSchema.fields`, `properties`, and (renamed)
+ * `itemDefinition.properties` are keyed by user-chosen field names and must
+ * not be renamed.
  */
 function translateForJsSerializer(value: unknown): unknown {
   if (Array.isArray(value)) {
     return value.map(translateForJsSerializer);
   }
   if (value && typeof value === "object") {
+    const src = value as Record<string, unknown>;
+    const isFieldDescriptor = typeof src["type"] === "string";
     const out: Record<string, unknown> = {};
-    for (const [k, v] of Object.entries(value as Record<string, unknown>)) {
+    for (const [k, v] of Object.entries(src)) {
       let key = k;
-      if (k === "items") {
-        key = "itemDefinition";
-      } else if (k === "$ref") {
-        key = "ref";
+      if (isFieldDescriptor) {
+        if (k === "items") {
+          key = "itemDefinition";
+        } else if (k === "$ref") {
+          key = "ref";
+        }
       }
       out[key] = translateForJsSerializer(v);
     }
@@ -204,6 +216,11 @@ function translateForJsSerializer(value: unknown): unknown {
   }
   return value;
 }
+
+// Exported for unit testing. The public entry point is the internal
+// `createAnalyzer` above; this is exposed only so tests can assert the
+// key-renaming rules without needing to mock the Azure client.
+export const _translateForJsSerializer = translateForJsSerializer;
 
 export function guessContentType(filePath: string): string {
   const ext = extname(filePath).toLowerCase();
