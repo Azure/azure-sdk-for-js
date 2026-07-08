@@ -1,8 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import * as coreClient from "@azure/core-client";
+import { parseXML } from "@azure/core-xml";
 import { stringToUint8Array } from "@azure/core-util";
-import type { BlobPropertiesInternal } from "../generated/src/models/index.js";
+import type {
+  BlobPropertiesInternal,
+  ListBlobsFlatSegmentResponse,
+  ListBlobsHierarchySegmentResponse,
+} from "../generated/src/models/index.js";
+import * as Mappers from "../generated/src/models/mappers.js";
 import type { BlobPrefix } from "../generatedModels.js";
 import type { BlobItem } from "../ContainerClient.js";
 import { parseObjectReplicationRecord } from "./utils.common.js";
@@ -81,9 +88,21 @@ export async function parseBlobListArrowBytes(
     const value = cell(rowIndex, columnName);
     return value === undefined || value === null ? undefined : Number(value);
   };
+  // Arrow stores each timestamp as an integer count of the column's TimeUnit since
+  // the Unix epoch, so read the column's unit from the schema and scale to the
+  // milliseconds a Date expects.
+  const timestampUnitOf = (columnName: string): number | undefined => {
+    const field = table.schema.fields.find((f) => f.name === columnName);
+    const fieldType = field?.type as { unit?: number } | undefined;
+    return typeof fieldType?.unit === "number" ? fieldType.unit : undefined;
+  };
   const asDate = (rowIndex: number, columnName: string): Date | undefined => {
     const value = cell(rowIndex, columnName);
-    return value === undefined || value === null ? undefined : new Date(Number(value));
+    if (value === undefined || value === null) {
+      return undefined;
+    }
+    const millis = arrowTimestampToMillis(value, timestampUnitOf(columnName));
+    return millis === undefined ? undefined : new Date(millis);
   };
   const asBytesFromBase64 = (rowIndex: number, columnName: string): Uint8Array | undefined => {
     const value = asString(rowIndex, columnName);
@@ -232,4 +251,98 @@ function readNodeStreamToBytes(stream: NodeJS.ReadableStream): Promise<Uint8Arra
     });
     stream.on("error", reject);
   });
+}
+
+/**
+ * Scales an Apache Arrow timestamp value (an integer count of `unit`s since the
+ * Unix epoch) to milliseconds. Arrow `TimeUnit` values: 0=second, 1=millisecond,
+ * 2=microsecond, 3=nanosecond. Falls back to Date string parsing when the value
+ * is not numeric.
+ */
+function arrowTimestampToMillis(value: unknown, unit: number | undefined): number | undefined {
+  if (value === undefined || value === null) {
+    return undefined;
+  }
+  if (typeof value === "bigint") {
+    switch (unit) {
+      case 0:
+        return Number(value * 1000n);
+      case 2:
+        return Number(value / 1000n);
+      case 3:
+        return Number(value / 1000000n);
+      default:
+        return Number(value);
+    }
+  }
+  const numeric = Number(value);
+  if (Number.isNaN(numeric)) {
+    const parsed = Date.parse(String(value));
+    return Number.isNaN(parsed) ? undefined : parsed;
+  }
+  switch (unit) {
+    case 0:
+      return numeric * 1000;
+    case 2:
+      return numeric / 1000;
+    case 3:
+      return numeric / 1_000_000;
+    default:
+      return numeric;
+  }
+}
+
+const listBlobsXmlSerializer = coreClient.createSerializer(Mappers, /* isXml */ true);
+
+/**
+ * Reads a raw response body (a Node.js readable stream or a browser Blob) as text,
+ * used for the XML fallback path.
+ */
+async function readResponseBodyToText(response: {
+  readableStreamBody?: NodeJS.ReadableStream;
+  blobBody?: Promise<Blob>;
+}): Promise<string> {
+  const bytes = await readResponseBodyToBytes(response);
+  return new TextDecoder().decode(bytes);
+}
+
+/**
+ * Deserializes a List Blobs (flat) XML response body. Used when the service falls
+ * back to XML for an account that does not support Apache Arrow; parses the
+ * already-received stream instead of issuing a second request.
+ *
+ * @param response - The raw stream response returned by the Apache Arrow list operation.
+ */
+export async function deserializeListBlobFlatSegmentXml(response: {
+  readableStreamBody?: NodeJS.ReadableStream;
+  blobBody?: Promise<Blob>;
+}): Promise<ListBlobsFlatSegmentResponse> {
+  const parsed = (await parseXML(await readResponseBodyToText(response), {
+    includeRoot: true,
+  })) as Record<string, unknown>;
+  return listBlobsXmlSerializer.deserialize(
+    Mappers.ListBlobsFlatSegmentResponse,
+    parsed.EnumerationResults ?? parsed,
+    "EnumerationResults",
+  ) as ListBlobsFlatSegmentResponse;
+}
+
+/**
+ * Deserializes a List Blobs by hierarchy XML response body (see
+ * {@link deserializeListBlobFlatSegmentXml}).
+ *
+ * @param response - The raw stream response returned by the Apache Arrow list operation.
+ */
+export async function deserializeListBlobHierarchySegmentXml(response: {
+  readableStreamBody?: NodeJS.ReadableStream;
+  blobBody?: Promise<Blob>;
+}): Promise<ListBlobsHierarchySegmentResponse> {
+  const parsed = (await parseXML(await readResponseBodyToText(response), {
+    includeRoot: true,
+  })) as Record<string, unknown>;
+  return listBlobsXmlSerializer.deserialize(
+    Mappers.ListBlobsHierarchySegmentResponse,
+    parsed.EnumerationResults ?? parsed,
+    "EnumerationResults",
+  ) as ListBlobsHierarchySegmentResponse;
 }

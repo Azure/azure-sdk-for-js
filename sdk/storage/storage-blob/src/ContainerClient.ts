@@ -77,7 +77,11 @@ import {
   toTags,
   truncatedISO8061Date,
 } from "./utils/utils.common.js";
-import { parseBlobListArrowResponse } from "./utils/blobListArrowParser.js";
+import {
+  deserializeListBlobFlatSegmentXml,
+  deserializeListBlobHierarchySegmentXml,
+  parseBlobListArrowResponse,
+} from "./utils/blobListArrowParser.js";
 import { ApacheArrowContentType } from "./utils/constants.js";
 import type { ContainerSASPermissions } from "./sas/ContainerSASPermissions.js";
 import {
@@ -1357,8 +1361,8 @@ export class ContainerClient extends StorageClient {
 
   /**
    * Lists a single segment of blobs using the Apache Arrow response format. The service
-   * returns a raw stream that is either Apache Arrow (parsed here) or XML, in which case
-   * this transparently falls back to the standard XML listing path.
+   * returns a raw stream that is either Apache Arrow or XML (when the account does not
+   * support Apache Arrow); both formats are parsed here and produce the same result.
    *
    * @param marker - A string value that identifies the portion of the list to be returned with the next list operation.
    * @param options - Options to Container List Blob Flat Segment operation.
@@ -1378,12 +1382,36 @@ export class ContainerClient extends StorageClient {
     );
 
     // The service falls back to XML for accounts that do not support Apache Arrow.
-    // The Content-Type header indicates which format we actually received.
+    // The Content-Type header indicates which format we actually received. When it
+    // is not Apache Arrow, parse the already-received XML stream in place 
+    // instead of issuing a second request.
     if (rawResponse.contentType !== ApacheArrowContentType) {
-      return this.listBlobFlatSegment(marker, {
-        ...options,
-        responseFormat: StorageResponseFormat.Xml,
-      });
+      const internalResponse = await deserializeListBlobFlatSegmentXml(rawResponse);
+      const xmlWrappedResponse: ContainerListBlobFlatSegmentResponse = {
+        ...internalResponse,
+        clientRequestId: rawResponse.clientRequestId,
+        requestId: rawResponse.requestId,
+        version: rawResponse.version,
+        date: rawResponse.date,
+        contentType: rawResponse.contentType,
+        _response:
+          rawResponse._response as unknown as ContainerListBlobFlatSegmentResponse["_response"],
+        segment: {
+          ...internalResponse.segment,
+          blobItems: (internalResponse.segment?.blobItems ?? []).map((blobItemInternal) => {
+            const blobItem: BlobItem = {
+              ...blobItemInternal,
+              name: BlobNameToString(blobItemInternal.name),
+              tags: toTags(blobItemInternal.blobTags),
+              objectReplicationSourceProperties: parseObjectReplicationRecord(
+                blobItemInternal.objectReplicationMetadata,
+              ),
+            };
+            return blobItem;
+          }),
+        },
+      };
+      return xmlWrappedResponse;
     }
 
     const parsed = await parseBlobListArrowResponse(rawResponse);
@@ -1481,8 +1509,8 @@ export class ContainerClient extends StorageClient {
 
   /**
    * Lists a single segment of blobs by hierarchy using the Apache Arrow response format.
-   * The service returns a raw stream that is either Apache Arrow (parsed here) or XML, in
-   * which case this transparently falls back to the standard XML listing path.
+   * The service returns a raw stream that is either Apache Arrow or XML (when the account
+   * does not support Apache Arrow); both formats are parsed here and produce the same result.
    *
    * @param delimiter - The character or string used to define the virtual hierarchy
    * @param marker - A string value that identifies the portion of the list to be returned with the next list operation.
@@ -1504,12 +1532,43 @@ export class ContainerClient extends StorageClient {
     );
 
     // The service falls back to XML for accounts that do not support Apache Arrow.
-    // The Content-Type header indicates which format we actually received.
+    // The Content-Type header indicates which format we actually received. When it
+    // is not Apache Arrow, parse the already-received XML stream in place instead of
+    // issuing a second request.
     if (rawResponse.contentType !== ApacheArrowContentType) {
-      return this.listBlobHierarchySegment(delimiter, marker, {
-        ...options,
-        responseFormat: StorageResponseFormat.Xml,
-      });
+      const internalResponse = await deserializeListBlobHierarchySegmentXml(rawResponse);
+      const xmlWrappedResponse: ContainerListBlobHierarchySegmentResponse = {
+        ...internalResponse,
+        clientRequestId: rawResponse.clientRequestId,
+        requestId: rawResponse.requestId,
+        version: rawResponse.version,
+        date: rawResponse.date,
+        contentType: rawResponse.contentType,
+        _response:
+          rawResponse._response as unknown as ContainerListBlobHierarchySegmentResponse["_response"],
+        segment: {
+          ...internalResponse.segment,
+          blobItems: (internalResponse.segment?.blobItems ?? []).map((blobItemInternal) => {
+            const blobItem: BlobItem = {
+              ...blobItemInternal,
+              name: BlobNameToString(blobItemInternal.name),
+              tags: toTags(blobItemInternal.blobTags),
+              objectReplicationSourceProperties: parseObjectReplicationRecord(
+                blobItemInternal.objectReplicationMetadata,
+              ),
+            };
+            return blobItem;
+          }),
+          blobPrefixes: internalResponse.segment?.blobPrefixes?.map((blobPrefixInternal) => {
+            const blobPrefix: BlobPrefix = {
+              ...blobPrefixInternal,
+              name: BlobNameToString(blobPrefixInternal.name),
+            };
+            return blobPrefix;
+          }),
+        },
+      };
+      return xmlWrappedResponse;
     }
 
     const parsed = await parseBlobListArrowResponse(rawResponse);
