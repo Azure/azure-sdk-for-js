@@ -13,7 +13,6 @@
 import { createHash } from "node:crypto";
 import { existsSync, mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import type { ContentUnderstandingClient } from "@azure/ai-content-understanding";
 import {
   analyzeFile,
   canonicalize,
@@ -76,14 +75,35 @@ export async function runCreateAndTestRouter(args: string[]): Promise<number> {
       console.error(`--schema-dir is not a directory: ${opts.schemaDir}`);
       return 2;
     }
-    for (const name of readdirSync(opts.schemaDir).sort()) {
-      if (name.endsWith(".json")) {
-        const alias = stripExtension(name);
-        if (!aliasToPath.has(alias)) {
-          aliasToPath.set(alias, join(opts.schemaDir, name));
-        }
+    // Read the outer schema so we know which aliases to look for. Matches
+    // Python's `_discover_inner_from_dir` and .NET's `DiscoverInnerFromDir`:
+    // for every category whose `analyzerId` is a non-`prebuilt-*` string, find
+    // a file whose stem is exactly `<alias>` or starts with `<alias>_`, and
+    // pick the alphabetically-last match (so `invoice_v2.json` wins over
+    // `invoice_v1.json`).
+    let outerPreview: Record<string, unknown>;
+    try {
+      outerPreview = stripComments(JSON.parse(readFileSync(opts.outerSchema, "utf-8"))) as Record<
+        string,
+        unknown
+      >;
+    } catch (e) {
+      console.error(`outer schema is not valid JSON: ${(e as Error).message}`);
+      return 2;
+    }
+    const resolved = discoverInnerFromDir(outerPreview, opts.schemaDir);
+    if (resolved === null) {
+      return 2;
+    }
+    for (const [alias, path] of resolved.entries()) {
+      if (!aliasToPath.has(alias)) {
+        aliasToPath.set(alias, path);
       }
     }
+    const summary = [...resolved.entries()]
+      .map(([a, p]) => `${a}=${p.substring(p.lastIndexOf("/") + 1)}`)
+      .join(", ");
+    console.log(`[SCHEMA-DIR] resolved: ${summary}`);
   }
   if (aliasToPath.size === 0) {
     console.error("provide at least one --inner-schema or --schema-dir");
@@ -237,6 +257,68 @@ export async function runCreateAndTestRouter(args: string[]): Promise<number> {
 export interface WireResult {
   patched: Record<string, unknown>;
   errors: string[];
+}
+
+/**
+ * Auto-build `{alias: path}` from a directory of inner schema files. For
+ * every category in the outer schema whose `analyzerId` is a non-prebuilt
+ * alias, find a matching JSON file: filename stem equals the alias, or the
+ * stem starts with `<alias>_` (in which case the alphabetically last match
+ * wins — so `invoice_v2.json` beats `invoice_v1.json`). Missing aliases
+ * are logged and null is returned.
+ *
+ * Mirrors Python's `_discover_inner_from_dir` and .NET's `DiscoverInnerFromDir`.
+ */
+export function discoverInnerFromDir(
+  outerSchema: Record<string, unknown>,
+  schemaDir: string,
+): Map<string, string> | null {
+  const config = outerSchema["config"];
+  const cats =
+    config && typeof config === "object" && !Array.isArray(config)
+      ? (config as Record<string, unknown>)["contentCategories"]
+      : undefined;
+  const aliases: string[] = [];
+  if (cats && typeof cats === "object" && !Array.isArray(cats)) {
+    for (const entry of Object.values(cats as Record<string, unknown>)) {
+      if (!entry || typeof entry !== "object" || Array.isArray(entry)) {
+        continue;
+      }
+      const aliasVal = (entry as Record<string, unknown>)["analyzerId"];
+      if (typeof aliasVal !== "string" || aliasVal.startsWith("prebuilt-")) {
+        continue;
+      }
+      aliases.push(aliasVal);
+    }
+  }
+
+  const jsonFiles = readdirSync(schemaDir)
+    .filter((n) => n.endsWith(".json"))
+    .sort();
+
+  const resolved = new Map<string, string>();
+  const missing: string[] = [];
+  for (const alias of aliases) {
+    const matches = jsonFiles.filter((n) => {
+      const stem = stripExtension(n);
+      return stem === alias || stem.startsWith(`${alias}_`);
+    });
+    if (matches.length === 0) {
+      missing.push(alias);
+      continue;
+    }
+    // Alphabetically last => newest (`invoice_v2.json` beats `invoice_v1.json`).
+    resolved.set(alias, join(schemaDir, matches[matches.length - 1]!));
+  }
+
+  if (missing.length > 0) {
+    console.error(
+      `--schema-dir could not resolve inner schemas for: [${missing.join(", ")}]. ` +
+        `Looked in ${schemaDir} for files named <alias>.json or <alias>_*.json.`,
+    );
+    return null;
+  }
+  return resolved;
 }
 
 /**
