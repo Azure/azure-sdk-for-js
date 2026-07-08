@@ -308,7 +308,7 @@ export function _insertEntityDeserializeHeaders(result: PathUncheckedResponse): 
   requestId?: string;
   clientRequestId?: string;
   date: Date;
-  eTag: string;
+  etag: string;
   contentType: "application/json;odata=minimalmetadata";
 } {
   return {
@@ -328,7 +328,7 @@ export function _insertEntityDeserializeHeaders(result: PathUncheckedResponse): 
         ? result.headers["x-ms-client-request-id"]
         : result.headers["x-ms-client-request-id"],
     date: new Date(result.headers["date"]),
-    eTag: result.headers["etag"],
+    etag: result.headers["etag"],
     contentType: result.headers["content-type"] as any,
   };
 }
@@ -367,7 +367,7 @@ export function _deleteEntitySend(
   options: TableDeleteEntityOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{table}(PartitionKey='{+partitionKey}',RowKey='{+rowKey}'){?timeout}",
+    "/{table}(PartitionKey='{partitionKey}',RowKey='{rowKey}'){?timeout}",
     {
       table: table,
       partitionKey: partitionKey,
@@ -469,7 +469,7 @@ export function _mergeEntitySend(
   options: TableMergeEntityOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{table}(PartitionKey='{+partitionKey}',RowKey='{+rowKey}'){?timeout}",
+    "/{table}(PartitionKey='{partitionKey}',RowKey='{rowKey}'){?timeout}",
     {
       table: table,
       partitionKey: partitionKey,
@@ -519,14 +519,14 @@ export async function _mergeEntityDeserialize(result: PathUncheckedResponse): Pr
 }
 
 export function _mergeEntityDeserializeHeaders(result: PathUncheckedResponse): {
-  eTag: string;
+  etag: string;
   apiVersion: string;
   requestId?: string;
   clientRequestId?: string;
   date: Date;
 } {
   return {
-    eTag: result.headers["etag"],
+    etag: result.headers["etag"],
     apiVersion: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
@@ -562,7 +562,7 @@ export async function mergeEntity(
   rowKey: string,
   options: TableMergeEntityOptionalParams = { requestOptions: {} },
 ): Promise<{
-  eTag: string;
+  etag: string;
   apiVersion: string;
   requestId?: string;
   clientRequestId?: string;
@@ -582,7 +582,7 @@ export function _updateEntitySend(
   options: TableUpdateEntityOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{table}(PartitionKey='{+partitionKey}',RowKey='{+rowKey}'){?timeout}",
+    "/{table}(PartitionKey='{partitionKey}',RowKey='{rowKey}'){?timeout}",
     {
       table: table,
       partitionKey: partitionKey,
@@ -632,14 +632,14 @@ export async function _updateEntityDeserialize(result: PathUncheckedResponse): P
 }
 
 export function _updateEntityDeserializeHeaders(result: PathUncheckedResponse): {
-  eTag: string;
+  etag: string;
   apiVersion: string;
   requestId?: string;
   clientRequestId?: string;
   date: Date;
 } {
   return {
-    eTag: result.headers["etag"],
+    etag: result.headers["etag"],
     apiVersion: result.headers["x-ms-version"],
     requestId:
       result.headers["x-ms-request-id"] === undefined || result.headers["x-ms-request-id"] === null
@@ -675,7 +675,7 @@ export async function updateEntity(
   rowKey: string,
   options: TableUpdateEntityOptionalParams = { requestOptions: {} },
 ): Promise<{
-  eTag: string;
+  etag: string;
   apiVersion: string;
   requestId?: string;
   clientRequestId?: string;
@@ -695,7 +695,7 @@ export function _queryEntityWithPartitionAndRowKeySend(
   options: TableQueryEntityWithPartitionAndRowKeyOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/{table}(PartitionKey='{+partitionKey}',RowKey='{+rowKey}'){?timeout,%24format,%24select,%24filter}",
+    "/{table}(PartitionKey='{partitionKey}',RowKey='{rowKey}'){?timeout,%24format,%24select,%24filter}",
     {
       table: table,
       partitionKey: partitionKey,
@@ -747,7 +747,7 @@ export async function _queryEntityWithPartitionAndRowKeyDeserialize(
 export function _queryEntityWithPartitionAndRowKeyDeserializeHeaders(
   result: PathUncheckedResponse,
 ): {
-  eTag: string;
+  etag: string;
   nextPartitionKey?: string;
   nextRowKey?: string;
   apiVersion: string;
@@ -757,7 +757,7 @@ export function _queryEntityWithPartitionAndRowKeyDeserializeHeaders(
   contentType: "application/json;odata=minimalmetadata";
 } {
   return {
-    eTag: result.headers["etag"],
+    etag: result.headers["etag"],
     nextPartitionKey:
       result.headers["x-ms-continuation-nextpartitionkey"] === undefined ||
       result.headers["x-ms-continuation-nextpartitionkey"] === null

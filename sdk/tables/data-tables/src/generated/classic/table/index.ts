@@ -77,7 +77,7 @@ export interface TableOperations {
     rowKey: string,
     options?: TableMergeEntityOptionalParams,
   ) => Promise<{
-    eTag: string;
+    etag: string;
     apiVersion: string;
     requestId?: string;
     clientRequestId?: string;
@@ -90,7 +90,7 @@ export interface TableOperations {
     rowKey: string,
     options?: TableUpdateEntityOptionalParams,
   ) => Promise<{
-    eTag: string;
+    etag: string;
     apiVersion: string;
     requestId?: string;
     clientRequestId?: string;

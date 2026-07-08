@@ -1,4 +1,4 @@
 directory: specification/cosmos-db/data-plane/Tables
-commit: bb7c756f1ae75894aa5378ca3bb350ed19a544a7
+commit: f92860512f6142612d06f325bfcbd52143f826b6
 repo: Azure/azure-rest-api-specs
 additionalDirectories: []
