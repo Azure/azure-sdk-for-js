@@ -1,18 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SingleDocumentTranslationContext as Client } from "./index.js";
+import type { SingleDocumentTranslationContext as Client } from "./index.js";
 import { getBinaryStreamResponse } from "#platform/static-helpers/serialization/get-binary-stream-response";
-import {
+import type {
   DocumentTranslateContent,
-  documentTranslateContentSerializer,
-  TranslateResponse,
+  TranslateResponse} from "../../models/models.js";
+import {
+  documentTranslateContentSerializer
 } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import { TranslateOptionalParams } from "./options.js";
-import {
+import type { TranslateOptionalParams } from "./options.js";
+import type {
   StreamableMethod,
-  PathUncheckedResponse,
+  PathUncheckedResponse} from "@azure-rest/core-client";
+import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";

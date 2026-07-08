@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   SingleDocumentTranslationContext,
-  SingleDocumentTranslationClientOptionalParams,
+  SingleDocumentTranslationClientOptionalParams} from "./api/index.js";
+import {
   createSingleDocumentTranslation,
 } from "./api/index.js";
-import { DocumentTranslateContent, TranslateResponse } from "../models/models.js";
+import type { DocumentTranslateContent, TranslateResponse } from "../models/models.js";
 import { translate } from "./api/operations.js";
-import { TranslateOptionalParams } from "./api/options.js";
-import { KeyCredential, TokenCredential } from "@azure/core-auth";
-import { Pipeline } from "@azure/core-rest-pipeline";
+import type { TranslateOptionalParams } from "./api/options.js";
+import type { KeyCredential, TokenCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { SingleDocumentTranslationClientOptionalParams } from "./api/singleDocumentTranslationContext.js";
 

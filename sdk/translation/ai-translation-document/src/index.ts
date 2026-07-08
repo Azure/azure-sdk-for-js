@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { NodeReadableStream } from "#platform/static-helpers/platform-types";
-import { FileContents } from "./static-helpers/multipartHelpers.js";
-import {
+import type { NodeReadableStream } from "#platform/static-helpers/platform-types";
+import type { FileContents } from "./static-helpers/multipartHelpers.js";
+import type {
   PageSettings,
   ContinuablePage,
   PagedAsyncIterableIterator,

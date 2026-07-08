@@ -1,7 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { NodeReadableStream } from "#platform/static-helpers/platform-types";
+import type { NodeReadableStream } from "#platform/static-helpers/platform-types";
+
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 
 /**
  * Valid values for the contents of a binary file.

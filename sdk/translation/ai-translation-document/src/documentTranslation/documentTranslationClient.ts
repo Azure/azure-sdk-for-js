@@ -1,18 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   DocumentTranslationContext,
-  DocumentTranslationClientOptionalParams,
+  DocumentTranslationClientOptionalParams} from "./api/index.js";
+import {
   createDocumentTranslation,
 } from "./api/index.js";
-import {
+import type {
   StartTranslationDetails,
   TranslationStatus,
   DocumentStatus,
   SupportedFileFormats,
 } from "../models/models.js";
-import { PagedAsyncIterableIterator } from "../static-helpers/pagingHelpers.js";
+import type { PagedAsyncIterableIterator } from "../static-helpers/pagingHelpers.js";
 import {
   getSupportedFormats,
   getDocumentsStatus,
@@ -22,7 +23,7 @@ import {
   getTranslationsStatus,
   startTranslation,
 } from "./api/operations.js";
-import {
+import type {
   GetSupportedFormatsOptionalParams,
   GetDocumentsStatusOptionalParams,
   CancelTranslationOptionalParams,
@@ -31,9 +32,9 @@ import {
   GetTranslationsStatusOptionalParams,
   StartTranslationOptionalParams,
 } from "./api/options.js";
-import { KeyCredential, TokenCredential } from "@azure/core-auth";
-import { PollerLike, OperationState } from "@azure/core-lro";
-import { Pipeline } from "@azure/core-rest-pipeline";
+import type { KeyCredential, TokenCredential } from "@azure/core-auth";
+import type { PollerLike, OperationState } from "@azure/core-lro";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { DocumentTranslationClientOptionalParams } from "./api/documentTranslationContext.js";
 
