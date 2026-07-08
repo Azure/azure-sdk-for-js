@@ -14,7 +14,7 @@ import type {
   PrivateLinkScopedResourcesCreateOrUpdateOptionalParams,
   PrivateLinkScopedResourcesGetOptionalParams,
 } from "../../api/privateLinkScopedResources/options.js";
-import type { PrivateLinkScopesApiScopedResource } from "../../models/privateLinkScopesApi/models.js";
+import type { ScopedResource } from "../../models/privateLinkScopesApi/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
@@ -27,7 +27,7 @@ export interface PrivateLinkScopedResourcesOperations {
     resourceGroupName: string,
     scopeName: string,
     options?: PrivateLinkScopedResourcesListByPrivateLinkScopeOptionalParams,
-  ) => PagedAsyncIterableIterator<PrivateLinkScopesApiScopedResource>;
+  ) => PagedAsyncIterableIterator<ScopedResource>;
   /** Deletes an Azure monitor scoped resource with a given name. */
   delete: (
     resourceGroupName: string,
@@ -54,40 +54,32 @@ export interface PrivateLinkScopedResourcesOperations {
     resourceGroupName: string,
     scopeName: string,
     name: string,
-    parameters: PrivateLinkScopesApiScopedResource,
+    parameters: ScopedResource,
     options?: PrivateLinkScopedResourcesCreateOrUpdateOptionalParams,
-  ) => PollerLike<
-    OperationState<PrivateLinkScopesApiScopedResource>,
-    PrivateLinkScopesApiScopedResource
-  >;
+  ) => PollerLike<OperationState<ScopedResource>, ScopedResource>;
   /** @deprecated use createOrUpdate instead */
   beginCreateOrUpdate: (
     resourceGroupName: string,
     scopeName: string,
     name: string,
-    parameters: PrivateLinkScopesApiScopedResource,
+    parameters: ScopedResource,
     options?: PrivateLinkScopedResourcesCreateOrUpdateOptionalParams,
-  ) => Promise<
-    SimplePollerLike<
-      OperationState<PrivateLinkScopesApiScopedResource>,
-      PrivateLinkScopesApiScopedResource
-    >
-  >;
+  ) => Promise<SimplePollerLike<OperationState<ScopedResource>, ScopedResource>>;
   /** @deprecated use createOrUpdate instead */
   beginCreateOrUpdateAndWait: (
     resourceGroupName: string,
     scopeName: string,
     name: string,
-    parameters: PrivateLinkScopesApiScopedResource,
+    parameters: ScopedResource,
     options?: PrivateLinkScopedResourcesCreateOrUpdateOptionalParams,
-  ) => Promise<PrivateLinkScopesApiScopedResource>;
+  ) => Promise<ScopedResource>;
   /** Gets a scoped resource in a private link scope. */
   get: (
     resourceGroupName: string,
     scopeName: string,
     name: string,
     options?: PrivateLinkScopedResourcesGetOptionalParams,
-  ) => Promise<PrivateLinkScopesApiScopedResource>;
+  ) => Promise<ScopedResource>;
 }
 
 function _getPrivateLinkScopedResources(context: MonitorContext) {
@@ -125,14 +117,14 @@ function _getPrivateLinkScopedResources(context: MonitorContext) {
       resourceGroupName: string,
       scopeName: string,
       name: string,
-      parameters: PrivateLinkScopesApiScopedResource,
+      parameters: ScopedResource,
       options?: PrivateLinkScopedResourcesCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, resourceGroupName, scopeName, name, parameters, options),
     beginCreateOrUpdate: async (
       resourceGroupName: string,
       scopeName: string,
       name: string,
-      parameters: PrivateLinkScopesApiScopedResource,
+      parameters: ScopedResource,
       options?: PrivateLinkScopedResourcesCreateOrUpdateOptionalParams,
     ) => {
       const poller = createOrUpdate(
@@ -150,7 +142,7 @@ function _getPrivateLinkScopedResources(context: MonitorContext) {
       resourceGroupName: string,
       scopeName: string,
       name: string,
-      parameters: PrivateLinkScopesApiScopedResource,
+      parameters: ScopedResource,
       options?: PrivateLinkScopedResourcesCreateOrUpdateOptionalParams,
     ) => {
       return await createOrUpdate(context, resourceGroupName, scopeName, name, parameters, options);

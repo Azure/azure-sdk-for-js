@@ -7,7 +7,7 @@ import type {
   MetricAlertsStatusListByNameOptionalParams,
   MetricAlertsStatusListOptionalParams,
 } from "../../api/metricAlertsStatus/options.js";
-import type { MetricAlertApiMetricAlertStatusCollection } from "../../models/metricAlertApi/models.js";
+import type { MetricAlertStatusCollection } from "../../models/metricAlertApi/models.js";
 
 /** Interface representing a MetricAlertsStatus operations. */
 export interface MetricAlertsStatusOperations {
@@ -17,13 +17,13 @@ export interface MetricAlertsStatusOperations {
     ruleName: string,
     statusName: string,
     options?: MetricAlertsStatusListByNameOptionalParams,
-  ) => Promise<MetricAlertApiMetricAlertStatusCollection>;
+  ) => Promise<MetricAlertStatusCollection>;
   /** Retrieve an alert rule status. */
   list: (
     resourceGroupName: string,
     ruleName: string,
     options?: MetricAlertsStatusListOptionalParams,
-  ) => Promise<MetricAlertApiMetricAlertStatusCollection>;
+  ) => Promise<MetricAlertStatusCollection>;
 }
 
 function _getMetricAlertsStatus(context: MonitorContext) {

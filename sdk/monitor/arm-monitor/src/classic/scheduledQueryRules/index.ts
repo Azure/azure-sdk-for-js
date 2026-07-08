@@ -19,8 +19,8 @@ import type {
   ScheduledQueryRulesGetOptionalParams,
 } from "../../api/scheduledQueryRules/options.js";
 import type {
-  ScheduledQueryRuleApiScheduledQueryRuleResource,
-  ScheduledQueryRuleApiScheduledQueryRuleResourcePatch,
+  ScheduledQueryRuleResource,
+  ScheduledQueryRuleResourcePatch,
 } from "../../models/scheduledQueryRuleApi/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
@@ -29,12 +29,12 @@ export interface ScheduledQueryRulesOperations {
   /** Retrieve a scheduled query rule definitions in a subscription. */
   listBySubscription: (
     options?: ScheduledQueryRulesListBySubscriptionOptionalParams,
-  ) => PagedAsyncIterableIterator<ScheduledQueryRuleApiScheduledQueryRuleResource>;
+  ) => PagedAsyncIterableIterator<ScheduledQueryRuleResource>;
   /** Retrieve scheduled query rule definitions in a resource group. */
   listByResourceGroup: (
     resourceGroupName: string,
     options?: ScheduledQueryRulesListByResourceGroupOptionalParams,
-  ) => PagedAsyncIterableIterator<ScheduledQueryRuleApiScheduledQueryRuleResource>;
+  ) => PagedAsyncIterableIterator<ScheduledQueryRuleResource>;
   /** Deletes a scheduled query rule. */
   delete: (
     resourceGroupName: string,
@@ -45,22 +45,22 @@ export interface ScheduledQueryRulesOperations {
   update: (
     resourceGroupName: string,
     ruleName: string,
-    parameters: ScheduledQueryRuleApiScheduledQueryRuleResourcePatch,
+    parameters: ScheduledQueryRuleResourcePatch,
     options?: ScheduledQueryRulesUpdateOptionalParams,
-  ) => Promise<ScheduledQueryRuleApiScheduledQueryRuleResource>;
+  ) => Promise<ScheduledQueryRuleResource>;
   /** Creates or updates a scheduled query rule. */
   createOrUpdate: (
     resourceGroupName: string,
     ruleName: string,
-    parameters: ScheduledQueryRuleApiScheduledQueryRuleResource,
+    parameters: ScheduledQueryRuleResource,
     options?: ScheduledQueryRulesCreateOrUpdateOptionalParams,
-  ) => Promise<ScheduledQueryRuleApiScheduledQueryRuleResource>;
+  ) => Promise<ScheduledQueryRuleResource>;
   /** Retrieve an scheduled query rule definition. */
   get: (
     resourceGroupName: string,
     ruleName: string,
     options?: ScheduledQueryRulesGetOptionalParams,
-  ) => Promise<ScheduledQueryRuleApiScheduledQueryRuleResource>;
+  ) => Promise<ScheduledQueryRuleResource>;
 }
 
 function _getScheduledQueryRules(context: MonitorContext) {
@@ -79,13 +79,13 @@ function _getScheduledQueryRules(context: MonitorContext) {
     update: (
       resourceGroupName: string,
       ruleName: string,
-      parameters: ScheduledQueryRuleApiScheduledQueryRuleResourcePatch,
+      parameters: ScheduledQueryRuleResourcePatch,
       options?: ScheduledQueryRulesUpdateOptionalParams,
     ) => update(context, resourceGroupName, ruleName, parameters, options),
     createOrUpdate: (
       resourceGroupName: string,
       ruleName: string,
-      parameters: ScheduledQueryRuleApiScheduledQueryRuleResource,
+      parameters: ScheduledQueryRuleResource,
       options?: ScheduledQueryRulesCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, resourceGroupName, ruleName, parameters, options),
     get: (

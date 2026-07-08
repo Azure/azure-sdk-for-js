@@ -3,14 +3,14 @@
 
 import type { MonitorContext as Client } from "../index.js";
 import type {
-  DiagnosticsSettingsDiagnosticSettingsCategoryResource,
-  _DiagnosticsSettingsDiagnosticSettingsCategoryResourceCollection,
+  DiagnosticSettingsCategoryResource,
+  _DiagnosticSettingsCategoryResourceCollection,
 } from "../../models/diagnosticsSettings/models.js";
 import {
-  diagnosticsSettingsDiagnosticSettingsCategoryResourceDeserializer,
-  _diagnosticsSettingsDiagnosticSettingsCategoryResourceCollectionDeserializer,
+  diagnosticSettingsCategoryResourceDeserializer,
+  _diagnosticSettingsCategoryResourceCollectionDeserializer,
 } from "../../models/diagnosticsSettings/models.js";
-import { microsoftCommonErrorResponseDeserializer } from "../../models/microsoft/common/models.js";
+import { errorResponseDeserializer } from "../../models/microsoft/common/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
@@ -44,18 +44,18 @@ export function _listSend(
 
 export async function _listDeserialize(
   result: PathUncheckedResponse,
-): Promise<_DiagnosticsSettingsDiagnosticSettingsCategoryResourceCollection> {
+): Promise<_DiagnosticSettingsCategoryResourceCollection> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
-      error.details = microsoftCommonErrorResponseDeserializer(result.body);
+      error.details = errorResponseDeserializer(result.body);
     }
 
     throw error;
   }
 
-  return _diagnosticsSettingsDiagnosticSettingsCategoryResourceCollectionDeserializer(result.body);
+  return _diagnosticSettingsCategoryResourceCollectionDeserializer(result.body);
 }
 
 /** Lists the diagnostic settings categories for the specified resource. */
@@ -63,7 +63,7 @@ export function list(
   context: Client,
   resourceUri: string,
   options: DiagnosticSettingsCategoryListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<DiagnosticsSettingsDiagnosticSettingsCategoryResource> {
+): PagedAsyncIterableIterator<DiagnosticSettingsCategoryResource> {
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, resourceUri, options),
@@ -98,18 +98,18 @@ export function _getSend(
 
 export async function _getDeserialize(
   result: PathUncheckedResponse,
-): Promise<DiagnosticsSettingsDiagnosticSettingsCategoryResource> {
+): Promise<DiagnosticSettingsCategoryResource> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
-      error.details = microsoftCommonErrorResponseDeserializer(result.body);
+      error.details = errorResponseDeserializer(result.body);
     }
 
     throw error;
   }
 
-  return diagnosticsSettingsDiagnosticSettingsCategoryResourceDeserializer(result.body);
+  return diagnosticSettingsCategoryResourceDeserializer(result.body);
 }
 
 /** Gets the diagnostic settings category for the specified resource. */
@@ -118,7 +118,7 @@ export async function get(
   resourceUri: string,
   name: string,
   options: DiagnosticSettingsCategoryGetOptionalParams = { requestOptions: {} },
-): Promise<DiagnosticsSettingsDiagnosticSettingsCategoryResource> {
+): Promise<DiagnosticSettingsCategoryResource> {
   const result = await _getSend(context, resourceUri, name, options);
   return _getDeserialize(result);
 }

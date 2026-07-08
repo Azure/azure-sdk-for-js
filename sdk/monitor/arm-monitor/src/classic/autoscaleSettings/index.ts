@@ -19,8 +19,8 @@ import type {
   AutoscaleSettingsGetOptionalParams,
 } from "../../api/autoscaleSettings/options.js";
 import type {
-  AutoScaleApiAutoscaleSettingResource,
-  AutoScaleApiAutoscaleSettingResourcePatch,
+  AutoscaleSettingResource,
+  AutoscaleSettingResourcePatch,
 } from "../../models/autoScaleApi/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
@@ -29,12 +29,12 @@ export interface AutoscaleSettingsOperations {
   /** Lists the autoscale settings for a subscription */
   listBySubscription: (
     options?: AutoscaleSettingsListBySubscriptionOptionalParams,
-  ) => PagedAsyncIterableIterator<AutoScaleApiAutoscaleSettingResource>;
+  ) => PagedAsyncIterableIterator<AutoscaleSettingResource>;
   /** Lists the autoscale settings for a resource group */
   listByResourceGroup: (
     resourceGroupName: string,
     options?: AutoscaleSettingsListByResourceGroupOptionalParams,
-  ) => PagedAsyncIterableIterator<AutoScaleApiAutoscaleSettingResource>;
+  ) => PagedAsyncIterableIterator<AutoscaleSettingResource>;
   /** Deletes and autoscale setting */
   delete: (
     resourceGroupName: string,
@@ -45,22 +45,22 @@ export interface AutoscaleSettingsOperations {
   update: (
     resourceGroupName: string,
     autoscaleSettingName: string,
-    autoscaleSettingResource: AutoScaleApiAutoscaleSettingResourcePatch,
+    autoscaleSettingResource: AutoscaleSettingResourcePatch,
     options?: AutoscaleSettingsUpdateOptionalParams,
-  ) => Promise<AutoScaleApiAutoscaleSettingResource>;
+  ) => Promise<AutoscaleSettingResource>;
   /** Creates or updates an autoscale setting. */
   createOrUpdate: (
     resourceGroupName: string,
     autoscaleSettingName: string,
-    parameters: AutoScaleApiAutoscaleSettingResource,
+    parameters: AutoscaleSettingResource,
     options?: AutoscaleSettingsCreateOrUpdateOptionalParams,
-  ) => Promise<AutoScaleApiAutoscaleSettingResource>;
+  ) => Promise<AutoscaleSettingResource>;
   /** Gets an autoscale setting */
   get: (
     resourceGroupName: string,
     autoscaleSettingName: string,
     options?: AutoscaleSettingsGetOptionalParams,
-  ) => Promise<AutoScaleApiAutoscaleSettingResource>;
+  ) => Promise<AutoscaleSettingResource>;
 }
 
 function _getAutoscaleSettings(context: MonitorContext) {
@@ -79,14 +79,14 @@ function _getAutoscaleSettings(context: MonitorContext) {
     update: (
       resourceGroupName: string,
       autoscaleSettingName: string,
-      autoscaleSettingResource: AutoScaleApiAutoscaleSettingResourcePatch,
+      autoscaleSettingResource: AutoscaleSettingResourcePatch,
       options?: AutoscaleSettingsUpdateOptionalParams,
     ) =>
       update(context, resourceGroupName, autoscaleSettingName, autoscaleSettingResource, options),
     createOrUpdate: (
       resourceGroupName: string,
       autoscaleSettingName: string,
-      parameters: AutoScaleApiAutoscaleSettingResource,
+      parameters: AutoscaleSettingResource,
       options?: AutoscaleSettingsCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, resourceGroupName, autoscaleSettingName, parameters, options),
     get: (

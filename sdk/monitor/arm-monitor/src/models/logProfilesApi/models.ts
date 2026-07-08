@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 import { areAllPropsUndefined } from "../../static-helpers/serialization/check-prop-undefined.js";
-import type { MicrosoftCommonRetentionPolicy } from "../microsoft/common/models.js";
+import type { RetentionPolicy } from "../microsoft/common/models.js";
 import {
-  microsoftCommonRetentionPolicySerializer,
-  microsoftCommonRetentionPolicyDeserializer,
+  retentionPolicySerializer,
+  retentionPolicyDeserializer,
 } from "../microsoft/common/models.js";
 import type { TrackedResource } from "../models.js";
 import { systemDataDeserializer } from "../models.js";
@@ -17,7 +17,7 @@ import { systemDataDeserializer } from "../models.js";
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** The log profile resource. */
-export interface LogProfilesApiLogProfileResource extends TrackedResource {
+export interface LogProfileResource extends TrackedResource {
   /** the resource id of the storage account to which you would like to send the Activity Log. */
   storageAccountId?: string;
   /** The service bus rule ID of the service bus namespace in which you would like to have Event Hubs created for streaming the Activity Log. The rule ID is of the format: '{service bus resource ID}/authorizationrules/{key name}'. */
@@ -27,12 +27,10 @@ export interface LogProfilesApiLogProfileResource extends TrackedResource {
   /** the categories of the logs. These categories are created as is convenient to the user. Some values are: 'Write', 'Delete', and/or 'Action.' */
   categories: string[];
   /** the retention policy for the events in the log. */
-  retentionPolicy: MicrosoftCommonRetentionPolicy;
+  retentionPolicy: RetentionPolicy;
 }
 
-export function logProfilesApiLogProfileResourceSerializer(
-  item: LogProfilesApiLogProfileResource,
-): any {
+export function logProfileResourceSerializer(item: LogProfileResource): any {
   return {
     tags: item["tags"],
     location: item["location"],
@@ -40,9 +38,7 @@ export function logProfilesApiLogProfileResourceSerializer(
   };
 }
 
-export function logProfilesApiLogProfileResourceDeserializer(
-  item: any,
-): LogProfilesApiLogProfileResource {
+export function logProfileResourceDeserializer(item: any): LogProfileResource {
   return {
     tags: !item["tags"]
       ? item["tags"]
@@ -59,7 +55,7 @@ export function logProfilesApiLogProfileResourceDeserializer(
 }
 
 /** The log profile properties. */
-export interface LogProfilesApiLogProfileProperties {
+export interface LogProfileProperties {
   /** the resource id of the storage account to which you would like to send the Activity Log. */
   storageAccountId?: string;
   /** The service bus rule ID of the service bus namespace in which you would like to have Event Hubs created for streaming the Activity Log. The rule ID is of the format: '{service bus resource ID}/authorizationrules/{key name}'. */
@@ -69,12 +65,10 @@ export interface LogProfilesApiLogProfileProperties {
   /** the categories of the logs. These categories are created as is convenient to the user. Some values are: 'Write', 'Delete', and/or 'Action.' */
   categories: string[];
   /** the retention policy for the events in the log. */
-  retentionPolicy: MicrosoftCommonRetentionPolicy;
+  retentionPolicy: RetentionPolicy;
 }
 
-export function logProfilesApiLogProfilePropertiesSerializer(
-  item: LogProfilesApiLogProfileProperties,
-): any {
+export function logProfilePropertiesSerializer(item: LogProfileProperties): any {
   return {
     storageAccountId: item["storageAccountId"],
     serviceBusRuleId: item["serviceBusRuleId"],
@@ -84,13 +78,11 @@ export function logProfilesApiLogProfilePropertiesSerializer(
     categories: item["categories"].map((p: any) => {
       return p;
     }),
-    retentionPolicy: microsoftCommonRetentionPolicySerializer(item["retentionPolicy"]),
+    retentionPolicy: retentionPolicySerializer(item["retentionPolicy"]),
   };
 }
 
-export function logProfilesApiLogProfilePropertiesDeserializer(
-  item: any,
-): LogProfilesApiLogProfileProperties {
+export function logProfilePropertiesDeserializer(item: any): LogProfileProperties {
   return {
     storageAccountId: item["storageAccountId"],
     serviceBusRuleId: item["serviceBusRuleId"],
@@ -100,12 +92,12 @@ export function logProfilesApiLogProfilePropertiesDeserializer(
     categories: item["categories"].map((p: any) => {
       return p;
     }),
-    retentionPolicy: microsoftCommonRetentionPolicyDeserializer(item["retentionPolicy"]),
+    retentionPolicy: retentionPolicyDeserializer(item["retentionPolicy"]),
   };
 }
 
 /** The log profile resource for patch operations. */
-export interface LogProfilesApiLogProfileResourcePatch {
+export interface LogProfileResourcePatch {
   /** Resource tags */
   tags?: Record<string, string>;
   /** the resource id of the storage account to which you would like to send the Activity Log. */
@@ -117,12 +109,10 @@ export interface LogProfilesApiLogProfileResourcePatch {
   /** the categories of the logs. These categories are created as is convenient to the user. Some values are: 'Write', 'Delete', and/or 'Action.' */
   categories?: string[];
   /** the retention policy for the events in the log. */
-  retentionPolicy?: MicrosoftCommonRetentionPolicy;
+  retentionPolicy?: RetentionPolicy;
 }
 
-export function logProfilesApiLogProfileResourcePatchSerializer(
-  item: LogProfilesApiLogProfileResourcePatch,
-): any {
+export function logProfileResourcePatchSerializer(item: LogProfileResourcePatch): any {
   return {
     tags: item["tags"],
     properties: areAllPropsUndefined(item, [
@@ -138,41 +128,33 @@ export function logProfilesApiLogProfileResourcePatchSerializer(
 }
 
 /** Represents a collection of log profiles. */
-export interface _LogProfilesApiLogProfileCollection {
+export interface _LogProfileCollection {
   /** the values of the log profiles. */
-  value: LogProfilesApiLogProfileResource[];
+  value: LogProfileResource[];
   /** the URL to get the next set of results. */
   nextLink?: string;
 }
 
-export function _logProfilesApiLogProfileCollectionDeserializer(
-  item: any,
-): _LogProfilesApiLogProfileCollection {
+export function _logProfileCollectionDeserializer(item: any): _LogProfileCollection {
   return {
-    value: logProfilesApiLogProfileResourceArrayDeserializer(item["value"]),
+    value: logProfileResourceArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function logProfilesApiLogProfileResourceArraySerializer(
-  result: Array<LogProfilesApiLogProfileResource>,
-): any[] {
+export function logProfileResourceArraySerializer(result: Array<LogProfileResource>): any[] {
   return result.map((item) => {
-    return logProfilesApiLogProfileResourceSerializer(item);
+    return logProfileResourceSerializer(item);
   });
 }
 
-export function logProfilesApiLogProfileResourceArrayDeserializer(
-  result: Array<LogProfilesApiLogProfileResource>,
-): any[] {
+export function logProfileResourceArrayDeserializer(result: Array<LogProfileResource>): any[] {
   return result.map((item) => {
-    return logProfilesApiLogProfileResourceDeserializer(item);
+    return logProfileResourceDeserializer(item);
   });
 }
 
-export function _logProfileResourcePropertiesSerializer(
-  item: LogProfilesApiLogProfileResource,
-): any {
+export function _logProfileResourcePropertiesSerializer(item: LogProfileResource): any {
   return {
     storageAccountId: item["storageAccountId"],
     serviceBusRuleId: item["serviceBusRuleId"],
@@ -182,7 +164,7 @@ export function _logProfileResourcePropertiesSerializer(
     categories: item["categories"].map((p: any) => {
       return p;
     }),
-    retentionPolicy: microsoftCommonRetentionPolicySerializer(item["retentionPolicy"]),
+    retentionPolicy: retentionPolicySerializer(item["retentionPolicy"]),
   };
 }
 
@@ -196,13 +178,11 @@ export function _logProfileResourcePropertiesDeserializer(item: any) {
     categories: item["categories"].map((p: any) => {
       return p;
     }),
-    retentionPolicy: microsoftCommonRetentionPolicyDeserializer(item["retentionPolicy"]),
+    retentionPolicy: retentionPolicyDeserializer(item["retentionPolicy"]),
   };
 }
 
-export function _logProfileResourcePatchPropertiesSerializer(
-  item: LogProfilesApiLogProfileResourcePatch,
-): any {
+export function _logProfileResourcePatchPropertiesSerializer(item: LogProfileResourcePatch): any {
   return {
     storageAccountId: item["storageAccountId"],
     serviceBusRuleId: item["serviceBusRuleId"],
@@ -218,7 +198,7 @@ export function _logProfileResourcePatchPropertiesSerializer(
         }),
     retentionPolicy: !item["retentionPolicy"]
       ? item["retentionPolicy"]
-      : microsoftCommonRetentionPolicySerializer(item["retentionPolicy"]),
+      : retentionPolicySerializer(item["retentionPolicy"]),
   };
 }
 
@@ -238,6 +218,6 @@ export function _logProfileResourcePatchPropertiesDeserializer(item: any) {
         }),
     retentionPolicy: !item["retentionPolicy"]
       ? item["retentionPolicy"]
-      : microsoftCommonRetentionPolicyDeserializer(item["retentionPolicy"]),
+      : retentionPolicyDeserializer(item["retentionPolicy"]),
   };
 }

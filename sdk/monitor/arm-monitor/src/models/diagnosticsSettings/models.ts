@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 import { areAllPropsUndefined } from "../../static-helpers/serialization/check-prop-undefined.js";
-import type { MicrosoftCommonRetentionPolicy } from "../microsoft/common/models.js";
+import type { RetentionPolicy } from "../microsoft/common/models.js";
 import {
-  microsoftCommonRetentionPolicySerializer,
-  microsoftCommonRetentionPolicyDeserializer,
+  retentionPolicySerializer,
+  retentionPolicyDeserializer,
 } from "../microsoft/common/models.js";
 import type { ExtensionResource } from "../models.js";
 import { systemDataDeserializer } from "../models.js";
@@ -16,8 +16,100 @@ import { systemDataDeserializer } from "../models.js";
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+export function metricSettingsArraySerializer(result: Array<MetricSettings>): any[] {
+  return result.map((item) => {
+    return metricSettingsSerializer(item);
+  });
+}
+
+export function metricSettingsArrayDeserializer(result: Array<MetricSettings>): any[] {
+  return result.map((item) => {
+    return metricSettingsDeserializer(item);
+  });
+}
+
+/** Part of MultiTenantDiagnosticSettings. Specifies the settings for a particular metric. */
+export interface MetricSettings {
+  /** the timegrain of the metric in ISO8601 format. */
+  timeGrain?: string;
+  /** Name of a Diagnostic Metric category for a resource type this setting is applied to. To obtain the list of Diagnostic metric categories for a resource, first perform a GET diagnostic settings operation. */
+  category?: string;
+  /** a value indicating whether this category is enabled. */
+  enabled: boolean;
+  /** the retention policy for this category. */
+  retentionPolicy?: RetentionPolicy;
+}
+
+export function metricSettingsSerializer(item: MetricSettings): any {
+  return {
+    timeGrain: item["timeGrain"],
+    category: item["category"],
+    enabled: item["enabled"],
+    retentionPolicy: !item["retentionPolicy"]
+      ? item["retentionPolicy"]
+      : retentionPolicySerializer(item["retentionPolicy"]),
+  };
+}
+
+export function metricSettingsDeserializer(item: any): MetricSettings {
+  return {
+    timeGrain: item["timeGrain"],
+    category: item["category"],
+    enabled: item["enabled"],
+    retentionPolicy: !item["retentionPolicy"]
+      ? item["retentionPolicy"]
+      : retentionPolicyDeserializer(item["retentionPolicy"]),
+  };
+}
+
+export function logSettingsArraySerializer(result: Array<LogSettings>): any[] {
+  return result.map((item) => {
+    return logSettingsSerializer(item);
+  });
+}
+
+export function logSettingsArrayDeserializer(result: Array<LogSettings>): any[] {
+  return result.map((item) => {
+    return logSettingsDeserializer(item);
+  });
+}
+
+/** Part of MultiTenantDiagnosticSettings. Specifies the settings for a particular log. */
+export interface LogSettings {
+  /** Name of a Diagnostic Log category for a resource type this setting is applied to. To obtain the list of Diagnostic Log categories for a resource, first perform a GET diagnostic settings operation. */
+  category?: string;
+  /** Name of a Diagnostic Log category group for a resource type this setting is applied to. To obtain the list of Diagnostic Log categories for a resource, first perform a GET diagnostic settings operation. */
+  categoryGroup?: string;
+  /** a value indicating whether this log is enabled. */
+  enabled: boolean;
+  /** the retention policy for this log. */
+  retentionPolicy?: RetentionPolicy;
+}
+
+export function logSettingsSerializer(item: LogSettings): any {
+  return {
+    category: item["category"],
+    categoryGroup: item["categoryGroup"],
+    enabled: item["enabled"],
+    retentionPolicy: !item["retentionPolicy"]
+      ? item["retentionPolicy"]
+      : retentionPolicySerializer(item["retentionPolicy"]),
+  };
+}
+
+export function logSettingsDeserializer(item: any): LogSettings {
+  return {
+    category: item["category"],
+    categoryGroup: item["categoryGroup"],
+    enabled: item["enabled"],
+    retentionPolicy: !item["retentionPolicy"]
+      ? item["retentionPolicy"]
+      : retentionPolicyDeserializer(item["retentionPolicy"]),
+  };
+}
+
 /** The diagnostic setting resource. */
-export interface DiagnosticsSettingsDiagnosticSettingsResource extends ExtensionResource {
+export interface DiagnosticSettingsResource extends ExtensionResource {
   /** The resource ID of the storage account to which you would like to send Diagnostic Logs. */
   storageAccountId?: string;
   /** The service bus rule Id of the diagnostic setting. This is here to maintain backwards compatibility. */
@@ -27,9 +119,9 @@ export interface DiagnosticsSettingsDiagnosticSettingsResource extends Extension
   /** The name of the event hub. If none is specified, the default event hub will be selected. */
   eventHubName?: string;
   /** The list of metric settings. */
-  metrics?: DiagnosticsSettingsMetricSettings[];
+  metrics?: MetricSettings[];
   /** The list of logs settings. */
-  logs?: DiagnosticsSettingsLogSettings[];
+  logs?: LogSettings[];
   /** The full ARM resource ID of the Log Analytics workspace to which you would like to send Diagnostic Logs. Example: /subscriptions/4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/resourceGroups/insights-integration/providers/Microsoft.OperationalInsights/workspaces/viruela2 */
   workspaceId?: string;
   /** The full ARM resource ID of the Marketplace resource to which you would like to send Diagnostic Logs. */
@@ -38,9 +130,7 @@ export interface DiagnosticsSettingsDiagnosticSettingsResource extends Extension
   logAnalyticsDestinationType?: string;
 }
 
-export function diagnosticsSettingsDiagnosticSettingsResourceSerializer(
-  item: DiagnosticsSettingsDiagnosticSettingsResource,
-): any {
+export function diagnosticSettingsResourceSerializer(item: DiagnosticSettingsResource): any {
   return {
     properties: areAllPropsUndefined(item, [
       "storageAccountId",
@@ -58,9 +148,7 @@ export function diagnosticsSettingsDiagnosticSettingsResourceSerializer(
   };
 }
 
-export function diagnosticsSettingsDiagnosticSettingsResourceDeserializer(
-  item: any,
-): DiagnosticsSettingsDiagnosticSettingsResource {
+export function diagnosticSettingsResourceDeserializer(item: any): DiagnosticSettingsResource {
   return {
     id: item["id"],
     name: item["name"],
@@ -75,7 +163,7 @@ export function diagnosticsSettingsDiagnosticSettingsResourceDeserializer(
 }
 
 /** The diagnostic settings. */
-export interface DiagnosticsSettingsDiagnosticSettings {
+export interface DiagnosticSettings {
   /** The resource ID of the storage account to which you would like to send Diagnostic Logs. */
   storageAccountId?: string;
   /** The service bus rule Id of the diagnostic setting. This is here to maintain backwards compatibility. */
@@ -85,9 +173,9 @@ export interface DiagnosticsSettingsDiagnosticSettings {
   /** The name of the event hub. If none is specified, the default event hub will be selected. */
   eventHubName?: string;
   /** The list of metric settings. */
-  metrics?: DiagnosticsSettingsMetricSettings[];
+  metrics?: MetricSettings[];
   /** The list of logs settings. */
-  logs?: DiagnosticsSettingsLogSettings[];
+  logs?: LogSettings[];
   /** The full ARM resource ID of the Log Analytics workspace to which you would like to send Diagnostic Logs. Example: /subscriptions/4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/resourceGroups/insights-integration/providers/Microsoft.OperationalInsights/workspaces/viruela2 */
   workspaceId?: string;
   /** The full ARM resource ID of the Marketplace resource to which you would like to send Diagnostic Logs. */
@@ -96,9 +184,21 @@ export interface DiagnosticsSettingsDiagnosticSettings {
   logAnalyticsDestinationType?: string;
 }
 
-export function diagnosticsSettingsDiagnosticSettingsSerializer(
-  item: DiagnosticsSettingsDiagnosticSettings,
-): any {
+export function diagnosticSettingsSerializer(item: DiagnosticSettings): any {
+  return {
+    storageAccountId: item["storageAccountId"],
+    serviceBusRuleId: item["serviceBusRuleId"],
+    eventHubAuthorizationRuleId: item["eventHubAuthorizationRuleId"],
+    eventHubName: item["eventHubName"],
+    metrics: !item["metrics"] ? item["metrics"] : metricSettingsArraySerializer_1(item["metrics"]),
+    logs: !item["logs"] ? item["logs"] : logSettingsArraySerializer_1(item["logs"]),
+    workspaceId: item["workspaceId"],
+    marketplacePartnerId: item["marketplacePartnerId"],
+    logAnalyticsDestinationType: item["logAnalyticsDestinationType"],
+  };
+}
+
+export function diagnosticSettingsDeserializer(item: any): DiagnosticSettings {
   return {
     storageAccountId: item["storageAccountId"],
     serviceBusRuleId: item["serviceBusRuleId"],
@@ -106,190 +206,84 @@ export function diagnosticsSettingsDiagnosticSettingsSerializer(
     eventHubName: item["eventHubName"],
     metrics: !item["metrics"]
       ? item["metrics"]
-      : diagnosticsSettingsMetricSettingsArraySerializer(item["metrics"]),
-    logs: !item["logs"]
-      ? item["logs"]
-      : diagnosticsSettingsLogSettingsArraySerializer(item["logs"]),
+      : metricSettingsArrayDeserializer_1(item["metrics"]),
+    logs: !item["logs"] ? item["logs"] : logSettingsArrayDeserializer_1(item["logs"]),
     workspaceId: item["workspaceId"],
     marketplacePartnerId: item["marketplacePartnerId"],
     logAnalyticsDestinationType: item["logAnalyticsDestinationType"],
   };
 }
 
-export function diagnosticsSettingsDiagnosticSettingsDeserializer(
-  item: any,
-): DiagnosticsSettingsDiagnosticSettings {
-  return {
-    storageAccountId: item["storageAccountId"],
-    serviceBusRuleId: item["serviceBusRuleId"],
-    eventHubAuthorizationRuleId: item["eventHubAuthorizationRuleId"],
-    eventHubName: item["eventHubName"],
-    metrics: !item["metrics"]
-      ? item["metrics"]
-      : diagnosticsSettingsMetricSettingsArrayDeserializer(item["metrics"]),
-    logs: !item["logs"]
-      ? item["logs"]
-      : diagnosticsSettingsLogSettingsArrayDeserializer(item["logs"]),
-    workspaceId: item["workspaceId"],
-    marketplacePartnerId: item["marketplacePartnerId"],
-    logAnalyticsDestinationType: item["logAnalyticsDestinationType"],
-  };
-}
-
-export function diagnosticsSettingsMetricSettingsArraySerializer(
-  result: Array<DiagnosticsSettingsMetricSettings>,
-): any[] {
+export function metricSettingsArraySerializer_1(result: Array<MetricSettings>): any[] {
   return result.map((item) => {
-    return diagnosticsSettingsMetricSettingsSerializer(item);
+    return metricSettingsSerializer(item);
   });
 }
 
-export function diagnosticsSettingsMetricSettingsArrayDeserializer(
-  result: Array<DiagnosticsSettingsMetricSettings>,
-): any[] {
+export function metricSettingsArrayDeserializer_1(result: Array<MetricSettings>): any[] {
   return result.map((item) => {
-    return diagnosticsSettingsMetricSettingsDeserializer(item);
+    return metricSettingsDeserializer(item);
   });
 }
 
-/** Part of MultiTenantDiagnosticSettings. Specifies the settings for a particular metric. */
-export interface DiagnosticsSettingsMetricSettings {
-  /** the timegrain of the metric in ISO8601 format. */
-  timeGrain?: string;
-  /** Name of a Diagnostic Metric category for a resource type this setting is applied to. To obtain the list of Diagnostic metric categories for a resource, first perform a GET diagnostic settings operation. */
-  category?: string;
-  /** a value indicating whether this category is enabled. */
-  enabled: boolean;
-  /** the retention policy for this category. */
-  retentionPolicy?: MicrosoftCommonRetentionPolicy;
-}
-
-export function diagnosticsSettingsMetricSettingsSerializer(
-  item: DiagnosticsSettingsMetricSettings,
-): any {
-  return {
-    timeGrain: item["timeGrain"],
-    category: item["category"],
-    enabled: item["enabled"],
-    retentionPolicy: !item["retentionPolicy"]
-      ? item["retentionPolicy"]
-      : microsoftCommonRetentionPolicySerializer(item["retentionPolicy"]),
-  };
-}
-
-export function diagnosticsSettingsMetricSettingsDeserializer(
-  item: any,
-): DiagnosticsSettingsMetricSettings {
-  return {
-    timeGrain: item["timeGrain"],
-    category: item["category"],
-    enabled: item["enabled"],
-    retentionPolicy: !item["retentionPolicy"]
-      ? item["retentionPolicy"]
-      : microsoftCommonRetentionPolicyDeserializer(item["retentionPolicy"]),
-  };
-}
-
-export function diagnosticsSettingsLogSettingsArraySerializer(
-  result: Array<DiagnosticsSettingsLogSettings>,
-): any[] {
+export function logSettingsArraySerializer_1(result: Array<LogSettings>): any[] {
   return result.map((item) => {
-    return diagnosticsSettingsLogSettingsSerializer(item);
+    return logSettingsSerializer(item);
   });
 }
 
-export function diagnosticsSettingsLogSettingsArrayDeserializer(
-  result: Array<DiagnosticsSettingsLogSettings>,
-): any[] {
+export function logSettingsArrayDeserializer_1(result: Array<LogSettings>): any[] {
   return result.map((item) => {
-    return diagnosticsSettingsLogSettingsDeserializer(item);
+    return logSettingsDeserializer(item);
   });
-}
-
-/** Part of MultiTenantDiagnosticSettings. Specifies the settings for a particular log. */
-export interface DiagnosticsSettingsLogSettings {
-  /** Name of a Diagnostic Log category for a resource type this setting is applied to. To obtain the list of Diagnostic Log categories for a resource, first perform a GET diagnostic settings operation. */
-  category?: string;
-  /** Name of a Diagnostic Log category group for a resource type this setting is applied to. To obtain the list of Diagnostic Log categories for a resource, first perform a GET diagnostic settings operation. */
-  categoryGroup?: string;
-  /** a value indicating whether this log is enabled. */
-  enabled: boolean;
-  /** the retention policy for this log. */
-  retentionPolicy?: MicrosoftCommonRetentionPolicy;
-}
-
-export function diagnosticsSettingsLogSettingsSerializer(
-  item: DiagnosticsSettingsLogSettings,
-): any {
-  return {
-    category: item["category"],
-    categoryGroup: item["categoryGroup"],
-    enabled: item["enabled"],
-    retentionPolicy: !item["retentionPolicy"]
-      ? item["retentionPolicy"]
-      : microsoftCommonRetentionPolicySerializer(item["retentionPolicy"]),
-  };
-}
-
-export function diagnosticsSettingsLogSettingsDeserializer(
-  item: any,
-): DiagnosticsSettingsLogSettings {
-  return {
-    category: item["category"],
-    categoryGroup: item["categoryGroup"],
-    enabled: item["enabled"],
-    retentionPolicy: !item["retentionPolicy"]
-      ? item["retentionPolicy"]
-      : microsoftCommonRetentionPolicyDeserializer(item["retentionPolicy"]),
-  };
 }
 
 /** Represents a collection of alert rule resources. */
-export interface _DiagnosticsSettingsDiagnosticSettingsResourceCollection {
+export interface _DiagnosticSettingsResourceCollection {
   /** The collection of diagnostic settings resources;. */
-  value?: DiagnosticsSettingsDiagnosticSettingsResource[];
+  value?: DiagnosticSettingsResource[];
   /** The URL to get the next set of results. */
   nextLink?: string;
 }
 
-export function _diagnosticsSettingsDiagnosticSettingsResourceCollectionDeserializer(
+export function _diagnosticSettingsResourceCollectionDeserializer(
   item: any,
-): _DiagnosticsSettingsDiagnosticSettingsResourceCollection {
+): _DiagnosticSettingsResourceCollection {
   return {
     value: !item["value"]
       ? item["value"]
-      : diagnosticsSettingsDiagnosticSettingsResourceArrayDeserializer(item["value"]),
+      : diagnosticSettingsResourceArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function diagnosticsSettingsDiagnosticSettingsResourceArraySerializer(
-  result: Array<DiagnosticsSettingsDiagnosticSettingsResource>,
+export function diagnosticSettingsResourceArraySerializer(
+  result: Array<DiagnosticSettingsResource>,
 ): any[] {
   return result.map((item) => {
-    return diagnosticsSettingsDiagnosticSettingsResourceSerializer(item);
+    return diagnosticSettingsResourceSerializer(item);
   });
 }
 
-export function diagnosticsSettingsDiagnosticSettingsResourceArrayDeserializer(
-  result: Array<DiagnosticsSettingsDiagnosticSettingsResource>,
+export function diagnosticSettingsResourceArrayDeserializer(
+  result: Array<DiagnosticSettingsResource>,
 ): any[] {
   return result.map((item) => {
-    return diagnosticsSettingsDiagnosticSettingsResourceDeserializer(item);
+    return diagnosticSettingsResourceDeserializer(item);
   });
 }
 
 /** The diagnostic settings category resource. */
-export interface DiagnosticsSettingsDiagnosticSettingsCategoryResource extends ExtensionResource {
+export interface DiagnosticSettingsCategoryResource extends ExtensionResource {
   /** The type of the diagnostic settings category. */
-  categoryType?: DiagnosticsSettingsCategoryType;
+  categoryType?: CategoryType;
   /** the collection of what category groups are supported. */
   categoryGroups?: string[];
 }
 
-export function diagnosticsSettingsDiagnosticSettingsCategoryResourceDeserializer(
+export function diagnosticSettingsCategoryResourceDeserializer(
   item: any,
-): DiagnosticsSettingsDiagnosticSettingsCategoryResource {
+): DiagnosticSettingsCategoryResource {
   return {
     id: item["id"],
     name: item["name"],
@@ -304,16 +298,14 @@ export function diagnosticsSettingsDiagnosticSettingsCategoryResourceDeserialize
 }
 
 /** The diagnostic settings Category. */
-export interface DiagnosticsSettingsDiagnosticSettingsCategory {
+export interface DiagnosticSettingsCategory {
   /** The type of the diagnostic settings category. */
-  categoryType?: DiagnosticsSettingsCategoryType;
+  categoryType?: CategoryType;
   /** the collection of what category groups are supported. */
   categoryGroups?: string[];
 }
 
-export function diagnosticsSettingsDiagnosticSettingsCategoryDeserializer(
-  item: any,
-): DiagnosticsSettingsDiagnosticSettingsCategory {
+export function diagnosticSettingsCategoryDeserializer(item: any): DiagnosticSettingsCategory {
   return {
     categoryType: item["categoryType"],
     categoryGroups: !item["categoryGroups"]
@@ -325,7 +317,7 @@ export function diagnosticsSettingsDiagnosticSettingsCategoryDeserializer(
 }
 
 /** The type of the diagnostic settings category. */
-export enum KnownDiagnosticsSettingsCategoryType {
+export enum KnownCategoryType {
   /** Metrics */
   Metrics = "Metrics",
   /** Logs */
@@ -334,55 +326,51 @@ export enum KnownDiagnosticsSettingsCategoryType {
 
 /**
  * The type of the diagnostic settings category. \
- * {@link KnownDiagnosticsSettingsCategoryType} can be used interchangeably with DiagnosticsSettingsCategoryType,
+ * {@link KnownCategoryType} can be used interchangeably with CategoryType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Metrics**: Metrics \
  * **Logs**: Logs
  */
-export type DiagnosticsSettingsCategoryType = string;
+export type CategoryType = string;
 
 /** Represents a collection of diagnostic setting category resources. */
-export interface _DiagnosticsSettingsDiagnosticSettingsCategoryResourceCollection {
+export interface _DiagnosticSettingsCategoryResourceCollection {
   /** The collection of diagnostic settings category resources. */
-  value?: DiagnosticsSettingsDiagnosticSettingsCategoryResource[];
+  value?: DiagnosticSettingsCategoryResource[];
   /** The URL to get the next set of results. */
   nextLink?: string;
 }
 
-export function _diagnosticsSettingsDiagnosticSettingsCategoryResourceCollectionDeserializer(
+export function _diagnosticSettingsCategoryResourceCollectionDeserializer(
   item: any,
-): _DiagnosticsSettingsDiagnosticSettingsCategoryResourceCollection {
+): _DiagnosticSettingsCategoryResourceCollection {
   return {
     value: !item["value"]
       ? item["value"]
-      : diagnosticsSettingsDiagnosticSettingsCategoryResourceArrayDeserializer(item["value"]),
+      : diagnosticSettingsCategoryResourceArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function diagnosticsSettingsDiagnosticSettingsCategoryResourceArrayDeserializer(
-  result: Array<DiagnosticsSettingsDiagnosticSettingsCategoryResource>,
+export function diagnosticSettingsCategoryResourceArrayDeserializer(
+  result: Array<DiagnosticSettingsCategoryResource>,
 ): any[] {
   return result.map((item) => {
-    return diagnosticsSettingsDiagnosticSettingsCategoryResourceDeserializer(item);
+    return diagnosticSettingsCategoryResourceDeserializer(item);
   });
 }
 
 export function _diagnosticSettingsResourcePropertiesSerializer(
-  item: DiagnosticsSettingsDiagnosticSettingsResource,
+  item: DiagnosticSettingsResource,
 ): any {
   return {
     storageAccountId: item["storageAccountId"],
     serviceBusRuleId: item["serviceBusRuleId"],
     eventHubAuthorizationRuleId: item["eventHubAuthorizationRuleId"],
     eventHubName: item["eventHubName"],
-    metrics: !item["metrics"]
-      ? item["metrics"]
-      : diagnosticsSettingsMetricSettingsArraySerializer(item["metrics"]),
-    logs: !item["logs"]
-      ? item["logs"]
-      : diagnosticsSettingsLogSettingsArraySerializer(item["logs"]),
+    metrics: !item["metrics"] ? item["metrics"] : metricSettingsArraySerializer_1(item["metrics"]),
+    logs: !item["logs"] ? item["logs"] : logSettingsArraySerializer_1(item["logs"]),
     workspaceId: item["workspaceId"],
     marketplacePartnerId: item["marketplacePartnerId"],
     logAnalyticsDestinationType: item["logAnalyticsDestinationType"],
@@ -397,10 +385,8 @@ export function _diagnosticSettingsResourcePropertiesDeserializer(item: any) {
     eventHubName: item["eventHubName"],
     metrics: !item["metrics"]
       ? item["metrics"]
-      : diagnosticsSettingsMetricSettingsArrayDeserializer(item["metrics"]),
-    logs: !item["logs"]
-      ? item["logs"]
-      : diagnosticsSettingsLogSettingsArrayDeserializer(item["logs"]),
+      : metricSettingsArrayDeserializer_1(item["metrics"]),
+    logs: !item["logs"] ? item["logs"] : logSettingsArrayDeserializer_1(item["logs"]),
     workspaceId: item["workspaceId"],
     marketplacePartnerId: item["marketplacePartnerId"],
     logAnalyticsDestinationType: item["logAnalyticsDestinationType"],

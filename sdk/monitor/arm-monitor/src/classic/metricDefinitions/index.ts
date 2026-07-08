@@ -8,8 +8,8 @@ import type {
   MetricDefinitionsListAtSubscriptionScopeOptionalParams,
 } from "../../api/metricDefinitions/options.js";
 import type {
-  MetricsApiSubscriptionScopeMetricDefinition,
-  MetricsApiMetricDefinition,
+  SubscriptionScopeMetricDefinition,
+  MetricDefinition,
 } from "../../models/metricsApi/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
@@ -19,12 +19,12 @@ export interface MetricDefinitionsOperations {
   list: (
     resourceUri: string,
     options?: MetricDefinitionsListOptionalParams,
-  ) => PagedAsyncIterableIterator<MetricsApiMetricDefinition>;
+  ) => PagedAsyncIterableIterator<MetricDefinition>;
   /** Lists the metric definitions for the subscription. */
   listAtSubscriptionScope: (
     region: string,
     options?: MetricDefinitionsListAtSubscriptionScopeOptionalParams,
-  ) => PagedAsyncIterableIterator<MetricsApiSubscriptionScopeMetricDefinition>;
+  ) => PagedAsyncIterableIterator<SubscriptionScopeMetricDefinition>;
 }
 
 function _getMetricDefinitions(context: MonitorContext) {

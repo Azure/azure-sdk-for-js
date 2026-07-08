@@ -8,7 +8,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** An alert incident indicates the activation status of an alert rule. */
-export interface AlertRulesIncidentsApiIncident {
+export interface Incident {
   /** Incident name. */
   readonly name?: string;
   /** Rule name that is associated with the incident. */
@@ -21,9 +21,7 @@ export interface AlertRulesIncidentsApiIncident {
   readonly resolvedTime?: Date;
 }
 
-export function alertRulesIncidentsApiIncidentDeserializer(
-  item: any,
-): AlertRulesIncidentsApiIncident {
+export function incidentDeserializer(item: any): Incident {
   return {
     name: item["name"],
     ruleName: item["ruleName"],
@@ -34,28 +32,22 @@ export function alertRulesIncidentsApiIncidentDeserializer(
 }
 
 /** The List incidents operation response. */
-export interface _AlertRulesIncidentsApiIncidentListResult {
+export interface _IncidentListResult {
   /** the incident collection. */
-  value?: AlertRulesIncidentsApiIncident[];
+  value?: Incident[];
   /** the URL to get the next set of results. */
   nextLink?: string;
 }
 
-export function _alertRulesIncidentsApiIncidentListResultDeserializer(
-  item: any,
-): _AlertRulesIncidentsApiIncidentListResult {
+export function _incidentListResultDeserializer(item: any): _IncidentListResult {
   return {
-    value: !item["value"]
-      ? item["value"]
-      : alertRulesIncidentsApiIncidentArrayDeserializer(item["value"]),
+    value: !item["value"] ? item["value"] : incidentArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function alertRulesIncidentsApiIncidentArrayDeserializer(
-  result: Array<AlertRulesIncidentsApiIncident>,
-): any[] {
+export function incidentArrayDeserializer(result: Array<Incident>): any[] {
   return result.map((item) => {
-    return alertRulesIncidentsApiIncidentDeserializer(item);
+    return incidentDeserializer(item);
   });
 }

@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import type {
-  DataCollectionApiResourceForUpdate,
-  DataCollectionApiDataCollectionRuleResource,
+  ResourceForUpdate,
+  DataCollectionRuleResource,
 } from "../../models/dataCollectionApi/models.js";
 import type { OperationOptions } from "@azure-rest/core-client";
 
@@ -22,13 +22,13 @@ export interface DataCollectionRulesDeleteOptionalParams extends OperationOption
 /** Optional parameters. */
 export interface DataCollectionRulesUpdateOptionalParams extends OperationOptions {
   /** The payload */
-  body?: DataCollectionApiResourceForUpdate;
+  body?: ResourceForUpdate;
 }
 
 /** Optional parameters. */
 export interface DataCollectionRulesCreateOptionalParams extends OperationOptions {
   /** The payload */
-  body?: DataCollectionApiDataCollectionRuleResource;
+  body?: DataCollectionRuleResource;
 }
 
 /** Optional parameters. */

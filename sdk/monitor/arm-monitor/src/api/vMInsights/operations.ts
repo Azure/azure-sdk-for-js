@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 import type { MonitorContext as Client } from "../index.js";
-import type { VmInsightsOnboardingVMInsightsOnboardingStatus } from "../../models/vmInsightsOnboarding/models.js";
+import type { VMInsightsOnboardingStatus } from "../../models/vmInsightsOnboarding/models.js";
 import {
-  vmInsightsOnboardingVMInsightsOnboardingStatusDeserializer,
-  vmInsightsOnboardingResponseWithErrorDeserializer,
+  vmInsightsOnboardingStatusDeserializer,
+  responseWithErrorDeserializer,
 } from "../../models/vmInsightsOnboarding/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type { vMInsightsGetOnboardingStatusOptionalParams } from "./options.js";
@@ -35,18 +35,18 @@ export function _getOnboardingStatusSend(
 
 export async function _getOnboardingStatusDeserialize(
   result: PathUncheckedResponse,
-): Promise<VmInsightsOnboardingVMInsightsOnboardingStatus> {
+): Promise<VMInsightsOnboardingStatus> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
-      error.details = vmInsightsOnboardingResponseWithErrorDeserializer(result.body);
+      error.details = responseWithErrorDeserializer(result.body);
     }
 
     throw error;
   }
 
-  return vmInsightsOnboardingVMInsightsOnboardingStatusDeserializer(result.body);
+  return vmInsightsOnboardingStatusDeserializer(result.body);
 }
 
 /** Retrieves the VM Insights onboarding status for the specified resource or resource scope. */
@@ -54,7 +54,7 @@ export async function getOnboardingStatus(
   context: Client,
   resourceUri: string,
   options: vMInsightsGetOnboardingStatusOptionalParams = { requestOptions: {} },
-): Promise<VmInsightsOnboardingVMInsightsOnboardingStatus> {
+): Promise<VMInsightsOnboardingStatus> {
   const result = await _getOnboardingStatusSend(context, resourceUri, options);
   return _getOnboardingStatusDeserialize(result);
 }

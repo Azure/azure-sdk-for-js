@@ -3,23 +3,23 @@
 
 import { areAllPropsUndefined } from "../../static-helpers/serialization/check-prop-undefined.js";
 import type {
-  ActionGroupsApiEmailReceiver,
-  ActionGroupsApiSmsReceiver,
-  ActionGroupsApiAzureAppPushReceiver,
-  ActionGroupsApiVoiceReceiver,
-  ActionGroupsApiContext,
+  EmailReceiver,
+  SmsReceiver,
+  AzureAppPushReceiver,
+  VoiceReceiver,
+  Context,
 } from "../actionGroupsApi/models.js";
 import {
-  actionGroupsApiEmailReceiverArraySerializer,
-  actionGroupsApiEmailReceiverArrayDeserializer,
-  actionGroupsApiSmsReceiverArraySerializer,
-  actionGroupsApiSmsReceiverArrayDeserializer,
-  actionGroupsApiAzureAppPushReceiverArraySerializer,
-  actionGroupsApiAzureAppPushReceiverArrayDeserializer,
-  actionGroupsApiVoiceReceiverArraySerializer,
-  actionGroupsApiVoiceReceiverArrayDeserializer,
-  actionGroupsApiContextDeserializer,
-  _actionGroupPatchBodyPropertiesSerializer_1,
+  emailReceiverArraySerializer,
+  emailReceiverArrayDeserializer,
+  smsReceiverArraySerializer,
+  smsReceiverArrayDeserializer,
+  azureAppPushReceiverArraySerializer,
+  azureAppPushReceiverArrayDeserializer,
+  voiceReceiverArraySerializer,
+  voiceReceiverArrayDeserializer,
+  contextDeserializer,
+  _tenantActionGroupPatchBodyPropertiesSerializer,
 } from "../actionGroupsApi/models.js";
 import type { TrackedResource } from "../models.js";
 import { systemDataDeserializer } from "../models.js";
@@ -31,62 +31,60 @@ import { systemDataDeserializer } from "../models.js";
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** The request body which contain contact detail metadata */
-export interface TenantActionGroupsTenantNotificationRequestBody {
+export interface TenantNotificationRequestBody {
   /** The value of the supported alert type. Supported alert type value is: servicehealth */
   alertType: string;
   /** The list of email receivers that are part of this action group. */
-  emailReceivers?: ActionGroupsApiEmailReceiver[];
+  emailReceivers?: EmailReceiver[];
   /** The list of SMS receivers that are part of this action group. */
-  smsReceivers?: ActionGroupsApiSmsReceiver[];
+  smsReceivers?: SmsReceiver[];
   /** The list of webhook receivers that are part of this action group. */
-  webhookReceivers?: TenantActionGroupsWebhookReceiver[];
+  webhookReceivers?: TenantActionGroupWebhookReceiver[];
   /** The list of AzureAppPush receivers that are part of this action group. */
-  azureAppPushReceivers?: ActionGroupsApiAzureAppPushReceiver[];
+  azureAppPushReceivers?: AzureAppPushReceiver[];
   /** The list of voice receivers that are part of this action group. */
-  voiceReceivers?: ActionGroupsApiVoiceReceiver[];
+  voiceReceivers?: VoiceReceiver[];
 }
 
-export function tenantActionGroupsTenantNotificationRequestBodySerializer(
-  item: TenantActionGroupsTenantNotificationRequestBody,
-): any {
+export function tenantNotificationRequestBodySerializer(item: TenantNotificationRequestBody): any {
   return {
     alertType: item["alertType"],
     emailReceivers: !item["emailReceivers"]
       ? item["emailReceivers"]
-      : actionGroupsApiEmailReceiverArraySerializer(item["emailReceivers"]),
+      : emailReceiverArraySerializer(item["emailReceivers"]),
     smsReceivers: !item["smsReceivers"]
       ? item["smsReceivers"]
-      : actionGroupsApiSmsReceiverArraySerializer(item["smsReceivers"]),
+      : smsReceiverArraySerializer(item["smsReceivers"]),
     webhookReceivers: !item["webhookReceivers"]
       ? item["webhookReceivers"]
-      : tenantActionGroupsWebhookReceiverArraySerializer(item["webhookReceivers"]),
+      : tenantActionGroupWebhookReceiverArraySerializer(item["webhookReceivers"]),
     azureAppPushReceivers: !item["azureAppPushReceivers"]
       ? item["azureAppPushReceivers"]
-      : actionGroupsApiAzureAppPushReceiverArraySerializer(item["azureAppPushReceivers"]),
+      : azureAppPushReceiverArraySerializer(item["azureAppPushReceivers"]),
     voiceReceivers: !item["voiceReceivers"]
       ? item["voiceReceivers"]
-      : actionGroupsApiVoiceReceiverArraySerializer(item["voiceReceivers"]),
+      : voiceReceiverArraySerializer(item["voiceReceivers"]),
   };
 }
 
-export function tenantActionGroupsWebhookReceiverArraySerializer(
-  result: Array<TenantActionGroupsWebhookReceiver>,
+export function tenantActionGroupWebhookReceiverArraySerializer(
+  result: Array<TenantActionGroupWebhookReceiver>,
 ): any[] {
   return result.map((item) => {
-    return tenantActionGroupsWebhookReceiverSerializer(item);
+    return tenantActionGroupWebhookReceiverSerializer(item);
   });
 }
 
-export function tenantActionGroupsWebhookReceiverArrayDeserializer(
-  result: Array<TenantActionGroupsWebhookReceiver>,
+export function tenantActionGroupWebhookReceiverArrayDeserializer(
+  result: Array<TenantActionGroupWebhookReceiver>,
 ): any[] {
   return result.map((item) => {
-    return tenantActionGroupsWebhookReceiverDeserializer(item);
+    return tenantActionGroupWebhookReceiverDeserializer(item);
   });
 }
 
 /** A webhook receiver. */
-export interface TenantActionGroupsWebhookReceiver {
+export interface TenantActionGroupWebhookReceiver {
   /** The name of the webhook receiver. Names must be unique across all receivers within a tenant action group. */
   name: string;
   /** The URI where webhooks should be sent. */
@@ -103,8 +101,8 @@ export interface TenantActionGroupsWebhookReceiver {
   tenantId?: string;
 }
 
-export function tenantActionGroupsWebhookReceiverSerializer(
-  item: TenantActionGroupsWebhookReceiver,
+export function tenantActionGroupWebhookReceiverSerializer(
+  item: TenantActionGroupWebhookReceiver,
 ): any {
   return {
     name: item["name"],
@@ -117,9 +115,9 @@ export function tenantActionGroupsWebhookReceiverSerializer(
   };
 }
 
-export function tenantActionGroupsWebhookReceiverDeserializer(
+export function tenantActionGroupWebhookReceiverDeserializer(
   item: any,
-): TenantActionGroupsWebhookReceiver {
+): TenantActionGroupWebhookReceiver {
   return {
     name: item["name"],
     serviceUri: item["serviceUri"],
@@ -132,9 +130,9 @@ export function tenantActionGroupsWebhookReceiverDeserializer(
 }
 
 /** The details of the test notification results. */
-export interface TenantActionGroupsTestNotificationDetailsResponse {
+export interface TenantActionGroupTestNotificationDetailsResponse {
   /** The context info */
-  context?: ActionGroupsApiContext;
+  context?: Context;
   /** The overall state */
   state: string;
   /** The completed time */
@@ -142,35 +140,33 @@ export interface TenantActionGroupsTestNotificationDetailsResponse {
   /** The created time */
   createdTime?: string;
   /** The list of action detail */
-  actionDetails?: TenantActionGroupsActionDetail[];
+  actionDetails?: TenantActionGroupActionDetail[];
 }
 
-export function tenantActionGroupsTestNotificationDetailsResponseDeserializer(
+export function tenantActionGroupTestNotificationDetailsResponseDeserializer(
   item: any,
-): TenantActionGroupsTestNotificationDetailsResponse {
+): TenantActionGroupTestNotificationDetailsResponse {
   return {
-    context: !item["context"]
-      ? item["context"]
-      : actionGroupsApiContextDeserializer(item["context"]),
+    context: !item["context"] ? item["context"] : contextDeserializer(item["context"]),
     state: item["state"],
     completedTime: item["completedTime"],
     createdTime: item["createdTime"],
     actionDetails: !item["actionDetails"]
       ? item["actionDetails"]
-      : tenantActionGroupsActionDetailArrayDeserializer(item["actionDetails"]),
+      : tenantActionGroupActionDetailArrayDeserializer(item["actionDetails"]),
   };
 }
 
-export function tenantActionGroupsActionDetailArrayDeserializer(
-  result: Array<TenantActionGroupsActionDetail>,
+export function tenantActionGroupActionDetailArrayDeserializer(
+  result: Array<TenantActionGroupActionDetail>,
 ): any[] {
   return result.map((item) => {
-    return tenantActionGroupsActionDetailDeserializer(item);
+    return tenantActionGroupActionDetailDeserializer(item);
   });
 }
 
 /** The action detail */
-export interface TenantActionGroupsActionDetail {
+export interface TenantActionGroupActionDetail {
   /** The mechanism type */
   mechanismType?: string;
   /** The name of the action */
@@ -185,9 +181,9 @@ export interface TenantActionGroupsActionDetail {
   message?: string;
 }
 
-export function tenantActionGroupsActionDetailDeserializer(
+export function tenantActionGroupActionDetailDeserializer(
   item: any,
-): TenantActionGroupsActionDetail {
+): TenantActionGroupActionDetail {
   return {
     mechanismType: item["mechanismType"],
     name: item["name"],
@@ -199,26 +195,24 @@ export function tenantActionGroupsActionDetailDeserializer(
 }
 
 /** A tenant action group resource. */
-export interface TenantActionGroupsTenantActionGroupResource extends TrackedResource {
+export interface TenantActionGroupResource extends TrackedResource {
   /** The short name of the action group. This will be used in SMS messages. */
   groupShortName?: string;
   /** Indicates whether this tenant action group is enabled. If a tenant action group is not enabled, then none of its receivers will receive communications. */
   enabled?: boolean;
   /** The list of email receivers that are part of this tenant action group. */
-  emailReceivers?: ActionGroupsApiEmailReceiver[];
+  emailReceivers?: EmailReceiver[];
   /** The list of SMS receivers that are part of this tenant action group. */
-  smsReceivers?: ActionGroupsApiSmsReceiver[];
+  smsReceivers?: SmsReceiver[];
   /** The list of webhook receivers that are part of this tenant action group. */
-  webhookReceivers?: TenantActionGroupsWebhookReceiver[];
+  webhookReceivers?: TenantActionGroupWebhookReceiver[];
   /** The list of AzureAppPush receivers that are part of this tenant action group. */
-  azureAppPushReceivers?: ActionGroupsApiAzureAppPushReceiver[];
+  azureAppPushReceivers?: AzureAppPushReceiver[];
   /** The list of voice receivers that are part of this tenant action group. */
-  voiceReceivers?: ActionGroupsApiVoiceReceiver[];
+  voiceReceivers?: VoiceReceiver[];
 }
 
-export function tenantActionGroupsTenantActionGroupResourceSerializer(
-  item: TenantActionGroupsTenantActionGroupResource,
-): any {
+export function tenantActionGroupResourceSerializer(item: TenantActionGroupResource): any {
   return {
     tags: item["tags"],
     location: item["location"],
@@ -236,9 +230,7 @@ export function tenantActionGroupsTenantActionGroupResourceSerializer(
   };
 }
 
-export function tenantActionGroupsTenantActionGroupResourceDeserializer(
-  item: any,
-): TenantActionGroupsTenantActionGroupResource {
+export function tenantActionGroupResourceDeserializer(item: any): TenantActionGroupResource {
   return {
     tags: !item["tags"]
       ? item["tags"]
@@ -257,144 +249,136 @@ export function tenantActionGroupsTenantActionGroupResourceDeserializer(
 }
 
 /** A tenant  action group. */
-export interface TenantActionGroupsTenantActionGroup {
+export interface TenantActionGroup {
   /** The short name of the action group. This will be used in SMS messages. */
   groupShortName: string;
   /** Indicates whether this tenant action group is enabled. If a tenant action group is not enabled, then none of its receivers will receive communications. */
   enabled: boolean;
   /** The list of email receivers that are part of this tenant action group. */
-  emailReceivers?: ActionGroupsApiEmailReceiver[];
+  emailReceivers?: EmailReceiver[];
   /** The list of SMS receivers that are part of this tenant action group. */
-  smsReceivers?: ActionGroupsApiSmsReceiver[];
+  smsReceivers?: SmsReceiver[];
   /** The list of webhook receivers that are part of this tenant action group. */
-  webhookReceivers?: TenantActionGroupsWebhookReceiver[];
+  webhookReceivers?: TenantActionGroupWebhookReceiver[];
   /** The list of AzureAppPush receivers that are part of this tenant action group. */
-  azureAppPushReceivers?: ActionGroupsApiAzureAppPushReceiver[];
+  azureAppPushReceivers?: AzureAppPushReceiver[];
   /** The list of voice receivers that are part of this tenant action group. */
-  voiceReceivers?: ActionGroupsApiVoiceReceiver[];
+  voiceReceivers?: VoiceReceiver[];
 }
 
-export function tenantActionGroupsTenantActionGroupSerializer(
-  item: TenantActionGroupsTenantActionGroup,
-): any {
+export function tenantActionGroupSerializer(item: TenantActionGroup): any {
   return {
     groupShortName: item["groupShortName"],
     enabled: item["enabled"],
     emailReceivers: !item["emailReceivers"]
       ? item["emailReceivers"]
-      : actionGroupsApiEmailReceiverArraySerializer(item["emailReceivers"]),
+      : emailReceiverArraySerializer(item["emailReceivers"]),
     smsReceivers: !item["smsReceivers"]
       ? item["smsReceivers"]
-      : actionGroupsApiSmsReceiverArraySerializer(item["smsReceivers"]),
+      : smsReceiverArraySerializer(item["smsReceivers"]),
     webhookReceivers: !item["webhookReceivers"]
       ? item["webhookReceivers"]
-      : tenantActionGroupsWebhookReceiverArraySerializer(item["webhookReceivers"]),
+      : tenantActionGroupWebhookReceiverArraySerializer(item["webhookReceivers"]),
     azureAppPushReceivers: !item["azureAppPushReceivers"]
       ? item["azureAppPushReceivers"]
-      : actionGroupsApiAzureAppPushReceiverArraySerializer(item["azureAppPushReceivers"]),
+      : azureAppPushReceiverArraySerializer(item["azureAppPushReceivers"]),
     voiceReceivers: !item["voiceReceivers"]
       ? item["voiceReceivers"]
-      : actionGroupsApiVoiceReceiverArraySerializer(item["voiceReceivers"]),
+      : voiceReceiverArraySerializer(item["voiceReceivers"]),
   };
 }
 
-export function tenantActionGroupsTenantActionGroupDeserializer(
-  item: any,
-): TenantActionGroupsTenantActionGroup {
+export function tenantActionGroupDeserializer(item: any): TenantActionGroup {
   return {
     groupShortName: item["groupShortName"],
     enabled: item["enabled"],
     emailReceivers: !item["emailReceivers"]
       ? item["emailReceivers"]
-      : actionGroupsApiEmailReceiverArrayDeserializer(item["emailReceivers"]),
+      : emailReceiverArrayDeserializer(item["emailReceivers"]),
     smsReceivers: !item["smsReceivers"]
       ? item["smsReceivers"]
-      : actionGroupsApiSmsReceiverArrayDeserializer(item["smsReceivers"]),
+      : smsReceiverArrayDeserializer(item["smsReceivers"]),
     webhookReceivers: !item["webhookReceivers"]
       ? item["webhookReceivers"]
-      : tenantActionGroupsWebhookReceiverArrayDeserializer(item["webhookReceivers"]),
+      : tenantActionGroupWebhookReceiverArrayDeserializer(item["webhookReceivers"]),
     azureAppPushReceivers: !item["azureAppPushReceivers"]
       ? item["azureAppPushReceivers"]
-      : actionGroupsApiAzureAppPushReceiverArrayDeserializer(item["azureAppPushReceivers"]),
+      : azureAppPushReceiverArrayDeserializer(item["azureAppPushReceivers"]),
     voiceReceivers: !item["voiceReceivers"]
       ? item["voiceReceivers"]
-      : actionGroupsApiVoiceReceiverArrayDeserializer(item["voiceReceivers"]),
+      : voiceReceiverArrayDeserializer(item["voiceReceivers"]),
   };
 }
 
 /** A tenant action group object for the body of patch operations. */
-export interface TenantActionGroupsActionGroupPatchBody {
+export interface TenantActionGroupPatchBody {
   /** Resource tags */
   tags?: Record<string, string>;
   /** Indicates whether this action group is enabled. If an action group is not enabled, then none of its actions will be activated. */
   enabled?: boolean;
 }
 
-export function tenantActionGroupsActionGroupPatchBodySerializer(
-  item: TenantActionGroupsActionGroupPatchBody,
-): any {
+export function tenantActionGroupPatchBodySerializer(item: TenantActionGroupPatchBody): any {
   return {
     tags: item["tags"],
     properties: areAllPropsUndefined(item, ["enabled"])
       ? undefined
-      : _actionGroupPatchBodyPropertiesSerializer_1(item),
+      : _tenantActionGroupPatchBodyPropertiesSerializer(item),
   };
 }
 
 /** A list of tenant action groups. */
-export interface _TenantActionGroupsTenantActionGroupList {
+export interface _TenantActionGroupList {
   /** The TenantActionGroupResource items on this page */
-  value: TenantActionGroupsTenantActionGroupResource[];
+  value: TenantActionGroupResource[];
   /** The link to the next page of items */
   nextLink?: string;
 }
 
-export function _tenantActionGroupsTenantActionGroupListDeserializer(
-  item: any,
-): _TenantActionGroupsTenantActionGroupList {
+export function _tenantActionGroupListDeserializer(item: any): _TenantActionGroupList {
   return {
-    value: tenantActionGroupsTenantActionGroupResourceArrayDeserializer(item["value"]),
+    value: tenantActionGroupResourceArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function tenantActionGroupsTenantActionGroupResourceArraySerializer(
-  result: Array<TenantActionGroupsTenantActionGroupResource>,
+export function tenantActionGroupResourceArraySerializer(
+  result: Array<TenantActionGroupResource>,
 ): any[] {
   return result.map((item) => {
-    return tenantActionGroupsTenantActionGroupResourceSerializer(item);
+    return tenantActionGroupResourceSerializer(item);
   });
 }
 
-export function tenantActionGroupsTenantActionGroupResourceArrayDeserializer(
-  result: Array<TenantActionGroupsTenantActionGroupResource>,
+export function tenantActionGroupResourceArrayDeserializer(
+  result: Array<TenantActionGroupResource>,
 ): any[] {
   return result.map((item) => {
-    return tenantActionGroupsTenantActionGroupResourceDeserializer(item);
+    return tenantActionGroupResourceDeserializer(item);
   });
 }
 
 export function _tenantActionGroupResourcePropertiesSerializer(
-  item: TenantActionGroupsTenantActionGroupResource,
+  item: TenantActionGroupResource,
 ): any {
   return {
     groupShortName: item["groupShortName"],
     enabled: item["enabled"],
     emailReceivers: !item["emailReceivers"]
       ? item["emailReceivers"]
-      : actionGroupsApiEmailReceiverArraySerializer(item["emailReceivers"]),
+      : emailReceiverArraySerializer(item["emailReceivers"]),
     smsReceivers: !item["smsReceivers"]
       ? item["smsReceivers"]
-      : actionGroupsApiSmsReceiverArraySerializer(item["smsReceivers"]),
+      : smsReceiverArraySerializer(item["smsReceivers"]),
     webhookReceivers: !item["webhookReceivers"]
       ? item["webhookReceivers"]
-      : tenantActionGroupsWebhookReceiverArraySerializer(item["webhookReceivers"]),
+      : tenantActionGroupWebhookReceiverArraySerializer(item["webhookReceivers"]),
     azureAppPushReceivers: !item["azureAppPushReceivers"]
       ? item["azureAppPushReceivers"]
-      : actionGroupsApiAzureAppPushReceiverArraySerializer(item["azureAppPushReceivers"]),
+      : azureAppPushReceiverArraySerializer(item["azureAppPushReceivers"]),
     voiceReceivers: !item["voiceReceivers"]
       ? item["voiceReceivers"]
-      : actionGroupsApiVoiceReceiverArraySerializer(item["voiceReceivers"]),
+      : voiceReceiverArraySerializer(item["voiceReceivers"]),
   };
 }
 
@@ -404,18 +388,18 @@ export function _tenantActionGroupResourcePropertiesDeserializer(item: any) {
     enabled: item["enabled"],
     emailReceivers: !item["emailReceivers"]
       ? item["emailReceivers"]
-      : actionGroupsApiEmailReceiverArrayDeserializer(item["emailReceivers"]),
+      : emailReceiverArrayDeserializer(item["emailReceivers"]),
     smsReceivers: !item["smsReceivers"]
       ? item["smsReceivers"]
-      : actionGroupsApiSmsReceiverArrayDeserializer(item["smsReceivers"]),
+      : smsReceiverArrayDeserializer(item["smsReceivers"]),
     webhookReceivers: !item["webhookReceivers"]
       ? item["webhookReceivers"]
-      : tenantActionGroupsWebhookReceiverArrayDeserializer(item["webhookReceivers"]),
+      : tenantActionGroupWebhookReceiverArrayDeserializer(item["webhookReceivers"]),
     azureAppPushReceivers: !item["azureAppPushReceivers"]
       ? item["azureAppPushReceivers"]
-      : actionGroupsApiAzureAppPushReceiverArrayDeserializer(item["azureAppPushReceivers"]),
+      : azureAppPushReceiverArrayDeserializer(item["azureAppPushReceivers"]),
     voiceReceivers: !item["voiceReceivers"]
       ? item["voiceReceivers"]
-      : actionGroupsApiVoiceReceiverArrayDeserializer(item["voiceReceivers"]),
+      : voiceReceiverArrayDeserializer(item["voiceReceivers"]),
   };
 }

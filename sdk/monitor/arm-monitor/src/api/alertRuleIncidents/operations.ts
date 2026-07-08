@@ -2,15 +2,12 @@
 // Licensed under the MIT License.
 
 import type { MonitorContext as Client } from "../index.js";
-import type {
-  AlertRulesIncidentsApiIncident,
-  _AlertRulesIncidentsApiIncidentListResult,
-} from "../../models/alertRulesIncidentsApi/models.js";
+import type { Incident, _IncidentListResult } from "../../models/alertRulesIncidentsApi/models.js";
 import {
-  alertRulesIncidentsApiIncidentDeserializer,
-  _alertRulesIncidentsApiIncidentListResultDeserializer,
+  incidentDeserializer,
+  _incidentListResultDeserializer,
 } from "../../models/alertRulesIncidentsApi/models.js";
-import { microsoftCommonErrorResponseDeserializer } from "../../models/microsoft/common/models.js";
+import { errorResponseDeserializer } from "../../models/microsoft/common/models.js";
 import { armErrorResponseDeserializer } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -48,7 +45,7 @@ export function _listByAlertRuleSend(
 
 export async function _listByAlertRuleDeserialize(
   result: PathUncheckedResponse,
-): Promise<_AlertRulesIncidentsApiIncidentListResult> {
+): Promise<_IncidentListResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -59,7 +56,7 @@ export async function _listByAlertRuleDeserialize(
     throw error;
   }
 
-  return _alertRulesIncidentsApiIncidentListResultDeserializer(result.body);
+  return _incidentListResultDeserializer(result.body);
 }
 
 /** Gets a list of incidents associated to an alert rule */
@@ -68,7 +65,7 @@ export function listByAlertRule(
   resourceGroupName: string,
   ruleName: string,
   options: AlertRuleIncidentsListByAlertRuleOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<AlertRulesIncidentsApiIncident> {
+): PagedAsyncIterableIterator<Incident> {
   return buildPagedAsyncIterator(
     context,
     () => _listByAlertRuleSend(context, resourceGroupName, ruleName, options),
@@ -104,20 +101,18 @@ export function _getSend(
   });
 }
 
-export async function _getDeserialize(
-  result: PathUncheckedResponse,
-): Promise<AlertRulesIncidentsApiIncident> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<Incident> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
-      error.details = microsoftCommonErrorResponseDeserializer(result.body);
+      error.details = errorResponseDeserializer(result.body);
     }
 
     throw error;
   }
 
-  return alertRulesIncidentsApiIncidentDeserializer(result.body);
+  return incidentDeserializer(result.body);
 }
 
 /** Gets an incident associated to an alert rule */
@@ -127,7 +122,7 @@ export async function get(
   ruleName: string,
   incidentName: string,
   options: AlertRuleIncidentsGetOptionalParams = { requestOptions: {} },
-): Promise<AlertRulesIncidentsApiIncident> {
+): Promise<Incident> {
   const result = await _getSend(context, resourceGroupName, ruleName, incidentName, options);
   return _getDeserialize(result);
 }

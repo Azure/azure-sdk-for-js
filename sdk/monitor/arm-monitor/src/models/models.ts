@@ -2,25 +2,25 @@
 // Licensed under the MIT License.
 
 import type {
-  DataCollectionApiDataCollectionEndpointResource,
-  DataCollectionApiDataCollectionRuleAssociationProxyOnlyResource,
-  DataCollectionApiDataCollectionRuleResource,
+  DataCollectionEndpointResource,
+  DataCollectionRuleAssociationProxyOnlyResource,
+  DataCollectionRuleResource,
 } from "./dataCollectionApi/models.js";
 import {
-  dataCollectionApiDataCollectionEndpointResourceArrayDeserializer,
-  dataCollectionApiDataCollectionRuleAssociationProxyOnlyResourceArrayDeserializer,
-  dataCollectionApiDataCollectionRuleResourceArrayDeserializer,
+  dataCollectionEndpointResourceArrayDeserializer,
+  dataCollectionRuleAssociationProxyOnlyResourceArrayDeserializer,
+  dataCollectionRuleResourceArrayDeserializer,
 } from "./dataCollectionApi/models.js";
 import type {
-  PrivateLinkScopesApiPrivateLinkResource,
-  PrivateLinkScopesApiPrivateEndpointConnection,
-  PrivateLinkScopesApiAzureMonitorPrivateLinkScope,
-  PrivateLinkScopesApiScopedResource,
+  PrivateLinkResource,
+  PrivateEndpointConnection,
+  AzureMonitorPrivateLinkScope,
+  ScopedResource,
 } from "./privateLinkScopesApi/models.js";
 import {
-  privateLinkScopesApiPrivateLinkResourceArrayDeserializer,
-  privateLinkScopesApiAzureMonitorPrivateLinkScopeArrayDeserializer,
-  privateLinkScopesApiScopedResourceArrayDeserializer,
+  privateLinkResourceArrayDeserializer,
+  azureMonitorPrivateLinkScopeArrayDeserializer,
+  scopedResourceArrayDeserializer,
 } from "./privateLinkScopesApi/models.js";
 
 /**
@@ -205,7 +205,7 @@ export type CreatedByType = string;
 /** The response of a PrivateLinkResource list operation. */
 export interface PrivateLinkResourceListResult {
   /** The PrivateLinkResource items on this page */
-  value: PrivateLinkScopesApiPrivateLinkResource[];
+  value: PrivateLinkResource[];
   /** The link to the next page of items */
   nextLink?: string;
 }
@@ -214,7 +214,7 @@ export function privateLinkResourceListResultDeserializer(
   item: any,
 ): PrivateLinkResourceListResult {
   return {
-    value: privateLinkScopesApiPrivateLinkResourceArrayDeserializer(item["value"]),
+    value: privateLinkResourceArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
@@ -509,7 +509,7 @@ export function trackedResourceDeserializer(item: any): TrackedResource {
 /** The response of a DataCollectionEndpointResource list operation. */
 export interface _DataCollectionEndpointResourceListResult {
   /** The DataCollectionEndpointResource items on this page */
-  value: DataCollectionApiDataCollectionEndpointResource[];
+  value: DataCollectionEndpointResource[];
   /** The link to the next page of items */
   nextLink?: string;
 }
@@ -518,7 +518,7 @@ export function _dataCollectionEndpointResourceListResultDeserializer(
   item: any,
 ): _DataCollectionEndpointResourceListResult {
   return {
-    value: dataCollectionApiDataCollectionEndpointResourceArrayDeserializer(item["value"]),
+    value: dataCollectionEndpointResourceArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
@@ -953,7 +953,7 @@ export function networkSecurityPerimeterConfigurationArrayDeserializer(
 /** The response of a DataCollectionRuleAssociationProxyOnlyResource list operation. */
 export interface _DataCollectionRuleAssociationProxyOnlyResourceListResult {
   /** The DataCollectionRuleAssociationProxyOnlyResource items on this page */
-  value: DataCollectionApiDataCollectionRuleAssociationProxyOnlyResource[];
+  value: DataCollectionRuleAssociationProxyOnlyResource[];
   /** The link to the next page of items */
   nextLink?: string;
 }
@@ -962,9 +962,7 @@ export function _dataCollectionRuleAssociationProxyOnlyResourceListResultDeseria
   item: any,
 ): _DataCollectionRuleAssociationProxyOnlyResourceListResult {
   return {
-    value: dataCollectionApiDataCollectionRuleAssociationProxyOnlyResourceArrayDeserializer(
-      item["value"],
-    ),
+    value: dataCollectionRuleAssociationProxyOnlyResourceArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
@@ -990,7 +988,7 @@ export function extensionResourceDeserializer(item: any): ExtensionResource {
 /** The response of a DataCollectionRuleResource list operation. */
 export interface _DataCollectionRuleResourceListResult {
   /** The DataCollectionRuleResource items on this page */
-  value: DataCollectionApiDataCollectionRuleResource[];
+  value: DataCollectionRuleResource[];
   /** The link to the next page of items */
   nextLink?: string;
 }
@@ -999,7 +997,7 @@ export function _dataCollectionRuleResourceListResultDeserializer(
   item: any,
 ): _DataCollectionRuleResourceListResult {
   return {
-    value: dataCollectionApiDataCollectionRuleResourceArrayDeserializer(item["value"]),
+    value: dataCollectionRuleResourceArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
@@ -1007,7 +1005,7 @@ export function _dataCollectionRuleResourceListResultDeserializer(
 /** The response of a AzureMonitorPrivateLinkScope list operation. */
 export interface _AzureMonitorPrivateLinkScopeListResult {
   /** The AzureMonitorPrivateLinkScope items on this page */
-  value: PrivateLinkScopesApiAzureMonitorPrivateLinkScope[];
+  value: AzureMonitorPrivateLinkScope[];
   /** The link to the next page of items */
   nextLink?: string;
 }
@@ -1016,7 +1014,7 @@ export function _azureMonitorPrivateLinkScopeListResultDeserializer(
   item: any,
 ): _AzureMonitorPrivateLinkScopeListResult {
   return {
-    value: privateLinkScopesApiAzureMonitorPrivateLinkScopeArrayDeserializer(item["value"]),
+    value: azureMonitorPrivateLinkScopeArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
@@ -1024,20 +1022,20 @@ export function _azureMonitorPrivateLinkScopeListResultDeserializer(
 /** The response of a ScopedResource list operation. */
 export interface _ScopedResourceListResult {
   /** The ScopedResource items on this page */
-  value: PrivateLinkScopesApiScopedResource[];
+  value: ScopedResource[];
   /** The link to the next page of items */
   nextLink?: string;
 }
 
 export function _scopedResourceListResultDeserializer(item: any): _ScopedResourceListResult {
   return {
-    value: privateLinkScopesApiScopedResourceArrayDeserializer(item["value"]),
+    value: scopedResourceArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
 export function _privateEndpointConnectionPropertiesSerializer(
-  item: PrivateLinkScopesApiPrivateEndpointConnection,
+  item: PrivateEndpointConnection,
 ): any {
   return {
     privateEndpoint: !item["privateEndpoint"]

@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 export type {
-  DiagnosticsSettingsDiagnosticSettingsResource,
-  DiagnosticsSettingsDiagnosticSettings,
-  DiagnosticsSettingsMetricSettings,
-  DiagnosticsSettingsLogSettings,
-  DiagnosticsSettingsDiagnosticSettingsCategoryResource,
-  DiagnosticsSettingsDiagnosticSettingsCategory,
-  DiagnosticsSettingsCategoryType,
+  MetricSettings,
+  LogSettings,
+  DiagnosticSettingsResource,
+  DiagnosticSettings,
+  DiagnosticSettingsCategoryResource,
+  DiagnosticSettingsCategory,
+  CategoryType,
 } from "./models.js";
-export { KnownDiagnosticsSettingsCategoryType } from "./models.js";
+export { KnownCategoryType } from "./models.js";

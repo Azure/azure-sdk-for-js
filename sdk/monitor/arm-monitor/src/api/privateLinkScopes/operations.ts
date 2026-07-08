@@ -8,13 +8,13 @@ import {
   _azureMonitorPrivateLinkScopeListResultDeserializer,
 } from "../../models/models.js";
 import type {
-  PrivateLinkScopesApiAzureMonitorPrivateLinkScope,
-  PrivateLinkScopesApiTagsResource,
+  AzureMonitorPrivateLinkScope,
+  TagsResource,
 } from "../../models/privateLinkScopesApi/models.js";
 import {
-  privateLinkScopesApiAzureMonitorPrivateLinkScopeSerializer,
-  privateLinkScopesApiAzureMonitorPrivateLinkScopeDeserializer,
-  privateLinkScopesApiTagsResourceSerializer,
+  azureMonitorPrivateLinkScopeSerializer,
+  azureMonitorPrivateLinkScopeDeserializer,
+  tagsResourceSerializer,
 } from "../../models/privateLinkScopesApi/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -72,7 +72,7 @@ export async function _listDeserialize(
 export function list(
   context: Client,
   options: PrivateLinkScopesListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<PrivateLinkScopesApiAzureMonitorPrivateLinkScope> {
+): PagedAsyncIterableIterator<AzureMonitorPrivateLinkScope> {
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, options),
@@ -125,7 +125,7 @@ export function listByResourceGroup(
   context: Client,
   resourceGroupName: string,
   options: PrivateLinkScopesListByResourceGroupOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<PrivateLinkScopesApiAzureMonitorPrivateLinkScope> {
+): PagedAsyncIterableIterator<AzureMonitorPrivateLinkScope> {
   return buildPagedAsyncIterator(
     context,
     () => _listByResourceGroupSend(context, resourceGroupName, options),
@@ -190,7 +190,7 @@ export function _updateTagsSend(
   context: Client,
   resourceGroupName: string,
   scopeName: string,
-  privateLinkScopeTags: PrivateLinkScopesApiTagsResource,
+  privateLinkScopeTags: TagsResource,
   options: PrivateLinkScopesUpdateTagsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -209,13 +209,13 @@ export function _updateTagsSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: privateLinkScopesApiTagsResourceSerializer(privateLinkScopeTags),
+    body: tagsResourceSerializer(privateLinkScopeTags),
   });
 }
 
 export async function _updateTagsDeserialize(
   result: PathUncheckedResponse,
-): Promise<PrivateLinkScopesApiAzureMonitorPrivateLinkScope> {
+): Promise<AzureMonitorPrivateLinkScope> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -226,7 +226,7 @@ export async function _updateTagsDeserialize(
     throw error;
   }
 
-  return privateLinkScopesApiAzureMonitorPrivateLinkScopeDeserializer(result.body);
+  return azureMonitorPrivateLinkScopeDeserializer(result.body);
 }
 
 /** Updates an existing PrivateLinkScope's tags. To update other fields use the CreateOrUpdate method. */
@@ -234,9 +234,9 @@ export async function updateTags(
   context: Client,
   resourceGroupName: string,
   scopeName: string,
-  privateLinkScopeTags: PrivateLinkScopesApiTagsResource,
+  privateLinkScopeTags: TagsResource,
   options: PrivateLinkScopesUpdateTagsOptionalParams = { requestOptions: {} },
-): Promise<PrivateLinkScopesApiAzureMonitorPrivateLinkScope> {
+): Promise<AzureMonitorPrivateLinkScope> {
   const result = await _updateTagsSend(
     context,
     resourceGroupName,
@@ -251,7 +251,7 @@ export function _createOrUpdateSend(
   context: Client,
   resourceGroupName: string,
   scopeName: string,
-  azureMonitorPrivateLinkScopePayload: PrivateLinkScopesApiAzureMonitorPrivateLinkScope,
+  azureMonitorPrivateLinkScopePayload: AzureMonitorPrivateLinkScope,
   options: PrivateLinkScopesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -270,15 +270,13 @@ export function _createOrUpdateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: privateLinkScopesApiAzureMonitorPrivateLinkScopeSerializer(
-      azureMonitorPrivateLinkScopePayload,
-    ),
+    body: azureMonitorPrivateLinkScopeSerializer(azureMonitorPrivateLinkScopePayload),
   });
 }
 
 export async function _createOrUpdateDeserialize(
   result: PathUncheckedResponse,
-): Promise<PrivateLinkScopesApiAzureMonitorPrivateLinkScope> {
+): Promise<AzureMonitorPrivateLinkScope> {
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -289,7 +287,7 @@ export async function _createOrUpdateDeserialize(
     throw error;
   }
 
-  return privateLinkScopesApiAzureMonitorPrivateLinkScopeDeserializer(result.body);
+  return azureMonitorPrivateLinkScopeDeserializer(result.body);
 }
 
 /** Creates (or updates) a Azure Monitor PrivateLinkScope. Note: You cannot specify a different value for InstrumentationKey nor AppId in the Put operation. */
@@ -297,9 +295,9 @@ export async function createOrUpdate(
   context: Client,
   resourceGroupName: string,
   scopeName: string,
-  azureMonitorPrivateLinkScopePayload: PrivateLinkScopesApiAzureMonitorPrivateLinkScope,
+  azureMonitorPrivateLinkScopePayload: AzureMonitorPrivateLinkScope,
   options: PrivateLinkScopesCreateOrUpdateOptionalParams = { requestOptions: {} },
-): Promise<PrivateLinkScopesApiAzureMonitorPrivateLinkScope> {
+): Promise<AzureMonitorPrivateLinkScope> {
   const result = await _createOrUpdateSend(
     context,
     resourceGroupName,
@@ -336,7 +334,7 @@ export function _getSend(
 
 export async function _getDeserialize(
   result: PathUncheckedResponse,
-): Promise<PrivateLinkScopesApiAzureMonitorPrivateLinkScope> {
+): Promise<AzureMonitorPrivateLinkScope> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -347,7 +345,7 @@ export async function _getDeserialize(
     throw error;
   }
 
-  return privateLinkScopesApiAzureMonitorPrivateLinkScopeDeserializer(result.body);
+  return azureMonitorPrivateLinkScopeDeserializer(result.body);
 }
 
 /** Returns a Azure Monitor PrivateLinkScope. */
@@ -356,7 +354,7 @@ export async function get(
   resourceGroupName: string,
   scopeName: string,
   options: PrivateLinkScopesGetOptionalParams = { requestOptions: {} },
-): Promise<PrivateLinkScopesApiAzureMonitorPrivateLinkScope> {
+): Promise<AzureMonitorPrivateLinkScope> {
   const result = await _getSend(context, resourceGroupName, scopeName, options);
   return _getDeserialize(result);
 }

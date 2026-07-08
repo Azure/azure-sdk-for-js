@@ -8,7 +8,7 @@ import {
   managedServiceIdentitySerializer,
   managedServiceIdentityDeserializer,
 } from "../models.js";
-import type { TenantActionGroupsActionGroupPatchBody } from "../tenantActionGroups/models.js";
+import type { TenantActionGroupPatchBody } from "../tenantActionGroups/models.js";
 
 /**
  * This file contains only generated model types and their (de)serializers.
@@ -16,24 +16,20 @@ import type { TenantActionGroupsActionGroupPatchBody } from "../tenantActionGrou
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-export function actionGroupsApiEmailReceiverArraySerializer(
-  result: Array<ActionGroupsApiEmailReceiver>,
-): any[] {
+export function emailReceiverArraySerializer(result: Array<EmailReceiver>): any[] {
   return result.map((item) => {
-    return actionGroupsApiEmailReceiverSerializer(item);
+    return emailReceiverSerializer(item);
   });
 }
 
-export function actionGroupsApiEmailReceiverArrayDeserializer(
-  result: Array<ActionGroupsApiEmailReceiver>,
-): any[] {
+export function emailReceiverArrayDeserializer(result: Array<EmailReceiver>): any[] {
   return result.map((item) => {
-    return actionGroupsApiEmailReceiverDeserializer(item);
+    return emailReceiverDeserializer(item);
   });
 }
 
 /** An email receiver. */
-export interface ActionGroupsApiEmailReceiver {
+export interface EmailReceiver {
   /** The name of the email receiver. Names must be unique across all receivers within an action group. */
   name: string;
   /** The email address of this receiver. */
@@ -41,10 +37,10 @@ export interface ActionGroupsApiEmailReceiver {
   /** Indicates whether to use common alert schema. */
   useCommonAlertSchema?: boolean;
   /** The receiver status of the e-mail. */
-  readonly status?: ActionGroupsApiReceiverStatus;
+  readonly status?: ReceiverStatus;
 }
 
-export function actionGroupsApiEmailReceiverSerializer(item: ActionGroupsApiEmailReceiver): any {
+export function emailReceiverSerializer(item: EmailReceiver): any {
   return {
     name: item["name"],
     emailAddress: item["emailAddress"],
@@ -52,7 +48,7 @@ export function actionGroupsApiEmailReceiverSerializer(item: ActionGroupsApiEmai
   };
 }
 
-export function actionGroupsApiEmailReceiverDeserializer(item: any): ActionGroupsApiEmailReceiver {
+export function emailReceiverDeserializer(item: any): EmailReceiver {
   return {
     name: item["name"],
     emailAddress: item["emailAddress"],
@@ -62,26 +58,22 @@ export function actionGroupsApiEmailReceiverDeserializer(item: any): ActionGroup
 }
 
 /** Indicates the status of the receiver. Receivers that are not Enabled will not receive any communications. */
-export type ActionGroupsApiReceiverStatus = "NotSpecified" | "Enabled" | "Disabled";
+export type ReceiverStatus = "NotSpecified" | "Enabled" | "Disabled";
 
-export function actionGroupsApiSmsReceiverArraySerializer(
-  result: Array<ActionGroupsApiSmsReceiver>,
-): any[] {
+export function smsReceiverArraySerializer(result: Array<SmsReceiver>): any[] {
   return result.map((item) => {
-    return actionGroupsApiSmsReceiverSerializer(item);
+    return smsReceiverSerializer(item);
   });
 }
 
-export function actionGroupsApiSmsReceiverArrayDeserializer(
-  result: Array<ActionGroupsApiSmsReceiver>,
-): any[] {
+export function smsReceiverArrayDeserializer(result: Array<SmsReceiver>): any[] {
   return result.map((item) => {
-    return actionGroupsApiSmsReceiverDeserializer(item);
+    return smsReceiverDeserializer(item);
   });
 }
 
 /** An SMS receiver. */
-export interface ActionGroupsApiSmsReceiver {
+export interface SmsReceiver {
   /** The name of the SMS receiver. Names must be unique across all receivers within an action group. */
   name: string;
   /** The country code of the SMS receiver. */
@@ -89,14 +81,14 @@ export interface ActionGroupsApiSmsReceiver {
   /** The phone number of the SMS receiver. */
   phoneNumber: string;
   /** The status of the receiver. */
-  readonly status?: ActionGroupsApiReceiverStatus;
+  readonly status?: ReceiverStatus;
 }
 
-export function actionGroupsApiSmsReceiverSerializer(item: ActionGroupsApiSmsReceiver): any {
+export function smsReceiverSerializer(item: SmsReceiver): any {
   return { name: item["name"], countryCode: item["countryCode"], phoneNumber: item["phoneNumber"] };
 }
 
-export function actionGroupsApiSmsReceiverDeserializer(item: any): ActionGroupsApiSmsReceiver {
+export function smsReceiverDeserializer(item: any): SmsReceiver {
   return {
     name: item["name"],
     countryCode: item["countryCode"],
@@ -105,63 +97,51 @@ export function actionGroupsApiSmsReceiverDeserializer(item: any): ActionGroupsA
   };
 }
 
-export function actionGroupsApiAzureAppPushReceiverArraySerializer(
-  result: Array<ActionGroupsApiAzureAppPushReceiver>,
-): any[] {
+export function azureAppPushReceiverArraySerializer(result: Array<AzureAppPushReceiver>): any[] {
   return result.map((item) => {
-    return actionGroupsApiAzureAppPushReceiverSerializer(item);
+    return azureAppPushReceiverSerializer(item);
   });
 }
 
-export function actionGroupsApiAzureAppPushReceiverArrayDeserializer(
-  result: Array<ActionGroupsApiAzureAppPushReceiver>,
-): any[] {
+export function azureAppPushReceiverArrayDeserializer(result: Array<AzureAppPushReceiver>): any[] {
   return result.map((item) => {
-    return actionGroupsApiAzureAppPushReceiverDeserializer(item);
+    return azureAppPushReceiverDeserializer(item);
   });
 }
 
 /** The Azure mobile App push notification receiver. */
-export interface ActionGroupsApiAzureAppPushReceiver {
+export interface AzureAppPushReceiver {
   /** The name of the Azure mobile app push receiver. Names must be unique across all receivers within an action group. */
   name: string;
   /** The email address registered for the Azure mobile app. */
   emailAddress: string;
 }
 
-export function actionGroupsApiAzureAppPushReceiverSerializer(
-  item: ActionGroupsApiAzureAppPushReceiver,
-): any {
+export function azureAppPushReceiverSerializer(item: AzureAppPushReceiver): any {
   return { name: item["name"], emailAddress: item["emailAddress"] };
 }
 
-export function actionGroupsApiAzureAppPushReceiverDeserializer(
-  item: any,
-): ActionGroupsApiAzureAppPushReceiver {
+export function azureAppPushReceiverDeserializer(item: any): AzureAppPushReceiver {
   return {
     name: item["name"],
     emailAddress: item["emailAddress"],
   };
 }
 
-export function actionGroupsApiVoiceReceiverArraySerializer(
-  result: Array<ActionGroupsApiVoiceReceiver>,
-): any[] {
+export function voiceReceiverArraySerializer(result: Array<VoiceReceiver>): any[] {
   return result.map((item) => {
-    return actionGroupsApiVoiceReceiverSerializer(item);
+    return voiceReceiverSerializer(item);
   });
 }
 
-export function actionGroupsApiVoiceReceiverArrayDeserializer(
-  result: Array<ActionGroupsApiVoiceReceiver>,
-): any[] {
+export function voiceReceiverArrayDeserializer(result: Array<VoiceReceiver>): any[] {
   return result.map((item) => {
-    return actionGroupsApiVoiceReceiverDeserializer(item);
+    return voiceReceiverDeserializer(item);
   });
 }
 
 /** A voice receiver. */
-export interface ActionGroupsApiVoiceReceiver {
+export interface VoiceReceiver {
   /** The name of the voice receiver. Names must be unique across all receivers within an action group. */
   name: string;
   /** The country code of the voice receiver. */
@@ -170,11 +150,11 @@ export interface ActionGroupsApiVoiceReceiver {
   phoneNumber: string;
 }
 
-export function actionGroupsApiVoiceReceiverSerializer(item: ActionGroupsApiVoiceReceiver): any {
+export function voiceReceiverSerializer(item: VoiceReceiver): any {
   return { name: item["name"], countryCode: item["countryCode"], phoneNumber: item["phoneNumber"] };
 }
 
-export function actionGroupsApiVoiceReceiverDeserializer(item: any): ActionGroupsApiVoiceReceiver {
+export function voiceReceiverDeserializer(item: any): VoiceReceiver {
   return {
     name: item["name"],
     countryCode: item["countryCode"],
@@ -183,14 +163,14 @@ export function actionGroupsApiVoiceReceiverDeserializer(item: any): ActionGroup
 }
 
 /** The context info */
-export interface ActionGroupsApiContext {
+export interface Context {
   /** The source of the notification request */
   notificationSource?: string;
   /** The context id type */
   contextType?: string;
 }
 
-export function actionGroupsApiContextDeserializer(item: any): ActionGroupsApiContext {
+export function contextDeserializer(item: any): Context {
   return {
     notificationSource: item["notificationSource"],
     contextType: item["contextType"],
@@ -198,7 +178,7 @@ export function actionGroupsApiContextDeserializer(item: any): ActionGroupsApiCo
 }
 
 /** An action group resource. */
-export interface ActionGroupsApiActionGroupResource extends TrackedResource {
+export interface ActionGroupResource extends TrackedResource {
   /** The managed service identities assigned to this resource. */
   identity?: ManagedServiceIdentity;
   /** The short name of the action group. This will be used in SMS messages. */
@@ -206,34 +186,32 @@ export interface ActionGroupsApiActionGroupResource extends TrackedResource {
   /** Indicates whether this action group is enabled. If an action group is not enabled, then none of its receivers will receive communications. */
   enabled?: boolean;
   /** The list of email receivers that are part of this action group. */
-  emailReceivers?: ActionGroupsApiEmailReceiver[];
+  emailReceivers?: EmailReceiver[];
   /** The list of SMS receivers that are part of this action group. */
-  smsReceivers?: ActionGroupsApiSmsReceiver[];
+  smsReceivers?: SmsReceiver[];
   /** The list of webhook receivers that are part of this action group. */
-  webhookReceivers?: ActionGroupsApiWebhookReceiver[];
+  webhookReceivers?: WebhookReceiver[];
   /** The list of ITSM receivers that are part of this action group. */
-  itsmReceivers?: ActionGroupsApiItsmReceiver[];
+  itsmReceivers?: ItsmReceiver[];
   /** The list of AzureAppPush receivers that are part of this action group. */
-  azureAppPushReceivers?: ActionGroupsApiAzureAppPushReceiver[];
+  azureAppPushReceivers?: AzureAppPushReceiver[];
   /** The list of AutomationRunbook receivers that are part of this action group. */
-  automationRunbookReceivers?: ActionGroupsApiAutomationRunbookReceiver[];
+  automationRunbookReceivers?: AutomationRunbookReceiver[];
   /** The list of voice receivers that are part of this action group. */
-  voiceReceivers?: ActionGroupsApiVoiceReceiver[];
+  voiceReceivers?: VoiceReceiver[];
   /** The list of logic app receivers that are part of this action group. */
-  logicAppReceivers?: ActionGroupsApiLogicAppReceiver[];
+  logicAppReceivers?: LogicAppReceiver[];
   /** The list of azure function receivers that are part of this action group. */
-  azureFunctionReceivers?: ActionGroupsApiAzureFunctionReceiver[];
+  azureFunctionReceivers?: AzureFunctionReceiver[];
   /** The list of ARM role receivers that are part of this action group. Roles are Azure RBAC roles and only built-in roles are supported. */
-  armRoleReceivers?: ActionGroupsApiArmRoleReceiver[];
+  armRoleReceivers?: ArmRoleReceiver[];
   /** The list of event hub receivers that are part of this action group. */
-  eventHubReceivers?: ActionGroupsApiEventHubReceiver[];
+  eventHubReceivers?: EventHubReceiver[];
   /** The list of incident receivers that are part of this action group. */
-  incidentReceivers?: ActionGroupsApiIncidentReceiver[];
+  incidentReceivers?: IncidentReceiver[];
 }
 
-export function actionGroupsApiActionGroupResourceSerializer(
-  item: ActionGroupsApiActionGroupResource,
-): any {
+export function actionGroupResourceSerializer(item: ActionGroupResource): any {
   return {
     tags: item["tags"],
     location: item["location"],
@@ -261,9 +239,7 @@ export function actionGroupsApiActionGroupResourceSerializer(
   };
 }
 
-export function actionGroupsApiActionGroupResourceDeserializer(
-  item: any,
-): ActionGroupsApiActionGroupResource {
+export function actionGroupResourceDeserializer(item: any): ActionGroupResource {
   return {
     tags: !item["tags"]
       ? item["tags"]
@@ -285,175 +261,161 @@ export function actionGroupsApiActionGroupResourceDeserializer(
 }
 
 /** An Azure action group. */
-export interface ActionGroupsApiActionGroup {
+export interface ActionGroup {
   /** The short name of the action group. This will be used in SMS messages. */
   groupShortName: string;
   /** Indicates whether this action group is enabled. If an action group is not enabled, then none of its receivers will receive communications. */
   enabled: boolean;
   /** The list of email receivers that are part of this action group. */
-  emailReceivers?: ActionGroupsApiEmailReceiver[];
+  emailReceivers?: EmailReceiver[];
   /** The list of SMS receivers that are part of this action group. */
-  smsReceivers?: ActionGroupsApiSmsReceiver[];
+  smsReceivers?: SmsReceiver[];
   /** The list of webhook receivers that are part of this action group. */
-  webhookReceivers?: ActionGroupsApiWebhookReceiver[];
+  webhookReceivers?: WebhookReceiver[];
   /** The list of ITSM receivers that are part of this action group. */
-  itsmReceivers?: ActionGroupsApiItsmReceiver[];
+  itsmReceivers?: ItsmReceiver[];
   /** The list of AzureAppPush receivers that are part of this action group. */
-  azureAppPushReceivers?: ActionGroupsApiAzureAppPushReceiver[];
+  azureAppPushReceivers?: AzureAppPushReceiver[];
   /** The list of AutomationRunbook receivers that are part of this action group. */
-  automationRunbookReceivers?: ActionGroupsApiAutomationRunbookReceiver[];
+  automationRunbookReceivers?: AutomationRunbookReceiver[];
   /** The list of voice receivers that are part of this action group. */
-  voiceReceivers?: ActionGroupsApiVoiceReceiver[];
+  voiceReceivers?: VoiceReceiver[];
   /** The list of logic app receivers that are part of this action group. */
-  logicAppReceivers?: ActionGroupsApiLogicAppReceiver[];
+  logicAppReceivers?: LogicAppReceiver[];
   /** The list of azure function receivers that are part of this action group. */
-  azureFunctionReceivers?: ActionGroupsApiAzureFunctionReceiver[];
+  azureFunctionReceivers?: AzureFunctionReceiver[];
   /** The list of ARM role receivers that are part of this action group. Roles are Azure RBAC roles and only built-in roles are supported. */
-  armRoleReceivers?: ActionGroupsApiArmRoleReceiver[];
+  armRoleReceivers?: ArmRoleReceiver[];
   /** The list of event hub receivers that are part of this action group. */
-  eventHubReceivers?: ActionGroupsApiEventHubReceiver[];
+  eventHubReceivers?: EventHubReceiver[];
   /** The list of incident receivers that are part of this action group. */
-  incidentReceivers?: ActionGroupsApiIncidentReceiver[];
+  incidentReceivers?: IncidentReceiver[];
 }
 
-export function actionGroupsApiActionGroupSerializer(item: ActionGroupsApiActionGroup): any {
+export function actionGroupSerializer(item: ActionGroup): any {
   return {
     groupShortName: item["groupShortName"],
     enabled: item["enabled"],
     emailReceivers: !item["emailReceivers"]
       ? item["emailReceivers"]
-      : actionGroupsApiEmailReceiverArraySerializer_1(item["emailReceivers"]),
+      : emailReceiverArraySerializer_1(item["emailReceivers"]),
     smsReceivers: !item["smsReceivers"]
       ? item["smsReceivers"]
-      : actionGroupsApiSmsReceiverArraySerializer_1(item["smsReceivers"]),
+      : smsReceiverArraySerializer_1(item["smsReceivers"]),
     webhookReceivers: !item["webhookReceivers"]
       ? item["webhookReceivers"]
-      : actionGroupsApiWebhookReceiverArraySerializer(item["webhookReceivers"]),
+      : webhookReceiverArraySerializer(item["webhookReceivers"]),
     itsmReceivers: !item["itsmReceivers"]
       ? item["itsmReceivers"]
-      : actionGroupsApiItsmReceiverArraySerializer(item["itsmReceivers"]),
+      : itsmReceiverArraySerializer(item["itsmReceivers"]),
     azureAppPushReceivers: !item["azureAppPushReceivers"]
       ? item["azureAppPushReceivers"]
-      : actionGroupsApiAzureAppPushReceiverArraySerializer_1(item["azureAppPushReceivers"]),
+      : azureAppPushReceiverArraySerializer_1(item["azureAppPushReceivers"]),
     automationRunbookReceivers: !item["automationRunbookReceivers"]
       ? item["automationRunbookReceivers"]
-      : actionGroupsApiAutomationRunbookReceiverArraySerializer(item["automationRunbookReceivers"]),
+      : automationRunbookReceiverArraySerializer(item["automationRunbookReceivers"]),
     voiceReceivers: !item["voiceReceivers"]
       ? item["voiceReceivers"]
-      : actionGroupsApiVoiceReceiverArraySerializer_1(item["voiceReceivers"]),
+      : voiceReceiverArraySerializer_1(item["voiceReceivers"]),
     logicAppReceivers: !item["logicAppReceivers"]
       ? item["logicAppReceivers"]
-      : actionGroupsApiLogicAppReceiverArraySerializer(item["logicAppReceivers"]),
+      : logicAppReceiverArraySerializer(item["logicAppReceivers"]),
     azureFunctionReceivers: !item["azureFunctionReceivers"]
       ? item["azureFunctionReceivers"]
-      : actionGroupsApiAzureFunctionReceiverArraySerializer(item["azureFunctionReceivers"]),
+      : azureFunctionReceiverArraySerializer(item["azureFunctionReceivers"]),
     armRoleReceivers: !item["armRoleReceivers"]
       ? item["armRoleReceivers"]
-      : actionGroupsApiArmRoleReceiverArraySerializer(item["armRoleReceivers"]),
+      : armRoleReceiverArraySerializer(item["armRoleReceivers"]),
     eventHubReceivers: !item["eventHubReceivers"]
       ? item["eventHubReceivers"]
-      : actionGroupsApiEventHubReceiverArraySerializer(item["eventHubReceivers"]),
+      : eventHubReceiverArraySerializer(item["eventHubReceivers"]),
     incidentReceivers: !item["incidentReceivers"]
       ? item["incidentReceivers"]
-      : actionGroupsApiIncidentReceiverArraySerializer(item["incidentReceivers"]),
+      : incidentReceiverArraySerializer(item["incidentReceivers"]),
   };
 }
 
-export function actionGroupsApiActionGroupDeserializer(item: any): ActionGroupsApiActionGroup {
+export function actionGroupDeserializer(item: any): ActionGroup {
   return {
     groupShortName: item["groupShortName"],
     enabled: item["enabled"],
     emailReceivers: !item["emailReceivers"]
       ? item["emailReceivers"]
-      : actionGroupsApiEmailReceiverArrayDeserializer_1(item["emailReceivers"]),
+      : emailReceiverArrayDeserializer_1(item["emailReceivers"]),
     smsReceivers: !item["smsReceivers"]
       ? item["smsReceivers"]
-      : actionGroupsApiSmsReceiverArrayDeserializer_1(item["smsReceivers"]),
+      : smsReceiverArrayDeserializer_1(item["smsReceivers"]),
     webhookReceivers: !item["webhookReceivers"]
       ? item["webhookReceivers"]
-      : actionGroupsApiWebhookReceiverArrayDeserializer(item["webhookReceivers"]),
+      : webhookReceiverArrayDeserializer(item["webhookReceivers"]),
     itsmReceivers: !item["itsmReceivers"]
       ? item["itsmReceivers"]
-      : actionGroupsApiItsmReceiverArrayDeserializer(item["itsmReceivers"]),
+      : itsmReceiverArrayDeserializer(item["itsmReceivers"]),
     azureAppPushReceivers: !item["azureAppPushReceivers"]
       ? item["azureAppPushReceivers"]
-      : actionGroupsApiAzureAppPushReceiverArrayDeserializer_1(item["azureAppPushReceivers"]),
+      : azureAppPushReceiverArrayDeserializer_1(item["azureAppPushReceivers"]),
     automationRunbookReceivers: !item["automationRunbookReceivers"]
       ? item["automationRunbookReceivers"]
-      : actionGroupsApiAutomationRunbookReceiverArrayDeserializer(
-          item["automationRunbookReceivers"],
-        ),
+      : automationRunbookReceiverArrayDeserializer(item["automationRunbookReceivers"]),
     voiceReceivers: !item["voiceReceivers"]
       ? item["voiceReceivers"]
-      : actionGroupsApiVoiceReceiverArrayDeserializer_1(item["voiceReceivers"]),
+      : voiceReceiverArrayDeserializer_1(item["voiceReceivers"]),
     logicAppReceivers: !item["logicAppReceivers"]
       ? item["logicAppReceivers"]
-      : actionGroupsApiLogicAppReceiverArrayDeserializer(item["logicAppReceivers"]),
+      : logicAppReceiverArrayDeserializer(item["logicAppReceivers"]),
     azureFunctionReceivers: !item["azureFunctionReceivers"]
       ? item["azureFunctionReceivers"]
-      : actionGroupsApiAzureFunctionReceiverArrayDeserializer(item["azureFunctionReceivers"]),
+      : azureFunctionReceiverArrayDeserializer(item["azureFunctionReceivers"]),
     armRoleReceivers: !item["armRoleReceivers"]
       ? item["armRoleReceivers"]
-      : actionGroupsApiArmRoleReceiverArrayDeserializer(item["armRoleReceivers"]),
+      : armRoleReceiverArrayDeserializer(item["armRoleReceivers"]),
     eventHubReceivers: !item["eventHubReceivers"]
       ? item["eventHubReceivers"]
-      : actionGroupsApiEventHubReceiverArrayDeserializer(item["eventHubReceivers"]),
+      : eventHubReceiverArrayDeserializer(item["eventHubReceivers"]),
     incidentReceivers: !item["incidentReceivers"]
       ? item["incidentReceivers"]
-      : actionGroupsApiIncidentReceiverArrayDeserializer(item["incidentReceivers"]),
+      : incidentReceiverArrayDeserializer(item["incidentReceivers"]),
   };
 }
 
-export function actionGroupsApiEmailReceiverArraySerializer_1(
-  result: Array<ActionGroupsApiEmailReceiver>,
-): any[] {
+export function emailReceiverArraySerializer_1(result: Array<EmailReceiver>): any[] {
   return result.map((item) => {
-    return actionGroupsApiEmailReceiverSerializer(item);
+    return emailReceiverSerializer(item);
   });
 }
 
-export function actionGroupsApiEmailReceiverArrayDeserializer_1(
-  result: Array<ActionGroupsApiEmailReceiver>,
-): any[] {
+export function emailReceiverArrayDeserializer_1(result: Array<EmailReceiver>): any[] {
   return result.map((item) => {
-    return actionGroupsApiEmailReceiverDeserializer(item);
+    return emailReceiverDeserializer(item);
   });
 }
 
-export function actionGroupsApiSmsReceiverArraySerializer_1(
-  result: Array<ActionGroupsApiSmsReceiver>,
-): any[] {
+export function smsReceiverArraySerializer_1(result: Array<SmsReceiver>): any[] {
   return result.map((item) => {
-    return actionGroupsApiSmsReceiverSerializer(item);
+    return smsReceiverSerializer(item);
   });
 }
 
-export function actionGroupsApiSmsReceiverArrayDeserializer_1(
-  result: Array<ActionGroupsApiSmsReceiver>,
-): any[] {
+export function smsReceiverArrayDeserializer_1(result: Array<SmsReceiver>): any[] {
   return result.map((item) => {
-    return actionGroupsApiSmsReceiverDeserializer(item);
+    return smsReceiverDeserializer(item);
   });
 }
 
-export function actionGroupsApiWebhookReceiverArraySerializer(
-  result: Array<ActionGroupsApiWebhookReceiver>,
-): any[] {
+export function webhookReceiverArraySerializer(result: Array<WebhookReceiver>): any[] {
   return result.map((item) => {
-    return actionGroupsApiWebhookReceiverSerializer(item);
+    return webhookReceiverSerializer(item);
   });
 }
 
-export function actionGroupsApiWebhookReceiverArrayDeserializer(
-  result: Array<ActionGroupsApiWebhookReceiver>,
-): any[] {
+export function webhookReceiverArrayDeserializer(result: Array<WebhookReceiver>): any[] {
   return result.map((item) => {
-    return actionGroupsApiWebhookReceiverDeserializer(item);
+    return webhookReceiverDeserializer(item);
   });
 }
 
 /** A webhook receiver. */
-export interface ActionGroupsApiWebhookReceiver {
+export interface WebhookReceiver {
   /** The name of the webhook receiver. Names must be unique across all receivers within an action group. */
   name: string;
   /** The URI where webhooks should be sent. */
@@ -472,9 +434,7 @@ export interface ActionGroupsApiWebhookReceiver {
   managedIdentity?: string;
 }
 
-export function actionGroupsApiWebhookReceiverSerializer(
-  item: ActionGroupsApiWebhookReceiver,
-): any {
+export function webhookReceiverSerializer(item: WebhookReceiver): any {
   return {
     name: item["name"],
     serviceUri: item["serviceUri"],
@@ -487,9 +447,7 @@ export function actionGroupsApiWebhookReceiverSerializer(
   };
 }
 
-export function actionGroupsApiWebhookReceiverDeserializer(
-  item: any,
-): ActionGroupsApiWebhookReceiver {
+export function webhookReceiverDeserializer(item: any): WebhookReceiver {
   return {
     name: item["name"],
     serviceUri: item["serviceUri"],
@@ -502,24 +460,20 @@ export function actionGroupsApiWebhookReceiverDeserializer(
   };
 }
 
-export function actionGroupsApiItsmReceiverArraySerializer(
-  result: Array<ActionGroupsApiItsmReceiver>,
-): any[] {
+export function itsmReceiverArraySerializer(result: Array<ItsmReceiver>): any[] {
   return result.map((item) => {
-    return actionGroupsApiItsmReceiverSerializer(item);
+    return itsmReceiverSerializer(item);
   });
 }
 
-export function actionGroupsApiItsmReceiverArrayDeserializer(
-  result: Array<ActionGroupsApiItsmReceiver>,
-): any[] {
+export function itsmReceiverArrayDeserializer(result: Array<ItsmReceiver>): any[] {
   return result.map((item) => {
-    return actionGroupsApiItsmReceiverDeserializer(item);
+    return itsmReceiverDeserializer(item);
   });
 }
 
 /** An Itsm receiver. */
-export interface ActionGroupsApiItsmReceiver {
+export interface ItsmReceiver {
   /** The name of the Itsm receiver. Names must be unique across all receivers within an action group. */
   name: string;
   /** OMS LA instance identifier. */
@@ -532,7 +486,7 @@ export interface ActionGroupsApiItsmReceiver {
   region: string;
 }
 
-export function actionGroupsApiItsmReceiverSerializer(item: ActionGroupsApiItsmReceiver): any {
+export function itsmReceiverSerializer(item: ItsmReceiver): any {
   return {
     name: item["name"],
     workspaceId: item["workspaceId"],
@@ -542,7 +496,7 @@ export function actionGroupsApiItsmReceiverSerializer(item: ActionGroupsApiItsmR
   };
 }
 
-export function actionGroupsApiItsmReceiverDeserializer(item: any): ActionGroupsApiItsmReceiver {
+export function itsmReceiverDeserializer(item: any): ItsmReceiver {
   return {
     name: item["name"],
     workspaceId: item["workspaceId"],
@@ -552,40 +506,38 @@ export function actionGroupsApiItsmReceiverDeserializer(item: any): ActionGroups
   };
 }
 
-export function actionGroupsApiAzureAppPushReceiverArraySerializer_1(
-  result: Array<ActionGroupsApiAzureAppPushReceiver>,
-): any[] {
+export function azureAppPushReceiverArraySerializer_1(result: Array<AzureAppPushReceiver>): any[] {
   return result.map((item) => {
-    return actionGroupsApiAzureAppPushReceiverSerializer(item);
+    return azureAppPushReceiverSerializer(item);
   });
 }
 
-export function actionGroupsApiAzureAppPushReceiverArrayDeserializer_1(
-  result: Array<ActionGroupsApiAzureAppPushReceiver>,
+export function azureAppPushReceiverArrayDeserializer_1(
+  result: Array<AzureAppPushReceiver>,
 ): any[] {
   return result.map((item) => {
-    return actionGroupsApiAzureAppPushReceiverDeserializer(item);
+    return azureAppPushReceiverDeserializer(item);
   });
 }
 
-export function actionGroupsApiAutomationRunbookReceiverArraySerializer(
-  result: Array<ActionGroupsApiAutomationRunbookReceiver>,
+export function automationRunbookReceiverArraySerializer(
+  result: Array<AutomationRunbookReceiver>,
 ): any[] {
   return result.map((item) => {
-    return actionGroupsApiAutomationRunbookReceiverSerializer(item);
+    return automationRunbookReceiverSerializer(item);
   });
 }
 
-export function actionGroupsApiAutomationRunbookReceiverArrayDeserializer(
-  result: Array<ActionGroupsApiAutomationRunbookReceiver>,
+export function automationRunbookReceiverArrayDeserializer(
+  result: Array<AutomationRunbookReceiver>,
 ): any[] {
   return result.map((item) => {
-    return actionGroupsApiAutomationRunbookReceiverDeserializer(item);
+    return automationRunbookReceiverDeserializer(item);
   });
 }
 
 /** The Azure Automation Runbook notification receiver. */
-export interface ActionGroupsApiAutomationRunbookReceiver {
+export interface AutomationRunbookReceiver {
   /** The Azure automation account Id which holds this runbook and authenticate to Azure resource. */
   automationAccountId: string;
   /** The name for this runbook. */
@@ -604,9 +556,7 @@ export interface ActionGroupsApiAutomationRunbookReceiver {
   managedIdentity?: string;
 }
 
-export function actionGroupsApiAutomationRunbookReceiverSerializer(
-  item: ActionGroupsApiAutomationRunbookReceiver,
-): any {
+export function automationRunbookReceiverSerializer(item: AutomationRunbookReceiver): any {
   return {
     automationAccountId: item["automationAccountId"],
     runbookName: item["runbookName"],
@@ -619,9 +569,7 @@ export function actionGroupsApiAutomationRunbookReceiverSerializer(
   };
 }
 
-export function actionGroupsApiAutomationRunbookReceiverDeserializer(
-  item: any,
-): ActionGroupsApiAutomationRunbookReceiver {
+export function automationRunbookReceiverDeserializer(item: any): AutomationRunbookReceiver {
   return {
     automationAccountId: item["automationAccountId"],
     runbookName: item["runbookName"],
@@ -634,40 +582,32 @@ export function actionGroupsApiAutomationRunbookReceiverDeserializer(
   };
 }
 
-export function actionGroupsApiVoiceReceiverArraySerializer_1(
-  result: Array<ActionGroupsApiVoiceReceiver>,
-): any[] {
+export function voiceReceiverArraySerializer_1(result: Array<VoiceReceiver>): any[] {
   return result.map((item) => {
-    return actionGroupsApiVoiceReceiverSerializer(item);
+    return voiceReceiverSerializer(item);
   });
 }
 
-export function actionGroupsApiVoiceReceiverArrayDeserializer_1(
-  result: Array<ActionGroupsApiVoiceReceiver>,
-): any[] {
+export function voiceReceiverArrayDeserializer_1(result: Array<VoiceReceiver>): any[] {
   return result.map((item) => {
-    return actionGroupsApiVoiceReceiverDeserializer(item);
+    return voiceReceiverDeserializer(item);
   });
 }
 
-export function actionGroupsApiLogicAppReceiverArraySerializer(
-  result: Array<ActionGroupsApiLogicAppReceiver>,
-): any[] {
+export function logicAppReceiverArraySerializer(result: Array<LogicAppReceiver>): any[] {
   return result.map((item) => {
-    return actionGroupsApiLogicAppReceiverSerializer(item);
+    return logicAppReceiverSerializer(item);
   });
 }
 
-export function actionGroupsApiLogicAppReceiverArrayDeserializer(
-  result: Array<ActionGroupsApiLogicAppReceiver>,
-): any[] {
+export function logicAppReceiverArrayDeserializer(result: Array<LogicAppReceiver>): any[] {
   return result.map((item) => {
-    return actionGroupsApiLogicAppReceiverDeserializer(item);
+    return logicAppReceiverDeserializer(item);
   });
 }
 
 /** A logic app receiver. */
-export interface ActionGroupsApiLogicAppReceiver {
+export interface LogicAppReceiver {
   /** The name of the logic app receiver. Names must be unique across all receivers within an action group. */
   name: string;
   /** The azure resource id of the logic app receiver. */
@@ -680,9 +620,7 @@ export interface ActionGroupsApiLogicAppReceiver {
   managedIdentity?: string;
 }
 
-export function actionGroupsApiLogicAppReceiverSerializer(
-  item: ActionGroupsApiLogicAppReceiver,
-): any {
+export function logicAppReceiverSerializer(item: LogicAppReceiver): any {
   return {
     name: item["name"],
     resourceId: item["resourceId"],
@@ -692,9 +630,7 @@ export function actionGroupsApiLogicAppReceiverSerializer(
   };
 }
 
-export function actionGroupsApiLogicAppReceiverDeserializer(
-  item: any,
-): ActionGroupsApiLogicAppReceiver {
+export function logicAppReceiverDeserializer(item: any): LogicAppReceiver {
   return {
     name: item["name"],
     resourceId: item["resourceId"],
@@ -704,24 +640,22 @@ export function actionGroupsApiLogicAppReceiverDeserializer(
   };
 }
 
-export function actionGroupsApiAzureFunctionReceiverArraySerializer(
-  result: Array<ActionGroupsApiAzureFunctionReceiver>,
-): any[] {
+export function azureFunctionReceiverArraySerializer(result: Array<AzureFunctionReceiver>): any[] {
   return result.map((item) => {
-    return actionGroupsApiAzureFunctionReceiverSerializer(item);
+    return azureFunctionReceiverSerializer(item);
   });
 }
 
-export function actionGroupsApiAzureFunctionReceiverArrayDeserializer(
-  result: Array<ActionGroupsApiAzureFunctionReceiver>,
+export function azureFunctionReceiverArrayDeserializer(
+  result: Array<AzureFunctionReceiver>,
 ): any[] {
   return result.map((item) => {
-    return actionGroupsApiAzureFunctionReceiverDeserializer(item);
+    return azureFunctionReceiverDeserializer(item);
   });
 }
 
 /** An azure function receiver. */
-export interface ActionGroupsApiAzureFunctionReceiver {
+export interface AzureFunctionReceiver {
   /** The name of the azure function receiver. Names must be unique across all receivers within an action group. */
   name: string;
   /** The azure resource id of the function app. */
@@ -736,9 +670,7 @@ export interface ActionGroupsApiAzureFunctionReceiver {
   managedIdentity?: string;
 }
 
-export function actionGroupsApiAzureFunctionReceiverSerializer(
-  item: ActionGroupsApiAzureFunctionReceiver,
-): any {
+export function azureFunctionReceiverSerializer(item: AzureFunctionReceiver): any {
   return {
     name: item["name"],
     functionAppResourceId: item["functionAppResourceId"],
@@ -749,9 +681,7 @@ export function actionGroupsApiAzureFunctionReceiverSerializer(
   };
 }
 
-export function actionGroupsApiAzureFunctionReceiverDeserializer(
-  item: any,
-): ActionGroupsApiAzureFunctionReceiver {
+export function azureFunctionReceiverDeserializer(item: any): AzureFunctionReceiver {
   return {
     name: item["name"],
     functionAppResourceId: item["functionAppResourceId"],
@@ -762,24 +692,20 @@ export function actionGroupsApiAzureFunctionReceiverDeserializer(
   };
 }
 
-export function actionGroupsApiArmRoleReceiverArraySerializer(
-  result: Array<ActionGroupsApiArmRoleReceiver>,
-): any[] {
+export function armRoleReceiverArraySerializer(result: Array<ArmRoleReceiver>): any[] {
   return result.map((item) => {
-    return actionGroupsApiArmRoleReceiverSerializer(item);
+    return armRoleReceiverSerializer(item);
   });
 }
 
-export function actionGroupsApiArmRoleReceiverArrayDeserializer(
-  result: Array<ActionGroupsApiArmRoleReceiver>,
-): any[] {
+export function armRoleReceiverArrayDeserializer(result: Array<ArmRoleReceiver>): any[] {
   return result.map((item) => {
-    return actionGroupsApiArmRoleReceiverDeserializer(item);
+    return armRoleReceiverDeserializer(item);
   });
 }
 
 /** An arm role receiver. */
-export interface ActionGroupsApiArmRoleReceiver {
+export interface ArmRoleReceiver {
   /** The name of the arm role receiver. Names must be unique across all receivers within an action group. */
   name: string;
   /** The arm role id. */
@@ -788,9 +714,7 @@ export interface ActionGroupsApiArmRoleReceiver {
   useCommonAlertSchema?: boolean;
 }
 
-export function actionGroupsApiArmRoleReceiverSerializer(
-  item: ActionGroupsApiArmRoleReceiver,
-): any {
+export function armRoleReceiverSerializer(item: ArmRoleReceiver): any {
   return {
     name: item["name"],
     roleId: item["roleId"],
@@ -798,9 +722,7 @@ export function actionGroupsApiArmRoleReceiverSerializer(
   };
 }
 
-export function actionGroupsApiArmRoleReceiverDeserializer(
-  item: any,
-): ActionGroupsApiArmRoleReceiver {
+export function armRoleReceiverDeserializer(item: any): ArmRoleReceiver {
   return {
     name: item["name"],
     roleId: item["roleId"],
@@ -808,24 +730,20 @@ export function actionGroupsApiArmRoleReceiverDeserializer(
   };
 }
 
-export function actionGroupsApiEventHubReceiverArraySerializer(
-  result: Array<ActionGroupsApiEventHubReceiver>,
-): any[] {
+export function eventHubReceiverArraySerializer(result: Array<EventHubReceiver>): any[] {
   return result.map((item) => {
-    return actionGroupsApiEventHubReceiverSerializer(item);
+    return eventHubReceiverSerializer(item);
   });
 }
 
-export function actionGroupsApiEventHubReceiverArrayDeserializer(
-  result: Array<ActionGroupsApiEventHubReceiver>,
-): any[] {
+export function eventHubReceiverArrayDeserializer(result: Array<EventHubReceiver>): any[] {
   return result.map((item) => {
-    return actionGroupsApiEventHubReceiverDeserializer(item);
+    return eventHubReceiverDeserializer(item);
   });
 }
 
 /** An Event hub receiver. */
-export interface ActionGroupsApiEventHubReceiver {
+export interface EventHubReceiver {
   /** The name of the Event hub receiver. Names must be unique across all receivers within an action group. */
   name: string;
   /** The Event Hub namespace */
@@ -842,9 +760,7 @@ export interface ActionGroupsApiEventHubReceiver {
   managedIdentity?: string;
 }
 
-export function actionGroupsApiEventHubReceiverSerializer(
-  item: ActionGroupsApiEventHubReceiver,
-): any {
+export function eventHubReceiverSerializer(item: EventHubReceiver): any {
   return {
     name: item["name"],
     eventHubNameSpace: item["eventHubNameSpace"],
@@ -856,9 +772,7 @@ export function actionGroupsApiEventHubReceiverSerializer(
   };
 }
 
-export function actionGroupsApiEventHubReceiverDeserializer(
-  item: any,
-): ActionGroupsApiEventHubReceiver {
+export function eventHubReceiverDeserializer(item: any): EventHubReceiver {
   return {
     name: item["name"],
     eventHubNameSpace: item["eventHubNameSpace"],
@@ -870,51 +784,43 @@ export function actionGroupsApiEventHubReceiverDeserializer(
   };
 }
 
-export function actionGroupsApiIncidentReceiverArraySerializer(
-  result: Array<ActionGroupsApiIncidentReceiver>,
-): any[] {
+export function incidentReceiverArraySerializer(result: Array<IncidentReceiver>): any[] {
   return result.map((item) => {
-    return actionGroupsApiIncidentReceiverSerializer(item);
+    return incidentReceiverSerializer(item);
   });
 }
 
-export function actionGroupsApiIncidentReceiverArrayDeserializer(
-  result: Array<ActionGroupsApiIncidentReceiver>,
-): any[] {
+export function incidentReceiverArrayDeserializer(result: Array<IncidentReceiver>): any[] {
   return result.map((item) => {
-    return actionGroupsApiIncidentReceiverDeserializer(item);
+    return incidentReceiverDeserializer(item);
   });
 }
 
 /** An Incident receiver. */
-export interface ActionGroupsApiIncidentReceiver {
+export interface IncidentReceiver {
   /** The name of the Incident receiver. Names must be unique across all receivers within an action group. */
   name: string;
   /** The incident service connection */
-  connection: ActionGroupsApiIncidentServiceConnection;
+  connection: IncidentServiceConnection;
   /** The incident management service type */
-  incidentManagementService: ActionGroupsApiIncidentManagementService;
+  incidentManagementService: IncidentManagementService;
   /** Field mappings for the incident service */
   mappings: Record<string, string>;
 }
 
-export function actionGroupsApiIncidentReceiverSerializer(
-  item: ActionGroupsApiIncidentReceiver,
-): any {
+export function incidentReceiverSerializer(item: IncidentReceiver): any {
   return {
     name: item["name"],
-    connection: actionGroupsApiIncidentServiceConnectionSerializer(item["connection"]),
+    connection: incidentServiceConnectionSerializer(item["connection"]),
     incidentManagementService: item["incidentManagementService"],
     mappings: item["mappings"],
   };
 }
 
-export function actionGroupsApiIncidentReceiverDeserializer(
-  item: any,
-): ActionGroupsApiIncidentReceiver {
+export function incidentReceiverDeserializer(item: any): IncidentReceiver {
   return {
     name: item["name"],
-    connection: actionGroupsApiIncidentServiceConnectionDeserializer(item["connection"]),
+    connection: incidentServiceConnectionDeserializer(item["connection"]),
     incidentManagementService: item["incidentManagementService"],
     mappings: Object.fromEntries(
       Object.entries(item["mappings"]).map(([k, p]: [string, any]) => [k, p]),
@@ -923,22 +829,18 @@ export function actionGroupsApiIncidentReceiverDeserializer(
 }
 
 /** The connection info for Incident Receiver. */
-export interface ActionGroupsApiIncidentServiceConnection {
+export interface IncidentServiceConnection {
   /** The name of the connection. */
   name: string;
   /** GUID value representing the connection ID for the incident management service. */
   id: string;
 }
 
-export function actionGroupsApiIncidentServiceConnectionSerializer(
-  item: ActionGroupsApiIncidentServiceConnection,
-): any {
+export function incidentServiceConnectionSerializer(item: IncidentServiceConnection): any {
   return { name: item["name"], id: item["id"] };
 }
 
-export function actionGroupsApiIncidentServiceConnectionDeserializer(
-  item: any,
-): ActionGroupsApiIncidentServiceConnection {
+export function incidentServiceConnectionDeserializer(item: any): IncidentServiceConnection {
   return {
     name: item["name"],
     id: item["id"],
@@ -946,22 +848,22 @@ export function actionGroupsApiIncidentServiceConnectionDeserializer(
 }
 
 /** The incident management service type */
-export enum KnownActionGroupsApiIncidentManagementService {
+export enum KnownIncidentManagementService {
   /** Icm */
   Icm = "Icm",
 }
 
 /**
  * The incident management service type \
- * {@link KnownActionGroupsApiIncidentManagementService} can be used interchangeably with ActionGroupsApiIncidentManagementService,
+ * {@link KnownIncidentManagementService} can be used interchangeably with IncidentManagementService,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Icm**: Icm
  */
-export type ActionGroupsApiIncidentManagementService = string;
+export type IncidentManagementService = string;
 
 /** An action group object for the body of patch operations. */
-export interface ActionGroupsApiActionGroupPatchBody {
+export interface ActionGroupPatchBody {
   /** Resource tags */
   tags?: Record<string, string>;
   /** Managed service identity (system assigned and/or user assigned identities) */
@@ -970,9 +872,7 @@ export interface ActionGroupsApiActionGroupPatchBody {
   enabled?: boolean;
 }
 
-export function actionGroupsApiActionGroupPatchBodySerializer(
-  item: ActionGroupsApiActionGroupPatchBody,
-): any {
+export function actionGroupPatchBodySerializer(item: ActionGroupPatchBody): any {
   return {
     tags: item["tags"],
     identity: !item["identity"]
@@ -985,128 +885,118 @@ export function actionGroupsApiActionGroupPatchBodySerializer(
 }
 
 /** An Azure action group for patch operations. */
-export interface ActionGroupsApiActionGroupPatch {
+export interface ActionGroupPatch {
   /** Indicates whether this action group is enabled. If an action group is not enabled, then none of its actions will be activated. */
   enabled?: boolean;
 }
 
-export function actionGroupsApiActionGroupPatchSerializer(
-  item: ActionGroupsApiActionGroupPatch,
-): any {
+export function actionGroupPatchSerializer(item: ActionGroupPatch): any {
   return { enabled: item["enabled"] };
 }
 
 /** A list of action groups. */
-export interface _ActionGroupsApiActionGroupList {
+export interface _ActionGroupList {
   /** The ActionGroupResource items on this page */
-  value: ActionGroupsApiActionGroupResource[];
+  value: ActionGroupResource[];
   /** The link to the next page of items */
   nextLink?: string;
 }
 
-export function _actionGroupsApiActionGroupListDeserializer(
-  item: any,
-): _ActionGroupsApiActionGroupList {
+export function _actionGroupListDeserializer(item: any): _ActionGroupList {
   return {
-    value: actionGroupsApiActionGroupResourceArrayDeserializer(item["value"]),
+    value: actionGroupResourceArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function actionGroupsApiActionGroupResourceArraySerializer(
-  result: Array<ActionGroupsApiActionGroupResource>,
-): any[] {
+export function actionGroupResourceArraySerializer(result: Array<ActionGroupResource>): any[] {
   return result.map((item) => {
-    return actionGroupsApiActionGroupResourceSerializer(item);
+    return actionGroupResourceSerializer(item);
   });
 }
 
-export function actionGroupsApiActionGroupResourceArrayDeserializer(
-  result: Array<ActionGroupsApiActionGroupResource>,
-): any[] {
+export function actionGroupResourceArrayDeserializer(result: Array<ActionGroupResource>): any[] {
   return result.map((item) => {
-    return actionGroupsApiActionGroupResourceDeserializer(item);
+    return actionGroupResourceDeserializer(item);
   });
 }
 
 /** The request body which contain contact detail metadata */
-export interface ActionGroupsApiNotificationRequestBody {
+export interface NotificationRequestBody {
   /** The value of the supported alert type. Supported alert type values are: servicehealth, metricstaticthreshold, metricsdynamicthreshold, logalertv2, smartalert, webtestalert, logalertv1numresult, logalertv1metricmeasurement, resourcehealth, activitylog, actualcostbudget, forecastedbudget */
   alertType: string;
   /** The list of email receivers that are part of this action group. */
-  emailReceivers?: ActionGroupsApiEmailReceiver[];
+  emailReceivers?: EmailReceiver[];
   /** The list of SMS receivers that are part of this action group. */
-  smsReceivers?: ActionGroupsApiSmsReceiver[];
+  smsReceivers?: SmsReceiver[];
   /** The list of webhook receivers that are part of this action group. */
-  webhookReceivers?: ActionGroupsApiWebhookReceiver[];
+  webhookReceivers?: WebhookReceiver[];
   /** The list of ITSM receivers that are part of this action group. */
-  itsmReceivers?: ActionGroupsApiItsmReceiver[];
+  itsmReceivers?: ItsmReceiver[];
   /** The list of AzureAppPush receivers that are part of this action group. */
-  azureAppPushReceivers?: ActionGroupsApiAzureAppPushReceiver[];
+  azureAppPushReceivers?: AzureAppPushReceiver[];
   /** The list of AutomationRunbook receivers that are part of this action group. */
-  automationRunbookReceivers?: ActionGroupsApiAutomationRunbookReceiver[];
+  automationRunbookReceivers?: AutomationRunbookReceiver[];
   /** The list of voice receivers that are part of this action group. */
-  voiceReceivers?: ActionGroupsApiVoiceReceiver[];
+  voiceReceivers?: VoiceReceiver[];
   /** The list of logic app receivers that are part of this action group. */
-  logicAppReceivers?: ActionGroupsApiLogicAppReceiver[];
+  logicAppReceivers?: LogicAppReceiver[];
   /** The list of azure function receivers that are part of this action group. */
-  azureFunctionReceivers?: ActionGroupsApiAzureFunctionReceiver[];
+  azureFunctionReceivers?: AzureFunctionReceiver[];
   /** The list of ARM role receivers that are part of this action group. Roles are Azure RBAC roles and only built-in roles are supported. */
-  armRoleReceivers?: ActionGroupsApiArmRoleReceiver[];
+  armRoleReceivers?: ArmRoleReceiver[];
   /** The list of event hub receivers that are part of this action group. */
-  eventHubReceivers?: ActionGroupsApiEventHubReceiver[];
+  eventHubReceivers?: EventHubReceiver[];
   /** The list of incident receivers that are part of this action group. */
-  incidentReceivers?: ActionGroupsApiIncidentReceiver[];
+  incidentReceivers?: IncidentReceiver[];
 }
 
-export function actionGroupsApiNotificationRequestBodySerializer(
-  item: ActionGroupsApiNotificationRequestBody,
-): any {
+export function notificationRequestBodySerializer(item: NotificationRequestBody): any {
   return {
     alertType: item["alertType"],
     emailReceivers: !item["emailReceivers"]
       ? item["emailReceivers"]
-      : actionGroupsApiEmailReceiverArraySerializer_1(item["emailReceivers"]),
+      : emailReceiverArraySerializer_1(item["emailReceivers"]),
     smsReceivers: !item["smsReceivers"]
       ? item["smsReceivers"]
-      : actionGroupsApiSmsReceiverArraySerializer_1(item["smsReceivers"]),
+      : smsReceiverArraySerializer_1(item["smsReceivers"]),
     webhookReceivers: !item["webhookReceivers"]
       ? item["webhookReceivers"]
-      : actionGroupsApiWebhookReceiverArraySerializer(item["webhookReceivers"]),
+      : webhookReceiverArraySerializer(item["webhookReceivers"]),
     itsmReceivers: !item["itsmReceivers"]
       ? item["itsmReceivers"]
-      : actionGroupsApiItsmReceiverArraySerializer(item["itsmReceivers"]),
+      : itsmReceiverArraySerializer(item["itsmReceivers"]),
     azureAppPushReceivers: !item["azureAppPushReceivers"]
       ? item["azureAppPushReceivers"]
-      : actionGroupsApiAzureAppPushReceiverArraySerializer_1(item["azureAppPushReceivers"]),
+      : azureAppPushReceiverArraySerializer_1(item["azureAppPushReceivers"]),
     automationRunbookReceivers: !item["automationRunbookReceivers"]
       ? item["automationRunbookReceivers"]
-      : actionGroupsApiAutomationRunbookReceiverArraySerializer(item["automationRunbookReceivers"]),
+      : automationRunbookReceiverArraySerializer(item["automationRunbookReceivers"]),
     voiceReceivers: !item["voiceReceivers"]
       ? item["voiceReceivers"]
-      : actionGroupsApiVoiceReceiverArraySerializer_1(item["voiceReceivers"]),
+      : voiceReceiverArraySerializer_1(item["voiceReceivers"]),
     logicAppReceivers: !item["logicAppReceivers"]
       ? item["logicAppReceivers"]
-      : actionGroupsApiLogicAppReceiverArraySerializer(item["logicAppReceivers"]),
+      : logicAppReceiverArraySerializer(item["logicAppReceivers"]),
     azureFunctionReceivers: !item["azureFunctionReceivers"]
       ? item["azureFunctionReceivers"]
-      : actionGroupsApiAzureFunctionReceiverArraySerializer(item["azureFunctionReceivers"]),
+      : azureFunctionReceiverArraySerializer(item["azureFunctionReceivers"]),
     armRoleReceivers: !item["armRoleReceivers"]
       ? item["armRoleReceivers"]
-      : actionGroupsApiArmRoleReceiverArraySerializer(item["armRoleReceivers"]),
+      : armRoleReceiverArraySerializer(item["armRoleReceivers"]),
     eventHubReceivers: !item["eventHubReceivers"]
       ? item["eventHubReceivers"]
-      : actionGroupsApiEventHubReceiverArraySerializer(item["eventHubReceivers"]),
+      : eventHubReceiverArraySerializer(item["eventHubReceivers"]),
     incidentReceivers: !item["incidentReceivers"]
       ? item["incidentReceivers"]
-      : actionGroupsApiIncidentReceiverArraySerializer(item["incidentReceivers"]),
+      : incidentReceiverArraySerializer(item["incidentReceivers"]),
   };
 }
 
 /** The details of the test notification results. */
-export interface ActionGroupsApiTestNotificationDetailsResponse {
+export interface TestNotificationDetailsResponse {
   /** The context info */
-  context?: ActionGroupsApiContext;
+  context?: Context;
   /** The overall state */
   state: string;
   /** The completed time */
@@ -1114,35 +1004,31 @@ export interface ActionGroupsApiTestNotificationDetailsResponse {
   /** The created time */
   createdTime?: string;
   /** The list of action detail */
-  actionDetails?: ActionGroupsApiActionDetail[];
+  actionDetails?: ActionDetail[];
 }
 
-export function actionGroupsApiTestNotificationDetailsResponseDeserializer(
+export function testNotificationDetailsResponseDeserializer(
   item: any,
-): ActionGroupsApiTestNotificationDetailsResponse {
+): TestNotificationDetailsResponse {
   return {
-    context: !item["context"]
-      ? item["context"]
-      : actionGroupsApiContextDeserializer(item["context"]),
+    context: !item["context"] ? item["context"] : contextDeserializer(item["context"]),
     state: item["state"],
     completedTime: item["completedTime"],
     createdTime: item["createdTime"],
     actionDetails: !item["actionDetails"]
       ? item["actionDetails"]
-      : actionGroupsApiActionDetailArrayDeserializer(item["actionDetails"]),
+      : actionDetailArrayDeserializer(item["actionDetails"]),
   };
 }
 
-export function actionGroupsApiActionDetailArrayDeserializer(
-  result: Array<ActionGroupsApiActionDetail>,
-): any[] {
+export function actionDetailArrayDeserializer(result: Array<ActionDetail>): any[] {
   return result.map((item) => {
-    return actionGroupsApiActionDetailDeserializer(item);
+    return actionDetailDeserializer(item);
   });
 }
 
 /** The action detail */
-export interface ActionGroupsApiActionDetail {
+export interface ActionDetail {
   /** The mechanism type */
   mechanismType?: string;
   /** The name of the action */
@@ -1157,7 +1043,7 @@ export interface ActionGroupsApiActionDetail {
   detail?: string;
 }
 
-export function actionGroupsApiActionDetailDeserializer(item: any): ActionGroupsApiActionDetail {
+export function actionDetailDeserializer(item: any): ActionDetail {
   return {
     mechanismType: item["MechanismType"],
     name: item["Name"],
@@ -1169,57 +1055,55 @@ export function actionGroupsApiActionDetailDeserializer(item: any): ActionGroups
 }
 
 /** Describes a receiver that should be resubscribed. */
-export interface ActionGroupsApiEnableRequest {
+export interface EnableRequest {
   /** The name of the receiver to resubscribe. */
   receiverName: string;
 }
 
-export function actionGroupsApiEnableRequestSerializer(item: ActionGroupsApiEnableRequest): any {
+export function enableRequestSerializer(item: EnableRequest): any {
   return { receiverName: item["receiverName"] };
 }
 
-export function _actionGroupResourcePropertiesSerializer(
-  item: ActionGroupsApiActionGroupResource,
-): any {
+export function _actionGroupResourcePropertiesSerializer(item: ActionGroupResource): any {
   return {
     groupShortName: item["groupShortName"],
     enabled: item["enabled"],
     emailReceivers: !item["emailReceivers"]
       ? item["emailReceivers"]
-      : actionGroupsApiEmailReceiverArraySerializer_1(item["emailReceivers"]),
+      : emailReceiverArraySerializer_1(item["emailReceivers"]),
     smsReceivers: !item["smsReceivers"]
       ? item["smsReceivers"]
-      : actionGroupsApiSmsReceiverArraySerializer_1(item["smsReceivers"]),
+      : smsReceiverArraySerializer_1(item["smsReceivers"]),
     webhookReceivers: !item["webhookReceivers"]
       ? item["webhookReceivers"]
-      : actionGroupsApiWebhookReceiverArraySerializer(item["webhookReceivers"]),
+      : webhookReceiverArraySerializer(item["webhookReceivers"]),
     itsmReceivers: !item["itsmReceivers"]
       ? item["itsmReceivers"]
-      : actionGroupsApiItsmReceiverArraySerializer(item["itsmReceivers"]),
+      : itsmReceiverArraySerializer(item["itsmReceivers"]),
     azureAppPushReceivers: !item["azureAppPushReceivers"]
       ? item["azureAppPushReceivers"]
-      : actionGroupsApiAzureAppPushReceiverArraySerializer_1(item["azureAppPushReceivers"]),
+      : azureAppPushReceiverArraySerializer_1(item["azureAppPushReceivers"]),
     automationRunbookReceivers: !item["automationRunbookReceivers"]
       ? item["automationRunbookReceivers"]
-      : actionGroupsApiAutomationRunbookReceiverArraySerializer(item["automationRunbookReceivers"]),
+      : automationRunbookReceiverArraySerializer(item["automationRunbookReceivers"]),
     voiceReceivers: !item["voiceReceivers"]
       ? item["voiceReceivers"]
-      : actionGroupsApiVoiceReceiverArraySerializer_1(item["voiceReceivers"]),
+      : voiceReceiverArraySerializer_1(item["voiceReceivers"]),
     logicAppReceivers: !item["logicAppReceivers"]
       ? item["logicAppReceivers"]
-      : actionGroupsApiLogicAppReceiverArraySerializer(item["logicAppReceivers"]),
+      : logicAppReceiverArraySerializer(item["logicAppReceivers"]),
     azureFunctionReceivers: !item["azureFunctionReceivers"]
       ? item["azureFunctionReceivers"]
-      : actionGroupsApiAzureFunctionReceiverArraySerializer(item["azureFunctionReceivers"]),
+      : azureFunctionReceiverArraySerializer(item["azureFunctionReceivers"]),
     armRoleReceivers: !item["armRoleReceivers"]
       ? item["armRoleReceivers"]
-      : actionGroupsApiArmRoleReceiverArraySerializer(item["armRoleReceivers"]),
+      : armRoleReceiverArraySerializer(item["armRoleReceivers"]),
     eventHubReceivers: !item["eventHubReceivers"]
       ? item["eventHubReceivers"]
-      : actionGroupsApiEventHubReceiverArraySerializer(item["eventHubReceivers"]),
+      : eventHubReceiverArraySerializer(item["eventHubReceivers"]),
     incidentReceivers: !item["incidentReceivers"]
       ? item["incidentReceivers"]
-      : actionGroupsApiIncidentReceiverArraySerializer(item["incidentReceivers"]),
+      : incidentReceiverArraySerializer(item["incidentReceivers"]),
   };
 }
 
@@ -1229,53 +1113,49 @@ export function _actionGroupResourcePropertiesDeserializer(item: any) {
     enabled: item["enabled"],
     emailReceivers: !item["emailReceivers"]
       ? item["emailReceivers"]
-      : actionGroupsApiEmailReceiverArrayDeserializer_1(item["emailReceivers"]),
+      : emailReceiverArrayDeserializer_1(item["emailReceivers"]),
     smsReceivers: !item["smsReceivers"]
       ? item["smsReceivers"]
-      : actionGroupsApiSmsReceiverArrayDeserializer_1(item["smsReceivers"]),
+      : smsReceiverArrayDeserializer_1(item["smsReceivers"]),
     webhookReceivers: !item["webhookReceivers"]
       ? item["webhookReceivers"]
-      : actionGroupsApiWebhookReceiverArrayDeserializer(item["webhookReceivers"]),
+      : webhookReceiverArrayDeserializer(item["webhookReceivers"]),
     itsmReceivers: !item["itsmReceivers"]
       ? item["itsmReceivers"]
-      : actionGroupsApiItsmReceiverArrayDeserializer(item["itsmReceivers"]),
+      : itsmReceiverArrayDeserializer(item["itsmReceivers"]),
     azureAppPushReceivers: !item["azureAppPushReceivers"]
       ? item["azureAppPushReceivers"]
-      : actionGroupsApiAzureAppPushReceiverArrayDeserializer_1(item["azureAppPushReceivers"]),
+      : azureAppPushReceiverArrayDeserializer_1(item["azureAppPushReceivers"]),
     automationRunbookReceivers: !item["automationRunbookReceivers"]
       ? item["automationRunbookReceivers"]
-      : actionGroupsApiAutomationRunbookReceiverArrayDeserializer(
-          item["automationRunbookReceivers"],
-        ),
+      : automationRunbookReceiverArrayDeserializer(item["automationRunbookReceivers"]),
     voiceReceivers: !item["voiceReceivers"]
       ? item["voiceReceivers"]
-      : actionGroupsApiVoiceReceiverArrayDeserializer_1(item["voiceReceivers"]),
+      : voiceReceiverArrayDeserializer_1(item["voiceReceivers"]),
     logicAppReceivers: !item["logicAppReceivers"]
       ? item["logicAppReceivers"]
-      : actionGroupsApiLogicAppReceiverArrayDeserializer(item["logicAppReceivers"]),
+      : logicAppReceiverArrayDeserializer(item["logicAppReceivers"]),
     azureFunctionReceivers: !item["azureFunctionReceivers"]
       ? item["azureFunctionReceivers"]
-      : actionGroupsApiAzureFunctionReceiverArrayDeserializer(item["azureFunctionReceivers"]),
+      : azureFunctionReceiverArrayDeserializer(item["azureFunctionReceivers"]),
     armRoleReceivers: !item["armRoleReceivers"]
       ? item["armRoleReceivers"]
-      : actionGroupsApiArmRoleReceiverArrayDeserializer(item["armRoleReceivers"]),
+      : armRoleReceiverArrayDeserializer(item["armRoleReceivers"]),
     eventHubReceivers: !item["eventHubReceivers"]
       ? item["eventHubReceivers"]
-      : actionGroupsApiEventHubReceiverArrayDeserializer(item["eventHubReceivers"]),
+      : eventHubReceiverArrayDeserializer(item["eventHubReceivers"]),
     incidentReceivers: !item["incidentReceivers"]
       ? item["incidentReceivers"]
-      : actionGroupsApiIncidentReceiverArrayDeserializer(item["incidentReceivers"]),
+      : incidentReceiverArrayDeserializer(item["incidentReceivers"]),
   };
 }
 
-export function _actionGroupPatchBodyPropertiesSerializer(
-  item: ActionGroupsApiActionGroupPatchBody,
-): any {
+export function _actionGroupPatchBodyPropertiesSerializer(item: ActionGroupPatchBody): any {
   return { enabled: item["enabled"] };
 }
 
-export function _actionGroupPatchBodyPropertiesSerializer_1(
-  item: TenantActionGroupsActionGroupPatchBody,
+export function _tenantActionGroupPatchBodyPropertiesSerializer(
+  item: TenantActionGroupPatchBody,
 ): any {
   return { enabled: item["enabled"] };
 }

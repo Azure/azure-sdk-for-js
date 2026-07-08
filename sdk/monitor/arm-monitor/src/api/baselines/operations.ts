@@ -3,12 +3,12 @@
 
 import type { MonitorContext as Client } from "../index.js";
 import type {
-  _MetricBaselinesApiMetricBaselinesResponse,
-  MetricBaselinesApiSingleMetricBaseline,
+  _MetricBaselinesResponse,
+  SingleMetricBaseline,
 } from "../../models/metricBaselinesApi/models.js";
 import {
-  _metricBaselinesApiMetricBaselinesResponseDeserializer,
-  metricBaselinesApiMetricBaselinesErrorResponseDeserializer,
+  _metricBaselinesResponseDeserializer,
+  metricBaselinesErrorResponseDeserializer,
 } from "../../models/metricBaselinesApi/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -48,18 +48,18 @@ export function _listSend(
 
 export async function _listDeserialize(
   result: PathUncheckedResponse,
-): Promise<_MetricBaselinesApiMetricBaselinesResponse> {
+): Promise<_MetricBaselinesResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
-      error.details = metricBaselinesApiMetricBaselinesErrorResponseDeserializer(result.body);
+      error.details = metricBaselinesErrorResponseDeserializer(result.body);
     }
 
     throw error;
   }
 
-  return _metricBaselinesApiMetricBaselinesResponseDeserializer(result.body);
+  return _metricBaselinesResponseDeserializer(result.body);
 }
 
 /** **Lists the metric baseline values for a resource**. */
@@ -67,7 +67,7 @@ export function list(
   context: Client,
   resourceUri: string,
   options: BaselinesListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<MetricBaselinesApiSingleMetricBaseline> {
+): PagedAsyncIterableIterator<SingleMetricBaseline> {
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, resourceUri, options),

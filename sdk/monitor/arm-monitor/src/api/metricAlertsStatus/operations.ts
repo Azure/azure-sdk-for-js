@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 import type { MonitorContext as Client } from "../index.js";
-import type { MetricAlertApiMetricAlertStatusCollection } from "../../models/metricAlertApi/models.js";
+import type { MetricAlertStatusCollection } from "../../models/metricAlertApi/models.js";
 import {
-  metricAlertApiMetricAlertErrorResponseDeserializer,
-  metricAlertApiMetricAlertStatusCollectionDeserializer,
+  metricAlertErrorResponseDeserializer,
+  metricAlertStatusCollectionDeserializer,
 } from "../../models/metricAlertApi/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
@@ -43,18 +43,18 @@ export function _listByNameSend(
 
 export async function _listByNameDeserialize(
   result: PathUncheckedResponse,
-): Promise<MetricAlertApiMetricAlertStatusCollection> {
+): Promise<MetricAlertStatusCollection> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
-      error.details = metricAlertApiMetricAlertErrorResponseDeserializer(result.body);
+      error.details = metricAlertErrorResponseDeserializer(result.body);
     }
 
     throw error;
   }
 
-  return metricAlertApiMetricAlertStatusCollectionDeserializer(result.body);
+  return metricAlertStatusCollectionDeserializer(result.body);
 }
 
 /** Retrieve an alert rule status. */
@@ -64,7 +64,7 @@ export async function listByName(
   ruleName: string,
   statusName: string,
   options: MetricAlertsStatusListByNameOptionalParams = { requestOptions: {} },
-): Promise<MetricAlertApiMetricAlertStatusCollection> {
+): Promise<MetricAlertStatusCollection> {
   const result = await _listByNameSend(context, resourceGroupName, ruleName, statusName, options);
   return _listByNameDeserialize(result);
 }
@@ -95,18 +95,18 @@ export function _listSend(
 
 export async function _listDeserialize(
   result: PathUncheckedResponse,
-): Promise<MetricAlertApiMetricAlertStatusCollection> {
+): Promise<MetricAlertStatusCollection> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
-      error.details = metricAlertApiMetricAlertErrorResponseDeserializer(result.body);
+      error.details = metricAlertErrorResponseDeserializer(result.body);
     }
 
     throw error;
   }
 
-  return metricAlertApiMetricAlertStatusCollectionDeserializer(result.body);
+  return metricAlertStatusCollectionDeserializer(result.body);
 }
 
 /** Retrieve an alert rule status. */
@@ -115,7 +115,7 @@ export async function list(
   resourceGroupName: string,
   ruleName: string,
   options: MetricAlertsStatusListOptionalParams = { requestOptions: {} },
-): Promise<MetricAlertApiMetricAlertStatusCollection> {
+): Promise<MetricAlertStatusCollection> {
   const result = await _listSend(context, resourceGroupName, ruleName, options);
   return _listDeserialize(result);
 }

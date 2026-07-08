@@ -22,7 +22,6 @@ exports:
   "./models/tenantActionGroups": "./src/models/tenantActionGroups/index.ts"
   "./models/vmInsightsOnboarding": "./src/models/vmInsightsOnboarding/index.ts"
   "./models/microsoft/common": "./src/models/microsoft/common/index.ts"
-  "./models/microsoft/insightsCombinedClient": "./src/models/microsoft/insightsCombinedClient/index.ts"
 
 targets:
   - name: browser

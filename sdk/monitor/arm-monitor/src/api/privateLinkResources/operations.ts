@@ -7,8 +7,8 @@ import {
   armErrorResponseDeserializer,
   privateLinkResourceListResultDeserializer,
 } from "../../models/models.js";
-import type { PrivateLinkScopesApiPrivateLinkResource } from "../../models/privateLinkScopesApi/models.js";
-import { privateLinkScopesApiPrivateLinkResourceDeserializer } from "../../models/privateLinkScopesApi/models.js";
+import type { PrivateLinkResource } from "../../models/privateLinkScopesApi/models.js";
+import { privateLinkResourceDeserializer } from "../../models/privateLinkScopesApi/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
   PrivateLinkResourcesListByPrivateLinkScopeOptionalParams,
@@ -94,9 +94,7 @@ export function _getSend(
   });
 }
 
-export async function _getDeserialize(
-  result: PathUncheckedResponse,
-): Promise<PrivateLinkScopesApiPrivateLinkResource> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<PrivateLinkResource> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -107,7 +105,7 @@ export async function _getDeserialize(
     throw error;
   }
 
-  return privateLinkScopesApiPrivateLinkResourceDeserializer(result.body);
+  return privateLinkResourceDeserializer(result.body);
 }
 
 /** Gets the private link resources that need to be created for a Azure Monitor PrivateLinkScope. */
@@ -117,7 +115,7 @@ export async function get(
   scopeName: string,
   groupName: string,
   options: PrivateLinkResourcesGetOptionalParams = { requestOptions: {} },
-): Promise<PrivateLinkScopesApiPrivateLinkResource> {
+): Promise<PrivateLinkResource> {
   const result = await _getSend(context, resourceGroupName, scopeName, groupName, options);
   return _getDeserialize(result);
 }

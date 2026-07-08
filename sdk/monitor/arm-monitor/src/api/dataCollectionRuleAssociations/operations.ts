@@ -2,11 +2,11 @@
 // Licensed under the MIT License.
 
 import type { MonitorContext as Client } from "../index.js";
-import type { DataCollectionApiDataCollectionRuleAssociationProxyOnlyResource } from "../../models/dataCollectionApi/models.js";
+import type { DataCollectionRuleAssociationProxyOnlyResource } from "../../models/dataCollectionApi/models.js";
 import {
-  dataCollectionApiErrorResponseCommonV2Deserializer,
-  dataCollectionApiDataCollectionRuleAssociationProxyOnlyResourceSerializer,
-  dataCollectionApiDataCollectionRuleAssociationProxyOnlyResourceDeserializer,
+  errorResponseCommonV2Deserializer,
+  dataCollectionRuleAssociationProxyOnlyResourceSerializer,
+  dataCollectionRuleAssociationProxyOnlyResourceDeserializer,
 } from "../../models/dataCollectionApi/models.js";
 import type { _DataCollectionRuleAssociationProxyOnlyResourceListResult } from "../../models/models.js";
 import { _dataCollectionRuleAssociationProxyOnlyResourceListResultDeserializer } from "../../models/models.js";
@@ -57,7 +57,7 @@ export async function _listByRuleDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
-      error.details = dataCollectionApiErrorResponseCommonV2Deserializer(result.body);
+      error.details = errorResponseCommonV2Deserializer(result.body);
     }
 
     throw error;
@@ -72,7 +72,7 @@ export function listByRule(
   resourceGroupName: string,
   dataCollectionRuleName: string,
   options: DataCollectionRuleAssociationsListByRuleOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<DataCollectionApiDataCollectionRuleAssociationProxyOnlyResource> {
+): PagedAsyncIterableIterator<DataCollectionRuleAssociationProxyOnlyResource> {
   return buildPagedAsyncIterator(
     context,
     () => _listByRuleSend(context, resourceGroupName, dataCollectionRuleName, options),
@@ -110,7 +110,7 @@ export async function _listByResourceDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
-      error.details = dataCollectionApiErrorResponseCommonV2Deserializer(result.body);
+      error.details = errorResponseCommonV2Deserializer(result.body);
     }
 
     throw error;
@@ -124,7 +124,7 @@ export function listByResource(
   context: Client,
   resourceUri: string,
   options: DataCollectionRuleAssociationsListByResourceOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<DataCollectionApiDataCollectionRuleAssociationProxyOnlyResource> {
+): PagedAsyncIterableIterator<DataCollectionRuleAssociationProxyOnlyResource> {
   return buildPagedAsyncIterator(
     context,
     () => _listByResourceSend(context, resourceUri, options),
@@ -159,7 +159,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
-      error.details = dataCollectionApiErrorResponseCommonV2Deserializer(result.body);
+      error.details = errorResponseCommonV2Deserializer(result.body);
     }
 
     throw error;
@@ -202,24 +202,24 @@ export function _createSend(
     headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: !options?.body
       ? options?.body
-      : dataCollectionApiDataCollectionRuleAssociationProxyOnlyResourceSerializer(options?.body),
+      : dataCollectionRuleAssociationProxyOnlyResourceSerializer(options?.body),
   });
 }
 
 export async function _createDeserialize(
   result: PathUncheckedResponse,
-): Promise<DataCollectionApiDataCollectionRuleAssociationProxyOnlyResource> {
+): Promise<DataCollectionRuleAssociationProxyOnlyResource> {
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
-      error.details = dataCollectionApiErrorResponseCommonV2Deserializer(result.body);
+      error.details = errorResponseCommonV2Deserializer(result.body);
     }
 
     throw error;
   }
 
-  return dataCollectionApiDataCollectionRuleAssociationProxyOnlyResourceDeserializer(result.body);
+  return dataCollectionRuleAssociationProxyOnlyResourceDeserializer(result.body);
 }
 
 /** Creates or updates an association. */
@@ -228,7 +228,7 @@ export async function create(
   resourceUri: string,
   associationName: string,
   options: DataCollectionRuleAssociationsCreateOptionalParams = { requestOptions: {} },
-): Promise<DataCollectionApiDataCollectionRuleAssociationProxyOnlyResource> {
+): Promise<DataCollectionRuleAssociationProxyOnlyResource> {
   const result = await _createSend(context, resourceUri, associationName, options);
   return _createDeserialize(result);
 }
@@ -258,18 +258,18 @@ export function _getSend(
 
 export async function _getDeserialize(
   result: PathUncheckedResponse,
-): Promise<DataCollectionApiDataCollectionRuleAssociationProxyOnlyResource> {
+): Promise<DataCollectionRuleAssociationProxyOnlyResource> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
-      error.details = dataCollectionApiErrorResponseCommonV2Deserializer(result.body);
+      error.details = errorResponseCommonV2Deserializer(result.body);
     }
 
     throw error;
   }
 
-  return dataCollectionApiDataCollectionRuleAssociationProxyOnlyResourceDeserializer(result.body);
+  return dataCollectionRuleAssociationProxyOnlyResourceDeserializer(result.body);
 }
 
 /** Returns the specified association. */
@@ -278,7 +278,7 @@ export async function get(
   resourceUri: string,
   associationName: string,
   options: DataCollectionRuleAssociationsGetOptionalParams = { requestOptions: {} },
-): Promise<DataCollectionApiDataCollectionRuleAssociationProxyOnlyResource> {
+): Promise<DataCollectionRuleAssociationProxyOnlyResource> {
   const result = await _getSend(context, resourceUri, associationName, options);
   return _getDeserialize(result);
 }
@@ -316,7 +316,7 @@ export async function _listByDataCollectionEndpointDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
-      error.details = dataCollectionApiErrorResponseCommonV2Deserializer(result.body);
+      error.details = errorResponseCommonV2Deserializer(result.body);
     }
 
     throw error;
@@ -333,7 +333,7 @@ export function listByDataCollectionEndpoint(
   options: DataCollectionRuleAssociationsListByDataCollectionEndpointOptionalParams = {
     requestOptions: {},
   },
-): PagedAsyncIterableIterator<DataCollectionApiDataCollectionRuleAssociationProxyOnlyResource> {
+): PagedAsyncIterableIterator<DataCollectionRuleAssociationProxyOnlyResource> {
   return buildPagedAsyncIterator(
     context,
     () =>

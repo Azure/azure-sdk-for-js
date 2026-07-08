@@ -4,7 +4,7 @@
 import type { MonitorContext } from "../../api/monitorContext.js";
 import { get } from "../../api/predictiveMetric/operations.js";
 import type { PredictiveMetricGetOptionalParams } from "../../api/predictiveMetric/options.js";
-import type { AutoScaleApiPredictiveResponse } from "../../models/autoScaleApi/models.js";
+import type { PredictiveResponse } from "../../models/autoScaleApi/models.js";
 
 /** Interface representing a PredictiveMetric operations. */
 export interface PredictiveMetricOperations {
@@ -18,7 +18,7 @@ export interface PredictiveMetricOperations {
     metricName: string,
     aggregation: string,
     options?: PredictiveMetricGetOptionalParams,
-  ) => Promise<AutoScaleApiPredictiveResponse>;
+  ) => Promise<PredictiveResponse>;
 }
 
 function _getPredictiveMetric(context: MonitorContext) {

@@ -3,18 +3,18 @@
 
 import type { MonitorContext as Client } from "../index.js";
 import type {
-  _MetricsApiSubscriptionScopeMetricDefinitionCollection,
-  MetricsApiSubscriptionScopeMetricDefinition,
-  _MetricsApiMetricDefinitionCollection,
-  MetricsApiMetricDefinition,
+  _SubscriptionScopeMetricDefinitionCollection,
+  SubscriptionScopeMetricDefinition,
+  _MetricDefinitionCollection,
+  MetricDefinition,
 } from "../../models/metricsApi/models.js";
 import {
-  _metricsApiSubscriptionScopeMetricDefinitionCollectionDeserializer,
-  _metricsApiMetricDefinitionCollectionDeserializer,
+  _subscriptionScopeMetricDefinitionCollectionDeserializer,
+  _metricDefinitionCollectionDeserializer,
 } from "../../models/metricsApi/models.js";
 import {
-  microsoftCommonErrorContractDeserializer,
-  microsoftCommonCommonErrorResponseDeserializer,
+  errorContractDeserializer,
+  commonErrorResponseDeserializer,
 } from "../../models/microsoft/common/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -50,18 +50,18 @@ export function _listSend(
 
 export async function _listDeserialize(
   result: PathUncheckedResponse,
-): Promise<_MetricsApiMetricDefinitionCollection> {
+): Promise<_MetricDefinitionCollection> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
-      error.details = microsoftCommonCommonErrorResponseDeserializer(result.body);
+      error.details = commonErrorResponseDeserializer(result.body);
     }
 
     throw error;
   }
 
-  return _metricsApiMetricDefinitionCollectionDeserializer(result.body);
+  return _metricDefinitionCollectionDeserializer(result.body);
 }
 
 /** Lists the metric definitions for the resource. */
@@ -69,7 +69,7 @@ export function list(
   context: Client,
   resourceUri: string,
   options: MetricDefinitionsListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<MetricsApiMetricDefinition> {
+): PagedAsyncIterableIterator<MetricDefinition> {
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, resourceUri, options),
@@ -104,18 +104,18 @@ export function _listAtSubscriptionScopeSend(
 
 export async function _listAtSubscriptionScopeDeserialize(
   result: PathUncheckedResponse,
-): Promise<_MetricsApiSubscriptionScopeMetricDefinitionCollection> {
+): Promise<_SubscriptionScopeMetricDefinitionCollection> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
-      error.details = microsoftCommonErrorContractDeserializer(result.body);
+      error.details = errorContractDeserializer(result.body);
     }
 
     throw error;
   }
 
-  return _metricsApiSubscriptionScopeMetricDefinitionCollectionDeserializer(result.body);
+  return _subscriptionScopeMetricDefinitionCollectionDeserializer(result.body);
 }
 
 /** Lists the metric definitions for the subscription. */
@@ -123,7 +123,7 @@ export function listAtSubscriptionScope(
   context: Client,
   region: string,
   options: MetricDefinitionsListAtSubscriptionScopeOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<MetricsApiSubscriptionScopeMetricDefinition> {
+): PagedAsyncIterableIterator<SubscriptionScopeMetricDefinition> {
   return buildPagedAsyncIterator(
     context,
     () => _listAtSubscriptionScopeSend(context, region, options),

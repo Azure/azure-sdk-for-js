@@ -2,17 +2,14 @@
 // Licensed under the MIT License.
 
 export type {
-  VmInsightsOnboardingVMInsightsOnboardingStatus,
-  VmInsightsOnboardingVMInsightsOnboardingStatusProperties,
-  VmInsightsOnboardingOnboardingStatus,
-  VmInsightsOnboardingDataStatus,
-  VmInsightsOnboardingDataContainer,
-  VmInsightsOnboardingWorkspaceInfo,
-  VmInsightsOnboardingWorkspaceInfoProperties,
-  VmInsightsOnboardingResponseWithError,
-  VmInsightsOnboardingError,
+  VMInsightsOnboardingStatus,
+  VMInsightsOnboardingStatusProperties,
+  OnboardingStatus,
+  DataStatus,
+  DataContainer,
+  WorkspaceInfo,
+  WorkspaceInfoProperties,
+  ResponseWithError,
+  ErrorModel,
 } from "./models.js";
-export {
-  KnownVmInsightsOnboardingOnboardingStatus,
-  KnownVmInsightsOnboardingDataStatus,
-} from "./models.js";
+export { KnownOnboardingStatus, KnownDataStatus } from "./models.js";

@@ -2,15 +2,15 @@
 // Licensed under the MIT License.
 
 import type { MonitorContext as Client } from "../index.js";
-import { microsoftCommonErrorResponseDeserializer } from "../../models/microsoft/common/models.js";
+import { errorResponseDeserializer } from "../../models/microsoft/common/models.js";
 import type {
-  ServiceDiagnosticsSettingsApiServiceDiagnosticSettingsResource,
-  ServiceDiagnosticsSettingsApiServiceDiagnosticSettingsResourcePatch,
+  ServiceDiagnosticSettingsResource,
+  ServiceDiagnosticSettingsResourcePatch,
 } from "../../models/serviceDiagnosticsSettingsApi/models.js";
 import {
-  serviceDiagnosticsSettingsApiServiceDiagnosticSettingsResourceSerializer,
-  serviceDiagnosticsSettingsApiServiceDiagnosticSettingsResourceDeserializer,
-  serviceDiagnosticsSettingsApiServiceDiagnosticSettingsResourcePatchSerializer,
+  serviceDiagnosticSettingsResourceSerializer,
+  serviceDiagnosticSettingsResourceDeserializer,
+  serviceDiagnosticSettingsResourcePatchSerializer,
 } from "../../models/serviceDiagnosticsSettingsApi/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
@@ -24,7 +24,7 @@ import { createRestError, operationOptionsToRequestParameters } from "@azure-res
 export function _updateSend(
   context: Client,
   resourceUri: string,
-  serviceDiagnosticSettingsResource: ServiceDiagnosticsSettingsApiServiceDiagnosticSettingsResourcePatch,
+  serviceDiagnosticSettingsResource: ServiceDiagnosticSettingsResourcePatch,
   options: ServiceDiagnosticSettingsUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -41,35 +41,33 @@ export function _updateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: serviceDiagnosticsSettingsApiServiceDiagnosticSettingsResourcePatchSerializer(
-      serviceDiagnosticSettingsResource,
-    ),
+    body: serviceDiagnosticSettingsResourcePatchSerializer(serviceDiagnosticSettingsResource),
   });
 }
 
 export async function _updateDeserialize(
   result: PathUncheckedResponse,
-): Promise<ServiceDiagnosticsSettingsApiServiceDiagnosticSettingsResource> {
+): Promise<ServiceDiagnosticSettingsResource> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
-      error.details = microsoftCommonErrorResponseDeserializer(result.body);
+      error.details = errorResponseDeserializer(result.body);
     }
 
     throw error;
   }
 
-  return serviceDiagnosticsSettingsApiServiceDiagnosticSettingsResourceDeserializer(result.body);
+  return serviceDiagnosticSettingsResourceDeserializer(result.body);
 }
 
 /** Updates an existing ServiceDiagnosticSettingsResource. To update other fields use the CreateOrUpdate method. **WARNING**: This method will be deprecated in future releases. */
 export async function update(
   context: Client,
   resourceUri: string,
-  serviceDiagnosticSettingsResource: ServiceDiagnosticsSettingsApiServiceDiagnosticSettingsResourcePatch,
+  serviceDiagnosticSettingsResource: ServiceDiagnosticSettingsResourcePatch,
   options: ServiceDiagnosticSettingsUpdateOptionalParams = { requestOptions: {} },
-): Promise<ServiceDiagnosticsSettingsApiServiceDiagnosticSettingsResource> {
+): Promise<ServiceDiagnosticSettingsResource> {
   const result = await _updateSend(
     context,
     resourceUri,
@@ -82,7 +80,7 @@ export async function update(
 export function _createOrUpdateSend(
   context: Client,
   resourceUri: string,
-  parameters: ServiceDiagnosticsSettingsApiServiceDiagnosticSettingsResource,
+  parameters: ServiceDiagnosticSettingsResource,
   options: ServiceDiagnosticSettingsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -99,33 +97,33 @@ export function _createOrUpdateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: serviceDiagnosticsSettingsApiServiceDiagnosticSettingsResourceSerializer(parameters),
+    body: serviceDiagnosticSettingsResourceSerializer(parameters),
   });
 }
 
 export async function _createOrUpdateDeserialize(
   result: PathUncheckedResponse,
-): Promise<ServiceDiagnosticsSettingsApiServiceDiagnosticSettingsResource> {
+): Promise<ServiceDiagnosticSettingsResource> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
-      error.details = microsoftCommonErrorResponseDeserializer(result.body);
+      error.details = errorResponseDeserializer(result.body);
     }
 
     throw error;
   }
 
-  return serviceDiagnosticsSettingsApiServiceDiagnosticSettingsResourceDeserializer(result.body);
+  return serviceDiagnosticSettingsResourceDeserializer(result.body);
 }
 
 /** Create or update new diagnostic settings for the specified resource. **WARNING**: This method will be deprecated in future releases. */
 export async function createOrUpdate(
   context: Client,
   resourceUri: string,
-  parameters: ServiceDiagnosticsSettingsApiServiceDiagnosticSettingsResource,
+  parameters: ServiceDiagnosticSettingsResource,
   options: ServiceDiagnosticSettingsCreateOrUpdateOptionalParams = { requestOptions: {} },
-): Promise<ServiceDiagnosticsSettingsApiServiceDiagnosticSettingsResource> {
+): Promise<ServiceDiagnosticSettingsResource> {
   const result = await _createOrUpdateSend(context, resourceUri, parameters, options);
   return _createOrUpdateDeserialize(result);
 }
@@ -153,18 +151,18 @@ export function _getSend(
 
 export async function _getDeserialize(
   result: PathUncheckedResponse,
-): Promise<ServiceDiagnosticsSettingsApiServiceDiagnosticSettingsResource> {
+): Promise<ServiceDiagnosticSettingsResource> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
-      error.details = microsoftCommonErrorResponseDeserializer(result.body);
+      error.details = errorResponseDeserializer(result.body);
     }
 
     throw error;
   }
 
-  return serviceDiagnosticsSettingsApiServiceDiagnosticSettingsResourceDeserializer(result.body);
+  return serviceDiagnosticSettingsResourceDeserializer(result.body);
 }
 
 /** Gets the active diagnostic settings for the specified resource. **WARNING**: This method will be deprecated in future releases. */
@@ -172,7 +170,7 @@ export async function get(
   context: Client,
   resourceUri: string,
   options: ServiceDiagnosticSettingsGetOptionalParams = { requestOptions: {} },
-): Promise<ServiceDiagnosticsSettingsApiServiceDiagnosticSettingsResource> {
+): Promise<ServiceDiagnosticSettingsResource> {
   const result = await _getSend(context, resourceUri, options);
   return _getDeserialize(result);
 }

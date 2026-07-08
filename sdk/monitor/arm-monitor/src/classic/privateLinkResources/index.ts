@@ -8,7 +8,7 @@ import type {
   PrivateLinkResourcesGetOptionalParams,
 } from "../../api/privateLinkResources/options.js";
 import type { PrivateLinkResourceListResult } from "../../models/models.js";
-import type { PrivateLinkScopesApiPrivateLinkResource } from "../../models/privateLinkScopesApi/models.js";
+import type { PrivateLinkResource } from "../../models/privateLinkScopesApi/models.js";
 
 /** Interface representing a PrivateLinkResources operations. */
 export interface PrivateLinkResourcesOperations {
@@ -24,7 +24,7 @@ export interface PrivateLinkResourcesOperations {
     scopeName: string,
     groupName: string,
     options?: PrivateLinkResourcesGetOptionalParams,
-  ) => Promise<PrivateLinkScopesApiPrivateLinkResource>;
+  ) => Promise<PrivateLinkResource>;
 }
 
 function _getPrivateLinkResources(context: MonitorContext) {

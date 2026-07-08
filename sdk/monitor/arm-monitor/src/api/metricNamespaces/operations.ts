@@ -3,11 +3,11 @@
 
 import type { MonitorContext as Client } from "../index.js";
 import type {
-  _MetricsApiMetricNamespaceCollection,
-  MetricsApiMetricNamespace,
+  _MetricNamespaceCollection,
+  MetricNamespace,
 } from "../../models/metricsApi/models.js";
-import { _metricsApiMetricNamespaceCollectionDeserializer } from "../../models/metricsApi/models.js";
-import { microsoftCommonErrorResponseDeserializer } from "../../models/microsoft/common/models.js";
+import { _metricNamespaceCollectionDeserializer } from "../../models/metricsApi/models.js";
+import { errorResponseDeserializer } from "../../models/microsoft/common/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
@@ -39,18 +39,18 @@ export function _listSend(
 
 export async function _listDeserialize(
   result: PathUncheckedResponse,
-): Promise<_MetricsApiMetricNamespaceCollection> {
+): Promise<_MetricNamespaceCollection> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
-      error.details = microsoftCommonErrorResponseDeserializer(result.body);
+      error.details = errorResponseDeserializer(result.body);
     }
 
     throw error;
   }
 
-  return _metricsApiMetricNamespaceCollectionDeserializer(result.body);
+  return _metricNamespaceCollectionDeserializer(result.body);
 }
 
 /** Lists the metric namespaces for the resource. */
@@ -58,7 +58,7 @@ export function list(
   context: Client,
   resourceUri: string,
   options: MetricNamespacesListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<MetricsApiMetricNamespace> {
+): PagedAsyncIterableIterator<MetricNamespace> {
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, resourceUri, options),

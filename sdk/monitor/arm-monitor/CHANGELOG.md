@@ -38,461 +38,381 @@ Compared with version 7.0.0
   - Added operation MonitorClient.getTestNotificationsAtTenantActionGroupResourceLevel
   - Class MonitorClient has a new constructor "constructor(credential: TokenCredential, options?: MonitorClientOptionalParams);"
   - Class MonitorClient has a new constructor "constructor(credential: TokenCredential, subscriptionId: string, options?: MonitorClientOptionalParams);"
+  - Added Interface AccessModeSettings
+  - Added Interface AccessModeSettingsExclusion
   - Added Interface AccessRule
   - Added Interface AccessRuleProperties
-  - Added Interface ActionGroupsApiActionDetail
-  - Added Interface ActionGroupsApiActionGroup
-  - Added Interface ActionGroupsApiActionGroupPatch
-  - Added Interface ActionGroupsApiActionGroupPatchBody
-  - Added Interface ActionGroupsApiActionGroupResource
-  - Added Interface ActionGroupsApiArmRoleReceiver
-  - Added Interface ActionGroupsApiAutomationRunbookReceiver
-  - Added Interface ActionGroupsApiAzureAppPushReceiver
-  - Added Interface ActionGroupsApiAzureFunctionReceiver
-  - Added Interface ActionGroupsApiContext
-  - Added Interface ActionGroupsApiEmailReceiver
-  - Added Interface ActionGroupsApiEnableRequest
-  - Added Interface ActionGroupsApiEventHubReceiver
-  - Added Interface ActionGroupsApiIncidentReceiver
-  - Added Interface ActionGroupsApiIncidentServiceConnection
-  - Added Interface ActionGroupsApiItsmReceiver
-  - Added Interface ActionGroupsApiLogicAppReceiver
-  - Added Interface ActionGroupsApiNotificationRequestBody
-  - Added Interface ActionGroupsApiSmsReceiver
-  - Added Interface ActionGroupsApiTestNotificationDetailsResponse
-  - Added Interface ActionGroupsApiVoiceReceiver
-  - Added Interface ActionGroupsApiWebhookReceiver
+  - Added Interface ActionGroup
+  - Added Interface ActionGroupPatch
+  - Added Interface ActionGroupResource
   - Added Interface ActionGroupsCreateNotificationsAtActionGroupResourceLevelOptionalParams
   - Added Interface ActionGroupsGetNSPOptionalParams
   - Added Interface ActionGroupsGetTestNotificationsAtActionGroupResourceLevelOptionalParams
   - Added Interface ActionGroupsListNSPOptionalParams
   - Added Interface ActionGroupsReconcileNSPOptionalParams
-  - Added Interface ActivityLogAlertsApiActionList
-  - Added Interface ActivityLogAlertsApiActivityLogAlertActionGroup
-  - Added Interface ActivityLogAlertsApiActivityLogAlertErrorResponse
-  - Added Interface ActivityLogAlertsApiActivityLogAlertResource
-  - Added Interface ActivityLogAlertsApiAlertRuleAllOfCondition
-  - Added Interface ActivityLogAlertsApiAlertRuleAnyOfOrLeafCondition
-  - Added Interface ActivityLogAlertsApiAlertRuleLeafCondition
-  - Added Interface ActivityLogAlertsApiAlertRulePatchObject
-  - Added Interface ActivityLogAlertsApiAlertRulePatchProperties
-  - Added Interface ActivityLogAlertsApiAlertRuleProperties
-  - Added Interface ActivityLogsApiEventData
-  - Added Interface ActivityLogsApiHttpRequestInfo
-  - Added Interface ActivityLogsApiSenderAuthorization
-  - Added Interface AlertRulesIncidentsApiIncident
+  - Added Interface ActionList
+  - Added Interface Actions
+  - Added Interface ActivityLogAlertErrorResponse
+  - Added Interface ActivityLogAlertResource
+  - Added Interface AdxDestination
+  - Added Interface AgentSetting
+  - Added Interface AgentSettingsSpec
+  - Added Interface AlertRuleAllOfCondition
+  - Added Interface AlertRuleAnyOfOrLeafCondition
+  - Added Interface AlertRuleLeafCondition
+  - Added Interface AlertRulePatchObject
+  - Added Interface AlertRulePatchProperties
+  - Added Interface AlertRuleProperties
+  - Added Interface ApplicationInsights
   - Added Interface ArmErrorDetail
   - Added Interface ArmErrorResponse
-  - Added Interface AutoScaleApiAutoscaleErrorResponse
-  - Added Interface AutoScaleApiAutoscaleErrorResponseError
-  - Added Interface AutoScaleApiAutoscaleNotification
-  - Added Interface AutoScaleApiAutoscaleProfile
-  - Added Interface AutoScaleApiAutoscaleSetting
-  - Added Interface AutoScaleApiAutoscaleSettingResource
-  - Added Interface AutoScaleApiAutoscaleSettingResourcePatch
-  - Added Interface AutoScaleApiEmailNotification
-  - Added Interface AutoScaleApiMetricTrigger
-  - Added Interface AutoScaleApiPredictiveAutoscalePolicy
-  - Added Interface AutoScaleApiPredictiveResponse
-  - Added Interface AutoScaleApiPredictiveValue
-  - Added Interface AutoScaleApiRecurrence
-  - Added Interface AutoScaleApiRecurrentSchedule
-  - Added Interface AutoScaleApiScaleAction
-  - Added Interface AutoScaleApiScaleCapacity
-  - Added Interface AutoScaleApiScaleRule
-  - Added Interface AutoScaleApiScaleRuleMetricDimension
-  - Added Interface AutoScaleApiTimeWindow
-  - Added Interface AutoScaleApiWebhookNotification
+  - Added Interface AutoscaleErrorResponse
+  - Added Interface AutoscaleErrorResponseError
+  - Added Interface AutoscaleSetting
+  - Added Interface AutoscaleSettingResource
+  - Added Interface AzureMonitorPrivateLinkScope
+  - Added Interface AzureMonitorPrivateLinkScopeProperties
+  - Added Interface ColumnDefinition
+  - Added Interface CommonErrorResponse
+  - Added Interface Condition
+  - Added Interface ConditionFailingPeriods
   - Added Interface CreateNotificationsAtTenantActionGroupResourceLevelOptionalParams
-  - Added Interface DataCollectionApiAdxDestination
-  - Added Interface DataCollectionApiAgentSetting
-  - Added Interface DataCollectionApiAgentSettingsSpec
-  - Added Interface DataCollectionApiApplicationInsights
-  - Added Interface DataCollectionApiAzureMonitorMetricsDestination
-  - Added Interface DataCollectionApiColumnDefinition
-  - Added Interface DataCollectionApiConfigurationAccessEndpointSpec
-  - Added Interface DataCollectionApiDataCollectionEndpoint
-  - Added Interface DataCollectionApiDataCollectionEndpointConfigurationAccess
-  - Added Interface DataCollectionApiDataCollectionEndpointFailoverConfiguration
-  - Added Interface DataCollectionApiDataCollectionEndpointLogsIngestion
-  - Added Interface DataCollectionApiDataCollectionEndpointMetadata
-  - Added Interface DataCollectionApiDataCollectionEndpointMetricsIngestion
-  - Added Interface DataCollectionApiDataCollectionEndpointNetworkAcls
-  - Added Interface DataCollectionApiDataCollectionEndpointResource
-  - Added Interface DataCollectionApiDataCollectionEndpointResourceIdentity
-  - Added Interface DataCollectionApiDataCollectionEndpointResourceProperties
-  - Added Interface DataCollectionApiDataCollectionEndpointResourceSku
-  - Added Interface DataCollectionApiDataCollectionRule
-  - Added Interface DataCollectionApiDataCollectionRuleAgentSettings
-  - Added Interface DataCollectionApiDataCollectionRuleAssociation
-  - Added Interface DataCollectionApiDataCollectionRuleAssociationMetadata
-  - Added Interface DataCollectionApiDataCollectionRuleAssociationProxyOnlyResource
-  - Added Interface DataCollectionApiDataCollectionRuleAssociationProxyOnlyResourceProperties
-  - Added Interface DataCollectionApiDataCollectionRuleDataSources
-  - Added Interface DataCollectionApiDataCollectionRuleDestinations
-  - Added Interface DataCollectionApiDataCollectionRuleDirectDataSources
-  - Added Interface DataCollectionApiDataCollectionRuleEndpoints
-  - Added Interface DataCollectionApiDataCollectionRuleIngestionQuotas
-  - Added Interface DataCollectionApiDataCollectionRuleMetadata
-  - Added Interface DataCollectionApiDataCollectionRuleReferences
-  - Added Interface DataCollectionApiDataCollectionRuleResource
-  - Added Interface DataCollectionApiDataCollectionRuleResourceIdentity
-  - Added Interface DataCollectionApiDataCollectionRuleResourceProperties
-  - Added Interface DataCollectionApiDataCollectionRuleResourceSku
-  - Added Interface DataCollectionApiDataFlow
-  - Added Interface DataCollectionApiDataImportSources
-  - Added Interface DataCollectionApiDataImportSourcesEventHub
-  - Added Interface DataCollectionApiDataSourcesSpec
-  - Added Interface DataCollectionApiDataSourcesSpecDataImports
-  - Added Interface DataCollectionApiDestinationsSpec
-  - Added Interface DataCollectionApiDestinationsSpecAzureMonitorMetrics
-  - Added Interface DataCollectionApiDirectDataSourcesSpec
-  - Added Interface DataCollectionApiEndpointsSpec
-  - Added Interface DataCollectionApiEnrichmentData
-  - Added Interface DataCollectionApiErrorResponseCommonV2
-  - Added Interface DataCollectionApiEtwProviderDataSource
-  - Added Interface DataCollectionApiEventHubDataSource
-  - Added Interface DataCollectionApiEventHubDestination
-  - Added Interface DataCollectionApiEventHubDirectDestination
-  - Added Interface DataCollectionApiExtensionDataSource
-  - Added Interface DataCollectionApiFailoverConfigurationSpec
-  - Added Interface DataCollectionApiIisLogsDataSource
-  - Added Interface DataCollectionApiIngestionQuotas
-  - Added Interface DataCollectionApiIngestionQuotasLogs
-  - Added Interface DataCollectionApiLocationSpec
-  - Added Interface DataCollectionApiLogAnalyticsDestination
-  - Added Interface DataCollectionApiLogFilesDataSource
-  - Added Interface DataCollectionApiLogFilesDataSourceSettings
-  - Added Interface DataCollectionApiLogFileSettings
-  - Added Interface DataCollectionApiLogFileSettingsText
-  - Added Interface DataCollectionApiLogFileTextSettings
-  - Added Interface DataCollectionApiLogsIngestionEndpointSpec
-  - Added Interface DataCollectionApiLogsQuotaSpec
-  - Added Interface DataCollectionApiMetadata
-  - Added Interface DataCollectionApiMetricsIngestionEndpointSpec
-  - Added Interface DataCollectionApiMicrosoftFabricDestination
-  - Added Interface DataCollectionApiMonitoringAccountDestination
-  - Added Interface DataCollectionApiNetworkRuleSet
-  - Added Interface DataCollectionApiOtelDataSourceResourceAttributeRouting
-  - Added Interface DataCollectionApiOtelLogsDataSource
-  - Added Interface DataCollectionApiOtelLogsDataSourceResourceAttributeRouting
-  - Added Interface DataCollectionApiOtelLogsDirectDataSource
-  - Added Interface DataCollectionApiOtelMetricsDataSource
-  - Added Interface DataCollectionApiOtelMetricsDataSourceResourceAttributeRouting
-  - Added Interface DataCollectionApiOtelMetricsDirectDataSource
-  - Added Interface DataCollectionApiOtelTracesDataSource
-  - Added Interface DataCollectionApiOtelTracesDataSourceResourceAttributeRouting
-  - Added Interface DataCollectionApiOtelTracesDirectDataSource
-  - Added Interface DataCollectionApiPerfCounterDataSource
-  - Added Interface DataCollectionApiPerformanceCountersOTelDataSource
-  - Added Interface DataCollectionApiPlatformTelemetryDataSource
-  - Added Interface DataCollectionApiPrivateLinkScopedResource
-  - Added Interface DataCollectionApiPrometheusForwarderDataSource
-  - Added Interface DataCollectionApiReferencesSpec
-  - Added Interface DataCollectionApiReferencesSpecEnrichmentData
-  - Added Interface DataCollectionApiResourceForUpdate
-  - Added Interface DataCollectionApiResourceForUpdateIdentity
-  - Added Interface DataCollectionApiStorageBlob
-  - Added Interface DataCollectionApiStorageBlobDestination
-  - Added Interface DataCollectionApiStorageTableDestination
-  - Added Interface DataCollectionApiStreamDeclaration
-  - Added Interface DataCollectionApiSyslogDataSource
-  - Added Interface DataCollectionApiWindowsEventLogDataSource
-  - Added Interface DataCollectionApiWindowsFirewallLogsDataSource
+  - Added Interface DataCollectionEndpointConfigurationAccess
+  - Added Interface DataCollectionEndpointFailoverConfiguration
+  - Added Interface DataCollectionEndpointLogsIngestion
+  - Added Interface DataCollectionEndpointMetadata
+  - Added Interface DataCollectionEndpointMetricsIngestion
+  - Added Interface DataCollectionEndpointNetworkAcls
+  - Added Interface DataCollectionEndpointResourceIdentity
+  - Added Interface DataCollectionEndpointResourceProperties
+  - Added Interface DataCollectionEndpointResourceSku
   - Added Interface DataCollectionEndpointsGetNSPOptionalParams
   - Added Interface DataCollectionEndpointsListNSPOptionalParams
   - Added Interface DataCollectionEndpointsReconcileNSPOptionalParams
+  - Added Interface DataCollectionRuleAgentSettings
+  - Added Interface DataCollectionRuleAssociationMetadata
+  - Added Interface DataCollectionRuleAssociationProxyOnlyResourceProperties
   - Added Interface DataCollectionRuleAssociationsListByDataCollectionEndpointOptionalParams
-  - Added Interface DiagnosticsSettingsDiagnosticSettings
-  - Added Interface DiagnosticsSettingsDiagnosticSettingsCategory
-  - Added Interface DiagnosticsSettingsDiagnosticSettingsCategoryResource
-  - Added Interface DiagnosticsSettingsDiagnosticSettingsResource
-  - Added Interface DiagnosticsSettingsLogSettings
-  - Added Interface DiagnosticsSettingsMetricSettings
+  - Added Interface DataCollectionRuleDataSources
+  - Added Interface DataCollectionRuleDestinations
+  - Added Interface DataCollectionRuleDirectDataSources
+  - Added Interface DataCollectionRuleEndpoints
+  - Added Interface DataCollectionRuleIngestionQuotas
+  - Added Interface DataCollectionRuleMetadata
+  - Added Interface DataCollectionRuleReferences
+  - Added Interface DataCollectionRuleResourceIdentity
+  - Added Interface DataCollectionRuleResourceProperties
+  - Added Interface DataCollectionRuleResourceSku
+  - Added Interface DataImportSources
+  - Added Interface DataImportSourcesEventHub
+  - Added Interface DataSourcesSpecDataImports
+  - Added Interface DestinationsSpecAzureMonitorMetrics
+  - Added Interface DiagnosticSettings
+  - Added Interface DiagnosticSettingsCategory
+  - Added Interface DiagnosticSettingsCategoryResource
+  - Added Interface DiagnosticSettingsResource
+  - Added Interface DirectDataSourcesSpec
+  - Added Interface DynamicMetricCriteria
+  - Added Interface DynamicPromQLCriteria
+  - Added Interface EndpointsSpec
+  - Added Interface EnrichmentData
+  - Added Interface ErrorDetailAdditionalInfoItem
+  - Added Interface ErrorResponseError
+  - Added Interface ErrorResponseErrorAdditionalInfoItem
+  - Added Interface EtwProviderDataSource
+  - Added Interface EventHubDataSource
+  - Added Interface EventHubDestination
+  - Added Interface EventHubDirectDestination
   - Added Interface ExtensionResource
+  - Added Interface FailoverConfigurationSpec
   - Added Interface GetTestNotificationsAtTenantActionGroupResourceLevelOptionalParams
-  - Added Interface LogProfilesApiLogProfileProperties
-  - Added Interface LogProfilesApiLogProfileResource
-  - Added Interface LogProfilesApiLogProfileResourcePatch
+  - Added Interface Identity
+  - Added Interface IisLogsDataSource
+  - Added Interface IncidentReceiver
+  - Added Interface IncidentServiceConnection
+  - Added Interface IngestionQuotas
+  - Added Interface IngestionQuotasLogs
+  - Added Interface LocationSpec
+  - Added Interface LogFilesDataSource
+  - Added Interface LogFilesDataSourceSettings
+  - Added Interface LogFileSettings
+  - Added Interface LogFileSettingsText
+  - Added Interface LogFileTextSettings
+  - Added Interface LogProfileProperties
+  - Added Interface LogProfileResource
+  - Added Interface LogsQuotaSpec
   - Added Interface ManagedServiceIdentity
-  - Added Interface MetricAlertApiDynamicMetricCriteria
-  - Added Interface MetricAlertApiDynamicPromQLCriteria
-  - Added Interface MetricAlertApiDynamicThresholdFailingPeriods
-  - Added Interface MetricAlertApiMetricAlertAction
-  - Added Interface MetricAlertApiMetricAlertCriteria
-  - Added Interface MetricAlertApiMetricAlertErrorResponse
-  - Added Interface MetricAlertApiMetricAlertMultipleResourceMultipleMetricCriteria
-  - Added Interface MetricAlertApiMetricAlertProperties
-  - Added Interface MetricAlertApiMetricAlertPropertiesPatch
-  - Added Interface MetricAlertApiMetricAlertResource
-  - Added Interface MetricAlertApiMetricAlertResourcePatch
-  - Added Interface MetricAlertApiMetricAlertSingleResourceMultipleMetricCriteria
-  - Added Interface MetricAlertApiMetricAlertStatus
-  - Added Interface MetricAlertApiMetricAlertStatusCollection
-  - Added Interface MetricAlertApiMetricAlertStatusProperties
-  - Added Interface MetricAlertApiMetricCriteria
-  - Added Interface MetricAlertApiMetricDimension
-  - Added Interface MetricAlertApiMultiMetricCriteria
-  - Added Interface MetricAlertApiMultiPromQLCriteria
-  - Added Interface MetricAlertApiPromQLCriteria
-  - Added Interface MetricAlertApiQueryFailingPeriods
-  - Added Interface MetricAlertApiResolveConfiguration
-  - Added Interface MetricAlertApiStaticPromQLCriteria
-  - Added Interface MetricAlertApiWebtestLocationAvailabilityCriteria
-  - Added Interface MetricBaselinesApiBaselineMetadata
-  - Added Interface MetricBaselinesApiMetricBaselinesErrorResponse
-  - Added Interface MetricBaselinesApiMetricBaselinesProperties
-  - Added Interface MetricBaselinesApiMetricSingleDimension
-  - Added Interface MetricBaselinesApiSingleBaseline
-  - Added Interface MetricBaselinesApiSingleMetricBaseline
-  - Added Interface MetricBaselinesApiTimeSeriesBaseline
+  - Added Interface Metadata
+  - Added Interface MetricAlertErrorResponse
+  - Added Interface MetricAlertMultipleResourceMultipleMetricCriteria
+  - Added Interface MetricAlertProperties
+  - Added Interface MetricAlertPropertiesPatch
+  - Added Interface MetricAlertResource
+  - Added Interface MetricAlertSingleResourceMultipleMetricCriteria
+  - Added Interface MetricBaselinesErrorResponse
+  - Added Interface MetricBaselinesProperties
+  - Added Interface MetricCriteria
   - Added Interface MetricDefinitionsListAtSubscriptionScopeOptionalParams
-  - Added Interface MetricsApiMetadataValue
-  - Added Interface MetricsApiMetric
-  - Added Interface MetricsApiMetricAvailability
-  - Added Interface MetricsApiMetricDefinition
-  - Added Interface MetricsApiMetricNamespace
-  - Added Interface MetricsApiMetricNamespaceName
-  - Added Interface MetricsApiMetricValue
-  - Added Interface MetricsApiResponse
-  - Added Interface MetricsApiSubscriptionScopeMetricDefinition
-  - Added Interface MetricsApiSubscriptionScopeMetricsRequestBodyParameters
-  - Added Interface MetricsApiTimeSeriesElement
+  - Added Interface MetricsIngestionEndpointSpec
   - Added Interface MetricsListAtSubscriptionScopeOptionalParams
   - Added Interface MetricsListAtSubscriptionScopePostOptionalParams
-  - Added Interface MicrosoftCommonCommonErrorResponse
-  - Added Interface MicrosoftCommonErrorContract
-  - Added Interface MicrosoftCommonErrorDetail
-  - Added Interface MicrosoftCommonErrorDetailAdditionalInfoItem
-  - Added Interface MicrosoftCommonErrorResponse
-  - Added Interface MicrosoftCommonErrorResponseError
-  - Added Interface MicrosoftCommonErrorResponseErrorAdditionalInfoItem
-  - Added Interface MicrosoftCommonIdentity
-  - Added Interface MicrosoftCommonLocalizableString
-  - Added Interface MicrosoftCommonRetentionPolicy
-  - Added Interface MicrosoftCommonUserIdentityProperties
-  - Added Interface MicrosoftInsightsCombinedClientMetricSettings
+  - Added Interface MicrosoftFabricDestination
+  - Added Interface MonitoringAccountDestination
+  - Added Interface MultiPromQLCriteria
   - Added Interface NetworkSecurityPerimeter
   - Added Interface NetworkSecurityPerimeterConfiguration
   - Added Interface NetworkSecurityPerimeterConfigurationProperties
   - Added Interface NetworkSecurityProfile
+  - Added Interface OtelDataSourceResourceAttributeRouting
+  - Added Interface OtelLogsDataSource
+  - Added Interface OtelLogsDataSourceResourceAttributeRouting
+  - Added Interface OtelLogsDirectDataSource
+  - Added Interface OtelMetricsDataSource
+  - Added Interface OtelMetricsDataSourceResourceAttributeRouting
+  - Added Interface OtelMetricsDirectDataSource
+  - Added Interface OtelTracesDataSource
+  - Added Interface OtelTracesDataSourceResourceAttributeRouting
+  - Added Interface OtelTracesDirectDataSource
   - Added Interface PagedAsyncIterableIterator
   - Added Interface PageSettings
+  - Added Interface PerformanceCountersOTelDataSource
+  - Added Interface PlatformTelemetryDataSource
+  - Added Interface PredictiveAutoscalePolicy
   - Added Interface PredictiveMetricGetOptionalParams
+  - Added Interface PredictiveResponse
+  - Added Interface PredictiveValue
   - Added Interface PrivateEndpoint
+  - Added Interface PrivateEndpointConnection
   - Added Interface PrivateEndpointConnectionProperties
+  - Added Interface PrivateLinkResource
   - Added Interface PrivateLinkResourceProperties
-  - Added Interface PrivateLinkScopesApiAccessModeSettings
-  - Added Interface PrivateLinkScopesApiAccessModeSettingsExclusion
-  - Added Interface PrivateLinkScopesApiAzureMonitorPrivateLinkScope
-  - Added Interface PrivateLinkScopesApiAzureMonitorPrivateLinkScopeProperties
-  - Added Interface PrivateLinkScopesApiOperationStatus
-  - Added Interface PrivateLinkScopesApiPrivateEndpointConnection
-  - Added Interface PrivateLinkScopesApiPrivateEndpointConnectionListResult
-  - Added Interface PrivateLinkScopesApiPrivateLinkResource
-  - Added Interface PrivateLinkScopesApiScopedResource
-  - Added Interface PrivateLinkScopesApiScopedResourceProperties
-  - Added Interface PrivateLinkScopesApiTagsResource
+  - Added Interface PrivateLinkScopedResource
   - Added Interface PrivateLinkServiceConnectionState
+  - Added Interface PrometheusForwarderDataSource
+  - Added Interface PromQLCriteria
   - Added Interface ProvisioningIssue
   - Added Interface ProvisioningIssueProperties
+  - Added Interface QueryFailingPeriods
+  - Added Interface ReferencesSpec
+  - Added Interface ReferencesSpecEnrichmentData
+  - Added Interface ResolveConfiguration
   - Added Interface ResourceAssociation
+  - Added Interface ResourceForUpdateIdentity
   - Added Interface RestorePollerOptions
-  - Added Interface ScheduledQueryRuleApiActions
-  - Added Interface ScheduledQueryRuleApiCondition
-  - Added Interface ScheduledQueryRuleApiConditionFailingPeriods
-  - Added Interface ScheduledQueryRuleApiDimension
-  - Added Interface ScheduledQueryRuleApiRuleResolveConfiguration
-  - Added Interface ScheduledQueryRuleApiScheduledQueryRuleCriteria
-  - Added Interface ScheduledQueryRuleApiScheduledQueryRuleProperties
-  - Added Interface ScheduledQueryRuleApiScheduledQueryRuleResource
-  - Added Interface ScheduledQueryRuleApiScheduledQueryRuleResourcePatch
+  - Added Interface RuleResolveConfiguration
+  - Added Interface ScheduledQueryRuleCriteria
   - Added Interface ScheduledQueryRuleGetNSPOptionalParams
   - Added Interface ScheduledQueryRuleListNSPOptionalParams
+  - Added Interface ScheduledQueryRuleProperties
   - Added Interface ScheduledQueryRuleReconcileNSPOptionalParams
+  - Added Interface ScheduledQueryRuleResource
+  - Added Interface ScheduledQueryRuleResourcePatch
+  - Added Interface ScopedResource
+  - Added Interface ScopedResourceProperties
+  - Added Interface ServiceDiagnosticSettings
   - Added Interface ServiceDiagnosticSettingsCreateOrUpdateOptionalParams
   - Added Interface ServiceDiagnosticSettingsGetOptionalParams
+  - Added Interface ServiceDiagnosticSettingsResource
+  - Added Interface ServiceDiagnosticSettingsResourcePatch
   - Added Interface ServiceDiagnosticSettingsUpdateOptionalParams
-  - Added Interface ServiceDiagnosticsSettingsApiLogSettings
-  - Added Interface ServiceDiagnosticsSettingsApiServiceDiagnosticSettings
-  - Added Interface ServiceDiagnosticsSettingsApiServiceDiagnosticSettingsResource
-  - Added Interface ServiceDiagnosticsSettingsApiServiceDiagnosticSettingsResourcePatch
   - Added Interface SimplePollerLike
   - Added Interface Sku
-  - Added Interface TenantActionGroupsActionDetail
-  - Added Interface TenantActionGroupsActionGroupPatchBody
+  - Added Interface StaticPromQLCriteria
+  - Added Interface StorageBlob
+  - Added Interface StorageBlobDestination
+  - Added Interface StorageTableDestination
+  - Added Interface StreamDeclaration
+  - Added Interface SubscriptionScopeMetricDefinition
+  - Added Interface SubscriptionScopeMetricsRequestBodyParameters
+  - Added Interface TenantActionGroup
+  - Added Interface TenantActionGroupActionDetail
+  - Added Interface TenantActionGroupPatchBody
+  - Added Interface TenantActionGroupResource
   - Added Interface TenantActionGroupsCreateOrUpdateOptionalParams
   - Added Interface TenantActionGroupsDeleteOptionalParams
   - Added Interface TenantActionGroupsGetOptionalParams
   - Added Interface TenantActionGroupsListByManagementGroupIdOptionalParams
-  - Added Interface TenantActionGroupsTenantActionGroup
-  - Added Interface TenantActionGroupsTenantActionGroupResource
-  - Added Interface TenantActionGroupsTenantNotificationRequestBody
-  - Added Interface TenantActionGroupsTestNotificationDetailsResponse
   - Added Interface TenantActionGroupsUpdateOptionalParams
-  - Added Interface TenantActionGroupsWebhookReceiver
+  - Added Interface TenantActionGroupTestNotificationDetailsResponse
+  - Added Interface TenantActionGroupWebhookReceiver
+  - Added Interface TenantNotificationRequestBody
   - Added Interface TrackedResource
   - Added Interface UserAssignedIdentity
+  - Added Interface UserIdentityProperties
   - Added Interface vMInsightsGetOnboardingStatusOptionalParams
-  - Added Interface VmInsightsOnboardingDataContainer
-  - Added Interface VmInsightsOnboardingError
-  - Added Interface VmInsightsOnboardingResponseWithError
-  - Added Interface VmInsightsOnboardingVMInsightsOnboardingStatus
-  - Added Interface VmInsightsOnboardingVMInsightsOnboardingStatusProperties
-  - Added Interface VmInsightsOnboardingWorkspaceInfo
-  - Added Interface VmInsightsOnboardingWorkspaceInfoProperties
+  - Added Interface VMInsightsOnboardingStatus
+  - Added Interface VMInsightsOnboardingStatusProperties
+  - Added Interface WebtestLocationAvailabilityCriteria
+  - Added Interface WindowsFirewallLogsDataSource
+  - Added Interface WorkspaceInfoProperties
+  - Interface ActionGroupPatchBody has a new optional parameter identity
+  - Interface ActivityLogAlertActionGroup has a new optional parameter actionProperties
+  - Interface AutomationRunbookReceiver has a new optional parameter managedIdentity
+  - Interface AutoscaleSettingResourcePatch has a new optional parameter predictiveAutoscalePolicy
+  - Interface AzureFunctionReceiver has a new optional parameter managedIdentity
+  - Interface DataCollectionEndpoint has a new optional parameter failoverConfiguration
+  - Interface DataCollectionEndpoint has a new optional parameter metadata
+  - Interface DataCollectionEndpoint has a new optional parameter metricsIngestion
+  - Interface DataCollectionEndpoint has a new optional parameter privateLinkScopedResources
+  - Interface DataCollectionEndpointResource has a new optional parameter failoverConfiguration
+  - Interface DataCollectionEndpointResource has a new optional parameter identity
+  - Interface DataCollectionEndpointResource has a new optional parameter metadata
+  - Interface DataCollectionEndpointResource has a new optional parameter metricsIngestion
+  - Interface DataCollectionEndpointResource has a new optional parameter privateLinkScopedResources
+  - Interface DataCollectionEndpointResource has a new optional parameter sku
+  - Interface DataCollectionRule has a new optional parameter agentSettings
+  - Interface DataCollectionRule has a new optional parameter dataCollectionEndpointId
+  - Interface DataCollectionRule has a new optional parameter directDataSources
+  - Interface DataCollectionRule has a new optional parameter endpoints
+  - Interface DataCollectionRule has a new optional parameter ingestionQuotas
+  - Interface DataCollectionRule has a new optional parameter metadata
+  - Interface DataCollectionRule has a new optional parameter references
+  - Interface DataCollectionRule has a new optional parameter streamDeclarations
+  - Interface DataCollectionRuleAssociation has a new optional parameter metadata
+  - Interface DataCollectionRuleAssociationProxyOnlyResource has a new optional parameter metadata
   - Interface DataCollectionRuleAssociationsListByRuleOptionalParams has a new optional parameter skipToken
   - Interface DataCollectionRuleAssociationsListByRuleOptionalParams has a new optional parameter top
+  - Interface DataCollectionRuleResource has a new optional parameter agentSettings
+  - Interface DataCollectionRuleResource has a new optional parameter dataCollectionEndpointId
+  - Interface DataCollectionRuleResource has a new optional parameter directDataSources
+  - Interface DataCollectionRuleResource has a new optional parameter endpoints
+  - Interface DataCollectionRuleResource has a new optional parameter identity
+  - Interface DataCollectionRuleResource has a new optional parameter ingestionQuotas
+  - Interface DataCollectionRuleResource has a new optional parameter metadata
+  - Interface DataCollectionRuleResource has a new optional parameter references
+  - Interface DataCollectionRuleResource has a new optional parameter sku
+  - Interface DataCollectionRuleResource has a new optional parameter streamDeclarations
   - Interface DataCollectionRulesDeleteOptionalParams has a new optional parameter deleteAssociations
+  - Interface DataFlow has a new optional parameter builtInTransform
+  - Interface DataFlow has a new optional parameter captureOverflow
+  - Interface DataFlow has a new optional parameter outputStream
+  - Interface DataFlow has a new optional parameter transformKql
+  - Interface DataSourcesSpec has a new optional parameter dataImports
+  - Interface DataSourcesSpec has a new optional parameter etwProviders
+  - Interface DataSourcesSpec has a new optional parameter iisLogs
+  - Interface DataSourcesSpec has a new optional parameter logFiles
+  - Interface DataSourcesSpec has a new optional parameter otelLogs
+  - Interface DataSourcesSpec has a new optional parameter otelMetrics
+  - Interface DataSourcesSpec has a new optional parameter otelTraces
+  - Interface DataSourcesSpec has a new optional parameter performanceCountersOTel
+  - Interface DataSourcesSpec has a new optional parameter platformTelemetry
+  - Interface DataSourcesSpec has a new optional parameter prometheusForwarder
+  - Interface DataSourcesSpec has a new optional parameter windowsFirewallLogs
+  - Interface DestinationsSpec has a new optional parameter azureDataExplorer
+  - Interface DestinationsSpec has a new optional parameter eventHubs
+  - Interface DestinationsSpec has a new optional parameter eventHubsDirect
+  - Interface DestinationsSpec has a new optional parameter microsoftFabric
+  - Interface DestinationsSpec has a new optional parameter monitoringAccounts
+  - Interface DestinationsSpec has a new optional parameter storageAccounts
+  - Interface DestinationsSpec has a new optional parameter storageBlobsDirect
+  - Interface DestinationsSpec has a new optional parameter storageTablesDirect
+  - Interface EventHubReceiver has a new optional parameter managedIdentity
+  - Interface LogicAppReceiver has a new optional parameter managedIdentity
+  - Interface LogSettings has a new optional parameter categoryGroup
+  - Interface MetricAlertCriteria has a new optional parameter additionalProperties
+  - Interface MetricAlertResourcePatch has a new optional parameter actionProperties
+  - Interface MetricAlertResourcePatch has a new optional parameter customProperties
+  - Interface MetricAlertResourcePatch has a new optional parameter identity
+  - Interface MetricAlertResourcePatch has a new optional parameter resolveConfiguration
   - Interface MetricsListOptionalParams has a new optional parameter autoAdjustTimegrain
   - Interface MetricsListOptionalParams has a new optional parameter rollupby
   - Interface MetricsListOptionalParams has a new optional parameter validateDimensions
+  - Interface MultiMetricCriteria has a new optional parameter additionalProperties
+  - Interface NotificationRequestBody has a new optional parameter incidentReceivers
+  - Interface PerfCounterDataSource has a new optional parameter transformKql
   - Interface PrivateLinkScopedResourcesListByPrivateLinkScopeOptionalParams has a new optional parameter kind
   - Interface ProxyResource has a new optional parameter systemData
   - Interface Resource has a new optional parameter systemData
+  - Interface ResourceForUpdate has a new optional parameter identity
+  - Interface SyslogDataSource has a new optional parameter transformKql
+  - Interface WebhookReceiver has a new optional parameter managedIdentity
+  - Interface WindowsEventLogDataSource has a new optional parameter transformKql
+  - Added Type Alias AccessMode
   - Added Type Alias AccessRuleDirection
-  - Added Type Alias ActionGroupsApiIncidentManagementService
-  - Added Type Alias ActionGroupsApiReceiverStatus
-  - Added Type Alias ActivityLogsApiEventLevel
-  - Added Type Alias AutoScaleApiComparisonOperationType
-  - Added Type Alias AutoScaleApiMetricStatisticType
-  - Added Type Alias AutoScaleApiOperationType
-  - Added Type Alias AutoScaleApiPredictiveAutoscalePolicyScaleMode
-  - Added Type Alias AutoScaleApiRecurrenceFrequency
-  - Added Type Alias AutoScaleApiScaleDirection
-  - Added Type Alias AutoScaleApiScaleRuleMetricDimensionOperationType
-  - Added Type Alias AutoScaleApiScaleType
-  - Added Type Alias AutoScaleApiTimeAggregationType
   - Added Type Alias AzureSupportedClouds
-  - Added Type Alias DataCollectionApiKnownAgentSettingName
-  - Added Type Alias DataCollectionApiKnownColumnDefinitionType
-  - Added Type Alias DataCollectionApiKnownDataCollectionEndpointProvisioningState
-  - Added Type Alias DataCollectionApiKnownDataCollectionEndpointResourceKind
-  - Added Type Alias DataCollectionApiKnownDataCollectionRuleAssociationProvisioningState
-  - Added Type Alias DataCollectionApiKnownDataCollectionRuleProvisioningState
-  - Added Type Alias DataCollectionApiKnownDataCollectionRuleResourceKind
-  - Added Type Alias DataCollectionApiKnownDataFlowStreams
-  - Added Type Alias DataCollectionApiKnownEtwProviderDataSourceLogLevel
-  - Added Type Alias DataCollectionApiKnownEtwProviderType
-  - Added Type Alias DataCollectionApiKnownExtensionDataSourceStreams
-  - Added Type Alias DataCollectionApiKnownLocationSpecProvisioningStatus
-  - Added Type Alias DataCollectionApiKnownLogFilesDataSourceFormat
-  - Added Type Alias DataCollectionApiKnownLogFileTextSettingsRecordStartTimestampFormat
-  - Added Type Alias DataCollectionApiKnownOtelLogsDataSourceStreams
-  - Added Type Alias DataCollectionApiKnownOtelLogsDirectDataSourceStreams
-  - Added Type Alias DataCollectionApiKnownOtelTracesDataSourceStreams
-  - Added Type Alias DataCollectionApiKnownOtelTracesDirectDataSourceStreams
-  - Added Type Alias DataCollectionApiKnownPerfCounterDataSourceStreams
-  - Added Type Alias DataCollectionApiKnownPerformanceCountersOTelDataSourceStreams
-  - Added Type Alias DataCollectionApiKnownPrometheusForwarderDataSourceStreams
-  - Added Type Alias DataCollectionApiKnownPublicNetworkAccessOptions
-  - Added Type Alias DataCollectionApiKnownStorageBlobLookupType
-  - Added Type Alias DataCollectionApiKnownSyslogDataSourceFacilityNames
-  - Added Type Alias DataCollectionApiKnownSyslogDataSourceLogLevels
-  - Added Type Alias DataCollectionApiKnownSyslogDataSourceStreams
-  - Added Type Alias DataCollectionApiKnownWindowsEventLogDataSourceStreams
-  - Added Type Alias DataCollectionApiKnownWindowsFirewallLogsDataSourceProfileFilter
-  - Added Type Alias DiagnosticsSettingsCategoryType
+  - Added Type Alias DimensionOperator
+  - Added Type Alias IdentityType
+  - Added Type Alias IncidentManagementService
   - Added Type Alias IssueType
+  - Added Type Alias Kind
+  - Added Type Alias KnownAgentSettingName
+  - Added Type Alias KnownColumnDefinitionType
+  - Added Type Alias KnownEtwProviderDataSourceLogLevel
+  - Added Type Alias KnownEtwProviderType
+  - Added Type Alias KnownLocationSpecProvisioningStatus
+  - Added Type Alias KnownLogFilesDataSourceFormat
+  - Added Type Alias KnownLogFileTextSettingsRecordStartTimestampFormat
+  - Added Type Alias KnownOtelLogsDataSourceStreams
+  - Added Type Alias KnownOtelLogsDirectDataSourceStreams
+  - Added Type Alias KnownOtelTracesDataSourceStreams
+  - Added Type Alias KnownOtelTracesDirectDataSourceStreams
+  - Added Type Alias KnownPerformanceCountersOTelDataSourceStreams
+  - Added Type Alias KnownPrometheusForwarderDataSourceStreams
+  - Added Type Alias KnownStorageBlobLookupType
+  - Added Type Alias KnownWindowsFirewallLogsDataSourceProfileFilter
   - Added Type Alias ManagedServiceIdentityType
-  - Added Type Alias MetricAlertApiAggregationTypeEnum
-  - Added Type Alias MetricAlertApiDynamicThresholdOperator
-  - Added Type Alias MetricAlertApiDynamicThresholdSensitivity
-  - Added Type Alias MetricAlertApiMetricAlertCriteriaUnion
-  - Added Type Alias MetricAlertApiMultiMetricCriteriaUnion
-  - Added Type Alias MetricAlertApiMultiPromQLCriteriaUnion
-  - Added Type Alias MetricAlertApiOdatatype
-  - Added Type Alias MetricAlertApiOperator
-  - Added Type Alias MetricBaselinesApiBaselineSensitivity
-  - Added Type Alias MetricsApiAggregationType
-  - Added Type Alias MetricsApiMetricAggregationType
-  - Added Type Alias MetricsApiMetricClass
-  - Added Type Alias MetricsApiMetricResultType
-  - Added Type Alias MetricsApiMetricUnit
-  - Added Type Alias MetricsApiNamespaceClassification
-  - Added Type Alias MicrosoftCommonCriterionType
-  - Added Type Alias MicrosoftCommonIdentityType
-  - Added Type Alias MicrosoftCommonResultType
+  - Added Type Alias MetricAggregationType
+  - Added Type Alias MetricResultType
+  - Added Type Alias MultiPromQLCriteriaUnion
   - Added Type Alias NetworkSecurityPerimeterConfigurationProvisioningState
+  - Added Type Alias OperationType
+  - Added Type Alias PredictiveAutoscalePolicyScaleMode
   - Added Type Alias PrivateEndpointConnectionProvisioningState
   - Added Type Alias PrivateEndpointServiceConnectionStatus
-  - Added Type Alias PrivateLinkScopesApiAccessMode
-  - Added Type Alias PrivateLinkScopesApiPrivateLinkScopeProvisioningState
-  - Added Type Alias PrivateLinkScopesApiScopedResourceKind
-  - Added Type Alias PrivateLinkScopesApiScopedResourceProvisioningState
+  - Added Type Alias PrivateLinkScopeProvisioningState
   - Added Type Alias ResourceAssociationAccessMode
-  - Added Type Alias ScheduledQueryRuleApiAlertSeverity
-  - Added Type Alias ScheduledQueryRuleApiConditionOperator
-  - Added Type Alias ScheduledQueryRuleApiDimensionOperator
-  - Added Type Alias ScheduledQueryRuleApiKind
-  - Added Type Alias ScheduledQueryRuleApiTimeAggregation
+  - Added Type Alias ScopedResourceKind
+  - Added Type Alias ScopedResourceProvisioningState
   - Added Type Alias Severity
   - Added Type Alias SkuTier
-  - Added Type Alias VmInsightsOnboardingDataStatus
-  - Added Type Alias VmInsightsOnboardingOnboardingStatus
+  - Added Type Alias TimeAggregation
   - Added Enum AzureClouds
+  - Added Enum KnownAccessMode
   - Added Enum KnownAccessRuleDirection
-  - Added Enum KnownActionGroupsApiIncidentManagementService
-  - Added Enum KnownAutoScaleApiScaleRuleMetricDimensionOperationType
-  - Added Enum KnownDataCollectionApiKnownAgentSettingName
-  - Added Enum KnownDataCollectionApiKnownColumnDefinitionType
-  - Added Enum KnownDataCollectionApiKnownDataCollectionEndpointProvisioningState
-  - Added Enum KnownDataCollectionApiKnownDataCollectionEndpointResourceKind
-  - Added Enum KnownDataCollectionApiKnownDataCollectionRuleAssociationProvisioningState
-  - Added Enum KnownDataCollectionApiKnownDataCollectionRuleProvisioningState
-  - Added Enum KnownDataCollectionApiKnownDataCollectionRuleResourceKind
-  - Added Enum KnownDataCollectionApiKnownDataFlowStreams
-  - Added Enum KnownDataCollectionApiKnownEtwProviderDataSourceLogLevel
-  - Added Enum KnownDataCollectionApiKnownEtwProviderType
-  - Added Enum KnownDataCollectionApiKnownExtensionDataSourceStreams
-  - Added Enum KnownDataCollectionApiKnownLocationSpecProvisioningStatus
-  - Added Enum KnownDataCollectionApiKnownLogFilesDataSourceFormat
-  - Added Enum KnownDataCollectionApiKnownLogFileTextSettingsRecordStartTimestampFormat
-  - Added Enum KnownDataCollectionApiKnownOtelLogsDataSourceStreams
-  - Added Enum KnownDataCollectionApiKnownOtelLogsDirectDataSourceStreams
-  - Added Enum KnownDataCollectionApiKnownOtelTracesDataSourceStreams
-  - Added Enum KnownDataCollectionApiKnownOtelTracesDirectDataSourceStreams
-  - Added Enum KnownDataCollectionApiKnownPerfCounterDataSourceStreams
-  - Added Enum KnownDataCollectionApiKnownPerformanceCountersOTelDataSourceStreams
-  - Added Enum KnownDataCollectionApiKnownPrometheusForwarderDataSourceStreams
-  - Added Enum KnownDataCollectionApiKnownPublicNetworkAccessOptions
-  - Added Enum KnownDataCollectionApiKnownStorageBlobLookupType
-  - Added Enum KnownDataCollectionApiKnownSyslogDataSourceFacilityNames
-  - Added Enum KnownDataCollectionApiKnownSyslogDataSourceLogLevels
-  - Added Enum KnownDataCollectionApiKnownSyslogDataSourceStreams
-  - Added Enum KnownDataCollectionApiKnownWindowsEventLogDataSourceStreams
-  - Added Enum KnownDataCollectionApiKnownWindowsFirewallLogsDataSourceProfileFilter
-  - Added Enum KnownDiagnosticsSettingsCategoryType
+  - Added Enum KnownCategoryType
+  - Added Enum KnownConditionOperator
+  - Added Enum KnownDimensionOperator
+  - Added Enum KnownIncidentManagementService
   - Added Enum KnownIssueType
+  - Added Enum KnownKind
+  - Added Enum KnownKnownAgentSettingName
+  - Added Enum KnownKnownColumnDefinitionType
+  - Added Enum KnownKnownEtwProviderDataSourceLogLevel
+  - Added Enum KnownKnownEtwProviderType
+  - Added Enum KnownKnownLocationSpecProvisioningStatus
+  - Added Enum KnownKnownLogFilesDataSourceFormat
+  - Added Enum KnownKnownLogFileTextSettingsRecordStartTimestampFormat
+  - Added Enum KnownKnownOtelLogsDataSourceStreams
+  - Added Enum KnownKnownOtelLogsDirectDataSourceStreams
+  - Added Enum KnownKnownOtelTracesDataSourceStreams
+  - Added Enum KnownKnownOtelTracesDirectDataSourceStreams
+  - Added Enum KnownKnownPerformanceCountersOTelDataSourceStreams
+  - Added Enum KnownKnownPrometheusForwarderDataSourceStreams
+  - Added Enum KnownKnownStorageBlobLookupType
+  - Added Enum KnownKnownWindowsFirewallLogsDataSourceProfileFilter
   - Added Enum KnownManagedServiceIdentityType
-  - Added Enum KnownMetricAlertApiAggregationTypeEnum
-  - Added Enum KnownMetricAlertApiDynamicThresholdOperator
-  - Added Enum KnownMetricAlertApiDynamicThresholdSensitivity
-  - Added Enum KnownMetricAlertApiOdatatype
-  - Added Enum KnownMetricAlertApiOperator
-  - Added Enum KnownMetricBaselinesApiBaselineSensitivity
-  - Added Enum KnownMetricsApiMetricAggregationType
-  - Added Enum KnownMetricsApiMetricClass
-  - Added Enum KnownMetricsApiMetricResultType
-  - Added Enum KnownMetricsApiMetricUnit
-  - Added Enum KnownMetricsApiNamespaceClassification
-  - Added Enum KnownMicrosoftCommonCriterionType
+  - Added Enum KnownMetricAggregationType
+  - Added Enum KnownMetricResultType
   - Added Enum KnownNetworkSecurityPerimeterConfigurationProvisioningState
   - Added Enum KnownPrivateEndpointConnectionProvisioningState
   - Added Enum KnownPrivateEndpointServiceConnectionStatus
-  - Added Enum KnownPrivateLinkScopesApiAccessMode
-  - Added Enum KnownPrivateLinkScopesApiPrivateLinkScopeProvisioningState
-  - Added Enum KnownPrivateLinkScopesApiScopedResourceKind
-  - Added Enum KnownPrivateLinkScopesApiScopedResourceProvisioningState
+  - Added Enum KnownPrivateLinkScopeProvisioningState
   - Added Enum KnownResourceAssociationAccessMode
-  - Added Enum KnownScheduledQueryRuleApiAlertSeverity
-  - Added Enum KnownScheduledQueryRuleApiConditionOperator
-  - Added Enum KnownScheduledQueryRuleApiDimensionOperator
-  - Added Enum KnownScheduledQueryRuleApiKind
-  - Added Enum KnownScheduledQueryRuleApiTimeAggregation
+  - Added Enum KnownScopedResourceKind
+  - Added Enum KnownScopedResourceProvisioningState
   - Added Enum KnownSeverity
-  - Added Enum KnownVmInsightsOnboardingDataStatus
-  - Added Enum KnownVmInsightsOnboardingOnboardingStatus
+  - Added Enum KnownTimeAggregation
+  - Enum KnownKnownDataCollectionEndpointProvisioningState has a new value Canceled
+  - Enum KnownKnownDataCollectionRuleAssociationProvisioningState has a new value Canceled
+  - Enum KnownKnownDataCollectionRuleProvisioningState has a new value Canceled
+  - Enum KnownKnownPublicNetworkAccessOptions has a new value SecuredByPerimeter
+  - Enum KnownKnownSyslogDataSourceFacilityNames has a new value Alert
+  - Enum KnownKnownSyslogDataSourceFacilityNames has a new value Audit
+  - Enum KnownKnownSyslogDataSourceFacilityNames has a new value Clock
+  - Enum KnownKnownSyslogDataSourceFacilityNames has a new value Ftp
+  - Enum KnownKnownSyslogDataSourceFacilityNames has a new value Nopri
+  - Enum KnownKnownSyslogDataSourceFacilityNames has a new value Ntp
+  - Enum KnownOdatatype has a new value MicrosoftAzureMonitorPromQLCriteria
 
 ### Breaking Changes
   - Removed operation ActionGroups.beginPostTestNotifications
@@ -523,12 +443,9 @@ Compared with version 7.0.0
   - Class MonitorClient no longer has parameter alertRules
   - Class MonitorClient no longer has parameter operations
   - Removed Interface Action
-  - Removed Interface ActionDetail
   - Removed Interface ActionGroupList
-  - Removed Interface ActionGroupPatchBody
   - Removed Interface ActionGroupsGetTestNotificationsOptionalParams
   - Removed Interface ActionGroupsPostTestNotificationsOptionalParams
-  - Removed Interface ActivityLogAlertActionGroup
   - Removed Interface ActivityLogAlertActionList
   - Removed Interface ActivityLogAlertAllOfCondition
   - Removed Interface ActivityLogAlertLeafCondition
@@ -543,132 +460,45 @@ Compared with version 7.0.0
   - Removed Interface AlertRulesListByResourceGroupOptionalParams
   - Removed Interface AlertRulesListBySubscriptionOptionalParams
   - Removed Interface AlertRulesUpdateOptionalParams
-  - Removed Interface ArmRoleReceiver
-  - Removed Interface AutomationRunbookReceiver
-  - Removed Interface AutoscaleNotification
-  - Removed Interface AutoscaleProfile
   - Removed Interface AutoscaleSettingResourceCollection
-  - Removed Interface AutoscaleSettingResourcePatch
   - Removed Interface AzNsActionGroup
-  - Removed Interface AzureAppPushReceiver
-  - Removed Interface AzureFunctionReceiver
-  - Removed Interface AzureMonitorMetricsDestination
   - Removed Interface AzureResource
-  - Removed Interface BaselineMetadata
-  - Removed Interface ConfigurationAccessEndpointSpec
-  - Removed Interface Context
   - Removed Interface Criteria
-  - Removed Interface DataCollectionEndpoint
-  - Removed Interface DataCollectionEndpointResource
-  - Removed Interface DataCollectionRule
-  - Removed Interface DataCollectionRuleAssociation
-  - Removed Interface DataCollectionRuleAssociationProxyOnlyResource
-  - Removed Interface DataCollectionRuleResource
-  - Removed Interface DataContainer
-  - Removed Interface DataFlow
-  - Removed Interface DataSourcesSpec
-  - Removed Interface DestinationsSpec
   - Removed Interface DiagnosticSettingsCategoryResourceCollection
   - Removed Interface DiagnosticSettingsResourceCollection
-  - Removed Interface Dimension
-  - Removed Interface DynamicThresholdFailingPeriods
-  - Removed Interface EmailNotification
-  - Removed Interface EmailReceiver
-  - Removed Interface EnableRequest
-  - Removed Interface ErrorContract
-  - Removed Interface ErrorDetail
-  - Removed Interface ErrorModel
-  - Removed Interface ErrorResponse
-  - Removed Interface ErrorResponseCommonV2
   - Removed Interface EventCategoryCollection
-  - Removed Interface EventData
   - Removed Interface EventDataCollection
-  - Removed Interface EventHubReceiver
-  - Removed Interface ExtensionDataSource
-  - Removed Interface HttpRequestInfo
-  - Removed Interface Incident
-  - Removed Interface ItsmReceiver
-  - Removed Interface LocalizableString
-  - Removed Interface LogAnalyticsDestination
-  - Removed Interface LogicAppReceiver
   - Removed Interface LogMetricTrigger
   - Removed Interface LogProfileCollection
-  - Removed Interface LogProfileResourcePatch
   - Removed Interface LogSearchRuleResourceCollection
   - Removed Interface LogSearchRuleResourcePatch
-  - Removed Interface LogSettings
-  - Removed Interface LogsIngestionEndpointSpec
   - Removed Interface ManagementEventAggregationCondition
-  - Removed Interface MetadataValue
-  - Removed Interface Metric
-  - Removed Interface MetricAlertAction
-  - Removed Interface MetricAlertCriteria
   - Removed Interface MetricAlertResourceCollection
-  - Removed Interface MetricAlertResourcePatch
-  - Removed Interface MetricAlertStatus
-  - Removed Interface MetricAlertStatusCollection
-  - Removed Interface MetricAlertStatusProperties
-  - Removed Interface MetricAvailability
   - Removed Interface MetricBaselinesResponse
-  - Removed Interface MetricDefinition
   - Removed Interface MetricDefinitionCollection
-  - Removed Interface MetricDimension
-  - Removed Interface MetricNamespace
   - Removed Interface MetricNamespaceCollection
-  - Removed Interface MetricNamespaceName
-  - Removed Interface MetricSettings
-  - Removed Interface MetricSingleDimension
-  - Removed Interface MetricTrigger
-  - Removed Interface MetricValue
-  - Removed Interface MultiMetricCriteria
-  - Removed Interface NetworkRuleSet
-  - Removed Interface NotificationRequestBody
   - Removed Interface Operation
   - Removed Interface OperationDisplay
   - Removed Interface Operations
   - Removed Interface OperationsListOptionalParams
-  - Removed Interface OperationStatus
-  - Removed Interface PerfCounterDataSource
   - Removed Interface PrivateEndpointProperty
   - Removed Interface PrivateLinkScopesResource
   - Removed Interface PrivateLinkServiceConnectionStateProperty
   - Removed Interface ProxyOnlyResource
-  - Removed Interface Recurrence
-  - Removed Interface RecurrentSchedule
   - Removed Interface ResourceAutoGenerated
-  - Removed Interface ResourceForUpdate
-  - Removed Interface Response_2
-  - Removed Interface ResponseWithError
-  - Removed Interface RetentionPolicy
   - Removed Interface RuleAction
   - Removed Interface RuleCondition
   - Removed Interface RuleDataSource
   - Removed Interface RuleManagementEventClaimsDataSource
-  - Removed Interface ScaleAction
-  - Removed Interface ScaleCapacity
-  - Removed Interface ScaleRule
-  - Removed Interface ScaleRuleMetricDimension
   - Removed Interface Schedule
-  - Removed Interface SenderAuthorization
-  - Removed Interface SingleBaseline
-  - Removed Interface SingleMetricBaseline
-  - Removed Interface SmsReceiver
   - Removed Interface Source
-  - Removed Interface SyslogDataSource
-  - Removed Interface TagsResource
-  - Removed Interface TestNotificationDetailsResponse
   - Removed Interface TestNotificationResponse
-  - Removed Interface TimeSeriesBaseline
-  - Removed Interface TimeSeriesElement
-  - Removed Interface TimeWindow
   - Removed Interface TriggerCondition
   - Removed Interface VMInsights
   - Removed Interface VMInsightsGetOnboardingStatusOptionalParams
-  - Removed Interface VoiceReceiver
-  - Removed Interface WebhookNotification
-  - Removed Interface WebhookReceiver
-  - Removed Interface WindowsEventLogDataSource
-  - Removed Interface WorkspaceInfo
+  - Type of parameter odataType of interface MetricAlertCriteria is changed from "Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria" | "Microsoft.Azure.Monitor.WebtestLocationAvailabilityCriteria" | "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria" to Odatatype
+  - Type of parameter criterionType of interface MultiMetricCriteria is changed from "StaticThresholdCriterion" | "DynamicThresholdCriterion" to CriterionType
+  - Interface ErrorDetail no longer has parameter details
   - Interface Resource no longer has parameter location
   - Interface Resource no longer has parameter tags
   - Interface ScheduledQueryRulesListByResourceGroupOptionalParams no longer has parameter filter
@@ -677,19 +507,11 @@ Compared with version 7.0.0
   - Removed Type Alias ActionGroupResource
   - Removed Type Alias ActionUnion
   - Removed Type Alias ActivityLogAlertResource
-  - Removed Type Alias AggregationType
-  - Removed Type Alias AggregationTypeEnum
   - Removed Type Alias AlertingAction
   - Removed Type Alias AlertRuleResource
-  - Removed Type Alias AlertSeverity
   - Removed Type Alias AutoscaleSettingResource
   - Removed Type Alias AzureMonitorPrivateLinkScope
-  - Removed Type Alias BaselineSensitivity
-  - Removed Type Alias CategoryType
-  - Removed Type Alias ComparisonOperationType
   - Removed Type Alias ConditionalOperator
-  - Removed Type Alias ConditionOperator
-  - Removed Type Alias CriterionType
   - Removed Type Alias DataCollectionEndpointConfigurationAccess
   - Removed Type Alias DataCollectionEndpointLogsIngestion
   - Removed Type Alias DataCollectionEndpointNetworkAcls
@@ -701,55 +523,26 @@ Compared with version 7.0.0
   - Removed Type Alias DataCollectionRuleDestinations
   - Removed Type Alias DataCollectionRuleResourceProperties
   - Removed Type Alias DataCollectionRuleResourceSystemData
-  - Removed Type Alias DataStatus
   - Removed Type Alias DestinationsSpecAzureMonitorMetrics
   - Removed Type Alias DiagnosticSettingsCategoryResource
   - Removed Type Alias DiagnosticSettingsResource
   - Removed Type Alias DynamicMetricCriteria
-  - Removed Type Alias DynamicThresholdOperator
-  - Removed Type Alias DynamicThresholdSensitivity
   - Removed Type Alias Enabled
   - Removed Type Alias ErrorResponseCommon
-  - Removed Type Alias EventLevel
-  - Removed Type Alias KnownDataCollectionEndpointProvisioningState
-  - Removed Type Alias KnownDataCollectionEndpointResourceKind
-  - Removed Type Alias KnownDataCollectionRuleAssociationProvisioningState
-  - Removed Type Alias KnownDataCollectionRuleProvisioningState
-  - Removed Type Alias KnownDataCollectionRuleResourceKind
-  - Removed Type Alias KnownDataFlowStreams
-  - Removed Type Alias KnownExtensionDataSourceStreams
-  - Removed Type Alias KnownPerfCounterDataSourceStreams
-  - Removed Type Alias KnownPublicNetworkAccessOptions
-  - Removed Type Alias KnownSyslogDataSourceFacilityNames
-  - Removed Type Alias KnownSyslogDataSourceLogLevels
-  - Removed Type Alias KnownSyslogDataSourceStreams
-  - Removed Type Alias KnownWindowsEventLogDataSourceStreams
   - Removed Type Alias LocationThresholdRuleCondition
   - Removed Type Alias LogProfileResource
   - Removed Type Alias LogSearchRuleResource
   - Removed Type Alias LogToMetricAction
   - Removed Type Alias ManagementEventRuleCondition
-  - Removed Type Alias MetricAlertCriteriaUnion
   - Removed Type Alias MetricAlertMultipleResourceMultipleMetricCriteria
   - Removed Type Alias MetricAlertResource
   - Removed Type Alias MetricAlertSingleResourceMultipleMetricCriteria
-  - Removed Type Alias MetricClass
   - Removed Type Alias MetricCriteria
-  - Removed Type Alias MetricStatisticType
   - Removed Type Alias MetricTriggerType
-  - Removed Type Alias MetricUnit
-  - Removed Type Alias MultiMetricCriteriaUnion
-  - Removed Type Alias NamespaceClassification
-  - Removed Type Alias Odatatype
-  - Removed Type Alias OnboardingStatus
-  - Removed Type Alias Operator
   - Removed Type Alias PrivateEndpointConnection
   - Removed Type Alias PrivateLinkResource
   - Removed Type Alias ProvisioningState
   - Removed Type Alias QueryType
-  - Removed Type Alias ReceiverStatus
-  - Removed Type Alias RecurrenceFrequency
-  - Removed Type Alias ResultType
   - Removed Type Alias RuleActionUnion
   - Removed Type Alias RuleConditionUnion
   - Removed Type Alias RuleDataSourceUnion
@@ -757,47 +550,22 @@ Compared with version 7.0.0
   - Removed Type Alias RuleManagementEventDataSource
   - Removed Type Alias RuleMetricDataSource
   - Removed Type Alias RuleWebhookAction
-  - Removed Type Alias ScaleDirection
-  - Removed Type Alias ScaleRuleMetricDimensionOperationType
-  - Removed Type Alias ScaleType
   - Removed Type Alias ScopedResource
   - Removed Type Alias ThresholdRuleCondition
   - Removed Type Alias TimeAggregationOperator
-  - Removed Type Alias TimeAggregationType
   - Removed Type Alias VMInsightsOnboardingStatus
   - Removed Type Alias WebtestLocationAvailabilityCriteria
-  - Removed Enum KnownAggregationTypeEnum
-  - Removed Enum KnownAlertSeverity
-  - Removed Enum KnownBaselineSensitivity
+  - Type alias "AlertSeverity" has been changed
+  - Type alias "CategoryType" has been changed
+  - Type alias "ConditionOperator" has been changed
+  - Type alias "MetricAlertCriteriaUnion" has been changed
+  - Type alias "MultiMetricCriteriaUnion" has been changed
   - Removed Enum KnownConditionalOperator
-  - Removed Enum KnownCriterionType
-  - Removed Enum KnownDataStatus
-  - Removed Enum KnownDynamicThresholdOperator
-  - Removed Enum KnownDynamicThresholdSensitivity
   - Removed Enum KnownEnabled
-  - Removed Enum KnownKnownDataCollectionEndpointProvisioningState
-  - Removed Enum KnownKnownDataCollectionEndpointResourceKind
-  - Removed Enum KnownKnownDataCollectionRuleAssociationProvisioningState
-  - Removed Enum KnownKnownDataCollectionRuleProvisioningState
-  - Removed Enum KnownKnownDataCollectionRuleResourceKind
-  - Removed Enum KnownKnownDataFlowStreams
-  - Removed Enum KnownKnownExtensionDataSourceStreams
-  - Removed Enum KnownKnownPerfCounterDataSourceStreams
-  - Removed Enum KnownKnownPublicNetworkAccessOptions
-  - Removed Enum KnownKnownSyslogDataSourceFacilityNames
-  - Removed Enum KnownKnownSyslogDataSourceLogLevels
-  - Removed Enum KnownKnownSyslogDataSourceStreams
-  - Removed Enum KnownKnownWindowsEventLogDataSourceStreams
-  - Removed Enum KnownMetricClass
   - Removed Enum KnownMetricTriggerType
-  - Removed Enum KnownMetricUnit
-  - Removed Enum KnownNamespaceClassification
-  - Removed Enum KnownOdatatype
-  - Removed Enum KnownOnboardingStatus
-  - Removed Enum KnownOperator
   - Removed Enum KnownProvisioningState
   - Removed Enum KnownQueryType
-  - Removed Enum KnownScaleRuleMetricDimensionOperationType
+  - Enum KnownOperator no longer has value Include
 
 ## 8.0.0-beta.7 (2026-06-30)
 Compared with version 7.0.0

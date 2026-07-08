@@ -17,8 +17,8 @@ import type {
   TenantActionGroupsGetOptionalParams,
 } from "../../api/tenantActionGroups/options.js";
 import type {
-  TenantActionGroupsTenantActionGroupResource,
-  TenantActionGroupsActionGroupPatchBody,
+  TenantActionGroupResource,
+  TenantActionGroupPatchBody,
 } from "../../models/tenantActionGroups/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
@@ -29,7 +29,7 @@ export interface TenantActionGroupsOperations {
     managementGroupId: string,
     xMsClientTenantId: string,
     options?: TenantActionGroupsListByManagementGroupIdOptionalParams,
-  ) => PagedAsyncIterableIterator<TenantActionGroupsTenantActionGroupResource>;
+  ) => PagedAsyncIterableIterator<TenantActionGroupResource>;
   /** Delete a tenant action group. */
   delete: (
     managementGroupId: string,
@@ -42,24 +42,24 @@ export interface TenantActionGroupsOperations {
     managementGroupId: string,
     tenantActionGroupName: string,
     xMsClientTenantId: string,
-    tenantActionGroupPatch: TenantActionGroupsActionGroupPatchBody,
+    tenantActionGroupPatch: TenantActionGroupPatchBody,
     options?: TenantActionGroupsUpdateOptionalParams,
-  ) => Promise<TenantActionGroupsTenantActionGroupResource>;
+  ) => Promise<TenantActionGroupResource>;
   /** Create a new tenant action group or update an existing one. */
   createOrUpdate: (
     managementGroupId: string,
     tenantActionGroupName: string,
     xMsClientTenantId: string,
-    actionGroup: TenantActionGroupsTenantActionGroupResource,
+    actionGroup: TenantActionGroupResource,
     options?: TenantActionGroupsCreateOrUpdateOptionalParams,
-  ) => Promise<TenantActionGroupsTenantActionGroupResource>;
+  ) => Promise<TenantActionGroupResource>;
   /** Get a tenant action group. */
   get: (
     managementGroupId: string,
     tenantActionGroupName: string,
     xMsClientTenantId: string,
     options?: TenantActionGroupsGetOptionalParams,
-  ) => Promise<TenantActionGroupsTenantActionGroupResource>;
+  ) => Promise<TenantActionGroupResource>;
 }
 
 function _getTenantActionGroups(context: MonitorContext) {
@@ -79,7 +79,7 @@ function _getTenantActionGroups(context: MonitorContext) {
       managementGroupId: string,
       tenantActionGroupName: string,
       xMsClientTenantId: string,
-      tenantActionGroupPatch: TenantActionGroupsActionGroupPatchBody,
+      tenantActionGroupPatch: TenantActionGroupPatchBody,
       options?: TenantActionGroupsUpdateOptionalParams,
     ) =>
       update(
@@ -94,7 +94,7 @@ function _getTenantActionGroups(context: MonitorContext) {
       managementGroupId: string,
       tenantActionGroupName: string,
       xMsClientTenantId: string,
-      actionGroup: TenantActionGroupsTenantActionGroupResource,
+      actionGroup: TenantActionGroupResource,
       options?: TenantActionGroupsCreateOrUpdateOptionalParams,
     ) =>
       createOrUpdate(

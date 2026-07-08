@@ -18,7 +18,7 @@ import type {
   DataCollectionRulesCreateOptionalParams,
   DataCollectionRulesGetOptionalParams,
 } from "../../api/dataCollectionRules/options.js";
-import type { DataCollectionApiDataCollectionRuleResource } from "../../models/dataCollectionApi/models.js";
+import type { DataCollectionRuleResource } from "../../models/dataCollectionApi/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a DataCollectionRules operations. */
@@ -26,12 +26,12 @@ export interface DataCollectionRulesOperations {
   /** Lists all data collection rules in the specified subscription. */
   listBySubscription: (
     options?: DataCollectionRulesListBySubscriptionOptionalParams,
-  ) => PagedAsyncIterableIterator<DataCollectionApiDataCollectionRuleResource>;
+  ) => PagedAsyncIterableIterator<DataCollectionRuleResource>;
   /** Lists all data collection rules in the specified resource group. */
   listByResourceGroup: (
     resourceGroupName: string,
     options?: DataCollectionRulesListByResourceGroupOptionalParams,
-  ) => PagedAsyncIterableIterator<DataCollectionApiDataCollectionRuleResource>;
+  ) => PagedAsyncIterableIterator<DataCollectionRuleResource>;
   /** Deletes a data collection rule. */
   delete: (
     resourceGroupName: string,
@@ -43,19 +43,19 @@ export interface DataCollectionRulesOperations {
     resourceGroupName: string,
     dataCollectionRuleName: string,
     options?: DataCollectionRulesUpdateOptionalParams,
-  ) => Promise<DataCollectionApiDataCollectionRuleResource>;
+  ) => Promise<DataCollectionRuleResource>;
   /** Creates or updates a data collection rule. */
   create: (
     resourceGroupName: string,
     dataCollectionRuleName: string,
     options?: DataCollectionRulesCreateOptionalParams,
-  ) => Promise<DataCollectionApiDataCollectionRuleResource>;
+  ) => Promise<DataCollectionRuleResource>;
   /** Returns the specified data collection rule. */
   get: (
     resourceGroupName: string,
     dataCollectionRuleName: string,
     options?: DataCollectionRulesGetOptionalParams,
-  ) => Promise<DataCollectionApiDataCollectionRuleResource>;
+  ) => Promise<DataCollectionRuleResource>;
 }
 
 function _getDataCollectionRules(context: MonitorContext) {

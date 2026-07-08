@@ -2,12 +2,9 @@
 // Licensed under the MIT License.
 
 import type { MonitorContext as Client } from "../index.js";
-import type {
-  _ActivityLogsApiEventDataCollection,
-  ActivityLogsApiEventData,
-} from "../../models/activityLogsApi/models.js";
-import { _activityLogsApiEventDataCollectionDeserializer } from "../../models/activityLogsApi/models.js";
-import { microsoftCommonErrorResponseDeserializer } from "../../models/microsoft/common/models.js";
+import type { _EventDataCollection, EventData } from "../../models/activityLogsApi/models.js";
+import { _eventDataCollectionDeserializer } from "../../models/activityLogsApi/models.js";
+import { errorResponseDeserializer } from "../../models/microsoft/common/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
@@ -40,18 +37,18 @@ export function _listSend(
 
 export async function _listDeserialize(
   result: PathUncheckedResponse,
-): Promise<_ActivityLogsApiEventDataCollection> {
+): Promise<_EventDataCollection> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
-      error.details = microsoftCommonErrorResponseDeserializer(result.body);
+      error.details = errorResponseDeserializer(result.body);
     }
 
     throw error;
   }
 
-  return _activityLogsApiEventDataCollectionDeserializer(result.body);
+  return _eventDataCollectionDeserializer(result.body);
 }
 
 /** Provides the list of records from the activity logs. */
@@ -59,7 +56,7 @@ export function list(
   context: Client,
   filter: string,
   options: ActivityLogsListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<ActivityLogsApiEventData> {
+): PagedAsyncIterableIterator<EventData> {
   return buildPagedAsyncIterator(
     context,
     () => _listSend(context, filter, options),

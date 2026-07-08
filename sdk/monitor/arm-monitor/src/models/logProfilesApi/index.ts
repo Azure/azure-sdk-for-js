@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export type {
-  LogProfilesApiLogProfileResource,
-  LogProfilesApiLogProfileProperties,
-  LogProfilesApiLogProfileResourcePatch,
+  LogProfileResource,
+  LogProfileProperties,
+  LogProfileResourcePatch,
 } from "./models.js";

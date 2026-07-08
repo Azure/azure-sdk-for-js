@@ -12,15 +12,15 @@ import { systemDataDeserializer } from "../models.js";
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** The autoscale setting resource. */
-export interface AutoScaleApiAutoscaleSettingResource extends TrackedResource {
+export interface AutoscaleSettingResource extends TrackedResource {
   /** the collection of automatic scaling profiles that specify different scaling parameters for different time periods. A maximum of 20 profiles can be specified. */
-  profiles: AutoScaleApiAutoscaleProfile[];
+  profiles: AutoscaleProfile[];
   /** the collection of notifications. */
-  notifications?: AutoScaleApiAutoscaleNotification[];
+  notifications?: AutoscaleNotification[];
   /** the enabled flag. Specifies whether automatic scaling is enabled for the resource. The default value is 'false'. */
   enabled?: boolean;
   /** the predictive autoscale policy mode. */
-  predictiveAutoscalePolicy?: AutoScaleApiPredictiveAutoscalePolicy;
+  predictiveAutoscalePolicy?: PredictiveAutoscalePolicy;
   /** the name of the autoscale setting. */
   namePropertiesName?: string;
   /** the resource identifier of the resource that the autoscale setting should be added to. */
@@ -29,9 +29,7 @@ export interface AutoScaleApiAutoscaleSettingResource extends TrackedResource {
   targetResourceLocation?: string;
 }
 
-export function autoScaleApiAutoscaleSettingResourceSerializer(
-  item: AutoScaleApiAutoscaleSettingResource,
-): any {
+export function autoscaleSettingResourceSerializer(item: AutoscaleSettingResource): any {
   return {
     tags: item["tags"],
     location: item["location"],
@@ -39,9 +37,7 @@ export function autoScaleApiAutoscaleSettingResourceSerializer(
   };
 }
 
-export function autoScaleApiAutoscaleSettingResourceDeserializer(
-  item: any,
-): AutoScaleApiAutoscaleSettingResource {
+export function autoscaleSettingResourceDeserializer(item: any): AutoscaleSettingResource {
   return {
     tags: !item["tags"]
       ? item["tags"]
@@ -58,15 +54,15 @@ export function autoScaleApiAutoscaleSettingResourceDeserializer(
 }
 
 /** A setting that contains all of the configuration for the automatic scaling of a resource. */
-export interface AutoScaleApiAutoscaleSetting {
+export interface AutoscaleSetting {
   /** the collection of automatic scaling profiles that specify different scaling parameters for different time periods. A maximum of 20 profiles can be specified. */
-  profiles: AutoScaleApiAutoscaleProfile[];
+  profiles: AutoscaleProfile[];
   /** the collection of notifications. */
-  notifications?: AutoScaleApiAutoscaleNotification[];
+  notifications?: AutoscaleNotification[];
   /** the enabled flag. Specifies whether automatic scaling is enabled for the resource. The default value is 'false'. */
   enabled?: boolean;
   /** the predictive autoscale policy mode. */
-  predictiveAutoscalePolicy?: AutoScaleApiPredictiveAutoscalePolicy;
+  predictiveAutoscalePolicy?: PredictiveAutoscalePolicy;
   /** the name of the autoscale setting. */
   name?: string;
   /** the resource identifier of the resource that the autoscale setting should be added to. */
@@ -75,98 +71,88 @@ export interface AutoScaleApiAutoscaleSetting {
   targetResourceLocation?: string;
 }
 
-export function autoScaleApiAutoscaleSettingSerializer(item: AutoScaleApiAutoscaleSetting): any {
+export function autoscaleSettingSerializer(item: AutoscaleSetting): any {
   return {
-    profiles: autoScaleApiAutoscaleProfileArraySerializer(item["profiles"]),
+    profiles: autoscaleProfileArraySerializer(item["profiles"]),
     notifications: !item["notifications"]
       ? item["notifications"]
-      : autoScaleApiAutoscaleNotificationArraySerializer(item["notifications"]),
+      : autoscaleNotificationArraySerializer(item["notifications"]),
     enabled: item["enabled"],
     predictiveAutoscalePolicy: !item["predictiveAutoscalePolicy"]
       ? item["predictiveAutoscalePolicy"]
-      : autoScaleApiPredictiveAutoscalePolicySerializer(item["predictiveAutoscalePolicy"]),
+      : predictiveAutoscalePolicySerializer(item["predictiveAutoscalePolicy"]),
     name: item["name"],
     targetResourceUri: item["targetResourceUri"],
     targetResourceLocation: item["targetResourceLocation"],
   };
 }
 
-export function autoScaleApiAutoscaleSettingDeserializer(item: any): AutoScaleApiAutoscaleSetting {
+export function autoscaleSettingDeserializer(item: any): AutoscaleSetting {
   return {
-    profiles: autoScaleApiAutoscaleProfileArrayDeserializer(item["profiles"]),
+    profiles: autoscaleProfileArrayDeserializer(item["profiles"]),
     notifications: !item["notifications"]
       ? item["notifications"]
-      : autoScaleApiAutoscaleNotificationArrayDeserializer(item["notifications"]),
+      : autoscaleNotificationArrayDeserializer(item["notifications"]),
     enabled: item["enabled"],
     predictiveAutoscalePolicy: !item["predictiveAutoscalePolicy"]
       ? item["predictiveAutoscalePolicy"]
-      : autoScaleApiPredictiveAutoscalePolicyDeserializer(item["predictiveAutoscalePolicy"]),
+      : predictiveAutoscalePolicyDeserializer(item["predictiveAutoscalePolicy"]),
     name: item["name"],
     targetResourceUri: item["targetResourceUri"],
     targetResourceLocation: item["targetResourceLocation"],
   };
 }
 
-export function autoScaleApiAutoscaleProfileArraySerializer(
-  result: Array<AutoScaleApiAutoscaleProfile>,
-): any[] {
+export function autoscaleProfileArraySerializer(result: Array<AutoscaleProfile>): any[] {
   return result.map((item) => {
-    return autoScaleApiAutoscaleProfileSerializer(item);
+    return autoscaleProfileSerializer(item);
   });
 }
 
-export function autoScaleApiAutoscaleProfileArrayDeserializer(
-  result: Array<AutoScaleApiAutoscaleProfile>,
-): any[] {
+export function autoscaleProfileArrayDeserializer(result: Array<AutoscaleProfile>): any[] {
   return result.map((item) => {
-    return autoScaleApiAutoscaleProfileDeserializer(item);
+    return autoscaleProfileDeserializer(item);
   });
 }
 
 /** Autoscale profile. */
-export interface AutoScaleApiAutoscaleProfile {
+export interface AutoscaleProfile {
   /** the name of the profile. */
   name: string;
   /** the number of instances that can be used during this profile. */
-  capacity: AutoScaleApiScaleCapacity;
+  capacity: ScaleCapacity;
   /** the collection of rules that provide the triggers and parameters for the scaling action. A maximum of 10 rules can be specified. */
-  rules: AutoScaleApiScaleRule[];
+  rules: ScaleRule[];
   /** the specific date-time for the profile. This element is not used if the Recurrence element is used. */
-  fixedDate?: AutoScaleApiTimeWindow;
+  fixedDate?: TimeWindow;
   /** the repeating times at which this profile begins. This element is not used if the FixedDate element is used. */
-  recurrence?: AutoScaleApiRecurrence;
+  recurrence?: Recurrence;
 }
 
-export function autoScaleApiAutoscaleProfileSerializer(item: AutoScaleApiAutoscaleProfile): any {
+export function autoscaleProfileSerializer(item: AutoscaleProfile): any {
   return {
     name: item["name"],
-    capacity: autoScaleApiScaleCapacitySerializer(item["capacity"]),
-    rules: autoScaleApiScaleRuleArraySerializer(item["rules"]),
-    fixedDate: !item["fixedDate"]
-      ? item["fixedDate"]
-      : autoScaleApiTimeWindowSerializer(item["fixedDate"]),
-    recurrence: !item["recurrence"]
-      ? item["recurrence"]
-      : autoScaleApiRecurrenceSerializer(item["recurrence"]),
+    capacity: scaleCapacitySerializer(item["capacity"]),
+    rules: scaleRuleArraySerializer(item["rules"]),
+    fixedDate: !item["fixedDate"] ? item["fixedDate"] : timeWindowSerializer(item["fixedDate"]),
+    recurrence: !item["recurrence"] ? item["recurrence"] : recurrenceSerializer(item["recurrence"]),
   };
 }
 
-export function autoScaleApiAutoscaleProfileDeserializer(item: any): AutoScaleApiAutoscaleProfile {
+export function autoscaleProfileDeserializer(item: any): AutoscaleProfile {
   return {
     name: item["name"],
-    capacity: autoScaleApiScaleCapacityDeserializer(item["capacity"]),
-    rules: autoScaleApiScaleRuleArrayDeserializer(item["rules"]),
-    fixedDate: !item["fixedDate"]
-      ? item["fixedDate"]
-      : autoScaleApiTimeWindowDeserializer(item["fixedDate"]),
+    capacity: scaleCapacityDeserializer(item["capacity"]),
+    rules: scaleRuleArrayDeserializer(item["rules"]),
+    fixedDate: !item["fixedDate"] ? item["fixedDate"] : timeWindowDeserializer(item["fixedDate"]),
     recurrence: !item["recurrence"]
       ? item["recurrence"]
-      : autoScaleApiRecurrenceDeserializer(item["recurrence"]),
+      : recurrenceDeserializer(item["recurrence"]),
   };
 }
 
 /** The number of instances that can be used during this profile. */
-export interface AutoScaleApiScaleCapacity {
+export interface ScaleCapacity {
   /** the minimum number of instances for the resource. */
   minimum: string;
   /** the maximum number of instances for the resource. The actual maximum number of instances is limited by the cores that are available in the subscription. */
@@ -175,11 +161,11 @@ export interface AutoScaleApiScaleCapacity {
   default: string;
 }
 
-export function autoScaleApiScaleCapacitySerializer(item: AutoScaleApiScaleCapacity): any {
+export function scaleCapacitySerializer(item: ScaleCapacity): any {
   return { minimum: item["minimum"], maximum: item["maximum"], default: item["default"] };
 }
 
-export function autoScaleApiScaleCapacityDeserializer(item: any): AutoScaleApiScaleCapacity {
+export function scaleCapacityDeserializer(item: any): ScaleCapacity {
   return {
     minimum: item["minimum"],
     maximum: item["maximum"],
@@ -187,44 +173,42 @@ export function autoScaleApiScaleCapacityDeserializer(item: any): AutoScaleApiSc
   };
 }
 
-export function autoScaleApiScaleRuleArraySerializer(result: Array<AutoScaleApiScaleRule>): any[] {
+export function scaleRuleArraySerializer(result: Array<ScaleRule>): any[] {
   return result.map((item) => {
-    return autoScaleApiScaleRuleSerializer(item);
+    return scaleRuleSerializer(item);
   });
 }
 
-export function autoScaleApiScaleRuleArrayDeserializer(
-  result: Array<AutoScaleApiScaleRule>,
-): any[] {
+export function scaleRuleArrayDeserializer(result: Array<ScaleRule>): any[] {
   return result.map((item) => {
-    return autoScaleApiScaleRuleDeserializer(item);
+    return scaleRuleDeserializer(item);
   });
 }
 
 /** A rule that provide the triggers and parameters for the scaling action. */
-export interface AutoScaleApiScaleRule {
+export interface ScaleRule {
   /** the trigger that results in a scaling action. */
-  metricTrigger: AutoScaleApiMetricTrigger;
+  metricTrigger: MetricTrigger;
   /** the parameters for the scaling action. */
-  scaleAction: AutoScaleApiScaleAction;
+  scaleAction: ScaleAction;
 }
 
-export function autoScaleApiScaleRuleSerializer(item: AutoScaleApiScaleRule): any {
+export function scaleRuleSerializer(item: ScaleRule): any {
   return {
-    metricTrigger: autoScaleApiMetricTriggerSerializer(item["metricTrigger"]),
-    scaleAction: autoScaleApiScaleActionSerializer(item["scaleAction"]),
+    metricTrigger: metricTriggerSerializer(item["metricTrigger"]),
+    scaleAction: scaleActionSerializer(item["scaleAction"]),
   };
 }
 
-export function autoScaleApiScaleRuleDeserializer(item: any): AutoScaleApiScaleRule {
+export function scaleRuleDeserializer(item: any): ScaleRule {
   return {
-    metricTrigger: autoScaleApiMetricTriggerDeserializer(item["metricTrigger"]),
-    scaleAction: autoScaleApiScaleActionDeserializer(item["scaleAction"]),
+    metricTrigger: metricTriggerDeserializer(item["metricTrigger"]),
+    scaleAction: scaleActionDeserializer(item["scaleAction"]),
   };
 }
 
 /** The trigger that results in a scaling action. */
-export interface AutoScaleApiMetricTrigger {
+export interface MetricTrigger {
   /** the name of the metric that defines what the rule monitors. */
   metricName: string;
   /** the namespace of the metric that defines what the rule monitors. */
@@ -236,22 +220,22 @@ export interface AutoScaleApiMetricTrigger {
   /** the granularity of metrics the rule monitors. Must be one of the predefined values returned from metric definitions for the metric. Must be between 12 hours and 1 minute. */
   timeGrain: string;
   /** the metric statistic type. How the metrics from multiple instances are combined. */
-  statistic: AutoScaleApiMetricStatisticType;
+  statistic: MetricStatisticType;
   /** the range of time in which instance data is collected. This value must be greater than the delay in metric collection, which can vary from resource-to-resource. Must be between 12 hours and 5 minutes. */
   timeWindow: string;
   /** time aggregation type. How the data that is collected should be combined over time. The default value is Average. */
-  timeAggregation: AutoScaleApiTimeAggregationType;
+  timeAggregation: TimeAggregationType;
   /** the operator that is used to compare the metric data and the threshold. */
-  operator: AutoScaleApiComparisonOperationType;
+  operator: ComparisonOperationType;
   /** the threshold of the metric that triggers the scale action. */
   threshold: number;
   /** List of dimension conditions. For example: [{"DimensionName":"AppName","Operator":"Equals","Values":["App1"]},{"DimensionName":"Deployment","Operator":"Equals","Values":["default"]}]. */
-  dimensions?: AutoScaleApiScaleRuleMetricDimension[];
+  dimensions?: ScaleRuleMetricDimension[];
   /** a value indicating whether metric should divide per instance. */
   dividePerInstance?: boolean;
 }
 
-export function autoScaleApiMetricTriggerSerializer(item: AutoScaleApiMetricTrigger): any {
+export function metricTriggerSerializer(item: MetricTrigger): any {
   return {
     metricName: item["metricName"],
     metricNamespace: item["metricNamespace"],
@@ -265,12 +249,12 @@ export function autoScaleApiMetricTriggerSerializer(item: AutoScaleApiMetricTrig
     threshold: item["threshold"],
     dimensions: !item["dimensions"]
       ? item["dimensions"]
-      : autoScaleApiScaleRuleMetricDimensionArraySerializer(item["dimensions"]),
+      : scaleRuleMetricDimensionArraySerializer(item["dimensions"]),
     dividePerInstance: item["dividePerInstance"],
   };
 }
 
-export function autoScaleApiMetricTriggerDeserializer(item: any): AutoScaleApiMetricTrigger {
+export function metricTriggerDeserializer(item: any): MetricTrigger {
   return {
     metricName: item["metricName"],
     metricNamespace: item["metricNamespace"],
@@ -284,49 +268,46 @@ export function autoScaleApiMetricTriggerDeserializer(item: any): AutoScaleApiMe
     threshold: item["threshold"],
     dimensions: !item["dimensions"]
       ? item["dimensions"]
-      : autoScaleApiScaleRuleMetricDimensionArrayDeserializer(item["dimensions"]),
+      : scaleRuleMetricDimensionArrayDeserializer(item["dimensions"]),
     dividePerInstance: item["dividePerInstance"],
   };
 }
 
 /** the metric statistic type. How the metrics from multiple instances are combined. */
-export type AutoScaleApiMetricStatisticType = "Average" | "Min" | "Max" | "Sum" | "Count";
+export type MetricStatisticType = "Average" | "Min" | "Max" | "Sum" | "Count";
 /** time aggregation type. How the data that is collected should be combined over time. The default value is Average. */
-export type AutoScaleApiTimeAggregationType =
-  "Average" | "Minimum" | "Maximum" | "Total" | "Count" | "Last";
+export type TimeAggregationType = "Average" | "Minimum" | "Maximum" | "Total" | "Count" | "Last";
 /** the operator that is used to compare the metric data and the threshold. */
-export type AutoScaleApiComparisonOperationType =
+export type ComparisonOperationType =
   "Equals" | "NotEquals" | "GreaterThan" | "GreaterThanOrEqual" | "LessThan" | "LessThanOrEqual";
 
-export function autoScaleApiScaleRuleMetricDimensionArraySerializer(
-  result: Array<AutoScaleApiScaleRuleMetricDimension>,
+export function scaleRuleMetricDimensionArraySerializer(
+  result: Array<ScaleRuleMetricDimension>,
 ): any[] {
   return result.map((item) => {
-    return autoScaleApiScaleRuleMetricDimensionSerializer(item);
+    return scaleRuleMetricDimensionSerializer(item);
   });
 }
 
-export function autoScaleApiScaleRuleMetricDimensionArrayDeserializer(
-  result: Array<AutoScaleApiScaleRuleMetricDimension>,
+export function scaleRuleMetricDimensionArrayDeserializer(
+  result: Array<ScaleRuleMetricDimension>,
 ): any[] {
   return result.map((item) => {
-    return autoScaleApiScaleRuleMetricDimensionDeserializer(item);
+    return scaleRuleMetricDimensionDeserializer(item);
   });
 }
 
 /** Specifies an auto scale rule metric dimension. */
-export interface AutoScaleApiScaleRuleMetricDimension {
+export interface ScaleRuleMetricDimension {
   /** Name of the dimension. */
   dimensionName: string;
   /** the dimension operator. Only 'Equals' and 'NotEquals' are supported. 'Equals' being equal to any of the values. 'NotEquals' being not equal to all of the values */
-  operator: AutoScaleApiScaleRuleMetricDimensionOperationType;
+  operator: ScaleRuleMetricDimensionOperationType;
   /** list of dimension values. For example: ["App1","App2"]. */
   values: string[];
 }
 
-export function autoScaleApiScaleRuleMetricDimensionSerializer(
-  item: AutoScaleApiScaleRuleMetricDimension,
-): any {
+export function scaleRuleMetricDimensionSerializer(item: ScaleRuleMetricDimension): any {
   return {
     DimensionName: item["dimensionName"],
     Operator: item["operator"],
@@ -336,9 +317,7 @@ export function autoScaleApiScaleRuleMetricDimensionSerializer(
   };
 }
 
-export function autoScaleApiScaleRuleMetricDimensionDeserializer(
-  item: any,
-): AutoScaleApiScaleRuleMetricDimension {
+export function scaleRuleMetricDimensionDeserializer(item: any): ScaleRuleMetricDimension {
   return {
     dimensionName: item["DimensionName"],
     operator: item["Operator"],
@@ -349,7 +328,7 @@ export function autoScaleApiScaleRuleMetricDimensionDeserializer(
 }
 
 /** the dimension operator. Only 'Equals' and 'NotEquals' are supported. 'Equals' being equal to any of the values. 'NotEquals' being not equal to all of the values */
-export enum KnownAutoScaleApiScaleRuleMetricDimensionOperationType {
+export enum KnownScaleRuleMetricDimensionOperationType {
   /** Equals */
   Equals = "Equals",
   /** NotEquals */
@@ -358,27 +337,27 @@ export enum KnownAutoScaleApiScaleRuleMetricDimensionOperationType {
 
 /**
  * the dimension operator. Only 'Equals' and 'NotEquals' are supported. 'Equals' being equal to any of the values. 'NotEquals' being not equal to all of the values \
- * {@link KnownAutoScaleApiScaleRuleMetricDimensionOperationType} can be used interchangeably with AutoScaleApiScaleRuleMetricDimensionOperationType,
+ * {@link KnownScaleRuleMetricDimensionOperationType} can be used interchangeably with ScaleRuleMetricDimensionOperationType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Equals**: Equals \
  * **NotEquals**: NotEquals
  */
-export type AutoScaleApiScaleRuleMetricDimensionOperationType = string;
+export type ScaleRuleMetricDimensionOperationType = string;
 
 /** The parameters for the scaling action. */
-export interface AutoScaleApiScaleAction {
+export interface ScaleAction {
   /** the scale direction. Whether the scaling action increases or decreases the number of instances. */
-  direction: AutoScaleApiScaleDirection;
+  direction: ScaleDirection;
   /** the type of action that should occur when the scale rule fires. */
-  type: AutoScaleApiScaleType;
+  type: ScaleType;
   /** the number of instances that are involved in the scaling action. This value must be 1 or greater. The default value is 1. */
   value?: string;
   /** the amount of time to wait since the last scaling action before this action occurs. It must be between 1 week and 1 minute in ISO 8601 format. */
   cooldown: string;
 }
 
-export function autoScaleApiScaleActionSerializer(item: AutoScaleApiScaleAction): any {
+export function scaleActionSerializer(item: ScaleAction): any {
   return {
     direction: item["direction"],
     type: item["type"],
@@ -387,7 +366,7 @@ export function autoScaleApiScaleActionSerializer(item: AutoScaleApiScaleAction)
   };
 }
 
-export function autoScaleApiScaleActionDeserializer(item: any): AutoScaleApiScaleAction {
+export function scaleActionDeserializer(item: any): ScaleAction {
   return {
     direction: item["direction"],
     type: item["type"],
@@ -397,13 +376,13 @@ export function autoScaleApiScaleActionDeserializer(item: any): AutoScaleApiScal
 }
 
 /** the scale direction. Whether the scaling action increases or decreases the number of instances. */
-export type AutoScaleApiScaleDirection = "None" | "Increase" | "Decrease";
+export type ScaleDirection = "None" | "Increase" | "Decrease";
 /** the type of action that should occur when the scale rule fires. */
-export type AutoScaleApiScaleType =
+export type ScaleType =
   "ChangeCount" | "PercentChangeCount" | "ExactCount" | "ServiceAllowedNextValue";
 
 /** A specific date-time for the profile. */
-export interface AutoScaleApiTimeWindow {
+export interface TimeWindow {
   /** the timezone of the start and end times for the profile. Some examples of valid time zones are: Dateline Standard Time, UTC-11, Hawaiian Standard Time, Alaskan Standard Time, Pacific Standard Time (Mexico), Pacific Standard Time, US Mountain Standard Time, Mountain Standard Time (Mexico), Mountain Standard Time, Central America Standard Time, Central Standard Time, Central Standard Time (Mexico), Canada Central Standard Time, SA Pacific Standard Time, Eastern Standard Time, US Eastern Standard Time, Venezuela Standard Time, Paraguay Standard Time, Atlantic Standard Time, Central Brazilian Standard Time, SA Western Standard Time, Pacific SA Standard Time, Newfoundland Standard Time, E. South America Standard Time, Argentina Standard Time, SA Eastern Standard Time, Greenland Standard Time, Montevideo Standard Time, Bahia Standard Time, UTC-02, Mid-Atlantic Standard Time, Azores Standard Time, Cape Verde Standard Time, Morocco Standard Time, UTC, GMT Standard Time, Greenwich Standard Time, W. Europe Standard Time, Central Europe Standard Time, Romance Standard Time, Central European Standard Time, W. Central Africa Standard Time, Namibia Standard Time, Jordan Standard Time, GTB Standard Time, Middle East Standard Time, Egypt Standard Time, Syria Standard Time, E. Europe Standard Time, South Africa Standard Time, FLE Standard Time, Turkey Standard Time, Israel Standard Time, Kaliningrad Standard Time, Libya Standard Time, Arabic Standard Time, Arab Standard Time, Belarus Standard Time, Russian Standard Time, E. Africa Standard Time, Iran Standard Time, Arabian Standard Time, Azerbaijan Standard Time, Russia Time Zone 3, Mauritius Standard Time, Georgian Standard Time, Caucasus Standard Time, Afghanistan Standard Time, West Asia Standard Time, Ekaterinburg Standard Time, Pakistan Standard Time, India Standard Time, Sri Lanka Standard Time, Nepal Standard Time, Central Asia Standard Time, Bangladesh Standard Time, N. Central Asia Standard Time, Myanmar Standard Time, SE Asia Standard Time, North Asia Standard Time, China Standard Time, North Asia East Standard Time, Singapore Standard Time, W. Australia Standard Time, Taipei Standard Time, Ulaanbaatar Standard Time, Tokyo Standard Time, Korea Standard Time, Yakutsk Standard Time, Cen. Australia Standard Time, AUS Central Standard Time, E. Australia Standard Time, AUS Eastern Standard Time, West Pacific Standard Time, Tasmania Standard Time, Magadan Standard Time, Vladivostok Standard Time, Russia Time Zone 10, Central Pacific Standard Time, Russia Time Zone 11, New Zealand Standard Time, UTC+12, Fiji Standard Time, Kamchatka Standard Time, Tonga Standard Time, Samoa Standard Time, Line Islands Standard Time */
   timeZone?: string;
   /** the start time for the profile in ISO 8601 format. */
@@ -412,7 +391,7 @@ export interface AutoScaleApiTimeWindow {
   end: Date;
 }
 
-export function autoScaleApiTimeWindowSerializer(item: AutoScaleApiTimeWindow): any {
+export function timeWindowSerializer(item: TimeWindow): any {
   return {
     timeZone: item["timeZone"],
     start: item["start"].toISOString(),
@@ -420,7 +399,7 @@ export function autoScaleApiTimeWindowSerializer(item: AutoScaleApiTimeWindow): 
   };
 }
 
-export function autoScaleApiTimeWindowDeserializer(item: any): AutoScaleApiTimeWindow {
+export function timeWindowDeserializer(item: any): TimeWindow {
   return {
     timeZone: item["timeZone"],
     start: new Date(item["start"]),
@@ -429,33 +408,30 @@ export function autoScaleApiTimeWindowDeserializer(item: any): AutoScaleApiTimeW
 }
 
 /** The repeating times at which this profile begins. This element is not used if the FixedDate element is used. */
-export interface AutoScaleApiRecurrence {
+export interface Recurrence {
   /** the recurrence frequency. How often the schedule profile should take effect. This value must be Week, meaning each week will have the same set of profiles. For example, to set a daily schedule, set **schedule** to every day of the week. The frequency property specifies that the schedule is repeated weekly. */
-  frequency: AutoScaleApiRecurrenceFrequency;
+  frequency: RecurrenceFrequency;
   /** the scheduling constraints for when the profile begins. */
-  schedule: AutoScaleApiRecurrentSchedule;
+  schedule: RecurrentSchedule;
 }
 
-export function autoScaleApiRecurrenceSerializer(item: AutoScaleApiRecurrence): any {
-  return {
-    frequency: item["frequency"],
-    schedule: autoScaleApiRecurrentScheduleSerializer(item["schedule"]),
-  };
+export function recurrenceSerializer(item: Recurrence): any {
+  return { frequency: item["frequency"], schedule: recurrentScheduleSerializer(item["schedule"]) };
 }
 
-export function autoScaleApiRecurrenceDeserializer(item: any): AutoScaleApiRecurrence {
+export function recurrenceDeserializer(item: any): Recurrence {
   return {
     frequency: item["frequency"],
-    schedule: autoScaleApiRecurrentScheduleDeserializer(item["schedule"]),
+    schedule: recurrentScheduleDeserializer(item["schedule"]),
   };
 }
 
 /** the recurrence frequency. How often the schedule profile should take effect. This value must be Week, meaning each week will have the same set of profiles. For example, to set a daily schedule, set **schedule** to every day of the week. The frequency property specifies that the schedule is repeated weekly. */
-export type AutoScaleApiRecurrenceFrequency =
+export type RecurrenceFrequency =
   "None" | "Second" | "Minute" | "Hour" | "Day" | "Week" | "Month" | "Year";
 
 /** The scheduling constraints for when the profile begins. */
-export interface AutoScaleApiRecurrentSchedule {
+export interface RecurrentSchedule {
   /** the timezone for the hours of the profile. Some examples of valid time zones are: Dateline Standard Time, UTC-11, Hawaiian Standard Time, Alaskan Standard Time, Pacific Standard Time (Mexico), Pacific Standard Time, US Mountain Standard Time, Mountain Standard Time (Mexico), Mountain Standard Time, Central America Standard Time, Central Standard Time, Central Standard Time (Mexico), Canada Central Standard Time, SA Pacific Standard Time, Eastern Standard Time, US Eastern Standard Time, Venezuela Standard Time, Paraguay Standard Time, Atlantic Standard Time, Central Brazilian Standard Time, SA Western Standard Time, Pacific SA Standard Time, Newfoundland Standard Time, E. South America Standard Time, Argentina Standard Time, SA Eastern Standard Time, Greenland Standard Time, Montevideo Standard Time, Bahia Standard Time, UTC-02, Mid-Atlantic Standard Time, Azores Standard Time, Cape Verde Standard Time, Morocco Standard Time, UTC, GMT Standard Time, Greenwich Standard Time, W. Europe Standard Time, Central Europe Standard Time, Romance Standard Time, Central European Standard Time, W. Central Africa Standard Time, Namibia Standard Time, Jordan Standard Time, GTB Standard Time, Middle East Standard Time, Egypt Standard Time, Syria Standard Time, E. Europe Standard Time, South Africa Standard Time, FLE Standard Time, Turkey Standard Time, Israel Standard Time, Kaliningrad Standard Time, Libya Standard Time, Arabic Standard Time, Arab Standard Time, Belarus Standard Time, Russian Standard Time, E. Africa Standard Time, Iran Standard Time, Arabian Standard Time, Azerbaijan Standard Time, Russia Time Zone 3, Mauritius Standard Time, Georgian Standard Time, Caucasus Standard Time, Afghanistan Standard Time, West Asia Standard Time, Ekaterinburg Standard Time, Pakistan Standard Time, India Standard Time, Sri Lanka Standard Time, Nepal Standard Time, Central Asia Standard Time, Bangladesh Standard Time, N. Central Asia Standard Time, Myanmar Standard Time, SE Asia Standard Time, North Asia Standard Time, China Standard Time, North Asia East Standard Time, Singapore Standard Time, W. Australia Standard Time, Taipei Standard Time, Ulaanbaatar Standard Time, Tokyo Standard Time, Korea Standard Time, Yakutsk Standard Time, Cen. Australia Standard Time, AUS Central Standard Time, E. Australia Standard Time, AUS Eastern Standard Time, West Pacific Standard Time, Tasmania Standard Time, Magadan Standard Time, Vladivostok Standard Time, Russia Time Zone 10, Central Pacific Standard Time, Russia Time Zone 11, New Zealand Standard Time, UTC+12, Fiji Standard Time, Kamchatka Standard Time, Tonga Standard Time, Samoa Standard Time, Line Islands Standard Time */
   timeZone: string;
   /** the collection of days that the profile takes effect on. Possible values are Sunday through Saturday. */
@@ -466,7 +442,7 @@ export interface AutoScaleApiRecurrentSchedule {
   minutes: number[];
 }
 
-export function autoScaleApiRecurrentScheduleSerializer(item: AutoScaleApiRecurrentSchedule): any {
+export function recurrentScheduleSerializer(item: RecurrentSchedule): any {
   return {
     timeZone: item["timeZone"],
     days: item["days"].map((p: any) => {
@@ -481,9 +457,7 @@ export function autoScaleApiRecurrentScheduleSerializer(item: AutoScaleApiRecurr
   };
 }
 
-export function autoScaleApiRecurrentScheduleDeserializer(
-  item: any,
-): AutoScaleApiRecurrentSchedule {
+export function recurrentScheduleDeserializer(item: any): RecurrentSchedule {
   return {
     timeZone: item["timeZone"],
     days: item["days"].map((p: any) => {
@@ -498,63 +472,55 @@ export function autoScaleApiRecurrentScheduleDeserializer(
   };
 }
 
-export function autoScaleApiAutoscaleNotificationArraySerializer(
-  result: Array<AutoScaleApiAutoscaleNotification>,
-): any[] {
+export function autoscaleNotificationArraySerializer(result: Array<AutoscaleNotification>): any[] {
   return result.map((item) => {
-    return autoScaleApiAutoscaleNotificationSerializer(item);
+    return autoscaleNotificationSerializer(item);
   });
 }
 
-export function autoScaleApiAutoscaleNotificationArrayDeserializer(
-  result: Array<AutoScaleApiAutoscaleNotification>,
+export function autoscaleNotificationArrayDeserializer(
+  result: Array<AutoscaleNotification>,
 ): any[] {
   return result.map((item) => {
-    return autoScaleApiAutoscaleNotificationDeserializer(item);
+    return autoscaleNotificationDeserializer(item);
   });
 }
 
 /** Autoscale notification. */
-export interface AutoScaleApiAutoscaleNotification {
+export interface AutoscaleNotification {
   /** the operation associated with the notification and its value must be "scale" */
-  operation: AutoScaleApiOperationType;
+  operation: OperationType;
   /** the email notification. */
-  email?: AutoScaleApiEmailNotification;
+  email?: EmailNotification;
   /** the collection of webhook notifications. */
-  webhooks?: AutoScaleApiWebhookNotification[];
+  webhooks?: WebhookNotification[];
 }
 
-export function autoScaleApiAutoscaleNotificationSerializer(
-  item: AutoScaleApiAutoscaleNotification,
-): any {
+export function autoscaleNotificationSerializer(item: AutoscaleNotification): any {
   return {
     operation: item["operation"],
-    email: !item["email"] ? item["email"] : autoScaleApiEmailNotificationSerializer(item["email"]),
+    email: !item["email"] ? item["email"] : emailNotificationSerializer(item["email"]),
     webhooks: !item["webhooks"]
       ? item["webhooks"]
-      : autoScaleApiWebhookNotificationArraySerializer(item["webhooks"]),
+      : webhookNotificationArraySerializer(item["webhooks"]),
   };
 }
 
-export function autoScaleApiAutoscaleNotificationDeserializer(
-  item: any,
-): AutoScaleApiAutoscaleNotification {
+export function autoscaleNotificationDeserializer(item: any): AutoscaleNotification {
   return {
     operation: item["operation"],
-    email: !item["email"]
-      ? item["email"]
-      : autoScaleApiEmailNotificationDeserializer(item["email"]),
+    email: !item["email"] ? item["email"] : emailNotificationDeserializer(item["email"]),
     webhooks: !item["webhooks"]
       ? item["webhooks"]
-      : autoScaleApiWebhookNotificationArrayDeserializer(item["webhooks"]),
+      : webhookNotificationArrayDeserializer(item["webhooks"]),
   };
 }
 
-/** Type of AutoScaleApiOperationType */
-export type AutoScaleApiOperationType = "Scale";
+/** Type of OperationType */
+export type OperationType = "Scale";
 
 /** Email notification of an autoscale event. */
-export interface AutoScaleApiEmailNotification {
+export interface EmailNotification {
   /** a value indicating whether to send email to subscription administrator. */
   sendToSubscriptionAdministrator?: boolean;
   /** a value indicating whether to send email to subscription co-administrators. */
@@ -563,7 +529,7 @@ export interface AutoScaleApiEmailNotification {
   customEmails?: string[];
 }
 
-export function autoScaleApiEmailNotificationSerializer(item: AutoScaleApiEmailNotification): any {
+export function emailNotificationSerializer(item: EmailNotification): any {
   return {
     sendToSubscriptionAdministrator: item["sendToSubscriptionAdministrator"],
     sendToSubscriptionCoAdministrators: item["sendToSubscriptionCoAdministrators"],
@@ -575,9 +541,7 @@ export function autoScaleApiEmailNotificationSerializer(item: AutoScaleApiEmailN
   };
 }
 
-export function autoScaleApiEmailNotificationDeserializer(
-  item: any,
-): AutoScaleApiEmailNotification {
+export function emailNotificationDeserializer(item: any): EmailNotification {
   return {
     sendToSubscriptionAdministrator: item["sendToSubscriptionAdministrator"],
     sendToSubscriptionCoAdministrators: item["sendToSubscriptionCoAdministrators"],
@@ -589,39 +553,31 @@ export function autoScaleApiEmailNotificationDeserializer(
   };
 }
 
-export function autoScaleApiWebhookNotificationArraySerializer(
-  result: Array<AutoScaleApiWebhookNotification>,
-): any[] {
+export function webhookNotificationArraySerializer(result: Array<WebhookNotification>): any[] {
   return result.map((item) => {
-    return autoScaleApiWebhookNotificationSerializer(item);
+    return webhookNotificationSerializer(item);
   });
 }
 
-export function autoScaleApiWebhookNotificationArrayDeserializer(
-  result: Array<AutoScaleApiWebhookNotification>,
-): any[] {
+export function webhookNotificationArrayDeserializer(result: Array<WebhookNotification>): any[] {
   return result.map((item) => {
-    return autoScaleApiWebhookNotificationDeserializer(item);
+    return webhookNotificationDeserializer(item);
   });
 }
 
 /** Webhook notification of an autoscale event. */
-export interface AutoScaleApiWebhookNotification {
+export interface WebhookNotification {
   /** the service address to receive the notification. */
   serviceUri?: string;
   /** a property bag of settings. This value can be empty. */
   properties?: Record<string, string>;
 }
 
-export function autoScaleApiWebhookNotificationSerializer(
-  item: AutoScaleApiWebhookNotification,
-): any {
+export function webhookNotificationSerializer(item: WebhookNotification): any {
   return { serviceUri: item["serviceUri"], properties: item["properties"] };
 }
 
-export function autoScaleApiWebhookNotificationDeserializer(
-  item: any,
-): AutoScaleApiWebhookNotification {
+export function webhookNotificationDeserializer(item: any): WebhookNotification {
   return {
     serviceUri: item["serviceUri"],
     properties: !item["properties"]
@@ -633,22 +589,18 @@ export function autoScaleApiWebhookNotificationDeserializer(
 }
 
 /** The parameters for enabling predictive autoscale. */
-export interface AutoScaleApiPredictiveAutoscalePolicy {
+export interface PredictiveAutoscalePolicy {
   /** the predictive autoscale mode */
-  scaleMode: AutoScaleApiPredictiveAutoscalePolicyScaleMode;
+  scaleMode: PredictiveAutoscalePolicyScaleMode;
   /** the amount of time to specify by which instances are launched in advance. It must be between 1 minute and 60 minutes in ISO 8601 format. */
   scaleLookAheadTime?: string;
 }
 
-export function autoScaleApiPredictiveAutoscalePolicySerializer(
-  item: AutoScaleApiPredictiveAutoscalePolicy,
-): any {
+export function predictiveAutoscalePolicySerializer(item: PredictiveAutoscalePolicy): any {
   return { scaleMode: item["scaleMode"], scaleLookAheadTime: item["scaleLookAheadTime"] };
 }
 
-export function autoScaleApiPredictiveAutoscalePolicyDeserializer(
-  item: any,
-): AutoScaleApiPredictiveAutoscalePolicy {
+export function predictiveAutoscalePolicyDeserializer(item: any): PredictiveAutoscalePolicy {
   return {
     scaleMode: item["scaleMode"],
     scaleLookAheadTime: item["scaleLookAheadTime"],
@@ -656,24 +608,19 @@ export function autoScaleApiPredictiveAutoscalePolicyDeserializer(
 }
 
 /** the predictive autoscale mode */
-export type AutoScaleApiPredictiveAutoscalePolicyScaleMode =
-  "Disabled" | "ForecastOnly" | "Enabled";
+export type PredictiveAutoscalePolicyScaleMode = "Disabled" | "ForecastOnly" | "Enabled";
 
 /** Describes the format of Error response. */
-export interface AutoScaleApiAutoscaleErrorResponse {
+export interface AutoscaleErrorResponse {
   /** The error object. */
-  error?: AutoScaleApiAutoscaleErrorResponseError;
+  error?: AutoscaleErrorResponseError;
   /** The system metadata related to the response. */
   readonly systemData?: SystemData;
 }
 
-export function autoScaleApiAutoscaleErrorResponseDeserializer(
-  item: any,
-): AutoScaleApiAutoscaleErrorResponse {
+export function autoscaleErrorResponseDeserializer(item: any): AutoscaleErrorResponse {
   return {
-    error: !item["error"]
-      ? item["error"]
-      : autoScaleApiAutoscaleErrorResponseErrorDeserializer(item["error"]),
+    error: !item["error"] ? item["error"] : autoscaleErrorResponseErrorDeserializer(item["error"]),
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
@@ -681,7 +628,7 @@ export function autoScaleApiAutoscaleErrorResponseDeserializer(
 }
 
 /** The error object. */
-export interface AutoScaleApiAutoscaleErrorResponseError {
+export interface AutoscaleErrorResponseError {
   /** One of a server-defined set of error codes. */
   code?: string;
   /** A human-readable representation of the error. */
@@ -692,9 +639,7 @@ export interface AutoScaleApiAutoscaleErrorResponseError {
   details?: string;
 }
 
-export function autoScaleApiAutoscaleErrorResponseErrorDeserializer(
-  item: any,
-): AutoScaleApiAutoscaleErrorResponseError {
+export function autoscaleErrorResponseErrorDeserializer(item: any): AutoscaleErrorResponseError {
   return {
     code: item["code"],
     message: item["message"],
@@ -704,17 +649,17 @@ export function autoScaleApiAutoscaleErrorResponseErrorDeserializer(
 }
 
 /** The autoscale setting object for patch operations. */
-export interface AutoScaleApiAutoscaleSettingResourcePatch {
+export interface AutoscaleSettingResourcePatch {
   /** Resource tags */
   tags?: Record<string, string>;
   /** the collection of automatic scaling profiles that specify different scaling parameters for different time periods. A maximum of 20 profiles can be specified. */
-  profiles?: AutoScaleApiAutoscaleProfile[];
+  profiles?: AutoscaleProfile[];
   /** the collection of notifications. */
-  notifications?: AutoScaleApiAutoscaleNotification[];
+  notifications?: AutoscaleNotification[];
   /** the enabled flag. Specifies whether automatic scaling is enabled for the resource. The default value is 'false'. */
   enabled?: boolean;
   /** the predictive autoscale policy mode. */
-  predictiveAutoscalePolicy?: AutoScaleApiPredictiveAutoscalePolicy;
+  predictiveAutoscalePolicy?: PredictiveAutoscalePolicy;
   /** the name of the autoscale setting. */
   name?: string;
   /** the resource identifier of the resource that the autoscale setting should be added to. */
@@ -723,9 +668,7 @@ export interface AutoScaleApiAutoscaleSettingResourcePatch {
   targetResourceLocation?: string;
 }
 
-export function autoScaleApiAutoscaleSettingResourcePatchSerializer(
-  item: AutoScaleApiAutoscaleSettingResourcePatch,
-): any {
+export function autoscaleSettingResourcePatchSerializer(item: AutoscaleSettingResourcePatch): any {
   return {
     tags: item["tags"],
     properties: areAllPropsUndefined(item, [
@@ -743,40 +686,40 @@ export function autoScaleApiAutoscaleSettingResourcePatchSerializer(
 }
 
 /** Represents a collection of autoscale setting resources. */
-export interface _AutoScaleApiAutoscaleSettingResourceCollection {
+export interface _AutoscaleSettingResourceCollection {
   /** The AutoscaleSettingResource items on this page */
-  value: AutoScaleApiAutoscaleSettingResource[];
+  value: AutoscaleSettingResource[];
   /** The link to the next page of items */
   nextLink?: string;
 }
 
-export function _autoScaleApiAutoscaleSettingResourceCollectionDeserializer(
+export function _autoscaleSettingResourceCollectionDeserializer(
   item: any,
-): _AutoScaleApiAutoscaleSettingResourceCollection {
+): _AutoscaleSettingResourceCollection {
   return {
-    value: autoScaleApiAutoscaleSettingResourceArrayDeserializer(item["value"]),
+    value: autoscaleSettingResourceArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function autoScaleApiAutoscaleSettingResourceArraySerializer(
-  result: Array<AutoScaleApiAutoscaleSettingResource>,
+export function autoscaleSettingResourceArraySerializer(
+  result: Array<AutoscaleSettingResource>,
 ): any[] {
   return result.map((item) => {
-    return autoScaleApiAutoscaleSettingResourceSerializer(item);
+    return autoscaleSettingResourceSerializer(item);
   });
 }
 
-export function autoScaleApiAutoscaleSettingResourceArrayDeserializer(
-  result: Array<AutoScaleApiAutoscaleSettingResource>,
+export function autoscaleSettingResourceArrayDeserializer(
+  result: Array<AutoscaleSettingResource>,
 ): any[] {
   return result.map((item) => {
-    return autoScaleApiAutoscaleSettingResourceDeserializer(item);
+    return autoscaleSettingResourceDeserializer(item);
   });
 }
 
 /** The response to a metrics query. */
-export interface AutoScaleApiPredictiveResponse {
+export interface PredictiveResponse {
   /** The timespan for which the data was retrieved. Its value consists of two datetimes concatenated, separated by '/'.  This may be adjusted in the future and returned back from what was originally requested. */
   timespan?: string;
   /** The interval (window size) for which the metric data was returned in.  This may be adjusted in the future and returned back from what was originally requested.  This is not present if a metadata request was made. */
@@ -786,56 +729,50 @@ export interface AutoScaleApiPredictiveResponse {
   /** resource of the predictive metric. */
   targetResourceId?: string;
   /** the value of the collection. */
-  data?: AutoScaleApiPredictiveValue[];
+  data?: PredictiveValue[];
 }
 
-export function autoScaleApiPredictiveResponseDeserializer(
-  item: any,
-): AutoScaleApiPredictiveResponse {
+export function predictiveResponseDeserializer(item: any): PredictiveResponse {
   return {
     timespan: item["timespan"],
     interval: item["interval"],
     metricName: item["metricName"],
     targetResourceId: item["targetResourceId"],
-    data: !item["data"] ? item["data"] : autoScaleApiPredictiveValueArrayDeserializer(item["data"]),
+    data: !item["data"] ? item["data"] : predictiveValueArrayDeserializer(item["data"]),
   };
 }
 
-export function autoScaleApiPredictiveValueArrayDeserializer(
-  result: Array<AutoScaleApiPredictiveValue>,
-): any[] {
+export function predictiveValueArrayDeserializer(result: Array<PredictiveValue>): any[] {
   return result.map((item) => {
-    return autoScaleApiPredictiveValueDeserializer(item);
+    return predictiveValueDeserializer(item);
   });
 }
 
 /** Represents a predictive metric value in the given bucket. */
-export interface AutoScaleApiPredictiveValue {
+export interface PredictiveValue {
   /** the timestamp for the metric value in ISO 8601 format. */
   timeStamp: Date;
   /** Predictive value in this time bucket. */
   value: number;
 }
 
-export function autoScaleApiPredictiveValueDeserializer(item: any): AutoScaleApiPredictiveValue {
+export function predictiveValueDeserializer(item: any): PredictiveValue {
   return {
     timeStamp: new Date(item["timeStamp"]),
     value: item["value"],
   };
 }
 
-export function _autoscaleSettingResourcePropertiesSerializer(
-  item: AutoScaleApiAutoscaleSettingResource,
-): any {
+export function _autoscaleSettingResourcePropertiesSerializer(item: AutoscaleSettingResource): any {
   return {
-    profiles: autoScaleApiAutoscaleProfileArraySerializer(item["profiles"]),
+    profiles: autoscaleProfileArraySerializer(item["profiles"]),
     notifications: !item["notifications"]
       ? item["notifications"]
-      : autoScaleApiAutoscaleNotificationArraySerializer(item["notifications"]),
+      : autoscaleNotificationArraySerializer(item["notifications"]),
     enabled: item["enabled"],
     predictiveAutoscalePolicy: !item["predictiveAutoscalePolicy"]
       ? item["predictiveAutoscalePolicy"]
-      : autoScaleApiPredictiveAutoscalePolicySerializer(item["predictiveAutoscalePolicy"]),
+      : predictiveAutoscalePolicySerializer(item["predictiveAutoscalePolicy"]),
     name: item["namePropertiesName"],
     targetResourceUri: item["targetResourceUri"],
     targetResourceLocation: item["targetResourceLocation"],
@@ -844,14 +781,14 @@ export function _autoscaleSettingResourcePropertiesSerializer(
 
 export function _autoscaleSettingResourcePropertiesDeserializer(item: any) {
   return {
-    profiles: autoScaleApiAutoscaleProfileArrayDeserializer(item["profiles"]),
+    profiles: autoscaleProfileArrayDeserializer(item["profiles"]),
     notifications: !item["notifications"]
       ? item["notifications"]
-      : autoScaleApiAutoscaleNotificationArrayDeserializer(item["notifications"]),
+      : autoscaleNotificationArrayDeserializer(item["notifications"]),
     enabled: item["enabled"],
     predictiveAutoscalePolicy: !item["predictiveAutoscalePolicy"]
       ? item["predictiveAutoscalePolicy"]
-      : autoScaleApiPredictiveAutoscalePolicyDeserializer(item["predictiveAutoscalePolicy"]),
+      : predictiveAutoscalePolicyDeserializer(item["predictiveAutoscalePolicy"]),
     namePropertiesName: item["name"],
     targetResourceUri: item["targetResourceUri"],
     targetResourceLocation: item["targetResourceLocation"],
@@ -859,19 +796,19 @@ export function _autoscaleSettingResourcePropertiesDeserializer(item: any) {
 }
 
 export function _autoscaleSettingResourcePatchPropertiesSerializer(
-  item: AutoScaleApiAutoscaleSettingResourcePatch,
+  item: AutoscaleSettingResourcePatch,
 ): any {
   return {
     profiles: !item["profiles"]
       ? item["profiles"]
-      : autoScaleApiAutoscaleProfileArraySerializer(item["profiles"]),
+      : autoscaleProfileArraySerializer(item["profiles"]),
     notifications: !item["notifications"]
       ? item["notifications"]
-      : autoScaleApiAutoscaleNotificationArraySerializer(item["notifications"]),
+      : autoscaleNotificationArraySerializer(item["notifications"]),
     enabled: item["enabled"],
     predictiveAutoscalePolicy: !item["predictiveAutoscalePolicy"]
       ? item["predictiveAutoscalePolicy"]
-      : autoScaleApiPredictiveAutoscalePolicySerializer(item["predictiveAutoscalePolicy"]),
+      : predictiveAutoscalePolicySerializer(item["predictiveAutoscalePolicy"]),
     name: item["name"],
     targetResourceUri: item["targetResourceUri"],
     targetResourceLocation: item["targetResourceLocation"],
@@ -882,14 +819,14 @@ export function _autoscaleSettingResourcePatchPropertiesDeserializer(item: any) 
   return {
     profiles: !item["profiles"]
       ? item["profiles"]
-      : autoScaleApiAutoscaleProfileArrayDeserializer(item["profiles"]),
+      : autoscaleProfileArrayDeserializer(item["profiles"]),
     notifications: !item["notifications"]
       ? item["notifications"]
-      : autoScaleApiAutoscaleNotificationArrayDeserializer(item["notifications"]),
+      : autoscaleNotificationArrayDeserializer(item["notifications"]),
     enabled: item["enabled"],
     predictiveAutoscalePolicy: !item["predictiveAutoscalePolicy"]
       ? item["predictiveAutoscalePolicy"]
-      : autoScaleApiPredictiveAutoscalePolicyDeserializer(item["predictiveAutoscalePolicy"]),
+      : predictiveAutoscalePolicyDeserializer(item["predictiveAutoscalePolicy"]),
     name: item["name"],
     targetResourceUri: item["targetResourceUri"],
     targetResourceLocation: item["targetResourceLocation"],

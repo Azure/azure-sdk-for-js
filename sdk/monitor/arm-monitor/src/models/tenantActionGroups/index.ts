@@ -2,11 +2,11 @@
 // Licensed under the MIT License.
 
 export type {
-  TenantActionGroupsTenantNotificationRequestBody,
-  TenantActionGroupsWebhookReceiver,
-  TenantActionGroupsTestNotificationDetailsResponse,
-  TenantActionGroupsActionDetail,
-  TenantActionGroupsTenantActionGroupResource,
-  TenantActionGroupsTenantActionGroup,
-  TenantActionGroupsActionGroupPatchBody,
+  TenantNotificationRequestBody,
+  TenantActionGroupWebhookReceiver,
+  TenantActionGroupTestNotificationDetailsResponse,
+  TenantActionGroupActionDetail,
+  TenantActionGroupResource,
+  TenantActionGroup,
+  TenantActionGroupPatchBody,
 } from "./models.js";

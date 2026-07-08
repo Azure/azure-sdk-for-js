@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { MicrosoftCommonLocalizableString } from "../microsoft/common/models.js";
+import type { LocalizableString } from "../microsoft/common/models.js";
 import {
-  microsoftCommonLocalizableStringDeserializer,
-  microsoftCommonLocalizableStringArrayDeserializer,
+  localizableStringDeserializer,
+  localizableStringArrayDeserializer,
 } from "../microsoft/common/models.js";
 
 /**
@@ -14,32 +14,32 @@ import {
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** Represents collection of metric definitions. */
-export interface _MetricsApiSubscriptionScopeMetricDefinitionCollection {
+export interface _SubscriptionScopeMetricDefinitionCollection {
   /** The values for the metric definitions. */
-  value: MetricsApiSubscriptionScopeMetricDefinition[];
+  value: SubscriptionScopeMetricDefinition[];
   /** The link to the next page of items */
   nextLink?: string;
 }
 
-export function _metricsApiSubscriptionScopeMetricDefinitionCollectionDeserializer(
+export function _subscriptionScopeMetricDefinitionCollectionDeserializer(
   item: any,
-): _MetricsApiSubscriptionScopeMetricDefinitionCollection {
+): _SubscriptionScopeMetricDefinitionCollection {
   return {
-    value: metricsApiSubscriptionScopeMetricDefinitionArrayDeserializer(item["value"]),
+    value: subscriptionScopeMetricDefinitionArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function metricsApiSubscriptionScopeMetricDefinitionArrayDeserializer(
-  result: Array<MetricsApiSubscriptionScopeMetricDefinition>,
+export function subscriptionScopeMetricDefinitionArrayDeserializer(
+  result: Array<SubscriptionScopeMetricDefinition>,
 ): any[] {
   return result.map((item) => {
-    return metricsApiSubscriptionScopeMetricDefinitionDeserializer(item);
+    return subscriptionScopeMetricDefinitionDeserializer(item);
   });
 }
 
 /** Metric definition class specifies the metadata for a metric. */
-export interface MetricsApiSubscriptionScopeMetricDefinition {
+export interface SubscriptionScopeMetricDefinition {
   /** Flag to indicate whether the dimension is required. */
   isDimensionRequired?: boolean;
   /** The resource identifier of the resource that emitted the metric. */
@@ -47,35 +47,35 @@ export interface MetricsApiSubscriptionScopeMetricDefinition {
   /** The namespace the metric belongs to. */
   namespace?: string;
   /** The name and the display name of the metric, i.e. it is a localizable string. */
-  name?: MicrosoftCommonLocalizableString;
+  name?: LocalizableString;
   /** Detailed description of this metric. */
   displayDescription?: string;
   /** Custom category name for this metric. */
   category?: string;
   /** The class of the metric. */
-  metricClass?: MetricsApiMetricClass;
+  metricClass?: MetricClass;
   /** The unit of the metric. */
-  unit?: MetricsApiMetricUnit;
+  unit?: MetricUnit;
   /** The primary aggregation type value defining how to use the values for display. */
-  primaryAggregationType?: MetricsApiMetricAggregationType;
+  primaryAggregationType?: MetricAggregationType;
   /** The collection of what aggregation types are supported. */
-  supportedAggregationTypes?: MetricsApiMetricAggregationType[];
+  supportedAggregationTypes?: MetricAggregationType[];
   /** The collection of what aggregation intervals are available to be queried. */
-  metricAvailabilities?: MetricsApiMetricAvailability[];
+  metricAvailabilities?: MetricAvailability[];
   /** The resource identifier of the metric definition. */
   id?: string;
   /** The name and the display name of the dimension, i.e. it is a localizable string. */
-  dimensions?: MicrosoftCommonLocalizableString[];
+  dimensions?: LocalizableString[];
 }
 
-export function metricsApiSubscriptionScopeMetricDefinitionDeserializer(
+export function subscriptionScopeMetricDefinitionDeserializer(
   item: any,
-): MetricsApiSubscriptionScopeMetricDefinition {
+): SubscriptionScopeMetricDefinition {
   return {
     isDimensionRequired: item["isDimensionRequired"],
     resourceId: item["resourceId"],
     namespace: item["namespace"],
-    name: !item["name"] ? item["name"] : microsoftCommonLocalizableStringDeserializer(item["name"]),
+    name: !item["name"] ? item["name"] : localizableStringDeserializer(item["name"]),
     displayDescription: item["displayDescription"],
     category: item["category"],
     metricClass: item["metricClass"],
@@ -88,16 +88,16 @@ export function metricsApiSubscriptionScopeMetricDefinitionDeserializer(
         }),
     metricAvailabilities: !item["metricAvailabilities"]
       ? item["metricAvailabilities"]
-      : metricsApiMetricAvailabilityArrayDeserializer(item["metricAvailabilities"]),
+      : metricAvailabilityArrayDeserializer(item["metricAvailabilities"]),
     id: item["id"],
     dimensions: !item["dimensions"]
       ? item["dimensions"]
-      : microsoftCommonLocalizableStringArrayDeserializer(item["dimensions"]),
+      : localizableStringArrayDeserializer(item["dimensions"]),
   };
 }
 
 /** The class of the metric. */
-export enum KnownMetricsApiMetricClass {
+export enum KnownMetricClass {
   /** Availability */
   Availability = "Availability",
   /** Transactions */
@@ -112,7 +112,7 @@ export enum KnownMetricsApiMetricClass {
 
 /**
  * The class of the metric. \
- * {@link KnownMetricsApiMetricClass} can be used interchangeably with MetricsApiMetricClass,
+ * {@link KnownMetricClass} can be used interchangeably with MetricClass,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Availability**: Availability \
@@ -121,10 +121,10 @@ export enum KnownMetricsApiMetricClass {
  * **Latency**: Latency \
  * **Saturation**: Saturation
  */
-export type MetricsApiMetricClass = string;
+export type MetricClass = string;
 
 /** The unit of the metric. */
-export enum KnownMetricsApiMetricUnit {
+export enum KnownMetricUnit {
   /** Unit of raw quantity. */
   Count = "Count",
   /** Unit of memory in bytes. */
@@ -155,7 +155,7 @@ export enum KnownMetricsApiMetricUnit {
 
 /**
  * The unit of the metric. \
- * {@link KnownMetricsApiMetricUnit} can be used interchangeably with MetricsApiMetricUnit,
+ * {@link KnownMetricUnit} can be used interchangeably with MetricUnit,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Count**: Unit of raw quantity. \
@@ -172,10 +172,10 @@ export enum KnownMetricsApiMetricUnit {
  * **NanoCores**: Unit of processing power in one billionth of a CPU core. \
  * **BitsPerSecond**: Rate unit of binary digits per second.
  */
-export type MetricsApiMetricUnit = string;
+export type MetricUnit = string;
 
 /** The aggregation type of the metric. */
-export enum KnownMetricsApiMetricAggregationType {
+export enum KnownMetricAggregationType {
   /** None */
   None = "None",
   /** Average */
@@ -192,7 +192,7 @@ export enum KnownMetricsApiMetricAggregationType {
 
 /**
  * The aggregation type of the metric. \
- * {@link KnownMetricsApiMetricAggregationType} can be used interchangeably with MetricsApiMetricAggregationType,
+ * {@link KnownMetricAggregationType} can be used interchangeably with MetricAggregationType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **None**: None \
@@ -202,25 +202,23 @@ export enum KnownMetricsApiMetricAggregationType {
  * **Maximum**: Maximum \
  * **Total**: Total
  */
-export type MetricsApiMetricAggregationType = string;
+export type MetricAggregationType = string;
 
-export function metricsApiMetricAvailabilityArrayDeserializer(
-  result: Array<MetricsApiMetricAvailability>,
-): any[] {
+export function metricAvailabilityArrayDeserializer(result: Array<MetricAvailability>): any[] {
   return result.map((item) => {
-    return metricsApiMetricAvailabilityDeserializer(item);
+    return metricAvailabilityDeserializer(item);
   });
 }
 
 /** Metric availability specifies the time grain (aggregation interval or frequency) and the retention period for that time grain. */
-export interface MetricsApiMetricAvailability {
+export interface MetricAvailability {
   /** The time grain specifies a supported aggregation interval for the metric. Expressed as a duration 'PT1M', 'P1D', etc. */
   timeGrain?: string;
   /** The retention period for the metric at the specified timegrain.  Expressed as a duration 'PT1M', 'P1D', etc. */
   retention?: string;
 }
 
-export function metricsApiMetricAvailabilityDeserializer(item: any): MetricsApiMetricAvailability {
+export function metricAvailabilityDeserializer(item: any): MetricAvailability {
   return {
     timeGrain: item["timeGrain"],
     retention: item["retention"],
@@ -228,32 +226,28 @@ export function metricsApiMetricAvailabilityDeserializer(item: any): MetricsApiM
 }
 
 /** Represents collection of metric definitions. */
-export interface _MetricsApiMetricDefinitionCollection {
+export interface _MetricDefinitionCollection {
   /** The values for the metric definitions. */
-  value: MetricsApiMetricDefinition[];
+  value: MetricDefinition[];
   /** The link to the next page of items */
   nextLink?: string;
 }
 
-export function _metricsApiMetricDefinitionCollectionDeserializer(
-  item: any,
-): _MetricsApiMetricDefinitionCollection {
+export function _metricDefinitionCollectionDeserializer(item: any): _MetricDefinitionCollection {
   return {
-    value: metricsApiMetricDefinitionArrayDeserializer(item["value"]),
+    value: metricDefinitionArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function metricsApiMetricDefinitionArrayDeserializer(
-  result: Array<MetricsApiMetricDefinition>,
-): any[] {
+export function metricDefinitionArrayDeserializer(result: Array<MetricDefinition>): any[] {
   return result.map((item) => {
-    return metricsApiMetricDefinitionDeserializer(item);
+    return metricDefinitionDeserializer(item);
   });
 }
 
 /** Metric definition class specifies the metadata for a metric. */
-export interface MetricsApiMetricDefinition {
+export interface MetricDefinition {
   /** Flag to indicate whether the dimension is required. */
   isDimensionRequired?: boolean;
   /** The resource identifier of the resource that emitted the metric. */
@@ -261,33 +255,33 @@ export interface MetricsApiMetricDefinition {
   /** The namespace the metric belongs to. */
   namespace?: string;
   /** The name and the display name of the metric, i.e. it is a localizable string. */
-  name?: MicrosoftCommonLocalizableString;
+  name?: LocalizableString;
   /** Detailed description of this metric. */
   displayDescription?: string;
   /** Custom category name for this metric. */
   category?: string;
   /** The class of the metric. */
-  metricClass?: MetricsApiMetricClass;
+  metricClass?: MetricClass;
   /** The unit of the metric. */
-  unit?: MetricsApiMetricUnit;
+  unit?: MetricUnit;
   /** The primary aggregation type value defining how to use the values for display. */
-  primaryAggregationType?: MetricsApiAggregationType;
+  primaryAggregationType?: AggregationType;
   /** The collection of what aggregation types are supported. */
-  supportedAggregationTypes?: MetricsApiAggregationType[];
+  supportedAggregationTypes?: AggregationType[];
   /** The collection of what aggregation intervals are available to be queried. */
-  metricAvailabilities?: MetricsApiMetricAvailability[];
+  metricAvailabilities?: MetricAvailability[];
   /** The resource identifier of the metric definition. */
   id?: string;
   /** The name and the display name of the dimension, i.e. it is a localizable string. */
-  dimensions?: MicrosoftCommonLocalizableString[];
+  dimensions?: LocalizableString[];
 }
 
-export function metricsApiMetricDefinitionDeserializer(item: any): MetricsApiMetricDefinition {
+export function metricDefinitionDeserializer(item: any): MetricDefinition {
   return {
     isDimensionRequired: item["isDimensionRequired"],
     resourceId: item["resourceId"],
     namespace: item["namespace"],
-    name: !item["name"] ? item["name"] : microsoftCommonLocalizableStringDeserializer(item["name"]),
+    name: !item["name"] ? item["name"] : localizableStringDeserializer(item["name"]),
     displayDescription: item["displayDescription"],
     category: item["category"],
     metricClass: item["metricClass"],
@@ -300,45 +294,40 @@ export function metricsApiMetricDefinitionDeserializer(item: any): MetricsApiMet
         }),
     metricAvailabilities: !item["metricAvailabilities"]
       ? item["metricAvailabilities"]
-      : metricsApiMetricAvailabilityArrayDeserializer(item["metricAvailabilities"]),
+      : metricAvailabilityArrayDeserializer(item["metricAvailabilities"]),
     id: item["id"],
     dimensions: !item["dimensions"]
       ? item["dimensions"]
-      : microsoftCommonLocalizableStringArrayDeserializer(item["dimensions"]),
+      : localizableStringArrayDeserializer(item["dimensions"]),
   };
 }
 
 /** The aggregation type of the metric. */
-export type MetricsApiAggregationType =
-  "None" | "Average" | "Count" | "Minimum" | "Maximum" | "Total";
+export type AggregationType = "None" | "Average" | "Count" | "Minimum" | "Maximum" | "Total";
 
 /** Represents collection of metric namespaces. */
-export interface _MetricsApiMetricNamespaceCollection {
+export interface _MetricNamespaceCollection {
   /** The values for the metric namespaces. */
-  value: MetricsApiMetricNamespace[];
+  value: MetricNamespace[];
   /** The link to the next page of items */
   nextLink?: string;
 }
 
-export function _metricsApiMetricNamespaceCollectionDeserializer(
-  item: any,
-): _MetricsApiMetricNamespaceCollection {
+export function _metricNamespaceCollectionDeserializer(item: any): _MetricNamespaceCollection {
   return {
-    value: metricsApiMetricNamespaceArrayDeserializer(item["value"]),
+    value: metricNamespaceArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function metricsApiMetricNamespaceArrayDeserializer(
-  result: Array<MetricsApiMetricNamespace>,
-): any[] {
+export function metricNamespaceArrayDeserializer(result: Array<MetricNamespace>): any[] {
   return result.map((item) => {
-    return metricsApiMetricNamespaceDeserializer(item);
+    return metricNamespaceDeserializer(item);
   });
 }
 
 /** Metric namespace class specifies the metadata for a metric namespace. */
-export interface MetricsApiMetricNamespace {
+export interface MetricNamespace {
   /** The ID of the metric namespace. */
   id?: string;
   /** The type of the namespace. */
@@ -346,12 +335,12 @@ export interface MetricsApiMetricNamespace {
   /** The escaped name of the namespace. */
   name?: string;
   /** Kind of namespace */
-  classification?: MetricsApiNamespaceClassification;
+  classification?: NamespaceClassification;
   /** Properties which include the fully qualified namespace name. */
-  properties?: MetricsApiMetricNamespaceName;
+  properties?: MetricNamespaceName;
 }
 
-export function metricsApiMetricNamespaceDeserializer(item: any): MetricsApiMetricNamespace {
+export function metricNamespaceDeserializer(item: any): MetricNamespace {
   return {
     id: item["id"],
     type: item["type"],
@@ -359,12 +348,12 @@ export function metricsApiMetricNamespaceDeserializer(item: any): MetricsApiMetr
     classification: item["classification"],
     properties: !item["properties"]
       ? item["properties"]
-      : metricsApiMetricNamespaceNameDeserializer(item["properties"]),
+      : metricNamespaceNameDeserializer(item["properties"]),
   };
 }
 
 /** Kind of namespace */
-export enum KnownMetricsApiNamespaceClassification {
+export enum KnownNamespaceClassification {
   /** Platform */
   Platform = "Platform",
   /** Custom */
@@ -375,31 +364,29 @@ export enum KnownMetricsApiNamespaceClassification {
 
 /**
  * Kind of namespace \
- * {@link KnownMetricsApiNamespaceClassification} can be used interchangeably with MetricsApiNamespaceClassification,
+ * {@link KnownNamespaceClassification} can be used interchangeably with NamespaceClassification,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Platform**: Platform \
  * **Custom**: Custom \
  * **Qos**: Qos
  */
-export type MetricsApiNamespaceClassification = string;
+export type NamespaceClassification = string;
 
 /** The fully qualified metric namespace name. */
-export interface MetricsApiMetricNamespaceName {
+export interface MetricNamespaceName {
   /** The metric namespace name. */
   metricNamespaceName?: string;
 }
 
-export function metricsApiMetricNamespaceNameDeserializer(
-  item: any,
-): MetricsApiMetricNamespaceName {
+export function metricNamespaceNameDeserializer(item: any): MetricNamespaceName {
   return {
     metricNamespaceName: item["metricNamespaceName"],
   };
 }
 
 /** The response to a metrics query. */
-export interface MetricsApiResponse {
+export interface Response {
   /** The integer value representing the relative cost of the query. */
   cost?: number;
   /** The timespan for which the data was retrieved. Its value consists of two datetimes concatenated, separated by '/'.  This may be adjusted in the future and returned back from what was originally requested. */
@@ -414,34 +401,34 @@ export interface MetricsApiResponse {
   /** The region of the resource being queried for metrics. */
   resourceregion?: string;
   /** The value of the collection. */
-  value: MetricsApiMetric[];
+  value: Metric[];
 }
 
-export function metricsApiResponseDeserializer(item: any): MetricsApiResponse {
+export function responseDeserializer(item: any): Response {
   return {
     cost: item["cost"],
     timespan: item["timespan"],
     interval: item["interval"],
     namespace: item["namespace"],
     resourceregion: item["resourceregion"],
-    value: metricsApiMetricArrayDeserializer(item["value"]),
+    value: metricArrayDeserializer(item["value"]),
   };
 }
 
-export function metricsApiMetricArrayDeserializer(result: Array<MetricsApiMetric>): any[] {
+export function metricArrayDeserializer(result: Array<Metric>): any[] {
   return result.map((item) => {
-    return metricsApiMetricDeserializer(item);
+    return metricDeserializer(item);
   });
 }
 
 /** The result data of a query. */
-export interface MetricsApiMetric {
+export interface Metric {
   /** The metric Id. */
   id: string;
   /** The resource type of the metric resource. */
   type: string;
   /** The name and the display name of the metric, i.e. it is localizable string. */
-  name: MicrosoftCommonLocalizableString;
+  name: LocalizableString;
   /** Detailed description of this metric. */
   displayDescription?: string;
   /** 'Success' or the error details on query failures for this metric. */
@@ -449,82 +436,76 @@ export interface MetricsApiMetric {
   /** Error message encountered querying this specific metric. */
   errorMessage?: string;
   /** The unit of the metric. */
-  unit: MetricsApiMetricUnit;
+  unit: MetricUnit;
   /** The time series returned when a data query is performed. */
-  timeseries: MetricsApiTimeSeriesElement[];
+  timeseries: TimeSeriesElement[];
 }
 
-export function metricsApiMetricDeserializer(item: any): MetricsApiMetric {
+export function metricDeserializer(item: any): Metric {
   return {
     id: item["id"],
     type: item["type"],
-    name: microsoftCommonLocalizableStringDeserializer(item["name"]),
+    name: localizableStringDeserializer(item["name"]),
     displayDescription: item["displayDescription"],
     errorCode: item["errorCode"],
     errorMessage: item["errorMessage"],
     unit: item["unit"],
-    timeseries: metricsApiTimeSeriesElementArrayDeserializer(item["timeseries"]),
+    timeseries: timeSeriesElementArrayDeserializer(item["timeseries"]),
   };
 }
 
-export function metricsApiTimeSeriesElementArrayDeserializer(
-  result: Array<MetricsApiTimeSeriesElement>,
-): any[] {
+export function timeSeriesElementArrayDeserializer(result: Array<TimeSeriesElement>): any[] {
   return result.map((item) => {
-    return metricsApiTimeSeriesElementDeserializer(item);
+    return timeSeriesElementDeserializer(item);
   });
 }
 
 /** A time series result type. The discriminator value is always TimeSeries in this case. */
-export interface MetricsApiTimeSeriesElement {
+export interface TimeSeriesElement {
   /** The metadata values returned if $filter was specified in the call. */
-  metadatavalues?: MetricsApiMetadataValue[];
+  metadatavalues?: MetadataValue[];
   /** An array of data points representing the metric values.  This is only returned if a result type of data is specified. */
-  data?: MetricsApiMetricValue[];
+  data?: MetricValue[];
 }
 
-export function metricsApiTimeSeriesElementDeserializer(item: any): MetricsApiTimeSeriesElement {
+export function timeSeriesElementDeserializer(item: any): TimeSeriesElement {
   return {
     metadatavalues: !item["metadatavalues"]
       ? item["metadatavalues"]
-      : metricsApiMetadataValueArrayDeserializer(item["metadatavalues"]),
-    data: !item["data"] ? item["data"] : metricsApiMetricValueArrayDeserializer(item["data"]),
+      : metadataValueArrayDeserializer(item["metadatavalues"]),
+    data: !item["data"] ? item["data"] : metricValueArrayDeserializer(item["data"]),
   };
 }
 
-export function metricsApiMetadataValueArrayDeserializer(
-  result: Array<MetricsApiMetadataValue>,
-): any[] {
+export function metadataValueArrayDeserializer(result: Array<MetadataValue>): any[] {
   return result.map((item) => {
-    return metricsApiMetadataValueDeserializer(item);
+    return metadataValueDeserializer(item);
   });
 }
 
 /** Represents a metric metadata value. */
-export interface MetricsApiMetadataValue {
+export interface MetadataValue {
   /** The name of the metadata. */
-  name?: MicrosoftCommonLocalizableString;
+  name?: LocalizableString;
   /** The value of the metadata. */
   value?: string;
 }
 
-export function metricsApiMetadataValueDeserializer(item: any): MetricsApiMetadataValue {
+export function metadataValueDeserializer(item: any): MetadataValue {
   return {
-    name: !item["name"] ? item["name"] : microsoftCommonLocalizableStringDeserializer(item["name"]),
+    name: !item["name"] ? item["name"] : localizableStringDeserializer(item["name"]),
     value: item["value"],
   };
 }
 
-export function metricsApiMetricValueArrayDeserializer(
-  result: Array<MetricsApiMetricValue>,
-): any[] {
+export function metricValueArrayDeserializer(result: Array<MetricValue>): any[] {
   return result.map((item) => {
-    return metricsApiMetricValueDeserializer(item);
+    return metricValueDeserializer(item);
   });
 }
 
 /** Represents a metric value. */
-export interface MetricsApiMetricValue {
+export interface MetricValue {
   /** The timestamp for the metric value in ISO 8601 format. */
   timeStamp: Date;
   /** The average value in the time range. */
@@ -539,7 +520,7 @@ export interface MetricsApiMetricValue {
   count?: number;
 }
 
-export function metricsApiMetricValueDeserializer(item: any): MetricsApiMetricValue {
+export function metricValueDeserializer(item: any): MetricValue {
   return {
     timeStamp: new Date(item["timeStamp"]),
     average: item["average"],
@@ -551,7 +532,7 @@ export function metricsApiMetricValueDeserializer(item: any): MetricsApiMetricVa
 }
 
 /** Query parameters can also be specified in the body, specifying the same parameter in both the body and query parameters will result in an error. */
-export interface MetricsApiSubscriptionScopeMetricsRequestBodyParameters {
+export interface SubscriptionScopeMetricsRequestBodyParameters {
   /** The timespan of the query. It is a string with the following format 'startDateTime_ISO/endDateTime_ISO'. */
   timespan?: string;
   /**
@@ -580,7 +561,7 @@ export interface MetricsApiSubscriptionScopeMetricsRequestBodyParameters {
   /** Dimension name(s) to rollup results by. For example if you only want to see metric values with a filter like 'City eq Seattle or City eq Tacoma' but don't want to see separate values for each city, you can specify 'RollUpBy=City' to see the results for Seattle and Tacoma rolled up into one timeseries. */
   rollUpBy?: string;
   /** Reduces the set of data collected. The syntax allowed depends on the operation. See the operation's description for details. */
-  resultType?: MetricsApiMetricResultType;
+  resultType?: MetricResultType;
   /** Metric namespace where the metrics you want reside. */
   metricNamespace?: string;
   /** When set to true, if the timespan passed in is not supported by this metric, the API will return the result using the closest supported timespan. When set to false, an error is returned for invalid timespan parameters. Defaults to false. */
@@ -589,8 +570,8 @@ export interface MetricsApiSubscriptionScopeMetricsRequestBodyParameters {
   validateDimensions?: boolean;
 }
 
-export function metricsApiSubscriptionScopeMetricsRequestBodyParametersSerializer(
-  item: MetricsApiSubscriptionScopeMetricsRequestBodyParameters,
+export function subscriptionScopeMetricsRequestBodyParametersSerializer(
+  item: SubscriptionScopeMetricsRequestBodyParameters,
 ): any {
   return {
     timespan: item["timespan"],
@@ -609,7 +590,7 @@ export function metricsApiSubscriptionScopeMetricsRequestBodyParametersSerialize
 }
 
 /** Reduces the set of data collected. The syntax allowed depends on the operation. See the operation's description for details. */
-export enum KnownMetricsApiMetricResultType {
+export enum KnownMetricResultType {
   /** Data */
   Data = "Data",
   /** Metadata */
@@ -618,10 +599,10 @@ export enum KnownMetricsApiMetricResultType {
 
 /**
  * Reduces the set of data collected. The syntax allowed depends on the operation. See the operation's description for details. \
- * {@link KnownMetricsApiMetricResultType} can be used interchangeably with MetricsApiMetricResultType,
+ * {@link KnownMetricResultType} can be used interchangeably with MetricResultType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Data**: Data \
  * **Metadata**: Metadata
  */
-export type MetricsApiMetricResultType = string;
+export type MetricResultType = string;

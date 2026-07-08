@@ -19,8 +19,8 @@ import type {
   ActivityLogAlertsGetOptionalParams,
 } from "../../api/activityLogAlerts/options.js";
 import type {
-  ActivityLogAlertsApiActivityLogAlertResource,
-  ActivityLogAlertsApiAlertRulePatchObject,
+  ActivityLogAlertResource,
+  AlertRulePatchObject,
 } from "../../models/activityLogAlertsApi/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
@@ -29,12 +29,12 @@ export interface ActivityLogAlertsOperations {
   /** Get a list of all Activity Log Alert rules in a subscription. */
   listBySubscriptionId: (
     options?: ActivityLogAlertsListBySubscriptionIdOptionalParams,
-  ) => PagedAsyncIterableIterator<ActivityLogAlertsApiActivityLogAlertResource>;
+  ) => PagedAsyncIterableIterator<ActivityLogAlertResource>;
   /** Get a list of all Activity Log Alert rules in a resource group. */
   listByResourceGroup: (
     resourceGroupName: string,
     options?: ActivityLogAlertsListByResourceGroupOptionalParams,
-  ) => PagedAsyncIterableIterator<ActivityLogAlertsApiActivityLogAlertResource>;
+  ) => PagedAsyncIterableIterator<ActivityLogAlertResource>;
   /** Delete an Activity Log Alert rule. */
   delete: (
     resourceGroupName: string,
@@ -45,22 +45,22 @@ export interface ActivityLogAlertsOperations {
   update: (
     resourceGroupName: string,
     activityLogAlertName: string,
-    activityLogAlertRulePatch: ActivityLogAlertsApiAlertRulePatchObject,
+    activityLogAlertRulePatch: AlertRulePatchObject,
     options?: ActivityLogAlertsUpdateOptionalParams,
-  ) => Promise<ActivityLogAlertsApiActivityLogAlertResource>;
+  ) => Promise<ActivityLogAlertResource>;
   /** Create a new Activity Log Alert rule or update an existing one. */
   createOrUpdate: (
     resourceGroupName: string,
     activityLogAlertName: string,
-    activityLogAlertRule: ActivityLogAlertsApiActivityLogAlertResource,
+    activityLogAlertRule: ActivityLogAlertResource,
     options?: ActivityLogAlertsCreateOrUpdateOptionalParams,
-  ) => Promise<ActivityLogAlertsApiActivityLogAlertResource>;
+  ) => Promise<ActivityLogAlertResource>;
   /** Get an Activity Log Alert rule. */
   get: (
     resourceGroupName: string,
     activityLogAlertName: string,
     options?: ActivityLogAlertsGetOptionalParams,
-  ) => Promise<ActivityLogAlertsApiActivityLogAlertResource>;
+  ) => Promise<ActivityLogAlertResource>;
 }
 
 function _getActivityLogAlerts(context: MonitorContext) {
@@ -79,14 +79,14 @@ function _getActivityLogAlerts(context: MonitorContext) {
     update: (
       resourceGroupName: string,
       activityLogAlertName: string,
-      activityLogAlertRulePatch: ActivityLogAlertsApiAlertRulePatchObject,
+      activityLogAlertRulePatch: AlertRulePatchObject,
       options?: ActivityLogAlertsUpdateOptionalParams,
     ) =>
       update(context, resourceGroupName, activityLogAlertName, activityLogAlertRulePatch, options),
     createOrUpdate: (
       resourceGroupName: string,
       activityLogAlertName: string,
-      activityLogAlertRule: ActivityLogAlertsApiActivityLogAlertResource,
+      activityLogAlertRule: ActivityLogAlertResource,
       options?: ActivityLogAlertsCreateOrUpdateOptionalParams,
     ) =>
       createOrUpdate(

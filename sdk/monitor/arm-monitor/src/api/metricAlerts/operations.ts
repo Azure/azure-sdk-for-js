@@ -3,16 +3,16 @@
 
 import type { MonitorContext as Client } from "../index.js";
 import type {
-  MetricAlertApiMetricAlertResource,
-  MetricAlertApiMetricAlertResourcePatch,
-  _MetricAlertApiMetricAlertResourceCollection,
+  MetricAlertResource,
+  MetricAlertResourcePatch,
+  _MetricAlertResourceCollection,
 } from "../../models/metricAlertApi/models.js";
 import {
-  metricAlertApiMetricAlertResourceSerializer,
-  metricAlertApiMetricAlertResourceDeserializer,
-  metricAlertApiMetricAlertErrorResponseDeserializer,
-  metricAlertApiMetricAlertResourcePatchSerializer,
-  _metricAlertApiMetricAlertResourceCollectionDeserializer,
+  metricAlertResourceSerializer,
+  metricAlertResourceDeserializer,
+  metricAlertErrorResponseDeserializer,
+  metricAlertResourcePatchSerializer,
+  _metricAlertResourceCollectionDeserializer,
 } from "../../models/metricAlertApi/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -50,25 +50,25 @@ export function _listBySubscriptionSend(
 
 export async function _listBySubscriptionDeserialize(
   result: PathUncheckedResponse,
-): Promise<_MetricAlertApiMetricAlertResourceCollection> {
+): Promise<_MetricAlertResourceCollection> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
-      error.details = metricAlertApiMetricAlertErrorResponseDeserializer(result.body);
+      error.details = metricAlertErrorResponseDeserializer(result.body);
     }
 
     throw error;
   }
 
-  return _metricAlertApiMetricAlertResourceCollectionDeserializer(result.body);
+  return _metricAlertResourceCollectionDeserializer(result.body);
 }
 
 /** Retrieve alert rule definitions in a subscription. */
 export function listBySubscription(
   context: Client,
   options: MetricAlertsListBySubscriptionOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<MetricAlertApiMetricAlertResource> {
+): PagedAsyncIterableIterator<MetricAlertResource> {
   return buildPagedAsyncIterator(
     context,
     () => _listBySubscriptionSend(context, options),
@@ -102,18 +102,18 @@ export function _listByResourceGroupSend(
 
 export async function _listByResourceGroupDeserialize(
   result: PathUncheckedResponse,
-): Promise<_MetricAlertApiMetricAlertResourceCollection> {
+): Promise<_MetricAlertResourceCollection> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
-      error.details = metricAlertApiMetricAlertErrorResponseDeserializer(result.body);
+      error.details = metricAlertErrorResponseDeserializer(result.body);
     }
 
     throw error;
   }
 
-  return _metricAlertApiMetricAlertResourceCollectionDeserializer(result.body);
+  return _metricAlertResourceCollectionDeserializer(result.body);
 }
 
 /** Retrieve alert rule definitions in a resource group. */
@@ -121,7 +121,7 @@ export function listByResourceGroup(
   context: Client,
   resourceGroupName: string,
   options: MetricAlertsListByResourceGroupOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<MetricAlertApiMetricAlertResource> {
+): PagedAsyncIterableIterator<MetricAlertResource> {
   return buildPagedAsyncIterator(
     context,
     () => _listByResourceGroupSend(context, resourceGroupName, options),
@@ -157,7 +157,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
-      error.details = metricAlertApiMetricAlertErrorResponseDeserializer(result.body);
+      error.details = metricAlertErrorResponseDeserializer(result.body);
     }
 
     throw error;
@@ -181,7 +181,7 @@ export function _updateSend(
   context: Client,
   resourceGroupName: string,
   ruleName: string,
-  parameters: MetricAlertApiMetricAlertResourcePatch,
+  parameters: MetricAlertResourcePatch,
   options: MetricAlertsUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -200,24 +200,24 @@ export function _updateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: metricAlertApiMetricAlertResourcePatchSerializer(parameters),
+    body: metricAlertResourcePatchSerializer(parameters),
   });
 }
 
 export async function _updateDeserialize(
   result: PathUncheckedResponse,
-): Promise<MetricAlertApiMetricAlertResource> {
+): Promise<MetricAlertResource> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
-      error.details = metricAlertApiMetricAlertErrorResponseDeserializer(result.body);
+      error.details = metricAlertErrorResponseDeserializer(result.body);
     }
 
     throw error;
   }
 
-  return metricAlertApiMetricAlertResourceDeserializer(result.body);
+  return metricAlertResourceDeserializer(result.body);
 }
 
 /** Update an metric alert definition. */
@@ -225,9 +225,9 @@ export async function update(
   context: Client,
   resourceGroupName: string,
   ruleName: string,
-  parameters: MetricAlertApiMetricAlertResourcePatch,
+  parameters: MetricAlertResourcePatch,
   options: MetricAlertsUpdateOptionalParams = { requestOptions: {} },
-): Promise<MetricAlertApiMetricAlertResource> {
+): Promise<MetricAlertResource> {
   const result = await _updateSend(context, resourceGroupName, ruleName, parameters, options);
   return _updateDeserialize(result);
 }
@@ -236,7 +236,7 @@ export function _createOrUpdateSend(
   context: Client,
   resourceGroupName: string,
   ruleName: string,
-  parameters: MetricAlertApiMetricAlertResource,
+  parameters: MetricAlertResource,
   options: MetricAlertsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -255,24 +255,24 @@ export function _createOrUpdateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: metricAlertApiMetricAlertResourceSerializer(parameters),
+    body: metricAlertResourceSerializer(parameters),
   });
 }
 
 export async function _createOrUpdateDeserialize(
   result: PathUncheckedResponse,
-): Promise<MetricAlertApiMetricAlertResource> {
+): Promise<MetricAlertResource> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
-      error.details = metricAlertApiMetricAlertErrorResponseDeserializer(result.body);
+      error.details = metricAlertErrorResponseDeserializer(result.body);
     }
 
     throw error;
   }
 
-  return metricAlertApiMetricAlertResourceDeserializer(result.body);
+  return metricAlertResourceDeserializer(result.body);
 }
 
 /** Create or update an metric alert definition. */
@@ -280,9 +280,9 @@ export async function createOrUpdate(
   context: Client,
   resourceGroupName: string,
   ruleName: string,
-  parameters: MetricAlertApiMetricAlertResource,
+  parameters: MetricAlertResource,
   options: MetricAlertsCreateOrUpdateOptionalParams = { requestOptions: {} },
-): Promise<MetricAlertApiMetricAlertResource> {
+): Promise<MetricAlertResource> {
   const result = await _createOrUpdateSend(
     context,
     resourceGroupName,
@@ -317,20 +317,18 @@ export function _getSend(
   });
 }
 
-export async function _getDeserialize(
-  result: PathUncheckedResponse,
-): Promise<MetricAlertApiMetricAlertResource> {
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<MetricAlertResource> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
-      error.details = metricAlertApiMetricAlertErrorResponseDeserializer(result.body);
+      error.details = metricAlertErrorResponseDeserializer(result.body);
     }
 
     throw error;
   }
 
-  return metricAlertApiMetricAlertResourceDeserializer(result.body);
+  return metricAlertResourceDeserializer(result.body);
 }
 
 /** Retrieve an alert rule definition. */
@@ -339,7 +337,7 @@ export async function get(
   resourceGroupName: string,
   ruleName: string,
   options: MetricAlertsGetOptionalParams = { requestOptions: {} },
-): Promise<MetricAlertApiMetricAlertResource> {
+): Promise<MetricAlertResource> {
   const result = await _getSend(context, resourceGroupName, ruleName, options);
   return _getDeserialize(result);
 }

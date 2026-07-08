@@ -7,7 +7,7 @@ import type {
   DiagnosticSettingsCategoryListOptionalParams,
   DiagnosticSettingsCategoryGetOptionalParams,
 } from "../../api/diagnosticSettingsCategory/options.js";
-import type { DiagnosticsSettingsDiagnosticSettingsCategoryResource } from "../../models/diagnosticsSettings/models.js";
+import type { DiagnosticSettingsCategoryResource } from "../../models/diagnosticsSettings/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a DiagnosticSettingsCategory operations. */
@@ -16,13 +16,13 @@ export interface DiagnosticSettingsCategoryOperations {
   list: (
     resourceUri: string,
     options?: DiagnosticSettingsCategoryListOptionalParams,
-  ) => PagedAsyncIterableIterator<DiagnosticsSettingsDiagnosticSettingsCategoryResource>;
+  ) => PagedAsyncIterableIterator<DiagnosticSettingsCategoryResource>;
   /** Gets the diagnostic settings category for the specified resource. */
   get: (
     resourceUri: string,
     name: string,
     options?: DiagnosticSettingsCategoryGetOptionalParams,
-  ) => Promise<DiagnosticsSettingsDiagnosticSettingsCategoryResource>;
+  ) => Promise<DiagnosticSettingsCategoryResource>;
 }
 
 function _getDiagnosticSettingsCategory(context: MonitorContext) {

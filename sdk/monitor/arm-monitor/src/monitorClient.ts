@@ -72,8 +72,8 @@ import { _getTenantActivityLogsOperations } from "./classic/tenantActivityLogs/i
 import type { vMInsightsOperations } from "./classic/vMInsights/index.js";
 import { _getvMInsightsOperations } from "./classic/vMInsights/index.js";
 import type {
-  TenantActionGroupsTenantNotificationRequestBody,
-  TenantActionGroupsTestNotificationDetailsResponse,
+  TenantNotificationRequestBody,
+  TenantActionGroupTestNotificationDetailsResponse,
 } from "./models/tenantActionGroups/models.js";
 import type { SimplePollerLike } from "./static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "./static-helpers/simplePollerHelpers.js";
@@ -162,7 +162,7 @@ export class MonitorClient {
     options: GetTestNotificationsAtTenantActionGroupResourceLevelOptionalParams = {
       requestOptions: {},
     },
-  ): Promise<TenantActionGroupsTestNotificationDetailsResponse> {
+  ): Promise<TenantActionGroupTestNotificationDetailsResponse> {
     return getTestNotificationsAtTenantActionGroupResourceLevel(
       this._client,
       managementGroupId,
@@ -178,13 +178,13 @@ export class MonitorClient {
     managementGroupId: string,
     tenantActionGroupName: string,
     xMsClientTenantId: string,
-    notificationRequest: TenantActionGroupsTenantNotificationRequestBody,
+    notificationRequest: TenantNotificationRequestBody,
     options: CreateNotificationsAtTenantActionGroupResourceLevelOptionalParams = {
       requestOptions: {},
     },
   ): PollerLike<
-    OperationState<TenantActionGroupsTestNotificationDetailsResponse>,
-    TenantActionGroupsTestNotificationDetailsResponse
+    OperationState<TenantActionGroupTestNotificationDetailsResponse>,
+    TenantActionGroupTestNotificationDetailsResponse
   > {
     return createNotificationsAtTenantActionGroupResourceLevel(
       this._client,
@@ -201,14 +201,14 @@ export class MonitorClient {
     managementGroupId: string,
     tenantActionGroupName: string,
     xMsClientTenantId: string,
-    notificationRequest: TenantActionGroupsTenantNotificationRequestBody,
+    notificationRequest: TenantNotificationRequestBody,
     options: CreateNotificationsAtTenantActionGroupResourceLevelOptionalParams = {
       requestOptions: {},
     },
   ): Promise<
     SimplePollerLike<
-      OperationState<TenantActionGroupsTestNotificationDetailsResponse>,
-      TenantActionGroupsTestNotificationDetailsResponse
+      OperationState<TenantActionGroupTestNotificationDetailsResponse>,
+      TenantActionGroupTestNotificationDetailsResponse
     >
   > {
     const poller = createNotificationsAtTenantActionGroupResourceLevel(
@@ -228,11 +228,11 @@ export class MonitorClient {
     managementGroupId: string,
     tenantActionGroupName: string,
     xMsClientTenantId: string,
-    notificationRequest: TenantActionGroupsTenantNotificationRequestBody,
+    notificationRequest: TenantNotificationRequestBody,
     options: CreateNotificationsAtTenantActionGroupResourceLevelOptionalParams = {
       requestOptions: {},
     },
-  ): Promise<TenantActionGroupsTestNotificationDetailsResponse> {
+  ): Promise<TenantActionGroupTestNotificationDetailsResponse> {
     return await createNotificationsAtTenantActionGroupResourceLevel(
       this._client,
       managementGroupId,

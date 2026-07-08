@@ -1,4 +1,4 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export type { AlertRulesIncidentsApiIncident } from "./models.js";
+export type { Incident } from "./models.js";

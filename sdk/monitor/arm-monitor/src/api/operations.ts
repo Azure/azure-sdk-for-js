@@ -2,15 +2,15 @@
 // Licensed under the MIT License.
 
 import type { MonitorContext as Client } from "./index.js";
-import { microsoftCommonErrorResponseDeserializer } from "../models/microsoft/common/models.js";
+import { errorResponseDeserializer } from "../models/microsoft/common/models.js";
 import { armErrorResponseDeserializer } from "../models/models.js";
 import type {
-  TenantActionGroupsTenantNotificationRequestBody,
-  TenantActionGroupsTestNotificationDetailsResponse,
+  TenantNotificationRequestBody,
+  TenantActionGroupTestNotificationDetailsResponse,
 } from "../models/tenantActionGroups/models.js";
 import {
-  tenantActionGroupsTenantNotificationRequestBodySerializer,
-  tenantActionGroupsTestNotificationDetailsResponseDeserializer,
+  tenantNotificationRequestBodySerializer,
+  tenantActionGroupTestNotificationDetailsResponseDeserializer,
 } from "../models/tenantActionGroups/models.js";
 import { getLongRunningPoller } from "../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../static-helpers/urlTemplate.js";
@@ -56,18 +56,18 @@ export function _getTestNotificationsAtTenantActionGroupResourceLevelSend(
 
 export async function _getTestNotificationsAtTenantActionGroupResourceLevelDeserialize(
   result: PathUncheckedResponse,
-): Promise<TenantActionGroupsTestNotificationDetailsResponse> {
+): Promise<TenantActionGroupTestNotificationDetailsResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
-      error.details = microsoftCommonErrorResponseDeserializer(result.body);
+      error.details = errorResponseDeserializer(result.body);
     }
 
     throw error;
   }
 
-  return tenantActionGroupsTestNotificationDetailsResponseDeserializer(result.body);
+  return tenantActionGroupTestNotificationDetailsResponseDeserializer(result.body);
 }
 
 /** Get the test notifications by the notification id */
@@ -80,7 +80,7 @@ export async function getTestNotificationsAtTenantActionGroupResourceLevel(
   options: GetTestNotificationsAtTenantActionGroupResourceLevelOptionalParams = {
     requestOptions: {},
   },
-): Promise<TenantActionGroupsTestNotificationDetailsResponse> {
+): Promise<TenantActionGroupTestNotificationDetailsResponse> {
   const result = await _getTestNotificationsAtTenantActionGroupResourceLevelSend(
     context,
     managementGroupId,
@@ -97,7 +97,7 @@ export function _createNotificationsAtTenantActionGroupResourceLevelSend(
   managementGroupId: string,
   tenantActionGroupName: string,
   xMsClientTenantId: string,
-  notificationRequest: TenantActionGroupsTenantNotificationRequestBody,
+  notificationRequest: TenantNotificationRequestBody,
   options: CreateNotificationsAtTenantActionGroupResourceLevelOptionalParams = {
     requestOptions: {},
   },
@@ -121,13 +121,13 @@ export function _createNotificationsAtTenantActionGroupResourceLevelSend(
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
-    body: tenantActionGroupsTenantNotificationRequestBodySerializer(notificationRequest),
+    body: tenantNotificationRequestBodySerializer(notificationRequest),
   });
 }
 
 export async function _createNotificationsAtTenantActionGroupResourceLevelDeserialize(
   result: PathUncheckedResponse,
-): Promise<TenantActionGroupsTestNotificationDetailsResponse> {
+): Promise<TenantActionGroupTestNotificationDetailsResponse> {
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -138,7 +138,7 @@ export async function _createNotificationsAtTenantActionGroupResourceLevelDeseri
     throw error;
   }
 
-  return tenantActionGroupsTestNotificationDetailsResponseDeserializer(result.body);
+  return tenantActionGroupTestNotificationDetailsResponseDeserializer(result.body);
 }
 
 /** Send test notifications to a set of provided receivers */
@@ -147,13 +147,13 @@ export function createNotificationsAtTenantActionGroupResourceLevel(
   managementGroupId: string,
   tenantActionGroupName: string,
   xMsClientTenantId: string,
-  notificationRequest: TenantActionGroupsTenantNotificationRequestBody,
+  notificationRequest: TenantNotificationRequestBody,
   options: CreateNotificationsAtTenantActionGroupResourceLevelOptionalParams = {
     requestOptions: {},
   },
 ): PollerLike<
-  OperationState<TenantActionGroupsTestNotificationDetailsResponse>,
-  TenantActionGroupsTestNotificationDetailsResponse
+  OperationState<TenantActionGroupTestNotificationDetailsResponse>,
+  TenantActionGroupTestNotificationDetailsResponse
 > {
   return getLongRunningPoller(
     context,
@@ -175,7 +175,7 @@ export function createNotificationsAtTenantActionGroupResourceLevel(
       apiVersion: "2023-05-01-preview",
     },
   ) as PollerLike<
-    OperationState<TenantActionGroupsTestNotificationDetailsResponse>,
-    TenantActionGroupsTestNotificationDetailsResponse
+    OperationState<TenantActionGroupTestNotificationDetailsResponse>,
+    TenantActionGroupTestNotificationDetailsResponse
   >;
 }

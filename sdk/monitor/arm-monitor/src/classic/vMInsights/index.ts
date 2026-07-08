@@ -4,7 +4,7 @@
 import type { MonitorContext } from "../../api/monitorContext.js";
 import { getOnboardingStatus } from "../../api/vMInsights/operations.js";
 import type { vMInsightsGetOnboardingStatusOptionalParams } from "../../api/vMInsights/options.js";
-import type { VmInsightsOnboardingVMInsightsOnboardingStatus } from "../../models/vmInsightsOnboarding/models.js";
+import type { VMInsightsOnboardingStatus } from "../../models/vmInsightsOnboarding/models.js";
 
 /** Interface representing a vMInsights operations. */
 export interface vMInsightsOperations {
@@ -12,7 +12,7 @@ export interface vMInsightsOperations {
   getOnboardingStatus: (
     resourceUri: string,
     options?: vMInsightsGetOnboardingStatusOptionalParams,
-  ) => Promise<VmInsightsOnboardingVMInsightsOnboardingStatus>;
+  ) => Promise<VMInsightsOnboardingStatus>;
 }
 
 function _getvMInsights(context: MonitorContext) {

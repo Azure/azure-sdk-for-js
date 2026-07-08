@@ -9,7 +9,7 @@ import type {
   DiagnosticSettingsCreateOrUpdateOptionalParams,
   DiagnosticSettingsGetOptionalParams,
 } from "../../api/diagnosticSettings/options.js";
-import type { DiagnosticsSettingsDiagnosticSettingsResource } from "../../models/diagnosticsSettings/models.js";
+import type { DiagnosticSettingsResource } from "../../models/diagnosticsSettings/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a DiagnosticSettings operations. */
@@ -18,7 +18,7 @@ export interface DiagnosticSettingsOperations {
   list: (
     resourceUri: string,
     options?: DiagnosticSettingsListOptionalParams,
-  ) => PagedAsyncIterableIterator<DiagnosticsSettingsDiagnosticSettingsResource>;
+  ) => PagedAsyncIterableIterator<DiagnosticSettingsResource>;
   /** Deletes existing diagnostic settings for the specified resource. */
   delete: (
     resourceUri: string,
@@ -29,15 +29,15 @@ export interface DiagnosticSettingsOperations {
   createOrUpdate: (
     resourceUri: string,
     name: string,
-    parameters: DiagnosticsSettingsDiagnosticSettingsResource,
+    parameters: DiagnosticSettingsResource,
     options?: DiagnosticSettingsCreateOrUpdateOptionalParams,
-  ) => Promise<DiagnosticsSettingsDiagnosticSettingsResource>;
+  ) => Promise<DiagnosticSettingsResource>;
   /** Gets the active diagnostic settings for the specified resource. */
   get: (
     resourceUri: string,
     name: string,
     options?: DiagnosticSettingsGetOptionalParams,
-  ) => Promise<DiagnosticsSettingsDiagnosticSettingsResource>;
+  ) => Promise<DiagnosticSettingsResource>;
 }
 
 function _getDiagnosticSettings(context: MonitorContext) {
@@ -49,7 +49,7 @@ function _getDiagnosticSettings(context: MonitorContext) {
     createOrUpdate: (
       resourceUri: string,
       name: string,
-      parameters: DiagnosticsSettingsDiagnosticSettingsResource,
+      parameters: DiagnosticSettingsResource,
       options?: DiagnosticSettingsCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, resourceUri, name, parameters, options),
     get: (resourceUri: string, name: string, options?: DiagnosticSettingsGetOptionalParams) =>

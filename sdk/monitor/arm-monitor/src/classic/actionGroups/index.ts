@@ -31,11 +31,11 @@ import type {
   ActionGroupsGetOptionalParams,
 } from "../../api/actionGroups/options.js";
 import type {
-  ActionGroupsApiActionGroupResource,
-  ActionGroupsApiActionGroupPatchBody,
-  ActionGroupsApiNotificationRequestBody,
-  ActionGroupsApiTestNotificationDetailsResponse,
-  ActionGroupsApiEnableRequest,
+  ActionGroupResource,
+  ActionGroupPatchBody,
+  NotificationRequestBody,
+  TestNotificationDetailsResponse,
+  EnableRequest,
 } from "../../models/actionGroupsApi/models.js";
 import type { NetworkSecurityPerimeterConfiguration } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
@@ -83,7 +83,7 @@ export interface ActionGroupsOperations {
   enableReceiver: (
     resourceGroupName: string,
     actionGroupName: string,
-    enableRequest: ActionGroupsApiEnableRequest,
+    enableRequest: EnableRequest,
     options?: ActionGroupsEnableReceiverOptionalParams,
   ) => Promise<void>;
   /** Get the test notifications by the notification id */
@@ -92,45 +92,42 @@ export interface ActionGroupsOperations {
     actionGroupName: string,
     notificationId: string,
     options?: ActionGroupsGetTestNotificationsAtActionGroupResourceLevelOptionalParams,
-  ) => Promise<ActionGroupsApiTestNotificationDetailsResponse>;
+  ) => Promise<TestNotificationDetailsResponse>;
   /** Send test notifications to a set of provided receivers */
   createNotificationsAtActionGroupResourceLevel: (
     resourceGroupName: string,
     actionGroupName: string,
-    notificationRequest: ActionGroupsApiNotificationRequestBody,
+    notificationRequest: NotificationRequestBody,
     options?: ActionGroupsCreateNotificationsAtActionGroupResourceLevelOptionalParams,
-  ) => PollerLike<
-    OperationState<ActionGroupsApiTestNotificationDetailsResponse>,
-    ActionGroupsApiTestNotificationDetailsResponse
-  >;
+  ) => PollerLike<OperationState<TestNotificationDetailsResponse>, TestNotificationDetailsResponse>;
   /** @deprecated use createNotificationsAtActionGroupResourceLevel instead */
   beginCreateNotificationsAtActionGroupResourceLevel: (
     resourceGroupName: string,
     actionGroupName: string,
-    notificationRequest: ActionGroupsApiNotificationRequestBody,
+    notificationRequest: NotificationRequestBody,
     options?: ActionGroupsCreateNotificationsAtActionGroupResourceLevelOptionalParams,
   ) => Promise<
     SimplePollerLike<
-      OperationState<ActionGroupsApiTestNotificationDetailsResponse>,
-      ActionGroupsApiTestNotificationDetailsResponse
+      OperationState<TestNotificationDetailsResponse>,
+      TestNotificationDetailsResponse
     >
   >;
   /** @deprecated use createNotificationsAtActionGroupResourceLevel instead */
   beginCreateNotificationsAtActionGroupResourceLevelAndWait: (
     resourceGroupName: string,
     actionGroupName: string,
-    notificationRequest: ActionGroupsApiNotificationRequestBody,
+    notificationRequest: NotificationRequestBody,
     options?: ActionGroupsCreateNotificationsAtActionGroupResourceLevelOptionalParams,
-  ) => Promise<ActionGroupsApiTestNotificationDetailsResponse>;
+  ) => Promise<TestNotificationDetailsResponse>;
   /** Get a list of all action groups in a subscription. */
   listBySubscriptionId: (
     options?: ActionGroupsListBySubscriptionIdOptionalParams,
-  ) => PagedAsyncIterableIterator<ActionGroupsApiActionGroupResource>;
+  ) => PagedAsyncIterableIterator<ActionGroupResource>;
   /** Get a list of all action groups in a resource group. */
   listByResourceGroup: (
     resourceGroupName: string,
     options?: ActionGroupsListByResourceGroupOptionalParams,
-  ) => PagedAsyncIterableIterator<ActionGroupsApiActionGroupResource>;
+  ) => PagedAsyncIterableIterator<ActionGroupResource>;
   /** Delete an action group. */
   delete: (
     resourceGroupName: string,
@@ -141,22 +138,22 @@ export interface ActionGroupsOperations {
   update: (
     resourceGroupName: string,
     actionGroupName: string,
-    actionGroupPatch: ActionGroupsApiActionGroupPatchBody,
+    actionGroupPatch: ActionGroupPatchBody,
     options?: ActionGroupsUpdateOptionalParams,
-  ) => Promise<ActionGroupsApiActionGroupResource>;
+  ) => Promise<ActionGroupResource>;
   /** Create a new action group or update an existing one. */
   createOrUpdate: (
     resourceGroupName: string,
     actionGroupName: string,
-    actionGroup: ActionGroupsApiActionGroupResource,
+    actionGroup: ActionGroupResource,
     options?: ActionGroupsCreateOrUpdateOptionalParams,
-  ) => Promise<ActionGroupsApiActionGroupResource>;
+  ) => Promise<ActionGroupResource>;
   /** Get an action group. */
   get: (
     resourceGroupName: string,
     actionGroupName: string,
     options?: ActionGroupsGetOptionalParams,
-  ) => Promise<ActionGroupsApiActionGroupResource>;
+  ) => Promise<ActionGroupResource>;
 }
 
 function _getActionGroups(context: MonitorContext) {
@@ -225,7 +222,7 @@ function _getActionGroups(context: MonitorContext) {
     enableReceiver: (
       resourceGroupName: string,
       actionGroupName: string,
-      enableRequest: ActionGroupsApiEnableRequest,
+      enableRequest: EnableRequest,
       options?: ActionGroupsEnableReceiverOptionalParams,
     ) => enableReceiver(context, resourceGroupName, actionGroupName, enableRequest, options),
     getTestNotificationsAtActionGroupResourceLevel: (
@@ -244,7 +241,7 @@ function _getActionGroups(context: MonitorContext) {
     createNotificationsAtActionGroupResourceLevel: (
       resourceGroupName: string,
       actionGroupName: string,
-      notificationRequest: ActionGroupsApiNotificationRequestBody,
+      notificationRequest: NotificationRequestBody,
       options?: ActionGroupsCreateNotificationsAtActionGroupResourceLevelOptionalParams,
     ) =>
       createNotificationsAtActionGroupResourceLevel(
@@ -257,7 +254,7 @@ function _getActionGroups(context: MonitorContext) {
     beginCreateNotificationsAtActionGroupResourceLevel: async (
       resourceGroupName: string,
       actionGroupName: string,
-      notificationRequest: ActionGroupsApiNotificationRequestBody,
+      notificationRequest: NotificationRequestBody,
       options?: ActionGroupsCreateNotificationsAtActionGroupResourceLevelOptionalParams,
     ) => {
       const poller = createNotificationsAtActionGroupResourceLevel(
@@ -273,7 +270,7 @@ function _getActionGroups(context: MonitorContext) {
     beginCreateNotificationsAtActionGroupResourceLevelAndWait: async (
       resourceGroupName: string,
       actionGroupName: string,
-      notificationRequest: ActionGroupsApiNotificationRequestBody,
+      notificationRequest: NotificationRequestBody,
       options?: ActionGroupsCreateNotificationsAtActionGroupResourceLevelOptionalParams,
     ) => {
       return await createNotificationsAtActionGroupResourceLevel(
@@ -298,13 +295,13 @@ function _getActionGroups(context: MonitorContext) {
     update: (
       resourceGroupName: string,
       actionGroupName: string,
-      actionGroupPatch: ActionGroupsApiActionGroupPatchBody,
+      actionGroupPatch: ActionGroupPatchBody,
       options?: ActionGroupsUpdateOptionalParams,
     ) => update(context, resourceGroupName, actionGroupName, actionGroupPatch, options),
     createOrUpdate: (
       resourceGroupName: string,
       actionGroupName: string,
-      actionGroup: ActionGroupsApiActionGroupResource,
+      actionGroup: ActionGroupResource,
       options?: ActionGroupsCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, resourceGroupName, actionGroupName, actionGroup, options),
     get: (

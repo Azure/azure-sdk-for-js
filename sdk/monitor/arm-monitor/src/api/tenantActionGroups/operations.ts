@@ -2,17 +2,17 @@
 // Licensed under the MIT License.
 
 import type { MonitorContext as Client } from "../index.js";
-import { microsoftCommonErrorResponseDeserializer } from "../../models/microsoft/common/models.js";
+import { errorResponseDeserializer } from "../../models/microsoft/common/models.js";
 import type {
-  TenantActionGroupsTenantActionGroupResource,
-  TenantActionGroupsActionGroupPatchBody,
-  _TenantActionGroupsTenantActionGroupList,
+  TenantActionGroupResource,
+  TenantActionGroupPatchBody,
+  _TenantActionGroupList,
 } from "../../models/tenantActionGroups/models.js";
 import {
-  tenantActionGroupsTenantActionGroupResourceSerializer,
-  tenantActionGroupsTenantActionGroupResourceDeserializer,
-  tenantActionGroupsActionGroupPatchBodySerializer,
-  _tenantActionGroupsTenantActionGroupListDeserializer,
+  tenantActionGroupResourceSerializer,
+  tenantActionGroupResourceDeserializer,
+  tenantActionGroupPatchBodySerializer,
+  _tenantActionGroupListDeserializer,
 } from "../../models/tenantActionGroups/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -55,18 +55,18 @@ export function _listByManagementGroupIdSend(
 
 export async function _listByManagementGroupIdDeserialize(
   result: PathUncheckedResponse,
-): Promise<_TenantActionGroupsTenantActionGroupList> {
+): Promise<_TenantActionGroupList> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
-      error.details = microsoftCommonErrorResponseDeserializer(result.body);
+      error.details = errorResponseDeserializer(result.body);
     }
 
     throw error;
   }
 
-  return _tenantActionGroupsTenantActionGroupListDeserializer(result.body);
+  return _tenantActionGroupListDeserializer(result.body);
 }
 
 /** Get a list of all tenant action groups in a management group. */
@@ -75,7 +75,7 @@ export function listByManagementGroupId(
   managementGroupId: string,
   xMsClientTenantId: string,
   options: TenantActionGroupsListByManagementGroupIdOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<TenantActionGroupsTenantActionGroupResource> {
+): PagedAsyncIterableIterator<TenantActionGroupResource> {
   return buildPagedAsyncIterator(
     context,
     () => _listByManagementGroupIdSend(context, managementGroupId, xMsClientTenantId, options),
@@ -114,7 +114,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
-      error.details = microsoftCommonErrorResponseDeserializer(result.body);
+      error.details = errorResponseDeserializer(result.body);
     }
 
     throw error;
@@ -146,7 +146,7 @@ export function _updateSend(
   managementGroupId: string,
   tenantActionGroupName: string,
   xMsClientTenantId: string,
-  tenantActionGroupPatch: TenantActionGroupsActionGroupPatchBody,
+  tenantActionGroupPatch: TenantActionGroupPatchBody,
   options: TenantActionGroupsUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -168,24 +168,24 @@ export function _updateSend(
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
-    body: tenantActionGroupsActionGroupPatchBodySerializer(tenantActionGroupPatch),
+    body: tenantActionGroupPatchBodySerializer(tenantActionGroupPatch),
   });
 }
 
 export async function _updateDeserialize(
   result: PathUncheckedResponse,
-): Promise<TenantActionGroupsTenantActionGroupResource> {
+): Promise<TenantActionGroupResource> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
-      error.details = microsoftCommonErrorResponseDeserializer(result.body);
+      error.details = errorResponseDeserializer(result.body);
     }
 
     throw error;
   }
 
-  return tenantActionGroupsTenantActionGroupResourceDeserializer(result.body);
+  return tenantActionGroupResourceDeserializer(result.body);
 }
 
 /** Updates an existing tenant action group's tags. To update other fields use the CreateOrUpdate method. */
@@ -194,9 +194,9 @@ export async function update(
   managementGroupId: string,
   tenantActionGroupName: string,
   xMsClientTenantId: string,
-  tenantActionGroupPatch: TenantActionGroupsActionGroupPatchBody,
+  tenantActionGroupPatch: TenantActionGroupPatchBody,
   options: TenantActionGroupsUpdateOptionalParams = { requestOptions: {} },
-): Promise<TenantActionGroupsTenantActionGroupResource> {
+): Promise<TenantActionGroupResource> {
   const result = await _updateSend(
     context,
     managementGroupId,
@@ -213,7 +213,7 @@ export function _createOrUpdateSend(
   managementGroupId: string,
   tenantActionGroupName: string,
   xMsClientTenantId: string,
-  actionGroup: TenantActionGroupsTenantActionGroupResource,
+  actionGroup: TenantActionGroupResource,
   options: TenantActionGroupsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -235,24 +235,24 @@ export function _createOrUpdateSend(
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
-    body: tenantActionGroupsTenantActionGroupResourceSerializer(actionGroup),
+    body: tenantActionGroupResourceSerializer(actionGroup),
   });
 }
 
 export async function _createOrUpdateDeserialize(
   result: PathUncheckedResponse,
-): Promise<TenantActionGroupsTenantActionGroupResource> {
+): Promise<TenantActionGroupResource> {
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
-      error.details = microsoftCommonErrorResponseDeserializer(result.body);
+      error.details = errorResponseDeserializer(result.body);
     }
 
     throw error;
   }
 
-  return tenantActionGroupsTenantActionGroupResourceDeserializer(result.body);
+  return tenantActionGroupResourceDeserializer(result.body);
 }
 
 /** Create a new tenant action group or update an existing one. */
@@ -261,9 +261,9 @@ export async function createOrUpdate(
   managementGroupId: string,
   tenantActionGroupName: string,
   xMsClientTenantId: string,
-  actionGroup: TenantActionGroupsTenantActionGroupResource,
+  actionGroup: TenantActionGroupResource,
   options: TenantActionGroupsCreateOrUpdateOptionalParams = { requestOptions: {} },
-): Promise<TenantActionGroupsTenantActionGroupResource> {
+): Promise<TenantActionGroupResource> {
   const result = await _createOrUpdateSend(
     context,
     managementGroupId,
@@ -305,18 +305,18 @@ export function _getSend(
 
 export async function _getDeserialize(
   result: PathUncheckedResponse,
-): Promise<TenantActionGroupsTenantActionGroupResource> {
+): Promise<TenantActionGroupResource> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
-      error.details = microsoftCommonErrorResponseDeserializer(result.body);
+      error.details = errorResponseDeserializer(result.body);
     }
 
     throw error;
   }
 
-  return tenantActionGroupsTenantActionGroupResourceDeserializer(result.body);
+  return tenantActionGroupResourceDeserializer(result.body);
 }
 
 /** Get a tenant action group. */
@@ -326,7 +326,7 @@ export async function get(
   tenantActionGroupName: string,
   xMsClientTenantId: string,
   options: TenantActionGroupsGetOptionalParams = { requestOptions: {} },
-): Promise<TenantActionGroupsTenantActionGroupResource> {
+): Promise<TenantActionGroupResource> {
   const result = await _getSend(
     context,
     managementGroupId,

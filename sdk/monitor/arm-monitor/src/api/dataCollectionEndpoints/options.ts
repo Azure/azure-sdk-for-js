@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import type {
-  DataCollectionApiDataCollectionEndpointResource,
-  DataCollectionApiResourceForUpdate,
+  DataCollectionEndpointResource,
+  ResourceForUpdate,
 } from "../../models/dataCollectionApi/models.js";
 import type { OperationOptions } from "@azure-rest/core-client";
 
@@ -31,13 +31,13 @@ export interface DataCollectionEndpointsDeleteOptionalParams extends OperationOp
 /** Optional parameters. */
 export interface DataCollectionEndpointsUpdateOptionalParams extends OperationOptions {
   /** The payload */
-  body?: DataCollectionApiResourceForUpdate;
+  body?: ResourceForUpdate;
 }
 
 /** Optional parameters. */
 export interface DataCollectionEndpointsCreateOptionalParams extends OperationOptions {
   /** The payload */
-  body?: DataCollectionApiDataCollectionEndpointResource;
+  body?: DataCollectionEndpointResource;
 }
 
 /** Optional parameters. */

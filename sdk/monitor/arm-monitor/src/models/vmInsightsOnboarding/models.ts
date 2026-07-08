@@ -11,20 +11,18 @@ import { systemDataDeserializer } from "../models.js";
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** VM Insights onboarding status for a resource. */
-export interface VmInsightsOnboardingVMInsightsOnboardingStatus extends ExtensionResource {
+export interface VMInsightsOnboardingStatus extends ExtensionResource {
   /** Azure Resource Manager identifier of the resource whose onboarding status is being represented. */
   resourceId?: string;
   /** The onboarding status for the resource. Note that, a higher level scope, e.g., resource group or subscription, is considered onboarded if at least one resource under it is onboarded. */
-  onboardingStatus?: VmInsightsOnboardingOnboardingStatus;
+  onboardingStatus?: OnboardingStatus;
   /** The status of VM Insights data from the resource. When reported as `present` the data array will contain information about the data containers to which data for the specified resource is being routed. */
-  dataStatus?: VmInsightsOnboardingDataStatus;
+  dataStatus?: DataStatus;
   /** Containers that currently store VM Insights data for the specified resource. */
-  data?: VmInsightsOnboardingDataContainer[];
+  data?: DataContainer[];
 }
 
-export function vmInsightsOnboardingVMInsightsOnboardingStatusDeserializer(
-  item: any,
-): VmInsightsOnboardingVMInsightsOnboardingStatus {
+export function vmInsightsOnboardingStatusDeserializer(item: any): VMInsightsOnboardingStatus {
   return {
     id: item["id"],
     name: item["name"],
@@ -39,32 +37,30 @@ export function vmInsightsOnboardingVMInsightsOnboardingStatusDeserializer(
 }
 
 /** Resource properties. */
-export interface VmInsightsOnboardingVMInsightsOnboardingStatusProperties {
+export interface VMInsightsOnboardingStatusProperties {
   /** Azure Resource Manager identifier of the resource whose onboarding status is being represented. */
   resourceId: string;
   /** The onboarding status for the resource. Note that, a higher level scope, e.g., resource group or subscription, is considered onboarded if at least one resource under it is onboarded. */
-  onboardingStatus: VmInsightsOnboardingOnboardingStatus;
+  onboardingStatus: OnboardingStatus;
   /** The status of VM Insights data from the resource. When reported as `present` the data array will contain information about the data containers to which data for the specified resource is being routed. */
-  dataStatus: VmInsightsOnboardingDataStatus;
+  dataStatus: DataStatus;
   /** Containers that currently store VM Insights data for the specified resource. */
-  data?: VmInsightsOnboardingDataContainer[];
+  data?: DataContainer[];
 }
 
-export function vmInsightsOnboardingVMInsightsOnboardingStatusPropertiesDeserializer(
+export function vmInsightsOnboardingStatusPropertiesDeserializer(
   item: any,
-): VmInsightsOnboardingVMInsightsOnboardingStatusProperties {
+): VMInsightsOnboardingStatusProperties {
   return {
     resourceId: item["resourceId"],
     onboardingStatus: item["onboardingStatus"],
     dataStatus: item["dataStatus"],
-    data: !item["data"]
-      ? item["data"]
-      : vmInsightsOnboardingDataContainerArrayDeserializer(item["data"]),
+    data: !item["data"] ? item["data"] : dataContainerArrayDeserializer(item["data"]),
   };
 }
 
 /** The onboarding status for the resource. Note that, a higher level scope, e.g., resource group or subscription, is considered onboarded if at least one resource under it is onboarded. */
-export enum KnownVmInsightsOnboardingOnboardingStatus {
+export enum KnownOnboardingStatus {
   /** onboarded */
   Onboarded = "onboarded",
   /** notOnboarded */
@@ -75,17 +71,17 @@ export enum KnownVmInsightsOnboardingOnboardingStatus {
 
 /**
  * The onboarding status for the resource. Note that, a higher level scope, e.g., resource group or subscription, is considered onboarded if at least one resource under it is onboarded. \
- * {@link KnownVmInsightsOnboardingOnboardingStatus} can be used interchangeably with VmInsightsOnboardingOnboardingStatus,
+ * {@link KnownOnboardingStatus} can be used interchangeably with OnboardingStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **onboarded**: onboarded \
  * **notOnboarded**: notOnboarded \
  * **unknown**: unknown
  */
-export type VmInsightsOnboardingOnboardingStatus = string;
+export type OnboardingStatus = string;
 
 /** The status of VM Insights data from the resource. When reported as `present` the data array will contain information about the data containers to which data for the specified resource is being routed. */
-export enum KnownVmInsightsOnboardingDataStatus {
+export enum KnownDataStatus {
   /** present */
   Present = "present",
   /** notPresent */
@@ -94,38 +90,34 @@ export enum KnownVmInsightsOnboardingDataStatus {
 
 /**
  * The status of VM Insights data from the resource. When reported as `present` the data array will contain information about the data containers to which data for the specified resource is being routed. \
- * {@link KnownVmInsightsOnboardingDataStatus} can be used interchangeably with VmInsightsOnboardingDataStatus,
+ * {@link KnownDataStatus} can be used interchangeably with DataStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **present**: present \
  * **notPresent**: notPresent
  */
-export type VmInsightsOnboardingDataStatus = string;
+export type DataStatus = string;
 
-export function vmInsightsOnboardingDataContainerArrayDeserializer(
-  result: Array<VmInsightsOnboardingDataContainer>,
-): any[] {
+export function dataContainerArrayDeserializer(result: Array<DataContainer>): any[] {
   return result.map((item) => {
-    return vmInsightsOnboardingDataContainerDeserializer(item);
+    return dataContainerDeserializer(item);
   });
 }
 
 /** Information about a container with data for a given resource. */
-export interface VmInsightsOnboardingDataContainer {
+export interface DataContainer {
   /** Log Analytics workspace information. */
-  workspace: VmInsightsOnboardingWorkspaceInfo;
+  workspace: WorkspaceInfo;
 }
 
-export function vmInsightsOnboardingDataContainerDeserializer(
-  item: any,
-): VmInsightsOnboardingDataContainer {
+export function dataContainerDeserializer(item: any): DataContainer {
   return {
-    workspace: vmInsightsOnboardingWorkspaceInfoDeserializer(item["workspace"]),
+    workspace: workspaceInfoDeserializer(item["workspace"]),
   };
 }
 
 /** Information about a Log Analytics Workspace. */
-export interface VmInsightsOnboardingWorkspaceInfo {
+export interface WorkspaceInfo {
   /** Azure Resource Manager identifier of the Log Analytics Workspace. */
   id: string;
   /** Location of the Log Analytics workspace. */
@@ -134,9 +126,7 @@ export interface VmInsightsOnboardingWorkspaceInfo {
   customerId: string;
 }
 
-export function vmInsightsOnboardingWorkspaceInfoDeserializer(
-  item: any,
-): VmInsightsOnboardingWorkspaceInfo {
+export function workspaceInfoDeserializer(item: any): WorkspaceInfo {
   return {
     id: item["id"],
     location: item["location"],
@@ -145,42 +135,38 @@ export function vmInsightsOnboardingWorkspaceInfoDeserializer(
 }
 
 /** Resource properties. */
-export interface VmInsightsOnboardingWorkspaceInfoProperties {
+export interface WorkspaceInfoProperties {
   /** Log Analytics workspace identifier. */
   customerId: string;
 }
 
-export function vmInsightsOnboardingWorkspaceInfoPropertiesDeserializer(
-  item: any,
-): VmInsightsOnboardingWorkspaceInfoProperties {
+export function workspaceInfoPropertiesDeserializer(item: any): WorkspaceInfoProperties {
   return {
     customerId: item["customerId"],
   };
 }
 
 /** An error response from the API. */
-export interface VmInsightsOnboardingResponseWithError {
+export interface ResponseWithError {
   /** Error information. */
-  error: VmInsightsOnboardingError;
+  error: ErrorModel;
 }
 
-export function vmInsightsOnboardingResponseWithErrorDeserializer(
-  item: any,
-): VmInsightsOnboardingResponseWithError {
+export function responseWithErrorDeserializer(item: any): ResponseWithError {
   return {
-    error: vmInsightsOnboardingErrorDeserializer(item["error"]),
+    error: errorDeserializer(item["error"]),
   };
 }
 
 /** Error details. */
-export interface VmInsightsOnboardingError {
+export interface ErrorModel {
   /** Error code identifying the specific error. */
   code: string;
   /** Error message in the caller's locale. */
   message?: string;
 }
 
-export function vmInsightsOnboardingErrorDeserializer(item: any): VmInsightsOnboardingError {
+export function errorDeserializer(item: any): ErrorModel {
   return {
     code: item["code"],
     message: item["message"],
@@ -198,8 +184,6 @@ export function _vmInsightsOnboardingStatusPropertiesDeserializer(item: any) {
     resourceId: item["resourceId"],
     onboardingStatus: item["onboardingStatus"],
     dataStatus: item["dataStatus"],
-    data: !item["data"]
-      ? item["data"]
-      : vmInsightsOnboardingDataContainerArrayDeserializer(item["data"]),
+    data: !item["data"] ? item["data"] : dataContainerArrayDeserializer(item["data"]),
   };
 }
