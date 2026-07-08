@@ -1837,7 +1837,7 @@ importers:
   sdk/appconfiguration/app-configuration-perf-tests:
     dependencies:
       '@azure-tools/test-perf':
-        specifier: ^1.0.0
+        specifier: workspace:^
         version: link:../../test-utils/perf
       '@azure/app-configuration':
         specifier: 1.8.0
@@ -4600,7 +4600,7 @@ importers:
   sdk/cognitivelanguage/ai-language-text-perf-tests:
     dependencies:
       '@azure-tools/test-perf':
-        specifier: ^1.0.0
+        specifier: workspace:^
         version: link:../../test-utils/perf
       '@azure/ai-language-text':
         specifier: ^1.1.0
@@ -7783,7 +7783,7 @@ importers:
   sdk/containerregistry/container-registry-perf-tests:
     dependencies:
       '@azure-tools/test-perf':
-        specifier: ^1.0.0
+        specifier: workspace:^
         version: link:../../test-utils/perf
       '@azure/container-registry':
         specifier: ^1.1.0
@@ -8879,7 +8879,7 @@ importers:
   sdk/core/core-rest-pipeline-perf-tests:
     dependencies:
       '@azure-tools/test-perf':
-        specifier: ^1.0.0
+        specifier: workspace:^
         version: link:../../test-utils/perf
       '@azure/core-auth':
         specifier: ^1.10.0
@@ -9389,7 +9389,7 @@ importers:
         version: link:../../core/core-util
       '@azure/keyvault-keys':
         specifier: ^4.9.0
-        version: link:../../keyvault/keyvault-keys
+        version: 4.10.0(@azure/core-client@sdk+core+core-client)
       '@azure/logger':
         specifier: ^1.1.4
         version: link:../../core/logger
@@ -13671,7 +13671,7 @@ importers:
   sdk/eventgrid/eventgrid-perf-tests:
     dependencies:
       '@azure-tools/test-perf':
-        specifier: ^1.0.0
+        specifier: workspace:^
         version: link:../../test-utils/perf
       '@azure/eventgrid':
         specifier: ^5.11.0
@@ -13782,7 +13782,7 @@ importers:
         version: link:../../core/abort-controller
       '@azure/arm-network':
         specifier: ^36.0.0
-        version: link:../../network/arm-network
+        version: 36.0.0
       '@azure/arm-storage':
         specifier: ^20.0.0
         version: link:../../storage/arm-storage
@@ -13967,7 +13967,7 @@ importers:
         version: 0.12.5
     devDependencies:
       '@azure-tools/mock-hub':
-        specifier: ^1.0.0
+        specifier: workspace:^
         version: link:../mock-hub
       '@azure-tools/test-credential':
         specifier: workspace:^
@@ -14072,7 +14072,7 @@ importers:
   sdk/eventhub/event-hubs-perf-tests:
     dependencies:
       '@azure-tools/test-perf':
-        specifier: ^1.0.0
+        specifier: workspace:^
         version: link:../../test-utils/perf
       '@azure/core-amqp':
         specifier: ^4.3.6
@@ -14914,7 +14914,7 @@ importers:
   sdk/formrecognizer/ai-form-recognizer-perf-tests:
     dependencies:
       '@azure-tools/test-perf':
-        specifier: ^1.0.0
+        specifier: workspace:^
         version: link:../../test-utils/perf
       '@azure/ai-form-recognizer':
         specifier: ^5.0.0
@@ -16437,7 +16437,7 @@ importers:
   sdk/identity/identity-perf-tests:
     dependencies:
       '@azure-tools/test-perf':
-        specifier: ^1.0.0
+        specifier: workspace:^
         version: link:../../test-utils/perf
       '@azure/identity':
         specifier: ^4.8.0
@@ -17497,7 +17497,7 @@ importers:
         version: 4.13.0
       '@azure/keyvault-keys':
         specifier: ^4.9.0
-        version: link:../keyvault-keys
+        version: 4.10.0(@azure/core-client@sdk+core+core-client)
       '@types/node':
         specifier: 'catalog:'
         version: 22.20.0
@@ -17629,7 +17629,7 @@ importers:
   sdk/keyvault/keyvault-certificates-perf-tests:
     dependencies:
       '@azure-tools/test-perf':
-        specifier: ^1.0.0
+        specifier: workspace:^
         version: link:../../test-utils/perf
       '@azure/identity':
         specifier: ^4.8.0
@@ -17827,14 +17827,14 @@ importers:
   sdk/keyvault/keyvault-keys-perf-tests:
     dependencies:
       '@azure-tools/test-perf':
-        specifier: ^1.0.0
+        specifier: workspace:^
         version: link:../../test-utils/perf
       '@azure/identity':
         specifier: ^4.8.0
         version: 4.13.1
       '@azure/keyvault-keys':
         specifier: ^4.9.0
-        version: link:../keyvault-keys
+        version: 4.10.0(@azure/core-client@sdk+core+core-client)
       dotenv:
         specifier: ^16.0.0
         version: 16.6.1
@@ -17961,7 +17961,7 @@ importers:
   sdk/keyvault/keyvault-secrets-perf-tests:
     dependencies:
       '@azure-tools/test-perf':
-        specifier: ^1.0.0
+        specifier: workspace:^
         version: link:../../test-utils/perf
       '@azure/identity':
         specifier: ^4.8.0
@@ -21891,7 +21891,7 @@ importers:
   sdk/monitor/monitor-ingestion-perf-tests:
     dependencies:
       '@azure-tools/test-perf':
-        specifier: ^1.0.0
+        specifier: workspace:^
         version: link:../../test-utils/perf
       '@azure/identity':
         specifier: ^4.8.0
@@ -22179,7 +22179,7 @@ importers:
   sdk/monitor/monitor-opentelemetry-perf-tests:
     dependencies:
       '@azure-tools/test-perf':
-        specifier: ^1.0.0
+        specifier: workspace:^
         version: link:../../test-utils/perf
       '@azure/monitor-opentelemetry':
         specifier: ^1.17.0
@@ -22795,24 +22795,27 @@ importers:
 
   sdk/network/arm-network:
     dependencies:
+      '@azure-rest/core-client':
+        specifier: ^2.3.1
+        version: link:../../core/core-client-rest
       '@azure/abort-controller':
         specifier: ^2.1.2
         version: link:../../core/abort-controller
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
-      '@azure/core-client':
-        specifier: ^1.9.3
-        version: link:../../core/core-client
       '@azure/core-lro':
-        specifier: ^2.5.4
-        version: 2.7.2
-      '@azure/core-paging':
-        specifier: ^1.6.2
-        version: link:../../core/core-paging
+        specifier: ^3.1.0
+        version: link:../../core/core-lro
       '@azure/core-rest-pipeline':
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
+      '@azure/core-util':
+        specifier: ^1.12.0
+        version: link:../../core/core-util
+      '@azure/logger':
+        specifier: ^1.2.0
+        version: link:../../core/logger
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -22829,12 +22832,12 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:^
         version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:^
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
         specifier: catalog:internal
         version: 4.13.0
-      '@azure/logger':
-        specifier: workspace:^
-        version: link:../../core/logger
       '@types/node':
         specifier: 'catalog:'
         version: 22.20.0
@@ -26889,7 +26892,7 @@ importers:
         version: link:../../core/abort-controller
       '@azure/arm-network':
         specifier: ^36.0.0
-        version: link:../../network/arm-network
+        version: 36.0.0
       '@azure/core-auth':
         specifier: ^1.9.0
         version: link:../../core/core-auth
@@ -28283,7 +28286,7 @@ importers:
   sdk/schemaregistry/schema-registry-avro-perf-tests:
     dependencies:
       '@azure-tools/test-perf':
-        specifier: ^1.0.0
+        specifier: workspace:^
         version: link:../../test-utils/perf
       '@azure/identity':
         specifier: ^4.8.0
@@ -28651,7 +28654,7 @@ importers:
   sdk/search/search-documents-perf-tests:
     dependencies:
       '@azure-tools/test-perf':
-        specifier: ^1.0.0
+        specifier: workspace:^
         version: link:../../test-utils/perf
       '@azure/identity':
         specifier: ^4.8.0
@@ -29371,7 +29374,7 @@ importers:
   sdk/servicebus/service-bus-perf-tests:
     dependencies:
       '@azure-tools/test-perf':
-        specifier: ^1.0.0
+        specifier: workspace:^
         version: link:../../test-utils/perf
       '@azure/service-bus':
         specifier: ^7.9.5
@@ -30676,7 +30679,7 @@ importers:
         specifier: workspace:^
         version: link:../../test-utils/test-credential
       '@azure-tools/test-perf':
-        specifier: ^1.0.0
+        specifier: workspace:^
         version: link:../../test-utils/perf
       '@azure-tools/test-recorder':
         specifier: workspace:^
@@ -30766,7 +30769,7 @@ importers:
         specifier: ^12.26.0
         version: link:../storage-blob
       '@azure/storage-internal-avro':
-        specifier: ^1.0.0
+        specifier: workspace:^
         version: link:../storage-internal-avro
       tslib:
         specifier: ^2.8.1
@@ -30830,7 +30833,7 @@ importers:
   sdk/storage/storage-blob-perf-tests:
     dependencies:
       '@azure-tools/test-perf':
-        specifier: ^1.0.0
+        specifier: workspace:^
         version: link:../../test-utils/perf
       '@azure/core-rest-pipeline':
         specifier: link:../../core/core-rest-pipeline
@@ -30992,7 +30995,7 @@ importers:
         specifier: workspace:^
         version: link:../../test-utils/test-credential
       '@azure-tools/test-perf':
-        specifier: ^1.0.0
+        specifier: workspace:^
         version: link:../../test-utils/perf
       '@azure-tools/test-recorder':
         specifier: workspace:^
@@ -31049,7 +31052,7 @@ importers:
   sdk/storage/storage-file-datalake-perf-tests:
     dependencies:
       '@azure-tools/test-perf':
-        specifier: ^1.0.0
+        specifier: workspace:^
         version: link:../../test-utils/perf
       '@azure/storage-file-datalake':
         specifier: ^12.26.0
@@ -31132,7 +31135,7 @@ importers:
         specifier: workspace:^
         version: link:../../test-utils/test-credential
       '@azure-tools/test-perf':
-        specifier: ^1.0.0
+        specifier: workspace:^
         version: link:../../test-utils/perf
       '@azure-tools/test-recorder':
         specifier: workspace:^
@@ -31192,7 +31195,7 @@ importers:
   sdk/storage/storage-file-share-perf-tests:
     dependencies:
       '@azure-tools/test-perf':
-        specifier: ^1.0.0
+        specifier: workspace:^
         version: link:../../test-utils/perf
       '@azure/storage-file-share':
         specifier: ^12.27.0
@@ -31731,8 +31734,8 @@ importers:
         specifier: workspace:^
         version: link:../../authorization/arm-authorization
       '@azure/arm-network':
-        specifier: workspace:^
-        version: link:../../network/arm-network
+        specifier: 36.0.0
+        version: 36.0.0
       '@azure/arm-resources':
         specifier: catalog:arm
         version: 7.0.0
@@ -32904,7 +32907,7 @@ importers:
   sdk/tables/data-tables-perf-tests:
     dependencies:
       '@azure-tools/test-perf':
-        specifier: ^1.0.0
+        specifier: workspace:^
         version: link:../../test-utils/perf
       '@azure/data-tables':
         specifier: ^13.3.0
@@ -33099,7 +33102,7 @@ importers:
   sdk/template/template-perf-tests:
     dependencies:
       '@azure-tools/test-perf':
-        specifier: ^1.0.0
+        specifier: workspace:^
         version: link:../../test-utils/perf
       '@azure/identity':
         specifier: ^4.8.0
@@ -33690,7 +33693,7 @@ importers:
   sdk/textanalytics/ai-text-analytics-perf-tests:
     dependencies:
       '@azure-tools/test-perf':
-        specifier: ^1.0.0
+        specifier: workspace:^
         version: link:../../test-utils/perf
       '@azure/ai-text-analytics':
         specifier: ^5.1.0
@@ -35244,6 +35247,10 @@ packages:
   '@azure/arm-network@32.2.0':
     resolution: {integrity: sha1-UUV4yGqsTNnxZZPcpLpRAcqWWX0=}
     engines: {node: '>=14.0.0'}
+
+  '@azure/arm-network@36.0.0':
+    resolution: {integrity: sha1-lZ3k/QTwWTqU1lPp0atiwB68Vp4=}
+    engines: {node: '>=20.0.0'}
 
   '@azure/arm-recoveryservices@5.4.0':
     resolution: {integrity: sha1-xhCsgrCAoBid/WnFP8GwR1gkT9E=}
@@ -41588,6 +41595,18 @@ snapshots:
   '@azure/arm-network@32.2.0':
     dependencies:
       '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.10.1
+      '@azure/core-client': 1.10.2
+      '@azure/core-lro': 2.7.2
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': link:sdk/core/core-rest-pipeline
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+
+  '@azure/arm-network@36.0.0':
+    dependencies:
+      '@azure/abort-controller': 2.1.2
       '@azure/core-auth': 1.10.1
       '@azure/core-client': 1.10.2
       '@azure/core-lro': 2.7.2
