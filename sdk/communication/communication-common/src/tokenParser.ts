@@ -29,6 +29,34 @@ export const isAccessToken = (value: unknown): value is AccessToken =>
   Number.isFinite((value as AccessToken).expiresOnTimestamp);
 
 /**
+ * Accepts a token that can't be decoded (encrypted/opaque, or a JWT without a usable `exp`) and
+ * assigns a fallback expiry of `now + undecodableTokenExpiryIntervalInSeconds`. Emits a one-time
+ * warning; throws if the interval is not a positive, finite number.
+ */
+const resolveOpaqueToken = (
+  token: string,
+  undecodableTokenExpiryIntervalInSeconds: number,
+): AccessToken => {
+  if (
+    !Number.isFinite(undecodableTokenExpiryIntervalInSeconds) ||
+    undecodableTokenExpiryIntervalInSeconds <= 0
+  ) {
+    throw new Error("undecodableTokenExpiryIntervalInSeconds must be a positive number.");
+  }
+  if (!undecodableTokenWarningEmitted) {
+    undecodableTokenWarningEmitted = true;
+    logger.warning(
+      `Received a token that could not be decoded; treating it as opaque and assuming a ${undecodableTokenExpiryIntervalInSeconds}s lifetime. ` +
+        `Supply an AccessToken with an explicit expiry (e.g. from the token response 'expires_in') to control refresh scheduling.`,
+    );
+  }
+  return {
+    token,
+    expiresOnTimestamp: Date.now() + undecodableTokenExpiryIntervalInSeconds * 1000,
+  };
+};
+
+/**
  * Resolves a token into an {@link AccessToken}. Expiry is taken from a caller-supplied
  * `AccessToken` if present, otherwise from the JWT `exp` claim. A token that cannot be decoded
  * (e.g. an encrypted/opaque token) or that lacks a usable `exp` is accepted as-is with a fallback
@@ -64,22 +92,5 @@ export const parseToken = (
     // Not decodable — treated as an opaque token below.
   }
 
-  // Opaque/undecodable (or exp-less) token: accept it and assume a fallback lifetime.
-  if (
-    !Number.isFinite(undecodableTokenExpiryIntervalInSeconds) ||
-    undecodableTokenExpiryIntervalInSeconds <= 0
-  ) {
-    throw new Error("undecodableTokenExpiryIntervalInSeconds must be a positive number.");
-  }
-  if (!undecodableTokenWarningEmitted) {
-    undecodableTokenWarningEmitted = true;
-    logger.warning(
-      `Received a token that could not be decoded; treating it as opaque and assuming a ${undecodableTokenExpiryIntervalInSeconds}s lifetime. ` +
-        `Supply an AccessToken with an explicit expiry (e.g. from the token response 'expires_in') to control refresh scheduling.`,
-    );
-  }
-  return {
-    token,
-    expiresOnTimestamp: Date.now() + undecodableTokenExpiryIntervalInSeconds * 1000,
-  };
+  return resolveOpaqueToken(token, undecodableTokenExpiryIntervalInSeconds);
 };

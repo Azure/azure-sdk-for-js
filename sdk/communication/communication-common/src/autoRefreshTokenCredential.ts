@@ -38,6 +38,11 @@ export interface CommunicationTokenRefreshOptions {
   /**
    * Lifetime, in seconds, assumed for a returned token that cannot be decoded and
    * carries no explicit expiry (e.g. an encrypted access token). Defaults to 600 (10 minutes).
+   *
+   * Set this to your tokens' real lifetime. It is not capped: a value larger than the token's
+   * actual lifetime means the credential refreshes later than it should and the service will
+   * reject the expired token. To avoid guessing, prefer returning an `AccessToken` with an
+   * explicit `expiresOnTimestamp` (e.g. derived from the token response's `expires_in`).
    */
   undecodableTokenExpiryIntervalInSeconds?: number;
 }
