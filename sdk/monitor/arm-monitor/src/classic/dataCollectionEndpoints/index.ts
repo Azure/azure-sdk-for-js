@@ -24,7 +24,7 @@ import type {
   DataCollectionEndpointsCreateOptionalParams,
   DataCollectionEndpointsGetOptionalParams,
 } from "../../api/dataCollectionEndpoints/options.js";
-import type { DataCollectionEndpointResource } from "../../models/dataCollectionApi/models.js";
+import type { DataCollectionApiDataCollectionEndpointResource } from "../../models/dataCollectionApi/models.js";
 import type { NetworkSecurityPerimeterConfiguration } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
@@ -70,12 +70,12 @@ export interface DataCollectionEndpointsOperations {
   /** Lists all data collection endpoints in the specified subscription */
   listBySubscription: (
     options?: DataCollectionEndpointsListBySubscriptionOptionalParams,
-  ) => PagedAsyncIterableIterator<DataCollectionEndpointResource>;
+  ) => PagedAsyncIterableIterator<DataCollectionApiDataCollectionEndpointResource>;
   /** Lists all data collection endpoints in the specified resource group. */
   listByResourceGroup: (
     resourceGroupName: string,
     options?: DataCollectionEndpointsListByResourceGroupOptionalParams,
-  ) => PagedAsyncIterableIterator<DataCollectionEndpointResource>;
+  ) => PagedAsyncIterableIterator<DataCollectionApiDataCollectionEndpointResource>;
   /** Deletes a data collection endpoint. */
   delete: (
     resourceGroupName: string,
@@ -87,19 +87,19 @@ export interface DataCollectionEndpointsOperations {
     resourceGroupName: string,
     dataCollectionEndpointName: string,
     options?: DataCollectionEndpointsUpdateOptionalParams,
-  ) => Promise<DataCollectionEndpointResource>;
+  ) => Promise<DataCollectionApiDataCollectionEndpointResource>;
   /** Creates or updates a data collection endpoint. */
   create: (
     resourceGroupName: string,
     dataCollectionEndpointName: string,
     options?: DataCollectionEndpointsCreateOptionalParams,
-  ) => Promise<DataCollectionEndpointResource>;
+  ) => Promise<DataCollectionApiDataCollectionEndpointResource>;
   /** Returns the specified data collection endpoint. */
   get: (
     resourceGroupName: string,
     dataCollectionEndpointName: string,
     options?: DataCollectionEndpointsGetOptionalParams,
-  ) => Promise<DataCollectionEndpointResource>;
+  ) => Promise<DataCollectionApiDataCollectionEndpointResource>;
 }
 
 function _getDataCollectionEndpoints(context: MonitorContext) {

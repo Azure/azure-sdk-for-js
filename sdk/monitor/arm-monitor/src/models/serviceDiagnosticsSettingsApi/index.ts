@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 export type {
-  ServiceDiagnosticSettingsResource,
-  ServiceDiagnosticSettings,
-  LogSettings,
-  ServiceDiagnosticSettingsResourcePatch,
+  ServiceDiagnosticsSettingsApiServiceDiagnosticSettingsResource,
+  ServiceDiagnosticsSettingsApiServiceDiagnosticSettings,
+  ServiceDiagnosticsSettingsApiLogSettings,
+  ServiceDiagnosticsSettingsApiServiceDiagnosticSettingsResourcePatch,
 } from "./models.js";

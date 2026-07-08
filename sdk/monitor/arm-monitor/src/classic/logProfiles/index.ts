@@ -11,34 +11,36 @@ import type {
   LogProfilesGetOptionalParams,
 } from "../../api/logProfiles/options.js";
 import type {
-  LogProfileResource,
-  LogProfileResourcePatch,
+  LogProfilesApiLogProfileResource,
+  LogProfilesApiLogProfileResourcePatch,
 } from "../../models/logProfilesApi/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a LogProfiles operations. */
 export interface LogProfilesOperations {
   /** List the log profiles. */
-  list: (options?: LogProfilesListOptionalParams) => PagedAsyncIterableIterator<LogProfileResource>;
+  list: (
+    options?: LogProfilesListOptionalParams,
+  ) => PagedAsyncIterableIterator<LogProfilesApiLogProfileResource>;
   /** Deletes the log profile. */
   delete: (logProfileName: string, options?: LogProfilesDeleteOptionalParams) => Promise<void>;
   /** Updates an existing LogProfilesResource. To update other fields use the CreateOrUpdate method. */
   update: (
     logProfileName: string,
-    logProfilesResource: LogProfileResourcePatch,
+    logProfilesResource: LogProfilesApiLogProfileResourcePatch,
     options?: LogProfilesUpdateOptionalParams,
-  ) => Promise<LogProfileResource>;
+  ) => Promise<LogProfilesApiLogProfileResource>;
   /** Create or update a log profile in Azure Monitoring REST API. */
   createOrUpdate: (
     logProfileName: string,
-    parameters: LogProfileResource,
+    parameters: LogProfilesApiLogProfileResource,
     options?: LogProfilesCreateOrUpdateOptionalParams,
-  ) => Promise<LogProfileResource>;
+  ) => Promise<LogProfilesApiLogProfileResource>;
   /** Gets the log profile. */
   get: (
     logProfileName: string,
     options?: LogProfilesGetOptionalParams,
-  ) => Promise<LogProfileResource>;
+  ) => Promise<LogProfilesApiLogProfileResource>;
 }
 
 function _getLogProfiles(context: MonitorContext) {
@@ -48,12 +50,12 @@ function _getLogProfiles(context: MonitorContext) {
       $delete(context, logProfileName, options),
     update: (
       logProfileName: string,
-      logProfilesResource: LogProfileResourcePatch,
+      logProfilesResource: LogProfilesApiLogProfileResourcePatch,
       options?: LogProfilesUpdateOptionalParams,
     ) => update(context, logProfileName, logProfilesResource, options),
     createOrUpdate: (
       logProfileName: string,
-      parameters: LogProfileResource,
+      parameters: LogProfilesApiLogProfileResource,
       options?: LogProfilesCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, logProfileName, parameters, options),
     get: (logProfileName: string, options?: LogProfilesGetOptionalParams) =>

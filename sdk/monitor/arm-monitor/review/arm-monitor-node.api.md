@@ -17,23 +17,6 @@ import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
-export type AccessMode = string;
-
-// @public
-export interface AccessModeSettings {
-    exclusions?: AccessModeSettingsExclusion[];
-    ingestionAccessMode: AccessMode;
-    queryAccessMode: AccessMode;
-}
-
-// @public
-export interface AccessModeSettingsExclusion {
-    ingestionAccessMode?: AccessMode;
-    privateEndpointConnectionName?: string;
-    queryAccessMode?: AccessMode;
-}
-
-// @public
 export interface AccessRule {
     name?: string;
     // (undocumented)
@@ -58,7 +41,7 @@ export interface AccessRuleProperties {
 }
 
 // @public
-export interface ActionDetail {
+export interface ActionGroupsApiActionDetail {
     detail?: string;
     mechanismType?: string;
     name?: string;
@@ -68,52 +51,208 @@ export interface ActionDetail {
 }
 
 // @public
-export interface ActionGroup {
-    armRoleReceivers?: ArmRoleReceiver[];
-    automationRunbookReceivers?: AutomationRunbookReceiver[];
-    azureAppPushReceivers?: AzureAppPushReceiver[];
-    azureFunctionReceivers?: AzureFunctionReceiver[];
-    emailReceivers?: EmailReceiver[];
+export interface ActionGroupsApiActionGroup {
+    armRoleReceivers?: ActionGroupsApiArmRoleReceiver[];
+    automationRunbookReceivers?: ActionGroupsApiAutomationRunbookReceiver[];
+    azureAppPushReceivers?: ActionGroupsApiAzureAppPushReceiver[];
+    azureFunctionReceivers?: ActionGroupsApiAzureFunctionReceiver[];
+    emailReceivers?: ActionGroupsApiEmailReceiver[];
     enabled: boolean;
-    eventHubReceivers?: EventHubReceiver[];
+    eventHubReceivers?: ActionGroupsApiEventHubReceiver[];
     groupShortName: string;
-    incidentReceivers?: IncidentReceiver[];
-    itsmReceivers?: ItsmReceiver[];
-    logicAppReceivers?: LogicAppReceiver[];
-    smsReceivers?: SmsReceiver[];
-    voiceReceivers?: VoiceReceiver[];
-    webhookReceivers?: WebhookReceiver[];
+    incidentReceivers?: ActionGroupsApiIncidentReceiver[];
+    itsmReceivers?: ActionGroupsApiItsmReceiver[];
+    logicAppReceivers?: ActionGroupsApiLogicAppReceiver[];
+    smsReceivers?: ActionGroupsApiSmsReceiver[];
+    voiceReceivers?: ActionGroupsApiVoiceReceiver[];
+    webhookReceivers?: ActionGroupsApiWebhookReceiver[];
 }
 
 // @public
-export interface ActionGroupPatch {
+export interface ActionGroupsApiActionGroupPatch {
     enabled?: boolean;
 }
 
 // @public
-export interface ActionGroupPatchBody {
+export interface ActionGroupsApiActionGroupPatchBody {
     enabled?: boolean;
     identity?: ManagedServiceIdentity;
     tags?: Record<string, string>;
 }
 
 // @public
-export interface ActionGroupResource extends TrackedResource {
-    armRoleReceivers?: ArmRoleReceiver[];
-    automationRunbookReceivers?: AutomationRunbookReceiver[];
-    azureAppPushReceivers?: AzureAppPushReceiver[];
-    azureFunctionReceivers?: AzureFunctionReceiver[];
-    emailReceivers?: EmailReceiver[];
+export interface ActionGroupsApiActionGroupResource extends TrackedResource {
+    armRoleReceivers?: ActionGroupsApiArmRoleReceiver[];
+    automationRunbookReceivers?: ActionGroupsApiAutomationRunbookReceiver[];
+    azureAppPushReceivers?: ActionGroupsApiAzureAppPushReceiver[];
+    azureFunctionReceivers?: ActionGroupsApiAzureFunctionReceiver[];
+    emailReceivers?: ActionGroupsApiEmailReceiver[];
     enabled?: boolean;
-    eventHubReceivers?: EventHubReceiver[];
+    eventHubReceivers?: ActionGroupsApiEventHubReceiver[];
     groupShortName?: string;
     identity?: ManagedServiceIdentity;
-    incidentReceivers?: IncidentReceiver[];
-    itsmReceivers?: ItsmReceiver[];
-    logicAppReceivers?: LogicAppReceiver[];
-    smsReceivers?: SmsReceiver[];
-    voiceReceivers?: VoiceReceiver[];
-    webhookReceivers?: WebhookReceiver[];
+    incidentReceivers?: ActionGroupsApiIncidentReceiver[];
+    itsmReceivers?: ActionGroupsApiItsmReceiver[];
+    logicAppReceivers?: ActionGroupsApiLogicAppReceiver[];
+    smsReceivers?: ActionGroupsApiSmsReceiver[];
+    voiceReceivers?: ActionGroupsApiVoiceReceiver[];
+    webhookReceivers?: ActionGroupsApiWebhookReceiver[];
+}
+
+// @public
+export interface ActionGroupsApiArmRoleReceiver {
+    name: string;
+    roleId: string;
+    useCommonAlertSchema?: boolean;
+}
+
+// @public
+export interface ActionGroupsApiAutomationRunbookReceiver {
+    automationAccountId: string;
+    isGlobalRunbook: boolean;
+    managedIdentity?: string;
+    name?: string;
+    runbookName: string;
+    serviceUri?: string;
+    useCommonAlertSchema?: boolean;
+    webhookResourceId: string;
+}
+
+// @public
+export interface ActionGroupsApiAzureAppPushReceiver {
+    emailAddress: string;
+    name: string;
+}
+
+// @public
+export interface ActionGroupsApiAzureFunctionReceiver {
+    functionAppResourceId: string;
+    functionName: string;
+    httpTriggerUrl: string;
+    managedIdentity?: string;
+    name: string;
+    useCommonAlertSchema?: boolean;
+}
+
+// @public
+export interface ActionGroupsApiContext {
+    contextType?: string;
+    notificationSource?: string;
+}
+
+// @public
+export interface ActionGroupsApiEmailReceiver {
+    emailAddress: string;
+    name: string;
+    readonly status?: ActionGroupsApiReceiverStatus;
+    useCommonAlertSchema?: boolean;
+}
+
+// @public
+export interface ActionGroupsApiEnableRequest {
+    receiverName: string;
+}
+
+// @public
+export interface ActionGroupsApiEventHubReceiver {
+    eventHubName: string;
+    eventHubNameSpace: string;
+    managedIdentity?: string;
+    name: string;
+    subscriptionId: string;
+    tenantId?: string;
+    useCommonAlertSchema?: boolean;
+}
+
+// @public
+export type ActionGroupsApiIncidentManagementService = string;
+
+// @public
+export interface ActionGroupsApiIncidentReceiver {
+    connection: ActionGroupsApiIncidentServiceConnection;
+    incidentManagementService: ActionGroupsApiIncidentManagementService;
+    mappings: Record<string, string>;
+    name: string;
+}
+
+// @public
+export interface ActionGroupsApiIncidentServiceConnection {
+    id: string;
+    name: string;
+}
+
+// @public
+export interface ActionGroupsApiItsmReceiver {
+    connectionId: string;
+    name: string;
+    region: string;
+    ticketConfiguration: string;
+    workspaceId: string;
+}
+
+// @public
+export interface ActionGroupsApiLogicAppReceiver {
+    callbackUrl: string;
+    managedIdentity?: string;
+    name: string;
+    resourceId: string;
+    useCommonAlertSchema?: boolean;
+}
+
+// @public
+export interface ActionGroupsApiNotificationRequestBody {
+    alertType: string;
+    armRoleReceivers?: ActionGroupsApiArmRoleReceiver[];
+    automationRunbookReceivers?: ActionGroupsApiAutomationRunbookReceiver[];
+    azureAppPushReceivers?: ActionGroupsApiAzureAppPushReceiver[];
+    azureFunctionReceivers?: ActionGroupsApiAzureFunctionReceiver[];
+    emailReceivers?: ActionGroupsApiEmailReceiver[];
+    eventHubReceivers?: ActionGroupsApiEventHubReceiver[];
+    incidentReceivers?: ActionGroupsApiIncidentReceiver[];
+    itsmReceivers?: ActionGroupsApiItsmReceiver[];
+    logicAppReceivers?: ActionGroupsApiLogicAppReceiver[];
+    smsReceivers?: ActionGroupsApiSmsReceiver[];
+    voiceReceivers?: ActionGroupsApiVoiceReceiver[];
+    webhookReceivers?: ActionGroupsApiWebhookReceiver[];
+}
+
+// @public
+export type ActionGroupsApiReceiverStatus = "NotSpecified" | "Enabled" | "Disabled";
+
+// @public
+export interface ActionGroupsApiSmsReceiver {
+    countryCode: string;
+    name: string;
+    phoneNumber: string;
+    readonly status?: ActionGroupsApiReceiverStatus;
+}
+
+// @public
+export interface ActionGroupsApiTestNotificationDetailsResponse {
+    actionDetails?: ActionGroupsApiActionDetail[];
+    completedTime?: string;
+    context?: ActionGroupsApiContext;
+    createdTime?: string;
+    state: string;
+}
+
+// @public
+export interface ActionGroupsApiVoiceReceiver {
+    countryCode: string;
+    name: string;
+    phoneNumber: string;
+}
+
+// @public
+export interface ActionGroupsApiWebhookReceiver {
+    identifierUri?: string;
+    managedIdentity?: string;
+    name: string;
+    objectId?: string;
+    serviceUri: string;
+    tenantId?: string;
+    useAadAuth?: boolean;
+    useCommonAlertSchema?: boolean;
 }
 
 // @public
@@ -160,25 +299,25 @@ export interface ActionGroupsListNSPOptionalParams extends OperationOptions {
 // @public
 export interface ActionGroupsOperations {
     // @deprecated (undocumented)
-    beginCreateNotificationsAtActionGroupResourceLevel: (resourceGroupName: string, actionGroupName: string, notificationRequest: NotificationRequestBody, options?: ActionGroupsCreateNotificationsAtActionGroupResourceLevelOptionalParams) => Promise<SimplePollerLike<OperationState<TestNotificationDetailsResponse>, TestNotificationDetailsResponse>>;
+    beginCreateNotificationsAtActionGroupResourceLevel: (resourceGroupName: string, actionGroupName: string, notificationRequest: ActionGroupsApiNotificationRequestBody, options?: ActionGroupsCreateNotificationsAtActionGroupResourceLevelOptionalParams) => Promise<SimplePollerLike<OperationState<ActionGroupsApiTestNotificationDetailsResponse>, ActionGroupsApiTestNotificationDetailsResponse>>;
     // @deprecated (undocumented)
-    beginCreateNotificationsAtActionGroupResourceLevelAndWait: (resourceGroupName: string, actionGroupName: string, notificationRequest: NotificationRequestBody, options?: ActionGroupsCreateNotificationsAtActionGroupResourceLevelOptionalParams) => Promise<TestNotificationDetailsResponse>;
+    beginCreateNotificationsAtActionGroupResourceLevelAndWait: (resourceGroupName: string, actionGroupName: string, notificationRequest: ActionGroupsApiNotificationRequestBody, options?: ActionGroupsCreateNotificationsAtActionGroupResourceLevelOptionalParams) => Promise<ActionGroupsApiTestNotificationDetailsResponse>;
     // @deprecated (undocumented)
     beginReconcileNSP: (resourceGroupName: string, actionGroupName: string, networkSecurityPerimeterConfigurationName: string, options?: ActionGroupsReconcileNSPOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
     // @deprecated (undocumented)
     beginReconcileNSPAndWait: (resourceGroupName: string, actionGroupName: string, networkSecurityPerimeterConfigurationName: string, options?: ActionGroupsReconcileNSPOptionalParams) => Promise<void>;
-    createNotificationsAtActionGroupResourceLevel: (resourceGroupName: string, actionGroupName: string, notificationRequest: NotificationRequestBody, options?: ActionGroupsCreateNotificationsAtActionGroupResourceLevelOptionalParams) => PollerLike<OperationState<TestNotificationDetailsResponse>, TestNotificationDetailsResponse>;
-    createOrUpdate: (resourceGroupName: string, actionGroupName: string, actionGroup: ActionGroupResource, options?: ActionGroupsCreateOrUpdateOptionalParams) => Promise<ActionGroupResource>;
+    createNotificationsAtActionGroupResourceLevel: (resourceGroupName: string, actionGroupName: string, notificationRequest: ActionGroupsApiNotificationRequestBody, options?: ActionGroupsCreateNotificationsAtActionGroupResourceLevelOptionalParams) => PollerLike<OperationState<ActionGroupsApiTestNotificationDetailsResponse>, ActionGroupsApiTestNotificationDetailsResponse>;
+    createOrUpdate: (resourceGroupName: string, actionGroupName: string, actionGroup: ActionGroupsApiActionGroupResource, options?: ActionGroupsCreateOrUpdateOptionalParams) => Promise<ActionGroupsApiActionGroupResource>;
     delete: (resourceGroupName: string, actionGroupName: string, options?: ActionGroupsDeleteOptionalParams) => Promise<void>;
-    enableReceiver: (resourceGroupName: string, actionGroupName: string, enableRequest: EnableRequest, options?: ActionGroupsEnableReceiverOptionalParams) => Promise<void>;
-    get: (resourceGroupName: string, actionGroupName: string, options?: ActionGroupsGetOptionalParams) => Promise<ActionGroupResource>;
+    enableReceiver: (resourceGroupName: string, actionGroupName: string, enableRequest: ActionGroupsApiEnableRequest, options?: ActionGroupsEnableReceiverOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, actionGroupName: string, options?: ActionGroupsGetOptionalParams) => Promise<ActionGroupsApiActionGroupResource>;
     getNSP: (resourceGroupName: string, actionGroupName: string, networkSecurityPerimeterConfigurationName: string, options?: ActionGroupsGetNSPOptionalParams) => Promise<NetworkSecurityPerimeterConfiguration>;
-    getTestNotificationsAtActionGroupResourceLevel: (resourceGroupName: string, actionGroupName: string, notificationId: string, options?: ActionGroupsGetTestNotificationsAtActionGroupResourceLevelOptionalParams) => Promise<TestNotificationDetailsResponse>;
-    listByResourceGroup: (resourceGroupName: string, options?: ActionGroupsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<ActionGroupResource>;
-    listBySubscriptionId: (options?: ActionGroupsListBySubscriptionIdOptionalParams) => PagedAsyncIterableIterator<ActionGroupResource>;
+    getTestNotificationsAtActionGroupResourceLevel: (resourceGroupName: string, actionGroupName: string, notificationId: string, options?: ActionGroupsGetTestNotificationsAtActionGroupResourceLevelOptionalParams) => Promise<ActionGroupsApiTestNotificationDetailsResponse>;
+    listByResourceGroup: (resourceGroupName: string, options?: ActionGroupsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<ActionGroupsApiActionGroupResource>;
+    listBySubscriptionId: (options?: ActionGroupsListBySubscriptionIdOptionalParams) => PagedAsyncIterableIterator<ActionGroupsApiActionGroupResource>;
     listNSP: (resourceGroupName: string, actionGroupName: string, options?: ActionGroupsListNSPOptionalParams) => PagedAsyncIterableIterator<NetworkSecurityPerimeterConfiguration>;
     reconcileNSP: (resourceGroupName: string, actionGroupName: string, networkSecurityPerimeterConfigurationName: string, options?: ActionGroupsReconcileNSPOptionalParams) => PollerLike<OperationState<void>, void>;
-    update: (resourceGroupName: string, actionGroupName: string, actionGroupPatch: ActionGroupPatchBody, options?: ActionGroupsUpdateOptionalParams) => Promise<ActionGroupResource>;
+    update: (resourceGroupName: string, actionGroupName: string, actionGroupPatch: ActionGroupsApiActionGroupPatchBody, options?: ActionGroupsUpdateOptionalParams) => Promise<ActionGroupsApiActionGroupResource>;
 }
 
 // @public
@@ -191,39 +330,70 @@ export interface ActionGroupsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ActionList {
-    actionGroups?: ActivityLogAlertActionGroup[];
+export interface ActivityLogAlertsApiActionList {
+    actionGroups?: ActivityLogAlertsApiActivityLogAlertActionGroup[];
 }
 
 // @public
-export interface Actions {
-    actionGroups?: string[];
-    actionProperties?: Record<string, string>;
-    customProperties?: Record<string, string>;
-}
-
-// @public
-export interface ActivityLogAlertActionGroup {
+export interface ActivityLogAlertsApiActivityLogAlertActionGroup {
     actionGroupId: string;
     actionProperties?: Record<string, string>;
     webhookProperties?: Record<string, string>;
 }
 
 // @public
-export interface ActivityLogAlertErrorResponse {
+export interface ActivityLogAlertsApiActivityLogAlertErrorResponse {
     readonly code?: string;
     readonly message?: string;
 }
 
 // @public
-export interface ActivityLogAlertResource extends ProxyResource {
-    actions?: ActionList;
-    condition?: AlertRuleAllOfCondition;
+export interface ActivityLogAlertsApiActivityLogAlertResource extends ProxyResource {
+    actions?: ActivityLogAlertsApiActionList;
+    condition?: ActivityLogAlertsApiAlertRuleAllOfCondition;
     description?: string;
     enabled?: boolean;
     location?: string;
     scopes?: string[];
     tags?: Record<string, string>;
+    tenantScope?: string;
+}
+
+// @public
+export interface ActivityLogAlertsApiAlertRuleAllOfCondition {
+    allOf: ActivityLogAlertsApiAlertRuleAnyOfOrLeafCondition[];
+}
+
+// @public
+export interface ActivityLogAlertsApiAlertRuleAnyOfOrLeafCondition extends ActivityLogAlertsApiAlertRuleLeafCondition {
+    anyOf?: ActivityLogAlertsApiAlertRuleLeafCondition[];
+}
+
+// @public
+export interface ActivityLogAlertsApiAlertRuleLeafCondition {
+    containsAny?: string[];
+    equals?: string;
+    field?: string;
+}
+
+// @public
+export interface ActivityLogAlertsApiAlertRulePatchObject {
+    enabled?: boolean;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface ActivityLogAlertsApiAlertRulePatchProperties {
+    enabled?: boolean;
+}
+
+// @public
+export interface ActivityLogAlertsApiAlertRuleProperties {
+    actions: ActivityLogAlertsApiActionList;
+    condition: ActivityLogAlertsApiAlertRuleAllOfCondition;
+    description?: string;
+    enabled?: boolean;
+    scopes?: string[];
     tenantScope?: string;
 }
 
@@ -249,16 +419,62 @@ export interface ActivityLogAlertsListBySubscriptionIdOptionalParams extends Ope
 
 // @public
 export interface ActivityLogAlertsOperations {
-    createOrUpdate: (resourceGroupName: string, activityLogAlertName: string, activityLogAlertRule: ActivityLogAlertResource, options?: ActivityLogAlertsCreateOrUpdateOptionalParams) => Promise<ActivityLogAlertResource>;
+    createOrUpdate: (resourceGroupName: string, activityLogAlertName: string, activityLogAlertRule: ActivityLogAlertsApiActivityLogAlertResource, options?: ActivityLogAlertsCreateOrUpdateOptionalParams) => Promise<ActivityLogAlertsApiActivityLogAlertResource>;
     delete: (resourceGroupName: string, activityLogAlertName: string, options?: ActivityLogAlertsDeleteOptionalParams) => Promise<void>;
-    get: (resourceGroupName: string, activityLogAlertName: string, options?: ActivityLogAlertsGetOptionalParams) => Promise<ActivityLogAlertResource>;
-    listByResourceGroup: (resourceGroupName: string, options?: ActivityLogAlertsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<ActivityLogAlertResource>;
-    listBySubscriptionId: (options?: ActivityLogAlertsListBySubscriptionIdOptionalParams) => PagedAsyncIterableIterator<ActivityLogAlertResource>;
-    update: (resourceGroupName: string, activityLogAlertName: string, activityLogAlertRulePatch: AlertRulePatchObject, options?: ActivityLogAlertsUpdateOptionalParams) => Promise<ActivityLogAlertResource>;
+    get: (resourceGroupName: string, activityLogAlertName: string, options?: ActivityLogAlertsGetOptionalParams) => Promise<ActivityLogAlertsApiActivityLogAlertResource>;
+    listByResourceGroup: (resourceGroupName: string, options?: ActivityLogAlertsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<ActivityLogAlertsApiActivityLogAlertResource>;
+    listBySubscriptionId: (options?: ActivityLogAlertsListBySubscriptionIdOptionalParams) => PagedAsyncIterableIterator<ActivityLogAlertsApiActivityLogAlertResource>;
+    update: (resourceGroupName: string, activityLogAlertName: string, activityLogAlertRulePatch: ActivityLogAlertsApiAlertRulePatchObject, options?: ActivityLogAlertsUpdateOptionalParams) => Promise<ActivityLogAlertsApiActivityLogAlertResource>;
 }
 
 // @public
 export interface ActivityLogAlertsUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ActivityLogsApiEventData {
+    readonly authorization?: ActivityLogsApiSenderAuthorization;
+    readonly caller?: string;
+    readonly category?: MicrosoftCommonLocalizableString;
+    readonly claims?: Record<string, string>;
+    readonly correlationId?: string;
+    readonly description?: string;
+    readonly eventDataId?: string;
+    readonly eventName?: MicrosoftCommonLocalizableString;
+    readonly eventTimestamp?: Date;
+    readonly httpRequest?: ActivityLogsApiHttpRequestInfo;
+    readonly id?: string;
+    readonly level?: ActivityLogsApiEventLevel;
+    readonly operationId?: string;
+    readonly operationName?: MicrosoftCommonLocalizableString;
+    readonly properties?: Record<string, string>;
+    readonly resourceGroupName?: string;
+    readonly resourceId?: string;
+    readonly resourceProviderName?: MicrosoftCommonLocalizableString;
+    readonly resourceType?: MicrosoftCommonLocalizableString;
+    readonly status?: MicrosoftCommonLocalizableString;
+    readonly submissionTimestamp?: Date;
+    readonly subscriptionId?: string;
+    readonly subStatus?: MicrosoftCommonLocalizableString;
+    readonly tenantId?: string;
+}
+
+// @public
+export type ActivityLogsApiEventLevel = "Critical" | "Error" | "Warning" | "Informational" | "Verbose";
+
+// @public
+export interface ActivityLogsApiHttpRequestInfo {
+    clientIpAddress?: string;
+    clientRequestId?: string;
+    method?: string;
+    uri?: string;
+}
+
+// @public
+export interface ActivityLogsApiSenderAuthorization {
+    action?: string;
+    role?: string;
+    scope?: string;
 }
 
 // @public
@@ -268,42 +484,7 @@ export interface ActivityLogsListOptionalParams extends OperationOptions {
 
 // @public
 export interface ActivityLogsOperations {
-    list: (filter: string, options?: ActivityLogsListOptionalParams) => PagedAsyncIterableIterator<EventData>;
-}
-
-// @public
-export interface AdxDestination {
-    databaseName?: string;
-    readonly ingestionUri?: string;
-    name?: string;
-    resourceId?: string;
-}
-
-// @public
-export interface AgentSetting {
-    name?: KnownAgentSettingName;
-    value?: string;
-}
-
-// @public
-export interface AgentSettingsSpec {
-    logs?: AgentSetting[];
-}
-
-// @public
-export type AggregationType = "None" | "Average" | "Count" | "Minimum" | "Maximum" | "Total";
-
-// @public
-export type AggregationTypeEnum = string;
-
-// @public
-export interface AlertRuleAllOfCondition {
-    allOf: AlertRuleAnyOfOrLeafCondition[];
-}
-
-// @public
-export interface AlertRuleAnyOfOrLeafCondition extends AlertRuleLeafCondition {
-    anyOf?: AlertRuleLeafCondition[];
+    list: (filter: string, options?: ActivityLogsListOptionalParams) => PagedAsyncIterableIterator<ActivityLogsApiEventData>;
 }
 
 // @public
@@ -316,45 +497,17 @@ export interface AlertRuleIncidentsListByAlertRuleOptionalParams extends Operati
 
 // @public
 export interface AlertRuleIncidentsOperations {
-    get: (resourceGroupName: string, ruleName: string, incidentName: string, options?: AlertRuleIncidentsGetOptionalParams) => Promise<Incident>;
-    listByAlertRule: (resourceGroupName: string, ruleName: string, options?: AlertRuleIncidentsListByAlertRuleOptionalParams) => PagedAsyncIterableIterator<Incident>;
+    get: (resourceGroupName: string, ruleName: string, incidentName: string, options?: AlertRuleIncidentsGetOptionalParams) => Promise<AlertRulesIncidentsApiIncident>;
+    listByAlertRule: (resourceGroupName: string, ruleName: string, options?: AlertRuleIncidentsListByAlertRuleOptionalParams) => PagedAsyncIterableIterator<AlertRulesIncidentsApiIncident>;
 }
 
 // @public
-export interface AlertRuleLeafCondition {
-    containsAny?: string[];
-    equals?: string;
-    field?: string;
-}
-
-// @public
-export interface AlertRulePatchObject {
-    enabled?: boolean;
-    tags?: Record<string, string>;
-}
-
-// @public
-export interface AlertRulePatchProperties {
-    enabled?: boolean;
-}
-
-// @public
-export interface AlertRuleProperties {
-    actions: ActionList;
-    condition: AlertRuleAllOfCondition;
-    description?: string;
-    enabled?: boolean;
-    scopes?: string[];
-    tenantScope?: string;
-}
-
-// @public
-export type AlertSeverity = number;
-
-// @public
-export interface ApplicationInsights {
-    name: string;
-    resourceId: string;
+export interface AlertRulesIncidentsApiIncident {
+    readonly activatedTime?: Date;
+    readonly isActive?: boolean;
+    readonly name?: string;
+    readonly resolvedTime?: Date;
+    readonly ruleName?: string;
 }
 
 // @public
@@ -372,32 +525,13 @@ export interface ArmErrorResponse {
 }
 
 // @public
-export interface ArmRoleReceiver {
-    name: string;
-    roleId: string;
-    useCommonAlertSchema?: boolean;
-}
-
-// @public
-export interface AutomationRunbookReceiver {
-    automationAccountId: string;
-    isGlobalRunbook: boolean;
-    managedIdentity?: string;
-    name?: string;
-    runbookName: string;
-    serviceUri?: string;
-    useCommonAlertSchema?: boolean;
-    webhookResourceId: string;
-}
-
-// @public
-export interface AutoscaleErrorResponse {
-    error?: AutoscaleErrorResponseError;
+export interface AutoScaleApiAutoscaleErrorResponse {
+    error?: AutoScaleApiAutoscaleErrorResponseError;
     readonly systemData?: SystemData;
 }
 
 // @public
-export interface AutoscaleErrorResponseError {
+export interface AutoScaleApiAutoscaleErrorResponseError {
     code?: string;
     details?: string;
     message?: string;
@@ -405,53 +539,179 @@ export interface AutoscaleErrorResponseError {
 }
 
 // @public
-export interface AutoscaleNotification {
-    email?: EmailNotification;
-    operation: OperationType;
-    webhooks?: WebhookNotification[];
+export interface AutoScaleApiAutoscaleNotification {
+    email?: AutoScaleApiEmailNotification;
+    operation: AutoScaleApiOperationType;
+    webhooks?: AutoScaleApiWebhookNotification[];
 }
 
 // @public
-export interface AutoscaleProfile {
-    capacity: ScaleCapacity;
-    fixedDate?: TimeWindow;
+export interface AutoScaleApiAutoscaleProfile {
+    capacity: AutoScaleApiScaleCapacity;
+    fixedDate?: AutoScaleApiTimeWindow;
     name: string;
-    recurrence?: Recurrence;
-    rules: ScaleRule[];
+    recurrence?: AutoScaleApiRecurrence;
+    rules: AutoScaleApiScaleRule[];
 }
 
 // @public
-export interface AutoscaleSetting {
+export interface AutoScaleApiAutoscaleSetting {
     enabled?: boolean;
     name?: string;
-    notifications?: AutoscaleNotification[];
-    predictiveAutoscalePolicy?: PredictiveAutoscalePolicy;
-    profiles: AutoscaleProfile[];
+    notifications?: AutoScaleApiAutoscaleNotification[];
+    predictiveAutoscalePolicy?: AutoScaleApiPredictiveAutoscalePolicy;
+    profiles: AutoScaleApiAutoscaleProfile[];
     targetResourceLocation?: string;
     targetResourceUri?: string;
 }
 
 // @public
-export interface AutoscaleSettingResource extends TrackedResource {
+export interface AutoScaleApiAutoscaleSettingResource extends TrackedResource {
     enabled?: boolean;
     namePropertiesName?: string;
-    notifications?: AutoscaleNotification[];
-    predictiveAutoscalePolicy?: PredictiveAutoscalePolicy;
-    profiles: AutoscaleProfile[];
+    notifications?: AutoScaleApiAutoscaleNotification[];
+    predictiveAutoscalePolicy?: AutoScaleApiPredictiveAutoscalePolicy;
+    profiles: AutoScaleApiAutoscaleProfile[];
     targetResourceLocation?: string;
     targetResourceUri?: string;
 }
 
 // @public
-export interface AutoscaleSettingResourcePatch {
+export interface AutoScaleApiAutoscaleSettingResourcePatch {
     enabled?: boolean;
     name?: string;
-    notifications?: AutoscaleNotification[];
-    predictiveAutoscalePolicy?: PredictiveAutoscalePolicy;
-    profiles?: AutoscaleProfile[];
+    notifications?: AutoScaleApiAutoscaleNotification[];
+    predictiveAutoscalePolicy?: AutoScaleApiPredictiveAutoscalePolicy;
+    profiles?: AutoScaleApiAutoscaleProfile[];
     tags?: Record<string, string>;
     targetResourceLocation?: string;
     targetResourceUri?: string;
+}
+
+// @public
+export type AutoScaleApiComparisonOperationType = "Equals" | "NotEquals" | "GreaterThan" | "GreaterThanOrEqual" | "LessThan" | "LessThanOrEqual";
+
+// @public
+export interface AutoScaleApiEmailNotification {
+    customEmails?: string[];
+    sendToSubscriptionAdministrator?: boolean;
+    sendToSubscriptionCoAdministrators?: boolean;
+}
+
+// @public
+export type AutoScaleApiMetricStatisticType = "Average" | "Min" | "Max" | "Sum" | "Count";
+
+// @public
+export interface AutoScaleApiMetricTrigger {
+    dimensions?: AutoScaleApiScaleRuleMetricDimension[];
+    dividePerInstance?: boolean;
+    metricName: string;
+    metricNamespace?: string;
+    metricResourceLocation?: string;
+    metricResourceUri: string;
+    operator: AutoScaleApiComparisonOperationType;
+    statistic: AutoScaleApiMetricStatisticType;
+    threshold: number;
+    timeAggregation: AutoScaleApiTimeAggregationType;
+    timeGrain: string;
+    timeWindow: string;
+}
+
+// @public
+export type AutoScaleApiOperationType = "Scale";
+
+// @public
+export interface AutoScaleApiPredictiveAutoscalePolicy {
+    scaleLookAheadTime?: string;
+    scaleMode: AutoScaleApiPredictiveAutoscalePolicyScaleMode;
+}
+
+// @public
+export type AutoScaleApiPredictiveAutoscalePolicyScaleMode = "Disabled" | "ForecastOnly" | "Enabled";
+
+// @public
+export interface AutoScaleApiPredictiveResponse {
+    data?: AutoScaleApiPredictiveValue[];
+    interval?: string;
+    metricName?: string;
+    targetResourceId?: string;
+    timespan?: string;
+}
+
+// @public
+export interface AutoScaleApiPredictiveValue {
+    timeStamp: Date;
+    value: number;
+}
+
+// @public
+export interface AutoScaleApiRecurrence {
+    frequency: AutoScaleApiRecurrenceFrequency;
+    schedule: AutoScaleApiRecurrentSchedule;
+}
+
+// @public
+export type AutoScaleApiRecurrenceFrequency = "None" | "Second" | "Minute" | "Hour" | "Day" | "Week" | "Month" | "Year";
+
+// @public
+export interface AutoScaleApiRecurrentSchedule {
+    days: string[];
+    hours: number[];
+    minutes: number[];
+    timeZone: string;
+}
+
+// @public
+export interface AutoScaleApiScaleAction {
+    cooldown: string;
+    direction: AutoScaleApiScaleDirection;
+    type: AutoScaleApiScaleType;
+    value?: string;
+}
+
+// @public
+export interface AutoScaleApiScaleCapacity {
+    default: string;
+    maximum: string;
+    minimum: string;
+}
+
+// @public
+export type AutoScaleApiScaleDirection = "None" | "Increase" | "Decrease";
+
+// @public
+export interface AutoScaleApiScaleRule {
+    metricTrigger: AutoScaleApiMetricTrigger;
+    scaleAction: AutoScaleApiScaleAction;
+}
+
+// @public
+export interface AutoScaleApiScaleRuleMetricDimension {
+    dimensionName: string;
+    operator: AutoScaleApiScaleRuleMetricDimensionOperationType;
+    values: string[];
+}
+
+// @public
+export type AutoScaleApiScaleRuleMetricDimensionOperationType = string;
+
+// @public
+export type AutoScaleApiScaleType = "ChangeCount" | "PercentChangeCount" | "ExactCount" | "ServiceAllowedNextValue";
+
+// @public
+export type AutoScaleApiTimeAggregationType = "Average" | "Minimum" | "Maximum" | "Total" | "Count" | "Last";
+
+// @public
+export interface AutoScaleApiTimeWindow {
+    end: Date;
+    start: Date;
+    timeZone?: string;
+}
+
+// @public
+export interface AutoScaleApiWebhookNotification {
+    properties?: Record<string, string>;
+    serviceUri?: string;
 }
 
 // @public
@@ -476,22 +736,16 @@ export interface AutoscaleSettingsListBySubscriptionOptionalParams extends Opera
 
 // @public
 export interface AutoscaleSettingsOperations {
-    createOrUpdate: (resourceGroupName: string, autoscaleSettingName: string, parameters: AutoscaleSettingResource, options?: AutoscaleSettingsCreateOrUpdateOptionalParams) => Promise<AutoscaleSettingResource>;
+    createOrUpdate: (resourceGroupName: string, autoscaleSettingName: string, parameters: AutoScaleApiAutoscaleSettingResource, options?: AutoscaleSettingsCreateOrUpdateOptionalParams) => Promise<AutoScaleApiAutoscaleSettingResource>;
     delete: (resourceGroupName: string, autoscaleSettingName: string, options?: AutoscaleSettingsDeleteOptionalParams) => Promise<void>;
-    get: (resourceGroupName: string, autoscaleSettingName: string, options?: AutoscaleSettingsGetOptionalParams) => Promise<AutoscaleSettingResource>;
-    listByResourceGroup: (resourceGroupName: string, options?: AutoscaleSettingsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<AutoscaleSettingResource>;
-    listBySubscription: (options?: AutoscaleSettingsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<AutoscaleSettingResource>;
-    update: (resourceGroupName: string, autoscaleSettingName: string, autoscaleSettingResource: AutoscaleSettingResourcePatch, options?: AutoscaleSettingsUpdateOptionalParams) => Promise<AutoscaleSettingResource>;
+    get: (resourceGroupName: string, autoscaleSettingName: string, options?: AutoscaleSettingsGetOptionalParams) => Promise<AutoScaleApiAutoscaleSettingResource>;
+    listByResourceGroup: (resourceGroupName: string, options?: AutoscaleSettingsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<AutoScaleApiAutoscaleSettingResource>;
+    listBySubscription: (options?: AutoscaleSettingsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<AutoScaleApiAutoscaleSettingResource>;
+    update: (resourceGroupName: string, autoscaleSettingName: string, autoscaleSettingResource: AutoScaleApiAutoscaleSettingResourcePatch, options?: AutoscaleSettingsUpdateOptionalParams) => Promise<AutoScaleApiAutoscaleSettingResource>;
 }
 
 // @public
 export interface AutoscaleSettingsUpdateOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface AzureAppPushReceiver {
-    emailAddress: string;
-    name: string;
 }
 
 // @public
@@ -502,45 +756,7 @@ export enum AzureClouds {
 }
 
 // @public
-export interface AzureFunctionReceiver {
-    functionAppResourceId: string;
-    functionName: string;
-    httpTriggerUrl: string;
-    managedIdentity?: string;
-    name: string;
-    useCommonAlertSchema?: boolean;
-}
-
-// @public
-export interface AzureMonitorMetricsDestination {
-    name?: string;
-}
-
-// @public
-export interface AzureMonitorPrivateLinkScope extends TrackedResource {
-    accessModeSettings: AccessModeSettings;
-    readonly privateEndpointConnections?: PrivateEndpointConnection[];
-    readonly provisioningState?: PrivateLinkScopeProvisioningState;
-}
-
-// @public
-export interface AzureMonitorPrivateLinkScopeProperties {
-    accessModeSettings: AccessModeSettings;
-    readonly privateEndpointConnections?: PrivateEndpointConnection[];
-    readonly provisioningState?: PrivateLinkScopeProvisioningState;
-}
-
-// @public
 export type AzureSupportedClouds = `${AzureClouds}`;
-
-// @public
-export interface BaselineMetadata {
-    name: string;
-    value: string;
-}
-
-// @public
-export type BaselineSensitivity = string;
 
 // @public
 export interface BaselinesListOptionalParams extends OperationOptions {
@@ -549,69 +765,14 @@ export interface BaselinesListOptionalParams extends OperationOptions {
     interval?: string;
     metricnames?: string;
     metricnamespace?: string;
-    resultType?: ResultType;
+    resultType?: MicrosoftCommonResultType;
     sensitivities?: string;
     timespan?: string;
 }
 
 // @public
 export interface BaselinesOperations {
-    list: (resourceUri: string, options?: BaselinesListOptionalParams) => PagedAsyncIterableIterator<SingleMetricBaseline>;
-}
-
-// @public
-export interface ColumnDefinition {
-    name?: string;
-    type?: KnownColumnDefinitionType;
-}
-
-// @public
-export interface CommonErrorResponse {
-    readonly additionalInfo?: ErrorAdditionalInfo[];
-    readonly code?: string;
-    readonly details?: CommonErrorResponse[];
-    readonly message?: string;
-    readonly target?: string;
-}
-
-// @public
-export type ComparisonOperationType = "Equals" | "NotEquals" | "GreaterThan" | "GreaterThanOrEqual" | "LessThan" | "LessThanOrEqual";
-
-// @public
-export interface Condition {
-    alertSensitivity?: string;
-    criterionType?: CriterionType;
-    dimensions?: Dimension[];
-    failingPeriods?: ConditionFailingPeriods;
-    ignoreDataBefore?: Date;
-    metricMeasureColumn?: string;
-    metricName?: string;
-    minRecurrenceCount?: number;
-    operator?: ConditionOperator;
-    query?: string;
-    resourceIdColumn?: string;
-    threshold?: number;
-    timeAggregation?: TimeAggregation;
-}
-
-// @public
-export interface ConditionFailingPeriods {
-    minFailingPeriodsToAlert?: number;
-    numberOfEvaluationPeriods?: number;
-}
-
-// @public
-export type ConditionOperator = string;
-
-// @public
-export interface ConfigurationAccessEndpointSpec {
-    readonly endpoint?: string;
-}
-
-// @public
-export interface Context {
-    contextType?: string;
-    notificationSource?: string;
+    list: (resourceUri: string, options?: BaselinesListOptionalParams) => PagedAsyncIterableIterator<MetricBaselinesApiSingleMetricBaseline>;
 }
 
 // @public
@@ -623,79 +784,731 @@ export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
 export type CreatedByType = string;
 
 // @public
-export type CriterionType = string;
+export interface CreateNotificationsAtTenantActionGroupResourceLevelOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
 
 // @public
-export interface DataCollectionEndpoint {
-    configurationAccess?: DataCollectionEndpointConfigurationAccess;
+export interface DataCollectionApiAdxDestination {
+    databaseName?: string;
+    readonly ingestionUri?: string;
+    name?: string;
+    resourceId?: string;
+}
+
+// @public
+export interface DataCollectionApiAgentSetting {
+    name?: DataCollectionApiKnownAgentSettingName;
+    value?: string;
+}
+
+// @public
+export interface DataCollectionApiAgentSettingsSpec {
+    logs?: DataCollectionApiAgentSetting[];
+}
+
+// @public
+export interface DataCollectionApiApplicationInsights {
+    name: string;
+    resourceId: string;
+}
+
+// @public
+export interface DataCollectionApiAzureMonitorMetricsDestination {
+    name?: string;
+}
+
+// @public
+export interface DataCollectionApiColumnDefinition {
+    name?: string;
+    type?: DataCollectionApiKnownColumnDefinitionType;
+}
+
+// @public
+export interface DataCollectionApiConfigurationAccessEndpointSpec {
+    readonly endpoint?: string;
+}
+
+// @public
+export interface DataCollectionApiDataCollectionEndpoint {
+    configurationAccess?: DataCollectionApiDataCollectionEndpointConfigurationAccess;
     description?: string;
-    readonly failoverConfiguration?: DataCollectionEndpointFailoverConfiguration;
+    readonly failoverConfiguration?: DataCollectionApiDataCollectionEndpointFailoverConfiguration;
     immutableId?: string;
-    logsIngestion?: DataCollectionEndpointLogsIngestion;
-    readonly metadata?: DataCollectionEndpointMetadata;
-    metricsIngestion?: DataCollectionEndpointMetricsIngestion;
-    networkAcls?: DataCollectionEndpointNetworkAcls;
-    readonly privateLinkScopedResources?: PrivateLinkScopedResource[];
-    readonly provisioningState?: KnownDataCollectionEndpointProvisioningState;
+    logsIngestion?: DataCollectionApiDataCollectionEndpointLogsIngestion;
+    readonly metadata?: DataCollectionApiDataCollectionEndpointMetadata;
+    metricsIngestion?: DataCollectionApiDataCollectionEndpointMetricsIngestion;
+    networkAcls?: DataCollectionApiDataCollectionEndpointNetworkAcls;
+    readonly privateLinkScopedResources?: DataCollectionApiPrivateLinkScopedResource[];
+    readonly provisioningState?: DataCollectionApiKnownDataCollectionEndpointProvisioningState;
 }
 
 // @public
-export interface DataCollectionEndpointConfigurationAccess extends ConfigurationAccessEndpointSpec {
+export interface DataCollectionApiDataCollectionEndpointConfigurationAccess extends DataCollectionApiConfigurationAccessEndpointSpec {
 }
 
 // @public
-export interface DataCollectionEndpointFailoverConfiguration extends FailoverConfigurationSpec {
+export interface DataCollectionApiDataCollectionEndpointFailoverConfiguration extends DataCollectionApiFailoverConfigurationSpec {
 }
 
 // @public
-export interface DataCollectionEndpointLogsIngestion extends LogsIngestionEndpointSpec {
+export interface DataCollectionApiDataCollectionEndpointLogsIngestion extends DataCollectionApiLogsIngestionEndpointSpec {
 }
 
 // @public
-export interface DataCollectionEndpointMetadata extends Metadata {
+export interface DataCollectionApiDataCollectionEndpointMetadata extends DataCollectionApiMetadata {
 }
 
 // @public
-export interface DataCollectionEndpointMetricsIngestion extends MetricsIngestionEndpointSpec {
+export interface DataCollectionApiDataCollectionEndpointMetricsIngestion extends DataCollectionApiMetricsIngestionEndpointSpec {
 }
 
 // @public
-export interface DataCollectionEndpointNetworkAcls extends NetworkRuleSet {
+export interface DataCollectionApiDataCollectionEndpointNetworkAcls extends DataCollectionApiNetworkRuleSet {
 }
 
 // @public
-export interface DataCollectionEndpointResource extends TrackedResource {
-    configurationAccess?: DataCollectionEndpointConfigurationAccess;
+export interface DataCollectionApiDataCollectionEndpointResource extends TrackedResource {
+    configurationAccess?: DataCollectionApiDataCollectionEndpointConfigurationAccess;
     description?: string;
     readonly etag?: string;
-    readonly failoverConfiguration?: DataCollectionEndpointFailoverConfiguration;
-    identity?: DataCollectionEndpointResourceIdentity;
+    readonly failoverConfiguration?: DataCollectionApiDataCollectionEndpointFailoverConfiguration;
+    identity?: DataCollectionApiDataCollectionEndpointResourceIdentity;
     immutableId?: string;
-    kind?: KnownDataCollectionEndpointResourceKind;
-    logsIngestion?: DataCollectionEndpointLogsIngestion;
-    readonly metadata?: DataCollectionEndpointMetadata;
-    metricsIngestion?: DataCollectionEndpointMetricsIngestion;
-    networkAcls?: DataCollectionEndpointNetworkAcls;
-    readonly privateLinkScopedResources?: PrivateLinkScopedResource[];
-    readonly provisioningState?: KnownDataCollectionEndpointProvisioningState;
-    sku?: DataCollectionEndpointResourceSku;
+    kind?: DataCollectionApiKnownDataCollectionEndpointResourceKind;
+    logsIngestion?: DataCollectionApiDataCollectionEndpointLogsIngestion;
+    readonly metadata?: DataCollectionApiDataCollectionEndpointMetadata;
+    metricsIngestion?: DataCollectionApiDataCollectionEndpointMetricsIngestion;
+    networkAcls?: DataCollectionApiDataCollectionEndpointNetworkAcls;
+    readonly privateLinkScopedResources?: DataCollectionApiPrivateLinkScopedResource[];
+    readonly provisioningState?: DataCollectionApiKnownDataCollectionEndpointProvisioningState;
+    sku?: DataCollectionApiDataCollectionEndpointResourceSku;
 }
 
 // @public
-export interface DataCollectionEndpointResourceIdentity extends ManagedServiceIdentity {
+export interface DataCollectionApiDataCollectionEndpointResourceIdentity extends ManagedServiceIdentity {
 }
 
 // @public
-export interface DataCollectionEndpointResourceProperties extends DataCollectionEndpoint {
+export interface DataCollectionApiDataCollectionEndpointResourceProperties extends DataCollectionApiDataCollectionEndpoint {
 }
 
 // @public
-export interface DataCollectionEndpointResourceSku extends Sku {
+export interface DataCollectionApiDataCollectionEndpointResourceSku extends Sku {
+}
+
+// @public
+export interface DataCollectionApiDataCollectionRule {
+    agentSettings?: DataCollectionApiDataCollectionRuleAgentSettings;
+    dataCollectionEndpointId?: string;
+    dataFlows?: DataCollectionApiDataFlow[];
+    dataSources?: DataCollectionApiDataCollectionRuleDataSources;
+    description?: string;
+    destinations?: DataCollectionApiDataCollectionRuleDestinations;
+    directDataSources?: DataCollectionApiDataCollectionRuleDirectDataSources;
+    readonly endpoints?: DataCollectionApiDataCollectionRuleEndpoints;
+    readonly immutableId?: string;
+    readonly ingestionQuotas?: DataCollectionApiDataCollectionRuleIngestionQuotas;
+    readonly metadata?: DataCollectionApiDataCollectionRuleMetadata;
+    readonly provisioningState?: DataCollectionApiKnownDataCollectionRuleProvisioningState;
+    references?: DataCollectionApiDataCollectionRuleReferences;
+    streamDeclarations?: Record<string, DataCollectionApiStreamDeclaration>;
+}
+
+// @public
+export interface DataCollectionApiDataCollectionRuleAgentSettings extends DataCollectionApiAgentSettingsSpec {
+}
+
+// @public
+export interface DataCollectionApiDataCollectionRuleAssociation {
+    dataCollectionEndpointId?: string;
+    dataCollectionRuleId?: string;
+    description?: string;
+    readonly metadata?: DataCollectionApiDataCollectionRuleAssociationMetadata;
+    readonly provisioningState?: DataCollectionApiKnownDataCollectionRuleAssociationProvisioningState;
+}
+
+// @public
+export interface DataCollectionApiDataCollectionRuleAssociationMetadata extends DataCollectionApiMetadata {
+}
+
+// @public
+export interface DataCollectionApiDataCollectionRuleAssociationProxyOnlyResource extends ExtensionResource {
+    dataCollectionEndpointId?: string;
+    dataCollectionRuleId?: string;
+    description?: string;
+    readonly etag?: string;
+    readonly metadata?: DataCollectionApiDataCollectionRuleAssociationMetadata;
+    readonly provisioningState?: DataCollectionApiKnownDataCollectionRuleAssociationProvisioningState;
+}
+
+// @public
+export interface DataCollectionApiDataCollectionRuleAssociationProxyOnlyResourceProperties extends DataCollectionApiDataCollectionRuleAssociation {
+}
+
+// @public
+export interface DataCollectionApiDataCollectionRuleDataSources extends DataCollectionApiDataSourcesSpec {
+}
+
+// @public
+export interface DataCollectionApiDataCollectionRuleDestinations extends DataCollectionApiDestinationsSpec {
+}
+
+// @public
+export interface DataCollectionApiDataCollectionRuleDirectDataSources extends DataCollectionApiDirectDataSourcesSpec {
+}
+
+// @public
+export interface DataCollectionApiDataCollectionRuleEndpoints extends DataCollectionApiEndpointsSpec {
+}
+
+// @public
+export interface DataCollectionApiDataCollectionRuleIngestionQuotas extends DataCollectionApiIngestionQuotas {
+}
+
+// @public
+export interface DataCollectionApiDataCollectionRuleMetadata extends DataCollectionApiMetadata {
+}
+
+// @public
+export interface DataCollectionApiDataCollectionRuleReferences extends DataCollectionApiReferencesSpec {
+}
+
+// @public
+export interface DataCollectionApiDataCollectionRuleResource extends TrackedResource {
+    agentSettings?: DataCollectionApiDataCollectionRuleAgentSettings;
+    dataCollectionEndpointId?: string;
+    dataFlows?: DataCollectionApiDataFlow[];
+    dataSources?: DataCollectionApiDataCollectionRuleDataSources;
+    description?: string;
+    destinations?: DataCollectionApiDataCollectionRuleDestinations;
+    directDataSources?: DataCollectionApiDataCollectionRuleDirectDataSources;
+    readonly endpoints?: DataCollectionApiDataCollectionRuleEndpoints;
+    readonly etag?: string;
+    identity?: DataCollectionApiDataCollectionRuleResourceIdentity;
+    readonly immutableId?: string;
+    readonly ingestionQuotas?: DataCollectionApiDataCollectionRuleIngestionQuotas;
+    kind?: DataCollectionApiKnownDataCollectionRuleResourceKind;
+    readonly metadata?: DataCollectionApiDataCollectionRuleMetadata;
+    readonly provisioningState?: DataCollectionApiKnownDataCollectionRuleProvisioningState;
+    references?: DataCollectionApiDataCollectionRuleReferences;
+    sku?: DataCollectionApiDataCollectionRuleResourceSku;
+    streamDeclarations?: Record<string, DataCollectionApiStreamDeclaration>;
+}
+
+// @public
+export interface DataCollectionApiDataCollectionRuleResourceIdentity extends ManagedServiceIdentity {
+}
+
+// @public
+export interface DataCollectionApiDataCollectionRuleResourceProperties extends DataCollectionApiDataCollectionRule {
+}
+
+// @public
+export interface DataCollectionApiDataCollectionRuleResourceSku extends Sku {
+}
+
+// @public
+export interface DataCollectionApiDataFlow {
+    builtInTransform?: string;
+    captureOverflow?: boolean;
+    destinations?: string[];
+    outputStream?: string;
+    streams?: DataCollectionApiKnownDataFlowStreams[];
+    transformKql?: string;
+}
+
+// @public
+export interface DataCollectionApiDataImportSources {
+    eventHub?: DataCollectionApiDataImportSourcesEventHub;
+}
+
+// @public
+export interface DataCollectionApiDataImportSourcesEventHub extends DataCollectionApiEventHubDataSource {
+}
+
+// @public
+export interface DataCollectionApiDataSourcesSpec {
+    dataImports?: DataCollectionApiDataSourcesSpecDataImports;
+    etwProviders?: DataCollectionApiEtwProviderDataSource[];
+    extensions?: DataCollectionApiExtensionDataSource[];
+    iisLogs?: DataCollectionApiIisLogsDataSource[];
+    logFiles?: DataCollectionApiLogFilesDataSource[];
+    otelLogs?: DataCollectionApiOtelLogsDataSource[];
+    otelMetrics?: DataCollectionApiOtelMetricsDataSource[];
+    otelTraces?: DataCollectionApiOtelTracesDataSource[];
+    performanceCounters?: DataCollectionApiPerfCounterDataSource[];
+    performanceCountersOTel?: DataCollectionApiPerformanceCountersOTelDataSource[];
+    platformTelemetry?: DataCollectionApiPlatformTelemetryDataSource[];
+    prometheusForwarder?: DataCollectionApiPrometheusForwarderDataSource[];
+    syslog?: DataCollectionApiSyslogDataSource[];
+    windowsEventLogs?: DataCollectionApiWindowsEventLogDataSource[];
+    windowsFirewallLogs?: DataCollectionApiWindowsFirewallLogsDataSource[];
+}
+
+// @public
+export interface DataCollectionApiDataSourcesSpecDataImports extends DataCollectionApiDataImportSources {
+}
+
+// @public
+export interface DataCollectionApiDestinationsSpec {
+    azureDataExplorer?: DataCollectionApiAdxDestination[];
+    azureMonitorMetrics?: DataCollectionApiDestinationsSpecAzureMonitorMetrics;
+    eventHubs?: DataCollectionApiEventHubDestination[];
+    eventHubsDirect?: DataCollectionApiEventHubDirectDestination[];
+    logAnalytics?: DataCollectionApiLogAnalyticsDestination[];
+    microsoftFabric?: DataCollectionApiMicrosoftFabricDestination[];
+    monitoringAccounts?: DataCollectionApiMonitoringAccountDestination[];
+    storageAccounts?: DataCollectionApiStorageBlobDestination[];
+    storageBlobsDirect?: DataCollectionApiStorageBlobDestination[];
+    storageTablesDirect?: DataCollectionApiStorageTableDestination[];
+}
+
+// @public
+export interface DataCollectionApiDestinationsSpecAzureMonitorMetrics extends DataCollectionApiAzureMonitorMetricsDestination {
+}
+
+// @public
+export interface DataCollectionApiDirectDataSourcesSpec {
+    otelLogs?: DataCollectionApiOtelLogsDirectDataSource[];
+    otelMetrics?: DataCollectionApiOtelMetricsDirectDataSource[];
+    otelTraces?: DataCollectionApiOtelTracesDirectDataSource[];
+}
+
+// @public
+export interface DataCollectionApiEndpointsSpec {
+    readonly logsIngestion?: string;
+    readonly metricsIngestion?: string;
+}
+
+// @public
+export interface DataCollectionApiEnrichmentData {
+    storageBlobs?: DataCollectionApiStorageBlob[];
+}
+
+// @public
+export interface DataCollectionApiErrorResponseCommonV2 {
+    error?: ArmErrorDetail;
+}
+
+// @public
+export interface DataCollectionApiEtwProviderDataSource {
+    eventIds?: string[];
+    keyword?: string;
+    logLevel?: DataCollectionApiKnownEtwProviderDataSourceLogLevel;
+    name?: string;
+    provider: string;
+    providerType: DataCollectionApiKnownEtwProviderType;
+    streams: string[];
+}
+
+// @public
+export interface DataCollectionApiEventHubDataSource {
+    consumerGroup?: string;
+    name?: string;
+    stream?: string;
+}
+
+// @public
+export interface DataCollectionApiEventHubDestination {
+    eventHubResourceId?: string;
+    name?: string;
+}
+
+// @public
+export interface DataCollectionApiEventHubDirectDestination {
+    eventHubResourceId?: string;
+    name?: string;
+}
+
+// @public
+export interface DataCollectionApiExtensionDataSource {
+    extensionName: string;
+    extensionSettings?: any;
+    inputDataSources?: string[];
+    name?: string;
+    streams?: DataCollectionApiKnownExtensionDataSourceStreams[];
+}
+
+// @public
+export interface DataCollectionApiFailoverConfigurationSpec {
+    activeLocation?: string;
+    locations?: DataCollectionApiLocationSpec[];
+}
+
+// @public
+export interface DataCollectionApiIisLogsDataSource {
+    logDirectories?: string[];
+    name?: string;
+    streams: string[];
+    transformKql?: string;
+}
+
+// @public
+export interface DataCollectionApiIngestionQuotas {
+    // (undocumented)
+    logs?: DataCollectionApiIngestionQuotasLogs;
+}
+
+// @public
+export interface DataCollectionApiIngestionQuotasLogs extends DataCollectionApiLogsQuotaSpec {
+}
+
+// @public
+export type DataCollectionApiKnownAgentSettingName = string;
+
+// @public
+export type DataCollectionApiKnownColumnDefinitionType = string;
+
+// @public
+export type DataCollectionApiKnownDataCollectionEndpointProvisioningState = string;
+
+// @public
+export type DataCollectionApiKnownDataCollectionEndpointResourceKind = string;
+
+// @public
+export type DataCollectionApiKnownDataCollectionRuleAssociationProvisioningState = string;
+
+// @public
+export type DataCollectionApiKnownDataCollectionRuleProvisioningState = string;
+
+// @public
+export type DataCollectionApiKnownDataCollectionRuleResourceKind = string;
+
+// @public
+export type DataCollectionApiKnownDataFlowStreams = string;
+
+// @public
+export type DataCollectionApiKnownEtwProviderDataSourceLogLevel = string;
+
+// @public
+export type DataCollectionApiKnownEtwProviderType = string;
+
+// @public
+export type DataCollectionApiKnownExtensionDataSourceStreams = string;
+
+// @public
+export type DataCollectionApiKnownLocationSpecProvisioningStatus = string;
+
+// @public
+export type DataCollectionApiKnownLogFilesDataSourceFormat = string;
+
+// @public
+export type DataCollectionApiKnownLogFileTextSettingsRecordStartTimestampFormat = string;
+
+// @public
+export type DataCollectionApiKnownOtelLogsDataSourceStreams = string;
+
+// @public
+export type DataCollectionApiKnownOtelLogsDirectDataSourceStreams = string;
+
+// @public
+export type DataCollectionApiKnownOtelTracesDataSourceStreams = string;
+
+// @public
+export type DataCollectionApiKnownOtelTracesDirectDataSourceStreams = string;
+
+// @public
+export type DataCollectionApiKnownPerfCounterDataSourceStreams = string;
+
+// @public
+export type DataCollectionApiKnownPerformanceCountersOTelDataSourceStreams = string;
+
+// @public
+export type DataCollectionApiKnownPrometheusForwarderDataSourceStreams = string;
+
+// @public
+export type DataCollectionApiKnownPublicNetworkAccessOptions = string;
+
+// @public
+export type DataCollectionApiKnownStorageBlobLookupType = string;
+
+// @public
+export type DataCollectionApiKnownSyslogDataSourceFacilityNames = string;
+
+// @public
+export type DataCollectionApiKnownSyslogDataSourceLogLevels = string;
+
+// @public
+export type DataCollectionApiKnownSyslogDataSourceStreams = string;
+
+// @public
+export type DataCollectionApiKnownWindowsEventLogDataSourceStreams = string;
+
+// @public
+export type DataCollectionApiKnownWindowsFirewallLogsDataSourceProfileFilter = string;
+
+// @public
+export interface DataCollectionApiLocationSpec {
+    location?: string;
+    provisioningStatus?: DataCollectionApiKnownLocationSpecProvisioningStatus;
+}
+
+// @public
+export interface DataCollectionApiLogAnalyticsDestination {
+    name?: string;
+    readonly workspaceId?: string;
+    workspaceResourceId?: string;
+}
+
+// @public
+export interface DataCollectionApiLogFilesDataSource {
+    filePatterns: string[];
+    format: DataCollectionApiKnownLogFilesDataSourceFormat;
+    name?: string;
+    settings?: DataCollectionApiLogFilesDataSourceSettings;
+    streams: string[];
+    transformKql?: string;
+}
+
+// @public
+export interface DataCollectionApiLogFilesDataSourceSettings extends DataCollectionApiLogFileSettings {
+}
+
+// @public
+export interface DataCollectionApiLogFileSettings {
+    text?: DataCollectionApiLogFileSettingsText;
+}
+
+// @public
+export interface DataCollectionApiLogFileSettingsText extends DataCollectionApiLogFileTextSettings {
+}
+
+// @public
+export interface DataCollectionApiLogFileTextSettings {
+    recordStartTimestampFormat: DataCollectionApiKnownLogFileTextSettingsRecordStartTimestampFormat;
+}
+
+// @public
+export interface DataCollectionApiLogsIngestionEndpointSpec {
+    readonly endpoint?: string;
+}
+
+// @public
+export interface DataCollectionApiLogsQuotaSpec {
+    // (undocumented)
+    maxRequestsPerMinute?: string;
+    // (undocumented)
+    maxSizePerMinuteInGB?: string;
+}
+
+// @public
+export interface DataCollectionApiMetadata {
+    readonly provisionedBy?: string;
+    readonly provisionedByImmutableId?: string;
+    readonly provisionedByResourceId?: string;
+}
+
+// @public
+export interface DataCollectionApiMetricsIngestionEndpointSpec {
+    readonly endpoint?: string;
+}
+
+// @public
+export interface DataCollectionApiMicrosoftFabricDestination {
+    artifactId?: string;
+    databaseName?: string;
+    ingestionUri?: string;
+    name?: string;
+    tenantId?: string;
+}
+
+// @public
+export interface DataCollectionApiMonitoringAccountDestination {
+    readonly accountId?: string;
+    accountResourceId?: string;
+    name?: string;
+}
+
+// @public
+export interface DataCollectionApiNetworkRuleSet {
+    publicNetworkAccess?: DataCollectionApiKnownPublicNetworkAccessOptions;
+}
+
+// @public
+export interface DataCollectionApiOtelDataSourceResourceAttributeRouting {
+    attributeName?: string;
+    attributeValue?: string;
+}
+
+// @public
+export interface DataCollectionApiOtelLogsDataSource {
+    enrichWithReference?: string;
+    enrichWithResourceAttributes?: string[];
+    name?: string;
+    replaceResourceIdWithReference?: boolean;
+    resourceAttributeRouting?: DataCollectionApiOtelLogsDataSourceResourceAttributeRouting;
+    streams: DataCollectionApiKnownOtelLogsDataSourceStreams[];
+}
+
+// @public
+export interface DataCollectionApiOtelLogsDataSourceResourceAttributeRouting extends DataCollectionApiOtelDataSourceResourceAttributeRouting {
+}
+
+// @public
+export interface DataCollectionApiOtelLogsDirectDataSource {
+    enrichWithReference?: string;
+    enrichWithResourceAttributes?: string[];
+    name?: string;
+    replaceResourceIdWithReference?: boolean;
+    streams: DataCollectionApiKnownOtelLogsDirectDataSourceStreams[];
+}
+
+// @public
+export interface DataCollectionApiOtelMetricsDataSource {
+    enrichWithReference?: string;
+    enrichWithResourceAttributes?: string[];
+    name?: string;
+    resourceAttributeRouting?: DataCollectionApiOtelMetricsDataSourceResourceAttributeRouting;
+    streams: string[];
+}
+
+// @public
+export interface DataCollectionApiOtelMetricsDataSourceResourceAttributeRouting extends DataCollectionApiOtelDataSourceResourceAttributeRouting {
+}
+
+// @public
+export interface DataCollectionApiOtelMetricsDirectDataSource {
+    enrichWithReference?: string;
+    enrichWithResourceAttributes?: string[];
+    name?: string;
+    streams: string[];
+}
+
+// @public
+export interface DataCollectionApiOtelTracesDataSource {
+    enrichWithReference?: string;
+    enrichWithResourceAttributes?: string[];
+    name?: string;
+    replaceResourceIdWithReference?: boolean;
+    resourceAttributeRouting?: DataCollectionApiOtelTracesDataSourceResourceAttributeRouting;
+    streams: DataCollectionApiKnownOtelTracesDataSourceStreams[];
+}
+
+// @public
+export interface DataCollectionApiOtelTracesDataSourceResourceAttributeRouting extends DataCollectionApiOtelDataSourceResourceAttributeRouting {
+}
+
+// @public
+export interface DataCollectionApiOtelTracesDirectDataSource {
+    enrichWithReference?: string;
+    enrichWithResourceAttributes?: string[];
+    name?: string;
+    replaceResourceIdWithReference?: boolean;
+    streams: DataCollectionApiKnownOtelTracesDirectDataSourceStreams[];
+}
+
+// @public
+export interface DataCollectionApiPerfCounterDataSource {
+    counterSpecifiers?: string[];
+    name?: string;
+    samplingFrequencyInSeconds?: number;
+    streams?: DataCollectionApiKnownPerfCounterDataSourceStreams[];
+    transformKql?: string;
+}
+
+// @public
+export interface DataCollectionApiPerformanceCountersOTelDataSource {
+    counterSpecifiers?: string[];
+    name?: string;
+    samplingFrequencyInSeconds?: number;
+    streams?: DataCollectionApiKnownPerformanceCountersOTelDataSourceStreams[];
+}
+
+// @public
+export interface DataCollectionApiPlatformTelemetryDataSource {
+    name?: string;
+    streams: string[];
+}
+
+// @public
+export interface DataCollectionApiPrivateLinkScopedResource {
+    resourceId?: string;
+    scopeId?: string;
+}
+
+// @public
+export interface DataCollectionApiPrometheusForwarderDataSource {
+    customVMScrapeConfig?: any[];
+    labelIncludeFilter?: Record<string, string>;
+    name?: string;
+    streams?: DataCollectionApiKnownPrometheusForwarderDataSourceStreams[];
+}
+
+// @public
+export interface DataCollectionApiReferencesSpec {
+    applicationInsights?: DataCollectionApiApplicationInsights[];
+    enrichmentData?: DataCollectionApiReferencesSpecEnrichmentData;
+}
+
+// @public
+export interface DataCollectionApiReferencesSpecEnrichmentData extends DataCollectionApiEnrichmentData {
+}
+
+// @public
+export interface DataCollectionApiResourceForUpdate {
+    identity?: DataCollectionApiResourceForUpdateIdentity;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface DataCollectionApiResourceForUpdateIdentity extends ManagedServiceIdentity {
+}
+
+// @public
+export interface DataCollectionApiStorageBlob {
+    blobUrl?: string;
+    lookupType?: DataCollectionApiKnownStorageBlobLookupType;
+    name?: string;
+    resourceId?: string;
+}
+
+// @public
+export interface DataCollectionApiStorageBlobDestination {
+    containerName?: string;
+    name?: string;
+    storageAccountResourceId?: string;
+}
+
+// @public
+export interface DataCollectionApiStorageTableDestination {
+    name?: string;
+    storageAccountResourceId?: string;
+    tableName?: string;
+}
+
+// @public
+export interface DataCollectionApiStreamDeclaration {
+    columns?: DataCollectionApiColumnDefinition[];
+}
+
+// @public
+export interface DataCollectionApiSyslogDataSource {
+    facilityNames?: DataCollectionApiKnownSyslogDataSourceFacilityNames[];
+    logLevels?: DataCollectionApiKnownSyslogDataSourceLogLevels[];
+    name?: string;
+    streams?: DataCollectionApiKnownSyslogDataSourceStreams[];
+    transformKql?: string;
+}
+
+// @public
+export interface DataCollectionApiWindowsEventLogDataSource {
+    name?: string;
+    streams?: DataCollectionApiKnownWindowsEventLogDataSourceStreams[];
+    transformKql?: string;
+    xPathQueries?: string[];
+}
+
+// @public
+export interface DataCollectionApiWindowsFirewallLogsDataSource {
+    name?: string;
+    profileFilter?: DataCollectionApiKnownWindowsFirewallLogsDataSourceProfileFilter[];
+    streams: string[];
 }
 
 // @public
 export interface DataCollectionEndpointsCreateOptionalParams extends OperationOptions {
-    body?: DataCollectionEndpointResource;
+    body?: DataCollectionApiDataCollectionEndpointResource;
 }
 
 // @public
@@ -728,15 +1541,15 @@ export interface DataCollectionEndpointsOperations {
     beginReconcileNSP: (resourceGroupName: string, dataCollectionEndpointName: string, networkSecurityPerimeterConfigurationName: string, options?: DataCollectionEndpointsReconcileNSPOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
     // @deprecated (undocumented)
     beginReconcileNSPAndWait: (resourceGroupName: string, dataCollectionEndpointName: string, networkSecurityPerimeterConfigurationName: string, options?: DataCollectionEndpointsReconcileNSPOptionalParams) => Promise<void>;
-    create: (resourceGroupName: string, dataCollectionEndpointName: string, options?: DataCollectionEndpointsCreateOptionalParams) => Promise<DataCollectionEndpointResource>;
+    create: (resourceGroupName: string, dataCollectionEndpointName: string, options?: DataCollectionEndpointsCreateOptionalParams) => Promise<DataCollectionApiDataCollectionEndpointResource>;
     delete: (resourceGroupName: string, dataCollectionEndpointName: string, options?: DataCollectionEndpointsDeleteOptionalParams) => Promise<void>;
-    get: (resourceGroupName: string, dataCollectionEndpointName: string, options?: DataCollectionEndpointsGetOptionalParams) => Promise<DataCollectionEndpointResource>;
+    get: (resourceGroupName: string, dataCollectionEndpointName: string, options?: DataCollectionEndpointsGetOptionalParams) => Promise<DataCollectionApiDataCollectionEndpointResource>;
     getNSP: (resourceGroupName: string, dataCollectionEndpointName: string, networkSecurityPerimeterConfigurationName: string, options?: DataCollectionEndpointsGetNSPOptionalParams) => Promise<NetworkSecurityPerimeterConfiguration>;
-    listByResourceGroup: (resourceGroupName: string, options?: DataCollectionEndpointsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<DataCollectionEndpointResource>;
-    listBySubscription: (options?: DataCollectionEndpointsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<DataCollectionEndpointResource>;
+    listByResourceGroup: (resourceGroupName: string, options?: DataCollectionEndpointsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<DataCollectionApiDataCollectionEndpointResource>;
+    listBySubscription: (options?: DataCollectionEndpointsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<DataCollectionApiDataCollectionEndpointResource>;
     listNSP: (resourceGroupName: string, dataCollectionEndpointName: string, options?: DataCollectionEndpointsListNSPOptionalParams) => PagedAsyncIterableIterator<NetworkSecurityPerimeterConfiguration>;
     reconcileNSP: (resourceGroupName: string, dataCollectionEndpointName: string, networkSecurityPerimeterConfigurationName: string, options?: DataCollectionEndpointsReconcileNSPOptionalParams) => PollerLike<OperationState<void>, void>;
-    update: (resourceGroupName: string, dataCollectionEndpointName: string, options?: DataCollectionEndpointsUpdateOptionalParams) => Promise<DataCollectionEndpointResource>;
+    update: (resourceGroupName: string, dataCollectionEndpointName: string, options?: DataCollectionEndpointsUpdateOptionalParams) => Promise<DataCollectionApiDataCollectionEndpointResource>;
 }
 
 // @public
@@ -746,61 +1559,12 @@ export interface DataCollectionEndpointsReconcileNSPOptionalParams extends Opera
 
 // @public
 export interface DataCollectionEndpointsUpdateOptionalParams extends OperationOptions {
-    body?: ResourceForUpdate;
-}
-
-// @public
-export interface DataCollectionRule {
-    agentSettings?: DataCollectionRuleAgentSettings;
-    dataCollectionEndpointId?: string;
-    dataFlows?: DataFlow[];
-    dataSources?: DataCollectionRuleDataSources;
-    description?: string;
-    destinations?: DataCollectionRuleDestinations;
-    directDataSources?: DataCollectionRuleDirectDataSources;
-    readonly endpoints?: DataCollectionRuleEndpoints;
-    readonly immutableId?: string;
-    readonly ingestionQuotas?: DataCollectionRuleIngestionQuotas;
-    readonly metadata?: DataCollectionRuleMetadata;
-    readonly provisioningState?: KnownDataCollectionRuleProvisioningState;
-    references?: DataCollectionRuleReferences;
-    streamDeclarations?: Record<string, StreamDeclaration>;
-}
-
-// @public
-export interface DataCollectionRuleAgentSettings extends AgentSettingsSpec {
-}
-
-// @public
-export interface DataCollectionRuleAssociation {
-    dataCollectionEndpointId?: string;
-    dataCollectionRuleId?: string;
-    description?: string;
-    readonly metadata?: DataCollectionRuleAssociationMetadata;
-    readonly provisioningState?: KnownDataCollectionRuleAssociationProvisioningState;
-}
-
-// @public
-export interface DataCollectionRuleAssociationMetadata extends Metadata {
-}
-
-// @public
-export interface DataCollectionRuleAssociationProxyOnlyResource extends ExtensionResource {
-    dataCollectionEndpointId?: string;
-    dataCollectionRuleId?: string;
-    description?: string;
-    readonly etag?: string;
-    readonly metadata?: DataCollectionRuleAssociationMetadata;
-    readonly provisioningState?: KnownDataCollectionRuleAssociationProvisioningState;
-}
-
-// @public
-export interface DataCollectionRuleAssociationProxyOnlyResourceProperties extends DataCollectionRuleAssociation {
+    body?: DataCollectionApiResourceForUpdate;
 }
 
 // @public
 export interface DataCollectionRuleAssociationsCreateOptionalParams extends OperationOptions {
-    body?: DataCollectionRuleAssociationProxyOnlyResource;
+    body?: DataCollectionApiDataCollectionRuleAssociationProxyOnlyResource;
 }
 
 // @public
@@ -827,79 +1591,17 @@ export interface DataCollectionRuleAssociationsListByRuleOptionalParams extends 
 
 // @public
 export interface DataCollectionRuleAssociationsOperations {
-    create: (resourceUri: string, associationName: string, options?: DataCollectionRuleAssociationsCreateOptionalParams) => Promise<DataCollectionRuleAssociationProxyOnlyResource>;
+    create: (resourceUri: string, associationName: string, options?: DataCollectionRuleAssociationsCreateOptionalParams) => Promise<DataCollectionApiDataCollectionRuleAssociationProxyOnlyResource>;
     delete: (resourceUri: string, associationName: string, options?: DataCollectionRuleAssociationsDeleteOptionalParams) => Promise<void>;
-    get: (resourceUri: string, associationName: string, options?: DataCollectionRuleAssociationsGetOptionalParams) => Promise<DataCollectionRuleAssociationProxyOnlyResource>;
-    listByDataCollectionEndpoint: (resourceGroupName: string, dataCollectionEndpointName: string, options?: DataCollectionRuleAssociationsListByDataCollectionEndpointOptionalParams) => PagedAsyncIterableIterator<DataCollectionRuleAssociationProxyOnlyResource>;
-    listByResource: (resourceUri: string, options?: DataCollectionRuleAssociationsListByResourceOptionalParams) => PagedAsyncIterableIterator<DataCollectionRuleAssociationProxyOnlyResource>;
-    listByRule: (resourceGroupName: string, dataCollectionRuleName: string, options?: DataCollectionRuleAssociationsListByRuleOptionalParams) => PagedAsyncIterableIterator<DataCollectionRuleAssociationProxyOnlyResource>;
-}
-
-// @public
-export interface DataCollectionRuleDataSources extends DataSourcesSpec {
-}
-
-// @public
-export interface DataCollectionRuleDestinations extends DestinationsSpec {
-}
-
-// @public
-export interface DataCollectionRuleDirectDataSources extends DirectDataSourcesSpec {
-}
-
-// @public
-export interface DataCollectionRuleEndpoints extends EndpointsSpec {
-}
-
-// @public
-export interface DataCollectionRuleIngestionQuotas extends IngestionQuotas {
-}
-
-// @public
-export interface DataCollectionRuleMetadata extends Metadata {
-}
-
-// @public
-export interface DataCollectionRuleReferences extends ReferencesSpec {
-}
-
-// @public
-export interface DataCollectionRuleResource extends TrackedResource {
-    agentSettings?: DataCollectionRuleAgentSettings;
-    dataCollectionEndpointId?: string;
-    dataFlows?: DataFlow[];
-    dataSources?: DataCollectionRuleDataSources;
-    description?: string;
-    destinations?: DataCollectionRuleDestinations;
-    directDataSources?: DataCollectionRuleDirectDataSources;
-    readonly endpoints?: DataCollectionRuleEndpoints;
-    readonly etag?: string;
-    identity?: DataCollectionRuleResourceIdentity;
-    readonly immutableId?: string;
-    readonly ingestionQuotas?: DataCollectionRuleIngestionQuotas;
-    kind?: KnownDataCollectionRuleResourceKind;
-    readonly metadata?: DataCollectionRuleMetadata;
-    readonly provisioningState?: KnownDataCollectionRuleProvisioningState;
-    references?: DataCollectionRuleReferences;
-    sku?: DataCollectionRuleResourceSku;
-    streamDeclarations?: Record<string, StreamDeclaration>;
-}
-
-// @public
-export interface DataCollectionRuleResourceIdentity extends ManagedServiceIdentity {
-}
-
-// @public
-export interface DataCollectionRuleResourceProperties extends DataCollectionRule {
-}
-
-// @public
-export interface DataCollectionRuleResourceSku extends Sku {
+    get: (resourceUri: string, associationName: string, options?: DataCollectionRuleAssociationsGetOptionalParams) => Promise<DataCollectionApiDataCollectionRuleAssociationProxyOnlyResource>;
+    listByDataCollectionEndpoint: (resourceGroupName: string, dataCollectionEndpointName: string, options?: DataCollectionRuleAssociationsListByDataCollectionEndpointOptionalParams) => PagedAsyncIterableIterator<DataCollectionApiDataCollectionRuleAssociationProxyOnlyResource>;
+    listByResource: (resourceUri: string, options?: DataCollectionRuleAssociationsListByResourceOptionalParams) => PagedAsyncIterableIterator<DataCollectionApiDataCollectionRuleAssociationProxyOnlyResource>;
+    listByRule: (resourceGroupName: string, dataCollectionRuleName: string, options?: DataCollectionRuleAssociationsListByRuleOptionalParams) => PagedAsyncIterableIterator<DataCollectionApiDataCollectionRuleAssociationProxyOnlyResource>;
 }
 
 // @public
 export interface DataCollectionRulesCreateOptionalParams extends OperationOptions {
-    body?: DataCollectionRuleResource;
+    body?: DataCollectionApiDataCollectionRuleResource;
 }
 
 // @public
@@ -921,154 +1623,112 @@ export interface DataCollectionRulesListBySubscriptionOptionalParams extends Ope
 
 // @public
 export interface DataCollectionRulesOperations {
-    create: (resourceGroupName: string, dataCollectionRuleName: string, options?: DataCollectionRulesCreateOptionalParams) => Promise<DataCollectionRuleResource>;
+    create: (resourceGroupName: string, dataCollectionRuleName: string, options?: DataCollectionRulesCreateOptionalParams) => Promise<DataCollectionApiDataCollectionRuleResource>;
     delete: (resourceGroupName: string, dataCollectionRuleName: string, options?: DataCollectionRulesDeleteOptionalParams) => Promise<void>;
-    get: (resourceGroupName: string, dataCollectionRuleName: string, options?: DataCollectionRulesGetOptionalParams) => Promise<DataCollectionRuleResource>;
-    listByResourceGroup: (resourceGroupName: string, options?: DataCollectionRulesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<DataCollectionRuleResource>;
-    listBySubscription: (options?: DataCollectionRulesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<DataCollectionRuleResource>;
-    update: (resourceGroupName: string, dataCollectionRuleName: string, options?: DataCollectionRulesUpdateOptionalParams) => Promise<DataCollectionRuleResource>;
+    get: (resourceGroupName: string, dataCollectionRuleName: string, options?: DataCollectionRulesGetOptionalParams) => Promise<DataCollectionApiDataCollectionRuleResource>;
+    listByResourceGroup: (resourceGroupName: string, options?: DataCollectionRulesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<DataCollectionApiDataCollectionRuleResource>;
+    listBySubscription: (options?: DataCollectionRulesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<DataCollectionApiDataCollectionRuleResource>;
+    update: (resourceGroupName: string, dataCollectionRuleName: string, options?: DataCollectionRulesUpdateOptionalParams) => Promise<DataCollectionApiDataCollectionRuleResource>;
 }
 
 // @public
 export interface DataCollectionRulesUpdateOptionalParams extends OperationOptions {
-    body?: ResourceForUpdate;
+    body?: DataCollectionApiResourceForUpdate;
 }
 
 // @public
-export interface DataFlow {
-    builtInTransform?: string;
-    captureOverflow?: boolean;
-    destinations?: string[];
-    outputStream?: string;
-    streams?: KnownDataFlowStreams[];
-    transformKql?: string;
+export interface DiagnosticSettingsCategoryGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface DataImportSources {
-    eventHub?: DataImportSourcesEventHub;
+export interface DiagnosticSettingsCategoryListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface DataImportSourcesEventHub extends EventHubDataSource {
+export interface DiagnosticSettingsCategoryOperations {
+    get: (resourceUri: string, name: string, options?: DiagnosticSettingsCategoryGetOptionalParams) => Promise<DiagnosticsSettingsDiagnosticSettingsCategoryResource>;
+    list: (resourceUri: string, options?: DiagnosticSettingsCategoryListOptionalParams) => PagedAsyncIterableIterator<DiagnosticsSettingsDiagnosticSettingsCategoryResource>;
 }
 
 // @public
-export interface DataSourcesSpec {
-    dataImports?: DataSourcesSpecDataImports;
-    etwProviders?: EtwProviderDataSource[];
-    extensions?: ExtensionDataSource[];
-    iisLogs?: IisLogsDataSource[];
-    logFiles?: LogFilesDataSource[];
-    otelLogs?: OtelLogsDataSource[];
-    otelMetrics?: OtelMetricsDataSource[];
-    otelTraces?: OtelTracesDataSource[];
-    performanceCounters?: PerfCounterDataSource[];
-    performanceCountersOTel?: PerformanceCountersOTelDataSource[];
-    platformTelemetry?: PlatformTelemetryDataSource[];
-    prometheusForwarder?: PrometheusForwarderDataSource[];
-    syslog?: SyslogDataSource[];
-    windowsEventLogs?: WindowsEventLogDataSource[];
-    windowsFirewallLogs?: WindowsFirewallLogsDataSource[];
+export interface DiagnosticSettingsCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface DataSourcesSpecDataImports extends DataImportSources {
+export interface DiagnosticSettingsDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface DestinationsSpec {
-    azureDataExplorer?: AdxDestination[];
-    azureMonitorMetrics?: DestinationsSpecAzureMonitorMetrics;
-    eventHubs?: EventHubDestination[];
-    eventHubsDirect?: EventHubDirectDestination[];
-    logAnalytics?: LogAnalyticsDestination[];
-    microsoftFabric?: MicrosoftFabricDestination[];
-    monitoringAccounts?: MonitoringAccountDestination[];
-    storageAccounts?: StorageBlobDestination[];
-    storageBlobsDirect?: StorageBlobDestination[];
-    storageTablesDirect?: StorageTableDestination[];
+export interface DiagnosticSettingsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface DestinationsSpecAzureMonitorMetrics extends AzureMonitorMetricsDestination {
+export interface DiagnosticSettingsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface Dimension {
-    name: string;
-    operator: DimensionOperator;
-    values: string[];
+export interface DiagnosticSettingsOperations {
+    createOrUpdate: (resourceUri: string, name: string, parameters: DiagnosticsSettingsDiagnosticSettingsResource, options?: DiagnosticSettingsCreateOrUpdateOptionalParams) => Promise<DiagnosticsSettingsDiagnosticSettingsResource>;
+    delete: (resourceUri: string, name: string, options?: DiagnosticSettingsDeleteOptionalParams) => Promise<void>;
+    get: (resourceUri: string, name: string, options?: DiagnosticSettingsGetOptionalParams) => Promise<DiagnosticsSettingsDiagnosticSettingsResource>;
+    list: (resourceUri: string, options?: DiagnosticSettingsListOptionalParams) => PagedAsyncIterableIterator<DiagnosticsSettingsDiagnosticSettingsResource>;
 }
 
 // @public
-export type DimensionOperator = string;
+export type DiagnosticsSettingsCategoryType = string;
 
 // @public
-export interface DirectDataSourcesSpec {
-    otelLogs?: OtelLogsDirectDataSource[];
-    otelMetrics?: OtelMetricsDirectDataSource[];
-    otelTraces?: OtelTracesDirectDataSource[];
+export interface DiagnosticsSettingsDiagnosticSettings {
+    eventHubAuthorizationRuleId?: string;
+    eventHubName?: string;
+    logAnalyticsDestinationType?: string;
+    logs?: DiagnosticsSettingsLogSettings[];
+    marketplacePartnerId?: string;
+    metrics?: DiagnosticsSettingsMetricSettings[];
+    serviceBusRuleId?: string;
+    storageAccountId?: string;
+    workspaceId?: string;
 }
 
 // @public
-export interface DynamicMetricCriteria extends MultiMetricCriteria {
-    alertSensitivity: DynamicThresholdSensitivity;
-    criterionType: "DynamicThresholdCriterion";
-    failingPeriods: DynamicThresholdFailingPeriods;
-    ignoreDataBefore?: Date;
-    operator: DynamicThresholdOperator;
+export interface DiagnosticsSettingsDiagnosticSettingsCategory {
+    categoryGroups?: string[];
+    categoryType?: DiagnosticsSettingsCategoryType;
 }
 
 // @public
-export interface DynamicPromQLCriteria extends MultiPromQLCriteria {
-    alertSensitivity: DynamicThresholdSensitivity;
-    criterionType: "DynamicThresholdCriterion";
-    ignoreDataBefore?: Date;
-    operator: DynamicThresholdOperator;
+export interface DiagnosticsSettingsDiagnosticSettingsCategoryResource extends ExtensionResource {
+    categoryGroups?: string[];
+    categoryType?: DiagnosticsSettingsCategoryType;
 }
 
 // @public
-export interface DynamicThresholdFailingPeriods {
-    minFailingPeriodsToAlert: number;
-    numberOfEvaluationPeriods: number;
+export interface DiagnosticsSettingsDiagnosticSettingsResource extends ExtensionResource {
+    eventHubAuthorizationRuleId?: string;
+    eventHubName?: string;
+    logAnalyticsDestinationType?: string;
+    logs?: DiagnosticsSettingsLogSettings[];
+    marketplacePartnerId?: string;
+    metrics?: DiagnosticsSettingsMetricSettings[];
+    serviceBusRuleId?: string;
+    storageAccountId?: string;
+    workspaceId?: string;
 }
 
 // @public
-export type DynamicThresholdOperator = string;
-
-// @public
-export type DynamicThresholdSensitivity = string;
-
-// @public
-export interface EmailNotification {
-    customEmails?: string[];
-    sendToSubscriptionAdministrator?: boolean;
-    sendToSubscriptionCoAdministrators?: boolean;
+export interface DiagnosticsSettingsLogSettings {
+    category?: string;
+    categoryGroup?: string;
+    enabled: boolean;
+    retentionPolicy?: MicrosoftCommonRetentionPolicy;
 }
 
 // @public
-export interface EmailReceiver {
-    emailAddress: string;
-    name: string;
-    readonly status?: ReceiverStatus;
-    useCommonAlertSchema?: boolean;
-}
-
-// @public
-export interface EnableRequest {
-    receiverName: string;
-}
-
-// @public
-export interface EndpointsSpec {
-    readonly logsIngestion?: string;
-    readonly metricsIngestion?: string;
-}
-
-// @public
-export interface EnrichmentData {
-    storageBlobs?: StorageBlob[];
+export interface DiagnosticsSettingsMetricSettings {
+    category?: string;
+    enabled: boolean;
+    retentionPolicy?: MicrosoftCommonRetentionPolicy;
+    timeGrain?: string;
 }
 
 // @public
@@ -1078,138 +1738,12 @@ export interface ErrorAdditionalInfo {
 }
 
 // @public
-export interface ErrorContract {
-    error?: CommonErrorResponse;
-}
-
-// @public
-export interface ErrorDetail {
-    additionalInfo?: ErrorDetailAdditionalInfoItem[];
-    code?: string;
-    message?: string;
-    target?: string;
-}
-
-// @public
-export interface ErrorDetailAdditionalInfoItem {
-    info?: Record<string, any>;
-    type?: string;
-}
-
-// @public
-export interface ErrorResponse {
-    code?: string;
-    message?: string;
-}
-
-// @public
-export interface ErrorResponseCommonV2 {
-    error?: ArmErrorDetail;
-}
-
-// @public
-export interface ErrorResponseError {
-    additionalInfo?: ErrorResponseErrorAdditionalInfoItem[];
-    code?: string;
-    details?: ErrorDetail[];
-    message?: string;
-    target?: string;
-}
-
-// @public
-export interface ErrorResponseErrorAdditionalInfoItem {
-    info?: Record<string, any>;
-    type?: string;
-}
-
-// @public
-export interface EtwProviderDataSource {
-    eventIds?: string[];
-    keyword?: string;
-    logLevel?: KnownEtwProviderDataSourceLogLevel;
-    name?: string;
-    provider: string;
-    providerType: KnownEtwProviderType;
-    streams: string[];
-}
-
-// @public
 export interface EventCategoriesListOptionalParams extends OperationOptions {
 }
 
 // @public
 export interface EventCategoriesOperations {
-    list: (options?: EventCategoriesListOptionalParams) => PagedAsyncIterableIterator<LocalizableString>;
-}
-
-// @public
-export interface EventData {
-    readonly authorization?: SenderAuthorization;
-    readonly caller?: string;
-    readonly category?: LocalizableString;
-    readonly claims?: Record<string, string>;
-    readonly correlationId?: string;
-    readonly description?: string;
-    readonly eventDataId?: string;
-    readonly eventName?: LocalizableString;
-    readonly eventTimestamp?: Date;
-    readonly httpRequest?: HttpRequestInfo;
-    readonly id?: string;
-    readonly level?: EventLevel;
-    readonly operationId?: string;
-    readonly operationName?: LocalizableString;
-    readonly properties?: Record<string, string>;
-    readonly resourceGroupName?: string;
-    readonly resourceId?: string;
-    readonly resourceProviderName?: LocalizableString;
-    readonly resourceType?: LocalizableString;
-    readonly status?: LocalizableString;
-    readonly submissionTimestamp?: Date;
-    readonly subscriptionId?: string;
-    readonly subStatus?: LocalizableString;
-    readonly tenantId?: string;
-}
-
-// @public
-export interface EventHubDataSource {
-    consumerGroup?: string;
-    name?: string;
-    stream?: string;
-}
-
-// @public
-export interface EventHubDestination {
-    eventHubResourceId?: string;
-    name?: string;
-}
-
-// @public
-export interface EventHubDirectDestination {
-    eventHubResourceId?: string;
-    name?: string;
-}
-
-// @public
-export interface EventHubReceiver {
-    eventHubName: string;
-    eventHubNameSpace: string;
-    managedIdentity?: string;
-    name: string;
-    subscriptionId: string;
-    tenantId?: string;
-    useCommonAlertSchema?: boolean;
-}
-
-// @public
-export type EventLevel = "Critical" | "Error" | "Warning" | "Informational" | "Verbose";
-
-// @public
-export interface ExtensionDataSource {
-    extensionName: string;
-    extensionSettings?: any;
-    inputDataSources?: string[];
-    name?: string;
-    streams?: KnownExtensionDataSourceStreams[];
+    list: (options?: EventCategoriesListOptionalParams) => PagedAsyncIterableIterator<MicrosoftCommonLocalizableString>;
 }
 
 // @public
@@ -1217,72 +1751,7 @@ export interface ExtensionResource extends Resource {
 }
 
 // @public
-export interface FailoverConfigurationSpec {
-    activeLocation?: string;
-    locations?: LocationSpec[];
-}
-
-// @public
-export interface HttpRequestInfo {
-    clientIpAddress?: string;
-    clientRequestId?: string;
-    method?: string;
-    uri?: string;
-}
-
-// @public
-export interface Identity {
-    readonly principalId?: string;
-    readonly tenantId?: string;
-    type: IdentityType;
-    userAssignedIdentities?: Record<string, UserIdentityProperties>;
-}
-
-// @public
-export type IdentityType = "SystemAssigned" | "UserAssigned" | "None";
-
-// @public
-export interface IisLogsDataSource {
-    logDirectories?: string[];
-    name?: string;
-    streams: string[];
-    transformKql?: string;
-}
-
-// @public
-export interface Incident {
-    readonly activatedTime?: Date;
-    readonly isActive?: boolean;
-    readonly name?: string;
-    readonly resolvedTime?: Date;
-    readonly ruleName?: string;
-}
-
-// @public
-export type IncidentManagementService = string;
-
-// @public
-export interface IncidentReceiver {
-    connection: IncidentServiceConnection;
-    incidentManagementService: IncidentManagementService;
-    mappings: Record<string, string>;
-    name: string;
-}
-
-// @public
-export interface IncidentServiceConnection {
-    id: string;
-    name: string;
-}
-
-// @public
-export interface IngestionQuotas {
-    // (undocumented)
-    logs?: IngestionQuotasLogs;
-}
-
-// @public
-export interface IngestionQuotasLogs extends LogsQuotaSpec {
+export interface GetTestNotificationsAtTenantActionGroupResourceLevelOptionalParams extends OperationOptions {
 }
 
 export { isRestError }
@@ -1291,73 +1760,20 @@ export { isRestError }
 export type IssueType = string;
 
 // @public
-export interface ItsmReceiver {
-    connectionId: string;
-    name: string;
-    region: string;
-    ticketConfiguration: string;
-    workspaceId: string;
-}
-
-// @public
-export type Kind = string;
-
-// @public
-export enum KnownAccessMode {
-    Open = "Open",
-    PrivateOnly = "PrivateOnly"
-}
-
-// @public
 export enum KnownAccessRuleDirection {
     Inbound = "Inbound",
     Outbound = "Outbound"
 }
 
 // @public
-export type KnownAgentSettingName = string;
-
-// @public
-export enum KnownAggregationTypeEnum {
-    Average = "Average",
-    Count = "Count",
-    Maximum = "Maximum",
-    Minimum = "Minimum",
-    Total = "Total"
+export enum KnownActionGroupsApiIncidentManagementService {
+    Icm = "Icm"
 }
 
 // @public
-export enum KnownAlertSeverity {
-    // (undocumented)
-    Four = 4,
-    // (undocumented)
-    One = 1,
-    // (undocumented)
-    Three = 3,
-    // (undocumented)
-    Two = 2,
-    // (undocumented)
-    Zero = 0
-}
-
-// @public
-export enum KnownBaselineSensitivity {
-    High = "High",
-    Low = "Low",
-    Medium = "Medium"
-}
-
-// @public
-export type KnownColumnDefinitionType = string;
-
-// @public
-export enum KnownConditionOperator {
+export enum KnownAutoScaleApiScaleRuleMetricDimensionOperationType {
     Equals = "Equals",
-    GreaterOrLessThan = "GreaterOrLessThan",
-    GreaterThan = "GreaterThan",
-    GreaterThanOrEqual = "GreaterThanOrEqual",
-    LessThan = "LessThan",
-    LessThanOrEqual = "LessThanOrEqual"
+    NotEquals = "NotEquals"
 }
 
 // @public
@@ -1369,87 +1785,14 @@ export enum KnownCreatedByType {
 }
 
 // @public
-export enum KnownCriterionType {
-    DynamicThresholdCriterion = "DynamicThresholdCriterion",
-    StaticThresholdCriterion = "StaticThresholdCriterion"
-}
-
-// @public
-export type KnownDataCollectionEndpointProvisioningState = string;
-
-// @public
-export type KnownDataCollectionEndpointResourceKind = string;
-
-// @public
-export type KnownDataCollectionRuleAssociationProvisioningState = string;
-
-// @public
-export type KnownDataCollectionRuleProvisioningState = string;
-
-// @public
-export type KnownDataCollectionRuleResourceKind = string;
-
-// @public
-export type KnownDataFlowStreams = string;
-
-// @public
-export enum KnownDimensionOperator {
-    Exclude = "Exclude",
-    Include = "Include"
-}
-
-// @public
-export enum KnownDynamicThresholdOperator {
-    GreaterOrLessThan = "GreaterOrLessThan",
-    GreaterThan = "GreaterThan",
-    LessThan = "LessThan"
-}
-
-// @public
-export enum KnownDynamicThresholdSensitivity {
-    High = "High",
-    Low = "Low",
-    Medium = "Medium"
-}
-
-// @public
-export type KnownEtwProviderDataSourceLogLevel = string;
-
-// @public
-export type KnownEtwProviderType = string;
-
-// @public
-export type KnownExtensionDataSourceStreams = string;
-
-// @public
-export enum KnownIncidentManagementService {
-    Icm = "Icm"
-}
-
-// @public
-export enum KnownIssueType {
-    ConfigurationPropagationFailure = "ConfigurationPropagationFailure",
-    MissingIdentityConfiguration = "MissingIdentityConfiguration",
-    MissingPerimeterConfiguration = "MissingPerimeterConfiguration",
-    Unknown = "Unknown"
-}
-
-// @public
-export enum KnownKind {
-    LogAlert = "LogAlert",
-    LogToMetric = "LogToMetric",
-    SimpleLogAlert = "SimpleLogAlert"
-}
-
-// @public
-export enum KnownKnownAgentSettingName {
+export enum KnownDataCollectionApiKnownAgentSettingName {
     MaxDiskQuotaInMB = "MaxDiskQuotaInMB",
     Tags = "Tags",
     UseTimeReceivedForForwardedEvents = "UseTimeReceivedForForwardedEvents"
 }
 
 // @public
-export enum KnownKnownColumnDefinitionType {
+export enum KnownDataCollectionApiKnownColumnDefinitionType {
     Boolean = "boolean",
     Datetime = "datetime",
     Dynamic = "dynamic",
@@ -1460,7 +1803,7 @@ export enum KnownKnownColumnDefinitionType {
 }
 
 // @public
-export enum KnownKnownDataCollectionEndpointProvisioningState {
+export enum KnownDataCollectionApiKnownDataCollectionEndpointProvisioningState {
     Canceled = "Canceled",
     Creating = "Creating",
     Deleting = "Deleting",
@@ -1470,13 +1813,13 @@ export enum KnownKnownDataCollectionEndpointProvisioningState {
 }
 
 // @public
-export enum KnownKnownDataCollectionEndpointResourceKind {
+export enum KnownDataCollectionApiKnownDataCollectionEndpointResourceKind {
     Linux = "Linux",
     Windows = "Windows"
 }
 
 // @public
-export enum KnownKnownDataCollectionRuleAssociationProvisioningState {
+export enum KnownDataCollectionApiKnownDataCollectionRuleAssociationProvisioningState {
     Canceled = "Canceled",
     Creating = "Creating",
     Deleting = "Deleting",
@@ -1486,7 +1829,7 @@ export enum KnownKnownDataCollectionRuleAssociationProvisioningState {
 }
 
 // @public
-export enum KnownKnownDataCollectionRuleProvisioningState {
+export enum KnownDataCollectionApiKnownDataCollectionRuleProvisioningState {
     Canceled = "Canceled",
     Creating = "Creating",
     Deleting = "Deleting",
@@ -1496,13 +1839,13 @@ export enum KnownKnownDataCollectionRuleProvisioningState {
 }
 
 // @public
-export enum KnownKnownDataCollectionRuleResourceKind {
+export enum KnownDataCollectionApiKnownDataCollectionRuleResourceKind {
     Linux = "Linux",
     Windows = "Windows"
 }
 
 // @public
-export enum KnownKnownDataFlowStreams {
+export enum KnownDataCollectionApiKnownDataFlowStreams {
     MicrosoftEvent = "Microsoft-Event",
     MicrosoftInsightsMetrics = "Microsoft-InsightsMetrics",
     MicrosoftPerf = "Microsoft-Perf",
@@ -1511,7 +1854,7 @@ export enum KnownKnownDataFlowStreams {
 }
 
 // @public
-export enum KnownKnownEtwProviderDataSourceLogLevel {
+export enum KnownDataCollectionApiKnownEtwProviderDataSourceLogLevel {
     Critical = "Critical",
     Error = "Error",
     Informational = "Informational",
@@ -1520,13 +1863,13 @@ export enum KnownKnownEtwProviderDataSourceLogLevel {
 }
 
 // @public
-export enum KnownKnownEtwProviderType {
+export enum KnownDataCollectionApiKnownEtwProviderType {
     EventSource = "EventSource",
     Manifest = "Manifest"
 }
 
 // @public
-export enum KnownKnownExtensionDataSourceStreams {
+export enum KnownDataCollectionApiKnownExtensionDataSourceStreams {
     MicrosoftEvent = "Microsoft-Event",
     MicrosoftInsightsMetrics = "Microsoft-InsightsMetrics",
     MicrosoftPerf = "Microsoft-Perf",
@@ -1535,7 +1878,7 @@ export enum KnownKnownExtensionDataSourceStreams {
 }
 
 // @public
-export enum KnownKnownLocationSpecProvisioningStatus {
+export enum KnownDataCollectionApiKnownLocationSpecProvisioningStatus {
     Canceled = "Canceled",
     Creating = "Creating",
     Deleting = "Deleting",
@@ -1545,13 +1888,13 @@ export enum KnownKnownLocationSpecProvisioningStatus {
 }
 
 // @public
-export enum KnownKnownLogFilesDataSourceFormat {
+export enum KnownDataCollectionApiKnownLogFilesDataSourceFormat {
     Json = "json",
     Text = "text"
 }
 
 // @public
-export enum KnownKnownLogFileTextSettingsRecordStartTimestampFormat {
+export enum KnownDataCollectionApiKnownLogFileTextSettingsRecordStartTimestampFormat {
     DdMMMYyyyHHMmSsZzz = "dd/MMM/yyyy:HH:mm:ss zzz",
     DdMMyyHHMmSs = "ddMMyy HH:mm:ss",
     ISO8601 = "ISO 8601",
@@ -1564,60 +1907,60 @@ export enum KnownKnownLogFileTextSettingsRecordStartTimestampFormat {
 }
 
 // @public
-export enum KnownKnownOtelLogsDataSourceStreams {
+export enum KnownDataCollectionApiKnownOtelLogsDataSourceStreams {
     MicrosoftOTelLogs = "Microsoft-OTel-Logs"
 }
 
 // @public
-export enum KnownKnownOtelLogsDirectDataSourceStreams {
+export enum KnownDataCollectionApiKnownOtelLogsDirectDataSourceStreams {
     MicrosoftOTelLogs = "Microsoft-OTel-Logs"
 }
 
 // @public
-export enum KnownKnownOtelTracesDataSourceStreams {
+export enum KnownDataCollectionApiKnownOtelTracesDataSourceStreams {
     MicrosoftOTelTracesEvents = "Microsoft-OTel-Traces-Events",
     MicrosoftOTelTracesResources = "Microsoft-OTel-Traces-Resources",
     MicrosoftOTelTracesSpans = "Microsoft-OTel-Traces-Spans"
 }
 
 // @public
-export enum KnownKnownOtelTracesDirectDataSourceStreams {
+export enum KnownDataCollectionApiKnownOtelTracesDirectDataSourceStreams {
     MicrosoftOTelTracesEvents = "Microsoft-OTel-Traces-Events",
     MicrosoftOTelTracesResources = "Microsoft-OTel-Traces-Resources",
     MicrosoftOTelTracesSpans = "Microsoft-OTel-Traces-Spans"
 }
 
 // @public
-export enum KnownKnownPerfCounterDataSourceStreams {
+export enum KnownDataCollectionApiKnownPerfCounterDataSourceStreams {
     MicrosoftInsightsMetrics = "Microsoft-InsightsMetrics",
     MicrosoftPerf = "Microsoft-Perf"
 }
 
 // @public
-export enum KnownKnownPerformanceCountersOTelDataSourceStreams {
+export enum KnownDataCollectionApiKnownPerformanceCountersOTelDataSourceStreams {
     MicrosoftOtelPerfMetrics = "Microsoft-OtelPerfMetrics"
 }
 
 // @public
-export enum KnownKnownPrometheusForwarderDataSourceStreams {
+export enum KnownDataCollectionApiKnownPrometheusForwarderDataSourceStreams {
     MicrosoftPrometheusMetrics = "Microsoft-PrometheusMetrics"
 }
 
 // @public
-export enum KnownKnownPublicNetworkAccessOptions {
+export enum KnownDataCollectionApiKnownPublicNetworkAccessOptions {
     Disabled = "Disabled",
     Enabled = "Enabled",
     SecuredByPerimeter = "SecuredByPerimeter"
 }
 
 // @public
-export enum KnownKnownStorageBlobLookupType {
+export enum KnownDataCollectionApiKnownStorageBlobLookupType {
     Cidr = "Cidr",
     String = "String"
 }
 
 // @public
-export enum KnownKnownSyslogDataSourceFacilityNames {
+export enum KnownDataCollectionApiKnownSyslogDataSourceFacilityNames {
     Alert = "alert",
     // (undocumented)
     Asterisk = "*",
@@ -1649,7 +1992,7 @@ export enum KnownKnownSyslogDataSourceFacilityNames {
 }
 
 // @public
-export enum KnownKnownSyslogDataSourceLogLevels {
+export enum KnownDataCollectionApiKnownSyslogDataSourceLogLevels {
     Alert = "Alert",
     // (undocumented)
     Asterisk = "*",
@@ -1663,31 +2006,36 @@ export enum KnownKnownSyslogDataSourceLogLevels {
 }
 
 // @public
-export enum KnownKnownSyslogDataSourceStreams {
+export enum KnownDataCollectionApiKnownSyslogDataSourceStreams {
     MicrosoftSyslog = "Microsoft-Syslog"
 }
 
 // @public
-export enum KnownKnownWindowsEventLogDataSourceStreams {
+export enum KnownDataCollectionApiKnownWindowsEventLogDataSourceStreams {
     MicrosoftEvent = "Microsoft-Event",
     MicrosoftWindowsEvent = "Microsoft-WindowsEvent"
 }
 
 // @public
-export enum KnownKnownWindowsFirewallLogsDataSourceProfileFilter {
+export enum KnownDataCollectionApiKnownWindowsFirewallLogsDataSourceProfileFilter {
     Domain = "Domain",
     Private = "Private",
     Public = "Public"
 }
 
 // @public
-export type KnownLocationSpecProvisioningStatus = string;
+export enum KnownDiagnosticsSettingsCategoryType {
+    Logs = "Logs",
+    Metrics = "Metrics"
+}
 
 // @public
-export type KnownLogFilesDataSourceFormat = string;
-
-// @public
-export type KnownLogFileTextSettingsRecordStartTimestampFormat = string;
+export enum KnownIssueType {
+    ConfigurationPropagationFailure = "ConfigurationPropagationFailure",
+    MissingIdentityConfiguration = "MissingIdentityConfiguration",
+    MissingPerimeterConfiguration = "MissingPerimeterConfiguration",
+    Unknown = "Unknown"
+}
 
 // @public
 export enum KnownManagedServiceIdentityType {
@@ -1698,7 +2046,54 @@ export enum KnownManagedServiceIdentityType {
 }
 
 // @public
-export enum KnownMetricAggregationType {
+export enum KnownMetricAlertApiAggregationTypeEnum {
+    Average = "Average",
+    Count = "Count",
+    Maximum = "Maximum",
+    Minimum = "Minimum",
+    Total = "Total"
+}
+
+// @public
+export enum KnownMetricAlertApiDynamicThresholdOperator {
+    GreaterOrLessThan = "GreaterOrLessThan",
+    GreaterThan = "GreaterThan",
+    LessThan = "LessThan"
+}
+
+// @public
+export enum KnownMetricAlertApiDynamicThresholdSensitivity {
+    High = "High",
+    Low = "Low",
+    Medium = "Medium"
+}
+
+// @public
+export enum KnownMetricAlertApiOdatatype {
+    MicrosoftAzureMonitorMultipleResourceMultipleMetricCriteria = "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria",
+    MicrosoftAzureMonitorPromQLCriteria = "Microsoft.Azure.Monitor.PromQLCriteria",
+    MicrosoftAzureMonitorSingleResourceMultipleMetricCriteria = "Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria",
+    MicrosoftAzureMonitorWebtestLocationAvailabilityCriteria = "Microsoft.Azure.Monitor.WebtestLocationAvailabilityCriteria"
+}
+
+// @public
+export enum KnownMetricAlertApiOperator {
+    Equals = "Equals",
+    GreaterThan = "GreaterThan",
+    GreaterThanOrEqual = "GreaterThanOrEqual",
+    LessThan = "LessThan",
+    LessThanOrEqual = "LessThanOrEqual"
+}
+
+// @public
+export enum KnownMetricBaselinesApiBaselineSensitivity {
+    High = "High",
+    Low = "Low",
+    Medium = "Medium"
+}
+
+// @public
+export enum KnownMetricsApiMetricAggregationType {
     Average = "Average",
     Count = "Count",
     Maximum = "Maximum",
@@ -1708,7 +2103,7 @@ export enum KnownMetricAggregationType {
 }
 
 // @public
-export enum KnownMetricClass {
+export enum KnownMetricsApiMetricClass {
     Availability = "Availability",
     Errors = "Errors",
     Latency = "Latency",
@@ -1717,13 +2112,13 @@ export enum KnownMetricClass {
 }
 
 // @public
-export enum KnownMetricResultType {
+export enum KnownMetricsApiMetricResultType {
     Data = "Data",
     Metadata = "Metadata"
 }
 
 // @public
-export enum KnownMetricUnit {
+export enum KnownMetricsApiMetricUnit {
     BitsPerSecond = "BitsPerSecond",
     Bytes = "Bytes",
     ByteSeconds = "ByteSeconds",
@@ -1740,10 +2135,16 @@ export enum KnownMetricUnit {
 }
 
 // @public
-export enum KnownNamespaceClassification {
+export enum KnownMetricsApiNamespaceClassification {
     Custom = "Custom",
     Platform = "Platform",
     Qos = "Qos"
+}
+
+// @public
+export enum KnownMicrosoftCommonCriterionType {
+    DynamicThresholdCriterion = "DynamicThresholdCriterion",
+    StaticThresholdCriterion = "StaticThresholdCriterion"
 }
 
 // @public
@@ -1756,41 +2157,6 @@ export enum KnownNetworkSecurityPerimeterConfigurationProvisioningState {
     Succeeded = "Succeeded",
     Updating = "Updating"
 }
-
-// @public
-export enum KnownOdatatype {
-    MicrosoftAzureMonitorMultipleResourceMultipleMetricCriteria = "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria",
-    MicrosoftAzureMonitorPromQLCriteria = "Microsoft.Azure.Monitor.PromQLCriteria",
-    MicrosoftAzureMonitorSingleResourceMultipleMetricCriteria = "Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria",
-    MicrosoftAzureMonitorWebtestLocationAvailabilityCriteria = "Microsoft.Azure.Monitor.WebtestLocationAvailabilityCriteria"
-}
-
-// @public
-export enum KnownOperator {
-    Equals = "Equals",
-    GreaterThan = "GreaterThan",
-    GreaterThanOrEqual = "GreaterThanOrEqual",
-    LessThan = "LessThan",
-    LessThanOrEqual = "LessThanOrEqual"
-}
-
-// @public
-export type KnownOtelLogsDataSourceStreams = string;
-
-// @public
-export type KnownOtelLogsDirectDataSourceStreams = string;
-
-// @public
-export type KnownOtelTracesDataSourceStreams = string;
-
-// @public
-export type KnownOtelTracesDirectDataSourceStreams = string;
-
-// @public
-export type KnownPerfCounterDataSourceStreams = string;
-
-// @public
-export type KnownPerformanceCountersOTelDataSourceStreams = string;
 
 // @public
 export enum KnownPrivateEndpointConnectionProvisioningState {
@@ -1808,7 +2174,13 @@ export enum KnownPrivateEndpointServiceConnectionStatus {
 }
 
 // @public
-export enum KnownPrivateLinkScopeProvisioningState {
+export enum KnownPrivateLinkScopesApiAccessMode {
+    Open = "Open",
+    PrivateOnly = "PrivateOnly"
+}
+
+// @public
+export enum KnownPrivateLinkScopesApiPrivateLinkScopeProvisioningState {
     Canceled = "Canceled",
     Deleting = "Deleting",
     Failed = "Failed",
@@ -1816,10 +2188,18 @@ export enum KnownPrivateLinkScopeProvisioningState {
 }
 
 // @public
-export type KnownPrometheusForwarderDataSourceStreams = string;
+export enum KnownPrivateLinkScopesApiScopedResourceKind {
+    Metrics = "Metrics",
+    Resource = "Resource"
+}
 
 // @public
-export type KnownPublicNetworkAccessOptions = string;
+export enum KnownPrivateLinkScopesApiScopedResourceProvisioningState {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    Provisioning = "Provisioning",
+    Succeeded = "Succeeded"
+}
 
 // @public
 export enum KnownResourceAssociationAccessMode {
@@ -1829,23 +2209,49 @@ export enum KnownResourceAssociationAccessMode {
 }
 
 // @public
-export enum KnownScaleRuleMetricDimensionOperationType {
+export enum KnownScheduledQueryRuleApiAlertSeverity {
+    // (undocumented)
+    Four = 4,
+    // (undocumented)
+    One = 1,
+    // (undocumented)
+    Three = 3,
+    // (undocumented)
+    Two = 2,
+    // (undocumented)
+    Zero = 0
+}
+
+// @public
+export enum KnownScheduledQueryRuleApiConditionOperator {
     Equals = "Equals",
-    NotEquals = "NotEquals"
+    GreaterOrLessThan = "GreaterOrLessThan",
+    GreaterThan = "GreaterThan",
+    GreaterThanOrEqual = "GreaterThanOrEqual",
+    LessThan = "LessThan",
+    LessThanOrEqual = "LessThanOrEqual"
 }
 
 // @public
-export enum KnownScopedResourceKind {
-    Metrics = "Metrics",
-    Resource = "Resource"
+export enum KnownScheduledQueryRuleApiDimensionOperator {
+    Exclude = "Exclude",
+    Include = "Include"
 }
 
 // @public
-export enum KnownScopedResourceProvisioningState {
-    Canceled = "Canceled",
-    Failed = "Failed",
-    Provisioning = "Provisioning",
-    Succeeded = "Succeeded"
+export enum KnownScheduledQueryRuleApiKind {
+    LogAlert = "LogAlert",
+    LogToMetric = "LogToMetric",
+    SimpleLogAlert = "SimpleLogAlert"
+}
+
+// @public
+export enum KnownScheduledQueryRuleApiTimeAggregation {
+    Average = "Average",
+    Count = "Count",
+    Maximum = "Maximum",
+    Minimum = "Minimum",
+    Total = "Total"
 }
 
 // @public
@@ -1855,111 +2261,41 @@ export enum KnownSeverity {
 }
 
 // @public
-export type KnownStorageBlobLookupType = string;
-
-// @public
-export type KnownSyslogDataSourceFacilityNames = string;
-
-// @public
-export type KnownSyslogDataSourceLogLevels = string;
-
-// @public
-export type KnownSyslogDataSourceStreams = string;
-
-// @public
-export enum KnownTimeAggregation {
-    Average = "Average",
-    Count = "Count",
-    Maximum = "Maximum",
-    Minimum = "Minimum",
-    Total = "Total"
+export enum KnownVmInsightsOnboardingDataStatus {
+    NotPresent = "notPresent",
+    Present = "present"
 }
 
 // @public
-export type KnownWindowsEventLogDataSourceStreams = string;
-
-// @public
-export type KnownWindowsFirewallLogsDataSourceProfileFilter = string;
-
-// @public
-export interface LocalizableString {
-    localizedValue?: string;
-    value: string;
+export enum KnownVmInsightsOnboardingOnboardingStatus {
+    NotOnboarded = "notOnboarded",
+    Onboarded = "onboarded",
+    Unknown = "unknown"
 }
 
 // @public
-export interface LocationSpec {
-    location?: string;
-    provisioningStatus?: KnownLocationSpecProvisioningStatus;
-}
-
-// @public
-export interface LogAnalyticsDestination {
-    name?: string;
-    readonly workspaceId?: string;
-    workspaceResourceId?: string;
-}
-
-// @public
-export interface LogFilesDataSource {
-    filePatterns: string[];
-    format: KnownLogFilesDataSourceFormat;
-    name?: string;
-    settings?: LogFilesDataSourceSettings;
-    streams: string[];
-    transformKql?: string;
-}
-
-// @public
-export interface LogFilesDataSourceSettings extends LogFileSettings {
-}
-
-// @public
-export interface LogFileSettings {
-    text?: LogFileSettingsText;
-}
-
-// @public
-export interface LogFileSettingsText extends LogFileTextSettings {
-}
-
-// @public
-export interface LogFileTextSettings {
-    recordStartTimestampFormat: KnownLogFileTextSettingsRecordStartTimestampFormat;
-}
-
-// @public
-export interface LogicAppReceiver {
-    callbackUrl: string;
-    managedIdentity?: string;
-    name: string;
-    resourceId: string;
-    useCommonAlertSchema?: boolean;
-}
-
-// @public
-export interface LogProfileProperties {
+export interface LogProfilesApiLogProfileProperties {
     categories: string[];
     locations: string[];
-    retentionPolicy: RetentionPolicy;
+    retentionPolicy: MicrosoftCommonRetentionPolicy;
     serviceBusRuleId?: string;
     storageAccountId?: string;
 }
 
 // @public
-export interface LogProfileResource extends TrackedResource {
+export interface LogProfilesApiLogProfileResource extends TrackedResource {
     categories: string[];
     locations: string[];
-    retentionPolicy: RetentionPolicy;
+    retentionPolicy: MicrosoftCommonRetentionPolicy;
     serviceBusRuleId?: string;
     storageAccountId?: string;
 }
 
 // @public
-export interface LogProfileResourcePatch {
+export interface LogProfilesApiLogProfileResourcePatch {
     categories?: string[];
     locations?: string[];
-    retentionPolicy?: RetentionPolicy;
+    retentionPolicy?: MicrosoftCommonRetentionPolicy;
     serviceBusRuleId?: string;
     storageAccountId?: string;
     tags?: Record<string, string>;
@@ -1983,35 +2319,15 @@ export interface LogProfilesListOptionalParams extends OperationOptions {
 
 // @public
 export interface LogProfilesOperations {
-    createOrUpdate: (logProfileName: string, parameters: LogProfileResource, options?: LogProfilesCreateOrUpdateOptionalParams) => Promise<LogProfileResource>;
+    createOrUpdate: (logProfileName: string, parameters: LogProfilesApiLogProfileResource, options?: LogProfilesCreateOrUpdateOptionalParams) => Promise<LogProfilesApiLogProfileResource>;
     delete: (logProfileName: string, options?: LogProfilesDeleteOptionalParams) => Promise<void>;
-    get: (logProfileName: string, options?: LogProfilesGetOptionalParams) => Promise<LogProfileResource>;
-    list: (options?: LogProfilesListOptionalParams) => PagedAsyncIterableIterator<LogProfileResource>;
-    update: (logProfileName: string, logProfilesResource: LogProfileResourcePatch, options?: LogProfilesUpdateOptionalParams) => Promise<LogProfileResource>;
+    get: (logProfileName: string, options?: LogProfilesGetOptionalParams) => Promise<LogProfilesApiLogProfileResource>;
+    list: (options?: LogProfilesListOptionalParams) => PagedAsyncIterableIterator<LogProfilesApiLogProfileResource>;
+    update: (logProfileName: string, logProfilesResource: LogProfilesApiLogProfileResourcePatch, options?: LogProfilesUpdateOptionalParams) => Promise<LogProfilesApiLogProfileResource>;
 }
 
 // @public
 export interface LogProfilesUpdateOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface LogSettings {
-    category?: string;
-    enabled: boolean;
-    retentionPolicy?: RetentionPolicy;
-}
-
-// @public
-export interface LogsIngestionEndpointSpec {
-    readonly endpoint?: string;
-}
-
-// @public
-export interface LogsQuotaSpec {
-    // (undocumented)
-    maxRequestsPerMinute?: string;
-    // (undocumented)
-    maxSizePerMinuteInGB?: string;
 }
 
 // @public
@@ -2026,73 +2342,77 @@ export interface ManagedServiceIdentity {
 export type ManagedServiceIdentityType = string;
 
 // @public
-export interface Metadata {
-    readonly provisionedBy?: string;
-    readonly provisionedByImmutableId?: string;
-    readonly provisionedByResourceId?: string;
+export type MetricAlertApiAggregationTypeEnum = string;
+
+// @public
+export interface MetricAlertApiDynamicMetricCriteria extends MetricAlertApiMultiMetricCriteria {
+    alertSensitivity: MetricAlertApiDynamicThresholdSensitivity;
+    criterionType: "DynamicThresholdCriterion";
+    failingPeriods: MetricAlertApiDynamicThresholdFailingPeriods;
+    ignoreDataBefore?: Date;
+    operator: MetricAlertApiDynamicThresholdOperator;
 }
 
 // @public
-export interface MetadataValue {
-    name?: LocalizableString;
-    value?: string;
+export interface MetricAlertApiDynamicPromQLCriteria extends MetricAlertApiMultiPromQLCriteria {
+    alertSensitivity: MetricAlertApiDynamicThresholdSensitivity;
+    criterionType: "DynamicThresholdCriterion";
+    ignoreDataBefore?: Date;
+    operator: MetricAlertApiDynamicThresholdOperator;
 }
 
 // @public
-export interface Metric {
-    displayDescription?: string;
-    errorCode?: string;
-    errorMessage?: string;
-    id: string;
-    name: LocalizableString;
-    timeseries: TimeSeriesElement[];
-    type: string;
-    unit: MetricUnit;
+export interface MetricAlertApiDynamicThresholdFailingPeriods {
+    minFailingPeriodsToAlert: number;
+    numberOfEvaluationPeriods: number;
 }
 
 // @public
-export type MetricAggregationType = string;
+export type MetricAlertApiDynamicThresholdOperator = string;
 
 // @public
-export interface MetricAlertAction {
+export type MetricAlertApiDynamicThresholdSensitivity = string;
+
+// @public
+export interface MetricAlertApiMetricAlertAction {
     actionGroupId?: string;
     webHookProperties?: Record<string, string>;
 }
 
 // @public
-export interface MetricAlertCriteria {
+export interface MetricAlertApiMetricAlertCriteria {
     additionalProperties?: Record<string, any>;
-    odataType: Odatatype;
+    odataType: MetricAlertApiOdatatype;
 }
 
 // @public
-export type MetricAlertCriteriaUnion = MetricAlertSingleResourceMultipleMetricCriteria | WebtestLocationAvailabilityCriteria | MetricAlertMultipleResourceMultipleMetricCriteria | PromQLCriteria | MetricAlertCriteria;
+export type MetricAlertApiMetricAlertCriteriaUnion = MetricAlertApiMetricAlertSingleResourceMultipleMetricCriteria | MetricAlertApiWebtestLocationAvailabilityCriteria | MetricAlertApiMetricAlertMultipleResourceMultipleMetricCriteria | MetricAlertApiPromQLCriteria | MetricAlertApiMetricAlertCriteria;
 
 // @public
-export interface MetricAlertErrorResponse {
+export interface MetricAlertApiMetricAlertErrorResponse {
     // (undocumented)
-    error?: ErrorResponseError;
+    error?: MicrosoftCommonErrorResponseError;
 }
 
 // @public
-export interface MetricAlertMultipleResourceMultipleMetricCriteria extends MetricAlertCriteria {
-    allOf?: MultiMetricCriteriaUnion[];
+export interface MetricAlertApiMetricAlertMultipleResourceMultipleMetricCriteria extends MetricAlertApiMetricAlertCriteria {
+    allOf?: MetricAlertApiMultiMetricCriteriaUnion[];
     odataType: "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria";
 }
 
 // @public
-export interface MetricAlertProperties {
+export interface MetricAlertApiMetricAlertProperties {
     actionProperties?: Record<string, string>;
-    actions?: MetricAlertAction[];
+    actions?: MetricAlertApiMetricAlertAction[];
     autoMitigate?: boolean;
-    criteria: MetricAlertCriteriaUnion;
+    criteria: MetricAlertApiMetricAlertCriteriaUnion;
     customProperties?: Record<string, string>;
     description?: string;
     enabled: boolean;
     evaluationFrequency: string;
     readonly isMigrated?: boolean;
     readonly lastUpdatedTime?: Date;
-    resolveConfiguration?: ResolveConfiguration;
+    resolveConfiguration?: MetricAlertApiResolveConfiguration;
     scopes: string[];
     severity: number;
     targetResourceRegion?: string;
@@ -2101,18 +2421,18 @@ export interface MetricAlertProperties {
 }
 
 // @public
-export interface MetricAlertPropertiesPatch {
+export interface MetricAlertApiMetricAlertPropertiesPatch {
     actionProperties?: Record<string, string>;
-    actions?: MetricAlertAction[];
+    actions?: MetricAlertApiMetricAlertAction[];
     autoMitigate?: boolean;
-    criteria?: MetricAlertCriteriaUnion;
+    criteria?: MetricAlertApiMetricAlertCriteriaUnion;
     customProperties?: Record<string, string>;
     description?: string;
     enabled?: boolean;
     evaluationFrequency?: string;
     readonly isMigrated?: boolean;
     readonly lastUpdatedTime?: Date;
-    resolveConfiguration?: ResolveConfiguration;
+    resolveConfiguration?: MetricAlertApiResolveConfiguration;
     scopes?: string[];
     severity?: number;
     targetResourceRegion?: string;
@@ -2121,19 +2441,19 @@ export interface MetricAlertPropertiesPatch {
 }
 
 // @public
-export interface MetricAlertResource extends TrackedResource {
+export interface MetricAlertApiMetricAlertResource extends TrackedResource {
     actionProperties?: Record<string, string>;
-    actions?: MetricAlertAction[];
+    actions?: MetricAlertApiMetricAlertAction[];
     autoMitigate?: boolean;
-    criteria: MetricAlertCriteriaUnion;
+    criteria: MetricAlertApiMetricAlertCriteriaUnion;
     customProperties?: Record<string, string>;
     description?: string;
     enabled: boolean;
     evaluationFrequency: string;
-    identity?: Identity;
+    identity?: MicrosoftCommonIdentity;
     readonly isMigrated?: boolean;
     readonly lastUpdatedTime?: Date;
-    resolveConfiguration?: ResolveConfiguration;
+    resolveConfiguration?: MetricAlertApiResolveConfiguration;
     scopes: string[];
     severity: number;
     targetResourceRegion?: string;
@@ -2142,25 +2462,127 @@ export interface MetricAlertResource extends TrackedResource {
 }
 
 // @public
-export interface MetricAlertResourcePatch {
+export interface MetricAlertApiMetricAlertResourcePatch {
     actionProperties?: Record<string, string>;
-    actions?: MetricAlertAction[];
+    actions?: MetricAlertApiMetricAlertAction[];
     autoMitigate?: boolean;
-    criteria?: MetricAlertCriteriaUnion;
+    criteria?: MetricAlertApiMetricAlertCriteriaUnion;
     customProperties?: Record<string, string>;
     description?: string;
     enabled?: boolean;
     evaluationFrequency?: string;
-    identity?: Identity;
+    identity?: MicrosoftCommonIdentity;
     readonly isMigrated?: boolean;
     readonly lastUpdatedTime?: Date;
-    resolveConfiguration?: ResolveConfiguration;
+    resolveConfiguration?: MetricAlertApiResolveConfiguration;
     scopes?: string[];
     severity?: number;
     tags?: Record<string, string>;
     targetResourceRegion?: string;
     targetResourceType?: string;
     windowSize?: string;
+}
+
+// @public
+export interface MetricAlertApiMetricAlertSingleResourceMultipleMetricCriteria extends MetricAlertApiMetricAlertCriteria {
+    allOf?: MetricAlertApiMetricCriteria[];
+    odataType: "Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria";
+}
+
+// @public
+export interface MetricAlertApiMetricAlertStatus {
+    id?: string;
+    name?: string;
+    properties?: MetricAlertApiMetricAlertStatusProperties;
+    type?: string;
+}
+
+// @public
+export interface MetricAlertApiMetricAlertStatusCollection {
+    value?: MetricAlertApiMetricAlertStatus[];
+}
+
+// @public
+export interface MetricAlertApiMetricAlertStatusProperties {
+    dimensions?: Record<string, string>;
+    status?: string;
+    timestamp?: Date;
+}
+
+// @public
+export interface MetricAlertApiMetricCriteria extends MetricAlertApiMultiMetricCriteria {
+    criterionType: "StaticThresholdCriterion";
+    operator: MetricAlertApiOperator;
+    threshold: number;
+}
+
+// @public
+export interface MetricAlertApiMetricDimension {
+    name: string;
+    operator: string;
+    values: string[];
+}
+
+// @public
+export interface MetricAlertApiMultiMetricCriteria {
+    additionalProperties?: Record<string, any>;
+    criterionType: MicrosoftCommonCriterionType;
+    dimensions?: MetricAlertApiMetricDimension[];
+    metricName: string;
+    metricNamespace?: string;
+    name: string;
+    skipMetricValidation?: boolean;
+    timeAggregation: MetricAlertApiAggregationTypeEnum;
+}
+
+// @public
+export type MetricAlertApiMultiMetricCriteriaUnion = MetricAlertApiMetricCriteria | MetricAlertApiDynamicMetricCriteria | MetricAlertApiMultiMetricCriteria;
+
+// @public
+export interface MetricAlertApiMultiPromQLCriteria {
+    criterionType: MicrosoftCommonCriterionType;
+    name: string;
+    query: string;
+}
+
+// @public
+export type MetricAlertApiMultiPromQLCriteriaUnion = MetricAlertApiStaticPromQLCriteria | MetricAlertApiDynamicPromQLCriteria | MetricAlertApiMultiPromQLCriteria;
+
+// @public
+export type MetricAlertApiOdatatype = string;
+
+// @public
+export type MetricAlertApiOperator = string;
+
+// @public
+export interface MetricAlertApiPromQLCriteria extends MetricAlertApiMetricAlertCriteria {
+    allOf?: MetricAlertApiMultiPromQLCriteriaUnion[];
+    failingPeriods?: MetricAlertApiQueryFailingPeriods;
+    odataType: "Microsoft.Azure.Monitor.PromQLCriteria";
+}
+
+// @public
+export interface MetricAlertApiQueryFailingPeriods {
+    for: string;
+}
+
+// @public
+export interface MetricAlertApiResolveConfiguration {
+    autoResolved: boolean;
+    timeToResolve?: string;
+}
+
+// @public
+export interface MetricAlertApiStaticPromQLCriteria extends MetricAlertApiMultiPromQLCriteria {
+    criterionType: "StaticThresholdCriterion";
+}
+
+// @public
+export interface MetricAlertApiWebtestLocationAvailabilityCriteria extends MetricAlertApiMetricAlertCriteria {
+    componentId: string;
+    failedLocationCount: number;
+    odataType: "Microsoft.Azure.Monitor.WebtestLocationAvailabilityCriteria";
+    webTestId: string;
 }
 
 // @public
@@ -2176,12 +2598,6 @@ export interface MetricAlertsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface MetricAlertSingleResourceMultipleMetricCriteria extends MetricAlertCriteria {
-    allOf?: MetricCriteria[];
-    odataType: "Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria";
-}
-
-// @public
 export interface MetricAlertsListByResourceGroupOptionalParams extends OperationOptions {
 }
 
@@ -2191,12 +2607,12 @@ export interface MetricAlertsListBySubscriptionOptionalParams extends OperationO
 
 // @public
 export interface MetricAlertsOperations {
-    createOrUpdate: (resourceGroupName: string, ruleName: string, parameters: MetricAlertResource, options?: MetricAlertsCreateOrUpdateOptionalParams) => Promise<MetricAlertResource>;
+    createOrUpdate: (resourceGroupName: string, ruleName: string, parameters: MetricAlertApiMetricAlertResource, options?: MetricAlertsCreateOrUpdateOptionalParams) => Promise<MetricAlertApiMetricAlertResource>;
     delete: (resourceGroupName: string, ruleName: string, options?: MetricAlertsDeleteOptionalParams) => Promise<void>;
-    get: (resourceGroupName: string, ruleName: string, options?: MetricAlertsGetOptionalParams) => Promise<MetricAlertResource>;
-    listByResourceGroup: (resourceGroupName: string, options?: MetricAlertsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<MetricAlertResource>;
-    listBySubscription: (options?: MetricAlertsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<MetricAlertResource>;
-    update: (resourceGroupName: string, ruleName: string, parameters: MetricAlertResourcePatch, options?: MetricAlertsUpdateOptionalParams) => Promise<MetricAlertResource>;
+    get: (resourceGroupName: string, ruleName: string, options?: MetricAlertsGetOptionalParams) => Promise<MetricAlertApiMetricAlertResource>;
+    listByResourceGroup: (resourceGroupName: string, options?: MetricAlertsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<MetricAlertApiMetricAlertResource>;
+    listBySubscription: (options?: MetricAlertsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<MetricAlertApiMetricAlertResource>;
+    update: (resourceGroupName: string, ruleName: string, parameters: MetricAlertApiMetricAlertResourcePatch, options?: MetricAlertsUpdateOptionalParams) => Promise<MetricAlertApiMetricAlertResource>;
 }
 
 // @public
@@ -2209,28 +2625,8 @@ export interface MetricAlertsStatusListOptionalParams extends OperationOptions {
 
 // @public
 export interface MetricAlertsStatusOperations {
-    list: (resourceGroupName: string, ruleName: string, options?: MetricAlertsStatusListOptionalParams) => Promise<MetricAlertStatusCollection>;
-    listByName: (resourceGroupName: string, ruleName: string, statusName: string, options?: MetricAlertsStatusListByNameOptionalParams) => Promise<MetricAlertStatusCollection>;
-}
-
-// @public
-export interface MetricAlertStatus {
-    id?: string;
-    name?: string;
-    properties?: MetricAlertStatusProperties;
-    type?: string;
-}
-
-// @public
-export interface MetricAlertStatusCollection {
-    value?: MetricAlertStatus[];
-}
-
-// @public
-export interface MetricAlertStatusProperties {
-    dimensions?: Record<string, string>;
-    status?: string;
-    timestamp?: Date;
+    list: (resourceGroupName: string, ruleName: string, options?: MetricAlertsStatusListOptionalParams) => Promise<MetricAlertApiMetricAlertStatusCollection>;
+    listByName: (resourceGroupName: string, ruleName: string, statusName: string, options?: MetricAlertsStatusListByNameOptionalParams) => Promise<MetricAlertApiMetricAlertStatusCollection>;
 }
 
 // @public
@@ -2238,50 +2634,59 @@ export interface MetricAlertsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface MetricAvailability {
-    retention?: string;
-    timeGrain?: string;
+export interface MetricBaselinesApiBaselineMetadata {
+    name: string;
+    value: string;
 }
 
 // @public
-export interface MetricBaselinesErrorResponse {
+export type MetricBaselinesApiBaselineSensitivity = string;
+
+// @public
+export interface MetricBaselinesApiMetricBaselinesErrorResponse {
     // (undocumented)
-    error?: ErrorResponseError;
+    error?: MicrosoftCommonErrorResponseError;
 }
 
 // @public
-export interface MetricBaselinesProperties {
-    baselines: TimeSeriesBaseline[];
+export interface MetricBaselinesApiMetricBaselinesProperties {
+    baselines: MetricBaselinesApiTimeSeriesBaseline[];
     interval: string;
     namespace?: string;
     timespan: string;
 }
 
 // @public
-export type MetricClass = string;
-
-// @public
-export interface MetricCriteria extends MultiMetricCriteria {
-    criterionType: "StaticThresholdCriterion";
-    operator: Operator;
-    threshold: number;
+export interface MetricBaselinesApiMetricSingleDimension {
+    name: string;
+    value: string;
 }
 
 // @public
-export interface MetricDefinition {
-    category?: string;
-    dimensions?: LocalizableString[];
-    displayDescription?: string;
-    id?: string;
-    isDimensionRequired?: boolean;
-    metricAvailabilities?: MetricAvailability[];
-    metricClass?: MetricClass;
-    name?: LocalizableString;
+export interface MetricBaselinesApiSingleBaseline {
+    highThresholds: number[];
+    lowThresholds: number[];
+    sensitivity: MetricBaselinesApiBaselineSensitivity;
+}
+
+// @public
+export interface MetricBaselinesApiSingleMetricBaseline {
+    baselines: MetricBaselinesApiTimeSeriesBaseline[];
+    id: string;
+    interval: string;
+    name: string;
     namespace?: string;
-    primaryAggregationType?: AggregationType;
-    resourceId?: string;
-    supportedAggregationTypes?: AggregationType[];
-    unit?: MetricUnit;
+    timespan: string;
+    type: string;
+}
+
+// @public
+export interface MetricBaselinesApiTimeSeriesBaseline {
+    aggregation: string;
+    data: MetricBaselinesApiSingleBaseline[];
+    dimensions?: MetricBaselinesApiMetricSingleDimension[];
+    metadataValues?: MetricBaselinesApiBaselineMetadata[];
+    timestamps: Date[];
 }
 
 // @public
@@ -2296,29 +2701,8 @@ export interface MetricDefinitionsListOptionalParams extends OperationOptions {
 
 // @public
 export interface MetricDefinitionsOperations {
-    list: (resourceUri: string, options?: MetricDefinitionsListOptionalParams) => PagedAsyncIterableIterator<MetricDefinition>;
-    listAtSubscriptionScope: (region: string, options?: MetricDefinitionsListAtSubscriptionScopeOptionalParams) => PagedAsyncIterableIterator<SubscriptionScopeMetricDefinition>;
-}
-
-// @public
-export interface MetricDimension {
-    name: string;
-    operator: string;
-    values: string[];
-}
-
-// @public
-export interface MetricNamespace {
-    classification?: NamespaceClassification;
-    id?: string;
-    name?: string;
-    properties?: MetricNamespaceName;
-    type?: string;
-}
-
-// @public
-export interface MetricNamespaceName {
-    metricNamespaceName?: string;
+    list: (resourceUri: string, options?: MetricDefinitionsListOptionalParams) => PagedAsyncIterableIterator<MetricsApiMetricDefinition>;
+    listAtSubscriptionScope: (region: string, options?: MetricDefinitionsListAtSubscriptionScopeOptionalParams) => PagedAsyncIterableIterator<MetricsApiSubscriptionScopeMetricDefinition>;
 }
 
 // @public
@@ -2328,29 +2712,139 @@ export interface MetricNamespacesListOptionalParams extends OperationOptions {
 
 // @public
 export interface MetricNamespacesOperations {
-    list: (resourceUri: string, options?: MetricNamespacesListOptionalParams) => PagedAsyncIterableIterator<MetricNamespace>;
+    list: (resourceUri: string, options?: MetricNamespacesListOptionalParams) => PagedAsyncIterableIterator<MetricsApiMetricNamespace>;
 }
 
 // @public
-export type MetricResultType = string;
+export type MetricsApiAggregationType = "None" | "Average" | "Count" | "Minimum" | "Maximum" | "Total";
 
 // @public
-export interface MetricSettings {
-    category?: string;
-    enabled: boolean;
-    retentionPolicy?: RetentionPolicy;
+export interface MetricsApiMetadataValue {
+    name?: MicrosoftCommonLocalizableString;
+    value?: string;
+}
+
+// @public
+export interface MetricsApiMetric {
+    displayDescription?: string;
+    errorCode?: string;
+    errorMessage?: string;
+    id: string;
+    name: MicrosoftCommonLocalizableString;
+    timeseries: MetricsApiTimeSeriesElement[];
+    type: string;
+    unit: MetricsApiMetricUnit;
+}
+
+// @public
+export type MetricsApiMetricAggregationType = string;
+
+// @public
+export interface MetricsApiMetricAvailability {
+    retention?: string;
     timeGrain?: string;
 }
 
 // @public
-export interface MetricsIngestionEndpointSpec {
-    readonly endpoint?: string;
+export type MetricsApiMetricClass = string;
+
+// @public
+export interface MetricsApiMetricDefinition {
+    category?: string;
+    dimensions?: MicrosoftCommonLocalizableString[];
+    displayDescription?: string;
+    id?: string;
+    isDimensionRequired?: boolean;
+    metricAvailabilities?: MetricsApiMetricAvailability[];
+    metricClass?: MetricsApiMetricClass;
+    name?: MicrosoftCommonLocalizableString;
+    namespace?: string;
+    primaryAggregationType?: MetricsApiAggregationType;
+    resourceId?: string;
+    supportedAggregationTypes?: MetricsApiAggregationType[];
+    unit?: MetricsApiMetricUnit;
 }
 
 // @public
-export interface MetricSingleDimension {
-    name: string;
-    value: string;
+export interface MetricsApiMetricNamespace {
+    classification?: MetricsApiNamespaceClassification;
+    id?: string;
+    name?: string;
+    properties?: MetricsApiMetricNamespaceName;
+    type?: string;
+}
+
+// @public
+export interface MetricsApiMetricNamespaceName {
+    metricNamespaceName?: string;
+}
+
+// @public
+export type MetricsApiMetricResultType = string;
+
+// @public
+export type MetricsApiMetricUnit = string;
+
+// @public
+export interface MetricsApiMetricValue {
+    average?: number;
+    count?: number;
+    maximum?: number;
+    minimum?: number;
+    timeStamp: Date;
+    total?: number;
+}
+
+// @public
+export type MetricsApiNamespaceClassification = string;
+
+// @public
+export interface MetricsApiResponse {
+    cost?: number;
+    interval?: string;
+    namespace?: string;
+    resourceregion?: string;
+    timespan: string;
+    value: MetricsApiMetric[];
+}
+
+// @public
+export interface MetricsApiSubscriptionScopeMetricDefinition {
+    category?: string;
+    dimensions?: MicrosoftCommonLocalizableString[];
+    displayDescription?: string;
+    id?: string;
+    isDimensionRequired?: boolean;
+    metricAvailabilities?: MetricsApiMetricAvailability[];
+    metricClass?: MetricsApiMetricClass;
+    name?: MicrosoftCommonLocalizableString;
+    namespace?: string;
+    primaryAggregationType?: MetricsApiMetricAggregationType;
+    resourceId?: string;
+    supportedAggregationTypes?: MetricsApiMetricAggregationType[];
+    unit?: MetricsApiMetricUnit;
+}
+
+// @public
+export interface MetricsApiSubscriptionScopeMetricsRequestBodyParameters {
+    aggregation?: string;
+    autoAdjustTimegrain?: boolean;
+    filter?: string;
+    interval?: string;
+    metricNames?: string;
+    metricNamespace?: string;
+    orderBy?: string;
+    resultType?: MetricsApiMetricResultType;
+    rollUpBy?: string;
+    timespan?: string;
+    top?: number;
+    validateDimensions?: boolean;
+}
+
+// @public
+export interface MetricsApiTimeSeriesElement {
+    data?: MetricsApiMetricValue[];
+    metadatavalues?: MetricsApiMetadataValue[];
 }
 
 // @public
@@ -2362,7 +2856,7 @@ export interface MetricsListAtSubscriptionScopeOptionalParams extends OperationO
     metricnames?: string;
     metricnamespace?: string;
     orderby?: string;
-    resultType?: MetricResultType;
+    resultType?: MetricsApiMetricResultType;
     rollupby?: string;
     timespan?: string;
     top?: number;
@@ -2373,13 +2867,13 @@ export interface MetricsListAtSubscriptionScopeOptionalParams extends OperationO
 export interface MetricsListAtSubscriptionScopePostOptionalParams extends OperationOptions {
     aggregation?: string;
     autoAdjustTimegrain?: boolean;
-    body?: SubscriptionScopeMetricsRequestBodyParameters;
+    body?: MetricsApiSubscriptionScopeMetricsRequestBodyParameters;
     filter?: string;
     interval?: string;
     metricnames?: string;
     metricnamespace?: string;
     orderby?: string;
-    resultType?: MetricResultType;
+    resultType?: MetricsApiMetricResultType;
     rollupby?: string;
     timespan?: string;
     top?: number;
@@ -2395,7 +2889,7 @@ export interface MetricsListOptionalParams extends OperationOptions {
     metricnames?: string;
     metricnamespace?: string;
     orderby?: string;
-    resultType?: ResultType;
+    resultType?: MicrosoftCommonResultType;
     rollupby?: string;
     timespan?: string;
     top?: number;
@@ -2404,50 +2898,101 @@ export interface MetricsListOptionalParams extends OperationOptions {
 
 // @public
 export interface MetricsOperations {
-    list: (resourceUri: string, options?: MetricsListOptionalParams) => Promise<Response_2>;
-    listAtSubscriptionScope: (region: string, options?: MetricsListAtSubscriptionScopeOptionalParams) => Promise<Response_2>;
-    listAtSubscriptionScopePost: (region: string, options?: MetricsListAtSubscriptionScopePostOptionalParams) => Promise<Response_2>;
+    list: (resourceUri: string, options?: MetricsListOptionalParams) => Promise<MetricsApiResponse>;
+    listAtSubscriptionScope: (region: string, options?: MetricsListAtSubscriptionScopeOptionalParams) => Promise<MetricsApiResponse>;
+    listAtSubscriptionScopePost: (region: string, options?: MetricsListAtSubscriptionScopePostOptionalParams) => Promise<MetricsApiResponse>;
 }
 
 // @public
-export type MetricStatisticType = "Average" | "Min" | "Max" | "Sum" | "Count";
-
-// @public
-export interface MetricTrigger {
-    dimensions?: ScaleRuleMetricDimension[];
-    dividePerInstance?: boolean;
-    metricName: string;
-    metricNamespace?: string;
-    metricResourceLocation?: string;
-    metricResourceUri: string;
-    operator: ComparisonOperationType;
-    statistic: MetricStatisticType;
-    threshold: number;
-    timeAggregation: TimeAggregationType;
-    timeGrain: string;
-    timeWindow: string;
+export interface MicrosoftCommonCommonErrorResponse {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: MicrosoftCommonCommonErrorResponse[];
+    readonly message?: string;
+    readonly target?: string;
 }
 
 // @public
-export type MetricUnit = string;
+export type MicrosoftCommonCriterionType = string;
 
 // @public
-export interface MetricValue {
-    average?: number;
-    count?: number;
-    maximum?: number;
-    minimum?: number;
-    timeStamp: Date;
-    total?: number;
+export interface MicrosoftCommonErrorContract {
+    error?: MicrosoftCommonCommonErrorResponse;
 }
 
 // @public
-export interface MicrosoftFabricDestination {
-    artifactId?: string;
-    databaseName?: string;
-    ingestionUri?: string;
-    name?: string;
-    tenantId?: string;
+export interface MicrosoftCommonErrorDetail {
+    additionalInfo?: MicrosoftCommonErrorDetailAdditionalInfoItem[];
+    code?: string;
+    message?: string;
+    target?: string;
+}
+
+// @public
+export interface MicrosoftCommonErrorDetailAdditionalInfoItem {
+    info?: Record<string, any>;
+    type?: string;
+}
+
+// @public
+export interface MicrosoftCommonErrorResponse {
+    code?: string;
+    message?: string;
+}
+
+// @public
+export interface MicrosoftCommonErrorResponseError {
+    additionalInfo?: MicrosoftCommonErrorResponseErrorAdditionalInfoItem[];
+    code?: string;
+    details?: MicrosoftCommonErrorDetail[];
+    message?: string;
+    target?: string;
+}
+
+// @public
+export interface MicrosoftCommonErrorResponseErrorAdditionalInfoItem {
+    info?: Record<string, any>;
+    type?: string;
+}
+
+// @public
+export interface MicrosoftCommonIdentity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type: MicrosoftCommonIdentityType;
+    userAssignedIdentities?: Record<string, MicrosoftCommonUserIdentityProperties>;
+}
+
+// @public
+export type MicrosoftCommonIdentityType = "SystemAssigned" | "UserAssigned" | "None";
+
+// @public
+export interface MicrosoftCommonLocalizableString {
+    localizedValue?: string;
+    value: string;
+}
+
+// @public
+export type MicrosoftCommonResultType = "Data" | "Metadata";
+
+// @public
+export interface MicrosoftCommonRetentionPolicy {
+    days: number;
+    enabled: boolean;
+}
+
+// @public
+export interface MicrosoftCommonUserIdentityProperties {
+    readonly clientId?: string;
+    readonly principalId?: string;
+}
+
+// @public
+export interface MicrosoftInsightsCombinedClientMetricSettings {
+    category?: string;
+    enabled: boolean;
+    retentionPolicy?: MicrosoftCommonRetentionPolicy;
+    timeGrain?: string;
 }
 
 // @public (undocumented)
@@ -2460,10 +3005,18 @@ export class MonitorClient {
     readonly alertRuleIncidents: AlertRuleIncidentsOperations;
     readonly autoscaleSettings: AutoscaleSettingsOperations;
     readonly baselines: BaselinesOperations;
+    // @deprecated (undocumented)
+    beginCreateNotificationsAtTenantActionGroupResourceLevel(managementGroupId: string, tenantActionGroupName: string, xMsClientTenantId: string, notificationRequest: TenantActionGroupsTenantNotificationRequestBody, options?: CreateNotificationsAtTenantActionGroupResourceLevelOptionalParams): Promise<SimplePollerLike<OperationState<TenantActionGroupsTestNotificationDetailsResponse>, TenantActionGroupsTestNotificationDetailsResponse>>;
+    // @deprecated (undocumented)
+    beginCreateNotificationsAtTenantActionGroupResourceLevelAndWait(managementGroupId: string, tenantActionGroupName: string, xMsClientTenantId: string, notificationRequest: TenantActionGroupsTenantNotificationRequestBody, options?: CreateNotificationsAtTenantActionGroupResourceLevelOptionalParams): Promise<TenantActionGroupsTestNotificationDetailsResponse>;
+    createNotificationsAtTenantActionGroupResourceLevel(managementGroupId: string, tenantActionGroupName: string, xMsClientTenantId: string, notificationRequest: TenantActionGroupsTenantNotificationRequestBody, options?: CreateNotificationsAtTenantActionGroupResourceLevelOptionalParams): PollerLike<OperationState<TenantActionGroupsTestNotificationDetailsResponse>, TenantActionGroupsTestNotificationDetailsResponse>;
     readonly dataCollectionEndpoints: DataCollectionEndpointsOperations;
     readonly dataCollectionRuleAssociations: DataCollectionRuleAssociationsOperations;
     readonly dataCollectionRules: DataCollectionRulesOperations;
+    readonly diagnosticSettings: DiagnosticSettingsOperations;
+    readonly diagnosticSettingsCategory: DiagnosticSettingsCategoryOperations;
     readonly eventCategories: EventCategoriesOperations;
+    getTestNotificationsAtTenantActionGroupResourceLevel(managementGroupId: string, tenantActionGroupName: string, notificationId: string, xMsClientTenantId: string, options?: GetTestNotificationsAtTenantActionGroupResourceLevelOptionalParams): Promise<TenantActionGroupsTestNotificationDetailsResponse>;
     readonly logProfiles: LogProfilesOperations;
     readonly metricAlerts: MetricAlertsOperations;
     readonly metricAlertsStatus: MetricAlertsStatusOperations;
@@ -2480,52 +3033,14 @@ export class MonitorClient {
     readonly scheduledQueryRule: ScheduledQueryRuleOperations;
     readonly scheduledQueryRules: ScheduledQueryRulesOperations;
     readonly serviceDiagnosticSettings: ServiceDiagnosticSettingsOperations;
+    readonly tenantActionGroups: TenantActionGroupsOperations;
     readonly tenantActivityLogs: TenantActivityLogsOperations;
+    readonly vmInsights: VMInsightsOperations;
 }
 
 // @public
 export interface MonitorClientOptionalParams extends ClientOptions {
     cloudSetting?: AzureSupportedClouds;
-}
-
-// @public
-export interface MonitoringAccountDestination {
-    readonly accountId?: string;
-    accountResourceId?: string;
-    name?: string;
-}
-
-// @public
-export interface MultiMetricCriteria {
-    additionalProperties?: Record<string, any>;
-    criterionType: CriterionType;
-    dimensions?: MetricDimension[];
-    metricName: string;
-    metricNamespace?: string;
-    name: string;
-    skipMetricValidation?: boolean;
-    timeAggregation: AggregationTypeEnum;
-}
-
-// @public
-export type MultiMetricCriteriaUnion = MetricCriteria | DynamicMetricCriteria | MultiMetricCriteria;
-
-// @public
-export interface MultiPromQLCriteria {
-    criterionType: CriterionType;
-    name: string;
-    query: string;
-}
-
-// @public
-export type MultiPromQLCriteriaUnion = StaticPromQLCriteria | DynamicPromQLCriteria | MultiPromQLCriteria;
-
-// @public
-export type NamespaceClassification = string;
-
-// @public
-export interface NetworkRuleSet {
-    publicNetworkAccess?: KnownPublicNetworkAccessOptions;
 }
 
 // @public
@@ -2567,115 +3082,6 @@ export interface NetworkSecurityProfile {
 }
 
 // @public
-export interface NotificationRequestBody {
-    alertType: string;
-    armRoleReceivers?: ArmRoleReceiver[];
-    automationRunbookReceivers?: AutomationRunbookReceiver[];
-    azureAppPushReceivers?: AzureAppPushReceiver[];
-    azureFunctionReceivers?: AzureFunctionReceiver[];
-    emailReceivers?: EmailReceiver[];
-    eventHubReceivers?: EventHubReceiver[];
-    incidentReceivers?: IncidentReceiver[];
-    itsmReceivers?: ItsmReceiver[];
-    logicAppReceivers?: LogicAppReceiver[];
-    smsReceivers?: SmsReceiver[];
-    voiceReceivers?: VoiceReceiver[];
-    webhookReceivers?: WebhookReceiver[];
-}
-
-// @public
-export type Odatatype = string;
-
-// @public
-export interface OperationStatus {
-    endTime?: Date;
-    error?: ArmErrorDetail;
-    id?: string;
-    name?: string;
-    startTime?: Date;
-    status?: string;
-}
-
-// @public
-export type OperationType = "Scale";
-
-// @public
-export type Operator = string;
-
-// @public
-export interface OtelDataSourceResourceAttributeRouting {
-    attributeName?: string;
-    attributeValue?: string;
-}
-
-// @public
-export interface OtelLogsDataSource {
-    enrichWithReference?: string;
-    enrichWithResourceAttributes?: string[];
-    name?: string;
-    replaceResourceIdWithReference?: boolean;
-    resourceAttributeRouting?: OtelLogsDataSourceResourceAttributeRouting;
-    streams: KnownOtelLogsDataSourceStreams[];
-}
-
-// @public
-export interface OtelLogsDataSourceResourceAttributeRouting extends OtelDataSourceResourceAttributeRouting {
-}
-
-// @public
-export interface OtelLogsDirectDataSource {
-    enrichWithReference?: string;
-    enrichWithResourceAttributes?: string[];
-    name?: string;
-    replaceResourceIdWithReference?: boolean;
-    streams: KnownOtelLogsDirectDataSourceStreams[];
-}
-
-// @public
-export interface OtelMetricsDataSource {
-    enrichWithReference?: string;
-    enrichWithResourceAttributes?: string[];
-    name?: string;
-    resourceAttributeRouting?: OtelMetricsDataSourceResourceAttributeRouting;
-    streams: string[];
-}
-
-// @public
-export interface OtelMetricsDataSourceResourceAttributeRouting extends OtelDataSourceResourceAttributeRouting {
-}
-
-// @public
-export interface OtelMetricsDirectDataSource {
-    enrichWithReference?: string;
-    enrichWithResourceAttributes?: string[];
-    name?: string;
-    streams: string[];
-}
-
-// @public
-export interface OtelTracesDataSource {
-    enrichWithReference?: string;
-    enrichWithResourceAttributes?: string[];
-    name?: string;
-    replaceResourceIdWithReference?: boolean;
-    resourceAttributeRouting?: OtelTracesDataSourceResourceAttributeRouting;
-    streams: KnownOtelTracesDataSourceStreams[];
-}
-
-// @public
-export interface OtelTracesDataSourceResourceAttributeRouting extends OtelDataSourceResourceAttributeRouting {
-}
-
-// @public
-export interface OtelTracesDirectDataSource {
-    enrichWithReference?: string;
-    enrichWithResourceAttributes?: string[];
-    name?: string;
-    replaceResourceIdWithReference?: boolean;
-    streams: KnownOtelTracesDirectDataSourceStreams[];
-}
-
-// @public
 export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
     [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
     byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
@@ -2688,76 +3094,17 @@ export interface PageSettings {
 }
 
 // @public
-export interface PerfCounterDataSource {
-    counterSpecifiers?: string[];
-    name?: string;
-    samplingFrequencyInSeconds?: number;
-    streams?: KnownPerfCounterDataSourceStreams[];
-    transformKql?: string;
-}
-
-// @public
-export interface PerformanceCountersOTelDataSource {
-    counterSpecifiers?: string[];
-    name?: string;
-    samplingFrequencyInSeconds?: number;
-    streams?: KnownPerformanceCountersOTelDataSourceStreams[];
-}
-
-// @public
-export interface PlatformTelemetryDataSource {
-    name?: string;
-    streams: string[];
-}
-
-// @public
-export interface PredictiveAutoscalePolicy {
-    scaleLookAheadTime?: string;
-    scaleMode: PredictiveAutoscalePolicyScaleMode;
-}
-
-// @public
-export type PredictiveAutoscalePolicyScaleMode = "Disabled" | "ForecastOnly" | "Enabled";
-
-// @public
 export interface PredictiveMetricGetOptionalParams extends OperationOptions {
 }
 
 // @public
 export interface PredictiveMetricOperations {
-    get: (resourceGroupName: string, autoscaleSettingName: string, timespan: string, interval: string, metricNamespace: string, metricName: string, aggregation: string, options?: PredictiveMetricGetOptionalParams) => Promise<PredictiveResponse>;
-}
-
-// @public
-export interface PredictiveResponse {
-    data?: PredictiveValue[];
-    interval?: string;
-    metricName?: string;
-    targetResourceId?: string;
-    timespan?: string;
-}
-
-// @public
-export interface PredictiveValue {
-    timeStamp: Date;
-    value: number;
+    get: (resourceGroupName: string, autoscaleSettingName: string, timespan: string, interval: string, metricNamespace: string, metricName: string, aggregation: string, options?: PredictiveMetricGetOptionalParams) => Promise<AutoScaleApiPredictiveResponse>;
 }
 
 // @public
 export interface PrivateEndpoint {
     readonly id?: string;
-}
-
-// @public
-export interface PrivateEndpointConnection extends Resource {
-    privateEndpoint?: PrivateEndpoint;
-    privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
-    readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
-}
-
-// @public
-export interface PrivateEndpointConnectionListResult {
-    value?: PrivateEndpointConnection[];
 }
 
 // @public
@@ -2791,31 +3138,26 @@ export interface PrivateEndpointConnectionsListByPrivateLinkScopeOptionalParams 
 // @public
 export interface PrivateEndpointConnectionsOperations {
     // @deprecated (undocumented)
-    beginCreateOrUpdate: (resourceGroupName: string, scopeName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>>;
+    beginCreateOrUpdate: (resourceGroupName: string, scopeName: string, privateEndpointConnectionName: string, parameters: PrivateLinkScopesApiPrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<PrivateLinkScopesApiPrivateEndpointConnection>, PrivateLinkScopesApiPrivateEndpointConnection>>;
     // @deprecated (undocumented)
-    beginCreateOrUpdateAndWait: (resourceGroupName: string, scopeName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams) => Promise<PrivateEndpointConnection>;
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, scopeName: string, privateEndpointConnectionName: string, parameters: PrivateLinkScopesApiPrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams) => Promise<PrivateLinkScopesApiPrivateEndpointConnection>;
     // @deprecated (undocumented)
     beginDelete: (resourceGroupName: string, scopeName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
     // @deprecated (undocumented)
     beginDeleteAndWait: (resourceGroupName: string, scopeName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => Promise<void>;
-    createOrUpdate: (resourceGroupName: string, scopeName: string, privateEndpointConnectionName: string, parameters: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams) => PollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>;
+    createOrUpdate: (resourceGroupName: string, scopeName: string, privateEndpointConnectionName: string, parameters: PrivateLinkScopesApiPrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams) => PollerLike<OperationState<PrivateLinkScopesApiPrivateEndpointConnection>, PrivateLinkScopesApiPrivateEndpointConnection>;
     delete: (resourceGroupName: string, scopeName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, scopeName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams) => Promise<PrivateEndpointConnection>;
-    listByPrivateLinkScope: (resourceGroupName: string, scopeName: string, options?: PrivateEndpointConnectionsListByPrivateLinkScopeOptionalParams) => Promise<PrivateEndpointConnectionListResult>;
+    get: (resourceGroupName: string, scopeName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams) => Promise<PrivateLinkScopesApiPrivateEndpointConnection>;
+    listByPrivateLinkScope: (resourceGroupName: string, scopeName: string, options?: PrivateEndpointConnectionsListByPrivateLinkScopeOptionalParams) => Promise<PrivateLinkScopesApiPrivateEndpointConnectionListResult>;
 }
 
 // @public
 export type PrivateEndpointServiceConnectionStatus = string;
 
 // @public
-export interface PrivateLinkResource extends Resource {
-    properties?: PrivateLinkResourceProperties;
-}
-
-// @public
 export interface PrivateLinkResourceListResult {
     nextLink?: string;
-    value: PrivateLinkResource[];
+    value: PrivateLinkScopesApiPrivateLinkResource[];
 }
 
 // @public
@@ -2835,14 +3177,8 @@ export interface PrivateLinkResourcesListByPrivateLinkScopeOptionalParams extend
 
 // @public
 export interface PrivateLinkResourcesOperations {
-    get: (resourceGroupName: string, scopeName: string, groupName: string, options?: PrivateLinkResourcesGetOptionalParams) => Promise<PrivateLinkResource>;
+    get: (resourceGroupName: string, scopeName: string, groupName: string, options?: PrivateLinkResourcesGetOptionalParams) => Promise<PrivateLinkScopesApiPrivateLinkResource>;
     listByPrivateLinkScope: (resourceGroupName: string, scopeName: string, options?: PrivateLinkResourcesListByPrivateLinkScopeOptionalParams) => Promise<PrivateLinkResourceListResult>;
-}
-
-// @public
-export interface PrivateLinkScopedResource {
-    resourceId?: string;
-    scopeId?: string;
 }
 
 // @public
@@ -2867,17 +3203,17 @@ export interface PrivateLinkScopedResourcesListByPrivateLinkScopeOptionalParams 
 // @public
 export interface PrivateLinkScopedResourcesOperations {
     // @deprecated (undocumented)
-    beginCreateOrUpdate: (resourceGroupName: string, scopeName: string, name: string, parameters: ScopedResource, options?: PrivateLinkScopedResourcesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<ScopedResource>, ScopedResource>>;
+    beginCreateOrUpdate: (resourceGroupName: string, scopeName: string, name: string, parameters: PrivateLinkScopesApiScopedResource, options?: PrivateLinkScopedResourcesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<PrivateLinkScopesApiScopedResource>, PrivateLinkScopesApiScopedResource>>;
     // @deprecated (undocumented)
-    beginCreateOrUpdateAndWait: (resourceGroupName: string, scopeName: string, name: string, parameters: ScopedResource, options?: PrivateLinkScopedResourcesCreateOrUpdateOptionalParams) => Promise<ScopedResource>;
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, scopeName: string, name: string, parameters: PrivateLinkScopesApiScopedResource, options?: PrivateLinkScopedResourcesCreateOrUpdateOptionalParams) => Promise<PrivateLinkScopesApiScopedResource>;
     // @deprecated (undocumented)
     beginDelete: (resourceGroupName: string, scopeName: string, name: string, options?: PrivateLinkScopedResourcesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
     // @deprecated (undocumented)
     beginDeleteAndWait: (resourceGroupName: string, scopeName: string, name: string, options?: PrivateLinkScopedResourcesDeleteOptionalParams) => Promise<void>;
-    createOrUpdate: (resourceGroupName: string, scopeName: string, name: string, parameters: ScopedResource, options?: PrivateLinkScopedResourcesCreateOrUpdateOptionalParams) => PollerLike<OperationState<ScopedResource>, ScopedResource>;
+    createOrUpdate: (resourceGroupName: string, scopeName: string, name: string, parameters: PrivateLinkScopesApiScopedResource, options?: PrivateLinkScopedResourcesCreateOrUpdateOptionalParams) => PollerLike<OperationState<PrivateLinkScopesApiScopedResource>, PrivateLinkScopesApiScopedResource>;
     delete: (resourceGroupName: string, scopeName: string, name: string, options?: PrivateLinkScopedResourcesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, scopeName: string, name: string, options?: PrivateLinkScopedResourcesGetOptionalParams) => Promise<ScopedResource>;
-    listByPrivateLinkScope: (resourceGroupName: string, scopeName: string, options?: PrivateLinkScopedResourcesListByPrivateLinkScopeOptionalParams) => PagedAsyncIterableIterator<ScopedResource>;
+    get: (resourceGroupName: string, scopeName: string, name: string, options?: PrivateLinkScopedResourcesGetOptionalParams) => Promise<PrivateLinkScopesApiScopedResource>;
+    listByPrivateLinkScope: (resourceGroupName: string, scopeName: string, options?: PrivateLinkScopedResourcesListByPrivateLinkScopeOptionalParams) => PagedAsyncIterableIterator<PrivateLinkScopesApiScopedResource>;
 }
 
 // @public
@@ -2886,11 +3222,96 @@ export interface PrivateLinkScopeOperationStatusGetOptionalParams extends Operat
 
 // @public
 export interface PrivateLinkScopeOperationStatusOperations {
-    get: (resourceGroupName: string, asyncOperationId: string, options?: PrivateLinkScopeOperationStatusGetOptionalParams) => Promise<OperationStatus>;
+    get: (resourceGroupName: string, asyncOperationId: string, options?: PrivateLinkScopeOperationStatusGetOptionalParams) => Promise<PrivateLinkScopesApiOperationStatus>;
 }
 
 // @public
-export type PrivateLinkScopeProvisioningState = string;
+export type PrivateLinkScopesApiAccessMode = string;
+
+// @public
+export interface PrivateLinkScopesApiAccessModeSettings {
+    exclusions?: PrivateLinkScopesApiAccessModeSettingsExclusion[];
+    ingestionAccessMode: PrivateLinkScopesApiAccessMode;
+    queryAccessMode: PrivateLinkScopesApiAccessMode;
+}
+
+// @public
+export interface PrivateLinkScopesApiAccessModeSettingsExclusion {
+    ingestionAccessMode?: PrivateLinkScopesApiAccessMode;
+    privateEndpointConnectionName?: string;
+    queryAccessMode?: PrivateLinkScopesApiAccessMode;
+}
+
+// @public
+export interface PrivateLinkScopesApiAzureMonitorPrivateLinkScope extends TrackedResource {
+    accessModeSettings: PrivateLinkScopesApiAccessModeSettings;
+    readonly privateEndpointConnections?: PrivateLinkScopesApiPrivateEndpointConnection[];
+    readonly provisioningState?: PrivateLinkScopesApiPrivateLinkScopeProvisioningState;
+}
+
+// @public
+export interface PrivateLinkScopesApiAzureMonitorPrivateLinkScopeProperties {
+    accessModeSettings: PrivateLinkScopesApiAccessModeSettings;
+    readonly privateEndpointConnections?: PrivateLinkScopesApiPrivateEndpointConnection[];
+    readonly provisioningState?: PrivateLinkScopesApiPrivateLinkScopeProvisioningState;
+}
+
+// @public
+export interface PrivateLinkScopesApiOperationStatus {
+    endTime?: Date;
+    error?: ArmErrorDetail;
+    id?: string;
+    name?: string;
+    startTime?: Date;
+    status?: string;
+}
+
+// @public
+export interface PrivateLinkScopesApiPrivateEndpointConnection extends Resource {
+    privateEndpoint?: PrivateEndpoint;
+    privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+    readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
+}
+
+// @public
+export interface PrivateLinkScopesApiPrivateEndpointConnectionListResult {
+    value?: PrivateLinkScopesApiPrivateEndpointConnection[];
+}
+
+// @public
+export interface PrivateLinkScopesApiPrivateLinkResource extends Resource {
+    properties?: PrivateLinkResourceProperties;
+}
+
+// @public
+export type PrivateLinkScopesApiPrivateLinkScopeProvisioningState = string;
+
+// @public
+export interface PrivateLinkScopesApiScopedResource extends ProxyResource {
+    kind?: PrivateLinkScopesApiScopedResourceKind;
+    linkedResourceId?: string;
+    readonly provisioningState?: PrivateLinkScopesApiScopedResourceProvisioningState;
+    subscriptionLocation?: string;
+}
+
+// @public
+export type PrivateLinkScopesApiScopedResourceKind = string;
+
+// @public
+export interface PrivateLinkScopesApiScopedResourceProperties {
+    kind?: PrivateLinkScopesApiScopedResourceKind;
+    linkedResourceId?: string;
+    readonly provisioningState?: PrivateLinkScopesApiScopedResourceProvisioningState;
+    subscriptionLocation?: string;
+}
+
+// @public
+export type PrivateLinkScopesApiScopedResourceProvisioningState = string;
+
+// @public
+export interface PrivateLinkScopesApiTagsResource {
+    tags?: Record<string, string>;
+}
 
 // @public
 export interface PrivateLinkScopesCreateOrUpdateOptionalParams extends OperationOptions {
@@ -2919,12 +3340,12 @@ export interface PrivateLinkScopesOperations {
     beginDelete: (resourceGroupName: string, scopeName: string, options?: PrivateLinkScopesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
     // @deprecated (undocumented)
     beginDeleteAndWait: (resourceGroupName: string, scopeName: string, options?: PrivateLinkScopesDeleteOptionalParams) => Promise<void>;
-    createOrUpdate: (resourceGroupName: string, scopeName: string, azureMonitorPrivateLinkScopePayload: AzureMonitorPrivateLinkScope, options?: PrivateLinkScopesCreateOrUpdateOptionalParams) => Promise<AzureMonitorPrivateLinkScope>;
+    createOrUpdate: (resourceGroupName: string, scopeName: string, azureMonitorPrivateLinkScopePayload: PrivateLinkScopesApiAzureMonitorPrivateLinkScope, options?: PrivateLinkScopesCreateOrUpdateOptionalParams) => Promise<PrivateLinkScopesApiAzureMonitorPrivateLinkScope>;
     delete: (resourceGroupName: string, scopeName: string, options?: PrivateLinkScopesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, scopeName: string, options?: PrivateLinkScopesGetOptionalParams) => Promise<AzureMonitorPrivateLinkScope>;
-    list: (options?: PrivateLinkScopesListOptionalParams) => PagedAsyncIterableIterator<AzureMonitorPrivateLinkScope>;
-    listByResourceGroup: (resourceGroupName: string, options?: PrivateLinkScopesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<AzureMonitorPrivateLinkScope>;
-    updateTags: (resourceGroupName: string, scopeName: string, privateLinkScopeTags: TagsResource, options?: PrivateLinkScopesUpdateTagsOptionalParams) => Promise<AzureMonitorPrivateLinkScope>;
+    get: (resourceGroupName: string, scopeName: string, options?: PrivateLinkScopesGetOptionalParams) => Promise<PrivateLinkScopesApiAzureMonitorPrivateLinkScope>;
+    list: (options?: PrivateLinkScopesListOptionalParams) => PagedAsyncIterableIterator<PrivateLinkScopesApiAzureMonitorPrivateLinkScope>;
+    listByResourceGroup: (resourceGroupName: string, options?: PrivateLinkScopesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<PrivateLinkScopesApiAzureMonitorPrivateLinkScope>;
+    updateTags: (resourceGroupName: string, scopeName: string, privateLinkScopeTags: PrivateLinkScopesApiTagsResource, options?: PrivateLinkScopesUpdateTagsOptionalParams) => Promise<PrivateLinkScopesApiAzureMonitorPrivateLinkScope>;
 }
 
 // @public
@@ -2936,21 +3357,6 @@ export interface PrivateLinkServiceConnectionState {
     actionsRequired?: string;
     description?: string;
     status?: PrivateEndpointServiceConnectionStatus;
-}
-
-// @public
-export interface PrometheusForwarderDataSource {
-    customVMScrapeConfig?: any[];
-    labelIncludeFilter?: Record<string, string>;
-    name?: string;
-    streams?: KnownPrometheusForwarderDataSourceStreams[];
-}
-
-// @public
-export interface PromQLCriteria extends MetricAlertCriteria {
-    allOf?: MultiPromQLCriteriaUnion[];
-    failingPeriods?: QueryFailingPeriods;
-    odataType: "Microsoft.Azure.Monitor.PromQLCriteria";
 }
 
 // @public
@@ -2974,47 +3380,6 @@ export interface ProxyResource extends Resource {
 }
 
 // @public
-export interface QueryFailingPeriods {
-    for: string;
-}
-
-// @public
-export type ReceiverStatus = "NotSpecified" | "Enabled" | "Disabled";
-
-// @public
-export interface Recurrence {
-    frequency: RecurrenceFrequency;
-    schedule: RecurrentSchedule;
-}
-
-// @public
-export type RecurrenceFrequency = "None" | "Second" | "Minute" | "Hour" | "Day" | "Week" | "Month" | "Year";
-
-// @public
-export interface RecurrentSchedule {
-    days: string[];
-    hours: number[];
-    minutes: number[];
-    timeZone: string;
-}
-
-// @public
-export interface ReferencesSpec {
-    applicationInsights?: ApplicationInsights[];
-    enrichmentData?: ReferencesSpecEnrichmentData;
-}
-
-// @public
-export interface ReferencesSpecEnrichmentData extends EnrichmentData {
-}
-
-// @public
-export interface ResolveConfiguration {
-    autoResolved: boolean;
-    timeToResolve?: string;
-}
-
-// @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
@@ -3032,27 +3397,6 @@ export interface ResourceAssociation {
 // @public
 export type ResourceAssociationAccessMode = string;
 
-// @public
-export interface ResourceForUpdate {
-    identity?: ResourceForUpdateIdentity;
-    tags?: Record<string, string>;
-}
-
-// @public
-export interface ResourceForUpdateIdentity extends ManagedServiceIdentity {
-}
-
-// @public
-interface Response_2 {
-    cost?: number;
-    interval?: string;
-    namespace?: string;
-    resourceregion?: string;
-    timespan: string;
-    value: Metric[];
-}
-export { Response_2 as Response }
-
 export { RestError }
 
 // @public
@@ -3066,61 +3410,143 @@ export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedRe
 }
 
 // @public
-export type ResultType = "Data" | "Metadata";
-
-// @public
-export interface RetentionPolicy {
-    days: number;
-    enabled: boolean;
+export interface ScheduledQueryRuleApiActions {
+    actionGroups?: string[];
+    actionProperties?: Record<string, string>;
+    customProperties?: Record<string, string>;
 }
 
 // @public
-export interface RuleResolveConfiguration {
+export type ScheduledQueryRuleApiAlertSeverity = number;
+
+// @public
+export interface ScheduledQueryRuleApiCondition {
+    alertSensitivity?: string;
+    criterionType?: MicrosoftCommonCriterionType;
+    dimensions?: ScheduledQueryRuleApiDimension[];
+    failingPeriods?: ScheduledQueryRuleApiConditionFailingPeriods;
+    ignoreDataBefore?: Date;
+    metricMeasureColumn?: string;
+    metricName?: string;
+    minRecurrenceCount?: number;
+    operator?: ScheduledQueryRuleApiConditionOperator;
+    query?: string;
+    resourceIdColumn?: string;
+    threshold?: number;
+    timeAggregation?: ScheduledQueryRuleApiTimeAggregation;
+}
+
+// @public
+export interface ScheduledQueryRuleApiConditionFailingPeriods {
+    minFailingPeriodsToAlert?: number;
+    numberOfEvaluationPeriods?: number;
+}
+
+// @public
+export type ScheduledQueryRuleApiConditionOperator = string;
+
+// @public
+export interface ScheduledQueryRuleApiDimension {
+    name: string;
+    operator: ScheduledQueryRuleApiDimensionOperator;
+    values: string[];
+}
+
+// @public
+export type ScheduledQueryRuleApiDimensionOperator = string;
+
+// @public
+export type ScheduledQueryRuleApiKind = string;
+
+// @public
+export interface ScheduledQueryRuleApiRuleResolveConfiguration {
     autoResolved?: boolean;
     timeToResolve?: string;
 }
 
 // @public
-export interface ScaleAction {
-    cooldown: string;
-    direction: ScaleDirection;
-    type: ScaleType;
-    value?: string;
+export interface ScheduledQueryRuleApiScheduledQueryRuleCriteria {
+    allOf?: ScheduledQueryRuleApiCondition[];
 }
 
 // @public
-export interface ScaleCapacity {
-    default: string;
-    maximum: string;
-    minimum: string;
+export interface ScheduledQueryRuleApiScheduledQueryRuleProperties {
+    actions?: ScheduledQueryRuleApiActions;
+    autoMitigate?: boolean;
+    checkWorkspaceAlertsStorageConfigured?: boolean;
+    readonly createdWithApiVersion?: string;
+    criteria?: ScheduledQueryRuleApiScheduledQueryRuleCriteria;
+    description?: string;
+    displayName?: string;
+    enabled?: boolean;
+    evaluationFrequency?: string;
+    readonly isLegacyLogAnalyticsRule?: boolean;
+    readonly isWorkspaceAlertsStorageConfigured?: boolean;
+    muteActionsDuration?: string;
+    overrideQueryTimeRange?: string;
+    resolveConfiguration?: ScheduledQueryRuleApiRuleResolveConfiguration;
+    scopes?: string[];
+    severity?: ScheduledQueryRuleApiAlertSeverity;
+    skipQueryValidation?: boolean;
+    targetResourceTypes?: string[];
+    windowSize?: string;
 }
 
 // @public
-export type ScaleDirection = "None" | "Increase" | "Decrease";
-
-// @public
-export interface ScaleRule {
-    metricTrigger: MetricTrigger;
-    scaleAction: ScaleAction;
+export interface ScheduledQueryRuleApiScheduledQueryRuleResource extends ProxyResource {
+    actions?: ScheduledQueryRuleApiActions;
+    autoMitigate?: boolean;
+    checkWorkspaceAlertsStorageConfigured?: boolean;
+    readonly createdWithApiVersion?: string;
+    criteria?: ScheduledQueryRuleApiScheduledQueryRuleCriteria;
+    description?: string;
+    displayName?: string;
+    enabled?: boolean;
+    readonly etag?: string;
+    evaluationFrequency?: string;
+    identity?: MicrosoftCommonIdentity;
+    readonly isLegacyLogAnalyticsRule?: boolean;
+    readonly isWorkspaceAlertsStorageConfigured?: boolean;
+    kind?: ScheduledQueryRuleApiKind;
+    location: string;
+    muteActionsDuration?: string;
+    overrideQueryTimeRange?: string;
+    resolveConfiguration?: ScheduledQueryRuleApiRuleResolveConfiguration;
+    scopes?: string[];
+    severity?: ScheduledQueryRuleApiAlertSeverity;
+    skipQueryValidation?: boolean;
+    tags?: Record<string, string>;
+    targetResourceTypes?: string[];
+    windowSize?: string;
 }
 
 // @public
-export interface ScaleRuleMetricDimension {
-    dimensionName: string;
-    operator: ScaleRuleMetricDimensionOperationType;
-    values: string[];
+export interface ScheduledQueryRuleApiScheduledQueryRuleResourcePatch {
+    actions?: ScheduledQueryRuleApiActions;
+    autoMitigate?: boolean;
+    checkWorkspaceAlertsStorageConfigured?: boolean;
+    readonly createdWithApiVersion?: string;
+    criteria?: ScheduledQueryRuleApiScheduledQueryRuleCriteria;
+    description?: string;
+    displayName?: string;
+    enabled?: boolean;
+    evaluationFrequency?: string;
+    identity?: MicrosoftCommonIdentity;
+    readonly isLegacyLogAnalyticsRule?: boolean;
+    readonly isWorkspaceAlertsStorageConfigured?: boolean;
+    muteActionsDuration?: string;
+    overrideQueryTimeRange?: string;
+    resolveConfiguration?: ScheduledQueryRuleApiRuleResolveConfiguration;
+    scopes?: string[];
+    severity?: ScheduledQueryRuleApiAlertSeverity;
+    skipQueryValidation?: boolean;
+    tags?: Record<string, string>;
+    targetResourceTypes?: string[];
+    windowSize?: string;
 }
 
 // @public
-export type ScaleRuleMetricDimensionOperationType = string;
-
-// @public
-export type ScaleType = "ChangeCount" | "PercentChangeCount" | "ExactCount" | "ServiceAllowedNextValue";
-
-// @public
-export interface ScheduledQueryRuleCriteria {
-    allOf?: Condition[];
-}
+export type ScheduledQueryRuleApiTimeAggregation = string;
 
 // @public
 export interface ScheduledQueryRuleGetNSPOptionalParams extends OperationOptions {
@@ -3142,84 +3568,8 @@ export interface ScheduledQueryRuleOperations {
 }
 
 // @public
-export interface ScheduledQueryRuleProperties {
-    actions?: Actions;
-    autoMitigate?: boolean;
-    checkWorkspaceAlertsStorageConfigured?: boolean;
-    readonly createdWithApiVersion?: string;
-    criteria?: ScheduledQueryRuleCriteria;
-    description?: string;
-    displayName?: string;
-    enabled?: boolean;
-    evaluationFrequency?: string;
-    readonly isLegacyLogAnalyticsRule?: boolean;
-    readonly isWorkspaceAlertsStorageConfigured?: boolean;
-    muteActionsDuration?: string;
-    overrideQueryTimeRange?: string;
-    resolveConfiguration?: RuleResolveConfiguration;
-    scopes?: string[];
-    severity?: AlertSeverity;
-    skipQueryValidation?: boolean;
-    targetResourceTypes?: string[];
-    windowSize?: string;
-}
-
-// @public
 export interface ScheduledQueryRuleReconcileNSPOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
-}
-
-// @public
-export interface ScheduledQueryRuleResource extends ProxyResource {
-    actions?: Actions;
-    autoMitigate?: boolean;
-    checkWorkspaceAlertsStorageConfigured?: boolean;
-    readonly createdWithApiVersion?: string;
-    criteria?: ScheduledQueryRuleCriteria;
-    description?: string;
-    displayName?: string;
-    enabled?: boolean;
-    readonly etag?: string;
-    evaluationFrequency?: string;
-    identity?: Identity;
-    readonly isLegacyLogAnalyticsRule?: boolean;
-    readonly isWorkspaceAlertsStorageConfigured?: boolean;
-    kind?: Kind;
-    location: string;
-    muteActionsDuration?: string;
-    overrideQueryTimeRange?: string;
-    resolveConfiguration?: RuleResolveConfiguration;
-    scopes?: string[];
-    severity?: AlertSeverity;
-    skipQueryValidation?: boolean;
-    tags?: Record<string, string>;
-    targetResourceTypes?: string[];
-    windowSize?: string;
-}
-
-// @public
-export interface ScheduledQueryRuleResourcePatch {
-    actions?: Actions;
-    autoMitigate?: boolean;
-    checkWorkspaceAlertsStorageConfigured?: boolean;
-    readonly createdWithApiVersion?: string;
-    criteria?: ScheduledQueryRuleCriteria;
-    description?: string;
-    displayName?: string;
-    enabled?: boolean;
-    evaluationFrequency?: string;
-    identity?: Identity;
-    readonly isLegacyLogAnalyticsRule?: boolean;
-    readonly isWorkspaceAlertsStorageConfigured?: boolean;
-    muteActionsDuration?: string;
-    overrideQueryTimeRange?: string;
-    resolveConfiguration?: RuleResolveConfiguration;
-    scopes?: string[];
-    severity?: AlertSeverity;
-    skipQueryValidation?: boolean;
-    tags?: Record<string, string>;
-    targetResourceTypes?: string[];
-    windowSize?: string;
 }
 
 // @public
@@ -3244,55 +3594,16 @@ export interface ScheduledQueryRulesListBySubscriptionOptionalParams extends Ope
 
 // @public
 export interface ScheduledQueryRulesOperations {
-    createOrUpdate: (resourceGroupName: string, ruleName: string, parameters: ScheduledQueryRuleResource, options?: ScheduledQueryRulesCreateOrUpdateOptionalParams) => Promise<ScheduledQueryRuleResource>;
+    createOrUpdate: (resourceGroupName: string, ruleName: string, parameters: ScheduledQueryRuleApiScheduledQueryRuleResource, options?: ScheduledQueryRulesCreateOrUpdateOptionalParams) => Promise<ScheduledQueryRuleApiScheduledQueryRuleResource>;
     delete: (resourceGroupName: string, ruleName: string, options?: ScheduledQueryRulesDeleteOptionalParams) => Promise<void>;
-    get: (resourceGroupName: string, ruleName: string, options?: ScheduledQueryRulesGetOptionalParams) => Promise<ScheduledQueryRuleResource>;
-    listByResourceGroup: (resourceGroupName: string, options?: ScheduledQueryRulesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<ScheduledQueryRuleResource>;
-    listBySubscription: (options?: ScheduledQueryRulesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<ScheduledQueryRuleResource>;
-    update: (resourceGroupName: string, ruleName: string, parameters: ScheduledQueryRuleResourcePatch, options?: ScheduledQueryRulesUpdateOptionalParams) => Promise<ScheduledQueryRuleResource>;
+    get: (resourceGroupName: string, ruleName: string, options?: ScheduledQueryRulesGetOptionalParams) => Promise<ScheduledQueryRuleApiScheduledQueryRuleResource>;
+    listByResourceGroup: (resourceGroupName: string, options?: ScheduledQueryRulesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<ScheduledQueryRuleApiScheduledQueryRuleResource>;
+    listBySubscription: (options?: ScheduledQueryRulesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<ScheduledQueryRuleApiScheduledQueryRuleResource>;
+    update: (resourceGroupName: string, ruleName: string, parameters: ScheduledQueryRuleApiScheduledQueryRuleResourcePatch, options?: ScheduledQueryRulesUpdateOptionalParams) => Promise<ScheduledQueryRuleApiScheduledQueryRuleResource>;
 }
 
 // @public
 export interface ScheduledQueryRulesUpdateOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ScopedResource extends ProxyResource {
-    kind?: ScopedResourceKind;
-    linkedResourceId?: string;
-    readonly provisioningState?: ScopedResourceProvisioningState;
-    subscriptionLocation?: string;
-}
-
-// @public
-export type ScopedResourceKind = string;
-
-// @public
-export interface ScopedResourceProperties {
-    kind?: ScopedResourceKind;
-    linkedResourceId?: string;
-    readonly provisioningState?: ScopedResourceProvisioningState;
-    subscriptionLocation?: string;
-}
-
-// @public
-export type ScopedResourceProvisioningState = string;
-
-// @public
-export interface SenderAuthorization {
-    action?: string;
-    role?: string;
-    scope?: string;
-}
-
-// @public
-export interface ServiceDiagnosticSettings {
-    eventHubAuthorizationRuleId?: string;
-    logs?: LogSettings[];
-    metrics?: MetricSettings[];
-    serviceBusRuleId?: string;
-    storageAccountId?: string;
-    workspaceId?: string;
 }
 
 // @public
@@ -3305,36 +3616,53 @@ export interface ServiceDiagnosticSettingsGetOptionalParams extends OperationOpt
 
 // @public
 export interface ServiceDiagnosticSettingsOperations {
-    createOrUpdate: (resourceUri: string, parameters: ServiceDiagnosticSettingsResource, options?: ServiceDiagnosticSettingsCreateOrUpdateOptionalParams) => Promise<ServiceDiagnosticSettingsResource>;
-    get: (resourceUri: string, options?: ServiceDiagnosticSettingsGetOptionalParams) => Promise<ServiceDiagnosticSettingsResource>;
-    update: (resourceUri: string, serviceDiagnosticSettingsResource: ServiceDiagnosticSettingsResourcePatch, options?: ServiceDiagnosticSettingsUpdateOptionalParams) => Promise<ServiceDiagnosticSettingsResource>;
-}
-
-// @public
-export interface ServiceDiagnosticSettingsResource extends ExtensionResource {
-    eventHubAuthorizationRuleId?: string;
-    location: string;
-    logs?: LogSettings[];
-    metrics?: MetricSettings[];
-    serviceBusRuleId?: string;
-    storageAccountId?: string;
-    tags?: Record<string, string>;
-    workspaceId?: string;
-}
-
-// @public
-export interface ServiceDiagnosticSettingsResourcePatch {
-    eventHubAuthorizationRuleId?: string;
-    logs?: LogSettings[];
-    metrics?: MetricSettings[];
-    serviceBusRuleId?: string;
-    storageAccountId?: string;
-    tags?: Record<string, string>;
-    workspaceId?: string;
+    createOrUpdate: (resourceUri: string, parameters: ServiceDiagnosticsSettingsApiServiceDiagnosticSettingsResource, options?: ServiceDiagnosticSettingsCreateOrUpdateOptionalParams) => Promise<ServiceDiagnosticsSettingsApiServiceDiagnosticSettingsResource>;
+    get: (resourceUri: string, options?: ServiceDiagnosticSettingsGetOptionalParams) => Promise<ServiceDiagnosticsSettingsApiServiceDiagnosticSettingsResource>;
+    update: (resourceUri: string, serviceDiagnosticSettingsResource: ServiceDiagnosticsSettingsApiServiceDiagnosticSettingsResourcePatch, options?: ServiceDiagnosticSettingsUpdateOptionalParams) => Promise<ServiceDiagnosticsSettingsApiServiceDiagnosticSettingsResource>;
 }
 
 // @public
 export interface ServiceDiagnosticSettingsUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ServiceDiagnosticsSettingsApiLogSettings {
+    category?: string;
+    enabled: boolean;
+    retentionPolicy?: MicrosoftCommonRetentionPolicy;
+}
+
+// @public
+export interface ServiceDiagnosticsSettingsApiServiceDiagnosticSettings {
+    eventHubAuthorizationRuleId?: string;
+    logs?: ServiceDiagnosticsSettingsApiLogSettings[];
+    metrics?: MicrosoftInsightsCombinedClientMetricSettings[];
+    serviceBusRuleId?: string;
+    storageAccountId?: string;
+    workspaceId?: string;
+}
+
+// @public
+export interface ServiceDiagnosticsSettingsApiServiceDiagnosticSettingsResource extends ExtensionResource {
+    eventHubAuthorizationRuleId?: string;
+    location: string;
+    logs?: ServiceDiagnosticsSettingsApiLogSettings[];
+    metrics?: MicrosoftInsightsCombinedClientMetricSettings[];
+    serviceBusRuleId?: string;
+    storageAccountId?: string;
+    tags?: Record<string, string>;
+    workspaceId?: string;
+}
+
+// @public
+export interface ServiceDiagnosticsSettingsApiServiceDiagnosticSettingsResourcePatch {
+    eventHubAuthorizationRuleId?: string;
+    logs?: ServiceDiagnosticsSettingsApiLogSettings[];
+    metrics?: MicrosoftInsightsCombinedClientMetricSettings[];
+    serviceBusRuleId?: string;
+    storageAccountId?: string;
+    tags?: Record<string, string>;
+    workspaceId?: string;
 }
 
 // @public
@@ -3363,24 +3691,6 @@ export interface SimplePollerLike<TState extends OperationState<TResult>, TResul
 }
 
 // @public
-export interface SingleBaseline {
-    highThresholds: number[];
-    lowThresholds: number[];
-    sensitivity: BaselineSensitivity;
-}
-
-// @public
-export interface SingleMetricBaseline {
-    baselines: TimeSeriesBaseline[];
-    id: string;
-    interval: string;
-    name: string;
-    namespace?: string;
-    timespan: string;
-    type: string;
-}
-
-// @public
 export interface Sku {
     capacity?: number;
     family?: string;
@@ -3393,88 +3703,6 @@ export interface Sku {
 export type SkuTier = "Free" | "Basic" | "Standard" | "Premium";
 
 // @public
-export interface SmsReceiver {
-    countryCode: string;
-    name: string;
-    phoneNumber: string;
-    readonly status?: ReceiverStatus;
-}
-
-// @public
-export interface StaticPromQLCriteria extends MultiPromQLCriteria {
-    criterionType: "StaticThresholdCriterion";
-}
-
-// @public
-export interface StorageBlob {
-    blobUrl?: string;
-    lookupType?: KnownStorageBlobLookupType;
-    name?: string;
-    resourceId?: string;
-}
-
-// @public
-export interface StorageBlobDestination {
-    containerName?: string;
-    name?: string;
-    storageAccountResourceId?: string;
-}
-
-// @public
-export interface StorageTableDestination {
-    name?: string;
-    storageAccountResourceId?: string;
-    tableName?: string;
-}
-
-// @public
-export interface StreamDeclaration {
-    columns?: ColumnDefinition[];
-}
-
-// @public
-export interface SubscriptionScopeMetricDefinition {
-    category?: string;
-    dimensions?: LocalizableString[];
-    displayDescription?: string;
-    id?: string;
-    isDimensionRequired?: boolean;
-    metricAvailabilities?: MetricAvailability[];
-    metricClass?: MetricClass;
-    name?: LocalizableString;
-    namespace?: string;
-    primaryAggregationType?: MetricAggregationType;
-    resourceId?: string;
-    supportedAggregationTypes?: MetricAggregationType[];
-    unit?: MetricUnit;
-}
-
-// @public
-export interface SubscriptionScopeMetricsRequestBodyParameters {
-    aggregation?: string;
-    autoAdjustTimegrain?: boolean;
-    filter?: string;
-    interval?: string;
-    metricNames?: string;
-    metricNamespace?: string;
-    orderBy?: string;
-    resultType?: MetricResultType;
-    rollUpBy?: string;
-    timespan?: string;
-    top?: number;
-    validateDimensions?: boolean;
-}
-
-// @public
-export interface SyslogDataSource {
-    facilityNames?: KnownSyslogDataSourceFacilityNames[];
-    logLevels?: KnownSyslogDataSourceLogLevels[];
-    name?: string;
-    streams?: KnownSyslogDataSourceStreams[];
-    transformKql?: string;
-}
-
-// @public
 export interface SystemData {
     createdAt?: Date;
     createdBy?: string;
@@ -3485,8 +3713,143 @@ export interface SystemData {
 }
 
 // @public
-export interface TagsResource {
+export interface TenantActionGroupsActionDetail {
+    mechanismType?: string;
+    message?: string;
+    name?: string;
+    sendTime?: string;
+    status?: string;
+    subState?: string;
+}
+
+// @public
+export interface TenantActionGroupsActionGroupPatch {
+    enabled?: boolean;
+}
+
+// @public
+export interface TenantActionGroupsActionGroupPatchBody {
+    enabled?: boolean;
     tags?: Record<string, string>;
+}
+
+// @public
+export interface TenantActionGroupsAzureAppPushReceiver {
+    emailAddress: string;
+    name: string;
+}
+
+// @public
+export interface TenantActionGroupsContext {
+    contextType?: string;
+    notificationSource?: string;
+}
+
+// @public
+export interface TenantActionGroupsCreateOrUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface TenantActionGroupsDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface TenantActionGroupsEmailReceiver {
+    emailAddress: string;
+    name: string;
+    readonly status?: TenantActionGroupsReceiverStatus;
+    useCommonAlertSchema?: boolean;
+}
+
+// @public
+export interface TenantActionGroupsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface TenantActionGroupsListByManagementGroupIdOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface TenantActionGroupsOperations {
+    createOrUpdate: (managementGroupId: string, tenantActionGroupName: string, xMsClientTenantId: string, actionGroup: TenantActionGroupsTenantActionGroupResource, options?: TenantActionGroupsCreateOrUpdateOptionalParams) => Promise<TenantActionGroupsTenantActionGroupResource>;
+    delete: (managementGroupId: string, tenantActionGroupName: string, xMsClientTenantId: string, options?: TenantActionGroupsDeleteOptionalParams) => Promise<void>;
+    get: (managementGroupId: string, tenantActionGroupName: string, xMsClientTenantId: string, options?: TenantActionGroupsGetOptionalParams) => Promise<TenantActionGroupsTenantActionGroupResource>;
+    listByManagementGroupId: (managementGroupId: string, xMsClientTenantId: string, options?: TenantActionGroupsListByManagementGroupIdOptionalParams) => PagedAsyncIterableIterator<TenantActionGroupsTenantActionGroupResource>;
+    update: (managementGroupId: string, tenantActionGroupName: string, xMsClientTenantId: string, tenantActionGroupPatch: TenantActionGroupsActionGroupPatchBody, options?: TenantActionGroupsUpdateOptionalParams) => Promise<TenantActionGroupsTenantActionGroupResource>;
+}
+
+// @public
+export type TenantActionGroupsReceiverStatus = "NotSpecified" | "Enabled" | "Disabled";
+
+// @public
+export interface TenantActionGroupsSmsReceiver {
+    countryCode: string;
+    name: string;
+    phoneNumber: string;
+    readonly status?: TenantActionGroupsReceiverStatus;
+}
+
+// @public
+export interface TenantActionGroupsTenantActionGroup {
+    azureAppPushReceivers?: TenantActionGroupsAzureAppPushReceiver[];
+    emailReceivers?: TenantActionGroupsEmailReceiver[];
+    enabled: boolean;
+    groupShortName: string;
+    smsReceivers?: TenantActionGroupsSmsReceiver[];
+    voiceReceivers?: TenantActionGroupsVoiceReceiver[];
+    webhookReceivers?: TenantActionGroupsWebhookReceiver[];
+}
+
+// @public
+export interface TenantActionGroupsTenantActionGroupResource extends TrackedResource {
+    azureAppPushReceivers?: TenantActionGroupsAzureAppPushReceiver[];
+    emailReceivers?: TenantActionGroupsEmailReceiver[];
+    enabled?: boolean;
+    groupShortName?: string;
+    smsReceivers?: TenantActionGroupsSmsReceiver[];
+    voiceReceivers?: TenantActionGroupsVoiceReceiver[];
+    webhookReceivers?: TenantActionGroupsWebhookReceiver[];
+}
+
+// @public
+export interface TenantActionGroupsTenantNotificationRequestBody {
+    alertType: string;
+    azureAppPushReceivers?: TenantActionGroupsAzureAppPushReceiver[];
+    emailReceivers?: TenantActionGroupsEmailReceiver[];
+    smsReceivers?: TenantActionGroupsSmsReceiver[];
+    voiceReceivers?: TenantActionGroupsVoiceReceiver[];
+    webhookReceivers?: TenantActionGroupsWebhookReceiver[];
+}
+
+// @public
+export interface TenantActionGroupsTestNotificationDetailsResponse {
+    actionDetails?: TenantActionGroupsActionDetail[];
+    completedTime?: string;
+    context?: TenantActionGroupsContext;
+    createdTime?: string;
+    state: string;
+}
+
+// @public
+export interface TenantActionGroupsUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface TenantActionGroupsVoiceReceiver {
+    countryCode: string;
+    name: string;
+    phoneNumber: string;
+}
+
+// @public
+export interface TenantActionGroupsWebhookReceiver {
+    identifierUri?: string;
+    name: string;
+    objectId?: string;
+    serviceUri: string;
+    tenantId?: string;
+    useAadAuth?: boolean;
+    useCommonAlertSchema?: boolean;
 }
 
 // @public
@@ -3497,44 +3860,7 @@ export interface TenantActivityLogsListOptionalParams extends OperationOptions {
 
 // @public
 export interface TenantActivityLogsOperations {
-    list: (options?: TenantActivityLogsListOptionalParams) => PagedAsyncIterableIterator<EventData>;
-}
-
-// @public
-export interface TestNotificationDetailsResponse {
-    actionDetails?: ActionDetail[];
-    completedTime?: string;
-    context?: Context;
-    createdTime?: string;
-    state: string;
-}
-
-// @public
-export type TimeAggregation = string;
-
-// @public
-export type TimeAggregationType = "Average" | "Minimum" | "Maximum" | "Total" | "Count" | "Last";
-
-// @public
-export interface TimeSeriesBaseline {
-    aggregation: string;
-    data: SingleBaseline[];
-    dimensions?: MetricSingleDimension[];
-    metadataValues?: BaselineMetadata[];
-    timestamps: Date[];
-}
-
-// @public
-export interface TimeSeriesElement {
-    data?: MetricValue[];
-    metadatavalues?: MetadataValue[];
-}
-
-// @public
-export interface TimeWindow {
-    end: Date;
-    start: Date;
-    timeZone?: string;
+    list: (options?: TenantActivityLogsListOptionalParams) => PagedAsyncIterableIterator<ActivityLogsApiEventData>;
 }
 
 // @public
@@ -3550,57 +3876,62 @@ export interface UserAssignedIdentity {
 }
 
 // @public
-export interface UserIdentityProperties {
-    readonly clientId?: string;
-    readonly principalId?: string;
+export interface VMInsightsGetOnboardingStatusOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface VoiceReceiver {
-    countryCode: string;
-    name: string;
-    phoneNumber: string;
+export interface VmInsightsOnboardingDataContainer {
+    workspace: VmInsightsOnboardingWorkspaceInfo;
 }
 
 // @public
-export interface WebhookNotification {
-    properties?: Record<string, string>;
-    serviceUri?: string;
+export type VmInsightsOnboardingDataStatus = string;
+
+// @public
+export interface VmInsightsOnboardingError {
+    code: string;
+    message?: string;
 }
 
 // @public
-export interface WebhookReceiver {
-    identifierUri?: string;
-    managedIdentity?: string;
-    name: string;
-    objectId?: string;
-    serviceUri: string;
-    tenantId?: string;
-    useAadAuth?: boolean;
-    useCommonAlertSchema?: boolean;
+export type VmInsightsOnboardingOnboardingStatus = string;
+
+// @public
+export interface VmInsightsOnboardingResponseWithError {
+    error: VmInsightsOnboardingError;
 }
 
 // @public
-export interface WebtestLocationAvailabilityCriteria extends MetricAlertCriteria {
-    componentId: string;
-    failedLocationCount: number;
-    odataType: "Microsoft.Azure.Monitor.WebtestLocationAvailabilityCriteria";
-    webTestId: string;
+export interface VmInsightsOnboardingVMInsightsOnboardingStatus extends ExtensionResource {
+    data?: VmInsightsOnboardingDataContainer[];
+    dataStatus?: VmInsightsOnboardingDataStatus;
+    onboardingStatus?: VmInsightsOnboardingOnboardingStatus;
+    resourceId?: string;
 }
 
 // @public
-export interface WindowsEventLogDataSource {
-    name?: string;
-    streams?: KnownWindowsEventLogDataSourceStreams[];
-    transformKql?: string;
-    xPathQueries?: string[];
+export interface VmInsightsOnboardingVMInsightsOnboardingStatusProperties {
+    data?: VmInsightsOnboardingDataContainer[];
+    dataStatus: VmInsightsOnboardingDataStatus;
+    onboardingStatus: VmInsightsOnboardingOnboardingStatus;
+    resourceId: string;
 }
 
 // @public
-export interface WindowsFirewallLogsDataSource {
-    name?: string;
-    profileFilter?: KnownWindowsFirewallLogsDataSourceProfileFilter[];
-    streams: string[];
+export interface VmInsightsOnboardingWorkspaceInfo {
+    customerId: string;
+    id: string;
+    location: string;
+}
+
+// @public
+export interface VmInsightsOnboardingWorkspaceInfoProperties {
+    customerId: string;
+}
+
+// @public
+export interface VMInsightsOperations {
+    getOnboardingStatus: (resourceUri: string, options?: VMInsightsGetOnboardingStatusOptionalParams) => Promise<VmInsightsOnboardingVMInsightsOnboardingStatus>;
 }
 
 // (No @packageDocumentation comment for this package)

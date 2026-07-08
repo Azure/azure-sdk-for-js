@@ -2,17 +2,17 @@
 // Licensed under the MIT License.
 
 import type { MonitorContext as Client } from "../index.js";
-import { errorContractDeserializer } from "../../models/microsoft/common/models.js";
+import { microsoftCommonErrorContractDeserializer } from "../../models/microsoft/common/models.js";
 import type {
-  ScheduledQueryRuleResource,
-  ScheduledQueryRuleResourcePatch,
-  _ScheduledQueryRuleResourceCollection,
+  ScheduledQueryRuleApiScheduledQueryRuleResource,
+  ScheduledQueryRuleApiScheduledQueryRuleResourcePatch,
+  _ScheduledQueryRuleApiScheduledQueryRuleResourceCollection,
 } from "../../models/scheduledQueryRuleApi/models.js";
 import {
-  scheduledQueryRuleResourceSerializer,
-  scheduledQueryRuleResourceDeserializer,
-  scheduledQueryRuleResourcePatchSerializer,
-  _scheduledQueryRuleResourceCollectionDeserializer,
+  scheduledQueryRuleApiScheduledQueryRuleResourceSerializer,
+  scheduledQueryRuleApiScheduledQueryRuleResourceDeserializer,
+  scheduledQueryRuleApiScheduledQueryRuleResourcePatchSerializer,
+  _scheduledQueryRuleApiScheduledQueryRuleResourceCollectionDeserializer,
 } from "../../models/scheduledQueryRuleApi/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -50,25 +50,25 @@ export function _listBySubscriptionSend(
 
 export async function _listBySubscriptionDeserialize(
   result: PathUncheckedResponse,
-): Promise<_ScheduledQueryRuleResourceCollection> {
+): Promise<_ScheduledQueryRuleApiScheduledQueryRuleResourceCollection> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
-      error.details = errorContractDeserializer(result.body);
+      error.details = microsoftCommonErrorContractDeserializer(result.body);
     }
 
     throw error;
   }
 
-  return _scheduledQueryRuleResourceCollectionDeserializer(result.body);
+  return _scheduledQueryRuleApiScheduledQueryRuleResourceCollectionDeserializer(result.body);
 }
 
 /** Retrieve a scheduled query rule definitions in a subscription. */
 export function listBySubscription(
   context: Client,
   options: ScheduledQueryRulesListBySubscriptionOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<ScheduledQueryRuleResource> {
+): PagedAsyncIterableIterator<ScheduledQueryRuleApiScheduledQueryRuleResource> {
   return buildPagedAsyncIterator(
     context,
     () => _listBySubscriptionSend(context, options),
@@ -102,18 +102,18 @@ export function _listByResourceGroupSend(
 
 export async function _listByResourceGroupDeserialize(
   result: PathUncheckedResponse,
-): Promise<_ScheduledQueryRuleResourceCollection> {
+): Promise<_ScheduledQueryRuleApiScheduledQueryRuleResourceCollection> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
-      error.details = errorContractDeserializer(result.body);
+      error.details = microsoftCommonErrorContractDeserializer(result.body);
     }
 
     throw error;
   }
 
-  return _scheduledQueryRuleResourceCollectionDeserializer(result.body);
+  return _scheduledQueryRuleApiScheduledQueryRuleResourceCollectionDeserializer(result.body);
 }
 
 /** Retrieve scheduled query rule definitions in a resource group. */
@@ -121,7 +121,7 @@ export function listByResourceGroup(
   context: Client,
   resourceGroupName: string,
   options: ScheduledQueryRulesListByResourceGroupOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<ScheduledQueryRuleResource> {
+): PagedAsyncIterableIterator<ScheduledQueryRuleApiScheduledQueryRuleResource> {
   return buildPagedAsyncIterator(
     context,
     () => _listByResourceGroupSend(context, resourceGroupName, options),
@@ -157,7 +157,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
-      error.details = errorContractDeserializer(result.body);
+      error.details = microsoftCommonErrorContractDeserializer(result.body);
     }
 
     throw error;
@@ -181,7 +181,7 @@ export function _updateSend(
   context: Client,
   resourceGroupName: string,
   ruleName: string,
-  parameters: ScheduledQueryRuleResourcePatch,
+  parameters: ScheduledQueryRuleApiScheduledQueryRuleResourcePatch,
   options: ScheduledQueryRulesUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -200,24 +200,24 @@ export function _updateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: scheduledQueryRuleResourcePatchSerializer(parameters),
+    body: scheduledQueryRuleApiScheduledQueryRuleResourcePatchSerializer(parameters),
   });
 }
 
 export async function _updateDeserialize(
   result: PathUncheckedResponse,
-): Promise<ScheduledQueryRuleResource> {
+): Promise<ScheduledQueryRuleApiScheduledQueryRuleResource> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
-      error.details = errorContractDeserializer(result.body);
+      error.details = microsoftCommonErrorContractDeserializer(result.body);
     }
 
     throw error;
   }
 
-  return scheduledQueryRuleResourceDeserializer(result.body);
+  return scheduledQueryRuleApiScheduledQueryRuleResourceDeserializer(result.body);
 }
 
 /** Update a scheduled query rule. */
@@ -225,9 +225,9 @@ export async function update(
   context: Client,
   resourceGroupName: string,
   ruleName: string,
-  parameters: ScheduledQueryRuleResourcePatch,
+  parameters: ScheduledQueryRuleApiScheduledQueryRuleResourcePatch,
   options: ScheduledQueryRulesUpdateOptionalParams = { requestOptions: {} },
-): Promise<ScheduledQueryRuleResource> {
+): Promise<ScheduledQueryRuleApiScheduledQueryRuleResource> {
   const result = await _updateSend(context, resourceGroupName, ruleName, parameters, options);
   return _updateDeserialize(result);
 }
@@ -236,7 +236,7 @@ export function _createOrUpdateSend(
   context: Client,
   resourceGroupName: string,
   ruleName: string,
-  parameters: ScheduledQueryRuleResource,
+  parameters: ScheduledQueryRuleApiScheduledQueryRuleResource,
   options: ScheduledQueryRulesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -255,24 +255,24 @@ export function _createOrUpdateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: scheduledQueryRuleResourceSerializer(parameters),
+    body: scheduledQueryRuleApiScheduledQueryRuleResourceSerializer(parameters),
   });
 }
 
 export async function _createOrUpdateDeserialize(
   result: PathUncheckedResponse,
-): Promise<ScheduledQueryRuleResource> {
+): Promise<ScheduledQueryRuleApiScheduledQueryRuleResource> {
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
-      error.details = errorContractDeserializer(result.body);
+      error.details = microsoftCommonErrorContractDeserializer(result.body);
     }
 
     throw error;
   }
 
-  return scheduledQueryRuleResourceDeserializer(result.body);
+  return scheduledQueryRuleApiScheduledQueryRuleResourceDeserializer(result.body);
 }
 
 /** Creates or updates a scheduled query rule. */
@@ -280,9 +280,9 @@ export async function createOrUpdate(
   context: Client,
   resourceGroupName: string,
   ruleName: string,
-  parameters: ScheduledQueryRuleResource,
+  parameters: ScheduledQueryRuleApiScheduledQueryRuleResource,
   options: ScheduledQueryRulesCreateOrUpdateOptionalParams = { requestOptions: {} },
-): Promise<ScheduledQueryRuleResource> {
+): Promise<ScheduledQueryRuleApiScheduledQueryRuleResource> {
   const result = await _createOrUpdateSend(
     context,
     resourceGroupName,
@@ -319,18 +319,18 @@ export function _getSend(
 
 export async function _getDeserialize(
   result: PathUncheckedResponse,
-): Promise<ScheduledQueryRuleResource> {
+): Promise<ScheduledQueryRuleApiScheduledQueryRuleResource> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
-      error.details = errorContractDeserializer(result.body);
+      error.details = microsoftCommonErrorContractDeserializer(result.body);
     }
 
     throw error;
   }
 
-  return scheduledQueryRuleResourceDeserializer(result.body);
+  return scheduledQueryRuleApiScheduledQueryRuleResourceDeserializer(result.body);
 }
 
 /** Retrieve an scheduled query rule definition. */
@@ -339,7 +339,7 @@ export async function get(
   resourceGroupName: string,
   ruleName: string,
   options: ScheduledQueryRulesGetOptionalParams = { requestOptions: {} },
-): Promise<ScheduledQueryRuleResource> {
+): Promise<ScheduledQueryRuleApiScheduledQueryRuleResource> {
   const result = await _getSend(context, resourceGroupName, ruleName, options);
   return _getDeserialize(result);
 }

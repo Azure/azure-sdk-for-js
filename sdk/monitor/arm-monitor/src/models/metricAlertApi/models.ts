@@ -3,11 +3,15 @@
 
 import { areAllPropsUndefined } from "../../static-helpers/serialization/check-prop-undefined.js";
 import { serializeRecord } from "../../static-helpers/serialization/serialize-record.js";
-import type { CriterionType, Identity, ErrorResponseError } from "../microsoft/common/models.js";
+import type {
+  MicrosoftCommonCriterionType,
+  MicrosoftCommonIdentity,
+  MicrosoftCommonErrorResponseError,
+} from "../microsoft/common/models.js";
 import {
-  identitySerializer,
-  identityDeserializer,
-  errorResponseErrorDeserializer,
+  microsoftCommonIdentitySerializer,
+  microsoftCommonIdentityDeserializer,
+  microsoftCommonErrorResponseErrorDeserializer,
 } from "../microsoft/common/models.js";
 import type { TrackedResource } from "../models.js";
 import { systemDataDeserializer } from "../models.js";
@@ -19,9 +23,9 @@ import { systemDataDeserializer } from "../models.js";
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** The metric alert resource. */
-export interface MetricAlertResource extends TrackedResource {
+export interface MetricAlertApiMetricAlertResource extends TrackedResource {
   /** The identity of the resource. */
-  identity?: Identity;
+  identity?: MicrosoftCommonIdentity;
   /** The description of the metric alert that will be included in the alert email. */
   description?: string;
   /** Alert severity {0, 1, 2, 3, 4} */
@@ -39,13 +43,13 @@ export interface MetricAlertResource extends TrackedResource {
   /** The region of the target resource(s) on which the alert is created/updated. Mandatory if the scope contains a subscription, resource group, or more than one resource. */
   targetResourceRegion?: string;
   /** Defines the specific alert criteria information. */
-  criteria: MetricAlertCriteriaUnion;
+  criteria: MetricAlertApiMetricAlertCriteriaUnion;
   /** The flag that indicates whether the alert should be auto resolved or not. The default is true. */
   autoMitigate?: boolean;
   /** The configuration for how the alert is resolved. Applicable for PromQLCriteria. */
-  resolveConfiguration?: ResolveConfiguration;
+  resolveConfiguration?: MetricAlertApiResolveConfiguration;
   /** The array of actions that are performed when the alert rule becomes active, and when an alert condition is resolved. */
-  actions?: MetricAlertAction[];
+  actions?: MetricAlertApiMetricAlertAction[];
   /** Last time the rule was updated in ISO8601 format. */
   readonly lastUpdatedTime?: Date;
   /** The value indicating whether this alert rule is migrated. */
@@ -56,16 +60,22 @@ export interface MetricAlertResource extends TrackedResource {
   actionProperties?: Record<string, string>;
 }
 
-export function metricAlertResourceSerializer(item: MetricAlertResource): any {
+export function metricAlertApiMetricAlertResourceSerializer(
+  item: MetricAlertApiMetricAlertResource,
+): any {
   return {
     tags: item["tags"],
     location: item["location"],
     properties: _metricAlertResourcePropertiesSerializer(item),
-    identity: !item["identity"] ? item["identity"] : identitySerializer(item["identity"]),
+    identity: !item["identity"]
+      ? item["identity"]
+      : microsoftCommonIdentitySerializer(item["identity"]),
   };
 }
 
-export function metricAlertResourceDeserializer(item: any): MetricAlertResource {
+export function metricAlertApiMetricAlertResourceDeserializer(
+  item: any,
+): MetricAlertApiMetricAlertResource {
   return {
     tags: !item["tags"]
       ? item["tags"]
@@ -78,12 +88,14 @@ export function metricAlertResourceDeserializer(item: any): MetricAlertResource 
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
     ..._metricAlertResourcePropertiesDeserializer(item["properties"]),
-    identity: !item["identity"] ? item["identity"] : identityDeserializer(item["identity"]),
+    identity: !item["identity"]
+      ? item["identity"]
+      : microsoftCommonIdentityDeserializer(item["identity"]),
   };
 }
 
 /** An alert rule. */
-export interface MetricAlertProperties {
+export interface MetricAlertApiMetricAlertProperties {
   /** The description of the metric alert that will be included in the alert email. */
   description?: string;
   /** Alert severity {0, 1, 2, 3, 4} */
@@ -101,13 +113,13 @@ export interface MetricAlertProperties {
   /** The region of the target resource(s) on which the alert is created/updated. Mandatory if the scope contains a subscription, resource group, or more than one resource. */
   targetResourceRegion?: string;
   /** Defines the specific alert criteria information. */
-  criteria: MetricAlertCriteriaUnion;
+  criteria: MetricAlertApiMetricAlertCriteriaUnion;
   /** The flag that indicates whether the alert should be auto resolved or not. The default is true. */
   autoMitigate?: boolean;
   /** The configuration for how the alert is resolved. Applicable for PromQLCriteria. */
-  resolveConfiguration?: ResolveConfiguration;
+  resolveConfiguration?: MetricAlertApiResolveConfiguration;
   /** The array of actions that are performed when the alert rule becomes active, and when an alert condition is resolved. */
-  actions?: MetricAlertAction[];
+  actions?: MetricAlertApiMetricAlertAction[];
   /** Last time the rule was updated in ISO8601 format. */
   readonly lastUpdatedTime?: Date;
   /** The value indicating whether this alert rule is migrated. */
@@ -118,7 +130,9 @@ export interface MetricAlertProperties {
   actionProperties?: Record<string, string>;
 }
 
-export function metricAlertPropertiesSerializer(item: MetricAlertProperties): any {
+export function metricAlertApiMetricAlertPropertiesSerializer(
+  item: MetricAlertApiMetricAlertProperties,
+): any {
   return {
     description: item["description"],
     severity: item["severity"],
@@ -130,18 +144,22 @@ export function metricAlertPropertiesSerializer(item: MetricAlertProperties): an
     windowSize: item["windowSize"],
     targetResourceType: item["targetResourceType"],
     targetResourceRegion: item["targetResourceRegion"],
-    criteria: metricAlertCriteriaUnionSerializer(item["criteria"]),
+    criteria: metricAlertApiMetricAlertCriteriaUnionSerializer(item["criteria"]),
     autoMitigate: item["autoMitigate"],
     resolveConfiguration: !item["resolveConfiguration"]
       ? item["resolveConfiguration"]
-      : resolveConfigurationSerializer(item["resolveConfiguration"]),
-    actions: !item["actions"] ? item["actions"] : metricAlertActionArraySerializer(item["actions"]),
+      : metricAlertApiResolveConfigurationSerializer(item["resolveConfiguration"]),
+    actions: !item["actions"]
+      ? item["actions"]
+      : metricAlertApiMetricAlertActionArraySerializer(item["actions"]),
     customProperties: item["customProperties"],
     actionProperties: item["actionProperties"],
   };
 }
 
-export function metricAlertPropertiesDeserializer(item: any): MetricAlertProperties {
+export function metricAlertApiMetricAlertPropertiesDeserializer(
+  item: any,
+): MetricAlertApiMetricAlertProperties {
   return {
     description: item["description"],
     severity: item["severity"],
@@ -153,14 +171,14 @@ export function metricAlertPropertiesDeserializer(item: any): MetricAlertPropert
     windowSize: item["windowSize"],
     targetResourceType: item["targetResourceType"],
     targetResourceRegion: item["targetResourceRegion"],
-    criteria: metricAlertCriteriaUnionDeserializer(item["criteria"]),
+    criteria: metricAlertApiMetricAlertCriteriaUnionDeserializer(item["criteria"]),
     autoMitigate: item["autoMitigate"],
     resolveConfiguration: !item["resolveConfiguration"]
       ? item["resolveConfiguration"]
-      : resolveConfigurationDeserializer(item["resolveConfiguration"]),
+      : metricAlertApiResolveConfigurationDeserializer(item["resolveConfiguration"]),
     actions: !item["actions"]
       ? item["actions"]
-      : metricAlertActionArrayDeserializer(item["actions"]),
+      : metricAlertApiMetricAlertActionArrayDeserializer(item["actions"]),
     lastUpdatedTime: !item["lastUpdatedTime"]
       ? item["lastUpdatedTime"]
       : new Date(item["lastUpdatedTime"]),
@@ -179,85 +197,93 @@ export function metricAlertPropertiesDeserializer(item: any): MetricAlertPropert
 }
 
 /** The rule criteria that defines the conditions of the alert rule. */
-export interface MetricAlertCriteria {
+export interface MetricAlertApiMetricAlertCriteria {
   /** Specifies the type of the alert criteria. Previously undocumented values might be returned */
   /** The discriminator possible values: Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria, Microsoft.Azure.Monitor.WebtestLocationAvailabilityCriteria, Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria, Microsoft.Azure.Monitor.PromQLCriteria */
-  odataType: Odatatype;
+  odataType: MetricAlertApiOdatatype;
   /** Additional properties */
   additionalProperties?: Record<string, any>;
 }
 
-export function metricAlertCriteriaSerializer(item: MetricAlertCriteria): any {
+export function metricAlertApiMetricAlertCriteriaSerializer(
+  item: MetricAlertApiMetricAlertCriteria,
+): any {
   return { ...serializeRecord(item.additionalProperties ?? {}), "odata.type": item["odataType"] };
 }
 
-export function metricAlertCriteriaDeserializer(item: any): MetricAlertCriteria {
+export function metricAlertApiMetricAlertCriteriaDeserializer(
+  item: any,
+): MetricAlertApiMetricAlertCriteria {
   return {
     additionalProperties: serializeRecord(item, ["odata.type"]),
     odataType: item["odata.type"],
   };
 }
 
-/** Alias for MetricAlertCriteriaUnion */
-export type MetricAlertCriteriaUnion =
-  | MetricAlertSingleResourceMultipleMetricCriteria
-  | WebtestLocationAvailabilityCriteria
-  | MetricAlertMultipleResourceMultipleMetricCriteria
-  | PromQLCriteria
-  | MetricAlertCriteria;
+/** Alias for MetricAlertApiMetricAlertCriteriaUnion */
+export type MetricAlertApiMetricAlertCriteriaUnion =
+  | MetricAlertApiMetricAlertSingleResourceMultipleMetricCriteria
+  | MetricAlertApiWebtestLocationAvailabilityCriteria
+  | MetricAlertApiMetricAlertMultipleResourceMultipleMetricCriteria
+  | MetricAlertApiPromQLCriteria
+  | MetricAlertApiMetricAlertCriteria;
 
-export function metricAlertCriteriaUnionSerializer(item: MetricAlertCriteriaUnion): any {
+export function metricAlertApiMetricAlertCriteriaUnionSerializer(
+  item: MetricAlertApiMetricAlertCriteriaUnion,
+): any {
   switch (item.odataType) {
     case "Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria":
-      return metricAlertSingleResourceMultipleMetricCriteriaSerializer(
-        item as MetricAlertSingleResourceMultipleMetricCriteria,
+      return metricAlertApiMetricAlertSingleResourceMultipleMetricCriteriaSerializer(
+        item as MetricAlertApiMetricAlertSingleResourceMultipleMetricCriteria,
       );
 
     case "Microsoft.Azure.Monitor.WebtestLocationAvailabilityCriteria":
-      return webtestLocationAvailabilityCriteriaSerializer(
-        item as WebtestLocationAvailabilityCriteria,
+      return metricAlertApiWebtestLocationAvailabilityCriteriaSerializer(
+        item as MetricAlertApiWebtestLocationAvailabilityCriteria,
       );
 
     case "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria":
-      return metricAlertMultipleResourceMultipleMetricCriteriaSerializer(
-        item as MetricAlertMultipleResourceMultipleMetricCriteria,
+      return metricAlertApiMetricAlertMultipleResourceMultipleMetricCriteriaSerializer(
+        item as MetricAlertApiMetricAlertMultipleResourceMultipleMetricCriteria,
       );
 
     case "Microsoft.Azure.Monitor.PromQLCriteria":
-      return promQLCriteriaSerializer(item as PromQLCriteria);
+      return metricAlertApiPromQLCriteriaSerializer(item as MetricAlertApiPromQLCriteria);
 
     default:
-      return metricAlertCriteriaSerializer(item);
+      return metricAlertApiMetricAlertCriteriaSerializer(item);
   }
 }
 
-export function metricAlertCriteriaUnionDeserializer(item: any): MetricAlertCriteriaUnion {
+export function metricAlertApiMetricAlertCriteriaUnionDeserializer(
+  item: any,
+): MetricAlertApiMetricAlertCriteriaUnion {
   switch (item["odata.type"]) {
     case "Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria":
-      return metricAlertSingleResourceMultipleMetricCriteriaDeserializer(
-        item as MetricAlertSingleResourceMultipleMetricCriteria,
+      return metricAlertApiMetricAlertSingleResourceMultipleMetricCriteriaDeserializer(
+        item as MetricAlertApiMetricAlertSingleResourceMultipleMetricCriteria,
       );
 
     case "Microsoft.Azure.Monitor.WebtestLocationAvailabilityCriteria":
-      return webtestLocationAvailabilityCriteriaDeserializer(
-        item as WebtestLocationAvailabilityCriteria,
+      return metricAlertApiWebtestLocationAvailabilityCriteriaDeserializer(
+        item as MetricAlertApiWebtestLocationAvailabilityCriteria,
       );
 
     case "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria":
-      return metricAlertMultipleResourceMultipleMetricCriteriaDeserializer(
-        item as MetricAlertMultipleResourceMultipleMetricCriteria,
+      return metricAlertApiMetricAlertMultipleResourceMultipleMetricCriteriaDeserializer(
+        item as MetricAlertApiMetricAlertMultipleResourceMultipleMetricCriteria,
       );
 
     case "Microsoft.Azure.Monitor.PromQLCriteria":
-      return promQLCriteriaDeserializer(item as PromQLCriteria);
+      return metricAlertApiPromQLCriteriaDeserializer(item as MetricAlertApiPromQLCriteria);
 
     default:
-      return metricAlertCriteriaDeserializer(item);
+      return metricAlertApiMetricAlertCriteriaDeserializer(item);
   }
 }
 
 /** Specifies the type of the alert criteria. Previously undocumented values might be returned */
-export enum KnownOdatatype {
+export enum KnownMetricAlertApiOdatatype {
   /** Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria */
   MicrosoftAzureMonitorSingleResourceMultipleMetricCriteria = "Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria",
   /** Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria */
@@ -270,7 +296,7 @@ export enum KnownOdatatype {
 
 /**
  * Specifies the type of the alert criteria. Previously undocumented values might be returned \
- * {@link KnownOdatatype} can be used interchangeably with Odatatype,
+ * {@link KnownMetricAlertApiOdatatype} can be used interchangeably with MetricAlertApiOdatatype,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria**: Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria \
@@ -278,59 +304,67 @@ export enum KnownOdatatype {
  * **Microsoft.Azure.Monitor.WebtestLocationAvailabilityCriteria**: Microsoft.Azure.Monitor.WebtestLocationAvailabilityCriteria \
  * **Microsoft.Azure.Monitor.PromQLCriteria**: Microsoft.Azure.Monitor.PromQLCriteria
  */
-export type Odatatype = string;
+export type MetricAlertApiOdatatype = string;
 
 /** Specifies the metric alert criteria for a single resource that has multiple metric criteria. */
-export interface MetricAlertSingleResourceMultipleMetricCriteria extends MetricAlertCriteria {
+export interface MetricAlertApiMetricAlertSingleResourceMultipleMetricCriteria extends MetricAlertApiMetricAlertCriteria {
   /** The list of metric criteria for this 'all of' operation. */
-  allOf?: MetricCriteria[];
+  allOf?: MetricAlertApiMetricCriteria[];
   /** Specifies the type of the alert criteria. Previously undocumented values might be returned */
   odataType: "Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria";
 }
 
-export function metricAlertSingleResourceMultipleMetricCriteriaSerializer(
-  item: MetricAlertSingleResourceMultipleMetricCriteria,
+export function metricAlertApiMetricAlertSingleResourceMultipleMetricCriteriaSerializer(
+  item: MetricAlertApiMetricAlertSingleResourceMultipleMetricCriteria,
 ): any {
   return {
     ...serializeRecord(item.additionalProperties ?? {}),
     "odata.type": item["odataType"],
-    allOf: !item["allOf"] ? item["allOf"] : metricCriteriaArraySerializer(item["allOf"]),
+    allOf: !item["allOf"]
+      ? item["allOf"]
+      : metricAlertApiMetricCriteriaArraySerializer(item["allOf"]),
   };
 }
 
-export function metricAlertSingleResourceMultipleMetricCriteriaDeserializer(
+export function metricAlertApiMetricAlertSingleResourceMultipleMetricCriteriaDeserializer(
   item: any,
-): MetricAlertSingleResourceMultipleMetricCriteria {
+): MetricAlertApiMetricAlertSingleResourceMultipleMetricCriteria {
   return {
     additionalProperties: serializeRecord(item, ["odata.type", "allOf"]),
     odataType: item["odata.type"],
-    allOf: !item["allOf"] ? item["allOf"] : metricCriteriaArrayDeserializer(item["allOf"]),
+    allOf: !item["allOf"]
+      ? item["allOf"]
+      : metricAlertApiMetricCriteriaArrayDeserializer(item["allOf"]),
   };
 }
 
-export function metricCriteriaArraySerializer(result: Array<MetricCriteria>): any[] {
+export function metricAlertApiMetricCriteriaArraySerializer(
+  result: Array<MetricAlertApiMetricCriteria>,
+): any[] {
   return result.map((item) => {
-    return metricCriteriaSerializer(item);
+    return metricAlertApiMetricCriteriaSerializer(item);
   });
 }
 
-export function metricCriteriaArrayDeserializer(result: Array<MetricCriteria>): any[] {
+export function metricAlertApiMetricCriteriaArrayDeserializer(
+  result: Array<MetricAlertApiMetricCriteria>,
+): any[] {
   return result.map((item) => {
-    return metricCriteriaDeserializer(item);
+    return metricAlertApiMetricCriteriaDeserializer(item);
   });
 }
 
 /** Criterion to filter metrics. */
-export interface MetricCriteria extends MultiMetricCriteria {
+export interface MetricAlertApiMetricCriteria extends MetricAlertApiMultiMetricCriteria {
   /** The criteria operator. Previously undocumented values might be returned */
-  operator: Operator;
+  operator: MetricAlertApiOperator;
   /** The criteria threshold value that activates the alert. */
   threshold: number;
   /** Specifies the type of threshold criteria. Previously undocumented values might be returned */
   criterionType: "StaticThresholdCriterion";
 }
 
-export function metricCriteriaSerializer(item: MetricCriteria): any {
+export function metricAlertApiMetricCriteriaSerializer(item: MetricAlertApiMetricCriteria): any {
   return {
     ...serializeRecord(item.additionalProperties ?? {}),
     criterionType: item["criterionType"],
@@ -340,14 +374,14 @@ export function metricCriteriaSerializer(item: MetricCriteria): any {
     timeAggregation: item["timeAggregation"],
     dimensions: !item["dimensions"]
       ? item["dimensions"]
-      : metricDimensionArraySerializer(item["dimensions"]),
+      : metricAlertApiMetricDimensionArraySerializer(item["dimensions"]),
     skipMetricValidation: item["skipMetricValidation"],
     operator: item["operator"],
     threshold: item["threshold"],
   };
 }
 
-export function metricCriteriaDeserializer(item: any): MetricCriteria {
+export function metricAlertApiMetricCriteriaDeserializer(item: any): MetricAlertApiMetricCriteria {
   return {
     additionalProperties: serializeRecord(item, [
       "criterionType",
@@ -367,7 +401,7 @@ export function metricCriteriaDeserializer(item: any): MetricCriteria {
     timeAggregation: item["timeAggregation"],
     dimensions: !item["dimensions"]
       ? item["dimensions"]
-      : metricDimensionArrayDeserializer(item["dimensions"]),
+      : metricAlertApiMetricDimensionArrayDeserializer(item["dimensions"]),
     skipMetricValidation: item["skipMetricValidation"],
     operator: item["operator"],
     threshold: item["threshold"],
@@ -375,7 +409,7 @@ export function metricCriteriaDeserializer(item: any): MetricCriteria {
 }
 
 /** The criteria operator. Previously undocumented values might be returned */
-export enum KnownOperator {
+export enum KnownMetricAlertApiOperator {
   /** Equals */
   Equals = "Equals",
   /** GreaterThan */
@@ -390,7 +424,7 @@ export enum KnownOperator {
 
 /**
  * The criteria operator. Previously undocumented values might be returned \
- * {@link KnownOperator} can be used interchangeably with Operator,
+ * {@link KnownMetricAlertApiOperator} can be used interchangeably with MetricAlertApiOperator,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Equals**: Equals \
@@ -399,10 +433,10 @@ export enum KnownOperator {
  * **LessThan**: LessThan \
  * **LessThanOrEqual**: LessThanOrEqual
  */
-export type Operator = string;
+export type MetricAlertApiOperator = string;
 
 /** Specifies the metric alert rule criteria for a web test resource. */
-export interface WebtestLocationAvailabilityCriteria extends MetricAlertCriteria {
+export interface MetricAlertApiWebtestLocationAvailabilityCriteria extends MetricAlertApiMetricAlertCriteria {
   /** The Application Insights web test Id. */
   webTestId: string;
   /** The Application Insights resource Id. */
@@ -413,8 +447,8 @@ export interface WebtestLocationAvailabilityCriteria extends MetricAlertCriteria
   odataType: "Microsoft.Azure.Monitor.WebtestLocationAvailabilityCriteria";
 }
 
-export function webtestLocationAvailabilityCriteriaSerializer(
-  item: WebtestLocationAvailabilityCriteria,
+export function metricAlertApiWebtestLocationAvailabilityCriteriaSerializer(
+  item: MetricAlertApiWebtestLocationAvailabilityCriteria,
 ): any {
   return {
     ...serializeRecord(item.additionalProperties ?? {}),
@@ -425,9 +459,9 @@ export function webtestLocationAvailabilityCriteriaSerializer(
   };
 }
 
-export function webtestLocationAvailabilityCriteriaDeserializer(
+export function metricAlertApiWebtestLocationAvailabilityCriteriaDeserializer(
   item: any,
-): WebtestLocationAvailabilityCriteria {
+): MetricAlertApiWebtestLocationAvailabilityCriteria {
   return {
     additionalProperties: serializeRecord(item, [
       "odata.type",
@@ -443,56 +477,58 @@ export function webtestLocationAvailabilityCriteriaDeserializer(
 }
 
 /** Specifies the metric alert criteria for multiple resource that has multiple metric criteria. */
-export interface MetricAlertMultipleResourceMultipleMetricCriteria extends MetricAlertCriteria {
+export interface MetricAlertApiMetricAlertMultipleResourceMultipleMetricCriteria extends MetricAlertApiMetricAlertCriteria {
   /** The list of multiple metric criteria for this 'all of' operation. */
-  allOf?: MultiMetricCriteriaUnion[];
+  allOf?: MetricAlertApiMultiMetricCriteriaUnion[];
   /** Specifies the type of the alert criteria. Previously undocumented values might be returned */
   odataType: "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria";
 }
 
-export function metricAlertMultipleResourceMultipleMetricCriteriaSerializer(
-  item: MetricAlertMultipleResourceMultipleMetricCriteria,
+export function metricAlertApiMetricAlertMultipleResourceMultipleMetricCriteriaSerializer(
+  item: MetricAlertApiMetricAlertMultipleResourceMultipleMetricCriteria,
 ): any {
   return {
     ...serializeRecord(item.additionalProperties ?? {}),
     "odata.type": item["odataType"],
-    allOf: !item["allOf"] ? item["allOf"] : multiMetricCriteriaUnionArraySerializer(item["allOf"]),
+    allOf: !item["allOf"]
+      ? item["allOf"]
+      : metricAlertApiMultiMetricCriteriaUnionArraySerializer(item["allOf"]),
   };
 }
 
-export function metricAlertMultipleResourceMultipleMetricCriteriaDeserializer(
+export function metricAlertApiMetricAlertMultipleResourceMultipleMetricCriteriaDeserializer(
   item: any,
-): MetricAlertMultipleResourceMultipleMetricCriteria {
+): MetricAlertApiMetricAlertMultipleResourceMultipleMetricCriteria {
   return {
     additionalProperties: serializeRecord(item, ["odata.type", "allOf"]),
     odataType: item["odata.type"],
     allOf: !item["allOf"]
       ? item["allOf"]
-      : multiMetricCriteriaUnionArrayDeserializer(item["allOf"]),
+      : metricAlertApiMultiMetricCriteriaUnionArrayDeserializer(item["allOf"]),
   };
 }
 
-export function multiMetricCriteriaUnionArraySerializer(
-  result: Array<MultiMetricCriteriaUnion>,
+export function metricAlertApiMultiMetricCriteriaUnionArraySerializer(
+  result: Array<MetricAlertApiMultiMetricCriteriaUnion>,
 ): any[] {
   return result.map((item) => {
-    return multiMetricCriteriaUnionSerializer(item);
+    return metricAlertApiMultiMetricCriteriaUnionSerializer(item);
   });
 }
 
-export function multiMetricCriteriaUnionArrayDeserializer(
-  result: Array<MultiMetricCriteriaUnion>,
+export function metricAlertApiMultiMetricCriteriaUnionArrayDeserializer(
+  result: Array<MetricAlertApiMultiMetricCriteriaUnion>,
 ): any[] {
   return result.map((item) => {
-    return multiMetricCriteriaUnionDeserializer(item);
+    return metricAlertApiMultiMetricCriteriaUnionDeserializer(item);
   });
 }
 
 /** The types of conditions for a multi resource alert. */
-export interface MultiMetricCriteria {
+export interface MetricAlertApiMultiMetricCriteria {
   /** Specifies the type of threshold criteria. Previously undocumented values might be returned */
   /** The discriminator possible values: StaticThresholdCriterion, DynamicThresholdCriterion */
-  criterionType: CriterionType;
+  criterionType: MicrosoftCommonCriterionType;
   /** Name of the criteria. */
   name: string;
   /** Name of the metric. */
@@ -500,16 +536,18 @@ export interface MultiMetricCriteria {
   /** Namespace of the metric. */
   metricNamespace?: string;
   /** The criteria time aggregation types. Previously undocumented values might be returned */
-  timeAggregation: AggregationTypeEnum;
+  timeAggregation: MetricAlertApiAggregationTypeEnum;
   /** List of dimension conditions. */
-  dimensions?: MetricDimension[];
+  dimensions?: MetricAlertApiMetricDimension[];
   /** Allows creating an alert rule on a custom metric that isn't yet emitted, by causing the metric validation to be skipped. */
   skipMetricValidation?: boolean;
   /** Additional properties */
   additionalProperties?: Record<string, any>;
 }
 
-export function multiMetricCriteriaSerializer(item: MultiMetricCriteria): any {
+export function metricAlertApiMultiMetricCriteriaSerializer(
+  item: MetricAlertApiMultiMetricCriteria,
+): any {
   return {
     ...serializeRecord(item.additionalProperties ?? {}),
     criterionType: item["criterionType"],
@@ -519,12 +557,14 @@ export function multiMetricCriteriaSerializer(item: MultiMetricCriteria): any {
     timeAggregation: item["timeAggregation"],
     dimensions: !item["dimensions"]
       ? item["dimensions"]
-      : metricDimensionArraySerializer(item["dimensions"]),
+      : metricAlertApiMetricDimensionArraySerializer(item["dimensions"]),
     skipMetricValidation: item["skipMetricValidation"],
   };
 }
 
-export function multiMetricCriteriaDeserializer(item: any): MultiMetricCriteria {
+export function metricAlertApiMultiMetricCriteriaDeserializer(
+  item: any,
+): MetricAlertApiMultiMetricCriteria {
   return {
     additionalProperties: serializeRecord(item, [
       "criterionType",
@@ -542,42 +582,53 @@ export function multiMetricCriteriaDeserializer(item: any): MultiMetricCriteria 
     timeAggregation: item["timeAggregation"],
     dimensions: !item["dimensions"]
       ? item["dimensions"]
-      : metricDimensionArrayDeserializer(item["dimensions"]),
+      : metricAlertApiMetricDimensionArrayDeserializer(item["dimensions"]),
     skipMetricValidation: item["skipMetricValidation"],
   };
 }
 
-/** Alias for MultiMetricCriteriaUnion */
-export type MultiMetricCriteriaUnion = MetricCriteria | DynamicMetricCriteria | MultiMetricCriteria;
+/** Alias for MetricAlertApiMultiMetricCriteriaUnion */
+export type MetricAlertApiMultiMetricCriteriaUnion =
+  | MetricAlertApiMetricCriteria
+  | MetricAlertApiDynamicMetricCriteria
+  | MetricAlertApiMultiMetricCriteria;
 
-export function multiMetricCriteriaUnionSerializer(item: MultiMetricCriteriaUnion): any {
+export function metricAlertApiMultiMetricCriteriaUnionSerializer(
+  item: MetricAlertApiMultiMetricCriteriaUnion,
+): any {
   switch (item.criterionType) {
     case "StaticThresholdCriterion":
-      return metricCriteriaSerializer(item as MetricCriteria);
+      return metricAlertApiMetricCriteriaSerializer(item as MetricAlertApiMetricCriteria);
 
     case "DynamicThresholdCriterion":
-      return dynamicMetricCriteriaSerializer(item as DynamicMetricCriteria);
+      return metricAlertApiDynamicMetricCriteriaSerializer(
+        item as MetricAlertApiDynamicMetricCriteria,
+      );
 
     default:
-      return multiMetricCriteriaSerializer(item);
+      return metricAlertApiMultiMetricCriteriaSerializer(item);
   }
 }
 
-export function multiMetricCriteriaUnionDeserializer(item: any): MultiMetricCriteriaUnion {
+export function metricAlertApiMultiMetricCriteriaUnionDeserializer(
+  item: any,
+): MetricAlertApiMultiMetricCriteriaUnion {
   switch (item["criterionType"]) {
     case "StaticThresholdCriterion":
-      return metricCriteriaDeserializer(item as MetricCriteria);
+      return metricAlertApiMetricCriteriaDeserializer(item as MetricAlertApiMetricCriteria);
 
     case "DynamicThresholdCriterion":
-      return dynamicMetricCriteriaDeserializer(item as DynamicMetricCriteria);
+      return metricAlertApiDynamicMetricCriteriaDeserializer(
+        item as MetricAlertApiDynamicMetricCriteria,
+      );
 
     default:
-      return multiMetricCriteriaDeserializer(item);
+      return metricAlertApiMultiMetricCriteriaDeserializer(item);
   }
 }
 
 /** The criteria time aggregation types. Previously undocumented values might be returned */
-export enum KnownAggregationTypeEnum {
+export enum KnownMetricAlertApiAggregationTypeEnum {
   /** Average */
   Average = "Average",
   /** Count */
@@ -592,7 +643,7 @@ export enum KnownAggregationTypeEnum {
 
 /**
  * The criteria time aggregation types. Previously undocumented values might be returned \
- * {@link KnownAggregationTypeEnum} can be used interchangeably with AggregationTypeEnum,
+ * {@link KnownMetricAlertApiAggregationTypeEnum} can be used interchangeably with MetricAlertApiAggregationTypeEnum,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Average**: Average \
@@ -601,22 +652,26 @@ export enum KnownAggregationTypeEnum {
  * **Maximum**: Maximum \
  * **Total**: Total
  */
-export type AggregationTypeEnum = string;
+export type MetricAlertApiAggregationTypeEnum = string;
 
-export function metricDimensionArraySerializer(result: Array<MetricDimension>): any[] {
+export function metricAlertApiMetricDimensionArraySerializer(
+  result: Array<MetricAlertApiMetricDimension>,
+): any[] {
   return result.map((item) => {
-    return metricDimensionSerializer(item);
+    return metricAlertApiMetricDimensionSerializer(item);
   });
 }
 
-export function metricDimensionArrayDeserializer(result: Array<MetricDimension>): any[] {
+export function metricAlertApiMetricDimensionArrayDeserializer(
+  result: Array<MetricAlertApiMetricDimension>,
+): any[] {
   return result.map((item) => {
-    return metricDimensionDeserializer(item);
+    return metricAlertApiMetricDimensionDeserializer(item);
   });
 }
 
 /** Specifies a metric dimension. */
-export interface MetricDimension {
+export interface MetricAlertApiMetricDimension {
   /** Name of the dimension. */
   name: string;
   /** The dimension operator. Only 'Include' and 'Exclude' are supported */
@@ -625,7 +680,7 @@ export interface MetricDimension {
   values: string[];
 }
 
-export function metricDimensionSerializer(item: MetricDimension): any {
+export function metricAlertApiMetricDimensionSerializer(item: MetricAlertApiMetricDimension): any {
   return {
     name: item["name"],
     operator: item["operator"],
@@ -635,7 +690,9 @@ export function metricDimensionSerializer(item: MetricDimension): any {
   };
 }
 
-export function metricDimensionDeserializer(item: any): MetricDimension {
+export function metricAlertApiMetricDimensionDeserializer(
+  item: any,
+): MetricAlertApiMetricDimension {
   return {
     name: item["name"],
     operator: item["operator"],
@@ -646,20 +703,22 @@ export function metricDimensionDeserializer(item: any): MetricDimension {
 }
 
 /** Criterion for dynamic threshold. */
-export interface DynamicMetricCriteria extends MultiMetricCriteria {
+export interface MetricAlertApiDynamicMetricCriteria extends MetricAlertApiMultiMetricCriteria {
   /** The operator used to compare the metric value against the threshold. Previously undocumented values might be returned */
-  operator: DynamicThresholdOperator;
+  operator: MetricAlertApiDynamicThresholdOperator;
   /** The extent of deviation required to trigger an alert. This will affect how tight the threshold is to the metric series pattern. Previously undocumented values might be returned */
-  alertSensitivity: DynamicThresholdSensitivity;
+  alertSensitivity: MetricAlertApiDynamicThresholdSensitivity;
   /** The minimum number of violations required within the selected lookback time window required to raise an alert. */
-  failingPeriods: DynamicThresholdFailingPeriods;
+  failingPeriods: MetricAlertApiDynamicThresholdFailingPeriods;
   /** Use this option to set the date from which to start learning the metric historical data and calculate the dynamic thresholds (in ISO8601 format) */
   ignoreDataBefore?: Date;
   /** Specifies the type of threshold criteria. Previously undocumented values might be returned */
   criterionType: "DynamicThresholdCriterion";
 }
 
-export function dynamicMetricCriteriaSerializer(item: DynamicMetricCriteria): any {
+export function metricAlertApiDynamicMetricCriteriaSerializer(
+  item: MetricAlertApiDynamicMetricCriteria,
+): any {
   return {
     ...serializeRecord(item.additionalProperties ?? {}),
     criterionType: item["criterionType"],
@@ -669,18 +728,20 @@ export function dynamicMetricCriteriaSerializer(item: DynamicMetricCriteria): an
     timeAggregation: item["timeAggregation"],
     dimensions: !item["dimensions"]
       ? item["dimensions"]
-      : metricDimensionArraySerializer(item["dimensions"]),
+      : metricAlertApiMetricDimensionArraySerializer(item["dimensions"]),
     skipMetricValidation: item["skipMetricValidation"],
     operator: item["operator"],
     alertSensitivity: item["alertSensitivity"],
-    failingPeriods: dynamicThresholdFailingPeriodsSerializer(item["failingPeriods"]),
+    failingPeriods: metricAlertApiDynamicThresholdFailingPeriodsSerializer(item["failingPeriods"]),
     ignoreDataBefore: !item["ignoreDataBefore"]
       ? item["ignoreDataBefore"]
       : item["ignoreDataBefore"].toISOString(),
   };
 }
 
-export function dynamicMetricCriteriaDeserializer(item: any): DynamicMetricCriteria {
+export function metricAlertApiDynamicMetricCriteriaDeserializer(
+  item: any,
+): MetricAlertApiDynamicMetricCriteria {
   return {
     additionalProperties: serializeRecord(item, [
       "criterionType",
@@ -702,11 +763,13 @@ export function dynamicMetricCriteriaDeserializer(item: any): DynamicMetricCrite
     timeAggregation: item["timeAggregation"],
     dimensions: !item["dimensions"]
       ? item["dimensions"]
-      : metricDimensionArrayDeserializer(item["dimensions"]),
+      : metricAlertApiMetricDimensionArrayDeserializer(item["dimensions"]),
     skipMetricValidation: item["skipMetricValidation"],
     operator: item["operator"],
     alertSensitivity: item["alertSensitivity"],
-    failingPeriods: dynamicThresholdFailingPeriodsDeserializer(item["failingPeriods"]),
+    failingPeriods: metricAlertApiDynamicThresholdFailingPeriodsDeserializer(
+      item["failingPeriods"],
+    ),
     ignoreDataBefore: !item["ignoreDataBefore"]
       ? item["ignoreDataBefore"]
       : new Date(item["ignoreDataBefore"]),
@@ -714,7 +777,7 @@ export function dynamicMetricCriteriaDeserializer(item: any): DynamicMetricCrite
 }
 
 /** The operator used to compare the metric value against the threshold. Previously undocumented values might be returned */
-export enum KnownDynamicThresholdOperator {
+export enum KnownMetricAlertApiDynamicThresholdOperator {
   /** GreaterThan */
   GreaterThan = "GreaterThan",
   /** LessThan */
@@ -725,17 +788,17 @@ export enum KnownDynamicThresholdOperator {
 
 /**
  * The operator used to compare the metric value against the threshold. Previously undocumented values might be returned \
- * {@link KnownDynamicThresholdOperator} can be used interchangeably with DynamicThresholdOperator,
+ * {@link KnownMetricAlertApiDynamicThresholdOperator} can be used interchangeably with MetricAlertApiDynamicThresholdOperator,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **GreaterThan**: GreaterThan \
  * **LessThan**: LessThan \
  * **GreaterOrLessThan**: GreaterOrLessThan
  */
-export type DynamicThresholdOperator = string;
+export type MetricAlertApiDynamicThresholdOperator = string;
 
 /** The extent of deviation required to trigger an alert. This will affect how tight the threshold is to the metric series pattern. Previously undocumented values might be returned */
-export enum KnownDynamicThresholdSensitivity {
+export enum KnownMetricAlertApiDynamicThresholdSensitivity {
   /** Low */
   Low = "Low",
   /** Medium */
@@ -746,25 +809,25 @@ export enum KnownDynamicThresholdSensitivity {
 
 /**
  * The extent of deviation required to trigger an alert. This will affect how tight the threshold is to the metric series pattern. Previously undocumented values might be returned \
- * {@link KnownDynamicThresholdSensitivity} can be used interchangeably with DynamicThresholdSensitivity,
+ * {@link KnownMetricAlertApiDynamicThresholdSensitivity} can be used interchangeably with MetricAlertApiDynamicThresholdSensitivity,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Low**: Low \
  * **Medium**: Medium \
  * **High**: High
  */
-export type DynamicThresholdSensitivity = string;
+export type MetricAlertApiDynamicThresholdSensitivity = string;
 
 /** The minimum number of violations required within the selected lookback time window required to raise an alert. */
-export interface DynamicThresholdFailingPeriods {
+export interface MetricAlertApiDynamicThresholdFailingPeriods {
   /** The number of aggregated lookback points. The lookback time window is calculated based on the aggregation granularity (windowSize) and the selected number of aggregated points. */
   numberOfEvaluationPeriods: number;
   /** The number of violations to trigger an alert. Should be smaller or equal to numberOfEvaluationPeriods. */
   minFailingPeriodsToAlert: number;
 }
 
-export function dynamicThresholdFailingPeriodsSerializer(
-  item: DynamicThresholdFailingPeriods,
+export function metricAlertApiDynamicThresholdFailingPeriodsSerializer(
+  item: MetricAlertApiDynamicThresholdFailingPeriods,
 ): any {
   return {
     numberOfEvaluationPeriods: item["numberOfEvaluationPeriods"],
@@ -772,9 +835,9 @@ export function dynamicThresholdFailingPeriodsSerializer(
   };
 }
 
-export function dynamicThresholdFailingPeriodsDeserializer(
+export function metricAlertApiDynamicThresholdFailingPeriodsDeserializer(
   item: any,
-): DynamicThresholdFailingPeriods {
+): MetricAlertApiDynamicThresholdFailingPeriods {
   return {
     numberOfEvaluationPeriods: item["numberOfEvaluationPeriods"],
     minFailingPeriodsToAlert: item["minFailingPeriodsToAlert"],
@@ -782,87 +845,97 @@ export function dynamicThresholdFailingPeriodsDeserializer(
 }
 
 /** Specifies the PromQL criteria for the metric alert resource. */
-export interface PromQLCriteria extends MetricAlertCriteria {
+export interface MetricAlertApiPromQLCriteria extends MetricAlertApiMetricAlertCriteria {
   /** Configuration for failing periods in query-based alerts. */
-  failingPeriods?: QueryFailingPeriods;
+  failingPeriods?: MetricAlertApiQueryFailingPeriods;
   /** The list of promQL criteria. Alert will be raised when all conditions are met. */
-  allOf?: MultiPromQLCriteriaUnion[];
+  allOf?: MetricAlertApiMultiPromQLCriteriaUnion[];
   /** Specifies the type of the alert criteria. Previously undocumented values might be returned */
   odataType: "Microsoft.Azure.Monitor.PromQLCriteria";
 }
 
-export function promQLCriteriaSerializer(item: PromQLCriteria): any {
+export function metricAlertApiPromQLCriteriaSerializer(item: MetricAlertApiPromQLCriteria): any {
   return {
     ...serializeRecord(item.additionalProperties ?? {}),
     "odata.type": item["odataType"],
     failingPeriods: !item["failingPeriods"]
       ? item["failingPeriods"]
-      : queryFailingPeriodsSerializer(item["failingPeriods"]),
-    allOf: !item["allOf"] ? item["allOf"] : multiPromQLCriteriaUnionArraySerializer(item["allOf"]),
+      : metricAlertApiQueryFailingPeriodsSerializer(item["failingPeriods"]),
+    allOf: !item["allOf"]
+      ? item["allOf"]
+      : metricAlertApiMultiPromQLCriteriaUnionArraySerializer(item["allOf"]),
   };
 }
 
-export function promQLCriteriaDeserializer(item: any): PromQLCriteria {
+export function metricAlertApiPromQLCriteriaDeserializer(item: any): MetricAlertApiPromQLCriteria {
   return {
     additionalProperties: serializeRecord(item, ["odata.type", "failingPeriods", "allOf"]),
     odataType: item["odata.type"],
     failingPeriods: !item["failingPeriods"]
       ? item["failingPeriods"]
-      : queryFailingPeriodsDeserializer(item["failingPeriods"]),
+      : metricAlertApiQueryFailingPeriodsDeserializer(item["failingPeriods"]),
     allOf: !item["allOf"]
       ? item["allOf"]
-      : multiPromQLCriteriaUnionArrayDeserializer(item["allOf"]),
+      : metricAlertApiMultiPromQLCriteriaUnionArrayDeserializer(item["allOf"]),
   };
 }
 
 /** Configuration for failing periods in query-based alerts. */
-export interface QueryFailingPeriods {
+export interface MetricAlertApiQueryFailingPeriods {
   /** The amount of time (in ISO 8601 duration format) alert must be active before firing. */
   for: string;
 }
 
-export function queryFailingPeriodsSerializer(item: QueryFailingPeriods): any {
+export function metricAlertApiQueryFailingPeriodsSerializer(
+  item: MetricAlertApiQueryFailingPeriods,
+): any {
   return { for: item["for"] };
 }
 
-export function queryFailingPeriodsDeserializer(item: any): QueryFailingPeriods {
+export function metricAlertApiQueryFailingPeriodsDeserializer(
+  item: any,
+): MetricAlertApiQueryFailingPeriods {
   return {
     for: item["for"],
   };
 }
 
-export function multiPromQLCriteriaUnionArraySerializer(
-  result: Array<MultiPromQLCriteriaUnion>,
+export function metricAlertApiMultiPromQLCriteriaUnionArraySerializer(
+  result: Array<MetricAlertApiMultiPromQLCriteriaUnion>,
 ): any[] {
   return result.map((item) => {
-    return multiPromQLCriteriaUnionSerializer(item);
+    return metricAlertApiMultiPromQLCriteriaUnionSerializer(item);
   });
 }
 
-export function multiPromQLCriteriaUnionArrayDeserializer(
-  result: Array<MultiPromQLCriteriaUnion>,
+export function metricAlertApiMultiPromQLCriteriaUnionArrayDeserializer(
+  result: Array<MetricAlertApiMultiPromQLCriteriaUnion>,
 ): any[] {
   return result.map((item) => {
-    return multiPromQLCriteriaUnionDeserializer(item);
+    return metricAlertApiMultiPromQLCriteriaUnionDeserializer(item);
   });
 }
 
 /** The types of conditions for a multi query metric alert. */
-export interface MultiPromQLCriteria {
+export interface MetricAlertApiMultiPromQLCriteria {
   /** Specifies the type of threshold criteria. Previously undocumented values might be returned */
   /** The discriminator possible values: StaticThresholdCriterion, DynamicThresholdCriterion */
-  criterionType: CriterionType;
+  criterionType: MicrosoftCommonCriterionType;
   /** Name of the criteria. */
   name: string;
   /** The query used to evaluate the alert rule */
   query: string;
 }
 
-export function multiPromQLCriteriaSerializer(item: MultiPromQLCriteria): any {
+export function metricAlertApiMultiPromQLCriteriaSerializer(
+  item: MetricAlertApiMultiPromQLCriteria,
+): any {
   return { criterionType: item["criterionType"], name: item["name"], query: item["query"] };
 }
 
-export function multiPromQLCriteriaDeserializer(item: any): MultiPromQLCriteria {
+export function metricAlertApiMultiPromQLCriteriaDeserializer(
+  item: any,
+): MetricAlertApiMultiPromQLCriteria {
   return {
     criterionType: item["criterionType"],
     name: item["name"],
@@ -870,47 +943,65 @@ export function multiPromQLCriteriaDeserializer(item: any): MultiPromQLCriteria 
   };
 }
 
-/** Alias for MultiPromQLCriteriaUnion */
-export type MultiPromQLCriteriaUnion =
-  StaticPromQLCriteria | DynamicPromQLCriteria | MultiPromQLCriteria;
+/** Alias for MetricAlertApiMultiPromQLCriteriaUnion */
+export type MetricAlertApiMultiPromQLCriteriaUnion =
+  | MetricAlertApiStaticPromQLCriteria
+  | MetricAlertApiDynamicPromQLCriteria
+  | MetricAlertApiMultiPromQLCriteria;
 
-export function multiPromQLCriteriaUnionSerializer(item: MultiPromQLCriteriaUnion): any {
+export function metricAlertApiMultiPromQLCriteriaUnionSerializer(
+  item: MetricAlertApiMultiPromQLCriteriaUnion,
+): any {
   switch (item.criterionType) {
     case "StaticThresholdCriterion":
-      return staticPromQLCriteriaSerializer(item as StaticPromQLCriteria);
+      return metricAlertApiStaticPromQLCriteriaSerializer(
+        item as MetricAlertApiStaticPromQLCriteria,
+      );
 
     case "DynamicThresholdCriterion":
-      return dynamicPromQLCriteriaSerializer(item as DynamicPromQLCriteria);
+      return metricAlertApiDynamicPromQLCriteriaSerializer(
+        item as MetricAlertApiDynamicPromQLCriteria,
+      );
 
     default:
-      return multiPromQLCriteriaSerializer(item);
+      return metricAlertApiMultiPromQLCriteriaSerializer(item);
   }
 }
 
-export function multiPromQLCriteriaUnionDeserializer(item: any): MultiPromQLCriteriaUnion {
+export function metricAlertApiMultiPromQLCriteriaUnionDeserializer(
+  item: any,
+): MetricAlertApiMultiPromQLCriteriaUnion {
   switch (item["criterionType"]) {
     case "StaticThresholdCriterion":
-      return staticPromQLCriteriaDeserializer(item as StaticPromQLCriteria);
+      return metricAlertApiStaticPromQLCriteriaDeserializer(
+        item as MetricAlertApiStaticPromQLCriteria,
+      );
 
     case "DynamicThresholdCriterion":
-      return dynamicPromQLCriteriaDeserializer(item as DynamicPromQLCriteria);
+      return metricAlertApiDynamicPromQLCriteriaDeserializer(
+        item as MetricAlertApiDynamicPromQLCriteria,
+      );
 
     default:
-      return multiPromQLCriteriaDeserializer(item);
+      return metricAlertApiMultiPromQLCriteriaDeserializer(item);
   }
 }
 
 /** The criterion for static prom query. */
-export interface StaticPromQLCriteria extends MultiPromQLCriteria {
+export interface MetricAlertApiStaticPromQLCriteria extends MetricAlertApiMultiPromQLCriteria {
   /** Specifies the type of threshold criteria. Previously undocumented values might be returned */
   criterionType: "StaticThresholdCriterion";
 }
 
-export function staticPromQLCriteriaSerializer(item: StaticPromQLCriteria): any {
+export function metricAlertApiStaticPromQLCriteriaSerializer(
+  item: MetricAlertApiStaticPromQLCriteria,
+): any {
   return { criterionType: item["criterionType"], name: item["name"], query: item["query"] };
 }
 
-export function staticPromQLCriteriaDeserializer(item: any): StaticPromQLCriteria {
+export function metricAlertApiStaticPromQLCriteriaDeserializer(
+  item: any,
+): MetricAlertApiStaticPromQLCriteria {
   return {
     criterionType: item["criterionType"],
     name: item["name"],
@@ -919,18 +1010,20 @@ export function staticPromQLCriteriaDeserializer(item: any): StaticPromQLCriteri
 }
 
 /** The criterion for dynamic prom query. */
-export interface DynamicPromQLCriteria extends MultiPromQLCriteria {
+export interface MetricAlertApiDynamicPromQLCriteria extends MetricAlertApiMultiPromQLCriteria {
   /** The operator used to compare the metric value against the threshold. Previously undocumented values might be returned */
-  operator: DynamicThresholdOperator;
+  operator: MetricAlertApiDynamicThresholdOperator;
   /** The extent of deviation required to trigger an alert. This will affect how tight the threshold is to the metric series pattern. Previously undocumented values might be returned */
-  alertSensitivity: DynamicThresholdSensitivity;
+  alertSensitivity: MetricAlertApiDynamicThresholdSensitivity;
   /** Use this option to set the date from which to start learning the metric historical data and calculate the dynamic thresholds (in ISO8601 format) */
   ignoreDataBefore?: Date;
   /** Specifies the type of threshold criteria. Previously undocumented values might be returned */
   criterionType: "DynamicThresholdCriterion";
 }
 
-export function dynamicPromQLCriteriaSerializer(item: DynamicPromQLCriteria): any {
+export function metricAlertApiDynamicPromQLCriteriaSerializer(
+  item: MetricAlertApiDynamicPromQLCriteria,
+): any {
   return {
     criterionType: item["criterionType"],
     name: item["name"],
@@ -943,7 +1036,9 @@ export function dynamicPromQLCriteriaSerializer(item: DynamicPromQLCriteria): an
   };
 }
 
-export function dynamicPromQLCriteriaDeserializer(item: any): DynamicPromQLCriteria {
+export function metricAlertApiDynamicPromQLCriteriaDeserializer(
+  item: any,
+): MetricAlertApiDynamicPromQLCriteria {
   return {
     criterionType: item["criterionType"],
     name: item["name"],
@@ -956,50 +1051,62 @@ export function dynamicPromQLCriteriaDeserializer(item: any): DynamicPromQLCrite
   };
 }
 
-/** model interface ResolveConfiguration */
-export interface ResolveConfiguration {
+/** model interface MetricAlertApiResolveConfiguration */
+export interface MetricAlertApiResolveConfiguration {
   /** Indicates whether the alert should be auto resolved */
   autoResolved: boolean;
   /** The time (in ISO 8601 duration format) after which the alert should be auto resolved */
   timeToResolve?: string;
 }
 
-export function resolveConfigurationSerializer(item: ResolveConfiguration): any {
+export function metricAlertApiResolveConfigurationSerializer(
+  item: MetricAlertApiResolveConfiguration,
+): any {
   return { autoResolved: item["autoResolved"], timeToResolve: item["timeToResolve"] };
 }
 
-export function resolveConfigurationDeserializer(item: any): ResolveConfiguration {
+export function metricAlertApiResolveConfigurationDeserializer(
+  item: any,
+): MetricAlertApiResolveConfiguration {
   return {
     autoResolved: item["autoResolved"],
     timeToResolve: item["timeToResolve"],
   };
 }
 
-export function metricAlertActionArraySerializer(result: Array<MetricAlertAction>): any[] {
+export function metricAlertApiMetricAlertActionArraySerializer(
+  result: Array<MetricAlertApiMetricAlertAction>,
+): any[] {
   return result.map((item) => {
-    return metricAlertActionSerializer(item);
+    return metricAlertApiMetricAlertActionSerializer(item);
   });
 }
 
-export function metricAlertActionArrayDeserializer(result: Array<MetricAlertAction>): any[] {
+export function metricAlertApiMetricAlertActionArrayDeserializer(
+  result: Array<MetricAlertApiMetricAlertAction>,
+): any[] {
   return result.map((item) => {
-    return metricAlertActionDeserializer(item);
+    return metricAlertApiMetricAlertActionDeserializer(item);
   });
 }
 
 /** An alert action. */
-export interface MetricAlertAction {
+export interface MetricAlertApiMetricAlertAction {
   /** The id of the action group to use. */
   actionGroupId?: string;
   /** This field allows specifying custom properties, which would be appended to the alert payload sent as input to the webhook. */
   webHookProperties?: Record<string, string>;
 }
 
-export function metricAlertActionSerializer(item: MetricAlertAction): any {
+export function metricAlertApiMetricAlertActionSerializer(
+  item: MetricAlertApiMetricAlertAction,
+): any {
   return { actionGroupId: item["actionGroupId"], webHookProperties: item["webHookProperties"] };
 }
 
-export function metricAlertActionDeserializer(item: any): MetricAlertAction {
+export function metricAlertApiMetricAlertActionDeserializer(
+  item: any,
+): MetricAlertApiMetricAlertAction {
   return {
     actionGroupId: item["actionGroupId"],
     webHookProperties: !item["webHookProperties"]
@@ -1011,22 +1118,26 @@ export function metricAlertActionDeserializer(item: any): MetricAlertAction {
 }
 
 /** Describes the format of Error response. */
-export interface MetricAlertErrorResponse {
-  error?: ErrorResponseError;
+export interface MetricAlertApiMetricAlertErrorResponse {
+  error?: MicrosoftCommonErrorResponseError;
 }
 
-export function metricAlertErrorResponseDeserializer(item: any): MetricAlertErrorResponse {
+export function metricAlertApiMetricAlertErrorResponseDeserializer(
+  item: any,
+): MetricAlertApiMetricAlertErrorResponse {
   return {
-    error: !item["error"] ? item["error"] : errorResponseErrorDeserializer(item["error"]),
+    error: !item["error"]
+      ? item["error"]
+      : microsoftCommonErrorResponseErrorDeserializer(item["error"]),
   };
 }
 
 /** The metric alert resource for patch operations. */
-export interface MetricAlertResourcePatch {
+export interface MetricAlertApiMetricAlertResourcePatch {
   /** Resource tags */
   tags?: Record<string, string>;
   /** The identity of the resource. */
-  identity?: Identity;
+  identity?: MicrosoftCommonIdentity;
   /** The description of the metric alert that will be included in the alert email. */
   description?: string;
   /** Alert severity {0, 1, 2, 3, 4} */
@@ -1044,13 +1155,13 @@ export interface MetricAlertResourcePatch {
   /** The region of the target resource(s) on which the alert is created/updated. Mandatory for MultipleResourceMultipleMetricCriteria. */
   targetResourceRegion?: string;
   /** Defines the specific alert criteria information. */
-  criteria?: MetricAlertCriteriaUnion;
+  criteria?: MetricAlertApiMetricAlertCriteriaUnion;
   /** The flag that indicates whether the alert should be auto resolved or not. The default is true. */
   autoMitigate?: boolean;
   /** The configuration for how the alert is resolved. Applicable for PromQLCriteria. */
-  resolveConfiguration?: ResolveConfiguration;
+  resolveConfiguration?: MetricAlertApiResolveConfiguration;
   /** The array of actions that are performed when the alert rule becomes active, and when an alert condition is resolved. */
-  actions?: MetricAlertAction[];
+  actions?: MetricAlertApiMetricAlertAction[];
   /** Last time the rule was updated in ISO8601 format. */
   readonly lastUpdatedTime?: Date;
   /** The value indicating whether this alert rule is migrated. */
@@ -1061,10 +1172,14 @@ export interface MetricAlertResourcePatch {
   actionProperties?: Record<string, string>;
 }
 
-export function metricAlertResourcePatchSerializer(item: MetricAlertResourcePatch): any {
+export function metricAlertApiMetricAlertResourcePatchSerializer(
+  item: MetricAlertApiMetricAlertResourcePatch,
+): any {
   return {
     tags: item["tags"],
-    identity: !item["identity"] ? item["identity"] : identitySerializer(item["identity"]),
+    identity: !item["identity"]
+      ? item["identity"]
+      : microsoftCommonIdentitySerializer(item["identity"]),
     properties: areAllPropsUndefined(item, [
       "description",
       "severity",
@@ -1087,7 +1202,7 @@ export function metricAlertResourcePatchSerializer(item: MetricAlertResourcePatc
 }
 
 /** An alert rule properties for patch. */
-export interface MetricAlertPropertiesPatch {
+export interface MetricAlertApiMetricAlertPropertiesPatch {
   /** The description of the metric alert that will be included in the alert email. */
   description?: string;
   /** Alert severity {0, 1, 2, 3, 4} */
@@ -1105,13 +1220,13 @@ export interface MetricAlertPropertiesPatch {
   /** The region of the target resource(s) on which the alert is created/updated. Mandatory for MultipleResourceMultipleMetricCriteria. */
   targetResourceRegion?: string;
   /** Defines the specific alert criteria information. */
-  criteria?: MetricAlertCriteriaUnion;
+  criteria?: MetricAlertApiMetricAlertCriteriaUnion;
   /** The flag that indicates whether the alert should be auto resolved or not. The default is true. */
   autoMitigate?: boolean;
   /** The configuration for how the alert is resolved. Applicable for PromQLCriteria. */
-  resolveConfiguration?: ResolveConfiguration;
+  resolveConfiguration?: MetricAlertApiResolveConfiguration;
   /** The array of actions that are performed when the alert rule becomes active, and when an alert condition is resolved. */
-  actions?: MetricAlertAction[];
+  actions?: MetricAlertApiMetricAlertAction[];
   /** Last time the rule was updated in ISO8601 format. */
   readonly lastUpdatedTime?: Date;
   /** The value indicating whether this alert rule is migrated. */
@@ -1122,7 +1237,9 @@ export interface MetricAlertPropertiesPatch {
   actionProperties?: Record<string, string>;
 }
 
-export function metricAlertPropertiesPatchSerializer(item: MetricAlertPropertiesPatch): any {
+export function metricAlertApiMetricAlertPropertiesPatchSerializer(
+  item: MetricAlertApiMetricAlertPropertiesPatch,
+): any {
   return {
     description: item["description"],
     severity: item["severity"],
@@ -1138,66 +1255,80 @@ export function metricAlertPropertiesPatchSerializer(item: MetricAlertProperties
     targetResourceRegion: item["targetResourceRegion"],
     criteria: !item["criteria"]
       ? item["criteria"]
-      : metricAlertCriteriaUnionSerializer(item["criteria"]),
+      : metricAlertApiMetricAlertCriteriaUnionSerializer(item["criteria"]),
     autoMitigate: item["autoMitigate"],
     resolveConfiguration: !item["resolveConfiguration"]
       ? item["resolveConfiguration"]
-      : resolveConfigurationSerializer(item["resolveConfiguration"]),
-    actions: !item["actions"] ? item["actions"] : metricAlertActionArraySerializer(item["actions"]),
+      : metricAlertApiResolveConfigurationSerializer(item["resolveConfiguration"]),
+    actions: !item["actions"]
+      ? item["actions"]
+      : metricAlertApiMetricAlertActionArraySerializer(item["actions"]),
     customProperties: item["customProperties"],
     actionProperties: item["actionProperties"],
   };
 }
 
 /** Represents a collection of alert rule resources. */
-export interface _MetricAlertResourceCollection {
+export interface _MetricAlertApiMetricAlertResourceCollection {
   /** The values for the alert rule resources. */
-  value?: MetricAlertResource[];
+  value?: MetricAlertApiMetricAlertResource[];
   /** The URL to get the next set of results. */
   nextLink?: string;
 }
 
-export function _metricAlertResourceCollectionDeserializer(
+export function _metricAlertApiMetricAlertResourceCollectionDeserializer(
   item: any,
-): _MetricAlertResourceCollection {
+): _MetricAlertApiMetricAlertResourceCollection {
   return {
-    value: !item["value"] ? item["value"] : metricAlertResourceArrayDeserializer(item["value"]),
+    value: !item["value"]
+      ? item["value"]
+      : metricAlertApiMetricAlertResourceArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function metricAlertResourceArraySerializer(result: Array<MetricAlertResource>): any[] {
+export function metricAlertApiMetricAlertResourceArraySerializer(
+  result: Array<MetricAlertApiMetricAlertResource>,
+): any[] {
   return result.map((item) => {
-    return metricAlertResourceSerializer(item);
+    return metricAlertApiMetricAlertResourceSerializer(item);
   });
 }
 
-export function metricAlertResourceArrayDeserializer(result: Array<MetricAlertResource>): any[] {
+export function metricAlertApiMetricAlertResourceArrayDeserializer(
+  result: Array<MetricAlertApiMetricAlertResource>,
+): any[] {
   return result.map((item) => {
-    return metricAlertResourceDeserializer(item);
+    return metricAlertApiMetricAlertResourceDeserializer(item);
   });
 }
 
 /** Represents a collection of alert rule resources. */
-export interface MetricAlertStatusCollection {
+export interface MetricAlertApiMetricAlertStatusCollection {
   /** The values for the alert rule resources. */
-  value?: MetricAlertStatus[];
+  value?: MetricAlertApiMetricAlertStatus[];
 }
 
-export function metricAlertStatusCollectionDeserializer(item: any): MetricAlertStatusCollection {
+export function metricAlertApiMetricAlertStatusCollectionDeserializer(
+  item: any,
+): MetricAlertApiMetricAlertStatusCollection {
   return {
-    value: !item["value"] ? item["value"] : metricAlertStatusArrayDeserializer(item["value"]),
+    value: !item["value"]
+      ? item["value"]
+      : metricAlertApiMetricAlertStatusArrayDeserializer(item["value"]),
   };
 }
 
-export function metricAlertStatusArrayDeserializer(result: Array<MetricAlertStatus>): any[] {
+export function metricAlertApiMetricAlertStatusArrayDeserializer(
+  result: Array<MetricAlertApiMetricAlertStatus>,
+): any[] {
   return result.map((item) => {
-    return metricAlertStatusDeserializer(item);
+    return metricAlertApiMetricAlertStatusDeserializer(item);
   });
 }
 
 /** An alert status. */
-export interface MetricAlertStatus {
+export interface MetricAlertApiMetricAlertStatus {
   /** The status name. */
   name?: string;
   /** The alert rule arm id. */
@@ -1205,22 +1336,24 @@ export interface MetricAlertStatus {
   /** The extended resource type name. */
   type?: string;
   /** The alert status properties of the metric alert status. */
-  properties?: MetricAlertStatusProperties;
+  properties?: MetricAlertApiMetricAlertStatusProperties;
 }
 
-export function metricAlertStatusDeserializer(item: any): MetricAlertStatus {
+export function metricAlertApiMetricAlertStatusDeserializer(
+  item: any,
+): MetricAlertApiMetricAlertStatus {
   return {
     name: item["name"],
     id: item["id"],
     type: item["type"],
     properties: !item["properties"]
       ? item["properties"]
-      : metricAlertStatusPropertiesDeserializer(item["properties"]),
+      : metricAlertApiMetricAlertStatusPropertiesDeserializer(item["properties"]),
   };
 }
 
 /** An alert status properties. */
-export interface MetricAlertStatusProperties {
+export interface MetricAlertApiMetricAlertStatusProperties {
   /** An object describing the type of the dimensions. */
   dimensions?: Record<string, string>;
   /** Status value */
@@ -1229,7 +1362,9 @@ export interface MetricAlertStatusProperties {
   timestamp?: Date;
 }
 
-export function metricAlertStatusPropertiesDeserializer(item: any): MetricAlertStatusProperties {
+export function metricAlertApiMetricAlertStatusPropertiesDeserializer(
+  item: any,
+): MetricAlertApiMetricAlertStatusProperties {
   return {
     dimensions: !item["dimensions"]
       ? item["dimensions"]
@@ -1241,7 +1376,9 @@ export function metricAlertStatusPropertiesDeserializer(item: any): MetricAlertS
   };
 }
 
-export function _metricAlertResourcePropertiesSerializer(item: MetricAlertResource): any {
+export function _metricAlertResourcePropertiesSerializer(
+  item: MetricAlertApiMetricAlertResource,
+): any {
   return {
     description: item["description"],
     severity: item["severity"],
@@ -1253,12 +1390,14 @@ export function _metricAlertResourcePropertiesSerializer(item: MetricAlertResour
     windowSize: item["windowSize"],
     targetResourceType: item["targetResourceType"],
     targetResourceRegion: item["targetResourceRegion"],
-    criteria: metricAlertCriteriaUnionSerializer(item["criteria"]),
+    criteria: metricAlertApiMetricAlertCriteriaUnionSerializer(item["criteria"]),
     autoMitigate: item["autoMitigate"],
     resolveConfiguration: !item["resolveConfiguration"]
       ? item["resolveConfiguration"]
-      : resolveConfigurationSerializer(item["resolveConfiguration"]),
-    actions: !item["actions"] ? item["actions"] : metricAlertActionArraySerializer(item["actions"]),
+      : metricAlertApiResolveConfigurationSerializer(item["resolveConfiguration"]),
+    actions: !item["actions"]
+      ? item["actions"]
+      : metricAlertApiMetricAlertActionArraySerializer(item["actions"]),
     customProperties: item["customProperties"],
     actionProperties: item["actionProperties"],
   };
@@ -1276,14 +1415,14 @@ export function _metricAlertResourcePropertiesDeserializer(item: any) {
     windowSize: item["windowSize"],
     targetResourceType: item["targetResourceType"],
     targetResourceRegion: item["targetResourceRegion"],
-    criteria: metricAlertCriteriaUnionDeserializer(item["criteria"]),
+    criteria: metricAlertApiMetricAlertCriteriaUnionDeserializer(item["criteria"]),
     autoMitigate: item["autoMitigate"],
     resolveConfiguration: !item["resolveConfiguration"]
       ? item["resolveConfiguration"]
-      : resolveConfigurationDeserializer(item["resolveConfiguration"]),
+      : metricAlertApiResolveConfigurationDeserializer(item["resolveConfiguration"]),
     actions: !item["actions"]
       ? item["actions"]
-      : metricAlertActionArrayDeserializer(item["actions"]),
+      : metricAlertApiMetricAlertActionArrayDeserializer(item["actions"]),
     lastUpdatedTime: !item["lastUpdatedTime"]
       ? item["lastUpdatedTime"]
       : new Date(item["lastUpdatedTime"]),
@@ -1301,7 +1440,9 @@ export function _metricAlertResourcePropertiesDeserializer(item: any) {
   };
 }
 
-export function _metricAlertResourcePatchPropertiesSerializer(item: MetricAlertResourcePatch): any {
+export function _metricAlertResourcePatchPropertiesSerializer(
+  item: MetricAlertApiMetricAlertResourcePatch,
+): any {
   return {
     description: item["description"],
     severity: item["severity"],
@@ -1317,12 +1458,14 @@ export function _metricAlertResourcePatchPropertiesSerializer(item: MetricAlertR
     targetResourceRegion: item["targetResourceRegion"],
     criteria: !item["criteria"]
       ? item["criteria"]
-      : metricAlertCriteriaUnionSerializer(item["criteria"]),
+      : metricAlertApiMetricAlertCriteriaUnionSerializer(item["criteria"]),
     autoMitigate: item["autoMitigate"],
     resolveConfiguration: !item["resolveConfiguration"]
       ? item["resolveConfiguration"]
-      : resolveConfigurationSerializer(item["resolveConfiguration"]),
-    actions: !item["actions"] ? item["actions"] : metricAlertActionArraySerializer(item["actions"]),
+      : metricAlertApiResolveConfigurationSerializer(item["resolveConfiguration"]),
+    actions: !item["actions"]
+      ? item["actions"]
+      : metricAlertApiMetricAlertActionArraySerializer(item["actions"]),
     customProperties: item["customProperties"],
     actionProperties: item["actionProperties"],
   };

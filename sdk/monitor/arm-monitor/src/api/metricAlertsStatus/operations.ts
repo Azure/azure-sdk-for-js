@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 import type { MonitorContext as Client } from "../index.js";
-import type { MetricAlertStatusCollection } from "../../models/metricAlertApi/models.js";
+import type { MetricAlertApiMetricAlertStatusCollection } from "../../models/metricAlertApi/models.js";
 import {
-  metricAlertErrorResponseDeserializer,
-  metricAlertStatusCollectionDeserializer,
+  metricAlertApiMetricAlertErrorResponseDeserializer,
+  metricAlertApiMetricAlertStatusCollectionDeserializer,
 } from "../../models/metricAlertApi/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
@@ -29,7 +29,7 @@ export function _listByNameSend(
       resourceGroupName: resourceGroupName,
       ruleName: ruleName,
       statusName: statusName,
-      "api%2Dversion": "2024-03-01-preview",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -43,18 +43,18 @@ export function _listByNameSend(
 
 export async function _listByNameDeserialize(
   result: PathUncheckedResponse,
-): Promise<MetricAlertStatusCollection> {
+): Promise<MetricAlertApiMetricAlertStatusCollection> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
-      error.details = metricAlertErrorResponseDeserializer(result.body);
+      error.details = metricAlertApiMetricAlertErrorResponseDeserializer(result.body);
     }
 
     throw error;
   }
 
-  return metricAlertStatusCollectionDeserializer(result.body);
+  return metricAlertApiMetricAlertStatusCollectionDeserializer(result.body);
 }
 
 /** Retrieve an alert rule status. */
@@ -64,7 +64,7 @@ export async function listByName(
   ruleName: string,
   statusName: string,
   options: MetricAlertsStatusListByNameOptionalParams = { requestOptions: {} },
-): Promise<MetricAlertStatusCollection> {
+): Promise<MetricAlertApiMetricAlertStatusCollection> {
   const result = await _listByNameSend(context, resourceGroupName, ruleName, statusName, options);
   return _listByNameDeserialize(result);
 }
@@ -81,7 +81,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       ruleName: ruleName,
-      "api%2Dversion": "2024-03-01-preview",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -95,18 +95,18 @@ export function _listSend(
 
 export async function _listDeserialize(
   result: PathUncheckedResponse,
-): Promise<MetricAlertStatusCollection> {
+): Promise<MetricAlertApiMetricAlertStatusCollection> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
-      error.details = metricAlertErrorResponseDeserializer(result.body);
+      error.details = metricAlertApiMetricAlertErrorResponseDeserializer(result.body);
     }
 
     throw error;
   }
 
-  return metricAlertStatusCollectionDeserializer(result.body);
+  return metricAlertApiMetricAlertStatusCollectionDeserializer(result.body);
 }
 
 /** Retrieve an alert rule status. */
@@ -115,7 +115,7 @@ export async function list(
   resourceGroupName: string,
   ruleName: string,
   options: MetricAlertsStatusListOptionalParams = { requestOptions: {} },
-): Promise<MetricAlertStatusCollection> {
+): Promise<MetricAlertApiMetricAlertStatusCollection> {
   const result = await _listSend(context, resourceGroupName, ruleName, options);
   return _listDeserialize(result);
 }

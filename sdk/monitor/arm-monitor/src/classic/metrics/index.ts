@@ -12,22 +12,22 @@ import type {
   MetricsListAtSubscriptionScopePostOptionalParams,
   MetricsListAtSubscriptionScopeOptionalParams,
 } from "../../api/metrics/options.js";
-import type { Response } from "../../models/metricsApi/models.js";
+import type { MetricsApiResponse } from "../../models/metricsApi/models.js";
 
 /** Interface representing a Metrics operations. */
 export interface MetricsOperations {
   /** **Lists the metric values for a resource**. This API used the [default ARM throttling limits](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/request-limits-and-throttling). */
-  list: (resourceUri: string, options?: MetricsListOptionalParams) => Promise<Response>;
+  list: (resourceUri: string, options?: MetricsListOptionalParams) => Promise<MetricsApiResponse>;
   /** **Lists the metric data for a subscription**. Parameters can be specified on either query params or the body. This API used the [default ARM throttling limits](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/request-limits-and-throttling). */
   listAtSubscriptionScopePost: (
     region: string,
     options?: MetricsListAtSubscriptionScopePostOptionalParams,
-  ) => Promise<Response>;
+  ) => Promise<MetricsApiResponse>;
   /** **Lists the metric data for a subscription**. This API used the [default ARM throttling limits](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/request-limits-and-throttling). */
   listAtSubscriptionScope: (
     region: string,
     options?: MetricsListAtSubscriptionScopeOptionalParams,
-  ) => Promise<Response>;
+  ) => Promise<MetricsApiResponse>;
 }
 
 function _getMetrics(context: MonitorContext) {

@@ -12,7 +12,7 @@ import { systemDataDeserializer } from "../models.js";
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** An Activity Log Alert rule resource. */
-export interface ActivityLogAlertResource extends ProxyResource {
+export interface ActivityLogAlertsApiActivityLogAlertResource extends ProxyResource {
   /** The tags of the resource. */
   tags?: Record<string, string>;
   /** The location of the resource. Azure Activity Log Alert rules are supported on Global, West Europe and North Europe regions. */
@@ -22,16 +22,18 @@ export interface ActivityLogAlertResource extends ProxyResource {
   /** A list of resource IDs that will be used as prefixes. The alert will only apply to Activity Log events with resource IDs that fall under one of these prefixes. This list must include at least one item. */
   scopes?: string[];
   /** The condition that will cause this alert to activate. */
-  condition?: AlertRuleAllOfCondition;
+  condition?: ActivityLogAlertsApiAlertRuleAllOfCondition;
   /** The actions that will activate when the condition is met. */
-  actions?: ActionList;
+  actions?: ActivityLogAlertsApiActionList;
   /** Indicates whether this Activity Log Alert rule is enabled. If an Activity Log Alert rule is not enabled, then none of its actions will be activated. */
   enabled?: boolean;
   /** A description of this Activity Log Alert rule. */
   description?: string;
 }
 
-export function activityLogAlertResourceSerializer(item: ActivityLogAlertResource): any {
+export function activityLogAlertsApiActivityLogAlertResourceSerializer(
+  item: ActivityLogAlertsApiActivityLogAlertResource,
+): any {
   return {
     properties: areAllPropsUndefined(item, [
       "tenantScope",
@@ -48,7 +50,9 @@ export function activityLogAlertResourceSerializer(item: ActivityLogAlertResourc
   };
 }
 
-export function activityLogAlertResourceDeserializer(item: any): ActivityLogAlertResource {
+export function activityLogAlertsApiActivityLogAlertResourceDeserializer(
+  item: any,
+): ActivityLogAlertsApiActivityLogAlertResource {
   return {
     id: item["id"],
     name: item["name"],
@@ -67,22 +71,24 @@ export function activityLogAlertResourceDeserializer(item: any): ActivityLogAler
 }
 
 /** An Azure Activity Log Alert rule. */
-export interface AlertRuleProperties {
+export interface ActivityLogAlertsApiAlertRuleProperties {
   /** The tenant GUID. Must be provided for tenant-level and management group events rules. */
   tenantScope?: string;
   /** A list of resource IDs that will be used as prefixes. The alert will only apply to Activity Log events with resource IDs that fall under one of these prefixes. This list must include at least one item. */
   scopes?: string[];
   /** The condition that will cause this alert to activate. */
-  condition: AlertRuleAllOfCondition;
+  condition: ActivityLogAlertsApiAlertRuleAllOfCondition;
   /** The actions that will activate when the condition is met. */
-  actions: ActionList;
+  actions: ActivityLogAlertsApiActionList;
   /** Indicates whether this Activity Log Alert rule is enabled. If an Activity Log Alert rule is not enabled, then none of its actions will be activated. */
   enabled?: boolean;
   /** A description of this Activity Log Alert rule. */
   description?: string;
 }
 
-export function alertRulePropertiesSerializer(item: AlertRuleProperties): any {
+export function activityLogAlertsApiAlertRulePropertiesSerializer(
+  item: ActivityLogAlertsApiAlertRuleProperties,
+): any {
   return {
     tenantScope: item["tenantScope"],
     scopes: !item["scopes"]
@@ -90,14 +96,16 @@ export function alertRulePropertiesSerializer(item: AlertRuleProperties): any {
       : item["scopes"].map((p: any) => {
           return p;
         }),
-    condition: alertRuleAllOfConditionSerializer(item["condition"]),
-    actions: actionListSerializer(item["actions"]),
+    condition: activityLogAlertsApiAlertRuleAllOfConditionSerializer(item["condition"]),
+    actions: activityLogAlertsApiActionListSerializer(item["actions"]),
     enabled: item["enabled"],
     description: item["description"],
   };
 }
 
-export function alertRulePropertiesDeserializer(item: any): AlertRuleProperties {
+export function activityLogAlertsApiAlertRulePropertiesDeserializer(
+  item: any,
+): ActivityLogAlertsApiAlertRuleProperties {
   return {
     tenantScope: item["tenantScope"],
     scopes: !item["scopes"]
@@ -105,42 +113,46 @@ export function alertRulePropertiesDeserializer(item: any): AlertRuleProperties 
       : item["scopes"].map((p: any) => {
           return p;
         }),
-    condition: alertRuleAllOfConditionDeserializer(item["condition"]),
-    actions: actionListDeserializer(item["actions"]),
+    condition: activityLogAlertsApiAlertRuleAllOfConditionDeserializer(item["condition"]),
+    actions: activityLogAlertsApiActionListDeserializer(item["actions"]),
     enabled: item["enabled"],
     description: item["description"],
   };
 }
 
 /** An Activity Log Alert rule condition that is met when all its member conditions are met. */
-export interface AlertRuleAllOfCondition {
+export interface ActivityLogAlertsApiAlertRuleAllOfCondition {
   /** The list of Activity Log Alert rule conditions. */
-  allOf: AlertRuleAnyOfOrLeafCondition[];
+  allOf: ActivityLogAlertsApiAlertRuleAnyOfOrLeafCondition[];
 }
 
-export function alertRuleAllOfConditionSerializer(item: AlertRuleAllOfCondition): any {
-  return { allOf: alertRuleAnyOfOrLeafConditionArraySerializer(item["allOf"]) };
+export function activityLogAlertsApiAlertRuleAllOfConditionSerializer(
+  item: ActivityLogAlertsApiAlertRuleAllOfCondition,
+): any {
+  return { allOf: activityLogAlertsApiAlertRuleAnyOfOrLeafConditionArraySerializer(item["allOf"]) };
 }
 
-export function alertRuleAllOfConditionDeserializer(item: any): AlertRuleAllOfCondition {
+export function activityLogAlertsApiAlertRuleAllOfConditionDeserializer(
+  item: any,
+): ActivityLogAlertsApiAlertRuleAllOfCondition {
   return {
-    allOf: alertRuleAnyOfOrLeafConditionArrayDeserializer(item["allOf"]),
+    allOf: activityLogAlertsApiAlertRuleAnyOfOrLeafConditionArrayDeserializer(item["allOf"]),
   };
 }
 
-export function alertRuleAnyOfOrLeafConditionArraySerializer(
-  result: Array<AlertRuleAnyOfOrLeafCondition>,
+export function activityLogAlertsApiAlertRuleAnyOfOrLeafConditionArraySerializer(
+  result: Array<ActivityLogAlertsApiAlertRuleAnyOfOrLeafCondition>,
 ): any[] {
   return result.map((item) => {
-    return alertRuleAnyOfOrLeafConditionSerializer(item);
+    return activityLogAlertsApiAlertRuleAnyOfOrLeafConditionSerializer(item);
   });
 }
 
-export function alertRuleAnyOfOrLeafConditionArrayDeserializer(
-  result: Array<AlertRuleAnyOfOrLeafCondition>,
+export function activityLogAlertsApiAlertRuleAnyOfOrLeafConditionArrayDeserializer(
+  result: Array<ActivityLogAlertsApiAlertRuleAnyOfOrLeafCondition>,
 ): any[] {
   return result.map((item) => {
-    return alertRuleAnyOfOrLeafConditionDeserializer(item);
+    return activityLogAlertsApiAlertRuleAnyOfOrLeafConditionDeserializer(item);
   });
 }
 
@@ -153,12 +165,14 @@ export function alertRuleAnyOfOrLeafConditionArrayDeserializer(
  * * __AnyOf Condition -__ must contain __only__ 'anyOf' (which is an array of Leaf Conditions).
  * _Please note, 'field', 'equals' and 'containsAny' should __not__ be set in an AnyOf Condition._
  */
-export interface AlertRuleAnyOfOrLeafCondition extends AlertRuleLeafCondition {
+export interface ActivityLogAlertsApiAlertRuleAnyOfOrLeafCondition extends ActivityLogAlertsApiAlertRuleLeafCondition {
   /** An Activity Log Alert rule condition that is met when at least one of its member leaf conditions are met. */
-  anyOf?: AlertRuleLeafCondition[];
+  anyOf?: ActivityLogAlertsApiAlertRuleLeafCondition[];
 }
 
-export function alertRuleAnyOfOrLeafConditionSerializer(item: AlertRuleAnyOfOrLeafCondition): any {
+export function activityLogAlertsApiAlertRuleAnyOfOrLeafConditionSerializer(
+  item: ActivityLogAlertsApiAlertRuleAnyOfOrLeafCondition,
+): any {
   return {
     field: item["field"],
     equals: item["equals"],
@@ -167,13 +181,15 @@ export function alertRuleAnyOfOrLeafConditionSerializer(item: AlertRuleAnyOfOrLe
       : item["containsAny"].map((p: any) => {
           return p;
         }),
-    anyOf: !item["anyOf"] ? item["anyOf"] : alertRuleLeafConditionArraySerializer(item["anyOf"]),
+    anyOf: !item["anyOf"]
+      ? item["anyOf"]
+      : activityLogAlertsApiAlertRuleLeafConditionArraySerializer(item["anyOf"]),
   };
 }
 
-export function alertRuleAnyOfOrLeafConditionDeserializer(
+export function activityLogAlertsApiAlertRuleAnyOfOrLeafConditionDeserializer(
   item: any,
-): AlertRuleAnyOfOrLeafCondition {
+): ActivityLogAlertsApiAlertRuleAnyOfOrLeafCondition {
   return {
     field: item["field"],
     equals: item["equals"],
@@ -182,23 +198,25 @@ export function alertRuleAnyOfOrLeafConditionDeserializer(
       : item["containsAny"].map((p: any) => {
           return p;
         }),
-    anyOf: !item["anyOf"] ? item["anyOf"] : alertRuleLeafConditionArrayDeserializer(item["anyOf"]),
+    anyOf: !item["anyOf"]
+      ? item["anyOf"]
+      : activityLogAlertsApiAlertRuleLeafConditionArrayDeserializer(item["anyOf"]),
   };
 }
 
-export function alertRuleLeafConditionArraySerializer(
-  result: Array<AlertRuleLeafCondition>,
+export function activityLogAlertsApiAlertRuleLeafConditionArraySerializer(
+  result: Array<ActivityLogAlertsApiAlertRuleLeafCondition>,
 ): any[] {
   return result.map((item) => {
-    return alertRuleLeafConditionSerializer(item);
+    return activityLogAlertsApiAlertRuleLeafConditionSerializer(item);
   });
 }
 
-export function alertRuleLeafConditionArrayDeserializer(
-  result: Array<AlertRuleLeafCondition>,
+export function activityLogAlertsApiAlertRuleLeafConditionArrayDeserializer(
+  result: Array<ActivityLogAlertsApiAlertRuleLeafCondition>,
 ): any[] {
   return result.map((item) => {
-    return alertRuleLeafConditionDeserializer(item);
+    return activityLogAlertsApiAlertRuleLeafConditionDeserializer(item);
   });
 }
 
@@ -206,7 +224,7 @@ export function alertRuleLeafConditionArrayDeserializer(
  * An Activity Log Alert rule condition that is met by comparing the field and value of an Activity Log event.
  * This condition must contain 'field' and either 'equals' or 'containsAny'.
  */
-export interface AlertRuleLeafCondition {
+export interface ActivityLogAlertsApiAlertRuleLeafCondition {
   /**
    * The name of the Activity Log event's field that this condition will examine.
    * The possible values for this field are (case-insensitive): 'resourceId', 'category', 'caller', 'level', 'operationName', 'resourceGroup', 'resourceProvider', 'status', 'subStatus', 'resourceType', or anything beginning with 'properties'.
@@ -218,7 +236,9 @@ export interface AlertRuleLeafCondition {
   containsAny?: string[];
 }
 
-export function alertRuleLeafConditionSerializer(item: AlertRuleLeafCondition): any {
+export function activityLogAlertsApiAlertRuleLeafConditionSerializer(
+  item: ActivityLogAlertsApiAlertRuleLeafCondition,
+): any {
   return {
     field: item["field"],
     equals: item["equals"],
@@ -230,7 +250,9 @@ export function alertRuleLeafConditionSerializer(item: AlertRuleLeafCondition): 
   };
 }
 
-export function alertRuleLeafConditionDeserializer(item: any): AlertRuleLeafCondition {
+export function activityLogAlertsApiAlertRuleLeafConditionDeserializer(
+  item: any,
+): ActivityLogAlertsApiAlertRuleLeafCondition {
   return {
     field: item["field"],
     equals: item["equals"],
@@ -243,45 +265,49 @@ export function alertRuleLeafConditionDeserializer(item: any): AlertRuleLeafCond
 }
 
 /** A list of Activity Log Alert rule actions. */
-export interface ActionList {
+export interface ActivityLogAlertsApiActionList {
   /** The list of the Action Groups. */
-  actionGroups?: ActivityLogAlertActionGroup[];
+  actionGroups?: ActivityLogAlertsApiActivityLogAlertActionGroup[];
 }
 
-export function actionListSerializer(item: ActionList): any {
+export function activityLogAlertsApiActionListSerializer(
+  item: ActivityLogAlertsApiActionList,
+): any {
   return {
     actionGroups: !item["actionGroups"]
       ? item["actionGroups"]
-      : activityLogAlertActionGroupArraySerializer(item["actionGroups"]),
+      : activityLogAlertsApiActivityLogAlertActionGroupArraySerializer(item["actionGroups"]),
   };
 }
 
-export function actionListDeserializer(item: any): ActionList {
+export function activityLogAlertsApiActionListDeserializer(
+  item: any,
+): ActivityLogAlertsApiActionList {
   return {
     actionGroups: !item["actionGroups"]
       ? item["actionGroups"]
-      : activityLogAlertActionGroupArrayDeserializer(item["actionGroups"]),
+      : activityLogAlertsApiActivityLogAlertActionGroupArrayDeserializer(item["actionGroups"]),
   };
 }
 
-export function activityLogAlertActionGroupArraySerializer(
-  result: Array<ActivityLogAlertActionGroup>,
+export function activityLogAlertsApiActivityLogAlertActionGroupArraySerializer(
+  result: Array<ActivityLogAlertsApiActivityLogAlertActionGroup>,
 ): any[] {
   return result.map((item) => {
-    return activityLogAlertActionGroupSerializer(item);
+    return activityLogAlertsApiActivityLogAlertActionGroupSerializer(item);
   });
 }
 
-export function activityLogAlertActionGroupArrayDeserializer(
-  result: Array<ActivityLogAlertActionGroup>,
+export function activityLogAlertsApiActivityLogAlertActionGroupArrayDeserializer(
+  result: Array<ActivityLogAlertsApiActivityLogAlertActionGroup>,
 ): any[] {
   return result.map((item) => {
-    return activityLogAlertActionGroupDeserializer(item);
+    return activityLogAlertsApiActivityLogAlertActionGroupDeserializer(item);
   });
 }
 
 /** A pointer to an Azure Action Group. */
-export interface ActivityLogAlertActionGroup {
+export interface ActivityLogAlertsApiActivityLogAlertActionGroup {
   /** The resource ID of the Action Group. This cannot be null or empty. */
   actionGroupId: string;
   /** the dictionary of custom properties to include with the post operation. These data are appended to the webhook payload. */
@@ -290,7 +316,9 @@ export interface ActivityLogAlertActionGroup {
   actionProperties?: Record<string, string>;
 }
 
-export function activityLogAlertActionGroupSerializer(item: ActivityLogAlertActionGroup): any {
+export function activityLogAlertsApiActivityLogAlertActionGroupSerializer(
+  item: ActivityLogAlertsApiActivityLogAlertActionGroup,
+): any {
   return {
     actionGroupId: item["actionGroupId"],
     webhookProperties: item["webhookProperties"],
@@ -298,7 +326,9 @@ export function activityLogAlertActionGroupSerializer(item: ActivityLogAlertActi
   };
 }
 
-export function activityLogAlertActionGroupDeserializer(item: any): ActivityLogAlertActionGroup {
+export function activityLogAlertsApiActivityLogAlertActionGroupDeserializer(
+  item: any,
+): ActivityLogAlertsApiActivityLogAlertActionGroup {
   return {
     actionGroupId: item["actionGroupId"],
     webhookProperties: !item["webhookProperties"]
@@ -315,16 +345,16 @@ export function activityLogAlertActionGroupDeserializer(item: any): ActivityLogA
 }
 
 /** The error response. */
-export interface ActivityLogAlertErrorResponse {
+export interface ActivityLogAlertsApiActivityLogAlertErrorResponse {
   /** The error code. */
   readonly code?: string;
   /** The error message indicating why the operation failed. */
   readonly message?: string;
 }
 
-export function activityLogAlertErrorResponseDeserializer(
+export function activityLogAlertsApiActivityLogAlertErrorResponseDeserializer(
   item: any,
-): ActivityLogAlertErrorResponse {
+): ActivityLogAlertsApiActivityLogAlertErrorResponse {
   return {
     code: item["code"],
     message: item["message"],
@@ -332,14 +362,16 @@ export function activityLogAlertErrorResponseDeserializer(
 }
 
 /** An Activity Log Alert rule object for the body of patch operations. */
-export interface AlertRulePatchObject {
+export interface ActivityLogAlertsApiAlertRulePatchObject {
   /** The resource tags */
   tags?: Record<string, string>;
   /** Indicates whether this Activity Log Alert rule is enabled. If an Activity Log Alert rule is not enabled, then none of its actions will be activated. */
   enabled?: boolean;
 }
 
-export function alertRulePatchObjectSerializer(item: AlertRulePatchObject): any {
+export function activityLogAlertsApiAlertRulePatchObjectSerializer(
+  item: ActivityLogAlertsApiAlertRulePatchObject,
+): any {
   return {
     tags: item["tags"],
     properties: areAllPropsUndefined(item, ["enabled"])
@@ -349,47 +381,53 @@ export function alertRulePatchObjectSerializer(item: AlertRulePatchObject): any 
 }
 
 /** An Activity Log Alert rule properties for patch operations. */
-export interface AlertRulePatchProperties {
+export interface ActivityLogAlertsApiAlertRulePatchProperties {
   /** Indicates whether this Activity Log Alert rule is enabled. If an Activity Log Alert rule is not enabled, then none of its actions will be activated. */
   enabled?: boolean;
 }
 
-export function alertRulePatchPropertiesSerializer(item: AlertRulePatchProperties): any {
+export function activityLogAlertsApiAlertRulePatchPropertiesSerializer(
+  item: ActivityLogAlertsApiAlertRulePatchProperties,
+): any {
   return { enabled: item["enabled"] };
 }
 
 /** A list of Activity Log Alert rules. */
-export interface _AlertRuleList {
+export interface _ActivityLogAlertsApiAlertRuleList {
   /** The ActivityLogAlertResource items on this page */
-  value: ActivityLogAlertResource[];
+  value: ActivityLogAlertsApiActivityLogAlertResource[];
   /** The link to the next page of items */
   nextLink?: string;
 }
 
-export function _alertRuleListDeserializer(item: any): _AlertRuleList {
+export function _activityLogAlertsApiAlertRuleListDeserializer(
+  item: any,
+): _ActivityLogAlertsApiAlertRuleList {
   return {
-    value: activityLogAlertResourceArrayDeserializer(item["value"]),
+    value: activityLogAlertsApiActivityLogAlertResourceArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function activityLogAlertResourceArraySerializer(
-  result: Array<ActivityLogAlertResource>,
+export function activityLogAlertsApiActivityLogAlertResourceArraySerializer(
+  result: Array<ActivityLogAlertsApiActivityLogAlertResource>,
 ): any[] {
   return result.map((item) => {
-    return activityLogAlertResourceSerializer(item);
+    return activityLogAlertsApiActivityLogAlertResourceSerializer(item);
   });
 }
 
-export function activityLogAlertResourceArrayDeserializer(
-  result: Array<ActivityLogAlertResource>,
+export function activityLogAlertsApiActivityLogAlertResourceArrayDeserializer(
+  result: Array<ActivityLogAlertsApiActivityLogAlertResource>,
 ): any[] {
   return result.map((item) => {
-    return activityLogAlertResourceDeserializer(item);
+    return activityLogAlertsApiActivityLogAlertResourceDeserializer(item);
   });
 }
 
-export function _activityLogAlertResourcePropertiesSerializer(item: ActivityLogAlertResource): any {
+export function _activityLogAlertResourcePropertiesSerializer(
+  item: ActivityLogAlertsApiActivityLogAlertResource,
+): any {
   return {
     tenantScope: item["tenantScope"],
     scopes: !item["scopes"]
@@ -399,8 +437,10 @@ export function _activityLogAlertResourcePropertiesSerializer(item: ActivityLogA
         }),
     condition: !item["condition"]
       ? item["condition"]
-      : alertRuleAllOfConditionSerializer(item["condition"]),
-    actions: !item["actions"] ? item["actions"] : actionListSerializer(item["actions"]),
+      : activityLogAlertsApiAlertRuleAllOfConditionSerializer(item["condition"]),
+    actions: !item["actions"]
+      ? item["actions"]
+      : activityLogAlertsApiActionListSerializer(item["actions"]),
     enabled: item["enabled"],
     description: item["description"],
   };
@@ -416,13 +456,17 @@ export function _activityLogAlertResourcePropertiesDeserializer(item: any) {
         }),
     condition: !item["condition"]
       ? item["condition"]
-      : alertRuleAllOfConditionDeserializer(item["condition"]),
-    actions: !item["actions"] ? item["actions"] : actionListDeserializer(item["actions"]),
+      : activityLogAlertsApiAlertRuleAllOfConditionDeserializer(item["condition"]),
+    actions: !item["actions"]
+      ? item["actions"]
+      : activityLogAlertsApiActionListDeserializer(item["actions"]),
     enabled: item["enabled"],
     description: item["description"],
   };
 }
 
-export function _alertRulePatchObjectPropertiesSerializer(item: AlertRulePatchObject): any {
+export function _alertRulePatchObjectPropertiesSerializer(
+  item: ActivityLogAlertsApiAlertRulePatchObject,
+): any {
   return { enabled: item["enabled"] };
 }

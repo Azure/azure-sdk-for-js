@@ -2,14 +2,14 @@
 // Licensed under the MIT License.
 
 export type {
-  ActivityLogAlertResource,
-  AlertRuleProperties,
-  AlertRuleAllOfCondition,
-  AlertRuleAnyOfOrLeafCondition,
-  AlertRuleLeafCondition,
-  ActionList,
-  ActivityLogAlertActionGroup,
-  ActivityLogAlertErrorResponse,
-  AlertRulePatchObject,
-  AlertRulePatchProperties,
+  ActivityLogAlertsApiActivityLogAlertResource,
+  ActivityLogAlertsApiAlertRuleProperties,
+  ActivityLogAlertsApiAlertRuleAllOfCondition,
+  ActivityLogAlertsApiAlertRuleAnyOfOrLeafCondition,
+  ActivityLogAlertsApiAlertRuleLeafCondition,
+  ActivityLogAlertsApiActionList,
+  ActivityLogAlertsApiActivityLogAlertActionGroup,
+  ActivityLogAlertsApiActivityLogAlertErrorResponse,
+  ActivityLogAlertsApiAlertRulePatchObject,
+  ActivityLogAlertsApiAlertRulePatchProperties,
 } from "./models.js";

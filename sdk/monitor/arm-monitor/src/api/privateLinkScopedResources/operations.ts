@@ -7,10 +7,10 @@ import {
   armErrorResponseDeserializer,
   _scopedResourceListResultDeserializer,
 } from "../../models/models.js";
-import type { ScopedResource } from "../../models/privateLinkScopesApi/models.js";
+import type { PrivateLinkScopesApiScopedResource } from "../../models/privateLinkScopesApi/models.js";
 import {
-  scopedResourceSerializer,
-  scopedResourceDeserializer,
+  privateLinkScopesApiScopedResourceSerializer,
+  privateLinkScopesApiScopedResourceDeserializer,
 } from "../../models/privateLinkScopesApi/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -73,7 +73,7 @@ export function listByPrivateLinkScope(
   resourceGroupName: string,
   scopeName: string,
   options: PrivateLinkScopedResourcesListByPrivateLinkScopeOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<ScopedResource> {
+): PagedAsyncIterableIterator<PrivateLinkScopesApiScopedResource> {
   return buildPagedAsyncIterator(
     context,
     () => _listByPrivateLinkScopeSend(context, resourceGroupName, scopeName, options),
@@ -142,7 +142,7 @@ export function _createOrUpdateSend(
   resourceGroupName: string,
   scopeName: string,
   name: string,
-  parameters: ScopedResource,
+  parameters: PrivateLinkScopesApiScopedResource,
   options: PrivateLinkScopedResourcesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -162,13 +162,13 @@ export function _createOrUpdateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: scopedResourceSerializer(parameters),
+    body: privateLinkScopesApiScopedResourceSerializer(parameters),
   });
 }
 
 export async function _createOrUpdateDeserialize(
   result: PathUncheckedResponse,
-): Promise<ScopedResource> {
+): Promise<PrivateLinkScopesApiScopedResource> {
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -179,7 +179,7 @@ export async function _createOrUpdateDeserialize(
     throw error;
   }
 
-  return scopedResourceDeserializer(result.body);
+  return privateLinkScopesApiScopedResourceDeserializer(result.body);
 }
 
 /** Add an Azure monitor scoped resource in the private link scope. */
@@ -188,9 +188,12 @@ export function createOrUpdate(
   resourceGroupName: string,
   scopeName: string,
   name: string,
-  parameters: ScopedResource,
+  parameters: PrivateLinkScopesApiScopedResource,
   options: PrivateLinkScopedResourcesCreateOrUpdateOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<ScopedResource>, ScopedResource> {
+): PollerLike<
+  OperationState<PrivateLinkScopesApiScopedResource>,
+  PrivateLinkScopesApiScopedResource
+> {
   return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
@@ -198,7 +201,10 @@ export function createOrUpdate(
       _createOrUpdateSend(context, resourceGroupName, scopeName, name, parameters, options),
     resourceLocationConfig: "location",
     apiVersion: "2023-06-01-preview",
-  }) as PollerLike<OperationState<ScopedResource>, ScopedResource>;
+  }) as PollerLike<
+    OperationState<PrivateLinkScopesApiScopedResource>,
+    PrivateLinkScopesApiScopedResource
+  >;
 }
 
 export function _getSend(
@@ -227,7 +233,9 @@ export function _getSend(
   });
 }
 
-export async function _getDeserialize(result: PathUncheckedResponse): Promise<ScopedResource> {
+export async function _getDeserialize(
+  result: PathUncheckedResponse,
+): Promise<PrivateLinkScopesApiScopedResource> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -238,7 +246,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Sc
     throw error;
   }
 
-  return scopedResourceDeserializer(result.body);
+  return privateLinkScopesApiScopedResourceDeserializer(result.body);
 }
 
 /** Gets a scoped resource in a private link scope. */
@@ -248,7 +256,7 @@ export async function get(
   scopeName: string,
   name: string,
   options: PrivateLinkScopedResourcesGetOptionalParams = { requestOptions: {} },
-): Promise<ScopedResource> {
+): Promise<PrivateLinkScopesApiScopedResource> {
   const result = await _getSend(context, resourceGroupName, scopeName, name, options);
   return _getDeserialize(result);
 }

@@ -2,14 +2,14 @@
 // Licensed under the MIT License.
 
 import type { MonitorContext as Client } from "../index.js";
-import type { Response } from "../../models/metricsApi/models.js";
+import type { MetricsApiResponse } from "../../models/metricsApi/models.js";
 import {
-  responseDeserializer,
-  subscriptionScopeMetricsRequestBodyParametersSerializer,
+  metricsApiResponseDeserializer,
+  metricsApiSubscriptionScopeMetricsRequestBodyParametersSerializer,
 } from "../../models/metricsApi/models.js";
 import {
-  errorContractDeserializer,
-  commonErrorResponseDeserializer,
+  microsoftCommonErrorContractDeserializer,
+  microsoftCommonCommonErrorResponseDeserializer,
 } from "../../models/microsoft/common/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
@@ -53,18 +53,18 @@ export function _listSend(
   });
 }
 
-export async function _listDeserialize(result: PathUncheckedResponse): Promise<Response> {
+export async function _listDeserialize(result: PathUncheckedResponse): Promise<MetricsApiResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
-      error.details = commonErrorResponseDeserializer(result.body);
+      error.details = microsoftCommonCommonErrorResponseDeserializer(result.body);
     }
 
     throw error;
   }
 
-  return responseDeserializer(result.body);
+  return metricsApiResponseDeserializer(result.body);
 }
 
 /** **Lists the metric values for a resource**. This API used the [default ARM throttling limits](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/request-limits-and-throttling). */
@@ -72,7 +72,7 @@ export async function list(
   context: Client,
   resourceUri: string,
   options: MetricsListOptionalParams = { requestOptions: {} },
-): Promise<Response> {
+): Promise<MetricsApiResponse> {
   const result = await _listSend(context, resourceUri, options);
   return _listDeserialize(result);
 }
@@ -111,24 +111,24 @@ export function _listAtSubscriptionScopePostSend(
     headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: !options?.body
       ? options?.body
-      : subscriptionScopeMetricsRequestBodyParametersSerializer(options?.body),
+      : metricsApiSubscriptionScopeMetricsRequestBodyParametersSerializer(options?.body),
   });
 }
 
 export async function _listAtSubscriptionScopePostDeserialize(
   result: PathUncheckedResponse,
-): Promise<Response> {
+): Promise<MetricsApiResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
-      error.details = errorContractDeserializer(result.body);
+      error.details = microsoftCommonErrorContractDeserializer(result.body);
     }
 
     throw error;
   }
 
-  return responseDeserializer(result.body);
+  return metricsApiResponseDeserializer(result.body);
 }
 
 /** **Lists the metric data for a subscription**. Parameters can be specified on either query params or the body. This API used the [default ARM throttling limits](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/request-limits-and-throttling). */
@@ -136,7 +136,7 @@ export async function listAtSubscriptionScopePost(
   context: Client,
   region: string,
   options: MetricsListAtSubscriptionScopePostOptionalParams = { requestOptions: {} },
-): Promise<Response> {
+): Promise<MetricsApiResponse> {
   const result = await _listAtSubscriptionScopePostSend(context, region, options);
   return _listAtSubscriptionScopePostDeserialize(result);
 }
@@ -177,18 +177,18 @@ export function _listAtSubscriptionScopeSend(
 
 export async function _listAtSubscriptionScopeDeserialize(
   result: PathUncheckedResponse,
-): Promise<Response> {
+): Promise<MetricsApiResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
-      error.details = errorContractDeserializer(result.body);
+      error.details = microsoftCommonErrorContractDeserializer(result.body);
     }
 
     throw error;
   }
 
-  return responseDeserializer(result.body);
+  return metricsApiResponseDeserializer(result.body);
 }
 
 /** **Lists the metric data for a subscription**. This API used the [default ARM throttling limits](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/request-limits-and-throttling). */
@@ -196,7 +196,7 @@ export async function listAtSubscriptionScope(
   context: Client,
   region: string,
   options: MetricsListAtSubscriptionScopeOptionalParams = { requestOptions: {} },
-): Promise<Response> {
+): Promise<MetricsApiResponse> {
   const result = await _listAtSubscriptionScopeSend(context, region, options);
   return _listAtSubscriptionScopeDeserialize(result);
 }

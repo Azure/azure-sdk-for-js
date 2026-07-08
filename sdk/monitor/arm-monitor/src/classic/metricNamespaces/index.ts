@@ -4,7 +4,7 @@
 import type { MonitorContext } from "../../api/monitorContext.js";
 import { list } from "../../api/metricNamespaces/operations.js";
 import type { MetricNamespacesListOptionalParams } from "../../api/metricNamespaces/options.js";
-import type { MetricNamespace } from "../../models/metricsApi/models.js";
+import type { MetricsApiMetricNamespace } from "../../models/metricsApi/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a MetricNamespaces operations. */
@@ -13,7 +13,7 @@ export interface MetricNamespacesOperations {
   list: (
     resourceUri: string,
     options?: MetricNamespacesListOptionalParams,
-  ) => PagedAsyncIterableIterator<MetricNamespace>;
+  ) => PagedAsyncIterableIterator<MetricsApiMetricNamespace>;
 }
 
 function _getMetricNamespaces(context: MonitorContext) {

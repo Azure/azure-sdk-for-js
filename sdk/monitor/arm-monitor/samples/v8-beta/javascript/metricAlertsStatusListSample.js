@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to retrieve an alert rule status.
  *
  * @summary retrieve an alert rule status.
- * x-ms-original-file: 2024-03-01-preview/getMetricAlertStatus.json
+ * x-ms-original-file: 2026-01-01/getMetricAlertStatus.json
  */
 async function getAnAlertRuleStatus() {
   const credential = new DefaultAzureCredential();

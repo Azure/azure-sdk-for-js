@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DataCollectionRuleAssociationProxyOnlyResource } from "../../models/dataCollectionApi/models.js";
+import type { DataCollectionApiDataCollectionRuleAssociationProxyOnlyResource } from "../../models/dataCollectionApi/models.js";
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
@@ -21,7 +21,7 @@ export interface DataCollectionRuleAssociationsDeleteOptionalParams extends Oper
 /** Optional parameters. */
 export interface DataCollectionRuleAssociationsCreateOptionalParams extends OperationOptions {
   /** The payload */
-  body?: DataCollectionRuleAssociationProxyOnlyResource;
+  body?: DataCollectionApiDataCollectionRuleAssociationProxyOnlyResource;
 }
 
 /** Optional parameters. */

@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import type { MonitorClient } from "./monitorClient.js";
+import { _createNotificationsAtTenantActionGroupResourceLevelDeserialize } from "./api/operations.js";
 import {
   _reconcileNSPDeserialize,
   _createNotificationsAtActionGroupResourceLevelDeserialize,
@@ -87,6 +88,11 @@ interface DeserializationHelper {
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
+  "POST /providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Insights/tenantActionGroups/{tenantActionGroupName}/createNotifications":
+    {
+      deserializer: _createNotificationsAtTenantActionGroupResourceLevelDeserialize,
+      expectedStatuses: ["200", "202", "201"],
+    },
   "POST /subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Insights/actionGroups/{actionGroupName}/networkSecurityPerimeterConfigurations/{networkSecurityPerimeterConfigurationName}/reconcile":
     { deserializer: _reconcileNSPDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Insights/actionGroups/{actionGroupName}/createNotifications":

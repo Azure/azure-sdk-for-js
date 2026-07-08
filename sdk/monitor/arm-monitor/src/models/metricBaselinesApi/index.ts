@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 
 export type {
-  SingleMetricBaseline,
-  MetricBaselinesProperties,
-  TimeSeriesBaseline,
-  MetricSingleDimension,
-  SingleBaseline,
-  BaselineSensitivity,
-  BaselineMetadata,
-  MetricBaselinesErrorResponse,
+  MetricBaselinesApiSingleMetricBaseline,
+  MetricBaselinesApiMetricBaselinesProperties,
+  MetricBaselinesApiTimeSeriesBaseline,
+  MetricBaselinesApiMetricSingleDimension,
+  MetricBaselinesApiSingleBaseline,
+  MetricBaselinesApiBaselineSensitivity,
+  MetricBaselinesApiBaselineMetadata,
+  MetricBaselinesApiMetricBaselinesErrorResponse,
 } from "./models.js";
-export { KnownBaselineSensitivity } from "./models.js";
+export { KnownMetricBaselinesApiBaselineSensitivity } from "./models.js";

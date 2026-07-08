@@ -3,16 +3,16 @@
 
 import type { MonitorContext as Client } from "../index.js";
 import type {
-  AutoscaleSettingResource,
-  AutoscaleSettingResourcePatch,
-  _AutoscaleSettingResourceCollection,
+  AutoScaleApiAutoscaleSettingResource,
+  AutoScaleApiAutoscaleSettingResourcePatch,
+  _AutoScaleApiAutoscaleSettingResourceCollection,
 } from "../../models/autoScaleApi/models.js";
 import {
-  autoscaleSettingResourceSerializer,
-  autoscaleSettingResourceDeserializer,
-  autoscaleErrorResponseDeserializer,
-  autoscaleSettingResourcePatchSerializer,
-  _autoscaleSettingResourceCollectionDeserializer,
+  autoScaleApiAutoscaleSettingResourceSerializer,
+  autoScaleApiAutoscaleSettingResourceDeserializer,
+  autoScaleApiAutoscaleErrorResponseDeserializer,
+  autoScaleApiAutoscaleSettingResourcePatchSerializer,
+  _autoScaleApiAutoscaleSettingResourceCollectionDeserializer,
 } from "../../models/autoScaleApi/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -50,25 +50,25 @@ export function _listBySubscriptionSend(
 
 export async function _listBySubscriptionDeserialize(
   result: PathUncheckedResponse,
-): Promise<_AutoscaleSettingResourceCollection> {
+): Promise<_AutoScaleApiAutoscaleSettingResourceCollection> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
-      error.details = autoscaleErrorResponseDeserializer(result.body);
+      error.details = autoScaleApiAutoscaleErrorResponseDeserializer(result.body);
     }
 
     throw error;
   }
 
-  return _autoscaleSettingResourceCollectionDeserializer(result.body);
+  return _autoScaleApiAutoscaleSettingResourceCollectionDeserializer(result.body);
 }
 
 /** Lists the autoscale settings for a subscription */
 export function listBySubscription(
   context: Client,
   options: AutoscaleSettingsListBySubscriptionOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<AutoscaleSettingResource> {
+): PagedAsyncIterableIterator<AutoScaleApiAutoscaleSettingResource> {
   return buildPagedAsyncIterator(
     context,
     () => _listBySubscriptionSend(context, options),
@@ -102,18 +102,18 @@ export function _listByResourceGroupSend(
 
 export async function _listByResourceGroupDeserialize(
   result: PathUncheckedResponse,
-): Promise<_AutoscaleSettingResourceCollection> {
+): Promise<_AutoScaleApiAutoscaleSettingResourceCollection> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
-      error.details = autoscaleErrorResponseDeserializer(result.body);
+      error.details = autoScaleApiAutoscaleErrorResponseDeserializer(result.body);
     }
 
     throw error;
   }
 
-  return _autoscaleSettingResourceCollectionDeserializer(result.body);
+  return _autoScaleApiAutoscaleSettingResourceCollectionDeserializer(result.body);
 }
 
 /** Lists the autoscale settings for a resource group */
@@ -121,7 +121,7 @@ export function listByResourceGroup(
   context: Client,
   resourceGroupName: string,
   options: AutoscaleSettingsListByResourceGroupOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<AutoscaleSettingResource> {
+): PagedAsyncIterableIterator<AutoScaleApiAutoscaleSettingResource> {
   return buildPagedAsyncIterator(
     context,
     () => _listByResourceGroupSend(context, resourceGroupName, options),
@@ -157,7 +157,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
-      error.details = autoscaleErrorResponseDeserializer(result.body);
+      error.details = autoScaleApiAutoscaleErrorResponseDeserializer(result.body);
     }
 
     throw error;
@@ -181,7 +181,7 @@ export function _updateSend(
   context: Client,
   resourceGroupName: string,
   autoscaleSettingName: string,
-  autoscaleSettingResource: AutoscaleSettingResourcePatch,
+  autoscaleSettingResource: AutoScaleApiAutoscaleSettingResourcePatch,
   options: AutoscaleSettingsUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -200,24 +200,24 @@ export function _updateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: autoscaleSettingResourcePatchSerializer(autoscaleSettingResource),
+    body: autoScaleApiAutoscaleSettingResourcePatchSerializer(autoscaleSettingResource),
   });
 }
 
 export async function _updateDeserialize(
   result: PathUncheckedResponse,
-): Promise<AutoscaleSettingResource> {
+): Promise<AutoScaleApiAutoscaleSettingResource> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
-      error.details = autoscaleErrorResponseDeserializer(result.body);
+      error.details = autoScaleApiAutoscaleErrorResponseDeserializer(result.body);
     }
 
     throw error;
   }
 
-  return autoscaleSettingResourceDeserializer(result.body);
+  return autoScaleApiAutoscaleSettingResourceDeserializer(result.body);
 }
 
 /** Updates an existing AutoscaleSettingsResource. To update other fields use the CreateOrUpdate method. */
@@ -225,9 +225,9 @@ export async function update(
   context: Client,
   resourceGroupName: string,
   autoscaleSettingName: string,
-  autoscaleSettingResource: AutoscaleSettingResourcePatch,
+  autoscaleSettingResource: AutoScaleApiAutoscaleSettingResourcePatch,
   options: AutoscaleSettingsUpdateOptionalParams = { requestOptions: {} },
-): Promise<AutoscaleSettingResource> {
+): Promise<AutoScaleApiAutoscaleSettingResource> {
   const result = await _updateSend(
     context,
     resourceGroupName,
@@ -242,7 +242,7 @@ export function _createOrUpdateSend(
   context: Client,
   resourceGroupName: string,
   autoscaleSettingName: string,
-  parameters: AutoscaleSettingResource,
+  parameters: AutoScaleApiAutoscaleSettingResource,
   options: AutoscaleSettingsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -261,24 +261,24 @@ export function _createOrUpdateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: autoscaleSettingResourceSerializer(parameters),
+    body: autoScaleApiAutoscaleSettingResourceSerializer(parameters),
   });
 }
 
 export async function _createOrUpdateDeserialize(
   result: PathUncheckedResponse,
-): Promise<AutoscaleSettingResource> {
+): Promise<AutoScaleApiAutoscaleSettingResource> {
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
-      error.details = autoscaleErrorResponseDeserializer(result.body);
+      error.details = autoScaleApiAutoscaleErrorResponseDeserializer(result.body);
     }
 
     throw error;
   }
 
-  return autoscaleSettingResourceDeserializer(result.body);
+  return autoScaleApiAutoscaleSettingResourceDeserializer(result.body);
 }
 
 /** Creates or updates an autoscale setting. */
@@ -286,9 +286,9 @@ export async function createOrUpdate(
   context: Client,
   resourceGroupName: string,
   autoscaleSettingName: string,
-  parameters: AutoscaleSettingResource,
+  parameters: AutoScaleApiAutoscaleSettingResource,
   options: AutoscaleSettingsCreateOrUpdateOptionalParams = { requestOptions: {} },
-): Promise<AutoscaleSettingResource> {
+): Promise<AutoScaleApiAutoscaleSettingResource> {
   const result = await _createOrUpdateSend(
     context,
     resourceGroupName,
@@ -325,18 +325,18 @@ export function _getSend(
 
 export async function _getDeserialize(
   result: PathUncheckedResponse,
-): Promise<AutoscaleSettingResource> {
+): Promise<AutoScaleApiAutoscaleSettingResource> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
-      error.details = autoscaleErrorResponseDeserializer(result.body);
+      error.details = autoScaleApiAutoscaleErrorResponseDeserializer(result.body);
     }
 
     throw error;
   }
 
-  return autoscaleSettingResourceDeserializer(result.body);
+  return autoScaleApiAutoscaleSettingResourceDeserializer(result.body);
 }
 
 /** Gets an autoscale setting */
@@ -345,7 +345,7 @@ export async function get(
   resourceGroupName: string,
   autoscaleSettingName: string,
   options: AutoscaleSettingsGetOptionalParams = { requestOptions: {} },
-): Promise<AutoscaleSettingResource> {
+): Promise<AutoScaleApiAutoscaleSettingResource> {
   const result = await _getSend(context, resourceGroupName, autoscaleSettingName, options);
   return _getDeserialize(result);
 }

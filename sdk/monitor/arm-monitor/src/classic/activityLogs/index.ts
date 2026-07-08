@@ -4,7 +4,7 @@
 import type { MonitorContext } from "../../api/monitorContext.js";
 import { list } from "../../api/activityLogs/operations.js";
 import type { ActivityLogsListOptionalParams } from "../../api/activityLogs/options.js";
-import type { EventData } from "../../models/activityLogsApi/models.js";
+import type { ActivityLogsApiEventData } from "../../models/activityLogsApi/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a ActivityLogs operations. */
@@ -13,7 +13,7 @@ export interface ActivityLogsOperations {
   list: (
     filter: string,
     options?: ActivityLogsListOptionalParams,
-  ) => PagedAsyncIterableIterator<EventData>;
+  ) => PagedAsyncIterableIterator<ActivityLogsApiEventData>;
 }
 
 function _getActivityLogs(context: MonitorContext) {

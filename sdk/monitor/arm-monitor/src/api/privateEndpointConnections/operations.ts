@@ -4,13 +4,13 @@
 import type { MonitorContext as Client } from "../index.js";
 import { armErrorResponseDeserializer } from "../../models/models.js";
 import type {
-  PrivateEndpointConnection,
-  PrivateEndpointConnectionListResult,
+  PrivateLinkScopesApiPrivateEndpointConnection,
+  PrivateLinkScopesApiPrivateEndpointConnectionListResult,
 } from "../../models/privateLinkScopesApi/models.js";
 import {
-  privateEndpointConnectionSerializer,
-  privateEndpointConnectionDeserializer,
-  privateEndpointConnectionListResultDeserializer,
+  privateLinkScopesApiPrivateEndpointConnectionSerializer,
+  privateLinkScopesApiPrivateEndpointConnectionDeserializer,
+  privateLinkScopesApiPrivateEndpointConnectionListResultDeserializer,
 } from "../../models/privateLinkScopesApi/models.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
@@ -50,7 +50,7 @@ export function _listByPrivateLinkScopeSend(
 
 export async function _listByPrivateLinkScopeDeserialize(
   result: PathUncheckedResponse,
-): Promise<PrivateEndpointConnectionListResult> {
+): Promise<PrivateLinkScopesApiPrivateEndpointConnectionListResult> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -61,7 +61,7 @@ export async function _listByPrivateLinkScopeDeserialize(
     throw error;
   }
 
-  return privateEndpointConnectionListResultDeserializer(result.body);
+  return privateLinkScopesApiPrivateEndpointConnectionListResultDeserializer(result.body);
 }
 
 /** Gets all private endpoint connections on a private link scope. */
@@ -70,7 +70,7 @@ export async function listByPrivateLinkScope(
   resourceGroupName: string,
   scopeName: string,
   options: PrivateEndpointConnectionsListByPrivateLinkScopeOptionalParams = { requestOptions: {} },
-): Promise<PrivateEndpointConnectionListResult> {
+): Promise<PrivateLinkScopesApiPrivateEndpointConnectionListResult> {
   const result = await _listByPrivateLinkScopeSend(context, resourceGroupName, scopeName, options);
   return _listByPrivateLinkScopeDeserialize(result);
 }
@@ -135,7 +135,7 @@ export function _createOrUpdateSend(
   resourceGroupName: string,
   scopeName: string,
   privateEndpointConnectionName: string,
-  parameters: PrivateEndpointConnection,
+  parameters: PrivateLinkScopesApiPrivateEndpointConnection,
   options: PrivateEndpointConnectionsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -155,13 +155,13 @@ export function _createOrUpdateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: privateEndpointConnectionSerializer(parameters),
+    body: privateLinkScopesApiPrivateEndpointConnectionSerializer(parameters),
   });
 }
 
 export async function _createOrUpdateDeserialize(
   result: PathUncheckedResponse,
-): Promise<PrivateEndpointConnection> {
+): Promise<PrivateLinkScopesApiPrivateEndpointConnection> {
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -172,7 +172,7 @@ export async function _createOrUpdateDeserialize(
     throw error;
   }
 
-  return privateEndpointConnectionDeserializer(result.body);
+  return privateLinkScopesApiPrivateEndpointConnectionDeserializer(result.body);
 }
 
 /** Approve or reject a private endpoint connection with a given name. */
@@ -181,9 +181,12 @@ export function createOrUpdate(
   resourceGroupName: string,
   scopeName: string,
   privateEndpointConnectionName: string,
-  parameters: PrivateEndpointConnection,
+  parameters: PrivateLinkScopesApiPrivateEndpointConnection,
   options: PrivateEndpointConnectionsCreateOrUpdateOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection> {
+): PollerLike<
+  OperationState<PrivateLinkScopesApiPrivateEndpointConnection>,
+  PrivateLinkScopesApiPrivateEndpointConnection
+> {
   return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
@@ -198,7 +201,10 @@ export function createOrUpdate(
       ),
     resourceLocationConfig: "location",
     apiVersion: "2023-06-01-preview",
-  }) as PollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>;
+  }) as PollerLike<
+    OperationState<PrivateLinkScopesApiPrivateEndpointConnection>,
+    PrivateLinkScopesApiPrivateEndpointConnection
+  >;
 }
 
 export function _getSend(
@@ -229,7 +235,7 @@ export function _getSend(
 
 export async function _getDeserialize(
   result: PathUncheckedResponse,
-): Promise<PrivateEndpointConnection> {
+): Promise<PrivateLinkScopesApiPrivateEndpointConnection> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -240,7 +246,7 @@ export async function _getDeserialize(
     throw error;
   }
 
-  return privateEndpointConnectionDeserializer(result.body);
+  return privateLinkScopesApiPrivateEndpointConnectionDeserializer(result.body);
 }
 
 /** Gets a private endpoint connection. */
@@ -250,7 +256,7 @@ export async function get(
   scopeName: string,
   privateEndpointConnectionName: string,
   options: PrivateEndpointConnectionsGetOptionalParams = { requestOptions: {} },
-): Promise<PrivateEndpointConnection> {
+): Promise<PrivateLinkScopesApiPrivateEndpointConnection> {
   const result = await _getSend(
     context,
     resourceGroupName,

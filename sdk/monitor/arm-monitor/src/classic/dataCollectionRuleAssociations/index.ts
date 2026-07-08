@@ -18,7 +18,7 @@ import type {
   DataCollectionRuleAssociationsGetOptionalParams,
   DataCollectionRuleAssociationsListByDataCollectionEndpointOptionalParams,
 } from "../../api/dataCollectionRuleAssociations/options.js";
-import type { DataCollectionRuleAssociationProxyOnlyResource } from "../../models/dataCollectionApi/models.js";
+import type { DataCollectionApiDataCollectionRuleAssociationProxyOnlyResource } from "../../models/dataCollectionApi/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a DataCollectionRuleAssociations operations. */
@@ -28,12 +28,12 @@ export interface DataCollectionRuleAssociationsOperations {
     resourceGroupName: string,
     dataCollectionRuleName: string,
     options?: DataCollectionRuleAssociationsListByRuleOptionalParams,
-  ) => PagedAsyncIterableIterator<DataCollectionRuleAssociationProxyOnlyResource>;
+  ) => PagedAsyncIterableIterator<DataCollectionApiDataCollectionRuleAssociationProxyOnlyResource>;
   /** Lists associations for the specified resource. */
   listByResource: (
     resourceUri: string,
     options?: DataCollectionRuleAssociationsListByResourceOptionalParams,
-  ) => PagedAsyncIterableIterator<DataCollectionRuleAssociationProxyOnlyResource>;
+  ) => PagedAsyncIterableIterator<DataCollectionApiDataCollectionRuleAssociationProxyOnlyResource>;
   /** Deletes an association. */
   delete: (
     resourceUri: string,
@@ -45,19 +45,19 @@ export interface DataCollectionRuleAssociationsOperations {
     resourceUri: string,
     associationName: string,
     options?: DataCollectionRuleAssociationsCreateOptionalParams,
-  ) => Promise<DataCollectionRuleAssociationProxyOnlyResource>;
+  ) => Promise<DataCollectionApiDataCollectionRuleAssociationProxyOnlyResource>;
   /** Returns the specified association. */
   get: (
     resourceUri: string,
     associationName: string,
     options?: DataCollectionRuleAssociationsGetOptionalParams,
-  ) => Promise<DataCollectionRuleAssociationProxyOnlyResource>;
+  ) => Promise<DataCollectionApiDataCollectionRuleAssociationProxyOnlyResource>;
   /** Lists associations for the specified data collection endpoint. */
   listByDataCollectionEndpoint: (
     resourceGroupName: string,
     dataCollectionEndpointName: string,
     options?: DataCollectionRuleAssociationsListByDataCollectionEndpointOptionalParams,
-  ) => PagedAsyncIterableIterator<DataCollectionRuleAssociationProxyOnlyResource>;
+  ) => PagedAsyncIterableIterator<DataCollectionApiDataCollectionRuleAssociationProxyOnlyResource>;
 }
 
 function _getDataCollectionRuleAssociations(context: MonitorContext) {

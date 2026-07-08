@@ -4,7 +4,7 @@
 import type { MonitorContext } from "../../api/monitorContext.js";
 import { list } from "../../api/baselines/operations.js";
 import type { BaselinesListOptionalParams } from "../../api/baselines/options.js";
-import type { SingleMetricBaseline } from "../../models/metricBaselinesApi/models.js";
+import type { MetricBaselinesApiSingleMetricBaseline } from "../../models/metricBaselinesApi/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Baselines operations. */
@@ -13,7 +13,7 @@ export interface BaselinesOperations {
   list: (
     resourceUri: string,
     options?: BaselinesListOptionalParams,
-  ) => PagedAsyncIterableIterator<SingleMetricBaseline>;
+  ) => PagedAsyncIterableIterator<MetricBaselinesApiSingleMetricBaseline>;
 }
 
 function _getBaselines(context: MonitorContext) {

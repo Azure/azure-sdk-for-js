@@ -7,7 +7,7 @@ import type {
   AlertRuleIncidentsListByAlertRuleOptionalParams,
   AlertRuleIncidentsGetOptionalParams,
 } from "../../api/alertRuleIncidents/options.js";
-import type { Incident } from "../../models/alertRulesIncidentsApi/models.js";
+import type { AlertRulesIncidentsApiIncident } from "../../models/alertRulesIncidentsApi/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a AlertRuleIncidents operations. */
@@ -17,14 +17,14 @@ export interface AlertRuleIncidentsOperations {
     resourceGroupName: string,
     ruleName: string,
     options?: AlertRuleIncidentsListByAlertRuleOptionalParams,
-  ) => PagedAsyncIterableIterator<Incident>;
+  ) => PagedAsyncIterableIterator<AlertRulesIncidentsApiIncident>;
   /** Gets an incident associated to an alert rule */
   get: (
     resourceGroupName: string,
     ruleName: string,
     incidentName: string,
     options?: AlertRuleIncidentsGetOptionalParams,
-  ) => Promise<Incident>;
+  ) => Promise<AlertRulesIncidentsApiIncident>;
 }
 
 function _getAlertRuleIncidents(context: MonitorContext) {

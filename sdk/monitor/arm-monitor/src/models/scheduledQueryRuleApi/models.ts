@@ -2,8 +2,14 @@
 // Licensed under the MIT License.
 
 import { areAllPropsUndefined } from "../../static-helpers/serialization/check-prop-undefined.js";
-import type { CriterionType, Identity } from "../microsoft/common/models.js";
-import { identitySerializer, identityDeserializer } from "../microsoft/common/models.js";
+import type {
+  MicrosoftCommonCriterionType,
+  MicrosoftCommonIdentity,
+} from "../microsoft/common/models.js";
+import {
+  microsoftCommonIdentitySerializer,
+  microsoftCommonIdentityDeserializer,
+} from "../microsoft/common/models.js";
 import type { ProxyResource } from "../models.js";
 import { systemDataDeserializer } from "../models.js";
 
@@ -14,15 +20,15 @@ import { systemDataDeserializer } from "../models.js";
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** The scheduled query rule resource. */
-export interface ScheduledQueryRuleResource extends ProxyResource {
+export interface ScheduledQueryRuleApiScheduledQueryRuleResource extends ProxyResource {
   /** The identity of the resource. */
-  identity?: Identity;
+  identity?: MicrosoftCommonIdentity;
   /** Resource tags. */
   tags?: Record<string, string>;
   /** The geo-location where the resource lives */
   location: string;
   /** Indicates the type of scheduled query rule. The default is LogAlert. */
-  kind?: Kind;
+  kind?: ScheduledQueryRuleApiKind;
   /** Resource entity tag (ETag). */
   readonly etag?: string;
   /** The api-version used when creating this alert rule */
@@ -34,7 +40,7 @@ export interface ScheduledQueryRuleResource extends ProxyResource {
   /** The display name of the alert rule */
   displayName?: string;
   /** Severity of the alert. Should be an integer between [0-4]. Value of 0 is severest. Relevant and required only for rules of the kind LogAlert. */
-  severity?: AlertSeverity;
+  severity?: ScheduledQueryRuleApiAlertSeverity;
   /** The flag which indicates whether this scheduled query rule is enabled. Value should be true or false */
   enabled?: boolean;
   /** The list of resource id's that this scheduled query rule is scoped to. */
@@ -48,11 +54,11 @@ export interface ScheduledQueryRuleResource extends ProxyResource {
   /** List of resource type of the target resource(s) on which the alert is created/updated. For example if the scope is a resource group and targetResourceTypes is Microsoft.Compute/virtualMachines, then a different alert will be fired for each virtual machine in the resource group which meet the alert criteria. Relevant only for rules of the kind LogAlert */
   targetResourceTypes?: string[];
   /** The rule criteria that defines the conditions of the scheduled query rule. */
-  criteria?: ScheduledQueryRuleCriteria;
+  criteria?: ScheduledQueryRuleApiScheduledQueryRuleCriteria;
   /** Mute actions for the chosen period of time (in ISO 8601 duration format) after the alert is fired. Relevant only for rules of the kind LogAlert. */
   muteActionsDuration?: string;
   /** Actions to invoke when the alert fires. */
-  actions?: Actions;
+  actions?: ScheduledQueryRuleApiActions;
   /** The flag which indicates whether this scheduled query rule has been configured to be stored in the customer's storage. The default is false. */
   readonly isWorkspaceAlertsStorageConfigured?: boolean;
   /** The flag which indicates whether this scheduled query rule should be stored in the customer's storage. The default is false. Relevant only for rules of the kind LogAlert. */
@@ -62,20 +68,26 @@ export interface ScheduledQueryRuleResource extends ProxyResource {
   /** The flag that indicates whether the alert should be automatically resolved or not. The default is true. Relevant only for rules of kinds LogAlert and SimpleLogAlert. */
   autoMitigate?: boolean;
   /** Defines the configuration for resolving fired alerts. Relevant only for rules of kinds LogAlert and SimpleLogAlert. */
-  resolveConfiguration?: RuleResolveConfiguration;
+  resolveConfiguration?: ScheduledQueryRuleApiRuleResolveConfiguration;
 }
 
-export function scheduledQueryRuleResourceSerializer(item: ScheduledQueryRuleResource): any {
+export function scheduledQueryRuleApiScheduledQueryRuleResourceSerializer(
+  item: ScheduledQueryRuleApiScheduledQueryRuleResource,
+): any {
   return {
     properties: _scheduledQueryRuleResourcePropertiesSerializer(item),
-    identity: !item["identity"] ? item["identity"] : identitySerializer(item["identity"]),
+    identity: !item["identity"]
+      ? item["identity"]
+      : microsoftCommonIdentitySerializer(item["identity"]),
     tags: item["tags"],
     location: item["location"],
     kind: item["kind"],
   };
 }
 
-export function scheduledQueryRuleResourceDeserializer(item: any): ScheduledQueryRuleResource {
+export function scheduledQueryRuleApiScheduledQueryRuleResourceDeserializer(
+  item: any,
+): ScheduledQueryRuleApiScheduledQueryRuleResource {
   return {
     id: item["id"],
     name: item["name"],
@@ -84,7 +96,9 @@ export function scheduledQueryRuleResourceDeserializer(item: any): ScheduledQuer
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
     ..._scheduledQueryRuleResourcePropertiesDeserializer(item["properties"]),
-    identity: !item["identity"] ? item["identity"] : identityDeserializer(item["identity"]),
+    identity: !item["identity"]
+      ? item["identity"]
+      : microsoftCommonIdentityDeserializer(item["identity"]),
     tags: !item["tags"]
       ? item["tags"]
       : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
@@ -95,7 +109,7 @@ export function scheduledQueryRuleResourceDeserializer(item: any): ScheduledQuer
 }
 
 /** scheduled query rule Definition */
-export interface ScheduledQueryRuleProperties {
+export interface ScheduledQueryRuleApiScheduledQueryRuleProperties {
   /** The api-version used when creating this alert rule */
   readonly createdWithApiVersion?: string;
   /** True if alert rule is legacy Log Analytic rule */
@@ -105,7 +119,7 @@ export interface ScheduledQueryRuleProperties {
   /** The display name of the alert rule */
   displayName?: string;
   /** Severity of the alert. Should be an integer between [0-4]. Value of 0 is severest. Relevant and required only for rules of the kind LogAlert. */
-  severity?: AlertSeverity;
+  severity?: ScheduledQueryRuleApiAlertSeverity;
   /** The flag which indicates whether this scheduled query rule is enabled. Value should be true or false */
   enabled?: boolean;
   /** The list of resource id's that this scheduled query rule is scoped to. */
@@ -119,11 +133,11 @@ export interface ScheduledQueryRuleProperties {
   /** List of resource type of the target resource(s) on which the alert is created/updated. For example if the scope is a resource group and targetResourceTypes is Microsoft.Compute/virtualMachines, then a different alert will be fired for each virtual machine in the resource group which meet the alert criteria. Relevant only for rules of the kind LogAlert */
   targetResourceTypes?: string[];
   /** The rule criteria that defines the conditions of the scheduled query rule. */
-  criteria?: ScheduledQueryRuleCriteria;
+  criteria?: ScheduledQueryRuleApiScheduledQueryRuleCriteria;
   /** Mute actions for the chosen period of time (in ISO 8601 duration format) after the alert is fired. Relevant only for rules of the kind LogAlert. */
   muteActionsDuration?: string;
   /** Actions to invoke when the alert fires. */
-  actions?: Actions;
+  actions?: ScheduledQueryRuleApiActions;
   /** The flag which indicates whether this scheduled query rule has been configured to be stored in the customer's storage. The default is false. */
   readonly isWorkspaceAlertsStorageConfigured?: boolean;
   /** The flag which indicates whether this scheduled query rule should be stored in the customer's storage. The default is false. Relevant only for rules of the kind LogAlert. */
@@ -133,10 +147,12 @@ export interface ScheduledQueryRuleProperties {
   /** The flag that indicates whether the alert should be automatically resolved or not. The default is true. Relevant only for rules of kinds LogAlert and SimpleLogAlert. */
   autoMitigate?: boolean;
   /** Defines the configuration for resolving fired alerts. Relevant only for rules of kinds LogAlert and SimpleLogAlert. */
-  resolveConfiguration?: RuleResolveConfiguration;
+  resolveConfiguration?: ScheduledQueryRuleApiRuleResolveConfiguration;
 }
 
-export function scheduledQueryRulePropertiesSerializer(item: ScheduledQueryRuleProperties): any {
+export function scheduledQueryRuleApiScheduledQueryRulePropertiesSerializer(
+  item: ScheduledQueryRuleApiScheduledQueryRuleProperties,
+): any {
   return {
     description: item["description"],
     displayName: item["displayName"],
@@ -157,19 +173,23 @@ export function scheduledQueryRulePropertiesSerializer(item: ScheduledQueryRuleP
         }),
     criteria: !item["criteria"]
       ? item["criteria"]
-      : scheduledQueryRuleCriteriaSerializer(item["criteria"]),
+      : scheduledQueryRuleApiScheduledQueryRuleCriteriaSerializer(item["criteria"]),
     muteActionsDuration: item["muteActionsDuration"],
-    actions: !item["actions"] ? item["actions"] : actionsSerializer(item["actions"]),
+    actions: !item["actions"]
+      ? item["actions"]
+      : scheduledQueryRuleApiActionsSerializer(item["actions"]),
     checkWorkspaceAlertsStorageConfigured: item["checkWorkspaceAlertsStorageConfigured"],
     skipQueryValidation: item["skipQueryValidation"],
     autoMitigate: item["autoMitigate"],
     resolveConfiguration: !item["resolveConfiguration"]
       ? item["resolveConfiguration"]
-      : ruleResolveConfigurationSerializer(item["resolveConfiguration"]),
+      : scheduledQueryRuleApiRuleResolveConfigurationSerializer(item["resolveConfiguration"]),
   };
 }
 
-export function scheduledQueryRulePropertiesDeserializer(item: any): ScheduledQueryRuleProperties {
+export function scheduledQueryRuleApiScheduledQueryRulePropertiesDeserializer(
+  item: any,
+): ScheduledQueryRuleApiScheduledQueryRuleProperties {
   return {
     createdWithApiVersion: item["createdWithApiVersion"],
     isLegacyLogAnalyticsRule: item["isLegacyLogAnalyticsRule"],
@@ -192,21 +212,23 @@ export function scheduledQueryRulePropertiesDeserializer(item: any): ScheduledQu
         }),
     criteria: !item["criteria"]
       ? item["criteria"]
-      : scheduledQueryRuleCriteriaDeserializer(item["criteria"]),
+      : scheduledQueryRuleApiScheduledQueryRuleCriteriaDeserializer(item["criteria"]),
     muteActionsDuration: item["muteActionsDuration"],
-    actions: !item["actions"] ? item["actions"] : actionsDeserializer(item["actions"]),
+    actions: !item["actions"]
+      ? item["actions"]
+      : scheduledQueryRuleApiActionsDeserializer(item["actions"]),
     isWorkspaceAlertsStorageConfigured: item["isWorkspaceAlertsStorageConfigured"],
     checkWorkspaceAlertsStorageConfigured: item["checkWorkspaceAlertsStorageConfigured"],
     skipQueryValidation: item["skipQueryValidation"],
     autoMitigate: item["autoMitigate"],
     resolveConfiguration: !item["resolveConfiguration"]
       ? item["resolveConfiguration"]
-      : ruleResolveConfigurationDeserializer(item["resolveConfiguration"]),
+      : scheduledQueryRuleApiRuleResolveConfigurationDeserializer(item["resolveConfiguration"]),
   };
 }
 
 /** Severity of the alert. Should be an integer between [0-4]. Value of 0 is severest. Relevant and required only for rules of the kind LogAlert. */
-export enum KnownAlertSeverity {
+export enum KnownScheduledQueryRuleApiAlertSeverity {
   /** 0 */
   Zero = 0,
   /** 1 */
@@ -221,7 +243,7 @@ export enum KnownAlertSeverity {
 
 /**
  * Severity of the alert. Should be an integer between [0-4]. Value of 0 is severest. Relevant and required only for rules of the kind LogAlert. \
- * {@link KnownAlertSeverity} can be used interchangeably with AlertSeverity,
+ * {@link KnownScheduledQueryRuleApiAlertSeverity} can be used interchangeably with ScheduledQueryRuleApiAlertSeverity,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **0**: 0 \
@@ -230,52 +252,66 @@ export enum KnownAlertSeverity {
  * **3**: 3 \
  * **4**: 4
  */
-export type AlertSeverity = number;
+export type ScheduledQueryRuleApiAlertSeverity = number;
 
 /** The rule criteria that defines the conditions of the scheduled query rule. */
-export interface ScheduledQueryRuleCriteria {
+export interface ScheduledQueryRuleApiScheduledQueryRuleCriteria {
   /** A list of conditions to evaluate against the specified scopes */
-  allOf?: Condition[];
+  allOf?: ScheduledQueryRuleApiCondition[];
 }
 
-export function scheduledQueryRuleCriteriaSerializer(item: ScheduledQueryRuleCriteria): any {
-  return { allOf: !item["allOf"] ? item["allOf"] : conditionArraySerializer(item["allOf"]) };
-}
-
-export function scheduledQueryRuleCriteriaDeserializer(item: any): ScheduledQueryRuleCriteria {
+export function scheduledQueryRuleApiScheduledQueryRuleCriteriaSerializer(
+  item: ScheduledQueryRuleApiScheduledQueryRuleCriteria,
+): any {
   return {
-    allOf: !item["allOf"] ? item["allOf"] : conditionArrayDeserializer(item["allOf"]),
+    allOf: !item["allOf"]
+      ? item["allOf"]
+      : scheduledQueryRuleApiConditionArraySerializer(item["allOf"]),
   };
 }
 
-export function conditionArraySerializer(result: Array<Condition>): any[] {
+export function scheduledQueryRuleApiScheduledQueryRuleCriteriaDeserializer(
+  item: any,
+): ScheduledQueryRuleApiScheduledQueryRuleCriteria {
+  return {
+    allOf: !item["allOf"]
+      ? item["allOf"]
+      : scheduledQueryRuleApiConditionArrayDeserializer(item["allOf"]),
+  };
+}
+
+export function scheduledQueryRuleApiConditionArraySerializer(
+  result: Array<ScheduledQueryRuleApiCondition>,
+): any[] {
   return result.map((item) => {
-    return conditionSerializer(item);
+    return scheduledQueryRuleApiConditionSerializer(item);
   });
 }
 
-export function conditionArrayDeserializer(result: Array<Condition>): any[] {
+export function scheduledQueryRuleApiConditionArrayDeserializer(
+  result: Array<ScheduledQueryRuleApiCondition>,
+): any[] {
   return result.map((item) => {
-    return conditionDeserializer(item);
+    return scheduledQueryRuleApiConditionDeserializer(item);
   });
 }
 
 /** A condition of the scheduled query rule. */
-export interface Condition {
+export interface ScheduledQueryRuleApiCondition {
   /** Specifies the type of threshold criteria */
-  criterionType?: CriterionType;
+  criterionType?: MicrosoftCommonCriterionType;
   /** Log query alert */
   query?: string;
   /** Aggregation type. Relevant and required only for rules of the kind LogAlert. */
-  timeAggregation?: TimeAggregation;
+  timeAggregation?: ScheduledQueryRuleApiTimeAggregation;
   /** The column containing the metric measure number. Relevant only for rules of the kind LogAlert. */
   metricMeasureColumn?: string;
   /** The column containing the resource id. The content of the column must be a uri formatted as resource id. Relevant only for rules of the kind LogAlert. */
   resourceIdColumn?: string;
   /** List of Dimensions conditions */
-  dimensions?: Dimension[];
+  dimensions?: ScheduledQueryRuleApiDimension[];
   /** The criteria operator. Relevant and required only for rules of the kind LogAlert. */
-  operator?: ConditionOperator;
+  operator?: ScheduledQueryRuleApiConditionOperator;
   /** the criteria threshold value that activates the alert. Relevant and required only for static threshold rules of the kind LogAlert. */
   threshold?: number;
   /** The extent of deviation required to trigger an alert. Allowed values are 'Low', 'Medium' and 'High'. This will affect how tight the threshold is to the metric series pattern. Relevant only for dynamic threshold rules of the kind LogAlert. */
@@ -283,14 +319,16 @@ export interface Condition {
   /** Use this option to set the date from which to start learning the metric historical data and calculate the dynamic thresholds (in ISO8601 format). Relevant only for dynamic threshold rules of the kind LogAlert. */
   ignoreDataBefore?: Date;
   /** The minimum number of violations required within the selected lookback time window required to raise an alert. Relevant only for rules of the kind LogAlert. */
-  failingPeriods?: ConditionFailingPeriods;
+  failingPeriods?: ScheduledQueryRuleApiConditionFailingPeriods;
   /** The name of the metric to be sent. Relevant and required only for rules of the kind LogToMetric. */
   metricName?: string;
   /** The minimum results count that should be found for triggering an alert. Relevant only for rules of the kind SimpleLogAlert. */
   minRecurrenceCount?: number;
 }
 
-export function conditionSerializer(item: Condition): any {
+export function scheduledQueryRuleApiConditionSerializer(
+  item: ScheduledQueryRuleApiCondition,
+): any {
   return {
     criterionType: item["criterionType"],
     query: item["query"],
@@ -299,7 +337,7 @@ export function conditionSerializer(item: Condition): any {
     resourceIdColumn: item["resourceIdColumn"],
     dimensions: !item["dimensions"]
       ? item["dimensions"]
-      : dimensionArraySerializer(item["dimensions"]),
+      : scheduledQueryRuleApiDimensionArraySerializer(item["dimensions"]),
     operator: item["operator"],
     threshold: item["threshold"],
     alertSensitivity: item["alertSensitivity"],
@@ -308,13 +346,15 @@ export function conditionSerializer(item: Condition): any {
       : item["ignoreDataBefore"].toISOString(),
     failingPeriods: !item["failingPeriods"]
       ? item["failingPeriods"]
-      : conditionFailingPeriodsSerializer(item["failingPeriods"]),
+      : scheduledQueryRuleApiConditionFailingPeriodsSerializer(item["failingPeriods"]),
     metricName: item["metricName"],
     minRecurrenceCount: item["minRecurrenceCount"],
   };
 }
 
-export function conditionDeserializer(item: any): Condition {
+export function scheduledQueryRuleApiConditionDeserializer(
+  item: any,
+): ScheduledQueryRuleApiCondition {
   return {
     criterionType: item["criterionType"],
     query: item["query"],
@@ -323,7 +363,7 @@ export function conditionDeserializer(item: any): Condition {
     resourceIdColumn: item["resourceIdColumn"],
     dimensions: !item["dimensions"]
       ? item["dimensions"]
-      : dimensionArrayDeserializer(item["dimensions"]),
+      : scheduledQueryRuleApiDimensionArrayDeserializer(item["dimensions"]),
     operator: item["operator"],
     threshold: item["threshold"],
     alertSensitivity: item["alertSensitivity"],
@@ -332,14 +372,14 @@ export function conditionDeserializer(item: any): Condition {
       : new Date(item["ignoreDataBefore"]),
     failingPeriods: !item["failingPeriods"]
       ? item["failingPeriods"]
-      : conditionFailingPeriodsDeserializer(item["failingPeriods"]),
+      : scheduledQueryRuleApiConditionFailingPeriodsDeserializer(item["failingPeriods"]),
     metricName: item["metricName"],
     minRecurrenceCount: item["minRecurrenceCount"],
   };
 }
 
 /** Aggregation type. Relevant and required only for rules of the kind LogAlert. */
-export enum KnownTimeAggregation {
+export enum KnownScheduledQueryRuleApiTimeAggregation {
   /** Count */
   Count = "Count",
   /** Average */
@@ -354,7 +394,7 @@ export enum KnownTimeAggregation {
 
 /**
  * Aggregation type. Relevant and required only for rules of the kind LogAlert. \
- * {@link KnownTimeAggregation} can be used interchangeably with TimeAggregation,
+ * {@link KnownScheduledQueryRuleApiTimeAggregation} can be used interchangeably with ScheduledQueryRuleApiTimeAggregation,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Count**: Count \
@@ -363,31 +403,37 @@ export enum KnownTimeAggregation {
  * **Maximum**: Maximum \
  * **Total**: Total
  */
-export type TimeAggregation = string;
+export type ScheduledQueryRuleApiTimeAggregation = string;
 
-export function dimensionArraySerializer(result: Array<Dimension>): any[] {
+export function scheduledQueryRuleApiDimensionArraySerializer(
+  result: Array<ScheduledQueryRuleApiDimension>,
+): any[] {
   return result.map((item) => {
-    return dimensionSerializer(item);
+    return scheduledQueryRuleApiDimensionSerializer(item);
   });
 }
 
-export function dimensionArrayDeserializer(result: Array<Dimension>): any[] {
+export function scheduledQueryRuleApiDimensionArrayDeserializer(
+  result: Array<ScheduledQueryRuleApiDimension>,
+): any[] {
   return result.map((item) => {
-    return dimensionDeserializer(item);
+    return scheduledQueryRuleApiDimensionDeserializer(item);
   });
 }
 
 /** Dimension splitting and filtering definition */
-export interface Dimension {
+export interface ScheduledQueryRuleApiDimension {
   /** Name of the dimension */
   name: string;
   /** Operator for dimension values */
-  operator: DimensionOperator;
+  operator: ScheduledQueryRuleApiDimensionOperator;
   /** List of dimension values */
   values: string[];
 }
 
-export function dimensionSerializer(item: Dimension): any {
+export function scheduledQueryRuleApiDimensionSerializer(
+  item: ScheduledQueryRuleApiDimension,
+): any {
   return {
     name: item["name"],
     operator: item["operator"],
@@ -397,7 +443,9 @@ export function dimensionSerializer(item: Dimension): any {
   };
 }
 
-export function dimensionDeserializer(item: any): Dimension {
+export function scheduledQueryRuleApiDimensionDeserializer(
+  item: any,
+): ScheduledQueryRuleApiDimension {
   return {
     name: item["name"],
     operator: item["operator"],
@@ -408,7 +456,7 @@ export function dimensionDeserializer(item: any): Dimension {
 }
 
 /** Operator for dimension values */
-export enum KnownDimensionOperator {
+export enum KnownScheduledQueryRuleApiDimensionOperator {
   /** Include */
   Include = "Include",
   /** Exclude */
@@ -417,16 +465,16 @@ export enum KnownDimensionOperator {
 
 /**
  * Operator for dimension values \
- * {@link KnownDimensionOperator} can be used interchangeably with DimensionOperator,
+ * {@link KnownScheduledQueryRuleApiDimensionOperator} can be used interchangeably with ScheduledQueryRuleApiDimensionOperator,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Include**: Include \
  * **Exclude**: Exclude
  */
-export type DimensionOperator = string;
+export type ScheduledQueryRuleApiDimensionOperator = string;
 
 /** The criteria operator. Relevant and required only for rules of the kind LogAlert. */
-export enum KnownConditionOperator {
+export enum KnownScheduledQueryRuleApiConditionOperator {
   /** Equals */
   Equals = "Equals",
   /** GreaterThan */
@@ -443,7 +491,7 @@ export enum KnownConditionOperator {
 
 /**
  * The criteria operator. Relevant and required only for rules of the kind LogAlert. \
- * {@link KnownConditionOperator} can be used interchangeably with ConditionOperator,
+ * {@link KnownScheduledQueryRuleApiConditionOperator} can be used interchangeably with ScheduledQueryRuleApiConditionOperator,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Equals**: Equals \
@@ -453,24 +501,28 @@ export enum KnownConditionOperator {
  * **LessThanOrEqual**: LessThanOrEqual \
  * **GreaterOrLessThan**: GreaterOrLessThan
  */
-export type ConditionOperator = string;
+export type ScheduledQueryRuleApiConditionOperator = string;
 
 /** The minimum number of violations required within the selected lookback time window required to raise an alert. Relevant only for rules of the kind LogAlert. */
-export interface ConditionFailingPeriods {
+export interface ScheduledQueryRuleApiConditionFailingPeriods {
   /** The number of aggregated lookback points. The lookback time window is calculated based on the aggregation granularity (windowSize) and the selected number of aggregated points. Default value is 1 */
   numberOfEvaluationPeriods?: number;
   /** The number of violations to trigger an alert. Should be smaller or equal to numberOfEvaluationPeriods. Default value is 1 */
   minFailingPeriodsToAlert?: number;
 }
 
-export function conditionFailingPeriodsSerializer(item: ConditionFailingPeriods): any {
+export function scheduledQueryRuleApiConditionFailingPeriodsSerializer(
+  item: ScheduledQueryRuleApiConditionFailingPeriods,
+): any {
   return {
     numberOfEvaluationPeriods: item["numberOfEvaluationPeriods"],
     minFailingPeriodsToAlert: item["minFailingPeriodsToAlert"],
   };
 }
 
-export function conditionFailingPeriodsDeserializer(item: any): ConditionFailingPeriods {
+export function scheduledQueryRuleApiConditionFailingPeriodsDeserializer(
+  item: any,
+): ScheduledQueryRuleApiConditionFailingPeriods {
   return {
     numberOfEvaluationPeriods: item["numberOfEvaluationPeriods"],
     minFailingPeriodsToAlert: item["minFailingPeriodsToAlert"],
@@ -478,7 +530,7 @@ export function conditionFailingPeriodsDeserializer(item: any): ConditionFailing
 }
 
 /** Actions to invoke when the alert fires. */
-export interface Actions {
+export interface ScheduledQueryRuleApiActions {
   /** Action Group resource Ids to invoke when the alert fires. */
   actionGroups?: string[];
   /** The properties of an alert payload. */
@@ -487,7 +539,7 @@ export interface Actions {
   actionProperties?: Record<string, string>;
 }
 
-export function actionsSerializer(item: Actions): any {
+export function scheduledQueryRuleApiActionsSerializer(item: ScheduledQueryRuleApiActions): any {
   return {
     actionGroups: !item["actionGroups"]
       ? item["actionGroups"]
@@ -499,7 +551,7 @@ export function actionsSerializer(item: Actions): any {
   };
 }
 
-export function actionsDeserializer(item: any): Actions {
+export function scheduledQueryRuleApiActionsDeserializer(item: any): ScheduledQueryRuleApiActions {
   return {
     actionGroups: !item["actionGroups"]
       ? item["actionGroups"]
@@ -520,18 +572,22 @@ export function actionsDeserializer(item: any): Actions {
 }
 
 /** TBD. Relevant only for rules of the kind LogAlert. */
-export interface RuleResolveConfiguration {
+export interface ScheduledQueryRuleApiRuleResolveConfiguration {
   /** The flag that indicates whether or not to auto resolve a fired alert. */
   autoResolved?: boolean;
   /** The duration a rule must evaluate as healthy before the fired alert is automatically resolved represented in ISO 8601 duration format. */
   timeToResolve?: string;
 }
 
-export function ruleResolveConfigurationSerializer(item: RuleResolveConfiguration): any {
+export function scheduledQueryRuleApiRuleResolveConfigurationSerializer(
+  item: ScheduledQueryRuleApiRuleResolveConfiguration,
+): any {
   return { autoResolved: item["autoResolved"], timeToResolve: item["timeToResolve"] };
 }
 
-export function ruleResolveConfigurationDeserializer(item: any): RuleResolveConfiguration {
+export function scheduledQueryRuleApiRuleResolveConfigurationDeserializer(
+  item: any,
+): ScheduledQueryRuleApiRuleResolveConfiguration {
   return {
     autoResolved: item["autoResolved"],
     timeToResolve: item["timeToResolve"],
@@ -539,7 +595,7 @@ export function ruleResolveConfigurationDeserializer(item: any): RuleResolveConf
 }
 
 /** Indicates the type of scheduled query rule. The default is LogAlert. */
-export enum KnownKind {
+export enum KnownScheduledQueryRuleApiKind {
   /** LogAlert */
   LogAlert = "LogAlert",
   /** SimpleLogAlert */
@@ -550,19 +606,19 @@ export enum KnownKind {
 
 /**
  * Indicates the type of scheduled query rule. The default is LogAlert. \
- * {@link KnownKind} can be used interchangeably with Kind,
+ * {@link KnownScheduledQueryRuleApiKind} can be used interchangeably with ScheduledQueryRuleApiKind,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **LogAlert**: LogAlert \
  * **SimpleLogAlert**: SimpleLogAlert \
  * **LogToMetric**: LogToMetric
  */
-export type Kind = string;
+export type ScheduledQueryRuleApiKind = string;
 
 /** The scheduled query rule resource for patch operations. */
-export interface ScheduledQueryRuleResourcePatch {
+export interface ScheduledQueryRuleApiScheduledQueryRuleResourcePatch {
   /** The identity of the resource. */
-  identity?: Identity;
+  identity?: MicrosoftCommonIdentity;
   /** Resource tags */
   tags?: Record<string, string>;
   /** The api-version used when creating this alert rule */
@@ -574,7 +630,7 @@ export interface ScheduledQueryRuleResourcePatch {
   /** The display name of the alert rule */
   displayName?: string;
   /** Severity of the alert. Should be an integer between [0-4]. Value of 0 is severest. Relevant and required only for rules of the kind LogAlert. */
-  severity?: AlertSeverity;
+  severity?: ScheduledQueryRuleApiAlertSeverity;
   /** The flag which indicates whether this scheduled query rule is enabled. Value should be true or false */
   enabled?: boolean;
   /** The list of resource id's that this scheduled query rule is scoped to. */
@@ -588,11 +644,11 @@ export interface ScheduledQueryRuleResourcePatch {
   /** List of resource type of the target resource(s) on which the alert is created/updated. For example if the scope is a resource group and targetResourceTypes is Microsoft.Compute/virtualMachines, then a different alert will be fired for each virtual machine in the resource group which meet the alert criteria. Relevant only for rules of the kind LogAlert */
   targetResourceTypes?: string[];
   /** The rule criteria that defines the conditions of the scheduled query rule. */
-  criteria?: ScheduledQueryRuleCriteria;
+  criteria?: ScheduledQueryRuleApiScheduledQueryRuleCriteria;
   /** Mute actions for the chosen period of time (in ISO 8601 duration format) after the alert is fired. Relevant only for rules of the kind LogAlert. */
   muteActionsDuration?: string;
   /** Actions to invoke when the alert fires. */
-  actions?: Actions;
+  actions?: ScheduledQueryRuleApiActions;
   /** The flag which indicates whether this scheduled query rule has been configured to be stored in the customer's storage. The default is false. */
   readonly isWorkspaceAlertsStorageConfigured?: boolean;
   /** The flag which indicates whether this scheduled query rule should be stored in the customer's storage. The default is false. Relevant only for rules of the kind LogAlert. */
@@ -602,14 +658,16 @@ export interface ScheduledQueryRuleResourcePatch {
   /** The flag that indicates whether the alert should be automatically resolved or not. The default is true. Relevant only for rules of kinds LogAlert and SimpleLogAlert. */
   autoMitigate?: boolean;
   /** Defines the configuration for resolving fired alerts. Relevant only for rules of kinds LogAlert and SimpleLogAlert. */
-  resolveConfiguration?: RuleResolveConfiguration;
+  resolveConfiguration?: ScheduledQueryRuleApiRuleResolveConfiguration;
 }
 
-export function scheduledQueryRuleResourcePatchSerializer(
-  item: ScheduledQueryRuleResourcePatch,
+export function scheduledQueryRuleApiScheduledQueryRuleResourcePatchSerializer(
+  item: ScheduledQueryRuleApiScheduledQueryRuleResourcePatch,
 ): any {
   return {
-    identity: !item["identity"] ? item["identity"] : identitySerializer(item["identity"]),
+    identity: !item["identity"]
+      ? item["identity"]
+      : microsoftCommonIdentitySerializer(item["identity"]),
     tags: item["tags"],
     properties: areAllPropsUndefined(item, [
       "description",
@@ -635,40 +693,40 @@ export function scheduledQueryRuleResourcePatchSerializer(
 }
 
 /** Represents a collection of scheduled query rule resources. */
-export interface _ScheduledQueryRuleResourceCollection {
+export interface _ScheduledQueryRuleApiScheduledQueryRuleResourceCollection {
   /** The ScheduledQueryRuleResource items on this page */
-  value: ScheduledQueryRuleResource[];
+  value: ScheduledQueryRuleApiScheduledQueryRuleResource[];
   /** The link to the next page of items */
   nextLink?: string;
 }
 
-export function _scheduledQueryRuleResourceCollectionDeserializer(
+export function _scheduledQueryRuleApiScheduledQueryRuleResourceCollectionDeserializer(
   item: any,
-): _ScheduledQueryRuleResourceCollection {
+): _ScheduledQueryRuleApiScheduledQueryRuleResourceCollection {
   return {
-    value: scheduledQueryRuleResourceArrayDeserializer(item["value"]),
+    value: scheduledQueryRuleApiScheduledQueryRuleResourceArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function scheduledQueryRuleResourceArraySerializer(
-  result: Array<ScheduledQueryRuleResource>,
+export function scheduledQueryRuleApiScheduledQueryRuleResourceArraySerializer(
+  result: Array<ScheduledQueryRuleApiScheduledQueryRuleResource>,
 ): any[] {
   return result.map((item) => {
-    return scheduledQueryRuleResourceSerializer(item);
+    return scheduledQueryRuleApiScheduledQueryRuleResourceSerializer(item);
   });
 }
 
-export function scheduledQueryRuleResourceArrayDeserializer(
-  result: Array<ScheduledQueryRuleResource>,
+export function scheduledQueryRuleApiScheduledQueryRuleResourceArrayDeserializer(
+  result: Array<ScheduledQueryRuleApiScheduledQueryRuleResource>,
 ): any[] {
   return result.map((item) => {
-    return scheduledQueryRuleResourceDeserializer(item);
+    return scheduledQueryRuleApiScheduledQueryRuleResourceDeserializer(item);
   });
 }
 
 export function _scheduledQueryRuleResourcePropertiesSerializer(
-  item: ScheduledQueryRuleResource,
+  item: ScheduledQueryRuleApiScheduledQueryRuleResource,
 ): any {
   return {
     description: item["description"],
@@ -690,15 +748,17 @@ export function _scheduledQueryRuleResourcePropertiesSerializer(
         }),
     criteria: !item["criteria"]
       ? item["criteria"]
-      : scheduledQueryRuleCriteriaSerializer(item["criteria"]),
+      : scheduledQueryRuleApiScheduledQueryRuleCriteriaSerializer(item["criteria"]),
     muteActionsDuration: item["muteActionsDuration"],
-    actions: !item["actions"] ? item["actions"] : actionsSerializer(item["actions"]),
+    actions: !item["actions"]
+      ? item["actions"]
+      : scheduledQueryRuleApiActionsSerializer(item["actions"]),
     checkWorkspaceAlertsStorageConfigured: item["checkWorkspaceAlertsStorageConfigured"],
     skipQueryValidation: item["skipQueryValidation"],
     autoMitigate: item["autoMitigate"],
     resolveConfiguration: !item["resolveConfiguration"]
       ? item["resolveConfiguration"]
-      : ruleResolveConfigurationSerializer(item["resolveConfiguration"]),
+      : scheduledQueryRuleApiRuleResolveConfigurationSerializer(item["resolveConfiguration"]),
   };
 }
 
@@ -725,21 +785,23 @@ export function _scheduledQueryRuleResourcePropertiesDeserializer(item: any) {
         }),
     criteria: !item["criteria"]
       ? item["criteria"]
-      : scheduledQueryRuleCriteriaDeserializer(item["criteria"]),
+      : scheduledQueryRuleApiScheduledQueryRuleCriteriaDeserializer(item["criteria"]),
     muteActionsDuration: item["muteActionsDuration"],
-    actions: !item["actions"] ? item["actions"] : actionsDeserializer(item["actions"]),
+    actions: !item["actions"]
+      ? item["actions"]
+      : scheduledQueryRuleApiActionsDeserializer(item["actions"]),
     isWorkspaceAlertsStorageConfigured: item["isWorkspaceAlertsStorageConfigured"],
     checkWorkspaceAlertsStorageConfigured: item["checkWorkspaceAlertsStorageConfigured"],
     skipQueryValidation: item["skipQueryValidation"],
     autoMitigate: item["autoMitigate"],
     resolveConfiguration: !item["resolveConfiguration"]
       ? item["resolveConfiguration"]
-      : ruleResolveConfigurationDeserializer(item["resolveConfiguration"]),
+      : scheduledQueryRuleApiRuleResolveConfigurationDeserializer(item["resolveConfiguration"]),
   };
 }
 
 export function _scheduledQueryRuleResourcePatchPropertiesSerializer(
-  item: ScheduledQueryRuleResourcePatch,
+  item: ScheduledQueryRuleApiScheduledQueryRuleResourcePatch,
 ): any {
   return {
     description: item["description"],
@@ -761,15 +823,17 @@ export function _scheduledQueryRuleResourcePatchPropertiesSerializer(
         }),
     criteria: !item["criteria"]
       ? item["criteria"]
-      : scheduledQueryRuleCriteriaSerializer(item["criteria"]),
+      : scheduledQueryRuleApiScheduledQueryRuleCriteriaSerializer(item["criteria"]),
     muteActionsDuration: item["muteActionsDuration"],
-    actions: !item["actions"] ? item["actions"] : actionsSerializer(item["actions"]),
+    actions: !item["actions"]
+      ? item["actions"]
+      : scheduledQueryRuleApiActionsSerializer(item["actions"]),
     checkWorkspaceAlertsStorageConfigured: item["checkWorkspaceAlertsStorageConfigured"],
     skipQueryValidation: item["skipQueryValidation"],
     autoMitigate: item["autoMitigate"],
     resolveConfiguration: !item["resolveConfiguration"]
       ? item["resolveConfiguration"]
-      : ruleResolveConfigurationSerializer(item["resolveConfiguration"]),
+      : scheduledQueryRuleApiRuleResolveConfigurationSerializer(item["resolveConfiguration"]),
   };
 }
 
@@ -796,15 +860,17 @@ export function _scheduledQueryRuleResourcePatchPropertiesDeserializer(item: any
         }),
     criteria: !item["criteria"]
       ? item["criteria"]
-      : scheduledQueryRuleCriteriaDeserializer(item["criteria"]),
+      : scheduledQueryRuleApiScheduledQueryRuleCriteriaDeserializer(item["criteria"]),
     muteActionsDuration: item["muteActionsDuration"],
-    actions: !item["actions"] ? item["actions"] : actionsDeserializer(item["actions"]),
+    actions: !item["actions"]
+      ? item["actions"]
+      : scheduledQueryRuleApiActionsDeserializer(item["actions"]),
     isWorkspaceAlertsStorageConfigured: item["isWorkspaceAlertsStorageConfigured"],
     checkWorkspaceAlertsStorageConfigured: item["checkWorkspaceAlertsStorageConfigured"],
     skipQueryValidation: item["skipQueryValidation"],
     autoMitigate: item["autoMitigate"],
     resolveConfiguration: !item["resolveConfiguration"]
       ? item["resolveConfiguration"]
-      : ruleResolveConfigurationDeserializer(item["resolveConfiguration"]),
+      : scheduledQueryRuleApiRuleResolveConfigurationDeserializer(item["resolveConfiguration"]),
   };
 }

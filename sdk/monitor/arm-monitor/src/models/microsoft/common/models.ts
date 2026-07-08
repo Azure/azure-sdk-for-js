@@ -10,56 +10,62 @@ import { errorAdditionalInfoArrayDeserializer } from "../../models.js";
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-/** The localizable string class. */
-export interface LocalizableString {
-  /** the invariant value. */
-  value: string;
-  /** the locale specific value. */
-  localizedValue?: string;
-}
-
-export function localizableStringDeserializer(item: any): LocalizableString {
-  return {
-    value: item["value"],
-    localizedValue: item["localizedValue"],
-  };
-}
-
 /** Describes the format of Error response. */
-export interface ErrorResponse {
+export interface MicrosoftCommonErrorResponse {
   /** Error code */
   code?: string;
   /** Error message indicating why the operation failed. */
   message?: string;
 }
 
-export function errorResponseDeserializer(item: any): ErrorResponse {
+export function microsoftCommonErrorResponseDeserializer(item: any): MicrosoftCommonErrorResponse {
   return {
     code: item["code"],
     message: item["message"],
   };
 }
 
-export function localizableStringArrayDeserializer(result: Array<LocalizableString>): any[] {
+/** The localizable string class. */
+export interface MicrosoftCommonLocalizableString {
+  /** the invariant value. */
+  value: string;
+  /** the locale specific value. */
+  localizedValue?: string;
+}
+
+export function microsoftCommonLocalizableStringDeserializer(
+  item: any,
+): MicrosoftCommonLocalizableString {
+  return {
+    value: item["value"],
+    localizedValue: item["localizedValue"],
+  };
+}
+
+export function microsoftCommonLocalizableStringArrayDeserializer(
+  result: Array<MicrosoftCommonLocalizableString>,
+): any[] {
   return result.map((item) => {
-    return localizableStringDeserializer(item);
+    return microsoftCommonLocalizableStringDeserializer(item);
   });
 }
 
 /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.) */
-export interface ErrorContract {
+export interface MicrosoftCommonErrorContract {
   /** The error object. */
-  error?: CommonErrorResponse;
+  error?: MicrosoftCommonCommonErrorResponse;
 }
 
-export function errorContractDeserializer(item: any): ErrorContract {
+export function microsoftCommonErrorContractDeserializer(item: any): MicrosoftCommonErrorContract {
   return {
-    error: !item["error"] ? item["error"] : commonErrorResponseDeserializer(item["error"]),
+    error: !item["error"]
+      ? item["error"]
+      : microsoftCommonCommonErrorResponseDeserializer(item["error"]),
   };
 }
 
 /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.) */
-export interface CommonErrorResponse {
+export interface MicrosoftCommonCommonErrorResponse {
   /** Error code */
   readonly code?: string;
   /** Error message indicating why the operation failed. */
@@ -67,44 +73,52 @@ export interface CommonErrorResponse {
   /** The error target. */
   readonly target?: string;
   /** The error details. */
-  readonly details?: CommonErrorResponse[];
+  readonly details?: MicrosoftCommonCommonErrorResponse[];
   /** The error additional info. */
   readonly additionalInfo?: ErrorAdditionalInfo[];
 }
 
-export function commonErrorResponseDeserializer(item: any): CommonErrorResponse {
+export function microsoftCommonCommonErrorResponseDeserializer(
+  item: any,
+): MicrosoftCommonCommonErrorResponse {
   return {
     code: item["code"],
     message: item["message"],
     target: item["target"],
     details: !item["details"]
       ? item["details"]
-      : commonErrorResponseArrayDeserializer(item["details"]),
+      : microsoftCommonCommonErrorResponseArrayDeserializer(item["details"]),
     additionalInfo: !item["additionalInfo"]
       ? item["additionalInfo"]
       : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
   };
 }
 
-export function commonErrorResponseArrayDeserializer(result: Array<CommonErrorResponse>): any[] {
+export function microsoftCommonCommonErrorResponseArrayDeserializer(
+  result: Array<MicrosoftCommonCommonErrorResponse>,
+): any[] {
   return result.map((item) => {
-    return commonErrorResponseDeserializer(item);
+    return microsoftCommonCommonErrorResponseDeserializer(item);
   });
 }
 
 /** Specifies the retention policy for the log. */
-export interface RetentionPolicy {
+export interface MicrosoftCommonRetentionPolicy {
   /** a value indicating whether the retention policy is enabled. */
   enabled: boolean;
   /** the number of days for the retention in days. A value of 0 will retain the events indefinitely. */
   days: number;
 }
 
-export function retentionPolicySerializer(item: RetentionPolicy): any {
+export function microsoftCommonRetentionPolicySerializer(
+  item: MicrosoftCommonRetentionPolicy,
+): any {
   return { enabled: item["enabled"], days: item["days"] };
 }
 
-export function retentionPolicyDeserializer(item: any): RetentionPolicy {
+export function microsoftCommonRetentionPolicyDeserializer(
+  item: any,
+): MicrosoftCommonRetentionPolicy {
   return {
     enabled: item["enabled"],
     days: item["days"],
@@ -112,7 +126,7 @@ export function retentionPolicyDeserializer(item: any): RetentionPolicy {
 }
 
 /** Specifies the type of threshold criteria. Previously undocumented values might be returned */
-export enum KnownCriterionType {
+export enum KnownMicrosoftCommonCriterionType {
   /** StaticThresholdCriterion */
   StaticThresholdCriterion = "StaticThresholdCriterion",
   /** DynamicThresholdCriterion */
@@ -121,90 +135,98 @@ export enum KnownCriterionType {
 
 /**
  * Specifies the type of threshold criteria. Previously undocumented values might be returned \
- * {@link KnownCriterionType} can be used interchangeably with CriterionType,
+ * {@link KnownMicrosoftCommonCriterionType} can be used interchangeably with MicrosoftCommonCriterionType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **StaticThresholdCriterion**: StaticThresholdCriterion \
  * **DynamicThresholdCriterion**: DynamicThresholdCriterion
  */
-export type CriterionType = string;
+export type MicrosoftCommonCriterionType = string;
 
 /** Identity for the resource. */
-export interface Identity {
+export interface MicrosoftCommonIdentity {
   /** The principal ID of resource identity. */
   readonly principalId?: string;
   /** The tenant ID of resource. */
   readonly tenantId?: string;
   /** Type of managed service identity. */
-  type: IdentityType;
+  type: MicrosoftCommonIdentityType;
   /** The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: Record<string, UserIdentityProperties>;
+  userAssignedIdentities?: Record<string, MicrosoftCommonUserIdentityProperties>;
 }
 
-export function identitySerializer(item: Identity): any {
+export function microsoftCommonIdentitySerializer(item: MicrosoftCommonIdentity): any {
   return {
     type: item["type"],
     userAssignedIdentities: !item["userAssignedIdentities"]
       ? item["userAssignedIdentities"]
-      : userIdentityPropertiesRecordSerializer(item["userAssignedIdentities"]),
+      : microsoftCommonUserIdentityPropertiesRecordSerializer(item["userAssignedIdentities"]),
   };
 }
 
-export function identityDeserializer(item: any): Identity {
+export function microsoftCommonIdentityDeserializer(item: any): MicrosoftCommonIdentity {
   return {
     principalId: item["principalId"],
     tenantId: item["tenantId"],
     type: item["type"],
     userAssignedIdentities: !item["userAssignedIdentities"]
       ? item["userAssignedIdentities"]
-      : userIdentityPropertiesRecordDeserializer(item["userAssignedIdentities"]),
+      : microsoftCommonUserIdentityPropertiesRecordDeserializer(item["userAssignedIdentities"]),
   };
 }
 
 /** Type of managed service identity. */
-export type IdentityType = "SystemAssigned" | "UserAssigned" | "None";
+export type MicrosoftCommonIdentityType = "SystemAssigned" | "UserAssigned" | "None";
 
-export function userIdentityPropertiesRecordSerializer(
-  item: Record<string, UserIdentityProperties>,
+export function microsoftCommonUserIdentityPropertiesRecordSerializer(
+  item: Record<string, MicrosoftCommonUserIdentityProperties>,
 ): Record<string, any> {
   const result: Record<string, any> = {};
   Object.keys(item).map((key) => {
-    result[key] = !item[key] ? item[key] : userIdentityPropertiesSerializer(item[key]);
+    result[key] = !item[key]
+      ? item[key]
+      : microsoftCommonUserIdentityPropertiesSerializer(item[key]);
   });
   return result;
 }
 
-export function userIdentityPropertiesRecordDeserializer(
+export function microsoftCommonUserIdentityPropertiesRecordDeserializer(
   item: Record<string, any>,
-): Record<string, UserIdentityProperties> {
+): Record<string, MicrosoftCommonUserIdentityProperties> {
   const result: Record<string, any> = {};
   Object.keys(item).map((key) => {
-    result[key] = !item[key] ? item[key] : userIdentityPropertiesDeserializer(item[key]);
+    result[key] = !item[key]
+      ? item[key]
+      : microsoftCommonUserIdentityPropertiesDeserializer(item[key]);
   });
   return result;
 }
 
 /** Properties of the user assigned identity. */
-export interface UserIdentityProperties {
+export interface MicrosoftCommonUserIdentityProperties {
   /** The principal ID of resource identity. */
   readonly principalId?: string;
   /** The client ID of resource identity. */
   readonly clientId?: string;
 }
 
-export function userIdentityPropertiesSerializer(_item: UserIdentityProperties): any {
+export function microsoftCommonUserIdentityPropertiesSerializer(
+  _item: MicrosoftCommonUserIdentityProperties,
+): any {
   return {};
 }
 
-export function userIdentityPropertiesDeserializer(item: any): UserIdentityProperties {
+export function microsoftCommonUserIdentityPropertiesDeserializer(
+  item: any,
+): MicrosoftCommonUserIdentityProperties {
   return {
     principalId: item["principalId"],
     clientId: item["clientId"],
   };
 }
 
-/** model interface ErrorResponseError */
-export interface ErrorResponseError {
+/** model interface MicrosoftCommonErrorResponseError */
+export interface MicrosoftCommonErrorResponseError {
   /** Unlocalized string which can be used to programmatically identify the error. */
   code?: string;
   /** Describes the error in detail and provides debugging information. If Accept-Language is set in the request, it must be localized to that language. */
@@ -212,31 +234,39 @@ export interface ErrorResponseError {
   /** The target of the particular error (for example, the name of the property in error). */
   target?: string;
   /** An array of additional nested error response info objects, as described by this contract. */
-  details?: ErrorDetail[];
+  details?: MicrosoftCommonErrorDetail[];
   /** An array of objects with 'type' and 'info' properties. The schema of 'info' is service-specific and dependent on the 'type' string. */
-  additionalInfo?: ErrorResponseErrorAdditionalInfoItem[];
+  additionalInfo?: MicrosoftCommonErrorResponseErrorAdditionalInfoItem[];
 }
 
-export function errorResponseErrorDeserializer(item: any): ErrorResponseError {
+export function microsoftCommonErrorResponseErrorDeserializer(
+  item: any,
+): MicrosoftCommonErrorResponseError {
   return {
     code: item["code"],
     message: item["message"],
     target: item["target"],
-    details: !item["details"] ? item["details"] : errorDetailArrayDeserializer(item["details"]),
+    details: !item["details"]
+      ? item["details"]
+      : microsoftCommonErrorDetailArrayDeserializer(item["details"]),
     additionalInfo: !item["additionalInfo"]
       ? item["additionalInfo"]
-      : errorResponseErrorAdditionalInfoItemArrayDeserializer(item["additionalInfo"]),
+      : microsoftCommonErrorResponseErrorAdditionalInfoItemArrayDeserializer(
+          item["additionalInfo"],
+        ),
   };
 }
 
-export function errorDetailArrayDeserializer(result: Array<ErrorDetail>): any[] {
+export function microsoftCommonErrorDetailArrayDeserializer(
+  result: Array<MicrosoftCommonErrorDetail>,
+): any[] {
   return result.map((item) => {
-    return errorDetailDeserializer(item);
+    return microsoftCommonErrorDetailDeserializer(item);
   });
 }
 
 /** Describes details of an error response. */
-export interface ErrorDetail {
+export interface MicrosoftCommonErrorDetail {
   /** Unlocalized string which can be used to programmatically identify the error. */
   code?: string;
   /** Describes the error in detail and provides debugging information. */
@@ -244,39 +274,39 @@ export interface ErrorDetail {
   /** The target of the particular error (for example, the name of the property in error). */
   target?: string;
   /** An array of objects with 'type' and 'info' properties. The schema of 'info' is service-specific and dependent on the 'type' string. */
-  additionalInfo?: ErrorDetailAdditionalInfoItem[];
+  additionalInfo?: MicrosoftCommonErrorDetailAdditionalInfoItem[];
 }
 
-export function errorDetailDeserializer(item: any): ErrorDetail {
+export function microsoftCommonErrorDetailDeserializer(item: any): MicrosoftCommonErrorDetail {
   return {
     code: item["code"],
     message: item["message"],
     target: item["target"],
     additionalInfo: !item["additionalInfo"]
       ? item["additionalInfo"]
-      : errorDetailAdditionalInfoItemArrayDeserializer(item["additionalInfo"]),
+      : microsoftCommonErrorDetailAdditionalInfoItemArrayDeserializer(item["additionalInfo"]),
   };
 }
 
-export function errorDetailAdditionalInfoItemArrayDeserializer(
-  result: Array<ErrorDetailAdditionalInfoItem>,
+export function microsoftCommonErrorDetailAdditionalInfoItemArrayDeserializer(
+  result: Array<MicrosoftCommonErrorDetailAdditionalInfoItem>,
 ): any[] {
   return result.map((item) => {
-    return errorDetailAdditionalInfoItemDeserializer(item);
+    return microsoftCommonErrorDetailAdditionalInfoItemDeserializer(item);
   });
 }
 
-/** model interface ErrorDetailAdditionalInfoItem */
-export interface ErrorDetailAdditionalInfoItem {
+/** model interface MicrosoftCommonErrorDetailAdditionalInfoItem */
+export interface MicrosoftCommonErrorDetailAdditionalInfoItem {
   /** The type of additional information. */
   type?: string;
   /** The additional information specific to the type. */
   info?: Record<string, any>;
 }
 
-export function errorDetailAdditionalInfoItemDeserializer(
+export function microsoftCommonErrorDetailAdditionalInfoItemDeserializer(
   item: any,
-): ErrorDetailAdditionalInfoItem {
+): MicrosoftCommonErrorDetailAdditionalInfoItem {
   return {
     type: item["type"],
     info: !item["info"]
@@ -285,25 +315,25 @@ export function errorDetailAdditionalInfoItemDeserializer(
   };
 }
 
-export function errorResponseErrorAdditionalInfoItemArrayDeserializer(
-  result: Array<ErrorResponseErrorAdditionalInfoItem>,
+export function microsoftCommonErrorResponseErrorAdditionalInfoItemArrayDeserializer(
+  result: Array<MicrosoftCommonErrorResponseErrorAdditionalInfoItem>,
 ): any[] {
   return result.map((item) => {
-    return errorResponseErrorAdditionalInfoItemDeserializer(item);
+    return microsoftCommonErrorResponseErrorAdditionalInfoItemDeserializer(item);
   });
 }
 
-/** model interface ErrorResponseErrorAdditionalInfoItem */
-export interface ErrorResponseErrorAdditionalInfoItem {
+/** model interface MicrosoftCommonErrorResponseErrorAdditionalInfoItem */
+export interface MicrosoftCommonErrorResponseErrorAdditionalInfoItem {
   /** The type of additional information. */
   type?: string;
   /** The additional information specific to the type. */
   info?: Record<string, any>;
 }
 
-export function errorResponseErrorAdditionalInfoItemDeserializer(
+export function microsoftCommonErrorResponseErrorAdditionalInfoItemDeserializer(
   item: any,
-): ErrorResponseErrorAdditionalInfoItem {
+): MicrosoftCommonErrorResponseErrorAdditionalInfoItem {
   return {
     type: item["type"],
     info: !item["info"]
@@ -312,5 +342,5 @@ export function errorResponseErrorAdditionalInfoItemDeserializer(
   };
 }
 
-/** Type of ResultType */
-export type ResultType = "Data" | "Metadata";
+/** Type of MicrosoftCommonResultType */
+export type MicrosoftCommonResultType = "Data" | "Metadata";

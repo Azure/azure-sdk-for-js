@@ -2,19 +2,19 @@
 // Licensed under the MIT License.
 
 export type {
-  LocalizableString,
-  ErrorResponse,
-  ErrorContract,
-  CommonErrorResponse,
-  RetentionPolicy,
-  CriterionType,
-  Identity,
-  IdentityType,
-  UserIdentityProperties,
-  ErrorResponseError,
-  ErrorDetail,
-  ErrorDetailAdditionalInfoItem,
-  ErrorResponseErrorAdditionalInfoItem,
-  ResultType,
+  MicrosoftCommonErrorResponse,
+  MicrosoftCommonLocalizableString,
+  MicrosoftCommonErrorContract,
+  MicrosoftCommonCommonErrorResponse,
+  MicrosoftCommonRetentionPolicy,
+  MicrosoftCommonCriterionType,
+  MicrosoftCommonIdentity,
+  MicrosoftCommonIdentityType,
+  MicrosoftCommonUserIdentityProperties,
+  MicrosoftCommonErrorResponseError,
+  MicrosoftCommonErrorDetail,
+  MicrosoftCommonErrorDetailAdditionalInfoItem,
+  MicrosoftCommonErrorResponseErrorAdditionalInfoItem,
+  MicrosoftCommonResultType,
 } from "./models.js";
-export { KnownCriterionType } from "./models.js";
+export { KnownMicrosoftCommonCriterionType } from "./models.js";

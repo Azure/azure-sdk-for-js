@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ErrorResponseError } from "../microsoft/common/models.js";
-import { errorResponseErrorDeserializer } from "../microsoft/common/models.js";
+import type { MicrosoftCommonErrorResponseError } from "../microsoft/common/models.js";
+import { microsoftCommonErrorResponseErrorDeserializer } from "../microsoft/common/models.js";
 
 /**
  * This file contains only generated model types and their (de)serializers.
@@ -11,28 +11,34 @@ import { errorResponseErrorDeserializer } from "../microsoft/common/models.js";
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** A list of metric baselines. */
-export interface _MetricBaselinesResponse {
+export interface _MetricBaselinesApiMetricBaselinesResponse {
   /** The list of metric baselines. */
-  value?: SingleMetricBaseline[];
+  value?: MetricBaselinesApiSingleMetricBaseline[];
   /** The URL to get the next set of results. */
   nextLink?: string;
 }
 
-export function _metricBaselinesResponseDeserializer(item: any): _MetricBaselinesResponse {
+export function _metricBaselinesApiMetricBaselinesResponseDeserializer(
+  item: any,
+): _MetricBaselinesApiMetricBaselinesResponse {
   return {
-    value: !item["value"] ? item["value"] : singleMetricBaselineArrayDeserializer(item["value"]),
+    value: !item["value"]
+      ? item["value"]
+      : metricBaselinesApiSingleMetricBaselineArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function singleMetricBaselineArrayDeserializer(result: Array<SingleMetricBaseline>): any[] {
+export function metricBaselinesApiSingleMetricBaselineArrayDeserializer(
+  result: Array<MetricBaselinesApiSingleMetricBaseline>,
+): any[] {
   return result.map((item) => {
-    return singleMetricBaselineDeserializer(item);
+    return metricBaselinesApiSingleMetricBaselineDeserializer(item);
   });
 }
 
 /** The baseline results of a single metric. */
-export interface SingleMetricBaseline {
+export interface MetricBaselinesApiSingleMetricBaseline {
   /** The metric baseline Id. */
   id: string;
   /** The resource type of the metric baseline resource. */
@@ -46,10 +52,12 @@ export interface SingleMetricBaseline {
   /** The namespace of the metrics been queried. */
   namespace?: string;
   /** The baseline for each time series that was queried. */
-  baselines: TimeSeriesBaseline[];
+  baselines: MetricBaselinesApiTimeSeriesBaseline[];
 }
 
-export function singleMetricBaselineDeserializer(item: any): SingleMetricBaseline {
+export function metricBaselinesApiSingleMetricBaselineDeserializer(
+  item: any,
+): MetricBaselinesApiSingleMetricBaseline {
   return {
     id: item["id"],
     type: item["type"],
@@ -59,7 +67,7 @@ export function singleMetricBaselineDeserializer(item: any): SingleMetricBaselin
 }
 
 /** The response to a metric baselines query. */
-export interface MetricBaselinesProperties {
+export interface MetricBaselinesApiMetricBaselinesProperties {
   /** The timespan for which the data was retrieved. Its value consists of two datetimes concatenated, separated by '/'.  This may be adjusted in the future and returned back from what was originally requested. */
   timespan: string;
   /** The interval (window size) for which the metric data was returned in.  This may be adjusted in the future and returned back from what was originally requested.  This is not present if a metadata request was made. */
@@ -67,94 +75,106 @@ export interface MetricBaselinesProperties {
   /** The namespace of the metrics been queried. */
   namespace?: string;
   /** The baseline for each time series that was queried. */
-  baselines: TimeSeriesBaseline[];
+  baselines: MetricBaselinesApiTimeSeriesBaseline[];
 }
 
-export function metricBaselinesPropertiesDeserializer(item: any): MetricBaselinesProperties {
+export function metricBaselinesApiMetricBaselinesPropertiesDeserializer(
+  item: any,
+): MetricBaselinesApiMetricBaselinesProperties {
   return {
     timespan: item["timespan"],
     interval: item["interval"],
     namespace: item["namespace"],
-    baselines: timeSeriesBaselineArrayDeserializer(item["baselines"]),
+    baselines: metricBaselinesApiTimeSeriesBaselineArrayDeserializer(item["baselines"]),
   };
 }
 
-export function timeSeriesBaselineArrayDeserializer(result: Array<TimeSeriesBaseline>): any[] {
+export function metricBaselinesApiTimeSeriesBaselineArrayDeserializer(
+  result: Array<MetricBaselinesApiTimeSeriesBaseline>,
+): any[] {
   return result.map((item) => {
-    return timeSeriesBaselineDeserializer(item);
+    return metricBaselinesApiTimeSeriesBaselineDeserializer(item);
   });
 }
 
 /** The baseline values for a single time series. */
-export interface TimeSeriesBaseline {
+export interface MetricBaselinesApiTimeSeriesBaseline {
   /** The aggregation type of the metric. */
   aggregation: string;
   /** The dimensions of this time series. */
-  dimensions?: MetricSingleDimension[];
+  dimensions?: MetricBaselinesApiMetricSingleDimension[];
   /** The list of timestamps of the baselines. */
   timestamps: Date[];
   /** The baseline values for each sensitivity. */
-  data: SingleBaseline[];
+  data: MetricBaselinesApiSingleBaseline[];
   /** The baseline metadata values. */
-  metadataValues?: BaselineMetadata[];
+  metadataValues?: MetricBaselinesApiBaselineMetadata[];
 }
 
-export function timeSeriesBaselineDeserializer(item: any): TimeSeriesBaseline {
+export function metricBaselinesApiTimeSeriesBaselineDeserializer(
+  item: any,
+): MetricBaselinesApiTimeSeriesBaseline {
   return {
     aggregation: item["aggregation"],
     dimensions: !item["dimensions"]
       ? item["dimensions"]
-      : metricSingleDimensionArrayDeserializer(item["dimensions"]),
+      : metricBaselinesApiMetricSingleDimensionArrayDeserializer(item["dimensions"]),
     timestamps: item["timestamps"].map((p: any) => {
       return new Date(p);
     }),
-    data: singleBaselineArrayDeserializer(item["data"]),
+    data: metricBaselinesApiSingleBaselineArrayDeserializer(item["data"]),
     metadataValues: !item["metadataValues"]
       ? item["metadataValues"]
-      : baselineMetadataArrayDeserializer(item["metadataValues"]),
+      : metricBaselinesApiBaselineMetadataArrayDeserializer(item["metadataValues"]),
   };
 }
 
-export function metricSingleDimensionArrayDeserializer(
-  result: Array<MetricSingleDimension>,
+export function metricBaselinesApiMetricSingleDimensionArrayDeserializer(
+  result: Array<MetricBaselinesApiMetricSingleDimension>,
 ): any[] {
   return result.map((item) => {
-    return metricSingleDimensionDeserializer(item);
+    return metricBaselinesApiMetricSingleDimensionDeserializer(item);
   });
 }
 
 /** The metric dimension name and value. */
-export interface MetricSingleDimension {
+export interface MetricBaselinesApiMetricSingleDimension {
   /** Name of the dimension. */
   name: string;
   /** Value of the dimension. */
   value: string;
 }
 
-export function metricSingleDimensionDeserializer(item: any): MetricSingleDimension {
+export function metricBaselinesApiMetricSingleDimensionDeserializer(
+  item: any,
+): MetricBaselinesApiMetricSingleDimension {
   return {
     name: item["name"],
     value: item["value"],
   };
 }
 
-export function singleBaselineArrayDeserializer(result: Array<SingleBaseline>): any[] {
+export function metricBaselinesApiSingleBaselineArrayDeserializer(
+  result: Array<MetricBaselinesApiSingleBaseline>,
+): any[] {
   return result.map((item) => {
-    return singleBaselineDeserializer(item);
+    return metricBaselinesApiSingleBaselineDeserializer(item);
   });
 }
 
 /** The baseline values for a single sensitivity value. */
-export interface SingleBaseline {
+export interface MetricBaselinesApiSingleBaseline {
   /** the sensitivity of the baseline. */
-  sensitivity: BaselineSensitivity;
+  sensitivity: MetricBaselinesApiBaselineSensitivity;
   /** The low thresholds of the baseline. */
   lowThresholds: number[];
   /** The high thresholds of the baseline. */
   highThresholds: number[];
 }
 
-export function singleBaselineDeserializer(item: any): SingleBaseline {
+export function metricBaselinesApiSingleBaselineDeserializer(
+  item: any,
+): MetricBaselinesApiSingleBaseline {
   return {
     sensitivity: item["sensitivity"],
     lowThresholds: item["lowThresholds"].map((p: any) => {
@@ -167,7 +187,7 @@ export function singleBaselineDeserializer(item: any): SingleBaseline {
 }
 
 /** the sensitivity of the baseline. */
-export enum KnownBaselineSensitivity {
+export enum KnownMetricBaselinesApiBaselineSensitivity {
   /** Low */
   Low = "Low",
   /** Medium */
@@ -178,30 +198,34 @@ export enum KnownBaselineSensitivity {
 
 /**
  * the sensitivity of the baseline. \
- * {@link KnownBaselineSensitivity} can be used interchangeably with BaselineSensitivity,
+ * {@link KnownMetricBaselinesApiBaselineSensitivity} can be used interchangeably with MetricBaselinesApiBaselineSensitivity,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Low**: Low \
  * **Medium**: Medium \
  * **High**: High
  */
-export type BaselineSensitivity = string;
+export type MetricBaselinesApiBaselineSensitivity = string;
 
-export function baselineMetadataArrayDeserializer(result: Array<BaselineMetadata>): any[] {
+export function metricBaselinesApiBaselineMetadataArrayDeserializer(
+  result: Array<MetricBaselinesApiBaselineMetadata>,
+): any[] {
   return result.map((item) => {
-    return baselineMetadataDeserializer(item);
+    return metricBaselinesApiBaselineMetadataDeserializer(item);
   });
 }
 
 /** Represents a baseline metadata value. */
-export interface BaselineMetadata {
+export interface MetricBaselinesApiBaselineMetadata {
   /** Name of the baseline metadata. */
   name: string;
   /** Value of the baseline metadata. */
   value: string;
 }
 
-export function baselineMetadataDeserializer(item: any): BaselineMetadata {
+export function metricBaselinesApiBaselineMetadataDeserializer(
+  item: any,
+): MetricBaselinesApiBaselineMetadata {
   return {
     name: item["name"],
     value: item["value"],
@@ -209,13 +233,17 @@ export function baselineMetadataDeserializer(item: any): BaselineMetadata {
 }
 
 /** Describes the format of Error response. */
-export interface MetricBaselinesErrorResponse {
-  error?: ErrorResponseError;
+export interface MetricBaselinesApiMetricBaselinesErrorResponse {
+  error?: MicrosoftCommonErrorResponseError;
 }
 
-export function metricBaselinesErrorResponseDeserializer(item: any): MetricBaselinesErrorResponse {
+export function metricBaselinesApiMetricBaselinesErrorResponseDeserializer(
+  item: any,
+): MetricBaselinesApiMetricBaselinesErrorResponse {
   return {
-    error: !item["error"] ? item["error"] : errorResponseErrorDeserializer(item["error"]),
+    error: !item["error"]
+      ? item["error"]
+      : microsoftCommonErrorResponseErrorDeserializer(item["error"]),
   };
 }
 
@@ -224,6 +252,6 @@ export function _singleMetricBaselinePropertiesDeserializer(item: any) {
     timespan: item["timespan"],
     interval: item["interval"],
     namespace: item["namespace"],
-    baselines: timeSeriesBaselineArrayDeserializer(item["baselines"]),
+    baselines: metricBaselinesApiTimeSeriesBaselineArrayDeserializer(item["baselines"]),
   };
 }

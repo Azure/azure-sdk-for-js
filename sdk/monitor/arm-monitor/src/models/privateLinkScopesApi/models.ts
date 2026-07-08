@@ -3,9 +3,9 @@
 
 import { areAllPropsUndefined } from "../../static-helpers/serialization/check-prop-undefined.js";
 import type {
+  ArmErrorDetail,
   PrivateLinkResourceProperties,
   Resource,
-  ArmErrorDetail,
   PrivateEndpoint,
   PrivateLinkServiceConnectionState,
   PrivateEndpointConnectionProvisioningState,
@@ -13,9 +13,9 @@ import type {
   ProxyResource,
 } from "../models.js";
 import {
+  armErrorDetailDeserializer,
   privateLinkResourcePropertiesDeserializer,
   systemDataDeserializer,
-  armErrorDetailDeserializer,
   _privateEndpointConnectionPropertiesSerializer,
   _privateEndpointConnectionPropertiesDeserializer,
 } from "../models.js";
@@ -27,12 +27,14 @@ import {
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** A private link resource */
-export interface PrivateLinkResource extends Resource {
+export interface PrivateLinkScopesApiPrivateLinkResource extends Resource {
   /** Resource properties. */
   properties?: PrivateLinkResourceProperties;
 }
 
-export function privateLinkResourceDeserializer(item: any): PrivateLinkResource {
+export function privateLinkScopesApiPrivateLinkResourceDeserializer(
+  item: any,
+): PrivateLinkScopesApiPrivateLinkResource {
   return {
     id: item["id"],
     name: item["name"],
@@ -46,14 +48,16 @@ export function privateLinkResourceDeserializer(item: any): PrivateLinkResource 
   };
 }
 
-export function privateLinkResourceArrayDeserializer(result: Array<PrivateLinkResource>): any[] {
+export function privateLinkScopesApiPrivateLinkResourceArrayDeserializer(
+  result: Array<PrivateLinkScopesApiPrivateLinkResource>,
+): any[] {
   return result.map((item) => {
-    return privateLinkResourceDeserializer(item);
+    return privateLinkScopesApiPrivateLinkResourceDeserializer(item);
   });
 }
 
 /** The Private Endpoint Connection resource. */
-export interface PrivateEndpointConnection extends Resource {
+export interface PrivateLinkScopesApiPrivateEndpointConnection extends Resource {
   /** The private endpoint resource. */
   privateEndpoint?: PrivateEndpoint;
   /** A collection of information about the state of the connection between service consumer and provider. */
@@ -62,7 +66,9 @@ export interface PrivateEndpointConnection extends Resource {
   readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
 }
 
-export function privateEndpointConnectionSerializer(item: PrivateEndpointConnection): any {
+export function privateLinkScopesApiPrivateEndpointConnectionSerializer(
+  item: PrivateLinkScopesApiPrivateEndpointConnection,
+): any {
   return {
     properties: areAllPropsUndefined(item, ["privateEndpoint", "privateLinkServiceConnectionState"])
       ? undefined
@@ -70,7 +76,9 @@ export function privateEndpointConnectionSerializer(item: PrivateEndpointConnect
   };
 }
 
-export function privateEndpointConnectionDeserializer(item: any): PrivateEndpointConnection {
+export function privateLinkScopesApiPrivateEndpointConnectionDeserializer(
+  item: any,
+): PrivateLinkScopesApiPrivateEndpointConnection {
   return {
     id: item["id"],
     name: item["name"],
@@ -85,48 +93,50 @@ export function privateEndpointConnectionDeserializer(item: any): PrivateEndpoin
 }
 
 /** List of private endpoint connection associated with the specified storage account */
-export interface PrivateEndpointConnectionListResult {
+export interface PrivateLinkScopesApiPrivateEndpointConnectionListResult {
   /** Array of private endpoint connections */
-  value?: PrivateEndpointConnection[];
+  value?: PrivateLinkScopesApiPrivateEndpointConnection[];
 }
 
-export function privateEndpointConnectionListResultDeserializer(
+export function privateLinkScopesApiPrivateEndpointConnectionListResultDeserializer(
   item: any,
-): PrivateEndpointConnectionListResult {
+): PrivateLinkScopesApiPrivateEndpointConnectionListResult {
   return {
     value: !item["value"]
       ? item["value"]
-      : privateEndpointConnectionArrayDeserializer(item["value"]),
+      : privateLinkScopesApiPrivateEndpointConnectionArrayDeserializer(item["value"]),
   };
 }
 
-export function privateEndpointConnectionArraySerializer(
-  result: Array<PrivateEndpointConnection>,
+export function privateLinkScopesApiPrivateEndpointConnectionArraySerializer(
+  result: Array<PrivateLinkScopesApiPrivateEndpointConnection>,
 ): any[] {
   return result.map((item) => {
-    return privateEndpointConnectionSerializer(item);
+    return privateLinkScopesApiPrivateEndpointConnectionSerializer(item);
   });
 }
 
-export function privateEndpointConnectionArrayDeserializer(
-  result: Array<PrivateEndpointConnection>,
+export function privateLinkScopesApiPrivateEndpointConnectionArrayDeserializer(
+  result: Array<PrivateLinkScopesApiPrivateEndpointConnection>,
 ): any[] {
   return result.map((item) => {
-    return privateEndpointConnectionDeserializer(item);
+    return privateLinkScopesApiPrivateEndpointConnectionDeserializer(item);
   });
 }
 
 /** An Azure Monitor PrivateLinkScope definition. */
-export interface AzureMonitorPrivateLinkScope extends TrackedResource {
+export interface PrivateLinkScopesApiAzureMonitorPrivateLinkScope extends TrackedResource {
   /** Current state of this PrivateLinkScope: whether or not is has been provisioned within the resource group it is defined. Users cannot change this value but are able to read from it. */
-  readonly provisioningState?: PrivateLinkScopeProvisioningState;
+  readonly provisioningState?: PrivateLinkScopesApiPrivateLinkScopeProvisioningState;
   /** List of private endpoint connections. */
-  readonly privateEndpointConnections?: PrivateEndpointConnection[];
+  readonly privateEndpointConnections?: PrivateLinkScopesApiPrivateEndpointConnection[];
   /** Access mode settings */
-  accessModeSettings: AccessModeSettings;
+  accessModeSettings: PrivateLinkScopesApiAccessModeSettings;
 }
 
-export function azureMonitorPrivateLinkScopeSerializer(item: AzureMonitorPrivateLinkScope): any {
+export function privateLinkScopesApiAzureMonitorPrivateLinkScopeSerializer(
+  item: PrivateLinkScopesApiAzureMonitorPrivateLinkScope,
+): any {
   return {
     tags: item["tags"],
     location: item["location"],
@@ -134,7 +144,9 @@ export function azureMonitorPrivateLinkScopeSerializer(item: AzureMonitorPrivate
   };
 }
 
-export function azureMonitorPrivateLinkScopeDeserializer(item: any): AzureMonitorPrivateLinkScope {
+export function privateLinkScopesApiAzureMonitorPrivateLinkScopeDeserializer(
+  item: any,
+): PrivateLinkScopesApiAzureMonitorPrivateLinkScope {
   return {
     tags: !item["tags"]
       ? item["tags"]
@@ -151,35 +163,43 @@ export function azureMonitorPrivateLinkScopeDeserializer(item: any): AzureMonito
 }
 
 /** Properties that define a Azure Monitor PrivateLinkScope resource. */
-export interface AzureMonitorPrivateLinkScopeProperties {
+export interface PrivateLinkScopesApiAzureMonitorPrivateLinkScopeProperties {
   /** Current state of this PrivateLinkScope: whether or not is has been provisioned within the resource group it is defined. Users cannot change this value but are able to read from it. */
-  readonly provisioningState?: PrivateLinkScopeProvisioningState;
+  readonly provisioningState?: PrivateLinkScopesApiPrivateLinkScopeProvisioningState;
   /** List of private endpoint connections. */
-  readonly privateEndpointConnections?: PrivateEndpointConnection[];
+  readonly privateEndpointConnections?: PrivateLinkScopesApiPrivateEndpointConnection[];
   /** Access mode settings */
-  accessModeSettings: AccessModeSettings;
+  accessModeSettings: PrivateLinkScopesApiAccessModeSettings;
 }
 
-export function azureMonitorPrivateLinkScopePropertiesSerializer(
-  item: AzureMonitorPrivateLinkScopeProperties,
+export function privateLinkScopesApiAzureMonitorPrivateLinkScopePropertiesSerializer(
+  item: PrivateLinkScopesApiAzureMonitorPrivateLinkScopeProperties,
 ): any {
-  return { accessModeSettings: accessModeSettingsSerializer(item["accessModeSettings"]) };
+  return {
+    accessModeSettings: privateLinkScopesApiAccessModeSettingsSerializer(
+      item["accessModeSettings"],
+    ),
+  };
 }
 
-export function azureMonitorPrivateLinkScopePropertiesDeserializer(
+export function privateLinkScopesApiAzureMonitorPrivateLinkScopePropertiesDeserializer(
   item: any,
-): AzureMonitorPrivateLinkScopeProperties {
+): PrivateLinkScopesApiAzureMonitorPrivateLinkScopeProperties {
   return {
     provisioningState: item["provisioningState"],
     privateEndpointConnections: !item["privateEndpointConnections"]
       ? item["privateEndpointConnections"]
-      : privateEndpointConnectionArrayDeserializer(item["privateEndpointConnections"]),
-    accessModeSettings: accessModeSettingsDeserializer(item["accessModeSettings"]),
+      : privateLinkScopesApiPrivateEndpointConnectionArrayDeserializer(
+          item["privateEndpointConnections"],
+        ),
+    accessModeSettings: privateLinkScopesApiAccessModeSettingsDeserializer(
+      item["accessModeSettings"],
+    ),
   };
 }
 
 /** Current state of this PrivateLinkScope: whether or not is has been provisioned within the resource group it is defined. Users cannot change this value but are able to read from it. */
-export enum KnownPrivateLinkScopeProvisioningState {
+export enum KnownPrivateLinkScopesApiPrivateLinkScopeProvisioningState {
   /** Succeeded */
   Succeeded = "Succeeded",
   /** Failed */
@@ -192,7 +212,7 @@ export enum KnownPrivateLinkScopeProvisioningState {
 
 /**
  * Current state of this PrivateLinkScope: whether or not is has been provisioned within the resource group it is defined. Users cannot change this value but are able to read from it. \
- * {@link KnownPrivateLinkScopeProvisioningState} can be used interchangeably with PrivateLinkScopeProvisioningState,
+ * {@link KnownPrivateLinkScopesApiPrivateLinkScopeProvisioningState} can be used interchangeably with PrivateLinkScopesApiPrivateLinkScopeProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Succeeded**: Succeeded \
@@ -200,40 +220,44 @@ export enum KnownPrivateLinkScopeProvisioningState {
  * **Deleting**: Deleting \
  * **Canceled**: Canceled
  */
-export type PrivateLinkScopeProvisioningState = string;
+export type PrivateLinkScopesApiPrivateLinkScopeProvisioningState = string;
 
 /** Properties that define the scope private link mode settings. */
-export interface AccessModeSettings {
+export interface PrivateLinkScopesApiAccessModeSettings {
   /** Specifies the default access mode of queries through associated private endpoints in scope. If not specified default value is 'Open'. You can override this default setting for a specific private endpoint connection by adding an exclusion in the 'exclusions' array. */
-  queryAccessMode: AccessMode;
+  queryAccessMode: PrivateLinkScopesApiAccessMode;
   /** Specifies the default access mode of ingestion through associated private endpoints in scope. If not specified default value is 'Open'. You can override this default setting for a specific private endpoint connection by adding an exclusion in the 'exclusions' array. */
-  ingestionAccessMode: AccessMode;
+  ingestionAccessMode: PrivateLinkScopesApiAccessMode;
   /** List of exclusions that override the default access mode settings for specific private endpoint connections. */
-  exclusions?: AccessModeSettingsExclusion[];
+  exclusions?: PrivateLinkScopesApiAccessModeSettingsExclusion[];
 }
 
-export function accessModeSettingsSerializer(item: AccessModeSettings): any {
+export function privateLinkScopesApiAccessModeSettingsSerializer(
+  item: PrivateLinkScopesApiAccessModeSettings,
+): any {
   return {
     queryAccessMode: item["queryAccessMode"],
     ingestionAccessMode: item["ingestionAccessMode"],
     exclusions: !item["exclusions"]
       ? item["exclusions"]
-      : accessModeSettingsExclusionArraySerializer(item["exclusions"]),
+      : privateLinkScopesApiAccessModeSettingsExclusionArraySerializer(item["exclusions"]),
   };
 }
 
-export function accessModeSettingsDeserializer(item: any): AccessModeSettings {
+export function privateLinkScopesApiAccessModeSettingsDeserializer(
+  item: any,
+): PrivateLinkScopesApiAccessModeSettings {
   return {
     queryAccessMode: item["queryAccessMode"],
     ingestionAccessMode: item["ingestionAccessMode"],
     exclusions: !item["exclusions"]
       ? item["exclusions"]
-      : accessModeSettingsExclusionArrayDeserializer(item["exclusions"]),
+      : privateLinkScopesApiAccessModeSettingsExclusionArrayDeserializer(item["exclusions"]),
   };
 }
 
 /** Access mode types. */
-export enum KnownAccessMode {
+export enum KnownPrivateLinkScopesApiAccessMode {
   /** Open */
   Open = "Open",
   /** PrivateOnly */
@@ -242,41 +266,43 @@ export enum KnownAccessMode {
 
 /**
  * Access mode types. \
- * {@link KnownAccessMode} can be used interchangeably with AccessMode,
+ * {@link KnownPrivateLinkScopesApiAccessMode} can be used interchangeably with PrivateLinkScopesApiAccessMode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Open**: Open \
  * **PrivateOnly**: PrivateOnly
  */
-export type AccessMode = string;
+export type PrivateLinkScopesApiAccessMode = string;
 
-export function accessModeSettingsExclusionArraySerializer(
-  result: Array<AccessModeSettingsExclusion>,
+export function privateLinkScopesApiAccessModeSettingsExclusionArraySerializer(
+  result: Array<PrivateLinkScopesApiAccessModeSettingsExclusion>,
 ): any[] {
   return result.map((item) => {
-    return accessModeSettingsExclusionSerializer(item);
+    return privateLinkScopesApiAccessModeSettingsExclusionSerializer(item);
   });
 }
 
-export function accessModeSettingsExclusionArrayDeserializer(
-  result: Array<AccessModeSettingsExclusion>,
+export function privateLinkScopesApiAccessModeSettingsExclusionArrayDeserializer(
+  result: Array<PrivateLinkScopesApiAccessModeSettingsExclusion>,
 ): any[] {
   return result.map((item) => {
-    return accessModeSettingsExclusionDeserializer(item);
+    return privateLinkScopesApiAccessModeSettingsExclusionDeserializer(item);
   });
 }
 
 /** Properties that define the scope private link mode settings exclusion item. This setting applies to a specific private endpoint connection and overrides the default settings for that private endpoint connection. */
-export interface AccessModeSettingsExclusion {
+export interface PrivateLinkScopesApiAccessModeSettingsExclusion {
   /** The private endpoint connection name associated to the private endpoint on which we want to apply the specific access mode settings. */
   privateEndpointConnectionName?: string;
   /** Specifies the access mode of queries through the specified private endpoint connection in the exclusion. */
-  queryAccessMode?: AccessMode;
+  queryAccessMode?: PrivateLinkScopesApiAccessMode;
   /** Specifies the access mode of ingestion through the specified private endpoint connection in the exclusion. */
-  ingestionAccessMode?: AccessMode;
+  ingestionAccessMode?: PrivateLinkScopesApiAccessMode;
 }
 
-export function accessModeSettingsExclusionSerializer(item: AccessModeSettingsExclusion): any {
+export function privateLinkScopesApiAccessModeSettingsExclusionSerializer(
+  item: PrivateLinkScopesApiAccessModeSettingsExclusion,
+): any {
   return {
     privateEndpointConnectionName: item["privateEndpointConnectionName"],
     queryAccessMode: item["queryAccessMode"],
@@ -284,7 +310,9 @@ export function accessModeSettingsExclusionSerializer(item: AccessModeSettingsEx
   };
 }
 
-export function accessModeSettingsExclusionDeserializer(item: any): AccessModeSettingsExclusion {
+export function privateLinkScopesApiAccessModeSettingsExclusionDeserializer(
+  item: any,
+): PrivateLinkScopesApiAccessModeSettingsExclusion {
   return {
     privateEndpointConnectionName: item["privateEndpointConnectionName"],
     queryAccessMode: item["queryAccessMode"],
@@ -293,44 +321,48 @@ export function accessModeSettingsExclusionDeserializer(item: any): AccessModeSe
 }
 
 /** A container holding only the Tags for a resource, allowing the user to update the tags on a PrivateLinkScope instance. */
-export interface TagsResource {
+export interface PrivateLinkScopesApiTagsResource {
   /** Resource tags */
   tags?: Record<string, string>;
 }
 
-export function tagsResourceSerializer(item: TagsResource): any {
+export function privateLinkScopesApiTagsResourceSerializer(
+  item: PrivateLinkScopesApiTagsResource,
+): any {
   return { tags: item["tags"] };
 }
 
-export function azureMonitorPrivateLinkScopeArraySerializer(
-  result: Array<AzureMonitorPrivateLinkScope>,
+export function privateLinkScopesApiAzureMonitorPrivateLinkScopeArraySerializer(
+  result: Array<PrivateLinkScopesApiAzureMonitorPrivateLinkScope>,
 ): any[] {
   return result.map((item) => {
-    return azureMonitorPrivateLinkScopeSerializer(item);
+    return privateLinkScopesApiAzureMonitorPrivateLinkScopeSerializer(item);
   });
 }
 
-export function azureMonitorPrivateLinkScopeArrayDeserializer(
-  result: Array<AzureMonitorPrivateLinkScope>,
+export function privateLinkScopesApiAzureMonitorPrivateLinkScopeArrayDeserializer(
+  result: Array<PrivateLinkScopesApiAzureMonitorPrivateLinkScope>,
 ): any[] {
   return result.map((item) => {
-    return azureMonitorPrivateLinkScopeDeserializer(item);
+    return privateLinkScopesApiAzureMonitorPrivateLinkScopeDeserializer(item);
   });
 }
 
 /** A private link scoped resource */
-export interface ScopedResource extends ProxyResource {
+export interface PrivateLinkScopesApiScopedResource extends ProxyResource {
   /** The kind of scoped Azure monitor resource. */
-  kind?: ScopedResourceKind;
+  kind?: PrivateLinkScopesApiScopedResourceKind;
   /** The resource id of the scoped Azure monitor resource. */
   linkedResourceId?: string;
   /** The location of a scoped subscription. Only needs to be specified for metric dataplane subscriptions. */
   subscriptionLocation?: string;
   /** State of the Azure monitor resource. */
-  readonly provisioningState?: ScopedResourceProvisioningState;
+  readonly provisioningState?: PrivateLinkScopesApiScopedResourceProvisioningState;
 }
 
-export function scopedResourceSerializer(item: ScopedResource): any {
+export function privateLinkScopesApiScopedResourceSerializer(
+  item: PrivateLinkScopesApiScopedResource,
+): any {
   return {
     properties: areAllPropsUndefined(item, ["kind", "linkedResourceId", "subscriptionLocation"])
       ? undefined
@@ -338,7 +370,9 @@ export function scopedResourceSerializer(item: ScopedResource): any {
   };
 }
 
-export function scopedResourceDeserializer(item: any): ScopedResource {
+export function privateLinkScopesApiScopedResourceDeserializer(
+  item: any,
+): PrivateLinkScopesApiScopedResource {
   return {
     id: item["id"],
     name: item["name"],
@@ -353,18 +387,20 @@ export function scopedResourceDeserializer(item: any): ScopedResource {
 }
 
 /** Properties of a private link scoped resource. */
-export interface ScopedResourceProperties {
+export interface PrivateLinkScopesApiScopedResourceProperties {
   /** The kind of scoped Azure monitor resource. */
-  kind?: ScopedResourceKind;
+  kind?: PrivateLinkScopesApiScopedResourceKind;
   /** The resource id of the scoped Azure monitor resource. */
   linkedResourceId?: string;
   /** The location of a scoped subscription. Only needs to be specified for metric dataplane subscriptions. */
   subscriptionLocation?: string;
   /** State of the Azure monitor resource. */
-  readonly provisioningState?: ScopedResourceProvisioningState;
+  readonly provisioningState?: PrivateLinkScopesApiScopedResourceProvisioningState;
 }
 
-export function scopedResourcePropertiesSerializer(item: ScopedResourceProperties): any {
+export function privateLinkScopesApiScopedResourcePropertiesSerializer(
+  item: PrivateLinkScopesApiScopedResourceProperties,
+): any {
   return {
     kind: item["kind"],
     linkedResourceId: item["linkedResourceId"],
@@ -372,7 +408,9 @@ export function scopedResourcePropertiesSerializer(item: ScopedResourcePropertie
   };
 }
 
-export function scopedResourcePropertiesDeserializer(item: any): ScopedResourceProperties {
+export function privateLinkScopesApiScopedResourcePropertiesDeserializer(
+  item: any,
+): PrivateLinkScopesApiScopedResourceProperties {
   return {
     kind: item["kind"],
     linkedResourceId: item["linkedResourceId"],
@@ -382,7 +420,7 @@ export function scopedResourcePropertiesDeserializer(item: any): ScopedResourceP
 }
 
 /** The kind of scoped Azure monitor resource. */
-export enum KnownScopedResourceKind {
+export enum KnownPrivateLinkScopesApiScopedResourceKind {
   /** Resource */
   Resource = "Resource",
   /** Metrics */
@@ -391,16 +429,16 @@ export enum KnownScopedResourceKind {
 
 /**
  * The kind of scoped Azure monitor resource. \
- * {@link KnownScopedResourceKind} can be used interchangeably with ScopedResourceKind,
+ * {@link KnownPrivateLinkScopesApiScopedResourceKind} can be used interchangeably with PrivateLinkScopesApiScopedResourceKind,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Resource**: Resource \
  * **Metrics**: Metrics
  */
-export type ScopedResourceKind = string;
+export type PrivateLinkScopesApiScopedResourceKind = string;
 
 /** State of the Azure monitor resource. */
-export enum KnownScopedResourceProvisioningState {
+export enum KnownPrivateLinkScopesApiScopedResourceProvisioningState {
   /** Succeeded */
   Succeeded = "Succeeded",
   /** Provisioning */
@@ -413,7 +451,7 @@ export enum KnownScopedResourceProvisioningState {
 
 /**
  * State of the Azure monitor resource. \
- * {@link KnownScopedResourceProvisioningState} can be used interchangeably with ScopedResourceProvisioningState,
+ * {@link KnownPrivateLinkScopesApiScopedResourceProvisioningState} can be used interchangeably with PrivateLinkScopesApiScopedResourceProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Succeeded**: Succeeded \
@@ -421,22 +459,26 @@ export enum KnownScopedResourceProvisioningState {
  * **Failed**: Failed \
  * **Canceled**: Canceled
  */
-export type ScopedResourceProvisioningState = string;
+export type PrivateLinkScopesApiScopedResourceProvisioningState = string;
 
-export function scopedResourceArraySerializer(result: Array<ScopedResource>): any[] {
+export function privateLinkScopesApiScopedResourceArraySerializer(
+  result: Array<PrivateLinkScopesApiScopedResource>,
+): any[] {
   return result.map((item) => {
-    return scopedResourceSerializer(item);
+    return privateLinkScopesApiScopedResourceSerializer(item);
   });
 }
 
-export function scopedResourceArrayDeserializer(result: Array<ScopedResource>): any[] {
+export function privateLinkScopesApiScopedResourceArrayDeserializer(
+  result: Array<PrivateLinkScopesApiScopedResource>,
+): any[] {
   return result.map((item) => {
-    return scopedResourceDeserializer(item);
+    return privateLinkScopesApiScopedResourceDeserializer(item);
   });
 }
 
 /** The status of operation. */
-export interface OperationStatus {
+export interface PrivateLinkScopesApiOperationStatus {
   /** The operation Id. */
   id?: string;
   /** The operation name. */
@@ -451,7 +493,9 @@ export interface OperationStatus {
   error?: ArmErrorDetail;
 }
 
-export function operationStatusDeserializer(item: any): OperationStatus {
+export function privateLinkScopesApiOperationStatusDeserializer(
+  item: any,
+): PrivateLinkScopesApiOperationStatus {
   return {
     id: item["id"],
     name: item["name"],
@@ -463,9 +507,13 @@ export function operationStatusDeserializer(item: any): OperationStatus {
 }
 
 export function _azureMonitorPrivateLinkScopePropertiesSerializer(
-  item: AzureMonitorPrivateLinkScope,
+  item: PrivateLinkScopesApiAzureMonitorPrivateLinkScope,
 ): any {
-  return { accessModeSettings: accessModeSettingsSerializer(item["accessModeSettings"]) };
+  return {
+    accessModeSettings: privateLinkScopesApiAccessModeSettingsSerializer(
+      item["accessModeSettings"],
+    ),
+  };
 }
 
 export function _azureMonitorPrivateLinkScopePropertiesDeserializer(item: any) {
@@ -473,12 +521,16 @@ export function _azureMonitorPrivateLinkScopePropertiesDeserializer(item: any) {
     provisioningState: item["provisioningState"],
     privateEndpointConnections: !item["privateEndpointConnections"]
       ? item["privateEndpointConnections"]
-      : privateEndpointConnectionArrayDeserializer(item["privateEndpointConnections"]),
-    accessModeSettings: accessModeSettingsDeserializer(item["accessModeSettings"]),
+      : privateLinkScopesApiPrivateEndpointConnectionArrayDeserializer(
+          item["privateEndpointConnections"],
+        ),
+    accessModeSettings: privateLinkScopesApiAccessModeSettingsDeserializer(
+      item["accessModeSettings"],
+    ),
   };
 }
 
-export function _scopedResourcePropertiesSerializer(item: ScopedResource): any {
+export function _scopedResourcePropertiesSerializer(item: PrivateLinkScopesApiScopedResource): any {
   return {
     kind: item["kind"],
     linkedResourceId: item["linkedResourceId"],

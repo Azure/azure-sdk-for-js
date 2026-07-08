@@ -2,15 +2,15 @@
 // Licensed under the MIT License.
 
 import { areAllPropsUndefined } from "../../static-helpers/serialization/check-prop-undefined.js";
-import type { RetentionPolicy } from "../microsoft/common/models.js";
+import type { MicrosoftCommonRetentionPolicy } from "../microsoft/common/models.js";
 import {
-  retentionPolicySerializer,
-  retentionPolicyDeserializer,
+  microsoftCommonRetentionPolicySerializer,
+  microsoftCommonRetentionPolicyDeserializer,
 } from "../microsoft/common/models.js";
-import type { MetricSettings } from "../microsoft/insightsCombinedClient/models.js";
+import type { MicrosoftInsightsCombinedClientMetricSettings } from "../microsoft/insightsCombinedClient/models.js";
 import {
-  metricSettingsArraySerializer,
-  metricSettingsArrayDeserializer,
+  microsoftInsightsCombinedClientMetricSettingsArraySerializer,
+  microsoftInsightsCombinedClientMetricSettingsArrayDeserializer,
 } from "../microsoft/insightsCombinedClient/models.js";
 import type { ExtensionResource } from "../models.js";
 import { systemDataDeserializer } from "../models.js";
@@ -22,7 +22,7 @@ import { systemDataDeserializer } from "../models.js";
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** Description of a service diagnostic setting */
-export interface ServiceDiagnosticSettingsResource extends ExtensionResource {
+export interface ServiceDiagnosticsSettingsApiServiceDiagnosticSettingsResource extends ExtensionResource {
   /** Resource location */
   location: string;
   /** Resource tags */
@@ -34,15 +34,15 @@ export interface ServiceDiagnosticSettingsResource extends ExtensionResource {
   /** The resource Id for the event hub namespace authorization rule. */
   eventHubAuthorizationRuleId?: string;
   /** the list of metric settings. */
-  metrics?: MetricSettings[];
+  metrics?: MicrosoftInsightsCombinedClientMetricSettings[];
   /** the list of logs settings. */
-  logs?: LogSettings[];
+  logs?: ServiceDiagnosticsSettingsApiLogSettings[];
   /** The workspace ID (resource ID of a Log Analytics workspace) for a Log Analytics workspace to which you would like to send Diagnostic Logs. Example: /subscriptions/4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/resourceGroups/insights-integration/providers/Microsoft.OperationalInsights/workspaces/viruela2 */
   workspaceId?: string;
 }
 
-export function serviceDiagnosticSettingsResourceSerializer(
-  item: ServiceDiagnosticSettingsResource,
+export function serviceDiagnosticsSettingsApiServiceDiagnosticSettingsResourceSerializer(
+  item: ServiceDiagnosticsSettingsApiServiceDiagnosticSettingsResource,
 ): any {
   return {
     properties: areAllPropsUndefined(item, [
@@ -60,9 +60,9 @@ export function serviceDiagnosticSettingsResourceSerializer(
   };
 }
 
-export function serviceDiagnosticSettingsResourceDeserializer(
+export function serviceDiagnosticsSettingsApiServiceDiagnosticSettingsResourceDeserializer(
   item: any,
-): ServiceDiagnosticSettingsResource {
+): ServiceDiagnosticsSettingsApiServiceDiagnosticSettingsResource {
   return {
     id: item["id"],
     name: item["name"],
@@ -81,7 +81,7 @@ export function serviceDiagnosticSettingsResourceDeserializer(
 }
 
 /** The diagnostic settings for service. */
-export interface ServiceDiagnosticSettings {
+export interface ServiceDiagnosticsSettingsApiServiceDiagnosticSettings {
   /** The resource ID of the storage account to which you would like to send Diagnostic Logs. */
   storageAccountId?: string;
   /** The service bus rule ID of the service bus namespace in which you would like to have Event Hubs created for streaming Diagnostic Logs. The rule ID is of the format: '{service bus resource ID}/authorizationrules/{key name}'. */
@@ -89,79 +89,99 @@ export interface ServiceDiagnosticSettings {
   /** The resource Id for the event hub namespace authorization rule. */
   eventHubAuthorizationRuleId?: string;
   /** the list of metric settings. */
-  metrics?: MetricSettings[];
+  metrics?: MicrosoftInsightsCombinedClientMetricSettings[];
   /** the list of logs settings. */
-  logs?: LogSettings[];
+  logs?: ServiceDiagnosticsSettingsApiLogSettings[];
   /** The workspace ID (resource ID of a Log Analytics workspace) for a Log Analytics workspace to which you would like to send Diagnostic Logs. Example: /subscriptions/4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/resourceGroups/insights-integration/providers/Microsoft.OperationalInsights/workspaces/viruela2 */
   workspaceId?: string;
 }
 
-export function serviceDiagnosticSettingsSerializer(item: ServiceDiagnosticSettings): any {
+export function serviceDiagnosticsSettingsApiServiceDiagnosticSettingsSerializer(
+  item: ServiceDiagnosticsSettingsApiServiceDiagnosticSettings,
+): any {
   return {
     storageAccountId: item["storageAccountId"],
     serviceBusRuleId: item["serviceBusRuleId"],
     eventHubAuthorizationRuleId: item["eventHubAuthorizationRuleId"],
-    metrics: !item["metrics"] ? item["metrics"] : metricSettingsArraySerializer(item["metrics"]),
-    logs: !item["logs"] ? item["logs"] : logSettingsArraySerializer(item["logs"]),
+    metrics: !item["metrics"]
+      ? item["metrics"]
+      : microsoftInsightsCombinedClientMetricSettingsArraySerializer(item["metrics"]),
+    logs: !item["logs"]
+      ? item["logs"]
+      : serviceDiagnosticsSettingsApiLogSettingsArraySerializer(item["logs"]),
     workspaceId: item["workspaceId"],
   };
 }
 
-export function serviceDiagnosticSettingsDeserializer(item: any): ServiceDiagnosticSettings {
+export function serviceDiagnosticsSettingsApiServiceDiagnosticSettingsDeserializer(
+  item: any,
+): ServiceDiagnosticsSettingsApiServiceDiagnosticSettings {
   return {
     storageAccountId: item["storageAccountId"],
     serviceBusRuleId: item["serviceBusRuleId"],
     eventHubAuthorizationRuleId: item["eventHubAuthorizationRuleId"],
-    metrics: !item["metrics"] ? item["metrics"] : metricSettingsArrayDeserializer(item["metrics"]),
-    logs: !item["logs"] ? item["logs"] : logSettingsArrayDeserializer(item["logs"]),
+    metrics: !item["metrics"]
+      ? item["metrics"]
+      : microsoftInsightsCombinedClientMetricSettingsArrayDeserializer(item["metrics"]),
+    logs: !item["logs"]
+      ? item["logs"]
+      : serviceDiagnosticsSettingsApiLogSettingsArrayDeserializer(item["logs"]),
     workspaceId: item["workspaceId"],
   };
 }
 
-export function logSettingsArraySerializer(result: Array<LogSettings>): any[] {
+export function serviceDiagnosticsSettingsApiLogSettingsArraySerializer(
+  result: Array<ServiceDiagnosticsSettingsApiLogSettings>,
+): any[] {
   return result.map((item) => {
-    return logSettingsSerializer(item);
+    return serviceDiagnosticsSettingsApiLogSettingsSerializer(item);
   });
 }
 
-export function logSettingsArrayDeserializer(result: Array<LogSettings>): any[] {
+export function serviceDiagnosticsSettingsApiLogSettingsArrayDeserializer(
+  result: Array<ServiceDiagnosticsSettingsApiLogSettings>,
+): any[] {
   return result.map((item) => {
-    return logSettingsDeserializer(item);
+    return serviceDiagnosticsSettingsApiLogSettingsDeserializer(item);
   });
 }
 
 /** Part of MultiTenantDiagnosticSettings. Specifies the settings for a particular log. */
-export interface LogSettings {
+export interface ServiceDiagnosticsSettingsApiLogSettings {
   /** Name of a Diagnostic Log category for a resource type this setting is applied to. To obtain the list of Diagnostic Log categories for a resource, first perform a GET diagnostic settings operation. */
   category?: string;
   /** a value indicating whether this log is enabled. */
   enabled: boolean;
   /** the retention policy for this log. */
-  retentionPolicy?: RetentionPolicy;
+  retentionPolicy?: MicrosoftCommonRetentionPolicy;
 }
 
-export function logSettingsSerializer(item: LogSettings): any {
+export function serviceDiagnosticsSettingsApiLogSettingsSerializer(
+  item: ServiceDiagnosticsSettingsApiLogSettings,
+): any {
   return {
     category: item["category"],
     enabled: item["enabled"],
     retentionPolicy: !item["retentionPolicy"]
       ? item["retentionPolicy"]
-      : retentionPolicySerializer(item["retentionPolicy"]),
+      : microsoftCommonRetentionPolicySerializer(item["retentionPolicy"]),
   };
 }
 
-export function logSettingsDeserializer(item: any): LogSettings {
+export function serviceDiagnosticsSettingsApiLogSettingsDeserializer(
+  item: any,
+): ServiceDiagnosticsSettingsApiLogSettings {
   return {
     category: item["category"],
     enabled: item["enabled"],
     retentionPolicy: !item["retentionPolicy"]
       ? item["retentionPolicy"]
-      : retentionPolicyDeserializer(item["retentionPolicy"]),
+      : microsoftCommonRetentionPolicyDeserializer(item["retentionPolicy"]),
   };
 }
 
 /** Service diagnostic setting resource for patch operations */
-export interface ServiceDiagnosticSettingsResourcePatch {
+export interface ServiceDiagnosticsSettingsApiServiceDiagnosticSettingsResourcePatch {
   /** Resource tags */
   tags?: Record<string, string>;
   /** The resource ID of the storage account to which you would like to send Diagnostic Logs. */
@@ -171,15 +191,15 @@ export interface ServiceDiagnosticSettingsResourcePatch {
   /** The resource Id for the event hub namespace authorization rule. */
   eventHubAuthorizationRuleId?: string;
   /** the list of metric settings. */
-  metrics?: MetricSettings[];
+  metrics?: MicrosoftInsightsCombinedClientMetricSettings[];
   /** the list of logs settings. */
-  logs?: LogSettings[];
+  logs?: ServiceDiagnosticsSettingsApiLogSettings[];
   /** The workspace ID (resource ID of a Log Analytics workspace) for a Log Analytics workspace to which you would like to send Diagnostic Logs. Example: /subscriptions/4b9e8510-67ab-4e9a-95a9-e2f1e570ea9c/resourceGroups/insights-integration/providers/Microsoft.OperationalInsights/workspaces/viruela2 */
   workspaceId?: string;
 }
 
-export function serviceDiagnosticSettingsResourcePatchSerializer(
-  item: ServiceDiagnosticSettingsResourcePatch,
+export function serviceDiagnosticsSettingsApiServiceDiagnosticSettingsResourcePatchSerializer(
+  item: ServiceDiagnosticsSettingsApiServiceDiagnosticSettingsResourcePatch,
 ): any {
   return {
     tags: item["tags"],
@@ -197,14 +217,18 @@ export function serviceDiagnosticSettingsResourcePatchSerializer(
 }
 
 export function _serviceDiagnosticSettingsResourcePropertiesSerializer(
-  item: ServiceDiagnosticSettingsResource,
+  item: ServiceDiagnosticsSettingsApiServiceDiagnosticSettingsResource,
 ): any {
   return {
     storageAccountId: item["storageAccountId"],
     serviceBusRuleId: item["serviceBusRuleId"],
     eventHubAuthorizationRuleId: item["eventHubAuthorizationRuleId"],
-    metrics: !item["metrics"] ? item["metrics"] : metricSettingsArraySerializer(item["metrics"]),
-    logs: !item["logs"] ? item["logs"] : logSettingsArraySerializer(item["logs"]),
+    metrics: !item["metrics"]
+      ? item["metrics"]
+      : microsoftInsightsCombinedClientMetricSettingsArraySerializer(item["metrics"]),
+    logs: !item["logs"]
+      ? item["logs"]
+      : serviceDiagnosticsSettingsApiLogSettingsArraySerializer(item["logs"]),
     workspaceId: item["workspaceId"],
   };
 }
@@ -214,21 +238,29 @@ export function _serviceDiagnosticSettingsResourcePropertiesDeserializer(item: a
     storageAccountId: item["storageAccountId"],
     serviceBusRuleId: item["serviceBusRuleId"],
     eventHubAuthorizationRuleId: item["eventHubAuthorizationRuleId"],
-    metrics: !item["metrics"] ? item["metrics"] : metricSettingsArrayDeserializer(item["metrics"]),
-    logs: !item["logs"] ? item["logs"] : logSettingsArrayDeserializer(item["logs"]),
+    metrics: !item["metrics"]
+      ? item["metrics"]
+      : microsoftInsightsCombinedClientMetricSettingsArrayDeserializer(item["metrics"]),
+    logs: !item["logs"]
+      ? item["logs"]
+      : serviceDiagnosticsSettingsApiLogSettingsArrayDeserializer(item["logs"]),
     workspaceId: item["workspaceId"],
   };
 }
 
 export function _serviceDiagnosticSettingsResourcePatchPropertiesSerializer(
-  item: ServiceDiagnosticSettingsResourcePatch,
+  item: ServiceDiagnosticsSettingsApiServiceDiagnosticSettingsResourcePatch,
 ): any {
   return {
     storageAccountId: item["storageAccountId"],
     serviceBusRuleId: item["serviceBusRuleId"],
     eventHubAuthorizationRuleId: item["eventHubAuthorizationRuleId"],
-    metrics: !item["metrics"] ? item["metrics"] : metricSettingsArraySerializer(item["metrics"]),
-    logs: !item["logs"] ? item["logs"] : logSettingsArraySerializer(item["logs"]),
+    metrics: !item["metrics"]
+      ? item["metrics"]
+      : microsoftInsightsCombinedClientMetricSettingsArraySerializer(item["metrics"]),
+    logs: !item["logs"]
+      ? item["logs"]
+      : serviceDiagnosticsSettingsApiLogSettingsArraySerializer(item["logs"]),
     workspaceId: item["workspaceId"],
   };
 }
@@ -238,8 +270,12 @@ export function _serviceDiagnosticSettingsResourcePatchPropertiesDeserializer(it
     storageAccountId: item["storageAccountId"],
     serviceBusRuleId: item["serviceBusRuleId"],
     eventHubAuthorizationRuleId: item["eventHubAuthorizationRuleId"],
-    metrics: !item["metrics"] ? item["metrics"] : metricSettingsArrayDeserializer(item["metrics"]),
-    logs: !item["logs"] ? item["logs"] : logSettingsArrayDeserializer(item["logs"]),
+    metrics: !item["metrics"]
+      ? item["metrics"]
+      : microsoftInsightsCombinedClientMetricSettingsArrayDeserializer(item["metrics"]),
+    logs: !item["logs"]
+      ? item["logs"]
+      : serviceDiagnosticsSettingsApiLogSettingsArrayDeserializer(item["logs"]),
     workspaceId: item["workspaceId"],
   };
 }

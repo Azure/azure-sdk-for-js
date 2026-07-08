@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-monitor",
-  "version": "8.0.0-beta.7",
+  "version": "8.0.0-beta.8",
   "description": "A generated SDK for MonitorClient.",
   "engines": {
     "node": ">=22.0.0"
@@ -146,6 +146,20 @@
         "default": "./dist/commonjs/models/dataCollectionApi/index.js"
       }
     },
+    "./models/diagnosticsSettings": {
+      "browser": {
+        "types": "./dist/browser/models/diagnosticsSettings/index.d.ts",
+        "default": "./dist/browser/models/diagnosticsSettings/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/models/diagnosticsSettings/index.d.ts",
+        "default": "./dist/esm/models/diagnosticsSettings/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/models/diagnosticsSettings/index.d.ts",
+        "default": "./dist/commonjs/models/diagnosticsSettings/index.js"
+      }
+    },
     "./models/logProfilesApi": {
       "browser": {
         "types": "./dist/browser/models/logProfilesApi/index.d.ts",
@@ -242,6 +256,34 @@
       "require": {
         "types": "./dist/commonjs/models/serviceDiagnosticsSettingsApi/index.d.ts",
         "default": "./dist/commonjs/models/serviceDiagnosticsSettingsApi/index.js"
+      }
+    },
+    "./models/tenantActionGroups": {
+      "browser": {
+        "types": "./dist/browser/models/tenantActionGroups/index.d.ts",
+        "default": "./dist/browser/models/tenantActionGroups/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/models/tenantActionGroups/index.d.ts",
+        "default": "./dist/esm/models/tenantActionGroups/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/models/tenantActionGroups/index.d.ts",
+        "default": "./dist/commonjs/models/tenantActionGroups/index.js"
+      }
+    },
+    "./models/vmInsightsOnboarding": {
+      "browser": {
+        "types": "./dist/browser/models/vmInsightsOnboarding/index.d.ts",
+        "default": "./dist/browser/models/vmInsightsOnboarding/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/models/vmInsightsOnboarding/index.d.ts",
+        "default": "./dist/esm/models/vmInsightsOnboarding/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/models/vmInsightsOnboarding/index.d.ts",
+        "default": "./dist/commonjs/models/vmInsightsOnboarding/index.js"
       }
     },
     "./models/microsoft/common": {

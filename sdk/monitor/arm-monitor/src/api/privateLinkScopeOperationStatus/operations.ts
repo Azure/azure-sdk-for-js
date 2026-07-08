@@ -3,8 +3,8 @@
 
 import type { MonitorContext as Client } from "../index.js";
 import { armErrorResponseDeserializer } from "../../models/models.js";
-import type { OperationStatus } from "../../models/privateLinkScopesApi/models.js";
-import { operationStatusDeserializer } from "../../models/privateLinkScopesApi/models.js";
+import type { PrivateLinkScopesApiOperationStatus } from "../../models/privateLinkScopesApi/models.js";
+import { privateLinkScopesApiOperationStatusDeserializer } from "../../models/privateLinkScopesApi/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type { PrivateLinkScopeOperationStatusGetOptionalParams } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
@@ -34,7 +34,9 @@ export function _getSend(
   });
 }
 
-export async function _getDeserialize(result: PathUncheckedResponse): Promise<OperationStatus> {
+export async function _getDeserialize(
+  result: PathUncheckedResponse,
+): Promise<PrivateLinkScopesApiOperationStatus> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -45,7 +47,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Op
     throw error;
   }
 
-  return operationStatusDeserializer(result.body);
+  return privateLinkScopesApiOperationStatusDeserializer(result.body);
 }
 
 /** Get the status of an azure asynchronous operation associated with a private link scope operation. */
@@ -54,7 +56,7 @@ export async function get(
   resourceGroupName: string,
   asyncOperationId: string,
   options: PrivateLinkScopeOperationStatusGetOptionalParams = { requestOptions: {} },
-): Promise<OperationStatus> {
+): Promise<PrivateLinkScopesApiOperationStatus> {
   const result = await _getSend(context, resourceGroupName, asyncOperationId, options);
   return _getDeserialize(result);
 }

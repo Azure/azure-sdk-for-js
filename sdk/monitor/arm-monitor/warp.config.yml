@@ -11,6 +11,7 @@ exports:
   "./models/alertRulesIncidentsApi": "./src/models/alertRulesIncidentsApi/index.ts"
   "./models/autoScaleApi": "./src/models/autoScaleApi/index.ts"
   "./models/dataCollectionApi": "./src/models/dataCollectionApi/index.ts"
+  "./models/diagnosticsSettings": "./src/models/diagnosticsSettings/index.ts"
   "./models/logProfilesApi": "./src/models/logProfilesApi/index.ts"
   "./models/metricAlertApi": "./src/models/metricAlertApi/index.ts"
   "./models/metricBaselinesApi": "./src/models/metricBaselinesApi/index.ts"
@@ -18,6 +19,8 @@ exports:
   "./models/privateLinkScopesApi": "./src/models/privateLinkScopesApi/index.ts"
   "./models/scheduledQueryRuleApi": "./src/models/scheduledQueryRuleApi/index.ts"
   "./models/serviceDiagnosticsSettingsApi": "./src/models/serviceDiagnosticsSettingsApi/index.ts"
+  "./models/tenantActionGroups": "./src/models/tenantActionGroups/index.ts"
+  "./models/vmInsightsOnboarding": "./src/models/vmInsightsOnboarding/index.ts"
   "./models/microsoft/common": "./src/models/microsoft/common/index.ts"
   "./models/microsoft/insightsCombinedClient": "./src/models/microsoft/insightsCombinedClient/index.ts"
 

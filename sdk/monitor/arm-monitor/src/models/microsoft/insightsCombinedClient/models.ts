@@ -1,8 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RetentionPolicy } from "../common/models.js";
-import { retentionPolicySerializer, retentionPolicyDeserializer } from "../common/models.js";
+import type { MicrosoftCommonRetentionPolicy } from "../common/models.js";
+import {
+  microsoftCommonRetentionPolicySerializer,
+  microsoftCommonRetentionPolicyDeserializer,
+} from "../common/models.js";
 
 /**
  * This file contains only generated model types and their (de)serializers.
@@ -10,20 +13,24 @@ import { retentionPolicySerializer, retentionPolicyDeserializer } from "../commo
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-export function metricSettingsArraySerializer(result: Array<MetricSettings>): any[] {
+export function microsoftInsightsCombinedClientMetricSettingsArraySerializer(
+  result: Array<MicrosoftInsightsCombinedClientMetricSettings>,
+): any[] {
   return result.map((item) => {
-    return metricSettingsSerializer(item);
+    return microsoftInsightsCombinedClientMetricSettingsSerializer(item);
   });
 }
 
-export function metricSettingsArrayDeserializer(result: Array<MetricSettings>): any[] {
+export function microsoftInsightsCombinedClientMetricSettingsArrayDeserializer(
+  result: Array<MicrosoftInsightsCombinedClientMetricSettings>,
+): any[] {
   return result.map((item) => {
-    return metricSettingsDeserializer(item);
+    return microsoftInsightsCombinedClientMetricSettingsDeserializer(item);
   });
 }
 
 /** Part of MultiTenantDiagnosticSettings. Specifies the settings for a particular metric. */
-export interface MetricSettings {
+export interface MicrosoftInsightsCombinedClientMetricSettings {
   /** the timegrain of the metric in ISO8601 format. */
   timeGrain?: string;
   /** Name of a Diagnostic Metric category for a resource type this setting is applied to. To obtain the list of Diagnostic metric categories for a resource, first perform a GET diagnostic settings operation. */
@@ -31,27 +38,31 @@ export interface MetricSettings {
   /** a value indicating whether this category is enabled. */
   enabled: boolean;
   /** the retention policy for this category. */
-  retentionPolicy?: RetentionPolicy;
+  retentionPolicy?: MicrosoftCommonRetentionPolicy;
 }
 
-export function metricSettingsSerializer(item: MetricSettings): any {
+export function microsoftInsightsCombinedClientMetricSettingsSerializer(
+  item: MicrosoftInsightsCombinedClientMetricSettings,
+): any {
   return {
     timeGrain: item["timeGrain"],
     category: item["category"],
     enabled: item["enabled"],
     retentionPolicy: !item["retentionPolicy"]
       ? item["retentionPolicy"]
-      : retentionPolicySerializer(item["retentionPolicy"]),
+      : microsoftCommonRetentionPolicySerializer(item["retentionPolicy"]),
   };
 }
 
-export function metricSettingsDeserializer(item: any): MetricSettings {
+export function microsoftInsightsCombinedClientMetricSettingsDeserializer(
+  item: any,
+): MicrosoftInsightsCombinedClientMetricSettings {
   return {
     timeGrain: item["timeGrain"],
     category: item["category"],
     enabled: item["enabled"],
     retentionPolicy: !item["retentionPolicy"]
       ? item["retentionPolicy"]
-      : retentionPolicyDeserializer(item["retentionPolicy"]),
+      : microsoftCommonRetentionPolicyDeserializer(item["retentionPolicy"]),
   };
 }

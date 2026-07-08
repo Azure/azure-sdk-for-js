@@ -2,25 +2,25 @@
 // Licensed under the MIT License.
 
 import type {
-  DataCollectionEndpointResource,
-  DataCollectionRuleAssociationProxyOnlyResource,
-  DataCollectionRuleResource,
+  DataCollectionApiDataCollectionEndpointResource,
+  DataCollectionApiDataCollectionRuleAssociationProxyOnlyResource,
+  DataCollectionApiDataCollectionRuleResource,
 } from "./dataCollectionApi/models.js";
 import {
-  dataCollectionEndpointResourceArrayDeserializer,
-  dataCollectionRuleAssociationProxyOnlyResourceArrayDeserializer,
-  dataCollectionRuleResourceArrayDeserializer,
+  dataCollectionApiDataCollectionEndpointResourceArrayDeserializer,
+  dataCollectionApiDataCollectionRuleAssociationProxyOnlyResourceArrayDeserializer,
+  dataCollectionApiDataCollectionRuleResourceArrayDeserializer,
 } from "./dataCollectionApi/models.js";
 import type {
-  PrivateLinkResource,
-  PrivateEndpointConnection,
-  AzureMonitorPrivateLinkScope,
-  ScopedResource,
+  PrivateLinkScopesApiPrivateLinkResource,
+  PrivateLinkScopesApiPrivateEndpointConnection,
+  PrivateLinkScopesApiAzureMonitorPrivateLinkScope,
+  PrivateLinkScopesApiScopedResource,
 } from "./privateLinkScopesApi/models.js";
 import {
-  privateLinkResourceArrayDeserializer,
-  azureMonitorPrivateLinkScopeArrayDeserializer,
-  scopedResourceArrayDeserializer,
+  privateLinkScopesApiPrivateLinkResourceArrayDeserializer,
+  privateLinkScopesApiAzureMonitorPrivateLinkScopeArrayDeserializer,
+  privateLinkScopesApiScopedResourceArrayDeserializer,
 } from "./privateLinkScopesApi/models.js";
 
 /**
@@ -29,6 +29,71 @@ import {
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. */
+export interface ArmErrorResponse {
+  /** The error object. */
+  error?: ArmErrorDetail;
+}
+
+export function armErrorResponseDeserializer(item: any): ArmErrorResponse {
+  return {
+    error: !item["error"] ? item["error"] : armErrorDetailDeserializer(item["error"]),
+  };
+}
+
+/** The error detail. */
+export interface ArmErrorDetail {
+  /** The error code. */
+  readonly code?: string;
+  /** The error message. */
+  readonly message?: string;
+  /** The error target. */
+  readonly target?: string;
+  /** The error details. */
+  readonly details?: ArmErrorDetail[];
+  /** The error additional info. */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+export function armErrorDetailDeserializer(item: any): ArmErrorDetail {
+  return {
+    code: item["code"],
+    message: item["message"],
+    target: item["target"],
+    details: !item["details"] ? item["details"] : armErrorDetailArrayDeserializer(item["details"]),
+    additionalInfo: !item["additionalInfo"]
+      ? item["additionalInfo"]
+      : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
+  };
+}
+
+export function armErrorDetailArrayDeserializer(result: Array<ArmErrorDetail>): any[] {
+  return result.map((item) => {
+    return armErrorDetailDeserializer(item);
+  });
+}
+
+export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
+  return result.map((item) => {
+    return errorAdditionalInfoDeserializer(item);
+  });
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /** The additional info type. */
+  readonly type?: string;
+  /** The additional info. */
+  readonly info?: any;
+}
+
+export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
+  return {
+    type: item["type"],
+    info: item["info"],
+  };
+}
+
 /** Properties of a private link resource. */
 export interface PrivateLinkResourceProperties {
   /** The private link resource group id. */
@@ -137,75 +202,10 @@ export enum KnownCreatedByType {
  */
 export type CreatedByType = string;
 
-/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. */
-export interface ArmErrorResponse {
-  /** The error object. */
-  error?: ArmErrorDetail;
-}
-
-export function armErrorResponseDeserializer(item: any): ArmErrorResponse {
-  return {
-    error: !item["error"] ? item["error"] : armErrorDetailDeserializer(item["error"]),
-  };
-}
-
-/** The error detail. */
-export interface ArmErrorDetail {
-  /** The error code. */
-  readonly code?: string;
-  /** The error message. */
-  readonly message?: string;
-  /** The error target. */
-  readonly target?: string;
-  /** The error details. */
-  readonly details?: ArmErrorDetail[];
-  /** The error additional info. */
-  readonly additionalInfo?: ErrorAdditionalInfo[];
-}
-
-export function armErrorDetailDeserializer(item: any): ArmErrorDetail {
-  return {
-    code: item["code"],
-    message: item["message"],
-    target: item["target"],
-    details: !item["details"] ? item["details"] : armErrorDetailArrayDeserializer(item["details"]),
-    additionalInfo: !item["additionalInfo"]
-      ? item["additionalInfo"]
-      : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
-  };
-}
-
-export function armErrorDetailArrayDeserializer(result: Array<ArmErrorDetail>): any[] {
-  return result.map((item) => {
-    return armErrorDetailDeserializer(item);
-  });
-}
-
-export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
-  return result.map((item) => {
-    return errorAdditionalInfoDeserializer(item);
-  });
-}
-
-/** The resource management error additional info. */
-export interface ErrorAdditionalInfo {
-  /** The additional info type. */
-  readonly type?: string;
-  /** The additional info. */
-  readonly info?: any;
-}
-
-export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
-  return {
-    type: item["type"],
-    info: item["info"],
-  };
-}
-
 /** The response of a PrivateLinkResource list operation. */
 export interface PrivateLinkResourceListResult {
   /** The PrivateLinkResource items on this page */
-  value: PrivateLinkResource[];
+  value: PrivateLinkScopesApiPrivateLinkResource[];
   /** The link to the next page of items */
   nextLink?: string;
 }
@@ -214,7 +214,7 @@ export function privateLinkResourceListResultDeserializer(
   item: any,
 ): PrivateLinkResourceListResult {
   return {
-    value: privateLinkResourceArrayDeserializer(item["value"]),
+    value: privateLinkScopesApiPrivateLinkResourceArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
@@ -397,7 +397,12 @@ export interface ManagedServiceIdentity {
 }
 
 export function managedServiceIdentitySerializer(item: ManagedServiceIdentity): any {
-  return { type: item["type"], userAssignedIdentities: item["userAssignedIdentities"] };
+  return {
+    type: item["type"],
+    userAssignedIdentities: !item["userAssignedIdentities"]
+      ? item["userAssignedIdentities"]
+      : userAssignedIdentityRecordSerializer(item["userAssignedIdentities"]),
+  };
 }
 
 export function managedServiceIdentityDeserializer(item: any): ManagedServiceIdentity {
@@ -407,12 +412,7 @@ export function managedServiceIdentityDeserializer(item: any): ManagedServiceIde
     type: item["type"],
     userAssignedIdentities: !item["userAssignedIdentities"]
       ? item["userAssignedIdentities"]
-      : Object.fromEntries(
-          Object.entries(item["userAssignedIdentities"]).map(([k, p]: [string, any]) => [
-            k,
-            !p ? p : userAssignedIdentityDeserializer(p),
-          ]),
-        ),
+      : userAssignedIdentityRecordDeserializer(item["userAssignedIdentities"]),
   };
 }
 
@@ -439,6 +439,26 @@ export enum KnownManagedServiceIdentityType {
  * **SystemAssigned,UserAssigned**: System and user assigned managed identity.
  */
 export type ManagedServiceIdentityType = string;
+
+export function userAssignedIdentityRecordSerializer(
+  item: Record<string, UserAssignedIdentity>,
+): Record<string, any> {
+  const result: Record<string, any> = {};
+  Object.keys(item).map((key) => {
+    result[key] = !item[key] ? item[key] : userAssignedIdentitySerializer(item[key]);
+  });
+  return result;
+}
+
+export function userAssignedIdentityRecordDeserializer(
+  item: Record<string, any>,
+): Record<string, UserAssignedIdentity> {
+  const result: Record<string, any> = {};
+  Object.keys(item).map((key) => {
+    result[key] = !item[key] ? item[key] : userAssignedIdentityDeserializer(item[key]);
+  });
+  return result;
+}
 
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
@@ -489,7 +509,7 @@ export function trackedResourceDeserializer(item: any): TrackedResource {
 /** The response of a DataCollectionEndpointResource list operation. */
 export interface _DataCollectionEndpointResourceListResult {
   /** The DataCollectionEndpointResource items on this page */
-  value: DataCollectionEndpointResource[];
+  value: DataCollectionApiDataCollectionEndpointResource[];
   /** The link to the next page of items */
   nextLink?: string;
 }
@@ -498,7 +518,7 @@ export function _dataCollectionEndpointResourceListResultDeserializer(
   item: any,
 ): _DataCollectionEndpointResourceListResult {
   return {
-    value: dataCollectionEndpointResourceArrayDeserializer(item["value"]),
+    value: dataCollectionApiDataCollectionEndpointResourceArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
@@ -933,7 +953,7 @@ export function networkSecurityPerimeterConfigurationArrayDeserializer(
 /** The response of a DataCollectionRuleAssociationProxyOnlyResource list operation. */
 export interface _DataCollectionRuleAssociationProxyOnlyResourceListResult {
   /** The DataCollectionRuleAssociationProxyOnlyResource items on this page */
-  value: DataCollectionRuleAssociationProxyOnlyResource[];
+  value: DataCollectionApiDataCollectionRuleAssociationProxyOnlyResource[];
   /** The link to the next page of items */
   nextLink?: string;
 }
@@ -942,7 +962,9 @@ export function _dataCollectionRuleAssociationProxyOnlyResourceListResultDeseria
   item: any,
 ): _DataCollectionRuleAssociationProxyOnlyResourceListResult {
   return {
-    value: dataCollectionRuleAssociationProxyOnlyResourceArrayDeserializer(item["value"]),
+    value: dataCollectionApiDataCollectionRuleAssociationProxyOnlyResourceArrayDeserializer(
+      item["value"],
+    ),
     nextLink: item["nextLink"],
   };
 }
@@ -968,7 +990,7 @@ export function extensionResourceDeserializer(item: any): ExtensionResource {
 /** The response of a DataCollectionRuleResource list operation. */
 export interface _DataCollectionRuleResourceListResult {
   /** The DataCollectionRuleResource items on this page */
-  value: DataCollectionRuleResource[];
+  value: DataCollectionApiDataCollectionRuleResource[];
   /** The link to the next page of items */
   nextLink?: string;
 }
@@ -977,7 +999,7 @@ export function _dataCollectionRuleResourceListResultDeserializer(
   item: any,
 ): _DataCollectionRuleResourceListResult {
   return {
-    value: dataCollectionRuleResourceArrayDeserializer(item["value"]),
+    value: dataCollectionApiDataCollectionRuleResourceArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
@@ -985,7 +1007,7 @@ export function _dataCollectionRuleResourceListResultDeserializer(
 /** The response of a AzureMonitorPrivateLinkScope list operation. */
 export interface _AzureMonitorPrivateLinkScopeListResult {
   /** The AzureMonitorPrivateLinkScope items on this page */
-  value: AzureMonitorPrivateLinkScope[];
+  value: PrivateLinkScopesApiAzureMonitorPrivateLinkScope[];
   /** The link to the next page of items */
   nextLink?: string;
 }
@@ -994,7 +1016,7 @@ export function _azureMonitorPrivateLinkScopeListResultDeserializer(
   item: any,
 ): _AzureMonitorPrivateLinkScopeListResult {
   return {
-    value: azureMonitorPrivateLinkScopeArrayDeserializer(item["value"]),
+    value: privateLinkScopesApiAzureMonitorPrivateLinkScopeArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
@@ -1002,20 +1024,20 @@ export function _azureMonitorPrivateLinkScopeListResultDeserializer(
 /** The response of a ScopedResource list operation. */
 export interface _ScopedResourceListResult {
   /** The ScopedResource items on this page */
-  value: ScopedResource[];
+  value: PrivateLinkScopesApiScopedResource[];
   /** The link to the next page of items */
   nextLink?: string;
 }
 
 export function _scopedResourceListResultDeserializer(item: any): _ScopedResourceListResult {
   return {
-    value: scopedResourceArrayDeserializer(item["value"]),
+    value: privateLinkScopesApiScopedResourceArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
 export function _privateEndpointConnectionPropertiesSerializer(
-  item: PrivateEndpointConnection,
+  item: PrivateLinkScopesApiPrivateEndpointConnection,
 ): any {
   return {
     privateEndpoint: !item["privateEndpoint"]

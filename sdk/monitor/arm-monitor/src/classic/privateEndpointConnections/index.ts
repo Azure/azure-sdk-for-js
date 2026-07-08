@@ -15,8 +15,8 @@ import type {
   PrivateEndpointConnectionsGetOptionalParams,
 } from "../../api/privateEndpointConnections/options.js";
 import type {
-  PrivateEndpointConnection,
-  PrivateEndpointConnectionListResult,
+  PrivateLinkScopesApiPrivateEndpointConnection,
+  PrivateLinkScopesApiPrivateEndpointConnectionListResult,
 } from "../../models/privateLinkScopesApi/models.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
@@ -29,7 +29,7 @@ export interface PrivateEndpointConnectionsOperations {
     resourceGroupName: string,
     scopeName: string,
     options?: PrivateEndpointConnectionsListByPrivateLinkScopeOptionalParams,
-  ) => Promise<PrivateEndpointConnectionListResult>;
+  ) => Promise<PrivateLinkScopesApiPrivateEndpointConnectionListResult>;
   /** Deletes a private endpoint connection with a given name. */
   delete: (
     resourceGroupName: string,
@@ -56,34 +56,40 @@ export interface PrivateEndpointConnectionsOperations {
     resourceGroupName: string,
     scopeName: string,
     privateEndpointConnectionName: string,
-    parameters: PrivateEndpointConnection,
+    parameters: PrivateLinkScopesApiPrivateEndpointConnection,
     options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
-  ) => PollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>;
+  ) => PollerLike<
+    OperationState<PrivateLinkScopesApiPrivateEndpointConnection>,
+    PrivateLinkScopesApiPrivateEndpointConnection
+  >;
   /** @deprecated use createOrUpdate instead */
   beginCreateOrUpdate: (
     resourceGroupName: string,
     scopeName: string,
     privateEndpointConnectionName: string,
-    parameters: PrivateEndpointConnection,
+    parameters: PrivateLinkScopesApiPrivateEndpointConnection,
     options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
   ) => Promise<
-    SimplePollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>
+    SimplePollerLike<
+      OperationState<PrivateLinkScopesApiPrivateEndpointConnection>,
+      PrivateLinkScopesApiPrivateEndpointConnection
+    >
   >;
   /** @deprecated use createOrUpdate instead */
   beginCreateOrUpdateAndWait: (
     resourceGroupName: string,
     scopeName: string,
     privateEndpointConnectionName: string,
-    parameters: PrivateEndpointConnection,
+    parameters: PrivateLinkScopesApiPrivateEndpointConnection,
     options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
-  ) => Promise<PrivateEndpointConnection>;
+  ) => Promise<PrivateLinkScopesApiPrivateEndpointConnection>;
   /** Gets a private endpoint connection. */
   get: (
     resourceGroupName: string,
     scopeName: string,
     privateEndpointConnectionName: string,
     options?: PrivateEndpointConnectionsGetOptionalParams,
-  ) => Promise<PrivateEndpointConnection>;
+  ) => Promise<PrivateLinkScopesApiPrivateEndpointConnection>;
 }
 
 function _getPrivateEndpointConnections(context: MonitorContext) {
@@ -133,7 +139,7 @@ function _getPrivateEndpointConnections(context: MonitorContext) {
       resourceGroupName: string,
       scopeName: string,
       privateEndpointConnectionName: string,
-      parameters: PrivateEndpointConnection,
+      parameters: PrivateLinkScopesApiPrivateEndpointConnection,
       options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
     ) =>
       createOrUpdate(
@@ -148,7 +154,7 @@ function _getPrivateEndpointConnections(context: MonitorContext) {
       resourceGroupName: string,
       scopeName: string,
       privateEndpointConnectionName: string,
-      parameters: PrivateEndpointConnection,
+      parameters: PrivateLinkScopesApiPrivateEndpointConnection,
       options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
     ) => {
       const poller = createOrUpdate(
@@ -166,7 +172,7 @@ function _getPrivateEndpointConnections(context: MonitorContext) {
       resourceGroupName: string,
       scopeName: string,
       privateEndpointConnectionName: string,
-      parameters: PrivateEndpointConnection,
+      parameters: PrivateLinkScopesApiPrivateEndpointConnection,
       options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
     ) => {
       return await createOrUpdate(

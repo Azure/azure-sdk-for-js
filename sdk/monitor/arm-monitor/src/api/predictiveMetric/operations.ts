@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 import type { MonitorContext as Client } from "../index.js";
-import type { PredictiveResponse } from "../../models/autoScaleApi/models.js";
+import type { AutoScaleApiPredictiveResponse } from "../../models/autoScaleApi/models.js";
 import {
-  autoscaleErrorResponseDeserializer,
-  predictiveResponseDeserializer,
+  autoScaleApiAutoscaleErrorResponseDeserializer,
+  autoScaleApiPredictiveResponseDeserializer,
 } from "../../models/autoScaleApi/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type { PredictiveMetricGetOptionalParams } from "./options.js";
@@ -46,18 +46,20 @@ export function _getSend(
   });
 }
 
-export async function _getDeserialize(result: PathUncheckedResponse): Promise<PredictiveResponse> {
+export async function _getDeserialize(
+  result: PathUncheckedResponse,
+): Promise<AutoScaleApiPredictiveResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     if (result.body) {
-      error.details = autoscaleErrorResponseDeserializer(result.body);
+      error.details = autoScaleApiAutoscaleErrorResponseDeserializer(result.body);
     }
 
     throw error;
   }
 
-  return predictiveResponseDeserializer(result.body);
+  return autoScaleApiPredictiveResponseDeserializer(result.body);
 }
 
 /** get predictive autoscale metric future data */
@@ -71,7 +73,7 @@ export async function get(
   metricName: string,
   aggregation: string,
   options: PredictiveMetricGetOptionalParams = { requestOptions: {} },
-): Promise<PredictiveResponse> {
+): Promise<AutoScaleApiPredictiveResponse> {
   const result = await _getSend(
     context,
     resourceGroupName,
