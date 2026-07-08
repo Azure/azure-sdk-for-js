@@ -318,9 +318,9 @@ export class LiveMetrics {
     if (this.meterProvider) {
       return;
     }
-    // Turn on live metrics active collection for statsbeat
+    // Live metrics is now being accessed, so clear the "disabled" opt-out flag for statsbeat.
     if (!this.statsbeatOptionsUpdated) {
-      getInstance().setStatsbeatFeatures({}, { liveMetrics: true });
+      getInstance().setStatsbeatFeatures({}, { disableLiveMetrics: false });
       this.statsbeatOptionsUpdated = true;
     }
     this.totalDependencyCount = 0;

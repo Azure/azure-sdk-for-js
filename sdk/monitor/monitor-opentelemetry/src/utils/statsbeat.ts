@@ -121,10 +121,6 @@ class StatsbeatConfiguration {
       this.currentStatsbeatFeatures.distro = true;
     }
 
-    if (statsbeatFeatures.liveMetrics) {
-      this.currentStatsbeatFeatures.liveMetrics = true;
-    }
-
     const featureArray: Array<StatsbeatOption> = Object.entries(this.currentStatsbeatFeatures).map(
       (entry) => {
         return { option: entry[0], value: entry[1] };

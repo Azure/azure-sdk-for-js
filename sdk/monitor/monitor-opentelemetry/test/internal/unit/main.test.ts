@@ -307,24 +307,97 @@ describe("Main functions", () => {
     const features = Number(output["feature"]);
     const instrumentations = Number(output["instrumentation"]);
     assert.notOk(features & StatsbeatFeature.AAD_HANDLING, "AAD_HANDLING is set");
-    assert.notOk(features & StatsbeatFeature.DISK_RETRY, "DISK_RETRY is set");
     assert.notOk(features & StatsbeatFeature.BROWSER_SDK_LOADER, "BROWSER_SDK_LOADER is set");
     assert.ok(features & StatsbeatFeature.DISTRO, "DISTRO is not set");
-    assert.strictEqual(features, 8);
-    assert.ok(
-      instrumentations & StatsbeatInstrumentation.AZURE_CORE_TRACING,
-      "AZURE_CORE_TRACING not set",
+    // Offline storage is disabled, so the opt-out DISABLE_DISK_RETRY feature is set.
+    assert.ok(features & StatsbeatFeature.DISABLE_DISK_RETRY, "DISABLE_DISK_RETRY is not set");
+    // Live metrics has not been accessed, so it counts as disabled until a session is established.
+    assert.ok(features & StatsbeatFeature.DISABLE_LIVE_METRICS, "DISABLE_LIVE_METRICS is not set");
+    assert.strictEqual(
+      features,
+      StatsbeatFeature.DISTRO |
+        StatsbeatFeature.DISABLE_DISK_RETRY |
+        StatsbeatFeature.DISABLE_LIVE_METRICS,
     );
     assert.notOk(features & StatsbeatFeature.SHIM, "SHIM is set");
     assert.notOk(
       features & StatsbeatFeature.AKS_RESOURCE_DETECTOR_POPULATION,
       "AKS_RESOURCE_DETECTOR_POPULATION should not be set",
     );
-    assert.ok(instrumentations & StatsbeatInstrumentation.MONGODB, "MONGODB not set");
-    assert.ok(instrumentations & StatsbeatInstrumentation.MYSQL, "MYSQL not set");
-    assert.ok(instrumentations & StatsbeatInstrumentation.POSTGRES, "POSTGRES not set");
-    assert.ok(instrumentations & StatsbeatInstrumentation.REDIS, "REDIS not set");
-    assert.strictEqual(instrumentations, 31);
+    // On-by-default instrumentations are enabled, so none of the DISABLE_* instrumentation bits set.
+    assert.strictEqual(instrumentations, 0);
+  });
+
+  it("should set DISABLE_* opt-out flags when on-by-default features/instrumentations are disabled", () => {
+    const config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+      enableLiveMetrics: false,
+      instrumentationOptions: {
+        azureSdk: { enabled: false },
+        mongoDb: { enabled: false },
+        mySql: { enabled: false },
+        postgreSql: { enabled: false },
+        redis: { enabled: false },
+      },
+    };
+    useAzureMonitor(config);
+    const output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"]));
+    const features = Number(output["feature"]);
+    const instrumentations = Number(output["instrumentation"]);
+    // Live metrics disabled -> feature bit set. Offline storage enabled (default) -> not set.
+    assert.ok(features & StatsbeatFeature.DISABLE_LIVE_METRICS, "DISABLE_LIVE_METRICS is not set");
+    assert.notOk(features & StatsbeatFeature.DISABLE_DISK_RETRY, "DISABLE_DISK_RETRY is set");
+    // Disabled instrumentations -> their DISABLE_* instrumentation bits are set.
+    assert.ok(
+      instrumentations & StatsbeatInstrumentation.DISABLE_AZURE_SDK,
+      "DISABLE_AZURE_SDK is not set",
+    );
+    assert.ok(
+      instrumentations & StatsbeatInstrumentation.DISABLE_MONGODB,
+      "DISABLE_MONGODB not set",
+    );
+    assert.ok(instrumentations & StatsbeatInstrumentation.DISABLE_MYSQL, "DISABLE_MYSQL not set");
+    assert.ok(
+      instrumentations & StatsbeatInstrumentation.DISABLE_POSTGRESQL,
+      "DISABLE_POSTGRESQL is not set",
+    );
+    assert.ok(instrumentations & StatsbeatInstrumentation.DISABLE_REDIS, "DISABLE_REDIS not set");
+    assert.strictEqual(
+      instrumentations,
+      StatsbeatInstrumentation.DISABLE_AZURE_SDK |
+        StatsbeatInstrumentation.DISABLE_MONGODB |
+        StatsbeatInstrumentation.DISABLE_MYSQL |
+        StatsbeatInstrumentation.DISABLE_POSTGRESQL |
+        StatsbeatInstrumentation.DISABLE_REDIS,
+    );
+  });
+
+  it("should clear DISABLE_LIVE_METRICS once live metrics is accessed", () => {
+    const config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+      enableLiveMetrics: true,
+    };
+    useAzureMonitor(config);
+    let features = Number(
+      JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"]))["feature"],
+    );
+    // Not accessed yet -> counts as disabled.
+    assert.ok(features & StatsbeatFeature.DISABLE_LIVE_METRICS, "DISABLE_LIVE_METRICS is not set");
+
+    // Simulate a live metrics session being established (LiveMetrics.activateMetrics).
+    getInstance().setStatsbeatFeatures({}, { disableLiveMetrics: false });
+    features = Number(
+      JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"]))["feature"],
+    );
+    assert.notOk(
+      features & StatsbeatFeature.DISABLE_LIVE_METRICS,
+      "DISABLE_LIVE_METRICS should be cleared once live metrics is accessed",
+    );
+    assert.ok(features & StatsbeatFeature.DISTRO, "DISTRO should remain set");
   });
 
   it("should set shim feature in statsbeat if env var is populated", () => {
@@ -378,8 +451,8 @@ describe("Main functions", () => {
     const env = <{ [id: string]: string }>{};
     let current = 0;
     current |= StatsbeatFeature.AAD_HANDLING;
-    current |= StatsbeatFeature.DISK_RETRY;
-    current |= StatsbeatFeature.LIVE_METRICS;
+    current |= StatsbeatFeature.DISABLE_DISK_RETRY;
+    current |= StatsbeatFeature.DISABLE_LIVE_METRICS;
     env.AZURE_MONITOR_STATSBEAT_FEATURES = current.toString();
     process.env = env;
     const config: AzureMonitorOpenTelemetryOptions = {
@@ -391,10 +464,13 @@ describe("Main functions", () => {
     const output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"]));
     const numberOutput = Number(output["feature"]);
     assert.ok(numberOutput & StatsbeatFeature.AAD_HANDLING, "AAD_HANDLING not set");
-    assert.ok(numberOutput & StatsbeatFeature.DISK_RETRY, "DISK_RETRY not set");
+    assert.ok(numberOutput & StatsbeatFeature.DISABLE_DISK_RETRY, "DISABLE_DISK_RETRY not set");
     assert.ok(numberOutput & StatsbeatFeature.DISTRO, "DISTRO not set");
     assert.notOk(numberOutput & StatsbeatFeature.BROWSER_SDK_LOADER, "BROWSER_SDK_LOADER is set");
-    assert.ok(numberOutput & StatsbeatFeature.LIVE_METRICS, "LIVE_METRICS is not set");
+    assert.ok(
+      numberOutput & StatsbeatFeature.DISABLE_LIVE_METRICS,
+      "DISABLE_LIVE_METRICS is not set",
+    );
   });
 
   it("should capture the app service SDK prefix correctly", () => {
@@ -530,13 +606,15 @@ describe("Main functions", () => {
         connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
       },
       instrumentationOptions: {
-        azureSdk: { enabled: false },
+        // Keep on-by-default instrumentations enabled so no DISABLE_* bits are set
+        // and the base instrumentation bitmap is 0 before the dynamic update.
+        azureSdk: { enabled: true },
         http: { enabled: false },
-        mongoDb: { enabled: false },
-        mySql: { enabled: false },
-        postgreSql: { enabled: false },
-        redis: { enabled: false },
-        redis4: { enabled: false },
+        mongoDb: { enabled: true },
+        mySql: { enabled: true },
+        postgreSql: { enabled: true },
+        redis: { enabled: true },
+        redis4: { enabled: true },
         bunyan: { enabled: false },
         winston: { enabled: false },
       },

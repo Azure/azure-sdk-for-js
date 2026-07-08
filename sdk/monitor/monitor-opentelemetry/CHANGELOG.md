@@ -1,5 +1,11 @@
 # Release History
 
+## 1.18.3 (Unreleased)
+
+### Other Changes
+
+- SDKStats now tracks on-by-default features/instrumentations (disk retry, live metrics, Azure SDK, MongoDB, MySQL, PostgreSQL, Redis) as opt-out flags that are set only when the customer disables them.
+
 ## 1.18.2 (2026-07-01)
 
 ### Bugs Fixed

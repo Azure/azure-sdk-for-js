@@ -73,12 +73,13 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): voi
   const config = new InternalConfig(options);
   patchOpenTelemetryInstrumentationEnable();
   const statsbeatInstrumentations: StatsbeatInstrumentations = {
-    // Instrumentations
-    azureSdk: config.instrumentationOptions?.azureSdk?.enabled,
-    mongoDb: config.instrumentationOptions?.mongoDb?.enabled,
-    mySql: config.instrumentationOptions?.mySql?.enabled,
-    postgreSql: config.instrumentationOptions?.postgreSql?.enabled,
-    redis: config.instrumentationOptions?.redis?.enabled,
+    // On-by-default instrumentations: the flag is set only when the customer
+    // disables the instrumentation. Order must match the Kusto bit map.
+    disableAzureSdk: config.instrumentationOptions?.azureSdk?.enabled === false,
+    disableMongoDb: config.instrumentationOptions?.mongoDb?.enabled === false,
+    disableMySql: config.instrumentationOptions?.mySql?.enabled === false,
+    disablePostgreSql: config.instrumentationOptions?.postgreSql?.enabled === false,
+    disableRedis: config.instrumentationOptions?.redis?.enabled === false,
     bunyan: config.instrumentationOptions?.bunyan?.enabled,
     winston: config.instrumentationOptions?.winston?.enabled,
   };
@@ -92,9 +93,14 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): voi
   const statsbeatFeatures: StatsbeatFeatures = {
     browserSdkLoader: config.browserSdkLoaderOptions.enabled,
     aadHandling: !!config.azureMonitorExporterOptions?.credential,
-    diskRetry: !config.azureMonitorExporterOptions?.disableOfflineStorage,
     customerSdkStats: process.env[APPLICATIONINSIGHTS_SDKSTATS_DISABLED]?.toLowerCase() === "true",
     aksResourceDetectorPopulation: aksResourceDetected,
+    // On-by-default features: the flag is set only when the customer disables the feature.
+    disableDiskRetry: !!config.azureMonitorExporterOptions?.disableOfflineStorage,
+    // Live metrics counts as "enabled" only when actually accessed (a live metrics
+    // session is established). At init it has not been accessed, so it starts as
+    // disabled; activateMetrics() clears this flag when a session connects.
+    disableLiveMetrics: true,
   };
   getInstance().setStatsbeatFeatures(statsbeatInstrumentations, statsbeatFeatures);
 

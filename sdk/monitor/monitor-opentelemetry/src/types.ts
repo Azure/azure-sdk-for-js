@@ -70,11 +70,11 @@ export interface InstrumentationOptions {
  * @internal
  */
 export interface StatsbeatFeatures {
-  diskRetry?: boolean;
+  disableDiskRetry?: boolean;
   aadHandling?: boolean;
   browserSdkLoader?: boolean;
   distro?: boolean;
-  liveMetrics?: boolean;
+  disableLiveMetrics?: boolean;
   shim?: boolean;
   customerSdkStats?: boolean;
   multiIkey?: boolean;
@@ -86,11 +86,11 @@ export interface StatsbeatFeatures {
  * @internal
  */
 export const StatsbeatFeaturesMap = new Map<string, number>([
-  ["diskRetry", 1],
+  ["disableDiskRetry", 1],
   ["aadHandling", 2],
   ["browserSdkLoader", 4],
   ["distro", 8],
-  ["liveMetrics", 16],
+  ["disableLiveMetrics", 16],
   ["shim", 32],
   ["customerSdkStats", 64],
   ["multiIkey", 128],
@@ -102,12 +102,13 @@ export const StatsbeatFeaturesMap = new Map<string, number>([
  * @internal
  */
 export interface StatsbeatInstrumentations {
-  /** Azure Monitor Supported Instrumentations */
-  azureSdk?: boolean;
-  mongoDb?: boolean;
-  mySql?: boolean;
-  postgreSql?: boolean;
-  redis?: boolean;
+  /** Azure Monitor Supported Instrumentations. These are on-by-default, so the
+   * flag is set only when the customer disables the instrumentation. */
+  disableAzureSdk?: boolean;
+  disableMongoDb?: boolean;
+  disableMySql?: boolean;
+  disablePostgreSql?: boolean;
+  disableRedis?: boolean;
   bunyan?: boolean;
   winston?: boolean;
   /** OpenTelemetry Community Instrumentations */
@@ -160,7 +161,7 @@ export interface BrowserSdkLoaderOptions {
   connectionString?: string;
 }
 
-export const AZURE_MONITOR_OPENTELEMETRY_VERSION = "1.18.2";
+export const AZURE_MONITOR_OPENTELEMETRY_VERSION = "1.18.3";
 export const AZURE_MONITOR_STATSBEAT_FEATURES = "AZURE_MONITOR_STATSBEAT_FEATURES";
 export const AZURE_MONITOR_PREFIX = "AZURE_MONITOR_PREFIX";
 export const AZURE_MONITOR_AUTO_ATTACH = "AZURE_MONITOR_AUTO_ATTACH";
@@ -202,11 +203,11 @@ export const APPLICATIONINSIGHTS_SDKSTATS_DISABLED = "APPLICATIONINSIGHTS_SDKSTA
 
 export enum StatsbeatFeature {
   NONE = 0,
-  DISK_RETRY = 1,
+  DISABLE_DISK_RETRY = 1,
   AAD_HANDLING = 2,
   BROWSER_SDK_LOADER = 4,
   DISTRO = 8,
-  LIVE_METRICS = 16,
+  DISABLE_LIVE_METRICS = 16,
   SHIM = 32,
   CUSTOMER_SDKSTATS = 64,
   MULTI_IKEY = 128,
@@ -216,11 +217,11 @@ export enum StatsbeatFeature {
 export enum StatsbeatInstrumentation {
   /** Azure Monitor Supported Instrumentations */
   NONE = 0,
-  AZURE_CORE_TRACING = 1,
-  MONGODB = 2,
-  MYSQL = 4,
-  REDIS = 8,
-  POSTGRES = 16,
+  DISABLE_AZURE_SDK = 1,
+  DISABLE_MONGODB = 2,
+  DISABLE_MYSQL = 4,
+  DISABLE_POSTGRESQL = 8,
+  DISABLE_REDIS = 16,
   BUNYAN = 32,
   WINSTON = 64,
   /** OpenTelemetry Supported Instrumentations */
