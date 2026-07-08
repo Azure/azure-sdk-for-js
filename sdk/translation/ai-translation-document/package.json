@@ -144,6 +144,17 @@
       }
     ]
   },
+  "//sampleConfiguration": {
+    "productName": "Azure Document Translation Service",
+    "productSlugs": [
+      "azure",
+      "azure-cognitive-services",
+      "azure-translator"
+    ],
+    "requiredResources": {
+      "Azure Cognitive Services instance": "https://learn.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account"
+    }
+  },
   "dependencies": {
     "@azure/core-util": "^1.12.0",
     "@azure-rest/core-client": "^2.3.1",
