@@ -297,7 +297,7 @@
       "@azure/arm-monitor!IncidentReceiver:interface": "ActionGroupsApi.IncidentReceiver",
       "@azure/arm-monitor!IncidentServiceConnection:interface": "ActionGroupsApi.IncidentServiceConnection",
       "@azure/arm-monitor!ActionGroupPatchBody:interface": "TenantActionGroups.ActionGroupPatchBody",
-      "@azure/arm-monitor!ActionGroupPatch:interface": "TenantActionGroups.ActionGroupPatch",
+      "@azure/arm-monitor!ActionGroupPatch:interface": "ActionGroupsApi.ActionGroupPatch",
       "@azure/arm-monitor!ActionGroupList:interface": "ActionGroupsApi.ActionGroupList",
       "@azure/arm-monitor!NotificationRequestBody:interface": "ActionGroupsApi.NotificationRequestBody",
       "@azure/arm-monitor!EnableRequest:interface": "ActionGroupsApi.EnableRequest",

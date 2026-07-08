@@ -62,16 +62,17 @@ export {
   KnownResourceAssociationAccessMode,
 } from "./models/index.js";
 export type {
-  ActionGroupsApiActionGroupResource,
-  ActionGroupsApiActionGroup,
   ActionGroupsApiEmailReceiver,
   ActionGroupsApiReceiverStatus,
   ActionGroupsApiSmsReceiver,
+  ActionGroupsApiAzureAppPushReceiver,
+  ActionGroupsApiVoiceReceiver,
+  ActionGroupsApiContext,
+  ActionGroupsApiActionGroupResource,
+  ActionGroupsApiActionGroup,
   ActionGroupsApiWebhookReceiver,
   ActionGroupsApiItsmReceiver,
-  ActionGroupsApiAzureAppPushReceiver,
   ActionGroupsApiAutomationRunbookReceiver,
-  ActionGroupsApiVoiceReceiver,
   ActionGroupsApiLogicAppReceiver,
   ActionGroupsApiAzureFunctionReceiver,
   ActionGroupsApiArmRoleReceiver,
@@ -83,7 +84,6 @@ export type {
   ActionGroupsApiActionGroupPatch,
   ActionGroupsApiNotificationRequestBody,
   ActionGroupsApiTestNotificationDetailsResponse,
-  ActionGroupsApiContext,
   ActionGroupsApiActionDetail,
   ActionGroupsApiEnableRequest,
 } from "./models/actionGroupsApi/index.js";
@@ -441,19 +441,12 @@ export type {
 } from "./models/serviceDiagnosticsSettingsApi/index.js";
 export type {
   TenantActionGroupsTenantNotificationRequestBody,
-  TenantActionGroupsEmailReceiver,
-  TenantActionGroupsReceiverStatus,
-  TenantActionGroupsSmsReceiver,
   TenantActionGroupsWebhookReceiver,
-  TenantActionGroupsAzureAppPushReceiver,
-  TenantActionGroupsVoiceReceiver,
   TenantActionGroupsTestNotificationDetailsResponse,
-  TenantActionGroupsContext,
   TenantActionGroupsActionDetail,
   TenantActionGroupsTenantActionGroupResource,
   TenantActionGroupsTenantActionGroup,
   TenantActionGroupsActionGroupPatchBody,
-  TenantActionGroupsActionGroupPatch,
 } from "./models/tenantActionGroups/index.js";
 export type {
   VmInsightsOnboardingVMInsightsOnboardingStatus,
@@ -648,7 +641,7 @@ export type {
   TenantActionGroupsGetOptionalParams,
 } from "./api/tenantActionGroups/index.js";
 export type { TenantActivityLogsListOptionalParams } from "./api/tenantActivityLogs/index.js";
-export type { VMInsightsGetOnboardingStatusOptionalParams } from "./api/vmInsights/index.js";
+export type { vMInsightsGetOnboardingStatusOptionalParams } from "./api/vMInsights/index.js";
 export type {
   ActionGroupsOperations,
   ActivityLogAlertsOperations,
@@ -679,7 +672,7 @@ export type {
   ServiceDiagnosticSettingsOperations,
   TenantActionGroupsOperations,
   TenantActivityLogsOperations,
-  VMInsightsOperations,
+  vMInsightsOperations,
 } from "./classic/index.js";
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
 export { AzureClouds };

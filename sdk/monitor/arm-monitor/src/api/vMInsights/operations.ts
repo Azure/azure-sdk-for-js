@@ -8,14 +8,14 @@ import {
   vmInsightsOnboardingResponseWithErrorDeserializer,
 } from "../../models/vmInsightsOnboarding/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type { VMInsightsGetOnboardingStatusOptionalParams } from "./options.js";
+import type { vMInsightsGetOnboardingStatusOptionalParams } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _getOnboardingStatusSend(
   context: Client,
   resourceUri: string,
-  options: VMInsightsGetOnboardingStatusOptionalParams = { requestOptions: {} },
+  options: vMInsightsGetOnboardingStatusOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/{+resourceUri}/providers/Microsoft.Insights/vmInsightsOnboardingStatuses/default{?api%2Dversion}",
@@ -53,7 +53,7 @@ export async function _getOnboardingStatusDeserialize(
 export async function getOnboardingStatus(
   context: Client,
   resourceUri: string,
-  options: VMInsightsGetOnboardingStatusOptionalParams = { requestOptions: {} },
+  options: vMInsightsGetOnboardingStatusOptionalParams = { requestOptions: {} },
 ): Promise<VmInsightsOnboardingVMInsightsOnboardingStatus> {
   const result = await _getOnboardingStatusSend(context, resourceUri, options);
   return _getOnboardingStatusDeserialize(result);

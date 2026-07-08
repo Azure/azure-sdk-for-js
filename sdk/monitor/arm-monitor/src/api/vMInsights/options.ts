@@ -4,4 +4,4 @@
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
-export interface VMInsightsGetOnboardingStatusOptionalParams extends OperationOptions {}
+export interface vMInsightsGetOnboardingStatusOptionalParams extends OperationOptions {}

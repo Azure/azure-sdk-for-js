@@ -13,7 +13,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function getStatusForAResourceGroupThatHasAtLeastOneVMThatIsActivelyReportingData(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential);
-  const result = await client.vmInsights.getOnboardingStatus(
+  const result = await client.vMInsights.getOnboardingStatus(
     "subscriptions/3d51de47-8d1c-4d24-b42f-bcae075dfa87/resourceGroups/resource-group-with-vms",
   );
   console.log(result);
@@ -28,7 +28,7 @@ async function getStatusForAResourceGroupThatHasAtLeastOneVMThatIsActivelyReport
 async function getStatusForAVMThatIsActivelyReportingData(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential);
-  const result = await client.vmInsights.getOnboardingStatus(
+  const result = await client.vMInsights.getOnboardingStatus(
     "subscriptions/3d51de47-8d1c-4d24-b42f-bcae075dfa87/resourceGroups/vm-resource-group/providers/Microsoft.Compute/virtualMachines/ubuntu-vm",
   );
   console.log(result);
@@ -43,7 +43,7 @@ async function getStatusForAVMThatIsActivelyReportingData(): Promise<void> {
 async function getStatusForAVMThatHasNotYetReportedData(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential);
-  const result = await client.vmInsights.getOnboardingStatus(
+  const result = await client.vMInsights.getOnboardingStatus(
     "subscriptions/3d51de47-8d1c-4d24-b42f-bcae075dfa87/resourceGroups/vm-resource-group/providers/Microsoft.Compute/virtualMachines/ubuntu-vm",
   );
   console.log(result);
@@ -58,7 +58,7 @@ async function getStatusForAVMThatHasNotYetReportedData(): Promise<void> {
 async function getStatusForASubscriptionThatHasAtLeastOneVMThatIsActivelyReportingData(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential);
-  const result = await client.vmInsights.getOnboardingStatus(
+  const result = await client.vMInsights.getOnboardingStatus(
     "subscriptions/3d51de47-8d1c-4d24-b42f-bcae075dfa87",
   );
   console.log(result);
@@ -73,7 +73,7 @@ async function getStatusForASubscriptionThatHasAtLeastOneVMThatIsActivelyReporti
 async function getStatusForAVMScaleSetThatIsActivelyReportingData(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential);
-  const result = await client.vmInsights.getOnboardingStatus(
+  const result = await client.vMInsights.getOnboardingStatus(
     "subscriptions/3d51de47-8d1c-4d24-b42f-bcae075dfa87/resourceGroups/my-service-cluster/providers/Microsoft.Compute/virtualMachineScaleSets/scale-set-01",
   );
   console.log(result);

@@ -2,4 +2,4 @@
 // Licensed under the MIT License.
 
 export { getOnboardingStatus } from "./operations.js";
-export type { VMInsightsGetOnboardingStatusOptionalParams } from "./options.js";
+export type { vMInsightsGetOnboardingStatusOptionalParams } from "./options.js";

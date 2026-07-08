@@ -30,4 +30,4 @@ export type { ScheduledQueryRulesOperations } from "./scheduledQueryRules/index.
 export type { ServiceDiagnosticSettingsOperations } from "./serviceDiagnosticSettings/index.js";
 export type { TenantActionGroupsOperations } from "./tenantActionGroups/index.js";
 export type { TenantActivityLogsOperations } from "./tenantActivityLogs/index.js";
-export type { VMInsightsOperations } from "./vmInsights/index.js";
+export type { vMInsightsOperations } from "./vMInsights/index.js";

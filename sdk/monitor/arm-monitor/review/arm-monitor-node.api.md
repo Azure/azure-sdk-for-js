@@ -3035,7 +3035,7 @@ export class MonitorClient {
     readonly serviceDiagnosticSettings: ServiceDiagnosticSettingsOperations;
     readonly tenantActionGroups: TenantActionGroupsOperations;
     readonly tenantActivityLogs: TenantActivityLogsOperations;
-    readonly vmInsights: VMInsightsOperations;
+    readonly vMInsights: vMInsightsOperations;
 }
 
 // @public
@@ -3723,26 +3723,9 @@ export interface TenantActionGroupsActionDetail {
 }
 
 // @public
-export interface TenantActionGroupsActionGroupPatch {
-    enabled?: boolean;
-}
-
-// @public
 export interface TenantActionGroupsActionGroupPatchBody {
     enabled?: boolean;
     tags?: Record<string, string>;
-}
-
-// @public
-export interface TenantActionGroupsAzureAppPushReceiver {
-    emailAddress: string;
-    name: string;
-}
-
-// @public
-export interface TenantActionGroupsContext {
-    contextType?: string;
-    notificationSource?: string;
 }
 
 // @public
@@ -3751,14 +3734,6 @@ export interface TenantActionGroupsCreateOrUpdateOptionalParams extends Operatio
 
 // @public
 export interface TenantActionGroupsDeleteOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface TenantActionGroupsEmailReceiver {
-    emailAddress: string;
-    name: string;
-    readonly status?: TenantActionGroupsReceiverStatus;
-    useCommonAlertSchema?: boolean;
 }
 
 // @public
@@ -3779,45 +3754,34 @@ export interface TenantActionGroupsOperations {
 }
 
 // @public
-export type TenantActionGroupsReceiverStatus = "NotSpecified" | "Enabled" | "Disabled";
-
-// @public
-export interface TenantActionGroupsSmsReceiver {
-    countryCode: string;
-    name: string;
-    phoneNumber: string;
-    readonly status?: TenantActionGroupsReceiverStatus;
-}
-
-// @public
 export interface TenantActionGroupsTenantActionGroup {
-    azureAppPushReceivers?: TenantActionGroupsAzureAppPushReceiver[];
-    emailReceivers?: TenantActionGroupsEmailReceiver[];
+    azureAppPushReceivers?: ActionGroupsApiAzureAppPushReceiver[];
+    emailReceivers?: ActionGroupsApiEmailReceiver[];
     enabled: boolean;
     groupShortName: string;
-    smsReceivers?: TenantActionGroupsSmsReceiver[];
-    voiceReceivers?: TenantActionGroupsVoiceReceiver[];
+    smsReceivers?: ActionGroupsApiSmsReceiver[];
+    voiceReceivers?: ActionGroupsApiVoiceReceiver[];
     webhookReceivers?: TenantActionGroupsWebhookReceiver[];
 }
 
 // @public
 export interface TenantActionGroupsTenantActionGroupResource extends TrackedResource {
-    azureAppPushReceivers?: TenantActionGroupsAzureAppPushReceiver[];
-    emailReceivers?: TenantActionGroupsEmailReceiver[];
+    azureAppPushReceivers?: ActionGroupsApiAzureAppPushReceiver[];
+    emailReceivers?: ActionGroupsApiEmailReceiver[];
     enabled?: boolean;
     groupShortName?: string;
-    smsReceivers?: TenantActionGroupsSmsReceiver[];
-    voiceReceivers?: TenantActionGroupsVoiceReceiver[];
+    smsReceivers?: ActionGroupsApiSmsReceiver[];
+    voiceReceivers?: ActionGroupsApiVoiceReceiver[];
     webhookReceivers?: TenantActionGroupsWebhookReceiver[];
 }
 
 // @public
 export interface TenantActionGroupsTenantNotificationRequestBody {
     alertType: string;
-    azureAppPushReceivers?: TenantActionGroupsAzureAppPushReceiver[];
-    emailReceivers?: TenantActionGroupsEmailReceiver[];
-    smsReceivers?: TenantActionGroupsSmsReceiver[];
-    voiceReceivers?: TenantActionGroupsVoiceReceiver[];
+    azureAppPushReceivers?: ActionGroupsApiAzureAppPushReceiver[];
+    emailReceivers?: ActionGroupsApiEmailReceiver[];
+    smsReceivers?: ActionGroupsApiSmsReceiver[];
+    voiceReceivers?: ActionGroupsApiVoiceReceiver[];
     webhookReceivers?: TenantActionGroupsWebhookReceiver[];
 }
 
@@ -3825,20 +3789,13 @@ export interface TenantActionGroupsTenantNotificationRequestBody {
 export interface TenantActionGroupsTestNotificationDetailsResponse {
     actionDetails?: TenantActionGroupsActionDetail[];
     completedTime?: string;
-    context?: TenantActionGroupsContext;
+    context?: ActionGroupsApiContext;
     createdTime?: string;
     state: string;
 }
 
 // @public
 export interface TenantActionGroupsUpdateOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface TenantActionGroupsVoiceReceiver {
-    countryCode: string;
-    name: string;
-    phoneNumber: string;
 }
 
 // @public
@@ -3876,7 +3833,7 @@ export interface UserAssignedIdentity {
 }
 
 // @public
-export interface VMInsightsGetOnboardingStatusOptionalParams extends OperationOptions {
+export interface vMInsightsGetOnboardingStatusOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -3930,8 +3887,8 @@ export interface VmInsightsOnboardingWorkspaceInfoProperties {
 }
 
 // @public
-export interface VMInsightsOperations {
-    getOnboardingStatus: (resourceUri: string, options?: VMInsightsGetOnboardingStatusOptionalParams) => Promise<VmInsightsOnboardingVMInsightsOnboardingStatus>;
+export interface vMInsightsOperations {
+    getOnboardingStatus: (resourceUri: string, options?: vMInsightsGetOnboardingStatusOptionalParams) => Promise<VmInsightsOnboardingVMInsightsOnboardingStatus>;
 }
 
 // (No @packageDocumentation comment for this package)

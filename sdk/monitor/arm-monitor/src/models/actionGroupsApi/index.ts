@@ -2,16 +2,17 @@
 // Licensed under the MIT License.
 
 export type {
-  ActionGroupsApiActionGroupResource,
-  ActionGroupsApiActionGroup,
   ActionGroupsApiEmailReceiver,
   ActionGroupsApiReceiverStatus,
   ActionGroupsApiSmsReceiver,
+  ActionGroupsApiAzureAppPushReceiver,
+  ActionGroupsApiVoiceReceiver,
+  ActionGroupsApiContext,
+  ActionGroupsApiActionGroupResource,
+  ActionGroupsApiActionGroup,
   ActionGroupsApiWebhookReceiver,
   ActionGroupsApiItsmReceiver,
-  ActionGroupsApiAzureAppPushReceiver,
   ActionGroupsApiAutomationRunbookReceiver,
-  ActionGroupsApiVoiceReceiver,
   ActionGroupsApiLogicAppReceiver,
   ActionGroupsApiAzureFunctionReceiver,
   ActionGroupsApiArmRoleReceiver,
@@ -23,7 +24,6 @@ export type {
   ActionGroupsApiActionGroupPatch,
   ActionGroupsApiNotificationRequestBody,
   ActionGroupsApiTestNotificationDetailsResponse,
-  ActionGroupsApiContext,
   ActionGroupsApiActionDetail,
   ActionGroupsApiEnableRequest,
 } from "./models.js";

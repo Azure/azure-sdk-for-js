@@ -8,6 +8,7 @@ Compared with version 7.0.0
   - Added operation group ScheduledQueryRuleOperations
   - Added operation group ServiceDiagnosticSettingsOperations
   - Added operation group TenantActionGroupsOperations
+  - Added operation group vMInsightsOperations
   - Added operation ActionGroupsOperations.beginCreateNotificationsAtActionGroupResourceLevel
   - Added operation ActionGroupsOperations.beginCreateNotificationsAtActionGroupResourceLevelAndWait
   - Added operation ActionGroupsOperations.beginReconcileNSP
@@ -319,25 +320,20 @@ Compared with version 7.0.0
   - Added Interface SimplePollerLike
   - Added Interface Sku
   - Added Interface TenantActionGroupsActionDetail
-  - Added Interface TenantActionGroupsActionGroupPatch
   - Added Interface TenantActionGroupsActionGroupPatchBody
-  - Added Interface TenantActionGroupsAzureAppPushReceiver
-  - Added Interface TenantActionGroupsContext
   - Added Interface TenantActionGroupsCreateOrUpdateOptionalParams
   - Added Interface TenantActionGroupsDeleteOptionalParams
-  - Added Interface TenantActionGroupsEmailReceiver
   - Added Interface TenantActionGroupsGetOptionalParams
   - Added Interface TenantActionGroupsListByManagementGroupIdOptionalParams
-  - Added Interface TenantActionGroupsSmsReceiver
   - Added Interface TenantActionGroupsTenantActionGroup
   - Added Interface TenantActionGroupsTenantActionGroupResource
   - Added Interface TenantActionGroupsTenantNotificationRequestBody
   - Added Interface TenantActionGroupsTestNotificationDetailsResponse
   - Added Interface TenantActionGroupsUpdateOptionalParams
-  - Added Interface TenantActionGroupsVoiceReceiver
   - Added Interface TenantActionGroupsWebhookReceiver
   - Added Interface TrackedResource
   - Added Interface UserAssignedIdentity
+  - Added Interface vMInsightsGetOnboardingStatusOptionalParams
   - Added Interface VmInsightsOnboardingDataContainer
   - Added Interface VmInsightsOnboardingError
   - Added Interface VmInsightsOnboardingResponseWithError
@@ -432,7 +428,6 @@ Compared with version 7.0.0
   - Added Type Alias ScheduledQueryRuleApiTimeAggregation
   - Added Type Alias Severity
   - Added Type Alias SkuTier
-  - Added Type Alias TenantActionGroupsReceiverStatus
   - Added Type Alias VmInsightsOnboardingDataStatus
   - Added Type Alias VmInsightsOnboardingOnboardingStatus
   - Added Enum AzureClouds
@@ -527,7 +522,6 @@ Compared with version 7.0.0
   - Class MonitorClient has a new signature
   - Class MonitorClient no longer has parameter alertRules
   - Class MonitorClient no longer has parameter operations
-  - Class MonitorClient no longer has parameter vMInsights
   - Removed Interface Action
   - Removed Interface ActionDetail
   - Removed Interface ActionGroupList
@@ -668,6 +662,8 @@ Compared with version 7.0.0
   - Removed Interface TimeSeriesElement
   - Removed Interface TimeWindow
   - Removed Interface TriggerCondition
+  - Removed Interface VMInsights
+  - Removed Interface VMInsightsGetOnboardingStatusOptionalParams
   - Removed Interface VoiceReceiver
   - Removed Interface WebhookNotification
   - Removed Interface WebhookReceiver

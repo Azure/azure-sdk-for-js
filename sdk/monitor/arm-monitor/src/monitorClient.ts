@@ -69,8 +69,8 @@ import type { TenantActionGroupsOperations } from "./classic/tenantActionGroups/
 import { _getTenantActionGroupsOperations } from "./classic/tenantActionGroups/index.js";
 import type { TenantActivityLogsOperations } from "./classic/tenantActivityLogs/index.js";
 import { _getTenantActivityLogsOperations } from "./classic/tenantActivityLogs/index.js";
-import type { VMInsightsOperations } from "./classic/vmInsights/index.js";
-import { _getVMInsightsOperations } from "./classic/vmInsights/index.js";
+import type { vMInsightsOperations } from "./classic/vMInsights/index.js";
+import { _getvMInsightsOperations } from "./classic/vMInsights/index.js";
 import type {
   TenantActionGroupsTenantNotificationRequestBody,
   TenantActionGroupsTestNotificationDetailsResponse,
@@ -119,7 +119,7 @@ export class MonitorClient {
     this.pipeline = this._client.pipeline;
     this.diagnosticSettingsCategory = _getDiagnosticSettingsCategoryOperations(this._client);
     this.diagnosticSettings = _getDiagnosticSettingsOperations(this._client);
-    this.vmInsights = _getVMInsightsOperations(this._client);
+    this.vMInsights = _getvMInsightsOperations(this._client);
     this.tenantActionGroups = _getTenantActionGroupsOperations(this._client);
     this.actionGroups = _getActionGroupsOperations(this._client);
     this.baselines = _getBaselinesOperations(this._client);
@@ -247,8 +247,8 @@ export class MonitorClient {
   public readonly diagnosticSettingsCategory: DiagnosticSettingsCategoryOperations;
   /** The operation groups for diagnosticSettings */
   public readonly diagnosticSettings: DiagnosticSettingsOperations;
-  /** The operation groups for vmInsights */
-  public readonly vmInsights: VMInsightsOperations;
+  /** The operation groups for vMInsights */
+  public readonly vMInsights: vMInsightsOperations;
   /** The operation groups for tenantActionGroups */
   public readonly tenantActionGroups: TenantActionGroupsOperations;
   /** The operation groups for actionGroups */
