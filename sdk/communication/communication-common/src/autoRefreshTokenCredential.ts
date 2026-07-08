@@ -94,12 +94,15 @@ export class AutoRefreshTokenCredential implements TokenCredential {
     this.activeTokenFetching = null;
     this.activeTokenUpdating = null;
     this.currentToken = expiredToken;
-    if (this.activeTimeout) {
+    if (this.activeTimeout !== undefined) {
       clearTimeout(this.activeTimeout);
     }
   }
 
   private async updateTokenAndReschedule(abortSignal?: AbortSignalLike): Promise<void> {
+    if (this.disposed) {
+      return;
+    }
     if (this.activeTokenUpdating) {
       return this.activeTokenUpdating;
     }

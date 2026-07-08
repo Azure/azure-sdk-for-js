@@ -231,7 +231,7 @@ describe("CommunicationTokenCredential", function () {
     tokenCredential.dispose();
 
     // go into the soon-to-expire window
-    vi.advanceTimersByTimeAsync(19 * 60 * 1000);
+    await vi.advanceTimersByTimeAsync(19 * 60 * 1000);
     expect(tokenRefresher).not.toHaveBeenCalled();
   });
 
