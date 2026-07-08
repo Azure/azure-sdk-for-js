@@ -203,7 +203,9 @@ export function _createOrUpdateSend(
   });
 }
 
-export async function _createOrUpdateDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _createOrUpdateDeserialize(
+  result: PathUncheckedResponse,
+): Promise<Assessment> {
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -214,7 +216,7 @@ export async function _createOrUpdateDeserialize(result: PathUncheckedResponse):
     throw error;
   }
 
-  return;
+  return assessmentDeserializer(result.body);
 }
 
 /** Create or update an Assessment. Long-running operation — returns 200 (replace) or 201 (create) with the `Azure-AsyncOperation` polling header on both responses. */
@@ -223,14 +225,14 @@ export function createOrUpdate(
   resourceUri: string,
   resource: Assessment,
   options: AssessmentsCreateOrUpdateOptionalParams = { requestOptions: {} },
-): PollerLike<OperationState<void>, void> {
+): PollerLike<OperationState<Assessment>, Assessment> {
   return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _createOrUpdateSend(context, resourceUri, resource, options),
     resourceLocationConfig: "azure-async-operation",
     apiVersion: context.apiVersion ?? "2026-03-17-preview",
-  }) as PollerLike<OperationState<void>, void>;
+  }) as PollerLike<OperationState<Assessment>, Assessment>;
 }
 
 export function _getSend(

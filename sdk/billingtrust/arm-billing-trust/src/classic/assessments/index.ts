@@ -42,7 +42,7 @@ export interface AssessmentsOperations {
     resourceUri: string,
     resource: Assessment,
     options?: AssessmentsCreateOrUpdateOptionalParams,
-  ) => PollerLike<OperationState<void>, void>;
+  ) => PollerLike<OperationState<Assessment>, Assessment>;
   /** Get a Assessment */
   get: (resourceUri: string, options?: AssessmentsGetOptionalParams) => Promise<Assessment>;
 }

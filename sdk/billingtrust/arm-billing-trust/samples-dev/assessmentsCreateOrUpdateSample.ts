@@ -13,7 +13,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function createOrUpdateTheEduAssessmentForAnEnrollment(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new BillingTrustClient(credential);
-  await client.assessments.createOrUpdate(
+  const result = await client.assessments.createOrUpdate(
     "subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/billing-edu-rg/providers/Microsoft.Program/educationEnrollments/default",
     {
       properties: {
@@ -32,6 +32,7 @@ async function createOrUpdateTheEduAssessmentForAnEnrollment(): Promise<void> {
       },
     },
   );
+  console.log(result);
 }
 
 /**
@@ -43,10 +44,11 @@ async function createOrUpdateTheEduAssessmentForAnEnrollment(): Promise<void> {
 async function createOrUpdateTheBusinessVerificationAssessmentForABillingAccount(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new BillingTrustClient(credential);
-  await client.assessments.createOrUpdate(
+  const result = await client.assessments.createOrUpdate(
     "providers/Microsoft.Billing/billingAccounts/abc123:00000000-0000-0000-0000-000000000000_2019-05-31",
     { properties: { assessmentType: "BusinessVerification" } },
   );
+  console.log(result);
 }
 
 /**
@@ -58,10 +60,11 @@ async function createOrUpdateTheBusinessVerificationAssessmentForABillingAccount
 async function createOrUpdateThePayeeEnrollmentAssessmentForABillingAccount(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new BillingTrustClient(credential);
-  await client.assessments.createOrUpdate(
+  const result = await client.assessments.createOrUpdate(
     "providers/Microsoft.Billing/billingAccounts/abc123:00000000-0000-0000-0000-000000000000_2019-05-31",
     { properties: { assessmentType: "PayeeEnrollment" } },
   );
+  console.log(result);
 }
 
 /**
@@ -73,10 +76,11 @@ async function createOrUpdateThePayeeEnrollmentAssessmentForABillingAccount(): P
 async function createOrUpdateThePayeeProfileAssessmentForABillingAccount(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const client = new BillingTrustClient(credential);
-  await client.assessments.createOrUpdate(
+  const result = await client.assessments.createOrUpdate(
     "providers/Microsoft.Billing/billingAccounts/abc123:00000000-0000-0000-0000-000000000000_2019-05-31",
     { properties: { assessmentType: "PayeeProfile" } },
   );
+  console.log(result);
 }
 
 async function main(): Promise<void> {

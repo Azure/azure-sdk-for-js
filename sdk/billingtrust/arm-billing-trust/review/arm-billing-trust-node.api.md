@@ -57,7 +57,7 @@ export interface AssessmentsListUploadTokenOptionalParams extends OperationOptio
 
 // @public
 export interface AssessmentsOperations {
-    createOrUpdate: (resourceUri: string, resource: Assessment, options?: AssessmentsCreateOrUpdateOptionalParams) => PollerLike<OperationState<void>, void>;
+    createOrUpdate: (resourceUri: string, resource: Assessment, options?: AssessmentsCreateOrUpdateOptionalParams) => PollerLike<OperationState<Assessment>, Assessment>;
     delete: (resourceUri: string, options?: AssessmentsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceUri: string, options?: AssessmentsGetOptionalParams) => Promise<Assessment>;
     list: (resourceUri: string, options?: AssessmentsListOptionalParams) => PagedAsyncIterableIterator<Assessment>;
