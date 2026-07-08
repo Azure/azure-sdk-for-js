@@ -2,15 +2,14 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Uses a BackupClient to backup and restore a specific key in Azure Key Vault using Azure Storage Blob.
+ * @summary Uses a BackupClient to backup and restore a specific key in an Azure Key Vault Managed HSM using Azure Storage Blob.
  */
 
 const { KeyVaultBackupClient } = require("@azure/keyvault-admin");
 const { KeyClient } = require("@azure/keyvault-keys");
 const { DefaultAzureCredential } = require("@azure/identity");
-
 // Load the .env file if it exists
-require("dotenv").config();
+require("dotenv/config");
 
 async function main() {
   // This sample uses DefaultAzureCredential, which supports a number of authentication mechanisms.
@@ -44,7 +43,7 @@ async function main() {
   const selectiveKeyRestorePoller = await client.beginSelectiveKeyRestore(
     key.name,
     backupResult.folderUri,
-    sasToken
+    sasToken,
   );
   const restoreResult = await selectiveKeyRestorePoller.pollUntilDone();
   console.log("restoreResult", restoreResult);

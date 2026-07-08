@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes the specified private endpoint connection associated with the container registry.
  *
  * @summary deletes the specified private endpoint connection associated with the container registry.
- * x-ms-original-file: 2026-01-01-preview/PrivateEndpointConnectionDelete.json
+ * x-ms-original-file: 2026-03-01-preview/PrivateEndpointConnectionDelete.json
  */
 async function privateEndpointConnectionDelete() {
   const credential = new DefaultAzureCredential();
