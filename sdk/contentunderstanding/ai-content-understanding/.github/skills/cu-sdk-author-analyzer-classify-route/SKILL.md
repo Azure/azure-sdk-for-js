@@ -284,11 +284,17 @@ pass. Two exceptions skip alias resolution:
     create-and-test-router --outer-schema .local_only/schemas/classifier.json --inner-schema invoice=.local_only/schemas/invoice.json --inner-schema bank_statement=.local_only/schemas/bank_statement.json --inner-schema loan_application=.local_only/schemas/loan_application.json --input samples/sample_files/mixed_financial_docs.pdf --output .local_only/test_results/v1)
 ```
 
-> **Shortcut — `--schema-dir`:** if your inner schema filenames match the
-> outer-schema category aliases (e.g. `.local_only/schemas/invoice_v1.json` for category
-> `invoice`), replace every `--inner-schema alias=path` with a single
-> `--schema-dir .local_only/schemas/`. The tool picks the newest matching file per
-> alias (alphabetical sort, so `invoice_v2.json` wins over `invoice_v1.json`).
+> **Shortcut — `--schema-dir`:** name each inner schema file
+> `<alias>.json` (bare) or `<alias>_<suffix>.json`, where `<alias>` is the
+> `analyzerId` value in the outer schema. Then replace every
+> `--inner-schema alias=path` with a single `--schema-dir .local_only/schemas/`.
+> The tool discovers a file per alias by matching stem `==` `<alias>` or
+> stem starts-with `<alias>_`, and picks the **highest-numbered version** —
+> `<alias>_v<N>.json` and `<alias>_<N>.json` sort by `N` as an integer, so
+> `invoice_v10.json` beats `invoice_v9.json` (previous alphabetical sort
+> silently picked v9 because `'1' < '9'` char-by-char). Non-numeric suffixes
+> (e.g. `invoice_draft.json`) fall back to lexicographic order and beat the
+> bare `invoice.json` baseline but lose to any versioned file.
 
 > **Iteration helper — `--reuse`:** add `--reuse` to name analyzers by a
 > sha1 of their schema (`<stem>_<hash[:8]>`) and skip creation when an

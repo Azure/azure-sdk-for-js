@@ -77,10 +77,10 @@ export async function runCreateAndTestRouter(args: string[]): Promise<number> {
     }
     // Read the outer schema so we know which aliases to look for. Matches
     // Python's `_discover_inner_from_dir` and .NET's `DiscoverInnerFromDir`:
-    // for every category whose `analyzerId` is a non-`prebuilt-*` string, find
-    // a file whose stem is exactly `<alias>` or starts with `<alias>_`, and
-    // pick the alphabetically-last match (so `invoice_v2.json` wins over
-    // `invoice_v1.json`).
+    // for every category whose `analyzerId` is a non-`prebuilt-*` string,
+    // find a file whose stem is exactly `<alias>` or starts with `<alias>_`,
+    // and pick the highest-numbered version (so `invoice_v10.json` wins
+    // over `invoice_v9.json`).
     let outerPreview: Record<string, unknown>;
     try {
       outerPreview = stripComments(JSON.parse(readFileSync(opts.outerSchema, "utf-8"))) as Record<
