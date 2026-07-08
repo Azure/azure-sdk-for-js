@@ -397,13 +397,15 @@ export class TableClient {
     return tracingClient.withSpan("TableClient.getEntity", options, async (updatedOptions) => {
       const { disableTypeConversion, queryOptions, ...getEntityOptions } = updatedOptions;
       const serializedQuery = serializeQueryOptions(queryOptions || {});
+      const restOptions = toRestOperationOptions(getEntityOptions);
       const entity = await this.table.queryEntityWithPartitionAndRowKey(
         this.tableName,
         encodePercent(escapeQuotes(partitionKey)),
         encodePercent(escapeQuotes(rowKey)),
         {
-          ...toRestOperationOptions(getEntityOptions),
+          ...restOptions,
           ...serializedQuery,
+          requestOptions: { ...restOptions.requestOptions, skipUrlEncoding: true },
         },
       );
       const tableEntity = deserialize<TableEntityResult<T>>(entity, disableTypeConversion ?? false);
@@ -637,13 +639,17 @@ export class TableClient {
     }
     return tracingClient.withSpan("TableClient.deleteEntity", options, async (updatedOptions) => {
       const { etag = "*", ...rest } = updatedOptions;
+      const restOptions = toRestOperationOptions(rest);
       const result = await _deleteEntitySend(
         this.context,
         this.tableName,
         etag,
         encodePercent(escapeQuotes(partitionKey)),
         encodePercent(escapeQuotes(rowKey)),
-        toRestOperationOptions(rest),
+        {
+          ...restOptions,
+          requestOptions: { ...restOptions.requestOptions, skipUrlEncoding: true },
+        },
       );
       await _deleteEntityDeserialize(result);
       return _deleteEntityDeserializeHeaders(result);
@@ -707,6 +713,8 @@ export class TableClient {
         const rowKey = encodePercent(escapeQuotes(entity.rowKey));
 
         const { etag = "*", ...updateEntityOptions } = updatedOptions || {};
+        const restOptions = toRestOperationOptions(updateEntityOptions);
+        const requestOptions = { ...restOptions.requestOptions, skipUrlEncoding: true };
         if (mode === "Merge") {
           const result = await _mergeEntitySend(
             this.context,
@@ -716,7 +724,8 @@ export class TableClient {
             {
               tableEntityProperties: serialize(entity),
               ifMatch: etag,
-              ...toRestOperationOptions(updateEntityOptions),
+              ...restOptions,
+              requestOptions,
             },
           );
           await _mergeEntityDeserialize(result);
@@ -731,7 +740,8 @@ export class TableClient {
             {
               tableEntityProperties: serialize(entity),
               ifMatch: etag,
-              ...toRestOperationOptions(updateEntityOptions),
+              ...restOptions,
+              requestOptions,
             },
           );
           await _updateEntityDeserialize(result);
@@ -800,6 +810,8 @@ export class TableClient {
         const partitionKey = encodePercent(escapeQuotes(entity.partitionKey));
         const rowKey = encodePercent(escapeQuotes(entity.rowKey));
 
+        const restOptions = toRestOperationOptions(updatedOptions);
+        const requestOptions = { ...restOptions.requestOptions, skipUrlEncoding: true };
         if (mode === "Merge") {
           const result = await _mergeEntitySend(
             this.context,
@@ -808,7 +820,8 @@ export class TableClient {
             rowKey,
             {
               tableEntityProperties: serialize(entity),
-              ...toRestOperationOptions(updatedOptions),
+              ...restOptions,
+              requestOptions,
             },
           );
           await _mergeEntityDeserialize(result);
@@ -823,7 +836,8 @@ export class TableClient {
             rowKey,
             {
               tableEntityProperties: serialize(entity),
-              ...toRestOperationOptions(updatedOptions),
+              ...restOptions,
+              requestOptions,
             },
           );
           await _updateEntityDeserialize(result);
