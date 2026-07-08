@@ -129,7 +129,7 @@ Post this comment and stop:
 ## Next Steps to Merge
 ✅ All CI checks have passed — this PR is ready for review!
 
-An SDK reviewer will take a look shortly. Once it's approved, you can go ahead and merge it. To make things easier, feel free to [enable auto-merge](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/incorporating-changes-from-a-pull-request/automatically-merging-a-pull-request) so it merges on its own right after approval.
+The SDK engineer will review this PR shortly. Once it's approved, you can go ahead and merge it. To make things easier, feel free to [enable auto-merge](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/incorporating-changes-from-a-pull-request/automatically-merging-a-pull-request) so it gets auto merged right after approval.
 
 For more details, see the [management SDK release process](https://eng.ms/docs/products/azure-developer-experience/plan/mgmt-sdk-release-process).
 ```
