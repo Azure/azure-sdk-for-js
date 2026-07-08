@@ -21,24 +21,6 @@ export interface CassandraClustersDeallocateOptionalParams extends OperationOpti
 }
 
 /** Optional parameters. */
-export interface CassandraClustersGetBackupOptionalParams extends OperationOptions {}
-
-/** Optional parameters. */
-export interface CassandraClustersListBackupsOptionalParams extends OperationOptions {}
-
-/** Optional parameters. */
-export interface CassandraClustersGetCommandAsyncOptionalParams extends OperationOptions {}
-
-/** Optional parameters. */
-export interface CassandraClustersListCommandOptionalParams extends OperationOptions {}
-
-/** Optional parameters. */
-export interface CassandraClustersInvokeCommandAsyncOptionalParams extends OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-}
-
-/** Optional parameters. */
 export interface CassandraClustersInvokeCommandOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;

@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cosmosdb/arm-cosmosdb)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-cosmosdb)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-cosmosdb?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-cosmosdb)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cosmosdb/arm-cosmosdb/samples)
 
 ## Getting started
