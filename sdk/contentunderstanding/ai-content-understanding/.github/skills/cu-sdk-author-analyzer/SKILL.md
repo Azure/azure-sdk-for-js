@@ -84,8 +84,7 @@ sdk/contentunderstanding/ai-content-understanding
 ```
 .github/skills/
 ├── _shared/
-│   ├── package.json            # Single tool project — three subcommands
-│   ├── package.json                # Skill tool package
+│   ├── package.json.template   # Tracked manifest; copied to package.json on install
 │   ├── tsconfig.json
 │   └── src/
 │       ├── cli.ts                  # Dispatcher (extract-layout | create-and-test | create-and-test-router)
@@ -286,7 +285,7 @@ For each input document the script writes two files into `--output`:
 
 - `<doc>.json` — full per-document `AnalysisResult` (fields, grounding, confidences).
 - `<doc>.llm.md` — same result rendered via the SDK's
-  [`AnalysisResultExtensions.ToLlmInput`](../../../samples/) helper:
+  [`toLlmInput`](../../../samples-dev/toLlmInput.ts) helper:
   YAML front matter (category, page range, fields) plus the document text.
   Drop this straight into an LLM prompt, or skim it in VS Code for a fast
   human review.

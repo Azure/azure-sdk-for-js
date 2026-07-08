@@ -54,18 +54,19 @@ or `az login`), and the model defaults configured for this resource (see
 > az account show >/dev/null 2>&1 && echo 'az: ok' || echo 'az: not logged in'
 > ```
 >
-> | Failure | Route to |
-> |---|---|
-> | `node: MISSING` | install Node.js 18+ from https://nodejs.org |
-> | `npm: MISSING` | install npm (bundled with Node.js) |
-> | endpoint `MISSING` | create or edit `.env` with `CONTENTUNDERSTANDING_ENDPOINT=https://<your-resource>.services.ai.azure.com/`, then resume |
-> | endpoint `ok`, key `empty`, `az: not logged in` | run `az login` **or** add `CONTENTUNDERSTANDING_KEY` to `.env`, then resume |
-> | All env checks pass but service calls fail with model errors | run [`updateDefaults.ts`](../../../samples-dev/updateDefaults.ts) once for this resource, then resume |
-> | All ok | ✅ Proceed to the Packet check below. |
+> | Failure                                                      | Route to                                                                                                               |
+> | ------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------- |
+> | `node: MISSING`                                              | install Node.js 18+ from https://nodejs.org                                                                            |
+> | `npm: MISSING`                                               | install npm (bundled with Node.js)                                                                                     |
+> | endpoint `MISSING`                                           | create or edit `.env` with `CONTENTUNDERSTANDING_ENDPOINT=https://<your-resource>.services.ai.azure.com/`, then resume |
+> | endpoint `ok`, key `empty`, `az: not logged in`              | run `az login` **or** add `CONTENTUNDERSTANDING_KEY` to `.env`, then resume                                            |
+> | All env checks pass but service calls fail with model errors | run [`updateDefaults.ts`](../../../samples-dev/updateDefaults.ts) once for this resource, then resume                  |
+> | All ok                                                       | ✅ Proceed to the Packet check below.                                                                                  |
 >
 > Never ask the user to paste an endpoint or API key into chat — they edit `.env` directly or run `az login`.
 
 > **[ASK USER] Packet check:**
+>
 > 1. "Does each document in your packet contain more than one type of form (e.g. an invoice page followed by a bank statement page)?" — if no, route to `cu-sdk-author-analyzer`.
 > 2. "What types of documents appear in your packets?" — capture as the list of inner analyzers.
 
@@ -151,11 +152,11 @@ packet to see the section headings:
 >
 > > "Based on the layout in `<packet>.layout.md` I see these document types:
 > >
-> > - **Pages 1–2** — appears to be an *invoice* (top heading 'Invoice',
+> > - **Pages 1–2** — appears to be an _invoice_ (top heading 'Invoice',
 > >   contains 'Invoice #' label and a line-item table)
-> > - **Pages 3–4** — appears to be a *bank statement* (top heading
+> > - **Pages 3–4** — appears to be a _bank statement_ (top heading
 > >   'Account Statement', contains account number and a transaction table)
-> > - **Page 5** — appears to be a *loan application* (top heading 'Loan
+> > - **Page 5** — appears to be a _loan application_ (top heading 'Loan
 > >   Application', applicant fields)
 > >
 > > Does this look right? Anything to add, remove, or rename before I
@@ -208,6 +209,7 @@ cp sdk/contentunderstanding/ai-content-understanding/.github/skills/cu-sdk-autho
 Example after editing (descriptions intentionally generic so they survive
 minor wording variants — see the **Category description rule** below the
 example for guidance on writing your own):
+
 ```json
 {
   "baseAnalyzerId": "prebuilt-document",
@@ -241,10 +243,10 @@ The `analyzerId` value in each category is **an alias** that the tool
 resolves at runtime, matching the `--inner-schema alias=path` flags you
 pass. Two exceptions skip alias resolution:
 
-* Values starting with `prebuilt-` (e.g. `prebuilt-invoice`) are used as-is
+- Values starting with `prebuilt-` (e.g. `prebuilt-invoice`) are used as-is
   — no inner schema needed. Useful for routing a category at a service
   prebuilt extractor.
-* Categories without an `analyzerId` at all are classification-only — the
+- Categories without an `analyzerId` at all are classification-only — the
   segment is labelled but no fields are extracted.
 
 > **Why `omitContent: true`?** When omitted, the service also returns the
@@ -264,7 +266,7 @@ pass. Two exceptions skip alias resolution:
 >
 > Keep descriptions:
 >
-> - **Generic over surface form** — describe the *kind* of content
+> - **Generic over surface form** — describe the _kind_ of content
 >   ("contains a transaction table with running balance") rather than
 >   hardcoding one specific header string, so minor wording variants still
 >   classify correctly.
@@ -344,7 +346,7 @@ For each input document the tool writes two files into `--output`:
 
 - `<doc>.json` — full `AnalysisResult` with all per-segment fields and grounding.
 - `<doc>.llm.md` — the same result rendered via the SDK's
-  [`AnalysisResultExtensions.ToLlmInput`](../../../samples/) helper.
+  [`toLlmInput`](../../../samples-dev/toLlmInput.ts) helper.
   For classify-and-route, the helper expands each classified segment into
   its own block with the **category in the YAML front matter**, separated by
   `*****` dividers — drop it into an LLM prompt or skim it in VS Code.
@@ -392,7 +394,12 @@ For each input document the tool writes two files into `--output`:
 >    correct answers across iterations:
 >    ```json
 >    [
->      { "doc": "mixed_packet_1.pdf", "segment": 0, "field": "TotalAmount", "correct_value": "1234.56" }
+>      {
+>        "doc": "mixed_packet_1.pdf",
+>        "segment": 0,
+>        "field": "TotalAmount",
+>        "correct_value": "1234.56"
+>      }
 >    ]
 >    ```
 > 5. Update the affected schema(s) — outer classifier for classification
@@ -466,11 +473,11 @@ delete all of them at the end of the run.
 
 ## Exit codes
 
-| Code | Meaning |
-|---|---|
-| `0` | Every document analyzed successfully. |
-| `1` | At least one service-side failure. |
-| `2` | Local user error — schema validation, missing inner alias, bad path. No service call made. |
+| Code | Meaning                                                                                    |
+| ---- | ------------------------------------------------------------------------------------------ |
+| `0`  | Every document analyzed successfully.                                                      |
+| `1`  | At least one service-side failure.                                                         |
+| `2`  | Local user error — schema validation, missing inner alias, bad path. No service call made. |
 
 ## Related skills
 
