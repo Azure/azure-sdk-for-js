@@ -40,6 +40,9 @@
     "updateChangelogContentScript": {
       "path": "./eng/scripts/update-changelog-content.ps1"
     },
+    "getSDKChangesScript": {
+      "path": "./eng/scripts/get-sdk-changes.ps1"
+    },
     "updateVersionScript": {
       "path": "./eng/scripts/update-version.ps1"
     },

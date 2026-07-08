@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the properties of the import pipeline.
  *
  * @summary gets the properties of the import pipeline.
- * x-ms-original-file: 2026-01-01-preview/ImportPipelineGet.json
+ * x-ms-original-file: 2026-03-01-preview/ImportPipelineGet.json
  */
 async function importPipelineGet() {
   const credential = new DefaultAzureCredential();

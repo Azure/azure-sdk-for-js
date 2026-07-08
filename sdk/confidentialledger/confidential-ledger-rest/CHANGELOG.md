@@ -1,5 +1,20 @@
 # Release History
 
+## 2.0.0-beta.1 (Unreleased)
+
+### Features Added
+
+- Regenerated SDK from TypeSpec specification targeting stable API version 2026-02-23
+- Added Tags API support (ListTags)
+- Added UserDefinedRole and UserDefinedRoles types for role management
+- Added Stable-suffixed operation variants for user-defined endpoints and functions
+
+### Breaking Changes
+
+- Renamed JSRuntimeOptions to JsRuntimeOptions
+- Changed some enum types to extensible string types (e.g., ApplicationClaimKindOutput, ConfidentialLedgerQueryStateOutput)
+- Client constructor now uses a 2-parameter signature (endpoint, options) with credential passed through options
+- Removed CreateLedgerEntryMediaTypesParam (content type now inferred)
 ## 1.1.2-beta.6 (2026-06-05)
 
 ### Bugs Fixed

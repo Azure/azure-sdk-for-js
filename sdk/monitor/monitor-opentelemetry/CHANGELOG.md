@@ -1,10 +1,6 @@
 # Release History
 
-## 1.18.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 1.18.2 (2026-07-01)
 
 ### Bugs Fixed
 
@@ -14,6 +10,8 @@
 - Hardened Live Metrics (QuickPulse) redirect handling so a `x-ms-qps-service-endpoint-redirect-v2` header is only followed when the target host matches the configured endpoint or a known Azure Monitor ingestion domain. This prevents an attacker-controlled redirect from causing the bearer auth token (and telemetry body) to be sent to an untrusted host.
 
 ### Other Changes
+
+- Updated to using exporter version 1.0.0-beta.43.
 
 ## 1.18.1 (2026-05-29)
 

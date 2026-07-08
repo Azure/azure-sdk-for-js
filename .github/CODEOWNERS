@@ -452,7 +452,7 @@
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/containerinstance/arm-containerinstance/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/containerregistry/arm-containerregistry/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
@@ -782,7 +782,7 @@
 # PRLabel: %Mgmt
 /sdk/nginx/arm-nginx/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/network/arm-network/      @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -1685,6 +1685,9 @@ sdk/napsteromniagentapi/arm-napsteromniagentapi/ @qiaozha @MaryGao @JialinHuang8
 # PRLabel: %Mgmt %mgmt-review-needed
 sdk/programenrollment/arm-programenrollment/ @qiaozha @MaryGao @JialinHuang803
 sdk/resiliencemanagement/arm-resiliencemanagement/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt %mgmt-review-needed
+sdk/commvaultcontentstore/arm-commvaultcontentstore/ @qiaozha @MaryGao @JialinHuang803
 
 ###########
 # Config

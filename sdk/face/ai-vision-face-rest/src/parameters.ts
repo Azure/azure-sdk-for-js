@@ -158,8 +158,7 @@ export interface DetectFromSessionImageIdQueryParamProperties {
   returnFaceId?: boolean;
   /** Analyze and return the one or more specified face attributes in the comma-separated string like 'returnFaceAttributes=headPose,glasses'. Face attribute analysis has additional computational and time cost. */
   returnFaceAttributes?:
-    | FaceAttributeType[]
-    | DetectFromSessionImageIdReturnFaceAttributesQueryParam;
+    FaceAttributeType[] | DetectFromSessionImageIdReturnFaceAttributesQueryParam;
   /** Return face landmarks of the detected faces or not. The default value is false. */
   returnFaceLandmarks?: boolean;
   /** Return 'recognitionModel' or not. The default value is false. This is only applicable when returnFaceId = true. */

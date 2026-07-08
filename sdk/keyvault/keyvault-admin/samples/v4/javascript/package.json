@@ -33,7 +33,11 @@
   "dependencies": {
     "@azure/keyvault-admin": "latest",
     "dotenv": "latest",
-    "@azure/identity": "^4.2.1",
-    "@azure/keyvault-keys": "^4.2.1"
+    "@azure/identity": "^4.13.0",
+    "@azure/core-util": "^1.11.0",
+    "@azure/keyvault-keys": "^4.9.0"
+  },
+  "devDependencies": {
+    "cross-env": "latest"
   }
 }
