@@ -855,14 +855,13 @@ export type SearchPick<TModel extends object, TFields extends SelectFields<TMode
                             // This empty intersection fixes `T[Key]` not being narrowed to an object type in older versions of TS
                           }
                         >
-                          ?
-                              | SearchPick<
-                                  TModel[Key] & {
-                                    // Ditto
-                                  },
-                                  RestPaths
-                                >
-                              | Extract<TModel[Key], null>
+                          ? | SearchPick<
+                                TModel[Key] & {
+                                  // Ditto
+                                },
+                                RestPaths
+                              >
+                            | Extract<TModel[Key], null>
                           : // Unreachable by construction
                             never;
                       }

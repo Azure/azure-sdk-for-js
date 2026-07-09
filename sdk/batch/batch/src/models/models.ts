@@ -534,9 +534,7 @@ export function batchVmDiskSecurityProfileDeserializer(item: any): BatchVmDiskSe
 
 /** SecurityEncryptionTypes enums */
 export type SecurityEncryptionTypes =
-  | "DiskWithVMGuestState"
-  | "NonPersistedTPM"
-  | "VMGuestStateOnly";
+  "DiskWithVMGuestState" | "NonPersistedTPM" | "VMGuestStateOnly";
 
 /** The configuration for container-enabled Pools. */
 export interface BatchContainerConfiguration {
@@ -1461,12 +1459,7 @@ export function containerHostBatchBindMountEntryDeserializer(
 
 /** The paths which will be mounted to container task's container. */
 export type ContainerHostDataPath =
-  | "Shared"
-  | "Startup"
-  | "VfsMounts"
-  | "Task"
-  | "JobPrep"
-  | "Applications";
+  "Shared" | "Startup" | "VfsMounts" | "Task" | "JobPrep" | "Applications";
 
 export function resourceFileArraySerializer(result: Array<ResourceFile>): any[] {
   return result.map((item) => {
@@ -2613,10 +2606,7 @@ export function batchPoolResizeOptionsSerializer(item: BatchPoolResizeOptions): 
 
 /** BatchNodeDeallocationOption enums */
 export type BatchNodeDeallocationOption =
-  | "requeue"
-  | "terminate"
-  | "taskcompletion"
-  | "retaineddata";
+  "requeue" | "terminate" | "taskcompletion" | "retaineddata";
 
 /** Parameters for replacing properties on an Azure Batch Pool. */
 export interface BatchPoolReplaceOptions {
@@ -2950,13 +2940,7 @@ export function batchJobDeserializer(item: any): BatchJob {
 
 /** BatchJobState enums */
 export type BatchJobState =
-  | "active"
-  | "disabling"
-  | "disabled"
-  | "enabling"
-  | "terminating"
-  | "completed"
-  | "deleting";
+  "active" | "disabling" | "disabled" | "enabling" | "terminating" | "completed" | "deleting";
 
 /** The execution constraints for a Job. */
 export interface BatchJobConstraints {
@@ -4291,11 +4275,7 @@ export function batchJobScheduleDeserializer(item: any): BatchJobSchedule {
 
 /** BatchJobScheduleState enums */
 export type BatchJobScheduleState =
-  | "active"
-  | "completed"
-  | "disabled"
-  | "terminating"
-  | "deleting";
+  "active" | "completed" | "disabled" | "terminating" | "deleting";
 
 /**
  * The schedule according to which Jobs will be created. All times are fixed

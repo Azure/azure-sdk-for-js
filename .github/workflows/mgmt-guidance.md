@@ -17,9 +17,9 @@ on:
   # env: vars in steps use the full GitHub Actions expression context —
   # gh-aw's expression allowlist only restricts frontmatter YAML field values.
   steps:
-    - name: Gate — verify CI complete and PR has mgmt-review-added label
+    - name: Gate — verify CI complete and PR is a mgmt PR
       id: gate
-      uses: actions/github-script@v8
+      uses: actions/github-script@v9
       env:
         CHECK_SUITE_APP: ${{ github.event.check_suite.app.name }}
         HEAD_SHA: ${{ github.event.check_suite.head_sha }}
@@ -50,16 +50,21 @@ on:
             return;
           }
 
-          // Filter to mgmt PRs only: must have 'mgmt-review-added' label,
-          // which is set exclusively by the mgmt-review agent after it completes.
+          // Filter to mgmt PRs: a PR qualifies only if it carries the 'Mgmt'
+          // label (applied automatically by the path-based labeler on
+          // sdk/*/arm-* changes) and its title contains 'AutoPR' — AutoPR PRs
+          // can also be generated for data-plane, so the title alone is not enough.
+          // Fully decoupled from the mgmt-review flow — guidance fires once CI
+          // completes, regardless of review state.
           const { data: pr } = await github.rest.pulls.get({
             owner: context.repo.owner,
             repo:  context.repo.repo,
             pull_number: prNum,
           });
           const labels = (pr.labels || []).map(l => l.name);
-          if (!labels.includes('mgmt-review-added')) {
-            core.info(`PR #${prNum} does not have 'mgmt-review-added' label (${labels.join(', ') || 'none'}) — not a mgmt PR or review not yet complete.`);
+          const isMgmtPr = labels.includes('Mgmt') && (pr.title || '').includes('AutoPR');
+          if (!isMgmtPr) {
+            core.info(`PR #${prNum} is not a mgmt PR (labels: ${labels.join(', ') || 'none'}; title: ${pr.title || ''}) — skipping.`);
             core.setOutput('ready', 'false');
             return;
           }
@@ -85,6 +90,7 @@ permissions:
   contents: read
   pull-requests: read
   actions: read
+  copilot-requests: write
 strict: false
 network:
   allowed:
@@ -121,7 +127,11 @@ Fetch the PR using the GitHub API. If `mergeable_state == "clean"` and no check 
 Post this comment and stop:
 ```markdown
 ## Next Steps to Merge
-No further action is required from the service team. The SDK PR reviewer will handle the review and merge of this PR.
+✅ All CI checks have passed — this PR is ready for review!
+
+The SDK engineer will review this PR shortly. Once it's approved, you can go ahead and merge it. To make things easier, feel free to [enable auto-merge](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/incorporating-changes-from-a-pull-request/automatically-merging-a-pull-request) so it gets auto merged right after approval.
+
+For more details, see the [management SDK release process](https://eng.ms/docs/products/azure-developer-experience/plan/mgmt-sdk-release-process).
 ```
 
 ## Step 2. Diagnose blocking items
@@ -173,4 +183,6 @@ Only failed checks and required actions are listed below.
 - ❌ <failed check name>: <short reason>. Action: <specific fix>. Review [ADO logs](<real target_url>).
 - ❌ Check-format: code not formatted. Action: Run `cd <package-dir> && pnpm format`, then commit and push. Review [ADO logs](<target_url>).
 - 🔄 pnpm-lock conflict: merge conflict in pnpm-lock.yaml. Follow the [conflict guide](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/resolve-pnpm-lock-merge-conflict.md).
+
+Need a hand? Feel free to ask in the [Language – JS & TS 🥷 Teams channel](https://teams.microsoft.com/l/channel/19%3A344f6b5b36ba414daa15473942c7477b%40thread.skype/Language%20%E2%80%93%20JS%E2%80%89%EF%BC%86%E2%80%89TS%20%F0%9F%A5%B7?groupId=3e17dcb0-4257-4a30-b843-77f47f1d4121&tenantId=72f988bf-86f1-41af-91ab-2d7cd011db47) — we're happy to help.
 ```

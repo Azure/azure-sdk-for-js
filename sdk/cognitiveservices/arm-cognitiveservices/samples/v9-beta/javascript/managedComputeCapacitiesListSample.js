@@ -10,7 +10,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  *
  * @summary gets the managed compute capacities for a subscription. Returns available capacity
  * per accelerator type, including deployment size information.
- * x-ms-original-file: 2026-03-15-preview/ListManagedComputeCapacities.json
+ * x-ms-original-file: 2026-05-15-preview/ListManagedComputeCapacities.json
  */
 async function listManagedComputeCapacities() {
   const credential = new DefaultAzureCredential();

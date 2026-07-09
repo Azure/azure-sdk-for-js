@@ -1,9 +1,9 @@
 {
   "name": "@azure/arm-imagebuilder",
-  "version": "5.0.0",
+  "version": "5.0.1",
   "description": "A generated SDK for ImageBuilderClient.",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "sideEffects": false,
   "autoPublish": false,

@@ -7,6 +7,7 @@
 import type { Client } from '@azure-rest/core-client';
 import type { ClientOptions } from '@azure-rest/core-client';
 import type { HttpResponse } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { KeyCredential } from '@azure/core-auth';
 import type { OperationState } from '@azure/core-lro';
 import type { PathUncheckedResponse } from '@azure-rest/core-client';
@@ -14,6 +15,7 @@ import type { PollerLike } from '@azure/core-lro';
 import type { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import type { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
 import type { RequestParameters } from '@azure-rest/core-client';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { StreamableMethod } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
 
@@ -1907,6 +1909,8 @@ export interface GetResourceDetailsDefaultResponse extends HttpResponse {
 // @public (undocumented)
 export type GetResourceDetailsParameters = RequestParameters;
 
+export { isRestError }
+
 // @public (undocumented)
 export function isUnexpected(response: ListOperations200Response | ListOperationsDefaultResponse): response is ListOperationsDefaultResponse;
 
@@ -2252,6 +2256,8 @@ export function parseResultIdFromResponse(initialResponse: {
         "operation-location": string;
     };
 }): string;
+
+export { RestError }
 
 // @public (undocumented)
 export interface Routes {

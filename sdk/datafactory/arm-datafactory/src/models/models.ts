@@ -480,9 +480,7 @@ export function factoryRepoConfigurationDeserializer(item: any): FactoryRepoConf
 
 /** Alias for FactoryRepoConfigurationUnion */
 export type FactoryRepoConfigurationUnion =
-  | FactoryVstsConfiguration
-  | FactoryGitHubConfiguration
-  | FactoryRepoConfiguration;
+  FactoryVstsConfiguration | FactoryGitHubConfiguration | FactoryRepoConfiguration;
 
 export function factoryRepoConfigurationUnionSerializer(item: FactoryRepoConfigurationUnion): any {
   switch (item.type) {
@@ -1761,11 +1759,7 @@ export function multiplePipelineTriggerDeserializer(item: any): MultiplePipeline
 
 /** Alias for MultiplePipelineTriggerUnion */
 export type MultiplePipelineTriggerUnion =
-  | ScheduleTrigger
-  | BlobTrigger
-  | BlobEventsTrigger
-  | CustomEventsTrigger
-  | MultiplePipelineTrigger;
+  ScheduleTrigger | BlobTrigger | BlobEventsTrigger | CustomEventsTrigger | MultiplePipelineTrigger;
 
 export function multiplePipelineTriggerUnionSerializer(item: MultiplePipelineTriggerUnion): any {
   switch (item.type) {
@@ -2122,13 +2116,7 @@ export function recurrenceScheduleDeserializer(item: any): RecurrenceSchedule {
 
 /** Type of DaysOfWeek */
 export type DaysOfWeek =
-  | "Sunday"
-  | "Monday"
-  | "Tuesday"
-  | "Wednesday"
-  | "Thursday"
-  | "Friday"
-  | "Saturday";
+  "Sunday" | "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday";
 
 export function recurrenceScheduleOccurrenceArraySerializer(
   result: Array<RecurrenceScheduleOccurrence>,
@@ -2174,13 +2162,7 @@ export function recurrenceScheduleOccurrenceDeserializer(item: any): RecurrenceS
 
 /** The days of the week. */
 export type DayOfWeek =
-  | "Sunday"
-  | "Monday"
-  | "Tuesday"
-  | "Wednesday"
-  | "Thursday"
-  | "Friday"
-  | "Saturday";
+  "Sunday" | "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday";
 
 /** Trigger that runs every time the selected Blob container changes. */
 export interface BlobTrigger extends MultiplePipelineTrigger {
@@ -2766,8 +2748,7 @@ export function triggerDependencyReferenceDeserializer(item: any): TriggerDepend
 
 /** Alias for TriggerDependencyReferenceUnion */
 export type TriggerDependencyReferenceUnion =
-  | TumblingWindowTriggerDependencyReference
-  | TriggerDependencyReference;
+  TumblingWindowTriggerDependencyReference | TriggerDependencyReference;
 
 export function triggerDependencyReferenceUnionSerializer(
   item: TriggerDependencyReferenceUnion,
@@ -3367,9 +3348,7 @@ export function integrationRuntimeDeserializer(item: any): IntegrationRuntime {
 
 /** Alias for IntegrationRuntimeUnion */
 export type IntegrationRuntimeUnion =
-  | ManagedIntegrationRuntime
-  | SelfHostedIntegrationRuntime
-  | IntegrationRuntime;
+  ManagedIntegrationRuntime | SelfHostedIntegrationRuntime | IntegrationRuntime;
 
 export function integrationRuntimeUnionSerializer(item: IntegrationRuntimeUnion): any {
   switch (item.type) {
@@ -4219,11 +4198,7 @@ export function customSetupBaseDeserializer(item: any): CustomSetupBase {
 
 /** Alias for CustomSetupBaseUnion */
 export type CustomSetupBaseUnion =
-  | CmdkeySetup
-  | EnvironmentVariableSetup
-  | ComponentSetup
-  | AzPowerShellSetup
-  | CustomSetupBase;
+  CmdkeySetup | EnvironmentVariableSetup | ComponentSetup | AzPowerShellSetup | CustomSetupBase;
 
 export function customSetupBaseUnionSerializer(item: CustomSetupBaseUnion): any {
   switch (item.type) {
@@ -6835,12 +6810,7 @@ export function datasetStorageFormatDeserializer(item: any): DatasetStorageForma
 
 /** Alias for DatasetStorageFormatUnion */
 export type DatasetStorageFormatUnion =
-  | TextFormat
-  | JsonFormat
-  | AvroFormat
-  | OrcFormat
-  | ParquetFormat
-  | DatasetStorageFormat;
+  TextFormat | JsonFormat | AvroFormat | OrcFormat | ParquetFormat | DatasetStorageFormat;
 
 export function datasetStorageFormatUnionSerializer(item: DatasetStorageFormatUnion): any {
   switch (item.type) {
@@ -35496,9 +35466,7 @@ export function integrationRuntimeStatusDeserializer(item: any): IntegrationRunt
 
 /** Alias for IntegrationRuntimeStatusUnion */
 export type IntegrationRuntimeStatusUnion =
-  | ManagedIntegrationRuntimeStatus
-  | SelfHostedIntegrationRuntimeStatus
-  | IntegrationRuntimeStatus;
+  ManagedIntegrationRuntimeStatus | SelfHostedIntegrationRuntimeStatus | IntegrationRuntimeStatus;
 
 export function integrationRuntimeStatusUnionDeserializer(
   item: any,
@@ -36431,11 +36399,7 @@ export function ssisObjectMetadataDeserializer(item: any): SsisObjectMetadata {
 
 /** Alias for SsisObjectMetadataUnion */
 export type SsisObjectMetadataUnion =
-  | SsisFolder
-  | SsisProject
-  | SsisPackage
-  | SsisEnvironment
-  | SsisObjectMetadata;
+  SsisFolder | SsisProject | SsisPackage | SsisEnvironment | SsisObjectMetadata;
 
 export function ssisObjectMetadataUnionDeserializer(item: any): SsisObjectMetadataUnion {
   switch (item["type"]) {
@@ -37053,10 +37017,7 @@ export function activityDeserializer(item: any): Activity {
 
 /** Alias for ActivityUnion */
 export type ActivityUnion =
-  | ControlActivityUnion
-  | ExecutionActivityUnion
-  | ExecuteWranglingDataflowActivity
-  | Activity;
+  ControlActivityUnion | ExecutionActivityUnion | ExecuteWranglingDataflowActivity | Activity;
 
 export function activityUnionSerializer(item: ActivityUnion): any {
   switch (item.type) {
@@ -41178,10 +41139,7 @@ export function compressionReadSettingsDeserializer(item: any): CompressionReadS
 
 /** Alias for CompressionReadSettingsUnion */
 export type CompressionReadSettingsUnion =
-  | ZipDeflateReadSettings
-  | TarReadSettings
-  | TarGZipReadSettings
-  | CompressionReadSettings;
+  ZipDeflateReadSettings | TarReadSettings | TarGZipReadSettings | CompressionReadSettings;
 
 export function compressionReadSettingsUnionSerializer(item: CompressionReadSettingsUnion): any {
   switch (item.type) {
@@ -56760,9 +56718,7 @@ export function exportSettingsDeserializer(item: any): ExportSettings {
 
 /** Alias for ExportSettingsUnion */
 export type ExportSettingsUnion =
-  | SnowflakeExportCopyCommand
-  | AzureDatabricksDeltaLakeExportCommand
-  | ExportSettings;
+  SnowflakeExportCopyCommand | AzureDatabricksDeltaLakeExportCommand | ExportSettings;
 
 export function exportSettingsUnionSerializer(item: ExportSettingsUnion): any {
   switch (item.type) {

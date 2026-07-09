@@ -49,6 +49,29 @@ describe("snippets", () => {
     await client.sendToGroup(groupName, "hello world", "text");
   });
 
+  it("ReadmeSampleGroupState", async () => {
+    const client = new WebPubSubClient("<client-access-url>");
+    await client.start();
+    // @ts-preserve-whitespace
+    const groupName = "group1";
+    await client.joinGroup(groupName);
+    // @ts-preserve-whitespace
+    await client.setGroupState(groupName, { status: "typing" });
+    const ownState = client.getGroupState(groupName);
+    console.log(`Own status: ${ownState?.status}`);
+    // @ts-preserve-whitespace
+    client.on("group-states-changed", (e) => {
+      if (e.group === groupName) {
+        const members = client.listGroupStates(groupName);
+        console.log(`Tracked state records: ${members.length}`);
+      }
+    });
+    // @ts-preserve-whitespace
+    await client.subscribeGroupStates(groupName);
+    await client.clearGroupState(groupName);
+    await client.unsubscribeGroupStates(groupName);
+  });
+
   it("ReadmeSampleInvokeEvent", async () => {
     const client = new WebPubSubClient("<client-access-url>");
     await client.start();
@@ -60,16 +83,18 @@ describe("snippets", () => {
   it("ReadmeSampleStreaming", async () => {
     const client = new WebPubSubClient("<client-access-url>");
     // @ts-preserve-whitespace
-    // Receiving side: register a factory invoked once per inbound stream. The returned
-    // handler consumes that single stream. Option effects apply independently per stream.
+    // Receiving side: subscribe once, then consume each inbound stream with for-await.
     client.onGroupStream(
-      (stream) => {
+      async (stream) => {
         const parts: string[] = [];
-        return {
-          onMessage: (e) => parts.push(e.data as string),
-          onComplete: () => console.log(`Stream ${stream.streamId} completed: ${parts.join("")}`),
-          onError: (e) => console.log(`Stream ${stream.streamId} failed: ${e.error?.name}`),
-        };
+        try {
+          for await (const message of stream) {
+            parts.push(message.data as string);
+          }
+          console.log(`Stream ${stream.streamId} completed: ${parts.join("")}`);
+        } catch (err) {
+          console.log(`Stream ${stream.streamId} failed: ${(err as { name?: string }).name}`);
+        }
       },
       { handleFromStart: true },
     );
@@ -94,7 +119,7 @@ describe("snippets", () => {
     const serviceClient = new WebPubSubServiceClient("<web-pubsub-connectionstring>", hubName);
     // @ts-preserve-whitespace
     // Note that the token allows the client to join and send messages to any groups. It is specified with the "roles" option.
-    app.get("/negotiate", async (req, res) => {
+    app.get("/negotiate", async (_req: unknown, res: { json: (body: { url: string }) => void }) => {
       const token = await serviceClient.getClientAccessToken({
         roles: ["webpubsub.joinLeaveGroup", "webpubsub.sendToGroup"],
       });
@@ -112,7 +137,7 @@ describe("snippets", () => {
     const client = new WebPubSubClient({
       getClientAccessUrl: async () => {
         const negotiate = await fetch("/negotiate");
-        const { url } = await negotiate.json();
+        const { url } = (await negotiate.json()) as { url: string };
         return url;
       },
     });
@@ -139,7 +164,7 @@ describe("snippets", () => {
     try {
       await client.joinGroup(groupName);
     } catch (err) {
-      let id = null;
+      let id: number | undefined;
       if (err instanceof SendMessageError) {
         id = err.ackId;
       }

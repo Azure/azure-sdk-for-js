@@ -127,7 +127,7 @@
 
 # ServiceLabel: %Communication - Common
 # PRLabel: %Communication - Common
-/sdk/communication/communication-common/    @anjulgarg @Joeleniqs @alvinjiang-msft
+/sdk/communication/communication-common/    @anjulgarg @Joeleniqs @tsohoni-msft @JohnRFraser @alvinjiang-msft @jorge-beauregard @preetkaran20
 
 # ServiceLabel: %Communication - Email
 # PRLabel: %Communication - Email
@@ -135,7 +135,7 @@
 
 # ServiceLabel: %Communication - Identity
 # PRLabel: %Communication - Identity
-/sdk/communication/communication-identity/    @anjulgarg @Joeleniqs @alvinjiang-msft
+/sdk/communication/communication-identity/    @anjulgarg @Joeleniqs @tsohoni-msft @JohnRFraser @alvinjiang-msft @jorge-beauregard @preetkaran20
 
 # ServiceLabel: %Communication - Job Router
 # PRLabel: %Communication - Job Router
@@ -298,7 +298,7 @@
 
 # ServiceLabel: %Storage
 # PRLabel: %Storage
-/sdk/storage/    @blueww @EmmaZhu @jiacfan @ljian3377 @vinjiang @XiaoningLiu @jainakanksha-msft @aanubhav-msft
+/sdk/storage/    @blueww @EmmaZhu @jiacfan @ljian3377 @vinjiang @XiaoningLiu @jainakanksha-msft @aanubhav-msft @syeleti-msft @souravgupta-msft @tanyasethi-msft @gunjansingh-msft
 
 # AzureSdkOwners: @wanyang7
 # ServiceLabel: %Synapse
@@ -377,7 +377,7 @@
 # PRLabel: %Mgmt
 /sdk/authorization/arm-authorization-profile-2020-09-01-hybrid/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/automation/arm-automation/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -401,7 +401,7 @@
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/botservice/arm-botservice/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/cdn/arm-cdn/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -449,10 +449,10 @@
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/consumption/arm-consumption/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/containerinstance/arm-containerinstance/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/containerregistry/arm-containerregistry/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
@@ -674,7 +674,7 @@
 # PRLabel: %Mgmt
 /sdk/kubernetesconfiguration/arm-kubernetesconfiguration-extensiontypes/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/kusto/arm-kusto/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -755,13 +755,13 @@
 # PRLabel: %Mgmt
 /sdk/migrate/arm-migrationassessment/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/monitor/arm-monitor/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/mongocluster/arm-mongocluster/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/mongodbatlas/arm-mongodbatlas/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -782,7 +782,7 @@
 # PRLabel: %Mgmt
 /sdk/nginx/arm-nginx/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/network/arm-network/      @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -824,7 +824,7 @@
 # PRLabel: %Mgmt
 /sdk/policy/arm-policy-profile-2020-09-01-hybrid/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/policyinsights/arm-policyinsights/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
@@ -869,7 +869,7 @@
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/redisenterprise/arm-redisenterprisecache/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/relay/arm-relay/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
@@ -1682,6 +1682,13 @@ sdk/powerplatform/arm-powerplatform/ @qiaozha @MaryGao @JialinHuang803
 # PRLabel: %Mgmt %mgmt-review-needed
 sdk/napsteromniagentapi/arm-napsteromniagentapi/ @qiaozha @MaryGao @JialinHuang803
 
+# PRLabel: %Mgmt %mgmt-review-needed
+sdk/programenrollment/arm-programenrollment/ @qiaozha @MaryGao @JialinHuang803
+sdk/resiliencemanagement/arm-resiliencemanagement/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt %mgmt-review-needed
+sdk/commvaultcontentstore/arm-commvaultcontentstore/ @qiaozha @MaryGao @JialinHuang803
+
 ###########
 # Config
 ###########
@@ -1736,6 +1743,8 @@ sdk/napsteromniagentapi/arm-napsteromniagentapi/ @qiaozha @MaryGao @JialinHuang8
 /eng/vitestconfigs/                      @Azure/azure-sdk-for-js-core
 /eng/common/                             @Azure/azure-sdk-eng
 /eng/ignore-links.txt                    @Azure/azure-sdk-eng @Azure/azure-sdk-js-dev
+# Approved third-party runtime dependency allow-list
+/eng/approved-third-party-dependencies.yml @Azure/azure-sdk-js-dev
 /.config/1espt/                          @benbp @mikeharder
 
 /.github/workflows/                      @Azure/azure-sdk-eng
@@ -1783,6 +1792,7 @@ sdk/napsteromniagentapi/arm-napsteromniagentapi/ @qiaozha @MaryGao @JialinHuang8
 /eng/tools @Azure/azure-sdk-for-js-core
 
 /eng/tools/js-sdk-release-tools @qiaozha @MaryGao @JialinHuang803 @jeremymeng
+/eng/tools/js-sdk-release-tools-src @qiaozha @MaryGao @JialinHuang803 @jeremymeng
 /eng/emitter-package-lock.json @qiaozha @MaryGao @JialinHuang803
 /eng/emitter-package.json @qiaozha @MaryGao @JialinHuang803
 

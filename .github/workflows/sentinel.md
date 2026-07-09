@@ -15,7 +15,7 @@ on:
     - name: Swap trigger label to in-progress
       id: swap_label
       if: github.event_name == 'pull_request_target' && github.event.label.name == 'security-review-needed'
-      uses: actions/github-script@v8
+      uses: actions/github-script@v9
       with:
         script: |
           const pr = context.payload.pull_request.number;
@@ -51,6 +51,7 @@ permissions:
   pull-requests: read
   actions: read
   security-events: read
+  copilot-requests: write
 network:
   allowed:
     - defaults
