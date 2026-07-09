@@ -828,7 +828,6 @@ export type EouDetectionUnion =
   | AzureSemanticDetection
   | AzureSemanticDetectionEn
   | AzureSemanticDetectionMultilingual
-  | SmartEndOfTurnDetection
   | EouDetection;
 
 export function eouDetectionUnionSerializer(item: EouDetectionUnion): any {
@@ -843,9 +842,6 @@ export function eouDetectionUnionSerializer(item: EouDetectionUnion): any {
       return azureSemanticDetectionMultilingualSerializer(
         item as AzureSemanticDetectionMultilingual,
       );
-
-    case "smart_end_of_turn_detection":
-      return smartEndOfTurnDetectionSerializer(item as SmartEndOfTurnDetection);
 
     default:
       return eouDetectionSerializer(item);
@@ -864,9 +860,6 @@ export function eouDetectionUnionDeserializer(item: any): EouDetectionUnion {
       return azureSemanticDetectionMultilingualDeserializer(
         item as AzureSemanticDetectionMultilingual,
       );
-
-    case "smart_end_of_turn_detection":
-      return smartEndOfTurnDetectionDeserializer(item as SmartEndOfTurnDetection);
 
     default:
       return eouDetectionDeserializer(item);
@@ -924,35 +917,6 @@ export function azureSemanticDetectionMultilingualDeserializer(
     model: item["model"],
     thresholdLevel: item["threshold_level"],
     timeoutInMs: item["timeout_ms"],
-  };
-}
-
-/**
- * Audio-based end-of-turn detection. Operates directly on the input audio
- * stream rather than text. Use `threshold_level` and `timeout_ms` to tune
- * detection.
- */
-export interface SmartEndOfTurnDetection extends EouDetection {
-  model: "smart_end_of_turn_detection";
-  /** Threshold level setting. One of `low`, `medium`, `high`, or `default`. */
-  thresholdLevel?: EouThresholdLevel;
-  /** Timeout in milliseconds. */
-  timeoutMs?: number;
-}
-
-export function smartEndOfTurnDetectionSerializer(item: SmartEndOfTurnDetection): any {
-  return {
-    model: item["model"],
-    threshold_level: item["thresholdLevel"],
-    timeout_ms: item["timeoutMs"],
-  };
-}
-
-export function smartEndOfTurnDetectionDeserializer(item: any): SmartEndOfTurnDetection {
-  return {
-    model: item["model"],
-    thresholdLevel: item["threshold_level"],
-    timeoutMs: item["timeout_ms"],
   };
 }
 
@@ -1022,11 +986,7 @@ export function turnDetectionDeserializer(item: any): TurnDetection {
 
 /** Alias for TurnDetectionUnion */
 export type TurnDetectionUnion =
-  | ServerVad
-  | AzureSemanticVad
-  | AzureSemanticVadEn
-  | AzureSemanticVadMultilingual
-  | TurnDetection;
+  ServerVad | AzureSemanticVad | AzureSemanticVadEn | AzureSemanticVadMultilingual | TurnDetection;
 
 export function turnDetectionUnionSerializer(item: TurnDetectionUnion): any {
   switch (item.type) {
@@ -2009,9 +1969,7 @@ export function interimResponseConfigBaseDeserializer(item: any): InterimRespons
 
 /** Alias for InterimResponseConfigBaseUnion */
 export type InterimResponseConfigBaseUnion =
-  | StaticInterimResponseConfig
-  | LlmInterimResponseConfig
-  | InterimResponseConfigBase;
+  StaticInterimResponseConfig | LlmInterimResponseConfig | InterimResponseConfigBase;
 
 export function interimResponseConfigBaseUnionSerializer(
   item: InterimResponseConfigBaseUnion,
@@ -2500,7 +2458,7 @@ export function clientEventSessionUpdateSerializer(item: ClientEventSessionUpdat
 /** A voicelive client event. */
 export interface ClientEvent {
   /** The type of event. */
-  /** The discriminator possible values: session.update, session.avatar.connect, input_audio.turn.start, input_audio.turn.append, input_audio.turn.end, input_audio.turn.cancel, input_audio.clear, input_text.delta, input_text.done, input_audio_buffer.append, input_audio_buffer.commit, input_audio_buffer.clear, conversation.item.create, conversation.item.truncate, conversation.item.delete, response.create, response.cancel, conversation.item.retrieve, output_audio_buffer.clear, rtc.call.sdp.create */
+  /** The discriminator possible values: session.update, session.avatar.connect, input_audio.turn.start, input_audio.turn.append, input_audio.turn.end, input_audio.turn.cancel, input_audio.clear, input_text.delta, input_text.done, input_audio_buffer.append, input_audio_buffer.commit, input_audio_buffer.clear, conversation.item.create, conversation.item.truncate, conversation.item.delete, response.create, response.cancel, conversation.item.retrieve, output_audio_buffer.clear */
   type: ClientEventType;
   eventId?: string;
 }
@@ -2530,7 +2488,6 @@ export type ClientEventUnion =
   | ClientEventResponseCancel
   | ClientEventConversationItemRetrieve
   | ClientEventOutputAudioBufferClear
-  | ClientEventRtcCallSdpCreate
   | ClientEvent;
 
 export function clientEventUnionSerializer(item: ClientEventUnion): any {
@@ -2596,9 +2553,6 @@ export function clientEventUnionSerializer(item: ClientEventUnion): any {
     case "output_audio_buffer.clear":
       return clientEventOutputAudioBufferClearSerializer(item as ClientEventOutputAudioBufferClear);
 
-    case "rtc.call.sdp.create":
-      return clientEventRtcCallSdpCreateSerializer(item as ClientEventRtcCallSdpCreate);
-
     default:
       return clientEventSerializer(item);
   }
@@ -2642,8 +2596,6 @@ export enum KnownClientEventType {
   McpApprovalResponse = "mcp_approval_response",
   /** Client request to clear the avatar output buffer. */
   OutputAudioBufferClear = "output_audio_buffer.clear",
-  /** Sent by the client to initiate a WebRTC session with an SDP offer. */
-  RtcCallSdpCreate = "rtc.call.sdp.create",
   /** Streamed delta of input text content being appended to an item. */
   InputTextDelta = "input_text.delta",
   /** Signals that the streamed input text content for an item is complete. */
@@ -2673,7 +2625,6 @@ export enum KnownClientEventType {
  * **session.avatar.connect** \
  * **mcp_approval_response** \
  * **output_audio_buffer.clear**: Client request to clear the avatar output buffer. \
- * **rtc.call.sdp.create**: Sent by the client to initiate a WebRTC session with an SDP offer. \
  * **input_text.delta**: Streamed delta of input text content being appended to an item. \
  * **input_text.done**: Signals that the streamed input text content for an item is complete.
  */
@@ -3032,10 +2983,7 @@ export function messageItemDeserializer(item: any): MessageItem {
 
 /** Alias for MessageItemUnion */
 export type MessageItemUnion =
-  | AssistantMessageItem
-  | SystemMessageItem
-  | UserMessageItem
-  | MessageItem;
+  AssistantMessageItem | SystemMessageItem | UserMessageItem | MessageItem;
 
 export function messageItemUnionSerializer(item: MessageItemUnion): any {
   switch (item.role) {
@@ -3117,10 +3065,7 @@ export function messageContentPartDeserializer(item: any): MessageContentPart {
 
 /** Alias for MessageContentPartUnion */
 export type MessageContentPartUnion =
-  | InputTextContentPart
-  | InputAudioContentPart
-  | OutputTextContentPart
-  | MessageContentPart;
+  InputTextContentPart | InputAudioContentPart | OutputTextContentPart | MessageContentPart;
 
 export function messageContentPartUnionSerializer(item: MessageContentPartUnion): any {
   switch (item.type) {
@@ -3574,7 +3519,7 @@ export interface ResponseCreateParams {
   metadata?: Record<string, string>;
   /** Configuration for interim response generation during latency or tool calls. */
   interimResponse?: InterimResponseConfig;
-  /** Input data to invoke the hosted agent. This feature is in preview. */
+  /** Input data to invoke the hosted agent. */
   invokeInput?: Record<string, any>;
 }
 
@@ -3735,25 +3680,6 @@ export function clientEventOutputAudioBufferClearSerializer(
   item: ClientEventOutputAudioBufferClear,
 ): any {
   return { type: item["type"], event_id: item["eventId"] };
-}
-
-/** Sent by the client to initiate a WebRTC session with an SDP offer. */
-export interface ClientEventRtcCallSdpCreate extends ClientEvent {
-  /** The event type, must be `rtc.call.sdp.create`. */
-  type: "rtc.call.sdp.create";
-  /** The SDP offer from the client for WebRTC negotiation. */
-  sdpOffer: string;
-  /** Optional initial session configuration. If provided, applied before the session is established. */
-  session?: RequestSession;
-}
-
-export function clientEventRtcCallSdpCreateSerializer(item: ClientEventRtcCallSdpCreate): any {
-  return {
-    type: item["type"],
-    event_id: item["eventId"],
-    sdp_offer: item["sdpOffer"],
-    session: !item["session"] ? item["session"] : requestSessionSerializer(item["session"]),
-  };
 }
 
 /** The item to add to the conversation. */
@@ -4316,8 +4242,6 @@ export function responseMCPApprovalResponseItemDeserializer(
 export interface ResponseWebSearchCallItem extends ResponseItem {
   /** The type of the item. Always 'web_search_call'. */
   type: "web_search_call";
-  /** The unique ID of the web search tool call. */
-  id?: string;
   /** The status of the web search tool call. */
   status: string;
 }
@@ -4335,8 +4259,6 @@ export function responseWebSearchCallItemDeserializer(item: any): ResponseWebSea
 export interface ResponseFileSearchCallItem extends ResponseItem {
   /** The type of the item. Always 'file_search_call'. */
   type: "file_search_call";
-  /** The unique ID of the file search tool call. */
-  id?: string;
   /** The queries used for the file search. */
   queries?: string[];
   /** The status of the file search tool call. */
@@ -4626,7 +4548,7 @@ export function serverEventErrorDeserializer(item: any): ServerEventError {
 /** A voicelive server event. */
 export interface ServerEvent {
   /** The type of event. */
-  /** The discriminator possible values: error, warning, session.created, session.updated, session.avatar.connecting, input_audio_buffer.committed, input_audio_buffer.cleared, input_audio_buffer.speech_started, input_audio_buffer.speech_stopped, conversation.item.created, conversation.item.input_audio_transcription.completed, conversation.item.input_audio_transcription.failed, conversation.item.truncated, conversation.item.deleted, response.created, response.done, response.output_item.added, response.output_item.done, response.content_part.added, response.content_part.done, response.text.delta, response.text.done, response.audio_transcript.delta, response.audio_transcript.done, response.audio.delta, response.audio.done, response.animation_blendshapes.delta, response.animation_blendshapes.done, response.audio_timestamp.delta, response.audio_timestamp.done, response.animation_viseme.delta, response.animation_viseme.done, conversation.item.input_audio_transcription.delta, conversation.item.retrieved, response.function_call_arguments.delta, response.function_call_arguments.done, mcp_list_tools.in_progress, mcp_list_tools.completed, mcp_list_tools.failed, response.mcp_call_arguments.delta, response.mcp_call_arguments.done, response.mcp_call.in_progress, response.mcp_call.completed, response.mcp_call.failed, session.avatar.switch_to_speaking, session.avatar.switch_to_idle, response.video.delta, response.web_search_call.searching, response.web_search_call.in_progress, response.web_search_call.completed, response.file_search_call.searching, response.file_search_call.in_progress, response.file_search_call.completed, output_audio_buffer.cleared, response.audio_transcript.annotation.added, response.invocation.delta, rtc.call.sdp.created, rtc.call.error, output_audio_buffer.started, output_audio_buffer.stopped */
+  /** The discriminator possible values: error, warning, session.created, session.updated, session.avatar.connecting, input_audio_buffer.committed, input_audio_buffer.cleared, input_audio_buffer.speech_started, input_audio_buffer.speech_stopped, conversation.item.created, conversation.item.input_audio_transcription.completed, conversation.item.input_audio_transcription.failed, conversation.item.truncated, conversation.item.deleted, response.created, response.done, response.output_item.added, response.output_item.done, response.content_part.added, response.content_part.done, response.text.delta, response.text.done, response.audio_transcript.delta, response.audio_transcript.done, response.audio.delta, response.audio.done, response.animation_blendshapes.delta, response.animation_blendshapes.done, response.audio_timestamp.delta, response.audio_timestamp.done, response.animation_viseme.delta, response.animation_viseme.done, conversation.item.input_audio_transcription.delta, conversation.item.retrieved, response.function_call_arguments.delta, response.function_call_arguments.done, mcp_list_tools.in_progress, mcp_list_tools.completed, mcp_list_tools.failed, response.mcp_call_arguments.delta, response.mcp_call_arguments.done, response.mcp_call.in_progress, response.mcp_call.completed, response.mcp_call.failed, session.avatar.switch_to_speaking, session.avatar.switch_to_idle, response.video.delta, response.web_search_call.searching, response.web_search_call.in_progress, response.web_search_call.completed, response.file_search_call.searching, response.file_search_call.in_progress, response.file_search_call.completed, output_audio_buffer.cleared, response.audio_transcript.annotation.added, response.invocation.delta */
   type: ServerEventType;
   eventId?: string;
 }
@@ -4696,10 +4618,6 @@ export type ServerEventUnion =
   | ServerEventOutputAudioBufferCleared
   | ServerEventResponseAudioTranscriptAnnotationAdded
   | ServerEventResponseInvocationDelta
-  | ServerEventRtcCallSdpCreated
-  | ServerEventRtcCallError
-  | ServerEventOutputAudioBufferStarted
-  | ServerEventOutputAudioBufferStopped
   | ServerEvent;
 
 export function serverEventUnionDeserializer(item: any): ServerEventUnion {
@@ -4956,22 +4874,6 @@ export function serverEventUnionDeserializer(item: any): ServerEventUnion {
         item as ServerEventResponseInvocationDelta,
       );
 
-    case "rtc.call.sdp.created":
-      return serverEventRtcCallSdpCreatedDeserializer(item as ServerEventRtcCallSdpCreated);
-
-    case "rtc.call.error":
-      return serverEventRtcCallErrorDeserializer(item as ServerEventRtcCallError);
-
-    case "output_audio_buffer.started":
-      return serverEventOutputAudioBufferStartedDeserializer(
-        item as ServerEventOutputAudioBufferStarted,
-      );
-
-    case "output_audio_buffer.stopped":
-      return serverEventOutputAudioBufferStoppedDeserializer(
-        item as ServerEventOutputAudioBufferStopped,
-      );
-
     default:
       return serverEventDeserializer(item);
   }
@@ -5091,14 +4993,6 @@ export enum KnownServerEventType {
   ResponseAudioTranscriptAnnotationAdded = "response.audio_transcript.annotation.added",
   /** Invocation passthrough delta from hosted agent. */
   ResponseInvocationDelta = "response.invocation.delta",
-  /** Returned when the WebRTC SDP negotiation completes successfully. */
-  RtcCallSdpCreated = "rtc.call.sdp.created",
-  /** Returned when a WebRTC call operation fails. */
-  RtcCallError = "rtc.call.error",
-  /** Output audio buffer playback started. */
-  OutputAudioBufferStarted = "output_audio_buffer.started",
-  /** Output audio buffer playback stopped. */
-  OutputAudioBufferStopped = "output_audio_buffer.stopped",
 }
 
 /**
@@ -5161,11 +5055,7 @@ export enum KnownServerEventType {
  * **response.file_search_call.completed**: File search call completed. \
  * **output_audio_buffer.cleared**: Output audio buffer has been cleared. \
  * **response.audio_transcript.annotation.added**: Audio transcript annotation added. \
- * **response.invocation.delta**: Invocation passthrough delta from hosted agent. \
- * **rtc.call.sdp.created**: Returned when the WebRTC SDP negotiation completes successfully. \
- * **rtc.call.error**: Returned when a WebRTC call operation fails. \
- * **output_audio_buffer.started**: Output audio buffer playback started. \
- * **output_audio_buffer.stopped**: Output audio buffer playback stopped.
+ * **response.invocation.delta**: Invocation passthrough delta from hosted agent.
  */
 export type ServerEventType = string;
 
@@ -5292,6 +5182,11 @@ export interface ResponseSession {
   agent?: AgentConfig;
   /** The unique identifier for the session. */
   id?: string;
+  /**
+   * Expiration timestamp for the session, in seconds since epoch. This value is set by
+   * the server and cannot be changed with `session.update`.
+   */
+  expiresAt?: number;
 }
 
 export function responseSessionSerializer(item: ResponseSession): any {
@@ -5347,6 +5242,7 @@ export function responseSessionSerializer(item: ResponseSession): any {
     metadata: item["metadata"],
     agent: !item["agent"] ? item["agent"] : agentConfigSerializer(item["agent"]),
     id: item["id"],
+    expires_at: item["expiresAt"],
   };
 }
 
@@ -5405,6 +5301,7 @@ export function responseSessionDeserializer(item: any): ResponseSession {
       : Object.fromEntries(Object.entries(item["metadata"]).map(([k, p]: [string, any]) => [k, p])),
     agent: !item["agent"] ? item["agent"] : agentConfigDeserializer(item["agent"]),
     id: item["id"],
+    expiresAt: item["expires_at"],
   };
 }
 
@@ -6868,101 +6765,6 @@ export function serverEventResponseInvocationDeltaDeserializer(
     type: item["type"],
     eventId: item["event_id"],
     delta: Object.fromEntries(Object.entries(item["delta"]).map(([k, p]: [string, any]) => [k, p])),
-  };
-}
-
-/** Returned when the WebRTC SDP negotiation completes successfully. */
-export interface ServerEventRtcCallSdpCreated extends ServerEvent {
-  /** The event type, must be `rtc.call.sdp.created`. */
-  type: "rtc.call.sdp.created";
-  /** The unique identifier for this RTC call session. */
-  rtcCallId: string;
-  /** The SDP answer from the server for WebRTC negotiation. */
-  sdpAnswer: string;
-}
-
-export function serverEventRtcCallSdpCreatedDeserializer(item: any): ServerEventRtcCallSdpCreated {
-  return {
-    type: item["type"],
-    eventId: item["event_id"],
-    rtcCallId: item["rtc_call_id"],
-    sdpAnswer: item["sdp_answer"],
-  };
-}
-
-/** Returned when a WebRTC call operation fails. */
-export interface ServerEventRtcCallError extends ServerEvent {
-  /** The event type, must be `rtc.call.error`. */
-  type: "rtc.call.error";
-  /** The operation that caused the error (e.g., `rtc.call.sdp.create`). */
-  operation?: string;
-  /** The RTC call identifier, if available. */
-  rtcCallId?: string;
-  /** The error details. */
-  error: RtcCallErrorDetails;
-}
-
-export function serverEventRtcCallErrorDeserializer(item: any): ServerEventRtcCallError {
-  return {
-    type: item["type"],
-    eventId: item["event_id"],
-    operation: item["operation"],
-    rtcCallId: item["rtc_call_id"],
-    error: rtcCallErrorDetailsDeserializer(item["error"]),
-  };
-}
-
-/** Error details for RTC call errors. */
-export interface RtcCallErrorDetails {
-  /** The error category: `invalid_request_error` or `server_error`. */
-  type: string;
-  /** A machine-readable error code. */
-  code?: string;
-  /** A human-readable error description. */
-  message: string;
-}
-
-export function rtcCallErrorDetailsDeserializer(item: any): RtcCallErrorDetails {
-  return {
-    type: item["type"],
-    code: item["code"],
-    message: item["message"],
-  };
-}
-
-/** Returned when model audio output starts playing. */
-export interface ServerEventOutputAudioBufferStarted extends ServerEvent {
-  /** The event type, must be `output_audio_buffer.started`. */
-  type: "output_audio_buffer.started";
-  /** The ID of the response whose audio started playing. */
-  responseId?: string;
-}
-
-export function serverEventOutputAudioBufferStartedDeserializer(
-  item: any,
-): ServerEventOutputAudioBufferStarted {
-  return {
-    type: item["type"],
-    eventId: item["event_id"],
-    responseId: item["response_id"],
-  };
-}
-
-/** Returned when model audio output finishes playing. */
-export interface ServerEventOutputAudioBufferStopped extends ServerEvent {
-  /** The event type, must be `output_audio_buffer.stopped`. */
-  type: "output_audio_buffer.stopped";
-  /** The ID of the response whose audio stopped playing. */
-  responseId?: string;
-}
-
-export function serverEventOutputAudioBufferStoppedDeserializer(
-  item: any,
-): ServerEventOutputAudioBufferStopped {
-  return {
-    type: item["type"],
-    eventId: item["event_id"],
-    responseId: item["response_id"],
   };
 }
 

@@ -1,14 +1,32 @@
 # Release History
 
-## 1.1.0-beta.2 (Unreleased)
+## 1.1.0 (Unreleased)
+
+General Availability release aligning `@azure/ai-voicelive` with the stable Voice Live API version `2026-07-15`. The changes below are cumulative relative to the previous stable release, `1.0.0`.
 
 ### Features Added
 
+- Added `ClientEventInputTextDelta` and `ClientEventInputTextDone` client events (`input_text.delta` / `input_text.done`, plus the corresponding `KnownClientEventType` members) for streaming input text content into a conversation item.
+- Added Azure realtime native voices via `AzureRealtimeNativeVoice` (and `AzureRealtimeNativeVoiceName`), including the `KnownAzureRealtimeNativeVoiceName` enum of service-known voice names. `AzureRealtimeNativeVoice` is now part of the `Voice` union.
+- Added echo-cancellation reference configuration: `AudioEchoCancellation.channels` and `AudioEchoCancellation.referenceSource`, plus the `EchoCancellationReferenceSource` type and `KnownEchoCancellationReferenceSource` enum.
+- Added `ServerEventResponseInvocationDelta` (and `KnownServerEventType.ResponseInvocationDelta`) for passthrough hosted-agent invocation SSE payloads.
+- Added `ResponseCreateParams.invokeInput` to supply input data for hosted-agent invocation.
+- Added `ResponseSession.expiresAt`: the server-assigned session expiration timestamp (seconds since epoch). It is read-only and cannot be changed with `session.update`.
+- Re-exported `RestError` and `isRestError` from `@azure/core-rest-pipeline`.
+
 ### Breaking Changes
+
+- API version updated from `2026-04-10` to `2026-07-15`.
+- Renamed `RequestImageContentPart.url` to `RequestImageContentPart.imageUrl` to align the SDK model with the `image_url` wire shape.
 
 ### Bugs Fixed
 
 ### Other Changes
+
+- `Background.imageUrl` now serializes to the `image_url` wire field.
+- Removed the following preview-only types that were introduced in `1.1.0-beta.1` and are not part of the `2026-07-15` GA surface (this affects consumers upgrading from the `1.1.0-beta.1` preview only):
+  - WebRTC SDP negotiation types: `ClientEventRtcCallSdpCreate`, `ServerEventRtcCallSdpCreated`, `ServerEventRtcCallError`, and `RtcCallErrorDetails`.
+  - Output-audio playback lifecycle events: `ServerEventOutputAudioBufferStarted` and `ServerEventOutputAudioBufferStopped`.
 
 ## 1.1.0-beta.1 (2026-05-28)
 

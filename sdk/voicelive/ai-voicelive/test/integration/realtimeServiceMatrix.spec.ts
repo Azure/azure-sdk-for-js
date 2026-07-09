@@ -31,7 +31,7 @@ describe.runIf(isLiveMode())("Realtime Service Matrix Tests", () => {
   const apiKey = process.env.VOICELIVE_API_KEY || process.env.AI_SERVICES_KEY;
 
   // API versions exercised by the Python smoke matrix (plus the JS SDK default).
-  const apiVersions = ["2025-10-01", "2026-04-10"];
+  const apiVersions = ["2025-10-01", "2026-07-15"];
 
   // Models exercised by the Python `test_realtime_service` smoke matrix.
   // These run against the AI Services account provisioned by
