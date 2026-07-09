@@ -21,7 +21,7 @@ add-credentials: false
 core-http-compat-mode: true
 use-extension:
   "@autorest/typescript": "6.0.42"
-package-version: 12.33.1
+package-version: 12.34.0
 ```
 
 ## Customizations for Track 2 Generator
@@ -410,6 +410,26 @@ directive:
 directive:
   - from: swagger-document
     where: $["x-ms-paths"]["/{containerName}?restype=container&comp=list&hierarchy"]["get"]
+    transform: >
+      delete $["x-ms-pageable"];
+```
+
+### Hide x-ms-pageable in Container_ListBlobFlatSegment_ApacheArrow
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}?restype=container&comp=list&flat&arrow"]["get"]
+    transform: >
+      delete $["x-ms-pageable"];
+```
+
+### Hide x-ms-pageable in Container_ListBlobHierarchySegment_ApacheArrow
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}?restype=container&comp=list&hierarchy&arrow"]["get"]
     transform: >
       delete $["x-ms-pageable"];
 ```

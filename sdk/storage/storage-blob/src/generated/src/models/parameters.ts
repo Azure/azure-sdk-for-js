@@ -730,19 +730,6 @@ export const delimiter: OperationQueryParameter = {
   },
 };
 
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
-  mapper: {
-    serializedName: "nextLink",
-    required: true,
-    xmlName: "nextLink",
-    type: {
-      name: "String",
-    },
-  },
-  skipEncoding: true,
-};
-
 export const snapshot: OperationQueryParameter = {
   parameterPath: ["options", "snapshot"],
   mapper: {

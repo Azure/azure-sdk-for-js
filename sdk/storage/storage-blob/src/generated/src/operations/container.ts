@@ -53,8 +53,6 @@ import {
   ContainerListBlobHierarchySegmentApacheArrowResponse,
   ContainerGetAccountInfoOptionalParams,
   ContainerGetAccountInfoResponse,
-  ContainerListBlobHierarchySegmentApacheArrowNextOptionalParams,
-  ContainerListBlobHierarchySegmentApacheArrowNextResponse,
 } from "../models/index.js";
 
 /** Class containing Container operations. */
@@ -360,22 +358,6 @@ export class ContainerImpl implements Container {
     return this.client.sendOperationRequest(
       { options },
       getAccountInfoOperationSpec,
-    );
-  }
-
-  /**
-   * ListBlobHierarchySegmentApacheArrowNext
-   * @param nextLink The nextLink from the previous successful call to the
-   *                 ListBlobHierarchySegmentApacheArrow method.
-   * @param options The options parameters.
-   */
-  listBlobHierarchySegmentApacheArrowNext(
-    nextLink: string,
-    options?: ContainerListBlobHierarchySegmentApacheArrowNextOptionalParams,
-  ): Promise<ContainerListBlobHierarchySegmentApacheArrowNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listBlobHierarchySegmentApacheArrowNextOperationSpec,
     );
   }
 }
@@ -999,31 +981,3 @@ const getAccountInfoOperationSpec: coreClient.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer,
 };
-const listBlobHierarchySegmentApacheArrowNextOperationSpec: coreClient.OperationSpec =
-  {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: {
-          type: { name: "Stream" },
-          serializedName: "parsedResponse",
-        },
-        headersMapper:
-          Mappers.ContainerListBlobHierarchySegmentApacheArrowNextHeaders,
-      },
-      default: {
-        bodyMapper: Mappers.StorageError,
-        headersMapper:
-          Mappers.ContainerListBlobHierarchySegmentApacheArrowNextExceptionHeaders,
-      },
-    },
-    urlParameters: [Parameters.url, Parameters.nextLink],
-    headerParameters: [
-      Parameters.version,
-      Parameters.requestId,
-      Parameters.accept2,
-    ],
-    isXML: true,
-    serializer: xmlSerializer,
-  };

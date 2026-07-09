@@ -48,8 +48,6 @@ import {
   ContainerListBlobHierarchySegmentApacheArrowResponse,
   ContainerGetAccountInfoOptionalParams,
   ContainerGetAccountInfoResponse,
-  ContainerListBlobHierarchySegmentApacheArrowNextOptionalParams,
-  ContainerListBlobHierarchySegmentApacheArrowNextResponse,
 } from "../models/index.js";
 
 /** Interface representing a Container. */
@@ -237,14 +235,4 @@ export interface Container {
   getAccountInfo(
     options?: ContainerGetAccountInfoOptionalParams,
   ): Promise<ContainerGetAccountInfoResponse>;
-  /**
-   * ListBlobHierarchySegmentApacheArrowNext
-   * @param nextLink The nextLink from the previous successful call to the
-   *                 ListBlobHierarchySegmentApacheArrow method.
-   * @param options The options parameters.
-   */
-  listBlobHierarchySegmentApacheArrowNext(
-    nextLink: string,
-    options?: ContainerListBlobHierarchySegmentApacheArrowNextOptionalParams,
-  ): Promise<ContainerListBlobHierarchySegmentApacheArrowNextResponse>;
 }
