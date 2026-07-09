@@ -21,7 +21,8 @@ Set up your JavaScript / Node.js environment to use the Azure AI Content Underst
 
 Before starting, ensure you have:
 
-- **Node.js 20 or later** installed
+- **Node.js 22 or later** installed (matches `@azure/ai-content-understanding`'s
+  `engines.node: ">=22.0.0"` constraint)
 - An **Azure subscription** ([create one for free](https://azure.microsoft.com/free/))
 - A **Microsoft Foundry resource** in a [supported region](https://learn.microsoft.com/azure/ai-services/content-understanding/language-region-support)
 
@@ -44,12 +45,12 @@ Before starting, ensure you have:
 >
 > | Finding                                           | Action                                                                             |
 > | ------------------------------------------------- | ---------------------------------------------------------------------------------- |
-> | `node v20+` and `npm` present                     | ✓ Good to go. Proceed to Step 1.                                                   |
-> | Node missing or `< v20`                           | Report the finding, then go to the **[ASK USER] Node install choice** block below. |
+> | `node v22+` and `npm` present                     | ✓ Good to go. Proceed to Step 1.                                                   |
+> | Node missing or `< v22`                           | Report the finding, then go to the **[ASK USER] Node install choice** block below. |
 > | `npm` missing (very rare — should ship with Node) | Reinstall Node.js LTS.                                                             |
 >
 > **[ASK USER] Node install choice (only when probe fails):**
-> Ask the user: "Node.js is missing or older than v20. How would you like to proceed?"
+> Ask the user: "Node.js is missing or older than v22. How would you like to proceed?"
 >
 > - **Option A: Install it for me** — Agent runs the platform-appropriate install command (see below), verifies, and continues.
 > - **Option B: I'll install it myself** — Agent prints the install command for the user's platform and stops. User runs it, re-opens the terminal, and tells the agent to resume.
@@ -386,7 +387,7 @@ cd sdk/contentunderstanding/ai-content-understanding
 
 The script will:
 
-1. Probe and (optionally) install Node.js (>= 20).
+1. Probe and (optionally) install Node.js (>= 22).
 2. Detect existing `.env` and ask before overwriting.
 3. Probe the Foundry resource for existing model defaults and prefill prompts.
 4. Collect endpoint, auth method, and model deployment names.
@@ -437,7 +438,7 @@ cp .env samples/v1/javascript/.env
 
 | Error                                                             | Solution                                                                                                                    |
 | ----------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| `node: command not found`                                         | Install Node.js 20+ from [nodejs.org](https://nodejs.org/) or via `winget install OpenJS.NodeJS.LTS` / `brew install node`. |
+| `node: command not found`                                         | Install Node.js 22+ from [nodejs.org](https://nodejs.org/) or via `winget install OpenJS.NodeJS.LTS` / `brew install node`. |
 | `Cannot find module '@azure/ai-content-understanding'`            | Run `setup_user_env.sh` to install (with automatic local-build fallback if not yet on npm).                                 |
 | `Missing environment variables` / `CONTENTUNDERSTANDING_ENDPOINT` | Ensure `.env` exists in `samples/v1/javascript/` and is populated. Re-copy with `cp .env samples/v1/javascript/.env`.       |
 | `Access denied due to invalid subscription key`                   | Verify `CONTENTUNDERSTANDING_ENDPOINT` URL is correct. Check API key or run `az login`.                                     |
