@@ -257,6 +257,34 @@ export interface ConnectedRequest {
 }
 
 /**
+ * Request for the group joined event.
+ */
+export interface GroupJoinedRequest {
+  /**
+   * The context of current CloudEvents request.
+   */
+  context: ConnectionContext;
+  /**
+   * The group that the connection joined.
+   */
+  group: string;
+}
+
+/**
+ * Request for the group left event.
+ */
+export interface GroupLeftRequest {
+  /**
+   * The context of current CloudEvents request.
+   */
+  context: ConnectionContext;
+  /**
+   * The group that the connection left.
+   */
+  group: string;
+}
+
+/**
  * Request for the user event.
  */
 export type UserEventRequest =
@@ -437,6 +465,16 @@ export interface WebPubSubEventHandlerOptions {
    * Event trigger for "connected" unblocking event. This is an unblocking event and the service does not wait for the response.
    */
   onConnected?: (connectedRequest: ConnectedRequest) => void;
+
+  /**
+   * Event trigger for "joined" group presence event. This is an unblocking event and the service does not wait for the response.
+   */
+  onGroupJoined?: (groupJoinedRequest: GroupJoinedRequest) => void;
+
+  /**
+   * Event trigger for "left" group presence event. This is an unblocking event and the service does not wait for the response.
+   */
+  onGroupLeft?: (groupLeftRequest: GroupLeftRequest) => void;
 
   /**
    *

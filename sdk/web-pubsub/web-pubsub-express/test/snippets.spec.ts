@@ -81,6 +81,40 @@ describe("snippets", () => {
     );
   });
 
+  it("ReadmeSampleGroupJoined", async () => {
+    const handler = new WebPubSubEventHandler("chat", {
+      onGroupJoined: (groupJoinedRequest) => {
+        console.log(`Connection ${groupJoinedRequest.context.connectionId} joined group ${groupJoinedRequest.group}`);
+      },
+      allowedEndpoints: ["https://<yourAllowedService>.webpubsub.azure.com"],
+    });
+    // @ts-preserve-whitespace
+    const app = express();
+    // @ts-preserve-whitespace
+    app.use(handler.getMiddleware());
+    // @ts-preserve-whitespace
+    app.listen(3000, () =>
+      console.log(`Azure WebPubSub Upstream ready at http://localhost:3000${handler.path}`),
+    );
+  });
+
+  it("ReadmeSampleGroupLeft", async () => {
+    const handler = new WebPubSubEventHandler("chat", {
+      onGroupLeft: (groupLeftRequest) => {
+        console.log(`Connection ${groupLeftRequest.context.connectionId} left group ${groupLeftRequest.group}`);
+      },
+      allowedEndpoints: ["https://<yourAllowedService>.webpubsub.azure.com"],
+    });
+    // @ts-preserve-whitespace
+    const app = express();
+    // @ts-preserve-whitespace
+    app.use(handler.getMiddleware());
+    // @ts-preserve-whitespace
+    app.listen(3000, () =>
+      console.log(`Azure WebPubSub Upstream ready at http://localhost:3000${handler.path}`),
+    );
+  });
+
   it("ReadmeSampleDisconnected", async () => {
     const handler = new WebPubSubEventHandler("chat", {
       onDisconnected: (disconnectedRequest) => {

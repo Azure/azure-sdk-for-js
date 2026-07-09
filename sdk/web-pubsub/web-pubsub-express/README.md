@@ -149,6 +149,50 @@ app.listen(3000, () =>
 );
 ```
 
+### Handle the `onGroupJoined` request
+
+```ts snippet:ReadmeSampleGroupJoined
+import { WebPubSubEventHandler } from "@azure/web-pubsub-express";
+import express from "express";
+
+const handler = new WebPubSubEventHandler("chat", {
+  onGroupJoined: (groupJoinedRequest) => {
+    console.log(`Connection ${groupJoinedRequest.context.connectionId} joined group ${groupJoinedRequest.group}`);
+  },
+  allowedEndpoints: ["https://<yourAllowedService>.webpubsub.azure.com"],
+});
+
+const app = express();
+
+app.use(handler.getMiddleware());
+
+app.listen(3000, () =>
+  console.log(`Azure WebPubSub Upstream ready at http://localhost:3000${handler.path}`),
+);
+```
+
+### Handle the `onGroupLeft` request
+
+```ts snippet:ReadmeSampleGroupLeft
+import { WebPubSubEventHandler } from "@azure/web-pubsub-express";
+import express from "express";
+
+const handler = new WebPubSubEventHandler("chat", {
+  onGroupLeft: (groupLeftRequest) => {
+    console.log(`Connection ${groupLeftRequest.context.connectionId} left group ${groupLeftRequest.group}`);
+  },
+  allowedEndpoints: ["https://<yourAllowedService>.webpubsub.azure.com"],
+});
+
+const app = express();
+
+app.use(handler.getMiddleware());
+
+app.listen(3000, () =>
+  console.log(`Azure WebPubSub Upstream ready at http://localhost:3000${handler.path}`),
+);
+```
+
 ### Handle the `onDisconnected` request
 
 ```ts snippet:ReadmeSampleDisconnected
