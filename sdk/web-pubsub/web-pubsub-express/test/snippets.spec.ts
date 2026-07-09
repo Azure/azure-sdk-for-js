@@ -84,7 +84,9 @@ describe("snippets", () => {
   it("ReadmeSampleGroupJoined", async () => {
     const handler = new WebPubSubEventHandler("chat", {
       onGroupJoined: (groupJoinedRequest) => {
-        console.log(`Connection ${groupJoinedRequest.context.connectionId} joined group ${groupJoinedRequest.group}`);
+        console.log(
+          `Connection ${groupJoinedRequest.context.connectionId} joined group ${groupJoinedRequest.group}`,
+        );
       },
       allowedEndpoints: ["https://<yourAllowedService>.webpubsub.azure.com"],
     });
@@ -101,7 +103,9 @@ describe("snippets", () => {
   it("ReadmeSampleGroupLeft", async () => {
     const handler = new WebPubSubEventHandler("chat", {
       onGroupLeft: (groupLeftRequest) => {
-        console.log(`Connection ${groupLeftRequest.context.connectionId} left group ${groupLeftRequest.group}`);
+        console.log(
+          `Connection ${groupLeftRequest.context.connectionId} left group ${groupLeftRequest.group}`,
+        );
       },
       allowedEndpoints: ["https://<yourAllowedService>.webpubsub.azure.com"],
     });
