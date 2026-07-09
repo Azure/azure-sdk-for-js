@@ -34,7 +34,8 @@
   "dependencies": {
     "esbuild": "^0.27.3",
     "tsx": "catalog:",
-    "typescript": "catalog:",
+    "typescript": "npm:@typescript/typescript6@^6.0.2",
+    "typescript-7": "npm:typescript@^7.0.2",
     "yaml": "^2.8.2"
   },
   "devDependencies": {

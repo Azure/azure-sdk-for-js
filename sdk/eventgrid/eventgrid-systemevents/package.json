@@ -73,7 +73,7 @@
     "prettier": "catalog:",
     "react-native": "catalog:testing",
     "rimraf": "catalog:",
-    "typescript": "catalog:",
+    "typescript": "npm:@typescript/typescript6@^6.0.2",
     "vitest": "catalog:testing"
   },
   "type": "module",
