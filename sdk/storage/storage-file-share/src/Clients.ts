@@ -47,6 +47,7 @@ import type {
   ShareCreateResponse,
   ShareCreateSnapshotResponse,
   ShareDeleteResponse,
+  ShareFileRange,
   ShareGetAccessPolicyHeaders,
   ShareGetPermissionResponse,
   ShareGetPropertiesResponseModel,
@@ -144,6 +145,7 @@ import {
   assertResponse,
   adjustResponse,
   removeEmptyString,
+  extractShareFileRangeItems,
   asSharePermission,
   parseOctalFileMode,
   toOctalFileMode,
@@ -3466,26 +3468,6 @@ export type FileGetRangeListResponse = WithResponse<
 >;
 
 /**
- * A range of bytes within an Azure file, as returned by {@link ShareFileClient.listRanges}
- * and {@link ShareFileClient.listRangesDiff}.
- */
-export interface ShareFileRange {
-  /**
-   * Start byte position of the range.
-   */
-  start: number;
-  /**
-   * End byte position of the range, inclusive.
-   */
-  end: number;
-  /**
-   * Indicates whether this range is a cleared range (`true`) or a valid data range (`false`).
-   * When listing ranges via {@link ShareFileClient.listRanges}, this is always `false`.
-   */
-  isClear: boolean;
-}
-
-/**
  * Options to configure the {@link ShareFileClient.listRanges} operation.
  */
 export interface FileListRangesOptions extends CommonOptions {
@@ -3584,48 +3566,6 @@ export type FileListRangesSegmentResponse = WithResponse<
   FileGetRangeListHeaders,
   FileRangeListSegment
 >;
-
-/**
- * Merges the valid ranges and cleared ranges returned by the service into a single
- * ordered sequence of {@link ShareFileRange} items, sorted by start position.
- *
- * This uses a two-pointer merge and assumes each input array is already sorted ascending
- * by `start`, which is guaranteed by the List Ranges service response. If that invariant
- * ever changes, the inputs must be sorted before merging to preserve output ordering.
- */
-function* extractShareFileRangeItems(
-  ranges: RangeModel[] = [],
-  clearRanges: RangeModel[] = [],
-): IterableIterator<ShareFileRange> {
-  let rangeIndex = 0;
-  let clearRangeIndex = 0;
-
-  while (rangeIndex < ranges.length && clearRangeIndex < clearRanges.length) {
-    if (ranges[rangeIndex].start <= clearRanges[clearRangeIndex].start) {
-      yield { start: ranges[rangeIndex].start, end: ranges[rangeIndex].end, isClear: false };
-      ++rangeIndex;
-    } else {
-      yield {
-        start: clearRanges[clearRangeIndex].start,
-        end: clearRanges[clearRangeIndex].end,
-        isClear: true,
-      };
-      ++clearRangeIndex;
-    }
-  }
-
-  for (; rangeIndex < ranges.length; ++rangeIndex) {
-    yield { start: ranges[rangeIndex].start, end: ranges[rangeIndex].end, isClear: false };
-  }
-
-  for (; clearRangeIndex < clearRanges.length; ++clearRangeIndex) {
-    yield {
-      start: clearRanges[clearRangeIndex].start,
-      end: clearRanges[clearRangeIndex].end,
-      isClear: true,
-    };
-  }
-}
 
 /**
  * Options to configure the {@link ShareFileClient.startCopyFromURL} operation.
@@ -5346,8 +5286,7 @@ export class ShareFileClient extends StorageClient {
   private async *listRangeItems(
     options: FileListRangesSegmentOptions = {},
   ): AsyncIterableIterator<ShareFileRange> {
-    let marker: string | undefined;
-    for await (const segment of this.iterateRangeSegments(marker, options)) {
+    for await (const segment of this.iterateRangeSegments(undefined, options)) {
       yield* extractShareFileRangeItems(segment.ranges, segment.clearRanges);
     }
   }
