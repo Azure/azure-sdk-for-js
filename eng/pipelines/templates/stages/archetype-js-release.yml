@@ -8,16 +8,25 @@ parameters:
   ServiceDirectory: ''
 
 stages:
-  - ${{if and(in(variables['Build.Reason'], 'Manual', '', 'IndividualCI'), eq(variables['System.TeamProject'], 'internal'))}}:
+  - ${{ if and(eq(variables['System.TeamProject'], 'internal'), or(in(variables['Build.Reason'], 'Manual', ''), and(eq(variables['Build.Reason'], 'IndividualCI'), eq(variables['Build.SourceBranch'], 'refs/heads/main')))) }}:
       # For post-merge CI (not manual), resolve which packages the merged, auto-release-labeled PR
-      # changed. This shared stage emits ReleaseArtifact_<safeName> booleans consumed by each release
-      # stage's condition below. It fails closed (nothing releases) when there is no qualifying PR.
-      - ${{ if eq(variables['Build.Reason'], 'IndividualCI') }}:
+      # changed. Auto-release only applies to PRs merged to 'main' (the Build.SourceBranch check above),
+      # so release/* and hotfix/* CI never auto-release. This shared stage emits ReleaseArtifact_<safeName>
+      # booleans consumed by each release stage's condition below. It fails closed (nothing releases)
+      # when there is no qualifying PR.
+      - ${{ if and(eq(variables['Build.Reason'], 'IndividualCI'), eq(variables['Build.SourceBranch'], 'refs/heads/main')) }}:
           - template: /eng/common/pipelines/templates/stages/archetype-auto-release-prepare.yml
             parameters:
               DependsOn:
                 - ${{ parameters.DependsOn }}
               Artifacts: ${{ parameters.Artifacts }}
+              Condition: >-
+                and(
+                  succeeded(),
+                  ne(variables['SetDevVersion'], 'true'),
+                  ne(variables['Skip.Release'], 'true'),
+                  ne(variables['Build.Repository.Name'], 'Azure/azure-sdk-for-js-pr')
+                )
 
       - ${{ each artifact in parameters.Artifacts }}:
           - stage: 'Release_${{artifact.safename}}'
