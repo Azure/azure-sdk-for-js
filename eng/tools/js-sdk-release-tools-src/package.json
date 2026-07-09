@@ -32,67 +32,47 @@
   "type": "module",
   "dependencies": {
     "@azure-tools/openapi-tools-common": "^1.2.2",
-    "@npmcli/package-json": "^6.1.1",
-    "colors": "1.4.0",
+    "@npmcli/package-json": "^7.0.5",
     "command-line-args": "^6.0.1",
-    "comment-json": "^4.2.5",
+    "comment-json": "^5.0.0",
     "copyfiles": "^2.4.1",
     "fs-extra": "^11.3.0",
-    "glob": "^11.1.0",
-    "js-yaml": "^4.1.0",
-    "minimatch": "^10.2.4",
-    "npm-registry-fetch": "^18.0.2",
+    "glob": "^13.0.6",
+    "js-yaml": "^5.2.1",
+    "npm-registry-fetch": "^19.1.1",
     "parse-ts-to-ast": "^0.1.4",
     "semver": "^7.7.1",
-    "shelljs": "^0.9.2",
+    "shelljs": "^0.10.0",
     "simple-git": "^3.5.0",
     "string-template": "^1.0.0",
-    "ts-morph": "^26.0.0",
+    "ts-morph": "^28.0.0",
     "tslib": "^2.8.1",
-    "typescript-codegen-breaking-change-detector": "0.7.10",
+    "typescript-codegen-breaking-change-detector": "file:./packages/typescript-codegen-breaking-change-detector",
     "unixify": "^1.0.0",
     "winston": "^3.17.0",
     "yaml": "^2.7.0"
   },
   "devDependencies": {
     "@types/fs-extra": "^11.0.4",
-    "@types/node": "^22.13.10",
+    "@types/node": "^26.1.1",
     "@types/npm-registry-fetch": "^8.0.7",
     "@types/npmcli__package-json": "^4.0.4",
-    "@types/shelljs": "^0.8.15",
+    "@types/shelljs": "^0.10.0",
     "@types/string-template": "^1.0.6",
     "@types/unixify": "^1.0.2",
     "@typespec/compiler": "^1.0.0",
     "prettier": "^3.8.3",
     "rimraf": "^6.0.1",
     "tsx": "^4.22.4",
-    "typescript": "5.8.2",
-    "vitest": "4.1.9"
-  },
-  "optionalDependencies": {
-    "@rollup/rollup-android-arm-eabi": "4.20.0",
-    "@rollup/rollup-android-arm64": "4.20.0",
-    "@rollup/rollup-darwin-arm64": "4.20.0",
-    "@rollup/rollup-darwin-x64": "4.20.0",
-    "@rollup/rollup-linux-arm-gnueabihf": "4.20.0",
-    "@rollup/rollup-linux-arm-musleabihf": "4.20.0",
-    "@rollup/rollup-linux-arm64-gnu": "4.20.0",
-    "@rollup/rollup-linux-arm64-musl": "4.20.0",
-    "@rollup/rollup-linux-powerpc64le-gnu": "4.20.0",
-    "@rollup/rollup-linux-riscv64-gnu": "4.20.0",
-    "@rollup/rollup-linux-s390x-gnu": "4.20.0",
-    "@rollup/rollup-linux-x64-gnu": "4.20.0",
-    "@rollup/rollup-linux-x64-musl": "4.20.0",
-    "@rollup/rollup-win32-arm64-msvc": "4.20.0",
-    "@rollup/rollup-win32-ia32-msvc": "4.20.0",
-    "@rollup/rollup-win32-x64-msvc": "4.20.0"
+    "typescript": "6.0.3",
+    "vitest": "4.1.10"
   },
   "peerDependencies": {
     "@typespec/compiler": "^1.0.0"
   },
   "overrides": {
     "front-matter": {
-      "js-yaml": "^4.2.0"
+      "js-yaml": "^5.2.1"
     }
   }
 }

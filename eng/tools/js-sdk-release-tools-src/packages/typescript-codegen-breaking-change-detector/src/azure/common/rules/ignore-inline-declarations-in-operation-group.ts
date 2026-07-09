@@ -33,7 +33,7 @@ function getInlineDeclarationNameSet(service: ParserServicesWithTypeInformation,
   return inlineDeclarationMap;
 }
 
-const rule: CreateOperationRule = (baselineParsedResult: ParseForESLintResult | undefined) => {
+const rule = (baselineParsedResult: ParseForESLintResult | undefined) => {
   if (!baselineParsedResult)
     throw new Error(`ParseForESLintResult is required in ${ignoreInlineDeclarationsInOperationGroup} rule`);
   const baselineService = baselineParsedResult.services;

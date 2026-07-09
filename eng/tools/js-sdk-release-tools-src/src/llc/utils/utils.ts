@@ -5,6 +5,17 @@ import { getLatestStableVersion } from '../../utils/version.js';
 import { tryGetNpmView } from '../../common/npmUtils.js';
 import readline from 'readline';
 import yaml from 'js-yaml';
+
+export interface ReadmeMdConfig {
+  title?: string;
+  description?: string;
+  'input-file'?: string | string[];
+  'package-version'?: string;
+  'credential-scopes'?: string;
+  'package-name'?: string;
+  [key: string]: unknown;
+}
+
 export function validPackageName(packageName) {
   const match = /@azure-rest\/[a-zA-Z-]+/.exec(packageName);
   if (!match) return false;
@@ -91,14 +102,15 @@ export function getConfigFromReadmeMd(readmePath: string) {
   if (!match || match.length !== 3) {
     throw new Error(`Cannot find valid package name from ${readmePath}`);
   }
-  return yaml.load(match[1]);
+  return yaml.load(match[1]) as ReadmeMdConfig;
 }
 
-export function getPackageNameFromReadmeMd(readme: any) {
-  if (!readme['package-name'] || !/@azure-rest\/[a-zA-Z-]+/.exec(readme['package-name'])) {
+export function getPackageNameFromReadmeMd(readme: ReadmeMdConfig): string {
+  const packageName = readme['package-name'];
+  if (!packageName || !/@azure-rest\/[a-zA-Z-]+/.exec(packageName)) {
     throw new Error(`Cannot find valid package name from existing README.md`);
   }
-  return readme['package-name'];
+  return packageName;
 }
 
 export async function getPackageNameFromCommand(): Promise<string> {

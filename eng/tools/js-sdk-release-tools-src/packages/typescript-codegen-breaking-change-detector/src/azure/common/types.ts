@@ -131,9 +131,9 @@ export type FindMappingCallSignatureLikeDeclaration<T extends CallSignatureLikeD
 ) => { declaration: T; id: string } | undefined;
 
 export interface DeclarationDifferenceDetectorOptions {
-    RequiredToOptionalAsBreakingChange: boolean;
-    OptionalToRequiredAsBreakingChange: boolean;
-    ReadonlyToMutableAsBreakingChange: boolean;
-    MutableToReadonlyAsBreakingChange: boolean;
-    ConcretTypeToAnyAsBreakingChange: boolean;
+  RequiredToOptionalAsBreakingChange: boolean;
+  OptionalToRequiredAsBreakingChange: boolean;
+  ReadonlyToMutableAsBreakingChange: boolean;
+  MutableToReadonlyAsBreakingChange: boolean;
+  ConcretTypeToAnyAsBreakingChange: boolean;
 }
