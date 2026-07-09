@@ -3,6 +3,7 @@
 ## 10.0.0-beta.4 (Unreleased)
 
 ### Features Added
+  - Added property `expirationTime` to the `RoleAssignment` and `RoleAssignmentProperties` models, returned by the get and list role assignment operations
 
 ### Breaking Changes
 
