@@ -18,6 +18,7 @@ import tsNamingSubclients from "./ts-naming-subclients.js";
 import tsNoConstEnums from "./ts-no-const-enums.js";
 import tsNoInvalidTestImports from "./ts-no-invalid-test-imports.js";
 import tsNoWindow from "./ts-no-window.js";
+import tsPackageJsonApprovedDependencies from "./ts-package-json-approved-dependencies.js";
 import tsPackageJsonAuthor from "./ts-package-json-author.js";
 import tsPackageJsonBugs from "./ts-package-json-bugs.js";
 import tsPackageJsonEngineIsPresent from "./ts-package-json-engine-is-present.js";
@@ -56,6 +57,7 @@ export default {
   "ts-no-const-enums": tsNoConstEnums,
   "ts-no-invalid-test-imports": tsNoInvalidTestImports,
   "ts-no-window": tsNoWindow,
+  "ts-package-json-approved-dependencies": tsPackageJsonApprovedDependencies,
   "ts-package-json-author": tsPackageJsonAuthor,
   "ts-package-json-bugs": tsPackageJsonBugs,
   "ts-package-json-engine-is-present": tsPackageJsonEngineIsPresent,

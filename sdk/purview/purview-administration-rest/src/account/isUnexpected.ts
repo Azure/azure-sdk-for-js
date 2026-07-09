@@ -55,8 +55,7 @@ export function isUnexpected(
 ): response is AccountsGetAccountPropertiesDefaultResponse;
 export function isUnexpected(
   response:
-    | AccountsUpdateAccountProperties200Response
-    | AccountsUpdateAccountPropertiesDefaultResponse,
+    AccountsUpdateAccountProperties200Response | AccountsUpdateAccountPropertiesDefaultResponse,
 ): response is AccountsUpdateAccountPropertiesDefaultResponse;
 export function isUnexpected(
   response: AccountsGetAccessKeys200Response | AccountsGetAccessKeysDefaultResponse,

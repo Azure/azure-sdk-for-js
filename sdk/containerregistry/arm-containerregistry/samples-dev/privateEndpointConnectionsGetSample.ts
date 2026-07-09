@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the specified private endpoint connection associated with the container registry.
  *
  * @summary get the specified private endpoint connection associated with the container registry.
- * x-ms-original-file: 2026-01-01-preview/PrivateEndpointConnectionGet.json
+ * x-ms-original-file: 2026-03-01-preview/PrivateEndpointConnectionGet.json
  */
 async function privateEndpointConnectionGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

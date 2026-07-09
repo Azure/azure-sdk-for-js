@@ -36,9 +36,7 @@ export function isUnexpected(
 ): response is DocumentTranslateDefaultResponse;
 export function isUnexpected(
   response:
-    | StartTranslation202Response
-    | StartTranslationLogicalResponse
-    | StartTranslationDefaultResponse,
+    StartTranslation202Response | StartTranslationLogicalResponse | StartTranslationDefaultResponse,
 ): response is StartTranslationDefaultResponse;
 export function isUnexpected(
   response: GetTranslationsStatus200Response | GetTranslationsStatusDefaultResponse,

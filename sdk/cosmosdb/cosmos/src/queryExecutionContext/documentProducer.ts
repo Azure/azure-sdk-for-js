@@ -348,8 +348,7 @@ export class DocumentProducer {
   }
 
   public getQueryExecutionInfo():
-    | { reverseRidEnabled: boolean; reverseIndexScan: boolean }
-    | undefined {
+    { reverseRidEnabled: boolean; reverseIndexScan: boolean } | undefined {
     return this.queryExecutionInfo;
   }
 }

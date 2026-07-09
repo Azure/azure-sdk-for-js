@@ -11,3 +11,4 @@ export {
   type LogsUploadFailure,
 } from "./models/index.js";
 export type { LogsIngestionClientOptions, LogsUploadOptions } from "./api/index.js";
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to regenerates the specified account key for the specified Cognitive Services account.
  *
  * @summary regenerates the specified account key for the specified Cognitive Services account.
- * x-ms-original-file: 2026-03-15-preview/RegenerateKey.json
+ * x-ms-original-file: 2026-05-15-preview/RegenerateKey.json
  */
 async function regenerateKeys() {
   const credential = new DefaultAzureCredential();

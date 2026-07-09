@@ -1,24 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets the log profile.
- *
- * @summary Gets the log profile.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2016-03-01/examples/getLogProfile.json
- */
-
 import { MonitorClient } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to gets the log profile.
+ *
+ * @summary gets the log profile.
+ * x-ms-original-file: 2016-03-01/getLogProfile.json
+ */
 async function getLogProfile(): Promise<void> {
-  const subscriptionId =
-    process.env["MONITOR_SUBSCRIPTION_ID"] || "df602c9c-7aa0-407d-a6fb-eb20c8bd1192";
-  const logProfileName = "default";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "df602c9c-7aa0-407d-a6fb-eb20c8bd1192";
   const client = new MonitorClient(credential, subscriptionId);
-  const result = await client.logProfiles.get(logProfileName);
+  const result = await client.logProfiles.get("default");
   console.log(result);
 }
 
