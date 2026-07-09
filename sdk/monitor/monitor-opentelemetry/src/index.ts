@@ -79,7 +79,11 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): voi
     disableMongoDb: config.instrumentationOptions?.mongoDb?.enabled === false,
     disableMySql: config.instrumentationOptions?.mySql?.enabled === false,
     disablePostgreSql: config.instrumentationOptions?.postgreSql?.enabled === false,
-    disableRedis: config.instrumentationOptions?.redis?.enabled === false,
+    // redis and redis4 share the same underlying Redis instrumentation, which is
+    // registered when either is enabled. Only count Redis as disabled when both are off.
+    disableRedis:
+      config.instrumentationOptions?.redis?.enabled === false &&
+      config.instrumentationOptions?.redis4?.enabled === false,
     bunyan: config.instrumentationOptions?.bunyan?.enabled,
     winston: config.instrumentationOptions?.winston?.enabled,
   };

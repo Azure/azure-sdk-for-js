@@ -339,7 +339,9 @@ describe("Main functions", () => {
         mongoDb: { enabled: false },
         mySql: { enabled: false },
         postgreSql: { enabled: false },
+        // redis and redis4 share the same instrumentation; both must be off to count as disabled.
         redis: { enabled: false },
+        redis4: { enabled: false },
       },
     };
     useAzureMonitor(config);
@@ -371,6 +373,27 @@ describe("Main functions", () => {
         StatsbeatInstrumentation.DISABLE_MYSQL |
         StatsbeatInstrumentation.DISABLE_POSTGRESQL |
         StatsbeatInstrumentation.DISABLE_REDIS,
+    );
+  });
+
+  it("should not set DISABLE_REDIS when redis is disabled but redis4 is still enabled", () => {
+    const config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+      instrumentationOptions: {
+        // redis and redis4 share the same underlying instrumentation, which stays
+        // enabled while redis4 is on, so Redis must not be counted as disabled.
+        redis: { enabled: false },
+        redis4: { enabled: true },
+      },
+    };
+    useAzureMonitor(config);
+    const output = JSON.parse(String(process.env["AZURE_MONITOR_STATSBEAT_FEATURES"]));
+    const instrumentations = Number(output["instrumentation"]);
+    assert.notOk(
+      instrumentations & StatsbeatInstrumentation.DISABLE_REDIS,
+      "DISABLE_REDIS should not be set while redis4 is still enabled",
     );
   });
 
