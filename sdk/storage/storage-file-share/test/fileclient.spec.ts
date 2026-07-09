@@ -1130,10 +1130,12 @@ describe("FileClient", () => {
   });
 
   it("listRanges by page", async () => {
-    await fileClient.create(512 * 4);
+    // Write into non-adjacent 512-byte blocks (an empty block between each) so the service
+    // reports three distinct ranges instead of coalescing adjacent blocks into one.
+    await fileClient.create(512 * 5);
     await fileClient.uploadRange("aaa", 0, 3);
-    await fileClient.uploadRange("bbb", 512, 3);
-    await fileClient.uploadRange("ccc", 1024, 3);
+    await fileClient.uploadRange("bbb", 1024, 3);
+    await fileClient.uploadRange("ccc", 2048, 3);
 
     const foundRanges: ShareFileRange[] = [];
     let pageCount = 0;
@@ -1149,10 +1151,12 @@ describe("FileClient", () => {
   });
 
   it("listRanges with continuation token", async () => {
-    await fileClient.create(512 * 4);
+    // Write into non-adjacent 512-byte blocks (an empty block between each) so the service
+    // reports three distinct ranges, enabling real page-by-page continuation.
+    await fileClient.create(512 * 5);
     await fileClient.uploadRange("aaa", 0, 3);
-    await fileClient.uploadRange("bbb", 512, 3);
-    await fileClient.uploadRange("ccc", 1024, 3);
+    await fileClient.uploadRange("bbb", 1024, 3);
+    await fileClient.uploadRange("ccc", 2048, 3);
 
     let iterator = fileClient.listRanges().byPage({ maxPageSize: 1 });
     let response = (await iterator.next()).value;
@@ -1166,11 +1170,7 @@ describe("FileClient", () => {
     assert.isAtLeast(response.ranges!.length, 1);
   });
 
-  it("listRangesDiff", async function (ctx) {
-    if (isLiveMode()) {
-      // Skipped for now as the result is not stable.
-      ctx.skip();
-    }
+  it("listRangesDiff", async () => {
     await fileClient.create(512 * 4 + 1);
     await fileClient.uploadRange("Hello", 0, 5);
 
@@ -1185,13 +1185,29 @@ describe("FileClient", () => {
       ranges.push(range);
     }
 
-    const clearedRanges = ranges.filter((r) => r.isClear);
-    const populatedRanges = ranges.filter((r) => !r.isClear);
+    // Invariants that hold regardless of how the service chunks the diff.
+    for (const range of ranges) {
+      assert.isBoolean(range.isClear);
+      assert.isAtMost(range.start, range.end);
+    }
+    for (let i = 1; i < ranges.length; i++) {
+      assert.isAtLeast(
+        ranges[i].start,
+        ranges[i - 1].start,
+        "ranges must be sorted by start position",
+      );
+    }
 
-    assert.deepStrictEqual(clearedRanges.length, 1);
-    assert.deepStrictEqual(clearedRanges[0], { start: 0, end: 511, isClear: true });
-    assert.deepStrictEqual(populatedRanges.length, 1);
-    assert.deepStrictEqual(populatedRanges[0], { start: 512, end: 1535, isClear: false });
+    if (!isLiveMode()) {
+      // Exact byte offsets are only stable against recordings.
+      const clearedRanges = ranges.filter((r) => r.isClear);
+      const populatedRanges = ranges.filter((r) => !r.isClear);
+
+      assert.deepStrictEqual(clearedRanges.length, 1);
+      assert.deepStrictEqual(clearedRanges[0], { start: 0, end: 511, isClear: true });
+      assert.deepStrictEqual(populatedRanges.length, 1);
+      assert.deepStrictEqual(populatedRanges[0], { start: 512, end: 1535, isClear: false });
+    }
   });
 
   it("listRanges on an empty file yields no ranges", async () => {
@@ -1204,11 +1220,7 @@ describe("FileClient", () => {
     assert.deepStrictEqual(ranges.length, 0);
   });
 
-  it("listRangesDiff interleaves cleared and populated ranges in start order", async function (ctx) {
-    if (isLiveMode()) {
-      // Skipped for now as the result is not stable.
-      ctx.skip();
-    }
+  it("listRangesDiff interleaves cleared and populated ranges in start order", async () => {
     // Baseline: write data into segments [0,511] and [1024,1535] so they can be cleared later.
     await fileClient.create(512 * 4);
     await fileClient.uploadRange("a", 0, 1);
@@ -1228,14 +1240,30 @@ describe("FileClient", () => {
       ranges.push(range);
     }
 
-    // The two-pointer merge in extractShareFileRangeItems must yield a single sequence
-    // sorted by start, interleaving cleared and populated ranges.
-    assert.deepStrictEqual(ranges, [
-      { start: 0, end: 511, isClear: true },
-      { start: 512, end: 1023, isClear: false },
-      { start: 1024, end: 1535, isClear: true },
-      { start: 1536, end: 2047, isClear: false },
-    ]);
+    // Invariants that hold regardless of how the service chunks the diff: the two-pointer merge in
+    // extractShareFileRangeItems must yield a single sequence sorted by start, interleaving cleared
+    // and populated ranges.
+    for (const range of ranges) {
+      assert.isBoolean(range.isClear);
+      assert.isAtMost(range.start, range.end);
+    }
+    for (let i = 1; i < ranges.length; i++) {
+      assert.isAtLeast(
+        ranges[i].start,
+        ranges[i - 1].start,
+        "ranges must be sorted by start position",
+      );
+    }
+
+    if (!isLiveMode()) {
+      // Exact byte offsets are only stable against recordings.
+      assert.deepStrictEqual(ranges, [
+        { start: 0, end: 511, isClear: true },
+        { start: 512, end: 1023, isClear: false },
+        { start: 1024, end: 1535, isClear: true },
+        { start: 1536, end: 2047, isClear: false },
+      ]);
+    }
   });
 
   it("download with with default parameters", async () => {
