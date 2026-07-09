@@ -43,9 +43,10 @@ package — the same client `createAnalyzer.ts` and
 
 ## Prerequisites
 
-Required: Node.js 18+ and npm (the skill tool is a standalone TypeScript
+Required: Node.js 22+ and npm (the skill tool is a standalone TypeScript
 CLI under `.github/skills/_shared/` that depends on the published
-`@azure/ai-content-understanding` package from npm), `.env` or environment
+`@azure/ai-content-understanding` package from npm, which declares
+`engines.node: ">=22.0.0"`), `.env` or environment
 variables with `CONTENTUNDERSTANDING_ENDPOINT` (plus `CONTENTUNDERSTANDING_KEY`
 or `az login`), and the model defaults configured for this resource (see
 [`updateDefaults.ts`](../../../samples-dev/updateDefaults.ts)).
@@ -62,7 +63,7 @@ or `az login`), and the model defaults configured for this resource (see
 >
 > | Failure | Route to |
 > |---|---|
-> | `node: MISSING` | install Node.js 18+ from https://nodejs.org |
+> | `node: MISSING` | install Node.js 22+ from https://nodejs.org |
 > | `npm: MISSING` | install npm (bundled with Node.js) |
 > | endpoint `MISSING` | create or edit `.env` at the repo root with `CONTENTUNDERSTANDING_ENDPOINT=https://<your-resource>.services.ai.azure.com/`, then resume |
 > | endpoint `ok`, key `empty`, `az: not logged in` | run `az login` **or** add `CONTENTUNDERSTANDING_KEY` to `.env`, then resume |
