@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- Added support for service version 2026-12-06.
+- Added support for service version 2026-10-06.
 - Added `accessTier`, `accessTierInferred`, `accessTierChangedOn`, and `smartAccessTier` to the blob download response.
 - Added an opt-in Apache Arrow response format for `listBlobsFlat` and `listBlobsByHierarchy` (set `responseFormat` to `StorageResponseFormat.Arrow`), plus a new `endBefore` list option. The default remains XML.
 

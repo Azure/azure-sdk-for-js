@@ -15,6 +15,8 @@ import {
 } from "@azure/storage-common";
 import type { Container } from "./generated/src/operationsInterfaces/index.js";
 import type {
+  BlobItemInternal,
+  BlobPrefix as BlobPrefixInternal,
   ContainerListBlobFlatSegmentApacheArrowHeaders,
   ContainerListBlobFlatSegmentApacheArrowResponse,
   ContainerListBlobHierarchySegmentApacheArrowHeaders,
@@ -633,6 +635,35 @@ export interface ContainerGetAccountInfoOptions extends CommonOptions {
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    */
   abortSignal?: AbortSignalLike;
+}
+
+/**
+ * Maps a generated internal blob item (with a structured `name`) to the public
+ * {@link BlobItem} shape, decoding the name and parsing tags / object-replication
+ * metadata. Shared by the XML and Apache Arrow list paths so they cannot drift.
+ */
+function mapBlobItemInternal(blobItemInternal: BlobItemInternal): BlobItem {
+  const blobItem: BlobItem = {
+    ...blobItemInternal,
+    name: BlobNameToString(blobItemInternal.name),
+    tags: toTags(blobItemInternal.blobTags),
+    objectReplicationSourceProperties: parseObjectReplicationRecord(
+      blobItemInternal.objectReplicationMetadata,
+    ),
+  };
+  return blobItem;
+}
+
+/**
+ * Maps a generated internal blob prefix (with a structured `name`) to the public
+ * {@link BlobPrefix} shape. Shared by the XML and Apache Arrow list paths.
+ */
+function mapBlobPrefixInternal(blobPrefixInternal: BlobPrefixInternal): BlobPrefix {
+  const blobPrefix: BlobPrefix = {
+    ...blobPrefixInternal,
+    name: BlobNameToString(blobPrefixInternal.name),
+  };
+  return blobPrefix;
 }
 
 /**
@@ -1341,17 +1372,7 @@ export class ContainerClient extends StorageClient {
           }, // _response is made non-enumerable
           segment: {
             ...response.segment,
-            blobItems: response.segment.blobItems.map((blobItemInternal) => {
-              const blobItem: BlobItem = {
-                ...blobItemInternal,
-                name: BlobNameToString(blobItemInternal.name),
-                tags: toTags(blobItemInternal.blobTags),
-                objectReplicationSourceProperties: parseObjectReplicationRecord(
-                  blobItemInternal.objectReplicationMetadata,
-                ),
-              };
-              return blobItem;
-            }),
+            blobItems: response.segment.blobItems.map(mapBlobItemInternal),
           },
         };
         return wrappedResponse;
@@ -1383,7 +1404,7 @@ export class ContainerClient extends StorageClient {
 
     // The service falls back to XML for accounts that do not support Apache Arrow.
     // The Content-Type header indicates which format we actually received. When it
-    // is not Apache Arrow, parse the already-received XML stream in place 
+    // is not Apache Arrow, parse the already-received XML stream in place
     // instead of issuing a second request.
     if (rawResponse.contentType !== ApacheArrowContentType) {
       const internalResponse = await deserializeListBlobFlatSegmentXml(rawResponse);
@@ -1394,21 +1415,12 @@ export class ContainerClient extends StorageClient {
         version: rawResponse.version,
         date: rawResponse.date,
         contentType: rawResponse.contentType,
+        // Safe cast: the raw stream body was already consumed above; _response is retained only for headers/status.
         _response:
           rawResponse._response as unknown as ContainerListBlobFlatSegmentResponse["_response"],
         segment: {
           ...internalResponse.segment,
-          blobItems: (internalResponse.segment?.blobItems ?? []).map((blobItemInternal) => {
-            const blobItem: BlobItem = {
-              ...blobItemInternal,
-              name: BlobNameToString(blobItemInternal.name),
-              tags: toTags(blobItemInternal.blobTags),
-              objectReplicationSourceProperties: parseObjectReplicationRecord(
-                blobItemInternal.objectReplicationMetadata,
-              ),
-            };
-            return blobItem;
-          }),
+          blobItems: (internalResponse.segment?.blobItems ?? []).map(mapBlobItemInternal),
         },
       };
       return xmlWrappedResponse;
@@ -1431,7 +1443,9 @@ export class ContainerClient extends StorageClient {
       version: rawResponse.version,
       date: rawResponse.date,
       contentType: rawResponse.contentType,
-      _response: rawResponse._response as unknown as ContainerListBlobFlatSegmentResponse["_response"],
+      // Safe cast: the raw stream body was already consumed above; _response is retained only for headers/status.
+      _response:
+        rawResponse._response as unknown as ContainerListBlobFlatSegmentResponse["_response"],
     };
     return wrappedResponse;
   }
@@ -1482,24 +1496,8 @@ export class ContainerClient extends StorageClient {
           }, // _response is made non-enumerable
           segment: {
             ...response.segment,
-            blobItems: response.segment.blobItems.map((blobItemInternal) => {
-              const blobItem: BlobItem = {
-                ...blobItemInternal,
-                name: BlobNameToString(blobItemInternal.name),
-                tags: toTags(blobItemInternal.blobTags),
-                objectReplicationSourceProperties: parseObjectReplicationRecord(
-                  blobItemInternal.objectReplicationMetadata,
-                ),
-              };
-              return blobItem;
-            }),
-            blobPrefixes: response.segment.blobPrefixes?.map((blobPrefixInternal) => {
-              const blobPrefix: BlobPrefix = {
-                ...blobPrefixInternal,
-                name: BlobNameToString(blobPrefixInternal.name),
-              };
-              return blobPrefix;
-            }),
+            blobItems: response.segment.blobItems.map(mapBlobItemInternal),
+            blobPrefixes: response.segment.blobPrefixes?.map(mapBlobPrefixInternal),
           },
         };
         return wrappedResponse;
@@ -1544,28 +1542,13 @@ export class ContainerClient extends StorageClient {
         version: rawResponse.version,
         date: rawResponse.date,
         contentType: rawResponse.contentType,
+        // Safe cast: the raw stream body was already consumed above; _response is retained only for headers/status.
         _response:
           rawResponse._response as unknown as ContainerListBlobHierarchySegmentResponse["_response"],
         segment: {
           ...internalResponse.segment,
-          blobItems: (internalResponse.segment?.blobItems ?? []).map((blobItemInternal) => {
-            const blobItem: BlobItem = {
-              ...blobItemInternal,
-              name: BlobNameToString(blobItemInternal.name),
-              tags: toTags(blobItemInternal.blobTags),
-              objectReplicationSourceProperties: parseObjectReplicationRecord(
-                blobItemInternal.objectReplicationMetadata,
-              ),
-            };
-            return blobItem;
-          }),
-          blobPrefixes: internalResponse.segment?.blobPrefixes?.map((blobPrefixInternal) => {
-            const blobPrefix: BlobPrefix = {
-              ...blobPrefixInternal,
-              name: BlobNameToString(blobPrefixInternal.name),
-            };
-            return blobPrefix;
-          }),
+          blobItems: (internalResponse.segment?.blobItems ?? []).map(mapBlobItemInternal),
+          blobPrefixes: internalResponse.segment?.blobPrefixes?.map(mapBlobPrefixInternal),
         },
       };
       return xmlWrappedResponse;
@@ -1590,7 +1573,9 @@ export class ContainerClient extends StorageClient {
       version: rawResponse.version,
       date: rawResponse.date,
       contentType: rawResponse.contentType,
-      _response: rawResponse._response as unknown as ContainerListBlobHierarchySegmentResponse["_response"],
+      // Safe cast: the raw stream body was already consumed above; _response is retained only for headers/status.
+      _response:
+        rawResponse._response as unknown as ContainerListBlobHierarchySegmentResponse["_response"],
     };
     return wrappedResponse;
   }

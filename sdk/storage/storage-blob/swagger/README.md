@@ -1495,11 +1495,11 @@ directive:
       $["properties"]["AuthenticationErrorDetail"] = { "type": "string" };
 ```
 
-### Set service version to "2026-12-06"
+### Set service version to "2026-10-06"
 
 ```yaml
 directive:
   - from: swagger-document
     where: $.parameters.ApiVersionParameter
-    transform: $.enum = [ "2026-12-06" ];
+    transform: $.enum = [ "2026-10-06" ];
 ```
