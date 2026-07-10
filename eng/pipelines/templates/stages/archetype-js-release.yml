@@ -8,6 +8,20 @@ parameters:
   ServiceDirectory: ''
 
 stages:
+    # Gate all release stages on: internal project AND (a manual/scheduled run OR post-merge CI on main).
+    # The one-line expression below is hard to scan, so here it is expanded (logically identical):
+    #   and(
+    #     eq(System.TeamProject, 'internal'),
+    #     or(
+    #       in(Build.Reason, 'Manual', ''),                             # manual queue or scheduled run
+    #       and(                                                        # post-merge CI on main
+    #         eq(Build.Reason, 'IndividualCI'),
+    #         eq(Build.SourceBranch, 'refs/heads/main')
+    #       )
+    #     )
+    #   )
+    # The trailing ")))" right after 'refs/heads/main' closes, in order: the inner and(), the or(),
+    # and the outer and(); the final " }}" then closes the template expression.
   - ${{ if and(eq(variables['System.TeamProject'], 'internal'), or(in(variables['Build.Reason'], 'Manual', ''), and(eq(variables['Build.Reason'], 'IndividualCI'), eq(variables['Build.SourceBranch'], 'refs/heads/main')))) }}:
       # For post-merge CI (not manual), resolve which packages the merged, auto-release-labeled PR
       # changed. Auto-release only applies to PRs merged to 'main' (the Build.SourceBranch check above),
