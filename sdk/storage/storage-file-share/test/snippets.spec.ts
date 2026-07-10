@@ -529,6 +529,62 @@ describe("snippets", () => {
     await directoryClient.create();
   });
 
+  it("ReadmeSampleListRanges", async () => {
+    const account = "<account>";
+    const accountKey = "<accountkey>";
+    // @ts-preserve-whitespace
+    const credential = new StorageSharedKeyCredential(account, accountKey);
+    const serviceClient = new ShareServiceClient(
+      `https://${account}.file.core.windows.net`,
+      credential,
+    );
+    // @ts-preserve-whitespace
+    const shareName = "<share name>";
+    const fileName = "<file name>";
+    const fileClient = serviceClient
+      .getShareClient(shareName)
+      .rootDirectoryClient.getFileClient(fileName);
+    // @ts-preserve-whitespace
+    // Each item is a ShareFileRange with start, end, and isClear
+    for await (const range of fileClient.listRanges()) {
+      console.log(`Range: ${range.start}-${range.end}, isClear: ${range.isClear}`);
+    }
+  });
+
+  it("ReadmeSampleListRanges_ByPage", async () => {
+    const account = "<account>";
+    const accountKey = "<accountkey>";
+    // @ts-preserve-whitespace
+    const credential = new StorageSharedKeyCredential(account, accountKey);
+    const serviceClient = new ShareServiceClient(
+      `https://${account}.file.core.windows.net`,
+      credential,
+    );
+    // @ts-preserve-whitespace
+    const shareName = "<share name>";
+    const fileName = "<file name>";
+    const fileClient = serviceClient
+      .getShareClient(shareName)
+      .rootDirectoryClient.getFileClient(fileName);
+    // @ts-preserve-whitespace
+    // Get the first page of ranges
+    let iterator = fileClient.listRanges().byPage({ maxPageSize: 1 });
+    let response = (await iterator.next()).value;
+    for (const range of response.ranges || []) {
+      console.log(`Range: ${range.start}-${range.end}`);
+    }
+    // @ts-preserve-whitespace
+    // Gets next marker
+    const marker = response.continuationToken;
+    // @ts-preserve-whitespace
+    // Passing next marker as continuationToken
+    iterator = fileClient.listRanges().byPage({ continuationToken: marker, maxPageSize: 2 });
+    response = (await iterator.next()).value;
+    for (const range of response.ranges || []) {
+      console.log(`Range: ${range.start}-${range.end}`);
+    }
+  });
+
   it("SetLogLevel", async () => {
     setLogLevel("info");
   });

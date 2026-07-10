@@ -4,8 +4,9 @@
 
 ### Features Added
 
-- Added `ShareFileClient.listRanges()` and `ShareFileClient.listRangesDiff()` to list file ranges as a paginated async iterable with continuation-token support.
-- Deprecated `ShareFileClient.getRangeList()` and `ShareFileClient.getRangeListDiff()` in favor of `listRanges()` and `listRangesDiff()`.
+- Added support for service version 2026-10-06. [PR #39232](https://github.com/Azure/azure-sdk-for-js/pull/39232)
+- Added `ShareFileClient.listRanges()` and `ShareFileClient.listRangesDiff()` to list file ranges as a paginated async iterable with continuation-token support. [PR #39232](https://github.com/Azure/azure-sdk-for-js/pull/39232)
+- Deprecated `ShareFileClient.getRangeList()` and `ShareFileClient.getRangeListDiff()` in favor of `listRanges()` and `listRangesDiff()`. [PR #39232](https://github.com/Azure/azure-sdk-for-js/pull/39232)
 
 ### Breaking Changes
 
