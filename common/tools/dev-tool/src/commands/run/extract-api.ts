@@ -139,11 +139,17 @@ function customMessageCallback(message: ExtractorMessage): void {
   }
 }
 
+interface ExtractApiResult {
+  succeeded: boolean;
+  errorCount: number;
+  warningCount: number;
+}
+
 function extractApi(
   configObject: IConfigFile,
   configObjectFullPath: string,
   packageJsonFullPath: string,
-): boolean {
+): ExtractApiResult {
   const config = ExtractorConfig.prepare({
     configObject,
     configObjectFullPath,
@@ -160,7 +166,11 @@ function extractApi(
       `API Extractor completed with ${result.errorCount} errors and ${result.warningCount} warnings`,
     );
   }
-  return result.succeeded;
+  return {
+    succeeded: result.succeeded,
+    errorCount: result.errorCount,
+    warningCount: result.warningCount,
+  };
 }
 
 function createApiDiff(
@@ -265,7 +275,14 @@ async function extractApiForEntry(
     };
   }
 
-  extractApi(newConfig, configPath, pkgPath);
+  const extractResult = extractApi(newConfig, configPath, pkgPath);
+  if (!extractResult.succeeded) {
+    throw new Error(
+      `API Extractor failed for entry '${createNameWithRuntime(entry)}' ` +
+        `(mainEntryPoint: ${entry.mainEntryPointFilePath}) with ${extractResult.errorCount} errors ` +
+        `and ${extractResult.warningCount} warnings. Expected report at ${tempReportPath}.`,
+    );
+  }
 
   const content = await readFile(tempReportPath, "utf-8");
   await unlink(tempReportPath);
@@ -430,7 +447,7 @@ export default leafCommand(commandInfo, async () => {
       );
     }
   } else {
-    success = extractApi(baseConfig, configPath, pkgPath);
+    success = extractApi(baseConfig, configPath, pkgPath).succeeded;
   }
 
   return success;

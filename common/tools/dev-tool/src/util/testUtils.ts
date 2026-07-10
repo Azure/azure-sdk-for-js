@@ -29,6 +29,33 @@ async function shouldRunProxyTool(): Promise<boolean> {
   }
 }
 
+/**
+ * `concurrently(...).result` rejects with an array of close-event objects
+ * (not an `Error`) when a command exits non-zero. This turns that value into a
+ * readable, actionable message describing which commands failed and their exit
+ * codes.
+ */
+export function summarizeCloseEvents(closeEvents: unknown): string {
+  const events = Array.isArray(closeEvents) ? closeEvents : [closeEvents];
+  const failed = events
+    .filter((e): e is { command?: { command?: string }; exitCode?: number } => Boolean(e))
+    .filter((e) => e.exitCode !== 0 && e.exitCode !== undefined)
+    .map((e) => `${e.command?.command ?? "command"} exited with code ${e.exitCode}`);
+
+  if (failed.length > 0) {
+    return failed.join("; ");
+  }
+  // Fallback: nothing matched the expected shape, surface the raw value.
+  if (closeEvents instanceof Error) {
+    return closeEvents.stack ?? closeEvents.message;
+  }
+  try {
+    return JSON.stringify(closeEvents);
+  } catch {
+    return String(closeEvents);
+  }
+}
+
 export async function runTestsWithProxyTool(
   testCommandObj: Partial<ConcurrentlyCommand> & { command: string },
 ): Promise<boolean> {
@@ -39,12 +66,18 @@ export async function runTestsWithProxyTool(
     testProxy = await startTestProxy();
   }
 
-  await concurrently([testCommandObj]).result;
+  let success = true;
+  try {
+    await concurrently([testCommandObj]).result;
+  } catch (closeEvents: unknown) {
+    log.error(`test command failed: ${summarizeCloseEvents(closeEvents)}`);
+    success = false;
+  }
 
   if (testProxy) {
     log("Stopping the test proxy");
     await testProxy.stop();
   }
 
-  return true;
+  return success;
 }

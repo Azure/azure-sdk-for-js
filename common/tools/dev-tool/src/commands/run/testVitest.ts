@@ -4,7 +4,7 @@
 import path from "node:path";
 import concurrently from "concurrently";
 import { leafCommand, makeCommandInfo } from "../../framework/command.ts";
-import { runTestsWithProxyTool } from "../../util/testUtils.ts";
+import { runTestsWithProxyTool, summarizeCloseEvents } from "../../util/testUtils.ts";
 import { createPrinter } from "../../util/printer.ts";
 import { shouldStartRelay, startRelayServer } from "../../util/browserRelayServer.ts";
 
@@ -107,8 +107,13 @@ export default leafCommand(commandInfo, async (options) => {
     }
 
     log.info("Running vitest without test-proxy");
-    await concurrently([command]).result;
-    return true;
+    try {
+      await concurrently([command]).result;
+      return true;
+    } catch (closeEvents: unknown) {
+      log.error(`vitest failed: ${summarizeCloseEvents(closeEvents)}`);
+      return false;
+    }
   } finally {
     stopRelayServer?.();
     if (typeof oldPath === "undefined") {
