@@ -43,3 +43,4 @@ export type {
 } from "./models.js";
 
 export { EventGridDeserializer } from "./consumer.js";
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

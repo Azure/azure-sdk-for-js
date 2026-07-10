@@ -8,20 +8,20 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a AuthenticationSetting
  *
  * @summary create a AuthenticationSetting
- * x-ms-original-file: 2025-05-01-preview/AuthenticationSettings_CreateOrUpdate.json
+ * x-ms-original-file: 2026-05-01-preview/AuthenticationSettings_CreateOrUpdate.json
  */
 async function authenticationSettingsCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId = "abcdef12-3456-7890-abcd-ef1234567890";
   const client = new CloudHealthClient(credential, subscriptionId);
   const result = await client.authenticationSettings.createOrUpdate(
-    "myResourceGroup",
-    "myHealthModel",
-    "myAuthSetting",
+    "online-store-rg",
+    "online-store",
+    "default-auth",
     {
       properties: {
         managedIdentityName: "SystemAssigned",
-        displayName: "myDisplayName",
+        displayName: "Default managed identity",
         authenticationKind: "ManagedIdentity",
       },
     },

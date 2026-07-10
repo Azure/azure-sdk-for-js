@@ -96,7 +96,7 @@ export function _recoverDeletedCertificateSend(
     "/deletedcertificates/{certificate-name}/recover{?api%2Dversion}",
     {
       "certificate-name": certificateName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -143,7 +143,7 @@ export function _purgeDeletedCertificateSend(
     "/deletedcertificates/{certificate-name}{?api%2Dversion}",
     {
       "certificate-name": certificateName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -185,7 +185,7 @@ export function _getDeletedCertificateSend(
     "/deletedcertificates/{certificate-name}{?api%2Dversion}",
     {
       "certificate-name": certificateName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -230,7 +230,7 @@ export function _getDeletedCertificatesSend(
   const path = expandUrlTemplate(
     "/deletedcertificates{?api%2Dversion,maxresults,includePending}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
       maxresults: options?.maxresults,
       includePending: options?.includePending,
     },
@@ -270,7 +270,11 @@ export function getDeletedCertificates(
     () => _getDeletedCertificatesSend(context, options),
     _getDeletedCertificatesDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-03-01-preview",
+    },
   );
 }
 
@@ -282,7 +286,7 @@ export function _restoreCertificateSend(
   const path = expandUrlTemplate(
     "/certificates/restore{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -331,7 +335,7 @@ export function _backupCertificateSend(
     "/certificates/{certificate-name}/backup{?api%2Dversion}",
     {
       "certificate-name": certificateName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -379,7 +383,7 @@ export function _mergeCertificateSend(
     "/certificates/{certificate-name}/pending/merge{?api%2Dversion}",
     {
       "certificate-name": certificateName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -429,7 +433,7 @@ export function _deleteCertificateOperationSend(
     "/certificates/{certificate-name}/pending{?api%2Dversion}",
     {
       "certificate-name": certificateName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -476,7 +480,7 @@ export function _getCertificateOperationSend(
     "/certificates/{certificate-name}/pending{?api%2Dversion}",
     {
       "certificate-name": certificateName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -524,7 +528,7 @@ export function _updateCertificateOperationSend(
     "/certificates/{certificate-name}/pending{?api%2Dversion}",
     {
       "certificate-name": certificateName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -581,7 +585,7 @@ export function _getCertificateSend(
     {
       "certificate-name": certificateName,
       "certificate-version": certificateVersion,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -632,7 +636,7 @@ export function _updateCertificateSend(
     {
       "certificate-name": certificateName,
       "certificate-version": certificateVersion,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -690,7 +694,7 @@ export function _updateCertificatePolicySend(
     "/certificates/{certificate-name}/policy{?api%2Dversion}",
     {
       "certificate-name": certificateName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -745,7 +749,7 @@ export function _getCertificatePolicySend(
     "/certificates/{certificate-name}/policy{?api%2Dversion}",
     {
       "certificate-name": certificateName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -792,7 +796,7 @@ export function _getCertificateVersionsSend(
     "/certificates/{certificate-name}/versions{?api%2Dversion,maxresults}",
     {
       "certificate-name": certificateName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
       maxresults: options?.maxresults,
     },
     {
@@ -832,7 +836,11 @@ export function getCertificateVersions(
     () => _getCertificateVersionsSend(context, certificateName, options),
     _getCertificateVersionsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-03-01-preview",
+    },
   );
 }
 
@@ -846,7 +854,7 @@ export function _importCertificateSend(
     "/certificates/{certificate-name}/import{?api%2Dversion}",
     {
       "certificate-name": certificateName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -897,7 +905,7 @@ export function _createCertificateSend(
     "/certificates/{certificate-name}/create{?api%2Dversion}",
     {
       "certificate-name": certificateName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -947,7 +955,7 @@ export function _deleteCertificateIssuerSend(
     "/certificates/issuers/{issuer-name}{?api%2Dversion}",
     {
       "issuer-name": issuerName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -994,7 +1002,7 @@ export function _getCertificateIssuerSend(
     "/certificates/issuers/{issuer-name}{?api%2Dversion}",
     {
       "issuer-name": issuerName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1042,7 +1050,7 @@ export function _updateCertificateIssuerSend(
     "/certificates/issuers/{issuer-name}{?api%2Dversion}",
     {
       "issuer-name": issuerName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1093,7 +1101,7 @@ export function _setCertificateIssuerSend(
     "/certificates/issuers/{issuer-name}{?api%2Dversion}",
     {
       "issuer-name": issuerName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1141,7 +1149,7 @@ export function _getCertificateIssuersSend(
   const path = expandUrlTemplate(
     "/certificates/issuers{?api%2Dversion,maxresults}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
       maxresults: options?.maxresults,
     },
     {
@@ -1180,7 +1188,11 @@ export function getCertificateIssuers(
     () => _getCertificateIssuersSend(context, options),
     _getCertificateIssuersDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-03-01-preview",
+    },
   );
 }
 
@@ -1191,7 +1203,7 @@ export function _deleteCertificateContactsSend(
   const path = expandUrlTemplate(
     "/certificates/contacts{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1235,7 +1247,7 @@ export function _getCertificateContactsSend(
   const path = expandUrlTemplate(
     "/certificates/contacts{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1280,7 +1292,7 @@ export function _setCertificateContactsSend(
   const path = expandUrlTemplate(
     "/certificates/contacts{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1329,7 +1341,7 @@ export function _deleteCertificateSend(
     "/certificates/{certificate-name}{?api%2Dversion}",
     {
       "certificate-name": certificateName,
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1374,7 +1386,7 @@ export function _getCertificatesSend(
   const path = expandUrlTemplate(
     "/certificates{?api%2Dversion,maxresults,includePending}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-07-01",
+      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
       maxresults: options?.maxresults,
       includePending: options?.includePending,
     },
@@ -1414,6 +1426,10 @@ export function getCertificates(
     () => _getCertificatesSend(context, options),
     _getCertificatesDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-03-01-preview",
+    },
   );
 }

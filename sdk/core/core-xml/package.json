@@ -1,6 +1,6 @@
 {
   "name": "@azure/core-xml",
-  "version": "1.5.2",
+  "version": "1.6.0",
   "description": "Core library for interacting with XML payloads",
   "sdk-type": "client",
   "type": "module",
@@ -50,7 +50,7 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-xml/README.md",
   "sideEffects": false,

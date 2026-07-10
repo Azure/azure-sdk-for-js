@@ -20,25 +20,16 @@ stages:
               NodeVersion: $(NODE_VERSION_LTS_ACTIVE)
 
           - template: /eng/common/pipelines/templates/steps/create-authenticated-npmrc.yml
-            parameters:
-              npmrcPath: $(CommonNpmrcPath)
-              registryUrl: '$(PublicDevOpsRegistry)'
 
           - template: ./templates/steps/generate-doc.yml
             parameters:
               ServiceDirectory: core
 
-          - script: |
-              npm install -g pnpm
-            displayName: "Install Pnpm"
-            env:
-              npm_config_userconfig: $(CommonNpmrcPath)
+          - template: /eng/pipelines/templates/steps/install-pnpm.yml
 
           - script: |
               pnpm install
             displayName: "Install library dependencies"
-            env:
-              npm_config_userconfig: $(CommonNpmrcPath)
 
           - script: |
               pnpm build --filter @azure/eslint-plugin-azure-sdk...

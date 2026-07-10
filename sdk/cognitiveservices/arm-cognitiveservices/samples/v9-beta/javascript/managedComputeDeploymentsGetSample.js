@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the specified managed compute deployment associated with the Cognitive Services account.
  *
  * @summary gets the specified managed compute deployment associated with the Cognitive Services account.
- * x-ms-original-file: 2026-03-15-preview/GetManagedComputeDeployment.json
+ * x-ms-original-file: 2026-05-15-preview/GetManagedComputeDeployment.json
  */
 async function getManagedComputeDeployment() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function getManagedComputeDeployment() {
  * This sample demonstrates how to gets the specified managed compute deployment associated with the Cognitive Services account.
  *
  * @summary gets the specified managed compute deployment associated with the Cognitive Services account.
- * x-ms-original-file: 2026-03-15-preview/GetVmManagedComputeDeployment.json
+ * x-ms-original-file: 2026-05-15-preview/GetVmManagedComputeDeployment.json
  */
 async function getVmManagedComputeDeployment() {
   const credential = new DefaultAzureCredential();

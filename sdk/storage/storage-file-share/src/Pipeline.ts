@@ -30,7 +30,6 @@ import {
   decompressResponsePolicyName,
 } from "@azure/core-rest-pipeline";
 import { authorizeRequestOnTenantChallenge, createClientPipeline } from "@azure/core-client";
-import { parseXML, stringifyXML } from "@azure/core-xml";
 import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 
@@ -47,6 +46,7 @@ import {
   StorageBrowserPolicyFactory,
   storageCorrectContentLengthPolicy,
   storageRequestFailureDetailsParserPolicy,
+  storageRedirectRangeHeaderPolicy,
 } from "@azure/storage-common";
 import {
   StorageOAuthScopes,
@@ -277,7 +277,7 @@ export function getCoreClientOptions(pipeline: PipelineLike): ExtendedServiceCli
 
   let corePipeline: CorePipeline = (pipeline as any)._corePipeline;
   if (!corePipeline) {
-    const packageDetails = `azsdk-js-azure-storage-blob/${SDK_VERSION}`;
+    const packageDetails = `azsdk-js-storage-file-share/${SDK_VERSION}`;
     const userAgentPrefix =
       restOptions.userAgentOptions && restOptions.userAgentOptions.userAgentPrefix
         ? `${restOptions.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -292,32 +292,15 @@ export function getCoreClientOptions(pipeline: PipelineLike): ExtendedServiceCli
       userAgentOptions: {
         userAgentPrefix,
       },
-      serializationOptions: {
-        stringifyXML,
-        serializerOptions: {
-          xml: {
-            // Use customized XML char key of "#" so we can deserialize metadata
-            // with "_" key
-            xmlCharKey: "#",
-          },
-        },
-      },
-      deserializationOptions: {
-        parseXML,
-        serializerOptions: {
-          xml: {
-            // Use customized XML char key of "#" so we can deserialize metadata
-            // with "_" key
-            xmlCharKey: "#",
-          },
-        },
-      },
     });
     corePipeline.removePolicy({ phase: "Retry" });
     corePipeline.removePolicy({ name: decompressResponsePolicyName });
+    corePipeline.removePolicy({ name: "deserializationPolicy" });
+    corePipeline.removePolicy({ name: "serializationPolicy" });
     corePipeline.addPolicy(storageCorrectContentLengthPolicy());
     corePipeline.addPolicy(storageRetryPolicy(restOptions.retryOptions), { phase: "Retry" });
     corePipeline.addPolicy(storageRequestFailureDetailsParserPolicy());
+    corePipeline.addPolicy(storageRedirectRangeHeaderPolicy());
     corePipeline.addPolicy(storageBrowserPolicy());
     const downlevelResults = processDownlevelPipeline(pipeline);
     if (downlevelResults) {

@@ -4,21 +4,21 @@
 import type { AzureNetworkFabricManagementServiceAPIContext as Client } from "../index.js";
 import type {
   UpdateAdministrativeState,
-  CommonPostActionResponseForStateUpdate,
-  CommonPostActionResponseForDeviceUpdate,
+  UpdateAdministrativeStateResponse,
   NetworkTap,
   NetworkTapPatch,
   _NetworkTapsListResult,
+  NetworkTapResyncResponse,
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
   updateAdministrativeStateSerializer,
-  commonPostActionResponseForStateUpdateDeserializer,
-  commonPostActionResponseForDeviceUpdateDeserializer,
+  updateAdministrativeStateResponseDeserializer,
   networkTapSerializer,
   networkTapDeserializer,
   networkTapPatchSerializer,
   _networkTapsListResultDeserializer,
+  networkTapResyncResponseDeserializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -50,7 +50,7 @@ export function _resyncSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkTapName: networkTapName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -64,16 +64,18 @@ export function _resyncSend(
 
 export async function _resyncDeserialize(
   result: PathUncheckedResponse,
-): Promise<CommonPostActionResponseForStateUpdate> {
-  const expectedStatuses = ["202", "200", "201"];
+): Promise<NetworkTapResyncResponse> {
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
-  return commonPostActionResponseForStateUpdateDeserializer(result.body);
+  return networkTapResyncResponseDeserializer(result.body);
 }
 
 /** Implements the operation to the underlying resources. */
@@ -82,20 +84,14 @@ export function resync(
   resourceGroupName: string,
   networkTapName: string,
   options: NetworkTapsResyncOptionalParams = { requestOptions: {} },
-): PollerLike<
-  OperationState<CommonPostActionResponseForStateUpdate>,
-  CommonPostActionResponseForStateUpdate
-> {
-  return getLongRunningPoller(context, _resyncDeserialize, ["202", "200", "201"], {
+): PollerLike<OperationState<NetworkTapResyncResponse>, NetworkTapResyncResponse> {
+  return getLongRunningPoller(context, _resyncDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _resyncSend(context, resourceGroupName, networkTapName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2024-06-15-preview",
-  }) as PollerLike<
-    OperationState<CommonPostActionResponseForStateUpdate>,
-    CommonPostActionResponseForStateUpdate
-  >;
+    apiVersion: context.apiVersion ?? "2025-07-15",
+  }) as PollerLike<OperationState<NetworkTapResyncResponse>, NetworkTapResyncResponse>;
 }
 
 export function _updateAdministrativeStateSend(
@@ -111,7 +107,7 @@ export function _updateAdministrativeStateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkTapName: networkTapName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -127,16 +123,18 @@ export function _updateAdministrativeStateSend(
 
 export async function _updateAdministrativeStateDeserialize(
   result: PathUncheckedResponse,
-): Promise<CommonPostActionResponseForDeviceUpdate> {
-  const expectedStatuses = ["202", "200", "201"];
+): Promise<UpdateAdministrativeStateResponse> {
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
-  return commonPostActionResponseForDeviceUpdateDeserializer(result.body);
+  return updateAdministrativeStateResponseDeserializer(result.body);
 }
 
 /** Implements the operation to the underlying resources. */
@@ -147,24 +145,24 @@ export function updateAdministrativeState(
   body: UpdateAdministrativeState,
   options: NetworkTapsUpdateAdministrativeStateOptionalParams = { requestOptions: {} },
 ): PollerLike<
-  OperationState<CommonPostActionResponseForDeviceUpdate>,
-  CommonPostActionResponseForDeviceUpdate
+  OperationState<UpdateAdministrativeStateResponse>,
+  UpdateAdministrativeStateResponse
 > {
   return getLongRunningPoller(
     context,
     _updateAdministrativeStateDeserialize,
-    ["202", "200", "201"],
+    ["200", "202", "201"],
     {
       updateIntervalInMs: options?.updateIntervalInMs,
       abortSignal: options?.abortSignal,
       getInitialResponse: () =>
         _updateAdministrativeStateSend(context, resourceGroupName, networkTapName, body, options),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2024-06-15-preview",
+      apiVersion: context.apiVersion ?? "2025-07-15",
     },
   ) as PollerLike<
-    OperationState<CommonPostActionResponseForDeviceUpdate>,
-    CommonPostActionResponseForDeviceUpdate
+    OperationState<UpdateAdministrativeStateResponse>,
+    UpdateAdministrativeStateResponse
   >;
 }
 
@@ -176,7 +174,7 @@ export function _listBySubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.ManagedNetworkFabric/networkTaps{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -194,7 +192,9 @@ export async function _listBySubscriptionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -212,11 +212,7 @@ export function listBySubscription(
     () => _listBySubscriptionSend(context, options),
     _listBySubscriptionDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2024-06-15-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-15" },
   );
 }
 
@@ -230,7 +226,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -248,7 +244,9 @@ export async function _listByResourceGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -267,11 +265,7 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2024-06-15-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-15" },
   );
 }
 
@@ -287,7 +281,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkTapName: networkTapName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -300,7 +294,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -309,11 +305,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Deletes Network Tap. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -325,7 +316,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, networkTapName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2024-06-15-preview",
+    apiVersion: context.apiVersion ?? "2025-07-15",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -342,7 +333,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkTapName: networkTapName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -360,7 +351,9 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -382,7 +375,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, networkTapName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2024-06-15-preview",
+    apiVersion: context.apiVersion ?? "2025-07-15",
   }) as PollerLike<OperationState<NetworkTap>, NetworkTap>;
 }
 
@@ -399,7 +392,7 @@ export function _createSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkTapName: networkTapName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -417,7 +410,9 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -439,7 +434,7 @@ export function create(
     getInitialResponse: () =>
       _createSend(context, resourceGroupName, networkTapName, body, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2024-06-15-preview",
+    apiVersion: context.apiVersion ?? "2025-07-15",
   }) as PollerLike<OperationState<NetworkTap>, NetworkTap>;
 }
 
@@ -455,7 +450,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkTapName: networkTapName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -471,7 +466,9 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ne
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

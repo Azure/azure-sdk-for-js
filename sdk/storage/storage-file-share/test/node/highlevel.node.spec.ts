@@ -5,16 +5,17 @@ import fs from "node:fs";
 import path from "node:path";
 
 import {
+  compareBodyWithUint8Array,
   createRandomLocalFile,
   getBSU,
   getUniqueName,
-  recorderEnvSetup,
-  uriSanitizers,
+  createAndStartRecorder,
 } from "../utils/index.js";
 import type { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream.js";
 import type { ShareClient, ShareDirectoryClient, ShareFileClient } from "../../src/index.js";
 import { readStreamToLocalFileWithLogs } from "../../test/utils/testutils.node.js";
-import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
+import { isLiveMode } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
 import { describe, it, assert, beforeEach, afterEach, beforeAll, afterAll } from "vitest";
 
 describe("Highlevel Node.js only", () => {
@@ -34,9 +35,7 @@ describe("Highlevel Node.js only", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    recorder = await createAndStartRecorder(ctx);
     const serviceClient = getBSU(recorder);
     shareName = recorder.variable("share", getUniqueName("share"));
     shareClient = serviceClient.getShareClient(shareName);
@@ -68,6 +67,59 @@ describe("Highlevel Node.js only", () => {
   afterAll(async () => {
     fs.unlinkSync(tempFileLarge);
     fs.unlinkSync(tempFileSmall);
+  });
+
+  it("create with 4Mib content should work", async (ctx) => {
+    if (!isLiveMode()) {
+      ctx.skip();
+    }
+    const byteLength = 4 * 1024 * 1024;
+    const createContent = new Uint8Array(4 * 1024 * 1024);
+
+    for (let i = 0; i < byteLength; i = i + 500) {
+      createContent[i] = i % 256;
+    }
+
+    await fileClient.create(4 * 1024 * 1024, {
+      content: createContent,
+      contentLength: createContent.length,
+    });
+
+    const response = await fileClient.download();
+    assert.equal(await compareBodyWithUint8Array(response, createContent), true);
+  });
+
+  it("create with content larger than 4Mib should fail", async () => {
+    const createContent = new Uint8Array(4 * 1024 * 1024 + 1);
+    try {
+      await fileClient.create(4 * 1024 * 1024, {
+        content: createContent,
+        contentLength: createContent.length,
+      });
+      assert.fail("Expected create to throw for content larger than 4MiB");
+    } catch (ex) {
+      assert.equal((ex as any).statusCode, 413);
+      assert.equal((ex as any).code, "RequestBodyTooLarge");
+    }
+  });
+
+  it("create with 4Mib content with crc64 check should work", async (ctx) => {
+    if (!isLiveMode()) {
+      ctx.skip();
+    }
+
+    const byteLength = 4 * 1024 * 1024;
+    const createContent = new Uint8Array(4 * 1024 * 1024);
+    const cResp = await fileClient.create(byteLength, {
+      content: createContent,
+      contentLength: byteLength,
+      contentChecksumAlgorithm: "StorageCrc64",
+    });
+    assert.equal(cResp.errorCode, undefined);
+    assert.deepEqual(cResp.structuredBodyType, "XSM/1.0; properties=crc64");
+
+    const response = await fileClient.download();
+    assert.equal(await compareBodyWithUint8Array(response, createContent), true);
   });
 
   it(

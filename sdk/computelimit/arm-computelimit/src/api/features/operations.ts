@@ -36,7 +36,7 @@ export function _disableSend(
       subscriptionId: context.subscriptionId,
       location: location,
       featureName: featureName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -54,7 +54,9 @@ export async function _disableDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -62,7 +64,7 @@ export async function _disableDeserialize(
   return operationStatusResultDeserializer(result.body);
 }
 
-/** Disables a compute limit feature for the subscription at the specified location. */
+/** Disables a compute limit feature for the subscription at the specified location. Requires the Contributor role. */
 export function disable(
   context: Client,
   location: string,
@@ -74,7 +76,7 @@ export function disable(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _disableSend(context, location, featureName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-06-01",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
 }
 
@@ -90,7 +92,7 @@ export function _enableSend(
       subscriptionId: context.subscriptionId,
       location: location,
       featureName: featureName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -110,7 +112,9 @@ export async function _enableDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -118,7 +122,7 @@ export async function _enableDeserialize(
   return operationStatusResultDeserializer(result.body);
 }
 
-/** Enables a compute limit feature for the subscription at the specified location. */
+/** Enables a compute limit feature for the subscription at the specified location. Requires the Contributor role. */
 export function enable(
   context: Client,
   location: string,
@@ -130,7 +134,7 @@ export function enable(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _enableSend(context, location, featureName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-06-01",
+    apiVersion: context.apiVersion ?? "2026-07-01",
   }) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
 }
 
@@ -144,7 +148,7 @@ export function _listBySubscriptionLocationResourceSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -162,7 +166,9 @@ export async function _listBySubscriptionLocationResourceDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -181,7 +187,7 @@ export function listBySubscriptionLocationResource(
     () => _listBySubscriptionLocationResourceSend(context, location, options),
     _listBySubscriptionLocationResourceDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-07-01" },
   );
 }
 
@@ -197,7 +203,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       location: location,
       featureName: featureName,
-      "api%2Dversion": context.apiVersion ?? "2026-06-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -213,7 +219,9 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Fe
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

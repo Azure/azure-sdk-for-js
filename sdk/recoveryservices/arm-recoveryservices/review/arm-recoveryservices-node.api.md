@@ -4,14 +4,17 @@
 
 ```ts
 
-import type { AbortSignalLike } from '@azure/abort-controller';
-import type { ClientOptions } from '@azure-rest/core-client';
-import type { OperationOptions } from '@azure-rest/core-client';
-import type { OperationState } from '@azure/core-lro';
-import type { PathUncheckedResponse } from '@azure-rest/core-client';
-import type { Pipeline } from '@azure/core-rest-pipeline';
-import type { PollerLike } from '@azure/core-lro';
-import type { TokenCredential } from '@azure/core-auth';
+import { AbortSignalLike } from '@azure/abort-controller';
+import { CancelOnProgress } from '@azure/core-lro';
+import { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import { OperationOptions } from '@azure-rest/core-client';
+import { OperationState } from '@azure/core-lro';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type AlertsState = string;
@@ -152,6 +155,11 @@ export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
 };
 
 // @public
+export interface CostManagementSettings {
+    granularityLevel?: GranularityLevel;
+}
+
+// @public
 export type CreatedByType = string;
 
 // @public
@@ -192,6 +200,10 @@ export interface DeletedVaultsListBySubscriptionIdOptionalParams extends Operati
 
 // @public
 export interface DeletedVaultsOperations {
+    // @deprecated (undocumented)
+    beginUndelete: (location: string, deletedVaultName: string, body: DeletedVaultUndeleteInput, options?: DeletedVaultsUndeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginUndeleteAndWait: (location: string, deletedVaultName: string, body: DeletedVaultUndeleteInput, options?: DeletedVaultsUndeleteOptionalParams) => Promise<void>;
     get: (location: string, deletedVaultName: string, options?: DeletedVaultsGetOptionalParams) => Promise<DeletedVault>;
     getOperationStatus: (location: string, deletedVaultName: string, operationId: string, options?: DeletedVaultsGetOperationStatusOptionalParams) => Promise<OperationResource>;
     listBySubscriptionId: (location: string, options?: DeletedVaultsListBySubscriptionIdOptionalParams) => PagedAsyncIterableIterator<DeletedVault>;
@@ -264,6 +276,9 @@ export interface GetOperationStatusOptionalParams extends OperationOptions {
 }
 
 // @public
+export type GranularityLevel = string;
+
+// @public
 export interface IdentityData {
     readonly principalId?: string;
     readonly tenantId?: string;
@@ -275,7 +290,14 @@ export interface IdentityData {
 export type IdentityType = string;
 
 // @public
+export interface ImmutabilityConfiguration {
+    durationInDays?: number;
+    type?: ImmutabilityType;
+}
+
+// @public
 export interface ImmutabilitySettings {
+    configuration?: ImmutabilityConfiguration;
     // (undocumented)
     state?: ImmutabilityState;
 }
@@ -284,7 +306,12 @@ export interface ImmutabilitySettings {
 export type ImmutabilityState = string;
 
 // @public
+export type ImmutabilityType = string;
+
+// @public
 export type InfrastructureEncryptionState = string;
+
+export { isRestError }
 
 // @public
 export interface JobsSummary {
@@ -353,6 +380,13 @@ export enum KnownEnhancedSecurityState {
 }
 
 // @public
+export enum KnownGranularityLevel {
+    ProtectedItemLevel = "ProtectedItemLevel",
+    ProtectedItemWithParentTag = "ProtectedItemWithParentTag",
+    VaultLevel = "VaultLevel"
+}
+
+// @public
 export enum KnownIdentityType {
     SystemAssigned = "SystemAssigned",
     UserAssigned = "UserAssigned"
@@ -363,6 +397,12 @@ export enum KnownImmutabilityState {
     Disabled = "Disabled",
     Locked = "Locked",
     Unlocked = "Unlocked"
+}
+
+// @public
+export enum KnownImmutabilityType {
+    AsPerPolicy = "AsPerPolicy",
+    TimeBased = "TimeBased"
 }
 
 // @public
@@ -499,7 +539,10 @@ export enum KnownVaultUpgradeState {
 // @public
 export enum KnownVersions {
     V20250201 = "2025-02-01",
-    V20250801 = "2025-08-01"
+    V20250801 = "2025-08-01",
+    V20260101 = "2026-01-01",
+    V20260201 = "2026-02-01",
+    V20260501 = "2026-05-01"
 }
 
 // @public
@@ -656,9 +699,10 @@ export interface RecoveryServicesCheckNameAvailabilityOptionalParams extends Ope
 
 // @public (undocumented)
 export class RecoveryServicesClient {
+    constructor(credential: TokenCredential, options?: RecoveryServicesClientOptionalParams);
     constructor(credential: TokenCredential, subscriptionId: string, options?: RecoveryServicesClientOptionalParams);
     readonly deletedVaults: DeletedVaultsOperations;
-    getOperationResult(resourceGroupName: string, vaultName: string, operationId: string, options?: GetOperationResultOptionalParams): Promise<Vault | null>;
+    getOperationResult(resourceGroupName: string, vaultName: string, operationId: string, options?: GetOperationResultOptionalParams): Promise<Vault | undefined>;
     getOperationStatus(resourceGroupName: string, vaultName: string, operationId: string, options?: GetOperationStatusOptionalParams): Promise<OperationResource>;
     readonly operations: OperationsOperations;
     readonly pipeline: Pipeline;
@@ -772,6 +816,8 @@ export type ResourceIdentityType = string;
 // @public
 export type ResourceMoveState = string;
 
+export { RestError }
+
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: RecoveryServicesClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
 
@@ -796,6 +842,28 @@ export interface SecuritySettings {
     readonly multiUserAuthorization?: MultiUserAuthorization;
     softDeleteSettings?: SoftDeleteSettings;
     sourceScanConfiguration?: SourceScanConfiguration;
+}
+
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
 }
 
 // @public
@@ -950,6 +1018,7 @@ export type VaultPrivateEndpointState = string;
 export interface VaultProperties {
     readonly backupStorageVersion?: BackupStorageVersion;
     readonly bcdrSecurityLevel?: BcdrSecurityLevel;
+    costManagementSettings?: CostManagementSettings;
     encryption?: VaultPropertiesEncryption;
     monitoringSettings?: MonitoringSettings;
     moveDetails?: VaultPropertiesMoveDetails;
@@ -1015,6 +1084,18 @@ export interface VaultsListBySubscriptionIdOptionalParams extends OperationOptio
 
 // @public
 export interface VaultsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, vaultName: string, vault: Vault, options?: VaultsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Vault>, Vault>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, vaultName: string, vault: Vault, options?: VaultsCreateOrUpdateOptionalParams) => Promise<Vault>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, vaultName: string, options?: VaultsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, vaultName: string, options?: VaultsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, vaultName: string, vault: PatchVault, options?: VaultsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<Vault>, Vault>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, vaultName: string, vault: PatchVault, options?: VaultsUpdateOptionalParams) => Promise<Vault>;
     createOrUpdate: (resourceGroupName: string, vaultName: string, vault: Vault, options?: VaultsCreateOrUpdateOptionalParams) => PollerLike<OperationState<Vault>, Vault>;
     delete: (resourceGroupName: string, vaultName: string, options?: VaultsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, vaultName: string, options?: VaultsGetOptionalParams) => Promise<Vault>;

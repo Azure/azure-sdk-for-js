@@ -81,7 +81,7 @@ export function _getCustomerInitiatedMigrationSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       migrationName: migrationName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -99,7 +99,9 @@ export async function _getCustomerInitiatedMigrationDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -137,7 +139,7 @@ export function _revokeUserDelegationKeysSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -152,7 +154,9 @@ export async function _revokeUserDelegationKeysDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -189,7 +193,7 @@ export function _restoreBlobRangesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -209,7 +213,9 @@ export async function _restoreBlobRangesDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -231,7 +237,7 @@ export function restoreBlobRanges(
     getInitialResponse: () =>
       _restoreBlobRangesSend(context, resourceGroupName, accountName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-04-01",
   }) as PollerLike<OperationState<BlobRestoreStatus>, BlobRestoreStatus>;
 }
 
@@ -248,7 +254,7 @@ export function _customerInitiatedMigrationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -267,7 +273,9 @@ export async function _customerInitiatedMigrationDeserialize(
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -299,7 +307,7 @@ export function customerInitiatedMigration(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-08-01",
+      apiVersion: context.apiVersion ?? "2026-04-01",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -318,7 +326,7 @@ export function _abortHierarchicalNamespaceMigrationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -333,7 +341,9 @@ export async function _abortHierarchicalNamespaceMigrationDeserialize(
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -360,7 +370,7 @@ export function abortHierarchicalNamespaceMigration(
       getInitialResponse: () =>
         _abortHierarchicalNamespaceMigrationSend(context, resourceGroupName, accountName, options),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-08-01",
+      apiVersion: context.apiVersion ?? "2026-04-01",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -378,7 +388,7 @@ export function _hierarchicalNamespaceMigrationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
       requestType: requestType,
     },
     {
@@ -394,7 +404,9 @@ export async function _hierarchicalNamespaceMigrationDeserialize(
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -426,7 +438,7 @@ export function hierarchicalNamespaceMigration(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-08-01",
+      apiVersion: context.apiVersion ?? "2026-04-01",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -443,7 +455,7 @@ export function _failoverSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
       failoverType: !options?.failoverType ? options?.failoverType : "Planned",
     },
     {
@@ -457,7 +469,9 @@ export async function _failoverDeserialize(result: PathUncheckedResponse): Promi
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -477,7 +491,7 @@ export function failover(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _failoverSend(context, resourceGroupName, accountName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-04-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -494,7 +508,7 @@ export function _listServiceSASSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -514,7 +528,9 @@ export async function _listServiceSASDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -553,7 +569,7 @@ export function _listAccountSASSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -573,7 +589,9 @@ export async function _listAccountSASDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -612,7 +630,7 @@ export function _regenerateKeySend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -632,7 +650,9 @@ export async function _regenerateKeyDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -670,7 +690,7 @@ export function _listKeysSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
       "%24expand": !options?.expand ? options?.expand : "kerb",
     },
     {
@@ -689,7 +709,9 @@ export async function _listKeysDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -716,7 +738,7 @@ export function _listSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Storage/storageAccounts{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -734,7 +756,9 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -752,7 +776,7 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-08-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-04-01" },
   );
 }
 
@@ -766,7 +790,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -784,7 +808,9 @@ export async function _listByResourceGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -803,7 +829,7 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-08-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-04-01" },
   );
 }
 
@@ -819,7 +845,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -832,7 +858,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -864,7 +892,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -882,7 +910,9 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -915,7 +945,7 @@ export function _createSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -933,7 +963,9 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -955,7 +987,7 @@ export function create(
     getInitialResponse: () =>
       _createSend(context, resourceGroupName, accountName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-08-01",
+    apiVersion: context.apiVersion ?? "2026-04-01",
   }) as PollerLike<OperationState<StorageAccount>, StorageAccount>;
 }
 
@@ -971,7 +1003,7 @@ export function _getPropertiesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
       "%24expand": options?.expand,
     },
     {
@@ -990,7 +1022,9 @@ export async function _getPropertiesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1018,7 +1052,7 @@ export function _checkNameAvailabilitySend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Storage/checkNameAvailability{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2025-08-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1038,7 +1072,9 @@ export async function _checkNameAvailabilityDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

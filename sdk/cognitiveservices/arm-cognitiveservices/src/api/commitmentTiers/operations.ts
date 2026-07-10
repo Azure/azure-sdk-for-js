@@ -24,7 +24,7 @@ export function _listSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -42,7 +42,9 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -64,7 +66,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-03-15-preview",
+      apiVersion: context.apiVersion ?? "2026-05-15-preview",
     },
   );
 }

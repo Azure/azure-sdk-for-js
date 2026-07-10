@@ -6,6 +6,7 @@
 
 import { AbortError } from '@azure/abort-controller';
 import type { HttpClient } from '@azure/core-rest-pipeline';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { Pipeline } from '@azure/core-rest-pipeline';
 import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
@@ -822,6 +823,7 @@ export interface CosmosClientOptions {
     defaultHeaders?: CosmosHeaders_2;
     // (undocumented)
     diagnosticLevel?: CosmosDbDiagnosticLevel;
+    enablePreviewFeatures?: Record<string, unknown>;
     endpoint?: string;
     httpClient?: HttpClient;
     key?: string;
@@ -1409,6 +1411,8 @@ export enum IndexKind {
     Range = "Range",
     Spatial = "Spatial"
 }
+
+export { isRestError }
 
 // @public
 export class Item {
@@ -2397,7 +2401,7 @@ export interface SharedOptions {
 // @public (undocumented)
 export interface SpatialIndex {
     // (undocumented)
-    boundingBox: {
+    boundingBox?: {
         xmin: number;
         ymin: number;
         xmax: number;

@@ -1,9 +1,9 @@
 {
   "name": "@azure/arm-compute",
-  "version": "24.0.0",
+  "version": "24.1.1",
   "description": "A generated SDK for ComputeManagementClient.",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "sideEffects": false,
   "autoPublish": false,
@@ -218,6 +218,7 @@
   },
   "imports": {
     "#platform/*": {
+      "browser": "./src/*-browser.mts",
       "default": "./src/*.ts"
     }
   }

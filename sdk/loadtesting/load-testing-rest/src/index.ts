@@ -14,3 +14,4 @@ export * from "./paginateHelper.js";
 export * from "./pollingHelper.js";
 
 export default AzureLoadTesting;
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

@@ -10,12 +10,12 @@
     ".": "./src/index.ts"
   },
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "scripts": {
     "build": "tsc -b tsconfig.json",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf --glob *.tgz *.log",
+    "clean": "rimraf --glob dist dist-* *.tgz *.log",
     "extract-api": "echo skipped",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "lint": "eslint src test",

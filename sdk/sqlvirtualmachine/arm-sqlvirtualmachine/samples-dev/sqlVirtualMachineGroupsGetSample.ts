@@ -1,33 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Gets a SQL virtual machine group.
- *
- * @summary Gets a SQL virtual machine group.
- * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2022-08-01-preview/examples/GetSqlVirtualMachineGroup.json
- */
-
 import { SqlVirtualMachineManagementClient } from "@azure/arm-sqlvirtualmachine";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function getsASqlVirtualMachineGroup(): Promise<void> {
-  const subscriptionId =
-    process.env["SQLVIRTUALMACHINE_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName = process.env["SQLVIRTUALMACHINE_RESOURCE_GROUP"] || "testrg";
-  const sqlVirtualMachineGroupName = "testvmgroup";
+/**
+ * This sample demonstrates how to gets a SQL virtual machine group.
+ *
+ * @summary gets a SQL virtual machine group.
+ * x-ms-original-file: 2023-10-01/GetSqlVirtualMachineGroup.json
+ */
+async function getsASQLVirtualMachineGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
   const client = new SqlVirtualMachineManagementClient(credential, subscriptionId);
-  const result = await client.sqlVirtualMachineGroups.get(
-    resourceGroupName,
-    sqlVirtualMachineGroupName,
-  );
+  const result = await client.sqlVirtualMachineGroups.get("testrg", "testvmgroup");
   console.log(result);
 }
 
 async function main(): Promise<void> {
-  await getsASqlVirtualMachineGroup();
+  await getsASQLVirtualMachineGroup();
 }
 
 main().catch(console.error);

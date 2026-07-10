@@ -29,7 +29,7 @@ export function _listBySubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.CognitiveServices/quotaTiers{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -47,7 +47,9 @@ export async function _listBySubscriptionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -68,7 +70,7 @@ export function listBySubscription(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-03-15-preview",
+      apiVersion: context.apiVersion ?? "2026-05-15-preview",
     },
   );
 }
@@ -84,7 +86,7 @@ export function _updateSend(
     {
       subscriptionId: context.subscriptionId,
       default: defaultParam,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -102,7 +104,9 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -132,7 +136,7 @@ export function _createOrUpdateSend(
     {
       subscriptionId: context.subscriptionId,
       default: defaultParam,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -152,7 +156,9 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -181,7 +187,7 @@ export function _getSend(
     {
       subscriptionId: context.subscriptionId,
       default: defaultParam,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -197,7 +203,9 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Qu
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

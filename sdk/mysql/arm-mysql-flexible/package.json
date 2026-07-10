@@ -1,9 +1,9 @@
 {
   "name": "@azure/arm-mysql-flexible",
-  "version": "4.0.0-beta.5",
+  "version": "4.0.0-beta.6",
   "description": "A generated SDK for MySQLManagementFlexibleServerClient.",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "sideEffects": false,
   "autoPublish": false,

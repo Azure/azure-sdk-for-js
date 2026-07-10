@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.Storage": "2025-08-01"
+    "Microsoft.Storage": "2026-04-01"
   },
-  "emitterVersion": "0.53.1",
+  "emitterVersion": "0.54.2",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.Storage",
     "CrossLanguageDefinitionId": {
@@ -223,6 +223,10 @@
       "@azure/arm-storage!DataShareUpdate:interface": "Microsoft.Storage.DataShareUpdate",
       "@azure/arm-storage!StorageDataSharePropertiesUpdate:interface": "Microsoft.Storage.StorageDataSharePropertiesUpdate",
       "@azure/arm-storage!DataShareListResult:interface": "Azure.ResourceManager.ResourceListResult",
+      "@azure/arm-storage!AdvancedPlatformMetricsRule:interface": "Microsoft.Storage.AdvancedPlatformMetricsRule",
+      "@azure/arm-storage!AdvancedPlatformMetricsRuleProperties:interface": "Microsoft.Storage.AdvancedPlatformMetricsRuleProperties",
+      "@azure/arm-storage!AdvancedPlatformMetricsRuleConfig:interface": "Microsoft.Storage.AdvancedPlatformMetricsRuleConfig",
+      "@azure/arm-storage!AdvancedPlatformMetricsRuleListResult:interface": "Azure.ResourceManager.ResourceListResult",
       "@azure/arm-storage!PrivateLinkResourceListResult:interface": "Microsoft.Storage.PrivateLinkResourceListResult",
       "@azure/arm-storage!PrivateLinkResource:interface": "Microsoft.Storage.PrivateLinkResource",
       "@azure/arm-storage!PrivateLinkResourceProperties:interface": "Microsoft.Storage.PrivateLinkResourceProperties",
@@ -347,6 +351,9 @@
       "@azure/arm-storage!KnownStorageConnectorAuthType:enum": "Microsoft.Storage.StorageConnectorAuthType",
       "@azure/arm-storage!KnownNativeDataSharingProvisioningState:enum": "Microsoft.Storage.NativeDataSharingProvisioningState",
       "@azure/arm-storage!KnownStorageDataShareAccessPolicyPermission:enum": "Microsoft.Storage.StorageDataShareAccessPolicyPermission",
+      "@azure/arm-storage!KnownAdvancedPlatformMetricsRuleType:enum": "Microsoft.Storage.AdvancedPlatformMetricsRuleType",
+      "@azure/arm-storage!KnownMetricsEmitted:enum": "Microsoft.Storage.MetricsEmitted",
+      "@azure/arm-storage!KnownAdvancedPlatformMetricsFilterType:enum": "Microsoft.Storage.AdvancedPlatformMetricsFilterType",
       "@azure/arm-storage!KnownListLocalUserIncludeParam:enum": "Microsoft.Storage.ListLocalUserIncludeParam",
       "@azure/arm-storage!KnownReasonCode:enum": "Microsoft.Storage.ReasonCode",
       "@azure/arm-storage!KnownUsageUnit:enum": "Microsoft.Storage.UsageUnit",
@@ -376,6 +383,10 @@
       "@azure/arm-storage!QueueOperations#List:member": "Microsoft.Storage.QueueServices.queueList",
       "@azure/arm-storage!StorageTaskAssignmentsInstancesReportOperations#List:member": "Microsoft.Storage.StorageAccounts.storageTaskAssignmentsInstancesReportList",
       "@azure/arm-storage!PrivateLinkResourcesOperations#listByStorageAccount:member": "Microsoft.Storage.StorageAccounts.listByStorageAccount",
+      "@azure/arm-storage!AdvancedPlatformMetricsOperations#list:member": "Microsoft.Storage.AdvancedPlatformMetrics.list",
+      "@azure/arm-storage!AdvancedPlatformMetricsOperations#delete:member": "Microsoft.Storage.AdvancedPlatformMetrics.delete",
+      "@azure/arm-storage!AdvancedPlatformMetricsOperations#createOrUpdate:member": "Microsoft.Storage.AdvancedPlatformMetrics.createOrUpdate",
+      "@azure/arm-storage!AdvancedPlatformMetricsOperations#get:member": "Microsoft.Storage.AdvancedPlatformMetrics.get",
       "@azure/arm-storage!DataSharesOperations#listByStorageAccount:member": "Microsoft.Storage.DataShares.listByStorageAccount",
       "@azure/arm-storage!DataSharesOperations#delete:member": "Microsoft.Storage.DataShares.delete",
       "@azure/arm-storage!DataSharesOperations#update:member": "Microsoft.Storage.DataShares.update",

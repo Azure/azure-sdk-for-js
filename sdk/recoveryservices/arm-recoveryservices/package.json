@@ -1,9 +1,9 @@
 {
   "name": "@azure/arm-recoveryservices",
-  "version": "7.0.1",
+  "version": "7.1.0",
   "description": "A generated SDK for RecoveryServicesClient.",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "sideEffects": false,
   "autoPublish": false,
@@ -95,7 +95,7 @@
       "azure"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-recoveryservices?view=azure-node-preview"
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-recoveryservices"
   },
   "exports": {
     "./package.json": "./package.json",

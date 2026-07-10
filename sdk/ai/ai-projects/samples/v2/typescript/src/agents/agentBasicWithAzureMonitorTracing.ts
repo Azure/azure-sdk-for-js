@@ -17,7 +17,7 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import { AIProjectClient, enableGenAITracing } from "@azure/ai-projects";
+import { AIProjectClient } from "@azure/ai-projects";
 import { useAzureMonitor, shutdownAzureMonitor } from "@azure/monitor-opentelemetry";
 import { context, trace } from "@opentelemetry/api";
 import "dotenv/config";
@@ -26,32 +26,32 @@ const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project end
 const deploymentName = process.env["FOUNDRY_MODEL_NAME"] || "<model deployment name>";
 
 export async function main(): Promise<void> {
-  // Create AI Project client
-  const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = project.getOpenAIClient();
+  // Get Application Insights connection string (from environment or your project)
+  const connectionString =
+    process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] || "<connection string>";
 
-  // Get Application Insights connection string from the project
-  const connectionString = await project.telemetry.getApplicationInsightsConnectionString();
-
-  // Configure Azure Monitor tracing
+  // Configure Azure Monitor tracing (must be done before creating the client)
   useAzureMonitor({
     azureMonitorExporterOptions: { connectionString },
     samplingRatio: 1,
     tracesPerSecond: 0,
   });
 
-  // Enable GenAI tracing (experimental)
+  // Create AI Project client with tracing enabled (experimental)
   // To capture prompt and completion content in traces, set contentRecording to true.
   // Note: content recording may include sensitive data such as user inputs and model outputs.
   // Alternatively, you can set these options via environment variables:
   //   contentRecording:           OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT (default: false)
   //   traceContextPropagation:    AZURE_TRACING_GEN_AI_ENABLE_TRACE_CONTEXT_PROPAGATION (default: true)
   //   experimental:               AZURE_EXPERIMENTAL_ENABLE_GENAI_TRACING (default: false)
-  enableGenAITracing({
-    contentRecording: false,
-    traceContextPropagation: true,
-    experimental: true,
+  const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential(), {
+    tracingOptions: {
+      experimental: true,
+      contentRecording: true,
+      traceContextPropagation: true,
+    },
   });
+  const openAIClient = project.getOpenAIClient();
 
   const tracer = trace.getTracer("AgentBasicWithAzureMonitorTracing");
   const scenario = "agentBasicWithAzureMonitorTracing";

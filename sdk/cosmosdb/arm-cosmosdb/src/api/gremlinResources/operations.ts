@@ -20,9 +20,9 @@ import type {
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  cloudErrorDeserializer,
   throughputSettingsGetResultsDeserializer,
   throughputSettingsUpdateParametersSerializer,
+  cloudErrorDeserializer,
   continuousBackupRestoreLocationSerializer,
   backupInformationDeserializer,
   gremlinDatabaseGetResultsDeserializer,
@@ -85,7 +85,7 @@ export function _listGremlinRoleAssignmentsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -103,7 +103,9 @@ export async function _listGremlinRoleAssignmentsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -123,11 +125,7 @@ export function listGremlinRoleAssignments(
     () => _listGremlinRoleAssignmentsSend(context, resourceGroupName, accountName, options),
     _listGremlinRoleAssignmentsDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-15" },
   );
 }
 
@@ -145,7 +143,7 @@ export function _deleteGremlinRoleAssignmentSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       roleAssignmentId: roleAssignmentId,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -160,7 +158,9 @@ export async function _deleteGremlinRoleAssignmentDeserialize(
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -192,7 +192,7 @@ export function deleteGremlinRoleAssignment(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+      apiVersion: context.apiVersion ?? "2026-03-15",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -212,7 +212,7 @@ export function _createUpdateGremlinRoleAssignmentSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       roleAssignmentId: roleAssignmentId,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -232,7 +232,9 @@ export async function _createUpdateGremlinRoleAssignmentDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -266,7 +268,7 @@ export function createUpdateGremlinRoleAssignment(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+      apiVersion: context.apiVersion ?? "2026-03-15",
     },
   ) as PollerLike<OperationState<GremlinRoleAssignmentResource>, GremlinRoleAssignmentResource>;
 }
@@ -285,7 +287,7 @@ export function _getGremlinRoleAssignmentSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       roleAssignmentId: roleAssignmentId,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -303,7 +305,9 @@ export async function _getGremlinRoleAssignmentDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -341,7 +345,7 @@ export function _listGremlinRoleDefinitionsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -359,7 +363,9 @@ export async function _listGremlinRoleDefinitionsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -379,11 +385,7 @@ export function listGremlinRoleDefinitions(
     () => _listGremlinRoleDefinitionsSend(context, resourceGroupName, accountName, options),
     _listGremlinRoleDefinitionsDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-15" },
   );
 }
 
@@ -401,7 +403,7 @@ export function _deleteGremlinRoleDefinitionSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       roleDefinitionId: roleDefinitionId,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -416,7 +418,9 @@ export async function _deleteGremlinRoleDefinitionDeserialize(
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -448,7 +452,7 @@ export function deleteGremlinRoleDefinition(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+      apiVersion: context.apiVersion ?? "2026-03-15",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -468,7 +472,7 @@ export function _createUpdateGremlinRoleDefinitionSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       roleDefinitionId: roleDefinitionId,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -488,7 +492,9 @@ export async function _createUpdateGremlinRoleDefinitionDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -522,7 +528,7 @@ export function createUpdateGremlinRoleDefinition(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+      apiVersion: context.apiVersion ?? "2026-03-15",
     },
   ) as PollerLike<OperationState<GremlinRoleDefinitionResource>, GremlinRoleDefinitionResource>;
 }
@@ -541,7 +547,7 @@ export function _getGremlinRoleDefinitionSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       roleDefinitionId: roleDefinitionId,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -559,7 +565,9 @@ export async function _getGremlinRoleDefinitionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -604,7 +612,7 @@ export function _retrieveContinuousBackupInformationSend(
       accountName: accountName,
       databaseName: databaseName,
       graphName: graphName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -621,10 +629,12 @@ export function _retrieveContinuousBackupInformationSend(
 export async function _retrieveContinuousBackupInformationDeserialize(
   result: PathUncheckedResponse,
 ): Promise<BackupInformation> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -647,7 +657,7 @@ export function retrieveContinuousBackupInformation(
   return getLongRunningPoller(
     context,
     _retrieveContinuousBackupInformationDeserialize,
-    ["202", "200", "201"],
+    ["200", "202", "201"],
     {
       updateIntervalInMs: options?.updateIntervalInMs,
       abortSignal: options?.abortSignal,
@@ -662,7 +672,7 @@ export function retrieveContinuousBackupInformation(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+      apiVersion: context.apiVersion ?? "2026-03-15",
     },
   ) as PollerLike<OperationState<BackupInformation>, BackupInformation>;
 }
@@ -681,7 +691,7 @@ export function _listGremlinGraphsSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -699,7 +709,9 @@ export async function _listGremlinGraphsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -720,11 +732,7 @@ export function listGremlinGraphs(
     () => _listGremlinGraphsSend(context, resourceGroupName, accountName, databaseName, options),
     _listGremlinGraphsDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-15" },
   );
 }
 
@@ -744,7 +752,7 @@ export function _deleteGremlinGraphSend(
       accountName: accountName,
       databaseName: databaseName,
       graphName: graphName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -757,7 +765,9 @@ export async function _deleteGremlinGraphDeserialize(result: PathUncheckedRespon
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -787,7 +797,7 @@ export function deleteGremlinGraph(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-11-01-preview",
+    apiVersion: context.apiVersion ?? "2026-03-15",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -808,7 +818,7 @@ export function _createUpdateGremlinGraphSend(
       accountName: accountName,
       databaseName: databaseName,
       graphName: graphName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -828,7 +838,9 @@ export async function _createUpdateGremlinGraphDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -864,7 +876,7 @@ export function createUpdateGremlinGraph(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+      apiVersion: context.apiVersion ?? "2026-03-15",
     },
   ) as PollerLike<OperationState<GremlinGraphGetResults>, GremlinGraphGetResults>;
 }
@@ -885,7 +897,7 @@ export function _getGremlinGraphSend(
       accountName: accountName,
       databaseName: databaseName,
       graphName: graphName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -903,7 +915,9 @@ export async function _getGremlinGraphDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -943,7 +957,7 @@ export function _listGremlinDatabasesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -961,7 +975,9 @@ export async function _listGremlinDatabasesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -981,11 +997,7 @@ export function listGremlinDatabases(
     () => _listGremlinDatabasesSend(context, resourceGroupName, accountName, options),
     _listGremlinDatabasesDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-15" },
   );
 }
 
@@ -1003,7 +1015,7 @@ export function _deleteGremlinDatabaseSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1018,7 +1030,9 @@ export async function _deleteGremlinDatabaseDeserialize(
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1040,7 +1054,7 @@ export function deleteGremlinDatabase(
     getInitialResponse: () =>
       _deleteGremlinDatabaseSend(context, resourceGroupName, accountName, databaseName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-11-01-preview",
+    apiVersion: context.apiVersion ?? "2026-03-15",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -1059,7 +1073,7 @@ export function _createUpdateGremlinDatabaseSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1079,7 +1093,9 @@ export async function _createUpdateGremlinDatabaseDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1113,7 +1129,7 @@ export function createUpdateGremlinDatabase(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+      apiVersion: context.apiVersion ?? "2026-03-15",
     },
   ) as PollerLike<OperationState<GremlinDatabaseGetResults>, GremlinDatabaseGetResults>;
 }
@@ -1132,7 +1148,7 @@ export function _getGremlinDatabaseSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1150,7 +1166,9 @@ export async function _getGremlinDatabaseDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1194,7 +1212,7 @@ export function _migrateGremlinGraphToManualThroughputSend(
       accountName: accountName,
       databaseName: databaseName,
       graphName: graphName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1212,7 +1230,9 @@ export async function _migrateGremlinGraphToManualThroughputDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1248,7 +1268,7 @@ export function migrateGremlinGraphToManualThroughput(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+      apiVersion: context.apiVersion ?? "2026-03-15",
     },
   ) as PollerLike<OperationState<ThroughputSettingsGetResults>, ThroughputSettingsGetResults>;
 }
@@ -1269,7 +1289,7 @@ export function _migrateGremlinGraphToAutoscaleSend(
       accountName: accountName,
       databaseName: databaseName,
       graphName: graphName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1287,7 +1307,9 @@ export async function _migrateGremlinGraphToAutoscaleDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1321,7 +1343,7 @@ export function migrateGremlinGraphToAutoscale(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+      apiVersion: context.apiVersion ?? "2026-03-15",
     },
   ) as PollerLike<OperationState<ThroughputSettingsGetResults>, ThroughputSettingsGetResults>;
 }
@@ -1343,7 +1365,7 @@ export function _updateGremlinGraphThroughputSend(
       accountName: accountName,
       databaseName: databaseName,
       graphName: graphName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1363,7 +1385,9 @@ export async function _updateGremlinGraphThroughputDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1399,7 +1423,7 @@ export function updateGremlinGraphThroughput(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+      apiVersion: context.apiVersion ?? "2026-03-15",
     },
   ) as PollerLike<OperationState<ThroughputSettingsGetResults>, ThroughputSettingsGetResults>;
 }
@@ -1420,7 +1444,7 @@ export function _getGremlinGraphThroughputSend(
       accountName: accountName,
       databaseName: databaseName,
       graphName: graphName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1438,7 +1462,9 @@ export async function _getGremlinGraphThroughputDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1482,7 +1508,7 @@ export function _migrateGremlinDatabaseToManualThroughputSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1500,7 +1526,9 @@ export async function _migrateGremlinDatabaseToManualThroughputDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1534,7 +1562,7 @@ export function migrateGremlinDatabaseToManualThroughput(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+      apiVersion: context.apiVersion ?? "2026-03-15",
     },
   ) as PollerLike<OperationState<ThroughputSettingsGetResults>, ThroughputSettingsGetResults>;
 }
@@ -1553,7 +1581,7 @@ export function _migrateGremlinDatabaseToAutoscaleSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1571,7 +1599,9 @@ export async function _migrateGremlinDatabaseToAutoscaleDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1603,7 +1633,7 @@ export function migrateGremlinDatabaseToAutoscale(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+      apiVersion: context.apiVersion ?? "2026-03-15",
     },
   ) as PollerLike<OperationState<ThroughputSettingsGetResults>, ThroughputSettingsGetResults>;
 }
@@ -1623,7 +1653,7 @@ export function _updateGremlinDatabaseThroughputSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1643,7 +1673,9 @@ export async function _updateGremlinDatabaseThroughputDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1677,7 +1709,7 @@ export function updateGremlinDatabaseThroughput(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+      apiVersion: context.apiVersion ?? "2026-03-15",
     },
   ) as PollerLike<OperationState<ThroughputSettingsGetResults>, ThroughputSettingsGetResults>;
 }
@@ -1696,7 +1728,7 @@ export function _getGremlinDatabaseThroughputSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       databaseName: databaseName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1714,7 +1746,9 @@ export async function _getGremlinDatabaseThroughputDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

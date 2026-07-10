@@ -318,6 +318,7 @@ describe("helper methods", () => {
 
     assert.deepEqual(formatFieldsForSelect(fields)!.sort(), [
       "content_type",
+      "description",
       "etag",
       "key",
       "label",
@@ -339,6 +340,7 @@ describe("helper methods", () => {
   function getAllConfigurationSettingFields(): (keyof ConfigurationSetting)[] {
     const configObjectWithAllFieldsRequired: Required<ConfigurationSetting> = {
       contentType: "",
+      description: "",
       etag: "",
       key: "",
       label: "",

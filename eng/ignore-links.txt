@@ -1,3 +1,4 @@
+https://github.com/Azure/azure-sdk-for-js-pr
 https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/keyvault-admin/samples/javascript
 https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/keyvault-admin/samples/typescript
 https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob-changefeed/samples/javascript
@@ -111,3 +112,18 @@ https://learn.microsoft.com/javascript/api/@azure/arm-edgeorder?view=azure-node-
 https://www.npmjs.com/package/@azure/arm-edgeorder
 https://learn.microsoft.com/javascript/api/@azure/arm-postgresqlhsc?view=azure-node-preview
 https://www.npmjs.com/package/@azure/arm-postgresqlhsc
+https://learn.microsoft.com/javascript/api/@azure/planetarycomputer
+https://www.npmjs.com/package/@azure/planetarycomputer
+https://learn.microsoft.com/javascript/api/@azure/arm-programenrollment?view=azure-node-preview
+https://www.npmjs.com/package/@azure/arm-programenrollment
+https://learn.microsoft.com/javascript/api/@azure/arm-napsteromniagentapi?view=azure-node-preview
+https://www.npmjs.com/package/@azure/arm-napsteromniagentapi
+https://learn.microsoft.com/javascript/api/@azure/arm-powerplatform?view=azure-node-preview
+https://www.npmjs.com/package/@azure/arm-powerplatform
+https://learn.microsoft.com/javascript/api/@azure/arm-resiliencemanagement?view=azure-node-preview
+https://www.npmjs.com/package/@azure/arm-resiliencemanagement
+https://learn.microsoft.com/javascript/api/@azure/arm-voiceservices
+https://learn.microsoft.com/javascript/api/@azure/arm-commvaultcontentstore?view=azure-node-preview
+https://www.npmjs.com/package/@azure/arm-commvaultcontentstore
+https://learn.microsoft.com/javascript/api/@azure/arm-billing-trust?view=azure-node-preview
+https://www.npmjs.com/package/@azure/arm-billing-trust

@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/mongocluster/arm-mongocluster)
 - [Package (NPM)](https://www.npmjs.com/package/@azure/arm-mongocluster)
-- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-mongocluster?view=azure-node-preview)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure/arm-mongocluster)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/mongocluster/arm-mongocluster/samples)
 
 ## Getting started

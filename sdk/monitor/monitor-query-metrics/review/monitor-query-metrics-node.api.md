@@ -5,7 +5,9 @@
 ```ts
 
 import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { Pipeline } from '@azure/core-rest-pipeline';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -41,6 +43,8 @@ export interface ErrorDetail {
 export interface ErrorResponse {
     error?: ErrorDetail;
 }
+
+export { isRestError }
 
 // @public
 export enum KnownMonitorMetricsQueryAudience {
@@ -161,6 +165,8 @@ export type QueryTimeInterval = {
 export interface ResourceIdList {
     resourceids?: string[];
 }
+
+export { RestError }
 
 // @public
 export interface TimeSeriesElement {

@@ -9,7 +9,7 @@ After this finishes, you will see the generated code in `src` folder in your **{
 
 ```shell
 pnpm install
-pnpm build --filter=<your-package-name>...
+pnpm turbo build --filter=<your-package-name>...
 ```
 
 # Customizing the generated code
@@ -60,14 +60,14 @@ See the [Javascript Codegen Quick Start for Test](https://github.com/Azure/azure
     On Linux, you could use `export` to set env variable:
 
     ```shell
-    pnpm build --filter=${PACKAGE_NAME}...
+    pnpm turbo build --filter=${PACKAGE_NAME}...
     export TEST_MODE=record && pnpm test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
     ```
 
     On Windows, you could use `SET`:
 
     ```shell
-    pnpm build --filter=${PACKAGE_NAME}...
+    pnpm turbo build --filter=${PACKAGE_NAME}...
     SET TEST_MODE=record&& pnpm test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
     ```
 
@@ -76,13 +76,13 @@ See the [Javascript Codegen Quick Start for Test](https://github.com/Azure/azure
     On Linux, you could use below commands:
 
     ```shell
-      pnpm build --filter=${PACKAGE_NAME}...
+      pnpm turbo build --filter=${PACKAGE_NAME}...
     export TEST_MODE=playback && pnpm test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
     ```
     On Windows, you can use:
 
     ```shell
-    pnpm build --filter=${PACKAGE_NAME}...
+    pnpm turbo build --filter=${PACKAGE_NAME}...
     SET TEST_MODE=playback&& pnpm test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
     ```
 
@@ -149,13 +149,52 @@ And we could use `lint:fix` if there are any errors.
 cd ${PROJECT_ROOT} && pnpm lint:fix
 ```
 
+# Adding a new third-party runtime dependency
+
+Shipped client and management libraries (those with `"sdk-type": "client"` or
+`"sdk-type": "mgmt"` in `package.json`) may not take a new third-party runtime
+dependency without approval. This is enforced in CI by the
+`@azure/azure-sdk/ts-package-json-approved-dependencies` ESLint rule (part of
+`pnpm lint`), which validates the `dependencies` field of every in-scope
+`package.json` against a central allow-list. `devDependencies` and
+`peerDependencies` are not checked, and samples, tests, perf tests, and
+utility/tooling packages are out of scope.
+
+First-party dependencies are always allowed and do not need to be listed:
+`@azure/`, `@azure-rest/`, `@azure-tools/`, `@microsoft/`, and `@typespec/`.
+
+To take a new third-party runtime dependency:
+
+1. Get the dependency approved (size, license, maintenance, and supply-chain
+   considerations — see the dependency review guidance).
+2. Add it to [`eng/approved-third-party-dependencies.yml`](https://github.com/Azure/azure-sdk-for-js/blob/main/eng/approved-third-party-dependencies.yml):
+   - Add it under `allowed` if every package should be able to use it.
+   - Add a scoped entry under `exceptions` if only specific packages should be
+     able to use it:
+
+     ```yaml
+     exceptions:
+       - dependency: some-package
+         packages:
+           - "@azure/your-package"
+     ```
+
+Entries are normally exact package names. A **scope wildcard** of the form
+`@scope/*` is also supported (in both `allowed` and `exceptions`) and matches
+every package in that npm scope — for example, `"@opentelemetry/*"` under
+`allowed` approves the entire OpenTelemetry ecosystem for every package.
+
+If a package declares a runtime dependency that is neither first-party nor
+approved, `pnpm lint` (and CI) will fail with a message pointing at the
+allow-list.
+
 # How to create package
 
 Now, we can use the exact same steps to build a releasable artifact.
 
 ```shell
 pnpm update
-pnpm build --filter=<your-package-name>...
+pnpm turbo build --filter=<your-package-name>...
 cd <your-sdk-folder>
 export TEST_MODE=record && pnpm test
 pnpm pack

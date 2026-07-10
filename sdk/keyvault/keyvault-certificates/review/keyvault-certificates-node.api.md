@@ -9,9 +9,11 @@ import { AzureLogger } from '@azure/logger';
 import type { CancelOnProgress } from '@azure/core-lro';
 import type * as coreClient from '@azure-rest/core-client';
 import type { ExtendedCommonClientOptions } from '@azure/keyvault-common';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
 import type { PollerLike } from '@azure/core-lro';
 import type { PollOperationState } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public @deprecated
@@ -87,7 +89,7 @@ export class CertificateClient {
 // @public
 export interface CertificateClientOptions extends ExtendedCommonClientOptions {
     disableChallengeResourceVerification?: boolean;
-    serviceVersion?: "7.0" | "7.1" | "7.2" | "7.3" | "7.4" | "7.5" | "7.6" | "2025-07-01";
+    serviceVersion?: "7.0" | "7.1" | "7.2" | "7.3" | "7.4" | "7.5" | "7.6" | "2025-07-01" | "2026-03-01-preview";
 }
 
 // @public
@@ -170,6 +172,7 @@ export interface CertificatePolicyProperties {
     keyType?: CertificateKeyType;
     keyUsage?: KeyUsageType[];
     lifetimeActions?: LifetimeAction[];
+    platformManaged?: PlatformManaged;
     reuseKey?: boolean;
     readonly updatedOn?: Date;
     validityInMonths?: number;
@@ -300,6 +303,8 @@ export interface ImportCertificateOptions extends coreClient.OperationOptions {
 
 // @public
 export type ImportCertificatePolicy = CertificatePolicyProperties & Partial<PolicySubjectProperties>;
+
+export { isRestError }
 
 // @public
 export interface IssuerAttributes {
@@ -437,6 +442,12 @@ export type MergeCertificateOptions = coreClient.OperationOptions;
 export function parseKeyVaultCertificateIdentifier(id: string): KeyVaultCertificateIdentifier;
 
 // @public
+export interface PlatformManaged {
+    certificateUsage: string;
+    metadata?: Record<string, any>;
+}
+
+// @public
 export interface PolicySubjectProperties {
     subject: string;
     subjectAlternativeNames: SubjectAlternativeNames;
@@ -472,6 +483,8 @@ export type RecoverDeletedCertificateState = KeyVaultCertificatePollOperationSta
 export type RequireAtLeastOne<T> = {
     [K in keyof T]-?: Required<Pick<T, K>> & Partial<Pick<T, Exclude<keyof T, K>>>;
 }[keyof T];
+
+export { RestError }
 
 // @public
 export type RestoreCertificateBackupOptions = coreClient.OperationOptions;

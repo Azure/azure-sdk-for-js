@@ -89,7 +89,6 @@ export async function main(): Promise<void> {
       protocol_versions: [{ protocol: "responses", version: "1.0.0" } as ProtocolVersionRecord],
     } as HostedAgentDefinition,
     {
-      foundryFeatures: "HostedAgents=V1Preview",
       metadata: { enableVnextExperience: "true" },
     },
   );
@@ -115,7 +114,7 @@ export async function main(): Promise<void> {
     type: "version_ref",
     agent_version: agent.version,
   };
-  const session = await project.beta.agents.createSession(agentName, versionIndicator);
+  const session = await project.agents.createSession(agentName, versionIndicator);
   console.log(`Session created (id: ${session.agent_session_id}, status: ${session.status})`);
 
   try {
@@ -130,10 +129,10 @@ export async function main(): Promise<void> {
           } as FixedRatioVersionSelectionRule,
         ],
       },
-      protocols: ["responses"],
+      protocol_configuration: { responses: {} },
     };
 
-    await project.beta.agents.updateAgent(agentName, {
+    await project.agents.updateAgent(agentName, {
       agentEndpoint: endpointConfig,
     });
     console.log(`Agent endpoint configured for agent: ${agentName}`);
@@ -159,7 +158,7 @@ export async function main(): Promise<void> {
     await new Promise((resolve) => setTimeout(resolve, 2_000));
 
     console.log("\nStreaming session logs...");
-    const logStream = await project.beta.agents.getSessionLogStream(
+    const logStream = await project.agents.getSessionLogStream(
       agentName,
       agent.version,
       session.agent_session_id,
@@ -177,7 +176,7 @@ export async function main(): Promise<void> {
     // ── Cleanup ─────────────────────────────────────────────────────────
     console.log("\nCleaning up resources...");
 
-    await project.beta.agents.deleteSession(agentName, session.agent_session_id);
+    await project.agents.deleteSession(agentName, session.agent_session_id);
     console.log(`Session deleted (id: ${session.agent_session_id})`);
 
     await project.agents.deleteVersion(agentName, agent.version);

@@ -8,7 +8,6 @@ import {
   _updateDeserialize,
   _createDeserialize as _createDeserializeFleetspace,
 } from "./api/fleetspace/operations.js";
-import { _$deleteDeserialize as _$deleteDeserializeFleetAnalytics } from "./api/fleetAnalytics/operations.js";
 import { _$deleteDeserialize as _$deleteDeserializeFleet } from "./api/fleet/operations.js";
 import {
   _deleteMongoMIRoleAssignmentDeserialize,
@@ -16,15 +15,6 @@ import {
   _deleteMongoMIRoleDefinitionDeserialize,
   _createUpdateMongoMIRoleDefinitionDeserialize,
 } from "./api/mongoMIResources/operations.js";
-import {
-  _$deleteDeserialize as _$deleteDeserializeThroughputPoolAccount,
-  _createDeserialize as _createDeserializeThroughputPoolAccount,
-} from "./api/throughputPoolAccount/operations.js";
-import {
-  _$deleteDeserialize as _$deleteDeserializeThroughputPool,
-  _updateDeserialize as _updateDeserializeThroughputPool,
-  _createOrUpdateDeserialize,
-} from "./api/throughputPool/operations.js";
 import {
   _$deleteDeserialize as _$deleteDeserializeService,
   _createDeserialize as _createDeserializeService,
@@ -37,16 +27,14 @@ import {
 import {
   _startDeserialize,
   _deallocateDeserialize,
-  _invokeCommandAsyncDeserialize,
   _invokeCommandDeserialize,
   _$deleteDeserialize as _$deleteDeserializeCassandraClusters,
   _updateDeserialize as _updateDeserializeCassandraClusters,
   _createUpdateDeserialize as _createUpdateDeserializeCassandraClusters,
 } from "./api/cassandraClusters/operations.js";
-import { _enableDisableDeserialize } from "./api/chaosFault/operations.js";
 import {
   _$deleteDeserialize as _$deleteDeserializePrivateEndpointConnections,
-  _createOrUpdateDeserialize as _createOrUpdateDeserializePrivateEndpointConnections,
+  _createOrUpdateDeserialize,
 } from "./api/privateEndpointConnections/operations.js";
 import {
   _startDeserialize as _startDeserializeNotebookWorkspaces,
@@ -54,12 +42,6 @@ import {
   _$deleteDeserialize as _$deleteDeserializeNotebookWorkspaces,
   _createOrUpdateDeserialize as _createOrUpdateDeserializeNotebookWorkspaces,
 } from "./api/notebookWorkspaces/operations.js";
-import { _reconcileDeserialize } from "./api/networkSecurityPerimeterConfigurations/operations.js";
-import {
-  _$deleteDeserialize as _$deleteDeserializeGarnetClusters,
-  _updateDeserialize as _updateDeserializeGarnetClusters,
-  _createUpdateDeserialize as _createUpdateDeserializeGarnetClusters,
-} from "./api/garnetClusters/operations.js";
 import {
   _deleteGremlinRoleAssignmentDeserialize,
   _createUpdateGremlinRoleAssignmentDeserialize,
@@ -82,15 +64,10 @@ import {
   _createUpdateCassandraRoleAssignmentDeserialize,
   _deleteCassandraRoleDefinitionDeserialize,
   _createUpdateCassandraRoleDefinitionDeserialize,
-  _deleteCassandraViewDeserialize,
-  _createUpdateCassandraViewDeserialize,
   _deleteCassandraTableDeserialize,
   _createUpdateCassandraTableDeserialize,
   _deleteCassandraKeyspaceDeserialize,
   _createUpdateCassandraKeyspaceDeserialize,
-  _migrateCassandraViewToManualThroughputDeserialize,
-  _migrateCassandraViewToAutoscaleDeserialize,
-  _updateCassandraViewThroughputDeserialize,
   _migrateCassandraTableToManualThroughputDeserialize,
   _migrateCassandraTableToAutoscaleDeserialize,
   _updateCassandraTableThroughputDeserialize,
@@ -116,19 +93,13 @@ import {
   _deleteMongoRoleDefinitionDeserialize,
   _createUpdateMongoRoleDefinitionDeserialize,
   _retrieveContinuousBackupInformationDeserialize as _retrieveContinuousBackupInformationDeserializeMongoDBResources,
-  _listMongoDBCollectionPartitionMergeDeserialize,
   _deleteMongoDBCollectionDeserialize,
   _createUpdateMongoDBCollectionDeserialize,
-  _mongoDBDatabasePartitionMergeDeserialize,
   _deleteMongoDBDatabaseDeserialize,
   _createUpdateMongoDBDatabaseDeserialize,
   _migrateMongoDBCollectionToManualThroughputDeserialize,
   _migrateMongoDBCollectionToAutoscaleDeserialize,
-  _mongoDBContainerRedistributeThroughputDeserialize,
-  _mongoDBContainerRetrieveThroughputDistributionDeserialize,
   _updateMongoDBCollectionThroughputDeserialize,
-  _mongoDBDatabaseRedistributeThroughputDeserialize,
-  _mongoDBDatabaseRetrieveThroughputDistributionDeserialize,
   _migrateMongoDBDatabaseToManualThroughputDeserialize,
   _migrateMongoDBDatabaseToAutoscaleDeserialize,
   _updateMongoDBDatabaseThroughputDeserialize,
@@ -145,28 +116,18 @@ import {
   _deleteSqlStoredProcedureDeserialize,
   _createUpdateSqlStoredProcedureDeserialize,
   _retrieveContinuousBackupInformationDeserialize as _retrieveContinuousBackupInformationDeserializeSqlResources,
-  _listSqlContainerPartitionMergeDeserialize,
   _deleteSqlContainerDeserialize,
   _createUpdateSqlContainerDeserialize,
   _createUpdateClientEncryptionKeyDeserialize,
-  _sqlContainerRedistributeThroughputDeserialize,
-  _sqlContainerRetrieveThroughputDistributionDeserialize,
   _migrateSqlContainerToManualThroughputDeserialize,
   _migrateSqlContainerToAutoscaleDeserialize,
   _updateSqlContainerThroughputDeserialize,
-  _sqlDatabaseRedistributeThroughputDeserialize,
-  _sqlDatabaseRetrieveThroughputDistributionDeserialize,
   _migrateSqlDatabaseToManualThroughputDeserialize,
   _migrateSqlDatabaseToAutoscaleDeserialize,
   _updateSqlDatabaseThroughputDeserialize,
-  _sqlDatabasePartitionMergeDeserialize,
   _deleteSqlDatabaseDeserialize,
   _createUpdateSqlDatabaseDeserialize,
 } from "./api/sqlResources/operations.js";
-import {
-  _deleteGraphResourceDeserialize,
-  _createUpdateGraphDeserialize,
-} from "./api/graphResources/operations.js";
 import {
   _regenerateKeyDeserialize,
   _onlineRegionDeserialize,
@@ -215,8 +176,7 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
     );
   }
   const resourceLocationConfig = metadata?.["resourceLocationConfig"] as
-    | ResourceLocationConfig
-    | undefined;
+    ResourceLocationConfig | undefined;
   const { deserializer, expectedStatuses = [] } =
     getDeserializationHelper(initialRequestUrl, requestMethod) ?? {};
   const deserializeHelper = options?.processResponseBody ?? deserializer;
@@ -257,8 +217,6 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     { deserializer: _updateDeserialize, expectedStatuses: ["200", "202", "201"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/fleets/{fleetName}/fleetspaces/{fleetspaceName}":
     { deserializer: _createDeserializeFleetspace, expectedStatuses: ["200", "201", "202"] },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/fleets/{fleetName}/fleetAnalytics/{fleetAnalyticsName}":
-    { deserializer: _$deleteDeserializeFleetAnalytics, expectedStatuses: ["202", "204", "200"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/fleets/{fleetName}":
     { deserializer: _$deleteDeserializeFleet, expectedStatuses: ["202", "204", "200"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongoMIRoleAssignments/{roleAssignmentId}":
@@ -281,22 +239,6 @@ const deserializeMap: Record<string, DeserializationHelper> = {
       deserializer: _createUpdateMongoMIRoleDefinitionDeserialize,
       expectedStatuses: ["200", "202", "201"],
     },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/throughputPools/{throughputPoolName}/throughputPoolAccounts/{throughputPoolAccountName}":
-    {
-      deserializer: _$deleteDeserializeThroughputPoolAccount,
-      expectedStatuses: ["202", "204", "200"],
-    },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/throughputPools/{throughputPoolName}/throughputPoolAccounts/{throughputPoolAccountName}":
-    {
-      deserializer: _createDeserializeThroughputPoolAccount,
-      expectedStatuses: ["200", "201", "202"],
-    },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/throughputPools/{throughputPoolName}":
-    { deserializer: _$deleteDeserializeThroughputPool, expectedStatuses: ["202", "204", "200"] },
-  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/throughputPools/{throughputPoolName}":
-    { deserializer: _updateDeserializeThroughputPool, expectedStatuses: ["200", "202", "201"] },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/throughputPools/{throughputPoolName}":
-    { deserializer: _createOrUpdateDeserialize, expectedStatuses: ["200", "201", "202"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/services/{serviceName}":
     { deserializer: _$deleteDeserializeService, expectedStatuses: ["200", "202", "204"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/services/{serviceName}":
@@ -317,8 +259,6 @@ const deserializeMap: Record<string, DeserializationHelper> = {
     { deserializer: _startDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters/{clusterName}/deallocate":
     { deserializer: _deallocateDeserialize, expectedStatuses: ["202", "200", "201"] },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters/{clusterName}/invokeCommandAsync":
-    { deserializer: _invokeCommandAsyncDeserialize, expectedStatuses: ["200", "202", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters/{clusterName}/invokeCommand":
     { deserializer: _invokeCommandDeserialize, expectedStatuses: ["202", "200", "201"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters/{clusterName}":
@@ -330,18 +270,13 @@ const deserializeMap: Record<string, DeserializationHelper> = {
       deserializer: _createUpdateDeserializeCassandraClusters,
       expectedStatuses: ["200", "201", "202"],
     },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/chaosFaults/{chaosFault}":
-    { deserializer: _enableDisableDeserialize, expectedStatuses: ["200", "201", "202"] },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/privateEndpointConnections/{privateEndpointConnectionName}":
     {
       deserializer: _$deleteDeserializePrivateEndpointConnections,
       expectedStatuses: ["202", "204", "200"],
     },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/privateEndpointConnections/{privateEndpointConnectionName}":
-    {
-      deserializer: _createOrUpdateDeserializePrivateEndpointConnections,
-      expectedStatuses: ["200", "202", "201"],
-    },
+    { deserializer: _createOrUpdateDeserialize, expectedStatuses: ["200", "202", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/notebookWorkspaces/{notebookWorkspaceName}/start":
     { deserializer: _startDeserializeNotebookWorkspaces, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/notebookWorkspaces/{notebookWorkspaceName}/regenerateAuthToken":
@@ -354,17 +289,6 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/notebookWorkspaces/{notebookWorkspaceName}":
     {
       deserializer: _createOrUpdateDeserializeNotebookWorkspaces,
-      expectedStatuses: ["200", "201", "202"],
-    },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/networkSecurityPerimeterConfigurations/{networkSecurityPerimeterConfigurationName}/reconcile":
-    { deserializer: _reconcileDeserialize, expectedStatuses: ["202", "200", "201"] },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/garnetClusters/{clusterName}":
-    { deserializer: _$deleteDeserializeGarnetClusters, expectedStatuses: ["202", "204", "200"] },
-  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/garnetClusters/{clusterName}":
-    { deserializer: _updateDeserializeGarnetClusters, expectedStatuses: ["200", "202", "201"] },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/garnetClusters/{clusterName}":
-    {
-      deserializer: _createUpdateDeserializeGarnetClusters,
       expectedStatuses: ["200", "201", "202"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinRoleAssignments/{roleAssignmentId}":
@@ -390,7 +314,7 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}/retrieveContinuousBackupInformation":
     {
       deserializer: _retrieveContinuousBackupInformationDeserialize,
-      expectedStatuses: ["202", "200", "201"],
+      expectedStatuses: ["200", "202", "201"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}":
     { deserializer: _deleteGremlinGraphDeserialize, expectedStatuses: ["202", "204", "200"] },
@@ -453,13 +377,6 @@ const deserializeMap: Record<string, DeserializationHelper> = {
       deserializer: _createUpdateCassandraRoleDefinitionDeserialize,
       expectedStatuses: ["200", "202", "201"],
     },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/views/{viewName}":
-    { deserializer: _deleteCassandraViewDeserialize, expectedStatuses: ["200", "202", "204"] },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/views/{viewName}":
-    {
-      deserializer: _createUpdateCassandraViewDeserialize,
-      expectedStatuses: ["200", "202", "201"],
-    },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}":
     { deserializer: _deleteCassandraTableDeserialize, expectedStatuses: ["202", "204", "200"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}":
@@ -472,21 +389,6 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}":
     {
       deserializer: _createUpdateCassandraKeyspaceDeserialize,
-      expectedStatuses: ["200", "202", "201"],
-    },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/views/{viewName}/throughputSettings/default/migrateToManualThroughput":
-    {
-      deserializer: _migrateCassandraViewToManualThroughputDeserialize,
-      expectedStatuses: ["200", "202", "201"],
-    },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/views/{viewName}/throughputSettings/default/migrateToAutoscale":
-    {
-      deserializer: _migrateCassandraViewToAutoscaleDeserialize,
-      expectedStatuses: ["200", "202", "201"],
-    },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/views/{viewName}/throughputSettings/default":
-    {
-      deserializer: _updateCassandraViewThroughputDeserialize,
       expectedStatuses: ["200", "202", "201"],
     },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}/throughputSettings/default/migrateToManualThroughput":
@@ -542,7 +444,7 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tables/{tableName}/retrieveContinuousBackupInformation":
     {
       deserializer: _retrieveContinuousBackupInformationDeserializeTableResources,
-      expectedStatuses: ["202", "200", "201"],
+      expectedStatuses: ["200", "202", "201"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/tables/{tableName}":
     { deserializer: _deleteTableDeserialize, expectedStatuses: ["204", "202", "200"] },
@@ -580,11 +482,6 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}/retrieveContinuousBackupInformation":
     {
       deserializer: _retrieveContinuousBackupInformationDeserializeMongoDBResources,
-      expectedStatuses: ["202", "200", "201"],
-    },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}/partitionMerge":
-    {
-      deserializer: _listMongoDBCollectionPartitionMergeDeserialize,
       expectedStatuses: ["200", "202", "201"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}":
@@ -592,11 +489,6 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}":
     {
       deserializer: _createUpdateMongoDBCollectionDeserialize,
-      expectedStatuses: ["200", "202", "201"],
-    },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/partitionMerge":
-    {
-      deserializer: _mongoDBDatabasePartitionMergeDeserialize,
       expectedStatuses: ["200", "202", "201"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}":
@@ -616,29 +508,9 @@ const deserializeMap: Record<string, DeserializationHelper> = {
       deserializer: _migrateMongoDBCollectionToAutoscaleDeserialize,
       expectedStatuses: ["200", "202", "201"],
     },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}/throughputSettings/default/redistributeThroughput":
-    {
-      deserializer: _mongoDBContainerRedistributeThroughputDeserialize,
-      expectedStatuses: ["200", "202", "201"],
-    },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}/throughputSettings/default/retrieveThroughputDistribution":
-    {
-      deserializer: _mongoDBContainerRetrieveThroughputDistributionDeserialize,
-      expectedStatuses: ["200", "202", "201"],
-    },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}/throughputSettings/default":
     {
       deserializer: _updateMongoDBCollectionThroughputDeserialize,
-      expectedStatuses: ["200", "202", "201"],
-    },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/throughputSettings/default/redistributeThroughput":
-    {
-      deserializer: _mongoDBDatabaseRedistributeThroughputDeserialize,
-      expectedStatuses: ["200", "202", "201"],
-    },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/throughputSettings/default/retrieveThroughputDistribution":
-    {
-      deserializer: _mongoDBDatabaseRetrieveThroughputDistributionDeserialize,
       expectedStatuses: ["200", "202", "201"],
     },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/throughputSettings/default/migrateToManualThroughput":
@@ -694,11 +566,6 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/retrieveContinuousBackupInformation":
     {
       deserializer: _retrieveContinuousBackupInformationDeserializeSqlResources,
-      expectedStatuses: ["202", "200", "201"],
-    },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/partitionMerge":
-    {
-      deserializer: _listSqlContainerPartitionMergeDeserialize,
       expectedStatuses: ["200", "202", "201"],
     },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}":
@@ -708,16 +575,6 @@ const deserializeMap: Record<string, DeserializationHelper> = {
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/clientEncryptionKeys/{clientEncryptionKeyName}":
     {
       deserializer: _createUpdateClientEncryptionKeyDeserialize,
-      expectedStatuses: ["200", "202", "201"],
-    },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/throughputSettings/default/redistributeThroughput":
-    {
-      deserializer: _sqlContainerRedistributeThroughputDeserialize,
-      expectedStatuses: ["200", "202", "201"],
-    },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/throughputSettings/default/retrieveThroughputDistribution":
-    {
-      deserializer: _sqlContainerRetrieveThroughputDistributionDeserialize,
       expectedStatuses: ["200", "202", "201"],
     },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/throughputSettings/default/migrateToManualThroughput":
@@ -735,16 +592,6 @@ const deserializeMap: Record<string, DeserializationHelper> = {
       deserializer: _updateSqlContainerThroughputDeserialize,
       expectedStatuses: ["200", "202", "201"],
     },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/throughputSettings/default/redistributeThroughput":
-    {
-      deserializer: _sqlDatabaseRedistributeThroughputDeserialize,
-      expectedStatuses: ["200", "202", "201"],
-    },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/throughputSettings/default/retrieveThroughputDistribution":
-    {
-      deserializer: _sqlDatabaseRetrieveThroughputDistributionDeserialize,
-      expectedStatuses: ["200", "202", "201"],
-    },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/throughputSettings/default/migrateToManualThroughput":
     {
       deserializer: _migrateSqlDatabaseToManualThroughputDeserialize,
@@ -760,19 +607,10 @@ const deserializeMap: Record<string, DeserializationHelper> = {
       deserializer: _updateSqlDatabaseThroughputDeserialize,
       expectedStatuses: ["200", "202", "201"],
     },
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/partitionMerge":
-    {
-      deserializer: _sqlDatabasePartitionMergeDeserialize,
-      expectedStatuses: ["200", "202", "201"],
-    },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}":
     { deserializer: _deleteSqlDatabaseDeserialize, expectedStatuses: ["204", "202", "200"] },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}":
     { deserializer: _createUpdateSqlDatabaseDeserialize, expectedStatuses: ["200", "202", "201"] },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/graphs/{graphName}":
-    { deserializer: _deleteGraphResourceDeserialize, expectedStatuses: ["200", "202", "204"] },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/graphs/{graphName}":
-    { deserializer: _createUpdateGraphDeserialize, expectedStatuses: ["200", "202", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/regenerateKey":
     { deserializer: _regenerateKeyDeserialize, expectedStatuses: ["202", "200", "201"] },
   "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/onlineRegion":

@@ -1,7 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { JSONTypes } from "../webPubSubClient.js";
+/**
+ * Types which can be serialized and sent as JSON.
+ */
+export type JSONTypes = string | number | boolean | object;
 
 /**
  * The web pubsub message
@@ -286,10 +289,6 @@ export interface ServerDataMessage extends WebPubSubMessageBase {
    * The sequence id of the data. Only available in reliable protocols
    */
   sequenceId?: number;
-  /**
-   * Streaming metadata when the payload belongs to a stream.
-   */
-  stream?: StreamInfo;
 }
 
 /**
@@ -333,7 +332,7 @@ export interface StreamDataError {
 }
 
 /**
- * Stream end error that a publisher can send to the service.
+ * Stream end error that an outbound stream can send to the service.
  * The service decides the high-level error name classification.
  */
 export interface StreamEndError {
@@ -358,7 +357,7 @@ export interface StartStreamOptions {
   /**
    * Optional stream idle timeout in milliseconds.
    */
-  idleTimeoutMs?: number;
+  idleTimeoutInMs?: number;
 }
 
 /**
@@ -750,7 +749,7 @@ export interface GroupStateItem {
    */
   state?: Record<string, string>;
   /**
-   * Unix epoch timestamp in milliseconds when the state was last updated
+   * Server time, in Unix epoch milliseconds, when this state was last updated.
    */
   updatedAt: number;
 }
