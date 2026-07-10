@@ -1523,6 +1523,8 @@ export interface AzureFileVolume {
   storageAccountKey?: string;
   /** The reference to the storage account access key used to access the Azure File share. */
   storageAccountKeyReference?: string;
+  /** The client id of the user-assigned managed identity that has access to the Azure File share. */
+  userAssignedIdentityClientId?: string;
 }
 
 export function azureFileVolumeSerializer(item: AzureFileVolume): any {
@@ -1532,6 +1534,7 @@ export function azureFileVolumeSerializer(item: AzureFileVolume): any {
     storageAccountName: item["storageAccountName"],
     storageAccountKey: item["storageAccountKey"],
     storageAccountKeyReference: item["storageAccountKeyReference"],
+    userAssignedIdentityClientId: item["userAssignedIdentityClientId"],
   };
 }
 
@@ -1542,6 +1545,7 @@ export function azureFileVolumeDeserializer(item: any): AzureFileVolume {
     storageAccountName: item["storageAccountName"],
     storageAccountKey: item["storageAccountKey"],
     storageAccountKeyReference: item["storageAccountKeyReference"],
+    userAssignedIdentityClientId: item["userAssignedIdentityClientId"],
   };
 }
 
@@ -4096,8 +4100,8 @@ export function capabilitiesCapabilitiesDeserializer(item: any): CapabilitiesCap
 export enum KnownVersions {
   /** The 2025-09-01 API version. */
   V20250901 = "2025-09-01",
-  /** The 2026-06-01-preview API version. */
-  V20260601Preview = "2026-06-01-preview",
+  /** The 2026-07-01 API version. */
+  V20260701 = "2026-07-01",
 }
 
 export function _containerPropertiesSerializer(item: Container): any {
