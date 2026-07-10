@@ -38,9 +38,16 @@ async function shouldRunProxyTool(): Promise<boolean> {
 export function summarizeCloseEvents(closeEvents: unknown): string {
   const events = Array.isArray(closeEvents) ? closeEvents : [closeEvents];
   const failed = events
-    .filter((e): e is { command?: { command?: string }; exitCode?: number } => Boolean(e))
+    .filter((e): e is { command?: { command?: string }; exitCode?: string | number } =>
+      Boolean(e),
+    )
     .filter((e) => e.exitCode !== 0 && e.exitCode !== undefined)
-    .map((e) => `${e.command?.command ?? "command"} exited with code ${e.exitCode}`);
+    .map((e) => {
+      const name = e.command?.command ?? "command";
+      return typeof e.exitCode === "string"
+        ? `${name} was killed by signal ${e.exitCode}`
+        : `${name} exited with code ${e.exitCode}`;
+    });
 
   if (failed.length > 0) {
     return failed.join("; ");

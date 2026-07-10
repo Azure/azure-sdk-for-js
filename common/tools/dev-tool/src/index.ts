@@ -22,7 +22,7 @@ baseCommand(...process.argv.slice(2)).catch((err) => {
   };
 
   console.error(chalk.red("[Internal Error]", format(err)));
-  if (err && typeof err === "object" && "cause" in err && err.cause) {
+  if (err && typeof err === "object" && "cause" in err && err.cause !== undefined) {
     console.error(chalk.red("[Internal Error Cause]", format(err.cause)));
   }
   process.exit(255);
