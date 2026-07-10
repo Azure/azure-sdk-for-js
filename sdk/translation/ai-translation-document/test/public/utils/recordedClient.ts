@@ -44,7 +44,9 @@ const recorderEnvSetup: RecorderStartOptions = {
     ],
     bodySanitizers: [
       {
-        target: getBlobEndpoint(),
+        // Include the trailing slash in the target so the sanitized value keeps a
+        // single slash before the container name (the mock endpoint already ends in "/").
+        target: `${getBlobEndpoint()}/`,
         value: MOCKS.BLOB_ENDPOINT,
       },
     ],
