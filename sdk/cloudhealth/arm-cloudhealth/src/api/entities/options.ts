@@ -4,6 +4,15 @@
 import type { OperationOptions } from "@azure-rest/core-client";
 
 /** Optional parameters. */
+export interface EntitiesGetSignalRecommendationsOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface EntitiesGetDataAnnotationsOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface EntitiesAddDataAnnotationOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
 export interface EntitiesIngestHealthReportOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
