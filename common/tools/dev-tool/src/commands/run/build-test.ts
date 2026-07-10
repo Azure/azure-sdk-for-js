@@ -147,7 +147,9 @@ export async function runTypeScript(tsConfig: string): Promise<boolean> {
 
   if (res.status || res.signal) {
     const detail = res.signal ? `signal ${res.signal}` : `exit code ${res.status}`;
-    log.error(`TypeScript compilation failed for ${tsConfig} (${detail}). See the tsc errors above.`);
+    log.error(
+      `TypeScript compilation failed for ${tsConfig} (${detail}). See the tsc errors above.`,
+    );
     return false;
   }
 
