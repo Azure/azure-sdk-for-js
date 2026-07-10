@@ -17,9 +17,9 @@ import type {
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  cloudErrorDeserializer,
   throughputSettingsGetResultsDeserializer,
   throughputSettingsUpdateParametersSerializer,
+  cloudErrorDeserializer,
   continuousBackupRestoreLocationSerializer,
   backupInformationDeserializer,
   tableGetResultsDeserializer,
@@ -71,7 +71,7 @@ export function _listTableRoleAssignmentsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -89,7 +89,9 @@ export async function _listTableRoleAssignmentsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -109,11 +111,7 @@ export function listTableRoleAssignments(
     () => _listTableRoleAssignmentsSend(context, resourceGroupName, accountName, options),
     _listTableRoleAssignmentsDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-15" },
   );
 }
 
@@ -131,7 +129,7 @@ export function _deleteTableRoleAssignmentSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       roleAssignmentId: roleAssignmentId,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -146,7 +144,9 @@ export async function _deleteTableRoleAssignmentDeserialize(
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -178,7 +178,7 @@ export function deleteTableRoleAssignment(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+      apiVersion: context.apiVersion ?? "2026-03-15",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -198,7 +198,7 @@ export function _createUpdateTableRoleAssignmentSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       roleAssignmentId: roleAssignmentId,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -218,7 +218,9 @@ export async function _createUpdateTableRoleAssignmentDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -252,7 +254,7 @@ export function createUpdateTableRoleAssignment(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+      apiVersion: context.apiVersion ?? "2026-03-15",
     },
   ) as PollerLike<OperationState<TableRoleAssignmentResource>, TableRoleAssignmentResource>;
 }
@@ -271,7 +273,7 @@ export function _getTableRoleAssignmentSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       roleAssignmentId: roleAssignmentId,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -289,7 +291,9 @@ export async function _getTableRoleAssignmentDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -327,7 +331,7 @@ export function _listTableRoleDefinitionsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -345,7 +349,9 @@ export async function _listTableRoleDefinitionsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -365,11 +371,7 @@ export function listTableRoleDefinitions(
     () => _listTableRoleDefinitionsSend(context, resourceGroupName, accountName, options),
     _listTableRoleDefinitionsDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-15" },
   );
 }
 
@@ -387,7 +389,7 @@ export function _deleteTableRoleDefinitionSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       roleDefinitionId: roleDefinitionId,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -402,7 +404,9 @@ export async function _deleteTableRoleDefinitionDeserialize(
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -434,7 +438,7 @@ export function deleteTableRoleDefinition(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+      apiVersion: context.apiVersion ?? "2026-03-15",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -454,7 +458,7 @@ export function _createUpdateTableRoleDefinitionSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       roleDefinitionId: roleDefinitionId,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -474,7 +478,9 @@ export async function _createUpdateTableRoleDefinitionDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -508,7 +514,7 @@ export function createUpdateTableRoleDefinition(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+      apiVersion: context.apiVersion ?? "2026-03-15",
     },
   ) as PollerLike<OperationState<TableRoleDefinitionResource>, TableRoleDefinitionResource>;
 }
@@ -527,7 +533,7 @@ export function _getTableRoleDefinitionSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       roleDefinitionId: roleDefinitionId,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -545,7 +551,9 @@ export async function _getTableRoleDefinitionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -586,7 +594,7 @@ export function _retrieveContinuousBackupInformationSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       tableName: tableName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -603,10 +611,12 @@ export function _retrieveContinuousBackupInformationSend(
 export async function _retrieveContinuousBackupInformationDeserialize(
   result: PathUncheckedResponse,
 ): Promise<BackupInformation> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -626,7 +636,7 @@ export function retrieveContinuousBackupInformation(
   return getLongRunningPoller(
     context,
     _retrieveContinuousBackupInformationDeserialize,
-    ["202", "200", "201"],
+    ["200", "202", "201"],
     {
       updateIntervalInMs: options?.updateIntervalInMs,
       abortSignal: options?.abortSignal,
@@ -640,7 +650,7 @@ export function retrieveContinuousBackupInformation(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+      apiVersion: context.apiVersion ?? "2026-03-15",
     },
   ) as PollerLike<OperationState<BackupInformation>, BackupInformation>;
 }
@@ -657,7 +667,7 @@ export function _listTablesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       accountName: accountName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -675,7 +685,9 @@ export async function _listTablesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -695,11 +707,7 @@ export function listTables(
     () => _listTablesSend(context, resourceGroupName, accountName, options),
     _listTablesDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-03-15" },
   );
 }
 
@@ -717,7 +725,7 @@ export function _deleteTableSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       tableName: tableName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -730,7 +738,9 @@ export async function _deleteTableDeserialize(result: PathUncheckedResponse): Pr
   const expectedStatuses = ["204", "202", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -752,7 +762,7 @@ export function deleteTable(
     getInitialResponse: () =>
       _deleteTableSend(context, resourceGroupName, accountName, tableName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-11-01-preview",
+    apiVersion: context.apiVersion ?? "2026-03-15",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -771,7 +781,7 @@ export function _createUpdateTableSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       tableName: tableName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -791,7 +801,9 @@ export async function _createUpdateTableDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -821,7 +833,7 @@ export function createUpdateTable(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-11-01-preview",
+    apiVersion: context.apiVersion ?? "2026-03-15",
   }) as PollerLike<OperationState<TableGetResults>, TableGetResults>;
 }
 
@@ -839,7 +851,7 @@ export function _getTableSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       tableName: tableName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -857,7 +869,9 @@ export async function _getTableDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -891,7 +905,7 @@ export function _migrateTableToManualThroughputSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       tableName: tableName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -909,7 +923,9 @@ export async function _migrateTableToManualThroughputDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -941,7 +957,7 @@ export function migrateTableToManualThroughput(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2025-11-01-preview",
+      apiVersion: context.apiVersion ?? "2026-03-15",
     },
   ) as PollerLike<OperationState<ThroughputSettingsGetResults>, ThroughputSettingsGetResults>;
 }
@@ -960,7 +976,7 @@ export function _migrateTableToAutoscaleSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       tableName: tableName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -978,7 +994,9 @@ export async function _migrateTableToAutoscaleDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1000,7 +1018,7 @@ export function migrateTableToAutoscale(
     getInitialResponse: () =>
       _migrateTableToAutoscaleSend(context, resourceGroupName, accountName, tableName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-11-01-preview",
+    apiVersion: context.apiVersion ?? "2026-03-15",
   }) as PollerLike<OperationState<ThroughputSettingsGetResults>, ThroughputSettingsGetResults>;
 }
 
@@ -1019,7 +1037,7 @@ export function _updateTableThroughputSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       tableName: tableName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1039,7 +1057,9 @@ export async function _updateTableThroughputDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1069,7 +1089,7 @@ export function updateTableThroughput(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2025-11-01-preview",
+    apiVersion: context.apiVersion ?? "2026-03-15",
   }) as PollerLike<OperationState<ThroughputSettingsGetResults>, ThroughputSettingsGetResults>;
 }
 
@@ -1087,7 +1107,7 @@ export function _getTableThroughputSend(
       resourceGroupName: resourceGroupName,
       accountName: accountName,
       tableName: tableName,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-03-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1105,7 +1125,9 @@ export async function _getTableThroughputDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

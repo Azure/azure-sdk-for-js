@@ -127,7 +127,7 @@
 
 # ServiceLabel: %Communication - Common
 # PRLabel: %Communication - Common
-/sdk/communication/communication-common/    @anjulgarg @Joeleniqs @alvinjiang-msft
+/sdk/communication/communication-common/    @anjulgarg @Joeleniqs @tsohoni-msft @JohnRFraser @alvinjiang-msft @jorge-beauregard @preetkaran20
 
 # ServiceLabel: %Communication - Email
 # PRLabel: %Communication - Email
@@ -135,7 +135,7 @@
 
 # ServiceLabel: %Communication - Identity
 # PRLabel: %Communication - Identity
-/sdk/communication/communication-identity/    @anjulgarg @Joeleniqs @alvinjiang-msft
+/sdk/communication/communication-identity/    @anjulgarg @Joeleniqs @tsohoni-msft @JohnRFraser @alvinjiang-msft @jorge-beauregard @preetkaran20
 
 # ServiceLabel: %Communication - Job Router
 # PRLabel: %Communication - Job Router
@@ -1792,6 +1792,7 @@ sdk/commvaultcontentstore/arm-commvaultcontentstore/ @qiaozha @MaryGao @JialinHu
 /eng/tools @Azure/azure-sdk-for-js-core
 
 /eng/tools/js-sdk-release-tools @qiaozha @MaryGao @JialinHuang803 @jeremymeng
+/eng/tools/js-sdk-release-tools-src @qiaozha @MaryGao @JialinHuang803 @jeremymeng
 /eng/emitter-package-lock.json @qiaozha @MaryGao @JialinHuang803
 /eng/emitter-package.json @qiaozha @MaryGao @JialinHuang803
 

@@ -123,7 +123,7 @@ importers:
   common/tools/dev-tool:
     dependencies:
       '@_ts/max':
-        specifier: npm:typescript@latest
+        specifier: npm:typescript@~6.0.3
         version: typescript@6.0.3
       '@_ts/min':
         specifier: npm:typescript@~5.4.2
@@ -5243,6 +5243,9 @@ importers:
       '@azure/core-util':
         specifier: ^1.11.0
         version: link:../../core/core-util
+      '@azure/logger':
+        specifier: ^1.1.4
+        version: link:../../core/logger
       events:
         specifier: ^3.3.0
         version: 3.3.0
@@ -5265,9 +5268,6 @@ importers:
       '@azure/identity':
         specifier: catalog:internal
         version: 4.13.0
-      '@azure/logger':
-        specifier: ^1.1.4
-        version: link:../../core/logger
       '@types/node':
         specifier: 'catalog:'
         version: 22.20.0
