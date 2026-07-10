@@ -44,7 +44,7 @@
     "prettier": "catalog:",
     "rimraf": "catalog:",
     "tslib": "^2.8.1",
-    "typescript-7": "npm:typescript@^7.0.2",
+    "@typescript/native": "npm:typescript@^7.0.2",
     "typescript-eslint": "~8.60.0",
     "vitest": "catalog:testing"
   },

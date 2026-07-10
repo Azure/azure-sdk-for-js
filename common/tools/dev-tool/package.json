@@ -83,7 +83,7 @@
     "eslint": "catalog:",
     "mkdirp": "^3.0.1",
     "rimraf": "catalog:",
-    "typescript-7": "npm:typescript@^7.0.2",
+    "@typescript/native": "npm:typescript@^7.0.2",
     "typescript-eslint": "~8.60.0",
     "vitest": "catalog:testing"
   }
