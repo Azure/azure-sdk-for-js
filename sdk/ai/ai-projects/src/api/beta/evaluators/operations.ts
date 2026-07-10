@@ -671,7 +671,7 @@ export async function _listDeserialize(
   return _pagedEvaluatorVersionDeserializer(result.body);
 }
 
-/** Lists the latest version of each evaluator */
+/** Lists the latest version of each evaluator. */
 export function list(
   context: Client,
   options: BetaEvaluatorsListOptionalParams = { requestOptions: {} },

@@ -123,6 +123,9 @@ export interface AgentsUpdateAgentObjectOptionalParams extends OperationOptions 
 }
 
 /** Optional parameters. */
+export type AgentsPatchAgentObjectOptionalParams = AgentsUpdateAgentObjectOptionalParams;
+
+/** Optional parameters. */
 export interface AgentsListVersionsOptionalParams extends OperationOptions {
   /**
    * A limit on the number of objects to be returned. Limit can range between 1 and 100, and the

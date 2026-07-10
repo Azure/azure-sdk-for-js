@@ -118,7 +118,7 @@ export interface BetaEvaluatorsOperations {
     version: string,
     options?: BetaEvaluatorsGetVersionOptionalParams,
   ) => Promise<EvaluatorVersion>;
-  /** Lists the latest version of each evaluator */
+  /** Lists the latest version of each evaluator. */
   list: (
     options?: BetaEvaluatorsListOptionalParams,
   ) => PagedAsyncIterableIterator<EvaluatorVersion>;

@@ -19,6 +19,7 @@ import {
   downloadAgentCode,
   createVersionFromCode,
   updateAgentObject,
+  patchAgentObject,
   listVersions,
   deleteVersion,
   getVersion,
@@ -48,6 +49,7 @@ import type {
   AgentsDownloadAgentCodeOptionalParams,
   AgentsCreateVersionFromCodeOptionalParams,
   AgentsUpdateAgentObjectOptionalParams,
+  AgentsPatchAgentObjectOptionalParams,
   AgentsListVersionsOptionalParams,
   AgentsDeleteVersionOptionalParams,
   AgentsGetVersionOptionalParams,
@@ -232,6 +234,11 @@ export interface AgentsOperations {
     agentName: string,
     options?: AgentsUpdateAgentObjectOptionalParams,
   ) => Promise<Agent>;
+  /** Modifies an existing agent. */
+  patchAgentObject: (
+    agentName: string,
+    options?: AgentsPatchAgentObjectOptionalParams,
+  ) => Promise<Agent>;
   /** Returns the list of versions of an agent. */
   listVersions: (
     agentName: string,
@@ -375,6 +382,8 @@ function _getAgents(context: AIProjectContext, tracingConfig?: ResolvedTracingCo
     ) => createVersionFromCode(context, agentName, codeZipSha256, content, options),
     updateAgent: (agentName: string, options?: AgentsUpdateAgentObjectOptionalParams) =>
       updateAgentObject(context, agentName, options),
+    patchAgentObject: (agentName: string, options?: AgentsPatchAgentObjectOptionalParams) =>
+      patchAgentObject(context, agentName, options),
     listVersions: (agentName: string, options?: AgentsListVersionsOptionalParams) =>
       listVersions(context, agentName, options),
     deleteVersion: (
