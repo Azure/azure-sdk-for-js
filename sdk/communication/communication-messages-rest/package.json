@@ -91,7 +91,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/messagesServiceClient.ts",
+        "path": "src/generated/src/messagesServiceClient.ts",
         "prefix": "userAgentInfo"
       }
     ]

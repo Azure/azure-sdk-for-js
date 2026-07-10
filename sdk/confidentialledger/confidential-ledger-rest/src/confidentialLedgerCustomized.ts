@@ -199,7 +199,7 @@ export default function ConfidentialLedger(
 
   const apiVersion = options.apiVersion ?? "2026-02-23";
   const endpointUrl = options.endpoint ?? `${ledgerEndpoint}`;
-  const userAgentInfo = `azsdk-js-confidential-ledger-rest/1.0.0-beta.1`;
+  const userAgentInfo = `azsdk-js-confidential-ledger-rest/2.0.0-beta.1`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
