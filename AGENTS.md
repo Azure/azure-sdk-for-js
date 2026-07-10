@@ -33,6 +33,11 @@ TypeScript / JavaScript SDKs for Azure services. Monorepo managed by
 | Authoritative API design guidelines | https://azure.github.io/azure-sdk/typescript_design.html |
 | Other deep dives | `documentation/` (browse the directory) |
 
+> **Before pushing any change** — including `common/tools/*` and `eng/*`,
+> not just `sdk/` — run the changed package's format, lint, build, and test
+> checks locally. CI enforces them and will fail otherwise. See
+> `.github/skills/sdk-workflow/SKILL.md` § "Before you push".
+
 The skills above carry workflow guidance the rest of this repo's
 contributor docs assume agents will find. Read them on demand — don't
 load them all up front.

@@ -8,6 +8,26 @@ description: '**UTILITY SKILL** — Must be consulted for SDK development workfl
 This skill routes you to the correct tools and documentation for common SDK
 development tasks. Read the referenced docs — don't guess at commands.
 
+## Before you push (required for every change)
+
+Every code change must pass **build, format, lint, and test** checks locally
+before you push or open a PR — CI enforces all of these and will fail
+otherwise. This applies to **every workspace package**, not just `sdk/*`:
+changes under `common/tools/*` (e.g. `dev-tool`, `warp`) and `eng/*` have
+their own `check-format` / `lint` CI jobs too.
+
+From the directory of the package you changed:
+
+- `pnpm format` — auto-format with Prettier (this is what fixes a
+  `check-format` CI failure).
+- `pnpm check-format` — verify formatting is clean (what CI runs).
+- `pnpm lint` — check lint (`pnpm lint:fix` to auto-fix where possible).
+- Build + unit tests: `npx dev-tool check --tag=local`, or the package's
+  `build` / `test` scripts.
+
+For `sdk/*` packages, `npx dev-tool check --fix` bundles format + lint +
+package.json validation in one step.
+
 ## Key Documentation
 
 | What you need | Where to look |
@@ -57,10 +77,6 @@ development tasks. Read the referenced docs — don't guess at commands.
   to be built — it runs via tsx after `pnpm install`.
 - **Checks**: `npx dev-tool check` runs format, lint, build, test, and package.json
   validation. Use `--fix` to auto-repair, `--tag` to select check categories.
-- **Pre-push checks**: All code changes must pass build, format, lint, and test
-  checks locally before pushing — CI will fail otherwise. Run `npx dev-tool check`
-  for format, lint, and package.json validation, then `npx dev-tool check --tag=local`
-  for build and unit tests.
 - **Versioning**: When there is a new change to `src/` after a release, the package
   version must be incremented. Use `npx dev-tool package increment-version` to bump
   the version in `package.json`, update tracked version constants, and add a new
