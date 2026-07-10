@@ -140,8 +140,14 @@ async function runTypeScript(tsConfig: string): Promise<boolean> {
     cwd: process.cwd(),
   });
 
+  if (res.error) {
+    log.error(`Failed to run the TypeScript compiler for ${tsConfig}: ${res.error.message}`);
+    return false;
+  }
+
   if (res.status || res.signal) {
-    log.error(`TypeScript compilation failed for ${tsConfig}:`, res);
+    const detail = res.signal ? `signal ${res.signal}` : `exit code ${res.status}`;
+    log.error(`TypeScript compilation failed for ${tsConfig} (${detail}). See the tsc errors above.`);
     return false;
   }
 
