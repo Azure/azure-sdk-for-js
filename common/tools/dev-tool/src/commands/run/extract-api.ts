@@ -301,7 +301,9 @@ async function writeRuntimeApiFiles(
       const isNodeRuntime = runtime === "node";
       const filename = `${packageName}${pathSuffix}-${runtime}${isNodeRuntime ? ".api.md" : ".api.diff.md"}`;
       const filePath = path.join(reviewDirPath, filename);
-      await writeFile(filePath, content);
+      await withFsRetry(`writing ${runtime} API review file ${filePath}`, () =>
+        writeFile(filePath, content),
+      );
       log.info(`Written ${runtime} API ${isNodeRuntime ? "file" : "diff"} to ${filename}`);
     }
   }
@@ -313,6 +315,30 @@ function getUnscopedPackageName(packageName: string): string {
 
 function isManagementPackage(packageName: string): boolean {
   return packageName.includes("/arm-");
+}
+
+const TRANSIENT_FS_CODES = new Set(["EBUSY", "EPERM", "ENOENT", "EMFILE", "EAGAIN", "UNKNOWN"]);
+
+async function withFsRetry<T>(
+  description: string,
+  op: () => Promise<T>,
+  attempts = 4,
+  baseDelayMs = 150,
+): Promise<T> {
+  let lastErr: unknown;
+  for (let i = 1; i <= attempts; i++) {
+    try {
+      return await op();
+    } catch (err) {
+      lastErr = err;
+      const code = (err as NodeJS.ErrnoException)?.code;
+      if (i === attempts || !code || !TRANSIENT_FS_CODES.has(code)) break;
+      log.warn(`${description} failed (attempt ${i}/${attempts}) with ${code}; retrying...`);
+      await new Promise((r) => globalThis.setTimeout(r, baseDelayMs * i));
+    }
+  }
+  const code = (lastErr as NodeJS.ErrnoException)?.code ?? "unknown error";
+  throw new Error(`${description} failed after ${attempts} attempts (${code})`, { cause: lastErr });
 }
 
 async function loadApiJsonForSubPath(fullPath: string): Promise<ApiJson> {
@@ -343,7 +369,9 @@ async function buildMergedApiJson(
     return;
   }
 
-  const apiJson = await loadApiJsonForSubPath(mainApiJsonPath);
+  const apiJson = await withFsRetry(`reading API JSON ${mainApiJsonPath}`, () =>
+    loadApiJsonForSubPath(mainApiJsonPath),
+  );
   apiJson.metadata.dependencies = dependencies;
   apiJson.metadata.version = version;
   for (const subpath of exports) {
@@ -356,7 +384,9 @@ async function buildMergedApiJson(
     }
 
     log.debug(`loading api package for "${nameWithRuntime}"`);
-    const subpathApiJson = await loadApiJsonForSubPath(p);
+    const subpathApiJson = await withFsRetry(`reading API JSON ${p}`, () =>
+      loadApiJsonForSubPath(p),
+    );
     const entryPoint = subpathApiJson.members.filter((m) => m.kind === "EntryPoint")[0];
     if (!entryPoint) {
       log.debug(`No EntryPoint found in ${p}`);
@@ -366,14 +396,16 @@ async function buildMergedApiJson(
     entryPoint.canonicalReference = `${entryPoint.canonicalReference}/${subpath.baseName}`;
     apiJson.members.push(entryPoint);
     log.debug(`deleting ${p} after merging its entrypoint`);
-    await unlink(p);
+    await withFsRetry(`removing merged subpath temp file ${p}`, () => unlink(p));
   }
 
   const augmentedApiJsonPath = useMerged
     ? mainApiJsonPath
     : mainApiJsonPath.replace(".api.json", `.augmented.json`);
   log.info(`writing merged api to ${augmentedApiJsonPath}`);
-  await writeFile(augmentedApiJsonPath, JSON.stringify(apiJson, undefined, 2));
+  await withFsRetry(`writing merged API JSON to ${augmentedApiJsonPath}`, () =>
+    writeFile(augmentedApiJsonPath, JSON.stringify(apiJson, undefined, 2)),
+  );
   return augmentedApiJsonPath;
 }
 
@@ -432,19 +464,29 @@ export default leafCommand(commandInfo, async () => {
       }
     }
     const unscoped = getUnscopedPackageName(projectInfo.name);
-    await writeRuntimeApiFiles(runtimeApiFiles, reviewDir, unscoped);
+    try {
+      await writeRuntimeApiFiles(runtimeApiFiles, reviewDir, unscoped);
+    } catch (err) {
+      log.error(`[extract-api] Failed to write API review files for ${projectInfo.name}:`, err);
+      success = false;
+    }
 
     if (baseConfig.docModel?.enabled) {
       const reportTempDir = path.join(projectInfo.path, "temp");
       const nodeExports = exports.filter((e) => e.runtime === "node");
-      await buildMergedApiJson(
-        unscoped,
-        reportTempDir,
-        nodeExports,
-        pkgJson["dependencies"] || {},
-        pkgJson["version"],
-        true,
-      );
+      try {
+        await buildMergedApiJson(
+          unscoped,
+          reportTempDir,
+          nodeExports,
+          pkgJson["dependencies"] || {},
+          pkgJson["version"],
+          true,
+        );
+      } catch (err) {
+        log.error(`[extract-api] Failed to build merged API JSON for ${projectInfo.name}:`, err);
+        success = false;
+      }
     }
   } else {
     success = extractApi(baseConfig, configPath, pkgPath).succeeded;
