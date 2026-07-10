@@ -3,10 +3,9 @@
 
 import type {
   DocumentTranslationContext,
-  DocumentTranslationClientOptionalParams} from "./api/index.js";
-import {
-  createDocumentTranslation,
+  DocumentTranslationClientOptionalParams,
 } from "./api/index.js";
+import { createDocumentTranslation } from "./api/index.js";
 import type {
   StartTranslationDetails,
   TranslationStatus,

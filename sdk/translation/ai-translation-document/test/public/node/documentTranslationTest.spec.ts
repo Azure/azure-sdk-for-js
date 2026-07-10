@@ -255,7 +255,6 @@ describe("DocumentTranslation tests", () => {
     assert.equal(translationStatus?.error?.innerError?.code, "InvalidTargetDocumentAccessLevel");
   });
 
-
   it("Empty Document Error", async () => {
     const sourceUrl = containers["source-container6"].url;
     const sourceInput = createSourceInput(sourceUrl);

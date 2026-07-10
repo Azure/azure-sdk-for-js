@@ -3,10 +3,9 @@
 
 import type {
   SingleDocumentTranslationContext,
-  SingleDocumentTranslationClientOptionalParams} from "./api/index.js";
-import {
-  createSingleDocumentTranslation,
+  SingleDocumentTranslationClientOptionalParams,
 } from "./api/index.js";
+import { createSingleDocumentTranslation } from "./api/index.js";
 import type { DocumentTranslateContent, TranslateResponse } from "../models/models.js";
 import { translate } from "./api/operations.js";
 import type { TranslateOptionalParams } from "./api/options.js";
