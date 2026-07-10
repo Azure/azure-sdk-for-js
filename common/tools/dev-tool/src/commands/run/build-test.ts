@@ -133,7 +133,7 @@ export default leafCommand(commandInfo, async (options) => {
   return true;
 });
 
-async function runTypeScript(tsConfig: string): Promise<boolean> {
+export async function runTypeScript(tsConfig: string): Promise<boolean> {
   const res = spawnSync(`tsc -b ${tsConfig}`, [], {
     stdio: "inherit",
     shell: true,
