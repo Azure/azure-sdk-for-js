@@ -1,10 +1,10 @@
 # Release History
 
-## 1.0.3 (2026-06-25)
+## 1.1.0 (2026-06-25)
 
-### Bugs Fixed
+### Features Added
 
-- Add types that are missing from public API surface.
+- Added types that were missing from the public API surface.
 
 ## 1.0.1 (2025-06-27)
 
