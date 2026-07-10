@@ -180,7 +180,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 
 const endpoint = "https://<translator-instance>.cognitiveservices.azure.com";
 const client = new DocumentTranslationClient(endpoint, new DefaultAzureCredential());
-const formats = await client.getSupportedFormats("document");
+const formats = await client.getSupportedFormats("Document");
 for (const format of formats.value) {
   console.log(format.format);
 }

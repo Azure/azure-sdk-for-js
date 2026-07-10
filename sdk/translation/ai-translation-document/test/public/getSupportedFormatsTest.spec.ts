@@ -20,12 +20,12 @@ describe("GetSupportedFormats tests", () => {
   });
 
   it("document formats", async () => {
-    const fileFormatTypes = await client.getSupportedFormats("document");
+    const fileFormatTypes = await client.getSupportedFormats("Document");
     fileFormatTypes.value.forEach((fileFormatType) => {
       assert.isTrue(fileFormatType.format !== null);
       assert.isTrue(fileFormatType.contentTypes !== null);
       assert.isTrue(fileFormatType.fileExtensions !== null);
-      assert.isTrue(fileFormatType.type === "document");
+      assert.equal(fileFormatType.type, "Document");
       if (fileFormatType.format === "XLIFF") {
         assert.isTrue(fileFormatType.defaultVersion !== null);
       }
@@ -33,12 +33,12 @@ describe("GetSupportedFormats tests", () => {
   });
 
   it("glossary formats", async () => {
-    const fileFormatTypes = await client.getSupportedFormats("glossary");
+    const fileFormatTypes = await client.getSupportedFormats("Glossary");
     fileFormatTypes.value.forEach((fileFormatType) => {
       assert.isTrue(fileFormatType.format !== null);
       assert.isTrue(fileFormatType.contentTypes !== null);
       assert.isTrue(fileFormatType.fileExtensions !== null);
-      assert.isTrue(fileFormatType.type === "glossary");
+      assert.equal(fileFormatType.type, "Glossary");
       if (fileFormatType.format === "XLIFF") {
         assert.isTrue(fileFormatType.defaultVersion !== null);
       }

@@ -500,7 +500,7 @@ export function fileFormatDeserializer(item: any): FileFormat {
 }
 
 /** Format types */
-export type FileFormatType = "document" | "glossary";
+export type FileFormatType = "Document" | "Glossary";
 
 /** Document Translate Request Content */
 export interface DocumentTranslateContent {
@@ -517,7 +517,11 @@ export function documentTranslateContentSerializer(item: DocumentTranslateConten
     createFilePartDescriptor("document", item["document"], "application/octet-stream"),
     ...(item["glossary"] === undefined
       ? []
-      : [createFilePartDescriptor("glossary", item["glossary"], "application/json")]),
+      : [
+          ...item["glossary"].map((x: unknown) =>
+            createFilePartDescriptor("glossary", x, "application/octet-stream"),
+          ),
+        ]),
   ];
 }
 
