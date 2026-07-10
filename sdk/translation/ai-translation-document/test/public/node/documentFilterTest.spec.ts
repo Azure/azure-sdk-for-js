@@ -112,7 +112,9 @@ describe("DocumentFilter tests", () => {
     // Asserting that only the first document is returned
     let itemCount2 = 0;
     for await (const documentStatus of client.getDocumentsStatus(operationId, {
-      createdDateTimeUtcEnd: testCreatedOnDateTimes[0],
+      // Add 1ms: JS Date truncates the service's sub-millisecond createdDateTimeUtc,
+      // so the raw value would fall just before the doc and exclude it from the range.
+      createdDateTimeUtcEnd: new Date(testCreatedOnDateTimes[0].getTime() + 1),
     })) {
       assert.isNotNull(documentStatus);
       itemCount2 += 1;
@@ -123,7 +125,8 @@ describe("DocumentFilter tests", () => {
     // Asserting that the first 4/5 docs are returned
     let itemCount3 = 0;
     for await (const documentStatus of client.getDocumentsStatus(operationId, {
-      createdDateTimeUtcEnd: testCreatedOnDateTimes[3],
+      // Add 1ms to compensate for JS Date sub-millisecond truncation (see above).
+      createdDateTimeUtcEnd: new Date(testCreatedOnDateTimes[3].getTime() + 1),
     })) {
       assert.isNotNull(documentStatus);
       itemCount3 += 1;

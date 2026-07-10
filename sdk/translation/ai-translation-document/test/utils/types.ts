@@ -11,7 +11,6 @@ const sourceContainersSingleDoc = ["source-container1", "source-container2"] as 
 const sourceContainersMultiDocs = ["source-container3"] as const;
 const sourceContainersExtra = [
   "source-container4",
-  "source-container5",
   "source-container6",
   "source-container7",
   "source-container8",

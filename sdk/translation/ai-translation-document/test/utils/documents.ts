@@ -22,11 +22,6 @@ export const documents2 = [
 
 export const documents3 = [createTestDocument("validGlossary.csv", "test, glossaryTest")];
 
-export const documents4 = [
-  createTestDocument("Document1.txt", "First english test file"),
-  createTestDocument("File2.jpg", "jpg"),
-];
-
 export const documents5 = [createTestDocument("Document1.txt", "")];
 export const documents6 = createDummyTestDocuments(5);
 export const documents7 = createDummyTestDocuments(3);

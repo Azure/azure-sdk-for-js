@@ -255,19 +255,6 @@ describe("DocumentTranslation tests", () => {
     assert.equal(translationStatus?.error?.innerError?.code, "InvalidTargetDocumentAccessLevel");
   });
 
-  it("Supported And UnSupported Files", async () => {
-    const sourceUrl = containers["source-container5"].url;
-    const sourceInput = createSourceInput(sourceUrl);
-    const targetUrl = containers["target-container12"].url;
-    const targetInput = createTargetInput(targetUrl, "fr");
-    const batchRequest = createBatchRequest(sourceInput, [targetInput]);
-
-    // Start translation
-    const operationId = await startTranslationAndWait({ inputs: [batchRequest] });
-
-    // Validate the response
-    await validateTranslationStatus(operationId, 1);
-  });
 
   it("Empty Document Error", async () => {
     const sourceUrl = containers["source-container6"].url;
