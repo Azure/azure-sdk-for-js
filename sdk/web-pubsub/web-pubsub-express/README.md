@@ -157,7 +157,9 @@ import express from "express";
 
 const handler = new WebPubSubEventHandler("chat", {
   onGroupJoined: (groupJoinedRequest) => {
-    console.log(`Connection ${groupJoinedRequest.context.connectionId} joined group ${groupJoinedRequest.group}`);
+    console.log(
+      `Connection ${groupJoinedRequest.context.connectionId} joined group ${groupJoinedRequest.group}`,
+    );
   },
   allowedEndpoints: ["https://<yourAllowedService>.webpubsub.azure.com"],
 });
@@ -179,7 +181,9 @@ import express from "express";
 
 const handler = new WebPubSubEventHandler("chat", {
   onGroupLeft: (groupLeftRequest) => {
-    console.log(`Connection ${groupLeftRequest.context.connectionId} left group ${groupLeftRequest.group}`);
+    console.log(
+      `Connection ${groupLeftRequest.context.connectionId} left group ${groupLeftRequest.group}`,
+    );
   },
   allowedEndpoints: ["https://<yourAllowedService>.webpubsub.azure.com"],
 });
