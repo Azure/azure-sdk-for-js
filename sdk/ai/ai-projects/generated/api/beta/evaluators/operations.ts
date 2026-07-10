@@ -84,16 +84,10 @@ export async function _deleteGenerationJobDeserialize(
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    const statusCode = Number.parseInt(result.status);
-    if (statusCode >= 400 && statusCode <= 499) {
-      if (result.body) {
-        error.details = apiErrorResponseDeserializer(result.body);
-      }
-    } else if (statusCode >= 500 && statusCode <= 599) {
-      if (result.body) {
-        error.details = apiErrorResponseDeserializer(result.body);
-      }
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
     }
+
     throw error;
   }
 
@@ -148,16 +142,10 @@ export async function _cancelGenerationJobDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    const statusCode = Number.parseInt(result.status);
-    if (statusCode >= 400 && statusCode <= 499) {
-      if (result.body) {
-        error.details = apiErrorResponseDeserializer(result.body);
-      }
-    } else if (statusCode >= 500 && statusCode <= 599) {
-      if (result.body) {
-        error.details = apiErrorResponseDeserializer(result.body);
-      }
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
     }
+
     throw error;
   }
 
@@ -211,23 +199,22 @@ export async function _listGenerationJobsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    const statusCode = Number.parseInt(result.status);
-    if (statusCode >= 400 && statusCode <= 499) {
-      if (result.body) {
-        error.details = apiErrorResponseDeserializer(result.body);
-      }
-    } else if (statusCode >= 500 && statusCode <= 599) {
-      if (result.body) {
-        error.details = apiErrorResponseDeserializer(result.body);
-      }
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
     }
+
     throw error;
   }
 
   return _agentsPagedResultEvaluatorGenerationJobDeserializer(result.body);
 }
 
-/** Returns a list of evaluator generation jobs. */
+/**
+ * Returns a list of evaluator generation jobs. The List API has up to a few
+ * seconds of propagation delay, so a recently created job may not appear
+ * immediately; use the Get evaluator generation job API with the job ID to
+ * retrieve a specific job without delay.
+ */
 export function listGenerationJobs(
   context: Client,
   options: BetaEvaluatorsListGenerationJobsOptionalParams = { requestOptions: {} },
@@ -276,16 +263,10 @@ export async function _getGenerationJobDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    const statusCode = Number.parseInt(result.status);
-    if (statusCode >= 400 && statusCode <= 499) {
-      if (result.body) {
-        error.details = apiErrorResponseDeserializer(result.body);
-      }
-    } else if (statusCode >= 500 && statusCode <= 599) {
-      if (result.body) {
-        error.details = apiErrorResponseDeserializer(result.body);
-      }
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
     }
+
     throw error;
   }
 
@@ -339,16 +320,10 @@ export async function _createGenerationJobDeserialize(
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    const statusCode = Number.parseInt(result.status);
-    if (statusCode >= 400 && statusCode <= 499) {
-      if (result.body) {
-        error.details = apiErrorResponseDeserializer(result.body);
-      }
-    } else if (statusCode >= 500 && statusCode <= 599) {
-      if (result.body) {
-        error.details = apiErrorResponseDeserializer(result.body);
-      }
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
     }
+
     throw error;
   }
 
@@ -408,16 +383,10 @@ export async function _getCredentialsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    const statusCode = Number.parseInt(result.status);
-    if (statusCode >= 400 && statusCode <= 499) {
-      if (result.body) {
-        error.details = apiErrorResponseDeserializer(result.body);
-      }
-    } else if (statusCode >= 500 && statusCode <= 599) {
-      if (result.body) {
-        error.details = apiErrorResponseDeserializer(result.body);
-      }
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
     }
+
     throw error;
   }
 
@@ -476,16 +445,10 @@ export async function _pendingUploadDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    const statusCode = Number.parseInt(result.status);
-    if (statusCode >= 400 && statusCode <= 499) {
-      if (result.body) {
-        error.details = apiErrorResponseDeserializer(result.body);
-      }
-    } else if (statusCode >= 500 && statusCode <= 599) {
-      if (result.body) {
-        error.details = apiErrorResponseDeserializer(result.body);
-      }
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
     }
+
     throw error;
   }
 
@@ -767,7 +730,7 @@ export async function _listDeserialize(
   return _pagedEvaluatorVersionDeserializer(result.body);
 }
 
-/** Lists the latest version of each evaluator */
+/** Lists the latest version of each evaluator. */
 export function list(
   context: Client,
   foundryFeatures: "Evaluations=V1Preview",

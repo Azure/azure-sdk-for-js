@@ -125,16 +125,10 @@ export async function _getRunDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    const statusCode = Number.parseInt(result.status);
-    if (statusCode >= 400 && statusCode <= 499) {
-      if (result.body) {
-        error.details = apiErrorResponseDeserializer(result.body);
-      }
-    } else if (statusCode >= 500 && statusCode <= 599) {
-      if (result.body) {
-        error.details = apiErrorResponseDeserializer(result.body);
-      }
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
     }
+
     throw error;
   }
 

@@ -57,7 +57,12 @@ export interface BetaEvaluatorsOperations {
     jobId: string,
     options?: BetaEvaluatorsCancelGenerationJobOptionalParams,
   ) => Promise<EvaluatorGenerationJob>;
-  /** Returns a list of evaluator generation jobs. */
+  /**
+   * Returns a list of evaluator generation jobs. The List API has up to a few
+   * seconds of propagation delay, so a recently created job may not appear
+   * immediately; use the Get evaluator generation job API with the job ID to
+   * retrieve a specific job without delay.
+   */
   listGenerationJobs: (
     options?: BetaEvaluatorsListGenerationJobsOptionalParams,
   ) => PagedAsyncIterableIterator<EvaluatorGenerationJob>;
@@ -117,7 +122,7 @@ export interface BetaEvaluatorsOperations {
     version: string,
     options?: BetaEvaluatorsGetVersionOptionalParams,
   ) => Promise<EvaluatorVersion>;
-  /** Lists the latest version of each evaluator */
+  /** Lists the latest version of each evaluator. */
   list: (
     foundryFeatures: "Evaluations=V1Preview",
     options?: BetaEvaluatorsListOptionalParams,

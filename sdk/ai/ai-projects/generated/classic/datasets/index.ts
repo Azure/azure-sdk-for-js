@@ -30,7 +30,7 @@ import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.j
 
 /** Interface representing a Datasets operations. */
 export interface DatasetsOperations {
-  /** Gets the SAS credential to access the storage account associated with a Dataset version. */
+  /** Retrieves the SAS credential to access the storage account associated with a dataset version. */
   getCredentials: (
     name: string,
     version: string,
