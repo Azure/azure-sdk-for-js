@@ -11,7 +11,7 @@ General Availability release aligning `@azure/ai-voicelive` with the stable Voic
 - Added echo-cancellation reference configuration: `AudioEchoCancellation.channels` and `AudioEchoCancellation.referenceSource`, plus the `EchoCancellationReferenceSource` type and `KnownEchoCancellationReferenceSource` enum.
 - Added `ServerEventResponseInvocationDelta` (and `KnownServerEventType.ResponseInvocationDelta`) for passthrough hosted-agent invocation SSE payloads.
 - Added `ResponseCreateParams.invokeInput` to supply input data for hosted-agent invocation.
-- Added `ResponseSession.expiresAt`: the server-assigned session expiration timestamp (seconds since epoch). It is read-only and cannot be changed with `session.update`.
+- Added `ResponseSession.expiresAt`: a `Date` for the server-assigned session expiration. It is read-only and cannot be changed with `session.update`.
 - Re-exported `RestError` and `isRestError` from `@azure/core-rest-pipeline`.
 
 ### Breaking Changes

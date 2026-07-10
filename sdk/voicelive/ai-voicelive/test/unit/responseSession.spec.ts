@@ -6,8 +6,8 @@
  * 2026-07-15 GA surface.
  *
  * Covers:
- * - responseSessionDeserializer maps the `expires_at` wire field to `expiresAt`.
- * - responseSessionSerializer maps `expiresAt` back to `expires_at` (round-trip).
+ * - responseSessionDeserializer converts the `expires_at` wire field (epoch seconds) to an `expiresAt` Date.
+ * - responseSessionSerializer converts an `expiresAt` Date back to `expires_at` epoch seconds (round-trip).
  * - `expiresAt` / `expires_at` are omitted when not present.
  * - The field survives through the public `session.created` event path
  *   (serverEventSessionCreatedDeserializer), guarding this server-set field
@@ -22,7 +22,7 @@ import {
 } from "../../src/models/models.js";
 
 describe("ResponseSession.expiresAt (GA 2026-07-15)", () => {
-  it("deserializes expires_at to expiresAt", () => {
+  it("deserializes expires_at (epoch seconds) to an expiresAt Date", () => {
     const session = responseSessionDeserializer({
       model: "gpt-realtime",
       id: "sess_123",
@@ -30,13 +30,14 @@ describe("ResponseSession.expiresAt (GA 2026-07-15)", () => {
     });
 
     expect(session.id).toBe("sess_123");
-    expect(session.expiresAt).toBe(1783646259);
+    expect(session.expiresAt).toBeInstanceOf(Date);
+    expect(session.expiresAt?.getTime()).toBe(1783646259 * 1000);
   });
 
-  it("serializes expiresAt back to expires_at (round-trip)", () => {
+  it("serializes an expiresAt Date back to expires_at epoch seconds (round-trip)", () => {
     const wire = responseSessionSerializer({
       id: "sess_456",
-      expiresAt: 1783646259,
+      expiresAt: new Date(1783646259 * 1000),
     });
 
     expect(wire.id).toBe("sess_456");
@@ -66,6 +67,7 @@ describe("ResponseSession.expiresAt (GA 2026-07-15)", () => {
 
     expect(evt.type).toBe("session.created");
     expect(evt.session.id).toBe("sess_abc");
-    expect(evt.session.expiresAt).toBe(1783646259);
+    expect(evt.session.expiresAt).toBeInstanceOf(Date);
+    expect(evt.session.expiresAt?.getTime()).toBe(1783646259 * 1000);
   });
 });

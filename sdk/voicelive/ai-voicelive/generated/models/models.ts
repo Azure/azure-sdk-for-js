@@ -5182,11 +5182,8 @@ export interface ResponseSession {
   agent?: AgentConfig;
   /** The unique identifier for the session. */
   id?: string;
-  /**
-   * Expiration timestamp for the session, in seconds since epoch. This value is set by
-   * the server and cannot be changed with `session.update`.
-   */
-  expiresAt?: number;
+  /** Expiration time for the session. This value is set by the server and cannot be changed with `session.update`. */
+  expiresAt?: Date;
 }
 
 export function responseSessionSerializer(item: ResponseSession): any {
@@ -5242,7 +5239,7 @@ export function responseSessionSerializer(item: ResponseSession): any {
     metadata: item["metadata"],
     agent: !item["agent"] ? item["agent"] : agentConfigSerializer(item["agent"]),
     id: item["id"],
-    expires_at: item["expiresAt"],
+    expires_at: !item["expiresAt"] ? item["expiresAt"] : (item["expiresAt"].getTime() / 1000) | 0,
   };
 }
 
@@ -5301,7 +5298,7 @@ export function responseSessionDeserializer(item: any): ResponseSession {
       : Object.fromEntries(Object.entries(item["metadata"]).map(([k, p]: [string, any]) => [k, p])),
     agent: !item["agent"] ? item["agent"] : agentConfigDeserializer(item["agent"]),
     id: item["id"],
-    expiresAt: item["expires_at"],
+    expiresAt: !item["expires_at"] ? item["expires_at"] : new Date(item["expires_at"] * 1000),
   };
 }
 

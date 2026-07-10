@@ -1282,7 +1282,7 @@ export interface ResponseSession {
     agent?: AgentConfig;
     animation?: Animation_2;
     avatar?: AvatarConfig;
-    expiresAt?: number;
+    expiresAt?: Date;
     id?: string;
     include?: SessionIncludeOption[];
     inputAudioEchoCancellation?: AudioEchoCancellation;
