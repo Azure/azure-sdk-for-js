@@ -38,9 +38,7 @@ async function shouldRunProxyTool(): Promise<boolean> {
 export function summarizeCloseEvents(closeEvents: unknown): string {
   const events = Array.isArray(closeEvents) ? closeEvents : [closeEvents];
   const failed = events
-    .filter((e): e is { command?: { command?: string }; exitCode?: string | number } =>
-      Boolean(e),
-    )
+    .filter((e): e is { command?: { command?: string }; exitCode?: string | number } => Boolean(e))
     .filter((e) => e.exitCode !== 0 && e.exitCode !== undefined)
     .map((e) => {
       const name = e.command?.command ?? "command";
