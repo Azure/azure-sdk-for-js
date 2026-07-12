@@ -757,6 +757,8 @@ export class Container {
    *   console.log("Top score:", topScore);
    * }
    * ```
+   *
+   * @beta
    */
   public async semanticRerank(
     rerankContext: string,

@@ -14,5 +14,7 @@
  * - `abortSignal` (AbortSignal) — signal to cancel the request (not sent as part of the payload).
  *
  * Any additional keys are forwarded as-is to the inference service payload.
+ *
+ * @beta
  */
 export type SemanticRerankOptions = Record<string, unknown>;

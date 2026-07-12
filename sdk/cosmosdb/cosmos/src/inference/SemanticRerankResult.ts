@@ -5,6 +5,8 @@ import type { CosmosDiagnostics } from "../CosmosDiagnostics.js";
 
 /**
  * Represents the score assigned to a document after a semantic reranking operation.
+ *
+ * @beta
  */
 export interface RerankScore {
   /** The document content that was reranked. Empty string if `return_documents` is false. */
@@ -18,6 +20,8 @@ export interface RerankScore {
 /**
  * Represents the result of a semantic reranking operation, including rerank scores,
  * latency, token usage, and HTTP response headers.
+ *
+ * @beta
  */
 export interface SemanticRerankResult {
   /** The list of rerank scores for the documents. */

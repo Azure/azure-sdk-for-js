@@ -738,6 +738,7 @@ export class Container {
     readPartitionKeyRanges(feedOptions?: FeedOptions): QueryIterator<PartitionKeyRange>;
     replace(body: ContainerDefinition, options?: RequestOptions): Promise<ContainerResponse>;
     get scripts(): Scripts;
+    // @beta
     semanticRerank(rerankContext: string, documents: string[], options?: SemanticRerankOptions): Promise<SemanticRerankResult>;
     get url(): string;
 }
@@ -2144,7 +2145,7 @@ export interface RequestOptions extends SharedOptions {
     urlConnection?: string;
 }
 
-// @public
+// @beta
 export interface RerankScore {
     document: string;
     index: number;
@@ -2395,10 +2396,10 @@ export class Scripts {
     get userDefinedFunctions(): UserDefinedFunctions;
 }
 
-// @public
+// @beta
 export type SemanticRerankOptions = Record<string, unknown>;
 
-// @public
+// @beta
 export interface SemanticRerankResult {
     diagnostics: CosmosDiagnostics;
     headers: Record<string, string>;
