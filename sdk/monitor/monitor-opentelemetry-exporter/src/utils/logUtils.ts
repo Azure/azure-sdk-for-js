@@ -60,11 +60,7 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
   let name: string;
   let baseType: string;
   let baseData:
-    | TelemetryEventData
-    | TelemetryExceptionData
-    | MessageData
-    | AvailabilityData
-    | PageViewData;
+    TelemetryEventData | TelemetryExceptionData | MessageData | AvailabilityData | PageViewData;
 
   const exceptionStacktrace = log.attributes[ATTR_EXCEPTION_STACKTRACE];
   const exceptionType = log.attributes[ATTR_EXCEPTION_TYPE];
@@ -192,15 +188,13 @@ function createPropertiesFromLog(log: ReadableLogRecord): [Properties, Measureme
   if (log.attributes) {
     for (const key of Object.keys(log.attributes)) {
       // Avoid duplication ignoring fields already mapped.
-      if (
-        !(
-          key.startsWith("_MS.") ||
-          key.startsWith("microsoft") ||
-          legacySemanticValues.includes(key) ||
-          httpSemanticValues.includes(key as any) ||
-          key === (KnownContextTagKeys.AiOperationName as string)
-        )
-      ) {
+      if (!(
+        key.startsWith("_MS.") ||
+        key.startsWith("microsoft") ||
+        legacySemanticValues.includes(key) ||
+        httpSemanticValues.includes(key as any) ||
+        key === (KnownContextTagKeys.AiOperationName as string)
+      )) {
         properties[key] = serializeAttribute(log.attributes[key]);
       }
     }
@@ -249,10 +243,21 @@ function getLegacyApplicationInsightsName(log: ReadableLogRecord): string {
 }
 
 function getLegacyApplicationInsightsMeasurements(log: ReadableLogRecord): Measurements {
-  let measurements: Measurements = {};
-  const body = log.body as Record<string, unknown> | undefined;
-  if (body && "measurements" in body && body.measurements) {
-    measurements = { ...(body.measurements as Measurements) };
+  const measurements: Measurements = {};
+  const body = log.body;
+  if (body && typeof body === "object" && !Array.isArray(body) && "measurements" in body) {
+    const bodyMeasurements = (body as Record<string, unknown>).measurements;
+    if (
+      bodyMeasurements &&
+      typeof bodyMeasurements === "object" &&
+      !Array.isArray(bodyMeasurements)
+    ) {
+      for (const [key, value] of Object.entries(bodyMeasurements as Record<string, unknown>)) {
+        if (typeof value === "number" && Number.isFinite(value)) {
+          measurements[key] = value;
+        }
+      }
+    }
   }
   return measurements;
 }

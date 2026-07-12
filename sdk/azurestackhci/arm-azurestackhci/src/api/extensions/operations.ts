@@ -49,7 +49,7 @@ export function _upgradeSend(
       clusterName: clusterName,
       arcSettingName: arcSettingName,
       extensionName: extensionName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-30",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -98,7 +98,7 @@ export function upgrade(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-02-01",
+    apiVersion: context.apiVersion ?? "2026-04-30",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -116,7 +116,7 @@ export function _listByArcSettingSend(
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
       arcSettingName: arcSettingName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-30",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -155,7 +155,7 @@ export function listByArcSetting(
     () => _listByArcSettingSend(context, resourceGroupName, clusterName, arcSettingName, options),
     _listByArcSettingDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-02-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-04-30" },
   );
 }
 
@@ -175,7 +175,7 @@ export function _$deleteSend(
       clusterName: clusterName,
       arcSettingName: arcSettingName,
       extensionName: extensionName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-30",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -197,11 +197,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete particular Arc Extension of HCI Cluster. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -216,7 +211,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, clusterName, arcSettingName, extensionName, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-02-01",
+    apiVersion: context.apiVersion ?? "2026-04-30",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -237,7 +232,7 @@ export function _updateSend(
       clusterName: clusterName,
       arcSettingName: arcSettingName,
       extensionName: extensionName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-30",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -287,7 +282,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "original-uri",
-    apiVersion: context.apiVersion ?? "2026-02-01",
+    apiVersion: context.apiVersion ?? "2026-04-30",
   }) as PollerLike<OperationState<Extension>, Extension>;
 }
 
@@ -308,7 +303,7 @@ export function _createSend(
       clusterName: clusterName,
       arcSettingName: arcSettingName,
       extensionName: extensionName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-30",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -358,7 +353,7 @@ export function create(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-02-01",
+    apiVersion: context.apiVersion ?? "2026-04-30",
   }) as PollerLike<OperationState<Extension>, Extension>;
 }
 
@@ -378,7 +373,7 @@ export function _getSend(
       clusterName: clusterName,
       arcSettingName: arcSettingName,
       extensionName: extensionName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-30",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

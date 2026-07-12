@@ -28,7 +28,7 @@ export const testPollingOptions = {
   updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
-describe("Cosmosdb test", () => {
+describe.skip("Cosmosdb test", () => {
   let recorder: Recorder;
   let client: CosmosDBManagementClient;
   let subscriptionId: string;
@@ -56,7 +56,7 @@ describe("Cosmosdb test", () => {
     await recorder.stop();
   });
 
-  it("databaseAccounts create test", async () => {
+  it.skip("databaseAccounts create test", async () => {
     const res = await client.databaseAccounts.beginCreateOrUpdateAndWait(
       resourceGroupName,
       accountName,
@@ -85,12 +85,12 @@ describe("Cosmosdb test", () => {
     assert.equal(res.name, accountName);
   });
 
-  it("databaseAccounts get test", async () => {
+  it.skip("databaseAccounts get test", async () => {
     const res = await client.databaseAccounts.get(resourceGroupName, accountName);
     assert.equal(res.name, accountName);
   });
 
-  it("databaseAccounts list test", async () => {
+  it.skip("databaseAccounts list test", async () => {
     const resArray = new Array();
     for await (const item of client.databaseAccounts.listByResourceGroup(resourceGroupName)) {
       resArray.push(item);

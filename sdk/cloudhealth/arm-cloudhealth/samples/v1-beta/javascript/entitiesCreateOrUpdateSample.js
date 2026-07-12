@@ -8,68 +8,142 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create a Entity
  *
  * @summary create a Entity
- * x-ms-original-file: 2025-05-01-preview/Entities_CreateOrUpdate.json
+ * x-ms-original-file: 2026-05-01-preview/Entities_CreateOrUpdate.json
  */
 async function entitiesCreateOrUpdate() {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "4980D7D5-4E07-47AD-AD34-E76C6BC9F061";
+  const subscriptionId = "abcdef12-3456-7890-abcd-ef1234567890";
   const client = new CloudHealthClient(credential, subscriptionId);
   const result = await client.entities.createOrUpdate(
-    "rgopenapi",
-    "myHealthModel",
-    "uszrxbdkxesdrxhmagmzywebgbjj",
+    "online-store-rg",
+    "online-store",
+    "orders-api",
     {
       properties: {
-        displayName: "My entity",
-        canvasPosition: { x: 14, y: 13 },
-        icon: {
-          iconName: "Custom",
-          customData: "rcitntvapruccrhtxmkqjphbxunkz",
-        },
-        healthObjective: 62,
+        displayName: "Orders API",
+        canvasPosition: { x: 360, y: 240 },
+        icon: { iconName: "Kubernetes" },
+        healthObjective: 99.9,
         impact: "Standard",
-        labels: { key1376: "ixfvzsfnpvkkbrce" },
-        signals: {
+        tags: { environment: "production", team: "online-store" },
+        signalGroups: {
           azureResource: {
-            signalAssignments: [{ signalDefinitions: ["sigdef1"] }],
-            authenticationSetting: "B3P1X3e-FZtZ-4Ak-2VLHGQ-4m4-05DE-XNW5zW3P-46XY-DC3SSX",
+            authenticationSetting: "default-auth",
             azureResourceId:
-              "/subscriptions/12345678-1234-1234-1234-123456789012/resourceGroups/rg1/providers/Microsoft.Compute/virtualMachines/vm1",
-          },
-          azureLogAnalytics: {
-            signalAssignments: [
+              "/subscriptions/abcdef12-3456-7890-abcd-ef1234567890/resourceGroups/online-store-rg/providers/Microsoft.ContainerService/managedClusters/online-store-aks",
+            azureResourceKind: "managedClusters",
+            signals: [
               {
-                signalDefinitions: ["B3P1X3e-FZtZ-4Ak-2VLHGQ-4m4-05DE-XNW5zW3P-46XY-DC3SSX"],
+                signalKind: "AzureResourceMetric",
+                name: "node-cpu",
+                displayName: "Node CPU utilization",
+                refreshInterval: "PT1M",
+                dataUnit: "Percent",
+                metricNamespace: "Microsoft.ContainerService/managedClusters",
+                metricName: "node_cpu_usage_percentage",
+                timeGrain: "PT5M",
+                aggregationType: "Average",
+                evaluationRules: {
+                  degradedRule: { operator: "GreaterThan", threshold: 70 },
+                  unhealthyRule: { operator: "GreaterThan", threshold: 90 },
+                },
               },
             ],
-            authenticationSetting: "B3P1X3e-FZtZ-4Ak-2VLHGQ-4m4-05DE-XNW5zW3P-46XY-DC3SSX",
-            logAnalyticsWorkspaceResourceId:
-              "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.OperationalInsights/workspaces/myworkspace",
+            resourceHealth: { enabled: "Enabled" },
           },
           azureMonitorWorkspace: {
-            signalAssignments: [
-              { signalDefinitions: ["sigdef2"] },
-              { signalDefinitions: ["sigdef3"] },
-            ],
-            authenticationSetting: "B3P1X3e-FZtZ-4Ak-2VLHGQ-4m4-05DE-XNW5zW3P-46XY-DC3SSX",
+            authenticationSetting: "default-auth",
             azureMonitorWorkspaceResourceId:
-              "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.OperationalInsights/workspaces/myworkspace",
+              "/subscriptions/abcdef12-3456-7890-abcd-ef1234567890/resourceGroups/online-store-rg/providers/Microsoft.Monitor/accounts/online-store-amw",
+            signals: [
+              {
+                signalKind: "PrometheusMetricsQuery",
+                name: "error-rate",
+                displayName: "HTTP 5xx error rate",
+                refreshInterval: "PT1M",
+                dataUnit: "Percent",
+                queryText:
+                  'sum(rate(http_requests_total{job="orders-api", code=~"5.."}[5m])) / sum(rate(http_requests_total{job="orders-api"}[5m])) * 100',
+                timeGrain: "PT5M",
+                evaluationRules: {
+                  degradedRule: { operator: "GreaterThan", threshold: 1 },
+                  unhealthyRule: { operator: "GreaterThan", threshold: 5 },
+                },
+              },
+              {
+                signalKind: "PrometheusMetricsQuery",
+                name: "p95-latency",
+                displayName: "p95 request latency",
+                refreshInterval: "PT1M",
+                dataUnit: "MilliSeconds",
+                queryText:
+                  'histogram_quantile(0.95, sum by (le) (rate(http_request_duration_seconds_bucket{job="orders-api"}[5m]))) * 1000',
+                timeGrain: "PT5M",
+                evaluationRules: {
+                  degradedRule: { operator: "GreaterThan", threshold: 300 },
+                  unhealthyRule: { operator: "GreaterThan", threshold: 800 },
+                },
+              },
+              {
+                signalKind: "PrometheusMetricsQuery",
+                name: "pod-cpu",
+                signalDefinitionName: "pod-cpu-usage",
+                displayName: "Pod CPU utilization",
+                refreshInterval: "PT1M",
+                dataUnit: "Percent",
+                queryText:
+                  'sum(rate(container_cpu_usage_seconds_total{namespace="online-store", pod=~"orders-api-.*"}[5m])) * 100',
+                timeGrain: "PT5M",
+                evaluationRules: {
+                  degradedRule: { operator: "GreaterThan", threshold: 70 },
+                  unhealthyRule: { operator: "GreaterThan", threshold: 90 },
+                },
+              },
+            ],
           },
-          dependencies: { aggregationType: "WorstOf" },
+          azureLogAnalytics: {
+            authenticationSetting: "default-auth",
+            logAnalyticsWorkspaceResourceId:
+              "/subscriptions/abcdef12-3456-7890-abcd-ef1234567890/resourceGroups/online-store-rg/providers/Microsoft.OperationalInsights/workspaces/online-store-law",
+            signals: [
+              {
+                signalKind: "LogAnalyticsQuery",
+                name: "unhealthy-pods",
+                displayName: "Unhealthy pods",
+                refreshInterval: "PT5M",
+                dataUnit: "Count",
+                queryText:
+                  "KubePodInventory | where TimeGenerated > ago(5m) | where Namespace == 'online-store' | where PodStatus != 'Running' | summarize unhealthyPods = dcount(Name)",
+                timeGrain: "PT5M",
+                valueColumnName: "unhealthyPods",
+                evaluationRules: {
+                  degradedRule: { operator: "GreaterThan", threshold: 0 },
+                  unhealthyRule: { operator: "GreaterThan", threshold: 2 },
+                },
+              },
+            ],
+          },
+          dependencies: {
+            aggregationType: "MinHealthy",
+            unit: "Percentage",
+            degradedThreshold: 100,
+            unhealthyThreshold: 50,
+            ignoreUnknown: true,
+          },
         },
         alerts: {
           unhealthy: {
             severity: "Sev1",
-            description: "Alert description",
+            description: "Orders API is unhealthy.",
             actionGroupIds: [
-              "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.Insights/actionGroups/myactiongroup",
+              "/subscriptions/abcdef12-3456-7890-abcd-ef1234567890/resourceGroups/online-store-rg/providers/Microsoft.Insights/actionGroups/online-store-oncall",
             ],
           },
           degraded: {
-            severity: "Sev4",
-            description: "Alert description",
+            severity: "Sev3",
+            description: "Orders API is degraded.",
             actionGroupIds: [
-              "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.Insights/actionGroups/myactiongroup",
+              "/subscriptions/abcdef12-3456-7890-abcd-ef1234567890/resourceGroups/online-store-rg/providers/Microsoft.Insights/actionGroups/online-store-oncall",
             ],
           },
         },

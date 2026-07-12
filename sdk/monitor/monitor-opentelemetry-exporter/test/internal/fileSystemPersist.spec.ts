@@ -337,12 +337,15 @@ describe("FileSystemPersist", () => {
       await sleep(1000);
 
       // Push new batches close together so they won't expire
+      const newBatch1PushedAt = Date.now();
       await persister.push(newBatch1);
-      await sleep(50);
+      await sleep(250);
       await persister.push(newBatch2);
 
-      // Set retention so only the old file (1s+ ago) is expired, not the new ones (<200ms ago)
-      persister.fileRetemptionPeriod = 500;
+      // Set retention dynamically so the old file (1s+ old at push time) is expired
+      // while both new files survive regardless of cleanup overhead on slow CI hosts.
+      const now = Date.now();
+      persister.fileRetemptionPeriod = now - newBatch1PushedAt + 200;
 
       // Clean expired files
       await persister.cleanExpiredFiles();
@@ -421,7 +424,7 @@ describe("FileSystemPersist", () => {
     });
 
     it("should have CLIENT_READONLY logic implemented", () => {
-      const persister = new FileSystemPersist(instrumentationKey, {}, mockCustomerSDKStats);
+      const persister = new FileSystemPersist(instrumentationKey, {}, () => mockCustomerSDKStats);
       expect(persister).toBeDefined();
       expect(DropCode.CLIENT_READONLY).toBeDefined();
 
@@ -445,7 +448,7 @@ describe("FileSystemPersist", () => {
         .spyOn(helpersMod, "confirmDirExists")
         .mockRejectedValue(error);
 
-      const persister = new FileSystemPersist(instrumentationKey, {}, mockCustomerSDKStats);
+      const persister = new FileSystemPersist(instrumentationKey, {}, () => mockCustomerSDKStats);
 
       const result = await persister.push([envelope]);
 

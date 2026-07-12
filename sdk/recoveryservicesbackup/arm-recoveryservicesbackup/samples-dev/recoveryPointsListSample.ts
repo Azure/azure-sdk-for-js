@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists the backup copies for the backed up item.
  *
  * @summary lists the backup copies for the backed up item.
- * x-ms-original-file: 2026-01-01-preview/AzureIaasVm/RecoveryPoints_List.json
+ * x-ms-original-file: 2026-01-31-preview/AzureIaasVm/RecoveryPoints_List.json
  */
 async function getProtectedAzureVmRecoveryPoints(): Promise<void> {
   const credential = new DefaultAzureCredential();

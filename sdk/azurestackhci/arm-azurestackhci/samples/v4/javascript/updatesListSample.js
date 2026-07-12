@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list all Updates
  *
  * @summary list all Updates
- * x-ms-original-file: 2026-02-01/ListUpdates.json
+ * x-ms-original-file: 2026-04-30/ListUpdates.json
  */
 async function listAvailableUpdates() {
   const credential = new DefaultAzureCredential();

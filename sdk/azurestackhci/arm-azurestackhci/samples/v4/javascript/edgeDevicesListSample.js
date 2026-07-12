@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list EdgeDevice resources by parent
  *
  * @summary list EdgeDevice resources by parent
- * x-ms-original-file: 2026-02-01/ListEdgeDevices.json
+ * x-ms-original-file: 2026-04-30/ListEdgeDevices.json
  */
 async function listEdgeDevices() {
   const credential = new DefaultAzureCredential();

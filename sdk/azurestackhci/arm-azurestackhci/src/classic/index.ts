@@ -14,4 +14,5 @@ export type { SkusOperations } from "./skus/index.js";
 export type { UpdateRunsOperations } from "./updateRuns/index.js";
 export type { UpdatesOperations } from "./updates/index.js";
 export type { UpdateSummariesOperations } from "./updateSummaries/index.js";
+export type { UpdateSummariesOperationGroupOperations } from "./updateSummariesOperationGroup/index.js";
 export type { ValidatedSolutionRecipesOperations } from "./validatedSolutionRecipes/index.js";

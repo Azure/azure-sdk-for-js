@@ -10,7 +10,7 @@ import fs from "node:fs";
 import path from "node:path";
 
 import { DataLakeServiceClient } from "../../src/DataLakeServiceClient.js";
-import type { DataLakeClientOptions, StoragePipelineOptions } from "../../src/index.js";
+import type { DataLakeServiceClientOptions, StoragePipelineOptions } from "../../src/index.js";
 import { newPipeline, StorageSharedKeyCredential } from "../../src/index.js";
 import {
   getUniqueName,
@@ -99,7 +99,7 @@ export function getGenericDataLakeServiceClient(
   recorder: Recorder,
   accountType: string,
   accountNameSuffix: string = "",
-  pipelineOptions: DataLakeClientOptions = {},
+  pipelineOptions: DataLakeServiceClientOptions = {},
 ): DataLakeServiceClient {
   if (
     env.STORAGE_CONNECTION_STRING &&
@@ -136,7 +136,7 @@ export function getTokenDataLakeServiceClient(recorder: Recorder): DataLakeServi
 
 export function getDataLakeServiceClient(
   recorder: Recorder,
-  pipelineOptions: DataLakeClientOptions = {},
+  pipelineOptions: DataLakeServiceClientOptions = {},
 ): DataLakeServiceClient {
   return getGenericDataLakeServiceClient(recorder, "DFS_", undefined, pipelineOptions);
 }

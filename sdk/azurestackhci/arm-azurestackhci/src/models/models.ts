@@ -610,8 +610,8 @@ export function defaultExtensionDetailsDeserializer(item: any): DefaultExtension
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
 }
 
 export function proxyResourceDeserializer(item: any): ProxyResource {
@@ -637,8 +637,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -951,6 +951,8 @@ export function offerArrayDeserializer(result: Array<Offer>): any[] {
 
 /** Cluster details. */
 export interface Cluster extends TrackedResource {
+  /** This property identifies the purpose of the Cluster deployment. For example, a valid value is AzureLocal */
+  kind?: string;
   /** Provisioning state. Indicates the current lifecycle status of the resource, including creation, update, deletion, connectivity, and error states. */
   readonly provisioningState?: ProvisioningState;
   /** Status of the cluster agent. Indicates the current connectivity, validation, and deployment state of the agent within the cluster. */
@@ -987,6 +989,8 @@ export interface Cluster extends TrackedResource {
   readonly trialDaysRemaining?: number;
   /** Type of billing applied to the resource. */
   readonly billingModel?: string;
+  /** Billing properties of the cluster, including upcoming billing model details. */
+  readonly billingProperties?: ClusterBillingProperties;
   /** First cluster sync timestamp. */
   readonly registrationTimestamp?: Date;
   /** Most recent cluster sync timestamp. */
@@ -1005,6 +1009,8 @@ export interface Cluster extends TrackedResource {
   localAvailabilityZones?: LocalAvailabilityZones[];
   /** Identity Provider for the cluster */
   readonly identityProvider?: IdentityProvider;
+  /** Storage type of the cluster. Indicates whether the cluster uses S2D, SAN, or a combination. */
+  readonly storageType?: StorageType;
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
   readonly principalId?: string;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
@@ -1037,6 +1043,7 @@ export function clusterSerializer(item: Cluster): any {
     identity: areAllPropsUndefined(item, ["type", "userAssignedIdentities"])
       ? undefined
       : _clusterIdentitySerializer(item),
+    kind: item["kind"],
   };
 }
 
@@ -1056,6 +1063,7 @@ export function clusterDeserializer(item: any): Cluster {
       ? item["properties"]
       : _clusterPropertiesDeserializer(item["properties"])),
     ...(!item["identity"] ? item["identity"] : _clusterIdentityDeserializer(item["identity"])),
+    kind: item["kind"],
   };
 }
 
@@ -1097,6 +1105,8 @@ export interface ClusterProperties {
   readonly trialDaysRemaining?: number;
   /** Type of billing applied to the resource. */
   readonly billingModel?: string;
+  /** Billing properties of the cluster, including upcoming billing model details. */
+  readonly billingProperties?: ClusterBillingProperties;
   /** First cluster sync timestamp. */
   readonly registrationTimestamp?: Date;
   /** Most recent cluster sync timestamp. */
@@ -1115,6 +1125,8 @@ export interface ClusterProperties {
   localAvailabilityZones?: LocalAvailabilityZones[];
   /** Identity Provider for the cluster */
   readonly identityProvider?: IdentityProvider;
+  /** Storage type of the cluster. Indicates whether the cluster uses S2D, SAN, or a combination. */
+  readonly storageType?: StorageType;
 }
 
 export function clusterPropertiesSerializer(item: ClusterProperties): any {
@@ -1177,6 +1189,9 @@ export function clusterPropertiesDeserializer(item: any): ClusterProperties {
       : isolatedVmAttestationConfigurationDeserializer(item["isolatedVmAttestationConfiguration"]),
     trialDaysRemaining: item["trialDaysRemaining"],
     billingModel: item["billingModel"],
+    billingProperties: !item["billingProperties"]
+      ? item["billingProperties"]
+      : clusterBillingPropertiesDeserializer(item["billingProperties"]),
     registrationTimestamp: !item["registrationTimestamp"]
       ? item["registrationTimestamp"]
       : new Date(item["registrationTimestamp"]),
@@ -1196,6 +1211,7 @@ export function clusterPropertiesDeserializer(item: any): ClusterProperties {
       ? item["localAvailabilityZones"]
       : localAvailabilityZonesArrayDeserializer(item["localAvailabilityZones"]),
     identityProvider: item["identityProvider"],
+    storageType: item["storageType"],
   };
 }
 
@@ -1346,8 +1362,8 @@ export interface LogCollectionProperties {
   readonly logCollectionSessionDetails?: LogCollectionSession[];
 }
 
-export function logCollectionPropertiesSerializer(item: LogCollectionProperties): any {
-  return item;
+export function logCollectionPropertiesSerializer(_item: LogCollectionProperties): any {
+  return {};
 }
 
 export function logCollectionPropertiesDeserializer(item: any): LogCollectionProperties {
@@ -1476,10 +1492,12 @@ export interface RemoteSupportProperties {
   readonly remoteSupportType?: RemoteSupportType;
   readonly remoteSupportNodeSettings?: RemoteSupportNodeSettings[];
   readonly remoteSupportSessionDetails?: PerNodeRemoteSupportSession[];
+  /** Remote Support Provisioning State */
+  readonly remoteSupportProvisioningState?: RemoteSupportProvisioningState;
 }
 
-export function remoteSupportPropertiesSerializer(item: RemoteSupportProperties): any {
-  return item;
+export function remoteSupportPropertiesSerializer(_item: RemoteSupportProperties): any {
+  return {};
 }
 
 export function remoteSupportPropertiesDeserializer(item: any): RemoteSupportProperties {
@@ -1495,6 +1513,7 @@ export function remoteSupportPropertiesDeserializer(item: any): RemoteSupportPro
     remoteSupportSessionDetails: !item["remoteSupportSessionDetails"]
       ? item["remoteSupportSessionDetails"]
       : perNodeRemoteSupportSessionArrayDeserializer(item["remoteSupportSessionDetails"]),
+    remoteSupportProvisioningState: item["remoteSupportProvisioningState"],
   };
 }
 
@@ -1592,6 +1611,8 @@ export interface PerNodeRemoteSupportSession {
   readonly duration?: number;
   /** Remote Support Access Level */
   readonly accessLevel?: AccessLevel;
+  /** The location where the session transcript is stored. */
+  readonly transcriptLocation?: string;
 }
 
 export function perNodeRemoteSupportSessionDeserializer(item: any): PerNodeRemoteSupportSession {
@@ -1605,8 +1626,36 @@ export function perNodeRemoteSupportSessionDeserializer(item: any): PerNodeRemot
     nodeName: item["nodeName"],
     duration: item["duration"],
     accessLevel: item["accessLevel"],
+    transcriptLocation: item["transcriptLocation"],
   };
 }
+
+/** Remote Support Provisioning State */
+export enum KnownRemoteSupportProvisioningState {
+  /** No operation is in progress. */
+  None = "None",
+  /** A Grant (Enable) operation is in progress. */
+  GrantInProgress = "GrantInProgress",
+  /** A Revoke operation is in progress. */
+  RevokeInProgress = "RevokeInProgress",
+  /** The last operation completed successfully. */
+  Succeeded = "Succeeded",
+  /** The last operation failed. */
+  Failed = "Failed",
+}
+
+/**
+ * Remote Support Provisioning State \
+ * {@link KnownRemoteSupportProvisioningState} can be used interchangeably with RemoteSupportProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None**: No operation is in progress. \
+ * **GrantInProgress**: A Grant (Enable) operation is in progress. \
+ * **RevokeInProgress**: A Revoke operation is in progress. \
+ * **Succeeded**: The last operation completed successfully. \
+ * **Failed**: The last operation failed.
+ */
+export type RemoteSupportProvisioningState = string;
 
 /** Desired properties of the cluster. */
 export interface ClusterDesiredProperties {
@@ -1880,6 +1929,42 @@ export function isolatedVmAttestationConfigurationDeserializer(
   };
 }
 
+/** Billing properties of the cluster. */
+export interface ClusterBillingProperties {
+  /** The next billing model to be applied to the cluster. */
+  nextBillingModel?: NextBillingModel;
+}
+
+export function clusterBillingPropertiesDeserializer(item: any): ClusterBillingProperties {
+  return {
+    nextBillingModel: !item["nextBillingModel"]
+      ? item["nextBillingModel"]
+      : nextBillingModelDeserializer(item["nextBillingModel"]),
+  };
+}
+
+/** Details of the next billing model for the cluster. */
+export interface NextBillingModel {
+  /** Type of billing model. */
+  billingModel?: string;
+  /** Capabilities enabled under this billing model. */
+  capabilitiesEnabled?: string[];
+  /** Number of days remaining in the trial period. */
+  trialDaysRemaining?: number;
+}
+
+export function nextBillingModelDeserializer(item: any): NextBillingModel {
+  return {
+    billingModel: item["billingModel"],
+    capabilitiesEnabled: !item["capabilitiesEnabled"]
+      ? item["capabilitiesEnabled"]
+      : item["capabilitiesEnabled"].map((p: any) => {
+          return p;
+        }),
+    trialDaysRemaining: item["trialDaysRemaining"],
+  };
+}
+
 export function secretsLocationDetailsArraySerializer(
   result: Array<SecretsLocationDetails>,
 ): any[] {
@@ -2012,6 +2097,27 @@ export enum KnownIdentityProvider {
  */
 export type IdentityProvider = string;
 
+/** Storage type supported for HCI Cluster. */
+export enum KnownStorageType {
+  /** Storage Spaces Direct (S2D) storage type. */
+  S2D = "S2D",
+  /** Storage Area Network (SAN) storage type. */
+  SAN = "SAN",
+  /** Combined SAN and Storage Spaces Direct (SANS2D) storage type. */
+  Sans2D = "SANS2D",
+}
+
+/**
+ * Storage type supported for HCI Cluster. \
+ * {@link KnownStorageType} can be used interchangeably with StorageType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **S2D**: Storage Spaces Direct (S2D) storage type. \
+ * **SAN**: Storage Area Network (SAN) storage type. \
+ * **SANS2D**: Combined SAN and Storage Spaces Direct (SANS2D) storage type.
+ */
+export type StorageType = string;
+
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface ManagedServiceIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
@@ -2076,8 +2182,8 @@ export interface UserAssignedIdentity {
   readonly clientId?: string;
 }
 
-export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
-  return item;
+export function userAssignedIdentitySerializer(_item: UserAssignedIdentity): any {
+  return {};
 }
 
 export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
@@ -2799,15 +2905,106 @@ export function deploymentClusterDeserializer(item: any): DeploymentCluster {
 export interface Storage {
   /** By default, this mode is set to Express and your storage is configured as per best practices based on the number of nodes in the cluster. Allowed values are 'Express','InfraOnly', 'KeepStorage' */
   configurationMode?: string;
+  /** Storage type for the HCI Cluster. Allowed values are 'S2D', 'SAN', 'SANS2D'. */
+  storageType?: StorageType;
+  /** S2D (Storage Spaces Direct) configuration. Applicable when StorageType is 'S2D' or 'SANS2D'. */
+  s2D?: StorageS2DConfig;
+  /** SAN (Storage Area Network) configuration. Applicable when StorageType is 'SAN' or 'SANS2D'. */
+  san?: StorageSanConfig;
 }
 
 export function storageSerializer(item: Storage): any {
-  return { configurationMode: item["configurationMode"] };
+  return {
+    configurationMode: item["configurationMode"],
+    storageType: item["storageType"],
+    s2d: !item["s2D"] ? item["s2D"] : storageS2DConfigSerializer(item["s2D"]),
+    san: !item["san"] ? item["san"] : storageSanConfigSerializer(item["san"]),
+  };
 }
 
 export function storageDeserializer(item: any): Storage {
   return {
     configurationMode: item["configurationMode"],
+    storageType: item["storageType"],
+    s2D: !item["s2d"] ? item["s2d"] : storageS2DConfigDeserializer(item["s2d"]),
+    san: !item["san"] ? item["san"] : storageSanConfigDeserializer(item["san"]),
+  };
+}
+
+/** The S2D (Storage Spaces Direct) configuration for AzureStackHCI Cluster storage. */
+export interface StorageS2DConfig {
+  /** Volume provisioning type. Allowed values are 'Fixed', 'ThinProvisioned'. */
+  volumeType?: VolumeType;
+  /** Overprovisioning ratio for S2D storage. Allowed values are '0', '1', '2'. */
+  overprovisioningRatio?: OverprovisioningRatio;
+}
+
+export function storageS2DConfigSerializer(item: StorageS2DConfig): any {
+  return { volumeType: item["volumeType"], overprovisioningRatio: item["overprovisioningRatio"] };
+}
+
+export function storageS2DConfigDeserializer(item: any): StorageS2DConfig {
+  return {
+    volumeType: item["volumeType"],
+    overprovisioningRatio: item["overprovisioningRatio"],
+  };
+}
+
+/** Volume provisioning type for S2D storage. */
+export enum KnownVolumeType {
+  /** Fixed provisioning type. */
+  Fixed = "Fixed",
+  /** Thin provisioned provisioning type. */
+  ThinProvisioned = "ThinProvisioned",
+}
+
+/**
+ * Volume provisioning type for S2D storage. \
+ * {@link KnownVolumeType} can be used interchangeably with VolumeType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Fixed**: Fixed provisioning type. \
+ * **ThinProvisioned**: Thin provisioned provisioning type.
+ */
+export type VolumeType = string;
+
+/** Overprovisioning ratio for S2D storage. */
+export enum KnownOverprovisioningRatio {
+  /** No overprovisioning. */
+  Zero = "0",
+  /** Overprovisioning ratio of 1. */
+  One = "1",
+  /** Overprovisioning ratio of 2. */
+  Two = "2",
+}
+
+/**
+ * Overprovisioning ratio for S2D storage. \
+ * {@link KnownOverprovisioningRatio} can be used interchangeably with OverprovisioningRatio,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **0**: No overprovisioning. \
+ * **1**: Overprovisioning ratio of 1. \
+ * **2**: Overprovisioning ratio of 2.
+ */
+export type OverprovisioningRatio = string;
+
+/** The SAN (Storage Area Network) configuration for AzureStackHCI Cluster storage. */
+export interface StorageSanConfig {
+  /** Infrastructure volume LUN ID (e.g. PURE1234567890ABCDEF). */
+  infraVolLunId?: string;
+  /** Infrastructure performance LUN ID. */
+  infraPerfLunId?: string;
+}
+
+export function storageSanConfigSerializer(item: StorageSanConfig): any {
+  return { infraVolLunId: item["infraVolLunId"], infraPerfLunId: item["infraPerfLunId"] };
+}
+
+export function storageSanConfigDeserializer(item: any): StorageSanConfig {
+  return {
+    infraVolLunId: item["infraVolLunId"],
+    infraPerfLunId: item["infraPerfLunId"],
   };
 }
 
@@ -3003,6 +3200,8 @@ export interface DeploymentSettingHostNetwork {
   intents?: DeploymentSettingIntents[];
   /** List of StorageNetworks config to deploy AzureStackHCI Cluster. */
   storageNetworks?: DeploymentSettingStorageNetworks[];
+  /** SAN network configuration for the host network. Applicable when StorageType is 'SAN' or 'SANS2D'. */
+  sanNetworks?: SanNetworks;
   /** Defines how the storage adapters between nodes are connected either switch or switch less.. */
   storageConnectivitySwitchless?: boolean;
   /** Optional parameter required only for 3 Nodes Switchless deployments. This allows users to specify IPs and Mask for Storage NICs when Network ATC is not assigning the IPs for storage automatically. */
@@ -3017,6 +3216,9 @@ export function deploymentSettingHostNetworkSerializer(item: DeploymentSettingHo
     storageNetworks: !item["storageNetworks"]
       ? item["storageNetworks"]
       : deploymentSettingStorageNetworksArraySerializer(item["storageNetworks"]),
+    sanNetworks: !item["sanNetworks"]
+      ? item["sanNetworks"]
+      : sanNetworksSerializer(item["sanNetworks"]),
     storageConnectivitySwitchless: item["storageConnectivitySwitchless"],
     enableStorageAutoIp: item["enableStorageAutoIp"],
   };
@@ -3030,6 +3232,9 @@ export function deploymentSettingHostNetworkDeserializer(item: any): DeploymentS
     storageNetworks: !item["storageNetworks"]
       ? item["storageNetworks"]
       : deploymentSettingStorageNetworksArrayDeserializer(item["storageNetworks"]),
+    sanNetworks: !item["sanNetworks"]
+      ? item["sanNetworks"]
+      : sanNetworksDeserializer(item["sanNetworks"]),
     storageConnectivitySwitchless: item["storageConnectivitySwitchless"],
     enableStorageAutoIp: item["enableStorageAutoIp"],
   };
@@ -3312,6 +3517,130 @@ export function deploymentSettingStorageAdapterIPInfoDeserializer(
   };
 }
 
+/** SAN network configuration for host network of AzureStackHCI Cluster. */
+export interface SanNetworks {
+  /** Cluster (CSV/LiveMig) network configuration for SAN deployments. */
+  clusterNetworkConfig?: SanClusterNetworkConfig;
+}
+
+export function sanNetworksSerializer(item: SanNetworks): any {
+  return {
+    clusterNetworkConfig: !item["clusterNetworkConfig"]
+      ? item["clusterNetworkConfig"]
+      : sanClusterNetworkConfigSerializer(item["clusterNetworkConfig"]),
+  };
+}
+
+export function sanNetworksDeserializer(item: any): SanNetworks {
+  return {
+    clusterNetworkConfig: !item["clusterNetworkConfig"]
+      ? item["clusterNetworkConfig"]
+      : sanClusterNetworkConfigDeserializer(item["clusterNetworkConfig"]),
+  };
+}
+
+/** Cluster network configuration for SAN deployments (CSV/LiveMig traffic). */
+export interface SanClusterNetworkConfig {
+  /** QoS and adapter overrides for the cluster network. */
+  adapterProperties?: SanAdapterProperties;
+  /** Per-adapter IP configuration for the cluster network. */
+  adapterIPConfig?: SanAdapterIPConfig[];
+}
+
+export function sanClusterNetworkConfigSerializer(item: SanClusterNetworkConfig): any {
+  return {
+    adapterProperties: !item["adapterProperties"]
+      ? item["adapterProperties"]
+      : sanAdapterPropertiesSerializer(item["adapterProperties"]),
+    adapterIPConfig: !item["adapterIPConfig"]
+      ? item["adapterIPConfig"]
+      : sanAdapterIPConfigArraySerializer(item["adapterIPConfig"]),
+  };
+}
+
+export function sanClusterNetworkConfigDeserializer(item: any): SanClusterNetworkConfig {
+  return {
+    adapterProperties: !item["adapterProperties"]
+      ? item["adapterProperties"]
+      : sanAdapterPropertiesDeserializer(item["adapterProperties"]),
+    adapterIPConfig: !item["adapterIPConfig"]
+      ? item["adapterIPConfig"]
+      : sanAdapterIPConfigArrayDeserializer(item["adapterIPConfig"]),
+  };
+}
+
+/** QoS and adapter property overrides for SAN cluster network traffic. */
+export interface SanAdapterProperties {
+  /** 802.1p priority value for cluster traffic. */
+  priorityValue8021ActionCluster?: number;
+  /** 802.1p priority value for SMB traffic. */
+  priorityValue8021ActionSmb?: number;
+  /** SMB bandwidth percentage (1-97). */
+  bandwidthPercentageSmb?: number;
+  /** Jumbo frame size in bytes. */
+  jumboPacket?: number;
+}
+
+export function sanAdapterPropertiesSerializer(item: SanAdapterProperties): any {
+  return {
+    priorityValue8021ActionCluster: item["priorityValue8021ActionCluster"],
+    priorityValue8021ActionSmb: item["priorityValue8021ActionSmb"],
+    bandwidthPercentageSmb: item["bandwidthPercentageSmb"],
+    jumboPacket: item["jumboPacket"],
+  };
+}
+
+export function sanAdapterPropertiesDeserializer(item: any): SanAdapterProperties {
+  return {
+    priorityValue8021ActionCluster: item["priorityValue8021ActionCluster"],
+    priorityValue8021ActionSmb: item["priorityValue8021ActionSmb"],
+    bandwidthPercentageSmb: item["bandwidthPercentageSmb"],
+    jumboPacket: item["jumboPacket"],
+  };
+}
+
+export function sanAdapterIPConfigArraySerializer(result: Array<SanAdapterIPConfig>): any[] {
+  return result.map((item) => {
+    return sanAdapterIPConfigSerializer(item);
+  });
+}
+
+export function sanAdapterIPConfigArrayDeserializer(result: Array<SanAdapterIPConfig>): any[] {
+  return result.map((item) => {
+    return sanAdapterIPConfigDeserializer(item);
+  });
+}
+
+/** Per-adapter IP configuration for SAN cluster network. */
+export interface SanAdapterIPConfig {
+  /** Logical name of the adapter IP configuration (e.g., clusterNetwork-A). */
+  name?: string;
+  /** Physical NIC name (e.g., ethernet 3). */
+  networkAdapterName?: string;
+  /** VLAN ID (0-4095). Value of 0 or omitted means untagged. */
+  vlanId?: number;
+  /** Subnet address prefix in CIDR notation (e.g., 10.10.30.0/24). */
+  addressPrefix?: string;
+}
+
+export function sanAdapterIPConfigSerializer(item: SanAdapterIPConfig): any {
+  return {
+    name: item["name"],
+    networkAdapterName: item["networkAdapterName"],
+    vlanId: item["vlanId"],
+    addressPrefix: item["addressPrefix"],
+  };
+}
+
+export function sanAdapterIPConfigDeserializer(item: any): SanAdapterIPConfig {
+  return {
+    name: item["name"],
+    networkAdapterName: item["networkAdapterName"],
+    vlanId: item["vlanId"],
+    addressPrefix: item["addressPrefix"],
+  };
+}
+
 /** SDN Integration config to deploy AzureStackHCI Cluster. */
 export interface SdnIntegration {
   /** network controller config for SDN Integration to deploy AzureStackHCI Cluster. */
@@ -3446,8 +3775,8 @@ export interface AssemblyInfo {
   readonly payload?: AssemblyInfoPayload[];
 }
 
-export function assemblyInfoSerializer(item: AssemblyInfo): any {
-  return item;
+export function assemblyInfoSerializer(_item: AssemblyInfo): any {
+  return {};
 }
 
 export function assemblyInfoDeserializer(item: any): AssemblyInfo {
@@ -3861,9 +4190,7 @@ export function hciEdgeDeviceJobPropertiesDeserializer(item: any): HciEdgeDevice
 
 /** Alias for HciEdgeDeviceJobPropertiesUnion */
 export type HciEdgeDeviceJobPropertiesUnion =
-  | HciCollectLogJobProperties
-  | HciRemoteSupportJobProperties
-  | HciEdgeDeviceJobProperties;
+  HciCollectLogJobProperties | HciRemoteSupportJobProperties | HciEdgeDeviceJobProperties;
 
 export function hciEdgeDeviceJobPropertiesUnionSerializer(
   item: HciEdgeDeviceJobPropertiesUnion,
@@ -4255,8 +4582,8 @@ export function remoteSupportSessionDeserializer(item: any): RemoteSupportSessio
 /** The base extension resource. */
 export interface ExtensionResource extends Resource {}
 
-export function extensionResourceSerializer(item: ExtensionResource): any {
-  return item;
+export function extensionResourceSerializer(_item: ExtensionResource): any {
+  return {};
 }
 
 export function extensionResourceDeserializer(item: any): ExtensionResource {
@@ -4436,6 +4763,9 @@ export function hciReportedPropertiesDeserializer(item: any): HciReportedPropert
     extensionProfile: !item["extensionProfile"]
       ? item["extensionProfile"]
       : extensionProfileDeserializer(item["extensionProfile"]),
+    lastSyncTimestamp: !item["lastSyncTimestamp"]
+      ? item["lastSyncTimestamp"]
+      : new Date(item["lastSyncTimestamp"]),
     networkProfile: !item["networkProfile"]
       ? item["networkProfile"]
       : hciNetworkProfileDeserializer(item["networkProfile"]),
@@ -4847,11 +5177,47 @@ export function sbeDeploymentPackageInfoDeserializer(item: any): SbeDeploymentPa
 export interface HciStorageProfile {
   /** Number of storage disks in the device with $CanPool as true. */
   readonly poolableDisksCount?: number;
+  /** List of storage disks on the device. */
+  readonly disks?: EdgeDeviceDisks[];
 }
 
 export function hciStorageProfileDeserializer(item: any): HciStorageProfile {
   return {
     poolableDisksCount: item["poolableDisksCount"],
+    disks: !item["disks"] ? item["disks"] : edgeDeviceDisksArrayDeserializer(item["disks"]),
+  };
+}
+
+export function edgeDeviceDisksArrayDeserializer(result: Array<EdgeDeviceDisks>): any[] {
+  return result.map((item) => {
+    return edgeDeviceDisksDeserializer(item);
+  });
+}
+
+/** Represents a storage disk on the device. */
+export interface EdgeDeviceDisks {
+  /** The unique identifier of the disk. */
+  readonly id: string;
+  /** The size of the disk in bytes. */
+  readonly sizeInBytes?: string;
+  /** The type of the disk. For example, S2D or SAN. */
+  readonly type?: string;
+  /** Model number of the hardware. */
+  readonly model?: string;
+  /** The manufacturer of the disk. */
+  readonly manufacturer?: string;
+  /** Indicates whether the manufacturer is supported. */
+  readonly isSupported?: boolean;
+}
+
+export function edgeDeviceDisksDeserializer(item: any): EdgeDeviceDisks {
+  return {
+    id: item["id"],
+    sizeInBytes: item["sizeInBytes"],
+    type: item["type"],
+    model: item["model"],
+    manufacturer: item["manufacturer"],
+    isSupported: item["isSupported"],
   };
 }
 
@@ -4873,6 +5239,8 @@ export interface ReportedProperties {
   readonly deviceState?: DeviceState;
   /** Extensions details for edge device. */
   readonly extensionProfile?: ExtensionProfile;
+  /** Most recent edge device sync timestamp in UTC. */
+  readonly lastSyncTimestamp?: Date;
 }
 
 export function reportedPropertiesDeserializer(item: any): ReportedProperties {
@@ -4881,6 +5249,9 @@ export function reportedPropertiesDeserializer(item: any): ReportedProperties {
     extensionProfile: !item["extensionProfile"]
       ? item["extensionProfile"]
       : extensionProfileDeserializer(item["extensionProfile"]),
+    lastSyncTimestamp: !item["lastSyncTimestamp"]
+      ? item["lastSyncTimestamp"]
+      : new Date(item["lastSyncTimestamp"]),
   };
 }
 
@@ -6420,6 +6791,10 @@ export enum KnownState {
   ScanFailed = "ScanFailed",
   /** Additional content is required to proceed with the update. */
   AdditionalContentRequired = "AdditionalContentRequired",
+  /** The health check has expired and needs to be redone. */
+  HealthCheckExpired = "HealthCheckExpired",
+  /** The update is pending OEM validation before it can proceed. */
+  PendingOEMValidation = "PendingOEMValidation",
 }
 
 /**
@@ -6445,7 +6820,9 @@ export enum KnownState {
  * **ReadyToInstall**: The update is ready to be installed after successful preparation and checks. \
  * **ScanInProgress**: The system is scanning for updates. \
  * **ScanFailed**: The scan for updates failed. \
- * **AdditionalContentRequired**: Additional content is required to proceed with the update.
+ * **AdditionalContentRequired**: Additional content is required to proceed with the update. \
+ * **HealthCheckExpired**: The health check has expired and needs to be redone. \
+ * **PendingOEMValidation**: The update is pending OEM validation before it can proceed.
  */
 export type State = string;
 
@@ -6770,6 +7147,16 @@ export function updateArrayDeserializer(result: Array<Update>): any[] {
   return result.map((item) => {
     return updateDeserializer(item);
   });
+}
+
+/** Request body for the check updates action on update summaries. */
+export interface CheckUpdatesRequest {
+  /** Name of update */
+  updateName?: string;
+}
+
+export function checkUpdatesRequestSerializer(item: CheckUpdatesRequest): any {
+  return { updateName: item["updateName"] };
 }
 
 /** Represents a validated solution recipe resource. */
@@ -7246,6 +7633,8 @@ export function updateSummariesArrayDeserializer(result: Array<UpdateSummaries>)
 export enum KnownVersions {
   /** The 2026-02-01 API version. */
   V20260201 = "2026-02-01",
+  /** The 2026-04-30 API version. */
+  V20260430 = "2026-04-30",
 }
 
 export function _arcSettingPropertiesSerializer(item: ArcSetting): any {
@@ -7371,6 +7760,9 @@ export function _clusterPropertiesDeserializer(item: any) {
       : isolatedVmAttestationConfigurationDeserializer(item["isolatedVmAttestationConfiguration"]),
     trialDaysRemaining: item["trialDaysRemaining"],
     billingModel: item["billingModel"],
+    billingProperties: !item["billingProperties"]
+      ? item["billingProperties"]
+      : clusterBillingPropertiesDeserializer(item["billingProperties"]),
     registrationTimestamp: !item["registrationTimestamp"]
       ? item["registrationTimestamp"]
       : new Date(item["registrationTimestamp"]),
@@ -7390,6 +7782,7 @@ export function _clusterPropertiesDeserializer(item: any) {
       ? item["localAvailabilityZones"]
       : localAvailabilityZonesArrayDeserializer(item["localAvailabilityZones"]),
     identityProvider: item["identityProvider"],
+    storageType: item["storageType"],
   };
 }
 

@@ -1,5 +1,31 @@
 # Release History
 
+## 4.11.0-beta.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 4.11.0-beta.1 (2026-06-04)
+
+### Features Added
+
+- Added an experimental PlatformManaged property on CertificatePolicy for Azure Key Vault internal usage. Any calls using this property will fail and it is not recommended to be used at this point. [#38579](https://github.com/Azure/azure-sdk-for-js/pull/38579)
+
+### Other Changes
+
+- Upgraded to API service version `2026-03-01-preview`
+
+## 4.10.3 (2026-04-09)
+
+### Bugs Fixed
+
+- Fix dependency issue.
+
 ## 4.10.2 (2026-04-01)
 
 ### Features Added

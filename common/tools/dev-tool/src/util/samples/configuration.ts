@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { FileInfo } from "../findMatchingFiles";
-import { METADATA_KEY } from "../resolveProject";
+import type { FileInfo } from "../findMatchingFiles.ts";
+import { METADATA_KEY } from "../resolveProject.ts";
 
 /**
  * The oldest Node version that we guarantee sample programs will support.
  * Samples may support older versions, but must support at least this version.
  */
-export const MIN_SUPPORTED_NODE_VERSION = "20.0.0";
+export const MIN_SUPPORTED_NODE_VERSION = "22.0.0";
 
 /**
  * An interface for the sample configuration metadata within an Azure SDK for

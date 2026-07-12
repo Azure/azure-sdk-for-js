@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to put Update summaries under the HCI cluster
  *
  * @summary put Update summaries under the HCI cluster
- * x-ms-original-file: 2026-02-01/PutUpdateSummaries.json
+ * x-ms-original-file: 2026-04-30/PutUpdateSummaries.json
  */
 async function putUpdateSummariesUnderClusterResource() {
   const credential = new DefaultAzureCredential();

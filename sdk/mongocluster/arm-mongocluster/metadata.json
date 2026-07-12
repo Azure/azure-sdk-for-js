@@ -1,6 +1,8 @@
 {
-  "apiVersion": "2025-09-01",
-  "emitterVersion": "0.45.1",
+  "apiVersions": {
+    "Microsoft.DocumentDB": "2026-06-01"
+  },
+  "emitterVersion": "0.54.2",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.DocumentDB",
     "CrossLanguageDefinitionId": {
@@ -79,6 +81,7 @@
       "@azure/arm-mongocluster!KnownReplicationState:enum": "Microsoft.DocumentDB.ReplicationState",
       "@azure/arm-mongocluster!KnownAuthenticationMode:enum": "Microsoft.DocumentDB.AuthenticationMode",
       "@azure/arm-mongocluster!KnownKeyEncryptionKeyIdentityType:enum": "Microsoft.DocumentDB.KeyEncryptionKeyIdentityType",
+      "@azure/arm-mongocluster!KnownNetworkBypassMode:enum": "Microsoft.DocumentDB.NetworkBypassMode",
       "@azure/arm-mongocluster!KnownManagedServiceIdentityType:enum": "Azure.ResourceManager.CommonTypes.ManagedServiceIdentityType",
       "@azure/arm-mongocluster!KnownResourceProvisioningState:enum": "Azure.ResourceManager.ResourceProvisioningState",
       "@azure/arm-mongocluster!KnownCheckNameAvailabilityReason:enum": "Azure.ResourceManager.CommonTypes.CheckNameAvailabilityReason",

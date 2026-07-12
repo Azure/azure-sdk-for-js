@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get a validated solution recipe.
  *
  * @summary get a validated solution recipe.
- * x-ms-original-file: 2026-02-01/ValidatedSolutionRecipes_Get.json
+ * x-ms-original-file: 2026-04-30/ValidatedSolutionRecipes_Get.json
  */
 async function validatedSolutionRecipesGet() {
   const credential = new DefaultAzureCredential();

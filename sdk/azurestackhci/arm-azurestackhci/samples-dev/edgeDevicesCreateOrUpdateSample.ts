@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a EdgeDevice
  *
  * @summary create a EdgeDevice
- * x-ms-original-file: 2026-02-01/CreateHciEdgeDevice.json
+ * x-ms-original-file: 2026-04-30/CreateHciEdgeDevice.json
  */
 async function createHCIEdgeDevice(): Promise<void> {
   const credential = new DefaultAzureCredential();

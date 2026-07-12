@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list DeploymentSetting resources by Clusters
  *
  * @summary list DeploymentSetting resources by Clusters
- * x-ms-original-file: 2026-02-01/ListDeploymentSettingsByCluster.json
+ * x-ms-original-file: 2026-04-30/ListDeploymentSettingsByCluster.json
  */
 async function listDeploymentSettings(): Promise<void> {
   const credential = new DefaultAzureCredential();

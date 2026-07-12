@@ -1,14 +1,14 @@
 {
   "name": "@azure/storage-blob-changefeed",
   "sdk-type": "client",
-  "version": "12.0.0-preview.5",
+  "version": "12.0.1-beta.1",
   "description": "Microsoft Azure Storage SDK for JavaScript - Blob Change Feed",
   "main": "./dist/commonjs/index.js",
   "module": "./dist/esm/index.js",
   "browser": "./dist/browser/index.js",
   "types": "./dist/commonjs/index.d.ts",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
@@ -33,7 +33,11 @@
     "README.md",
     "LICENSE"
   ],
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/storage/storage-blob-changefeed"
+  },
   "keywords": [
     "azure",
     "storage",
@@ -50,7 +54,7 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-blob-changefeed/",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob-changefeed/README.md",
   "sideEffects": false,
   "//metadata": {
     "constantPaths": [
@@ -71,7 +75,7 @@
     "@azure/core-tracing": "^1.2.0",
     "@azure/logger": "^1.1.4",
     "@azure/storage-blob": "^12.26.0",
-    "@azure/storage-internal-avro": "^1.0.0",
+    "@azure/storage-internal-avro": "workspace:^",
     "tslib": "^2.8.1"
   },
   "devDependencies": {
@@ -89,6 +93,7 @@
     "eslint": "catalog:",
     "playwright": "catalog:testing",
     "prettier": "catalog:",
+    "react-native": "catalog:testing",
     "rimraf": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
@@ -125,6 +130,13 @@
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
       }
+    }
+  },
+  "imports": {
+    "#platform/*": {
+      "react-native": "./src/*-react-native.mts",
+      "browser": "./src/*-browser.mts",
+      "default": "./src/*.ts"
     }
   }
 }

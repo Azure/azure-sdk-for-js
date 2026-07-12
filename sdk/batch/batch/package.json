@@ -1,9 +1,9 @@
 {
   "name": "@azure/batch",
-  "version": "13.0.0-beta.3",
+  "version": "13.0.1",
   "description": "Azure Batch client library for JavaScript",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "sideEffects": false,
   "autoPublish": false,
@@ -27,7 +27,11 @@
     "LICENSE"
   ],
   "sdk-type": "client",
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/batch/batch"
+  },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
@@ -58,7 +62,7 @@
     "@azure/arm-batch": "workspace:^",
     "@azure/arm-compute": "workspace:^",
     "@azure/arm-keyvault": "workspace:^",
-    "@azure/arm-resources": "catalog:arm",
+    "@azure/arm-resources": "workspace:^",
     "@azure/dev-tool": "workspace:^",
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@azure/identity": "catalog:internal",
@@ -71,6 +75,7 @@
     "eslint": "catalog:",
     "playwright": "catalog:testing",
     "prettier": "catalog:",
+    "react-native": "catalog:testing",
     "rimraf": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
@@ -152,5 +157,11 @@
   },
   "main": "./dist/commonjs/index.js",
   "types": "./dist/commonjs/index.d.ts",
-  "module": "./dist/esm/index.js"
+  "module": "./dist/esm/index.js",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/batch/batch/README.md",
+  "imports": {
+    "#platform/*": {
+      "default": "./src/*.ts"
+    }
+  }
 }

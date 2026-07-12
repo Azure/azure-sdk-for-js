@@ -318,7 +318,6 @@ describe("findWarpConfig", () => {
   });
 
   describe("extends", () => {
-
     const baseConfig = {
       exports: { "./package.json": "./package.json", ".": "./src/index.ts" },
       targets: [

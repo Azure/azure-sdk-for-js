@@ -6,7 +6,7 @@ import {
   resetSmbPassword,
   poolChange,
   listPeeringPassphrases,
-  listByCapacityPools,
+  list,
   $delete,
   update,
   createOrUpdate,
@@ -16,7 +16,7 @@ import type {
   CachesResetSmbPasswordOptionalParams,
   CachesPoolChangeOptionalParams,
   CachesListPeeringPassphrasesOptionalParams,
-  CachesListByCapacityPoolsOptionalParams,
+  CachesListOptionalParams,
   CachesDeleteOptionalParams,
   CachesUpdateOptionalParams,
   CachesCreateOrUpdateOptionalParams,
@@ -40,7 +40,7 @@ export interface CachesOperations {
     poolName: string,
     cacheName: string,
     options?: CachesResetSmbPasswordOptionalParams,
-  ) => PollerLike<OperationState<void>, void>;
+  ) => PollerLike<OperationState<Cache>, Cache>;
   /** Moves Cache  to another Capacity Pool */
   poolChange: (
     resourceGroupName: string,
@@ -49,7 +49,7 @@ export interface CachesOperations {
     cacheName: string,
     body: PoolChangeRequest,
     options?: CachesPoolChangeOptionalParams,
-  ) => PollerLike<OperationState<void>, void>;
+  ) => PollerLike<OperationState<Cache>, Cache>;
   /** This operation will list the cluster peering command, cluster peering passphrase and the vserver peering command */
   listPeeringPassphrases: (
     resourceGroupName: string,
@@ -59,18 +59,13 @@ export interface CachesOperations {
     options?: CachesListPeeringPassphrasesOptionalParams,
   ) => Promise<PeeringPassphrases>;
   /** List all Caches within the Capacity Pool */
-  listByCapacityPools: (
+  list: (
     resourceGroupName: string,
     accountName: string,
     poolName: string,
-    options?: CachesListByCapacityPoolsOptionalParams,
+    options?: CachesListOptionalParams,
   ) => PagedAsyncIterableIterator<Cache>;
   /** Delete the specified cache */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     accountName: string,
@@ -131,12 +126,12 @@ function _getCaches(context: NetAppManagementContext) {
       options?: CachesListPeeringPassphrasesOptionalParams,
     ) =>
       listPeeringPassphrases(context, resourceGroupName, accountName, poolName, cacheName, options),
-    listByCapacityPools: (
+    list: (
       resourceGroupName: string,
       accountName: string,
       poolName: string,
-      options?: CachesListByCapacityPoolsOptionalParams,
-    ) => listByCapacityPools(context, resourceGroupName, accountName, poolName, options),
+      options?: CachesListOptionalParams,
+    ) => list(context, resourceGroupName, accountName, poolName, options),
     delete: (
       resourceGroupName: string,
       accountName: string,

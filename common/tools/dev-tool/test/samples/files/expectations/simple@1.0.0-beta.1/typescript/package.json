@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "Azure Template client library samples for TypeScript (Beta)",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "scripts": {
     "build": "tsc",
@@ -25,13 +25,13 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/common/tools/dev-tool/test/samples/files/expectations/simple@1.0.0-beta.1",
   "dependencies": {
-    "simple@1.0.0-beta.1": "next",
+    "simple@1.0.0-beta.1": "beta",
     "dotenv": "latest"
   },
   "devDependencies": {
-    "@types/node": "^20.0.0",
+    "@types/node": "^22.0.0",
     "cross-env": "latest",
     "rimraf": "latest",
-    "typescript": "~5.9.3"
+    "typescript": "~6.0.2"
   }
 }

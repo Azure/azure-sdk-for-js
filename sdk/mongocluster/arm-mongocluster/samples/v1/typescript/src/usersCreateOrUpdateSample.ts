@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates a new user or updates an existing user on a mongo cluster.
  *
  * @summary creates a new user or updates an existing user on a mongo cluster.
- * x-ms-original-file: 2025-09-01/MongoClusters_UserCreateOrUpdate.json
+ * x-ms-original-file: 2026-06-01/MongoClusters_UserCreateOrUpdate.json
  */
 async function createsAUserOnAMongoClusterResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -21,10 +21,7 @@ async function createsAUserOnAMongoClusterResource(): Promise<void> {
     {
       properties: {
         roles: [{ role: "root", db: "admin" }],
-        identityProvider: {
-          type: "MicrosoftEntraID",
-          properties: { principalType: "user" },
-        },
+        identityProvider: { type: "MicrosoftEntraID", properties: { principalType: "user" } },
       },
     },
   );

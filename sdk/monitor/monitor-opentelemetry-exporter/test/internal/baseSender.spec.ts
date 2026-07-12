@@ -164,7 +164,9 @@ import { isRetriable } from "../../src/utils/breezeUtils.js";
 class TestBaseSender extends BaseSender {
   public sendMock = vi.fn();
   public shutdownMock = vi.fn();
-  public handlePermanentRedirectMock = vi.fn();
+  // Default to accepting the redirect so legacy tests that exercise the success path keep working;
+  // tests that want to assert the cross-origin refusal path override this with mockReturnValue(false).
+  public handlePermanentRedirectMock = vi.fn().mockReturnValue(true);
   public persistMock = vi.fn();
 
   // Access mock objects for verification in tests
@@ -219,6 +221,16 @@ class TestBaseSender extends BaseSender {
     return (this as any).sendAllPersistedFiles();
   }
 
+  // Neutralize startup replay throttling so existing timing-sensitive tests stay
+  // deterministic and fast. Dedicated tests below exercise the real delay logic.
+  protected getStartupReplayDelayMs(): number {
+    return 0;
+  }
+
+  protected getReplayBatchDelayMs(): number {
+    return 0;
+  }
+
   public async callSendFirstPersistedFile(): Promise<void> {
     return (this as any).sendFirstPersistedFile();
   }
@@ -231,8 +243,8 @@ class TestBaseSender extends BaseSender {
     return this.shutdownMock();
   }
 
-  handlePermanentRedirect(location: string | undefined): void {
-    this.handlePermanentRedirectMock(location);
+  handlePermanentRedirect(location: string | undefined): boolean {
+    return this.handlePermanentRedirectMock(location);
   }
 
   // For testing access to private methods
@@ -451,6 +463,36 @@ describe("BaseSender", () => {
       expect(sender.getNetworkStats().countException).toHaveBeenCalled();
       expect(result.error).toBeDefined();
       expect(result.error?.message).toContain("Circular redirect");
+    });
+
+    it("should refuse cross-origin redirects without retrying", async () => {
+      // A 307 to a cross-origin target whose host is outside the configured ingestion host
+      // and outside the trusted Azure Monitor ingestion suffix list. handlePermanentRedirect
+      // (mocked here) reports false so baseSender must NOT recurse into another `send` call --
+      // otherwise the auth policy would attach a freshly-signed AAD token (and the telemetry
+      // body) to the attacker host on the retry.
+      const redirectError: any = new Error("Temporary redirect");
+      redirectError.statusCode = 307;
+      redirectError.response = {
+        headers: {
+          get: (name: string) => (name === "location" ? "https://attacker.example.invalid" : null),
+        },
+      };
+
+      sender.sendMock.mockRejectedValue(redirectError);
+      sender.handlePermanentRedirectMock.mockReturnValue(false);
+
+      const envelopes = [{ name: "test", time: new Date() }];
+      const result = await sender.exportEnvelopes(envelopes);
+
+      expect(sender.handlePermanentRedirectMock).toHaveBeenCalledWith(
+        "https://attacker.example.invalid",
+      );
+      // No retry: send is called exactly once and never reaches the redirect target.
+      expect(sender.sendMock).toHaveBeenCalledTimes(1);
+      expect(result.code).toBe(ExportResultCode.FAILED);
+      expect(result.error?.message).toContain("Refused cross-origin redirect");
+      expect(sender.getNetworkStats().countException).toHaveBeenCalled();
     });
 
     it("should handle invalid instrumentation key error", async () => {
@@ -1120,8 +1162,9 @@ describe("BaseSender", () => {
           return this.shutdownMock();
         }
 
-        handlePermanentRedirect(_location: string | undefined): void {
+        handlePermanentRedirect(_location: string | undefined): boolean {
           // No-op
+          return true;
         }
 
         getCustomerSDKStatsMetrics(): any {
@@ -1319,7 +1362,8 @@ describe("BaseSender", () => {
       expect(callOrder).toEqual(["cleanExpiredFiles", "shift"]);
     });
 
-    it("should be called automatically from constructor when offline storage is enabled", async () => {
+    it("should be scheduled (not called synchronously) from constructor when offline storage is enabled", async () => {
+      vi.useFakeTimers();
       const sendAllSpy = vi.spyOn(BaseSender.prototype as any, "sendAllPersistedFiles");
 
       const newSender = new TestBaseSender({
@@ -1329,12 +1373,16 @@ describe("BaseSender", () => {
         exporterOptions: {},
       });
 
-      expect(sendAllSpy).toHaveBeenCalledTimes(1);
+      // Replay is deferred behind a randomized startup delay, not run synchronously
+      expect(sendAllSpy).not.toHaveBeenCalled();
       expect(newSender).toBeDefined();
 
-      // Flush async work
-      await new Promise((resolve) => setTimeout(resolve, 0));
+      // Once the scheduled timer fires, replay runs exactly once
+      await vi.advanceTimersByTimeAsync(1);
+      expect(sendAllSpy).toHaveBeenCalledTimes(1);
+
       sendAllSpy.mockRestore();
+      vi.useRealTimers();
     });
 
     it("should handle multiple files where middle send fails", async () => {
@@ -1620,6 +1668,145 @@ describe("BaseSender", () => {
       // Only file2's retriable envelope was re-persisted
       expect(mockPersist.push).toHaveBeenCalledTimes(1);
       expect(mockPersist.push).toHaveBeenCalledWith([file2[1]]);
+    });
+  });
+
+  describe("Startup replay throttling (thundering herd mitigation)", () => {
+    it("computes a randomized startup replay delay within [0, max)", () => {
+      const proto = BaseSender.prototype as any;
+      const randomSpy = vi.spyOn(Math, "random");
+
+      randomSpy.mockReturnValue(0);
+      expect(proto.getStartupReplayDelayMs.call({})).toBe(0);
+
+      randomSpy.mockReturnValue(0.999999);
+      const nearMax = proto.getStartupReplayDelayMs.call({});
+      expect(nearMax).toBeGreaterThan(0);
+      expect(nearMax).toBeLessThan(60_000);
+
+      randomSpy.mockRestore();
+    });
+
+    it("computes an inter-batch replay delay of base plus jitter", () => {
+      const proto = BaseSender.prototype as any;
+      const randomSpy = vi.spyOn(Math, "random");
+
+      // No jitter → base spacing only
+      randomSpy.mockReturnValue(0);
+      expect(proto.getReplayBatchDelayMs.call({})).toBe(200);
+
+      // Max jitter → strictly below base + jitter ceiling
+      randomSpy.mockReturnValue(0.999999);
+      const withJitter = proto.getReplayBatchDelayMs.call({});
+      expect(withJitter).toBeGreaterThan(200);
+      expect(withJitter).toBeLessThan(400);
+
+      randomSpy.mockRestore();
+    });
+
+    it("applies an inter-batch delay before every file except the first", async () => {
+      const file1 = [{ name: "f1", time: new Date() }];
+      const file2 = [{ name: "f2", time: new Date() }];
+      const file3 = [{ name: "f3", time: new Date() }];
+
+      sender.sendMock.mockResolvedValue({ result: "success", statusCode: 200 });
+      mockPersist.shift
+        .mockResolvedValueOnce(file1)
+        .mockResolvedValueOnce(file2)
+        .mockResolvedValueOnce(file3)
+        .mockResolvedValueOnce(null);
+
+      const delaySpy = vi.spyOn(sender as any, "getReplayBatchDelayMs");
+
+      await sender.callSendAllPersistedFiles();
+
+      // 3 files → delay computed before files 2 and 3, never before file 1
+      expect(delaySpy).toHaveBeenCalledTimes(2);
+      expect(sender.sendMock).toHaveBeenCalledTimes(3);
+    });
+
+    it("does not apply an inter-batch delay for a single persisted file", async () => {
+      const file1 = [{ name: "single", time: new Date() }];
+
+      sender.sendMock.mockResolvedValue({ result: "success", statusCode: 200 });
+      mockPersist.shift.mockResolvedValueOnce(file1).mockResolvedValueOnce(null);
+
+      const delaySpy = vi.spyOn(sender as any, "getReplayBatchDelayMs");
+
+      await sender.callSendAllPersistedFiles();
+
+      expect(delaySpy).not.toHaveBeenCalled();
+      expect(sender.sendMock).toHaveBeenCalledTimes(1);
+    });
+
+    it("does not apply an inter-batch delay when replay stops on the first failure", async () => {
+      const file1 = [{ name: "f1", time: new Date() }];
+      const file2 = [{ name: "f2", time: new Date() }];
+
+      // Non-retriable failure on the first file → loop breaks before any second batch
+      sender.sendMock.mockResolvedValue({ result: "", statusCode: 400 });
+      mockPersist.shift.mockResolvedValueOnce(file1).mockResolvedValueOnce(file2);
+
+      const delaySpy = vi.spyOn(sender as any, "getReplayBatchDelayMs");
+
+      await sender.callSendAllPersistedFiles();
+
+      expect(delaySpy).not.toHaveBeenCalled();
+      expect(sender.sendMock).toHaveBeenCalledTimes(1);
+    });
+
+    it("waits for the inter-batch delay to elapse before sending the next file", async () => {
+      vi.useFakeTimers();
+      const file1 = [{ name: "f1", time: new Date() }];
+      const file2 = [{ name: "f2", time: new Date() }];
+
+      sender.sendMock.mockResolvedValue({ result: "success", statusCode: 200 });
+      mockPersist.shift
+        .mockResolvedValueOnce(file1)
+        .mockResolvedValueOnce(file2)
+        .mockResolvedValueOnce(null);
+
+      vi.spyOn(sender as any, "getReplayBatchDelayMs").mockReturnValue(5000);
+
+      const replayPromise = sender.callSendAllPersistedFiles();
+
+      // Drain microtasks: first file sent, second file shifted but gated behind the delay
+      await vi.advanceTimersByTimeAsync(0);
+      expect(sender.sendMock).toHaveBeenCalledTimes(1);
+
+      // Before the delay elapses, the second file must not be sent
+      await vi.advanceTimersByTimeAsync(4999);
+      expect(sender.sendMock).toHaveBeenCalledTimes(1);
+
+      // Once the delay elapses, the second file is sent
+      await vi.advanceTimersByTimeAsync(1);
+      await replayPromise;
+      expect(sender.sendMock).toHaveBeenCalledTimes(2);
+
+      vi.useRealTimers();
+    });
+
+    it("schedules startup replay on an unref'd timer so it never keeps the process alive", () => {
+      vi.useFakeTimers();
+      const sendAllSpy = vi.spyOn(BaseSender.prototype as any, "sendAllPersistedFiles");
+
+      const throttledSender = new TestBaseSender({
+        endpointUrl: "https://example.com",
+        instrumentationKey: "test-key",
+        trackStatsbeat: true,
+        exporterOptions: {},
+      });
+
+      // Constructor must not drain the backlog inline
+      expect(sendAllSpy).not.toHaveBeenCalled();
+
+      // The pending replay timer must be unref'd so it can't hold the event loop open
+      const replayTimer = (throttledSender as any).startupReplayTimer as NodeJS.Timeout;
+      expect(replayTimer).not.toBeNull();
+      expect(replayTimer.hasRef()).toBe(false);
+
+      sendAllSpy.mockRestore();
+      vi.useRealTimers();
     });
   });
 });

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create Aad identity for arc settings.
  *
  * @summary create Aad identity for arc settings.
- * x-ms-original-file: 2026-02-01/CreateArcIdentity.json
+ * x-ms-original-file: 2026-04-30/CreateArcIdentity.json
  */
 async function createArcIdentity() {
   const credential = new DefaultAzureCredential();

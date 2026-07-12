@@ -106,7 +106,9 @@ export type {
   AuthorizeRequest,
   PeerClusterForVolumeMigrationRequest,
   ClusterPeerCommandResponse,
+  ClusterPeerCommandResponseProperties,
   SvmPeerCommandResponse,
+  SvmPeerCommandResponseProperties,
   PoolChangeRequest,
   RelocateVolumeRequest,
   QuotaReportFilterRequest,
@@ -179,6 +181,7 @@ export type {
   CifsChangeNotifyState,
   GlobalFileLockingState,
   EnableWriteBackState,
+  CacheFileAccessLogs,
   CacheUpdate,
   CacheUpdateProperties,
   PeeringPassphrases,
@@ -279,11 +282,14 @@ export type {
   EncryptionIdentity,
   MultiAdStatus,
   LdapConfiguration,
+  BindAuthenticationLevel,
+  BindPasswordAkvConfig,
   NetAppAccountPatch,
   AccountPropertiesPatch,
   EntraIdConfigPatch,
   EntraIdAkvConfigPatch,
   LdapConfigurationPatch,
+  BindPasswordAkvConfigPatch,
   EncryptionTransitionRequest,
   GetKeyVaultStatusResponse,
   GetKeyVaultStatusResponseProperties,
@@ -373,6 +379,7 @@ export {
   KnownCifsChangeNotifyState,
   KnownGlobalFileLockingState,
   KnownEnableWriteBackState,
+  KnownCacheFileAccessLogs,
   KnownKeySource,
   KnownElasticKeyVaultStatus,
   KnownManagedServiceIdentityType,
@@ -400,6 +407,7 @@ export {
   KnownRegionStorageToNetworkProximity,
   KnownKeyVaultStatus,
   KnownMultiAdStatus,
+  KnownBindAuthenticationLevel,
   KnownQosType,
   KnownEncryptionType,
   KnownCheckNameResourceTypes,
@@ -410,6 +418,7 @@ export {
 } from "./models/index.js";
 export type { NetAppManagementClientOptionalParams } from "./api/index.js";
 export type {
+  AccountsRefreshLdapBindPasswordOptionalParams,
   AccountsChangeKeyVaultOptionalParams,
   AccountsGetChangeKeyVaultInformationOptionalParams,
   AccountsTransitionToCmkOptionalParams,
@@ -469,7 +478,7 @@ export type {
   CachesResetSmbPasswordOptionalParams,
   CachesPoolChangeOptionalParams,
   CachesListPeeringPassphrasesOptionalParams,
-  CachesListByCapacityPoolsOptionalParams,
+  CachesListOptionalParams,
   CachesDeleteOptionalParams,
   CachesUpdateOptionalParams,
   CachesCreateOrUpdateOptionalParams,
@@ -676,3 +685,4 @@ export type {
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
 export { AzureClouds };
 export type { AzureSupportedClouds };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

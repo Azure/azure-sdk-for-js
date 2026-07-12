@@ -42,9 +42,13 @@
     "README.md",
     "LICENSE"
   ],
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/attestation/attestation"
+  },
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "keywords": [
     "node",
@@ -67,6 +71,7 @@
     "@azure/core-client": "^1.9.2",
     "@azure/core-rest-pipeline": "^1.18.1",
     "@azure/core-tracing": "^1.2.0",
+    "@azure/core-util": "^1.13.0",
     "@azure/logger": "^1.1.4",
     "jsrsasign": "^11.0.0",
     "tslib": "^2.8.1"
@@ -87,6 +92,7 @@
     "eslint": "catalog:",
     "playwright": "catalog:testing",
     "prettier": "catalog:",
+    "react-native": "catalog:testing",
     "rimraf": "catalog:",
     "safe-buffer": "^5.2.1",
     "typescript": "catalog:",
@@ -120,6 +126,11 @@
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
       }
+    }
+  },
+  "imports": {
+    "#platform/*": {
+      "default": "./src/*.ts"
     }
   }
 }

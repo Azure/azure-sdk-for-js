@@ -14,6 +14,10 @@ export type {
   ErrorAdditionalInfo,
   ExtensionPropertiesAksAssignedIdentity,
   AKSIdentityType,
+  AutoUpgradeMode,
+  ManagementDetails,
+  AccessDetail,
+  AdditionalDetails,
   Identity,
   ResourceIdentityType,
   Plan,
@@ -29,6 +33,8 @@ export type {
 export {
   KnownProvisioningState,
   KnownLevelType,
+  KnownAKSIdentityType,
+  KnownAutoUpgradeMode,
   KnownCreatedByType,
   KnownVersions,
 } from "./models.js";

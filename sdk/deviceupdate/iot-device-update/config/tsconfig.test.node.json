@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.node.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/iot-device-update": ["../src/index.ts"],
+      "@azure/iot-device-update/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}

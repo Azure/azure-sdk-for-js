@@ -2,9 +2,7 @@
 // Licensed under the MIT License.
 
 export type EventPosition =
-  | EnqueuedTimeEventPosition
-  | OffsetEventPosition
-  | SequenceNumberEventPosition;
+  EnqueuedTimeEventPosition | OffsetEventPosition | SequenceNumberEventPosition;
 
 export interface BaseEventPosition {
   type: string;

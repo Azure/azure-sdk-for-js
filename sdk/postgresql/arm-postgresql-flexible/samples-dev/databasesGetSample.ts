@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets information about an existing database.
  *
  * @summary gets information about an existing database.
- * x-ms-original-file: 2026-01-01-preview/DatabasesGet.json
+ * x-ms-original-file: 2026-04-01-preview/DatabasesGet.json
  */
 async function getInformationAboutAnExistingDatabase(): Promise<void> {
   const credential = new DefaultAzureCredential();

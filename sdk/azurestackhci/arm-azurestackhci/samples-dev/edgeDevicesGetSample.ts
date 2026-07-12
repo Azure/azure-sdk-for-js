@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a EdgeDevice
  *
  * @summary get a EdgeDevice
- * x-ms-original-file: 2026-02-01/GetEdgeDevices.json
+ * x-ms-original-file: 2026-04-30/GetEdgeDevices.json
  */
 async function getEdgeDevice(): Promise<void> {
   const credential = new DefaultAzureCredential();

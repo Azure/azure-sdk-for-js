@@ -1,1 +1,41 @@
-extends: ../../../warp.base.config.yml
+# warp.config.yml — build configuration
+
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/managedRuleSets": "./src/api/managedRuleSets/index.ts"
+  "./api/edgeNodes": "./src/api/edgeNodes/index.ts"
+  "./api/resourceUsageOperations": "./src/api/resourceUsageOperations/index.ts"
+  "./api/policies": "./src/api/policies/index.ts"
+  "./api/logAnalytics": "./src/api/logAnalytics/index.ts"
+  "./api/afdProfiles": "./src/api/afdProfiles/index.ts"
+  "./api/afdCustomDomains": "./src/api/afdCustomDomains/index.ts"
+  "./api/customDomains": "./src/api/customDomains/index.ts"
+  "./api/originGroups": "./src/api/originGroups/index.ts"
+  "./api/origins": "./src/api/origins/index.ts"
+  "./api/endpoints": "./src/api/endpoints/index.ts"
+  "./api/secrets": "./src/api/secrets/index.ts"
+  "./api/securityPolicies": "./src/api/securityPolicies/index.ts"
+  "./api/rules": "./src/api/rules/index.ts"
+  "./api/ruleSets": "./src/api/ruleSets/index.ts"
+  "./api/routes": "./src/api/routes/index.ts"
+  "./api/afdOrigins": "./src/api/afdOrigins/index.ts"
+  "./api/afdOriginGroups": "./src/api/afdOriginGroups/index.ts"
+  "./api/afdEndpoints": "./src/api/afdEndpoints/index.ts"
+  "./api/profiles": "./src/api/profiles/index.ts"
+  "./api/operations": "./src/api/operations/index.ts"
+  "./models": "./src/models/index.ts"
+
+targets:
+  - name: browser
+    tsconfig: "./config/tsconfig.src.browser.json"
+
+  - name: esm
+    condition: import
+    tsconfig: "./config/tsconfig.src.esm.json"
+
+  - name: commonjs
+    condition: require
+    tsconfig: "./config/tsconfig.src.cjs.json"
+    moduleType: commonjs

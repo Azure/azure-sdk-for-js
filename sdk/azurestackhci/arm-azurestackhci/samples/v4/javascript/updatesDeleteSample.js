@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete specified Update
  *
  * @summary delete specified Update
- * x-ms-original-file: 2026-02-01/DeleteUpdates.json
+ * x-ms-original-file: 2026-04-30/DeleteUpdates.json
  */
 async function deleteAnUpdate() {
   const credential = new DefaultAzureCredential();

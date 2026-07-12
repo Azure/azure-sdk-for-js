@@ -4,6 +4,7 @@
 export const EntraIdAccessTokenConstants = {
   LIFETIME_LEFT_THRESHOLD_IN_MINUTES_FOR_ROTATION: 15,
   SCOPE: "https://management.core.windows.net/.default",
+  STORAGE_SCOPE: "https://storage.azure.com/.default",
   ROTATION_INTERVAL_PERIOD_IN_MINUTES: 4,
 };
 
@@ -114,4 +115,14 @@ export const UploadConstants = {
 
 export const BrowserSessionSourceType = {
   PLAYWRIGHT_WORKSPACES_TEST_RUN: "PlaywrightWorkspacesTestRun",
+  OTHERS: "Others",
+} as const;
+
+export const StorageUriValidationConstants = {
+  AllowedProtocol: "https:",
+  AllowedHostnameSuffixes: [
+    ".blob.core.windows.net",
+    ".blob.core.usgovcloudapi.net",
+    ".blob.core.chinacloudapi.cn",
+  ] as const,
 };

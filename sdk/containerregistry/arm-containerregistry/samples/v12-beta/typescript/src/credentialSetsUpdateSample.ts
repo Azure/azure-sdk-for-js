@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates a credential set for a container registry with the specified parameters.
  *
  * @summary updates a credential set for a container registry with the specified parameters.
- * x-ms-original-file: 2026-01-01-preview/CredentialSetUpdate.json
+ * x-ms-original-file: 2026-03-01-preview/CredentialSetUpdate.json
  */
 async function credentialSetUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

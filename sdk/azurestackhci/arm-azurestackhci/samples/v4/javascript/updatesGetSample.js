@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get specified Update
  *
  * @summary get specified Update
- * x-ms-original-file: 2026-02-01/GetUpdates.json
+ * x-ms-original-file: 2026-04-30/GetUpdates.json
  */
 async function getASpecificUpdate() {
   const credential = new DefaultAzureCredential();

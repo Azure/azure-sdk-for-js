@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get ArcSetting resources of HCI Cluster.
  *
  * @summary get ArcSetting resources of HCI Cluster.
- * x-ms-original-file: 2026-02-01/ListArcSettingsByCluster.json
+ * x-ms-original-file: 2026-04-30/ListArcSettingsByCluster.json
  */
 async function listArcSettingResourcesByHCICluster() {
   const credential = new DefaultAzureCredential();

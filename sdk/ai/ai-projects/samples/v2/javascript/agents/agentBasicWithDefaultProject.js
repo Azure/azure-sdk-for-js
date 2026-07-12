@@ -46,7 +46,7 @@ async function main() {
       conversation: conversation.id,
     },
     {
-      body: { agent: { name: agent.name, type: "agent_reference" } },
+      body: { agent_reference: { name: agent.name, type: "agent_reference" } },
     },
   );
   console.log(`Response output: ${franceResponse.output_text}`);
@@ -65,7 +65,7 @@ async function main() {
       conversation: conversation.id,
     },
     {
-      body: { agent: { name: agent.name, type: "agent_reference" } },
+      body: { agent_reference: { name: agent.name, type: "agent_reference" } },
     },
   );
   console.log(`Response output: ${capitalResponse.output_text}`);

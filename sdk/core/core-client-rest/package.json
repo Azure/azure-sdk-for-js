@@ -1,6 +1,6 @@
 {
   "name": "@azure-rest/core-client",
-  "version": "2.5.2",
+  "version": "2.8.0",
   "description": "Core library for interfacing with Azure Rest Clients",
   "sdk-type": "client",
   "type": "module",
@@ -8,6 +8,18 @@
   "types": "./dist/commonjs/index.d.ts",
   "browser": "./dist/browser/index.js",
   "react-native": "./dist/react-native/index.js",
+  "imports": {
+    "#platform/types": {
+      "browser": "./src/types-web.mts",
+      "react-native": "./src/types-rn.mts",
+      "default": "./src/types.ts"
+    },
+    "#platform/getBinaryStreamResponse": {
+      "browser": "./src/getBinaryStreamResponse-web.mts",
+      "react-native": "./src/getBinaryStreamResponse-rn.mts",
+      "default": "./src/getBinaryStreamResponse.ts"
+    }
+  },
   "exports": {
     "./package.json": "./package.json",
     ".": {
@@ -35,7 +47,11 @@
     "README.md",
     "LICENSE"
   ],
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/core/core-client-rest"
+  },
   "keywords": [
     "azure",
     "cloud"
@@ -46,7 +62,7 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-client-rest/",
   "sideEffects": false,
@@ -62,15 +78,15 @@
     "lint": "eslint package.json src test",
     "lint:fix": "eslint package.json src test --fix --fix-type [problem,suggestion]",
     "pack": "pnpm pack 2>&1",
-    "test": "npm run test:node && npm run test:browser",
-    "test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --no-test-proxy --browser",
-    "test:node": "dev-tool run build-test --no-browser-test && dev-tool run test:vitest --no-test-proxy",
+    "test": "tsc -b --noEmit && npm run test:node && npm run test:browser",
+    "test:browser": "dev-tool run test:vitest --no-test-proxy --browser",
+    "test:node": "dev-tool run test:vitest --no-test-proxy",
     "update-snippets": "dev-tool run update-snippets"
   },
   "dependencies": {
     "@azure/abort-controller": "^2.1.2",
     "@azure/core-auth": "^1.10.0",
-    "@azure/core-rest-pipeline": "^1.22.0",
+    "@azure/core-rest-pipeline": "^1.24.0",
     "@azure/core-tracing": "^1.3.0",
     "@typespec/ts-http-runtime": "^0.3.0",
     "tslib": "^2.6.2"
@@ -79,12 +95,14 @@
     "@azure/dev-tool": "workspace:^",
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@types/node": "catalog:",
+    "@types/react": "catalog:testing",
     "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
     "cross-env": "catalog:",
     "eslint": "catalog:",
     "playwright": "catalog:testing",
     "prettier": "catalog:",
+    "react-native": "catalog:testing",
     "rimraf": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"

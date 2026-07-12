@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import os from "node:os";
+import { stringToUint8Array, uint8ArrayToString } from "@azure/core-util";
 import {
   SEMRESATTRS_DEVICE_ID,
   SEMRESATTRS_DEVICE_MODEL_NAME,
@@ -235,14 +236,12 @@ export function createResourceMetricEnvelope(
 
     for (const key of Object.keys(attributes)) {
       // Avoid duplication ignoring fields already mapped.
-      if (
-        !(
-          key.startsWith("_MS.") ||
-          key === ATTR_TELEMETRY_SDK_VERSION ||
-          key === ATTR_TELEMETRY_SDK_LANGUAGE ||
-          key === ATTR_TELEMETRY_SDK_NAME
-        )
-      ) {
+      if (!(
+        key.startsWith("_MS.") ||
+        key === ATTR_TELEMETRY_SDK_VERSION ||
+        key === ATTR_TELEMETRY_SDK_LANGUAGE ||
+        key === ATTR_TELEMETRY_SDK_NAME
+      )) {
         resourceAttributes[key] = attributes[key] as string;
       }
     }
@@ -307,13 +306,13 @@ export function isSyntheticSource(attributes: Attributes): boolean {
 /**
  * Truncates each custom dimension value individually.
  * Gen AI properties in {@link CUSTOM_DIMENSIONS_GENAI_KEYS} are truncated to 256KB;
- * all other properties are truncated to 64KB.
+ * all other properties are truncated to 8KB.
  * @internal
  */
 export function truncateCustomDimensions(properties: Record<string, unknown>): {
   [propertyName: string]: string;
 } {
-  const defaultMaxSize = MaxPropertyLengths.SIXTEEN_BIT;
+  const defaultMaxSize = MaxPropertyLengths.THIRTEEN_BIT;
   const genaiMaxSize = MaxPropertyLengths.EIGHTEEN_BIT;
   const result: { [propertyName: string]: string } = {};
   let truncated = false;
@@ -325,8 +324,9 @@ export function truncateCustomDimensions(properties: Record<string, unknown>): {
         : serializeAttribute(properties[key] as AnyValue);
 
     const maxSize = CUSTOM_DIMENSIONS_GENAI_KEYS.has(key) ? genaiMaxSize : defaultMaxSize;
-    if (Buffer.byteLength(value, "utf-8") > maxSize) {
-      value = Buffer.from(value, "utf-8").subarray(0, maxSize).toString("utf-8");
+    const valueBytes = stringToUint8Array(value, "utf-8");
+    if (valueBytes.byteLength > maxSize) {
+      value = uint8ArrayToString(valueBytes.subarray(0, maxSize), "utf-8");
       truncated = true;
     }
 

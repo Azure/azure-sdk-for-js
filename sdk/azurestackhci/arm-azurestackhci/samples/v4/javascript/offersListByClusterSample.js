@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list Offers available across publishers for the HCI Cluster.
  *
  * @summary list Offers available across publishers for the HCI Cluster.
- * x-ms-original-file: 2026-02-01/ListOffersByCluster.json
+ * x-ms-original-file: 2026-04-30/ListOffersByCluster.json
  */
 async function listOfferResourcesByHCICluster() {
   const credential = new DefaultAzureCredential();

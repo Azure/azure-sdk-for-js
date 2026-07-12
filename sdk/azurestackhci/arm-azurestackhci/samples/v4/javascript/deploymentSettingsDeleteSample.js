@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete a DeploymentSetting
  *
  * @summary delete a DeploymentSetting
- * x-ms-original-file: 2026-02-01/DeleteDeploymentSettings.json
+ * x-ms-original-file: 2026-04-30/DeleteDeploymentSettings.json
  */
 async function deleteDeploymentSettings() {
   const credential = new DefaultAzureCredential();

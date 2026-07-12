@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list SecuritySetting resources by Clusters
  *
  * @summary list SecuritySetting resources by Clusters
- * x-ms-original-file: 2026-02-01/ListSecuritySettingsByCluster.json
+ * x-ms-original-file: 2026-04-30/ListSecuritySettingsByCluster.json
  */
 async function listSecuritySettings() {
   const credential = new DefaultAzureCredential();

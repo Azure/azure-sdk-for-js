@@ -12,6 +12,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 const { AIProjectClient } = require("@azure/ai-projects");
 const fs = require("fs");
 const path = require("path");
+const { fileURLToPath } = require("node:url");
 require("dotenv/config");
 
 const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
@@ -19,6 +20,8 @@ const deploymentName = process.env["FOUNDRY_MODEL_NAME"] || "<model deployment n
 
 async function main() {
   // Load the file to be indexed for search
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = path.dirname(__filename);
   const assetFilePath = path.join(__dirname, "../assets/product_info.md");
 
   // Create AI Project client
@@ -66,7 +69,7 @@ async function main() {
       input: "Tell me about Contoso products",
     },
     {
-      body: { agent: { name: agent.name, type: "agent_reference" } },
+      body: { agent_reference: { name: agent.name, type: "agent_reference" } },
     },
   );
   console.log(`Response: ${response.output_text}`);

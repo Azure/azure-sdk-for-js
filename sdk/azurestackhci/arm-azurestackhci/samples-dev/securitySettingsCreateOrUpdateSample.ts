@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a security setting
  *
  * @summary create a security setting
- * x-ms-original-file: 2026-02-01/PutSecuritySettings.json
+ * x-ms-original-file: 2026-04-30/PutSecuritySettings.json
  */
 async function createSecuritySettings(): Promise<void> {
   const credential = new DefaultAzureCredential();

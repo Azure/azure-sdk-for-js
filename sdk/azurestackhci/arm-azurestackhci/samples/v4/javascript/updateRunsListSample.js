@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list all Update runs for a specified update
  *
  * @summary list all Update runs for a specified update
- * x-ms-original-file: 2026-02-01/ListUpdateRuns.json
+ * x-ms-original-file: 2026-04-30/ListUpdateRuns.json
  */
 async function listUpdateRunsUnderClusterResource() {
   const credential = new DefaultAzureCredential();

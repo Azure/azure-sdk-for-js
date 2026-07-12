@@ -2,25 +2,438 @@
 // Licensed under the MIT License.
 
 import type { AIProjectContext as Client } from "../../index.js";
-import type { _PagedEvaluatorVersion, EvaluatorVersion } from "../../../models/models.js";
+import type {
+  _PagedEvaluatorVersion,
+  EvaluatorVersion,
+  EvaluatorGenerationJob,
+  _AgentsPagedResultEvaluatorGenerationJob,
+  PendingUploadRequest,
+  PendingUploadResponse,
+  DatasetCredential,
+  EvaluatorCredentialRequest,
+} from "../../../models/models.js";
 import {
+  pendingUploadRequestSerializer,
+  pendingUploadResponseDeserializer,
+  datasetCredentialDeserializer,
   _pagedEvaluatorVersionDeserializer,
   evaluatorVersionSerializer,
   evaluatorVersionDeserializer,
+  evaluatorGenerationJobSerializer,
+  evaluatorGenerationJobDeserializer,
+  _agentsPagedResultEvaluatorGenerationJobDeserializer,
+  evaluatorCredentialRequestSerializer,
+  apiErrorResponseDeserializer,
 } from "../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
 import type {
+  BetaEvaluatorsDeleteGenerationJobOptionalParams,
+  BetaEvaluatorsCancelGenerationJobOptionalParams,
+  BetaEvaluatorsListGenerationJobsOptionalParams,
+  BetaEvaluatorsGetGenerationJobOptionalParams,
+  BetaEvaluatorsCreateGenerationJobOptionalParams,
+  BetaEvaluatorsGetCredentialsOptionalParams,
+  BetaEvaluatorsPendingUploadOptionalParams,
   BetaEvaluatorsUpdateVersionOptionalParams,
   BetaEvaluatorsCreateVersionOptionalParams,
   BetaEvaluatorsDeleteVersionOptionalParams,
   BetaEvaluatorsGetVersionOptionalParams,
-  BetaEvaluatorsListLatestVersionsOptionalParams,
+  BetaEvaluatorsListOptionalParams,
   BetaEvaluatorsListVersionsOptionalParams,
 } from "./options.js";
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+
+export function _deleteGenerationJobSend(
+  context: Client,
+  jobId: string,
+  options: BetaEvaluatorsDeleteGenerationJobOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/evaluator_generation_jobs/{jobId}{?api-version}",
+    {
+      jobId: jobId,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).delete({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      "foundry-features": "Evaluations=V1Preview",
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _deleteGenerationJobDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
+  const expectedStatuses = ["204"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return;
+}
+
+/**
+ * Deletes an evaluator generation job by its ID. Deletes the job record only;
+ * the generated evaluator (if any) is preserved.
+ */
+export async function deleteGenerationJob(
+  context: Client,
+  jobId: string,
+  options: BetaEvaluatorsDeleteGenerationJobOptionalParams = { requestOptions: {} },
+): Promise<void> {
+  const result = await _deleteGenerationJobSend(context, jobId, options);
+  return _deleteGenerationJobDeserialize(result);
+}
+
+export function _cancelGenerationJobSend(
+  context: Client,
+  jobId: string,
+  options: BetaEvaluatorsCancelGenerationJobOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/evaluator_generation_jobs/{jobId}:cancel{?api-version}",
+    {
+      jobId: jobId,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      "foundry-features": "Evaluations=V1Preview",
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _cancelGenerationJobDeserialize(
+  result: PathUncheckedResponse,
+): Promise<EvaluatorGenerationJob> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return evaluatorGenerationJobDeserializer(result.body);
+}
+
+/** Cancels an evaluator generation job by its ID. */
+export async function cancelGenerationJob(
+  context: Client,
+  jobId: string,
+  options: BetaEvaluatorsCancelGenerationJobOptionalParams = { requestOptions: {} },
+): Promise<EvaluatorGenerationJob> {
+  const result = await _cancelGenerationJobSend(context, jobId, options);
+  return _cancelGenerationJobDeserialize(result);
+}
+
+export function _listGenerationJobsSend(
+  context: Client,
+  options: BetaEvaluatorsListGenerationJobsOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/evaluator_generation_jobs{?limit,order,after,before,api-version}",
+    {
+      limit: options?.limit,
+      order: options?.order,
+      after: options?.after,
+      before: options?.before,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      "foundry-features": "Evaluations=V1Preview",
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _listGenerationJobsDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_AgentsPagedResultEvaluatorGenerationJob> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return _agentsPagedResultEvaluatorGenerationJobDeserializer(result.body);
+}
+
+/**
+ * Returns a list of evaluator generation jobs. The List API has up to a few
+ * seconds of propagation delay, so a recently created job may not appear
+ * immediately; use the Get evaluator generation job API with the job ID to
+ * retrieve a specific job without delay.
+ */
+export function listGenerationJobs(
+  context: Client,
+  options: BetaEvaluatorsListGenerationJobsOptionalParams = { requestOptions: {} },
+): PagedAsyncIterableIterator<EvaluatorGenerationJob> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _listGenerationJobsSend(context, options),
+    _listGenerationJobsDeserialize,
+    ["200"],
+    { itemName: "value", apiVersion: context.apiVersion },
+  );
+}
+
+export function _getGenerationJobSend(
+  context: Client,
+  jobId: string,
+  options: BetaEvaluatorsGetGenerationJobOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/evaluator_generation_jobs/{jobId}{?api-version}",
+    {
+      jobId: jobId,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      "foundry-features": "Evaluations=V1Preview",
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _getGenerationJobDeserialize(
+  result: PathUncheckedResponse,
+): Promise<EvaluatorGenerationJob> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return evaluatorGenerationJobDeserializer(result.body);
+}
+
+/** Gets the details of an evaluator generation job by its ID. */
+export async function getGenerationJob(
+  context: Client,
+  jobId: string,
+  options: BetaEvaluatorsGetGenerationJobOptionalParams = { requestOptions: {} },
+): Promise<EvaluatorGenerationJob> {
+  const result = await _getGenerationJobSend(context, jobId, options);
+  return _getGenerationJobDeserialize(result);
+}
+
+export function _createGenerationJobSend(
+  context: Client,
+  job: EvaluatorGenerationJob,
+  options: BetaEvaluatorsCreateGenerationJobOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/evaluator_generation_jobs{?api-version}",
+    {
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      "foundry-features": "Evaluations=V1Preview",
+      ...(options?.operationId !== undefined ? { "operation-id": options?.operationId } : {}),
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: evaluatorGenerationJobSerializer(job),
+  });
+}
+
+export async function _createGenerationJobDeserialize(
+  result: PathUncheckedResponse,
+): Promise<EvaluatorGenerationJob> {
+  const expectedStatuses = ["201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return evaluatorGenerationJobDeserializer(result.body);
+}
+
+/**
+ * Creates an evaluator generation job. The service generates rubric-based evaluator
+ * definitions from the provided source materials asynchronously.
+ */
+export async function createGenerationJob(
+  context: Client,
+  job: EvaluatorGenerationJob,
+  options: BetaEvaluatorsCreateGenerationJobOptionalParams = { requestOptions: {} },
+): Promise<EvaluatorGenerationJob> {
+  const result = await _createGenerationJobSend(context, job, options);
+  return _createGenerationJobDeserialize(result);
+}
+
+export function _getCredentialsSend(
+  context: Client,
+  name: string,
+  credentialRequest: EvaluatorCredentialRequest,
+  version: string,
+  options: BetaEvaluatorsGetCredentialsOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/evaluators/{name}/versions/{version}/credentials{?api-version}",
+    {
+      name: name,
+      version: version,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      "foundry-features": "Evaluations=V1Preview",
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: evaluatorCredentialRequestSerializer(credentialRequest),
+  });
+}
+
+export async function _getCredentialsDeserialize(
+  result: PathUncheckedResponse,
+): Promise<DatasetCredential> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return datasetCredentialDeserializer(result.body);
+}
+
+/** Retrieves SAS credentials for accessing the storage account associated with the specified evaluator version. */
+export async function getCredentials(
+  context: Client,
+  name: string,
+  credentialRequest: EvaluatorCredentialRequest,
+  version: string,
+  options: BetaEvaluatorsGetCredentialsOptionalParams = { requestOptions: {} },
+): Promise<DatasetCredential> {
+  const result = await _getCredentialsSend(context, name, credentialRequest, version, options);
+  return _getCredentialsDeserialize(result);
+}
+
+export function _pendingUploadSend(
+  context: Client,
+  name: string,
+  version: string,
+  pendingUploadRequest: PendingUploadRequest,
+  options: BetaEvaluatorsPendingUploadOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/evaluators/{name}/versions/{version}/startPendingUpload{?api-version}",
+    {
+      name: name,
+      version: version,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      "foundry-features": "Evaluations=V1Preview",
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: pendingUploadRequestSerializer(pendingUploadRequest),
+  });
+}
+
+export async function _pendingUploadDeserialize(
+  result: PathUncheckedResponse,
+): Promise<PendingUploadResponse> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return pendingUploadResponseDeserializer(result.body);
+}
+
+/** Initiates a new pending upload or retrieves an existing one for the specified evaluator version. */
+export async function pendingUpload(
+  context: Client,
+  name: string,
+  version: string,
+  pendingUploadRequest: PendingUploadRequest,
+  options: BetaEvaluatorsPendingUploadOptionalParams = { requestOptions: {} },
+): Promise<PendingUploadResponse> {
+  const result = await _pendingUploadSend(context, name, version, pendingUploadRequest, options);
+  return _pendingUploadDeserialize(result);
+}
 
 export function _updateVersionSend(
   context: Client,
@@ -64,7 +477,7 @@ export async function _updateVersionDeserialize(
   return evaluatorVersionDeserializer(result.body);
 }
 
-/** Update an existing EvaluatorVersion with the given version id */
+/** Updates the specified evaluator version in place. */
 export async function updateVersion(
   context: Client,
   name: string,
@@ -116,7 +529,7 @@ export async function _createVersionDeserialize(
   return evaluatorVersionDeserializer(result.body);
 }
 
-/** Create a new EvaluatorVersion with auto incremented version id */
+/** Creates a new evaluator version with an auto-incremented version identifier. */
 export async function createVersion(
   context: Client,
   name: string,
@@ -160,7 +573,7 @@ export async function _deleteVersionDeserialize(result: PathUncheckedResponse): 
   return;
 }
 
-/** Delete the specific version of the EvaluatorVersion. The service returns 204 No Content if the EvaluatorVersion was deleted successfully or if the EvaluatorVersion does not exist. */
+/** Removes the specified evaluator version. Returns 204 whether the version existed or not. */
 export async function deleteVersion(
   context: Client,
   name: string,
@@ -210,7 +623,7 @@ export async function _getVersionDeserialize(
   return evaluatorVersionDeserializer(result.body);
 }
 
-/** Get the specific version of the EvaluatorVersion. The service returns 404 Not Found error if the EvaluatorVersion does not exist. */
+/** Retrieves the specified evaluator version, returning 404 if it does not exist. */
 export async function getVersion(
   context: Client,
   name: string,
@@ -221,9 +634,9 @@ export async function getVersion(
   return _getVersionDeserialize(result);
 }
 
-export function _listLatestVersionsSend(
+export function _listSend(
   context: Client,
-  options: BetaEvaluatorsListLatestVersionsOptionalParams = { requestOptions: {} },
+  options: BetaEvaluatorsListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "Evaluations=V1Preview";
   const path = expandUrlTemplate(
@@ -247,7 +660,7 @@ export function _listLatestVersionsSend(
   });
 }
 
-export async function _listLatestVersionsDeserialize(
+export async function _listDeserialize(
   result: PathUncheckedResponse,
 ): Promise<_PagedEvaluatorVersion> {
   const expectedStatuses = ["200"];
@@ -258,15 +671,15 @@ export async function _listLatestVersionsDeserialize(
   return _pagedEvaluatorVersionDeserializer(result.body);
 }
 
-/** List the latest version of each evaluator */
-export function listLatestVersions(
+/** Lists the latest version of each evaluator */
+export function list(
   context: Client,
-  options: BetaEvaluatorsListLatestVersionsOptionalParams = { requestOptions: {} },
+  options: BetaEvaluatorsListOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<EvaluatorVersion> {
   return buildPagedAsyncIterator(
     context,
-    () => _listLatestVersionsSend(context, options),
-    _listLatestVersionsDeserialize,
+    () => _listSend(context, options),
+    _listDeserialize,
     ["200"],
     {
       itemName: "value",
@@ -320,7 +733,7 @@ export async function _listVersionsDeserialize(
   return _pagedEvaluatorVersionDeserializer(result.body);
 }
 
-/** List all versions of the given evaluator */
+/** Returns the available versions for the specified evaluator. */
 export function listVersions(
   context: Client,
   name: string,

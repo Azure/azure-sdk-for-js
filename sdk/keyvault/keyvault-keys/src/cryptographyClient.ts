@@ -34,10 +34,10 @@ import type {
   WrapResult,
 } from "./cryptographyClientModels.js";
 import { RemoteCryptographyProvider } from "./cryptography/remoteCryptographyProvider.js";
-import { randomBytes } from "./cryptography/crypto.js";
+import { randomBytes } from "#platform/cryptography/crypto";
 import type { CryptographyProvider, CryptographyProviderOperation } from "./cryptography/models.js";
-import { RsaCryptographyProvider } from "./cryptography/rsaCryptographyProvider.js";
-import { AesCryptographyProvider } from "./cryptography/aesCryptographyProvider.js";
+import { RsaCryptographyProvider } from "#platform/cryptography/rsaCryptographyProvider";
+import { AesCryptographyProvider } from "#platform/cryptography/aesCryptographyProvider";
 import { tracingClient } from "./tracing.js";
 import { isRestError } from "@azure/core-rest-pipeline";
 import { logger } from "./logger.js";
@@ -235,8 +235,7 @@ export class CryptographyClient {
   ): Promise<EncryptResult>;
   public encrypt(
     ...args:
-      | [EncryptParameters, EncryptOptions?]
-      | [EncryptionAlgorithm, Uint8Array, EncryptOptions?]
+      [EncryptParameters, EncryptOptions?] | [EncryptionAlgorithm, Uint8Array, EncryptOptions?]
   ): Promise<EncryptResult> {
     const [parameters, options] = this.disambiguateEncryptArguments(args);
     return tracingClient.withSpan("CryptographyClient.encrypt", options, async (updatedOptions) => {
@@ -386,8 +385,7 @@ export class CryptographyClient {
   ): Promise<DecryptResult>;
   public decrypt(
     ...args:
-      | [DecryptParameters, DecryptOptions?]
-      | [EncryptionAlgorithm, Uint8Array, DecryptOptions?]
+      [DecryptParameters, DecryptOptions?] | [EncryptionAlgorithm, Uint8Array, DecryptOptions?]
   ): Promise<DecryptResult> {
     const [parameters, options] = this.disambiguateDecryptArguments(args);
 

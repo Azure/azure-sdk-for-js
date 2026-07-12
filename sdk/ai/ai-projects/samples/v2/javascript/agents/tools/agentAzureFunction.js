@@ -77,7 +77,7 @@ async function main() {
       input: "What is the weather in Seattle?",
     },
     {
-      body: { agent: { name: agent.name, type: "agent_reference" } },
+      body: { agent_reference: { name: agent.name, type: "agent_reference" } },
     },
   );
   console.log(`Response output: ${response.output_text}`);

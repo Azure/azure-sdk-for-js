@@ -37,10 +37,11 @@ interface QueryParameterWithOptions {
 }
 
 function isQueryParameterWithOptions(x: unknown): x is QueryParameterWithOptions {
-  const value = (x as QueryParameterWithOptions).value as any;
-  return (
-    value !== undefined && value.toString !== undefined && typeof value.toString === "function"
-  );
+  if (typeof x !== "object" || x === null || !Object.hasOwn(x, "value")) {
+    return false;
+  }
+  const value = (x as QueryParameterWithOptions).value;
+  return typeof value?.toString === "function";
 }
 
 /**
@@ -201,7 +202,7 @@ export function appendQueryParams(url: string, options: RequestParameters = {}):
 
   const newParamStrings: string[] = [];
   for (const key of Object.keys(queryParams)) {
-    const param = queryParams[key] as any;
+    const param = queryParams[key];
     if (param === undefined || param === null) {
       continue;
     }
@@ -218,7 +219,7 @@ export function appendQueryParams(url: string, options: RequestParameters = {}):
             getQueryParamValue(key, options.skipUrlEncoding ?? false, style, item),
           );
         }
-      } else if (typeof rawValue === "object") {
+      } else if (rawValue !== null && typeof rawValue === "object") {
         // For object explode, the name of the query parameter is ignored and we use the object key instead
         for (const [actualKey, value] of Object.entries(rawValue)) {
           newParamStrings.push(

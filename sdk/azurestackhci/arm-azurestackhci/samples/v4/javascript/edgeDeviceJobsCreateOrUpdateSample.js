@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create a EdgeDeviceJob
  *
  * @summary create a EdgeDeviceJob
- * x-ms-original-file: 2026-02-01/EdgeDeviceJobs_CreateOrUpdate_CollectLog.json
+ * x-ms-original-file: 2026-04-30/EdgeDeviceJobs_CreateOrUpdate_CollectLog.json
  */
 async function edgeDeviceJobsCreateOrUpdateCollectLog() {
   const credential = new DefaultAzureCredential();
@@ -33,7 +33,7 @@ async function edgeDeviceJobsCreateOrUpdateCollectLog() {
  * This sample demonstrates how to create a EdgeDeviceJob
  *
  * @summary create a EdgeDeviceJob
- * x-ms-original-file: 2026-02-01/EdgeDeviceJobs_CreateOrUpdate_RemoteSupport.json
+ * x-ms-original-file: 2026-04-30/EdgeDeviceJobs_CreateOrUpdate_RemoteSupport.json
  */
 async function edgeDeviceJobsCreateOrUpdateRemoteSupport() {
   const credential = new DefaultAzureCredential();

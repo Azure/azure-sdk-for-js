@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update an HCI cluster.
  *
  * @summary update an HCI cluster.
- * x-ms-original-file: 2026-02-01/UpdateCluster.json
+ * x-ms-original-file: 2026-04-30/UpdateCluster.json
  */
 async function updateCluster(): Promise<void> {
   const credential = new DefaultAzureCredential();

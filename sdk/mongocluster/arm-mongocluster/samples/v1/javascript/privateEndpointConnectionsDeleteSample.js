@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete the private endpoint connection
  *
  * @summary delete the private endpoint connection
- * x-ms-original-file: 2025-09-01/MongoClusters_PrivateEndpointConnectionDelete.json
+ * x-ms-original-file: 2026-06-01/MongoClusters_PrivateEndpointConnectionDelete.json
  */
 async function deleteAPrivateEndpointConnectionOnAMongoClusterResource() {
   const credential = new DefaultAzureCredential();

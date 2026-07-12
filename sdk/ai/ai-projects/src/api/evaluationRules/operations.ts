@@ -27,7 +27,7 @@ export function _listSend(
   const path = expandUrlTemplate(
     "/evaluationrules{?api-version,actionType,agentName,enabled}",
     {
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion,
       actionType: options?.actionType,
       agentName: options?.agentName,
       enabled: options?.enabled,
@@ -39,9 +39,6 @@ export function _listSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -59,7 +56,7 @@ export async function _listDeserialize(
   return _pagedEvaluationRuleDeserializer(result.body);
 }
 
-/** List all evaluation rules. */
+/** Returns the evaluation rules configured for the project, optionally filtered by action type, agent name, or enabled state. */
 export function list(
   context: Client,
   options: EvaluationRulesListOptionalParams = { requestOptions: {} },
@@ -72,14 +69,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "v1",
-      nextPageRequestOptions: {
-        headers: {
-          ...(options?.foundryFeatures !== undefined
-            ? { "foundry-features": options?.foundryFeatures }
-            : {}),
-        },
-      },
+      apiVersion: context.apiVersion,
     },
   );
 }
@@ -94,7 +84,7 @@ export function _createOrUpdateSend(
     "/evaluationrules/{id}{?api-version}",
     {
       id: id,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -125,7 +115,7 @@ export async function _createOrUpdateDeserialize(
   return evaluationRuleDeserializer(result.body);
 }
 
-/** Create or update an evaluation rule. */
+/** Creates a new evaluation rule, or replaces the existing rule when the identifier matches. */
 export async function createOrUpdate(
   context: Client,
   id: string,
@@ -145,7 +135,7 @@ export function _$deleteSend(
     "/evaluationrules/{id}{?api-version}",
     {
       id: id,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -154,9 +144,6 @@ export function _$deleteSend(
   return context.path(path).delete({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
       ...options.requestOptions?.headers,
     },
   });
@@ -171,7 +158,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   return;
 }
 
-/** Delete an evaluation rule. */
+/** Removes the specified evaluation rule from the project. */
 export async function $delete(
   context: Client,
   id: string,
@@ -190,7 +177,7 @@ export function _getSend(
     "/evaluationrules/{id}{?api-version}",
     {
       id: id,
-      "api-version": context.apiVersion ?? "v1",
+      "api-version": context.apiVersion,
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -199,9 +186,6 @@ export function _getSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -217,7 +201,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ev
   return evaluationRuleDeserializer(result.body);
 }
 
-/** Get an evaluation rule. */
+/** Retrieves the specified evaluation rule and its configuration. */
 export async function get(
   context: Client,
   id: string,

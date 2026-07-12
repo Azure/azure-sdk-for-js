@@ -1,1 +1,42 @@
-extends: ../../../warp.base.config.yml
+# warp.config.yml — build configuration
+
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/availableSkus": "./src/api/availableSkus/index.ts"
+  "./api/monitoringConfig": "./src/api/monitoringConfig/index.ts"
+  "./api/deviceCapacityInfo": "./src/api/deviceCapacityInfo/index.ts"
+  "./api/supportPackages": "./src/api/supportPackages/index.ts"
+  "./api/nodes": "./src/api/nodes/index.ts"
+  "./api/deviceCapacityCheck": "./src/api/deviceCapacityCheck/index.ts"
+  "./api/users": "./src/api/users/index.ts"
+  "./api/triggers": "./src/api/triggers/index.ts"
+  "./api/containers": "./src/api/containers/index.ts"
+  "./api/storageAccounts": "./src/api/storageAccounts/index.ts"
+  "./api/storageAccountCredentials": "./src/api/storageAccountCredentials/index.ts"
+  "./api/shares": "./src/api/shares/index.ts"
+  "./api/addons": "./src/api/addons/index.ts"
+  "./api/roles": "./src/api/roles/index.ts"
+  "./api/orders": "./src/api/orders/index.ts"
+  "./api/jobs": "./src/api/jobs/index.ts"
+  "./api/diagnosticSettings": "./src/api/diagnosticSettings/index.ts"
+  "./api/bandwidthSchedules": "./src/api/bandwidthSchedules/index.ts"
+  "./api/alerts": "./src/api/alerts/index.ts"
+  "./api/operations": "./src/api/operations/index.ts"
+  "./api/devices": "./src/api/devices/index.ts"
+  "./api/operationsStatus": "./src/api/operationsStatus/index.ts"
+  "./models": "./src/models/index.ts"
+
+targets:
+  - name: browser
+    tsconfig: "./config/tsconfig.src.browser.json"
+
+  - name: esm
+    condition: import
+    tsconfig: "./config/tsconfig.src.esm.json"
+
+  - name: commonjs
+    condition: require
+    tsconfig: "./config/tsconfig.src.cjs.json"
+    moduleType: commonjs

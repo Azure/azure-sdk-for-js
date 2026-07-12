@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create an HCI cluster.
  *
  * @summary create an HCI cluster.
- * x-ms-original-file: 2026-02-01/CreateCluster.json
+ * x-ms-original-file: 2026-04-30/CreateCluster.json
  */
 async function createCluster() {
   const credential = new DefaultAzureCredential();

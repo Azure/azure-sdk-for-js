@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list deleted vaults in a subscription.
  *
  * @summary list deleted vaults in a subscription.
- * x-ms-original-file: 2025-08-01/DeletedVaults_ListBySubscriptionId.json
+ * x-ms-original-file: 2026-05-01/DeletedVaults_ListBySubscriptionId.json
  */
 async function listDeletedVaultsInASubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

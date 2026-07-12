@@ -12,6 +12,7 @@ import type {
   CollectionConfigurationInfo,
 } from "../../../generated/index.js";
 import { QuickpulseClient } from "../../../generated/index.js";
+import { isSameRegisteredDomain } from "../redirectUtils.js";
 
 const applicationInsightsResource = "https://monitor.azure.com/.default";
 
@@ -40,11 +41,6 @@ export class QuickpulseSender {
   private endpointUrl: string;
   private credential: TokenCredential;
   private credentialScopes: string[];
-  // @ts-expect-error - assigned in constructor, accessed by tests via bracket notation
-  private quickpulseClientOptions: {
-    credential?: TokenCredential;
-    credentialScopes?: string[];
-  };
 
   constructor(options: {
     endpointUrl: string;
@@ -72,12 +68,6 @@ export class QuickpulseSender {
     if (options.credential) {
       clientOptions.credentials = { scopes: this.credentialScopes };
     }
-
-    // Store credential info for testability
-    this.quickpulseClientOptions = {
-      credential: options.credential,
-      credentialScopes: this.credentialScopes,
-    };
 
     this.quickpulseClient = this.createQuickpulseClient(clientOptions);
   }
@@ -143,17 +133,48 @@ export class QuickpulseSender {
     return;
   }
 
+  /**
+   * Apply a server-issued Live Metrics redirect (`x-ms-qps-service-endpoint-redirect-v2`) by
+   * re-pointing the underlying client at the new host.
+   *
+   * Cross-origin redirects are refused (no state mutated) when the target is neither the configured
+   * Live Metrics host nor under a known Azure Monitor ingestion domain suffix. Refusing them is
+   * required to prevent an attacker-controlled redirect from causing the bearer auth policy to
+   * attach a freshly-signed AAD token (scope `https://monitor.azure.com/.default`) — and the
+   * telemetry body — to a foreign host on the next ping/publish call.
+   */
   handlePermanentRedirect(location: string | undefined): void {
     if (location) {
-      const locUrl = new url.URL(location);
-      if (locUrl && locUrl.host) {
-        this.endpointUrl = "https://" + locUrl.host;
-        // Recreate the client so subsequent requests use the new endpoint
-        this.quickpulseClient = this.createQuickpulseClient({
-          endpoint: this.endpointUrl,
-          credentials: { scopes: this.credentialScopes },
-        });
+      let locUrl: url.URL;
+      try {
+        locUrl = new url.URL(location);
+      } catch {
+        return;
       }
+      if (!locUrl.host) {
+        return;
+      }
+
+      let currentHost = "";
+      try {
+        currentHost = new url.URL(this.endpointUrl).host;
+      } catch {
+        currentHost = "";
+      }
+
+      if (!isSameRegisteredDomain(currentHost, locUrl.host)) {
+        diag.error(
+          `Refusing cross-origin Live Metrics redirect to https://${locUrl.host}: target is neither the configured endpoint host nor under a known Azure Monitor ingestion domain.`,
+        );
+        return;
+      }
+
+      this.endpointUrl = "https://" + locUrl.host;
+      // Recreate the client so subsequent requests use the new endpoint
+      this.quickpulseClient = this.createQuickpulseClient({
+        endpoint: this.endpointUrl,
+        credentials: { scopes: this.credentialScopes },
+      });
     }
   }
 }

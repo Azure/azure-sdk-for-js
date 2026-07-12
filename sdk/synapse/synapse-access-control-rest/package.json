@@ -2,14 +2,19 @@
   "name": "@azure-rest/synapse-access-control",
   "author": "Microsoft Corporation",
   "description": "A generated Rest Client SDK for Azure Synapse AccessControl.",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/synapse/synapse-access-control/README.md",
-  "repository": "github:Azure/azure-sdk-for-js",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/synapse/synapse-access-control-rest/README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/synapse/synapse-access-control-rest"
+  },
   "sdk-type": "client",
   "version": "1.0.0-beta.1",
   "dependencies": {
     "@azure-rest/core-client": "^2.3.1",
     "@azure/core-auth": "^1.9.0",
     "@azure/core-rest-pipeline": "^1.19.0",
+    "@azure/logger": "^1.1.4",
     "tslib": "^2.8.1"
   },
   "//metadata": {
@@ -31,7 +36,7 @@
   ],
   "license": "MIT",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "main": "./dist/commonjs/index.js",
   "module": "./dist/esm/index.js",
@@ -44,7 +49,6 @@
     "@azure/dev-tool": "workspace:^",
     "@azure/eslint-plugin-azure-sdk": "workspace:^",
     "@azure/identity": "catalog:internal",
-    "@azure/logger": "^1.1.4",
     "@types/node": "catalog:",
     "@vitest/browser-playwright": "catalog:testing",
     "@vitest/coverage-istanbul": "catalog:testing",
@@ -53,6 +57,7 @@
     "eslint": "catalog:",
     "playwright": "catalog:testing",
     "prettier": "catalog:",
+    "react-native": "catalog:testing",
     "rimraf": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
@@ -117,5 +122,12 @@
       }
     }
   },
-  "react-native": "./dist/react-native/index.js"
+  "react-native": "./dist/react-native/index.js",
+  "imports": {
+    "#platform/*": {
+      "react-native": "./src/*-react-native.mts",
+      "browser": "./src/*-browser.mts",
+      "default": "./src/*.ts"
+    }
+  }
 }

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list EdgeDeviceJob resources by EdgeDevice
  *
  * @summary list EdgeDeviceJob resources by EdgeDevice
- * x-ms-original-file: 2026-02-01/EdgeDeviceJobs_ListByEdgeDevice.json
+ * x-ms-original-file: 2026-04-30/EdgeDeviceJobs_ListByEdgeDevice.json
  */
 async function edgeDeviceJobsListByEdgeDevice(): Promise<void> {
   const credential = new DefaultAzureCredential();

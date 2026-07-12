@@ -3,6 +3,7 @@
 
 import type { AccessToken, TokenCredential } from "@azure/core-auth";
 import { HttpSender } from "../../src/platform/nodejs/httpSender.js";
+import { BaseSender } from "../../src/platform/nodejs/baseSender.js";
 import { DEFAULT_BREEZE_ENDPOINT } from "../../src/Declarations/Constants.js";
 import {
   successfulBreezeResponse,
@@ -14,7 +15,7 @@ import nock from "nock";
 import type { PipelinePolicy, Pipeline } from "@azure/core-rest-pipeline";
 import { createEmptyPipeline } from "@azure/core-rest-pipeline";
 import { ExportResultCode } from "@opentelemetry/core";
-import { describe, it, assert, afterAll } from "vitest";
+import { describe, it, assert, afterAll, beforeEach, afterEach, vi } from "vitest";
 import { delay } from "@azure/core-util";
 import { AzureMonitorTraceExporter } from "../../src/export/trace.js";
 
@@ -42,6 +43,18 @@ class TestTokenCredential implements TokenCredential {
 describe("HttpSender", () => {
   const scope = nock(DEFAULT_BREEZE_ENDPOINT).persist().post("/v2.1/track");
   nock.disableNetConnect();
+
+  // These senders all share an on-disk persister (same instrumentation key). The
+  // randomized startup-replay timer would otherwise fire mid-suite and drain that
+  // shared persister, stealing envelopes these tests assert on. Startup replay is
+  // covered explicitly in baseSender.spec.ts, so disable it here for determinism.
+  beforeEach(() => {
+    vi.spyOn(BaseSender.prototype as any, "scheduleStartupReplay").mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
 
   afterAll(() => {
     nock.cleanAll();
@@ -482,7 +495,7 @@ describe("HttpSender", () => {
         trackStatsbeat: false,
         exporterOptions: {},
       });
-      const redirectHost = "https://ukwest-0.in.applicationinsights.azure.com";
+      const redirectHost = "https://westus.services.visualstudio.com";
       const redirectLocation = redirectHost + "/v2.1/track";
       // Redirect endpoint
       const redirectScope = nock(redirectHost).post("/v2.1/track", () => {
@@ -508,7 +521,7 @@ describe("HttpSender", () => {
         trackStatsbeat: false,
         exporterOptions: {},
       });
-      const redirectHost = "https://ukwest-0.in.applicationinsights.azure.com";
+      const redirectHost = "https://westus.services.visualstudio.com";
       const redirectLocation = redirectHost + "/v2.1/track";
       // Redirect endpoint
       const redirectScope = nock(redirectHost).post("/v2.1/track", () => {
@@ -536,7 +549,7 @@ describe("HttpSender", () => {
         trackStatsbeat: false,
         exporterOptions: {},
       });
-      const redirectHost = "https://ukwest-0.in.applicationinsights.azure.com";
+      const redirectHost = "https://westus.services.visualstudio.com";
       const redirectLocation = redirectHost + "/v2.1/track";
       // Redirect endpoint
       const redirectScope = nock(redirectHost).post("/v2.1/track", () => {
@@ -567,7 +580,7 @@ describe("HttpSender", () => {
         trackStatsbeat: false,
         exporterOptions: {},
       });
-      const redirectHost = "https://ukwest-0.in.applicationinsights.azure.com";
+      const redirectHost = "https://westus.services.visualstudio.com";
       const redirectLocation = redirectHost + "/v2.1/track";
       // Redirect endpoint
       const redirectScope = nock(redirectHost).post("/v2.1/track", () => {
@@ -590,6 +603,38 @@ describe("HttpSender", () => {
       }, 1500);
 
       await delay(2000); // wait enough time for timeout callback
+    });
+
+    it("should refuse a cross-origin redirect and not leak telemetry to a foreign host", async () => {
+      const sender = new HttpSender({
+        endpointUrl: DEFAULT_BREEZE_ENDPOINT,
+        instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+        trackStatsbeat: false,
+        exporterOptions: {},
+      });
+      // The attacker host is neither the configured ingestion host nor under a trusted
+      // Azure Monitor / Application Insights ingestion suffix. The exporter MUST refuse to
+      // mutate the client or replay the envelopes against this host -- otherwise the bearer
+      // auth policy attached for `monitor.azure.com` would re-sign and send the AAD token
+      // (and the telemetry envelope) to the attacker on the recursive `exportEnvelopes` call.
+      const attackerHost = "https://attacker.example.invalid";
+      const attackerLocation = attackerHost + "/v2.1/track";
+      const attackerScope = nock(attackerHost).post("/v2.1/track").reply(200, "should-not-be-hit");
+
+      scope.reply(307, {}, { location: attackerLocation });
+
+      const result = await sender.exportEnvelopes([envelope]);
+
+      assert.strictEqual(result.code, ExportResultCode.FAILED);
+      assert.match(result.error?.message ?? "", /Refused cross-origin redirect/);
+      // The exporter must NOT have contacted the attacker host.
+      assert.isFalse(attackerScope.isDone(), "exporter must not POST to the cross-origin host");
+      // The host on the underlying client must be unchanged so subsequent exports do not
+      // continue talking to the attacker (no persistent host poisoning).
+      const client = (sender as any)["appInsightsClient"] as any;
+      assert.strictEqual(client["host"], DEFAULT_BREEZE_ENDPOINT);
+
+      nock.cleanAll();
     });
   });
 

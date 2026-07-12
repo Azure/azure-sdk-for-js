@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list all HCI clusters in a resource group.
  *
  * @summary list all HCI clusters in a resource group.
- * x-ms-original-file: 2026-02-01/ListClustersByResourceGroup.json
+ * x-ms-original-file: 2026-04-30/ListClustersByResourceGroup.json
  */
 async function listClustersInAGivenResourceGroup() {
   const credential = new DefaultAzureCredential();

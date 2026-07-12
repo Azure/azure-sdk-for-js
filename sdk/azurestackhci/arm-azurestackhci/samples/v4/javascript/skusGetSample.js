@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get SKU resource details within a offer of HCI Cluster.
  *
  * @summary get SKU resource details within a offer of HCI Cluster.
- * x-ms-original-file: 2026-02-01/GetSku.json
+ * x-ms-original-file: 2026-04-30/GetSku.json
  */
 async function getSku() {
   const credential = new DefaultAzureCredential();

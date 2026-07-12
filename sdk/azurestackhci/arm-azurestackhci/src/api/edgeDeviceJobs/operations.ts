@@ -34,7 +34,7 @@ export function _listByEdgeDeviceSend(
     {
       resourceUri: resourceUri,
       edgeDeviceName: edgeDeviceName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-30",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -72,7 +72,7 @@ export function listByEdgeDevice(
     () => _listByEdgeDeviceSend(context, resourceUri, edgeDeviceName, options),
     _listByEdgeDeviceDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-02-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-04-30" },
   );
 }
 
@@ -89,7 +89,7 @@ export function _$deleteSend(
       resourceUri: resourceUri,
       edgeDeviceName: edgeDeviceName,
       jobsName: jobsName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-30",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -111,11 +111,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete a EdgeDeviceJob */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceUri: string,
@@ -128,7 +123,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceUri, edgeDeviceName, jobsName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-02-01",
+    apiVersion: context.apiVersion ?? "2026-04-30",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -146,7 +141,7 @@ export function _createOrUpdateSend(
       resourceUri: resourceUri,
       edgeDeviceName: edgeDeviceName,
       jobsName: jobsName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-30",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -189,7 +184,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceUri, edgeDeviceName, jobsName, resource, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-02-01",
+    apiVersion: context.apiVersion ?? "2026-04-30",
   }) as PollerLike<OperationState<EdgeDeviceJobUnion>, EdgeDeviceJobUnion>;
 }
 
@@ -206,7 +201,7 @@ export function _getSend(
       resourceUri: resourceUri,
       edgeDeviceName: edgeDeviceName,
       jobsName: jobsName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-30",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

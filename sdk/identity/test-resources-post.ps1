@@ -86,8 +86,31 @@ Write-Host "##[group]Deploying Identity Docker image to ACR"
 az acr login -n $DeploymentOutputs['IDENTITY_ACR_NAME']
 $loginServer = $DeploymentOutputs['IDENTITY_ACR_LOGIN_SERVER']
 $image = "$loginServer/identity-aks-test-image"
-docker build --no-cache -t $image "$workingFolder/AzureKubernetes"
-docker push $image
+
+$kubernetesContext = "$workingFolder/AzureKubernetes"
+$kubernetesNpmrc = "$kubernetesContext/.npmrc"
+$sourceNpmrc = $env:NPM_CONFIG_USERCONFIG
+if ([string]::IsNullOrEmpty($sourceNpmrc)) {
+  $sourceNpmrc = Join-Path $HOME '.npmrc'
+}
+
+if (-not (Test-Path -LiteralPath $sourceNpmrc)) {
+  throw "No authenticated npmrc found. Checked NPM_CONFIG_USERCONFIG and fallback path: '$sourceNpmrc'"
+}
+
+Write-Host "Copying authenticated .npmrc from $sourceNpmrc to $kubernetesNpmrc"
+try {
+  Copy-Item -Path $sourceNpmrc -Destination $kubernetesNpmrc -Force -ErrorAction Stop
+
+  docker build --no-cache -t $image $kubernetesContext
+  if ($LASTEXITCODE -ne 0) { throw "docker build failed with exit code $LASTEXITCODE" }
+
+  docker push $image
+  if ($LASTEXITCODE -ne 0) { throw "docker push failed with exit code $LASTEXITCODE" }
+}
+finally {
+  Remove-Item -LiteralPath $kubernetesNpmrc -Force -ErrorAction SilentlyContinue
+}
 
 Write-Host "Deployed image to ACR"
 Write-Host "##[endgroup]"

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get HCI cluster.
  *
  * @summary get HCI cluster.
- * x-ms-original-file: 2026-02-01/GetCluster.json
+ * x-ms-original-file: 2026-04-30/GetCluster.json
  */
 async function getCluster(): Promise<void> {
   const credential = new DefaultAzureCredential();

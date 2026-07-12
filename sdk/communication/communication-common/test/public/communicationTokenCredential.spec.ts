@@ -1,16 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { AzureCommunicationTokenCredential } from "../../src/index.js";
-import { isNodeLike } from "@azure/core-util";
+import { isAccessToken } from "../../src/tokenParser.js";
+import { stringToUint8Array, uint8ArrayToString } from "@azure/core-util";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
-
-declare function btoa(stringToEncode: string): string;
 
 const generateToken = (validForMinutes: number): string => {
   const expiresOn = (Date.now() + validForMinutes * 60 * 1000) / 1000;
   const tokenString = JSON.stringify({ exp: expiresOn });
-  const base64Token = isNodeLike ? Buffer.from(tokenString).toString("base64") : btoa(tokenString);
+  const base64Token = uint8ArrayToString(stringToUint8Array(tokenString, "utf-8"), "base64");
   return `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.${base64Token}.adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fSvpF4cWs`;
+};
+
+// Produces a structurally-valid but undecodable encrypted JWT (JWE: five segments).
+const generateEncryptedToken = (): string => {
+  const segment = uint8ArrayToString(stringToUint8Array("opaque", "utf-8"), "base64");
+  return [segment, segment, segment, segment, segment].join(".");
 };
 
 const exposeInternalTimeout = (
@@ -41,16 +46,16 @@ describe("CommunicationTokenCredential", function () {
     new AzureCommunicationTokenCredential(generateToken(60));
   });
 
-  it("throws if non-JWT token", async function () {
-    assert.throws(() => new AzureCommunicationTokenCredential("IAmNotAToken"), /Invalid token/);
+  it("throws for an empty token", async function () {
+    assert.throws(() => new AzureCommunicationTokenCredential(""), /Invalid token/);
   });
 
-  it("throws if non-JWT passed as lambda", async function () {
-    await expect(() =>
-      new AzureCommunicationTokenCredential({
-        tokenRefresher: async () => "IAmNotAToken",
-      }).getToken(),
-    ).rejects.toThrow();
+  it("accepts a non-JWT (opaque) token from a lambda using the fallback expiry", async function () {
+    const tokenRefresher = vi.fn().mockResolvedValue("IAmNotAToken");
+    const tokenCredential = new AzureCommunicationTokenCredential({ tokenRefresher });
+    const result = await tokenCredential.getToken();
+    assert.strictEqual(result.token, "IAmNotAToken");
+    assert.strictEqual(result.expiresOnTimestamp, Date.now() + 10 * 60 * 1000);
   });
 
   it("returns token as expected", async function () {
@@ -227,7 +232,7 @@ describe("CommunicationTokenCredential", function () {
     tokenCredential.dispose();
 
     // go into the soon-to-expire window
-    vi.advanceTimersByTimeAsync(19 * 60 * 1000);
+    await vi.advanceTimersByTimeAsync(19 * 60 * 1000);
     expect(tokenRefresher).not.toHaveBeenCalled();
   });
 
@@ -253,6 +258,117 @@ describe("CommunicationTokenCredential", function () {
     vi.advanceTimersByTime(19 * 60 * 1000);
     await tokenCredential.getToken();
     expect(tokenRefresher).toHaveBeenCalledOnce();
+  });
+
+  it("accepts an encrypted (undecodable) token using the fallback expiry", async function () {
+    const encryptedToken = generateEncryptedToken();
+    const tokenCredential = new AzureCommunicationTokenCredential(encryptedToken);
+    const result = await tokenCredential.getToken();
+    assert.strictEqual(result.token, encryptedToken);
+    // fallback lifetime is 10 minutes
+    assert.strictEqual(result.expiresOnTimestamp, Date.now() + 10 * 60 * 1000);
+  });
+
+  it("uses a caller-supplied expiry without decoding the token", async function () {
+    const encryptedToken = generateEncryptedToken();
+    const expiresOnTimestamp = Date.now() + 8 * 60 * 60 * 1000;
+    const tokenRefresher = vi.fn().mockResolvedValue({ token: encryptedToken, expiresOnTimestamp });
+    const tokenCredential = new AzureCommunicationTokenCredential({ tokenRefresher });
+    const result = await tokenCredential.getToken();
+    assert.strictEqual(result.token, encryptedToken);
+    assert.strictEqual(result.expiresOnTimestamp, expiresOnTimestamp);
+  });
+
+  it("accepts a static AccessToken with an explicit expiry", async function () {
+    const encryptedToken = generateEncryptedToken();
+    const expiresOnTimestamp = Date.now() + 60 * 60 * 1000;
+    const tokenCredential = new AzureCommunicationTokenCredential({
+      token: encryptedToken,
+      expiresOnTimestamp,
+    });
+    const result = await tokenCredential.getToken();
+    assert.strictEqual(result.token, encryptedToken);
+    assert.strictEqual(result.expiresOnTimestamp, expiresOnTimestamp);
+  });
+
+  it("honors undecodableTokenExpiryIntervalInSeconds for an undecodable token", async function () {
+    const encryptedToken = generateEncryptedToken();
+    const tokenRefresher = vi.fn().mockResolvedValue(encryptedToken);
+    const tokenCredential = new AzureCommunicationTokenCredential({
+      tokenRefresher,
+      undecodableTokenExpiryIntervalInSeconds: 1800,
+    });
+    const result = await tokenCredential.getToken();
+    assert.strictEqual(result.expiresOnTimestamp, Date.now() + 1800 * 1000);
+  });
+
+  it("throws for a non-positive undecodableTokenExpiryIntervalInSeconds", async function () {
+    for (const bad of [0, -1]) {
+      const tokenCredential = new AzureCommunicationTokenCredential({
+        tokenRefresher: vi.fn().mockResolvedValue(generateEncryptedToken()),
+        undecodableTokenExpiryIntervalInSeconds: bad,
+      });
+      await expect(tokenCredential.getToken()).rejects.toThrow(/positive number/);
+    }
+  });
+
+  it("throws for a non-finite undecodableTokenExpiryIntervalInSeconds", async function () {
+    for (const bad of [NaN, Infinity]) {
+      const tokenCredential = new AzureCommunicationTokenCredential({
+        tokenRefresher: vi.fn().mockResolvedValue(generateEncryptedToken()),
+        undecodableTokenExpiryIntervalInSeconds: bad,
+      });
+      await expect(tokenCredential.getToken()).rejects.toThrow(/positive number/);
+    }
+  });
+
+  it("honors undecodableTokenExpiryIntervalInSeconds on the initial token path", async function () {
+    const opaqueToken = generateEncryptedToken();
+    const tokenCredential = new AzureCommunicationTokenCredential({
+      tokenRefresher: vi.fn().mockResolvedValue(generateToken(60)),
+      token: opaqueToken,
+      undecodableTokenExpiryIntervalInSeconds: 3600,
+    });
+    const result = await tokenCredential.getToken();
+    assert.strictEqual(result.token, opaqueToken);
+    assert.strictEqual(result.expiresOnTimestamp, Date.now() + 3600 * 1000);
+  });
+
+  it("throws for a whitespace-only token", function () {
+    assert.throws(() => new AzureCommunicationTokenCredential("   "), /Invalid token/);
+  });
+
+  it("accepts a decodable JWT without exp using the fallback expiry", async function () {
+    const noExpPayload = uint8ArrayToString(
+      stringToUint8Array(JSON.stringify({ sub: "x" }), "utf-8"),
+      "base64",
+    );
+    const noExpToken = `a.${noExpPayload}.c`;
+    const tokenCredential = new AzureCommunicationTokenCredential(noExpToken);
+    const result = await tokenCredential.getToken();
+    assert.strictEqual(result.token, noExpToken);
+    assert.strictEqual(result.expiresOnTimestamp, Date.now() + 10 * 60 * 1000);
+  });
+
+  it("proactively refreshes an undecodable token at half its fallback lifetime", async function () {
+    const tokenRefresher = vi.fn().mockResolvedValue(generateEncryptedToken());
+    new AzureCommunicationTokenCredential({
+      tokenRefresher,
+      refreshProactively: true,
+      token: generateEncryptedToken(),
+    });
+    // 10-min fallback lands on the expiring-soon boundary, so refresh is scheduled at half-life (5 min)
+    vi.advanceTimersByTime(4 * 60 * 1000);
+    expect(tokenRefresher).not.toHaveBeenCalled();
+    vi.advanceTimersByTime(60 * 1000 + 1000);
+    expect(tokenRefresher).toHaveBeenCalledOnce();
+  });
+
+  it("accepts a non-JWT (opaque) token string using the fallback expiry", async function () {
+    const tokenCredential = new AzureCommunicationTokenCredential("not.a.real.token");
+    const result = await tokenCredential.getToken();
+    assert.strictEqual(result.token, "not.a.real.token");
+    assert.strictEqual(result.expiresOnTimestamp, Date.now() + 10 * 60 * 1000);
   });
 
   it("applies fractional backoff when the token is about to expire", async function () {
@@ -292,5 +408,20 @@ describe("CommunicationTokenCredential", function () {
 
     // expect the token to be refreshed with an increasing frequency in the remaining 10 minutes
     expect(tokenRefresher).toHaveBeenCalledTimes(expectedTotalCallCount);
+  });
+});
+
+describe("isAccessToken", function () {
+  it("accepts a well-formed AccessToken", function () {
+    assert.isTrue(isAccessToken({ token: "abc", expiresOnTimestamp: Date.now() }));
+  });
+
+  it("rejects objects with missing fields or wrong value types", function () {
+    assert.isFalse(isAccessToken({ token: 123, expiresOnTimestamp: "soon" }));
+    assert.isFalse(isAccessToken({ token: "", expiresOnTimestamp: Date.now() }));
+    assert.isFalse(isAccessToken({ token: "abc", expiresOnTimestamp: NaN }));
+    assert.isFalse(isAccessToken({ token: "abc" }));
+    assert.isFalse(isAccessToken("abc"));
+    assert.isFalse(isAccessToken(null));
   });
 });

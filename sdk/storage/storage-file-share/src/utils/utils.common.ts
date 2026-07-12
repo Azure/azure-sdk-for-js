@@ -9,7 +9,7 @@ import type {
   ListHandlesResponse as ListHandlesResponseInternal,
   SharePermission,
   StringEncoded,
-} from "../generated/src/models/index.js";
+} from "../generated-classic-models.js";
 import type {
   DirectoryItem,
   FileItem,
@@ -26,6 +26,8 @@ import {
 import { HeaderConstants, PathStylePorts, URLConstants } from "./constants.js";
 import { isNodeLike } from "@azure/core-util";
 import type { HttpHeadersLike, WebResourceLike } from "@azure/core-http-compat";
+import { toCompatResponse } from "@azure/core-http-compat";
+import type { StorageCompatResponseInfo } from "../generated/static-helpers/storageCompatResponse.js";
 import { HttpRequestBody } from "../Pipeline.js";
 import { StorageCRC64Calculator, structuredMessageEncoding } from "@azure/storage-common";
 
@@ -453,6 +455,14 @@ export function sanitizeHeaders(originalHeader: HttpHeaders): HttpHeaders {
   return headers;
 }
 
+const accountNameSuffixes = [
+  "-secondary-ipv6",
+  "-secondary-dualstack",
+  "-ipv6",
+  "-dualstack",
+  "-secondary",
+];
+
 /**
  * Extracts account name from the url
  * @param url - url to extract the account name from
@@ -464,10 +474,17 @@ export function getAccountNameFromUrl(url: string): string {
   try {
     if (parsedUrl.hostname.split(".")[1] === "file") {
       // `${defaultEndpointsProtocol}://${accountName}.file.${endpointSuffix}`;
+      // `${defaultEndpointsProtocol}://${accountName}-suffix.file.${endpointSuffix}`;
       // Slicing off '/' at the end if exists
       url = url.endsWith("/") ? url.slice(0, -1) : url;
 
       accountName = parsedUrl.hostname.split(".")[0];
+      for (let i = 0; i < accountNameSuffixes.length; ++i) {
+        const suffix = accountNameSuffixes[i];
+        if (accountName.endsWith(suffix)) {
+          accountName = accountName.substring(0, accountName.length - suffix.length);
+        }
+      }
     } else if (isIpEndpointStyle(parsedUrl)) {
       // IPv4/IPv6 address hosts... Example - http://192.0.0.10:10001/devstoreaccount1/
       // Single word domain without a [dot] in the endpoint... Example - http://localhost:10001/devstoreaccount1/
@@ -696,6 +713,34 @@ export function assertResponse<T extends object, Headers = undefined, Body = und
   }
 
   throw new TypeError(`Unexpected response object ${response}`);
+}
+
+export function adjustResponse<
+  T extends object,
+  THeaders extends Record<string, unknown>,
+  TBody = unknown,
+>(
+  result: T & StorageCompatResponseInfo<TBody, THeaders>,
+): T & {
+  _response: HttpResponse & {
+    parsedHeaders: THeaders;
+    bodyAsText: string;
+    parsedBody: TBody;
+  };
+} {
+  const compatResponse = toCompatResponse(result._response.rawResponse);
+  compatResponse.parsedHeaders = result._response.parsedHeaders;
+  compatResponse.parsedBody = result._response.parsedBody;
+  compatResponse.bodyAsText = result._response.rawResponse.bodyAsText;
+  (result as any)._response = compatResponse;
+
+  return result as T & {
+    _response: HttpResponse & {
+      parsedHeaders: THeaders;
+      bodyAsText: string;
+      parsedBody: TBody;
+    };
+  };
 }
 
 export function StringEncodedToString(name: StringEncoded): string {

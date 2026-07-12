@@ -1,6 +1,6 @@
 {
   "name": "@azure/functions-authentication-events",
-  "version": "1.0.0-beta.3",
+  "version": "1.0.0-beta.4",
   "description": "Typescript Trigger SDK for Azure AD Authentication event custom extensions. Lets you focus on your business logic.",
   "sdk-type": "client",
   "main": "./dist/commonjs/index.js",
@@ -28,9 +28,13 @@
     "README.md",
     "LICENSE"
   ],
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/entra/functions-authentication-events"
+  },
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "keywords": [
     "azure",
@@ -42,7 +46,7 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/entra/azure-functions-authentication-events/README.md",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/entra/functions-authentication-events/README.md",
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
@@ -67,6 +71,7 @@
     "eslint": "catalog:",
     "playwright": "catalog:testing",
     "prettier": "catalog:",
+    "react-native": "catalog:testing",
     "rimraf": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:testing"
@@ -104,5 +109,12 @@
       }
     }
   },
-  "react-native": "./dist/react-native/index.js"
+  "react-native": "./dist/react-native/index.js",
+  "imports": {
+    "#platform/*": {
+      "react-native": "./src/*-react-native.mts",
+      "browser": "./src/*-browser.mts",
+      "default": "./src/*.ts"
+    }
+  }
 }

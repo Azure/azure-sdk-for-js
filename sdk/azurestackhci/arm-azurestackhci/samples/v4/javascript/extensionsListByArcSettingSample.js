@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list all Extensions under ArcSetting resource.
  *
  * @summary list all Extensions under ArcSetting resource.
- * x-ms-original-file: 2026-02-01/ListExtensionsByArcSetting.json
+ * x-ms-original-file: 2026-04-30/ListExtensionsByArcSetting.json
  */
 async function listExtensionsUnderArcSettingResource() {
   const credential = new DefaultAzureCredential();

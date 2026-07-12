@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list Skus available for a offer within the HCI Cluster.
  *
  * @summary list Skus available for a offer within the HCI Cluster.
- * x-ms-original-file: 2026-02-01/ListSkusByOffer.json
+ * x-ms-original-file: 2026-04-30/ListSkusByOffer.json
  */
 async function listSKUResourcesByOfferForTheHCICluster() {
   const credential = new DefaultAzureCredential();

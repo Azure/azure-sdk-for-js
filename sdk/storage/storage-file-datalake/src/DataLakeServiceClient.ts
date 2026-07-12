@@ -14,7 +14,7 @@ import type {
 import { BlobServiceClient } from "@azure/storage-blob";
 import type { Pipeline } from "./Pipeline.js";
 import { isPipelineLike, newPipeline } from "./Pipeline.js";
-import { AnonymousCredential } from "@azure/storage-blob";
+import { AnonymousCredential } from "@azure/storage-common";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential.js";
 import { DataLakeFileSystemClient } from "./DataLakeFileSystemClient.js";
 import type {
@@ -24,9 +24,9 @@ import type {
   ServiceListFileSystemsSegmentResponse,
   ServiceUndeleteFileSystemOptions,
   FileSystemUndeleteResponse,
-  DataLakeClientOptions,
   DataLakeClientConfig,
   DataLakeGetUserDelegationKeyParameters,
+  DataLakeServiceClientOptions,
 } from "./models.js";
 import { StorageClient } from "./StorageClient.js";
 import {
@@ -80,7 +80,7 @@ export class DataLakeServiceClient extends StorageClient {
     connectionString: string,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-    options?: DataLakeClientOptions,
+    options?: DataLakeServiceClientOptions,
   ): DataLakeServiceClient {
     options = options || {};
     const extractedCreds = extractConnectionStringParts(connectionString);
@@ -126,7 +126,7 @@ export class DataLakeServiceClient extends StorageClient {
     credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-    options?: DataLakeClientOptions,
+    options?: DataLakeServiceClientOptions,
   );
 
   /**
@@ -143,13 +143,10 @@ export class DataLakeServiceClient extends StorageClient {
   public constructor(
     url: string,
     credentialOrPipeline?:
-      | StorageSharedKeyCredential
-      | AnonymousCredential
-      | TokenCredential
-      | Pipeline,
+      StorageSharedKeyCredential | AnonymousCredential | TokenCredential | Pipeline,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-    options?: DataLakeClientOptions,
+    options?: DataLakeServiceClientOptions,
   ) {
     if (isPipelineLike(credentialOrPipeline)) {
       super(url, credentialOrPipeline, options);

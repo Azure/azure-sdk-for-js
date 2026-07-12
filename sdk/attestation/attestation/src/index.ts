@@ -17,3 +17,4 @@ export {
   type AttestationAdministrationClientPolicyOperationOptions,
   type AttestationAdministrationClientPolicyCertificateOperationOptions,
 } from "./attestationAdministrationClient.js";
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

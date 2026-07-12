@@ -80,7 +80,7 @@ test/data/test_package.zip
 
 # Nuget packages and corresponding codegen sources
 .nuget
-packages
+/packages
 
 # Visual Studio #
 *.suo
@@ -132,8 +132,6 @@ Thumbs.db
 .idea/
 
 # docs #
-docs/
-!eng/scripts/docs
 main.conf.json
 child.conf.json
 docGen/
@@ -141,6 +139,8 @@ docGen/
 # temporary test artifacts
 test/tmp/*
 common/smoke-test/run-manifest.json
+eng/tools/js-sdk-release-tools-src/.tmp/
+eng/tools/js-sdk-release-tools-src/.tmp-detect/
 
 # build artifacts
 dist
@@ -197,3 +197,13 @@ sdk/**/sshKey.pub
 
 # turbo
 .turbo
+
+# vitest browser test artifacts
+.vitest-attachments/
+**/__screenshots__/
+
+# agentic workflow logs
+.github/aw/logs/
+
+# gh-aw trial run artifacts (local only)
+trials/

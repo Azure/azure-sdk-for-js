@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.3 (Unreleased)
+## 1.0.0-beta.4 (Unreleased)
 
 ### Features Added
 
@@ -10,12 +10,203 @@
 
 ### Other Changes
 
-## 1.0.0-beta.2 (2025-08-22)
+## 1.0.0-beta.3 (2026-06-09)
+Compared with version 1.0.0-beta.1
 
-### Other Changes
+### Features Added
+  - Added operation group BudgetsOperations
+  - Added operation group CostAllocationRulesOperations
+  - Added operation group GenerateBenefitUtilizationSummariesReportOperations
+  - Added operation group SettingsOperations
+  - Added operation GenerateCostDetailsReportOperations.createOperation
+  - Added operation GenerateCostDetailsReportOperations.getOperationResults
+  - Added operation GenerateDetailedCostReportOperations.createOperation
+  - Added operation GenerateDetailedCostReportOperationResultsOperations.get
+  - Added operation GenerateReservationDetailsReportOperations.byBillingAccountId
+  - Added operation GenerateReservationDetailsReportOperations.byBillingProfileId
+  - Added operation PriceSheetOperations.beginDownloadByBillingAccount
+  - Added operation PriceSheetOperations.beginDownloadByBillingAccountAndWait
+  - Added operation PriceSheetOperations.beginDownloadByInvoice
+  - Added operation PriceSheetOperations.beginDownloadByInvoiceAndWait
+  - Added operation PriceSheetOperations.downloadByBillingAccount
+  - Added operation PriceSheetOperations.downloadByBillingProfile
+  - Added operation PriceSheetOperations.downloadByInvoice
+  - Added Interface AlertProperties
+  - Added Interface ArmErrorResponse
+  - Added Interface AsyncOperationStatusProperties
+  - Added Interface BenefitUtilizationSummariesOperationStatus
+  - Added Interface BenefitUtilizationSummariesRequest
+  - Added Interface Budget
+  - Added Interface BudgetComparisonExpression
+  - Added Interface BudgetFilter
+  - Added Interface BudgetFilterProperties
+  - Added Interface BudgetProperties
+  - Added Interface BudgetsCreateOrUpdateOptionalParams
+  - Added Interface BudgetsDeleteOptionalParams
+  - Added Interface BudgetsGetOptionalParams
+  - Added Interface BudgetsListOptionalParams
+  - Added Interface BudgetTimePeriod
+  - Added Interface CostAllocationProportion
+  - Added Interface CostAllocationResource
+  - Added Interface CostAllocationRuleCheckNameAvailabilityRequest
+  - Added Interface CostAllocationRuleCheckNameAvailabilityResponse
+  - Added Interface CostAllocationRuleDefinition
+  - Added Interface CostAllocationRuleDetails
+  - Added Interface CostAllocationRuleProperties
+  - Added Interface CostAllocationRulesCheckNameAvailabilityOptionalParams
+  - Added Interface CostAllocationRulesCreateOrUpdateOptionalParams
+  - Added Interface CostAllocationRulesDeleteOptionalParams
+  - Added Interface CostAllocationRulesGetOptionalParams
+  - Added Interface CostAllocationRulesListOptionalParams
+  - Added Interface CurrentSpend
+  - Added Interface DimensionProperties
+  - Added Interface DimensionsListByExternalCloudProviderTypeOptionalParams
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ExportRunProperties
+  - Added Interface ExportRunRequest
+  - Added Interface ExportSuspensionContext
+  - Added Interface ExtensionResource
+  - Added Interface FilterItems
+  - Added Interface ForecastProperties
+  - Added Interface ForecastSpend
+  - Added Interface GenerateBenefitUtilizationSummariesReportGenerateByBillingAccountOptionalParams
+  - Added Interface GenerateBenefitUtilizationSummariesReportGenerateByBillingProfileOptionalParams
+  - Added Interface GenerateBenefitUtilizationSummariesReportGenerateByReservationIdOptionalParams
+  - Added Interface GenerateBenefitUtilizationSummariesReportGenerateByReservationOrderIdOptionalParams
+  - Added Interface GenerateBenefitUtilizationSummariesReportGenerateBySavingsPlanIdOptionalParams
+  - Added Interface GenerateBenefitUtilizationSummariesReportGenerateBySavingsPlanOrderIdOptionalParams
+  - Added Interface MCAPriceSheetProperties
+  - Added Interface Notification
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface PriceSheetDownloadByBillingAccountOptionalParams
+  - Added Interface PriceSheetDownloadByInvoiceOptionalParams
+  - Added Interface PricesheetDownloadProperties
+  - Added Interface QueryProperties
+  - Added Interface ReportConfigDefinition
+  - Added Interface ReportManifest
+  - Added Interface ReportURL
+  - Added Interface RequestContext
+  - Added Interface RestorePollerOptions
+  - Added Interface ScheduledActionProperties
+  - Added Interface Setting
+  - Added Interface SettingsCreateOrUpdateByScopeOptionalParams
+  - Added Interface SettingsDeleteByScopeOptionalParams
+  - Added Interface SettingsGetByScopeOptionalParams
+  - Added Interface SettingsListOptionalParams
+  - Added Interface SettingsListResult
+  - Added Interface SimplePollerLike
+  - Added Interface SourceCostAllocationResource
+  - Added Interface SystemAssignedServiceIdentity
+  - Added Interface TagInheritanceProperties
+  - Added Interface TagInheritanceSetting
+  - Added Interface TargetCostAllocationResource
+  - Added Interface ViewProperties
+  - Interface Alert has a new optional parameter systemData
+  - Interface BenefitRecommendationModel has a new optional parameter systemData
+  - Interface BenefitResource has a new optional parameter systemData
+  - Interface BenefitUtilizationSummary has a new optional parameter systemData
+  - Interface CommonExportProperties has a new optional parameter compressionMode
+  - Interface CommonExportProperties has a new optional parameter dataOverwriteBehavior
+  - Interface CommonExportProperties has a new optional parameter exportDescription
+  - Interface CommonExportProperties has a new optional parameter systemSuspensionContext
+  - Interface CostDetailsOperationResults has a new optional parameter requestContext
+  - Interface Export has a new optional parameter compressionMode
+  - Interface Export has a new optional parameter dataOverwriteBehavior
+  - Interface Export has a new optional parameter exportDescription
+  - Interface Export has a new optional parameter identity
+  - Interface Export has a new optional parameter location
+  - Interface Export has a new optional parameter systemSuspensionContext
+  - Interface Export has a new optional parameter systemData
+  - Interface ExportDatasetConfiguration has a new optional parameter dataVersion
+  - Interface ExportDatasetConfiguration has a new optional parameter filters
+  - Interface ExportDeliveryDestination has a new optional parameter type
+  - Interface ExportProperties has a new optional parameter compressionMode
+  - Interface ExportProperties has a new optional parameter dataOverwriteBehavior
+  - Interface ExportProperties has a new optional parameter exportDescription
+  - Interface ExportProperties has a new optional parameter systemSuspensionContext
+  - Interface ExportRun has a new optional parameter endDate
+  - Interface ExportRun has a new optional parameter manifestFile
+  - Interface ExportRun has a new optional parameter startDate
+  - Interface ExportsExecuteOptionalParams has a new optional parameter parameters
+  - Interface GenerateDetailedCostReportOperationResult has a new optional parameter systemData
+  - Interface GenerateDetailedCostReportOperationStatuses has a new optional parameter systemData
+  - Interface IncludedQuantityUtilizationSummary has a new optional parameter systemData
+  - Interface ProxyResource has a new optional parameter systemData
+  - Interface Resource has a new optional parameter systemData
+  - Interface SavingsPlanUtilizationSummary has a new optional parameter systemData
+  - Interface View has a new optional parameter query
+  - Interface View has a new optional parameter systemData
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias BenefitUtilizationSummaryReportSchema
+  - Added Type Alias BudgetNotificationOperatorType
+  - Added Type Alias BudgetOperatorType
+  - Added Type Alias CategoryType
+  - Added Type Alias CompressionModeType
+  - Added Type Alias CostAllocationPolicyType
+  - Added Type Alias CostAllocationResourceType
+  - Added Type Alias CultureCode
+  - Added Type Alias DataOverwriteBehaviorType
+  - Added Type Alias DestinationType
+  - Added Type Alias FilterItemNames
+  - Added Type Alias Frequency
+  - Added Type Alias Reason
+  - Added Type Alias RuleStatus
+  - Added Type Alias SettingsKind
+  - Added Type Alias SettingType
+  - Added Type Alias SettingUnion
+  - Added Type Alias SystemAssignedServiceIdentityType
+  - Added Type Alias ThresholdType
+  - Added Type Alias TimeGrainType
+  - Added Enum AzureClouds
+  - Added Enum KnownBenefitUtilizationSummaryReportSchema
+  - Added Enum KnownBudgetNotificationOperatorType
+  - Added Enum KnownBudgetOperatorType
+  - Added Enum KnownCategoryType
+  - Added Enum KnownCompressionModeType
+  - Added Enum KnownCostAllocationPolicyType
+  - Added Enum KnownCostAllocationResourceType
+  - Added Enum KnownCultureCode
+  - Added Enum KnownDataOverwriteBehaviorType
+  - Added Enum KnownDestinationType
+  - Added Enum KnownFilterItemNames
+  - Added Enum KnownFrequency
+  - Added Enum KnownReason
+  - Added Enum KnownRuleStatus
+  - Added Enum KnownSettingsKind
+  - Added Enum KnownSettingType
+  - Added Enum KnownSystemAssignedServiceIdentityType
+  - Added Enum KnownThresholdType
+  - Added Enum KnownTimeGrainType
+  - Added Enum KnownVersions
+  - Enum KnownExportType has a new value FocusCost
+  - Enum KnownExportType has a new value PriceSheet
+  - Enum KnownExportType has a new value ReservationDetails
+  - Enum KnownExportType has a new value ReservationRecommendations
+  - Enum KnownExportType has a new value ReservationTransactions
+  - Enum KnownFormatType has a new value Parquet
+  - Enum KnownGranularityType has a new value Monthly
+  - Enum KnownTimeframeType has a new value TheCurrentMonth
 
-  - Other fixes
+### Breaking Changes
+  - Removed operation PriceSheet.beginDownload
+  - Removed operation PriceSheet.beginDownloadAndWait
+  - Class CostManagementClient no longer has parameter apiVersion
+  - Removed Interface DimensionsByExternalCloudProviderTypeOptionalParams
+  - Removed Interface PriceSheetDownloadOptionalParams
+  - Removed Interface ScheduledActionProxyResource
+  - Type of parameter scope of interface BenefitRecommendationProperties is changed from "Single" | "Shared" to Scope
+  - Interface CostDetailsOperationResults no longer has parameter requestBody
+  - Interface CostDetailsOperationResults no longer has parameter requestScope
+  - Interface View no longer has parameter dataSet
+  - Interface View no longer has parameter includeMonetaryCommitment
+  - Interface View no longer has parameter timeframe
+  - Interface View no longer has parameter timePeriod
+  - Interface View no longer has parameter typePropertiesQueryType
+  - Type alias "BenefitRecommendationPropertiesUnion" has been changed
 
+    
 ## 1.0.0-beta.1 (2023-05-09)
 
-The package of @azure/arm-costmanagement is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+The package of @azure/arm-costmanagement is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).

@@ -1,21 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CloudHealthContext } from "../../api/cloudHealthContext.js";
-import { SignalDefinition } from "../../models/models.js";
-import {
-  SignalDefinitionsListByHealthModelOptionalParams,
-  SignalDefinitionsDeleteOptionalParams,
-  SignalDefinitionsCreateOrUpdateOptionalParams,
-  SignalDefinitionsGetOptionalParams,
-} from "../../api/signalDefinitions/options.js";
+import type { CloudHealthContext } from "../../api/cloudHealthContext.js";
 import {
   listByHealthModel,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/signalDefinitions/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type {
+  SignalDefinitionsListByHealthModelOptionalParams,
+  SignalDefinitionsDeleteOptionalParams,
+  SignalDefinitionsCreateOrUpdateOptionalParams,
+  SignalDefinitionsGetOptionalParams,
+} from "../../api/signalDefinitions/options.js";
+import type { SignalDefinition } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a SignalDefinitions operations. */
 export interface SignalDefinitionsOperations {
@@ -26,17 +27,12 @@ export interface SignalDefinitionsOperations {
     options?: SignalDefinitionsListByHealthModelOptionalParams,
   ) => PagedAsyncIterableIterator<SignalDefinition>;
   /** Delete a SignalDefinition */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     healthModelName: string,
     signalDefinitionName: string,
     options?: SignalDefinitionsDeleteOptionalParams,
-  ) => Promise<void>;
+  ) => PollerLike<OperationState<void>, void>;
   /** Create a SignalDefinition */
   createOrUpdate: (
     resourceGroupName: string,
@@ -44,7 +40,7 @@ export interface SignalDefinitionsOperations {
     signalDefinitionName: string,
     resource: SignalDefinition,
     options?: SignalDefinitionsCreateOrUpdateOptionalParams,
-  ) => Promise<SignalDefinition>;
+  ) => PollerLike<OperationState<SignalDefinition>, SignalDefinition>;
   /** Get a SignalDefinition */
   get: (
     resourceGroupName: string,

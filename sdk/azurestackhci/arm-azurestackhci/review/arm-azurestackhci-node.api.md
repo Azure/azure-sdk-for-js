@@ -7,11 +7,13 @@
 import type { AbortSignalLike } from '@azure/abort-controller';
 import type { CancelOnProgress } from '@azure/core-lro';
 import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
 import type { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { Pipeline } from '@azure/core-rest-pipeline';
 import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -211,6 +213,7 @@ export class AzureStackHCIClient {
     readonly updateRuns: UpdateRunsOperations;
     readonly updates: UpdatesOperations;
     readonly updateSummaries: UpdateSummariesOperations;
+    readonly updateSummariesOperationGroup: UpdateSummariesOperationGroupOperations;
     readonly validatedSolutionRecipes: ValidatedSolutionRecipesOperations;
 }
 
@@ -224,12 +227,18 @@ export interface AzureStackHCIClientOptionalParams extends ClientOptions {
 export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
+export interface CheckUpdatesRequest {
+    updateName?: string;
+}
+
+// @public
 export interface Cluster extends TrackedResource {
     aadApplicationObjectId?: string;
     aadClientId?: string;
     aadServicePrincipalObjectId?: string;
     aadTenantId?: string;
     readonly billingModel?: string;
+    readonly billingProperties?: ClusterBillingProperties;
     readonly cloudId?: string;
     cloudManagementEndpoint?: string;
     readonly clusterPattern?: ClusterPattern;
@@ -238,6 +247,7 @@ export interface Cluster extends TrackedResource {
     readonly identityProvider?: IdentityProvider;
     readonly isManagementCluster?: boolean;
     readonly isolatedVmAttestationConfiguration?: IsolatedVmAttestationConfiguration;
+    kind?: string;
     readonly lastBillingTimestamp?: Date;
     readonly lastSyncTimestamp?: Date;
     localAvailabilityZones?: LocalAvailabilityZones[];
@@ -252,10 +262,16 @@ export interface Cluster extends TrackedResource {
     readonly serviceEndpoint?: string;
     softwareAssuranceProperties?: SoftwareAssuranceProperties;
     readonly status?: Status;
+    readonly storageType?: StorageType;
     readonly tenantId?: string;
     readonly trialDaysRemaining?: number;
     typeIdentityType?: ManagedServiceIdentityType;
     userAssignedIdentities?: Record<string, UserAssignedIdentity>;
+}
+
+// @public
+export interface ClusterBillingProperties {
+    nextBillingModel?: NextBillingModel;
 }
 
 // @public
@@ -341,6 +357,7 @@ export interface ClusterProperties {
     aadServicePrincipalObjectId?: string;
     aadTenantId?: string;
     readonly billingModel?: string;
+    readonly billingProperties?: ClusterBillingProperties;
     readonly cloudId?: string;
     cloudManagementEndpoint?: string;
     readonly clusterPattern?: ClusterPattern;
@@ -362,6 +379,7 @@ export interface ClusterProperties {
     readonly serviceEndpoint?: string;
     softwareAssuranceProperties?: SoftwareAssuranceProperties;
     readonly status?: Status;
+    readonly storageType?: StorageType;
     readonly trialDaysRemaining?: number;
 }
 
@@ -540,7 +558,7 @@ export interface DeploymentData {
     secrets?: EceDeploymentSecrets[];
     secretsLocation?: string;
     securitySettings?: DeploymentSecuritySettings;
-    storage?: Storage;
+    storage?: Storage_2;
 }
 
 // @public
@@ -581,6 +599,7 @@ export interface DeploymentSettingAdapterPropertyOverrides {
 export interface DeploymentSettingHostNetwork {
     enableStorageAutoIp?: boolean;
     intents?: DeploymentSettingIntents[];
+    sanNetworks?: SanNetworks;
     storageConnectivitySwitchless?: boolean;
     storageNetworks?: DeploymentSettingStorageNetworks[];
 }
@@ -727,6 +746,16 @@ export type EceSecrets = string;
 // @public
 export interface EdgeDevice extends ExtensionResource {
     kind: DeviceKind;
+}
+
+// @public
+export interface EdgeDeviceDisks {
+    readonly id: string;
+    readonly isSupported?: boolean;
+    readonly manufacturer?: string;
+    readonly model?: string;
+    readonly sizeInBytes?: string;
+    readonly type?: string;
 }
 
 // @public
@@ -1164,6 +1193,7 @@ export interface HciReportedProperties extends ReportedProperties {
 
 // @public
 export interface HciStorageProfile {
+    readonly disks?: EdgeDeviceDisks[];
     readonly poolableDisksCount?: number;
 }
 
@@ -1204,6 +1234,8 @@ export interface IsolatedVmAttestationConfiguration {
     readonly attestationServiceEndpoint?: string;
     readonly relyingPartyServiceEndpoint?: string;
 }
+
+export { isRestError }
 
 // @public
 export type JobStatus = string;
@@ -1527,6 +1559,13 @@ export enum KnownOrigin {
 }
 
 // @public
+export enum KnownOverprovisioningRatio {
+    One = "1",
+    Two = "2",
+    Zero = "0"
+}
+
+// @public
 export enum KnownProvisioningState {
     Accepted = "Accepted",
     Canceled = "Canceled",
@@ -1566,6 +1605,15 @@ export enum KnownRemoteSupportAccessLevel {
     Diagnostics = "Diagnostics",
     DiagnosticsAndRepair = "DiagnosticsAndRepair",
     None = "None"
+}
+
+// @public
+export enum KnownRemoteSupportProvisioningState {
+    Failed = "Failed",
+    GrantInProgress = "GrantInProgress",
+    None = "None",
+    RevokeInProgress = "RevokeInProgress",
+    Succeeded = "Succeeded"
 }
 
 // @public
@@ -1610,6 +1658,7 @@ export enum KnownState {
     DownloadFailed = "DownloadFailed",
     Downloading = "Downloading",
     HasPrerequisite = "HasPrerequisite",
+    HealthCheckExpired = "HealthCheckExpired",
     HealthCheckFailed = "HealthCheckFailed",
     HealthChecking = "HealthChecking",
     InstallationFailed = "InstallationFailed",
@@ -1618,6 +1667,7 @@ export enum KnownState {
     Invalid = "Invalid",
     NotApplicableBecauseAnotherUpdateIsInProgress = "NotApplicableBecauseAnotherUpdateIsInProgress",
     Obsolete = "Obsolete",
+    PendingOEMValidation = "PendingOEMValidation",
     PreparationFailed = "PreparationFailed",
     Preparing = "Preparing",
     Ready = "Ready",
@@ -1651,6 +1701,13 @@ export enum KnownStatusLevelTypes {
 }
 
 // @public
+export enum KnownStorageType {
+    S2D = "S2D",
+    SAN = "SAN",
+    Sans2D = "SANS2D"
+}
+
+// @public
 export enum KnownUpdateRunPropertiesState {
     Failed = "Failed",
     InProgress = "InProgress",
@@ -1672,7 +1729,14 @@ export enum KnownUpdateSummariesPropertiesState {
 
 // @public
 export enum KnownVersions {
-    V20260201 = "2026-02-01"
+    V20260201 = "2026-02-01",
+    V20260430 = "2026-04-30"
+}
+
+// @public
+export enum KnownVolumeType {
+    Fixed = "Fixed",
+    ThinProvisioned = "ThinProvisioned"
 }
 
 // @public
@@ -1766,6 +1830,13 @@ export interface NetworkController {
     macAddressPoolStart?: string;
     macAddressPoolStop?: string;
     networkVirtualizationEnabled?: boolean;
+}
+
+// @public
+export interface NextBillingModel {
+    billingModel?: string;
+    capabilitiesEnabled?: string[];
+    trialDaysRemaining?: number;
 }
 
 // @public
@@ -1875,6 +1946,9 @@ export interface OptionalServices {
 export type Origin = string;
 
 // @public
+export type OverprovisioningRatio = string;
+
+// @public
 export interface PackageVersionInfo {
     lastUpdated?: Date;
     packageType?: string;
@@ -1921,6 +1995,7 @@ export interface PerNodeRemoteSupportSession {
     readonly nodeName?: string;
     readonly sessionEndTime?: Date;
     readonly sessionStartTime?: Date;
+    readonly transcriptLocation?: string;
 }
 
 // @public
@@ -2037,10 +2112,14 @@ export interface RemoteSupportProperties {
     readonly expirationTimeStamp?: Date;
     // (undocumented)
     readonly remoteSupportNodeSettings?: RemoteSupportNodeSettings[];
+    readonly remoteSupportProvisioningState?: RemoteSupportProvisioningState;
     // (undocumented)
     readonly remoteSupportSessionDetails?: PerNodeRemoteSupportSession[];
     readonly remoteSupportType?: RemoteSupportType;
 }
+
+// @public
+export type RemoteSupportProvisioningState = string;
 
 // @public
 export interface RemoteSupportRequest {
@@ -2070,6 +2149,7 @@ export type RemoteSupportType = string;
 export interface ReportedProperties {
     readonly deviceState?: DeviceState;
     readonly extensionProfile?: ExtensionProfile;
+    readonly lastSyncTimestamp?: Date;
 }
 
 // @public
@@ -2080,6 +2160,8 @@ export interface Resource {
     readonly type?: string;
 }
 
+export { RestError }
+
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: AzureStackHCIClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
 
@@ -2088,6 +2170,33 @@ export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedRe
     abortSignal?: AbortSignalLike;
     processResponseBody?: (result: TResponse) => Promise<TResult>;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface SanAdapterIPConfig {
+    addressPrefix?: string;
+    name?: string;
+    networkAdapterName?: string;
+    vlanId?: number;
+}
+
+// @public
+export interface SanAdapterProperties {
+    bandwidthPercentageSmb?: number;
+    jumboPacket?: number;
+    priorityValue8021ActionCluster?: number;
+    priorityValue8021ActionSmb?: number;
+}
+
+// @public
+export interface SanClusterNetworkConfig {
+    adapterIPConfig?: SanAdapterIPConfig[];
+    adapterProperties?: SanAdapterProperties;
+}
+
+// @public
+export interface SanNetworks {
+    clusterNetworkConfig?: SanClusterNetworkConfig;
 }
 
 // @public
@@ -2336,9 +2445,28 @@ export interface Step {
 }
 
 // @public
-export interface Storage {
+interface Storage_2 {
     configurationMode?: string;
+    s2D?: StorageS2DConfig;
+    san?: StorageSanConfig;
+    storageType?: StorageType;
 }
+export { Storage_2 as Storage }
+
+// @public
+export interface StorageS2DConfig {
+    overprovisioningRatio?: OverprovisioningRatio;
+    volumeType?: VolumeType;
+}
+
+// @public
+export interface StorageSanConfig {
+    infraPerfLunId?: string;
+    infraVolLunId?: string;
+}
+
+// @public
+export type StorageType = string;
 
 // @public
 export interface SwitchDetail {
@@ -2513,15 +2641,25 @@ export interface UpdatesOperations {
     beginPost: (resourceGroupName: string, clusterName: string, updateName: string, options?: UpdatesPostOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
     // @deprecated (undocumented)
     beginPostAndWait: (resourceGroupName: string, clusterName: string, updateName: string, options?: UpdatesPostOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginPrepare: (resourceGroupName: string, clusterName: string, updateName: string, options?: UpdatesPrepareOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginPrepareAndWait: (resourceGroupName: string, clusterName: string, updateName: string, options?: UpdatesPrepareOptionalParams) => Promise<void>;
     delete: (resourceGroupName: string, clusterName: string, updateName: string, options?: UpdatesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, clusterName: string, updateName: string, options?: UpdatesGetOptionalParams) => Promise<Update>;
     list: (resourceGroupName: string, clusterName: string, options?: UpdatesListOptionalParams) => PagedAsyncIterableIterator<Update>;
     post: (resourceGroupName: string, clusterName: string, updateName: string, options?: UpdatesPostOptionalParams) => PollerLike<OperationState<void>, void>;
+    prepare: (resourceGroupName: string, clusterName: string, updateName: string, options?: UpdatesPrepareOptionalParams) => PollerLike<OperationState<void>, void>;
     put: (resourceGroupName: string, clusterName: string, updateName: string, updateProperties: Update, options?: UpdatesPutOptionalParams) => Promise<Update>;
 }
 
 // @public
 export interface UpdatesPostOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface UpdatesPrepareOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
@@ -2564,6 +2702,30 @@ export interface UpdateSummariesGetOptionalParams extends OperationOptions {
 
 // @public
 export interface UpdateSummariesListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface UpdateSummariesOperationGroupCheckHealthOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface UpdateSummariesOperationGroupCheckUpdatesOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface UpdateSummariesOperationGroupOperations {
+    // @deprecated (undocumented)
+    beginCheckHealth: (resourceGroupName: string, clusterName: string, options?: UpdateSummariesOperationGroupCheckHealthOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginCheckHealthAndWait: (resourceGroupName: string, clusterName: string, options?: UpdateSummariesOperationGroupCheckHealthOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginCheckUpdates: (resourceGroupName: string, clusterName: string, body: CheckUpdatesRequest, options?: UpdateSummariesOperationGroupCheckUpdatesOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginCheckUpdatesAndWait: (resourceGroupName: string, clusterName: string, body: CheckUpdatesRequest, options?: UpdateSummariesOperationGroupCheckUpdatesOptionalParams) => Promise<void>;
+    checkHealth: (resourceGroupName: string, clusterName: string, options?: UpdateSummariesOperationGroupCheckHealthOptionalParams) => PollerLike<OperationState<void>, void>;
+    checkUpdates: (resourceGroupName: string, clusterName: string, body: CheckUpdatesRequest, options?: UpdateSummariesOperationGroupCheckUpdatesOptionalParams) => PollerLike<OperationState<void>, void>;
 }
 
 // @public
@@ -2707,6 +2869,9 @@ export interface ValidateRequest {
 export interface ValidateResponse {
     readonly status?: string;
 }
+
+// @public
+export type VolumeType = string;
 
 // @public
 export type WindowsServerSubscription = string;

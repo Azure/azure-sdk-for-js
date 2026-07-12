@@ -40,6 +40,12 @@ export interface UnwrapKeyOptionalParams extends OperationOptions {}
 export interface WrapKeyOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
+export interface SecureWrapKeyOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
+export interface SecureUnwrapKeyOptionalParams extends OperationOptions {}
+
+/** Optional parameters. */
 export interface VerifyOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */

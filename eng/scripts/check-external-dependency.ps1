@@ -21,7 +21,7 @@ Write-Host "Repo root: $RepoRoot"
 $EngCommonScriptsPath = Join-Path (Resolve-Path "${PSScriptRoot}/..") "common" "scripts"
 . (Join-Path $EngCommonScriptsPath common.ps1)
 
-$ghIssues = Get-GitHubIssues -RepoOwner $RepoOwner -RepoName $RepoName -CreatedBy "azure-sdk" -Labels "dependency-upgrade-required" -AuthToken $AuthToken
+$ghIssues = Get-GitHubIssues -RepoOwner $RepoOwner -RepoName $RepoName -Labels $dependencyUpgradeLabel -AuthToken $AuthToken
 # Check and return if an issue already exists to upgrade the package
 function Get-GithubIssue($IssueTitle) {
   foreach ($issue in $ghIssues) {
@@ -76,15 +76,22 @@ function Set-GitHubIssue($Package) {
 }
 
 # do a update first so we don't report on upgrades that will be in azure sdk bot PR
-Write-Host "Running pnpm update --recursive --no-save"
-pnpm update --recursive --no-save
+Write-Host "Running pnpm update --recursive --no-save --no-color"
+pnpm update --recursive --no-save --no-color
 
-Write-Host "Running 'pnpm --filter=!@azure/arm-* --filter=!@azure-rest/arm-*  outdated --format json --recursive'"
+Write-Host "Running 'pnpm --filter=!@azure/arm-* --filter=!@azure-rest/arm-*  outdated --format json --recursive --no-color'"
 $env:NODE_OPTIONS = "--max-old-space-size=16384"
-$pnpmOutdatedOutput = & pnpm --filter=!@azure/arm-* --filter=!@azure-rest/arm-* outdated --format json --recursive | Where-Object { -not ($_.StartsWith(" WARN ", [System.StringComparison]::OrdinalIgnoreCase)) }
+$pnpmOutdatedOutput = & pnpm --filter=!@azure/arm-* --filter=!@azure-rest/arm-* outdated --format json --recursive --no-color | Where-Object { -not ($_.Contains("[WARN]", [System.StringComparison]::OrdinalIgnoreCase)) }
 
-$availableUpdates = $pnpmOutdatedOutput | ConvertFrom-Json
-
+try {
+  $pnpmOutdatedJson = $pnpmOutdatedOutput -join "`n"
+  $availableUpdates = $pnpmOutdatedJson | ConvertFrom-Json
+}
+catch {
+  Write-Host "Error parsing pnpm outdated output as JSON. Output was:"
+  Write-Host ($pnpmOutdatedOutput -join "`n")
+  throw
+}
 foreach ($update in $availableUpdates.PSObject.Properties) {
   if ($update.Name -notmatch '^@azure') {
     $p = New-Object PSObject -Property @{

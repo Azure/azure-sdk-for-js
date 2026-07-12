@@ -335,8 +335,8 @@ export function quotaItemPropertiesDeserializer(item: any): QuotaItemProperties 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
 }
 
 export function proxyResourceDeserializer(item: any): ProxyResource {
@@ -362,8 +362,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -2875,23 +2875,58 @@ export function peerClusterForVolumeMigrationRequestSerializer(
 
 /** Information about cluster peering process */
 export interface ClusterPeerCommandResponse {
-  /** A command that needs to be run on the external ONTAP to accept cluster peering.  Will only be present if <code>clusterPeeringStatus</code> is <code>pending</code> */
-  peerAcceptCommand?: string;
+  /** Represents the properties of the cluster peer command response. */
+  properties?: ClusterPeerCommandResponseProperties;
 }
 
 export function clusterPeerCommandResponseDeserializer(item: any): ClusterPeerCommandResponse {
   return {
-    peerAcceptCommand: item["peerAcceptCommand"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : clusterPeerCommandResponsePropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Properties of the cluster peer command response. */
+export interface ClusterPeerCommandResponseProperties {
+  /** ClusterPeeringCommand to run to accept cluster peer. Will only be present if <code>clusterPeeringStatus</code> is <code>pending</code>. */
+  clusterPeeringCommand?: string;
+  /** Passphrase for use with cluster peer command */
+  passphrase?: string;
+}
+
+export function clusterPeerCommandResponsePropertiesDeserializer(
+  item: any,
+): ClusterPeerCommandResponseProperties {
+  return {
+    clusterPeeringCommand: item["clusterPeeringCommand"],
+    passphrase: item["passphrase"],
   };
 }
 
 /** Information about svm peering process */
 export interface SvmPeerCommandResponse {
+  /** Represents the properties of the SVM peer command response. */
+  properties?: SvmPeerCommandResponseProperties;
+}
+
+export function svmPeerCommandResponseDeserializer(item: any): SvmPeerCommandResponse {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : svmPeerCommandResponsePropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Properties of the SVM peer command response. */
+export interface SvmPeerCommandResponseProperties {
   /** A command that needs to be run on the external ONTAP to accept svm peering.  Will only be present if <code>svmPeeringStatus</code> is <code>pending</code> */
   svmPeeringCommand?: string;
 }
 
-export function svmPeerCommandResponseDeserializer(item: any): SvmPeerCommandResponse {
+export function svmPeerCommandResponsePropertiesDeserializer(
+  item: any,
+): SvmPeerCommandResponseProperties {
   return {
     svmPeeringCommand: item["svmPeeringCommand"],
   };
@@ -3062,8 +3097,8 @@ export interface SnapshotProperties {
   readonly provisioningState?: string;
 }
 
-export function snapshotPropertiesSerializer(item: SnapshotProperties): any {
-  return item;
+export function snapshotPropertiesSerializer(_item: SnapshotProperties): any {
+  return {};
 }
 
 export function snapshotPropertiesDeserializer(item: any): SnapshotProperties {
@@ -3077,8 +3112,8 @@ export function snapshotPropertiesDeserializer(item: any): SnapshotProperties {
 /** Snapshot of a Volume */
 export interface SnapshotPatch {}
 
-export function snapshotPatchSerializer(item: SnapshotPatch): any {
-  return item;
+export function snapshotPatchSerializer(_item: SnapshotPatch): any {
+  return {};
 }
 
 /** List of Snapshots */
@@ -3956,8 +3991,8 @@ export interface BackupVaultProperties {
   readonly provisioningState?: string;
 }
 
-export function backupVaultPropertiesSerializer(item: BackupVaultProperties): any {
-  return item;
+export function backupVaultPropertiesSerializer(_item: BackupVaultProperties): any {
+  return {};
 }
 
 export function backupVaultPropertiesDeserializer(item: any): BackupVaultProperties {
@@ -4313,12 +4348,15 @@ export interface CertificateAkvDetails {
   certificateKeyVaultUri?: string;
   /** The name of the bucket server certificate stored in the Azure Key Vault. */
   certificateName?: string;
+  /** Optional resource ID of the managed identity that has access to the Azure Key Vault (AKV) secret. If a value is provided, it is used to find a matching entry in the account's collection of user-assigned managed identities. If no match is found, an exception is thrown. If no value is provided, the system-assigned managed identity is used. */
+  userAssignedIdentity?: string;
 }
 
 export function certificateAkvDetailsSerializer(item: CertificateAkvDetails): any {
   return {
     certificateKeyVaultUri: item["certificateKeyVaultUri"],
     certificateName: item["certificateName"],
+    userAssignedIdentity: item["userAssignedIdentity"],
   };
 }
 
@@ -4326,6 +4364,7 @@ export function certificateAkvDetailsDeserializer(item: any): CertificateAkvDeta
   return {
     certificateKeyVaultUri: item["certificateKeyVaultUri"],
     certificateName: item["certificateName"],
+    userAssignedIdentity: item["userAssignedIdentity"],
   };
 }
 
@@ -4342,16 +4381,23 @@ export interface CredentialsAkvDetails {
    * }
    */
   secretName?: string;
+  /** Optional resource ID of the managed identity that has access to the Azure Key Vault (AKV) secret. If a value is provided, it is used to find a matching entry in the account's collection of user-assigned managed identities. If no match is found, an exception is thrown. If no value is provided, the system-assigned managed identity is used. */
+  userAssignedIdentity?: string;
 }
 
 export function credentialsAkvDetailsSerializer(item: CredentialsAkvDetails): any {
-  return { credentialsKeyVaultUri: item["credentialsKeyVaultUri"], secretName: item["secretName"] };
+  return {
+    credentialsKeyVaultUri: item["credentialsKeyVaultUri"],
+    secretName: item["secretName"],
+    userAssignedIdentity: item["userAssignedIdentity"],
+  };
 }
 
 export function credentialsAkvDetailsDeserializer(item: any): CredentialsAkvDetails {
   return {
     credentialsKeyVaultUri: item["credentialsKeyVaultUri"],
     secretName: item["secretName"],
+    userAssignedIdentity: item["userAssignedIdentity"],
   };
 }
 
@@ -4599,6 +4645,8 @@ export interface CacheProperties {
   globalFileLocking?: GlobalFileLockingState;
   /** Flag indicating whether writeback is enabled for the cache. */
   writeBack?: EnableWriteBackState;
+  /** Flag indicating whether file access logs are enabled for the Cache, based on active diagnostic settings present on the Cache. */
+  readonly fileAccessLogs?: CacheFileAccessLogs;
 }
 
 export function cachePropertiesSerializer(item: CacheProperties): any {
@@ -4669,6 +4717,7 @@ export function cachePropertiesDeserializer(item: any): CacheProperties {
     cifsChangeNotifications: item["cifsChangeNotifications"],
     globalFileLocking: item["globalFileLocking"],
     writeBack: item["writeBack"],
+    fileAccessLogs: item["fileAccessLogs"],
   };
 }
 
@@ -4892,7 +4941,7 @@ export type LdapState = string;
 
 /** Stores the origin cluster information associated to a cache. */
 export interface OriginClusterInformation {
-  /** ONTAP cluster name of external cluster hosting the origin volume */
+  /** ONTAP cluster name of external cluster hosting the origin volume. Must match the exact cluster name. */
   peerClusterName: string;
   /** ONTAP Intercluster LIF IP addresses. One IP address per cluster node is required */
   peerAddresses: string[];
@@ -4977,6 +5026,24 @@ export enum KnownEnableWriteBackState {
  * **Enabled**: Writeback cache is enabled
  */
 export type EnableWriteBackState = string;
+
+/** Flag indicating whether file access logs are enabled for the Cache, based on active diagnostic settings present on the Cache. */
+export enum KnownCacheFileAccessLogs {
+  /** fileAccessLogs are enabled */
+  Enabled = "Enabled",
+  /** fileAccessLogs are not enabled */
+  Disabled = "Disabled",
+}
+
+/**
+ * Flag indicating whether file access logs are enabled for the Cache, based on active diagnostic settings present on the Cache. \
+ * {@link KnownCacheFileAccessLogs} can be used interchangeably with CacheFileAccessLogs,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled**: fileAccessLogs are enabled \
+ * **Disabled**: fileAccessLogs are not enabled
+ */
+export type CacheFileAccessLogs = string;
 
 /** The type used for update operations of the Cache. */
 export interface CacheUpdate {
@@ -5351,8 +5418,8 @@ export interface UserAssignedIdentity {
   readonly clientId?: string;
 }
 
-export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
-  return item;
+export function userAssignedIdentitySerializer(_item: UserAssignedIdentity): any {
+  return {};
 }
 
 export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
@@ -6401,8 +6468,8 @@ export interface ElasticSnapshotProperties {
   readonly provisioningState?: NetAppProvisioningState;
 }
 
-export function elasticSnapshotPropertiesSerializer(item: ElasticSnapshotProperties): any {
-  return item;
+export function elasticSnapshotPropertiesSerializer(_item: ElasticSnapshotProperties): any {
+  return {};
 }
 
 export function elasticSnapshotPropertiesDeserializer(item: any): ElasticSnapshotProperties {
@@ -6858,8 +6925,8 @@ export interface ElasticBackupVaultProperties {
   readonly provisioningState?: NetAppProvisioningState;
 }
 
-export function elasticBackupVaultPropertiesSerializer(item: ElasticBackupVaultProperties): any {
-  return item;
+export function elasticBackupVaultPropertiesSerializer(_item: ElasticBackupVaultProperties): any {
+  return {};
 }
 
 export function elasticBackupVaultPropertiesDeserializer(item: any): ElasticBackupVaultProperties {
@@ -7295,7 +7362,7 @@ export interface ActiveDirectoryConfigProperties {
   /** The Organizational Unit (OU) within the Windows Active Directory */
   organizationalUnit?: string;
   /** The Active Directory site the service will limit Domain Controller discovery to */
-  site?: string;
+  site: string;
   /** Users to be added to the Built-in Backup Operator active directory group. A list of unique usernames without domain specifier */
   backupOperators?: string[];
   /** Users to be added to the Built-in Administrators active directory group. A list of unique usernames without domain specifier */
@@ -8190,6 +8257,12 @@ export interface LdapConfiguration {
   serverCACertificate?: string;
   /** The CN host name used while generating the certificate, LDAP Over TLS requires the CN host name to create DNS host entry. */
   certificateCNHost?: string | null;
+  /** The authentication level to use when binding to the LDAP server, defaults to Anonymous. */
+  bindAuthenticationLevel?: BindAuthenticationLevel;
+  /** The distinguished name (DN) to bind as when performing LDAP operations. */
+  bindDN?: string;
+  /** The Azure Key Vault configuration where the Bind DN (Distinguished Name) user password is stored. */
+  bindPasswordAkvConfig?: BindPasswordAkvConfig;
 }
 
 export function ldapConfigurationSerializer(item: LdapConfiguration): any {
@@ -8203,6 +8276,11 @@ export function ldapConfigurationSerializer(item: LdapConfiguration): any {
     ldapOverTLS: item["ldapOverTLS"],
     serverCACertificate: item["serverCACertificate"],
     certificateCNHost: item["certificateCNHost"],
+    bindAuthenticationLevel: item["bindAuthenticationLevel"],
+    bindDN: item["bindDN"],
+    bindPasswordAkvConfig: !item["bindPasswordAkvConfig"]
+      ? item["bindPasswordAkvConfig"]
+      : bindPasswordAkvConfigSerializer(item["bindPasswordAkvConfig"]),
   };
 }
 
@@ -8217,52 +8295,90 @@ export function ldapConfigurationDeserializer(item: any): LdapConfiguration {
     ldapOverTLS: item["ldapOverTLS"],
     serverCACertificate: item["serverCACertificate"],
     certificateCNHost: item["certificateCNHost"],
+    bindAuthenticationLevel: item["bindAuthenticationLevel"],
+    bindDN: item["bindDN"],
+    bindPasswordAkvConfig: !item["bindPasswordAkvConfig"]
+      ? item["bindPasswordAkvConfig"]
+      : bindPasswordAkvConfigDeserializer(item["bindPasswordAkvConfig"]),
+  };
+}
+
+/** The authentication level to use when binding to the LDAP server. */
+export enum KnownBindAuthenticationLevel {
+  /** Anonymous bind i.e. no credentials provided */
+  Anonymous = "Anonymous",
+  /** Simple bind i.e. plain text credentials provided */
+  Simple = "Simple",
+}
+
+/**
+ * The authentication level to use when binding to the LDAP server. \
+ * {@link KnownBindAuthenticationLevel} can be used interchangeably with BindAuthenticationLevel,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Anonymous**: Anonymous bind i.e. no credentials provided \
+ * **Simple**: Simple bind i.e. plain text credentials provided
+ */
+export type BindAuthenticationLevel = string;
+
+/** The Azure Key Vault configuration where the Bind DN (Distinguished Name) user password is stored. */
+export interface BindPasswordAkvConfig {
+  /** The Azure Key Vault URI where the Bind DN user password is stored. */
+  azureKeyVaultUri: string;
+  /** The name of the secret in Azure Key Vault that contains the Bind DN user password. */
+  secretName: string;
+  /** The ARM resource identifier of the user assigned identity used to authenticate with key vault. */
+  userAssignedIdentity?: string;
+}
+
+export function bindPasswordAkvConfigSerializer(item: BindPasswordAkvConfig): any {
+  return {
+    azureKeyVaultUri: item["azureKeyVaultUri"],
+    secretName: item["secretName"],
+    userAssignedIdentity: item["userAssignedIdentity"],
+  };
+}
+
+export function bindPasswordAkvConfigDeserializer(item: any): BindPasswordAkvConfig {
+  return {
+    azureKeyVaultUri: item["azureKeyVaultUri"],
+    secretName: item["secretName"],
+    userAssignedIdentity: item["userAssignedIdentity"],
   };
 }
 
 /** NetApp account patch resource */
 export interface NetAppAccountPatch {
-  /** Resource location */
-  location?: string;
-  /** Resource Id */
-  readonly id?: string;
-  /** Resource name */
-  readonly name?: string;
-  /** Resource type */
-  readonly type?: string;
-  /** Resource tags */
+  /** The managed service identities assigned to this resource. */
+  identity?: ManagedServiceIdentity;
+  /** Resource tags. */
   tags?: Record<string, string>;
   /** NetApp Account properties */
   properties?: AccountPropertiesPatch;
-  /** The identity used for the resource. */
-  identity?: ManagedServiceIdentity;
 }
 
 export function netAppAccountPatchSerializer(item: NetAppAccountPatch): any {
   return {
-    location: item["location"],
+    identity: !item["identity"]
+      ? item["identity"]
+      : managedServiceIdentitySerializer(item["identity"]),
     tags: item["tags"],
     properties: !item["properties"]
       ? item["properties"]
       : accountPropertiesPatchSerializer(item["properties"]),
-    identity: !item["identity"]
-      ? item["identity"]
-      : managedServiceIdentitySerializer(item["identity"]),
   };
 }
 
-/** NetApp account properties for PATCH operations */
+/** NetApp account patch properties */
 export interface AccountPropertiesPatch {
   /** Active Directories */
   activeDirectories?: ActiveDirectory[];
-  /** Entra ID configuration for the account. */
-  entraIdConfig?: EntraIdConfigPatch;
   /** Encryption settings */
   encryption?: AccountEncryption;
   /** Domain for NFSv4 user ID mapping. This property will be set for all NetApp accounts in the subscription and region and only affect non ldap NFSv4 volumes. */
   nfsV4IDDomain?: string | null;
-  /** MultiAD Status for the account */
-  multiAdStatus?: MultiAdStatus;
+  /** Entra ID configuration for the account. */
+  entraIdConfig?: EntraIdConfigPatch;
   /** LDAP Configuration for the account. */
   ldapConfiguration?: LdapConfigurationPatch;
 }
@@ -8272,14 +8388,13 @@ export function accountPropertiesPatchSerializer(item: AccountPropertiesPatch): 
     activeDirectories: !item["activeDirectories"]
       ? item["activeDirectories"]
       : activeDirectoryArraySerializer(item["activeDirectories"]),
-    entraIdConfig: !item["entraIdConfig"]
-      ? item["entraIdConfig"]
-      : entraIdConfigPatchSerializer(item["entraIdConfig"]),
     encryption: !item["encryption"]
       ? item["encryption"]
       : accountEncryptionSerializer(item["encryption"]),
     nfsV4IDDomain: item["nfsV4IDDomain"],
-    multiAdStatus: item["multiAdStatus"],
+    entraIdConfig: !item["entraIdConfig"]
+      ? item["entraIdConfig"]
+      : entraIdConfigPatchSerializer(item["entraIdConfig"]),
     ldapConfiguration: !item["ldapConfiguration"]
       ? item["ldapConfiguration"]
       : ldapConfigurationPatchSerializer(item["ldapConfiguration"]),
@@ -8309,7 +8424,7 @@ export function entraIdConfigPatchSerializer(item: EntraIdConfigPatch): any {
   };
 }
 
-/** Using AKV config, certificate will be fetched, which will contain private key & public certificate, that correspond to the public certificate which is uploaded on the application created by customer. This will be used further for authentication. */
+/** Entra ID Patch configuration for the account. */
 export interface EntraIdAkvConfigPatch {
   /** The Azure Key Vault URI where the Entra ID credentials are stored. */
   azureKeyVaultUri?: string;
@@ -8339,6 +8454,12 @@ export interface LdapConfigurationPatch {
   serverCACertificate?: string;
   /** The CN host name used while generating the certificate, LDAP Over TLS requires the CN host name to create DNS host entry. */
   certificateCNHost?: string | null;
+  /** The authentication level to use when binding to the LDAP server, defaults to Anonymous. */
+  bindAuthenticationLevel?: BindAuthenticationLevel;
+  /** The distinguished name (DN) to bind as when performing LDAP operations. */
+  bindDN?: string;
+  /** The Azure Key Vault configuration where the Bind DN (Distinguished Name) user password is stored. */
+  bindPasswordAkvConfig?: BindPasswordAkvConfigPatch;
 }
 
 export function ldapConfigurationPatchSerializer(item: LdapConfigurationPatch): any {
@@ -8352,6 +8473,29 @@ export function ldapConfigurationPatchSerializer(item: LdapConfigurationPatch): 
     ldapOverTLS: item["ldapOverTLS"],
     serverCACertificate: item["serverCACertificate"],
     certificateCNHost: item["certificateCNHost"],
+    bindAuthenticationLevel: item["bindAuthenticationLevel"],
+    bindDN: item["bindDN"],
+    bindPasswordAkvConfig: !item["bindPasswordAkvConfig"]
+      ? item["bindPasswordAkvConfig"]
+      : bindPasswordAkvConfigPatchSerializer(item["bindPasswordAkvConfig"]),
+  };
+}
+
+/** The Azure Key Vault configuration where the Bind DN (Distinguished Name) user password is stored. */
+export interface BindPasswordAkvConfigPatch {
+  /** The Azure Key Vault URI where the Bind DN user password is stored. */
+  azureKeyVaultUri?: string;
+  /** The name of the secret in Azure Key Vault that contains the Bind DN user password. */
+  secretName?: string;
+  /** The ARM resource identifier of the user assigned identity used to authenticate with key vault. */
+  userAssignedIdentity?: string;
+}
+
+export function bindPasswordAkvConfigPatchSerializer(item: BindPasswordAkvConfigPatch): any {
+  return {
+    azureKeyVaultUri: item["azureKeyVaultUri"],
+    secretName: item["secretName"],
+    userAssignedIdentity: item["userAssignedIdentity"],
   };
 }
 
@@ -9239,4 +9383,16 @@ export enum KnownVersions {
   V20251201 = "2025-12-01",
   /** The 2025-12-15-preview API version. */
   V20251215Preview = "2025-12-15-preview",
+  /** The 2026-01-01 API version. */
+  V20260101 = "2026-01-01",
+  /** The 2026-01-15-preview API version. */
+  V20260115Preview = "2026-01-15-preview",
+  /** The 2026-03-01 API version. */
+  V20260301 = "2026-03-01",
+  /** The 2026-03-15-preview API version. */
+  V20260315Preview = "2026-03-15-preview",
+  /** The 2026-04-01 API version. */
+  V20260401 = "2026-04-01",
+  /** The 2026-04-15-preview API version. */
+  V20260415Preview = "2026-04-15-preview",
 }

@@ -25,3 +25,4 @@ export {
   KnownVersions,
 } from "./models/index.js";
 export type { MetricsClientOptionalParams } from "./api/index.js";
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

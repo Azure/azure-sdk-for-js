@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the properties of the specified replica.
  *
  * @summary gets the properties of the specified replica.
- * x-ms-original-file: 2025-06-01-preview/ConfigurationStoresGetReplica.json
+ * x-ms-original-file: 2025-08-01-preview/ConfigurationStoresGetReplica.json
  */
 async function replicasGet() {
   const credential = new DefaultAzureCredential();

@@ -66,7 +66,7 @@ export function _resetSkillsSend(
     "/skillsets('{skillsetName}')/search.resetskills{?api%2Dversion}",
     {
       skillsetName: name,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -76,7 +76,11 @@ export function _resetSkillsSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      accept: "application/json;odata.metadata=minimal",
+      ...(options?.accept !== undefined
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
+        : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -91,6 +95,7 @@ export async function _resetSkillsDeserialize(result: PathUncheckedResponse): Pr
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -116,7 +121,7 @@ export function _createSkillsetSend(
   const path = expandUrlTemplate(
     "/skillsets{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -126,7 +131,11 @@ export function _createSkillsetSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      accept: "application/json;odata.metadata=minimal",
+      ...(options?.accept !== undefined
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
+        : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -143,6 +152,7 @@ export async function _createSkillsetDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -166,7 +176,7 @@ export function _getSkillsetsSend(
   const path = expandUrlTemplate(
     "/skillsets{?api%2Dversion,%24select}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
       "%24select": options?.select,
     },
     {
@@ -176,7 +186,11 @@ export function _getSkillsetsSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      accept: "application/json;odata.metadata=minimal",
+      ...(options?.accept !== undefined
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
+        : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -192,6 +206,7 @@ export async function _getSkillsetsDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -216,7 +231,7 @@ export function _getSkillsetSend(
     "/skillsets('{skillsetName}'){?api%2Dversion}",
     {
       skillsetName: name,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -225,7 +240,11 @@ export function _getSkillsetSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      accept: "application/json;odata.metadata=minimal",
+      ...(options?.accept !== undefined
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
+        : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -241,6 +260,7 @@ export async function _getSkillsetDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -266,7 +286,7 @@ export function _deleteSkillsetSend(
     "/skillsets('{skillsetName}'){?api%2Dversion}",
     {
       skillsetName: name,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -275,7 +295,11 @@ export function _deleteSkillsetSend(
   return context.path(path).delete({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      accept: "application/json;odata.metadata=minimal",
+      ...(options?.accept !== undefined
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
+        : {}),
       ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
       ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
       ...(options?.clientRequestId !== undefined
@@ -291,6 +315,7 @@ export async function _deleteSkillsetDeserialize(result: PathUncheckedResponse):
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -317,7 +342,7 @@ export function _createOrUpdateSkillsetSend(
     "/skillsets('{skillsetName}'){?api%2Dversion,ignoreResetRequirements,disableCacheReprocessingChangeDetection}",
     {
       skillsetName: name,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
       ignoreResetRequirements: options?.skipIndexerResetRequirementForCache,
       disableCacheReprocessingChangeDetection: options?.disableCacheReprocessingChangeDetection,
     },
@@ -329,7 +354,11 @@ export function _createOrUpdateSkillsetSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      accept: "application/json;odata.metadata=minimal",
+      ...(options?.accept !== undefined
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
+        : {}),
       ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
       ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
       prefer: "return=representation",
@@ -349,6 +378,7 @@ export async function _createOrUpdateSkillsetDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -375,7 +405,7 @@ export function _getIndexerStatusSend(
     "/indexers('{indexerName}')/search.status{?api%2Dversion}",
     {
       indexerName: name,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -384,7 +414,11 @@ export function _getIndexerStatusSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      accept: "application/json;odata.metadata=minimal",
+      ...(options?.accept !== undefined
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
+        : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -400,6 +434,7 @@ export async function _getIndexerStatusDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -424,7 +459,7 @@ export function _createIndexerSend(
   const path = expandUrlTemplate(
     "/indexers{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -434,7 +469,11 @@ export function _createIndexerSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      accept: "application/json;odata.metadata=minimal",
+      ...(options?.accept !== undefined
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
+        : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -451,6 +490,7 @@ export async function _createIndexerDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -474,7 +514,7 @@ export function _getIndexersSend(
   const path = expandUrlTemplate(
     "/indexers{?api%2Dversion,%24select}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
       "%24select": options?.select,
     },
     {
@@ -484,7 +524,11 @@ export function _getIndexersSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      accept: "application/json;odata.metadata=minimal",
+      ...(options?.accept !== undefined
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
+        : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -500,6 +544,7 @@ export async function _getIndexersDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -524,7 +569,7 @@ export function _getIndexerSend(
     "/indexers('{indexerName}'){?api%2Dversion}",
     {
       indexerName: name,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -533,7 +578,11 @@ export function _getIndexerSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      accept: "application/json;odata.metadata=minimal",
+      ...(options?.accept !== undefined
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
+        : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -549,6 +598,7 @@ export async function _getIndexerDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -574,7 +624,7 @@ export function _deleteIndexerSend(
     "/indexers('{indexerName}'){?api%2Dversion}",
     {
       indexerName: name,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -583,7 +633,11 @@ export function _deleteIndexerSend(
   return context.path(path).delete({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      accept: "application/json;odata.metadata=minimal",
+      ...(options?.accept !== undefined
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
+        : {}),
       ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
       ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
       ...(options?.clientRequestId !== undefined
@@ -599,6 +653,7 @@ export async function _deleteIndexerDeserialize(result: PathUncheckedResponse): 
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -625,7 +680,7 @@ export function _createOrUpdateIndexerSend(
     "/indexers('{indexerName}'){?api%2Dversion,ignoreResetRequirements,disableCacheReprocessingChangeDetection}",
     {
       indexerName: name,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
       ignoreResetRequirements: options?.skipIndexerResetRequirementForCache,
       disableCacheReprocessingChangeDetection: options?.disableCacheReprocessingChangeDetection,
     },
@@ -637,7 +692,11 @@ export function _createOrUpdateIndexerSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      accept: "application/json;odata.metadata=minimal",
+      ...(options?.accept !== undefined
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
+        : {}),
       ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
       ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
       prefer: "return=representation",
@@ -657,6 +716,7 @@ export async function _createOrUpdateIndexerDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -683,7 +743,7 @@ export function _runIndexerSend(
     "/indexers('{indexerName}')/search.run{?api%2Dversion}",
     {
       indexerName: name,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -692,7 +752,11 @@ export function _runIndexerSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      accept: "application/json;odata.metadata=minimal",
+      ...(options?.accept !== undefined
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
+        : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -706,6 +770,7 @@ export async function _runIndexerDeserialize(result: PathUncheckedResponse): Pro
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -731,7 +796,7 @@ export function _resetDocumentsSend(
     "/indexers('{indexerName}')/search.resetdocs{?api%2Dversion,overwrite}",
     {
       indexerName: name,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
       overwrite: options?.overwrite,
     },
     {
@@ -742,7 +807,11 @@ export function _resetDocumentsSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      accept: "application/json;odata.metadata=minimal",
+      ...(options?.accept !== undefined
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
+        : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -759,6 +828,7 @@ export async function _resetDocumentsDeserialize(result: PathUncheckedResponse):
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -785,7 +855,7 @@ export function _resyncSend(
     "/indexers('{indexerName}')/search.resync{?api%2Dversion}",
     {
       indexerName: name,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -795,7 +865,11 @@ export function _resyncSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      accept: "application/json;odata.metadata=minimal",
+      ...(options?.accept !== undefined
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
+        : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -810,6 +884,7 @@ export async function _resyncDeserialize(result: PathUncheckedResponse): Promise
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -836,7 +911,7 @@ export function _resetIndexerSend(
     "/indexers('{indexerName}')/search.reset{?api%2Dversion}",
     {
       indexerName: name,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -845,7 +920,11 @@ export function _resetIndexerSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      accept: "application/json;odata.metadata=minimal",
+      ...(options?.accept !== undefined
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
+        : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -859,6 +938,7 @@ export async function _resetIndexerDeserialize(result: PathUncheckedResponse): P
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -883,7 +963,7 @@ export function _createDataSourceConnectionSend(
   const path = expandUrlTemplate(
     "/datasources{?api%2Dversion}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -893,7 +973,11 @@ export function _createDataSourceConnectionSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      accept: "application/json;odata.metadata=minimal",
+      ...(options?.accept !== undefined
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
+        : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -910,6 +994,7 @@ export async function _createDataSourceConnectionDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -933,7 +1018,7 @@ export function _getDataSourceConnectionsSend(
   const path = expandUrlTemplate(
     "/datasources{?api%2Dversion,%24select}",
     {
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
       "%24select": options?.select,
     },
     {
@@ -943,7 +1028,11 @@ export function _getDataSourceConnectionsSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      accept: "application/json;odata.metadata=minimal",
+      ...(options?.accept !== undefined
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
+        : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -959,6 +1048,7 @@ export async function _getDataSourceConnectionsDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -983,7 +1073,7 @@ export function _getDataSourceConnectionSend(
     "/datasources('{dataSourceName}'){?api%2Dversion}",
     {
       dataSourceName: name,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -992,7 +1082,11 @@ export function _getDataSourceConnectionSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      accept: "application/json;odata.metadata=minimal",
+      ...(options?.accept !== undefined
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
+        : {}),
       ...(options?.clientRequestId !== undefined
         ? { "x-ms-client-request-id": options?.clientRequestId }
         : {}),
@@ -1008,6 +1102,7 @@ export async function _getDataSourceConnectionDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -1033,7 +1128,7 @@ export function _deleteDataSourceConnectionSend(
     "/datasources('{dataSourceName}'){?api%2Dversion}",
     {
       dataSourceName: name,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1042,7 +1137,11 @@ export function _deleteDataSourceConnectionSend(
   return context.path(path).delete({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      accept: "application/json;odata.metadata=minimal",
+      ...(options?.accept !== undefined
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
+        : {}),
       ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
       ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
       ...(options?.clientRequestId !== undefined
@@ -1060,6 +1159,7 @@ export async function _deleteDataSourceConnectionDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 
@@ -1086,7 +1186,7 @@ export function _createOrUpdateDataSourceConnectionSend(
     "/datasources('{dataSourceName}'){?api%2Dversion,ignoreResetRequirements}",
     {
       dataSourceName: name,
-      "api%2Dversion": context.apiVersion ?? "2025-11-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
       ignoreResetRequirements: options?.skipIndexerResetRequirementForCache,
     },
     {
@@ -1097,7 +1197,11 @@ export function _createOrUpdateDataSourceConnectionSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      accept: "application/json;odata.metadata=minimal",
+      ...(options?.accept !== undefined
+        ? {
+            accept: !options?.accept ? options?.accept : "application/json;odata.metadata=minimal",
+          }
+        : {}),
       ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
       ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
       prefer: "return=representation",
@@ -1117,6 +1221,7 @@ export async function _createOrUpdateDataSourceConnectionDeserialize(
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
     error.details = errorResponseDeserializer(result.body);
+
     throw error;
   }
 

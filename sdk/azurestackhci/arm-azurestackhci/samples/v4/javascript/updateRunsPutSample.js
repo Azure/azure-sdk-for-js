@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to put Update runs for a specified update
  *
  * @summary put Update runs for a specified update
- * x-ms-original-file: 2026-02-01/PutUpdateRuns.json
+ * x-ms-original-file: 2026-04-30/PutUpdateRuns.json
  */
 async function getUpdateRunsUnderClusterResource() {
   const credential = new DefaultAzureCredential();

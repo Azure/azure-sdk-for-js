@@ -5,14 +5,18 @@
   "description": "Performance tests for the Azure AI Language Text client library",
   "author": "Microsoft Corporation",
   "license": "MIT",
-  "repository": "github:Azure/azure-sdk-for-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/cognitivelanguage/ai-language-text-perf-tests"
+  },
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/cognitivelanguage/ai-language-text-perf-tests/README.md",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitivelanguage/ai-language-text-perf-tests/README.md",
   "sideEffects": false,
   "type": "module",
   "main": "./dist/commonjs/index.js",
@@ -43,7 +47,7 @@
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "private": true,
   "dependencies": {
-    "@azure-tools/test-perf": "^1.0.0",
+    "@azure-tools/test-perf": "workspace:^",
     "@azure/ai-language-text": "^1.1.0",
     "@azure/identity": "^4.5.0",
     "dotenv": "^16.0.0",
@@ -73,5 +77,10 @@
     "test:browser": "echo skipped",
     "test:node": "echo skipped",
     "update-snippets": "dev-tool run update-snippets"
+  },
+  "imports": {
+    "#platform/*": {
+      "default": "./src/*.ts"
+    }
   }
 }

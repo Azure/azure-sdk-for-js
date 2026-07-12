@@ -4,14 +4,16 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { ClientOptions } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PathUncheckedResponse } from '@azure-rest/core-client';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
@@ -19,15 +21,73 @@ export type ActionType = string;
 // @public (undocumented)
 export class AtlasClient {
     constructor(credential: TokenCredential, subscriptionId: string, options?: AtlasClientOptionalParams);
+    readonly clusters: ClustersOperations;
     readonly operations: OperationsOperations;
     readonly organizations: OrganizationsOperations;
     readonly pipeline: Pipeline;
+    readonly projects: ProjectsOperations;
 }
 
 // @public
 export interface AtlasClientOptionalParams extends ClientOptions {
     apiVersion?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
+
+// @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
+
+// @public
+export interface Cluster extends ProxyResource {
+    properties?: ClusterProperties;
+}
+
+// @public
+export interface ClusterProperties {
+    readonly backups?: boolean;
+    readonly clusterName?: string;
+    clusterTier: ClusterTier;
+    readonly mongoDbVersion?: string;
+    readonly provisioningState?: ResourceProvisioningState;
+    regionName: string;
+    readonly state?: string;
+}
+
+// @public
+export interface ClustersCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ClustersDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ClustersGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ClustersListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ClustersOperations {
+    createOrUpdate: (resourceGroupName: string, organizationName: string, projectName: string, clusterName: string, resource: Cluster, options?: ClustersCreateOrUpdateOptionalParams) => PollerLike<OperationState<Cluster>, Cluster>;
+    delete: (resourceGroupName: string, organizationName: string, projectName: string, clusterName: string, options?: ClustersDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, organizationName: string, projectName: string, clusterName: string, options?: ClustersGetOptionalParams) => Promise<Cluster>;
+    list: (resourceGroupName: string, organizationName: string, projectName: string, options?: ClustersListOptionalParams) => PagedAsyncIterableIterator<Cluster>;
+}
+
+// @public
+export type ClusterTier = string;
 
 // @public
 export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
@@ -57,9 +117,19 @@ export interface ErrorResponse {
     error?: ErrorDetail;
 }
 
+export { isRestError }
+
 // @public
 export enum KnownActionType {
     Internal = "Internal"
+}
+
+// @public
+export enum KnownClusterTier {
+    Flex = "FLEX",
+    Free = "FREE",
+    M10 = "M10",
+    M30 = "M30"
 }
 
 // @public
@@ -102,7 +172,9 @@ export enum KnownResourceProvisioningState {
 
 // @public
 export enum KnownVersions {
-    V20250601 = "2025-06-01"
+    V20241118Preview = "2024-11-18-preview",
+    V20250601 = "2025-06-01",
+    V20260301Preview = "2026-03-01-preview"
 }
 
 // @public
@@ -110,7 +182,7 @@ export interface ManagedServiceIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type: ManagedServiceIdentityType;
-    userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
+    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
 
 // @public
@@ -249,6 +321,75 @@ export interface PartnerProperties {
 }
 
 // @public
+export interface Project extends ProxyResource {
+    properties?: ProjectProperties;
+}
+
+// @public
+export interface ProjectLimitStatus {
+    current: number;
+    isReached: boolean;
+    maximum: number;
+    type: ClusterTier;
+}
+
+// @public
+export interface ProjectProperties {
+    readonly clusterCount?: number;
+    readonly organizationId?: string;
+    readonly projectId?: string;
+    readonly projectName?: string;
+    readonly provisioningState?: ResourceProvisioningState;
+}
+
+// @public
+export interface ProjectsCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ProjectsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ProjectsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ProjectsListClusterTierRegionsOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ProjectsListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ProjectsOperations {
+    createOrUpdate: (resourceGroupName: string, organizationName: string, projectName: string, resource: Project, options?: ProjectsCreateOrUpdateOptionalParams) => PollerLike<OperationState<Project>, Project>;
+    delete: (resourceGroupName: string, organizationName: string, projectName: string, options?: ProjectsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, organizationName: string, projectName: string, options?: ProjectsGetOptionalParams) => Promise<Project>;
+    list: (resourceGroupName: string, organizationName: string, options?: ProjectsListOptionalParams) => PagedAsyncIterableIterator<Project>;
+    listClusterTierRegions: (resourceGroupName: string, organizationName: string, projectName: string, options?: ProjectsListClusterTierRegionsOptionalParams) => Promise<RegionsByTierResponse>;
+    tierLimitReached: (resourceGroupName: string, organizationName: string, projectName: string, options?: ProjectsTierLimitReachedOptionalParams) => Promise<TierLimitReachedResponse>;
+}
+
+// @public
+export interface ProjectsTierLimitReachedOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ProxyResource extends Resource {
+}
+
+// @public
+export interface RegionsByTierResponse {
+    readonly organizationId: string;
+    readonly projectId: string;
+    readonly regionsByTier: TierRegions[];
+}
+
+// @public
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
@@ -258,6 +399,8 @@ export interface Resource {
 
 // @public
 export type ResourceProvisioningState = string;
+
+export { RestError }
 
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: AtlasClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
@@ -277,6 +420,17 @@ export interface SystemData {
     lastModifiedAt?: Date;
     lastModifiedBy?: string;
     lastModifiedByType?: CreatedByType;
+}
+
+// @public
+export interface TierLimitReachedResponse {
+    readonly limits: ProjectLimitStatus[];
+}
+
+// @public
+export interface TierRegions {
+    regions: string[];
+    tier: ClusterTier;
 }
 
 // @public

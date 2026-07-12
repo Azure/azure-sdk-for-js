@@ -62,6 +62,7 @@ export type {
   RemoteSupportType,
   RemoteSupportNodeSettings,
   PerNodeRemoteSupportSession,
+  RemoteSupportProvisioningState,
   ClusterDesiredProperties,
   WindowsServerSubscription,
   DiagnosticLevel,
@@ -72,11 +73,14 @@ export type {
   ImdsAttestation,
   HardwareClass,
   IsolatedVmAttestationConfiguration,
+  ClusterBillingProperties,
+  NextBillingModel,
   SecretsLocationDetails,
   SecretsType,
   ClusterPattern,
   LocalAvailabilityZones,
   IdentityProvider,
+  StorageType,
   ManagedServiceIdentity,
   ManagedServiceIdentityType,
   UserAssignedIdentity,
@@ -105,6 +109,10 @@ export type {
   Observability,
   DeploymentCluster,
   Storage,
+  StorageS2DConfig,
+  VolumeType,
+  OverprovisioningRatio,
+  StorageSanConfig,
   InfrastructureNetwork,
   IpPools,
   DnsServerConfig,
@@ -117,6 +125,10 @@ export type {
   DeploymentSettingAdapterPropertyOverrides,
   DeploymentSettingStorageNetworks,
   DeploymentSettingStorageAdapterIPInfo,
+  SanNetworks,
+  SanClusterNetworkConfig,
+  SanAdapterProperties,
+  SanAdapterIPConfig,
   SdnIntegration,
   NetworkController,
   EceDeploymentSecrets,
@@ -169,6 +181,7 @@ export type {
   HciOsProfile,
   SbeDeploymentPackageInfo,
   HciStorageProfile,
+  EdgeDeviceDisks,
   HciHardwareProfile,
   ReportedProperties,
   DeviceState,
@@ -218,6 +231,7 @@ export type {
   Severity,
   AvailabilityType,
   UpdateStateProperties,
+  CheckUpdatesRequest,
   ValidatedSolutionRecipe,
   ValidatedSolutionRecipeProperties,
   ValidatedSolutionRecipeContent,
@@ -247,6 +261,7 @@ export {
   KnownLogCollectionJobType,
   KnownAccessLevel,
   KnownRemoteSupportType,
+  KnownRemoteSupportProvisioningState,
   KnownWindowsServerSubscription,
   KnownDiagnosticLevel,
   KnownClusterNodeType,
@@ -256,9 +271,12 @@ export {
   KnownSecretsType,
   KnownClusterPattern,
   KnownIdentityProvider,
+  KnownStorageType,
   KnownManagedServiceIdentityType,
   KnownDeploymentMode,
   KnownOperationType,
+  KnownVolumeType,
+  KnownOverprovisioningRatio,
   KnownDnsServerConfig,
   KnownEceSecrets,
   KnownEdgeDeviceKind,
@@ -359,6 +377,7 @@ export type {
   UpdateRunsGetOptionalParams,
 } from "./api/updateRuns/index.js";
 export type {
+  UpdatesPrepareOptionalParams,
   UpdatesPostOptionalParams,
   UpdatesListOptionalParams,
   UpdatesDeleteOptionalParams,
@@ -371,6 +390,10 @@ export type {
   UpdateSummariesPutOptionalParams,
   UpdateSummariesGetOptionalParams,
 } from "./api/updateSummaries/index.js";
+export type {
+  UpdateSummariesOperationGroupCheckHealthOptionalParams,
+  UpdateSummariesOperationGroupCheckUpdatesOptionalParams,
+} from "./api/updateSummariesOperationGroup/index.js";
 export type {
   ValidatedSolutionRecipesListBySubscriptionLocationResourceOptionalParams,
   ValidatedSolutionRecipesGetOptionalParams,
@@ -389,8 +412,10 @@ export type {
   UpdateRunsOperations,
   UpdatesOperations,
   UpdateSummariesOperations,
+  UpdateSummariesOperationGroupOperations,
   ValidatedSolutionRecipesOperations,
 } from "./classic/index.js";
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
 export { AzureClouds };
 export type { AzureSupportedClouds };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

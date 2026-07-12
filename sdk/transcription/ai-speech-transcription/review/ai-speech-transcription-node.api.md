@@ -5,9 +5,11 @@
 ```ts
 
 import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { KeyCredential } from '@azure/core-auth';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { Pipeline } from '@azure/core-rest-pipeline';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -24,7 +26,9 @@ export interface EnhancedModeOptions {
 }
 
 // @public
-export type FileContents = string | NodeJS.ReadableStream | ReadableStream<Uint8Array> | Uint8Array | Blob;
+export type FileContents = NodeJS.ReadableStream | ReadableStream<Uint8Array> | Uint8Array | Blob;
+
+export { isRestError }
 
 // @public
 export enum KnownProfanityFilterModes {
@@ -48,13 +52,15 @@ export interface PhraseListOptions {
 // @public
 export type ProfanityFilterMode = string;
 
+export { RestError }
+
 // @public
 export interface TranscribedPhrase {
     channel?: number;
     confidence: number;
-    durationMilliseconds: number;
+    durationInMs: number;
     locale?: string;
-    offsetMilliseconds: number;
+    offsetInMs: number;
     speaker?: number;
     text: string;
     words?: TranscribedWord[];
@@ -62,25 +68,21 @@ export interface TranscribedPhrase {
 
 // @public
 export interface TranscribedWord {
-    durationMilliseconds: number;
-    offsetMilliseconds: number;
+    durationInMs: number;
+    offsetInMs: number;
     text: string;
-}
-
-// @public
-export interface TranscribeOptionalParams extends OperationOptions {
 }
 
 // @public (undocumented)
 export class TranscriptionClient {
-    constructor(endpoint: string, credential: KeyCredential | TokenCredential, options?: TranscriptionClientOptionalParams);
+    constructor(endpoint: string, credential: KeyCredential | TokenCredential, options?: TranscriptionClientOptions);
     readonly pipeline: Pipeline;
-    transcribe(audioUrl: string, options?: Omit<TranscriptionOptions, "audioUrl">, operationOptions?: TranscribeOptionalParams): Promise<TranscriptionResult>;
-    transcribe(audio: Uint8Array | NodeJS.ReadableStream | ReadableStream<Uint8Array> | Blob, options?: Omit<TranscriptionOptions, "audioUrl">, operationOptions?: TranscribeOptionalParams): Promise<TranscriptionResult>;
+    transcribe(audioUrl: string, options?: Omit<TranscriptionOptions, "audioUrl">): Promise<TranscriptionResult>;
+    transcribe(audio: Uint8Array | NodeJS.ReadableStream | ReadableStream<Uint8Array> | Blob, options?: Omit<TranscriptionOptions, "audioUrl">): Promise<TranscriptionResult>;
 }
 
 // @public
-export interface TranscriptionClientOptionalParams extends ClientOptions {
+export interface TranscriptionClientOptions extends ClientOptions {
     serviceVersion?: string;
 }
 
@@ -91,7 +93,7 @@ export interface TranscriptionDiarizationOptions {
 }
 
 // @public
-export interface TranscriptionOptions {
+export interface TranscriptionOptions extends OperationOptions {
     activeChannels?: number[];
     audioUrl?: string;
     diarizationOptions?: TranscriptionDiarizationOptions;

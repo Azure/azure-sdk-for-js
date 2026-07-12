@@ -6,11 +6,13 @@
 
 import type { ClientOptions } from '@azure-rest/core-client';
 import type { ErrorModel } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { KeyCredential } from '@azure/core-auth';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState as OperationState_2 } from '@azure/core-lro';
 import type { Pipeline } from '@azure/core-rest-pipeline';
 import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -40,6 +42,16 @@ export interface AnalysisInput {
 }
 
 // @public
+export interface AnalysisOperationMetadata {
+    readonly operationId?: string;
+    readonly usage?: UsageDetails;
+}
+
+// @public
+export interface AnalysisOperationState extends OperationState_2<AnalysisResult>, AnalysisOperationMetadata {
+}
+
+// @public
 export interface AnalysisResult {
     analyzerId?: string;
     apiVersion?: string;
@@ -49,9 +61,10 @@ export interface AnalysisResult {
     warnings?: ErrorModel[];
 }
 
-// @public (undocumented)
-export interface AnalysisResultPoller extends PollerLike<OperationState_2<AnalysisResult>, AnalysisResult> {
-    operationId?: string;
+// @public
+export interface AnalysisResultPoller extends PollerLike<AnalysisOperationState, AnalysisResult> {
+    // @deprecated
+    readonly operationId?: string;
 }
 
 // @public
@@ -525,6 +538,8 @@ export interface IntegerField extends ContentField {
     value?: number;
 }
 
+export { isRestError }
+
 // @public
 export interface JsonField extends ContentField {
     fieldType: "json";
@@ -598,6 +613,8 @@ export interface RecordMergePatchUpdate {
     additionalProperties?: Record<string, string>;
 }
 
+export { RestError }
+
 // @public
 export type SemanticRole = "pageHeader" | "pageFooter" | "pageNumber" | "title" | "sectionHeading" | "footnote" | "formulaBlock";
 
@@ -620,6 +637,16 @@ export type TableFormat = "html" | "markdown";
 export interface TimeField extends ContentField {
     fieldType: "time";
     value?: string;
+}
+
+// @public
+export function toLlmInput(result: AnalysisResult, options?: ToLlmInputOptions): string;
+
+// @public
+export interface ToLlmInputOptions {
+    includeFields?: boolean;
+    includeMarkdown?: boolean;
+    metadata?: Record<string, unknown>;
 }
 
 // @public

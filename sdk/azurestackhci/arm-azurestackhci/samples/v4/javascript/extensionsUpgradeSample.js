@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to upgrade a particular Arc Extension of HCI Cluster.
  *
  * @summary upgrade a particular Arc Extension of HCI Cluster.
- * x-ms-original-file: 2026-02-01/Extensions_Upgrade.json
+ * x-ms-original-file: 2026-04-30/Extensions_Upgrade.json
  */
 async function upgradeMachineExtensions() {
   const credential = new DefaultAzureCredential();

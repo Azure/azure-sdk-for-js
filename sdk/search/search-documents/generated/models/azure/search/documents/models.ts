@@ -103,8 +103,8 @@ export interface SearchDocumentsResult {
   readonly semanticQueryRewritesResultType?: SemanticQueryRewritesResultType;
 }
 
-export function searchDocumentsResultSerializer(item: SearchDocumentsResult): any {
-  return item;
+export function searchDocumentsResultSerializer(_item: SearchDocumentsResult): any {
+  return {};
 }
 
 export function searchDocumentsResultDeserializer(item: any): SearchDocumentsResult {
@@ -256,8 +256,8 @@ export interface DebugInfo {
   readonly queryRewrites?: QueryRewritesDebugInfo;
 }
 
-export function debugInfoSerializer(item: DebugInfo): any {
-  return item;
+export function debugInfoSerializer(_item: DebugInfo): any {
+  return {};
 }
 
 export function debugInfoDeserializer(item: any): DebugInfo {
@@ -943,9 +943,7 @@ export function vectorThresholdDeserializer(item: any): VectorThreshold {
 
 /** Alias for VectorThresholdUnion */
 export type VectorThresholdUnion =
-  | VectorSimilarityThreshold
-  | SearchScoreThreshold
-  | VectorThreshold;
+  VectorSimilarityThreshold | SearchScoreThreshold | VectorThreshold;
 
 export function vectorThresholdUnionSerializer(item: VectorThresholdUnion): any {
   switch (item.kind) {
@@ -1250,7 +1248,7 @@ export enum KnownVectorFilterMode {
  */
 export type VectorFilterMode = string;
 
-/** TThe query parameters to configure hybrid search behaviors. */
+/** The query parameters to configure hybrid search behaviors. */
 export interface HybridSearch {
   /** Determines the maximum number of documents to be retrieved by the text query portion of a hybrid search request. Those documents will be combined with the documents matching the vector queries to produce a single final list of results. Choosing a larger maxTextRecallSize value will allow retrieving and paging through more documents (using the top and skip parameters), at the cost of higher resource utilization and higher latency. The value needs to be between 1 and 10,000. Default is 1000. */
   maxTextRecallSize?: number;
@@ -1793,8 +1791,8 @@ export interface IndexingResult {
   readonly statusCode: number;
 }
 
-export function indexingResultSerializer(item: IndexingResult): any {
-  return item;
+export function indexingResultSerializer(_item: IndexingResult): any {
+  return {};
 }
 
 export function indexingResultDeserializer(item: any): IndexingResult {
@@ -1841,8 +1839,8 @@ export interface AutocompleteItem {
   readonly queryPlusText: string;
 }
 
-export function autocompleteItemSerializer(item: AutocompleteItem): any {
-  return item;
+export function autocompleteItemSerializer(_item: AutocompleteItem): any {
+  return {};
 }
 
 export function autocompleteItemDeserializer(item: any): AutocompleteItem {

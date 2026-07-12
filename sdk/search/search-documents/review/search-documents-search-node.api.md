@@ -13,6 +13,7 @@ import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AutocompleteGetOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=none";
     autocompleteMode?: AutocompleteMode;
     clientRequestId?: string;
     filter?: string;
@@ -26,6 +27,7 @@ export interface AutocompleteGetOptionalParams extends OperationOptions {
 
 // @public
 export interface AutocompletePostOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=none";
     autocompleteMode?: AutocompleteMode;
     clientRequestId?: string;
     filter?: string;
@@ -39,11 +41,13 @@ export interface AutocompletePostOptionalParams extends OperationOptions {
 
 // @public
 export interface GetDocumentCountOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=none";
     clientRequestId?: string;
 }
 
 // @public
 export interface GetDocumentOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=none";
     clientRequestId?: string;
     enableElevatedRead?: boolean;
     querySourceAuthorization?: string;
@@ -52,6 +56,7 @@ export interface GetDocumentOptionalParams extends OperationOptions {
 
 // @public
 export interface IndexOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=none";
     clientRequestId?: string;
 }
 
@@ -83,6 +88,7 @@ export interface SearchContext extends Client {
 
 // @public
 export interface SearchGetOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=none";
     answers?: QueryAnswerType;
     captions?: QueryCaptionType;
     clientRequestId?: string;
@@ -120,6 +126,7 @@ export interface SearchGetOptionalParams extends OperationOptions {
 
 // @public
 export interface SearchPostOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=none";
     answers?: QueryAnswerType;
     captions?: QueryCaptionType;
     clientRequestId?: string;
@@ -160,6 +167,7 @@ export interface SearchPostOptionalParams extends OperationOptions {
 
 // @public
 export interface SuggestGetOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=none";
     clientRequestId?: string;
     filter?: string;
     highlightPostTag?: string;
@@ -174,6 +182,7 @@ export interface SuggestGetOptionalParams extends OperationOptions {
 
 // @public
 export interface SuggestPostOptionalParams extends OperationOptions {
+    accept?: "application/json;odata.metadata=none";
     clientRequestId?: string;
     filter?: string;
     highlightPostTag?: string;

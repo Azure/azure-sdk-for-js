@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete Update Summaries
  *
  * @summary delete Update Summaries
- * x-ms-original-file: 2026-02-01/DeleteUpdateSummaries.json
+ * x-ms-original-file: 2026-04-30/DeleteUpdateSummaries.json
  */
 async function deleteAnUpdate() {
   const credential = new DefaultAzureCredential();

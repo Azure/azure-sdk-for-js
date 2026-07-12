@@ -1,5 +1,61 @@
 # Release History
 
+## 7.0.0-beta.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 7.0.0-beta.1 (2026-05-12)
+Compared with version 6.0.0
+
+### Features Added
+  - Added operation group SubscriptionsOperations
+  - Added operation AliasOperations.create
+  - Added operation SubscriptionOperations.acceptOwnership
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface ProxyResource
+  - Added Interface Resource
+  - Added Interface RestorePollerOptions
+  - Added Interface SimplePollerLike
+  - Added Interface SubscriptionsAcceptTargetDirectoryOptionalParams
+  - Added Interface SubscriptionsDeleteTargetDirectoryOptionalParams
+  - Added Interface SubscriptionsGetTargetDirectoryOptionalParams
+  - Added Interface SubscriptionsListTargetDirectoryOptionalParams
+  - Added Interface SubscriptionsPutTargetDirectoryOptionalParams
+  - Added Interface SubscriptionsTargetDirectoryStatusOptionalParams
+  - Added Interface TargetDirectoryRequest
+  - Added Interface TargetDirectoryRequestProperties
+  - Added Interface TargetDirectoryResult
+  - Added Interface TargetDirectoryResultProperties
+  - Interface ErrorResponse has a new optional parameter error
+  - Interface Operation has a new optional parameter actionType
+  - Interface Operation has a new optional parameter origin
+  - Added Type Alias ActionType
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias ChangeDirectoryOperationStatus
+  - Added Type Alias Origin
+  - Added Enum AzureClouds
+  - Added Enum KnownActionType
+  - Added Enum KnownChangeDirectoryOperationStatus
+  - Added Enum KnownOrigin
+  - Added Enum KnownVersions
+
+### Breaking Changes
+  - Operation Alias.list has a new signature
+  - Operation Subscription.beginAcceptOwnershipAndWait has a new signature
+  - Removed Interface ErrorResponseBody
+  - Removed Interface GetTenantPolicyListResponse
+  - Interface ErrorResponse no longer has parameter code
+  - Interface ErrorResponse no longer has parameter message
+
 ## 6.0.0 (2025-10-30)
 
 ### Features Added

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to put specified Update
  *
  * @summary put specified Update
- * x-ms-original-file: 2026-02-01/PutUpdates.json
+ * x-ms-original-file: 2026-04-30/PutUpdates.json
  */
 async function putASpecificUpdate() {
   const credential = new DefaultAzureCredential();

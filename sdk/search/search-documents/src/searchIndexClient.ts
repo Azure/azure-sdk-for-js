@@ -10,7 +10,11 @@ import {
   bearerTokenAuthenticationPolicy,
   bearerTokenAuthenticationPolicyName,
 } from "@azure/core-rest-pipeline";
-import type { AnalyzeResult } from "./models/azure/search/documents/indexes/index.js";
+import type {
+  AnalyzeResult,
+  IndexStatisticsSummary,
+  KnowledgeSourceFile,
+} from "./models/azure/search/documents/indexes/index.js";
 import type { SearchIndexClientOptionalParams } from "./searchIndex/searchIndexClient.js";
 import { SearchIndexClient as GeneratedClient } from "./searchIndex/searchIndexClient.js";
 import type { KnowledgeBase } from "./knowledgeBaseModels.js";
@@ -39,11 +43,11 @@ import type {
   DeleteIndexOptions,
   DeleteKnowledgeBaseOptions,
   DeleteKnowledgeSourceOptions,
+  DeleteKnowledgeSourceFileOptions,
   DeleteSynonymMapOptions,
   GetAliasOptions,
   GetIndexOptions,
   GetIndexStatisticsOptions,
-  GetIndexStatsSummaryOptions,
   GetKnowledgeBaseOptions,
   GetKnowledgeSourceOptions,
   GetKnowledgeSourceStatusOptions,
@@ -51,24 +55,27 @@ import type {
   GetSynonymMapsOptions,
   IndexIterator,
   IndexNameIterator,
-  IndexStatisticsSummaryIterator,
   KnowledgeBaseIterator,
   KnowledgeSource,
   KnowledgeSourceIterator,
   ListAliasesOptions,
   ListIndexesOptions,
+  ListIndexStatsSummaryOptions,
   ListKnowledgeBasesOptions,
   ListKnowledgeSourcesOptions,
+  ListKnowledgeSourceFilesOptions,
   ListSynonymMapsOptions,
   SearchIndex,
   SearchIndexAlias,
   SearchIndexStatistics,
   SearchServiceStatistics,
+  UploadKnowledgeSourceFileOptions,
   SynonymMap,
 } from "./serviceModels.js";
 import * as utils from "./serviceUtils.js";
 import { tracingClient } from "./tracing.js";
 import type { ClientOptions } from "@azure-rest/core-client";
+import type { PagedAsyncIterableIterator } from "./static-helpers/pagingHelpers.js";
 import type { KnowledgeSourceStatus } from "./models/azure/search/documents/knowledgeBases/index.js";
 
 /**
@@ -211,6 +218,16 @@ export class SearchIndexClient {
       this.client.listIndexes(options),
       utils.generatedIndexToPublicIndex,
     );
+  }
+
+  /**
+   * Retrieves a summary of statistics for all indexes in the search service.
+   * @param options - Options to the list index stats summary operation.
+   */
+  public listIndexStatsSummary(
+    options: ListIndexStatsSummaryOptions = {},
+  ): PagedAsyncIterableIterator<IndexStatisticsSummary> {
+    return this.client.listIndexStatsSummary(options);
   }
 
   /**
@@ -608,16 +625,6 @@ export class SearchIndexClient {
   }
 
   /**
-   * Retrieves a list of existing indexes in the service.
-   * @param options - Options to the list index operation.
-   */
-  public getIndexStatsSummary(
-    options: GetIndexStatsSummaryOptions = {},
-  ): IndexStatisticsSummaryIterator {
-    return this.client.listIndexStatsSummary(options);
-  }
-
-  /**
    * Creates a new knowledgebase.
    * @param knowledgeBase - definition of the knowledgebase to create.
    * @param options - options parameters.
@@ -741,7 +748,6 @@ export class SearchIndexClient {
   }
 
   public async createOrUpdateKnowledgeSource(
-    sourceName: string,
     knowledgeSource: KnowledgeSource,
     options: CreateOrUpdateKnowledgeSourceOptions = {},
   ): Promise<KnowledgeSource> {
@@ -752,7 +758,7 @@ export class SearchIndexClient {
         const etag = options.onlyIfUnchanged ? knowledgeSource.etag : undefined;
         const result = await this.client.createOrUpdateKnowledgeSource(
           utils.convertKnowledgeSourceToGenerated(knowledgeSource)!,
-          sourceName,
+          knowledgeSource.name,
           {
             ...updatedOptions,
             ifMatch: etag,
@@ -821,9 +827,8 @@ export class SearchIndexClient {
    * @param options - Options to the list knowledge sources operation.
    */
   public listKnowledgeSources(options: ListKnowledgeSourcesOptions = {}): KnowledgeSourceIterator {
-    return utils.mapPagedAsyncIterable(
-      this.client.listKnowledgeSources(options),
-      (ks) => utils.convertKnowledgeSourceToPublic(ks)!,
+    return utils.mapPagedAsyncIterable(this.client.listKnowledgeSources(options), (ks) =>
+      utils.convertKnowledgeSourceToPublic(ks)!,
     );
   }
 
@@ -863,6 +868,65 @@ export class SearchIndexClient {
       options,
       async (updatedOptions) => {
         return this.client.getKnowledgeSourceStatus(sourceName, updatedOptions);
+      },
+    );
+  }
+
+  /**
+   * Uploads a file to a File knowledge source for processing and indexing.
+   * @param name - The name of the knowledge source.
+   * @param file - The file contents.
+   * @param contentDisposition - The content-disposition header value (e.g., 'attachment; filename="example.pdf"').
+   * @param options - The options parameters.
+   */
+  public async uploadKnowledgeSourceFile(
+    name: string,
+    file: Uint8Array,
+    contentDisposition: string,
+    options: UploadKnowledgeSourceFileOptions = {},
+  ): Promise<KnowledgeSourceFile> {
+    return tracingClient.withSpan(
+      "SearchIndexClient-uploadKnowledgeSourceFile",
+      options,
+      async (updatedOptions) => {
+        return this.client.uploadKnowledgeSourceFile(
+          contentDisposition,
+          file,
+          name,
+          updatedOptions,
+        );
+      },
+    );
+  }
+
+  /**
+   * Lists all files in a File knowledge source.
+   * @param name - The name of the knowledge source.
+   * @param options - The options parameters.
+   */
+  public listKnowledgeSourceFiles(
+    name: string,
+    options: ListKnowledgeSourceFilesOptions = {},
+  ): PagedAsyncIterableIterator<KnowledgeSourceFile> {
+    return this.client.listKnowledgeSourceFiles(name, options);
+  }
+
+  /**
+   * Deletes a file from a File knowledge source and removes all indexed content derived from it.
+   * @param name - The name of the knowledge source.
+   * @param fileId - The file identifier.
+   * @param options - The options parameters.
+   */
+  public async deleteKnowledgeSourceFile(
+    name: string,
+    fileId: string,
+    options: DeleteKnowledgeSourceFileOptions = {},
+  ): Promise<void> {
+    return tracingClient.withSpan(
+      "SearchIndexClient-deleteKnowledgeSourceFile",
+      options,
+      async (updatedOptions) => {
+        return this.client.deleteKnowledgeSourceFile(fileId, name, updatedOptions);
       },
     );
   }

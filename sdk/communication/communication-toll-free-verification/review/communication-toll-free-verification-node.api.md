@@ -6,8 +6,10 @@
 
 import type { CommonClientOptions } from '@azure/core-client';
 import * as coreClient from '@azure/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { KeyCredential } from '@azure/core-auth';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public (undocumented)
@@ -71,6 +73,7 @@ export interface CampaignBrief {
     businessPointOfContact?: BusinessPointOfContact;
     businessRegistrationDetails?: BusinessRegistrationDetails;
     countryCode?: string;
+    dba?: string;
     estimatedMonthlyVolume?: EstimatedMonthlyVolume;
     id: string;
     // (undocumented)
@@ -144,6 +147,8 @@ export type EstimatedMonthlyVolume = "V10" | "V100" | "V1000" | "V10000" | "V100
 // @public
 export type FileType = "png" | "jpg" | "jpeg" | "pdf";
 
+export { isRestError }
+
 // @public (undocumented)
 export interface OptInDetails {
     // (undocumented)
@@ -159,6 +164,8 @@ export interface Option {
     // (undocumented)
     type: Type;
 }
+
+export { RestError }
 
 // @public
 export interface ReviewNote {

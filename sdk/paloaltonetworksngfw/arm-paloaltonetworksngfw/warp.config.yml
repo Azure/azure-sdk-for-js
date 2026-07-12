@@ -1,1 +1,37 @@
-extends: ../../../warp.base.config.yml
+# warp.config.yml — build configuration
+
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/paloAltoNetworksCloudngfwOperations": "./src/api/paloAltoNetworksCloudngfwOperations/index.ts"
+  "./api/prefixListLocalRulestack": "./src/api/prefixListLocalRulestack/index.ts"
+  "./api/localRules": "./src/api/localRules/index.ts"
+  "./api/fqdnListLocalRulestack": "./src/api/fqdnListLocalRulestack/index.ts"
+  "./api/certificateObjectLocalRulestack": "./src/api/certificateObjectLocalRulestack/index.ts"
+  "./api/firewallStatus": "./src/api/firewallStatus/index.ts"
+  "./api/metricsObjectFirewall": "./src/api/metricsObjectFirewall/index.ts"
+  "./api/localRulestacks": "./src/api/localRulestacks/index.ts"
+  "./api/firewalls": "./src/api/firewalls/index.ts"
+  "./api/preRules": "./src/api/preRules/index.ts"
+  "./api/prefixListGlobalRulestack": "./src/api/prefixListGlobalRulestack/index.ts"
+  "./api/postRules": "./src/api/postRules/index.ts"
+  "./api/fqdnListGlobalRulestack": "./src/api/fqdnListGlobalRulestack/index.ts"
+  "./api/certificateObjectGlobalRulestack": "./src/api/certificateObjectGlobalRulestack/index.ts"
+  "./api/globalRulestack": "./src/api/globalRulestack/index.ts"
+  "./api/customCaptureConfigurationsFirewallResources": "./src/api/customCaptureConfigurationsFirewallResources/index.ts"
+  "./api/operations": "./src/api/operations/index.ts"
+  "./models": "./src/models/index.ts"
+
+targets:
+  - name: browser
+    tsconfig: "./config/tsconfig.src.browser.json"
+
+  - name: esm
+    condition: import
+    tsconfig: "./config/tsconfig.src.esm.json"
+
+  - name: commonjs
+    condition: require
+    tsconfig: "./config/tsconfig.src.cjs.json"
+    moduleType: commonjs

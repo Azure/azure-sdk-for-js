@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list all the users on a mongo cluster.
  *
  * @summary list all the users on a mongo cluster.
- * x-ms-original-file: 2025-09-01/MongoClusters_UserList.json
+ * x-ms-original-file: 2026-06-01/MongoClusters_UserList.json
  */
 async function listTheUsersOnAMongoClusterResource() {
   const credential = new DefaultAzureCredential();

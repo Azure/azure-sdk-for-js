@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to fetches the usages of the vault.
  *
  * @summary fetches the usages of the vault.
- * x-ms-original-file: 2025-08-01/ListUsages.json
+ * x-ms-original-file: 2026-05-01/ListUsages.json
  */
 async function getsVaultUsages() {
   const credential = new DefaultAzureCredential();

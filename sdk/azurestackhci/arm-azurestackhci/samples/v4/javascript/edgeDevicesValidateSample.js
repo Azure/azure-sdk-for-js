@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to a long-running resource action.
  *
  * @summary a long-running resource action.
- * x-ms-original-file: 2026-02-01/ValidateEdgeDevices.json
+ * x-ms-original-file: 2026-04-30/ValidateEdgeDevices.json
  */
 async function validateEdgeDevices() {
   const credential = new DefaultAzureCredential();

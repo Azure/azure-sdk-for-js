@@ -278,12 +278,7 @@ export interface BlobDownloadResponseParsed extends BlobDownloadResponseModel {
  * The type of a {@link BlobQueryArrowField}.
  */
 export type BlobQueryArrowFieldType =
-  | "int64"
-  | "bool"
-  | "timestamp[ms]"
-  | "string"
-  | "double"
-  | "decimal";
+  "int64" | "bool" | "timestamp[ms]" | "string" | "double" | "decimal";
 
 /**
  * Describe a field in {@link BlobQueryArrowConfiguration}.
@@ -439,6 +434,26 @@ export interface BlobClientConfig {
 }
 
 /**
- * Options for creating blob client instances
+ * Options for creating BlobClient instances
  */
 export type BlobClientOptions = StoragePipelineOptions & BlobClientConfig;
+/**
+ * Options for creating BlockBlobClient instances
+ */
+export type BlockBlobClientOptions = StoragePipelineOptions & BlobClientConfig;
+/**
+ * Options for creating PageBlobClient instances
+ */
+export type PageBlobClientOptions = StoragePipelineOptions & BlobClientConfig;
+/**
+ * Options for creating AppendBlobClient instances
+ */
+export type AppendBlobClientOptions = StoragePipelineOptions & BlobClientConfig;
+/**
+ * Options for creating ContainerClient instances
+ */
+export type ContainerClientOptions = StoragePipelineOptions & BlobClientConfig;
+/**
+ * Options for creating BlobServiceClient instances
+ */
+export type BlobServiceClientOptions = StoragePipelineOptions & BlobClientConfig;

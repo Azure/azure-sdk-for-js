@@ -6,11 +6,13 @@
 
 import type { AbortSignalLike } from '@azure/abort-controller';
 import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
 import type { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { Pipeline } from '@azure/core-rest-pipeline';
 import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -41,7 +43,6 @@ export interface AccountPropertiesPatch {
     encryption?: AccountEncryption;
     entraIdConfig?: EntraIdConfigPatch;
     ldapConfiguration?: LdapConfigurationPatch;
-    multiAdStatus?: MultiAdStatus;
     nfsV4IDDomain?: string | null;
 }
 
@@ -87,9 +88,15 @@ export interface AccountsOperations {
     getChangeKeyVaultInformation: (resourceGroupName: string, accountName: string, options?: AccountsGetChangeKeyVaultInformationOptionalParams) => PollerLike<OperationState<GetKeyVaultStatusResponse>, GetKeyVaultStatusResponse>;
     list: (resourceGroupName: string, options?: AccountsListOptionalParams) => PagedAsyncIterableIterator<NetAppAccount>;
     listBySubscription: (options?: AccountsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<NetAppAccount>;
+    refreshLdapBindPassword: (resourceGroupName: string, accountName: string, options?: AccountsRefreshLdapBindPasswordOptionalParams) => PollerLike<OperationState<void>, void>;
     renewCredentials: (resourceGroupName: string, accountName: string, options?: AccountsRenewCredentialsOptionalParams) => PollerLike<OperationState<void>, void>;
     transitionToCmk: (resourceGroupName: string, accountName: string, options?: AccountsTransitionToCmkOptionalParams) => PollerLike<OperationState<void>, void>;
     update: (resourceGroupName: string, accountName: string, body: NetAppAccountPatch, options?: AccountsUpdateOptionalParams) => PollerLike<OperationState<NetAppAccount>, NetAppAccount>;
+}
+
+// @public
+export interface AccountsRefreshLdapBindPasswordOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -153,7 +160,7 @@ export interface ActiveDirectoryConfigProperties {
     readonly provisioningState?: NetAppProvisioningState;
     secretPassword: SecretPassword;
     securityOperators?: string[];
-    site?: string;
+    site: string;
     smbServerName?: string;
     userName?: string;
 }
@@ -492,6 +499,23 @@ export interface BackupVaultsUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
+export type BindAuthenticationLevel = string;
+
+// @public
+export interface BindPasswordAkvConfig {
+    azureKeyVaultUri: string;
+    secretName: string;
+    userAssignedIdentity?: string;
+}
+
+// @public
+export interface BindPasswordAkvConfigPatch {
+    azureKeyVaultUri?: string;
+    secretName?: string;
+    userAssignedIdentity?: string;
+}
+
+// @public
 export interface BreakFileLocksRequest {
     clientIp?: string;
     confirmRunningDisruptiveOperation?: boolean;
@@ -627,6 +651,9 @@ export interface Cache extends TrackedResource {
 }
 
 // @public
+export type CacheFileAccessLogs = string;
+
+// @public
 export type CacheLifeCycleState = string;
 
 // @public
@@ -645,6 +672,7 @@ export interface CacheProperties {
     readonly encryption?: EncryptionState;
     encryptionKeySource: EncryptionKeySource;
     exportPolicy?: CachePropertiesExportPolicy;
+    readonly fileAccessLogs?: CacheFileAccessLogs;
     filePath: string;
     globalFileLocking?: GlobalFileLockingState;
     kerberos?: KerberosState;
@@ -687,7 +715,7 @@ export interface CachesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface CachesListByCapacityPoolsOptionalParams extends OperationOptions {
+export interface CachesListOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -699,10 +727,10 @@ export interface CachesOperations {
     createOrUpdate: (resourceGroupName: string, accountName: string, poolName: string, cacheName: string, body: Cache, options?: CachesCreateOrUpdateOptionalParams) => PollerLike<OperationState<Cache>, Cache>;
     delete: (resourceGroupName: string, accountName: string, poolName: string, cacheName: string, options?: CachesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, accountName: string, poolName: string, cacheName: string, options?: CachesGetOptionalParams) => Promise<Cache>;
-    listByCapacityPools: (resourceGroupName: string, accountName: string, poolName: string, options?: CachesListByCapacityPoolsOptionalParams) => PagedAsyncIterableIterator<Cache>;
+    list: (resourceGroupName: string, accountName: string, poolName: string, options?: CachesListOptionalParams) => PagedAsyncIterableIterator<Cache>;
     listPeeringPassphrases: (resourceGroupName: string, accountName: string, poolName: string, cacheName: string, options?: CachesListPeeringPassphrasesOptionalParams) => Promise<PeeringPassphrases>;
-    poolChange: (resourceGroupName: string, accountName: string, poolName: string, cacheName: string, body: PoolChangeRequest, options?: CachesPoolChangeOptionalParams) => PollerLike<OperationState<void>, void>;
-    resetSmbPassword: (resourceGroupName: string, accountName: string, poolName: string, cacheName: string, options?: CachesResetSmbPasswordOptionalParams) => PollerLike<OperationState<void>, void>;
+    poolChange: (resourceGroupName: string, accountName: string, poolName: string, cacheName: string, body: PoolChangeRequest, options?: CachesPoolChangeOptionalParams) => PollerLike<OperationState<Cache>, Cache>;
+    resetSmbPassword: (resourceGroupName: string, accountName: string, poolName: string, cacheName: string, options?: CachesResetSmbPasswordOptionalParams) => PollerLike<OperationState<Cache>, Cache>;
     update: (resourceGroupName: string, accountName: string, poolName: string, cacheName: string, body: CacheUpdate, options?: CachesUpdateOptionalParams) => PollerLike<OperationState<Cache>, Cache>;
 }
 
@@ -759,6 +787,7 @@ export interface CapacityPoolPatch {
 export interface CertificateAkvDetails {
     certificateKeyVaultUri?: string;
     certificateName?: string;
+    userAssignedIdentity?: string;
 }
 
 // @public
@@ -818,7 +847,13 @@ export interface CifsUser {
 
 // @public
 export interface ClusterPeerCommandResponse {
-    peerAcceptCommand?: string;
+    properties?: ClusterPeerCommandResponseProperties;
+}
+
+// @public
+export interface ClusterPeerCommandResponseProperties {
+    clusterPeeringCommand?: string;
+    passphrase?: string;
 }
 
 // @public
@@ -839,6 +874,7 @@ export type CreatedByType = string;
 export interface CredentialsAkvDetails {
     credentialsKeyVaultUri?: string;
     secretName?: string;
+    userAssignedIdentity?: string;
 }
 
 // @public
@@ -1673,6 +1709,8 @@ export interface HourlySchedule {
 // @public
 export type InAvailabilityReasonType = string;
 
+export { isRestError }
+
 // @public
 export type KerberosState = string;
 
@@ -1739,6 +1777,12 @@ export enum KnownBackupType {
 }
 
 // @public
+export enum KnownBindAuthenticationLevel {
+    Anonymous = "Anonymous",
+    Simple = "Simple"
+}
+
+// @public
 export enum KnownBreakthroughMode {
     Disabled = "Disabled",
     Enabled = "Enabled"
@@ -1754,6 +1798,12 @@ export enum KnownBucketPatchPermissions {
 export enum KnownBucketPermissions {
     ReadOnly = "ReadOnly",
     ReadWrite = "ReadWrite"
+}
+
+// @public
+export enum KnownCacheFileAccessLogs {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
 }
 
 // @public
@@ -2251,7 +2301,13 @@ export enum KnownVersions {
     V20250801 = "2025-08-01",
     V20250901 = "2025-09-01",
     V20251201 = "2025-12-01",
-    V20251215Preview = "2025-12-15-preview"
+    V20251215Preview = "2025-12-15-preview",
+    V20260101 = "2026-01-01",
+    V20260115Preview = "2026-01-15-preview",
+    V20260301 = "2026-03-01",
+    V20260315Preview = "2026-03-15-preview",
+    V20260401 = "2026-04-01",
+    V20260415Preview = "2026-04-15-preview"
 }
 
 // @public
@@ -2368,6 +2424,9 @@ export type LargeVolumeType = string;
 
 // @public
 export interface LdapConfiguration {
+    bindAuthenticationLevel?: BindAuthenticationLevel;
+    bindDN?: string;
+    bindPasswordAkvConfig?: BindPasswordAkvConfig;
     certificateCNHost?: string | null;
     domain?: string;
     ldapOverTLS?: boolean;
@@ -2377,6 +2436,9 @@ export interface LdapConfiguration {
 
 // @public
 export interface LdapConfigurationPatch {
+    bindAuthenticationLevel?: BindAuthenticationLevel;
+    bindDN?: string;
+    bindPasswordAkvConfig?: BindPasswordAkvConfigPatch;
     certificateCNHost?: string | null;
     domain?: string;
     ldapOverTLS?: boolean;
@@ -2484,13 +2546,9 @@ export interface NetAppAccount extends TrackedResource {
 
 // @public
 export interface NetAppAccountPatch {
-    readonly id?: string;
     identity?: ManagedServiceIdentity;
-    location?: string;
-    readonly name?: string;
     properties?: AccountPropertiesPatch;
     tags?: Record<string, string>;
-    readonly type?: string;
 }
 
 // @public (undocumented)
@@ -3016,6 +3074,8 @@ export interface ResourceNameAvailabilityRequest {
     type: CheckNameResourceTypes;
 }
 
+export { RestError }
+
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: NetAppManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
 
@@ -3309,6 +3369,11 @@ export interface SuspectFile {
 
 // @public
 export interface SvmPeerCommandResponse {
+    properties?: SvmPeerCommandResponseProperties;
+}
+
+// @public
+export interface SvmPeerCommandResponseProperties {
     svmPeeringCommand?: string;
 }
 

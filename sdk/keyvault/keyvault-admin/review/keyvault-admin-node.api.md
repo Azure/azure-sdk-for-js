@@ -7,8 +7,10 @@
 import type { AbortSignalLike } from '@azure/abort-controller';
 import type { CancelOnProgress } from '@azure/core-lro';
 import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -24,7 +26,19 @@ export interface BooleanKeyVaultSetting extends KeyVaultSetting {
 }
 
 // @public
+export interface CheckEkmConnectionOptions extends OperationOptions {
+}
+
+// @public
+export interface CreateEkmConnectionOptions extends OperationOptions {
+}
+
+// @public
 export interface CreateRoleAssignmentOptions extends OperationOptions {
+}
+
+// @public
+export interface DeleteEkmConnectionOptions extends OperationOptions {
 }
 
 // @public
@@ -33,6 +47,43 @@ export interface DeleteRoleAssignmentOptions extends OperationOptions {
 
 // @public
 export interface DeleteRoleDefinitionOptions extends OperationOptions {
+}
+
+// @public
+export interface EkmClientOptions extends ClientOptions {
+    disableChallengeResourceVerification?: boolean;
+    serviceVersion?: SUPPORTED_API_VERSIONS;
+}
+
+// @public
+export interface EkmConnection {
+    host: string;
+    pathPrefix?: string;
+    serverCaCertificates: Uint8Array[];
+    serverSubjectCommonName?: string;
+}
+
+// @public
+export interface EkmProxyClientCertificateInfo {
+    readonly caCertificates: Uint8Array[];
+    readonly subjectCommonName: string;
+}
+
+// @public
+export interface EkmProxyInfo {
+    apiVersion: string;
+    ekmProduct: string;
+    ekmVendor: string;
+    proxyName: string;
+    proxyVendor: string;
+}
+
+// @public
+export interface GetEkmCertificateOptions extends OperationOptions {
+}
+
+// @public
+export interface GetEkmConnectionOptions extends OperationOptions {
 }
 
 // @public
@@ -49,6 +100,8 @@ export interface GetSettingOptions extends OperationOptions {
 
 // @public
 export function isBooleanSetting(setting: KeyVaultSetting): setting is BooleanKeyVaultSetting;
+
+export { isRestError }
 
 // @public
 export class KeyVaultAccessControlClient {
@@ -137,6 +190,18 @@ export interface KeyVaultBeginSelectiveKeyRestoreOptions extends KeyVaultBackupP
 
 // @public
 export type KeyVaultDataAction = string;
+
+// @public
+export class KeyVaultEkmClient {
+    constructor(vaultUrl: string, credential: TokenCredential, options?: EkmClientOptions);
+    checkEkmConnection(options?: CheckEkmConnectionOptions): Promise<EkmProxyInfo>;
+    createEkmConnection(ekmConnection: EkmConnection, options?: CreateEkmConnectionOptions): Promise<EkmConnection>;
+    deleteEkmConnection(options?: DeleteEkmConnectionOptions): Promise<EkmConnection>;
+    getEkmCertificate(options?: GetEkmCertificateOptions): Promise<EkmProxyClientCertificateInfo>;
+    getEkmConnection(options?: GetEkmConnectionOptions): Promise<EkmConnection>;
+    updateEkmConnection(ekmConnection: EkmConnection, options?: UpdateEkmConnectionOptions): Promise<EkmConnection>;
+    readonly vaultUrl: string;
+}
 
 // @public
 export interface KeyVaultPermission {
@@ -257,7 +322,7 @@ export enum KnownKeyVaultRoleScope {
 }
 
 // @public
-export const LATEST_API_VERSION = "7.6";
+export const LATEST_API_VERSION = "2026-01-01-preview";
 
 // @public
 export interface ListRoleAssignmentsOptions extends OperationOptions {
@@ -306,6 +371,8 @@ export interface PollerLike<TState extends KeyVaultAdminPollOperationState<TResu
     toString(): string;
 }
 
+export { RestError }
+
 // @public
 export const SDK_VERSION: string;
 
@@ -325,7 +392,11 @@ export interface SettingsClientOptions extends ClientOptions {
 }
 
 // @public
-export type SUPPORTED_API_VERSIONS = "7.2" | "7.3" | "7.4" | "7.5" | "7.6";
+export type SUPPORTED_API_VERSIONS = "7.2" | "7.3" | "7.4" | "7.5" | "7.6" | "2025-07-01" | "2026-01-01-preview";
+
+// @public
+export interface UpdateEkmConnectionOptions extends OperationOptions {
+}
 
 // @public
 export interface UpdateSettingOptions extends OperationOptions {

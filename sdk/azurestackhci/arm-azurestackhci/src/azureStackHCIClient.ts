@@ -27,6 +27,8 @@ import type { UpdateRunsOperations } from "./classic/updateRuns/index.js";
 import { _getUpdateRunsOperations } from "./classic/updateRuns/index.js";
 import type { UpdateSummariesOperations } from "./classic/updateSummaries/index.js";
 import { _getUpdateSummariesOperations } from "./classic/updateSummaries/index.js";
+import type { UpdateSummariesOperationGroupOperations } from "./classic/updateSummariesOperationGroup/index.js";
+import { _getUpdateSummariesOperationGroupOperations } from "./classic/updateSummariesOperationGroup/index.js";
 import type { UpdatesOperations } from "./classic/updates/index.js";
 import { _getUpdatesOperations } from "./classic/updates/index.js";
 import type { ValidatedSolutionRecipesOperations } from "./classic/validatedSolutionRecipes/index.js";
@@ -73,6 +75,7 @@ export class AzureStackHCIClient {
     this.pipeline = this._client.pipeline;
     this.updateSummaries = _getUpdateSummariesOperations(this._client);
     this.validatedSolutionRecipes = _getValidatedSolutionRecipesOperations(this._client);
+    this.updateSummariesOperationGroup = _getUpdateSummariesOperationGroupOperations(this._client);
     this.updates = _getUpdatesOperations(this._client);
     this.updateRuns = _getUpdateRunsOperations(this._client);
     this.skus = _getSkusOperations(this._client);
@@ -91,6 +94,8 @@ export class AzureStackHCIClient {
   public readonly updateSummaries: UpdateSummariesOperations;
   /** The operation groups for validatedSolutionRecipes */
   public readonly validatedSolutionRecipes: ValidatedSolutionRecipesOperations;
+  /** The operation groups for updateSummariesOperationGroup */
+  public readonly updateSummariesOperationGroup: UpdateSummariesOperationGroupOperations;
   /** The operation groups for updates */
   public readonly updates: UpdatesOperations;
   /** The operation groups for updateRuns */

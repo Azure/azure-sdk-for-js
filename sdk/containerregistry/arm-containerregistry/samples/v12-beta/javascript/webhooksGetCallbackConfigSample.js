@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the configuration of service URI and custom headers for the webhook.
  *
  * @summary gets the configuration of service URI and custom headers for the webhook.
- * x-ms-original-file: 2026-01-01-preview/WebhookGetCallbackConfig.json
+ * x-ms-original-file: 2026-03-01-preview/WebhookGetCallbackConfig.json
  */
 async function webhookGetCallbackConfig() {
   const credential = new DefaultAzureCredential();

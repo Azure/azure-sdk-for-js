@@ -5,6 +5,9 @@ export {
   listIndexStatsSummary,
   getServiceStatistics,
   getKnowledgeSourceStatus,
+  uploadKnowledgeSourceFile,
+  listKnowledgeSourceFiles,
+  deleteKnowledgeSourceFile,
   createKnowledgeSource,
   listKnowledgeSources,
   getKnowledgeSource,
@@ -38,6 +41,9 @@ export type {
   ListIndexStatsSummaryOptionalParams,
   GetServiceStatisticsOptionalParams,
   GetKnowledgeSourceStatusOptionalParams,
+  UploadKnowledgeSourceFileOptionalParams,
+  ListKnowledgeSourceFilesOptionalParams,
+  DeleteKnowledgeSourceFileOptionalParams,
   CreateKnowledgeSourceOptionalParams,
   ListKnowledgeSourcesOptionalParams,
   GetKnowledgeSourceOptionalParams,
@@ -67,8 +73,5 @@ export type {
   DeleteSynonymMapOptionalParams,
   CreateOrUpdateSynonymMapOptionalParams,
 } from "./options.js";
-export {
-  createSearchIndex,
-  type SearchIndexContext,
-  type SearchIndexClientOptionalParams,
-} from "./searchIndexContext.js";
+export type { SearchIndexContext, SearchIndexClientOptionalParams } from "./searchIndexContext.js";
+export { createSearchIndex } from "./searchIndexContext.js";
