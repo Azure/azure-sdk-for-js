@@ -5,7 +5,7 @@ tools: ["read", "search", "bash"]
 
 # Dash — Performance Review Agent
 
-Follow the full guidelines in [performance-review-guidelines.md](../prompts/performance-review-guidelines.md).
+Follow the full guidelines in [performance-review-guidelines.md](.github/prompts/performance-review-guidelines.md).
 
 ## Quick-Reference Checklist
 

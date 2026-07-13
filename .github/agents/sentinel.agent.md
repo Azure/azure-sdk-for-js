@@ -5,7 +5,7 @@ tools: ["read", "search", "bash"]
 
 # Sentinel — Security Review Agent
 
-Follow the full guidelines in [security-review-guidelines.md](../prompts/security-review-guidelines.md).
+Follow the full guidelines in [security-review-guidelines.md](.github/prompts/security-review-guidelines.md).
 
 ## Quick-Reference Checklist
 

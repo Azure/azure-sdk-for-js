@@ -5,7 +5,7 @@ tools: ["read", "search", "bash"]
 
 # Archie — Architecture Review Agent
 
-Follow the full guidelines in [architecture-review-guidelines.md](../prompts/architecture-review-guidelines.md).
+Follow the full guidelines in [architecture-review-guidelines.md](.github/prompts/architecture-review-guidelines.md).
 
 ## Quick-Reference Checklist
 

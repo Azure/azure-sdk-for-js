@@ -11,7 +11,7 @@ Analyze breaking changes in Azure SDK for JS PRs that migrate **ARM management S
 
 Before performing any analysis, you **MUST**:
 
-1. **Read** [mgmt-breaking-change-analysis-guidelines.md](../prompts/mgmt-breaking-change-analysis-guidelines.md) in full
+1. **Read** [mgmt-breaking-change-analysis-guidelines.md](.github/prompts/mgmt-breaking-change-analysis-guidelines.md) in full
 2. **Extract and restate** the phases and required steps from the guidelines
 3. **Follow the phases exactly in order** -- do not skip or reorder
 
@@ -93,7 +93,7 @@ Entry: "Operation Foo.get has a new signature"
 
 ## Mandatory Pattern Matching Step
 
-After root cause classification, match **Type 2 entries only** against architect-approved patterns in [mgmt-breaking-change-patterns.md](../prompts/mgmt-breaking-change-patterns.md). Type 1 entries are NOT covered by patterns -- skip them. Full procedure is in the guidelines Phase 4.
+After root cause classification, match **Type 2 entries only** against architect-approved patterns in [mgmt-breaking-change-patterns.md](.github/prompts/mgmt-breaking-change-patterns.md). Type 1 entries are NOT covered by patterns -- skip them. Full procedure is in the guidelines Phase 4.
 
 Do NOT skip this step. Do NOT consult patterns before completing independent investigation.
 

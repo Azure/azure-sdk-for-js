@@ -162,7 +162,9 @@ Agent definitions and their detailed review guidelines are stored in:
 ```
 
 - **`.github/agents/*.agent.md`** — Defines the agent persona, checklist, scope,
-  and output format. Used by both VS Code Copilot Chat and CI workflows.
+  and output format. Used by both VS Code Copilot Chat and CI workflows. Links
+  in agent profiles are resolved from the repository root, so reference
+  guidelines as `.github/prompts/<file>.md`, not `../prompts/<file>.md`.
 - **`.github/prompts/*-review-guidelines.md`** — Comprehensive review guidelines
   referenced by each agent. Edit these to update review criteria.
 - **`.github/workflows/*.md`** — Agentic Workflow source files that define the
