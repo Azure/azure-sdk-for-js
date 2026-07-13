@@ -667,13 +667,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  export const StorageOAuthScopes: string | string[];
  
  // @public
-@@ -3285,22 +2993,18 @@
-     retryOptions?: StorageRetryOptions;
-     userAgentOptions?: UserAgentPolicyOptions;
- }
- 
--export { StorageResponseFormat }
--
+@@ -3291,16 +2999,14 @@
  export { StorageRetryOptions }
  
  export { StorageRetryPolicy }

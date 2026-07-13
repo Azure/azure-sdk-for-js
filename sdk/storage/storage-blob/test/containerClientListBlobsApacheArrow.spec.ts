@@ -7,11 +7,12 @@ import {
   getRecorderUniqueVariable,
   getUniqueName,
   recorderEnvSetup,
-} from "../utils/index.js";
+  uriSanitizers,
+} from "./utils/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
-import type { BlobServiceClient, ContainerClient } from "../../src/index.js";
-import { StorageResponseFormat } from "../../src/index.js";
-import type { Tags } from "../../src/models.js";
+import type { BlobItem, BlobServiceClient, ContainerClient } from "../src/index.js";
+import { StorageResponseFormat } from "../src/index.js";
+import type { Tags } from "../src/models.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 /**
@@ -38,6 +39,7 @@ describe("ContainerClient List Blobs with Apache Arrow", () => {
   beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
     blobServiceClient = getBSU(recorder);
     containerName = recorder.variable("container", getUniqueName("container"));
     containerClient = blobServiceClient.getContainerClient(containerName);
@@ -121,7 +123,7 @@ describe("ContainerClient List Blobs with Apache Arrow", () => {
         .next()
     ).value;
 
-    const blob = response.segment.blobItems.find((b) => b.name === name);
+    const blob = response.segment.blobItems.find((b: BlobItem) => b.name === name);
     assert.isDefined(blob);
     assert.deepStrictEqual(blob!.metadata, metadata);
   });
@@ -139,7 +141,7 @@ describe("ContainerClient List Blobs with Apache Arrow", () => {
         .next()
     ).value;
 
-    const blob = response.segment.blobItems.find((b) => b.name === name);
+    const blob = response.segment.blobItems.find((b: BlobItem) => b.name === name);
     assert.isDefined(blob);
     assert.deepStrictEqual(blob!.tags, tags);
     assert.strictEqual(blob!.properties.tagCount, 2);
