@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 export { getOperationStatus, undelete, get, listBySubscriptionId } from "./operations.js";
-export {
-  type DeletedVaultsGetOperationStatusOptionalParams,
-  type DeletedVaultsUndeleteOptionalParams,
-  type DeletedVaultsGetOptionalParams,
-  type DeletedVaultsListBySubscriptionIdOptionalParams,
+export type {
+  DeletedVaultsGetOperationStatusOptionalParams,
+  DeletedVaultsUndeleteOptionalParams,
+  DeletedVaultsGetOptionalParams,
+  DeletedVaultsListBySubscriptionIdOptionalParams,
 } from "./options.js";

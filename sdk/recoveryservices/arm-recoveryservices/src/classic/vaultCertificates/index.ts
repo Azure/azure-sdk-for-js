@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RecoveryServicesContext } from "../../api/recoveryServicesContext.js";
+import { RecoveryServicesContext } from "../../api/recoveryServicesContext.js";
 import { create } from "../../api/vaultCertificates/operations.js";
-import type { VaultCertificatesCreateOptionalParams } from "../../api/vaultCertificates/options.js";
-import type { CertificateRequest, VaultCertificateResponse } from "../../models/models.js";
+import { VaultCertificatesCreateOptionalParams } from "../../api/vaultCertificates/options.js";
+import { CertificateRequest, VaultCertificateResponse } from "../../models/models.js";
 
 /** Interface representing a VaultCertificates operations. */
 export interface VaultCertificatesOperations {

@@ -1,14 +1,10 @@
 # Release History
 
-## 1.2.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 1.2.1 (2026-07-07)
 
 ### Other Changes
+
+  - Updated the description for `FeaturesOperations.enable` and `FeaturesOperations.disable` to note that the Contributor role is required.
 
 ## 1.2.0 (2026-06-17)
 

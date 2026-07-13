@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-prometheusrulegroups",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0",
   "description": "A generated SDK for PrometheusRuleGroupsManagementClient.",
   "engines": {
     "node": ">=22.0.0"
@@ -152,7 +152,7 @@
       "azure"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-prometheusrulegroups?view=azure-node-preview"
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-prometheusrulegroups"
   },
   "imports": {
     "#platform/*": {

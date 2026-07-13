@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the vault extended info.
  *
  * @summary get the vault extended info.
- * x-ms-original-file: 2025-08-01/GETVaultExtendedInfo.json
+ * x-ms-original-file: 2026-05-01/GETVaultExtendedInfo.json
  */
 async function getExtendedInfoOfResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
