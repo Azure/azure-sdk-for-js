@@ -1,0 +1,46 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+/**
+ * This sample demonstrates how to creates or updates an Azure Cosmos DB SQL Role Definition.
+ *
+ * @summary creates or updates an Azure Cosmos DB SQL Role Definition.
+ * x-ms-original-file: 2026-03-15/CosmosDBSqlRoleDefinitionCreateUpdate.json
+ */
+async function cosmosDBSqlRoleDefinitionCreateUpdate() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-1111-2222-3333-444444444444";
+  const client = new CosmosDBManagementClient(credential, subscriptionId);
+  const result = await client.sqlResources.createUpdateSqlRoleDefinition(
+    "myResourceGroupName",
+    "myAccountName",
+    "myRoleDefinitionId",
+    {
+      roleName: "myRoleName",
+      type: "CustomRole",
+      assignableScopes: [
+        "/subscriptions/mySubscriptionId/resourceGroups/myResourceGroupName/providers/Microsoft.DocumentDB/databaseAccounts/myAccountName/dbs/sales",
+        "/subscriptions/mySubscriptionId/resourceGroups/myResourceGroupName/providers/Microsoft.DocumentDB/databaseAccounts/myAccountName/dbs/purchases",
+      ],
+      permissions: [
+        {
+          dataActions: [
+            "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/items/create",
+            "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/items/read",
+          ],
+          notDataActions: [],
+        },
+      ],
+    },
+  );
+  console.log(result);
+}
+
+async function main() {
+  await cosmosDBSqlRoleDefinitionCreateUpdate();
+}
+
+main().catch(console.error);

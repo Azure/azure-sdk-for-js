@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RecoveryServicesContext } from "../../api/recoveryServicesContext.js";
+import { RecoveryServicesContext } from "../../api/recoveryServicesContext.js";
 import {
   listByResourceGroup,
   listBySubscriptionId,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/vaults/operations.js";
-import type {
+import {
   VaultsListByResourceGroupOptionalParams,
   VaultsListBySubscriptionIdOptionalParams,
   VaultsDeleteOptionalParams,
@@ -18,9 +18,10 @@ import type {
   VaultsCreateOrUpdateOptionalParams,
   VaultsGetOptionalParams,
 } from "../../api/vaults/options.js";
-import type { Vault, PatchVault } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { Vault, PatchVault } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { SimplePollerLike, getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Vaults operations. */
 export interface VaultsOperations {
@@ -34,16 +35,23 @@ export interface VaultsOperations {
     options?: VaultsListBySubscriptionIdOptionalParams,
   ) => PagedAsyncIterableIterator<Vault>;
   /** Deletes a vault. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     vaultName: string,
     options?: VaultsDeleteOptionalParams,
   ) => PollerLike<OperationState<void>, void>;
+  /** @deprecated use delete instead */
+  beginDelete: (
+    resourceGroupName: string,
+    vaultName: string,
+    options?: VaultsDeleteOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<void>, void>>;
+  /** @deprecated use delete instead */
+  beginDeleteAndWait: (
+    resourceGroupName: string,
+    vaultName: string,
+    options?: VaultsDeleteOptionalParams,
+  ) => Promise<void>;
   /** Updates the vault. */
   update: (
     resourceGroupName: string,
@@ -51,6 +59,20 @@ export interface VaultsOperations {
     vault: PatchVault,
     options?: VaultsUpdateOptionalParams,
   ) => PollerLike<OperationState<Vault>, Vault>;
+  /** @deprecated use update instead */
+  beginUpdate: (
+    resourceGroupName: string,
+    vaultName: string,
+    vault: PatchVault,
+    options?: VaultsUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<Vault>, Vault>>;
+  /** @deprecated use update instead */
+  beginUpdateAndWait: (
+    resourceGroupName: string,
+    vaultName: string,
+    vault: PatchVault,
+    options?: VaultsUpdateOptionalParams,
+  ) => Promise<Vault>;
   /** Creates or updates a Recovery Services vault. */
   createOrUpdate: (
     resourceGroupName: string,
@@ -58,6 +80,20 @@ export interface VaultsOperations {
     vault: Vault,
     options?: VaultsCreateOrUpdateOptionalParams,
   ) => PollerLike<OperationState<Vault>, Vault>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdate: (
+    resourceGroupName: string,
+    vaultName: string,
+    vault: Vault,
+    options?: VaultsCreateOrUpdateOptionalParams,
+  ) => Promise<SimplePollerLike<OperationState<Vault>, Vault>>;
+  /** @deprecated use createOrUpdate instead */
+  beginCreateOrUpdateAndWait: (
+    resourceGroupName: string,
+    vaultName: string,
+    vault: Vault,
+    options?: VaultsCreateOrUpdateOptionalParams,
+  ) => Promise<Vault>;
   /** Get the Vault details. */
   get: (
     resourceGroupName: string,
@@ -76,18 +112,70 @@ function _getVaults(context: RecoveryServicesContext) {
       listBySubscriptionId(context, options),
     delete: (resourceGroupName: string, vaultName: string, options?: VaultsDeleteOptionalParams) =>
       $delete(context, resourceGroupName, vaultName, options),
+    beginDelete: async (
+      resourceGroupName: string,
+      vaultName: string,
+      options?: VaultsDeleteOptionalParams,
+    ) => {
+      const poller = $delete(context, resourceGroupName, vaultName, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginDeleteAndWait: async (
+      resourceGroupName: string,
+      vaultName: string,
+      options?: VaultsDeleteOptionalParams,
+    ) => {
+      return await $delete(context, resourceGroupName, vaultName, options);
+    },
     update: (
       resourceGroupName: string,
       vaultName: string,
       vault: PatchVault,
       options?: VaultsUpdateOptionalParams,
     ) => update(context, resourceGroupName, vaultName, vault, options),
+    beginUpdate: async (
+      resourceGroupName: string,
+      vaultName: string,
+      vault: PatchVault,
+      options?: VaultsUpdateOptionalParams,
+    ) => {
+      const poller = update(context, resourceGroupName, vaultName, vault, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginUpdateAndWait: async (
+      resourceGroupName: string,
+      vaultName: string,
+      vault: PatchVault,
+      options?: VaultsUpdateOptionalParams,
+    ) => {
+      return await update(context, resourceGroupName, vaultName, vault, options);
+    },
     createOrUpdate: (
       resourceGroupName: string,
       vaultName: string,
       vault: Vault,
       options?: VaultsCreateOrUpdateOptionalParams,
     ) => createOrUpdate(context, resourceGroupName, vaultName, vault, options),
+    beginCreateOrUpdate: async (
+      resourceGroupName: string,
+      vaultName: string,
+      vault: Vault,
+      options?: VaultsCreateOrUpdateOptionalParams,
+    ) => {
+      const poller = createOrUpdate(context, resourceGroupName, vaultName, vault, options);
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginCreateOrUpdateAndWait: async (
+      resourceGroupName: string,
+      vaultName: string,
+      vault: Vault,
+      options?: VaultsCreateOrUpdateOptionalParams,
+    ) => {
+      return await createOrUpdate(context, resourceGroupName, vaultName, vault, options);
+    },
     get: (resourceGroupName: string, vaultName: string, options?: VaultsGetOptionalParams) =>
       get(context, resourceGroupName, vaultName, options),
   };

@@ -1,6 +1,19 @@
 # Release History
 
+## 1.25.0 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+- Update `engines` to `"node": ">=22.0.0"`. Please refer to our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more information on our supported Node.js versions.
+
 ## 1.24.0 (2026-06-05)
+
 ### Features Added
 
 - Use and export type aliases on public API surface [PR #38205](https://github.com/Azure/azure-sdk-for-js/pull/38205)

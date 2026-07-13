@@ -27,17 +27,13 @@ export /* package contents */ {};
 ```
 
 ```ts
-export const package = {
-  /* package contents */
-};
+export const package = {/* package contents */};
 ```
 
 ### Bad
 
 ```ts
-export default {
-  /* package contents */
-};
+export default {/* package contents */};
 ```
 
 ## When to turn off

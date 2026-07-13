@@ -45,6 +45,9 @@ parameters:
   - name: oneESTemplateTag
     type: string
     default: release
+  - name: EnableCiCodeCoverage
+    type: boolean
+    default: false
 
 extends:
   template: /eng/pipelines/templates/stages/1es-redirect.yml
@@ -88,7 +91,8 @@ extends:
               MatrixFilters:
                 - TestType=node|browser
                 - DependencyVersion=^$
-                - PublishCodeCoverage=^$
+                - ${{ if ne(parameters.EnableCiCodeCoverage, true) }}:
+                  - PublishCodeCoverage=^$
                 - ${{ each filter in parameters.MatrixFilters }}:
                     - ${{ filter}}
               MatrixReplace: ${{ parameters.MatrixReplace }}
