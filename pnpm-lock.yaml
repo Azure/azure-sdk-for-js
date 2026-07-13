@@ -11147,8 +11147,11 @@ importers:
       '@azure/core-rest-pipeline':
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
+      '@azure/core-util':
+        specifier: ^1.12.0
+        version: link:../../core/core-util
       '@azure/logger':
-        specifier: ^1.1.4
+        specifier: ^1.2.0
         version: link:../../core/logger
       tslib:
         specifier: ^2.8.1
@@ -11175,39 +11178,21 @@ importers:
       '@types/node':
         specifier: 'catalog:'
         version: 22.20.0
-      '@vitest/browser-playwright':
-        specifier: catalog:testing
-        version: 4.1.9(playwright@1.61.1)(vite@7.3.3(@types/node@22.20.0)(terser@5.48.0)(tsx@4.22.4)(yaml@2.9.0))(vitest@4.1.9)
-      '@vitest/coverage-istanbul':
-        specifier: catalog:testing
-        version: 4.1.9(vitest@4.1.9)
       cross-env:
         specifier: 'catalog:'
         version: 10.1.0
-      dotenv:
-        specifier: catalog:testing
-        version: 16.6.1
       eslint:
         specifier: 'catalog:'
         version: 9.39.4
-      playwright:
-        specifier: catalog:testing
-        version: 1.61.1
       prettier:
         specifier: 'catalog:'
         version: 3.9.3
-      react-native:
-        specifier: catalog:testing
-        version: 0.84.1(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.4)
       rimraf:
         specifier: 'catalog:'
         version: 6.1.3
       typescript:
         specifier: 'catalog:'
         version: 6.0.3
-      vitest:
-        specifier: catalog:testing
-        version: 4.1.9(@opentelemetry/api@1.9.1)(@types/node@22.20.0)(@vitest/browser-playwright@4.1.9)(@vitest/coverage-istanbul@4.1.9)(vite@7.3.3(@types/node@22.20.0)(terser@5.48.0)(tsx@4.22.4)(yaml@2.9.0))
 
   sdk/devhub/arm-devhub:
     dependencies:

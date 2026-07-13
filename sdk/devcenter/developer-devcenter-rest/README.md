@@ -1,77 +1,84 @@
-# Azure DevCenter REST client library for JavaScript
+# Azure DeploymentEnvironments client library for JavaScript
 
-The Azure DevCenter library provides access to manage resources for Microsoft Dev Box and Azure Deployment Environments. This package enables managing developer machines and environments in Azure.
-
-Use the package for Azure DevCenter to:
-
-> Create, access, manage, and delete Dev Box resources
-> Create, deploy, manage, and delete Environment resources
+This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure DeploymentEnvironments client.
 
 DevCenter service
-
-**Please rely heavily on our [REST client docs](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md) to use this library**
 
 Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/devcenter/developer-devcenter-rest)
 - [Package (NPM)](https://www.npmjs.com/package/@azure-rest/developer-devcenter)
 - [API reference documentation](https://learn.microsoft.com/javascript/api/@azure-rest/developer-devcenter)
-- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/devcenter/developer-devcenter-rest/samples)
 
 ## Getting started
 
 ### Currently supported environments
 
-- LTS versions of Node.js
+- [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
+- Latest versions of Safari, Chrome, Edge and Firefox.
+
+See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
 
 ### Prerequisites
 
-- You must have an [Azure subscription](https://azure.microsoft.com/free/) to use this package.
-- You must have [configured](https://learn.microsoft.com/azure/dev-box/quickstart-configure-dev-box-service) a DevCenter, Project, Network Connection, Dev Box Definition, and Pool before you can create Dev Boxes
-- You must have [configured](https://learn.microsoft.com/azure/deployment-environments/) a DevCenter, Project, Catalog, and Environment Type before you can create Environments
+- An [Azure subscription][azure_sub].
 
 ### Install the `@azure-rest/developer-devcenter` package
 
-Install the Azure DevCenter REST client REST client library for JavaScript with `npm`:
+Install the Azure DeploymentEnvironments client library for JavaScript with `npm`:
 
 ```bash
 npm install @azure-rest/developer-devcenter
 ```
 
-### Create and authenticate a `AzureDeveloperDevCenterClient`
+### Create and authenticate a `DeploymentEnvironmentsClient`
 
-To use an [Azure Active Directory (AAD) token credential](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token),
-provide an instance of the desired credential type obtained from the
-[@azure/identity](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#credentials) library.
+To create a client object to access the Azure DeploymentEnvironments API, you will need the `endpoint` of your Azure DeploymentEnvironments resource and a `credential`. The Azure DeploymentEnvironments client can use Microsoft Entra credentials to authenticate.
+You can find the endpoint for your Azure DeploymentEnvironments resource in the [Azure Portal][azure_portal].
 
-To authenticate with AAD, you must first `npm` install [`@azure/identity`](https://www.npmjs.com/package/@azure/identity)
+You can authenticate with Microsoft Entra ID using a credential from the [@azure/identity][azure_identity] library or [an existing Microsoft Entra token](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token).
 
-After setup, you can choose which type of [credential](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#credentials) from `@azure/identity` to use.
-As an example, [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential)
-can be used to authenticate the client.
+To use the [DefaultAzureCredential][defaultazurecredential] provider shown below, or other credential providers provided with the Azure SDK, please install the `@azure/identity` package:
 
-Set the value of dev center endpoint as environment variable:
-`DEVCENTER_ENDPOINT`
-
-```ts snippet:ReadmeSampleCreateClient_Node
-import AzureDeveloperDevCenter from "@azure-rest/developer-devcenter";
-import { DefaultAzureCredential } from "@azure/identity";
-
-const endpoint = process.env["DEVCENTER_ENDPOINT"] || "<endpoint>";
-const client = AzureDeveloperDevCenter(endpoint, new DefaultAzureCredential());
+```bash
+npm install @azure/identity
 ```
 
-## Key Concepts
+You will also need to **register a new Microsoft Entra application and grant access to Azure DeploymentEnvironments** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
 
-### REST Client
+For more information about how to create a Microsoft Entra application check out [this guide](https://learn.microsoft.com/entra/identity-platform/howto-create-service-principal-portal).
 
-This client is one of our REST clients. We highly recommend you read how to use a REST client [here](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md).
+Using Node.js and Node-like environments, you can use the `DefaultAzureCredential` class to authenticate the client.
 
-### DevCenter Concepts
+```ts 
+import { DeploymentEnvironmentsClient } from "@azure-rest/developer-devcenter";
+import { DefaultAzureCredential } from "@azure/identity";
 
-Dev Boxes refer to managed developer machines running in Azure. Dev Boxes are provisioned in Pools, which define the network and image used for a Dev Box.
+const client = new DeploymentEnvironmentsClient("<endpoint>", new DefaultAzureCredential());
+```
 
-Environments refer to templated developer environments, which combine a template (Catalog Item) and parameters, as well as an Environment Type which defines permissions and where the resources are deployed.
+For browser environments, use the `InteractiveBrowserCredential` from the `@azure/identity` package to authenticate.
+
+```ts 
+import { InteractiveBrowserCredential } from "@azure/identity";
+import { DeploymentEnvironmentsClient } from "@azure-rest/developer-devcenter";
+
+const credential = new InteractiveBrowserCredential({
+  tenantId: "<YOUR_TENANT_ID>",
+  clientId: "<YOUR_CLIENT_ID>"
+ });
+const client = new DeploymentEnvironmentsClient("<endpoint>", credential);
+```
+
+
+### JavaScript Bundle
+To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
+
+## Key concepts
+
+### DeploymentEnvironmentsClient
+
+`DeploymentEnvironmentsClient` is the primary interface for developers using the Azure DeploymentEnvironments client library. Explore the methods on this client object to understand the different features of the Azure DeploymentEnvironments service that you can access.
 
 ## Troubleshooting
 
@@ -79,10 +86,24 @@ Environments refer to templated developer environments, which combine a template
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```ts snippet:SetLogLevel
+```ts 
 import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
 ```
 
 For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
+
+
+## Contributing
+
+If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
+
+## Related projects
+
+- [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
+
+[azure_sub]: https://azure.microsoft.com/free/
+[azure_portal]: https://portal.azure.com
+[azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity
+[defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
