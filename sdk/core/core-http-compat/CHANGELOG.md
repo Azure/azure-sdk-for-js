@@ -1,6 +1,6 @@
 # Release History
 
-## 2.4.1 (Unreleased)
+## 2.4.1 (2026-07-13)
 
 ### Features Added
 
@@ -9,6 +9,8 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+- Update to Node.js 22.
 
 ## 2.4.0 (2026-04-07)
 

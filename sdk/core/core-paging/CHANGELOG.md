@@ -1,6 +1,6 @@
 # Release History
 
-## 1.6.3 (Unreleased)
+## 1.6.3 (2026-07-13)
 
 ### Features Added
 
@@ -9,6 +9,8 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+- Update to Node.js 22.
 
 ## 1.6.2 (2024-04-09)
 
