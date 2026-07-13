@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RecoveryServicesContext } from "../../api/recoveryServicesContext.js";
+import type { RecoveryServicesContext } from "../../api/recoveryServicesContext.js";
 import { capabilities, checkNameAvailability } from "../../api/recoveryServices/operations.js";
-import {
+import type {
   RecoveryServicesCapabilitiesOptionalParams,
   RecoveryServicesCheckNameAvailabilityOptionalParams,
 } from "../../api/recoveryServices/options.js";
-import {
+import type {
   CheckNameAvailabilityParameters,
   CheckNameAvailabilityResult,
   ResourceCapabilities,

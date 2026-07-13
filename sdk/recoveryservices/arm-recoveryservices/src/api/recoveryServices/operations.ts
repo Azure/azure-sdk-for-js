@@ -1,29 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RecoveryServicesContext as Client } from "../index.js";
+import type { RecoveryServicesContext as Client } from "../index.js";
+import type {
+  CheckNameAvailabilityParameters,
+  CheckNameAvailabilityResult,
+  ResourceCapabilities,
+  CapabilitiesResponse,
+} from "../../models/models.js";
 import {
   cloudErrorDeserializer,
-  CheckNameAvailabilityParameters,
   checkNameAvailabilityParametersSerializer,
-  CheckNameAvailabilityResult,
   checkNameAvailabilityResultDeserializer,
-  ResourceCapabilities,
   resourceCapabilitiesSerializer,
-  CapabilitiesResponse,
   capabilitiesResponseDeserializer,
 } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
+import type {
   RecoveryServicesCapabilitiesOptionalParams,
   RecoveryServicesCheckNameAvailabilityOptionalParams,
 } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _capabilitiesSend(
   context: Client,
