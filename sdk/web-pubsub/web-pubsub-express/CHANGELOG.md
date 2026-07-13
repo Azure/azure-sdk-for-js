@@ -1,8 +1,11 @@
 # Release History
 
-## 1.0.7 (Unreleased)
+## 1.1.0 (Unreleased)
 
 ### Features Added
+
+- Added support for group presence events with `onGroupJoined` and `onGroupLeft` handlers in `WebPubSubEventHandlerOptions`.
+- Added `GroupJoinedRequest` and `GroupLeftRequest` interfaces for group presence event data.
 
 ### Breaking Changes
 

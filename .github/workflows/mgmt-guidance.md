@@ -8,6 +8,7 @@ on:
         description: PR number to generate merge guidance for
         required: true
         type: string
+  bots: [azure-sdk-automation]
   # on.permissions: scopes for the pre-activation job that runs on.steps
   permissions:
     checks: read

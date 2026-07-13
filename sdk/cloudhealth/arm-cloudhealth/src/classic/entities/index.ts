@@ -3,6 +3,9 @@
 
 import type { CloudHealthContext } from "../../api/cloudHealthContext.js";
 import {
+  getSignalRecommendations,
+  getDataAnnotations,
+  addDataAnnotation,
   ingestHealthReport,
   getSignalHistory,
   getHistory,
@@ -12,6 +15,9 @@ import {
   get,
 } from "../../api/entities/operations.js";
 import type {
+  EntitiesGetSignalRecommendationsOptionalParams,
+  EntitiesGetDataAnnotationsOptionalParams,
+  EntitiesAddDataAnnotationOptionalParams,
   EntitiesIngestHealthReportOptionalParams,
   EntitiesGetSignalHistoryOptionalParams,
   EntitiesGetHistoryOptionalParams,
@@ -27,12 +33,40 @@ import type {
   SignalHistoryRequest,
   SignalHistoryResponse,
   HealthReportRequest,
+  AddDataAnnotationRequest,
+  DataAnnotation,
+  GetDataAnnotationsRequest,
+  GetDataAnnotationsResponse,
+  GetSignalRecommendationsResponse,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Entities operations. */
 export interface EntitiesOperations {
+  /** Get recommended signal configurations for a given Entity (only applicable for Entities representing Azure resources) */
+  getSignalRecommendations: (
+    resourceGroupName: string,
+    healthModelName: string,
+    entityName: string,
+    options?: EntitiesGetSignalRecommendationsOptionalParams,
+  ) => Promise<GetSignalRecommendationsResponse>;
+  /** Retrieve data annotations for an entity */
+  getDataAnnotations: (
+    resourceGroupName: string,
+    healthModelName: string,
+    entityName: string,
+    body: GetDataAnnotationsRequest,
+    options?: EntitiesGetDataAnnotationsOptionalParams,
+  ) => Promise<GetDataAnnotationsResponse>;
+  /** Add a data annotation to an entity */
+  addDataAnnotation: (
+    resourceGroupName: string,
+    healthModelName: string,
+    entityName: string,
+    body: AddDataAnnotationRequest,
+    options?: EntitiesAddDataAnnotationOptionalParams,
+  ) => Promise<DataAnnotation>;
   /** Ingest a health report for a specific signal on an entity (the entity must already exist) */
   ingestHealthReport: (
     resourceGroupName: string,
@@ -89,6 +123,26 @@ export interface EntitiesOperations {
 
 function _getEntities(context: CloudHealthContext) {
   return {
+    getSignalRecommendations: (
+      resourceGroupName: string,
+      healthModelName: string,
+      entityName: string,
+      options?: EntitiesGetSignalRecommendationsOptionalParams,
+    ) => getSignalRecommendations(context, resourceGroupName, healthModelName, entityName, options),
+    getDataAnnotations: (
+      resourceGroupName: string,
+      healthModelName: string,
+      entityName: string,
+      body: GetDataAnnotationsRequest,
+      options?: EntitiesGetDataAnnotationsOptionalParams,
+    ) => getDataAnnotations(context, resourceGroupName, healthModelName, entityName, body, options),
+    addDataAnnotation: (
+      resourceGroupName: string,
+      healthModelName: string,
+      entityName: string,
+      body: AddDataAnnotationRequest,
+      options?: EntitiesAddDataAnnotationOptionalParams,
+    ) => addDataAnnotation(context, resourceGroupName, healthModelName, entityName, body, options),
     ingestHealthReport: (
       resourceGroupName: string,
       healthModelName: string,

@@ -1,10 +1,6 @@
 # Release History
 
-## 0.3.7 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 0.3.7 (2026-07-13)
 
 ### Bugs Fixed
 

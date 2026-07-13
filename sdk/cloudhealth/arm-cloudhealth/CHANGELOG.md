@@ -1,15 +1,66 @@
 # Release History
-    
-## 1.0.0-beta.3 (Unreleased)
+
+## 1.0.0-beta.3 (2026-07-07)
+Compared with version 1.0.0-beta.2
 
 ### Features Added
+  - Added operation EntitiesOperations.addDataAnnotation
+  - Added operation EntitiesOperations.getDataAnnotations
+  - Added operation EntitiesOperations.getSignalRecommendations
+  - Added Interface AddDataAnnotationRequest
+  - Added Interface AzureResourceHealthSignal
+  - Added Interface AzureResourceHealthSignalStatus
+  - Added Interface DataAnnotation
+  - Added Interface EntitiesAddDataAnnotationOptionalParams
+  - Added Interface EntitiesGetDataAnnotationsOptionalParams
+  - Added Interface EntitiesGetSignalRecommendationsOptionalParams
+  - Added Interface GetDataAnnotationsRequest
+  - Added Interface GetDataAnnotationsResponse
+  - Added Interface GetSignalRecommendationsResponse
+  - Added Interface SignalConfiguration
+  - Interface AzureResourceSignals has a new optional parameter resourceHealth
+  - Interface DiscoveryRuleProperties has a new optional parameter addResourceHealthSignal
+  - Interface DiscoveryRulePropertiesCreate has a new optional parameter addResourceHealthSignal
+  - Interface EntityHistoryRequest has a new optional parameter nextMarker
+  - Interface EntityHistoryRequest has a new optional parameter top
+  - Interface EntityHistoryResponse has a new optional parameter nextMarker
+  - Interface SignalHistoryRequest has a new optional parameter nextMarker
+  - Interface SignalHistoryRequest has a new optional parameter top
+  - Interface SignalHistoryResponse has a new optional parameter nextMarker
+  - Interface SignalStatus has a new optional parameter additionalContext
+  - Interface ThresholdRuleV2 has a new optional parameter lookBackWindow
+  - Interface ThresholdRuleV2 has a new optional parameter sensitivity
+  - Added Type Alias DynamicThresholdSensitivity
+  - Added Type Alias LookBackWindow
+  - Added Type Alias ResourceHealthAvailabilityState
+  - Added Type Alias ResourceHealthAvailabilityStateSignalBehavior
+  - Added Type Alias ResourceHealthCategory
+  - Added Type Alias ResourceHealthReasonChronicity
+  - Added Type Alias ResourceHealthReasonType
+  - Added Enum KnownDynamicThresholdSensitivity
+  - Added Enum KnownLookBackWindow
+  - Added Enum KnownResourceHealthAvailabilityState
+  - Added Enum KnownResourceHealthAvailabilityStateSignalBehavior
+  - Added Enum KnownResourceHealthCategory
+  - Added Enum KnownResourceHealthReasonChronicity
+  - Added Enum KnownResourceHealthReasonType
+  - Enum KnownRefreshInterval has a new value PT15M
+  - Enum KnownSignalOperator has a new value Dynamic
+  - Enum KnownVersions has a new value V20260501Preview
 
 ### Breaking Changes
+  - Operation EntitiesOperations.createOrUpdate has a new signature
+  - Operation EntitiesOperations.get has a new signature
+  - Operation EntitiesOperations.ingestHealthReport has a new signature
+  - Operation EntitiesOperations.listByHealthModel has a new signature
+  - Operation SignalDefinitionsOperations.createOrUpdate has a new signature
+  - Operation SignalDefinitionsOperations.get has a new signature
+  - Operation SignalDefinitionsOperations.listByHealthModel has a new signature
+  - Interface AzureResourceSignal no longer has parameter dimension
+  - Interface ResourceMetricSignalDefinitionProperties no longer has parameter dimension
+  - Parameter threshold of interface ThresholdRuleV2 is now optional
 
-### Bugs Fixed
-
-### Other Changes
-
+    
 ## 1.0.0-beta.2 (2026-06-12)
 
 ### Features Added
