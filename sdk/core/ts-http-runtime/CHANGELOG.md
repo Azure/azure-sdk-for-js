@@ -2,10 +2,6 @@
 
 ## 0.3.7 (2026-07-13)
 
-### Features Added
-
-### Breaking Changes
-
 ### Bugs Fixed
 
 - `logPolicy` now redacts non-allowlisted response header values when verbose logging is enabled, instead of logging them in plaintext.
