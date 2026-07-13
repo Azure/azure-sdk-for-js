@@ -15,7 +15,7 @@ on:
     - name: Swap trigger label to in-progress
       id: swap_label
       if: github.event_name == 'pull_request_target' && github.event.label.name == 'mgmt-review-needed'
-      uses: actions/github-script@v9.0.0
+      uses: actions/github-script@v9
       with:
         script: |
           const pr = context.payload.pull_request.number;
@@ -149,7 +149,7 @@ line using `create-pull-request-review-comment`:
 > 🔴 **Tool Issue** — `CHANGELOG.md:42`
 > `Compared with 1.0.0-alpha.20260311.1:`.
 > We should not compare with alpha versions in `CHANGELOG.md`; this suggests a tooling bug.
-> **Fix:** Update `CHANGELOG.md` to compare with the last released stable version (or, if the package has never had a stable release, its most recent preview), and report the issue in the [generation tool repository](https://github.com/Azure/autorest.typescript/issues).
+> **Fix:** Update `CHANGELOG.md` to compare with the last released stable version (or, if the package has never had a stable release, its most recent preview), and report the issue in the [generation tool repository](https://github.com/Azure/typespec-azure/issues).
 
 After all inline comments, **submit the review** using
 `submit-pull-request-review` with:

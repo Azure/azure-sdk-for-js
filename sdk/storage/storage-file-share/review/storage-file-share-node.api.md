@@ -9,20 +9,23 @@ import { AnonymousCredential } from '@azure/storage-common';
 import { AnonymousCredentialPolicy } from '@azure/storage-common';
 import { AzureLogger } from '@azure/logger';
 import { BaseRequestPolicy } from '@azure/storage-common';
-import * as coreClient from '@azure/core-client';
-import * as coreHttpCompat from '@azure/core-http-compat';
-import * as coreRestPipeline from '@azure/core-rest-pipeline';
+import { ClientOptions } from '@azure-rest/core-client';
 import { Credential as Credential_2 } from '@azure/storage-common';
 import { CredentialPolicy } from '@azure/storage-common';
 import { CredentialPolicyCreator } from '@azure/storage-common';
+import type { ExtendedServiceClientOptions } from '@azure/core-http-compat';
+import type { FullOperationResponse } from '@azure-rest/core-client';
 import { HttpHeadersLike as HttpHeaders } from '@azure/core-http-compat';
 import { CompatResponse as HttpOperationResponse } from '@azure/core-http-compat';
 import type { RequestBodyType as HttpRequestBody } from '@azure/core-rest-pipeline';
 import { isRestError } from '@azure/core-rest-pipeline';
 import type { KeepAliveOptions } from '@azure/core-http-compat';
 import type { NodeJSReadableStream } from '@azure/storage-common';
+import { NodeReadableStream } from '@azure/core-rest-pipeline';
+import { OperationOptions } from '@azure-rest/core-client';
 import type { OperationTracingOptions } from '@azure/core-tracing';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { Pipeline as Pipeline_2 } from '@azure/core-rest-pipeline';
 import type { ProxySettings } from '@azure/core-rest-pipeline';
 import type { Readable } from 'node:stream';
 import { RequestPolicy } from '@azure/core-http-compat';
@@ -36,7 +39,7 @@ import { StorageRetryPolicyFactory } from '@azure/storage-common';
 import { StorageRetryPolicyType } from '@azure/storage-common';
 import { StorageSharedKeyCredential } from '@azure/storage-common';
 import { StorageSharedKeyCredentialPolicy } from '@azure/storage-common';
-import type { TokenCredential } from '@azure/core-auth';
+import { TokenCredential } from '@azure/core-auth';
 import type { TransferProgressEvent } from '@azure/core-rest-pipeline';
 import type { UserAgentPolicyOptions } from '@azure/core-rest-pipeline';
 import { UserDelegationKey } from '@azure/storage-common';
@@ -652,17 +655,6 @@ export interface FileDownloadHeaders {
 }
 
 // @public
-export interface FileDownloadOptionalParams extends coreClient.OperationOptions {
-    allowTrailingDot?: boolean;
-    fileRequestIntent?: ShareTokenIntent;
-    leaseAccessConditions?: LeaseAccessConditions;
-    range?: string;
-    rangeGetContentMD5?: boolean;
-    structuredBodyType?: string;
-    timeoutInSeconds?: number;
-}
-
-// @public
 export interface FileDownloadOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     contentChecksumAlgorithm?: StorageChecksumAlgorithm;
@@ -1102,20 +1094,6 @@ export interface FileUploadRangeFromURLHeaders {
     requestId?: string;
     version?: string;
     xMsContentCrc64?: Uint8Array;
-}
-
-// @public
-export interface FileUploadRangeFromURLOptionalParams extends coreClient.OperationOptions {
-    allowSourceTrailingDot?: boolean;
-    allowTrailingDot?: boolean;
-    copySourceAuthorization?: string;
-    fileLastWrittenMode?: FileLastWrittenMode;
-    fileRequestIntent?: ShareTokenIntent;
-    leaseAccessConditions?: LeaseAccessConditions;
-    sourceContentCrc64?: Uint8Array;
-    sourceModifiedAccessConditions?: SourceModifiedAccessConditions;
-    sourceRange?: string;
-    timeoutInSeconds?: number;
 }
 
 // @public

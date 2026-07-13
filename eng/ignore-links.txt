@@ -1,3 +1,4 @@
+https://github.com/Azure/azure-sdk-for-js-pr
 https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/keyvault-admin/samples/javascript
 https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/keyvault-admin/samples/typescript
 https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob-changefeed/samples/javascript
@@ -126,3 +127,5 @@ https://learn.microsoft.com/javascript/api/@azure/arm-commvaultcontentstore?view
 https://www.npmjs.com/package/@azure/arm-commvaultcontentstore
 https://learn.microsoft.com/javascript/api/@azure/ai-translation-document
 https://www.npmjs.com/package/@azure/ai-translation-document
+https://learn.microsoft.com/javascript/api/@azure/arm-billing-trust?view=azure-node-preview
+https://www.npmjs.com/package/@azure/arm-billing-trust
