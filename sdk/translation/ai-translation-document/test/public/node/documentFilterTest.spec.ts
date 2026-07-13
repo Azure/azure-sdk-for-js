@@ -147,7 +147,7 @@ describe("DocumentFilter tests", () => {
     // get Documents Status
     const timestamp = new Date();
     for await (const documentStatus of client.getDocumentsStatus(operationId, {
-      statuses: orderByList,
+      orderby: orderByList,
     })) {
       const createdDateTime = new Date(documentStatus.createdDateTimeUtc);
       assert.isTrue(createdDateTime < timestamp || createdDateTime === timestamp);

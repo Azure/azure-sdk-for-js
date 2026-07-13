@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import type { Recorder } from "@azure-tools/test-recorder";
-import type { SingleDocumentTranslationClient } from "../../src/index.js";
-import { createSingleDocumentTranslationClient, startRecorder } from "./utils/recordedClient.js";
-import { streamToString } from "./utils/testHelper.js";
+import type { SingleDocumentTranslationClient } from "../../../src/index.js";
+import { createSingleDocumentTranslationClient, startRecorder } from "../utils/recordedClient.js";
+import { streamToString } from "../utils/testHelper.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("SingleDocumentTranslate tests", () => {

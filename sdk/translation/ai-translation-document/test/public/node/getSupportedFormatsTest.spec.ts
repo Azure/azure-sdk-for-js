@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import type { Recorder } from "@azure-tools/test-recorder";
-import type { DocumentTranslationClient } from "../../src/index.js";
-import { createDocumentTranslationClient, startRecorder } from "./utils/recordedClient.js";
+import type { DocumentTranslationClient } from "../../../src/index.js";
+import { createDocumentTranslationClient, startRecorder } from "../utils/recordedClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("GetSupportedFormats tests", () => {

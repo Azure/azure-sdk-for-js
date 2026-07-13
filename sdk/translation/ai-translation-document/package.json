@@ -119,7 +119,8 @@
     "dist/",
     "!dist/**/*.d.*ts.map",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "CHANGELOG.md"
   ],
   "sdk-type": "client",
   "repository": {
@@ -153,7 +154,8 @@
     ],
     "requiredResources": {
       "Azure Cognitive Services instance": "https://learn.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account"
-    }
+    },
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/ai-translation-document"
   },
   "dependencies": {
     "@azure/core-util": "^1.12.0",

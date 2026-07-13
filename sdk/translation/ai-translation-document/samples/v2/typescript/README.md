@@ -78,3 +78,4 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [createinstance_azurecognitiveservicesinstance]: https://learn.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/translation/ai-translation-document/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/ai-translation-document
