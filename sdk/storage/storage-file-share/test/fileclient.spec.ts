@@ -1289,7 +1289,7 @@ describe("FileClient", () => {
 
     // First page.
     let iterator = fileClient.listRangesDiff(snapshotRes.snapshot!).byPage({ maxPageSize: 1 });
-    let response = (await iterator.next()).value;
+    const response = (await iterator.next()).value;
     const items: ShareFileRange[] = collect(response);
 
     // A continuation token must be returned while more ranges remain.
