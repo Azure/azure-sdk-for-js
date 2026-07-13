@@ -1406,7 +1406,9 @@ export class ContainerClient extends StorageClient {
     // The Content-Type header indicates which format we actually received. When it
     // is not Apache Arrow, parse the already-received XML stream in place
     // instead of issuing a second request.
-    if (rawResponse.contentType !== ApacheArrowContentType) {
+    if (
+      (rawResponse.contentType ?? "").split(";")[0].trim().toLowerCase() !== ApacheArrowContentType
+    ) {
       const internalResponse = await deserializeListBlobFlatSegmentXml(rawResponse);
       const xmlWrappedResponse: ContainerListBlobFlatSegmentResponse = {
         ...internalResponse,
@@ -1533,7 +1535,9 @@ export class ContainerClient extends StorageClient {
     // The Content-Type header indicates which format we actually received. When it
     // is not Apache Arrow, parse the already-received XML stream in place instead of
     // issuing a second request.
-    if (rawResponse.contentType !== ApacheArrowContentType) {
+    if (
+      (rawResponse.contentType ?? "").split(";")[0].trim().toLowerCase() !== ApacheArrowContentType
+    ) {
       const internalResponse = await deserializeListBlobHierarchySegmentXml(rawResponse);
       const xmlWrappedResponse: ContainerListBlobHierarchySegmentResponse = {
         ...internalResponse,
