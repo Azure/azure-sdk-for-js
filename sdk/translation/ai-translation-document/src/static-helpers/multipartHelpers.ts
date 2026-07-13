@@ -9,32 +9,29 @@ import type { NodeReadableStream } from "#platform/static-helpers/platform-types
 export type FileContents =
   string | NodeReadableStream | ReadableStream<Uint8Array> | Uint8Array | Blob;
 
-type FilePartInput =
-  | FileContents
-  | {
-      contents: FileContents;
-      contentType?: string;
-      filename?: string;
-    }
-  | null
-  | undefined;
+interface FilePartDescriptor {
+  contents: FileContents;
+  contentType?: string;
+  filename?: string;
+}
 
 export function createFilePartDescriptor(
   partName: string,
-  fileInput: FilePartInput,
+  fileInput: unknown,
   defaultContentType?: string,
 ): {
   name: string;
-  body: FileContents | null | undefined;
+  body: unknown;
   contentType?: string;
   filename?: string;
 } {
   if (fileInput != null && typeof fileInput === "object" && "contents" in fileInput) {
+    const descriptor = fileInput as FilePartDescriptor;
     return {
       name: partName,
-      body: fileInput.contents,
-      contentType: fileInput.contentType ?? defaultContentType,
-      filename: fileInput.filename,
+      body: descriptor.contents,
+      contentType: descriptor.contentType ?? defaultContentType,
+      filename: descriptor.filename,
     };
   } else {
     return {

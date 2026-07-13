@@ -124,3 +124,5 @@ https://www.npmjs.com/package/@azure/arm-resiliencemanagement
 https://learn.microsoft.com/javascript/api/@azure/arm-voiceservices
 https://learn.microsoft.com/javascript/api/@azure/arm-commvaultcontentstore?view=azure-node-preview
 https://www.npmjs.com/package/@azure/arm-commvaultcontentstore
+https://learn.microsoft.com/javascript/api/@azure/ai-translation-document
+https://www.npmjs.com/package/@azure/ai-translation-document
