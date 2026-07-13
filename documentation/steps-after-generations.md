@@ -193,7 +193,7 @@ allow-list.
 Now, we can use the exact same steps to build a releasable artifact.
 
 ```shell
-pnpm update
+pnpm install
 pnpm turbo build --filter=<your-package-name>...
 cd <your-sdk-folder>
 export TEST_MODE=record && pnpm test
