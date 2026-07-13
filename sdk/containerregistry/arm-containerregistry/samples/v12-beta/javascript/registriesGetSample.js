@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the properties of the specified container registry.
  *
  * @summary gets the properties of the specified container registry.
- * x-ms-original-file: 2026-01-01-preview/RegistryGet.json
+ * x-ms-original-file: 2026-03-01-preview/RegistryGet.json
  */
 async function registryGet() {
   const credential = new DefaultAzureCredential();

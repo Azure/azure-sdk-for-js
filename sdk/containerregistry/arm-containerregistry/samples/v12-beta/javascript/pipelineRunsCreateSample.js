@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates a pipeline run for a container registry with the specified parameters
  *
  * @summary creates a pipeline run for a container registry with the specified parameters
- * x-ms-original-file: 2026-01-01-preview/PipelineRunCreate_Export.json
+ * x-ms-original-file: 2026-03-01-preview/PipelineRunCreate_Export.json
  */
 async function pipelineRunCreateExport() {
   const credential = new DefaultAzureCredential();
@@ -37,7 +37,7 @@ async function pipelineRunCreateExport() {
  * This sample demonstrates how to creates a pipeline run for a container registry with the specified parameters
  *
  * @summary creates a pipeline run for a container registry with the specified parameters
- * x-ms-original-file: 2026-01-01-preview/PipelineRunCreate_Import.json
+ * x-ms-original-file: 2026-03-01-preview/PipelineRunCreate_Import.json
  */
 async function pipelineRunCreateImport() {
   const credential = new DefaultAzureCredential();

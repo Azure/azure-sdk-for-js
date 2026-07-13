@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates a container registry with the specified parameters.
  *
  * @summary creates a container registry with the specified parameters.
- * x-ms-original-file: 2026-01-01-preview/RegistryCreate.json
+ * x-ms-original-file: 2026-03-01-preview/RegistryCreate.json
  */
 async function registryCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,7 @@ async function registryCreate(): Promise<void> {
  * This sample demonstrates how to creates a container registry with the specified parameters.
  *
  * @summary creates a container registry with the specified parameters.
- * x-ms-original-file: 2026-01-01-preview/RegistryCreateAbac.json
+ * x-ms-original-file: 2026-03-01-preview/RegistryCreateAbac.json
  */
 async function registryCreateAbac(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -46,7 +46,7 @@ async function registryCreateAbac(): Promise<void> {
  * This sample demonstrates how to creates a container registry with the specified parameters.
  *
  * @summary creates a container registry with the specified parameters.
- * x-ms-original-file: 2026-01-01-preview/RegistryCreateDomainNameLabelScope.json
+ * x-ms-original-file: 2026-03-01-preview/RegistryCreateDomainNameLabelScope.json
  */
 async function registryCreateDomainNameLabelScope(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -65,7 +65,7 @@ async function registryCreateDomainNameLabelScope(): Promise<void> {
  * This sample demonstrates how to creates a container registry with the specified parameters.
  *
  * @summary creates a container registry with the specified parameters.
- * x-ms-original-file: 2026-01-01-preview/RegistryCreateZoneRedundant.json
+ * x-ms-original-file: 2026-03-01-preview/RegistryCreateZoneRedundant.json
  */
 async function registryCreateZoneRedundant(): Promise<void> {
   const credential = new DefaultAzureCredential();

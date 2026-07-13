@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create vault extended info.
  *
  * @summary create vault extended info.
- * x-ms-original-file: 2025-08-01/UpdateVaultExtendedInfo_Put.json
+ * x-ms-original-file: 2026-05-01/UpdateVaultExtendedInfo_Put.json
  */
 async function putExtendedInfoOfResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -17,12 +17,7 @@ async function putExtendedInfoOfResource(): Promise<void> {
   const result = await client.vaultExtendedInfo.createOrUpdate(
     "Default-RecoveryServices-ResourceGroup",
     "swaggerExample",
-    {
-      properties: {
-        algorithm: "None",
-        integrityKey: "J99wzS27fmJ+Wjot7xO5wA==",
-      },
-    },
+    { properties: { algorithm: "None", integrityKey: "J99wzS27fmJ+Wjot7xO5wA==" } },
   );
   console.log(result);
 }

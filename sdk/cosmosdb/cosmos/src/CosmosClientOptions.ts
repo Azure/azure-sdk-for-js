@@ -81,4 +81,12 @@ export interface CosmosClientOptions {
 
   /** An optional parameter that represents the connection string. Your database connection string can be found in the Azure Portal. */
   connectionString?: string;
+
+  /**
+   * A dictionary for opting into preview features of the SDK.
+   *
+   * Preview features are not generally available and may change in backward-incompatible
+   * ways before they become GA; they are not recommended for production use.
+   */
+  enablePreviewFeatures?: Record<string, unknown>;
 }
