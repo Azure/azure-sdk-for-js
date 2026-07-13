@@ -67,6 +67,10 @@
       {
         "path": "src/confidentialLedgerClient.ts",
         "prefix": "userAgentInfo"
+      },
+      {
+        "path": "src/confidentialLedgerCustomized.ts",
+        "prefix": "userAgentInfo"
       }
     ]
   },

@@ -62,7 +62,7 @@
     "constantPaths": [
       {
         "path": "src/generated/src/storageClient.ts",
-        "prefix": "packageVersion"
+        "prefix": "packageDetails"
       },
       {
         "path": "src/utils/constants.ts",
