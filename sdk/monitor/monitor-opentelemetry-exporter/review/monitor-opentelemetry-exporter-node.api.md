@@ -19,8 +19,10 @@ import type { ResourceMetrics } from '@opentelemetry/sdk-metrics';
 import type { Sampler } from '@opentelemetry/sdk-trace-base';
 import type { SamplingResult } from '@opentelemetry/sdk-trace-base';
 import type { ServiceClientOptions } from '@azure/core-client';
+import type { Span } from '@opentelemetry/sdk-trace-base';
 import type { SpanExporter } from '@opentelemetry/sdk-trace-base';
 import type { SpanKind } from '@opentelemetry/api';
+import type { SpanProcessor } from '@opentelemetry/sdk-trace-base';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -75,11 +77,33 @@ export class AzureMonitorMetricExporter extends AzureMonitorBaseExporter impleme
 }
 
 // @public
+export interface AzureMonitorSamplerOptions {
+    samplingRatio?: number;
+    tracesPerSecond?: number;
+}
+
+// @public
+export class AzureMonitorSamplingSpanProcessor implements SpanProcessor {
+    constructor(delegate: SpanProcessor, sampler: Sampler);
+    // (undocumented)
+    forceFlush(): Promise<void>;
+    // (undocumented)
+    onEnd(span: ReadableSpan): void;
+    // (undocumented)
+    onStart(span: Span, parentContext: Context): void;
+    // (undocumented)
+    shutdown(): Promise<void>;
+}
+
+// @public
 export class AzureMonitorTraceExporter extends AzureMonitorBaseExporter implements SpanExporter {
     constructor(options?: AzureMonitorExporterOptions);
     export(spans: ReadableSpan[], resultCallback: (result: ExportResult) => void): Promise<void>;
     shutdown(): Promise<void>;
 }
+
+// @public
+export function createAzureMonitorSampler(options?: AzureMonitorSamplerOptions): Sampler;
 
 // @public
 export class RateLimitedSampler implements Sampler {

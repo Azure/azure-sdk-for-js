@@ -1,5 +1,11 @@
 # Release History
 
+## 1.0.0-beta.44 (Unreleased)
+
+### Features Added
+
+- Add `AzureMonitorSamplingSpanProcessor` and the `createAzureMonitorSampler` factory. These let a distro scope sampling (rate-limited via `tracesPerSecond` or percentage via `samplingRatio`) to the Azure Monitor export pipeline only, so other exporters keep receiving 100% of telemetry. `createAzureMonitorSampler` returns a `RateLimitedSampler` by default whenever `tracesPerSecond` is greater than 0.
+
 ## 1.0.0-beta.43 (2026-07-01)
 
 ### Breaking Changes
