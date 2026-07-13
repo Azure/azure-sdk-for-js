@@ -163,7 +163,7 @@ export async function makeSampleGenerationInfo(
     // If we are a beta package, use "beta", otherwise we will use "latest"
     [projectInfo.name]: projectInfo.version.includes("beta") ? "beta" : "latest",
     // We use this universally
-    dotenv: "latest",
+    dotenv: devToolPackageJson.dependencies["dotenv"],
   };
 
   const { packageJson } = projectInfo;
@@ -275,14 +275,23 @@ export async function makeSampleGenerationInfo(
               devDependencies: {
                 ...typesDependencies,
                 "@types/node": `^${MIN_SUPPORTED_NODE_VERSION}`,
-                "cross-env": "latest",
-                rimraf: "latest",
-                typescript: devToolPackageJson.dependencies.typescript,
+                "cross-env": resolveDependencyVersion(
+                  "cross-env",
+                  devToolPackageJson.devDependencies["cross-env"],
+                ),
+                rimraf: resolveDependencyVersion(
+                  "rimraf",
+                  devToolPackageJson.devDependencies["rimraf"],
+                ),
+                typescript: resolveDependencyVersion("typescript", "catalog:"),
               },
             }
           : {
               devDependencies: {
-                "cross-env": "latest",
+                "cross-env": resolveDependencyVersion(
+                  "cross-env",
+                  devToolPackageJson.devDependencies["cross-env"],
+                ),
               },
             }),
       };

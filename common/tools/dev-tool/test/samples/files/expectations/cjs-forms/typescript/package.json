@@ -26,14 +26,14 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/common/tools/dev-tool/test/samples/files/expectations/cjs-forms",
   "dependencies": {
     "cjs-forms": "latest",
-    "dotenv": "latest",
+    "dotenv": "^16.0.0",
     "@azure/test1": "latest",
     "@azure-test2/test2": "beta"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
-    "cross-env": "latest",
-    "rimraf": "latest",
-    "typescript": "~6.0.2"
+    "cross-env": "^10.1.0",
+    "rimraf": "^6.1.0",
+    "typescript": "~7.0.2"
   }
 }

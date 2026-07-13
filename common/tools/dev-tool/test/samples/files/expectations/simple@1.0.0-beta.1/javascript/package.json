@@ -22,9 +22,9 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/common/tools/dev-tool/test/samples/files/expectations/simple@1.0.0-beta.1",
   "dependencies": {
     "simple@1.0.0-beta.1": "beta",
-    "dotenv": "latest"
+    "dotenv": "^16.0.0"
   },
   "devDependencies": {
-    "cross-env": "latest"
+    "cross-env": "^10.1.0"
   }
 }
