@@ -1,12 +1,12 @@
-import { describe, expect, test } from 'vitest';
+import { describe, expect, test } from "vitest";
 
-import { patchFunction } from '../azure/patch/patch-detection';
-import { createTestAstContext } from './utils';
-import { DiffLocation, DiffReasons, AssignDirection } from '../azure/common/types';
-import { Project, SyntaxKind } from 'ts-morph';
+import { patchFunction } from "../azure/patch/patch-detection";
+import { createTestAstContext } from "./utils";
+import { DiffLocation, DiffReasons, AssignDirection } from "../azure/common/types";
+import { Project, SyntaxKind } from "ts-morph";
 
-describe('detect functions', () => {
-  test('detect function overloads', async () => {
+describe("detect functions", () => {
+  test("detect function overloads", async () => {
     const baselineApiView = `
     export interface A {a: string;}
     export interface B {b: string;}
@@ -24,9 +24,11 @@ describe('detect functions', () => {
     export function isUnexpected(response: C | E): response is C;`;
 
     const astContext = await createTestAstContext(baselineApiView, currentApiView);
-    let diffPairs = patchFunction('isUnexpected', astContext);
+    let diffPairs = patchFunction("isUnexpected", astContext);
 
-    expect(diffPairs.find((p) => p.assignDirection !== AssignDirection.CurrentToBaseline)).toBeUndefined();
+    expect(
+      diffPairs.find((p) => p.assignDirection !== AssignDirection.CurrentToBaseline),
+    ).toBeUndefined();
     expect(diffPairs.length).toBe(2);
 
     expect(diffPairs[0].location).toBe(DiffLocation.Signature_Overload);
@@ -36,7 +38,7 @@ describe('detect functions', () => {
     expect(diffPairs[1].reasons).toBe(DiffReasons.Added);
   });
 
-  test('detect function', async () => {
+  test("detect function", async () => {
     const baselineApiView = `
     export function funcBasic(a: string): string
     export function funcReturnType(a: string): string
@@ -53,43 +55,55 @@ describe('detect functions', () => {
 
     const astContext = await createTestAstContext(baselineApiView, currentApiView);
 
-    let diffPairs = patchFunction('funcBasic', astContext);
-    expect(diffPairs.find((p) => p.assignDirection !== AssignDirection.CurrentToBaseline)).toBeUndefined();
+    let diffPairs = patchFunction("funcBasic", astContext);
+    expect(
+      diffPairs.find((p) => p.assignDirection !== AssignDirection.CurrentToBaseline),
+    ).toBeUndefined();
     expect(diffPairs.length).toBe(0);
 
-    diffPairs = patchFunction('funcReturnType', astContext);
-    expect(diffPairs.find((p) => p.assignDirection !== AssignDirection.CurrentToBaseline)).toBeUndefined();
+    diffPairs = patchFunction("funcReturnType", astContext);
+    expect(
+      diffPairs.find((p) => p.assignDirection !== AssignDirection.CurrentToBaseline),
+    ).toBeUndefined();
     expect(diffPairs.length).toBe(1);
     expect(diffPairs[0].reasons).toBe(DiffReasons.TypeChanged);
     expect(diffPairs[0].location).toBe(DiffLocation.Signature_ReturnType);
-    expect(diffPairs[0].target?.name).toBe('funcReturnType');
+    expect(diffPairs[0].target?.name).toBe("funcReturnType");
 
-    diffPairs = patchFunction('funcParameterCount', astContext);
-    expect(diffPairs.find((p) => p.assignDirection !== AssignDirection.CurrentToBaseline)).toBeUndefined();
+    diffPairs = patchFunction("funcParameterCount", astContext);
+    expect(
+      diffPairs.find((p) => p.assignDirection !== AssignDirection.CurrentToBaseline),
+    ).toBeUndefined();
     expect(diffPairs.length).toBe(1);
     expect(diffPairs[0].reasons).toBe(DiffReasons.CountChanged);
     expect(diffPairs[0].location).toBe(DiffLocation.Signature_ParameterList);
-    expect(diffPairs[0].target?.name).toBe('funcParameterCount');
+    expect(diffPairs[0].target?.name).toBe("funcParameterCount");
 
-    diffPairs = patchFunction('funcParameterType', astContext);
-    expect(diffPairs.find((p) => p.assignDirection !== AssignDirection.CurrentToBaseline)).toBeUndefined();
+    diffPairs = patchFunction("funcParameterType", astContext);
+    expect(
+      diffPairs.find((p) => p.assignDirection !== AssignDirection.CurrentToBaseline),
+    ).toBeUndefined();
     expect(diffPairs.length).toBe(1);
     expect(diffPairs[0].reasons).toBe(DiffReasons.TypeChanged);
     expect(diffPairs[0].location).toBe(DiffLocation.Parameter);
-    expect(diffPairs[0].target?.name).toBe('a');
+    expect(diffPairs[0].target?.name).toBe("a");
 
-    diffPairs = patchFunction('funcRemove', astContext);
-    expect(diffPairs.find((p) => p.assignDirection !== AssignDirection.CurrentToBaseline)).toBeUndefined();
+    diffPairs = patchFunction("funcRemove", astContext);
+    expect(
+      diffPairs.find((p) => p.assignDirection !== AssignDirection.CurrentToBaseline),
+    ).toBeUndefined();
     expect(diffPairs.length).toBe(1);
     expect(diffPairs[0].reasons).toBe(DiffReasons.Removed);
     expect(diffPairs[0].location).toBe(DiffLocation.Signature);
-    expect(diffPairs[0].target?.name).toBe('funcRemove');
+    expect(diffPairs[0].target?.name).toBe("funcRemove");
 
-    diffPairs = patchFunction('funcAdd', astContext);
-    expect(diffPairs.find((p) => p.assignDirection !== AssignDirection.CurrentToBaseline)).toBeUndefined();
+    diffPairs = patchFunction("funcAdd", astContext);
+    expect(
+      diffPairs.find((p) => p.assignDirection !== AssignDirection.CurrentToBaseline),
+    ).toBeUndefined();
     expect(diffPairs.length).toBe(1);
     expect(diffPairs[0].reasons).toBe(DiffReasons.Added);
     expect(diffPairs[0].location).toBe(DiffLocation.Signature);
-    expect(diffPairs[0].source?.name).toBe('funcAdd');
+    expect(diffPairs[0].source?.name).toBe("funcAdd");
   });
 });

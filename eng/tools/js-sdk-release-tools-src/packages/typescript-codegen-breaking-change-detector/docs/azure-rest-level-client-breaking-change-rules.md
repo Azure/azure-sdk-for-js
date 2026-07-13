@@ -9,7 +9,7 @@ Special rule set for Azure REST level client: [rule set](https://github.com/Azur
 - Operation name changes
 - Request parameter model name changes
 - Response model name changes:
-- 
+-
 
 ### Breaking Changes
 

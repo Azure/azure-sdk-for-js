@@ -1,4 +1,4 @@
 {
-    "name": "@azure/arm-test",
-    "description": "sdk TestServiceClient."
+  "name": "@azure/arm-test",
+  "description": "sdk TestServiceClient."
 }
