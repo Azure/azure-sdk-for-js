@@ -8,4 +8,3 @@ dist/
 dist-test/
 .env
 tsdoc-metadata.json
-eng/tools/js-sdk-release-tools-src/src/test/**/testCases/**
