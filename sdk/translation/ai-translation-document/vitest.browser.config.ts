@@ -14,6 +14,12 @@ export default mergeConfig(
   defineConfig({
     test: {
       globalSetup: [path.resolve(__dirname, "test/utils/setup.ts")],
+      // All recorded tests are Node-only (they rely on Node stream/file APIs and
+      // only have Node recordings), so they live under test/**/node/ and are
+      // excluded from the browser run. Allow the (currently empty) browser suite
+      // to pass instead of failing with "No test files found"; any browser test
+      // added later will run automatically.
+      passWithNoTests: true,
     },
   }),
 );
