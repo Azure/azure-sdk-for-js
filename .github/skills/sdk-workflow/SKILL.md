@@ -10,20 +10,22 @@ development tasks. Read the referenced docs — don't guess at commands.
 
 ## Before you push (required for every change)
 
-Every code change must pass **build, format, lint, and test** checks locally
-before you push or open a PR — CI enforces all of these and will fail
-otherwise. This applies to **every workspace package**, not just `sdk/*`:
-changes under `common/tools/*` (e.g. `dev-tool`, `warp`) and `eng/*` have
-their own `check-format` / `lint` CI jobs too.
+Every code change must pass the checks that CI defines for the affected package
+locally before you push or open a PR. This includes every pnpm workspace
+package, not just `sdk/*`, including `common/tools/*` and
+`eng/containers/turborepo-remote-cache`. Tools elsewhere under `eng/*` are not
+workspace packages and use package-specific managers and scripts, so follow
+their CI configuration.
 
-From the directory of the package you changed:
+For a pnpm workspace package, from its directory:
 
 - `pnpm format` — auto-format with Prettier (this is what fixes a
   `check-format` CI failure).
 - `pnpm check-format` — verify formatting is clean (what CI runs).
 - `pnpm lint` — check lint (`pnpm lint:fix` to auto-fix where possible).
-- Build + unit tests: `npx dev-tool check --tag=local`, or the package's
-  `build` / `test` scripts.
+- Build from the repository root: `pnpm turbo build --filter=<package-name>... --token 1`.
+- Unit tests: run the package's `test` script; for `sdk/*`,
+  `npx dev-tool check --tag=local` runs build and unit tests.
 
 For `sdk/*` packages, `npx dev-tool check --fix` bundles format + lint +
 package.json validation in one step.
