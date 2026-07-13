@@ -69,7 +69,9 @@ jobs:
         displayName: 'copy to staging dir'
         workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/js-sdk-release-tools-src
 
-      - template: /eng/common/pipelines/templates/steps/publish-1es-artifact.yml
-        parameters:
-            ArtifactName: drop
-            ArtifactPath: $(Build.ArtifactStagingDirectory)
+      - task: PublishPipelineArtifact@1
+        displayName: 'Publish Artifacts'
+        condition: succeededOrFailed()
+        inputs:
+          artifactName: 'drop'
+          targetPath: '$(Build.ArtifactStagingDirectory)'
