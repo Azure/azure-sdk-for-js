@@ -309,7 +309,8 @@ describe("MD5/CRC64 combined return", () => {
   let sourceBlobURLWithSAS: string;
 
   const content = "Hello World";
-  const contentMD5 = (): Uint8Array => crypto.createHash("md5").update(Buffer.from(content)).digest();
+  const contentMD5 = (): Uint8Array =>
+    crypto.createHash("md5").update(Buffer.from(content)).digest();
 
   beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
