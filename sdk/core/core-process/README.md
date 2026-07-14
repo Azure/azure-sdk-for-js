@@ -14,7 +14,7 @@ npm install @azure/core-process
 
 ### Prerequisites
 
-- Node.js 22 or later.
+- [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule).
 
 ## Key concepts
 
