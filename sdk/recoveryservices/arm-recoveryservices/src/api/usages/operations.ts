@@ -1,25 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RecoveryServicesContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
-  _VaultUsageList,
-  _vaultUsageListDeserializer,
-  VaultUsage,
-} from "../../models/models.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
+import type { RecoveryServicesContext as Client } from "../index.js";
+import type { _VaultUsageList, VaultUsage } from "../../models/models.js";
+import { errorResponseDeserializer, _vaultUsageListDeserializer } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import { UsagesListByVaultsOptionalParams } from "./options.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { UsagesListByVaultsOptionalParams } from "./options.js";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
 export function _listByVaultsSend(
   context: Client,
