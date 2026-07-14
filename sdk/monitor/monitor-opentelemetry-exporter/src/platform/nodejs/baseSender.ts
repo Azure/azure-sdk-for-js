@@ -39,7 +39,7 @@ const DEFAULT_BATCH_SEND_RETRY_INTERVAL_MS = 60_000;
 const STARTUP_REPLAY_MAX_DELAY_MS = 60_000;
 const REPLAY_BATCH_BASE_DELAY_MS = 200;
 const REPLAY_BATCH_JITTER_MS = 200;
-// Match the Python exporter and prevent re-persisted files from creating an unbounded replay loop.
+// Prevent re-persisted files from creating an unbounded startup replay loop.
 const MAX_STARTUP_REPLAY_BATCHES = 10;
 
 /**
