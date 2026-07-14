@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to aPI to get details about capabilities provided by Microsoft.RecoveryServices RP
  *
  * @summary aPI to get details about capabilities provided by Microsoft.RecoveryServices RP
- * x-ms-original-file: 2025-08-01/Capabilities.json
+ * x-ms-original-file: 2026-05-01/Capabilities.json
  */
 async function capabilitiesForMicrosoftRecoveryServicesOrVaults() {
   const credential = new DefaultAzureCredential();

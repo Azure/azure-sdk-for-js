@@ -1,0 +1,56 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+/**
+ * This sample demonstrates how to create or update a managed Cassandra cluster. When updating, you must specify all writable properties. To update only some properties, use PATCH.
+ *
+ * @summary create or update a managed Cassandra cluster. When updating, you must specify all writable properties. To update only some properties, use PATCH.
+ * x-ms-original-file: 2026-03-15/CosmosDBManagedCassandraClusterCreate.json
+ */
+async function cosmosDBManagedCassandraClusterCreate() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const client = new CosmosDBManagementClient(credential, subscriptionId);
+  const result = await client.cassandraClusters.createUpdate(
+    "cassandra-prod-rg",
+    "cassandra-prod",
+    {
+      location: "West US",
+      tags: {},
+      properties: {
+        delegatedManagementSubnetId:
+          "/subscriptions/536e130b-d7d6-4ac7-98a5-de20d69588d2/resourceGroups/customer-vnet-rg/providers/Microsoft.Network/virtualNetworks/customer-vnet/subnets/management",
+        cassandraVersion: "3.11",
+        hoursBetweenBackups: 24,
+        authenticationMethod: "Cassandra",
+        initialCassandraAdminPassword: "mypassword",
+        externalSeedNodes: [
+          { ipAddress: "10.52.221.2" },
+          { ipAddress: "10.52.221.3" },
+          { ipAddress: "10.52.221.4" },
+        ],
+        clusterNameOverride: "ClusterNameIllegalForAzureResource",
+        clientCertificates: [
+          {
+            pem: "-----BEGIN CERTIFICATE-----\n...Base64 encoded certificate...\n-----END CERTIFICATE-----",
+          },
+        ],
+        externalGossipCertificates: [
+          {
+            pem: "-----BEGIN CERTIFICATE-----\n...Base64 encoded certificate...\n-----END CERTIFICATE-----",
+          },
+        ],
+      },
+    },
+  );
+  console.log(result);
+}
+
+async function main() {
+  await cosmosDBManagedCassandraClusterCreate();
+}
+
+main().catch(console.error);
