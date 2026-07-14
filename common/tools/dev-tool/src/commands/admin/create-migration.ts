@@ -3,7 +3,7 @@
 
 import path from "node:path";
 import readline from "node:readline";
-import { spawnSync } from "node:child_process";
+import { spawnSync } from "@azure/core-process";
 import { leafCommand, makeCommandInfo } from "../../framework/command.ts";
 import type { MigrationTemplate } from "../../templates/migration.ts";
 import migrationTemplate from "../../templates/migration.ts";
@@ -164,7 +164,7 @@ export default leafCommand(commandInfo, async (options) => {
       for (const command of commands) {
         try {
           const { status } = spawnSync(command, [migrationFile], {
-            shell: true,
+            allowWindowsBatchFiles: true,
           });
 
           if (status === 0) {

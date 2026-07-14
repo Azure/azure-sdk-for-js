@@ -200,8 +200,13 @@ export type VersionInfo = {
   patch: number;
 };
 
+export type ProcessCommand = {
+  command: string;
+  args: string[];
+};
+
 export type PackageManager = {
-  runCommand: (command: string, args: string) => string;
+  runCommand: (command: string, args: string[]) => ProcessCommand;
   getVersionFromStdout: (stdout: string) => string;
 };
 

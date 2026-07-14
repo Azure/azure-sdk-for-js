@@ -444,12 +444,20 @@ CredentialUnavailableError: EnvironmentCredential is unavailable. No underlying 
     assert.include(checkArgs, "/?");
 
     // PowerShell script execution
-    const [, scriptArgs] = calls[1];
+    const [, scriptArgs, scriptOptions] = calls[1];
     const commandIndex = scriptArgs?.indexOf("-Command");
     assert.isAtLeast(commandIndex ?? -1, 0);
 
     const scriptContent = scriptArgs?.[commandIndex + 1];
     assert.isString(scriptContent);
+    assert.include(scriptContent, "$env:AZURE_IDENTITY_POWERSHELL_RESOURCE");
+    assert.include(scriptContent, "$env:AZURE_IDENTITY_POWERSHELL_TENANT_ID");
+    assert.notInclude(scriptContent, "https://vault.azure.net");
+    assert.equal(
+      scriptOptions?.env?.["AZURE_IDENTITY_POWERSHELL_RESOURCE"],
+      "https://vault.azure.net",
+    );
+    assert.equal(scriptOptions?.env?.["AZURE_IDENTITY_POWERSHELL_TENANT_ID"], "");
 
     // Verify PowerShell script checks for and handles Az.Accounts module version 5.0.0+
     assert.include(scriptContent, "if ($token.Token -is [System.Security.SecureString])");

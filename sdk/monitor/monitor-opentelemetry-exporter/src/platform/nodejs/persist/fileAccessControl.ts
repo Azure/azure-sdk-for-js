@@ -3,18 +3,25 @@
 
 import { existsSync } from "node:fs";
 import { type as osType } from "node:os";
-import { spawn, spawnSync } from "node:child_process";
+import path from "node:path";
+import { spawn, spawnSync } from "@azure/core-process";
 import { diag } from "@opentelemetry/api";
 import process from "node:process";
 
 export class FileAccessControl {
-  private static ICACLS_PATH = `${process.env.SYSTEMDRIVE}/windows/system32/icacls.exe`;
-  private static POWERSHELL_PATH = `${process.env.SYSTEMDRIVE}/windows/system32/windowspowershell/v1.0/powershell.exe`;
   private static ACLED_DIRECTORIES: { [id: string]: boolean } = {};
   private static ACL_IDENTITY: string | null = null;
   private static OS_FILE_PROTECTION_CHECKED = false;
   public static OS_PROVIDES_FILE_PROTECTION = false;
   public static USE_ICACLS = osType() === "Windows_NT";
+
+  private static _getWindowsSystemExecutable(...segments: string[]): string {
+    const systemRoot = process.env.SystemRoot ?? process.env.SYSTEMROOT;
+    if (!systemRoot || !path.win32.isAbsolute(systemRoot) || systemRoot.startsWith("\\\\")) {
+      throw new Error("A trusted Windows system directory could not be established.");
+    }
+    return path.win32.join(systemRoot, ...segments);
+  }
 
   // Check if file access control could be enabled
   public static checkFileProtection(): void {
@@ -30,7 +37,9 @@ export class FileAccessControl {
         // This should be async - but it's currently safer to have this synchronous
         // This guarantees we can immediately fail setDiskRetryMode if we need to
         try {
-          FileAccessControl.OS_PROVIDES_FILE_PROTECTION = existsSync(FileAccessControl.ICACLS_PATH);
+          FileAccessControl.OS_PROVIDES_FILE_PROTECTION = existsSync(
+            FileAccessControl._getWindowsSystemExecutable("System32", "icacls.exe"),
+          );
         } catch (e: any) {
           // Ignore error
         }
@@ -86,11 +95,15 @@ export class FileAccessControl {
 
   private static _runICACLS(args: string[]): Promise<void> {
     return new Promise((resolve, reject) => {
-      const aclProc = spawn(FileAccessControl.ICACLS_PATH, args, <any>{
-        windowsHide: true,
-      });
+      const aclProc = spawn(
+        FileAccessControl._getWindowsSystemExecutable("System32", "icacls.exe"),
+        args,
+        {
+          windowsHide: true,
+        },
+      );
       aclProc.on("error", (e: Error) => reject(e));
-      aclProc.on("close", (code: number) => {
+      aclProc.on("close", (code) => {
         if (code === 0) {
           resolve();
         } else {
@@ -105,9 +118,13 @@ export class FileAccessControl {
   private static _runICACLSSync(args: string[]): void {
     // Some very old versions of Node (< 0.11) don't have this
     if (spawnSync) {
-      const aclProc = spawnSync(FileAccessControl.ICACLS_PATH, args, <any>{
-        windowsHide: true,
-      });
+      const aclProc = spawnSync(
+        FileAccessControl._getWindowsSystemExecutable("System32", "icacls.exe"),
+        args,
+        {
+          windowsHide: true,
+        },
+      );
       if (aclProc.error) {
         throw aclProc.error;
       } else if (aclProc.status !== 0) {
@@ -126,15 +143,20 @@ export class FileAccessControl {
         resolve(FileAccessControl.ACL_IDENTITY);
       }
       const psProc = spawn(
-        FileAccessControl.POWERSHELL_PATH,
+        FileAccessControl._getWindowsSystemExecutable(
+          "System32",
+          "WindowsPowerShell",
+          "v1.0",
+          "powershell.exe",
+        ),
         ["-Command", "[System.Security.Principal.WindowsIdentity]::GetCurrent().Name"],
-        <any>{
+        {
           windowsHide: true,
           stdio: ["ignore", "pipe", "pipe"], // Needed to prevent hanging on Win 7
         },
       );
       let data = "";
-      psProc.stdout.on("data", (d: string) => (data += d));
+      psProc.stdout?.on("data", (d: string) => (data += d));
       psProc.on("error", (e: Error) => reject(e));
       psProc.on("close", (code: number) => {
         FileAccessControl.ACL_IDENTITY = data && data.trim();
@@ -154,9 +176,14 @@ export class FileAccessControl {
     // Some very old versions of Node (< 0.11) don't have this
     if (spawnSync) {
       const psProc = spawnSync(
-        FileAccessControl.POWERSHELL_PATH,
+        FileAccessControl._getWindowsSystemExecutable(
+          "System32",
+          "WindowsPowerShell",
+          "v1.0",
+          "powershell.exe",
+        ),
         ["-Command", "[System.Security.Principal.WindowsIdentity]::GetCurrent().Name"],
-        <any>{
+        {
           windowsHide: true,
           stdio: ["ignore", "pipe", "pipe"], // Needed to prevent hanging on Win 7
         },

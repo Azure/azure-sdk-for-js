@@ -121,13 +121,13 @@ export interface ScriptCheckOptions extends Omit<CheckOptions, "hasFix"> {
    * If the command exits with a non-zero status code, the output of the command will be reported
    * to provide details about the failure.
    */
-  checkCommand: string;
+  checkCommand: string[];
 
   /**
    * Command to be ran to attempt to fix the check.
    * If undefined, this check will not be fixable.
    */
-  fixCommand?: string;
+  fixCommand?: string[];
 }
 
 /**
@@ -144,6 +144,7 @@ export function scriptCheck(options: ScriptCheckOptions): Check {
       if (fix) {
         assert(options.fixCommand !== undefined, "fix command must be defined");
         const { exitCode, output } = await run(options.fixCommand, {
+          allowWindowsBatchFiles: true,
           cwd: project.path,
           captureExitCode: true,
           stdio: verbose ? "inherit" : undefined,
@@ -152,6 +153,7 @@ export function scriptCheck(options: ScriptCheckOptions): Check {
         assert(exitCode === 0, `Check output exit code ${exitCode}`, output);
       } else {
         const { exitCode, output } = await run(options.checkCommand, {
+          allowWindowsBatchFiles: true,
           cwd: project.path,
           captureExitCode: true,
           stdio: verbose ? "inherit" : undefined,
@@ -243,13 +245,14 @@ export function packageJsonCheck(options: PackageJsonCheckOptions): Check {
  * Running this check in fix mode will run the check but will not check if it results in a clean working tree
  */
 export function workingTreeUnchangedCheck(
-  options: Omit<CheckOptions, "hasFix"> & ({ check: CheckFunction } | { fixCommand: string }),
+  options: Omit<CheckOptions, "hasFix"> & ({ check: CheckFunction } | { fixCommand: string[] }),
 ): Check {
   const checkFunction: CheckFunction =
     "check" in options
       ? (options.check as CheckFunction)
       : async (ctx) => {
           const { output, exitCode } = await run(options.fixCommand, {
+            allowWindowsBatchFiles: true,
             captureOutput: true,
             captureExitCode: true,
             cwd: ctx.project.path,
@@ -284,14 +287,14 @@ latest commit, you can tidy up the mess by running
         { cwd: project.path },
       );
       // 2. Stage unstaged stuff
-      await run("git add .", { cwd: project.path });
+      await run(["git", "add", "."], { cwd: project.path });
 
       try {
         // 3. Run the command
         await checkFunction({ fix: true, project, verbose });
 
         // 4. Check working tree is clean
-        const { exitCode, output } = await run("git diff --exit-code .", {
+        const { exitCode, output } = await run(["git", "diff", "--exit-code", "."], {
           cwd: project.path,
           captureExitCode: true,
           captureOutput: true,
@@ -300,11 +303,11 @@ latest commit, you can tidy up the mess by running
         assert(exitCode === 0, "Check resulted in a diff", output);
       } finally {
         // Undo changes to working tree
-        await run("git checkout .", { cwd: project.path });
+        await run(["git", "checkout", "."], { cwd: project.path });
         // Undo staging of unstaged things
-        await run("git reset .", { cwd: project.path });
+        await run(["git", "reset", "."], { cwd: project.path });
         // Undo commit of staged things
-        await run("git reset --soft HEAD~", { cwd: project.path });
+        await run(["git", "reset", "--soft", "HEAD~"], { cwd: project.path });
       }
     },
   };

@@ -24,6 +24,7 @@ const ruleList = [
   "ts-naming-options",
   "ts-naming-subclients",
   "ts-no-const-enums",
+  "ts-no-direct-child-process",
   "ts-no-invalid-test-imports",
   "ts-no-window",
   "ts-package-json-approved-dependencies",

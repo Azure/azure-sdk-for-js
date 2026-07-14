@@ -1,0 +1,83 @@
+{
+  "name": "@azure/core-process",
+  "version": "1.0.0",
+  "description": "Secure, cross-platform process launching for Node.js",
+  "sdk-type": "client",
+  "type": "module",
+  "main": "./dist/commonjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/commonjs/index.d.ts",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
+    }
+  },
+  "files": [
+    "dist/",
+    "!dist/**/*.d.*ts.map",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js",
+    "directory": "sdk/core/core-process"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "keywords": [
+    "node",
+    "azure",
+    "cloud",
+    "process",
+    "spawn",
+    "security"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-process",
+  "sideEffects": false,
+  "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
+  "scripts": {
+    "build": "npm run clean && warp build && npm run extract-api",
+    "build:samples": "echo Skipped.",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "clean": "rimraf --glob dist temp types *.tgz *.log",
+    "execute:samples": "echo skipped",
+    "extract-api": "api-extractor run --local",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "lint": "eslint package.json src test",
+    "lint:fix": "eslint package.json src test --fix --fix-type [problem,suggestion]",
+    "pack": "pnpm pack 2>&1",
+    "test": "tsc -b --noEmit && npm run test:node",
+    "test:browser": "echo skipped",
+    "test:node": "vitest",
+    "update-snippets": "echo skipped"
+  },
+  "devDependencies": {
+    "@azure/eslint-plugin-azure-sdk": "workspace:^",
+    "@microsoft/api-extractor": "^7.52.4",
+    "@microsoft/warp": "workspace:^",
+    "@types/node": "catalog:",
+    "@vitest/coverage-istanbul": "catalog:testing",
+    "cross-env": "catalog:",
+    "eslint": "catalog:",
+    "prettier": "catalog:",
+    "rimraf": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:testing"
+  }
+}

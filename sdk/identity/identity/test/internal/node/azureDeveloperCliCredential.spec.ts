@@ -6,29 +6,28 @@ import {
   developerCliCredentialInternals,
 } from "$internal/credentials/azureDeveloperCliCredential.js";
 import type { GetTokenOptions } from "@azure/core-auth";
-import child_process, { type ChildProcess } from "node:child_process";
+import { processUtils } from "$internal/util/processUtils.js";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("AzureDeveloperCliCredential (internal)", function () {
   let stdout: string = "";
   let stderr: string = "";
   let azdCommands: string[] = [];
-  let azdOptions: { cwd: string; timeout?: number }[] = [];
+  let azdArgumentLists: string[][] = [];
+  let azdOptions: { allowWindowsBatchFiles?: boolean; cwd: string; timeout?: number }[] = [];
 
   beforeEach(async function () {
     azdCommands = [];
+    azdArgumentLists = [];
     azdOptions = [];
-    vi.spyOn(child_process, "exec").mockImplementation(
-      (command, options, callback): ChildProcess => {
-        azdCommands.push(command as string);
-        azdOptions.push(options as { cwd: string; timeout?: number });
-        if (callback) {
-          callback(null, stdout, stderr);
-        }
-        // Bypassing the type check. We don't use this return value in our code.
-        return {} as ChildProcess;
-      },
-    );
+    vi.spyOn(processUtils, "execFileWithResult").mockImplementation(async (file, args, options) => {
+      azdCommands.push([file, ...args].join(" "));
+      azdArgumentLists.push(args);
+      azdOptions.push(
+        options as { allowWindowsBatchFiles?: boolean; cwd: string; timeout?: number },
+      );
+      return { stdout, stderr, error: null };
+    });
   });
 
   afterEach(async function () {
@@ -44,6 +43,16 @@ describe("AzureDeveloperCliCredential (internal)", function () {
     assert.deepEqual(azdCommands, [
       "azd auth token --output json --no-prompt --scope https://service/.default",
     ]);
+    assert.deepEqual(azdArgumentLists[0], [
+      "auth",
+      "token",
+      "--output",
+      "json",
+      "--no-prompt",
+      "--scope",
+      "https://service/.default",
+    ]);
+    assert.isTrue(azdOptions[0].allowWindowsBatchFiles);
     // Used a working directory, and a shell
     assert.deepEqual(
       {

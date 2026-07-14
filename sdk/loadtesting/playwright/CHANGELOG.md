@@ -1,5 +1,18 @@
 # Release History
 
+## 1.1.7 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+- Replaced shell command strings with safe, structured process execution.
+  [#31508](https://github.com/Azure/azure-sdk-for-js/issues/31508)
+
 ## 1.1.6 (2026-06-05)
 
 ### Features Added
@@ -24,7 +37,6 @@
 ### Bugs Fixed
 
 - Provided a direct Azure Portal URL to the specific Playwright test run.
-
 
 ## 1.1.3 (2026-03-18)
 

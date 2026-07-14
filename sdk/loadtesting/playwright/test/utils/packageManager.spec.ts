@@ -18,33 +18,37 @@ describe("Package Manager", () => {
   it("should return NPM when npm_config_user_agent is not set", () => {
     vi.stubEnv("npm_config_user_agent", undefined);
     const packageManager = getPackageManager();
-    expect(packageManager.runCommand("playwright", "--version")).to.equal(
-      "npx playwright --version",
-    );
+    expect(packageManager.runCommand("playwright", ["--version"])).to.deep.equal({
+      command: "npx",
+      args: ["playwright", "--version"],
+    });
   });
 
   it("should return Yarn when npm_config_user_agent contains yarn", () => {
     vi.stubEnv("npm_config_user_agent", "yarn/1.22.5 npm/? node/v14.15.4 darwin x64");
     const packageManager = getPackageManager();
-    expect(packageManager.runCommand("playwright", "--version")).to.equal(
-      "yarn playwright --version",
-    );
+    expect(packageManager.runCommand("playwright", ["--version"])).to.deep.equal({
+      command: "yarn",
+      args: ["playwright", "--version"],
+    });
   });
 
   it("should return PNPM when npm_config_user_agent contains pnpm", () => {
     vi.stubEnv("npm_config_user_agent", "pnpm/6.7.0 node/v14.15.4 darwin x64");
     const packageManager = getPackageManager();
-    expect(packageManager.runCommand("playwright", "--version")).to.equal(
-      "pnpm playwright --version",
-    );
+    expect(packageManager.runCommand("playwright", ["--version"])).to.deep.equal({
+      command: "pnpm",
+      args: ["playwright", "--version"],
+    });
   });
 
   it("should return NPM when npm_config_user_agent contains npm", () => {
     vi.stubEnv("npm_config_user_agent", "npm/6.14.10 node/v14.15.4 darwin x64");
     const packageManager = getPackageManager();
-    expect(packageManager.runCommand("playwright", "--version")).to.equal(
-      "npx playwright --version",
-    );
+    expect(packageManager.runCommand("playwright", ["--version"])).to.deep.equal({
+      command: "npx",
+      args: ["playwright", "--version"],
+    });
   });
 
   it("should return NPM when npm_config_user_agent contains npm (with tag info)", () => {

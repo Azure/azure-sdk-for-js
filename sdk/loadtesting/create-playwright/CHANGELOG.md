@@ -10,6 +10,9 @@
 
 ### Other Changes
 
+- Replaced shell command strings with safe, structured process execution.
+  [#31508](https://github.com/Azure/azure-sdk-for-js/issues/31508)
+
 ## 1.1.0 (2026-01-06)
 
 ### Features Added

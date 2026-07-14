@@ -7,7 +7,7 @@
  * This command is an alias for `dev-tool run vendored`
  */
 
-import { spawn } from "node:child_process";
+import { spawn } from "@azure/core-process";
 import { resolve } from "node:path";
 
 const engine = process.argv0;

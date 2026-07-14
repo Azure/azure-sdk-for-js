@@ -2,11 +2,12 @@
 // Licensed under the MIT License
 
 import path from "node:path";
-import concurrently from "concurrently";
 import { leafCommand, makeCommandInfo } from "../../framework/command.ts";
 import { runTestsWithProxyTool } from "../../util/testUtils.ts";
 import { createPrinter } from "../../util/printer.ts";
 import { shouldStartRelay, startRelayServer } from "../../util/browserRelayServer.ts";
+import { run } from "../../util/run.ts";
+import { resolveNodeModuleBin } from "../../util/nodeCli.ts";
 
 const log = createPrinter("test:vitest");
 
@@ -48,15 +49,25 @@ export const commandInfo = makeCommandInfo(
 );
 
 async function playwrightInstall(): Promise<void> {
-  const { result } = concurrently([
-    {
-      command: "npx playwright install",
-      name: "playwright install",
-    },
-  ]);
-
-  await result;
+  const playwrightCli = resolveNodeModuleBin("playwright", "playwright", process.cwd());
+  await run([process.execPath, "--", playwrightCli, "install"], {
+    stdio: "inherit",
+  });
   log.info("playwright browsers installed");
+}
+
+export function buildVitestCommand(
+  args: readonly string[],
+  options: { browser: boolean; esm: boolean },
+): string[] {
+  const providedConfig = args.some((arg) => arg === "-c" || arg === "--config");
+  let configArgs: string[] = [];
+  if (options.browser && !providedConfig) {
+    configArgs = ["-c", "vitest.browser.config.ts"];
+  } else if (options.esm && !providedConfig) {
+    configArgs = ["-c", "vitest.esm.config.ts"];
+  }
+  return [process.execPath, "--", resolveNodeModuleBin("vitest", "vitest"), ...configArgs, ...args];
 }
 
 export default leafCommand(commandInfo, async (options) => {
@@ -64,26 +75,11 @@ export default leafCommand(commandInfo, async (options) => {
     await playwrightInstall();
   }
 
-  const updatedArgs = options["--"]?.map((opt) =>
-    (opt.includes("**") || opt.includes(" ")) && !opt.startsWith("'") && !opt.startsWith('"')
-      ? `"${opt}"`
-      : opt,
-  );
-
-  let args = "";
-  // Only set if we didn't provide a config file path
-  const providedConfig = updatedArgs?.find((arg) => arg === "-c" || arg === "--config");
-  if (options["browser"] && !providedConfig) {
-    args = "-c vitest.browser.config.ts";
-  } else if (options["esm"] && !providedConfig) {
-    args = "-c vitest.esm.config.ts";
-  }
-
-  const vitestArgs = updatedArgs?.length ? updatedArgs.join(" ") : "";
-  const command = {
-    command: `vitest ${args} ${vitestArgs}`,
-    name: "vitest",
-  };
+  const updatedArgs = options["--"] ?? [];
+  const command = buildVitestCommand(updatedArgs, {
+    browser: options["browser"],
+    esm: options["esm"],
+  });
 
   const stopRelayServer =
     options.browser && options["relay-server"] && (await shouldStartRelay())
@@ -107,7 +103,7 @@ export default leafCommand(commandInfo, async (options) => {
     }
 
     log.info("Running vitest without test-proxy");
-    await concurrently([command]).result;
+    await run(command, { stdio: "inherit" });
     return true;
   } finally {
     stopRelayServer?.();
