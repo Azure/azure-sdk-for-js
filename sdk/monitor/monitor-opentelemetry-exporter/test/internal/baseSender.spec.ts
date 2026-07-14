@@ -14,7 +14,7 @@ import {
 import { ExceptionType, RetryCode } from "../../src/export/statsbeat/types.js";
 import type { SenderResult } from "../../src/types.js";
 import { CustomerSDKStatsMetrics } from "../../src/export/statsbeat/customerSDKStats.js";
-import { RestError } from "@azure/core-rest-pipeline";
+import { RestError, createHttpHeaders } from "@azure/core-rest-pipeline";
 
 // Mock dependencies
 vi.mock("@opentelemetry/api", () => {
@@ -581,6 +581,53 @@ describe("BaseSender", () => {
       expect(mockCustomerSDKStatsMetrics.countDroppedItems).not.toHaveBeenCalled();
       expect((sender as any).retryTimer).not.toBeNull();
       expect(result.code).toBe(ExportResultCode.SUCCESS);
+    });
+
+    it("should classify the transport's real AbortError timeout message as a timeout", async () => {
+      // The Node transport raises an AbortError whose message is only "The operation was
+      // aborted...", which isTimeoutError does not recognize. The AbortError name must still
+      // drive CLIENT_TIMEOUT classification.
+      const timeoutError = Object.assign(
+        new Error("The operation was aborted. Reason: Timeout of 10000ms exceeded"),
+        { name: "AbortError" },
+      );
+      const testEnvelopes = [{ name: "test", time: new Date() }];
+      sender.sendMock.mockRejectedValue(timeoutError);
+      mockPersist.push.mockResolvedValue(true);
+      mockCustomerSDKStatsMetrics.isTimeoutError.mockReturnValue(false);
+
+      const result = await sender.exportEnvelopes(testEnvelopes);
+
+      expect(sender.getPersister().push).toHaveBeenCalledWith(testEnvelopes);
+      expect(mockCustomerSDKStatsMetrics.countRetryItems).toHaveBeenCalledWith(
+        testEnvelopes,
+        RetryCode.CLIENT_TIMEOUT,
+        "timeout_exception",
+        ExceptionType.TIMEOUT_EXCEPTION,
+      );
+      expect(result.code).toBe(ExportResultCode.SUCCESS);
+    });
+
+    it("should honor Retry-After when a retriable HTTP status is thrown as a RestError", async () => {
+      const setTimeoutSpy = vi.spyOn(globalThis, "setTimeout");
+      vi.mocked(isRetriable).mockImplementation((statusCode) => statusCode === 503);
+      const retriableError = new RestError("Service Unavailable", {
+        code: "SERVICE_UNAVAILABLE",
+        statusCode: 503,
+        response: {
+          headers: createHttpHeaders({ "retry-after": "45" }),
+        } as any,
+      });
+      sender.sendMock.mockRejectedValue(retriableError);
+      mockPersist.push.mockResolvedValue(true);
+
+      const result = await sender.exportEnvelopes([{ name: "test", time: new Date() }]);
+
+      expect(result.code).toBe(ExportResultCode.SUCCESS);
+      expect(mockPersist.push).toHaveBeenCalled();
+      expect(setTimeoutSpy).toHaveBeenCalledWith(expect.any(Function), 45_000);
+
+      setTimeoutSpy.mockRestore();
     });
 
     it("should not persist a non-RestError with a retriable error code", async () => {

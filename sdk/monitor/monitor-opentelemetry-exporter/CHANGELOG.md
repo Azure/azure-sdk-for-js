@@ -4,7 +4,7 @@
 
 ### Bugs Fixed
 
-- Persist telemetry for later retry when no HTTP response is received.
+- Persist telemetry for later retry when no HTTP response is received. [#39277](https://github.com/Azure/azure-sdk-for-js/pull/39277)
 
 ## 1.0.0-beta.43 (2026-07-01)
 

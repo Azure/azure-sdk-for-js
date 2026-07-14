@@ -19,7 +19,11 @@ import {
   isStatsbeatShutdownStatus,
 } from "../../export/statsbeat/types.js";
 import type { BreezeResponse } from "../../utils/breezeUtils.js";
-import { isRetriable, isSamplingRejection } from "../../utils/breezeUtils.js";
+import {
+  isRetriable,
+  isSamplingRejection,
+  parseRetryAfterHeader,
+} from "../../utils/breezeUtils.js";
 import type { TelemetryItem as Envelope } from "../../generated/index.js";
 import {
   ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL,
@@ -301,7 +305,9 @@ export abstract class BaseSender {
       ) {
         this.networkStatsbeatMetrics?.countRetry(restError.statusCode);
         this.customerSDKStatsMetrics?.countRetryItems(envelopes, restError.statusCode);
-        this.scheduleRetryTimer();
+        // Honor a server-requested Retry-After so persisted telemetry isn't replayed too early.
+        const retryAfterMs = parseRetryAfterHeader(restError.response?.headers.get("retry-after"));
+        this.scheduleRetryTimer(retryAfterMs);
         return this.persist(envelopes);
       } else if (
         restError.statusCode === 400 &&
@@ -323,7 +329,13 @@ export abstract class BaseSender {
       // Persist transport failures where no HTTP response was received.
       if (this.isRetriableNoResponseError(error) && !this.isStatsbeatSender) {
         this.networkStatsbeatMetrics?.countException(restError);
-        if (this.customerSDKStatsMetrics?.isTimeoutError(restError) && !this.isStatsbeatSender) {
+        // A status-less AbortError is the transport's real timeout signal, but its message
+        // ("The operation was aborted...") isn't recognized by isTimeoutError. Treat it as a
+        // timeout explicitly so it's classified as CLIENT_TIMEOUT rather than CLIENT_EXCEPTION.
+        const isTimeout =
+          restError.name === "AbortError" ||
+          this.customerSDKStatsMetrics?.isTimeoutError(restError);
+        if (isTimeout && !this.isStatsbeatSender) {
           this.customerSDKStatsMetrics?.countRetryItems(
             envelopes,
             RetryCode.CLIENT_TIMEOUT,
