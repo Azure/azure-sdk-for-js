@@ -8,6 +8,7 @@ import { createPrinter } from "../../util/printer.ts";
 import { shouldStartRelay, startRelayServer } from "../../util/browserRelayServer.ts";
 import { run } from "../../util/run.ts";
 import { resolveNodeModuleBin } from "../../util/nodeCli.ts";
+import { buildVitestCommand } from "../../util/vitestCommand.ts";
 
 const log = createPrinter("test:vitest");
 
@@ -54,20 +55,6 @@ async function playwrightInstall(): Promise<void> {
     stdio: "inherit",
   });
   log.info("playwright browsers installed");
-}
-
-export function buildVitestCommand(
-  args: readonly string[],
-  options: { browser: boolean; esm: boolean },
-): string[] {
-  const providedConfig = args.some((arg) => arg === "-c" || arg === "--config");
-  let configArgs: string[] = [];
-  if (options.browser && !providedConfig) {
-    configArgs = ["-c", "vitest.browser.config.ts"];
-  } else if (options.esm && !providedConfig) {
-    configArgs = ["-c", "vitest.esm.config.ts"];
-  }
-  return [process.execPath, "--", resolveNodeModuleBin("vitest", "vitest"), ...configArgs, ...args];
 }
 
 export default leafCommand(commandInfo, async (options) => {

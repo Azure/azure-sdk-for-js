@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, expect, it } from "vitest";
-import { buildVitestCommand } from "../src/commands/run/testVitest.ts";
+import { buildVitestCommand } from "../src/util/vitestCommand.ts";
 
 describe("test:vitest command safety", () => {
   it("preserves trailing arguments as separate values", () => {
