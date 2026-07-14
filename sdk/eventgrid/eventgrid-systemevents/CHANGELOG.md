@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- Added types that were missing from the public API surface.
+- Added types that were missing from the public API surface. Refer [PR #39235](https://github.com/Azure/azure-sdk-for-js/pull/39235/) for further details.
 
 ## 1.0.1 (2025-06-27)
 
