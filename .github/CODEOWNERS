@@ -206,7 +206,7 @@
 # ServiceLabel: %EngSys
 
 # PRLabel: %Event Grid
-/sdk/eventgrid/    @Kishp01 @shankarsama @Nishanth-MS
+/sdk/eventgrid/    @shankarsama @Nishanth-MS
 
 # AzureSdkOwners: @rajeshka @shankarsama
 # ServiceLabel: %Event Grid
