@@ -22,9 +22,9 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/common/tools/dev-tool/test/samples/files/expectations/output-customization",
   "dependencies": {
     "output-customization": "latest",
-    "dotenv": "latest"
+    "dotenv": "^16.0.0"
   },
   "devDependencies": {
-    "cross-env": "latest"
+    "cross-env": "^10.1.0"
   }
 }

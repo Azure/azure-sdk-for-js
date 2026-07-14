@@ -9,6 +9,7 @@ import { createPrinter } from "../../util/printer.ts";
 import { resolveProject } from "../../util/resolveProject.ts";
 import { type ResolvedConfigResult, resolveConfig } from "../../util/resolveTsConfig.ts";
 import { spawnSync } from "node:child_process";
+import { isWindows } from "../../util/platform.ts";
 
 const log = createPrinter("build-test");
 
@@ -64,6 +65,11 @@ async function findAndRunTypeScriptConfig(
   );
   return false;
 }
+
+const DOT_BIN_PATH = path.resolve(import.meta.dirname, "..", "..", "..", "node_modules", ".bin");
+const commandPath = isWindows()
+  ? path.join(DOT_BIN_PATH, "tsc.CMD")
+  : path.join(DOT_BIN_PATH, "tsc");
 
 export default leafCommand(commandInfo, async (options) => {
   const browserTest = options["browser-test"];
@@ -134,7 +140,8 @@ export default leafCommand(commandInfo, async (options) => {
 });
 
 async function runTypeScript(tsConfig: string): Promise<boolean> {
-  const res = spawnSync(`tsc -b ${tsConfig}`, [], {
+  log.info(`Running TypeScript build: ${commandPath} -b ${tsConfig}`);
+  const res = spawnSync(`${commandPath} -b ${tsConfig}`, [], {
     stdio: "inherit",
     shell: true,
     cwd: process.cwd(),
