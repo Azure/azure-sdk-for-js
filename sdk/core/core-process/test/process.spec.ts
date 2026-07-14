@@ -5,6 +5,7 @@ import { once } from "node:events";
 import { access, chmod, copyFile, mkdtemp, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
+import { inspect } from "node:util";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 import {
@@ -89,9 +90,10 @@ describe("process execution", () => {
       await promise;
     } catch (error: unknown) {
       expect(isProcessError(error)).toBe(true);
-      expect((error as ProcessError).cause).toBeInstanceOf(Error);
       expect(JSON.stringify(error)).not.toContain("secret-token");
       expect(JSON.stringify(error)).not.toContain("diagnostic");
+      expect(inspect(error)).not.toContain("secret-token");
+      expect(inspect(error)).not.toContain("diagnostic");
       expect(String(error)).not.toContain("secret-token");
       expect(Object.keys(error as object)).not.toContain("stdout");
       expect(Object.keys(error as object)).not.toContain("stderr");
@@ -104,6 +106,37 @@ describe("process execution", () => {
       preparationPromise = execFile("core-process-command-that-does-not-exist");
     }).not.toThrow();
     await expect(preparationPromise).rejects.toMatchObject({ code: "ENOENT" });
+  });
+
+  it("sanitizes asynchronous spawn startup errors", async () => {
+    const secretArgument = "secret-spawn-argument";
+    const child = spawn(process.execPath, [secretArgument], {
+      cwd: path.join(tmpdir(), `core-process-missing-${Date.now()}`),
+    });
+    const error = await new Promise<unknown>((resolve) => {
+      child.once("error", resolve);
+    });
+
+    expect(error).toBeInstanceOf(ProcessError);
+    expect(error).toMatchObject({ code: "ENOENT" });
+    expect(inspect(error)).not.toContain(secretArgument);
+    expect(error).not.toHaveProperty("path");
+    expect(error).not.toHaveProperty("spawnargs");
+  });
+
+  it("sanitizes asynchronous spawn abort errors", async () => {
+    const controller = new AbortController();
+    const child = spawn(process.execPath, ["-e", "setInterval(() => {}, 1000)"], {
+      signal: controller.signal,
+    });
+    const errorPromise = new Promise<unknown>((resolve) => {
+      child.once("error", resolve);
+    });
+
+    controller.abort();
+    const error = await errorPromise;
+    expect(error).toBeInstanceOf(ProcessError);
+    expect(error).toMatchObject({ code: "ABORT_ERR" });
   });
 
   it("recognizes a ProcessError created by another package copy", () => {

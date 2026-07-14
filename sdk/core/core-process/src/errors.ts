@@ -8,11 +8,6 @@ const processErrorBrand = Symbol.for("@azure/core-process.ProcessError");
  */
 export interface ProcessErrorOptions {
   /**
-   * The underlying error that caused this process error.
-   */
-  cause?: unknown;
-
-  /**
    * The operating-system error code or process exit code.
    */
   code?: string | number | null;
@@ -77,7 +72,7 @@ export class ProcessError extends Error {
    * @param options - Structured process failure details.
    */
   public constructor(message: string, options: ProcessErrorOptions = {}) {
-    super(message, { cause: options.cause });
+    super(message);
     this.name = "ProcessError";
     this.code = options.code ?? null;
     this.signal = options.signal ?? null;
@@ -144,7 +139,7 @@ export function isProcessError(error: unknown): error is ProcessError {
  * @param error - The original child-process error.
  * @param stdout - Captured standard output.
  * @param stderr - Captured standard error.
- * @returns A sanitized process error that preserves the original error as its cause.
+ * @returns A sanitized process error.
  */
 export function createExecutionError(
   error: Error & {
@@ -164,7 +159,6 @@ export function createExecutionError(
         : "The process could not be completed.";
 
   return new ProcessError(message, {
-    cause: error,
     code,
     signal: error.signal,
     killed: error.killed,

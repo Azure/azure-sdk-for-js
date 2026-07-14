@@ -95,7 +95,7 @@ describe("PlaywrightServiceInitialize", () => {
       playwrightConfigFile: "playwright.config.ts",
       projectLanguage: "TypeScript",
     });
-    vi.spyOn(utils, "executeCommand").mockRejectedValueOnce("Failed to install package");
+    vi.spyOn(utils, "executeCommand").mockRejectedValueOnce(new Error("Failed to install package"));
     await expect(playwrightServiceInitialize["installServicePackage"]()).rejects.toThrowError(
       "Failed to install package",
     );

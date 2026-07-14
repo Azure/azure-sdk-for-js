@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import * as childProcess from "node:child_process";
-import { createExecutionError, ProcessError } from "./errors.js";
+import { createExecutionError, isProcessError, ProcessError } from "./errors.js";
 import { normalizeCommand, type NormalizedCommand } from "./normalizeCommand.js";
 import { createProcessContext } from "./resolveExecutable.js";
 import type {
@@ -42,6 +42,17 @@ const spawnSyncOptionNames = [
   "stdio",
 ] as const;
 const execFileOptionNames = [...commonOptionNames, "encoding", "maxBuffer", "signal"] as const;
+
+function sanitizeChildProcessErrors(child: childProcess.ChildProcess): childProcess.ChildProcess {
+  const originalEmit = child.emit;
+  child.emit = ((eventName: string | symbol, ...args: unknown[]): boolean => {
+    if (eventName === "error" && args[0] instanceof Error && !isProcessError(args[0])) {
+      args[0] = createExecutionError(args[0]);
+    }
+    return Reflect.apply(originalEmit, child, [eventName, ...args]) as boolean;
+  }) as typeof child.emit;
+  return child;
+}
 
 function prepareProcess(
   executable: string,
@@ -104,13 +115,15 @@ export function spawn(
   options: SpawnOptions = {},
 ): childProcess.ChildProcess {
   const prepared = prepareProcess(command, args, options, spawnOptionNames);
-  return childProcess.spawn(prepared.command.executable, prepared.command.args, {
-    ...prepared.nodeOptions,
-    cwd: prepared.command.cwd,
-    env: prepared.command.env,
-    shell: false,
-    windowsVerbatimArguments: prepared.command.windowsVerbatimArguments,
-  });
+  return sanitizeChildProcessErrors(
+    childProcess.spawn(prepared.command.executable, prepared.command.args, {
+      ...prepared.nodeOptions,
+      cwd: prepared.command.cwd,
+      env: prepared.command.env,
+      shell: false,
+      windowsVerbatimArguments: prepared.command.windowsVerbatimArguments,
+    }),
+  );
 }
 
 /**
@@ -180,7 +193,6 @@ export function spawnSync(
  *
  * @param command - The executable name or path.
  * @param args - Arguments passed to the executable.
- * @param options - Process options.
  * @returns Buffered standard output and standard error.
  */
 export function execFile(
