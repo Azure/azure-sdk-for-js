@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to exports a database file from target database.
  *
  * @summary exports a database file from target database.
- * x-ms-original-file: 2026-02-01-preview/RedisEnterpriseDatabasesExport.json
+ * x-ms-original-file: 2026-06-01-preview/RedisEnterpriseDatabasesExport.json
  */
 async function redisEnterpriseDatabasesExport(): Promise<void> {
   const credential = new DefaultAzureCredential();

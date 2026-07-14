@@ -1,10 +1,9 @@
 # Release History
 
-## 5.0.0-beta.2 (2026-06-11)
+## 5.0.0-beta.2 (2026-07-14)
 Compared with version 4.0.0
 
 ### Features Added
-  - Added operation group MigrationOperations
   - Added operation group MigrationsOperations
   - Added operation AccessPolicyAssignmentOperations.createUpdate
   - Added operation AccessPolicyAssignmentOperations.delete
@@ -24,16 +23,17 @@ Compared with version 4.0.0
   - Added operation RedisEnterpriseOperations.delete
   - Added operation RedisEnterpriseOperations.update
   - Added Interface AccessPolicyAssignmentProperties
+  - Added Interface AccessPolicyAssignmentProvisioningError
   - Added Interface AzureCacheForRedisMigrationProperties
   - Added Interface MaintenanceConfiguration
   - Added Interface MaintenanceWindow
   - Added Interface MaintenanceWindowSchedule
   - Added Interface Migration
-  - Added Interface MigrationCancelOptionalParams
-  - Added Interface MigrationGetOptionalParams
-  - Added Interface MigrationListOptionalParams
   - Added Interface MigrationProperties
-  - Added Interface MigrationStartOptionalParams
+  - Added Interface MigrationsCancelOptionalParams
+  - Added Interface MigrationsGetOptionalParams
+  - Added Interface MigrationsListOptionalParams
+  - Added Interface MigrationsStartOptionalParams
   - Added Interface MigrationsValidateOptionalParams
   - Added Interface MigrationValidationDisparity
   - Added Interface MigrationValidationError
@@ -46,6 +46,8 @@ Compared with version 4.0.0
   - Added Interface PrivateLinkResourceProperties
   - Added Interface RestorePollerOptions
   - Added Interface SimplePollerLike
+  - Interface AccessPolicyAssignment has a new optional parameter accessString
+  - Interface AccessPolicyAssignment has a new optional parameter provisioningError
   - Interface AccessPolicyAssignment has a new optional parameter systemData
   - Interface Cluster has a new optional parameter maintenanceConfiguration
   - Interface Cluster has a new optional parameter migratedEndpoint
@@ -86,8 +88,6 @@ Compared with version 4.0.0
   - Operation Databases.beginForceLinkToReplicationGroupAndWait has a new signature
   - Operation Databases.beginUpgradeDBRedisVersionAndWait has a new signature
   - Class RedisEnterpriseManagementClient no longer has parameter accessPolicyAssignmentOperations
-  - Class RedisEnterpriseManagementClient no longer has parameter apiVersion
-  - Class RedisEnterpriseManagementClient no longer has parameter subscriptionId
   - Removed Interface AccessPolicyAssignmentList
   - Removed Interface ClusterList
   - Removed Interface DatabaseList

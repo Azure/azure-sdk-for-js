@@ -5,21 +5,20 @@ import { RedisEnterpriseManagementClient } from "@azure/arm-redisenterprisecache
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to gets information about a migration in a Redis Enterprise cluster.
+ * This sample demonstrates how to cancel or rollback the migration operation in a Redis Enterprise cluster.
  *
- * @summary gets information about a migration in a Redis Enterprise cluster.
- * x-ms-original-file: 2026-02-01-preview/RedisEnterpriseMigrationGet.json
+ * @summary cancel or rollback the migration operation in a Redis Enterprise cluster.
+ * x-ms-original-file: 2026-06-01-preview/RedisEnterpriseMigrationCancel.json
  */
-async function redisEnterpriseMigrationGet(): Promise<void> {
+async function redisEnterpriseMigrationCancel(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "e7b5a9d2-6b6a-4d2f-9143-20d9a10f5b8f";
   const client = new RedisEnterpriseManagementClient(credential, subscriptionId);
-  const result = await client.migration.get("rg1", "cache1");
-  console.log(result);
+  await client.migrations.cancel("rg1", "cache1");
 }
 
 async function main(): Promise<void> {
-  await redisEnterpriseMigrationGet();
+  await redisEnterpriseMigrationCancel();
 }
 
 main().catch(console.error);

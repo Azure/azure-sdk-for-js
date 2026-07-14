@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes the specified private endpoint connection associated with the Redis Enterprise cluster.
  *
  * @summary deletes the specified private endpoint connection associated with the Redis Enterprise cluster.
- * x-ms-original-file: 2026-02-01-preview/RedisEnterpriseDeletePrivateEndpointConnection.json
+ * x-ms-original-file: 2026-06-01-preview/RedisEnterpriseDeletePrivateEndpointConnection.json
  */
 async function redisEnterpriseDeletePrivateEndpointConnection() {
   const credential = new DefaultAzureCredential();
