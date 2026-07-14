@@ -135,7 +135,6 @@
   - Operation ContainerGroups.beginDeleteAndWait has a new signature
   - Operation ContainerGroups.get has a new signature
   - Operation ContainerGroups.update has a new signature
-  - Removed Interface Location_2
   - Interface ContainerGroupProperties no longer has parameter identity
   - Parameter image of interface Container is now optional
   - Parameter resources of interface Container is now optional
