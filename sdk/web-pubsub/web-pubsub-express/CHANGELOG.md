@@ -7,12 +7,6 @@
 - Added support for group presence events with `onGroupJoined` and `onGroupLeft` handlers in `WebPubSubEventHandlerOptions`.
 - Added `GroupJoinedRequest` and `GroupLeftRequest` interfaces for group presence event data.
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
 ## 1.0.6 (2025-02-26)
 
 ### Features Added
