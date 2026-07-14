@@ -21,7 +21,7 @@ npm install @azure/core-process
 Commands and arguments are always supplied separately. The package does not
 provide a command-string API and does not allow callers to enable a shell.
 
-```ts
+```ts snippet:ReadmeSampleRunExecutable
 import { execFile } from "@azure/core-process";
 
 const { stdout } = await execFile("git", ["rev-parse", "--show-toplevel"]);
@@ -33,10 +33,13 @@ disabled by default because arbitrary arguments cannot be transported safely
 through every `.cmd` or `.bat` wrapper. A caller that expects a batch shim can
 opt into the restricted batch path:
 
-```ts
+```ts snippet:ReadmeSampleRunWindowsBatchFile
+import { execFile } from "@azure/core-process";
+
 const { stdout } = await execFile("npm", ["--version"], {
   allowWindowsBatchFiles: true,
 });
+console.log(stdout);
 ```
 
 The restricted batch path rejects command operators, variable expansion,

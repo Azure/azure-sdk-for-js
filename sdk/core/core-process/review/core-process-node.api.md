@@ -56,6 +56,7 @@ export class ProcessError extends Error {
 
 // @public
 export interface ProcessErrorOptions {
+    cause?: unknown;
     code?: string | number | null;
     killed?: boolean;
     signal?: NodeJS.Signals | null;

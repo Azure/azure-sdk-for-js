@@ -2,9 +2,11 @@
 // Licensed under the MIT License.
 
 import { access, copyFile, cp, mkdtemp, readdir, rm, writeFile } from "node:fs/promises";
+import { createWriteStream } from "node:fs";
 import path from "node:path";
 import { spawn, spawnSync } from "@azure/core-process";
 import os from "node:os";
+import { pipeline } from "node:stream/promises";
 import { URL } from "node:url";
 
 import { createPrinter } from "../../util/printer.ts";
@@ -183,10 +185,13 @@ async function createDockerContextDirectory(
       if (!response.ok) {
         throw new Error(`Downloading the artifact failed with status ${response.status}.`);
       }
+      if (!response.body) {
+        throw new Error("Downloading the artifact returned an empty response body.");
+      }
       const artifactName = "artifact.tgz";
-      await writeFile(
-        path.join(dockerContextDirectory, artifactName),
-        Buffer.from(await response.arrayBuffer()),
+      await pipeline(
+        response.body,
+        createWriteStream(path.join(dockerContextDirectory, artifactName)),
       );
       artifactURL = `${containerWorkspacePath}/${artifactName}`;
     } else {

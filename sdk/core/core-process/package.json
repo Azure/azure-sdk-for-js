@@ -65,7 +65,7 @@
     "test": "tsc -b --noEmit && npm run test:node",
     "test:browser": "echo skipped",
     "test:node": "vitest",
-    "update-snippets": "echo skipped"
+    "update-snippets": "node ../../../common/tools/dev-tool/launch.ts run update-snippets"
   },
   "devDependencies": {
     "@azure/eslint-plugin-azure-sdk": "workspace:^",

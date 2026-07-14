@@ -190,6 +190,42 @@ describe("process execution", () => {
     ).rejects.toMatchObject({ killed: true });
   });
 
+  it("rejects when passed a pre-aborted signal", async () => {
+    const controller = new AbortController();
+    controller.abort();
+
+    const error = await execFile(process.execPath, ["-e", "process.stdout.write('not-run')"], {
+      encoding: "utf8",
+      signal: controller.signal,
+    }).catch((caught: unknown) => caught);
+
+    expect(error).toBeInstanceOf(ProcessError);
+    expect(error).toMatchObject({ code: "ABORT_ERR" });
+  });
+
+  it("aborts a running process", async () => {
+    const controller = new AbortController();
+    const result = execFile(process.execPath, ["-e", "setInterval(() => {}, 1000)"], {
+      encoding: "utf8",
+      signal: controller.signal,
+    });
+
+    setTimeout(() => controller.abort(), 50);
+    const error = await result.catch((caught: unknown) => caught);
+    expect(error).toBeInstanceOf(ProcessError);
+    expect(error).toMatchObject({ code: "ABORT_ERR" });
+  });
+});
+
+describe.runIf(process.platform !== "win32")("POSIX executable scripts", () => {
+  it("executes a shebang script directly", async () => {
+    await chmod(posixFixture, 0o755);
+    const result = await execFile(posixFixture, ["one", "two words"], { encoding: "utf8" });
+    expect(JSON.parse(result.stdout)).toEqual(["one", "two words"]);
+  });
+});
+
+describe.runIf(process.platform === "win32")("Windows batch execution", () => {
   it("rejects argv0 for both asynchronous and synchronous batch execution", async () => {
     const marker = path.join(fixtureDirectory, "argv0-injection-marker");
     const argv0 = `cmd.exe /c echo injected > "${marker}"`;
@@ -205,17 +241,7 @@ describe("process execution", () => {
     );
     await expect(access(marker)).rejects.toThrow();
   });
-});
 
-describe.runIf(process.platform !== "win32")("POSIX executable scripts", () => {
-  it("executes a shebang script directly", async () => {
-    await chmod(posixFixture, 0o755);
-    const result = await execFile(posixFixture, ["one", "two words"], { encoding: "utf8" });
-    expect(JSON.parse(result.stdout)).toEqual(["one", "two words"]);
-  });
-});
-
-describe.runIf(process.platform === "win32")("Windows batch execution", () => {
   it("round-trips the accepted argument subset through a forwarding shim", async () => {
     const args = ["", "plain", "with spaces", '"quoted"', "trailing\\", "[]{}:;,.?"];
     const result = await execFile(batchFixture, args, {
