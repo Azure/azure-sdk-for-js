@@ -118,6 +118,13 @@ export function isEnvVarTrue(envVarName: string): boolean {
 export enum RetriableRestErrorTypes {
   REQUEST_SEND_ERROR = "REQUEST_SEND_ERROR",
   DNS_LOOKUP_TIMEOUT = "EAI_AGAIN",
+  CONNECTION_TIMEOUT = "ETIMEDOUT",
+  SOCKET_TIMEOUT = "ESOCKETTIMEDOUT",
+  CONNECTION_REFUSED = "ECONNREFUSED",
+  CONNECTION_RESET = "ECONNRESET",
+  DNS_LOOKUP_FAILED = "ENOTFOUND",
+  FILE_NOT_FOUND = "ENOENT",
+  BROKEN_PIPE = "EPIPE",
 }
 /**
  * Application Insights shim version.
