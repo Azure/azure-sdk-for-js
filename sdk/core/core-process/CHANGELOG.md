@@ -5,7 +5,7 @@
 ### Features Added
 
 - Added secure, cross-platform executable resolution and process-launching
-  primitives for Node.js. [#31508](https://github.com/Azure/azure-sdk-for-js/issues/31508)
+  primitives for Node.js. [#39279](https://github.com/Azure/azure-sdk-for-js/pull/39279)
 
 ### Breaking Changes
 

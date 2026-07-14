@@ -11,7 +11,7 @@
 ### Other Changes
 
 - Centralized native process execution and hardened Windows system executable
-  resolution. [#31508](https://github.com/Azure/azure-sdk-for-js/issues/31508)
+  resolution. [#39279](https://github.com/Azure/azure-sdk-for-js/pull/39279)
 
 ## 1.0.0-beta.43 (2026-07-01)
 
