@@ -15,7 +15,7 @@
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "dev-tool run build-package && dev-tool run extract-api",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,mts}\" \"test/**/*.{ts,mts}\" \"samples-dev/**/*.{ts,mts}\" \"*.{js,mjs,json}\"",
-    "generate:client": "autorest --typescript ./swagger/README.md",
+    "generate:client": "tsp-client update",
     "lint": "eslint package.json src test samples-dev",
     "lint:fix": "eslint package.json src test samples-dev --fix --fix-type [problem,suggestion]",
     "pack": "pnpm pack 2>&1",
@@ -100,10 +100,6 @@
       {
         "path": "src/generated/generatedClientContext.ts",
         "prefix": "packageDetails"
-      },
-      {
-        "path": "swagger/README.md",
-        "prefix": "package-version"
       },
       {
         "path": "src/utils/tracing.ts",
