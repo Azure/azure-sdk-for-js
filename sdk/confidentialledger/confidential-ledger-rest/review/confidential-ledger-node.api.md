@@ -1391,8 +1391,6 @@ export interface ReceiptLeafComponentsOutput {
     writeSetDigest?: string;
 }
 
-export { RestError }
-
 // @public
 export type RedirectionStrategy = string;
 

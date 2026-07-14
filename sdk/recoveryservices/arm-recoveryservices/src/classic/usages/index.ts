@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RecoveryServicesContext } from "../../api/recoveryServicesContext.js";
+import { RecoveryServicesContext } from "../../api/recoveryServicesContext.js";
 import { listByVaults } from "../../api/usages/operations.js";
-import type { UsagesListByVaultsOptionalParams } from "../../api/usages/options.js";
-import type { VaultUsage } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { UsagesListByVaultsOptionalParams } from "../../api/usages/options.js";
+import { VaultUsage } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Usages operations. */
 export interface UsagesOperations {

@@ -1,6 +1,10 @@
 # Release History
 ## 4.9.4 (Unreleased)
 
+### Features Added
+
+- Added `enablePreviewFeatures` to `CosmosClientOptions`, a dictionary for opting into preview features of the SDK.
+
 ### Bugs Fixed
 
 - [#38087](https://github.com/Azure/azure-sdk-for-js/issues/38087) Made `boundingBox` optional on the `SpatialIndex` type. Bounding boxes are only required for geometry spatial indexes, not geography ones.

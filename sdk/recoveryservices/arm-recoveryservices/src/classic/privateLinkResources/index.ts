@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RecoveryServicesContext } from "../../api/recoveryServicesContext.js";
+import { RecoveryServicesContext } from "../../api/recoveryServicesContext.js";
 import { list, get } from "../../api/privateLinkResources/operations.js";
-import type {
+import {
   PrivateLinkResourcesListOptionalParams,
   PrivateLinkResourcesGetOptionalParams,
 } from "../../api/privateLinkResources/options.js";
-import type { PrivateLinkResource } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PrivateLinkResource } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a PrivateLinkResources operations. */
 export interface PrivateLinkResourcesOperations {

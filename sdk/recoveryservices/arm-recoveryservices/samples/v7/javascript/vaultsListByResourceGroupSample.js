@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to retrieve a list of Vaults.
  *
  * @summary retrieve a list of Vaults.
- * x-ms-original-file: 2025-08-01/ListResources.json
+ * x-ms-original-file: 2026-05-01/ListResources.json
  */
 async function listOfRecoveryServicesResourcesInResourceGroup() {
   const credential = new DefaultAzureCredential();

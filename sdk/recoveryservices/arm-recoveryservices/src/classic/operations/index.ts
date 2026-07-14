@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RecoveryServicesContext } from "../../api/recoveryServicesContext.js";
+import { RecoveryServicesContext } from "../../api/recoveryServicesContext.js";
 import { list } from "../../api/operations/operations.js";
-import type { OperationsListOptionalParams } from "../../api/operations/options.js";
-import type { ClientDiscoveryValueForSingleApi } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { OperationsListOptionalParams } from "../../api/operations/options.js";
+import { ClientDiscoveryValueForSingleApi } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a Operations operations. */
 export interface OperationsOperations {

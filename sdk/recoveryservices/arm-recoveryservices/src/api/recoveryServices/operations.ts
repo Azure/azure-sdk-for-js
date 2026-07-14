@@ -1,27 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RecoveryServicesContext as Client } from "../index.js";
-import type {
-  CheckNameAvailabilityParameters,
-  CheckNameAvailabilityResult,
-  ResourceCapabilities,
-  CapabilitiesResponse,
-} from "../../models/models.js";
+import { RecoveryServicesContext as Client } from "../index.js";
 import {
   cloudErrorDeserializer,
+  CheckNameAvailabilityParameters,
   checkNameAvailabilityParametersSerializer,
+  CheckNameAvailabilityResult,
   checkNameAvailabilityResultDeserializer,
+  ResourceCapabilities,
   resourceCapabilitiesSerializer,
+  CapabilitiesResponse,
   capabilitiesResponseDeserializer,
 } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   RecoveryServicesCapabilitiesOptionalParams,
   RecoveryServicesCheckNameAvailabilityOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _capabilitiesSend(
   context: Client,
@@ -34,7 +36,7 @@ export function _capabilitiesSend(
     {
       subscriptionId: context.subscriptionId,
       location: location,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -43,10 +45,7 @@ export function _capabilitiesSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: resourceCapabilitiesSerializer(input),
   });
 }
@@ -57,7 +56,10 @@ export async function _capabilitiesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -80,9 +82,7 @@ export function _checkNameAvailabilitySend(
   resourceGroupName: string,
   location: string,
   input: CheckNameAvailabilityParameters,
-  options: RecoveryServicesCheckNameAvailabilityOptionalParams = {
-    requestOptions: {},
-  },
+  options: RecoveryServicesCheckNameAvailabilityOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/locations/{location}/checkNameAvailability{?api%2Dversion}",
@@ -90,7 +90,7 @@ export function _checkNameAvailabilitySend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       location: location,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -99,10 +99,7 @@ export function _checkNameAvailabilitySend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: checkNameAvailabilityParametersSerializer(input),
   });
 }
@@ -113,7 +110,10 @@ export async function _checkNameAvailabilityDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -130,9 +130,7 @@ export async function checkNameAvailability(
   resourceGroupName: string,
   location: string,
   input: CheckNameAvailabilityParameters,
-  options: RecoveryServicesCheckNameAvailabilityOptionalParams = {
-    requestOptions: {},
-  },
+  options: RecoveryServicesCheckNameAvailabilityOptionalParams = { requestOptions: {} },
 ): Promise<CheckNameAvailabilityResult> {
   const result = await _checkNameAvailabilitySend(
     context,

@@ -5,7 +5,7 @@
     "moduleResolution": "NodeNext",
     "esModuleInterop": true,
     "allowImportingTsExtensions": true,
-    "noEmit": true,
+    "outDir": "./dist",
 
     "lib": ["ESNext"],
 
