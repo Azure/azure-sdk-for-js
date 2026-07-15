@@ -1127,6 +1127,7 @@ export class ClientContext {
    * @param diagnosticNode - The diagnostic node for the current operation.
    * @returns The reranking results including scores, latency, and token usage.
    * @internal
+   * @hidden
    */
   public async semanticRerank(
     rerankContext: string,
