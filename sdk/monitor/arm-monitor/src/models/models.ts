@@ -29,6 +29,71 @@ import {
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. */
+export interface ArmErrorResponse {
+  /** The error object. */
+  error?: ArmErrorDetail;
+}
+
+export function armErrorResponseDeserializer(item: any): ArmErrorResponse {
+  return {
+    error: !item["error"] ? item["error"] : armErrorDetailDeserializer(item["error"]),
+  };
+}
+
+/** The error detail. */
+export interface ArmErrorDetail {
+  /** The error code. */
+  readonly code?: string;
+  /** The error message. */
+  readonly message?: string;
+  /** The error target. */
+  readonly target?: string;
+  /** The error details. */
+  readonly details?: ArmErrorDetail[];
+  /** The error additional info. */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+export function armErrorDetailDeserializer(item: any): ArmErrorDetail {
+  return {
+    code: item["code"],
+    message: item["message"],
+    target: item["target"],
+    details: !item["details"] ? item["details"] : armErrorDetailArrayDeserializer(item["details"]),
+    additionalInfo: !item["additionalInfo"]
+      ? item["additionalInfo"]
+      : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
+  };
+}
+
+export function armErrorDetailArrayDeserializer(result: Array<ArmErrorDetail>): any[] {
+  return result.map((item) => {
+    return armErrorDetailDeserializer(item);
+  });
+}
+
+export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
+  return result.map((item) => {
+    return errorAdditionalInfoDeserializer(item);
+  });
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /** The additional info type. */
+  readonly type?: string;
+  /** The additional info. */
+  readonly info?: any;
+}
+
+export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
+  return {
+    type: item["type"],
+    info: item["info"],
+  };
+}
+
 /** Properties of a private link resource. */
 export interface PrivateLinkResourceProperties {
   /** The private link resource group id. */
@@ -136,71 +201,6 @@ export enum KnownCreatedByType {
  * **Key**: The entity was created by a key.
  */
 export type CreatedByType = string;
-
-/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. */
-export interface ArmErrorResponse {
-  /** The error object. */
-  error?: ArmErrorDetail;
-}
-
-export function armErrorResponseDeserializer(item: any): ArmErrorResponse {
-  return {
-    error: !item["error"] ? item["error"] : armErrorDetailDeserializer(item["error"]),
-  };
-}
-
-/** The error detail. */
-export interface ArmErrorDetail {
-  /** The error code. */
-  readonly code?: string;
-  /** The error message. */
-  readonly message?: string;
-  /** The error target. */
-  readonly target?: string;
-  /** The error details. */
-  readonly details?: ArmErrorDetail[];
-  /** The error additional info. */
-  readonly additionalInfo?: ErrorAdditionalInfo[];
-}
-
-export function armErrorDetailDeserializer(item: any): ArmErrorDetail {
-  return {
-    code: item["code"],
-    message: item["message"],
-    target: item["target"],
-    details: !item["details"] ? item["details"] : armErrorDetailArrayDeserializer(item["details"]),
-    additionalInfo: !item["additionalInfo"]
-      ? item["additionalInfo"]
-      : errorAdditionalInfoArrayDeserializer(item["additionalInfo"]),
-  };
-}
-
-export function armErrorDetailArrayDeserializer(result: Array<ArmErrorDetail>): any[] {
-  return result.map((item) => {
-    return armErrorDetailDeserializer(item);
-  });
-}
-
-export function errorAdditionalInfoArrayDeserializer(result: Array<ErrorAdditionalInfo>): any[] {
-  return result.map((item) => {
-    return errorAdditionalInfoDeserializer(item);
-  });
-}
-
-/** The resource management error additional info. */
-export interface ErrorAdditionalInfo {
-  /** The additional info type. */
-  readonly type?: string;
-  /** The additional info. */
-  readonly info?: any;
-}
-
-export function errorAdditionalInfoDeserializer(item: any): ErrorAdditionalInfo {
-  return {
-    type: item["type"],
-    info: item["info"],
-  };
-}
 
 /** The response of a PrivateLinkResource list operation. */
 export interface PrivateLinkResourceListResult {
@@ -397,7 +397,12 @@ export interface ManagedServiceIdentity {
 }
 
 export function managedServiceIdentitySerializer(item: ManagedServiceIdentity): any {
-  return { type: item["type"], userAssignedIdentities: item["userAssignedIdentities"] };
+  return {
+    type: item["type"],
+    userAssignedIdentities: !item["userAssignedIdentities"]
+      ? item["userAssignedIdentities"]
+      : userAssignedIdentityRecordSerializer(item["userAssignedIdentities"]),
+  };
 }
 
 export function managedServiceIdentityDeserializer(item: any): ManagedServiceIdentity {
@@ -407,12 +412,7 @@ export function managedServiceIdentityDeserializer(item: any): ManagedServiceIde
     type: item["type"],
     userAssignedIdentities: !item["userAssignedIdentities"]
       ? item["userAssignedIdentities"]
-      : Object.fromEntries(
-          Object.entries(item["userAssignedIdentities"]).map(([k, p]: [string, any]) => [
-            k,
-            !p ? p : userAssignedIdentityDeserializer(p),
-          ]),
-        ),
+      : userAssignedIdentityRecordDeserializer(item["userAssignedIdentities"]),
   };
 }
 
@@ -439,6 +439,26 @@ export enum KnownManagedServiceIdentityType {
  * **SystemAssigned,UserAssigned**: System and user assigned managed identity.
  */
 export type ManagedServiceIdentityType = string;
+
+export function userAssignedIdentityRecordSerializer(
+  item: Record<string, UserAssignedIdentity>,
+): Record<string, any> {
+  const result: Record<string, any> = {};
+  Object.keys(item).map((key) => {
+    result[key] = !item[key] ? item[key] : userAssignedIdentitySerializer(item[key]);
+  });
+  return result;
+}
+
+export function userAssignedIdentityRecordDeserializer(
+  item: Record<string, any>,
+): Record<string, UserAssignedIdentity> {
+  const result: Record<string, any> = {};
+  Object.keys(item).map((key) => {
+    result[key] = !item[key] ? item[key] : userAssignedIdentityDeserializer(item[key]);
+  });
+  return result;
+}
 
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
