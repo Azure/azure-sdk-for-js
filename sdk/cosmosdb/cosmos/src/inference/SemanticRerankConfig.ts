@@ -12,7 +12,7 @@
  *
  * @internal
  */
-export interface SemanticRerankPreviewConfig {
+export interface SemanticRerankConfig {
   /** Endpoint of the Cosmos DB Inference Service used for semantic reranking. */
   inferenceEndpoint?: string;
   /**

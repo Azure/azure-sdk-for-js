@@ -17,7 +17,7 @@ import type { AzureLogger } from "@azure/logger";
 import { createClientLogger } from "@azure/logger";
 import type { CosmosClientOptions } from "../CosmosClientOptions.js";
 import type { SemanticRerankOptions } from "./SemanticRerankOptions.js";
-import type { SemanticRerankPreviewConfig } from "./SemanticRerankPreviewConfig.js";
+import type { SemanticRerankConfig } from "./SemanticRerankConfig.js";
 import type { RerankScore, SemanticRerankResult } from "./SemanticRerankResult.js";
 import { Constants } from "../common/constants.js";
 import { StatusCodes } from "../common/statusCodes.js";
@@ -150,10 +150,10 @@ export class InferenceService {
    */
   private getSemanticRerankConfig(
     cosmosClientOptions: CosmosClientOptions,
-  ): SemanticRerankPreviewConfig | undefined {
+  ): SemanticRerankConfig | undefined {
     const config = cosmosClientOptions.enablePreviewFeatures?.["semanticRerank"];
     return typeof config === "object" && config !== null
-      ? (config as SemanticRerankPreviewConfig)
+      ? (config as SemanticRerankConfig)
       : undefined;
   }
 
@@ -161,7 +161,7 @@ export class InferenceService {
    * Resolves the inference endpoint from `enablePreviewFeatures.semanticRerank.inferenceEndpoint`.
    */
   private resolveInferenceEndpoint(
-    semanticRerankConfig: SemanticRerankPreviewConfig | undefined,
+    semanticRerankConfig: SemanticRerankConfig | undefined,
   ): string {
     const endpointValue = semanticRerankConfig?.inferenceEndpoint;
     const endpoint = typeof endpointValue === "string" ? endpointValue : undefined;
@@ -183,7 +183,7 @@ export class InferenceService {
    * when not provided or invalid. This is a single-attempt budget with no retries.
    */
   private resolveRequestTimeout(
-    semanticRerankConfig: SemanticRerankPreviewConfig | undefined,
+    semanticRerankConfig: SemanticRerankConfig | undefined,
   ): number {
     const timeoutValue = semanticRerankConfig?.inferenceRequestTimeout;
     return typeof timeoutValue === "number" && timeoutValue > 0
