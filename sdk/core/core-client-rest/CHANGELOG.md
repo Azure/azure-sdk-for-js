@@ -1,5 +1,17 @@
 # Release History
 
+## 2.8.1 (Unreleased)
+
+### Features Added
+
+- Added an optional `internalOptions` parameter to `getClient` with an `addDefaultAcceptHeader` flag (defaults to `true`). When set to `false`, the client no longer adds a default `Accept: application/json` request header to operations that do not otherwise specify one, allowing operations that expect no response body to omit the `Accept` header. This option is intended for use by generated clients.
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 2.8.0 (2026-07-13)
 
 ### Other Changes

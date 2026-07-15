@@ -171,7 +171,7 @@ export interface GetBearerTokenOptions {
 }
 
 // @public
-export function getClient(endpoint: string, clientOptions?: ClientOptions): Client;
+export function getClient(endpoint: string, clientOptions?: ClientOptions, internalOptions?: InternalClientOptions): Client;
 
 // @public
 export function getLogLevel(): TypeSpecRuntimeLogLevel | undefined;
@@ -224,6 +224,11 @@ export interface ImplicitFlow {
     kind: "implicit";
     refreshUrl?: string;
     scopes?: string[];
+}
+
+// @public
+export interface InternalClientOptions {
+    addDefaultAcceptHeader?: boolean;
 }
 
 // @public

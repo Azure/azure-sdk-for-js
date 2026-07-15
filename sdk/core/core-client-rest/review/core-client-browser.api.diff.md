@@ -7,9 +7,9 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -124,11 +124,9 @@
-     innererror?: InnerError;
- }
+@@ -127,11 +127,9 @@
+ 
+ export { InternalClientOptions }
  
  // @public
 -export interface NodeJSReadableStream extends NodeJS.ReadableStream {

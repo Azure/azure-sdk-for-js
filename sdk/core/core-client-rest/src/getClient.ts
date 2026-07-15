@@ -9,6 +9,7 @@ import type { Client, ClientOptions, RequestParameters, StreamableMethod } from 
 import {
   getClient as tspGetClient,
   type ClientOptions as TspClientOptions,
+  type InternalClientOptions,
 } from "@typespec/ts-http-runtime";
 
 /**
@@ -31,39 +32,55 @@ function wrapRequestParameters(parameters: RequestParameters): RequestParameters
  * Creates a client with a default pipeline
  * @param endpoint - Base endpoint for the client
  * @param options - Client options
+ * @param internalOptions - Additional options intended for use by generated clients
  */
-export function getClient(endpoint: string, options?: ClientOptions): Client;
+export function getClient(
+  endpoint: string,
+  options?: ClientOptions,
+  internalOptions?: InternalClientOptions,
+): Client;
 /**
  * Creates a client with a default pipeline
  * @param endpoint - Base endpoint for the client
  * @param credentials - Credentials to authenticate the requests
  * @param options - Client options
+ * @param internalOptions - Additional options intended for use by generated clients
  */
 export function getClient(
   endpoint: string,
   credentials?: TokenCredential | KeyCredential,
   options?: ClientOptions,
+  internalOptions?: InternalClientOptions,
 ): Client;
 export function getClient(
   endpoint: string,
   credentialsOrPipelineOptions?: (TokenCredential | KeyCredential) | ClientOptions,
-  clientOptions: ClientOptions = {},
+  clientOptionsOrInternalOptions?: ClientOptions | InternalClientOptions,
+  maybeInternalOptions: InternalClientOptions = {},
 ): Client {
   let credentials: TokenCredential | KeyCredential | undefined;
+  let clientOptions: ClientOptions = {};
+  let internalOptions: InternalClientOptions = maybeInternalOptions;
   if (credentialsOrPipelineOptions) {
     if (isCredential(credentialsOrPipelineOptions)) {
       credentials = credentialsOrPipelineOptions;
+      clientOptions = (clientOptionsOrInternalOptions as ClientOptions) ?? {};
     } else {
-      clientOptions = credentialsOrPipelineOptions ?? {};
+      clientOptions = credentialsOrPipelineOptions;
+      internalOptions = (clientOptionsOrInternalOptions as InternalClientOptions) ?? {};
     }
   }
   const pipeline =
     clientOptions.pipeline ?? createDefaultPipeline(endpoint, credentials, clientOptions);
 
-  const tspClient = tspGetClient(endpoint, {
-    ...clientOptions,
-    pipeline,
-  } as TspClientOptions) as Client;
+  const tspClient = tspGetClient(
+    endpoint,
+    {
+      ...clientOptions,
+      pipeline,
+    } as TspClientOptions,
+    internalOptions,
+  ) as Client;
 
   const client = (path: string, ...args: Array<any>) => {
     return {

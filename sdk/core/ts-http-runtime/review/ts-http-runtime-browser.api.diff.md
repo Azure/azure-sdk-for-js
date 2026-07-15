@@ -7,7 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -253,12 +253,12 @@
+@@ -258,12 +258,12 @@
      kind: "noAuth";
  }
  

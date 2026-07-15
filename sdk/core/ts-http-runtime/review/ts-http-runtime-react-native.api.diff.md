@@ -24,7 +24,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export interface FullOperationResponse extends PipelineResponse {
      parsedBody?: RequestBodyType;
-@@ -253,12 +254,12 @@
+@@ -258,12 +259,12 @@
      kind: "noAuth";
  }
  
@@ -39,7 +39,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  // @public
  export interface OAuth2AuthScheme<TFlows extends OAuth2Flow[]> {
      flows: TFlows;
-@@ -562,9 +563,9 @@
+@@ -567,9 +568,9 @@
      userAgentPrefix?: string;
  }
  

@@ -350,6 +350,24 @@ export type ClientOptions = PipelineOptions & {
 };
 
 /**
+ * Additional options for {@link getClient} that are intended for use by
+ * generated clients. These options are deliberately kept separate from the
+ * user-facing {@link ClientOptions} so they are not surfaced on every
+ * generated client's public options.
+ */
+export interface InternalClientOptions {
+  /**
+   * When set to `false`, the client does not add a default
+   * `Accept: application/json` request header to operations that do not
+   * otherwise specify an `Accept` header. This allows operations that expect
+   * no response body to omit the `Accept` header.
+   *
+   * @defaultValue `true`
+   */
+  addDefaultAcceptHeader?: boolean;
+}
+
+/**
  * Represents the shape of an HttpResponse
  */
 export type HttpResponse = {

@@ -540,4 +540,78 @@ describe("getClient", () => {
       assert.equal(policies[0].name, "trackingPolicy");
     });
   });
+
+  describe("#addDefaultAcceptHeader", () => {
+    it("should add a default accept header by default", async () => {
+      const client = getClient("https://example.org", { httpClient });
+      const validationPolicy: PipelinePolicy = {
+        name: "validationPolicy",
+        sendRequest: (req, next) => {
+          assert.equal(req.headers.get("accept"), "application/json");
+          return next(req);
+        },
+      };
+
+      client.pipeline.addPolicy(validationPolicy, { afterPhase: "Serialize" });
+      await client.pathUnchecked("/foo").get();
+    });
+
+    it("should not add a default accept header when opted out (options form)", async () => {
+      const client = getClient(
+        "https://example.org",
+        { httpClient },
+        { addDefaultAcceptHeader: false },
+      );
+      const validationPolicy: PipelinePolicy = {
+        name: "validationPolicy",
+        sendRequest: (req, next) => {
+          assert.isFalse(req.headers.has("accept"));
+          return next(req);
+        },
+      };
+
+      client.pipeline.addPolicy(validationPolicy, { afterPhase: "Serialize" });
+      await client.pathUnchecked("/foo").get();
+    });
+
+    it("should not add a default accept header when opted out (credential form)", async () => {
+      const credential: TokenCredential = {
+        getToken: async () => ({ token: "mock-token", expiresOnTimestamp: Date.now() + 3600000 }),
+      };
+      const client = getClient(
+        "https://example.org",
+        credential,
+        { httpClient },
+        { addDefaultAcceptHeader: false },
+      );
+      const validationPolicy: PipelinePolicy = {
+        name: "validationPolicy",
+        sendRequest: (req, next) => {
+          assert.isFalse(req.headers.has("accept"));
+          return next(req);
+        },
+      };
+
+      client.pipeline.addPolicy(validationPolicy, { afterPhase: "Serialize" });
+      await client.pathUnchecked("/foo").get();
+    });
+
+    it("should keep operation-level accept when opted out", async () => {
+      const client = getClient(
+        "https://example.org",
+        { httpClient },
+        { addDefaultAcceptHeader: false },
+      );
+      const validationPolicy: PipelinePolicy = {
+        name: "validationPolicy",
+        sendRequest: (req, next) => {
+          assert.equal(req.headers.get("accept"), "application/xml");
+          return next(req);
+        },
+      };
+
+      client.pipeline.addPolicy(validationPolicy, { afterPhase: "Serialize" });
+      await client.pathUnchecked("/foo").get({ accept: "application/xml" });
+    });
+  });
 });

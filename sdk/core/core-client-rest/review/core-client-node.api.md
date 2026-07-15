@@ -6,6 +6,7 @@
 
 import type { AbortSignalLike } from '@azure/abort-controller';
 import type { HttpClient } from '@azure/core-rest-pipeline';
+import { InternalClientOptions } from '@typespec/ts-http-runtime';
 import type { KeyCredential } from '@azure/core-auth';
 import type { LogPolicyOptions } from '@azure/core-rest-pipeline';
 import { NodeReadableStream } from '@azure/core-rest-pipeline';
@@ -95,10 +96,10 @@ export function getBinaryStreamResponse(streamableMethod: StreamableMethod): Pro
 }>;
 
 // @public
-export function getClient(endpoint: string, options?: ClientOptions): Client;
+export function getClient(endpoint: string, options?: ClientOptions, internalOptions?: InternalClientOptions): Client;
 
 // @public
-export function getClient(endpoint: string, credentials?: TokenCredential | KeyCredential, options?: ClientOptions): Client;
+export function getClient(endpoint: string, credentials?: TokenCredential | KeyCredential, options?: ClientOptions, internalOptions?: InternalClientOptions): Client;
 
 // @public
 export type HttpBrowserStreamResponse = HttpResponse & {
@@ -123,6 +124,8 @@ export interface InnerError {
     code: string;
     innererror?: InnerError;
 }
+
+export { InternalClientOptions }
 
 // @public
 export interface NodeJSReadableStream extends NodeJS.ReadableStream {
