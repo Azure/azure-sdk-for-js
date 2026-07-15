@@ -126,6 +126,14 @@ export enum RetriableRestErrorTypes {
   FILE_NOT_FOUND = "ENOENT",
   BROKEN_PIPE = "EPIPE",
 }
+
+/**
+ * The `name` an aborted/timed-out operation error carries. This value is fixed by the
+ * WHATWG `DOMException` contract and mirrored by `@azure/abort-controller` and the
+ * `@typespec/ts-http-runtime` transport (all set `error.name = "AbortError"`)
+ * @internal
+ */
+export const ABORT_ERROR_NAME = "AbortError";
 /**
  * Application Insights shim version.
  * @internal

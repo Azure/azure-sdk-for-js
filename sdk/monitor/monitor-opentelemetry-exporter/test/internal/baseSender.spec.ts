@@ -609,6 +609,7 @@ describe("BaseSender", () => {
     });
 
     it("should honor Retry-After when a retriable HTTP status is thrown as a RestError", async () => {
+      vi.useFakeTimers();
       const setTimeoutSpy = vi.spyOn(globalThis, "setTimeout");
       vi.mocked(isRetriable).mockImplementation((statusCode) => statusCode === 503);
       const retriableError = new RestError("Service Unavailable", {
@@ -628,6 +629,7 @@ describe("BaseSender", () => {
       expect(setTimeoutSpy).toHaveBeenCalledWith(expect.any(Function), 45_000);
 
       setTimeoutSpy.mockRestore();
+      vi.useRealTimers();
     });
 
     it("should not persist a non-RestError with a retriable error code", async () => {

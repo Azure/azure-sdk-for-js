@@ -26,6 +26,7 @@ import {
 } from "../../utils/breezeUtils.js";
 import type { TelemetryItem as Envelope } from "../../generated/index.js";
 import {
+  ABORT_ERROR_NAME,
   ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL,
   ENV_APPLICATIONINSIGHTS_SDK_STATS_LOGGING,
   ENV_DISABLE_SDKSTATS,
@@ -333,7 +334,7 @@ export abstract class BaseSender {
         // ("The operation was aborted...") isn't recognized by isTimeoutError. Treat it as a
         // timeout explicitly so it's classified as CLIENT_TIMEOUT rather than CLIENT_EXCEPTION.
         const isTimeout =
-          restError.name === "AbortError" ||
+          restError.name === ABORT_ERROR_NAME ||
           this.customerSDKStatsMetrics?.isTimeoutError(restError);
         if (isTimeout && !this.isStatsbeatSender) {
           this.customerSDKStatsMetrics?.countRetryItems(
@@ -562,7 +563,7 @@ export abstract class BaseSender {
     }
     // The transport uses the same AbortError for timeouts and cancellation.
     // Preserve the telemetry because those cases cannot be distinguished here.
-    if (transportError.name === "AbortError") {
+    if (transportError.name === ABORT_ERROR_NAME) {
       return true;
     }
     return false;
