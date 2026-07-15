@@ -15,12 +15,12 @@
   },
   "dependencies": {
     "@azure/ai-voicelive": "file:../../azure-ai-voicelive-1.1.0.tgz",
-    "@azure/core-auth": "^1.9.0"
+    "@azure/core-auth": "^1.11.0"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
-    "typescript": "~5.9.3",
-    "vite": "^5.0.0"
+    "typescript": "~6.0.2",
+    "vite": "^8.1.4"
   },
   "browserslist": [
     "> 1%",
