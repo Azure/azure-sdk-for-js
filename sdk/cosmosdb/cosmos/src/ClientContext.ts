@@ -1143,9 +1143,7 @@ export class ClientContext {
    * @internal
    */
   private getOrCreateInferenceService(): InferenceService {
-    if (!this.inferenceService) {
-      this.inferenceService = new InferenceService(this.cosmosClientOptions);
-    }
+    this.inferenceService ??= new InferenceService(this.cosmosClientOptions);
     return this.inferenceService;
   }
 }
