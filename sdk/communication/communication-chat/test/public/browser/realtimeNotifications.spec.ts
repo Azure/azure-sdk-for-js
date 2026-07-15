@@ -51,6 +51,8 @@ describe("Realtime Notifications", { skip: !isLiveMode() }, () => {
   });
 
   afterEach(async () => {
+    // Stop notifications started in beforeEach to avoid connection leaks between tests.
+    await chatClient.stopRealtimeNotifications();
     await recorder.stop();
   });
 
