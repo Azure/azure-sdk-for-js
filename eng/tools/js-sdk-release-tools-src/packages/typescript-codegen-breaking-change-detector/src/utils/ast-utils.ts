@@ -103,13 +103,9 @@ function findDeclarationOfTypeReference(
   )
     return;
   const declaration = msDeclaration as
-<<<<<<< HEAD
-    TypeAliasDeclaration | InterfaceDeclaration | EnumDeclaration;
-=======
     | TypeAliasDeclaration
     | InterfaceDeclaration
     | EnumDeclaration;
->>>>>>> origin/main
   return declaration;
 }
 

@@ -55,10 +55,6 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/schemaregistry/schema-registry-json/",
   "sideEffects": false,
-<<<<<<< HEAD
-=======
-  "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
->>>>>>> origin/main
   "//sampleConfiguration": {
     "disableDocsMs": true,
     "productName": "Azure Schema Registry",
