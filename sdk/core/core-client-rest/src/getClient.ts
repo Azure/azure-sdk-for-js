@@ -61,14 +61,20 @@ export function getClient(
   let credentials: TokenCredential | KeyCredential | undefined;
   let clientOptions: ClientOptions = {};
   let internalOptions: InternalClientOptions = maybeInternalOptions;
-  if (credentialsOrPipelineOptions) {
-    if (isCredential(credentialsOrPipelineOptions)) {
-      credentials = credentialsOrPipelineOptions;
-      clientOptions = (clientOptionsOrInternalOptions as ClientOptions) ?? {};
-    } else {
-      clientOptions = credentialsOrPipelineOptions;
-      internalOptions = (clientOptionsOrInternalOptions as InternalClientOptions) ?? {};
-    }
+  if (credentialsOrPipelineOptions && isCredential(credentialsOrPipelineOptions)) {
+    // getClient(endpoint, credentials, options?, internalOptions?)
+    credentials = credentialsOrPipelineOptions;
+    clientOptions = (clientOptionsOrInternalOptions as ClientOptions) ?? {};
+  } else if (credentialsOrPipelineOptions) {
+    // getClient(endpoint, options, internalOptions?)
+    clientOptions = credentialsOrPipelineOptions;
+    internalOptions =
+      (clientOptionsOrInternalOptions as InternalClientOptions) ?? maybeInternalOptions;
+  } else {
+    // getClient(endpoint, undefined, options?, internalOptions?)
+    // Preserve the credential-overload form when credentials are absent so the
+    // third argument continues to be treated as ClientOptions.
+    clientOptions = (clientOptionsOrInternalOptions as ClientOptions) ?? {};
   }
   const pipeline =
     clientOptions.pipeline ?? createDefaultPipeline(endpoint, credentials, clientOptions);

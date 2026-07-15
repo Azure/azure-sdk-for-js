@@ -21,14 +21,7 @@ import { isNodeLike } from "#platform/env";
 /**
  * Creates a client with a default pipeline
  * @param endpoint - Base endpoint for the client
- * @param credentials - Credentials to authenticate the requests
- * @param options - Client options
- */
-/**
- * Creates a client with a default pipeline
- * @param endpoint - Base endpoint for the client
- * @param credentials - Credentials to authenticate the requests
- * @param options - Client options
+ * @param clientOptions - Client options
  * @param internalOptions - Additional options intended for use by generated clients
  */
 export function getClient(

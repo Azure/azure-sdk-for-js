@@ -462,6 +462,24 @@ describe("getClient", () => {
       expect(sendRequestFn).toHaveBeenCalled();
     });
 
+    it("should use the provided pipeline when credentials are undefined (third parameter is options)", async () => {
+      const sendRequestFn = vi.fn((req: PipelineRequest, next: SendRequest) => next(req));
+      const customPipeline = createEmptyPipeline();
+      const customPolicy: PipelinePolicy = {
+        name: "customTrackingPolicy",
+        sendRequest: sendRequestFn,
+      };
+      customPipeline.addPolicy(customPolicy);
+
+      const client = getClient("https://example.org", undefined, {
+        pipeline: customPipeline,
+        httpClient,
+      });
+
+      await client.pathUnchecked("/foo").get();
+      expect(sendRequestFn).toHaveBeenCalled();
+    });
+
     it("should use the provided pipeline when passed via third parameter (with KeyCredential)", async () => {
       const sendRequestFn = vi.fn((req: PipelineRequest, next: SendRequest) => next(req));
       const customPipeline = createEmptyPipeline();
