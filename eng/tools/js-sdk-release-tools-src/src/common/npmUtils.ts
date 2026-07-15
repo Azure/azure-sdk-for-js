@@ -47,7 +47,10 @@ export function getArtifactName(info: NpmPackageInfo) {
 
 export async function tryGetNpmView(
   packageName: string,
+<<<<<<< HEAD
   registry?: string,
+=======
+>>>>>>> origin/main
 ): Promise<{ [id: string]: unknown } | undefined> {
   try {
     return await fetch.json(`/${packageName}`, { registry });
