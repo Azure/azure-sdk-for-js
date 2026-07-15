@@ -1,5 +1,11 @@
 # Release History
 
+## 1.0.0-beta.44 (Unreleased)
+
+### Other Changes
+
+- Added internal scaffolding for OneSettings-based dynamic configuration (`ConfigurationManager`). This is groundwork with no user-facing behavior yet.
+
 ## 1.0.0-beta.43 (2026-07-01)
 
 ### Breaking Changes
