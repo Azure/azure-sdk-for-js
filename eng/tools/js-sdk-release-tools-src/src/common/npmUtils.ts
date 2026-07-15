@@ -46,7 +46,9 @@ export function getArtifactName(info: NpmPackageInfo) {
   return `${name}-${version}.tgz`;
 }
 
-export async function tryGetNpmView(packageName: string): Promise<{ [id: string]: unknown } | undefined> {
+export async function tryGetNpmView(
+  packageName: string,
+): Promise<{ [id: string]: unknown } | undefined> {
   try {
     logger.info(`[tryGetNpmView] Fetching npm registry info for: ${packageName}`);
     const result = await fetch.json(`/${packageName}`);
