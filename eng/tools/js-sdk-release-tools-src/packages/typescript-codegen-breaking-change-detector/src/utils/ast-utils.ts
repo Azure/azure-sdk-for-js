@@ -12,20 +12,23 @@ import {
   Symbol,
   CallSignatureDeclaration,
   ConstructorDeclaration,
-} from 'ts-morph';
-import { ParserServices, ParserServicesWithTypeInformation } from '@typescript-eslint/typescript-estree';
-import { Scope, ScopeManager } from '@typescript-eslint/scope-manager';
+} from "ts-morph";
+import {
+  ParserServices,
+  ParserServicesWithTypeInformation,
+} from "@typescript-eslint/typescript-estree";
+import { Scope, ScopeManager } from "@typescript-eslint/scope-manager";
 
-import { RenameAbleDeclarations } from '../azure/common/types';
-import { TSESTree } from '@typescript-eslint/types';
-import { findVariable } from '@typescript-eslint/utils/ast-utils';
-import { logger } from '../logging/logger';
+import { RenameAbleDeclarations } from "../azure/common/types";
+import { TSESTree } from "@typescript-eslint/types";
+import { findVariable } from "@typescript-eslint/utils/ast-utils";
+import { logger } from "../logging/logger";
 
 function tryFindDeclaration<TNode extends TSESTree.Node>(
   name: string,
   scope: Scope,
   typeGuard: ((node: TSESTree.Node) => node is TNode) | undefined,
-  shouldLog: boolean = true
+  shouldLog: boolean = true,
 ): TNode | undefined {
   const variable = findVariable(scope as Scope, name);
   const node = variable?.defs?.[0]?.node;
@@ -34,7 +37,8 @@ function tryFindDeclaration<TNode extends TSESTree.Node>(
     return undefined;
   }
   if (typeGuard && !typeGuard(node)) {
-    if (shouldLog) logger.warn(`Found ${name}'s declaration but with another node type "${node.type}"`);
+    if (shouldLog)
+      logger.warn(`Found ${name}'s declaration but with another node type "${node.type}"`);
     return undefined;
   }
   return node as TNode;
@@ -59,12 +63,14 @@ function getAllTypeReferencesInNode(node: Node, found: Set<string>) {
 function updateRenameAbleDeclarations(
   declaration: TypeAliasDeclaration | InterfaceDeclaration | EnumDeclaration,
   renameAbleDeclarations: RenameAbleDeclarations,
-  found: Set<string>
+  found: Set<string>,
 ) {
   const foundDeclarations = new Set<string>(
-    [...renameAbleDeclarations.interfaces, ...renameAbleDeclarations.typeAliases, ...renameAbleDeclarations.enums].map(
-      (i) => i.getName()
-    )
+    [
+      ...renameAbleDeclarations.interfaces,
+      ...renameAbleDeclarations.typeAliases,
+      ...renameAbleDeclarations.enums,
+    ].map((i) => i.getName()),
   );
   if (foundDeclarations.has(declaration.getName())) return;
   switch (declaration.getKind()) {
@@ -84,7 +90,7 @@ function updateRenameAbleDeclarations(
 function findDeclarationOfTypeReference(
   reference: TypeReferenceNode,
   scope: Scope,
-  service: ParserServicesWithTypeInformation
+  service: ParserServicesWithTypeInformation,
 ): (TypeAliasDeclaration | InterfaceDeclaration | EnumDeclaration) | undefined {
   const esDeclaration = tryFindDeclaration(reference.getText(), scope, undefined, false);
   if (!esDeclaration) return;
@@ -96,7 +102,10 @@ function findDeclarationOfTypeReference(
     msDeclarationKind !== SyntaxKind.EnumDeclaration
   )
     return;
-  const declaration = msDeclaration as TypeAliasDeclaration | InterfaceDeclaration | EnumDeclaration;
+  const declaration = msDeclaration as
+    | TypeAliasDeclaration
+    | InterfaceDeclaration
+    | EnumDeclaration;
   return declaration;
 }
 
@@ -105,7 +114,7 @@ function findAllRenameAbleDeclarationsInNodeCore(
   scope: Scope,
   service: ParserServicesWithTypeInformation,
   renameAbleDeclarations: RenameAbleDeclarations,
-  found: Set<string>
+  found: Set<string>,
 ): void {
   if (!node) return;
 
@@ -114,7 +123,13 @@ function findAllRenameAbleDeclarationsInNodeCore(
     const declaration = findDeclarationOfTypeReference(reference, scope, service);
     if (!declaration) return;
     updateRenameAbleDeclarations(declaration, renameAbleDeclarations, found);
-    findAllRenameAbleDeclarationsInNodeCore(declaration, scope, service, renameAbleDeclarations, found);
+    findAllRenameAbleDeclarationsInNodeCore(
+      declaration,
+      scope,
+      service,
+      renameAbleDeclarations,
+      found,
+    );
   });
 }
 
@@ -127,22 +142,29 @@ export function getGlobalScope(scopeManager: ScopeManager | null): Scope {
 export function findDeclaration<TNode extends TSESTree.Node>(
   name: string,
   scope: Scope,
-  typeGuard: (node: TSESTree.Node) => node is TNode
+  typeGuard: (node: TSESTree.Node) => node is TNode,
 ): TNode {
   const node = tryFindDeclaration(name, scope, typeGuard);
   if (!node) throw new Error(`Failed to find "${name}"`);
   return node;
 }
 
-export function isParseServiceWithTypeInfo(service: ParserServices): service is ParserServicesWithTypeInformation {
+export function isParseServiceWithTypeInfo(
+  service: ParserServices,
+): service is ParserServicesWithTypeInformation {
   return service.program !== null;
 }
 
-export function isInterfaceDeclarationNode(node: TSESTree.Node): node is TSESTree.TSInterfaceDeclaration {
+export function isInterfaceDeclarationNode(
+  node: TSESTree.Node,
+): node is TSESTree.TSInterfaceDeclaration {
   return node.type === TSESTree.AST_NODE_TYPES.TSInterfaceDeclaration;
 }
 
-export function convertToMorphNode(node: TSESTree.Node, service: ParserServicesWithTypeInformation) {
+export function convertToMorphNode(
+  node: TSESTree.Node,
+  service: ParserServicesWithTypeInformation,
+) {
   const tsNode = service.esTreeNodeToTSNodeMap.get(node);
   const typeChecker = service.program.getTypeChecker();
   const moNode = createWrappedNode(tsNode, { typeChecker });
@@ -152,8 +174,12 @@ export function convertToMorphNode(node: TSESTree.Node, service: ParserServicesW
 export function findAllRenameAbleDeclarationsInNode(
   node: Node,
   scope: Scope,
-  service: ParserServicesWithTypeInformation
-): { interfaces: InterfaceDeclaration[]; typeAliases: TypeAliasDeclaration[]; enums: EnumDeclaration[] } {
+  service: ParserServicesWithTypeInformation,
+): {
+  interfaces: InterfaceDeclaration[];
+  typeAliases: TypeAliasDeclaration[];
+  enums: EnumDeclaration[];
+} {
   const renameAbleDeclarations: RenameAbleDeclarations = {
     interfaces: [],
     typeAliases: [],
@@ -191,7 +217,11 @@ export function getCallableEntityParameters(node: Node): ParameterDeclaration[] 
     case SyntaxKind.FunctionDeclaration:
       return node.asKindOrThrow(SyntaxKind.FunctionDeclaration).getParameters();
     case SyntaxKind.PropertySignature:
-      return getCallableEntityReturnTypeNode(node)?.asKindOrThrow(SyntaxKind.FunctionType).getParameters() ?? [];
+      return (
+        getCallableEntityReturnTypeNode(node)
+          ?.asKindOrThrow(SyntaxKind.FunctionType)
+          .getParameters() ?? []
+      );
     case SyntaxKind.CallSignature:
       return node.asKindOrThrow(SyntaxKind.CallSignature).getParameters();
     case SyntaxKind.MethodDeclaration:
@@ -215,16 +245,16 @@ export function getCallableEntityParametersFromSymbol(symbol: Symbol): Parameter
 }
 
 // Note: return true when parameters list is the same in name and type
-export function isSameCallSignatureLikeDeclaration<T extends CallSignatureDeclaration | ConstructorDeclaration>(
-  left: T,
-  right: T
-): boolean {
+export function isSameCallSignatureLikeDeclaration<
+  T extends CallSignatureDeclaration | ConstructorDeclaration,
+>(left: T, right: T): boolean {
   const leftReturnType = left.getReturnTypeNode()?.getType();
   const rightReturnType = right.getReturnTypeNode()?.getType();
   if (
     leftReturnType &&
     rightReturnType &&
-    (!leftReturnType.isAssignableTo(rightReturnType) || !rightReturnType.isAssignableTo(leftReturnType))
+    (!leftReturnType.isAssignableTo(rightReturnType) ||
+      !rightReturnType.isAssignableTo(leftReturnType))
   ) {
     return false;
   }
@@ -239,7 +269,8 @@ export function isSameCallSignatureLikeDeclaration<T extends CallSignatureDeclar
     const rightParaType = rightParameter.getType();
     if (!leftParaType && !rightParaType) return true;
     if (!leftParaType || !rightParaType) return false;
-    if (!leftParaType.isAssignableTo(rightParaType) || !rightParaType.isAssignableTo(leftParaType)) return false;
+    if (!leftParaType.isAssignableTo(rightParaType) || !rightParaType.isAssignableTo(leftParaType))
+      return false;
     return true;
   });
   return isEveryParameterSame.length === left.getParameters().length;
@@ -247,14 +278,19 @@ export function isSameCallSignatureLikeDeclaration<T extends CallSignatureDeclar
 
 export function isPropertyMethod(p: Symbol) {
   const node = p.getValueDeclaration();
-  return node && (node.getKind() === SyntaxKind.MethodSignature || node.getKind() === SyntaxKind.MethodDeclaration);
+  return (
+    node &&
+    (node.getKind() === SyntaxKind.MethodSignature ||
+      node.getKind() === SyntaxKind.MethodDeclaration)
+  );
 }
 
 export function isPropertyArrowFunction(p: Symbol) {
   const node = p.getValueDeclaration();
   return (
     node &&
-    (node.getKind() === SyntaxKind.PropertySignature || node.getKind() === SyntaxKind.PropertyDeclaration) &&
+    (node.getKind() === SyntaxKind.PropertySignature ||
+      node.getKind() === SyntaxKind.PropertyDeclaration) &&
     Node.isTyped(node) &&
     node.getTypeNodeOrThrow().isKind(SyntaxKind.FunctionType)
   );
