@@ -1,20 +1,20 @@
 export enum SDKType {
-  HighLevelClient = 'HighLevelClient',
-  RestLevelClient = 'RestLevelClient',
-  ModularClient = 'ModularClient',
+  HighLevelClient = "HighLevelClient",
+  RestLevelClient = "RestLevelClient",
+  ModularClient = "ModularClient",
 }
 
 export enum ApiVersionType {
-  None = 'None',
-  Stable = 'Stable',
-  Preview = 'Preview',
+  None = "None",
+  Stable = "Stable",
+  Preview = "Preview",
 }
 
 export enum RunMode {
-  Release = 'release',
-  Local = 'local',
-  SpecPullRequest = 'spec-pull-request',
-  Batch = 'batch',
+  Release = "release",
+  Local = "local",
+  SpecPullRequest = "spec-pull-request",
+  Batch = "batch",
 }
 
 export interface ChangelogResult {
@@ -30,14 +30,14 @@ export interface InstallInstructionsResult {
 // TODO: investigate the inconsistency to https://github.com/Azure/azure-rest-api-specs/blob/main/documentation/sdkautomation/GenerateOutputSchema.json
 // the PackageResult here is stricter by making some optional field to required, due to we always want the package result contains specific fields
 export interface PackageResult {
-  language: 'JavaScript';
+  language: "JavaScript";
   packageName: string;
   version: string;
   path: string[];
   changelog: ChangelogResult;
   artifacts: string[];
   apiViewArtifact: string;
-  result: 'succeeded' | 'failed' | 'warning';
+  result: "succeeded" | "failed" | "warning";
   packageFolder: string;
   typespecProject?: string[];
   readmeMd?: string[];
@@ -48,8 +48,8 @@ export interface GenerationOutputInfo {
   packages: PackageResult[];
 }
 
-export type VersionPolicyName = 'management' | 'client';
-export type EmitterName = '@azure-tools/typespec-ts' | '';
+export type VersionPolicyName = "management" | "client";
+export type EmitterName = "@azure-tools/typespec-ts" | "";
 
 export interface ModularClientPackageOptions {
   sdkRepoRoot: string;
@@ -71,6 +71,6 @@ export interface NpmPackageInfo {
 }
 
 export enum ModularSDKType {
-  ManagementPlane = 'ManagementPlane',
-  DataPlane = 'DataPlane',
+  ManagementPlane = "ManagementPlane",
+  DataPlane = "DataPlane",
 }

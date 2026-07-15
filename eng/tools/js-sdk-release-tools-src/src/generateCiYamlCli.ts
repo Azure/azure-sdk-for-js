@@ -1,12 +1,15 @@
 #!/usr/bin/env node
 
-import commandLineArgs from 'command-line-args';
-import { createOrUpdateCiYaml } from './common/ciYamlUtils.js';
-import { getNpmPackageInfo } from './common/npmUtils.js';
-import { logger } from './utils/logger.js';
-import path from 'path';
+import commandLineArgs from "command-line-args";
+import { createOrUpdateCiYaml } from "./common/ciYamlUtils.js";
+import { getNpmPackageInfo } from "./common/npmUtils.js";
+import { logger } from "./utils/logger.js";
+import path from "path";
 
-const generateCiYamlCli = async (sdkRepoPath: string | undefined, packageFolderPath: string | undefined) => {
+const generateCiYamlCli = async (
+  sdkRepoPath: string | undefined,
+  packageFolderPath: string | undefined,
+) => {
   if (!sdkRepoPath || !packageFolderPath) {
     logger.error(`SdkRepoPath and PackagePath are required.`);
     logger.error(`Usage: generate-ci-yaml --sdkRepoPath <SdkRepoPath> --packagePath <PackagePath>`);
@@ -27,16 +30,17 @@ const generateCiYamlCli = async (sdkRepoPath: string | undefined, packageFolderP
 
   const isRelativeTraversal =
     !path.isAbsolute(packageFolderPath) &&
-    (packageFolderPath === '..' || packageFolderPath.startsWith('..' + path.sep));
+    (packageFolderPath === ".." || packageFolderPath.startsWith(".." + path.sep));
 
   const isOutsideRepoByPrefix = !absolutePackagePath.startsWith(normalizedSdkRepoPathWithSep);
 
-  const isOutsideRepoByRelative = relativePackagePath === '..' || relativePackagePath.startsWith('..' + path.sep);
+  const isOutsideRepoByRelative =
+    relativePackagePath === ".." || relativePackagePath.startsWith(".." + path.sep);
 
   if (isRelativeTraversal || isOutsideRepoByPrefix || isOutsideRepoByRelative) {
     logger.error(
       `The provided packagePath ("${packageFolderPath}") resolves outside the sdkRepoPath ("${sdkRepoPath}"). ` +
-        `Please provide a package path that is within the SDK repository root.`
+        `Please provide a package path that is within the SDK repository root.`,
     );
     process.exit(1);
   }
@@ -46,16 +50,19 @@ const generateCiYamlCli = async (sdkRepoPath: string | undefined, packageFolderP
 
   const npmPackageInfo = await getNpmPackageInfo(absolutePackagePath);
 
-  const ciPath = await createOrUpdateCiYaml(relativePackagePath.replace(/\\/g, '/'), npmPackageInfo);
+  const ciPath = await createOrUpdateCiYaml(
+    relativePackagePath.replace(/\\/g, "/"),
+    npmPackageInfo,
+  );
 
   logger.info(`CI yaml file created/updated at: ${ciPath}`);
 };
 
 const optionDefinitions = [
-  { name: 'sdkRepoPath', type: String },
-  { name: 'packagePath', type: String },
+  { name: "sdkRepoPath", type: String },
+  { name: "packagePath", type: String },
 ];
 
 const options = commandLineArgs(optionDefinitions);
 
-generateCiYamlCli(options['sdkRepoPath'], options['packagePath']);
+generateCiYamlCli(options["sdkRepoPath"], options["packagePath"]);
