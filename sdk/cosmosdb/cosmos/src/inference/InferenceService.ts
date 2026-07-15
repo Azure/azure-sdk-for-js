@@ -160,9 +160,7 @@ export class InferenceService {
   /**
    * Resolves the inference endpoint from `enablePreviewFeatures.semanticRerank.inferenceEndpoint`.
    */
-  private resolveInferenceEndpoint(
-    semanticRerankConfig: SemanticRerankConfig | undefined,
-  ): string {
+  private resolveInferenceEndpoint(semanticRerankConfig: SemanticRerankConfig | undefined): string {
     const endpointValue = semanticRerankConfig?.inferenceEndpoint;
     const endpoint = typeof endpointValue === "string" ? endpointValue : undefined;
 
@@ -182,9 +180,7 @@ export class InferenceService {
    * `enablePreviewFeatures.semanticRerank.inferenceRequestTimeout`, falling back to the default
    * when not provided or invalid. This is a single-attempt budget with no retries.
    */
-  private resolveRequestTimeout(
-    semanticRerankConfig: SemanticRerankConfig | undefined,
-  ): number {
+  private resolveRequestTimeout(semanticRerankConfig: SemanticRerankConfig | undefined): number {
     const timeoutValue = semanticRerankConfig?.inferenceRequestTimeout;
     return typeof timeoutValue === "number" && timeoutValue > 0
       ? timeoutValue
