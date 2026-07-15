@@ -26,13 +26,9 @@ export interface ParseForESLintResult {
 }
 
 export interface CreateOperationRule {
-<<<<<<< HEAD
-  (baselineParsedResult: ParseForESLintResult | undefined): RuleModule<'default', readonly unknown[]>;
-=======
   (
     baselineParsedResult: ParseForESLintResult | undefined,
   ): RuleModule<"default", readonly unknown[], RuleListener>;
->>>>>>> origin/main
 }
 
 export interface RuleMessage {

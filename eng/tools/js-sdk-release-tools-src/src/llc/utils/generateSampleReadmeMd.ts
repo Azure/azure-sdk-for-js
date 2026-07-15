@@ -78,27 +78,17 @@ export async function generateSampleReadmeMd(
 export async function modifyExistingReadmeMd(packageName: string, packagePath: string) {
   logger.info(`'${packageName}' is found in ${packagePath}, please confirm whether the value is expected?
 If yes, please input Enter directly. If not, please enter a new value.`);
-<<<<<<< HEAD
-  const readme = await getConfigFromReadmeMd(path.join(packagePath, 'swagger', 'README.md'));
-  const title = await getInputFromCommandWithDefaultValue('title', readme['title'] ?? '');
-  const description = await getInputFromCommandWithDefaultValue('description', readme['description'] ?? '');
-=======
   const readme = await getConfigFromReadmeMd(path.join(packagePath, "swagger", "README.md"));
-  const title = await getInputFromCommandWithDefaultValue("title", readme["title"]);
+  const title = await getInputFromCommandWithDefaultValue("title", readme["title"] ?? "");
   const description = await getInputFromCommandWithDefaultValue(
     "description",
-    readme["description"],
+    readme["description"] ?? "",
   );
->>>>>>> origin/main
   let existingInputArray;
   if (Array.isArray(readme["input-file"])) {
     existingInputArray = readme["input-file"].join(";");
   } else {
-<<<<<<< HEAD
-    existingInputArray = readme['input-file'] ?? '';
-=======
-    existingInputArray = readme["input-file"];
->>>>>>> origin/main
+    existingInputArray = readme["input-file"] ?? "";
   }
   let inputFile = await getInputFromCommandWithDefaultValue("input-file", existingInputArray);
   if (inputFile.includes(";")) {
@@ -109,19 +99,14 @@ If yes, please input Enter directly. If not, please enter a new value.`);
     }
   }
 
-<<<<<<< HEAD
-  const packageVersion = await getInputFromCommandWithDefaultValue('package-version', readme['package-version'] ?? '');
-  const credentialScopes = await getInputFromCommandWithDefaultValue('credential-scopes', readme['credential-scopes'] ?? '');
-=======
   const packageVersion = await getInputFromCommandWithDefaultValue(
     "package-version",
-    readme["package-version"],
+    readme["package-version"] ?? "",
   );
   const credentialScopes = await getInputFromCommandWithDefaultValue(
     "credential-scopes",
-    readme["credential-scopes"],
+    readme["credential-scopes"] ?? "",
   );
->>>>>>> origin/main
 
   await writeReadmeMd(packageName, packagePath, {
     title: title,

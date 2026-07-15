@@ -1,23 +1,3 @@
-<<<<<<< HEAD
-import * as fs from 'fs';
-import * as path from 'path';
-import { logger } from '../../utils/logger.js';
-import { getLatestStableVersion } from '../../utils/version.js';
-import { tryGetNpmView } from '../../common/npmUtils.js';
-import readline from 'readline';
-import yaml from 'js-yaml';
-
-export interface ReadmeMdConfig {
-  title?: string;
-  description?: string;
-  'input-file'?: string | string[];
-  'package-version'?: string;
-  'credential-scopes'?: string;
-  'package-name'?: string;
-  [key: string]: unknown;
-}
-
-=======
 import * as fs from "fs";
 import * as path from "path";
 import { logger } from "../../utils/logger.js";
@@ -25,7 +5,17 @@ import { getLatestStableVersion } from "../../utils/version.js";
 import { tryGetNpmView } from "../../common/npmUtils.js";
 import readline from "readline";
 import yaml from "js-yaml";
->>>>>>> origin/main
+
+export interface ReadmeMdConfig {
+  title?: string;
+  description?: string;
+  "input-file"?: string | string[];
+  "package-version"?: string;
+  "credential-scopes"?: string;
+  "package-name"?: string;
+  [key: string]: unknown;
+}
+
 export function validPackageName(packageName) {
   const match = /@azure-rest\/[a-zA-Z-]+/.exec(packageName);
   if (!match) return false;
@@ -117,20 +107,12 @@ export function getConfigFromReadmeMd(readmePath: string) {
   return yaml.load(match[1]) as ReadmeMdConfig;
 }
 
-<<<<<<< HEAD
 export function getPackageNameFromReadmeMd(readme: ReadmeMdConfig): string {
-  const packageName = readme['package-name'];
+  const packageName = readme["package-name"];
   if (!packageName || !/@azure-rest\/[a-zA-Z-]+/.exec(packageName)) {
     throw new Error(`Cannot find valid package name from existing README.md`);
   }
   return packageName;
-=======
-export function getPackageNameFromReadmeMd(readme: any) {
-  if (!readme["package-name"] || !/@azure-rest\/[a-zA-Z-]+/.exec(readme["package-name"])) {
-    throw new Error(`Cannot find valid package name from existing README.md`);
-  }
-  return readme["package-name"];
->>>>>>> origin/main
 }
 
 export async function getPackageNameFromCommand(): Promise<string> {
