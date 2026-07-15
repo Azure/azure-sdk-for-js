@@ -1,21 +1,21 @@
-import { describe, expect, test, vi, afterEach } from 'vitest';
-import { spawnSync } from 'child_process';
-import { updatePackageVersion } from '../../mlc/clientGenerator/utils/typeSpecUtils.js';
-import { join } from 'path';
-import { load } from '@npmcli/package-json';
-import { tryGetNpmView } from '../../common/npmUtils.js';
+import { describe, expect, test, vi, afterEach } from "vitest";
+import { spawnSync } from "child_process";
+import { updatePackageVersion } from "../../mlc/clientGenerator/utils/typeSpecUtils.js";
+import { join } from "path";
+import { load } from "@npmcli/package-json";
+import { tryGetNpmView } from "../../common/npmUtils.js";
 
-vi.mock('child_process', async () => {
-  const actual = await vi.importActual<typeof import('child_process')>('child_process');
+vi.mock("child_process", async () => {
+  const actual = await vi.importActual<typeof import("child_process")>("child_process");
   return { ...actual, spawnSync: vi.fn() };
 });
 
-describe('Npm package json', () => {
-  test('Replace package version', async () => {
-    const packageDirectory = join(__dirname, 'testCases');
-    await updatePackageVersion(packageDirectory, '2.0.0');
+describe("Npm package json", () => {
+  test("Replace package version", async () => {
+    const packageDirectory = join(__dirname, "testCases");
+    await updatePackageVersion(packageDirectory, "2.0.0");
     const packageJson = await load(packageDirectory);
-    expect(packageJson.content.version).toBe('2.0.0');
+    expect(packageJson.content.version).toBe("2.0.0");
   });
 });
 
@@ -27,11 +27,18 @@ describe("Npm view", () => {
   });
 
   function mockSpawnSyncResult(status: number, stdout: string) {
-    spawnSyncMock.mockReturnValue({ pid: 0, output: [], stdout, stderr: '', status, signal: null } as any);
+    spawnSyncMock.mockReturnValue({
+      pid: 0,
+      output: [],
+      stdout,
+      stderr: "",
+      status,
+      signal: null,
+    } as any);
   }
 
   test("returns undefined when package does not exist", async () => {
-    mockSpawnSyncResult(1, '');
+    mockSpawnSyncResult(1, "");
     const result = await tryGetNpmView("non-exist", "https://registry.example.com/");
     expect(result).toBeUndefined();
   });
@@ -58,3 +65,4 @@ describe("Npm view", () => {
     expect(args).not.toContain("--registry");
   });
 });
+

@@ -1,14 +1,14 @@
-import pkg from '@npmcli/package-json';
+import pkg from "@npmcli/package-json";
 const { load } = pkg;
-import { spawnSync } from 'child_process';
-import { NpmPackageInfo } from './types.js';
-import { getApiReviewPath, getApiReviewBasePath } from './utils.js';
-import shell from 'shelljs';
-import { writeFile } from 'fs';
-import path, { relative, join } from 'path';
-import { logger } from '../utils/logger.js';
-import { error } from 'console';
-import fs from 'fs';
+import { spawnSync } from "child_process";
+import { NpmPackageInfo } from "./types.js";
+import { getApiReviewPath, getApiReviewBasePath } from "./utils.js";
+import shell from "shelljs";
+import { writeFile } from "fs";
+import path, { relative, join } from "path";
+import { logger } from "../utils/logger.js";
+import { error } from "console";
+import fs from "fs";
 
 export async function getNpmPackageInfo(packageDirectory): Promise<NpmPackageInfo> {
   const packageJson = await load(packageDirectory);
@@ -24,10 +24,10 @@ export async function getNpmPackageInfo(packageDirectory): Promise<NpmPackageInf
 }
 
 export function getNpmPackageName(info: NpmPackageInfo) {
-  if (info.name.startsWith('@azure-rest/')) {
-    return info.name.replace('@azure-rest/', 'azure-rest-');
-  } else if (info.name.startsWith('@azure/')) {
-    return info.name.replace('@azure/', 'azure-');
+  if (info.name.startsWith("@azure-rest/")) {
+    return info.name.replace("@azure-rest/", "azure-rest-");
+  } else if (info.name.startsWith("@azure/")) {
+    return info.name.replace("@azure/", "azure-");
   } else {
     return info.name;
   }
@@ -35,7 +35,7 @@ export function getNpmPackageName(info: NpmPackageInfo) {
 
 export function getNpmPackageSafeName(info: NpmPackageInfo) {
   const name = getNpmPackageName(info);
-  const safeName = name.replace(/-/g, '');
+  const safeName = name.replace(/-/g, "");
   return safeName;
 }
 
@@ -50,16 +50,18 @@ export async function tryGetNpmView(
   registry?: string,
 ): Promise<{ [id: string]: unknown } | undefined> {
   try {
-    const viewArgs = ['view', packageName, '--json'];
+    const viewArgs = ["view", packageName, "--json"];
     if (registry) {
-      viewArgs.push('--registry', registry);
+      viewArgs.push("--registry", registry);
     }
     // On Windows, .cmd files cannot be spawned directly (EINVAL); route through cmd.exe.
-    const cmd = process.platform === 'win32' ? 'cmd.exe' : 'npm';
-    const args = process.platform === 'win32' ? ['/c', 'npm', ...viewArgs] : viewArgs;
-    const result = spawnSync(cmd, args, { encoding: 'utf-8', shell: false });
+    const cmd = process.platform === "win32" ? "cmd.exe" : "npm";
+    const args = process.platform === "win32" ? ["/c", "npm", ...viewArgs] : viewArgs;
+    const result = spawnSync(cmd, args, { encoding: "utf-8", shell: false });
     if (result.status !== 0 || result.error) {
-      logger.warn(`npm view ${packageName} failed (exit ${result.status}, error: ${result.error?.message}): ${result.stderr?.trim().slice(0, 400) ?? '(no stderr)'}`);
+      logger.warn(
+        `npm view ${packageName} failed (exit ${result.status}, error: ${result.error?.message}): ${result.stderr?.trim().slice(0, 400) ?? "(no stderr)"}`,
+      );
       return undefined;
     }
     return JSON.parse(result.stdout) as { [id: string]: unknown };
@@ -70,7 +72,7 @@ export async function tryGetNpmView(
 }
 
 export interface NpmViewParameters {
-  file: 'ApiView' | 'CHANGELOG.md';
+  file: "ApiView" | "CHANGELOG.md";
   version: string;
   packageFolderPath: string;
   packageName: string;
@@ -78,7 +80,11 @@ export interface NpmViewParameters {
   npmPackagePath: string;
 }
 
-function executeCommand(command: string, maxRetries = 3, retryDelayMs = 1000): shell.ShellString | null {
+function executeCommand(
+  command: string,
+  maxRetries = 3,
+  retryDelayMs = 1000,
+): shell.ShellString | null {
   const currentRepo = shell.pwd().stdout.trim();
   logger.info(`Executing git command in repo: ${currentRepo}`);
   logger.info(`Executing command with retry mode (max attempts: ${maxRetries}): ${command}`);
@@ -98,10 +104,10 @@ function executeCommand(command: string, maxRetries = 3, retryDelayMs = 1000): s
       logger.info(`Retrying in ${retryDelayMs}ms...`);
       // Simple non-blocking sleep using shelljs
       shell.exec(
-        process.platform === 'win32'
+        process.platform === "win32"
           ? `ping -n ${Math.ceil(retryDelayMs / 1000) + 1} 127.0.0.1 >nul`
           : `sleep ${retryDelayMs / 1000}`,
-        { silent: true }
+        { silent: true },
       );
     }
   }
@@ -125,25 +131,32 @@ export function checkGitTagExists(tag: string): boolean {
 
 // TODO: refactor this function to support praparing files from github in general way
 export function tryCreateLastestStableNpmViewFromGithub(NpmViewParameters: NpmViewParameters) {
-  const { file, version, packageFolderPath, packageName, sdkRootPath, npmPackagePath } = NpmViewParameters;
-  let sdkFilePath = '';
-  const targetFilePath = file === 'CHANGELOG.md' ? path.join(npmPackagePath, file) : getApiReviewPath(npmPackagePath);
+  const { file, version, packageFolderPath, packageName, sdkRootPath, npmPackagePath } =
+    NpmViewParameters;
+  let sdkFilePath = "";
+  const targetFilePath =
+    file === "CHANGELOG.md" ? path.join(npmPackagePath, file) : getApiReviewPath(npmPackagePath);
   const tag = `${packageName}_${version}`;
-  const defaultContent = '```ts\n```';
+  const defaultContent = "```ts\n```";
   logger.info(`Start to get and clone ${npmPackagePath} from latest ${packageName} release tag.`);
 
   try {
-    if (file === 'CHANGELOG.md') {
-      sdkFilePath = relative(sdkRootPath, path.join(packageFolderPath, file)).replace(/\\/g, '/');
+    if (file === "CHANGELOG.md") {
+      sdkFilePath = relative(sdkRootPath, path.join(packageFolderPath, file)).replace(/\\/g, "/");
       // For CHANGELOG.md, use sdkFilePath directly
       const gitCommand = `git --no-pager show ${tag}:${sdkFilePath}`;
-      const changelogContent = executeCommand(gitCommand)?.stdout || '';
+      const changelogContent = executeCommand(gitCommand)?.stdout || "";
       if (!changelogContent.trim()) {
-        logger.warn(`Warning: CHANGELOG.md content is empty for tag ${tag} at path ${sdkFilePath}.`);
+        logger.warn(
+          `Warning: CHANGELOG.md content is empty for tag ${tag} at path ${sdkFilePath}.`,
+        );
       }
-      fs.writeFileSync(targetFilePath, changelogContent, { encoding: 'utf-8' });
+      fs.writeFileSync(targetFilePath, changelogContent, { encoding: "utf-8" });
     } else {
-      sdkFilePath = relative(sdkRootPath, getApiReviewBasePath(packageFolderPath)).replace(/\\/g, '/');
+      sdkFilePath = relative(sdkRootPath, getApiReviewBasePath(packageFolderPath)).replace(
+        /\\/g,
+        "/",
+      );
       // For API review files, generate two file paths with different suffixes
       const nodeApiFilePath = `${sdkFilePath}-node.api.md`;
       const standardApiFilePath = `${sdkFilePath}.api.md`;
@@ -153,23 +166,23 @@ export function tryCreateLastestStableNpmViewFromGithub(NpmViewParameters: NpmVi
       const standardApiGitCommand = `git --no-pager show ${tag}:${standardApiFilePath}`;
 
       // Execute both git commands
-      const nodeApiExecResult = executeCommand(nodeApiGitCommand)?.stdout || '';
-      const standardApiExecResult = executeCommand(standardApiGitCommand)?.stdout || '';
+      const nodeApiExecResult = executeCommand(nodeApiGitCommand)?.stdout || "";
+      const standardApiExecResult = executeCommand(standardApiGitCommand)?.stdout || "";
 
       // Use nodeApi result if it has content, otherwise use standardApi result
       let apiViewContent = nodeApiExecResult.trim() ? nodeApiExecResult : standardApiExecResult;
       if (!apiViewContent.trim()) {
         logger.warn(
-          `Warning: No API view content found for either ${nodeApiFilePath} or ${standardApiFilePath}. Using default content.`
+          `Warning: No API view content found for either ${nodeApiFilePath} or ${standardApiFilePath}. Using default content.`,
         );
         apiViewContent = defaultContent;
       }
-      fs.writeFileSync(targetFilePath, apiViewContent, { encoding: 'utf-8' });
+      fs.writeFileSync(targetFilePath, apiViewContent, { encoding: "utf-8" });
     }
     logger.info(`Create ${packageFolderPath} from the tag ${tag} successfully`);
   } catch (error) {
     logger.error(
-      `Failed to read ${packageFolderPath} in ${sdkFilePath} from the tag ${tag}.\n Error details: ${error}`
+      `Failed to read ${packageFolderPath} in ${sdkFilePath} from the tag ${tag}.\n Error details: ${error}`,
     );
   }
 }
@@ -186,7 +199,7 @@ export async function checkDirectoryExistsInGithub(
   packageRoot: string,
   directoryPath: string[],
   packageName: string,
-  version: string
+  version: string,
 ): Promise<boolean> {
   try {
     const tag = `${packageName}_${version}`;
@@ -196,7 +209,7 @@ export async function checkDirectoryExistsInGithub(
 
     // directoryPath is expected to be an array of candidate paths
     for (const dirPath of directoryPath) {
-      const relativePath = relative(sdkRootPath, join(packageRoot, dirPath)).replace(/\\/g, '/');
+      const relativePath = relative(sdkRootPath, join(packageRoot, dirPath)).replace(/\\/g, "/");
 
       // Use git ls-tree to check if directory exists
       const gitCommand = `git ls-tree -d ${tag} ${relativePath}`;
@@ -210,7 +223,7 @@ export async function checkDirectoryExistsInGithub(
 
     // If none of the paths exist
     logger.info(
-      `None of the directories [${directoryPath.join(', ')}] exist in GitHub tag ${tag} for package ${packageName}`
+      `None of the directories [${directoryPath.join(", ")}] exist in GitHub tag ${tag} for package ${packageName}`,
     );
     return false;
   } catch (error) {
