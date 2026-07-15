@@ -65,4 +65,3 @@ describe("Npm view", () => {
     expect(args).not.toContain("--registry");
   });
 });
-
