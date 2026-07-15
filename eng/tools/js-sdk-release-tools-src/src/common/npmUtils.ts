@@ -1,5 +1,6 @@
 import pkg from '@npmcli/package-json';
 const { load } = pkg;
+import { spawnSync } from 'child_process';
 import { NpmPackageInfo } from './types.js';
 import { getApiReviewPath, getApiReviewBasePath } from './utils.js';
 import shell from 'shelljs';
@@ -49,13 +50,21 @@ export async function tryGetNpmView(
   registry?: string,
 ): Promise<{ [id: string]: unknown } | undefined> {
   try {
-    const registryFlag = registry ? `--registry ${registry}` : '';
-    const result = shell.exec(`npm view ${packageName} --json ${registryFlag}`, { silent: true });
-    if (result.code !== 0) {
+    const viewArgs = ['view', packageName, '--json'];
+    if (registry) {
+      viewArgs.push('--registry', registry);
+    }
+    // On Windows, .cmd files cannot be spawned directly (EINVAL); route through cmd.exe.
+    const cmd = process.platform === 'win32' ? 'cmd.exe' : 'npm';
+    const args = process.platform === 'win32' ? ['/c', 'npm', ...viewArgs] : viewArgs;
+    const result = spawnSync(cmd, args, { encoding: 'utf-8', shell: false });
+    if (result.status !== 0 || result.error) {
+      logger.warn(`npm view ${packageName} failed (exit ${result.status}, error: ${result.error?.message}): ${result.stderr?.trim().slice(0, 400) ?? '(no stderr)'}`);
       return undefined;
     }
     return JSON.parse(result.stdout) as { [id: string]: unknown };
   } catch (err) {
+    logger.warn(`npm view ${packageName} parse error: ${(err as Error).message}`);
     return undefined;
   }
 }
