@@ -12,7 +12,7 @@ import type {
 } from "./communicationTokenCredential.js";
 import type { AccessToken } from "@azure/core-auth";
 import { StaticTokenCredential } from "./staticTokenCredential.js";
-import { parseToken } from "./tokenParser.js";
+import { isAccessToken, parseToken } from "./tokenParser.js";
 import {
   type EntraCommunicationTokenCredentialOptions,
   EntraTokenCredential,
@@ -28,9 +28,10 @@ export class AzureCommunicationTokenCredential implements CommunicationTokenCred
 
   /**
    * Creates an instance of CommunicationTokenCredential with a static token and no proactive refreshing.
-   * @param token - A user access token issued by Communication Services.
+   * @param token - A user access token issued by Communication Services. Pass an `AccessToken`
+   * to supply the expiry explicitly when the token cannot be decoded (e.g. an encrypted token).
    */
-  constructor(token: string);
+  constructor(token: string | AccessToken);
   /**
    * Creates an instance of CommunicationTokenCredential with a lambda to get a token and options
    * to configure proactive refreshing.
@@ -44,9 +45,15 @@ export class AzureCommunicationTokenCredential implements CommunicationTokenCred
   constructor(entraOptions: EntraCommunicationTokenCredentialOptions);
   constructor(
     tokenOrRefreshOptionsOrEntraOptions:
-      string | CommunicationTokenRefreshOptions | EntraCommunicationTokenCredentialOptions,
+      | string
+      | AccessToken
+      | CommunicationTokenRefreshOptions
+      | EntraCommunicationTokenCredentialOptions,
   ) {
-    if (typeof tokenOrRefreshOptionsOrEntraOptions === "string") {
+    if (
+      typeof tokenOrRefreshOptionsOrEntraOptions === "string" ||
+      isAccessToken(tokenOrRefreshOptionsOrEntraOptions)
+    ) {
       this.tokenCredential = new StaticTokenCredential(
         parseToken(tokenOrRefreshOptionsOrEntraOptions),
       );

@@ -1,9 +1,9 @@
-import { RuleListener, RuleModule } from '@typescript-eslint/utils/eslint-utils';
+import { RuleListener, RuleModule } from "@typescript-eslint/utils/eslint-utils";
 
-import { ParserServices } from '@typescript-eslint/parser';
-import type { ScopeManager } from '@typescript-eslint/scope-manager';
-import { TSESTree } from '@typescript-eslint/utils';
-import type { VisitorKeys } from '@typescript-eslint/visitor-keys';
+import { ParserServices } from "@typescript-eslint/parser";
+import type { ScopeManager } from "@typescript-eslint/scope-manager";
+import { TSESTree } from "@typescript-eslint/utils";
+import type { VisitorKeys } from "@typescript-eslint/visitor-keys";
 import {
   EnumDeclaration,
   InterfaceDeclaration,
@@ -12,7 +12,7 @@ import {
   Node,
   CallSignatureDeclaration,
   ConstructorDeclaration,
-} from 'ts-morph';
+} from "ts-morph";
 
 export interface ParseForESLintResult {
   ast: TSESTree.Program & {
@@ -26,7 +26,13 @@ export interface ParseForESLintResult {
 }
 
 export interface CreateOperationRule {
+<<<<<<< HEAD
   (baselineParsedResult: ParseForESLintResult | undefined): RuleModule<'default', readonly unknown[]>;
+=======
+  (
+    baselineParsedResult: ParseForESLintResult | undefined,
+  ): RuleModule<"default", readonly unknown[], RuleListener>;
+>>>>>>> origin/main
 }
 
 export interface RuleMessage {
@@ -35,7 +41,7 @@ export interface RuleMessage {
 }
 
 export enum RuleMessageKind {
-  InlineDeclarationNameSetMessage = 'InlineDeclarationNameSetMessage',
+  InlineDeclarationNameSetMessage = "InlineDeclarationNameSetMessage",
 }
 
 export interface InlineDeclarationNameSetMessage extends RuleMessage {
@@ -127,7 +133,7 @@ export type CallSignatureLikeDeclaration = CallSignatureDeclaration | Constructo
 
 export type FindMappingCallSignatureLikeDeclaration<T extends CallSignatureLikeDeclaration> = (
   target: T,
-  declarations: T[]
+  declarations: T[],
 ) => { declaration: T; id: string } | undefined;
 
 export interface DeclarationDifferenceDetectorOptions {

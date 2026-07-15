@@ -14,7 +14,7 @@ import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export class AzureCommunicationTokenCredential implements CommunicationTokenCredential {
-    constructor(token: string);
+    constructor(token: string | AccessToken);
     constructor(refreshOptions: CommunicationTokenRefreshOptions);
     constructor(entraOptions: EntraCommunicationTokenCredentialOptions);
     dispose(): void;
@@ -41,8 +41,9 @@ export interface CommunicationTokenCredential {
 // @public
 export interface CommunicationTokenRefreshOptions {
     refreshProactively?: boolean;
-    token?: string;
-    tokenRefresher: (abortSignal?: AbortSignalLike) => Promise<string>;
+    token?: string | AccessToken;
+    tokenRefresher: (abortSignal?: AbortSignalLike) => Promise<string | AccessToken>;
+    undecodableTokenExpiryIntervalInSeconds?: number;
 }
 
 // @public

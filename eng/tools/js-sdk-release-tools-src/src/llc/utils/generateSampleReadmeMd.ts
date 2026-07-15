@@ -1,13 +1,13 @@
-import * as fs from 'fs';
-import * as path from 'path';
+import * as fs from "fs";
+import * as path from "path";
 import {
   changeRequiredReadmePath,
   getConfigFromReadmeMd,
   getInputFromCommand,
   getInputFromCommandWithDefaultValue,
   getLatestCodegen,
-} from './utils.js';
-import { logger } from '../../utils/logger.js';
+} from "./utils.js";
+import { logger } from "../../utils/logger.js";
 
 async function writeReadmeMd(packageName: string, packagePath: string, options: any) {
   const sampleReadme = `# Azure Sample Readme for RLC
@@ -33,29 +33,39 @@ use-extension:
   "@autorest/typescript": "${await getLatestCodegen(packagePath)}"
 \`\`\`
 `;
-  if (!fs.existsSync(path.join(packagePath, 'swagger'))) {
-    fs.mkdirSync(path.join(packagePath, 'swagger'));
+  if (!fs.existsSync(path.join(packagePath, "swagger"))) {
+    fs.mkdirSync(path.join(packagePath, "swagger"));
   }
-  fs.writeFileSync(path.join(packagePath, 'swagger', 'README.md'), sampleReadme, { encoding: 'utf-8' });
+  fs.writeFileSync(path.join(packagePath, "swagger", "README.md"), sampleReadme, {
+    encoding: "utf-8",
+  });
 }
 
-export async function generateSampleReadmeMd(packageName: string, packagePath: string, options: any) {
-  const title = options.title ? options.title : await getInputFromCommand('title');
-  const description = options.description ? options.description : await getInputFromCommand('description');
-  let inputFile = options['input-file'] ? options['input-file'] : await getInputFromCommand('input-file');
-  if (inputFile.includes(';')) {
-    const inputFileArray = inputFile.split(';');
-    inputFile = '';
+export async function generateSampleReadmeMd(
+  packageName: string,
+  packagePath: string,
+  options: any,
+) {
+  const title = options.title ? options.title : await getInputFromCommand("title");
+  const description = options.description
+    ? options.description
+    : await getInputFromCommand("description");
+  let inputFile = options["input-file"]
+    ? options["input-file"]
+    : await getInputFromCommand("input-file");
+  if (inputFile.includes(";")) {
+    const inputFileArray = inputFile.split(";");
+    inputFile = "";
     for (const i of inputFileArray) {
-      inputFile = inputFile + '\n  -' + i;
+      inputFile = inputFile + "\n  -" + i;
     }
   }
-  const packageVersion = options['package-version']
-    ? options['package-version']
-    : await getInputFromCommand('package-version');
-  const credentialScopes = options['credential-scopes']
-    ? options['credential-scopes']
-    : await getInputFromCommand('credential-scopes');
+  const packageVersion = options["package-version"]
+    ? options["package-version"]
+    : await getInputFromCommand("package-version");
+  const credentialScopes = options["credential-scopes"]
+    ? options["credential-scopes"]
+    : await getInputFromCommand("credential-scopes");
   await writeReadmeMd(packageName, packagePath, {
     title: title,
     description: description,
@@ -68,26 +78,50 @@ export async function generateSampleReadmeMd(packageName: string, packagePath: s
 export async function modifyExistingReadmeMd(packageName: string, packagePath: string) {
   logger.info(`'${packageName}' is found in ${packagePath}, please confirm whether the value is expected?
 If yes, please input Enter directly. If not, please enter a new value.`);
+<<<<<<< HEAD
   const readme = await getConfigFromReadmeMd(path.join(packagePath, 'swagger', 'README.md'));
   const title = await getInputFromCommandWithDefaultValue('title', readme['title'] ?? '');
   const description = await getInputFromCommandWithDefaultValue('description', readme['description'] ?? '');
+=======
+  const readme = await getConfigFromReadmeMd(path.join(packagePath, "swagger", "README.md"));
+  const title = await getInputFromCommandWithDefaultValue("title", readme["title"]);
+  const description = await getInputFromCommandWithDefaultValue(
+    "description",
+    readme["description"],
+  );
+>>>>>>> origin/main
   let existingInputArray;
-  if (Array.isArray(readme['input-file'])) {
-    existingInputArray = readme['input-file'].join(';');
+  if (Array.isArray(readme["input-file"])) {
+    existingInputArray = readme["input-file"].join(";");
   } else {
+<<<<<<< HEAD
     existingInputArray = readme['input-file'] ?? '';
+=======
+    existingInputArray = readme["input-file"];
+>>>>>>> origin/main
   }
-  let inputFile = await getInputFromCommandWithDefaultValue('input-file', existingInputArray);
-  if (inputFile.includes(';')) {
-    const inputFileArray = inputFile.split(';');
-    inputFile = '';
+  let inputFile = await getInputFromCommandWithDefaultValue("input-file", existingInputArray);
+  if (inputFile.includes(";")) {
+    const inputFileArray = inputFile.split(";");
+    inputFile = "";
     for (const i of inputFileArray) {
-      inputFile = inputFile + '\n  -' + i;
+      inputFile = inputFile + "\n  -" + i;
     }
   }
 
+<<<<<<< HEAD
   const packageVersion = await getInputFromCommandWithDefaultValue('package-version', readme['package-version'] ?? '');
   const credentialScopes = await getInputFromCommandWithDefaultValue('credential-scopes', readme['credential-scopes'] ?? '');
+=======
+  const packageVersion = await getInputFromCommandWithDefaultValue(
+    "package-version",
+    readme["package-version"],
+  );
+  const credentialScopes = await getInputFromCommandWithDefaultValue(
+    "credential-scopes",
+    readme["credential-scopes"],
+  );
+>>>>>>> origin/main
 
   await writeReadmeMd(packageName, packagePath, {
     title: title,
@@ -98,7 +132,13 @@ If yes, please input Enter directly. If not, please enter a new value.`);
   });
 }
 
-export function replaceRequireInAutorestConfigurationFile(autorestConfigFilePath: string, ori: string, latest: string) {
-  const readmeMdContent = fs.readFileSync(autorestConfigFilePath, 'utf-8');
-  fs.writeFileSync(autorestConfigFilePath, readmeMdContent.replace(ori, latest), { encoding: 'utf-8' });
+export function replaceRequireInAutorestConfigurationFile(
+  autorestConfigFilePath: string,
+  ori: string,
+  latest: string,
+) {
+  const readmeMdContent = fs.readFileSync(autorestConfigFilePath, "utf-8");
+  fs.writeFileSync(autorestConfigFilePath, readmeMdContent.replace(ori, latest), {
+    encoding: "utf-8",
+  });
 }
