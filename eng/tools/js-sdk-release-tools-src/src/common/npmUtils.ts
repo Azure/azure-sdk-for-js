@@ -1,7 +1,6 @@
 import pkg from '@npmcli/package-json';
 const { load } = pkg;
 import { NpmPackageInfo } from './types.js';
-import * as fetch from 'npm-registry-fetch';
 import { getApiReviewPath, getApiReviewBasePath } from './utils.js';
 import shell from 'shelljs';
 import { writeFile } from 'fs';
@@ -45,9 +44,17 @@ export function getArtifactName(info: NpmPackageInfo) {
   return `${name}-${version}.tgz`;
 }
 
-export async function tryGetNpmView(packageName: string): Promise<{ [id: string]: unknown } | undefined> {
+export async function tryGetNpmView(
+  packageName: string,
+  registry?: string,
+): Promise<{ [id: string]: unknown } | undefined> {
   try {
-    return await fetch.json(`/${packageName}`);
+    const registryFlag = registry ? `--registry ${registry}` : '';
+    const result = shell.exec(`npm view ${packageName} --json ${registryFlag}`, { silent: true });
+    if (result.code !== 0) {
+      return undefined;
+    }
+    return JSON.parse(result.stdout) as { [id: string]: unknown };
   } catch (err) {
     return undefined;
   }

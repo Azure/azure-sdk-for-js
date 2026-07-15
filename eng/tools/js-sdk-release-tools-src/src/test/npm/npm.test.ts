@@ -13,12 +13,13 @@ describe('Npm package json', () => {
   });
 });
 
-describe('Npm view', () => {
-  test('View package version', async () => {
-    const nonExistResult = await tryGetNpmView('non-exist');
+describe("Npm view", () => {
+  test("View package version", async () => {
+    const registry = process.env.npm_config_registry;
+    const nonExistResult = await tryGetNpmView("non-exist", registry);
     expect(nonExistResult).toBeUndefined();
 
-    const normalResult = await tryGetNpmView('connect');
-    expect(normalResult!['name']).toBe('connect');
+    const normalResult = await tryGetNpmView("connect", registry);
+    expect(normalResult!["name"]).toBe("connect");
   });
 });
