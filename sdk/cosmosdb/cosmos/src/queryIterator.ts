@@ -116,8 +116,7 @@ export class QueryIterator<T> {
   ): AsyncIterable<FeedResponse<T>> {
     this.reset();
     this.queryPlanPromise = this.fetchQueryPlan(diagnosticNode);
-    await this.forceQueryPlanExecutionContext(diagnosticNode);
-    this.isInitialized = true;
+    await this.init(diagnosticNode);
     while (this.queryExecutionContext.hasMoreResults()) {
       let response: Response<any>;
       try {
@@ -468,12 +467,27 @@ export class QueryIterator<T> {
    * `enableQueryControl` is set. In query-control mode the continuation token is an SDK-internal
    * composite token the gateway cannot parse, so it must never reach the optimistic
    * {@link DefaultQueryExecutionContext} (which would forward it raw as `x-ms-continuation`).
+   *
+   * Partition-key-scoped queries (`options.partitionKey` set) are excluded unless `forceQueryPlan`
+   * explicitly overrides: the pipelined path routes by physical partition key range and does not
+   * send the logical partition-key header, so forcing it would return cross-partition results. Such
+   * single-partition queries also never emit the SDK-internal composite continuation token, so the
+   * resume issue this method guards against does not apply to them.
    */
   private shouldForceQueryPlan(): boolean {
     if (this.resourceType !== ResourceType.item) {
       return false;
     }
-    return this.options.forceQueryPlan === true || this.options.enableQueryControl === true;
+    // `forceQueryPlan` is an explicit advanced override — honor it even for partition-key queries.
+    if (this.options.forceQueryPlan === true) {
+      return true;
+    }
+    // Keep partition-key-scoped queries on the optimistic path so their logical partition-key
+    // scoping (and continuation token support) is preserved.
+    if (this.options.partitionKey !== undefined) {
+      return false;
+    }
+    return this.options.enableQueryControl === true;
   }
 
   /** Eagerly builds the pipelined execution context when {@link shouldForceQueryPlan} is true. */
