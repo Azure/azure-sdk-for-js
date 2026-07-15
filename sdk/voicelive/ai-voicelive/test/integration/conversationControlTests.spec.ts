@@ -36,7 +36,7 @@ import {
 } from "../../src/models/models.js";
 
 // API versions to exercise the full suite against (mirrors the Python SDK matrix).
-const apiVersions = ["2025-10-01", "2026-04-10"];
+const apiVersions = ["2025-10-01", "2026-07-15"];
 
 describe.runIf(isLiveMode()).each(apiVersions)(
   "Conversation Control Tests (api %s)",
