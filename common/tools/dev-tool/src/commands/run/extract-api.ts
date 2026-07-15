@@ -6,6 +6,7 @@ import type {
   IConfigDocModel,
   IConfigFile,
   ExtractorMessage,
+  ExtractorResult,
 } from "@microsoft/api-extractor";
 import {
   Extractor,
@@ -139,17 +140,11 @@ function customMessageCallback(message: ExtractorMessage): void {
   }
 }
 
-interface ExtractApiResult {
-  succeeded: boolean;
-  errorCount: number;
-  warningCount: number;
-}
-
 function extractApi(
   configObject: IConfigFile,
   configObjectFullPath: string,
   packageJsonFullPath: string,
-): ExtractApiResult {
+): ExtractorResult {
   const config = ExtractorConfig.prepare({
     configObject,
     configObjectFullPath,
@@ -166,11 +161,7 @@ function extractApi(
       `API Extractor completed with ${result.errorCount} errors and ${result.warningCount} warnings`,
     );
   }
-  return {
-    succeeded: result.succeeded,
-    errorCount: result.errorCount,
-    warningCount: result.warningCount,
-  };
+  return result;
 }
 
 function createApiDiff(
@@ -317,7 +308,7 @@ function isManagementPackage(packageName: string): boolean {
   return packageName.includes("/arm-");
 }
 
-const TRANSIENT_FS_CODES = new Set(["EBUSY", "EPERM", "ENOENT", "EMFILE", "EAGAIN", "UNKNOWN"]);
+const TRANSIENT_FS_CODES = new Set(["EBUSY", "EPERM", "EMFILE", "EAGAIN", "UNKNOWN"]);
 
 async function withFsRetry<T>(
   description: string,
