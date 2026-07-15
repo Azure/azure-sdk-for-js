@@ -26,11 +26,6 @@ export interface ConnectorOperations {
     options?: ConnectorListOptionalParams,
   ) => PagedAsyncIterableIterator<ConnectorResource>;
   /** Delete confluent connector by name */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     organizationName: string,
@@ -76,7 +71,6 @@ export interface ConnectorOperations {
     options?: ConnectorGetOptionalParams,
   ) => Promise<ConnectorResource>;
 }
-
 function _getConnector(context: ConfluentManagementContext) {
   return {
     list: (
@@ -177,7 +171,6 @@ function _getConnector(context: ConfluentManagementContext) {
       ),
   };
 }
-
 export function _getConnectorOperations(context: ConfluentManagementContext): ConnectorOperations {
   return {
     ..._getConnector(context),

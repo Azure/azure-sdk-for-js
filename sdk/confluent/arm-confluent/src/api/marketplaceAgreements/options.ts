@@ -9,6 +9,5 @@ export interface MarketplaceAgreementsCreateOptionalParams extends OperationOpti
   /** The request body */
   body?: ConfluentAgreementResource;
 }
-
 /** Optional parameters. */
 export interface MarketplaceAgreementsListOptionalParams extends OperationOptions {}

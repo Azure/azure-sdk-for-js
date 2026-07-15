@@ -443,7 +443,7 @@
 # PRLabel: %Mgmt
 /sdk/computeschedule/arm-computeschedule/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/confluent/arm-confluent/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
