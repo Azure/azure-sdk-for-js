@@ -16,10 +16,10 @@ export class NPM implements PackageManager {
 }
 
 export class PNPM implements PackageManager {
-  private useWorkspace: boolean = false;
+  private useWorkspace: boolean;
 
-  constructor() {
-    this.useWorkspace = existsSync(resolve(cwd(), "pnpm-workspace.yaml"));
+  constructor(useWorkspace = existsSync(resolve(cwd(), "pnpm-workspace.yaml"))) {
+    this.useWorkspace = useWorkspace;
   }
 
   installDevDependencyCommand = (packageNames: string[]): ProcessCommand => {

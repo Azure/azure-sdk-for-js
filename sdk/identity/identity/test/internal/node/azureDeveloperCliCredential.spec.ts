@@ -8,6 +8,7 @@ import {
 import type { GetTokenOptions } from "@azure/core-auth";
 import { processUtils } from "$internal/util/processUtils.js";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { ProcessError } from "@azure/core-process";
 
 describe("AzureDeveloperCliCredential (internal)", function () {
   let stdout: string = "";
@@ -124,6 +125,19 @@ describe("AzureDeveloperCliCredential (internal)", function () {
         assert.equal(error.message, azureDeveloperCliPublicErrorMessages.notInstalled);
       }
     }
+  });
+
+  it("returns a meaningful error when spawning Azure Developer CLI fails with ENOENT", async () => {
+    vi.mocked(processUtils.execFileWithResult).mockResolvedValueOnce({
+      stdout: "",
+      stderr: "",
+      error: new ProcessError("The executable could not be found.", { code: "ENOENT" }),
+    });
+
+    const credential = new AzureDeveloperCliCredential();
+    await expect(credential.getToken("https://service/.default")).rejects.toMatchObject({
+      message: azureDeveloperCliPublicErrorMessages.notInstalled,
+    });
   });
 
   it("get access token when azure cli not login in", async () => {

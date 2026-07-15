@@ -6,6 +6,7 @@ import fs from "node:fs";
 import { PlaywrightServiceInitialize } from "../src/initialize.js";
 import * as utils from "../src/utils.js";
 import { Languages } from "../src/constants.js";
+import { PNPM } from "../src/packageManager.js";
 
 vi.mock("../src/utils.js", async (importOriginal) => {
   const actual = (await importOriginal()) as any;
@@ -65,6 +66,7 @@ describe("PlaywrightServiceInitialize", () => {
       playwrightConfigFile: "playwright.config.ts",
       projectLanguage: "TypeScript",
     });
+    playwrightServiceInitialize["_packageManager"] = new PNPM(false);
     const executeCommandStub = vi.spyOn(utils, "executeCommand");
     await playwrightServiceInitialize["installServicePackage"]();
     expect(executeCommandStub).toHaveBeenCalled();
@@ -76,17 +78,17 @@ describe("PlaywrightServiceInitialize", () => {
 
   it("should install service package (pnpm - workspace)", async () => {
     process.env["npm_config_user_agent"] = "user-agent: pnpm";
-    vi.spyOn(fs, "existsSync").mockReturnValue(true);
     const playwrightServiceInitialize = new PlaywrightServiceInitialize({
       playwrightConfigFile: "playwright.config.ts",
       projectLanguage: "TypeScript",
     });
+    playwrightServiceInitialize["_packageManager"] = new PNPM(true);
     const executeCommandStub = vi.spyOn(utils, "executeCommand");
     await playwrightServiceInitialize["installServicePackage"]();
     expect(executeCommandStub).toHaveBeenCalled();
     expect(executeCommandStub).toHaveBeenCalledWith({
       command: "pnpm",
-      args: ["add", "--save-dev", "@azure/playwright", "@azure/identity"],
+      args: ["add", "--save-dev", "-w", "@azure/playwright", "@azure/identity"],
     });
   });
 

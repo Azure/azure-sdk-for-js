@@ -6,6 +6,7 @@ import { tmpdir } from "node:os";
 import path from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
 import { resolveExecutable } from "@azure/core-process";
+import { resolveWindowsCommandInterpreter } from "$internal/resolveExecutable.js";
 
 const temporaryDirectories: string[] = [];
 
@@ -140,4 +141,30 @@ describe("resolveExecutable", () => {
       }),
     ).toBeUndefined();
   });
+
+  it.runIf(process.platform === "win32").each(["\\Windows", "//server/share"])(
+    "rejects an untrusted Windows system root %s",
+    (systemRoot) => {
+      const originalSystemRoot = process.env.SystemRoot;
+      const originalComSpec = process.env.ComSpec;
+      try {
+        process.env.SystemRoot = systemRoot;
+        delete process.env.ComSpec;
+        expect(() => resolveWindowsCommandInterpreter({})).toThrow(
+          /trusted Windows system directory/i,
+        );
+      } finally {
+        if (originalSystemRoot === undefined) {
+          delete process.env.SystemRoot;
+        } else {
+          process.env.SystemRoot = originalSystemRoot;
+        }
+        if (originalComSpec === undefined) {
+          delete process.env.ComSpec;
+        } else {
+          process.env.ComSpec = originalComSpec;
+        }
+      }
+    },
+  );
 });

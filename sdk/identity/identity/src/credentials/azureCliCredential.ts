@@ -16,6 +16,7 @@ import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
 import { tracingClient } from "../util/tracing.js";
 import { checkSubscription } from "../util/subscriptionUtils.js";
 import { processUtils } from "../util/processUtils.js";
+import { isProcessError } from "@azure/core-process";
 
 const logger = credentialLogger("AzureCliCredential");
 
@@ -188,7 +189,9 @@ export class AzureCliCredential implements TokenCredential {
         const specificScope = obj.stderr?.match("(.*)az login --scope(.*)");
         const isLoginError = obj.stderr?.match("(.*)az login(.*)") && !specificScope;
         const isNotInstallError =
-          obj.stderr?.match("az:(.*)not found") || obj.stderr?.startsWith("'az' is not recognized");
+          obj.stderr?.match("az:(.*)not found") ||
+          obj.stderr?.startsWith("'az' is not recognized") ||
+          (obj.error && isProcessError(obj.error) && obj.error.code === "ENOENT");
 
         if (isNotInstallError) {
           const error = new CredentialUnavailableError(azureCliPublicErrorMessages.notInstalled);

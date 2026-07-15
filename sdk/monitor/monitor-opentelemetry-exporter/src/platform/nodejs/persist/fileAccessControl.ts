@@ -8,6 +8,23 @@ import { spawn, spawnSync } from "@azure/core-process";
 import { diag } from "@opentelemetry/api";
 import process from "node:process";
 
+const windowsDriveAbsolutePath = /^[a-z]:[\\/]/i;
+
+/**
+ * Resolves a trusted executable beneath a drive-qualified Windows system root.
+ *
+ * @internal
+ */
+export function getWindowsSystemExecutable(
+  systemRoot: string | undefined,
+  ...segments: string[]
+): string {
+  if (!systemRoot || !windowsDriveAbsolutePath.test(systemRoot)) {
+    throw new Error("A trusted Windows system directory could not be established.");
+  }
+  return path.win32.join(systemRoot, ...segments);
+}
+
 export class FileAccessControl {
   private static ACLED_DIRECTORIES: { [id: string]: boolean } = {};
   private static ACL_IDENTITY: string | null = null;
@@ -17,10 +34,7 @@ export class FileAccessControl {
 
   private static _getWindowsSystemExecutable(...segments: string[]): string {
     const systemRoot = process.env.SystemRoot ?? process.env.SYSTEMROOT;
-    if (!systemRoot || !path.win32.isAbsolute(systemRoot) || systemRoot.startsWith("\\\\")) {
-      throw new Error("A trusted Windows system directory could not be established.");
-    }
-    return path.win32.join(systemRoot, ...segments);
+    return getWindowsSystemExecutable(systemRoot, ...segments);
   }
 
   // Check if file access control could be enabled

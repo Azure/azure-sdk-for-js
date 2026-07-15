@@ -9,6 +9,7 @@ import type { ResolveExecutableOptions } from "./types.js";
 
 const WINDOWS_NATIVE_EXTENSIONS = [".exe", ".com"] as const;
 const WINDOWS_BATCH_EXTENSIONS = [".cmd", ".bat"] as const;
+const WINDOWS_DRIVE_ABSOLUTE_PATH = /^[a-z]:[\\/]/i;
 
 /**
  * Immutable values used to resolve and launch a process consistently.
@@ -289,6 +290,10 @@ function canonicalizeWindowsPath(filePath: string): string {
   }
 }
 
+function isWindowsDriveAbsolutePath(filePath: string): boolean {
+  return WINDOWS_DRIVE_ABSOLUTE_PATH.test(filePath);
+}
+
 /**
  * Resolves and validates the trusted Windows command interpreter.
  *
@@ -300,7 +305,7 @@ export function resolveWindowsCommandInterpreter(
 ): WindowsCommandInterpreter {
   const hostEnvironment = snapshotEnvironment(process.env);
   const systemRoot = getEnvironmentValue(hostEnvironment, "SystemRoot");
-  if (!systemRoot || !path.isAbsolute(systemRoot) || systemRoot.startsWith("\\\\")) {
+  if (!systemRoot || !isWindowsDriveAbsolutePath(systemRoot)) {
     throw new ProcessError("A trusted Windows system directory could not be established.", {
       code: "ERR_UNTRUSTED_COMMAND_INTERPRETER",
     });
@@ -316,7 +321,7 @@ export function resolveWindowsCommandInterpreter(
   const comSpec = getEnvironmentValue(hostEnvironment, "ComSpec");
   if (
     comSpec &&
-    (!path.isAbsolute(comSpec) ||
+    (!isWindowsDriveAbsolutePath(comSpec) ||
       canonicalizeWindowsPath(comSpec) !== canonicalizeWindowsPath(executablePath))
   ) {
     throw new ProcessError("The Windows command interpreter is not trusted.", {
@@ -327,7 +332,8 @@ export function resolveWindowsCommandInterpreter(
   const childSystemRoot = getEnvironmentValue(childEnvironment, "SystemRoot");
   if (
     childSystemRoot &&
-    canonicalizeWindowsPath(childSystemRoot) !== canonicalizeWindowsPath(systemRoot)
+    (!isWindowsDriveAbsolutePath(childSystemRoot) ||
+      canonicalizeWindowsPath(childSystemRoot) !== canonicalizeWindowsPath(systemRoot))
   ) {
     throw new ProcessError("The child environment contains an untrusted system directory.", {
       code: "ERR_UNTRUSTED_COMMAND_INTERPRETER",
@@ -337,7 +343,8 @@ export function resolveWindowsCommandInterpreter(
   const childComSpec = getEnvironmentValue(childEnvironment, "ComSpec");
   if (
     childComSpec &&
-    canonicalizeWindowsPath(childComSpec) !== canonicalizeWindowsPath(executablePath)
+    (!isWindowsDriveAbsolutePath(childComSpec) ||
+      canonicalizeWindowsPath(childComSpec) !== canonicalizeWindowsPath(executablePath))
   ) {
     throw new ProcessError("The child environment contains an untrusted command interpreter.", {
       code: "ERR_UNTRUSTED_COMMAND_INTERPRETER",
