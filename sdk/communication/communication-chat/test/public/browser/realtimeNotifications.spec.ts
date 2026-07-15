@@ -12,7 +12,7 @@ import type { ChatClient, ChatThreadClient } from "../../../src/index.js";
 import { createChatClient, createRecorder, createTestUser } from "../utils/recordedClient.js";
 import type { CommunicationIdentifier } from "@azure/communication-common";
 import type { CommunicationUserToken } from "@azure/communication-identity";
-import { describe, it, assert, expect, vi, beforeEach, beforeAll } from "vitest";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("Realtime Notifications", { skip: !isLiveMode() }, () => {
   let threadId: string | undefined;
@@ -23,29 +23,35 @@ describe("Realtime Notifications", { skip: !isLiveMode() }, () => {
   let testUser: CommunicationIdentifier;
   let testUser2: CommunicationIdentifier;
 
-  beforeAll(async (ctx) => {
+  beforeEach(async (ctx) => {
     recorder = await createRecorder(ctx);
     await recorder.setMatcher("HeaderlessMatcher");
-    communicationUserToken = await createTestUser(recorder);
-    chatClient = createChatClient(communicationUserToken.token, recorder);
-    testUser = communicationUserToken.user;
-    testUser2 = (await createTestUser(recorder)).user;
 
-    // Create a thread
-    const request = {
-      topic: "notification tests",
-      participants: [{ id: testUser }],
-    };
-    const chatThreadResult = await chatClient.createChatThread(request);
-    threadId = chatThreadResult.chatThread?.id;
+    // Perform the one-time thread setup on the first test only.
+    if (!communicationUserToken) {
+      communicationUserToken = await createTestUser(recorder);
+      chatClient = createChatClient(communicationUserToken.token, recorder);
+      testUser = communicationUserToken.user;
+      testUser2 = (await createTestUser(recorder)).user;
 
-    // Create ChatThreadClient
-    chatThreadClient = chatClient.getChatThreadClient(threadId!);
-  });
+      // Create a thread
+      const request = {
+        topic: "notification tests",
+        participants: [{ id: testUser }],
+      };
+      const chatThreadResult = await chatClient.createChatThread(request);
+      threadId = chatThreadResult.chatThread?.id;
 
-  beforeEach(async () => {
+      // Create ChatThreadClient
+      chatThreadClient = chatClient.getChatThreadClient(threadId!);
+    }
+
     // Start notifications
     await chatClient.startRealtimeNotifications();
+  });
+
+  afterEach(async () => {
+    await recorder.stop();
   });
 
   it("successfully stops realtime notifications", async () => {
