@@ -9,8 +9,6 @@ import type {
   WebPubSubClientCredential,
   GetClientAccessUrlOptions,
   WebPubSubClientOptions,
-  OnGroupStreamArgs,
-  GroupStreamHandler,
 } from "@azure/web-pubsub-client";
 import { WebPubSubClient } from "@azure/web-pubsub-client";
 import { WebPubSubServiceClient } from "@azure/web-pubsub";
@@ -67,32 +65,27 @@ async function main(): Promise<void> {
     console.log(`Stream receiver disconnected: ${e.message}`);
   });
 
-  const groupStreamFactory = (stream: OnGroupStreamArgs): GroupStreamHandler => {
+  const groupStreamSubscription = streamReceiver.onGroupStream(async (stream) => {
     const receivedParts: string[] = [];
-
-    return {
-      onMessage: (args) => {
-        receivedParts.push(formatStreamPart(args.data));
-
+    try {
+      for await (const message of stream) {
+        receivedParts.push(formatStreamPart(message.data));
         console.log(
-          `[stream:${stream.group}/${stream.streamId}] seq=${args.stream.streamSequenceId} ${formatPayload(args.data)}`,
+          `[stream:${stream.groupName}/${stream.streamId}] seq=${message.stream.streamSequenceId} ${formatPayload(message.data)}`,
         );
-      },
-      onComplete: () => {
-        console.log(
-          `[stream:${stream.group}/${stream.streamId}] completed with ${receivedParts.length} part(s): ${receivedParts.join("")}`,
-        );
-      },
-      onError: (args) => {
-        console.log(
-          `[stream:${stream.group}/${stream.streamId}] failed: ${args.error?.name}${args.error?.message ? ` - ${args.error.message}` : ""}`,
-        );
-      },
-    };
-  };
-  // Options are scoped to this registration (per handler); their effects (idle
+      }
+      console.log(
+        `[stream:${stream.groupName}/${stream.streamId}] completed with ${receivedParts.length} part(s): ${receivedParts.join("")}`,
+      );
+    } catch (err) {
+      const error = err as { name?: string; message?: string };
+      console.log(
+        `[stream:${stream.groupName}/${stream.streamId}] failed: ${error.name}${error.message ? ` - ${error.message}` : ""}`,
+      );
+    }
+  }, { handleFromStart: true });
+  // Options are scoped to this subscription; their effects (idle
   // timeout, handleFromStart gate) apply independently to each observed stream.
-  streamReceiver.onGroupStream(groupStreamFactory, { handleFromStart: true });
 
   await client.start();
   await streamReceiver.start();
@@ -132,7 +125,7 @@ async function main(): Promise<void> {
   await firstStream.end();
 
   await delay(1000);
-  streamReceiver.offGroupStream(groupStreamFactory);
+  await groupStreamSubscription.close();
   streamReceiver.stop();
   client.stop();
   console.log("Client stopped");

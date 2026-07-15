@@ -30,6 +30,15 @@ import type { CustomerSDKStatsMetrics } from "../../export/statsbeat/customerSDK
 
 const DEFAULT_BATCH_SEND_RETRY_INTERVAL_MS = 60_000;
 
+// Startup replay throttling. After a Breeze outage, every process restarting at once
+// (autoscale, rolling deploy) would otherwise drain its full on-disk backlog the moment
+// connectivity returns, creating a fleet-wide thundering herd against shared ingestion
+// stamps. A randomized startup offset de-synchronizes replay across replicas, and an
+// inter-batch delay (with jitter) spaces out the files each process drains.
+const STARTUP_REPLAY_MAX_DELAY_MS = 60_000;
+const REPLAY_BATCH_BASE_DELAY_MS = 200;
+const REPLAY_BATCH_JITTER_MS = 200;
+
 /**
  * Base sender class
  * @internal
@@ -39,6 +48,7 @@ export abstract class BaseSender {
   private numConsecutiveRedirects: number;
   private retryTimer: NodeJS.Timeout | null;
   private retryTimerDeadlineMs: number = 0;
+  private startupReplayTimer: NodeJS.Timeout | null = null;
   private networkStatsbeatMetrics: NetworkStatsbeatMetrics | undefined;
   private customerSDKStatsMetrics: CustomerSDKStatsMetrics | undefined;
   private longIntervalStatsbeatMetrics;
@@ -106,14 +116,15 @@ export abstract class BaseSender {
     this.persister = new FileSystemPersist(
       options.instrumentationKey,
       options.exporterOptions,
-      this.customerSDKStatsMetrics,
+      () => this.customerSDKStatsMetrics,
     );
     this.retryTimer = null;
     this.isStatsbeatSender = options.isStatsbeatSender || false;
 
-    // Send all persisted files from previous sessions immediately on startup
+    // Replay persisted files from previous sessions on startup. Schedule after a randomized
+    // delay so a fleet restarting together doesn't stampede Breeze the moment connectivity returns.
     if (!this.disableOfflineStorage) {
-      this.sendAllPersistedFiles();
+      this.scheduleStartupReplay();
     }
   }
 
@@ -414,7 +425,18 @@ export abstract class BaseSender {
       await this.persister.cleanExpiredFiles();
 
       let envelopes = (await this.persister.shift()) as Envelope[] | null;
+      let isFirstBatch = true;
       while (envelopes) {
+        // Space out batches (with jitter) so a single process doesn't fire its whole
+        // backlog at Breeze back-to-back. No delay before the first batch.
+        if (!isFirstBatch) {
+          const batchDelay = this.getReplayBatchDelayMs();
+          if (batchDelay > 0) {
+            await new Promise((resolve) => setTimeout(resolve, batchDelay));
+          }
+        }
+        isFirstBatch = false;
+
         const result = await this.exportEnvelopes(envelopes);
         if (result.code === ExportResultCode.FAILED) {
           // Stop processing — remaining files stay on disk for later retry
@@ -426,6 +448,31 @@ export abstract class BaseSender {
     } catch (err: any) {
       diag.warn(`Failed to read persisted files during startup`, err);
     }
+  }
+
+  /**
+   * Schedule startup replay of persisted files behind a randomized delay. The random
+   * offset breaks fleet-wide synchronization so co-located replicas don't all replay
+   * their backlog at the same instant after a shared outage or coordinated restart.
+   */
+  private scheduleStartupReplay(): void {
+    const delay = this.getStartupReplayDelayMs();
+    this.startupReplayTimer = setTimeout(() => {
+      this.startupReplayTimer = null;
+      this.sendAllPersistedFiles();
+    }, delay);
+    // Don't keep the event loop alive solely for startup replay
+    this.startupReplayTimer.unref();
+  }
+
+  // Randomized 0..max startup offset so fleet restarts don't replay in lockstep
+  protected getStartupReplayDelayMs(): number {
+    return Math.floor(Math.random() * STARTUP_REPLAY_MAX_DELAY_MS);
+  }
+
+  // Base spacing plus random jitter applied between persisted files during replay
+  protected getReplayBatchDelayMs(): number {
+    return REPLAY_BATCH_BASE_DELAY_MS + Math.floor(Math.random() * REPLAY_BATCH_JITTER_MS);
   }
 
   /**

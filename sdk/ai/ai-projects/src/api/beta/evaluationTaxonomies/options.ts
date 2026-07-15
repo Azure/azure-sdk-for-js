@@ -10,10 +10,7 @@ export interface BetaEvaluationTaxonomiesUpdateOptionalParams extends OperationO
 export interface BetaEvaluationTaxonomiesCreateOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface BetaEvaluationTaxonomiesDeleteOptionalParams extends OperationOptions {
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
-}
+export interface BetaEvaluationTaxonomiesDeleteOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface BetaEvaluationTaxonomiesListOptionalParams extends OperationOptions {
@@ -21,12 +18,7 @@ export interface BetaEvaluationTaxonomiesListOptionalParams extends OperationOpt
   inputName?: string;
   /** Filter by taxonomy input type. */
   inputType?: string;
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
 }
 
 /** Optional parameters. */
-export interface BetaEvaluationTaxonomiesGetOptionalParams extends OperationOptions {
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  clientRequestId?: string;
-}
+export interface BetaEvaluationTaxonomiesGetOptionalParams extends OperationOptions {}

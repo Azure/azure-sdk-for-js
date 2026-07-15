@@ -6944,10 +6944,7 @@ export function mongoDbProgressDeserializer(item: any): MongoDbProgress {
 
 /** Alias for MongoDbProgressUnion */
 export type MongoDbProgressUnion =
-  | MongoDbCollectionProgress
-  | MongoDbDatabaseProgress
-  | MongoDbMigrationProgress
-  | MongoDbProgress;
+  MongoDbCollectionProgress | MongoDbDatabaseProgress | MongoDbMigrationProgress | MongoDbProgress;
 
 export function mongoDbProgressUnionDeserializer(item: any): MongoDbProgressUnion {
   switch (item["resultType"]) {
@@ -12425,9 +12422,7 @@ export function migrateSsisTaskOutputDeserializer(item: any): MigrateSsisTaskOut
 
 /** Alias for MigrateSsisTaskOutputUnion */
 export type MigrateSsisTaskOutputUnion =
-  | MigrateSsisTaskOutputMigrationLevel
-  | MigrateSsisTaskOutputProjectLevel
-  | MigrateSsisTaskOutput;
+  MigrateSsisTaskOutputMigrationLevel | MigrateSsisTaskOutputProjectLevel | MigrateSsisTaskOutput;
 
 export function migrateSsisTaskOutputUnionDeserializer(item: any): MigrateSsisTaskOutputUnion {
   switch (item["resultType"]) {

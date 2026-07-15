@@ -10,6 +10,11 @@ import type {
   SignalHistoryRequest,
   SignalHistoryResponse,
   HealthReportRequest,
+  AddDataAnnotationRequest,
+  DataAnnotation,
+  GetDataAnnotationsRequest,
+  GetDataAnnotationsResponse,
+  GetSignalRecommendationsResponse,
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
@@ -21,12 +26,20 @@ import {
   signalHistoryRequestSerializer,
   signalHistoryResponseDeserializer,
   healthReportRequestSerializer,
+  addDataAnnotationRequestSerializer,
+  dataAnnotationDeserializer,
+  getDataAnnotationsRequestSerializer,
+  getDataAnnotationsResponseDeserializer,
+  getSignalRecommendationsResponseDeserializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
+  EntitiesGetSignalRecommendationsOptionalParams,
+  EntitiesGetDataAnnotationsOptionalParams,
+  EntitiesAddDataAnnotationOptionalParams,
   EntitiesIngestHealthReportOptionalParams,
   EntitiesGetSignalHistoryOptionalParams,
   EntitiesGetHistoryOptionalParams,
@@ -38,6 +51,196 @@ import type {
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import type { PollerLike, OperationState } from "@azure/core-lro";
+
+export function _getSignalRecommendationsSend(
+  context: Client,
+  resourceGroupName: string,
+  healthModelName: string,
+  entityName: string,
+  options: EntitiesGetSignalRecommendationsOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CloudHealth/healthmodels/{healthModelName}/entities/{entityName}/getSignalRecommendations{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      healthModelName: healthModelName,
+      entityName: entityName,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
+}
+
+export async function _getSignalRecommendationsDeserialize(
+  result: PathUncheckedResponse,
+): Promise<GetSignalRecommendationsResponse> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return getSignalRecommendationsResponseDeserializer(result.body);
+}
+
+/** Get recommended signal configurations for a given Entity (only applicable for Entities representing Azure resources) */
+export async function getSignalRecommendations(
+  context: Client,
+  resourceGroupName: string,
+  healthModelName: string,
+  entityName: string,
+  options: EntitiesGetSignalRecommendationsOptionalParams = { requestOptions: {} },
+): Promise<GetSignalRecommendationsResponse> {
+  const result = await _getSignalRecommendationsSend(
+    context,
+    resourceGroupName,
+    healthModelName,
+    entityName,
+    options,
+  );
+  return _getSignalRecommendationsDeserialize(result);
+}
+
+export function _getDataAnnotationsSend(
+  context: Client,
+  resourceGroupName: string,
+  healthModelName: string,
+  entityName: string,
+  body: GetDataAnnotationsRequest,
+  options: EntitiesGetDataAnnotationsOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CloudHealth/healthmodels/{healthModelName}/entities/{entityName}/getDataAnnotations{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      healthModelName: healthModelName,
+      entityName: entityName,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: getDataAnnotationsRequestSerializer(body),
+  });
+}
+
+export async function _getDataAnnotationsDeserialize(
+  result: PathUncheckedResponse,
+): Promise<GetDataAnnotationsResponse> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return getDataAnnotationsResponseDeserializer(result.body);
+}
+
+/** Retrieve data annotations for an entity */
+export async function getDataAnnotations(
+  context: Client,
+  resourceGroupName: string,
+  healthModelName: string,
+  entityName: string,
+  body: GetDataAnnotationsRequest,
+  options: EntitiesGetDataAnnotationsOptionalParams = { requestOptions: {} },
+): Promise<GetDataAnnotationsResponse> {
+  const result = await _getDataAnnotationsSend(
+    context,
+    resourceGroupName,
+    healthModelName,
+    entityName,
+    body,
+    options,
+  );
+  return _getDataAnnotationsDeserialize(result);
+}
+
+export function _addDataAnnotationSend(
+  context: Client,
+  resourceGroupName: string,
+  healthModelName: string,
+  entityName: string,
+  body: AddDataAnnotationRequest,
+  options: EntitiesAddDataAnnotationOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CloudHealth/healthmodels/{healthModelName}/entities/{entityName}/addDataAnnotation{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      healthModelName: healthModelName,
+      entityName: entityName,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: addDataAnnotationRequestSerializer(body),
+  });
+}
+
+export async function _addDataAnnotationDeserialize(
+  result: PathUncheckedResponse,
+): Promise<DataAnnotation> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return dataAnnotationDeserializer(result.body);
+}
+
+/** Add a data annotation to an entity */
+export async function addDataAnnotation(
+  context: Client,
+  resourceGroupName: string,
+  healthModelName: string,
+  entityName: string,
+  body: AddDataAnnotationRequest,
+  options: EntitiesAddDataAnnotationOptionalParams = { requestOptions: {} },
+): Promise<DataAnnotation> {
+  const result = await _addDataAnnotationSend(
+    context,
+    resourceGroupName,
+    healthModelName,
+    entityName,
+    body,
+    options,
+  );
+  return _addDataAnnotationDeserialize(result);
+}
 
 export function _ingestHealthReportSend(
   context: Client,
@@ -54,7 +257,7 @@ export function _ingestHealthReportSend(
       resourceGroupName: resourceGroupName,
       healthModelName: healthModelName,
       entityName: entityName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -116,7 +319,7 @@ export function _getSignalHistorySend(
       resourceGroupName: resourceGroupName,
       healthModelName: healthModelName,
       entityName: entityName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -181,7 +384,7 @@ export function _getHistorySend(
       resourceGroupName: resourceGroupName,
       healthModelName: healthModelName,
       entityName: entityName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -243,7 +446,7 @@ export function _listByHealthModelSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       healthModelName: healthModelName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
       timestamp: !options?.timestamp ? options?.timestamp : options?.timestamp.toISOString(),
     },
     {
@@ -287,7 +490,7 @@ export function listByHealthModel(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-01-01-preview",
+      apiVersion: context.apiVersion ?? "2026-05-01-preview",
     },
   );
 }
@@ -306,7 +509,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       healthModelName: healthModelName,
       entityName: entityName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -343,7 +546,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, healthModelName, entityName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-01-01-preview",
+    apiVersion: context.apiVersion ?? "2026-05-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -362,7 +565,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       healthModelName: healthModelName,
       entityName: entityName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -412,7 +615,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-01-01-preview",
+    apiVersion: context.apiVersion ?? "2026-05-01-preview",
   }) as PollerLike<OperationState<Entity>, Entity>;
 }
 
@@ -430,7 +633,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       healthModelName: healthModelName,
       entityName: entityName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

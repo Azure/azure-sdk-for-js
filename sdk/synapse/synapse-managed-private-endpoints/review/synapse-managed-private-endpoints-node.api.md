@@ -6,7 +6,11 @@
 
 import type * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { RestError } from '@azure/core-rest-pipeline';
+
+export { isRestError }
 
 // @public
 export interface ManagedPrivateEndpoint {
@@ -97,6 +101,8 @@ export interface ManagedPrivateEndpointsListOptionalParams extends coreClient.Op
 
 // @public
 export type ManagedPrivateEndpointsListResponse = ManagedPrivateEndpointListResponse;
+
+export { RestError }
 
 // (No @packageDocumentation comment for this package)
 

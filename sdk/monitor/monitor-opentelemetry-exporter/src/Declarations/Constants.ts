@@ -252,13 +252,7 @@ export const PerformanceToQuickPulseCounter: { [key: string]: QuickPulseCounter 
  * @internal
  */
 export type QuickPulseDocumentType =
-  | "Event"
-  | "Exception"
-  | "Trace"
-  | "Metric"
-  | "Request"
-  | "RemoteDependency"
-  | "Availability";
+  "Event" | "Exception" | "Trace" | "Metric" | "Request" | "RemoteDependency" | "Availability";
 /**
  * QuickPulse telemetry types.
  * @internal

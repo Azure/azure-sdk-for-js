@@ -4,7 +4,7 @@
 import { describe, it, assert, vi } from "vitest";
 import type { PipelinePolicy, PipelineResponse, SendRequest } from "@azure/core-rest-pipeline";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
-import createClient from "../../src/confidentialLedger.js";
+import createClient from "../../src/confidentialLedgerCustomized.js";
 
 /**
  * Helper to extract the merge-patch content type policy from a client's pipeline.

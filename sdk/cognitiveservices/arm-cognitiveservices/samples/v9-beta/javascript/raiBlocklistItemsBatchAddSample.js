@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to batch operation to add blocklist items.
  *
  * @summary batch operation to add blocklist items.
- * x-ms-original-file: 2026-03-15-preview/AddRaiBlocklistItems.json
+ * x-ms-original-file: 2026-05-15-preview/AddRaiBlocklistItems.json
  */
 async function addRaiBlocklistItems() {
   const credential = new DefaultAzureCredential();

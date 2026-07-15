@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes the specified encryptionScope associated with the Cognitive Services account.
  *
  * @summary deletes the specified encryptionScope associated with the Cognitive Services account.
- * x-ms-original-file: 2026-03-15-preview/DeleteEncryptionScope.json
+ * x-ms-original-file: 2026-05-15-preview/DeleteEncryptionScope.json
  */
 async function deleteEncryptionScope(): Promise<void> {
   const credential = new DefaultAzureCredential();

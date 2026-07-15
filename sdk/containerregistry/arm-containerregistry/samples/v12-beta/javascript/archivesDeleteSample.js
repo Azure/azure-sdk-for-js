@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes a archive from a container registry.
  *
  * @summary deletes a archive from a container registry.
- * x-ms-original-file: 2026-01-01-preview/ArchiveDelete.json
+ * x-ms-original-file: 2026-03-01-preview/ArchiveDelete.json
  */
 async function archiveDelete() {
   const credential = new DefaultAzureCredential();

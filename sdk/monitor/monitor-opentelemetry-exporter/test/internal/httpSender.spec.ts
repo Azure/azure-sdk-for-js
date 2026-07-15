@@ -3,6 +3,7 @@
 
 import type { AccessToken, TokenCredential } from "@azure/core-auth";
 import { HttpSender } from "../../src/platform/nodejs/httpSender.js";
+import { BaseSender } from "../../src/platform/nodejs/baseSender.js";
 import { DEFAULT_BREEZE_ENDPOINT } from "../../src/Declarations/Constants.js";
 import {
   successfulBreezeResponse,
@@ -14,7 +15,7 @@ import nock from "nock";
 import type { PipelinePolicy, Pipeline } from "@azure/core-rest-pipeline";
 import { createEmptyPipeline } from "@azure/core-rest-pipeline";
 import { ExportResultCode } from "@opentelemetry/core";
-import { describe, it, assert, afterAll } from "vitest";
+import { describe, it, assert, afterAll, beforeEach, afterEach, vi } from "vitest";
 import { delay } from "@azure/core-util";
 import { AzureMonitorTraceExporter } from "../../src/export/trace.js";
 
@@ -42,6 +43,18 @@ class TestTokenCredential implements TokenCredential {
 describe("HttpSender", () => {
   const scope = nock(DEFAULT_BREEZE_ENDPOINT).persist().post("/v2.1/track");
   nock.disableNetConnect();
+
+  // These senders all share an on-disk persister (same instrumentation key). The
+  // randomized startup-replay timer would otherwise fire mid-suite and drain that
+  // shared persister, stealing envelopes these tests assert on. Startup replay is
+  // covered explicitly in baseSender.spec.ts, so disable it here for determinism.
+  beforeEach(() => {
+    vi.spyOn(BaseSender.prototype as any, "scheduleStartupReplay").mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
 
   afterAll(() => {
     nock.cleanAll();

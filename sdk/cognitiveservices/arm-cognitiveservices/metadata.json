@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Microsoft.CognitiveServices": "2026-03-15-preview"
+    "Microsoft.CognitiveServices": "2026-05-15-preview"
   },
-  "emitterVersion": "0.53.2",
+  "emitterVersion": "0.54.2",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Microsoft.CognitiveServices",
     "CrossLanguageDefinitionId": {
@@ -82,6 +82,7 @@
       "@azure/arm-cognitiveservices!PrivateEndpointConnectionListResult:interface": "Microsoft.CognitiveServices.PrivateEndpointConnectionListResult",
       "@azure/arm-cognitiveservices!Deployment:interface": "Microsoft.CognitiveServices.Deployment",
       "@azure/arm-cognitiveservices!DeploymentProperties:interface": "Microsoft.CognitiveServices.DeploymentProperties",
+      "@azure/arm-cognitiveservices!DeploymentSpeculativeDecoding:interface": "Microsoft.CognitiveServices.DeploymentSpeculativeDecoding",
       "@azure/arm-cognitiveservices!DeploymentScaleSettings:interface": "Microsoft.CognitiveServices.DeploymentScaleSettings",
       "@azure/arm-cognitiveservices!DeploymentCapacitySettings:interface": "Microsoft.CognitiveServices.DeploymentCapacitySettings",
       "@azure/arm-cognitiveservices!DeploymentRouting:interface": "Microsoft.CognitiveServices.DeploymentRouting",
@@ -108,6 +109,15 @@
       "@azure/arm-cognitiveservices!RaiBlocklistConfig:interface": "Microsoft.CognitiveServices.RaiBlocklistConfig",
       "@azure/arm-cognitiveservices!SafetyProviderConfig:interface": "Microsoft.CognitiveServices.SafetyProviderConfig",
       "@azure/arm-cognitiveservices!RaiSafetyProviderConfig:interface": "Microsoft.CognitiveServices.RaiSafetyProviderConfig",
+      "@azure/arm-cognitiveservices!RaiEgressPolicyConfig:interface": "Microsoft.CognitiveServices.RaiEgressPolicyConfig",
+      "@azure/arm-cognitiveservices!RaiEgressRule:interface": "Microsoft.CognitiveServices.RaiEgressRule",
+      "@azure/arm-cognitiveservices!RaiEgressRuleMatch:interface": "Microsoft.CognitiveServices.RaiEgressRuleMatch",
+      "@azure/arm-cognitiveservices!RaiEgressRuleAction:interface": "Microsoft.CognitiveServices.RaiEgressRuleAction",
+      "@azure/arm-cognitiveservices!RaiEgressHeaderTransform:interface": "Microsoft.CognitiveServices.RaiEgressHeaderTransform",
+      "@azure/arm-cognitiveservices!RaiEgressHeaderValueRef:interface": "Microsoft.CognitiveServices.RaiEgressHeaderValueRef",
+      "@azure/arm-cognitiveservices!RaiEgressSecretRef:interface": "Microsoft.CognitiveServices.RaiEgressSecretRef",
+      "@azure/arm-cognitiveservices!RaiEgressManagedIdentityRef:interface": "Microsoft.CognitiveServices.RaiEgressManagedIdentityRef",
+      "@azure/arm-cognitiveservices!RaiEgressRewriteTarget:interface": "Microsoft.CognitiveServices.RaiEgressRewriteTarget",
       "@azure/arm-cognitiveservices!RaiPolicyListResult:interface": "Microsoft.CognitiveServices.RaiPolicyListResult",
       "@azure/arm-cognitiveservices!RaiBlocklistItem:interface": "Microsoft.CognitiveServices.RaiBlocklistItem",
       "@azure/arm-cognitiveservices!RaiBlocklistItemProperties:interface": "Microsoft.CognitiveServices.RaiBlocklistItemProperties",
@@ -300,6 +310,12 @@
       "@azure/arm-cognitiveservices!KnownContentLevel:enum": "Microsoft.CognitiveServices.ContentLevel",
       "@azure/arm-cognitiveservices!KnownRaiPolicyContentSource:enum": "Microsoft.CognitiveServices.RaiPolicyContentSource",
       "@azure/arm-cognitiveservices!KnownRaiActionType:enum": "Microsoft.CognitiveServices.RaiActionType",
+      "@azure/arm-cognitiveservices!KnownRaiEgressMode:enum": "Microsoft.CognitiveServices.RaiEgressMode",
+      "@azure/arm-cognitiveservices!KnownRaiEgressDefaultAction:enum": "Microsoft.CognitiveServices.RaiEgressDefaultAction",
+      "@azure/arm-cognitiveservices!KnownRaiEgressRuleType:enum": "Microsoft.CognitiveServices.RaiEgressRuleType",
+      "@azure/arm-cognitiveservices!KnownRaiEgressRuleActionType:enum": "Microsoft.CognitiveServices.RaiEgressRuleActionType",
+      "@azure/arm-cognitiveservices!KnownRaiEgressHeaderOperation:enum": "Microsoft.CognitiveServices.RaiEgressHeaderOperation",
+      "@azure/arm-cognitiveservices!KnownRaiEgressScheme:enum": "Microsoft.CognitiveServices.RaiEgressScheme",
       "@azure/arm-cognitiveservices!KnownNspAccessRuleDirection:enum": "Microsoft.CognitiveServices.NspAccessRuleDirection",
       "@azure/arm-cognitiveservices!KnownDefenderForAISettingState:enum": "Microsoft.CognitiveServices.DefenderForAISettingState",
       "@azure/arm-cognitiveservices!KnownConnectionAuthType:enum": "Microsoft.CognitiveServices.ConnectionAuthType",

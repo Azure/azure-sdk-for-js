@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes the specified commitmentPlan associated with the Cognitive Services account.
  *
  * @summary deletes the specified commitmentPlan associated with the Cognitive Services account.
- * x-ms-original-file: 2026-03-15-preview/DeleteCommitmentPlan.json
+ * x-ms-original-file: 2026-05-15-preview/DeleteCommitmentPlan.json
  */
 async function deleteCommitmentPlan() {
   const credential = new DefaultAzureCredential();

@@ -1,9 +1,9 @@
 {
   "name": "@azure/arm-privatedns",
-  "version": "4.0.0-beta.1",
+  "version": "4.0.0-beta.2",
   "description": "A generated SDK for PrivateDnsManagementClient.",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "sideEffects": false,
   "autoPublish": false,

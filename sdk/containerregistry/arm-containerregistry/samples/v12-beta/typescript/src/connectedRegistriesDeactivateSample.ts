@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deactivates the connected registry instance.
  *
  * @summary deactivates the connected registry instance.
- * x-ms-original-file: 2026-01-01-preview/ConnectedRegistryDeactivate.json
+ * x-ms-original-file: 2026-03-01-preview/ConnectedRegistryDeactivate.json
  */
 async function connectedRegistryDeactivate(): Promise<void> {
   const credential = new DefaultAzureCredential();

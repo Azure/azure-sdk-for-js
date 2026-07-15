@@ -58,6 +58,15 @@ jobs:
         # Add a default so the job doesn't fail when the matrix is empty
         container: $[ variables['Container'] ]
 
+    templateContext:
+      # See eng/common/pipelines/templates/steps/upload-llm-artifacts.yml for corresponding file copy step
+      outputs:
+        - output: pipelineArtifact
+          targetPath: '$(Build.ArtifactStagingDirectory)/llm-artifacts'
+          artifactName: "LLM Artifacts - $(System.JobName) - $(System.JobAttempt)"
+          condition: eq(variables['uploadLlmArtifacts'], 'true')
+          sbomEnabled: false
+
     variables:
       - template: ../variables/globals.yml
 

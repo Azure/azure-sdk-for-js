@@ -2055,7 +2055,7 @@ export interface Server extends TrackedResource {
     sku?: Sku;
     sourceServerResourceId?: string;
     readonly state?: ServerState;
-    storage?: Storage;
+    storage?: Storage_2;
     version?: PostgresMajorVersion;
 }
 
@@ -2084,7 +2084,7 @@ export interface ServerForPatch {
     replica?: Replica;
     replicationRole?: ReplicationRole;
     sku?: SkuForPatch;
-    storage?: Storage;
+    storage?: Storage_2;
     tags?: Record<string, string>;
     version?: PostgresMajorVersion;
 }
@@ -2111,7 +2111,7 @@ export interface ServerProperties {
     replicationRole?: ReplicationRole;
     sourceServerResourceId?: string;
     readonly state?: ServerState;
-    storage?: Storage;
+    storage?: Storage_2;
     version?: PostgresMajorVersion;
 }
 
@@ -2130,7 +2130,7 @@ export interface ServerPropertiesForPatch {
     network?: Network;
     replica?: Replica;
     replicationRole?: ReplicationRole;
-    storage?: Storage;
+    storage?: Storage_2;
     version?: PostgresMajorVersion;
 }
 
@@ -2344,7 +2344,7 @@ export interface StartMajorVersionUpgradePrecheckResponse {
 }
 
 // @public
-export interface Storage {
+interface Storage_2 {
     autoGrow?: StorageAutoGrow;
     iops?: number;
     storageSizeGB?: number;
@@ -2352,6 +2352,7 @@ export interface Storage {
     tier?: AzureManagedDiskPerformanceTier;
     type?: StorageType;
 }
+export { Storage_2 as Storage }
 
 // @public
 export type StorageAutoGrow = string;

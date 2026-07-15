@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes the specified workbench associated with the project.
  *
  * @summary deletes the specified workbench associated with the project.
- * x-ms-original-file: 2026-03-15-preview/DeleteWorkbench.json
+ * x-ms-original-file: 2026-05-15-preview/DeleteWorkbench.json
  */
 async function deleteWorkbench() {
   const credential = new DefaultAzureCredential();

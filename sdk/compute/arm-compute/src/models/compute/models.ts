@@ -8514,10 +8514,7 @@ export function maintenanceRedeployStatusDeserializer(item: any): MaintenanceRed
 
 /** The Last Maintenance Operation Result Code. */
 export type MaintenanceOperationResultCodeTypes =
-  | "None"
-  | "RetryLater"
-  | "MaintenanceAborted"
-  | "MaintenanceCompleted";
+  "None" | "RetryLater" | "MaintenanceAborted" | "MaintenanceCompleted";
 
 export function diskInstanceViewArrayDeserializer(result: Array<DiskInstanceView>): any[] {
   return result.map((item) => {
@@ -10779,9 +10776,7 @@ export function dedicatedHostPropertiesDeserializer(item: any): DedicatedHostPro
 
 /** Specifies the software license type that will be applied to the VMs deployed on the dedicated host. Possible values are: **None,** **Windows_Server_Hybrid,** **Windows_Server_Perpetual.** The default value is: **None.** */
 export type DedicatedHostLicenseTypes =
-  | "None"
-  | "Windows_Server_Hybrid"
-  | "Windows_Server_Perpetual";
+  "None" | "Windows_Server_Hybrid" | "Windows_Server_Perpetual";
 
 /** Specifies information about the dedicated host. Only tags, autoReplaceOnFailure and licenseType may be updated. */
 export interface DedicatedHostUpdate extends UpdateResource {

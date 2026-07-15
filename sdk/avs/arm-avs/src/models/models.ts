@@ -1650,9 +1650,7 @@ export function hostPropertiesDeserializer(item: any): HostProperties {
 
 /** Alias for HostPropertiesUnion */
 export type HostPropertiesUnion =
-  | GeneralHostProperties
-  | SpecializedHostProperties
-  | HostProperties;
+  GeneralHostProperties | SpecializedHostProperties | HostProperties;
 
 export function hostPropertiesUnionDeserializer(item: any): HostPropertiesUnion {
   switch (item.kind) {
@@ -3080,9 +3078,7 @@ export function placementPolicyPropertiesDeserializer(item: any): PlacementPolic
 
 /** Alias for PlacementPolicyPropertiesUnion */
 export type PlacementPolicyPropertiesUnion =
-  | VmPlacementPolicyProperties
-  | VmHostPlacementPolicyProperties
-  | PlacementPolicyProperties;
+  VmPlacementPolicyProperties | VmHostPlacementPolicyProperties | PlacementPolicyProperties;
 
 export function placementPolicyPropertiesUnionSerializer(
   item: PlacementPolicyPropertiesUnion,
@@ -5759,9 +5755,7 @@ export function workloadNetworkDhcpEntityDeserializer(item: any): WorkloadNetwor
 
 /** Alias for WorkloadNetworkDhcpEntityUnion */
 export type WorkloadNetworkDhcpEntityUnion =
-  | WorkloadNetworkDhcpServer
-  | WorkloadNetworkDhcpRelay
-  | WorkloadNetworkDhcpEntity;
+  WorkloadNetworkDhcpServer | WorkloadNetworkDhcpRelay | WorkloadNetworkDhcpEntity;
 
 export function workloadNetworkDhcpEntityUnionSerializer(
   item: WorkloadNetworkDhcpEntityUnion,

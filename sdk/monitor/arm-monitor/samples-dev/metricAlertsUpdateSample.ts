@@ -1,24 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Update an metric alert definition.
- *
- * @summary Update an metric alert definition.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2018-03-01/examples/UpdateMetricAlert.json
- */
-
-import type { MetricAlertResourcePatch } from "@azure/arm-monitor";
 import { MonitorClient } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to update an metric alert definition.
+ *
+ * @summary update an metric alert definition.
+ * x-ms-original-file: 2024-03-01-preview/UpdateMetricAlert.json
+ */
 async function createOrUpdateAnAlertRule(): Promise<void> {
-  const subscriptionId =
-    process.env["MONITOR_SUBSCRIPTION_ID"] || "14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7";
-  const resourceGroupName = process.env["MONITOR_RESOURCE_GROUP"] || "gigtest";
-  const ruleName = "chiricutin";
-  const parameters: MetricAlertResourcePatch = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7";
+  const client = new MonitorClient(credential, subscriptionId);
+  const result = await client.metricAlerts.update("gigtest", "chiricutin", {
     description: "This is the description of the rule1",
     actions: [
       {
@@ -43,17 +39,14 @@ async function createOrUpdateAnAlertRule(): Promise<void> {
       odataType: "Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria",
     },
     enabled: true,
-    evaluationFrequency: "Pt1m",
+    evaluationFrequency: "PT1M",
     scopes: [
       "/subscriptions/14ddf0c5-77c5-4b53-84f6-e1fa43ad68f7/resourceGroups/gigtest/providers/Microsoft.Compute/virtualMachines/gigwadme",
     ],
     severity: 3,
+    windowSize: "PT15M",
     tags: {},
-    windowSize: "Pt15m",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new MonitorClient(credential, subscriptionId);
-  const result = await client.metricAlerts.update(resourceGroupName, ruleName, parameters);
+  });
   console.log(result);
 }
 

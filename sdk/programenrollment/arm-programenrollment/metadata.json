@@ -1,0 +1,40 @@
+{
+  "apiVersions": {
+    "Microsoft.ProgramEnrollment": "2026-03-01-preview"
+  },
+  "emitterVersion": "0.54.1",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "Microsoft.ProgramEnrollment",
+    "CrossLanguageDefinitionId": {
+      "@azure/arm-programenrollment!OperationListResult:interface": "Azure.ResourceManager.CommonTypes.OperationListResult",
+      "@azure/arm-programenrollment!Operation:interface": "Azure.ResourceManager.CommonTypes.Operation",
+      "@azure/arm-programenrollment!OperationDisplay:interface": "Azure.ResourceManager.CommonTypes.OperationDisplay",
+      "@azure/arm-programenrollment!ErrorResponse:interface": "Azure.ResourceManager.CommonTypes.ErrorResponse",
+      "@azure/arm-programenrollment!ErrorDetail:interface": "Azure.ResourceManager.CommonTypes.ErrorDetail",
+      "@azure/arm-programenrollment!ErrorAdditionalInfo:interface": "Azure.ResourceManager.CommonTypes.ErrorAdditionalInfo",
+      "@azure/arm-programenrollment!EduEnrollment:interface": "Microsoft.ProgramEnrollment.EduEnrollment",
+      "@azure/arm-programenrollment!EduEnrollmentProperties:interface": "Microsoft.ProgramEnrollment.EduEnrollmentProperties",
+      "@azure/arm-programenrollment!DomainGroup:interface": "Microsoft.ProgramEnrollment.DomainGroup",
+      "@azure/arm-programenrollment!TrackedResource:interface": "Azure.ResourceManager.CommonTypes.TrackedResource",
+      "@azure/arm-programenrollment!Resource:interface": "Azure.ResourceManager.CommonTypes.Resource",
+      "@azure/arm-programenrollment!SystemData:interface": "Azure.ResourceManager.CommonTypes.SystemData",
+      "@azure/arm-programenrollment!ArmOperationStatusResourceProvisioningState:interface": "Azure.ResourceManager.ArmOperationStatus",
+      "@azure/arm-programenrollment!EduEnrollmentPatch:interface": "Microsoft.ProgramEnrollment.EduEnrollmentPatch",
+      "@azure/arm-programenrollment!EduEnrollmentListResult:interface": "Azure.ResourceManager.ResourceListResult",
+      "@azure/arm-programenrollment!KnownOrigin:enum": "Azure.ResourceManager.CommonTypes.Origin",
+      "@azure/arm-programenrollment!KnownActionType:enum": "Azure.ResourceManager.CommonTypes.ActionType",
+      "@azure/arm-programenrollment!KnownProvisioningState:enum": "Microsoft.ProgramEnrollment.ProvisioningState",
+      "@azure/arm-programenrollment!KnownDomainGroupState:enum": "Microsoft.ProgramEnrollment.DomainGroupState",
+      "@azure/arm-programenrollment!KnowncreatedByType:enum": "Azure.ResourceManager.CommonTypes.createdByType",
+      "@azure/arm-programenrollment!KnownResourceProvisioningState:enum": "Azure.ResourceManager.ResourceProvisioningState",
+      "@azure/arm-programenrollment!KnownVersions:enum": "Microsoft.ProgramEnrollment.Versions",
+      "@azure/arm-programenrollment!EduEnrollmentsOperations#listBySubscription:member": "Microsoft.ProgramEnrollment.EduEnrollments.listBySubscription",
+      "@azure/arm-programenrollment!EduEnrollmentsOperations#listByResourceGroup:member": "Microsoft.ProgramEnrollment.EduEnrollments.listByResourceGroup",
+      "@azure/arm-programenrollment!EduEnrollmentsOperations#delete:member": "Microsoft.ProgramEnrollment.EduEnrollments.delete",
+      "@azure/arm-programenrollment!EduEnrollmentsOperations#update:member": "Microsoft.ProgramEnrollment.EduEnrollments.update",
+      "@azure/arm-programenrollment!EduEnrollmentsOperations#createOrUpdate:member": "Microsoft.ProgramEnrollment.EduEnrollments.createOrUpdate",
+      "@azure/arm-programenrollment!EduEnrollmentsOperations#get:member": "Microsoft.ProgramEnrollment.EduEnrollments.get",
+      "@azure/arm-programenrollment!OperationsOperations#list:member": "Azure.ResourceManager.Operations.list"
+    }
+  }
+}

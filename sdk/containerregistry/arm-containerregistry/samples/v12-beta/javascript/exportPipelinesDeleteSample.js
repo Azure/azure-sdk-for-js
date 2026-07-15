@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes an export pipeline from a container registry.
  *
  * @summary deletes an export pipeline from a container registry.
- * x-ms-original-file: 2026-01-01-preview/ExportPipelineDelete.json
+ * x-ms-original-file: 2026-03-01-preview/ExportPipelineDelete.json
  */
 async function exportPipelineDelete() {
   const credential = new DefaultAzureCredential();

@@ -1508,8 +1508,7 @@ export function fabricAgentModelCustomPropertiesDeserializer(
 
 /** Alias for FabricAgentModelCustomPropertiesUnion */
 export type FabricAgentModelCustomPropertiesUnion =
-  | VMwareFabricAgentModelCustomProperties
-  | FabricAgentModelCustomProperties;
+  VMwareFabricAgentModelCustomProperties | FabricAgentModelCustomProperties;
 
 export function fabricAgentModelCustomPropertiesUnionSerializer(
   item: FabricAgentModelCustomPropertiesUnion,

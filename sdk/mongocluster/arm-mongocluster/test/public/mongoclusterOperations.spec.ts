@@ -35,8 +35,8 @@ describe("MongoCluster test", () => {
       recorder.configureClientOptions({}),
     );
     location = "eastus";
-    resourceGroup = "czwjstest";
-    resourcename = "testmongocluster0603";
+    resourceGroup = "sdkstable0626";
+    resourcename = "testmongocluster0626";
     fireWallName = "testfilerule";
   });
 

@@ -1190,11 +1190,7 @@ export function turnDetectionDeserializer(item: any): TurnDetection {
 
 /** Alias for TurnDetectionUnion */
 export type TurnDetectionUnion =
-  | ServerVad
-  | AzureSemanticVad
-  | AzureSemanticVadEn
-  | AzureSemanticVadMultilingual
-  | TurnDetection;
+  ServerVad | AzureSemanticVad | AzureSemanticVadEn | AzureSemanticVadMultilingual | TurnDetection;
 
 export function turnDetectionUnionSerializer(item: TurnDetectionUnion): any {
   switch (item.type) {
@@ -2844,10 +2840,7 @@ export function messageItemDeserializer(item: any): MessageItem {
 
 /** Alias for MessageItemUnion */
 export type MessageItemUnion =
-  | AssistantMessageItem
-  | SystemMessageItem
-  | UserMessageItem
-  | MessageItem;
+  AssistantMessageItem | SystemMessageItem | UserMessageItem | MessageItem;
 
 export function messageItemUnionSerializer(item: MessageItemUnion): any {
   switch (item.role) {
@@ -2929,10 +2922,7 @@ export function messageContentPartDeserializer(item: any): MessageContentPart {
 
 /** Alias for MessageContentPartUnion */
 export type MessageContentPartUnion =
-  | InputTextContentPart
-  | InputAudioContentPart
-  | OutputTextContentPart
-  | MessageContentPart;
+  InputTextContentPart | InputAudioContentPart | OutputTextContentPart | MessageContentPart;
 
 export function messageContentPartUnionSerializer(item: MessageContentPartUnion): any {
   switch (item.type) {
@@ -3608,9 +3598,7 @@ export function interimResponseConfigBaseDeserializer(item: any): InterimRespons
 
 /** Alias for InterimResponseConfigBaseUnion */
 export type InterimResponseConfigBaseUnion =
-  | StaticInterimResponseConfig
-  | LlmInterimResponseConfig
-  | InterimResponseConfigBase;
+  StaticInterimResponseConfig | LlmInterimResponseConfig | InterimResponseConfigBase;
 
 export function interimResponseConfigBaseUnionSerializer(
   item: InterimResponseConfigBaseUnion,

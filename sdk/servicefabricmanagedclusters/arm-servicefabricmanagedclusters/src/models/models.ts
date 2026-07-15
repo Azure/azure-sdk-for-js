@@ -564,10 +564,7 @@ export function managedIdentityDeserializer(item: any): ManagedIdentity {
 
 /** The type of managed identity for the resource. */
 export type ManagedIdentityType =
-  | "None"
-  | "SystemAssigned"
-  | "UserAssigned"
-  | "SystemAssigned, UserAssigned";
+  "None" | "SystemAssigned" | "UserAssigned" | "SystemAssigned, UserAssigned";
 
 export function userAssignedIdentityRecordSerializer(
   item: Record<string, UserAssignedIdentity>,
@@ -1382,9 +1379,7 @@ export function serviceResourcePropertiesDeserializer(item: any): ServiceResourc
 
 /** Alias for ServiceResourcePropertiesUnion */
 export type ServiceResourcePropertiesUnion =
-  | StatefulServiceProperties
-  | StatelessServiceProperties
-  | ServiceResourceProperties;
+  StatefulServiceProperties | StatelessServiceProperties | ServiceResourceProperties;
 
 export function serviceResourcePropertiesUnionSerializer(
   item: ServiceResourcePropertiesUnion,
@@ -1451,10 +1446,7 @@ export function partitionDeserializer(item: any): Partition {
 
 /** Alias for PartitionUnion */
 export type PartitionUnion =
-  | UniformInt64RangePartitionScheme
-  | SingletonPartitionScheme
-  | NamedPartitionScheme
-  | Partition;
+  UniformInt64RangePartitionScheme | SingletonPartitionScheme | NamedPartitionScheme | Partition;
 
 export function partitionUnionSerializer(item: PartitionUnion): any {
   switch (item.partitionScheme) {
@@ -2411,9 +2403,7 @@ export function scalingTriggerDeserializer(item: any): ScalingTrigger {
 
 /** Alias for ScalingTriggerUnion */
 export type ScalingTriggerUnion =
-  | AveragePartitionLoadScalingTrigger
-  | AverageServiceLoadScalingTrigger
-  | ScalingTrigger;
+  AveragePartitionLoadScalingTrigger | AverageServiceLoadScalingTrigger | ScalingTrigger;
 
 export function scalingTriggerUnionSerializer(item: ScalingTriggerUnion): any {
   switch (item.kind) {

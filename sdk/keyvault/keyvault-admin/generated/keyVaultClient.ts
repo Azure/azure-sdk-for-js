@@ -3,6 +3,12 @@
 
 import { KeyVaultContext, KeyVaultClientOptionalParams, createKeyVault } from "./api/index.js";
 import {
+  deleteEkmConnection,
+  updateEkmConnection,
+  createEkmConnection,
+  checkEkmConnection,
+  getEkmCertificate,
+  getEkmConnection,
   getSettings,
   getSetting,
   updateSetting,
@@ -16,6 +22,12 @@ import {
   fullBackupStatus,
 } from "./api/operations.js";
 import {
+  DeleteEkmConnectionOptionalParams,
+  UpdateEkmConnectionOptionalParams,
+  CreateEkmConnectionOptionalParams,
+  CheckEkmConnectionOptionalParams,
+  GetEkmCertificateOptionalParams,
+  GetEkmConnectionOptionalParams,
   GetSettingsOptionalParams,
   GetSettingOptionalParams,
   UpdateSettingOptionalParams,
@@ -48,6 +60,9 @@ import {
   UpdateSettingRequest,
   Setting,
   SettingsListResult,
+  EkmConnection,
+  EkmProxyClientCertificateInfo,
+  EkmProxyInfo,
 } from "./models/models.js";
 import { TokenCredential } from "@azure/core-auth";
 import { PollerLike, OperationState } from "@azure/core-lro";
@@ -81,6 +96,50 @@ export class KeyVaultClient {
     this.pipeline = this._client.pipeline;
     this.roleAssignments = _getRoleAssignmentsOperations(this._client);
     this.roleDefinitions = _getRoleDefinitionsOperations(this._client);
+  }
+
+  /** The External Key Manager (EKM) deletes the existing EKM connection. If the EKM connection does not already exists, this operation fails. This operation requires ekm/delete permission. */
+  deleteEkmConnection(
+    options: DeleteEkmConnectionOptionalParams = { requestOptions: {} },
+  ): Promise<EkmConnection> {
+    return deleteEkmConnection(this._client, options);
+  }
+
+  /** The External Key Manager (EKM) updates the existing EKM connection. If the EKM connection does not exist, this operation fails. This operation requires ekm/write permission. */
+  updateEkmConnection(
+    ekmConnection: EkmConnection,
+    options: UpdateEkmConnectionOptionalParams = { requestOptions: {} },
+  ): Promise<EkmConnection> {
+    return updateEkmConnection(this._client, ekmConnection, options);
+  }
+
+  /** The External Key Manager (EKM) sets up the EKM connection. If the EKM connection already exists, this operation fails. This operation requires ekm/write permission. */
+  createEkmConnection(
+    ekmConnection: EkmConnection,
+    options: CreateEkmConnectionOptionalParams = { requestOptions: {} },
+  ): Promise<EkmConnection> {
+    return createEkmConnection(this._client, ekmConnection, options);
+  }
+
+  /** The External Key Manager (EKM) Check operation checks the connectivity and authentication with the EKM proxy. This operation requires ekm/read permission. */
+  checkEkmConnection(
+    options: CheckEkmConnectionOptionalParams = { requestOptions: {} },
+  ): Promise<EkmProxyInfo> {
+    return checkEkmConnection(this._client, options);
+  }
+
+  /** The External Key Manager (EKM) Certificate Get operation returns Proxy client certificate. This operation requires ekm/read permission. */
+  getEkmCertificate(
+    options: GetEkmCertificateOptionalParams = { requestOptions: {} },
+  ): Promise<EkmProxyClientCertificateInfo> {
+    return getEkmCertificate(this._client, options);
+  }
+
+  /** The External Key Manager (EKM) Get operation returns EKM connection. This operation requires ekm/read permission. */
+  getEkmConnection(
+    options: GetEkmConnectionOptionalParams = { requestOptions: {} },
+  ): Promise<EkmConnection> {
+    return getEkmConnection(this._client, options);
   }
 
   /** Retrieves a list of all the available account settings that can be configured. */

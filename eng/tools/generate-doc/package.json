@@ -16,7 +16,7 @@
     "yargs": "^18.0.0"
   },
   "devDependencies": {
-    "@types/node": "^20.0.0",
+    "@types/node": "^22.0.0",
     "@types/yargs": "^17.0.32",
     "prettier": "^3.4.2",
     "typescript": "~6.0.2"

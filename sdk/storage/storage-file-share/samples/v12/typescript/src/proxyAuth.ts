@@ -40,7 +40,7 @@ export async function main(): Promise<void> {
         password: "<password>"
       }
       */
-    }
+    },
   );
 
   // Create a share
