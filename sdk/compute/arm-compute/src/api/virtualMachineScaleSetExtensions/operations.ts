@@ -68,7 +68,6 @@ export async function _listDeserialize(
 
   return _virtualMachineScaleSetExtensionListResultDeserializer(result.body);
 }
-
 /** Gets a list of all extensions in a VM scale set. */
 export function list(
   context: Client,
@@ -121,7 +120,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** The operation to delete the extension. */
 export function $delete(
   context: Client,
@@ -184,7 +182,6 @@ export async function _updateDeserialize(
 
   return virtualMachineScaleSetExtensionDeserializer(result.body);
 }
-
 /** The operation to update an extension. */
 export function update(
   context: Client,
@@ -258,7 +255,6 @@ export async function _createOrUpdateDeserialize(
 
   return virtualMachineScaleSetExtensionDeserializer(result.body);
 }
-
 /** The operation to create or update an extension. */
 export function createOrUpdate(
   context: Client,
@@ -330,7 +326,6 @@ export async function _getDeserialize(
 
   return virtualMachineScaleSetExtensionDeserializer(result.body);
 }
-
 /** The operation to get the extension. */
 export async function get(
   context: Client,

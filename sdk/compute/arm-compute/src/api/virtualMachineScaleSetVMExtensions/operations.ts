@@ -69,7 +69,6 @@ export async function _listDeserialize(
 
   return virtualMachineScaleSetVMExtensionsListResultDeserializer(result.body);
 }
-
 /** The operation to get all extensions of an instance in Virtual Machine Scaleset. */
 export async function list(
   context: Client,
@@ -120,7 +119,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** The operation to delete the VMSS VM extension. */
 export function $delete(
   context: Client,
@@ -193,7 +191,6 @@ export async function _updateDeserialize(
 
   return virtualMachineScaleSetVMExtensionDeserializer(result.body);
 }
-
 /** The operation to update the VMSS VM extension. */
 export function update(
   context: Client,
@@ -274,7 +271,6 @@ export async function _createOrUpdateDeserialize(
 
   return virtualMachineScaleSetVMExtensionDeserializer(result.body);
 }
-
 /** The operation to create or update the VMSS VM extension. */
 export function createOrUpdate(
   context: Client,
@@ -353,7 +349,6 @@ export async function _getDeserialize(
 
   return virtualMachineScaleSetVMExtensionDeserializer(result.body);
 }
-
 /** The operation to get the VMSS VM extension. */
 export async function get(
   context: Client,

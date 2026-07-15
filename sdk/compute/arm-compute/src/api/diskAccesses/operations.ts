@@ -54,7 +54,7 @@ export function _listPrivateEndpointConnectionsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       diskAccessName: diskAccessName,
-      "api%2Dversion": "2025-01-02",
+      "api%2Dversion": "2026-03-02",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -81,7 +81,6 @@ export async function _listPrivateEndpointConnectionsDeserialize(
 
   return _privateEndpointConnectionListResultDeserializer(result.body);
 }
-
 /** List information about private endpoint connections under a disk access resource */
 export function listPrivateEndpointConnections(
   context: Client,
@@ -94,7 +93,7 @@ export function listPrivateEndpointConnections(
     () => _listPrivateEndpointConnectionsSend(context, resourceGroupName, diskAccessName, options),
     _listPrivateEndpointConnectionsDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-01-02" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-02" },
   );
 }
 
@@ -112,7 +111,7 @@ export function _deleteAPrivateEndpointConnectionSend(
       resourceGroupName: resourceGroupName,
       diskAccessName: diskAccessName,
       privateEndpointConnectionName: privateEndpointConnectionName,
-      "api%2Dversion": "2025-01-02",
+      "api%2Dversion": "2026-03-02",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -136,7 +135,6 @@ export async function _deleteAPrivateEndpointConnectionDeserialize(
 
   return;
 }
-
 /** Deletes a private endpoint connection under a disk access resource. */
 export function deleteAPrivateEndpointConnection(
   context: Client,
@@ -161,7 +159,7 @@ export function deleteAPrivateEndpointConnection(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: "2025-01-02",
+      apiVersion: "2026-03-02",
     },
   ) as PollerLike<OperationState<void>, void>;
 }
@@ -181,7 +179,7 @@ export function _updateAPrivateEndpointConnectionSend(
       resourceGroupName: resourceGroupName,
       diskAccessName: diskAccessName,
       privateEndpointConnectionName: privateEndpointConnectionName,
-      "api%2Dversion": "2025-01-02",
+      "api%2Dversion": "2026-03-02",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -210,7 +208,6 @@ export async function _updateAPrivateEndpointConnectionDeserialize(
 
   return privateEndpointConnectionDeserializer(result.body);
 }
-
 /** Approve or reject a private endpoint connection under disk access resource, this can't be used to create a new private endpoint connection. */
 export function updateAPrivateEndpointConnection(
   context: Client,
@@ -237,7 +234,7 @@ export function updateAPrivateEndpointConnection(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: "2025-01-02",
+      apiVersion: "2026-03-02",
     },
   ) as PollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>;
 }
@@ -256,7 +253,7 @@ export function _getAPrivateEndpointConnectionSend(
       resourceGroupName: resourceGroupName,
       diskAccessName: diskAccessName,
       privateEndpointConnectionName: privateEndpointConnectionName,
-      "api%2Dversion": "2025-01-02",
+      "api%2Dversion": "2026-03-02",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -283,7 +280,6 @@ export async function _getAPrivateEndpointConnectionDeserialize(
 
   return privateEndpointConnectionDeserializer(result.body);
 }
-
 /** Gets information about a private endpoint connection under a disk access resource. */
 export async function getAPrivateEndpointConnection(
   context: Client,
@@ -314,7 +310,7 @@ export function _getPrivateLinkResourcesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       diskAccessName: diskAccessName,
-      "api%2Dversion": "2025-01-02",
+      "api%2Dversion": "2026-03-02",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -341,7 +337,6 @@ export async function _getPrivateLinkResourcesDeserialize(
 
   return privateLinkResourceListResultDeserializer(result.body);
 }
-
 /** Gets the private link resources possible under disk access resource */
 export async function getPrivateLinkResources(
   context: Client,
@@ -366,7 +361,7 @@ export function _listSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/diskAccesses{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": "2025-01-02",
+      "api%2Dversion": "2026-03-02",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -391,7 +386,6 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
 
   return _diskAccessListDeserializer(result.body);
 }
-
 /** Lists all the disk access resources under a subscription. */
 export function list(
   context: Client,
@@ -402,7 +396,7 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-01-02" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-02" },
   );
 }
 
@@ -416,7 +410,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": "2025-01-02",
+      "api%2Dversion": "2026-03-02",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -443,7 +437,6 @@ export async function _listByResourceGroupDeserialize(
 
   return _diskAccessListDeserializer(result.body);
 }
-
 /** Lists all the disk access resources under a resource group. */
 export function listByResourceGroup(
   context: Client,
@@ -455,7 +448,7 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-01-02" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-02" },
   );
 }
 
@@ -471,7 +464,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       diskAccessName: diskAccessName,
-      "api%2Dversion": "2025-01-02",
+      "api%2Dversion": "2026-03-02",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -493,7 +486,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Deletes a disk access resource. */
 export function $delete(
   context: Client,
@@ -506,7 +498,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, diskAccessName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-01-02",
+    apiVersion: "2026-03-02",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -523,7 +515,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       diskAccessName: diskAccessName,
-      "api%2Dversion": "2025-01-02",
+      "api%2Dversion": "2026-03-02",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -550,7 +542,6 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return diskAccessDeserializer(result.body);
 }
-
 /** Updates (patches) a disk access resource. */
 export function update(
   context: Client,
@@ -565,7 +556,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, diskAccessName, diskAccess, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-01-02",
+    apiVersion: "2026-03-02",
   }) as PollerLike<OperationState<DiskAccess>, DiskAccess>;
 }
 
@@ -582,7 +573,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       diskAccessName: diskAccessName,
-      "api%2Dversion": "2025-01-02",
+      "api%2Dversion": "2026-03-02",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -611,7 +602,6 @@ export async function _createOrUpdateDeserialize(
 
   return diskAccessDeserializer(result.body);
 }
-
 /** Creates or updates a disk access resource */
 export function createOrUpdate(
   context: Client,
@@ -626,7 +616,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, diskAccessName, diskAccess, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-01-02",
+    apiVersion: "2026-03-02",
   }) as PollerLike<OperationState<DiskAccess>, DiskAccess>;
 }
 
@@ -642,7 +632,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       diskAccessName: diskAccessName,
-      "api%2Dversion": "2025-01-02",
+      "api%2Dversion": "2026-03-02",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -667,7 +657,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Di
 
   return diskAccessDeserializer(result.body);
 }
-
 /** Gets information about a disk access resource. */
 export async function get(
   context: Client,
