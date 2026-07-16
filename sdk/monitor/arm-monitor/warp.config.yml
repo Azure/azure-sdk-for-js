@@ -1,5 +1,25 @@
+# warp.config.yml — build configuration
 
-extends: ../../../warp.base.config.yml
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./models": "./src/models/index.ts"
+  "./models/actionGroupsApi": "./src/models/actionGroupsApi/index.ts"
+  "./models/activityLogAlertsApi": "./src/models/activityLogAlertsApi/index.ts"
+  "./models/activityLogsApi": "./src/models/activityLogsApi/index.ts"
+  "./models/alertRulesIncidentsApi": "./src/models/alertRulesIncidentsApi/index.ts"
+  "./models/autoScaleApi": "./src/models/autoScaleApi/index.ts"
+  "./models/dataCollectionApi": "./src/models/dataCollectionApi/index.ts"
+  "./models/logProfilesApi": "./src/models/logProfilesApi/index.ts"
+  "./models/metricAlertApi": "./src/models/metricAlertApi/index.ts"
+  "./models/metricBaselinesApi": "./src/models/metricBaselinesApi/index.ts"
+  "./models/metricsApi": "./src/models/metricsApi/index.ts"
+  "./models/privateLinkScopesApi": "./src/models/privateLinkScopesApi/index.ts"
+  "./models/scheduledQueryRuleApi": "./src/models/scheduledQueryRuleApi/index.ts"
+  "./models/serviceDiagnosticsSettingsApi": "./src/models/serviceDiagnosticsSettingsApi/index.ts"
+  "./models/microsoft/common": "./src/models/microsoft/common/index.ts"
+  "./models/microsoft/insightsCombinedClient": "./src/models/microsoft/insightsCombinedClient/index.ts"
 
 targets:
   - name: browser

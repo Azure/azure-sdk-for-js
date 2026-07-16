@@ -424,7 +424,7 @@ describe("FileSystemPersist", () => {
     });
 
     it("should have CLIENT_READONLY logic implemented", () => {
-      const persister = new FileSystemPersist(instrumentationKey, {}, mockCustomerSDKStats);
+      const persister = new FileSystemPersist(instrumentationKey, {}, () => mockCustomerSDKStats);
       expect(persister).toBeDefined();
       expect(DropCode.CLIENT_READONLY).toBeDefined();
 
@@ -448,7 +448,7 @@ describe("FileSystemPersist", () => {
         .spyOn(helpersMod, "confirmDirExists")
         .mockRejectedValue(error);
 
-      const persister = new FileSystemPersist(instrumentationKey, {}, mockCustomerSDKStats);
+      const persister = new FileSystemPersist(instrumentationKey, {}, () => mockCustomerSDKStats);
 
       const result = await persister.push([envelope]);
 

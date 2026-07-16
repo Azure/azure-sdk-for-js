@@ -278,12 +278,7 @@ export interface BlobDownloadResponseParsed extends BlobDownloadResponseModel {
  * The type of a {@link BlobQueryArrowField}.
  */
 export type BlobQueryArrowFieldType =
-  | "int64"
-  | "bool"
-  | "timestamp[ms]"
-  | "string"
-  | "double"
-  | "decimal";
+  "int64" | "bool" | "timestamp[ms]" | "string" | "double" | "decimal";
 
 /**
  * Describe a field in {@link BlobQueryArrowConfiguration}.

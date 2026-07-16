@@ -9,9 +9,11 @@ import type { AzureSASCredential } from '@azure/core-auth';
 import { Client } from '@azure-rest/core-client';
 import { ClientOptions } from '@azure-rest/core-client';
 import { HttpResponse } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { LatLon } from '@azure/maps-common';
 import { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import { RequestParameters } from '@azure-rest/core-client';
+import { RestError } from '@azure/core-rest-pipeline';
 import { StreamableMethod } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
 
@@ -112,6 +114,8 @@ export interface GetMapTile {
 export interface GetMapTileset {
     get(options: RenderGetMapTilesetParameters): StreamableMethod<RenderGetMapTileset200Response | RenderGetMapTilesetDefaultResponse>;
 }
+
+export { isRestError }
 
 // @public (undocumented)
 export function isUnexpected(response: RenderGetMapTile200Response | RenderGetMapTileDefaultResponse): response is RenderGetMapTileDefaultResponse;
@@ -545,6 +549,8 @@ export interface RenderGetMapTilesetQueryParam {
 export interface RenderGetMapTilesetQueryParamProperties {
     tilesetId: "microsoft.base" | "microsoft.base.labels" | "microsoft.base.hybrid" | "microsoft.terra.main" | "microsoft.base.road" | "microsoft.base.darkgrey" | "microsoft.base.labels.road" | "microsoft.base.labels.darkgrey" | "microsoft.base.hybrid.road" | "microsoft.base.hybrid.darkgrey" | "microsoft.imagery" | "microsoft.weather.radar.main" | "microsoft.weather.infrared.main" | "microsoft.traffic.absolute" | "microsoft.traffic.absolute.main" | "microsoft.traffic.relative" | "microsoft.traffic.relative.main" | "microsoft.traffic.relative.dark" | "microsoft.traffic.delay" | "microsoft.traffic.delay.main" | "microsoft.traffic.reduced.main" | "microsoft.traffic.incident";
 }
+
+export { RestError }
 
 // @public (undocumented)
 export interface Routes {

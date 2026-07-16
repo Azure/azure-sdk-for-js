@@ -142,7 +142,7 @@ export { CosmosDbDiagnosticLevel } from "./diagnostics/CosmosDbDiagnosticLevel.j
 export { GlobalEndpointManager } from "./globalEndpointManager.js";
 export { SasTokenPermissionKind } from "./common/constants.js";
 export { createAuthorizationSasToken } from "./utils/SasToken.js";
-export { RestError } from "@azure/core-rest-pipeline";
+export { RestError, isRestError } from "@azure/core-rest-pipeline";
 export { AbortError } from "@azure/abort-controller";
 export * from "./encryption/enums/index.js";
 export * from "./encryption/ClientEncryptionKey/index.js";
@@ -164,3 +164,9 @@ export {
   type CosmosEncryptedNumber,
   CosmosEncryptedNumberType,
 } from "./encryption/index.js";
+
+export type {
+  RerankScore,
+  SemanticRerankResult,
+  SemanticRerankOptions,
+} from "./inference/index.js";

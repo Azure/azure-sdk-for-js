@@ -12,10 +12,12 @@ import { Client } from '@azure-rest/core-client';
 import { ClientOptions } from '@azure-rest/core-client';
 import { CreateHttpPollerOptions } from '@azure/core-lro';
 import { HttpResponse } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { LatLon } from '@azure/maps-common';
 import { OperationState } from '@azure/core-lro';
 import { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import { RequestParameters } from '@azure-rest/core-client';
+import { RestError } from '@azure/core-rest-pipeline';
 import { StreamableMethod } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
 
@@ -202,6 +204,8 @@ export interface GetRouteRange {
     get(options: RouteGetRouteRangeParameters): StreamableMethod<RouteGetRouteRange200Response | RouteGetRouteRangeDefaultResponse>;
 }
 
+export { isRestError }
+
 // @public (undocumented)
 export function isUnexpected(response: RouteRequestRouteMatrixSync200Response | RouteRequestRouteMatrixSync408Response | RouteRequestRouteMatrixSyncDefaultResponse): response is RouteRequestRouteMatrixSync408Response;
 
@@ -264,6 +268,8 @@ export interface RequestRouteMatrix {
 export interface RequestRouteMatrixSync {
     post(options: RouteRequestRouteMatrixSyncParameters): StreamableMethod<RouteRequestRouteMatrixSync200Response | RouteRequestRouteMatrixSync408Response | RouteRequestRouteMatrixSyncDefaultResponse>;
 }
+
+export { RestError }
 
 // @public
 export interface RouteDirectionParameters {

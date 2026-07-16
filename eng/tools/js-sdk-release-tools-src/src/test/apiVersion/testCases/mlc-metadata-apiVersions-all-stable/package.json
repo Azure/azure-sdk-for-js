@@ -1,0 +1,5 @@
+{
+  "name": "@azure/arm-test-multi-stable",
+  "version": "1.0.0",
+  "sdk-type": "mgmt"
+}

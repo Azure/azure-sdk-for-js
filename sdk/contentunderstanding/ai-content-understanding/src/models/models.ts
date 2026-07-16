@@ -247,15 +247,7 @@ export function contentFieldUnionDeserializer(item: any): ContentFieldUnion {
 
 /** Semantic data type of the field value. */
 export type ContentFieldType =
-  | "string"
-  | "date"
-  | "time"
-  | "number"
-  | "integer"
-  | "boolean"
-  | "array"
-  | "object"
-  | "json";
+  "string" | "date" | "time" | "number" | "integer" | "boolean" | "array" | "object" | "json";
 
 export function contentSpanArrayDeserializer(result: Array<ContentSpan>): any[] {
   return result.map((item) => {
@@ -908,11 +900,7 @@ export function documentTableCellDeserializer(item: any): DocumentTableCell {
 
 /** Table cell kind. */
 export type DocumentTableCellKind =
-  | "content"
-  | "rowHeader"
-  | "columnHeader"
-  | "stubHead"
-  | "description";
+  "content" | "rowHeader" | "columnHeader" | "stubHead" | "description";
 
 /** Caption of a table or figure. */
 export interface DocumentCaption {
@@ -1150,13 +1138,7 @@ export function documentAnnotationDeserializer(item: any): DocumentAnnotation {
 
 /** Document annotation kind. */
 export type DocumentAnnotationKind =
-  | "highlight"
-  | "strikethrough"
-  | "underline"
-  | "italic"
-  | "bold"
-  | "circle"
-  | "note";
+  "highlight" | "strikethrough" | "underline" | "italic" | "bold" | "circle" | "note";
 
 export function documentAnnotationCommentArrayDeserializer(
   result: Array<DocumentAnnotationComment>,

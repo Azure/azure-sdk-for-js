@@ -524,7 +524,7 @@ export interface DataOperations {
     maxy: number,
     options?: DataGetCollectionAssetsForBboxOptionalParams,
   ) => Promise<DataGetCollectionAssetsForBboxResponse>;
-  /** Return a list of assets which overlap a given tile for a STAC collection (without TileMatrixSetId). */
+  /** Return assets overlapping a tile for a collection using the route without TileMatrixSetId in the path (/tiles/{z}/{x}/{y}/assets). This operation uses the default tile matrix set when none is specified. */
   getCollectionAssetsForTileNoTms: (
     collectionId: string,
     z: number,
@@ -532,7 +532,7 @@ export interface DataOperations {
     y: number,
     options?: DataGetCollectionAssetsForTileNoTmsOptionalParams,
   ) => Promise<DataGetCollectionAssetsForTileNoTmsResponse>;
-  /** Return a list of assets which overlap a given tile for a STAC collection (with TileMatrixSetId). */
+  /** Return assets overlapping a tile for a collection using the route with TileMatrixSetId in the path (/tiles/{tileMatrixSetId}/{z}/{x}/{y}/assets). Use this operation when you need an explicit tile matrix set in the URL. */
   getCollectionAssetsForTile: (
     collectionId: string,
     tileMatrixSetId: string,

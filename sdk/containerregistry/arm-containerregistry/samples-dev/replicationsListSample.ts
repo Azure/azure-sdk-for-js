@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all the replications for the specified container registry.
  *
  * @summary lists all the replications for the specified container registry.
- * x-ms-original-file: 2026-01-01-preview/ReplicationList.json
+ * x-ms-original-file: 2026-03-01-preview/ReplicationList.json
  */
 async function replicationList(): Promise<void> {
   const credential = new DefaultAzureCredential();

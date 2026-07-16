@@ -11,8 +11,10 @@ import {
   ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL,
   ENV_DISABLE_SDKSTATS,
 } from "../../src/Declarations/Constants.js";
+import { ExceptionType, RetryCode } from "../../src/export/statsbeat/types.js";
 import type { SenderResult } from "../../src/types.js";
 import { CustomerSDKStatsMetrics } from "../../src/export/statsbeat/customerSDKStats.js";
+import { RestError, createHttpHeaders } from "@azure/core-rest-pipeline";
 
 // Mock dependencies
 vi.mock("@opentelemetry/api", () => {
@@ -221,6 +223,16 @@ class TestBaseSender extends BaseSender {
     return (this as any).sendAllPersistedFiles();
   }
 
+  // Neutralize startup replay throttling so existing timing-sensitive tests stay
+  // deterministic and fast. Dedicated tests below exercise the real delay logic.
+  protected getStartupReplayDelayMs(): number {
+    return 0;
+  }
+
+  protected getReplayBatchDelayMs(): number {
+    return 0;
+  }
+
   public async callSendFirstPersistedFile(): Promise<void> {
     return (this as any).sendFirstPersistedFile();
   }
@@ -280,10 +292,18 @@ describe("BaseSender", () => {
     // Flush any async work started by the constructor (sendAllPersistedFiles)
     // then clear mock call counts so tests start from a clean slate
     await new Promise((resolve) => setTimeout(resolve, 0));
+    Object.defineProperty(sender, "customerSDKStatsMetrics", {
+      value: mockCustomerSDKStatsMetrics,
+      writable: true,
+    });
     vi.clearAllMocks();
   });
 
   afterEach(() => {
+    const retryTimer = (sender as any).retryTimer as NodeJS.Timeout | null;
+    if (retryTimer) {
+      clearTimeout(retryTimer);
+    }
     vi.resetAllMocks();
   });
 
@@ -515,39 +535,136 @@ describe("BaseSender", () => {
       expect(diag.error).toHaveBeenCalled();
     });
 
-    it("should handle retriable REST errors", async () => {
-      const retriableError: any = new Error("Connection reset");
-      retriableError.code = RetriableRestErrorTypes.REQUEST_SEND_ERROR;
+    it.each(Object.values(RetriableRestErrorTypes))(
+      "should persist telemetry when transport error %s has no response",
+      async (code) => {
+        const retriableError = new RestError("No response received", { code });
+        const testEnvelopes = [{ name: "test", time: new Date() }];
+        sender.sendMock.mockRejectedValue(retriableError);
+        mockPersist.push.mockResolvedValue(true);
 
+        const result = await sender.exportEnvelopes(testEnvelopes);
+
+        expect(sender.getPersister().push).toHaveBeenCalledWith(testEnvelopes);
+        expect(sender.getNetworkStats().countException).toHaveBeenCalledWith(retriableError);
+        expect(mockCustomerSDKStatsMetrics.countRetryItems).toHaveBeenCalledWith(
+          testEnvelopes,
+          RetryCode.CLIENT_EXCEPTION,
+          retriableError.message,
+          ExceptionType.NETWORK_EXCEPTION,
+        );
+        expect(mockCustomerSDKStatsMetrics.countDroppedItems).not.toHaveBeenCalled();
+        expect((sender as any).retryTimer).not.toBeNull();
+        expect(result.code).toBe(ExportResultCode.SUCCESS);
+      },
+    );
+
+    it("should persist telemetry when a request timeout produces an AbortError", async () => {
+      const timeoutError = Object.assign(new Error("Request timed out"), {
+        name: "AbortError",
+      });
+      const testEnvelopes = [{ name: "test", time: new Date() }];
+      sender.sendMock.mockRejectedValue(timeoutError);
+      mockPersist.push.mockResolvedValue(true);
+      mockCustomerSDKStatsMetrics.isTimeoutError.mockReturnValue(true);
+
+      const result = await sender.exportEnvelopes(testEnvelopes);
+
+      expect(sender.getPersister().push).toHaveBeenCalledWith(testEnvelopes);
+      expect(sender.getNetworkStats().countException).toHaveBeenCalledWith(timeoutError);
+      expect(mockCustomerSDKStatsMetrics.countRetryItems).toHaveBeenCalledWith(
+        testEnvelopes,
+        RetryCode.CLIENT_TIMEOUT,
+        "timeout_exception",
+        ExceptionType.TIMEOUT_EXCEPTION,
+      );
+      expect(mockCustomerSDKStatsMetrics.countDroppedItems).not.toHaveBeenCalled();
+      expect((sender as any).retryTimer).not.toBeNull();
+      expect(result.code).toBe(ExportResultCode.SUCCESS);
+    });
+
+    it("should classify the transport's real AbortError timeout message as a timeout", async () => {
+      // The Node transport raises an AbortError whose message is only "The operation was
+      // aborted...", which isTimeoutError does not recognize. The AbortError name must still
+      // drive CLIENT_TIMEOUT classification.
+      const timeoutError = Object.assign(
+        new Error("The operation was aborted. Reason: Timeout of 10000ms exceeded"),
+        { name: "AbortError" },
+      );
+      const testEnvelopes = [{ name: "test", time: new Date() }];
+      sender.sendMock.mockRejectedValue(timeoutError);
+      mockPersist.push.mockResolvedValue(true);
+      mockCustomerSDKStatsMetrics.isTimeoutError.mockReturnValue(false);
+
+      const result = await sender.exportEnvelopes(testEnvelopes);
+
+      expect(sender.getPersister().push).toHaveBeenCalledWith(testEnvelopes);
+      expect(mockCustomerSDKStatsMetrics.countRetryItems).toHaveBeenCalledWith(
+        testEnvelopes,
+        RetryCode.CLIENT_TIMEOUT,
+        "timeout_exception",
+        ExceptionType.TIMEOUT_EXCEPTION,
+      );
+      expect(result.code).toBe(ExportResultCode.SUCCESS);
+    });
+
+    it("should honor Retry-After when a retriable HTTP status is thrown as a RestError", async () => {
+      vi.useFakeTimers();
+      const setTimeoutSpy = vi.spyOn(globalThis, "setTimeout");
+      vi.mocked(isRetriable).mockImplementation((statusCode) => statusCode === 503);
+      const retriableError = new RestError("Service Unavailable", {
+        code: "SERVICE_UNAVAILABLE",
+        statusCode: 503,
+        response: {
+          headers: createHttpHeaders({ "retry-after": "45" }),
+        } as any,
+      });
       sender.sendMock.mockRejectedValue(retriableError);
-
-      // Reset mocks for clean test
-      mockPersist.push.mockClear();
       mockPersist.push.mockResolvedValue(true);
 
-      // Override the isRetriableRestError method for this test
-      const isRetriableRestErrorSpy = vi
-        .spyOn(sender as any, "isRetriableRestError")
-        .mockImplementation(() => true);
+      const result = await sender.exportEnvelopes([{ name: "test", time: new Date() }]);
 
-      // Set up the spy to track if persist is called
-      const persistSpy = vi.spyOn(sender, "callPersist").mockResolvedValue({
-        code: ExportResultCode.SUCCESS,
-      });
-
-      const testEnvelope = [{ name: "test", time: new Date() }];
-      const result = await sender.exportEnvelopes(testEnvelope);
-
-      // Make sure the push was called
-      if (!mockPersist.push.mock.calls.length) {
-        mockPersist.push(testEnvelope);
-      }
-
-      expect(sender.getPersister().push).toHaveBeenCalled();
       expect(result.code).toBe(ExportResultCode.SUCCESS);
+      expect(mockPersist.push).toHaveBeenCalled();
+      expect(setTimeoutSpy).toHaveBeenCalledWith(expect.any(Function), 45_000);
 
-      persistSpy.mockRestore();
-      isRetriableRestErrorSpy.mockRestore();
+      setTimeoutSpy.mockRestore();
+      vi.useRealTimers();
+    });
+
+    it("should not persist a non-RestError with a retriable error code", async () => {
+      const error = Object.assign(new Error("Envelope serialization failed"), {
+        code: RetriableRestErrorTypes.CONNECTION_RESET,
+      });
+      sender.sendMock.mockRejectedValue(error);
+
+      const result = await sender.exportEnvelopes([{ name: "test", time: new Date() }]);
+
+      expect(sender.getPersister().push).not.toHaveBeenCalled();
+      expect(sender.getNetworkStats().countException).toHaveBeenCalledWith(error);
+      expect(result.code).toBe(ExportResultCode.FAILED);
+    });
+
+    it.each([
+      new RestError("Response received", {
+        code: RetriableRestErrorTypes.CONNECTION_RESET,
+        statusCode: 400,
+      }),
+      new RestError("Response received", {
+        code: RetriableRestErrorTypes.CONNECTION_RESET,
+        response: { status: 400 } as any,
+      }),
+      Object.assign(new Error("Request aborted after response"), {
+        name: "AbortError",
+        response: { status: 400 },
+      }),
+    ])("should not persist a retriable error when an HTTP response exists", async (error) => {
+      sender.sendMock.mockRejectedValue(error);
+
+      const result = await sender.exportEnvelopes([{ name: "test", time: new Date() }]);
+
+      expect(sender.getPersister().push).not.toHaveBeenCalled();
+      expect(result.code).toBe(ExportResultCode.FAILED);
     });
 
     it("should not log errors for statsbeat sender with retriable errors", async () => {
@@ -560,8 +677,9 @@ describe("BaseSender", () => {
         isStatsbeatSender: true,
       });
 
-      const retriableError: any = new Error("Connection reset");
-      retriableError.code = RetriableRestErrorTypes.REQUEST_SEND_ERROR;
+      const retriableError = new RestError("Connection reset", {
+        code: RetriableRestErrorTypes.REQUEST_SEND_ERROR,
+      });
 
       sender.sendMock.mockRejectedValue(retriableError);
 
@@ -1352,7 +1470,8 @@ describe("BaseSender", () => {
       expect(callOrder).toEqual(["cleanExpiredFiles", "shift"]);
     });
 
-    it("should be called automatically from constructor when offline storage is enabled", async () => {
+    it("should be scheduled (not called synchronously) from constructor when offline storage is enabled", async () => {
+      vi.useFakeTimers();
       const sendAllSpy = vi.spyOn(BaseSender.prototype as any, "sendAllPersistedFiles");
 
       const newSender = new TestBaseSender({
@@ -1362,12 +1481,16 @@ describe("BaseSender", () => {
         exporterOptions: {},
       });
 
-      expect(sendAllSpy).toHaveBeenCalledTimes(1);
+      // Replay is deferred behind a randomized startup delay, not run synchronously
+      expect(sendAllSpy).not.toHaveBeenCalled();
       expect(newSender).toBeDefined();
 
-      // Flush async work
-      await new Promise((resolve) => setTimeout(resolve, 0));
+      // Once the scheduled timer fires, replay runs exactly once
+      await vi.advanceTimersByTimeAsync(1);
+      expect(sendAllSpy).toHaveBeenCalledTimes(1);
+
       sendAllSpy.mockRestore();
+      vi.useRealTimers();
     });
 
     it("should handle multiple files where middle send fails", async () => {
@@ -1653,6 +1776,156 @@ describe("BaseSender", () => {
       // Only file2's retriable envelope was re-persisted
       expect(mockPersist.push).toHaveBeenCalledTimes(1);
       expect(mockPersist.push).toHaveBeenCalledWith([file2[1]]);
+    });
+
+    it("should process at most ten persisted batches per startup replay", async () => {
+      const envelopes = [{ name: "persisted", time: new Date() }];
+      mockPersist.shift.mockResolvedValue(envelopes);
+      sender.sendMock.mockResolvedValue({ result: "success", statusCode: 200 });
+
+      await sender.callSendAllPersistedFiles();
+
+      expect(sender.sendMock).toHaveBeenCalledTimes(10);
+      expect(mockPersist.shift).toHaveBeenCalledTimes(10);
+    });
+  });
+
+  describe("Startup replay throttling (thundering herd mitigation)", () => {
+    it("computes a randomized startup replay delay within [0, max)", () => {
+      const proto = BaseSender.prototype as any;
+      const randomSpy = vi.spyOn(Math, "random");
+
+      randomSpy.mockReturnValue(0);
+      expect(proto.getStartupReplayDelayMs.call({})).toBe(0);
+
+      randomSpy.mockReturnValue(0.999999);
+      const nearMax = proto.getStartupReplayDelayMs.call({});
+      expect(nearMax).toBeGreaterThan(0);
+      expect(nearMax).toBeLessThan(60_000);
+
+      randomSpy.mockRestore();
+    });
+
+    it("computes an inter-batch replay delay of base plus jitter", () => {
+      const proto = BaseSender.prototype as any;
+      const randomSpy = vi.spyOn(Math, "random");
+
+      // No jitter → base spacing only
+      randomSpy.mockReturnValue(0);
+      expect(proto.getReplayBatchDelayMs.call({})).toBe(200);
+
+      // Max jitter → strictly below base + jitter ceiling
+      randomSpy.mockReturnValue(0.999999);
+      const withJitter = proto.getReplayBatchDelayMs.call({});
+      expect(withJitter).toBeGreaterThan(200);
+      expect(withJitter).toBeLessThan(400);
+
+      randomSpy.mockRestore();
+    });
+
+    it("applies an inter-batch delay before every file except the first", async () => {
+      const file1 = [{ name: "f1", time: new Date() }];
+      const file2 = [{ name: "f2", time: new Date() }];
+      const file3 = [{ name: "f3", time: new Date() }];
+
+      sender.sendMock.mockResolvedValue({ result: "success", statusCode: 200 });
+      mockPersist.shift
+        .mockResolvedValueOnce(file1)
+        .mockResolvedValueOnce(file2)
+        .mockResolvedValueOnce(file3)
+        .mockResolvedValueOnce(null);
+
+      const delaySpy = vi.spyOn(sender as any, "getReplayBatchDelayMs");
+
+      await sender.callSendAllPersistedFiles();
+
+      // 3 files → delay computed before files 2 and 3, never before file 1
+      expect(delaySpy).toHaveBeenCalledTimes(2);
+      expect(sender.sendMock).toHaveBeenCalledTimes(3);
+    });
+
+    it("does not apply an inter-batch delay for a single persisted file", async () => {
+      const file1 = [{ name: "single", time: new Date() }];
+
+      sender.sendMock.mockResolvedValue({ result: "success", statusCode: 200 });
+      mockPersist.shift.mockResolvedValueOnce(file1).mockResolvedValueOnce(null);
+
+      const delaySpy = vi.spyOn(sender as any, "getReplayBatchDelayMs");
+
+      await sender.callSendAllPersistedFiles();
+
+      expect(delaySpy).not.toHaveBeenCalled();
+      expect(sender.sendMock).toHaveBeenCalledTimes(1);
+    });
+
+    it("does not apply an inter-batch delay when replay stops on the first failure", async () => {
+      const file1 = [{ name: "f1", time: new Date() }];
+      const file2 = [{ name: "f2", time: new Date() }];
+
+      // Non-retriable failure on the first file → loop breaks before any second batch
+      sender.sendMock.mockResolvedValue({ result: "", statusCode: 400 });
+      mockPersist.shift.mockResolvedValueOnce(file1).mockResolvedValueOnce(file2);
+
+      const delaySpy = vi.spyOn(sender as any, "getReplayBatchDelayMs");
+
+      await sender.callSendAllPersistedFiles();
+
+      expect(delaySpy).not.toHaveBeenCalled();
+      expect(sender.sendMock).toHaveBeenCalledTimes(1);
+    });
+
+    it("waits for the inter-batch delay to elapse before sending the next file", async () => {
+      vi.useFakeTimers();
+      const file1 = [{ name: "f1", time: new Date() }];
+      const file2 = [{ name: "f2", time: new Date() }];
+
+      sender.sendMock.mockResolvedValue({ result: "success", statusCode: 200 });
+      mockPersist.shift
+        .mockResolvedValueOnce(file1)
+        .mockResolvedValueOnce(file2)
+        .mockResolvedValueOnce(null);
+
+      vi.spyOn(sender as any, "getReplayBatchDelayMs").mockReturnValue(5000);
+
+      const replayPromise = sender.callSendAllPersistedFiles();
+
+      // Drain microtasks: first file sent, second file shifted but gated behind the delay
+      await vi.advanceTimersByTimeAsync(0);
+      expect(sender.sendMock).toHaveBeenCalledTimes(1);
+
+      // Before the delay elapses, the second file must not be sent
+      await vi.advanceTimersByTimeAsync(4999);
+      expect(sender.sendMock).toHaveBeenCalledTimes(1);
+
+      // Once the delay elapses, the second file is sent
+      await vi.advanceTimersByTimeAsync(1);
+      await replayPromise;
+      expect(sender.sendMock).toHaveBeenCalledTimes(2);
+
+      vi.useRealTimers();
+    });
+
+    it("schedules startup replay on an unref'd timer so it never keeps the process alive", () => {
+      vi.useFakeTimers();
+      const sendAllSpy = vi.spyOn(BaseSender.prototype as any, "sendAllPersistedFiles");
+
+      const throttledSender = new TestBaseSender({
+        endpointUrl: "https://example.com",
+        instrumentationKey: "test-key",
+        trackStatsbeat: true,
+        exporterOptions: {},
+      });
+
+      // Constructor must not drain the backlog inline
+      expect(sendAllSpy).not.toHaveBeenCalled();
+
+      // The pending replay timer must be unref'd so it can't hold the event loop open
+      const replayTimer = (throttledSender as any).startupReplayTimer as NodeJS.Timeout;
+      expect(replayTimer).not.toBeNull();
+      expect(replayTimer.hasRef()).toBe(false);
+
+      sendAllSpy.mockRestore();
+      vi.useRealTimers();
     });
   });
 });

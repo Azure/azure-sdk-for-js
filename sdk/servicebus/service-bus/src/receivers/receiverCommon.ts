@@ -188,8 +188,7 @@ export function deadLetterMessage(
   context: ConnectionContext,
   entityPath: string,
   propertiesToModify:
-    | (DeadLetterOptions & { [key: string]: number | boolean | string | Date | null })
-    | undefined,
+    (DeadLetterOptions & { [key: string]: number | boolean | string | Date | null }) | undefined,
   retryOptions: RetryOptions | undefined,
 ): Promise<void> {
   receiverLogger.verbose(

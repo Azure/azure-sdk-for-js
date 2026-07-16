@@ -264,10 +264,7 @@ export function containerGroupIdentityDeserializer(item: any): ContainerGroupIde
 
 /** The type of identity used for the container group. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the container group. */
 export type ResourceIdentityType =
-  | "SystemAssigned"
-  | "UserAssigned"
-  | "SystemAssigned, UserAssigned"
-  | "None";
+  "SystemAssigned" | "UserAssigned" | "SystemAssigned, UserAssigned" | "None";
 
 export function userAssignedIdentitiesRecordSerializer(
   item: Record<string, UserAssignedIdentities>,

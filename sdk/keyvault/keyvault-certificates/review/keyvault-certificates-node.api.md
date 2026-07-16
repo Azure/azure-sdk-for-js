@@ -9,9 +9,11 @@ import { AzureLogger } from '@azure/logger';
 import type { CancelOnProgress } from '@azure/core-lro';
 import type * as coreClient from '@azure-rest/core-client';
 import type { ExtendedCommonClientOptions } from '@azure/keyvault-common';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
 import type { PollerLike } from '@azure/core-lro';
 import type { PollOperationState } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public @deprecated
@@ -302,6 +304,8 @@ export interface ImportCertificateOptions extends coreClient.OperationOptions {
 // @public
 export type ImportCertificatePolicy = CertificatePolicyProperties & Partial<PolicySubjectProperties>;
 
+export { isRestError }
+
 // @public
 export interface IssuerAttributes {
     readonly created?: Date;
@@ -479,6 +483,8 @@ export type RecoverDeletedCertificateState = KeyVaultCertificatePollOperationSta
 export type RequireAtLeastOne<T> = {
     [K in keyof T]-?: Required<Pick<T, K>> & Partial<Pick<T, Exclude<keyof T, K>>>;
 }[keyof T];
+
+export { RestError }
 
 // @public
 export type RestoreCertificateBackupOptions = coreClient.OperationOptions;

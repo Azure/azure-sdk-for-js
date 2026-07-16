@@ -662,3 +662,4 @@ export {
   type McpServerKnowledgeSource,
 } from "./serviceModels.js";
 export { createSynonymMapFromFile } from "#platform/synonymMapHelper";
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

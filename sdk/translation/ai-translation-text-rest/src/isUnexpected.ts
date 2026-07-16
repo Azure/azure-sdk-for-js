@@ -34,9 +34,7 @@ export function isUnexpected(
     | Transliterate200Response
     | TransliterateDefaultResponse,
 ): response is
-  | GetSupportedLanguagesDefaultResponse
-  | TranslateDefaultResponse
-  | TransliterateDefaultResponse {
+  GetSupportedLanguagesDefaultResponse | TranslateDefaultResponse | TransliterateDefaultResponse {
   const lroOriginal = response.headers["x-ms-original-url"];
   const url = new URL(lroOriginal ?? response.request.url);
   const method = response.request.method;

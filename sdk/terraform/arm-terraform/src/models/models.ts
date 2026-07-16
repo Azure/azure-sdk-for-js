@@ -25,10 +25,7 @@ export function baseExportModelSerializer(item: BaseExportModel): any {
 
 /** Alias for BaseExportModelUnion */
 export type BaseExportModelUnion =
-  | ExportQuery
-  | ExportResource
-  | ExportResourceGroup
-  | BaseExportModel;
+  ExportQuery | ExportResource | ExportResourceGroup | BaseExportModel;
 
 export function baseExportModelUnionSerializer(item: BaseExportModelUnion): any {
   switch (item.type) {

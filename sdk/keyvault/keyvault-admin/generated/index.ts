@@ -26,6 +26,9 @@ export type {
   Setting,
   SettingTypeEnum,
   SettingsListResult,
+  EkmConnection,
+  EkmProxyClientCertificateInfo,
+  EkmProxyInfo,
   RoleDefinition,
   RoleDefinitionType,
   RoleDefinitionProperties,
@@ -50,6 +53,12 @@ export {
 } from "./models/index.js";
 export type {
   KeyVaultClientOptionalParams,
+  DeleteEkmConnectionOptionalParams,
+  UpdateEkmConnectionOptionalParams,
+  CreateEkmConnectionOptionalParams,
+  CheckEkmConnectionOptionalParams,
+  GetEkmCertificateOptionalParams,
+  GetEkmConnectionOptionalParams,
   GetSettingsOptionalParams,
   GetSettingOptionalParams,
   UpdateSettingOptionalParams,

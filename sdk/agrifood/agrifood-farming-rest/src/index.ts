@@ -15,3 +15,4 @@ export * from "./pollingHelper.js";
 export * from "./serializeHelper.js";
 
 export default FarmBeats;
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

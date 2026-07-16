@@ -62,8 +62,7 @@ const responseMap: Record<string, string[]> = {
 
 export function isUnexpected(
   response:
-    | ReceivedSharesGetReceivedShare200Response
-    | ReceivedSharesGetReceivedShareDefaultResponse,
+    ReceivedSharesGetReceivedShare200Response | ReceivedSharesGetReceivedShareDefaultResponse,
 ): response is ReceivedSharesGetReceivedShareDefaultResponse;
 export function isUnexpected(
   response:
@@ -73,8 +72,7 @@ export function isUnexpected(
 ): response is ReceivedSharesCreateOrReplaceDefaultResponse;
 export function isUnexpected(
   response:
-    | ReceivedSharesDeleteReceivedShare202Response
-    | ReceivedSharesDeleteReceivedShareDefaultResponse,
+    ReceivedSharesDeleteReceivedShare202Response | ReceivedSharesDeleteReceivedShareDefaultResponse,
 ): response is ReceivedSharesDeleteReceivedShareDefaultResponse;
 export function isUnexpected(
   response:
@@ -118,8 +116,7 @@ export function isUnexpected(
 ): response is SentSharesGetAllSentShareInvitationsDefaultResponse;
 export function isUnexpected(
   response:
-    | SentSharesGetSentShareInvitation200Response
-    | SentSharesGetSentShareInvitationDefaultResponse,
+    SentSharesGetSentShareInvitation200Response | SentSharesGetSentShareInvitationDefaultResponse,
 ): response is SentSharesGetSentShareInvitationDefaultResponse;
 export function isUnexpected(
   response:

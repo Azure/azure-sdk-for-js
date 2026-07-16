@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-securityinsight",
-  "version": "1.0.0-beta.8",
+  "version": "1.0.0-beta.9",
   "description": "A generated SDK for SecurityInsights.",
   "engines": {
     "node": ">=22.0.0"

@@ -1,5 +1,15 @@
 # Release History
 
+## 4.0.0-beta.6 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 4.0.0-beta.5 (2026-05-28)
 Compared with version 3.1.0
 

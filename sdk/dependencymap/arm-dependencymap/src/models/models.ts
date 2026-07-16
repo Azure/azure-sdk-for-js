@@ -612,8 +612,7 @@ export function discoverySourceResourcePropertiesDeserializer(
 
 /** Alias for DiscoverySourceResourcePropertiesUnion */
 export type DiscoverySourceResourcePropertiesUnion =
-  | OffAzureDiscoverySourceResourceProperties
-  | DiscoverySourceResourceProperties;
+  OffAzureDiscoverySourceResourceProperties | DiscoverySourceResourceProperties;
 
 export function discoverySourceResourcePropertiesUnionSerializer(
   item: DiscoverySourceResourcePropertiesUnion,

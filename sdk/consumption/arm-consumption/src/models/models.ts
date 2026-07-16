@@ -2960,9 +2960,7 @@ export function reservationRecommendationDeserializer(item: any): ReservationRec
 
 /** Alias for ReservationRecommendationUnion */
 export type ReservationRecommendationUnion =
-  | LegacyReservationRecommendation
-  | ModernReservationRecommendation
-  | ReservationRecommendation;
+  LegacyReservationRecommendation | ModernReservationRecommendation | ReservationRecommendation;
 
 export function reservationRecommendationUnionDeserializer(
   item: any,

@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-hybridcompute",
-  "version": "5.0.0-beta.2",
+  "version": "5.0.0-beta.3",
   "description": "A generated SDK for HybridComputeManagementClient.",
   "engines": {
     "node": ">=22.0.0"

@@ -1,0 +1,35 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+export type {
+  AutoscaleSettingResource,
+  AutoscaleSetting,
+  AutoscaleProfile,
+  ScaleCapacity,
+  ScaleRule,
+  MetricTrigger,
+  MetricStatisticType,
+  TimeAggregationType,
+  ComparisonOperationType,
+  ScaleRuleMetricDimension,
+  ScaleRuleMetricDimensionOperationType,
+  ScaleAction,
+  ScaleDirection,
+  ScaleType,
+  TimeWindow,
+  Recurrence,
+  RecurrenceFrequency,
+  RecurrentSchedule,
+  AutoscaleNotification,
+  OperationType,
+  EmailNotification,
+  WebhookNotification,
+  PredictiveAutoscalePolicy,
+  PredictiveAutoscalePolicyScaleMode,
+  AutoscaleErrorResponse,
+  AutoscaleErrorResponseError,
+  AutoscaleSettingResourcePatch,
+  PredictiveResponse,
+  PredictiveValue,
+} from "./models.js";
+export { KnownScaleRuleMetricDimensionOperationType } from "./models.js";

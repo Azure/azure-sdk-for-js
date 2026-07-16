@@ -8,9 +8,11 @@ import type { AbortSignalLike } from '@azure/abort-controller';
 import type { CancelOnProgress } from '@azure/core-lro';
 import type { CommonClientOptions } from '@azure/core-client';
 import type { CompatResponse } from '@azure/core-http-compat';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure/core-client';
 import type { OperationState } from '@azure/core-lro';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -284,6 +286,8 @@ export interface HttpResponseFields {
 // @public
 export function isFeatureFlag(setting: ConfigurationSetting): setting is ConfigurationSetting & Required<Pick<ConfigurationSetting, "value">>;
 
+export { isRestError }
+
 // @public
 export function isSecretReference(setting: ConfigurationSetting): setting is ConfigurationSetting & Required<Pick<ConfigurationSetting, "value">>;
 
@@ -422,6 +426,8 @@ export function parseSecretReference(setting: ConfigurationSetting): Configurati
 
 // @public
 export function parseSnapshotReference(setting: ConfigurationSetting): ConfigurationSetting<SnapshotReferenceValue>;
+
+export { RestError }
 
 // @public
 export interface PercentileAllocation {

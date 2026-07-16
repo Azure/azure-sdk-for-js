@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to returns all the resources of a particular type belonging to a resource group
  *
  * @summary returns all the resources of a particular type belonging to a resource group
- * x-ms-original-file: 2026-03-15-preview/ListSharedCommitmentPlansByResourceGroup.json
+ * x-ms-original-file: 2026-05-15-preview/ListSharedCommitmentPlansByResourceGroup.json
  */
 async function listCommitmentPlansByResourceGroup() {
   const credential = new DefaultAzureCredential();

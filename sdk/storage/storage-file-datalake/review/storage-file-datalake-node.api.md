@@ -26,6 +26,7 @@ import { HttpHeadersLike as HttpHeaders } from '@azure/core-http-compat';
 import { CompatResponse as HttpOperationResponse } from '@azure/core-http-compat';
 import type { RequestBodyType as HttpRequestBody } from '@azure/core-rest-pipeline';
 import { isPipelineLike } from '@azure/storage-blob';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { KeepAliveOptions } from '@azure/core-http-compat';
 import { Lease } from '@azure/storage-blob';
 import { LeaseAccessConditions } from '@azure/storage-blob';
@@ -1151,6 +1152,8 @@ export { HttpOperationResponse }
 export { HttpRequestBody }
 
 export { isPipelineLike }
+
+export { isRestError }
 
 export { Lease }
 

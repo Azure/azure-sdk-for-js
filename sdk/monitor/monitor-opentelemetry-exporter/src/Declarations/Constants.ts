@@ -118,7 +118,22 @@ export function isEnvVarTrue(envVarName: string): boolean {
 export enum RetriableRestErrorTypes {
   REQUEST_SEND_ERROR = "REQUEST_SEND_ERROR",
   DNS_LOOKUP_TIMEOUT = "EAI_AGAIN",
+  CONNECTION_TIMEOUT = "ETIMEDOUT",
+  SOCKET_TIMEOUT = "ESOCKETTIMEDOUT",
+  CONNECTION_REFUSED = "ECONNREFUSED",
+  CONNECTION_RESET = "ECONNRESET",
+  DNS_LOOKUP_FAILED = "ENOTFOUND",
+  FILE_NOT_FOUND = "ENOENT",
+  BROKEN_PIPE = "EPIPE",
 }
+
+/**
+ * The `name` an aborted/timed-out operation error carries. This value is fixed by the
+ * WHATWG `DOMException` contract and mirrored by `@azure/abort-controller` and the
+ * `@typespec/ts-http-runtime` transport (all set `error.name = "AbortError"`)
+ * @internal
+ */
+export const ABORT_ERROR_NAME = "AbortError";
 /**
  * Application Insights shim version.
  * @internal
@@ -252,13 +267,7 @@ export const PerformanceToQuickPulseCounter: { [key: string]: QuickPulseCounter 
  * @internal
  */
 export type QuickPulseDocumentType =
-  | "Event"
-  | "Exception"
-  | "Trace"
-  | "Metric"
-  | "Request"
-  | "RemoteDependency"
-  | "Availability";
+  "Event" | "Exception" | "Trace" | "Metric" | "Request" | "RemoteDependency" | "Availability";
 /**
  * QuickPulse telemetry types.
  * @internal

@@ -6548,12 +6548,7 @@ export function subscriptionContractPropertiesDeserializer(
 
 /** Subscription state. Possible states are * active – the subscription is active, * suspended – the subscription is blocked, and the subscriber cannot call any APIs of the product, * submitted – the subscription request has been made by the developer, but has not yet been approved or rejected, * rejected – the subscription request has been denied by an administrator, * cancelled – the subscription has been cancelled by the developer or administrator, * expired – the subscription reached its expiration date and was deactivated. */
 export type SubscriptionState =
-  | "suspended"
-  | "active"
-  | "expired"
-  | "submitted"
-  | "rejected"
-  | "cancelled";
+  "suspended" | "active" | "expired" | "submitted" | "rejected" | "cancelled";
 
 /** Paged Subscriptions list representation. */
 export interface _SubscriptionCollection {
@@ -11936,14 +11931,7 @@ export function authorizationServerContractBasePropertiesDeserializer(
 
 /** Type of AuthorizationMethod */
 export type AuthorizationMethod =
-  | "HEAD"
-  | "OPTIONS"
-  | "TRACE"
-  | "GET"
-  | "POST"
-  | "PUT"
-  | "PATCH"
-  | "DELETE";
+  "HEAD" | "OPTIONS" | "TRACE" | "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 
 /** Known values of {@link ClientAuthenticationMethod} that the service accepts. */
 export enum KnownClientAuthenticationMethod {

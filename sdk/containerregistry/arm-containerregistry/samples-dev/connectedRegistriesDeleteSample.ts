@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a connected registry from a container registry.
  *
  * @summary deletes a connected registry from a container registry.
- * x-ms-original-file: 2026-01-01-preview/ConnectedRegistryDelete.json
+ * x-ms-original-file: 2026-03-01-preview/ConnectedRegistryDelete.json
  */
 async function connectedRegistryDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();
