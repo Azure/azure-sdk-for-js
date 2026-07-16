@@ -509,8 +509,8 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
 
   async purgeMessages(options?: PurgeMessagesOptions): Promise<PurgeMessagesResult> {
     let { deletedCount } = await this.deleteMessages({
+      ...options,
       maxMessageCount: MaxDeleteMessageCount,
-      beforeEnqueueTime: options?.beforeEnqueueTime,
     });
     logger.verbose(
       `${this.logPrefix} receiver '${this.identifier}' deleted ${deletedCount} messages.`,
@@ -519,8 +519,8 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
       let batchCount = deletedCount;
       while (batchCount > 0) {
         ({ deletedCount: batchCount } = await this.deleteMessages({
+          ...options,
           maxMessageCount: MaxDeleteMessageCount,
-          beforeEnqueueTime: options?.beforeEnqueueTime,
         }));
         logger.verbose(
           `${this.logPrefix} receiver '${this.identifier}' deleted ${batchCount} messages.`,

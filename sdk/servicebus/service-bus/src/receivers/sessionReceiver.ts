@@ -440,15 +440,15 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
 
   async purgeMessages(options?: PurgeMessagesOptions): Promise<PurgeMessagesResult> {
     let { deletedCount } = await this.deleteMessages({
+      ...options,
       maxMessageCount: MaxDeleteMessageCount,
-      beforeEnqueueTime: options?.beforeEnqueueTime,
     });
     if (deletedCount === MaxDeleteMessageCount) {
       let batchCount = MaxDeleteMessageCount;
       while (batchCount === MaxDeleteMessageCount) {
         ({ deletedCount: batchCount } = await this.deleteMessages({
+          ...options,
           maxMessageCount: MaxDeleteMessageCount,
-          beforeEnqueueTime: options?.beforeEnqueueTime,
         }));
         deletedCount += batchCount;
       }
