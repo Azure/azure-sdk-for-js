@@ -36,8 +36,12 @@ export async function runTestsWithProxyTool(testCommand: readonly string[]): Pro
     testProxy = await startTestProxy();
   }
 
+  let success = true;
   try {
     await run(testCommand, { stdio: "inherit" });
+  } catch (error: unknown) {
+    log.error(`test command failed: ${error instanceof Error ? error.message : String(error)}`);
+    success = false;
   } finally {
     if (testProxy) {
       log("Stopping the test proxy");
@@ -45,5 +49,5 @@ export async function runTestsWithProxyTool(testCommand: readonly string[]): Pro
     }
   }
 
-  return true;
+  return success;
 }

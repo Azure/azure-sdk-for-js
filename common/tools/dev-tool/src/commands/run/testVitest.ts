@@ -90,8 +90,13 @@ export default leafCommand(commandInfo, async (options) => {
     }
 
     log.info("Running vitest without test-proxy");
-    await run(command, { stdio: "inherit" });
-    return true;
+    try {
+      await run(command, { stdio: "inherit" });
+      return true;
+    } catch (error: unknown) {
+      log.error(`vitest failed: ${error instanceof Error ? error.message : String(error)}`);
+      return false;
+    }
   } finally {
     stopRelayServer?.();
     if (typeof oldPath === "undefined") {
