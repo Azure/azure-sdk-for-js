@@ -84,20 +84,6 @@ export function _deleteUserSend(
     headers: {
       ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
       ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
-      ...(options?.ifUnmodifiedSince !== undefined
-        ? {
-            "if-unmodified-since": !options?.ifUnmodifiedSince
-              ? options?.ifUnmodifiedSince
-              : options?.ifUnmodifiedSince.toUTCString(),
-          }
-        : {}),
-      ...(options?.ifModifiedSince !== undefined
-        ? {
-            "if-modified-since": !options?.ifModifiedSince
-              ? options?.ifModifiedSince
-              : options?.ifModifiedSince.toUTCString(),
-          }
-        : {}),
       ...options.requestOptions?.headers,
     },
   });
@@ -145,20 +131,6 @@ export function _createOrReplaceUserSend(
     headers: {
       ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
       ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
-      ...(options?.ifUnmodifiedSince !== undefined
-        ? {
-            "if-unmodified-since": !options?.ifUnmodifiedSince
-              ? options?.ifUnmodifiedSince
-              : options?.ifUnmodifiedSince.toUTCString(),
-          }
-        : {}),
-      ...(options?.ifModifiedSince !== undefined
-        ? {
-            "if-modified-since": !options?.ifModifiedSince
-              ? options?.ifModifiedSince
-              : options?.ifModifiedSince.toUTCString(),
-          }
-        : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -252,20 +224,6 @@ export function _deleteRoomMemberSend(
     headers: {
       ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
       ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
-      ...(options?.ifUnmodifiedSince !== undefined
-        ? {
-            "if-unmodified-since": !options?.ifUnmodifiedSince
-              ? options?.ifUnmodifiedSince
-              : options?.ifUnmodifiedSince.toUTCString(),
-          }
-        : {}),
-      ...(options?.ifModifiedSince !== undefined
-        ? {
-            "if-modified-since": !options?.ifModifiedSince
-              ? options?.ifModifiedSince
-              : options?.ifModifiedSince.toUTCString(),
-          }
-        : {}),
       ...options.requestOptions?.headers,
     },
   });
@@ -316,20 +274,6 @@ export function _createOrReplaceRoomMemberSend(
     headers: {
       ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
       ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
-      ...(options?.ifUnmodifiedSince !== undefined
-        ? {
-            "if-unmodified-since": !options?.ifUnmodifiedSince
-              ? options?.ifUnmodifiedSince
-              : options?.ifUnmodifiedSince.toUTCString(),
-          }
-        : {}),
-      ...(options?.ifModifiedSince !== undefined
-        ? {
-            "if-modified-since": !options?.ifModifiedSince
-              ? options?.ifModifiedSince
-              : options?.ifModifiedSince.toUTCString(),
-          }
-        : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -435,20 +379,6 @@ export function _deleteRoomSend(
     headers: {
       ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
       ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
-      ...(options?.ifUnmodifiedSince !== undefined
-        ? {
-            "if-unmodified-since": !options?.ifUnmodifiedSince
-              ? options?.ifUnmodifiedSince
-              : options?.ifUnmodifiedSince.toUTCString(),
-          }
-        : {}),
-      ...(options?.ifModifiedSince !== undefined
-        ? {
-            "if-modified-since": !options?.ifModifiedSince
-              ? options?.ifModifiedSince
-              : options?.ifModifiedSince.toUTCString(),
-          }
-        : {}),
       ...options.requestOptions?.headers,
     },
   });
@@ -537,20 +467,6 @@ export function _createOrReplaceRoomSend(
     headers: {
       ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
       ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
-      ...(options?.ifUnmodifiedSince !== undefined
-        ? {
-            "if-unmodified-since": !options?.ifUnmodifiedSince
-              ? options?.ifUnmodifiedSince
-              : options?.ifUnmodifiedSince.toUTCString(),
-          }
-        : {}),
-      ...(options?.ifModifiedSince !== undefined
-        ? {
-            "if-modified-since": !options?.ifModifiedSince
-              ? options?.ifModifiedSince
-              : options?.ifModifiedSince.toUTCString(),
-          }
-        : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -601,20 +517,6 @@ export function _deleteRoleSend(
     headers: {
       ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
       ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
-      ...(options?.ifUnmodifiedSince !== undefined
-        ? {
-            "if-unmodified-since": !options?.ifUnmodifiedSince
-              ? options?.ifUnmodifiedSince
-              : options?.ifUnmodifiedSince.toUTCString(),
-          }
-        : {}),
-      ...(options?.ifModifiedSince !== undefined
-        ? {
-            "if-modified-since": !options?.ifModifiedSince
-              ? options?.ifModifiedSince
-              : options?.ifModifiedSince.toUTCString(),
-          }
-        : {}),
       ...options.requestOptions?.headers,
     },
   });
@@ -662,20 +564,6 @@ export function _createOrReplaceRoleSend(
     headers: {
       ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
       ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
-      ...(options?.ifUnmodifiedSince !== undefined
-        ? {
-            "if-unmodified-since": !options?.ifUnmodifiedSince
-              ? options?.ifUnmodifiedSince
-              : options?.ifUnmodifiedSince.toUTCString(),
-          }
-        : {}),
-      ...(options?.ifModifiedSince !== undefined
-        ? {
-            "if-modified-since": !options?.ifModifiedSince
-              ? options?.ifModifiedSince
-              : options?.ifModifiedSince.toUTCString(),
-          }
-        : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -822,20 +710,6 @@ export function _updateMessageSend(
     headers: {
       ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
       ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
-      ...(options?.ifUnmodifiedSince !== undefined
-        ? {
-            "if-unmodified-since": !options?.ifUnmodifiedSince
-              ? options?.ifUnmodifiedSince
-              : options?.ifUnmodifiedSince.toUTCString(),
-          }
-        : {}),
-      ...(options?.ifModifiedSince !== undefined
-        ? {
-            "if-modified-since": !options?.ifModifiedSince
-              ? options?.ifModifiedSince
-              : options?.ifModifiedSince.toUTCString(),
-          }
-        : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -889,20 +763,6 @@ export function _deleteMessageSend(
     headers: {
       ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
       ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
-      ...(options?.ifUnmodifiedSince !== undefined
-        ? {
-            "if-unmodified-since": !options?.ifUnmodifiedSince
-              ? options?.ifUnmodifiedSince
-              : options?.ifUnmodifiedSince.toUTCString(),
-          }
-        : {}),
-      ...(options?.ifModifiedSince !== undefined
-        ? {
-            "if-modified-since": !options?.ifModifiedSince
-              ? options?.ifModifiedSince
-              : options?.ifModifiedSince.toUTCString(),
-          }
-        : {}),
       ...options.requestOptions?.headers,
     },
   });
