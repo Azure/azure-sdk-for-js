@@ -122,6 +122,11 @@ export interface AppConfigurationClientOptions extends CommonClientOptions {
 }
 
 /**
+ * Provides configuration options for FeatureFlagClient.
+ */
+export interface FeatureFlagClientOptions extends AppConfigurationClientOptions {}
+
+/**
  * Known values for Azure App Configuration Audience
  */
 export enum KnownAppConfigAudience {

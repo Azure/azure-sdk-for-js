@@ -45,7 +45,7 @@ import type { PagedAsyncIterableIterator, PagedResult } from "@azure/core-paging
 import { getPagedAsyncIterator } from "@azure/core-paging";
 import type { RestError } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
-import { SyncTokens } from "./internal/syncTokenPolicy.js";
+import type { SyncTokens } from "./internal/syncTokenPolicy.js";
 import type { TokenCredential } from "@azure/core-auth";
 import type { SendConfigurationSettingsOptions } from "./internal/helpers.js";
 import {
@@ -66,9 +66,7 @@ import {
   transformKeyValueResponseWithStatusCode,
   transformSnapshotResponse,
 } from "./internal/helpers.js";
-import {
-  AppConfigurationClient as GeneratedAppConfigurationClient,
-} from "./generated/appConfigurationClient.js";
+import type { AppConfigurationClient as GeneratedAppConfigurationClient } from "./generated/appConfigurationClient.js";
 import type {
   _KeyValueListResult,
   _SnapshotListResult,

@@ -4,23 +4,23 @@
 // https://azure.github.io/azure-sdk/typescript_design.html#ts-config-lib
 /// <reference lib="esnext.asynciterable" />
 
-import {
-  type AppConfigurationClientOptions,
-  type DeleteFeatureFlagOptions,
-  type FeatureFlag,
-  type GetFeatureFlagOptions,
-  type ListFeatureFlagRevisionsOptions,
-  type ListFeatureFlagsOptions,
-  type ListLabelsOptions,
-  type ListLabelsPage,
-  type PageSettings,
-  type SetFeatureFlagOptions,
-  type SettingLabel,
+import type {
+  DeleteFeatureFlagOptions,
+  FeatureFlag,
+  FeatureFlagClientOptions,
+  GetFeatureFlagOptions,
+  ListFeatureFlagRevisionsOptions,
+  ListFeatureFlagsOptions,
+  ListLabelsOptions,
+  ListLabelsPage,
+  PageSettings,
+  SetFeatureFlagOptions,
+  SettingLabel,
 } from "./models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import type { TokenCredential } from "@azure/core-auth";
 import { checkAndFormatIfAndIfNoneMatch } from "./internal/helpers.js";
-import { AppConfigurationClient as GeneratedAppConfigurationClient } from "./generated/appConfigurationClient.js";
+import type { AppConfigurationClient as GeneratedAppConfigurationClient } from "./generated/appConfigurationClient.js";
 import type { AppConfigurationContext } from "./generated/api/appConfigurationContext.js";
 import { createConfiguredGeneratedClient } from "./internal/createGeneratedClient.js";
 import { listLabels } from "./internal/listLabels.js";
@@ -40,7 +40,7 @@ export class FeatureFlagClient {
    * @param connectionString - The connection string of the App Configuration service.
    * @param options - Options for the FeatureFlagClient.
    */
-  constructor(connectionString: string, options?: AppConfigurationClientOptions);
+  constructor(connectionString: string, options?: FeatureFlagClientOptions);
   /**
    * Initializes a new instance of the FeatureFlagClient class using a TokenCredential.
    * @param endpoint - The endpoint of the App Configuration service (ex: https://sample.azconfig.io).
@@ -50,12 +50,12 @@ export class FeatureFlagClient {
   constructor(
     endpoint: string,
     tokenCredential: TokenCredential,
-    options?: AppConfigurationClientOptions,
+    options?: FeatureFlagClientOptions,
   );
   constructor(
     connectionStringOrEndpoint: string,
-    tokenCredentialOrOptions?: TokenCredential | AppConfigurationClientOptions,
-    options?: AppConfigurationClientOptions,
+    tokenCredentialOrOptions?: TokenCredential | FeatureFlagClientOptions,
+    options?: FeatureFlagClientOptions,
   ) {
     const { client } = createConfiguredGeneratedClient(
       connectionStringOrEndpoint,
