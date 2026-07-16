@@ -2,11 +2,9 @@
 
 ## 1.0.0-beta.44 (Unreleased)
 
-### Features Added
-
-### Breaking Changes
-
 ### Bugs Fixed
+
+- Persist telemetry for later retry when no HTTP response is received. [#39277](https://github.com/Azure/azure-sdk-for-js/pull/39277)
 
 ### Other Changes
 

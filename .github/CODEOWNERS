@@ -200,13 +200,13 @@
 # ServiceOwners: @berndverst @cgillum @kaibocai @philliphoff @torosent
 
 # PRLabel: %EngSys
-/sdk/template/    @benbp @mikeharder
+/sdk/template/    @benbp @mikeharder @Azure/azure-sdk-eng
 
 # AzureSdkOwners: @benbp @mikeharder
 # ServiceLabel: %EngSys
 
 # PRLabel: %Event Grid
-/sdk/eventgrid/    @rajeshka @shankarsama
+/sdk/eventgrid/    @shankarsama @Nishanth-MS
 
 # AzureSdkOwners: @rajeshka @shankarsama
 # ServiceLabel: %Event Grid

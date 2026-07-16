@@ -1,11 +1,13 @@
-import { simpleGit, SimpleGit } from 'simple-git';
-import { execSync } from 'child_process';
-import { logger } from './logger.js';
+import { simpleGit, SimpleGit } from "simple-git";
+import { execSync } from "child_process";
+import { logger } from "./logger.js";
 
 const git: SimpleGit = simpleGit();
-import * as path from 'path';
+import * as path from "path";
 
-export async function getChangedPackageDirectory(throwErrorWhenFindingUnexpectedFile: boolean = true) {
+export async function getChangedPackageDirectory(
+  throwErrorWhenFindingUnexpectedFile: boolean = true,
+) {
   const changedPackageDirectories: Set<string> = new Set<string>();
   const gitStatus = await git.status();
   const files = gitStatus.files;
@@ -19,9 +21,9 @@ export async function getChangedPackageDirectory(throwErrorWhenFindingUnexpected
       if (packageDirectory) {
         changedPackageDirectories.add(packageDirectory[0]);
       }
-    } else if (throwErrorWhenFindingUnexpectedFile && filePath.endsWith('.ts')) {
+    } else if (throwErrorWhenFindingUnexpectedFile && filePath.endsWith(".ts")) {
       throw new Error(
-        `Find unexpected generated file: ${filePath}. Please confirm whether the output-folder is correct.`
+        `Find unexpected generated file: ${filePath}. Please confirm whether the output-folder is correct.`,
       );
     }
   }
@@ -34,7 +36,7 @@ export async function getChangedCiYmlFilesInSpecificFolder(folder: string) {
   const files = gitStatus.files;
   for (const file of files) {
     const filePath = file.path;
-    if (filePath.endsWith('ci.yml') || filePath.endsWith('ci.mgmt.yml')) {
+    if (filePath.endsWith("ci.yml") || filePath.endsWith("ci.mgmt.yml")) {
       changedCiYmlFiles.add(filePath);
     }
   }
@@ -42,9 +44,11 @@ export async function getChangedCiYmlFilesInSpecificFolder(folder: string) {
 }
 
 export async function getLastCommitId(repository: string) {
-  let commitId = '';
+  let commitId = "";
   try {
-    commitId = execSync(`git --git-dir=${path.join(repository, '.git')} log --format=%H -n 1`, { encoding: 'utf8' });
+    commitId = execSync(`git --git-dir=${path.join(repository, ".git")} log --format=%H -n 1`, {
+      encoding: "utf8",
+    });
   } catch (e) {
     logger.error(`Failed to get commit id from '${repository}'.`);
   }

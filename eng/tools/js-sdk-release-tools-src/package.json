@@ -69,24 +69,6 @@
     "typescript": "5.8.2",
     "vitest": "4.1.9"
   },
-  "optionalDependencies": {
-    "@rollup/rollup-android-arm-eabi": "4.20.0",
-    "@rollup/rollup-android-arm64": "4.20.0",
-    "@rollup/rollup-darwin-arm64": "4.20.0",
-    "@rollup/rollup-darwin-x64": "4.20.0",
-    "@rollup/rollup-linux-arm-gnueabihf": "4.20.0",
-    "@rollup/rollup-linux-arm-musleabihf": "4.20.0",
-    "@rollup/rollup-linux-arm64-gnu": "4.20.0",
-    "@rollup/rollup-linux-arm64-musl": "4.20.0",
-    "@rollup/rollup-linux-powerpc64le-gnu": "4.20.0",
-    "@rollup/rollup-linux-riscv64-gnu": "4.20.0",
-    "@rollup/rollup-linux-s390x-gnu": "4.20.0",
-    "@rollup/rollup-linux-x64-gnu": "4.20.0",
-    "@rollup/rollup-linux-x64-musl": "4.20.0",
-    "@rollup/rollup-win32-arm64-msvc": "4.20.0",
-    "@rollup/rollup-win32-ia32-msvc": "4.20.0",
-    "@rollup/rollup-win32-x64-msvc": "4.20.0"
-  },
   "peerDependencies": {
     "@typespec/compiler": "^1.0.0"
   },

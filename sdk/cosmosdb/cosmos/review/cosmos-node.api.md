@@ -701,6 +701,12 @@ export const Constants: {
     DefaultEncryptionCacheTimeToLiveInSeconds: number;
     EncryptionCacheRefreshIntervalInMs: number;
     RequestTimeoutForReadsInMs: number;
+    Inference: {
+        BasePath: string;
+        UserAgent: string;
+        DefaultScope: string;
+        DefaultRequestTimeoutMs: number;
+    };
 };
 
 // @public
@@ -732,6 +738,8 @@ export class Container {
     readPartitionKeyRanges(feedOptions?: FeedOptions): QueryIterator<PartitionKeyRange>;
     replace(body: ContainerDefinition, options?: RequestOptions): Promise<ContainerResponse>;
     get scripts(): Scripts;
+    // @beta
+    semanticRerank(rerankContext: string, documents: string[], options?: SemanticRerankOptions): Promise<SemanticRerankResult>;
     get url(): string;
 }
 
@@ -2137,6 +2145,13 @@ export interface RequestOptions extends SharedOptions {
     urlConnection?: string;
 }
 
+// @beta
+export interface RerankScore {
+    document: string;
+    index: number;
+    score: number;
+}
+
 // @public (undocumented)
 export interface Resource {
     _etag: string;
@@ -2379,6 +2394,18 @@ export class Scripts {
     get triggers(): Triggers;
     userDefinedFunction(id: string): UserDefinedFunction;
     get userDefinedFunctions(): UserDefinedFunctions;
+}
+
+// @beta
+export type SemanticRerankOptions = Record<string, unknown>;
+
+// @beta
+export interface SemanticRerankResult {
+    diagnostics: CosmosDiagnostics;
+    headers: Record<string, string>;
+    latency: Record<string, unknown> | undefined;
+    rerankScores: RerankScore[];
+    tokenUsage: Record<string, unknown> | undefined;
 }
 
 // @public

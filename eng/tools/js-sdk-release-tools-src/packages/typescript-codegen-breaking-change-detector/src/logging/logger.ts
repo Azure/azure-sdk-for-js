@@ -1,10 +1,10 @@
-import { pino } from 'pino';
-import pretty from 'pino-pretty';
+import { pino } from "pino";
+import pretty from "pino-pretty";
 
 const devStream = pretty({
   colorize: false,
   levelFirst: true,
-  translateTime: 'yyyy-dd-mm, h:MM:ss TT',
+  translateTime: "yyyy-dd-mm, h:MM:ss TT",
   // destination: 'logs/app.log',
   append: false,
 });
@@ -12,7 +12,7 @@ const devStream = pretty({
 const stream = pretty({
   colorize: false,
   levelFirst: true,
-  translateTime: 'yyyy-dd-mm, h:MM:ss TT',
+  translateTime: "yyyy-dd-mm, h:MM:ss TT",
   // destination: 'logs/app.log',
   append: true,
 });
