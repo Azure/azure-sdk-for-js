@@ -299,6 +299,7 @@ describe("Batch delete messages - result shape (offline unit tests)", function (
         identifier: "id-1",
         name: "link-1",
         isOpen: () => true,
+        close: async (): Promise<void> => {},
       } as unknown as MessageSession;
       // isClosed requires the session to be registered on the context and open.
       context.messageSessions[messageSession.name] = messageSession as any;
