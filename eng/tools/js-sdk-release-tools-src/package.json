@@ -52,7 +52,7 @@
     "typescript-codegen-breaking-change-detector": "0.7.10",
     "unixify": "^1.0.0",
     "winston": "^3.17.0",
-    "yaml": "^2.7.0"
+    "yaml": "^2.9.0"
   },
   "devDependencies": {
     "@types/fs-extra": "^11.0.4",

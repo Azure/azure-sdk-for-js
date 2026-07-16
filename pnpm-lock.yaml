@@ -99,6 +99,8 @@ catalogs:
 
 overrides:
   '@azure/core-rest-pipeline': link:sdk/core/core-rest-pipeline
+  vitest>vite: ^8.0.0
+  '@vitest/mocker>vite': ^8.0.0
 
 importers:
 
@@ -195,10 +197,10 @@ importers:
         specifier: ~6.0.2
         version: 6.0.3
       unzipper:
-        specifier: ~0.12.3
+        specifier: ~0.12.5
         version: 0.12.5
       yaml:
-        specifier: ^2.3.4
+        specifier: ^2.9.0
         version: 2.9.0
     devDependencies:
       '@eslint/js':
@@ -381,8 +383,8 @@ importers:
   common/tools/warp:
     dependencies:
       esbuild:
-        specifier: ^0.27.3
-        version: 0.27.7
+        specifier: ^0.28.1
+        version: 0.28.1
       tsx:
         specifier: 'catalog:'
         version: 4.23.1
@@ -390,7 +392,7 @@ importers:
         specifier: 'catalog:'
         version: 6.0.3
       yaml:
-        specifier: ^2.8.2
+        specifier: ^2.9.0
         version: 2.9.0
     devDependencies:
       '@eslint/js':
@@ -37856,7 +37858,7 @@ packages:
     resolution: {integrity: sha1-JBOYerTNf6HCthS0BMQHv2rR6tE=}
     peerDependencies:
       msw: ^2.4.9
-      vite: ^6.0.0 || ^7.0.0 || ^8.0.0
+      vite: ^8.0.0
     peerDependenciesMeta:
       msw:
         optional: true
@@ -41422,7 +41424,7 @@ packages:
       '@vitest/ui': 4.1.10
       happy-dom: '*'
       jsdom: '*'
-      vite: ^6.0.0 || ^7.0.0 || ^8.0.0
+      vite: ^8.0.0
     peerDependenciesMeta:
       '@edge-runtime/vm':
         optional: true
