@@ -8,11 +8,14 @@
 
 ### Bugs Fixed
 
+- The default retry `mode` for Service Bus clients now correctly takes effect on the streaming-receiver (`subscribe`) path. Previously, because `RetryMode.Exponential === 0`, an explicitly configured `retryOptions.mode: Exponential` was treated as unset and silently reverted to `Fixed` on that path.
 - Read `com.microsoft:max-message-batch-size` vendor property from the AMQP sender link to correctly limit batch size on Premium large-message entities, where `max-message-size` can be up to 100 MB but the batch limit is 1 MB.
 - Fixed `TimeoutNegativeWarning` on Node.js v24+ when timeout budget is exceeded during CBS authentication by clamping remaining-time computations to a minimum of 0. [#38166](https://github.com/Azure/azure-sdk-for-js/pull/38166)
 - Fixed CBS token renewal stopping permanently after a single failed renewal. A transient credential error (for example a failed AAD `getToken` during a workload-identity rotation) no longer leaves the link's token un-renewed; renewal now retries with a capped exponential backoff until it succeeds or the link closes. [#38467](https://github.com/Azure/azure-sdk-for-js/issues/38467)
 
 ### Other Changes
+
+- Changed the default retry `mode` for Service Bus clients from `Fixed` (a flat 30-second delay between retries) to `Exponential` (0.8-second base delay, 60-second maximum), aligning Service Bus with the .NET, Java, Python, and Go SDKs. Transient failures now recover in roughly 7-10 seconds instead of roughly 90 seconds. Callers that set `retryOptions.mode`, `retryOptions.retryDelayInMs`, or `retryOptions.maxRetryDelayInMs` explicitly are unaffected.
 
 ## 7.10.0-beta.4 (2026-03-10)
 
