@@ -30,17 +30,12 @@ export interface PrivateEndpointConnectionsOperations {
    * Returns 200 (OK) with the deleted connection details on successful deletion, or 404 (Not Found) if the connection does not exist.
    * NOTE: The behavior of returning 404 is inconsistent with ARM guidelines. Clients should expect a 204 response in future versions and avoid new dependencies on the 404 response.
    */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     searchServiceName: string,
     privateEndpointConnectionName: string,
     options?: PrivateEndpointConnectionsDeleteOptionalParams,
-  ) => Promise<PrivateEndpointConnection>;
+  ) => Promise<PrivateEndpointConnection | void>;
   /** Updates a private endpoint connection to the search service in the given resource group. */
   update: (
     resourceGroupName: string,
@@ -57,7 +52,6 @@ export interface PrivateEndpointConnectionsOperations {
     options?: PrivateEndpointConnectionsGetOptionalParams,
   ) => Promise<PrivateEndpointConnection>;
 }
-
 function _getPrivateEndpointConnections(context: SearchManagementContext) {
   return {
     listByService: (
@@ -101,7 +95,6 @@ function _getPrivateEndpointConnections(context: SearchManagementContext) {
     ) => get(context, resourceGroupName, searchServiceName, privateEndpointConnectionName, options),
   };
 }
-
 export function _getPrivateEndpointConnectionsOperations(
   context: SearchManagementContext,
 ): PrivateEndpointConnectionsOperations {

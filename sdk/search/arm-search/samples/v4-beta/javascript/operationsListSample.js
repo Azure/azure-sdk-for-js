@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists all of the available REST API operations of the Microsoft.Search provider.
  *
  * @summary lists all of the available REST API operations of the Microsoft.Search provider.
- * x-ms-original-file: 2026-03-01-preview/SearchListOperations.json
+ * x-ms-original-file: 2026-09-01-preview/SearchListOperations.json
  */
 async function searchListOperations() {
   const credential = new DefaultAzureCredential();

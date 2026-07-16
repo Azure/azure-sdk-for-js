@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the quota usage for a search SKU in the given subscription.
  *
  * @summary gets the quota usage for a search SKU in the given subscription.
- * x-ms-original-file: 2026-03-01-preview/GetQuotaUsage.json
+ * x-ms-original-file: 2026-09-01-preview/GetQuotaUsage.json
  */
 async function getQuotaUsage() {
   const credential = new DefaultAzureCredential();
