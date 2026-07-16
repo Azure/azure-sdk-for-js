@@ -59,6 +59,12 @@ overrides:
 
 linkWorkspacePackages: true
 
+# Only install package versions that have been published for at least 7 days.
+# This mitigates supply-chain attacks that rely on freshly published malicious
+# versions being installed before they are detected and removed.
+# Value is expressed in minutes: 7 days * 24 hours * 60 minutes = 10080.
+minimumReleaseAge: 10080
+
 # Ensure lockfile includes optional dependencies for all CI and development platforms
 # This prevents lockfile churn when running pnpm install on different OSes
 # Lists all OS/CPU combinations used in CI (Ubuntu, Windows, macOS) and dev machines
