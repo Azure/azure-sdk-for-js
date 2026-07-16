@@ -16,9 +16,11 @@ import { DefaultAzureCredential } from "@azure/identity";
 import { AIProjectClient } from "@azure/ai-projects";
 import * as readline from "readline";
 import "dotenv/config";
+import { withAgentVersionEndpoint } from "../agentEndpointUtils.js";
 
 const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
 const deploymentName = process.env["FOUNDRY_MODEL_NAME"] || "<model deployment name>";
+const agentName = process.env["FOUNDRY_AGENT_NAME"] || "MyAgent";
 const bingCustomSearchProjectConnectionId =
   process.env["BING_CUSTOM_SEARCH_PROJECT_CONNECTION_ID"] ||
   "<bing custom search project connection id>";
@@ -27,96 +29,92 @@ const bingCustomSearchInstanceName =
 
 export async function main(): Promise<void> {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = project.getOpenAIClient();
 
   console.log("Creating agent with Bing Custom Search tool...");
 
-  const agent = await project.agents.createVersion("MyAgent", {
-    kind: "prompt",
-    model: deploymentName,
-    instructions:
-      "You are a helpful agent that can use Bing Custom Search tools to assist users. Use the available Bing Custom Search tools to answer questions and perform tasks.",
-    tools: [
-      {
-        type: "bing_custom_search_preview",
-        bing_custom_search_preview: {
-          search_configurations: [
-            {
-              project_connection_id: bingCustomSearchProjectConnectionId,
-              instance_name: bingCustomSearchInstanceName,
-            },
-          ],
+  await withAgentVersionEndpoint(
+    project,
+    agentName,
+    {
+      kind: "prompt",
+      model: deploymentName,
+      instructions:
+        "You are a helpful agent that can use Bing Custom Search tools to assist users. Use the available Bing Custom Search tools to answer questions and perform tasks.",
+      tools: [
+        {
+          type: "bing_custom_search_preview",
+          bing_custom_search_preview: {
+            search_configurations: [
+              {
+                project_connection_id: bingCustomSearchProjectConnectionId,
+                instance_name: bingCustomSearchInstanceName,
+              },
+            ],
+          },
         },
-      },
-    ],
-  });
-  console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
-
-  // Prompt user for input
-  const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-  });
-
-  const userInput = await new Promise<string>((resolve) => {
-    rl.question(
-      "Enter your question for the Bing Custom Search agent (Default: 'Tell me more about foundry agent service'): \n",
-      (answer) => {
-        rl.close();
-        resolve(answer);
-      },
-    );
-  });
-
-  // Send initial request that will trigger the Bing Custom Search tool
-  console.log("\nSending request to Bing Custom Search agent with streaming...");
-  const streamResponse = await openAIClient.responses.create(
-    {
-      input: userInput || "Tell me more about foundry agent service",
-      stream: true,
+      ],
     },
-    {
-      body: {
-        agent_reference: { name: agent.name, type: "agent_reference" },
-      },
-    },
-  );
+    async (agent) => {
+      console.log(
+        `Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`,
+      );
+      const openAIClient = project.getOpenAIClient({
+        azureConfig: { allowPreview: true, agentName },
+      });
 
-  // Process the streaming response
-  for await (const event of streamResponse) {
-    if (event.type === "response.created") {
-      console.log(`Follow-up response created with ID: ${event.response.id}`);
-    } else if (event.type === "response.output_text.delta") {
-      process.stdout.write(event.delta);
-    } else if (event.type === "response.output_text.done") {
-      console.log("\n\nFollow-up response done!");
-    } else if (event.type === "response.output_item.done") {
-      if (event.item.type === "message") {
-        const item = event.item;
-        if (item.content && item.content.length > 0) {
-          const lastContent = item.content[item.content.length - 1];
-          if (lastContent.type === "output_text" && lastContent.annotations) {
-            for (const annotation of lastContent.annotations) {
-              if (annotation.type === "url_citation") {
-                console.log(
-                  `URL Citation: ${annotation.url}, Start index: ${annotation.start_index}, End index: ${annotation.end_index}`,
-                );
+      // Prompt user for input
+      const rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout,
+      });
+
+      const userInput = await new Promise<string>((resolve) => {
+        rl.question(
+          "Enter your question for the Bing Custom Search agent (Default: 'Tell me more about foundry agent service'): \n",
+          (answer) => {
+            rl.close();
+            resolve(answer);
+          },
+        );
+      });
+
+      // Send initial request that will trigger the Bing Custom Search tool
+      console.log("\nSending request to Bing Custom Search agent with streaming...");
+      const streamResponse = await openAIClient.responses.create({
+        input: userInput || "Tell me more about foundry agent service",
+        stream: true,
+      });
+
+      // Process the streaming response
+      for await (const event of streamResponse) {
+        if (event.type === "response.created") {
+          console.log(`Follow-up response created with ID: ${event.response.id}`);
+        } else if (event.type === "response.output_text.delta") {
+          process.stdout.write(event.delta);
+        } else if (event.type === "response.output_text.done") {
+          console.log("\n\nFollow-up response done!");
+        } else if (event.type === "response.output_item.done") {
+          if (event.item.type === "message") {
+            const item = event.item;
+            if (item.content && item.content.length > 0) {
+              const lastContent = item.content[item.content.length - 1];
+              if (lastContent.type === "output_text" && lastContent.annotations) {
+                for (const annotation of lastContent.annotations) {
+                  if (annotation.type === "url_citation") {
+                    console.log(
+                      `URL Citation: ${annotation.url}, Start index: ${annotation.start_index}, End index: ${annotation.end_index}`,
+                    );
+                  }
+                }
               }
             }
           }
+        } else if (event.type === "response.completed") {
+          console.log("\nFollow-up completed!");
         }
       }
-    } else if (event.type === "response.completed") {
-      console.log("\nFollow-up completed!");
-    }
-  }
-
-  // Clean up resources by deleting the agent version
-  // This prevents accumulation of unused resources in your project
-  console.log("\nCleaning up resources...");
-  await project.agents.deleteVersion(agent.name, agent.version);
-  console.log("Agent deleted");
-
+    },
+  );
   console.log("\nBing Custom Search agent sample completed!");
 }
 

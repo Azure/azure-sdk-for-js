@@ -12,16 +12,14 @@ const { DefaultAzureCredential } = require("@azure/identity");
 const { AIProjectClient } = require("@azure/ai-projects");
 const fs = require("fs");
 const path = require("path");
-const { fileURLToPath } = require("node:url");
 require("dotenv/config");
 
 const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
 const deploymentName = process.env["FOUNDRY_MODEL_NAME"] || "<model deployment name>";
+const agentName = process.env["FOUNDRY_AGENT_NAME"] || "MyAgent";
 
 async function main() {
   // Load the file to be indexed for search
-  const __filename = fileURLToPath(import.meta.url);
-  const __dirname = path.dirname(__filename);
   const assetFilePath = path.join(__dirname, "../assets/product_info.md");
 
   // Create AI Project client
@@ -43,7 +41,7 @@ async function main() {
 
   // Create agent with file search tool
   console.log("\nCreating agent with file search tool...");
-  const agent = await project.agents.createVersion("agent-file-search", {
+  const agent = await project.agents.createVersion(agentName, {
     kind: "prompt",
     model: deploymentName,
     instructions: "You are a helpful assistant that can search through product information.",

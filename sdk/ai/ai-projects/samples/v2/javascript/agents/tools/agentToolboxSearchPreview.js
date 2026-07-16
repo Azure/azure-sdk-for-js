@@ -20,9 +20,11 @@
 const { AIProjectClient, RestError } = require("@azure/ai-projects");
 const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv/config");
+const { withAgentVersionEndpoint } = require("../agentEndpointUtils.js");
 
 const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
 const deploymentName = process.env["FOUNDRY_MODEL_NAME"] || "<model deployment name>";
+const agentName = process.env["FOUNDRY_AGENT_NAME"] || "MyAgent";
 const mcpConnectionId = process.env["MCP_PROJECT_CONNECTION_ID"] || "<mcp connection id>";
 
 const TOOLBOX_NAME = "toolbox_with_mcp_tool";
@@ -33,7 +35,6 @@ const TOOLBOX_MCP_LABEL = "search-tool";
 async function main() {
   const credential = new DefaultAzureCredential();
   const project = new AIProjectClient(projectEndpoint, credential);
-  const openAIClient = project.getOpenAIClient();
 
   // Clean up any leftover toolbox from a prior run
   try {
@@ -73,44 +74,50 @@ async function main() {
   };
 
   // Create a prompt agent that uses the toolbox
-  const agent = await project.agents.createVersion("MyAgent", {
-    kind: "prompt",
-    model: deploymentName,
-    instructions:
-      "Always use the toolbox search tool to answer questions and perform tasks. " +
-      "Use `tool_search` to discover a relevant tool, then `call_tool` " +
-      "with the tool name returned by the search.",
-    tools: [toolboxMcpTool],
-  });
-  console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version}).`);
+  await withAgentVersionEndpoint(
+    project,
+    agentName,
+    {
+      kind: "prompt",
+      model: deploymentName,
+      instructions:
+        "Always use the toolbox search tool to answer questions and perform tasks. " +
+        "Use `tool_search` to discover a relevant tool, then `call_tool` " +
+        "with the tool name returned by the search.",
+      tools: [toolboxMcpTool],
+    },
+    async (agent) => {
+      console.log(
+        `Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version}).`,
+      );
+      const openAIClient = project.getOpenAIClient({
+        azureConfig: { allowPreview: true, agentName },
+      });
 
-  // Send a query
-  const response = await openAIClient.responses.create(
-    { input: "What is my username in Github profile?" },
-    { body: { agent_reference: { name: agent.name, type: "agent_reference" } } },
+      // Send a query
+      const response = await openAIClient.responses.create({
+        input: "What is my username in Github profile?",
+      });
+
+      for (const item of response.output) {
+        if (item.type === "mcp_approval_request") {
+          console.log(`mcp_approval_request server_label=${item.server_label} name=${item.name}`);
+        } else if (item.type === "mcp_list_tools") {
+          console.log(
+            `mcp_list_tools server_label=${item.server_label} tools=${(item.tools || []).map((t) => t.name)}`,
+          );
+        } else if (item.type === "mcp_call") {
+          console.log(
+            `mcp_call server_label=${item.server_label} name=${item.name} error=${item.error}`,
+          );
+        } else {
+          console.log(`output item type=${item.type}`);
+        }
+      }
+
+      console.log(`Response: ${response.output_text}`);
+    },
   );
-
-  for (const item of response.output) {
-    if (item.type === "mcp_approval_request") {
-      console.log(`mcp_approval_request server_label=${item.server_label} name=${item.name}`);
-    } else if (item.type === "mcp_list_tools") {
-      console.log(
-        `mcp_list_tools server_label=${item.server_label} tools=${(item.tools || []).map((t) => t.name)}`,
-      );
-    } else if (item.type === "mcp_call") {
-      console.log(
-        `mcp_call server_label=${item.server_label} name=${item.name} error=${item.error}`,
-      );
-    } else {
-      console.log(`output item type=${item.type}`);
-    }
-  }
-
-  console.log(`Response: ${response.output_text}`);
-
-  // Clean up
-  await project.agents.deleteVersion(agent.name, agent.version);
-  console.log(`Agent version ${agent.version} deleted.`);
 }
 
 main().catch((err) => {

@@ -12,15 +12,16 @@
 import { DefaultAzureCredential } from "@azure/identity";
 import { AIProjectClient, type FabricIQPreviewTool } from "@azure/ai-projects";
 import "dotenv/config";
+import { withAgentVersionEndpoint } from "../agentEndpointUtils.js";
 
 const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
 const deploymentName = process.env["FOUNDRY_MODEL_NAME"] || "<model deployment name>";
+const agentName = process.env["FOUNDRY_AGENT_NAME"] || "MyAgent";
 const fabricIqProjectConnectionId =
   process.env["FABRIC_IQ_PROJECT_CONNECTION_ID"] || "<fabric iq project connection id>";
 
 export async function main(): Promise<void> {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = project.getOpenAIClient();
 
   const tool: FabricIQPreviewTool = {
     type: "fabric_iq_preview",
@@ -29,33 +30,33 @@ export async function main(): Promise<void> {
   };
 
   console.log("Creating agent with FabricIQPreviewTool...");
-  const agent = await project.agents.createVersion("MyAgent", {
-    kind: "prompt",
-    model: deploymentName,
-    instructions: "Use the available Fabric IQ tools to answer questions and perform tasks.",
-    tools: [tool],
-  });
-  console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
-
-  const userInput = process.env["FABRIC_IQ_USER_INPUT"] || "Summarize the available datasets";
-  console.log("\nSending request to agent...");
-
-  const response = await openAIClient.responses.create(
+  await withAgentVersionEndpoint(
+    project,
+    agentName,
     {
-      input: userInput,
+      kind: "prompt",
+      model: deploymentName,
+      instructions: "Use the available Fabric IQ tools to answer questions and perform tasks.",
+      tools: [tool],
     },
-    {
-      body: {
-        agent_reference: { name: agent.name, type: "agent_reference" },
-      },
+    async (agent) => {
+      console.log(
+        `Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`,
+      );
+      const openAIClient = project.getOpenAIClient({
+        azureConfig: { allowPreview: true, agentName },
+      });
+
+      const userInput = process.env["FABRIC_IQ_USER_INPUT"] || "Summarize the available datasets";
+      console.log("\nSending request to agent...");
+
+      const response = await openAIClient.responses.create({
+        input: userInput,
+      });
+
+      console.log(`Agent response: ${response.output_text}`);
     },
   );
-
-  console.log(`Agent response: ${response.output_text}`);
-
-  // Clean up the agent version so unused versions don't accumulate in the project.
-  await project.agents.deleteVersion(agent.name, agent.version);
-  console.log("Agent deleted");
 }
 
 main().catch((err) => {

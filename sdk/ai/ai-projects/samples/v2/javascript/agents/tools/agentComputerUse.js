@@ -18,6 +18,7 @@
 const { DefaultAzureCredential } = require("@azure/identity");
 const { AIProjectClient } = require("@azure/ai-projects");
 require("dotenv/config");
+const { withAgentVersionEndpoint } = require("../agentEndpointUtils.js");
 const {
   SearchState,
   loadScreenshotAssets,
@@ -28,6 +29,7 @@ const {
 const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
 const deploymentName =
   process.env["COMPUTER_USE_MODEL_DEPLOYMENT_NAME"] || "<model deployment name>";
+const agentName = process.env["FOUNDRY_AGENT_NAME"] || "MyAgent";
 
 async function main() {
   // Initialize state machine
@@ -35,17 +37,20 @@ async function main() {
 
   // Create AI Project client
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = project.getOpenAIClient();
+  const projectOpenAIClient = project.getOpenAIClient();
 
   // Load screenshot assets
-  const screenshots = await loadScreenshotAssets(openAIClient);
+  const screenshots = await loadScreenshotAssets(projectOpenAIClient);
   console.log("Successfully loaded screenshot assets");
 
   console.log("Creating Computer Use Agent...");
-  const agent = await project.agents.createVersion("ComputerUseAgent", {
-    kind: "prompt",
-    model: deploymentName,
-    instructions: `
+  await withAgentVersionEndpoint(
+    project,
+    agentName,
+    {
+      kind: "prompt",
+      model: deploymentName,
+      instructions: `
 You are a computer automation assistant.
 
 
@@ -53,120 +58,112 @@ You are a computer automation assistant.
 
 Be direct and efficient. When you reach the search results page, read and describe the actual search result titles and descriptions you can see.
     `.trim(),
-    tools: [
-      {
-        type: "computer_use_preview",
-        display_width: 1026,
-        display_height: 769,
-        environment: "windows",
-      },
-    ],
-  });
-  console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
-
-  // Initial request with screenshot - start with Bing search page
-  console.log(
-    "Starting computer automation session (initial screenshot: cua_browser_search.png)...",
-  );
-  let response = await openAIClient.responses.create(
-    {
-      input: [
+      tools: [
         {
-          role: "user",
-          content: [
-            {
-              type: "input_text",
-              text: "I need you to help me search for 'OpenAI news'. Please type 'OpenAI news' and submit the search. Once you see search results, the task is complete.",
-            },
-            {
-              type: "input_image",
-              file_id: screenshots.browser_search.fileId,
-              detail: "high",
-            },
-          ],
+          type: "computer_use_preview",
+          display_width: 1026,
+          display_height: 769,
+          environment: "windows",
         },
       ],
-      truncation: "auto",
     },
-    {
-      body: { agent_reference: { name: agent.name, type: "agent_reference" } },
-    },
-  );
-
-  console.log(`Initial response received (ID: ${response.id})`);
-
-  // Main interaction loop with deterministic completion
-  const maxIterations = 10; // Allow enough iterations for completion
-  let iteration = 0;
-
-  while (iteration < maxIterations) {
-    iteration++;
-    console.log(`\n--- Iteration ${iteration} ---`);
-
-    // Check for computer calls in the response
-    const computerCalls = response.output.filter((item) => item.type === "computer_call");
-
-    if (computerCalls.length === 0) {
-      printFinalOutput({
-        output: response.output,
-        status: response.status ?? "",
+    async (agent) => {
+      console.log(
+        `Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`,
+      );
+      const openAIClient = project.getOpenAIClient({
+        azureConfig: { allowPreview: true, agentName },
       });
-      break;
-    }
 
-    // Process the first computer call
-    const computerCall = computerCalls[0];
-    if (!computerCall.action || !computerCall.call_id) {
-      console.log("Incomplete computer call, skipping...");
-      continue;
-    }
-    const action = computerCall.action;
-    const callId = computerCall.call_id;
-
-    console.log(`Processing computer call (ID: ${callId})`);
-
-    // Handle the action and get the screenshot info
-    const [screenshotInfo, updatedState] = handleComputerActionAndTakeScreenshot(
-      action,
-      currentState,
-      screenshots,
-    );
-    currentState = updatedState;
-
-    console.log(`Sending action result back to agent (using ${screenshotInfo.filename})...`);
-    // Regular response with just the screenshot
-    response = await openAIClient.responses.create(
-      {
-        previous_response_id: response.id,
+      // Initial request with screenshot - start with Bing search page
+      console.log(
+        "Starting computer automation session (initial screenshot: cua_browser_search.png)...",
+      );
+      let response = await openAIClient.responses.create({
         input: [
           {
-            call_id: callId,
-            type: "computer_call_output",
-            output: {
-              type: "computer_screenshot",
-              file_id: screenshotInfo.fileId,
-            },
+            role: "user",
+            content: [
+              {
+                type: "input_text",
+                text: "I need you to help me search for 'OpenAI news'. Please type 'OpenAI news' and submit the search. Once you see search results, the task is complete.",
+              },
+              {
+                type: "input_image",
+                file_id: screenshots.browser_search.fileId,
+                detail: "high",
+              },
+            ],
           },
         ],
         truncation: "auto",
-      },
-      {
-        body: { agent_reference: { name: agent.name, type: "agent_reference" } },
-      },
-    );
+      });
 
-    console.log(`Follow-up response received (ID: ${response.id})`);
-  }
+      console.log(`Initial response received (ID: ${response.id})`);
 
-  if (iteration >= maxIterations) {
-    console.log(`\nReached maximum iterations (${maxIterations}). Stopping.`);
-  }
+      // Main interaction loop with deterministic completion
+      const maxIterations = 10; // Allow enough iterations for completion
+      let iteration = 0;
 
-  // Clean up resources
-  console.log("\nCleaning up...");
-  await project.agents.deleteVersion(agent.name, agent.version);
-  console.log("Agent deleted");
+      while (iteration < maxIterations) {
+        iteration++;
+        console.log(`\n--- Iteration ${iteration} ---`);
 
+        // Check for computer calls in the response
+        const computerCalls = response.output.filter((item) => item.type === "computer_call");
+
+        if (computerCalls.length === 0) {
+          printFinalOutput({
+            output: response.output,
+            status: response.status ?? "",
+          });
+          break;
+        }
+
+        // Process the first computer call
+        const computerCall = computerCalls[0];
+        if (!computerCall.action || !computerCall.call_id) {
+          console.log("Incomplete computer call, skipping...");
+          continue;
+        }
+        const action = computerCall.action;
+        const callId = computerCall.call_id;
+
+        console.log(`Processing computer call (ID: ${callId})`);
+
+        // Handle the action and get the screenshot info
+        const [screenshotInfo, updatedState] = handleComputerActionAndTakeScreenshot(
+          action,
+          currentState,
+          screenshots,
+        );
+        currentState = updatedState;
+
+        console.log(`Sending action result back to agent (using ${screenshotInfo.filename})...`);
+        // Regular response with just the screenshot
+        response = await openAIClient.responses.create({
+          previous_response_id: response.id,
+          input: [
+            {
+              call_id: callId,
+              type: "computer_call_output",
+              output: {
+                type: "computer_screenshot",
+                file_id: screenshotInfo.fileId,
+              },
+            },
+          ],
+          truncation: "auto",
+        });
+
+        console.log(`Follow-up response received (ID: ${response.id})`);
+      }
+
+      if (iteration >= maxIterations) {
+        console.log(`\nReached maximum iterations (${maxIterations}). Stopping.`);
+      }
+    },
+  );
   console.log("\nComputer Use Agent sample completed!");
 }
 

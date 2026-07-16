@@ -11,6 +11,7 @@
 import { DefaultAzureCredential } from "@azure/identity";
 import { AIProjectClient } from "@azure/ai-projects";
 import "dotenv/config";
+import { withAgentVersionEndpoint } from "./agentEndpointUtils.js";
 
 const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
 const deploymentName = process.env["FOUNDRY_MODEL_NAME"] || "<model deployment name>";
@@ -18,36 +19,43 @@ const deploymentName = process.env["FOUNDRY_MODEL_NAME"] || "<model deployment n
 export async function main(): Promise<void> {
   // Create AI Project client
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = project.getOpenAIClient();
 
   // Create Teacher Agent
   console.log("Creating teacher agent...");
-  const teacherAgent = await project.agents.createVersion("teacher-agent", {
-    kind: "prompt",
-    model: deploymentName,
-    instructions: `You are a teacher that create pre-school math question for student and check answer.
-                   If the answer is correct, you stop the conversation by saying [COMPLETE].
-                   If the answer is wrong, you ask student to fix it.`,
-  });
-  console.log(
-    `Agent created (id: ${teacherAgent.id}, name: ${teacherAgent.name}, version: ${teacherAgent.version})`,
-  );
+  await withAgentVersionEndpoint(
+    project,
+    "teacher-agent",
+    {
+      kind: "prompt",
+      model: deploymentName,
+      instructions: `You are a teacher that create pre-school math question for student and check answer.
+                     If the answer is correct, you stop the conversation by saying [COMPLETE].
+                     If the answer is wrong, you ask student to fix it.`,
+    },
+    async (teacherAgent) => {
+      console.log(
+        `Agent created (id: ${teacherAgent.id}, name: ${teacherAgent.name}, version: ${teacherAgent.version})`,
+      );
 
-  // Create Student Agent
-  console.log("\nCreating student agent...");
-  const studentAgent = await project.agents.createVersion("student-agent", {
-    kind: "prompt",
-    model: deploymentName,
-    instructions: `You are a student who answers questions from the teacher.
-                   When the teacher gives you a question, you answer it.`,
-  });
-  console.log(
-    `Agent created (id: ${studentAgent.id}, name: ${studentAgent.name}, version: ${studentAgent.version})`,
-  );
+      // Create Student Agent
+      console.log("\nCreating student agent...");
+      await withAgentVersionEndpoint(
+        project,
+        "student-agent",
+        {
+          kind: "prompt",
+          model: deploymentName,
+          instructions: `You are a student who answers questions from the teacher.
+                         When the teacher gives you a question, you answer it.`,
+        },
+        async (studentAgent) => {
+          console.log(
+            `Agent created (id: ${studentAgent.id}, name: ${studentAgent.name}, version: ${studentAgent.version})`,
+          );
 
-  // Create Multi-Agent Workflow
-  console.log("\nCreating multi-agent workflow...");
-  const workflowYaml = `
+          // Create Multi-Agent Workflow
+          console.log("\nCreating multi-agent workflow...");
+          const workflowYaml = `
 kind: workflow
 trigger:
   kind: OnConversationStart
@@ -115,63 +123,66 @@ trigger:
           actionId: student_agent
 `;
 
-  const workflow = await project.agents.createVersion(
-    "student-teacher-workflow",
-    {
-      kind: "workflow",
-      workflow: workflowYaml,
-    },
-    {
-      foundryFeatures: "WorkflowAgents=V1Preview",
+          await withAgentVersionEndpoint(
+            project,
+            "student-teacher-workflow",
+            {
+              kind: "workflow",
+              workflow: workflowYaml,
+            },
+            async (workflow) => {
+              console.log(
+                `Agent created (id: ${workflow.id}, name: ${workflow.name}, version: ${workflow.version})`,
+              );
+              const openAIClient = project.getOpenAIClient({
+                azureConfig: { allowPreview: true, agentName: workflow.name },
+              });
+
+              // Create conversation
+              console.log("\nCreating conversation...");
+              const conversation = await openAIClient.conversations.create();
+              console.log(`Created conversation (id: ${conversation.id})`);
+
+              // Send request to the workflow with streaming
+              console.log("\nSending request to multi-agent workflow with streaming...");
+              const stream = await openAIClient.responses.create(
+                {
+                  conversation: conversation.id,
+                  input: "1 + 1 = ?",
+                  stream: true,
+                },
+                {
+                  body: {
+                    metadata: { "x-ms-debug-mode-enabled": "1" },
+                  },
+                },
+              );
+
+              // Process the streaming response
+              for await (const event of stream) {
+                console.log("Event received:", JSON.stringify(event, null, 2));
+                if (
+                  event.type === "response.output_item.added" ||
+                  event.type === "response.output_item.done"
+                ) {
+                  const item = event.item;
+                  console.log(`\n ${JSON.stringify(item, null, 2)} added:`);
+                }
+              }
+
+              // Clean up
+              console.log("\nCleaning up resources...");
+              await openAIClient.conversations.delete(conversation.id);
+              console.log("Conversation deleted");
+            },
+            {
+              foundryFeatures: "WorkflowAgents=V1Preview",
+            },
+          );
+        },
+      );
     },
   );
-  console.log(
-    `Agent created (id: ${workflow.id}, name: ${workflow.name}, version: ${workflow.version})`,
-  );
-
-  // Create conversation
-  console.log("\nCreating conversation...");
-  const conversation = await openAIClient.conversations.create();
-  console.log(`Created conversation (id: ${conversation.id})`);
-
-  // Send request to the workflow with streaming
-  console.log("\nSending request to multi-agent workflow with streaming...");
-  const stream = await openAIClient.responses.create(
-    {
-      conversation: conversation.id,
-      input: "1 + 1 = ?",
-      stream: true,
-    },
-    {
-      body: {
-        agent_reference: { name: workflow.name, type: "agent_reference" },
-        metadata: { "x-ms-debug-mode-enabled": "1" },
-      },
-    },
-  );
-
-  // Process the streaming response
-  for await (const event of stream) {
-    console.log("Event received:", JSON.stringify(event, null, 2));
-    if (event.type === "response.output_item.added" || event.type === "response.output_item.done") {
-      const item = event.item;
-      console.log(`\n ${JSON.stringify(item, null, 2)} added:`);
-    }
-  }
-
-  // Clean up
-  console.log("\nCleaning up resources...");
-  await openAIClient.conversations.delete(conversation.id);
-  console.log("Conversation deleted");
-
-  await project.agents.deleteVersion(workflow.name, workflow.version);
-  console.log("Workflow deleted");
-
-  await project.agents.deleteVersion(studentAgent.name, studentAgent.version);
-  console.log("Student Agent deleted");
-
-  await project.agents.deleteVersion(teacherAgent.name, teacherAgent.version);
-  console.log("Teacher Agent deleted");
 
   console.log("\nMulti-agent workflow sample completed!");
 }

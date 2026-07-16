@@ -24,12 +24,14 @@ import { fileURLToPath } from "node:url";
 import * as fs from "node:fs/promises";
 import * as path from "path";
 import "dotenv/config";
+import { withAgentVersionEndpoint } from "../agentEndpointUtils.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
 const deploymentName = process.env["FOUNDRY_MODEL_NAME"] || "<model deployment name>";
+const agentName = process.env["FOUNDRY_AGENT_NAME"] || "MyAgent";
 const tripAdvisorProjectConnectionId =
   process.env["TRIPADVISOR_PROJECT_CONNECTION_ID"] || "<tripadvisor project connection id>";
 const tripAdvisorSpecPath = path.resolve(__dirname, "../assets", "tripadvisor_openapi.json");
@@ -70,69 +72,71 @@ export async function main(): Promise<void> {
   const tripAdvisorSpec = await loadOpenApiSpec(tripAdvisorSpecPath);
 
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = project.getOpenAIClient();
 
   console.log("Creating agent with OpenAPI project-connection tool...");
 
-  const agent = await project.agents.createVersion("MyOpenApiConnectionAgent", {
-    kind: "prompt",
-    model: deploymentName,
-    instructions:
-      "You are a travel assistant that consults the TripAdvisor Content API via project connection to answer user questions about locations.",
-    tools: [createTripAdvisorTool(tripAdvisorSpec)],
-  });
-  console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
-
-  console.log("\nSending request to TripAdvisor OpenAPI agent with streaming...");
-  const streamResponse = await openAIClient.responses.create(
+  await withAgentVersionEndpoint(
+    project,
+    agentName,
     {
-      input:
-        "Provide a quick overview of the TripAdvisor location 293919 including its name, rating, and review count.",
-      stream: true,
+      kind: "prompt",
+      model: deploymentName,
+      instructions:
+        "You are a travel assistant that consults the TripAdvisor Content API via project connection to answer user questions about locations.",
+      tools: [createTripAdvisorTool(tripAdvisorSpec)],
     },
-    {
-      body: {
-        agent_reference: { name: agent.name, type: "agent_reference" },
-        tool_choice: "required",
-      },
+    async (agent) => {
+      console.log(
+        `Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`,
+      );
+      const openAIClient = project.getOpenAIClient({
+        azureConfig: { allowPreview: true, agentName },
+      });
+
+      console.log("\nSending request to TripAdvisor OpenAPI agent with streaming...");
+      const streamResponse = await openAIClient.responses.create(
+        {
+          input:
+            "Provide a quick overview of the TripAdvisor location 293919 including its name, rating, and review count.",
+          stream: true,
+        },
+        {
+          body: {
+            tool_choice: "required",
+          },
+        },
+      );
+
+      // Process the streaming response
+      for await (const event of streamResponse) {
+        if (event.type === "response.created") {
+          console.log(`Follow-up response created with ID: ${event.response.id}`);
+        } else if (event.type === "response.output_text.delta") {
+          process.stdout.write(event.delta);
+        } else if (event.type === "response.output_text.done") {
+          console.log("\n\nFollow-up response done!");
+        } else if (event.type === "response.output_item.done") {
+          const item = event.item as any;
+          if (item.type === "message") {
+            const content = item.content?.[item.content.length - 1];
+            if (content?.type === "output_text" && content.annotations) {
+              for (const annotation of content.annotations) {
+                if (annotation.type === "url_citation") {
+                  console.log(
+                    `URL Citation: ${annotation.url}, Start index: ${annotation.start_index}, End index: ${annotation.end_index}`,
+                  );
+                }
+              }
+            }
+          } else if (item.type === "tool_call") {
+            console.log(`Tool call completed: ${item.name ?? "unknown"}`);
+          }
+        } else if (event.type === "response.completed") {
+          console.log("\nFollow-up completed!");
+        }
+      }
     },
   );
-
-  // Process the streaming response
-  for await (const event of streamResponse) {
-    if (event.type === "response.created") {
-      console.log(`Follow-up response created with ID: ${event.response.id}`);
-    } else if (event.type === "response.output_text.delta") {
-      process.stdout.write(event.delta);
-    } else if (event.type === "response.output_text.done") {
-      console.log("\n\nFollow-up response done!");
-    } else if (event.type === "response.output_item.done") {
-      const item = event.item as any;
-      if (item.type === "message") {
-        const content = item.content?.[item.content.length - 1];
-        if (content?.type === "output_text" && content.annotations) {
-          for (const annotation of content.annotations) {
-            if (annotation.type === "url_citation") {
-              console.log(
-                `URL Citation: ${annotation.url}, Start index: ${annotation.start_index}, End index: ${annotation.end_index}`,
-              );
-            }
-          }
-        }
-      } else if (item.type === "tool_call") {
-        console.log(`Tool call completed: ${item.name ?? "unknown"}`);
-      }
-    } else if (event.type === "response.completed") {
-      console.log("\nFollow-up completed!");
-    }
-  }
-
-  // Clean up resources by deleting the agent version
-  // This prevents accumulation of unused resources in your project
-  console.log("\nCleaning up resources...");
-  await project.agents.deleteVersion(agent.name, agent.version);
-  console.log("Agent deleted");
-
   console.log("\nTripAdvisor OpenAPI agent sample completed!");
 }
 

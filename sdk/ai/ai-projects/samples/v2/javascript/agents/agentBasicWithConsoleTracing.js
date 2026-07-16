@@ -8,33 +8,21 @@
  * Set the following environment variables before running:
  *   FOUNDRY_PROJECT_ENDPOINT - Your Microsoft Foundry project endpoint URL
  *   FOUNDRY_MODEL_NAME       - The deployment name of the model to use
+ *   FOUNDRY_AGENT_NAME       - Optional agent name. Defaults to "MyAgent"
  *
  * @summary Demonstrates agent operations with OpenTelemetry console tracing.
  */
 
-// Set up OpenTelemetry and Azure SDK instrumentation BEFORE importing Azure SDK packages.
-const {
-  NodeTracerProvider,
-  ConsoleSpanExporter,
-  SimpleSpanProcessor,
-} = require("@opentelemetry/sdk-trace-node");
-const { context, trace } = require("@opentelemetry/api");
-const { registerInstrumentations } = require("@opentelemetry/instrumentation");
-const { createAzureSdkInstrumentation } = require("@azure/opentelemetry-instrumentation-azure-sdk");
-
-const provider = new NodeTracerProvider({
-  spanProcessors: [new SimpleSpanProcessor(new ConsoleSpanExporter())],
-});
-provider.register();
-registerInstrumentations({ instrumentations: [createAzureSdkInstrumentation()] });
-
-// Import Azure SDK packages (after instrumentation is registered)
+// Import tracing setup first so instrumentation is registered before Azure SDK modules load.
+const { provider, context, trace } = require("./consoleTracingSetup.js");
 const { DefaultAzureCredential } = require("@azure/identity");
 const { AIProjectClient } = require("@azure/ai-projects");
 require("dotenv/config");
+const { withAgentVersionEndpoint } = require("./agentEndpointUtils.js");
 
 const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
 const deploymentName = process.env["FOUNDRY_MODEL_NAME"] || "<model deployment name>";
+const agentName = process.env["FOUNDRY_AGENT_NAME"] || "MyAgent";
 
 async function main() {
   const tracer = trace.getTracer("AgentBasicWithConsoleTraces");
@@ -54,48 +42,46 @@ async function main() {
       experimental: true,
     },
   });
-  const openAIClient = project.getOpenAIClient();
 
   // Create a parent span for the scenario
   const span = tracer.startSpan("agentBasicWithConsoleTraces");
   const ctx = trace.setSpan(context.active(), span);
 
   await context.with(ctx, async () => {
-    // Create agent
-    console.log("Creating agent...");
-    const agent = await project.agents.createVersion("my-agent-console-tracing", {
-      kind: "prompt",
-      model: deploymentName,
-      instructions: "You are a helpful assistant that answers general questions",
-    });
-    console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
+    await withAgentVersionEndpoint(
+      project,
+      agentName,
+      {
+        kind: "prompt",
+        model: deploymentName,
+        instructions: "You are a helpful assistant that answers general questions",
+      },
+      async (agent) => {
+        console.log(
+          `Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`,
+        );
+        const openAIClient = project.getOpenAIClient({
+          azureConfig: { allowPreview: true, agentName },
+        });
 
-    try {
-      // Create an empty conversation
-      console.log("\nCreating conversation...");
-      const conversation = await openAIClient.conversations.create({});
-      console.log(`Created conversation (id: ${conversation.id})`);
+        // Create an empty conversation
+        console.log("\nCreating conversation...");
+        const conversation = await openAIClient.conversations.create({});
+        console.log(`Created conversation (id: ${conversation.id})`);
 
-      // Generate response using the agent, passing user message as input
-      console.log("\nGenerating response...");
-      const response = await openAIClient.responses.create(
-        {
+        // Generate response using the agent, passing user message as input
+        console.log("\nGenerating response...");
+        const response = await openAIClient.responses.create({
           conversation: conversation.id,
           input: "What is the size of France in square miles?",
-        },
-        {
-          body: { agent_reference: { name: agent.name, type: "agent_reference" } },
-        },
-      );
-      console.log(`Response output: ${response.output_text}`);
+        });
+        console.log(`Response output: ${response.output_text}`);
 
-      // Clean up conversation
-      await openAIClient.conversations.delete(conversation.id);
-      console.log("Conversation deleted");
-    } finally {
-      await project.agents.deleteVersion(agent.name, agent.version);
-      console.log("Agent deleted");
-    }
+        // Clean up conversation
+        await openAIClient.conversations.delete(conversation.id);
+        console.log("Conversation deleted");
+      },
+    );
   });
 
   span.end();

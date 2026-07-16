@@ -13,9 +13,11 @@
 const { DefaultAzureCredential } = require("@azure/identity");
 const { AIProjectClient } = require("@azure/ai-projects");
 require("dotenv/config");
+const { withAgentVersionEndpoint } = require("./agentEndpointUtils.js");
 
 const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
 const deploymentName = process.env["FOUNDRY_MODEL_NAME"] || "<model deployment name>";
+const agentName = process.env["FOUNDRY_AGENT_NAME"] || "MyAgent";
 
 /**
  * Define a function tool for the model to use
@@ -48,80 +50,73 @@ function getHoroscope(sign) {
 async function main() {
   // Create AI Project client
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = project.getOpenAIClient();
 
-  // Create agent with function tools
-  console.log("Creating agent with function tools...");
-  const agent = await project.agents.createVersion("function-tool-agent", {
-    kind: "prompt",
-    model: deploymentName,
-    instructions: "You are a helpful assistant that can use function tools.",
-    tools: [funcTool],
-  });
-  console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
-
-  // Prompt the model with tools defined
-  console.log("\nGenerating initial response...");
-  const response = await openAIClient.responses.create(
+  await withAgentVersionEndpoint(
+    project,
+    agentName,
     {
-      input: [
-        {
-          type: "message",
-          role: "user",
-          content: "What is my horoscope? I am an Aquarius.",
-        },
-      ],
+      kind: "prompt",
+      model: deploymentName,
+      instructions: "You are a helpful assistant that can use function tools.",
+      tools: [funcTool],
     },
-    {
-      body: { agent_reference: { name: agent.name, type: "agent_reference" } },
-    },
-  );
-  console.log(`Response output: ${response.output_text}`);
+    async (agent) => {
+      console.log(
+        `Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`,
+      );
+      const openAIClient = project.getOpenAIClient({
+        azureConfig: { allowPreview: true, agentName },
+      });
 
-  // Process function calls
-  const inputList = [];
+      // Prompt the model with tools defined
+      console.log("\nGenerating initial response...");
+      const response = await openAIClient.responses.create({
+        input: [
+          {
+            type: "message",
+            role: "user",
+            content: "What is my horoscope? I am an Aquarius.",
+          },
+        ],
+      });
+      console.log(`Response output: ${response.output_text}`);
 
-  for (const item of response.output) {
-    if (item.type === "function_call") {
-      if (item.name === "get_horoscope") {
-        // Parse the function arguments
-        const args = JSON.parse(item.arguments);
+      // Process function calls
+      const inputList = [];
 
-        // Execute the function logic for get_horoscope
-        const horoscope = getHoroscope(args.sign);
+      for (const item of response.output) {
+        if (item.type === "function_call") {
+          if (item.name === "get_horoscope") {
+            // Parse the function arguments
+            const args = JSON.parse(item.arguments);
 
-        // Provide function call results to the model
-        inputList.push({
-          type: "function_call_output",
-          call_id: item.call_id,
-          output: JSON.stringify({ horoscope }),
-        });
+            // Execute the function logic for get_horoscope
+            const horoscope = getHoroscope(args.sign);
+
+            // Provide function call results to the model
+            inputList.push({
+              type: "function_call_output",
+              call_id: item.call_id,
+              output: JSON.stringify({ horoscope }),
+            });
+          }
+        }
       }
-    }
-  }
 
-  console.log("\nFinal input:");
-  console.log(JSON.stringify(inputList, null, 2));
+      console.log("\nFinal input:");
+      console.log(JSON.stringify(inputList, null, 2));
 
-  // Submit function results to get final response
-  const finalResponse = await openAIClient.responses.create(
-    {
-      input: inputList,
-      previous_response_id: response.id,
-    },
-    {
-      body: { agent_reference: { name: agent.name, type: "agent_reference" } },
+      // Submit function results to get final response
+      const finalResponse = await openAIClient.responses.create({
+        input: inputList,
+        previous_response_id: response.id,
+      });
+
+      // The model should be able to give a response!
+      console.log("\nFinal output:");
+      console.log(finalResponse.output_text);
     },
   );
-
-  // The model should be able to give a response!
-  console.log("\nFinal output:");
-  console.log(finalResponse.output_text);
-
-  // Clean up
-  console.log("\nCleaning up resources...");
-  await project.agents.deleteVersion(agent.name, agent.version);
-  console.log("Agent deleted");
 }
 
 main().catch((err) => {

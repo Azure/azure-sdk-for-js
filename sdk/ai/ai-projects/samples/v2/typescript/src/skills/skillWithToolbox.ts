@@ -23,18 +23,18 @@ import type { MCPTool, ToolboxSkillReference } from "@azure/ai-projects";
 import { AIProjectClient, RestError } from "@azure/ai-projects";
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";
+import { withAgentVersionEndpoint } from "../agents/agentEndpointUtils.js";
 
 const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
 const deploymentName = process.env["FOUNDRY_MODEL_NAME"] || "<model deployment name>";
+const agentName = process.env["FOUNDRY_AGENT_NAME"] || "MyAgent";
 
 const SKILL_NAME = "shipping-cost-skill";
 const TOOLBOX_NAME = "toolbox_with_skill";
-const AGENT_NAME = "SkillToolboxAgent";
 
 export async function main(): Promise<void> {
   const credential = new DefaultAzureCredential();
   const project = new AIProjectClient(projectEndpoint, credential);
-  const openAIClient = project.getOpenAIClient();
 
   // --- Clean up any prior runs ---
   try {
@@ -92,59 +92,61 @@ export async function main(): Promise<void> {
   };
 
   // --- 4. Create a prompt agent with the toolbox MCP tool ---
-  const agent = await project.agents.createVersion(AGENT_NAME, {
-    kind: "prompt",
-    model: deploymentName,
-    instructions:
-      "Answer the user using the `shipping-cost-skill` instructions " +
-      "available in your context. Do not call `tool_search`; the " +
-      "skill rules are already part of your knowledge. Apply the " +
-      "skill's formula exactly as given and state the formula in " +
-      "your answer.",
-    temperature: 0,
-    tools: [toolboxMcpTool],
-  });
-  console.log(`Agent created (id=${agent.id}, name=${agent.name}, version=${agent.version})`);
-
-  // --- 5. Send a query ---
-  const userInput = "Compute the shipping cost for a 3 kg package shipped domestically.";
-  console.log(`User: ${userInput}`);
-
-  const response = await openAIClient.responses.create(
-    { input: userInput },
+  await withAgentVersionEndpoint(
+    project,
+    agentName,
     {
-      body: {
-        agent_reference: { name: agent.name, type: "agent_reference" },
-      },
+      kind: "prompt",
+      model: deploymentName,
+      instructions:
+        "Answer the user using the `shipping-cost-skill` instructions " +
+        "available in your context. Do not call `tool_search`; the " +
+        "skill rules are already part of your knowledge. Apply the " +
+        "skill's formula exactly as given and state the formula in " +
+        "your answer.",
+      temperature: 0,
+      tools: [toolboxMcpTool],
+    },
+    async (agent) => {
+      console.log(`Agent created (id=${agent.id}, name=${agent.name}, version=${agent.version})`);
+      const openAIClient = project.getOpenAIClient({
+        azureConfig: { allowPreview: true, agentName },
+      });
+
+      // --- 5. Send a query ---
+      const userInput = "Compute the shipping cost for a 3 kg package shipped domestically.";
+      console.log(`User: ${userInput}`);
+
+      const response = await openAIClient.responses.create({ input: userInput });
+
+      for (const item of response.output) {
+        if (item.type === "mcp_list_tools") {
+          console.log(
+            `mcp_list_tools server_label=${item.server_label} tools=${(item.tools || []).map((t: any) => t.name)}`,
+          );
+        } else if (item.type === "mcp_call") {
+          console.log(
+            `mcp_call server_label=${item.server_label} name=${item.name} error=${item.error}`,
+          );
+          if ("output" in item && item.output) {
+            console.log(`  output: ${item.output}`);
+          }
+        } else if (item.type === "mcp_approval_request") {
+          console.log(`mcp_approval_request server_label=${item.server_label} name=${item.name}`);
+        } else {
+          console.log(`output item type=${item.type}`);
+        }
+      }
+
+      console.log(`Response: ${response.output_text}`);
+
+      // --- 6. Clean up ---
+      await project.toolboxes.delete(TOOLBOX_NAME);
+      console.log("Toolbox deleted");
+      await project.beta.skills.delete(SKILL_NAME);
+      console.log("Skill deleted");
     },
   );
-
-  for (const item of response.output) {
-    if (item.type === "mcp_list_tools") {
-      console.log(
-        `mcp_list_tools server_label=${item.server_label} tools=${(item.tools || []).map((t: any) => t.name)}`,
-      );
-    } else if (item.type === "mcp_call") {
-      console.log(
-        `mcp_call server_label=${item.server_label} name=${item.name} error=${item.error}`,
-      );
-      if ("output" in item && item.output) {
-        console.log(`  output: ${item.output}`);
-      }
-    } else if (item.type === "mcp_approval_request") {
-      console.log(`mcp_approval_request server_label=${item.server_label} name=${item.name}`);
-    } else {
-      console.log(`output item type=${item.type}`);
-    }
-  }
-
-  console.log(`Response: ${response.output_text}`);
-
-  // --- 6. Clean up ---
-  await project.toolboxes.delete(TOOLBOX_NAME);
-  console.log("Toolbox deleted");
-  await project.beta.skills.delete(SKILL_NAME);
-  console.log("Skill deleted");
 }
 
 main().catch((err) => {

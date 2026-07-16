@@ -24,12 +24,14 @@ import { fileURLToPath } from "node:url";
 import * as fs from "node:fs/promises";
 import * as path from "path";
 import "dotenv/config";
+import { withAgentVersionEndpoint } from "../agentEndpointUtils.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
 const deploymentName = process.env["FOUNDRY_MODEL_NAME"] || "<model deployment name>";
+const agentName = process.env["FOUNDRY_AGENT_NAME"] || "MyAgent";
 const weatherSpecPath = path.resolve(__dirname, "../assets", "weather_openapi.json");
 
 async function loadOpenApiSpec(specPath: string): Promise<unknown> {
@@ -61,69 +63,71 @@ export async function main(): Promise<void> {
   const weatherSpec = await loadOpenApiSpec(weatherSpecPath);
 
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
-  const openAIClient = project.getOpenAIClient();
 
   console.log("Creating agent with OpenAPI tool...");
 
-  const agent = await project.agents.createVersion("MyOpenApiAgent", {
-    kind: "prompt",
-    model: deploymentName,
-    instructions:
-      "You are a helpful assistant that can call external APIs defined by OpenAPI specs to answer user questions. When calling the weather tool, always include the query parameter format=j1.",
-    tools: [createWeatherTool(weatherSpec)],
-  });
-  console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
-
-  console.log("\nSending request to OpenAPI-enabled agent with streaming...");
-  const streamResponse = await openAIClient.responses.create(
+  await withAgentVersionEndpoint(
+    project,
+    agentName,
     {
-      input:
-        "What's the weather in Seattle and how should I plan my outfit for the day based on the forecast?",
-      stream: true,
+      kind: "prompt",
+      model: deploymentName,
+      instructions:
+        "You are a helpful assistant that can call external APIs defined by OpenAPI specs to answer user questions. When calling the weather tool, always include the query parameter format=j1.",
+      tools: [createWeatherTool(weatherSpec)],
     },
-    {
-      body: {
-        agent_reference: { name: agent.name, type: "agent_reference" },
-        tool_choice: "required",
-      },
+    async (agent) => {
+      console.log(
+        `Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`,
+      );
+      const openAIClient = project.getOpenAIClient({
+        azureConfig: { allowPreview: true, agentName },
+      });
+
+      console.log("\nSending request to OpenAPI-enabled agent with streaming...");
+      const streamResponse = await openAIClient.responses.create(
+        {
+          input:
+            "What's the weather in Seattle and how should I plan my outfit for the day based on the forecast?",
+          stream: true,
+        },
+        {
+          body: {
+            tool_choice: "required",
+          },
+        },
+      );
+
+      // Process the streaming response
+      for await (const event of streamResponse) {
+        if (event.type === "response.created") {
+          console.log(`Follow-up response created with ID: ${event.response.id}`);
+        } else if (event.type === "response.output_text.delta") {
+          process.stdout.write(event.delta);
+        } else if (event.type === "response.output_text.done") {
+          console.log("\n\nFollow-up response done!");
+        } else if (event.type === "response.output_item.done") {
+          const item = event.item as any;
+          if (item.type === "message") {
+            const content = item.content?.[item.content.length - 1];
+            if (content?.type === "output_text" && content.annotations) {
+              for (const annotation of content.annotations) {
+                if (annotation.type === "url_citation") {
+                  console.log(
+                    `URL Citation: ${annotation.url}, Start index: ${annotation.start_index}, End index: ${annotation.end_index}`,
+                  );
+                }
+              }
+            }
+          } else if (item.type === "tool_call") {
+            console.log(`Tool call completed: ${item.name ?? "unknown"}`);
+          }
+        } else if (event.type === "response.completed") {
+          console.log("\nFollow-up completed!");
+        }
+      }
     },
   );
-
-  // Process the streaming response
-  for await (const event of streamResponse) {
-    if (event.type === "response.created") {
-      console.log(`Follow-up response created with ID: ${event.response.id}`);
-    } else if (event.type === "response.output_text.delta") {
-      process.stdout.write(event.delta);
-    } else if (event.type === "response.output_text.done") {
-      console.log("\n\nFollow-up response done!");
-    } else if (event.type === "response.output_item.done") {
-      const item = event.item as any;
-      if (item.type === "message") {
-        const content = item.content?.[item.content.length - 1];
-        if (content?.type === "output_text" && content.annotations) {
-          for (const annotation of content.annotations) {
-            if (annotation.type === "url_citation") {
-              console.log(
-                `URL Citation: ${annotation.url}, Start index: ${annotation.start_index}, End index: ${annotation.end_index}`,
-              );
-            }
-          }
-        }
-      } else if (item.type === "tool_call") {
-        console.log(`Tool call completed: ${item.name ?? "unknown"}`);
-      }
-    } else if (event.type === "response.completed") {
-      console.log("\nFollow-up completed!");
-    }
-  }
-
-  // Clean up resources by deleting the agent version
-  // This prevents accumulation of unused resources in your project
-  console.log("\nCleaning up resources...");
-  await project.agents.deleteVersion(agent.name, agent.version);
-  console.log("Agent deleted");
-
   console.log("\nOpenAPI agent sample completed!");
 }
 
