@@ -264,10 +264,10 @@ describe("Batch delete messages - result shape (offline unit tests)", function (
     it("deleteMessages returns a DeleteMessagesResult with the deleted count", async function (): Promise<void> {
       const client = new ServiceBusClient(connectionString);
       try {
-        const receiver = client.createReceiver("q") as ServiceBusReceiverImpl;
-        stubDeleteMessages(receiver["_context"], [7]);
+        const unitReceiver = client.createReceiver("q") as ServiceBusReceiverImpl;
+        stubDeleteMessages(unitReceiver["_context"], [7]);
 
-        const result = await receiver.deleteMessages({ maxMessageCount: 10 });
+        const result = await unitReceiver.deleteMessages({ maxMessageCount: 10 });
 
         assert.deepEqual(result, { deletedCount: 7 });
       } finally {
@@ -278,11 +278,11 @@ describe("Batch delete messages - result shape (offline unit tests)", function (
     it("purgeMessages accumulates the deleted count across batches", async function (): Promise<void> {
       const client = new ServiceBusClient(connectionString);
       try {
-        const receiver = client.createReceiver("q") as ServiceBusReceiverImpl;
+        const unitReceiver = client.createReceiver("q") as ServiceBusReceiverImpl;
         // Non-session purge loops while the batch count is greater than zero.
-        stubDeleteMessages(receiver["_context"], [5, 2, 0]);
+        stubDeleteMessages(unitReceiver["_context"], [5, 2, 0]);
 
-        const result = await receiver.purgeMessages();
+        const result = await unitReceiver.purgeMessages();
 
         assert.deepEqual(result, { deletedCount: 7 });
       } finally {
@@ -317,10 +317,10 @@ describe("Batch delete messages - result shape (offline unit tests)", function (
     it("deleteMessages returns a DeleteMessagesResult with the deleted count", async function (): Promise<void> {
       const client = new ServiceBusClient(connectionString);
       try {
-        const receiver = createSessionReceiver(client);
-        stubDeleteMessages(receiver["_context"], [4]);
+        const unitReceiver = createSessionReceiver(client);
+        stubDeleteMessages(unitReceiver["_context"], [4]);
 
-        const result = await receiver.deleteMessages({ maxMessageCount: 10 });
+        const result = await unitReceiver.deleteMessages({ maxMessageCount: 10 });
 
         assert.deepEqual(result, { deletedCount: 4 });
       } finally {
@@ -331,11 +331,11 @@ describe("Batch delete messages - result shape (offline unit tests)", function (
     it("purgeMessages accumulates the deleted count across batches", async function (): Promise<void> {
       const client = new ServiceBusClient(connectionString);
       try {
-        const receiver = createSessionReceiver(client);
+        const unitReceiver = createSessionReceiver(client);
         // Session purge loops while a batch returns exactly MaxDeleteMessageCount.
-        stubDeleteMessages(receiver["_context"], [MaxDeleteMessageCount, 2]);
+        stubDeleteMessages(unitReceiver["_context"], [MaxDeleteMessageCount, 2]);
 
-        const result = await receiver.purgeMessages();
+        const result = await unitReceiver.purgeMessages();
 
         assert.deepEqual(result, { deletedCount: MaxDeleteMessageCount + 2 });
       } finally {
