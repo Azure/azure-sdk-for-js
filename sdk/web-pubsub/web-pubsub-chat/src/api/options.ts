@@ -9,10 +9,6 @@ export interface DeleteUserOptionalParams extends OperationOptions {
   ifMatch?: string;
   /** The request should only proceed if no entity matches this string. */
   ifNoneMatch?: string;
-  /** The request should only proceed if the entity was not modified after this time. */
-  ifUnmodifiedSince?: Date;
-  /** The request should only proceed if the entity was modified after this time. */
-  ifModifiedSince?: Date;
 }
 
 /** Optional parameters. */
@@ -21,10 +17,6 @@ export interface CreateOrReplaceUserOptionalParams extends OperationOptions {
   ifMatch?: string;
   /** The request should only proceed if no entity matches this string. */
   ifNoneMatch?: string;
-  /** The request should only proceed if the entity was not modified after this time. */
-  ifUnmodifiedSince?: Date;
-  /** The request should only proceed if the entity was modified after this time. */
-  ifModifiedSince?: Date;
 }
 
 /** Optional parameters. */
@@ -36,10 +28,6 @@ export interface DeleteRoomMemberOptionalParams extends OperationOptions {
   ifMatch?: string;
   /** The request should only proceed if no entity matches this string. */
   ifNoneMatch?: string;
-  /** The request should only proceed if the entity was not modified after this time. */
-  ifUnmodifiedSince?: Date;
-  /** The request should only proceed if the entity was modified after this time. */
-  ifModifiedSince?: Date;
 }
 
 /** Optional parameters. */
@@ -48,10 +36,6 @@ export interface CreateOrReplaceRoomMemberOptionalParams extends OperationOption
   ifMatch?: string;
   /** The request should only proceed if no entity matches this string. */
   ifNoneMatch?: string;
-  /** The request should only proceed if the entity was not modified after this time. */
-  ifUnmodifiedSince?: Date;
-  /** The request should only proceed if the entity was modified after this time. */
-  ifModifiedSince?: Date;
 }
 
 /** Optional parameters. */
@@ -68,10 +52,6 @@ export interface DeleteRoomOptionalParams extends OperationOptions {
   ifMatch?: string;
   /** The request should only proceed if no entity matches this string. */
   ifNoneMatch?: string;
-  /** The request should only proceed if the entity was not modified after this time. */
-  ifUnmodifiedSince?: Date;
-  /** The request should only proceed if the entity was modified after this time. */
-  ifModifiedSince?: Date;
 }
 
 /** Optional parameters. */
@@ -83,10 +63,6 @@ export interface CreateOrReplaceRoomOptionalParams extends OperationOptions {
   ifMatch?: string;
   /** The request should only proceed if no entity matches this string. */
   ifNoneMatch?: string;
-  /** The request should only proceed if the entity was not modified after this time. */
-  ifUnmodifiedSince?: Date;
-  /** The request should only proceed if the entity was modified after this time. */
-  ifModifiedSince?: Date;
 }
 
 /** Optional parameters. */
@@ -95,10 +71,6 @@ export interface DeleteRoleOptionalParams extends OperationOptions {
   ifMatch?: string;
   /** The request should only proceed if no entity matches this string. */
   ifNoneMatch?: string;
-  /** The request should only proceed if the entity was not modified after this time. */
-  ifUnmodifiedSince?: Date;
-  /** The request should only proceed if the entity was modified after this time. */
-  ifModifiedSince?: Date;
 }
 
 /** Optional parameters. */
@@ -107,10 +79,6 @@ export interface CreateOrReplaceRoleOptionalParams extends OperationOptions {
   ifMatch?: string;
   /** The request should only proceed if no entity matches this string. */
   ifNoneMatch?: string;
-  /** The request should only proceed if the entity was not modified after this time. */
-  ifUnmodifiedSince?: Date;
-  /** The request should only proceed if the entity was modified after this time. */
-  ifModifiedSince?: Date;
 }
 
 /** Optional parameters. */
@@ -130,10 +98,6 @@ export interface UpdateMessageOptionalParams extends OperationOptions {
   ifMatch?: string;
   /** The request should only proceed if no entity matches this string. */
   ifNoneMatch?: string;
-  /** The request should only proceed if the entity was not modified after this time. */
-  ifUnmodifiedSince?: Date;
-  /** The request should only proceed if the entity was modified after this time. */
-  ifModifiedSince?: Date;
 }
 
 /** Optional parameters. */
@@ -142,10 +106,6 @@ export interface DeleteMessageOptionalParams extends OperationOptions {
   ifMatch?: string;
   /** The request should only proceed if no entity matches this string. */
   ifNoneMatch?: string;
-  /** The request should only proceed if the entity was not modified after this time. */
-  ifUnmodifiedSince?: Date;
-  /** The request should only proceed if the entity was modified after this time. */
-  ifModifiedSince?: Date;
 }
 
 /** Optional parameters. */
