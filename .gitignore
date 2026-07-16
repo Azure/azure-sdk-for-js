@@ -105,7 +105,6 @@ TestResults/*
 **/*Bundle.js
 **/*Bundle.js.map
 **/package-lock.json
-!eng/tools/js-sdk-release-tools-src/package-lock.json
 **/yarn.lock
 npm-debug.log.*
 azure_error
