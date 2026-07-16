@@ -6,7 +6,7 @@
 
 ### Breaking Changes
 
-- The preview batch-delete APIs now return `Promise<DeleteMessagesResult>` / `Promise<PurgeMessagesResult>` instead of `Promise<number>`, so the result can grow additional fields in a future release without another breaking change. `ServiceBusReceiver.deleteMessages` resolves to a `DeleteMessagesResult` and `ServiceBusReceiver.purgeMessages` resolves to a `PurgeMessagesResult`; each carries the count as `deletedCount`. Update callers from `const n = await receiver.deleteMessages(...)` to `const { deletedCount } = await receiver.deleteMessages(...)`.
+- The preview batch-delete APIs now return `Promise<DeleteMessagesResult>` / `Promise<PurgeMessagesResult>` instead of `Promise<number>`, so the result can grow additional fields in a future release without another breaking change. `ServiceBusReceiver.deleteMessages` resolves to a `DeleteMessagesResult` and `ServiceBusReceiver.purgeMessages` resolves to a `PurgeMessagesResult`; each carries the count as `deletedCount`. Update callers from `const n = await receiver.deleteMessages(...)` to `const { deletedCount } = await receiver.deleteMessages(...)`, and likewise from `const n = await receiver.purgeMessages(...)` to `const { deletedCount } = await receiver.purgeMessages(...)`. [#39302](https://github.com/Azure/azure-sdk-for-js/pull/39302)
 
 ### Bugs Fixed
 
