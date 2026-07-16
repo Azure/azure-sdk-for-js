@@ -61,7 +61,6 @@
     "azureai",
     "azuresdkdocs",
     "Brcpf",
-    "BRCPF",
     "centralus",
     "Cifs",
     "CNPJ",
@@ -84,21 +83,17 @@
     "Eloqua",
     "entra",
     "Esdni",
-    "ESDNI",
     "etags",
     "Eugps",
-    "EUGPS",
     "Fhir",
     "findsimilars",
     "Fnhr",
     "gleu",
-    "GLEU",
     "Guids",
     "Hana",
     "hnsw",
     "IDNR",
     "Idrg",
-    "IDRG",
     "IMDS",
     "Kubernetes",
     "Kurtzeborn",
@@ -131,11 +126,9 @@
     "OTLP",
     "perfstress",
     "personalizer",
-    "Personalizer",
     "Petabit",
     "Picometer",
     "Plregon",
-    "PLREGON",
     "pnpm",
     "prettierrc",
     "psobject",
@@ -162,7 +155,6 @@
     "Turborepo",
     "uaecentral",
     "uefi",
-    "Uefi",
     "uksouth",
     "ukwest",
     "unassignment",
@@ -173,9 +165,7 @@
     "Unprocessable",
     "unref",
     "Upca",
-    "UPCA",
     "Upce",
-    "UPCE",
     "upgradingos",
     "usdodcentral",
     "usdodeast",
@@ -183,7 +173,6 @@
     "usgovtexas",
     "usgovvirginia",
     "Usuk",
-    "USUK",
     "vectorizer",
     "Vertica",
     "westus",
@@ -200,21 +189,21 @@
     {
       "filename": "documentation/next-generation-quickstart.md",
       "words": [
-        "virtualmachinex",
-        "subnetnamex",
         "interfacex",
+        "jstest",
         "networknamex",
-        "jstest"
+        "subnetnamex",
+        "virtualmachinex"
       ]
     },
     {
       "filename": "documentation/Quickstart-on-how-to-write-tests.md",
       "words": [
         "azuread",
+        "dpgrlc",
         "glossaryspects",
-        "utilsrecordedclientts",
         "monitorspects",
-        "dpgrlc"
+        "utilsrecordedclientts"
       ]
     },
     {
@@ -235,550 +224,6 @@
       "filename": "eng/tools/rush-runner.js",
       "words": [
         "Jsons"
-      ]
-    },
-    {
-      "filename": "sdk/ai/ai-projects/review/**/*.md",
-      "words": [
-        "Agentic",
-        "xhigh"
-      ]
-    },
-    {
-      "filename": "sdk/apimanagement/api-management-custom-widgets-scaffolder/review/**/*.md",
-      "words": [
-        "APIM",
-        "scaffolder"
-      ]
-    },
-    {
-      "filename": "sdk/apimanagement/api-management-custom-widgets-tools/review/**/*.md",
-      "words": [
-        "APIM",
-        "MSAPIM"
-      ]
-    },
-    {
-      "filename": "sdk/attestation/attestation/review/**/*.md",
-      "words": [
-        "qeidcertshash",
-        "qeidcrlhash",
-        "qeidhash",
-        "tcbinfocertshash",
-        "tcbinfocrlhash",
-        "tcbinfohash"
-      ]
-    },
-    {
-      "filename": "sdk/communication/communication-call-automation/review/**/*.md",
-      "words": [
-        "Ssml",
-        "answeredby",
-        "playsourcacheid",
-        "playsourcecacheid",
-        "sipuui",
-        "sipx",
-        "ssml",
-        "unhold",
-        "Unhold",
-        "Gcch",
-        "gcch"
-      ]
-    },
-    {
-      "filename": "sdk/communication/communication-common/review/**/*.md",
-      "words": [
-        "gcch"
-      ]
-    },
-    {
-      "filename": "sdk/communication/communication-email/review/**/*.md",
-      "words": [
-        "rpmsg",
-        "xlsb"
-      ]
-    },
-    {
-      "filename": "sdk/containerregistry/container-registry/review/**/*.md",
-      "words": [
-        "Illumos",
-        "illumos",
-        "mipsle",
-        "riscv"
-      ]
-    },
-    {
-      "filename": "sdk/core/core-amqp/review/**/*.md",
-      "words": [
-        "EHOSTDOWN",
-        "ENONET",
-        "sastoken"
-      ]
-    },
-    {
-      "filename": "sdk/cosmosdb/cosmos/review/**/*.md",
-      "words": [
-        "Parition",
-        "colls",
-        "pkranges",
-        "rerank",
-        "Rerank",
-        "sproc",
-        "sprocs",
-        "udfs",
-        "xmax",
-        "xmin",
-        "ymax",
-        "ymin"
-      ]
-    },
-    {
-      "filename": "sdk/cosmosdb/cosmos/review/**/*.md",
-      "words": [
-        "Funtion"
-      ]
-    },
-    {
-      "filename": "sdk/digitaltwins/digital-twins-core/review/**/*.md",
-      "words": [
-        "dtdl"
-      ]
-    },
-    {
-      "filename": "sdk/digitaltwins/digital-twins-core/review/**/*.md",
-      "words": [
-        "dependecies"
-      ]
-    },
-    {
-      "filename": "sdk/documentintelligence/ai-document-intelligence-rest/review/**/*.md",
-      "words": [
-        "presentationml",
-        "spreadsheetml",
-        "wordprocessingml"
-      ]
-    },
-    {
-      "filename": "sdk/easm/defender-easm-rest/review/**/*.md",
-      "words": [
-        "Alexa",
-        "Asns",
-        "Easm",
-        "Whois",
-        "alexa",
-        "asns",
-        "cnames",
-        "easm",
-        "nxdomain",
-        "whois"
-      ]
-    },
-    {
-      "filename": "sdk/eventgrid/eventgrid/review/**/*.md",
-      "words": [
-        "Dicom",
-        "Gcch",
-        "gcch"
-      ]
-    },
-    {
-      "filename": "sdk/eventgrid/eventgrid-systemevents/review/**/*.md",
-      "words": [
-        "Dicom",
-        "Gcch",
-        "gcch"
-      ]
-    },
-    {
-      "filename": "sdk/formrecognizer/ai-form-recognizer/README.md",
-      "words": [
-        "iddocument"
-      ]
-    },
-    {
-      "filename": "sdk/formrecognizer/ai-form-recognizer/review/**/*.md",
-      "words": [
-        "Upca",
-        "Upce",
-        "WDLABCD",
-        "copays",
-        "heif",
-        "presentationml",
-        "spreadsheetml",
-        "wordprocessingml"
-      ]
-    },
-    {
-      "filename": "sdk/healthdataaiservices/health-deidentification-rest/**",
-      "words": [
-        "deid",
-        "deidservices",
-        "deidentification",
-        "healthdataaiservices",
-        "deidentify",
-        "deidentified"
-      ]
-    },
-    {
-      "filename": "sdk/identity/**/*.md",
-      "words": [
-        "MSAL",
-        "PKCE"
-      ]
-    },
-    {
-      "filename": "sdk/identity/**/*.ts",
-      "words": [
-        "azcmagent",
-        "HIMDS"
-      ]
-    },
-    {
-      "filename": "sdk/iot/iot-modelsrepository/review/**/*.md",
-      "words": [
-        "Dtmi",
-        "dtmis"
-      ]
-    },
-    {
-      "filename": "sdk/keyvault/keyvault-certificates/review/**/*.md",
-      "words": [
-        "ECHSM",
-        "RSAHSM",
-        "ekus",
-        "upns"
-      ]
-    },
-    {
-      "filename": "sdk/keyvault/keyvault-certificates/generated/**/*.ts",
-      "words": [
-        "Dversion",
-        "ECHSM",
-        "RSAHSM",
-        "SECG",
-        "SECP"
-      ]
-    },
-    {
-      "filename": "sdk/keyvault/keyvault-keys/review/**/*.md",
-      "words": [
-        "ECHSM",
-        "OKPHSM",
-        "RSAHSM",
-        "RSNULL",
-        "Rsnull"
-      ]
-    },
-    {
-      "filename": "sdk/loadtestservice/load-testing-rest/review/**/*.md",
-      "words": [
-        "vusers"
-      ]
-    },
-    {
-      "filename": "sdk/maps/maps-common/review/**/*.md",
-      "words": [
-        "bbox"
-      ]
-    },
-    {
-      "filename": "sdk/maps/maps-render-rest/review/**/*.md",
-      "words": [
-        "bbox"
-      ]
-    },
-    {
-      "filename": "sdk/maps/maps-route-rest/review/**/*.md",
-      "words": [
-        "Hundredkm",
-        "UTURN",
-        "bbox"
-      ]
-    },
-    {
-      "filename": "sdk/maps/maps-search-rest/review/**/*.md",
-      "words": [
-        "Neighbourhood",
-        "Xstr",
-        "bbox"
-      ]
-    },
-    {
-      "filename": "sdk/monitor/monitor-query/review/**/*.md",
-      "words": [
-        "fourty",
-        "Milli",
-        "rollupby"
-      ]
-    },
-    {
-      "filename": "sdk/voicelive/ai-voicelive/review/**/*.md",
-      "words": [
-        "Aarti",
-        "aarti",
-        "Diya",
-        "diya",
-        "Meera",
-        "meera",
-        "Xiaoxiao",
-        "xiaoxiao",
-        "Ximena",
-        "ximena",
-        "Yunxi",
-        "yunxi"
-      ]
-    },
-    {
-      "filename": "sdk/notificationhubs/notification-hubs/review/**/*.md",
-      "words": [
-        "fcmv"
-      ]
-    },
-    {
-      "filename": "sdk/search/search-documents/review/**/*.md",
-      "words": [
-        "Adls",
-        "Bokmaal",
-        "Decompounder",
-        "Phonetik",
-        "Piqd",
-        "Rslp",
-        "Sorani",
-        "Vectorizable",
-        "adlsgen",
-        "agentic",
-        "bangla",
-        "beider",
-        "haase",
-        "koelner",
-        "kstem",
-        "lovins",
-        "nysiis",
-        "odatatype",
-        "rerank",
-        "reranker",
-        "sorani",
-        "vectorize",
-        "vectorizer",
-        "vectorizers"
-      ]
-    },
-    {
-      "filename": "sdk/search/search-documents/review/**/*.md",
-      "words": [
-        "Adls",
-        "Bokmaal",
-        "Decompounder",
-        "Phonetik",
-        "Piqd",
-        "Rslp",
-        "Sorani",
-        "Vectorizable",
-        "adlsgen",
-        "agentic",
-        "bangla",
-        "beider",
-        "haase",
-        "koelner",
-        "kstem",
-        "lovins",
-        "nysiis",
-        "odatatype",
-        "reranker",
-        "sorani",
-        "vectorizer",
-        "vectorizers"
-      ]
-    },
-    {
-      "filename": "sdk/search/search-documents/review/**/*.md",
-      "words": [
-        "Createor"
-      ]
-    },
-    {
-      "filename": "sdk/storage/storage-blob/review/**/*.md",
-      "words": [
-        "RAGRS",
-        "GZRS",
-        "RAGZRS"
-      ]
-    },
-    {
-      "filename": "sdk/storage/storage-blob/review/**/*.md",
-      "words": [
-        "Uncommited"
-      ]
-    },
-    {
-      "filename": "sdk/storage/storage-file-share/review/**/*.md",
-      "words": [
-        "Sddl"
-      ]
-    },
-    {
-      "filename": "sdk/videoanalyzer/video-analyzer-edge/review/**/*.md",
-      "words": [
-        "Abgr",
-        "Argb",
-        "Bgra",
-        "Grpc",
-        "Onvif",
-        "abgr",
-        "argb",
-        "bgra",
-        "onvif"
-      ]
-    },
-    {
-      "filename": "sdk/voicelive/ai-voicelive/**/*.md",
-      "words": [
-        "Viseme",
-        "logprobs",
-        "Alaw",
-        "Ulaw",
-        "Webrtc",
-        "webrtc",
-        "xhigh",
-        "Xhigh"
-      ]
-    },
-    {
-      "filename": "sdk/web-pubsub/web-pubsub-client-protobuf/review/**/*.md",
-      "words": [
-        "protobuf"
-      ]
-    },
-    {
-      "filename": "sdk/web-pubsub/web-pubsub-client/review/**/*.md",
-      "words": [
-        "protobuf"
-      ]
-    },
-    {
-      "filename": "sdk/batch/batch/**",
-      "words": [
-        "ocpdate",
-        "noaction",
-        "Vnet",
-        "osdisk",
-        "nopublicipaddresses",
-        "standardssd",
-        "confidentialvm"
-      ]
-    },
-    {
-      "filename": "sdk/planetarycomputer/planetarycomputer/**",
-      "words": [
-        "afmhot",
-        "Afmhot",
-        "Alos",
-        "Antartica",
-        "bbox",
-        "Bbox",
-        "bidx",
-        "brbg",
-        "Brbg",
-        "bugn",
-        "Bugn",
-        "bupu",
-        "Bupu",
-        "cfastie",
-        "Cfastie",
-        "chloris",
-        "Chloris",
-        "cividis",
-        "Cividis",
-        "cmrmap",
-        "Cmrmap",
-        "drcog",
-        "Drcog",
-        "dtype",
-        "ETRS",
-        "Etrs",
-        "GFET",
-        "GFPET",
-        "gnbu",
-        "Gnbu",
-        "haline",
-        "Haline",
-        "LAEA",
-        "Laea",
-        "lanczos",
-        "Lanczos",
-        "lcmap",
-        "Lcmap",
-        "lulc",
-        "Lulc",
-        "maxx",
-        "maxy",
-        "miny",
-        "modis",
-        "Modis",
-        "mtbs",
-        "Mtbs",
-        "ncar",
-        "Ncar",
-        "nipy",
-        "Nipy",
-        "nrcan",
-        "Nrcan",
-        "NZTM",
-        "Nztm",
-        "orrd",
-        "Orrd",
-        "palsar",
-        "piyg",
-        "Piyg",
-        "pngraw",
-        "Pngraw",
-        "prgn",
-        "Prgn",
-        "pubu",
-        "Pubu",
-        "pubugn",
-        "Pubugn",
-        "puor",
-        "Puor",
-        "purd",
-        "Purd",
-        "rdbu",
-        "Rdbu",
-        "rdgy",
-        "Rdgy",
-        "rdpu",
-        "Rdpu",
-        "rdylbu",
-        "Rdylbu",
-        "rdylgn",
-        "Rdylgn",
-        "reproject",
-        "rplumbo",
-        "Rplumbo",
-        "stac",
-        "Stac",
-        "stdev",
-        "terrainrgb",
-        "Terrainrgb",
-        "topo",
-        "Topo",
-        "usgs",
-        "Usgs",
-        "viirs",
-        "Viirs",
-        "viridis",
-        "Viridis",
-        "Wmts",
-        "yarg",
-        "Yarg",
-        "ylgn",
-        "Ylgn",
-        "ylgnbu",
-        "Ylgnbu",
-        "ylorbr",
-        "Ylorbr",
-        "ylorrd",
-        "Ylorrd"
       ]
     }
   ]
