@@ -241,8 +241,7 @@ describe.skip("Batch Receiver - batch delete messages", function (): void {
 });
 
 describe("Batch delete messages - result shape (offline unit tests)", function (): void {
-  const connectionString =
-    "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=q";
+  const connectionString = "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=q";
 
   /**
    * Replaces the receiver's management client so `deleteMessages` resolves to the
