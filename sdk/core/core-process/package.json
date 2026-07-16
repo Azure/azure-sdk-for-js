@@ -64,7 +64,7 @@
     "pack": "pnpm pack 2>&1",
     "test": "tsc -b --noEmit && npm run test:node",
     "test:browser": "echo skipped",
-    "test:node": "vitest",
+    "test:node": "vitest run",
     "update-snippets": "node ../../../common/tools/dev-tool/launch.ts run update-snippets"
   },
   "devDependencies": {

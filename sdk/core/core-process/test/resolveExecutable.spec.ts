@@ -120,6 +120,47 @@ describe("resolveExecutable", () => {
   );
 
   it.runIf(process.platform === "win32")(
+    "preserves PATH precedence within the native extension group",
+    async () => {
+      const firstDirectory = await createTemporaryDirectory();
+      const secondDirectory = await createTemporaryDirectory();
+      const firstNativePath = path.join(firstDirectory, "preferred.com");
+      await copyFile(process.execPath, firstNativePath);
+      await createNativeExecutable(secondDirectory, "preferred");
+
+      expect(
+        resolveExecutable("preferred", {
+          env: {
+            ...process.env,
+            PATH: [firstDirectory, secondDirectory].join(path.delimiter),
+          },
+        }),
+      ).toBe(firstNativePath);
+    },
+  );
+
+  it.runIf(process.platform === "win32")(
+    "preserves PATH precedence within the batch extension group",
+    async () => {
+      const firstDirectory = await createTemporaryDirectory();
+      const secondDirectory = await createTemporaryDirectory();
+      const firstBatchPath = path.join(firstDirectory, "preferred.bat");
+      await writeFile(firstBatchPath, "@echo off\n");
+      await writeFile(path.join(secondDirectory, "preferred.cmd"), "@echo off\n");
+
+      expect(
+        resolveExecutable("preferred", {
+          allowWindowsBatchFiles: true,
+          env: {
+            ...process.env,
+            PATH: [firstDirectory, secondDirectory].join(path.delimiter),
+          },
+        }),
+      ).toBe(firstBatchPath);
+    },
+  );
+
+  it.runIf(process.platform === "win32")(
     "rejects duplicate case-insensitive environment keys",
     () => {
       expect(() =>

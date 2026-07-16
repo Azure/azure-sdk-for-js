@@ -245,8 +245,8 @@ export function resolveExecutableWithContext(
     return undefined;
   }
 
-  for (const nativeExtension of WINDOWS_NATIVE_EXTENSIONS) {
-    for (const searchPath of searchPaths) {
+  for (const searchPath of searchPaths) {
+    for (const nativeExtension of WINDOWS_NATIVE_EXTENSIONS) {
       const candidate = path.join(searchPath, command + nativeExtension);
       if (isExecutableFile(candidate)) {
         return candidate;
@@ -255,8 +255,8 @@ export function resolveExecutableWithContext(
   }
 
   if (context.allowWindowsBatchFiles) {
-    for (const batchExtension of WINDOWS_BATCH_EXTENSIONS) {
-      for (const searchPath of searchPaths) {
+    for (const searchPath of searchPaths) {
+      for (const batchExtension of WINDOWS_BATCH_EXTENSIONS) {
         const candidate = path.join(searchPath, command + batchExtension);
         if (isExecutableFile(candidate)) {
           return candidate;
