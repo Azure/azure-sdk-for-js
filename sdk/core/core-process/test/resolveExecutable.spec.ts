@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { chmod, copyFile, mkdtemp, rm, writeFile } from "node:fs/promises";
+import { chmod, copyFile, mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import path from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
@@ -71,6 +71,21 @@ describe("resolveExecutable", () => {
         env: { ...process.env, PATH: path.basename(directory) },
       }),
     ).toBeUndefined();
+  });
+
+  it.runIf(process.platform !== "win32")("preserves whitespace in POSIX PATH entries", async () => {
+    const directory = await createTemporaryDirectory();
+    const spacedDirectory = path.join(directory, "tools ");
+    const trimmedDirectory = path.join(directory, "tools");
+    await Promise.all([mkdir(spacedDirectory), mkdir(trimmedDirectory)]);
+    const executablePath = await createNativeExecutable(spacedDirectory, "resolve-me");
+    await createNativeExecutable(trimmedDirectory, "resolve-me");
+
+    expect(
+      resolveExecutable("resolve-me", {
+        env: { ...process.env, PATH: spacedDirectory },
+      }),
+    ).toBe(executablePath);
   });
 
   it.runIf(process.platform !== "win32")("requires POSIX execute permission", async () => {

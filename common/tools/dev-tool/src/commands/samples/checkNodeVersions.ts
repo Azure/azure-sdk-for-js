@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { access, copyFile, cp, mkdtemp, readdir, rm, writeFile } from "node:fs/promises";
-import { createWriteStream } from "node:fs";
+import { constants as fsConstants, createWriteStream } from "node:fs";
 import path from "node:path";
 import { spawn, spawnSync } from "@azure/core-process";
 import os from "node:os";
@@ -11,7 +11,6 @@ import { URL } from "node:url";
 
 import { createPrinter } from "../../util/printer.ts";
 import { leafCommand, makeCommandInfo } from "../../framework/command.ts";
-import { S_IRWXO } from "constants";
 import { resolveProject } from "../../util/resolveProject.ts";
 import { findSamplesRelativeDir } from "../../util/findSamplesDir.ts";
 
@@ -200,7 +199,7 @@ async function createDockerContextDirectory(
   }
   await copyFile(envPath, path.join(dockerContextDirectory, envFileName));
   await writeFile(path.join(dockerContextDirectory, "run_samples.sh"), buildRunSamplesScript(), {
-    mode: S_IRWXO,
+    mode: fsConstants.S_IRWXO,
   });
   return {
     artifactUrl: artifactURL,

@@ -159,9 +159,12 @@ function getSearchPaths(context: ProcessContext): string[] {
   const seen = new Set<string>();
 
   for (const entry of pathValue.split(path.delimiter)) {
-    let candidate = entry.trim();
-    if (candidate.startsWith('"') && candidate.endsWith('"')) {
-      candidate = candidate.slice(1, -1);
+    let candidate = entry;
+    if (process.platform === "win32") {
+      candidate = candidate.trim();
+      if (candidate.startsWith('"') && candidate.endsWith('"')) {
+        candidate = candidate.slice(1, -1);
+      }
     }
     if (!candidate || !path.isAbsolute(candidate)) {
       continue;
