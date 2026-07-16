@@ -15,9 +15,7 @@ export function createOrReplaceRole(context: WebPubSubChatServiceContext, roleNa
 // @public
 export interface CreateOrReplaceRoleOptionalParams extends OperationOptions {
     ifMatch?: string;
-    ifModifiedSince?: Date;
     ifNoneMatch?: string;
-    ifUnmodifiedSince?: Date;
 }
 
 // @public
@@ -29,17 +27,13 @@ export function createOrReplaceRoomMember(context: WebPubSubChatServiceContext, 
 // @public
 export interface CreateOrReplaceRoomMemberOptionalParams extends OperationOptions {
     ifMatch?: string;
-    ifModifiedSince?: Date;
     ifNoneMatch?: string;
-    ifUnmodifiedSince?: Date;
 }
 
 // @public
 export interface CreateOrReplaceRoomOptionalParams extends OperationOptions {
     ifMatch?: string;
-    ifModifiedSince?: Date;
     ifNoneMatch?: string;
-    ifUnmodifiedSince?: Date;
 }
 
 // @public
@@ -48,9 +42,7 @@ export function createOrReplaceUser(context: WebPubSubChatServiceContext, userId
 // @public
 export interface CreateOrReplaceUserOptionalParams extends OperationOptions {
     ifMatch?: string;
-    ifModifiedSince?: Date;
     ifNoneMatch?: string;
-    ifUnmodifiedSince?: Date;
 }
 
 // @public (undocumented)
@@ -62,9 +54,7 @@ export function deleteMessage(context: WebPubSubChatServiceContext, conversation
 // @public
 export interface DeleteMessageOptionalParams extends OperationOptions {
     ifMatch?: string;
-    ifModifiedSince?: Date;
     ifNoneMatch?: string;
-    ifUnmodifiedSince?: Date;
 }
 
 // @public
@@ -73,9 +63,7 @@ export function deleteRole(context: WebPubSubChatServiceContext, roleName: strin
 // @public
 export interface DeleteRoleOptionalParams extends OperationOptions {
     ifMatch?: string;
-    ifModifiedSince?: Date;
     ifNoneMatch?: string;
-    ifUnmodifiedSince?: Date;
 }
 
 // @public
@@ -87,17 +75,13 @@ export function deleteRoomMember(context: WebPubSubChatServiceContext, roomId: s
 // @public
 export interface DeleteRoomMemberOptionalParams extends OperationOptions {
     ifMatch?: string;
-    ifModifiedSince?: Date;
     ifNoneMatch?: string;
-    ifUnmodifiedSince?: Date;
 }
 
 // @public
 export interface DeleteRoomOptionalParams extends OperationOptions {
     ifMatch?: string;
-    ifModifiedSince?: Date;
     ifNoneMatch?: string;
-    ifUnmodifiedSince?: Date;
 }
 
 // @public
@@ -106,9 +90,7 @@ export function deleteUser(context: WebPubSubChatServiceContext, userId: string,
 // @public
 export interface DeleteUserOptionalParams extends OperationOptions {
     ifMatch?: string;
-    ifModifiedSince?: Date;
     ifNoneMatch?: string;
-    ifUnmodifiedSince?: Date;
 }
 
 // @public
@@ -173,9 +155,7 @@ export function updateMessage(context: WebPubSubChatServiceContext, conversation
 // @public
 export interface UpdateMessageOptionalParams extends OperationOptions {
     ifMatch?: string;
-    ifModifiedSince?: Date;
     ifNoneMatch?: string;
-    ifUnmodifiedSince?: Date;
 }
 
 // @public
