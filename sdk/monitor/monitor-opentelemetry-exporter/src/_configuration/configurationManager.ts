@@ -8,9 +8,13 @@ import { ONE_SETTINGS_DEFAULT_REFRESH_INTERVAL_MS } from "../Declarations/Consta
  * Callback invoked with the latest settings whenever OneSettings reports a configuration change.
  * The settings argument is read-only: callbacks must not mutate it, since the same object is
  * shared across all callbacks and the manager's cached payload.
+ *
+ * Callbacks may be synchronous or async; a rejected promise is caught and logged like a thrown error.
  * @internal
  */
-export type ConfigurationChangeCallback = (settings: Readonly<Record<string, string>>) => void;
+export type ConfigurationChangeCallback = (
+  settings: Readonly<Record<string, string>>,
+) => void | Promise<void>;
 
 /**
  * Singleton that owns the OneSettings control-plane state and change-detection logic.
@@ -62,11 +66,15 @@ export class ConfigurationManager {
 
   /**
    * Invoke every registered callback with the latest settings, isolating callback failures.
+   * Both synchronous throws and rejected promises from async callbacks are caught and logged.
    */
   protected notifyCallbacks(settings: Readonly<Record<string, string>>): void {
     for (const callback of [...this.callbacks]) {
       try {
-        callback(settings);
+        // `try/catch` handles synchronous throws; `.catch` handles rejections from async callbacks.
+        Promise.resolve(callback(settings)).catch((error) => {
+          diag.debug("OneSettings configuration callback failed:", error);
+        });
       } catch (error) {
         diag.debug("OneSettings configuration callback failed:", error);
       }
