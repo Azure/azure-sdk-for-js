@@ -80,7 +80,12 @@ describe.skip("Batch Receiver - batch delete messages", function (): void {
 
       // wait for things to be ready
       await delay(10 * 1000);
-      await receiver2.deleteMessages({ maxMessageCount: numMessages });
+      const deleteResult = await receiver2.deleteMessages({ maxMessageCount: numMessages });
+      assert.equal(
+        deleteResult.deletedCount,
+        numMessages,
+        "deleteMessages should report the number of deleted messages",
+      );
 
       await testPeekMsgsLength(receiver2, 0);
     });
@@ -109,7 +114,12 @@ describe.skip("Batch Receiver - batch delete messages", function (): void {
 
       // wait for things to be ready
       await delay(10 * 1000);
-      await receiver2.purgeMessages();
+      const purgeResult = await receiver2.purgeMessages();
+      assert.equal(
+        purgeResult.deletedCount,
+        numMessages,
+        "purgeMessages should report the total number of purged messages",
+      );
 
       await testPeekMsgsLength(receiver2, 0);
     });
@@ -170,7 +180,12 @@ describe.skip("Batch Receiver - batch delete messages", function (): void {
 
       // wait for things to be ready
       await delay(10 * 1000);
-      await receiver2.deleteMessages({ maxMessageCount: numMessages });
+      const deleteResult = await receiver2.deleteMessages({ maxMessageCount: numMessages });
+      assert.equal(
+        deleteResult.deletedCount,
+        numMessages,
+        "deleteMessages (session) should report the number of deleted messages",
+      );
 
       await testPeekMsgsLength(receiver2, 0);
     });
@@ -210,7 +225,12 @@ describe.skip("Batch Receiver - batch delete messages", function (): void {
         ...names,
         sessionId: randomSessionId,
       });
-      await receiver2.purgeMessages();
+      const purgeResult = await receiver2.purgeMessages();
+      assert.equal(
+        purgeResult.deletedCount,
+        numMessages,
+        "purgeMessages (session) should report the total number of purged messages",
+      );
 
       await testPeekMsgsLength(receiver2, 0);
     });

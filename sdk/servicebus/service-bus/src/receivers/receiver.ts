@@ -9,6 +9,8 @@ import type {
   SubscribeOptions,
   DeleteMessagesOptions,
   PurgeMessagesOptions,
+  DeleteMessagesResult,
+  PurgeMessagesResult,
 } from "../models.js";
 import type { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs.js";
 import type { ServiceBusReceivedMessage } from "../serviceBusMessage.js";
@@ -153,9 +155,9 @@ export interface ServiceBusReceiver {
    * Delete messages. If no option is specified, all messages will be deleted.
    *
    * @param options - Options to configure the operation.
-   * @returns number of messages that have been deleted.
+   * @returns A `DeleteMessagesResult` whose `deletedCount` is the number of messages that were deleted.
    */
-  deleteMessages(options: DeleteMessagesOptions): Promise<number>;
+  deleteMessages(options: DeleteMessagesOptions): Promise<DeleteMessagesResult>;
 
   /**
    * Attempts to purge all messages from an entity.  Locked messages are not eligible for removal and
@@ -163,9 +165,9 @@ export interface ServiceBusReceiver {
    *
    * @param options - Options that allow to specify the cutoff time for deletion. Only messages that were enqueued
    *                  before this time will be deleted.  If not specified, current time will be used.
-   * @returns number of messages deleted.
+   * @returns A `PurgeMessagesResult` whose `deletedCount` is the total number of messages that were deleted.
    */
-  purgeMessages(options?: PurgeMessagesOptions): Promise<number>;
+  purgeMessages(options?: PurgeMessagesOptions): Promise<PurgeMessagesResult>;
 
   /**
    * Path of the entity for which the receiver has been created.
@@ -482,7 +484,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     return retry<ServiceBusReceivedMessage[]>(config);
   }
 
-  async deleteMessages(options: DeleteMessagesOptions): Promise<number> {
+  async deleteMessages(options: DeleteMessagesOptions): Promise<DeleteMessagesResult> {
     this._throwIfReceiverOrConnectionClosed();
 
     const deleteMessagesOperationPromise = (): Promise<number> => {
@@ -502,11 +504,11 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
       retryOptions: this._retryOptions,
       abortSignal: options?.abortSignal,
     };
-    return retry<number>(config);
+    return { deletedCount: await retry<number>(config) };
   }
 
-  async purgeMessages(options?: PurgeMessagesOptions): Promise<number> {
-    let deletedCount = await this.deleteMessages({
+  async purgeMessages(options?: PurgeMessagesOptions): Promise<PurgeMessagesResult> {
+    let { deletedCount } = await this.deleteMessages({
       maxMessageCount: MaxDeleteMessageCount,
       beforeEnqueueTime: options?.beforeEnqueueTime,
     });
@@ -516,10 +518,10 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     if (deletedCount > 0) {
       let batchCount = deletedCount;
       while (batchCount > 0) {
-        batchCount = await this.deleteMessages({
+        ({ deletedCount: batchCount } = await this.deleteMessages({
           maxMessageCount: MaxDeleteMessageCount,
           beforeEnqueueTime: options?.beforeEnqueueTime,
-        });
+        }));
         logger.verbose(
           `${this.logPrefix} receiver '${this.identifier}' deleted ${batchCount} messages.`,
         );
@@ -529,7 +531,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     logger.verbose(
       `${this.logPrefix} receiver '${this.identifier}' purged ${deletedCount} messages.`,
     );
-    return deletedCount;
+    return { deletedCount };
   }
 
   // ManagementClient methods # Begin
