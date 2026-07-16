@@ -24,6 +24,14 @@ const fixtureDirectory = fileURLToPath(new URL("./fixtures", import.meta.url));
 const batchFixture = path.join(fixtureDirectory, "echo-args.cmd");
 const posixFixture = path.join(fixtureDirectory, "echo-args");
 
+function expectSanitizedValidationError(error: unknown, secret: string): void {
+  expect(error).toBeInstanceOf(ProcessError);
+  expect(error).toMatchObject({ code: "ERR_INVALID_ARG_VALUE" });
+  expect(inspect(error)).not.toContain(secret);
+  expect(String(error)).not.toContain(secret);
+  expect(JSON.stringify(error)).not.toContain(secret);
+}
+
 describe("process execution", () => {
   it("round-trips native executable arguments without shell parsing", async () => {
     const args = [
@@ -137,6 +145,42 @@ describe("process execution", () => {
     const error = await errorPromise;
     expect(error).toBeInstanceOf(ProcessError);
     expect(error).toMatchObject({ code: "ABORT_ERR" });
+  });
+
+  it("sanitizes synchronous spawn validation errors", () => {
+    const secret = "secret-spawn-cwd";
+    const secretCwd = path.join(tmpdir(), `${secret}\0invalid`);
+    let error: unknown;
+    try {
+      spawn(process.execPath, [], { cwd: secretCwd });
+    } catch (caught: unknown) {
+      error = caught;
+    }
+
+    expectSanitizedValidationError(error, secret);
+  });
+
+  it("sanitizes synchronous spawnSync validation errors", () => {
+    const secret = "secret-spawn-sync-cwd";
+    const secretCwd = path.join(tmpdir(), `${secret}\0invalid`);
+    let error: unknown;
+    try {
+      spawnSync(process.execPath, [], { cwd: secretCwd });
+    } catch (caught: unknown) {
+      error = caught;
+    }
+
+    expectSanitizedValidationError(error, secret);
+  });
+
+  it("sanitizes synchronous execFile validation errors", async () => {
+    const secret = "secret-exec-file-cwd";
+    const secretCwd = path.join(tmpdir(), `${secret}\0invalid`);
+    const error = await execFile(process.execPath, [], { cwd: secretCwd }).catch(
+      (caught: unknown) => caught,
+    );
+
+    expectSanitizedValidationError(error, secret);
   });
 
   it("recognizes a ProcessError created by another package copy", () => {

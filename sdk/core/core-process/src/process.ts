@@ -43,11 +43,23 @@ const spawnSyncOptionNames = [
 ] as const;
 const execFileOptionNames = [...commonOptionNames, "encoding", "maxBuffer", "signal"] as const;
 
+function sanitizeChildProcessError(error: unknown): unknown {
+  return error instanceof Error && !isProcessError(error) ? createExecutionError(error) : error;
+}
+
+function callWithSanitizedChildProcessErrors<T>(callback: () => T): T {
+  try {
+    return callback();
+  } catch (error: unknown) {
+    throw sanitizeChildProcessError(error);
+  }
+}
+
 function sanitizeChildProcessErrors(child: childProcess.ChildProcess): childProcess.ChildProcess {
   const originalEmit = child.emit;
   child.emit = ((eventName: string | symbol, ...args: unknown[]): boolean => {
-    if (eventName === "error" && args[0] instanceof Error && !isProcessError(args[0])) {
-      args[0] = createExecutionError(args[0]);
+    if (eventName === "error") {
+      args[0] = sanitizeChildProcessError(args[0]);
     }
     return Reflect.apply(originalEmit, child, [eventName, ...args]) as boolean;
   }) as typeof child.emit;
@@ -115,7 +127,7 @@ export function spawn(
   options: SpawnOptions = {},
 ): childProcess.ChildProcess {
   const prepared = prepareProcess(command, args, options, spawnOptionNames);
-  return sanitizeChildProcessErrors(
+  const child = callWithSanitizedChildProcessErrors(() =>
     childProcess.spawn(prepared.command.executable, prepared.command.args, {
       ...prepared.nodeOptions,
       cwd: prepared.command.cwd,
@@ -124,6 +136,7 @@ export function spawn(
       windowsVerbatimArguments: prepared.command.windowsVerbatimArguments,
     }),
   );
+  return sanitizeChildProcessErrors(child);
 }
 
 /**
@@ -171,13 +184,15 @@ export function spawnSync(
   options: SpawnSyncOptions = {},
 ): childProcess.SpawnSyncReturns<string | Buffer> {
   const prepared = prepareProcess(command, args, options, spawnSyncOptionNames);
-  const result = childProcess.spawnSync(prepared.command.executable, prepared.command.args, {
-    ...prepared.nodeOptions,
-    cwd: prepared.command.cwd,
-    env: prepared.command.env,
-    shell: false,
-    windowsVerbatimArguments: prepared.command.windowsVerbatimArguments,
-  });
+  const result = callWithSanitizedChildProcessErrors(() =>
+    childProcess.spawnSync(prepared.command.executable, prepared.command.args, {
+      ...prepared.nodeOptions,
+      cwd: prepared.command.cwd,
+      env: prepared.command.env,
+      shell: false,
+      windowsVerbatimArguments: prepared.command.windowsVerbatimArguments,
+    }),
+  );
 
   if (result.error) {
     return {
@@ -246,28 +261,30 @@ export async function execFile(
   const prepared = prepareProcess(command, args, options, execFileOptionNames);
 
   return new Promise((resolve, reject) => {
-    childProcess.execFile(
-      prepared.command.executable,
-      prepared.command.args,
-      {
-        ...prepared.nodeOptions,
-        cwd: prepared.command.cwd,
-        env: prepared.command.env,
-        shell: false,
-        windowsVerbatimArguments: prepared.command.windowsVerbatimArguments,
-        windowsHide: options.windowsHide,
-      },
-      (
-        error: childProcess.ExecFileException | null,
-        stdout: string | Buffer,
-        stderr: string | Buffer,
-      ) => {
-        if (error) {
-          reject(createExecutionError(error, stdout, stderr));
-          return;
-        }
-        resolve({ stdout, stderr });
-      },
+    callWithSanitizedChildProcessErrors(() =>
+      childProcess.execFile(
+        prepared.command.executable,
+        prepared.command.args,
+        {
+          ...prepared.nodeOptions,
+          cwd: prepared.command.cwd,
+          env: prepared.command.env,
+          shell: false,
+          windowsVerbatimArguments: prepared.command.windowsVerbatimArguments,
+          windowsHide: options.windowsHide,
+        },
+        (
+          error: childProcess.ExecFileException | null,
+          stdout: string | Buffer,
+          stderr: string | Buffer,
+        ) => {
+          if (error) {
+            reject(createExecutionError(error, stdout, stderr));
+            return;
+          }
+          resolve({ stdout, stderr });
+        },
+      ),
     );
   });
 }
