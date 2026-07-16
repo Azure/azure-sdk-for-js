@@ -348,14 +348,6 @@ export class MessageSession extends LinkEntity<Receiver> {
       const errObj = translateServiceBusError(err);
       logger.logError(errObj, "%s An error occured while creating the receiver", this.logPrefix);
 
-      // Fix the unhelpful error messages for the OperationTimeoutError that comes from `rhea-promise`.
-      if ((errObj as MessagingError).code === "OperationTimeoutError") {
-        if (this._providedSessionId !== undefined) {
-          errObj.message = `Failed to create a receiver for the requested session '${this._providedSessionId}' within allocated time and retry attempts.`;
-        } else {
-          errObj.message = "Failed to create a receiver within allocated time and retry attempts.";
-        }
-      }
       if (this._intermediateLink) {
         logger.verbose("%s cleaning up resources held by intermediate link", this.logPrefix);
         await this._intermediateLink.close({ closeSession: true });
