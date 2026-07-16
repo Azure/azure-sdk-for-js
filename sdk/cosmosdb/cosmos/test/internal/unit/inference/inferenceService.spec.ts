@@ -310,6 +310,68 @@ describe("InferenceService", { timeout: 10000 }, () => {
       assert.equal(node.children[0].nodeType, DiagnosticNodeType.HTTP_REQUEST);
     });
 
+    it("should populate result.diagnostics on a successful rerank", async () => {
+      const service = new InferenceService(createMockOptions());
+
+      const pipeline = (service as any).pipeline;
+      pipeline.sendRequest = async () => ({
+        headers: { toJSON: () => ({}) } as any,
+        request: {} as any,
+        status: 200,
+        bodyAsText: JSON.stringify({ Scores: [] }),
+      });
+
+      const result = await service.semanticRerank("query", ["doc"]);
+
+      assert.isDefined(result.diagnostics, "result should carry diagnostics");
+      assert.isDefined(
+        result.diagnostics.clientSideRequestStatistics,
+        "diagnostics should include clientSideRequestStatistics",
+      );
+    });
+
+    it("should record request and response data on the HTTP_REQUEST diagnostic child", async () => {
+      const service = new InferenceService(createMockOptions());
+
+      const responseBody = JSON.stringify({
+        Scores: [{ document: "doc", score: 0.5, index: 0 }],
+      });
+      const pipeline = (service as any).pipeline;
+      pipeline.sendRequest = async () => ({
+        headers: { toJSON: () => ({}) } as any,
+        request: {} as any,
+        status: 200,
+        bodyAsText: responseBody,
+      });
+
+      const node = new DiagnosticNodeInternal(
+        CosmosDbDiagnosticLevel.debug,
+        DiagnosticNodeType.CLIENT_REQUEST_NODE,
+        null as any,
+      );
+
+      await service.semanticRerank("query", ["doc"], undefined, node);
+
+      const childData = node.children[0].data;
+      assert.isNumber(childData.startTimeUTCInMs, "startTimeUTCInMs should be recorded");
+      assert.isNumber(childData.durationInMs, "durationInMs should be recorded");
+      assert.isAbove(
+        childData.requestPayloadLengthInBytes ?? 0,
+        0,
+        "requestPayloadLengthInBytes should reflect the request body",
+      );
+      assert.equal(
+        childData.responsePayloadLengthInBytes,
+        responseBody.length,
+        "responsePayloadLengthInBytes should match the response body length",
+      );
+      assert.include(
+        childData.requestData?.url ?? "",
+        "test-inference.dbinference.azure.com",
+        "requestData.url should be the inference endpoint",
+      );
+    });
+
     it("should throw a 408 error when the request exceeds the inference timeout", async () => {
       const service = new InferenceService(
         createMockOptions({
