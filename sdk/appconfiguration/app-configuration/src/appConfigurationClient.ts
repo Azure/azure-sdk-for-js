@@ -17,18 +17,13 @@ import {
   type CreateSnapshotResponse,
   type DeleteConfigurationSettingOptions,
   type DeleteConfigurationSettingResponse,
-  type DeleteFeatureFlagOptions,
-  type FeatureFlag,
   type GetConfigurationSettingOptions,
   type GetConfigurationSettingResponse,
-  type GetFeatureFlagOptions,
   type GetSnapshotOptions,
   type GetSnapshotResponse,
   type ListConfigurationSettingPage,
   type ListConfigurationSettingsForSnapshotOptions,
   type ListConfigurationSettingsOptions,
-  type ListFeatureFlagRevisionsOptions,
-  type ListFeatureFlagsOptions,
   type ListLabelsOptions,
   type ListLabelsPage,
   type ListRevisionsOptions,
@@ -39,7 +34,6 @@ import {
   type SetConfigurationSettingOptions,
   type SetConfigurationSettingParam,
   type SetConfigurationSettingResponse,
-  type SetFeatureFlagOptions,
   type SetReadOnlyOptions,
   type SetReadOnlyResponse,
   type SettingLabel,
@@ -49,14 +43,10 @@ import {
 } from "./models.js";
 import type { PagedAsyncIterableIterator, PagedResult } from "@azure/core-paging";
 import { getPagedAsyncIterator } from "@azure/core-paging";
-import type { PipelinePolicy, RestError } from "@azure/core-rest-pipeline";
-import { bearerTokenAuthenticationPolicyName, createHttpHeaders } from "@azure/core-rest-pipeline";
-import { audienceErrorHandlingPolicy } from "./internal/audienceErrorHandlingPolicy.js";
-import { SyncTokens, syncTokenPolicy } from "./internal/syncTokenPolicy.js";
-import { queryParamPolicy } from "./internal/queryParamPolicy.js";
-import { emptyBodyPolicy } from "./internal/emptyBodyPolicy.js";
+import type { RestError } from "@azure/core-rest-pipeline";
+import { createHttpHeaders } from "@azure/core-rest-pipeline";
+import { SyncTokens } from "./internal/syncTokenPolicy.js";
 import type { TokenCredential } from "@azure/core-auth";
-import { isTokenCredential } from "@azure/core-auth";
 import type {
   SendConfigurationSettingsOptions,
   SendLabelsRequestOptions,
@@ -72,7 +62,6 @@ import {
   formatFiltersAndSelect,
   formatLabelsFiltersAndSelect,
   formatSnapshotFiltersAndSelect,
-  getScope,
   makeConfigurationSettingEmpty,
   serializeAsConfigurationSettingParam,
   snapshotInfoToGenerated,
@@ -83,7 +72,6 @@ import {
 } from "./internal/helpers.js";
 import {
   AppConfigurationClient as GeneratedAppConfigurationClient,
-  type AppConfigurationClientOptionalParams as GeneratedAppConfigurationClientOptionalParams,
 } from "./generated/appConfigurationClient.js";
 import type {
   _KeyValueListResult,
@@ -106,30 +94,15 @@ import {
 } from "./generated/api/operations.js";
 import { getLongRunningPoller } from "./generated/static-helpers/pollingHelpers.js";
 import type { AppConfigurationContext } from "./generated/api/appConfigurationContext.js";
+import { createConfiguredGeneratedClient } from "./internal/createGeneratedClient.js";
 import type { FeatureFlagValue } from "./featureFlag.js";
 import type { SecretReferenceValue } from "./secretReference.js";
 import type { SnapshotReferenceValue } from "./snapshotReference.js";
-import { appConfigKeyCredentialPolicy } from "./appConfigCredential.js";
 import { tracingClient } from "./internal/tracing.js";
 import { logger } from "./logger.js";
 import type { OperationState } from "@azure/core-lro";
 import type { SimplePollerLike } from "./internal/lroShim.js";
 import { wrapPoller } from "./internal/lroShim.js";
-import { appConfigurationApiVersion, packageVersion } from "./internal/constants.js";
-
-const ConnectionStringRegex = /Endpoint=(.*);Id=(.*);Secret=(.*)/;
-
-/**
- * Provides internal configuration options for AppConfigurationClient.
- * @internal
- */
-export interface InternalAppConfigurationClientOptions extends AppConfigurationClientOptions {
-  /**
-   * The sync token cache to use for this client.
-   * NOTE: this is an internal option, not for general client usage.
-   */
-  syncTokens?: SyncTokens;
-}
 
 /**
  * Client for the Azure App Configuration service.
@@ -160,82 +133,13 @@ export class AppConfigurationClient {
     tokenCredentialOrOptions?: TokenCredential | AppConfigurationClientOptions,
     options?: AppConfigurationClientOptions,
   ) {
-    let appConfigOptions: InternalAppConfigurationClientOptions = {};
-    let appConfigCredential: TokenCredential | undefined = undefined;
-    let appConfigEndpoint: string;
-    let authPolicy: PipelinePolicy | undefined;
-    let authPolicyName: string;
-    let scope: [string] | undefined;
-
-    if (isTokenCredential(tokenCredentialOrOptions)) {
-      appConfigOptions = (options as InternalAppConfigurationClientOptions) || {};
-      appConfigCredential = tokenCredentialOrOptions;
-      appConfigEndpoint = connectionStringOrEndpoint.endsWith("/")
-        ? connectionStringOrEndpoint.slice(0, -1)
-        : connectionStringOrEndpoint;
-      scope = [getScope(appConfigEndpoint, appConfigOptions.audience)];
-      authPolicyName = bearerTokenAuthenticationPolicyName;
-    } else {
-      appConfigOptions = (tokenCredentialOrOptions as InternalAppConfigurationClientOptions) || {};
-      const regexMatch = connectionStringOrEndpoint?.match(ConnectionStringRegex);
-      if (regexMatch) {
-        appConfigEndpoint = regexMatch[1];
-        authPolicy = appConfigKeyCredentialPolicy(regexMatch[2], regexMatch[3]);
-        authPolicyName = authPolicy.name;
-      } else {
-        throw new Error(
-          `Invalid connection string. Valid connection strings should match the regex '${ConnectionStringRegex.source}'.` +
-            ` To mitigate the issue, please refer to the troubleshooting guide here at https://aka.ms/azsdk/js/app-configuration/troubleshoot.`,
-        );
-      }
-    }
-
-    const generatedClientOptions: GeneratedAppConfigurationClientOptionalParams = {
-      ...appConfigOptions,
-      userAgentOptions: {
-        ...appConfigOptions.userAgentOptions,
-        userAgentPrefix: `azsdk-js-app-configuration/${packageVersion}${
-          appConfigOptions.userAgentOptions?.userAgentPrefix
-            ? ` ${appConfigOptions.userAgentOptions.userAgentPrefix}`
-            : ""
-        }`,
-      },
-      loggingOptions: {
-        logger: logger.info,
-      },
-      apiVersion: options?.apiVersion ?? appConfigurationApiVersion,
-      credentials: {},
-    };
-
-    generatedClientOptions.credentials = {
-      ...generatedClientOptions.credentials,
-      scopes: scope,
-    };
-
-    this._syncTokens = appConfigOptions.syncTokens || new SyncTokens();
-    this.client = new GeneratedAppConfigurationClient(
-      appConfigEndpoint,
-      // When a connection string is used, appConfigCredential is undefined here. We pass undefined to avoid @azure-rest/core-client's keyCredentialAuthenticationPolicy setting the apiKeyHeader on the request.
-      // Connection strings are authenticated by HMAC (appConfigKeyCredentialPolicy) and the secret should never leave the client.
-      // The `as TokenCredential` cast bridges a gap between the generated client and the core SDK: the generated constructor types `credential` as required (KeyCredential | TokenCredential),
-      // but @azure-rest/core-client's addCredentialPipelinePolicy no-ops when no credential is passed, so handing it undefined is safe at runtime.
-      appConfigCredential as TokenCredential,
-      generatedClientOptions,
+    const { client, syncTokens } = createConfiguredGeneratedClient(
+      connectionStringOrEndpoint,
+      tokenCredentialOrOptions,
+      options,
     );
-    this.client.pipeline.addPolicy(
-      audienceErrorHandlingPolicy(appConfigOptions?.audience !== undefined),
-      {
-        phase: "Sign",
-        beforePolicies: [authPolicyName],
-      },
-    );
-    if (authPolicy) {
-      this.client.pipeline.addPolicy(authPolicy, { phase: "Sign" });
-    }
-
-    this.client.pipeline.addPolicy(queryParamPolicy());
-    this.client.pipeline.addPolicy(emptyBodyPolicy());
-    this.client.pipeline.addPolicy(syncTokenPolicy(this._syncTokens), { afterPhase: "Retry" });
+    this.client = client;
+    this._syncTokens = syncTokens;
   }
 
   /**
@@ -350,7 +254,10 @@ export class AppConfigurationClient {
           },
         });
 
-        const response = transformKeyValueResponseWithStatusCode(originalResponse, status);
+        const response = transformKeyValueResponseWithStatusCode(
+          originalResponse || undefined,
+          status,
+        );
         assertResponse(response);
         return response;
       },
@@ -667,210 +574,6 @@ export class AppConfigurationClient {
       toElements: (page) => page.items,
     };
     return getPagedAsyncIterator(pagedResult);
-  }
-
-  /**
-   * Adds or updates a feature flag through the dedicated feature flag endpoint.
-   *
-   * Example usage:
-   * ```ts snippet:SetFeatureFlag
-   * import { DefaultAzureCredential } from "@azure/identity";
-   * import { AppConfigurationClient } from "@azure/app-configuration";
-   *
-   * const endpoint = "https://example.azconfig.io";
-   * const credential = new DefaultAzureCredential();
-   * const client = new AppConfigurationClient(endpoint, credential);
-   *
-   * const result = await client.setFeatureFlag({
-   *   name: "MyFeatureFlag",
-   *   enabled: true,
-   * });
-   * ```
-   * @param featureFlag - The feature flag to add or update. Its `name` and `label` identify the resource.
-   * @param options - Optional parameters for the request.
-   */
-  setFeatureFlag(
-    featureFlag: FeatureFlag,
-    options: SetFeatureFlagOptions = {},
-  ): Promise<FeatureFlag> {
-    return tracingClient.withSpan(
-      "AppConfigurationClient.setFeatureFlag",
-      options,
-      async (updatedOptions) => {
-        const { onlyIfUnchanged, ...restOptions } = updatedOptions;
-        const { ifMatch } = checkAndFormatIfAndIfNoneMatch(
-          { etag: featureFlag.etag },
-          { onlyIfUnchanged },
-        );
-        return this.client.putFeatureFlag(featureFlag.name, {
-          ...restOptions,
-          entity: featureFlag,
-          label: featureFlag.label,
-          ifMatch,
-          requestOptions: {
-            ...restOptions.requestOptions,
-            skipUrlEncoding: true,
-          },
-        });
-      },
-    );
-  }
-
-  /**
-   * Get a feature flag through the dedicated feature flag endpoint.
-   *
-   * Example usage:
-   * ```ts snippet:GetFeatureFlag
-   * import { DefaultAzureCredential } from "@azure/identity";
-   * import { AppConfigurationClient } from "@azure/app-configuration";
-   *
-   * const endpoint = "https://example.azconfig.io";
-   * const credential = new DefaultAzureCredential();
-   * const client = new AppConfigurationClient(endpoint, credential);
-   *
-   * const featureFlag = await client.getFeatureFlag("MyFeatureFlag");
-   * ```
-   * @param name - The name of the feature flag to retrieve.
-   * @param options - Optional parameters for the request.
-   */
-  getFeatureFlag(name: string, options: GetFeatureFlagOptions = {}): Promise<FeatureFlag> {
-    return tracingClient.withSpan(
-      "AppConfigurationClient.getFeatureFlag",
-      options,
-      async (updatedOptions) => {
-        const { label, etag, acceptDateTime, fields, onlyIfChanged, ...restOptions } =
-          updatedOptions;
-        const { ifMatch, ifNoneMatch } = checkAndFormatIfAndIfNoneMatch(
-          { etag },
-          { onlyIfChanged },
-        );
-        return this.client.getFeatureFlag(name, {
-          ...restOptions,
-          label,
-          select: fields,
-          acceptDatetime: acceptDateTime?.toISOString(),
-          ifMatch,
-          ifNoneMatch,
-          requestOptions: {
-            ...restOptions.requestOptions,
-            skipUrlEncoding: true,
-          },
-        });
-      },
-    );
-  }
-
-  /**
-   * Delete a feature flag through the dedicated feature flag endpoint.
-   *
-   * Example usage:
-   * ```ts snippet:DeleteFeatureFlag
-   * import { DefaultAzureCredential } from "@azure/identity";
-   * import { AppConfigurationClient } from "@azure/app-configuration";
-   *
-   * const endpoint = "https://example.azconfig.io";
-   * const credential = new DefaultAzureCredential();
-   * const client = new AppConfigurationClient(endpoint, credential);
-   *
-   * await client.deleteFeatureFlag("MyFeatureFlag");
-   * ```
-   * @param name - The name of the feature flag to delete.
-   * @param options - Optional parameters for the request.
-   */
-  deleteFeatureFlag(
-    name: string,
-    options: DeleteFeatureFlagOptions = {},
-  ): Promise<FeatureFlag | undefined> {
-    return tracingClient.withSpan(
-      "AppConfigurationClient.deleteFeatureFlag",
-      options,
-      async (updatedOptions) => {
-        const { label, etag, onlyIfUnchanged, ...restOptions } = updatedOptions;
-        const { ifMatch } = checkAndFormatIfAndIfNoneMatch({ etag }, { onlyIfUnchanged });
-        return this.client.deleteFeatureFlag(name, {
-          ...restOptions,
-          label,
-          ifMatch,
-          requestOptions: {
-            ...restOptions.requestOptions,
-            skipUrlEncoding: true,
-          },
-        });
-      },
-    );
-  }
-
-  /**
-   * List feature flags through the dedicated feature flag endpoint.
-   *
-   * Example usage:
-   * ```ts snippet:ListFeatureFlags
-   * import { DefaultAzureCredential } from "@azure/identity";
-   * import { AppConfigurationClient } from "@azure/app-configuration";
-   *
-   * const endpoint = "https://example.azconfig.io";
-   * const credential = new DefaultAzureCredential();
-   * const client = new AppConfigurationClient(endpoint, credential);
-   *
-   * for await (const featureFlag of client.listFeatureFlags()) {
-   *   console.log(`Feature flag: ${featureFlag.name}`);
-   * }
-   * ```
-   * @param options - Optional parameters for the request.
-   */
-  listFeatureFlags(
-    options: ListFeatureFlagsOptions = {},
-  ): PagedAsyncIterableIterator<FeatureFlag> {
-    const { nameFilter, labelFilter, tagsFilter, acceptDateTime, fields, ...restOptions } = options;
-    return this.client.getFeatureFlags({
-      ...restOptions,
-      name: nameFilter,
-      label: labelFilter,
-      tags: tagsFilter,
-      acceptDatetime: acceptDateTime?.toISOString(),
-      select: fields,
-      requestOptions: {
-        ...restOptions.requestOptions,
-        skipUrlEncoding: true,
-      },
-    });
-  }
-
-  /**
-   * List revisions of a feature flag through the dedicated feature flag endpoint.
-   *
-   * Example usage:
-   * ```ts snippet:ListFeatureFlagRevisions
-   * import { DefaultAzureCredential } from "@azure/identity";
-   * import { AppConfigurationClient } from "@azure/app-configuration";
-   *
-   * const endpoint = "https://example.azconfig.io";
-   * const credential = new DefaultAzureCredential();
-   * const client = new AppConfigurationClient(endpoint, credential);
-   *
-   * for await (const featureFlag of client.listFeatureFlagRevisions({
-   *   nameFilter: "MyFeatureFlag",
-   * })) {
-   *   console.log(`Revision last modified: ${featureFlag.lastModified}`);
-   * }
-   * ```
-   * @param options - Optional parameters for the request.
-   */
-  listFeatureFlagRevisions(
-    options: ListFeatureFlagRevisionsOptions = {},
-  ): PagedAsyncIterableIterator<FeatureFlag> {
-    const { nameFilter, labelFilter, tagsFilter, fields, ...restOptions } = options;
-    return this.client.getFeatureFlagRevisions({
-      ...restOptions,
-      name: nameFilter,
-      label: labelFilter,
-      tags: tagsFilter,
-      select: fields,
-      requestOptions: {
-        ...restOptions.requestOptions,
-        skipUrlEncoding: true,
-      },
-    });
   }
 
   private get _context(): AppConfigurationContext {

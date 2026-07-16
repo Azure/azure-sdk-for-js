@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AppConfigurationClient, FeatureFlag } from "../../src/index.js";
+import type { FeatureFlag, FeatureFlagClient } from "../../src/index.js";
 import type { Recorder } from "@azure-tools/test-recorder";
-import { createAppConfigurationClientForTests, startRecorder } from "./utils/testHelpers.js";
+import { createFeatureFlagClientForTests, startRecorder } from "./utils/testHelpers.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
-describe("AppConfigurationClient - FeatureFlag endpoint", () => {
-  let client: AppConfigurationClient;
+describe("FeatureFlagClient - FeatureFlag endpoint", () => {
+  let client: FeatureFlagClient;
   let recorder: Recorder;
   let featureFlagName: string;
   const label = "label-1";
 
   beforeEach(async (ctx) => {
     recorder = await startRecorder(ctx);
-    client = createAppConfigurationClientForTests(recorder.configureClientOptions({}));
+    client = createFeatureFlagClientForTests(recorder.configureClientOptions({}));
     featureFlagName = recorder.variable(
       "ff-name",
       `ff-name-${Math.floor(Math.random() * 1000)}`,

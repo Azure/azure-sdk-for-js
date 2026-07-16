@@ -36,20 +36,15 @@ export class AppConfigurationClient {
     beginCreateSnapshotAndWait(snapshot: SnapshotInfo, options?: CreateSnapshotOptions): Promise<CreateSnapshotResponse>;
     checkConfigurationSettings(options?: CheckConfigurationSettingsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings>;
     deleteConfigurationSetting(id: ConfigurationSettingId, options?: DeleteConfigurationSettingOptions): Promise<DeleteConfigurationSettingResponse>;
-    deleteFeatureFlag(name: string, options?: DeleteFeatureFlagOptions): Promise<FeatureFlag | undefined>;
     getConfigurationSetting(id: ConfigurationSettingId, options?: GetConfigurationSettingOptions): Promise<GetConfigurationSettingResponse>;
-    getFeatureFlag(name: string, options?: GetFeatureFlagOptions): Promise<FeatureFlag>;
     getSnapshot(name: string, options?: GetSnapshotOptions): Promise<GetSnapshotResponse>;
     listConfigurationSettings(options?: ListConfigurationSettingsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings>;
     listConfigurationSettingsForSnapshot(snapshotName: string, options?: ListConfigurationSettingsForSnapshotOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings>;
-    listFeatureFlagRevisions(options?: ListFeatureFlagRevisionsOptions): PagedAsyncIterableIterator<FeatureFlag>;
-    listFeatureFlags(options?: ListFeatureFlagsOptions): PagedAsyncIterableIterator<FeatureFlag>;
     listLabels(options?: ListLabelsOptions): PagedAsyncIterableIterator<SettingLabel, ListLabelsPage, PageSettings>;
     listRevisions(options?: ListRevisionsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListRevisionsPage, PageSettings>;
     listSnapshots(options?: ListSnapshotsOptions): PagedAsyncIterableIterator<ConfigurationSnapshot, ListSnapshotsPage, PageSettings>;
     recoverSnapshot(name: string, options?: UpdateSnapshotOptions): Promise<UpdateSnapshotResponse>;
     setConfigurationSetting(configurationSetting: SetConfigurationSettingParam | SetConfigurationSettingParam<FeatureFlagValue> | SetConfigurationSettingParam<SecretReferenceValue> | SetConfigurationSettingParam<SnapshotReferenceValue>, options?: SetConfigurationSettingOptions): Promise<SetConfigurationSettingResponse>;
-    setFeatureFlag(featureFlag: FeatureFlag, options?: SetFeatureFlagOptions): Promise<FeatureFlag>;
     setReadOnly(id: ConfigurationSettingId, readOnly: boolean, options?: SetReadOnlyOptions): Promise<SetReadOnlyResponse>;
     updateSyncToken(syncToken: string): void;
 }
@@ -155,7 +150,7 @@ export interface FeatureFlag {
     allocation?: FeatureFlagAllocation;
     conditions?: FeatureFlagConditions;
     description?: string;
-    enabled?: boolean;
+    enabled: boolean;
     readonly etag?: string;
     readonly label?: string;
     readonly lastModified?: Date;
@@ -173,6 +168,17 @@ export interface FeatureFlagAllocation {
     percentile?: PercentileAllocation[];
     seed?: string;
     user?: UserAllocation[];
+}
+
+// @public
+export class FeatureFlagClient {
+    constructor(connectionString: string, options?: AppConfigurationClientOptions);
+    constructor(endpoint: string, tokenCredential: TokenCredential, options?: AppConfigurationClientOptions);
+    deleteFeatureFlag(name: string, options?: DeleteFeatureFlagOptions): Promise<FeatureFlag | undefined>;
+    getFeatureFlag(name: string, options?: GetFeatureFlagOptions): Promise<FeatureFlag>;
+    listFeatureFlagRevisions(options?: ListFeatureFlagRevisionsOptions): PagedAsyncIterableIterator<FeatureFlag>;
+    listFeatureFlags(options?: ListFeatureFlagsOptions): PagedAsyncIterableIterator<FeatureFlag>;
+    setFeatureFlag(featureFlag: FeatureFlag, options?: SetFeatureFlagOptions): Promise<FeatureFlag>;
 }
 
 // @public
@@ -427,8 +433,6 @@ export function parseSecretReference(setting: ConfigurationSetting): Configurati
 // @public
 export function parseSnapshotReference(setting: ConfigurationSetting): ConfigurationSetting<SnapshotReferenceValue>;
 
-export { RestError }
-
 // @public
 export interface PercentileAllocation {
     from: number;
@@ -438,6 +442,8 @@ export interface PercentileAllocation {
 
 // @public
 export type RequirementType = "Any" | "All";
+
+export { RestError }
 
 // @public
 export interface RetryOptions {

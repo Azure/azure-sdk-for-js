@@ -3,7 +3,11 @@
 
 import { describe, it } from "vitest";
 import { DefaultAzureCredential } from "@azure/identity";
-import { AppConfigurationClient, KnownAppConfigAudience } from "@azure/app-configuration";
+import {
+  AppConfigurationClient,
+  FeatureFlagClient,
+  KnownAppConfigAudience,
+} from "@azure/app-configuration";
 import { setLogLevel } from "@azure/logger";
 
 describe("snippets", () => {
@@ -292,7 +296,7 @@ describe("snippets", () => {
     // The endpoint for your App Configuration resource
     const endpoint = "https://example.azconfig.io";
     const credential = new DefaultAzureCredential();
-    const client = new AppConfigurationClient(endpoint, credential);
+    const client = new FeatureFlagClient(endpoint, credential);
     // @ts-preserve-whitespace
     // Create or update a feature flag through the dedicated feature flag endpoint.
     await client.setFeatureFlag({
@@ -312,6 +316,57 @@ describe("snippets", () => {
     // @ts-preserve-whitespace
     // Delete a feature flag.
     await client.deleteFeatureFlag("my-feature");
+  });
+
+  it("SetFeatureFlag", async () => {
+    const endpoint = "https://example.azconfig.io";
+    const credential = new DefaultAzureCredential();
+    const client = new FeatureFlagClient(endpoint, credential);
+    // @ts-preserve-whitespace
+    const result = await client.setFeatureFlag({
+      name: "MyFeatureFlag",
+      enabled: true,
+    });
+    console.log(`Feature flag ${result.name} is enabled: ${result.enabled}`);
+  });
+
+  it("GetFeatureFlag", async () => {
+    const endpoint = "https://example.azconfig.io";
+    const credential = new DefaultAzureCredential();
+    const client = new FeatureFlagClient(endpoint, credential);
+    // @ts-preserve-whitespace
+    const featureFlag = await client.getFeatureFlag("MyFeatureFlag");
+    console.log(`Feature flag ${featureFlag.name} is enabled: ${featureFlag.enabled}`);
+  });
+
+  it("DeleteFeatureFlag", async () => {
+    const endpoint = "https://example.azconfig.io";
+    const credential = new DefaultAzureCredential();
+    const client = new FeatureFlagClient(endpoint, credential);
+    // @ts-preserve-whitespace
+    await client.deleteFeatureFlag("MyFeatureFlag");
+  });
+
+  it("ListFeatureFlags", async () => {
+    const endpoint = "https://example.azconfig.io";
+    const credential = new DefaultAzureCredential();
+    const client = new FeatureFlagClient(endpoint, credential);
+    // @ts-preserve-whitespace
+    for await (const featureFlag of client.listFeatureFlags()) {
+      console.log(`Feature flag: ${featureFlag.name}`);
+    }
+  });
+
+  it("ListFeatureFlagRevisions", async () => {
+    const endpoint = "https://example.azconfig.io";
+    const credential = new DefaultAzureCredential();
+    const client = new FeatureFlagClient(endpoint, credential);
+    // @ts-preserve-whitespace
+    for await (const featureFlag of client.listFeatureFlagRevisions({
+      nameFilter: "MyFeatureFlag",
+    })) {
+      console.log(`Revision last modified: ${featureFlag.lastModified}`);
+    }
   });
 
   it("SetLogLevel", async () => {

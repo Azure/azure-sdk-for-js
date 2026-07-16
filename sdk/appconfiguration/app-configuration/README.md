@@ -341,12 +341,12 @@ The dedicated feature flag endpoint lets you create, retrieve, list, and delete 
 
 ```ts snippet:FeatureFlag
 import { DefaultAzureCredential } from "@azure/identity";
-import { AppConfigurationClient } from "@azure/app-configuration";
+import { FeatureFlagClient } from "@azure/app-configuration";
 
 // The endpoint for your App Configuration resource
 const endpoint = "https://example.azconfig.io";
 const credential = new DefaultAzureCredential();
-const client = new AppConfigurationClient(endpoint, credential);
+const client = new FeatureFlagClient(endpoint, credential);
 
 // Create or update a feature flag through the dedicated feature flag endpoint.
 await client.setFeatureFlag({

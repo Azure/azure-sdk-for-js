@@ -7,7 +7,7 @@
  * @azsdk-weight 19
  */
 import type { FeatureFlag } from "@azure/app-configuration";
-import { AppConfigurationClient } from "@azure/app-configuration";
+import { FeatureFlagClient } from "@azure/app-configuration";
 import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
@@ -21,7 +21,7 @@ export async function main(): Promise<void> {
   const endpoint = process.env["AZ_CONFIG_ENDPOINT"] || "<endpoint>";
 
   const credential = new DefaultAzureCredential();
-  const client = new AppConfigurationClient(endpoint, credential);
+  const client = new FeatureFlagClient(endpoint, credential);
 
   // Create a simple feature flag through the dedicated feature flag endpoint.
   const simpleFlagName = "sample-simple-feature-flag";

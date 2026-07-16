@@ -12,11 +12,6 @@ import {
   KeyValue,
   keyValueSerializer,
   keyValueDeserializer,
-  _FeatureFlagListResult,
-  _featureFlagListResultDeserializer,
-  FeatureFlag,
-  featureFlagSerializer,
-  featureFlagDeserializer,
   _SnapshotListResult,
   _snapshotListResultDeserializer,
   ConfigurationSnapshot,
@@ -50,14 +45,6 @@ import {
   GetSnapshotOptionalParams,
   CheckSnapshotsOptionalParams,
   GetSnapshotsOptionalParams,
-  CheckFeatureFlagRevisionsOptionalParams,
-  GetFeatureFlagRevisionsOptionalParams,
-  DeleteFeatureFlagOptionalParams,
-  PutFeatureFlagOptionalParams,
-  CheckFeatureFlagOptionalParams,
-  GetFeatureFlagOptionalParams,
-  CheckFeatureFlagsOptionalParams,
-  GetFeatureFlagsOptionalParams,
   CheckKeyValueOptionalParams,
   DeleteKeyValueOptionalParams,
   PutKeyValueOptionalParams,
@@ -131,7 +118,6 @@ export async function _checkRevisionsDeserialize(result: PathUncheckedResponse):
 
   return;
 }
-
 /** Requests the headers and status of the given resource. */
 export async function checkRevisions(
   context: Client,
@@ -200,7 +186,6 @@ export async function _getRevisionsDeserialize(
 
   return _keyValueListResultDeserializer(result.body);
 }
-
 /** Gets a list of key-value revisions. */
 export function getRevisions(
   context: Client,
@@ -265,7 +250,6 @@ export async function _deleteLockDeserialize(result: PathUncheckedResponse): Pro
 
   return keyValueDeserializer(result.body);
 }
-
 /** Unlocks a key-value. */
 export async function deleteLock(
   context: Client,
@@ -322,7 +306,6 @@ export async function _putLockDeserialize(result: PathUncheckedResponse): Promis
 
   return keyValueDeserializer(result.body);
 }
-
 /** Locks a key-value. */
 export async function putLock(
   context: Client,
@@ -384,7 +367,6 @@ export async function _checkLabelsDeserialize(result: PathUncheckedResponse): Pr
 
   return;
 }
-
 /** Requests the headers and status of the given resource. */
 export async function checkLabels(
   context: Client,
@@ -448,7 +430,6 @@ export async function _getLabelsDeserialize(
 
   return _labelListResultDeserializer(result.body);
 }
-
 /** Gets a list of labels. */
 export function getLabels(
   context: Client,
@@ -511,7 +492,6 @@ export async function _checkSnapshotDeserialize(result: PathUncheckedResponse): 
 
   return;
 }
-
 /** Requests the headers and status of the given resource. */
 export async function checkSnapshot(
   context: Client,
@@ -573,7 +553,6 @@ export async function _updateSnapshotDeserialize(
 
   return configurationSnapshotDeserializer(result.body);
 }
-
 /** Updates the state of a key-value snapshot. */
 export async function updateSnapshot(
   context: Client,
@@ -632,7 +611,6 @@ export async function _createSnapshotDeserialize(
 
   return configurationSnapshotDeserializer(result.body);
 }
-
 /** Creates a key-value snapshot. */
 export function createSnapshot(
   context: Client,
@@ -694,7 +672,6 @@ export async function _getOperationDetailsDeserialize(
 
   return operationDetailsDeserializer(result.body);
 }
-
 /** Gets the state of a long running operation. */
 export async function getOperationDetails(
   context: Client,
@@ -757,7 +734,6 @@ export async function _getSnapshotDeserialize(
 
   return configurationSnapshotDeserializer(result.body);
 }
-
 /** Gets a single key-value snapshot. */
 export async function getSnapshot(
   context: Client,
@@ -809,7 +785,6 @@ export async function _checkSnapshotsDeserialize(result: PathUncheckedResponse):
 
   return;
 }
-
 /** Requests the headers and status of the given resource. */
 export async function checkSnapshots(
   context: Client,
@@ -871,7 +846,6 @@ export async function _getSnapshotsDeserialize(
 
   return _snapshotListResultDeserializer(result.body);
 }
-
 /** Gets a list of key-value snapshots. */
 export function getSnapshots(
   context: Client,
@@ -881,557 +855,6 @@ export function getSnapshots(
     context,
     () => _getSnapshotsSend(context, options),
     _getSnapshotsDeserialize,
-    ["200"],
-    {
-      itemName: "items",
-      nextLinkName: "@nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-01-preview",
-    },
-  );
-}
-
-export function _checkFeatureFlagRevisionsSend(
-  context: Client,
-  options: CheckFeatureFlagRevisionsOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/ff-revisions{?api%2Dversion,name,label,After,%24Select,tags*}",
-    {
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
-      name: options?.name,
-      label: options?.label,
-      After: options?.after,
-      "%24Select": !options?.select
-        ? options?.select
-        : options?.select.map((p: any) => {
-            return p;
-          }),
-      tags: !options?.tags
-        ? options?.tags
-        : options?.tags.map((p: any) => {
-            return p;
-          }),
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context
-    .path(path)
-    .head({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        ...options.requestOptions?.headers,
-      },
-    });
-}
-
-export async function _checkFeatureFlagRevisionsDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    if (result.body) {
-      error.details = errorDeserializer(result.body);
-    }
-
-    throw error;
-  }
-
-  return;
-}
-
-/** Requests the headers and status of the given resource. */
-export async function checkFeatureFlagRevisions(
-  context: Client,
-  options: CheckFeatureFlagRevisionsOptionalParams = { requestOptions: {} },
-): Promise<void> {
-  const result = await _checkFeatureFlagRevisionsSend(context, options);
-  return _checkFeatureFlagRevisionsDeserialize(result);
-}
-
-export function _getFeatureFlagRevisionsSend(
-  context: Client,
-  options: GetFeatureFlagRevisionsOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/ff-revisions{?api%2Dversion,name,label,After,%24Select,tags*}",
-    {
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
-      name: options?.name,
-      label: options?.label,
-      After: options?.after,
-      "%24Select": !options?.select
-        ? options?.select
-        : options?.select.map((p: any) => {
-            return p;
-          }),
-      tags: !options?.tags
-        ? options?.tags
-        : options?.tags.map((p: any) => {
-            return p;
-          }),
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.syncToken !== undefined ? { "sync-token": options?.syncToken } : {}),
-        ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
-        ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        accept:
-          'application/json;profile="https://azconfig.io/mime-profiles/ffset";charset=utf-8, application/problem+json',
-        ...options.requestOptions?.headers,
-      },
-    });
-}
-
-export async function _getFeatureFlagRevisionsDeserialize(
-  result: PathUncheckedResponse,
-): Promise<_FeatureFlagListResult> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    if (result.body) {
-      error.details = errorDeserializer(result.body);
-    }
-
-    throw error;
-  }
-
-  return _featureFlagListResultDeserializer(result.body);
-}
-
-/** Gets a list of feature flag revisions. */
-export function getFeatureFlagRevisions(
-  context: Client,
-  options: GetFeatureFlagRevisionsOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<FeatureFlag> {
-  return buildPagedAsyncIterator(
-    context,
-    () => _getFeatureFlagRevisionsSend(context, options),
-    _getFeatureFlagRevisionsDeserialize,
-    ["200"],
-    {
-      itemName: "items",
-      nextLinkName: "@nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-01-preview",
-    },
-  );
-}
-
-export function _deleteFeatureFlagSend(
-  context: Client,
-  name: string,
-  options: DeleteFeatureFlagOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/ff/{name}{?api%2Dversion,label}",
-    {
-      name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
-      label: options?.label,
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context
-    .path(path)
-    .delete({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.syncToken !== undefined ? { "sync-token": options?.syncToken } : {}),
-        ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        accept:
-          'application/json;profile="https://azconfig.io/mime-profiles/ff";charset=utf-8, application/problem+json',
-        ...options.requestOptions?.headers,
-      },
-    });
-}
-
-export async function _deleteFeatureFlagDeserialize(
-  result: PathUncheckedResponse,
-): Promise<FeatureFlag | undefined> {
-  const expectedStatuses = ["200", "204"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    if (result.body) {
-      error.details = errorDeserializer(result.body);
-    }
-
-    throw error;
-  }
-
-  return result.body ? featureFlagDeserializer(result.body) : undefined;
-}
-
-/** Deletes a feature flag. */
-export async function deleteFeatureFlag(
-  context: Client,
-  name: string,
-  options: DeleteFeatureFlagOptionalParams = { requestOptions: {} },
-): Promise<FeatureFlag | undefined> {
-  const result = await _deleteFeatureFlagSend(context, name, options);
-  return _deleteFeatureFlagDeserialize(result);
-}
-
-export function _putFeatureFlagSend(
-  context: Client,
-  name: string,
-  options: PutFeatureFlagOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/ff/{name}{?api%2Dversion,label}",
-    {
-      name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
-      label: options?.label,
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context
-    .path(path)
-    .put({
-      ...operationOptionsToRequestParameters(options),
-      contentType: 'application/json;profile="https://azconfig.io/mime-profiles/ff";charset=utf-8',
-      headers: {
-        ...(options?.syncToken !== undefined ? { "sync-token": options?.syncToken } : {}),
-        ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
-        ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        accept:
-          'application/json;profile="https://azconfig.io/mime-profiles/ff";charset=utf-8, application/problem+json',
-        ...options.requestOptions?.headers,
-      },
-      body: !options?.entity ? options?.entity : featureFlagSerializer(options?.entity),
-    });
-}
-
-export async function _putFeatureFlagDeserialize(
-  result: PathUncheckedResponse,
-): Promise<FeatureFlag> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    if (result.body) {
-      error.details = errorDeserializer(result.body);
-    }
-
-    throw error;
-  }
-
-  return featureFlagDeserializer(result.body);
-}
-
-/** Creates a feature flag. */
-export async function putFeatureFlag(
-  context: Client,
-  name: string,
-  options: PutFeatureFlagOptionalParams = { requestOptions: {} },
-): Promise<FeatureFlag> {
-  const result = await _putFeatureFlagSend(context, name, options);
-  return _putFeatureFlagDeserialize(result);
-}
-
-export function _checkFeatureFlagSend(
-  context: Client,
-  name: string,
-  options: CheckFeatureFlagOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/ff/{name}{?api%2Dversion,label,%24Select,tags*}",
-    {
-      name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
-      label: options?.label,
-      "%24Select": !options?.select
-        ? options?.select
-        : options?.select.map((p: any) => {
-            return p;
-          }),
-      tags: !options?.tags
-        ? options?.tags
-        : options?.tags.map((p: any) => {
-            return p;
-          }),
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context
-    .path(path)
-    .head({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.syncToken !== undefined ? { "sync-token": options?.syncToken } : {}),
-        ...(options?.acceptDatetime !== undefined
-          ? { "accept-datetime": options?.acceptDatetime }
-          : {}),
-        ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
-        ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        ...options.requestOptions?.headers,
-      },
-    });
-}
-
-export async function _checkFeatureFlagDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    if (result.body) {
-      error.details = errorDeserializer(result.body);
-    }
-
-    throw error;
-  }
-
-  return;
-}
-
-/** Requests the headers and status of the given resource. */
-export async function checkFeatureFlag(
-  context: Client,
-  name: string,
-  options: CheckFeatureFlagOptionalParams = { requestOptions: {} },
-): Promise<void> {
-  const result = await _checkFeatureFlagSend(context, name, options);
-  return _checkFeatureFlagDeserialize(result);
-}
-
-export function _getFeatureFlagSend(
-  context: Client,
-  name: string,
-  options: GetFeatureFlagOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/ff/{name}{?api%2Dversion,label,%24Select,tags*}",
-    {
-      name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
-      label: options?.label,
-      "%24Select": !options?.select
-        ? options?.select
-        : options?.select.map((p: any) => {
-            return p;
-          }),
-      tags: !options?.tags
-        ? options?.tags
-        : options?.tags.map((p: any) => {
-            return p;
-          }),
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.syncToken !== undefined ? { "sync-token": options?.syncToken } : {}),
-        ...(options?.acceptDatetime !== undefined
-          ? { "accept-datetime": options?.acceptDatetime }
-          : {}),
-        ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
-        ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        accept:
-          'application/json;profile="https://azconfig.io/mime-profiles/ff";charset=utf-8, application/problem+json',
-        ...options.requestOptions?.headers,
-      },
-    });
-}
-
-export async function _getFeatureFlagDeserialize(
-  result: PathUncheckedResponse,
-): Promise<FeatureFlag> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    if (result.body) {
-      error.details = errorDeserializer(result.body);
-    }
-
-    throw error;
-  }
-
-  return featureFlagDeserializer(result.body);
-}
-
-/** Gets a single feature flag. */
-export async function getFeatureFlag(
-  context: Client,
-  name: string,
-  options: GetFeatureFlagOptionalParams = { requestOptions: {} },
-): Promise<FeatureFlag> {
-  const result = await _getFeatureFlagSend(context, name, options);
-  return _getFeatureFlagDeserialize(result);
-}
-
-export function _checkFeatureFlagsSend(
-  context: Client,
-  options: CheckFeatureFlagsOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/ff{?api%2Dversion,name,label,After,%24Select,tags*}",
-    {
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
-      name: options?.name,
-      label: options?.label,
-      After: options?.after,
-      "%24Select": !options?.select
-        ? options?.select
-        : options?.select.map((p: any) => {
-            return p;
-          }),
-      tags: !options?.tags
-        ? options?.tags
-        : options?.tags.map((p: any) => {
-            return p;
-          }),
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context
-    .path(path)
-    .head({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.syncToken !== undefined ? { "sync-token": options?.syncToken } : {}),
-        ...(options?.acceptDatetime !== undefined
-          ? { "accept-datetime": options?.acceptDatetime }
-          : {}),
-        ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
-        ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
-        ...(options?.clientRequestId !== undefined
-          ? { "x-ms-client-request-id": options?.clientRequestId }
-          : {}),
-        ...options.requestOptions?.headers,
-      },
-    });
-}
-
-export async function _checkFeatureFlagsDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    if (result.body) {
-      error.details = errorDeserializer(result.body);
-    }
-
-    throw error;
-  }
-
-  return;
-}
-
-/** Requests the headers and status of the given resource. */
-export async function checkFeatureFlags(
-  context: Client,
-  options: CheckFeatureFlagsOptionalParams = { requestOptions: {} },
-): Promise<void> {
-  const result = await _checkFeatureFlagsSend(context, options);
-  return _checkFeatureFlagsDeserialize(result);
-}
-
-export function _getFeatureFlagsSend(
-  context: Client,
-  options: GetFeatureFlagsOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const path = expandUrlTemplate(
-    "/ff{?api%2Dversion,name,label,After,%24Select,tags*}",
-    {
-      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
-      name: options?.name,
-      label: options?.label,
-      After: options?.after,
-      "%24Select": !options?.select
-        ? options?.select
-        : options?.select.map((p: any) => {
-            return p;
-          }),
-      tags: !options?.tags
-        ? options?.tags
-        : options?.tags.map((p: any) => {
-            return p;
-          }),
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context
-    .path(path)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      headers: {
-        ...(options?.syncToken !== undefined ? { "sync-token": options?.syncToken } : {}),
-        ...(options?.acceptDatetime !== undefined
-          ? { "accept-datetime": options?.acceptDatetime }
-          : {}),
-        ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
-        ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
-        accept:
-          'application/json;profile="https://azconfig.io/mime-profiles/ffset";charset=utf-8, application/problem+json',
-        ...options.requestOptions?.headers,
-      },
-    });
-}
-
-export async function _getFeatureFlagsDeserialize(
-  result: PathUncheckedResponse,
-): Promise<_FeatureFlagListResult> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    if (result.body) {
-      error.details = errorDeserializer(result.body);
-    }
-
-    throw error;
-  }
-
-  return _featureFlagListResultDeserializer(result.body);
-}
-
-/** Gets a list of feature flags. */
-export function getFeatureFlags(
-  context: Client,
-  options: GetFeatureFlagsOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<FeatureFlag> {
-  return buildPagedAsyncIterator(
-    context,
-    () => _getFeatureFlagsSend(context, options),
-    _getFeatureFlagsDeserialize,
     ["200"],
     {
       itemName: "items",
@@ -1499,7 +922,6 @@ export async function _checkKeyValueDeserialize(result: PathUncheckedResponse): 
 
   return;
 }
-
 /** Requests the headers and status of the given resource. */
 export async function checkKeyValue(
   context: Client,
@@ -1544,7 +966,7 @@ export function _deleteKeyValueSend(
 
 export async function _deleteKeyValueDeserialize(
   result: PathUncheckedResponse,
-): Promise<KeyValue | undefined> {
+): Promise<KeyValue | void> {
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -1555,15 +977,18 @@ export async function _deleteKeyValueDeserialize(
     throw error;
   }
 
-  return result.body ? keyValueDeserializer(result.body) : undefined;
-}
+  if (!result.body) {
+    return;
+  }
 
+  return keyValueDeserializer(result.body);
+}
 /** Deletes a key-value. */
 export async function deleteKeyValue(
   context: Client,
   key: string,
   options: DeleteKeyValueOptionalParams = { requestOptions: {} },
-): Promise<KeyValue | undefined> {
+): Promise<KeyValue | void> {
   const result = await _deleteKeyValueSend(context, key, options);
   return _deleteKeyValueDeserialize(result);
 }
@@ -1623,7 +1048,6 @@ export async function _putKeyValueDeserialize(result: PathUncheckedResponse): Pr
 
   return keyValueDeserializer(result.body);
 }
-
 /** Creates a key-value. */
 export async function putKeyValue(
   context: Client,
@@ -1700,7 +1124,6 @@ export async function _getKeyValueDeserialize(result: PathUncheckedResponse): Pr
 
   return keyValueDeserializer(result.body);
 }
-
 /** Gets a single key-value. */
 export async function getKeyValue(
   context: Client,
@@ -1770,7 +1193,6 @@ export async function _checkKeyValuesDeserialize(result: PathUncheckedResponse):
 
   return;
 }
-
 /** Requests the headers and status of the given resource. */
 export async function checkKeyValues(
   context: Client,
@@ -1839,7 +1261,6 @@ export async function _getKeyValuesDeserialize(
 
   return _keyValueListResultDeserializer(result.body);
 }
-
 /** Gets a list of key-values. */
 export function getKeyValues(
   context: Client,
@@ -1903,7 +1324,6 @@ export async function _checkKeysDeserialize(result: PathUncheckedResponse): Prom
 
   return;
 }
-
 /** Requests the headers and status of the given resource. */
 export async function checkKeys(
   context: Client,
@@ -1956,7 +1376,6 @@ export async function _getKeysDeserialize(result: PathUncheckedResponse): Promis
 
   return _keyListResultDeserializer(result.body);
 }
-
 /** Gets a list of keys. */
 export function getKeys(
   context: Client,

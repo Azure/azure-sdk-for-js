@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ErrorModel as ErrorModel_1 } from "@azure-rest/core-client";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { ErrorModel as ErrorModel_1 } from "@azure-rest/core-client";
+
 /** The result of a list request. */
 export interface _KeyListResult {
   /** The collection value. */
@@ -101,7 +101,7 @@ export interface KeyValue {
   /** The key of the key-value. */
   readonly key: string;
   /** The label the key-value belongs to. */
-  readonly label?: string;
+  label?: string;
   /** The content type of the value stored within the key-value. */
   contentType?: string;
   /** The value of the key-value. */
@@ -120,6 +120,7 @@ export interface KeyValue {
 
 export function keyValueSerializer(item: KeyValue): any {
   return {
+    label: item["label"],
     content_type: item["contentType"],
     value: item["value"],
     last_modified: item["lastModified"],
@@ -143,6 +144,228 @@ export function keyValueDeserializer(item: any): KeyValue {
     description: item["description"],
     locked: item["locked"],
     etag: item["etag"],
+  };
+}
+
+/** The result of a snapshot list request. */
+export interface _SnapshotListResult {
+  /** The collection value. */
+  items?: ConfigurationSnapshot[];
+  /** The URI that can be used to request the next set of paged results. */
+  nextLink?: string;
+}
+
+export function _snapshotListResultDeserializer(item: any): _SnapshotListResult {
+  return {
+    items: !item["items"] ? item["items"] : configurationSnapshotArrayDeserializer(item["items"]),
+    nextLink: item["@nextLink"],
+  };
+}
+
+export function configurationSnapshotArraySerializer(result: Array<ConfigurationSnapshot>): any[] {
+  return result.map((item) => {
+    return configurationSnapshotSerializer(item);
+  });
+}
+
+export function configurationSnapshotArrayDeserializer(
+  result: Array<ConfigurationSnapshot>,
+): any[] {
+  return result.map((item) => {
+    return configurationSnapshotDeserializer(item);
+  });
+}
+
+/** A snapshot is a named, immutable subset of an App Configuration store's key-values. */
+export interface ConfigurationSnapshot {
+  /** The name of the snapshot. */
+  readonly name: string;
+  /** The current status of the snapshot. */
+  readonly status?: SnapshotStatus;
+  /** A list of filters used to filter the key-values included in the snapshot. */
+  filters: ConfigurationSettingsFilter[];
+  /**
+   * The composition type describes how the key-values within the snapshot are
+   * composed. The 'key' composition type ensures there are no two key-values
+   * containing the same key. The 'key_label' composition type ensures there are no
+   * two key-values containing the same key and label.
+   */
+  compositionType?: CompositionType;
+  /** The time that the snapshot was created. */
+  readonly createdOn?: string;
+  /** The time that the snapshot will expire. */
+  readonly expiresOn?: string;
+  /**
+   * The amount of time, in seconds, that a snapshot will remain in the archived
+   * state before expiring. This property is only writable during the creation of a
+   * snapshot. If not specified, the default lifetime of key-value revisions will be
+   * used.
+   */
+  retentionPeriodInSeconds?: number;
+  /** The size in bytes of the snapshot. */
+  readonly sizeInBytes?: number;
+  /** The amount of key-values in the snapshot. */
+  readonly itemsCount?: number;
+  /** The tags of the snapshot. */
+  tags?: Record<string, string>;
+  /** The description of the snapshot. */
+  description?: string;
+  /** A value representing the current state of the snapshot. */
+  readonly etag?: string;
+}
+
+export function configurationSnapshotSerializer(item: ConfigurationSnapshot): any {
+  return {
+    filters: configurationSettingsFilterArraySerializer(item["filters"]),
+    composition_type: item["compositionType"],
+    retention_period: item["retentionPeriodInSeconds"],
+    tags: item["tags"],
+    description: item["description"],
+  };
+}
+
+export function configurationSnapshotDeserializer(item: any): ConfigurationSnapshot {
+  return {
+    name: item["name"],
+    status: item["status"],
+    filters: configurationSettingsFilterArrayDeserializer(item["filters"]),
+    compositionType: item["composition_type"],
+    createdOn: item["created"],
+    expiresOn: item["expires"],
+    retentionPeriodInSeconds: item["retention_period"],
+    sizeInBytes: item["size"],
+    itemsCount: item["items_count"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    description: item["description"],
+    etag: item["etag"],
+  };
+}
+
+/** Snapshot status. */
+export type SnapshotStatus = "provisioning" | "ready" | "archived" | "failed";
+
+export function configurationSettingsFilterArraySerializer(
+  result: Array<ConfigurationSettingsFilter>,
+): any[] {
+  return result.map((item) => {
+    return configurationSettingsFilterSerializer(item);
+  });
+}
+
+export function configurationSettingsFilterArrayDeserializer(
+  result: Array<ConfigurationSettingsFilter>,
+): any[] {
+  return result.map((item) => {
+    return configurationSettingsFilterDeserializer(item);
+  });
+}
+
+/**
+ * Enables filtering of key-values. Syntax reference:
+ * https://aka.ms/azconfig/docs/restapisnapshots
+ */
+export interface ConfigurationSettingsFilter {
+  /** Filters key-values by their key field. */
+  keyFilter: string;
+  /** Filters key-values by their label field. */
+  labelFilter?: string;
+  /** Filters key-values by their tags field. */
+  tagsFilter?: string[];
+}
+
+export function configurationSettingsFilterSerializer(item: ConfigurationSettingsFilter): any {
+  return {
+    key: item["keyFilter"],
+    label: item["labelFilter"],
+    tags: !item["tagsFilter"]
+      ? item["tagsFilter"]
+      : item["tagsFilter"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+export function configurationSettingsFilterDeserializer(item: any): ConfigurationSettingsFilter {
+  return {
+    keyFilter: item["key"],
+    labelFilter: item["label"],
+    tagsFilter: !item["tags"]
+      ? item["tags"]
+      : item["tags"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** Composition types. */
+export type CompositionType = "key" | "key_label";
+
+/** Details of a long running operation. */
+export interface OperationDetails {
+  /** The unique id of the operation. */
+  id: string;
+  /** The current status of the operation */
+  status: OperationState;
+  /**
+   * An error, available when the status is `Failed`, describing why the operation
+   * failed.
+   */
+  error?: ErrorModel_1;
+}
+
+export function operationDetailsDeserializer(item: any): OperationDetails {
+  return {
+    id: item["id"],
+    status: item["status"],
+    error: !item["error"] ? item["error"] : item["error"],
+  };
+}
+
+/** Enum describing allowed operation states. */
+export type OperationState = "NotStarted" | "Running" | "Succeeded" | "Failed" | "Canceled";
+
+/** Parameters used to update a snapshot. */
+export interface SnapshotUpdateParameters {
+  /** The desired status of the snapshot. */
+  status?: SnapshotStatus;
+}
+
+export function snapshotUpdateParametersSerializer(item: SnapshotUpdateParameters): any {
+  return { status: item["status"] };
+}
+
+/** The result of a list request. */
+export interface _LabelListResult {
+  /** The collection value. */
+  items?: Label[];
+  /** The URI that can be used to request the next set of paged results. */
+  nextLink?: string;
+}
+
+export function _labelListResultDeserializer(item: any): _LabelListResult {
+  return {
+    items: !item["items"] ? item["items"] : labelArrayDeserializer(item["items"]),
+    nextLink: item["@nextLink"],
+  };
+}
+
+export function labelArrayDeserializer(result: Array<Label>): any[] {
+  return result.map((item) => {
+    return labelDeserializer(item);
+  });
+}
+
+/** Labels are used to group key-values. */
+export interface Label {
+  /** The name of the label. */
+  name?: string;
+}
+
+export function labelDeserializer(item: any): Label {
+  return {
+    name: item["name"],
   };
 }
 
@@ -181,7 +404,7 @@ export interface FeatureFlag {
   /** The name of the feature flag. */
   readonly name: string;
   /** The enabled state of the feature flag. */
-  enabled?: boolean;
+  enabled: boolean;
   /** The label the feature flag belongs to. */
   readonly label?: string;
   /** The description of the feature flag. */
@@ -536,228 +759,6 @@ export function featureFlagTelemetryConfigurationDeserializer(
   };
 }
 
-/** The result of a snapshot list request. */
-export interface _SnapshotListResult {
-  /** The collection value. */
-  items?: ConfigurationSnapshot[];
-  /** The URI that can be used to request the next set of paged results. */
-  nextLink?: string;
-}
-
-export function _snapshotListResultDeserializer(item: any): _SnapshotListResult {
-  return {
-    items: !item["items"] ? item["items"] : configurationSnapshotArrayDeserializer(item["items"]),
-    nextLink: item["@nextLink"],
-  };
-}
-
-export function configurationSnapshotArraySerializer(result: Array<ConfigurationSnapshot>): any[] {
-  return result.map((item) => {
-    return configurationSnapshotSerializer(item);
-  });
-}
-
-export function configurationSnapshotArrayDeserializer(
-  result: Array<ConfigurationSnapshot>,
-): any[] {
-  return result.map((item) => {
-    return configurationSnapshotDeserializer(item);
-  });
-}
-
-/** A snapshot is a named, immutable subset of an App Configuration store's key-values. */
-export interface ConfigurationSnapshot {
-  /** The name of the snapshot. */
-  readonly name: string;
-  /** The current status of the snapshot. */
-  readonly status?: SnapshotStatus;
-  /** A list of filters used to filter the key-values included in the snapshot. */
-  filters: ConfigurationSettingsFilter[];
-  /**
-   * The composition type describes how the key-values within the snapshot are
-   * composed. The 'key' composition type ensures there are no two key-values
-   * containing the same key. The 'key_label' composition type ensures there are no
-   * two key-values containing the same key and label.
-   */
-  compositionType?: CompositionType;
-  /** The time that the snapshot was created. */
-  readonly createdOn?: string;
-  /** The time that the snapshot will expire. */
-  readonly expiresOn?: string;
-  /**
-   * The amount of time, in seconds, that a snapshot will remain in the archived
-   * state before expiring. This property is only writable during the creation of a
-   * snapshot. If not specified, the default lifetime of key-value revisions will be
-   * used.
-   */
-  retentionPeriodInSeconds?: number;
-  /** The size in bytes of the snapshot. */
-  readonly sizeInBytes?: number;
-  /** The amount of key-values in the snapshot. */
-  readonly itemsCount?: number;
-  /** The tags of the snapshot. */
-  tags?: Record<string, string>;
-  /** The description of the snapshot. */
-  description?: string;
-  /** A value representing the current state of the snapshot. */
-  readonly etag?: string;
-}
-
-export function configurationSnapshotSerializer(item: ConfigurationSnapshot): any {
-  return {
-    filters: configurationSettingsFilterArraySerializer(item["filters"]),
-    composition_type: item["compositionType"],
-    retention_period: item["retentionPeriodInSeconds"],
-    tags: item["tags"],
-    description: item["description"],
-  };
-}
-
-export function configurationSnapshotDeserializer(item: any): ConfigurationSnapshot {
-  return {
-    name: item["name"],
-    status: item["status"],
-    filters: configurationSettingsFilterArrayDeserializer(item["filters"]),
-    compositionType: item["composition_type"],
-    createdOn: item["created"],
-    expiresOn: item["expires"],
-    retentionPeriodInSeconds: item["retention_period"],
-    sizeInBytes: item["size"],
-    itemsCount: item["items_count"],
-    tags: !item["tags"]
-      ? item["tags"]
-      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
-    description: item["description"],
-    etag: item["etag"],
-  };
-}
-
-/** Snapshot status. */
-export type SnapshotStatus = "provisioning" | "ready" | "archived" | "failed";
-
-export function configurationSettingsFilterArraySerializer(
-  result: Array<ConfigurationSettingsFilter>,
-): any[] {
-  return result.map((item) => {
-    return configurationSettingsFilterSerializer(item);
-  });
-}
-
-export function configurationSettingsFilterArrayDeserializer(
-  result: Array<ConfigurationSettingsFilter>,
-): any[] {
-  return result.map((item) => {
-    return configurationSettingsFilterDeserializer(item);
-  });
-}
-
-/**
- * Enables filtering of key-values. Syntax reference:
- * https://aka.ms/azconfig/docs/restapisnapshots
- */
-export interface ConfigurationSettingsFilter {
-  /** Filters key-values by their key field. */
-  keyFilter: string;
-  /** Filters key-values by their label field. */
-  labelFilter?: string;
-  /** Filters key-values by their tags field. */
-  tagsFilter?: string[];
-}
-
-export function configurationSettingsFilterSerializer(item: ConfigurationSettingsFilter): any {
-  return {
-    key: item["keyFilter"],
-    label: item["labelFilter"],
-    tags: !item["tagsFilter"]
-      ? item["tagsFilter"]
-      : item["tagsFilter"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-export function configurationSettingsFilterDeserializer(item: any): ConfigurationSettingsFilter {
-  return {
-    keyFilter: item["key"],
-    labelFilter: item["label"],
-    tagsFilter: !item["tags"]
-      ? item["tags"]
-      : item["tags"].map((p: any) => {
-          return p;
-        }),
-  };
-}
-
-/** Composition types. */
-export type CompositionType = "key" | "key_label";
-
-/** Details of a long running operation. */
-export interface OperationDetails {
-  /** The unique id of the operation. */
-  id: string;
-  /** The current status of the operation */
-  status: OperationState;
-  /**
-   * An error, available when the status is `Failed`, describing why the operation
-   * failed.
-   */
-  error?: ErrorModel_1;
-}
-
-export function operationDetailsDeserializer(item: any): OperationDetails {
-  return {
-    id: item["id"],
-    status: item["status"],
-    error: !item["error"] ? item["error"] : item["error"],
-  };
-}
-
-/** Enum describing allowed operation states. */
-export type OperationState = "NotStarted" | "Running" | "Succeeded" | "Failed" | "Canceled";
-
-/** Parameters used to update a snapshot. */
-export interface SnapshotUpdateParameters {
-  /** The desired status of the snapshot. */
-  status?: SnapshotStatus;
-}
-
-export function snapshotUpdateParametersSerializer(item: SnapshotUpdateParameters): any {
-  return { status: item["status"] };
-}
-
-/** The result of a list request. */
-export interface _LabelListResult {
-  /** The collection value. */
-  items?: Label[];
-  /** The URI that can be used to request the next set of paged results. */
-  nextLink?: string;
-}
-
-export function _labelListResultDeserializer(item: any): _LabelListResult {
-  return {
-    items: !item["items"] ? item["items"] : labelArrayDeserializer(item["items"]),
-    nextLink: item["@nextLink"],
-  };
-}
-
-export function labelArrayDeserializer(result: Array<Label>): any[] {
-  return result.map((item) => {
-    return labelDeserializer(item);
-  });
-}
-
-/** Labels are used to group key values or feature flags. */
-export interface Label {
-  /** The name of the label. */
-  name?: string;
-}
-
-export function labelDeserializer(item: any): Label {
-  return {
-    name: item["name"],
-  };
-}
-
 /** Key-value fields. */
 export type KeyValueFields =
   | "key"
@@ -768,19 +769,6 @@ export type KeyValueFields =
   | "tags"
   | "description"
   | "locked"
-  | "etag";
-/** Feature Flag fields. */
-export type FeatureFlagFields =
-  | "name"
-  | "enabled"
-  | "label"
-  | "description"
-  | "conditions"
-  | "variants"
-  | "allocation"
-  | "telemetry"
-  | "tags"
-  | "last_modified"
   | "etag";
 /** Snapshot fields. */
 export type SnapshotFields =
@@ -798,6 +786,19 @@ export type SnapshotFields =
   | "etag";
 /** Label fields. */
 export type LabelFields = "name";
+/** Feature Flag fields. */
+export type FeatureFlagFields =
+  | "name"
+  | "enabled"
+  | "label"
+  | "description"
+  | "conditions"
+  | "variants"
+  | "allocation"
+  | "telemetry"
+  | "tags"
+  | "last_modified"
+  | "etag";
 
 /** Service API versions */
 export enum KnownVersions {
