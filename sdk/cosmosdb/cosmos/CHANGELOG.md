@@ -8,6 +8,8 @@
 ### Bugs Fixed
 
 - [#38087](https://github.com/Azure/azure-sdk-for-js/issues/38087) Made `boundingBox` optional on the `SpatialIndex` type. Bounding boxes are only required for geometry spatial indexes, not geography ones.
+- Fixed cross-partition queries making a redundant `/pkranges` metadata call on every query. Queries now reuse the shared partition key range cache (worst for hybrid queries, which previously fetched ranges per component query). The cache is also made failure-safe so a transient fetch error no longer poisons later lookups.
+- [#39115](https://github.com/Azure/azure-sdk-for-js/issues/39115) Fixed continuation token handling for `enableQueryControl` queries. Resuming now routes through the query plan instead of forwarding the SDK-internal composite token to the gateway, avoiding an extra failing call and the `MalformedContinuationToken` error.
 
 ## 4.9.3 (2026-04-20)
 

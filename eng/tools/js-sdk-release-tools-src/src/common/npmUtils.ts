@@ -1,5 +1,6 @@
 import pkg from "@npmcli/package-json";
 const { load } = pkg;
+import { spawnSync } from "child_process";
 import { NpmPackageInfo } from "./types.js";
 import * as fetch from "npm-registry-fetch";
 import { getApiReviewPath, getApiReviewBasePath } from "./utils.js";
@@ -49,8 +50,15 @@ export async function tryGetNpmView(
   packageName: string,
 ): Promise<{ [id: string]: unknown } | undefined> {
   try {
-    return await fetch.json(`/${packageName}`);
+    logger.info(`[tryGetNpmView] Fetching npm registry info for: ${packageName}`);
+    const result = await fetch.json(`/${packageName}`, {
+      registry:
+        "https://pkgs.dev.azure.com/azure-sdk/public/_packaging/azure-sdk-for-js/npm/registry/",
+    });
+    logger.info(`[tryGetNpmView] Successfully fetched info for: ${packageName}`);
+    return result;
   } catch (err) {
+    logger.error(`[tryGetNpmView] Failed to fetch npm info for "${packageName}": ${err}`);
     return undefined;
   }
 }
