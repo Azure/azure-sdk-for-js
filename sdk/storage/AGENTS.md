@@ -19,26 +19,18 @@ This file provides storage-specific guidance for AI agents working under `sdk/st
 
 ## Rules for AI Agents
 
-### Rule 1: Do Not Edit Generated Code
+Follow repository-wide hard rules in `/AGENTS.md` first. This file adds
+storage-specific guidance only.
 
-Do not manually edit generated files. Update TypeSpec/customization inputs and regenerate instead.
-
-Generated code paths:
-
-- `sdk/storage/storage-blob/src/generated/src/**`
-- `sdk/storage/storage-file-datalake/src/generated/src/**`
-- `sdk/storage/storage-file-share/src/generated/src/**`
-- `sdk/storage/storage-queue/src/generated/**`
-
-### Rule 2: Preserve API Consistency Across Blobs, Queues, Files, and Data Lake
+### Storage-specific Rule 1: Preserve API Consistency Across Blobs, Queues, Files, and Data Lake
 
 When changing naming, options bags, paging patterns, error handling, or convenience APIs in one storage client, validate whether equivalent patterns exist in the other storage clients and keep behavior consistent unless a service-specific constraint requires divergence.
 
-### Rule 3: Prefer Existing Patterns Over New Abstractions
+### Storage-specific Rule 2: Prefer Existing Storage Patterns Over New Abstractions
 
 Before introducing new helpers, pipelines, clients, or abstractions, reuse established patterns in `storage-blob`, `storage-file-datalake`, `storage-file-share`, `storage-queue`, and `storage-common`.
 
-### Rule 4: No Magic Strings
+### Storage-specific Rule 3: No Magic Strings
 
 Avoid inline protocol literals, header names, query parameter names, and service constants. Reuse existing constants and shared helpers from `storage-common` or local constants files.
 
@@ -51,26 +43,9 @@ Avoid inline protocol literals, header names, query parameter names, and service
 
 ## Build and Test
 
-From repository root (`/home/runner/work/azure-sdk-for-js/azure-sdk-for-js`):
+From repository root (`/home/runner/work/azure-sdk-for-js/azure-sdk-for-js`).
 
-Use `--token 1` for single-package turbo builds in this repo per workspace guidance.
-
-```bash
-pnpm install
-pnpm turbo build --filter=@azure/storage-blob... --token 1
-pnpm turbo build --filter=@azure/storage-file-datalake... --token 1
-pnpm turbo build --filter=@azure/storage-file-share... --token 1
-pnpm turbo build --filter=@azure/storage-queue... --token 1
-```
-
-Run tests for a package from repo root:
-
-```bash
-pnpm --filter @azure/storage-blob test
-pnpm --filter @azure/storage-file-datalake test
-pnpm --filter @azure/storage-file-share test
-pnpm --filter @azure/storage-queue test
-```
+For required workspace build conventions (including turbo single-package usage), see `/AGENTS.md`.
 
 Start Azurite emulator (Optional):
 
