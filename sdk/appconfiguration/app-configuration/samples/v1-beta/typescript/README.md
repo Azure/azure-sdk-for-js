@@ -22,9 +22,12 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [updateSyncTokenSample.ts][updatesynctokensample]               | The AppConfiguration service supports EventGrid-based setting change notifications. This sample shows how to process these notifications. Due to the distributed nature of the AppConfiguration service, the synchronization token needs to be registered with the client to get the most up-to-date value of the setting. The ConfigurationClient.UpdateSyncToken is used to register the synchronization token. |
 | [getSettingOnlyIfChanged.ts][getsettingonlyifchanged]           | Demonstrates getting a setting only if it has changed from what you already have. (This allows your app to avoid downloading the contents of a setting if the value is unchanged.)                                                                                                                                                                                                                                |
 | [listConfigurationSettings.ts][listconfigurationsettings]       | Demonstrates listing multiple configuration settings using a filter for a key or label.                                                                                                                                                                                                                                                                                                                           |
+| [listLabels.ts][listlabels]                                     | Demonstrates listing labels for a configuration setting store.                                                                                                                                                                                                                                                                                                                                                    |
 | [listRevisions.ts][listrevisions]                               | Demonstrates listing revisions for a configuration setting.                                                                                                                                                                                                                                                                                                                                                       |
 | [secretReference.ts][secretreference]                           | SecretReference represents a configuration setting that references as KeyVault secret.                                                                                                                                                                                                                                                                                                                            |
 | [featureFlag.ts][featureflag]                                   | Feature flags are settings that follow specific JSON schema for the value.                                                                                                                                                                                                                                                                                                                                        |
+| [testData.ts][testdata]                                         | Serialized sample App Configuration KeyValueModified event payload.                                                                                                                                                                                                                                                                                                                                               |
+| [featureFlagEndpoint.ts][featureflagendpoint]                   | Demonstrates creating, retrieving, listing, and deleting feature flags using the dedicated feature flag endpoint. Requires the 2026-05-01-preview API version or later.                                                                                                                                                                                                                                           |
 
 ## Prerequisites
 
@@ -68,10 +71,10 @@ npm run build
 node dist/helloworld.js
 ```
 
-Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
+Alternatively, run a single sample with the required environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-cross-env APPCONFIG_CONNECTION_STRING="<appconfig connection string>" node dist/helloworld.js
+npx cross-env AZ_CONFIG_ENDPOINT="<az config endpoint>" node dist/helloworld.js
 ```
 
 ## Next Steps
@@ -86,10 +89,13 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [updatesynctokensample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/samples/v1-beta/typescript/src/updateSyncTokenSample.ts
 [getsettingonlyifchanged]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/samples/v1-beta/typescript/src/getSettingOnlyIfChanged.ts
 [listconfigurationsettings]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/samples/v1-beta/typescript/src/listConfigurationSettings.ts
+[listlabels]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/samples/v1-beta/typescript/src/listLabels.ts
 [listrevisions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/samples/v1-beta/typescript/src/listRevisions.ts
 [secretreference]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/samples/v1-beta/typescript/src/secretReference.ts
 [featureflag]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/samples/v1-beta/typescript/src/featureFlag.ts
-[apiref]: https://learn.microsoft.com/javascript/api/@azure/app-configuration
+[testdata]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/samples/v1-beta/typescript/src/testData.ts
+[featureflagendpoint]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appconfiguration/app-configuration/samples/v1-beta/typescript/src/featureFlagEndpoint.ts
+[apiref]: https://learn.microsoft.com/javascript/api/@azure/app-configuration?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azureappconfigurationaccount]: https://learn.microsoft.com/azure/azure-app-configuration/quickstart-aspnet-core-app?tabs=core5x#create-an-app-configuration-store
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appconfiguration/app-configuration/README.md

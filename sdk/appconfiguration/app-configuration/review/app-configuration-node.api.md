@@ -178,6 +178,7 @@ export class FeatureFlagClient {
     getFeatureFlag(name: string, options?: GetFeatureFlagOptions): Promise<FeatureFlag>;
     listFeatureFlagRevisions(options?: ListFeatureFlagRevisionsOptions): PagedAsyncIterableIterator<FeatureFlag>;
     listFeatureFlags(options?: ListFeatureFlagsOptions): PagedAsyncIterableIterator<FeatureFlag>;
+    listLabels(options?: ListLabelsOptions): PagedAsyncIterableIterator<SettingLabel, ListLabelsPage, PageSettings>;
     setFeatureFlag(featureFlag: FeatureFlag, options?: SetFeatureFlagOptions): Promise<FeatureFlag>;
 }
 
@@ -364,7 +365,6 @@ export interface ListFeatureFlagsOptions extends OperationOptions {
 export interface ListLabelsOptions extends OperationOptions, OptionalLabelsFields {
     acceptDateTime?: Date;
     nameFilter?: string;
-    resourceType?: string;
 }
 
 // @public

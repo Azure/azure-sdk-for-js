@@ -489,12 +489,6 @@ export interface ListLabelsOptions extends OperationOptions, OptionalLabelsField
    * Requests the server to respond with the state of the resource at the specified time.
    */
   acceptDateTime?: Date;
-
-  /**
-   * A filter used to indicate the resource type of the labels.
-   * Accepted values: `"kv"` for key-value labels, `"ff"` for feature flag labels.
-   */
-  resourceType?: string;
 }
 
 /**

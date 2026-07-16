@@ -30,15 +30,18 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appconfiguration/app-configuration",
   "dependencies": {
-    "@azure/app-configuration": "next",
+    "@azure/app-configuration": "beta",
     "dotenv": "latest",
+    "@azure/identity": "^4.13.0",
+    "@azure/app-configuration-provider": "^2.2.0",
+    "@microsoft/feature-management": "^2.2.0",
     "@azure/keyvault-secrets": "^4.2.0",
-    "@azure/identity": "^4.2.1",
-    "@azure/eventgrid": "^4.9.0"
+    "@azure/eventgrid": "^5.0.0"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
-    "typescript": "~5.8.2",
-    "rimraf": "latest"
+    "cross-env": "latest",
+    "rimraf": "latest",
+    "typescript": "~6.0.2"
   }
 }

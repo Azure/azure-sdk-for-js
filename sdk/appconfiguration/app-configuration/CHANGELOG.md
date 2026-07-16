@@ -4,8 +4,8 @@
 
 ### Features Added
 
-- Added a new `FeatureFlagClient` that manages feature flags through the dedicated App Configuration feature flag endpoint. It exposes `setFeatureFlag`, `getFeatureFlag`, `deleteFeatureFlag`, `listFeatureFlags`, and `listFeatureFlagRevisions`, along with the `FeatureFlag` model and its related types (`FeatureFlagConditions`, `FeatureFlagFilter`, `FeatureFlagVariantDefinition`, `FeatureFlagAllocation`, `FeatureFlagTelemetryConfiguration`, and others). Requires the `2026-05-01-preview` API version or later.
-- Added a `resourceType` option to `listLabels`, allowing labels to be filtered by resource type (`"kv"` for key-values, `"ff"` for feature flags). Requires the `2026-05-01-preview` API version or later.
+- Added a new `FeatureFlagClient` that manages feature flags through the dedicated App Configuration feature flag endpoint. It exposes `setFeatureFlag`, `getFeatureFlag`, `deleteFeatureFlag`, `listFeatureFlags`, `listFeatureFlagRevisions`, and `listLabels`, along with the `FeatureFlag` model and its related types (`FeatureFlagConditions`, `FeatureFlagFilter`, `FeatureFlagVariantDefinition`, `FeatureFlagAllocation`, `FeatureFlagTelemetryConfiguration`, and others). Requires the `2026-05-01-preview` API version or later.
+- `listLabels` is now available on both `AppConfigurationClient` and `FeatureFlagClient`. Each client automatically scopes results to the labels used by its own resource type: `AppConfigurationClient.listLabels` returns key-value labels, while `FeatureFlagClient.listLabels` returns feature flag labels. Requires the `2026-05-01-preview` API version or later.
 
 ## 1.12.1 (2026-06-22)
 

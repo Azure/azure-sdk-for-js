@@ -369,6 +369,16 @@ describe("snippets", () => {
     }
   });
 
+  it("ListFeatureFlagLabels", async () => {
+    const endpoint = "https://example.azconfig.io";
+    const credential = new DefaultAzureCredential();
+    const client = new FeatureFlagClient(endpoint, credential);
+    // @ts-preserve-whitespace
+    for await (const label of client.listLabels()) {
+      console.log(`Found label: ${label.name}`);
+    }
+  });
+
   it("SetLogLevel", async () => {
     setLogLevel("info");
   });

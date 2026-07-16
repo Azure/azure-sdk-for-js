@@ -11,13 +11,19 @@ import {
   type GetFeatureFlagOptions,
   type ListFeatureFlagRevisionsOptions,
   type ListFeatureFlagsOptions,
+  type ListLabelsOptions,
+  type ListLabelsPage,
+  type PageSettings,
   type SetFeatureFlagOptions,
+  type SettingLabel,
 } from "./models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import type { TokenCredential } from "@azure/core-auth";
 import { checkAndFormatIfAndIfNoneMatch } from "./internal/helpers.js";
 import { AppConfigurationClient as GeneratedAppConfigurationClient } from "./generated/appConfigurationClient.js";
+import type { AppConfigurationContext } from "./generated/api/appConfigurationContext.js";
 import { createConfiguredGeneratedClient } from "./internal/createGeneratedClient.js";
+import { listLabels } from "./internal/listLabels.js";
 import { tracingClient } from "./internal/tracing.js";
 
 /**
@@ -259,5 +265,33 @@ export class FeatureFlagClient {
         skipUrlEncoding: true,
       },
     });
+  }
+
+  /**
+   * List the labels used by feature flags through the dedicated feature flag endpoint.
+   *
+   * Example usage:
+   * ```ts snippet:ListFeatureFlagLabels
+   * import { DefaultAzureCredential } from "@azure/identity";
+   * import { FeatureFlagClient } from "@azure/app-configuration";
+   *
+   * const endpoint = "https://example.azconfig.io";
+   * const credential = new DefaultAzureCredential();
+   * const client = new FeatureFlagClient(endpoint, credential);
+   *
+   * for await (const label of client.listLabels()) {
+   *   console.log(`Found label: ${label.name}`);
+   * }
+   * ```
+   * @param options - Optional parameters for the request.
+   */
+  listLabels(
+    options: ListLabelsOptions = {},
+  ): PagedAsyncIterableIterator<SettingLabel, ListLabelsPage, PageSettings> {
+    return listLabels(this._context, "ff", "FeatureFlagClient.listLabels", options);
+  }
+
+  private get _context(): AppConfigurationContext {
+    return (this.client as any)._client as AppConfigurationContext;
   }
 }

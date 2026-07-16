@@ -47,10 +47,7 @@ import type { RestError } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { SyncTokens } from "./internal/syncTokenPolicy.js";
 import type { TokenCredential } from "@azure/core-auth";
-import type {
-  SendConfigurationSettingsOptions,
-  SendLabelsRequestOptions,
-} from "./internal/helpers.js";
+import type { SendConfigurationSettingsOptions } from "./internal/helpers.js";
 import {
   assertResponse,
   checkAndFormatIfAndIfNoneMatch,
@@ -60,7 +57,6 @@ import {
   formatConfigurationSettingsFiltersAndSelect,
   formatFieldsForSelect,
   formatFiltersAndSelect,
-  formatLabelsFiltersAndSelect,
   formatSnapshotFiltersAndSelect,
   makeConfigurationSettingEmpty,
   serializeAsConfigurationSettingParam,
@@ -75,7 +71,6 @@ import {
 } from "./generated/appConfigurationClient.js";
 import type {
   _KeyValueListResult,
-  _LabelListResult,
   _SnapshotListResult,
 } from "./generated/models/models.js";
 import {
@@ -85,8 +80,6 @@ import {
   _checkKeyValuesDeserialize,
   _getRevisionsSend,
   _getRevisionsDeserialize,
-  _getLabelsSend,
-  _getLabelsDeserialize,
   _getSnapshotsSend,
   _getSnapshotsDeserialize,
   _createSnapshotSend,
@@ -95,6 +88,7 @@ import {
 import { getLongRunningPoller } from "./generated/static-helpers/pollingHelpers.js";
 import type { AppConfigurationContext } from "./generated/api/appConfigurationContext.js";
 import { createConfiguredGeneratedClient } from "./internal/createGeneratedClient.js";
+import { listLabels } from "./internal/listLabels.js";
 import type { FeatureFlagValue } from "./featureFlag.js";
 import type { SecretReferenceValue } from "./secretReference.js";
 import type { SnapshotReferenceValue } from "./snapshotReference.js";
@@ -554,54 +548,11 @@ export class AppConfigurationClient {
   listLabels(
     options: ListLabelsOptions = {},
   ): PagedAsyncIterableIterator<SettingLabel, ListLabelsPage, PageSettings> {
-    const pagedResult: PagedResult<ListLabelsPage, PageSettings, string | undefined> = {
-      firstPageLink: undefined,
-      getPage: async (pageLink: string | undefined) => {
-        const response = await this.sendLabelsRequest(options, pageLink);
-        const currentResponse: ListLabelsPage = {
-          ...response,
-          items: response.items ?? [],
-          continuationToken: response.nextLink
-            ? extractAfterTokenFromNextLink(response.nextLink)
-            : undefined,
-          _response: response._response,
-        };
-        return {
-          page: currentResponse,
-          nextPageLink: currentResponse.continuationToken,
-        };
-      },
-      toElements: (page) => page.items,
-    };
-    return getPagedAsyncIterator(pagedResult);
+    return listLabels(this._context, "kv", "AppConfigurationClient.listLabels", options);
   }
 
   private get _context(): AppConfigurationContext {
     return (this.client as any)._client as AppConfigurationContext;
-  }
-
-  private async sendLabelsRequest(
-    options: SendLabelsRequestOptions & PageSettings = {},
-    pageLink: string | undefined,
-  ): Promise<_LabelListResult & { _response: any }> {
-    return tracingClient.withSpan(
-      "AppConfigurationClient.listConfigurationSettings",
-      options,
-      async (updatedOptions) => {
-        const rawResponse = await _getLabelsSend(this._context, {
-          ...updatedOptions,
-          ...formatAcceptDateTime(options),
-          ...formatLabelsFiltersAndSelect(options),
-          after: pageLink,
-          requestOptions: {
-            ...updatedOptions.requestOptions,
-            skipUrlEncoding: true,
-          },
-        });
-        const parsed = await _getLabelsDeserialize(rawResponse);
-        return Object.assign(parsed, { _response: rawResponse });
-      },
-    );
   }
 
   private async sendConfigurationSettingsRequest(

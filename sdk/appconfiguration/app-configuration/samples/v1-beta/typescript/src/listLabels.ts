@@ -3,7 +3,6 @@
 
 /**
  * @summary Demonstrates listing labels for a configuration setting store.
- * @azsdk-weight 40
  */
 import { AppConfigurationClient, FeatureFlagClient } from "@azure/app-configuration";
 import { DefaultAzureCredential } from "@azure/identity";

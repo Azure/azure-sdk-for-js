@@ -3,16 +3,14 @@
 
 /**
  * @summary Demonstrates listing labels for a configuration setting store.
- * @azsdk-weight 40
  */
-import { AppConfigurationClient, FeatureFlagClient } from "@azure/app-configuration";
-import { DefaultAzureCredential } from "@azure/identity";
+const { AppConfigurationClient, FeatureFlagClient } = require("@azure/app-configuration");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+require("dotenv").config();
 
-export async function main() {
+async function main() {
   console.log(`Running listLabels sample`);
 
   // Set the following environment variable or edit the value on the following line.
@@ -107,7 +105,7 @@ export async function main() {
   await cleanupSampleValues(["listLabelsSample"], client);
 }
 
-async function cleanupSampleValues(keys: string[], client: AppConfigurationClient) {
+async function cleanupSampleValues(keys, client) {
   const settingsIterator = client.listConfigurationSettings({
     keyFilter: keys.join(","),
   });
@@ -121,3 +119,5 @@ main().catch((err) => {
   console.error("Failed to run sample:", err);
   process.exit(1);
 });
+
+module.exports = { main };
