@@ -317,8 +317,6 @@ export const ONE_SETTINGS_NODEJS_TARGETING: Readonly<Record<string, string>> = {
  * @internal
  */
 export const ONE_SETTINGS_RETRYABLE_STATUS_CODES: readonly number[] = [
-  401, // Unauthorized
-  403, // Forbidden
   408, // Request Timeout
   429, // Too Many Requests
   500, // Internal Server Error
