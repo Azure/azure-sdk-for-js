@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all the webhooks for the specified container registry.
  *
  * @summary lists all the webhooks for the specified container registry.
- * x-ms-original-file: 2026-01-01-preview/WebhookList.json
+ * x-ms-original-file: 2026-03-01-preview/WebhookList.json
  */
 async function webhookList(): Promise<void> {
   const credential = new DefaultAzureCredential();

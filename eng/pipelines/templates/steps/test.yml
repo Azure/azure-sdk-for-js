@@ -86,6 +86,11 @@ steps:
     condition: and(always(),eq(variables['TestType'], 'browser'))
     displayName: "Publish browser unit test results"
 
+  - template: /eng/common/pipelines/templates/steps/upload-llm-artifacts.yml
+    parameters:
+      TestResultsGlob: 'test-results*.xml'
+      SearchFolder: '$(System.DefaultWorkingDirectory)/sdk'
+
   - ${{ if eq(parameters.TestProxy, true) }}:
     - template: /eng/common/pipelines/templates/steps/publish-1es-artifact.yml
       parameters:

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the operation status for a resource.
  *
  * @summary gets the operation status for a resource.
- * x-ms-original-file: 2025-08-01/GetOperationStatus.json
+ * x-ms-original-file: 2026-05-01/GetOperationStatus.json
  */
 async function getOperationStatus() {
   const credential = new DefaultAzureCredential();

@@ -600,6 +600,62 @@ const iterator = container.items.getChangeFeedIterator({
 const response = await iterator.readNext();
 ```
 
+## Preview features
+
+Some in-development capabilities are available behind the `enablePreviewFeatures` option on `CosmosClientOptions`. Preview features are opt-in, may change in backward-incompatible ways between releases, and are not recommended for production use.
+
+Currently supported preview features:
+
+| Feature            | `enablePreviewFeatures` key | Requirements                          |
+| ------------------ | --------------------------- | ------------------------------------- |
+| Semantic reranking | `semanticRerank`            | AAD authentication (`aadCredentials`) |
+
+### Semantic reranking
+
+`Container.semanticRerank(rerankContext, documents, options)` scores and reorders a set of documents by their relevance to a query, using the Cosmos DB Inference Service. Enable it by setting the `semanticRerank` key under `enablePreviewFeatures`:
+
+- `inferenceEndpoint` (required) — the inference service endpoint for your account.
+- `inferenceRequestTimeout` (optional, milliseconds; default `5000`) — a single-attempt timeout with no retries; a slower response fails with HTTP `408`.
+
+Semantic reranking requires AAD authentication, so pass `aadCredentials` when constructing the client. The result and any thrown error carry `CosmosDiagnostics` for the operation.
+
+```ts snippet:ContainerSemanticRerank
+import { DefaultAzureCredential } from "@azure/identity";
+import { CosmosClient } from "@azure/cosmos";
+
+const endpoint = "https://your-account.documents.azure.com";
+const aadCredentials = new DefaultAzureCredential();
+const client = new CosmosClient({
+  endpoint,
+  aadCredentials,
+  enablePreviewFeatures: {
+    semanticRerank: {
+      inferenceEndpoint: "https://your-account.<region>.dbinference.azure.com",
+    },
+  },
+});
+
+const { database } = await client.databases.createIfNotExists({ id: "Test Database" });
+const { container } = await database.containers.createIfNotExists({ id: "Test Container" });
+
+const queryResults = ["doc1 JSON", "doc2 JSON", "doc3 JSON"];
+const result = await container.semanticRerank(
+  "most economical with multiple adjustments",
+  queryResults,
+  { return_documents: true, top_k: 10, sort: true },
+);
+// Access the top-ranked document
+if (result.rerankScores.length > 0) {
+  const topResult = result.rerankScores[0];
+  const topScore = topResult.score;
+  const topDocument = topResult.document;
+  if (topDocument) {
+    console.log("Top-ranked document:", topDocument);
+  }
+  console.log("Top score:", topScore);
+}
+```
+
 ## Error Handling
 
 The SDK generates various types of errors that can occur during an operation.

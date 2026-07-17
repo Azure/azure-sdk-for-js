@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-storagecache",
-  "version": "9.0.0-beta.2",
+  "version": "9.0.0",
   "description": "A generated SDK for StorageCacheManagementClient.",
   "engines": {
     "node": ">=22.0.0"
@@ -332,6 +332,6 @@
       "azure"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-storagecache?view=azure-node-preview"
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-storagecache"
   }
 }

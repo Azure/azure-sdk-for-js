@@ -19,6 +19,12 @@ import type { TokenCredential } from '@azure/core-auth';
 export type ActionType = string;
 
 // @public
+export interface AddDataAnnotationRequest {
+    annotationDetails: Record<string, string>;
+    description?: string;
+}
+
+// @public
 export interface AlertConfiguration {
     actionGroupIds?: string[];
     description?: string;
@@ -93,10 +99,32 @@ export interface AzureMonitorWorkspaceSignals {
 }
 
 // @public
+export interface AzureResourceHealthSignal {
+    enabled?: ResourceHealthAvailabilityStateSignalBehavior;
+    readonly signalName?: string;
+    readonly status?: AzureResourceHealthSignalStatus;
+}
+
+// @public
+export interface AzureResourceHealthSignalStatus {
+    additionalContext?: string;
+    readonly availabilityReportedTime?: Date;
+    readonly availabilityState?: ResourceHealthAvailabilityState;
+    readonly category?: ResourceHealthCategory;
+    readonly detailedStatus?: string;
+    readonly error?: string;
+    readonly healthState?: HealthState;
+    readonly reasonChronicity?: ResourceHealthReasonChronicity;
+    readonly reasonType?: ResourceHealthReasonType;
+    readonly reportedAt?: Date;
+    readonly summary?: string;
+    readonly value?: number;
+}
+
+// @public
 export interface AzureResourceSignal extends SignalInstanceProperties {
     aggregationType?: MetricAggregationType;
     dataUnit?: string;
-    dimension?: string;
     dimensionFilter?: string;
     displayName?: string;
     evaluationRules?: EvaluationRule;
@@ -112,6 +140,7 @@ export interface AzureResourceSignals {
     authenticationSetting: string;
     azureResourceId: string;
     azureResourceKind?: string;
+    resourceHealth?: AzureResourceHealthSignal;
     signals?: AzureResourceSignal[];
 }
 
@@ -146,6 +175,14 @@ export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
 export type CreatedByType = string;
 
 // @public
+export interface DataAnnotation {
+    annotationDetails: Record<string, string>;
+    readonly annotationId?: string;
+    readonly createdAt?: Date;
+    description?: string;
+}
+
+// @public
 export type DependenciesAggregationType = string;
 
 // @public
@@ -177,6 +214,7 @@ export type DiscoveryRuleKind = string;
 // @public
 export interface DiscoveryRuleProperties {
     addRecommendedSignals: DiscoveryRuleRecommendedSignalsBehavior;
+    addResourceHealthSignal?: ResourceHealthAvailabilityStateSignalBehavior;
     authenticationSetting: string;
     discoverRelationships: DiscoveryRuleRelationshipDiscoveryBehavior;
     displayName?: string;
@@ -189,6 +227,7 @@ export interface DiscoveryRuleProperties {
 // @public
 export interface DiscoveryRulePropertiesCreate {
     addRecommendedSignals: DiscoveryRuleRecommendedSignalsBehavior;
+    addResourceHealthSignal?: ResourceHealthAvailabilityStateSignalBehavior;
     authenticationSetting: string;
     discoverRelationships: DiscoveryRuleRelationshipDiscoveryBehavior;
     displayName?: string;
@@ -242,6 +281,13 @@ export interface DiscoveryRuleSpecification {
 export type DiscoveryRuleSpecificationUnion = ResourceGraphQuerySpecification | ApplicationInsightsTopologySpecification | DiscoveryRuleSpecification;
 
 // @public
+export type DynamicThresholdSensitivity = string;
+
+// @public
+export interface EntitiesAddDataAnnotationOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface EntitiesCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
@@ -249,6 +295,10 @@ export interface EntitiesCreateOrUpdateOptionalParams extends OperationOptions {
 // @public
 export interface EntitiesDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface EntitiesGetDataAnnotationsOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -264,6 +314,10 @@ export interface EntitiesGetSignalHistoryOptionalParams extends OperationOptions
 }
 
 // @public
+export interface EntitiesGetSignalRecommendationsOptionalParams extends OperationOptions {
+}
+
+// @public
 export interface EntitiesIngestHealthReportOptionalParams extends OperationOptions {
 }
 
@@ -274,11 +328,14 @@ export interface EntitiesListByHealthModelOptionalParams extends OperationOption
 
 // @public
 export interface EntitiesOperations {
+    addDataAnnotation: (resourceGroupName: string, healthModelName: string, entityName: string, body: AddDataAnnotationRequest, options?: EntitiesAddDataAnnotationOptionalParams) => Promise<DataAnnotation>;
     createOrUpdate: (resourceGroupName: string, healthModelName: string, entityName: string, resource: Entity, options?: EntitiesCreateOrUpdateOptionalParams) => PollerLike<OperationState<Entity>, Entity>;
     delete: (resourceGroupName: string, healthModelName: string, entityName: string, options?: EntitiesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, healthModelName: string, entityName: string, options?: EntitiesGetOptionalParams) => Promise<Entity>;
+    getDataAnnotations: (resourceGroupName: string, healthModelName: string, entityName: string, body: GetDataAnnotationsRequest, options?: EntitiesGetDataAnnotationsOptionalParams) => Promise<GetDataAnnotationsResponse>;
     getHistory: (resourceGroupName: string, healthModelName: string, entityName: string, body: EntityHistoryRequest, options?: EntitiesGetHistoryOptionalParams) => Promise<EntityHistoryResponse>;
     getSignalHistory: (resourceGroupName: string, healthModelName: string, entityName: string, body: SignalHistoryRequest, options?: EntitiesGetSignalHistoryOptionalParams) => Promise<SignalHistoryResponse>;
+    getSignalRecommendations: (resourceGroupName: string, healthModelName: string, entityName: string, options?: EntitiesGetSignalRecommendationsOptionalParams) => Promise<GetSignalRecommendationsResponse>;
     ingestHealthReport: (resourceGroupName: string, healthModelName: string, entityName: string, body: HealthReportRequest, options?: EntitiesIngestHealthReportOptionalParams) => Promise<void>;
     listByHealthModel: (resourceGroupName: string, healthModelName: string, options?: EntitiesListByHealthModelOptionalParams) => PagedAsyncIterableIterator<Entity>;
 }
@@ -303,13 +360,16 @@ export interface EntityCoordinates {
 // @public
 export interface EntityHistoryRequest {
     endAt?: Date;
+    nextMarker?: string;
     startAt?: Date;
+    top?: number;
 }
 
 // @public
 export interface EntityHistoryResponse {
     entityName: string;
     history: HealthStateTransition[];
+    nextMarker?: string;
 }
 
 // @public
@@ -365,6 +425,27 @@ export interface ExternalSignal extends SignalInstanceProperties {
 // @public
 export interface ExternalSignalGroup {
     readonly signals?: ExternalSignal[];
+}
+
+// @public
+export interface GetDataAnnotationsRequest {
+    endAt?: Date;
+    nextMarker?: string;
+    startAt?: Date;
+    top?: number;
+}
+
+// @public
+export interface GetDataAnnotationsResponse {
+    annotations: DataAnnotation[];
+    entityName: string;
+    nextMarker?: string;
+}
+
+// @public
+export interface GetSignalRecommendationsResponse {
+    recommendedConfigurations: SignalConfiguration[];
+    recommendedSignals: SignalConfiguration[];
 }
 
 // @public
@@ -518,6 +599,13 @@ export enum KnownDiscoveryRuleRelationshipDiscoveryBehavior {
 }
 
 // @public
+export enum KnownDynamicThresholdSensitivity {
+    High = "High",
+    Low = "Low",
+    Medium = "Medium"
+}
+
+// @public
 export enum KnownEntityImpact {
     Limited = "Limited",
     Standard = "Standard",
@@ -540,6 +628,14 @@ export enum KnownHealthState {
     Healthy = "Healthy",
     Unhealthy = "Unhealthy",
     Unknown = "Unknown"
+}
+
+// @public
+export enum KnownLookBackWindow {
+    PT15M = "PT15M",
+    PT1H = "PT1H",
+    PT30M = "PT30M",
+    PT5M = "PT5M"
 }
 
 // @public
@@ -570,11 +666,45 @@ export enum KnownOrigin {
 // @public
 export enum KnownRefreshInterval {
     PT10M = "PT10M",
+    PT15M = "PT15M",
     PT1H = "PT1H",
     PT1M = "PT1M",
     PT2H = "PT2H",
     PT30M = "PT30M",
     PT5M = "PT5M"
+}
+
+// @public
+export enum KnownResourceHealthAvailabilityState {
+    Available = "Available",
+    Degraded = "Degraded",
+    Unavailable = "Unavailable",
+    Unknown = "Unknown"
+}
+
+// @public
+export enum KnownResourceHealthAvailabilityStateSignalBehavior {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
+export enum KnownResourceHealthCategory {
+    Planned = "Planned",
+    Unplanned = "Unplanned"
+}
+
+// @public
+export enum KnownResourceHealthReasonChronicity {
+    Persistent = "Persistent",
+    Transient = "Transient"
+}
+
+// @public
+export enum KnownResourceHealthReasonType {
+    Planned = "Planned",
+    Unplanned = "Unplanned",
+    UserInitiated = "UserInitiated"
 }
 
 // @public
@@ -587,6 +717,7 @@ export enum KnownSignalKind {
 
 // @public
 export enum KnownSignalOperator {
+    Dynamic = "Dynamic",
     Equal = "Equal",
     GreaterThan = "GreaterThan",
     GreaterThanOrEqual = "GreaterThanOrEqual",
@@ -598,7 +729,8 @@ export enum KnownSignalOperator {
 // @public
 export enum KnownVersions {
     V20250501Preview = "2025-05-01-preview",
-    V20260101Preview = "2026-01-01-preview"
+    V20260101Preview = "2026-01-01-preview",
+    V20260501Preview = "2026-05-01-preview"
 }
 
 // @public
@@ -627,6 +759,9 @@ export interface LogAnalyticsSignals {
     logAnalyticsWorkspaceResourceId: string;
     signals?: LogAnalyticsSignal[];
 }
+
+// @public
+export type LookBackWindow = string;
 
 // @public
 export interface ManagedIdentityAuthenticationSettingProperties extends AuthenticationSettingProperties {
@@ -771,9 +906,23 @@ export interface ResourceGraphQuerySpecification extends DiscoveryRuleSpecificat
 }
 
 // @public
+export type ResourceHealthAvailabilityState = string;
+
+// @public
+export type ResourceHealthAvailabilityStateSignalBehavior = string;
+
+// @public
+export type ResourceHealthCategory = string;
+
+// @public
+export type ResourceHealthReasonChronicity = string;
+
+// @public
+export type ResourceHealthReasonType = string;
+
+// @public
 export interface ResourceMetricSignalDefinitionProperties extends SignalDefinitionProperties {
     aggregationType: MetricAggregationType;
-    dimension?: string;
     dimensionFilter?: string;
     metricName: string;
     metricNamespace: string;
@@ -791,6 +940,18 @@ export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedRe
     abortSignal?: AbortSignalLike;
     processResponseBody?: (result: TResponse) => Promise<TResult>;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface SignalConfiguration {
+    aggregationType?: MetricAggregationType;
+    dimensionFilter?: string;
+    evaluationRules?: EvaluationRule;
+    metricName?: string;
+    metricNamespace?: string;
+    signalId: string;
+    timeGrain?: string;
+    unit?: string;
 }
 
 // @public
@@ -859,14 +1020,17 @@ export interface SignalHistoryDataPoint {
 // @public
 export interface SignalHistoryRequest {
     endAt?: Date;
+    nextMarker?: string;
     signalName: string;
     startAt?: Date;
+    top?: number;
 }
 
 // @public
 export interface SignalHistoryResponse {
     entityName: string;
     history: SignalHistoryDataPoint[];
+    nextMarker?: string;
     signalName: string;
 }
 
@@ -889,6 +1053,7 @@ export type SignalOperator = string;
 
 // @public
 export interface SignalStatus {
+    additionalContext?: string;
     readonly error?: string;
     readonly healthState?: HealthState;
     readonly reportedAt?: Date;
@@ -907,8 +1072,10 @@ export interface SystemData {
 
 // @public
 export interface ThresholdRuleV2 {
+    lookBackWindow?: LookBackWindow;
     operator: SignalOperator;
-    threshold: number;
+    sensitivity?: DynamicThresholdSensitivity;
+    threshold?: number;
 }
 
 // @public

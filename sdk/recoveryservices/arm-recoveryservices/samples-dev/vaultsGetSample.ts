@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the Vault details.
  *
  * @summary get the Vault details.
- * x-ms-original-file: 2025-08-01/GETVault.json
+ * x-ms-original-file: 2026-05-01/GETVault.json
  */
 async function getRecoveryServicesResource(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -1,6 +1,6 @@
 {
   "name": "@azure/ai-projects",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "description": "Azure AI Projects client library.",
   "engines": {
     "node": ">=22.0.0"
@@ -35,10 +35,6 @@
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "//metadata": {
     "constantPaths": [
-      {
-        "path": "src/aiProjectClient.ts",
-        "prefix": "userAgentInfo"
-      },
       {
         "path": "src/constants.ts",
         "prefix": "SDK_VERSION"

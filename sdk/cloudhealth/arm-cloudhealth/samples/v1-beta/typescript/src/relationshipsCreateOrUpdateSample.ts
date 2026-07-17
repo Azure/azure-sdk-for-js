@@ -8,20 +8,25 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create a Relationship
  *
  * @summary create a Relationship
- * x-ms-original-file: 2026-01-01-preview/Relationships_CreateOrUpdate.json
+ * x-ms-original-file: 2026-05-01-preview/Relationships_CreateOrUpdate.json
  */
 async function relationshipsCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "4980D7D5-4E07-47AD-AD34-E76C6BC9F061";
+  const subscriptionId = "abcdef12-3456-7890-abcd-ef1234567890";
   const client = new CloudHealthClient(credential, subscriptionId);
-  const result = await client.relationships.createOrUpdate("rgopenapi", "model1", "rel1", {
-    properties: {
-      displayName: "My relationship",
-      parentEntityName: "Entity1",
-      childEntityName: "Entity2",
-      tags: { key9681: "ixfvzsfnpvkkbrce" },
+  const result = await client.relationships.createOrUpdate(
+    "online-store-rg",
+    "online-store",
+    "web-frontend-to-orders-api",
+    {
+      properties: {
+        displayName: "Web Frontend depends on Orders API",
+        parentEntityName: "web-frontend",
+        childEntityName: "orders-api",
+        tags: { environment: "production", team: "online-store" },
+      },
     },
-  });
+  );
   console.log(result);
 }
 
