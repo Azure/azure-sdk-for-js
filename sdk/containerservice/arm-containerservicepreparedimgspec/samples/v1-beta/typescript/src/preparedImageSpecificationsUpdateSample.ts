@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update the tags of a prepared image specification.
  *
  * @summary update the tags of a prepared image specification.
- * x-ms-original-file: 2026-05-02-preview/PreparedImageSpecifications_Update.json
+ * x-ms-original-file: 2026-02-02-preview/PreparedImageSpecifications_Update.json
  */
 async function preparedImageSpecificationsUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();

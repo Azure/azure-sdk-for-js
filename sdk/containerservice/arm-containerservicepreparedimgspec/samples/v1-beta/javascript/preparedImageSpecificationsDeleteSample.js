@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete a prepared image specification. This operation will be blocked if the resource is in use.
  *
  * @summary delete a prepared image specification. This operation will be blocked if the resource is in use.
- * x-ms-original-file: 2026-05-02-preview/PreparedImageSpecifications_Delete.json
+ * x-ms-original-file: 2026-02-02-preview/PreparedImageSpecifications_Delete.json
  */
 async function preparedImageSpecificationsDelete() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list the prepared image specifications in a subscription at the latest version.
  *
  * @summary list the prepared image specifications in a subscription at the latest version.
- * x-ms-original-file: 2026-05-02-preview/PreparedImageSpecifications_ListBySubscription.json
+ * x-ms-original-file: 2026-02-02-preview/PreparedImageSpecifications_ListBySubscription.json
  */
 async function preparedImageSpecificationsListBySubscription() {
   const credential = new DefaultAzureCredential();

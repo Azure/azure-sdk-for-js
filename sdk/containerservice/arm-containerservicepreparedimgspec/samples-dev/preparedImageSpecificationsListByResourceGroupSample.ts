@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list the prepared image specifications in a resource group at the latest version.
  *
  * @summary list the prepared image specifications in a resource group at the latest version.
- * x-ms-original-file: 2026-05-02-preview/PreparedImageSpecifications_ListByResourceGroup.json
+ * x-ms-original-file: 2026-02-02-preview/PreparedImageSpecifications_ListByResourceGroup.json
  */
 async function preparedImageSpecificationsListByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

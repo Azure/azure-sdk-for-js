@@ -659,10 +659,4 @@ export function preparedImageSpecificationVersionArrayDeserializer(
 export enum KnownVersions {
   /** Azure Kubernetes Prepared Image Specification api version 2026-02-02-preview. */
   V20260202Preview = "2026-02-02-preview",
-  /** Azure Kubernetes Prepared Image Specification api version 2026-03-02-preview. */
-  V20260302Preview = "2026-03-02-preview",
-  /** Azure Kubernetes Prepared Image Specification api version 2026-04-02-preview. */
-  V20260402Preview = "2026-04-02-preview",
-  /** Azure Kubernetes Prepared Image Specification api version 2026-05-02-preview. */
-  V20260502Preview = "2026-05-02-preview",
 }

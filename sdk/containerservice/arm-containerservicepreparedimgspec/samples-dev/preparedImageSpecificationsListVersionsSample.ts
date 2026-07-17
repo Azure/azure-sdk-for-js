@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list all versions of a prepared image specification.
  *
  * @summary list all versions of a prepared image specification.
- * x-ms-original-file: 2026-05-02-preview/PreparedImageSpecifications_ListVersions.json
+ * x-ms-original-file: 2026-02-02-preview/PreparedImageSpecifications_ListVersions.json
  */
 async function preparedImageSpecificationsListVersions(): Promise<void> {
   const credential = new DefaultAzureCredential();

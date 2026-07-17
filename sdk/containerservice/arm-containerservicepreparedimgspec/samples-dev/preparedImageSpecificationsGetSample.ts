@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a prepared image specification at the latest version.
  *
  * @summary get a prepared image specification at the latest version.
- * x-ms-original-file: 2026-05-02-preview/PreparedImageSpecifications_Get.json
+ * x-ms-original-file: 2026-02-02-preview/PreparedImageSpecifications_Get.json
  */
 async function preparedImageSpecificationsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

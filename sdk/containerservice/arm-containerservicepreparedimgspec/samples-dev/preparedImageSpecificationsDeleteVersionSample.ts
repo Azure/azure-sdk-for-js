@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a prepared image specification version. This operation will be blocked if the prepared image specification version is in use.
  *
  * @summary delete a prepared image specification version. This operation will be blocked if the prepared image specification version is in use.
- * x-ms-original-file: 2026-05-02-preview/PreparedImageSpecifications_DeleteVersion.json
+ * x-ms-original-file: 2026-02-02-preview/PreparedImageSpecifications_DeleteVersion.json
  */
 async function preparedImageSpecificationsDeleteVersion(): Promise<void> {
   const credential = new DefaultAzureCredential();

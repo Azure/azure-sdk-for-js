@@ -49,7 +49,7 @@ export function _listVersionsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       preparedImageSpecificationName: preparedImageSpecificationName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-02-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -91,7 +91,7 @@ export function listVersions(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-02-preview",
+      apiVersion: context.apiVersion ?? "2026-02-02-preview",
     },
   );
 }
@@ -110,7 +110,7 @@ export function _getVersionSend(
       resourceGroupName: resourceGroupName,
       preparedImageSpecificationName: preparedImageSpecificationName,
       version: version,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-02-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -163,7 +163,7 @@ export function _listBySubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/preparedImageSpecifications{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-02-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -203,7 +203,7 @@ export function listBySubscription(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-02-preview",
+      apiVersion: context.apiVersion ?? "2026-02-02-preview",
     },
   );
 }
@@ -218,7 +218,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-02-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -259,7 +259,7 @@ export function listByResourceGroup(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-05-02-preview",
+      apiVersion: context.apiVersion ?? "2026-02-02-preview",
     },
   );
 }
@@ -278,7 +278,7 @@ export function _deleteVersionSend(
       resourceGroupName: resourceGroupName,
       preparedImageSpecificationName: preparedImageSpecificationName,
       version: version,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-02-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -326,7 +326,7 @@ export function deleteVersion(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-02-preview",
+    apiVersion: context.apiVersion ?? "2026-02-02-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -342,7 +342,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       preparedImageSpecificationName: preparedImageSpecificationName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-02-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -383,7 +383,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, preparedImageSpecificationName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-05-02-preview",
+    apiVersion: context.apiVersion ?? "2026-02-02-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -400,7 +400,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       preparedImageSpecificationName: preparedImageSpecificationName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-02-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -464,7 +464,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       preparedImageSpecificationName: preparedImageSpecificationName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-02-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -518,7 +518,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-05-02-preview",
+    apiVersion: context.apiVersion ?? "2026-02-02-preview",
   }) as PollerLike<OperationState<PreparedImageSpecification>, PreparedImageSpecification>;
 }
 
@@ -534,7 +534,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       preparedImageSpecificationName: preparedImageSpecificationName,
-      "api%2Dversion": context.apiVersion ?? "2026-05-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-02-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update a prepared image specification resource with a client-provided version. Created versions are immutable; provide a different properties.version value to create a new version.
  *
  * @summary create or update a prepared image specification resource with a client-provided version. Created versions are immutable; provide a different properties.version value to create a new version.
- * x-ms-original-file: 2026-05-02-preview/PreparedImageSpecifications_CreateOrUpdate.json
+ * x-ms-original-file: 2026-02-02-preview/PreparedImageSpecifications_CreateOrUpdate.json
  */
 async function preparedImageSpecificationsCreateOrUpdate(): Promise<void> {
   const credential = new DefaultAzureCredential();
