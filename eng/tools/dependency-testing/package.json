@@ -20,18 +20,17 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
   "dependencies": {
-    "cross-spawn": "^7.0.3",
-    "prettier": "^3.3.3",
-    "semver": "^7.5.4",
+    "cross-spawn": "^7.0.6",
+    "semver": "^7.8.5",
     "yargs": "^18.0.0",
     "@azure-tools/eng-package-utils": "file:../eng-package-utils",
-    "@pnpm/config": "^1004.11.0",
+    "@pnpm/config": "^1004.11.6",
     "@pnpm/catalogs.resolver": "^1100.0.0"
   },
   "devDependencies": {
-    "@types/yargs": "^17.0.33",
+    "@types/yargs": "^17.0.35",
     "@types/node": "^22.0.0",
-    "prettier": "^3.6.2",
+    "prettier": "^3.9.5",
     "typescript": "~6.0.2"
   }
 }

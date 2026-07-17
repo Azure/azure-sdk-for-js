@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to update an metric alert definition.
  *
  * @summary update an metric alert definition.
- * x-ms-original-file: 2024-03-01-preview/UpdateMetricAlert.json
+ * x-ms-original-file: 2026-01-01/UpdateMetricAlert.json
  */
 async function createOrUpdateAnAlertRule() {
   const credential = new DefaultAzureCredential();

@@ -304,6 +304,14 @@ export const Constants = {
   EncryptionCacheRefreshIntervalInMs: 60000, // 1 minute
 
   RequestTimeoutForReadsInMs: 2000, // 2 seconds
+
+  // Inference Service
+  Inference: {
+    BasePath: "/inference/semanticReranking",
+    UserAgent: "cosmos-inference-js",
+    DefaultScope: "https://dbinference.azure.com/.default",
+    DefaultRequestTimeoutMs: 5_000, // 5 seconds (single-attempt inference budget; matches the .NET SDK default)
+  },
 };
 
 export const AAD_DEFAULT_SCOPE = "https://cosmos.azure.com/.default";

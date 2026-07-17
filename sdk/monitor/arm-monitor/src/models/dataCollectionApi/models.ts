@@ -10,9 +10,10 @@ import type {
   ExtensionResource,
 } from "../models.js";
 import {
-  systemDataDeserializer,
   armErrorDetailDeserializer,
-  userAssignedIdentityDeserializer,
+  systemDataDeserializer,
+  userAssignedIdentityRecordSerializer,
+  userAssignedIdentityRecordDeserializer,
 } from "../models.js";
 
 /**
@@ -209,7 +210,12 @@ export interface DataCollectionEndpointResourceIdentity extends ManagedServiceId
 export function dataCollectionEndpointResourceIdentitySerializer(
   item: DataCollectionEndpointResourceIdentity,
 ): any {
-  return { type: item["type"], userAssignedIdentities: item["userAssignedIdentities"] };
+  return {
+    type: item["type"],
+    userAssignedIdentities: !item["userAssignedIdentities"]
+      ? item["userAssignedIdentities"]
+      : userAssignedIdentityRecordSerializer(item["userAssignedIdentities"]),
+  };
 }
 
 export function dataCollectionEndpointResourceIdentityDeserializer(
@@ -221,12 +227,7 @@ export function dataCollectionEndpointResourceIdentityDeserializer(
     type: item["type"],
     userAssignedIdentities: !item["userAssignedIdentities"]
       ? item["userAssignedIdentities"]
-      : Object.fromEntries(
-          Object.entries(item["userAssignedIdentities"]).map(([k, p]: [string, any]) => [
-            k,
-            !p ? p : userAssignedIdentityDeserializer(p),
-          ]),
-        ),
+      : userAssignedIdentityRecordDeserializer(item["userAssignedIdentities"]),
   };
 }
 
@@ -658,7 +659,12 @@ export function resourceForUpdateSerializer(item: ResourceForUpdate): any {
 export interface ResourceForUpdateIdentity extends ManagedServiceIdentity {}
 
 export function resourceForUpdateIdentitySerializer(item: ResourceForUpdateIdentity): any {
-  return { type: item["type"], userAssignedIdentities: item["userAssignedIdentities"] };
+  return {
+    type: item["type"],
+    userAssignedIdentities: !item["userAssignedIdentities"]
+      ? item["userAssignedIdentities"]
+      : userAssignedIdentityRecordSerializer(item["userAssignedIdentities"]),
+  };
 }
 
 export function dataCollectionEndpointResourceArraySerializer(
@@ -1062,7 +1068,12 @@ export interface DataCollectionRuleResourceIdentity extends ManagedServiceIdenti
 export function dataCollectionRuleResourceIdentitySerializer(
   item: DataCollectionRuleResourceIdentity,
 ): any {
-  return { type: item["type"], userAssignedIdentities: item["userAssignedIdentities"] };
+  return {
+    type: item["type"],
+    userAssignedIdentities: !item["userAssignedIdentities"]
+      ? item["userAssignedIdentities"]
+      : userAssignedIdentityRecordSerializer(item["userAssignedIdentities"]),
+  };
 }
 
 export function dataCollectionRuleResourceIdentityDeserializer(
@@ -1074,12 +1085,7 @@ export function dataCollectionRuleResourceIdentityDeserializer(
     type: item["type"],
     userAssignedIdentities: !item["userAssignedIdentities"]
       ? item["userAssignedIdentities"]
-      : Object.fromEntries(
-          Object.entries(item["userAssignedIdentities"]).map(([k, p]: [string, any]) => [
-            k,
-            !p ? p : userAssignedIdentityDeserializer(p),
-          ]),
-        ),
+      : userAssignedIdentityRecordDeserializer(item["userAssignedIdentities"]),
   };
 }
 
