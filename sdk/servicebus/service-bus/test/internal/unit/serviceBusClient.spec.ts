@@ -522,7 +522,7 @@ describe("retry option defaults (Service Bus exponential backoff)", () => {
     assert.equal(result.maxRetryDelayInMs, 60000);
   });
 
-  it("getRetryOptionsWithServiceBusDefaults preserves caller-provided values", () => {
+  it("getRetryOptionsWithServiceBusDefaults preserves caller values and does not inject delays for an explicit mode", () => {
     const result = getRetryOptionsWithServiceBusDefaults({
       mode: RetryMode.Fixed,
       retryDelayInMs: 5000,
@@ -531,8 +531,18 @@ describe("retry option defaults (Service Bus exponential backoff)", () => {
     assert.equal(result.mode, RetryMode.Fixed);
     assert.equal(result.retryDelayInMs, 5000);
     assert.equal(result.maxRetries, 7);
-    // still fills the gap the caller left unset
-    assert.equal(result.maxRetryDelayInMs, 60000);
+    // Because the caller set `mode` explicitly, Service Bus does not inject its
+    // exponential delay defaults; the unset field is left to core-amqp.
+    assert.equal(result.maxRetryDelayInMs, undefined);
+  });
+
+  it("getRetryOptionsWithServiceBusDefaults does not give an explicit Fixed mode a sub-second delay", () => {
+    // Throttle-storm guard: an explicit Fixed mode must not be handed Service
+    // Bus's 800ms base delay; the delay is left to core-amqp's defaulting.
+    const result = getRetryOptionsWithServiceBusDefaults({ mode: RetryMode.Fixed });
+    assert.equal(result.mode, RetryMode.Fixed);
+    assert.equal(result.retryDelayInMs, undefined);
+    assert.equal(result.maxRetryDelayInMs, undefined);
   });
 
   it("a client created without retryOptions defaults to exponential backoff", () => {
