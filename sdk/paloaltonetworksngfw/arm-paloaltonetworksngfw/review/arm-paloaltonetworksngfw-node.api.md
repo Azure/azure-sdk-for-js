@@ -1464,13 +1464,9 @@ export interface PaloAltoNetworksCloudngfwOperationsListSupportInfoOptionalParam
 
 // @public
 export interface PaloAltoNetworksCloudngfwOperationsOperations {
-    // (undocumented)
     createProductSerialNumber: (options?: PaloAltoNetworksCloudngfwOperationsCreateProductSerialNumberOptionalParams) => Promise<ProductSerialNumberRequestStatus>;
-    // (undocumented)
     listCloudManagerTenants: (options?: PaloAltoNetworksCloudngfwOperationsListCloudManagerTenantsOptionalParams) => Promise<CloudManagerTenantList>;
-    // (undocumented)
-    listProductSerialNumberStatus: (options?: PaloAltoNetworksCloudngfwOperationsListProductSerialNumberStatusOptionalParams) => Promise<ProductSerialNumberStatus | undefined>;
-    // (undocumented)
+    listProductSerialNumberStatus: (options?: PaloAltoNetworksCloudngfwOperationsListProductSerialNumberStatusOptionalParams) => Promise<ProductSerialNumberStatus | void>;
     listSupportInfo: (options?: PaloAltoNetworksCloudngfwOperationsListSupportInfoOptionalParams) => Promise<SupportInfoModel>;
 }
 

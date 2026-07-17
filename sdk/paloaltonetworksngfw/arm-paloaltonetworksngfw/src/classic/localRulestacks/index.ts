@@ -194,7 +194,6 @@ export interface LocalRulestacksOperations {
     options?: LocalRulestacksGetOptionalParams,
   ) => Promise<LocalRulestackResource>;
 }
-
 function _getLocalRulestacks(context: PaloAltoNetworksCloudngfwContext) {
   return {
     revert: (
@@ -348,7 +347,6 @@ function _getLocalRulestacks(context: PaloAltoNetworksCloudngfwContext) {
     ) => get(context, resourceGroupName, localRulestackName, options),
   };
 }
-
 export function _getLocalRulestacksOperations(
   context: PaloAltoNetworksCloudngfwContext,
 ): LocalRulestacksOperations {

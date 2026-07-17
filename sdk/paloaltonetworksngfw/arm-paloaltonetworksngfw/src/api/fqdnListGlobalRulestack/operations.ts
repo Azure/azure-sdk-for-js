@@ -62,7 +62,6 @@ export async function _listDeserialize(
 
   return _fqdnListGlobalRulestackResourceListResultDeserializer(result.body);
 }
-
 /** List FqdnListGlobalRulestackResource resources by Tenant */
 export function list(
   context: Client,
@@ -115,7 +114,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Delete a FqdnListGlobalRulestackResource */
 export function $delete(
   context: Client,
@@ -173,7 +171,6 @@ export async function _createOrUpdateDeserialize(
 
   return fqdnListGlobalRulestackResourceDeserializer(result.body);
 }
-
 /** Create a FqdnListGlobalRulestackResource */
 export function createOrUpdate(
   context: Client,
@@ -233,7 +230,6 @@ export async function _getDeserialize(
 
   return fqdnListGlobalRulestackResourceDeserializer(result.body);
 }
-
 /** Get a FqdnListGlobalRulestackResource */
 export async function get(
   context: Client,

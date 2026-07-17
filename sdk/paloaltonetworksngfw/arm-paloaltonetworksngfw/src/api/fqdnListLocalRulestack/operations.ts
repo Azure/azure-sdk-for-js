@@ -65,7 +65,6 @@ export async function _listByLocalRulestacksDeserialize(
 
   return _fqdnListLocalRulestackResourceListResultDeserializer(result.body);
 }
-
 /** List FqdnListLocalRulestackResource resources by LocalRulestacks */
 export function listByLocalRulestacks(
   context: Client,
@@ -122,7 +121,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Delete a FqdnListLocalRulestackResource */
 export function $delete(
   context: Client,
@@ -185,7 +183,6 @@ export async function _createOrUpdateDeserialize(
 
   return fqdnListLocalRulestackResourceDeserializer(result.body);
 }
-
 /** Create a FqdnListLocalRulestackResource */
 export function createOrUpdate(
   context: Client,
@@ -246,7 +243,6 @@ export async function _getDeserialize(
 
   return fqdnListLocalRulestackResourceDeserializer(result.body);
 }
-
 /** Get a FqdnListLocalRulestackResource */
 export async function get(
   context: Client,

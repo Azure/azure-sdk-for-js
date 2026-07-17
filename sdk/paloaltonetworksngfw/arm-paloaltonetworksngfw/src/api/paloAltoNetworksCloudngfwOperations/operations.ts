@@ -62,7 +62,7 @@ export async function _listSupportInfoDeserialize(
 
   return supportInfoModelDeserializer(result.body);
 }
-
+/** A long-running provider action. */
 export async function listSupportInfo(
   context: Client,
   options: PaloAltoNetworksCloudngfwOperationsListSupportInfoOptionalParams = {
@@ -97,7 +97,7 @@ export function _listProductSerialNumberStatusSend(
 
 export async function _listProductSerialNumberStatusDeserialize(
   result: PathUncheckedResponse,
-): Promise<ProductSerialNumberStatus | undefined> {
+): Promise<ProductSerialNumberStatus | void> {
   const expectedStatuses = ["200", "404"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
@@ -108,15 +108,19 @@ export async function _listProductSerialNumberStatusDeserialize(
     throw error;
   }
 
-  return result.body ? productSerialNumberStatusDeserializer(result.body) : undefined;
-}
+  if (!result.body) {
+    return;
+  }
 
+  return productSerialNumberStatusDeserializer(result.body);
+}
+/** A long-running provider action. */
 export async function listProductSerialNumberStatus(
   context: Client,
   options: PaloAltoNetworksCloudngfwOperationsListProductSerialNumberStatusOptionalParams = {
     requestOptions: {},
   },
-): Promise<ProductSerialNumberStatus | undefined> {
+): Promise<ProductSerialNumberStatus | void> {
   const result = await _listProductSerialNumberStatusSend(context, options);
   return _listProductSerialNumberStatusDeserialize(result);
 }
@@ -158,7 +162,7 @@ export async function _listCloudManagerTenantsDeserialize(
 
   return cloudManagerTenantListDeserializer(result.body);
 }
-
+/** A long-running provider action. */
 export async function listCloudManagerTenants(
   context: Client,
   options: PaloAltoNetworksCloudngfwOperationsListCloudManagerTenantsOptionalParams = {
@@ -206,7 +210,7 @@ export async function _createProductSerialNumberDeserialize(
 
   return productSerialNumberRequestStatusDeserializer(result.body);
 }
-
+/** A long-running provider action. */
 export async function createProductSerialNumber(
   context: Client,
   options: PaloAltoNetworksCloudngfwOperationsCreateProductSerialNumberOptionalParams = {

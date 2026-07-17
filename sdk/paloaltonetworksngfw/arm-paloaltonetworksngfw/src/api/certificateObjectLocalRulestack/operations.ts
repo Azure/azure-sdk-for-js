@@ -67,7 +67,6 @@ export async function _listByLocalRulestacksDeserialize(
 
   return _certificateObjectLocalRulestackResourceListResultDeserializer(result.body);
 }
-
 /** List CertificateObjectLocalRulestackResource resources by LocalRulestacks */
 export function listByLocalRulestacks(
   context: Client,
@@ -126,7 +125,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Delete a CertificateObjectLocalRulestackResource */
 export function $delete(
   context: Client,
@@ -189,7 +187,6 @@ export async function _createOrUpdateDeserialize(
 
   return certificateObjectLocalRulestackResourceDeserializer(result.body);
 }
-
 /** Create a CertificateObjectLocalRulestackResource */
 export function createOrUpdate(
   context: Client,
@@ -256,7 +253,6 @@ export async function _getDeserialize(
 
   return certificateObjectLocalRulestackResourceDeserializer(result.body);
 }
-
 /** Get a CertificateObjectLocalRulestackResource */
 export async function get(
   context: Client,

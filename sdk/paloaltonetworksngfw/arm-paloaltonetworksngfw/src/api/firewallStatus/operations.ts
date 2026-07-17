@@ -60,7 +60,6 @@ export async function _listByFirewallsDeserialize(
 
   return _firewallStatusResourceListResultDeserializer(result.body);
 }
-
 /** List FirewallStatusResource resources by Firewalls */
 export function listByFirewalls(
   context: Client,
@@ -120,7 +119,6 @@ export async function _getDeserialize(
 
   return firewallStatusResourceDeserializer(result.body);
 }
-
 /** Get a FirewallStatusResource */
 export async function get(
   context: Client,

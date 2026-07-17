@@ -5,9 +5,9 @@ const { PaloAltoNetworksCloudngfw } = require("@azure/arm-paloaltonetworksngfw")
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to execute listCloudManagerTenants
+ * This sample demonstrates how to a long-running provider action.
  *
- * @summary execute listCloudManagerTenants
+ * @summary a long-running provider action.
  * x-ms-original-file: 2026-05-11-preview/PaloAltoNetworksCloudngfwOperations_listCloudManagerTenants_MaximumSet_Gen.json
  */
 async function paloAltoNetworksCloudngfwOperationsListCloudManagerTenantsMaximumSetGen() {
@@ -19,9 +19,9 @@ async function paloAltoNetworksCloudngfwOperationsListCloudManagerTenantsMaximum
 }
 
 /**
- * This sample demonstrates how to execute listCloudManagerTenants
+ * This sample demonstrates how to a long-running provider action.
  *
- * @summary execute listCloudManagerTenants
+ * @summary a long-running provider action.
  * x-ms-original-file: 2026-05-11-preview/PaloAltoNetworksCloudngfwOperations_listCloudManagerTenants_MinimumSet_Gen.json
  */
 async function paloAltoNetworksCloudngfwOperationsListCloudManagerTenantsMinimumSetGen() {

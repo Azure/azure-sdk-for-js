@@ -25,7 +25,6 @@ export interface FirewallStatusOperations {
     options?: FirewallStatusGetOptionalParams,
   ) => Promise<FirewallStatusResource>;
 }
-
 function _getFirewallStatus(context: PaloAltoNetworksCloudngfwContext) {
   return {
     listByFirewalls: (
@@ -40,7 +39,6 @@ function _getFirewallStatus(context: PaloAltoNetworksCloudngfwContext) {
     ) => get(context, resourceGroupName, firewallName, options),
   };
 }
-
 export function _getFirewallStatusOperations(
   context: PaloAltoNetworksCloudngfwContext,
 ): FirewallStatusOperations {

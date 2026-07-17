@@ -62,7 +62,6 @@ export async function _listByLocalRulestacksDeserialize(
 
   return _prefixListResourceListResultDeserializer(result.body);
 }
-
 /** List PrefixListResource resources by LocalRulestacks */
 export function listByLocalRulestacks(
   context: Client,
@@ -119,7 +118,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Delete a PrefixListResource */
 export function $delete(
   context: Client,
@@ -182,7 +180,6 @@ export async function _createOrUpdateDeserialize(
 
   return prefixListResourceDeserializer(result.body);
 }
-
 /** Create a PrefixListResource */
 export function createOrUpdate(
   context: Client,
@@ -241,7 +238,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Pr
 
   return prefixListResourceDeserializer(result.body);
 }
-
 /** Get a PrefixListResource */
 export async function get(
   context: Client,

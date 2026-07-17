@@ -75,7 +75,6 @@ export async function _resetCountersDeserialize(
 
   return ruleCounterResetDeserializer(result.body);
 }
-
 /** Reset counters */
 export async function resetCounters(
   context: Client,
@@ -131,7 +130,6 @@ export async function _refreshCountersDeserialize(result: PathUncheckedResponse)
 
   return;
 }
-
 /** Refresh counters */
 export async function refreshCounters(
   context: Client,
@@ -190,7 +188,6 @@ export async function _getCountersDeserialize(result: PathUncheckedResponse): Pr
 
   return ruleCounterDeserializer(result.body);
 }
-
 /** Get counters */
 export async function getCounters(
   context: Client,
@@ -248,7 +245,6 @@ export async function _listByLocalRulestacksDeserialize(
 
   return _localRulesResourceListResultDeserializer(result.body);
 }
-
 /** List LocalRulesResource resources by LocalRulestacks */
 export function listByLocalRulestacks(
   context: Client,
@@ -305,7 +301,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Delete a LocalRulesResource */
 export function $delete(
   context: Client,
@@ -368,7 +363,6 @@ export async function _createOrUpdateDeserialize(
 
   return localRulesResourceDeserializer(result.body);
 }
-
 /** Create a LocalRulesResource */
 export function createOrUpdate(
   context: Client,
@@ -434,7 +428,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Lo
 
   return localRulesResourceDeserializer(result.body);
 }
-
 /** Get a LocalRulesResource */
 export async function get(
   context: Client,

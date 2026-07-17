@@ -76,7 +76,6 @@ export interface MetricsObjectFirewallOperations {
     options?: MetricsObjectFirewallGetOptionalParams,
   ) => Promise<MetricsObjectFirewallResource>;
 }
-
 function _getMetricsObjectFirewall(context: PaloAltoNetworksCloudngfwContext) {
   return {
     listByFirewalls: (
@@ -136,7 +135,6 @@ function _getMetricsObjectFirewall(context: PaloAltoNetworksCloudngfwContext) {
     ) => get(context, resourceGroupName, firewallName, options),
   };
 }
-
 export function _getMetricsObjectFirewallOperations(
   context: PaloAltoNetworksCloudngfwContext,
 ): MetricsObjectFirewallOperations {

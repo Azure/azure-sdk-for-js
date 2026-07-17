@@ -5,9 +5,9 @@ import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to execute listSupportInfo
+ * This sample demonstrates how to a long-running provider action.
  *
- * @summary execute listSupportInfo
+ * @summary a long-running provider action.
  * x-ms-original-file: 2026-05-11-preview/PaloAltoNetworksCloudngfwOperations_listSupportInfo_MaximumSet_Gen.json
  */
 async function paloAltoNetworksCloudngfwOperationsListSupportInfoMaximumSetGen(): Promise<void> {
@@ -19,9 +19,9 @@ async function paloAltoNetworksCloudngfwOperationsListSupportInfoMaximumSetGen()
 }
 
 /**
- * This sample demonstrates how to execute listSupportInfo
+ * This sample demonstrates how to a long-running provider action.
  *
- * @summary execute listSupportInfo
+ * @summary a long-running provider action.
  * x-ms-original-file: 2026-05-11-preview/PaloAltoNetworksCloudngfwOperations_listSupportInfo_MinimumSet_Gen.json
  */
 async function paloAltoNetworksCloudngfwOperationsListSupportInfoMinimumSetGen(): Promise<void> {

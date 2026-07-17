@@ -62,7 +62,6 @@ export async function _listDeserialize(
 
   return _prefixListGlobalRulestackResourceListResultDeserializer(result.body);
 }
-
 /** List PrefixListGlobalRulestackResource resources by Tenant */
 export function list(
   context: Client,
@@ -115,7 +114,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Delete a PrefixListGlobalRulestackResource */
 export function $delete(
   context: Client,
@@ -173,7 +171,6 @@ export async function _createOrUpdateDeserialize(
 
   return prefixListGlobalRulestackResourceDeserializer(result.body);
 }
-
 /** Create a PrefixListGlobalRulestackResource */
 export function createOrUpdate(
   context: Client,
@@ -236,7 +233,6 @@ export async function _getDeserialize(
 
   return prefixListGlobalRulestackResourceDeserializer(result.body);
 }
-
 /** Get a PrefixListGlobalRulestackResource */
 export async function get(
   context: Client,

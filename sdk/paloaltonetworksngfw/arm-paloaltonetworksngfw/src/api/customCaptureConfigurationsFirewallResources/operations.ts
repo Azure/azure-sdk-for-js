@@ -65,7 +65,6 @@ export async function _listByFirewallDeserialize(
 
   return _customCaptureConfigurationsFirewallResourceListResultDeserializer(result.body);
 }
-
 /** List Custom Capture Configurations under a firewall. The resource is a singleton (name is fixed to 'default'), so the response contains at most one entry. */
 export function listByFirewall(
   context: Client,
@@ -124,7 +123,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Delete the Custom Capture Configuration on a firewall. SYNC — clears any in-progress or terminal capture state. Returns 200 on success or 204 when no configuration exists. */
 export async function $delete(
   context: Client,
@@ -182,7 +180,6 @@ export async function _createOrUpdateDeserialize(
 
   return customCaptureConfigurationsFirewallResourceDeserializer(result.body);
 }
-
 /** Start a Custom Capture Configuration on a firewall. SYNC — returns 200 OK + body immediately. Body's properties.pcapStatus reflects current state (typically InProgress). Caller polls GET on its own clock using properties.nextCheckInSeconds as the cadence hint. */
 export async function createOrUpdate(
   context: Client,
@@ -242,7 +239,6 @@ export async function _getDeserialize(
 
   return customCaptureConfigurationsFirewallResourceDeserializer(result.body);
 }
-
 /** Get the current Custom Capture Configuration for a firewall. Always returns 200 OK + body. Caller reads properties.pcapStatus to know whether to keep polling. Body field properties.nextCheckInSeconds advises when to poll next (omitted on terminal states). */
 export async function get(
   context: Client,

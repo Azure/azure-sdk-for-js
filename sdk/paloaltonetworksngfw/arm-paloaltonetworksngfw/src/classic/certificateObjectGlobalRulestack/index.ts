@@ -81,7 +81,6 @@ export interface CertificateObjectGlobalRulestackOperations {
     options?: CertificateObjectGlobalRulestackGetOptionalParams,
   ) => Promise<CertificateObjectGlobalRulestackResource>;
 }
-
 function _getCertificateObjectGlobalRulestack(context: PaloAltoNetworksCloudngfwContext) {
   return {
     list: (
@@ -140,7 +139,6 @@ function _getCertificateObjectGlobalRulestack(context: PaloAltoNetworksCloudngfw
     ) => get(context, globalRulestackName, name, options),
   };
 }
-
 export function _getCertificateObjectGlobalRulestackOperations(
   context: PaloAltoNetworksCloudngfwContext,
 ): CertificateObjectGlobalRulestackOperations {

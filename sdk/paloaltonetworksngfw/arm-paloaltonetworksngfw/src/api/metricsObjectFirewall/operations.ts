@@ -65,7 +65,6 @@ export async function _listByFirewallsDeserialize(
 
   return _metricsObjectFirewallResourceListResultDeserializer(result.body);
 }
-
 /** List MetricsObjectFirewallResource resources by Firewalls */
 export function listByFirewalls(
   context: Client,
@@ -120,7 +119,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Delete a MetricsObjectFirewallResource */
 export function $delete(
   context: Client,
@@ -179,7 +177,6 @@ export async function _createOrUpdateDeserialize(
 
   return metricsObjectFirewallResourceDeserializer(result.body);
 }
-
 /** Create a MetricsObjectFirewallResource */
 export function createOrUpdate(
   context: Client,
@@ -237,7 +234,6 @@ export async function _getDeserialize(
 
   return metricsObjectFirewallResourceDeserializer(result.body);
 }
-
 /** Get a MetricsObjectFirewallResource */
 export async function get(
   context: Client,

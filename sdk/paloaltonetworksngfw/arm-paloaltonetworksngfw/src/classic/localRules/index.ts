@@ -108,7 +108,6 @@ export interface LocalRulesOperations {
     options?: LocalRulesGetOptionalParams,
   ) => Promise<LocalRulesResource>;
 }
-
 function _getLocalRules(context: PaloAltoNetworksCloudngfwContext) {
   return {
     resetCounters: (
@@ -208,7 +207,6 @@ function _getLocalRules(context: PaloAltoNetworksCloudngfwContext) {
     ) => get(context, resourceGroupName, localRulestackName, priority, options),
   };
 }
-
 export function _getLocalRulesOperations(
   context: PaloAltoNetworksCloudngfwContext,
 ): LocalRulesOperations {

@@ -72,7 +72,6 @@ export async function _resetCountersDeserialize(
 
   return ruleCounterResetDeserializer(result.body);
 }
-
 /** Reset counters */
 export async function resetCounters(
   context: Client,
@@ -118,7 +117,6 @@ export async function _refreshCountersDeserialize(result: PathUncheckedResponse)
 
   return;
 }
-
 /** Refresh counters */
 export async function refreshCounters(
   context: Client,
@@ -167,7 +165,6 @@ export async function _getCountersDeserialize(result: PathUncheckedResponse): Pr
 
   return ruleCounterDeserializer(result.body);
 }
-
 /** Get counters */
 export async function getCounters(
   context: Client,
@@ -215,7 +212,6 @@ export async function _listDeserialize(
 
   return _postRulesResourceListResultDeserializer(result.body);
 }
-
 /** List PostRulesResource resources by Tenant */
 export function list(
   context: Client,
@@ -268,7 +264,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Delete a PostRulesResource */
 export function $delete(
   context: Client,
@@ -326,7 +321,6 @@ export async function _createOrUpdateDeserialize(
 
   return postRulesResourceDeserializer(result.body);
 }
-
 /** Create a PostRulesResource */
 export function createOrUpdate(
   context: Client,
@@ -381,7 +375,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Po
 
   return postRulesResourceDeserializer(result.body);
 }
-
 /** Get a PostRulesResource */
 export async function get(
   context: Client,

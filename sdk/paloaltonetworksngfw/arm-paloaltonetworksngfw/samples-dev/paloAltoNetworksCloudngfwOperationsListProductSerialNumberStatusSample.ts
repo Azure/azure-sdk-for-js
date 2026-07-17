@@ -5,9 +5,9 @@ import { PaloAltoNetworksCloudngfw } from "@azure/arm-paloaltonetworksngfw";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to execute listProductSerialNumberStatus
+ * This sample demonstrates how to a long-running provider action.
  *
- * @summary execute listProductSerialNumberStatus
+ * @summary a long-running provider action.
  * x-ms-original-file: 2026-05-11-preview/PaloAltoNetworksCloudngfwOperations_listProductSerialNumberStatus_MaximumSet_Gen.json
  */
 async function paloAltoNetworksCloudngfwOperationsListProductSerialNumberStatusMaximumSetGen(): Promise<void> {
@@ -19,9 +19,9 @@ async function paloAltoNetworksCloudngfwOperationsListProductSerialNumberStatusM
 }
 
 /**
- * This sample demonstrates how to execute listProductSerialNumberStatus
+ * This sample demonstrates how to a long-running provider action.
  *
- * @summary execute listProductSerialNumberStatus
+ * @summary a long-running provider action.
  * x-ms-original-file: 2026-05-11-preview/PaloAltoNetworksCloudngfwOperations_listProductSerialNumberStatus_MinimumSet_Gen.json
  */
 async function paloAltoNetworksCloudngfwOperationsListProductSerialNumberStatusMinimumSetGen(): Promise<void> {

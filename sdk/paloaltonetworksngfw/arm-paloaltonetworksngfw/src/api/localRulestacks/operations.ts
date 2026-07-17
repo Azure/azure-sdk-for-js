@@ -94,7 +94,6 @@ export async function _revertDeserialize(result: PathUncheckedResponse): Promise
 
   return;
 }
-
 /** Revert rulestack configuration */
 export async function revert(
   context: Client,
@@ -149,7 +148,6 @@ export async function _listSecurityServicesDeserialize(
 
   return securityServicesResponseDeserializer(result.body);
 }
-
 /** List the security services for rulestack */
 export async function listSecurityServices(
   context: Client,
@@ -209,7 +207,6 @@ export async function _listPredefinedUrlCategoriesDeserialize(
 
   return predefinedUrlCategoriesResponseDeserializer(result.body);
 }
-
 /** List predefined URL categories for rulestack */
 export function listPredefinedUrlCategories(
   context: Client,
@@ -270,7 +267,6 @@ export async function _listFirewallsDeserialize(
 
   return listFirewallsResponseDeserializer(result.body);
 }
-
 /** List of Firewalls associated with Rulestack */
 export async function listFirewalls(
   context: Client,
@@ -323,7 +319,6 @@ export async function _listCountriesDeserialize(
 
   return countriesResponseDeserializer(result.body);
 }
-
 /** List of countries for Rulestack */
 export function listCountries(
   context: Client,
@@ -388,7 +383,6 @@ export async function _listAppIdsDeserialize(
 
   return listAppIdResponseDeserializer(result.body);
 }
-
 /** List of AppIds for LocalRulestack ApiVersion */
 export function listAppIds(
   context: Client,
@@ -453,7 +447,6 @@ export async function _listAdvancedSecurityObjectsDeserialize(
 
   return advSecurityObjectListResponseDeserializer(result.body);
 }
-
 /** Get the list of advanced security objects */
 export async function listAdvancedSecurityObjects(
   context: Client,
@@ -512,7 +505,6 @@ export async function _getSupportInfoDeserialize(
 
   return supportInfoDeserializer(result.body);
 }
-
 /** support info for rulestack. */
 export async function getSupportInfo(
   context: Client,
@@ -561,7 +553,6 @@ export async function _getChangeLogDeserialize(result: PathUncheckedResponse): P
 
   return changelogDeserializer(result.body);
 }
-
 /** Get changelog */
 export async function getChangeLog(
   context: Client,
@@ -607,7 +598,6 @@ export async function _commitDeserialize(result: PathUncheckedResponse): Promise
 
   return;
 }
-
 /** Commit rulestack configuration */
 export function commit(
   context: Client,
@@ -659,7 +649,6 @@ export async function _listBySubscriptionDeserialize(
 
   return _localRulestackResourceListResultDeserializer(result.body);
 }
-
 /** List LocalRulestackResource resources by subscription ID */
 export function listBySubscription(
   context: Client,
@@ -715,7 +704,6 @@ export async function _listByResourceGroupDeserialize(
 
   return _localRulestackResourceListResultDeserializer(result.body);
 }
-
 /** List LocalRulestackResource resources by resource group */
 export function listByResourceGroup(
   context: Client,
@@ -769,7 +757,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Delete a LocalRulestackResource */
 export function $delete(
   context: Client,
@@ -828,7 +815,6 @@ export async function _updateDeserialize(
 
   return localRulestackResourceDeserializer(result.body);
 }
-
 /** Update a LocalRulestackResource */
 export async function update(
   context: Client,
@@ -889,7 +875,6 @@ export async function _createOrUpdateDeserialize(
 
   return localRulestackResourceDeserializer(result.body);
 }
-
 /** Create a LocalRulestackResource */
 export function createOrUpdate(
   context: Client,
@@ -947,7 +932,6 @@ export async function _getDeserialize(
 
   return localRulestackResourceDeserializer(result.body);
 }
-
 /** Get a LocalRulestackResource */
 export async function get(
   context: Client,

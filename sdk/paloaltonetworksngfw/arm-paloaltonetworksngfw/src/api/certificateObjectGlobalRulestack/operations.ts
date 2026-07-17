@@ -62,7 +62,6 @@ export async function _listDeserialize(
 
   return _certificateObjectGlobalRulestackResourceListResultDeserializer(result.body);
 }
-
 /** List CertificateObjectGlobalRulestackResource resources by Tenant */
 export function list(
   context: Client,
@@ -115,7 +114,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Delete a CertificateObjectGlobalRulestackResource */
 export function $delete(
   context: Client,
@@ -173,7 +171,6 @@ export async function _createOrUpdateDeserialize(
 
   return certificateObjectGlobalRulestackResourceDeserializer(result.body);
 }
-
 /** Create a CertificateObjectGlobalRulestackResource */
 export function createOrUpdate(
   context: Client,
@@ -236,7 +233,6 @@ export async function _getDeserialize(
 
   return certificateObjectGlobalRulestackResourceDeserializer(result.body);
 }
-
 /** Get a CertificateObjectGlobalRulestackResource */
 export async function get(
   context: Client,

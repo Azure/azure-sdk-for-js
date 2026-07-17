@@ -81,7 +81,6 @@ export async function _saveLogProfileDeserialize(result: PathUncheckedResponse):
 
   return;
 }
-
 /** Log Profile for Firewall */
 export async function saveLogProfile(
   context: Client,
@@ -133,7 +132,6 @@ export async function _getSupportInfoDeserialize(
 
   return supportInfoDeserializer(result.body);
 }
-
 /** support info for firewall. */
 export async function getSupportInfo(
   context: Client,
@@ -184,7 +182,6 @@ export async function _getLogProfileDeserialize(
 
   return logSettingsDeserializer(result.body);
 }
-
 /** Log Profile for Firewall */
 export async function getLogProfile(
   context: Client,
@@ -235,7 +232,6 @@ export async function _getGlobalRulestackDeserialize(
 
   return globalRulestackInfoDeserializer(result.body);
 }
-
 /** Get Global Rulestack associated with the Firewall */
 export async function getGlobalRulestack(
   context: Client,
@@ -282,7 +278,6 @@ export async function _listBySubscriptionDeserialize(
 
   return _firewallResourceListResultDeserializer(result.body);
 }
-
 /** List FirewallResource resources by subscription ID */
 export function listBySubscription(
   context: Client,
@@ -338,7 +333,6 @@ export async function _listByResourceGroupDeserialize(
 
   return _firewallResourceListResultDeserializer(result.body);
 }
-
 /** List FirewallResource resources by resource group */
 export function listByResourceGroup(
   context: Client,
@@ -392,7 +386,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Delete a FirewallResource */
 export function $delete(
   context: Client,
@@ -449,7 +442,6 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return firewallResourceDeserializer(result.body);
 }
-
 /** Update a FirewallResource */
 export async function update(
   context: Client,
@@ -504,7 +496,6 @@ export async function _createOrUpdateDeserialize(
 
   return firewallResourceDeserializer(result.body);
 }
-
 /** Create a FirewallResource */
 export function createOrUpdate(
   context: Client,
@@ -560,7 +551,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Fi
 
   return firewallResourceDeserializer(result.body);
 }
-
 /** Get a FirewallResource */
 export async function get(
   context: Client,
