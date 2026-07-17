@@ -7,7 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -149,18 +149,19 @@
+@@ -153,18 +153,19 @@
  export interface OptInDetails {
      // (undocumented)
      description?: string;
@@ -26,8 +26,8 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
 +export { Option_2 as Option }
  
+ export { RestError }
+ 
  // @public
- export interface ReviewNote {
-     date?: Date;
 
 ```

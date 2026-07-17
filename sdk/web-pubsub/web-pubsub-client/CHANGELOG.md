@@ -1,5 +1,17 @@
 # Release History
 
+## 1.1.1 (Unreleased)
+
+### Features Added
+
+- Added group state APIs to set or clear the current connection's group state, subscribe to group state changes, and read cached group state records.
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 1.1.0 (2026-06-22)
 
 ### Features Added

@@ -5,17 +5,16 @@
  * @summary Uses an AccessControlClient to list, create, and assign roles to users.
  */
 
+import type { KeyVaultPermission } from "@azure/keyvault-admin";
 import {
   KeyVaultAccessControlClient,
-  KeyVaultPermission,
   KnownKeyVaultDataAction,
   KnownKeyVaultRoleScope,
 } from "@azure/keyvault-admin";
 import { DefaultAzureCredential } from "@azure/identity";
-
+import { randomUUID } from "@azure/core-util";
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 export async function main(): Promise<void> {
   // This sample uses DefaultAzureCredential, which supports a number of authentication mechanisms.
@@ -33,7 +32,7 @@ export async function main(): Promise<void> {
   }
 
   const globalScope = KnownKeyVaultRoleScope.Global;
-  const roleDefinitionName = crypto.randomUUID();
+  const roleDefinitionName = randomUUID();
   const permissions: KeyVaultPermission[] = [
     {
       dataActions: [
@@ -42,7 +41,7 @@ export async function main(): Promise<void> {
       ],
     },
   ];
-  let roleDefinition = await client.setRoleDefinition(globalScope, {
+  const roleDefinition = await client.setRoleDefinition(globalScope, {
     roleDefinitionName,
     roleName: "Backup Manager",
     permissions,
@@ -52,7 +51,7 @@ export async function main(): Promise<void> {
 
   // This sample uses a custom role but you may assign one of the many built-in roles.
   // Please refer to https://learn.microsoft.com/azure/key-vault/managed-hsm/built-in-roles for more information.
-  const roleAssignmentName = crypto.randomUUID();
+  const roleAssignmentName = randomUUID();
   const clientObjectId = process.env["CLIENT_OBJECT_ID"];
   if (!clientObjectId) {
     throw new Error("Missing environment variable CLIENT_OBJECT_ID.");

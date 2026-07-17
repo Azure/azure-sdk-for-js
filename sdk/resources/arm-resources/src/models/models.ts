@@ -703,10 +703,7 @@ export function identityDeserializer(item: any): Identity {
 
 /** The identity type. */
 export type ResourceIdentityType =
-  | "SystemAssigned"
-  | "UserAssigned"
-  | "SystemAssigned, UserAssigned"
-  | "None";
+  "SystemAssigned" | "UserAssigned" | "SystemAssigned, UserAssigned" | "None";
 
 export function identityUserAssignedIdentitiesValueRecordSerializer(
   item: Record<string, IdentityUserAssignedIdentitiesValue>,

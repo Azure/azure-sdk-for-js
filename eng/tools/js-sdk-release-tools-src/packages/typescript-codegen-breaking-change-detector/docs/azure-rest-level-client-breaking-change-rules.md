@@ -1,0 +1,20 @@
+# Azure REST Level Breaking Change Rules
+
+## Special Rule Set
+
+Special rule set for Azure REST level client: [rule set](https://github.com/Azure/azure-sdk-for-js/blob/main/eng/tools/js-sdk-release-tools-src/packages/typescript-codegen-breaking-change-detector/src/azure/rule-sets/rest-level-client-rule-sets.ts).
+
+### Non-Breaking Changes
+
+- Operation name changes
+- Request parameter model name changes
+- Response model name changes:
+-
+
+### Breaking Changes
+
+- Path value changes
+
+### TODO
+
+- Request parameter type changes with content type

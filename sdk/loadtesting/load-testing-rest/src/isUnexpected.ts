@@ -181,16 +181,14 @@ export function isUnexpected(
 ): response is LoadTestAdministrationCreateOrUpdateTestDefaultResponse;
 export function isUnexpected(
   response:
-    | LoadTestAdministrationDeleteTest204Response
-    | LoadTestAdministrationDeleteTestDefaultResponse,
+    LoadTestAdministrationDeleteTest204Response | LoadTestAdministrationDeleteTestDefaultResponse,
 ): response is LoadTestAdministrationDeleteTestDefaultResponse;
 export function isUnexpected(
   response: LoadTestAdministrationGetTest200Response | LoadTestAdministrationGetTestDefaultResponse,
 ): response is LoadTestAdministrationGetTestDefaultResponse;
 export function isUnexpected(
   response:
-    | LoadTestAdministrationListTests200Response
-    | LoadTestAdministrationListTestsDefaultResponse,
+    LoadTestAdministrationListTests200Response | LoadTestAdministrationListTestsDefaultResponse,
 ): response is LoadTestAdministrationListTestsDefaultResponse;
 export function isUnexpected(
   response:
@@ -211,8 +209,7 @@ export function isUnexpected(
 ): response is LoadTestAdministrationUploadTestFileDefaultResponse;
 export function isUnexpected(
   response:
-    | LoadTestAdministrationGetTestFile200Response
-    | LoadTestAdministrationGetTestFileDefaultResponse,
+    LoadTestAdministrationGetTestFile200Response | LoadTestAdministrationGetTestFileDefaultResponse,
 ): response is LoadTestAdministrationGetTestFileDefaultResponse;
 export function isUnexpected(
   response:
@@ -269,8 +266,7 @@ export function isUnexpected(
 ): response is TestProfileAdministrationListTestProfilesDefaultResponse;
 export function isUnexpected(
   response:
-    | TriggerAdministrationGetTrigger200Response
-    | TriggerAdministrationGetTriggerDefaultResponse,
+    TriggerAdministrationGetTrigger200Response | TriggerAdministrationGetTriggerDefaultResponse,
 ): response is TriggerAdministrationGetTriggerDefaultResponse;
 export function isUnexpected(
   response:
@@ -285,8 +281,7 @@ export function isUnexpected(
 ): response is TriggerAdministrationDeleteTriggerDefaultResponse;
 export function isUnexpected(
   response:
-    | TriggerAdministrationListTrigger200Response
-    | TriggerAdministrationListTriggerDefaultResponse,
+    TriggerAdministrationListTrigger200Response | TriggerAdministrationListTriggerDefaultResponse,
 ): response is TriggerAdministrationListTriggerDefaultResponse;
 export function isUnexpected(
   response:
@@ -335,8 +330,7 @@ export function isUnexpected(
 ): response is LoadTestRunGetLatestInsightsDefaultResponse;
 export function isUnexpected(
   response:
-    | LoadTestRunUpdateLatestInsights200Response
-    | LoadTestRunUpdateLatestInsightsDefaultResponse,
+    LoadTestRunUpdateLatestInsights200Response | LoadTestRunUpdateLatestInsightsDefaultResponse,
 ): response is LoadTestRunUpdateLatestInsightsDefaultResponse;
 export function isUnexpected(
   response:
@@ -346,13 +340,11 @@ export function isUnexpected(
 ): response is LoadTestRunGenerateInsightsDefaultResponse;
 export function isUnexpected(
   response:
-    | LoadTestRunListMetricNamespaces200Response
-    | LoadTestRunListMetricNamespacesDefaultResponse,
+    LoadTestRunListMetricNamespaces200Response | LoadTestRunListMetricNamespacesDefaultResponse,
 ): response is LoadTestRunListMetricNamespacesDefaultResponse;
 export function isUnexpected(
   response:
-    | LoadTestRunListMetricDefinitions200Response
-    | LoadTestRunListMetricDefinitionsDefaultResponse,
+    LoadTestRunListMetricDefinitions200Response | LoadTestRunListMetricDefinitionsDefaultResponse,
 ): response is LoadTestRunListMetricDefinitionsDefaultResponse;
 export function isUnexpected(
   response: LoadTestRunListMetrics200Response | LoadTestRunListMetricsDefaultResponse,
@@ -379,8 +371,7 @@ export function isUnexpected(
 ): response is LoadTestRunCreateOrUpdateServerMetricsConfigDefaultResponse;
 export function isUnexpected(
   response:
-    | LoadTestRunGetServerMetricsConfig200Response
-    | LoadTestRunGetServerMetricsConfigDefaultResponse,
+    LoadTestRunGetServerMetricsConfig200Response | LoadTestRunGetServerMetricsConfigDefaultResponse,
 ): response is LoadTestRunGetServerMetricsConfigDefaultResponse;
 export function isUnexpected(
   response:
@@ -400,8 +391,7 @@ export function isUnexpected(
 ): response is TestProfileRunAdministrationDeleteTestProfileRunDefaultResponse;
 export function isUnexpected(
   response:
-    | TestProfileRunAdministrationStop200Response
-    | TestProfileRunAdministrationStopDefaultResponse,
+    TestProfileRunAdministrationStop200Response | TestProfileRunAdministrationStopDefaultResponse,
 ): response is TestProfileRunAdministrationStopDefaultResponse;
 export function isUnexpected(
   response:

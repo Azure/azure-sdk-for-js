@@ -25,6 +25,7 @@ export interface ConfidentialLedgerErrorBodyOutput {
 
 /** List of members in the consortium. */
 export interface ConsortiumOutput {
+  /** Members in the consortium. */
   members: Array<ConsortiumMemberOutput>;
   /** Path from which to retrieve the next page of results. */
   nextLink?: string;
@@ -60,6 +61,7 @@ export interface EnclaveQuoteOutput {
 
 /** Paginated collections returned in response to a query. */
 export interface PagedCollectionsOutput {
+  /** Collection identifiers. */
   collections: Array<CollectionOutput>;
   /** Path from which to retrieve the next page of results. */
   nextLink?: string;
@@ -67,13 +69,26 @@ export interface PagedCollectionsOutput {
 
 /** Identifier for collections. */
 export interface CollectionOutput {
+  /** Identifier for the collection. */
   collectionId: string;
+}
+
+/** Paginated tags returned in response to a query. */
+export interface PagedTagsOutput {
+  /** Array of tags. */
+  tags: string[];
+  /** Path from which to retrieve the next page of results. */
+  nextLink?: string;
 }
 
 /** Paginated ledger entries returned in response to a query. */
 export interface PagedLedgerEntriesOutput {
-  /** State of a ledger query. */
-  state: "Loading" | "Ready";
+  /**
+   * State of a ledger query.
+   *
+   * Possible values: "Loading", "Ready"
+   */
+  state: ConfidentialLedgerQueryStateOutput;
   /** Path from which to retrieve the next page of results. */
   nextLink?: string;
   /** Array of ledger entries. */
@@ -84,12 +99,22 @@ export interface PagedLedgerEntriesOutput {
 export interface LedgerEntryOutput {
   /** Contents of the ledger entry. */
   contents: string;
+  /** The collection identifier for this ledger entry. */
   readonly collectionId?: string;
-  /** A unique identifier for the state of the ledger. If returned as part of a LedgerEntry, it indicates the state from which the entry was read. */
+  /**
+   * A unique identifier for the state of the ledger. If returned as part of a
+   * LedgerEntry, it indicates the state from which the entry was read.
+   */
   readonly transactionId?: string;
-  /** List of user defined function hooks to be executed before the ledger entry is written. */
+  /**
+   * List of user defined function hooks to be executed before the ledger entry is
+   * written.
+   */
   preHooks?: Array<UserDefinedFunctionHookOutput>;
-  /** List of user defined function hooks to be executed after the ledger entry is written. */
+  /**
+   * List of user defined function hooks to be executed after the ledger entry is
+   * written.
+   */
   postHooks?: Array<UserDefinedFunctionHookOutput>;
 }
 
@@ -104,33 +129,56 @@ export interface UserDefinedFunctionHookOutput {
 /** The properties for executing a user defined function. */
 export interface UserDefinedFunctionExecutionPropertiesOutput {
   /** Runtime arguments of the user defined function. Defaults to an empty list. */
-  arguments?: Array<string>;
-  /** Name of the exported function to execute in the code of the user defined function. Defaults to main. */
+  arguments?: string[];
+  /**
+   * Name of the exported function to execute in the code of the user defined
+   * function. Defaults to main.
+   */
   exportedFunctionName?: string;
   /** JS runtime options for user defined endpoints and functions */
-  runtimeOptions?: JSRuntimeOptionsOutput;
+  runtimeOptions?: JsRuntimeOptionsOutput;
 }
 
 /** JS runtime options for user defined endpoints and functions */
-export interface JSRuntimeOptionsOutput {
+export interface JsRuntimeOptionsOutput {
+  /** Whether to log exception details in the runtime. */
   log_exception_details?: boolean;
+  /** Maximum number of cached interpreters. */
   max_cached_interpreters?: number;
+  /** Maximum execution time in milliseconds. */
   max_execution_time_ms?: number;
+  /** Maximum heap size in bytes. */
   max_heap_bytes?: number;
+  /** Maximum stack size in bytes. */
   max_stack_bytes?: number;
+  /** Whether to return exception details in the response. */
   return_exception_details?: boolean;
 }
 
-/** Returned as a result of a write to the Confidential Ledger, the transaction id in the response indicates when the write will become durable. */
+/**
+ * Returned as a result of a write to the Confidential Ledger, the transaction id
+ * in the response indicates when the write will become durable.
+ */
 export interface LedgerWriteResultOutput {
+  /** The collection identifier of the ledger entry. */
   collectionId: string;
 }
 
-/** The result of querying for a ledger entry from an older transaction id. The ledger entry is available in the response only if the returned state is Ready. */
+/**
+ * The result of querying for a ledger entry from an older transaction id. The
+ * ledger entry is available in the response only if the returned state is Ready.
+ */
 export interface LedgerQueryResultOutput {
-  /** State of a ledger query. */
-  state: "Loading" | "Ready";
-  /** The ledger entry found as a result of the query. This is only available if the query is in Ready state. */
+  /**
+   * State of a ledger query.
+   *
+   * Possible values: "Loading", "Ready"
+   */
+  state: ConfidentialLedgerQueryStateOutput;
+  /**
+   * The ledger entry found as a result of the query. This is only available if the
+   * query is in Ready state.
+   */
   entry?: LedgerEntryOutput;
 }
 
@@ -138,10 +186,18 @@ export interface LedgerQueryResultOutput {
 export interface TransactionReceiptOutput {
   /** List of application claims. */
   applicationClaims?: Array<ApplicationClaimOutput>;
+  /** The receipt contents for the transaction. */
   receipt?: ReceiptContentsOutput;
-  /** State of a ledger query. */
-  state: "Loading" | "Ready";
-  /** A unique identifier for the state of the ledger. If returned as part of a LedgerEntry, it indicates the state from which the entry was read. */
+  /**
+   * State of a ledger query.
+   *
+   * Possible values: "Loading", "Ready"
+   */
+  state: ConfidentialLedgerQueryStateOutput;
+  /**
+   * A unique identifier for the state of the ledger. If returned as part of a
+   * LedgerEntry, it indicates the state from which the entry was read.
+   */
   transactionId: string;
 }
 
@@ -149,8 +205,12 @@ export interface TransactionReceiptOutput {
 export interface ApplicationClaimOutput {
   /** An application claim in digested form. */
   digest?: ClaimDigestOutput;
-  /** Represents the kind of an application claim. */
-  kind: "LedgerEntry" | "ClaimDigest";
+  /**
+   * Represents the kind of an application claim.
+   *
+   * Possible values: "LedgerEntry", "ClaimDigest"
+   */
+  kind: ApplicationClaimKindOutput;
   /** An application claim derived from ledger entry data. */
   ledgerEntry?: LedgerEntryClaimOutput;
 }
@@ -159,8 +219,13 @@ export interface ApplicationClaimOutput {
 export interface ClaimDigestOutput {
   /** The digest of the application claim, in hexadecimal form. */
   value?: string;
-  /** Represents the protocol to be used to compute the digest of a claim from the given claim data. */
-  protocol: "LedgerEntryV1";
+  /**
+   * Represents the protocol to be used to compute the digest of a claim from the
+   * given claim data.
+   *
+   * Possible values: "LedgerEntryV1"
+   */
+  protocol: ApplicationClaimProtocolOutput;
 }
 
 /** An application claim derived from ledger entry data. */
@@ -171,42 +236,71 @@ export interface LedgerEntryClaimOutput {
   contents?: string;
   /** Base64-encoded secret key. */
   secretKey?: string;
-  /** Represents the protocol to be used to compute the digest of a claim from the given claim data. */
-  protocol: "LedgerEntryV1";
+  /**
+   * Represents the protocol to be used to compute the digest of a claim from the
+   * given claim data.
+   *
+   * Possible values: "LedgerEntryV1"
+   */
+  protocol: ApplicationClaimProtocolOutput;
 }
 
+/** The contents of a receipt */
 export interface ReceiptContentsOutput {
+  /** Certificate */
   cert?: string;
+  /** Leaf */
   leaf?: string;
+  /** Leaf components of the receipt */
   leafComponents?: ReceiptLeafComponentsOutput;
+  /** Node identifier */
   nodeId: string;
+  /** Proof */
   proof: Array<ReceiptElementOutput>;
+  /** Root */
   root?: string;
-  serviceEndorsements?: Array<string>;
+  /** Service endorsements */
+  serviceEndorsements?: string[];
+  /** The signature of the receipt */
   signature: string;
 }
 
+/** Components that make up a receipt leaf node. */
 export interface ReceiptLeafComponentsOutput {
+  /** Claims digest */
   claimsDigest?: string;
+  /** Commit evidence */
   commitEvidence?: string;
+  /** Write set digest */
   writeSetDigest?: string;
 }
 
+/** Receipt element */
 export interface ReceiptElementOutput {
+  /** Left */
   left?: string;
+  /** Right */
   right?: string;
 }
 
 /** Response returned to a query for the transaction status */
 export interface TransactionStatusOutput {
-  /** Represents the state of the transaction. */
-  state: "Committed" | "Pending";
-  /** A unique identifier for the state of the ledger. If returned as part of a LedgerEntry, it indicates the state from which the entry was read. */
+  /**
+   * Represents the state of the transaction.
+   *
+   * Possible values: "Committed", "Pending"
+   */
+  state: TransactionStateOutput;
+  /**
+   * A unique identifier for the state of the ledger. If returned as part of a
+   * LedgerEntry, it indicates the state from which the entry was read.
+   */
   transactionId: string;
 }
 
 /** Paginated users returned in response to a query. */
 export interface PagedUsersOutput {
+  /** Ledger users. */
   ledgerUsers?: Array<LedgerUserOutput>;
   /** Path from which to retrieve the next page of results. */
   nextLink?: string;
@@ -214,14 +308,22 @@ export interface PagedUsersOutput {
 
 /** Details about a Confidential Ledger user. */
 export interface LedgerUserOutput {
-  /** Represents an assignable role. */
-  assignedRole: "Administrator" | "Contributor" | "Reader";
-  /** Identifier for the user. This must either be an AAD object id or a certificate fingerprint. */
+  /**
+   * Represents an assignable role.
+   *
+   * Possible values: "Administrator", "Contributor", "Reader"
+   */
+  assignedRole: ConfidentialLedgerUserRoleNameOutput;
+  /**
+   * Identifier for the user. This must either be an AAD object id or a certificate
+   * fingerprint.
+   */
   readonly userId?: string;
 }
 
 /** Paginated users returned in response to a query. */
 export interface PagedLedgerUsersOutput {
+  /** Ledger users with details. */
   ledgerUsers?: Array<LedgerUserMultipleRolesOutput>;
   /** Path from which to retrieve the next page of results. */
   nextLink?: string;
@@ -230,54 +332,91 @@ export interface PagedLedgerUsersOutput {
 /** Details about a Confidential Ledger user. */
 export interface LedgerUserMultipleRolesOutput {
   /** Represents an assignable role. */
-  assignedRoles: Array<"Administrator" | "Contributor" | "Reader">;
-  /** Identifier for the user. This must either be an AAD object id or a certificate fingerprint. */
+  assignedRoles: ConfidentialLedgerUserRoleNameOutput[];
+  /**
+   * Identifier for the user. This must either be an AAD object id or a certificate
+   * fingerprint.
+   */
   readonly userId?: string;
 }
 
 /** bundle for the user defined endpoints */
 export interface BundleOutput {
+  /** Metadata information for the bundle. */
   metadata: MetadataOutput;
   /** Any object */
-  modules: Record<string, unknown>;
+  modules: Array<ModuleDefOutput>;
 }
 
+/** Metadata for endpoints. */
 export interface MetadataOutput {
   /** A map of path to method endpoints for the path */
   endpoints: Record<string, MethodToEndpointPropertiesOutput>;
 }
 
+/** Maps methods to their corresponding endpoint properties. */
 export interface MethodToEndpointPropertiesOutput {
+  /** Properties for GET method endpoint. */
   get?: EndpointPropertiesOutput;
+  /** Properties for PUT method endpoint. */
   put?: EndpointPropertiesOutput;
+  /** Properties for PATCH method endpoint. */
   patch?: EndpointPropertiesOutput;
+  /** Properties for DELETE method endpoint. */
   delete?: EndpointPropertiesOutput;
 }
 
+/** Endpoint properties. */
 export interface EndpointPropertiesOutput {
-  authn_policies: Array<any>;
-  forwarding_required: "sometimes" | "always" | "never";
+  /** Authentication policies for the endpoint. */
+  authn_policies: Record<string, any>[];
+  /**
+   * Indicates whether request forwarding is required for this endpoint.
+   *
+   * Possible values: "sometimes", "always", "never"
+   */
+  forwarding_required: ForwardingRequiredOutput;
+  /** Policy for interpreter reuse. */
   interpreter_reuse?: InterpreterReusePolicyOutput;
+  /** The JavaScript function. */
   js_function?: string;
+  /** The JavaScript module. */
   js_module?: string;
-  mode?: "readwrite" | "readonly" | "historical";
+  /**
+   * The operation mode for this endpoint.
+   *
+   * Possible values: "readwrite", "readonly", "historical"
+   */
+  mode?: ModeOutput;
   /** Anything */
-  openapi?: any;
+  openapi?: Record<string, any>;
+  /** Openapi hidden */
   openapi_hidden?: boolean;
-  redirection_strategy?: "none" | "to_primary" | "to_backup";
+  /**
+   * Redirection strategy
+   *
+   * Possible values: "none", "to_primary", "to_backup"
+   */
+  redirection_strategy?: RedirectionStrategyOutput;
 }
 
+/** Policy for interpreter reuse. */
 export interface InterpreterReusePolicyOutput {
+  /** Key for the interpreter reuse policy. */
   key: string;
 }
 
+/** Module definition */
 export interface ModuleDefOutput {
+  /** Module */
   module: string;
+  /** Name */
   name: string;
 }
 
 /** Paginated user defined functions returned in response to a query. */
 export interface PagedUserDefinedFunctionsOutput {
+  /** User-defined functions. */
   functions: Array<UserDefinedFunctionOutput>;
   /** Path from which to retrieve the next page of results. */
   nextLink?: string;
@@ -293,29 +432,80 @@ export interface UserDefinedFunctionOutput {
 
 /** The result of a user defined function execution. */
 export interface UserDefinedFunctionExecutionResponseOutput {
-  /** The error object of a user defined function execution. This is returned only when the user defined function execution throws an exception. */
+  /**
+   * The error object of a user defined function execution. This is returned only
+   * when the user defined function execution throws an exception.
+   */
   error?: UserDefinedFunctionExecutionErrorOutput;
-  /** The result object of a user defined function execution. This is returned only when the user defined function executes successfully. */
+  /**
+   * The result object of a user defined function execution. This is returned only
+   * when the user defined function executes successfully.
+   */
   result?: UserDefinedFunctionExecutionResultOutput;
-  /** Represents the status of a user defined function execution. */
-  status: "Succeeded" | "Failed";
+  /**
+   * Represents the status of a user defined function execution.
+   *
+   * Possible values: "Succeeded", "Failed"
+   */
+  status: UserDefinedFunctionExecutionStatusOutput;
 }
 
-/** The error object of a user defined function execution. This is returned only when the user defined function execution throws an exception. */
+/**
+ * The error object of a user defined function execution. This is returned only
+ * when the user defined function execution throws an exception.
+ */
 export interface UserDefinedFunctionExecutionErrorOutput {
   /** Message indicating the error thrown when executing the function. */
   message?: string;
 }
 
-/** The result object of a user defined function execution. This is returned only when the user defined function executes successfully. */
+/**
+ * The result object of a user defined function execution. This is returned only
+ * when the user defined function executes successfully.
+ */
 export interface UserDefinedFunctionExecutionResultOutput {
-  /** String-encoded value returned by the user defined function execution. If the function does not return any value, this is set to an empty string. */
+  /**
+   * String-encoded value returned by the user defined function execution. If the
+   * function does not return any value, this is set to an empty string.
+   */
   returnValue?: string;
+}
+
+/** User defined role */
+export interface UserDefinedRoleOutput {
+  /** User defined role */
+  role: Array<RoleOutput>;
 }
 
 /** Definition for roles */
 export interface RoleOutput {
   /** name of the user defined role */
   roleName?: string;
-  roleActions?: Array<string>;
+  /** role actions */
+  roleActions?: string[];
 }
+
+/** Roles */
+export interface UserDefinedRolesOutput {
+  /** Roles */
+  roles: Array<RoleOutput>;
+}
+
+/** Alias for ConfidentialLedgerQueryStateOutput */
+export type ConfidentialLedgerQueryStateOutput = string;
+/** Alias for ApplicationClaimProtocolOutput */
+export type ApplicationClaimProtocolOutput = string;
+/** Alias for ApplicationClaimKindOutput */
+export type ApplicationClaimKindOutput = string;
+/** Alias for TransactionStateOutput */
+export type TransactionStateOutput = string;
+/** Alias for ConfidentialLedgerUserRoleNameOutput */
+export type ConfidentialLedgerUserRoleNameOutput = string;
+/** Alias for ForwardingRequiredOutput */
+export type ForwardingRequiredOutput = string;
+/** Alias for ModeOutput */
+export type ModeOutput = string;
+/** Alias for RedirectionStrategyOutput */
+export type RedirectionStrategyOutput = string;
+/** Alias for UserDefinedFunctionExecutionStatusOutput */
+export type UserDefinedFunctionExecutionStatusOutput = string;

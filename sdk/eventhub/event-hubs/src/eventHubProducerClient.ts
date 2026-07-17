@@ -159,10 +159,7 @@ export class EventHubProducerClient {
     fullyQualifiedNamespaceOrConnectionString1: string,
     eventHubNameOrOptions2?: string | EventHubClientOptions,
     credentialOrOptions3?:
-      | TokenCredential
-      | NamedKeyCredential
-      | SASCredential
-      | EventHubClientOptions,
+      TokenCredential | NamedKeyCredential | SASCredential | EventHubClientOptions,
     options4?: EventHubClientOptions, // eslint-disable-line @azure/azure-sdk/ts-naming-options
   ) {
     this._context = createConnectionContext(

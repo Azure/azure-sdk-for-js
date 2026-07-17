@@ -1,18 +1,16 @@
 # Release History
 
-## 0.3.7 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 0.3.7 (2026-07-13)
 
 ### Bugs Fixed
 
 - Added a `workerd` export condition so the Cloudflare Workers runtime resolves the Node-compatible build instead of the browser build. This fixes a `proxyPolicy` exception when constructing clients on Cloudflare Workers (e.g. via Wrangler with `nodejs_compat`). [Issue #37345](https://github.com/Azure/azure-sdk-for-js/issues/37345)
+- `logPolicy` now redacts non-allowlisted response header values when verbose logging is enabled, instead of logging them in plaintext.
 
 ### Other Changes
 
 - Removed the internal `randomUUID` polyfill for Node.js and browsers, relying on `globalThis.crypto.randomUUID()` which is available on those platforms. React Native keeps a `Math.random()` based fallback since its JS engines do not provide `crypto.randomUUID()`.
+- Update `engines` to `"node": ">=22.0.0"`. Please refer to our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more information on our supported Node.js versions.
 
 ## 0.3.6 (2026-06-04)
 

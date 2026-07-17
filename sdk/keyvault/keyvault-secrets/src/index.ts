@@ -684,3 +684,4 @@ export class SecretClient {
     );
   }
 }
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

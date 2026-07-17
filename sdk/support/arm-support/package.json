@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-support",
-  "version": "4.0.0-beta.1",
+  "version": "4.0.0-beta.2",
   "description": "A generated SDK for MicrosoftSupport.",
   "engines": {
     "node": ">=22.0.0"

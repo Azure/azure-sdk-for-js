@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists Cognitive Services project connection by name.
  *
  * @summary lists Cognitive Services project connection by name.
- * x-ms-original-file: 2026-03-15-preview/ProjectConnection/get.json
+ * x-ms-original-file: 2026-05-15-preview/ProjectConnection/get.json
  */
 async function getProjectConnection(): Promise<void> {
   const credential = new DefaultAzureCredential();

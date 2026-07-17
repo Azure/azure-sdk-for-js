@@ -2,7 +2,8 @@
 // Licensed under the MIT License.
 
 import { isNodeLike, isBrowser } from "@azure/core-util";
-import { delay, isLiveMode, Recorder } from "@azure-tools/test-recorder";
+import { delay, isLiveMode } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
 import type {
   FilePosixProperties,
   FileStartCopyOptions,
@@ -29,8 +30,7 @@ import {
   getGenericBSU,
   getTokenBSU,
   getUniqueName,
-  recorderEnvSetup,
-  uriSanitizers,
+  createAndStartRecorder,
 } from "./utils/index.js";
 import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
@@ -65,14 +65,12 @@ describe("FileClient", () => {
   fullFileAttributes.noScrubData = true;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
+    recorder = await createAndStartRecorder(ctx);
     await recorder.addSanitizers(
       {
         removeHeaderSanitizer: {
           headersForRemoval: ["x-ms-file-rename-source", "x-ms-copy-source"],
         },
-        uriSanitizers,
       },
       ["record", "playback"],
     );
@@ -1885,14 +1883,12 @@ describe("FileClient - OAuth", () => {
   fullFileAttributes.noScrubData = true;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
+    recorder = await createAndStartRecorder(ctx);
     await recorder.addSanitizers(
       {
         removeHeaderSanitizer: {
           headersForRemoval: ["x-ms-file-rename-source", "x-ms-copy-source"],
         },
-        uriSanitizers,
       },
       ["record", "playback"],
     );
@@ -2196,14 +2192,12 @@ describe("FileClient - AllowTrailingDots - True", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
+    recorder = await createAndStartRecorder(ctx);
     await recorder.addSanitizers(
       {
         removeHeaderSanitizer: {
           headersForRemoval: ["x-ms-file-rename-source"],
         },
-        uriSanitizers,
       },
       ["record", "playback"],
     );
@@ -2569,14 +2563,12 @@ describe("FileClient - AllowTrailingDots - False", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
+    recorder = await createAndStartRecorder(ctx);
     await recorder.addSanitizers(
       {
         removeHeaderSanitizer: {
           headersForRemoval: ["x-ms-file-rename-source"],
         },
-        uriSanitizers,
       },
       ["record", "playback"],
     );
@@ -2947,14 +2939,12 @@ describe("FileClient - AllowTrailingDots - Default", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
+    recorder = await createAndStartRecorder(ctx);
     await recorder.addSanitizers(
       {
         removeHeaderSanitizer: {
           headersForRemoval: ["x-ms-file-rename-source"],
         },
-        uriSanitizers,
       },
       ["record", "playback"],
     );
@@ -3010,9 +3000,7 @@ describe("FileClient - NFS", () => {
   const content = "Hello World";
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    recorder = await createAndStartRecorder(ctx);
     try {
       serviceClient = getGenericBSU(recorder, "PREMIUM_FILE_");
     } catch (error: any) {

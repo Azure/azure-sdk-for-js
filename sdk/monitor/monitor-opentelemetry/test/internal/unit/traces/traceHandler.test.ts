@@ -31,6 +31,7 @@ import { ExportResultCode } from "@opentelemetry/core";
 import type { AzureMonitorTraceExporter } from "@azure/monitor-opentelemetry-exporter";
 import type { Instrumentation } from "@opentelemetry/instrumentation";
 import { RateLimitedSampler } from "@azure/monitor-opentelemetry-exporter";
+import { createTracingClient } from "@azure/core-tracing";
 
 describe("Library/TraceHandler", () => {
   const connectionString = "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
@@ -371,6 +372,45 @@ describe("Library/TraceHandler", () => {
       const instrumentations = handler.getInstrumentations();
       expect(instrumentations).toHaveLength(0);
       expect(instrumentations[0]).not.toBeInstanceOf(HttpInstrumentation);
+    });
+  });
+
+  describe("#autoCollection of Azure SDK spans", () => {
+    beforeEach(() => {
+      _config.instrumentationOptions = {
+        http: { enabled: false },
+        azureSdk: { enabled: true },
+        mongoDb: { enabled: false },
+        mySql: { enabled: false },
+        postgreSql: { enabled: false },
+        redis: { enabled: false },
+        redis4: { enabled: false },
+      };
+    });
+
+    // Constructing the TraceHandler should wire the Azure SDK instrumenter into
+    // @azure/core-tracing directly, so Azure SDK spans are produced even when the
+    // OpenTelemetry require/import module hooks never fire (the ESM / Azure Functions
+    // scenario). With the instrumenter wired and a recording tracer provider registered,
+    // spans started through @azure/core-tracing must be recording.
+    it("wires the Azure SDK instrumenter so core-tracing produces recording spans", () => {
+      tracerProvider = new NodeTracerProvider({ sampler: new AlwaysOnSampler() });
+      trace.setGlobalTracerProvider(tracerProvider);
+
+      metricHandler = new MetricHandler(_config);
+      handler = new TraceHandler(_config, metricHandler);
+      handler.getInstrumentations().forEach((instrumentation) => {
+        activeInstrumentations.push(instrumentation);
+      });
+
+      const tracingClient = createTracingClient({
+        namespace: "Microsoft.Test",
+        packageName: "@azure/test",
+        packageVersion: "1.0.0",
+      });
+      const { span } = tracingClient.startSpan("TestClient.operation");
+      expect(span.isRecording()).toBe(true);
+      span.end();
     });
   });
 });

@@ -7,8 +7,10 @@
 import { AzureKeyCredential } from '@azure/core-auth';
 import { AzureSASCredential } from '@azure/core-auth';
 import type { CommonClientOptions } from '@azure/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { KeyCredential } from '@azure/core-auth';
 import type { OperationOptions } from '@azure/core-client';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { SASCredential } from '@azure/core-auth';
 import type { TokenCredential } from '@azure/core-auth';
 
@@ -1531,6 +1533,8 @@ export interface IotHubDeviceDisconnectedEventData extends DeviceConnectionState
 export interface IotHubDeviceTelemetryEventData extends DeviceTelemetryEvent {
 }
 
+export { isRestError }
+
 // @public
 export function isSystemEvent<T extends KnownSystemEventTypes>(eventType: T, event: EventGridEvent<unknown>): event is EventGridEvent<SystemEventNameToEventData[T]>;
 
@@ -2613,6 +2617,8 @@ export interface ResourceWriteSuccessEventData {
     subscriptionId: string;
     tenantId: string;
 }
+
+export { RestError }
 
 // @public
 export interface SendCloudEventInput<T> {

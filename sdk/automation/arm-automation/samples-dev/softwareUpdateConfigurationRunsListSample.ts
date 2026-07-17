@@ -1,52 +1,36 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Return list of software update configuration runs
- *
- * @summary Return list of software update configuration runs
- * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2019-06-01/examples/softwareUpdateConfigurationRun/listFailedSoftwareUpdateConfigurationRuns.json
- */
-
-import type { SoftwareUpdateConfigurationRunsListOptionalParams } from "@azure/arm-automation";
 import { AutomationClient } from "@azure/arm-automation";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to return list of software update configuration runs
+ *
+ * @summary return list of software update configuration runs
+ * x-ms-original-file: 2024-10-23/softwareUpdateConfigurationRun/listFailedSoftwareUpdateConfigurationRuns.json
+ */
 async function listSoftwareUpdateConfigurationMachineRunWithStatusEqualToFailed(): Promise<void> {
-  const subscriptionId =
-    process.env["AUTOMATION_SUBSCRIPTION_ID"] || "51766542-3ed7-4a72-a187-0c8ab644ddab";
-  const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "mygroup";
-  const automationAccountName = "myaccount";
-  const filter = "properties/status%20eq%20'Failed'";
-  const options: SoftwareUpdateConfigurationRunsListOptionalParams = { filter };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "51766542-3ed7-4a72-a187-0c8ab644ddab";
   const client = new AutomationClient(credential, subscriptionId);
-  const result = await client.softwareUpdateConfigurationRuns.list(
-    resourceGroupName,
-    automationAccountName,
-    options,
-  );
+  const result = await client.softwareUpdateConfigurationRuns.list("mygroup", "myaccount", {
+    filter: "properties/status%20eq%20'Failed'",
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Return list of software update configuration runs
+ * This sample demonstrates how to return list of software update configuration runs
  *
- * @summary Return list of software update configuration runs
- * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2019-06-01/examples/softwareUpdateConfigurationRun/listSoftwareUpdateConfigurationRuns.json
+ * @summary return list of software update configuration runs
+ * x-ms-original-file: 2024-10-23/softwareUpdateConfigurationRun/listSoftwareUpdateConfigurationRuns.json
  */
 async function listSoftwareUpdateConfigurationMachineRuns(): Promise<void> {
-  const subscriptionId =
-    process.env["AUTOMATION_SUBSCRIPTION_ID"] || "51766542-3ed7-4a72-a187-0c8ab644ddab";
-  const resourceGroupName = process.env["AUTOMATION_RESOURCE_GROUP"] || "mygroup";
-  const automationAccountName = "myaccount";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "51766542-3ed7-4a72-a187-0c8ab644ddab";
   const client = new AutomationClient(credential, subscriptionId);
-  const result = await client.softwareUpdateConfigurationRuns.list(
-    resourceGroupName,
-    automationAccountName,
-  );
+  const result = await client.softwareUpdateConfigurationRuns.list("mygroup", "myaccount");
   console.log(result);
 }
 

@@ -2,10 +2,9 @@
 // Licensed under the MIT License.
 
 import { describe, it, expect, vi } from "vitest";
-import type { MockInstance } from "vitest";
 import { WebPubSubClient } from "../src/webPubSubClient.js";
 import { TestWebSocketClient } from "./testWebSocketClient.js";
-import { getConnectedPayload } from "./utils.js";
+import { getConnectedPayload, makeStartable } from "./utils.js";
 import { InvocationError } from "../src/errors/index.js";
 
 describe("WebPubSubClient invoke support", () => {
@@ -139,15 +138,3 @@ describe("WebPubSubClient invoke support", () => {
     client.stop();
   });
 });
-
-function makeStartable(ws: TestWebSocketClient): MockInstance<(fn: () => void) => void> {
-  const onOpen = ws.onopen.bind(ws);
-  const stub = vi.spyOn(ws, "onopen");
-  stub.mockImplementationOnce((...args) => {
-    setTimeout(() => {
-      onOpen(...args);
-      ws.invokeopen.call(ws);
-    });
-  });
-  return stub;
-}

@@ -300,10 +300,7 @@ export function identityDeserializer(item: any): Identity {
 
 /** The identity type. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the Azure Health Bot */
 export type ResourceIdentityType =
-  | "SystemAssigned"
-  | "UserAssigned"
-  | "SystemAssigned, UserAssigned"
-  | "None";
+  "SystemAssigned" | "UserAssigned" | "SystemAssigned, UserAssigned" | "None";
 
 export function userAssignedIdentityRecordSerializer(
   item: Record<string, UserAssignedIdentity>,

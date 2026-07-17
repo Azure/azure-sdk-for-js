@@ -23,6 +23,7 @@ export * from "#platform/policies/StorageBrowserPolicyV2";
 export * from "#platform/policies/StorageCorrectContentLengthPolicy";
 export * from "./policies/StorageRetryPolicyV2.js";
 export * from "#platform/policies/StorageSharedKeyCredentialPolicyV2";
+export * from "./policies/StorageRedirectRangeHeaderPolicy.js";
 export * from "./policies/StorageRequestFailureDetailsParserPolicy.js";
 export * from "#platform/credentials/UserDelegationKeyCredential";
 export type { UserDelegationKey } from "./credentials/UserDelegationKey.js";

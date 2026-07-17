@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes a token from a container registry.
  *
  * @summary deletes a token from a container registry.
- * x-ms-original-file: 2026-01-01-preview/TokenDelete.json
+ * x-ms-original-file: 2026-03-01-preview/TokenDelete.json
  */
 async function tokenDelete() {
   const credential = new DefaultAzureCredential();

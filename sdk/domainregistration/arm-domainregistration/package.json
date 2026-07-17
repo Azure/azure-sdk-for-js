@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-domainregistration",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A generated SDK for DomainRegistrationManagementClient.",
   "engines": {
     "node": ">=22.0.0"

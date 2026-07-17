@@ -13,3 +13,4 @@ export {
   type SchemaRegistryClientOptions,
   type SchemaProperties,
 } from "./models.js";
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

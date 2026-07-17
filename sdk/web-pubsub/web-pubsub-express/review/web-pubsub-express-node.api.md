@@ -71,6 +71,18 @@ export interface DisconnectedRequest {
 }
 
 // @public
+export interface GroupJoinedRequest {
+    context: ConnectionContext;
+    group: string;
+}
+
+// @public
+export interface GroupLeftRequest {
+    context: ConnectionContext;
+    group: string;
+}
+
+// @public
 export interface MqttConnectErrorResponse {
     mqtt: MqttConnectErrorResponseProperties;
 }
@@ -240,6 +252,8 @@ export interface WebPubSubEventHandlerOptions {
     handleUserEvent?: (userEventRequest: UserEventRequest, userEventResponse: UserEventResponseHandler) => void;
     onConnected?: (connectedRequest: ConnectedRequest) => void;
     onDisconnected?: (disconnectedRequest: DisconnectedRequest) => void;
+    onGroupJoined?: (groupJoinedRequest: GroupJoinedRequest) => void;
+    onGroupLeft?: (groupLeftRequest: GroupLeftRequest) => void;
     path?: string;
 }
 

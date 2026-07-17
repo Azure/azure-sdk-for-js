@@ -1536,3 +1536,4 @@ export class CertificateClient {
     return poller;
   }
 }
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

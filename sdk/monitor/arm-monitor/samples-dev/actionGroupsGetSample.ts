@@ -1,25 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Get an action group.
- *
- * @summary Get an action group.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2023-01-01/examples/getActionGroup.json
- */
-
 import { MonitorClient } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to get an action group.
+ *
+ * @summary get an action group.
+ * x-ms-original-file: 2024-10-01-preview/getActionGroup.json
+ */
 async function getAnActionGroup(): Promise<void> {
-  const subscriptionId =
-    process.env["MONITOR_SUBSCRIPTION_ID"] || "187f412d-1758-44d9-b052-169e2564721d";
-  const resourceGroupName = process.env["MONITOR_RESOURCE_GROUP"] || "Default-NotificationRules";
-  const actionGroupName = "SampleActionGroup";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "187f412d-1758-44d9-b052-169e2564721d";
   const client = new MonitorClient(credential, subscriptionId);
-  const result = await client.actionGroups.get(resourceGroupName, actionGroupName);
+  const result = await client.actionGroups.get("Default-NotificationRules", "SampleActionGroup");
   console.log(result);
 }
 

@@ -18,7 +18,7 @@ import type {
   FleetCreateOptionalParams,
   FleetGetOptionalParams,
 } from "../../api/fleet/options.js";
-import type { FleetResource } from "../../models/models.js";
+import type { FleetResource, FleetResourceUpdate } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
 import { getSimplePoller } from "../../static-helpers/simplePollerHelpers.js";
@@ -34,11 +34,6 @@ export interface FleetOperations {
     options?: FleetListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<FleetResource>;
   /** Deletes an existing Azure Cosmos DB Fleet. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     fleetName: string,
@@ -60,6 +55,7 @@ export interface FleetOperations {
   update: (
     resourceGroupName: string,
     fleetName: string,
+    body: FleetResourceUpdate,
     options?: FleetUpdateOptionalParams,
   ) => Promise<FleetResource>;
   /** Creates an Azure Cosmos DB fleet under a subscription. */
@@ -102,8 +98,12 @@ function _getFleet(context: CosmosDBManagementContext) {
     ) => {
       return await $delete(context, resourceGroupName, fleetName, options);
     },
-    update: (resourceGroupName: string, fleetName: string, options?: FleetUpdateOptionalParams) =>
-      update(context, resourceGroupName, fleetName, options),
+    update: (
+      resourceGroupName: string,
+      fleetName: string,
+      body: FleetResourceUpdate,
+      options?: FleetUpdateOptionalParams,
+    ) => update(context, resourceGroupName, fleetName, body, options),
     create: (
       resourceGroupName: string,
       fleetName: string,

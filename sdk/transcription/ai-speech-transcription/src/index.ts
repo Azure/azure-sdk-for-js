@@ -18,3 +18,4 @@ export type {
 } from "./models/index.js";
 export type { TranscriptionClientOptions } from "./api/index.js";
 export type { FileContents };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

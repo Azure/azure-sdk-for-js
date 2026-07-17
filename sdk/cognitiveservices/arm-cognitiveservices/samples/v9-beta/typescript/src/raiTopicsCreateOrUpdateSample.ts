@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create the rai topic associated with the Azure OpenAI account.
  *
  * @summary create the rai topic associated with the Azure OpenAI account.
- * x-ms-original-file: 2026-03-15-preview/PutRaiTopic.json
+ * x-ms-original-file: 2026-05-15-preview/PutRaiTopic.json
  */
 async function putRaiTopic(): Promise<void> {
   const credential = new DefaultAzureCredential();

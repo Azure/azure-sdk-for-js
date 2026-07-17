@@ -1,0 +1,90 @@
+trigger:
+  branches:
+    include:
+      - main
+      - feature/*
+      - release/*
+      - hotfix/*
+  paths:
+    include:
+      - eng/tools/js-sdk-release-tools-src/
+
+pr:
+  branches:
+    include:
+      - main
+      - feature/*
+      - release/*
+      - hotfix/*
+  paths:
+    include:
+      - eng/tools/js-sdk-release-tools-src/
+
+extends:
+  template: /eng/pipelines/templates/stages/1es-redirect.yml
+  parameters:
+    stages:
+      - stage: InstallAndBuild
+        displayName: "js-sdk-release-tools validation"
+        variables:
+          - template: /eng/pipelines/templates/variables/globals.yml
+          - template: /eng/pipelines/templates/variables/image.yml
+          - name: NodeVersion
+            value: "22.x"
+        jobs:
+          - job: Build
+            displayName: "Build and Test"
+            pool:
+              name: $(LINUXPOOL)
+              image: $(LINUXVMIMAGE)
+              os: linux
+            steps:
+              - task: NodeTool@0
+                inputs:
+                  versionSpec: "$(NodeVersion)"
+                displayName: "Install Node.js"
+
+              - template: /eng/common/pipelines/templates/steps/create-authenticated-npmrc.yml
+
+              - script: |
+                  npm ci
+                displayName: "npm ci"
+                workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/js-sdk-release-tools-src
+
+              - script: |
+                  npm run format:check
+                displayName: "Prettier format check"
+                workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/js-sdk-release-tools-src
+
+              - script: |
+                  npm run build
+                displayName: "npm run build"
+                workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/js-sdk-release-tools-src
+
+              - script: |
+                  npm run test
+                displayName: "npm run test"
+                workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/js-sdk-release-tools-src
+
+              - script: |
+                  npm pack
+                displayName: "npm pack"
+                workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/js-sdk-release-tools-src
+
+              - script: "cp azure-tools-js-sdk-release-tools-*.tgz $(Build.ArtifactStagingDirectory)"
+                displayName: "copy to staging dir"
+                workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/js-sdk-release-tools-src
+
+              - template: /eng/common/pipelines/templates/steps/publish-1es-artifact.yml
+                parameters:
+                  ArtifactName: drop
+                  ArtifactPath: $(Build.ArtifactStagingDirectory)
+
+      - ${{ if and(in(variables['Build.Reason'], 'Manual', ''), eq(variables['System.TeamProject'], 'internal')) }}:
+          - stage: Publish
+            displayName: Publish
+            dependsOn: InstallAndBuild
+            jobs:
+              - template: /eng/common/pipelines/templates/jobs/npm-publish.yml
+                parameters:
+                  ArtifactName: drop

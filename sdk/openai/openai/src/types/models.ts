@@ -201,8 +201,7 @@ export interface AzureCosmosDBChatExtensionParameters {
    * authentication.
    */
   authentication:
-    | OnYourDataAuthenticationOptionsParent
-    | OnYourDataConnectionStringAuthenticationOptions;
+    OnYourDataAuthenticationOptionsParent | OnYourDataConnectionStringAuthenticationOptions;
   /** The configured top number of documents to feature for the configured query. */
   top_n_documents?: number;
   /** Whether queries should be restricted to use of indexed data. */
@@ -464,8 +463,7 @@ export interface MongoDBChatExtensionParameters {
    * authentication.
    */
   authentication:
-    | OnYourDataAuthenticationOptionsParent
-    | OnYourDataUsernameAndPasswordAuthenticationOptions;
+    OnYourDataAuthenticationOptionsParent | OnYourDataUsernameAndPasswordAuthenticationOptions;
   /** The configured top number of documents to feature for the configured query. */
   top_n_documents?: number;
   /** Whether queries should be restricted to use of indexed data. */
@@ -498,8 +496,7 @@ export interface MongoDBChatExtensionParameters {
   fields_mapping: MongoDBFieldMappingOptions;
   /** The embedding dependency for vector search. */
   embedding_dependency:
-    | OnYourDataEndpointVectorizationSource
-    | OnYourDataDeploymentNameVectorizationSource;
+    OnYourDataEndpointVectorizationSource | OnYourDataDeploymentNameVectorizationSource;
 }
 
 /** Optional settings to control how fields are processed when using a configured MongoDB resource. */

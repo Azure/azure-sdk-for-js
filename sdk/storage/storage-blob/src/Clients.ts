@@ -1046,11 +1046,7 @@ export class BlobClient extends StorageClient {
   constructor(
     urlOrConnectionString: string,
     credentialOrPipelineOrContainerName?:
-      | string
-      | StorageSharedKeyCredential
-      | AnonymousCredential
-      | TokenCredential
-      | PipelineLike,
+      string | StorageSharedKeyCredential | AnonymousCredential | TokenCredential | PipelineLike,
     blobNameOrOptions?: string | BlobClientOptions,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
@@ -2769,11 +2765,7 @@ export class AppendBlobClient extends BlobClient {
   constructor(
     urlOrConnectionString: string,
     credentialOrPipelineOrContainerName:
-      | string
-      | StorageSharedKeyCredential
-      | AnonymousCredential
-      | TokenCredential
-      | PipelineLike,
+      string | StorageSharedKeyCredential | AnonymousCredential | TokenCredential | PipelineLike,
     blobNameOrOptions?: string | AppendBlobClientOptions,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
@@ -3401,16 +3393,12 @@ export interface BlockBlobQueryOptions extends CommonOptions {
    * Configurations for the query input.
    */
   inputTextConfiguration?:
-    | BlobQueryJsonTextConfiguration
-    | BlobQueryCsvTextConfiguration
-    | BlobQueryParquetConfiguration;
+    BlobQueryJsonTextConfiguration | BlobQueryCsvTextConfiguration | BlobQueryParquetConfiguration;
   /**
    * Configurations for the query output.
    */
   outputTextConfiguration?:
-    | BlobQueryJsonTextConfiguration
-    | BlobQueryCsvTextConfiguration
-    | BlobQueryArrowConfiguration;
+    BlobQueryJsonTextConfiguration | BlobQueryCsvTextConfiguration | BlobQueryArrowConfiguration;
   /**
    * Callback to receive events on the progress of query operation.
    */
@@ -3842,11 +3830,7 @@ export class BlockBlobClient extends BlobClient {
   constructor(
     urlOrConnectionString: string,
     credentialOrPipelineOrContainerName?:
-      | string
-      | StorageSharedKeyCredential
-      | AnonymousCredential
-      | TokenCredential
-      | PipelineLike,
+      string | StorageSharedKeyCredential | AnonymousCredential | TokenCredential | PipelineLike,
     blobNameOrOptions?: string | BlockBlobClientOptions,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
@@ -5184,11 +5168,7 @@ export class PageBlobClient extends BlobClient {
   constructor(
     urlOrConnectionString: string,
     credentialOrPipelineOrContainerName:
-      | string
-      | StorageSharedKeyCredential
-      | AnonymousCredential
-      | TokenCredential
-      | PipelineLike,
+      string | StorageSharedKeyCredential | AnonymousCredential | TokenCredential | PipelineLike,
     blobNameOrOptions?: string | PageBlobClientOptions,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
