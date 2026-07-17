@@ -110,17 +110,17 @@ export default leafCommand(commandInfo, async (options) => {
   const resolvedCustomized = path.resolve(customizedDirectory);
   const resolvedProjectRoot = path.resolve(info.path);
 
-  // Validate that neither source nor target directory is the project root
-  if (resolvedCustomized === resolvedProjectRoot) {
+  // Validate that neither source nor target directory escapes the project root
+  if (!resolvedCustomized.startsWith(resolvedProjectRoot + path.sep)) {
     log(
-      "❌ The target directory must not be the project root. Please specify a subdirectory (e.g., 'src').",
+      "❌ The target directory must be a subdirectory of the project root (e.g., 'src').",
     );
     return false;
   }
 
-  if (resolvedGenerated === resolvedProjectRoot) {
+  if (!resolvedGenerated.startsWith(resolvedProjectRoot + path.sep)) {
     log(
-      "❌ The source directory must not be the project root. Please specify a subdirectory (e.g., 'generated').",
+      "❌ The source directory must be a subdirectory of the project root (e.g., 'generated').",
     );
     return false;
   }
