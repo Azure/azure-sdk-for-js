@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.node.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-containerservicepreparedimgspec": ["../src/index.ts"],
+      "@azure/arm-containerservicepreparedimgspec/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}
