@@ -1,4 +1,11 @@
 {
   "extends": "../../../../eng/tsconfigs/src.browser.json",
-  "include": ["../src/index.ts"]
+  "include": ["../src/index.ts"],
+  "compilerOptions": {
+    // rhea and rhea-promise stop including `///` reference to "node", but their source
+    // still use NodeJS types, which caused error now that TypeScript v7 no longer includes
+    // @types/node implicitly.
+    "types": ["node"]
+  }
+
 }
