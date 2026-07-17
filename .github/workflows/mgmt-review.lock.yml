@@ -551,6 +551,10 @@ jobs:
         run: bash "${RUNNER_TEMP}/gh-aw/actions/clone_repo_memory_branch.sh"
       - name: Checkout PR branch
         id: checkout-pr
+        # STOPGAP: gh-aw emits this step even with `checkout: false`, so it fails with
+        # "not a git repository". Agent uses GitHub MCP (no clone needed), so tolerate it.
+        # Guarded by eng/scripts/verify-agentic-checkout-guard.ps1. Drop once gh-aw#30791 is fixed.
+        continue-on-error: true
         if: |
           github.event.pull_request || github.event.issue.pull_request || github.event_name == 'workflow_dispatch' && fromJSON(github.event.inputs.aw_context || '{}').item_type == 'pull_request'
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9.0.0
