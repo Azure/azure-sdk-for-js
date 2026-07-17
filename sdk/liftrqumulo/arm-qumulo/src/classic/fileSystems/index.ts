@@ -88,7 +88,6 @@ export interface FileSystemsOperations {
     options?: FileSystemsGetOptionalParams,
   ) => Promise<FileSystemResource>;
 }
-
 function _getFileSystems(context: QumuloStorageContext) {
   return {
     listBySubscription: (options?: FileSystemsListBySubscriptionOptionalParams) =>
@@ -155,7 +154,6 @@ function _getFileSystems(context: QumuloStorageContext) {
     ) => get(context, resourceGroupName, fileSystemName, options),
   };
 }
-
 export function _getFileSystemsOperations(context: QumuloStorageContext): FileSystemsOperations {
   return {
     ..._getFileSystems(context),

@@ -65,7 +65,6 @@ export async function _listBySubscriptionDeserialize(
 
   return _fileSystemResourceListResultDeserializer(result.body);
 }
-
 /** List FileSystemResource resources by subscription ID */
 export function listBySubscription(
   context: Client,
@@ -117,7 +116,6 @@ export async function _listByResourceGroupDeserialize(
 
   return _fileSystemResourceListResultDeserializer(result.body);
 }
-
 /** List FileSystemResource resources by resource group */
 export function listByResourceGroup(
   context: Client,
@@ -167,7 +165,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Delete a FileSystemResource */
 export function $delete(
   context: Client,
@@ -226,7 +223,6 @@ export async function _updateDeserialize(
 
   return fileSystemResourceDeserializer(result.body);
 }
-
 /** Update a FileSystemResource */
 export async function update(
   context: Client,
@@ -281,7 +277,6 @@ export async function _createOrUpdateDeserialize(
 
   return fileSystemResourceDeserializer(result.body);
 }
-
 /** Create a FileSystemResource */
 export function createOrUpdate(
   context: Client,
@@ -337,7 +332,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Fi
 
   return fileSystemResourceDeserializer(result.body);
 }
-
 /** Get a FileSystemResource */
 export async function get(
   context: Client,
