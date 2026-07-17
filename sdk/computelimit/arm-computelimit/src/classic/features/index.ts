@@ -44,7 +44,6 @@ export interface FeaturesOperations {
     options?: FeaturesGetOptionalParams,
   ) => Promise<Feature>;
 }
-
 function _getFeatures(context: ComputeLimitContext) {
   return {
     disable: (location: string, featureName: string, options?: FeaturesDisableOptionalParams) =>
@@ -59,7 +58,6 @@ function _getFeatures(context: ComputeLimitContext) {
       get(context, location, featureName, options),
   };
 }
-
 export function _getFeaturesOperations(context: ComputeLimitContext): FeaturesOperations {
   return {
     ..._getFeatures(context),

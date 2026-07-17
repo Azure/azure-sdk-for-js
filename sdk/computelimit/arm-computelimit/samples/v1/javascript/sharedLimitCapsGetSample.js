@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the shared limit cap configuration for a VM family, as visible to the caller's subscription.
  *
  * @summary gets the shared limit cap configuration for a VM family, as visible to the caller's subscription.
- * x-ms-original-file: 2026-07-01/SharedLimitCaps_Get.json
+ * x-ms-original-file: 2026-07-31/SharedLimitCaps_Get.json
  */
 async function getASharedLimitCapForAVMFamily() {
   const credential = new DefaultAzureCredential();

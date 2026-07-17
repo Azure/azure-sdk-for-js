@@ -9,6 +9,7 @@ exports:
   "./api/vmFamilies": "./src/api/vmFamilies/index.ts"
   "./api/features": "./src/api/features/index.ts"
   "./api/sharedLimits": "./src/api/sharedLimits/index.ts"
+  "./api/trustedHostSubscriptions": "./src/api/trustedHostSubscriptions/index.ts"
   "./api/guestSubscriptions": "./src/api/guestSubscriptions/index.ts"
   "./api/operations": "./src/api/operations/index.ts"
   "./models": "./src/models/index.ts"

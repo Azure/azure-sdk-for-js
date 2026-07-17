@@ -48,7 +48,6 @@ export interface MemberCapOverridesOperations {
     options?: MemberCapOverridesGetOptionalParams,
   ) => Promise<MemberCapOverride>;
 }
-
 function _getMemberCapOverrides(context: ComputeLimitContext) {
   return {
     listByParent: (
@@ -77,7 +76,6 @@ function _getMemberCapOverrides(context: ComputeLimitContext) {
     ) => get(context, location, vmFamilyName, memberSubscriptionId, options),
   };
 }
-
 export function _getMemberCapOverridesOperations(
   context: ComputeLimitContext,
 ): MemberCapOverridesOperations {

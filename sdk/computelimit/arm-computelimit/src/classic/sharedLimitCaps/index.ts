@@ -61,7 +61,6 @@ export interface SharedLimitCapsOperations {
     options?: SharedLimitCapsGetOptionalParams,
   ) => Promise<SharedLimitCap>;
 }
-
 function _getSharedLimitCaps(context: ComputeLimitContext) {
   return {
     setMemberCapOverrides: (
@@ -89,7 +88,6 @@ function _getSharedLimitCaps(context: ComputeLimitContext) {
       get(context, location, vmFamilyName, options),
   };
 }
-
 export function _getSharedLimitCapsOperations(
   context: ComputeLimitContext,
 ): SharedLimitCapsOperations {

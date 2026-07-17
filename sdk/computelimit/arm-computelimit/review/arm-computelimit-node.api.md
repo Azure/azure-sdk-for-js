@@ -38,6 +38,7 @@ export class ComputeLimitClient {
     readonly pipeline: Pipeline;
     readonly sharedLimitCaps: SharedLimitCapsOperations;
     readonly sharedLimits: SharedLimitsOperations;
+    readonly trustedHostSubscriptions: TrustedHostSubscriptionsOperations;
     readonly vmFamilies: VmFamiliesOperations;
 }
 
@@ -196,7 +197,8 @@ export enum KnownVersions {
     V20260320 = "2026-03-20",
     V20260430 = "2026-04-30",
     V20260601 = "2026-06-01",
-    V20260701 = "2026-07-01"
+    V20260701 = "2026-07-01",
+    V20260731 = "2026-07-31"
 }
 
 // @public
@@ -423,6 +425,34 @@ export interface SystemData {
     lastModifiedAt?: Date;
     lastModifiedBy?: string;
     lastModifiedByType?: CreatedByType;
+}
+
+// @public
+export interface TrustedHostSubscription extends ProxyResource {
+}
+
+// @public
+export interface TrustedHostSubscriptionsCreateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface TrustedHostSubscriptionsDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface TrustedHostSubscriptionsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface TrustedHostSubscriptionsListBySubscriptionLocationResourceOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface TrustedHostSubscriptionsOperations {
+    create: (location: string, hostSubscriptionId: string, resource: TrustedHostSubscription, options?: TrustedHostSubscriptionsCreateOptionalParams) => Promise<TrustedHostSubscription>;
+    delete: (location: string, hostSubscriptionId: string, options?: TrustedHostSubscriptionsDeleteOptionalParams) => Promise<void>;
+    get: (location: string, hostSubscriptionId: string, options?: TrustedHostSubscriptionsGetOptionalParams) => Promise<TrustedHostSubscription>;
+    listBySubscriptionLocationResource: (location: string, options?: TrustedHostSubscriptionsListBySubscriptionLocationResourceOptionalParams) => PagedAsyncIterableIterator<TrustedHostSubscription>;
 }
 
 // @public

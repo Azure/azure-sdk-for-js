@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to removes the per-member cap override for a member subscription.
  *
  * @summary removes the per-member cap override for a member subscription.
- * x-ms-original-file: 2026-07-01/MemberCapOverrides_Delete.json
+ * x-ms-original-file: 2026-07-31/MemberCapOverrides_Delete.json
  */
 async function deleteASingleMemberCapOverride(): Promise<void> {
   const credential = new DefaultAzureCredential();
