@@ -16,6 +16,7 @@ trigger:
       - sdk/containerservice/arm-containerservicefleet
       - sdk/containerservice/arm-containerservicesafeguards
       - sdk/containerservice/arm-containerservicepreparedimagespecification
+      - sdk/containerservice/arm-containerservicepreparedimgspec
 pr:
   branches:
     include:
@@ -33,6 +34,7 @@ pr:
       - sdk/containerservice/arm-containerservicefleet
       - sdk/containerservice/arm-containerservicesafeguards
       - sdk/containerservice/arm-containerservicepreparedimagespecification
+      - sdk/containerservice/arm-containerservicepreparedimgspec
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -50,3 +52,5 @@ extends:
         safeName: azurearmcontainerservicesafeguards
       - name: azure-arm-containerservicepreparedimagespecification
         safeName: azurearmcontainerservicepreparedimagespecification
+      - name: azure-arm-containerservicepreparedimgspec
+        safeName: azurearmcontainerservicepreparedimgspec
