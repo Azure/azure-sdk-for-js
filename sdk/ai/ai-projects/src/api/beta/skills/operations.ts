@@ -26,7 +26,7 @@ import {
 } from "../../../models/models.js";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { buildPagedAsyncIterator } from "../../../static-helpers/pagingHelpers.js";
-import { getBinaryStreamResponse } from "../../../static-helpers/serialization/get-binary-stream-response.js";
+import { getBinaryStreamResponse } from "#platform/static-helpers/serialization/get-binary-stream-response";
 import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
 import type {
   DeleteVersionOptionalParams,
@@ -44,16 +44,18 @@ import type {
 import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 
-export function _$deleteSend(
+export function _deleteVersionSend(
   context: Client,
   name: string,
-  options: BetaSkillsDeleteOptionalParams = { requestOptions: {} },
+  version: string,
+  options: DeleteVersionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "Skills=V1Preview";
   const path = expandUrlTemplate(
-    "/skills/{name}{?api-version}",
+    "/skills/{name}/versions/{version}{?api-version}",
     {
       name: name,
+      version: version,
       "api-version": context.apiVersion,
     },
     {
@@ -70,142 +72,31 @@ export function _$deleteSend(
   });
 }
 
-export async function _$deleteDeserialize(
+export async function _deleteVersionDeserialize(
   result: PathUncheckedResponse,
-): Promise<DeleteSkillResponse> {
+): Promise<DeleteSkillVersionResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
-  return deleteSkillResponseDeserializer(result.body);
+  return deleteSkillVersionResponseDeserializer(result.body);
 }
 
-/** Deletes a skill. */
-export async function $delete(
+/** Removes the specified version of a skill. */
+export async function deleteVersion(
   context: Client,
   name: string,
-  options: BetaSkillsDeleteOptionalParams = { requestOptions: {} },
-): Promise<DeleteSkillResponse> {
-  const result = await _$deleteSend(context, name, options);
-  return _$deleteDeserialize(result);
-}
-
-export function _updateSend(
-  context: Client,
-  name: string,
-  defaultVersion: string,
-  options: BetaSkillsUpdateOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const foundryFeatures = "Skills=V1Preview";
-  const path = expandUrlTemplate(
-    "/skills/{name}{?api-version}",
-    {
-      name: name,
-      "api-version": context.apiVersion,
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: "application/json",
-    headers: {
-      "foundry-features": foundryFeatures,
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: { default_version: defaultVersion },
-  });
-}
-
-export async function _updateDeserialize(result: PathUncheckedResponse): Promise<Skill> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
-    throw error;
-  }
-
-  return skillDeserializer(result.body);
-}
-
-/** Updates an existing skill. */
-export async function update(
-  context: Client,
-  name: string,
-  defaultVersion: string,
-  options: BetaSkillsUpdateOptionalParams = { requestOptions: {} },
-): Promise<Skill> {
-  const result = await _updateSend(context, name, defaultVersion, options);
-  return _updateDeserialize(result);
-}
-
-export function _listSend(
-  context: Client,
-  options: BetaSkillsListOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const foundryFeatures = "Skills=V1Preview";
-  const path = expandUrlTemplate(
-    "/skills{?limit,order,after,before,api-version}",
-    {
-      limit: options?.limit,
-      order: options?.order,
-      after: options?.after,
-      before: options?.before,
-      "api-version": context.apiVersion,
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      "foundry-features": foundryFeatures,
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
-}
-
-export async function _listDeserialize(
-  result: PathUncheckedResponse,
-): Promise<_AgentsPagedResultSkill> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
-    throw error;
-  }
-
-  return _agentsPagedResultSkillDeserializer(result.body);
-}
-
-/** Returns the list of all skills. */
-export function list(
-  context: Client,
-  options: BetaSkillsListOptionalParams = { requestOptions: {} },
-): PagedAsyncIterableIterator<Skill> {
-  return buildPagedAsyncIterator(
-    context,
-    () => _listSend(context, options),
-    _listDeserialize,
-    ["200"],
-    {
-      itemName: "data",
-      apiVersion: context.apiVersion,
-      nextPageRequestOptions: { headers: { "foundry-features": "Skills=V1Preview" } },
-      cursorFieldName: "last_id",
-      hasMoreFieldName: "has_more",
-    },
-  );
+  version: string,
+  options: DeleteVersionOptionalParams = { requestOptions: {} },
+): Promise<DeleteSkillVersionResponse> {
+  const result = await _deleteVersionSend(context, name, version, options);
+  return _deleteVersionDeserialize(result);
 }
 
 export function _downloadVersionSend(
@@ -242,7 +133,9 @@ export async function _downloadVersionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -250,7 +143,7 @@ export async function _downloadVersionDeserialize(
   return { blobBody: result.blobBody, readableStreamBody: result.readableStreamBody };
 }
 
-/** Download the zip content for a specific version of a skill. */
+/** Downloads the zip content for a specific version of a skill. */
 export async function downloadVersion(
   context: Client,
   name: string,
@@ -294,7 +187,9 @@ export async function _downloadDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -302,7 +197,7 @@ export async function _downloadDeserialize(
   return { blobBody: result.blobBody, readableStreamBody: result.readableStreamBody };
 }
 
-/** Download the zip content for the default version of a skill. */
+/** Downloads the zip content for the default version of a skill. */
 export async function download(
   context: Client,
   name: string,
@@ -311,54 +206,6 @@ export async function download(
   const streamableMethod = _downloadSend(context, name, options);
   const result = await getBinaryStreamResponse(streamableMethod);
   return _downloadDeserialize(result);
-}
-
-export function _getSend(
-  context: Client,
-  name: string,
-  options: BetaSkillsGetOptionalParams = { requestOptions: {} },
-): StreamableMethod {
-  const foundryFeatures = "Skills=V1Preview";
-  const path = expandUrlTemplate(
-    "/skills/{name}{?api-version}",
-    {
-      name: name,
-      "api-version": context.apiVersion,
-    },
-    {
-      allowReserved: options?.requestOptions?.skipUrlEncoding,
-    },
-  );
-  return context.path(path).get({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      "foundry-features": foundryFeatures,
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
-}
-
-export async function _getDeserialize(result: PathUncheckedResponse): Promise<Skill> {
-  const expectedStatuses = ["200"];
-  if (!expectedStatuses.includes(result.status)) {
-    const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
-    throw error;
-  }
-
-  return skillDeserializer(result.body);
-}
-
-/** Retrieves a skill. */
-export async function get(
-  context: Client,
-  name: string,
-  options: BetaSkillsGetOptionalParams = { requestOptions: {} },
-): Promise<Skill> {
-  const result = await _getSend(context, name, options);
-  return _getDeserialize(result);
 }
 
 export function _getVersionSend(
@@ -393,7 +240,9 @@ export async function _getVersionDeserialize(result: PathUncheckedResponse): Pro
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -401,7 +250,7 @@ export async function _getVersionDeserialize(result: PathUncheckedResponse): Pro
   return skillVersionDeserializer(result.body);
 }
 
-/** Retrieve a specific version of a skill. */
+/** Retrieves the specified version of a skill by name and version identifier. */
 export async function getVersion(
   context: Client,
   name: string,
@@ -448,7 +297,9 @@ export async function _listVersionsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -456,7 +307,7 @@ export async function _listVersionsDeserialize(
   return _agentsPagedResultSkillVersionDeserializer(result.body);
 }
 
-/** List all versions of a skill. */
+/** Returns the available versions for the specified skill. */
 export function listVersions(
   context: Client,
   name: string,
@@ -506,7 +357,9 @@ export async function _createFromFilesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -562,7 +415,9 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -580,18 +435,16 @@ export async function create(
   return _createDeserialize(result);
 }
 
-export function _deleteVersionSend(
+export function _$deleteSend(
   context: Client,
   name: string,
-  version: string,
-  options: DeleteVersionOptionalParams = { requestOptions: {} },
+  options: BetaSkillsDeleteOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const foundryFeatures = "Skills=V1Preview";
   const path = expandUrlTemplate(
-    "/skills/{name}/versions/{version}{?api-version}",
+    "/skills/{name}{?api-version}",
     {
       name: name,
-      version: version,
       "api-version": context.apiVersion,
     },
     {
@@ -608,27 +461,196 @@ export function _deleteVersionSend(
   });
 }
 
-export async function _deleteVersionDeserialize(
+export async function _$deleteDeserialize(
   result: PathUncheckedResponse,
-): Promise<DeleteSkillVersionResponse> {
+): Promise<DeleteSkillResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
-  return deleteSkillVersionResponseDeserializer(result.body);
+  return deleteSkillResponseDeserializer(result.body);
 }
 
-/** Delete a specific version of a skill. */
-export async function deleteVersion(
+/** Removes the specified skill and its associated versions. */
+export async function $delete(
   context: Client,
   name: string,
-  version: string,
-  options: DeleteVersionOptionalParams = { requestOptions: {} },
-): Promise<DeleteSkillVersionResponse> {
-  const result = await _deleteVersionSend(context, name, version, options);
-  return _deleteVersionDeserialize(result);
+  options: BetaSkillsDeleteOptionalParams = { requestOptions: {} },
+): Promise<DeleteSkillResponse> {
+  const result = await _$deleteSend(context, name, options);
+  return _$deleteDeserialize(result);
+}
+
+export function _updateSend(
+  context: Client,
+  name: string,
+  defaultVersion: string,
+  options: BetaSkillsUpdateOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const foundryFeatures = "Skills=V1Preview";
+  const path = expandUrlTemplate(
+    "/skills/{name}{?api-version}",
+    {
+      name: name,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: {
+      "foundry-features": foundryFeatures,
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+    body: { default_version: defaultVersion },
+  });
+}
+
+export async function _updateDeserialize(result: PathUncheckedResponse): Promise<Skill> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return skillDeserializer(result.body);
+}
+
+/** Modifies the specified skill's configuration. */
+export async function update(
+  context: Client,
+  name: string,
+  defaultVersion: string,
+  options: BetaSkillsUpdateOptionalParams = { requestOptions: {} },
+): Promise<Skill> {
+  const result = await _updateSend(context, name, defaultVersion, options);
+  return _updateDeserialize(result);
+}
+
+export function _listSend(
+  context: Client,
+  options: BetaSkillsListOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const foundryFeatures = "Skills=V1Preview";
+  const path = expandUrlTemplate(
+    "/skills{?limit,order,after,before,api-version}",
+    {
+      limit: options?.limit,
+      order: options?.order,
+      after: options?.after,
+      before: options?.before,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      "foundry-features": foundryFeatures,
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _listDeserialize(
+  result: PathUncheckedResponse,
+): Promise<_AgentsPagedResultSkill> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return _agentsPagedResultSkillDeserializer(result.body);
+}
+
+/** Returns the skills available in the current project. */
+export function list(
+  context: Client,
+  options: BetaSkillsListOptionalParams = { requestOptions: {} },
+): PagedAsyncIterableIterator<Skill> {
+  return buildPagedAsyncIterator(
+    context,
+    () => _listSend(context, options),
+    _listDeserialize,
+    ["200"],
+    {
+      itemName: "data",
+      apiVersion: context.apiVersion,
+      nextPageRequestOptions: { headers: { "foundry-features": "Skills=V1Preview" } },
+      cursorFieldName: "last_id",
+      hasMoreFieldName: "has_more",
+    },
+  );
+}
+
+export function _getSend(
+  context: Client,
+  name: string,
+  options: BetaSkillsGetOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const foundryFeatures = "Skills=V1Preview";
+  const path = expandUrlTemplate(
+    "/skills/{name}{?api-version}",
+    {
+      name: name,
+      "api-version": context.apiVersion,
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).get({
+    ...operationOptionsToRequestParameters(options),
+    headers: {
+      "foundry-features": foundryFeatures,
+      accept: "application/json",
+      ...options.requestOptions?.headers,
+    },
+  });
+}
+
+export async function _getDeserialize(result: PathUncheckedResponse): Promise<Skill> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return skillDeserializer(result.body);
+}
+
+/** Retrieves the specified skill and its current configuration. */
+export async function get(
+  context: Client,
+  name: string,
+  options: BetaSkillsGetOptionalParams = { requestOptions: {} },
+): Promise<Skill> {
+  const result = await _getSend(context, name, options);
+  return _getDeserialize(result);
 }

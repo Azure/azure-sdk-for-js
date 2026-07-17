@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-peering",
-  "version": "2.2.0-beta.1",
+  "version": "2.2.0",
   "description": "A generated SDK for PeeringManagementClient.",
   "engines": {
     "node": ">=22.0.0"
@@ -376,6 +376,6 @@
       "azure"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-peering?view=azure-node-preview"
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-peering"
   }
 }

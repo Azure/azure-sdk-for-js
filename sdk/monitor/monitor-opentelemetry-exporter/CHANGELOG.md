@@ -1,8 +1,12 @@
 # Release History
 
-## 1.0.0-beta.43 (Unreleased)
+## 1.0.0-beta.44 (Unreleased)
 
-### Features Added
+### Bugs Fixed
+
+- Persist telemetry for later retry when no HTTP response is received. [#39277](https://github.com/Azure/azure-sdk-for-js/pull/39277)
+
+## 1.0.0-beta.43 (2026-07-01)
 
 ### Breaking Changes
 
@@ -10,11 +14,10 @@
 
 ### Bugs Fixed
 
+- Throttle startup replay of persisted telemetry with a randomized startup delay and jittered inter-batch spacing to avoid a fleet-wide thundering herd against the ingestion endpoint.
 - Fixed customer SDK Stats not counting telemetry that was dropped while saving to disk.
 - Clamp the server-controlled `Retry-After` header to a maximum of 24 hours, preventing a malformed value from overflowing `setTimeout` or stalling offline retries.
 - Refuse to follow server-issued 307/308 redirects whose `Location` header points outside the configured ingestion host or the known Azure Monitor / Application Insights ingestion domain suffixes. Previously a single attacker-controlled redirect could permanently re-point the exporter at a foreign host, causing every subsequent telemetry call (and the AAD bearer token attached by the auth policy) to be sent to the attacker.
-
-### Other Changes
 
 ## 1.0.0-beta.42 (2026-05-29)
 

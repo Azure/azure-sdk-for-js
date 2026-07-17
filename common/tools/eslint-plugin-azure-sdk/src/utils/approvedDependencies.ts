@@ -36,7 +36,9 @@ const APPROVED_DEPENDENCIES_PATH_SEGMENTS = ["eng", "approved-third-party-depend
 /**
  * The path, relative to the monorepo root, of the allow-list file.
  */
-export const APPROVED_DEPENDENCIES_RELATIVE_PATH = path.join(...APPROVED_DEPENDENCIES_PATH_SEGMENTS);
+export const APPROVED_DEPENDENCIES_RELATIVE_PATH = path.join(
+  ...APPROVED_DEPENDENCIES_PATH_SEGMENTS,
+);
 
 /**
  * The allow-list path as displayed in user-facing messages, always using

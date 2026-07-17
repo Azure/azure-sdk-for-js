@@ -36,7 +36,10 @@ extends:
         - 1ES.PT.Tag-refs/tags/canary
     settings:
       skipBuildTagsForGitHubPullRequests: true
-      networkIsolationPolicy: Permissive
+      ${{ if eq(variables['Build.DefinitionName'], 'js - npm-admin-tasks') }}:
+        networkIsolationPolicy: Permissive
+      ${{ else }}:
+        networkIsolationPolicy: Permissive, CFSClean
     sdl:
       ${{ if and(eq(variables['Build.DefinitionName'], 'js - core'), eq(variables['Build.SourceBranchName'], 'main'), eq(variables['System.TeamProject'], 'internal')) }}:
         autobaseline:

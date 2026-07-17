@@ -1,14 +1,50 @@
 # Release History
 
-## 4.1.0-beta.2 (Unreleased)
+## 4.1.0 (2026-07-01)
 
 ### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+  - Added operation group UpdateSummariesOperationGroupOperations
+  - Added operation UpdatesOperations.beginPrepare
+  - Added operation UpdatesOperations.beginPrepareAndWait
+  - Added operation UpdatesOperations.prepare
+  - Added Interface CheckUpdatesRequest
+  - Added Interface ClusterBillingProperties
+  - Added Interface EdgeDeviceDisks
+  - Added Interface NextBillingModel
+  - Added Interface SanAdapterIPConfig
+  - Added Interface SanAdapterProperties
+  - Added Interface SanClusterNetworkConfig
+  - Added Interface SanNetworks
+  - Added Interface StorageS2DConfig
+  - Added Interface StorageSanConfig
+  - Added Interface UpdatesPrepareOptionalParams
+  - Added Interface UpdateSummariesOperationGroupCheckHealthOptionalParams
+  - Added Interface UpdateSummariesOperationGroupCheckUpdatesOptionalParams
+  - Interface Cluster has a new optional parameter billingProperties
+  - Interface Cluster has a new optional parameter kind
+  - Interface Cluster has a new optional parameter storageType
+  - Interface ClusterProperties has a new optional parameter billingProperties
+  - Interface ClusterProperties has a new optional parameter storageType
+  - Interface DeploymentSettingHostNetwork has a new optional parameter sanNetworks
+  - Interface HciReportedProperties has a new optional parameter lastSyncTimestamp
+  - Interface HciStorageProfile has a new optional parameter disks
+  - Interface PerNodeRemoteSupportSession has a new optional parameter transcriptLocation
+  - Interface RemoteSupportProperties has a new optional parameter remoteSupportProvisioningState
+  - Interface ReportedProperties has a new optional parameter lastSyncTimestamp
+  - Interface Storage has a new optional parameter s2D
+  - Interface Storage has a new optional parameter san
+  - Interface Storage has a new optional parameter storageType
+  - Added Type Alias OverprovisioningRatio
+  - Added Type Alias RemoteSupportProvisioningState
+  - Added Type Alias StorageType
+  - Added Type Alias VolumeType
+  - Added Enum KnownOverprovisioningRatio
+  - Added Enum KnownRemoteSupportProvisioningState
+  - Added Enum KnownStorageType
+  - Added Enum KnownVolumeType
+  - Enum KnownState has a new value HealthCheckExpired
+  - Enum KnownState has a new value PendingOEMValidation
+  - Enum KnownVersions has a new value V20260430
 
 ## 4.1.0-beta.1 (2026-04-13)
 Compared with version 4.0.0

@@ -9,7 +9,6 @@ import type { Client, ClientOptions } from "@azure-rest/core-client";
 import { getClient } from "@azure-rest/core-client";
 import type { TokenCredential } from "@azure/core-auth";
 
-/** The Microsoft Azure Container Registry management API provides create, read, update, and delete functionality for Azure Container Registry resources including registries, replications, webhooks, tasks, runs, and other registry components. */
 export interface ContainerRegistryManagementContext extends Client {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -27,7 +26,6 @@ export interface ContainerRegistryManagementClientOptionalParams extends ClientO
   cloudSetting?: AzureSupportedClouds;
 }
 
-/** The Microsoft Azure Container Registry management API provides create, read, update, and delete functionality for Azure Container Registry resources including registries, replications, webhooks, tasks, runs, and other registry components. */
 export function createContainerRegistryManagement(
   credential: TokenCredential,
   subscriptionId: string,
@@ -44,7 +42,9 @@ export function createContainerRegistryManagement(
     ...options,
     userAgentOptions: { userAgentPrefix },
     loggingOptions: { logger: options.loggingOptions?.logger ?? logger.info },
-    credentials: { scopes: options.credentials?.scopes ?? [`${endpointUrl}/.default`] },
+    credentials: {
+      scopes: options.credentials?.scopes ?? ["https://management.azure.com/.default"],
+    },
   };
   const clientContext = getClient(endpointUrl, credential, updatedOptions);
   const apiVersion = options.apiVersion;

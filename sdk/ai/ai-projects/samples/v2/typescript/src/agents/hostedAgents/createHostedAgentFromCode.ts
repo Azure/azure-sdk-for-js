@@ -63,7 +63,7 @@ export async function main(): Promise<void> {
     memory: "1Gi",
     protocol_versions: [{ protocol: "responses", version: "1.0.0" }],
     code_configuration: {
-      runtime: "python_3_13",
+      runtime: "python_3_14",
       entry_point: ["python", "main.py"],
       dependency_resolution: dependencyResolution,
     },
@@ -81,11 +81,7 @@ export async function main(): Promise<void> {
     code: { contents: codeZip, contentType: "application/zip", filename: "code.zip" },
   };
 
-  const created = await project.beta.agents.createVersionFromCode(
-    agentName,
-    codeZipSha256,
-    content,
-  );
+  const created = await project.agents.createVersionFromCode(agentName, codeZipSha256, content);
   const createdVersion = created.version;
   console.log(`Created code-based hosted agent version: ${createdVersion}`);
 
@@ -106,9 +102,8 @@ export async function main(): Promise<void> {
 
   // ── Download the code for the version we just created ────────────────
   console.log("\nDownloading agent version code...");
-  const downloadResult = await project.beta.agents.downloadAgentCode(agentName, {
+  const downloadResult = await project.agents.downloadAgentCode(agentName, {
     agentVersion: createdVersion,
-    foundryFeatures: "CodeAgents=V1Preview",
   });
 
   const downloadedBytes = downloadResult.readableStreamBody

@@ -80,7 +80,7 @@ test/data/test_package.zip
 
 # Nuget packages and corresponding codegen sources
 .nuget
-packages
+/packages
 
 # Visual Studio #
 *.suo
@@ -139,6 +139,8 @@ docGen/
 # temporary test artifacts
 test/tmp/*
 common/smoke-test/run-manifest.json
+eng/tools/js-sdk-release-tools-src/.tmp/
+eng/tools/js-sdk-release-tools-src/.tmp-detect/
 
 # build artifacts
 dist

@@ -1,0 +1,12 @@
+{
+  "apiVersions": {
+    "compute": "2025-04-01",
+    "network": "2024-11-01-preview",
+    "storage": "2024-09-15"
+  },
+  "emitterVersion": "0.47.1",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "Microsoft.Test",
+    "CrossLanguageDefinitionId": {}
+  }
+}

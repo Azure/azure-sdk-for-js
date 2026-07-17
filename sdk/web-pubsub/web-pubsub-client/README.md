@@ -91,7 +91,7 @@ await client.joinGroup(groupName);
 await client.sendToGroup(groupName, "hello world", "text");
 ```
 
-### 5. Invoke upstream events (preview)
+### 5. Invoke upstream events
 
 ```ts snippet:ReadmeSampleInvokeEvent
 import { WebPubSubClient } from "@azure/web-pubsub-client";
@@ -151,6 +151,33 @@ await stream.end();
 ```
 
 `onGroupStream` returns a subscription with `close()` for unregistering the listener. Each callback receives a `GroupStream` that is async iterable over its fragments. `openGroupStream` returns a `GroupStreamWriter` you use to `write` fragments, `end` the stream successfully, or `abort` it with an error.
+
+### 6. Use group state
+
+```ts snippet:ReadmeSampleGroupState
+import { WebPubSubClient } from "@azure/web-pubsub-client";
+
+const client = new WebPubSubClient("<client-access-url>");
+await client.start();
+
+const groupName = "group1";
+await client.joinGroup(groupName);
+
+await client.setGroupState(groupName, { status: "typing" });
+const ownState = client.getGroupState(groupName);
+console.log(`Own status: ${ownState?.status}`);
+
+client.on("group-states-changed", (e) => {
+  if (e.group === groupName) {
+    const members = client.listGroupStates(groupName);
+    console.log(`Tracked state records: ${members.length}`);
+  }
+});
+
+await client.subscribeGroupStates(groupName);
+await client.clearGroupState(groupName);
+await client.unsubscribeGroupStates(groupName);
+```
 
 ---
 

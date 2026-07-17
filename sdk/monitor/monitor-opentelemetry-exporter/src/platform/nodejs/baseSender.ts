@@ -3,24 +3,30 @@
 
 import { diag } from "@opentelemetry/api";
 import type { PersistentStorage, SenderResult } from "../../types.js";
-import { ExceptionType } from "../../export/statsbeat/types.js";
 import type { AzureMonitorExporterOptions } from "../../config.js";
 import { FileSystemPersist } from "./persist/index.js";
 import type { ExportResult } from "@opentelemetry/core";
 import { ExportResultCode } from "@opentelemetry/core";
 import { NetworkStatsbeatMetrics } from "../../export/statsbeat/networkStatsbeatMetrics.js";
 import { LongIntervalStatsbeatMetrics } from "../../export/statsbeat/longIntervalStatsbeatMetrics.js";
+import { isRestError } from "@azure/core-rest-pipeline";
 import type { HttpHeaders, RestError } from "@azure/core-rest-pipeline";
 import {
   DropCode,
+  ExceptionType,
   RetryCode,
   MAX_STATSBEAT_FAILURES,
   isStatsbeatShutdownStatus,
 } from "../../export/statsbeat/types.js";
 import type { BreezeResponse } from "../../utils/breezeUtils.js";
-import { isRetriable, isSamplingRejection } from "../../utils/breezeUtils.js";
+import {
+  isRetriable,
+  isSamplingRejection,
+  parseRetryAfterHeader,
+} from "../../utils/breezeUtils.js";
 import type { TelemetryItem as Envelope } from "../../generated/index.js";
 import {
+  ABORT_ERROR_NAME,
   ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL,
   ENV_APPLICATIONINSIGHTS_SDK_STATS_LOGGING,
   ENV_DISABLE_SDKSTATS,
@@ -29,6 +35,17 @@ import {
 import type { CustomerSDKStatsMetrics } from "../../export/statsbeat/customerSDKStats.js";
 
 const DEFAULT_BATCH_SEND_RETRY_INTERVAL_MS = 60_000;
+
+// Startup replay throttling. After a Breeze outage, every process restarting at once
+// (autoscale, rolling deploy) would otherwise drain its full on-disk backlog the moment
+// connectivity returns, creating a fleet-wide thundering herd against shared ingestion
+// stamps. A randomized startup offset de-synchronizes replay across replicas, and an
+// inter-batch delay (with jitter) spaces out the files each process drains.
+const STARTUP_REPLAY_MAX_DELAY_MS = 60_000;
+const REPLAY_BATCH_BASE_DELAY_MS = 200;
+const REPLAY_BATCH_JITTER_MS = 200;
+// Prevent re-persisted files from creating an unbounded startup replay loop.
+const MAX_STARTUP_REPLAY_BATCHES = 10;
 
 /**
  * Base sender class
@@ -39,6 +56,7 @@ export abstract class BaseSender {
   private numConsecutiveRedirects: number;
   private retryTimer: NodeJS.Timeout | null;
   private retryTimerDeadlineMs: number = 0;
+  private startupReplayTimer: NodeJS.Timeout | null = null;
   private networkStatsbeatMetrics: NetworkStatsbeatMetrics | undefined;
   private customerSDKStatsMetrics: CustomerSDKStatsMetrics | undefined;
   private longIntervalStatsbeatMetrics;
@@ -111,9 +129,10 @@ export abstract class BaseSender {
     this.retryTimer = null;
     this.isStatsbeatSender = options.isStatsbeatSender || false;
 
-    // Send all persisted files from previous sessions immediately on startup
+    // Replay persisted files from previous sessions on startup. Schedule after a randomized
+    // delay so a fleet restarting together doesn't stampede Breeze the moment connectivity returns.
     if (!this.disableOfflineStorage) {
-      this.sendAllPersistedFiles();
+      this.scheduleStartupReplay();
     }
   }
 
@@ -287,6 +306,9 @@ export abstract class BaseSender {
       ) {
         this.networkStatsbeatMetrics?.countRetry(restError.statusCode);
         this.customerSDKStatsMetrics?.countRetryItems(envelopes, restError.statusCode);
+        // Honor a server-requested Retry-After so persisted telemetry isn't replayed too early.
+        const retryAfterMs = parseRetryAfterHeader(restError.response?.headers.get("retry-after"));
+        this.scheduleRetryTimer(retryAfterMs);
         return this.persist(envelopes);
       } else if (
         restError.statusCode === 400 &&
@@ -305,9 +327,16 @@ export abstract class BaseSender {
         return { code: ExportResultCode.SUCCESS };
       }
 
-      // For retriable REST errors
-      if (this.isRetriableRestError(restError) && !this.isStatsbeatSender) {
-        if (this.customerSDKStatsMetrics?.isTimeoutError(restError) && !this.isStatsbeatSender) {
+      // Persist transport failures where no HTTP response was received.
+      if (this.isRetriableNoResponseError(error) && !this.isStatsbeatSender) {
+        this.networkStatsbeatMetrics?.countException(restError);
+        // A status-less AbortError is the transport's real timeout signal, but its message
+        // ("The operation was aborted...") isn't recognized by isTimeoutError. Treat it as a
+        // timeout explicitly so it's classified as CLIENT_TIMEOUT rather than CLIENT_EXCEPTION.
+        const isTimeout =
+          restError.name === ABORT_ERROR_NAME ||
+          this.customerSDKStatsMetrics?.isTimeoutError(restError);
+        if (isTimeout && !this.isStatsbeatSender) {
           this.customerSDKStatsMetrics?.countRetryItems(
             envelopes,
             RetryCode.CLIENT_TIMEOUT,
@@ -315,14 +344,19 @@ export abstract class BaseSender {
             ExceptionType.TIMEOUT_EXCEPTION,
           );
           diag.error("Request timed out. Error message:", restError.message);
-        } else if (restError.statusCode) {
-          this.networkStatsbeatMetrics?.countRetry(restError.statusCode);
-          this.customerSDKStatsMetrics?.countRetryItems(envelopes, restError.statusCode);
+        } else {
+          this.customerSDKStatsMetrics?.countRetryItems(
+            envelopes,
+            RetryCode.CLIENT_EXCEPTION,
+            restError.message,
+            ExceptionType.NETWORK_EXCEPTION,
+          );
         }
         diag.error(
           "Retrying due to transient client side error. Error message:",
           restError.message,
         );
+        this.scheduleRetryTimer();
         return this.persist(envelopes);
       }
       // For non-retriable REST errors or client exceptions
@@ -414,11 +448,27 @@ export abstract class BaseSender {
       await this.persister.cleanExpiredFiles();
 
       let envelopes = (await this.persister.shift()) as Envelope[] | null;
-      while (envelopes) {
+      let isFirstBatch = true;
+      let replayedBatchCount = 0;
+      while (envelopes && replayedBatchCount < MAX_STARTUP_REPLAY_BATCHES) {
+        // Space out batches (with jitter) so a single process doesn't fire its whole
+        // backlog at Breeze back-to-back. No delay before the first batch.
+        if (!isFirstBatch) {
+          const batchDelay = this.getReplayBatchDelayMs();
+          if (batchDelay > 0) {
+            await new Promise((resolve) => setTimeout(resolve, batchDelay));
+          }
+        }
+        isFirstBatch = false;
+        replayedBatchCount++;
+
         const result = await this.exportEnvelopes(envelopes);
         if (result.code === ExportResultCode.FAILED) {
           // Stop processing — remaining files stay on disk for later retry
           diag.warn(`Failed to send persisted file during startup, will retry later`);
+          break;
+        }
+        if (replayedBatchCount >= MAX_STARTUP_REPLAY_BATCHES) {
           break;
         }
         envelopes = (await this.persister.shift()) as Envelope[] | null;
@@ -426,6 +476,31 @@ export abstract class BaseSender {
     } catch (err: any) {
       diag.warn(`Failed to read persisted files during startup`, err);
     }
+  }
+
+  /**
+   * Schedule startup replay of persisted files behind a randomized delay. The random
+   * offset breaks fleet-wide synchronization so co-located replicas don't all replay
+   * their backlog at the same instant after a shared outage or coordinated restart.
+   */
+  private scheduleStartupReplay(): void {
+    const delay = this.getStartupReplayDelayMs();
+    this.startupReplayTimer = setTimeout(() => {
+      this.startupReplayTimer = null;
+      this.sendAllPersistedFiles();
+    }, delay);
+    // Don't keep the event loop alive solely for startup replay
+    this.startupReplayTimer.unref();
+  }
+
+  // Randomized 0..max startup offset so fleet restarts don't replay in lockstep
+  protected getStartupReplayDelayMs(): number {
+    return Math.floor(Math.random() * STARTUP_REPLAY_MAX_DELAY_MS);
+  }
+
+  // Base spacing plus random jitter applied between persisted files during replay
+  protected getReplayBatchDelayMs(): number {
+    return REPLAY_BATCH_BASE_DELAY_MS + Math.floor(Math.random() * REPLAY_BATCH_JITTER_MS);
   }
 
   /**
@@ -469,9 +544,26 @@ export abstract class BaseSender {
     }
   }
 
-  private isRetriableRestError(error: RestError): boolean {
-    const restErrorTypes: string[] = Object.values(RetriableRestErrorTypes);
-    if (error && error.code && restErrorTypes.includes(error.code)) {
+  private isRetriableNoResponseError(error: unknown): boolean {
+    if (!error || typeof error !== "object") {
+      return false;
+    }
+    const transportError = error as {
+      code?: string;
+      name?: string;
+      response?: { status?: number };
+      statusCode?: number;
+    };
+    if (transportError.statusCode || transportError.response?.status) {
+      return false;
+    }
+    if (isRestError(error)) {
+      const restErrorTypes: string[] = Object.values(RetriableRestErrorTypes);
+      return !!error.code && restErrorTypes.includes(error.code);
+    }
+    // The transport uses the same AbortError for timeouts and cancellation.
+    // Preserve the telemetry because those cases cannot be distinguished here.
+    if (transportError.name === ABORT_ERROR_NAME) {
       return true;
     }
     return false;

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to returns the list of private link resources that need to be created for Backup and SiteRecovery
  *
  * @summary returns the list of private link resources that need to be created for Backup and SiteRecovery
- * x-ms-original-file: 2025-08-01/ListPrivateLinkResources.json
+ * x-ms-original-file: 2026-05-01/ListPrivateLinkResources.json
  */
 async function listPrivateLinkResources() {
   const credential = new DefaultAzureCredential();
