@@ -1,12 +1,14 @@
-import { getSDKType } from '../../common/utils.js';
-import { ApiVersionType, SDKType } from '../../common/types.js';
-import { IApiVersionTypeExtractor, IModelOnlyChecker } from '../../common/interfaces.js';
-import * as mlcApi from '../../mlc/apiVersion/apiVersionTypeExtractor.js';
-import * as hlcApi from '../../hlc/apiVersion/apiVersionTypeExtractor.js';
-import * as rlcApi from '../../llc/apiVersion/apiVersionTypeExtractor.js';
-import { logger } from '../../utils/logger.js';
+import { getSDKType } from "../../common/utils.js";
+import { ApiVersionType, SDKType } from "../../common/types.js";
+import { IApiVersionTypeExtractor, IModelOnlyChecker } from "../../common/interfaces.js";
+import * as mlcApi from "../../mlc/apiVersion/apiVersionTypeExtractor.js";
+import * as hlcApi from "../../hlc/apiVersion/apiVersionTypeExtractor.js";
+import * as rlcApi from "../../llc/apiVersion/apiVersionTypeExtractor.js";
+import { logger } from "../../utils/logger.js";
 
-export const getApiVersionType: IApiVersionTypeExtractor = async (packageRoot: string): Promise<ApiVersionType> => {
+export const getApiVersionType: IApiVersionTypeExtractor = async (
+  packageRoot: string,
+): Promise<ApiVersionType> => {
   const sdkType = getSDKType(packageRoot);
   switch (sdkType) {
     case SDKType.ModularClient:
@@ -23,7 +25,7 @@ export const getApiVersionType: IApiVersionTypeExtractor = async (packageRoot: s
 
 export const isModelOnly: IModelOnlyChecker = async (
   packageRoot: string,
-  isBetaRelease?: boolean
+  isBetaRelease?: boolean,
 ): Promise<boolean> => {
   const sdkType = getSDKType(packageRoot);
   switch (sdkType) {

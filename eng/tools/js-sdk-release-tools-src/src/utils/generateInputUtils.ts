@@ -1,17 +1,20 @@
-import path from 'path';
-import { SDKType, RunMode, ModularSDKType } from '../common/types.js';
-import { loadTspConfig } from '../common/utils.js';
-import { RunningEnvironment } from './runningEnvironment.js';
-import { exists } from 'fs-extra';
+import path from "path";
+import { SDKType, RunMode, ModularSDKType } from "../common/types.js";
+import { loadTspConfig } from "../common/utils.js";
+import { RunningEnvironment } from "./runningEnvironment.js";
+import { exists } from "fs-extra";
 
-async function isModularClient(specFolder: string, typespecProjectFolder: string[] | string | undefined) {
+async function isModularClient(
+  specFolder: string,
+  typespecProjectFolder: string[] | string | undefined,
+) {
   if (!typespecProjectFolder) {
     return false;
   }
 
   if (Array.isArray(typespecProjectFolder) && (typespecProjectFolder as string[]).length !== 1) {
     throw new Error(
-      `Unexpected typespecProjectFolder length: ${(typespecProjectFolder as string[]).length} (expect 1)`
+      `Unexpected typespecProjectFolder length: ${(typespecProjectFolder as string[]).length} (expect 1)`,
     );
   }
 
@@ -19,12 +22,12 @@ async function isModularClient(specFolder: string, typespecProjectFolder: string
     ? typespecProjectFolder[0]
     : (typespecProjectFolder as string);
   const tspFolderFromSpecRoot = path.join(specFolder, resolvedRelativeTspFolder);
-  const tspConfigPath = path.join(tspFolderFromSpecRoot, 'tspconfig.yaml');
+  const tspConfigPath = path.join(tspFolderFromSpecRoot, "tspconfig.yaml");
   if (!(await exists(tspConfigPath))) {
     return false;
   }
   const tspConfig = await loadTspConfig(tspFolderFromSpecRoot);
-  const isModularLibrary = tspConfig?.options?.['@azure-tools/typespec-ts']?.['is-modular-library'];
+  const isModularLibrary = tspConfig?.options?.["@azure-tools/typespec-ts"]?.["is-modular-library"];
 
   return isModularLibrary !== false;
 }
@@ -44,25 +47,31 @@ function getSDKType(isMgmtWithHLC: boolean, isModular: boolean) {
 export async function parseInputJson(inputJson: any) {
   // inputJson schema: https://github.com/Azure/azure-rest-api-specs/blob/main/documentation/sdkautomation/GenerateInputSchema.json
   // todo: add interface for the schema
-  const specFolder: string = inputJson['specFolder'];
-  const readmeFiles: string[] | string | undefined = inputJson['relatedReadmeMdFiles']
-    ? inputJson['relatedReadmeMdFiles']
-    : inputJson['relatedReadmeMdFile'];
-  const typespecProjectFolder: string[] | string | undefined = inputJson['relatedTypeSpecProjectFolder'];
-  const gitCommitId: string = inputJson['headSha'];
-  const repoHttpsUrl: string = inputJson['repoHttpsUrl'];
-  const runMode: string = inputJson['runMode'];
+  const specFolder: string = inputJson["specFolder"];
+  const readmeFiles: string[] | string | undefined = inputJson["relatedReadmeMdFiles"]
+    ? inputJson["relatedReadmeMdFiles"]
+    : inputJson["relatedReadmeMdFile"];
+  const typespecProjectFolder: string[] | string | undefined =
+    inputJson["relatedTypeSpecProjectFolder"];
+  const gitCommitId: string = inputJson["headSha"];
+  const repoHttpsUrl: string = inputJson["repoHttpsUrl"];
+  const runMode: string = inputJson["runMode"];
   let apiVersion: string | undefined;
   let sdkReleaseType: string | undefined;
-  const downloadUrlPrefix: string | undefined = inputJson.installInstructionInput?.downloadUrlPrefix;
+  const downloadUrlPrefix: string | undefined =
+    inputJson.installInstructionInput?.downloadUrlPrefix;
   // TODO: consider remove it, since it's not defined in inputJson schema
-  const skipGeneration: boolean | undefined = inputJson['skipGeneration'];
+  const skipGeneration: boolean | undefined = inputJson["skipGeneration"];
 
   if (!readmeFiles && !typespecProjectFolder) {
     throw new Error(`readme files and typespec project info are both undefined`);
   }
 
-  if (typespecProjectFolder && typeof typespecProjectFolder !== 'string' && typespecProjectFolder.length !== 1) {
+  if (
+    typespecProjectFolder &&
+    typeof typespecProjectFolder !== "string" &&
+    typespecProjectFolder.length !== 1
+  ) {
     throw new Error(`get ${typespecProjectFolder.length} typespec project`);
   }
 
@@ -71,33 +80,37 @@ export async function parseInputJson(inputJson: any) {
   const packages: any[] = [];
   const outputJson = {
     packages: packages,
-    language: 'JavaScript',
+    language: "JavaScript",
   };
-  const readmeMd = isTypeSpecProject ? undefined : typeof readmeFiles === 'string' ? readmeFiles : readmeFiles![0];
+  const readmeMd = isTypeSpecProject
+    ? undefined
+    : typeof readmeFiles === "string"
+      ? readmeFiles
+      : readmeFiles![0];
   const typespecProject = isTypeSpecProject
-    ? typeof typespecProjectFolder === 'string'
+    ? typeof typespecProjectFolder === "string"
       ? typespecProjectFolder
       : typespecProjectFolder![0]
     : undefined;
   const runningEnvironment =
-    typeof readmeFiles === 'string' || typeof typespecProjectFolder === 'string'
+    typeof readmeFiles === "string" || typeof typespecProjectFolder === "string"
       ? RunningEnvironment.SdkGeneration
       : RunningEnvironment.SwaggerSdkAutomation;
 
-  const isMgmtWithHLC = isTypeSpecProject ? false : readmeMd!.includes('resource-manager');
+  const isMgmtWithHLC = isTypeSpecProject ? false : readmeMd!.includes("resource-manager");
   const isModular = await isModularClient(specFolder, typespecProjectFolder);
   const sdkType = getSDKType(isMgmtWithHLC, isModular);
 
   if (runMode === RunMode.Release || runMode === RunMode.Local) {
-    apiVersion = inputJson['apiVersion'];
-    sdkReleaseType = inputJson['sdkReleaseType'];
+    apiVersion = inputJson["apiVersion"];
+    sdkReleaseType = inputJson["sdkReleaseType"];
   }
 
   if (
     apiVersion &&
-    apiVersion.toLowerCase().includes('preview') &&
+    apiVersion.toLowerCase().includes("preview") &&
     sdkReleaseType &&
-    sdkReleaseType.toLowerCase() === 'stable'
+    sdkReleaseType.toLowerCase() === "stable"
   ) {
     throw new Error(`SDK release type must be set to 'beta' for the preview API specifications.`);
   }
@@ -120,7 +133,7 @@ export async function parseInputJson(inputJson: any) {
 }
 
 export function getModularSDKType(packageDirectory: string) {
-  if (packageDirectory.includes('arm-')) {
+  if (packageDirectory.includes("arm-")) {
     return ModularSDKType.ManagementPlane;
   }
   return ModularSDKType.DataPlane;

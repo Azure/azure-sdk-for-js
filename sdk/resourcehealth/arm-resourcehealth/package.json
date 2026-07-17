@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-resourcehealth",
-  "version": "5.0.0-beta.1",
+  "version": "5.0.0",
   "description": "A generated SDK for MicrosoftResourceHealth.",
   "engines": {
     "node": ">=22.0.0"
@@ -289,6 +289,6 @@
       "azure"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-resourcehealth?view=azure-node-preview"
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-resourcehealth"
   }
 }
