@@ -1,0 +1,23 @@
+{
+  "name": "cu-skill",
+  "version": "0.1.0",
+  "description": "Companion CLI for the cu-sdk-author-analyzer / cu-sdk-author-analyzer-classify-route GitHub Copilot skills. Wraps the @azure/ai-content-understanding SDK with three subcommands (extract-layout, create-and-test, create-and-test-router) and a pure-TypeScript schema validator.",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "cli": "tsx src/cli.ts",
+    "test": "tsx --test src/*.test.ts"
+  },
+  "dependencies": {
+    "@azure/ai-content-understanding": "^1.2.0-beta.2",
+    "@azure/core-auth": "^1.5.0",
+    "@azure/core-rest-pipeline": "^1.13.0",
+    "@azure/identity": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.22.4",
+    "typescript": "~5.7.0"
+  }
+}
