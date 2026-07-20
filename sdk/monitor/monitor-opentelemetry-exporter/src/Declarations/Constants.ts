@@ -290,7 +290,7 @@ export type QuickPulseType =
  */
 export const ONE_SETTINGS_CNAME = "https://settings.sdk.monitor.azure.com";
 /**
- * OneSettings configuration (e3) endpoint — returns the full settings payload.
+ * OneSettings configuration (e1) endpoint — returns the full settings payload.
  * @internal
  */
 export const ONE_SETTINGS_CONFIG_URL = ONE_SETTINGS_CNAME + "/AzMonSDKDynamicConfiguration";
