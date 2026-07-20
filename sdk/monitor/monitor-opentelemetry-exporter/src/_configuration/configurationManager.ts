@@ -87,7 +87,7 @@ export class ConfigurationManager {
    */
   public async getConfigurationAndRefreshInterval(): Promise<number> {
     // TODO(onesettings): implement change detection against the CHANGE (e2) endpoint, fetch the
-    // CONFIG (e3) payload on a new ETag, update the cached ETag/settings/refresh interval, call
+    // CONFIG (e1) payload on a new ETag, update the cached ETag/settings/refresh interval, call
     // `notifyCallbacks`, and apply exponential backoff on transient errors.
     return ONE_SETTINGS_DEFAULT_REFRESH_INTERVAL_MS;
   }
