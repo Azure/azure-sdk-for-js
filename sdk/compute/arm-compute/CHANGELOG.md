@@ -1,6 +1,6 @@
 # Release History
 
-## 25.0.0 (2026-07-15)
+## 25.0.0 (2026-07-20)
 
 ### Features Added
   - Added operation group SharedGalleryInvitesOperations
