@@ -146,7 +146,9 @@ export class WebPubSubChatServiceClient {
       this._client.pipeline.addPolicy(webPubSubReverseProxyPolicy(options.reverseProxyEndpoint));
     }
 
-    // Create an internal WebPubSubServiceClient for token generation
+    // Create an internal WebPubSubServiceClient for token generation.
+    // TODO: In the next version, consider propagating the remaining compatible client options
+    // or sharing the pipeline.
     const webPubSubOptions = options.reverseProxyEndpoint
       ? { reverseProxyEndpoint: options.reverseProxyEndpoint }
       : undefined;
