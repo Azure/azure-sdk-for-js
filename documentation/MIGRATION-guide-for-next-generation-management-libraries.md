@@ -2,7 +2,7 @@
 
 This document shows the customers of the JavaScript/TypeScript management libraries on how to migrate their code to use the next-generation libraries.
 
-**For new customers of the JavaScript/TypeScript SDK ([azure-sdk-for-js](https://github.com/Azure/azure-sdk-for-js)), please see [quick start for next generation](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/next-generation-quickstart.md).**
+**For new customers of the JavaScript/TypeScript SDK ([azure-sdk-for-js](https://github.com/Azure/azure-sdk-for-js)), please see [quick start for next generation](./next-generation-quickstart.md).**
 
 ## Current status
 

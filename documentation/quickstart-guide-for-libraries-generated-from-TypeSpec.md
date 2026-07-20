@@ -16,7 +16,7 @@ This quickstart walks you through managing Azure resources using a TypeSpec‑ge
 ## Migrating from older libraries
 
 If you’re upgrading from **libraries generated with AutoRest**, use the migration guide:  
-<https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/migration-guide-for-libraries-generated-from-TypeSpec.md>
+<./migration-guide-for-libraries-generated-from-TypeSpec.md>
 
 ## Prerequisites
 

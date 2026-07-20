@@ -9,7 +9,7 @@
 
 This guide helps developers transition their JavaScript/TypeScript applications to use the *TypeSpec generated* Azure SDK libraries.
 
-**For new customers of the JavaScript/TypeScript SDK ([azure-sdk-for-js](https://github.com/Azure/azure-sdk-for-js)), please see [quick start guide](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/quickstart-guide-for-libraries-generated-from-TypeSpec.md).**
+**For new customers of the JavaScript/TypeScript SDK ([azure-sdk-for-js](https://github.com/Azure/azure-sdk-for-js)), please see [quick start guide](./quickstart-guide-for-libraries-generated-from-TypeSpec.md).**
 
 ## Current status
 
@@ -127,7 +127,7 @@ const result = await client.beginStartAndWait({ resumeFrom: serializedState });
 const result = await restorePoller(client, serializedState, client.start);
 ```
 For more detail, see the core‑lro migration guide:  
-https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-lro/docs/MIGRATION.md
+../sdk/core/core-lro/docs/MIGRATION.md
 
 ---
 

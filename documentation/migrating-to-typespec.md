@@ -14,7 +14,7 @@ TypeSpec is Microsoft's new API specification language that provides better tool
 - **The generation process changes** - you'll use TypeSpec definitions instead of OpenAPI/Swagger files
 - **Build scripts and configuration update** - new tooling replaces AutoRest
 - **Internal generated code structure changes** - but your hand-written client code adapts with minimal changes
-- **Customization workflow** - generated code is placed in `generated/` and then copied to `src/` with merge capabilities
+- **Customization workflow** - generated code is placed in `generated/`, and any hand-authored changes belong in `src/`. Never edit files in `generated/` directly.
 
 ## Prerequisites
 
@@ -22,7 +22,7 @@ Before starting the migration, ensure you have:
 
 1. **TypeSpec definitions ready**: Your service's TypeSpec definitions should be complete and merged into the main branch of the [Azure REST API specs repository](https://github.com/Azure/azure-rest-api-specs)
 2. **Local development environment**:
-   - [Node.js LTS version](https://nodejs.org/en/about/releases/)
+   - Node.js 22 or later
    - Local clone of your fork of [azure-sdk-for-js](https://github.com/Azure/azure-sdk-for-js)
    - Local clone of your fork of [azure-rest-api-specs](https://github.com/Azure/azure-rest-api-specs)
 3. **Understanding of your current SDK**: Know which packages in azure-sdk-for-js belong to your service
@@ -140,7 +140,7 @@ Run the TypeSpec client generation:
 
 ```bash
 cd sdk/your-service/your-package
-npm run generate:client
+pnpm generate:client
 ```
 
 ### Step 7: Apply Customizations
@@ -153,7 +153,7 @@ npx dev-tool customization apply --skip index.ts
 
 This command:
 
-1. Copies all files from `generated/` to `src/`
+1. Replays your existing customizations into `src/` based on the diff from the previous generated snapshot
 2. Performs 3-way merges with any existing files in `src/`
 3. Preserves your customizations from previous versions
 
@@ -243,7 +243,7 @@ Delete the following files that are no longer needed:
 2. **Build the package:**
 
    ```bash
-   pnpm turbo build
+   pnpm turbo build --filter=<package-name>... --token 1
    ```
 
 3. **Run tests:**
@@ -258,7 +258,7 @@ Delete the following files that are no longer needed:
 
 ### Using the Customization Workflow
 
-- **Always generate to `generated/` first** - never modify files in this directory directly
+- **Always generate to `generated/` first** - never modify files in this directory directly, because regeneration will overwrite them
 - **Use the customization tool** to copy files to `src/` and preserve customizations
 - **Keep customizations minimal** - prefer TypeSpec definition changes over post-generation modifications
 - **Test the customization merge** - the 3-way merge can help but may require manual conflict resolution
@@ -268,8 +268,8 @@ Delete the following files that are no longer needed:
 After migration, your development workflow becomes:
 
 1. **Update TypeSpec definitions** in azure-rest-api-specs
-2. **Generate new code:** `npm run generate:client`
-3. **Build and test:** `pnpm turbo build && pnpm test`
+2. **Generate new code:** `pnpm generate:client`
+3. **Build and test:** `pnpm turbo build --filter=<package-name>... --token 1 && pnpm test`
 
 ### Version Management
 

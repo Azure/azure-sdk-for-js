@@ -14,7 +14,7 @@ If your package has not been set up for customization yet, run the following com
 npx dev-tool customization init
 ```
 
-This will copy the contents of `src/` into `generated/`, establishing the baseline for the customization workflow. The command will fail if a `generated/` folder already exists (meaning customization is already set up).
+This captures the current generated baseline in `generated/` so future regenerations can be merged with your hand-authored code in `src/`. The command will fail if a `generated/` folder already exists (meaning customization is already set up). Do not edit files in `generated/` directly.
 
 ## Folder Structure
 
@@ -43,7 +43,7 @@ Making customizations is straightforward. Directly edit the code in the `src/` f
 
 If you are making a large number of additions (e.g. helper functions and types), it may be worth separating these to a different file and re-exporting them in the customized file instead of making the additions inline.
 
-Once you are happy with your customizations, check everything in as normal (both the `generated/` folder and the `src/` folder). You are done!
+Once you are happy with your customizations, check everything in as normal (both the `generated/` folder and the `src/` folder). `src/` remains the source of truth for shipped code.
 
 ## Regeneration Workflow
 
