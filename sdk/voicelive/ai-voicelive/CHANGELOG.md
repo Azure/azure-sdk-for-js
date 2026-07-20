@@ -19,8 +19,6 @@ General Availability release aligning `@azure/ai-voicelive` with the stable Voic
 - API version updated from `2026-04-10` to `2026-07-15`.
 - Renamed `RequestImageContentPart.url` to `RequestImageContentPart.imageUrl` to align the SDK model with the `image_url` wire shape.
 
-### Bugs Fixed
-
 ### Other Changes
 
 - `Background.imageUrl` now serializes to the `image_url` wire field.
