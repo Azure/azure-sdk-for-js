@@ -56,8 +56,7 @@ catalogs:
 
 overrides:
   '@azure/core-rest-pipeline': 'link:sdk/core/core-rest-pipeline'
-  'vitest>vite': ^8.0.0
-  '@vitest/mocker>vite': ^8.0.0
+  vite: ^7.0.0
 
 linkWorkspacePackages: true
 
