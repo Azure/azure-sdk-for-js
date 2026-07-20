@@ -1,6 +1,6 @@
 # Release History
 
-## 1.1.0 (Unreleased)
+## 1.1.0 (2026-07-20)
 
 General Availability release aligning `@azure/ai-voicelive` with the stable Voice Live API version `2026-07-15`. The changes below are cumulative relative to the previous stable release, `1.0.0`.
 
