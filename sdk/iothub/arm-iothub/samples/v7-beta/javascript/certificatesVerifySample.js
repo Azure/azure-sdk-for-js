@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to verifies the certificate's private key possession by providing the leaf cert issued by the verifying pre uploaded certificate.
  *
  * @summary verifies the certificate's private key possession by providing the leaf cert issued by the verifying pre uploaded certificate.
- * x-ms-original-file: 2026-03-01-preview/iothub_certverify.json
+ * x-ms-original-file: 2026-05-01-preview/iothub_certverify.json
  */
 async function certificatesVerify() {
   const credential = new DefaultAzureCredential();

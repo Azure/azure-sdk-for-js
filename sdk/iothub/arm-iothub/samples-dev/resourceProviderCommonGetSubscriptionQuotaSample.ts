@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the number of free and paid iot hubs in the subscription
  *
  * @summary get the number of free and paid iot hubs in the subscription
- * x-ms-original-file: 2026-03-01-preview/iothub_usages.json
+ * x-ms-original-file: 2026-05-01-preview/iothub_usages.json
  */
 async function resourceProviderCommonGetSubscriptionQuota(): Promise<void> {
   const credential = new DefaultAzureCredential();

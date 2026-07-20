@@ -97,7 +97,7 @@ export function _checkNameAvailabilitySend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Devices/checkNameAvailability{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -126,7 +126,6 @@ export async function _checkNameAvailabilityDeserialize(
 
   return iotHubNameAvailabilityInfoDeserializer(result.body);
 }
-
 /** Check if an IoT hub name is available. */
 export async function checkNameAvailability(
   context: Client,
@@ -151,7 +150,7 @@ export function _listEventHubConsumerGroupsSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       eventHubEndpointName: eventHubEndpointName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -178,7 +177,6 @@ export async function _listEventHubConsumerGroupsDeserialize(
 
   return _eventHubConsumerGroupsListResultDeserializer(result.body);
 }
-
 /** Get a list of the consumer groups in the Event Hub-compatible device-to-cloud endpoint in an IoT hub. */
 export function listEventHubConsumerGroups(
   context: Client,
@@ -202,7 +200,7 @@ export function listEventHubConsumerGroups(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-03-01-preview",
+      apiVersion: context.apiVersion ?? "2026-05-01-preview",
     },
   );
 }
@@ -223,7 +221,7 @@ export function _deleteEventHubConsumerGroupSend(
       resourceName: resourceName,
       eventHubEndpointName: eventHubEndpointName,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -247,7 +245,6 @@ export async function _deleteEventHubConsumerGroupDeserialize(
 
   return;
 }
-
 /** Delete a consumer group from an Event Hub-compatible endpoint in an IoT hub. */
 export async function deleteEventHubConsumerGroup(
   context: Client,
@@ -285,7 +282,7 @@ export function _createEventHubConsumerGroupSend(
       resourceName: resourceName,
       eventHubEndpointName: eventHubEndpointName,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -314,7 +311,6 @@ export async function _createEventHubConsumerGroupDeserialize(
 
   return eventHubConsumerGroupInfoDeserializer(result.body);
 }
-
 /** Add a consumer group to an Event Hub-compatible endpoint in an IoT hub. */
 export async function createEventHubConsumerGroup(
   context: Client,
@@ -353,7 +349,7 @@ export function _getEventHubConsumerGroupSend(
       resourceName: resourceName,
       eventHubEndpointName: eventHubEndpointName,
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -380,7 +376,6 @@ export async function _getEventHubConsumerGroupDeserialize(
 
   return eventHubConsumerGroupInfoDeserializer(result.body);
 }
-
 /** Get a consumer group from the Event Hub-compatible device-to-cloud endpoint for an IoT hub. */
 export async function getEventHubConsumerGroup(
   context: Client,
@@ -413,7 +408,7 @@ export function _getStatsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -440,7 +435,6 @@ export async function _getStatsDeserialize(
 
   return registryStatisticsDeserializer(result.body);
 }
-
 /** Get the statistics from an IoT hub. */
 export async function getStats(
   context: Client,
@@ -465,7 +459,7 @@ export function _importDevicesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -494,7 +488,6 @@ export async function _importDevicesDeserialize(
 
   return jobResponseDeserializer(result.body);
 }
-
 /** Import, update, or delete device identities in the IoT hub identity registry from a blob. For more information, see: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-identity-registry#import-and-export-device-identities. */
 export async function importDevices(
   context: Client,
@@ -526,7 +519,7 @@ export function _exportDevicesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -555,7 +548,6 @@ export async function _exportDevicesDeserialize(
 
   return jobResponseDeserializer(result.body);
 }
-
 /** Exports all the device identities in the IoT hub identity registry to an Azure Storage blob container. For more information, see: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-identity-registry#import-and-export-device-identities. */
 export async function exportDevices(
   context: Client,
@@ -588,7 +580,7 @@ export function _getKeysForKeyNameSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       keyName: keyName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -615,7 +607,6 @@ export async function _getKeysForKeyNameDeserialize(
 
   return sharedAccessSignatureAuthorizationRuleDeserializer(result.body);
 }
-
 /** Get a shared access policy by name from an IoT hub. For more information, see: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-security. */
 export async function getKeysForKeyName(
   context: Client,
@@ -646,7 +637,7 @@ export function _listKeysSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -673,7 +664,6 @@ export async function _listKeysDeserialize(
 
   return _sharedAccessSignatureAuthorizationRuleListResultDeserializer(result.body);
 }
-
 /** Get the security metadata for an IoT hub. For more information, see: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-security. */
 export function listKeys(
   context: Client,
@@ -689,7 +679,7 @@ export function listKeys(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-03-01-preview",
+      apiVersion: context.apiVersion ?? "2026-05-01-preview",
     },
   );
 }
@@ -707,7 +697,7 @@ export function _testRouteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       iotHubName: iotHubName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -736,7 +726,6 @@ export async function _testRouteDeserialize(
 
   return testRouteResultDeserializer(result.body);
 }
-
 /** Test the new route for this Iot Hub */
 export async function testRoute(
   context: Client,
@@ -762,7 +751,7 @@ export function _testAllRoutesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       iotHubName: iotHubName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -791,7 +780,6 @@ export async function _testAllRoutesDeserialize(
 
   return testAllRoutesResultDeserializer(result.body);
 }
-
 /** Test all routes configured in this Iot Hub */
 export async function testAllRoutes(
   context: Client,
@@ -816,7 +804,7 @@ export function _listEndpointHealthSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       iotHubName: iotHubName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -843,7 +831,6 @@ export async function _listEndpointHealthDeserialize(
 
   return _endpointHealthDataListResultDeserializer(result.body);
 }
-
 /** Get the health for routing endpoints. */
 export function listEndpointHealth(
   context: Client,
@@ -859,7 +846,7 @@ export function listEndpointHealth(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-03-01-preview",
+      apiVersion: context.apiVersion ?? "2026-05-01-preview",
     },
   );
 }
@@ -876,7 +863,7 @@ export function _listQuotaMetricsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -903,7 +890,6 @@ export async function _listQuotaMetricsDeserialize(
 
   return _iotHubQuotaMetricInfoListResultDeserializer(result.body);
 }
-
 /** Get the quota metrics for an IoT hub. */
 export function listQuotaMetrics(
   context: Client,
@@ -919,7 +905,7 @@ export function listQuotaMetrics(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-03-01-preview",
+      apiVersion: context.apiVersion ?? "2026-05-01-preview",
     },
   );
 }
@@ -938,7 +924,7 @@ export function _getJobSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       jobId: jobId,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -963,7 +949,6 @@ export async function _getJobDeserialize(result: PathUncheckedResponse): Promise
 
   return jobResponseDeserializer(result.body);
 }
-
 /** Get the details of a job from an IoT hub. For more information, see: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-identity-registry. */
 export async function getJob(
   context: Client,
@@ -988,7 +973,7 @@ export function _listJobsSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1015,7 +1000,6 @@ export async function _listJobsDeserialize(
 
   return _jobResponseListResultDeserializer(result.body);
 }
-
 /** Get a list of all the jobs in an IoT hub. For more information, see: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-identity-registry. */
 export function listJobs(
   context: Client,
@@ -1031,7 +1015,7 @@ export function listJobs(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-03-01-preview",
+      apiVersion: context.apiVersion ?? "2026-05-01-preview",
     },
   );
 }
@@ -1048,7 +1032,7 @@ export function _listValidSkusSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1075,7 +1059,6 @@ export async function _listValidSkusDeserialize(
 
   return _iotHubSkuDescriptionListResultDeserializer(result.body);
 }
-
 /** Get the list of valid SKUs for an IoT hub. */
 export function listValidSkus(
   context: Client,
@@ -1091,7 +1074,7 @@ export function listValidSkus(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-03-01-preview",
+      apiVersion: context.apiVersion ?? "2026-05-01-preview",
     },
   );
 }
@@ -1104,7 +1087,7 @@ export function _listBySubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Devices/IotHubs{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1131,7 +1114,6 @@ export async function _listBySubscriptionDeserialize(
 
   return _iotHubDescriptionListResultDeserializer(result.body);
 }
-
 /** Get all the IoT hubs in a subscription. */
 export function listBySubscription(
   context: Client,
@@ -1145,7 +1127,7 @@ export function listBySubscription(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-03-01-preview",
+      apiVersion: context.apiVersion ?? "2026-05-01-preview",
     },
   );
 }
@@ -1160,7 +1142,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1187,7 +1169,6 @@ export async function _listByResourceGroupDeserialize(
 
   return _iotHubDescriptionListResultDeserializer(result.body);
 }
-
 /** Get all the IoT hubs in a resource group. */
 export function listByResourceGroup(
   context: Client,
@@ -1202,7 +1183,7 @@ export function listByResourceGroup(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-03-01-preview",
+      apiVersion: context.apiVersion ?? "2026-05-01-preview",
     },
   );
 }
@@ -1219,7 +1200,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1252,7 +1233,6 @@ export async function _$deleteDeserialize(
 
   return iotHubDescriptionDeserializer(result.body);
 }
-
 /** Delete an IoT hub. */
 export function $delete(
   context: Client,
@@ -1265,7 +1245,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, resourceName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-01-preview",
+    apiVersion: context.apiVersion ?? "2026-05-01-preview",
   }) as PollerLike<OperationState<IotHubDescription>, IotHubDescription>;
 }
 
@@ -1282,7 +1262,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1306,7 +1286,6 @@ export async function _updateDeserialize(
 
   return iotHubDescriptionDeserializer(result.body);
 }
-
 /** Update an existing IoT Hub tags. to update other fields use the CreateOrUpdate method */
 export function update(
   context: Client,
@@ -1321,7 +1300,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, resourceName, iotHubTags, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-01-preview",
+    apiVersion: context.apiVersion ?? "2026-05-01-preview",
   }) as PollerLike<OperationState<IotHubDescription>, IotHubDescription>;
 }
 
@@ -1338,7 +1317,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1371,7 +1350,6 @@ export async function _createOrUpdateDeserialize(
 
   return iotHubDescriptionDeserializer(result.body);
 }
-
 /** Create or update the metadata of an Iot hub. The usual pattern to modify a property is to retrieve the IoT hub metadata and security metadata, and then combine them with the modified values in a new body to update the IoT hub. */
 export function createOrUpdate(
   context: Client,
@@ -1386,7 +1364,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, resourceName, iotHubDescription, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-01-preview",
+    apiVersion: context.apiVersion ?? "2026-05-01-preview",
   }) as PollerLike<OperationState<IotHubDescription>, IotHubDescription>;
 }
 
@@ -1402,7 +1380,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1427,7 +1405,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Io
 
   return iotHubDescriptionDeserializer(result.body);
 }
-
 /** Get the non-security related metadata of an IoT hub. */
 export async function get(
   context: Client,

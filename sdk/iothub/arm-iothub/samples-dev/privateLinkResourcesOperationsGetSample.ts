@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get the specified private link resource for the given IotHub
  *
  * @summary get the specified private link resource for the given IotHub
- * x-ms-original-file: 2026-03-01-preview/iothub_getprivatelinkresources.json
+ * x-ms-original-file: 2026-05-01-preview/iothub_getprivatelinkresources.json
  */
 async function privateLinkResourcesList(): Promise<void> {
   const credential = new DefaultAzureCredential();

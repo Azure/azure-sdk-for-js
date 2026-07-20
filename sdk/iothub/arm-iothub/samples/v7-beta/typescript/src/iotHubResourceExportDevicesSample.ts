@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to exports all the device identities in the IoT hub identity registry to an Azure Storage blob container. For more information, see: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-identity-registry#import-and-export-device-identities.
  *
  * @summary exports all the device identities in the IoT hub identity registry to an Azure Storage blob container. For more information, see: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-identity-registry#import-and-export-device-identities.
- * x-ms-original-file: 2026-03-01-preview/iothub_exportdevices.json
+ * x-ms-original-file: 2026-05-01-preview/iothub_exportdevices.json
  */
 async function iotHubResourceExportDevices(): Promise<void> {
   const credential = new DefaultAzureCredential();

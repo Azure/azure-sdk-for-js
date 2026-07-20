@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes an existing X509 certificate or does nothing if it does not exist.
  *
  * @summary deletes an existing X509 certificate or does nothing if it does not exist.
- * x-ms-original-file: 2026-03-01-preview/iothub_certificatesdelete.json
+ * x-ms-original-file: 2026-05-01-preview/iothub_certificatesdelete.json
  */
 async function certificatesDelete() {
   const credential = new DefaultAzureCredential();
