@@ -29,7 +29,7 @@ export function _listByNameSend(
       resourceGroupName: resourceGroupName,
       ruleName: ruleName,
       statusName: statusName,
-      "api%2Dversion": "2024-03-01-preview",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -81,7 +81,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       ruleName: ruleName,
-      "api%2Dversion": "2024-03-01-preview",
+      "api%2Dversion": "2026-01-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,

@@ -129,3 +129,5 @@ https://learn.microsoft.com/javascript/api/@azure/arm-billing-trust?view=azure-n
 https://www.npmjs.com/package/@azure/arm-billing-trust
 https://learn.microsoft.com/javascript/api/@azure/arm-containerservicepreparedimgspec?view=azure-node-preview
 https://www.npmjs.com/package/@azure/arm-containerservicepreparedimgspec
+https://learn.microsoft.com/javascript/api/@azure/arm-enclave?view=azure-node-preview
+https://www.npmjs.com/package/@azure/arm-enclave

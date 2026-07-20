@@ -1,8 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { ActionGroupPatchBody } from "../../actionGroupsApi/models.js";
 import type { ErrorAdditionalInfo } from "../../models.js";
 import { errorAdditionalInfoArrayDeserializer } from "../../models.js";
+import type { TenantActionGroupPatchBody } from "../../tenantActionGroups/models.js";
 
 /**
  * This file contains only generated model types and their (de)serializers.
@@ -10,18 +12,164 @@ import { errorAdditionalInfoArrayDeserializer } from "../../models.js";
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-/** The localizable string class. */
-export interface LocalizableString {
-  /** the invariant value. */
-  value: string;
-  /** the locale specific value. */
-  localizedValue?: string;
+export function emailReceiverArraySerializer(result: Array<EmailReceiver>): any[] {
+  return result.map((item) => {
+    return emailReceiverSerializer(item);
+  });
 }
 
-export function localizableStringDeserializer(item: any): LocalizableString {
+export function emailReceiverArrayDeserializer(result: Array<EmailReceiver>): any[] {
+  return result.map((item) => {
+    return emailReceiverDeserializer(item);
+  });
+}
+
+/** An email receiver. */
+export interface EmailReceiver {
+  /** The name of the email receiver. Names must be unique across all receivers within an action group. */
+  name: string;
+  /** The email address of this receiver. */
+  emailAddress: string;
+  /** Indicates whether to use common alert schema. */
+  useCommonAlertSchema?: boolean;
+  /** The receiver status of the e-mail. */
+  readonly status?: ReceiverStatus;
+}
+
+export function emailReceiverSerializer(item: EmailReceiver): any {
   return {
-    value: item["value"],
-    localizedValue: item["localizedValue"],
+    name: item["name"],
+    emailAddress: item["emailAddress"],
+    useCommonAlertSchema: item["useCommonAlertSchema"],
+  };
+}
+
+export function emailReceiverDeserializer(item: any): EmailReceiver {
+  return {
+    name: item["name"],
+    emailAddress: item["emailAddress"],
+    useCommonAlertSchema: item["useCommonAlertSchema"],
+    status: item["status"],
+  };
+}
+
+/** Indicates the status of the receiver. Receivers that are not Enabled will not receive any communications. */
+export type ReceiverStatus = "NotSpecified" | "Enabled" | "Disabled";
+
+export function smsReceiverArraySerializer(result: Array<SmsReceiver>): any[] {
+  return result.map((item) => {
+    return smsReceiverSerializer(item);
+  });
+}
+
+export function smsReceiverArrayDeserializer(result: Array<SmsReceiver>): any[] {
+  return result.map((item) => {
+    return smsReceiverDeserializer(item);
+  });
+}
+
+/** An SMS receiver. */
+export interface SmsReceiver {
+  /** The name of the SMS receiver. Names must be unique across all receivers within an action group. */
+  name: string;
+  /** The country code of the SMS receiver. */
+  countryCode: string;
+  /** The phone number of the SMS receiver. */
+  phoneNumber: string;
+  /** The status of the receiver. */
+  readonly status?: ReceiverStatus;
+}
+
+export function smsReceiverSerializer(item: SmsReceiver): any {
+  return { name: item["name"], countryCode: item["countryCode"], phoneNumber: item["phoneNumber"] };
+}
+
+export function smsReceiverDeserializer(item: any): SmsReceiver {
+  return {
+    name: item["name"],
+    countryCode: item["countryCode"],
+    phoneNumber: item["phoneNumber"],
+    status: item["status"],
+  };
+}
+
+export function azureAppPushReceiverArraySerializer(result: Array<AzureAppPushReceiver>): any[] {
+  return result.map((item) => {
+    return azureAppPushReceiverSerializer(item);
+  });
+}
+
+export function azureAppPushReceiverArrayDeserializer(result: Array<AzureAppPushReceiver>): any[] {
+  return result.map((item) => {
+    return azureAppPushReceiverDeserializer(item);
+  });
+}
+
+/** The Azure mobile App push notification receiver. */
+export interface AzureAppPushReceiver {
+  /** The name of the Azure mobile app push receiver. Names must be unique across all receivers within an action group. */
+  name: string;
+  /** The email address registered for the Azure mobile app. */
+  emailAddress: string;
+}
+
+export function azureAppPushReceiverSerializer(item: AzureAppPushReceiver): any {
+  return { name: item["name"], emailAddress: item["emailAddress"] };
+}
+
+export function azureAppPushReceiverDeserializer(item: any): AzureAppPushReceiver {
+  return {
+    name: item["name"],
+    emailAddress: item["emailAddress"],
+  };
+}
+
+export function voiceReceiverArraySerializer(result: Array<VoiceReceiver>): any[] {
+  return result.map((item) => {
+    return voiceReceiverSerializer(item);
+  });
+}
+
+export function voiceReceiverArrayDeserializer(result: Array<VoiceReceiver>): any[] {
+  return result.map((item) => {
+    return voiceReceiverDeserializer(item);
+  });
+}
+
+/** A voice receiver. */
+export interface VoiceReceiver {
+  /** The name of the voice receiver. Names must be unique across all receivers within an action group. */
+  name: string;
+  /** The country code of the voice receiver. */
+  countryCode: string;
+  /** The phone number of the voice receiver. */
+  phoneNumber: string;
+}
+
+export function voiceReceiverSerializer(item: VoiceReceiver): any {
+  return { name: item["name"], countryCode: item["countryCode"], phoneNumber: item["phoneNumber"] };
+}
+
+export function voiceReceiverDeserializer(item: any): VoiceReceiver {
+  return {
+    name: item["name"],
+    countryCode: item["countryCode"],
+    phoneNumber: item["phoneNumber"],
+  };
+}
+
+/** The context info */
+export interface Context {
+  /** The source of the notification request */
+  notificationSource?: string;
+  /** The context id type */
+  contextType?: string;
+}
+
+export function contextDeserializer(item: any): Context {
+  return {
+    notificationSource: item["notificationSource"],
+    contextType: item["contextType"],
   };
 }
 
@@ -37,6 +185,21 @@ export function errorResponseDeserializer(item: any): ErrorResponse {
   return {
     code: item["code"],
     message: item["message"],
+  };
+}
+
+/** The localizable string class. */
+export interface LocalizableString {
+  /** the invariant value. */
+  value: string;
+  /** the locale specific value. */
+  localizedValue?: string;
+}
+
+export function localizableStringDeserializer(item: any): LocalizableString {
+  return {
+    value: item["value"],
+    localizedValue: item["localizedValue"],
   };
 }
 
@@ -312,5 +475,25 @@ export function errorResponseErrorAdditionalInfoItemDeserializer(
   };
 }
 
+/** Action group settings for patch operations. */
+export interface ActionGroupPatch {
+  /** Indicates whether this action group is enabled. If an action group is not enabled, then none of its actions will be activated. */
+  enabled?: boolean;
+}
+
+export function actionGroupPatchSerializer(item: ActionGroupPatch): any {
+  return { enabled: item["enabled"] };
+}
+
 /** Type of ResultType */
 export type ResultType = "Data" | "Metadata";
+
+export function _actionGroupPatchBodyPropertiesSerializer(item: ActionGroupPatchBody): any {
+  return { enabled: item["enabled"] };
+}
+
+export function _tenantActionGroupPatchBodyPropertiesSerializer(
+  item: TenantActionGroupPatchBody,
+): any {
+  return { enabled: item["enabled"] };
+}

@@ -113,9 +113,6 @@ sdk/
 │  ├─ purview-datamap-rest/
 │  │  ├─ src/
 │  │  │  ├─ ...
-│  │  ├─ recordings/
-│  │  │  ├─ node/
-│  │  │  ├─ browsers/
 │  │  ├─ test/
 │  │  │  ├─ public/
 │  │  │  |  ├─ utils/
@@ -173,7 +170,7 @@ After running the test cases, you need to push your recordings into assets repo.
 > pnpm test
 ```
 
-This time we could get following similar logs. Go to the folder `purview-datamap-rest/recordings` to view recording files.
+This time we could get following similar logs. After pushing, recording files will be stored in the [azure-sdk-assets](https://github.com/Azure/azure-sdk-assets) repo and referenced via your `assets.json`.
 
 ```
 [test-info] ===TEST_MODE="record"===
