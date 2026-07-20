@@ -32,7 +32,15 @@ function isDelivery(obj: any): boolean {
  * Describes the Retry Mode type
  */
 export enum RetryMode {
+  /**
+   * Increases the delay between retries. The delay grows exponentially with each
+   * attempt, and it is capped at the `maxRetryDelayInMs` value in the retry options.
+   */
   Exponential,
+  /**
+   * Keeps the delay between retries constant. Each retry waits for the
+   * `retryDelayInMs` value in the retry options.
+   */
   Fixed,
 }
 
