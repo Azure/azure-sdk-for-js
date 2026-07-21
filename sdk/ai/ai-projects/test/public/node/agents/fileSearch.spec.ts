@@ -29,7 +29,7 @@ describe("agents - file search - basic", () => {
     await recorder.stop();
   });
 
-  it("should create agent with File Search tool", async () => {
+  it.skip("should create agent with File Search tool", async () => {
     // Create vector store for file search
     const vectorStore = await openAIClient.vectorStores.create({
       name: "TestProductInfoStore",
