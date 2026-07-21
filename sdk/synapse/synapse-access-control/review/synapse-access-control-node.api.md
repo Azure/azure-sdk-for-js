@@ -6,7 +6,9 @@
 
 import type * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { RestError } from '@azure/core-rest-pipeline';
 
 // @public (undocumented)
 export class AccessControlClient extends coreClient.ServiceClient {
@@ -66,11 +68,15 @@ export interface ErrorResponse {
     readonly target?: string;
 }
 
+export { isRestError }
+
 // @public
 export interface RequiredAction {
     id: string;
     isDataAction: boolean;
 }
+
+export { RestError }
 
 // @public
 export interface RoleAssignmentDetails {

@@ -6,6 +6,3 @@ steps:
   - template: use-node-version.yml
 
   - template: /eng/common/pipelines/templates/steps/create-authenticated-npmrc.yml
-    parameters:
-      npmrcPath: $(CommonNpmrcPath)
-      registryUrl: '$(PublicDevOpsRegistry)'

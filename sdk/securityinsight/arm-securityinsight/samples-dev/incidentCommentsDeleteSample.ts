@@ -1,37 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Delete the incident comment.
- *
- * @summary Delete the incident comment.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/incidents/comments/DeleteIncidentComment.json
- */
-
 import { SecurityInsights } from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
-async function deleteTheIncidentComment(): Promise<void> {
-  const subscriptionId =
-    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
-  const workspaceName = "myWorkspace";
-  const incidentId = "73e01a99-5cd7-4139-a149-9f2736ff2ab5";
-  const incidentCommentId = "4bb36b7b-26ff-4d1c-9cbe-0d8ab3da0014";
+/**
+ * This sample demonstrates how to deletes a comment for a given incident.
+ *
+ * @summary deletes a comment for a given incident.
+ * x-ms-original-file: 2025-07-01-preview/incidents/IncidentComments/IncidentComments_Delete.json
+ */
+async function incidentCommentsDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const client = new SecurityInsights(credential, subscriptionId);
-  const result = await client.incidentComments.delete(
-    resourceGroupName,
-    workspaceName,
-    incidentId,
-    incidentCommentId,
+  await client.incidentComments.delete(
+    "myRg",
+    "myWorkspace",
+    "73e01a99-5cd7-4139-a149-9f2736ff2ab5",
+    "4bb36b7b-26ff-4d1c-9cbe-0d8ab3da0014",
   );
-  console.log(result);
 }
 
 async function main(): Promise<void> {
-  await deleteTheIncidentComment();
+  await incidentCommentsDelete();
 }
 
 main().catch(console.error);

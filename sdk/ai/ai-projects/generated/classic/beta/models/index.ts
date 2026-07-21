@@ -5,7 +5,7 @@ import { AIProjectContext } from "../../../api/aiProjectContext.js";
 import {
   getCredentials,
   pendingUpload,
-  createAsync,
+  pendingCreateVersion,
   update,
   $delete,
   get,
@@ -15,7 +15,7 @@ import {
 import {
   BetaModelsGetCredentialsOptionalParams,
   BetaModelsPendingUploadOptionalParams,
-  BetaModelsCreateAsyncOptionalParams,
+  BetaModelsPendingCreateVersionOptionalParams,
   BetaModelsUpdateOptionalParams,
   BetaModelsDeleteOptionalParams,
   BetaModelsGetOptionalParams,
@@ -34,29 +34,29 @@ import { PagedAsyncIterableIterator } from "../../../static-helpers/pagingHelper
 
 /** Interface representing a BetaModels operations. */
 export interface BetaModelsOperations {
-  /** Get credentials for a model version asset. */
+  /** Retrieves temporary credentials for accessing the storage backing the specified model version. */
   getCredentials: (
     foundryFeatures: "Models=V1Preview",
     name: string,
     version: string,
-    body: ModelCredentialRequest,
+    credentialRequest: ModelCredentialRequest,
     options?: BetaModelsGetCredentialsOptionalParams,
   ) => Promise<DatasetCredential>;
-  /** Start or retrieve a pending upload for a model version. */
+  /** Initiates a new pending upload or retrieves an existing one for the specified model version. */
   pendingUpload: (
     foundryFeatures: "Models=V1Preview",
     name: string,
     version: string,
-    body: ModelPendingUploadRequest,
+    pendingUploadRequest: ModelPendingUploadRequest,
     options?: BetaModelsPendingUploadOptionalParams,
   ) => Promise<ModelPendingUploadResponse>;
-  /** Creates a model version asynchronously with blob content validation. Returns 202 Accepted with a Location header for polling. */
-  createAsync: (
+  /** Creates a model version asynchronously with blob content validation. Returns 202 Accepted with a location header for polling the operation status. */
+  pendingCreateVersion: (
     foundryFeatures: "Models=V1Preview",
     name: string,
     version: string,
-    body: ModelVersion,
-    options?: BetaModelsCreateAsyncOptionalParams,
+    modelVersion: ModelVersion,
+    options?: BetaModelsPendingCreateVersionOptionalParams,
   ) => Promise<{
     location?: string;
     operationResult?: string | null;
@@ -64,7 +64,7 @@ export interface BetaModelsOperations {
   /** Update an existing ModelVersion with the given version id */
   update: (
     name: string,
-    body: UpdateModelVersionRequest,
+    modelVersionUpdate: UpdateModelVersionRequest,
     version: string,
     foundryFeatures: "Models=V1Preview",
     options?: BetaModelsUpdateOptionalParams,
@@ -81,7 +81,7 @@ export interface BetaModelsOperations {
     version: string,
     options?: BetaModelsDeleteOptionalParams,
   ) => Promise<void>;
-  /** Get the specific version of the ModelVersion. The service returns 404 Not Found error if the ModelVersion does not exist. */
+  /** Retrieves the specified model version, returning 404 if it does not exist. */
   get: (
     name: string,
     foundryFeatures: "Models=V1Preview",
@@ -107,30 +107,30 @@ function _getBetaModels(context: AIProjectContext) {
       foundryFeatures: "Models=V1Preview",
       name: string,
       version: string,
-      body: ModelCredentialRequest,
+      credentialRequest: ModelCredentialRequest,
       options?: BetaModelsGetCredentialsOptionalParams,
-    ) => getCredentials(context, foundryFeatures, name, version, body, options),
+    ) => getCredentials(context, foundryFeatures, name, version, credentialRequest, options),
     pendingUpload: (
       foundryFeatures: "Models=V1Preview",
       name: string,
       version: string,
-      body: ModelPendingUploadRequest,
+      pendingUploadRequest: ModelPendingUploadRequest,
       options?: BetaModelsPendingUploadOptionalParams,
-    ) => pendingUpload(context, foundryFeatures, name, version, body, options),
-    createAsync: (
+    ) => pendingUpload(context, foundryFeatures, name, version, pendingUploadRequest, options),
+    pendingCreateVersion: (
       foundryFeatures: "Models=V1Preview",
       name: string,
       version: string,
-      body: ModelVersion,
-      options?: BetaModelsCreateAsyncOptionalParams,
-    ) => createAsync(context, foundryFeatures, name, version, body, options),
+      modelVersion: ModelVersion,
+      options?: BetaModelsPendingCreateVersionOptionalParams,
+    ) => pendingCreateVersion(context, foundryFeatures, name, version, modelVersion, options),
     update: (
       name: string,
-      body: UpdateModelVersionRequest,
+      modelVersionUpdate: UpdateModelVersionRequest,
       version: string,
       foundryFeatures: "Models=V1Preview",
       options?: BetaModelsUpdateOptionalParams,
-    ) => update(context, name, body, version, foundryFeatures, options),
+    ) => update(context, name, modelVersionUpdate, version, foundryFeatures, options),
     delete: (
       name: string,
       foundryFeatures: "Models=V1Preview",

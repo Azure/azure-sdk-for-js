@@ -3,28 +3,22 @@
 
 import { NewRelicObservability } from "@azure/arm-newrelicobservability";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
 /**
- * This sample demonstrates how to Retrieves a list of all New Relic monitor resources either a specific resource group
+ * This sample demonstrates how to retrieves a list of all New Relic monitor resources either a specific resource group
  *
- * @summary Retrieves a list of all New Relic monitor resources either a specific resource group
- * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/preview/2025-05-01-preview/examples/Monitors_ListByResourceGroup_MaximumSet_Gen.json
+ * @summary retrieves a list of all New Relic monitor resources either a specific resource group
+ * x-ms-original-file: 2025-05-01-preview/Monitors_ListByResourceGroup_MaximumSet_Gen.json
  */
 async function monitorsListByResourceGroupMaximumSetGen(): Promise<void> {
-  const subscriptionId =
-    process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["NEWRELICOBSERVABILITY_RESOURCE_GROUP"] || "rgNewRelic";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NewRelicObservability(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.monitors.listByResourceGroup(
-    resourceGroupName,
-  )) {
+  for await (const item of client.monitors.listByResourceGroup("rgNewRelic")) {
     resArray.push(item);
   }
+
   console.log(resArray);
 }
 

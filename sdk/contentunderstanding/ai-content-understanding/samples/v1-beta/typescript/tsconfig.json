@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES2023",
-    "module": "commonjs",
+    "module": "nodenext",
     "lib": [
       "ESNext"
     ],
@@ -14,8 +14,9 @@
       "node"
     ],
     "outDir": "./dist",
+    "rootDir": "./src",
     "resolveJsonModule": true,
-    "moduleResolution": "node10"
+    "moduleResolution": "nodenext"
   },
   "include": [
     "./src"

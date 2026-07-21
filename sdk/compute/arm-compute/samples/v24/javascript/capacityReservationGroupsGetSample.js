@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to the operation that retrieves information about a capacity reservation group.
  *
  * @summary the operation that retrieves information about a capacity reservation group.
- * x-ms-original-file: 2025-11-01/capacityReservationExamples/BlockCapacityReservationGroup_Get.json
+ * x-ms-original-file: 2026-03-01/capacityReservationExamples/BlockCapacityReservationGroup_Get.json
  */
 async function getABlockCapacityReservationGroup() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function getABlockCapacityReservationGroup() {
  * This sample demonstrates how to the operation that retrieves information about a capacity reservation group.
  *
  * @summary the operation that retrieves information about a capacity reservation group.
- * x-ms-original-file: 2025-11-01/capacityReservationExamples/CapacityReservationGroup_Get.json
+ * x-ms-original-file: 2026-03-01/capacityReservationExamples/CapacityReservationGroup_Get.json
  */
 async function getACapacityReservationGroup() {
   const credential = new DefaultAzureCredential();
@@ -44,7 +44,7 @@ async function getACapacityReservationGroup() {
  * This sample demonstrates how to the operation that retrieves information about a capacity reservation group.
  *
  * @summary the operation that retrieves information about a capacity reservation group.
- * x-ms-original-file: 2025-11-01/capacityReservationExamples/TargetedCapacityReservationGroup_Get.json
+ * x-ms-original-file: 2026-03-01/capacityReservationExamples/TargetedCapacityReservationGroup_Get.json
  */
 async function getATargetedCapacityReservationGroup() {
   const credential = new DefaultAzureCredential();

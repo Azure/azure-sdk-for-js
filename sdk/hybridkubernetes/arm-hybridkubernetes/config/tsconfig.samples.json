@@ -2,9 +2,7 @@
   "extends": "../../../../eng/tsconfigs/samples.json",
   "compilerOptions": {
     "paths": {
-      "@azure/arm-hybridkubernetes": [
-        "../dist/esm"
-      ]
+      "@azure/arm-hybridkubernetes": ["../dist/esm"]
     }
   }
 }

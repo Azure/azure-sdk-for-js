@@ -6,11 +6,6 @@ import {
   status,
   start,
   deallocate,
-  getBackup,
-  listBackups,
-  getCommandAsync,
-  listCommand,
-  invokeCommandAsync,
   invokeCommand,
   listBySubscription,
   listByResourceGroup,
@@ -23,11 +18,6 @@ import type {
   CassandraClustersStatusOptionalParams,
   CassandraClustersStartOptionalParams,
   CassandraClustersDeallocateOptionalParams,
-  CassandraClustersGetBackupOptionalParams,
-  CassandraClustersListBackupsOptionalParams,
-  CassandraClustersGetCommandAsyncOptionalParams,
-  CassandraClustersListCommandOptionalParams,
-  CassandraClustersInvokeCommandAsyncOptionalParams,
   CassandraClustersInvokeCommandOptionalParams,
   CassandraClustersListBySubscriptionOptionalParams,
   CassandraClustersListByResourceGroupOptionalParams,
@@ -40,9 +30,6 @@ import type {
   ClusterResource,
   CommandPostBody,
   CommandOutput,
-  CommandAsyncPostBody,
-  CommandPublicResource,
-  BackupResource,
   CassandraClusterPublicStatus,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
@@ -94,53 +81,6 @@ export interface CassandraClustersOperations {
     clusterName: string,
     options?: CassandraClustersDeallocateOptionalParams,
   ) => Promise<void>;
-  /** Get the properties of an individual backup of this cluster that is available to restore. */
-  getBackup: (
-    resourceGroupName: string,
-    clusterName: string,
-    backupId: string,
-    options?: CassandraClustersGetBackupOptionalParams,
-  ) => Promise<BackupResource>;
-  /** List the backups of this cluster that are available to restore. */
-  listBackups: (
-    resourceGroupName: string,
-    clusterName: string,
-    options?: CassandraClustersListBackupsOptionalParams,
-  ) => PagedAsyncIterableIterator<BackupResource>;
-  /** Get details about a specified command that was run asynchronously. */
-  getCommandAsync: (
-    resourceGroupName: string,
-    clusterName: string,
-    commandId: string,
-    options?: CassandraClustersGetCommandAsyncOptionalParams,
-  ) => Promise<CommandPublicResource>;
-  /** List all commands currently running on ring info */
-  listCommand: (
-    resourceGroupName: string,
-    clusterName: string,
-    options?: CassandraClustersListCommandOptionalParams,
-  ) => PagedAsyncIterableIterator<CommandPublicResource>;
-  /** Invoke a command like nodetool for cassandra maintenance asynchronously */
-  invokeCommandAsync: (
-    resourceGroupName: string,
-    clusterName: string,
-    body: CommandAsyncPostBody,
-    options?: CassandraClustersInvokeCommandAsyncOptionalParams,
-  ) => PollerLike<OperationState<CommandPublicResource>, CommandPublicResource>;
-  /** @deprecated use invokeCommandAsync instead */
-  beginInvokeCommandAsync: (
-    resourceGroupName: string,
-    clusterName: string,
-    body: CommandAsyncPostBody,
-    options?: CassandraClustersInvokeCommandAsyncOptionalParams,
-  ) => Promise<SimplePollerLike<OperationState<CommandPublicResource>, CommandPublicResource>>;
-  /** @deprecated use invokeCommandAsync instead */
-  beginInvokeCommandAsyncAndWait: (
-    resourceGroupName: string,
-    clusterName: string,
-    body: CommandAsyncPostBody,
-    options?: CassandraClustersInvokeCommandAsyncOptionalParams,
-  ) => Promise<CommandPublicResource>;
   /** Invoke a command like nodetool for cassandra maintenance */
   invokeCommand: (
     resourceGroupName: string,
@@ -172,11 +112,6 @@ export interface CassandraClustersOperations {
     options?: CassandraClustersListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<ClusterResource>;
   /** Deletes a managed Cassandra cluster. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     clusterName: string,
@@ -292,52 +227,6 @@ function _getCassandraClusters(context: CosmosDBManagementContext) {
       options?: CassandraClustersDeallocateOptionalParams,
     ) => {
       return await deallocate(context, resourceGroupName, clusterName, options);
-    },
-    getBackup: (
-      resourceGroupName: string,
-      clusterName: string,
-      backupId: string,
-      options?: CassandraClustersGetBackupOptionalParams,
-    ) => getBackup(context, resourceGroupName, clusterName, backupId, options),
-    listBackups: (
-      resourceGroupName: string,
-      clusterName: string,
-      options?: CassandraClustersListBackupsOptionalParams,
-    ) => listBackups(context, resourceGroupName, clusterName, options),
-    getCommandAsync: (
-      resourceGroupName: string,
-      clusterName: string,
-      commandId: string,
-      options?: CassandraClustersGetCommandAsyncOptionalParams,
-    ) => getCommandAsync(context, resourceGroupName, clusterName, commandId, options),
-    listCommand: (
-      resourceGroupName: string,
-      clusterName: string,
-      options?: CassandraClustersListCommandOptionalParams,
-    ) => listCommand(context, resourceGroupName, clusterName, options),
-    invokeCommandAsync: (
-      resourceGroupName: string,
-      clusterName: string,
-      body: CommandAsyncPostBody,
-      options?: CassandraClustersInvokeCommandAsyncOptionalParams,
-    ) => invokeCommandAsync(context, resourceGroupName, clusterName, body, options),
-    beginInvokeCommandAsync: async (
-      resourceGroupName: string,
-      clusterName: string,
-      body: CommandAsyncPostBody,
-      options?: CassandraClustersInvokeCommandAsyncOptionalParams,
-    ) => {
-      const poller = invokeCommandAsync(context, resourceGroupName, clusterName, body, options);
-      await poller.submitted();
-      return getSimplePoller(poller);
-    },
-    beginInvokeCommandAsyncAndWait: async (
-      resourceGroupName: string,
-      clusterName: string,
-      body: CommandAsyncPostBody,
-      options?: CassandraClustersInvokeCommandAsyncOptionalParams,
-    ) => {
-      return await invokeCommandAsync(context, resourceGroupName, clusterName, body, options);
     },
     invokeCommand: (
       resourceGroupName: string,

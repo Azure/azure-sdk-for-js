@@ -33,7 +33,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       serverName: serverName,
       threatProtectionName: threatProtectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -52,7 +52,9 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -85,7 +87,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-01-01-preview",
+    apiVersion: context.apiVersion ?? "2026-04-01-preview",
   }) as PollerLike<
     OperationState<AdvancedThreatProtectionSettingsModel>,
     AdvancedThreatProtectionSettingsModel

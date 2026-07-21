@@ -1,9 +1,9 @@
 {
   "name": "@azure/arm-containerservice",
-  "version": "25.3.0-beta.1",
+  "version": "25.4.0-beta.2",
   "description": "A generated SDK for ContainerServiceClient.",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "sideEffects": false,
   "autoPublish": false,
@@ -280,6 +280,20 @@
         "default": "./dist/commonjs/api/managedNamespaces/index.js"
       }
     },
+    "./api/maintenanceWindows": {
+      "browser": {
+        "types": "./dist/browser/api/maintenanceWindows/index.d.ts",
+        "default": "./dist/browser/api/maintenanceWindows/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/maintenanceWindows/index.d.ts",
+        "default": "./dist/esm/api/maintenanceWindows/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/maintenanceWindows/index.d.ts",
+        "default": "./dist/commonjs/api/maintenanceWindows/index.js"
+      }
+    },
     "./api/maintenanceConfigurations": {
       "browser": {
         "types": "./dist/browser/api/maintenanceConfigurations/index.d.ts",
@@ -428,6 +442,7 @@
   },
   "imports": {
     "#platform/*": {
+      "browser": "./src/*-browser.mts",
       "default": "./src/*.ts"
     }
   }

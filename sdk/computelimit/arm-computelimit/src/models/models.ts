@@ -647,6 +647,241 @@ export function vmFamilyArrayDeserializer(result: Array<VmFamily>): any[] {
   });
 }
 
+/**
+ * Shared limit cap configuration for a VM family, owned by a host subscription
+ * and propagated to its member subscriptions. The same resource type is
+ * readable by host and member subscriptions, but write operations (PUT/DELETE)
+ * are scoped to the caller's subscription as the host.
+ */
+export interface SharedLimitCap extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: SharedLimitCapProperties;
+}
+
+export function sharedLimitCapSerializer(item: SharedLimitCap): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : sharedLimitCapPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function sharedLimitCapDeserializer(item: any): SharedLimitCap {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : sharedLimitCapPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Properties of a shared limit cap resource. */
+export interface SharedLimitCapProperties {
+  /**
+   * The default member cap value (in count units).
+   * Set to a non-negative integer to apply a cap to all member subscriptions
+   * that do not have a per-member override. Omit the property to leave no
+   * default cap in effect.
+   */
+  defaultMemberCap?: number;
+  /**
+   * Controls whether the service validates the aggregate cap against the
+   * group limit for the VM family.
+   *
+   * SUM(caps) is the sum of all per-member overrides' cap values plus
+   * `defaultMemberCap` multiplied by the number of member subscriptions without an override.
+   *
+   * When true, the service rejects any configuration where SUM(caps)
+   * exceeds the group limit. When false, SUM(caps) is permitted to exceed
+   * the group limit.
+   *
+   * Enabling this flag is rejected if the current configuration already breaches the group limit;
+   * reduce caps first, then enable.
+   */
+  isBoundedCap: boolean;
+  /** The provisioning state of the resource. */
+  readonly provisioningState?: ResourceProvisioningState;
+}
+
+export function sharedLimitCapPropertiesSerializer(item: SharedLimitCapProperties): any {
+  return { defaultMemberCap: item["defaultMemberCap"], isBoundedCap: item["isBoundedCap"] };
+}
+
+export function sharedLimitCapPropertiesDeserializer(item: any): SharedLimitCapProperties {
+  return {
+    defaultMemberCap: item["defaultMemberCap"],
+    isBoundedCap: item["isBoundedCap"],
+    provisioningState: item["provisioningState"],
+  };
+}
+
+/** The response of a SharedLimitCap list operation. */
+export interface _SharedLimitCapListResult {
+  /** The SharedLimitCap items on this page */
+  value: SharedLimitCap[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _sharedLimitCapListResultDeserializer(item: any): _SharedLimitCapListResult {
+  return {
+    value: sharedLimitCapArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function sharedLimitCapArraySerializer(result: Array<SharedLimitCap>): any[] {
+  return result.map((item) => {
+    return sharedLimitCapSerializer(item);
+  });
+}
+
+export function sharedLimitCapArrayDeserializer(result: Array<SharedLimitCap>): any[] {
+  return result.map((item) => {
+    return sharedLimitCapDeserializer(item);
+  });
+}
+
+/** Request body for the `setMemberCapOverrides` action. */
+export interface SetMemberCapOverridesRequest {
+  /**
+   * The full set of per-member cap overrides to persist for this resource.
+   * This call replaces the existing set entirely; supply an empty array
+   * (`[]`) to clear all overrides.
+   */
+  memberCapOverrides: MemberCap[];
+}
+
+export function setMemberCapOverridesRequestSerializer(item: SetMemberCapOverridesRequest): any {
+  return { memberCapOverrides: memberCapArraySerializer(item["memberCapOverrides"]) };
+}
+
+export function memberCapArraySerializer(result: Array<MemberCap>): any[] {
+  return result.map((item) => {
+    return memberCapSerializer(item);
+  });
+}
+
+export function memberCapArrayDeserializer(result: Array<MemberCap>): any[] {
+  return result.map((item) => {
+    return memberCapDeserializer(item);
+  });
+}
+
+/** Per-member cap override. Pairs a member subscription with its cap value. */
+export interface MemberCap {
+  /** The member subscription identifier this cap applies to. */
+  subscriptionId: string;
+  /** The cap value in count units for this member subscription. */
+  cap: number;
+}
+
+export function memberCapSerializer(item: MemberCap): any {
+  return { subscriptionId: item["subscriptionId"], cap: item["cap"] };
+}
+
+export function memberCapDeserializer(item: any): MemberCap {
+  return {
+    subscriptionId: item["subscriptionId"],
+    cap: item["cap"],
+  };
+}
+
+/** Response body for the `setMemberCapOverrides` action. */
+export interface SetMemberCapOverridesResult {
+  /** The per-member cap overrides as persisted after the action completed. */
+  memberCapOverrides: MemberCap[];
+}
+
+export function setMemberCapOverridesResultDeserializer(item: any): SetMemberCapOverridesResult {
+  return {
+    memberCapOverrides: memberCapArrayDeserializer(item["memberCapOverrides"]),
+  };
+}
+
+/**
+ * Member cap override as a standalone child resource of `SharedLimitCap`.
+ * Use this resource to read or modify a single member's cap without
+ * resending the entire `memberCapOverrides` array on the parent.
+ */
+export interface MemberCapOverride extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: MemberCapOverrideProperties;
+}
+
+export function memberCapOverrideSerializer(item: MemberCapOverride): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : memberCapOverridePropertiesSerializer(item["properties"]),
+  };
+}
+
+export function memberCapOverrideDeserializer(item: any): MemberCapOverride {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : memberCapOverridePropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Properties of a per-member cap override. */
+export interface MemberCapOverrideProperties {
+  /** The cap value in count units for this member subscription. */
+  cap: number;
+  /** The provisioning state of the resource. */
+  readonly provisioningState?: ResourceProvisioningState;
+}
+
+export function memberCapOverridePropertiesSerializer(item: MemberCapOverrideProperties): any {
+  return { cap: item["cap"] };
+}
+
+export function memberCapOverridePropertiesDeserializer(item: any): MemberCapOverrideProperties {
+  return {
+    cap: item["cap"],
+    provisioningState: item["provisioningState"],
+  };
+}
+
+/** The response of a MemberCapOverride list operation. */
+export interface _MemberCapOverrideListResult {
+  /** The MemberCapOverride items on this page */
+  value: MemberCapOverride[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _memberCapOverrideListResultDeserializer(item: any): _MemberCapOverrideListResult {
+  return {
+    value: memberCapOverrideArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function memberCapOverrideArraySerializer(result: Array<MemberCapOverride>): any[] {
+  return result.map((item) => {
+    return memberCapOverrideSerializer(item);
+  });
+}
+
+export function memberCapOverrideArrayDeserializer(result: Array<MemberCapOverride>): any[] {
+  return result.map((item) => {
+    return memberCapOverrideDeserializer(item);
+  });
+}
+
 /** The available API versions. */
 export enum KnownVersions {
   /** The 2025-08-15 API version. */
@@ -657,4 +892,6 @@ export enum KnownVersions {
   V20260430 = "2026-04-30",
   /** The 2026-06-01 API version. */
   V20260601 = "2026-06-01",
+  /** The 2026-07-01 API version. */
+  V20260701 = "2026-07-01",
 }

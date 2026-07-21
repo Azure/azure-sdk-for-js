@@ -1,25 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Create a Metadata.
- *
- * @summary Create a Metadata.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/metadata/PutMetadata.json
- */
-
-import type { MetadataModel } from "@azure/arm-securityinsight";
 import { SecurityInsights } from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to create a Metadata.
+ *
+ * @summary create a Metadata.
+ * x-ms-original-file: 2025-07-01-preview/metadata/PutMetadata.json
+ */
 async function createOrUpdateFullMetadata(): Promise<void> {
-  const subscriptionId =
-    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
-  const workspaceName = "myWorkspace";
-  const metadataName = "metadataName";
-  const metadata: MetadataModel = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const client = new SecurityInsights(credential, subscriptionId);
+  const result = await client.metadata.create("myRg", "myWorkspace", "metadataName", {
     author: { name: "User Name", email: "email@microsoft.com" },
     categories: {
       domains: ["Application", "Security – Insider Threat"],
@@ -37,10 +32,7 @@ async function createOrUpdateFullMetadata(): Promise<void> {
               contentId: "045d06d0-ee72-4794-aba4-cf5646e4c756",
               kind: "DataConnector",
             },
-            {
-              contentId: "dbfcb2cc-d782-40ef-8d94-fe7af58a6f2d",
-              kind: "DataConnector",
-            },
+            { contentId: "dbfcb2cc-d782-40ef-8d94-fe7af58a6f2d", kind: "DataConnector" },
             {
               contentId: "de4dca9b-eb37-47d6-a56f-b8b06b261593",
               kind: "DataConnector",
@@ -49,11 +41,7 @@ async function createOrUpdateFullMetadata(): Promise<void> {
           ],
           operator: "OR",
         },
-        {
-          contentId: "31ee11cc-9989-4de8-b176-5e0ef5c4dbab",
-          kind: "Playbook",
-          version: "1.0",
-        },
+        { contentId: "31ee11cc-9989-4de8-b176-5e0ef5c4dbab", kind: "Playbook", version: "1.0" },
         { contentId: "21ba424a-9438-4444-953a-7059539a7a1b", kind: "Parser" },
       ],
       operator: "AND",
@@ -80,44 +68,26 @@ async function createOrUpdateFullMetadata(): Promise<void> {
     threatAnalysisTactics: ["reconnaissance", "commandandcontrol"],
     threatAnalysisTechniques: ["T1548", "T1548.001"],
     version: "1.0.0.0",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new SecurityInsights(credential, subscriptionId);
-  const result = await client.metadata.create(
-    resourceGroupName,
-    workspaceName,
-    metadataName,
-    metadata,
-  );
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Create a Metadata.
+ * This sample demonstrates how to create a Metadata.
  *
- * @summary Create a Metadata.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/metadata/PutMetadataMinimal.json
+ * @summary create a Metadata.
+ * x-ms-original-file: 2025-07-01-preview/metadata/PutMetadataMinimal.json
  */
 async function createOrUpdateMinimalMetadata(): Promise<void> {
-  const subscriptionId =
-    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
-  const workspaceName = "myWorkspace";
-  const metadataName = "metadataName";
-  const metadata: MetadataModel = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+  const client = new SecurityInsights(credential, subscriptionId);
+  const result = await client.metadata.create("myRg", "myWorkspace", "metadataName", {
     contentId: "c00ee137-7475-47c8-9cce-ec6f0f1bedd0",
     kind: "AnalyticsRule",
     parentId:
       "/subscriptions/2e1dc338-d04d-4443-b721-037eff4fdcac/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/alertRules/ruleName",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new SecurityInsights(credential, subscriptionId);
-  const result = await client.metadata.create(
-    resourceGroupName,
-    workspaceName,
-    metadataName,
-    metadata,
-  );
+  });
   console.log(result);
 }
 

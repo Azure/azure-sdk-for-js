@@ -36,11 +36,6 @@ export interface IpExtendedCommunitiesOperations {
     options?: IpExtendedCommunitiesListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<IpExtendedCommunity>;
   /** Implements IP Extended Community DELETE method. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     ipExtendedCommunityName: string,

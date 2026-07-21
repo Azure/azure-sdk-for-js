@@ -13,3 +13,4 @@ export type * from "./outputModels.js";
 export * from "./pollingHelper.js";
 
 export default FaceClient;
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

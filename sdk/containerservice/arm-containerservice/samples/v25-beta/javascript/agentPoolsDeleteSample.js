@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes an agent pool in the specified managed cluster.
  *
  * @summary deletes an agent pool in the specified managed cluster.
- * x-ms-original-file: 2026-03-02-preview/AgentPoolsDelete.json
+ * x-ms-original-file: 2026-04-02-preview/AgentPoolsDelete.json
  */
 async function deleteAgentPool() {
   const credential = new DefaultAzureCredential();
@@ -21,7 +21,7 @@ async function deleteAgentPool() {
  * This sample demonstrates how to deletes an agent pool in the specified managed cluster.
  *
  * @summary deletes an agent pool in the specified managed cluster.
- * x-ms-original-file: 2026-03-02-preview/AgentPoolsDelete_IgnorePodDisruptionBudget.json
+ * x-ms-original-file: 2026-04-02-preview/AgentPoolsDelete_IgnorePodDisruptionBudget.json
  */
 async function deleteAgentPoolByIgnoringPodDisruptionBudget() {
   const credential = new DefaultAzureCredential();

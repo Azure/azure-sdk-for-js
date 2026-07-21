@@ -4,27 +4,27 @@
 import type { AzureNetworkFabricManagementServiceAPIContext as Client } from "../index.js";
 import type {
   UpdateAdministrativeState,
-  CommonPostActionResponseForStateUpdate,
+  UpdateAdministrativeStateResponse,
   InternalNetwork,
   InternalNetworkPatch,
   _InternalNetworksList,
-  InternalNetworkBgpAdministrativeStateRequest,
-  InternalNetworkBgpAdministrativeStateResponse,
-  InternalNetworkBfdAdministrativeStateRequest,
-  InternalNetworkBfdAdministrativeStateResponse,
+  InternalNetworkUpdateBgpAdministrativeStateRequest,
+  InternalNetworkUpdateBgpAdministrativeStateResponse,
+  InternalNetworkUpdateBfdAdministrativeStateRequest,
+  InternalNetworkUpdateBfdAdministrativeStateResponse,
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
   updateAdministrativeStateSerializer,
-  commonPostActionResponseForStateUpdateDeserializer,
+  updateAdministrativeStateResponseDeserializer,
   internalNetworkSerializer,
   internalNetworkDeserializer,
   internalNetworkPatchSerializer,
   _internalNetworksListDeserializer,
-  internalNetworkBgpAdministrativeStateRequestSerializer,
-  internalNetworkBgpAdministrativeStateResponseDeserializer,
-  internalNetworkBfdAdministrativeStateRequestSerializer,
-  internalNetworkBfdAdministrativeStateResponseDeserializer,
+  internalNetworkUpdateBgpAdministrativeStateRequestSerializer,
+  internalNetworkUpdateBgpAdministrativeStateResponseDeserializer,
+  internalNetworkUpdateBfdAdministrativeStateRequestSerializer,
+  internalNetworkUpdateBfdAdministrativeStateResponseDeserializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -32,6 +32,7 @@ import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
   InternalNetworksUpdateBfdAdministrativeStateOptionalParams,
+  InternalNetworksUpdateStaticRouteBfdAdministrativeStateOptionalParams,
   InternalNetworksUpdateBgpAdministrativeStateOptionalParams,
   InternalNetworksUpdateAdministrativeStateOptionalParams,
   InternalNetworksListByL3IsolationDomainOptionalParams,
@@ -49,7 +50,7 @@ export function _updateBfdAdministrativeStateSend(
   resourceGroupName: string,
   l3IsolationDomainName: string,
   internalNetworkName: string,
-  body: InternalNetworkBfdAdministrativeStateRequest,
+  body: InternalNetworkUpdateBfdAdministrativeStateRequest,
   options: InternalNetworksUpdateBfdAdministrativeStateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -59,7 +60,7 @@ export function _updateBfdAdministrativeStateSend(
       resourceGroupName: resourceGroupName,
       l3IsolationDomainName: l3IsolationDomainName,
       internalNetworkName: internalNetworkName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -69,22 +70,24 @@ export function _updateBfdAdministrativeStateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: internalNetworkBfdAdministrativeStateRequestSerializer(body),
+    body: internalNetworkUpdateBfdAdministrativeStateRequestSerializer(body),
   });
 }
 
 export async function _updateBfdAdministrativeStateDeserialize(
   result: PathUncheckedResponse,
-): Promise<InternalNetworkBfdAdministrativeStateResponse> {
-  const expectedStatuses = ["202", "200", "201"];
+): Promise<InternalNetworkUpdateBfdAdministrativeStateResponse> {
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
-  return internalNetworkBfdAdministrativeStateResponseDeserializer(result.body);
+  return internalNetworkUpdateBfdAdministrativeStateResponseDeserializer(result.body);
 }
 
 /** BFD administrative state for either static or bgp for internalNetwork. */
@@ -93,16 +96,16 @@ export function updateBfdAdministrativeState(
   resourceGroupName: string,
   l3IsolationDomainName: string,
   internalNetworkName: string,
-  body: InternalNetworkBfdAdministrativeStateRequest,
+  body: InternalNetworkUpdateBfdAdministrativeStateRequest,
   options: InternalNetworksUpdateBfdAdministrativeStateOptionalParams = { requestOptions: {} },
 ): PollerLike<
-  OperationState<InternalNetworkBfdAdministrativeStateResponse>,
-  InternalNetworkBfdAdministrativeStateResponse
+  OperationState<InternalNetworkUpdateBfdAdministrativeStateResponse>,
+  InternalNetworkUpdateBfdAdministrativeStateResponse
 > {
   return getLongRunningPoller(
     context,
     _updateBfdAdministrativeStateDeserialize,
-    ["202", "200", "201"],
+    ["200", "202", "201"],
     {
       updateIntervalInMs: options?.updateIntervalInMs,
       abortSignal: options?.abortSignal,
@@ -116,30 +119,32 @@ export function updateBfdAdministrativeState(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2024-06-15-preview",
+      apiVersion: context.apiVersion ?? "2025-07-15",
     },
   ) as PollerLike<
-    OperationState<InternalNetworkBfdAdministrativeStateResponse>,
-    InternalNetworkBfdAdministrativeStateResponse
+    OperationState<InternalNetworkUpdateBfdAdministrativeStateResponse>,
+    InternalNetworkUpdateBfdAdministrativeStateResponse
   >;
 }
 
-export function _updateBgpAdministrativeStateSend(
+export function _updateStaticRouteBfdAdministrativeStateSend(
   context: Client,
   resourceGroupName: string,
   l3IsolationDomainName: string,
   internalNetworkName: string,
-  body: InternalNetworkBgpAdministrativeStateRequest,
-  options: InternalNetworksUpdateBgpAdministrativeStateOptionalParams = { requestOptions: {} },
+  body: UpdateAdministrativeState,
+  options: InternalNetworksUpdateStaticRouteBfdAdministrativeStateOptionalParams = {
+    requestOptions: {},
+  },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/{l3IsolationDomainName}/internalNetworks/{internalNetworkName}/updateBgpAdministrativeState{?api%2Dversion}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/{l3IsolationDomainName}/internalNetworks/{internalNetworkName}/updateStaticRouteBfdAdministrativeState{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       l3IsolationDomainName: l3IsolationDomainName,
       internalNetworkName: internalNetworkName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -149,22 +154,108 @@ export function _updateBgpAdministrativeStateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: internalNetworkBgpAdministrativeStateRequestSerializer(body),
+    body: updateAdministrativeStateSerializer(body),
+  });
+}
+
+export async function _updateStaticRouteBfdAdministrativeStateDeserialize(
+  result: PathUncheckedResponse,
+): Promise<UpdateAdministrativeStateResponse> {
+  const expectedStatuses = ["200", "202", "201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return updateAdministrativeStateResponseDeserializer(result.body);
+}
+
+/** Update Static Route BFD administrative state for internalNetwork. */
+export function updateStaticRouteBfdAdministrativeState(
+  context: Client,
+  resourceGroupName: string,
+  l3IsolationDomainName: string,
+  internalNetworkName: string,
+  body: UpdateAdministrativeState,
+  options: InternalNetworksUpdateStaticRouteBfdAdministrativeStateOptionalParams = {
+    requestOptions: {},
+  },
+): PollerLike<
+  OperationState<UpdateAdministrativeStateResponse>,
+  UpdateAdministrativeStateResponse
+> {
+  return getLongRunningPoller(
+    context,
+    _updateStaticRouteBfdAdministrativeStateDeserialize,
+    ["200", "202", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _updateStaticRouteBfdAdministrativeStateSend(
+          context,
+          resourceGroupName,
+          l3IsolationDomainName,
+          internalNetworkName,
+          body,
+          options,
+        ),
+      resourceLocationConfig: "location",
+      apiVersion: context.apiVersion ?? "2025-07-15",
+    },
+  ) as PollerLike<
+    OperationState<UpdateAdministrativeStateResponse>,
+    UpdateAdministrativeStateResponse
+  >;
+}
+
+export function _updateBgpAdministrativeStateSend(
+  context: Client,
+  resourceGroupName: string,
+  l3IsolationDomainName: string,
+  internalNetworkName: string,
+  body: InternalNetworkUpdateBgpAdministrativeStateRequest,
+  options: InternalNetworksUpdateBgpAdministrativeStateOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/{l3IsolationDomainName}/internalNetworks/{internalNetworkName}/updateBgpAdministrativeState{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      l3IsolationDomainName: l3IsolationDomainName,
+      internalNetworkName: internalNetworkName,
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: internalNetworkUpdateBgpAdministrativeStateRequestSerializer(body),
   });
 }
 
 export async function _updateBgpAdministrativeStateDeserialize(
   result: PathUncheckedResponse,
-): Promise<InternalNetworkBgpAdministrativeStateResponse> {
-  const expectedStatuses = ["202", "200", "201"];
+): Promise<InternalNetworkUpdateBgpAdministrativeStateResponse> {
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
-  return internalNetworkBgpAdministrativeStateResponseDeserializer(result.body);
+  return internalNetworkUpdateBgpAdministrativeStateResponseDeserializer(result.body);
 }
 
 /** Update BGP state for internalNetwork. Allowed only on edge devices. */
@@ -173,16 +264,16 @@ export function updateBgpAdministrativeState(
   resourceGroupName: string,
   l3IsolationDomainName: string,
   internalNetworkName: string,
-  body: InternalNetworkBgpAdministrativeStateRequest,
+  body: InternalNetworkUpdateBgpAdministrativeStateRequest,
   options: InternalNetworksUpdateBgpAdministrativeStateOptionalParams = { requestOptions: {} },
 ): PollerLike<
-  OperationState<InternalNetworkBgpAdministrativeStateResponse>,
-  InternalNetworkBgpAdministrativeStateResponse
+  OperationState<InternalNetworkUpdateBgpAdministrativeStateResponse>,
+  InternalNetworkUpdateBgpAdministrativeStateResponse
 > {
   return getLongRunningPoller(
     context,
     _updateBgpAdministrativeStateDeserialize,
-    ["202", "200", "201"],
+    ["200", "202", "201"],
     {
       updateIntervalInMs: options?.updateIntervalInMs,
       abortSignal: options?.abortSignal,
@@ -196,11 +287,11 @@ export function updateBgpAdministrativeState(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2024-06-15-preview",
+      apiVersion: context.apiVersion ?? "2025-07-15",
     },
   ) as PollerLike<
-    OperationState<InternalNetworkBgpAdministrativeStateResponse>,
-    InternalNetworkBgpAdministrativeStateResponse
+    OperationState<InternalNetworkUpdateBgpAdministrativeStateResponse>,
+    InternalNetworkUpdateBgpAdministrativeStateResponse
   >;
 }
 
@@ -219,7 +310,7 @@ export function _updateAdministrativeStateSend(
       resourceGroupName: resourceGroupName,
       l3IsolationDomainName: l3IsolationDomainName,
       internalNetworkName: internalNetworkName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -235,19 +326,21 @@ export function _updateAdministrativeStateSend(
 
 export async function _updateAdministrativeStateDeserialize(
   result: PathUncheckedResponse,
-): Promise<CommonPostActionResponseForStateUpdate> {
-  const expectedStatuses = ["202", "200", "201"];
+): Promise<UpdateAdministrativeStateResponse> {
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
-  return commonPostActionResponseForStateUpdateDeserializer(result.body);
+  return updateAdministrativeStateResponseDeserializer(result.body);
 }
 
-/** Update Administrative state of  InternalNetworks on resources referred by their resource ids. */
+/** Executes update operation to enable or disable administrative State for InternalNetwork. */
 export function updateAdministrativeState(
   context: Client,
   resourceGroupName: string,
@@ -256,13 +349,13 @@ export function updateAdministrativeState(
   body: UpdateAdministrativeState,
   options: InternalNetworksUpdateAdministrativeStateOptionalParams = { requestOptions: {} },
 ): PollerLike<
-  OperationState<CommonPostActionResponseForStateUpdate>,
-  CommonPostActionResponseForStateUpdate
+  OperationState<UpdateAdministrativeStateResponse>,
+  UpdateAdministrativeStateResponse
 > {
   return getLongRunningPoller(
     context,
     _updateAdministrativeStateDeserialize,
-    ["202", "200", "201"],
+    ["200", "202", "201"],
     {
       updateIntervalInMs: options?.updateIntervalInMs,
       abortSignal: options?.abortSignal,
@@ -276,11 +369,11 @@ export function updateAdministrativeState(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2024-06-15-preview",
+      apiVersion: context.apiVersion ?? "2025-07-15",
     },
   ) as PollerLike<
-    OperationState<CommonPostActionResponseForStateUpdate>,
-    CommonPostActionResponseForStateUpdate
+    OperationState<UpdateAdministrativeStateResponse>,
+    UpdateAdministrativeStateResponse
   >;
 }
 
@@ -296,7 +389,7 @@ export function _listByL3IsolationDomainSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       l3IsolationDomainName: l3IsolationDomainName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -314,7 +407,9 @@ export async function _listByL3IsolationDomainDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -334,11 +429,7 @@ export function listByL3IsolationDomain(
     () => _listByL3IsolationDomainSend(context, resourceGroupName, l3IsolationDomainName, options),
     _listByL3IsolationDomainDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2024-06-15-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-15" },
   );
 }
 
@@ -356,7 +447,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       l3IsolationDomainName: l3IsolationDomainName,
       internalNetworkName: internalNetworkName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -369,7 +460,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -378,11 +471,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Implements InternalNetworks DELETE method. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -396,7 +484,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, l3IsolationDomainName, internalNetworkName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2024-06-15-preview",
+    apiVersion: context.apiVersion ?? "2025-07-15",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -415,7 +503,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       l3IsolationDomainName: l3IsolationDomainName,
       internalNetworkName: internalNetworkName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -433,7 +521,9 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -463,7 +553,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2024-06-15-preview",
+    apiVersion: context.apiVersion ?? "2025-07-15",
   }) as PollerLike<OperationState<InternalNetwork>, InternalNetwork>;
 }
 
@@ -482,7 +572,7 @@ export function _createSend(
       resourceGroupName: resourceGroupName,
       l3IsolationDomainName: l3IsolationDomainName,
       internalNetworkName: internalNetworkName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -500,7 +590,9 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -530,7 +622,7 @@ export function create(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2024-06-15-preview",
+    apiVersion: context.apiVersion ?? "2025-07-15",
   }) as PollerLike<OperationState<InternalNetwork>, InternalNetwork>;
 }
 
@@ -548,7 +640,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       l3IsolationDomainName: l3IsolationDomainName,
       internalNetworkName: internalNetworkName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -564,7 +656,9 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<In
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

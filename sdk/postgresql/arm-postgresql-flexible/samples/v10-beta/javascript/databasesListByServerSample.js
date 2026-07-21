@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists all databases in a server.
  *
  * @summary lists all databases in a server.
- * x-ms-original-file: 2026-01-01-preview/DatabasesListByServer.json
+ * x-ms-original-file: 2026-04-01-preview/DatabasesListByServer.json
  */
 async function listAllDatabasesInAServer() {
   const credential = new DefaultAzureCredential();

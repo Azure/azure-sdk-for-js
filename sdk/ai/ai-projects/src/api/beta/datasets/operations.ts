@@ -43,9 +43,7 @@ export function _deleteGenerationJobSend(
   return context.path(path).delete({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": "DataGenerationJobs=V1Preview",
       ...options.requestOptions?.headers,
     },
   });
@@ -57,7 +55,9 @@ export async function _deleteGenerationJobDeserialize(
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -65,7 +65,7 @@ export async function _deleteGenerationJobDeserialize(
   return;
 }
 
-/** Deletes a data generation job by its ID. */
+/** Removes the specified data generation job and its associated output. */
 export async function deleteGenerationJob(
   context: Client,
   jobId: string,
@@ -93,9 +93,7 @@ export function _cancelGenerationJobSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": "DataGenerationJobs=V1Preview",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -108,7 +106,9 @@ export async function _cancelGenerationJobDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -116,7 +116,7 @@ export async function _cancelGenerationJobDeserialize(
   return dataGenerationJobDeserializer(result.body);
 }
 
-/** Cancels a data generation job by its ID. */
+/** Cancels the specified data generation job if it is still in progress. */
 export async function cancelGenerationJob(
   context: Client,
   jobId: string,
@@ -144,9 +144,7 @@ export function _createGenerationJobSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": "DataGenerationJobs=V1Preview",
       ...(options?.operationId !== undefined ? { "operation-id": options?.operationId } : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
@@ -161,7 +159,9 @@ export async function _createGenerationJobDeserialize(
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -169,7 +169,7 @@ export async function _createGenerationJobDeserialize(
   return dataGenerationJobDeserializer(result.body);
 }
 
-/** Creates a data generation job. */
+/** Submits a new data generation job for asynchronous execution. */
 export async function createGenerationJob(
   context: Client,
   job: DataGenerationJob,
@@ -199,9 +199,7 @@ export function _listGenerationJobsSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": "DataGenerationJobs=V1Preview",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -214,7 +212,9 @@ export async function _listGenerationJobsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -254,9 +254,7 @@ export function _getGenerationJobSend(
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
     headers: {
-      ...(options?.foundryFeatures !== undefined
-        ? { "foundry-features": options?.foundryFeatures }
-        : {}),
+      "foundry-features": "DataGenerationJobs=V1Preview",
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -269,7 +267,9 @@ export async function _getGenerationJobDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -277,7 +277,7 @@ export async function _getGenerationJobDeserialize(
   return dataGenerationJobDeserializer(result.body);
 }
 
-/** Gets the details of a data generation job by its ID. */
+/** Retrieves the specified data generation job and its current status. */
 export async function getGenerationJob(
   context: Client,
   jobId: string,

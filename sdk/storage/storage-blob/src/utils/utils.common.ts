@@ -48,6 +48,14 @@ import type { HttpHeadersLike, WebResourceLike } from "@azure/core-http-compat";
 import { HttpRequestBody } from "../Pipeline.js";
 import { StorageCRC64Calculator, structuredMessageEncoding } from "@azure/storage-common";
 
+const accountNameSuffixes = [
+  "-secondary-ipv6",
+  "-secondary-dualstack",
+  "-ipv6",
+  "-dualstack",
+  "-secondary",
+];
+
 /**
  * Reserved URL characters must be properly escaped for Storage services like Blob or File.
  *
@@ -607,11 +615,19 @@ export function iEqual(str1: string, str2: string): boolean {
  */
 export function getAccountNameFromUrl(url: string): string {
   const parsedUrl = new URL(url);
-  let accountName;
+  let accountName: string;
   try {
     if (parsedUrl.hostname.split(".")[1] === "blob") {
       // `${defaultEndpointsProtocol}://${accountName}.blob.${endpointSuffix}`;
+      // `${defaultEndpointsProtocol}://${accountName}-suffix.blob.${endpointSuffix}`;
       accountName = parsedUrl.hostname.split(".")[0];
+      for (let i = 0; i < accountNameSuffixes.length; ++i) {
+        const suffix = accountNameSuffixes[i];
+        if (accountName.endsWith(suffix)) {
+          accountName = accountName.substring(0, accountName.length - suffix.length);
+          break;
+        }
+      }
     } else if (isIpEndpointStyle(parsedUrl)) {
       // IPv4/IPv6 address hosts... Example - http://192.0.0.10:10001/devstoreaccount1/
       // Single word domain without a [dot] in the endpoint... Example - http://localhost:10001/devstoreaccount1/

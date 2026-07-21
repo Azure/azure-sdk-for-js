@@ -12,7 +12,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * @summary stops a running workbench resource.
  * This is a long-running operation that returns 202 Accepted.
  * Returns 204 if the workbench is already in the target state.
- * x-ms-original-file: 2026-03-15-preview/StopWorkbench.json
+ * x-ms-original-file: 2026-05-15-preview/StopWorkbench.json
  */
 async function stopWorkbench() {
   const credential = new DefaultAzureCredential();

@@ -1,0 +1,4 @@
+directory: specification/newrelic/NewRelicObservability.Management
+commit: ee9b70729225d8729b27b665aecb44e198c45c04
+repo: Azure/azure-rest-api-specs
+additionalDirectories: 

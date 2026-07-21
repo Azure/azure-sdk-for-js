@@ -4,11 +4,17 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
+import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface ApiError {
@@ -67,6 +73,16 @@ export interface AzureBlob {
     identity?: ManagedServiceIdentity;
     storageAccountResourceId?: string;
 }
+
+// @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
 
 // @public
 export interface BackupConfiguration {
@@ -129,13 +145,13 @@ export interface CheckOCIDriverTaskProperties extends ProjectTaskProperties {
 
 // @public
 export interface CommandProperties {
-    commandType: "Migrate.Sync.Complete.Database" | "Migrate.SqlServer.AzureDbSqlMi.Complete" | "cancel" | "finish" | "restart";
+    commandType: CommandType;
     readonly errors?: ODataError[];
     readonly state?: CommandState;
 }
 
-// @public (undocumented)
-export type CommandPropertiesUnion = CommandProperties | MigrateSyncCompleteCommandProperties | MigrateMISyncCompleteCommandProperties | MongoDbCancelCommand | MongoDbFinishCommand | MongoDbRestartCommand;
+// @public
+export type CommandPropertiesUnion = MigrateSyncCompleteCommandProperties | MigrateMISyncCompleteCommandProperties | MongoDbCancelCommand | MongoDbFinishCommand | MongoDbRestartCommand | CommandProperties;
 
 // @public
 export type CommandState = string;
@@ -146,12 +162,12 @@ export type CommandType = string;
 // @public
 export interface ConnectionInfo {
     password?: string;
-    type: "MongoDbConnectionInfo" | "SqlConnectionInfo" | "MySqlConnectionInfo" | "OracleConnectionInfo" | "PostgreSqlConnectionInfo" | "MiSqlConnectionInfo";
+    type: string;
     userName?: string;
 }
 
-// @public (undocumented)
-export type ConnectionInfoUnion = ConnectionInfo | MongoDbConnectionInfo | SqlConnectionInfo | MySqlConnectionInfo | OracleConnectionInfo | PostgreSqlConnectionInfo | MiSqlConnectionInfo;
+// @public
+export type ConnectionInfoUnion = MongoDbConnectionInfo | SqlConnectionInfo | MySqlConnectionInfo | OracleConnectionInfo | PostgreSqlConnectionInfo | MiSqlConnectionInfo | ConnectionInfo;
 
 // @public
 export interface ConnectToMongoDbTaskProperties extends ProjectTaskProperties {
@@ -247,7 +263,7 @@ export interface ConnectToSourceSqlServerTaskInput {
 // @public
 export interface ConnectToSourceSqlServerTaskOutput {
     readonly id?: string;
-    resultType: "TaskLevelOutput" | "DatabaseLevelOutput" | "LoginLevelOutput" | "AgentJobLevelOutput";
+    resultType: string;
 }
 
 // @public
@@ -294,8 +310,8 @@ export interface ConnectToSourceSqlServerTaskOutputTaskLevel extends ConnectToSo
     readonly validationErrors?: ReportableException[];
 }
 
-// @public (undocumented)
-export type ConnectToSourceSqlServerTaskOutputUnion = ConnectToSourceSqlServerTaskOutput | ConnectToSourceSqlServerTaskOutputTaskLevel | ConnectToSourceSqlServerTaskOutputDatabaseLevel | ConnectToSourceSqlServerTaskOutputLoginLevel | ConnectToSourceSqlServerTaskOutputAgentJobLevel;
+// @public
+export type ConnectToSourceSqlServerTaskOutputUnion = ConnectToSourceSqlServerTaskOutputTaskLevel | ConnectToSourceSqlServerTaskOutputDatabaseLevel | ConnectToSourceSqlServerTaskOutputLoginLevel | ConnectToSourceSqlServerTaskOutputAgentJobLevel | ConnectToSourceSqlServerTaskOutput;
 
 // @public
 export interface ConnectToSourceSqlServerTaskProperties extends ProjectTaskProperties {
@@ -364,7 +380,7 @@ export interface ConnectToTargetOracleAzureDbForPostgreSqlSyncTaskOutput {
     readonly validationErrors?: ReportableException[];
 }
 
-// @public (undocumented)
+// @public
 export interface ConnectToTargetOracleAzureDbForPostgreSqlSyncTaskOutputDatabaseSchemaMapItem {
     // (undocumented)
     database?: string;
@@ -377,19 +393,6 @@ export interface ConnectToTargetOracleAzureDbForPostgreSqlSyncTaskProperties ext
     input?: ConnectToTargetOracleAzureDbForPostgreSqlSyncTaskInput;
     readonly output?: ConnectToTargetOracleAzureDbForPostgreSqlSyncTaskOutput[];
     taskType: "ConnectToTarget.Oracle.AzureDbForPostgreSql.Sync";
-}
-
-// @public
-export interface ConnectToTargetSqlDbSyncTaskInput {
-    sourceConnectionInfo: SqlConnectionInfo;
-    targetConnectionInfo: SqlConnectionInfo;
-}
-
-// @public
-export interface ConnectToTargetSqlDbSyncTaskProperties extends ProjectTaskProperties {
-    input?: ConnectToTargetSqlDbSyncTaskInput;
-    readonly output?: ConnectToTargetSqlDbTaskOutput[];
-    taskType: "ConnectToTarget.SqlDb.Sync";
 }
 
 // @public
@@ -460,6 +463,24 @@ export interface ConnectToTargetSqlMITaskProperties extends ProjectTaskPropertie
 }
 
 // @public
+export interface ConnectToTargetSqlSqlDbSyncTaskInput {
+    sourceConnectionInfo: SqlConnectionInfo;
+    targetConnectionInfo: SqlConnectionInfo;
+}
+
+// @public
+export interface ConnectToTargetSqlSqlDbSyncTaskProperties extends ProjectTaskProperties {
+    input?: ConnectToTargetSqlSqlDbSyncTaskInput;
+    readonly output?: ConnectToTargetSqlDbTaskOutput[];
+    taskType: "ConnectToTarget.SqlDb.Sync";
+}
+
+// @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
+
+// @public
 export interface CopyProgressDetails {
     readonly copyDuration?: number;
     readonly copyStart?: Date;
@@ -476,27 +497,6 @@ export interface CopyProgressDetails {
 
 // @public
 export type CreatedByType = string;
-
-// @public
-export interface Database {
-    collation?: string;
-    compatibilityLevel?: DatabaseCompatLevel;
-    databaseState?: DatabaseState;
-    fqdn?: string;
-    id?: string;
-    installId?: string;
-    name?: string;
-    serverCoreCount?: number;
-    serverDefaultBackupPath?: string;
-    serverDefaultDataPath?: string;
-    serverDefaultLogPath?: string;
-    serverEdition?: string;
-    serverId?: string;
-    serverLevel?: string;
-    serverName?: string;
-    serverVersion?: string;
-    serverVisibleOnlineCoreCount?: number;
-}
 
 // @public
 export interface DatabaseBackupInfo {
@@ -525,15 +525,6 @@ export interface DatabaseFileInfo {
 }
 
 // @public
-export interface DatabaseFileInput {
-    fileType?: DatabaseFileType;
-    id?: string;
-    logicalName?: string;
-    physicalFullName?: string;
-    restoreFullName?: string;
-}
-
-// @public
 export type DatabaseFileType = string;
 
 // @public
@@ -552,15 +543,10 @@ export interface DatabaseMigrationBase extends ProxyResource {
 }
 
 // @public
-export interface DatabaseMigrationBaseListResult {
-    readonly nextLink?: string;
-    readonly value?: DatabaseMigrationBase[];
-}
-
-// @public
 export interface DatabaseMigrationBaseProperties {
     readonly endedOn?: Date;
-    kind: "MongoToCosmosDbMongo" | "DatabaseMigrationProperties" | "SqlDb" | "SqlMi" | "SqlVm";
+    // (undocumented)
+    kind: ResourceType;
     readonly migrationFailureError?: ErrorInfo;
     migrationOperationId?: string;
     migrationService?: string;
@@ -571,15 +557,15 @@ export interface DatabaseMigrationBaseProperties {
     readonly startedOn?: Date;
 }
 
-// @public (undocumented)
-export type DatabaseMigrationBasePropertiesUnion = DatabaseMigrationBaseProperties | DatabaseMigrationPropertiesCosmosDbMongo | DatabaseMigrationPropertiesUnion;
+// @public
+export type DatabaseMigrationBasePropertiesUnion = DatabaseMigrationPropertiesCosmosDbMongo | DatabaseMigrationPropertiesUnion | DatabaseMigrationBaseProperties;
 
 // @public
 export interface DatabaseMigrationCosmosDbMongo extends ProxyResource {
     collectionList?: MongoMigrationCollection[];
     readonly endedOn?: Date;
     // (undocumented)
-    kind?: ResourceType;
+    kind?: "MongoToCosmosDbMongo";
     readonly migrationFailureError?: ErrorInfo;
     migrationOperationId?: string;
     migrationService?: string;
@@ -593,29 +579,20 @@ export interface DatabaseMigrationCosmosDbMongo extends ProxyResource {
 }
 
 // @public
-export interface DatabaseMigrationCosmosDbMongoListResult {
-    readonly nextLink?: string;
-    readonly value?: DatabaseMigrationCosmosDbMongo[];
-}
-
-// @public
-export interface DatabaseMigrationListResult {
-    readonly nextLink?: string;
-    readonly value?: DatabaseMigration[];
-}
-
-// @public
 export interface DatabaseMigrationProperties extends DatabaseMigrationBaseProperties {
+    // (undocumented)
     kind: "DatabaseMigrationProperties" | "SqlDb" | "SqlMi" | "SqlVm";
     sourceDatabaseName?: string;
     readonly sourceServerName?: string;
     sourceSqlConnection?: SqlConnectionInformation;
+    sqlServerInstanceId?: string;
     targetDatabaseCollation?: string;
 }
 
 // @public
 export interface DatabaseMigrationPropertiesCosmosDbMongo extends DatabaseMigrationBaseProperties {
     collectionList?: MongoMigrationCollection[];
+    // (undocumented)
     kind: "MongoToCosmosDbMongo";
     sourceMongoConnection?: MongoConnectionInformation;
     targetMongoConnection?: MongoConnectionInformation;
@@ -623,6 +600,7 @@ export interface DatabaseMigrationPropertiesCosmosDbMongo extends DatabaseMigrat
 
 // @public
 export interface DatabaseMigrationPropertiesSqlDb extends DatabaseMigrationProperties {
+    // (undocumented)
     kind: "SqlDb";
     readonly migrationStatusDetails?: SqlDbMigrationStatusDetails;
     readonly offlineConfiguration?: SqlDbOfflineConfiguration;
@@ -633,6 +611,7 @@ export interface DatabaseMigrationPropertiesSqlDb extends DatabaseMigrationPrope
 // @public
 export interface DatabaseMigrationPropertiesSqlMi extends DatabaseMigrationProperties {
     backupConfiguration?: BackupConfiguration;
+    // (undocumented)
     kind: "SqlMi";
     readonly migrationStatusDetails?: MigrationStatusDetails;
     offlineConfiguration?: OfflineConfiguration;
@@ -641,125 +620,84 @@ export interface DatabaseMigrationPropertiesSqlMi extends DatabaseMigrationPrope
 // @public
 export interface DatabaseMigrationPropertiesSqlVm extends DatabaseMigrationProperties {
     backupConfiguration?: BackupConfiguration;
+    // (undocumented)
     kind: "SqlVm";
     readonly migrationStatusDetails?: MigrationStatusDetails;
     offlineConfiguration?: OfflineConfiguration;
 }
 
-// @public (undocumented)
-export type DatabaseMigrationPropertiesUnion = DatabaseMigrationProperties | DatabaseMigrationPropertiesSqlDb | DatabaseMigrationPropertiesSqlMi | DatabaseMigrationPropertiesSqlVm;
+// @public
+export type DatabaseMigrationPropertiesUnion = DatabaseMigrationPropertiesSqlDb | DatabaseMigrationPropertiesSqlMi | DatabaseMigrationPropertiesSqlVm | DatabaseMigrationProperties;
 
 // @public
-export interface DatabaseMigrationsMongoToCosmosDbRUMongo {
-    beginCreate(resourceGroupName: string, targetResourceName: string, migrationName: string, parameters: DatabaseMigrationCosmosDbMongo, options?: DatabaseMigrationsMongoToCosmosDbRUMongoCreateOptionalParams): Promise<SimplePollerLike<OperationState<DatabaseMigrationsMongoToCosmosDbRUMongoCreateResponse>, DatabaseMigrationsMongoToCosmosDbRUMongoCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, targetResourceName: string, migrationName: string, parameters: DatabaseMigrationCosmosDbMongo, options?: DatabaseMigrationsMongoToCosmosDbRUMongoCreateOptionalParams): Promise<DatabaseMigrationsMongoToCosmosDbRUMongoCreateResponse>;
-    beginDelete(resourceGroupName: string, targetResourceName: string, migrationName: string, options?: DatabaseMigrationsMongoToCosmosDbRUMongoDeleteOptionalParams): Promise<SimplePollerLike<OperationState<DatabaseMigrationsMongoToCosmosDbRUMongoDeleteResponse>, DatabaseMigrationsMongoToCosmosDbRUMongoDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, targetResourceName: string, migrationName: string, options?: DatabaseMigrationsMongoToCosmosDbRUMongoDeleteOptionalParams): Promise<DatabaseMigrationsMongoToCosmosDbRUMongoDeleteResponse>;
-    get(resourceGroupName: string, targetResourceName: string, migrationName: string, options?: DatabaseMigrationsMongoToCosmosDbRUMongoGetOptionalParams): Promise<DatabaseMigrationsMongoToCosmosDbRUMongoGetResponse>;
-    listForScope(resourceGroupName: string, targetResourceName: string, options?: DatabaseMigrationsMongoToCosmosDbRUMongoGetForScopeOptionalParams): PagedAsyncIterableIterator<DatabaseMigrationCosmosDbMongo>;
-}
-
-// @public
-export interface DatabaseMigrationsMongoToCosmosDbRUMongoCreateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DatabaseMigrationsMongoToCosmosDbRUMongoCreateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type DatabaseMigrationsMongoToCosmosDbRUMongoCreateResponse = DatabaseMigrationCosmosDbMongo;
-
-// @public
-export interface DatabaseMigrationsMongoToCosmosDbRUMongoDeleteHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface DatabaseMigrationsMongoToCosmosDbRUMongoDeleteOptionalParams extends coreClient.OperationOptions {
+export interface DatabaseMigrationsMongoToCosmosDbRUMongoDeleteOptionalParams extends OperationOptions {
     force?: boolean;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type DatabaseMigrationsMongoToCosmosDbRUMongoDeleteResponse = DatabaseMigrationsMongoToCosmosDbRUMongoDeleteHeaders;
-
-// @public
-export interface DatabaseMigrationsMongoToCosmosDbRUMongoGetForScopeNextOptionalParams extends coreClient.OperationOptions {
+export interface DatabaseMigrationsMongoToCosmosDbRUMongoGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DatabaseMigrationsMongoToCosmosDbRUMongoGetForScopeNextResponse = DatabaseMigrationCosmosDbMongoListResult;
-
-// @public
-export interface DatabaseMigrationsMongoToCosmosDbRUMongoGetForScopeOptionalParams extends coreClient.OperationOptions {
+export interface DatabaseMigrationsMongoToCosmosDbRUMongoListForScopeOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DatabaseMigrationsMongoToCosmosDbRUMongoGetForScopeResponse = DatabaseMigrationCosmosDbMongoListResult;
-
-// @public
-export interface DatabaseMigrationsMongoToCosmosDbRUMongoGetOptionalParams extends coreClient.OperationOptions {
+export interface DatabaseMigrationsMongoToCosmosDbRUMongoOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, targetResourceName: string, migrationName: string, parameters: DatabaseMigrationCosmosDbMongo, options?: DatabaseMigrationsMongoToCosmosDbRUMongoCreateOptionalParams) => Promise<SimplePollerLike<OperationState<DatabaseMigrationCosmosDbMongo>, DatabaseMigrationCosmosDbMongo>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, targetResourceName: string, migrationName: string, parameters: DatabaseMigrationCosmosDbMongo, options?: DatabaseMigrationsMongoToCosmosDbRUMongoCreateOptionalParams) => Promise<DatabaseMigrationCosmosDbMongo>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, targetResourceName: string, migrationName: string, options?: DatabaseMigrationsMongoToCosmosDbRUMongoDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, targetResourceName: string, migrationName: string, options?: DatabaseMigrationsMongoToCosmosDbRUMongoDeleteOptionalParams) => Promise<void>;
+    create: (resourceGroupName: string, targetResourceName: string, migrationName: string, parameters: DatabaseMigrationCosmosDbMongo, options?: DatabaseMigrationsMongoToCosmosDbRUMongoCreateOptionalParams) => PollerLike<OperationState<DatabaseMigrationCosmosDbMongo>, DatabaseMigrationCosmosDbMongo>;
+    delete: (resourceGroupName: string, targetResourceName: string, migrationName: string, options?: DatabaseMigrationsMongoToCosmosDbRUMongoDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, targetResourceName: string, migrationName: string, options?: DatabaseMigrationsMongoToCosmosDbRUMongoGetOptionalParams) => Promise<DatabaseMigrationCosmosDbMongo>;
+    listForScope: (resourceGroupName: string, targetResourceName: string, options?: DatabaseMigrationsMongoToCosmosDbRUMongoListForScopeOptionalParams) => PagedAsyncIterableIterator<DatabaseMigrationCosmosDbMongo>;
 }
 
 // @public
-export type DatabaseMigrationsMongoToCosmosDbRUMongoGetResponse = DatabaseMigrationCosmosDbMongo;
-
-// @public
-export interface DatabaseMigrationsMongoToCosmosDbvCoreMongo {
-    beginCreate(resourceGroupName: string, targetResourceName: string, migrationName: string, parameters: DatabaseMigrationCosmosDbMongo, options?: DatabaseMigrationsMongoToCosmosDbvCoreMongoCreateOptionalParams): Promise<SimplePollerLike<OperationState<DatabaseMigrationsMongoToCosmosDbvCoreMongoCreateResponse>, DatabaseMigrationsMongoToCosmosDbvCoreMongoCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, targetResourceName: string, migrationName: string, parameters: DatabaseMigrationCosmosDbMongo, options?: DatabaseMigrationsMongoToCosmosDbvCoreMongoCreateOptionalParams): Promise<DatabaseMigrationsMongoToCosmosDbvCoreMongoCreateResponse>;
-    beginDelete(resourceGroupName: string, targetResourceName: string, migrationName: string, options?: DatabaseMigrationsMongoToCosmosDbvCoreMongoDeleteOptionalParams): Promise<SimplePollerLike<OperationState<DatabaseMigrationsMongoToCosmosDbvCoreMongoDeleteResponse>, DatabaseMigrationsMongoToCosmosDbvCoreMongoDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, targetResourceName: string, migrationName: string, options?: DatabaseMigrationsMongoToCosmosDbvCoreMongoDeleteOptionalParams): Promise<DatabaseMigrationsMongoToCosmosDbvCoreMongoDeleteResponse>;
-    get(resourceGroupName: string, targetResourceName: string, migrationName: string, options?: DatabaseMigrationsMongoToCosmosDbvCoreMongoGetOptionalParams): Promise<DatabaseMigrationsMongoToCosmosDbvCoreMongoGetResponse>;
-    listForScope(resourceGroupName: string, targetResourceName: string, options?: DatabaseMigrationsMongoToCosmosDbvCoreMongoGetForScopeOptionalParams): PagedAsyncIterableIterator<DatabaseMigrationCosmosDbMongo>;
-}
-
-// @public
-export interface DatabaseMigrationsMongoToCosmosDbvCoreMongoCreateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DatabaseMigrationsMongoToCosmosDbvCoreMongoCreateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type DatabaseMigrationsMongoToCosmosDbvCoreMongoCreateResponse = DatabaseMigrationCosmosDbMongo;
-
-// @public
-export interface DatabaseMigrationsMongoToCosmosDbvCoreMongoDeleteHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface DatabaseMigrationsMongoToCosmosDbvCoreMongoDeleteOptionalParams extends coreClient.OperationOptions {
+export interface DatabaseMigrationsMongoToCosmosDbvCoreMongoDeleteOptionalParams extends OperationOptions {
     force?: boolean;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type DatabaseMigrationsMongoToCosmosDbvCoreMongoDeleteResponse = DatabaseMigrationsMongoToCosmosDbvCoreMongoDeleteHeaders;
-
-// @public
-export interface DatabaseMigrationsMongoToCosmosDbvCoreMongoGetForScopeNextOptionalParams extends coreClient.OperationOptions {
+export interface DatabaseMigrationsMongoToCosmosDbvCoreMongoGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DatabaseMigrationsMongoToCosmosDbvCoreMongoGetForScopeNextResponse = DatabaseMigrationCosmosDbMongoListResult;
-
-// @public
-export interface DatabaseMigrationsMongoToCosmosDbvCoreMongoGetForScopeOptionalParams extends coreClient.OperationOptions {
+export interface DatabaseMigrationsMongoToCosmosDbvCoreMongoListForScopeOptionalParams extends OperationOptions {
 }
 
 // @public
-export type DatabaseMigrationsMongoToCosmosDbvCoreMongoGetForScopeResponse = DatabaseMigrationCosmosDbMongoListResult;
-
-// @public
-export interface DatabaseMigrationsMongoToCosmosDbvCoreMongoGetOptionalParams extends coreClient.OperationOptions {
+export interface DatabaseMigrationsMongoToCosmosDbvCoreMongoOperations {
+    // @deprecated (undocumented)
+    beginCreate: (resourceGroupName: string, targetResourceName: string, migrationName: string, parameters: DatabaseMigrationCosmosDbMongo, options?: DatabaseMigrationsMongoToCosmosDbvCoreMongoCreateOptionalParams) => Promise<SimplePollerLike<OperationState<DatabaseMigrationCosmosDbMongo>, DatabaseMigrationCosmosDbMongo>>;
+    // @deprecated (undocumented)
+    beginCreateAndWait: (resourceGroupName: string, targetResourceName: string, migrationName: string, parameters: DatabaseMigrationCosmosDbMongo, options?: DatabaseMigrationsMongoToCosmosDbvCoreMongoCreateOptionalParams) => Promise<DatabaseMigrationCosmosDbMongo>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, targetResourceName: string, migrationName: string, options?: DatabaseMigrationsMongoToCosmosDbvCoreMongoDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, targetResourceName: string, migrationName: string, options?: DatabaseMigrationsMongoToCosmosDbvCoreMongoDeleteOptionalParams) => Promise<void>;
+    create: (resourceGroupName: string, targetResourceName: string, migrationName: string, parameters: DatabaseMigrationCosmosDbMongo, options?: DatabaseMigrationsMongoToCosmosDbvCoreMongoCreateOptionalParams) => PollerLike<OperationState<DatabaseMigrationCosmosDbMongo>, DatabaseMigrationCosmosDbMongo>;
+    delete: (resourceGroupName: string, targetResourceName: string, migrationName: string, options?: DatabaseMigrationsMongoToCosmosDbvCoreMongoDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, targetResourceName: string, migrationName: string, options?: DatabaseMigrationsMongoToCosmosDbvCoreMongoGetOptionalParams) => Promise<DatabaseMigrationCosmosDbMongo>;
+    listForScope: (resourceGroupName: string, targetResourceName: string, options?: DatabaseMigrationsMongoToCosmosDbvCoreMongoListForScopeOptionalParams) => PagedAsyncIterableIterator<DatabaseMigrationCosmosDbMongo>;
 }
-
-// @public
-export type DatabaseMigrationsMongoToCosmosDbvCoreMongoGetResponse = DatabaseMigrationCosmosDbMongo;
 
 // @public
 export interface DatabaseMigrationSqlDb extends ProxyResource {
@@ -777,163 +715,160 @@ export interface DatabaseMigrationSqlVm extends ProxyResource {
 }
 
 // @public
-export interface DatabaseMigrationsSqlDb {
-    beginCancel(resourceGroupName: string, sqlDbInstanceName: string, targetDbName: string, parameters: MigrationOperationInput, options?: DatabaseMigrationsSqlDbCancelOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginCancelAndWait(resourceGroupName: string, sqlDbInstanceName: string, targetDbName: string, parameters: MigrationOperationInput, options?: DatabaseMigrationsSqlDbCancelOptionalParams): Promise<void>;
-    beginCreateOrUpdate(resourceGroupName: string, sqlDbInstanceName: string, targetDbName: string, parameters: DatabaseMigrationSqlDb, options?: DatabaseMigrationsSqlDbCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DatabaseMigrationsSqlDbCreateOrUpdateResponse>, DatabaseMigrationsSqlDbCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, sqlDbInstanceName: string, targetDbName: string, parameters: DatabaseMigrationSqlDb, options?: DatabaseMigrationsSqlDbCreateOrUpdateOptionalParams): Promise<DatabaseMigrationsSqlDbCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, sqlDbInstanceName: string, targetDbName: string, options?: DatabaseMigrationsSqlDbDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, sqlDbInstanceName: string, targetDbName: string, options?: DatabaseMigrationsSqlDbDeleteOptionalParams): Promise<void>;
-    beginRetry(resourceGroupName: string, sqlDbInstanceName: string, targetDbName: string, migrationOperationInput: MigrationOperationInput, options?: DatabaseMigrationsSqlDbRetryOptionalParams): Promise<SimplePollerLike<OperationState<DatabaseMigrationsSqlDbRetryResponse>, DatabaseMigrationsSqlDbRetryResponse>>;
-    beginRetryAndWait(resourceGroupName: string, sqlDbInstanceName: string, targetDbName: string, migrationOperationInput: MigrationOperationInput, options?: DatabaseMigrationsSqlDbRetryOptionalParams): Promise<DatabaseMigrationsSqlDbRetryResponse>;
-    get(resourceGroupName: string, sqlDbInstanceName: string, targetDbName: string, options?: DatabaseMigrationsSqlDbGetOptionalParams): Promise<DatabaseMigrationsSqlDbGetResponse>;
-}
-
-// @public
-export interface DatabaseMigrationsSqlDbCancelOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DatabaseMigrationsSqlDbCancelOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface DatabaseMigrationsSqlDbCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DatabaseMigrationsSqlDbCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type DatabaseMigrationsSqlDbCreateOrUpdateResponse = DatabaseMigrationSqlDb;
-
-// @public
-export interface DatabaseMigrationsSqlDbDeleteOptionalParams extends coreClient.OperationOptions {
+export interface DatabaseMigrationsSqlDbDeleteOptionalParams extends OperationOptions {
     force?: boolean;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface DatabaseMigrationsSqlDbGetOptionalParams extends coreClient.OperationOptions {
+export interface DatabaseMigrationsSqlDbGetOptionalParams extends OperationOptions {
     expand?: string;
     migrationOperationId?: string;
 }
 
 // @public
-export type DatabaseMigrationsSqlDbGetResponse = DatabaseMigrationSqlDb;
+export interface DatabaseMigrationsSqlDbOperations {
+    // @deprecated (undocumented)
+    beginCancel: (resourceGroupName: string, sqlDbInstanceName: string, targetDbName: string, parameters: MigrationOperationInput, options?: DatabaseMigrationsSqlDbCancelOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginCancelAndWait: (resourceGroupName: string, sqlDbInstanceName: string, targetDbName: string, parameters: MigrationOperationInput, options?: DatabaseMigrationsSqlDbCancelOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, sqlDbInstanceName: string, targetDbName: string, parameters: DatabaseMigrationSqlDb, options?: DatabaseMigrationsSqlDbCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<DatabaseMigrationSqlDb>, DatabaseMigrationSqlDb>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, sqlDbInstanceName: string, targetDbName: string, parameters: DatabaseMigrationSqlDb, options?: DatabaseMigrationsSqlDbCreateOrUpdateOptionalParams) => Promise<DatabaseMigrationSqlDb>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, sqlDbInstanceName: string, targetDbName: string, options?: DatabaseMigrationsSqlDbDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, sqlDbInstanceName: string, targetDbName: string, options?: DatabaseMigrationsSqlDbDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginRetry: (resourceGroupName: string, sqlDbInstanceName: string, targetDbName: string, migrationOperationInput: MigrationOperationInput, options?: DatabaseMigrationsSqlDbRetryOptionalParams) => Promise<SimplePollerLike<OperationState<DatabaseMigrationSqlDb>, DatabaseMigrationSqlDb>>;
+    // @deprecated (undocumented)
+    beginRetryAndWait: (resourceGroupName: string, sqlDbInstanceName: string, targetDbName: string, migrationOperationInput: MigrationOperationInput, options?: DatabaseMigrationsSqlDbRetryOptionalParams) => Promise<DatabaseMigrationSqlDb>;
+    cancel: (resourceGroupName: string, sqlDbInstanceName: string, targetDbName: string, parameters: MigrationOperationInput, options?: DatabaseMigrationsSqlDbCancelOptionalParams) => PollerLike<OperationState<void>, void>;
+    createOrUpdate: (resourceGroupName: string, sqlDbInstanceName: string, targetDbName: string, parameters: DatabaseMigrationSqlDb, options?: DatabaseMigrationsSqlDbCreateOrUpdateOptionalParams) => PollerLike<OperationState<DatabaseMigrationSqlDb>, DatabaseMigrationSqlDb>;
+    delete: (resourceGroupName: string, sqlDbInstanceName: string, targetDbName: string, options?: DatabaseMigrationsSqlDbDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, sqlDbInstanceName: string, targetDbName: string, options?: DatabaseMigrationsSqlDbGetOptionalParams) => Promise<DatabaseMigrationSqlDb>;
+    retry: (resourceGroupName: string, sqlDbInstanceName: string, targetDbName: string, migrationOperationInput: MigrationOperationInput, options?: DatabaseMigrationsSqlDbRetryOptionalParams) => PollerLike<OperationState<DatabaseMigrationSqlDb>, DatabaseMigrationSqlDb>;
+}
 
 // @public
-export interface DatabaseMigrationsSqlDbRetryOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DatabaseMigrationsSqlDbRetryOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type DatabaseMigrationsSqlDbRetryResponse = DatabaseMigrationSqlDb;
-
-// @public
-export interface DatabaseMigrationsSqlMi {
-    beginCancel(resourceGroupName: string, managedInstanceName: string, targetDbName: string, parameters: MigrationOperationInput, options?: DatabaseMigrationsSqlMiCancelOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginCancelAndWait(resourceGroupName: string, managedInstanceName: string, targetDbName: string, parameters: MigrationOperationInput, options?: DatabaseMigrationsSqlMiCancelOptionalParams): Promise<void>;
-    beginCreateOrUpdate(resourceGroupName: string, managedInstanceName: string, targetDbName: string, parameters: DatabaseMigrationSqlMi, options?: DatabaseMigrationsSqlMiCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DatabaseMigrationsSqlMiCreateOrUpdateResponse>, DatabaseMigrationsSqlMiCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, managedInstanceName: string, targetDbName: string, parameters: DatabaseMigrationSqlMi, options?: DatabaseMigrationsSqlMiCreateOrUpdateOptionalParams): Promise<DatabaseMigrationsSqlMiCreateOrUpdateResponse>;
-    beginCutover(resourceGroupName: string, managedInstanceName: string, targetDbName: string, parameters: MigrationOperationInput, options?: DatabaseMigrationsSqlMiCutoverOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginCutoverAndWait(resourceGroupName: string, managedInstanceName: string, targetDbName: string, parameters: MigrationOperationInput, options?: DatabaseMigrationsSqlMiCutoverOptionalParams): Promise<void>;
-    beginDelete(resourceGroupName: string, managedInstanceName: string, targetDbName: string, options?: DatabaseMigrationsSqlMiDeleteOptionalParams): Promise<SimplePollerLike<OperationState<DatabaseMigrationsSqlMiDeleteResponse>, DatabaseMigrationsSqlMiDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, managedInstanceName: string, targetDbName: string, options?: DatabaseMigrationsSqlMiDeleteOptionalParams): Promise<DatabaseMigrationsSqlMiDeleteResponse>;
-    get(resourceGroupName: string, managedInstanceName: string, targetDbName: string, options?: DatabaseMigrationsSqlMiGetOptionalParams): Promise<DatabaseMigrationsSqlMiGetResponse>;
-}
-
-// @public
-export interface DatabaseMigrationsSqlMiCancelOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DatabaseMigrationsSqlMiCancelOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface DatabaseMigrationsSqlMiCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DatabaseMigrationsSqlMiCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type DatabaseMigrationsSqlMiCreateOrUpdateResponse = DatabaseMigrationSqlMi;
-
-// @public
-export interface DatabaseMigrationsSqlMiCutoverOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DatabaseMigrationsSqlMiCutoverOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface DatabaseMigrationsSqlMiDeleteOptionalParams extends coreClient.OperationOptions {
+export interface DatabaseMigrationsSqlMiDeleteOptionalParams extends OperationOptions {
     force?: boolean;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type DatabaseMigrationsSqlMiDeleteResponse = DatabaseMigrationSqlMi;
-
-// @public
-export interface DatabaseMigrationsSqlMiGetOptionalParams extends coreClient.OperationOptions {
+export interface DatabaseMigrationsSqlMiGetOptionalParams extends OperationOptions {
     expand?: string;
     migrationOperationId?: string;
 }
 
 // @public
-export type DatabaseMigrationsSqlMiGetResponse = DatabaseMigrationSqlMi;
-
-// @public
-export interface DatabaseMigrationsSqlVm {
-    beginCancel(resourceGroupName: string, sqlVirtualMachineName: string, targetDbName: string, parameters: MigrationOperationInput, options?: DatabaseMigrationsSqlVmCancelOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginCancelAndWait(resourceGroupName: string, sqlVirtualMachineName: string, targetDbName: string, parameters: MigrationOperationInput, options?: DatabaseMigrationsSqlVmCancelOptionalParams): Promise<void>;
-    beginCreateOrUpdate(resourceGroupName: string, sqlVirtualMachineName: string, targetDbName: string, parameters: DatabaseMigrationSqlVm, options?: DatabaseMigrationsSqlVmCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DatabaseMigrationsSqlVmCreateOrUpdateResponse>, DatabaseMigrationsSqlVmCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, sqlVirtualMachineName: string, targetDbName: string, parameters: DatabaseMigrationSqlVm, options?: DatabaseMigrationsSqlVmCreateOrUpdateOptionalParams): Promise<DatabaseMigrationsSqlVmCreateOrUpdateResponse>;
-    beginCutover(resourceGroupName: string, sqlVirtualMachineName: string, targetDbName: string, parameters: MigrationOperationInput, options?: DatabaseMigrationsSqlVmCutoverOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginCutoverAndWait(resourceGroupName: string, sqlVirtualMachineName: string, targetDbName: string, parameters: MigrationOperationInput, options?: DatabaseMigrationsSqlVmCutoverOptionalParams): Promise<void>;
-    beginDelete(resourceGroupName: string, sqlVirtualMachineName: string, targetDbName: string, options?: DatabaseMigrationsSqlVmDeleteOptionalParams): Promise<SimplePollerLike<OperationState<DatabaseMigrationsSqlVmDeleteResponse>, DatabaseMigrationsSqlVmDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, sqlVirtualMachineName: string, targetDbName: string, options?: DatabaseMigrationsSqlVmDeleteOptionalParams): Promise<DatabaseMigrationsSqlVmDeleteResponse>;
-    get(resourceGroupName: string, sqlVirtualMachineName: string, targetDbName: string, options?: DatabaseMigrationsSqlVmGetOptionalParams): Promise<DatabaseMigrationsSqlVmGetResponse>;
+export interface DatabaseMigrationsSqlMiOperations {
+    // @deprecated (undocumented)
+    beginCancel: (resourceGroupName: string, managedInstanceName: string, targetDbName: string, parameters: MigrationOperationInput, options?: DatabaseMigrationsSqlMiCancelOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginCancelAndWait: (resourceGroupName: string, managedInstanceName: string, targetDbName: string, parameters: MigrationOperationInput, options?: DatabaseMigrationsSqlMiCancelOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, managedInstanceName: string, targetDbName: string, parameters: DatabaseMigrationSqlMi, options?: DatabaseMigrationsSqlMiCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<DatabaseMigrationSqlMi>, DatabaseMigrationSqlMi>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, managedInstanceName: string, targetDbName: string, parameters: DatabaseMigrationSqlMi, options?: DatabaseMigrationsSqlMiCreateOrUpdateOptionalParams) => Promise<DatabaseMigrationSqlMi>;
+    // @deprecated (undocumented)
+    beginCutover: (resourceGroupName: string, managedInstanceName: string, targetDbName: string, parameters: MigrationOperationInput, options?: DatabaseMigrationsSqlMiCutoverOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginCutoverAndWait: (resourceGroupName: string, managedInstanceName: string, targetDbName: string, parameters: MigrationOperationInput, options?: DatabaseMigrationsSqlMiCutoverOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, managedInstanceName: string, targetDbName: string, options?: DatabaseMigrationsSqlMiDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<DatabaseMigrationSqlMi>, DatabaseMigrationSqlMi>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, managedInstanceName: string, targetDbName: string, options?: DatabaseMigrationsSqlMiDeleteOptionalParams) => Promise<DatabaseMigrationSqlMi>;
+    cancel: (resourceGroupName: string, managedInstanceName: string, targetDbName: string, parameters: MigrationOperationInput, options?: DatabaseMigrationsSqlMiCancelOptionalParams) => PollerLike<OperationState<void>, void>;
+    createOrUpdate: (resourceGroupName: string, managedInstanceName: string, targetDbName: string, parameters: DatabaseMigrationSqlMi, options?: DatabaseMigrationsSqlMiCreateOrUpdateOptionalParams) => PollerLike<OperationState<DatabaseMigrationSqlMi>, DatabaseMigrationSqlMi>;
+    cutover: (resourceGroupName: string, managedInstanceName: string, targetDbName: string, parameters: MigrationOperationInput, options?: DatabaseMigrationsSqlMiCutoverOptionalParams) => PollerLike<OperationState<void>, void>;
+    delete: (resourceGroupName: string, managedInstanceName: string, targetDbName: string, options?: DatabaseMigrationsSqlMiDeleteOptionalParams) => PollerLike<OperationState<DatabaseMigrationSqlMi>, DatabaseMigrationSqlMi>;
+    get: (resourceGroupName: string, managedInstanceName: string, targetDbName: string, options?: DatabaseMigrationsSqlMiGetOptionalParams) => Promise<DatabaseMigrationSqlMi>;
 }
 
 // @public
-export interface DatabaseMigrationsSqlVmCancelOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DatabaseMigrationsSqlVmCancelOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface DatabaseMigrationsSqlVmCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DatabaseMigrationsSqlVmCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type DatabaseMigrationsSqlVmCreateOrUpdateResponse = DatabaseMigrationSqlVm;
-
-// @public
-export interface DatabaseMigrationsSqlVmCutoverOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface DatabaseMigrationsSqlVmCutoverOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface DatabaseMigrationsSqlVmDeleteOptionalParams extends coreClient.OperationOptions {
+export interface DatabaseMigrationsSqlVmDeleteOptionalParams extends OperationOptions {
     force?: boolean;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type DatabaseMigrationsSqlVmDeleteResponse = DatabaseMigrationSqlVm;
-
-// @public
-export interface DatabaseMigrationsSqlVmGetOptionalParams extends coreClient.OperationOptions {
+export interface DatabaseMigrationsSqlVmGetOptionalParams extends OperationOptions {
     expand?: string;
     migrationOperationId?: string;
 }
 
 // @public
-export type DatabaseMigrationsSqlVmGetResponse = DatabaseMigrationSqlVm;
+export interface DatabaseMigrationsSqlVmOperations {
+    // @deprecated (undocumented)
+    beginCancel: (resourceGroupName: string, sqlVirtualMachineName: string, targetDbName: string, parameters: MigrationOperationInput, options?: DatabaseMigrationsSqlVmCancelOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginCancelAndWait: (resourceGroupName: string, sqlVirtualMachineName: string, targetDbName: string, parameters: MigrationOperationInput, options?: DatabaseMigrationsSqlVmCancelOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, sqlVirtualMachineName: string, targetDbName: string, parameters: DatabaseMigrationSqlVm, options?: DatabaseMigrationsSqlVmCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<DatabaseMigrationSqlVm>, DatabaseMigrationSqlVm>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, sqlVirtualMachineName: string, targetDbName: string, parameters: DatabaseMigrationSqlVm, options?: DatabaseMigrationsSqlVmCreateOrUpdateOptionalParams) => Promise<DatabaseMigrationSqlVm>;
+    // @deprecated (undocumented)
+    beginCutover: (resourceGroupName: string, sqlVirtualMachineName: string, targetDbName: string, parameters: MigrationOperationInput, options?: DatabaseMigrationsSqlVmCutoverOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginCutoverAndWait: (resourceGroupName: string, sqlVirtualMachineName: string, targetDbName: string, parameters: MigrationOperationInput, options?: DatabaseMigrationsSqlVmCutoverOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, sqlVirtualMachineName: string, targetDbName: string, options?: DatabaseMigrationsSqlVmDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<DatabaseMigrationSqlVm>, DatabaseMigrationSqlVm>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, sqlVirtualMachineName: string, targetDbName: string, options?: DatabaseMigrationsSqlVmDeleteOptionalParams) => Promise<DatabaseMigrationSqlVm>;
+    cancel: (resourceGroupName: string, sqlVirtualMachineName: string, targetDbName: string, parameters: MigrationOperationInput, options?: DatabaseMigrationsSqlVmCancelOptionalParams) => PollerLike<OperationState<void>, void>;
+    createOrUpdate: (resourceGroupName: string, sqlVirtualMachineName: string, targetDbName: string, parameters: DatabaseMigrationSqlVm, options?: DatabaseMigrationsSqlVmCreateOrUpdateOptionalParams) => PollerLike<OperationState<DatabaseMigrationSqlVm>, DatabaseMigrationSqlVm>;
+    cutover: (resourceGroupName: string, sqlVirtualMachineName: string, targetDbName: string, parameters: MigrationOperationInput, options?: DatabaseMigrationsSqlVmCutoverOptionalParams) => PollerLike<OperationState<void>, void>;
+    delete: (resourceGroupName: string, sqlVirtualMachineName: string, targetDbName: string, options?: DatabaseMigrationsSqlVmDeleteOptionalParams) => PollerLike<OperationState<DatabaseMigrationSqlVm>, DatabaseMigrationSqlVm>;
+    get: (resourceGroupName: string, sqlVirtualMachineName: string, targetDbName: string, options?: DatabaseMigrationsSqlVmGetOptionalParams) => Promise<DatabaseMigrationSqlVm>;
+}
 
 // @public
 export type DatabaseMigrationStage = string;
@@ -942,20 +877,7 @@ export type DatabaseMigrationStage = string;
 export type DatabaseMigrationState = string;
 
 // @public
-export interface DatabaseObjectName {
-    readonly databaseName?: string;
-    readonly objectName?: string;
-    objectType?: ObjectType;
-    readonly schemaName?: string;
-}
-
-// @public
 export type DatabaseState = string;
-
-// @public
-export interface DatabaseSummaryResult extends DataItemMigrationSummaryResult {
-    readonly sizeMB?: number;
-}
 
 // @public
 export interface DatabaseTable {
@@ -965,116 +887,68 @@ export interface DatabaseTable {
 
 // @public
 export interface DataIntegrityValidationResult {
-    failedObjects?: {
-        [propertyName: string]: string;
-    };
+    failedObjects?: Record<string, string>;
     validationErrors?: ValidationError;
 }
 
-// @public
-export interface DataItemMigrationSummaryResult {
-    readonly endedOn?: Date;
-    readonly errorPrefix?: string;
-    readonly itemsCompletedCount?: number;
-    readonly itemsCount?: number;
-    readonly name?: string;
-    readonly resultPrefix?: string;
-    readonly startedOn?: Date;
-    readonly state?: MigrationState;
-    readonly statusMessage?: string;
-}
-
-// @public
-export interface DataMigrationError {
-    readonly message?: string;
-    type?: ErrorType;
-}
-
 // @public (undocumented)
-export class DataMigrationManagementClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: DataMigrationManagementClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    databaseMigrationsMongoToCosmosDbRUMongo: DatabaseMigrationsMongoToCosmosDbRUMongo;
-    // (undocumented)
-    databaseMigrationsMongoToCosmosDbvCoreMongo: DatabaseMigrationsMongoToCosmosDbvCoreMongo;
-    // (undocumented)
-    databaseMigrationsSqlDb: DatabaseMigrationsSqlDb;
-    // (undocumented)
-    databaseMigrationsSqlMi: DatabaseMigrationsSqlMi;
-    // (undocumented)
-    databaseMigrationsSqlVm: DatabaseMigrationsSqlVm;
-    // (undocumented)
-    files: Files;
-    // (undocumented)
-    migrationServices: MigrationServices;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    projects: Projects;
-    // (undocumented)
-    resourceSkus: ResourceSkus;
-    // (undocumented)
-    services: Services;
-    // (undocumented)
-    serviceTasks: ServiceTasks;
-    // (undocumented)
-    sqlMigrationServices: SqlMigrationServices;
-    // (undocumented)
-    subscriptionId: string;
-    // (undocumented)
-    tasks: Tasks;
-    // (undocumented)
-    usages: Usages;
+export class DataMigrationManagementClient {
+    constructor(credential: TokenCredential, options?: DataMigrationManagementClientOptionalParams);
+    constructor(credential: TokenCredential, subscriptionId: string, options?: DataMigrationManagementClientOptionalParams);
+    readonly databaseMigrationsMongoToCosmosDbRUMongo: DatabaseMigrationsMongoToCosmosDbRUMongoOperations;
+    readonly databaseMigrationsMongoToCosmosDbvCoreMongo: DatabaseMigrationsMongoToCosmosDbvCoreMongoOperations;
+    readonly databaseMigrationsSqlDb: DatabaseMigrationsSqlDbOperations;
+    readonly databaseMigrationsSqlMi: DatabaseMigrationsSqlMiOperations;
+    readonly databaseMigrationsSqlVm: DatabaseMigrationsSqlVmOperations;
+    readonly files: FilesOperations;
+    readonly migrationServices: MigrationServicesOperations;
+    readonly operations: OperationsOperations;
+    readonly pipeline: Pipeline;
+    readonly projects: ProjectsOperations;
+    readonly resourceSkus: ResourceSkusOperations;
+    readonly services: ServicesOperations;
+    readonly serviceTasks: ServiceTasksOperations;
+    readonly sqlMigrationServices: SqlMigrationServicesOperations;
+    readonly tasks: TasksOperations;
+    readonly usages: UsagesOperations;
 }
 
 // @public
-export interface DataMigrationManagementClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface DataMigrationManagementClientOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
-export interface DataMigrationProjectMetadata {
-    readonly selectedMigrationTables?: MigrationTableMetadata[];
-    readonly sourceServerName?: string;
-    readonly sourceServerPort?: string;
-    readonly sourceUsername?: string;
-    readonly targetDbName?: string;
-    readonly targetServerName?: string;
-    readonly targetUsername?: string;
-    readonly targetUsingWinAuth?: boolean;
-}
-
-// @public
-export type DataMigrationResultCode = string;
-
-// @public
-export interface DataMigrationService extends TrackedResource {
+export interface DataMigrationService extends ProxyResource {
     autoStopDelay?: string;
     deleteResourcesOnStop?: boolean;
     etag?: string;
     kind?: string;
+    // (undocumented)
+    location?: string;
     readonly provisioningState?: ServiceProvisioningState;
     publicKey?: string;
     sku?: ServiceSku;
+    // (undocumented)
+    tags?: Record<string, string>;
     virtualNicId?: string;
     virtualSubnetId?: string;
 }
 
 // @public
-export interface DataMigrationServiceList {
-    nextLink?: string;
-    value?: DataMigrationService[];
+export interface DataMigrationServiceProperties {
+    autoStopDelay?: string;
+    deleteResourcesOnStop?: boolean;
+    readonly provisioningState?: ServiceProvisioningState;
+    publicKey?: string;
+    virtualNicId?: string;
+    virtualSubnetId?: string;
 }
 
 // @public
 export interface DataMigrationServiceStatusResponse {
-    agentConfiguration?: Record<string, unknown>;
+    agentConfiguration?: any;
     agentVersion?: string;
     status?: string;
     supportedTaskTypes?: string[];
@@ -1089,7 +963,7 @@ export interface DeleteNode {
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, unknown>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -1114,54 +988,26 @@ export interface ErrorResponse {
 }
 
 // @public
-export type ErrorType = string;
-
-// @public
 export interface ExecutionStatistics {
     cpuTimeMs?: number;
     elapsedTimeMs?: number;
     executionCount?: number;
     hasErrors?: boolean;
     sqlErrors?: string[];
-    waitStats?: {
-        [propertyName: string]: WaitStatistics;
-    };
+    waitStats?: Record<string, WaitStatistics>;
 }
 
 // @public
-export interface FileList {
-    nextLink?: string;
-    value?: ProjectFile[];
+export interface FilesCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface Files {
-    createOrUpdate(groupName: string, serviceName: string, projectName: string, fileName: string, parameters: ProjectFile, options?: FilesCreateOrUpdateOptionalParams): Promise<FilesCreateOrUpdateResponse>;
-    delete(groupName: string, serviceName: string, projectName: string, fileName: string, options?: FilesDeleteOptionalParams): Promise<void>;
-    get(groupName: string, serviceName: string, projectName: string, fileName: string, options?: FilesGetOptionalParams): Promise<FilesGetResponse>;
-    list(groupName: string, serviceName: string, projectName: string, options?: FilesListOptionalParams): PagedAsyncIterableIterator<ProjectFile>;
-    read(groupName: string, serviceName: string, projectName: string, fileName: string, options?: FilesReadOptionalParams): Promise<FilesReadResponse>;
-    readWrite(groupName: string, serviceName: string, projectName: string, fileName: string, options?: FilesReadWriteOptionalParams): Promise<FilesReadWriteResponse>;
-    update(groupName: string, serviceName: string, projectName: string, fileName: string, parameters: ProjectFile, options?: FilesUpdateOptionalParams): Promise<FilesUpdateResponse>;
+export interface FilesDeleteOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface FilesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface FilesGetOptionalParams extends OperationOptions {
 }
-
-// @public
-export type FilesCreateOrUpdateResponse = ProjectFile;
-
-// @public
-export interface FilesDeleteOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface FilesGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type FilesGetResponse = ProjectFile;
 
 // @public
 export interface FileShare {
@@ -1171,55 +1017,36 @@ export interface FileShare {
 }
 
 // @public
-export interface FilesListNextOptionalParams extends coreClient.OperationOptions {
+export interface FilesListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type FilesListNextResponse = FileList;
-
-// @public
-export interface FilesListOptionalParams extends coreClient.OperationOptions {
+export interface FilesOperations {
+    createOrUpdate: (groupName: string, serviceName: string, projectName: string, fileName: string, parameters: ProjectFile, options?: FilesCreateOrUpdateOptionalParams) => Promise<ProjectFile>;
+    delete: (groupName: string, serviceName: string, projectName: string, fileName: string, options?: FilesDeleteOptionalParams) => Promise<void>;
+    get: (groupName: string, serviceName: string, projectName: string, fileName: string, options?: FilesGetOptionalParams) => Promise<ProjectFile>;
+    list: (groupName: string, serviceName: string, projectName: string, options?: FilesListOptionalParams) => PagedAsyncIterableIterator<ProjectFile>;
+    read: (groupName: string, serviceName: string, projectName: string, fileName: string, options?: FilesReadOptionalParams) => Promise<FileStorageInfo>;
+    readWrite: (groupName: string, serviceName: string, projectName: string, fileName: string, options?: FilesReadWriteOptionalParams) => Promise<FileStorageInfo>;
+    update: (groupName: string, serviceName: string, projectName: string, fileName: string, parameters: ProjectFile, options?: FilesUpdateOptionalParams) => Promise<ProjectFile>;
 }
 
 // @public
-export type FilesListResponse = FileList;
-
-// @public
-export interface FilesReadOptionalParams extends coreClient.OperationOptions {
+export interface FilesReadOptionalParams extends OperationOptions {
 }
 
 // @public
-export type FilesReadResponse = FileStorageInfo;
-
-// @public
-export interface FilesReadWriteOptionalParams extends coreClient.OperationOptions {
+export interface FilesReadWriteOptionalParams extends OperationOptions {
 }
-
-// @public
-export type FilesReadWriteResponse = FileStorageInfo;
 
 // @public
 export interface FileStorageInfo {
-    headers?: {
-        [propertyName: string]: string;
-    };
+    headers?: Record<string, string>;
     uri?: string;
 }
 
 // @public
-export interface FilesUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type FilesUpdateResponse = ProjectFile;
-
-// @public
-export function getContinuationToken(page: unknown): string | undefined;
-
-// @public
-export interface GetProjectDetailsNonSqlTaskInput {
-    projectLocation: string;
-    projectName: string;
+export interface FilesUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -1370,6 +1197,8 @@ export interface IntegrationRuntimeMonitoringData {
     readonly nodes?: NodeMonitoringData[];
 }
 
+export { isRestError }
+
 // @public
 export enum KnownAuthenticationType {
     ActiveDirectoryIntegrated = "ActiveDirectoryIntegrated",
@@ -1488,23 +1317,6 @@ export enum KnownDatabaseState {
     RecoveryPending = "RecoveryPending",
     Restoring = "Restoring",
     Suspect = "Suspect"
-}
-
-// @public
-export enum KnownDataMigrationResultCode {
-    Completed = "Completed",
-    FatalError = "FatalError",
-    Initial = "Initial",
-    ObjectNotExistsInSource = "ObjectNotExistsInSource",
-    ObjectNotExistsInTarget = "ObjectNotExistsInTarget",
-    TargetObjectIsInaccessible = "TargetObjectIsInaccessible"
-}
-
-// @public
-export enum KnownErrorType {
-    Default = "Default",
-    Error = "Error",
-    Warning = "Warning"
 }
 
 // @public
@@ -1714,6 +1526,7 @@ export enum KnownResourceSkuRestrictionsType {
 
 // @public
 export enum KnownResourceType {
+    DatabaseMigrationProperties = "DatabaseMigrationProperties",
     MongoToCosmosDbMongo = "MongoToCosmosDbMongo",
     SqlDb = "SqlDb",
     SqlMi = "SqlMi",
@@ -1925,6 +1738,11 @@ export enum KnownValidationStatus {
 }
 
 // @public
+export enum KnownVersions {
+    V20250901Preview = "2025-09-01-preview"
+}
+
+// @public
 export type LoginMigrationStage = string;
 
 // @public
@@ -1935,9 +1753,7 @@ export interface ManagedServiceIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type: ManagedServiceIdentityType;
-    userAssignedIdentities?: {
-        [propertyName: string]: UserAssignedIdentity | null;
-    };
+    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
 
 // @public
@@ -1963,6 +1779,7 @@ export interface MigrateMISyncCompleteCommandProperties extends CommandPropertie
 // @public
 export interface MigrateMongoDbTaskProperties extends ProjectTaskProperties {
     input?: MongoDbMigrationSettings;
+    // (undocumented)
     readonly output?: MongoDbProgressUnion[];
     taskType: "Migrate.MongoDb";
 }
@@ -1970,9 +1787,7 @@ export interface MigrateMongoDbTaskProperties extends ProjectTaskProperties {
 // @public
 export interface MigrateMySqlAzureDbForMySqlOfflineDatabaseInput {
     name?: string;
-    tableMap?: {
-        [propertyName: string]: string;
-    };
+    tableMap?: Record<string, string>;
     targetDatabaseName?: string;
 }
 
@@ -1980,9 +1795,7 @@ export interface MigrateMySqlAzureDbForMySqlOfflineDatabaseInput {
 export interface MigrateMySqlAzureDbForMySqlOfflineTaskInput {
     encryptedKeyForSecureFields?: string;
     makeSourceServerReadOnly?: boolean;
-    optionalAgentSettings?: {
-        [propertyName: string]: string;
-    };
+    optionalAgentSettings?: Record<string, string>;
     selectedDatabases: MigrateMySqlAzureDbForMySqlOfflineDatabaseInput[];
     sourceConnectionInfo: MySqlConnectionInfo;
     startedOn?: Date;
@@ -1992,10 +1805,10 @@ export interface MigrateMySqlAzureDbForMySqlOfflineTaskInput {
 // @public
 export interface MigrateMySqlAzureDbForMySqlOfflineTaskOutput {
     readonly id?: string;
-    resultType: "MigrationLevelOutput" | "DatabaseLevelOutput" | "TableLevelOutput" | "ErrorOutput";
+    resultType: string;
 }
 
-// @public (undocumented)
+// @public
 export interface MigrateMySqlAzureDbForMySqlOfflineTaskOutputDatabaseLevel extends MigrateMySqlAzureDbForMySqlOfflineTaskOutput {
     readonly databaseName?: string;
     readonly endedOn?: Date;
@@ -2015,13 +1828,13 @@ export interface MigrateMySqlAzureDbForMySqlOfflineTaskOutputDatabaseLevel exten
     readonly statusMessage?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface MigrateMySqlAzureDbForMySqlOfflineTaskOutputError extends MigrateMySqlAzureDbForMySqlOfflineTaskOutput {
     readonly error?: ReportableException;
     resultType: "ErrorOutput";
 }
 
-// @public (undocumented)
+// @public
 export interface MigrateMySqlAzureDbForMySqlOfflineTaskOutputMigrationLevel extends MigrateMySqlAzureDbForMySqlOfflineTaskOutput {
     databases?: string;
     readonly databaseSummary?: string;
@@ -2041,7 +1854,7 @@ export interface MigrateMySqlAzureDbForMySqlOfflineTaskOutputMigrationLevel exte
     readonly targetServerVersion?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface MigrateMySqlAzureDbForMySqlOfflineTaskOutputTableLevel extends MigrateMySqlAzureDbForMySqlOfflineTaskOutput {
     readonly endedOn?: Date;
     readonly errorPrefix?: string;
@@ -2056,8 +1869,8 @@ export interface MigrateMySqlAzureDbForMySqlOfflineTaskOutputTableLevel extends 
     readonly statusMessage?: string;
 }
 
-// @public (undocumented)
-export type MigrateMySqlAzureDbForMySqlOfflineTaskOutputUnion = MigrateMySqlAzureDbForMySqlOfflineTaskOutput | MigrateMySqlAzureDbForMySqlOfflineTaskOutputMigrationLevel | MigrateMySqlAzureDbForMySqlOfflineTaskOutputDatabaseLevel | MigrateMySqlAzureDbForMySqlOfflineTaskOutputTableLevel | MigrateMySqlAzureDbForMySqlOfflineTaskOutputError;
+// @public
+export type MigrateMySqlAzureDbForMySqlOfflineTaskOutputUnion = MigrateMySqlAzureDbForMySqlOfflineTaskOutputMigrationLevel | MigrateMySqlAzureDbForMySqlOfflineTaskOutputDatabaseLevel | MigrateMySqlAzureDbForMySqlOfflineTaskOutputTableLevel | MigrateMySqlAzureDbForMySqlOfflineTaskOutputError | MigrateMySqlAzureDbForMySqlOfflineTaskOutput;
 
 // @public
 export interface MigrateMySqlAzureDbForMySqlOfflineTaskProperties extends ProjectTaskProperties {
@@ -2070,20 +1883,12 @@ export interface MigrateMySqlAzureDbForMySqlOfflineTaskProperties extends Projec
 
 // @public
 export interface MigrateMySqlAzureDbForMySqlSyncDatabaseInput {
-    migrationSetting?: {
-        [propertyName: string]: string;
-    };
+    migrationSetting?: Record<string, string>;
     name?: string;
-    sourceSetting?: {
-        [propertyName: string]: string;
-    };
-    tableMap?: {
-        [propertyName: string]: string;
-    };
+    sourceSetting?: Record<string, string>;
+    tableMap?: Record<string, string>;
     targetDatabaseName?: string;
-    targetSetting?: {
-        [propertyName: string]: string;
-    };
+    targetSetting?: Record<string, string>;
 }
 
 // @public
@@ -2096,17 +1901,17 @@ export interface MigrateMySqlAzureDbForMySqlSyncTaskInput {
 // @public
 export interface MigrateMySqlAzureDbForMySqlSyncTaskOutput {
     readonly id?: string;
-    resultType: "MigrationLevelOutput" | "DatabaseLevelOutput" | "TableLevelOutput" | "ErrorOutput" | "DatabaseLevelErrorOutput";
+    resultType: string;
 }
 
-// @public (undocumented)
+// @public
 export interface MigrateMySqlAzureDbForMySqlSyncTaskOutputDatabaseError extends MigrateMySqlAzureDbForMySqlSyncTaskOutput {
     errorMessage?: string;
     events?: SyncMigrationDatabaseErrorEvent[];
     resultType: "DatabaseLevelErrorOutput";
 }
 
-// @public (undocumented)
+// @public
 export interface MigrateMySqlAzureDbForMySqlSyncTaskOutputDatabaseLevel extends MigrateMySqlAzureDbForMySqlSyncTaskOutput {
     readonly appliedChanges?: number;
     readonly cdcDeleteCounter?: number;
@@ -2126,13 +1931,13 @@ export interface MigrateMySqlAzureDbForMySqlSyncTaskOutputDatabaseLevel extends 
     readonly startedOn?: Date;
 }
 
-// @public (undocumented)
+// @public
 export interface MigrateMySqlAzureDbForMySqlSyncTaskOutputError extends MigrateMySqlAzureDbForMySqlSyncTaskOutput {
     readonly error?: ReportableException;
     resultType: "ErrorOutput";
 }
 
-// @public (undocumented)
+// @public
 export interface MigrateMySqlAzureDbForMySqlSyncTaskOutputMigrationLevel extends MigrateMySqlAzureDbForMySqlSyncTaskOutput {
     readonly endedOn?: Date;
     resultType: "MigrationLevelOutput";
@@ -2143,7 +1948,7 @@ export interface MigrateMySqlAzureDbForMySqlSyncTaskOutputMigrationLevel extends
     readonly targetServerVersion?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface MigrateMySqlAzureDbForMySqlSyncTaskOutputTableLevel extends MigrateMySqlAzureDbForMySqlSyncTaskOutput {
     readonly cdcDeleteCounter?: string;
     readonly cdcInsertCounter?: string;
@@ -2161,8 +1966,8 @@ export interface MigrateMySqlAzureDbForMySqlSyncTaskOutputTableLevel extends Mig
     readonly totalChangesApplied?: number;
 }
 
-// @public (undocumented)
-export type MigrateMySqlAzureDbForMySqlSyncTaskOutputUnion = MigrateMySqlAzureDbForMySqlSyncTaskOutput | MigrateMySqlAzureDbForMySqlSyncTaskOutputMigrationLevel | MigrateMySqlAzureDbForMySqlSyncTaskOutputDatabaseLevel | MigrateMySqlAzureDbForMySqlSyncTaskOutputTableLevel | MigrateMySqlAzureDbForMySqlSyncTaskOutputError | MigrateMySqlAzureDbForMySqlSyncTaskOutputDatabaseError;
+// @public
+export type MigrateMySqlAzureDbForMySqlSyncTaskOutputUnion = MigrateMySqlAzureDbForMySqlSyncTaskOutputMigrationLevel | MigrateMySqlAzureDbForMySqlSyncTaskOutputDatabaseLevel | MigrateMySqlAzureDbForMySqlSyncTaskOutputTableLevel | MigrateMySqlAzureDbForMySqlSyncTaskOutputError | MigrateMySqlAzureDbForMySqlSyncTaskOutputDatabaseError | MigrateMySqlAzureDbForMySqlSyncTaskOutput;
 
 // @public
 export interface MigrateMySqlAzureDbForMySqlSyncTaskProperties extends ProjectTaskProperties {
@@ -2181,21 +1986,13 @@ export interface MigrateOracleAzureDbForPostgreSqlSyncTaskProperties extends Pro
 // @public
 export interface MigrateOracleAzureDbPostgreSqlSyncDatabaseInput {
     caseManipulation?: string;
-    migrationSetting?: {
-        [propertyName: string]: string;
-    };
+    migrationSetting?: Record<string, string>;
     name?: string;
     schemaName?: string;
-    sourceSetting?: {
-        [propertyName: string]: string;
-    };
-    tableMap?: {
-        [propertyName: string]: string;
-    };
+    sourceSetting?: Record<string, string>;
+    tableMap?: Record<string, string>;
     targetDatabaseName?: string;
-    targetSetting?: {
-        [propertyName: string]: string;
-    };
+    targetSetting?: Record<string, string>;
 }
 
 // @public
@@ -2208,17 +2005,17 @@ export interface MigrateOracleAzureDbPostgreSqlSyncTaskInput {
 // @public
 export interface MigrateOracleAzureDbPostgreSqlSyncTaskOutput {
     readonly id?: string;
-    resultType: "MigrationLevelOutput" | "DatabaseLevelOutput" | "TableLevelOutput" | "ErrorOutput" | "DatabaseLevelErrorOutput";
+    resultType: string;
 }
 
-// @public (undocumented)
+// @public
 export interface MigrateOracleAzureDbPostgreSqlSyncTaskOutputDatabaseError extends MigrateOracleAzureDbPostgreSqlSyncTaskOutput {
     errorMessage?: string;
     events?: SyncMigrationDatabaseErrorEvent[];
     resultType: "DatabaseLevelErrorOutput";
 }
 
-// @public (undocumented)
+// @public
 export interface MigrateOracleAzureDbPostgreSqlSyncTaskOutputDatabaseLevel extends MigrateOracleAzureDbPostgreSqlSyncTaskOutput {
     readonly appliedChanges?: number;
     readonly cdcDeleteCounter?: number;
@@ -2238,13 +2035,13 @@ export interface MigrateOracleAzureDbPostgreSqlSyncTaskOutputDatabaseLevel exten
     readonly startedOn?: Date;
 }
 
-// @public (undocumented)
+// @public
 export interface MigrateOracleAzureDbPostgreSqlSyncTaskOutputError extends MigrateOracleAzureDbPostgreSqlSyncTaskOutput {
     readonly error?: ReportableException;
     resultType: "ErrorOutput";
 }
 
-// @public (undocumented)
+// @public
 export interface MigrateOracleAzureDbPostgreSqlSyncTaskOutputMigrationLevel extends MigrateOracleAzureDbPostgreSqlSyncTaskOutput {
     readonly endedOn?: Date;
     resultType: "MigrationLevelOutput";
@@ -2255,7 +2052,7 @@ export interface MigrateOracleAzureDbPostgreSqlSyncTaskOutputMigrationLevel exte
     readonly targetServerVersion?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface MigrateOracleAzureDbPostgreSqlSyncTaskOutputTableLevel extends MigrateOracleAzureDbPostgreSqlSyncTaskOutput {
     readonly cdcDeleteCounter?: number;
     readonly cdcInsertCounter?: number;
@@ -2273,24 +2070,18 @@ export interface MigrateOracleAzureDbPostgreSqlSyncTaskOutputTableLevel extends 
     readonly totalChangesApplied?: number;
 }
 
-// @public (undocumented)
-export type MigrateOracleAzureDbPostgreSqlSyncTaskOutputUnion = MigrateOracleAzureDbPostgreSqlSyncTaskOutput | MigrateOracleAzureDbPostgreSqlSyncTaskOutputMigrationLevel | MigrateOracleAzureDbPostgreSqlSyncTaskOutputDatabaseLevel | MigrateOracleAzureDbPostgreSqlSyncTaskOutputTableLevel | MigrateOracleAzureDbPostgreSqlSyncTaskOutputError | MigrateOracleAzureDbPostgreSqlSyncTaskOutputDatabaseError;
+// @public
+export type MigrateOracleAzureDbPostgreSqlSyncTaskOutputUnion = MigrateOracleAzureDbPostgreSqlSyncTaskOutputMigrationLevel | MigrateOracleAzureDbPostgreSqlSyncTaskOutputDatabaseLevel | MigrateOracleAzureDbPostgreSqlSyncTaskOutputTableLevel | MigrateOracleAzureDbPostgreSqlSyncTaskOutputError | MigrateOracleAzureDbPostgreSqlSyncTaskOutputDatabaseError | MigrateOracleAzureDbPostgreSqlSyncTaskOutput;
 
 // @public
 export interface MigratePostgreSqlAzureDbForPostgreSqlSyncDatabaseInput {
     readonly id?: string;
-    migrationSetting?: {
-        [propertyName: string]: any;
-    };
+    migrationSetting?: Record<string, any>;
     name?: string;
     selectedTables?: MigratePostgreSqlAzureDbForPostgreSqlSyncDatabaseTableInput[];
-    sourceSetting?: {
-        [propertyName: string]: string;
-    };
+    sourceSetting?: Record<string, string>;
     targetDatabaseName?: string;
-    targetSetting?: {
-        [propertyName: string]: string;
-    };
+    targetSetting?: Record<string, string>;
 }
 
 // @public
@@ -2310,17 +2101,17 @@ export interface MigratePostgreSqlAzureDbForPostgreSqlSyncTaskInput {
 // @public
 export interface MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput {
     readonly id?: string;
-    resultType: "MigrationLevelOutput" | "DatabaseLevelOutput" | "TableLevelOutput" | "ErrorOutput" | "DatabaseLevelErrorOutput";
+    resultType: string;
 }
 
-// @public (undocumented)
+// @public
 export interface MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputDatabaseError extends MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput {
     errorMessage?: string;
     events?: SyncMigrationDatabaseErrorEvent[];
     resultType: "DatabaseLevelErrorOutput";
 }
 
-// @public (undocumented)
+// @public
 export interface MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputDatabaseLevel extends MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput {
     readonly appliedChanges?: number;
     readonly cdcDeleteCounter?: number;
@@ -2340,14 +2131,14 @@ export interface MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputDatabaseLeve
     readonly startedOn?: Date;
 }
 
-// @public (undocumented)
+// @public
 export interface MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputError extends MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput {
     readonly error?: ReportableException;
     events?: SyncMigrationDatabaseErrorEvent[];
     resultType: "ErrorOutput";
 }
 
-// @public (undocumented)
+// @public
 export interface MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputMigrationLevel extends MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput {
     databaseCount?: number;
     readonly endedOn?: Date;
@@ -2362,7 +2153,7 @@ export interface MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputMigrationLev
     readonly targetServerVersion?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputTableLevel extends MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput {
     readonly cdcDeleteCounter?: number;
     readonly cdcInsertCounter?: number;
@@ -2380,8 +2171,8 @@ export interface MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputTableLevel e
     readonly totalChangesApplied?: number;
 }
 
-// @public (undocumented)
-export type MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputUnion = MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput | MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputMigrationLevel | MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputDatabaseLevel | MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputTableLevel | MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputError | MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputDatabaseError;
+// @public
+export type MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputUnion = MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputMigrationLevel | MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputDatabaseLevel | MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputTableLevel | MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputError | MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputDatabaseError | MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput;
 
 // @public
 export interface MigratePostgreSqlAzureDbForPostgreSqlSyncTaskProperties extends ProjectTaskProperties {
@@ -2411,10 +2202,10 @@ export interface MigrateSchemaSqlServerSqlDbTaskInput extends SqlMigrationTaskIn
 // @public
 export interface MigrateSchemaSqlServerSqlDbTaskOutput {
     readonly id?: string;
-    resultType: "MigrationLevelOutput" | "DatabaseLevelOutput" | "SchemaErrorOutput" | "ErrorOutput";
+    resultType: string;
 }
 
-// @public (undocumented)
+// @public
 export interface MigrateSchemaSqlServerSqlDbTaskOutputDatabaseLevel extends MigrateSchemaSqlServerSqlDbTaskOutput {
     readonly databaseErrorResultPrefix?: string;
     readonly databaseName?: string;
@@ -2429,14 +2220,14 @@ export interface MigrateSchemaSqlServerSqlDbTaskOutputDatabaseLevel extends Migr
     readonly state?: MigrationState;
 }
 
-// @public (undocumented)
+// @public
 export interface MigrateSchemaSqlServerSqlDbTaskOutputError extends MigrateSchemaSqlServerSqlDbTaskOutput {
     readonly commandText?: string;
     readonly errorText?: string;
     resultType: "SchemaErrorOutput";
 }
 
-// @public (undocumented)
+// @public
 export interface MigrateSchemaSqlServerSqlDbTaskOutputMigrationLevel extends MigrateSchemaSqlServerSqlDbTaskOutput {
     readonly endedOn?: Date;
     resultType: "MigrationLevelOutput";
@@ -2448,8 +2239,8 @@ export interface MigrateSchemaSqlServerSqlDbTaskOutputMigrationLevel extends Mig
     readonly targetServerVersion?: string;
 }
 
-// @public (undocumented)
-export type MigrateSchemaSqlServerSqlDbTaskOutputUnion = MigrateSchemaSqlServerSqlDbTaskOutput | MigrateSchemaSqlServerSqlDbTaskOutputMigrationLevel | MigrateSchemaSqlServerSqlDbTaskOutputDatabaseLevel | MigrateSchemaSqlServerSqlDbTaskOutputError | MigrateSchemaSqlTaskOutputError;
+// @public
+export type MigrateSchemaSqlServerSqlDbTaskOutputUnion = MigrateSchemaSqlServerSqlDbTaskOutputMigrationLevel | MigrateSchemaSqlServerSqlDbTaskOutputDatabaseLevel | MigrateSchemaSqlServerSqlDbTaskOutputError | MigrateSchemaSqlTaskOutputError | MigrateSchemaSqlServerSqlDbTaskOutput;
 
 // @public
 export interface MigrateSchemaSqlServerSqlDbTaskProperties extends ProjectTaskProperties {
@@ -2461,18 +2252,10 @@ export interface MigrateSchemaSqlServerSqlDbTaskProperties extends ProjectTaskPr
     taskType: "MigrateSchemaSqlServerSqlDb";
 }
 
-// @public (undocumented)
+// @public
 export interface MigrateSchemaSqlTaskOutputError extends MigrateSchemaSqlServerSqlDbTaskOutput {
     readonly error?: ReportableException;
     resultType: "ErrorOutput";
-}
-
-// @public
-export interface MigrateSqlServerDatabaseInput {
-    backupAndRestoreFolder?: string;
-    databaseFiles?: DatabaseFileInput[];
-    name?: string;
-    restoreDatabaseName?: string;
 }
 
 // @public
@@ -2480,31 +2263,21 @@ export interface MigrateSqlServerSqlDbDatabaseInput {
     id?: string;
     makeSourceDbReadOnly?: boolean;
     name?: string;
-    schemaSetting?: Record<string, unknown>;
-    tableMap?: {
-        [propertyName: string]: string;
-    };
+    schemaSetting?: any;
+    tableMap?: Record<string, string>;
     targetDatabaseName?: string;
 }
 
 // @public
 export interface MigrateSqlServerSqlDbSyncDatabaseInput {
     id?: string;
-    migrationSetting?: {
-        [propertyName: string]: string;
-    };
+    migrationSetting?: Record<string, string>;
     name?: string;
     schemaName?: string;
-    sourceSetting?: {
-        [propertyName: string]: string;
-    };
-    tableMap?: {
-        [propertyName: string]: string;
-    };
+    sourceSetting?: Record<string, string>;
+    tableMap?: Record<string, string>;
     targetDatabaseName?: string;
-    targetSetting?: {
-        [propertyName: string]: string;
-    };
+    targetSetting?: Record<string, string>;
 }
 
 // @public
@@ -2516,17 +2289,17 @@ export interface MigrateSqlServerSqlDbSyncTaskInput extends SqlMigrationTaskInpu
 // @public
 export interface MigrateSqlServerSqlDbSyncTaskOutput {
     readonly id?: string;
-    resultType: "MigrationLevelOutput" | "DatabaseLevelOutput" | "TableLevelOutput" | "ErrorOutput" | "DatabaseLevelErrorOutput";
+    resultType: string;
 }
 
-// @public (undocumented)
+// @public
 export interface MigrateSqlServerSqlDbSyncTaskOutputDatabaseError extends MigrateSqlServerSqlDbSyncTaskOutput {
     errorMessage?: string;
     events?: SyncMigrationDatabaseErrorEvent[];
     resultType: "DatabaseLevelErrorOutput";
 }
 
-// @public (undocumented)
+// @public
 export interface MigrateSqlServerSqlDbSyncTaskOutputDatabaseLevel extends MigrateSqlServerSqlDbSyncTaskOutput {
     readonly appliedChanges?: number;
     readonly cdcDeleteCounter?: number;
@@ -2546,13 +2319,13 @@ export interface MigrateSqlServerSqlDbSyncTaskOutputDatabaseLevel extends Migrat
     readonly startedOn?: Date;
 }
 
-// @public (undocumented)
+// @public
 export interface MigrateSqlServerSqlDbSyncTaskOutputError extends MigrateSqlServerSqlDbSyncTaskOutput {
     readonly error?: ReportableException;
     resultType: "ErrorOutput";
 }
 
-// @public (undocumented)
+// @public
 export interface MigrateSqlServerSqlDbSyncTaskOutputMigrationLevel extends MigrateSqlServerSqlDbSyncTaskOutput {
     readonly databaseCount?: number;
     readonly endedOn?: Date;
@@ -2564,7 +2337,7 @@ export interface MigrateSqlServerSqlDbSyncTaskOutputMigrationLevel extends Migra
     readonly targetServerVersion?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface MigrateSqlServerSqlDbSyncTaskOutputTableLevel extends MigrateSqlServerSqlDbSyncTaskOutput {
     readonly cdcDeleteCounter?: number;
     readonly cdcInsertCounter?: number;
@@ -2582,8 +2355,8 @@ export interface MigrateSqlServerSqlDbSyncTaskOutputTableLevel extends MigrateSq
     readonly totalChangesApplied?: number;
 }
 
-// @public (undocumented)
-export type MigrateSqlServerSqlDbSyncTaskOutputUnion = MigrateSqlServerSqlDbSyncTaskOutput | MigrateSqlServerSqlDbSyncTaskOutputMigrationLevel | MigrateSqlServerSqlDbSyncTaskOutputDatabaseLevel | MigrateSqlServerSqlDbSyncTaskOutputTableLevel | MigrateSqlServerSqlDbSyncTaskOutputError | MigrateSqlServerSqlDbSyncTaskOutputDatabaseError;
+// @public
+export type MigrateSqlServerSqlDbSyncTaskOutputUnion = MigrateSqlServerSqlDbSyncTaskOutputMigrationLevel | MigrateSqlServerSqlDbSyncTaskOutputDatabaseLevel | MigrateSqlServerSqlDbSyncTaskOutputTableLevel | MigrateSqlServerSqlDbSyncTaskOutputError | MigrateSqlServerSqlDbSyncTaskOutputDatabaseError | MigrateSqlServerSqlDbSyncTaskOutput;
 
 // @public
 export interface MigrateSqlServerSqlDbSyncTaskProperties extends ProjectTaskProperties {
@@ -2603,10 +2376,10 @@ export interface MigrateSqlServerSqlDbTaskInput extends SqlMigrationTaskInput {
 // @public
 export interface MigrateSqlServerSqlDbTaskOutput {
     readonly id?: string;
-    resultType: "MigrationLevelOutput" | "DatabaseLevelOutput" | "TableLevelOutput" | "ErrorOutput" | "MigrationValidationOutput" | "MigrationDatabaseLevelValidationOutput";
+    resultType: string;
 }
 
-// @public (undocumented)
+// @public
 export interface MigrateSqlServerSqlDbTaskOutputDatabaseLevel extends MigrateSqlServerSqlDbTaskOutput {
     readonly databaseName?: string;
     readonly endedOn?: Date;
@@ -2625,18 +2398,28 @@ export interface MigrateSqlServerSqlDbTaskOutputDatabaseLevel extends MigrateSql
     readonly statusMessage?: string;
 }
 
-// @public (undocumented)
-export interface MigrateSqlServerSqlDbTaskOutputDatabaseLevelValidationResult extends MigrateSqlServerSqlDbTaskOutput, MigrationValidationDatabaseLevelResult {
+// @public
+export interface MigrateSqlServerSqlDbTaskOutputDatabaseLevelValidationResult extends MigrateSqlServerSqlDbTaskOutput {
+    readonly dataIntegrityValidationResult?: DataIntegrityValidationResult;
+    readonly endedOn?: Date;
+    readonly id?: string;
+    readonly migrationId?: string;
+    readonly queryAnalysisValidationResult?: QueryAnalysisValidationResult;
     resultType: "MigrationDatabaseLevelValidationOutput";
+    readonly schemaValidationResult?: SchemaComparisonValidationResult;
+    readonly sourceDatabaseName?: string;
+    readonly startedOn?: Date;
+    readonly status?: ValidationStatus;
+    readonly targetDatabaseName?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface MigrateSqlServerSqlDbTaskOutputError extends MigrateSqlServerSqlDbTaskOutput {
     readonly error?: ReportableException;
     resultType: "ErrorOutput";
 }
 
-// @public (undocumented)
+// @public
 export interface MigrateSqlServerSqlDbTaskOutputMigrationLevel extends MigrateSqlServerSqlDbTaskOutput {
     readonly databases?: string;
     readonly databaseSummary?: string;
@@ -2656,7 +2439,7 @@ export interface MigrateSqlServerSqlDbTaskOutputMigrationLevel extends MigrateSq
     readonly targetServerVersion?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface MigrateSqlServerSqlDbTaskOutputTableLevel extends MigrateSqlServerSqlDbTaskOutput {
     readonly endedOn?: Date;
     readonly errorPrefix?: string;
@@ -2670,12 +2453,16 @@ export interface MigrateSqlServerSqlDbTaskOutputTableLevel extends MigrateSqlSer
     readonly statusMessage?: string;
 }
 
-// @public (undocumented)
-export type MigrateSqlServerSqlDbTaskOutputUnion = MigrateSqlServerSqlDbTaskOutput | MigrateSqlServerSqlDbTaskOutputMigrationLevel | MigrateSqlServerSqlDbTaskOutputDatabaseLevel | MigrateSqlServerSqlDbTaskOutputTableLevel | MigrateSqlServerSqlDbTaskOutputError | MigrateSqlServerSqlDbTaskOutputValidationResult | MigrateSqlServerSqlDbTaskOutputDatabaseLevelValidationResult;
+// @public
+export type MigrateSqlServerSqlDbTaskOutputUnion = MigrateSqlServerSqlDbTaskOutputMigrationLevel | MigrateSqlServerSqlDbTaskOutputDatabaseLevel | MigrateSqlServerSqlDbTaskOutputTableLevel | MigrateSqlServerSqlDbTaskOutputError | MigrateSqlServerSqlDbTaskOutputValidationResult | MigrateSqlServerSqlDbTaskOutputDatabaseLevelValidationResult | MigrateSqlServerSqlDbTaskOutput;
 
-// @public (undocumented)
-export interface MigrateSqlServerSqlDbTaskOutputValidationResult extends MigrateSqlServerSqlDbTaskOutput, MigrationValidationResult {
+// @public
+export interface MigrateSqlServerSqlDbTaskOutputValidationResult extends MigrateSqlServerSqlDbTaskOutput {
+    readonly id?: string;
+    readonly migrationId?: string;
     resultType: "MigrationValidationOutput";
+    readonly status?: ValidationStatus;
+    summaryResults?: Record<string, MigrationValidationDatabaseSummaryResult>;
 }
 
 // @public
@@ -2705,10 +2492,10 @@ export interface MigrateSqlServerSqlMISyncTaskInput extends SqlServerSqlMISyncTa
 // @public
 export interface MigrateSqlServerSqlMISyncTaskOutput {
     readonly id?: string;
-    resultType: "MigrationLevelOutput" | "DatabaseLevelOutput" | "ErrorOutput";
+    resultType: string;
 }
 
-// @public (undocumented)
+// @public
 export interface MigrateSqlServerSqlMISyncTaskOutputDatabaseLevel extends MigrateSqlServerSqlMISyncTaskOutput {
     readonly activeBackupSets?: BackupSetInfo[];
     readonly containerName?: string;
@@ -2724,13 +2511,13 @@ export interface MigrateSqlServerSqlMISyncTaskOutputDatabaseLevel extends Migrat
     readonly startedOn?: Date;
 }
 
-// @public (undocumented)
+// @public
 export interface MigrateSqlServerSqlMISyncTaskOutputError extends MigrateSqlServerSqlMISyncTaskOutput {
     readonly error?: ReportableException;
     resultType: "ErrorOutput";
 }
 
-// @public (undocumented)
+// @public
 export interface MigrateSqlServerSqlMISyncTaskOutputMigrationLevel extends MigrateSqlServerSqlMISyncTaskOutput {
     readonly databaseCount?: number;
     readonly databaseErrorCount?: number;
@@ -2746,8 +2533,8 @@ export interface MigrateSqlServerSqlMISyncTaskOutputMigrationLevel extends Migra
     readonly targetServerVersion?: string;
 }
 
-// @public (undocumented)
-export type MigrateSqlServerSqlMISyncTaskOutputUnion = MigrateSqlServerSqlMISyncTaskOutput | MigrateSqlServerSqlMISyncTaskOutputMigrationLevel | MigrateSqlServerSqlMISyncTaskOutputDatabaseLevel | MigrateSqlServerSqlMISyncTaskOutputError;
+// @public
+export type MigrateSqlServerSqlMISyncTaskOutputUnion = MigrateSqlServerSqlMISyncTaskOutputMigrationLevel | MigrateSqlServerSqlMISyncTaskOutputDatabaseLevel | MigrateSqlServerSqlMISyncTaskOutputError | MigrateSqlServerSqlMISyncTaskOutput;
 
 // @public
 export interface MigrateSqlServerSqlMISyncTaskProperties extends ProjectTaskProperties {
@@ -2773,10 +2560,10 @@ export interface MigrateSqlServerSqlMITaskInput extends SqlMigrationTaskInput {
 // @public
 export interface MigrateSqlServerSqlMITaskOutput {
     readonly id?: string;
-    resultType: "MigrationLevelOutput" | "DatabaseLevelOutput" | "AgentJobLevelOutput" | "LoginLevelOutput" | "ErrorOutput";
+    resultType: string;
 }
 
-// @public (undocumented)
+// @public
 export interface MigrateSqlServerSqlMITaskOutputAgentJobLevel extends MigrateSqlServerSqlMITaskOutput {
     readonly endedOn?: Date;
     readonly exceptionsAndWarnings?: ReportableException[];
@@ -2788,7 +2575,7 @@ export interface MigrateSqlServerSqlMITaskOutputAgentJobLevel extends MigrateSql
     readonly state?: MigrationState;
 }
 
-// @public (undocumented)
+// @public
 export interface MigrateSqlServerSqlMITaskOutputDatabaseLevel extends MigrateSqlServerSqlMITaskOutput {
     readonly databaseName?: string;
     readonly endedOn?: Date;
@@ -2801,13 +2588,13 @@ export interface MigrateSqlServerSqlMITaskOutputDatabaseLevel extends MigrateSql
     readonly state?: MigrationState;
 }
 
-// @public (undocumented)
+// @public
 export interface MigrateSqlServerSqlMITaskOutputError extends MigrateSqlServerSqlMITaskOutput {
     readonly error?: ReportableException;
     resultType: "ErrorOutput";
 }
 
-// @public (undocumented)
+// @public
 export interface MigrateSqlServerSqlMITaskOutputLoginLevel extends MigrateSqlServerSqlMITaskOutput {
     readonly endedOn?: Date;
     readonly exceptionsAndWarnings?: ReportableException[];
@@ -2819,7 +2606,7 @@ export interface MigrateSqlServerSqlMITaskOutputLoginLevel extends MigrateSqlSer
     readonly state?: MigrationState;
 }
 
-// @public (undocumented)
+// @public
 export interface MigrateSqlServerSqlMITaskOutputMigrationLevel extends MigrateSqlServerSqlMITaskOutput {
     readonly agentJobs?: string;
     readonly databases?: string;
@@ -2839,8 +2626,8 @@ export interface MigrateSqlServerSqlMITaskOutputMigrationLevel extends MigrateSq
     readonly targetServerVersion?: string;
 }
 
-// @public (undocumented)
-export type MigrateSqlServerSqlMITaskOutputUnion = MigrateSqlServerSqlMITaskOutput | MigrateSqlServerSqlMITaskOutputMigrationLevel | MigrateSqlServerSqlMITaskOutputDatabaseLevel | MigrateSqlServerSqlMITaskOutputAgentJobLevel | MigrateSqlServerSqlMITaskOutputLoginLevel | MigrateSqlServerSqlMITaskOutputError;
+// @public
+export type MigrateSqlServerSqlMITaskOutputUnion = MigrateSqlServerSqlMITaskOutputMigrationLevel | MigrateSqlServerSqlMITaskOutputDatabaseLevel | MigrateSqlServerSqlMITaskOutputAgentJobLevel | MigrateSqlServerSqlMITaskOutputLoginLevel | MigrateSqlServerSqlMITaskOutputError | MigrateSqlServerSqlMITaskOutput;
 
 // @public
 export interface MigrateSqlServerSqlMITaskProperties extends ProjectTaskProperties {
@@ -2861,10 +2648,10 @@ export interface MigrateSsisTaskInput extends SqlMigrationTaskInput {
 // @public
 export interface MigrateSsisTaskOutput {
     readonly id?: string;
-    resultType: "MigrationLevelOutput" | "SsisProjectLevelOutput";
+    resultType: string;
 }
 
-// @public (undocumented)
+// @public
 export interface MigrateSsisTaskOutputMigrationLevel extends MigrateSsisTaskOutput {
     readonly endedOn?: Date;
     readonly exceptionsAndWarnings?: ReportableException[];
@@ -2879,7 +2666,7 @@ export interface MigrateSsisTaskOutputMigrationLevel extends MigrateSsisTaskOutp
     readonly targetServerVersion?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface MigrateSsisTaskOutputProjectLevel extends MigrateSsisTaskOutput {
     readonly endedOn?: Date;
     readonly exceptionsAndWarnings?: ReportableException[];
@@ -2892,8 +2679,8 @@ export interface MigrateSsisTaskOutputProjectLevel extends MigrateSsisTaskOutput
     readonly state?: MigrationState;
 }
 
-// @public (undocumented)
-export type MigrateSsisTaskOutputUnion = MigrateSsisTaskOutput | MigrateSsisTaskOutputMigrationLevel | MigrateSsisTaskOutputProjectLevel;
+// @public
+export type MigrateSsisTaskOutputUnion = MigrateSsisTaskOutputMigrationLevel | MigrateSsisTaskOutputProjectLevel | MigrateSsisTaskOutput;
 
 // @public
 export interface MigrateSsisTaskProperties extends ProjectTaskProperties {
@@ -2946,118 +2733,68 @@ export interface MigrationService extends TrackedResource {
 }
 
 // @public
-export interface MigrationServiceListResult {
-    readonly nextLink?: string;
-    readonly value?: MigrationService[];
+export interface MigrationServiceProperties {
+    readonly integrationRuntimeState?: string;
+    readonly provisioningState?: ProvisioningState;
 }
 
 // @public
-export interface MigrationServices {
-    beginCreateOrUpdate(resourceGroupName: string, migrationServiceName: string, parameters: MigrationService, options?: MigrationServicesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<MigrationServicesCreateOrUpdateResponse>, MigrationServicesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, migrationServiceName: string, parameters: MigrationService, options?: MigrationServicesCreateOrUpdateOptionalParams): Promise<MigrationServicesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, migrationServiceName: string, options?: MigrationServicesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<MigrationServicesDeleteResponse>, MigrationServicesDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, migrationServiceName: string, options?: MigrationServicesDeleteOptionalParams): Promise<MigrationServicesDeleteResponse>;
-    beginUpdate(resourceGroupName: string, migrationServiceName: string, parameters: MigrationServiceUpdate, options?: MigrationServicesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<MigrationServicesUpdateResponse>, MigrationServicesUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, migrationServiceName: string, parameters: MigrationServiceUpdate, options?: MigrationServicesUpdateOptionalParams): Promise<MigrationServicesUpdateResponse>;
-    get(resourceGroupName: string, migrationServiceName: string, options?: MigrationServicesGetOptionalParams): Promise<MigrationServicesGetResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: MigrationServicesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<MigrationService>;
-    listBySubscription(options?: MigrationServicesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<MigrationService>;
-    listMigrations(resourceGroupName: string, migrationServiceName: string, options?: MigrationServicesListMigrationsOptionalParams): PagedAsyncIterableIterator<DatabaseMigrationBase>;
-}
-
-// @public
-export interface MigrationServicesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface MigrationServicesCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type MigrationServicesCreateOrUpdateResponse = MigrationService;
-
-// @public
-export interface MigrationServicesDeleteHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface MigrationServicesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface MigrationServicesDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type MigrationServicesDeleteResponse = MigrationServicesDeleteHeaders;
-
-// @public
-export interface MigrationServicesGetOptionalParams extends coreClient.OperationOptions {
+export interface MigrationServicesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type MigrationServicesGetResponse = MigrationService;
-
-// @public
-export interface MigrationServicesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface MigrationServicesListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type MigrationServicesListByResourceGroupNextResponse = MigrationServiceListResult;
-
-// @public
-export interface MigrationServicesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface MigrationServicesListBySubscriptionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type MigrationServicesListByResourceGroupResponse = MigrationServiceListResult;
-
-// @public
-export interface MigrationServicesListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+export interface MigrationServicesListMigrationsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type MigrationServicesListBySubscriptionNextResponse = MigrationServiceListResult;
-
-// @public
-export interface MigrationServicesListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+export interface MigrationServicesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, migrationServiceName: string, parameters: MigrationService, options?: MigrationServicesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<MigrationService>, MigrationService>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, migrationServiceName: string, parameters: MigrationService, options?: MigrationServicesCreateOrUpdateOptionalParams) => Promise<MigrationService>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, migrationServiceName: string, options?: MigrationServicesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, migrationServiceName: string, options?: MigrationServicesDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, migrationServiceName: string, parameters: MigrationServiceUpdate, options?: MigrationServicesUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<MigrationService>, MigrationService>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, migrationServiceName: string, parameters: MigrationServiceUpdate, options?: MigrationServicesUpdateOptionalParams) => Promise<MigrationService>;
+    createOrUpdate: (resourceGroupName: string, migrationServiceName: string, parameters: MigrationService, options?: MigrationServicesCreateOrUpdateOptionalParams) => PollerLike<OperationState<MigrationService>, MigrationService>;
+    delete: (resourceGroupName: string, migrationServiceName: string, options?: MigrationServicesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, migrationServiceName: string, options?: MigrationServicesGetOptionalParams) => Promise<MigrationService>;
+    listByResourceGroup: (resourceGroupName: string, options?: MigrationServicesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<MigrationService>;
+    listBySubscription: (options?: MigrationServicesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<MigrationService>;
+    listMigrations: (resourceGroupName: string, migrationServiceName: string, options?: MigrationServicesListMigrationsOptionalParams) => PagedAsyncIterableIterator<DatabaseMigrationBase>;
+    update: (resourceGroupName: string, migrationServiceName: string, parameters: MigrationServiceUpdate, options?: MigrationServicesUpdateOptionalParams) => PollerLike<OperationState<MigrationService>, MigrationService>;
 }
 
 // @public
-export type MigrationServicesListBySubscriptionResponse = MigrationServiceListResult;
-
-// @public
-export interface MigrationServicesListMigrationsNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type MigrationServicesListMigrationsNextResponse = DatabaseMigrationBaseListResult;
-
-// @public
-export interface MigrationServicesListMigrationsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type MigrationServicesListMigrationsResponse = DatabaseMigrationBaseListResult;
-
-// @public
-export interface MigrationServicesUpdateHeaders {
-    // (undocumented)
-    location?: string;
-}
-
-// @public
-export interface MigrationServicesUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface MigrationServicesUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type MigrationServicesUpdateResponse = MigrationService;
 
 // @public
 export interface MigrationServiceUpdate {
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -3084,26 +2821,6 @@ export interface MigrationStatusDetails {
 }
 
 // @public
-export interface MigrationTableMetadata {
-    readonly sourceTableName?: string;
-    readonly targetTableName?: string;
-}
-
-// @public
-export interface MigrationValidationDatabaseLevelResult {
-    readonly dataIntegrityValidationResult?: DataIntegrityValidationResult;
-    readonly endedOn?: Date;
-    readonly id?: string;
-    readonly migrationId?: string;
-    readonly queryAnalysisValidationResult?: QueryAnalysisValidationResult;
-    readonly schemaValidationResult?: SchemaComparisonValidationResult;
-    readonly sourceDatabaseName?: string;
-    readonly startedOn?: Date;
-    readonly status?: ValidationStatus;
-    readonly targetDatabaseName?: string;
-}
-
-// @public
 export interface MigrationValidationDatabaseSummaryResult {
     readonly endedOn?: Date;
     readonly id?: string;
@@ -3126,9 +2843,7 @@ export interface MigrationValidationResult {
     readonly id?: string;
     readonly migrationId?: string;
     readonly status?: ValidationStatus;
-    summaryResults?: {
-        [propertyName: string]: MigrationValidationDatabaseSummaryResult;
-    };
+    summaryResults?: Record<string, MigrationValidationDatabaseSummaryResult>;
 }
 
 // @public
@@ -3217,17 +2932,13 @@ export interface MongoDbDatabaseInfo extends MongoDbObjectInfo {
 
 // @public
 export interface MongoDbDatabaseProgress extends MongoDbProgress {
-    collections?: {
-        [propertyName: string]: MongoDbCollectionProgress;
-    };
+    collections?: Record<string, MongoDbCollectionProgress>;
     resultType: "Database";
 }
 
 // @public
 export interface MongoDbDatabaseSettings {
-    collections: {
-        [propertyName: string]: MongoDbCollectionSettings;
-    };
+    collections: Record<string, MongoDbCollectionSettings>;
     targetRUs?: number;
 }
 
@@ -3255,18 +2966,14 @@ export interface MongoDbFinishCommandInput extends MongoDbCommandInput {
 
 // @public
 export interface MongoDbMigrationProgress extends MongoDbProgress {
-    databases?: {
-        [propertyName: string]: MongoDbDatabaseProgress;
-    };
+    databases?: Record<string, MongoDbDatabaseProgress>;
     resultType: "Migration";
 }
 
 // @public
 export interface MongoDbMigrationSettings {
     boostRUs?: number;
-    databases: {
-        [propertyName: string]: MongoDbDatabaseSettings;
-    };
+    databases: Record<string, MongoDbDatabaseSettings>;
     replication?: MongoDbReplication;
     source: MongoDbConnectionInfo;
     target: MongoDbConnectionInfo;
@@ -3290,16 +2997,14 @@ export interface MongoDbProgress {
     bytesCopied: number;
     documentsCopied: number;
     elapsedTime: string;
-    errors: {
-        [propertyName: string]: MongoDbError;
-    };
+    errors: Record<string, MongoDbError>;
     eventsPending: number;
     eventsReplayed: number;
     lastEventTime?: Date;
     lastReplayTime?: Date;
     name?: string;
     qualifiedName?: string;
-    resultType: "Collection" | "Database" | "Migration";
+    resultType: MongoDbProgressResultType;
     // (undocumented)
     state: MongoDbMigrationState;
     totalBytes: number;
@@ -3309,8 +3014,8 @@ export interface MongoDbProgress {
 // @public
 export type MongoDbProgressResultType = string;
 
-// @public (undocumented)
-export type MongoDbProgressUnion = MongoDbProgress | MongoDbCollectionProgress | MongoDbDatabaseProgress | MongoDbMigrationProgress;
+// @public
+export type MongoDbProgressUnion = MongoDbCollectionProgress | MongoDbDatabaseProgress | MongoDbMigrationProgress | MongoDbProgress;
 
 // @public
 export type MongoDbReplication = string;
@@ -3400,11 +3105,9 @@ export interface NameAvailabilityResponse {
 // @public
 export type NameCheckFailureReason = string;
 
-// @public (undocumented)
+// @public
 export interface NodeMonitoringData {
-    readonly additionalProperties?: {
-        [propertyName: string]: Record<string, unknown>;
-    };
+    readonly additionalProperties?: Record<string, any>;
     readonly availableMemoryInMB?: number;
     readonly concurrentJobsLimit?: number;
     readonly concurrentJobsRunning?: number;
@@ -3413,43 +3116,6 @@ export interface NodeMonitoringData {
     readonly nodeName?: string;
     readonly receivedBytes?: number;
     readonly sentBytes?: number;
-}
-
-// @public
-export interface NonSqlDataMigrationTable {
-    sourceName?: string;
-}
-
-// @public
-export interface NonSqlDataMigrationTableResult {
-    readonly elapsedTimeInMiliseconds?: number;
-    readonly errors?: DataMigrationError[];
-    readonly resultCode?: DataMigrationResultCode;
-    readonly sourceName?: string;
-    readonly sourceRowCount?: number;
-    readonly targetName?: string;
-    readonly targetRowCount?: number;
-}
-
-// @public
-export interface NonSqlMigrationTaskInput {
-    projectLocation: string;
-    projectName: string;
-    selectedTables: NonSqlDataMigrationTable[];
-    targetConnectionInfo: SqlConnectionInfo;
-    targetDatabaseName: string;
-}
-
-// @public
-export interface NonSqlMigrationTaskOutput {
-    readonly dataMigrationTableResults?: string;
-    readonly endedOn?: Date;
-    readonly id?: string;
-    readonly progressMessage?: string;
-    readonly sourceServerName?: string;
-    readonly startedOn?: Date;
-    readonly status?: MigrationStatus;
-    readonly targetServerName?: string;
 }
 
 // @public
@@ -3469,51 +3135,40 @@ export interface OfflineConfiguration {
 }
 
 // @public
-export interface OperationListResult {
-    readonly nextLink?: string;
-    readonly value?: OperationsDefinition[];
-}
-
-// @public
 export type OperationOrigin = string;
 
 // @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<OperationsDefinition>;
-}
-
-// @public (undocumented)
 export interface OperationsDefinition {
+    // (undocumented)
     readonly display?: OperationsDisplayDefinition;
     isDataAction?: boolean;
+    // (undocumented)
     readonly name?: string;
+    // (undocumented)
     readonly origin?: OperationOrigin;
-    readonly properties?: {
-        [propertyName: string]: Record<string, unknown>;
-    };
+    readonly properties?: Record<string, any>;
 }
 
-// @public (undocumented)
+// @public
 export interface OperationsDisplayDefinition {
+    // (undocumented)
     readonly description?: string;
+    // (undocumented)
     readonly operation?: string;
+    // (undocumented)
     readonly provider?: string;
+    // (undocumented)
     readonly resource?: string;
 }
 
 // @public
-export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
+export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type OperationsListNextResponse = OperationListResult;
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
+export interface OperationsOperations {
+    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<OperationsDefinition>;
 }
-
-// @public
-export type OperationsListResponse = OperationListResult;
 
 // @public
 export interface OracleConnectionInfo extends ConnectionInfo {
@@ -3542,6 +3197,18 @@ export interface OrphanedUserInfo {
 }
 
 // @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
+}
+
+// @public
 export interface PostgreSqlConnectionInfo extends ConnectionInfo {
     additionalSettings?: string;
     authentication?: AuthenticationType;
@@ -3557,20 +3224,24 @@ export interface PostgreSqlConnectionInfo extends ConnectionInfo {
 }
 
 // @public
-export interface Project extends TrackedResource {
+export interface Project extends ProxyResource {
     azureAuthenticationInfo?: AzureActiveDirectoryApp;
     readonly creationTime?: Date;
     databasesInfo?: DatabaseInfo[];
     etag?: string;
+    // (undocumented)
+    location?: string;
     readonly provisioningState?: ProjectProvisioningState;
     sourceConnectionInfo?: ConnectionInfoUnion;
     sourcePlatform?: ProjectSourcePlatform;
+    // (undocumented)
+    tags?: Record<string, string>;
     targetConnectionInfo?: ConnectionInfoUnion;
     targetPlatform?: ProjectTargetPlatform;
 }
 
 // @public
-export interface ProjectFile extends Resource {
+export interface ProjectFile extends ProxyResource {
     etag?: string;
     properties?: ProjectFileProperties;
 }
@@ -3585,88 +3256,73 @@ export interface ProjectFileProperties {
 }
 
 // @public
-export interface ProjectList {
-    nextLink?: string;
-    value?: Project[];
+export interface ProjectProperties {
+    azureAuthenticationInfo?: AzureActiveDirectoryApp;
+    readonly creationTime?: Date;
+    databasesInfo?: DatabaseInfo[];
+    readonly provisioningState?: ProjectProvisioningState;
+    sourceConnectionInfo?: ConnectionInfoUnion;
+    sourcePlatform: ProjectSourcePlatform;
+    targetConnectionInfo?: ConnectionInfoUnion;
+    targetPlatform: ProjectTargetPlatform;
 }
 
 // @public
 export type ProjectProvisioningState = string;
 
 // @public
-export interface Projects {
-    createOrUpdate(groupName: string, serviceName: string, projectName: string, parameters: Project, options?: ProjectsCreateOrUpdateOptionalParams): Promise<ProjectsCreateOrUpdateResponse>;
-    delete(groupName: string, serviceName: string, projectName: string, options?: ProjectsDeleteOptionalParams): Promise<void>;
-    get(groupName: string, serviceName: string, projectName: string, options?: ProjectsGetOptionalParams): Promise<ProjectsGetResponse>;
-    list(groupName: string, serviceName: string, options?: ProjectsListOptionalParams): PagedAsyncIterableIterator<Project>;
-    update(groupName: string, serviceName: string, projectName: string, parameters: Project, options?: ProjectsUpdateOptionalParams): Promise<ProjectsUpdateResponse>;
+export interface ProjectsCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ProjectsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ProjectsCreateOrUpdateResponse = Project;
-
-// @public
-export interface ProjectsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface ProjectsDeleteOptionalParams extends OperationOptions {
     deleteRunningTasks?: boolean;
 }
 
 // @public
-export interface ProjectsGetOptionalParams extends coreClient.OperationOptions {
+export interface ProjectsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ProjectsGetResponse = Project;
-
-// @public
-export interface ProjectsListNextOptionalParams extends coreClient.OperationOptions {
+export interface ProjectsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ProjectsListNextResponse = ProjectList;
-
-// @public
-export interface ProjectsListOptionalParams extends coreClient.OperationOptions {
+export interface ProjectsOperations {
+    createOrUpdate: (groupName: string, serviceName: string, projectName: string, parameters: Project, options?: ProjectsCreateOrUpdateOptionalParams) => Promise<Project>;
+    delete: (groupName: string, serviceName: string, projectName: string, options?: ProjectsDeleteOptionalParams) => Promise<void>;
+    get: (groupName: string, serviceName: string, projectName: string, options?: ProjectsGetOptionalParams) => Promise<Project>;
+    list: (groupName: string, serviceName: string, options?: ProjectsListOptionalParams) => PagedAsyncIterableIterator<Project>;
+    update: (groupName: string, serviceName: string, projectName: string, parameters: Project, options?: ProjectsUpdateOptionalParams) => Promise<Project>;
 }
-
-// @public
-export type ProjectsListResponse = ProjectList;
 
 // @public
 export type ProjectSourcePlatform = string;
 
 // @public
-export interface ProjectsUpdateOptionalParams extends coreClient.OperationOptions {
+export interface ProjectsUpdateOptionalParams extends OperationOptions {
 }
-
-// @public
-export type ProjectsUpdateResponse = Project;
 
 // @public
 export type ProjectTargetPlatform = string;
 
 // @public
-export interface ProjectTask extends Resource {
+export interface ProjectTask extends ProxyResource {
     etag?: string;
     properties?: ProjectTaskPropertiesUnion;
 }
 
 // @public
 export interface ProjectTaskProperties {
-    clientData?: {
-        [propertyName: string]: string;
-    };
+    clientData?: Record<string, string>;
     readonly commands?: CommandPropertiesUnion[];
     readonly errors?: ODataError[];
     readonly state?: TaskState;
-    taskType: "MigrateSchemaSqlServerSqlDb" | "Service.Check.OCI" | "Service.Upload.OCI" | "Service.Install.OCI" | "Connect.MongoDb" | "ConnectToSource.SqlServer" | "ConnectToSource.SqlServer.Sync" | "ConnectToSource.PostgreSql.Sync" | "ConnectToSource.MySql" | "ConnectToSource.Oracle.Sync" | "ConnectToTarget.SqlDb" | "ConnectToTarget.SqlDb.Sync" | "ConnectToTarget.AzureDbForPostgreSql.Sync" | "ConnectToTarget.Oracle.AzureDbForPostgreSql.Sync" | "GetUserTables.Sql" | "GetUserTables.AzureSqlDb.Sync" | "GetUserTablesOracle" | "GetUserTablesPostgreSql" | "GetUserTablesMySql" | "ConnectToTarget.AzureSqlDbMI" | "ConnectToTarget.AzureSqlDbMI.Sync.LRS" | "ConnectToTarget.AzureDbForMySql" | "Migrate.MongoDb" | "Migrate.SqlServer.AzureSqlDbMI" | "Migrate.SqlServer.AzureSqlDbMI.Sync.LRS" | "Migrate.SqlServer.SqlDb" | "Migrate.SqlServer.AzureSqlDb.Sync" | "Migrate.MySql.AzureDbForMySql.Sync" | "Migrate.MySql.AzureDbForMySql" | "Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2" | "Migrate.Oracle.AzureDbForPostgreSql.Sync" | "ValidateMigrationInput.SqlServer.SqlDb.Sync" | "ValidateMigrationInput.SqlServer.AzureSqlDbMI" | "ValidateMigrationInput.SqlServer.AzureSqlDbMI.Sync.LRS" | "Validate.MongoDb" | "Validate.Oracle.AzureDbPostgreSql.Sync" | "GetTDECertificates.Sql" | "Migrate.Ssis";
+    taskType: TaskType;
 }
 
-// @public (undocumented)
-export type ProjectTaskPropertiesUnion = ProjectTaskProperties | MigrateSchemaSqlServerSqlDbTaskProperties | CheckOCIDriverTaskProperties | UploadOCIDriverTaskProperties | InstallOCIDriverTaskProperties | ConnectToMongoDbTaskProperties | ConnectToSourceSqlServerTaskProperties | ConnectToSourceSqlServerSyncTaskProperties | ConnectToSourcePostgreSqlSyncTaskProperties | ConnectToSourceMySqlTaskProperties | ConnectToSourceOracleSyncTaskProperties | ConnectToTargetSqlDbTaskProperties | ConnectToTargetSqlDbSyncTaskProperties | ConnectToTargetAzureDbForPostgreSqlSyncTaskProperties | ConnectToTargetOracleAzureDbForPostgreSqlSyncTaskProperties | GetUserTablesSqlTaskProperties | GetUserTablesSqlSyncTaskProperties | GetUserTablesOracleTaskProperties | GetUserTablesPostgreSqlTaskProperties | GetUserTablesMySqlTaskProperties | ConnectToTargetSqlMITaskProperties | ConnectToTargetSqlMISyncTaskProperties | ConnectToTargetAzureDbForMySqlTaskProperties | MigrateMongoDbTaskProperties | MigrateSqlServerSqlMITaskProperties | MigrateSqlServerSqlMISyncTaskProperties | MigrateSqlServerSqlDbTaskProperties | MigrateSqlServerSqlDbSyncTaskProperties | MigrateMySqlAzureDbForMySqlSyncTaskProperties | MigrateMySqlAzureDbForMySqlOfflineTaskProperties | MigratePostgreSqlAzureDbForPostgreSqlSyncTaskProperties | MigrateOracleAzureDbForPostgreSqlSyncTaskProperties | ValidateMigrationInputSqlServerSqlDbSyncTaskProperties | ValidateMigrationInputSqlServerSqlMITaskProperties | ValidateMigrationInputSqlServerSqlMISyncTaskProperties | ValidateMongoDbTaskProperties | ValidateOracleAzureDbForPostgreSqlSyncTaskProperties | GetTdeCertificatesSqlTaskProperties | MigrateSsisTaskProperties;
+// @public
+export type ProjectTaskPropertiesUnion = MigrateSchemaSqlServerSqlDbTaskProperties | CheckOCIDriverTaskProperties | UploadOCIDriverTaskProperties | InstallOCIDriverTaskProperties | ConnectToMongoDbTaskProperties | ConnectToSourceSqlServerTaskProperties | ConnectToSourceSqlServerSyncTaskProperties | ConnectToSourcePostgreSqlSyncTaskProperties | ConnectToSourceMySqlTaskProperties | ConnectToSourceOracleSyncTaskProperties | ConnectToTargetSqlDbTaskProperties | ConnectToTargetSqlSqlDbSyncTaskProperties | ConnectToTargetAzureDbForPostgreSqlSyncTaskProperties | ConnectToTargetOracleAzureDbForPostgreSqlSyncTaskProperties | GetUserTablesSqlTaskProperties | GetUserTablesSqlSyncTaskProperties | GetUserTablesOracleTaskProperties | GetUserTablesPostgreSqlTaskProperties | GetUserTablesMySqlTaskProperties | ConnectToTargetSqlMITaskProperties | ConnectToTargetSqlMISyncTaskProperties | ConnectToTargetAzureDbForMySqlTaskProperties | MigrateMongoDbTaskProperties | MigrateSqlServerSqlMITaskProperties | MigrateSqlServerSqlMISyncTaskProperties | MigrateSqlServerSqlDbTaskProperties | MigrateSqlServerSqlDbSyncTaskProperties | MigrateMySqlAzureDbForMySqlSyncTaskProperties | MigrateMySqlAzureDbForMySqlOfflineTaskProperties | MigratePostgreSqlAzureDbForPostgreSqlSyncTaskProperties | MigrateOracleAzureDbForPostgreSqlSyncTaskProperties | ValidateMigrationInputSqlServerSqlDbSyncTaskProperties | ValidateMigrationInputSqlServerSqlMITaskProperties | ValidateMigrationInputSqlServerSqlMISyncTaskProperties | ValidateMongoDbTaskProperties | ValidateOracleAzureDbForPostgreSqlSyncTaskProperties | GetTdeCertificatesSqlTaskProperties | MigrateSsisTaskProperties | ProjectTaskProperties;
 
 // @public
 export type ProvisioningState = string;
@@ -3696,12 +3352,6 @@ export interface Quota {
     limit?: number;
     name?: QuotaName;
     unit?: string;
-}
-
-// @public
-export interface QuotaList {
-    nextLink?: string;
-    value?: Quota[];
 }
 
 // @public
@@ -3792,32 +3442,28 @@ export type ResourceSkuRestrictionsReasonCode = string;
 export type ResourceSkuRestrictionsType = string;
 
 // @public
-export interface ResourceSkus {
-    listSkus(options?: ResourceSkusListSkusOptionalParams): PagedAsyncIterableIterator<ResourceSku>;
+export interface ResourceSkusListSkusOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ResourceSkusListSkusNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ResourceSkusListSkusNextResponse = ResourceSkusResult;
-
-// @public
-export interface ResourceSkusListSkusOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ResourceSkusListSkusResponse = ResourceSkusResult;
-
-// @public
-export interface ResourceSkusResult {
-    nextLink?: string;
-    value: ResourceSku[];
+export interface ResourceSkusOperations {
+    listSkus: (options?: ResourceSkusListSkusOptionalParams) => PagedAsyncIterableIterator<ResourceSku>;
 }
 
 // @public
 export type ResourceType = string;
+
+export { RestError }
+
+// @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: DataMigrationManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
+}
 
 // @public
 export type ScenarioSource = string;
@@ -3828,12 +3474,8 @@ export type ScenarioTarget = string;
 // @public
 export interface SchemaComparisonValidationResult {
     schemaDifferences?: SchemaComparisonValidationResultType;
-    sourceDatabaseObjectCount?: {
-        [propertyName: string]: number;
-    };
-    targetDatabaseObjectCount?: {
-        [propertyName: string]: number;
-    };
+    sourceDatabaseObjectCount?: Record<string, number>;
+    targetDatabaseObjectCount?: Record<string, number>;
     validationErrors?: ValidationError;
 }
 
@@ -3877,95 +3519,37 @@ export interface ServerProperties {
 }
 
 // @public
-export interface ServiceOperation {
-    display?: ServiceOperationDisplay;
-    name?: string;
-}
-
-// @public
-export interface ServiceOperationDisplay {
-    description?: string;
-    operation?: string;
-    provider?: string;
-    resource?: string;
-}
-
-// @public
-export interface ServiceOperationList {
-    nextLink?: string;
-    value?: ServiceOperation[];
-}
-
-// @public
 export type ServiceProvisioningState = string;
-
-// @public
-export interface Services {
-    beginCreateOrUpdate(groupName: string, serviceName: string, parameters: DataMigrationService, options?: ServicesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ServicesCreateOrUpdateResponse>, ServicesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(groupName: string, serviceName: string, parameters: DataMigrationService, options?: ServicesCreateOrUpdateOptionalParams): Promise<ServicesCreateOrUpdateResponse>;
-    beginDelete(groupName: string, serviceName: string, options?: ServicesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(groupName: string, serviceName: string, options?: ServicesDeleteOptionalParams): Promise<void>;
-    beginStart(groupName: string, serviceName: string, options?: ServicesStartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginStartAndWait(groupName: string, serviceName: string, options?: ServicesStartOptionalParams): Promise<void>;
-    beginStop(groupName: string, serviceName: string, options?: ServicesStopOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginStopAndWait(groupName: string, serviceName: string, options?: ServicesStopOptionalParams): Promise<void>;
-    beginUpdate(groupName: string, serviceName: string, parameters: DataMigrationService, options?: ServicesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ServicesUpdateResponse>, ServicesUpdateResponse>>;
-    beginUpdateAndWait(groupName: string, serviceName: string, parameters: DataMigrationService, options?: ServicesUpdateOptionalParams): Promise<ServicesUpdateResponse>;
-    checkChildrenNameAvailability(groupName: string, serviceName: string, parameters: NameAvailabilityRequest, options?: ServicesCheckChildrenNameAvailabilityOptionalParams): Promise<ServicesCheckChildrenNameAvailabilityResponse>;
-    checkNameAvailability(location: string, parameters: NameAvailabilityRequest, options?: ServicesCheckNameAvailabilityOptionalParams): Promise<ServicesCheckNameAvailabilityResponse>;
-    checkStatus(groupName: string, serviceName: string, options?: ServicesCheckStatusOptionalParams): Promise<ServicesCheckStatusResponse>;
-    get(groupName: string, serviceName: string, options?: ServicesGetOptionalParams): Promise<ServicesGetResponse>;
-    list(options?: ServicesListOptionalParams): PagedAsyncIterableIterator<DataMigrationService>;
-    listByResourceGroup(groupName: string, options?: ServicesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<DataMigrationService>;
-    listSkus(groupName: string, serviceName: string, options?: ServicesListSkusOptionalParams): PagedAsyncIterableIterator<AvailableServiceSku>;
-}
 
 // @public
 export type ServiceScalability = string;
 
 // @public
-export interface ServicesCheckChildrenNameAvailabilityOptionalParams extends coreClient.OperationOptions {
+export interface ServicesCheckChildrenNameAvailabilityOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ServicesCheckChildrenNameAvailabilityResponse = NameAvailabilityResponse;
-
-// @public
-export interface ServicesCheckNameAvailabilityOptionalParams extends coreClient.OperationOptions {
+export interface ServicesCheckNameAvailabilityOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ServicesCheckNameAvailabilityResponse = NameAvailabilityResponse;
-
-// @public
-export interface ServicesCheckStatusOptionalParams extends coreClient.OperationOptions {
+export interface ServicesCheckStatusOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ServicesCheckStatusResponse = DataMigrationServiceStatusResponse;
-
-// @public
-export interface ServicesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ServicesCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ServicesCreateOrUpdateResponse = DataMigrationService;
-
-// @public
-export interface ServicesDeleteOptionalParams extends coreClient.OperationOptions {
+export interface ServicesDeleteOptionalParams extends OperationOptions {
     deleteRunningTasks?: boolean;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface ServicesGetOptionalParams extends coreClient.OperationOptions {
+export interface ServicesGetOptionalParams extends OperationOptions {
 }
-
-// @public
-export type ServicesGetResponse = DataMigrationService;
 
 // @public
 export interface ServiceSku {
@@ -3977,135 +3561,129 @@ export interface ServiceSku {
 }
 
 // @public
-export interface ServiceSkuList {
-    nextLink?: string;
-    value?: AvailableServiceSku[];
+export interface ServicesListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ServicesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface ServicesListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ServicesListByResourceGroupNextResponse = DataMigrationServiceList;
-
-// @public
-export interface ServicesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface ServicesListSkusOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ServicesListByResourceGroupResponse = DataMigrationServiceList;
-
-// @public
-export interface ServicesListNextOptionalParams extends coreClient.OperationOptions {
+export interface ServicesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (groupName: string, serviceName: string, parameters: DataMigrationService, options?: ServicesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<DataMigrationService>, DataMigrationService>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (groupName: string, serviceName: string, parameters: DataMigrationService, options?: ServicesCreateOrUpdateOptionalParams) => Promise<DataMigrationService>;
+    // @deprecated (undocumented)
+    beginDelete: (groupName: string, serviceName: string, options?: ServicesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (groupName: string, serviceName: string, options?: ServicesDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginStart: (groupName: string, serviceName: string, options?: ServicesStartOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginStartAndWait: (groupName: string, serviceName: string, options?: ServicesStartOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginStop: (groupName: string, serviceName: string, options?: ServicesStopOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginStopAndWait: (groupName: string, serviceName: string, options?: ServicesStopOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (groupName: string, serviceName: string, parameters: DataMigrationService, options?: ServicesUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<DataMigrationService>, DataMigrationService>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (groupName: string, serviceName: string, parameters: DataMigrationService, options?: ServicesUpdateOptionalParams) => Promise<DataMigrationService>;
+    checkChildrenNameAvailability: (groupName: string, serviceName: string, parameters: NameAvailabilityRequest, options?: ServicesCheckChildrenNameAvailabilityOptionalParams) => Promise<NameAvailabilityResponse>;
+    checkNameAvailability: (location: string, parameters: NameAvailabilityRequest, options?: ServicesCheckNameAvailabilityOptionalParams) => Promise<NameAvailabilityResponse>;
+    checkStatus: (groupName: string, serviceName: string, options?: ServicesCheckStatusOptionalParams) => Promise<DataMigrationServiceStatusResponse>;
+    createOrUpdate: (groupName: string, serviceName: string, parameters: DataMigrationService, options?: ServicesCreateOrUpdateOptionalParams) => PollerLike<OperationState<DataMigrationService>, DataMigrationService>;
+    delete: (groupName: string, serviceName: string, options?: ServicesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (groupName: string, serviceName: string, options?: ServicesGetOptionalParams) => Promise<DataMigrationService>;
+    list: (options?: ServicesListOptionalParams) => PagedAsyncIterableIterator<DataMigrationService>;
+    listByResourceGroup: (groupName: string, options?: ServicesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<DataMigrationService>;
+    listSkus: (groupName: string, serviceName: string, options?: ServicesListSkusOptionalParams) => PagedAsyncIterableIterator<AvailableServiceSku>;
+    start: (groupName: string, serviceName: string, options?: ServicesStartOptionalParams) => PollerLike<OperationState<void>, void>;
+    stop: (groupName: string, serviceName: string, options?: ServicesStopOptionalParams) => PollerLike<OperationState<void>, void>;
+    update: (groupName: string, serviceName: string, parameters: DataMigrationService, options?: ServicesUpdateOptionalParams) => PollerLike<OperationState<DataMigrationService>, DataMigrationService>;
 }
 
 // @public
-export type ServicesListNextResponse = DataMigrationServiceList;
-
-// @public
-export interface ServicesListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ServicesListResponse = DataMigrationServiceList;
-
-// @public
-export interface ServicesListSkusNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ServicesListSkusNextResponse = ServiceSkuList;
-
-// @public
-export interface ServicesListSkusOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ServicesListSkusResponse = ServiceSkuList;
-
-// @public
-export interface ServicesStartOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ServicesStartOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface ServicesStopOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ServicesStopOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface ServicesUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface ServicesUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type ServicesUpdateResponse = DataMigrationService;
-
-// @public
-export interface ServiceTasks {
-    cancel(groupName: string, serviceName: string, taskName: string, options?: ServiceTasksCancelOptionalParams): Promise<ServiceTasksCancelResponse>;
-    createOrUpdate(groupName: string, serviceName: string, taskName: string, parameters: ProjectTask, options?: ServiceTasksCreateOrUpdateOptionalParams): Promise<ServiceTasksCreateOrUpdateResponse>;
-    delete(groupName: string, serviceName: string, taskName: string, options?: ServiceTasksDeleteOptionalParams): Promise<void>;
-    get(groupName: string, serviceName: string, taskName: string, options?: ServiceTasksGetOptionalParams): Promise<ServiceTasksGetResponse>;
-    list(groupName: string, serviceName: string, options?: ServiceTasksListOptionalParams): PagedAsyncIterableIterator<ProjectTask>;
-    update(groupName: string, serviceName: string, taskName: string, parameters: ProjectTask, options?: ServiceTasksUpdateOptionalParams): Promise<ServiceTasksUpdateResponse>;
+export interface ServiceTasksCancelOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface ServiceTasksCancelOptionalParams extends coreClient.OperationOptions {
+export interface ServiceTasksCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export type ServiceTasksCancelResponse = ProjectTask;
-
-// @public
-export interface ServiceTasksCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ServiceTasksCreateOrUpdateResponse = ProjectTask;
-
-// @public
-export interface ServiceTasksDeleteOptionalParams extends coreClient.OperationOptions {
+export interface ServiceTasksDeleteOptionalParams extends OperationOptions {
     deleteRunningTasks?: boolean;
 }
 
 // @public
-export interface ServiceTasksGetOptionalParams extends coreClient.OperationOptions {
+export interface ServiceTasksGetOptionalParams extends OperationOptions {
     expand?: string;
 }
 
 // @public
-export type ServiceTasksGetResponse = ProjectTask;
-
-// @public
-export interface ServiceTasksListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ServiceTasksListNextResponse = TaskList;
-
-// @public
-export interface ServiceTasksListOptionalParams extends coreClient.OperationOptions {
+export interface ServiceTasksListOptionalParams extends OperationOptions {
     taskType?: string;
 }
 
 // @public
-export type ServiceTasksListResponse = TaskList;
-
-// @public
-export interface ServiceTasksUpdateOptionalParams extends coreClient.OperationOptions {
+export interface ServiceTasksOperations {
+    cancel: (groupName: string, serviceName: string, taskName: string, options?: ServiceTasksCancelOptionalParams) => Promise<ProjectTask>;
+    createOrUpdate: (groupName: string, serviceName: string, taskName: string, parameters: ProjectTask, options?: ServiceTasksCreateOrUpdateOptionalParams) => Promise<ProjectTask>;
+    delete: (groupName: string, serviceName: string, taskName: string, options?: ServiceTasksDeleteOptionalParams) => Promise<void>;
+    get: (groupName: string, serviceName: string, taskName: string, options?: ServiceTasksGetOptionalParams) => Promise<ProjectTask>;
+    list: (groupName: string, serviceName: string, options?: ServiceTasksListOptionalParams) => PagedAsyncIterableIterator<ProjectTask>;
+    update: (groupName: string, serviceName: string, taskName: string, parameters: ProjectTask, options?: ServiceTasksUpdateOptionalParams) => Promise<ProjectTask>;
 }
 
 // @public
-export type ServiceTasksUpdateResponse = ProjectTask;
+export interface ServiceTasksUpdateOptionalParams extends OperationOptions {
+}
 
 // @public
 export type Severity = string;
+
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
+}
 
 // @public
 export interface SourceLocation {
@@ -4187,141 +3765,98 @@ export interface SqlFileShare {
 }
 
 // @public
-export interface SqlMigrationListResult {
-    readonly nextLink?: string;
-    readonly value?: SqlMigrationService[];
+export interface SqlMigrationService extends ProxyResource {
+    readonly integrationRuntimeState?: string;
+    // (undocumented)
+    location?: string;
+    readonly provisioningState?: string;
+    // (undocumented)
+    tags?: Record<string, string>;
 }
 
 // @public
-export interface SqlMigrationService extends TrackedResource {
+export interface SqlMigrationServiceProperties {
     readonly integrationRuntimeState?: string;
     readonly provisioningState?: string;
 }
 
 // @public
-export interface SqlMigrationServices {
-    beginCreateOrUpdate(resourceGroupName: string, sqlMigrationServiceName: string, parameters: SqlMigrationService, options?: SqlMigrationServicesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SqlMigrationServicesCreateOrUpdateResponse>, SqlMigrationServicesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, sqlMigrationServiceName: string, parameters: SqlMigrationService, options?: SqlMigrationServicesCreateOrUpdateOptionalParams): Promise<SqlMigrationServicesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, sqlMigrationServiceName: string, options?: SqlMigrationServicesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, sqlMigrationServiceName: string, options?: SqlMigrationServicesDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, sqlMigrationServiceName: string, parameters: SqlMigrationServiceUpdate, options?: SqlMigrationServicesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SqlMigrationServicesUpdateResponse>, SqlMigrationServicesUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, sqlMigrationServiceName: string, parameters: SqlMigrationServiceUpdate, options?: SqlMigrationServicesUpdateOptionalParams): Promise<SqlMigrationServicesUpdateResponse>;
-    deleteNode(resourceGroupName: string, sqlMigrationServiceName: string, parameters: DeleteNode, options?: SqlMigrationServicesDeleteNodeOptionalParams): Promise<SqlMigrationServicesDeleteNodeResponse>;
-    get(resourceGroupName: string, sqlMigrationServiceName: string, options?: SqlMigrationServicesGetOptionalParams): Promise<SqlMigrationServicesGetResponse>;
-    listAuthKeys(resourceGroupName: string, sqlMigrationServiceName: string, options?: SqlMigrationServicesListAuthKeysOptionalParams): Promise<SqlMigrationServicesListAuthKeysResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: SqlMigrationServicesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<SqlMigrationService>;
-    listBySubscription(options?: SqlMigrationServicesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<SqlMigrationService>;
-    listMigrations(resourceGroupName: string, sqlMigrationServiceName: string, options?: SqlMigrationServicesListMigrationsOptionalParams): PagedAsyncIterableIterator<DatabaseMigration>;
-    listMonitoringData(resourceGroupName: string, sqlMigrationServiceName: string, options?: SqlMigrationServicesListMonitoringDataOptionalParams): Promise<SqlMigrationServicesListMonitoringDataResponse>;
-    regenerateAuthKeys(resourceGroupName: string, sqlMigrationServiceName: string, parameters: RegenAuthKeys, options?: SqlMigrationServicesRegenerateAuthKeysOptionalParams): Promise<SqlMigrationServicesRegenerateAuthKeysResponse>;
-}
-
-// @public
-export interface SqlMigrationServicesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface SqlMigrationServicesCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type SqlMigrationServicesCreateOrUpdateResponse = SqlMigrationService;
-
-// @public
-export interface SqlMigrationServicesDeleteNodeOptionalParams extends coreClient.OperationOptions {
+export interface SqlMigrationServicesDeleteNodeOptionalParams extends OperationOptions {
 }
 
 // @public
-export type SqlMigrationServicesDeleteNodeResponse = DeleteNode;
-
-// @public
-export interface SqlMigrationServicesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface SqlMigrationServicesDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface SqlMigrationServicesGetOptionalParams extends coreClient.OperationOptions {
+export interface SqlMigrationServicesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type SqlMigrationServicesGetResponse = SqlMigrationService;
-
-// @public
-export interface SqlMigrationServicesListAuthKeysOptionalParams extends coreClient.OperationOptions {
+export interface SqlMigrationServicesListAuthKeysOptionalParams extends OperationOptions {
 }
 
 // @public
-export type SqlMigrationServicesListAuthKeysResponse = AuthenticationKeys;
-
-// @public
-export interface SqlMigrationServicesListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface SqlMigrationServicesListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type SqlMigrationServicesListByResourceGroupNextResponse = SqlMigrationListResult;
-
-// @public
-export interface SqlMigrationServicesListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface SqlMigrationServicesListBySubscriptionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type SqlMigrationServicesListByResourceGroupResponse = SqlMigrationListResult;
-
-// @public
-export interface SqlMigrationServicesListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+export interface SqlMigrationServicesListMigrationsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type SqlMigrationServicesListBySubscriptionNextResponse = SqlMigrationListResult;
-
-// @public
-export interface SqlMigrationServicesListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+export interface SqlMigrationServicesListMonitoringDataOptionalParams extends OperationOptions {
 }
 
 // @public
-export type SqlMigrationServicesListBySubscriptionResponse = SqlMigrationListResult;
-
-// @public
-export interface SqlMigrationServicesListMigrationsNextOptionalParams extends coreClient.OperationOptions {
+export interface SqlMigrationServicesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, sqlMigrationServiceName: string, parameters: SqlMigrationService, options?: SqlMigrationServicesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<SqlMigrationService>, SqlMigrationService>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, sqlMigrationServiceName: string, parameters: SqlMigrationService, options?: SqlMigrationServicesCreateOrUpdateOptionalParams) => Promise<SqlMigrationService>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, sqlMigrationServiceName: string, options?: SqlMigrationServicesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, sqlMigrationServiceName: string, options?: SqlMigrationServicesDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, sqlMigrationServiceName: string, parameters: SqlMigrationServiceUpdate, options?: SqlMigrationServicesUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<SqlMigrationService>, SqlMigrationService>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, sqlMigrationServiceName: string, parameters: SqlMigrationServiceUpdate, options?: SqlMigrationServicesUpdateOptionalParams) => Promise<SqlMigrationService>;
+    createOrUpdate: (resourceGroupName: string, sqlMigrationServiceName: string, parameters: SqlMigrationService, options?: SqlMigrationServicesCreateOrUpdateOptionalParams) => PollerLike<OperationState<SqlMigrationService>, SqlMigrationService>;
+    delete: (resourceGroupName: string, sqlMigrationServiceName: string, options?: SqlMigrationServicesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    deleteNode: (resourceGroupName: string, sqlMigrationServiceName: string, parameters: DeleteNode, options?: SqlMigrationServicesDeleteNodeOptionalParams) => Promise<DeleteNode>;
+    get: (resourceGroupName: string, sqlMigrationServiceName: string, options?: SqlMigrationServicesGetOptionalParams) => Promise<SqlMigrationService>;
+    listAuthKeys: (resourceGroupName: string, sqlMigrationServiceName: string, options?: SqlMigrationServicesListAuthKeysOptionalParams) => Promise<AuthenticationKeys>;
+    listByResourceGroup: (resourceGroupName: string, options?: SqlMigrationServicesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<SqlMigrationService>;
+    listBySubscription: (options?: SqlMigrationServicesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<SqlMigrationService>;
+    listMigrations: (resourceGroupName: string, sqlMigrationServiceName: string, options?: SqlMigrationServicesListMigrationsOptionalParams) => PagedAsyncIterableIterator<DatabaseMigration>;
+    listMonitoringData: (resourceGroupName: string, sqlMigrationServiceName: string, options?: SqlMigrationServicesListMonitoringDataOptionalParams) => Promise<IntegrationRuntimeMonitoringData>;
+    regenerateAuthKeys: (resourceGroupName: string, sqlMigrationServiceName: string, parameters: RegenAuthKeys, options?: SqlMigrationServicesRegenerateAuthKeysOptionalParams) => Promise<RegenAuthKeys>;
+    update: (resourceGroupName: string, sqlMigrationServiceName: string, parameters: SqlMigrationServiceUpdate, options?: SqlMigrationServicesUpdateOptionalParams) => PollerLike<OperationState<SqlMigrationService>, SqlMigrationService>;
 }
 
 // @public
-export type SqlMigrationServicesListMigrationsNextResponse = DatabaseMigrationListResult;
-
-// @public
-export interface SqlMigrationServicesListMigrationsOptionalParams extends coreClient.OperationOptions {
+export interface SqlMigrationServicesRegenerateAuthKeysOptionalParams extends OperationOptions {
 }
 
 // @public
-export type SqlMigrationServicesListMigrationsResponse = DatabaseMigrationListResult;
-
-// @public
-export interface SqlMigrationServicesListMonitoringDataOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SqlMigrationServicesListMonitoringDataResponse = IntegrationRuntimeMonitoringData;
-
-// @public
-export interface SqlMigrationServicesRegenerateAuthKeysOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SqlMigrationServicesRegenerateAuthKeysResponse = RegenAuthKeys;
-
-// @public
-export interface SqlMigrationServicesUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface SqlMigrationServicesUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
-
-// @public
-export type SqlMigrationServicesUpdateResponse = SqlMigrationService;
 
 // @public
 export interface SqlMigrationServiceUpdate {
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -4360,13 +3895,6 @@ export type SsisMigrationStage = string;
 export type SsisStoreType = string;
 
 // @public
-export interface StartMigrationScenarioServerRoleResult {
-    readonly exceptionsAndWarnings?: ReportableException[];
-    readonly name?: string;
-    readonly state?: MigrationState;
-}
-
-// @public
 export type SyncDatabaseMigrationReportingState = string;
 
 // @public
@@ -4396,80 +3924,49 @@ export interface TargetLocation {
 }
 
 // @public
-export interface TaskList {
-    nextLink?: string;
-    value?: ProjectTask[];
+export interface TasksCancelOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface Tasks {
-    cancel(groupName: string, serviceName: string, projectName: string, taskName: string, options?: TasksCancelOptionalParams): Promise<TasksCancelResponse>;
-    command(groupName: string, serviceName: string, projectName: string, taskName: string, parameters: CommandPropertiesUnion, options?: TasksCommandOptionalParams): Promise<TasksCommandResponse>;
-    createOrUpdate(groupName: string, serviceName: string, projectName: string, taskName: string, parameters: ProjectTask, options?: TasksCreateOrUpdateOptionalParams): Promise<TasksCreateOrUpdateResponse>;
-    delete(groupName: string, serviceName: string, projectName: string, taskName: string, options?: TasksDeleteOptionalParams): Promise<void>;
-    get(groupName: string, serviceName: string, projectName: string, taskName: string, options?: TasksGetOptionalParams): Promise<TasksGetResponse>;
-    list(groupName: string, serviceName: string, projectName: string, options?: TasksListOptionalParams): PagedAsyncIterableIterator<ProjectTask>;
-    update(groupName: string, serviceName: string, projectName: string, taskName: string, parameters: ProjectTask, options?: TasksUpdateOptionalParams): Promise<TasksUpdateResponse>;
+export interface TasksCommandOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface TasksCancelOptionalParams extends coreClient.OperationOptions {
+export interface TasksCreateOrUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
-export type TasksCancelResponse = ProjectTask;
-
-// @public
-export interface TasksCommandOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type TasksCommandResponse = CommandPropertiesUnion;
-
-// @public
-export interface TasksCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type TasksCreateOrUpdateResponse = ProjectTask;
-
-// @public
-export interface TasksDeleteOptionalParams extends coreClient.OperationOptions {
+export interface TasksDeleteOptionalParams extends OperationOptions {
     deleteRunningTasks?: boolean;
 }
 
 // @public
-export interface TasksGetOptionalParams extends coreClient.OperationOptions {
+export interface TasksGetOptionalParams extends OperationOptions {
     expand?: string;
 }
 
 // @public
-export type TasksGetResponse = ProjectTask;
-
-// @public
-export interface TasksListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type TasksListNextResponse = TaskList;
-
-// @public
-export interface TasksListOptionalParams extends coreClient.OperationOptions {
+export interface TasksListOptionalParams extends OperationOptions {
     taskType?: string;
 }
 
 // @public
-export type TasksListResponse = TaskList;
+export interface TasksOperations {
+    cancel: (groupName: string, serviceName: string, projectName: string, taskName: string, options?: TasksCancelOptionalParams) => Promise<ProjectTask>;
+    command: (groupName: string, serviceName: string, projectName: string, taskName: string, parameters: CommandPropertiesUnion, options?: TasksCommandOptionalParams) => Promise<CommandPropertiesUnion>;
+    createOrUpdate: (groupName: string, serviceName: string, projectName: string, taskName: string, parameters: ProjectTask, options?: TasksCreateOrUpdateOptionalParams) => Promise<ProjectTask>;
+    delete: (groupName: string, serviceName: string, projectName: string, taskName: string, options?: TasksDeleteOptionalParams) => Promise<void>;
+    get: (groupName: string, serviceName: string, projectName: string, taskName: string, options?: TasksGetOptionalParams) => Promise<ProjectTask>;
+    list: (groupName: string, serviceName: string, projectName: string, options?: TasksListOptionalParams) => PagedAsyncIterableIterator<ProjectTask>;
+    update: (groupName: string, serviceName: string, projectName: string, taskName: string, parameters: ProjectTask, options?: TasksUpdateOptionalParams) => Promise<ProjectTask>;
+}
 
 // @public
 export type TaskState = string;
 
 // @public
-export interface TasksUpdateOptionalParams extends coreClient.OperationOptions {
+export interface TasksUpdateOptionalParams extends OperationOptions {
 }
-
-// @public
-export type TasksUpdateResponse = ProjectTask;
 
 // @public
 export type TaskType = string;
@@ -4477,9 +3974,7 @@ export type TaskType = string;
 // @public
 export interface TrackedResource extends Resource {
     location: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -4504,23 +3999,13 @@ export interface UploadOCIDriverTaskProperties extends ProjectTaskProperties {
 }
 
 // @public
-export interface Usages {
-    list(location: string, options?: UsagesListOptionalParams): PagedAsyncIterableIterator<Quota>;
+export interface UsagesListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface UsagesListNextOptionalParams extends coreClient.OperationOptions {
+export interface UsagesOperations {
+    list: (location: string, options?: UsagesListOptionalParams) => PagedAsyncIterableIterator<Quota>;
 }
-
-// @public
-export type UsagesListNextResponse = QuotaList;
-
-// @public
-export interface UsagesListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type UsagesListResponse = QuotaList;
 
 // @public
 export interface UserAssignedIdentity {

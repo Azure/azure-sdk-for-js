@@ -2,10 +2,7 @@
 // Licensed under the MIT License.
 
 import type { CommonClientOptions, OperationOptions } from "@azure/core-client";
-import type {
-  TableGetAccessPolicyHeaders,
-  TableInsertEntityHeaders,
-} from "./generated/models/index.js";
+import type { TableGetAccessPolicyHeaders, TableInsertEntityHeaders } from "./generatedModels.js";
 
 /**
  * Represents the Create or Delete Entity operation to be included in a Transaction request
@@ -186,14 +183,7 @@ export type TableEntity<T extends object = Record<string, unknown>> = T & {
  * Supported EDM Types by Azure Tables.
  */
 export type EdmTypes =
-  | "Binary"
-  | "Boolean"
-  | "DateTime"
-  | "Double"
-  | "Guid"
-  | "Int32"
-  | "Int64"
-  | "String";
+  "Binary" | "Boolean" | "DateTime" | "Double" | "Guid" | "Int32" | "Int64" | "String";
 
 /**
  * Entity Data Model representation for an entity property.

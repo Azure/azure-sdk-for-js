@@ -28,6 +28,10 @@ import type { L3IsolationDomainsOperations } from "./classic/l3IsolationDomains/
 import { _getL3IsolationDomainsOperations } from "./classic/l3IsolationDomains/index.js";
 import type { NeighborGroupsOperations } from "./classic/neighborGroups/index.js";
 import { _getNeighborGroupsOperations } from "./classic/neighborGroups/index.js";
+import type { NetworkBootstrapDevicesOperations } from "./classic/networkBootstrapDevices/index.js";
+import { _getNetworkBootstrapDevicesOperations } from "./classic/networkBootstrapDevices/index.js";
+import type { NetworkBootstrapInterfacesOperations } from "./classic/networkBootstrapInterfaces/index.js";
+import { _getNetworkBootstrapInterfacesOperations } from "./classic/networkBootstrapInterfaces/index.js";
 import type { NetworkDeviceSkusOperations } from "./classic/networkDeviceSkus/index.js";
 import { _getNetworkDeviceSkusOperations } from "./classic/networkDeviceSkus/index.js";
 import type { NetworkDevicesOperations } from "./classic/networkDevices/index.js";
@@ -81,6 +85,8 @@ export class AzureNetworkFabricManagementServiceAPI {
       userAgentOptions: { userAgentPrefix },
     });
     this.pipeline = this._client.pipeline;
+    this.networkBootstrapInterfaces = _getNetworkBootstrapInterfacesOperations(this._client);
+    this.networkBootstrapDevices = _getNetworkBootstrapDevicesOperations(this._client);
     this.networkMonitors = _getNetworkMonitorsOperations(this._client);
     this.routePolicies = _getRoutePoliciesOperations(this._client);
     this.networkTaps = _getNetworkTapsOperations(this._client);
@@ -108,6 +114,10 @@ export class AzureNetworkFabricManagementServiceAPI {
     this.operations = _getOperationsOperations(this._client);
   }
 
+  /** The operation groups for networkBootstrapInterfaces */
+  public readonly networkBootstrapInterfaces: NetworkBootstrapInterfacesOperations;
+  /** The operation groups for networkBootstrapDevices */
+  public readonly networkBootstrapDevices: NetworkBootstrapDevicesOperations;
   /** The operation groups for networkMonitors */
   public readonly networkMonitors: NetworkMonitorsOperations;
   /** The operation groups for routePolicies */

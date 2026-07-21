@@ -16,13 +16,15 @@ jobs:
   - template: /eng/pipelines/templates/steps/common.yml
   - template: /eng/common/pipelines/templates/steps/set-default-branch.yml
 
-  - script: |
-      npm install -g pnpm
-    displayName: "Install Pnpm"
+  - template: /eng/pipelines/templates/steps/install-pnpm.yml
 
   - script: |
       pnpm update --recursive --no-save
     displayName: "Run Pnpm Update"
+
+  - script: |
+      pnpm install --force
+    displayName: "Run Pnpm install --force to install all optional dependencies"
 
   - script: |
       pnpm turbo build
@@ -58,12 +60,10 @@ jobs:
   - template: /eng/pipelines/templates/steps/common.yml
   - template: /eng/common/pipelines/templates/steps/set-default-branch.yml
 
-  - script: |
-      npm install -g pnpm
-    displayName: "Install Pnpm"
+  - template: /eng/pipelines/templates/steps/install-pnpm.yml
 
   - script: |
-      pnpm purge
+      node eng/tools/purge-node-modules.mjs sdk common
       git clean -xdf
     displayName: "Reset workspace"
 

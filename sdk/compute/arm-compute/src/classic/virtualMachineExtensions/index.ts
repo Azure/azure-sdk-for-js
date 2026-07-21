@@ -34,11 +34,6 @@ export interface VirtualMachineExtensionsOperations {
     options?: VirtualMachineExtensionsListOptionalParams,
   ) => Promise<VirtualMachineExtensionsListResult>;
   /** The operation to delete the extension. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     vmName: string,

@@ -1,25 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to The credit summary by billingAccountId and billingProfileId.
- *
- * @summary The credit summary by billingAccountId and billingProfileId.
- * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/CreditSummaryByBillingProfile.json
- */
-
 import { ConsumptionManagementClient } from "@azure/arm-consumption";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to the credit summary by billingAccountId and billingProfileId.
+ *
+ * @summary the credit summary by billingAccountId and billingProfileId.
+ * x-ms-original-file: 2024-08-01/CreditSummaryByBillingProfile.json
+ */
 async function creditSummaryByBillingProfile(): Promise<void> {
-  const subscriptionId =
-    process.env["CONSUMPTION_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const billingAccountId = "1234:5678";
-  const billingProfileId = "2468";
   const credential = new DefaultAzureCredential();
-  const client = new ConsumptionManagementClient(credential, subscriptionId);
-  const result = await client.credits.get(billingAccountId, billingProfileId);
+  const client = new ConsumptionManagementClient(credential);
+  const result = await client.credits.get("1234:5678", "2468");
   console.log(result);
 }
 

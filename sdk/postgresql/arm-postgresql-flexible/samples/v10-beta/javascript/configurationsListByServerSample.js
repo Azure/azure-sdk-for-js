@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists all configurations (also known as server parameters) of a server.
  *
  * @summary lists all configurations (also known as server parameters) of a server.
- * x-ms-original-file: 2026-01-01-preview/ConfigurationsListByServer.json
+ * x-ms-original-file: 2026-04-01-preview/ConfigurationsListByServer.json
  */
 async function listAllConfigurationsAlsoKnownAsServerParametersOfAServer() {
   const credential = new DefaultAzureCredential();

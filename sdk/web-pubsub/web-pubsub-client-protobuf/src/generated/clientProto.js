@@ -227,7 +227,7 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
         if (long > $util.recursionLimit)
             return "maximum nesting depth exceeded";
         let properties = {};
-        if (message.sendToGroupMessage != null && message.hasOwnProperty("sendToGroupMessage")) {
+        if (message.sendToGroupMessage != null && Object.hasOwnProperty.call(message, "sendToGroupMessage")) {
             properties.message = 1;
             {
                 let error = $root.UpstreamMessage.SendToGroupMessage.verify(message.sendToGroupMessage, long + 1);
@@ -235,7 +235,7 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
                     return "sendToGroupMessage." + error;
             }
         }
-        if (message.eventMessage != null && message.hasOwnProperty("eventMessage")) {
+        if (message.eventMessage != null && Object.hasOwnProperty.call(message, "eventMessage")) {
             if (properties.message === 1)
                 return "message: multiple values";
             properties.message = 1;
@@ -245,7 +245,7 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
                     return "eventMessage." + error;
             }
         }
-        if (message.joinGroupMessage != null && message.hasOwnProperty("joinGroupMessage")) {
+        if (message.joinGroupMessage != null && Object.hasOwnProperty.call(message, "joinGroupMessage")) {
             if (properties.message === 1)
                 return "message: multiple values";
             properties.message = 1;
@@ -255,7 +255,7 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
                     return "joinGroupMessage." + error;
             }
         }
-        if (message.leaveGroupMessage != null && message.hasOwnProperty("leaveGroupMessage")) {
+        if (message.leaveGroupMessage != null && Object.hasOwnProperty.call(message, "leaveGroupMessage")) {
             if (properties.message === 1)
                 return "message: multiple values";
             properties.message = 1;
@@ -265,7 +265,7 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
                     return "leaveGroupMessage." + error;
             }
         }
-        if (message.sequenceAckMessage != null && message.hasOwnProperty("sequenceAckMessage")) {
+        if (message.sequenceAckMessage != null && Object.hasOwnProperty.call(message, "sequenceAckMessage")) {
             if (properties.message === 1)
                 return "message: multiple values";
             properties.message = 1;
@@ -341,27 +341,27 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
         if (q > $util.recursionLimit)
             throw Error("max depth exceeded");
         let object = {};
-        if (message.sendToGroupMessage != null && message.hasOwnProperty("sendToGroupMessage")) {
+        if (message.sendToGroupMessage != null && Object.hasOwnProperty.call(message, "sendToGroupMessage")) {
             object.sendToGroupMessage = $root.UpstreamMessage.SendToGroupMessage.toObject(message.sendToGroupMessage, options, q + 1);
             if (options.oneofs)
                 object.message = "sendToGroupMessage";
         }
-        if (message.eventMessage != null && message.hasOwnProperty("eventMessage")) {
+        if (message.eventMessage != null && Object.hasOwnProperty.call(message, "eventMessage")) {
             object.eventMessage = $root.UpstreamMessage.EventMessage.toObject(message.eventMessage, options, q + 1);
             if (options.oneofs)
                 object.message = "eventMessage";
         }
-        if (message.joinGroupMessage != null && message.hasOwnProperty("joinGroupMessage")) {
+        if (message.joinGroupMessage != null && Object.hasOwnProperty.call(message, "joinGroupMessage")) {
             object.joinGroupMessage = $root.UpstreamMessage.JoinGroupMessage.toObject(message.joinGroupMessage, options, q + 1);
             if (options.oneofs)
                 object.message = "joinGroupMessage";
         }
-        if (message.leaveGroupMessage != null && message.hasOwnProperty("leaveGroupMessage")) {
+        if (message.leaveGroupMessage != null && Object.hasOwnProperty.call(message, "leaveGroupMessage")) {
             object.leaveGroupMessage = $root.UpstreamMessage.LeaveGroupMessage.toObject(message.leaveGroupMessage, options, q + 1);
             if (options.oneofs)
                 object.message = "leaveGroupMessage";
         }
-        if (message.sequenceAckMessage != null && message.hasOwnProperty("sequenceAckMessage")) {
+        if (message.sequenceAckMessage != null && Object.hasOwnProperty.call(message, "sequenceAckMessage")) {
             object.sequenceAckMessage = $root.UpstreamMessage.SequenceAckMessage.toObject(message.sequenceAckMessage, options, q + 1);
             if (options.oneofs)
                 object.message = "sequenceAckMessage";
@@ -601,20 +601,20 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
             if (long > $util.recursionLimit)
                 return "maximum nesting depth exceeded";
             let properties = {};
-            if (message.group != null && message.hasOwnProperty("group"))
+            if (message.group != null && Object.hasOwnProperty.call(message, "group"))
                 if (!$util.isString(message.group))
                     return "group: string expected";
-            if (message.ackId != null && message.hasOwnProperty("ackId")) {
+            if (message.ackId != null && Object.hasOwnProperty.call(message, "ackId")) {
                 properties._ackId = 1;
                 if (!$util.isInteger(message.ackId) && !(message.ackId && $util.isInteger(message.ackId.low) && $util.isInteger(message.ackId.high)))
                     return "ackId: integer|Long expected";
             }
-            if (message.data != null && message.hasOwnProperty("data")) {
+            if (message.data != null && Object.hasOwnProperty.call(message, "data")) {
                 let error = $root.MessageData.verify(message.data, long + 1);
                 if (error)
                     return "data." + error;
             }
-            if (message.noEcho != null && message.hasOwnProperty("noEcho")) {
+            if (message.noEcho != null && Object.hasOwnProperty.call(message, "noEcho")) {
                 properties._noEcho = 1;
                 if (typeof message.noEcho !== "boolean")
                     return "noEcho: boolean expected";
@@ -682,9 +682,9 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
                 object.group = "";
                 object.data = null;
             }
-            if (message.group != null && message.hasOwnProperty("group"))
+            if (message.group != null && Object.hasOwnProperty.call(message, "group"))
                 object.group = message.group;
-            if (message.ackId != null && message.hasOwnProperty("ackId")) {
+            if (message.ackId != null && Object.hasOwnProperty.call(message, "ackId")) {
                 if (typeof BigInt !== "undefined" && options.longs === BigInt)
                     object.ackId = typeof message.ackId === "number" ? BigInt(message.ackId) : $util.Long.fromBits(message.ackId.low >>> 0, message.ackId.high >>> 0, true).toBigInt();
                 else if (typeof message.ackId === "number")
@@ -694,9 +694,9 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
                 if (options.oneofs)
                     object._ackId = "ackId";
             }
-            if (message.data != null && message.hasOwnProperty("data"))
+            if (message.data != null && Object.hasOwnProperty.call(message, "data"))
                 object.data = $root.MessageData.toObject(message.data, options, q + 1);
-            if (message.noEcho != null && message.hasOwnProperty("noEcho")) {
+            if (message.noEcho != null && Object.hasOwnProperty.call(message, "noEcho")) {
                 object.noEcho = message.noEcho;
                 if (options.oneofs)
                     object._noEcho = "noEcho";
@@ -918,15 +918,15 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
             if (long > $util.recursionLimit)
                 return "maximum nesting depth exceeded";
             let properties = {};
-            if (message.event != null && message.hasOwnProperty("event"))
+            if (message.event != null && Object.hasOwnProperty.call(message, "event"))
                 if (!$util.isString(message.event))
                     return "event: string expected";
-            if (message.data != null && message.hasOwnProperty("data")) {
+            if (message.data != null && Object.hasOwnProperty.call(message, "data")) {
                 let error = $root.MessageData.verify(message.data, long + 1);
                 if (error)
                     return "data." + error;
             }
-            if (message.ackId != null && message.hasOwnProperty("ackId")) {
+            if (message.ackId != null && Object.hasOwnProperty.call(message, "ackId")) {
                 properties._ackId = 1;
                 if (!$util.isInteger(message.ackId) && !(message.ackId && $util.isInteger(message.ackId.low) && $util.isInteger(message.ackId.high)))
                     return "ackId: integer|Long expected";
@@ -992,11 +992,11 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
                 object.event = "";
                 object.data = null;
             }
-            if (message.event != null && message.hasOwnProperty("event"))
+            if (message.event != null && Object.hasOwnProperty.call(message, "event"))
                 object.event = message.event;
-            if (message.data != null && message.hasOwnProperty("data"))
+            if (message.data != null && Object.hasOwnProperty.call(message, "data"))
                 object.data = $root.MessageData.toObject(message.data, options, q + 1);
-            if (message.ackId != null && message.hasOwnProperty("ackId")) {
+            if (message.ackId != null && Object.hasOwnProperty.call(message, "ackId")) {
                 if (typeof BigInt !== "undefined" && options.longs === BigInt)
                     object.ackId = typeof message.ackId === "number" ? BigInt(message.ackId) : $util.Long.fromBits(message.ackId.low >>> 0, message.ackId.high >>> 0, true).toBigInt();
                 else if (typeof message.ackId === "number")
@@ -1208,10 +1208,10 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
             if (long > $util.recursionLimit)
                 return "maximum nesting depth exceeded";
             let properties = {};
-            if (message.group != null && message.hasOwnProperty("group"))
+            if (message.group != null && Object.hasOwnProperty.call(message, "group"))
                 if (!$util.isString(message.group))
                     return "group: string expected";
-            if (message.ackId != null && message.hasOwnProperty("ackId")) {
+            if (message.ackId != null && Object.hasOwnProperty.call(message, "ackId")) {
                 properties._ackId = 1;
                 if (!$util.isInteger(message.ackId) && !(message.ackId && $util.isInteger(message.ackId.low) && $util.isInteger(message.ackId.high)))
                     return "ackId: integer|Long expected";
@@ -1270,9 +1270,9 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
             let object = {};
             if (options.defaults)
                 object.group = "";
-            if (message.group != null && message.hasOwnProperty("group"))
+            if (message.group != null && Object.hasOwnProperty.call(message, "group"))
                 object.group = message.group;
-            if (message.ackId != null && message.hasOwnProperty("ackId")) {
+            if (message.ackId != null && Object.hasOwnProperty.call(message, "ackId")) {
                 if (typeof BigInt !== "undefined" && options.longs === BigInt)
                     object.ackId = typeof message.ackId === "number" ? BigInt(message.ackId) : $util.Long.fromBits(message.ackId.low >>> 0, message.ackId.high >>> 0, true).toBigInt();
                 else if (typeof message.ackId === "number")
@@ -1484,10 +1484,10 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
             if (long > $util.recursionLimit)
                 return "maximum nesting depth exceeded";
             let properties = {};
-            if (message.group != null && message.hasOwnProperty("group"))
+            if (message.group != null && Object.hasOwnProperty.call(message, "group"))
                 if (!$util.isString(message.group))
                     return "group: string expected";
-            if (message.ackId != null && message.hasOwnProperty("ackId")) {
+            if (message.ackId != null && Object.hasOwnProperty.call(message, "ackId")) {
                 properties._ackId = 1;
                 if (!$util.isInteger(message.ackId) && !(message.ackId && $util.isInteger(message.ackId.low) && $util.isInteger(message.ackId.high)))
                     return "ackId: integer|Long expected";
@@ -1546,9 +1546,9 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
             let object = {};
             if (options.defaults)
                 object.group = "";
-            if (message.group != null && message.hasOwnProperty("group"))
+            if (message.group != null && Object.hasOwnProperty.call(message, "group"))
                 object.group = message.group;
-            if (message.ackId != null && message.hasOwnProperty("ackId")) {
+            if (message.ackId != null && Object.hasOwnProperty.call(message, "ackId")) {
                 if (typeof BigInt !== "undefined" && options.longs === BigInt)
                     object.ackId = typeof message.ackId === "number" ? BigInt(message.ackId) : $util.Long.fromBits(message.ackId.low >>> 0, message.ackId.high >>> 0, true).toBigInt();
                 else if (typeof message.ackId === "number")
@@ -1735,7 +1735,7 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
                 long = 0;
             if (long > $util.recursionLimit)
                 return "maximum nesting depth exceeded";
-            if (message.sequenceId != null && message.hasOwnProperty("sequenceId"))
+            if (message.sequenceId != null && Object.hasOwnProperty.call(message, "sequenceId"))
                 if (!$util.isInteger(message.sequenceId) && !(message.sequenceId && $util.isInteger(message.sequenceId.low) && $util.isInteger(message.sequenceId.high)))
                     return "sequenceId: integer|Long expected";
             return null;
@@ -1794,7 +1794,7 @@ export const UpstreamMessage = $root.UpstreamMessage = (() => {
                     object.sequenceId = options.longs === String ? long.toString() : options.longs === Number ? long.toNumber() : typeof BigInt !== "undefined" && options.longs === BigInt ? long.toBigInt() : long;
                 } else
                     object.sequenceId = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
-            if (message.sequenceId != null && message.hasOwnProperty("sequenceId"))
+            if (message.sequenceId != null && Object.hasOwnProperty.call(message, "sequenceId"))
                 if (typeof BigInt !== "undefined" && options.longs === BigInt)
                     object.sequenceId = typeof message.sequenceId === "number" ? BigInt(message.sequenceId) : $util.Long.fromBits(message.sequenceId.low >>> 0, message.sequenceId.high >>> 0, true).toBigInt();
                 else if (typeof message.sequenceId === "number")
@@ -2026,7 +2026,7 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
         if (long > $util.recursionLimit)
             return "maximum nesting depth exceeded";
         let properties = {};
-        if (message.ackMessage != null && message.hasOwnProperty("ackMessage")) {
+        if (message.ackMessage != null && Object.hasOwnProperty.call(message, "ackMessage")) {
             properties.message = 1;
             {
                 let error = $root.DownstreamMessage.AckMessage.verify(message.ackMessage, long + 1);
@@ -2034,7 +2034,7 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
                     return "ackMessage." + error;
             }
         }
-        if (message.dataMessage != null && message.hasOwnProperty("dataMessage")) {
+        if (message.dataMessage != null && Object.hasOwnProperty.call(message, "dataMessage")) {
             if (properties.message === 1)
                 return "message: multiple values";
             properties.message = 1;
@@ -2044,7 +2044,7 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
                     return "dataMessage." + error;
             }
         }
-        if (message.systemMessage != null && message.hasOwnProperty("systemMessage")) {
+        if (message.systemMessage != null && Object.hasOwnProperty.call(message, "systemMessage")) {
             if (properties.message === 1)
                 return "message: multiple values";
             properties.message = 1;
@@ -2110,17 +2110,17 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
         if (q > $util.recursionLimit)
             throw Error("max depth exceeded");
         let object = {};
-        if (message.ackMessage != null && message.hasOwnProperty("ackMessage")) {
+        if (message.ackMessage != null && Object.hasOwnProperty.call(message, "ackMessage")) {
             object.ackMessage = $root.DownstreamMessage.AckMessage.toObject(message.ackMessage, options, q + 1);
             if (options.oneofs)
                 object.message = "ackMessage";
         }
-        if (message.dataMessage != null && message.hasOwnProperty("dataMessage")) {
+        if (message.dataMessage != null && Object.hasOwnProperty.call(message, "dataMessage")) {
             object.dataMessage = $root.DownstreamMessage.DataMessage.toObject(message.dataMessage, options, q + 1);
             if (options.oneofs)
                 object.message = "dataMessage";
         }
-        if (message.systemMessage != null && message.hasOwnProperty("systemMessage")) {
+        if (message.systemMessage != null && Object.hasOwnProperty.call(message, "systemMessage")) {
             object.systemMessage = $root.DownstreamMessage.SystemMessage.toObject(message.systemMessage, options, q + 1);
             if (options.oneofs)
                 object.message = "systemMessage";
@@ -2339,13 +2339,13 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
             if (long > $util.recursionLimit)
                 return "maximum nesting depth exceeded";
             let properties = {};
-            if (message.ackId != null && message.hasOwnProperty("ackId"))
+            if (message.ackId != null && Object.hasOwnProperty.call(message, "ackId"))
                 if (!$util.isInteger(message.ackId) && !(message.ackId && $util.isInteger(message.ackId.low) && $util.isInteger(message.ackId.high)))
                     return "ackId: integer|Long expected";
-            if (message.success != null && message.hasOwnProperty("success"))
+            if (message.success != null && Object.hasOwnProperty.call(message, "success"))
                 if (typeof message.success !== "boolean")
                     return "success: boolean expected";
-            if (message.error != null && message.hasOwnProperty("error")) {
+            if (message.error != null && Object.hasOwnProperty.call(message, "error")) {
                 properties._error = 1;
                 {
                     let error = $root.DownstreamMessage.AckMessage.ErrorMessage.verify(message.error, long + 1);
@@ -2418,16 +2418,16 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
                     object.ackId = options.longs === String ? "0" : typeof BigInt !== "undefined" && options.longs === BigInt ? BigInt("0") : 0;
                 object.success = false;
             }
-            if (message.ackId != null && message.hasOwnProperty("ackId"))
+            if (message.ackId != null && Object.hasOwnProperty.call(message, "ackId"))
                 if (typeof BigInt !== "undefined" && options.longs === BigInt)
                     object.ackId = typeof message.ackId === "number" ? BigInt(message.ackId) : $util.Long.fromBits(message.ackId.low >>> 0, message.ackId.high >>> 0, true).toBigInt();
                 else if (typeof message.ackId === "number")
                     object.ackId = options.longs === String ? String(message.ackId) : message.ackId;
                 else
                     object.ackId = options.longs === String ? $util.Long.prototype.toString.call(message.ackId) : options.longs === Number ? new $util.LongBits(message.ackId.low >>> 0, message.ackId.high >>> 0).toNumber(true) : message.ackId;
-            if (message.success != null && message.hasOwnProperty("success"))
+            if (message.success != null && Object.hasOwnProperty.call(message, "success"))
                 object.success = message.success;
-            if (message.error != null && message.hasOwnProperty("error")) {
+            if (message.error != null && Object.hasOwnProperty.call(message, "error")) {
                 object.error = $root.DownstreamMessage.AckMessage.ErrorMessage.toObject(message.error, options, q + 1);
                 if (options.oneofs)
                     object._error = "error";
@@ -2621,10 +2621,10 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
                     long = 0;
                 if (long > $util.recursionLimit)
                     return "maximum nesting depth exceeded";
-                if (message.name != null && message.hasOwnProperty("name"))
+                if (message.name != null && Object.hasOwnProperty.call(message, "name"))
                     if (!$util.isString(message.name))
                         return "name: string expected";
-                if (message.message != null && message.hasOwnProperty("message"))
+                if (message.message != null && Object.hasOwnProperty.call(message, "message"))
                     if (!$util.isString(message.message))
                         return "message: string expected";
                 return null;
@@ -2676,9 +2676,9 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
                     object.name = "";
                     object.message = "";
                 }
-                if (message.name != null && message.hasOwnProperty("name"))
+                if (message.name != null && Object.hasOwnProperty.call(message, "name"))
                     object.name = message.name;
-                if (message.message != null && message.hasOwnProperty("message"))
+                if (message.message != null && Object.hasOwnProperty.call(message, "message"))
                     object.message = message.message;
                 return object;
             };
@@ -2921,20 +2921,20 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
             if (long > $util.recursionLimit)
                 return "maximum nesting depth exceeded";
             let properties = {};
-            if (message.from != null && message.hasOwnProperty("from"))
+            if (message.from != null && Object.hasOwnProperty.call(message, "from"))
                 if (!$util.isString(message.from))
                     return "from: string expected";
-            if (message.group != null && message.hasOwnProperty("group")) {
+            if (message.group != null && Object.hasOwnProperty.call(message, "group")) {
                 properties._group = 1;
                 if (!$util.isString(message.group))
                     return "group: string expected";
             }
-            if (message.data != null && message.hasOwnProperty("data")) {
+            if (message.data != null && Object.hasOwnProperty.call(message, "data")) {
                 let error = $root.MessageData.verify(message.data, long + 1);
                 if (error)
                     return "data." + error;
             }
-            if (message.sequenceId != null && message.hasOwnProperty("sequenceId")) {
+            if (message.sequenceId != null && Object.hasOwnProperty.call(message, "sequenceId")) {
                 properties._sequenceId = 1;
                 if (!$util.isInteger(message.sequenceId) && !(message.sequenceId && $util.isInteger(message.sequenceId.low) && $util.isInteger(message.sequenceId.high)))
                     return "sequenceId: integer|Long expected";
@@ -3002,16 +3002,16 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
                 object.from = "";
                 object.data = null;
             }
-            if (message.from != null && message.hasOwnProperty("from"))
+            if (message.from != null && Object.hasOwnProperty.call(message, "from"))
                 object.from = message.from;
-            if (message.group != null && message.hasOwnProperty("group")) {
+            if (message.group != null && Object.hasOwnProperty.call(message, "group")) {
                 object.group = message.group;
                 if (options.oneofs)
                     object._group = "group";
             }
-            if (message.data != null && message.hasOwnProperty("data"))
+            if (message.data != null && Object.hasOwnProperty.call(message, "data"))
                 object.data = $root.MessageData.toObject(message.data, options, q + 1);
-            if (message.sequenceId != null && message.hasOwnProperty("sequenceId")) {
+            if (message.sequenceId != null && Object.hasOwnProperty.call(message, "sequenceId")) {
                 if (typeof BigInt !== "undefined" && options.longs === BigInt)
                     object.sequenceId = typeof message.sequenceId === "number" ? BigInt(message.sequenceId) : $util.Long.fromBits(message.sequenceId.low >>> 0, message.sequenceId.high >>> 0, true).toBigInt();
                 else if (typeof message.sequenceId === "number")
@@ -3228,7 +3228,7 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
             if (long > $util.recursionLimit)
                 return "maximum nesting depth exceeded";
             let properties = {};
-            if (message.connectedMessage != null && message.hasOwnProperty("connectedMessage")) {
+            if (message.connectedMessage != null && Object.hasOwnProperty.call(message, "connectedMessage")) {
                 properties.message = 1;
                 {
                     let error = $root.DownstreamMessage.SystemMessage.ConnectedMessage.verify(message.connectedMessage, long + 1);
@@ -3236,7 +3236,7 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
                         return "connectedMessage." + error;
                 }
             }
-            if (message.disconnectedMessage != null && message.hasOwnProperty("disconnectedMessage")) {
+            if (message.disconnectedMessage != null && Object.hasOwnProperty.call(message, "disconnectedMessage")) {
                 if (properties.message === 1)
                     return "message: multiple values";
                 properties.message = 1;
@@ -3297,12 +3297,12 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
             if (q > $util.recursionLimit)
                 throw Error("max depth exceeded");
             let object = {};
-            if (message.connectedMessage != null && message.hasOwnProperty("connectedMessage")) {
+            if (message.connectedMessage != null && Object.hasOwnProperty.call(message, "connectedMessage")) {
                 object.connectedMessage = $root.DownstreamMessage.SystemMessage.ConnectedMessage.toObject(message.connectedMessage, options, q + 1);
                 if (options.oneofs)
                     object.message = "connectedMessage";
             }
-            if (message.disconnectedMessage != null && message.hasOwnProperty("disconnectedMessage")) {
+            if (message.disconnectedMessage != null && Object.hasOwnProperty.call(message, "disconnectedMessage")) {
                 object.disconnectedMessage = $root.DownstreamMessage.SystemMessage.DisconnectedMessage.toObject(message.disconnectedMessage, options, q + 1);
                 if (options.oneofs)
                     object.message = "disconnectedMessage";
@@ -3511,13 +3511,13 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
                     long = 0;
                 if (long > $util.recursionLimit)
                     return "maximum nesting depth exceeded";
-                if (message.connectionId != null && message.hasOwnProperty("connectionId"))
+                if (message.connectionId != null && Object.hasOwnProperty.call(message, "connectionId"))
                     if (!$util.isString(message.connectionId))
                         return "connectionId: string expected";
-                if (message.userId != null && message.hasOwnProperty("userId"))
+                if (message.userId != null && Object.hasOwnProperty.call(message, "userId"))
                     if (!$util.isString(message.userId))
                         return "userId: string expected";
-                if (message.reconnectionToken != null && message.hasOwnProperty("reconnectionToken"))
+                if (message.reconnectionToken != null && Object.hasOwnProperty.call(message, "reconnectionToken"))
                     if (!$util.isString(message.reconnectionToken))
                         return "reconnectionToken: string expected";
                 return null;
@@ -3572,11 +3572,11 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
                     object.userId = "";
                     object.reconnectionToken = "";
                 }
-                if (message.connectionId != null && message.hasOwnProperty("connectionId"))
+                if (message.connectionId != null && Object.hasOwnProperty.call(message, "connectionId"))
                     object.connectionId = message.connectionId;
-                if (message.userId != null && message.hasOwnProperty("userId"))
+                if (message.userId != null && Object.hasOwnProperty.call(message, "userId"))
                     object.userId = message.userId;
-                if (message.reconnectionToken != null && message.hasOwnProperty("reconnectionToken"))
+                if (message.reconnectionToken != null && Object.hasOwnProperty.call(message, "reconnectionToken"))
                     object.reconnectionToken = message.reconnectionToken;
                 return object;
             };
@@ -3755,7 +3755,7 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
                     long = 0;
                 if (long > $util.recursionLimit)
                     return "maximum nesting depth exceeded";
-                if (message.reason != null && message.hasOwnProperty("reason"))
+                if (message.reason != null && Object.hasOwnProperty.call(message, "reason"))
                     if (!$util.isString(message.reason))
                         return "reason: string expected";
                 return null;
@@ -3803,7 +3803,7 @@ export const DownstreamMessage = $root.DownstreamMessage = (() => {
                 let object = {};
                 if (options.defaults)
                     object.reason = "";
-                if (message.reason != null && message.hasOwnProperty("reason"))
+                if (message.reason != null && Object.hasOwnProperty.call(message, "reason"))
                     object.reason = message.reason;
                 return object;
             };
@@ -4048,19 +4048,19 @@ export const MessageData = $root.MessageData = (() => {
         if (long > $util.recursionLimit)
             return "maximum nesting depth exceeded";
         let properties = {};
-        if (message.textData != null && message.hasOwnProperty("textData")) {
+        if (message.textData != null && Object.hasOwnProperty.call(message, "textData")) {
             properties.data = 1;
             if (!$util.isString(message.textData))
                 return "textData: string expected";
         }
-        if (message.binaryData != null && message.hasOwnProperty("binaryData")) {
+        if (message.binaryData != null && Object.hasOwnProperty.call(message, "binaryData")) {
             if (properties.data === 1)
                 return "data: multiple values";
             properties.data = 1;
             if (!(message.binaryData && typeof message.binaryData.length === "number" || $util.isString(message.binaryData)))
                 return "binaryData: buffer expected";
         }
-        if (message.protobufData != null && message.hasOwnProperty("protobufData")) {
+        if (message.protobufData != null && Object.hasOwnProperty.call(message, "protobufData")) {
             if (properties.data === 1)
                 return "data: multiple values";
             properties.data = 1;
@@ -4070,7 +4070,7 @@ export const MessageData = $root.MessageData = (() => {
                     return "protobufData." + error;
             }
         }
-        if (message.jsonData != null && message.hasOwnProperty("jsonData")) {
+        if (message.jsonData != null && Object.hasOwnProperty.call(message, "jsonData")) {
             if (properties.data === 1)
                 return "data: multiple values";
             properties.data = 1;
@@ -4132,22 +4132,22 @@ export const MessageData = $root.MessageData = (() => {
         if (q > $util.recursionLimit)
             throw Error("max depth exceeded");
         let object = {};
-        if (message.textData != null && message.hasOwnProperty("textData")) {
+        if (message.textData != null && Object.hasOwnProperty.call(message, "textData")) {
             object.textData = message.textData;
             if (options.oneofs)
                 object.data = "textData";
         }
-        if (message.binaryData != null && message.hasOwnProperty("binaryData")) {
+        if (message.binaryData != null && Object.hasOwnProperty.call(message, "binaryData")) {
             object.binaryData = options.bytes === String ? $util.base64.encode(message.binaryData, 0, message.binaryData.length) : options.bytes === Array ? Array.prototype.slice.call(message.binaryData) : message.binaryData;
             if (options.oneofs)
                 object.data = "binaryData";
         }
-        if (message.protobufData != null && message.hasOwnProperty("protobufData")) {
+        if (message.protobufData != null && Object.hasOwnProperty.call(message, "protobufData")) {
             object.protobufData = $root.google.protobuf.Any.toObject(message.protobufData, options, q + 1);
             if (options.oneofs)
                 object.data = "protobufData";
         }
-        if (message.jsonData != null && message.hasOwnProperty("jsonData")) {
+        if (message.jsonData != null && Object.hasOwnProperty.call(message, "jsonData")) {
             object.jsonData = message.jsonData;
             if (options.oneofs)
                 object.data = "jsonData";
@@ -4362,10 +4362,10 @@ export const google = $root.google = (() => {
                     long = 0;
                 if (long > $util.recursionLimit)
                     return "maximum nesting depth exceeded";
-                if (message.type_url != null && message.hasOwnProperty("type_url"))
+                if (message.type_url != null && Object.hasOwnProperty.call(message, "type_url"))
                     if (!$util.isString(message.type_url))
                         return "type_url: string expected";
-                if (message.value != null && message.hasOwnProperty("value"))
+                if (message.value != null && Object.hasOwnProperty.call(message, "value"))
                     if (!(message.value && typeof message.value.length === "number" || $util.isString(message.value)))
                         return "value: buffer expected";
                 return null;
@@ -4426,9 +4426,9 @@ export const google = $root.google = (() => {
                             object.value = $util.newBuffer(object.value);
                     }
                 }
-                if (message.type_url != null && message.hasOwnProperty("type_url"))
+                if (message.type_url != null && Object.hasOwnProperty.call(message, "type_url"))
                     object.type_url = message.type_url;
-                if (message.value != null && message.hasOwnProperty("value"))
+                if (message.value != null && Object.hasOwnProperty.call(message, "value"))
                     object.value = options.bytes === String ? $util.base64.encode(message.value, 0, message.value.length) : options.bytes === Array ? Array.prototype.slice.call(message.value) : message.value;
                 return object;
             };

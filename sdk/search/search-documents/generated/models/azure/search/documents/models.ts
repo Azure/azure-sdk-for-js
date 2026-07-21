@@ -943,9 +943,7 @@ export function vectorThresholdDeserializer(item: any): VectorThreshold {
 
 /** Alias for VectorThresholdUnion */
 export type VectorThresholdUnion =
-  | VectorSimilarityThreshold
-  | SearchScoreThreshold
-  | VectorThreshold;
+  VectorSimilarityThreshold | SearchScoreThreshold | VectorThreshold;
 
 export function vectorThresholdUnionSerializer(item: VectorThresholdUnion): any {
   switch (item.kind) {

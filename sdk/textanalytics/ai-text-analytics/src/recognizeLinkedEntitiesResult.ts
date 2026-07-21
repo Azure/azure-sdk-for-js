@@ -19,8 +19,7 @@ import type {
  * The result of the recognize linked entities operation on a single document.
  */
 export type RecognizeLinkedEntitiesResult =
-  | RecognizeLinkedEntitiesSuccessResult
-  | RecognizeLinkedEntitiesErrorResult;
+  RecognizeLinkedEntitiesSuccessResult | RecognizeLinkedEntitiesErrorResult;
 
 /**
  * The result of the recognize linked entities operation on a single document,

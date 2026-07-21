@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to reapplies the Virtual Machine Scale Set Virtual Machine Profile to the Virtual Machine Instances
  *
  * @summary reapplies the Virtual Machine Scale Set Virtual Machine Profile to the Virtual Machine Instances
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Reapply_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Reapply_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetsReapplyMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -24,7 +24,7 @@ async function virtualMachineScaleSetsReapplyMaximumSetGen() {
  * This sample demonstrates how to reapplies the Virtual Machine Scale Set Virtual Machine Profile to the Virtual Machine Instances
  *
  * @summary reapplies the Virtual Machine Scale Set Virtual Machine Profile to the Virtual Machine Instances
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Reapply_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Reapply_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetsReapplyMinimumSetGen() {
   const credential = new DefaultAzureCredential();

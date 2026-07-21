@@ -58,7 +58,9 @@ export async function _revokeAccessDeserialize(result: PathUncheckedResponse): P
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -124,10 +126,12 @@ export function _grantAccessSend(
 }
 
 export async function _grantAccessDeserialize(result: PathUncheckedResponse): Promise<AccessUri> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -145,7 +149,7 @@ export function grantAccess(
   grantAccessData: GrantAccessData,
   options: DiskRestorePointGrantAccessOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<AccessUri>, AccessUri> {
-  return getLongRunningPoller(context, _grantAccessDeserialize, ["202", "200", "201"], {
+  return getLongRunningPoller(context, _grantAccessDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -195,7 +199,9 @@ export async function _listByRestorePointDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -259,7 +265,9 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Di
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }

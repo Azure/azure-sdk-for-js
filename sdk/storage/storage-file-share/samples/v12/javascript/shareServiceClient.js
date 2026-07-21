@@ -7,8 +7,12 @@
 
 const { ShareServiceClient, StorageSharedKeyCredential } = require("@azure/storage-file-share");
 
+const { buffer } = require("node:stream/consumers");
+// Use `text` from "node:stream/consumers" if you want the content as a string directly.
+// import { text } from "node:stream/consumers";
+
 // Load the .env file if it exists
-require("dotenv").config();
+require("dotenv/config");
 
 async function main() {
   // Enter your storage account name and shared key
@@ -26,7 +30,7 @@ async function main() {
   const serviceClient = new ShareServiceClient(
     // When using AnonymousCredential, following url should include a valid SAS
     `https://${account}.file.core.windows.net`,
-    sharedKeyCredential
+    sharedKeyCredential,
   );
 
   console.log("Shares:");
@@ -74,29 +78,15 @@ async function main() {
     throw new Error("Expected a readable stream, but none was returned.");
   }
 
-  const downloadedContent = (
-    await streamToBuffer(downloadFileResponse.readableStreamBody)
-  ).toString();
+  // Download the raw bytes of the file. Use `text(...)` from "node:stream/consumers"
+  // instead if you want to read the content as a string directly.
+  const downloadedContent = await buffer(downloadFileResponse.readableStreamBody);
 
-  console.log(`Downloaded file content: ${downloadedContent}`);
+  console.log(`Downloaded file content: ${downloadedContent.toString()}`);
 
   // Finally, delete the example share
   await shareClient.delete();
   console.log(`Deleted share ${shareClient.name}`);
-}
-
-// A helper method used to read a Node.js readable stream into a Buffer
-async function streamToBuffer(readableStream) {
-  return new Promise((resolve, reject) => {
-    const chunks = [];
-    readableStream.on("data", (data) => {
-      chunks.push(Buffer.isBuffer(data) ? data : Buffer.from(data));
-    });
-    readableStream.on("end", () => {
-      resolve(Buffer.concat(chunks));
-    });
-    readableStream.on("error", reject);
-  });
 }
 
 main().catch((error) => {

@@ -8,6 +8,7 @@ export type { JWTAuthenticatorsOperations } from "./jwtAuthenticators/index.js";
 export type { LoadBalancersOperations } from "./loadBalancers/index.js";
 export type { MachinesOperations } from "./machines/index.js";
 export type { MaintenanceConfigurationsOperations } from "./maintenanceConfigurations/index.js";
+export type { MaintenanceWindowsOperations } from "./maintenanceWindows/index.js";
 export type { ManagedClustersOperations } from "./managedClusters/index.js";
 export type { ManagedClusterSnapshotsOperations } from "./managedClusterSnapshots/index.js";
 export type { ManagedNamespacesOperations } from "./managedNamespaces/index.js";

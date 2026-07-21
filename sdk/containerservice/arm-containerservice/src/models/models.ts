@@ -56,7 +56,10 @@ export interface AgentPool extends ProxyResource {
   orchestratorVersion?: string;
   /** The version of Kubernetes the Agent Pool is running. If orchestratorVersion is a fully specified version <major.minor.patch>, this field will be exactly equal to it. If orchestratorVersion is <major.minor>, this field will contain the full <major.minor.patch> version being used. */
   readonly currentOrchestratorVersion?: string;
-  /** The version of node image */
+  /**
+   * The version of the node image. Setting this value triggers an agentPool rollback.
+   * Only values from `recentlyUsedVersions` are allowed.
+   */
   nodeImageVersion?: string;
   /** Defines the upgrade strategy for the agent pool. The default is Rolling. */
   upgradeStrategy?: UpgradeStrategy;
@@ -260,7 +263,10 @@ export interface ManagedClusterAgentPoolProfileProperties {
   orchestratorVersion?: string;
   /** The version of Kubernetes the Agent Pool is running. If orchestratorVersion is a fully specified version <major.minor.patch>, this field will be exactly equal to it. If orchestratorVersion is <major.minor>, this field will contain the full <major.minor.patch> version being used. */
   readonly currentOrchestratorVersion?: string;
-  /** The version of node image */
+  /**
+   * The version of the node image. Setting this value triggers an agentPool rollback.
+   * Only values from `recentlyUsedVersions` are allowed.
+   */
   nodeImageVersion?: string;
   /** Defines the upgrade strategy for the agent pool. The default is Rolling. */
   upgradeStrategy?: UpgradeStrategy;
@@ -2304,6 +2310,27 @@ export function errorResponseDeserializer(item: any): ErrorResponse {
   };
 }
 
+/** The provisioning state of a resource type. */
+export enum KnownResourceProvisioningState {
+  /** Resource has been created. */
+  Succeeded = "Succeeded",
+  /** Resource creation failed. */
+  Failed = "Failed",
+  /** Resource creation was canceled. */
+  Canceled = "Canceled",
+}
+
+/**
+ * The provisioning state of a resource type. \
+ * {@link KnownResourceProvisioningState} can be used interchangeably with ResourceProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded**: Resource has been created. \
+ * **Failed**: Resource creation failed. \
+ * **Canceled**: Resource creation was canceled.
+ */
+export type ResourceProvisioningState = string;
+
 /** The response of a AgentPool list operation. */
 export interface _AgentPoolListResult {
   /** The AgentPool items on this page */
@@ -3986,6 +4013,11 @@ export interface ContainerServiceNetworkProfile {
   loadBalancerSku?: LoadBalancerSku;
   /** Profile of the cluster load balancer. */
   loadBalancerProfile?: ManagedClusterLoadBalancerProfile;
+  /**
+   * Profile of the Bastion Host associated with the managed cluster.
+   * See https://aka.ms/aks/BastionConnect for more details.
+   */
+  bastionProfile?: BastionProfile;
   /** Profile of the cluster NAT gateway. */
   natGatewayProfile?: ManagedClusterNATGatewayProfile;
   /** The profile for Static Egress Gateway addon. For more details about Static Egress Gateway, see https://aka.ms/aks/static-egress-gateway. */
@@ -4022,6 +4054,9 @@ export function containerServiceNetworkProfileSerializer(
     loadBalancerProfile: !item["loadBalancerProfile"]
       ? item["loadBalancerProfile"]
       : managedClusterLoadBalancerProfileSerializer(item["loadBalancerProfile"]),
+    bastionProfile: !item["bastionProfile"]
+      ? item["bastionProfile"]
+      : bastionProfileSerializer(item["bastionProfile"]),
     natGatewayProfile: !item["natGatewayProfile"]
       ? item["natGatewayProfile"]
       : managedClusterNATGatewayProfileSerializer(item["natGatewayProfile"]),
@@ -4070,6 +4105,9 @@ export function containerServiceNetworkProfileDeserializer(
     loadBalancerProfile: !item["loadBalancerProfile"]
       ? item["loadBalancerProfile"]
       : managedClusterLoadBalancerProfileDeserializer(item["loadBalancerProfile"]),
+    bastionProfile: !item["bastionProfile"]
+      ? item["bastionProfile"]
+      : bastionProfileDeserializer(item["bastionProfile"]),
     natGatewayProfile: !item["natGatewayProfile"]
       ? item["natGatewayProfile"]
       : managedClusterNATGatewayProfileDeserializer(item["natGatewayProfile"]),
@@ -4637,6 +4675,76 @@ export enum KnownClusterServiceLoadBalancerHealthProbeMode {
  * **Shared**: All External Traffic Policy Cluster services in a Standard Load Balancer will have a dedicated health probe targeting the backend nodes' kube-proxy health check port 10256.
  */
 export type ClusterServiceLoadBalancerHealthProbeMode = string;
+
+/**
+ * Profile to enable managed Azure Bastion or reference to an existing Bastion for the managed cluster.
+ * See https://aka.ms/aks/BastionConnect for more details.
+ */
+export interface BastionProfile {
+  /** Indicates whether managed bastion is enabled. */
+  enabled?: boolean;
+  /** The resource ID of the managed bastion associated with the managed cluster. */
+  readonly bastionId?: string;
+  /**
+   * The SKU of the managed bastion.
+   *
+   * Only Standard and Premium SKUs are supported.
+   * SKU downgrading is not allowed. To downgrade SKU, please disable then re-enable the managed bastion with new SKU.
+   *
+   * See https://aka.ms/aks/BastionSKUs for more details.
+   */
+  sku?: BastionSku;
+  /** The scale units of the managed bastion. Default value is 2. */
+  scaleUnits?: number;
+  /**
+   * The resource ID of the public IP address associated with the managed bastion.
+   *
+   * When provided during creation, the managed bastion will reference this existing public IP address instead of creating a new one.
+   * The referenced public IP address must be in the same subscription and region as the managed cluster.
+   *
+   * When not provided during creation, AKS will automatically create a new public IP address.
+   *
+   * This field cannot be updated. To change IP address after creation, please disable and re-enable the managed bastion with the new public IP address.
+   */
+  publicIpAddressId?: string;
+}
+
+export function bastionProfileSerializer(item: BastionProfile): any {
+  return {
+    enabled: item["enabled"],
+    sku: item["sku"],
+    scaleUnits: item["scaleUnits"],
+    publicIpAddressId: item["publicIpAddressId"],
+  };
+}
+
+export function bastionProfileDeserializer(item: any): BastionProfile {
+  return {
+    enabled: item["enabled"],
+    bastionId: item["bastionId"],
+    sku: item["sku"],
+    scaleUnits: item["scaleUnits"],
+    publicIpAddressId: item["publicIpAddressId"],
+  };
+}
+
+/** The SKU of the managed Azure Bastion. The default is 'Standard'. See https://aka.ms/aks/BastionSKUs for more information about the differences between Azure Bastion SKUs. */
+export enum KnownBastionSku {
+  /** Use the standard SKU of Azure Bastion. */
+  Standard = "Standard",
+  /** Use the premium SKU of Azure Bastion. */
+  Premium = "Premium",
+}
+
+/**
+ * The SKU of the managed Azure Bastion. The default is 'Standard'. See https://aka.ms/aks/BastionSKUs for more information about the differences between Azure Bastion SKUs. \
+ * {@link KnownBastionSku} can be used interchangeably with BastionSku,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Standard**: Use the standard SKU of Azure Bastion. \
+ * **Premium**: Use the premium SKU of Azure Bastion.
+ */
+export type BastionSku = string;
 
 /** Profile of the managed cluster NAT gateway. */
 export interface ManagedClusterNATGatewayProfile {
@@ -8922,6 +9030,155 @@ export function maintenanceConfigurationArrayDeserializer(
   });
 }
 
+/**
+ * A maintenance window is a resource-group-scoped resource that defines a reusable
+ * maintenance schedule which can be linked to maintenance configurations on one
+ * or more managed clusters.
+ * For more information, see https://aka.ms/aks/maintenance-windows.
+ */
+export interface MaintenanceWindowResource extends TrackedResource {
+  /** Properties of a maintenance window. */
+  properties?: MaintenanceWindowResourceProperties;
+}
+
+export function maintenanceWindowResourceSerializer(item: MaintenanceWindowResource): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : maintenanceWindowResourcePropertiesSerializer(item["properties"]),
+  };
+}
+
+export function maintenanceWindowResourceDeserializer(item: any): MaintenanceWindowResource {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : maintenanceWindowResourcePropertiesDeserializer(item["properties"]),
+  };
+}
+
+/**
+ * Properties of a maintenance window.
+ * For more information, see https://aka.ms/aks/maintenance-windows.
+ */
+export interface MaintenanceWindowResourceProperties {
+  /** The provisioning state of the maintenance window. */
+  readonly provisioningState?: ResourceProvisioningState;
+  /**
+   * Recurrence schedule for the maintenance window. One and only one of the schedule
+   * types should be specified: 'daily', 'weekly', 'absoluteMonthly', or 'relativeMonthly'.
+   */
+  schedule: Schedule;
+  /**
+   * The date the maintenance window activates. If the current date is before this
+   * date, the maintenance window is inactive and will not be used. If not specified,
+   * the maintenance window will be active right away.
+   */
+  startDate?: Date;
+  /**
+   * The start time of the maintenance window. Accepted values are from '00:00' to
+   * '23:59'. 'utcOffset' applies to this field. For example: '02:00' with
+   * 'utcOffset: +02:00' means UTC time '00:00'.
+   */
+  startTime: string;
+  /** Length of the maintenance window in hours. */
+  durationHours: number;
+  /**
+   * The UTC offset in format +/-HH:mm. For example, '+05:30' for IST and '-07:00'
+   * for PST. If not specified, the default is '+00:00'.
+   * Note: this is a static offset and does not adjust for Daylight Saving Time.
+   * Customers in DST-observing regions should pick the offset that matches their
+   * preferred wall-clock time year-round; the maintenance window will shift by one
+   * hour relative to local time when DST starts or ends.
+   */
+  utcOffset?: string;
+  /**
+   * Date ranges during which maintenance is not allowed. 'utcOffset' applies to
+   * these dates. For example, with 'utcOffset: +02:00' and a date span of
+   * '2026-12-23' to '2027-01-03', maintenance will be blocked from
+   * '2026-12-22 22:00' to '2027-01-03 22:00' in UTC time.
+   */
+  notAllowedDates?: DateSpan[];
+}
+
+export function maintenanceWindowResourcePropertiesSerializer(
+  item: MaintenanceWindowResourceProperties,
+): any {
+  return {
+    schedule: scheduleSerializer(item["schedule"]),
+    startDate: !item["startDate"]
+      ? item["startDate"]
+      : item["startDate"].toISOString().split("T")[0],
+    startTime: item["startTime"],
+    durationHours: item["durationHours"],
+    utcOffset: item["utcOffset"],
+    notAllowedDates: !item["notAllowedDates"]
+      ? item["notAllowedDates"]
+      : dateSpanArraySerializer(item["notAllowedDates"]),
+  };
+}
+
+export function maintenanceWindowResourcePropertiesDeserializer(
+  item: any,
+): MaintenanceWindowResourceProperties {
+  return {
+    provisioningState: item["provisioningState"],
+    schedule: scheduleDeserializer(item["schedule"]),
+    startDate: !item["startDate"] ? item["startDate"] : new Date(item["startDate"]),
+    startTime: item["startTime"],
+    durationHours: item["durationHours"],
+    utcOffset: item["utcOffset"],
+    notAllowedDates: !item["notAllowedDates"]
+      ? item["notAllowedDates"]
+      : dateSpanArrayDeserializer(item["notAllowedDates"]),
+  };
+}
+
+/** The response of a MaintenanceWindowResource list operation. */
+export interface _MaintenanceWindowResourceListResult {
+  /** The MaintenanceWindowResource items on this page */
+  value: MaintenanceWindowResource[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _maintenanceWindowResourceListResultDeserializer(
+  item: any,
+): _MaintenanceWindowResourceListResult {
+  return {
+    value: maintenanceWindowResourceArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function maintenanceWindowResourceArraySerializer(
+  result: Array<MaintenanceWindowResource>,
+): any[] {
+  return result.map((item) => {
+    return maintenanceWindowResourceSerializer(item);
+  });
+}
+
+export function maintenanceWindowResourceArrayDeserializer(
+  result: Array<MaintenanceWindowResource>,
+): any[] {
+  return result.map((item) => {
+    return maintenanceWindowResourceDeserializer(item);
+  });
+}
+
 /** Namespace managed by ARM. */
 export interface ManagedNamespace extends TrackedResource {
   /** Properties of a namespace. */
@@ -11775,8 +12032,10 @@ export enum KnownVersions {
   V20260201 = "2026-02-01",
   /** The 2026-03-01 API version. */
   V20260301 = "2026-03-01",
-  /** The 2026-03-02-preview API version. */
-  V20260302Preview = "2026-03-02-preview",
+  /** The 2026-04-01 API version. */
+  V20260401 = "2026-04-01",
+  /** The 2026-04-02-preview API version. */
+  V20260402Preview = "2026-04-02-preview",
 }
 
 export function _agentPoolPropertiesSerializer(item: AgentPool): any {

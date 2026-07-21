@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates a new database.
  *
  * @summary creates a new database.
- * x-ms-original-file: 2026-01-01-preview/DatabasesCreate.json
+ * x-ms-original-file: 2026-04-01-preview/DatabasesCreate.json
  */
 async function createADatabase() {
   const credential = new DefaultAzureCredential();

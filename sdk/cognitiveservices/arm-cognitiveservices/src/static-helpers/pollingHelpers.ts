@@ -2,11 +2,11 @@
 // Licensed under the MIT License.
 
 import type {
-  PollerLike,
+  OperationResponse,
   OperationState,
+  PollerLike,
   ResourceLocationConfig,
   RunningOperation,
-  OperationResponse,
 } from "@azure/core-lro";
 import { createHttpPoller } from "@azure/core-lro";
 

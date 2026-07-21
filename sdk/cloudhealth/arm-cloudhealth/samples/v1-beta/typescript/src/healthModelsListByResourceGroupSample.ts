@@ -8,14 +8,14 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list HealthModel resources by resource group
  *
  * @summary list HealthModel resources by resource group
- * x-ms-original-file: 2025-05-01-preview/HealthModels_ListByResourceGroup.json
+ * x-ms-original-file: 2026-05-01-preview/HealthModels_ListByResourceGroup.json
  */
 async function healthModelsListByResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "4980D7D5-4E07-47AD-AD34-E76C6BC9F061";
+  const subscriptionId = "abcdef12-3456-7890-abcd-ef1234567890";
   const client = new CloudHealthClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (const item of client.healthModels.listByResourceGroup("rgopenapi")) {
+  for await (const item of client.healthModels.listByResourceGroup("online-store-rg")) {
     resArray.push(item);
   }
 

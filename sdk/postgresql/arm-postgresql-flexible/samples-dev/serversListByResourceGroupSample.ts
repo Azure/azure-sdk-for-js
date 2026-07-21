@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all servers in a resource group.
  *
  * @summary lists all servers in a resource group.
- * x-ms-original-file: 2026-01-01-preview/ServersListByResourceGroup.json
+ * x-ms-original-file: 2026-04-01-preview/ServersListByResourceGroup.json
  */
 async function listAllServersInAResourceGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -43,7 +43,7 @@ export function _listByCapacityReservationGroupSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       capacityReservationGroupName: capacityReservationGroupName,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-03-01",
       "%24expand": options?.expand,
     },
     {
@@ -62,7 +62,9 @@ export async function _listByCapacityReservationGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -90,7 +92,7 @@ export function listByCapacityReservationGroup(
       ),
     _listByCapacityReservationGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-11-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
   );
 }
 
@@ -108,7 +110,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       capacityReservationGroupName: capacityReservationGroupName,
       capacityReservationName: capacityReservationName,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -121,7 +123,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -130,11 +134,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** The operation to delete a capacity reservation. This operation is allowed only when all the associated resources are disassociated from the capacity reservation. Please refer to https://aka.ms/CapacityReservation for more details. Note: Block capacity reservations cannot be deleted after it has been successfully allocated until the schedule end time. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -154,7 +153,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2025-11-01",
+    apiVersion: "2026-03-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -173,7 +172,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       capacityReservationGroupName: capacityReservationGroupName,
       capacityReservationName: capacityReservationName,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -193,7 +192,9 @@ export async function _updateDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -223,7 +224,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2025-11-01",
+    apiVersion: "2026-03-01",
   }) as PollerLike<OperationState<CapacityReservation>, CapacityReservation>;
 }
 
@@ -242,7 +243,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       capacityReservationGroupName: capacityReservationGroupName,
       capacityReservationName: capacityReservationName,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -262,7 +263,9 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -292,7 +295,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2025-11-01",
+    apiVersion: "2026-03-01",
   }) as PollerLike<OperationState<CapacityReservation>, CapacityReservation>;
 }
 
@@ -310,7 +313,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       capacityReservationGroupName: capacityReservationGroupName,
       capacityReservationName: capacityReservationName,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-03-01",
       "%24expand": options?.expand,
     },
     {
@@ -327,7 +330,9 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ca
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }

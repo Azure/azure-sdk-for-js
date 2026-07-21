@@ -4,6 +4,7 @@
 
 ### Other Changes
 
+- Declared `@azure/core-util` as a runtime dependency. It is imported at runtime by the package (e.g. `randomUUID`) but was previously only a `devDependency`, which could fail to resolve for consumers.
 - Optimized type imports for improved tree-shaking and build performance.
 
 ## 1.6.0 (2025-06-23)

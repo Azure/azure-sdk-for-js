@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 export {
-  dispatchAsync,
+  dispatch,
   listRuns,
   $delete,
   list,
@@ -12,7 +12,7 @@ export {
   createOrUpdate,
 } from "./operations.js";
 export type {
-  BetaRoutinesDispatchAsyncOptionalParams,
+  BetaRoutinesDispatchOptionalParams,
   BetaRoutinesListRunsOptionalParams,
   BetaRoutinesDeleteOptionalParams,
   BetaRoutinesListOptionalParams,

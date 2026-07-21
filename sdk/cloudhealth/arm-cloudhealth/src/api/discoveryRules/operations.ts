@@ -1,40 +1,37 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CloudHealthContext as Client } from "../index.js";
-import {
-  errorResponseDeserializer,
+import type { CloudHealthContext as Client } from "../index.js";
+import type {
   DiscoveryRule,
-  discoveryRuleSerializer,
-  discoveryRuleDeserializer,
+  DiscoveryRuleResourceCreate,
   _DiscoveryRuleListResult,
-  _discoveryRuleListResultDeserializer,
 } from "../../models/models.js";
 import {
+  errorResponseDeserializer,
+  discoveryRuleDeserializer,
+  discoveryRuleResourceCreateSerializer,
+  _discoveryRuleListResultDeserializer,
+} from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
+import type {
   DiscoveryRulesListByHealthModelOptionalParams,
   DiscoveryRulesDeleteOptionalParams,
   DiscoveryRulesCreateOrUpdateOptionalParams,
   DiscoveryRulesGetOptionalParams,
 } from "./options.js";
-import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import {
-  PagedAsyncIterableIterator,
-  buildPagedAsyncIterator,
-} from "../../static-helpers/pagingHelpers.js";
-import {
-  StreamableMethod,
-  PathUncheckedResponse,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
+import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listByHealthModelSend(
   context: Client,
   resourceGroupName: string,
   healthModelName: string,
-  options: DiscoveryRulesListByHealthModelOptionalParams = {
-    requestOptions: {},
-  },
+  options: DiscoveryRulesListByHealthModelOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CloudHealth/healthmodels/{healthModelName}/discoveryrules{?api%2Dversion,timestamp}",
@@ -42,7 +39,7 @@ export function _listByHealthModelSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       healthModelName: healthModelName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
       timestamp: !options?.timestamp ? options?.timestamp : options?.timestamp.toISOString(),
     },
     {
@@ -51,10 +48,7 @@ export function _listByHealthModelSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -64,7 +58,10 @@ export async function _listByHealthModelDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -76,16 +73,18 @@ export function listByHealthModel(
   context: Client,
   resourceGroupName: string,
   healthModelName: string,
-  options: DiscoveryRulesListByHealthModelOptionalParams = {
-    requestOptions: {},
-  },
+  options: DiscoveryRulesListByHealthModelOptionalParams = { requestOptions: {} },
 ): PagedAsyncIterableIterator<DiscoveryRule> {
   return buildPagedAsyncIterator(
     context,
     () => _listByHealthModelSend(context, resourceGroupName, healthModelName, options),
     _listByHealthModelDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-05-01-preview",
+    },
   );
 }
 
@@ -103,26 +102,23 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       healthModelName: healthModelName,
       discoveryRuleName: discoveryRuleName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
     },
   );
-  return context.path(path).delete({
-    ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-  });
+  return context.path(path).delete({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _$deleteDeserialize(result: PathUncheckedResponse): Promise<void> {
-  const expectedStatuses = ["200", "204"];
+  const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -130,26 +126,21 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete a DiscoveryRule */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
-export async function $delete(
+export function $delete(
   context: Client,
   resourceGroupName: string,
   healthModelName: string,
   discoveryRuleName: string,
   options: DiscoveryRulesDeleteOptionalParams = { requestOptions: {} },
-): Promise<void> {
-  const result = await _$deleteSend(
-    context,
-    resourceGroupName,
-    healthModelName,
-    discoveryRuleName,
-    options,
-  );
-  return _$deleteDeserialize(result);
+): PollerLike<OperationState<void>, void> {
+  return getLongRunningPoller(context, _$deleteDeserialize, ["202", "204", "200"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _$deleteSend(context, resourceGroupName, healthModelName, discoveryRuleName, options),
+    resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+  }) as PollerLike<OperationState<void>, void>;
 }
 
 export function _createOrUpdateSend(
@@ -157,7 +148,7 @@ export function _createOrUpdateSend(
   resourceGroupName: string,
   healthModelName: string,
   discoveryRuleName: string,
-  resource: DiscoveryRule,
+  resource: DiscoveryRuleResourceCreate,
   options: DiscoveryRulesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -167,7 +158,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       healthModelName: healthModelName,
       discoveryRuleName: discoveryRuleName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -176,21 +167,21 @@ export function _createOrUpdateSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
-    body: discoveryRuleSerializer(resource),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: discoveryRuleResourceCreateSerializer(resource),
   });
 }
 
 export async function _createOrUpdateDeserialize(
   result: PathUncheckedResponse,
 ): Promise<DiscoveryRule> {
-  const expectedStatuses = ["200", "201"];
+  const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -198,23 +189,29 @@ export async function _createOrUpdateDeserialize(
 }
 
 /** Create a DiscoveryRule */
-export async function createOrUpdate(
+export function createOrUpdate(
   context: Client,
   resourceGroupName: string,
   healthModelName: string,
   discoveryRuleName: string,
-  resource: DiscoveryRule,
+  resource: DiscoveryRuleResourceCreate,
   options: DiscoveryRulesCreateOrUpdateOptionalParams = { requestOptions: {} },
-): Promise<DiscoveryRule> {
-  const result = await _createOrUpdateSend(
-    context,
-    resourceGroupName,
-    healthModelName,
-    discoveryRuleName,
-    resource,
-    options,
-  );
-  return _createOrUpdateDeserialize(result);
+): PollerLike<OperationState<DiscoveryRule>, DiscoveryRule> {
+  return getLongRunningPoller(context, _createOrUpdateDeserialize, ["200", "201", "202"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _createOrUpdateSend(
+        context,
+        resourceGroupName,
+        healthModelName,
+        discoveryRuleName,
+        resource,
+        options,
+      ),
+    resourceLocationConfig: "azure-async-operation",
+    apiVersion: context.apiVersion ?? "2026-05-01-preview",
+  }) as PollerLike<OperationState<DiscoveryRule>, DiscoveryRule>;
 }
 
 export function _getSend(
@@ -231,7 +228,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       healthModelName: healthModelName,
       discoveryRuleName: discoveryRuleName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -239,10 +236,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -250,7 +244,10 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Di
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 

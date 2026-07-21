@@ -5,6 +5,8 @@ parameters:
   IncludeRelease: true
 
 steps:
+  - template: /eng/pipelines/templates/steps/common.yml
+  
   - template: /eng/common/pipelines/templates/steps/set-test-pipeline-version.yml
     parameters:
       PackageName: "@azure/template"
@@ -25,9 +27,7 @@ steps:
   # we are not passing service directory, so we only ever set dev build to true
   - template: /eng/common/pipelines/templates/steps/daily-dev-build-variable.yml
 
-  - script: |
-      npm install -g pnpm
-    displayName: "Install Pnpm"
+  - template: /eng/pipelines/templates/steps/install-pnpm.yml
 
   - script: |
       npm ci
@@ -99,7 +99,7 @@ steps:
   # Unlink node_modules folders to significantly improve performance of subsequent tasks
   # which need to walk the directory tree (and are hardcoded to follow symlinks).
   - script: |
-      pnpm purge
+      node eng/tools/purge-node-modules.mjs sdk common
     displayName: "Purge dependencies"
 
   - template: ../steps/generate-doc.yml

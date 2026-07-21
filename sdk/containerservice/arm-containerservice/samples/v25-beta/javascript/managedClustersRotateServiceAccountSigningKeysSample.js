@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to rotates the service account signing keys of a managed cluster.
  *
  * @summary rotates the service account signing keys of a managed cluster.
- * x-ms-original-file: 2026-03-02-preview/ManagedClustersRotateServiceAccountSigningKeys.json
+ * x-ms-original-file: 2026-04-02-preview/ManagedClustersRotateServiceAccountSigningKeys.json
  */
 async function rotateClusterServiceAccountSigningKeys() {
   const credential = new DefaultAzureCredential();

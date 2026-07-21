@@ -1,0 +1,47 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+const { AzureNetworkFabricManagementServiceAPI } = require("@azure/arm-managednetworkfabric");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+/**
+ * This sample demonstrates how to creates NetworkMonitor resource.
+ *
+ * @summary creates NetworkMonitor resource.
+ * x-ms-original-file: 2025-07-15/NetworkMonitors_Create.json
+ */
+async function networkMonitorsCreate() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "1234ABCD-0A1B-1234-5678-123456ABCDEF";
+  const client = new AzureNetworkFabricManagementServiceAPI(credential, subscriptionId);
+  const result = await client.networkMonitors.create("example-rg", "example-monitor", {
+    annotation: "annotation",
+    bmpConfiguration: {
+      stationConfigurationState: "Enabled",
+      scopeResourceId:
+        "/subscriptions/1234ABCD-0A1B-1234-5678-123456ABCDEF/resourceGroups/example-rg/providers/Microsoft.ManagedNetworkFabric/networkFabrics/example-fabric",
+      stationName: "name",
+      stationIp: "10.0.0.1",
+      stationPort: 62695,
+      stationConnectionMode: "Active",
+      stationConnectionProperties: { keepaliveIdleTime: 49, probeInterval: 3558, probeCount: 43 },
+      stationNetwork:
+        "/subscriptions/1234ABCD-0A1B-1234-5678-123456ABCDEF/resourceGroups/example-rg/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/example-l3domain/internalNetworks/example-internalnetwork",
+      monitoredNetworks: [
+        "/subscriptions/1234ABCD-0A1B-1234-5678-123456ABCDEF/resourceGroups/example-rg/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/example-l3domain",
+      ],
+      exportPolicy: "Pre-Policy",
+      exportPolicyConfiguration: { exportPolicies: ["Pre-Policy"] },
+      monitoredAddressFamilies: ["ipv4Unicast"],
+    },
+    tags: { key: "value" },
+    location: "eastus",
+  });
+  console.log(result);
+}
+
+async function main() {
+  await networkMonitorsCreate();
+}
+
+main().catch(console.error);

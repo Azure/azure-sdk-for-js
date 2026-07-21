@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates a new migration.
  *
  * @summary creates a new migration.
- * x-ms-original-file: 2026-01-01-preview/MigrationsCreate.json
+ * x-ms-original-file: 2026-04-01-preview/MigrationsCreate.json
  */
 async function createAMigration(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -45,7 +45,7 @@ async function createAMigration(): Promise<void> {
  * This sample demonstrates how to creates a new migration.
  *
  * @summary creates a new migration.
- * x-ms-original-file: 2026-01-01-preview/MigrationsCreateOtherSourceTypesValidateMigrate.json
+ * x-ms-original-file: 2026-04-01-preview/MigrationsCreateOtherSourceTypesValidateMigrate.json
  */
 async function createAMigrationWithOtherSourceTypeForValidatingAndMigrating(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -84,7 +84,7 @@ async function createAMigrationWithOtherSourceTypeForValidatingAndMigrating(): P
  * This sample demonstrates how to creates a new migration.
  *
  * @summary creates a new migration.
- * x-ms-original-file: 2026-01-01-preview/MigrationsCreateValidateOnly.json
+ * x-ms-original-file: 2026-04-01-preview/MigrationsCreateValidateOnly.json
  */
 async function createAMigrationForValidatingOnly(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -122,7 +122,7 @@ async function createAMigrationForValidatingOnly(): Promise<void> {
  * This sample demonstrates how to creates a new migration.
  *
  * @summary creates a new migration.
- * x-ms-original-file: 2026-01-01-preview/MigrationsCreateWithFullyQualifiedDomainName.json
+ * x-ms-original-file: 2026-04-01-preview/MigrationsCreateWithFullyQualifiedDomainName.json
  */
 async function createAMigrationWithFullyQualifiedDomainNamesForSourceAndTargetServers(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -158,7 +158,7 @@ async function createAMigrationWithFullyQualifiedDomainNamesForSourceAndTargetSe
  * This sample demonstrates how to creates a new migration.
  *
  * @summary creates a new migration.
- * x-ms-original-file: 2026-01-01-preview/MigrationsCreateWithOtherUsers.json
+ * x-ms-original-file: 2026-04-01-preview/MigrationsCreateWithOtherUsers.json
  */
 async function createAMigrationSpecifyingUserNames(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -196,7 +196,7 @@ async function createAMigrationSpecifyingUserNames(): Promise<void> {
  * This sample demonstrates how to creates a new migration.
  *
  * @summary creates a new migration.
- * x-ms-original-file: 2026-01-01-preview/MigrationsCreateWithPrivateEndpointServers.json
+ * x-ms-original-file: 2026-04-01-preview/MigrationsCreateWithPrivateEndpointServers.json
  */
 async function createAMigrationWithPrivateEndpoint(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -235,7 +235,7 @@ async function createAMigrationWithPrivateEndpoint(): Promise<void> {
  * This sample demonstrates how to creates a new migration.
  *
  * @summary creates a new migration.
- * x-ms-original-file: 2026-01-01-preview/MigrationsCreateWithRoles.json
+ * x-ms-original-file: 2026-04-01-preview/MigrationsCreateWithRoles.json
  */
 async function createAMigrationWithRoles(): Promise<void> {
   const credential = new DefaultAzureCredential();

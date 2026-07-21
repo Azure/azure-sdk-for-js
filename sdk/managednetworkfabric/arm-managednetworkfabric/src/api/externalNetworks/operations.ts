@@ -4,23 +4,23 @@
 import type { AzureNetworkFabricManagementServiceAPIContext as Client } from "../index.js";
 import type {
   UpdateAdministrativeState,
-  CommonPostActionResponseForStateUpdate,
+  UpdateAdministrativeStateResponse,
   ExternalNetwork,
   ExternalNetworkPatch,
   _ExternalNetworksList,
-  ExternalNetworkBfdAdministrativeStateRequest,
-  ExternalNetworkBfdAdministrativeStateResponse,
+  ExternalNetworkUpdateBfdAdministrativeStateRequest,
+  ExternalNetworkUpdateBfdAdministrativeStateResponse,
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
   updateAdministrativeStateSerializer,
-  commonPostActionResponseForStateUpdateDeserializer,
+  updateAdministrativeStateResponseDeserializer,
   externalNetworkSerializer,
   externalNetworkDeserializer,
   externalNetworkPatchSerializer,
   _externalNetworksListDeserializer,
-  externalNetworkBfdAdministrativeStateRequestSerializer,
-  externalNetworkBfdAdministrativeStateResponseDeserializer,
+  externalNetworkUpdateBfdAdministrativeStateRequestSerializer,
+  externalNetworkUpdateBfdAdministrativeStateResponseDeserializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
@@ -28,6 +28,7 @@ import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
   ExternalNetworksUpdateBfdAdministrativeStateOptionalParams,
+  ExternalNetworksUpdateStaticRouteBfdAdministrativeStateOptionalParams,
   ExternalNetworksUpdateAdministrativeStateOptionalParams,
   ExternalNetworksListByL3IsolationDomainOptionalParams,
   ExternalNetworksDeleteOptionalParams,
@@ -44,7 +45,7 @@ export function _updateBfdAdministrativeStateSend(
   resourceGroupName: string,
   l3IsolationDomainName: string,
   externalNetworkName: string,
-  body: ExternalNetworkBfdAdministrativeStateRequest,
+  body: ExternalNetworkUpdateBfdAdministrativeStateRequest,
   options: ExternalNetworksUpdateBfdAdministrativeStateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -54,7 +55,7 @@ export function _updateBfdAdministrativeStateSend(
       resourceGroupName: resourceGroupName,
       l3IsolationDomainName: l3IsolationDomainName,
       externalNetworkName: externalNetworkName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -64,22 +65,24 @@ export function _updateBfdAdministrativeStateSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: externalNetworkBfdAdministrativeStateRequestSerializer(body),
+    body: externalNetworkUpdateBfdAdministrativeStateRequestSerializer(body),
   });
 }
 
 export async function _updateBfdAdministrativeStateDeserialize(
   result: PathUncheckedResponse,
-): Promise<ExternalNetworkBfdAdministrativeStateResponse> {
-  const expectedStatuses = ["202", "200", "201"];
+): Promise<ExternalNetworkUpdateBfdAdministrativeStateResponse> {
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
-  return externalNetworkBfdAdministrativeStateResponseDeserializer(result.body);
+  return externalNetworkUpdateBfdAdministrativeStateResponseDeserializer(result.body);
 }
 
 /** BFD administrative state for either static or bgp for internalNetwork. */
@@ -88,16 +91,16 @@ export function updateBfdAdministrativeState(
   resourceGroupName: string,
   l3IsolationDomainName: string,
   externalNetworkName: string,
-  body: ExternalNetworkBfdAdministrativeStateRequest,
+  body: ExternalNetworkUpdateBfdAdministrativeStateRequest,
   options: ExternalNetworksUpdateBfdAdministrativeStateOptionalParams = { requestOptions: {} },
 ): PollerLike<
-  OperationState<ExternalNetworkBfdAdministrativeStateResponse>,
-  ExternalNetworkBfdAdministrativeStateResponse
+  OperationState<ExternalNetworkUpdateBfdAdministrativeStateResponse>,
+  ExternalNetworkUpdateBfdAdministrativeStateResponse
 > {
   return getLongRunningPoller(
     context,
     _updateBfdAdministrativeStateDeserialize,
-    ["202", "200", "201"],
+    ["200", "202", "201"],
     {
       updateIntervalInMs: options?.updateIntervalInMs,
       abortSignal: options?.abortSignal,
@@ -111,11 +114,97 @@ export function updateBfdAdministrativeState(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2024-06-15-preview",
+      apiVersion: context.apiVersion ?? "2025-07-15",
     },
   ) as PollerLike<
-    OperationState<ExternalNetworkBfdAdministrativeStateResponse>,
-    ExternalNetworkBfdAdministrativeStateResponse
+    OperationState<ExternalNetworkUpdateBfdAdministrativeStateResponse>,
+    ExternalNetworkUpdateBfdAdministrativeStateResponse
+  >;
+}
+
+export function _updateStaticRouteBfdAdministrativeStateSend(
+  context: Client,
+  resourceGroupName: string,
+  l3IsolationDomainName: string,
+  externalNetworkName: string,
+  body: UpdateAdministrativeState,
+  options: ExternalNetworksUpdateStaticRouteBfdAdministrativeStateOptionalParams = {
+    requestOptions: {},
+  },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/l3IsolationDomains/{l3IsolationDomainName}/externalNetworks/{externalNetworkName}/updateStaticRouteBfdAdministrativeState{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      l3IsolationDomainName: l3IsolationDomainName,
+      externalNetworkName: externalNetworkName,
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: "application/json",
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+    body: updateAdministrativeStateSerializer(body),
+  });
+}
+
+export async function _updateStaticRouteBfdAdministrativeStateDeserialize(
+  result: PathUncheckedResponse,
+): Promise<UpdateAdministrativeStateResponse> {
+  const expectedStatuses = ["200", "202", "201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return updateAdministrativeStateResponseDeserializer(result.body);
+}
+
+/** Update Static Route BFD for external Network. */
+export function updateStaticRouteBfdAdministrativeState(
+  context: Client,
+  resourceGroupName: string,
+  l3IsolationDomainName: string,
+  externalNetworkName: string,
+  body: UpdateAdministrativeState,
+  options: ExternalNetworksUpdateStaticRouteBfdAdministrativeStateOptionalParams = {
+    requestOptions: {},
+  },
+): PollerLike<
+  OperationState<UpdateAdministrativeStateResponse>,
+  UpdateAdministrativeStateResponse
+> {
+  return getLongRunningPoller(
+    context,
+    _updateStaticRouteBfdAdministrativeStateDeserialize,
+    ["200", "202", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _updateStaticRouteBfdAdministrativeStateSend(
+          context,
+          resourceGroupName,
+          l3IsolationDomainName,
+          externalNetworkName,
+          body,
+          options,
+        ),
+      resourceLocationConfig: "location",
+      apiVersion: context.apiVersion ?? "2025-07-15",
+    },
+  ) as PollerLike<
+    OperationState<UpdateAdministrativeStateResponse>,
+    UpdateAdministrativeStateResponse
   >;
 }
 
@@ -134,7 +223,7 @@ export function _updateAdministrativeStateSend(
       resourceGroupName: resourceGroupName,
       l3IsolationDomainName: l3IsolationDomainName,
       externalNetworkName: externalNetworkName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -150,16 +239,18 @@ export function _updateAdministrativeStateSend(
 
 export async function _updateAdministrativeStateDeserialize(
   result: PathUncheckedResponse,
-): Promise<CommonPostActionResponseForStateUpdate> {
-  const expectedStatuses = ["202", "200", "201"];
+): Promise<UpdateAdministrativeStateResponse> {
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
-  return commonPostActionResponseForStateUpdateDeserializer(result.body);
+  return updateAdministrativeStateResponseDeserializer(result.body);
 }
 
 /** Executes update operation to enable or disable administrative State for externalNetwork. */
@@ -171,13 +262,13 @@ export function updateAdministrativeState(
   body: UpdateAdministrativeState,
   options: ExternalNetworksUpdateAdministrativeStateOptionalParams = { requestOptions: {} },
 ): PollerLike<
-  OperationState<CommonPostActionResponseForStateUpdate>,
-  CommonPostActionResponseForStateUpdate
+  OperationState<UpdateAdministrativeStateResponse>,
+  UpdateAdministrativeStateResponse
 > {
   return getLongRunningPoller(
     context,
     _updateAdministrativeStateDeserialize,
-    ["202", "200", "201"],
+    ["200", "202", "201"],
     {
       updateIntervalInMs: options?.updateIntervalInMs,
       abortSignal: options?.abortSignal,
@@ -191,11 +282,11 @@ export function updateAdministrativeState(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2024-06-15-preview",
+      apiVersion: context.apiVersion ?? "2025-07-15",
     },
   ) as PollerLike<
-    OperationState<CommonPostActionResponseForStateUpdate>,
-    CommonPostActionResponseForStateUpdate
+    OperationState<UpdateAdministrativeStateResponse>,
+    UpdateAdministrativeStateResponse
   >;
 }
 
@@ -211,7 +302,7 @@ export function _listByL3IsolationDomainSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       l3IsolationDomainName: l3IsolationDomainName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -229,7 +320,9 @@ export async function _listByL3IsolationDomainDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -249,11 +342,7 @@ export function listByL3IsolationDomain(
     () => _listByL3IsolationDomainSend(context, resourceGroupName, l3IsolationDomainName, options),
     _listByL3IsolationDomainDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2024-06-15-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-15" },
   );
 }
 
@@ -271,7 +360,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       l3IsolationDomainName: l3IsolationDomainName,
       externalNetworkName: externalNetworkName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -284,7 +373,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -293,11 +384,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Implements ExternalNetworks DELETE method. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -311,7 +397,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, l3IsolationDomainName, externalNetworkName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2024-06-15-preview",
+    apiVersion: context.apiVersion ?? "2025-07-15",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -330,7 +416,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       l3IsolationDomainName: l3IsolationDomainName,
       externalNetworkName: externalNetworkName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -348,7 +434,9 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -378,7 +466,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2024-06-15-preview",
+    apiVersion: context.apiVersion ?? "2025-07-15",
   }) as PollerLike<OperationState<ExternalNetwork>, ExternalNetwork>;
 }
 
@@ -397,7 +485,7 @@ export function _createSend(
       resourceGroupName: resourceGroupName,
       l3IsolationDomainName: l3IsolationDomainName,
       externalNetworkName: externalNetworkName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -415,7 +503,9 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -445,7 +535,7 @@ export function create(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2024-06-15-preview",
+    apiVersion: context.apiVersion ?? "2025-07-15",
   }) as PollerLike<OperationState<ExternalNetwork>, ExternalNetwork>;
 }
 
@@ -463,7 +553,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       l3IsolationDomainName: l3IsolationDomainName,
       externalNetworkName: externalNetworkName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -479,7 +569,9 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ex
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

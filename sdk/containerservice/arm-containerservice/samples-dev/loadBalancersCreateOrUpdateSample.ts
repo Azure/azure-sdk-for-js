@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates a load balancer in the specified managed cluster.
  *
  * @summary creates or updates a load balancer in the specified managed cluster.
- * x-ms-original-file: 2026-03-02-preview/LoadBalancers_Create_Or_Update.json
+ * x-ms-original-file: 2026-04-02-preview/LoadBalancers_Create_Or_Update.json
  */
 async function createOrUpdateALoadBalancer(): Promise<void> {
   const credential = new DefaultAzureCredential();

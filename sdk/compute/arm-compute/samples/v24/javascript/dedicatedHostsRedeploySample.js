@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to redeploy the dedicated host. The operation will complete successfully once the dedicated host has migrated to a new node and is running. To determine the health of VMs deployed on the dedicated host after the redeploy check the Resource Health Center in the Azure Portal. Please refer to https://docs.microsoft.com/azure/service-health/resource-health-overview for more details.
  *
  * @summary redeploy the dedicated host. The operation will complete successfully once the dedicated host has migrated to a new node and is running. To determine the health of VMs deployed on the dedicated host after the redeploy check the Resource Health Center in the Azure Portal. Please refer to https://docs.microsoft.com/azure/service-health/resource-health-overview for more details.
- * x-ms-original-file: 2025-11-01/dedicatedHostExamples/DedicatedHost_Redeploy.json
+ * x-ms-original-file: 2026-03-01/dedicatedHostExamples/DedicatedHost_Redeploy.json
  */
 async function redeployDedicatedHost() {
   const credential = new DefaultAzureCredential();

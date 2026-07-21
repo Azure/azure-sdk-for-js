@@ -51,7 +51,7 @@ export function _restoreFilesSend(
       poolName: poolName,
       volumeName: volumeName,
       snapshotName: snapshotName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -68,7 +68,9 @@ export async function _restoreFilesDeserialize(result: PathUncheckedResponse): P
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -102,7 +104,7 @@ export function restoreFiles(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-01-01",
+    apiVersion: context.apiVersion ?? "2026-04-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -122,7 +124,7 @@ export function _listSend(
       accountName: accountName,
       poolName: poolName,
       volumeName: volumeName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -138,7 +140,9 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -160,7 +164,11 @@ export function list(
     () => _listSend(context, resourceGroupName, accountName, poolName, volumeName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-04-15-preview",
+    },
   );
 }
 
@@ -182,7 +190,7 @@ export function _$deleteSend(
       poolName: poolName,
       volumeName: volumeName,
       snapshotName: snapshotName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -195,7 +203,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -204,11 +214,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete snapshot */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -232,7 +237,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-01-01",
+    apiVersion: context.apiVersion ?? "2026-04-15-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -255,7 +260,7 @@ export function _updateSend(
       poolName: poolName,
       volumeName: volumeName,
       snapshotName: snapshotName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -273,7 +278,9 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -307,7 +314,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-01-01",
+    apiVersion: context.apiVersion ?? "2026-04-15-preview",
   }) as PollerLike<OperationState<Snapshot>, Snapshot>;
 }
 
@@ -330,7 +337,7 @@ export function _createSend(
       poolName: poolName,
       volumeName: volumeName,
       snapshotName: snapshotName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -348,7 +355,9 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["201", "202", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -382,7 +391,7 @@ export function create(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-01-01",
+    apiVersion: context.apiVersion ?? "2026-04-15-preview",
   }) as PollerLike<OperationState<Snapshot>, Snapshot>;
 }
 
@@ -404,7 +413,7 @@ export function _getSend(
       poolName: poolName,
       volumeName: volumeName,
       snapshotName: snapshotName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -420,7 +429,9 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Sn
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

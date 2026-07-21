@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates tags on a managed cluster snapshot.
  *
  * @summary updates tags on a managed cluster snapshot.
- * x-ms-original-file: 2026-03-02-preview/ManagedClusterSnapshotsUpdateTags.json
+ * x-ms-original-file: 2026-04-02-preview/ManagedClusterSnapshotsUpdateTags.json
  */
 async function updateManagedClusterSnapshotTags(): Promise<void> {
   const credential = new DefaultAzureCredential();

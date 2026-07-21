@@ -21,6 +21,5 @@
     {
       "path": "./config/tsconfig.snippets.json"
     }
-  ],
-  "files": []
+  ]
 }

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the status of a VM scale set instance.
  *
  * @summary gets the status of a VM scale set instance.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_GetInstanceView_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_GetInstanceView_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetGetInstanceViewMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -25,7 +25,7 @@ async function virtualMachineScaleSetGetInstanceViewMaximumSetGen(): Promise<voi
  * This sample demonstrates how to gets the status of a VM scale set instance.
  *
  * @summary gets the status of a VM scale set instance.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_GetInstanceView_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_GetInstanceView_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetGetInstanceViewMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

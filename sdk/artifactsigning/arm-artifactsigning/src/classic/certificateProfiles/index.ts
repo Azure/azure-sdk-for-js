@@ -3,32 +3,32 @@
 
 import type { CodeSigningContext } from "../../api/codeSigningContext.js";
 import {
-  revokeCertificate,
+  revokeCertificates,
   listByCodeSigningAccount,
   $delete,
   create,
   get,
 } from "../../api/certificateProfiles/operations.js";
 import type {
-  CertificateProfilesRevokeCertificateOptionalParams,
+  CertificateProfilesRevokeCertificatesOptionalParams,
   CertificateProfilesListByCodeSigningAccountOptionalParams,
   CertificateProfilesDeleteOptionalParams,
   CertificateProfilesCreateOptionalParams,
   CertificateProfilesGetOptionalParams,
 } from "../../api/certificateProfiles/options.js";
-import type { CertificateProfile, RevokeCertificate } from "../../models/models.js";
+import type { CertificateProfile, RevokeCertificateList } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a CertificateProfiles operations. */
 export interface CertificateProfilesOperations {
-  /** Revoke a certificate under a certificate profile. */
-  revokeCertificate: (
+  /** Revokes certificates under a certificate profile. */
+  revokeCertificates: (
     resourceGroupName: string,
     accountName: string,
     profileName: string,
-    body: RevokeCertificate,
-    options?: CertificateProfilesRevokeCertificateOptionalParams,
+    body: RevokeCertificateList,
+    options?: CertificateProfilesRevokeCertificatesOptionalParams,
   ) => Promise<void>;
   /** List certificate profiles under an artifact signing account. */
   listByCodeSigningAccount: (
@@ -37,11 +37,6 @@ export interface CertificateProfilesOperations {
     options?: CertificateProfilesListByCodeSigningAccountOptionalParams,
   ) => PagedAsyncIterableIterator<CertificateProfile>;
   /** Delete a certificate profile. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     accountName: string,
@@ -67,13 +62,13 @@ export interface CertificateProfilesOperations {
 
 function _getCertificateProfiles(context: CodeSigningContext) {
   return {
-    revokeCertificate: (
+    revokeCertificates: (
       resourceGroupName: string,
       accountName: string,
       profileName: string,
-      body: RevokeCertificate,
-      options?: CertificateProfilesRevokeCertificateOptionalParams,
-    ) => revokeCertificate(context, resourceGroupName, accountName, profileName, body, options),
+      body: RevokeCertificateList,
+      options?: CertificateProfilesRevokeCertificatesOptionalParams,
+    ) => revokeCertificates(context, resourceGroupName, accountName, profileName, body, options),
     listByCodeSigningAccount: (
       resourceGroupName: string,
       accountName: string,

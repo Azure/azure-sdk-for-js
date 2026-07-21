@@ -4,6 +4,7 @@
 import type { AzureNetworkFabricManagementServiceAPIContext } from "../../api/azureNetworkFabricManagementServiceAPIContext.js";
 import {
   updateBfdAdministrativeState,
+  updateStaticRouteBfdAdministrativeState,
   updateBgpAdministrativeState,
   updateAdministrativeState,
   listByL3IsolationDomain,
@@ -14,6 +15,7 @@ import {
 } from "../../api/internalNetworks/operations.js";
 import type {
   InternalNetworksUpdateBfdAdministrativeStateOptionalParams,
+  InternalNetworksUpdateStaticRouteBfdAdministrativeStateOptionalParams,
   InternalNetworksUpdateBgpAdministrativeStateOptionalParams,
   InternalNetworksUpdateAdministrativeStateOptionalParams,
   InternalNetworksListByL3IsolationDomainOptionalParams,
@@ -24,13 +26,13 @@ import type {
 } from "../../api/internalNetworks/options.js";
 import type {
   UpdateAdministrativeState,
-  CommonPostActionResponseForStateUpdate,
+  UpdateAdministrativeStateResponse,
   InternalNetwork,
   InternalNetworkPatch,
-  InternalNetworkBgpAdministrativeStateRequest,
-  InternalNetworkBgpAdministrativeStateResponse,
-  InternalNetworkBfdAdministrativeStateRequest,
-  InternalNetworkBfdAdministrativeStateResponse,
+  InternalNetworkUpdateBgpAdministrativeStateRequest,
+  InternalNetworkUpdateBgpAdministrativeStateResponse,
+  InternalNetworkUpdateBfdAdministrativeStateRequest,
+  InternalNetworkUpdateBfdAdministrativeStateResponse,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import type { SimplePollerLike } from "../../static-helpers/simplePollerHelpers.js";
@@ -44,23 +46,23 @@ export interface InternalNetworksOperations {
     resourceGroupName: string,
     l3IsolationDomainName: string,
     internalNetworkName: string,
-    body: InternalNetworkBfdAdministrativeStateRequest,
+    body: InternalNetworkUpdateBfdAdministrativeStateRequest,
     options?: InternalNetworksUpdateBfdAdministrativeStateOptionalParams,
   ) => PollerLike<
-    OperationState<InternalNetworkBfdAdministrativeStateResponse>,
-    InternalNetworkBfdAdministrativeStateResponse
+    OperationState<InternalNetworkUpdateBfdAdministrativeStateResponse>,
+    InternalNetworkUpdateBfdAdministrativeStateResponse
   >;
   /** @deprecated use updateBfdAdministrativeState instead */
   beginUpdateBfdAdministrativeState: (
     resourceGroupName: string,
     l3IsolationDomainName: string,
     internalNetworkName: string,
-    body: InternalNetworkBfdAdministrativeStateRequest,
+    body: InternalNetworkUpdateBfdAdministrativeStateRequest,
     options?: InternalNetworksUpdateBfdAdministrativeStateOptionalParams,
   ) => Promise<
     SimplePollerLike<
-      OperationState<InternalNetworkBfdAdministrativeStateResponse>,
-      InternalNetworkBfdAdministrativeStateResponse
+      OperationState<InternalNetworkUpdateBfdAdministrativeStateResponse>,
+      InternalNetworkUpdateBfdAdministrativeStateResponse
     >
   >;
   /** @deprecated use updateBfdAdministrativeState instead */
@@ -68,31 +70,63 @@ export interface InternalNetworksOperations {
     resourceGroupName: string,
     l3IsolationDomainName: string,
     internalNetworkName: string,
-    body: InternalNetworkBfdAdministrativeStateRequest,
+    body: InternalNetworkUpdateBfdAdministrativeStateRequest,
     options?: InternalNetworksUpdateBfdAdministrativeStateOptionalParams,
-  ) => Promise<InternalNetworkBfdAdministrativeStateResponse>;
+  ) => Promise<InternalNetworkUpdateBfdAdministrativeStateResponse>;
+  /** Update Static Route BFD administrative state for internalNetwork. */
+  updateStaticRouteBfdAdministrativeState: (
+    resourceGroupName: string,
+    l3IsolationDomainName: string,
+    internalNetworkName: string,
+    body: UpdateAdministrativeState,
+    options?: InternalNetworksUpdateStaticRouteBfdAdministrativeStateOptionalParams,
+  ) => PollerLike<
+    OperationState<UpdateAdministrativeStateResponse>,
+    UpdateAdministrativeStateResponse
+  >;
+  /** @deprecated use updateStaticRouteBfdAdministrativeState instead */
+  beginUpdateStaticRouteBfdAdministrativeState: (
+    resourceGroupName: string,
+    l3IsolationDomainName: string,
+    internalNetworkName: string,
+    body: UpdateAdministrativeState,
+    options?: InternalNetworksUpdateStaticRouteBfdAdministrativeStateOptionalParams,
+  ) => Promise<
+    SimplePollerLike<
+      OperationState<UpdateAdministrativeStateResponse>,
+      UpdateAdministrativeStateResponse
+    >
+  >;
+  /** @deprecated use updateStaticRouteBfdAdministrativeState instead */
+  beginUpdateStaticRouteBfdAdministrativeStateAndWait: (
+    resourceGroupName: string,
+    l3IsolationDomainName: string,
+    internalNetworkName: string,
+    body: UpdateAdministrativeState,
+    options?: InternalNetworksUpdateStaticRouteBfdAdministrativeStateOptionalParams,
+  ) => Promise<UpdateAdministrativeStateResponse>;
   /** Update BGP state for internalNetwork. Allowed only on edge devices. */
   updateBgpAdministrativeState: (
     resourceGroupName: string,
     l3IsolationDomainName: string,
     internalNetworkName: string,
-    body: InternalNetworkBgpAdministrativeStateRequest,
+    body: InternalNetworkUpdateBgpAdministrativeStateRequest,
     options?: InternalNetworksUpdateBgpAdministrativeStateOptionalParams,
   ) => PollerLike<
-    OperationState<InternalNetworkBgpAdministrativeStateResponse>,
-    InternalNetworkBgpAdministrativeStateResponse
+    OperationState<InternalNetworkUpdateBgpAdministrativeStateResponse>,
+    InternalNetworkUpdateBgpAdministrativeStateResponse
   >;
   /** @deprecated use updateBgpAdministrativeState instead */
   beginUpdateBgpAdministrativeState: (
     resourceGroupName: string,
     l3IsolationDomainName: string,
     internalNetworkName: string,
-    body: InternalNetworkBgpAdministrativeStateRequest,
+    body: InternalNetworkUpdateBgpAdministrativeStateRequest,
     options?: InternalNetworksUpdateBgpAdministrativeStateOptionalParams,
   ) => Promise<
     SimplePollerLike<
-      OperationState<InternalNetworkBgpAdministrativeStateResponse>,
-      InternalNetworkBgpAdministrativeStateResponse
+      OperationState<InternalNetworkUpdateBgpAdministrativeStateResponse>,
+      InternalNetworkUpdateBgpAdministrativeStateResponse
     >
   >;
   /** @deprecated use updateBgpAdministrativeState instead */
@@ -100,10 +134,10 @@ export interface InternalNetworksOperations {
     resourceGroupName: string,
     l3IsolationDomainName: string,
     internalNetworkName: string,
-    body: InternalNetworkBgpAdministrativeStateRequest,
+    body: InternalNetworkUpdateBgpAdministrativeStateRequest,
     options?: InternalNetworksUpdateBgpAdministrativeStateOptionalParams,
-  ) => Promise<InternalNetworkBgpAdministrativeStateResponse>;
-  /** Update Administrative state of  InternalNetworks on resources referred by their resource ids. */
+  ) => Promise<InternalNetworkUpdateBgpAdministrativeStateResponse>;
+  /** Executes update operation to enable or disable administrative State for InternalNetwork. */
   updateAdministrativeState: (
     resourceGroupName: string,
     l3IsolationDomainName: string,
@@ -111,8 +145,8 @@ export interface InternalNetworksOperations {
     body: UpdateAdministrativeState,
     options?: InternalNetworksUpdateAdministrativeStateOptionalParams,
   ) => PollerLike<
-    OperationState<CommonPostActionResponseForStateUpdate>,
-    CommonPostActionResponseForStateUpdate
+    OperationState<UpdateAdministrativeStateResponse>,
+    UpdateAdministrativeStateResponse
   >;
   /** @deprecated use updateAdministrativeState instead */
   beginUpdateAdministrativeState: (
@@ -123,8 +157,8 @@ export interface InternalNetworksOperations {
     options?: InternalNetworksUpdateAdministrativeStateOptionalParams,
   ) => Promise<
     SimplePollerLike<
-      OperationState<CommonPostActionResponseForStateUpdate>,
-      CommonPostActionResponseForStateUpdate
+      OperationState<UpdateAdministrativeStateResponse>,
+      UpdateAdministrativeStateResponse
     >
   >;
   /** @deprecated use updateAdministrativeState instead */
@@ -134,7 +168,7 @@ export interface InternalNetworksOperations {
     internalNetworkName: string,
     body: UpdateAdministrativeState,
     options?: InternalNetworksUpdateAdministrativeStateOptionalParams,
-  ) => Promise<CommonPostActionResponseForStateUpdate>;
+  ) => Promise<UpdateAdministrativeStateResponse>;
   /** Displays InternalNetworks list by resource group GET method. */
   listByL3IsolationDomain: (
     resourceGroupName: string,
@@ -142,11 +176,6 @@ export interface InternalNetworksOperations {
     options?: InternalNetworksListByL3IsolationDomainOptionalParams,
   ) => PagedAsyncIterableIterator<InternalNetwork>;
   /** Implements InternalNetworks DELETE method. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     l3IsolationDomainName: string,
@@ -230,7 +259,7 @@ function _getInternalNetworks(context: AzureNetworkFabricManagementServiceAPICon
       resourceGroupName: string,
       l3IsolationDomainName: string,
       internalNetworkName: string,
-      body: InternalNetworkBfdAdministrativeStateRequest,
+      body: InternalNetworkUpdateBfdAdministrativeStateRequest,
       options?: InternalNetworksUpdateBfdAdministrativeStateOptionalParams,
     ) =>
       updateBfdAdministrativeState(
@@ -245,7 +274,7 @@ function _getInternalNetworks(context: AzureNetworkFabricManagementServiceAPICon
       resourceGroupName: string,
       l3IsolationDomainName: string,
       internalNetworkName: string,
-      body: InternalNetworkBfdAdministrativeStateRequest,
+      body: InternalNetworkUpdateBfdAdministrativeStateRequest,
       options?: InternalNetworksUpdateBfdAdministrativeStateOptionalParams,
     ) => {
       const poller = updateBfdAdministrativeState(
@@ -263,10 +292,59 @@ function _getInternalNetworks(context: AzureNetworkFabricManagementServiceAPICon
       resourceGroupName: string,
       l3IsolationDomainName: string,
       internalNetworkName: string,
-      body: InternalNetworkBfdAdministrativeStateRequest,
+      body: InternalNetworkUpdateBfdAdministrativeStateRequest,
       options?: InternalNetworksUpdateBfdAdministrativeStateOptionalParams,
     ) => {
       return await updateBfdAdministrativeState(
+        context,
+        resourceGroupName,
+        l3IsolationDomainName,
+        internalNetworkName,
+        body,
+        options,
+      );
+    },
+    updateStaticRouteBfdAdministrativeState: (
+      resourceGroupName: string,
+      l3IsolationDomainName: string,
+      internalNetworkName: string,
+      body: UpdateAdministrativeState,
+      options?: InternalNetworksUpdateStaticRouteBfdAdministrativeStateOptionalParams,
+    ) =>
+      updateStaticRouteBfdAdministrativeState(
+        context,
+        resourceGroupName,
+        l3IsolationDomainName,
+        internalNetworkName,
+        body,
+        options,
+      ),
+    beginUpdateStaticRouteBfdAdministrativeState: async (
+      resourceGroupName: string,
+      l3IsolationDomainName: string,
+      internalNetworkName: string,
+      body: UpdateAdministrativeState,
+      options?: InternalNetworksUpdateStaticRouteBfdAdministrativeStateOptionalParams,
+    ) => {
+      const poller = updateStaticRouteBfdAdministrativeState(
+        context,
+        resourceGroupName,
+        l3IsolationDomainName,
+        internalNetworkName,
+        body,
+        options,
+      );
+      await poller.submitted();
+      return getSimplePoller(poller);
+    },
+    beginUpdateStaticRouteBfdAdministrativeStateAndWait: async (
+      resourceGroupName: string,
+      l3IsolationDomainName: string,
+      internalNetworkName: string,
+      body: UpdateAdministrativeState,
+      options?: InternalNetworksUpdateStaticRouteBfdAdministrativeStateOptionalParams,
+    ) => {
+      return await updateStaticRouteBfdAdministrativeState(
         context,
         resourceGroupName,
         l3IsolationDomainName,
@@ -279,7 +357,7 @@ function _getInternalNetworks(context: AzureNetworkFabricManagementServiceAPICon
       resourceGroupName: string,
       l3IsolationDomainName: string,
       internalNetworkName: string,
-      body: InternalNetworkBgpAdministrativeStateRequest,
+      body: InternalNetworkUpdateBgpAdministrativeStateRequest,
       options?: InternalNetworksUpdateBgpAdministrativeStateOptionalParams,
     ) =>
       updateBgpAdministrativeState(
@@ -294,7 +372,7 @@ function _getInternalNetworks(context: AzureNetworkFabricManagementServiceAPICon
       resourceGroupName: string,
       l3IsolationDomainName: string,
       internalNetworkName: string,
-      body: InternalNetworkBgpAdministrativeStateRequest,
+      body: InternalNetworkUpdateBgpAdministrativeStateRequest,
       options?: InternalNetworksUpdateBgpAdministrativeStateOptionalParams,
     ) => {
       const poller = updateBgpAdministrativeState(
@@ -312,7 +390,7 @@ function _getInternalNetworks(context: AzureNetworkFabricManagementServiceAPICon
       resourceGroupName: string,
       l3IsolationDomainName: string,
       internalNetworkName: string,
-      body: InternalNetworkBgpAdministrativeStateRequest,
+      body: InternalNetworkUpdateBgpAdministrativeStateRequest,
       options?: InternalNetworksUpdateBgpAdministrativeStateOptionalParams,
     ) => {
       return await updateBgpAdministrativeState(

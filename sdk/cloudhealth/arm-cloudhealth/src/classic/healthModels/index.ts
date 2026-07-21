@@ -1,16 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CloudHealthContext } from "../../api/cloudHealthContext.js";
-import { HealthModel, HealthModelUpdate } from "../../models/models.js";
-import {
-  HealthModelsListBySubscriptionOptionalParams,
-  HealthModelsListByResourceGroupOptionalParams,
-  HealthModelsDeleteOptionalParams,
-  HealthModelsUpdateOptionalParams,
-  HealthModelsCreateOptionalParams,
-  HealthModelsGetOptionalParams,
-} from "../../api/healthModels/options.js";
+import type { CloudHealthContext } from "../../api/cloudHealthContext.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -19,8 +10,17 @@ import {
   create,
   get,
 } from "../../api/healthModels/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type {
+  HealthModelsListBySubscriptionOptionalParams,
+  HealthModelsListByResourceGroupOptionalParams,
+  HealthModelsDeleteOptionalParams,
+  HealthModelsUpdateOptionalParams,
+  HealthModelsCreateOptionalParams,
+  HealthModelsGetOptionalParams,
+} from "../../api/healthModels/options.js";
+import type { HealthModel, HealthModelUpdate } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a HealthModels operations. */
 export interface HealthModelsOperations {
@@ -34,11 +34,6 @@ export interface HealthModelsOperations {
     options?: HealthModelsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<HealthModel>;
   /** Delete a HealthModel */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     healthModelName: string,

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation that retrieves information about the capacity reservation.
  *
  * @summary the operation that retrieves information about the capacity reservation.
- * x-ms-original-file: 2025-11-01/capacityReservationExamples/BlockCapacityReservation_Get.json
+ * x-ms-original-file: 2026-03-01/capacityReservationExamples/BlockCapacityReservation_Get.json
  */
 async function getABlockCapacityReservation(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,7 @@ async function getABlockCapacityReservation(): Promise<void> {
  * This sample demonstrates how to the operation that retrieves information about the capacity reservation.
  *
  * @summary the operation that retrieves information about the capacity reservation.
- * x-ms-original-file: 2025-11-01/capacityReservationExamples/CapacityReservation_Get.json
+ * x-ms-original-file: 2026-03-01/capacityReservationExamples/CapacityReservation_Get.json
  */
 async function getACapacityReservation(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -46,7 +46,7 @@ async function getACapacityReservation(): Promise<void> {
  * This sample demonstrates how to the operation that retrieves information about the capacity reservation.
  *
  * @summary the operation that retrieves information about the capacity reservation.
- * x-ms-original-file: 2025-11-01/capacityReservationExamples/TargetedCapacityReservation_Get.json
+ * x-ms-original-file: 2026-03-01/capacityReservationExamples/TargetedCapacityReservation_Get.json
  */
 async function getATargetedCapacityReservation(): Promise<void> {
   const credential = new DefaultAzureCredential();

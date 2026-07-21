@@ -296,9 +296,7 @@ export function discountPropertiesDeserializer(item: any): DiscountProperties {
 
 /** Alias for DiscountPropertiesUnion */
 export type DiscountPropertiesUnion =
-  | EntityTypeAffiliateDiscount
-  | EntityTypePrimaryDiscount
-  | DiscountProperties;
+  EntityTypeAffiliateDiscount | EntityTypePrimaryDiscount | DiscountProperties;
 
 export function discountPropertiesUnionSerializer(item: DiscountPropertiesUnion): any {
   switch (item.entityType) {
@@ -945,8 +943,7 @@ export function discountTypeCustomPriceDeserializer(item: any): DiscountTypeCust
 
 /** Alias for DiscountTypeCustomPriceUnion */
 export type DiscountTypeCustomPriceUnion =
-  | DiscountTypeCustomPriceMultiCurrency
-  | DiscountTypeCustomPrice;
+  DiscountTypeCustomPriceMultiCurrency | DiscountTypeCustomPrice;
 
 export function discountTypeCustomPriceUnionSerializer(item: DiscountTypeCustomPriceUnion): any {
   switch (item.discountType) {

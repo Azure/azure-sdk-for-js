@@ -64,6 +64,6 @@ export {
 export type { CommonOptions } from "./StorageClient.js";
 export type { SasIPRange } from "./sas/SasIPRange.js";
 export { ToBlobEndpointHostMappings, ToDfsEndpointHostMappings } from "./utils/constants.js";
-export { RestError } from "@azure/core-rest-pipeline";
+export { RestError, isRestError } from "@azure/core-rest-pipeline";
 export { logger } from "./log.js";
 export * from "./sas/DirectorySASPermissions.js";

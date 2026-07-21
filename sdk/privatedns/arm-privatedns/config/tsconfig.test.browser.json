@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.browser.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-privatedns": ["../src/index.ts"],
+      "@azure/arm-privatedns/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}

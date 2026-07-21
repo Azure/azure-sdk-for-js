@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to attach and detach data disks to/from a virtual machine in a VM scale set.
  *
  * @summary attach and detach data disks to/from a virtual machine in a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_AttachDetachDataDisks_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_AttachDetachDataDisks_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetVMAttachDetachDataDisksMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -62,7 +62,7 @@ async function virtualMachineScaleSetVMAttachDetachDataDisksMaximumSetGen() {
  * This sample demonstrates how to attach and detach data disks to/from a virtual machine in a VM scale set.
  *
  * @summary attach and detach data disks to/from a virtual machine in a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_AttachDetachDataDisks_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_AttachDetachDataDisks_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetVMAttachDetachDataDisksMinimumSetGen() {
   const credential = new DefaultAzureCredential();

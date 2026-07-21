@@ -7,7 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -985,9 +985,9 @@
+@@ -1119,9 +1119,9 @@
      descriptionMarkdown: string;
      graphQueries: CodelessUiConnectorConfigPropertiesGraphQueriesItem[];
      graphQueriesTableName: string;
@@ -18,7 +18,7 @@ For the complete API surface, see the corresponding -node.api.md file.
      sampleQueries: CodelessUiConnectorConfigPropertiesSampleQueriesItem[];
      title: string;
  }
-@@ -4226,12 +4226,13 @@
+@@ -5272,12 +5272,13 @@
  // @public
  export type PermissionProviderScope = string;
  
@@ -30,7 +30,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
 +export { Permissions_2 as Permissions }
  
- // @public (undocumented)
+ // @public
  export interface PermissionsCustomsItem extends Customs {
  }
 

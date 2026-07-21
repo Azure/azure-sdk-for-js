@@ -9,11 +9,11 @@ export {
   create,
   get,
 } from "./operations.js";
-export {
-  type HealthModelsListBySubscriptionOptionalParams,
-  type HealthModelsListByResourceGroupOptionalParams,
-  type HealthModelsDeleteOptionalParams,
-  type HealthModelsUpdateOptionalParams,
-  type HealthModelsCreateOptionalParams,
-  type HealthModelsGetOptionalParams,
+export type {
+  HealthModelsListBySubscriptionOptionalParams,
+  HealthModelsListByResourceGroupOptionalParams,
+  HealthModelsDeleteOptionalParams,
+  HealthModelsUpdateOptionalParams,
+  HealthModelsCreateOptionalParams,
+  HealthModelsGetOptionalParams,
 } from "./options.js";

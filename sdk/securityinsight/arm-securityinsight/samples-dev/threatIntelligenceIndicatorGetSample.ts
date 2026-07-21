@@ -1,29 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to View a threat intelligence indicator by name.
- *
- * @summary View a threat intelligence indicator by name.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/threatintelligence/GetThreatIntelligenceById.json
- */
-
 import { SecurityInsights } from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to view a threat intelligence indicator by name.
+ *
+ * @summary view a threat intelligence indicator by name.
+ * x-ms-original-file: 2025-07-01-preview/threatintelligence/GetThreatIntelligenceById.json
+ */
 async function viewAThreatIntelligenceIndicatorByName(): Promise<void> {
-  const subscriptionId =
-    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "bd794837-4d29-4647-9105-6339bfdb4e6a";
-  const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
-  const workspaceName = "myWorkspace";
-  const name = "e16ef847-962e-d7b6-9c8b-a33e4bd30e47";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "bd794837-4d29-4647-9105-6339bfdb4e6a";
   const client = new SecurityInsights(credential, subscriptionId);
   const result = await client.threatIntelligenceIndicator.get(
-    resourceGroupName,
-    workspaceName,
-    name,
+    "myRg",
+    "myWorkspace",
+    "e16ef847-962e-d7b6-9c8b-a33e4bd30e47",
   );
   console.log(result);
 }

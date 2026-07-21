@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to cancels the current virtual machine scale set rolling upgrade.
  *
  * @summary cancels the current virtual machine scale set rolling upgrade.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSetRollingUpgrade_Cancel_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSetRollingUpgrade_Cancel_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetRollingUpgradeCancelMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -21,7 +21,7 @@ async function virtualMachineScaleSetRollingUpgradeCancelMaximumSetGen(): Promis
  * This sample demonstrates how to cancels the current virtual machine scale set rolling upgrade.
  *
  * @summary cancels the current virtual machine scale set rolling upgrade.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSetRollingUpgrade_Cancel_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSetRollingUpgrade_Cancel_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetRollingUpgradeCancelMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

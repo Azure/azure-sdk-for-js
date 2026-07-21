@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to the operation to create or update the restore point collection. Please refer to https://aka.ms/RestorePoints for more details. When updating a restore point collection, only tags may be modified.
  *
  * @summary the operation to create or update the restore point collection. Please refer to https://aka.ms/RestorePoints for more details. When updating a restore point collection, only tags may be modified.
- * x-ms-original-file: 2025-11-01/restorePointExamples/RestorePointCollection_CreateOrUpdate.json
+ * x-ms-original-file: 2026-03-01/restorePointExamples/RestorePointCollection_CreateOrUpdate.json
  */
 async function createOrUpdateARestorePointCollection() {
   const credential = new DefaultAzureCredential();
@@ -29,7 +29,7 @@ async function createOrUpdateARestorePointCollection() {
  * This sample demonstrates how to the operation to create or update the restore point collection. Please refer to https://aka.ms/RestorePoints for more details. When updating a restore point collection, only tags may be modified.
  *
  * @summary the operation to create or update the restore point collection. Please refer to https://aka.ms/RestorePoints for more details. When updating a restore point collection, only tags may be modified.
- * x-ms-original-file: 2025-11-01/restorePointExamples/RestorePointCollection_CreateOrUpdate_ForCrossRegionCopy.json
+ * x-ms-original-file: 2026-03-01/restorePointExamples/RestorePointCollection_CreateOrUpdate_ForCrossRegionCopy.json
  */
 async function createOrUpdateARestorePointCollectionForCrossRegionCopy() {
   const credential = new DefaultAzureCredential();

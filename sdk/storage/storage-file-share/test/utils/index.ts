@@ -54,6 +54,22 @@ export function getGenericBSU(
   return client;
 }
 
+export function getGenericCredential(accountType: string): StorageSharedKeyCredential {
+  const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
+  const accountKeyEnvVar = `${accountType}ACCOUNT_KEY`;
+
+  const accountName = env[accountNameEnvVar];
+  const accountKey = env[accountKeyEnvVar];
+
+  if (!accountName || !accountKey || accountName === "" || accountKey === "") {
+    throw new Error(
+      `${accountNameEnvVar} and/or ${accountKeyEnvVar} environment variables not specified.`,
+    );
+  }
+
+  return new StorageSharedKeyCredential(accountName, accountKey);
+}
+
 export function getBlobServiceClient(recorder: Recorder): BlobServiceClient {
   const client = BlobServiceClient.fromConnectionString(getConnectionStringFromEnvironment());
   configureStorageClient(recorder, client as unknown as StorageClient);

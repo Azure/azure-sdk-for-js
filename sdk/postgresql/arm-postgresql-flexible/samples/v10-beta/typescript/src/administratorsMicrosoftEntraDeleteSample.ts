@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes an existing server administrator associated to a Microsoft Entra principal.
  *
  * @summary deletes an existing server administrator associated to a Microsoft Entra principal.
- * x-ms-original-file: 2026-01-01-preview/AdministratorsMicrosoftEntraDelete.json
+ * x-ms-original-file: 2026-04-01-preview/AdministratorsMicrosoftEntraDelete.json
  */
 async function deleteAServerAdministratorAssociatedToAMicrosoftEntraPrincipal(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -1,98 +1,102 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to The operation to get the export for the defined scope by export name.
- *
- * @summary The operation to get the export for the defined scope by export name.
- * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ExportGetByBillingAccount.json
- */
-
 import { CostManagementClient } from "@azure/arm-costmanagement";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to the operation to get the export for the defined scope by export name.
+ *
+ * @summary the operation to get the export for the defined scope by export name.
+ * x-ms-original-file: 2025-03-01/ExportGetByBillingAccount.json
+ */
 async function exportGetByBillingAccount(): Promise<void> {
-  const scope = "providers/Microsoft.Billing/billingAccounts/123456";
-  const exportName = "TestExport";
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
-  const result = await client.exports.get(scope, exportName);
+  const result = await client.exports.get(
+    "providers/Microsoft.Billing/billingAccounts/123456",
+    "TestExport",
+  );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to The operation to get the export for the defined scope by export name.
+ * This sample demonstrates how to the operation to get the export for the defined scope by export name.
  *
- * @summary The operation to get the export for the defined scope by export name.
- * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ExportGetByDepartment.json
+ * @summary the operation to get the export for the defined scope by export name.
+ * x-ms-original-file: 2025-03-01/ExportGetByDepartment.json
  */
 async function exportGetByDepartment(): Promise<void> {
-  const scope = "providers/Microsoft.Billing/billingAccounts/12/departments/1234";
-  const exportName = "TestExport";
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
-  const result = await client.exports.get(scope, exportName);
+  const result = await client.exports.get(
+    "providers/Microsoft.Billing/billingAccounts/12/departments/1234",
+    "TestExport",
+  );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to The operation to get the export for the defined scope by export name.
+ * This sample demonstrates how to the operation to get the export for the defined scope by export name.
  *
- * @summary The operation to get the export for the defined scope by export name.
- * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ExportGetByEnrollmentAccount.json
+ * @summary the operation to get the export for the defined scope by export name.
+ * x-ms-original-file: 2025-03-01/ExportGetByEnrollmentAccount.json
  */
 async function exportGetByEnrollmentAccount(): Promise<void> {
-  const scope = "providers/Microsoft.Billing/billingAccounts/100/enrollmentAccounts/456";
-  const exportName = "TestExport";
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
-  const result = await client.exports.get(scope, exportName);
+  const result = await client.exports.get(
+    "providers/Microsoft.Billing/billingAccounts/100/enrollmentAccounts/456",
+    "TestExport",
+  );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to The operation to get the export for the defined scope by export name.
+ * This sample demonstrates how to the operation to get the export for the defined scope by export name.
  *
- * @summary The operation to get the export for the defined scope by export name.
- * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ExportGetByManagementGroup.json
+ * @summary the operation to get the export for the defined scope by export name.
+ * x-ms-original-file: 2025-03-01/ExportGetByManagementGroup.json
  */
 async function exportGetByManagementGroup(): Promise<void> {
-  const scope = "providers/Microsoft.Management/managementGroups/TestMG";
-  const exportName = "TestExport";
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
-  const result = await client.exports.get(scope, exportName);
+  const result = await client.exports.get(
+    "providers/Microsoft.Management/managementGroups/TestMG",
+    "TestExport",
+  );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to The operation to get the export for the defined scope by export name.
+ * This sample demonstrates how to the operation to get the export for the defined scope by export name.
  *
- * @summary The operation to get the export for the defined scope by export name.
- * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ExportGetByResourceGroup.json
+ * @summary the operation to get the export for the defined scope by export name.
+ * x-ms-original-file: 2025-03-01/ExportGetByResourceGroup.json
  */
 async function exportGetByResourceGroup(): Promise<void> {
-  const scope = "subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG";
-  const exportName = "TestExport";
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
-  const result = await client.exports.get(scope, exportName);
+  const result = await client.exports.get(
+    "subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MYDEVTESTRG",
+    "TestExport",
+  );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to The operation to get the export for the defined scope by export name.
+ * This sample demonstrates how to the operation to get the export for the defined scope by export name.
  *
- * @summary The operation to get the export for the defined scope by export name.
- * x-ms-original-file: specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2022-10-01/examples/ExportGetBySubscription.json
+ * @summary the operation to get the export for the defined scope by export name.
+ * x-ms-original-file: 2025-03-01/ExportGetBySubscription.json
  */
 async function exportGetBySubscription(): Promise<void> {
-  const scope = "subscriptions/00000000-0000-0000-0000-000000000000";
-  const exportName = "TestExport";
   const credential = new DefaultAzureCredential();
   const client = new CostManagementClient(credential);
-  const result = await client.exports.get(scope, exportName);
+  const result = await client.exports.get(
+    "subscriptions/00000000-0000-0000-0000-000000000000",
+    "TestExport",
+  );
   console.log(result);
 }
 

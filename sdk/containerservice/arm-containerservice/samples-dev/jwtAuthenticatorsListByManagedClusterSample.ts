@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a list of JWT authenticators in the specified managed cluster.
  *
  * @summary gets a list of JWT authenticators in the specified managed cluster.
- * x-ms-original-file: 2026-03-02-preview/JWTAuthenticators_List.json
+ * x-ms-original-file: 2026-04-02-preview/JWTAuthenticators_List.json
  */
 async function listJWTAuthenticatorsByManagedCluster(): Promise<void> {
   const credential = new DefaultAzureCredential();

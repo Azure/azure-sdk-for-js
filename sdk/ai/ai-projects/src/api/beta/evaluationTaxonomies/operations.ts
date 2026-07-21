@@ -112,7 +112,7 @@ export async function _createDeserialize(
   return evaluationTaxonomyDeserializer(result.body);
 }
 
-/** Create an evaluation taxonomy. */
+/** Creates or replaces the specified evaluation taxonomy with the provided definition. */
 export async function create(
   context: Client,
   name: string,
@@ -143,9 +143,6 @@ export function _$deleteSend(
     ...operationOptionsToRequestParameters(options),
     headers: {
       "foundry-features": foundryFeatures,
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
       ...options.requestOptions?.headers,
     },
   });
@@ -160,7 +157,7 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   return;
 }
 
-/** Delete an evaluation taxonomy by name. */
+/** Removes the specified evaluation taxonomy from the project. */
 export async function $delete(
   context: Client,
   name: string,
@@ -190,9 +187,6 @@ export function _listSend(
     ...operationOptionsToRequestParameters(options),
     headers: {
       "foundry-features": foundryFeatures,
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -210,7 +204,7 @@ export async function _listDeserialize(
   return _pagedEvaluationTaxonomyDeserializer(result.body);
 }
 
-/** List evaluation taxonomies */
+/** Returns the evaluation taxonomies available in the project, optionally filtered by input name or input type. */
 export function list(
   context: Client,
   options: BetaEvaluationTaxonomiesListOptionalParams = { requestOptions: {} },
@@ -253,9 +247,6 @@ export function _getSend(
     ...operationOptionsToRequestParameters(options),
     headers: {
       "foundry-features": foundryFeatures,
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -271,7 +262,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ev
   return evaluationTaxonomyDeserializer(result.body);
 }
 
-/** Get an evaluation run by name. */
+/** Retrieves the specified evaluation taxonomy. */
 export async function get(
   context: Client,
   name: string,

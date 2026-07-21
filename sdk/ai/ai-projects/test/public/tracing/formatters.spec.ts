@@ -1,34 +1,33 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it, assert, beforeEach, afterEach } from "vitest";
-import { formatInputMessages, formatOutputMessages } from "../../../src/tracing/formatters.js";
-import { enableGenAITracing } from "../../../src/tracing/configuration.js";
+import { describe, it, assert } from "vitest";
+import {
+  formatInputMessages as _formatInputMessages,
+  formatOutputMessages as _formatOutputMessages,
+} from "../../../src/tracing/formatters.js";
 
-// Save and restore env vars around each test
-let savedContentEnv: string | undefined;
+// Track content recording state for tests
+let _contentRecording = false;
 
 function enableContentRecording(): void {
-  enableGenAITracing({ experimental: true, contentRecording: true });
+  _contentRecording = true;
 }
 
 function disableContentRecording(): void {
-  enableGenAITracing({ experimental: true, contentRecording: false });
+  _contentRecording = false;
+}
+
+// Wrappers that pass the current content recording state
+function formatInputMessages(body: Record<string, unknown>): string | undefined {
+  return _formatInputMessages(body, _contentRecording);
+}
+
+function formatOutputMessages(response: Record<string, unknown>): string | undefined {
+  return _formatOutputMessages(response, _contentRecording);
 }
 
 describe("formatInputMessages", () => {
-  beforeEach(() => {
-    savedContentEnv = process.env.OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT;
-  });
-
-  afterEach(() => {
-    if (savedContentEnv === undefined) {
-      delete process.env.OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT;
-    } else {
-      process.env.OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT = savedContentEnv;
-    }
-  });
-
   it("returns undefined for null/undefined body", () => {
     assert.isUndefined(formatInputMessages(null as any));
     assert.isUndefined(formatInputMessages(undefined as any));
@@ -205,18 +204,6 @@ describe("formatInputMessages", () => {
 });
 
 describe("formatOutputMessages", () => {
-  beforeEach(() => {
-    savedContentEnv = process.env.OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT;
-  });
-
-  afterEach(() => {
-    if (savedContentEnv === undefined) {
-      delete process.env.OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT;
-    } else {
-      process.env.OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT = savedContentEnv;
-    }
-  });
-
   it("returns undefined for null/undefined response", () => {
     assert.isUndefined(formatOutputMessages(null as any));
     assert.isUndefined(formatOutputMessages(undefined as any));
@@ -874,18 +861,6 @@ describe("formatOutputMessages", () => {
 // ---- Input tool output privacy tests ----
 
 describe("formatInputMessages - tool output privacy", () => {
-  beforeEach(() => {
-    savedContentEnv = process.env.OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT;
-  });
-
-  afterEach(() => {
-    if (savedContentEnv === undefined) {
-      delete process.env.OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT;
-    } else {
-      process.env.OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT = savedContentEnv;
-    }
-  });
-
   it("computer_call_output: always strips image_url even when content ON", () => {
     enableContentRecording();
     const result = formatInputMessages({

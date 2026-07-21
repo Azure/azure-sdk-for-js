@@ -4,6 +4,8 @@ parameters:
   TestPipeline: false
 
 steps:
+  - template: /eng/pipelines/templates/steps/common.yml
+  
   - template: /eng/common/pipelines/templates/steps/save-package-properties.yml
     parameters:
       ServiceDirectory: ${{parameters.ServiceDirectory}}
@@ -38,15 +40,6 @@ steps:
     parameters:
       SourceDirectory: $(Build.SourcesDirectory)
 
-  - template: /eng/common/pipelines/templates/steps/verify-links.yml
-    parameters:
-      ${{ if eq(variables['Build.Reason'], 'PullRequest') }}:
-        Directory: ""
-        Urls: (eng/common/scripts/get-markdown-files-from-changed-files.ps1)
-      ${{ if ne(variables['Build.Reason'], 'PullRequest') }}:
-        Directory: sdk/${{ parameters.ServiceDirectory }}
-      CheckLinkGuidance: $true
-
   - template: /eng/common/pipelines/templates/steps/verify-samples.yml
     parameters:
       ServiceDirectories: $(ChangedServicesCsv)
@@ -66,9 +59,7 @@ steps:
     workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/analyze-deps
     displayName: "Analyze library dependencies"
 
-  - script: |
-      npm install -g pnpm
-    displayName: "Install Pnpm"
+  - template: /eng/pipelines/templates/steps/install-pnpm.yml
 
   - script: |
       pnpm install

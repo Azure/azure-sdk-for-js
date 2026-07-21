@@ -13,14 +13,14 @@ import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.j
 
 /** Interface representing a Connections operations. */
 export interface ConnectionsOperations {
-  /** List all connections in the project, without populating connection credentials */
+  /** Returns the connections available in the current project, optionally filtered by type or default status. */
   list: (options?: ConnectionsListOptionalParams) => PagedAsyncIterableIterator<Connection>;
-  /** Get a connection by name, with its connection credentials */
+  /** Retrieves the specified connection together with its credential values. */
   getWithCredentials: (
     name: string,
     options?: ConnectionsGetWithCredentialsOptionalParams,
   ) => Promise<Connection>;
-  /** Get a connection by name, without populating connection credentials */
+  /** Retrieves the specified connection and its configuration details without including credential values. */
   get: (name: string, options?: ConnectionsGetOptionalParams) => Promise<Connection>;
 }
 

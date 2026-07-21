@@ -72,7 +72,7 @@ export async function _getCredentialsDeserialize(
   return datasetCredentialDeserializer(result.body);
 }
 
-/** Get the SAS credential to access the storage account associated with a Dataset version. */
+/** Gets the SAS credential to access the storage account associated with a Dataset version. */
 export async function getCredentials(
   context: Client,
   name: string,
@@ -122,7 +122,7 @@ export async function _pendingUploadDeserialize(
   return pendingUploadResponseDeserializer(result.body);
 }
 
-/** Start a new or get an existing pending upload of a dataset for a specific version. */
+/** Initiates a new pending upload or retrieves an existing one for the specified dataset version. */
 export async function pendingUpload(
   context: Client,
   name: string,

@@ -36,7 +36,7 @@ export function _listSend(
       resourceGroupName: resourceGroupName,
       resourceName: resourceName,
       agentPoolName: agentPoolName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -52,7 +52,9 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -76,7 +78,7 @@ export function list(
     {
       itemName: "value",
       nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-03-02-preview",
+      apiVersion: context.apiVersion ?? "2026-04-02-preview",
     },
   );
 }
@@ -98,7 +100,7 @@ export function _createOrUpdateSend(
       resourceName: resourceName,
       agentPoolName: agentPoolName,
       machineName: machineName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -121,7 +123,9 @@ export async function _createOrUpdateDeserialize(result: PathUncheckedResponse):
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -153,7 +157,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-03-02-preview",
+    apiVersion: context.apiVersion ?? "2026-04-02-preview",
   }) as PollerLike<OperationState<Machine>, Machine>;
 }
 
@@ -173,7 +177,7 @@ export function _getSend(
       resourceName: resourceName,
       agentPoolName: agentPoolName,
       machineName: machineName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-02-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-04-02-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -189,7 +193,9 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ma
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

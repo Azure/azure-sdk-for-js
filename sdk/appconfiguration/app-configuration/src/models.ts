@@ -74,6 +74,8 @@ export interface ConfigurationSnapshot {
   readonly itemCount?: number;
   /** The tags of the snapshot. */
   tags?: { [propertyName: string]: string };
+  /** The description of the snapshot. */
+  description?: string;
   /** A value representing the current state of the snapshot. */
   readonly etag?: string;
 }
@@ -89,7 +91,8 @@ export interface SettingLabel {
  */
 export interface AppConfigurationClientOptions extends CommonClientOptions {
   /**
-   * The API version to use when interacting with the service. The default value is `2023-11-01`.
+   * The API version to use when interacting with the service. The default value is `2026-04-01`.
+   * {@link KnownAppConfigurationApiVersion} can be used interchangeably with apiVersion.
    * Note that overriding this default value may result in unsupported behavior.
    */
   apiVersion?: string;
@@ -118,6 +121,18 @@ export enum KnownAppConfigAudience {
    * Audience for Azure Public
    */
   AzurePublicCloud = "https://appconfig.azure.com",
+}
+
+/**
+ * Known service API versions supported by AppConfigurationClient.
+ */
+export enum KnownAppConfigurationApiVersion {
+  /** The 2023-11-01 API version */
+  V20231101 = "2023-11-01",
+  /** The 2024-09-01 API version */
+  V20240901 = "2024-09-01",
+  /** The 2026-04-01 API version */
+  V20260401 = "2026-04-01",
 }
 
 /**
@@ -155,6 +170,11 @@ export type ConfigurationSettingParam<
    * Tags for this key
    */
   tags?: { [propertyName: string]: string };
+
+  /**
+   * The description of the setting.
+   */
+  description?: string;
 } & (T extends string
     ? {
         /**
@@ -628,4 +648,6 @@ export interface SnapshotInfo {
   retentionPeriodInSeconds?: number;
   /** The tags of the snapshot. */
   tags?: { [propertyName: string]: string };
+  /** The description of the snapshot. */
+  description?: string;
 }

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists all of the SSH public keys in the subscription. Use the nextLink property in the response to get the next page of SSH public keys.
  *
  * @summary lists all of the SSH public keys in the subscription. Use the nextLink property in the response to get the next page of SSH public keys.
- * x-ms-original-file: 2025-11-01/sshPublicKeyExamples/SshPublicKey_ListBySubscription_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/sshPublicKeyExamples/SshPublicKey_ListBySubscription_MaximumSet_Gen.json
  */
 async function sshPublicKeyListBySubscriptionMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function sshPublicKeyListBySubscriptionMaximumSetGen() {
  * This sample demonstrates how to lists all of the SSH public keys in the subscription. Use the nextLink property in the response to get the next page of SSH public keys.
  *
  * @summary lists all of the SSH public keys in the subscription. Use the nextLink property in the response to get the next page of SSH public keys.
- * x-ms-original-file: 2025-11-01/sshPublicKeyExamples/SshPublicKey_ListBySubscription_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/sshPublicKeyExamples/SshPublicKey_ListBySubscription_MinimumSet_Gen.json
  */
 async function sshPublicKeyListBySubscriptionMinimumSetGen() {
   const credential = new DefaultAzureCredential();

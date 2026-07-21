@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes a Cognitive Services account from the resource group.
  *
  * @summary deletes a Cognitive Services account from the resource group.
- * x-ms-original-file: 2026-03-15-preview/PurgeDeletedAccount.json
+ * x-ms-original-file: 2026-05-15-preview/PurgeDeletedAccount.json
  */
 async function deleteAccount() {
   const credential = new DefaultAzureCredential();

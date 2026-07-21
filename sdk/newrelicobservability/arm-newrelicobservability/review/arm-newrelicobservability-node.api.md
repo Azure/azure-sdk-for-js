@@ -4,11 +4,17 @@
 
 ```ts
 
-import type * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
+import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
-import type { PagedAsyncIterableIterator } from '@azure/core-paging';
-import type { SimplePollerLike } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type AccountCreationSource = string;
@@ -21,6 +27,14 @@ export interface AccountInfo {
 }
 
 // @public
+export interface AccountProperties {
+    accountId?: string;
+    accountName?: string;
+    organizationId?: string;
+    region?: string;
+}
+
+// @public
 export interface AccountResource extends ProxyResource {
     accountId?: string;
     accountName?: string;
@@ -29,28 +43,12 @@ export interface AccountResource extends ProxyResource {
 }
 
 // @public
-export interface Accounts {
-    list(userEmail: string, location: string, options?: AccountsListOptionalParams): PagedAsyncIterableIterator<AccountResource>;
+export interface AccountsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface AccountsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type AccountsListNextResponse = AccountsListResponse;
-
-// @public
-export type AccountsListOperationResponse = AccountsListResponse;
-
-// @public
-export interface AccountsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface AccountsListResponse {
-    nextLink?: string;
-    value: AccountResource[];
+export interface AccountsOperations {
+    list: (userEmail: string, location: string, options?: AccountsListOptionalParams) => PagedAsyncIterableIterator<AccountResource>;
 }
 
 // @public
@@ -76,22 +74,23 @@ export interface AppServicesGetRequest {
 }
 
 // @public
-export interface AppServicesListResponse {
-    nextLink?: string;
-    value: AppServiceInfo[];
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
 }
 
 // @public
-export interface BillingInfo {
-    get(resourceGroupName: string, monitorName: string, options?: BillingInfoGetOptionalParams): Promise<BillingInfoGetResponse>;
+export type AzureSupportedClouds = `${AzureClouds}`;
+
+// @public
+export interface BillingInfoGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface BillingInfoGetOptionalParams extends coreClient.OperationOptions {
+export interface BillingInfoOperations {
+    get: (resourceGroupName: string, monitorName: string, options?: BillingInfoGetOptionalParams) => Promise<BillingInfoResponse>;
 }
-
-// @public
-export type BillingInfoGetResponse = BillingInfoResponse;
 
 // @public
 export interface BillingInfoResponse {
@@ -114,43 +113,31 @@ export interface ConnectedPartnerResourceProperties {
 }
 
 // @public
-export interface ConnectedPartnerResources {
-    list(resourceGroupName: string, monitorName: string, options?: ConnectedPartnerResourcesListOptionalParams): PagedAsyncIterableIterator<ConnectedPartnerResourcesListFormat>;
-}
-
-// @public
 export interface ConnectedPartnerResourcesListFormat {
     properties?: ConnectedPartnerResourceProperties;
 }
 
 // @public
-export interface ConnectedPartnerResourcesListNextOptionalParams extends coreClient.OperationOptions {
+export interface ConnectedPartnerResourcesListOptionalParams extends OperationOptions {
     body?: string;
 }
 
 // @public
-export type ConnectedPartnerResourcesListNextResponse = ConnectedPartnerResourcesListResponse;
-
-// @public
-export type ConnectedPartnerResourcesListOperationResponse = ConnectedPartnerResourcesListResponse;
-
-// @public
-export interface ConnectedPartnerResourcesListOptionalParams extends coreClient.OperationOptions {
-    body?: string;
+export interface ConnectedPartnerResourcesOperations {
+    list: (resourceGroupName: string, monitorName: string, options?: ConnectedPartnerResourcesListOptionalParams) => PagedAsyncIterableIterator<ConnectedPartnerResourcesListFormat>;
 }
 
 // @public
-export interface ConnectedPartnerResourcesListResponse {
-    nextLink?: string;
-    value: ConnectedPartnerResourcesListFormat[];
-}
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
 
 // @public
 export type CreatedByType = string;
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, unknown>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -176,13 +163,12 @@ export interface FilteringTag {
 }
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
-
-// @public
 export interface HostsGetRequest {
     userEmail: string;
     vmIds?: string[];
 }
+
+export { isRestError }
 
 // @public
 export enum KnownAccountCreationSource {
@@ -340,6 +326,11 @@ export enum KnownUsageType {
 }
 
 // @public
+export enum KnownVersions {
+    V20250501Preview = "2025-05-01-preview"
+}
+
+// @public
 export interface LatestLinkedSaaSResponse {
     isHiddenSaaS?: boolean;
     saaSResourceId?: string;
@@ -351,12 +342,6 @@ export type LiftrResourceCategories = string;
 // @public
 export interface LinkedResource {
     id?: string;
-}
-
-// @public
-export interface LinkedResourceListResponse {
-    nextLink?: string;
-    value: LinkedResource[];
 }
 
 // @public
@@ -372,9 +357,7 @@ export interface ManagedServiceIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type: ManagedServiceIdentityType;
-    userAssignedIdentities?: {
-        [propertyName: string]: UserAssignedIdentity;
-    };
+    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
 
 // @public
@@ -427,12 +410,6 @@ export interface MonitoredResource {
 }
 
 // @public
-export interface MonitoredResourceListResponse {
-    nextLink?: string;
-    value: MonitoredResource[];
-}
-
-// @public
 export interface MonitoredSubscription {
     error?: string;
     status?: Status;
@@ -446,90 +423,52 @@ export interface MonitoredSubscriptionProperties extends ProxyResource {
 }
 
 // @public
-export interface MonitoredSubscriptionPropertiesList {
-    nextLink?: string;
-    value: MonitoredSubscriptionProperties[];
-}
-
-// @public
-export interface MonitoredSubscriptions {
-    beginCreateOrUpdate(resourceGroupName: string, monitorName: string, configurationName: ConfigurationName, options?: MonitoredSubscriptionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<MonitoredSubscriptionsCreateOrUpdateResponse>, MonitoredSubscriptionsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, monitorName: string, configurationName: ConfigurationName, options?: MonitoredSubscriptionsCreateOrUpdateOptionalParams): Promise<MonitoredSubscriptionsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, monitorName: string, configurationName: ConfigurationName, options?: MonitoredSubscriptionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<MonitoredSubscriptionsDeleteResponse>, MonitoredSubscriptionsDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, monitorName: string, configurationName: ConfigurationName, options?: MonitoredSubscriptionsDeleteOptionalParams): Promise<MonitoredSubscriptionsDeleteResponse>;
-    beginUpdate(resourceGroupName: string, monitorName: string, configurationName: ConfigurationName, options?: MonitoredSubscriptionsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<MonitoredSubscriptionsUpdateResponse>, MonitoredSubscriptionsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, monitorName: string, configurationName: ConfigurationName, options?: MonitoredSubscriptionsUpdateOptionalParams): Promise<MonitoredSubscriptionsUpdateResponse>;
-    get(resourceGroupName: string, monitorName: string, configurationName: ConfigurationName, options?: MonitoredSubscriptionsGetOptionalParams): Promise<MonitoredSubscriptionsGetResponse>;
-    list(resourceGroupName: string, monitorName: string, options?: MonitoredSubscriptionsListOptionalParams): PagedAsyncIterableIterator<MonitoredSubscriptionProperties>;
-}
-
-// @public
-export interface MonitoredSubscriptionsCreateOrUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface MonitoredSubscriptionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+export interface MonitoredSubscriptionsCreateOrUpdateOptionalParams extends OperationOptions {
+    // (undocumented)
     body?: MonitoredSubscriptionProperties;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type MonitoredSubscriptionsCreateOrUpdateResponse = MonitoredSubscriptionProperties;
-
-// @public
-export interface MonitoredSubscriptionsDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface MonitoredSubscriptionsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface MonitoredSubscriptionsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type MonitoredSubscriptionsDeleteResponse = MonitoredSubscriptionsDeleteHeaders;
-
-// @public
-export interface MonitoredSubscriptionsGetOptionalParams extends coreClient.OperationOptions {
+export interface MonitoredSubscriptionsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type MonitoredSubscriptionsGetResponse = MonitoredSubscriptionProperties;
-
-// @public
-export interface MonitoredSubscriptionsListNextOptionalParams extends coreClient.OperationOptions {
+export interface MonitoredSubscriptionsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export type MonitoredSubscriptionsListNextResponse = MonitoredSubscriptionPropertiesList;
-
-// @public
-export interface MonitoredSubscriptionsListOptionalParams extends coreClient.OperationOptions {
+export interface MonitoredSubscriptionsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, monitorName: string, configurationName: ConfigurationName, options?: MonitoredSubscriptionsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<MonitoredSubscriptionProperties>, MonitoredSubscriptionProperties>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, monitorName: string, configurationName: ConfigurationName, options?: MonitoredSubscriptionsCreateOrUpdateOptionalParams) => Promise<MonitoredSubscriptionProperties>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, monitorName: string, configurationName: ConfigurationName, options?: MonitoredSubscriptionsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, monitorName: string, configurationName: ConfigurationName, options?: MonitoredSubscriptionsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, monitorName: string, configurationName: ConfigurationName, options?: MonitoredSubscriptionsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<MonitoredSubscriptionProperties>, MonitoredSubscriptionProperties>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, monitorName: string, configurationName: ConfigurationName, options?: MonitoredSubscriptionsUpdateOptionalParams) => Promise<MonitoredSubscriptionProperties>;
+    createOrUpdate: (resourceGroupName: string, monitorName: string, configurationName: ConfigurationName, options?: MonitoredSubscriptionsCreateOrUpdateOptionalParams) => PollerLike<OperationState<MonitoredSubscriptionProperties>, MonitoredSubscriptionProperties>;
+    delete: (resourceGroupName: string, monitorName: string, configurationName: ConfigurationName, options?: MonitoredSubscriptionsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, monitorName: string, configurationName: ConfigurationName, options?: MonitoredSubscriptionsGetOptionalParams) => Promise<MonitoredSubscriptionProperties>;
+    list: (resourceGroupName: string, monitorName: string, options?: MonitoredSubscriptionsListOptionalParams) => PagedAsyncIterableIterator<MonitoredSubscriptionProperties>;
+    update: (resourceGroupName: string, monitorName: string, configurationName: ConfigurationName, options?: MonitoredSubscriptionsUpdateOptionalParams) => PollerLike<OperationState<MonitoredSubscriptionProperties>, MonitoredSubscriptionProperties>;
 }
 
 // @public
-export type MonitoredSubscriptionsListResponse = MonitoredSubscriptionPropertiesList;
-
-// @public
-export interface MonitoredSubscriptionsUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface MonitoredSubscriptionsUpdateOptionalParams extends coreClient.OperationOptions {
+export interface MonitoredSubscriptionsUpdateOptionalParams extends OperationOptions {
+    // (undocumented)
     body?: MonitoredSubscriptionProperties;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
-
-// @public
-export type MonitoredSubscriptionsUpdateResponse = MonitoredSubscriptionProperties;
 
 // @public
 export type MonitoringStatus = string;
@@ -542,236 +481,142 @@ export interface MonitoringTagRulesProperties {
 }
 
 // @public
-export interface Monitors {
-    beginCreateOrUpdate(resourceGroupName: string, monitorName: string, resource: NewRelicMonitorResource, options?: MonitorsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<MonitorsCreateOrUpdateResponse>, MonitorsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, monitorName: string, resource: NewRelicMonitorResource, options?: MonitorsCreateOrUpdateOptionalParams): Promise<MonitorsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, monitorName: string, userEmail: string, options?: MonitorsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, monitorName: string, userEmail: string, options?: MonitorsDeleteOptionalParams): Promise<void>;
-    beginLinkSaaS(resourceGroupName: string, monitorName: string, body: SaaSData, options?: MonitorsLinkSaaSOptionalParams): Promise<SimplePollerLike<OperationState<MonitorsLinkSaaSResponse>, MonitorsLinkSaaSResponse>>;
-    beginLinkSaaSAndWait(resourceGroupName: string, monitorName: string, body: SaaSData, options?: MonitorsLinkSaaSOptionalParams): Promise<MonitorsLinkSaaSResponse>;
-    beginResubscribe(resourceGroupName: string, monitorName: string, options?: MonitorsResubscribeOptionalParams): Promise<SimplePollerLike<OperationState<MonitorsResubscribeResponse>, MonitorsResubscribeResponse>>;
-    beginResubscribeAndWait(resourceGroupName: string, monitorName: string, options?: MonitorsResubscribeOptionalParams): Promise<MonitorsResubscribeResponse>;
-    beginUpdate(resourceGroupName: string, monitorName: string, properties: NewRelicMonitorResourceUpdate, options?: MonitorsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<MonitorsUpdateResponse>, MonitorsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, monitorName: string, properties: NewRelicMonitorResourceUpdate, options?: MonitorsUpdateOptionalParams): Promise<MonitorsUpdateResponse>;
-    get(resourceGroupName: string, monitorName: string, options?: MonitorsGetOptionalParams): Promise<MonitorsGetResponse>;
-    getMetricRules(resourceGroupName: string, monitorName: string, request: MetricsRequest, options?: MonitorsGetMetricRulesOptionalParams): Promise<MonitorsGetMetricRulesResponse>;
-    getMetricStatus(resourceGroupName: string, monitorName: string, request: MetricsStatusRequest, options?: MonitorsGetMetricStatusOptionalParams): Promise<MonitorsGetMetricStatusResponse>;
-    latestLinkedSaaS(resourceGroupName: string, monitorName: string, options?: MonitorsLatestLinkedSaaSOptionalParams): Promise<MonitorsLatestLinkedSaaSResponse>;
-    listAppServices(resourceGroupName: string, monitorName: string, request: AppServicesGetRequest, options?: MonitorsListAppServicesOptionalParams): PagedAsyncIterableIterator<AppServiceInfo>;
-    listByResourceGroup(resourceGroupName: string, options?: MonitorsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<NewRelicMonitorResource>;
-    listBySubscription(options?: MonitorsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<NewRelicMonitorResource>;
-    listHosts(resourceGroupName: string, monitorName: string, request: HostsGetRequest, options?: MonitorsListHostsOptionalParams): PagedAsyncIterableIterator<VMInfo>;
-    listLinkedResources(resourceGroupName: string, monitorName: string, options?: MonitorsListLinkedResourcesOptionalParams): PagedAsyncIterableIterator<LinkedResource>;
-    listMonitoredResources(resourceGroupName: string, monitorName: string, options?: MonitorsListMonitoredResourcesOptionalParams): PagedAsyncIterableIterator<MonitoredResource>;
-    refreshIngestionKey(resourceGroupName: string, monitorName: string, options?: MonitorsRefreshIngestionKeyOptionalParams): Promise<void>;
-    switchBilling(resourceGroupName: string, monitorName: string, request: SwitchBillingRequest, options?: MonitorsSwitchBillingOptionalParams): Promise<MonitorsSwitchBillingResponse>;
-    vmHostPayload(resourceGroupName: string, monitorName: string, options?: MonitorsVmHostPayloadOptionalParams): Promise<MonitorsVmHostPayloadResponse>;
+export interface MonitorProperties {
+    accountCreationSource?: AccountCreationSource;
+    readonly liftrResourceCategory?: LiftrResourceCategories;
+    readonly liftrResourcePreference?: number;
+    readonly marketplaceSubscriptionId?: string;
+    readonly marketplaceSubscriptionStatus?: MarketplaceSubscriptionStatus;
+    readonly monitoringStatus?: MonitoringStatus;
+    newRelicAccountProperties?: NewRelicAccountProperties;
+    orgCreationSource?: OrgCreationSource;
+    planData?: PlanData;
+    readonly provisioningState?: ProvisioningState;
+    saaSAzureSubscriptionStatus?: string;
+    saaSData?: SaaSData;
+    subscriptionState?: string;
+    userInfo?: UserInfo;
 }
 
 // @public
-export interface MonitorsCreateOrUpdateHeaders {
-    azureAsyncOperation?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface MonitorsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface MonitorsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type MonitorsCreateOrUpdateResponse = NewRelicMonitorResource;
-
-// @public
-export interface MonitorsDeleteHeaders {
-    azureAsyncOperation?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface MonitorsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface MonitorsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface MonitorsGetMetricRulesOptionalParams extends coreClient.OperationOptions {
+export interface MonitorsGetMetricRulesOptionalParams extends OperationOptions {
 }
 
 // @public
-export type MonitorsGetMetricRulesResponse = MetricRules;
-
-// @public
-export interface MonitorsGetMetricStatusOptionalParams extends coreClient.OperationOptions {
+export interface MonitorsGetMetricStatusOptionalParams extends OperationOptions {
 }
 
 // @public
-export type MonitorsGetMetricStatusResponse = MetricsStatusResponse;
-
-// @public
-export interface MonitorsGetOptionalParams extends coreClient.OperationOptions {
+export interface MonitorsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type MonitorsGetResponse = NewRelicMonitorResource;
-
-// @public
-export interface MonitorsLatestLinkedSaaSOptionalParams extends coreClient.OperationOptions {
+export interface MonitorsLatestLinkedSaaSOptionalParams extends OperationOptions {
 }
 
 // @public
-export type MonitorsLatestLinkedSaaSResponse = LatestLinkedSaaSResponse;
-
-// @public
-export interface MonitorsLinkSaaSHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface MonitorsLinkSaaSOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface MonitorsLinkSaaSOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type MonitorsLinkSaaSResponse = NewRelicMonitorResource;
-
-// @public
-export interface MonitorsListAppServicesNextOptionalParams extends coreClient.OperationOptions {
+export interface MonitorsListAppServicesOptionalParams extends OperationOptions {
 }
 
 // @public
-export type MonitorsListAppServicesNextResponse = AppServicesListResponse;
-
-// @public
-export interface MonitorsListAppServicesOptionalParams extends coreClient.OperationOptions {
+export interface MonitorsListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type MonitorsListAppServicesResponse = AppServicesListResponse;
-
-// @public
-export interface MonitorsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface MonitorsListBySubscriptionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type MonitorsListByResourceGroupNextResponse = NewRelicMonitorResourceListResult;
-
-// @public
-export interface MonitorsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface MonitorsListHostsOptionalParams extends OperationOptions {
 }
 
 // @public
-export type MonitorsListByResourceGroupResponse = NewRelicMonitorResourceListResult;
-
-// @public
-export interface MonitorsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+export interface MonitorsListLinkedResourcesOptionalParams extends OperationOptions {
 }
 
 // @public
-export type MonitorsListBySubscriptionNextResponse = NewRelicMonitorResourceListResult;
-
-// @public
-export interface MonitorsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+export interface MonitorsListMonitoredResourcesOptionalParams extends OperationOptions {
 }
 
 // @public
-export type MonitorsListBySubscriptionResponse = NewRelicMonitorResourceListResult;
-
-// @public
-export interface MonitorsListHostsNextOptionalParams extends coreClient.OperationOptions {
+export interface MonitorsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, monitorName: string, resource: NewRelicMonitorResource, options?: MonitorsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<NewRelicMonitorResource>, NewRelicMonitorResource>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, monitorName: string, resource: NewRelicMonitorResource, options?: MonitorsCreateOrUpdateOptionalParams) => Promise<NewRelicMonitorResource>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, monitorName: string, userEmail: string, options?: MonitorsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, monitorName: string, userEmail: string, options?: MonitorsDeleteOptionalParams) => Promise<void>;
+    // @deprecated (undocumented)
+    beginLinkSaaS: (resourceGroupName: string, monitorName: string, body: SaaSData, options?: MonitorsLinkSaaSOptionalParams) => Promise<SimplePollerLike<OperationState<NewRelicMonitorResource>, NewRelicMonitorResource>>;
+    // @deprecated (undocumented)
+    beginLinkSaaSAndWait: (resourceGroupName: string, monitorName: string, body: SaaSData, options?: MonitorsLinkSaaSOptionalParams) => Promise<NewRelicMonitorResource>;
+    // @deprecated (undocumented)
+    beginResubscribe: (resourceGroupName: string, monitorName: string, options?: MonitorsResubscribeOptionalParams) => Promise<SimplePollerLike<OperationState<NewRelicMonitorResource>, NewRelicMonitorResource>>;
+    // @deprecated (undocumented)
+    beginResubscribeAndWait: (resourceGroupName: string, monitorName: string, options?: MonitorsResubscribeOptionalParams) => Promise<NewRelicMonitorResource>;
+    // @deprecated (undocumented)
+    beginUpdate: (resourceGroupName: string, monitorName: string, properties: NewRelicMonitorResourceUpdate, options?: MonitorsUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<NewRelicMonitorResource>, NewRelicMonitorResource>>;
+    // @deprecated (undocumented)
+    beginUpdateAndWait: (resourceGroupName: string, monitorName: string, properties: NewRelicMonitorResourceUpdate, options?: MonitorsUpdateOptionalParams) => Promise<NewRelicMonitorResource>;
+    createOrUpdate: (resourceGroupName: string, monitorName: string, resource: NewRelicMonitorResource, options?: MonitorsCreateOrUpdateOptionalParams) => PollerLike<OperationState<NewRelicMonitorResource>, NewRelicMonitorResource>;
+    delete: (resourceGroupName: string, monitorName: string, userEmail: string, options?: MonitorsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, monitorName: string, options?: MonitorsGetOptionalParams) => Promise<NewRelicMonitorResource>;
+    getMetricRules: (resourceGroupName: string, monitorName: string, request: MetricsRequest, options?: MonitorsGetMetricRulesOptionalParams) => Promise<MetricRules>;
+    getMetricStatus: (resourceGroupName: string, monitorName: string, request: MetricsStatusRequest, options?: MonitorsGetMetricStatusOptionalParams) => Promise<MetricsStatusResponse>;
+    latestLinkedSaaS: (resourceGroupName: string, monitorName: string, options?: MonitorsLatestLinkedSaaSOptionalParams) => Promise<LatestLinkedSaaSResponse>;
+    linkSaaS: (resourceGroupName: string, monitorName: string, body: SaaSData, options?: MonitorsLinkSaaSOptionalParams) => PollerLike<OperationState<NewRelicMonitorResource>, NewRelicMonitorResource>;
+    listAppServices: (resourceGroupName: string, monitorName: string, request: AppServicesGetRequest, options?: MonitorsListAppServicesOptionalParams) => PagedAsyncIterableIterator<AppServiceInfo>;
+    listByResourceGroup: (resourceGroupName: string, options?: MonitorsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<NewRelicMonitorResource>;
+    listBySubscription: (options?: MonitorsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<NewRelicMonitorResource>;
+    listHosts: (resourceGroupName: string, monitorName: string, request: HostsGetRequest, options?: MonitorsListHostsOptionalParams) => PagedAsyncIterableIterator<VMInfo>;
+    listLinkedResources: (resourceGroupName: string, monitorName: string, options?: MonitorsListLinkedResourcesOptionalParams) => PagedAsyncIterableIterator<LinkedResource>;
+    listMonitoredResources: (resourceGroupName: string, monitorName: string, options?: MonitorsListMonitoredResourcesOptionalParams) => PagedAsyncIterableIterator<MonitoredResource>;
+    refreshIngestionKey: (resourceGroupName: string, monitorName: string, options?: MonitorsRefreshIngestionKeyOptionalParams) => Promise<void>;
+    resubscribe: (resourceGroupName: string, monitorName: string, options?: MonitorsResubscribeOptionalParams) => PollerLike<OperationState<NewRelicMonitorResource>, NewRelicMonitorResource>;
+    switchBilling: (resourceGroupName: string, monitorName: string, request: SwitchBillingRequest, options?: MonitorsSwitchBillingOptionalParams) => Promise<NewRelicMonitorResource | undefined>;
+    update: (resourceGroupName: string, monitorName: string, properties: NewRelicMonitorResourceUpdate, options?: MonitorsUpdateOptionalParams) => PollerLike<OperationState<NewRelicMonitorResource>, NewRelicMonitorResource>;
+    vmHostPayload: (resourceGroupName: string, monitorName: string, options?: MonitorsVmHostPayloadOptionalParams) => Promise<VMExtensionPayload>;
 }
 
 // @public
-export type MonitorsListHostsNextResponse = VMHostsListResponse;
-
-// @public
-export interface MonitorsListHostsOptionalParams extends coreClient.OperationOptions {
+export interface MonitorsRefreshIngestionKeyOptionalParams extends OperationOptions {
 }
 
 // @public
-export type MonitorsListHostsResponse = VMHostsListResponse;
-
-// @public
-export interface MonitorsListLinkedResourcesNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type MonitorsListLinkedResourcesNextResponse = LinkedResourceListResponse;
-
-// @public
-export interface MonitorsListLinkedResourcesOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type MonitorsListLinkedResourcesResponse = LinkedResourceListResponse;
-
-// @public
-export interface MonitorsListMonitoredResourcesNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type MonitorsListMonitoredResourcesNextResponse = MonitoredResourceListResponse;
-
-// @public
-export interface MonitorsListMonitoredResourcesOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type MonitorsListMonitoredResourcesResponse = MonitoredResourceListResponse;
-
-// @public
-export interface MonitorsRefreshIngestionKeyOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface MonitorsResubscribeHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface MonitorsResubscribeOptionalParams extends coreClient.OperationOptions {
+export interface MonitorsResubscribeOptionalParams extends OperationOptions {
     body?: ResubscribeProperties;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type MonitorsResubscribeResponse = NewRelicMonitorResource;
-
-// @public
-export interface MonitorsSwitchBillingOptionalParams extends coreClient.OperationOptions {
+export interface MonitorsSwitchBillingOptionalParams extends OperationOptions {
 }
 
 // @public
-export type MonitorsSwitchBillingResponse = NewRelicMonitorResource;
-
-// @public
-export interface MonitorsUpdateHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface MonitorsUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface MonitorsUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type MonitorsUpdateResponse = NewRelicMonitorResource;
-
-// @public
-export interface MonitorsVmHostPayloadOptionalParams extends coreClient.OperationOptions {
+export interface MonitorsVmHostPayloadOptionalParams extends OperationOptions {
 }
-
-// @public
-export type MonitorsVmHostPayloadResponse = VMExtensionPayload;
 
 // @public
 export interface NewRelicAccountProperties {
@@ -801,12 +646,6 @@ export interface NewRelicMonitorResource extends TrackedResource {
 }
 
 // @public
-export interface NewRelicMonitorResourceListResult {
-    nextLink?: string;
-    value: NewRelicMonitorResource[];
-}
-
-// @public
 export interface NewRelicMonitorResourceUpdate {
     accountCreationSource?: AccountCreationSource;
     identity?: ManagedServiceIdentity;
@@ -814,48 +653,40 @@ export interface NewRelicMonitorResourceUpdate {
     orgCreationSource?: OrgCreationSource;
     planData?: PlanData;
     saaSData?: SaaSData;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
+    userInfo?: UserInfo;
+}
+
+// @public
+export interface NewRelicMonitorResourceUpdateProperties {
+    accountCreationSource?: AccountCreationSource;
+    newRelicAccountProperties?: NewRelicAccountProperties;
+    orgCreationSource?: OrgCreationSource;
+    planData?: PlanData;
+    saaSData?: SaaSData;
     userInfo?: UserInfo;
 }
 
 // @public (undocumented)
-export class NewRelicObservability extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: NewRelicObservabilityOptionalParams);
-    // (undocumented)
-    accounts: Accounts;
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    billingInfo: BillingInfo;
-    // (undocumented)
-    connectedPartnerResources: ConnectedPartnerResources;
-    // (undocumented)
-    monitoredSubscriptions: MonitoredSubscriptions;
-    // (undocumented)
-    monitors: Monitors;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    organizations: Organizations;
-    // (undocumented)
-    plans: Plans;
-    // (undocumented)
-    saaS: SaaS;
-    // (undocumented)
-    subscriptionId: string;
-    // (undocumented)
-    tagRules: TagRules;
+export class NewRelicObservability {
+    constructor(credential: TokenCredential, subscriptionId: string, options?: NewRelicObservabilityOptionalParams);
+    readonly accounts: AccountsOperations;
+    readonly billingInfo: BillingInfoOperations;
+    readonly connectedPartnerResources: ConnectedPartnerResourcesOperations;
+    readonly monitoredSubscriptions: MonitoredSubscriptionsOperations;
+    readonly monitors: MonitorsOperations;
+    readonly operations: OperationsOperations;
+    readonly organizations: OrganizationsOperations;
+    readonly pipeline: Pipeline;
+    readonly plans: PlansOperations;
+    readonly saaS: SaaSOperations;
+    readonly tagRules: TagRulesOperations;
 }
 
 // @public
-export interface NewRelicObservabilityOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface NewRelicObservabilityOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
@@ -884,33 +715,24 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationListResult {
-    readonly nextLink?: string;
-    readonly value?: Operation[];
+export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
+export interface OperationsOperations {
+    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
-
-// @public
-export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListNextResponse = OperationListResult;
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListResponse = OperationListResult;
 
 // @public
 export interface OrganizationInfo {
     organizationId?: string;
+}
+
+// @public
+export interface OrganizationProperties {
+    billingSource?: BillingSource;
+    organizationId?: string;
+    organizationName?: string;
 }
 
 // @public
@@ -921,28 +743,12 @@ export interface OrganizationResource extends ProxyResource {
 }
 
 // @public
-export interface Organizations {
-    list(userEmail: string, location: string, options?: OrganizationsListOptionalParams): PagedAsyncIterableIterator<OrganizationResource>;
+export interface OrganizationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface OrganizationsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OrganizationsListNextResponse = OrganizationsListResponse;
-
-// @public
-export type OrganizationsListOperationResponse = OrganizationsListResponse;
-
-// @public
-export interface OrganizationsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface OrganizationsListResponse {
-    nextLink?: string;
-    value: OrganizationResource[];
+export interface OrganizationsOperations {
+    list: (userEmail: string, location: string, options?: OrganizationsListOptionalParams) => PagedAsyncIterableIterator<OrganizationResource>;
 }
 
 // @public
@@ -950,6 +756,18 @@ export type OrgCreationSource = string;
 
 // @public
 export type Origin = string;
+
+// @public
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
+}
 
 // @public
 export interface PartnerBillingEntity {
@@ -969,9 +787,10 @@ export interface PlanData {
 }
 
 // @public
-export interface PlanDataListResponse {
-    nextLink?: string;
-    value: PlanDataResource[];
+export interface PlanDataProperties {
+    accountCreationSource?: AccountCreationSource;
+    orgCreationSource?: OrgCreationSource;
+    planData?: PlanData;
 }
 
 // @public
@@ -982,25 +801,15 @@ export interface PlanDataResource extends ProxyResource {
 }
 
 // @public
-export interface Plans {
-    list(options?: PlansListOptionalParams): PagedAsyncIterableIterator<PlanDataResource>;
-}
-
-// @public
-export interface PlansListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type PlansListNextResponse = PlanDataListResponse;
-
-// @public
-export interface PlansListOptionalParams extends coreClient.OperationOptions {
+export interface PlansListOptionalParams extends OperationOptions {
     accountId?: string;
     organizationId?: string;
 }
 
 // @public
-export type PlansListResponse = PlanDataListResponse;
+export interface PlansOperations {
+    list: (options?: PlansListOptionalParams) => PagedAsyncIterableIterator<PlanDataResource>;
+}
 
 // @public
 export type ProvisioningState = string;
@@ -1017,6 +826,18 @@ export interface Resource {
     readonly type?: string;
 }
 
+export { RestError }
+
+// @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: NewRelicObservability, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
+}
+
 // @public
 export interface ResubscribeProperties {
     offerId?: string;
@@ -1029,20 +850,17 @@ export interface ResubscribeProperties {
 }
 
 // @public
-export interface SaaS {
-    activateResource(request: ActivateSaaSParameterRequest, options?: SaaSActivateResourceOptionalParams): Promise<SaaSActivateResourceResponse>;
+export interface SaaSActivateResourceOptionalParams extends OperationOptions {
 }
-
-// @public
-export interface SaaSActivateResourceOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SaaSActivateResourceResponse = SaaSResourceDetailsResponse;
 
 // @public
 export interface SaaSData {
     saaSResourceId?: string;
+}
+
+// @public
+export interface SaaSOperations {
+    activateResource: (request: ActivateSaaSParameterRequest, options?: SaaSActivateResourceOptionalParams) => Promise<SaaSResourceDetailsResponse>;
 }
 
 // @public
@@ -1067,6 +885,28 @@ export type SendMetricsStatus = string;
 
 // @public
 export type SendSubscriptionLogsStatus = string;
+
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
+}
 
 // @public
 export type SingleSignOnStates = string;
@@ -1110,76 +950,43 @@ export interface TagRule extends ProxyResource {
 }
 
 // @public
-export interface TagRuleListResult {
-    nextLink?: string;
-    value: TagRule[];
-}
-
-// @public
-export interface TagRules {
-    beginCreateOrUpdate(resourceGroupName: string, monitorName: string, ruleSetName: string, resource: TagRule, options?: TagRulesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<TagRulesCreateOrUpdateResponse>, TagRulesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, monitorName: string, ruleSetName: string, resource: TagRule, options?: TagRulesCreateOrUpdateOptionalParams): Promise<TagRulesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, monitorName: string, ruleSetName: string, options?: TagRulesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, monitorName: string, ruleSetName: string, options?: TagRulesDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, monitorName: string, ruleSetName: string, options?: TagRulesGetOptionalParams): Promise<TagRulesGetResponse>;
-    listByNewRelicMonitorResource(resourceGroupName: string, monitorName: string, options?: TagRulesListByNewRelicMonitorResourceOptionalParams): PagedAsyncIterableIterator<TagRule>;
-    update(resourceGroupName: string, monitorName: string, ruleSetName: string, properties: TagRuleUpdate, options?: TagRulesUpdateOptionalParams): Promise<TagRulesUpdateResponse>;
-}
-
-// @public
-export interface TagRulesCreateOrUpdateHeaders {
-    azureAsyncOperation?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface TagRulesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface TagRulesCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type TagRulesCreateOrUpdateResponse = TagRule;
-
-// @public
-export interface TagRulesDeleteHeaders {
-    azureAsyncOperation?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface TagRulesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface TagRulesDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface TagRulesGetOptionalParams extends coreClient.OperationOptions {
+export interface TagRulesGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type TagRulesGetResponse = TagRule;
-
-// @public
-export interface TagRulesListByNewRelicMonitorResourceNextOptionalParams extends coreClient.OperationOptions {
+export interface TagRulesListByNewRelicMonitorResourceOptionalParams extends OperationOptions {
 }
 
 // @public
-export type TagRulesListByNewRelicMonitorResourceNextResponse = TagRuleListResult;
-
-// @public
-export interface TagRulesListByNewRelicMonitorResourceOptionalParams extends coreClient.OperationOptions {
+export interface TagRulesOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, monitorName: string, ruleSetName: string, resource: TagRule, options?: TagRulesCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<TagRule>, TagRule>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, monitorName: string, ruleSetName: string, resource: TagRule, options?: TagRulesCreateOrUpdateOptionalParams) => Promise<TagRule>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, monitorName: string, ruleSetName: string, options?: TagRulesDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, monitorName: string, ruleSetName: string, options?: TagRulesDeleteOptionalParams) => Promise<void>;
+    createOrUpdate: (resourceGroupName: string, monitorName: string, ruleSetName: string, resource: TagRule, options?: TagRulesCreateOrUpdateOptionalParams) => PollerLike<OperationState<TagRule>, TagRule>;
+    delete: (resourceGroupName: string, monitorName: string, ruleSetName: string, options?: TagRulesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, monitorName: string, ruleSetName: string, options?: TagRulesGetOptionalParams) => Promise<TagRule>;
+    listByNewRelicMonitorResource: (resourceGroupName: string, monitorName: string, options?: TagRulesListByNewRelicMonitorResourceOptionalParams) => PagedAsyncIterableIterator<TagRule>;
+    update: (resourceGroupName: string, monitorName: string, ruleSetName: string, properties: TagRuleUpdate, options?: TagRulesUpdateOptionalParams) => Promise<TagRule>;
 }
 
 // @public
-export type TagRulesListByNewRelicMonitorResourceResponse = TagRuleListResult;
-
-// @public
-export interface TagRulesUpdateOptionalParams extends coreClient.OperationOptions {
+export interface TagRulesUpdateOptionalParams extends OperationOptions {
 }
-
-// @public
-export type TagRulesUpdateResponse = TagRule;
 
 // @public
 export interface TagRuleUpdate {
@@ -1188,11 +995,15 @@ export interface TagRuleUpdate {
 }
 
 // @public
+export interface TagRuleUpdateProperties {
+    logRules?: LogRules;
+    metricRules?: MetricRules;
+}
+
+// @public
 export interface TrackedResource extends Resource {
     location: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
@@ -1216,12 +1027,6 @@ export interface UserInfo {
 // @public
 export interface VMExtensionPayload {
     ingestionKey?: string;
-}
-
-// @public
-export interface VMHostsListResponse {
-    nextLink?: string;
-    value: VMInfo[];
 }
 
 // @public

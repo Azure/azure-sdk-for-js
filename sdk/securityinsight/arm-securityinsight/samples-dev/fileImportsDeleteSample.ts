@@ -1,29 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to Delete the file import.
- *
- * @summary Delete the file import.
- * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-09-01-preview/examples/fileImports/DeleteFileImport.json
- */
-
 import { SecurityInsights } from "@azure/arm-securityinsight";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to delete the file import.
+ *
+ * @summary delete the file import.
+ * x-ms-original-file: 2025-07-01-preview/fileImports/DeleteFileImport.json
+ */
 async function deleteAFileImport(): Promise<void> {
-  const subscriptionId =
-    process.env["SECURITYINSIGHT_SUBSCRIPTION_ID"] || "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
-  const resourceGroupName = process.env["SECURITYINSIGHT_RESOURCE_GROUP"] || "myRg";
-  const workspaceName = "myWorkspace";
-  const fileImportId = "73e01a99-5cd7-4139-a149-9f2736ff2ab5";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
   const client = new SecurityInsights(credential, subscriptionId);
-  const result = await client.fileImports.beginDeleteAndWait(
-    resourceGroupName,
-    workspaceName,
-    fileImportId,
+  const result = await client.fileImports.delete(
+    "myRg",
+    "myWorkspace",
+    "73e01a99-5cd7-4139-a149-9f2736ff2ab5",
   );
   console.log(result);
 }

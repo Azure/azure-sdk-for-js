@@ -1,7 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { CommitConfigurationRequest } from "../../models/models.js";
 import type { OperationOptions } from "@azure-rest/core-client";
+
+/** Optional parameters. */
+export interface NetworkFabricsResyncCertificatesOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
+
+/** Optional parameters. */
+export interface NetworkFabricsRotateCertificatesOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
+
+/** Optional parameters. */
+export interface NetworkFabricsResyncPasswordsOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
+
+/** Optional parameters. */
+export interface NetworkFabricsRotatePasswordsOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
 
 /** Optional parameters. */
 export interface NetworkFabricsArmConfigurationDiffOptionalParams extends OperationOptions {
@@ -37,6 +62,8 @@ export interface NetworkFabricsCommitBatchStatusOptionalParams extends Operation
 export interface NetworkFabricsCommitConfigurationOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
+  /** The content of the action request */
+  body?: CommitConfigurationRequest;
 }
 
 /** Optional parameters. */

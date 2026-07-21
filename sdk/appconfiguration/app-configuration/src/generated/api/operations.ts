@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureAppConfigurationContext as Client } from "./index.js";
+import { AppConfigurationContext as Client } from "./index.js";
 import {
   _KeyListResult,
   _keyListResultDeserializer,
@@ -69,7 +69,7 @@ export function _checkRevisionsSend(
   const path = expandUrlTemplate(
     "/revisions{?api%2Dversion,key,label,After,%24Select,tags*}",
     {
-      "api%2Dversion": context.apiVersion ?? "2024-09-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
       key: options?.key,
       label: options?.label,
       After: options?.after,
@@ -109,7 +109,9 @@ export async function _checkRevisionsDeserialize(result: PathUncheckedResponse):
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -133,7 +135,7 @@ export function _getRevisionsSend(
   const path = expandUrlTemplate(
     "/revisions{?api%2Dversion,key,label,After,%24Select,tags*}",
     {
-      "api%2Dversion": context.apiVersion ?? "2024-09-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
       key: options?.key,
       label: options?.label,
       After: options?.after,
@@ -164,6 +166,7 @@ export function _getRevisionsSend(
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
+        accept: "application/vnd.microsoft.appconfig.kvset+json, application/problem+json",
         ...options.requestOptions?.headers,
       },
     });
@@ -175,7 +178,9 @@ export async function _getRevisionsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -196,7 +201,7 @@ export function getRevisions(
     {
       itemName: "items",
       nextLinkName: "@nextLink",
-      apiVersion: context.apiVersion ?? "2024-09-01",
+      apiVersion: context.apiVersion ?? "2026-04-01",
     },
   );
 }
@@ -210,7 +215,7 @@ export function _deleteLockSend(
     "/locks/{key}{?api%2Dversion,label}",
     {
       key: key,
-      "api%2Dversion": context.apiVersion ?? "2024-09-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
       label: options?.label,
     },
     {
@@ -228,6 +233,7 @@ export function _deleteLockSend(
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
+        accept: "application/vnd.microsoft.appconfig.kv+json, application/problem+json",
         ...options.requestOptions?.headers,
       },
     });
@@ -237,7 +243,9 @@ export async function _deleteLockDeserialize(result: PathUncheckedResponse): Pro
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -264,7 +272,7 @@ export function _putLockSend(
     "/locks/{key}{?api%2Dversion,label}",
     {
       key: key,
-      "api%2Dversion": context.apiVersion ?? "2024-09-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
       label: options?.label,
     },
     {
@@ -282,6 +290,7 @@ export function _putLockSend(
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
+        accept: "application/vnd.microsoft.appconfig.kv+json, application/problem+json",
         ...options.requestOptions?.headers,
       },
     });
@@ -291,7 +300,9 @@ export async function _putLockDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -316,7 +327,7 @@ export function _checkLabelsSend(
   const path = expandUrlTemplate(
     "/labels{?api%2Dversion,name,After,%24Select}",
     {
-      "api%2Dversion": context.apiVersion ?? "2024-09-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
       name: options?.name,
       After: options?.after,
       "%24Select": !options?.select
@@ -350,7 +361,9 @@ export async function _checkLabelsDeserialize(result: PathUncheckedResponse): Pr
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -374,7 +387,7 @@ export function _getLabelsSend(
   const path = expandUrlTemplate(
     "/labels{?api%2Dversion,name,After,%24Select}",
     {
-      "api%2Dversion": context.apiVersion ?? "2024-09-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
       name: options?.name,
       After: options?.after,
       "%24Select": !options?.select
@@ -399,6 +412,7 @@ export function _getLabelsSend(
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
+        accept: "application/vnd.microsoft.appconfig.labelset+json, application/problem+json",
         ...options.requestOptions?.headers,
       },
     });
@@ -410,7 +424,9 @@ export async function _getLabelsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -431,7 +447,7 @@ export function getLabels(
     {
       itemName: "items",
       nextLinkName: "@nextLink",
-      apiVersion: context.apiVersion ?? "2024-09-01",
+      apiVersion: context.apiVersion ?? "2026-04-01",
     },
   );
 }
@@ -445,7 +461,7 @@ export function _checkSnapshotSend(
     "/snapshots/{name}{?api%2Dversion}",
     {
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2024-09-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -471,7 +487,9 @@ export async function _checkSnapshotDeserialize(result: PathUncheckedResponse): 
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -500,7 +518,7 @@ export function _updateSnapshotSend(
     "/snapshots/{name}{?api%2Dversion}",
     {
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2024-09-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -518,6 +536,7 @@ export function _updateSnapshotSend(
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
+        accept: "application/vnd.microsoft.appconfig.snapshot+json, application/problem+json",
         ...options.requestOptions?.headers,
       },
       body: snapshotUpdateParametersSerializer(entity),
@@ -530,7 +549,9 @@ export async function _updateSnapshotDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -561,7 +582,7 @@ export function _createSnapshotSend(
     "/snapshots/{name}{?api%2Dversion}",
     {
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2024-09-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -574,6 +595,7 @@ export function _createSnapshotSend(
       contentType: contentType,
       headers: {
         ...(options?.syncToken !== undefined ? { "sync-token": options?.syncToken } : {}),
+        accept: "application/vnd.microsoft.appconfig.snapshot+json, application/problem+json",
         ...options.requestOptions?.headers,
       },
       body: configurationSnapshotSerializer(entity),
@@ -586,7 +608,9 @@ export async function _createSnapshotDeserialize(
   const expectedStatuses = ["201", "200", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -607,7 +631,7 @@ export function createSnapshot(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _createSnapshotSend(context, contentType, name, entity, options),
     resourceLocationConfig: "original-uri",
-    apiVersion: context.apiVersion ?? "2024-09-01",
+    apiVersion: context.apiVersion ?? "2026-04-01",
   }) as PollerLike<OperationState<ConfigurationSnapshot>, ConfigurationSnapshot>;
 }
 
@@ -619,7 +643,7 @@ export function _getOperationDetailsSend(
   const path = expandUrlTemplate(
     "/operations{?api%2Dversion,snapshot}",
     {
-      "api%2Dversion": context.apiVersion ?? "2024-09-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
       snapshot: snapshot,
     },
     {
@@ -646,7 +670,9 @@ export async function _getOperationDetailsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -673,7 +699,7 @@ export function _getSnapshotSend(
     "/snapshots/{name}{?api%2Dversion,%24Select}",
     {
       name: name,
-      "api%2Dversion": context.apiVersion ?? "2024-09-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
       "%24Select": !options?.select
         ? options?.select
         : options?.select.map((p: any) => {
@@ -695,6 +721,7 @@ export function _getSnapshotSend(
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
+        accept: "application/vnd.microsoft.appconfig.snapshot+json, application/problem+json",
         ...options.requestOptions?.headers,
       },
     });
@@ -706,7 +733,9 @@ export async function _getSnapshotDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -731,7 +760,7 @@ export function _checkSnapshotsSend(
   const path = expandUrlTemplate(
     "/snapshots{?api%2Dversion,After}",
     {
-      "api%2Dversion": context.apiVersion ?? "2024-09-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
       After: options?.after,
     },
     {
@@ -756,7 +785,9 @@ export async function _checkSnapshotsDeserialize(result: PathUncheckedResponse):
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -780,7 +811,7 @@ export function _getSnapshotsSend(
   const path = expandUrlTemplate(
     "/snapshots{?api%2Dversion,name,After,%24Select,status}",
     {
-      "api%2Dversion": context.apiVersion ?? "2024-09-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
       name: options?.name,
       After: options?.after,
       "%24Select": !options?.select
@@ -804,6 +835,7 @@ export function _getSnapshotsSend(
       ...operationOptionsToRequestParameters(options),
       headers: {
         ...(options?.syncToken !== undefined ? { "sync-token": options?.syncToken } : {}),
+        accept: "application/vnd.microsoft.appconfig.snapshotset+json, application/problem+json",
         ...options.requestOptions?.headers,
       },
     });
@@ -815,7 +847,9 @@ export async function _getSnapshotsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -836,7 +870,7 @@ export function getSnapshots(
     {
       itemName: "items",
       nextLinkName: "@nextLink",
-      apiVersion: context.apiVersion ?? "2024-09-01",
+      apiVersion: context.apiVersion ?? "2026-04-01",
     },
   );
 }
@@ -850,7 +884,7 @@ export function _checkKeyValueSend(
     "/kv/{key}{?api%2Dversion,label,%24Select,tags*}",
     {
       key: key,
-      "api%2Dversion": context.apiVersion ?? "2024-09-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
       label: options?.label,
       "%24Select": !options?.select
         ? options?.select
@@ -890,7 +924,9 @@ export async function _checkKeyValueDeserialize(result: PathUncheckedResponse): 
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -917,7 +953,7 @@ export function _deleteKeyValueSend(
     "/kv/{key}{?api%2Dversion,label}",
     {
       key: key,
-      "api%2Dversion": context.apiVersion ?? "2024-09-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
       label: options?.label,
     },
     {
@@ -934,21 +970,26 @@ export function _deleteKeyValueSend(
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
+        accept: "application/vnd.microsoft.appconfig.kv+json, application/problem+json",
         ...options.requestOptions?.headers,
       },
     });
 }
 
-export async function _deleteKeyValueDeserialize(result: PathUncheckedResponse): Promise<KeyValue> {
+export async function _deleteKeyValueDeserialize(
+  result: PathUncheckedResponse,
+): Promise<KeyValue | undefined> {
   const expectedStatuses = ["200", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDeserializer(result.body);
+    }
 
     throw error;
   }
 
-  return keyValueDeserializer(result.body);
+  return result.body ? keyValueDeserializer(result.body) : undefined;
 }
 
 /** Deletes a key-value. */
@@ -956,7 +997,7 @@ export async function deleteKeyValue(
   context: Client,
   key: string,
   options: DeleteKeyValueOptionalParams = { requestOptions: {} },
-): Promise<KeyValue> {
+): Promise<KeyValue | undefined> {
   const result = await _deleteKeyValueSend(context, key, options);
   return _deleteKeyValueDeserialize(result);
 }
@@ -977,7 +1018,7 @@ export function _putKeyValueSend(
     "/kv/{key}{?api%2Dversion,label}",
     {
       key: key,
-      "api%2Dversion": context.apiVersion ?? "2024-09-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
       label: options?.label,
     },
     {
@@ -996,9 +1037,10 @@ export function _putKeyValueSend(
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
+        accept: "application/vnd.microsoft.appconfig.kv+json, application/problem+json",
         ...options.requestOptions?.headers,
       },
-      body: !options["entity"] ? options["entity"] : keyValueSerializer(options["entity"]),
+      body: !options?.entity ? options?.entity : keyValueSerializer(options?.entity),
     });
 }
 
@@ -1006,7 +1048,9 @@ export async function _putKeyValueDeserialize(result: PathUncheckedResponse): Pr
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1040,7 +1084,7 @@ export function _getKeyValueSend(
     "/kv/{key}{?api%2Dversion,label,%24Select,tags*}",
     {
       key: key,
-      "api%2Dversion": context.apiVersion ?? "2024-09-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
       label: options?.label,
       "%24Select": !options?.select
         ? options?.select
@@ -1071,6 +1115,7 @@ export function _getKeyValueSend(
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
+        accept: "application/vnd.microsoft.appconfig.kv+json, application/problem+json",
         ...options.requestOptions?.headers,
       },
     });
@@ -1080,7 +1125,9 @@ export async function _getKeyValueDeserialize(result: PathUncheckedResponse): Pr
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1105,7 +1152,7 @@ export function _checkKeyValuesSend(
   const path = expandUrlTemplate(
     "/kv{?api%2Dversion,key,label,After,%24Select,snapshot,tags*}",
     {
-      "api%2Dversion": context.apiVersion ?? "2024-09-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
       key: options?.key,
       label: options?.label,
       After: options?.after,
@@ -1148,7 +1195,9 @@ export async function _checkKeyValuesDeserialize(result: PathUncheckedResponse):
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1172,7 +1221,7 @@ export function _getKeyValuesSend(
   const path = expandUrlTemplate(
     "/kv{?api%2Dversion,key,label,After,%24Select,snapshot,tags*}",
     {
-      "api%2Dversion": context.apiVersion ?? "2024-09-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
       key: options?.key,
       label: options?.label,
       After: options?.after,
@@ -1203,6 +1252,7 @@ export function _getKeyValuesSend(
           : {}),
         ...(options?.ifMatch !== undefined ? { "if-match": options?.ifMatch } : {}),
         ...(options?.ifNoneMatch !== undefined ? { "if-none-match": options?.ifNoneMatch } : {}),
+        accept: "application/vnd.microsoft.appconfig.kvset+json, application/problem+json",
         ...options.requestOptions?.headers,
       },
     });
@@ -1214,7 +1264,9 @@ export async function _getKeyValuesDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1235,7 +1287,7 @@ export function getKeyValues(
     {
       itemName: "items",
       nextLinkName: "@nextLink",
-      apiVersion: context.apiVersion ?? "2024-09-01",
+      apiVersion: context.apiVersion ?? "2026-04-01",
     },
   );
 }
@@ -1247,7 +1299,7 @@ export function _checkKeysSend(
   const path = expandUrlTemplate(
     "/keys{?api%2Dversion,name,After}",
     {
-      "api%2Dversion": context.apiVersion ?? "2024-09-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
       name: options?.name,
       After: options?.after,
     },
@@ -1276,7 +1328,9 @@ export async function _checkKeysDeserialize(result: PathUncheckedResponse): Prom
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1300,7 +1354,7 @@ export function _getKeysSend(
   const path = expandUrlTemplate(
     "/keys{?api%2Dversion,name,After}",
     {
-      "api%2Dversion": context.apiVersion ?? "2024-09-01",
+      "api%2Dversion": context.apiVersion ?? "2026-04-01",
       name: options?.name,
       After: options?.after,
     },
@@ -1317,6 +1371,7 @@ export function _getKeysSend(
         ...(options?.acceptDatetime !== undefined
           ? { "accept-datetime": options?.acceptDatetime }
           : {}),
+        accept: "application/vnd.microsoft.appconfig.keyset+json, application/problem+json",
         ...options.requestOptions?.headers,
       },
     });
@@ -1326,7 +1381,9 @@ export async function _getKeysDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorDeserializer(result.body);
+    if (result.body) {
+      error.details = errorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1347,7 +1404,7 @@ export function getKeys(
     {
       itemName: "items",
       nextLinkName: "@nextLink",
-      apiVersion: context.apiVersion ?? "2024-09-01",
+      apiVersion: context.apiVersion ?? "2026-04-01",
     },
   );
 }

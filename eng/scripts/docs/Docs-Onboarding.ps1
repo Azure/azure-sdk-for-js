@@ -95,36 +95,70 @@ function Get-DocsMsPackageName($packageName, $packageVersion) {
 
 # Defined in common.ps1 as:
 # $ValidateDocsMsPackagesFn = "Validate-${Language}-DocMsPackages"
-function Validate-javascript-DocMsPackages ($PackageInfo, $PackageInfos, $DocRepoLocation, $DocValidationImageId) {
+function Validate-javascript-DocMsPackages (
+  $PackageInfo,
+  $PackageInfos,
+  $DocRepoLocation,
+  $DocValidationImageId,
+  $PackageSourceOverride
+) {
   if (!$PackageInfos) {
     $PackageInfos = @($PackageInfo)
   }
 
-  $allSucceeded = $true
-  $failedPackages = @()
-
-  foreach ($packageInfo in $PackageInfos) {
-    $outputLocation = New-Item `
-      -ItemType Directory `
-      -Path (Join-Path ([System.IO.Path]::GetTempPath()) ([System.IO.Path]::GetRandomFileName()))
-
-    Write-Host "type2docfx `"$($packageInfo.Name)@$($packageInfo.Version)`" $outputLocation"
-    $output = & type2docfx "$($packageInfo.Name)@$($packageInfo.Version)" $outputLocation 2>&1 | Tee-Object -Variable output | Out-Host
-    if ($LASTEXITCODE) {
-      $allSucceeded = $false
-      $failedPackages += $packageInfo.Name
-      Write-Host "Package $($packageInfo.Name)@$($packageInfo.Version) failed validation"
-      $output | Write-Host
-    }
+  $resolvedRegistry = if (![string]::IsNullOrWhiteSpace($PackageSourceOverride)) {
+    $PackageSourceOverride
+  }
+  else {
+    "https://registry.npmjs.org/"
   }
 
-  # Show failed packages at the end of the run
-  if ($failedPackages.Count -gt 0) {
-    Write-Host "Failed package: $($failedPackages.Count)"
-    foreach ($failedPackage in $failedPackages) {
-      Write-Host "Failed package: $failedPackage"
+  $previousRegistry = $env:npm_config_registry
+  $previousUserConfig = $env:npm_config_userconfig
+  $env:npm_config_registry = $resolvedRegistry
+
+  try {
+    $allSucceeded = $true
+    $failedPackages = @()
+
+    foreach ($packageInfo in $PackageInfos) {
+      $outputLocation = New-Item `
+        -ItemType Directory `
+        -Path (Join-Path ([System.IO.Path]::GetTempPath()) ([System.IO.Path]::GetRandomFileName()))
+
+      Write-Host "type2docfx `"$($packageInfo.Name)@$($packageInfo.Version)`" $outputLocation"
+      $output = & type2docfx "$($packageInfo.Name)@$($packageInfo.Version)" $outputLocation 2>&1 | Tee-Object -Variable output | Out-Host
+      if ($LASTEXITCODE) {
+        $allSucceeded = $false
+        $failedPackages += $packageInfo.Name
+        Write-Host "Package $($packageInfo.Name)@$($packageInfo.Version) failed validation"
+        $output | Write-Host
+      }
+    }
+
+    # Show failed packages at the end of the run
+    if ($failedPackages.Count -gt 0) {
+      Write-Host "Failed package: $($failedPackages.Count)"
+      foreach ($failedPackage in $failedPackages) {
+        Write-Host "Failed package: $failedPackage"
+      }
+    }
+
+    return $allSucceeded
+  }
+  finally {
+    if ($null -eq $previousRegistry) {
+      Remove-Item Env:npm_config_registry -ErrorAction SilentlyContinue
+    }
+    else {
+      $env:npm_config_registry = $previousRegistry
+    }
+
+    if ($null -eq $previousUserConfig) {
+      Remove-Item Env:npm_config_userconfig -ErrorAction SilentlyContinue
+    }
+    else {
+      $env:npm_config_userconfig = $previousUserConfig
     }
   }
-
-  return $allSucceeded
 }

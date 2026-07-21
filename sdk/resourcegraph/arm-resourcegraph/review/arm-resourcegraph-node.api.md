@@ -4,21 +4,39 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import { RestError } from '@azure/core-rest-pipeline';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type AuthorizationScopeFilter = "AtScopeAndBelow" | "AtScopeAndAbove" | "AtScopeExact" | "AtScopeAboveAndBelow";
 
 // @public
-export interface Column {
-    name: string;
-    type: ColumnDataType;
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
 }
 
 // @public
-export type ColumnDataType = "string" | "integer" | "number" | "boolean" | "object" | "datetime";
+export type AzureSupportedClouds = `${AzureClouds}`;
+
+// @public
+export type ChangeCategory = "User" | "System";
+
+// @public
+export type ChangeType = "Create" | "Update" | "Delete";
+
+// @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
+
+// @public
+export type CreatedByType = string;
 
 // @public
 export interface DateTimeInterval {
@@ -28,9 +46,16 @@ export interface DateTimeInterval {
 
 // @public
 export interface ErrorDetails {
-    [property: string]: any;
+    additionalProperties?: Record<string, any>;
     code: string;
     message: string;
+}
+
+// @public
+export interface ErrorFieldContract {
+    code?: string;
+    message?: string;
+    target?: string;
 }
 
 // @public
@@ -48,7 +73,7 @@ export interface ErrorResponse {
 // @public
 export interface Facet {
     expression: string;
-    resultType: "FacetResult" | "FacetError";
+    resultType: string;
 }
 
 // @public
@@ -74,7 +99,7 @@ export interface FacetRequestOptions {
 // @public
 export interface FacetResult extends Facet {
     count: number;
-    data: Record<string, unknown>;
+    data: any;
     resultType: "FacetResult";
     totalRecords: number;
 }
@@ -82,11 +107,102 @@ export interface FacetResult extends Facet {
 // @public
 export type FacetSortOrder = "asc" | "desc";
 
-// @public (undocumented)
-export type FacetUnion = Facet | FacetResult | FacetError;
+// @public
+export type FacetUnion = FacetResult | FacetError | Facet;
 
 // @public
-export function getContinuationToken(page: unknown): string | undefined;
+export interface GraphQueryCreateOrUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface GraphQueryDeleteOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface GraphQueryError {
+    error?: GraphQueryErrorError;
+}
+
+// @public
+export interface GraphQueryErrorError {
+    code?: string;
+    details?: ErrorFieldContract[];
+    message?: string;
+}
+
+// @public
+export interface GraphQueryGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface GraphQueryListBySubscriptionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface GraphQueryListOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface GraphQueryOperations {
+    createOrUpdate: (resourceGroupName: string, resourceName: string, properties: GraphQueryResource, options?: GraphQueryCreateOrUpdateOptionalParams) => Promise<GraphQueryResource>;
+    delete: (resourceGroupName: string, resourceName: string, options?: GraphQueryDeleteOptionalParams) => Promise<void>;
+    get: (resourceGroupName: string, resourceName: string, options?: GraphQueryGetOptionalParams) => Promise<GraphQueryResource>;
+    list: (resourceGroupName: string, options?: GraphQueryListOptionalParams) => PagedAsyncIterableIterator<GraphQueryResource>;
+    listBySubscription: (options?: GraphQueryListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<GraphQueryResource>;
+    update: (resourceGroupName: string, resourceName: string, body: GraphQueryUpdateParameters, options?: GraphQueryUpdateOptionalParams) => Promise<GraphQueryResource>;
+}
+
+// @public
+export interface GraphQueryProperties {
+    description?: string;
+    query: string;
+    readonly resultKind?: ResultKind;
+    readonly timeModified?: Date;
+}
+
+// @public
+export interface GraphQueryPropertiesUpdateParameters {
+    description?: string;
+    query?: string;
+}
+
+// @public
+export interface GraphQueryResource extends ProxyResource {
+    description?: string;
+    etag?: string;
+    location?: string;
+    query?: string;
+    readonly resultKind?: ResultKind;
+    tags?: Record<string, string>;
+    readonly timeModified?: Date;
+}
+
+// @public
+export interface GraphQueryUpdateOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface GraphQueryUpdateParameters {
+    description?: string;
+    etag?: string;
+    query?: string;
+    tags?: Record<string, string>;
+}
+
+export { isRestError }
+
+// @public
+export enum KnownCreatedByType {
+    Application = "Application",
+    Key = "Key",
+    ManagedIdentity = "ManagedIdentity",
+    User = "User"
+}
+
+// @public
+export enum KnownResultKind {
+    Basic = "basic"
+}
 
 // @public
 export interface Operation {
@@ -104,21 +220,32 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationListResult {
-    value?: Operation[];
+export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
+export interface OperationsOperations {
+    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
 
 // @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
 }
 
 // @public
-export type OperationsListResponse = OperationListResult;
+export interface PageSettings {
+    continuationToken?: string;
+}
+
+// @public
+export type PropertyChangeType = "Insert" | "Update" | "Remove";
+
+// @public
+export interface ProxyResource extends Resource {
+}
 
 // @public
 export interface QueryRequest {
@@ -142,35 +269,104 @@ export interface QueryRequestOptions {
 // @public
 export interface QueryResponse {
     count: number;
-    data: Record<string, unknown>;
+    data: any;
     facets?: FacetUnion[];
     resultTruncated: ResultTruncated;
     skipToken?: string;
     totalRecords: number;
 }
 
+// @public
+export interface Resource {
+    readonly id?: string;
+    readonly name?: string;
+    readonly systemData?: SystemData;
+    readonly type?: string;
+}
+
+// @public
+export interface ResourceChangeData {
+    afterSnapshot: ResourceChangeDataAfterSnapshot;
+    beforeSnapshot: ResourceChangeDataBeforeSnapshot;
+    changeId: string;
+    changeType?: ChangeType;
+    propertyChanges?: ResourcePropertyChange[];
+    resourceId?: string;
+}
+
+// @public
+export interface ResourceChangeDataAfterSnapshot extends ResourceSnapshotData {
+}
+
+// @public
+export interface ResourceChangeDataBeforeSnapshot extends ResourceSnapshotData {
+}
+
+// @public
+export interface ResourceChangeDetailsOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ResourceChangeDetailsRequestParameters {
+    changeIds: string[];
+    resourceIds: string[];
+}
+
+// @public
+export interface ResourceChangeList {
+    changes?: ResourceChangeData[];
+    skipToken?: any;
+}
+
+// @public
+export interface ResourceChangesOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ResourceChangesRequestParameters {
+    fetchPropertyChanges?: boolean;
+    fetchSnapshots?: boolean;
+    interval: ResourceChangesRequestParametersInterval;
+    resourceIds?: string[];
+    skipToken?: string;
+    subscriptionId?: string;
+    table?: string;
+    top?: number;
+}
+
+// @public
+export interface ResourceChangesRequestParametersInterval extends DateTimeInterval {
+}
+
 // @public (undocumented)
-export class ResourceGraphClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, options?: ResourceGraphClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    operations: Operations;
-    resources(query: QueryRequest, options?: ResourcesOptionalParams): Promise<ResourcesResponse>;
+export class ResourceGraphClient {
+    constructor(credential: TokenCredential, options?: ResourceGraphClientOptionalParams);
+    constructor(credential: TokenCredential, subscriptionId: string, options?: ResourceGraphClientOptionalParams);
+    readonly graphQuery: GraphQueryOperations;
+    readonly operations: OperationsOperations;
+    readonly pipeline: Pipeline;
+    resourceChangeDetails(parameters: ResourceChangeDetailsRequestParameters, options?: ResourceChangeDetailsOptionalParams): Promise<ResourceChangeData[]>;
+    resourceChanges(parameters: ResourceChangesRequestParameters, options?: ResourceChangesOptionalParams): Promise<ResourceChangeList>;
+    resources(query: QueryRequest, options?: ResourcesOptionalParams): Promise<QueryResponse>;
     resourcesHistory(request: ResourcesHistoryRequest, options?: ResourcesHistoryOptionalParams): Promise<ResourcesHistoryResponse>;
 }
 
 // @public
-export interface ResourceGraphClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
-    apiVersion?: string;
-    endpoint?: string;
+export interface ResourceGraphClientOptionalParams extends ClientOptions {
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
-export interface ResourcesHistoryOptionalParams extends coreClient.OperationOptions {
+export interface ResourcePropertyChange {
+    afterValue?: string;
+    beforeValue?: string;
+    changeCategory: ChangeCategory;
+    propertyChangeType: PropertyChangeType;
+    propertyName: string;
+}
+
+// @public
+export interface ResourcesHistoryOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -190,26 +386,41 @@ export interface ResourcesHistoryRequestOptions {
     top?: number;
 }
 
-// @public
-export type ResourcesHistoryResponse = Record<string, unknown>;
+// @public (undocumented)
+export type ResourcesHistoryResponse = {
+    body: any;
+};
 
 // @public
-export interface ResourcesOptionalParams extends coreClient.OperationOptions {
+export interface ResourceSnapshotData {
+    content?: any;
+    snapshotId?: string;
+    timestamp: Date;
 }
 
 // @public
-export type ResourcesResponse = QueryResponse;
+export interface ResourcesOptionalParams extends OperationOptions {
+}
+
+export { RestError }
 
 // @public
 export type ResultFormat = "table" | "objectArray";
 
 // @public
+export type ResultKind = string;
+
+// @public
 export type ResultTruncated = "true" | "false";
 
 // @public
-export interface Table {
-    columns: Column[];
-    rows: Record<string, unknown>[][];
+export interface SystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
 }
 
 // (No @packageDocumentation comment for this package)

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates a managed compute deployment associated with the Cognitive Services account.
  *
  * @summary creates or updates a managed compute deployment associated with the Cognitive Services account.
- * x-ms-original-file: 2026-03-15-preview/CreateOrUpdateManagedComputeDeployment.json
+ * x-ms-original-file: 2026-05-15-preview/CreateOrUpdateManagedComputeDeployment.json
  */
 async function createOrUpdateManagedComputeDeployment(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -36,7 +36,7 @@ async function createOrUpdateManagedComputeDeployment(): Promise<void> {
  * This sample demonstrates how to creates or updates a managed compute deployment associated with the Cognitive Services account.
  *
  * @summary creates or updates a managed compute deployment associated with the Cognitive Services account.
- * x-ms-original-file: 2026-03-15-preview/CreateOrUpdateVmManagedComputeDeployment.json
+ * x-ms-original-file: 2026-05-15-preview/CreateOrUpdateVmManagedComputeDeployment.json
  */
 async function createOrUpdateVmManagedComputeDeployment(): Promise<void> {
   const credential = new DefaultAzureCredential();

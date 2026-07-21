@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates or updates a managed cluster.
  *
  * @summary creates or updates a managed cluster.
- * x-ms-original-file: 2026-03-02-preview/AdvancedNetworkingTransitEncryption.json
+ * x-ms-original-file: 2026-04-02-preview/AdvancedNetworkingTransitEncryption.json
  */
 async function createManagedClusterWithAdvancedNetworkingTransitEncryption(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -60,7 +60,7 @@ async function createManagedClusterWithAdvancedNetworkingTransitEncryption(): Pr
  * This sample demonstrates how to creates or updates a managed cluster.
  *
  * @summary creates or updates a managed cluster.
- * x-ms-original-file: 2026-03-02-preview/ManagedClustersAssociate_CRG.json
+ * x-ms-original-file: 2026-04-02-preview/ManagedClustersAssociate_CRG.json
  */
 async function associateManagedClusterWithCapacityReservationGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -106,7 +106,7 @@ async function associateManagedClusterWithCapacityReservationGroup(): Promise<vo
  * This sample demonstrates how to creates or updates a managed cluster.
  *
  * @summary creates or updates a managed cluster.
- * x-ms-original-file: 2026-03-02-preview/ManagedClustersCreate_AzureKeyvaultSecretsProvider.json
+ * x-ms-original-file: 2026-04-02-preview/ManagedClustersCreate_AzureKeyvaultSecretsProvider.json
  */
 async function createManagedClusterWithAzureKeyVaultSecretsProviderAddon(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -155,7 +155,7 @@ async function createManagedClusterWithAzureKeyVaultSecretsProviderAddon(): Prom
  * This sample demonstrates how to creates or updates a managed cluster.
  *
  * @summary creates or updates a managed cluster.
- * x-ms-original-file: 2026-03-02-preview/ManagedClustersCreate_AzureServiceMesh.json
+ * x-ms-original-file: 2026-04-02-preview/ManagedClustersCreate_AzureServiceMesh.json
  */
 async function createOrUpdateManagedClusterWithAzureServiceMesh(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -223,7 +223,7 @@ async function createOrUpdateManagedClusterWithAzureServiceMesh(): Promise<void>
  * This sample demonstrates how to creates or updates a managed cluster.
  *
  * @summary creates or updates a managed cluster.
- * x-ms-original-file: 2026-03-02-preview/ManagedClustersCreate_ControlPlaneScalingProfile.json
+ * x-ms-original-file: 2026-04-02-preview/ManagedClustersCreate_ControlPlaneScalingProfile.json
  */
 async function createManagedClusterWithControlPlaneScalingProfile(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -263,7 +263,7 @@ async function createManagedClusterWithControlPlaneScalingProfile(): Promise<voi
  * This sample demonstrates how to creates or updates a managed cluster.
  *
  * @summary creates or updates a managed cluster.
- * x-ms-original-file: 2026-03-02-preview/ManagedClustersCreate_CustomCATrustCertificates.json
+ * x-ms-original-file: 2026-04-02-preview/ManagedClustersCreate_CustomCATrustCertificates.json
  */
 async function createManagedClusterWithCustomCATrustCertificatesPopulated(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -312,7 +312,7 @@ async function createManagedClusterWithCustomCATrustCertificatesPopulated(): Pro
  * This sample demonstrates how to creates or updates a managed cluster.
  *
  * @summary creates or updates a managed cluster.
- * x-ms-original-file: 2026-03-02-preview/ManagedClustersCreate_DedicatedHostGroup.json
+ * x-ms-original-file: 2026-04-02-preview/ManagedClustersCreate_DedicatedHostGroup.json
  */
 async function createManagedClusterWithDedicatedHostGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -357,7 +357,7 @@ async function createManagedClusterWithDedicatedHostGroup(): Promise<void> {
  * This sample demonstrates how to creates or updates a managed cluster.
  *
  * @summary creates or updates a managed cluster.
- * x-ms-original-file: 2026-03-02-preview/ManagedClustersCreate_DisableRunCommand.json
+ * x-ms-original-file: 2026-04-02-preview/ManagedClustersCreate_DisableRunCommand.json
  */
 async function createManagedClusterWithRunCommandDisabled(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -401,7 +401,7 @@ async function createManagedClusterWithRunCommandDisabled(): Promise<void> {
  * This sample demonstrates how to creates or updates a managed cluster.
  *
  * @summary creates or updates a managed cluster.
- * x-ms-original-file: 2026-03-02-preview/ManagedClustersCreate_DualStackNetworking.json
+ * x-ms-original-file: 2026-04-02-preview/ManagedClustersCreate_DualStackNetworking.json
  */
 async function createOrUpdateManagedClusterWithDualStackNetworking(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -463,7 +463,7 @@ async function createOrUpdateManagedClusterWithDualStackNetworking(): Promise<vo
  * This sample demonstrates how to creates or updates a managed cluster.
  *
  * @summary creates or updates a managed cluster.
- * x-ms-original-file: 2026-03-02-preview/ManagedClustersCreate_EnableAIToolchainOperator.json
+ * x-ms-original-file: 2026-04-02-preview/ManagedClustersCreate_EnableAIToolchainOperator.json
  */
 async function createManagedClusterWithAIToolchainOperatorEnabled(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -507,7 +507,7 @@ async function createManagedClusterWithAIToolchainOperatorEnabled(): Promise<voi
  * This sample demonstrates how to creates or updates a managed cluster.
  *
  * @summary creates or updates a managed cluster.
- * x-ms-original-file: 2026-03-02-preview/ManagedClustersCreate_EnableEncryptionAtHost.json
+ * x-ms-original-file: 2026-04-02-preview/ManagedClustersCreate_EnableEncryptionAtHost.json
  */
 async function createManagedClusterWithEncryptionAtHostEnabled(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -552,7 +552,45 @@ async function createManagedClusterWithEncryptionAtHostEnabled(): Promise<void> 
  * This sample demonstrates how to creates or updates a managed cluster.
  *
  * @summary creates or updates a managed cluster.
- * x-ms-original-file: 2026-03-02-preview/ManagedClustersCreate_EnableUltraSSD.json
+ * x-ms-original-file: 2026-04-02-preview/ManagedClustersCreate_EnableManagedBastion.json
+ */
+async function createManagedPrivateClusterWithManagedBastion(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new ContainerServiceClient(credential, subscriptionId);
+  const result = await client.managedClusters.createOrUpdate("rg1", "clustername1", {
+    location: "location1",
+    addonProfiles: {},
+    agentPoolProfiles: [
+      {
+        name: "nodepool1",
+        type: "VirtualMachineScaleSets",
+        count: 3,
+        enableEncryptionAtHost: true,
+        mode: "System",
+        osType: "Linux",
+        vmSize: "Standard_DS2_v2",
+      },
+    ],
+    apiServerAccessProfile: { enablePrivateCluster: true },
+    autoScalerProfile: { scaleDownDelayAfterAdd: "15m", scanInterval: "20s" },
+    dnsPrefix: "dnsprefix1",
+    kubernetesVersion: "",
+    linuxProfile: { adminUsername: "azureuser", ssh: { publicKeys: [{ keyData: "keydata" }] } },
+    networkProfile: { bastionProfile: { enabled: true, sku: "Premium", scaleUnits: 3 } },
+    servicePrincipalProfile: { clientId: "clientid", secret: "secret" },
+    windowsProfile: { adminPassword: "replacePassword1234$", adminUsername: "azureuser" },
+    sku: { name: "Basic", tier: "Free" },
+    tags: { archv2: "", tier: "production" },
+  });
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to creates or updates a managed cluster.
+ *
+ * @summary creates or updates a managed cluster.
+ * x-ms-original-file: 2026-04-02-preview/ManagedClustersCreate_EnableUltraSSD.json
  */
 async function createManagedClusterWithUltraSSDEnabled(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -597,7 +635,7 @@ async function createManagedClusterWithUltraSSDEnabled(): Promise<void> {
  * This sample demonstrates how to creates or updates a managed cluster.
  *
  * @summary creates or updates a managed cluster.
- * x-ms-original-file: 2026-03-02-preview/ManagedClustersCreate_EnabledFIPS.json
+ * x-ms-original-file: 2026-04-02-preview/ManagedClustersCreate_EnabledFIPS.json
  */
 async function createManagedClusterWithFipsEnabledOS(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -642,7 +680,7 @@ async function createManagedClusterWithFipsEnabledOS(): Promise<void> {
  * This sample demonstrates how to creates or updates a managed cluster.
  *
  * @summary creates or updates a managed cluster.
- * x-ms-original-file: 2026-03-02-preview/ManagedClustersCreate_GPUMIG.json
+ * x-ms-original-file: 2026-04-02-preview/ManagedClustersCreate_GPUMIG.json
  */
 async function createManagedClusterWithGpumig(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -693,7 +731,7 @@ async function createManagedClusterWithGpumig(): Promise<void> {
  * This sample demonstrates how to creates or updates a managed cluster.
  *
  * @summary creates or updates a managed cluster.
- * x-ms-original-file: 2026-03-02-preview/ManagedClustersCreate_HTTPProxy.json
+ * x-ms-original-file: 2026-04-02-preview/ManagedClustersCreate_HTTPProxy.json
  */
 async function createManagedClusterWithHttpProxyConfigured(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -743,7 +781,7 @@ async function createManagedClusterWithHttpProxyConfigured(): Promise<void> {
  * This sample demonstrates how to creates or updates a managed cluster.
  *
  * @summary creates or updates a managed cluster.
- * x-ms-original-file: 2026-03-02-preview/ManagedClustersCreate_IngressProfile_ApplicationLoadBalancer.json
+ * x-ms-original-file: 2026-04-02-preview/ManagedClustersCreate_IngressProfile_ApplicationLoadBalancer.json
  */
 async function createManagedClusterWithApplicationLoadBalancerProfileConfigured(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -781,7 +819,7 @@ async function createManagedClusterWithApplicationLoadBalancerProfileConfigured(
  * This sample demonstrates how to creates or updates a managed cluster.
  *
  * @summary creates or updates a managed cluster.
- * x-ms-original-file: 2026-03-02-preview/ManagedClustersCreate_IngressProfile_WebAppRouting.json
+ * x-ms-original-file: 2026-04-02-preview/ManagedClustersCreate_IngressProfile_WebAppRouting.json
  */
 async function createManagedClusterWithWebAppRoutingIngressProfileConfigured(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -826,7 +864,7 @@ async function createManagedClusterWithWebAppRoutingIngressProfileConfigured(): 
  * This sample demonstrates how to creates or updates a managed cluster.
  *
  * @summary creates or updates a managed cluster.
- * x-ms-original-file: 2026-03-02-preview/ManagedClustersCreate_MCSnapshot.json
+ * x-ms-original-file: 2026-04-02-preview/ManagedClustersCreate_MCSnapshot.json
  */
 async function createManagedClusterUsingAManagedClusterSnapshot(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -864,7 +902,7 @@ async function createManagedClusterUsingAManagedClusterSnapshot(): Promise<void>
  * This sample demonstrates how to creates or updates a managed cluster.
  *
  * @summary creates or updates a managed cluster.
- * x-ms-original-file: 2026-03-02-preview/ManagedClustersCreate_ManagedNATGateway.json
+ * x-ms-original-file: 2026-04-02-preview/ManagedClustersCreate_ManagedNATGateway.json
  */
 async function createManagedClusterWithAKSManagedNATGatewayAsOutboundType(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -908,7 +946,7 @@ async function createManagedClusterWithAKSManagedNATGatewayAsOutboundType(): Pro
  * This sample demonstrates how to creates or updates a managed cluster.
  *
  * @summary creates or updates a managed cluster.
- * x-ms-original-file: 2026-03-02-preview/ManagedClustersCreate_NodeAutoProvisioning.json
+ * x-ms-original-file: 2026-04-02-preview/ManagedClustersCreate_NodeAutoProvisioning.json
  */
 async function createManagedClusterWithNodeAutoProvisioning(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -951,7 +989,7 @@ async function createManagedClusterWithNodeAutoProvisioning(): Promise<void> {
  * This sample demonstrates how to creates or updates a managed cluster.
  *
  * @summary creates or updates a managed cluster.
- * x-ms-original-file: 2026-03-02-preview/ManagedClustersCreate_NodePublicIPPrefix.json
+ * x-ms-original-file: 2026-04-02-preview/ManagedClustersCreate_NodePublicIPPrefix.json
  */
 async function createManagedClusterWithNodePublicIPPrefix(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -997,7 +1035,7 @@ async function createManagedClusterWithNodePublicIPPrefix(): Promise<void> {
  * This sample demonstrates how to creates or updates a managed cluster.
  *
  * @summary creates or updates a managed cluster.
- * x-ms-original-file: 2026-03-02-preview/ManagedClustersCreate_OSSKU.json
+ * x-ms-original-file: 2026-04-02-preview/ManagedClustersCreate_OSSKU.json
  */
 async function createManagedClusterWithOssku(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -1048,7 +1086,7 @@ async function createManagedClusterWithOssku(): Promise<void> {
  * This sample demonstrates how to creates or updates a managed cluster.
  *
  * @summary creates or updates a managed cluster.
- * x-ms-original-file: 2026-03-02-preview/ManagedClustersCreate_PPG.json
+ * x-ms-original-file: 2026-04-02-preview/ManagedClustersCreate_PPG.json
  */
 async function createManagedClusterWithPPG(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -1094,7 +1132,7 @@ async function createManagedClusterWithPPG(): Promise<void> {
  * This sample demonstrates how to creates or updates a managed cluster.
  *
  * @summary creates or updates a managed cluster.
- * x-ms-original-file: 2026-03-02-preview/ManagedClustersCreate_PodIdentity.json
+ * x-ms-original-file: 2026-04-02-preview/ManagedClustersCreate_PodIdentity.json
  */
 async function createManagedClusterWithPodIdentityEnabled(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -1139,7 +1177,7 @@ async function createManagedClusterWithPodIdentityEnabled(): Promise<void> {
  * This sample demonstrates how to creates or updates a managed cluster.
  *
  * @summary creates or updates a managed cluster.
- * x-ms-original-file: 2026-03-02-preview/ManagedClustersCreate_Premium.json
+ * x-ms-original-file: 2026-04-02-preview/ManagedClustersCreate_Premium.json
  */
 async function createManagedClusterWithLongTermSupport(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -1184,7 +1222,7 @@ async function createManagedClusterWithLongTermSupport(): Promise<void> {
  * This sample demonstrates how to creates or updates a managed cluster.
  *
  * @summary creates or updates a managed cluster.
- * x-ms-original-file: 2026-03-02-preview/ManagedClustersCreate_PrivateClusterFQDNSubdomain.json
+ * x-ms-original-file: 2026-04-02-preview/ManagedClustersCreate_PrivateClusterFQDNSubdomain.json
  */
 async function createManagedPrivateClusterWithFqdnSubdomainSpecified(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -1232,7 +1270,7 @@ async function createManagedPrivateClusterWithFqdnSubdomainSpecified(): Promise<
  * This sample demonstrates how to creates or updates a managed cluster.
  *
  * @summary creates or updates a managed cluster.
- * x-ms-original-file: 2026-03-02-preview/ManagedClustersCreate_PrivateClusterPublicFQDN.json
+ * x-ms-original-file: 2026-04-02-preview/ManagedClustersCreate_PrivateClusterPublicFQDN.json
  */
 async function createManagedPrivateClusterWithPublicFqdnSpecified(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -1276,7 +1314,7 @@ async function createManagedPrivateClusterWithPublicFqdnSpecified(): Promise<voi
  * This sample demonstrates how to creates or updates a managed cluster.
  *
  * @summary creates or updates a managed cluster.
- * x-ms-original-file: 2026-03-02-preview/ManagedClustersCreate_SecurityProfile.json
+ * x-ms-original-file: 2026-04-02-preview/ManagedClustersCreate_SecurityProfile.json
  */
 async function createManagedClusterWithSecurityProfileConfigured(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -1334,7 +1372,7 @@ async function createManagedClusterWithSecurityProfileConfigured(): Promise<void
  * This sample demonstrates how to creates or updates a managed cluster.
  *
  * @summary creates or updates a managed cluster.
- * x-ms-original-file: 2026-03-02-preview/ManagedClustersCreate_Snapshot.json
+ * x-ms-original-file: 2026-04-02-preview/ManagedClustersCreate_Snapshot.json
  */
 async function createManagedClusterUsingAnAgentPoolSnapshot(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -1383,7 +1421,7 @@ async function createManagedClusterUsingAnAgentPoolSnapshot(): Promise<void> {
  * This sample demonstrates how to creates or updates a managed cluster.
  *
  * @summary creates or updates a managed cluster.
- * x-ms-original-file: 2026-03-02-preview/ManagedClustersCreate_Update.json
+ * x-ms-original-file: 2026-04-02-preview/ManagedClustersCreate_Update.json
  */
 async function createOrUpdateManagedCluster(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -1447,7 +1485,7 @@ async function createOrUpdateManagedCluster(): Promise<void> {
  * This sample demonstrates how to creates or updates a managed cluster.
  *
  * @summary creates or updates a managed cluster.
- * x-ms-original-file: 2026-03-02-preview/ManagedClustersCreate_UpdateWindowsGmsa.json
+ * x-ms-original-file: 2026-04-02-preview/ManagedClustersCreate_UpdateWindowsGmsa.json
  */
 async function createOrUpdateManagedClusterWithWindowsGMSAEnabled(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -1503,7 +1541,7 @@ async function createOrUpdateManagedClusterWithWindowsGMSAEnabled(): Promise<voi
  * This sample demonstrates how to creates or updates a managed cluster.
  *
  * @summary creates or updates a managed cluster.
- * x-ms-original-file: 2026-03-02-preview/ManagedClustersCreate_UpdateWithAHUB.json
+ * x-ms-original-file: 2026-04-02-preview/ManagedClustersCreate_UpdateWithAHUB.json
  */
 async function createOrUpdateManagedClusterWithEnableAhub(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -1559,7 +1597,7 @@ async function createOrUpdateManagedClusterWithEnableAhub(): Promise<void> {
  * This sample demonstrates how to creates or updates a managed cluster.
  *
  * @summary creates or updates a managed cluster.
- * x-ms-original-file: 2026-03-02-preview/ManagedClustersCreate_UpdateWithEnableAzureRBAC.json
+ * x-ms-original-file: 2026-04-02-preview/ManagedClustersCreate_UpdateWithEnableAzureRBAC.json
  */
 async function createOrUpdateAADManagedClusterWithEnableAzureRbac(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -1605,7 +1643,7 @@ async function createOrUpdateAADManagedClusterWithEnableAzureRbac(): Promise<voi
  * This sample demonstrates how to creates or updates a managed cluster.
  *
  * @summary creates or updates a managed cluster.
- * x-ms-original-file: 2026-03-02-preview/ManagedClustersCreate_UpdateWithEnableNamespaceResources.json
+ * x-ms-original-file: 2026-04-02-preview/ManagedClustersCreate_UpdateWithEnableNamespaceResources.json
  */
 async function createOrUpdateManagedClusterWithEnableNamespaceResources(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -1651,7 +1689,7 @@ async function createOrUpdateManagedClusterWithEnableNamespaceResources(): Promi
  * This sample demonstrates how to creates or updates a managed cluster.
  *
  * @summary creates or updates a managed cluster.
- * x-ms-original-file: 2026-03-02-preview/ManagedClustersCreate_UserAssignedNATGateway.json
+ * x-ms-original-file: 2026-04-02-preview/ManagedClustersCreate_UserAssignedNATGateway.json
  */
 async function createManagedClusterWithUserAssignedNATGatewayAsOutboundType(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -1691,7 +1729,7 @@ async function createManagedClusterWithUserAssignedNATGatewayAsOutboundType(): P
  * This sample demonstrates how to creates or updates a managed cluster.
  *
  * @summary creates or updates a managed cluster.
- * x-ms-original-file: 2026-03-02-preview/ManagedClustersCreate_VirtualMachines.json
+ * x-ms-original-file: 2026-04-02-preview/ManagedClustersCreate_VirtualMachines.json
  */
 async function createManagedClusterWithVirtualMachinesPoolType(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -1741,6 +1779,7 @@ async function main(): Promise<void> {
   await createOrUpdateManagedClusterWithDualStackNetworking();
   await createManagedClusterWithAIToolchainOperatorEnabled();
   await createManagedClusterWithEncryptionAtHostEnabled();
+  await createManagedPrivateClusterWithManagedBastion();
   await createManagedClusterWithUltraSSDEnabled();
   await createManagedClusterWithFipsEnabledOS();
   await createManagedClusterWithGpumig();

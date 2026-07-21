@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists all available virtual machine sizes that can be used to create a new virtual machine in an existing availability set.
  *
  * @summary lists all available virtual machine sizes that can be used to create a new virtual machine in an existing availability set.
- * x-ms-original-file: 2025-11-01/availabilitySetExamples/AvailabilitySet_ListAvailableSizes_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/availabilitySetExamples/AvailabilitySet_ListAvailableSizes_MaximumSet_Gen.json
  */
 async function availabilitySetListAvailableSizesMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -29,7 +29,7 @@ async function availabilitySetListAvailableSizesMaximumSetGen() {
  * This sample demonstrates how to lists all available virtual machine sizes that can be used to create a new virtual machine in an existing availability set.
  *
  * @summary lists all available virtual machine sizes that can be used to create a new virtual machine in an existing availability set.
- * x-ms-original-file: 2025-11-01/availabilitySetExamples/AvailabilitySet_ListAvailableSizes_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/availabilitySetExamples/AvailabilitySet_ListAvailableSizes_MinimumSet_Gen.json
  */
 async function availabilitySetListAvailableSizesMinimumSetGen() {
   const credential = new DefaultAzureCredential();

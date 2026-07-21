@@ -17,7 +17,7 @@ export type { KeyType, KeyOperation };
 /**
  * The latest supported Key Vault service API version
  */
-export const LATEST_API_VERSION = "2025-07-01";
+export const LATEST_API_VERSION = "2026-01-01-preview";
 
 /**
  * The optional parameters accepted by the KeyVault's KeyClient
@@ -147,6 +147,18 @@ export interface KeyVaultKey {
 }
 
 /**
+ * An interface representing a reference to a key stored in an external key
+ * management system, used to create and manage external keys in Azure Key Vault.
+ */
+export interface ExternalKey {
+  /**
+   * The external key identifier. The valid id can only contain characters in
+   * the set `[a-zA-Z0-9-]`. Maximum length is 64 characters.
+   */
+  id: string;
+}
+
+/**
  * An interface representing the properties of a key's attestation
  */
 export interface KeyAttestation {
@@ -263,6 +275,17 @@ export interface KeyProperties {
    * The key attestation, if available and requested.
    */
   attestation?: KeyAttestation;
+
+  /**
+   * The key information for a key backed by an external key management system.
+   */
+  externalKey?: ExternalKey;
+
+  /**
+   * The optional key size in bits for symmetric keys. For example: 128, 192, or 256 for AES keys.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly keySize?: number;
 }
 
 /**
@@ -616,6 +639,68 @@ export interface ReleaseKeyResult {
   value: string;
 }
 
+/**
+ * Options for {@link KeyClient.secureWrapKey}.
+ */
+export interface SecureWrapKeyOptions extends coreClient.OperationOptions {
+  /**
+   * The version of the key to wrap with. Defaults to the latest version of the key if omitted.
+   */
+  version?: string;
+}
+
+/**
+ * Options for {@link KeyClient.secureUnwrapKey}.
+ */
+export interface SecureUnwrapKeyOptions extends coreClient.OperationOptions {
+  /**
+   * The version of the key to unwrap with. Defaults to the latest version of the key if omitted.
+   */
+  version?: string;
+}
+
+/**
+ * The algorithms supported by the secure wrap and unwrap operations on
+ * {@link KeyClient}.
+ *
+ * Secure wrap/unwrap operations support a wider set of algorithms than the
+ * regular wrap/unwrap. The additional algorithms typically end with `KWPAD`
+ * (key-wrap with padding) or are prefixed with `CKM_` (PKCS#11 mechanisms).
+ */
+export type SecureKeyWrapAlgorithm =
+  | "RSA-OAEP-256"
+  | "A128KW"
+  | "A192KW"
+  | "A256KW"
+  | "A128KWPAD"
+  | "A192KWPAD"
+  | "A256KWPAD"
+  | "CKM_AES_KEY_WRAP"
+  | "CKM_AES_KEY_WRAP_PAD";
+
+/**
+ * Result of the {@link KeyClient.secureWrapKey} and
+ * {@link KeyClient.secureUnwrapKey} operations.
+ */
+export interface SecureKeyOperationResult {
+  /**
+   * The ID of the Key Vault Key used for the operation.
+   */
+  keyID: string;
+  /**
+   * The algorithm used for the operation.
+   */
+  algorithm: SecureKeyWrapAlgorithm;
+  /**
+   * The result of the operation:
+   *  - For {@link KeyClient.secureWrapKey}, this is the wrapped 256-bit AES
+   *    key generated within the trusted execution environment (TEE).
+   *  - For {@link KeyClient.secureUnwrapKey}, this is the unwrapped symmetric
+   *    key.
+   */
+  result: Uint8Array;
+}
+
 /** Known values of {@link KeyOperation} that the service accepts. */
 export enum KnownKeyOperations {
   /** Key operation - encrypt */
@@ -632,6 +717,10 @@ export enum KnownKeyOperations {
   UnwrapKey = "unwrapKey",
   /** Key operation - import */
   Import = "import",
+  /** Key operation - secureWrapKey */
+  SecureWrapKey = "secureWrapKey",
+  /** Key operation - secureUnwrapKey */
+  SecureUnwrapKey = "secureUnwrapKey",
 }
 
 /* eslint-disable tsdoc/syntax */

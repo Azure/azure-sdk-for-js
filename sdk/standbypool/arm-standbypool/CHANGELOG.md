@@ -1,6 +1,16 @@
 # Release History
 
-## 2.1.0 (2026-03-10)
+## 2.1.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 2.1.0 (2026-06-12)
 
 ### Features Added
   - Added Interface DynamicSizing

@@ -2,6 +2,10 @@
 // Licensed under the MIT License.
 
 export {
+  resyncCertificates,
+  rotateCertificates,
+  resyncPasswords,
+  rotatePasswords,
   armConfigurationDiff,
   viewDeviceConfiguration,
   lockFabric,
@@ -24,6 +28,10 @@ export {
   get,
 } from "./operations.js";
 export type {
+  NetworkFabricsResyncCertificatesOptionalParams,
+  NetworkFabricsRotateCertificatesOptionalParams,
+  NetworkFabricsResyncPasswordsOptionalParams,
+  NetworkFabricsRotatePasswordsOptionalParams,
   NetworkFabricsArmConfigurationDiffOptionalParams,
   NetworkFabricsViewDeviceConfigurationOptionalParams,
   NetworkFabricsLockFabricOptionalParams,

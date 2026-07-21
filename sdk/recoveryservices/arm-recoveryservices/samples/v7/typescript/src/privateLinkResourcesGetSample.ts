@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to returns a specified private link resource that need to be created for Backup and SiteRecovery
  *
  * @summary returns a specified private link resource that need to be created for Backup and SiteRecovery
- * x-ms-original-file: 2025-08-01/GetPrivateLinkResources.json
+ * x-ms-original-file: 2026-05-01/GetPrivateLinkResources.json
  */
 async function getPrivateLinkResource(): Promise<void> {
   const credential = new DefaultAzureCredential();

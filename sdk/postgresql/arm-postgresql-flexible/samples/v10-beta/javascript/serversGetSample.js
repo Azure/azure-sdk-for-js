@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets information about an existing server.
  *
  * @summary gets information about an existing server.
- * x-ms-original-file: 2026-01-01-preview/ServersGet.json
+ * x-ms-original-file: 2026-04-01-preview/ServersGet.json
  */
 async function getInformationAboutAnExistingServer() {
   const credential = new DefaultAzureCredential();
@@ -22,7 +22,7 @@ async function getInformationAboutAnExistingServer() {
  * This sample demonstrates how to gets information about an existing server.
  *
  * @summary gets information about an existing server.
- * x-ms-original-file: 2026-01-01-preview/ServersGetWithPrivateEndpoints.json
+ * x-ms-original-file: 2026-04-01-preview/ServersGetWithPrivateEndpoints.json
  */
 async function getInformationAboutAnExistingServerThatIsnTIntegratedIntoAVirtualNetworkProvidedByCustomerAndHasPrivateEndpointConnections() {
   const credential = new DefaultAzureCredential();
@@ -36,7 +36,7 @@ async function getInformationAboutAnExistingServerThatIsnTIntegratedIntoAVirtual
  * This sample demonstrates how to gets information about an existing server.
  *
  * @summary gets information about an existing server.
- * x-ms-original-file: 2026-01-01-preview/ServersGetWithVnet.json
+ * x-ms-original-file: 2026-04-01-preview/ServersGetWithVnet.json
  */
 async function getInformationAboutAnExistingServerThatIsIntegratedIntoAVirtualNetworkProvidedByCustomer() {
   const credential = new DefaultAzureCredential();

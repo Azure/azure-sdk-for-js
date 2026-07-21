@@ -7,7 +7,7 @@ import {
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
-export { AzureAppConfigurationClient } from "./azureAppConfigurationClient.js";
+export { AppConfigurationClient } from "./appConfigurationClient.js";
 export type { RestorePollerOptions } from "./restorePollerHelpers.js";
 export { restorePoller } from "./restorePollerHelpers.js";
 export type {
@@ -28,7 +28,7 @@ export type {
 } from "./models/index.js";
 export { KnownVersions } from "./models/index.js";
 export type {
-  AzureAppConfigurationClientOptionalParams,
+  AppConfigurationClientOptionalParams,
   CheckRevisionsOptionalParams,
   GetRevisionsOptionalParams,
   DeleteLockOptionalParams,
@@ -52,3 +52,4 @@ export type {
   GetKeysOptionalParams,
 } from "./api/index.js";
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

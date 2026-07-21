@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to update a capacity reservation group. When updating a capacity reservation group, only tags and sharing profile may be modified.
  *
  * @summary the operation to update a capacity reservation group. When updating a capacity reservation group, only tags and sharing profile may be modified.
- * x-ms-original-file: 2025-11-01/capacityReservationExamples/CapacityReservationGroup_Update_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/capacityReservationExamples/CapacityReservationGroup_Update_MaximumSet_Gen.json
  */
 async function capacityReservationGroupUpdateMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function capacityReservationGroupUpdateMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to the operation to update a capacity reservation group. When updating a capacity reservation group, only tags and sharing profile may be modified.
  *
  * @summary the operation to update a capacity reservation group. When updating a capacity reservation group, only tags and sharing profile may be modified.
- * x-ms-original-file: 2025-11-01/capacityReservationExamples/CapacityReservationGroup_Update_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/capacityReservationExamples/CapacityReservationGroup_Update_MinimumSet_Gen.json
  */
 async function capacityReservationGroupUpdateMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

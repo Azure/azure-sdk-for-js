@@ -5,7 +5,7 @@
   "description": "A generated SDK for StorSimpleManagementClient.",
   "version": "2.1.2",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "dependencies": {
     "@azure/abort-controller": "^2.1.2",

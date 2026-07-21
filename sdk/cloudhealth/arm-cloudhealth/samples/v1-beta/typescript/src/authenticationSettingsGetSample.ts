@@ -8,16 +8,16 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get a AuthenticationSetting
  *
  * @summary get a AuthenticationSetting
- * x-ms-original-file: 2025-05-01-preview/AuthenticationSettings_Get.json
+ * x-ms-original-file: 2026-05-01-preview/AuthenticationSettings_Get.json
  */
 async function authenticationSettingsGet(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId = "abcdef12-3456-7890-abcd-ef1234567890";
   const client = new CloudHealthClient(credential, subscriptionId);
   const result = await client.authenticationSettings.get(
-    "my-resource-group",
-    "my-health-model",
-    "my-auth-setting",
+    "online-store-rg",
+    "online-store",
+    "default-auth",
   );
   console.log(result);
 }

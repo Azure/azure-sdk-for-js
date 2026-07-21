@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets information about a firewall rule in a server.
  *
  * @summary gets information about a firewall rule in a server.
- * x-ms-original-file: 2026-01-01-preview/FirewallRulesGet.json
+ * x-ms-original-file: 2026-04-01-preview/FirewallRulesGet.json
  */
 async function getInformationAboutAFirewallRuleInAServer() {
   const credential = new DefaultAzureCredential();

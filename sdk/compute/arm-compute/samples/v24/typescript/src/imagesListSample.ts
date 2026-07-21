@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the list of Images in the subscription. Use nextLink property in the response to get the next page of Images. Do this till nextLink is null to fetch all the Images.
  *
  * @summary gets the list of Images in the subscription. Use nextLink property in the response to get the next page of Images. Do this till nextLink is null to fetch all the Images.
- * x-ms-original-file: 2025-11-01/imageExamples/Image_ListBySubscription.json
+ * x-ms-original-file: 2026-03-01/imageExamples/Image_ListBySubscription.json
  */
 async function listAllVirtualMachineImagesInASubscription(): Promise<void> {
   const credential = new DefaultAzureCredential();

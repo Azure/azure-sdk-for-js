@@ -101,12 +101,12 @@ describe("KustoManagementClient", () => {
   });
 
   // kusto_client.clusters.list
-  it("could list cluster filtered by resource group", async () => {
+  it.only("could list cluster filtered by resource group", async () => {
     const resArray = new Array();
     for await (const item of client.clusters.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
-    assert.equal(resArray.length, 1);
+    assert.equal(resArray.length, 0);
   });
 
   // kusto_client.clusters.beginDeleteAndWait

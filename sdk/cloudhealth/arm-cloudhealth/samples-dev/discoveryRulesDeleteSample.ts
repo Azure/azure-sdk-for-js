@@ -1,21 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { CloudHealthClient } from "@azure/arm-cloudhealth";
+import { DefaultAzureCredential } from "@azure/identity";
+
 /**
  * This sample demonstrates how to delete a DiscoveryRule
  *
  * @summary delete a DiscoveryRule
- * x-ms-original-file: 2025-05-01-preview/DiscoveryRules_Delete.json
+ * x-ms-original-file: 2026-05-01-preview/DiscoveryRules_Delete.json
  */
-
-import { CloudHealthClient } from "@azure/arm-cloudhealth";
-import { DefaultAzureCredential } from "@azure/identity";
-
 async function discoveryRulesDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const subscriptionId = "abcdef12-3456-7890-abcd-ef1234567890";
   const client = new CloudHealthClient(credential, subscriptionId);
-  await client.discoveryRules.delete("my-resource-group", "my-health-model", "my-discovery-rule");
+  await client.discoveryRules.delete("online-store-rg", "online-store", "discover-web-apps");
 }
 
 async function main(): Promise<void> {

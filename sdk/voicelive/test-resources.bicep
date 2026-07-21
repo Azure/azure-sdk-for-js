@@ -4,6 +4,9 @@ param baseName string = resourceGroup().name
 @description('The location of the resource. By default, this is the same as the resource group.')
 param location string = resourceGroup().location
 
+@description('Region for the AI Services account. VoiceLive serves several models (e.g. gpt-realtime, gpt-realtime-mini, phi4-mm-realtime, phi4-mini) as built-in models, and that capability is only available in a subset of regions. eastus2 supports the full model set exercised by the live test matrix.')
+param aiServicesLocation string = 'eastus2'
+
 @description('The principal ID of the test application identity. Provided by New-TestResources.ps1 in CI; defaults to empty for local deploys.')
 param testApplicationOid string = ''
 
@@ -42,7 +45,7 @@ var defaultProjectName = '${toLower(baseName)}-ai-defaultproject'
 // AI Services Account
 resource aiServices 'Microsoft.CognitiveServices/accounts@2025-04-01-preview' = {
   name: aiServicesName
-  location: location
+  location: aiServicesLocation
   kind: 'AIServices'
   sku: {
     name: 'S0'
@@ -69,7 +72,7 @@ resource aiServices 'Microsoft.CognitiveServices/accounts@2025-04-01-preview' = 
 resource defaultProject 'Microsoft.CognitiveServices/accounts/projects@2025-04-01-preview' = {
   parent: aiServices
   name: defaultProjectName
-  location: location
+  location: aiServicesLocation
   identity: {
     type: 'SystemAssigned'
   }

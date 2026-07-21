@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to the GET API for retrieving the list of outbound rules of the managed network associated with the cognitive services account.
  *
  * @summary the GET API for retrieving the list of outbound rules of the managed network associated with the cognitive services account.
- * x-ms-original-file: 2026-03-15-preview/ManagedNetwork/listRuleV2.json
+ * x-ms-original-file: 2026-05-15-preview/ManagedNetwork/listRuleV2.json
  */
 async function listOutboundRules() {
   const credential = new DefaultAzureCredential();

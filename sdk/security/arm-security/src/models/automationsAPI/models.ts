@@ -709,9 +709,7 @@ export function notificationsSourceDeserializer(item: any): NotificationsSource 
 
 /** Alias for NotificationsSourceUnion */
 export type NotificationsSourceUnion =
-  | NotificationsSourceAlert
-  | NotificationsSourceAttackPath
-  | NotificationsSource;
+  NotificationsSourceAlert | NotificationsSourceAttackPath | NotificationsSource;
 
 export function notificationsSourceUnionSerializer(item: NotificationsSourceUnion): any {
   switch (item.sourceType) {

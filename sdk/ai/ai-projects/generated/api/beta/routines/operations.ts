@@ -5,9 +5,7 @@ import { AIProjectContext as Client } from "../../index.js";
 import {
   apiErrorResponseDeserializer,
   routineTriggerUnionRecordSerializer,
-  RoutineTriggerUnion,
   routineActionUnionSerializer,
-  RoutineActionUnion,
   Routine,
   routineDeserializer,
   _AgentsPagedResultRoutine,
@@ -25,7 +23,7 @@ import {
 } from "../../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../../static-helpers/urlTemplate.js";
 import {
-  BetaRoutinesDispatchAsyncOptionalParams,
+  BetaRoutinesDispatchOptionalParams,
   BetaRoutinesListRunsOptionalParams,
   BetaRoutinesDeleteOptionalParams,
   BetaRoutinesListOptionalParams,
@@ -41,10 +39,10 @@ import {
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
 
-export function _dispatchAsyncSend(
+export function _dispatchSend(
   context: Client,
   routineName: string,
-  options: BetaRoutinesDispatchAsyncOptionalParams = { requestOptions: {} },
+  options: BetaRoutinesDispatchOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/routines/{routine_name}:dispatch_async{?api%2Dversion}",
@@ -76,28 +74,36 @@ export function _dispatchAsyncSend(
     });
 }
 
-export async function _dispatchAsyncDeserialize(
+export async function _dispatchDeserialize(
   result: PathUncheckedResponse,
 ): Promise<DispatchRoutineResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
     throw error;
   }
 
   return dispatchRoutineResponseDeserializer(result.body);
 }
 
-/** Queue an asynchronous routine dispatch. */
-export async function dispatchAsync(
+/** Queues an asynchronous dispatch for the specified routine. */
+export async function dispatch(
   context: Client,
   routineName: string,
-  options: BetaRoutinesDispatchAsyncOptionalParams = { requestOptions: {} },
+  options: BetaRoutinesDispatchOptionalParams = { requestOptions: {} },
 ): Promise<DispatchRoutineResponse> {
-  const result = await _dispatchAsyncSend(context, routineName, options);
-  return _dispatchAsyncDeserialize(result);
+  const result = await _dispatchSend(context, routineName, options);
+  return _dispatchDeserialize(result);
 }
 
 export function _listRunsSend(
@@ -106,14 +112,14 @@ export function _listRunsSend(
   options: BetaRoutinesListRunsOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/routines/{routine_name}/runs{?filter,limit,order,after,before,api%2Dversion}",
+    "/routines/{routine_name}/runs{?filter,limit,after,before,order,api%2Dversion}",
     {
       routine_name: routineName,
       filter: options?.filter,
       limit: options?.limit,
-      order: options?.order,
       after: options?.after,
       before: options?.before,
+      order: options?.order,
       "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
@@ -140,15 +146,23 @@ export async function _listRunsDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
     throw error;
   }
 
   return _agentsPagedResultRoutineRunDeserializer(result.body);
 }
 
-/** List prior runs for a routine. */
+/** Returns prior runs recorded for the specified routine. */
 export function listRuns(
   context: Client,
   routineName: string,
@@ -195,15 +209,23 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
     throw error;
   }
 
   return;
 }
 
-/** Delete a routine. */
+/** Deletes the specified routine. */
 /**
  *  @fixme delete is a reserved word that cannot be used as an operation name.
  *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
@@ -223,12 +245,12 @@ export function _listSend(
   options: BetaRoutinesListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
-    "/routines{?limit,order,after,before,api%2Dversion}",
+    "/routines{?limit,after,before,order,api%2Dversion}",
     {
       limit: options?.limit,
-      order: options?.order,
       after: options?.after,
       before: options?.before,
+      order: options?.order,
       "api%2Dversion": context.apiVersion ?? "v1",
     },
     {
@@ -255,15 +277,23 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
     throw error;
   }
 
   return _agentsPagedResultRoutineDeserializer(result.body);
 }
 
-/** List routines. */
+/** Returns the routines available in the current project. */
 export function list(
   context: Client,
   options: BetaRoutinesListOptionalParams = { requestOptions: {} },
@@ -310,15 +340,23 @@ export async function _disableDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
     throw error;
   }
 
   return routineDeserializer(result.body);
 }
 
-/** Disable a routine. */
+/** Disables the specified routine so it no longer runs. */
 export async function disable(
   context: Client,
   routineName: string,
@@ -361,15 +399,23 @@ export async function _enableDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
     throw error;
   }
 
   return routineDeserializer(result.body);
 }
 
-/** Enable a routine. */
+/** Enables the specified routine so it can be dispatched. */
 export async function enable(
   context: Client,
   routineName: string,
@@ -412,15 +458,23 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ro
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
     throw error;
   }
 
   return routineDeserializer(result.body);
 }
 
-/** Retrieve a routine. */
+/** Retrieves the specified routine and its current configuration. */
 export async function get(
   context: Client,
   routineName: string,
@@ -433,8 +487,6 @@ export async function get(
 export function _createOrUpdateSend(
   context: Client,
   routineName: string,
-  triggers: Record<string, RoutineTriggerUnion>,
-  action: RoutineActionUnion,
   options: BetaRoutinesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -462,8 +514,10 @@ export function _createOrUpdateSend(
       body: {
         description: options?.description,
         enabled: options?.enabled,
-        triggers: routineTriggerUnionRecordSerializer(triggers),
-        action: routineActionUnionSerializer(action),
+        triggers: !options?.triggers
+          ? options?.triggers
+          : routineTriggerUnionRecordSerializer(options?.triggers),
+        action: !options?.action ? options?.action : routineActionUnionSerializer(options?.action),
       },
     });
 }
@@ -472,22 +526,28 @@ export async function _createOrUpdateDeserialize(result: PathUncheckedResponse):
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
-
+    const statusCode = Number.parseInt(result.status);
+    if (statusCode >= 400 && statusCode <= 499) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    } else if (statusCode >= 500 && statusCode <= 599) {
+      if (result.body) {
+        error.details = apiErrorResponseDeserializer(result.body);
+      }
+    }
     throw error;
   }
 
   return routineDeserializer(result.body);
 }
 
-/** Create or update a routine. */
+/** Creates a new routine or replaces an existing routine with the supplied definition. */
 export async function createOrUpdate(
   context: Client,
   routineName: string,
-  triggers: Record<string, RoutineTriggerUnion>,
-  action: RoutineActionUnion,
   options: BetaRoutinesCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): Promise<Routine> {
-  const result = await _createOrUpdateSend(context, routineName, triggers, action, options);
+  const result = await _createOrUpdateSend(context, routineName, options);
   return _createOrUpdateDeserialize(result);
 }

@@ -19,6 +19,7 @@ import { CredentialPolicyCreator } from '@azure/storage-common';
 import { HttpHeadersLike as HttpHeaders } from '@azure/core-http-compat';
 import { CompatResponse as HttpOperationResponse } from '@azure/core-http-compat';
 import type { RequestBodyType as HttpRequestBody } from '@azure/core-rest-pipeline';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { KeepAliveOptions } from '@azure/core-http-compat';
 import { NodeJSReadableStream } from '@azure/storage-common';
 import type { OperationTracingOptions } from '@azure/core-tracing';
@@ -53,7 +54,7 @@ export interface AccessPolicy {
 }
 
 // @public
-export type AccessTier = "P4" | "P6" | "P10" | "P15" | "P20" | "P30" | "P40" | "P50" | "P60" | "P70" | "P80" | "Hot" | "Cool" | "Archive" | "Cold";
+export type AccessTier = "P4" | "P6" | "P10" | "P15" | "P20" | "P30" | "P40" | "P50" | "P60" | "P70" | "P80" | "Hot" | "Cool" | "Archive" | "Cold" | "Smart";
 
 // @public
 export interface AccessTierModifiedConditions {
@@ -286,7 +287,7 @@ export interface AppendPositionAccessConditions {
 }
 
 // @public
-export type ArchiveStatus = "rehydrate-pending-to-hot" | "rehydrate-pending-to-cool" | "rehydrate-pending-to-cold";
+export type ArchiveStatus = "rehydrate-pending-to-hot" | "rehydrate-pending-to-cool" | "rehydrate-pending-to-cold" | "rehydrate-pending-to-smart";
 
 export { BaseRequestPolicy }
 
@@ -674,6 +675,7 @@ export interface BlobFlatListSegmentModel {
 
 // @public
 export interface BlobGenerateSasUrlOptions extends CommonGenerateSasUrlOptions {
+    isDirectory?: boolean;
     permissions?: BlobSASPermissions;
 }
 
@@ -750,6 +752,7 @@ export interface BlobGetPropertiesHeaders {
     };
     rehydratePriority?: RehydratePriority;
     requestId?: string;
+    smartAccessTier?: string;
     tagCount?: number;
     version?: string;
     versionId?: string;
@@ -982,6 +985,7 @@ export interface BlobProperties {
     remainingRetentionDays?: number;
     // (undocumented)
     serverEncrypted?: boolean;
+    smartAccessTier?: AccessTier;
     // (undocumented)
     tagCount?: number;
 }
@@ -1146,6 +1150,7 @@ export interface BlobSASSignatureValues {
     expiresOn?: Date;
     identifier?: string;
     ipRange?: SasIPRange;
+    isDirectory?: boolean;
     permissions?: BlobSASPermissions | ContainerSASPermissions;
     preauthorizedAgentObjectId?: string;
     protocol?: SASProtocol;
@@ -2293,6 +2298,8 @@ export interface HttpResponse {
 // @public
 export function isPipelineLike(pipeline: unknown): pipeline is PipelineLike;
 
+export { isRestError }
+
 // @public
 export enum KnownEncryptionAlgorithmType {
     // (undocumented)
@@ -2968,7 +2975,7 @@ export enum SASProtocol {
 
 // @public
 export class SASQueryParameters {
-    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, cacheControl?: string, contentDisposition?: string, contentEncoding?: string, contentLanguage?: string, contentType?: string, userDelegationKey?: UserDelegationKey, preauthorizedAgentObjectId?: string, correlationId?: string, encryptionScope?: string, delegatedUserObjectId?: string, requestHeaderKeys?: string, requestQueryParameterKeys?: string);
+    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, cacheControl?: string, contentDisposition?: string, contentEncoding?: string, contentLanguage?: string, contentType?: string, userDelegationKey?: UserDelegationKey, preauthorizedAgentObjectId?: string, correlationId?: string, encryptionScope?: string, delegatedUserObjectId?: string, requestHeaderKeys?: string, requestQueryParameterKeys?: string, directoryDepth?: number);
     constructor(version: string, signature: string, options?: SASQueryParametersOptions);
     readonly cacheControl?: string;
     readonly contentDisposition?: string;
@@ -2977,6 +2984,7 @@ export class SASQueryParameters {
     readonly contentType?: string;
     readonly correlationId?: string;
     readonly delegatedUserObjectId?: string;
+    readonly directoryDepth?: number;
     readonly encryptionScope?: string;
     readonly expiresOn?: Date;
     readonly identifier?: string;
@@ -3004,6 +3012,7 @@ export interface SASQueryParametersOptions {
     contentType?: string;
     correlationId?: string;
     delegatedUserObjectId?: string;
+    directoryDepth?: number;
     encryptionScope?: string;
     expiresOn?: Date;
     identifier?: string;

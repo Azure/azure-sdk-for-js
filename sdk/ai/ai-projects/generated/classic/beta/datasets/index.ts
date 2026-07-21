@@ -21,17 +21,17 @@ import { PagedAsyncIterableIterator } from "../../../static-helpers/pagingHelper
 
 /** Interface representing a BetaDatasets operations. */
 export interface BetaDatasetsOperations {
-  /** Deletes a data generation job by its ID. */
+  /** Removes the specified data generation job and its associated output. */
   deleteGenerationJob: (
     jobId: string,
     options?: BetaDatasetsDeleteGenerationJobOptionalParams,
   ) => Promise<void>;
-  /** Cancels a data generation job by its ID. */
+  /** Cancels the specified data generation job if it is still in progress. */
   cancelGenerationJob: (
     jobId: string,
     options?: BetaDatasetsCancelGenerationJobOptionalParams,
   ) => Promise<DataGenerationJob>;
-  /** Creates a data generation job. */
+  /** Submits a new data generation job for asynchronous execution. */
   createGenerationJob: (
     job: DataGenerationJob,
     options?: BetaDatasetsCreateGenerationJobOptionalParams,
@@ -40,7 +40,7 @@ export interface BetaDatasetsOperations {
   listGenerationJobs: (
     options?: BetaDatasetsListGenerationJobsOptionalParams,
   ) => PagedAsyncIterableIterator<DataGenerationJob>;
-  /** Gets the details of a data generation job by its ID. */
+  /** Retrieves the specified data generation job and its current status. */
   getGenerationJob: (
     jobId: string,
     options?: BetaDatasetsGetGenerationJobOptionalParams,

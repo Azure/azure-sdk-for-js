@@ -22,12 +22,7 @@ jobs:
         vmImage: "ubuntu-24.04"
       displayName: Check Smoke Test Eligibility
       steps:
-        - template: /eng/pipelines/templates/steps/use-node-version.yml
-
-        - template: /eng/common/pipelines/templates/steps/create-authenticated-npmrc.yml
-          parameters:
-            npmrcPath: $(CommonNpmrcPath)
-            registryUrl: '$(PublicDevOpsRegistry)'
+        - template: /eng/pipelines/templates/steps/common.yml
 
         # As of npm v7, "npm install -g" no longer installs local dependencies as part of the global install.
         # As a workaround, we run "npm install --prod" before "npm install -g".

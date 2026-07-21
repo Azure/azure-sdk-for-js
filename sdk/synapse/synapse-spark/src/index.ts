@@ -9,3 +9,4 @@
 export * from "./models/index.js";
 export { SparkClient } from "./sparkClient.js";
 export type * from "./operationsInterfaces/index.js";
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

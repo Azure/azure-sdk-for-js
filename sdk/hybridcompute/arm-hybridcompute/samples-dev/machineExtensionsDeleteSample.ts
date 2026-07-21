@@ -1,32 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * This sample demonstrates how to The operation to delete the extension.
- *
- * @summary The operation to delete the extension.
- * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2025-02-19-preview/examples/extension/Extension_Delete.json
- */
-
 import { HybridComputeManagementClient } from "@azure/arm-hybridcompute";
 import { DefaultAzureCredential } from "@azure/identity";
-import "dotenv/config";
 
+/**
+ * This sample demonstrates how to the operation to delete the extension.
+ *
+ * @summary the operation to delete the extension.
+ * x-ms-original-file: 2025-09-16-preview/extension/Extension_Delete.json
+ */
 async function deleteAMachineExtension(): Promise<void> {
-  const subscriptionId =
-    process.env["HYBRIDCOMPUTE_SUBSCRIPTION_ID"] || "{subscriptionId}";
-  const resourceGroupName =
-    process.env["HYBRIDCOMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
-  const machineName = "myMachine";
-  const extensionName = "MMA";
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "{subscriptionId}";
   const client = new HybridComputeManagementClient(credential, subscriptionId);
-  const result = await client.machineExtensions.beginDeleteAndWait(
-    resourceGroupName,
-    machineName,
-    extensionName,
-  );
-  console.log(result);
+  await client.machineExtensions.delete("myResourceGroup", "myMachine", "MMA");
 }
 
 async function main(): Promise<void> {

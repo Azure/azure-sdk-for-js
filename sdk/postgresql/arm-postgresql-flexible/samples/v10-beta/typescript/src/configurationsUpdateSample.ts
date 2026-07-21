@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates the value assigned to a specific modifiable configuration (also known as server parameter) of a server.
  *
  * @summary updates the value assigned to a specific modifiable configuration (also known as server parameter) of a server.
- * x-ms-original-file: 2026-01-01-preview/ConfigurationsUpdate.json
+ * x-ms-original-file: 2026-04-01-preview/ConfigurationsUpdate.json
  */
 async function updateTheValueAssignedToASpecificModifiableConfigurationAlsoKnownAsServerParameterOfAServer(): Promise<void> {
   const credential = new DefaultAzureCredential();

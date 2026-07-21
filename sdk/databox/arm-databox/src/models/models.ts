@@ -26,11 +26,7 @@ export function mitigateJobRequestSerializer(item: MitigateJobRequest): any {
 
 /** Resolution code provided by customer. */
 export type CustomerResolutionCode =
-  | "None"
-  | "MoveToCleanUpDevice"
-  | "Resume"
-  | "Restart"
-  | "ReachOutToOperation";
+  "None" | "MoveToCleanUpDevice" | "Resume" | "Restart" | "ReachOutToOperation";
 
 /** model interface ApiError */
 export interface ApiError {
@@ -989,9 +985,7 @@ export function dataAccountDetailsDeserializer(item: any): DataAccountDetails {
 
 /** Alias for DataAccountDetailsUnion */
 export type DataAccountDetailsUnion =
-  | ManagedDiskDetails
-  | StorageAccountDetails
-  | DataAccountDetails;
+  ManagedDiskDetails | StorageAccountDetails | DataAccountDetails;
 
 export function dataAccountDetailsUnionSerializer(item: DataAccountDetailsUnion): any {
   switch (item.dataAccountType) {
@@ -3277,8 +3271,7 @@ export function granularCopyLogDetailsDeserializer(item: any): GranularCopyLogDe
 
 /** Alias for GranularCopyLogDetailsUnion */
 export type GranularCopyLogDetailsUnion =
-  | DataBoxDiskGranularCopyLogDetails
-  | GranularCopyLogDetails;
+  DataBoxDiskGranularCopyLogDetails | GranularCopyLogDetails;
 
 export function granularCopyLogDetailsUnionDeserializer(item: any): GranularCopyLogDetailsUnion {
   switch (item["copyLogDetailsType"]) {
@@ -3864,12 +3857,7 @@ export function shareCredentialDetailsDeserializer(item: any): ShareCredentialDe
 
 /** Type of the share. */
 export type ShareDestinationFormatType =
-  | "UnknownType"
-  | "HCS"
-  | "BlockBlob"
-  | "PageBlob"
-  | "AzureFile"
-  | "ManagedDisk";
+  "UnknownType" | "HCS" | "BlockBlob" | "PageBlob" | "AzureFile" | "ManagedDisk";
 /** Access protocols supported on the device. */
 export type AccessProtocol = "SMB" | "NFS";
 
@@ -4732,9 +4720,7 @@ export function validationResponsePropertiesDeserializer(item: any): ValidationR
 
 /** Overall validation status. */
 export type OverallValidationStatus =
-  | "AllValidToProceed"
-  | "InputsRevisitRequired"
-  | "CertainInputValidationsSkipped";
+  "AllValidToProceed" | "InputsRevisitRequired" | "CertainInputValidationsSkipped";
 
 export function validationInputResponseUnionArrayDeserializer(
   result: Array<ValidationInputResponseUnion>,
@@ -4936,12 +4922,7 @@ export function skuCostDeserializer(item: any): SkuCost {
 
 /** Reason why the Sku is disabled. */
 export type SkuDisabledReason =
-  | "None"
-  | "Country"
-  | "Region"
-  | "Feature"
-  | "OfferType"
-  | "NoSubscriptionInfo";
+  "None" | "Country" | "Region" | "Feature" | "OfferType" | "NoSubscriptionInfo";
 
 /** The available API versions. */
 export enum KnownVersions {

@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.browser.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-databoxedge": ["../src/index.ts"],
+      "@azure/arm-databoxedge/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}

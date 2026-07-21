@@ -1,5 +1,25 @@
 # Release History
 
+## 1.2.0-beta.3 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.2.0-beta.2 (2026-06-11)
+
+### Bugs Fixed
+
+- Filtered service-emitted `LLMStats:` telemetry entries from the rendered `rai_warnings` front matter. [#38851](https://github.com/Azure/azure-sdk-for-js/pull/38851)
+
+### Other Changes
+
+- Updated `toLlmInput` page markers from `<!-- page N -->` to `<!-- InputPageNumber: N -->` and avoided duplicate marker injection when the service markdown already includes `InputPageNumber` markers. [#38851](https://github.com/Azure/azure-sdk-for-js/pull/38851)
+
 ## 1.2.0-beta.1 (2026-04-30)
 
 ### Features Added

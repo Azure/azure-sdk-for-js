@@ -3,20 +3,18 @@
 
 const { NewRelicObservability } = require("@azure/arm-newrelicobservability");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv/config");
 
 /**
- * This sample demonstrates how to Switches the billing for the New Relic Monitor resource to be billed by Azure Marketplace
+ * This sample demonstrates how to switches the billing for the New Relic Monitor resource to be billed by Azure Marketplace
  *
- * @summary Switches the billing for the New Relic Monitor resource to be billed by Azure Marketplace
- * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/preview/2025-05-01-preview/examples/Monitors_SwitchBilling_MaximumSet_Gen.json
+ * @summary switches the billing for the New Relic Monitor resource to be billed by Azure Marketplace
+ * x-ms-original-file: 2025-05-01-preview/Monitors_SwitchBilling_MaximumSet_Gen.json
  */
 async function monitorsSwitchBillingMaximumSetGen() {
-  const subscriptionId =
-    process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["NEWRELICOBSERVABILITY_RESOURCE_GROUP"] || "rgNewRelic";
-  const monitorName = "fhcjxnxumkdlgpwanewtkdnyuz";
-  const request = {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const client = new NewRelicObservability(credential, subscriptionId);
+  const result = await client.monitors.switchBilling("rgNewRelic", "fhcjxnxumkdlgpwanewtkdnyuz", {
     azureResourceId:
       "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgNewRelic/providers/NewRelic.Observability/monitors/fhcjxnxumkdlgpwanewtkdnyuz",
     organizationId: "k",
@@ -27,30 +25,23 @@ async function monitorsSwitchBillingMaximumSetGen() {
       usageType: "PAYG",
     },
     userEmail: "ruxvg@xqkmdhrnoo.hlmbpm",
-  };
-  const credential = new DefaultAzureCredential();
-  const client = new NewRelicObservability(credential, subscriptionId);
-  const result = await client.monitors.switchBilling(resourceGroupName, monitorName, request);
+  });
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Switches the billing for the New Relic Monitor resource to be billed by Azure Marketplace
+ * This sample demonstrates how to switches the billing for the New Relic Monitor resource to be billed by Azure Marketplace
  *
- * @summary Switches the billing for the New Relic Monitor resource to be billed by Azure Marketplace
- * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/preview/2025-05-01-preview/examples/Monitors_SwitchBilling_MinimumSet_Gen.json
+ * @summary switches the billing for the New Relic Monitor resource to be billed by Azure Marketplace
+ * x-ms-original-file: 2025-05-01-preview/Monitors_SwitchBilling_MinimumSet_Gen.json
  */
 async function monitorsSwitchBillingMinimumSetGen() {
-  const subscriptionId =
-    process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = process.env["NEWRELICOBSERVABILITY_RESOURCE_GROUP"] || "rgNewRelic";
-  const monitorName = "fhcjxnxumkdlgpwanewtkdnyuz";
-  const request = {
-    userEmail: "ruxvg@xqkmdhrnoo.hlmbpm",
-  };
   const credential = new DefaultAzureCredential();
+  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const client = new NewRelicObservability(credential, subscriptionId);
-  const result = await client.monitors.switchBilling(resourceGroupName, monitorName, request);
+  const result = await client.monitors.switchBilling("rgNewRelic", "fhcjxnxumkdlgpwanewtkdnyuz", {
+    userEmail: "ruxvg@xqkmdhrnoo.hlmbpm",
+  });
   console.log(result);
 }
 

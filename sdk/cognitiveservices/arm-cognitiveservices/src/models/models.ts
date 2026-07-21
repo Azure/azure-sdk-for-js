@@ -1733,10 +1733,7 @@ export function identityDeserializer(item: any): Identity {
 
 /** The identity type. */
 export type ResourceIdentityType =
-  | "None"
-  | "SystemAssigned"
-  | "UserAssigned"
-  | "SystemAssigned, UserAssigned";
+  "None" | "SystemAssigned" | "UserAssigned" | "SystemAssigned, UserAssigned";
 
 export function userAssignedIdentityRecordSerializer(
   item: Record<string, UserAssignedIdentity>,
@@ -2647,6 +2644,8 @@ export interface DeploymentProperties {
   readonly provisioningState?: DeploymentProvisioningState;
   /** Properties of Cognitive Services account deployment model. */
   model?: DeploymentModel;
+  /** Speculative decoding settings for the deployment. This configuration applies to Fireworks model formats. */
+  speculativeDecoding?: DeploymentSpeculativeDecoding;
   /** Properties of Cognitive Services account deployment model. (Deprecated, please use Deployment.sku instead.) */
   scaleSettings?: DeploymentScaleSettings;
   /** The capabilities. */
@@ -2679,6 +2678,9 @@ export interface DeploymentProperties {
 export function deploymentPropertiesSerializer(item: DeploymentProperties): any {
   return {
     model: !item["model"] ? item["model"] : deploymentModelSerializer(item["model"]),
+    speculativeDecoding: !item["speculativeDecoding"]
+      ? item["speculativeDecoding"]
+      : deploymentSpeculativeDecodingSerializer(item["speculativeDecoding"]),
     scaleSettings: !item["scaleSettings"]
       ? item["scaleSettings"]
       : deploymentScaleSettingsSerializer(item["scaleSettings"]),
@@ -2700,6 +2702,9 @@ export function deploymentPropertiesDeserializer(item: any): DeploymentPropertie
   return {
     provisioningState: item["provisioningState"],
     model: !item["model"] ? item["model"] : deploymentModelDeserializer(item["model"]),
+    speculativeDecoding: !item["speculativeDecoding"]
+      ? item["speculativeDecoding"]
+      : deploymentSpeculativeDecodingDeserializer(item["speculativeDecoding"]),
     scaleSettings: !item["scaleSettings"]
       ? item["scaleSettings"]
       : deploymentScaleSettingsDeserializer(item["scaleSettings"]),
@@ -2764,6 +2769,30 @@ export enum KnownDeploymentProvisioningState {
  * **Canceled**
  */
 export type DeploymentProvisioningState = string;
+
+/** Speculative decoding settings for a deployment. */
+export interface DeploymentSpeculativeDecoding {
+  /** Draft model used to generate speculative decoding tokens. */
+  draftModel: DeploymentModel;
+  /** The number of draft tokens attempted per speculation step. */
+  draftTokenCount?: number;
+}
+
+export function deploymentSpeculativeDecodingSerializer(item: DeploymentSpeculativeDecoding): any {
+  return {
+    draftModel: deploymentModelSerializer(item["draftModel"]),
+    draftTokenCount: item["draftTokenCount"],
+  };
+}
+
+export function deploymentSpeculativeDecodingDeserializer(
+  item: any,
+): DeploymentSpeculativeDecoding {
+  return {
+    draftModel: deploymentModelDeserializer(item["draftModel"]),
+    draftTokenCount: item["draftTokenCount"],
+  };
+}
 
 /** Properties of Cognitive Services account deployment model. (Deprecated, please use Deployment.sku instead.) */
 export interface DeploymentScaleSettings {
@@ -3540,6 +3569,11 @@ export interface RaiPolicyProperties {
   customBlocklists?: CustomBlocklistConfig[];
   /** The list of Safety Providers. */
   safetyProviders?: SafetyProviderConfig[];
+  /**
+   * Egress (outbound network) policy controlling which external endpoints sandboxed
+   * agents can reach. Includes rules with Allow/Deny/Transform/Rewrite actions.
+   */
+  egressPolicy?: RaiEgressPolicyConfig;
 }
 
 export function raiPolicyPropertiesSerializer(item: RaiPolicyProperties): any {
@@ -3555,6 +3589,9 @@ export function raiPolicyPropertiesSerializer(item: RaiPolicyProperties): any {
     safetyProviders: !item["safetyProviders"]
       ? item["safetyProviders"]
       : safetyProviderConfigArraySerializer(item["safetyProviders"]),
+    egressPolicy: !item["egressPolicy"]
+      ? item["egressPolicy"]
+      : raiEgressPolicyConfigSerializer(item["egressPolicy"]),
   };
 }
 
@@ -3572,6 +3609,9 @@ export function raiPolicyPropertiesDeserializer(item: any): RaiPolicyProperties 
     safetyProviders: !item["safetyProviders"]
       ? item["safetyProviders"]
       : safetyProviderConfigArrayDeserializer(item["safetyProviders"]),
+    egressPolicy: !item["egressPolicy"]
+      ? item["egressPolicy"]
+      : raiEgressPolicyConfigDeserializer(item["egressPolicy"]),
   };
 }
 
@@ -3818,6 +3858,454 @@ export function safetyProviderConfigDeserializer(item: any): SafetyProviderConfi
     source: item["source"],
   };
 }
+
+/**
+ * Egress (outbound network) policy configuration nested within an RAI policy.
+ * Controls which external endpoints sandboxed agents can reach and what
+ * transformations (header injection, URL rewrite) are applied to matching traffic.
+ */
+export interface RaiEgressPolicyConfig {
+  /**
+   * The enforcement mode for egress rules.
+   * If omitted on create, the server defaults to Enforced. On subsequent GET
+   * requests, the server always returns the effective mode.
+   */
+  mode?: RaiEgressMode;
+  /**
+   * The default action when no user-defined rules match.
+   * Deny blocks unmatched traffic; Allow permits it. Transform and Rewrite rules
+   * are always applied to their matched traffic regardless of this setting —
+   * defaultAction only governs traffic that does not match any rule.
+   * If omitted on create, the server defaults to Deny (fail-closed). On subsequent
+   * GET requests, the server always returns the effective value.
+   */
+  defaultAction?: RaiEgressDefaultAction;
+  /** Description of the egress policy. */
+  description?: string;
+  /**
+   * Ordered list of egress rules. First matching rule wins.
+   * Rules are evaluated in declaration order; the first rule whose match criteria
+   * are satisfied determines the action taken on the request.
+   */
+  rules?: RaiEgressRule[];
+}
+
+export function raiEgressPolicyConfigSerializer(item: RaiEgressPolicyConfig): any {
+  return {
+    mode: item["mode"],
+    defaultAction: item["defaultAction"],
+    description: item["description"],
+    rules: !item["rules"] ? item["rules"] : raiEgressRuleArraySerializer(item["rules"]),
+  };
+}
+
+export function raiEgressPolicyConfigDeserializer(item: any): RaiEgressPolicyConfig {
+  return {
+    mode: item["mode"],
+    defaultAction: item["defaultAction"],
+    description: item["description"],
+    rules: !item["rules"] ? item["rules"] : raiEgressRuleArrayDeserializer(item["rules"]),
+  };
+}
+
+/**
+ * The enforcement mode for egress rules.
+ * If omitted on create, the server defaults to Enforced.
+ */
+export enum KnownRaiEgressMode {
+  /** Rules are enforced. Matching traffic is allowed or denied per rule actions. */
+  Enforced = "Enforced",
+  /**
+   * Rules are evaluated and logged but not enforced. Traffic is always forwarded regardless of
+   * rule action. A would-be Deny is logged but not applied. Transform and Rewrite actions are
+   * still applied to matching traffic (only Deny enforcement is suppressed).
+   */
+  Audit = "Audit",
+}
+
+/**
+ * The enforcement mode for egress rules.
+ * If omitted on create, the server defaults to Enforced. \
+ * {@link KnownRaiEgressMode} can be used interchangeably with RaiEgressMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enforced**: Rules are enforced. Matching traffic is allowed or denied per rule actions. \
+ * **Audit**: Rules are evaluated and logged but not enforced. Traffic is always forwarded regardless of
+ * rule action. A would-be Deny is logged but not applied. Transform and Rewrite actions are
+ * still applied to matching traffic (only Deny enforcement is suppressed).
+ */
+export type RaiEgressMode = string;
+
+/** The default action when no user-defined egress rules match. */
+export enum KnownRaiEgressDefaultAction {
+  /** Allow traffic by default when no rules match. */
+  Allow = "Allow",
+  /** Deny traffic by default when no rules match. */
+  Deny = "Deny",
+}
+
+/**
+ * The default action when no user-defined egress rules match. \
+ * {@link KnownRaiEgressDefaultAction} can be used interchangeably with RaiEgressDefaultAction,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Allow**: Allow traffic by default when no rules match. \
+ * **Deny**: Deny traffic by default when no rules match.
+ */
+export type RaiEgressDefaultAction = string;
+
+export function raiEgressRuleArraySerializer(result: Array<RaiEgressRule>): any[] {
+  return result.map((item) => {
+    return raiEgressRuleSerializer(item);
+  });
+}
+
+export function raiEgressRuleArrayDeserializer(result: Array<RaiEgressRule>): any[] {
+  return result.map((item) => {
+    return raiEgressRuleDeserializer(item);
+  });
+}
+
+/** A single egress rule. Rules are evaluated in order; first match wins. */
+export interface RaiEgressRule {
+  /** Name of the rule. Must be unique within the policy. */
+  name: string;
+  /** Description of the rule. */
+  description?: string;
+  /** The type of rule (e.g., Fqdn). Determines how match criteria are interpreted. */
+  ruleType: RaiEgressRuleType;
+  /** The match criteria for this rule. */
+  match?: RaiEgressRuleMatch;
+  /**
+   * The action to take when this rule matches, including the action type and any
+   * type-specific configuration (headers for Transform, rewrite target for Rewrite).
+   */
+  action: RaiEgressRuleAction;
+}
+
+export function raiEgressRuleSerializer(item: RaiEgressRule): any {
+  return {
+    name: item["name"],
+    description: item["description"],
+    ruleType: item["ruleType"],
+    match: !item["match"] ? item["match"] : raiEgressRuleMatchSerializer(item["match"]),
+    action: raiEgressRuleActionSerializer(item["action"]),
+  };
+}
+
+export function raiEgressRuleDeserializer(item: any): RaiEgressRule {
+  return {
+    name: item["name"],
+    description: item["description"],
+    ruleType: item["ruleType"],
+    match: !item["match"] ? item["match"] : raiEgressRuleMatchDeserializer(item["match"]),
+    action: raiEgressRuleActionDeserializer(item["action"]),
+  };
+}
+
+/** The type of an egress rule, determining what kind of traffic matching it performs. */
+export enum KnownRaiEgressRuleType {
+  /** Fully qualified domain name (FQDN) based rule matching on host and path patterns. */
+  Fqdn = "Fqdn",
+}
+
+/**
+ * The type of an egress rule, determining what kind of traffic matching it performs. \
+ * {@link KnownRaiEgressRuleType} can be used interchangeably with RaiEgressRuleType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Fqdn**: Fully qualified domain name (FQDN) based rule matching on host and path patterns.
+ */
+export type RaiEgressRuleType = string;
+
+/**
+ * The match criteria for an egress rule.
+ * If both host and path are omitted, the rule matches all traffic.
+ * Host uses DNS wildcard syntax (e.g., "*.openai.com" matches "api.openai.com").
+ * Path uses URI prefix matching with '*' as a single-segment wildcard (e.g., "/v1/*" matches "/v1/chat").
+ */
+export interface RaiEgressRuleMatch {
+  /**
+   * Host pattern to match using DNS wildcard syntax (e.g., "*.openai.com").
+   * A leading "*." matches any subdomain. Omit to match all hosts.
+   */
+  host?: string;
+  /**
+   * Path pattern to match using URI prefix with '*' wildcard (e.g., "/v1/*").
+   * Omit to match all paths.
+   */
+  path?: string;
+}
+
+export function raiEgressRuleMatchSerializer(item: RaiEgressRuleMatch): any {
+  return { host: item["host"], path: item["path"] };
+}
+
+export function raiEgressRuleMatchDeserializer(item: any): RaiEgressRuleMatch {
+  return {
+    host: item["host"],
+    path: item["path"],
+  };
+}
+
+/**
+ * The action an egress rule takes when it matches.
+ * - Allow/Deny: no additional fields needed; headers and rewrite must not be set.
+ * - Transform: headers is required with at least one entry; rewrite must not be set.
+ * - Rewrite: rewrite is required with at least one of scheme/host/path;
+ * headers is optional for injecting headers alongside the redirect.
+ */
+export interface RaiEgressRuleAction {
+  /** The kind of action. */
+  actionType: RaiEgressRuleActionType;
+  /**
+   * Header transforms to apply. Required for Transform; optional for Rewrite;
+   * not allowed for Allow or Deny.
+   */
+  headers?: RaiEgressHeaderTransform[];
+  /** Destination override. Required for Rewrite; not allowed otherwise. */
+  rewrite?: RaiEgressRewriteTarget;
+}
+
+export function raiEgressRuleActionSerializer(item: RaiEgressRuleAction): any {
+  return {
+    actionType: item["actionType"],
+    headers: !item["headers"]
+      ? item["headers"]
+      : raiEgressHeaderTransformArraySerializer(item["headers"]),
+    rewrite: !item["rewrite"] ? item["rewrite"] : raiEgressRewriteTargetSerializer(item["rewrite"]),
+  };
+}
+
+export function raiEgressRuleActionDeserializer(item: any): RaiEgressRuleAction {
+  return {
+    actionType: item["actionType"],
+    headers: !item["headers"]
+      ? item["headers"]
+      : raiEgressHeaderTransformArrayDeserializer(item["headers"]),
+    rewrite: !item["rewrite"]
+      ? item["rewrite"]
+      : raiEgressRewriteTargetDeserializer(item["rewrite"]),
+  };
+}
+
+/** The kind of action an egress rule takes when it matches. */
+export enum KnownRaiEgressRuleActionType {
+  /** Allow the matched traffic. */
+  Allow = "Allow",
+  /** Deny the matched traffic. */
+  Deny = "Deny",
+  /** Forward the matched traffic after applying header transforms. Requires at least one header. */
+  Transform = "Transform",
+  /** Redirect the matched traffic to a new destination, optionally applying header transforms. Requires a rewrite target. */
+  Rewrite = "Rewrite",
+}
+
+/**
+ * The kind of action an egress rule takes when it matches. \
+ * {@link KnownRaiEgressRuleActionType} can be used interchangeably with RaiEgressRuleActionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Allow**: Allow the matched traffic. \
+ * **Deny**: Deny the matched traffic. \
+ * **Transform**: Forward the matched traffic after applying header transforms. Requires at least one header. \
+ * **Rewrite**: Redirect the matched traffic to a new destination, optionally applying header transforms. Requires a rewrite target.
+ */
+export type RaiEgressRuleActionType = string;
+
+export function raiEgressHeaderTransformArraySerializer(
+  result: Array<RaiEgressHeaderTransform>,
+): any[] {
+  return result.map((item) => {
+    return raiEgressHeaderTransformSerializer(item);
+  });
+}
+
+export function raiEgressHeaderTransformArrayDeserializer(
+  result: Array<RaiEgressHeaderTransform>,
+): any[] {
+  return result.map((item) => {
+    return raiEgressHeaderTransformDeserializer(item);
+  });
+}
+
+/**
+ * A header transformation applied to matched traffic.
+ * For Set or Insert operations, exactly one of value or valueRef must be provided.
+ * For Remove operations, neither value nor valueRef should be set.
+ */
+export interface RaiEgressHeaderTransform {
+  /** The operation to perform on this header. */
+  operation: RaiEgressHeaderOperation;
+  /** The HTTP header name (e.g., "Authorization", "X-Custom-Auth"). */
+  name: string;
+  /**
+   * A static header value. Write-only: accepted on create/update, never returned on read.
+   * If omitted on update, the existing value is preserved. Use this for non-sensitive values;
+   * for credentials, use valueRef instead.
+   */
+  value?: string;
+  /** A dynamic header value resolved at request time from a secret or managed identity. */
+  valueRef?: RaiEgressHeaderValueRef;
+}
+
+export function raiEgressHeaderTransformSerializer(item: RaiEgressHeaderTransform): any {
+  return {
+    operation: item["operation"],
+    name: item["name"],
+    value: item["value"],
+    valueRef: !item["valueRef"]
+      ? item["valueRef"]
+      : raiEgressHeaderValueRefSerializer(item["valueRef"]),
+  };
+}
+
+export function raiEgressHeaderTransformDeserializer(item: any): RaiEgressHeaderTransform {
+  return {
+    operation: item["operation"],
+    name: item["name"],
+    value: item["value"],
+    valueRef: !item["valueRef"]
+      ? item["valueRef"]
+      : raiEgressHeaderValueRefDeserializer(item["valueRef"]),
+  };
+}
+
+/** The operation to apply to a header in a Transform or Rewrite action. */
+export enum KnownRaiEgressHeaderOperation {
+  /** Set or overwrite the header value, creating it if it does not exist. */
+  Set = "Set",
+  /** Add the header only if it is not already present. */
+  Insert = "Insert",
+  /** Remove the header if present. */
+  Remove = "Remove",
+}
+
+/**
+ * The operation to apply to a header in a Transform or Rewrite action. \
+ * {@link KnownRaiEgressHeaderOperation} can be used interchangeably with RaiEgressHeaderOperation,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Set**: Set or overwrite the header value, creating it if it does not exist. \
+ * **Insert**: Add the header only if it is not already present. \
+ * **Remove**: Remove the header if present.
+ */
+export type RaiEgressHeaderOperation = string;
+
+/** A dynamic source for a header value. Exactly one of secretRef or managedIdentityRef must be set. */
+export interface RaiEgressHeaderValueRef {
+  /** Resolve the value from a stored secret. */
+  secretRef?: RaiEgressSecretRef;
+  /** Resolve the value from a managed-identity token. */
+  managedIdentityRef?: RaiEgressManagedIdentityRef;
+}
+
+export function raiEgressHeaderValueRefSerializer(item: RaiEgressHeaderValueRef): any {
+  return {
+    secretRef: !item["secretRef"]
+      ? item["secretRef"]
+      : raiEgressSecretRefSerializer(item["secretRef"]),
+    managedIdentityRef: !item["managedIdentityRef"]
+      ? item["managedIdentityRef"]
+      : raiEgressManagedIdentityRefSerializer(item["managedIdentityRef"]),
+  };
+}
+
+export function raiEgressHeaderValueRefDeserializer(item: any): RaiEgressHeaderValueRef {
+  return {
+    secretRef: !item["secretRef"]
+      ? item["secretRef"]
+      : raiEgressSecretRefDeserializer(item["secretRef"]),
+    managedIdentityRef: !item["managedIdentityRef"]
+      ? item["managedIdentityRef"]
+      : raiEgressManagedIdentityRefDeserializer(item["managedIdentityRef"]),
+  };
+}
+
+/** A reference to a stored secret used as a header value. */
+export interface RaiEgressSecretRef {
+  /** Identifier of the secret to inject. */
+  secretId: string;
+  /** Optional key within the secret. */
+  secretKey?: string;
+  /** Optional format for the resolved value; "{value}" is the placeholder, e.g. "Bearer {value}". */
+  format?: string;
+}
+
+export function raiEgressSecretRefSerializer(item: RaiEgressSecretRef): any {
+  return { secretId: item["secretId"], secretKey: item["secretKey"], format: item["format"] };
+}
+
+export function raiEgressSecretRefDeserializer(item: any): RaiEgressSecretRef {
+  return {
+    secretId: item["secretId"],
+    secretKey: item["secretKey"],
+    format: item["format"],
+  };
+}
+
+/** A reference to a managed-identity token used as a header value. */
+export interface RaiEgressManagedIdentityRef {
+  /** The resource/audience the token is requested for. */
+  resource: string;
+  /** Optional format for the resolved token; "{value}" is the placeholder, e.g. "Bearer {value}". */
+  format?: string;
+}
+
+export function raiEgressManagedIdentityRefSerializer(item: RaiEgressManagedIdentityRef): any {
+  return { resource: item["resource"], format: item["format"] };
+}
+
+export function raiEgressManagedIdentityRefDeserializer(item: any): RaiEgressManagedIdentityRef {
+  return {
+    resource: item["resource"],
+    format: item["format"],
+  };
+}
+
+/**
+ * Where a Rewrite action sends matched traffic. At least one field must be set;
+ * omitted fields retain the original request values. This constraint is enforced
+ * by the server (400 Bad Request if all fields are omitted).
+ */
+export interface RaiEgressRewriteTarget {
+  /** Target scheme. Original scheme is kept if omitted. */
+  scheme?: RaiEgressScheme;
+  /** Target host. Original host is kept if omitted. */
+  host?: string;
+  /** Target path (literal string). Original path (and query) is kept if omitted. */
+  path?: string;
+}
+
+export function raiEgressRewriteTargetSerializer(item: RaiEgressRewriteTarget): any {
+  return { scheme: item["scheme"], host: item["host"], path: item["path"] };
+}
+
+export function raiEgressRewriteTargetDeserializer(item: any): RaiEgressRewriteTarget {
+  return {
+    scheme: item["scheme"],
+    host: item["host"],
+    path: item["path"],
+  };
+}
+
+/** URL scheme for rewrite targets. Only HTTP and HTTPS are supported. */
+export enum KnownRaiEgressScheme {
+  /** HTTP scheme. */
+  Http = "http",
+  /** HTTPS scheme. */
+  Https = "https",
+}
+
+/**
+ * URL scheme for rewrite targets. Only HTTP and HTTPS are supported. \
+ * {@link KnownRaiEgressScheme} can be used interchangeably with RaiEgressScheme,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **http**: HTTP scheme. \
+ * **https**: HTTPS scheme.
+ */
+export type RaiEgressScheme = string;
 
 /** Azure OpenAI blocklist config. */
 export interface RaiBlocklistConfig {
@@ -7626,6 +8114,11 @@ export interface ManagedComputeDeploymentProperties {
   acceleratorType?: string;
   /** Template auto-upgrade policy. Defaults to OnceNewDefaultVersionAvailable. */
   versionUpgradeOption?: DeploymentModelVersionUpgradeOption;
+  /**
+   * Deployment capabilities represented as key-value pairs.
+   * Example: { assetsV2: "true" }.
+   */
+  readonly capabilities?: Record<string, string>;
   /** Foundry compute ARM resource ID for VM-backed managed compute deployments. Required when sku.name is VmManagedCompute; immutable after creation. */
   computeId?: string;
   /** Scheduling priority for VM-backed managed compute deployments. Immutable after creation. */
@@ -7663,6 +8156,11 @@ export function managedComputeDeploymentPropertiesDeserializer(
     deploymentTemplate: item["deploymentTemplate"],
     acceleratorType: item["acceleratorType"],
     versionUpgradeOption: item["versionUpgradeOption"],
+    capabilities: !item["capabilities"]
+      ? item["capabilities"]
+      : Object.fromEntries(
+          Object.entries(item["capabilities"]).map(([k, p]: [string, any]) => [k, p]),
+        ),
     computeId: item["computeId"],
     priority: item["priority"],
     acceleratorsPerInstance: item["acceleratorsPerInstance"],
@@ -8000,9 +8498,7 @@ export function computePropertiesDeserializer(item: any): ComputeProperties {
 
 /** Alias for ComputePropertiesUnion */
 export type ComputePropertiesUnion =
-  | ClusterComputeProperties
-  | ContainerInstanceComputeProperties
-  | ComputeProperties;
+  ClusterComputeProperties | ContainerInstanceComputeProperties | ComputeProperties;
 
 export function computePropertiesUnionSerializer(item: ComputePropertiesUnion): any {
   switch (item.computeType) {
@@ -8475,8 +8971,6 @@ export function managedComputeCapacityDeserializer(item: any): ManagedComputeCap
 export interface ManagedComputeCapacityProperties {
   /** The type of accelerator (e.g., Azure.A100, Azure.H100). */
   readonly acceleratorType?: string;
-  /** The Azure region where the capacity is available. */
-  readonly location?: string;
   /** The number of available accelerators in the region. */
   readonly availableAccelerators?: number;
   /** Capacity information broken down by deployment size. */
@@ -8488,7 +8982,6 @@ export function managedComputeCapacityPropertiesDeserializer(
 ): ManagedComputeCapacityProperties {
   return {
     acceleratorType: item["acceleratorType"],
-    location: item["location"],
     availableAccelerators: item["availableAccelerators"],
     deploymentSizeCapacities: !item["deploymentSizeCapacities"]
       ? item["deploymentSizeCapacities"]
@@ -8921,10 +9414,7 @@ export function outboundRuleDeserializer(item: any): OutboundRule {
 
 /** Alias for OutboundRuleUnion */
 export type OutboundRuleUnion =
-  | FqdnOutboundRule
-  | PrivateEndpointOutboundRule
-  | ServiceTagOutboundRule
-  | OutboundRule;
+  FqdnOutboundRule | PrivateEndpointOutboundRule | ServiceTagOutboundRule | OutboundRule;
 
 export function outboundRuleUnionSerializer(item: OutboundRuleUnion): any {
   switch (item.type) {
@@ -9690,9 +10180,7 @@ export function agentDeploymentPropertiesDeserializer(item: any): AgentDeploymen
 
 /** Alias for AgentDeploymentPropertiesUnion */
 export type AgentDeploymentPropertiesUnion =
-  | ManagedAgentDeployment
-  | HostedAgentDeployment
-  | AgentDeploymentProperties;
+  ManagedAgentDeployment | HostedAgentDeployment | AgentDeploymentProperties;
 
 export function agentDeploymentPropertiesUnionSerializer(
   item: AgentDeploymentPropertiesUnion,
@@ -10356,6 +10844,10 @@ export enum KnownVersions {
   V20260301 = "2026-03-01",
   /** The 2026-03-15-preview API version. */
   V20260315Preview = "2026-03-15-preview",
+  /** The 2026-05-01 API version. */
+  V20260501 = "2026-05-01",
+  /** The 2026-05-15-preview API version. */
+  V20260515Preview = "2026-05-15-preview",
 }
 
 export function raiBlocklistItemBulkRequestArraySerializer(

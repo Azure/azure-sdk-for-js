@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type OpenAI from "openai";
-import { isGenAITracingApplied, isTraceContextPropagationEnabled } from "./configuration.js";
+import type { ResolvedTracingConfig } from "./configuration.js";
 import { createRequestHeaders } from "./tracingClient.js";
 
 type FetchFn = NonNullable<NonNullable<ConstructorParameters<typeof OpenAI>[0]>["fetch"]>;
@@ -12,12 +12,16 @@ type FetchFn = NonNullable<NonNullable<ConstructorParameters<typeof OpenAI>[0]>[
  * (traceparent, tracestate) into outgoing requests when GenAI tracing is enabled.
  *
  * @param innerFetch - The underlying fetch function to wrap. If undefined, uses globalThis.fetch.
+ * @param tracingConfig - The resolved tracing config for this client instance.
  * @returns A fetch-compatible function that injects tracing headers.
  */
-export function getTracingFetch(innerFetch?: FetchFn): FetchFn {
+export function getTracingFetch(
+  innerFetch?: FetchFn,
+  tracingConfig?: ResolvedTracingConfig,
+): FetchFn {
   const baseFetch = innerFetch ?? (globalThis.fetch as FetchFn);
   return async function (resource, options): Promise<Response> {
-    if (!isGenAITracingApplied() || !isTraceContextPropagationEnabled()) {
+    if (!tracingConfig?.enabled || !tracingConfig.traceContextPropagation) {
       return baseFetch(resource, options);
     }
     const tracingHeaders = createRequestHeaders();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists the virtual network subnet usage for a given virtual network.
  *
  * @summary lists the virtual network subnet usage for a given virtual network.
- * x-ms-original-file: 2026-01-01-preview/VirtualNetworkSubnetUsageList.json
+ * x-ms-original-file: 2026-04-01-preview/VirtualNetworkSubnetUsageList.json
  */
 async function listTheVirtualNetworkSubnetUsageForAGivenVirtualNetwork() {
   const credential = new DefaultAzureCredential();

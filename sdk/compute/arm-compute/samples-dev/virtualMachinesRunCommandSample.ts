@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to run command on the VM.
  *
  * @summary run command on the VM.
- * x-ms-original-file: 2025-11-01/runCommandExamples/VirtualMachineRunCommand.json
+ * x-ms-original-file: 2026-03-01/runCommandExamples/VirtualMachineRunCommand.json
  */
 async function virtualMachineRunCommand(): Promise<void> {
   const credential = new DefaultAzureCredential();

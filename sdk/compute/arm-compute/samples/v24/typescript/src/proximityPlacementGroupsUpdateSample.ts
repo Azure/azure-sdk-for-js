@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to update a proximity placement group.
  *
  * @summary update a proximity placement group.
- * x-ms-original-file: 2025-11-01/proximityPlacementGroupExamples/ProximityPlacementGroup_Patch.json
+ * x-ms-original-file: 2026-03-01/proximityPlacementGroupExamples/ProximityPlacementGroup_Patch.json
  */
 async function updateAProximityPlacementGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -81,6 +81,7 @@ export type {
   SystemData,
   CreatedByType,
   ErrorResponse,
+  ResourceProvisioningState,
   AgentPoolDeleteMachinesParameter,
   AgentPoolAvailableVersions,
   AgentPoolAvailableVersionsProperties,
@@ -138,6 +139,8 @@ export type {
   ManagedClusterLoadBalancerProfileOutboundIPs,
   BackendPoolType,
   ClusterServiceLoadBalancerHealthProbeMode,
+  BastionProfile,
+  BastionSku,
   ManagedClusterNATGatewayProfile,
   ManagedClusterManagedOutboundIPProfile,
   ManagedClusterStaticEgressGatewayProfile,
@@ -287,6 +290,8 @@ export type {
   RelativeMonthlySchedule,
   Type,
   DateSpan,
+  MaintenanceWindowResource,
+  MaintenanceWindowResourceProperties,
   ManagedNamespace,
   NamespaceProperties,
   NamespaceProvisioningState,
@@ -399,6 +404,7 @@ export {
   KnownLocalDNSForwardPolicy,
   KnownLocalDNSServeStale,
   KnownCreatedByType,
+  KnownResourceProvisioningState,
   KnownLicenseType,
   KnownManagedClusterPodIdentityProvisioningState,
   KnownRestrictionLevel,
@@ -415,6 +421,7 @@ export {
   KnownLoadBalancerSku,
   KnownBackendPoolType,
   KnownClusterServiceLoadBalancerHealthProbeMode,
+  KnownBastionSku,
   KnownIpFamily,
   KnownPodLinkLocalAccess,
   KnownMode,
@@ -511,6 +518,14 @@ export type {
   MaintenanceConfigurationsGetOptionalParams,
 } from "./api/maintenanceConfigurations/index.js";
 export type {
+  MaintenanceWindowsListBySubscriptionOptionalParams,
+  MaintenanceWindowsListOptionalParams,
+  MaintenanceWindowsDeleteOptionalParams,
+  MaintenanceWindowsUpdateTagsOptionalParams,
+  MaintenanceWindowsCreateOrUpdateOptionalParams,
+  MaintenanceWindowsGetOptionalParams,
+} from "./api/maintenanceWindows/index.js";
+export type {
   ManagedClustersListKubernetesVersionsOptionalParams,
   ManagedClustersListMeshUpgradeProfilesOptionalParams,
   ManagedClustersGetMeshUpgradeProfileOptionalParams,
@@ -603,6 +618,7 @@ export type {
   LoadBalancersOperations,
   MachinesOperations,
   MaintenanceConfigurationsOperations,
+  MaintenanceWindowsOperations,
   ManagedClustersOperations,
   ManagedClusterSnapshotsOperations,
   ManagedNamespacesOperations,
@@ -620,3 +636,4 @@ export type {
 export type { PageSettings, ContinuablePage, PagedAsyncIterableIterator };
 export { AzureClouds };
 export type { AzureSupportedClouds };
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

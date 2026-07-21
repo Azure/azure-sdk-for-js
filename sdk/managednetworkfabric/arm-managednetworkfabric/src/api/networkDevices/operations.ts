@@ -3,38 +3,50 @@
 
 import type { AzureNetworkFabricManagementServiceAPIContext as Client } from "../index.js";
 import type {
-  CommonPostActionResponseForStateUpdate,
+  OperationStatusResult,
   NetworkDevice,
   NetworkDevicePatchParameters,
   _NetworkDevicesListResult,
   RebootProperties,
+  NetworkDeviceRefreshConfigurationResponse,
   UpdateDeviceAdministrativeState,
-  UpdateVersion,
+  NetworkDeviceUpdateAdministrativeStateResponse,
+  NetworkDeviceUpgradeRequest,
+  NetworkDeviceUpgradeResponse,
   DeviceRoCommand,
   CommonPostActionResponseForDeviceROCommandsOperationStatusResult,
   DeviceRwCommand,
-  CommonPostActionResponseForDeviceRWCommands,
+  NetworkDeviceRunRwCommandResponse,
+  NetworkDeviceResyncPasswordsResponse,
+  NetworkFabricResyncCertificatesResponse,
 } from "../../models/models.js";
 import {
   errorResponseDeserializer,
-  commonPostActionResponseForStateUpdateDeserializer,
+  operationStatusResultDeserializer,
   networkDeviceSerializer,
   networkDeviceDeserializer,
   networkDevicePatchParametersSerializer,
   _networkDevicesListResultDeserializer,
   rebootPropertiesSerializer,
+  networkDeviceRefreshConfigurationResponseDeserializer,
   updateDeviceAdministrativeStateSerializer,
-  updateVersionSerializer,
+  networkDeviceUpdateAdministrativeStateResponseDeserializer,
+  networkDeviceUpgradeRequestSerializer,
+  networkDeviceUpgradeResponseDeserializer,
   deviceRoCommandSerializer,
   commonPostActionResponseForDeviceROCommandsOperationStatusResultDeserializer,
   deviceRwCommandSerializer,
-  commonPostActionResponseForDeviceRWCommandsDeserializer,
+  networkDeviceRunRwCommandResponseDeserializer,
+  networkDeviceResyncPasswordsResponseDeserializer,
+  networkFabricResyncCertificatesResponseDeserializer,
 } from "../../models/models.js";
 import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
 import type {
+  NetworkDevicesResyncCertificatesOptionalParams,
+  NetworkDevicesResyncPasswordsOptionalParams,
   NetworkDevicesRunRwCommandOptionalParams,
   NetworkDevicesRunRoCommandOptionalParams,
   NetworkDevicesUpgradeOptionalParams,
@@ -52,6 +64,132 @@ import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-c
 import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import type { PollerLike, OperationState } from "@azure/core-lro";
 
+export function _resyncCertificatesSend(
+  context: Client,
+  resourceGroupName: string,
+  networkDeviceName: string,
+  options: NetworkDevicesResyncCertificatesOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkDevices/{networkDeviceName}/resyncCertificates{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      networkDeviceName: networkDeviceName,
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
+}
+
+export async function _resyncCertificatesDeserialize(
+  result: PathUncheckedResponse,
+): Promise<NetworkFabricResyncCertificatesResponse> {
+  const expectedStatuses = ["200", "202", "201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return networkFabricResyncCertificatesResponseDeserializer(result.body);
+}
+
+/** Updates the Network Device to use the latest certificates. Does not generate new certificates. Allows network devices missed during a previous certificate rotation to be brought back into sync. */
+export function resyncCertificates(
+  context: Client,
+  resourceGroupName: string,
+  networkDeviceName: string,
+  options: NetworkDevicesResyncCertificatesOptionalParams = { requestOptions: {} },
+): PollerLike<
+  OperationState<NetworkFabricResyncCertificatesResponse>,
+  NetworkFabricResyncCertificatesResponse
+> {
+  return getLongRunningPoller(context, _resyncCertificatesDeserialize, ["200", "202", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _resyncCertificatesSend(context, resourceGroupName, networkDeviceName, options),
+    resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-07-15",
+  }) as PollerLike<
+    OperationState<NetworkFabricResyncCertificatesResponse>,
+    NetworkFabricResyncCertificatesResponse
+  >;
+}
+
+export function _resyncPasswordsSend(
+  context: Client,
+  resourceGroupName: string,
+  networkDeviceName: string,
+  options: NetworkDevicesResyncPasswordsOptionalParams = { requestOptions: {} },
+): StreamableMethod {
+  const path = expandUrlTemplate(
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkDevices/{networkDeviceName}/resyncPasswords{?api%2Dversion}",
+    {
+      subscriptionId: context.subscriptionId,
+      resourceGroupName: resourceGroupName,
+      networkDeviceName: networkDeviceName,
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
+    },
+    {
+      allowReserved: options?.requestOptions?.skipUrlEncoding,
+    },
+  );
+  return context.path(path).post({
+    ...operationOptionsToRequestParameters(options),
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
+  });
+}
+
+export async function _resyncPasswordsDeserialize(
+  result: PathUncheckedResponse,
+): Promise<NetworkDeviceResyncPasswordsResponse> {
+  const expectedStatuses = ["200", "202", "201"];
+  if (!expectedStatuses.includes(result.status)) {
+    const error = createRestError(result);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
+
+    throw error;
+  }
+
+  return networkDeviceResyncPasswordsResponseDeserializer(result.body);
+}
+
+/** Updates the Network Device to use the latest passwords. Does not generate new passwords. Allows network devices missed during a previous password rotation to be brought back into sync. */
+export function resyncPasswords(
+  context: Client,
+  resourceGroupName: string,
+  networkDeviceName: string,
+  options: NetworkDevicesResyncPasswordsOptionalParams = { requestOptions: {} },
+): PollerLike<
+  OperationState<NetworkDeviceResyncPasswordsResponse>,
+  NetworkDeviceResyncPasswordsResponse
+> {
+  return getLongRunningPoller(context, _resyncPasswordsDeserialize, ["200", "202", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _resyncPasswordsSend(context, resourceGroupName, networkDeviceName, options),
+    resourceLocationConfig: "location",
+    apiVersion: context.apiVersion ?? "2025-07-15",
+  }) as PollerLike<
+    OperationState<NetworkDeviceResyncPasswordsResponse>,
+    NetworkDeviceResyncPasswordsResponse
+  >;
+}
+
 export function _runRwCommandSend(
   context: Client,
   resourceGroupName: string,
@@ -65,7 +203,7 @@ export function _runRwCommandSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkDeviceName: networkDeviceName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -81,16 +219,18 @@ export function _runRwCommandSend(
 
 export async function _runRwCommandDeserialize(
   result: PathUncheckedResponse,
-): Promise<CommonPostActionResponseForDeviceRWCommands> {
-  const expectedStatuses = ["202", "200", "201"];
+): Promise<NetworkDeviceRunRwCommandResponse> {
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
-  return commonPostActionResponseForDeviceRWCommandsDeserializer(result.body);
+  return networkDeviceRunRwCommandResponseDeserializer(result.body);
 }
 
 /** Run the RW Command on the Network Device. */
@@ -101,19 +241,19 @@ export function runRwCommand(
   body: DeviceRwCommand,
   options: NetworkDevicesRunRwCommandOptionalParams = { requestOptions: {} },
 ): PollerLike<
-  OperationState<CommonPostActionResponseForDeviceRWCommands>,
-  CommonPostActionResponseForDeviceRWCommands
+  OperationState<NetworkDeviceRunRwCommandResponse>,
+  NetworkDeviceRunRwCommandResponse
 > {
-  return getLongRunningPoller(context, _runRwCommandDeserialize, ["202", "200", "201"], {
+  return getLongRunningPoller(context, _runRwCommandDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _runRwCommandSend(context, resourceGroupName, networkDeviceName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2024-06-15-preview",
+    apiVersion: context.apiVersion ?? "2025-07-15",
   }) as PollerLike<
-    OperationState<CommonPostActionResponseForDeviceRWCommands>,
-    CommonPostActionResponseForDeviceRWCommands
+    OperationState<NetworkDeviceRunRwCommandResponse>,
+    NetworkDeviceRunRwCommandResponse
   >;
 }
 
@@ -130,7 +270,7 @@ export function _runRoCommandSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkDeviceName: networkDeviceName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -147,10 +287,12 @@ export function _runRoCommandSend(
 export async function _runRoCommandDeserialize(
   result: PathUncheckedResponse,
 ): Promise<CommonPostActionResponseForDeviceROCommandsOperationStatusResult> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -169,13 +311,13 @@ export function runRoCommand(
   OperationState<CommonPostActionResponseForDeviceROCommandsOperationStatusResult>,
   CommonPostActionResponseForDeviceROCommandsOperationStatusResult
 > {
-  return getLongRunningPoller(context, _runRoCommandDeserialize, ["202", "200", "201"], {
+  return getLongRunningPoller(context, _runRoCommandDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _runRoCommandSend(context, resourceGroupName, networkDeviceName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2024-06-15-preview",
+    apiVersion: context.apiVersion ?? "2025-07-15",
   }) as PollerLike<
     OperationState<CommonPostActionResponseForDeviceROCommandsOperationStatusResult>,
     CommonPostActionResponseForDeviceROCommandsOperationStatusResult
@@ -186,7 +328,7 @@ export function _upgradeSend(
   context: Client,
   resourceGroupName: string,
   networkDeviceName: string,
-  body: UpdateVersion,
+  body: NetworkDeviceUpgradeRequest,
   options: NetworkDevicesUpgradeOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
@@ -195,7 +337,7 @@ export function _upgradeSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkDeviceName: networkDeviceName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -205,22 +347,24 @@ export function _upgradeSend(
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
     headers: { accept: "application/json", ...options.requestOptions?.headers },
-    body: updateVersionSerializer(body),
+    body: networkDeviceUpgradeRequestSerializer(body),
   });
 }
 
 export async function _upgradeDeserialize(
   result: PathUncheckedResponse,
-): Promise<CommonPostActionResponseForStateUpdate> {
-  const expectedStatuses = ["202", "200", "201"];
+): Promise<NetworkDeviceUpgradeResponse> {
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
-  return commonPostActionResponseForStateUpdateDeserializer(result.body);
+  return networkDeviceUpgradeResponseDeserializer(result.body);
 }
 
 /** Upgrades the version of the Network Device. */
@@ -228,23 +372,17 @@ export function upgrade(
   context: Client,
   resourceGroupName: string,
   networkDeviceName: string,
-  body: UpdateVersion,
+  body: NetworkDeviceUpgradeRequest,
   options: NetworkDevicesUpgradeOptionalParams = { requestOptions: {} },
-): PollerLike<
-  OperationState<CommonPostActionResponseForStateUpdate>,
-  CommonPostActionResponseForStateUpdate
-> {
-  return getLongRunningPoller(context, _upgradeDeserialize, ["202", "200", "201"], {
+): PollerLike<OperationState<NetworkDeviceUpgradeResponse>, NetworkDeviceUpgradeResponse> {
+  return getLongRunningPoller(context, _upgradeDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _upgradeSend(context, resourceGroupName, networkDeviceName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2024-06-15-preview",
-  }) as PollerLike<
-    OperationState<CommonPostActionResponseForStateUpdate>,
-    CommonPostActionResponseForStateUpdate
-  >;
+    apiVersion: context.apiVersion ?? "2025-07-15",
+  }) as PollerLike<OperationState<NetworkDeviceUpgradeResponse>, NetworkDeviceUpgradeResponse>;
 }
 
 export function _updateAdministrativeStateSend(
@@ -260,7 +398,7 @@ export function _updateAdministrativeStateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkDeviceName: networkDeviceName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -276,16 +414,18 @@ export function _updateAdministrativeStateSend(
 
 export async function _updateAdministrativeStateDeserialize(
   result: PathUncheckedResponse,
-): Promise<CommonPostActionResponseForStateUpdate> {
-  const expectedStatuses = ["202", "200", "201"];
+): Promise<NetworkDeviceUpdateAdministrativeStateResponse> {
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
-  return commonPostActionResponseForStateUpdateDeserializer(result.body);
+  return networkDeviceUpdateAdministrativeStateResponseDeserializer(result.body);
 }
 
 /** Updates the Administrative state of the Network Device. */
@@ -296,13 +436,13 @@ export function updateAdministrativeState(
   body: UpdateDeviceAdministrativeState,
   options: NetworkDevicesUpdateAdministrativeStateOptionalParams = { requestOptions: {} },
 ): PollerLike<
-  OperationState<CommonPostActionResponseForStateUpdate>,
-  CommonPostActionResponseForStateUpdate
+  OperationState<NetworkDeviceUpdateAdministrativeStateResponse>,
+  NetworkDeviceUpdateAdministrativeStateResponse
 > {
   return getLongRunningPoller(
     context,
     _updateAdministrativeStateDeserialize,
-    ["202", "200", "201"],
+    ["200", "202", "201"],
     {
       updateIntervalInMs: options?.updateIntervalInMs,
       abortSignal: options?.abortSignal,
@@ -315,11 +455,11 @@ export function updateAdministrativeState(
           options,
         ),
       resourceLocationConfig: "location",
-      apiVersion: context.apiVersion ?? "2024-06-15-preview",
+      apiVersion: context.apiVersion ?? "2025-07-15",
     },
   ) as PollerLike<
-    OperationState<CommonPostActionResponseForStateUpdate>,
-    CommonPostActionResponseForStateUpdate
+    OperationState<NetworkDeviceUpdateAdministrativeStateResponse>,
+    NetworkDeviceUpdateAdministrativeStateResponse
   >;
 }
 
@@ -335,7 +475,7 @@ export function _refreshConfigurationSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkDeviceName: networkDeviceName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -349,16 +489,18 @@ export function _refreshConfigurationSend(
 
 export async function _refreshConfigurationDeserialize(
   result: PathUncheckedResponse,
-): Promise<CommonPostActionResponseForStateUpdate> {
-  const expectedStatuses = ["202", "200", "201"];
+): Promise<NetworkDeviceRefreshConfigurationResponse> {
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
-  return commonPostActionResponseForStateUpdateDeserializer(result.body);
+  return networkDeviceRefreshConfigurationResponseDeserializer(result.body);
 }
 
 /** Refreshes the configuration the Network Device. */
@@ -368,19 +510,19 @@ export function refreshConfiguration(
   networkDeviceName: string,
   options: NetworkDevicesRefreshConfigurationOptionalParams = { requestOptions: {} },
 ): PollerLike<
-  OperationState<CommonPostActionResponseForStateUpdate>,
-  CommonPostActionResponseForStateUpdate
+  OperationState<NetworkDeviceRefreshConfigurationResponse>,
+  NetworkDeviceRefreshConfigurationResponse
 > {
-  return getLongRunningPoller(context, _refreshConfigurationDeserialize, ["202", "200", "201"], {
+  return getLongRunningPoller(context, _refreshConfigurationDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _refreshConfigurationSend(context, resourceGroupName, networkDeviceName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2024-06-15-preview",
+    apiVersion: context.apiVersion ?? "2025-07-15",
   }) as PollerLike<
-    OperationState<CommonPostActionResponseForStateUpdate>,
-    CommonPostActionResponseForStateUpdate
+    OperationState<NetworkDeviceRefreshConfigurationResponse>,
+    NetworkDeviceRefreshConfigurationResponse
   >;
 }
 
@@ -397,7 +539,7 @@ export function _rebootSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkDeviceName: networkDeviceName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -413,16 +555,18 @@ export function _rebootSend(
 
 export async function _rebootDeserialize(
   result: PathUncheckedResponse,
-): Promise<CommonPostActionResponseForStateUpdate> {
-  const expectedStatuses = ["202", "200", "201"];
+): Promise<OperationStatusResult> {
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
-  return commonPostActionResponseForStateUpdateDeserializer(result.body);
+  return operationStatusResultDeserializer(result.body);
 }
 
 /** Reboot the Network Device. */
@@ -432,21 +576,15 @@ export function reboot(
   networkDeviceName: string,
   body: RebootProperties,
   options: NetworkDevicesRebootOptionalParams = { requestOptions: {} },
-): PollerLike<
-  OperationState<CommonPostActionResponseForStateUpdate>,
-  CommonPostActionResponseForStateUpdate
-> {
-  return getLongRunningPoller(context, _rebootDeserialize, ["202", "200", "201"], {
+): PollerLike<OperationState<OperationStatusResult>, OperationStatusResult> {
+  return getLongRunningPoller(context, _rebootDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _rebootSend(context, resourceGroupName, networkDeviceName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2024-06-15-preview",
-  }) as PollerLike<
-    OperationState<CommonPostActionResponseForStateUpdate>,
-    CommonPostActionResponseForStateUpdate
-  >;
+    apiVersion: context.apiVersion ?? "2025-07-15",
+  }) as PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
 }
 
 export function _listBySubscriptionSend(
@@ -457,7 +595,7 @@ export function _listBySubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.ManagedNetworkFabric/networkDevices{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -475,7 +613,9 @@ export async function _listBySubscriptionDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -493,11 +633,7 @@ export function listBySubscription(
     () => _listBySubscriptionSend(context, options),
     _listBySubscriptionDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2024-06-15-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-15" },
   );
 }
 
@@ -511,7 +647,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -529,7 +665,9 @@ export async function _listByResourceGroupDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -548,11 +686,7 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2024-06-15-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2025-07-15" },
   );
 }
 
@@ -568,7 +702,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkDeviceName: networkDeviceName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -581,7 +715,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -590,11 +726,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Delete the Network Device resource. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -606,7 +737,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, networkDeviceName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2024-06-15-preview",
+    apiVersion: context.apiVersion ?? "2025-07-15",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -623,7 +754,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkDeviceName: networkDeviceName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -641,7 +772,9 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -663,7 +796,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, networkDeviceName, body, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2024-06-15-preview",
+    apiVersion: context.apiVersion ?? "2025-07-15",
   }) as PollerLike<OperationState<NetworkDevice>, NetworkDevice>;
 }
 
@@ -680,7 +813,7 @@ export function _createSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkDeviceName: networkDeviceName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -698,7 +831,9 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -720,7 +855,7 @@ export function create(
     getInitialResponse: () =>
       _createSend(context, resourceGroupName, networkDeviceName, body, options),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2024-06-15-preview",
+    apiVersion: context.apiVersion ?? "2025-07-15",
   }) as PollerLike<OperationState<NetworkDevice>, NetworkDevice>;
 }
 
@@ -736,7 +871,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       networkDeviceName: networkDeviceName,
-      "api%2Dversion": context.apiVersion ?? "2024-06-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2025-07-15",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -752,7 +887,9 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Ne
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }

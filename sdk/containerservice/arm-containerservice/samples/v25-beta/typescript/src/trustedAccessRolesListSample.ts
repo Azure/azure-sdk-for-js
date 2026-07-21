@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list supported trusted access roles.
  *
  * @summary list supported trusted access roles.
- * x-ms-original-file: 2026-03-02-preview/TrustedAccessRoles_List.json
+ * x-ms-original-file: 2026-04-02-preview/TrustedAccessRoles_List.json
  */
 async function listTrustedAccessRoles(): Promise<void> {
   const credential = new DefaultAzureCredential();

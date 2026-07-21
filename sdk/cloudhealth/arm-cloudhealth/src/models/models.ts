@@ -1,6 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -46,7 +52,7 @@ export function operationDeserializer(item: any): Operation {
   };
 }
 
-/** Localized display information for and operation. */
+/** Localized display information for an operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
   readonly provider?: string;
@@ -191,7 +197,9 @@ export function healthModelSerializer(item: HealthModel): any {
 
 export function healthModelDeserializer(item: any): HealthModel {
   return {
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
     id: item["id"],
     name: item["name"],
@@ -210,29 +218,17 @@ export function healthModelDeserializer(item: any): HealthModel {
 
 /** HealthModel properties */
 export interface HealthModelProperties {
-  /** The data plane endpoint for interacting with health data */
-  readonly dataplaneEndpoint?: string;
   /** The status of the last operation. */
   readonly provisioningState?: HealthModelProvisioningState;
-  /** Configure to automatically discover entities from a given scope, such as a Service Group. The discovered entities will be linked to the root entity of the health model. */
-  discovery?: ModelDiscoverySettings;
 }
 
-export function healthModelPropertiesSerializer(item: HealthModelProperties): any {
-  return {
-    discovery: !item["discovery"]
-      ? item["discovery"]
-      : modelDiscoverySettingsSerializer(item["discovery"]),
-  };
+export function healthModelPropertiesSerializer(_item: HealthModelProperties): any {
+  return {};
 }
 
 export function healthModelPropertiesDeserializer(item: any): HealthModelProperties {
   return {
-    dataplaneEndpoint: item["dataplaneEndpoint"],
     provisioningState: item["provisioningState"],
-    discovery: !item["discovery"]
-      ? item["discovery"]
-      : modelDiscoverySettingsDeserializer(item["discovery"]),
   };
 }
 
@@ -244,7 +240,9 @@ export enum KnownHealthModelProvisioningState {
   Failed = "Failed",
   /** Resource creation was canceled. */
   Canceled = "Canceled",
+  /** Creating */
   Creating = "Creating",
+  /** Deleting */
   Deleting = "Deleting",
 }
 
@@ -261,50 +259,6 @@ export enum KnownHealthModelProvisioningState {
  */
 export type HealthModelProvisioningState = string;
 
-/** Settings for automatically discovering entities for the health model. */
-export interface ModelDiscoverySettings {
-  /** The scope from which entities should be automatically discovered. For example, the resource id of a Service Group. */
-  scope: string;
-  /** Whether to add all recommended signals to the discovered entities. */
-  addRecommendedSignals: DiscoveryRuleRecommendedSignalsBehavior;
-  /** Which Managed Identity of the health model to use for discovery. Defaults to SystemAssigned, if not set. Can be set to 'SystemAssigned' or to the resource id of a user-assigned managed identity which is linked to the health model. */
-  identity?: string;
-}
-
-export function modelDiscoverySettingsSerializer(item: ModelDiscoverySettings): any {
-  return {
-    scope: item["scope"],
-    addRecommendedSignals: item["addRecommendedSignals"],
-    identity: item["identity"],
-  };
-}
-
-export function modelDiscoverySettingsDeserializer(item: any): ModelDiscoverySettings {
-  return {
-    scope: item["scope"],
-    addRecommendedSignals: item["addRecommendedSignals"],
-    identity: item["identity"],
-  };
-}
-
-/** Discovery rule recommended signal behavior */
-export enum KnownDiscoveryRuleRecommendedSignalsBehavior {
-  /** Automatically add recommended signals */
-  Enabled = "Enabled",
-  /** Do not automatically add recommended signals */
-  Disabled = "Disabled",
-}
-
-/**
- * Discovery rule recommended signal behavior \
- * {@link KnownDiscoveryRuleRecommendedSignalsBehavior} can be used interchangeably with DiscoveryRuleRecommendedSignalsBehavior,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Enabled**: Automatically add recommended signals \
- * **Disabled**: Do not automatically add recommended signals
- */
-export type DiscoveryRuleRecommendedSignalsBehavior = string;
-
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface ManagedServiceIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
@@ -314,14 +268,11 @@ export interface ManagedServiceIdentity {
   /** The type of managed identity assigned to this resource. */
   type: ManagedServiceIdentityType;
   /** The identities assigned to this resource by the user. */
-  userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
+  userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
 
 export function managedServiceIdentitySerializer(item: ManagedServiceIdentity): any {
-  return {
-    type: item["type"],
-    userAssignedIdentities: item["userAssignedIdentities"],
-  };
+  return { type: item["type"], userAssignedIdentities: item["userAssignedIdentities"] };
 }
 
 export function managedServiceIdentityDeserializer(item: any): ManagedServiceIdentity {
@@ -329,7 +280,14 @@ export function managedServiceIdentityDeserializer(item: any): ManagedServiceIde
     principalId: item["principalId"],
     tenantId: item["tenantId"],
     type: item["type"],
-    userAssignedIdentities: item["userAssignedIdentities"],
+    userAssignedIdentities: !item["userAssignedIdentities"]
+      ? item["userAssignedIdentities"]
+      : Object.fromEntries(
+          Object.entries(item["userAssignedIdentities"]).map(([k, p]: [string, any]) => [
+            k,
+            !p ? p : userAssignedIdentityDeserializer(p),
+          ]),
+        ),
   };
 }
 
@@ -365,8 +323,8 @@ export interface UserAssignedIdentity {
   readonly clientId?: string;
 }
 
-export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
-  return item;
+export function userAssignedIdentitySerializer(_item: UserAssignedIdentity): any {
+  return {};
 }
 
 export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
@@ -396,7 +354,9 @@ export function trackedResourceDeserializer(item: any): TrackedResource {
     systemData: !item["systemData"]
       ? item["systemData"]
       : systemDataDeserializer(item["systemData"]),
-    tags: item["tags"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     location: item["location"],
   };
 }
@@ -413,8 +373,8 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource): any {
-  return item;
+export function resourceSerializer(_item: Resource): any {
+  return {};
 }
 
 export function resourceDeserializer(item: any): Resource {
@@ -471,7 +431,7 @@ export enum KnownCreatedByType {
 
 /**
  * The kind of entity that created the resource. \
- * {@link KnowncreatedByType} can be used interchangeably with createdByType,
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **User**: The entity was created by a user. \
@@ -487,8 +447,6 @@ export interface HealthModelUpdate {
   identity?: ManagedServiceIdentity;
   /** Resource tags. */
   tags?: Record<string, string>;
-  /** The resource-specific properties for this resource. */
-  properties?: HealthModelUpdateProperties;
 }
 
 export function healthModelUpdateSerializer(item: HealthModelUpdate): any {
@@ -497,23 +455,6 @@ export function healthModelUpdateSerializer(item: HealthModelUpdate): any {
       ? item["identity"]
       : managedServiceIdentitySerializer(item["identity"]),
     tags: item["tags"],
-    properties: !item["properties"]
-      ? item["properties"]
-      : healthModelUpdatePropertiesSerializer(item["properties"]),
-  };
-}
-
-/** The updatable properties of the HealthModel. */
-export interface HealthModelUpdateProperties {
-  /** Configure to automatically discover entities from a given scope, such as a Service Group. The discovered entities will be linked to the root entity of the health model. */
-  discovery?: ModelDiscoverySettings;
-}
-
-export function healthModelUpdatePropertiesSerializer(item: HealthModelUpdateProperties): any {
-  return {
-    discovery: !item["discovery"]
-      ? item["discovery"]
-      : modelDiscoverySettingsSerializer(item["discovery"]),
   };
 }
 
@@ -583,14 +524,12 @@ export interface SignalDefinitionProperties {
   signalKind: SignalKind;
   /** Interval in which the signal is being evaluated. Defaults to PT1M (1 minute). */
   refreshInterval?: RefreshInterval;
-  /** Optional set of labels (key-value pairs) */
-  labels?: Record<string, string>;
+  /** Optional set of tags (key-value pairs) */
+  tags?: Record<string, string>;
   /** Unit of the signal result (e.g. Bytes, MilliSeconds, Percent, Count)) */
   dataUnit?: string;
   /** Evaluation rules for the signal definition */
   evaluationRules: EvaluationRule;
-  /** Date when the signal definition was (soft-)deleted */
-  readonly deletionDate?: Date;
 }
 
 export function signalDefinitionPropertiesSerializer(item: SignalDefinitionProperties): any {
@@ -598,7 +537,7 @@ export function signalDefinitionPropertiesSerializer(item: SignalDefinitionPrope
     displayName: item["displayName"],
     signalKind: item["signalKind"],
     refreshInterval: item["refreshInterval"],
-    labels: item["labels"],
+    tags: item["tags"],
     dataUnit: item["dataUnit"],
     evaluationRules: evaluationRuleSerializer(item["evaluationRules"]),
   };
@@ -610,10 +549,11 @@ export function signalDefinitionPropertiesDeserializer(item: any): SignalDefinit
     displayName: item["displayName"],
     signalKind: item["signalKind"],
     refreshInterval: item["refreshInterval"],
-    labels: item["labels"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     dataUnit: item["dataUnit"],
     evaluationRules: evaluationRuleDeserializer(item["evaluationRules"]),
-    deletionDate: !item["deletionDate"] ? item["deletionDate"] : new Date(item["deletionDate"]),
   };
 }
 
@@ -651,7 +591,7 @@ export function signalDefinitionPropertiesUnionSerializer(
 export function signalDefinitionPropertiesUnionDeserializer(
   item: any,
 ): SignalDefinitionPropertiesUnion {
-  switch (item.signalKind) {
+  switch (item["signalKind"]) {
     case "AzureResourceMetric":
       return resourceMetricSignalDefinitionPropertiesDeserializer(
         item as ResourceMetricSignalDefinitionProperties,
@@ -674,9 +614,14 @@ export function signalDefinitionPropertiesUnionDeserializer(
 
 /** Supported signal kinds as discriminator */
 export enum KnownSignalKind {
+  /** AzureResourceMetric */
   AzureResourceMetric = "AzureResourceMetric",
+  /** LogAnalyticsQuery */
   LogAnalyticsQuery = "LogAnalyticsQuery",
+  /** PrometheusMetricsQuery */
   PrometheusMetricsQuery = "PrometheusMetricsQuery",
+  /** External */
+  ExternalSignal = "External",
 }
 
 /**
@@ -686,7 +631,8 @@ export enum KnownSignalKind {
  * ### Known values supported by the service
  * **AzureResourceMetric** \
  * **LogAnalyticsQuery** \
- * **PrometheusMetricsQuery**
+ * **PrometheusMetricsQuery** \
+ * **External**
  */
 export type SignalKind = string;
 
@@ -698,6 +644,8 @@ export enum KnownRefreshInterval {
   PT5M = "PT5M",
   /** Ten Minutes */
   PT10M = "PT10M",
+  /** Fifteen Minutes */
+  PT15M = "PT15M",
   /** Thirty Minutes */
   PT30M = "PT30M",
   /** One Hour */
@@ -714,6 +662,7 @@ export enum KnownRefreshInterval {
  * **PT1M**: One Minute \
  * **PT5M**: Five Minutes \
  * **PT10M**: Ten Minutes \
+ * **PT15M**: Fifteen Minutes \
  * **PT30M**: Thirty Minutes \
  * **PT1H**: One Hour \
  * **PT2H**: Two Hours
@@ -722,143 +671,76 @@ export type RefreshInterval = string;
 
 /** Evaluation rule for a signal definition */
 export interface EvaluationRule {
-  /** Configure to use ML-based dynamic thresholds. When used, degradedRule and unhealthyRule must not be set. */
-  dynamicDetectionRule?: DynamicDetectionRule;
-  /** Degraded rule with static threshold. When used, dynamicDetectionRule must not be set. */
-  degradedRule?: ThresholdRule;
-  /** Unhealthy rule with static threshold. When used, dynamicDetectionRule must not be set. */
-  unhealthyRule?: ThresholdRule;
+  /** Degraded rule with static threshold. */
+  degradedRule?: ThresholdRuleV2;
+  /** Unhealthy rule with static threshold. */
+  unhealthyRule: ThresholdRuleV2;
 }
 
 export function evaluationRuleSerializer(item: EvaluationRule): any {
   return {
-    dynamicDetectionRule: !item["dynamicDetectionRule"]
-      ? item["dynamicDetectionRule"]
-      : dynamicDetectionRuleSerializer(item["dynamicDetectionRule"]),
     degradedRule: !item["degradedRule"]
       ? item["degradedRule"]
-      : thresholdRuleSerializer(item["degradedRule"]),
-    unhealthyRule: !item["unhealthyRule"]
-      ? item["unhealthyRule"]
-      : thresholdRuleSerializer(item["unhealthyRule"]),
+      : thresholdRuleV2Serializer(item["degradedRule"]),
+    unhealthyRule: thresholdRuleV2Serializer(item["unhealthyRule"]),
   };
 }
 
 export function evaluationRuleDeserializer(item: any): EvaluationRule {
   return {
-    dynamicDetectionRule: !item["dynamicDetectionRule"]
-      ? item["dynamicDetectionRule"]
-      : dynamicDetectionRuleDeserializer(item["dynamicDetectionRule"]),
     degradedRule: !item["degradedRule"]
       ? item["degradedRule"]
-      : thresholdRuleDeserializer(item["degradedRule"]),
-    unhealthyRule: !item["unhealthyRule"]
-      ? item["unhealthyRule"]
-      : thresholdRuleDeserializer(item["unhealthyRule"]),
+      : thresholdRuleV2Deserializer(item["degradedRule"]),
+    unhealthyRule: thresholdRuleV2Deserializer(item["unhealthyRule"]),
   };
 }
-
-/** ML-based evaluation rule for a signal definition */
-export interface DynamicDetectionRule {
-  /** ML model to use for dynamic thresholds */
-  dynamicThresholdModel: DynamicThresholdModel;
-  /** ML model sensitivity. Lowest value = high sensitivity. Supported step size = 0.5 */
-  modelSensitivity: number;
-  /** Threshold direction */
-  dynamicThresholdDirection: DynamicThresholdDirection;
-  /** Start time of the training in UTC. */
-  trainingStartTime?: Date;
-}
-
-export function dynamicDetectionRuleSerializer(item: DynamicDetectionRule): any {
-  return {
-    dynamicThresholdModel: item["dynamicThresholdModel"],
-    modelSensitivity: item["modelSensitivity"],
-    dynamicThresholdDirection: item["dynamicThresholdDirection"],
-    trainingStartTime: !item["trainingStartTime"]
-      ? item["trainingStartTime"]
-      : item["trainingStartTime"].toISOString(),
-  };
-}
-
-export function dynamicDetectionRuleDeserializer(item: any): DynamicDetectionRule {
-  return {
-    dynamicThresholdModel: item["dynamicThresholdModel"],
-    modelSensitivity: item["modelSensitivity"],
-    dynamicThresholdDirection: item["dynamicThresholdDirection"],
-    trainingStartTime: !item["trainingStartTime"]
-      ? item["trainingStartTime"]
-      : new Date(item["trainingStartTime"]),
-  };
-}
-
-/** ML-based model variants */
-export enum KnownDynamicThresholdModel {
-  /** Anomaly detection model */
-  AnomalyDetection = "AnomalyDetection",
-}
-
-/**
- * ML-based model variants \
- * {@link KnownDynamicThresholdModel} can be used interchangeably with DynamicThresholdModel,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **AnomalyDetection**: Anomaly detection model
- */
-export type DynamicThresholdModel = string;
-
-/** Threshold direction for dynamic thresholds */
-export enum KnownDynamicThresholdDirection {
-  /** Lower than */
-  LowerThan = "LowerThan",
-  /** Greater than */
-  GreaterThan = "GreaterThan",
-  /** Greater or Lower Than */
-  GreaterOrLowerThan = "GreaterOrLowerThan",
-}
-
-/**
- * Threshold direction for dynamic thresholds \
- * {@link KnownDynamicThresholdDirection} can be used interchangeably with DynamicThresholdDirection,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **LowerThan**: Lower than \
- * **GreaterThan**: Greater than \
- * **GreaterOrLowerThan**: Greater or Lower Than
- */
-export type DynamicThresholdDirection = string;
 
 /** Threshold-based evaluation rule for a signal definition */
-export interface ThresholdRule {
+export interface ThresholdRuleV2 {
   /** Operator how to compare the signal value with the threshold */
   operator: SignalOperator;
   /** Threshold value */
-  threshold: string;
+  threshold?: number;
+  /** Sensitivity level for dynamic threshold detection. Only applicable when operator is Dynamic. */
+  sensitivity?: DynamicThresholdSensitivity;
+  /** ISO 8601 duration for the historical look-back window used by dynamic threshold computation. Only applicable when operator is Dynamic. */
+  lookBackWindow?: LookBackWindow;
 }
 
-export function thresholdRuleSerializer(item: ThresholdRule): any {
-  return { operator: item["operator"], threshold: item["threshold"] };
-}
-
-export function thresholdRuleDeserializer(item: any): ThresholdRule {
+export function thresholdRuleV2Serializer(item: ThresholdRuleV2): any {
   return {
     operator: item["operator"],
     threshold: item["threshold"],
+    sensitivity: item["sensitivity"],
+    lookBackWindow: item["lookBackWindow"],
+  };
+}
+
+export function thresholdRuleV2Deserializer(item: any): ThresholdRuleV2 {
+  return {
+    operator: item["operator"],
+    threshold: item["threshold"],
+    sensitivity: item["sensitivity"],
+    lookBackWindow: item["lookBackWindow"],
   };
 }
 
 /** Signal operator */
 export enum KnownSignalOperator {
-  /** Lower than */
-  LowerThan = "LowerThan",
-  /** Lower than or equal to */
-  LowerOrEquals = "LowerOrEquals",
   /** Greater than */
   GreaterThan = "GreaterThan",
+  /** Less than */
+  LessThan = "LessThan",
+  /** Less than or equal to */
+  LessThanOrEqual = "LessThanOrEqual",
   /** Greater than or equal to */
-  GreaterOrEquals = "GreaterOrEquals",
+  GreaterThanOrEqual = "GreaterThanOrEqual",
   /** Equal to */
-  Equals = "Equals",
+  Equal = "Equal",
+  /** Not equal to */
+  NotEqual = "NotEqual",
+  /** Dynamic threshold — uses deviation from a ML-computed baseline to determine health state transitions. Only valid for the unhealthy threshold rule. Requires `sensitivity` and `lookBackWindow` on the rule; `threshold` is ignored. */
+  Dynamic = "Dynamic",
 }
 
 /**
@@ -866,13 +748,60 @@ export enum KnownSignalOperator {
  * {@link KnownSignalOperator} can be used interchangeably with SignalOperator,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **LowerThan**: Lower than \
- * **LowerOrEquals**: Lower than or equal to \
  * **GreaterThan**: Greater than \
- * **GreaterOrEquals**: Greater than or equal to \
- * **Equals**: Equal to
+ * **LessThan**: Less than \
+ * **LessThanOrEqual**: Less than or equal to \
+ * **GreaterThanOrEqual**: Greater than or equal to \
+ * **Equal**: Equal to \
+ * **NotEqual**: Not equal to \
+ * **Dynamic**: Dynamic threshold — uses deviation from a ML-computed baseline to determine health state transitions. Only valid for the unhealthy threshold rule. Requires `sensitivity` and `lookBackWindow` on the rule; `threshold` is ignored.
  */
 export type SignalOperator = string;
+
+/** Sensitivity level for dynamic threshold detection */
+export enum KnownDynamicThresholdSensitivity {
+  /** Low sensitivity — fewer anomalies detected, wider threshold band */
+  Low = "Low",
+  /** Medium sensitivity — balanced detection */
+  Medium = "Medium",
+  /** High sensitivity — more anomalies detected, tighter threshold band */
+  High = "High",
+}
+
+/**
+ * Sensitivity level for dynamic threshold detection \
+ * {@link KnownDynamicThresholdSensitivity} can be used interchangeably with DynamicThresholdSensitivity,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Low**: Low sensitivity — fewer anomalies detected, wider threshold band \
+ * **Medium**: Medium sensitivity — balanced detection \
+ * **High**: High sensitivity — more anomalies detected, tighter threshold band
+ */
+export type DynamicThresholdSensitivity = string;
+
+/** Allowed look-back window durations for dynamic threshold computation */
+export enum KnownLookBackWindow {
+  /** Five minutes */
+  PT5M = "PT5M",
+  /** Fifteen minutes */
+  PT15M = "PT15M",
+  /** Thirty minutes */
+  PT30M = "PT30M",
+  /** One hour */
+  PT1H = "PT1H",
+}
+
+/**
+ * Allowed look-back window durations for dynamic threshold computation \
+ * {@link KnownLookBackWindow} can be used interchangeably with LookBackWindow,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **PT5M**: Five minutes \
+ * **PT15M**: Fifteen minutes \
+ * **PT30M**: Thirty minutes \
+ * **PT1H**: One hour
+ */
+export type LookBackWindow = string;
 
 /** Azure Resource Metric Signal Definition properties */
 export interface ResourceMetricSignalDefinitionProperties extends SignalDefinitionProperties {
@@ -886,8 +815,6 @@ export interface ResourceMetricSignalDefinitionProperties extends SignalDefiniti
   timeGrain: string;
   /** Type of aggregation to apply to the metric */
   aggregationType: MetricAggregationType;
-  /** Optional: Dimension to split by */
-  dimension?: string;
   /** Optional: Dimension filter to apply to the dimension. Must only be set if also Dimension is set. */
   dimensionFilter?: string;
 }
@@ -899,14 +826,13 @@ export function resourceMetricSignalDefinitionPropertiesSerializer(
     displayName: item["displayName"],
     signalKind: item["signalKind"],
     refreshInterval: item["refreshInterval"],
-    labels: item["labels"],
+    tags: item["tags"],
     dataUnit: item["dataUnit"],
     evaluationRules: evaluationRuleSerializer(item["evaluationRules"]),
     metricNamespace: item["metricNamespace"],
     metricName: item["metricName"],
     timeGrain: item["timeGrain"],
     aggregationType: item["aggregationType"],
-    dimension: item["dimension"],
     dimensionFilter: item["dimensionFilter"],
   };
 }
@@ -919,26 +845,32 @@ export function resourceMetricSignalDefinitionPropertiesDeserializer(
     displayName: item["displayName"],
     signalKind: item["signalKind"],
     refreshInterval: item["refreshInterval"],
-    labels: item["labels"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     dataUnit: item["dataUnit"],
     evaluationRules: evaluationRuleDeserializer(item["evaluationRules"]),
-    deletionDate: !item["deletionDate"] ? item["deletionDate"] : new Date(item["deletionDate"]),
     metricNamespace: item["metricNamespace"],
     metricName: item["metricName"],
     timeGrain: item["timeGrain"],
     aggregationType: item["aggregationType"],
-    dimension: item["dimension"],
     dimensionFilter: item["dimensionFilter"],
   };
 }
 
 /** Metric aggregation type */
 export enum KnownMetricAggregationType {
+  /** None */
   None = "None",
+  /** Average */
   Average = "Average",
+  /** Count */
   Count = "Count",
+  /** Minimum */
   Minimum = "Minimum",
+  /** Maximum */
   Maximum = "Maximum",
+  /** Total */
   Total = "Total",
 }
 
@@ -975,7 +907,7 @@ export function logAnalyticsQuerySignalDefinitionPropertiesSerializer(
     displayName: item["displayName"],
     signalKind: item["signalKind"],
     refreshInterval: item["refreshInterval"],
-    labels: item["labels"],
+    tags: item["tags"],
     dataUnit: item["dataUnit"],
     evaluationRules: evaluationRuleSerializer(item["evaluationRules"]),
     queryText: item["queryText"],
@@ -992,10 +924,11 @@ export function logAnalyticsQuerySignalDefinitionPropertiesDeserializer(
     displayName: item["displayName"],
     signalKind: item["signalKind"],
     refreshInterval: item["refreshInterval"],
-    labels: item["labels"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     dataUnit: item["dataUnit"],
     evaluationRules: evaluationRuleDeserializer(item["evaluationRules"]),
-    deletionDate: !item["deletionDate"] ? item["deletionDate"] : new Date(item["deletionDate"]),
     queryText: item["queryText"],
     timeGrain: item["timeGrain"],
     valueColumnName: item["valueColumnName"],
@@ -1019,7 +952,7 @@ export function prometheusMetricsSignalDefinitionPropertiesSerializer(
     displayName: item["displayName"],
     signalKind: item["signalKind"],
     refreshInterval: item["refreshInterval"],
-    labels: item["labels"],
+    tags: item["tags"],
     dataUnit: item["dataUnit"],
     evaluationRules: evaluationRuleSerializer(item["evaluationRules"]),
     queryText: item["queryText"],
@@ -1035,10 +968,11 @@ export function prometheusMetricsSignalDefinitionPropertiesDeserializer(
     displayName: item["displayName"],
     signalKind: item["signalKind"],
     refreshInterval: item["refreshInterval"],
-    labels: item["labels"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     dataUnit: item["dataUnit"],
     evaluationRules: evaluationRuleDeserializer(item["evaluationRules"]),
-    deletionDate: !item["deletionDate"] ? item["deletionDate"] : new Date(item["deletionDate"]),
     queryText: item["queryText"],
     timeGrain: item["timeGrain"],
   };
@@ -1047,8 +981,8 @@ export function prometheusMetricsSignalDefinitionPropertiesDeserializer(
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
 
-export function proxyResourceSerializer(item: ProxyResource): any {
-  return item;
+export function proxyResourceSerializer(_item: ProxyResource): any {
+  return {};
 }
 
 export function proxyResourceDeserializer(item: any): ProxyResource {
@@ -1131,10 +1065,7 @@ export interface AuthenticationSettingProperties {
 export function authenticationSettingPropertiesSerializer(
   item: AuthenticationSettingProperties,
 ): any {
-  return {
-    displayName: item["displayName"],
-    authenticationKind: item["authenticationKind"],
-  };
+  return { displayName: item["displayName"], authenticationKind: item["authenticationKind"] };
 }
 
 export function authenticationSettingPropertiesDeserializer(
@@ -1149,8 +1080,7 @@ export function authenticationSettingPropertiesDeserializer(
 
 /** Alias for AuthenticationSettingPropertiesUnion */
 export type AuthenticationSettingPropertiesUnion =
-  | ManagedIdentityAuthenticationSettingProperties
-  | AuthenticationSettingProperties;
+  ManagedIdentityAuthenticationSettingProperties | AuthenticationSettingProperties;
 
 export function authenticationSettingPropertiesUnionSerializer(
   item: AuthenticationSettingPropertiesUnion,
@@ -1169,7 +1099,7 @@ export function authenticationSettingPropertiesUnionSerializer(
 export function authenticationSettingPropertiesUnionDeserializer(
   item: any,
 ): AuthenticationSettingPropertiesUnion {
-  switch (item.authenticationKind) {
+  switch (item["authenticationKind"]) {
     case "ManagedIdentity":
       return managedIdentityAuthenticationSettingPropertiesDeserializer(
         item as ManagedIdentityAuthenticationSettingProperties,
@@ -1182,6 +1112,7 @@ export function authenticationSettingPropertiesUnionDeserializer(
 
 /** Supported kinds of authentication settings as discriminator */
 export enum KnownAuthenticationKind {
+  /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
 }
 
@@ -1288,8 +1219,6 @@ export interface EntityProperties {
   readonly provisioningState?: HealthModelProvisioningState;
   /** Display name */
   displayName?: string;
-  /** Entity kind */
-  kind?: string;
   /** Positioning of the entity on the model canvas */
   canvasPosition?: EntityCoordinates;
   /** Visual icon definition. If not set, a default icon is used. */
@@ -1298,14 +1227,12 @@ export interface EntityProperties {
   healthObjective?: number;
   /** Impact of the entity in health state propagation */
   impact?: EntityImpact;
-  /** Optional set of labels (key-value pairs) */
-  labels?: Record<string, string>;
+  /** Optional set of tags (key-value pairs) */
+  tags?: Record<string, string>;
   /** Signal groups which are assigned to this entity */
-  signals?: SignalGroup;
+  signalGroups?: SignalGroups;
   /** Discovered by which discovery rule. If set, the entity cannot be deleted manually. */
   readonly discoveredBy?: string;
-  /** Date when the entity was (soft-)deleted */
-  readonly deletionDate?: Date;
   /** Health state of this entity */
   readonly healthState?: HealthState;
   /** Alert configuration for this entity */
@@ -1315,15 +1242,16 @@ export interface EntityProperties {
 export function entityPropertiesSerializer(item: EntityProperties): any {
   return {
     displayName: item["displayName"],
-    kind: item["kind"],
     canvasPosition: !item["canvasPosition"]
       ? item["canvasPosition"]
       : entityCoordinatesSerializer(item["canvasPosition"]),
     icon: !item["icon"] ? item["icon"] : iconDefinitionSerializer(item["icon"]),
     healthObjective: item["healthObjective"],
     impact: item["impact"],
-    labels: item["labels"],
-    signals: !item["signals"] ? item["signals"] : signalGroupSerializer(item["signals"]),
+    tags: item["tags"],
+    signalGroups: !item["signalGroups"]
+      ? item["signalGroups"]
+      : signalGroupsSerializer(item["signalGroups"]),
     alerts: !item["alerts"] ? item["alerts"] : entityAlertsSerializer(item["alerts"]),
   };
 }
@@ -1332,17 +1260,19 @@ export function entityPropertiesDeserializer(item: any): EntityProperties {
   return {
     provisioningState: item["provisioningState"],
     displayName: item["displayName"],
-    kind: item["kind"],
     canvasPosition: !item["canvasPosition"]
       ? item["canvasPosition"]
       : entityCoordinatesDeserializer(item["canvasPosition"]),
     icon: !item["icon"] ? item["icon"] : iconDefinitionDeserializer(item["icon"]),
     healthObjective: item["healthObjective"],
     impact: item["impact"],
-    labels: item["labels"],
-    signals: !item["signals"] ? item["signals"] : signalGroupDeserializer(item["signals"]),
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    signalGroups: !item["signalGroups"]
+      ? item["signalGroups"]
+      : signalGroupsDeserializer(item["signalGroups"]),
     discoveredBy: item["discoveredBy"],
-    deletionDate: !item["deletionDate"] ? item["deletionDate"] : new Date(item["deletionDate"]),
     healthState: item["healthState"],
     alerts: !item["alerts"] ? item["alerts"] : entityAlertsDeserializer(item["alerts"]),
   };
@@ -1408,222 +1338,263 @@ export enum KnownEntityImpact {
 export type EntityImpact = string;
 
 /** Contains various signal groups that can be assigned to an entity */
-export interface SignalGroup {
+export interface SignalGroups {
   /** Azure Resource Signal Group */
-  azureResource?: AzureResourceSignalGroup;
+  azureResource?: AzureResourceSignals;
   /** Log Analytics Signal Group */
-  azureLogAnalytics?: LogAnalyticsSignalGroup;
+  azureLogAnalytics?: LogAnalyticsSignals;
   /** Azure Monitor Workspace Signal Group */
-  azureMonitorWorkspace?: AzureMonitorWorkspaceSignalGroup;
+  azureMonitorWorkspace?: AzureMonitorWorkspaceSignals;
   /** Settings for dependency signals to control how the health state of child entities influences the health state of the parent entity. */
-  dependencies?: DependenciesSignalGroup;
+  dependencies?: DependenciesSignalGroupV2;
+  /** List of signals which have been externally submitted for this entity. */
+  readonly external?: ExternalSignalGroup;
 }
 
-export function signalGroupSerializer(item: SignalGroup): any {
+export function signalGroupsSerializer(item: SignalGroups): any {
   return {
     azureResource: !item["azureResource"]
       ? item["azureResource"]
-      : azureResourceSignalGroupSerializer(item["azureResource"]),
+      : azureResourceSignalsSerializer(item["azureResource"]),
     azureLogAnalytics: !item["azureLogAnalytics"]
       ? item["azureLogAnalytics"]
-      : logAnalyticsSignalGroupSerializer(item["azureLogAnalytics"]),
+      : logAnalyticsSignalsSerializer(item["azureLogAnalytics"]),
     azureMonitorWorkspace: !item["azureMonitorWorkspace"]
       ? item["azureMonitorWorkspace"]
-      : azureMonitorWorkspaceSignalGroupSerializer(item["azureMonitorWorkspace"]),
+      : azureMonitorWorkspaceSignalsSerializer(item["azureMonitorWorkspace"]),
     dependencies: !item["dependencies"]
       ? item["dependencies"]
-      : dependenciesSignalGroupSerializer(item["dependencies"]),
+      : dependenciesSignalGroupV2Serializer(item["dependencies"]),
   };
 }
 
-export function signalGroupDeserializer(item: any): SignalGroup {
+export function signalGroupsDeserializer(item: any): SignalGroups {
   return {
     azureResource: !item["azureResource"]
       ? item["azureResource"]
-      : azureResourceSignalGroupDeserializer(item["azureResource"]),
+      : azureResourceSignalsDeserializer(item["azureResource"]),
     azureLogAnalytics: !item["azureLogAnalytics"]
       ? item["azureLogAnalytics"]
-      : logAnalyticsSignalGroupDeserializer(item["azureLogAnalytics"]),
+      : logAnalyticsSignalsDeserializer(item["azureLogAnalytics"]),
     azureMonitorWorkspace: !item["azureMonitorWorkspace"]
       ? item["azureMonitorWorkspace"]
-      : azureMonitorWorkspaceSignalGroupDeserializer(item["azureMonitorWorkspace"]),
+      : azureMonitorWorkspaceSignalsDeserializer(item["azureMonitorWorkspace"]),
     dependencies: !item["dependencies"]
       ? item["dependencies"]
-      : dependenciesSignalGroupDeserializer(item["dependencies"]),
+      : dependenciesSignalGroupV2Deserializer(item["dependencies"]),
+    external: !item["external"]
+      ? item["external"]
+      : externalSignalGroupDeserializer(item["external"]),
   };
 }
 
-/** A grouping of signal assignments for an Azure resource */
-export interface AzureResourceSignalGroup {
-  /** Signal definitions which are assigned to this signal group. All assignments are combined with an OR operator. */
-  signalAssignments?: SignalAssignment[];
-  /** Reference to the name of the authentication setting which is used for querying the data source */
+/** A grouping of Azure resource signals */
+export interface AzureResourceSignals {
+  /** Reference to the name of the authentication setting which is used for querying the data source. */
   authenticationSetting: string;
   /** Azure resource ID */
   azureResourceId: string;
+  /** Azure resource kind (e.g., 'functionapp'). Populated by the UI for icon rendering. Can be null if not populated. */
+  azureResourceKind?: string;
+  /** Signals assigned to this group. */
+  signals?: AzureResourceSignal[];
+  /** Optional configuration for automatically adding a signal based on the resource's availability state in Azure Resource Health. */
+  resourceHealth?: AzureResourceHealthSignal;
 }
 
-export function azureResourceSignalGroupSerializer(item: AzureResourceSignalGroup): any {
+export function azureResourceSignalsSerializer(item: AzureResourceSignals): any {
   return {
-    signalAssignments: !item["signalAssignments"]
-      ? item["signalAssignments"]
-      : signalAssignmentArraySerializer(item["signalAssignments"]),
     authenticationSetting: item["authenticationSetting"],
     azureResourceId: item["azureResourceId"],
+    azureResourceKind: item["azureResourceKind"],
+    signals: !item["signals"]
+      ? item["signals"]
+      : azureResourceSignalArraySerializer(item["signals"]),
+    resourceHealth: !item["resourceHealth"]
+      ? item["resourceHealth"]
+      : azureResourceHealthSignalSerializer(item["resourceHealth"]),
   };
 }
 
-export function azureResourceSignalGroupDeserializer(item: any): AzureResourceSignalGroup {
+export function azureResourceSignalsDeserializer(item: any): AzureResourceSignals {
   return {
-    signalAssignments: !item["signalAssignments"]
-      ? item["signalAssignments"]
-      : signalAssignmentArrayDeserializer(item["signalAssignments"]),
     authenticationSetting: item["authenticationSetting"],
     azureResourceId: item["azureResourceId"],
+    azureResourceKind: item["azureResourceKind"],
+    signals: !item["signals"]
+      ? item["signals"]
+      : azureResourceSignalArrayDeserializer(item["signals"]),
+    resourceHealth: !item["resourceHealth"]
+      ? item["resourceHealth"]
+      : azureResourceHealthSignalDeserializer(item["resourceHealth"]),
   };
 }
 
-export function signalAssignmentArraySerializer(result: Array<SignalAssignment>): any[] {
+export function azureResourceSignalArraySerializer(result: Array<AzureResourceSignal>): any[] {
   return result.map((item) => {
-    return signalAssignmentSerializer(item);
+    return azureResourceSignalSerializer(item);
   });
 }
 
-export function signalAssignmentArrayDeserializer(result: Array<SignalAssignment>): any[] {
+export function azureResourceSignalArrayDeserializer(result: Array<AzureResourceSignal>): any[] {
   return result.map((item) => {
-    return signalAssignmentDeserializer(item);
+    return azureResourceSignalDeserializer(item);
   });
 }
 
-/** Group of signal definition assignments */
-export interface SignalAssignment {
-  /** Signal definitions referenced by their names. All definitions are combined with an AND operator. */
-  signalDefinitions: string[];
+/** An Azure Resource Metric signal instance assigned to an entity. */
+export interface AzureResourceSignal extends SignalInstanceProperties {
+  /** Kind of the signal instance */
+  signalKind: "AzureResourceMetric";
+  /** Metric namespace */
+  metricNamespace?: string;
+  /** Name of the metric */
+  metricName?: string;
+  /** Time range of signal. ISO duration format like PT10M. */
+  timeGrain?: string;
+  /** Type of aggregation to apply to the metric */
+  aggregationType?: MetricAggregationType;
+  /** Optional: Dimension filter to apply to the dimension. Must only be set if also Dimension is set. */
+  dimensionFilter?: string;
+  /** Display name */
+  displayName?: string;
+  /** Interval in which the signal is being evaluated. Defaults to PT1M (1 minute). */
+  refreshInterval?: RefreshInterval;
+  /** Unit of the signal result (e.g. Bytes, MilliSeconds, Percent, Count)) */
+  dataUnit?: string;
+  /** Evaluation rules for the signal definition */
+  evaluationRules?: EvaluationRule;
 }
 
-export function signalAssignmentSerializer(item: SignalAssignment): any {
+export function azureResourceSignalSerializer(item: AzureResourceSignal): any {
   return {
-    signalDefinitions: item["signalDefinitions"].map((p: any) => {
-      return p;
-    }),
-  };
-}
-
-export function signalAssignmentDeserializer(item: any): SignalAssignment {
-  return {
-    signalDefinitions: item["signalDefinitions"].map((p: any) => {
-      return p;
-    }),
-  };
-}
-
-/** A grouping of signal assignments for a Log Analytics Workspace */
-export interface LogAnalyticsSignalGroup {
-  /** Signal definitions which are assigned to this signal group. All assignments are combined with an OR operator. */
-  signalAssignments?: SignalAssignment[];
-  /** Reference to the name of the authentication setting which is used for querying the data source */
-  authenticationSetting: string;
-  /** Log Analytics Workspace resource ID */
-  logAnalyticsWorkspaceResourceId: string;
-}
-
-export function logAnalyticsSignalGroupSerializer(item: LogAnalyticsSignalGroup): any {
-  return {
-    signalAssignments: !item["signalAssignments"]
-      ? item["signalAssignments"]
-      : signalAssignmentArraySerializer(item["signalAssignments"]),
-    authenticationSetting: item["authenticationSetting"],
-    logAnalyticsWorkspaceResourceId: item["logAnalyticsWorkspaceResourceId"],
-  };
-}
-
-export function logAnalyticsSignalGroupDeserializer(item: any): LogAnalyticsSignalGroup {
-  return {
-    signalAssignments: !item["signalAssignments"]
-      ? item["signalAssignments"]
-      : signalAssignmentArrayDeserializer(item["signalAssignments"]),
-    authenticationSetting: item["authenticationSetting"],
-    logAnalyticsWorkspaceResourceId: item["logAnalyticsWorkspaceResourceId"],
-  };
-}
-
-/** A grouping of signal assignments for a Azure Monitor Workspace */
-export interface AzureMonitorWorkspaceSignalGroup {
-  /** Signal definitions which are assigned to this signal group. All assignments are combined with an OR operator. */
-  signalAssignments?: SignalAssignment[];
-  /** Reference to the name of the authentication setting which is used for querying the data source */
-  authenticationSetting: string;
-  /** Azure Monitor workspace resource ID */
-  azureMonitorWorkspaceResourceId: string;
-}
-
-export function azureMonitorWorkspaceSignalGroupSerializer(
-  item: AzureMonitorWorkspaceSignalGroup,
-): any {
-  return {
-    signalAssignments: !item["signalAssignments"]
-      ? item["signalAssignments"]
-      : signalAssignmentArraySerializer(item["signalAssignments"]),
-    authenticationSetting: item["authenticationSetting"],
-    azureMonitorWorkspaceResourceId: item["azureMonitorWorkspaceResourceId"],
-  };
-}
-
-export function azureMonitorWorkspaceSignalGroupDeserializer(
-  item: any,
-): AzureMonitorWorkspaceSignalGroup {
-  return {
-    signalAssignments: !item["signalAssignments"]
-      ? item["signalAssignments"]
-      : signalAssignmentArrayDeserializer(item["signalAssignments"]),
-    authenticationSetting: item["authenticationSetting"],
-    azureMonitorWorkspaceResourceId: item["azureMonitorWorkspaceResourceId"],
-  };
-}
-
-/** Properties for dependent entities, i.e. child entities */
-export interface DependenciesSignalGroup {
-  /** Aggregation type for child dependencies. */
-  aggregationType: DependenciesAggregationType;
-  /** Degraded threshold for aggregating the propagated health state of child dependencies. Can be either an absolute number that is greater than 0, or a percentage between 1-100%. The entity will be considered degraded when the number of not healthy child dependents (unhealthy, degraded, unknown) is equal to or above the threshold value. Must only be set when AggregationType is 'Thresholds'. */
-  degradedThreshold?: string;
-  /** Unhealthy threshold for aggregating the propagated health state of child dependencies. Can be either an absolute number that is greater than 0, or a percentage between 1-100%. The entity will be considered unhealthy when the number of not healthy child dependents (unhealthy, degraded, unknown) is equal to or above the threshold value. Must only be set when AggregationType is 'Thresholds'. */
-  unhealthyThreshold?: string;
-}
-
-export function dependenciesSignalGroupSerializer(item: DependenciesSignalGroup): any {
-  return {
+    signalKind: item["signalKind"],
+    name: item["name"],
+    signalDefinitionName: item["signalDefinitionName"],
+    metricNamespace: item["metricNamespace"],
+    metricName: item["metricName"],
+    timeGrain: item["timeGrain"],
     aggregationType: item["aggregationType"],
-    degradedThreshold: item["degradedThreshold"],
-    unhealthyThreshold: item["unhealthyThreshold"],
+    dimensionFilter: item["dimensionFilter"],
+    displayName: item["displayName"],
+    refreshInterval: item["refreshInterval"],
+    dataUnit: item["dataUnit"],
+    evaluationRules: !item["evaluationRules"]
+      ? item["evaluationRules"]
+      : evaluationRuleSerializer(item["evaluationRules"]),
   };
 }
 
-export function dependenciesSignalGroupDeserializer(item: any): DependenciesSignalGroup {
+export function azureResourceSignalDeserializer(item: any): AzureResourceSignal {
   return {
+    signalKind: item["signalKind"],
+    name: item["name"],
+    signalDefinitionName: item["signalDefinitionName"],
+    status: !item["status"] ? item["status"] : signalStatusDeserializer(item["status"]),
+    metricNamespace: item["metricNamespace"],
+    metricName: item["metricName"],
+    timeGrain: item["timeGrain"],
     aggregationType: item["aggregationType"],
-    degradedThreshold: item["degradedThreshold"],
-    unhealthyThreshold: item["unhealthyThreshold"],
+    dimensionFilter: item["dimensionFilter"],
+    displayName: item["displayName"],
+    refreshInterval: item["refreshInterval"],
+    dataUnit: item["dataUnit"],
+    evaluationRules: !item["evaluationRules"]
+      ? item["evaluationRules"]
+      : evaluationRuleDeserializer(item["evaluationRules"]),
   };
 }
 
-/** Aggregation type for child dependencies. */
-export enum KnownDependenciesAggregationType {
-  /** Default behavior: Worst child health state is propagated. */
-  WorstOf = "WorstOf",
-  /** Based on configurable thresholds. */
-  Thresholds = "Thresholds",
+/** Azure resource health signal configuration */
+export interface AzureResourceHealthSignal {
+  /** Whether to automatically add a signal for the Azure resource's availability state from Azure Resource Health. Defaults to Enabled. */
+  enabled?: ResourceHealthAvailabilityStateSignalBehavior;
+  /** The unique name of the Azure resource health signal. System assigned. */
+  readonly signalName?: string;
+  /** Current status of the Azure resource health signal. */
+  readonly status?: AzureResourceHealthSignalStatus;
+}
+
+export function azureResourceHealthSignalSerializer(item: AzureResourceHealthSignal): any {
+  return { enabled: item["enabled"] };
+}
+
+export function azureResourceHealthSignalDeserializer(item: any): AzureResourceHealthSignal {
+  return {
+    enabled: item["enabled"],
+    signalName: item["signalName"],
+    status: !item["status"]
+      ? item["status"]
+      : azureResourceHealthSignalStatusDeserializer(item["status"]),
+  };
+}
+
+/** Resource health availability state signal behavior */
+export enum KnownResourceHealthAvailabilityStateSignalBehavior {
+  /** Automatically add resource health availability state signal */
+  Enabled = "Enabled",
+  /** Do not automatically add resource health availability state signal */
+  Disabled = "Disabled",
 }
 
 /**
- * Aggregation type for child dependencies. \
- * {@link KnownDependenciesAggregationType} can be used interchangeably with DependenciesAggregationType,
+ * Resource health availability state signal behavior \
+ * {@link KnownResourceHealthAvailabilityStateSignalBehavior} can be used interchangeably with ResourceHealthAvailabilityStateSignalBehavior,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **WorstOf**: Default behavior: Worst child health state is propagated. \
- * **Thresholds**: Based on configurable thresholds.
+ * **Enabled**: Automatically add resource health availability state signal \
+ * **Disabled**: Do not automatically add resource health availability state signal
  */
-export type DependenciesAggregationType = string;
+export type ResourceHealthAvailabilityStateSignalBehavior = string;
+
+/** Status of an Azure Resource Health signal, including availability information reported by Azure Resource Health. */
+export interface AzureResourceHealthSignalStatus {
+  /** Health state of this signal */
+  readonly healthState?: HealthState;
+  /** Reported value of the signal */
+  readonly value?: number;
+  /** Timestamp when the value was reported */
+  readonly reportedAt?: Date;
+  /** Error message if the signal status cannot be retrieved */
+  readonly error?: string;
+  /** Additional context as provided by the submitter */
+  additionalContext?: string;
+  /** Availability state of the Azure resource as reported by Azure Resource Health. */
+  readonly availabilityState?: ResourceHealthAvailabilityState;
+  /** Whether the status changing event was planned or unplanned. */
+  readonly category?: ResourceHealthCategory;
+  /** Detailed status of the Azure resource as reported by Azure Resource Health. */
+  readonly detailedStatus?: string;
+  /** Human-readable summary of the current availability state from Azure Resource Health. */
+  readonly summary?: string;
+  /** Reason type for the current availability state (e.g. 'Unplanned', 'Planned', 'UserInitiated'). */
+  readonly reasonType?: ResourceHealthReasonType;
+  /** Whether the current availability state is 'Persistent' or 'Transient'. */
+  readonly reasonChronicity?: ResourceHealthReasonChronicity;
+  /** Timestamp when Azure Resource Health observed the current availability state. */
+  readonly availabilityReportedTime?: Date;
+}
+
+export function azureResourceHealthSignalStatusDeserializer(
+  item: any,
+): AzureResourceHealthSignalStatus {
+  return {
+    healthState: item["healthState"],
+    value: item["value"],
+    reportedAt: !item["reportedAt"] ? item["reportedAt"] : new Date(item["reportedAt"]),
+    error: item["error"],
+    additionalContext: item["additionalContext"],
+    availabilityState: item["availabilityState"],
+    category: item["category"],
+    detailedStatus: item["detailedStatus"],
+    summary: item["summary"],
+    reasonType: item["reasonType"],
+    reasonChronicity: item["reasonChronicity"],
+    availabilityReportedTime: !item["availabilityReportedTime"]
+      ? item["availabilityReportedTime"]
+      : new Date(item["availabilityReportedTime"]),
+  };
+}
 
 /** Health state of an entity */
 export enum KnownHealthState {
@@ -1631,8 +1602,8 @@ export enum KnownHealthState {
   Healthy = "Healthy",
   /** Degraded status */
   Degraded = "Degraded",
-  /** Error status (Unhealthy) */
-  Error = "Error",
+  /** Unhealthy status */
+  Unhealthy = "Unhealthy",
   /** Unknown status */
   Unknown = "Unknown",
   /** Deleted status */
@@ -1646,11 +1617,397 @@ export enum KnownHealthState {
  * ### Known values supported by the service
  * **Healthy**: Healthy status \
  * **Degraded**: Degraded status \
- * **Error**: Error status (Unhealthy) \
+ * **Unhealthy**: Unhealthy status \
  * **Unknown**: Unknown status \
  * **Deleted**: Deleted status
  */
 export type HealthState = string;
+
+/** Availability state of an Azure resource as reported by Azure Resource Health. */
+export enum KnownResourceHealthAvailabilityState {
+  /** The resource is available. */
+  Available = "Available",
+  /** The resource is unavailable. */
+  Unavailable = "Unavailable",
+  /** The resource is degraded. */
+  Degraded = "Degraded",
+  /** The resource availability state is unknown. */
+  Unknown = "Unknown",
+}
+
+/**
+ * Availability state of an Azure resource as reported by Azure Resource Health. \
+ * {@link KnownResourceHealthAvailabilityState} can be used interchangeably with ResourceHealthAvailabilityState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Available**: The resource is available. \
+ * **Unavailable**: The resource is unavailable. \
+ * **Degraded**: The resource is degraded. \
+ * **Unknown**: The resource availability state is unknown.
+ */
+export type ResourceHealthAvailabilityState = string;
+
+/** Whether an Azure Resource Health status changing event was planned or unplanned. */
+export enum KnownResourceHealthCategory {
+  /** The event was planned. */
+  Planned = "Planned",
+  /** The event was unplanned. */
+  Unplanned = "Unplanned",
+}
+
+/**
+ * Whether an Azure Resource Health status changing event was planned or unplanned. \
+ * {@link KnownResourceHealthCategory} can be used interchangeably with ResourceHealthCategory,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Planned**: The event was planned. \
+ * **Unplanned**: The event was unplanned.
+ */
+export type ResourceHealthCategory = string;
+
+/** Reason type for the current Azure Resource Health availability state. */
+export enum KnownResourceHealthReasonType {
+  /** Unplanned reason. */
+  Unplanned = "Unplanned",
+  /** Planned reason. */
+  Planned = "Planned",
+  /** User-initiated reason. */
+  UserInitiated = "UserInitiated",
+}
+
+/**
+ * Reason type for the current Azure Resource Health availability state. \
+ * {@link KnownResourceHealthReasonType} can be used interchangeably with ResourceHealthReasonType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unplanned**: Unplanned reason. \
+ * **Planned**: Planned reason. \
+ * **UserInitiated**: User-initiated reason.
+ */
+export type ResourceHealthReasonType = string;
+
+/** Whether the current Azure Resource Health availability state is persistent or transient. */
+export enum KnownResourceHealthReasonChronicity {
+  /** Persistent state. */
+  Persistent = "Persistent",
+  /** Transient state. */
+  Transient = "Transient",
+}
+
+/**
+ * Whether the current Azure Resource Health availability state is persistent or transient. \
+ * {@link KnownResourceHealthReasonChronicity} can be used interchangeably with ResourceHealthReasonChronicity,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Persistent**: Persistent state. \
+ * **Transient**: Transient state.
+ */
+export type ResourceHealthReasonChronicity = string;
+
+/** A grouping of Log Analytics workspace signals. */
+export interface LogAnalyticsSignals {
+  /** Reference to the name of the authentication setting which is used for querying the data source. */
+  authenticationSetting: string;
+  /** Log Analytics workspace resource ID. */
+  logAnalyticsWorkspaceResourceId: string;
+  /** Signals assigned to this group. */
+  signals?: LogAnalyticsSignal[];
+}
+
+export function logAnalyticsSignalsSerializer(item: LogAnalyticsSignals): any {
+  return {
+    authenticationSetting: item["authenticationSetting"],
+    logAnalyticsWorkspaceResourceId: item["logAnalyticsWorkspaceResourceId"],
+    signals: !item["signals"]
+      ? item["signals"]
+      : logAnalyticsSignalArraySerializer(item["signals"]),
+  };
+}
+
+export function logAnalyticsSignalsDeserializer(item: any): LogAnalyticsSignals {
+  return {
+    authenticationSetting: item["authenticationSetting"],
+    logAnalyticsWorkspaceResourceId: item["logAnalyticsWorkspaceResourceId"],
+    signals: !item["signals"]
+      ? item["signals"]
+      : logAnalyticsSignalArrayDeserializer(item["signals"]),
+  };
+}
+
+export function logAnalyticsSignalArraySerializer(result: Array<LogAnalyticsSignal>): any[] {
+  return result.map((item) => {
+    return logAnalyticsSignalSerializer(item);
+  });
+}
+
+export function logAnalyticsSignalArrayDeserializer(result: Array<LogAnalyticsSignal>): any[] {
+  return result.map((item) => {
+    return logAnalyticsSignalDeserializer(item);
+  });
+}
+
+/** A Log Analytics Query signal instance assigned to an entity. */
+export interface LogAnalyticsSignal extends SignalInstanceProperties {
+  /** Kind of the signal instance */
+  signalKind: "LogAnalyticsQuery";
+  /** Query text in KQL syntax */
+  queryText?: string;
+  /** Time range of signal. ISO duration format like PT10M. If not specified, the KQL query must define a time range. */
+  timeGrain?: string;
+  /** Name of the column in the result set to evaluate against the thresholds. Defaults to the first column in the result set if not specified. The column must be numeric. */
+  valueColumnName?: string;
+  /** Display name */
+  displayName?: string;
+  /** Interval in which the signal is being evaluated. Defaults to PT1M (1 minute). */
+  refreshInterval?: RefreshInterval;
+  /** Unit of the signal result (e.g. Bytes, MilliSeconds, Percent, Count)) */
+  dataUnit?: string;
+  /** Evaluation rules for the signal definition */
+  evaluationRules?: EvaluationRule;
+}
+
+export function logAnalyticsSignalSerializer(item: LogAnalyticsSignal): any {
+  return {
+    signalKind: item["signalKind"],
+    name: item["name"],
+    signalDefinitionName: item["signalDefinitionName"],
+    queryText: item["queryText"],
+    timeGrain: item["timeGrain"],
+    valueColumnName: item["valueColumnName"],
+    displayName: item["displayName"],
+    refreshInterval: item["refreshInterval"],
+    dataUnit: item["dataUnit"],
+    evaluationRules: !item["evaluationRules"]
+      ? item["evaluationRules"]
+      : evaluationRuleSerializer(item["evaluationRules"]),
+  };
+}
+
+export function logAnalyticsSignalDeserializer(item: any): LogAnalyticsSignal {
+  return {
+    signalKind: item["signalKind"],
+    name: item["name"],
+    signalDefinitionName: item["signalDefinitionName"],
+    status: !item["status"] ? item["status"] : signalStatusDeserializer(item["status"]),
+    queryText: item["queryText"],
+    timeGrain: item["timeGrain"],
+    valueColumnName: item["valueColumnName"],
+    displayName: item["displayName"],
+    refreshInterval: item["refreshInterval"],
+    dataUnit: item["dataUnit"],
+    evaluationRules: !item["evaluationRules"]
+      ? item["evaluationRules"]
+      : evaluationRuleDeserializer(item["evaluationRules"]),
+  };
+}
+
+/** A grouping of Azure Monitor workspace signals. */
+export interface AzureMonitorWorkspaceSignals {
+  /** Reference to the name of the authentication setting which is used for querying the data source. */
+  authenticationSetting: string;
+  /** Azure Monitor workspace resource ID. */
+  azureMonitorWorkspaceResourceId: string;
+  /** Signals assigned to this signal group. */
+  signals?: PrometheusMetricsSignal[];
+}
+
+export function azureMonitorWorkspaceSignalsSerializer(item: AzureMonitorWorkspaceSignals): any {
+  return {
+    authenticationSetting: item["authenticationSetting"],
+    azureMonitorWorkspaceResourceId: item["azureMonitorWorkspaceResourceId"],
+    signals: !item["signals"]
+      ? item["signals"]
+      : prometheusMetricsSignalArraySerializer(item["signals"]),
+  };
+}
+
+export function azureMonitorWorkspaceSignalsDeserializer(item: any): AzureMonitorWorkspaceSignals {
+  return {
+    authenticationSetting: item["authenticationSetting"],
+    azureMonitorWorkspaceResourceId: item["azureMonitorWorkspaceResourceId"],
+    signals: !item["signals"]
+      ? item["signals"]
+      : prometheusMetricsSignalArrayDeserializer(item["signals"]),
+  };
+}
+
+export function prometheusMetricsSignalArraySerializer(
+  result: Array<PrometheusMetricsSignal>,
+): any[] {
+  return result.map((item) => {
+    return prometheusMetricsSignalSerializer(item);
+  });
+}
+
+export function prometheusMetricsSignalArrayDeserializer(
+  result: Array<PrometheusMetricsSignal>,
+): any[] {
+  return result.map((item) => {
+    return prometheusMetricsSignalDeserializer(item);
+  });
+}
+
+/** A Prometheus Metrics Query signal instance assigned to an entity. */
+export interface PrometheusMetricsSignal extends SignalInstanceProperties {
+  /** Kind of the signal instance */
+  signalKind: "PrometheusMetricsQuery";
+  /** Query text in PromQL syntax */
+  queryText?: string;
+  /** Time range of signal. ISO duration format like PT10M. */
+  timeGrain?: string;
+  /** Display name */
+  displayName?: string;
+  /** Interval in which the signal is being evaluated. Defaults to PT1M (1 minute). */
+  refreshInterval?: RefreshInterval;
+  /** Unit of the signal result (e.g. Bytes, MilliSeconds, Percent, Count)) */
+  dataUnit?: string;
+  /** Evaluation rules for the signal definition */
+  evaluationRules?: EvaluationRule;
+}
+
+export function prometheusMetricsSignalSerializer(item: PrometheusMetricsSignal): any {
+  return {
+    signalKind: item["signalKind"],
+    name: item["name"],
+    signalDefinitionName: item["signalDefinitionName"],
+    queryText: item["queryText"],
+    timeGrain: item["timeGrain"],
+    displayName: item["displayName"],
+    refreshInterval: item["refreshInterval"],
+    dataUnit: item["dataUnit"],
+    evaluationRules: !item["evaluationRules"]
+      ? item["evaluationRules"]
+      : evaluationRuleSerializer(item["evaluationRules"]),
+  };
+}
+
+export function prometheusMetricsSignalDeserializer(item: any): PrometheusMetricsSignal {
+  return {
+    signalKind: item["signalKind"],
+    name: item["name"],
+    signalDefinitionName: item["signalDefinitionName"],
+    status: !item["status"] ? item["status"] : signalStatusDeserializer(item["status"]),
+    queryText: item["queryText"],
+    timeGrain: item["timeGrain"],
+    displayName: item["displayName"],
+    refreshInterval: item["refreshInterval"],
+    dataUnit: item["dataUnit"],
+    evaluationRules: !item["evaluationRules"]
+      ? item["evaluationRules"]
+      : evaluationRuleDeserializer(item["evaluationRules"]),
+  };
+}
+
+/** Properties for dependent entities, i.e. child entities */
+export interface DependenciesSignalGroupV2 {
+  /** Aggregation type for child dependencies. */
+  aggregationType: DependenciesAggregationType;
+  /** Degraded threshold for aggregation. For MinHealthy: parent is degraded when healthy count/percentage falls to or below this value. For MaxNotHealthy: parent is degraded when not-healthy count/percentage reaches or exceeds this value. Optional — if not set, there is no degraded state (transitions directly from Healthy to Unhealthy). */
+  degradedThreshold?: number;
+  /** Unhealthy threshold for aggregation. For MinHealthy: parent is unhealthy when healthy count/percentage falls to or below this value. For MaxNotHealthy: parent is unhealthy when not-healthy count/percentage reaches or exceeds this value. Required when aggregationType is MinHealthy or MaxNotHealthy. */
+  unhealthyThreshold?: number;
+  /** Unit type for the aggregation thresholds. Required when aggregationType is MinHealthy or MaxNotHealthy. */
+  unit?: DependenciesAggregationUnit;
+  /** If true, children with Unknown health state are excluded from aggregation calculations. Defaults to true. */
+  ignoreUnknown?: boolean;
+}
+
+export function dependenciesSignalGroupV2Serializer(item: DependenciesSignalGroupV2): any {
+  return {
+    aggregationType: item["aggregationType"],
+    degradedThreshold: item["degradedThreshold"],
+    unhealthyThreshold: item["unhealthyThreshold"],
+    unit: item["unit"],
+    ignoreUnknown: item["ignoreUnknown"],
+  };
+}
+
+export function dependenciesSignalGroupV2Deserializer(item: any): DependenciesSignalGroupV2 {
+  return {
+    aggregationType: item["aggregationType"],
+    degradedThreshold: item["degradedThreshold"],
+    unhealthyThreshold: item["unhealthyThreshold"],
+    unit: item["unit"],
+    ignoreUnknown: item["ignoreUnknown"],
+  };
+}
+
+/** Aggregation type for child dependencies. */
+export enum KnownDependenciesAggregationType {
+  /** Default behavior: Worst child health state is propagated. */
+  WorstOf = "WorstOf",
+  /** Healthy if the count/percentage of healthy children meets the threshold. */
+  MinHealthy = "MinHealthy",
+  /** Healthy if the count/percentage of not-healthy children stays below the threshold. */
+  MaxNotHealthy = "MaxNotHealthy",
+}
+
+/**
+ * Aggregation type for child dependencies. \
+ * {@link KnownDependenciesAggregationType} can be used interchangeably with DependenciesAggregationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **WorstOf**: Default behavior: Worst child health state is propagated. \
+ * **MinHealthy**: Healthy if the count\/percentage of healthy children meets the threshold. \
+ * **MaxNotHealthy**: Healthy if the count\/percentage of not-healthy children stays below the threshold.
+ */
+export type DependenciesAggregationType = string;
+
+/** Unit type for dependency aggregation thresholds. */
+export enum KnownDependenciesAggregationUnit {
+  /** Threshold is an absolute count of entities. */
+  Absolute = "Absolute",
+  /** Threshold is a percentage of entities (0-100). */
+  Percentage = "Percentage",
+}
+
+/**
+ * Unit type for dependency aggregation thresholds. \
+ * {@link KnownDependenciesAggregationUnit} can be used interchangeably with DependenciesAggregationUnit,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Absolute**: Threshold is an absolute count of entities. \
+ * **Percentage**: Threshold is a percentage of entities (0-100).
+ */
+export type DependenciesAggregationUnit = string;
+
+/** A grouping of externally submitted signals. */
+export interface ExternalSignalGroup {
+  /** Signals assigned to this signal group. */
+  readonly signals?: ExternalSignal[];
+}
+
+export function externalSignalGroupDeserializer(item: any): ExternalSignalGroup {
+  return {
+    signals: !item["signals"] ? item["signals"] : externalSignalArrayDeserializer(item["signals"]),
+  };
+}
+
+export function externalSignalArrayDeserializer(result: Array<ExternalSignal>): any[] {
+  return result.map((item) => {
+    return externalSignalDeserializer(item);
+  });
+}
+
+/** An externally submitted signal instance assigned to an entity. */
+export interface ExternalSignal extends SignalInstanceProperties {
+  /** Kind of the signal instance */
+  signalKind: "External";
+  /** Evaluation rules for the external signal as submitted. */
+  evaluationRules?: EvaluationRule;
+}
+
+export function externalSignalDeserializer(item: any): ExternalSignal {
+  return {
+    signalKind: item["signalKind"],
+    name: item["name"],
+    signalDefinitionName: item["signalDefinitionName"],
+    status: !item["status"] ? item["status"] : signalStatusDeserializer(item["status"]),
+    evaluationRules: !item["evaluationRules"]
+      ? item["evaluationRules"]
+      : evaluationRuleDeserializer(item["evaluationRules"]),
+  };
+}
 
 /** Alert configuration for an entity */
 export interface EntityAlerts {
@@ -1741,6 +2098,105 @@ export enum KnownAlertSeverity {
  */
 export type AlertSeverity = string;
 
+/** Additional properties for signal instances assigned to an entity */
+export interface SignalInstanceProperties {
+  /** Kind of the signal instance */
+  /** The discriminator possible values: AzureResourceMetric, LogAnalyticsQuery, PrometheusMetricsQuery, External */
+  signalKind: SignalKind;
+  /** Unique name of the signal within the entity. */
+  name: string;
+  /** Optional reference to a signal definition that provides default values. */
+  signalDefinitionName?: string;
+  /** Current status of the signal. */
+  readonly status?: SignalStatus;
+}
+
+export function signalInstancePropertiesSerializer(item: SignalInstanceProperties): any {
+  return {
+    signalKind: item["signalKind"],
+    name: item["name"],
+    signalDefinitionName: item["signalDefinitionName"],
+  };
+}
+
+export function signalInstancePropertiesDeserializer(item: any): SignalInstanceProperties {
+  return {
+    signalKind: item["signalKind"],
+    name: item["name"],
+    signalDefinitionName: item["signalDefinitionName"],
+    status: !item["status"] ? item["status"] : signalStatusDeserializer(item["status"]),
+  };
+}
+
+/** Alias for SignalInstancePropertiesUnion */
+export type SignalInstancePropertiesUnion =
+  | AzureResourceSignal
+  | LogAnalyticsSignal
+  | PrometheusMetricsSignal
+  | ExternalSignal
+  | SignalInstanceProperties;
+
+export function signalInstancePropertiesUnionSerializer(item: SignalInstancePropertiesUnion): any {
+  switch (item.signalKind) {
+    case "AzureResourceMetric":
+      return azureResourceSignalSerializer(item as AzureResourceSignal);
+
+    case "LogAnalyticsQuery":
+      return logAnalyticsSignalSerializer(item as LogAnalyticsSignal);
+
+    case "PrometheusMetricsQuery":
+      return prometheusMetricsSignalSerializer(item as PrometheusMetricsSignal);
+
+    default:
+      return signalInstancePropertiesSerializer(item);
+  }
+}
+
+export function signalInstancePropertiesUnionDeserializer(
+  item: any,
+): SignalInstancePropertiesUnion {
+  switch (item["signalKind"]) {
+    case "AzureResourceMetric":
+      return azureResourceSignalDeserializer(item as AzureResourceSignal);
+
+    case "LogAnalyticsQuery":
+      return logAnalyticsSignalDeserializer(item as LogAnalyticsSignal);
+
+    case "PrometheusMetricsQuery":
+      return prometheusMetricsSignalDeserializer(item as PrometheusMetricsSignal);
+
+    case "External":
+      return externalSignalDeserializer(item as ExternalSignal);
+
+    default:
+      return signalInstancePropertiesDeserializer(item);
+  }
+}
+
+/** Status of a signal */
+export interface SignalStatus {
+  /** Health state of this signal */
+  readonly healthState?: HealthState;
+  /** Reported value of the signal */
+  readonly value?: number;
+  /** Timestamp when the value was reported */
+  readonly reportedAt?: Date;
+  /** Error message if the signal status cannot be retrieved */
+  readonly error?: string;
+  /** Additional context as provided by the submitter */
+  additionalContext?: string;
+}
+
+export function signalStatusDeserializer(item: any): SignalStatus {
+  return {
+    healthState: item["healthState"],
+    value: item["value"],
+    reportedAt: !item["reportedAt"] ? item["reportedAt"] : new Date(item["reportedAt"]),
+    error: item["error"],
+    additionalContext: item["additionalContext"],
+  };
+}
+
 /** The response of a Entity list operation. */
 export interface _EntityListResult {
   /** The Entity items on this page */
@@ -1766,6 +2222,334 @@ export function entityArrayDeserializer(result: Array<Entity>): any[] {
   return result.map((item) => {
     return entityDeserializer(item);
   });
+}
+
+/** Request body for getting entity health history */
+export interface EntityHistoryRequest {
+  /** Start time for the history query. Defaults to 24 hours ago if not specified. */
+  startAt?: Date;
+  /** End time for the history query. Defaults to now if not specified. */
+  endAt?: Date;
+  /** Maximum number of health state transitions to return per page. Defaults to 1000. */
+  top?: number;
+  /** An opaque string value that identifies the portion of the result set to be returned with the next operation. Must not be combined with startAt or endAt. */
+  nextMarker?: string;
+}
+
+export function entityHistoryRequestSerializer(item: EntityHistoryRequest): any {
+  return {
+    startAt: !item["startAt"] ? item["startAt"] : item["startAt"].toISOString(),
+    endAt: !item["endAt"] ? item["endAt"] : item["endAt"].toISOString(),
+    top: item["top"],
+    nextMarker: item["nextMarker"],
+  };
+}
+
+/** Response containing entity health state transitions */
+export interface EntityHistoryResponse {
+  /** Name of the entity */
+  entityName: string;
+  /** List of health state transitions */
+  history: HealthStateTransition[];
+  /** An opaque string value that identifies the portion of the result set to be returned with the next operation. */
+  nextMarker?: string;
+}
+
+export function entityHistoryResponseDeserializer(item: any): EntityHistoryResponse {
+  return {
+    entityName: item["entityName"],
+    history: healthStateTransitionArrayDeserializer(item["history"]),
+    nextMarker: item["nextMarker"],
+  };
+}
+
+export function healthStateTransitionArrayDeserializer(
+  result: Array<HealthStateTransition>,
+): any[] {
+  return result.map((item) => {
+    return healthStateTransitionDeserializer(item);
+  });
+}
+
+/** A health state transition record */
+export interface HealthStateTransition {
+  /** Previous health state before the transition */
+  previousState: HealthState;
+  /** New health state after the transition */
+  newState: HealthState;
+  /** Timestamp when the transition occurred */
+  occurredAt: Date;
+  /** Reason of the transition */
+  reason?: string;
+}
+
+export function healthStateTransitionDeserializer(item: any): HealthStateTransition {
+  return {
+    previousState: item["previousState"],
+    newState: item["newState"],
+    occurredAt: new Date(item["occurredAt"]),
+    reason: item["reason"],
+  };
+}
+
+/** Request body for getting signal history */
+export interface SignalHistoryRequest {
+  /** Name of the signal to get history for */
+  signalName: string;
+  /** Start time for the history query. Defaults to 24 hours ago if not specified. */
+  startAt?: Date;
+  /** End time for the history query. Defaults to now if not specified. */
+  endAt?: Date;
+  /** Maximum number of data points to return per page. Defaults to 1000. */
+  top?: number;
+  /** An opaque string value that identifies the portion of the result set to be returned with the next operation. Must not be combined with startAt or endAt. */
+  nextMarker?: string;
+}
+
+export function signalHistoryRequestSerializer(item: SignalHistoryRequest): any {
+  return {
+    signalName: item["signalName"],
+    startAt: !item["startAt"] ? item["startAt"] : item["startAt"].toISOString(),
+    endAt: !item["endAt"] ? item["endAt"] : item["endAt"].toISOString(),
+    top: item["top"],
+    nextMarker: item["nextMarker"],
+  };
+}
+
+/** Response containing signal history */
+export interface SignalHistoryResponse {
+  /** Name of the entity */
+  entityName: string;
+  /** Name of the signal */
+  signalName: string;
+  /** Signal history data points */
+  history: SignalHistoryDataPoint[];
+  /** An opaque string value that identifies the portion of the result set to be returned with the next operation. */
+  nextMarker?: string;
+}
+
+export function signalHistoryResponseDeserializer(item: any): SignalHistoryResponse {
+  return {
+    entityName: item["entityName"],
+    signalName: item["signalName"],
+    history: signalHistoryDataPointArrayDeserializer(item["history"]),
+    nextMarker: item["nextMarker"],
+  };
+}
+
+export function signalHistoryDataPointArrayDeserializer(
+  result: Array<SignalHistoryDataPoint>,
+): any[] {
+  return result.map((item) => {
+    return signalHistoryDataPointDeserializer(item);
+  });
+}
+
+/** A data point in the signal time series */
+export interface SignalHistoryDataPoint {
+  /** Timestamp of the data point */
+  occurredAt: Date;
+  /** Signal value at this point in time */
+  value?: number;
+  /** Health state at this point in time */
+  healthState: HealthState;
+  /** Additional context as provided by the submitter */
+  additionalContext?: string;
+}
+
+export function signalHistoryDataPointDeserializer(item: any): SignalHistoryDataPoint {
+  return {
+    occurredAt: new Date(item["occurredAt"]),
+    value: item["value"],
+    healthState: item["healthState"],
+    additionalContext: item["additionalContext"],
+  };
+}
+
+/** Health report that's submitted for a specific signal */
+export interface HealthReportRequest {
+  /** Name of the entity signal to report health for */
+  signalName: string;
+  /** Health state to report for the signal */
+  healthState: HealthState;
+  /** Reported value of the signal */
+  value?: number;
+  /** Evaluation rules that were used to determine the reported health state */
+  evaluationRules?: HealthReportEvaluationRule;
+  /** Number of minutes until the health report expires. Defaults to 60 (1 hour) if not specified. */
+  expiresInMinutes?: number;
+  /** Optional additional context or description for the health report */
+  additionalContext?: string;
+}
+
+export function healthReportRequestSerializer(item: HealthReportRequest): any {
+  return {
+    signalName: item["signalName"],
+    healthState: item["healthState"],
+    value: item["value"],
+    evaluationRules: !item["evaluationRules"]
+      ? item["evaluationRules"]
+      : healthReportEvaluationRuleSerializer(item["evaluationRules"]),
+    expiresInMinutes: item["expiresInMinutes"],
+    additionalContext: item["additionalContext"],
+  };
+}
+
+/** Evaluation rules for the health report */
+export interface HealthReportEvaluationRule {
+  /** Degraded rule with static threshold. */
+  degradedRule?: ThresholdRuleV2;
+  /** Unhealthy rule with static threshold. */
+  unhealthyRule: ThresholdRuleV2;
+}
+
+export function healthReportEvaluationRuleSerializer(item: HealthReportEvaluationRule): any {
+  return {
+    degradedRule: !item["degradedRule"]
+      ? item["degradedRule"]
+      : thresholdRuleV2Serializer(item["degradedRule"]),
+    unhealthyRule: thresholdRuleV2Serializer(item["unhealthyRule"]),
+  };
+}
+
+/** Request body for adding a data annotation. */
+export interface AddDataAnnotationRequest {
+  /** Annotation details as a dynamic key-value pair bag. Service-enforced limits: a maximum of 10 entries per annotation and a maximum value length of 256 characters. Requests exceeding these limits will be rejected with a 400 response. */
+  annotationDetails: Record<string, string>;
+  /** Optional description of the annotation */
+  description?: string;
+}
+
+export function addDataAnnotationRequestSerializer(item: AddDataAnnotationRequest): any {
+  return { annotationDetails: item["annotationDetails"], description: item["description"] };
+}
+
+/** A single data annotation on an entity */
+export interface DataAnnotation {
+  /** Auto-assigned identifier for the annotation */
+  readonly annotationId?: string;
+  /** Timestamp when the annotation was created */
+  readonly createdAt?: Date;
+  /** Annotation details as a dynamic key-value pair bag. Service-enforced limits: a maximum of 10 entries per annotation and a maximum value length of 256 characters. Requests exceeding these limits will be rejected with a 400 response. */
+  annotationDetails: Record<string, string>;
+  /** Optional description of the annotation */
+  description?: string;
+}
+
+export function dataAnnotationDeserializer(item: any): DataAnnotation {
+  return {
+    annotationId: item["annotationId"],
+    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
+    annotationDetails: Object.fromEntries(
+      Object.entries(item["annotationDetails"]).map(([k, p]: [string, any]) => [k, p]),
+    ),
+    description: item["description"],
+  };
+}
+
+/** Request body for querying data annotations */
+export interface GetDataAnnotationsRequest {
+  /** Start of UTC time range. Defaults to 24 hours ago if not specified. */
+  startAt?: Date;
+  /** End of UTC time range. Defaults to now if not specified. */
+  endAt?: Date;
+  /** Maximum number of annotations to return per page. Defaults to 100. */
+  top?: number;
+  /** An opaque string value that identifies the portion of the result set to be returned with the next operation. Must not be combined with startAt or endAt. */
+  nextMarker?: string;
+}
+
+export function getDataAnnotationsRequestSerializer(item: GetDataAnnotationsRequest): any {
+  return {
+    startAt: !item["startAt"] ? item["startAt"] : item["startAt"].toISOString(),
+    endAt: !item["endAt"] ? item["endAt"] : item["endAt"].toISOString(),
+    top: item["top"],
+    nextMarker: item["nextMarker"],
+  };
+}
+
+/** Response containing data annotations for an entity */
+export interface GetDataAnnotationsResponse {
+  /** Name of the entity */
+  entityName: string;
+  /** List of data annotations */
+  annotations: DataAnnotation[];
+  /** An opaque string value that identifies the portion of the result set to be returned with the next operation. */
+  nextMarker?: string;
+}
+
+export function getDataAnnotationsResponseDeserializer(item: any): GetDataAnnotationsResponse {
+  return {
+    entityName: item["entityName"],
+    annotations: dataAnnotationArrayDeserializer(item["annotations"]),
+    nextMarker: item["nextMarker"],
+  };
+}
+
+export function dataAnnotationArrayDeserializer(result: Array<DataAnnotation>): any[] {
+  return result.map((item) => {
+    return dataAnnotationDeserializer(item);
+  });
+}
+
+/** Response from `getSignalRecommendations` containing two independent suggestion streams for the Azure resource type represented by the target Entity. `recommendedSignals` lists signals broadly recommended to be enabled by default; `recommendedConfigurations` lists additional metrics that are not broadly applicable but, if a caller chooses to monitor one of them, ship with suggested starting-point thresholds. The two arrays are independent — items are not paired by index, and callers should treat them as two separate suggestion streams. */
+export interface GetSignalRecommendationsResponse {
+  /** Signals that are broadly recommended to be enabled by default for health models monitoring an Entity of this resource type. Each entry is a complete signal configuration (metric, aggregation, thresholds) ready to be added to a health model. Independent of `recommendedConfigurations` — not paired by index. */
+  recommendedSignals: SignalConfiguration[];
+  /** Additional signal configurations for metrics that are not broadly applicable to every health model for an Entity of this resource type, but if a caller chooses to monitor one of these metrics, the provided thresholds are suggested as a starting point. Independent of `recommendedSignals` — not paired by index. */
+  recommendedConfigurations: SignalConfiguration[];
+}
+
+export function getSignalRecommendationsResponseDeserializer(
+  item: any,
+): GetSignalRecommendationsResponse {
+  return {
+    recommendedSignals: signalConfigurationArrayDeserializer(item["recommendedSignals"]),
+    recommendedConfigurations: signalConfigurationArrayDeserializer(
+      item["recommendedConfigurations"],
+    ),
+  };
+}
+
+export function signalConfigurationArrayDeserializer(result: Array<SignalConfiguration>): any[] {
+  return result.map((item) => {
+    return signalConfigurationDeserializer(item);
+  });
+}
+
+/** A signal configuration for an Azure resource type */
+export interface SignalConfiguration {
+  /** Unique identifier of the recommended signal configuration. */
+  signalId: string;
+  /** Metric namespace (e.g. 'microsoft.compute/virtualmachines'). */
+  metricNamespace?: string;
+  /** Name of the metric (e.g. 'Percentage CPU'). */
+  metricName?: string;
+  /** Type of aggregation to apply to the metric. */
+  aggregationType?: MetricAggregationType;
+  /** Unit of the metric (e.g. Percent, Bytes, Count). */
+  unit?: string;
+  /** Time range of the metric. ISO 8601 duration format (e.g. 'PT5M'). */
+  timeGrain?: string;
+  /** Optional dimension filter to apply to the metric. */
+  dimensionFilter?: string;
+  /** Evaluation rules with recommended thresholds. */
+  evaluationRules?: EvaluationRule;
+}
+
+export function signalConfigurationDeserializer(item: any): SignalConfiguration {
+  return {
+    signalId: item["signalId"],
+    metricNamespace: item["metricNamespace"],
+    metricName: item["metricName"],
+    aggregationType: item["aggregationType"],
+    unit: item["unit"],
+    timeGrain: item["timeGrain"],
+    dimensionFilter: item["dimensionFilter"],
+    evaluationRules: !item["evaluationRules"]
+      ? item["evaluationRules"]
+      : evaluationRuleDeserializer(item["evaluationRules"]),
+  };
 }
 
 /** A relationship (aka edge) between two entities in a health model */
@@ -1806,12 +2590,10 @@ export interface RelationshipProperties {
   parentEntityName: string;
   /** Resource name of the child entity */
   childEntityName: string;
-  /** Optional set of labels (key-value pairs) */
-  labels?: Record<string, string>;
+  /** Optional set of tags (key-value pairs) */
+  tags?: Record<string, string>;
   /** Discovered by which discovery rule. If set, the relationship cannot be deleted manually. */
   readonly discoveredBy?: string;
-  /** Date when the relationship was (soft-)deleted */
-  readonly deletionDate?: Date;
 }
 
 export function relationshipPropertiesSerializer(item: RelationshipProperties): any {
@@ -1819,7 +2601,7 @@ export function relationshipPropertiesSerializer(item: RelationshipProperties): 
     displayName: item["displayName"],
     parentEntityName: item["parentEntityName"],
     childEntityName: item["childEntityName"],
-    labels: item["labels"],
+    tags: item["tags"],
   };
 }
 
@@ -1829,9 +2611,10 @@ export function relationshipPropertiesDeserializer(item: any): RelationshipPrope
     displayName: item["displayName"],
     parentEntityName: item["parentEntityName"],
     childEntityName: item["childEntityName"],
-    labels: item["labels"],
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
     discoveredBy: item["discoveredBy"],
-    deletionDate: !item["deletionDate"] ? item["deletionDate"] : new Date(item["deletionDate"]),
   };
 }
 
@@ -1868,14 +2651,6 @@ export interface DiscoveryRule extends ProxyResource {
   properties?: DiscoveryRuleProperties;
 }
 
-export function discoveryRuleSerializer(item: DiscoveryRule): any {
-  return {
-    properties: !item["properties"]
-      ? item["properties"]
-      : discoveryRulePropertiesSerializer(item["properties"]),
-  };
-}
-
 export function discoveryRuleDeserializer(item: any): DiscoveryRule {
   return {
     id: item["id"],
@@ -1896,45 +2671,32 @@ export interface DiscoveryRuleProperties {
   readonly provisioningState?: HealthModelProvisioningState;
   /** Display name */
   displayName?: string;
-  /** Azure Resource Graph query text in KQL syntax. The query must return at least a column named 'id' which contains the resource ID of the discovered resources. */
-  resourceGraphQuery: string;
   /** Reference to the name of the authentication setting which is used for querying Azure Resource Graph. The same authentication setting will also be assigned to any discovered entities. */
   authenticationSetting: string;
   /** Whether to create relationships between the discovered entities based on a set of built-in rules. These relationships cannot be manually deleted. */
   discoverRelationships: DiscoveryRuleRelationshipDiscoveryBehavior;
   /** Whether to add all recommended signals to the discovered entities. */
   addRecommendedSignals: DiscoveryRuleRecommendedSignalsBehavior;
-  /** Date when the discovery rule was (soft-)deleted. */
-  readonly deletionDate?: Date;
-  /** Error message if the last discovery operation failed. */
-  readonly errorMessage?: string;
-  /** Number of discovered entities in the last discovery operation. */
-  readonly numberOfDiscoveredEntities?: number;
+  /** Specification of the discovery rule defining how entities are discovered. */
+  specification: DiscoveryRuleSpecificationUnion;
+  /** Whether to automatically add a signal for the Azure resource's availability state from Azure Resource Health to the discovered entities. Defaults to `Enabled`: discovery rules updated via this API version without setting this field will begin emitting a Resource Health availability signal. Pass `Disabled` to preserve pre-`2026-05-01-preview` behavior. */
+  addResourceHealthSignal?: ResourceHealthAvailabilityStateSignalBehavior;
+  /** Error details if the last discovery operation failed. */
+  readonly error?: DiscoveryError;
   /** Name of the entity which represents the discovery rule. Note: It might take a few minutes after creating the discovery rule until the entity is created. */
   readonly entityName: string;
-}
-
-export function discoveryRulePropertiesSerializer(item: DiscoveryRuleProperties): any {
-  return {
-    displayName: item["displayName"],
-    resourceGraphQuery: item["resourceGraphQuery"],
-    authenticationSetting: item["authenticationSetting"],
-    discoverRelationships: item["discoverRelationships"],
-    addRecommendedSignals: item["addRecommendedSignals"],
-  };
 }
 
 export function discoveryRulePropertiesDeserializer(item: any): DiscoveryRuleProperties {
   return {
     provisioningState: item["provisioningState"],
     displayName: item["displayName"],
-    resourceGraphQuery: item["resourceGraphQuery"],
     authenticationSetting: item["authenticationSetting"],
     discoverRelationships: item["discoverRelationships"],
     addRecommendedSignals: item["addRecommendedSignals"],
-    deletionDate: !item["deletionDate"] ? item["deletionDate"] : new Date(item["deletionDate"]),
-    errorMessage: item["errorMessage"],
-    numberOfDiscoveredEntities: item["numberOfDiscoveredEntities"],
+    specification: discoveryRuleSpecificationUnionDeserializer(item["specification"]),
+    addResourceHealthSignal: item["addResourceHealthSignal"],
+    error: !item["error"] ? item["error"] : discoveryErrorDeserializer(item["error"]),
     entityName: item["entityName"],
   };
 }
@@ -1957,6 +2719,208 @@ export enum KnownDiscoveryRuleRelationshipDiscoveryBehavior {
  */
 export type DiscoveryRuleRelationshipDiscoveryBehavior = string;
 
+/** Discovery rule recommended signal behavior */
+export enum KnownDiscoveryRuleRecommendedSignalsBehavior {
+  /** Automatically add recommended signals */
+  Enabled = "Enabled",
+  /** Do not automatically add recommended signals */
+  Disabled = "Disabled",
+}
+
+/**
+ * Discovery rule recommended signal behavior \
+ * {@link KnownDiscoveryRuleRecommendedSignalsBehavior} can be used interchangeably with DiscoveryRuleRecommendedSignalsBehavior,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled**: Automatically add recommended signals \
+ * **Disabled**: Do not automatically add recommended signals
+ */
+export type DiscoveryRuleRecommendedSignalsBehavior = string;
+
+/** Base model for discovery rule specifications */
+export interface DiscoveryRuleSpecification {
+  /** Kind of the discovery rule specification */
+  /** The discriminator possible values: ResourceGraphQuery, ApplicationInsightsTopology */
+  kind: DiscoveryRuleKind;
+}
+
+export function discoveryRuleSpecificationSerializer(item: DiscoveryRuleSpecification): any {
+  return { kind: item["kind"] };
+}
+
+export function discoveryRuleSpecificationDeserializer(item: any): DiscoveryRuleSpecification {
+  return {
+    kind: item["kind"],
+  };
+}
+
+/** Alias for DiscoveryRuleSpecificationUnion */
+export type DiscoveryRuleSpecificationUnion =
+  | ResourceGraphQuerySpecification
+  | ApplicationInsightsTopologySpecification
+  | DiscoveryRuleSpecification;
+
+export function discoveryRuleSpecificationUnionSerializer(
+  item: DiscoveryRuleSpecificationUnion,
+): any {
+  switch (item.kind) {
+    case "ResourceGraphQuery":
+      return resourceGraphQuerySpecificationSerializer(item as ResourceGraphQuerySpecification);
+
+    case "ApplicationInsightsTopology":
+      return applicationInsightsTopologySpecificationSerializer(
+        item as ApplicationInsightsTopologySpecification,
+      );
+
+    default:
+      return discoveryRuleSpecificationSerializer(item);
+  }
+}
+
+export function discoveryRuleSpecificationUnionDeserializer(
+  item: any,
+): DiscoveryRuleSpecificationUnion {
+  switch (item["kind"]) {
+    case "ResourceGraphQuery":
+      return resourceGraphQuerySpecificationDeserializer(item as ResourceGraphQuerySpecification);
+
+    case "ApplicationInsightsTopology":
+      return applicationInsightsTopologySpecificationDeserializer(
+        item as ApplicationInsightsTopologySpecification,
+      );
+
+    default:
+      return discoveryRuleSpecificationDeserializer(item);
+  }
+}
+
+/** Discovery rule specification kind discriminator */
+export enum KnownDiscoveryRuleKind {
+  /** Azure Resource Graph query based discovery */
+  ResourceGraphQuery = "ResourceGraphQuery",
+  /** Application Insights topology based discovery */
+  ApplicationInsightsTopology = "ApplicationInsightsTopology",
+}
+
+/**
+ * Discovery rule specification kind discriminator \
+ * {@link KnownDiscoveryRuleKind} can be used interchangeably with DiscoveryRuleKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ResourceGraphQuery**: Azure Resource Graph query based discovery \
+ * **ApplicationInsightsTopology**: Application Insights topology based discovery
+ */
+export type DiscoveryRuleKind = string;
+
+/** Discovery rule specification for an Azure Resource Graph query */
+export interface ResourceGraphQuerySpecification extends DiscoveryRuleSpecification {
+  /** Kind of the discovery rule specification */
+  kind: "ResourceGraphQuery";
+  /** Azure Resource Graph query text in KQL syntax. The query must return at least a column named 'id' which contains the resource ID of the discovered resources. */
+  resourceGraphQuery: string;
+}
+
+export function resourceGraphQuerySpecificationSerializer(
+  item: ResourceGraphQuerySpecification,
+): any {
+  return { kind: item["kind"], resourceGraphQuery: item["resourceGraphQuery"] };
+}
+
+export function resourceGraphQuerySpecificationDeserializer(
+  item: any,
+): ResourceGraphQuerySpecification {
+  return {
+    kind: item["kind"],
+    resourceGraphQuery: item["resourceGraphQuery"],
+  };
+}
+
+/** Discovery rule specification for an Application Insights topology query */
+export interface ApplicationInsightsTopologySpecification extends DiscoveryRuleSpecification {
+  /** Kind of the discovery rule specification */
+  kind: "ApplicationInsightsTopology";
+  /** Application Insights resource ID */
+  applicationInsightsResourceId: string;
+}
+
+export function applicationInsightsTopologySpecificationSerializer(
+  item: ApplicationInsightsTopologySpecification,
+): any {
+  return {
+    kind: item["kind"],
+    applicationInsightsResourceId: item["applicationInsightsResourceId"],
+  };
+}
+
+export function applicationInsightsTopologySpecificationDeserializer(
+  item: any,
+): ApplicationInsightsTopologySpecification {
+  return {
+    kind: item["kind"],
+    applicationInsightsResourceId: item["applicationInsightsResourceId"],
+  };
+}
+
+/** Error details for a failed discovery operation */
+export interface DiscoveryError {
+  /** Error message */
+  readonly message: string;
+  /** Additional context information, like resource IDs or query details */
+  readonly context?: string[];
+}
+
+export function discoveryErrorDeserializer(item: any): DiscoveryError {
+  return {
+    message: item["message"],
+    context: !item["context"]
+      ? item["context"]
+      : item["context"].map((p: any) => {
+          return p;
+        }),
+  };
+}
+
+/** Discovery rule resource for create/update operations. */
+export interface DiscoveryRuleResourceCreate extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: DiscoveryRulePropertiesCreate;
+}
+
+export function discoveryRuleResourceCreateSerializer(item: DiscoveryRuleResourceCreate): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : discoveryRulePropertiesCreateSerializer(item["properties"]),
+  };
+}
+
+/** Discovery rule properties for create/update operations, omitting server-side read-only fields (entityName is required+read-only in the canonical model). */
+export interface DiscoveryRulePropertiesCreate {
+  /** Display name */
+  displayName?: string;
+  /** Reference to the name of the authentication setting which is used for querying Azure Resource Graph. The same authentication setting will also be assigned to any discovered entities. */
+  authenticationSetting: string;
+  /** Whether to create relationships between the discovered entities based on a set of built-in rules. These relationships cannot be manually deleted. */
+  discoverRelationships: DiscoveryRuleRelationshipDiscoveryBehavior;
+  /** Whether to add all recommended signals to the discovered entities. */
+  addRecommendedSignals: DiscoveryRuleRecommendedSignalsBehavior;
+  /** Specification of the discovery rule defining how entities are discovered. */
+  specification: DiscoveryRuleSpecificationUnion;
+  /** Whether to automatically add a signal for the Azure resource's availability state from Azure Resource Health to the discovered entities. Defaults to `Enabled`. */
+  addResourceHealthSignal?: ResourceHealthAvailabilityStateSignalBehavior;
+}
+
+export function discoveryRulePropertiesCreateSerializer(item: DiscoveryRulePropertiesCreate): any {
+  return {
+    displayName: item["displayName"],
+    authenticationSetting: item["authenticationSetting"],
+    discoverRelationships: item["discoverRelationships"],
+    addRecommendedSignals: item["addRecommendedSignals"],
+    specification: discoveryRuleSpecificationUnionSerializer(item["specification"]),
+    addResourceHealthSignal: item["addResourceHealthSignal"],
+  };
+}
+
 /** The response of a DiscoveryRule list operation. */
 export interface _DiscoveryRuleListResult {
   /** The DiscoveryRule items on this page */
@@ -1972,12 +2936,6 @@ export function _discoveryRuleListResultDeserializer(item: any): _DiscoveryRuleL
   };
 }
 
-export function discoveryRuleArraySerializer(result: Array<DiscoveryRule>): any[] {
-  return result.map((item) => {
-    return discoveryRuleSerializer(item);
-  });
-}
-
 export function discoveryRuleArrayDeserializer(result: Array<DiscoveryRule>): any[] {
   return result.map((item) => {
     return discoveryRuleDeserializer(item);
@@ -1988,4 +2946,8 @@ export function discoveryRuleArrayDeserializer(result: Array<DiscoveryRule>): an
 export enum KnownVersions {
   /** 2025-05-01-preview */
   V20250501Preview = "2025-05-01-preview",
+  /** 2026-01-01-preview */
+  V20260101Preview = "2026-01-01-preview",
+  /** 2026-05-01-preview */
+  V20260501Preview = "2026-05-01-preview",
 }

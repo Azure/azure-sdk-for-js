@@ -21,7 +21,7 @@ const {
   sendNotification,
 } = require("@azure/notification-hubs/api");
 const { delay } = require("@azure/core-util");
-const { isRestError } = require("@azure/core-rest-pipeline");
+const { isRestError } = require("@azure/notification-hubs");
 
 // Define connection string and hub name
 const connectionString = process.env.NOTIFICATIONHUBS_CONNECTION_STRING || "<connection string>";

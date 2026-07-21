@@ -30,7 +30,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -39,10 +39,7 @@ export function _updateSend(
   return context.path(path).patch({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: vaultExtendedInfoResourceSerializer(resourceResourceExtendedInfoDetails),
   });
 }
@@ -53,7 +50,10 @@ export async function _updateDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -83,9 +83,7 @@ export function _createOrUpdateSend(
   resourceGroupName: string,
   vaultName: string,
   resourceResourceExtendedInfoDetails: VaultExtendedInfoResource,
-  options: VaultExtendedInfoCreateOrUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: VaultExtendedInfoCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   const path = expandUrlTemplate(
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/extendedInformation/vaultExtendedInfo{?api%2Dversion}",
@@ -93,7 +91,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -102,10 +100,7 @@ export function _createOrUpdateSend(
   return context.path(path).put({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
     body: vaultExtendedInfoResourceSerializer(resourceResourceExtendedInfoDetails),
   });
 }
@@ -116,7 +111,10 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
+
     throw error;
   }
 
@@ -129,9 +127,7 @@ export async function createOrUpdate(
   resourceGroupName: string,
   vaultName: string,
   resourceResourceExtendedInfoDetails: VaultExtendedInfoResource,
-  options: VaultExtendedInfoCreateOrUpdateOptionalParams = {
-    requestOptions: {},
-  },
+  options: VaultExtendedInfoCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): Promise<VaultExtendedInfoResource> {
   const result = await _createOrUpdateSend(
     context,
@@ -155,7 +151,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       vaultName: vaultName,
-      "api%2Dversion": context.apiVersion,
+      "api%2Dversion": context.apiVersion ?? "2026-05-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -163,10 +159,7 @@ export function _getSend(
   );
   return context.path(path).get({
     ...operationOptionsToRequestParameters(options),
-    headers: {
-      accept: "application/json",
-      ...options.requestOptions?.headers,
-    },
+    headers: { accept: "application/json", ...options.requestOptions?.headers },
   });
 }
 
@@ -176,7 +169,10 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
+
     throw error;
   }
 

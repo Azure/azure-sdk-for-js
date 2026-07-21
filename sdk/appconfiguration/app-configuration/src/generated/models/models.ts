@@ -110,6 +110,8 @@ export interface KeyValue {
   lastModified?: string;
   /** The tags of the key-value */
   tags?: Record<string, string>;
+  /** The description of the key-value. */
+  description?: string;
   /** Indicates whether the key-value is locked. */
   locked?: boolean;
   /** A value representing the current state of the resource. */
@@ -123,6 +125,7 @@ export function keyValueSerializer(item: KeyValue): any {
     value: item["value"],
     last_modified: item["lastModified"],
     tags: item["tags"],
+    description: item["description"],
     locked: item["locked"],
     etag: item["etag"],
   };
@@ -138,6 +141,7 @@ export function keyValueDeserializer(item: any): KeyValue {
     tags: !item["tags"]
       ? item["tags"]
       : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    description: item["description"],
     locked: item["locked"],
     etag: item["etag"],
   };
@@ -204,6 +208,8 @@ export interface ConfigurationSnapshot {
   readonly itemsCount?: number;
   /** The tags of the snapshot. */
   tags?: Record<string, string>;
+  /** The description of the snapshot. */
+  description?: string;
   /** A value representing the current state of the snapshot. */
   readonly etag?: string;
 }
@@ -214,6 +220,7 @@ export function configurationSnapshotSerializer(item: ConfigurationSnapshot): an
     composition_type: item["compositionType"],
     retention_period: item["retentionPeriodInSeconds"],
     tags: item["tags"],
+    description: item["description"],
   };
 }
 
@@ -231,6 +238,7 @@ export function configurationSnapshotDeserializer(item: any): ConfigurationSnaps
     tags: !item["tags"]
       ? item["tags"]
       : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    description: item["description"],
     etag: item["etag"],
   };
 }
@@ -369,6 +377,7 @@ export type KeyValueFields =
   | "value"
   | "last_modified"
   | "tags"
+  | "description"
   | "locked"
   | "etag";
 /** Snapshot fields. */
@@ -383,6 +392,7 @@ export type SnapshotFields =
   | "size"
   | "items_count"
   | "tags"
+  | "description"
   | "etag";
 /** Label fields. */
 export type LabelFields = "name";
@@ -393,4 +403,6 @@ export enum KnownVersions {
   V20231101 = "2023-11-01",
   /** The 2024-09-01 API version */
   V20240901 = "2024-09-01",
+  /** The 2026-04-01 API version */
+  V20260401 = "2026-04-01",
 }
