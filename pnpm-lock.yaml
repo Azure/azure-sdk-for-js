@@ -135,10 +135,10 @@ importers:
         version: 4.13.0
       '@microsoft/api-extractor':
         specifier: ^7.52.4
-        version: 7.58.9(@types/node@22.20.1)
+        version: 7.58.11(@types/node@22.20.1)
       '@microsoft/api-extractor-model':
         specifier: ^7.30.5
-        version: 7.33.8(@types/node@22.20.1)
+        version: 7.33.10(@types/node@22.20.1)
       '@microsoft/warp':
         specifier: workspace:^
         version: link:../warp
@@ -1034,7 +1034,7 @@ importers:
         version: 1.9.1
       openai:
         specifier: ^6.16.0
-        version: 6.47.0(ws@8.21.1)(zod@4.4.3)
+        version: 6.48.0(ws@8.21.1)(zod@4.4.3)
       tslib:
         specifier: ^2.6.2
         version: 2.8.1
@@ -8138,85 +8138,6 @@ importers:
         specifier: catalog:testing
         version: 4.1.10(@opentelemetry/api@1.9.1)(@types/node@22.20.1)(@vitest/browser-playwright@4.1.10)(@vitest/coverage-istanbul@4.1.10)(vite@8.1.4(@types/node@22.20.1)(esbuild@0.28.1)(terser@5.49.0)(tsx@4.23.1)(yaml@2.9.0))
 
-  sdk/containerservice/arm-containerservicepreparedimgspec:
-    dependencies:
-      '@azure-rest/core-client':
-        specifier: ^2.3.1
-        version: link:../../core/core-client-rest
-      '@azure/abort-controller':
-        specifier: ^2.1.2
-        version: link:../../core/abort-controller
-      '@azure/core-auth':
-        specifier: ^1.9.0
-        version: link:../../core/core-auth
-      '@azure/core-lro':
-        specifier: ^3.1.0
-        version: link:../../core/core-lro
-      '@azure/core-rest-pipeline':
-        specifier: link:../../core/core-rest-pipeline
-        version: link:../../core/core-rest-pipeline
-      '@azure/core-util':
-        specifier: ^1.12.0
-        version: link:../../core/core-util
-      '@azure/logger':
-        specifier: ^1.2.0
-        version: link:../../core/logger
-      tslib:
-        specifier: 'catalog:'
-        version: 2.8.1
-    devDependencies:
-      '@azure-tools/test-credential':
-        specifier: workspace:^
-        version: link:../../test-utils/test-credential
-      '@azure-tools/test-recorder':
-        specifier: workspace:^
-        version: link:../../test-utils/recorder
-      '@azure-tools/test-utils-vitest':
-        specifier: workspace:^
-        version: link:../../test-utils/test-utils-vitest
-      '@azure/dev-tool':
-        specifier: workspace:^
-        version: link:../../../common/tools/dev-tool
-      '@azure/eslint-plugin-azure-sdk':
-        specifier: workspace:^
-        version: link:../../../common/tools/eslint-plugin-azure-sdk
-      '@azure/identity':
-        specifier: catalog:internal
-        version: 4.13.0
-      '@types/node':
-        specifier: 'catalog:'
-        version: 22.20.1
-      '@vitest/browser-playwright':
-        specifier: catalog:testing
-        version: 4.1.10(playwright@1.61.1)(vite@8.1.4(@types/node@22.20.1)(esbuild@0.28.1)(terser@5.49.0)(tsx@4.23.1)(yaml@2.9.0))(vitest@4.1.10)
-      '@vitest/coverage-istanbul':
-        specifier: catalog:testing
-        version: 4.1.10(vitest@4.1.10)
-      cross-env:
-        specifier: 'catalog:'
-        version: 10.1.0
-      dotenv:
-        specifier: catalog:testing
-        version: 16.6.1
-      eslint:
-        specifier: 'catalog:'
-        version: 9.39.5
-      playwright:
-        specifier: catalog:testing
-        version: 1.61.1
-      prettier:
-        specifier: 'catalog:'
-        version: 3.9.5
-      rimraf:
-        specifier: 'catalog:'
-        version: 6.1.3
-      typescript:
-        specifier: 'catalog:'
-        version: 6.0.3
-      vitest:
-        specifier: catalog:testing
-        version: 4.1.10(@opentelemetry/api@1.9.1)(@types/node@22.20.1)(@vitest/browser-playwright@4.1.10)(@vitest/coverage-istanbul@4.1.10)(vite@8.1.4(@types/node@22.20.1)(esbuild@0.28.1)(terser@5.49.0)(tsx@4.23.1)(yaml@2.9.0))
-
   sdk/containerservice/arm-containerservicesafeguards:
     dependencies:
       '@azure-rest/core-client':
@@ -9284,7 +9205,7 @@ importers:
     dependencies:
       fast-xml-parser:
         specifier: ^5.5.9
-        version: 5.10.0
+        version: 5.10.1
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -16461,10 +16382,10 @@ importers:
         version: link:../../core/logger
       '@azure/msal-browser':
         specifier: ^5.5.0
-        version: 5.17.0
+        version: 5.17.1
       '@azure/msal-node':
         specifier: ^5.1.0
-        version: 5.4.0
+        version: 5.4.1
       open:
         specifier: ^11.0.0
         version: 11.0.0
@@ -16546,10 +16467,10 @@ importers:
         version: 4.13.1
       '@azure/msal-node':
         specifier: ^5.1.0
-        version: 5.4.0
+        version: 5.4.1
       '@azure/msal-node-extensions':
         specifier: ^5.1.0
-        version: 5.3.2
+        version: 5.3.3
       tslib:
         specifier: ^2.2.0
         version: 2.8.1
@@ -16619,10 +16540,10 @@ importers:
         version: 4.13.1
       '@azure/msal-node':
         specifier: ^5.1.0
-        version: 5.4.0
+        version: 5.4.1
       '@azure/msal-node-extensions':
         specifier: ^5.1.0
-        version: 5.3.2
+        version: 5.3.3
       keytar:
         specifier: ^7.6.0
         version: 7.9.0
@@ -16732,10 +16653,10 @@ importers:
         version: 4.13.1
       '@azure/msal-node':
         specifier: ^5.1.0
-        version: 5.4.0
+        version: 5.4.1
       '@azure/msal-node-extensions':
         specifier: ^5.1.0
-        version: 5.3.2
+        version: 5.3.3
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -23667,34 +23588,34 @@ importers:
   sdk/notificationhubs/notification-hubs:
     dependencies:
       '@azure-rest/core-client':
-        specifier: ^2.3.3
+        specifier: workspace:^
         version: link:../../core/core-client-rest
       '@azure/abort-controller':
-        specifier: ^2.1.2
+        specifier: workspace:^
         version: link:../../core/abort-controller
       '@azure/core-auth':
-        specifier: ^1.9.0
+        specifier: workspace:^
         version: link:../../core/core-auth
       '@azure/core-lro':
-        specifier: ^3.1.0
+        specifier: workspace:^
         version: link:../../core/core-lro
       '@azure/core-paging':
-        specifier: ^1.6.2
+        specifier: workspace:^
         version: link:../../core/core-paging
       '@azure/core-rest-pipeline':
         specifier: link:../../core/core-rest-pipeline
         version: link:../../core/core-rest-pipeline
       '@azure/core-tracing':
-        specifier: ^1.1.2
+        specifier: workspace:^
         version: link:../../core/core-tracing
       '@azure/core-util':
-        specifier: ^1.11.0
+        specifier: workspace:^
         version: link:../../core/core-util
       '@azure/core-xml':
-        specifier: ^1.4.4
+        specifier: workspace:^
         version: link:../../core/core-xml
       '@azure/logger':
-        specifier: ^1.1.2
+        specifier: workspace:^
         version: link:../../core/logger
       tslib:
         specifier: ^2.8.1
@@ -24024,7 +23945,7 @@ importers:
         version: 9.39.5
       openai:
         specifier: ^6.16.0
-        version: 6.47.0(ws@8.21.1)(zod@3.25.76)
+        version: 6.48.0(ws@8.21.1)(zod@3.25.76)
       playwright:
         specifier: catalog:testing
         version: 1.61.1
@@ -28876,7 +28797,7 @@ importers:
         version: 9.39.5
       openai:
         specifier: ^6.16.0
-        version: 6.47.0(ws@8.21.1)(zod@4.4.3)
+        version: 6.48.0(ws@8.21.1)(zod@4.4.3)
       playwright:
         specifier: catalog:testing
         version: 1.61.1
@@ -31377,7 +31298,7 @@ importers:
         version: 3.3.0
       fast-xml-parser:
         specifier: ^5.9.3
-        version: 5.10.0
+        version: 5.10.1
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -31581,7 +31502,7 @@ importers:
         version: link:../storage-common
       fast-xml-parser:
         specifier: ^5.5.9
-        version: 5.10.0
+        version: 5.10.1
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -33092,7 +33013,7 @@ importers:
         version: link:../../core/logger
       fast-xml-parser:
         specifier: ^5.5.9
-        version: 5.10.0
+        version: 5.10.1
       tslib:
         specifier: ^2.8.1
         version: 2.8.1
@@ -35645,8 +35566,8 @@ packages:
     resolution: {integrity: sha1-MPuveuJtmrdnGqvKPUH5xS0qOTc=}
     engines: {node: '>=0.8.0'}
 
-  '@azure/msal-browser@5.17.0':
-    resolution: {integrity: sha1-Sx+NQg74G72JRylZkK4GCbCLodw=}
+  '@azure/msal-browser@5.17.1':
+    resolution: {integrity: sha1-EozjSq27IGyUDpnKXgzxldEsbfw=}
     engines: {node: '>=0.8.0'}
 
   '@azure/msal-common@14.16.1':
@@ -35657,12 +35578,12 @@ packages:
     resolution: {integrity: sha1-rjwDN4yFJkKxyaMDOA6UXCuJfwI=}
     engines: {node: '>=0.8.0'}
 
-  '@azure/msal-common@16.11.1':
-    resolution: {integrity: sha1-/Bx317GbKOoLkGGKg+D3+WfpEOk=}
+  '@azure/msal-common@16.11.2':
+    resolution: {integrity: sha1-bLo7L5utC9sH7o37+nLv9Lo2nDA=}
     engines: {node: '>=0.8.0'}
 
-  '@azure/msal-node-extensions@5.3.2':
-    resolution: {integrity: sha1-GlfR+z1vMvJRpWFMcmihZA0B1Bc=}
+  '@azure/msal-node-extensions@5.3.3':
+    resolution: {integrity: sha1-epkwJfLi78Wbvuivs1j9mLvyeHA=}
     engines: {node: '>=20'}
 
   '@azure/msal-node-runtime@0.20.5':
@@ -35676,8 +35597,8 @@ packages:
     resolution: {integrity: sha1-RMkAkFsCPmMUbOrSmZcg8JBsdMo=}
     engines: {node: '>=16'}
 
-  '@azure/msal-node@5.4.0':
-    resolution: {integrity: sha1-H+WD78vMBb/uw7aUUCrwowFvIwE=}
+  '@azure/msal-node@5.4.1':
+    resolution: {integrity: sha1-PWogGDnMfAogM9lqLW7pEXYcrMs=}
     engines: {node: '>=20'}
 
   '@azure/opentelemetry-instrumentation-azure-sdk@1.0.0':
@@ -36728,11 +36649,11 @@ packages:
   '@loaderkit/resolve@1.0.6':
     resolution: {integrity: sha1-jUU0HmiPrswls66RnA9F2UxOJsk=}
 
-  '@microsoft/api-extractor-model@7.33.8':
-    resolution: {integrity: sha1-1xWwCQYQzOYsCySKPrB0ZssQ6fE=}
+  '@microsoft/api-extractor-model@7.33.10':
+    resolution: {integrity: sha1-XM0AwYh3sxUyK4DavEL7ZryciWw=}
 
-  '@microsoft/api-extractor@7.58.9':
-    resolution: {integrity: sha1-1sJt/alfvnFrGDtfO8V0SqxId5Y=}
+  '@microsoft/api-extractor@7.58.11':
+    resolution: {integrity: sha1-pTBub/sIZ4+eQvBENORfN5viyik=}
     hasBin: true
 
   '@microsoft/applicationinsights-web-snippet@1.2.3':
@@ -36763,8 +36684,8 @@ packages:
       '@emnapi/core': ^1.7.1
       '@emnapi/runtime': ^1.7.1
 
-  '@nodable/entities@2.2.0':
-    resolution: {integrity: sha1-odRamSsCJZGxwrA6d5Nck5N1tkI=}
+  '@nodable/entities@3.0.0':
+    resolution: {integrity: sha1-aUcDvIZNMOrtVcLj3vANvWFJNnA=}
 
   '@nodelib/fs.scandir@2.1.5':
     resolution: {integrity: sha1-dhnC6yGyVIP20WdUi0z9WnSIw9U=}
@@ -37573,8 +37494,8 @@ packages:
   '@rtsao/scc@1.1.0':
     resolution: {integrity: sha1-kn3S+um8M2FAOsLHoAwy3c6a1+g=}
 
-  '@rushstack/node-core-library@5.23.1':
-    resolution: {integrity: sha1-JBPxtSgRz1NxgSR0pwBqeoxMTrY=}
+  '@rushstack/node-core-library@5.23.3':
+    resolution: {integrity: sha1-UXOEogpIpjO0pGTDStXFVKVDIN0=}
     peerDependencies:
       '@types/node': '*'
     peerDependenciesMeta:
@@ -37592,19 +37513,19 @@ packages:
   '@rushstack/rig-package@0.7.3':
     resolution: {integrity: sha1-0opUQLHp9DBGcnunAJ0Y2ZMU8lE=}
 
-  '@rushstack/terminal@0.24.0':
-    resolution: {integrity: sha1-ert2PqWP3uzpOjBUssWQJdVvcgM=}
+  '@rushstack/terminal@0.24.2':
+    resolution: {integrity: sha1-lkrTn6heZmj8KrplL8sEK5YTRCU=}
     peerDependencies:
       '@types/node': '*'
     peerDependenciesMeta:
       '@types/node':
         optional: true
 
-  '@rushstack/ts-command-line@5.3.10':
-    resolution: {integrity: sha1-tlu6dEtLjG7mqWRgzV1hEVV/4lM=}
+  '@rushstack/ts-command-line@5.3.12':
+    resolution: {integrity: sha1-fW3YB3rn441hrp/lsJBtw/bOplA=}
 
-  '@sinclair/typebox@0.27.10':
-    resolution: {integrity: sha1-vu/mdfGFP3NnauzJFbK9KsmMT8Y=}
+  '@sinclair/typebox@0.27.12':
+    resolution: {integrity: sha1-DKzTz/BHoyk2sazkfqfIbqq2Cn8=}
 
   '@sindresorhus/is@4.6.0':
     resolution: {integrity: sha1-PHycRuZ4/u/nouW7YJ09vWZf+z8=}
@@ -38166,8 +38087,8 @@ packages:
     resolution: {integrity: sha1-hTLNR7L7/5W+S8RwxngMJY2GaAo=}
     engines: {node: '>=0.11'}
 
-  avvio@9.2.0:
-    resolution: {integrity: sha1-FrtlPAIiN9GuuYSwDTy+LZa3fCA=}
+  avvio@9.3.0:
+    resolution: {integrity: sha1-5LwzzikakIhzrq1ybHOqtv82TxI=}
 
   babel-jest@29.7.0:
     resolution: {integrity: sha1-9DaZGSJbaExWCFmYrGPb0FvgINU=}
@@ -38302,8 +38223,8 @@ packages:
     resolution: {integrity: sha1-VoW5XrIJrJwMF3Rnd4ychN9Yupo=}
     engines: {node: '>=10'}
 
-  caniuse-lite@1.0.30001805:
-    resolution: {integrity: sha1-eNXVloppt/+Br4epbX3cfqZnCx4=}
+  caniuse-lite@1.0.30001806:
+    resolution: {integrity: sha1-G8jlArcj+jk0Vd++3VzOwMKbt04=}
 
   caseless@0.12.0:
     resolution: {integrity: sha1-G2gcIf+EAzyCZUMJBolCDRhxUdw=}
@@ -38699,8 +38620,8 @@ packages:
   ee-first@1.1.1:
     resolution: {integrity: sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=}
 
-  electron-to-chromium@1.5.391:
-    resolution: {integrity: sha1-ohCuHpEzV7th19HJ+aeYb4DiR6k=}
+  electron-to-chromium@1.5.393:
+    resolution: {integrity: sha1-rslx3ypvT35R+6yyANZs6/x9PBc=}
 
   emoji-regex@8.0.0:
     resolution: {integrity: sha1-6Bj9ac5cz8tARZT4QpY79TFkzDc=}
@@ -38971,8 +38892,8 @@ packages:
   exponential-backoff@3.1.3:
     resolution: {integrity: sha1-Uc+SwcBJPHZgU/nTq+5ENMJE0vY=}
 
-  express-rate-limit@8.5.2:
-    resolution: {integrity: sha1-WSLb923yEkYRzqlV2TQys3UUsvM=}
+  express-rate-limit@8.6.0:
+    resolution: {integrity: sha1-LmSrEDYdo1iBUZ6pK0JqQ/iqjHk=}
     engines: {node: '>= 16'}
     peerDependencies:
       express: '>= 4.11'
@@ -39019,11 +38940,11 @@ packages:
   fast-string-width@3.0.2:
     resolution: {integrity: sha1-FturtJHOVYW17LZ1tlwWXXFojus=}
 
-  fast-uri@3.1.3:
-    resolution: {integrity: sha1-9pWkDwBqulBWMVc6ACHdshGUrRE=}
+  fast-uri@3.1.4:
+    resolution: {integrity: sha1-Oz2vnOaPQflW3wtQUTLAz86ex68=}
 
-  fast-uri@4.1.0:
-    resolution: {integrity: sha1-nMCs70UF3rcfh6/DXM+/ph/LpLE=}
+  fast-uri@4.1.1:
+    resolution: {integrity: sha1-OAzcEKfWA2Je7zHq1TA9PpjsQYo=}
 
   fast-wrap-ansi@0.2.2:
     resolution: {integrity: sha1-lelSoBRbzj9ZrVbhefhMSNQHKTU=}
@@ -39031,8 +38952,8 @@ packages:
   fast-xml-builder@1.3.0:
     resolution: {integrity: sha1-vISYBHlv5Hv5FQIt2Tmw/DC6RV0=}
 
-  fast-xml-parser@5.10.0:
-    resolution: {integrity: sha1-jQir/k1sUenFtR9Be5lIWNvttNc=}
+  fast-xml-parser@5.10.1:
+    resolution: {integrity: sha1-GTE/fJOGxH+kod5SdUe3PtLPzt4=}
     hasBin: true
 
   fastify-plugin@5.1.0:
@@ -39319,8 +39240,8 @@ packages:
   highlight.js@10.7.3:
     resolution: {integrity: sha1-aXJy45kTVuQMPKxWanTu9oF1ZTE=}
 
-  hono@4.12.30:
-    resolution: {integrity: sha1-TVewUcZmF7ADt7oxiRDLW3nEx6w=}
+  hono@4.12.31:
+    resolution: {integrity: sha1-LMqvPM2C2zcvFpxbOcBlwx/zYpQ=}
     engines: {node: '>=16.9.0'}
 
   hosted-git-info@4.1.0:
@@ -40330,8 +40251,8 @@ packages:
     resolution: {integrity: sha1-3u1SClCAn/f3Wnz9S8ZMegOMYhY=}
     engines: {node: '>= 0.4'}
 
-  obug@2.1.3:
-    resolution: {integrity: sha1-wCxg+Vq9YDQJMw52fbfygjGTMx4=}
+  obug@2.1.4:
+    resolution: {integrity: sha1-kJDYpUilIlF5FdKqaq6QcZesbPg=}
     engines: {node: '>=12.20.0'}
 
   on-exit-leak-free@2.1.2:
@@ -40361,8 +40282,8 @@ packages:
     resolution: {integrity: sha1-uBR+Jtzz5CYxbHMAif1x7dKcIyE=}
     engines: {node: '>=8'}
 
-  openai@6.47.0:
-    resolution: {integrity: sha1-mExpAM32IWuGqiUuFYKfTGsMHnM=}
+  openai@6.48.0:
+    resolution: {integrity: sha1-TKvSpooSPBssLW+sWf0Zwyeqt60=}
     hasBin: true
     peerDependencies:
       '@aws-sdk/credential-provider-node': '>=3.972.0 <4'
@@ -40590,8 +40511,8 @@ packages:
     resolution: {integrity: sha1-k+NYK8DlQmWG2dB7ee5A/IQd5K4=}
     engines: {node: '>= 0.4'}
 
-  postcss@8.5.19:
-    resolution: {integrity: sha1-Ra1c/eSZQI4gFHNII3VROBqSIDc=}
+  postcss@8.5.20:
+    resolution: {integrity: sha1-MWoTnaeUhM5Vlp+nu28vGrzBQGA=}
     engines: {node: ^10 || ^12 || >=14}
 
   postgres-array@2.0.0:
@@ -41710,8 +41631,8 @@ packages:
     resolution: {integrity: sha1-qd8Brlt3hYoCf9LoB2juQzVV/P0=}
     engines: {node: ^12.13.0 || ^14.15.0 || >=16.0.0}
 
-  ws@7.5.12:
-    resolution: {integrity: sha1-TKLASWbbTc0vm8TRQZ0jzR5KGNs=}
+  ws@7.5.13:
+    resolution: {integrity: sha1-EqpQfqynbClcJ4sa6/RpirLBhF8=}
     engines: {node: '>=8.3.0'}
     peerDependencies:
       bufferutil: ^4.0.1
@@ -42177,7 +42098,7 @@ snapshots:
 
   '@azure/core-xml@1.6.0':
     dependencies:
-      fast-xml-parser: 5.10.0
+      fast-xml-parser: 5.10.1
       tslib: 2.8.1
 
   '@azure/functions-extensions-base@0.3.0': {}
@@ -42223,8 +42144,8 @@ snapshots:
       '@azure/core-tracing': 1.4.0
       '@azure/core-util': 1.14.0
       '@azure/logger': 1.4.0
-      '@azure/msal-browser': 5.17.0
-      '@azure/msal-node': 5.4.0
+      '@azure/msal-browser': 5.17.1
+      '@azure/msal-node': 5.4.1
       open: 10.2.0
       tslib: 2.8.1
     transitivePeerDependencies:
@@ -42349,19 +42270,19 @@ snapshots:
     dependencies:
       '@azure/msal-common': 15.17.0
 
-  '@azure/msal-browser@5.17.0':
+  '@azure/msal-browser@5.17.1':
     dependencies:
-      '@azure/msal-common': 16.11.1
+      '@azure/msal-common': 16.11.2
 
   '@azure/msal-common@14.16.1': {}
 
   '@azure/msal-common@15.17.0': {}
 
-  '@azure/msal-common@16.11.1': {}
+  '@azure/msal-common@16.11.2': {}
 
-  '@azure/msal-node-extensions@5.3.2':
+  '@azure/msal-node-extensions@5.3.3':
     dependencies:
-      '@azure/msal-common': 16.11.1
+      '@azure/msal-common': 16.11.2
       '@azure/msal-node-runtime': 0.20.5
       keytar: 7.9.0
 
@@ -42379,9 +42300,9 @@ snapshots:
       jsonwebtoken: 9.0.3
       uuid: 8.3.2
 
-  '@azure/msal-node@5.4.0':
+  '@azure/msal-node@5.4.1':
     dependencies:
-      '@azure/msal-common': 16.11.1
+      '@azure/msal-common': 16.11.2
       jsonwebtoken: 9.0.3
 
   '@azure/opentelemetry-instrumentation-azure-sdk@1.0.0':
@@ -42520,7 +42441,7 @@ snapshots:
       '@azure/logger': 1.4.0
       buffer: 6.0.3
       tslib: 2.8.1
-      ws: 7.5.12
+      ws: 7.5.13
     transitivePeerDependencies:
       - bufferutil
       - supports-color
@@ -43092,7 +43013,7 @@ snapshots:
     dependencies:
       ajv: 8.20.0
       ajv-formats: 3.0.1(ajv@8.20.0)
-      fast-uri: 3.1.3
+      fast-uri: 3.1.4
 
   '@fastify/busboy@3.2.0': {}
 
@@ -43141,9 +43062,9 @@ snapshots:
 
   '@hapi/hoek@11.0.7': {}
 
-  '@hono/node-server@1.19.14(hono@4.12.30)':
+  '@hono/node-server@1.19.14(hono@4.12.31)':
     dependencies:
-      hono: 4.12.30
+      hono: 4.12.31
 
   '@humanfs/core@0.19.2':
     dependencies:
@@ -43318,7 +43239,7 @@ snapshots:
 
   '@jest/schemas@29.6.3':
     dependencies:
-      '@sinclair/typebox': 0.27.10
+      '@sinclair/typebox': 0.27.12
 
   '@jest/transform@29.7.0':
     dependencies:
@@ -43511,23 +43432,23 @@ snapshots:
     dependencies:
       '@braidai/lang': 1.1.2
 
-  '@microsoft/api-extractor-model@7.33.8(@types/node@22.20.1)':
+  '@microsoft/api-extractor-model@7.33.10(@types/node@22.20.1)':
     dependencies:
       '@microsoft/tsdoc': 0.16.0
       '@microsoft/tsdoc-config': 0.18.1
-      '@rushstack/node-core-library': 5.23.1(@types/node@22.20.1)
+      '@rushstack/node-core-library': 5.23.3(@types/node@22.20.1)
     transitivePeerDependencies:
       - '@types/node'
 
-  '@microsoft/api-extractor@7.58.9(@types/node@22.20.1)':
+  '@microsoft/api-extractor@7.58.11(@types/node@22.20.1)':
     dependencies:
-      '@microsoft/api-extractor-model': 7.33.8(@types/node@22.20.1)
+      '@microsoft/api-extractor-model': 7.33.10(@types/node@22.20.1)
       '@microsoft/tsdoc': 0.16.0
       '@microsoft/tsdoc-config': 0.18.1
-      '@rushstack/node-core-library': 5.23.1(@types/node@22.20.1)
+      '@rushstack/node-core-library': 5.23.3(@types/node@22.20.1)
       '@rushstack/rig-package': 0.7.3
-      '@rushstack/terminal': 0.24.0(@types/node@22.20.1)
-      '@rushstack/ts-command-line': 5.3.10(@types/node@22.20.1)
+      '@rushstack/terminal': 0.24.2(@types/node@22.20.1)
+      '@rushstack/ts-command-line': 5.3.12(@types/node@22.20.1)
       diff: 8.0.4
       minimatch: 10.2.3
       resolve: 1.22.12
@@ -43552,7 +43473,7 @@ snapshots:
 
   '@modelcontextprotocol/sdk@1.29.0(zod@4.4.3)':
     dependencies:
-      '@hono/node-server': 1.19.14(hono@4.12.30)
+      '@hono/node-server': 1.19.14(hono@4.12.31)
       ajv: 8.20.0
       ajv-formats: 3.0.1(ajv@8.20.0)
       content-type: 1.0.5
@@ -43561,8 +43482,8 @@ snapshots:
       eventsource: 3.0.7
       eventsource-parser: 3.1.0
       express: 5.2.1
-      express-rate-limit: 8.5.2(express@5.2.1)
-      hono: 4.12.30
+      express-rate-limit: 8.6.0(express@5.2.1)
+      hono: 4.12.31
       jose: 6.2.3
       json-schema-typed: 8.0.2
       pkce-challenge: 5.0.1
@@ -43579,7 +43500,7 @@ snapshots:
       '@tybys/wasm-util': 0.10.3
     optional: true
 
-  '@nodable/entities@2.2.0': {}
+  '@nodable/entities@3.0.0': {}
 
   '@nodelib/fs.scandir@2.1.5':
     dependencies:
@@ -44212,7 +44133,7 @@ snapshots:
       nullthrows: 1.1.1
       open: 7.4.2
       serve-static: 1.16.3
-      ws: 7.5.12
+      ws: 7.5.13
     transitivePeerDependencies:
       - bufferutil
       - supports-color
@@ -44387,11 +44308,11 @@ snapshots:
 
   '@rtsao/scc@1.1.0': {}
 
-  '@rushstack/node-core-library@5.23.1(@types/node@22.20.1)':
+  '@rushstack/node-core-library@5.23.3(@types/node@22.20.1)':
     dependencies:
-      ajv: 8.18.0
-      ajv-draft-04: 1.0.0(ajv@8.18.0)
-      ajv-formats: 3.0.1(ajv@8.18.0)
+      ajv: 8.20.0
+      ajv-draft-04: 1.0.0(ajv@8.20.0)
+      ajv-formats: 3.0.1(ajv@8.20.0)
       fs-extra: 11.3.6
       import-lazy: 4.0.0
       jju: 1.4.0
@@ -44409,24 +44330,24 @@ snapshots:
       jju: 1.4.0
       resolve: 1.22.12
 
-  '@rushstack/terminal@0.24.0(@types/node@22.20.1)':
+  '@rushstack/terminal@0.24.2(@types/node@22.20.1)':
     dependencies:
-      '@rushstack/node-core-library': 5.23.1(@types/node@22.20.1)
+      '@rushstack/node-core-library': 5.23.3(@types/node@22.20.1)
       '@rushstack/problem-matcher': 0.2.1(@types/node@22.20.1)
       supports-color: 8.1.1
     optionalDependencies:
       '@types/node': 22.20.1
 
-  '@rushstack/ts-command-line@5.3.10(@types/node@22.20.1)':
+  '@rushstack/ts-command-line@5.3.12(@types/node@22.20.1)':
     dependencies:
-      '@rushstack/terminal': 0.24.0(@types/node@22.20.1)
+      '@rushstack/terminal': 0.24.2(@types/node@22.20.1)
       '@types/argparse': 1.0.38
       argparse: 1.0.10
       string-argv: 0.3.2
     transitivePeerDependencies:
       - '@types/node'
 
-  '@sinclair/typebox@0.27.10': {}
+  '@sinclair/typebox@0.27.12': {}
 
   '@sindresorhus/is@4.6.0': {}
 
@@ -44889,7 +44810,7 @@ snapshots:
       istanbul-lib-report: 3.0.1
       istanbul-reports: 3.2.0
       magicast: 0.5.3
-      obug: 2.1.3
+      obug: 2.1.4
       tinyrainbow: 3.1.0
       vitest: 4.1.10(@opentelemetry/api@1.9.1)(@types/node@22.20.1)(@vitest/browser-playwright@4.1.10)(@vitest/coverage-istanbul@4.1.10)(vite@8.1.4(@types/node@22.20.1)(esbuild@0.28.1)(terser@5.49.0)(tsx@4.23.1)(yaml@2.9.0))
     transitivePeerDependencies:
@@ -44967,13 +44888,9 @@ snapshots:
 
   agent-base@7.1.4: {}
 
-  ajv-draft-04@1.0.0(ajv@8.18.0):
+  ajv-draft-04@1.0.0(ajv@8.20.0):
     optionalDependencies:
-      ajv: 8.18.0
-
-  ajv-formats@3.0.1(ajv@8.18.0):
-    optionalDependencies:
-      ajv: 8.18.0
+      ajv: 8.20.0
 
   ajv-formats@3.0.1(ajv@8.20.0):
     optionalDependencies:
@@ -44989,14 +44906,14 @@ snapshots:
   ajv@8.18.0:
     dependencies:
       fast-deep-equal: 3.1.3
-      fast-uri: 3.1.3
+      fast-uri: 3.1.4
       json-schema-traverse: 1.0.0
       require-from-string: 2.0.2
 
   ajv@8.20.0:
     dependencies:
       fast-deep-equal: 3.1.3
-      fast-uri: 3.1.3
+      fast-uri: 3.1.4
       json-schema-traverse: 1.0.0
       require-from-string: 2.0.2
 
@@ -45103,7 +45020,7 @@ snapshots:
 
   avsc@5.7.9: {}
 
-  avvio@9.2.0:
+  avvio@9.3.0:
     dependencies:
       '@fastify/error': 4.2.0
       fastq: 1.20.1
@@ -45223,8 +45140,8 @@ snapshots:
   browserslist@4.28.6:
     dependencies:
       baseline-browser-mapping: 2.10.43
-      caniuse-lite: 1.0.30001805
-      electron-to-chromium: 1.5.391
+      caniuse-lite: 1.0.30001806
+      electron-to-chromium: 1.5.393
       node-releases: 2.0.51
       update-browserslist-db: 1.2.3(browserslist@4.28.6)
 
@@ -45286,7 +45203,7 @@ snapshots:
 
   camelcase@6.3.0: {}
 
-  caniuse-lite@1.0.30001805: {}
+  caniuse-lite@1.0.30001806: {}
 
   caseless@0.12.0: {}
 
@@ -45704,7 +45621,7 @@ snapshots:
 
   ee-first@1.1.1: {}
 
-  electron-to-chromium@1.5.391: {}
+  electron-to-chromium@1.5.393: {}
 
   emoji-regex@8.0.0: {}
 
@@ -46078,10 +45995,13 @@ snapshots:
 
   exponential-backoff@3.1.3: {}
 
-  express-rate-limit@8.5.2(express@5.2.1):
+  express-rate-limit@8.6.0(express@5.2.1):
     dependencies:
+      debug: 4.4.3
       express: 5.2.1
       ip-address: 10.2.0
+    transitivePeerDependencies:
+      - supports-color
 
   express@5.2.1:
     dependencies:
@@ -46139,7 +46059,7 @@ snapshots:
       '@fastify/merge-json-schemas': 0.2.1
       ajv: 8.20.0
       ajv-formats: 3.0.1(ajv@8.20.0)
-      fast-uri: 4.1.0
+      fast-uri: 4.1.1
       json-schema-ref-resolver: 3.0.0
       rfdc: 1.4.1
 
@@ -46157,9 +46077,9 @@ snapshots:
     dependencies:
       fast-string-truncated-width: 3.0.3
 
-  fast-uri@3.1.3: {}
+  fast-uri@3.1.4: {}
 
-  fast-uri@4.1.0: {}
+  fast-uri@4.1.1: {}
 
   fast-wrap-ansi@0.2.2:
     dependencies:
@@ -46170,9 +46090,9 @@ snapshots:
       path-expression-matcher: 1.6.2
       xml-naming: 0.3.0
 
-  fast-xml-parser@5.10.0:
+  fast-xml-parser@5.10.1:
     dependencies:
-      '@nodable/entities': 2.2.0
+      '@nodable/entities': 3.0.0
       fast-xml-builder: 1.3.0
       is-unsafe: 2.0.0
       path-expression-matcher: 1.6.2
@@ -46188,7 +46108,7 @@ snapshots:
       '@fastify/fast-json-stringify-compiler': 5.1.0
       '@fastify/proxy-addr': 5.1.0
       abstract-logging: 2.0.1
-      avvio: 9.2.0
+      avvio: 9.3.0
       fast-json-stringify: 7.0.1
       find-my-way: 9.6.0
       light-my-request: 6.6.0
@@ -46489,7 +46409,7 @@ snapshots:
 
   highlight.js@10.7.3: {}
 
-  hono@4.12.30: {}
+  hono@4.12.31: {}
 
   hosted-git-info@4.1.0:
     dependencies:
@@ -47415,7 +47335,7 @@ snapshots:
       serialize-error: 2.1.0
       source-map: 0.5.7
       throat: 5.0.0
-      ws: 7.5.12
+      ws: 7.5.13
       yargs: 17.7.3
     transitivePeerDependencies:
       - bufferutil
@@ -47628,7 +47548,7 @@ snapshots:
       define-properties: 1.2.1
       es-object-atoms: 1.1.2
 
-  obug@2.1.3: {}
+  obug@2.1.4: {}
 
   on-exit-leak-free@2.1.2: {}
 
@@ -47665,12 +47585,12 @@ snapshots:
       is-docker: 2.2.1
       is-wsl: 2.2.0
 
-  openai@6.47.0(ws@8.21.1)(zod@3.25.76):
+  openai@6.48.0(ws@8.21.1)(zod@3.25.76):
     optionalDependencies:
       ws: 8.21.1
       zod: 3.25.76
 
-  openai@6.47.0(ws@8.21.1)(zod@4.4.3):
+  openai@6.48.0(ws@8.21.1)(zod@4.4.3):
     optionalDependencies:
       ws: 8.21.1
       zod: 4.4.3
@@ -47878,7 +47798,7 @@ snapshots:
 
   possible-typed-array-names@1.1.0: {}
 
-  postcss@8.5.19:
+  postcss@8.5.20:
     dependencies:
       nanoid: 3.3.16
       picocolors: 1.1.1
@@ -48028,7 +47948,7 @@ snapshots:
   react-devtools-core@6.1.5:
     dependencies:
       shell-quote: 1.10.0
-      ws: 7.5.12
+      ws: 7.5.13
     transitivePeerDependencies:
       - bufferutil
       - utf-8-validate
@@ -48071,7 +47991,7 @@ snapshots:
       stacktrace-parser: 0.1.11
       tinyglobby: 0.2.17
       whatwg-fetch: 3.6.20
-      ws: 7.5.12
+      ws: 7.5.13
       yargs: 17.7.3
     optionalDependencies:
       '@types/react': 19.2.17
@@ -48989,7 +48909,7 @@ snapshots:
     dependencies:
       lightningcss: 1.32.0
       picomatch: 4.0.5
-      postcss: 8.5.19
+      postcss: 8.5.20
       rolldown: 1.1.5
       tinyglobby: 0.2.17
     optionalDependencies:
@@ -49012,7 +48932,7 @@ snapshots:
       es-module-lexer: 2.3.1
       expect-type: 1.4.0
       magic-string: 0.30.21
-      obug: 2.1.3
+      obug: 2.1.4
       pathe: 2.0.3
       picomatch: 4.0.5
       std-env: 4.2.0
@@ -49117,7 +49037,7 @@ snapshots:
       imurmurhash: 0.1.4
       signal-exit: 3.0.7
 
-  ws@7.5.12: {}
+  ws@7.5.13: {}
 
   ws@8.21.1: {}
 
