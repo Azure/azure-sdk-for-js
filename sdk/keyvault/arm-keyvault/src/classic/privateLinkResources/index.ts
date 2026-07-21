@@ -15,7 +15,6 @@ export interface PrivateLinkResourcesOperations {
     options?: PrivateLinkResourcesListByVaultOptionalParams,
   ) => Promise<PrivateLinkResourceListResult>;
 }
-
 function _getPrivateLinkResources(context: KeyVaultManagementContext) {
   return {
     listByVault: (
@@ -25,7 +24,6 @@ function _getPrivateLinkResources(context: KeyVaultManagementContext) {
     ) => listByVault(context, resourceGroupName, vaultName, options),
   };
 }
-
 export function _getPrivateLinkResourcesOperations(
   context: KeyVaultManagementContext,
 ): PrivateLinkResourcesOperations {

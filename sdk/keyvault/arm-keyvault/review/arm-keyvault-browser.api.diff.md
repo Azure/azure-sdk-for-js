@@ -7,7 +7,7 @@ For the complete API surface, see the corresponding -node.api.md file.
 ===================================================================
 --- NodeJS
 +++ browser
-@@ -17,9 +17,9 @@
+@@ -19,9 +19,9 @@
  // @public
  export interface AccessPolicyEntry {
      applicationId?: string;
@@ -18,7 +18,7 @@ For the complete API surface, see the corresponding -node.api.md file.
  }
  
  // @public
-@@ -988,14 +988,15 @@
+@@ -1017,14 +1017,15 @@
      continuationToken?: string;
  }
  

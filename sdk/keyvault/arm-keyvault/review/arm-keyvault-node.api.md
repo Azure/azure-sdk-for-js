@@ -7,11 +7,13 @@
 import type { AbortSignalLike } from '@azure/abort-controller';
 import type { CancelOnProgress } from '@azure/core-lro';
 import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
 import type { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { Pipeline } from '@azure/core-rest-pipeline';
 import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -153,6 +155,8 @@ export type GeoReplicationRegionProvisioningState = string;
 export interface IPRule {
     value: string;
 }
+
+export { isRestError }
 
 // @public
 export type JsonWebKeyCurveName = string;
@@ -366,6 +370,7 @@ export enum KnownJsonWebKeyOperation {
 export enum KnownJsonWebKeyType {
     EC = "EC",
     ECHSM = "EC-HSM",
+    OctHSM = "oct-HSM",
     RSA = "RSA",
     RSAHSM = "RSA-HSM"
 }
@@ -401,6 +406,15 @@ export enum KnownManagedHsmSkuFamily {
     B = "B",
     // (undocumented)
     C = "C"
+}
+
+// @public
+export enum KnownManagedHsmSkuNameV2 {
+    CustomB32 = "Custom_B32",
+    CustomB6 = "Custom_B6",
+    CustomC10 = "Custom_C10",
+    CustomC42 = "Custom_C42",
+    StandardB1 = "Standard_B1"
 }
 
 // @public
@@ -504,6 +518,20 @@ export enum KnownStoragePermissions {
 }
 
 // @public
+export enum KnownTokenBindingMode {
+    Enforced = "Enforced",
+    NotEnforced = "NotEnforced"
+}
+
+// @public
+export enum KnownTokenBindingStrength {
+    AttestedConfidential = "AttestedConfidential",
+    AttestedTrustedLaunch = "AttestedTrustedLaunch",
+    NoValidation = "NoValidation",
+    Unattested = "Unattested"
+}
+
+// @public
 export enum KnownVaultProvisioningState {
     RegisteringDns = "RegisteringDns",
     Succeeded = "Succeeded"
@@ -512,7 +540,8 @@ export enum KnownVaultProvisioningState {
 // @public
 export enum KnownVersions {
     V20250501 = "2025-05-01",
-    V20260201 = "2026-02-01"
+    V20260201 = "2026-02-01",
+    V20260301Preview = "2026-03-01-preview"
 }
 
 // @public
@@ -697,14 +726,14 @@ export interface ManagedHsmsGetOptionalParams extends OperationOptions {
 // @public
 export interface ManagedHsmSku {
     family: ManagedHsmSkuFamily;
-    name: ManagedHsmSkuName;
+    name: ManagedHsmSkuNameV2;
 }
 
 // @public
 export type ManagedHsmSkuFamily = string;
 
 // @public
-export type ManagedHsmSkuName = "Standard_B1" | "Custom_B32" | "Custom_B6" | "Custom_C42" | "Custom_C10";
+export type ManagedHsmSkuNameV2 = string;
 
 // @public
 export interface ManagedHsmsListByResourceGroupOptionalParams extends OperationOptions {
@@ -741,7 +770,7 @@ export interface ManagedHsmsOperations {
     checkMhsmNameAvailability: (mhsmName: CheckMhsmNameAvailabilityParameters, options?: ManagedHsmsCheckMhsmNameAvailabilityOptionalParams) => Promise<CheckMhsmNameAvailabilityResult>;
     createOrUpdate: (resourceGroupName: string, name: string, parameters: ManagedHsm, options?: ManagedHsmsCreateOrUpdateOptionalParams) => PollerLike<OperationState<ManagedHsm>, ManagedHsm>;
     delete: (resourceGroupName: string, name: string, options?: ManagedHsmsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
-    get: (resourceGroupName: string, name: string, options?: ManagedHsmsGetOptionalParams) => Promise<ManagedHsm>;
+    get: (resourceGroupName: string, name: string, options?: ManagedHsmsGetOptionalParams) => Promise<ManagedHsm | void>;
     getDeleted: (name: string, location: string, options?: ManagedHsmsGetDeletedOptionalParams) => Promise<DeletedManagedHsm>;
     listByResourceGroup: (resourceGroupName: string, options?: ManagedHsmsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<ManagedHsm>;
     listBySubscription: (options?: ManagedHsmsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<ManagedHsm>;
@@ -1050,7 +1079,7 @@ export interface PrivateEndpointConnectionsOperations {
     // @deprecated (undocumented)
     beginDeleteAndWait: (resourceGroupName: string, vaultName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => Promise<PrivateEndpointConnection>;
     delete: (resourceGroupName: string, vaultName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams) => PollerLike<OperationState<PrivateEndpointConnection>, PrivateEndpointConnection>;
-    get: (resourceGroupName: string, vaultName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams) => Promise<PrivateEndpointConnection>;
+    get: (resourceGroupName: string, vaultName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams) => Promise<PrivateEndpointConnection | void>;
     listByResource: (resourceGroupName: string, vaultName: string, options?: PrivateEndpointConnectionsListByResourceOptionalParams) => PagedAsyncIterableIterator<PrivateEndpointConnection>;
     put: (resourceGroupName: string, vaultName: string, privateEndpointConnectionName: string, properties: PrivateEndpointConnection, options?: PrivateEndpointConnectionsPutOptionalParams) => Promise<PrivateEndpointConnection>;
 }
@@ -1119,6 +1148,8 @@ export interface Resource {
     readonly systemData?: SystemData;
     readonly type?: string;
 }
+
+export { RestError }
 
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: KeyVaultManagementClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
@@ -1257,6 +1288,18 @@ export interface SystemData {
 }
 
 // @public
+export type TokenBindingMode = string;
+
+// @public
+export interface TokenBindingParameters {
+    minimumTokenBindingStrength?: TokenBindingStrength;
+    mode?: TokenBindingMode;
+}
+
+// @public
+export type TokenBindingStrength = string;
+
+// @public
 export interface TrackedResource extends Resource {
     location: string;
     tags?: Record<string, string>;
@@ -1329,6 +1372,7 @@ export interface VaultPatchProperties {
     sku?: Sku;
     softDeleteRetentionInDays?: number;
     tenantId?: string;
+    tokenBindingParameters?: TokenBindingParameters;
 }
 
 // @public
@@ -1349,6 +1393,7 @@ export interface VaultProperties {
     sku: Sku;
     softDeleteRetentionInDays?: number;
     tenantId: string;
+    tokenBindingParameters?: TokenBindingParameters;
     vaultUri?: string;
 }
 

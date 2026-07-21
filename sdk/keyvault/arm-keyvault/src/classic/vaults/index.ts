@@ -101,11 +101,6 @@ export interface VaultsOperations {
     options?: VaultsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<Vault>;
   /** Deletes the specified Azure key vault. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     vaultName: string,
@@ -146,7 +141,6 @@ export interface VaultsOperations {
     options?: VaultsGetOptionalParams,
   ) => Promise<Vault>;
 }
-
 function _getVaults(context: KeyVaultManagementContext) {
   return {
     checkNameAvailability: (
@@ -228,7 +222,6 @@ function _getVaults(context: KeyVaultManagementContext) {
       get(context, resourceGroupName, vaultName, options),
   };
 }
-
 export function _getVaultsOperations(context: KeyVaultManagementContext): VaultsOperations {
   return {
     ..._getVaults(context),

@@ -650,7 +650,7 @@
 # PRLabel: %Mgmt
 /sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/keyvault/arm-keyvault/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt
