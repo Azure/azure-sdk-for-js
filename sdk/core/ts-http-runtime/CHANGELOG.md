@@ -1,5 +1,17 @@
 # Release History
 
+## 0.3.8 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+- make proxyPolicy a no-op when proxy is unsupported [PR #39084](https://github.com/Azure/azure-sdk-for-js/pull/39084)
+
 ## 0.3.7 (2026-07-13)
 
 ### Bugs Fixed
