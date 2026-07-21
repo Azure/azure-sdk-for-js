@@ -7,11 +7,23 @@ import { baseCommand } from "./commands/index.ts";
 
 // The main command is implemented using the same `subCommand` method.
 baseCommand(...process.argv.slice(2)).catch((err) => {
-  console.error(chalk.red("[Internal Error]", err.message));
-  console.trace(chalk.red("[Internal Error]", err.stack));
-  if (err.cause) {
-    console.error(chalk.red("[Internal Error Cause]", err.cause.message));
-    console.trace(chalk.red("[Internal Error Cause]", err.cause.stack));
+  const format = (value: unknown): string => {
+    if (value instanceof Error) {
+      return value.stack ?? value.message;
+    }
+    if (typeof value === "object" && value !== null) {
+      try {
+        return JSON.stringify(value);
+      } catch {
+        return String(value);
+      }
+    }
+    return String(value);
+  };
+
+  console.error(chalk.red("[Internal Error]", format(err)));
+  if (err && typeof err === "object" && "cause" in err && err.cause !== undefined) {
+    console.error(chalk.red("[Internal Error Cause]", format(err.cause)));
   }
   process.exit(255);
 });

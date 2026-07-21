@@ -1,11 +1,16 @@
-import * as openapiToolsCommon from '@azure-tools/openapi-tools-common';
-import { FunctionDeclaration, TypescriptParser } from 'parse-ts-to-ast';
-import { ClassDeclaration, EnumDeclaration, InterfaceDeclaration, TypeAliasDeclaration } from 'parse-ts-to-ast';
-import { changelogGenerator } from './changelogGenerator.js';
-import { logger } from '../utils/logger.js';
-import { SDKType } from '../common/types.js';
-import { createAstContext } from 'typescript-codegen-breaking-change-detector';
-import { mkdirp, remove } from 'fs-extra';
+import * as openapiToolsCommon from "@azure-tools/openapi-tools-common";
+import { FunctionDeclaration, TypescriptParser } from "parse-ts-to-ast";
+import {
+  ClassDeclaration,
+  EnumDeclaration,
+  InterfaceDeclaration,
+  TypeAliasDeclaration,
+} from "parse-ts-to-ast";
+import { changelogGenerator } from "./changelogGenerator.js";
+import { logger } from "../utils/logger.js";
+import { SDKType } from "../common/types.js";
+import { createAstContext } from "typescript-codegen-breaking-change-detector";
+import { mkdirp, remove } from "fs-extra";
 
 export class TSExportedMetaData {
   public typeAlias = {};
@@ -21,7 +26,7 @@ const readMeReader = async (mdFilePath: string) => {
   const readMe = openapiToolsCommon.parseMarkdown(content);
   const tsExports = new Set<string>();
   for (const c of openapiToolsCommon.iterate(readMe.markDown)) {
-    if (c.type === 'code_block' && c.info !== null && c.info === 'ts' && c.literal !== null) {
+    if (c.type === "code_block" && c.info !== null && c.info === "ts" && c.literal !== null) {
       tsExports.add(c.literal);
     }
   }
@@ -42,7 +47,7 @@ const extractMetaData = async (code: string, metaData: TSExportedMetaData) => {
     } else if (declartion instanceof InterfaceDeclaration) {
       if (declartion.properties.length === 0 && declartion.methods.length > 0) {
         metaData.operationInterface[declartion.name] = declartion;
-      } else if (declartion.name.endsWith('Operations')) {
+      } else if (declartion.name.endsWith("Operations")) {
         metaData.operationInterface[declartion.name] = declartion;
       } else {
         metaData.modelInterface[declartion.name] = declartion;
@@ -66,19 +71,29 @@ export const extractExportAndGenerateChangelog = async (
   mdFilePathOld: string,
   mdFilePathNew: string,
   oldSdkType: SDKType,
-  newSdkType: SDKType
+  newSdkType: SDKType,
 ) => {
   const metaDataOld = await readSourceAndExtractMetaData(mdFilePathOld);
   const metaDataNew = await readSourceAndExtractMetaData(mdFilePathNew);
 
   try {
-    await mkdirp('./tmp-patch');
-    const astContext = await createAstContext({ path: mdFilePathOld }, { path: mdFilePathNew }, './tmp-patch');
-    const changeLog = changelogGenerator(metaDataOld, metaDataNew, oldSdkType, newSdkType, astContext);
-    logger.info('Generated changelog successfully:');
+    await mkdirp("./tmp-patch");
+    const astContext = await createAstContext(
+      { path: mdFilePathOld },
+      { path: mdFilePathNew },
+      "./tmp-patch",
+    );
+    const changeLog = changelogGenerator(
+      metaDataOld,
+      metaDataNew,
+      oldSdkType,
+      newSdkType,
+      astContext,
+    );
+    logger.info("Generated changelog successfully:");
     logger.info(changeLog.displayChangeLog());
     return changeLog;
   } finally {
-    await remove('./tmp-patch');
+    await remove("./tmp-patch");
   }
 };

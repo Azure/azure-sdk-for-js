@@ -127,7 +127,7 @@
 
 # ServiceLabel: %Communication - Common
 # PRLabel: %Communication - Common
-/sdk/communication/communication-common/    @anjulgarg @Joeleniqs @alvinjiang-msft
+/sdk/communication/communication-common/    @anjulgarg @Joeleniqs @tsohoni-msft @JohnRFraser @alvinjiang-msft @jorge-beauregard @preetkaran20
 
 # ServiceLabel: %Communication - Email
 # PRLabel: %Communication - Email
@@ -135,7 +135,7 @@
 
 # ServiceLabel: %Communication - Identity
 # PRLabel: %Communication - Identity
-/sdk/communication/communication-identity/    @anjulgarg @Joeleniqs @alvinjiang-msft
+/sdk/communication/communication-identity/    @anjulgarg @Joeleniqs @tsohoni-msft @JohnRFraser @alvinjiang-msft @jorge-beauregard @preetkaran20
 
 # ServiceLabel: %Communication - Job Router
 # PRLabel: %Communication - Job Router
@@ -200,13 +200,13 @@
 # ServiceOwners: @berndverst @cgillum @kaibocai @philliphoff @torosent
 
 # PRLabel: %EngSys
-/sdk/template/    @benbp @mikeharder
+/sdk/template/    @benbp @mikeharder @Azure/azure-sdk-eng
 
 # AzureSdkOwners: @benbp @mikeharder
 # ServiceLabel: %EngSys
 
 # PRLabel: %Event Grid
-/sdk/eventgrid/    @rajeshka @shankarsama
+/sdk/eventgrid/    @shankarsama @Nishanth-MS
 
 # AzureSdkOwners: @rajeshka @shankarsama
 # ServiceLabel: %Event Grid
@@ -848,7 +848,7 @@
 # PRLabel: %Mgmt %mgmt-review-needed
 /sdk/privatedns/arm-privatedns/ @qiaozha @MaryGao @JialinHuang803
 
-# PRLabel: %Mgmt
+# PRLabel: %Mgmt %mgmt-review-needed
 /sdk/recoveryservices/arm-recoveryservices/ @qiaozha @MaryGao @JialinHuang803
 
 # PRLabel: %Mgmt %mgmt-review-needed
@@ -1688,6 +1688,12 @@ sdk/resiliencemanagement/arm-resiliencemanagement/ @qiaozha @MaryGao @JialinHuan
 
 # PRLabel: %Mgmt %mgmt-review-needed
 sdk/commvaultcontentstore/arm-commvaultcontentstore/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt %mgmt-review-needed
+sdk/billingtrust/arm-billing-trust/ @qiaozha @MaryGao @JialinHuang803
+
+# PRLabel: %Mgmt %mgmt-review-needed
+sdk/enclave/arm-enclave/ @qiaozha @MaryGao @JialinHuang803
 
 ###########
 # Config

@@ -75,16 +75,48 @@ function Set-GitHubIssue($Package) {
   }
 }
 
+function Test-IsPreReleaseVersion {
+  param (
+    [string]$Version
+  )
+
+  if ([string]::IsNullOrWhiteSpace($Version)) {
+    return $false
+  }
+
+  $normalizedVersion = $Version.Trim()
+  if ($normalizedVersion.StartsWith("v", [System.StringComparison]::OrdinalIgnoreCase)) {
+    $normalizedVersion = $normalizedVersion.Substring(1)
+  }
+
+  try {
+    $semanticVersion = [System.Management.Automation.SemanticVersion]::Parse($normalizedVersion)
+    return -not [string]::IsNullOrEmpty($semanticVersion.PreReleaseLabel)
+  }
+  catch {
+    # Fallback for version strings SemanticVersion cannot parse; pattern matches SemVer prerelease forms (e.g. 1.2.3-beta.1+build.123).
+    $semVerPreReleasePattern = '^\d+\.\d+\.\d+-[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*(?:\+[0-9A-Za-z-.]+)?$'
+    return $normalizedVersion -match $semVerPreReleasePattern
+  }
+}
+
 # do a update first so we don't report on upgrades that will be in azure sdk bot PR
-Write-Host "Running pnpm update --recursive --no-save"
-pnpm update --recursive --no-save
+Write-Host "Running pnpm update --recursive --no-save --no-color"
+pnpm update --recursive --no-save --no-color
 
-Write-Host "Running 'pnpm --filter=!@azure/arm-* --filter=!@azure-rest/arm-*  outdated --format json --recursive'"
+Write-Host "Running 'pnpm --filter=!@azure/arm-* --filter=!@azure-rest/arm-*  outdated --format json --recursive --no-color'"
 $env:NODE_OPTIONS = "--max-old-space-size=16384"
-$pnpmOutdatedOutput = & pnpm --filter=!@azure/arm-* --filter=!@azure-rest/arm-* outdated --format json --recursive | Where-Object { -not ($_.StartsWith(" WARN ", [System.StringComparison]::OrdinalIgnoreCase)) }
+$pnpmOutdatedOutput = & pnpm --filter=!@azure/arm-* --filter=!@azure-rest/arm-* outdated --format json --recursive --no-color | Where-Object { -not ($_.Contains("[WARN]", [System.StringComparison]::OrdinalIgnoreCase)) }
 
-$availableUpdates = $pnpmOutdatedOutput | ConvertFrom-Json
-
+try {
+  $pnpmOutdatedJson = $pnpmOutdatedOutput -join "`n"
+  $availableUpdates = $pnpmOutdatedJson | ConvertFrom-Json
+}
+catch {
+  Write-Host "Error parsing pnpm outdated output as JSON. Output was:"
+  Write-Host ($pnpmOutdatedOutput -join "`n")
+  throw
+}
 foreach ($update in $availableUpdates.PSObject.Properties) {
   if ($update.Name -notmatch '^@azure') {
     $p = New-Object PSObject -Property @{
@@ -95,6 +127,12 @@ foreach ($update in $availableUpdates.PSObject.Properties) {
     }
 
     if ($null -ne $p.OldVersion -and $null -ne $p.NewVersion -and $p.OldVersion -ne $p.NewVersion) {
+      # Ignore prerelease-only upgrades (beta/rc/etc.) so weekly automation files issues only for stable releases.
+      if (Test-IsPreReleaseVersion -Version $p.NewVersion) {
+        Write-Host "Skipping pre-release version for $($p.Name): $($p.NewVersion). Weekly dependency issues are filed for stable releases only."
+        continue
+      }
+
       Write-Host $update.Name, $update.Value.'wanted', $update.Value.'latest'
       Set-GitHubIssue -Package $p
       Start-Sleep -s 5

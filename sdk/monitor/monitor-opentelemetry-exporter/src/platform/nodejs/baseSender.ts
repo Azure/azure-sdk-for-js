@@ -3,24 +3,30 @@
 
 import { diag } from "@opentelemetry/api";
 import type { PersistentStorage, SenderResult } from "../../types.js";
-import { ExceptionType } from "../../export/statsbeat/types.js";
 import type { AzureMonitorExporterOptions } from "../../config.js";
 import { FileSystemPersist } from "./persist/index.js";
 import type { ExportResult } from "@opentelemetry/core";
 import { ExportResultCode } from "@opentelemetry/core";
 import { NetworkStatsbeatMetrics } from "../../export/statsbeat/networkStatsbeatMetrics.js";
 import { LongIntervalStatsbeatMetrics } from "../../export/statsbeat/longIntervalStatsbeatMetrics.js";
+import { isRestError } from "@azure/core-rest-pipeline";
 import type { HttpHeaders, RestError } from "@azure/core-rest-pipeline";
 import {
   DropCode,
+  ExceptionType,
   RetryCode,
   MAX_STATSBEAT_FAILURES,
   isStatsbeatShutdownStatus,
 } from "../../export/statsbeat/types.js";
 import type { BreezeResponse } from "../../utils/breezeUtils.js";
-import { isRetriable, isSamplingRejection } from "../../utils/breezeUtils.js";
+import {
+  isRetriable,
+  isSamplingRejection,
+  parseRetryAfterHeader,
+} from "../../utils/breezeUtils.js";
 import type { TelemetryItem as Envelope } from "../../generated/index.js";
 import {
+  ABORT_ERROR_NAME,
   ENV_APPLICATIONINSIGHTS_SDKSTATS_EXPORT_INTERVAL,
   ENV_APPLICATIONINSIGHTS_SDK_STATS_LOGGING,
   ENV_DISABLE_SDKSTATS,
@@ -38,6 +44,8 @@ const DEFAULT_BATCH_SEND_RETRY_INTERVAL_MS = 60_000;
 const STARTUP_REPLAY_MAX_DELAY_MS = 60_000;
 const REPLAY_BATCH_BASE_DELAY_MS = 200;
 const REPLAY_BATCH_JITTER_MS = 200;
+// Prevent re-persisted files from creating an unbounded startup replay loop.
+const MAX_STARTUP_REPLAY_BATCHES = 10;
 
 /**
  * Base sender class
@@ -298,6 +306,9 @@ export abstract class BaseSender {
       ) {
         this.networkStatsbeatMetrics?.countRetry(restError.statusCode);
         this.customerSDKStatsMetrics?.countRetryItems(envelopes, restError.statusCode);
+        // Honor a server-requested Retry-After so persisted telemetry isn't replayed too early.
+        const retryAfterMs = parseRetryAfterHeader(restError.response?.headers.get("retry-after"));
+        this.scheduleRetryTimer(retryAfterMs);
         return this.persist(envelopes);
       } else if (
         restError.statusCode === 400 &&
@@ -316,9 +327,16 @@ export abstract class BaseSender {
         return { code: ExportResultCode.SUCCESS };
       }
 
-      // For retriable REST errors
-      if (this.isRetriableRestError(restError) && !this.isStatsbeatSender) {
-        if (this.customerSDKStatsMetrics?.isTimeoutError(restError) && !this.isStatsbeatSender) {
+      // Persist transport failures where no HTTP response was received.
+      if (this.isRetriableNoResponseError(error) && !this.isStatsbeatSender) {
+        this.networkStatsbeatMetrics?.countException(restError);
+        // A status-less AbortError is the transport's real timeout signal, but its message
+        // ("The operation was aborted...") isn't recognized by isTimeoutError. Treat it as a
+        // timeout explicitly so it's classified as CLIENT_TIMEOUT rather than CLIENT_EXCEPTION.
+        const isTimeout =
+          restError.name === ABORT_ERROR_NAME ||
+          this.customerSDKStatsMetrics?.isTimeoutError(restError);
+        if (isTimeout && !this.isStatsbeatSender) {
           this.customerSDKStatsMetrics?.countRetryItems(
             envelopes,
             RetryCode.CLIENT_TIMEOUT,
@@ -326,14 +344,19 @@ export abstract class BaseSender {
             ExceptionType.TIMEOUT_EXCEPTION,
           );
           diag.error("Request timed out. Error message:", restError.message);
-        } else if (restError.statusCode) {
-          this.networkStatsbeatMetrics?.countRetry(restError.statusCode);
-          this.customerSDKStatsMetrics?.countRetryItems(envelopes, restError.statusCode);
+        } else {
+          this.customerSDKStatsMetrics?.countRetryItems(
+            envelopes,
+            RetryCode.CLIENT_EXCEPTION,
+            restError.message,
+            ExceptionType.NETWORK_EXCEPTION,
+          );
         }
         diag.error(
           "Retrying due to transient client side error. Error message:",
           restError.message,
         );
+        this.scheduleRetryTimer();
         return this.persist(envelopes);
       }
       // For non-retriable REST errors or client exceptions
@@ -426,7 +449,8 @@ export abstract class BaseSender {
 
       let envelopes = (await this.persister.shift()) as Envelope[] | null;
       let isFirstBatch = true;
-      while (envelopes) {
+      let replayedBatchCount = 0;
+      while (envelopes && replayedBatchCount < MAX_STARTUP_REPLAY_BATCHES) {
         // Space out batches (with jitter) so a single process doesn't fire its whole
         // backlog at Breeze back-to-back. No delay before the first batch.
         if (!isFirstBatch) {
@@ -436,11 +460,15 @@ export abstract class BaseSender {
           }
         }
         isFirstBatch = false;
+        replayedBatchCount++;
 
         const result = await this.exportEnvelopes(envelopes);
         if (result.code === ExportResultCode.FAILED) {
           // Stop processing — remaining files stay on disk for later retry
           diag.warn(`Failed to send persisted file during startup, will retry later`);
+          break;
+        }
+        if (replayedBatchCount >= MAX_STARTUP_REPLAY_BATCHES) {
           break;
         }
         envelopes = (await this.persister.shift()) as Envelope[] | null;
@@ -516,9 +544,26 @@ export abstract class BaseSender {
     }
   }
 
-  private isRetriableRestError(error: RestError): boolean {
-    const restErrorTypes: string[] = Object.values(RetriableRestErrorTypes);
-    if (error && error.code && restErrorTypes.includes(error.code)) {
+  private isRetriableNoResponseError(error: unknown): boolean {
+    if (!error || typeof error !== "object") {
+      return false;
+    }
+    const transportError = error as {
+      code?: string;
+      name?: string;
+      response?: { status?: number };
+      statusCode?: number;
+    };
+    if (transportError.statusCode || transportError.response?.status) {
+      return false;
+    }
+    if (isRestError(error)) {
+      const restErrorTypes: string[] = Object.values(RetriableRestErrorTypes);
+      return !!error.code && restErrorTypes.includes(error.code);
+    }
+    // The transport uses the same AbortError for timeouts and cancellation.
+    // Preserve the telemetry because those cases cannot be distinguished here.
+    if (transportError.name === ABORT_ERROR_NAME) {
       return true;
     }
     return false;
