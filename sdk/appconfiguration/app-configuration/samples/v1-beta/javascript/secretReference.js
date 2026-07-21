@@ -38,7 +38,7 @@ async function main() {
     },
   });
 
-  console.log(`Secret value: ${appConfigProvider.get(secretName)}`);
+  console.log(`Secret resolved: ${appConfigProvider.get(secretName) !== undefined}`);
 
   await secretClient.beginDeleteSecret(secretName);
 

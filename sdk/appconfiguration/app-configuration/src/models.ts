@@ -107,7 +107,7 @@ export interface SettingLabel {
  */
 export interface AppConfigurationClientOptions extends CommonClientOptions {
   /**
-   * The API version to use when interacting with the service. The default value is `2026-04-01`.
+   * The API version to use when interacting with the service. The default value is `2026-05-01-preview`.
    * {@link KnownAppConfigurationApiVersion} can be used interchangeably with apiVersion.
    * Note that overriding this default value may result in unsupported behavior.
    */

@@ -100,7 +100,7 @@ export function createConfiguredGeneratedClient(
     loggingOptions: {
       logger: logger.info,
     },
-    apiVersion: options?.apiVersion ?? appConfigurationApiVersion,
+    apiVersion: appConfigOptions.apiVersion ?? appConfigurationApiVersion,
     credentials: {},
   };
 

@@ -28,7 +28,7 @@ export function createAppConfiguration(
 ): AppConfigurationContext {
   const endpointUrl = options.endpoint ?? String(endpointParam);
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentInfo = `azsdk-js-app-configuration/1.0.0-beta.1`;
+  const userAgentInfo = `azsdk-js-app-configuration/1.13.0-beta.1`;
   const userAgentPrefix = prefixFromOptions
     ? `${prefixFromOptions} ${userAgentInfo}`
     : `${userAgentInfo}`;

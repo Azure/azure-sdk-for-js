@@ -24,6 +24,7 @@ import type { AppConfigurationClient as GeneratedAppConfigurationClient } from "
 import type { AppConfigurationContext } from "./generated/api/appConfigurationContext.js";
 import { createConfiguredGeneratedClient } from "./internal/createGeneratedClient.js";
 import { listLabels } from "./internal/listLabels.js";
+import { listFeatureFlags } from "./internal/listFeatureFlags.js";
 import { tracingClient } from "./internal/tracing.js";
 
 /**
@@ -216,18 +217,18 @@ export class FeatureFlagClient {
    */
   listFeatureFlags(options: ListFeatureFlagsOptions = {}): PagedAsyncIterableIterator<FeatureFlag> {
     const { nameFilter, labelFilter, tagsFilter, acceptDateTime, fields, ...restOptions } = options;
-    return this.client.featureFlagClient.getFeatureFlags({
-      ...restOptions,
-      name: nameFilter,
-      label: labelFilter,
-      tags: tagsFilter,
-      acceptDatetime: acceptDateTime?.toISOString(),
-      select: fields,
-      requestOptions: {
-        ...restOptions.requestOptions,
-        skipUrlEncoding: true,
+    return listFeatureFlags(
+      this._context,
+      "FeatureFlagClient.listFeatureFlags",
+      {
+        name: nameFilter,
+        label: labelFilter,
+        tags: tagsFilter,
+        acceptDatetime: acceptDateTime?.toISOString(),
+        select: fields,
       },
-    });
+      restOptions,
+    );
   }
 
   /**
