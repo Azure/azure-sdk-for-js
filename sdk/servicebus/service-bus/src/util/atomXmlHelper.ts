@@ -73,10 +73,7 @@ export async function executeAtomXmlOperation(
   serializer: AtomXmlSerializer,
   operationOptions: OperationOptions,
   requestObject?:
-    | InternalQueueOptions
-    | InternalTopicOptions
-    | InternalSubscriptionOptions
-    | CreateRuleOptions,
+    InternalQueueOptions | InternalTopicOptions | InternalSubscriptionOptions | CreateRuleOptions,
 ): Promise<FullOperationResponse> {
   if (requestObject) {
     request.body = stringifyXML(serializer.serialize(requestObject), { rootName: "entry" });

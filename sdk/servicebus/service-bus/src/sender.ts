@@ -115,10 +115,7 @@ export interface ServiceBusSender {
    */
   scheduleMessages(
     messages:
-      | ServiceBusMessage
-      | ServiceBusMessage[]
-      | AmqpAnnotatedMessage
-      | AmqpAnnotatedMessage[],
+      ServiceBusMessage | ServiceBusMessage[] | AmqpAnnotatedMessage | AmqpAnnotatedMessage[],
     scheduledEnqueueTimeUtc: Date,
     options?: OperationOptionsBase,
   ): Promise<Long[]>;
@@ -281,10 +278,7 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
 
   async scheduleMessages(
     messages:
-      | ServiceBusMessage
-      | ServiceBusMessage[]
-      | AmqpAnnotatedMessage
-      | AmqpAnnotatedMessage[],
+      ServiceBusMessage | ServiceBusMessage[] | AmqpAnnotatedMessage | AmqpAnnotatedMessage[],
     scheduledEnqueueTimeUtc: Date,
     options: OperationOptionsBase = {},
   ): Promise<Long[]> {

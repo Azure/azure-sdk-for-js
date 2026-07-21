@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to reconcile the NSP configuration for an account.
  *
  * @summary reconcile the NSP configuration for an account.
- * x-ms-original-file: 2026-03-15-preview/ReconcileNetworkSecurityPerimeterConfigurations.json
+ * x-ms-original-file: 2026-05-15-preview/ReconcileNetworkSecurityPerimeterConfigurations.json
  */
 async function reconcileNetworkSecurityPerimeterConfigurations() {
   const credential = new DefaultAzureCredential();

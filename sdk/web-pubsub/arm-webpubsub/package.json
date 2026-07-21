@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-webpubsub",
-  "version": "2.0.0-beta.3",
+  "version": "2.0.0-beta.4",
   "description": "A generated SDK for WebPubSubManagementClient.",
   "engines": {
     "node": ">=22.0.0"

@@ -4,3 +4,4 @@
 export * from "./BlobChangeFeedClient.js";
 export type * from "./models/BlobChangeFeedEvent.js";
 export type * from "./models/models.js";
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

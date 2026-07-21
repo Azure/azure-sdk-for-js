@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-chaos",
-  "version": "2.1.0-beta.1",
+  "version": "2.1.0-beta.2",
   "description": "A generated SDK for ChaosManagementClient.",
   "engines": {
     "node": ">=22.0.0"

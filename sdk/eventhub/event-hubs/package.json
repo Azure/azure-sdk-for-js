@@ -98,7 +98,7 @@
     "util": "^0.12.5"
   },
   "devDependencies": {
-    "@azure-tools/mock-hub": "^1.0.0",
+    "@azure-tools/mock-hub": "workspace:^",
     "@azure-tools/test-credential": "workspace:^",
     "@azure-tools/test-utils-vitest": "workspace:^",
     "@azure-tools/vite-plugin-browser-test-map": "workspace:^",

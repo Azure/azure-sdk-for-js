@@ -114,8 +114,7 @@ export const repository = packageJsonCheck({
     "package.json repository must be an object with required type/url and a directory under sdk/",
   check({ packageJson }) {
     const repository = packageJson.repository as
-      | { type?: string; url?: string; directory?: string }
-      | undefined;
+      { type?: string; url?: string; directory?: string } | undefined;
     assert(typeof repository === "object" && repository !== null, "repository must be an object");
     assert(repository.type === "git", "repository.type must be 'git'");
     assert(

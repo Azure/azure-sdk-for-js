@@ -815,10 +815,7 @@ export interface AzureSubscriptionProperties extends DataSourceProperties {
   resourceId?: string;
   /** The data use governance of azure subscription. */
   dataUseGovernance?:
-    | "Disabled"
-    | "DisabledByAnotherAccount"
-    | "Enabled"
-    | "EnabledAtAncestorScope";
+    "Disabled" | "DisabledByAnotherAccount" | "Enabled" | "EnabledAtAncestorScope";
 }
 
 /** Azure subscription data source. */
@@ -838,10 +835,7 @@ export interface AzureResourceGroupProperties extends DataSourceProperties {
   resourceId?: string;
   /** Data use governance. */
   dataUseGovernance?:
-    | "Disabled"
-    | "DisabledByAnotherAccount"
-    | "Enabled"
-    | "EnabledAtAncestorScope";
+    "Disabled" | "DisabledByAnotherAccount" | "Enabled" | "EnabledAtAncestorScope";
 }
 
 /** Azure resource group data source. */
@@ -865,10 +859,7 @@ export interface AzureDataSourceProperties extends DataSourceProperties {
   resourceId?: string;
   /** Data use governance. */
   dataUseGovernance?:
-    | "Disabled"
-    | "DisabledByAnotherAccount"
-    | "Enabled"
-    | "EnabledAtAncestorScope";
+    "Disabled" | "DisabledByAnotherAccount" | "Enabled" | "EnabledAtAncestorScope";
 }
 
 /** Azure synapse workspace data source properties. */
@@ -2546,8 +2537,7 @@ export type Scan =
 export type IntegrationRuntime = ManagedIntegrationRuntime | SelfHostedIntegrationRuntime;
 /** Integration runtime status. */
 export type IntegrationRuntimeStatus =
-  | SelfHostedIntegrationRuntimeStatus
-  | ManagedIntegrationRuntimeStatus;
+  SelfHostedIntegrationRuntimeStatus | ManagedIntegrationRuntimeStatus;
 /** The scan ruleset. */
 export type ScanRuleset =
   | AzureSubscriptionScanRuleset

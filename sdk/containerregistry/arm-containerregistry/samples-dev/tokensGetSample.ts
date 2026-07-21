@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the properties of the specified token.
  *
  * @summary gets the properties of the specified token.
- * x-ms-original-file: 2026-01-01-preview/TokenGet.json
+ * x-ms-original-file: 2026-03-01-preview/TokenGet.json
  */
 async function tokenGet(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -1373,10 +1373,7 @@ export function outboundRuleDeserializer(item: any): OutboundRule {
 
 /** Alias for OutboundRuleUnion */
 export type OutboundRuleUnion =
-  | FqdnOutboundRule
-  | PrivateEndpointOutboundRule
-  | ServiceTagOutboundRule
-  | OutboundRule;
+  FqdnOutboundRule | PrivateEndpointOutboundRule | ServiceTagOutboundRule | OutboundRule;
 
 export function outboundRuleUnionSerializer(item: OutboundRuleUnion): any {
   switch (item.type) {
@@ -4521,10 +4518,7 @@ export function dataVersionBasePropertiesDeserializer(item: any): DataVersionBas
 
 /** Alias for DataVersionBasePropertiesUnion */
 export type DataVersionBasePropertiesUnion =
-  | MLTableData
-  | UriFileDataVersion
-  | UriFolderDataVersion
-  | DataVersionBaseProperties;
+  MLTableData | UriFileDataVersion | UriFolderDataVersion | DataVersionBaseProperties;
 
 export function dataVersionBasePropertiesUnionSerializer(
   item: DataVersionBasePropertiesUnion,
@@ -6064,8 +6058,7 @@ export function batchDeploymentConfigurationDeserializer(item: any): BatchDeploy
 
 /** Alias for BatchDeploymentConfigurationUnion */
 export type BatchDeploymentConfigurationUnion =
-  | BatchPipelineComponentDeploymentConfiguration
-  | BatchDeploymentConfiguration;
+  BatchPipelineComponentDeploymentConfiguration | BatchDeploymentConfiguration;
 
 export function batchDeploymentConfigurationUnionSerializer(
   item: BatchDeploymentConfigurationUnion,
@@ -6228,10 +6221,7 @@ export function assetReferenceBaseDeserializer(item: any): AssetReferenceBase {
 
 /** Alias for AssetReferenceBaseUnion */
 export type AssetReferenceBaseUnion =
-  | IdAssetReference
-  | DataPathAssetReference
-  | OutputPathAssetReference
-  | AssetReferenceBase;
+  IdAssetReference | DataPathAssetReference | OutputPathAssetReference | AssetReferenceBase;
 
 export function assetReferenceBaseUnionSerializer(item: AssetReferenceBaseUnion): any {
   switch (item.referenceType) {
@@ -10290,9 +10280,7 @@ export function onlineDeploymentPropertiesDeserializer(item: any): OnlineDeploym
 
 /** Alias for OnlineDeploymentPropertiesUnion */
 export type OnlineDeploymentPropertiesUnion =
-  | KubernetesOnlineDeployment
-  | ManagedOnlineDeployment
-  | OnlineDeploymentProperties;
+  KubernetesOnlineDeployment | ManagedOnlineDeployment | OnlineDeploymentProperties;
 
 export function onlineDeploymentPropertiesUnionSerializer(
   item: OnlineDeploymentPropertiesUnion,
@@ -10521,9 +10509,7 @@ export function onlineScaleSettingsDeserializer(item: any): OnlineScaleSettings 
 
 /** Alias for OnlineScaleSettingsUnion */
 export type OnlineScaleSettingsUnion =
-  | DefaultScaleSettings
-  | TargetUtilizationScaleSettings
-  | OnlineScaleSettings;
+  DefaultScaleSettings | TargetUtilizationScaleSettings | OnlineScaleSettings;
 
 export function onlineScaleSettingsUnionSerializer(item: OnlineScaleSettingsUnion): any {
   switch (item.scaleType) {
@@ -11019,10 +11005,7 @@ export function scheduleActionBaseDeserializer(item: any): ScheduleActionBase {
 
 /** Alias for ScheduleActionBaseUnion */
 export type ScheduleActionBaseUnion =
-  | CreateMonitorAction
-  | EndpointScheduleAction
-  | JobScheduleAction
-  | ScheduleActionBase;
+  CreateMonitorAction | EndpointScheduleAction | JobScheduleAction | ScheduleActionBase;
 
 export function scheduleActionBaseUnionSerializer(item: ScheduleActionBaseUnion): any {
   switch (item.actionType) {
@@ -11213,8 +11196,7 @@ export function monitorComputeConfigurationBaseDeserializer(
 
 /** Alias for MonitorComputeConfigurationBaseUnion */
 export type MonitorComputeConfigurationBaseUnion =
-  | MonitorServerlessSparkCompute
-  | MonitorComputeConfigurationBase;
+  MonitorServerlessSparkCompute | MonitorComputeConfigurationBase;
 
 export function monitorComputeConfigurationBaseUnionSerializer(
   item: MonitorComputeConfigurationBaseUnion,
@@ -11306,9 +11288,7 @@ export function monitorComputeIdentityBaseDeserializer(item: any): MonitorComput
 
 /** Alias for MonitorComputeIdentityBaseUnion */
 export type MonitorComputeIdentityBaseUnion =
-  | AmlTokenComputeIdentity
-  | ManagedComputeIdentity
-  | MonitorComputeIdentityBase;
+  AmlTokenComputeIdentity | ManagedComputeIdentity | MonitorComputeIdentityBase;
 
 export function monitorComputeIdentityBaseUnionSerializer(
   item: MonitorComputeIdentityBaseUnion,
@@ -11671,10 +11651,7 @@ export function monitoringInputDataBaseDeserializer(item: any): MonitoringInputD
 
 /** Alias for MonitoringInputDataBaseUnion */
 export type MonitoringInputDataBaseUnion =
-  | FixedInputData
-  | RollingInputData
-  | StaticInputData
-  | MonitoringInputDataBase;
+  FixedInputData | RollingInputData | StaticInputData | MonitoringInputDataBase;
 
 export function monitoringInputDataBaseUnionSerializer(item: MonitoringInputDataBaseUnion): any {
   switch (item.inputDataType) {
@@ -12381,10 +12358,7 @@ export function monitoringFeatureFilterBaseDeserializer(item: any): MonitoringFe
 
 /** Alias for MonitoringFeatureFilterBaseUnion */
 export type MonitoringFeatureFilterBaseUnion =
-  | AllFeatures
-  | FeatureSubset
-  | TopNFeaturesByAttribution
-  | MonitoringFeatureFilterBase;
+  AllFeatures | FeatureSubset | TopNFeaturesByAttribution | MonitoringFeatureFilterBase;
 
 export function monitoringFeatureFilterBaseUnionSerializer(
   item: MonitoringFeatureFilterBaseUnion,
@@ -13529,10 +13503,7 @@ export function identityConfigurationDeserializer(item: any): IdentityConfigurat
 
 /** Alias for IdentityConfigurationUnion */
 export type IdentityConfigurationUnion =
-  | AmlToken
-  | ManagedIdentity
-  | UserIdentity
-  | IdentityConfiguration;
+  AmlToken | ManagedIdentity | UserIdentity | IdentityConfiguration;
 
 export function identityConfigurationUnionSerializer(item: IdentityConfigurationUnion): any {
   switch (item.identityType) {
@@ -14962,9 +14933,7 @@ export function nCrossValidationsDeserializer(item: any): NCrossValidations {
 
 /** Alias for NCrossValidationsUnion */
 export type NCrossValidationsUnion =
-  | AutoNCrossValidations
-  | CustomNCrossValidations
-  | NCrossValidations;
+  AutoNCrossValidations | CustomNCrossValidations | NCrossValidations;
 
 export function nCrossValidationsUnionSerializer(item: NCrossValidationsUnion): any {
   switch (item.mode) {
@@ -15847,9 +15816,7 @@ export function targetRollingWindowSizeDeserializer(item: any): TargetRollingWin
 
 /** Alias for TargetRollingWindowSizeUnion */
 export type TargetRollingWindowSizeUnion =
-  | AutoTargetRollingWindowSize
-  | CustomTargetRollingWindowSize
-  | TargetRollingWindowSize;
+  AutoTargetRollingWindowSize | CustomTargetRollingWindowSize | TargetRollingWindowSize;
 
 export function targetRollingWindowSizeUnionSerializer(item: TargetRollingWindowSizeUnion): any {
   switch (item.mode) {
@@ -16521,10 +16488,7 @@ export function earlyTerminationPolicyDeserializer(item: any): EarlyTerminationP
 
 /** Alias for EarlyTerminationPolicyUnion */
 export type EarlyTerminationPolicyUnion =
-  | BanditPolicy
-  | MedianStoppingPolicy
-  | TruncationSelectionPolicy
-  | EarlyTerminationPolicy;
+  BanditPolicy | MedianStoppingPolicy | TruncationSelectionPolicy | EarlyTerminationPolicy;
 
 export function earlyTerminationPolicyUnionSerializer(item: EarlyTerminationPolicyUnion): any {
   switch (item.policyType) {
@@ -18013,11 +17977,7 @@ export function distributionConfigurationDeserializer(item: any): DistributionCo
 
 /** Alias for DistributionConfigurationUnion */
 export type DistributionConfigurationUnion =
-  | Mpi
-  | PyTorch
-  | Ray
-  | TensorFlow
-  | DistributionConfiguration;
+  Mpi | PyTorch | Ray | TensorFlow | DistributionConfiguration;
 
 export function distributionConfigurationUnionSerializer(
   item: DistributionConfigurationUnion,
@@ -18756,9 +18716,7 @@ export function fineTuningVerticalDeserializer(item: any): FineTuningVertical {
 
 /** Alias for FineTuningVerticalUnion */
 export type FineTuningVerticalUnion =
-  | AzureOpenAiFineTuning
-  | CustomModelFineTuning
-  | FineTuningVertical;
+  AzureOpenAiFineTuning | CustomModelFineTuning | FineTuningVertical;
 
 export function fineTuningVerticalUnionSerializer(item: FineTuningVerticalUnion): any {
   switch (item.modelProvider) {
@@ -19558,10 +19516,7 @@ export function samplingAlgorithmDeserializer(item: any): SamplingAlgorithm {
 
 /** Alias for SamplingAlgorithmUnion */
 export type SamplingAlgorithmUnion =
-  | BayesianSamplingAlgorithm
-  | GridSamplingAlgorithm
-  | RandomSamplingAlgorithm
-  | SamplingAlgorithm;
+  BayesianSamplingAlgorithm | GridSamplingAlgorithm | RandomSamplingAlgorithm | SamplingAlgorithm;
 
 export function samplingAlgorithmUnionSerializer(item: SamplingAlgorithmUnion): any {
   switch (item.samplingAlgorithmType) {
@@ -24385,10 +24340,7 @@ export function computeSecretsDeserializer(item: any): ComputeSecrets {
 
 /** Alias for ComputeSecretsUnion */
 export type ComputeSecretsUnion =
-  | AksComputeSecrets
-  | VirtualMachineSecrets
-  | DatabricksComputeSecrets
-  | ComputeSecrets;
+  AksComputeSecrets | VirtualMachineSecrets | DatabricksComputeSecrets | ComputeSecrets;
 
 export function computeSecretsUnionDeserializer(item: any): ComputeSecretsUnion {
   switch (item["computeType"]) {

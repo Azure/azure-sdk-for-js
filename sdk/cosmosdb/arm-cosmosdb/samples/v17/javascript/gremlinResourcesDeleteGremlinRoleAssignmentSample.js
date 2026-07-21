@@ -1,0 +1,28 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+/**
+ * This sample demonstrates how to deletes an existing Azure Cosmos DB Gremlin Role Assignment.
+ *
+ * @summary deletes an existing Azure Cosmos DB Gremlin Role Assignment.
+ * x-ms-original-file: 2026-03-15/gremlinrbac/CosmosDBGremlinRoleAssignmentDelete.json
+ */
+async function cosmosDBGremlinRoleAssignmentDelete() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const client = new CosmosDBManagementClient(credential, subscriptionId);
+  await client.gremlinResources.deleteGremlinRoleAssignment(
+    "myResourceGroupName",
+    "myAccountName",
+    "myRoleAssignmentId",
+  );
+}
+
+async function main() {
+  await cosmosDBGremlinRoleAssignmentDelete();
+}
+
+main().catch(console.error);

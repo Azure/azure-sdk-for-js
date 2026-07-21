@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes the specified Content Filters associated with the subscription.
  *
  * @summary deletes the specified Content Filters associated with the subscription.
- * x-ms-original-file: 2026-03-15-preview/DeleteSubscriptionRaiPolicy.json
+ * x-ms-original-file: 2026-05-15-preview/DeleteSubscriptionRaiPolicy.json
  */
 async function deleteRaiPolicy() {
   const credential = new DefaultAzureCredential();

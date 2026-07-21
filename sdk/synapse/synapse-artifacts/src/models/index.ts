@@ -11,9 +11,7 @@ import type * as coreClient from "@azure/core-client";
 export type SecretBaseUnion = SecretBase | SecureString | AzureKeyVaultSecretReference;
 export type DataFlowUnion = DataFlow | MappingDataFlow | Flowlet;
 export type IntegrationRuntimeUnion =
-  | IntegrationRuntime
-  | ManagedIntegrationRuntime
-  | SelfHostedIntegrationRuntime;
+  IntegrationRuntime | ManagedIntegrationRuntime | SelfHostedIntegrationRuntime;
 export type DatasetUnion =
   | Dataset
   | AmazonS3Dataset
@@ -244,10 +242,7 @@ export type LinkedServiceUnion =
   | WarehouseLinkedService
   | ServiceNowV2LinkedService;
 export type ActivityUnion =
-  | Activity
-  | ControlActivityUnion
-  | ExecutionActivityUnion
-  | SqlPoolStoredProcedureActivity;
+  Activity | ControlActivityUnion | ExecutionActivityUnion | SqlPoolStoredProcedureActivity;
 export type TriggerUnion =
   | Trigger
   | RerunTumblingWindowTrigger
@@ -269,12 +264,7 @@ export type DatasetLocationUnion =
   | HdfsLocation
   | LakeHouseLocation;
 export type DatasetStorageFormatUnion =
-  | DatasetStorageFormat
-  | TextFormat
-  | JsonFormat
-  | AvroFormat
-  | OrcFormat
-  | ParquetFormat;
+  DatasetStorageFormat | TextFormat | JsonFormat | AvroFormat | OrcFormat | ParquetFormat;
 export type WebLinkedServiceTypePropertiesUnion =
   | WebLinkedServiceTypeProperties
   | WebAnonymousAuthentication
@@ -311,10 +301,7 @@ export type FormatReadSettingsUnion =
   | XmlReadSettings
   | BinaryReadSettings;
 export type CompressionReadSettingsUnion =
-  | CompressionReadSettings
-  | ZipDeflateReadSettings
-  | TarReadSettings
-  | TarGZipReadSettings;
+  CompressionReadSettings | ZipDeflateReadSettings | TarReadSettings | TarGZipReadSettings;
 export type FormatWriteSettingsUnion =
   | FormatWriteSettings
   | AvroWriteSettings
@@ -417,9 +404,7 @@ export type ImportSettingsUnion =
   | AzureDatabricksDeltaLakeImportCommand
   | SnowflakeImportCopyCommand;
 export type ExportSettingsUnion =
-  | ExportSettings
-  | SnowflakeExportCopyCommand
-  | AzureDatabricksDeltaLakeExportCommand;
+  ExportSettings | SnowflakeExportCopyCommand | AzureDatabricksDeltaLakeExportCommand;
 export type CopyTranslatorUnion = CopyTranslator | TabularTranslator;
 export type DependencyReferenceUnion =
   | DependencyReference
@@ -472,11 +457,7 @@ export type ExecutionActivityUnion =
   | SynapseNotebookActivity
   | SynapseSparkJobDefinitionActivity;
 export type MultiplePipelineTriggerUnion =
-  | MultiplePipelineTrigger
-  | ScheduleTrigger
-  | BlobTrigger
-  | BlobEventsTrigger
-  | CustomEventsTrigger;
+  MultiplePipelineTrigger | ScheduleTrigger | BlobTrigger | BlobEventsTrigger | CustomEventsTrigger;
 export type TabularSourceUnion =
   | TabularSource
   | AzureTableSource
@@ -544,8 +525,7 @@ export type TabularSourceUnion =
   | SalesforceV2Source
   | ServiceNowV2Source;
 export type TriggerDependencyReferenceUnion =
-  | TriggerDependencyReference
-  | TumblingWindowTriggerDependencyReference;
+  TriggerDependencyReference | TumblingWindowTriggerDependencyReference;
 
 export interface LinkConnectionListResponse {
   /** List link connection value */
@@ -14986,13 +14966,7 @@ export type ResourceIdentityType = "None" | "SystemAssigned";
 export type ImpalaThriftTransportProtocol = "Binary" | "HTTP";
 /** Defines values for DayOfWeek. */
 export type DayOfWeek =
-  | "Sunday"
-  | "Monday"
-  | "Tuesday"
-  | "Wednesday"
-  | "Thursday"
-  | "Friday"
-  | "Saturday";
+  "Sunday" | "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday";
 
 /** Optional parameters. */
 export interface LinkConnectionListByWorkspaceOptionalParams extends coreClient.OperationOptions {}

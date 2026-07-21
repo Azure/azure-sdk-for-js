@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list available Models for the requested Cognitive Services account
  *
  * @summary list available Models for the requested Cognitive Services account
- * x-ms-original-file: 2026-03-15-preview/ListAccountModels.json
+ * x-ms-original-file: 2026-05-15-preview/ListAccountModels.json
  */
 async function listAccountModels() {
   const credential = new DefaultAzureCredential();

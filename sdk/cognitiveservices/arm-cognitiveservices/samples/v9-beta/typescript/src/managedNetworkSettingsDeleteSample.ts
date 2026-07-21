@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete API for managed network settings of a cognitive services account.
  *
  * @summary delete API for managed network settings of a cognitive services account.
- * x-ms-original-file: 2026-03-15-preview/ManagedNetwork/deleteManagedNetworkV2.json
+ * x-ms-original-file: 2026-05-15-preview/ManagedNetwork/deleteManagedNetworkV2.json
  */
 async function deleteManagedNetworkSettings(): Promise<void> {
   const credential = new DefaultAzureCredential();

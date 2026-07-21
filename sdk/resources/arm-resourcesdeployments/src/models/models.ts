@@ -1615,13 +1615,7 @@ export function whatIfChangeDeserializer(item: any): WhatIfChange {
 
 /** Type of change that will be made to the resource when the deployment is executed. */
 export type ChangeType =
-  | "Create"
-  | "Delete"
-  | "Ignore"
-  | "Deploy"
-  | "NoChange"
-  | "Modify"
-  | "Unsupported";
+  "Create" | "Delete" | "Ignore" | "Deploy" | "NoChange" | "Modify" | "Unsupported";
 
 export function whatIfPropertyChangeArrayDeserializer(result: Array<WhatIfPropertyChange>): any[] {
   return result.map((item) => {

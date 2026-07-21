@@ -1,5 +1,14 @@
+# warp.config.yml — build configuration
 
-extends: ../../../warp.base.config.yml
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./models": "./src/models/index.ts"
+  "./models/policyInsightsApi": "./src/models/policyInsightsApi/index.ts"
+  "./models/policyInsightsCommon": "./src/models/policyInsightsCommon/index.ts"
+  "./models/policyInsightsManagementClient": "./src/models/policyInsightsManagementClient/index.ts"
+  "./models/policyTrackedResourcesApi": "./src/models/policyTrackedResourcesApi/index.ts"
 
 targets:
   - name: browser

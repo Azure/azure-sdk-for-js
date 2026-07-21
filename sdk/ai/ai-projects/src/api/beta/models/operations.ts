@@ -84,7 +84,7 @@ export async function _getCredentialsDeserialize(
   return datasetCredentialDeserializer(result.body);
 }
 
-/** Get credentials for a model version asset. */
+/** Retrieves temporary credentials for accessing the storage backing the specified model version. */
 export async function getCredentials(
   context: Client,
   name: string,
@@ -138,7 +138,7 @@ export async function _pendingUploadDeserialize(
   return modelPendingUploadResponseDeserializer(result.body);
 }
 
-/** Start or retrieve a pending upload for a model version. */
+/** Initiates a new pending upload or retrieves an existing one for the specified model version. */
 export async function pendingUpload(
   context: Client,
   name: string,
@@ -193,7 +193,7 @@ export async function _pendingCreateVersionDeserialize(result: PathUncheckedResp
   return _createAsyncResponseDeserializer(result.body);
 }
 
-/** Creates a model version asynchronously with blob content validation. Returns 202 Accepted with a Location header for polling. */
+/** Creates a model version asynchronously with blob content validation. Returns 202 Accepted with a location header for polling the operation status. */
 export async function pendingCreateVersion(
   context: Client,
   name: string,
@@ -211,7 +211,7 @@ export async function pendingCreateVersion(
 export function _updateSend(
   context: Client,
   name: string,
-  body: UpdateModelVersionRequest,
+  modelVersionUpdate: UpdateModelVersionRequest,
   version: string,
   options: BetaModelsUpdateOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
@@ -235,7 +235,7 @@ export function _updateSend(
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
-    body: updateModelVersionRequestSerializer(body),
+    body: updateModelVersionRequestSerializer(modelVersionUpdate),
   });
 }
 
@@ -252,11 +252,11 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 export async function update(
   context: Client,
   name: string,
-  body: UpdateModelVersionRequest,
+  modelVersionUpdate: UpdateModelVersionRequest,
   version: string,
   options: BetaModelsUpdateOptionalParams = { requestOptions: {} },
 ): Promise<ModelVersion> {
-  const result = await _updateSend(context, name, body, version, options);
+  const result = await _updateSend(context, name, modelVersionUpdate, version, options);
   return _updateDeserialize(result);
 }
 
@@ -341,7 +341,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Mo
   return modelVersionDeserializer(result.body);
 }
 
-/** Get the specific version of the ModelVersion. The service returns 404 Not Found error if the ModelVersion does not exist. */
+/** Retrieves the specified model version, returning 404 if it does not exist. */
 export async function get(
   context: Client,
   name: string,

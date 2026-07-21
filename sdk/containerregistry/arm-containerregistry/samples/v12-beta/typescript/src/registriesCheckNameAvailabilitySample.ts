@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to checks whether the container registry name is available for use. The name must contain only alphanumeric characters, be globally unique, and between 5 and 50 characters in length.
  *
  * @summary checks whether the container registry name is available for use. The name must contain only alphanumeric characters, be globally unique, and between 5 and 50 characters in length.
- * x-ms-original-file: 2026-01-01-preview/RegistryCheckNameAvailable.json
+ * x-ms-original-file: 2026-03-01-preview/RegistryCheckNameAvailable.json
  */
 async function registryCheckNameAvailable(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,7 @@ async function registryCheckNameAvailable(): Promise<void> {
  * This sample demonstrates how to checks whether the container registry name is available for use. The name must contain only alphanumeric characters, be globally unique, and between 5 and 50 characters in length.
  *
  * @summary checks whether the container registry name is available for use. The name must contain only alphanumeric characters, be globally unique, and between 5 and 50 characters in length.
- * x-ms-original-file: 2026-01-01-preview/RegistryCheckNameNotAvailable.json
+ * x-ms-original-file: 2026-03-01-preview/RegistryCheckNameNotAvailable.json
  */
 async function registryCheckNameNotAvailable(): Promise<void> {
   const credential = new DefaultAzureCredential();

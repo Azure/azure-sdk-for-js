@@ -1,7 +1,7 @@
 # Release History
     
-## 1.0.0-beta.1 (2026-04-22)
+## 1.0.0 (2026-07-06)
 
 ### Features Added
 
-Initial release of the @azure/arm-alertprocessingrules package
+This is the first stable release of the @azure/arm-alertprocessingrules package. It introduces a new SDK generation with layered APIs, smaller bundles, and improved ergonomics. For more details, see the https://aka.ms/azsdk/js/sdk/quickstart.

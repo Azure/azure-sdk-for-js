@@ -89,8 +89,7 @@ export default function createClient(
 // Implementation
 export default function createClient(
   arg1?:
-    | string
-    | (TranslatorCredential | TranslatorTokenCredential | KeyCredential | TokenCredential),
+    string | (TranslatorCredential | TranslatorTokenCredential | KeyCredential | TokenCredential),
   arg2?:
     | (TranslatorCredential | TranslatorTokenCredential | KeyCredential | TokenCredential)
     | ClientOptions,
@@ -101,11 +100,7 @@ export default function createClient(
   let endpoint: string | undefined;
   let options: ClientOptions | undefined;
   let credential:
-    | TranslatorCredential
-    | TranslatorTokenCredential
-    | KeyCredential
-    | TokenCredential
-    | undefined;
+    TranslatorCredential | TranslatorTokenCredential | KeyCredential | TokenCredential | undefined;
 
   if (typeof arg1 === "string") {
     endpoint = arg1;
@@ -116,10 +111,7 @@ export default function createClient(
     options = arg2 as ClientOptions;
   } else if (isCredentials(arg2)) {
     credential = arg2 as
-      | TranslatorCredential
-      | TranslatorTokenCredential
-      | KeyCredential
-      | TokenCredential;
+      TranslatorCredential | TranslatorTokenCredential | KeyCredential | TokenCredential;
     options = arg3;
   }
 
@@ -139,7 +131,7 @@ export default function createClient(
 
   const baseUrl = options.baseUrl ?? `${serviceEndpoint}`;
 
-  const userAgentInfo = `azsdk-js-ai-translation-text-rest/2.0.0`;
+  const userAgentInfo = `azsdk-js-ai-translation-text-rest/2.0.1`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`

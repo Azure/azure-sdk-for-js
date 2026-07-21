@@ -957,8 +957,7 @@ export interface UniformInt64RangePartitionSchemeDescriptionOutput extends Parti
 
 /** The service resource properties. */
 export type ServiceResourcePropertiesOutput =
-  | StatefulServicePropertiesOutput
-  | StatelessServicePropertiesOutput;
+  StatefulServicePropertiesOutput | StatelessServicePropertiesOutput;
 /** Describes how the service is partitioned. */
 export type PartitionSchemeDescriptionOutput =
   | NamedPartitionSchemeDescriptionOutput
@@ -966,5 +965,4 @@ export type PartitionSchemeDescriptionOutput =
   | UniformInt64RangePartitionSchemeDescriptionOutput;
 /** The service resource properties for patch operations. */
 export type ServiceResourceUpdatePropertiesOutput =
-  | StatefulServiceUpdatePropertiesOutput
-  | StatelessServiceUpdatePropertiesOutput;
+  StatefulServiceUpdatePropertiesOutput | StatelessServiceUpdatePropertiesOutput;

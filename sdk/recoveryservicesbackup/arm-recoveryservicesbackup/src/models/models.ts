@@ -896,8 +896,7 @@ export function vaultStorageConfigOperationResultResponseDeserializer(
 
 /** Alias for VaultStorageConfigOperationResultResponseUnion */
 export type VaultStorageConfigOperationResultResponseUnion =
-  | PrepareDataMoveResponse
-  | VaultStorageConfigOperationResultResponse;
+  PrepareDataMoveResponse | VaultStorageConfigOperationResultResponse;
 
 export function vaultStorageConfigOperationResultResponseUnionDeserializer(
   item: any,
@@ -4265,10 +4264,7 @@ export function backupRequestSerializer(item: BackupRequest): any {
 
 /** Alias for BackupRequestUnion */
 export type BackupRequestUnion =
-  | AzureFileShareBackupRequest
-  | AzureWorkloadBackupRequest
-  | IaasVMBackupRequest
-  | BackupRequest;
+  AzureFileShareBackupRequest | AzureWorkloadBackupRequest | IaasVMBackupRequest | BackupRequest;
 
 export function backupRequestUnionSerializer(item: BackupRequestUnion): any {
   switch (item.objectType) {
@@ -5212,8 +5208,7 @@ export function azureWorkloadSQLRecoveryPointDeserializer(
 
 /** Alias for AzureWorkloadSQLRecoveryPointUnion */
 export type AzureWorkloadSQLRecoveryPointUnion =
-  | AzureWorkloadSQLPointInTimeRecoveryPoint
-  | AzureWorkloadSQLRecoveryPoint;
+  AzureWorkloadSQLPointInTimeRecoveryPoint | AzureWorkloadSQLRecoveryPoint;
 
 export function azureWorkloadSQLRecoveryPointUnionDeserializer(
   item: any,
@@ -6059,9 +6054,7 @@ export function iaaSVMContainerDeserializer(item: any): IaaSVMContainer {
 
 /** Alias for IaaSVMContainerUnion */
 export type IaaSVMContainerUnion =
-  | AzureIaaSClassicComputeVMContainer
-  | AzureIaaSComputeVMContainer
-  | IaaSVMContainer;
+  AzureIaaSClassicComputeVMContainer | AzureIaaSComputeVMContainer | IaaSVMContainer;
 
 export function iaaSVMContainerUnionSerializer(item: IaaSVMContainerUnion): any {
   switch (item.containerType) {
@@ -8258,8 +8251,7 @@ export function azureWorkloadSAPAseRestoreRequestSerializer(
 
 /** Alias for AzureWorkloadSAPAseRestoreRequestUnion */
 export type AzureWorkloadSAPAseRestoreRequestUnion =
-  | AzureWorkloadSAPAsePointInTimeRestoreRequest
-  | AzureWorkloadSAPAseRestoreRequest;
+  AzureWorkloadSAPAsePointInTimeRestoreRequest | AzureWorkloadSAPAseRestoreRequest;
 
 export function azureWorkloadSAPAseRestoreRequestUnionSerializer(
   item: AzureWorkloadSAPAseRestoreRequestUnion,
@@ -8760,9 +8752,7 @@ export function targetDiskNetworkAccessSettingsSerializer(
 
 /** Network access settings to be used for restored disks */
 export type TargetDiskNetworkAccessOption =
-  | "SameAsOnSourceDisks"
-  | "EnablePrivateAccessForAllDisks"
-  | "EnablePublicAccessForAllDisks";
+  "SameAsOnSourceDisks" | "EnablePrivateAccessForAllDisks" | "EnablePublicAccessForAllDisks";
 
 /** IaaS VM workload-specific restore with integrated rehydration of recovery point. */
 export interface IaasVMRestoreWithRehydrationRequest extends IaasVMRestoreRequest {
@@ -8867,9 +8857,7 @@ export function ilrRequestSerializer(item: ILRRequest): any {
 
 /** Alias for ILRRequestUnion */
 export type ILRRequestUnion =
-  | AzureFileShareProvisionILRRequest
-  | IaasVmilrRegistrationRequest
-  | ILRRequest;
+  AzureFileShareProvisionILRRequest | IaasVmilrRegistrationRequest | ILRRequest;
 
 export function ilrRequestUnionSerializer(item: ILRRequestUnion): any {
   switch (item.objectType) {
@@ -9462,13 +9450,7 @@ export enum KnownScheduleRunType {
 export type ScheduleRunType = string;
 /** Type of DayOfWeek */
 export type DayOfWeek =
-  | "Sunday"
-  | "Monday"
-  | "Tuesday"
-  | "Wednesday"
-  | "Thursday"
-  | "Friday"
-  | "Saturday";
+  "Sunday" | "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday";
 
 /** model interface HourlySchedule */
 export interface HourlySchedule {
@@ -9631,9 +9613,7 @@ export function retentionPolicyDeserializer(item: any): RetentionPolicy {
 
 /** Alias for RetentionPolicyUnion */
 export type RetentionPolicyUnion =
-  | LongTermRetentionPolicy
-  | SimpleRetentionPolicy
-  | RetentionPolicy;
+  LongTermRetentionPolicy | SimpleRetentionPolicy | RetentionPolicy;
 
 export function retentionPolicyUnionSerializer(item: RetentionPolicyUnion): any {
   switch (item.retentionPolicyType) {
@@ -11630,9 +11610,7 @@ export function operationResultInfoBaseDeserializer(item: any): OperationResultI
 
 /** Alias for OperationResultInfoBaseUnion */
 export type OperationResultInfoBaseUnion =
-  | ExportJobsOperationResultInfo
-  | OperationResultInfo
-  | OperationResultInfoBase;
+  ExportJobsOperationResultInfo | OperationResultInfo | OperationResultInfoBase;
 
 export function operationResultInfoBaseUnionDeserializer(item: any): OperationResultInfoBaseUnion {
   switch (item["objectType"]) {
@@ -12583,8 +12561,7 @@ export function azureRecoveryServiceVaultProtectionIntentDeserializer(
 
 /** Alias for AzureRecoveryServiceVaultProtectionIntentUnion */
 export type AzureRecoveryServiceVaultProtectionIntentUnion =
-  | AzureWorkloadAutoProtectionIntentUnion
-  | AzureRecoveryServiceVaultProtectionIntent;
+  AzureWorkloadAutoProtectionIntentUnion | AzureRecoveryServiceVaultProtectionIntent;
 
 export function azureRecoveryServiceVaultProtectionIntentUnionSerializer(
   item: AzureRecoveryServiceVaultProtectionIntentUnion,
@@ -12621,8 +12598,7 @@ export interface AzureWorkloadAutoProtectionIntent extends AzureRecoveryServiceV
   /** backup protectionIntent type. */
   /** The discriminator possible values: AzureWorkloadSQLAutoProtectionIntent */
   protectionIntentItemType:
-    | "AzureWorkloadAutoProtectionIntent"
-    | "AzureWorkloadSQLAutoProtectionIntent";
+    "AzureWorkloadAutoProtectionIntent" | "AzureWorkloadSQLAutoProtectionIntent";
 }
 
 export function azureWorkloadAutoProtectionIntentSerializer(
@@ -12653,8 +12629,7 @@ export function azureWorkloadAutoProtectionIntentDeserializer(
 
 /** Alias for AzureWorkloadAutoProtectionIntentUnion */
 export type AzureWorkloadAutoProtectionIntentUnion =
-  | AzureWorkloadSQLAutoProtectionIntent
-  | AzureWorkloadAutoProtectionIntent;
+  AzureWorkloadSQLAutoProtectionIntent | AzureWorkloadAutoProtectionIntent;
 
 export function azureWorkloadAutoProtectionIntentUnionSerializer(
   item: AzureWorkloadAutoProtectionIntentUnion,
@@ -12972,8 +12947,7 @@ export function validateOperationRequestSerializer(item: ValidateOperationReques
 
 /** Alias for ValidateOperationRequestUnion */
 export type ValidateOperationRequestUnion =
-  | ValidateRestoreOperationRequestUnion
-  | ValidateOperationRequest;
+  ValidateRestoreOperationRequestUnion | ValidateOperationRequest;
 
 export function validateOperationRequestUnionSerializer(item: ValidateOperationRequestUnion): any {
   switch (item.objectType) {
@@ -13027,8 +13001,7 @@ export function validateRestoreOperationRequestSerializer(
 
 /** Alias for ValidateRestoreOperationRequestUnion */
 export type ValidateRestoreOperationRequestUnion =
-  | ValidateIaasVMRestoreOperationRequest
-  | ValidateRestoreOperationRequest;
+  ValidateIaasVMRestoreOperationRequest | ValidateRestoreOperationRequest;
 
 export function validateRestoreOperationRequestUnionSerializer(
   item: ValidateRestoreOperationRequestUnion,
@@ -13145,9 +13118,7 @@ export function protectableContainerDeserializer(item: any): ProtectableContaine
 
 /** Alias for ProtectableContainerUnion */
 export type ProtectableContainerUnion =
-  | AzureStorageProtectableContainer
-  | AzureVMAppContainerProtectableContainer
-  | ProtectableContainer;
+  AzureStorageProtectableContainer | AzureVMAppContainerProtectableContainer | ProtectableContainer;
 
 export function protectableContainerUnionDeserializer(item: any): ProtectableContainerUnion {
   switch (item["protectableContainerType"]) {
@@ -14163,9 +14134,7 @@ export function tieringCostInfoDeserializer(item: any): TieringCostInfo {
 
 /** Alias for TieringCostInfoUnion */
 export type TieringCostInfoUnion =
-  | TieringCostRehydrationInfo
-  | TieringCostSavingInfo
-  | TieringCostInfo;
+  TieringCostRehydrationInfo | TieringCostSavingInfo | TieringCostInfo;
 
 export function tieringCostInfoUnionDeserializer(item: any): TieringCostInfoUnion {
   switch (item["objectType"]) {

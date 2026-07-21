@@ -1,24 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { QueueServiceClient } from "../src/QueueServiceClient.js";
-import {
-  getAlternateQSU,
-  getQSU,
-  getSASConnectionStringFromEnvironment,
-  uriSanitizers,
-} from "./utils/index.js";
+import { getAlternateQSU, getQSU, getSASConnectionStringFromEnvironment } from "./utils/index.js";
 import { delay, Recorder } from "@azure-tools/test-recorder";
 import { getYieldedValue } from "@azure-tools/test-utils-vitest";
-import { configureStorageClient, getUniqueName, recorderEnvSetup } from "./utils/index.js";
+import { configureStorageClient, createAndStartRecorder, getUniqueName } from "./utils/index.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("QueueServiceClient", () => {
   let recorder: Recorder;
 
   beforeEach(async (ctx) => {
-    recorder = new Recorder(ctx);
-    await recorder.start(recorderEnvSetup);
-    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    recorder = await createAndStartRecorder(ctx);
   });
 
   afterEach(async () => {
@@ -361,7 +354,7 @@ describe("QueueServiceClient", () => {
     }
     assert.equal(err.details.errorCode, "QueueNotFound", "Error does not contain details property");
     assert.isTrue(
-      err.message.startsWith("The specified queue does not exist."),
+      err.details.message.startsWith("The specified queue does not exist."),
       "Error doesn't say `QueueNotFound`",
     );
   });

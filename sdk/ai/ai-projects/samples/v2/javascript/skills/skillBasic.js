@@ -11,9 +11,8 @@
  * @summary Demonstrates CRUD operations on Skills using the beta skills API.
  */
 
-const { AIProjectClient } = require("@azure/ai-projects");
+const { AIProjectClient, RestError } = require("@azure/ai-projects");
 const { DefaultAzureCredential } = require("@azure/identity");
-const { RestError } = require("@azure/core-rest-pipeline");
 require("dotenv/config");
 
 const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";

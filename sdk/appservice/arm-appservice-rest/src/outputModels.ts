@@ -2916,11 +2916,7 @@ export interface RevisionPropertiesOutput {
   readonly healthState?: "Healthy" | "Unhealthy" | "None";
   /** Current provisioning State of the revision */
   readonly provisioningState?:
-    | "Provisioning"
-    | "Provisioned"
-    | "Failed"
-    | "Deprovisioning"
-    | "Deprovisioned";
+    "Provisioning" | "Provisioned" | "Failed" | "Deprovisioning" | "Deprovisioned";
 }
 
 /** Collection of deleted apps. */
@@ -4503,12 +4499,7 @@ export interface StaticSiteCustomDomainOverviewARMResourcePropertiesOutput {
   readonly createdOn?: string;
   /** The status of the custom domain */
   readonly status?:
-    | "RetrievingValidationToken"
-    | "Validating"
-    | "Adding"
-    | "Ready"
-    | "Failed"
-    | "Deleting";
+    "RetrievingValidationToken" | "Validating" | "Adding" | "Ready" | "Failed" | "Deleting";
   /** The TXT record validation token */
   readonly validationToken?: string;
   readonly errorMessage?: string;
@@ -4905,12 +4896,7 @@ export interface SiteAuthSettingsPropertiesOutput {
    * action is set to "RedirectToLoginPage".
    */
   defaultProvider?:
-    | "AzureActiveDirectory"
-    | "Facebook"
-    | "Google"
-    | "MicrosoftAccount"
-    | "Twitter"
-    | "Github";
+    "AzureActiveDirectory" | "Facebook" | "Google" | "MicrosoftAccount" | "Twitter" | "Github";
   /**
    * The number of hours after session token expiration that a session token can be used to
    * call the token refresh API. The default is 72 hours.
@@ -5121,10 +5107,7 @@ export interface GlobalValidationOutput {
   requireAuthentication?: boolean;
   /** The action to take when an unauthenticated client attempts to access the app. */
   unauthenticatedClientAction?:
-    | "RedirectToLoginPage"
-    | "AllowAnonymous"
-    | "Return401"
-    | "Return403";
+    "RedirectToLoginPage" | "AllowAnonymous" | "Return401" | "Return403";
   /**
    * The default authentication provider to use when multiple providers are configured.
    * This setting is only needed if multiple providers are configured and the unauthenticated client
@@ -6344,11 +6327,7 @@ export interface MigrateMySqlStatusOutput extends ProxyOnlyResourceOutput {
 export interface MigrateMySqlStatusPropertiesOutput {
   /** Status of the migration task. */
   readonly migrationOperationStatus?:
-    | "InProgress"
-    | "Failed"
-    | "Succeeded"
-    | "TimedOut"
-    | "Created";
+    "InProgress" | "Failed" | "Succeeded" | "TimedOut" | "Created";
   /** Operation ID for the migration task. */
   readonly operationId?: string;
   /** True if the web app has in app MySql enabled */

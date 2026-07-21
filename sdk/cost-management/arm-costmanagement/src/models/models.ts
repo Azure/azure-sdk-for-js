@@ -5411,9 +5411,7 @@ export function benefitUtilizationSummaryDeserializer(item: any): BenefitUtiliza
 
 /** Alias for BenefitUtilizationSummaryUnion */
 export type BenefitUtilizationSummaryUnion =
-  | IncludedQuantityUtilizationSummary
-  | SavingsPlanUtilizationSummary
-  | BenefitUtilizationSummary;
+  IncludedQuantityUtilizationSummary | SavingsPlanUtilizationSummary | BenefitUtilizationSummary;
 
 export function benefitUtilizationSummaryUnionDeserializer(
   item: any,

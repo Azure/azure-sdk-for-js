@@ -2266,11 +2266,7 @@ export function sharedPrivateLinkResourcePropertiesDeserializer(
 
 /** Status of the shared private link resource. Can be Pending, Approved, Rejected, Disconnected, or Timeout. */
 export type SharedPrivateLinkResourceStatus =
-  | "Pending"
-  | "Approved"
-  | "Rejected"
-  | "Disconnected"
-  | "Timeout";
+  "Pending" | "Approved" | "Rejected" | "Disconnected" | "Timeout";
 
 /** AFDOrigin properties needed for origin update. */
 export interface AFDOriginUpdateParameters {
@@ -7186,8 +7182,7 @@ export function securityPolicyPropertiesParametersDeserializer(
 
 /** Alias for SecurityPolicyPropertiesParametersUnion */
 export type SecurityPolicyPropertiesParametersUnion =
-  | SecurityPolicyWebApplicationFirewallParameters
-  | SecurityPolicyPropertiesParameters;
+  SecurityPolicyWebApplicationFirewallParameters | SecurityPolicyPropertiesParameters;
 
 export function securityPolicyPropertiesParametersUnionSerializer(
   item: SecurityPolicyPropertiesParametersUnion,
@@ -8446,10 +8441,7 @@ export function endpointPropertiesUpdateParametersDeserializer(
 
 /** Defines how CDN caches requests that include query strings. You can ignore any query strings when caching, bypass caching to prevent requests that contain query strings from being cached, or cache every request with a unique URL. */
 export type QueryStringCachingBehavior =
-  | "IgnoreQueryString"
-  | "BypassCaching"
-  | "UseQueryString"
-  | "NotSet";
+  "IgnoreQueryString" | "BypassCaching" | "UseQueryString" | "NotSet";
 
 export function geoFilterArraySerializer(result: Array<GeoFilter>): any[] {
   return result.map((item) => {
@@ -9494,9 +9486,7 @@ export function customDomainHttpsParametersDeserializer(item: any): CustomDomain
 
 /** Alias for CustomDomainHttpsParametersUnion */
 export type CustomDomainHttpsParametersUnion =
-  | CdnManagedHttpsParameters
-  | UserManagedHttpsParameters
-  | CustomDomainHttpsParameters;
+  CdnManagedHttpsParameters | UserManagedHttpsParameters | CustomDomainHttpsParameters;
 
 export function customDomainHttpsParametersUnionSerializer(
   item: CustomDomainHttpsParametersUnion,

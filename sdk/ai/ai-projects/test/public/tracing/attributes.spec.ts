@@ -1,14 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { describe, it, assert } from "vitest";
 import type { Span } from "@opentelemetry/api";
-import { enableGenAITracing } from "../../../src/tracing/configuration.js";
 import {
   setCommonAttributes,
-  setAgentAttributes,
-  setAgentVersionAttributes,
-  setDefinitionAttributes,
+  setAgentAttributes as _setAgentAttributes,
+  setAgentVersionAttributes as _setAgentVersionAttributes,
+  setDefinitionAttributes as _setDefinitionAttributes,
   setResponseAttributes,
   setErrorAttributes,
 } from "../../../src/tracing/attributes.js";
@@ -92,15 +91,28 @@ function createMockSpan(): Span & {
   } as any;
 }
 
-// Save and restore env vars around each test
-let savedContentEnv: string | undefined;
+// Track content recording state for tests
+let _contentRecording = false;
 
 function enableContentRecording(): void {
-  enableGenAITracing({ experimental: true, contentRecording: true });
+  _contentRecording = true;
 }
 
 function disableContentRecording(): void {
-  enableGenAITracing({ experimental: true, contentRecording: false });
+  _contentRecording = false;
+}
+
+// Wrappers that pass the current content recording state
+function setAgentAttributes(span: any, agent: any): void {
+  _setAgentAttributes(span, agent, _contentRecording);
+}
+
+function setAgentVersionAttributes(span: any, version: any): void {
+  _setAgentVersionAttributes(span, version, _contentRecording);
+}
+
+function setDefinitionAttributes(span: any, definition: any): void {
+  _setDefinitionAttributes(span, definition, _contentRecording);
 }
 
 describe("setCommonAttributes", () => {
@@ -167,18 +179,6 @@ describe("setAgentAttributes", () => {
 });
 
 describe("setDefinitionAttributes", () => {
-  beforeEach(() => {
-    savedContentEnv = process.env.OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT;
-  });
-
-  afterEach(() => {
-    if (savedContentEnv === undefined) {
-      delete process.env.OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT;
-    } else {
-      process.env.OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT = savedContentEnv;
-    }
-  });
-
   it("always sets model for prompt agents regardless of content recording", () => {
     disableContentRecording();
     const span = createMockSpan();
@@ -298,18 +298,6 @@ describe("setErrorAttributes", () => {
 // ---- Hosted agent definition ----
 
 describe("setDefinitionAttributes - hosted agent", () => {
-  beforeEach(() => {
-    savedContentEnv = process.env.OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT;
-  });
-
-  afterEach(() => {
-    if (savedContentEnv === undefined) {
-      delete process.env.OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT;
-    } else {
-      process.env.OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT = savedContentEnv;
-    }
-  });
-
   it("sets all hosted attributes regardless of content recording", () => {
     disableContentRecording();
     const span = createMockSpan();
@@ -390,18 +378,6 @@ describe("setDefinitionAttributes - hosted agent", () => {
 // ---- Workflow agent definition ----
 
 describe("setDefinitionAttributes - workflow agent", () => {
-  beforeEach(() => {
-    savedContentEnv = process.env.OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT;
-  });
-
-  afterEach(() => {
-    if (savedContentEnv === undefined) {
-      delete process.env.OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT;
-    } else {
-      process.env.OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT = savedContentEnv;
-    }
-  });
-
   const sampleWorkflow =
     "triggers:\n  - type: OnConversationStart\nactions:\n  - type: InvokeAzureAgent";
 
@@ -454,18 +430,6 @@ describe("setDefinitionAttributes - workflow agent", () => {
 // ---- setAgentVersionAttributes ----
 
 describe("setAgentVersionAttributes", () => {
-  beforeEach(() => {
-    savedContentEnv = process.env.OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT;
-  });
-
-  afterEach(() => {
-    if (savedContentEnv === undefined) {
-      delete process.env.OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT;
-    } else {
-      process.env.OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT = savedContentEnv;
-    }
-  });
-
   it("sets agent.id, agent.name, agent.version, and agent.type", () => {
     const span = createMockSpan();
     setAgentVersionAttributes(span, {
