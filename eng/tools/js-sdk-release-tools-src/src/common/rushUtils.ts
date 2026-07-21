@@ -99,7 +99,21 @@ export async function buildPackage(
   let buildStatus = `succeeded`;
   await ensurePnpmInstalled();
   logger.info(`Start to pnpm install.`);
-  await runCommand(`pnpm`, ["install"], runCommandOptions, false);
+  // The azure-sdk-for-js root .npmrc resolves packages through the Azure DevOps feed
+  // mirror, which only ingests a version on its first *authenticated* request. When this
+  // runs without an ADO identity, resolving an un-ingested optional native binding (e.g.
+  // rolldown's non-host platform bindings) returns 401 and fails the lockfile supply-chain
+  // check. npmjs serves identical tarballs with matching integrity hashes, so pointing the
+  // install at it keeps the lockfile stable. Mirrors .github/workflows/warp-ci.yml.
+  await runCommand(
+    `pnpm`,
+    ["install"],
+    {
+      ...runCommandOptions,
+      env: { ...process.env, npm_config_registry: "https://registry.npmjs.org/" },
+    },
+    false,
+  );
   logger.info(`Pnpm install successfully.`);
 
   if (options.runMode === RunMode.Local || options.runMode === RunMode.Release) {
