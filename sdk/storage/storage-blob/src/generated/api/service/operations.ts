@@ -72,7 +72,7 @@ export function _findBlobsByTagsSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -151,7 +151,6 @@ export function _findBlobsByTagsDeserializeExceptionHeaders(result: PathUnchecke
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
 /** Lists blobs across all containers whose tags match a given search expression. */
 export async function findBlobsByTags(
   context: Client,
@@ -208,7 +207,7 @@ export function _submitBatchSend(
       ...operationOptionsToRequestParameters(options),
       contentType: contentType,
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -287,7 +286,6 @@ export function _submitBatchDeserializeExceptionHeaders(result: PathUncheckedRes
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
 /** Allows multiple API calls to be embedded into a single HTTP request. */
 export async function submitBatch(
   context: Client,
@@ -343,7 +341,7 @@ export function _getAccountInfoSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -427,7 +425,6 @@ export function _getAccountInfoDeserializeExceptionHeaders(result: PathUnchecked
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
 /** Returns information about the storage account. */
 export async function getAccountInfo(
   context: Client,
@@ -484,7 +481,7 @@ export function _getUserDelegationKeySend(
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -564,7 +561,6 @@ export function _getUserDelegationKeyDeserializeExceptionHeaders(result: PathUnc
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
 /** Retrieves a user delegation key for the Blob service. This is only a valid operation when using bearer token authentication. */
 export async function getUserDelegationKey(
   context: Client,
@@ -625,7 +621,7 @@ export function _listContainersSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -704,7 +700,6 @@ export function _listContainersDeserializeExceptionHeaders(result: PathUnchecked
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
 /** Returns a list of the containers in the specified account. */
 export async function listContainers(
   context: Client,
@@ -756,7 +751,7 @@ export function _getStatisticsSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -835,7 +830,6 @@ export function _getStatisticsDeserializeExceptionHeaders(result: PathUncheckedR
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
 /** Retrieves statistics related to replication for the Blob service. It is only available on the secondary location endpoint when read-access geo-redundant replication is enabled for the storage account. */
 export async function getStatistics(
   context: Client,
@@ -887,7 +881,7 @@ export function _getPropertiesSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -966,7 +960,6 @@ export function _getPropertiesDeserializeExceptionHeaders(result: PathUncheckedR
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
 /** Retrieves properties of a storage account's Blob service, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules. */
 export async function getProperties(
   context: Client,
@@ -1020,7 +1013,7 @@ export function _setPropertiesSend(
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1095,7 +1088,6 @@ export function _setPropertiesDeserializeExceptionHeaders(result: PathUncheckedR
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
 /** Sets properties for a storage account's Blob service endpoint, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules. */
 export async function setProperties(
   context: Client,

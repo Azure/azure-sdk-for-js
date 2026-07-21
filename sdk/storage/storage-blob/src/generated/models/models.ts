@@ -1,6 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/*
+ * This file contains only generated model types and their (de)serializers.
+ * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
+ */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { NodeReadableStream } from "#platform/generated/static-helpers/platform-types";
 import { FileContents } from "../static-helpers/multipartHelpers.js";
 import { serializeRecord } from "../static-helpers/serialization/serialize-record.js";
@@ -14,12 +20,6 @@ import {
 } from "../static-helpers/serialization/xml-helpers.js";
 import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
 
-/**
- * This file contains only generated model types and their (de)serializers.
- * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
- */
-/* eslint-disable @typescript-eslint/naming-convention */
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /** The blob service properties. */
 export interface BlobServiceProperties {
   /** The logging properties. */
@@ -4011,11 +4011,7 @@ export type SkuName =
   | "Standard_RAGZRS";
 /** The account kind. */
 export type AccountKind =
-  | "Storage"
-  | "BlobStorage"
-  | "StorageV2"
-  | "FileStorage"
-  | "BlockBlobStorage";
+  "Storage" | "BlobStorage" | "StorageV2" | "FileStorage" | "BlockBlobStorage";
 /** Specifies what type of blobs should be returned as part of the filter operation. */
 export type FilterBlobsIncludeItem = "none" | "versions";
 /** Specifies additional datasets to include when listing blobs in a container. */
@@ -4046,17 +4042,7 @@ export type FileShareTokenIntent = "backup";
 export type BlockListType = "committed" | "uncommitted" | "all";
 /** The premium page blob access tier types. */
 export type PremiumPageBlobAccessTier =
-  | "P4"
-  | "P6"
-  | "P10"
-  | "P15"
-  | "P20"
-  | "P30"
-  | "P40"
-  | "P50"
-  | "P60"
-  | "P70"
-  | "P80";
+  "P4" | "P6" | "P10" | "P15" | "P20" | "P30" | "P40" | "P50" | "P60" | "P70" | "P80";
 /** The sequence number actions. */
 export type SequenceNumberActionType = "increment" | "max" | "update";
 
@@ -4070,6 +4056,10 @@ export enum KnownVersions {
   V20260406 = "2026-04-06",
   /** The 2026-06-06 version of the Azure.Storage.Blob service. */
   V20260606 = "2026-06-06",
+  /** The 2026-10-06 version of the Azure.Storage.Blob service. */
+  V20261006 = "2026-10-06",
+  /** The 2026-12-06 version of the Azure.Storage.Blob service. */
+  V20261206 = "2026-12-06",
 }
 
 export type BlockBlobQueryResponse = {
@@ -4090,6 +4080,40 @@ export type BlockBlobQueryResponse = {
 };
 
 export type BlobDownloadResponse = {
+  /**
+   * BROWSER ONLY
+   *
+   * The response body as a browser Blob.
+   * Always `undefined` in node.js.
+   */
+  blobBody?: Promise<Blob>;
+  /**
+   * NODEJS ONLY
+   *
+   * The response body as a node.js Readable stream.
+   * Always `undefined` in the browser.
+   */
+  readableStreamBody?: NodeReadableStream;
+};
+
+export type ContainerListBlobHierarchySegmentApacheArrowResponse = {
+  /**
+   * BROWSER ONLY
+   *
+   * The response body as a browser Blob.
+   * Always `undefined` in node.js.
+   */
+  blobBody?: Promise<Blob>;
+  /**
+   * NODEJS ONLY
+   *
+   * The response body as a node.js Readable stream.
+   * Always `undefined` in the browser.
+   */
+  readableStreamBody?: NodeReadableStream;
+};
+
+export type ContainerListBlobFlatSegmentApacheArrowResponse = {
   /**
    * BROWSER ONLY
    *

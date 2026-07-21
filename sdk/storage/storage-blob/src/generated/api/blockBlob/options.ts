@@ -37,7 +37,6 @@ export interface BlockBlobQueryOptionalParams extends OperationOptions {
   /** Specifies a SQL-like where clause on blob tags to operate only on a blob with matching tags. */
   ifTags?: string;
 }
-
 /** Optional parameters. */
 export interface BlockBlobGetBlockListOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -51,7 +50,6 @@ export interface BlockBlobGetBlockListOptionalParams extends OperationOptions {
   /** Specifies a SQL-like where clause on blob tags to operate only on a blob with matching tags. */
   ifTags?: string;
 }
-
 /** Optional parameters. */
 export interface BlockBlobCommitBlockListOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -107,7 +105,6 @@ export interface BlockBlobCommitBlockListOptionalParams extends OperationOptions
   /** Indicates whether the blob has a legal hold. */
   legalHold?: boolean;
 }
-
 /** Optional parameters. */
 export interface BlockBlobStageBlockFromUrlOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -149,7 +146,6 @@ export interface BlockBlobStageBlockFromUrlOptionalParams extends OperationOptio
   /** The algorithm used to produce the source encryption key hash. Must be provided if the source encryption key is provided. */
   sourceEncryptionAlgorithm?: EncryptionAlgorithmType;
 }
-
 /** Optional parameters. */
 export interface BlockBlobStageBlockOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -175,7 +171,6 @@ export interface BlockBlobStageBlockOptionalParams extends OperationOptions {
   /** Required if the request body is a structured message. Specifies the length of the blob/file content inside the message body. Will always be smaller than Content-Length. */
   structuredContentLength?: number;
 }
-
 /** Optional parameters. */
 export interface BlockBlobUploadBlobFromUrlOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -249,7 +244,6 @@ export interface BlockBlobUploadBlobFromUrlOptionalParams extends OperationOptio
   /** The algorithm used to produce the source encryption key hash. Must be provided if the source encryption key is provided. */
   sourceEncryptionAlgorithm?: EncryptionAlgorithmType;
 }
-
 /** Optional parameters. */
 export interface BlockBlobUploadOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */

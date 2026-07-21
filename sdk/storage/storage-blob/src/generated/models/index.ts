@@ -76,5 +76,7 @@ export type {
   SequenceNumberActionType,
   BlockBlobQueryResponse,
   BlobDownloadResponse,
+  ContainerListBlobHierarchySegmentApacheArrowResponse,
+  ContainerListBlobFlatSegmentApacheArrowResponse,
 } from "./models.js";
 export { KnownVersions } from "./models.js";

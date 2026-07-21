@@ -80,6 +80,8 @@ export type {
   SequenceNumberActionType,
   BlockBlobQueryResponse,
   BlobDownloadResponse,
+  ContainerListBlobHierarchySegmentApacheArrowResponse,
+  ContainerListBlobFlatSegmentApacheArrowResponse,
 } from "./models/index.js";
 export { KnownVersions } from "./models/index.js";
 export type { BlobClientOptionalParams } from "./api/index.js";
@@ -125,7 +127,9 @@ export type {
 } from "./api/blockBlob/index.js";
 export type {
   ContainerGetAccountInfoOptionalParams,
+  ContainerListBlobHierarchySegmentApacheArrowOptionalParams,
   ContainerListBlobHierarchySegmentOptionalParams,
+  ContainerListBlobFlatSegmentApacheArrowOptionalParams,
   ContainerListBlobsOptionalParams,
   ContainerChangeLeaseOptionalParams,
   ContainerBreakLeaseOptionalParams,

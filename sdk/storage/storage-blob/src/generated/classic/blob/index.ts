@@ -689,6 +689,7 @@ export interface BlobOperations {
       contentLanguage: string;
       blobSequenceNumber: number;
       blobType?: BlobType;
+      contentCrc64?: Uint8Array;
       copyCompletionTime?: Date;
       copyStatusDescription?: string;
       copyId?: string;
@@ -715,9 +716,12 @@ export interface BlobOperations {
       legalHold?: boolean;
       structuredBodyType?: string;
       structuredContentLength?: number;
+      accessTier?: string;
+      accessTierInferred?: boolean;
+      accessTierChangeTime?: Date;
+      smartAccessTier?: string;
       version: string;
       contentType: "application/octet-stream";
-      contentCrc64?: Uint8Array;
     } & BlobDownloadResponse &
       StorageCompatResponseInfo<
         BlobDownloadResponse,
@@ -738,6 +742,7 @@ export interface BlobOperations {
           contentLanguage: string;
           blobSequenceNumber: number;
           blobType?: BlobType;
+          contentCrc64?: Uint8Array;
           copyCompletionTime?: Date;
           copyStatusDescription?: string;
           copyId?: string;
@@ -764,14 +769,16 @@ export interface BlobOperations {
           legalHold?: boolean;
           structuredBodyType?: string;
           structuredContentLength?: number;
+          accessTier?: string;
+          accessTierInferred?: boolean;
+          accessTierChangeTime?: Date;
+          smartAccessTier?: string;
           version: string;
           contentType: "application/octet-stream";
-          contentCrc64?: Uint8Array;
         }
       >
   >;
 }
-
 function _getBlob(context: BlobContext) {
   return {
     setTags: (tags: BlobTags, options?: BlobSetTagsOptionalParams) =>
@@ -817,7 +824,6 @@ function _getBlob(context: BlobContext) {
     download: (options?: BlobDownloadOptionalParams) => download(context, options),
   };
 }
-
 export function _getBlobOperations(context: BlobContext): BlobOperations {
   return {
     ..._getBlob(context),

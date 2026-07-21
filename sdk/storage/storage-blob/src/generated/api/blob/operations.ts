@@ -82,7 +82,7 @@ export function _setTagsSend(
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -188,7 +188,6 @@ export function _setTagsDeserializeExceptionHeaders(result: PathUncheckedRespons
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
 /** Sets the tags of the specified blob. */
 export async function setTags(
   context: Client,
@@ -235,7 +234,7 @@ export function _getTagsSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -329,7 +328,6 @@ export function _getTagsDeserializeExceptionHeaders(result: PathUncheckedRespons
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
 /** Gets the tags of the specified blob. */
 export async function getTags(
   context: Client,
@@ -378,7 +376,7 @@ export function _getAccountInfoSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -462,7 +460,6 @@ export function _getAccountInfoDeserializeExceptionHeaders(result: PathUnchecked
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
 /** Returns information about the storage account. */
 export async function getAccountInfo(
   context: Client,
@@ -520,7 +517,7 @@ export function _setTierSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -597,7 +594,6 @@ export function _setTierDeserializeExceptionHeaders(result: PathUncheckedRespons
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
 /** Sets the tier of the specified blob. */
 export async function setTier(
   context: Client,
@@ -644,7 +640,7 @@ export function _abortCopyFromUrlSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -720,7 +716,6 @@ export function _abortCopyFromUrlDeserializeExceptionHeaders(result: PathUncheck
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
 /** Aborts a pending asynchronous copy operation and leaves a destination blob with zero length and full metadata. */
 export async function abortCopyFromUrl(
   context: Client,
@@ -766,7 +761,7 @@ export function _copyFromUrlSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -944,7 +939,6 @@ export function _copyFromUrlDeserializeExceptionHeaders(result: PathUncheckedRes
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
 /** Synchronously copies a blob from a source URL to the destination blob. */
 export async function copyFromUrl(
   context: Client,
@@ -1011,7 +1005,7 @@ export function _startCopyFromUrlSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1157,7 +1151,6 @@ export function _startCopyFromUrlDeserializeExceptionHeaders(result: PathUncheck
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
 /** Starts an asynchronous copy from a source URL to a destination blob. */
 export async function startCopyFromUrl(
   context: Client,
@@ -1217,7 +1210,7 @@ export function _createSnapshotSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1338,7 +1331,6 @@ export function _createSnapshotDeserializeExceptionHeaders(result: PathUnchecked
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
 /** Creates a read-only snapshot of the specified blob. */
 export async function createSnapshot(
   context: Client,
@@ -1397,7 +1389,7 @@ export function _breakLeaseSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1501,7 +1493,6 @@ export function _breakLeaseDeserializeExceptionHeaders(result: PathUncheckedResp
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
 /** Ends a lease and ensures that another client can't acquire a new lease until the current lease period has expired. */
 export async function breakLease(
   context: Client,
@@ -1558,7 +1549,7 @@ export function _changeLeaseSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1661,7 +1652,6 @@ export function _changeLeaseDeserializeExceptionHeaders(result: PathUncheckedRes
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
 /** Change the ID of an existing lease. */
 export async function changeLease(
   context: Client,
@@ -1719,7 +1709,7 @@ export function _renewLeaseSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1821,7 +1811,6 @@ export function _renewLeaseDeserializeExceptionHeaders(result: PathUncheckedResp
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
 /** Renews an existing lease. */
 export async function renewLease(
   context: Client,
@@ -1878,7 +1867,7 @@ export function _releaseLeaseSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1975,7 +1964,6 @@ export function _releaseLeaseDeserializeExceptionHeaders(result: PathUncheckedRe
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
 /** Frees the lease if it's no longer needed, so that another client can immediately acquire a lease against the blob. */
 export async function releaseLease(
   context: Client,
@@ -2030,7 +2018,7 @@ export function _acquireLeaseSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -2135,7 +2123,6 @@ export function _acquireLeaseDeserializeExceptionHeaders(result: PathUncheckedRe
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
 /** Requests a new lease on the specified blob. */
 export async function acquireLease(
   context: Client,
@@ -2191,7 +2178,7 @@ export function _setMetadataSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -2319,7 +2306,6 @@ export function _setMetadataDeserializeExceptionHeaders(result: PathUncheckedRes
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
 /** Sets user-defined metadata for the specified blob. */
 export async function setMetadata(
   context: Client,
@@ -2383,7 +2369,7 @@ export function _setLegalHoldSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -2460,7 +2446,6 @@ export function _setLegalHoldDeserializeExceptionHeaders(result: PathUncheckedRe
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
 /** Sets a legal hold on the specified blob. */
 export async function setLegalHold(
   context: Client,
@@ -2514,7 +2499,7 @@ export function _deleteImmutabilityPolicySend(
     .delete({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -2588,7 +2573,6 @@ export function _deleteImmutabilityPolicyDeserializeExceptionHeaders(
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
 /** Deletes the immutability policy on the specified blob. */
 export async function deleteImmutabilityPolicy(
   context: Client,
@@ -2634,7 +2618,7 @@ export function _setImmutabilityPolicySend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -2735,7 +2719,6 @@ export function _setImmutabilityPolicyDeserializeExceptionHeaders(result: PathUn
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
 /** Set the immutability policy on the specified blob. */
 export async function setImmutabilityPolicy(
   context: Client,
@@ -2788,7 +2771,7 @@ export function _setPropertiesSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -2908,7 +2891,6 @@ export function _setPropertiesDeserializeExceptionHeaders(result: PathUncheckedR
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
 /** Sets system properties on the specified blob. */
 export async function setProperties(
   context: Client,
@@ -2964,7 +2946,7 @@ export function _setExpirySend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -3047,7 +3029,6 @@ export function _setExpiryDeserializeExceptionHeaders(result: PathUncheckedRespo
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
 /** Set the expiration time of the specified blob. */
 export async function setExpiry(
   context: Client,
@@ -3101,7 +3082,7 @@ export function _undeleteSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -3172,7 +3153,6 @@ export function _undeleteDeserializeExceptionHeaders(result: PathUncheckedRespon
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
 /** Undelete the specified previously soft deleted blob. */
 export async function undelete(
   context: Client,
@@ -3219,7 +3199,7 @@ export function _$deleteSend(
     .delete({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -3325,7 +3305,6 @@ export function _$deleteDeserializeExceptionHeaders(result: PathUncheckedRespons
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
 /** Deletes the specified blob. If blob soft delete is enabled, the blob is marked for deletion and can be recovered until the retention period expires. */
 /**
  *  @fixme delete is a reserved word that cannot be used as an operation name.
@@ -3373,7 +3352,7 @@ export function _getPropertiesSend(
     .head({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -3667,7 +3646,6 @@ export function _getPropertiesDeserializeExceptionHeaders(result: PathUncheckedR
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
 /** Returns all user-defined metadata, standard HTTP properties, and system properties for the specified blob. It does not return the content of the blob. */
 export async function getProperties(
   context: Client,
@@ -3808,7 +3786,7 @@ export function _downloadSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -3893,6 +3871,7 @@ export function _downloadDeserializeHeaders(result: PathUncheckedResponse): {
   contentLanguage: string;
   blobSequenceNumber: number;
   blobType?: BlobType;
+  contentCrc64?: Uint8Array;
   copyCompletionTime?: Date;
   copyStatusDescription?: string;
   copyId?: string;
@@ -3919,9 +3898,12 @@ export function _downloadDeserializeHeaders(result: PathUncheckedResponse): {
   legalHold?: boolean;
   structuredBodyType?: string;
   structuredContentLength?: number;
+  accessTier?: string;
+  accessTierInferred?: boolean;
+  accessTierChangeTime?: Date;
+  smartAccessTier?: string;
   version: string;
   contentType: "application/octet-stream";
-  contentCrc64?: Uint8Array;
 } {
   return {
     requestId:
@@ -3959,6 +3941,13 @@ export function _downloadDeserializeHeaders(result: PathUncheckedResponse): {
     contentLanguage: result.headers["content-language"],
     blobSequenceNumber: Number(result.headers["x-ms-blob-sequence-number"]),
     blobType: result.headers["x-ms-blob-type"] as any,
+    contentCrc64:
+      result.headers["x-ms-content-crc64"] === undefined ||
+      result.headers["x-ms-content-crc64"] === null
+        ? result.headers["x-ms-content-crc64"]
+        : typeof result.headers["x-ms-content-crc64"] === "string"
+          ? stringToUint8Array(result.headers["x-ms-content-crc64"], "base64")
+          : result.headers["x-ms-content-crc64"],
     copyCompletionTime:
       result.headers["x-ms-copy-completion-time"] === undefined ||
       result.headers["x-ms-copy-completion-time"] === null
@@ -4059,15 +4048,28 @@ export function _downloadDeserializeHeaders(result: PathUncheckedResponse): {
       result.headers["x-ms-structured-content-length"] === null
         ? result.headers["x-ms-structured-content-length"]
         : Number(result.headers["x-ms-structured-content-length"]),
+    accessTier:
+      result.headers["x-ms-access-tier"] === undefined ||
+      result.headers["x-ms-access-tier"] === null
+        ? result.headers["x-ms-access-tier"]
+        : result.headers["x-ms-access-tier"],
+    accessTierInferred:
+      result.headers["x-ms-access-tier-inferred"] === undefined ||
+      result.headers["x-ms-access-tier-inferred"] === null
+        ? result.headers["x-ms-access-tier-inferred"]
+        : result.headers["x-ms-access-tier-inferred"].trim().toLowerCase() === "true",
+    accessTierChangeTime:
+      result.headers["x-ms-access-tier-change-time"] === undefined ||
+      result.headers["x-ms-access-tier-change-time"] === null
+        ? result.headers["x-ms-access-tier-change-time"]
+        : new Date(result.headers["x-ms-access-tier-change-time"]),
+    smartAccessTier:
+      result.headers["x-ms-smart-access-tier"] === undefined ||
+      result.headers["x-ms-smart-access-tier"] === null
+        ? result.headers["x-ms-smart-access-tier"]
+        : result.headers["x-ms-smart-access-tier"],
     version: result.headers["x-ms-version"],
     contentType: result.headers["content-type"] as any,
-    contentCrc64:
-      result.headers["x-ms-content-crc64"] === undefined ||
-      result.headers["x-ms-content-crc64"] === null
-        ? result.headers["x-ms-content-crc64"]
-        : typeof result.headers["x-ms-content-crc64"] === "string"
-          ? stringToUint8Array(result.headers["x-ms-content-crc64"], "base64")
-          : result.headers["x-ms-content-crc64"],
   };
 }
 
@@ -4093,7 +4095,6 @@ export function _downloadDeserializeExceptionHeaders(result: PathUncheckedRespon
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
 /** Downloads the specified blob. */
 export async function download(
   context: Client,
@@ -4116,6 +4117,7 @@ export async function download(
     contentLanguage: string;
     blobSequenceNumber: number;
     blobType?: BlobType;
+    contentCrc64?: Uint8Array;
     copyCompletionTime?: Date;
     copyStatusDescription?: string;
     copyId?: string;
@@ -4142,9 +4144,12 @@ export async function download(
     legalHold?: boolean;
     structuredBodyType?: string;
     structuredContentLength?: number;
+    accessTier?: string;
+    accessTierInferred?: boolean;
+    accessTierChangeTime?: Date;
+    smartAccessTier?: string;
     version: string;
     contentType: "application/octet-stream";
-    contentCrc64?: Uint8Array;
   } & BlobDownloadResponse &
     StorageCompatResponseInfo<
       BlobDownloadResponse,
@@ -4165,6 +4170,7 @@ export async function download(
         contentLanguage: string;
         blobSequenceNumber: number;
         blobType?: BlobType;
+        contentCrc64?: Uint8Array;
         copyCompletionTime?: Date;
         copyStatusDescription?: string;
         copyId?: string;
@@ -4191,9 +4197,12 @@ export async function download(
         legalHold?: boolean;
         structuredBodyType?: string;
         structuredContentLength?: number;
+        accessTier?: string;
+        accessTierInferred?: boolean;
+        accessTierChangeTime?: Date;
+        smartAccessTier?: string;
         version: string;
         contentType: "application/octet-stream";
-        contentCrc64?: Uint8Array;
       }
     >
 > {

@@ -152,7 +152,6 @@ export interface AppendBlobOperations {
     >
   >;
 }
-
 function _getAppendBlob(context: BlobContext) {
   return {
     seal: (options?: AppendBlobSealOptionalParams) => seal(context, options),
@@ -169,7 +168,6 @@ function _getAppendBlob(context: BlobContext) {
     create: (options?: AppendBlobCreateOptionalParams) => create(context, options),
   };
 }
-
 export function _getAppendBlobOperations(context: BlobContext): AppendBlobOperations {
   return {
     ..._getAppendBlob(context),

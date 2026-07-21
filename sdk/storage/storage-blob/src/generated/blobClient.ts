@@ -23,14 +23,7 @@ export class BlobClient {
     credential: TokenCredential,
     options: BlobClientOptionalParams = {},
   ) {
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createBlob(endpointParam, credential, {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createBlob(endpointParam, credential, options);
     this.pipeline = this._client.pipeline;
     this.pageBlob = _getPageBlobOperations(this._client);
     this.blockBlob = _getBlockBlobOperations(this._client);

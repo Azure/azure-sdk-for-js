@@ -1,8 +1,8 @@
 {
   "apiVersions": {
-    "Storage.Blob": "2026-06-06"
+    "Storage.Blob": "2026-12-06"
   },
-  "emitterVersion": "0.54.0",
+  "emitterVersion": "0.55.1",
   "crossLanguageDefinitions": {
     "CrossLanguagePackageId": "Storage.Blob",
     "CrossLanguageDefinitionId": {
@@ -68,6 +68,8 @@
       "@azure/storage-blob!KnownArchiveStatus:enum": "Storage.Blob.ArchiveStatus",
       "@azure/storage-blob!KnownRehydratePriority:enum": "Storage.Blob.RehydratePriority",
       "@azure/storage-blob!KnownImmutabilityPolicyMode:enum": "Storage.Blob.ImmutabilityPolicyMode",
+      "@azure/storage-blob!KnownListBlobFlatSegmentApacheArrowResponseContentType:enum": "Storage.Blob.listBlobFlatSegmentApacheArrow.ResponseContentType.anonymous",
+      "@azure/storage-blob!KnownListBlobHierarchySegmentApacheArrowResponseContentType:enum": "Storage.Blob.listBlobHierarchySegmentApacheArrow.ResponseContentType.anonymous",
       "@azure/storage-blob!KnownEncryptionAlgorithmType:enum": "Storage.Blob.EncryptionAlgorithmType",
       "@azure/storage-blob!KnownDeleteSnapshotsOptionType:enum": "Storage.Blob.DeleteSnapshotsOptionType",
       "@azure/storage-blob!KnownBlobDeleteType:enum": "Storage.Blob.BlobDeleteType",
@@ -124,7 +126,9 @@
       "@azure/storage-blob!BlobOperations#getProperties:member": "Storage.Blob.Blob.getProperties",
       "@azure/storage-blob!BlobOperations#download:member": "Storage.Blob.Blob.download",
       "@azure/storage-blob!ContainerOperations#getAccountInfo:member": "Storage.Blob.Container.getAccountInfo",
+      "@azure/storage-blob!ContainerOperations#listBlobHierarchySegmentApacheArrow:member": "Storage.Blob.Container.listBlobHierarchySegmentApacheArrow",
       "@azure/storage-blob!ContainerOperations#listBlobHierarchySegment:member": "Storage.Blob.Container.listBlobHierarchySegment",
+      "@azure/storage-blob!ContainerOperations#listBlobFlatSegmentApacheArrow:member": "Storage.Blob.Container.listBlobFlatSegmentApacheArrow",
       "@azure/storage-blob!ContainerOperations#listBlobs:member": "Storage.Blob.Container.listBlobs",
       "@azure/storage-blob!ContainerOperations#changeLease:member": "Storage.Blob.Container.changeLease",
       "@azure/storage-blob!ContainerOperations#breakLease:member": "Storage.Blob.Container.breakLease",

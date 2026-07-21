@@ -3,7 +3,9 @@
 
 export {
   getAccountInfo,
+  listBlobHierarchySegmentApacheArrow,
   listBlobHierarchySegment,
+  listBlobFlatSegmentApacheArrow,
   listBlobs,
   changeLease,
   breakLease,
@@ -23,7 +25,9 @@ export {
 } from "./operations.js";
 export type {
   ContainerGetAccountInfoOptionalParams,
+  ContainerListBlobHierarchySegmentApacheArrowOptionalParams,
   ContainerListBlobHierarchySegmentOptionalParams,
+  ContainerListBlobFlatSegmentApacheArrowOptionalParams,
   ContainerListBlobsOptionalParams,
   ContainerChangeLeaseOptionalParams,
   ContainerBreakLeaseOptionalParams,

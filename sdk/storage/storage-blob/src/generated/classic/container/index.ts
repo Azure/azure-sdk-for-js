@@ -4,7 +4,9 @@
 import { BlobContext } from "../../api/blobContext.js";
 import {
   getAccountInfo,
+  listBlobHierarchySegmentApacheArrow,
   listBlobHierarchySegment,
+  listBlobFlatSegmentApacheArrow,
   listBlobs,
   changeLease,
   breakLease,
@@ -24,7 +26,9 @@ import {
 } from "../../api/container/operations.js";
 import {
   ContainerGetAccountInfoOptionalParams,
+  ContainerListBlobHierarchySegmentApacheArrowOptionalParams,
   ContainerListBlobHierarchySegmentOptionalParams,
+  ContainerListBlobFlatSegmentApacheArrowOptionalParams,
   ContainerListBlobsOptionalParams,
   ContainerChangeLeaseOptionalParams,
   ContainerBreakLeaseOptionalParams,
@@ -53,6 +57,8 @@ import {
   ListBlobsHierarchicalResponse,
   SkuName,
   AccountKind,
+  ContainerListBlobHierarchySegmentApacheArrowResponse,
+  ContainerListBlobFlatSegmentApacheArrowResponse,
 } from "../../models/models.js";
 import { FileContents } from "../../static-helpers/multipartHelpers.js";
 import { StorageCompatResponseInfo } from "../../static-helpers/storageCompatResponse.js";
@@ -84,6 +90,29 @@ export interface ContainerOperations {
       }
     >
   >;
+  /** Returns a list of the blobs in Apache Arrow format as raw data, to be deserialized by the client. A delimiter can be used to traverse a virtual hierarchy of blobs as though it were a file system. */
+  listBlobHierarchySegmentApacheArrow: (
+    delimiter: string,
+    options?: ContainerListBlobHierarchySegmentApacheArrowOptionalParams,
+  ) => Promise<
+    {
+      date: Date;
+      version: string;
+      requestId?: string;
+      clientRequestId?: string;
+      contentType: "application/vnd.apache.arrow.stream" | "application/xml";
+    } & ContainerListBlobHierarchySegmentApacheArrowResponse &
+      StorageCompatResponseInfo<
+        ContainerListBlobHierarchySegmentApacheArrowResponse,
+        {
+          date: Date;
+          version: string;
+          requestId?: string;
+          clientRequestId?: string;
+          contentType: "application/vnd.apache.arrow.stream" | "application/xml";
+        }
+      >
+  >;
   /** Returns a list of the blobs in the specified container. A delimiter can be used to traverse a virtual hierarchy of blobs as though it were a file system. */
   listBlobHierarchySegment: (
     delimiter: string,
@@ -104,6 +133,28 @@ export interface ContainerOperations {
           requestId?: string;
           clientRequestId?: string;
           contentType: "application/xml";
+        }
+      >
+  >;
+  /** Returns a list of the blobs in Apache Arrow format as raw data, to be deserialized by the client. */
+  listBlobFlatSegmentApacheArrow: (
+    options?: ContainerListBlobFlatSegmentApacheArrowOptionalParams,
+  ) => Promise<
+    {
+      date: Date;
+      version: string;
+      requestId?: string;
+      clientRequestId?: string;
+      contentType: "application/vnd.apache.arrow.stream" | "application/xml";
+    } & ContainerListBlobFlatSegmentApacheArrowResponse &
+      StorageCompatResponseInfo<
+        ContainerListBlobFlatSegmentApacheArrowResponse,
+        {
+          date: Date;
+          version: string;
+          requestId?: string;
+          clientRequestId?: string;
+          contentType: "application/vnd.apache.arrow.stream" | "application/xml";
         }
       >
   >;
@@ -483,15 +534,21 @@ export interface ContainerOperations {
     >
   >;
 }
-
 function _getContainer(context: BlobContext) {
   return {
     getAccountInfo: (options?: ContainerGetAccountInfoOptionalParams) =>
       getAccountInfo(context, options),
+    listBlobHierarchySegmentApacheArrow: (
+      delimiter: string,
+      options?: ContainerListBlobHierarchySegmentApacheArrowOptionalParams,
+    ) => listBlobHierarchySegmentApacheArrow(context, delimiter, options),
     listBlobHierarchySegment: (
       delimiter: string,
       options?: ContainerListBlobHierarchySegmentOptionalParams,
     ) => listBlobHierarchySegment(context, delimiter, options),
+    listBlobFlatSegmentApacheArrow: (
+      options?: ContainerListBlobFlatSegmentApacheArrowOptionalParams,
+    ) => listBlobFlatSegmentApacheArrow(context, options),
     listBlobs: (options?: ContainerListBlobsOptionalParams) => listBlobs(context, options),
     changeLease: (
       leaseId: string,
@@ -527,7 +584,6 @@ function _getContainer(context: BlobContext) {
     create: (options?: ContainerCreateOptionalParams) => create(context, options),
   };
 }
-
 export function _getContainerOperations(context: BlobContext): ContainerOperations {
   return {
     ..._getContainer(context),

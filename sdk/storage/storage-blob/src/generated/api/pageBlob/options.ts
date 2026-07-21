@@ -26,7 +26,6 @@ export interface PageBlobCopyIncrementalOptionalParams extends OperationOptions 
   /** Specifies a SQL-like where clause on blob tags to operate only on a blob with matching tags. */
   ifTags?: string;
 }
-
 /** Optional parameters. */
 export interface PageBlobSetSequenceNumberOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -48,7 +47,6 @@ export interface PageBlobSetSequenceNumberOptionalParams extends OperationOption
   /** A value that can be used to track the request. The value of the sequence number must be between 0 and 2^63 - 1. */
   blobSequenceNumber?: number;
 }
-
 /** Optional parameters. */
 export interface PageBlobResizeOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -76,7 +74,6 @@ export interface PageBlobResizeOptionalParams extends OperationOptions {
   /** Specifies a SQL-like where clause on blob tags to operate only on a blob with matching tags. */
   ifTags?: string;
 }
-
 /** Optional parameters. */
 export interface PageBlobGetPageRangesDiffOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -108,7 +105,6 @@ export interface PageBlobGetPageRangesDiffOptionalParams extends OperationOption
   /** Specifies the maximum number of resources to return. If the request does not specify maxresults, or specifies a value greater than 5000, the server will return up to 5000 items. */
   maxPageSize?: number;
 }
-
 /** Optional parameters. */
 export interface PageBlobGetPageRangesOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -136,7 +132,6 @@ export interface PageBlobGetPageRangesOptionalParams extends OperationOptions {
   /** Specifies the maximum number of resources to return. If the request does not specify maxresults, or specifies a value greater than 5000, the server will return up to 5000 items. */
   maxPageSize?: number;
 }
-
 /** Optional parameters. */
 export interface PageBlobUploadPagesFromUrlOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -192,7 +187,6 @@ export interface PageBlobUploadPagesFromUrlOptionalParams extends OperationOptio
   /** The algorithm used to produce the source encryption key hash. Must be provided if the source encryption key is provided. */
   sourceEncryptionAlgorithm?: EncryptionAlgorithmType;
 }
-
 /** Optional parameters. */
 export interface PageBlobClearPagesOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -226,7 +220,6 @@ export interface PageBlobClearPagesOptionalParams extends OperationOptions {
   /** Specifies a SQL-like where clause on blob tags to operate only on a blob with matching tags. */
   ifTags?: string;
 }
-
 /** Optional parameters. */
 export interface PageBlobUploadPagesOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -268,7 +261,6 @@ export interface PageBlobUploadPagesOptionalParams extends OperationOptions {
   /** Required if the request body is a structured message. Specifies the length of the blob/file content inside the message body. Will always be smaller than Content-Length. */
   structuredContentLength?: number;
 }
-
 /** Optional parameters. */
 export interface PageBlobCreateOptionalParams extends OperationOptions {
   /** An opaque, globally-unique, client-generated string identifier for the request. */

@@ -63,7 +63,7 @@ export function _querySend(
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -274,7 +274,6 @@ export function _queryDeserializeExceptionHeaders(result: PathUncheckedResponse)
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
 /** Queries the data of the specified blob with the provided query expressions. */
 export async function query(
   context: Client,
@@ -385,7 +384,7 @@ export function _getBlockListSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -474,7 +473,6 @@ export function _getBlockListDeserializeExceptionHeaders(result: PathUncheckedRe
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
 /** Retrieves the list of blocks that have been uploaded as part of the block blob. */
 export async function getBlockList(
   context: Client,
@@ -535,7 +533,7 @@ export function _commitBlockListSend(
       ...operationOptionsToRequestParameters(options),
       contentType: "application/xml",
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -726,7 +724,6 @@ export function _commitBlockListDeserializeExceptionHeaders(result: PathUnchecke
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
 /** Writes to the block blob by specifying the list of block IDs that make up the blob. */
 export async function commitBlockList(
   context: Client,
@@ -796,7 +793,7 @@ export function _stageBlockFromUrlSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -968,7 +965,6 @@ export function _stageBlockFromUrlDeserializeExceptionHeaders(result: PathUnchec
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
 /** Creates a new block of data from the specified URL to be committed as part of a blob. */
 export async function stageBlockFromUrl(
   context: Client,
@@ -1035,7 +1031,7 @@ export function _stageBlockSend(
       ...operationOptionsToRequestParameters(options),
       contentType: "application/octet-stream",
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1181,7 +1177,6 @@ export function _stageBlockDeserializeExceptionHeaders(result: PathUncheckedResp
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
 /** Creates a new block of data to be committed as part of a blob. */
 export async function stageBlock(
   context: Client,
@@ -1246,7 +1241,7 @@ export function _uploadBlobFromUrlSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1396,6 +1391,7 @@ export function _uploadBlobFromUrlDeserializeHeaders(result: PathUncheckedRespon
   etag: string;
   lastModified: Date;
   contentMD5: Uint8Array;
+  contentCrc64?: Uint8Array;
   versionId: string;
   isServerEncrypted?: boolean;
   encryptionKeySha256?: string;
@@ -1412,6 +1408,13 @@ export function _uploadBlobFromUrlDeserializeHeaders(result: PathUncheckedRespon
       typeof result.headers["content-md5"] === "string"
         ? stringToUint8Array(result.headers["content-md5"], "base64")
         : result.headers["content-md5"],
+    contentCrc64:
+      result.headers["x-ms-content-crc64"] === undefined ||
+      result.headers["x-ms-content-crc64"] === null
+        ? result.headers["x-ms-content-crc64"]
+        : typeof result.headers["x-ms-content-crc64"] === "string"
+          ? stringToUint8Array(result.headers["x-ms-content-crc64"], "base64")
+          : result.headers["x-ms-content-crc64"],
     versionId: result.headers["x-ms-version-id"],
     isServerEncrypted:
       result.headers["x-ms-request-server-encrypted"] === undefined ||
@@ -1464,7 +1467,6 @@ export function _uploadBlobFromUrlDeserializeExceptionHeaders(result: PathUnchec
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
 /** Uploads the content from the specified URL to the block blob. If the blob already exists, the data and any existing metadata will be overwritten. */
 export async function uploadBlobFromUrl(
   context: Client,
@@ -1475,6 +1477,7 @@ export async function uploadBlobFromUrl(
     etag: string;
     lastModified: Date;
     contentMD5: Uint8Array;
+    contentCrc64?: Uint8Array;
     versionId: string;
     isServerEncrypted?: boolean;
     encryptionKeySha256?: string;
@@ -1489,6 +1492,7 @@ export async function uploadBlobFromUrl(
       etag: string;
       lastModified: Date;
       contentMD5: Uint8Array;
+      contentCrc64?: Uint8Array;
       versionId: string;
       isServerEncrypted?: boolean;
       encryptionKeySha256?: string;
@@ -1531,7 +1535,7 @@ export function _uploadSend(
       ...operationOptionsToRequestParameters(options),
       contentType: "application/octet-stream",
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1733,7 +1737,6 @@ export function _uploadDeserializeExceptionHeaders(result: PathUncheckedResponse
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
 /** Uploads the content to the specified block blob. If the blob already exists, the data and any existing metadata will be overwritten. */
 export async function upload(
   context: Client,

@@ -41,7 +41,7 @@ export function _sealSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -142,7 +142,6 @@ export function _sealDeserializeExceptionHeaders(result: PathUncheckedResponse):
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
 /** Seals the append blob to make it read-only. */
 export async function seal(
   context: Client,
@@ -196,7 +195,7 @@ export function _appendBlockFromUrlSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -414,7 +413,6 @@ export function _appendBlockFromUrlDeserializeExceptionHeaders(result: PathUnche
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
 /** Uploads a new block of data from the specified URL to the end of an append blob. */
 export async function appendBlockFromUrl(
   context: Client,
@@ -486,7 +484,7 @@ export function _appendBlockSend(
       ...operationOptionsToRequestParameters(options),
       contentType: "application/octet-stream",
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -671,7 +669,6 @@ export function _appendBlockDeserializeExceptionHeaders(result: PathUncheckedRes
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
 /** Uploads a new block of data to the end of an append blob. */
 export async function appendBlock(
   context: Client,
@@ -742,7 +739,7 @@ export function _createSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -908,7 +905,6 @@ export function _createDeserializeExceptionHeaders(result: PathUncheckedResponse
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
 /** Creates a new append blob. */
 export async function create(
   context: Client,

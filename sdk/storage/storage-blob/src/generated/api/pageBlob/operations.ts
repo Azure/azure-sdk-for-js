@@ -53,7 +53,7 @@ export function _copyIncrementalSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -156,7 +156,6 @@ export function _copyIncrementalDeserializeExceptionHeaders(result: PathUnchecke
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
 /** Copies a snapshot of the source page blob to a destination page blob. The snapshot is copied such that only the differential changes between the previously copied snapshot are transferred to the destination. */
 export async function copyIncremental(
   context: Client,
@@ -215,7 +214,7 @@ export function _setSequenceNumberSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -317,7 +316,6 @@ export function _setSequenceNumberDeserializeExceptionHeaders(result: PathUnchec
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
 /** Updates the sequence number of the specified page blob. The operation will fail if the specified sequence number is less than the current sequence number of the blob. */
 export async function setSequenceNumber(
   context: Client,
@@ -374,7 +372,7 @@ export function _resizeSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -482,7 +480,6 @@ export function _resizeDeserializeExceptionHeaders(result: PathUncheckedResponse
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
 /** Changes the size of the specified page blob. */
 export async function resize(
   context: Client,
@@ -542,7 +539,7 @@ export function _getPageRangesDiffSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -653,7 +650,6 @@ export function _getPageRangesDiffDeserializeExceptionHeaders(result: PathUnchec
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
 /** Returns the list of page ranges in the diff between the specified page blob and the specified previous snapshot. */
 export async function getPageRangesDiff(
   context: Client,
@@ -714,7 +710,7 @@ export function _getPageRangesSend(
     .get({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -820,7 +816,6 @@ export function _getPageRangesDeserializeExceptionHeaders(result: PathUncheckedR
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
 /** Returns the list of valid page ranges for the specified page blob. */
 export async function getPageRanges(
   context: Client,
@@ -882,7 +877,7 @@ export function _uploadPagesFromUrlSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1086,7 +1081,6 @@ export function _uploadPagesFromUrlDeserializeExceptionHeaders(result: PathUnche
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
 /** Writes a range of pages to the specified page blob where the contents are read from a URL. */
 export async function uploadPagesFromUrl(
   context: Client,
@@ -1160,7 +1154,7 @@ export function _clearPagesSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1295,7 +1289,6 @@ export function _clearPagesDeserializeExceptionHeaders(result: PathUncheckedResp
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
 /** Clears a range of pages from the specified page blob. */
 export async function clearPages(
   context: Client,
@@ -1359,7 +1352,7 @@ export function _uploadPagesSend(
       ...operationOptionsToRequestParameters(options),
       contentType: "application/octet-stream",
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1539,7 +1532,6 @@ export function _uploadPagesDeserializeExceptionHeaders(result: PathUncheckedRes
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
 /** Writes a range of pages to the specified page blob. */
 export async function uploadPages(
   context: Client,
@@ -1610,7 +1602,7 @@ export function _createSend(
     .put({
       ...operationOptionsToRequestParameters(options),
       headers: {
-        "x-ms-version": context.version ?? "2026-06-06",
+        "x-ms-version": context.version ?? "2026-12-06",
         ...(options?.clientRequestId !== undefined
           ? { "x-ms-client-request-id": options?.clientRequestId }
           : {}),
@@ -1781,7 +1773,6 @@ export function _createDeserializeExceptionHeaders(result: PathUncheckedResponse
         : Number(result.headers["x-ms-copy-source-status-code"]),
   };
 }
-
 /** Creates a new page blob. */
 export async function create(
   context: Client,
