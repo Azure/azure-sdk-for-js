@@ -13,6 +13,8 @@ import type {
   ConnectionContext,
   ConnectResponseHandler,
   DisconnectedRequest,
+  GroupJoinedRequest,
+  GroupLeftRequest,
   UserEventRequest,
   UserEventResponseHandler,
   WebPubSubEventHandlerOptions,
@@ -29,6 +31,8 @@ enum EventType {
   Connect,
   Connected,
   Disconnected,
+  GroupJoined,
+  GroupLeft,
   UserEvent,
 }
 
@@ -144,6 +148,8 @@ function tryGetWebPubSubEvent(req: IncomingMessage): EventType | undefined {
   const connect = "azure.webpubsub.sys.connect";
   const connected = "azure.webpubsub.sys.connected";
   const disconnectd = "azure.webpubsub.sys.disconnected";
+  const groupJoined = "azure.webpubsub.gp.joined";
+  const groupLeft = "azure.webpubsub.gp.left";
   const userPrefix = "azure.webpubsub.user.";
   const type = utils.getHttpHeader(req, "ce-type");
   if (!type?.startsWith(prefix)) {
@@ -159,6 +165,10 @@ function tryGetWebPubSubEvent(req: IncomingMessage): EventType | undefined {
       return EventType.Connected;
     case disconnectd:
       return EventType.Disconnected;
+    case groupJoined:
+      return EventType.GroupJoined;
+    case groupLeft:
+      return EventType.GroupLeft;
     default:
       return undefined;
   }
@@ -417,6 +427,18 @@ export class CloudEventsDispatcher {
           return true;
         }
         break;
+      case EventType.GroupJoined:
+        if (!this.eventHandler?.onGroupJoined) {
+          response.end();
+          return true;
+        }
+        break;
+      case EventType.GroupLeft:
+        if (!this.eventHandler?.onGroupLeft) {
+          response.end();
+          return true;
+        }
+        break;
       case EventType.UserEvent:
         if (!this.eventHandler?.handleUserEvent) {
           response.end();
@@ -458,6 +480,23 @@ export class CloudEventsDispatcher {
           : await readSystemEventRequest<DisconnectedRequest>(request, origin);
         logger.verbose(disconnectedRequest);
         this.eventHandler.onDisconnected!(disconnectedRequest);
+        return true;
+      }
+      case EventType.GroupJoined: {
+        response.end();
+        const groupJoinedRequest = await readSystemEventRequest<GroupJoinedRequest>(
+          request,
+          origin,
+        );
+        logger.verbose(groupJoinedRequest);
+        this.eventHandler.onGroupJoined!(groupJoinedRequest);
+        return true;
+      }
+      case EventType.GroupLeft: {
+        response.end();
+        const groupLeftRequest = await readSystemEventRequest<GroupLeftRequest>(request, origin);
+        logger.verbose(groupLeftRequest);
+        this.eventHandler.onGroupLeft!(groupLeftRequest);
         return true;
       }
       case EventType.UserEvent: {

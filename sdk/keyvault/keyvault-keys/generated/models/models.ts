@@ -138,6 +138,10 @@ export interface KeyAttributes {
   readonly hsmPlatform?: string;
   /** The key or key version attestation information. */
   readonly attestation?: KeyAttestation;
+  /** The external key information. */
+  externalKey?: ExternalKey;
+  /** The optional key size in bits for symmetric keys. For example: 128, 192, or 256 for AES keys. */
+  readonly keySize?: number;
 }
 
 export function keyAttributesSerializer(item: KeyAttributes): any {
@@ -146,6 +150,9 @@ export function keyAttributesSerializer(item: KeyAttributes): any {
     nbf: !item["notBefore"] ? item["notBefore"] : (item["notBefore"].getTime() / 1000) | 0,
     exp: !item["expires"] ? item["expires"] : (item["expires"].getTime() / 1000) | 0,
     exportable: item["exportable"],
+    external_key: !item["externalKey"]
+      ? item["externalKey"]
+      : externalKeySerializer(item["externalKey"]),
   };
 }
 
@@ -163,6 +170,10 @@ export function keyAttributesDeserializer(item: any): KeyAttributes {
     attestation: !item["attestation"]
       ? item["attestation"]
       : keyAttestationDeserializer(item["attestation"]),
+    externalKey: !item["external_key"]
+      ? item["external_key"]
+      : externalKeyDeserializer(item["external_key"]),
+    keySize: item["key_size"],
   };
 }
 
@@ -229,6 +240,22 @@ export function keyAttestationDeserializer(item: any): KeyAttestation {
         ? stringToUint8Array(item["publicKeyAttestation"], "base64url")
         : item["publicKeyAttestation"],
     version: item["version"],
+  };
+}
+
+/** External Key parameters. */
+export interface ExternalKey {
+  /** The external key identifier. The valid id can only contain characters in the set [a-zA-Z0-9-]. Maximum length is 64 characters. */
+  id: string;
+}
+
+export function externalKeySerializer(item: ExternalKey): any {
+  return { id: item["id"] };
+}
+
+export function externalKeyDeserializer(item: any): ExternalKey {
+  return {
+    id: item["id"],
   };
 }
 
@@ -884,6 +911,98 @@ export function keyVerifyResultDeserializer(item: any): KeyVerifyResult {
   };
 }
 
+/** The Secure Key wrap attributes. */
+export interface SecureKeyWrapOperationParameters {
+  /** algorithm identifier */
+  algorithm: JsonWebKeyWrapAlgorithm;
+}
+
+export function secureKeyWrapOperationParametersSerializer(
+  item: SecureKeyWrapOperationParameters,
+): any {
+  return { alg: item["algorithm"] };
+}
+
+/** An algorithm used for key wrapping and unwrapping. */
+export enum KnownJsonWebKeyWrapAlgorithm {
+  /** RSAES using Optimal Asymmetric Encryption Padding with a hash function of SHA-256 and a mask generation function of MGF1 with SHA-256. */
+  RSAOaep256 = "RSA-OAEP-256",
+  /** 128-bit AES key wrap. */
+  A128KW = "A128KW",
+  /** 192-bit AES key wrap. */
+  A192KW = "A192KW",
+  /** 256-bit AES key wrap. */
+  A256KW = "A256KW",
+  /** 128-bit AES key wrap with padding. */
+  A256Kwpad = "A256KWPAD",
+  /** 192-bit AES key wrap with padding. */
+  A128Kwpad = "A128KWPAD",
+  /** 256-bit AES key wrap with padding. */
+  A192Kwpad = "A192KWPAD",
+  /** CKM AES key wrap. */
+  CKMAESKEYWrap = "CKM_AES_KEY_WRAP",
+  /** CKM AES key wrap with padding. */
+  CKMAESKEYWrapPAD = "CKM_AES_KEY_WRAP_PAD",
+}
+
+/**
+ * An algorithm used for key wrapping and unwrapping. \
+ * {@link KnownJsonWebKeyWrapAlgorithm} can be used interchangeably with JsonWebKeyWrapAlgorithm,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **RSA-OAEP-256**: RSAES using Optimal Asymmetric Encryption Padding with a hash function of SHA-256 and a mask generation function of MGF1 with SHA-256. \
+ * **A128KW**: 128-bit AES key wrap. \
+ * **A192KW**: 192-bit AES key wrap. \
+ * **A256KW**: 256-bit AES key wrap. \
+ * **A256KWPAD**: 128-bit AES key wrap with padding. \
+ * **A128KWPAD**: 192-bit AES key wrap with padding. \
+ * **A192KWPAD**: 256-bit AES key wrap with padding. \
+ * **CKM_AES_KEY_WRAP**: CKM AES key wrap. \
+ * **CKM_AES_KEY_WRAP_PAD**: CKM AES key wrap with padding.
+ */
+export type JsonWebKeyWrapAlgorithm = string;
+
+/** The secure key wrap operation result. */
+export interface SecureKeyOperationResult {
+  /** Key identifier */
+  kid: string;
+  /** The algorithm used for the operation. */
+  algorithm: JsonWebKeyWrapAlgorithm;
+  /** The result of the operation. */
+  value: Uint8Array;
+}
+
+export function secureKeyOperationResultDeserializer(item: any): SecureKeyOperationResult {
+  return {
+    kid: item["kid"],
+    algorithm: item["alg"],
+    value:
+      typeof item["value"] === "string"
+        ? stringToUint8Array(item["value"], "base64url")
+        : item["value"],
+  };
+}
+
+/** The Secure Key unwrap attributes. */
+export interface SecureKeyUnWrapOperationParameters {
+  /** algorithm identifier */
+  algorithm: JsonWebKeyWrapAlgorithm;
+  /** The value to operate on. */
+  value: Uint8Array;
+  /** The attestation assertion for the target of the key release. */
+  targetAttestationToken: string;
+}
+
+export function secureKeyUnWrapOperationParametersSerializer(
+  item: SecureKeyUnWrapOperationParameters,
+): any {
+  return {
+    alg: item["algorithm"],
+    value: uint8ArrayToString(item["value"], "base64url"),
+    target: item["targetAttestationToken"],
+  };
+}
+
 /** The release key parameters. */
 export interface KeyReleaseParameters {
   /** The attestation assertion for the target of the key release. */
@@ -1150,6 +1269,10 @@ export enum KnownVersions {
   V76Preview2 = "7.6-preview.2",
   /** The 7.6 API version. */
   V76 = "7.6",
+  /** The 2025-06-01-preview API version. */
+  V20250601Preview = "2025-06-01-preview",
   /** The 2025-07-01 API version. */
   V20250701 = "2025-07-01",
+  /** The 2026-01-01-preview API version. */
+  V20260101Preview = "2026-01-01-preview",
 }

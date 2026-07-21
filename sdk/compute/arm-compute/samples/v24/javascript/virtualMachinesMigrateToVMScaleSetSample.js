@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to migrate a virtual machine from availability set to Flexible Virtual Machine Scale Set.
  *
  * @summary migrate a virtual machine from availability set to Flexible Virtual Machine Scale Set.
- * x-ms-original-file: 2025-11-01/virtualMachineExamples/VirtualMachine_MigrateToVirtualMachineScaleSet.json
+ * x-ms-original-file: 2026-03-01/virtualMachineExamples/VirtualMachine_MigrateToVirtualMachineScaleSet.json
  */
 async function migrateAVirtualMachineToFlexibleVirtualMachineScaleSer() {
   const credential = new DefaultAzureCredential();

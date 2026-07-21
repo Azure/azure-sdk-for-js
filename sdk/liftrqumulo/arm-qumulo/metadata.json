@@ -1,0 +1,45 @@
+{
+  "apiVersions": {
+    "Qumulo.Storage": "2026-04-16"
+  },
+  "emitterVersion": "0.54.2",
+  "crossLanguageDefinitions": {
+    "CrossLanguagePackageId": "Qumulo.Storage",
+    "CrossLanguageDefinitionId": {
+      "@azure/arm-qumulo!OperationListResult:interface": "Azure.ResourceManager.CommonTypes.OperationListResult",
+      "@azure/arm-qumulo!Operation:interface": "Azure.ResourceManager.CommonTypes.Operation",
+      "@azure/arm-qumulo!OperationDisplay:interface": "Azure.ResourceManager.CommonTypes.OperationDisplay",
+      "@azure/arm-qumulo!ErrorResponse:interface": "Azure.ResourceManager.CommonTypes.ErrorResponse",
+      "@azure/arm-qumulo!ErrorDetail:interface": "Azure.ResourceManager.CommonTypes.ErrorDetail",
+      "@azure/arm-qumulo!ErrorAdditionalInfo:interface": "Azure.ResourceManager.CommonTypes.ErrorAdditionalInfo",
+      "@azure/arm-qumulo!FileSystemResource:interface": "LiftrBase.Storage.FileSystemResource",
+      "@azure/arm-qumulo!FileSystemResourceProperties:interface": "LiftrBase.Storage.FileSystemResourceProperties",
+      "@azure/arm-qumulo!MarketplaceDetails:interface": "LiftrBase.MarketplaceDetails",
+      "@azure/arm-qumulo!UserDetails:interface": "LiftrBase.UserDetails",
+      "@azure/arm-qumulo!ManagedServiceIdentity:interface": "Azure.ResourceManager.CommonTypes.ManagedServiceIdentity",
+      "@azure/arm-qumulo!UserAssignedIdentity:interface": "Azure.ResourceManager.CommonTypes.UserAssignedIdentity",
+      "@azure/arm-qumulo!TrackedResource:interface": "Azure.ResourceManager.CommonTypes.TrackedResource",
+      "@azure/arm-qumulo!Resource:interface": "Azure.ResourceManager.CommonTypes.Resource",
+      "@azure/arm-qumulo!SystemData:interface": "Azure.ResourceManager.CommonTypes.SystemData",
+      "@azure/arm-qumulo!ArmOperationStatusResourceProvisioningState:interface": "Azure.ResourceManager.ArmOperationStatus",
+      "@azure/arm-qumulo!FileSystemResourceUpdate:interface": "LiftrBase.Storage.FileSystemResourceUpdate",
+      "@azure/arm-qumulo!FileSystemResourceUpdateProperties:interface": "LiftrBase.Storage.FileSystemResourceUpdateProperties",
+      "@azure/arm-qumulo!FileSystemResourceListResult:interface": "Azure.ResourceManager.ResourceListResult",
+      "@azure/arm-qumulo!KnownOrigin:enum": "Azure.ResourceManager.CommonTypes.Origin",
+      "@azure/arm-qumulo!KnownActionType:enum": "Azure.ResourceManager.CommonTypes.ActionType",
+      "@azure/arm-qumulo!KnownMarketplaceSubscriptionStatus:enum": "LiftrBase.MarketplaceSubscriptionStatus",
+      "@azure/arm-qumulo!KnownProvisioningState:enum": "LiftrBase.ProvisioningState",
+      "@azure/arm-qumulo!KnownManagedServiceIdentityType:enum": "Azure.ResourceManager.CommonTypes.ManagedServiceIdentityType",
+      "@azure/arm-qumulo!KnowncreatedByType:enum": "Azure.ResourceManager.CommonTypes.createdByType",
+      "@azure/arm-qumulo!KnownResourceProvisioningState:enum": "Azure.ResourceManager.ResourceProvisioningState",
+      "@azure/arm-qumulo!KnownVersions:enum": "Qumulo.Storage.Versions",
+      "@azure/arm-qumulo!FileSystemsOperations#listBySubscription:member": "Qumulo.Storage.FileSystems.listBySubscription",
+      "@azure/arm-qumulo!FileSystemsOperations#listByResourceGroup:member": "Qumulo.Storage.FileSystems.listByResourceGroup",
+      "@azure/arm-qumulo!FileSystemsOperations#delete:member": "Qumulo.Storage.FileSystems.delete",
+      "@azure/arm-qumulo!FileSystemsOperations#update:member": "Qumulo.Storage.FileSystems.update",
+      "@azure/arm-qumulo!FileSystemsOperations#createOrUpdate:member": "Qumulo.Storage.FileSystems.createOrUpdate",
+      "@azure/arm-qumulo!FileSystemsOperations#get:member": "Qumulo.Storage.FileSystems.get",
+      "@azure/arm-qumulo!OperationsOperations#list:member": "Azure.ResourceManager.Operations.list"
+    }
+  }
+}

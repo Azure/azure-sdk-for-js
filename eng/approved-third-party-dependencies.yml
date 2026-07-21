@@ -1,0 +1,134 @@
+# Approved third-party runtime dependencies for Azure SDK for JS packages.
+#
+# Enforced by the @azure/azure-sdk/ts-package-json-approved-dependencies ESLint
+# rule against the "dependencies" field of every shipped library package.json
+# under sdk/ (those with "sdk-type": "client" or "mgmt"). The rule runs as part
+# of "pnpm lint" and in CI. Samples, tests, perf tests, and utility/tooling
+# packages are out of scope, and devDependencies and peerDependencies are NOT
+# checked.
+#
+# First-party scopes are always allowed and must NOT be listed here:
+#   @azure/  @azure-rest/  @azure-tools/  @microsoft/  @typespec/
+#
+# Schema:
+#   allowed:                 dependencies any sdk package may take.
+#     - some-package
+#     - "@scope/*"            a scope wildcard allows every package in that npm scope.
+#   exceptions:              dependencies only specific packages may take.
+#     - dependency: some-package
+#       packages:
+#         - "@azure/some-package"
+#     - dependency: "@scope/*"   scope wildcards are also allowed here.
+#       packages:
+#         - "@azure/some-package"
+#
+# To take a NEW third-party runtime dependency, get approval and then either add
+# it to "allowed" (if it should be available to every package) or add a scoped
+# entry under "exceptions" listing the packages permitted to use it.
+#
+# NOTE: The "exceptions" below were seeded from the dependencies already present
+# in the repository so that existing packages continue to pass. They reflect
+# current usage, not a curated policy; entries can be tightened or promoted to
+# "allowed" over time.
+
+allowed:
+  - "buffer"
+  - "events"
+  - "fast-xml-parser"
+  - "http-proxy-agent"
+  - "https-proxy-agent"
+  - "openai"
+  - "rhea"
+  - "rhea-promise"
+  - "tslib"
+  # The OpenTelemetry ecosystem is approved for use by any shipped library.
+  - "@opentelemetry/*"
+
+exceptions:
+  - dependency: "avsc"
+    packages:
+      - "@azure/schema-registry-avro"
+  - dependency: "chalk"
+    packages:
+      - "@azure/api-management-custom-widgets-scaffolder"
+  - dependency: "eventemitter3"
+    packages:
+      - "@azure-rest/communication-messages"
+      - "@azure/communication-chat"
+  - dependency: "fast-json-stable-stringify"
+    packages:
+      - "@azure/cosmos"
+  - dependency: "glob"
+    packages:
+      - "@azure/api-management-custom-widgets-scaffolder"
+  - dependency: "inquirer"
+    packages:
+      - "@azure/api-management-custom-widgets-scaffolder"
+  - dependency: "is-buffer"
+    packages:
+      - "@azure/event-hubs"
+      - "@azure/service-bus"
+  - dependency: "jsonwebtoken"
+    packages:
+      - "@azure/web-pubsub"
+  - dependency: "jsrsasign"
+    packages:
+      - "@azure/attestation"
+  - dependency: "jssha"
+    packages:
+      - "@azure/service-bus"
+  - dependency: "jwt-decode"
+    packages:
+      - "@azure/communication-common"
+  - dependency: "keytar"
+    packages:
+      - "@azure/identity-cache-persistence"
+  - dependency: "long"
+    packages:
+      - "@azure/service-bus"
+      - "@azure/web-pubsub-client-protobuf"
+  - dependency: "lru-cache"
+    packages:
+      - "@azure/schema-registry-avro"
+      - "@azure/schema-registry-json"
+  - dependency: "mime"
+    packages:
+      - "@azure/api-management-custom-widgets-tools"
+  - dependency: "mustache"
+    packages:
+      - "@azure/api-management-custom-widgets-scaffolder"
+  - dependency: "open"
+    packages:
+      - "@azure/identity"
+  - dependency: "pako"
+    packages:
+      - "@azure/monitor-ingestion"
+  - dependency: "priorityqueuejs"
+    packages:
+      - "@azure/cosmos"
+  - dependency: "process"
+    packages:
+      - "@azure/core-amqp"
+      - "@azure/event-hubs"
+      - "@azure/service-bus"
+  - dependency: "prompts"
+    packages:
+      - "@azure/create-playwright"
+  - dependency: "protobufjs"
+    packages:
+      - "@azure/web-pubsub-client-protobuf"
+  - dependency: "semaphore"
+    packages:
+      - "@azure/cosmos"
+  - dependency: "util"
+    packages:
+      - "@azure/core-amqp"
+      - "@azure/event-hubs"
+      - "@azure/service-bus"
+  - dependency: "ws"
+    packages:
+      - "@azure/ai-voicelive"
+      - "@azure/web-pubsub-client"
+  - dependency: "yargs-parser"
+    packages:
+      - "@azure/api-management-custom-widgets-scaffolder"

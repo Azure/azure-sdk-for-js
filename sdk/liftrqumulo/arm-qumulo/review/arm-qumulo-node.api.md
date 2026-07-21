@@ -4,21 +4,42 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CancelOnProgress } from '@azure/core-lro';
+import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
+
+// @public
+export enum AzureClouds {
+    AZURE_CHINA_CLOUD = "AZURE_CHINA_CLOUD",
+    AZURE_PUBLIC_CLOUD = "AZURE_PUBLIC_CLOUD",
+    AZURE_US_GOVERNMENT = "AZURE_US_GOVERNMENT"
+}
+
+// @public
+export type AzureSupportedClouds = `${AzureClouds}`;
+
+// @public
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
 
 // @public
 export type CreatedByType = string;
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, unknown>;
+    readonly info?: any;
     readonly type?: string;
 }
 
@@ -44,6 +65,7 @@ export interface FileSystemResource extends TrackedResource {
     delegatedSubnetId?: string;
     identity?: ManagedServiceIdentity;
     marketplaceDetails?: MarketplaceDetails;
+    performanceTier?: string;
     privateIPs?: string[];
     readonly provisioningState?: ProvisioningState;
     storageSku?: string;
@@ -51,114 +73,79 @@ export interface FileSystemResource extends TrackedResource {
 }
 
 // @public
-export interface FileSystemResourceListResult {
-    nextLink?: string;
-    value: FileSystemResource[];
+export interface FileSystemResourceProperties {
+    adminPassword: string;
+    availabilityZone?: string;
+    clusterLoginUrl?: string;
+    delegatedSubnetId: string;
+    marketplaceDetails: MarketplaceDetails;
+    performanceTier?: string;
+    privateIPs?: string[];
+    readonly provisioningState?: ProvisioningState;
+    storageSku: string;
+    userDetails: UserDetails;
 }
 
 // @public
 export interface FileSystemResourceUpdate {
     identity?: ManagedServiceIdentity;
     properties?: FileSystemResourceUpdateProperties;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
 export interface FileSystemResourceUpdateProperties {
     delegatedSubnetId?: string;
     marketplaceDetails?: MarketplaceDetails;
+    performanceTier?: string;
     userDetails?: UserDetails;
 }
 
 // @public
-export interface FileSystems {
-    beginCreateOrUpdate(resourceGroupName: string, fileSystemName: string, resource: FileSystemResource, options?: FileSystemsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<FileSystemsCreateOrUpdateResponse>, FileSystemsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, fileSystemName: string, resource: FileSystemResource, options?: FileSystemsCreateOrUpdateOptionalParams): Promise<FileSystemsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, fileSystemName: string, options?: FileSystemsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<FileSystemsDeleteResponse>, FileSystemsDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, fileSystemName: string, options?: FileSystemsDeleteOptionalParams): Promise<FileSystemsDeleteResponse>;
-    get(resourceGroupName: string, fileSystemName: string, options?: FileSystemsGetOptionalParams): Promise<FileSystemsGetResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: FileSystemsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<FileSystemResource>;
-    listBySubscription(options?: FileSystemsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<FileSystemResource>;
-    update(resourceGroupName: string, fileSystemName: string, properties: FileSystemResourceUpdate, options?: FileSystemsUpdateOptionalParams): Promise<FileSystemsUpdateResponse>;
-}
-
-// @public
-export interface FileSystemsCreateOrUpdateHeaders {
-    azureAsyncOperation?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface FileSystemsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface FileSystemsCreateOrUpdateOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type FileSystemsCreateOrUpdateResponse = FileSystemResource;
-
-// @public
-export interface FileSystemsDeleteHeaders {
-    azureAsyncOperation?: string;
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface FileSystemsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+export interface FileSystemsDeleteOptionalParams extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
 // @public
-export type FileSystemsDeleteResponse = FileSystemsDeleteHeaders;
-
-// @public
-export interface FileSystemsGetOptionalParams extends coreClient.OperationOptions {
+export interface FileSystemsGetOptionalParams extends OperationOptions {
 }
 
 // @public
-export type FileSystemsGetResponse = FileSystemResource;
-
-// @public
-export interface FileSystemsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface FileSystemsListByResourceGroupOptionalParams extends OperationOptions {
 }
 
 // @public
-export type FileSystemsListByResourceGroupNextResponse = FileSystemResourceListResult;
-
-// @public
-export interface FileSystemsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+export interface FileSystemsListBySubscriptionOptionalParams extends OperationOptions {
 }
 
 // @public
-export type FileSystemsListByResourceGroupResponse = FileSystemResourceListResult;
-
-// @public
-export interface FileSystemsListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+export interface FileSystemsOperations {
+    // @deprecated (undocumented)
+    beginCreateOrUpdate: (resourceGroupName: string, fileSystemName: string, resource: FileSystemResource, options?: FileSystemsCreateOrUpdateOptionalParams) => Promise<SimplePollerLike<OperationState<FileSystemResource>, FileSystemResource>>;
+    // @deprecated (undocumented)
+    beginCreateOrUpdateAndWait: (resourceGroupName: string, fileSystemName: string, resource: FileSystemResource, options?: FileSystemsCreateOrUpdateOptionalParams) => Promise<FileSystemResource>;
+    // @deprecated (undocumented)
+    beginDelete: (resourceGroupName: string, fileSystemName: string, options?: FileSystemsDeleteOptionalParams) => Promise<SimplePollerLike<OperationState<void>, void>>;
+    // @deprecated (undocumented)
+    beginDeleteAndWait: (resourceGroupName: string, fileSystemName: string, options?: FileSystemsDeleteOptionalParams) => Promise<void>;
+    createOrUpdate: (resourceGroupName: string, fileSystemName: string, resource: FileSystemResource, options?: FileSystemsCreateOrUpdateOptionalParams) => PollerLike<OperationState<FileSystemResource>, FileSystemResource>;
+    delete: (resourceGroupName: string, fileSystemName: string, options?: FileSystemsDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
+    get: (resourceGroupName: string, fileSystemName: string, options?: FileSystemsGetOptionalParams) => Promise<FileSystemResource>;
+    listByResourceGroup: (resourceGroupName: string, options?: FileSystemsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<FileSystemResource>;
+    listBySubscription: (options?: FileSystemsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<FileSystemResource>;
+    update: (resourceGroupName: string, fileSystemName: string, properties: FileSystemResourceUpdate, options?: FileSystemsUpdateOptionalParams) => Promise<FileSystemResource>;
 }
 
 // @public
-export type FileSystemsListBySubscriptionNextResponse = FileSystemResourceListResult;
-
-// @public
-export interface FileSystemsListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+export interface FileSystemsUpdateOptionalParams extends OperationOptions {
 }
 
-// @public
-export type FileSystemsListBySubscriptionResponse = FileSystemResourceListResult;
-
-// @public
-export interface FileSystemsUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type FileSystemsUpdateResponse = FileSystemResource;
-
-// @public
-export function getContinuationToken(page: unknown): string | undefined;
+export { isRestError }
 
 // @public
 export enum KnownActionType {
@@ -209,13 +196,17 @@ export enum KnownProvisioningState {
 }
 
 // @public
+export enum KnownVersions {
+    V20240619 = "2024-06-19",
+    V20260416 = "2026-04-16"
+}
+
+// @public
 export interface ManagedServiceIdentity {
     readonly principalId?: string;
     readonly tenantId?: string;
     type: ManagedServiceIdentityType;
-    userAssignedIdentities?: {
-        [propertyName: string]: UserAssignedIdentity;
-    };
+    userAssignedIdentities?: Record<string, UserAssignedIdentity>;
 }
 
 // @public
@@ -252,56 +243,44 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationListResult {
-    readonly nextLink?: string;
-    readonly value?: Operation[];
+export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
+export interface OperationsOperations {
+    list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
-
-// @public
-export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListNextResponse = OperationListResult;
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListResponse = OperationListResult;
 
 // @public
 export type Origin = string;
 
 // @public
-export type ProvisioningState = string;
-
-// @public (undocumented)
-export class QumuloStorage extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: QumuloStorageOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    fileSystems: FileSystems;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    subscriptionId: string;
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
 }
 
 // @public
-export interface QumuloStorageOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
+export interface PageSettings {
+    continuationToken?: string;
+}
+
+// @public
+export type ProvisioningState = string;
+
+// @public (undocumented)
+export class QumuloStorage {
+    constructor(credential: TokenCredential, subscriptionId: string, options?: QumuloStorageOptionalParams);
+    readonly fileSystems: FileSystemsOperations;
+    readonly operations: OperationsOperations;
+    readonly pipeline: Pipeline;
+}
+
+// @public
+export interface QumuloStorageOptionalParams extends ClientOptions {
     apiVersion?: string;
-    endpoint?: string;
+    cloudSetting?: AzureSupportedClouds;
 }
 
 // @public
@@ -310,6 +289,40 @@ export interface Resource {
     readonly name?: string;
     readonly systemData?: SystemData;
     readonly type?: string;
+}
+
+export { RestError }
+
+// @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: QumuloStorage, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
+// @public (undocumented)
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => Promise<TResult>;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
 }
 
 // @public
@@ -325,9 +338,7 @@ export interface SystemData {
 // @public
 export interface TrackedResource extends Resource {
     location: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public

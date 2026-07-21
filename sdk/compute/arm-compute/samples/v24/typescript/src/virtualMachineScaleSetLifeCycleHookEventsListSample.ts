@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a list of virtual machine scale set lifecycle hook events created for a virtual machine scale set resource.
  *
  * @summary gets a list of virtual machine scale set lifecycle hook events created for a virtual machine scale set resource.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSetLifeCycleHookEvent_List.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSetLifeCycleHookEvent_List.json
  */
 async function getsAListOfAllLifecycleHookEventsInAVirtualMachineScaleSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

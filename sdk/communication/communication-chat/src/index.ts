@@ -7,3 +7,4 @@ export type * from "./models/models.js";
 export type * from "./models/events.js";
 export * from "./chatClient.js";
 export * from "./chatThreadClient.js";
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

@@ -35,7 +35,7 @@ export class FileSystemPersist implements PersistentStorage {
   constructor(
     instrumentationKey: string,
     private _options?: AzureMonitorExporterOptions,
-    private _customerSDKStatsMetrics?: CustomerSDKStatsMetrics,
+    private _customerSDKStatsMetricsProvider?: () => CustomerSDKStatsMetrics | undefined,
   ) {
     this._instrumentationKey = instrumentationKey;
     if (this._options?.disableOfflineStorage) {
@@ -154,7 +154,10 @@ export class FileSystemPersist implements PersistentStorage {
     } catch (error: any) {
       // Check if error is due to permission/readonly issues
       if (error?.code === "EACCES" || error?.code === "EPERM") {
-        this._customerSDKStatsMetrics?.countDroppedItems(envelopes, DropCode.CLIENT_READONLY);
+        this._customerSDKStatsMetricsProvider?.()?.countDroppedItems(
+          envelopes,
+          DropCode.CLIENT_READONLY,
+        );
         diag.warn(
           `Permission denied while checking/creating directory: ${this._tempDirectory}`,
           error?.message,
@@ -169,7 +172,7 @@ export class FileSystemPersist implements PersistentStorage {
       const size = await getShallowDirectorySize(this._tempDirectory);
       if (size > this.maxBytesOnDisk) {
         // If the directory size exceeds the max limit, we send customer SDK Stats and warn the user
-        this._customerSDKStatsMetrics?.countDroppedItems(
+        this._customerSDKStatsMetricsProvider?.()?.countDroppedItems(
           envelopes,
           DropCode.CLIENT_PERSISTENCE_CAPACITY,
         );
@@ -201,7 +204,7 @@ export class FileSystemPersist implements PersistentStorage {
       }
     } catch (writeError: any) {
       // If the envelopes cannot be written to disk, we send customer SDK Stats and warn the user
-      this._customerSDKStatsMetrics?.countDroppedItems(
+      this._customerSDKStatsMetricsProvider?.()?.countDroppedItems(
         envelopes,
         DropCode.CLIENT_EXCEPTION,
         writeError?.message,

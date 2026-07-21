@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to export logs that show Api requests made by this subscription in the given time window to show throttling activities.
  *
  * @summary export logs that show Api requests made by this subscription in the given time window to show throttling activities.
- * x-ms-original-file: 2025-11-01/logAnalyticExamples/LogAnalytics_RequestRateByInterval.json
+ * x-ms-original-file: 2026-03-01/logAnalyticExamples/LogAnalytics_RequestRateByInterval.json
  */
 async function exportLogsWhichContainAllApiRequestsMadeToComputeResourceProviderWithinTheGivenTimePeriodBrokenDownByIntervals() {
   const credential = new DefaultAzureCredential();

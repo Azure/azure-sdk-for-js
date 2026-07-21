@@ -16,10 +16,9 @@ import { WebPubSubClient } from "../src/webPubSubClient.js";
 import { delay } from "@azure/core-util";
 import { TestWebSocketClient } from "./testWebSocketClient.js";
 import { WebPubSubJsonProtocol } from "../src/protocols/index.js";
-import { getConnectedPayload } from "./utils.js";
+import { getConnectedPayload, makeStartable, spinCheck } from "./utils.js";
 import { SendMessageError } from "../src/errors/index.js";
 import { describe, it, assert, expect, vi } from "vitest";
-import type { MockInstance } from "vitest";
 
 describe("WebPubSubClient", function () {
   describe("Start operation can only be execute when stopped", () => {
@@ -457,35 +456,4 @@ describe("WebPubSubClient", function () {
       client.stop();
     });
   });
-
-  function makeStartable(ws: TestWebSocketClient): MockInstance<(fn: () => void) => void> {
-    const onOpen = ws.onopen.bind(ws);
-    const stub = vi.spyOn(ws, "onopen");
-    stub.mockImplementationOnce((...args) => {
-      setTimeout(() => {
-        onOpen(...args);
-        ws.invokeopen.call(ws);
-      });
-    });
-    return stub;
-  }
-
-  async function spinCheck(fn: () => void, intervalInMs?: number, maxTry?: number): Promise<void> {
-    const effectiveIntervalInMs = intervalInMs ?? 10;
-    const effectiveMaxTry = maxTry ?? 100;
-
-    let tryCount = 0;
-    while (tryCount < effectiveMaxTry) {
-      try {
-        fn();
-        return;
-      } catch (err) {
-        tryCount++;
-        if (tryCount >= effectiveMaxTry) {
-          throw err;
-        }
-        await delay(effectiveIntervalInMs);
-      }
-    }
-  }
 });

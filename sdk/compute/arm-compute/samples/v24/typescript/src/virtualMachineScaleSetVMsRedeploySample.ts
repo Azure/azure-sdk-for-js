@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to shuts down the virtual machine in the virtual machine scale set, moves it to a new node, and powers it back on.
  *
  * @summary shuts down the virtual machine in the virtual machine scale set, moves it to a new node, and powers it back on.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Redeploy_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Redeploy_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetVMRedeployMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -25,7 +25,7 @@ async function virtualMachineScaleSetVMRedeployMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to shuts down the virtual machine in the virtual machine scale set, moves it to a new node, and powers it back on.
  *
  * @summary shuts down the virtual machine in the virtual machine scale set, moves it to a new node, and powers it back on.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Redeploy_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Redeploy_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetVMRedeployMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

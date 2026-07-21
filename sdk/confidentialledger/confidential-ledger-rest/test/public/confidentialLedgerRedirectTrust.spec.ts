@@ -10,7 +10,7 @@ import type {
   SendRequest,
 } from "@azure/core-rest-pipeline";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
-import createClient from "../../src/confidentialLedger.js";
+import createClient from "../../src/confidentialLedgerCustomized.js";
 
 /**
  * Helper to extract the custom redirect policy from a client's pipeline.

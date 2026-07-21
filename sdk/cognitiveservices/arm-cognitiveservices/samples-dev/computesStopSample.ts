@@ -12,7 +12,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * @summary stops a running ContainerInstance compute resource.
  * This is a long-running operation that returns 202 Accepted.
  * Only applicable when computeType is ContainerInstance.
- * x-ms-original-file: 2026-03-15-preview/StopContainerInstanceCompute.json
+ * x-ms-original-file: 2026-05-15-preview/StopContainerInstanceCompute.json
  */
 async function stopContainerInstanceCompute(): Promise<void> {
   const credential = new DefaultAzureCredential();

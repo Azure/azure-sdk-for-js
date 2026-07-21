@@ -63,7 +63,9 @@ describe("networkfunction test", () => {
     const res = await client.azureTrafficCollectors.beginCreateOrUpdateAndWait(
       resourceGroup,
       azureTrafficCollectorName,
-      location,
+      {
+        location,
+      },
       testPollingOptions,
     );
     assert.equal(res.name, azureTrafficCollectorName);

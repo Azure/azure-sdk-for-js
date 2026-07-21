@@ -2,7 +2,7 @@
   "name": "@azure/core-paging",
   "author": "Microsoft Corporation",
   "sdk-type": "client",
-  "version": "1.6.3",
+  "version": "1.7.0",
   "description": "Core types for paging async iterable iterators",
   "type": "module",
   "main": "./dist/commonjs/index.js",
@@ -47,7 +47,7 @@
     "README.md"
   ],
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "license": "MIT",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-paging/README.md",

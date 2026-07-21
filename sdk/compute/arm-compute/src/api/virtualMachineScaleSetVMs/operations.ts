@@ -68,7 +68,7 @@ export function _runCommandSend(
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
       instanceId: instanceId,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -85,10 +85,12 @@ export function _runCommandSend(
 export async function _runCommandDeserialize(
   result: PathUncheckedResponse,
 ): Promise<RunCommandResult> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -105,13 +107,13 @@ export function runCommand(
   parameters: RunCommandInput,
   options: VirtualMachineScaleSetVMsRunCommandOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<RunCommandResult>, RunCommandResult> {
-  return getLongRunningPoller(context, _runCommandDeserialize, ["202", "200", "201"], {
+  return getLongRunningPoller(context, _runCommandDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _runCommandSend(context, resourceGroupName, vmScaleSetName, instanceId, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-11-01",
+    apiVersion: "2026-03-01",
   }) as PollerLike<OperationState<RunCommandResult>, RunCommandResult>;
 }
 
@@ -129,7 +131,7 @@ export function _startSend(
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
       instanceId: instanceId,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -142,7 +144,9 @@ export async function _startDeserialize(result: PathUncheckedResponse): Promise<
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -164,7 +168,7 @@ export function start(
     getInitialResponse: () =>
       _startSend(context, resourceGroupName, vmScaleSetName, instanceId, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-11-01",
+    apiVersion: "2026-03-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -184,7 +188,7 @@ export function _retrieveBootDiagnosticsDataSend(
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
       instanceId: instanceId,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-03-01",
       sasUriExpirationTimeInMinutes: options?.sasUriExpirationTimeInMinutes,
     },
     {
@@ -203,7 +207,9 @@ export async function _retrieveBootDiagnosticsDataDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -245,7 +251,7 @@ export function _restartSend(
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
       instanceId: instanceId,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -258,7 +264,9 @@ export async function _restartDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -280,7 +288,7 @@ export function restart(
     getInitialResponse: () =>
       _restartSend(context, resourceGroupName, vmScaleSetName, instanceId, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-11-01",
+    apiVersion: "2026-03-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -298,7 +306,7 @@ export function _redeploySend(
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
       instanceId: instanceId,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -311,7 +319,9 @@ export async function _redeployDeserialize(result: PathUncheckedResponse): Promi
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -333,7 +343,7 @@ export function redeploy(
     getInitialResponse: () =>
       _redeploySend(context, resourceGroupName, vmScaleSetName, instanceId, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-11-01",
+    apiVersion: "2026-03-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -351,7 +361,7 @@ export function _powerOffSend(
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
       instanceId: instanceId,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-03-01",
       skipShutdown: options?.skipShutdown,
     },
     {
@@ -365,7 +375,9 @@ export async function _powerOffDeserialize(result: PathUncheckedResponse): Promi
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -387,7 +399,7 @@ export function powerOff(
     getInitialResponse: () =>
       _powerOffSend(context, resourceGroupName, vmScaleSetName, instanceId, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-11-01",
+    apiVersion: "2026-03-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -405,7 +417,7 @@ export function _performMaintenanceSend(
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
       instanceId: instanceId,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -418,7 +430,9 @@ export async function _performMaintenanceDeserialize(result: PathUncheckedRespon
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -440,7 +454,7 @@ export function performMaintenance(
     getInitialResponse: () =>
       _performMaintenanceSend(context, resourceGroupName, vmScaleSetName, instanceId, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-11-01",
+    apiVersion: "2026-03-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -459,7 +473,7 @@ export function _attachDetachDataDisksSend(
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
       instanceId: instanceId,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -476,10 +490,12 @@ export function _attachDetachDataDisksSend(
 export async function _attachDetachDataDisksDeserialize(
   result: PathUncheckedResponse,
 ): Promise<StorageProfile> {
-  const expectedStatuses = ["202", "200", "201"];
+  const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -496,7 +512,7 @@ export function attachDetachDataDisks(
   parameters: AttachDetachDataDisksRequest,
   options: VirtualMachineScaleSetVMsAttachDetachDataDisksOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<StorageProfile>, StorageProfile> {
-  return getLongRunningPoller(context, _attachDetachDataDisksDeserialize, ["202", "200", "201"], {
+  return getLongRunningPoller(context, _attachDetachDataDisksDeserialize, ["200", "202", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -509,7 +525,7 @@ export function attachDetachDataDisks(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2025-11-01",
+    apiVersion: "2026-03-01",
   }) as PollerLike<OperationState<StorageProfile>, StorageProfile>;
 }
 
@@ -527,7 +543,7 @@ export function _simulateEvictionSend(
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
       instanceId: instanceId,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -540,7 +556,9 @@ export async function _simulateEvictionDeserialize(result: PathUncheckedResponse
   const expectedStatuses = ["204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -580,7 +598,7 @@ export function _reimageAllSend(
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
       instanceId: instanceId,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -593,7 +611,9 @@ export async function _reimageAllDeserialize(result: PathUncheckedResponse): Pro
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -615,7 +635,7 @@ export function reimageAll(
     getInitialResponse: () =>
       _reimageAllSend(context, resourceGroupName, vmScaleSetName, instanceId, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-11-01",
+    apiVersion: "2026-03-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -633,7 +653,7 @@ export function _reimageSend(
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
       instanceId: instanceId,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -642,9 +662,9 @@ export function _reimageSend(
   return context.path(path).post({
     ...operationOptionsToRequestParameters(options),
     contentType: "application/json",
-    body: !options["vmScaleSetVMReimageInput"]
-      ? options["vmScaleSetVMReimageInput"]
-      : virtualMachineScaleSetVMReimageParametersSerializer(options["vmScaleSetVMReimageInput"]),
+    body: !options?.vmScaleSetVMReimageInput
+      ? options?.vmScaleSetVMReimageInput
+      : virtualMachineScaleSetVMReimageParametersSerializer(options?.vmScaleSetVMReimageInput),
   });
 }
 
@@ -652,7 +672,9 @@ export async function _reimageDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -674,7 +696,7 @@ export function reimage(
     getInitialResponse: () =>
       _reimageSend(context, resourceGroupName, vmScaleSetName, instanceId, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-11-01",
+    apiVersion: "2026-03-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -692,7 +714,7 @@ export function _getInstanceViewSend(
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
       instanceId: instanceId,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -710,7 +732,9 @@ export async function _getInstanceViewDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -750,7 +774,7 @@ export function _deallocateSend(
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
       instanceId: instanceId,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -763,7 +787,9 @@ export async function _deallocateDeserialize(result: PathUncheckedResponse): Pro
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -785,7 +811,7 @@ export function deallocate(
     getInitialResponse: () =>
       _deallocateSend(context, resourceGroupName, vmScaleSetName, instanceId, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-11-01",
+    apiVersion: "2026-03-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -803,7 +829,7 @@ export function _approveRollingUpgradeSend(
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
       instanceId: instanceId,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -818,7 +844,9 @@ export async function _approveRollingUpgradeDeserialize(
   const expectedStatuses = ["202", "200", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -840,7 +868,7 @@ export function approveRollingUpgrade(
     getInitialResponse: () =>
       _approveRollingUpgradeSend(context, resourceGroupName, vmScaleSetName, instanceId, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-11-01",
+    apiVersion: "2026-03-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -856,7 +884,7 @@ export function _listSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       virtualMachineScaleSetName: virtualMachineScaleSetName,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-03-01",
       "%24filter": options?.filter,
       "%24select": options?.select,
       "%24expand": options?.expand,
@@ -877,7 +905,9 @@ export async function _listDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -897,7 +927,7 @@ export function list(
     () => _listSend(context, resourceGroupName, virtualMachineScaleSetName, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-11-01" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-01" },
   );
 }
 
@@ -915,7 +945,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
       instanceId: instanceId,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-03-01",
       forceDeletion: options?.forceDeletion,
     },
     {
@@ -929,7 +959,9 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["200", "202", "204"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -938,11 +970,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 }
 
 /** Deletes a virtual machine from a VM scale set. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -956,7 +983,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, vmScaleSetName, instanceId, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-11-01",
+    apiVersion: "2026-03-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -975,7 +1002,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
       instanceId: instanceId,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-03-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -1000,7 +1027,9 @@ export async function _updateDeserialize(
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }
@@ -1023,7 +1052,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, vmScaleSetName, instanceId, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-11-01",
+    apiVersion: "2026-03-01",
   }) as PollerLike<OperationState<VirtualMachineScaleSetVM>, VirtualMachineScaleSetVM>;
 }
 
@@ -1041,7 +1070,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       vmScaleSetName: vmScaleSetName,
       instanceId: instanceId,
-      "api%2Dversion": "2025-11-01",
+      "api%2Dversion": "2026-03-01",
       "%24expand": options?.expand,
     },
     {
@@ -1060,7 +1089,9 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = cloudErrorDeserializer(result.body);
+    if (result.body) {
+      error.details = cloudErrorDeserializer(result.body);
+    }
 
     throw error;
   }

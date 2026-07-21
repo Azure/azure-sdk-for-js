@@ -1,0 +1,29 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+const { PowerPlatformClient } = require("@azure/arm-powerplatform");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+/**
+ * This sample demonstrates how to retrieve a list of accounts within a given resource group.
+ *
+ * @summary retrieve a list of accounts within a given resource group.
+ * x-ms-original-file: 2020-10-30-preview/listAccountsByResourceGroup.json
+ */
+async function listAccountsByResourceGroup() {
+  const credential = new DefaultAzureCredential();
+  const subscriptionId = "subid";
+  const client = new PowerPlatformClient(credential, subscriptionId);
+  const resArray = new Array();
+  for await (const item of client.accounts.listByResourceGroup("rg")) {
+    resArray.push(item);
+  }
+
+  console.log(resArray);
+}
+
+async function main() {
+  await listAccountsByResourceGroup();
+}
+
+main().catch(console.error);

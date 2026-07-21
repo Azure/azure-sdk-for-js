@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to the operation to update the extension.
  *
  * @summary the operation to update the extension.
- * x-ms-original-file: 2025-11-01/virtualMachineExamples/VirtualMachineExtension_Update.json
+ * x-ms-original-file: 2026-03-01/virtualMachineExamples/VirtualMachineExtension_Update.json
  */
 async function updateVMExtension() {
   const credential = new DefaultAzureCredential();

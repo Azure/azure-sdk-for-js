@@ -12,7 +12,7 @@ const {
 } = require("@azure/storage-file-share");
 
 // Load the .env file if it exists
-require("dotenv").config();
+require("dotenv/config");
 
 async function main() {
   // Enter your storage account name and shared key
@@ -26,14 +26,14 @@ async function main() {
   // Use sharedKeyCredential or anonymousCredential to create a pipeline
   const pipeline = newPipeline(sharedKeyCredential, {
     // httpClient: MyHTTPClient, // A customized HTTP client implementing IHttpClient interface
-    retryOptions: { maxTries: 4 },
+    retryOptions: { maxTries: 4 }, // Retry options
     userAgentOptions: { userAgentPrefix: "AdvancedSample V1.0.0" }, // Customized telemetry string
   });
 
   // List shares
   const serviceClient = new ShareServiceClient(
     `https://${account}.file.core.windows.net`,
-    pipeline
+    pipeline,
   );
 
   console.log("Shares:");

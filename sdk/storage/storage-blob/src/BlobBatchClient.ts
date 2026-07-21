@@ -101,10 +101,7 @@ export class BlobBatchClient {
   constructor(
     url: string,
     credentialOrPipeline?:
-      | StorageSharedKeyCredential
-      | AnonymousCredential
-      | TokenCredential
-      | PipelineLike,
+      StorageSharedKeyCredential | AnonymousCredential | TokenCredential | PipelineLike,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
     options?: StoragePipelineOptions,
@@ -242,10 +239,7 @@ export class BlobBatchClient {
   public async setBlobsAccessTier(
     urlsOrBlobClients: string[] | BlobClient[],
     credentialOrTier:
-      | StorageSharedKeyCredential
-      | AnonymousCredential
-      | TokenCredential
-      | AccessTier,
+      StorageSharedKeyCredential | AnonymousCredential | TokenCredential | AccessTier,
     tierOrOptions?: AccessTier | BlobSetTierOptions,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/

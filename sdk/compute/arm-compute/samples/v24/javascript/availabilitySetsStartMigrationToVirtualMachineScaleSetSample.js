@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to start migration operation on an Availability Set to move its Virtual Machines to a Virtual Machine Scale Set. This should be followed by a migrate operation on each Virtual Machine that triggers a downtime on the Virtual Machine.
  *
  * @summary start migration operation on an Availability Set to move its Virtual Machines to a Virtual Machine Scale Set. This should be followed by a migrate operation on each Virtual Machine that triggers a downtime on the Virtual Machine.
- * x-ms-original-file: 2025-11-01/availabilitySetExamples/AvailabilitySet_StartMigrationToVirtualMachineScaleSet.json
+ * x-ms-original-file: 2026-03-01/availabilitySetExamples/AvailabilitySet_StartMigrationToVirtualMachineScaleSet.json
  */
 async function availabilitySetStartMigrationToVirtualMachineScaleSetGen() {
   const credential = new DefaultAzureCredential();

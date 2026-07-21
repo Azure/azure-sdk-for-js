@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete an availability set.
  *
  * @summary delete an availability set.
- * x-ms-original-file: 2025-11-01/availabilitySetExamples/AvailabilitySet_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/availabilitySetExamples/AvailabilitySet_Delete_MaximumSet_Gen.json
  */
 async function availabilitySetDeleteMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -21,7 +21,7 @@ async function availabilitySetDeleteMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to delete an availability set.
  *
  * @summary delete an availability set.
- * x-ms-original-file: 2025-11-01/availabilitySetExamples/AvailabilitySet_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/availabilitySetExamples/AvailabilitySet_Delete_MinimumSet_Gen.json
  */
 async function availabilitySetDeleteMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

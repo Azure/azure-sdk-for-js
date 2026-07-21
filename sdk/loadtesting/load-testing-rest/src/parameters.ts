@@ -570,12 +570,10 @@ export interface TestProfileRunAdministrationListTestProfileRunsQueryParamProper
   createdDateEndTime?: Date | string;
   /** Comma separated list of IDs of the test profile runs to filter. */
   testProfileRunIds?:
-    | string[]
-    | TestProfileRunAdministrationListTestProfileRunsTestProfileRunIdsQueryParam;
+    string[] | TestProfileRunAdministrationListTestProfileRunsTestProfileRunIdsQueryParam;
   /** Comma separated IDs of the test profiles which should be associated with the test profile runs to fetch. */
   testProfileIds?:
-    | string[]
-    | TestProfileRunAdministrationListTestProfileRunsTestProfileIdsQueryParam;
+    string[] | TestProfileRunAdministrationListTestProfileRunsTestProfileIdsQueryParam;
   /** Comma separated list of Statuses of the test profile runs to filter. */
   statuses?: string[] | TestProfileRunAdministrationListTestProfileRunsStatusesQueryParam;
 }

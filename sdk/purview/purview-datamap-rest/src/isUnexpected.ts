@@ -378,8 +378,7 @@ export function isUnexpected(
 ): response is EntityRemoveBusinessMetadataDefaultResponse;
 export function isUnexpected(
   response:
-    | EntityAddOrUpdateBusinessMetadata204Response
-    | EntityAddOrUpdateBusinessMetadataDefaultResponse,
+    EntityAddOrUpdateBusinessMetadata204Response | EntityAddOrUpdateBusinessMetadataDefaultResponse,
 ): response is EntityAddOrUpdateBusinessMetadataDefaultResponse;
 export function isUnexpected(
   response:
@@ -415,18 +414,15 @@ export function isUnexpected(
 ): response is EntityRemoveLabelsByUniqueAttributeDefaultResponse;
 export function isUnexpected(
   response:
-    | EntitySetLabelsByUniqueAttribute204Response
-    | EntitySetLabelsByUniqueAttributeDefaultResponse,
+    EntitySetLabelsByUniqueAttribute204Response | EntitySetLabelsByUniqueAttributeDefaultResponse,
 ): response is EntitySetLabelsByUniqueAttributeDefaultResponse;
 export function isUnexpected(
   response:
-    | EntityAddLabelsByUniqueAttribute204Response
-    | EntityAddLabelsByUniqueAttributeDefaultResponse,
+    EntityAddLabelsByUniqueAttribute204Response | EntityAddLabelsByUniqueAttributeDefaultResponse,
 ): response is EntityAddLabelsByUniqueAttributeDefaultResponse;
 export function isUnexpected(
   response:
-    | EntityMoveEntitiesToCollection200Response
-    | EntityMoveEntitiesToCollectionDefaultResponse,
+    EntityMoveEntitiesToCollection200Response | EntityMoveEntitiesToCollectionDefaultResponse,
 ): response is EntityMoveEntitiesToCollectionDefaultResponse;
 export function isUnexpected(
   response: GlossaryList200Response | GlossaryListDefaultResponse,
@@ -551,23 +547,19 @@ export function isUnexpected(
 ): response is RelationshipDeleteDefaultResponse;
 export function isUnexpected(
   response:
-    | TypeGetBusinessMetadataDefByGuid200Response
-    | TypeGetBusinessMetadataDefByGuidDefaultResponse,
+    TypeGetBusinessMetadataDefByGuid200Response | TypeGetBusinessMetadataDefByGuidDefaultResponse,
 ): response is TypeGetBusinessMetadataDefByGuidDefaultResponse;
 export function isUnexpected(
   response:
-    | TypeGetBusinessMetadataDefByName200Response
-    | TypeGetBusinessMetadataDefByNameDefaultResponse,
+    TypeGetBusinessMetadataDefByName200Response | TypeGetBusinessMetadataDefByNameDefaultResponse,
 ): response is TypeGetBusinessMetadataDefByNameDefaultResponse;
 export function isUnexpected(
   response:
-    | TypeGetClassificationDefByGuid200Response
-    | TypeGetClassificationDefByGuidDefaultResponse,
+    TypeGetClassificationDefByGuid200Response | TypeGetClassificationDefByGuidDefaultResponse,
 ): response is TypeGetClassificationDefByGuidDefaultResponse;
 export function isUnexpected(
   response:
-    | TypeGetClassificationDefByName200Response
-    | TypeGetClassificationDefByNameDefaultResponse,
+    TypeGetClassificationDefByName200Response | TypeGetClassificationDefByNameDefaultResponse,
 ): response is TypeGetClassificationDefByNameDefaultResponse;
 export function isUnexpected(
   response: TypeGetEntityDefByGuid200Response | TypeGetEntityDefByGuidDefaultResponse,

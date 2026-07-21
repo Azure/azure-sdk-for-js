@@ -3705,7 +3705,7 @@ export async function _getCollectionAssetsForTileNoTmsDeserialize(
   };
 }
 
-/** Return a list of assets which overlap a given tile for a STAC collection (without TileMatrixSetId). */
+/** Return assets overlapping a tile for a collection using the route without TileMatrixSetId in the path (/tiles/{z}/{x}/{y}/assets). This operation uses the default tile matrix set when none is specified. */
 export async function getCollectionAssetsForTileNoTms(
   context: Client,
   collectionId: string,
@@ -3788,7 +3788,7 @@ export async function _getCollectionAssetsForTileDeserialize(
   return tilerAssetGeoJsonArrayDeserializer(result.body);
 }
 
-/** Return a list of assets which overlap a given tile for a STAC collection (with TileMatrixSetId). */
+/** Return assets overlapping a tile for a collection using the route with TileMatrixSetId in the path (/tiles/{tileMatrixSetId}/{z}/{x}/{y}/assets). Use this operation when you need an explicit tile matrix set in the URL. */
 export async function getCollectionAssetsForTile(
   context: Client,
   collectionId: string,

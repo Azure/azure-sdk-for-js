@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets specific run command for a subscription in a location.
  *
  * @summary gets specific run command for a subscription in a location.
- * x-ms-original-file: 2025-11-01/runCommandExamples/RunCommand_Get.json
+ * x-ms-original-file: 2026-03-01/runCommandExamples/RunCommand_Get.json
  */
 async function virtualMachineRunCommandGet() {
   const credential = new DefaultAzureCredential();

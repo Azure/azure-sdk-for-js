@@ -165,7 +165,7 @@ export function writeMessage(message: WebPubSubMessage): string {
       if (message.stream != null) {
         sendToGroupPayload.stream = {
           streamId: message.stream.streamId,
-          idleTimeoutMs: message.stream.idleTimeoutMs,
+          idleTimeoutMs: message.stream.idleTimeoutInMs,
         };
       }
       data = sendToGroupPayload;

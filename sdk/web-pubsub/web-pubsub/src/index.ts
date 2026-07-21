@@ -47,3 +47,4 @@ export type {
   PageSettings,
   ContinuablePage,
 } from "./static-helpers/pagingHelpers.js";
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

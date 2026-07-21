@@ -1,5 +1,15 @@
 # Release History
 
+## 14.0.0-beta.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 14.0.0-beta.1 (2026-05-07)
 Compared with version 13.2.0
 

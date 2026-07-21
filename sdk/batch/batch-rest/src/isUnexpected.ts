@@ -319,9 +319,7 @@ export function isUnexpected(
 ): response is GetJobTaskCountsDefaultResponse;
 export function isUnexpected(
   response:
-    | JobScheduleExists200Response
-    | JobScheduleExists404Response
-    | JobScheduleExistsDefaultResponse,
+    JobScheduleExists200Response | JobScheduleExists404Response | JobScheduleExistsDefaultResponse,
 ): response is JobScheduleExistsDefaultResponse;
 export function isUnexpected(
   response: DeleteJobSchedule202Response | DeleteJobScheduleDefaultResponse,

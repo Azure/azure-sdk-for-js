@@ -32,9 +32,7 @@ export function sendNotificationInternal(
   context: NotificationHubsClientContext,
   notification: Notification,
   options:
-    | DirectSendNotificationOptions
-    | SendNotificationOptions
-    | BroadcastSendNotificationOptions,
+    DirectSendNotificationOptions | SendNotificationOptions | BroadcastSendNotificationOptions,
 ): Promise<NotificationHubsMessageResponse> {
   return tracingClient.withSpan(
     `NotificationHubsClientContext.sendNotification`,

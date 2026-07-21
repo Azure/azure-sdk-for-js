@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, beforeEach, afterEach, vi } from "vitest";
-import { overwriteOpenAIClient } from "../../../src/overwriteOpenAIClient.js";
-import { enableGenAITracing, disableGenAITracing } from "../../../src/tracing/configuration.js";
+import { overwriteOpenAIClient as _overwriteOpenAIClient } from "../../../src/overwriteOpenAIClient.js";
+import type { ResolvedTracingConfig } from "../../../src/tracing/configuration.js";
 import {
   GEN_AI_OPERATION_NAME,
   GEN_AI_PROVIDER_NAME,
@@ -195,12 +195,24 @@ function getSpanByName(name: string): RecordedSpan | undefined {
 let savedContentEnv: string | undefined;
 let savedTracingEnv: string | undefined;
 
+// Per-instance tracing config for tests
+let _tracingConfig: ResolvedTracingConfig = {
+  enabled: true,
+  contentRecording: false,
+  traceContextPropagation: true,
+};
+
 function enableContentRecording(): void {
-  enableGenAITracing({ experimental: true, contentRecording: true });
+  _tracingConfig = { ..._tracingConfig, contentRecording: true };
 }
 
 function disableContentRecording(): void {
-  enableGenAITracing({ experimental: true, contentRecording: false });
+  _tracingConfig = { ..._tracingConfig, contentRecording: false };
+}
+
+// Wrapper that passes the current tracingConfig
+function overwriteOpenAIClient(mockClient: any, endpoint: string): void {
+  _overwriteOpenAIClient(mockClient, endpoint, _tracingConfig);
 }
 
 // ---- Tests ----
@@ -210,12 +222,10 @@ describe("overwriteOpenAIClient - tracing integration", () => {
     savedContentEnv = process.env.OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT;
     savedTracingEnv = process.env.AZURE_EXPERIMENTAL_ENABLE_GENAI_TRACING;
     recordedSpans = [];
-    // { experimental: true } enables tracing without requiring the env var.
-    enableGenAITracing({ experimental: true });
+    _tracingConfig = { enabled: true, contentRecording: false, traceContextPropagation: true };
   });
 
   afterEach(() => {
-    disableGenAITracing();
     if (savedContentEnv === undefined) {
       delete process.env.OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT;
     } else {
@@ -556,8 +566,7 @@ describe("overwriteOpenAIClient - tracing integration", () => {
   // ---- Tracing disabled ----
 
   it("does not create spans when tracing is disabled", async () => {
-    disableGenAITracing();
-    delete process.env.AZURE_EXPERIMENTAL_ENABLE_GENAI_TRACING;
+    _tracingConfig = { enabled: false, contentRecording: false, traceContextPropagation: true };
 
     const mockClient = createMockOpenAIClient(createMockNonStreamingResponse());
     overwriteOpenAIClient(mockClient, "https://test.azure.com");
@@ -570,7 +579,7 @@ describe("overwriteOpenAIClient - tracing integration", () => {
     assert.lengthOf(recordedSpans, 0, "No spans should be created when tracing is disabled");
   });
 
-  it("stops producing spans after disableGenAITracing is called", async () => {
+  it("stops producing spans after tracing is disabled", async () => {
     // 1. Tracing is enabled (from beforeEach) — verify a span is created
     const mockClient = createMockOpenAIClient(createMockNonStreamingResponse());
     overwriteOpenAIClient(mockClient, "https://test.azure.com");
@@ -580,14 +589,16 @@ describe("overwriteOpenAIClient - tracing integration", () => {
 
     const spanCountBefore = recordedSpans.length;
 
-    // 2. Disable tracing and make another call — no new spans
-    disableGenAITracing();
+    // 2. Create a new client with tracing disabled and make another call — no new spans
+    _tracingConfig = { enabled: false, contentRecording: false, traceContextPropagation: true };
+    const mockClient2 = createMockOpenAIClient(createMockNonStreamingResponse());
+    overwriteOpenAIClient(mockClient2, "https://test.azure.com");
 
-    await mockClient.responses.create({ model: "gpt-4.1", input: "Hello again" });
+    await mockClient2.responses.create({ model: "gpt-4.1", input: "Hello again" });
     assert.equal(
       recordedSpans.length,
       spanCountBefore,
-      "No new spans should be created after disableGenAITracing",
+      "No new spans should be created when tracing is disabled",
     );
   });
 

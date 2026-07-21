@@ -96,6 +96,9 @@ export interface FeedOptions extends SharedOptions {
    *
    * If this setting is enabled, it will force query plan for the query, which will save some network requests
    * and ensure parallelism can happen. Useful for when you know you're doing cross-partition or aggregate queries.
+   *
+   * Note: do not combine this with `partitionKey`. Fetching the query plan ignores the `partitionKey`,
+   * so the query is not scoped to it and results may include items from other partition keys.
    */
   forceQueryPlan?: boolean;
   /** Limits the query to a specific partition key. Default: undefined
@@ -107,6 +110,9 @@ export interface FeedOptions extends SharedOptions {
    *
    * The former is useful when the query body is out of your control
    * but you still want to restrict it to a single partition. Example: an end user specified query.
+   *
+   * Note: do not combine `partitionKey` with `forceQueryPlan`. Fetching the query plan ignores the
+   * `partitionKey`, so the query is not scoped to it and results may include items from other partition keys.
    */
   partitionKey?: PartitionKey;
   /**

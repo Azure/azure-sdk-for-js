@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a archive version from a container registry.
  *
  * @summary deletes a archive version from a container registry.
- * x-ms-original-file: 2026-01-01-preview/ArchiveVersionDelete.json
+ * x-ms-original-file: 2026-03-01-preview/ArchiveVersionDelete.json
  */
 async function archiveVersionDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

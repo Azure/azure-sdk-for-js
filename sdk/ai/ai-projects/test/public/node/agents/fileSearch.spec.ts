@@ -140,7 +140,7 @@ describe("agents - file search - execution flow", () => {
       },
       {
         body: {
-          agent: { name: agent.name, type: "agent_reference" },
+          agent_reference: { name: agent.name, type: "agent_reference" },
           tool_choice: "required",
         },
       },
@@ -198,7 +198,7 @@ describe("agents - file search - execution flow", () => {
       },
       {
         body: {
-          agent: { name: agent.name, type: "agent_reference" },
+          agent_reference: { name: agent.name, type: "agent_reference" },
           tool_choice: "required",
         },
       },
@@ -287,7 +287,7 @@ describe("agents - file search - execution flow", () => {
       },
       {
         body: {
-          agent: { name: agent.name, type: "agent_reference" },
+          agent_reference: { name: agent.name, type: "agent_reference" },
           tool_choice: "required",
         },
       },

@@ -296,6 +296,8 @@ export interface BlobPropertiesInternal {
   accessTier?: AccessTier;
   accessTierInferred?: boolean;
   archiveStatus?: ArchiveStatus;
+  /** The underlying tier of a smart tier blob. */
+  smartAccessTier?: AccessTier;
   customerProvidedKeySha256?: string;
   /** The name of the encryption scope under which the blob is encrypted. */
   encryptionScope?: string;
@@ -1167,6 +1169,8 @@ export interface BlobGetPropertiesHeaders {
   archiveStatus?: string;
   /** The time the tier was changed on the object. This is only returned if the tier on the block blob was ever set. */
   accessTierChangedOn?: Date;
+  /** The underlying tier of a smart tier blob. Only returned if the blob is in Smart tier. */
+  smartAccessTier?: string;
   /** A DateTime value returned by the service that uniquely identifies the blob. The value of this header indicates the blob version, and may be used in subsequent requests to access this version of the blob. */
   versionId?: string;
   /** The value of this header indicates whether version of this blob is a current version, see also x-ms-version-id header. */
@@ -2877,11 +2881,7 @@ export type SkuName =
   | "Standard_RAGZRS";
 /** Defines values for AccountKind. */
 export type AccountKind =
-  | "Storage"
-  | "BlobStorage"
-  | "StorageV2"
-  | "FileStorage"
-  | "BlockBlobStorage";
+  "Storage" | "BlobStorage" | "StorageV2" | "FileStorage" | "BlockBlobStorage";
 /** Defines values for ListBlobsIncludeItem. */
 export type ListBlobsIncludeItem =
   | "copy"

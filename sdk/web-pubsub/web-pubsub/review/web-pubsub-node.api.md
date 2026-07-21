@@ -6,8 +6,10 @@
 
 import { AzureKeyCredential } from '@azure/core-auth';
 import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { RequestBodyType } from '@azure/core-rest-pipeline';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 export { AzureKeyCredential }
@@ -160,6 +162,8 @@ export interface HubSendToUserOptions extends OperationOptions {
     messageTtlSeconds?: number;
 }
 
+export { isRestError }
+
 // @public
 export type JSONTypes = string | number | boolean | object;
 
@@ -180,6 +184,8 @@ export interface PageSettings {
 
 // @public
 export type Permission = "joinLeaveGroup" | "sendToGroup";
+
+export { RestError }
 
 // @public
 export type WebPubSubClientProtocol = "default" | "mqtt" | "socketio";

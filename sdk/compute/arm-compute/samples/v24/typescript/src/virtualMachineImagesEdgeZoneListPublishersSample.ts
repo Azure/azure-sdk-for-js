@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a list of virtual machine image publishers for the specified Azure location and edge zone.
  *
  * @summary gets a list of virtual machine image publishers for the specified Azure location and edge zone.
- * x-ms-original-file: 2025-11-01/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_ListPublishers_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_ListPublishers_MaximumSet_Gen.json
  */
 async function virtualMachineImagesEdgeZoneListPublishersMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -25,7 +25,7 @@ async function virtualMachineImagesEdgeZoneListPublishersMaximumSetGen(): Promis
  * This sample demonstrates how to gets a list of virtual machine image publishers for the specified Azure location and edge zone.
  *
  * @summary gets a list of virtual machine image publishers for the specified Azure location and edge zone.
- * x-ms-original-file: 2025-11-01/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_ListPublishers_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_ListPublishers_MinimumSet_Gen.json
  */
 async function virtualMachineImagesEdgeZoneListPublishersMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

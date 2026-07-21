@@ -257,10 +257,7 @@ export class BlobBatch {
   public async setBlobAccessTier(
     urlOrBlobClient: string | BlobClient,
     credentialOrTier:
-      | StorageSharedKeyCredential
-      | AnonymousCredential
-      | TokenCredential
-      | AccessTier,
+      StorageSharedKeyCredential | AnonymousCredential | TokenCredential | AccessTier,
     tierOrOptions?: AccessTier | BlobSetTierOptions,
     options?: BlobSetTierOptions,
   ): Promise<void> {
@@ -277,9 +274,7 @@ export class BlobBatch {
       // First overload
       url = urlOrBlobClient;
       credential = credentialOrTier as
-        | StorageSharedKeyCredential
-        | AnonymousCredential
-        | TokenCredential;
+        StorageSharedKeyCredential | AnonymousCredential | TokenCredential;
       tier = tierOrOptions as AccessTier;
     } else if (urlOrBlobClient instanceof BlobClient) {
       // Second overload

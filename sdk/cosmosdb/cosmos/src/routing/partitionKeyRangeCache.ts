@@ -15,12 +15,18 @@ import { hashPartitionKey, binarySearchOnPartitionKeyRanges } from "../utils/has
 
 /** @hidden */
 export class PartitionKeyRangeCache {
+  // Resolved, known-good routing maps. Only successful fetches are published here.
   private collectionRoutingMapByCollectionId: {
+    [key: string]: Promise<InMemoryCollectionRoutingMap>;
+  };
+  // In-flight fetches, so concurrent lookups (cold or forceRefresh) dedupe to a single request.
+  private pendingByCollectionId: {
     [key: string]: Promise<InMemoryCollectionRoutingMap>;
   };
 
   constructor(private clientContext: ClientContext) {
     this.collectionRoutingMapByCollectionId = {};
+    this.pendingByCollectionId = {};
   }
   /**
    * Finds or Instantiates the requested Collection Routing Map
@@ -33,13 +39,28 @@ export class PartitionKeyRangeCache {
     forceRefresh: boolean = false,
   ): Promise<InMemoryCollectionRoutingMap> {
     const collectionId = getIdFromLink(collectionLink);
-    if (this.collectionRoutingMapByCollectionId[collectionId] === undefined || forceRefresh) {
-      this.collectionRoutingMapByCollectionId[collectionId] = this.requestCollectionRoutingMap(
+    const cached = this.collectionRoutingMapByCollectionId[collectionId];
+    if (cached !== undefined && !forceRefresh) {
+      return cached;
+    }
+    // Dedupe concurrent fetches (cold or forceRefresh) onto a single in-flight request. The map
+    // is published only on success, so a failed/in-flight fetch never poisons the cache or
+    // discards the last known-good map; on failure all waiters get the error and the next call
+    // retries. The prior good map keeps serving cache hits until the refresh resolves.
+    if (this.pendingByCollectionId[collectionId] === undefined) {
+      this.pendingByCollectionId[collectionId] = this.requestCollectionRoutingMap(
         collectionLink,
         diagnosticNode,
-      );
+      )
+        .then((map) => {
+          this.collectionRoutingMapByCollectionId[collectionId] = Promise.resolve(map);
+          return map;
+        })
+        .finally(() => {
+          delete this.pendingByCollectionId[collectionId];
+        });
     }
-    return this.collectionRoutingMapByCollectionId[collectionId];
+    return this.pendingByCollectionId[collectionId];
   }
 
   /**

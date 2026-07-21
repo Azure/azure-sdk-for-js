@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets a list of virtual machine extension image versions.
  *
  * @summary gets a list of virtual machine extension image versions.
- * x-ms-original-file: 2025-11-01/virtualMachineExtensionImageExamples/VirtualMachineExtensionImage_ListVersions_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/virtualMachineExtensionImageExamples/VirtualMachineExtensionImage_ListVersions_MaximumSet_Gen.json
  */
 async function virtualMachineExtensionImageListVersionsMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,7 @@ async function virtualMachineExtensionImageListVersionsMaximumSetGen(): Promise<
  * This sample demonstrates how to gets a list of virtual machine extension image versions.
  *
  * @summary gets a list of virtual machine extension image versions.
- * x-ms-original-file: 2025-11-01/virtualMachineExtensionImageExamples/VirtualMachineExtensionImage_ListVersions_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/virtualMachineExtensionImageExamples/VirtualMachineExtensionImage_ListVersions_MinimumSet_Gen.json
  */
 async function virtualMachineExtensionImageListVersionsMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

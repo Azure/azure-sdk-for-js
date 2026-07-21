@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all proximity placement groups in a resource group.
  *
  * @summary lists all proximity placement groups in a resource group.
- * x-ms-original-file: 2025-11-01/proximityPlacementGroupExamples/ProximityPlacementGroup_ListByResourceGroup.json
+ * x-ms-original-file: 2026-03-01/proximityPlacementGroupExamples/ProximityPlacementGroup_ListByResourceGroup.json
  */
 async function listProximityPlacementGroup(): Promise<void> {
   const credential = new DefaultAzureCredential();

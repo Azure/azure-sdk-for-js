@@ -1,5 +1,30 @@
-
-extends: ../../../warp.base.config.yml
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/metricsConfigurations": "./src/api/metricsConfigurations/index.ts"
+  "./api/consoles": "./src/api/consoles/index.ts"
+  "./api/kubernetesClusterFeatures": "./src/api/kubernetesClusterFeatures/index.ts"
+  "./api/agentPools": "./src/api/agentPools/index.ts"
+  "./api/bmcKeySets": "./src/api/bmcKeySets/index.ts"
+  "./api/bareMetalMachineKeySets": "./src/api/bareMetalMachineKeySets/index.ts"
+  "./api/volumes": "./src/api/volumes/index.ts"
+  "./api/virtualMachines": "./src/api/virtualMachines/index.ts"
+  "./api/trunkedNetworks": "./src/api/trunkedNetworks/index.ts"
+  "./api/storageAppliances": "./src/api/storageAppliances/index.ts"
+  "./api/racks": "./src/api/racks/index.ts"
+  "./api/rackSkus": "./src/api/rackSkus/index.ts"
+  "./api/l3Networks": "./src/api/l3Networks/index.ts"
+  "./api/l2Networks": "./src/api/l2Networks/index.ts"
+  "./api/kubernetesVersions": "./src/api/kubernetesVersions/index.ts"
+  "./api/kubernetesClusters": "./src/api/kubernetesClusters/index.ts"
+  "./api/clusters": "./src/api/clusters/index.ts"
+  "./api/clusterManagers": "./src/api/clusterManagers/index.ts"
+  "./api/cloudServicesNetworks": "./src/api/cloudServicesNetworks/index.ts"
+  "./api/bareMetalMachines": "./src/api/bareMetalMachines/index.ts"
+  "./api/accessBridges": "./src/api/accessBridges/index.ts"
+  "./api/operations": "./src/api/operations/index.ts"
+  "./models": "./src/models/index.ts"
 
 targets:
   - name: browser

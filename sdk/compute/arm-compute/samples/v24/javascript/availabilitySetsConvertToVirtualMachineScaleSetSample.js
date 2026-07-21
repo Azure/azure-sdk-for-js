@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create a new Flexible Virtual Machine Scale Set and migrate all the Virtual Machines in the Availability Set. This does not trigger a downtime on the Virtual Machines.
  *
  * @summary create a new Flexible Virtual Machine Scale Set and migrate all the Virtual Machines in the Availability Set. This does not trigger a downtime on the Virtual Machines.
- * x-ms-original-file: 2025-11-01/availabilitySetExamples/AvailabilitySet_ConvertToVirtualMachineScaleSet.json
+ * x-ms-original-file: 2026-03-01/availabilitySetExamples/AvailabilitySet_ConvertToVirtualMachineScaleSet.json
  */
 async function availabilitySetConvertToVirtualMachineScaleSetGen() {
   const credential = new DefaultAzureCredential();

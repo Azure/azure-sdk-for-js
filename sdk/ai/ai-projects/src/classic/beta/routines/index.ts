@@ -27,27 +27,27 @@ import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 /** Interface representing a BetaRoutines operations. */
 export interface BetaRoutinesOperations {
-  /** Queue an asynchronous routine dispatch. */
+  /** Queues an asynchronous dispatch for the specified routine. */
   dispatch: (
     routineName: string,
     options?: BetaRoutinesDispatchOptionalParams,
   ) => Promise<DispatchRoutineResponse>;
-  /** List prior runs for a routine. */
+  /** Returns prior runs recorded for the specified routine. */
   listRuns: (
     routineName: string,
     options?: BetaRoutinesListRunsOptionalParams,
   ) => PagedAsyncIterableIterator<RoutineRun>;
-  /** Delete a routine. */
+  /** Deletes the specified routine. */
   delete: (routineName: string, options?: BetaRoutinesDeleteOptionalParams) => Promise<void>;
-  /** List routines. */
+  /** Returns the routines available in the current project. */
   list: (options?: BetaRoutinesListOptionalParams) => PagedAsyncIterableIterator<Routine>;
-  /** Disable a routine. */
+  /** Disables the specified routine so it no longer runs. */
   disable: (routineName: string, options?: BetaRoutinesDisableOptionalParams) => Promise<Routine>;
-  /** Enable a routine. */
+  /** Enables the specified routine so it can be dispatched. */
   enable: (routineName: string, options?: BetaRoutinesEnableOptionalParams) => Promise<Routine>;
-  /** Retrieve a routine. */
+  /** Retrieves the specified routine and its current configuration. */
   get: (routineName: string, options?: BetaRoutinesGetOptionalParams) => Promise<Routine>;
-  /** Create or update a routine. */
+  /** Creates a new routine or replaces an existing routine with the supplied definition. */
   createOrUpdate: (
     routineName: string,
     options?: BetaRoutinesCreateOrUpdateOptionalParams,

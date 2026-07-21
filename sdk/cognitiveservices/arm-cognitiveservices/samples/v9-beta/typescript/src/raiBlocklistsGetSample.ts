@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets the specified custom blocklist associated with the Azure OpenAI account.
  *
  * @summary gets the specified custom blocklist associated with the Azure OpenAI account.
- * x-ms-original-file: 2026-03-15-preview/GetRaiBlocklist.json
+ * x-ms-original-file: 2026-05-15-preview/GetRaiBlocklist.json
  */
 async function getRaiBlocklist(): Promise<void> {
   const credential = new DefaultAzureCredential();

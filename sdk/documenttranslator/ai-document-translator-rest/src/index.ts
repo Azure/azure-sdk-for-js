@@ -14,3 +14,4 @@ export * from "./paginateHelper.js";
 export * from "./pollingHelper.js";
 
 export default DocumentTranslator;
+export { RestError, isRestError } from "@azure/core-rest-pipeline";

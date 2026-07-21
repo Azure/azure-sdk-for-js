@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to the operation to get the VMSS VM run command.
  *
  * @summary the operation to get the VMSS VM run command.
- * x-ms-original-file: 2025-11-01/runCommandExamples/VirtualMachineScaleSetVMRunCommand_Get.json
+ * x-ms-original-file: 2026-03-01/runCommandExamples/VirtualMachineScaleSetVMRunCommand_Get.json
  */
 async function getVirtualMachineScaleSetVMRunCommands(): Promise<void> {
   const credential = new DefaultAzureCredential();

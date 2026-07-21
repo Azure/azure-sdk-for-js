@@ -51,14 +51,17 @@ export async function _createDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = apiErrorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = apiErrorResponseDeserializer(result.body);
+    }
+
     throw error;
   }
 
   return redTeamDeserializer(result.body);
 }
 
-/** Creates a redteam run. */
+/** Submits a new redteam run for execution with the provided configuration. */
 export async function create(
   context: Client,
   redTeam: RedTeam,
@@ -86,9 +89,6 @@ export function _listSend(
     ...operationOptionsToRequestParameters(options),
     headers: {
       "foundry-features": foundryFeatures,
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -104,7 +104,7 @@ export async function _listDeserialize(result: PathUncheckedResponse): Promise<_
   return _pagedRedTeamDeserializer(result.body);
 }
 
-/** List a redteam by name. */
+/** Returns the redteams available in the current project. */
 export function list(
   context: Client,
   options: BetaRedTeamsListOptionalParams = { requestOptions: {} },
@@ -147,9 +147,6 @@ export function _getSend(
     ...operationOptionsToRequestParameters(options),
     headers: {
       "foundry-features": foundryFeatures,
-      ...(options?.clientRequestId !== undefined
-        ? { "x-ms-client-request-id": options?.clientRequestId }
-        : {}),
       accept: "application/json",
       ...options.requestOptions?.headers,
     },
@@ -165,7 +162,7 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Re
   return redTeamDeserializer(result.body);
 }
 
-/** Get a redteam by name. */
+/** Retrieves the specified redteam and its configuration. */
 export async function get(
   context: Client,
   name: string,
