@@ -5,14 +5,14 @@ import * as coreClient from "@azure/core-client";
 import { parseXML } from "@azure/core-xml";
 import { stringToUint8Array } from "@azure/core-util";
 import type {
+  BlobItemInternal,
+  BlobPrefix as BlobPrefixInternal,
   BlobPropertiesInternal,
+  BlobTags,
   ListBlobsFlatSegmentResponse,
   ListBlobsHierarchySegmentResponse,
 } from "../generated/src/models/index.js";
 import * as Mappers from "../generated/src/models/mappers.js";
-import type { BlobPrefix } from "../generatedModels.js";
-import type { BlobItem } from "../ContainerClient.js";
-import { parseObjectReplicationRecord } from "./utils.common.js";
 
 /**
  * The result of parsing an Apache Arrow blob-listing segment: the blobs and
@@ -21,10 +21,10 @@ import { parseObjectReplicationRecord } from "./utils.common.js";
 export interface ParsedBlobListArrowSegment {
   /** Continuation token for the next page, read from the Arrow schema metadata. */
   nextMarker?: string;
-  /** The blobs in this page. */
-  blobItems: BlobItem[];
+  /** The blobs in this page, in the generated internal shape (projected to public models by the caller). */
+  blobItems: BlobItemInternal[];
   /** The blob prefixes in this page (only populated for hierarchy listings). */
-  blobPrefixes: BlobPrefix[];
+  blobPrefixes: BlobPrefixInternal[];
 }
 
 /**
@@ -46,9 +46,9 @@ export async function parseBlobListArrowResponse(response: {
  * Apache Arrow operation into blob items and prefixes.
  *
  * The Arrow data is columnar: each field (e.g. `Name`, `Content-Length`) is a
- * separate column. We reconstruct one {@link BlobItem} per row by reading each
- * column at that row index. The continuation token travels in the schema
- * metadata (it is a page-level value, not a per-row column).
+ * separate column. We reconstruct one {@link BlobItemInternal} row per row by reading
+ * each column at that row index; the caller projects those to public models. The
+ * continuation token travels in the schema metadata (a page-level value, not a column).
  *
  * @param bytes - The Apache Arrow IPC stream bytes.
  */
@@ -63,8 +63,8 @@ export async function parseBlobListArrowBytes(
 
   const nextMarker = table.schema.metadata?.get("NextMarker") ?? undefined;
 
-  const blobItems: BlobItem[] = [];
-  const blobPrefixes: BlobPrefix[] = [];
+  const blobItems: BlobItemInternal[] = [];
+  const blobPrefixes: BlobPrefixInternal[] = [];
 
   const getColumn = (columnName: string): { get(rowIndex: number): unknown } | null =>
     (
@@ -115,7 +115,7 @@ export async function parseBlobListArrowBytes(
     // BlobPrefix rows only populate the `Name` column; all others are null.
     const resourceType = asString(i, "ResourceType");
     if (resourceType !== undefined && resourceType.toLowerCase() === "blobprefix") {
-      blobPrefixes.push({ name: asString(i, "Name") ?? "" });
+      blobPrefixes.push({ name: { content: asString(i, "Name") ?? "" } });
       continue;
     }
 
@@ -169,20 +169,31 @@ export async function parseBlobListArrowBytes(
     };
 
     blobItems.push({
-      name: asString(i, "Name") ?? "",
+      name: { content: asString(i, "Name") ?? "" },
       deleted: asBoolean(i, "Deleted") ?? false,
       snapshot: asString(i, "Snapshot") ?? "",
       versionId: asString(i, "VersionId"),
       isCurrentVersion: asBoolean(i, "IsCurrentVersion"),
       properties,
       metadata: asMap(i, "Metadata"),
-      tags: asMap(i, "Tags") as BlobItem["tags"],
-      objectReplicationSourceProperties: parseObjectReplicationRecord(asMap(i, "OrMetadata")),
+      blobTags: toBlobTags(asMap(i, "Tags")),
+      objectReplicationMetadata: asMap(i, "OrMetadata"),
       hasVersionsOnly: asBoolean(i, "HasVersionsOnly"),
     });
   }
 
   return { nextMarker, blobItems, blobPrefixes };
+}
+
+/**
+ * Converts an Apache Arrow map cell (a plain string dictionary) into the generated
+ * {@link BlobTags} shape, so the shared projection layer can flatten it exactly like
+ * the XML path does.
+ */
+function toBlobTags(map: Record<string, string> | undefined): BlobTags | undefined {
+  return map === undefined
+    ? undefined
+    : { blobTagSet: Object.entries(map).map(([key, value]) => ({ key, value })) };
 }
 
 /**

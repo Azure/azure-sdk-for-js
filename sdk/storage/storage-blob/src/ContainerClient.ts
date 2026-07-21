@@ -667,6 +667,15 @@ function mapBlobPrefixInternal(blobPrefixInternal: BlobPrefixInternal): BlobPref
 }
 
 /**
+ * Returns true when a raw List Blobs response was actually returned as Apache Arrow.
+ * The service falls back to XML for accounts that do not support Apache Arrow, so the
+ * Content-Type header (ignoring parameters such as charset) is how the two are told apart.
+ */
+function isApacheArrow(contentType: string | undefined): boolean {
+  return (contentType ?? "").split(";")[0].trim().toLowerCase() === ApacheArrowContentType;
+}
+
+/**
  * A ContainerClient represents a URL to the Azure Storage container allowing you to manipulate its blobs.
  */
 export class ContainerClient extends StorageClient {
@@ -1406,9 +1415,7 @@ export class ContainerClient extends StorageClient {
     // The Content-Type header indicates which format we actually received. When it
     // is not Apache Arrow, parse the already-received XML stream in place
     // instead of issuing a second request.
-    if (
-      (rawResponse.contentType ?? "").split(";")[0].trim().toLowerCase() !== ApacheArrowContentType
-    ) {
+    if (!isApacheArrow(rawResponse.contentType)) {
       const internalResponse = await deserializeListBlobFlatSegmentXml(rawResponse);
       const xmlWrappedResponse: ContainerListBlobFlatSegmentResponse = {
         ...internalResponse,
@@ -1437,7 +1444,7 @@ export class ContainerClient extends StorageClient {
       marker,
       maxPageSize: options.maxPageSize,
       segment: {
-        blobItems: parsed.blobItems,
+        blobItems: parsed.blobItems.map(mapBlobItemInternal),
       },
       continuationToken: parsed.nextMarker,
       clientRequestId: rawResponse.clientRequestId,
@@ -1535,9 +1542,7 @@ export class ContainerClient extends StorageClient {
     // The Content-Type header indicates which format we actually received. When it
     // is not Apache Arrow, parse the already-received XML stream in place instead of
     // issuing a second request.
-    if (
-      (rawResponse.contentType ?? "").split(";")[0].trim().toLowerCase() !== ApacheArrowContentType
-    ) {
+    if (!isApacheArrow(rawResponse.contentType)) {
       const internalResponse = await deserializeListBlobHierarchySegmentXml(rawResponse);
       const xmlWrappedResponse: ContainerListBlobHierarchySegmentResponse = {
         ...internalResponse,
@@ -1568,8 +1573,8 @@ export class ContainerClient extends StorageClient {
       maxPageSize: options.maxPageSize,
       delimiter,
       segment: {
-        blobItems: parsed.blobItems,
-        blobPrefixes: parsed.blobPrefixes,
+        blobItems: parsed.blobItems.map(mapBlobItemInternal),
+        blobPrefixes: parsed.blobPrefixes.map(mapBlobPrefixInternal),
       },
       continuationToken: parsed.nextMarker,
       clientRequestId: rawResponse.clientRequestId,
