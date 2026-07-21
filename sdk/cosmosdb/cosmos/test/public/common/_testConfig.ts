@@ -6,8 +6,6 @@ export const endpoint = process.env.ACCOUNT_HOST || "https://localhost:8081";
 if (endpoint.includes("https://localhost")) {
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 }
-// Set to `true` in the signoff pipeline. Skips tests that depend on features or environments
-// unavailable in the signoff staging account: the local emulator (sslVerification), partition-key
-// delete (container, clientSideEncryption), ChangeFeed AllVersionsAndDeletes (changeFeedIterator),
-// and Routing Gateway failure-mode assertions (itemIdEncoding RGW_* tests).
+// `true` in the signoff pipeline: skips tests needing features/environments absent from the
+// signoff staging account (emulator, partition-key delete, ChangeFeed AllVersionsAndDeletes, RGW_* tests).
 export const skipTestForSignOff: boolean = process.env.SKIP_TESTS_FOR_SIGN_OFF === "true";

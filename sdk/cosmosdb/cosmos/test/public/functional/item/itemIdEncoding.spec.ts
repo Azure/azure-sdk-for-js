@@ -256,11 +256,9 @@ describe("Id encoding", { timeout: 10000 }, () => {
   });
 
   it.skipIf(skipTestForSignOff)("RGW_idEndingWithWhitespace", async () => {
-    // The regional gateway returns 401 for read/replace/delete on ids containing
-    // trailing whitespace because of an HMAC signature mismatch between the
-    // client URL encoding and the server URL reconstruction. The compute
-    // gateway normalizes these ids, so this test is skipped when the only
-    // available gateway is the compute gateway (see `skipTestForSignOff`).
+    // RGW returns 401 on trailing-whitespace ids (HMAC mismatch between client
+    // encoding and server URL reconstruction); CGW normalizes them. Skipped on
+    // compute-gateway-only accounts (see `skipTestForSignOff`).
     const scenario: TestScenario = {
       name: "RGW_IdEndingWithWhitespace",
       id: "Test ",
@@ -287,8 +285,7 @@ describe("Id encoding", { timeout: 10000 }, () => {
   });
 
   it.skipIf(skipTestForSignOff)("RGW_idEndingWithWhitespaces", async () => {
-    // See note on `RGW_idEndingWithWhitespace`: skipped when running against
-    // a compute-gateway-only account.
+    // See `RGW_idEndingWithWhitespace`: skipped on compute-gateway-only accounts.
     const scenario: TestScenario = {
       name: "RGW_IdEndingWithWhitespaces",
       id: "Test   ",
@@ -403,8 +400,7 @@ describe("Id encoding", { timeout: 10000 }, () => {
   });
 
   it.skipIf(skipTestForSignOff)("RGW_idEndingWithPercentEncodedWhitespace", async () => {
-    // See note on `RGW_idEndingWithWhitespace`: skipped when running against
-    // a compute-gateway-only account.
+    // See `RGW_idEndingWithWhitespace`: skipped on compute-gateway-only accounts.
     const scenario: TestScenario = {
       name: "RGW_IdEndingWithPercentEncodedWhitespace",
       id: "IdEndingWithPercentEncodedWhitespace%20",
@@ -431,8 +427,7 @@ describe("Id encoding", { timeout: 10000 }, () => {
   });
 
   it.skipIf(skipTestForSignOff)("RGW_idWithPercentEncodedSpecialChar", async () => {
-    // See note on `RGW_idEndingWithWhitespace`: skipped when running against
-    // a compute-gateway-only account.
+    // See `RGW_idEndingWithWhitespace`: skipped on compute-gateway-only accounts.
     const scenario: TestScenario = {
       name: "RGW_IdWithPercentEncodedSpecialChar",
       id: "WithPercentEncodedSpecialChar%E9%B1%80",
