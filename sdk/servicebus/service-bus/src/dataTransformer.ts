@@ -3,8 +3,10 @@
 
 import { message } from "rhea-promise";
 import isBuffer from "is-buffer";
-import { Buffer } from "buffer";
+import buffer from "buffer";
 import { logErrorStackTrace, logger } from "./log.js";
+
+const { Buffer } = buffer;
 
 /** @internal */
 export const dataSectionTypeCode = 0x75 as const;

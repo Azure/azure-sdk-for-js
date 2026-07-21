@@ -19,7 +19,11 @@ const config = mergeConfig(
     },
     plugins: [
       browserMap(),
-      inject({ process: "process", Buffer: ["buffer", "Buffer"], stream: ["stream", "stream"] }),
+      inject({
+        process: "process",
+        Buffer: [path.resolve(__dirname, "test/utils/bufferShim.ts"), "Buffer"],
+        stream: ["stream", "stream"],
+      }),
     ],
     test: {
       fileParallelism: false,

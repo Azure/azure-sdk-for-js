@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { AmqpAnnotatedMessage, Constants } from "@azure/core-amqp";
-import { Buffer } from "buffer";
+import buffer from "buffer";
 import Long from "long";
 import type {
   Delivery,
@@ -16,6 +16,8 @@ import { messageLogger as logger } from "./log.js";
 import type { ReceiveMode } from "./models.js";
 import { isDefined, isObjectWithProperties } from "@azure/core-util";
 import { reorderLockToken } from "./util/utils.js";
+
+const { Buffer } = buffer;
 
 /**
  * @internal

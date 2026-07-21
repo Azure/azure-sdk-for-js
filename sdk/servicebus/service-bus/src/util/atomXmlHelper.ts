@@ -12,7 +12,7 @@ import { parseXML, stringifyXML } from "@azure/core-xml";
 
 import * as Constants from "./constants.js";
 import { administrationLogger as logger } from "../log.js";
-import { Buffer } from "buffer";
+import buffer from "buffer";
 
 import { parseURL } from "./parseUrl.js";
 import { isJSONLikeObject } from "./utils.js";
@@ -23,6 +23,8 @@ import type { InternalQueueOptions } from "../serializers/queueResourceSerialize
 import type { InternalTopicOptions } from "../serializers/topicResourceSerializer.js";
 import type { InternalSubscriptionOptions } from "../serializers/subscriptionResourceSerializer.js";
 import type { CreateRuleOptions } from "../serializers/ruleResourceSerializer.js";
+
+const { Buffer } = buffer;
 
 /**
  * @internal

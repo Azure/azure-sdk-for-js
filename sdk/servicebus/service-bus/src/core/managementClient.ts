@@ -52,7 +52,7 @@ import {
   throwTypeErrorIfParameterTypeMismatch,
 } from "../util/errors.js";
 import { max32BitNumber } from "../util/constants.js";
-import { Buffer } from "buffer";
+import buffer from "buffer";
 import type { OperationOptionsBase } from "./../modelsToBeSharedWithEventHubs.js";
 import type { AbortSignalLike } from "@azure/abort-controller";
 import type { ReceiveMode } from "../models.js";
@@ -65,6 +65,8 @@ import type {
   SqlRuleFilter,
 } from "../serializers/ruleResourceSerializer.js";
 import type { ListRequestOptions } from "../serviceBusAtomManagementClient.js";
+
+const { Buffer } = buffer;
 
 /**
  * @internal
