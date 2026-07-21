@@ -42,7 +42,7 @@ async function accountsCreateOrUpdateWithActiveDirectory() {
           ldapOverTLS: false,
           ldapSigning: false,
           organizationalUnit: "OU=Engineering",
-          password: "ad_password",
+          password: "<REDACTED>",
           site: "SiteName",
           smbServerName: "SMBServer",
           username: "ad_user_name",
