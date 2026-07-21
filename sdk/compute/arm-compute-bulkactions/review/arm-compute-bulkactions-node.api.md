@@ -6,6 +6,7 @@
 
 import type { AbortSignalLike } from '@azure/abort-controller';
 import type { ClientOptions } from '@azure-rest/core-client';
+import type { ErrorModel } from '@azure-rest/core-client';
 import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState as OperationState_2 } from '@azure/core-lro';
@@ -144,7 +145,121 @@ export interface BulkactionVMProperties {
 }
 
 // @public
+export type BulkCreateCustomAllocationStrategy = string;
+
+// @public
+export interface BulkCreateCustomCancelOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface BulkCreateCustomCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface BulkCreateCustomDeleteOptionalParams extends OperationOptions {
+    deleteInstances?: boolean;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type BulkCreateCustomDistributionStrategy = string;
+
+// @public
+export interface BulkCreateCustomGetAsyncOperationStatusOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BulkCreateCustomGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BulkCreateCustomListByResourceGroupOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BulkCreateCustomListBySubscriptionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface BulkCreateCustomOperations {
+    cancel: (resourceGroupName: string, location: string, name: string, options?: BulkCreateCustomCancelOptionalParams) => PollerLike<OperationState_2<void>, void>;
+    createOrUpdate: (resourceGroupName: string, location: string, name: string, resource: LocationBasedBulkCreateCustom, options?: BulkCreateCustomCreateOrUpdateOptionalParams) => PollerLike<OperationState_2<LocationBasedBulkCreateCustom>, LocationBasedBulkCreateCustom>;
+    delete: (resourceGroupName: string, location: string, name: string, options?: BulkCreateCustomDeleteOptionalParams) => PollerLike<OperationState_2<void>, void>;
+    get: (resourceGroupName: string, location: string, name: string, options?: BulkCreateCustomGetOptionalParams) => Promise<LocationBasedBulkCreateCustom>;
+    getAsyncOperationStatus: (location: string, asyncOperationId: string, options?: BulkCreateCustomGetAsyncOperationStatusOptionalParams) => Promise<OperationStatusResult>;
+    listByResourceGroup: (resourceGroupName: string, location: string, options?: BulkCreateCustomListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<LocationBasedBulkCreateCustom>;
+    listBySubscription: (location: string, options?: BulkCreateCustomListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<LocationBasedBulkCreateCustom>;
+}
+
+// @public
+export interface BulkCreateCustomOverride {
+    extensions?: BulkactionVMExtension[];
+    identity?: VirtualMachineIdentity;
+    plan?: Plan;
+    tags?: Record<string, string>;
+    virtualMachineName?: string;
+    virtualMachineProfile?: BulkactionVMProperties;
+}
+
+// @public
+export interface BulkCreateCustomOverrideBase {
+    extensions?: BulkactionVMExtension[];
+    identity?: VirtualMachineIdentity;
+    plan?: Plan;
+    tags?: Record<string, string>;
+    virtualMachineProfile?: BulkactionVMProperties;
+}
+
+// @public
+export interface BulkCreateCustomOverridesProfile {
+    overrides?: BulkCreateCustomOverride[];
+    virtualMachineNamePrefix?: string;
+}
+
+// @public
+export interface BulkCreateCustomPriorityProfile {
+    allocationStrategy?: BulkCreateCustomAllocationStrategy;
+    evictionPolicy?: EvictionPolicy;
+    maxPricePerVM?: number;
+    type?: PriorityType;
+}
+
+// @public
+export interface BulkCreateCustomProperties {
+    capacity: number;
+    capacityType?: CapacityType;
+    computeProfile: ComputeProfile;
+    readonly createdTime?: Date;
+    executionParameters?: ExecutionParameters;
+    overridesProfile?: BulkCreateCustomOverridesProfile;
+    priorityProfile: BulkCreateCustomPriorityProfile;
+    readonly provisioningState?: ProvisioningState;
+    vmSizesProfile?: BulkCreateCustomVmSizeProfile[];
+    zoneAllocationPolicy?: BulkCreateCustomZoneAllocationPolicy;
+}
+
+// @public
+export interface BulkCreateCustomVmSizeProfile {
+    name: string;
+    override?: BulkCreateCustomOverrideBase;
+    rank: number;
+}
+
+// @public
+export interface BulkCreateCustomZoneAllocationPolicy {
+    distributionStrategy?: BulkCreateCustomDistributionStrategy;
+    zonePreferences?: ZonePreference[];
+}
+
+// @public
 export type CachingTypes = string;
+
+// @public
+export interface CancelOccurrenceRequest {
+    resourceIds: string[];
+}
 
 // @public
 export interface CancelOperationsContent {
@@ -166,10 +281,17 @@ export type CapacityType = string;
 
 // @public (undocumented)
 export class ComputeClient {
+    constructor(credential: TokenCredential, options?: ComputeClientOptionalParams);
     constructor(credential: TokenCredential, subscriptionId: string, options?: ComputeClientOptionalParams);
+    readonly bulkCreateCustom: BulkCreateCustomOperations;
     readonly launchBulkInstancesOperation: LaunchBulkInstancesOperationOperations;
+    readonly occurrenceExtension: OccurrenceExtensionOperations;
+    readonly occurrences: OccurrencesOperations;
     readonly operations: OperationsOperations;
     readonly pipeline: Pipeline;
+    readonly scheduledActionExtension: ScheduledActionExtensionOperations;
+    readonly scheduledActionOperationStatus: ScheduledActionOperationStatusOperations;
+    readonly scheduledActions: ScheduledActionsOperations;
     readonly virtualMachineBulkOperations: VirtualMachineBulkOperationsOperations;
 }
 
@@ -231,6 +353,12 @@ export interface DeallocateResourceOperationResponse {
     location: string;
     results?: ResourceOperation[];
     type: string;
+}
+
+// @public
+export interface DelayRequest {
+    delay: string;
+    resourceIds: string[];
 }
 
 // @public
@@ -375,8 +503,13 @@ export interface ExecuteVdiCreateRequest {
 
 // @public
 export interface ExecutionParameters {
+    optimizationPreference?: OptimizationPreference;
     retryPolicy?: RetryPolicy;
     verifyVmAgentHealth?: boolean;
+}
+
+// @public
+export interface ExtensionResource extends Resource {
 }
 
 // @public
@@ -490,6 +623,19 @@ export enum KnownAllocationStrategy {
 export enum KnownArchitectureType {
     ARM64 = "ARM64",
     X64 = "X64"
+}
+
+// @public
+export enum KnownBulkCreateCustomAllocationStrategy {
+    LowestPrice = "LowestPrice",
+    Prioritized = "Prioritized"
+}
+
+// @public
+export enum KnownBulkCreateCustomDistributionStrategy {
+    BestEffortBalanced = "BestEffortBalanced",
+    BestEffortSingleZone = "BestEffortSingleZone",
+    Prioritized = "Prioritized"
 }
 
 // @public
@@ -607,6 +753,11 @@ export enum KnownIPVersions {
 }
 
 // @public
+export enum KnownLanguage {
+    EnUs = "en-us"
+}
+
+// @public
 export enum KnownLinuxPatchAssessmentMode {
     AutomaticByPlatform = "AutomaticByPlatform",
     ImageDefault = "ImageDefault"
@@ -654,6 +805,23 @@ export enum KnownModes {
 }
 
 // @public
+export enum KnownMonth {
+    All = "All",
+    April = "April",
+    August = "August",
+    December = "December",
+    February = "February",
+    January = "January",
+    July = "July",
+    June = "June",
+    March = "March",
+    May = "May",
+    November = "November",
+    October = "October",
+    September = "September"
+}
+
+// @public
 export enum KnownNetworkApiVersion {
     NetworkApiVersion20201101 = "2020-11-01",
     NetworkApiVersion20221101 = "2022-11-01"
@@ -676,6 +844,22 @@ export enum KnownNetworkInterfaceAuxiliarySku {
 }
 
 // @public
+export enum KnownNotificationType {
+    Email = "Email"
+}
+
+// @public
+export enum KnownOccurrenceState {
+    Canceled = "Canceled",
+    Cancelling = "Cancelling",
+    Created = "Created",
+    Failed = "Failed",
+    Rescheduling = "Rescheduling",
+    Scheduled = "Scheduled",
+    Succeeded = "Succeeded"
+}
+
+// @public
 export enum KnownOperatingSystemTypes {
     Linux = "Linux",
     Windows = "Windows"
@@ -692,6 +876,13 @@ export enum KnownOperationState {
     Scheduled = "Scheduled",
     Succeeded = "Succeeded",
     Unknown = "Unknown"
+}
+
+// @public
+export enum KnownOptimizationPreference {
+    Availability = "Availability",
+    Cost = "Cost",
+    CostAvailabilityBalanced = "CostAvailabilityBalanced"
 }
 
 // @public
@@ -747,6 +938,37 @@ export enum KnownPublicIPAllocationMethod {
 }
 
 // @public
+export enum KnownRecurringScheduledActionsDeadlineType {
+    CompleteBy = "CompleteBy",
+    InitiateAt = "InitiateAt",
+    Unknown = "Unknown"
+}
+
+// @public
+export enum KnownRecurringScheduledActionsProvisioningState {
+    Canceled = "Canceled",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownRecurringScheduledActionsResourceOperationType {
+    Create = "Create",
+    Deallocate = "Deallocate",
+    Delete = "Delete",
+    Hibernate = "Hibernate",
+    Start = "Start",
+    Unknown = "Unknown"
+}
+
+// @public
+export enum KnownResourceOperationStatus {
+    Failed = "Failed",
+    Succeeded = "Succeeded"
+}
+
+// @public
 export enum KnownResourceOperationType {
     Create = "Create",
     Deallocate = "Deallocate",
@@ -755,6 +977,26 @@ export enum KnownResourceOperationType {
     Hibernate = "Hibernate",
     Start = "Start",
     Unknown = "Unknown"
+}
+
+// @public
+export enum KnownResourceProvisioningState {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownResourceType {
+    VirtualMachine = "VirtualMachine",
+    VirtualMachineScaleSet = "VirtualMachineScaleSet"
+}
+
+// @public
+export enum KnownScheduledActionType {
+    Deallocate = "Deallocate",
+    Hibernate = "Hibernate",
+    Start = "Start"
 }
 
 // @public
@@ -824,6 +1066,18 @@ export enum KnownVMOperationStatus {
 }
 
 // @public
+export enum KnownWeekDay {
+    All = "All",
+    Friday = "Friday",
+    Monday = "Monday",
+    Saturday = "Saturday",
+    Sunday = "Sunday",
+    Thursday = "Thursday",
+    Tuesday = "Tuesday",
+    Wednesday = "Wednesday"
+}
+
+// @public
 export enum KnownWindowsPatchAssessmentMode {
     AutomaticByPlatform = "AutomaticByPlatform",
     ImageDefault = "ImageDefault"
@@ -843,6 +1097,9 @@ export enum KnownWindowsVMGuestPatchMode {
     AutomaticByPlatform = "AutomaticByPlatform",
     Manual = "Manual"
 }
+
+// @public
+export type Language = string;
 
 // @public
 export interface LaunchBulkInstancesOperationCancelOptionalParams extends OperationOptions {
@@ -943,6 +1200,15 @@ export type LinuxVMGuestPatchMode = string;
 export type LocalStorageDiskType = string;
 
 // @public
+export interface LocationBasedBulkCreateCustom extends ProxyResource {
+    identity?: ManagedServiceIdentity;
+    plan?: Plan;
+    properties?: BulkCreateCustomProperties;
+    tags?: Record<string, string>;
+    zones?: string[];
+}
+
+// @public
 export interface LocationBasedLaunchBulkInstancesOperation extends ProxyResource {
     identity?: ManagedServiceIdentity;
     plan?: Plan;
@@ -976,6 +1242,9 @@ export type Mode = string;
 export type Modes = string;
 
 // @public
+export type Month = string;
+
+// @public
 export type NetworkApiVersion = string;
 
 // @public
@@ -1001,6 +1270,105 @@ export interface NetworkProfile {
     networkInterfaceConfigurations?: VirtualMachineNetworkInterfaceConfiguration[];
     networkInterfaces?: NetworkInterfaceReference[];
 }
+
+// @public
+export interface NotificationProperties {
+    destination: string;
+    disabled?: boolean;
+    language: Language;
+    type: NotificationType;
+}
+
+// @public
+export type NotificationType = string;
+
+// @public
+export interface Occurrence extends ProxyResource {
+    properties?: OccurrenceProperties;
+}
+
+// @public
+export interface OccurrenceExtensionListOccurrenceByVmsOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface OccurrenceExtensionOperations {
+    listOccurrenceByVms: (resourceUri: string, options?: OccurrenceExtensionListOccurrenceByVmsOptionalParams) => PagedAsyncIterableIterator<OccurrenceExtensionResource>;
+}
+
+// @public
+export interface OccurrenceExtensionProperties {
+    readonly errorDetails?: ErrorModel;
+    notificationSettings?: NotificationProperties[];
+    readonly provisioningState?: ResourceProvisioningState;
+    resourceId: string;
+    scheduledActionId: string;
+    readonly scheduledTime: Date;
+}
+
+// @public
+export interface OccurrenceExtensionResource extends ExtensionResource {
+    properties?: OccurrenceExtensionProperties;
+}
+
+// @public
+export interface OccurrenceProperties {
+    readonly provisioningState?: OccurrenceState;
+    readonly resultSummary: OccurrenceResultSummary;
+    readonly scheduledTime: Date;
+}
+
+// @public
+export interface OccurrenceResource {
+    readonly errorDetails?: ErrorModel;
+    readonly id: string;
+    readonly name: string;
+    notificationSettings?: NotificationProperties[];
+    readonly provisioningState?: ResourceProvisioningState;
+    resourceId: string;
+    readonly scheduledTime: Date;
+    readonly type?: string;
+}
+
+// @public
+export interface OccurrenceResultSummary {
+    statuses: ResourceResultSummary[];
+    total: number;
+}
+
+// @public
+export interface OccurrencesCancelOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface OccurrencesDelayOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface OccurrencesGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface OccurrencesListByScheduledActionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface OccurrencesListResourcesOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface OccurrencesOperations {
+    cancel: (resourceGroupName: string, scheduledActionName: string, occurrenceId: string, body: CancelOccurrenceRequest, options?: OccurrencesCancelOptionalParams) => PollerLike<OperationState_2<ResourceOperationResponse>, ResourceOperationResponse>;
+    delay: (resourceGroupName: string, scheduledActionName: string, occurrenceId: string, body: DelayRequest, options?: OccurrencesDelayOptionalParams) => PollerLike<OperationState_2<ResourceOperationResponse>, ResourceOperationResponse>;
+    get: (resourceGroupName: string, scheduledActionName: string, occurrenceId: string, options?: OccurrencesGetOptionalParams) => Promise<Occurrence>;
+    listByScheduledAction: (resourceGroupName: string, scheduledActionName: string, options?: OccurrencesListByScheduledActionOptionalParams) => PagedAsyncIterableIterator<Occurrence>;
+    listResources: (resourceGroupName: string, scheduledActionName: string, occurrenceId: string, options?: OccurrencesListResourcesOptionalParams) => PagedAsyncIterableIterator<OccurrenceResource>;
+}
+
+// @public
+export type OccurrenceState = string;
 
 // @public
 export type OperatingSystemTypes = string;
@@ -1046,6 +1414,9 @@ export interface OperationStatusResult {
     startTime?: Date;
     status: string;
 }
+
+// @public
+export type OptimizationPreference = string;
 
 // @public
 export type Origin = string;
@@ -1170,6 +1541,28 @@ export type PublicIPAddressSkuTier = string;
 export type PublicIPAllocationMethod = string;
 
 // @public
+export type RecurringScheduledActionsDeadlineType = string;
+
+// @public
+export interface RecurringScheduledActionsExecutionParameters {
+    optimizationPreference?: OptimizationPreference;
+    retryPolicy?: RecurringScheduledActionsRetryPolicy;
+}
+
+// @public
+export type RecurringScheduledActionsProvisioningState = string;
+
+// @public
+export type RecurringScheduledActionsResourceOperationType = string;
+
+// @public
+export interface RecurringScheduledActionsRetryPolicy {
+    onFailureAction?: RecurringScheduledActionsResourceOperationType;
+    retryCount?: number;
+    retryWindowInMinutes?: number;
+}
+
+// @public
 export interface ReimagePayload {
     baseProfile?: VirtualMachineReimageParameters;
     resourceOverrides?: ReimageResourceOverride[];
@@ -1196,6 +1589,19 @@ export interface Resource {
     readonly systemData?: SystemData;
     readonly type?: string;
 }
+
+// @public
+export interface ResourceAttachRequest {
+    resources: ScheduledActionResourceInput[];
+}
+
+// @public
+export interface ResourceDetachRequest {
+    resources: string[];
+}
+
+// @public
+export type ResourceIdentityType = "SystemAssigned" | "UserAssigned" | "SystemAssigned, UserAssigned" | "None";
 
 // @public
 export interface ResourceNotificationDetails {
@@ -1235,7 +1641,24 @@ export interface ResourceOperationError {
 }
 
 // @public
+export interface ResourceOperationResponse {
+    resourcesStatuses: ResourceStatus[];
+    totalResources: number;
+}
+
+// @public
+export type ResourceOperationStatus = string;
+
+// @public
 export type ResourceOperationType = string;
+
+// @public
+export interface ResourcePatchRequest {
+    resources: ScheduledActionResourceInput[];
+}
+
+// @public
+export type ResourceProvisioningState = string;
 
 // @public
 export interface ResourceProvisionPayload {
@@ -1255,14 +1678,31 @@ export interface ResourceProvisionVdiPayload {
 }
 
 // @public
+export interface ResourceResultSummary {
+    code: string;
+    count: number;
+    errorDetails?: ErrorModel;
+}
+
+// @public
 export interface Resources {
     ids: string[];
+}
+
+// @public
+export interface ResourceStatus {
+    error?: ErrorModel;
+    resourceId: string;
+    status: ResourceOperationStatus;
 }
 
 // @public
 export interface ResourcesWithContext {
     resources: ResourceWithContext[];
 }
+
+// @public
+export type ResourceType = string;
 
 // @public
 export interface ResourceWithContext {
@@ -1287,6 +1727,199 @@ export interface RetryPolicy {
     onFailureAction?: ResourceOperationType;
     retryCount?: number;
     retryWindowInMinutes?: number;
+}
+
+// @public
+export interface ScheduledAction extends TrackedResource {
+    properties?: ScheduledActionProperties;
+}
+
+// @public
+export interface ScheduledActionExtensionListByVmsOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ScheduledActionExtensionOperations {
+    listByVms: (resourceUri: string, options?: ScheduledActionExtensionListByVmsOptionalParams) => PagedAsyncIterableIterator<ScheduledActionResources>;
+}
+
+// @public
+export interface ScheduledActionOperationStatusGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ScheduledActionOperationStatusOperations {
+    get: (location: string, operationId: string, options?: ScheduledActionOperationStatusGetOptionalParams) => Promise<OperationStatusResult>;
+}
+
+// @public
+export interface ScheduledActionProperties {
+    actionType: ScheduledActionType;
+    disabled?: boolean;
+    endTime?: string;
+    notificationSettings: NotificationProperties[];
+    readonly provisioningState?: RecurringScheduledActionsProvisioningState;
+    resourceType: ResourceType;
+    schedule: ScheduledActionsSchedule;
+    startTime: string;
+}
+
+// @public
+export interface ScheduledActionResource {
+    readonly id: string;
+    readonly name: string;
+    notificationSettings?: NotificationProperties[];
+    resourceId: string;
+    readonly type?: string;
+}
+
+// @public
+export interface ScheduledActionResourceInput {
+    notificationSettings?: NotificationProperties[];
+    resourceId: string;
+}
+
+// @public
+export interface ScheduledActionResources extends ExtensionResource {
+    properties?: ScheduledActionsExtensionProperties;
+}
+
+// @public
+export interface ScheduledActionsAttachResourcesOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ScheduledActionsCancelNextOccurrenceOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ScheduledActionsCreateOrUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ScheduledActionsDeleteOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ScheduledActionsDetachResourcesOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ScheduledActionsDisableOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ScheduledActionsEnableOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ScheduledActionsExtensionProperties {
+    actionType: ScheduledActionType;
+    disabled?: boolean;
+    endTime?: string;
+    notificationSettings: NotificationProperties[];
+    readonly provisioningState?: RecurringScheduledActionsProvisioningState;
+    readonly resourceNotificationSettings?: NotificationProperties[];
+    resourceType: ResourceType;
+    schedule: ScheduledActionsSchedule;
+    startTime: string;
+}
+
+// @public
+export interface ScheduledActionsGetOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ScheduledActionsListByResourceGroupOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ScheduledActionsListBySubscriptionOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ScheduledActionsListResourcesOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ScheduledActionsOperations {
+    attachResources: (resourceGroupName: string, scheduledActionName: string, body: ResourceAttachRequest, options?: ScheduledActionsAttachResourcesOptionalParams) => PollerLike<OperationState_2<ResourceOperationResponse>, ResourceOperationResponse>;
+    cancelNextOccurrence: (resourceGroupName: string, scheduledActionName: string, body: CancelOccurrenceRequest, options?: ScheduledActionsCancelNextOccurrenceOptionalParams) => PollerLike<OperationState_2<ResourceOperationResponse>, ResourceOperationResponse>;
+    createOrUpdate: (resourceGroupName: string, scheduledActionName: string, resource: ScheduledAction, options?: ScheduledActionsCreateOrUpdateOptionalParams) => PollerLike<OperationState_2<ScheduledAction>, ScheduledAction>;
+    delete: (resourceGroupName: string, scheduledActionName: string, options?: ScheduledActionsDeleteOptionalParams) => PollerLike<OperationState_2<void>, void>;
+    detachResources: (resourceGroupName: string, scheduledActionName: string, body: ResourceDetachRequest, options?: ScheduledActionsDetachResourcesOptionalParams) => PollerLike<OperationState_2<ResourceOperationResponse>, ResourceOperationResponse>;
+    disable: (resourceGroupName: string, scheduledActionName: string, options?: ScheduledActionsDisableOptionalParams) => PollerLike<OperationState_2<void>, void>;
+    enable: (resourceGroupName: string, scheduledActionName: string, options?: ScheduledActionsEnableOptionalParams) => PollerLike<OperationState_2<void>, void>;
+    get: (resourceGroupName: string, scheduledActionName: string, options?: ScheduledActionsGetOptionalParams) => Promise<ScheduledAction>;
+    listByResourceGroup: (resourceGroupName: string, options?: ScheduledActionsListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<ScheduledAction>;
+    listBySubscription: (options?: ScheduledActionsListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<ScheduledAction>;
+    listResources: (resourceGroupName: string, scheduledActionName: string, options?: ScheduledActionsListResourcesOptionalParams) => PagedAsyncIterableIterator<ScheduledActionResource>;
+    patchResources: (resourceGroupName: string, scheduledActionName: string, body: ResourcePatchRequest, options?: ScheduledActionsPatchResourcesOptionalParams) => Promise<ResourceOperationResponse>;
+    triggerManualOccurrence: (resourceGroupName: string, scheduledActionName: string, options?: ScheduledActionsTriggerManualOccurrenceOptionalParams) => PollerLike<OperationState_2<Occurrence>, Occurrence>;
+    update: (resourceGroupName: string, scheduledActionName: string, properties: ScheduledActionUpdate, options?: ScheduledActionsUpdateOptionalParams) => PollerLike<OperationState_2<void>, void>;
+}
+
+// @public
+export interface ScheduledActionsPatchResourcesOptionalParams extends OperationOptions {
+}
+
+// @public
+export interface ScheduledActionsSchedule {
+    deadlineType?: RecurringScheduledActionsDeadlineType;
+    executionParameters?: RecurringScheduledActionsExecutionParameters;
+    requestedDaysOfTheMonth?: number[];
+    requestedMonths?: Month[];
+    requestedWeekDays?: WeekDay[];
+    scheduledTime: string;
+    timeZone: string;
+}
+
+// @public
+export interface ScheduledActionsScheduleUpdate {
+    deadlineType?: RecurringScheduledActionsDeadlineType;
+    executionParameters?: RecurringScheduledActionsExecutionParameters;
+    requestedDaysOfTheMonth?: number[];
+    requestedMonths?: Month[];
+    requestedWeekDays?: WeekDay[];
+    scheduledTime?: string;
+    timeZone?: string;
+}
+
+// @public
+export interface ScheduledActionsTriggerManualOccurrenceOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ScheduledActionsUpdateOptionalParams extends OperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ScheduledActionType = string;
+
+// @public
+export interface ScheduledActionUpdate {
+    properties?: ScheduledActionUpdateProperties;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface ScheduledActionUpdateProperties {
+    actionType?: ScheduledActionType;
+    disabled?: boolean;
+    endTime?: string;
+    notificationSettings?: NotificationProperties[];
+    resourceType?: ResourceType;
+    schedule?: ScheduledActionsScheduleUpdate;
+    startTime?: string;
 }
 
 // @public
@@ -1378,9 +2011,21 @@ export interface TerminateNotificationProfile {
 }
 
 // @public
+export interface TrackedResource extends Resource {
+    location: string;
+    tags?: Record<string, string>;
+}
+
+// @public
 export interface UefiSettings {
     secureBootEnabled?: boolean;
     vTpmEnabled?: boolean;
+}
+
+// @public
+export interface UserAssignedIdentitiesValue {
+    readonly clientId?: string;
+    readonly principalId?: string;
 }
 
 // @public
@@ -1483,6 +2128,14 @@ export interface VirtualMachineBulkOperationsOperations {
     bulkReimageOperation: (resourceGroupName: string, location: string, requestBody: ExecuteReimageRequest, options?: VirtualMachineBulkOperationsBulkReimageOperationOptionalParams) => Promise<ReimageResourceOperationResponse>;
     bulkStartOperation: (resourceGroupName: string, location: string, requestBody: ExecuteStartContent, options?: VirtualMachineBulkOperationsBulkStartOperationOptionalParams) => Promise<StartResourceOperationResponse>;
     bulkVdiFlexCreateOperation: (resourceGroupName: string, location: string, requestBody: ExecuteVdiCreateRequest, options?: VirtualMachineBulkOperationsBulkVdiFlexCreateOperationOptionalParams) => Promise<CreateResourceOperationResponse>;
+}
+
+// @public
+export interface VirtualMachineIdentity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type?: ResourceIdentityType;
+    userAssignedIdentities?: Record<string, UserAssignedIdentitiesValue>;
 }
 
 // @public
@@ -1648,6 +2301,9 @@ export interface VmSizeProperties {
     vCpusAvailable?: number;
     vCpusPerCore?: number;
 }
+
+// @public
+export type WeekDay = string;
 
 // @public
 export interface WindowsConfiguration {

@@ -48,6 +48,90 @@
         "default": "./dist/commonjs/api/index.js"
       }
     },
+    "./api/occurrenceExtension": {
+      "browser": {
+        "types": "./dist/browser/api/occurrenceExtension/index.d.ts",
+        "default": "./dist/browser/api/occurrenceExtension/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/occurrenceExtension/index.d.ts",
+        "default": "./dist/esm/api/occurrenceExtension/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/occurrenceExtension/index.d.ts",
+        "default": "./dist/commonjs/api/occurrenceExtension/index.js"
+      }
+    },
+    "./api/occurrences": {
+      "browser": {
+        "types": "./dist/browser/api/occurrences/index.d.ts",
+        "default": "./dist/browser/api/occurrences/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/occurrences/index.d.ts",
+        "default": "./dist/esm/api/occurrences/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/occurrences/index.d.ts",
+        "default": "./dist/commonjs/api/occurrences/index.js"
+      }
+    },
+    "./api/scheduledActionOperationStatus": {
+      "browser": {
+        "types": "./dist/browser/api/scheduledActionOperationStatus/index.d.ts",
+        "default": "./dist/browser/api/scheduledActionOperationStatus/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/scheduledActionOperationStatus/index.d.ts",
+        "default": "./dist/esm/api/scheduledActionOperationStatus/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/scheduledActionOperationStatus/index.d.ts",
+        "default": "./dist/commonjs/api/scheduledActionOperationStatus/index.js"
+      }
+    },
+    "./api/scheduledActionExtension": {
+      "browser": {
+        "types": "./dist/browser/api/scheduledActionExtension/index.d.ts",
+        "default": "./dist/browser/api/scheduledActionExtension/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/scheduledActionExtension/index.d.ts",
+        "default": "./dist/esm/api/scheduledActionExtension/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/scheduledActionExtension/index.d.ts",
+        "default": "./dist/commonjs/api/scheduledActionExtension/index.js"
+      }
+    },
+    "./api/scheduledActions": {
+      "browser": {
+        "types": "./dist/browser/api/scheduledActions/index.d.ts",
+        "default": "./dist/browser/api/scheduledActions/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/scheduledActions/index.d.ts",
+        "default": "./dist/esm/api/scheduledActions/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/scheduledActions/index.d.ts",
+        "default": "./dist/commonjs/api/scheduledActions/index.js"
+      }
+    },
+    "./api/bulkCreateCustom": {
+      "browser": {
+        "types": "./dist/browser/api/bulkCreateCustom/index.d.ts",
+        "default": "./dist/browser/api/bulkCreateCustom/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/bulkCreateCustom/index.d.ts",
+        "default": "./dist/esm/api/bulkCreateCustom/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/bulkCreateCustom/index.d.ts",
+        "default": "./dist/commonjs/api/bulkCreateCustom/index.js"
+      }
+    },
     "./api/launchBulkInstancesOperation": {
       "browser": {
         "types": "./dist/browser/api/launchBulkInstancesOperation/index.d.ts",

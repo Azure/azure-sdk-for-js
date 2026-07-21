@@ -7,6 +7,8 @@
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import type { ErrorModel } from "@azure-rest/core-client";
+
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -196,6 +198,8 @@ export function executeDeallocateContentSerializer(item: ExecuteDeallocateConten
 
 /** Extra details needed to run the user's request */
 export interface ExecutionParameters {
+  /** Details that could optimize the user's request */
+  optimizationPreference?: OptimizationPreference;
   /** Retry policy the user can pass */
   retryPolicy?: RetryPolicy;
   /** When true on an executeStart request, run a post-Start VM agent health check and engage the fallback chain if the guest agent does not report Ready. Ignored for non-Start operations. */
@@ -204,12 +208,44 @@ export interface ExecutionParameters {
 
 export function executionParametersSerializer(item: ExecutionParameters): any {
   return {
+    optimizationPreference: item["optimizationPreference"],
     retryPolicy: !item["retryPolicy"]
       ? item["retryPolicy"]
       : retryPolicySerializer(item["retryPolicy"]),
     verifyVmAgentHealth: item["verifyVmAgentHealth"],
   };
 }
+
+export function executionParametersDeserializer(item: any): ExecutionParameters {
+  return {
+    optimizationPreference: item["optimizationPreference"],
+    retryPolicy: !item["retryPolicy"]
+      ? item["retryPolicy"]
+      : retryPolicyDeserializer(item["retryPolicy"]),
+    verifyVmAgentHealth: item["verifyVmAgentHealth"],
+  };
+}
+
+/** The preferences customers can select to optimize their requests to ScheduledActions */
+export enum KnownOptimizationPreference {
+  /** Optimize while considering cost savings */
+  Cost = "Cost",
+  /** Optimize while considering availability of resources */
+  Availability = "Availability",
+  /** Optimize while considering a balance of cost and availability */
+  CostAvailabilityBalanced = "CostAvailabilityBalanced",
+}
+
+/**
+ * The preferences customers can select to optimize their requests to ScheduledActions \
+ * {@link KnownOptimizationPreference} can be used interchangeably with OptimizationPreference,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Cost**: Optimize while considering cost savings \
+ * **Availability**: Optimize while considering availability of resources \
+ * **CostAvailabilityBalanced**: Optimize while considering a balance of cost and availability
+ */
+export type OptimizationPreference = string;
 
 /** The retry policy for the user request */
 export interface RetryPolicy {
@@ -5041,6 +5077,27 @@ export function operationStatusResultArrayDeserializer(
   });
 }
 
+/** The provisioning state of a resource type. */
+export enum KnownResourceProvisioningState {
+  /** Resource has been created. */
+  Succeeded = "Succeeded",
+  /** Resource creation failed. */
+  Failed = "Failed",
+  /** Resource creation was canceled. */
+  Canceled = "Canceled",
+}
+
+/**
+ * The provisioning state of a resource type. \
+ * {@link KnownResourceProvisioningState} can be used interchangeably with ResourceProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded**: Resource has been created. \
+ * **Failed**: Resource creation failed. \
+ * **Canceled**: Resource creation was canceled.
+ */
+export type ResourceProvisioningState = string;
+
 /** List of LaunchBulkInstancesOperation resources. */
 export interface _LaunchBulkInstancesOperationListResult {
   /** The list of LaunchBulkInstancesOperation resources. */
@@ -5214,6 +5271,1750 @@ export function innerErrorDeserializer(item: any): InnerError {
   return {
     exceptionType: item["exceptionType"],
     errorDetail: item["errorDetail"],
+  };
+}
+
+/** Location based BulkCreateCustom resource. The location is part of the resource path. */
+export interface LocationBasedBulkCreateCustom extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: BulkCreateCustomProperties;
+  /** Zones in which the BulkCreateCustom is available */
+  zones?: string[];
+  /** Resource tags. */
+  tags?: Record<string, string>;
+  /** The managed service identities assigned to this resource. */
+  identity?: ManagedServiceIdentity;
+  /** Details of the resource plan. */
+  plan?: Plan;
+}
+
+export function locationBasedBulkCreateCustomSerializer(item: LocationBasedBulkCreateCustom): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : bulkCreateCustomPropertiesSerializer(item["properties"]),
+    zones: !item["zones"]
+      ? item["zones"]
+      : item["zones"].map((p: any) => {
+          return p;
+        }),
+    tags: item["tags"],
+    identity: !item["identity"]
+      ? item["identity"]
+      : managedServiceIdentitySerializer(item["identity"]),
+    plan: !item["plan"] ? item["plan"] : planSerializer(item["plan"]),
+  };
+}
+
+export function locationBasedBulkCreateCustomDeserializer(
+  item: any,
+): LocationBasedBulkCreateCustom {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : bulkCreateCustomPropertiesDeserializer(item["properties"]),
+    zones: !item["zones"]
+      ? item["zones"]
+      : item["zones"].map((p: any) => {
+          return p;
+        }),
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    identity: !item["identity"]
+      ? item["identity"]
+      : managedServiceIdentityDeserializer(item["identity"]),
+    plan: !item["plan"] ? item["plan"] : planDeserializer(item["plan"]),
+  };
+}
+
+/** Details of the BulkCreateCustom. */
+export interface BulkCreateCustomProperties {
+  /** The UTC time the BulkCreateCustom resource was created. */
+  readonly createdTime?: Date;
+  /** The status of the last operation. */
+  readonly provisioningState?: ProvisioningState;
+  /** Total capacity to achieve. It can be in terms of VMs or vCPUs. */
+  capacity: number;
+  /** Specifies capacity type for launching instances. It can be in terms of VMs or vCPUs. */
+  capacityType?: CapacityType;
+  /** Configuration Options for Regular or Spot instances in BulkCreateCustom. */
+  priorityProfile: BulkCreateCustomPriorityProfile;
+  /** List of VM sizes supported for BulkCreateCustom */
+  vmSizesProfile?: BulkCreateCustomVmSizeProfile[];
+  /** Compute Profile to configure the Virtual Machines. */
+  computeProfile: ComputeProfile;
+  /** Zone Allocation Policy for launching instances. */
+  zoneAllocationPolicy?: BulkCreateCustomZoneAllocationPolicy;
+  /** Per-VM overrides and the shared name prefix, specified when the operation is created. */
+  overridesProfile?: BulkCreateCustomOverridesProfile;
+  /** Extra parameters that control how the request is executed, including the retry policy. */
+  executionParameters?: ExecutionParameters;
+}
+
+export function bulkCreateCustomPropertiesSerializer(item: BulkCreateCustomProperties): any {
+  return {
+    capacity: item["capacity"],
+    capacityType: item["capacityType"],
+    priorityProfile: bulkCreateCustomPriorityProfileSerializer(item["priorityProfile"]),
+    vmSizesProfile: !item["vmSizesProfile"]
+      ? item["vmSizesProfile"]
+      : bulkCreateCustomVmSizeProfileArraySerializer(item["vmSizesProfile"]),
+    computeProfile: computeProfileSerializer(item["computeProfile"]),
+    zoneAllocationPolicy: !item["zoneAllocationPolicy"]
+      ? item["zoneAllocationPolicy"]
+      : bulkCreateCustomZoneAllocationPolicySerializer(item["zoneAllocationPolicy"]),
+    overridesProfile: !item["overridesProfile"]
+      ? item["overridesProfile"]
+      : bulkCreateCustomOverridesProfileSerializer(item["overridesProfile"]),
+    executionParameters: !item["executionParameters"]
+      ? item["executionParameters"]
+      : executionParametersSerializer(item["executionParameters"]),
+  };
+}
+
+export function bulkCreateCustomPropertiesDeserializer(item: any): BulkCreateCustomProperties {
+  return {
+    createdTime: !item["createdTime"] ? item["createdTime"] : new Date(item["createdTime"]),
+    provisioningState: item["provisioningState"],
+    capacity: item["capacity"],
+    capacityType: item["capacityType"],
+    priorityProfile: bulkCreateCustomPriorityProfileDeserializer(item["priorityProfile"]),
+    vmSizesProfile: !item["vmSizesProfile"]
+      ? item["vmSizesProfile"]
+      : bulkCreateCustomVmSizeProfileArrayDeserializer(item["vmSizesProfile"]),
+    computeProfile: computeProfileDeserializer(item["computeProfile"]),
+    zoneAllocationPolicy: !item["zoneAllocationPolicy"]
+      ? item["zoneAllocationPolicy"]
+      : bulkCreateCustomZoneAllocationPolicyDeserializer(item["zoneAllocationPolicy"]),
+    overridesProfile: !item["overridesProfile"]
+      ? item["overridesProfile"]
+      : bulkCreateCustomOverridesProfileDeserializer(item["overridesProfile"]),
+    executionParameters: !item["executionParameters"]
+      ? item["executionParameters"]
+      : executionParametersDeserializer(item["executionParameters"]),
+  };
+}
+
+/** Configuration options for Regular or Spot instances in BulkCreateCustom. */
+export interface BulkCreateCustomPriorityProfile {
+  /** The priority type for VM allocation */
+  type?: PriorityType;
+  /** Price per hour of each Spot VM will never exceed this. */
+  maxPricePerVM?: number;
+  /** Eviction Policy to follow when evicting Spot VMs. */
+  evictionPolicy?: EvictionPolicy;
+  /** The allocation strategy for VM size selection */
+  allocationStrategy?: BulkCreateCustomAllocationStrategy;
+}
+
+export function bulkCreateCustomPriorityProfileSerializer(
+  item: BulkCreateCustomPriorityProfile,
+): any {
+  return {
+    type: item["type"],
+    maxPricePerVM: item["maxPricePerVM"],
+    evictionPolicy: item["evictionPolicy"],
+    allocationStrategy: item["allocationStrategy"],
+  };
+}
+
+export function bulkCreateCustomPriorityProfileDeserializer(
+  item: any,
+): BulkCreateCustomPriorityProfile {
+  return {
+    type: item["type"],
+    maxPricePerVM: item["maxPricePerVM"],
+    evictionPolicy: item["evictionPolicy"],
+    allocationStrategy: item["allocationStrategy"],
+  };
+}
+
+/** The allocation strategy for VM size selection in BulkCreateCustom. */
+export enum KnownBulkCreateCustomAllocationStrategy {
+  /** Platform prioritizes VM sizes with the lowest hourly cost */
+  LowestPrice = "LowestPrice",
+  /** Customer specifies a rank for each VM size, platform uses VM sizes in rank order */
+  Prioritized = "Prioritized",
+}
+
+/**
+ * The allocation strategy for VM size selection in BulkCreateCustom. \
+ * {@link KnownBulkCreateCustomAllocationStrategy} can be used interchangeably with BulkCreateCustomAllocationStrategy,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **LowestPrice**: Platform prioritizes VM sizes with the lowest hourly cost \
+ * **Prioritized**: Customer specifies a rank for each VM size, platform uses VM sizes in rank order
+ */
+export type BulkCreateCustomAllocationStrategy = string;
+
+export function bulkCreateCustomVmSizeProfileArraySerializer(
+  result: Array<BulkCreateCustomVmSizeProfile>,
+): any[] {
+  return result.map((item) => {
+    return bulkCreateCustomVmSizeProfileSerializer(item);
+  });
+}
+
+export function bulkCreateCustomVmSizeProfileArrayDeserializer(
+  result: Array<BulkCreateCustomVmSizeProfile>,
+): any[] {
+  return result.map((item) => {
+    return bulkCreateCustomVmSizeProfileDeserializer(item);
+  });
+}
+
+/** A VM size profile entry that may additionally carry an optional per-VM-size profile override. Every VM that the service assigns to this size inherits the override, layered on top of the operation-level base profile and beneath any per-VM override. Present only on the bulkCreateCustom endpoint; the uniform endpoint rejects a non-null override. */
+export interface BulkCreateCustomVmSizeProfile {
+  /** The name of the VM size, eg Standard_D2ads_v5 */
+  name: string;
+  /** The rank of this VM size in the priority order */
+  rank: number;
+  /** Optional per-VM-size profile override applied to every VM the service assigns to this size. A size maps to many VMs, so virtualMachineName is not part of this shape. virtualMachineProfile is layered beneath any per-VM override; tags, identity, and plan are merged with the per-VM override, with the per-VM value winning. */
+  override?: BulkCreateCustomOverrideBase;
+}
+
+export function bulkCreateCustomVmSizeProfileSerializer(item: BulkCreateCustomVmSizeProfile): any {
+  return {
+    name: item["name"],
+    rank: item["rank"],
+    override: !item["override"]
+      ? item["override"]
+      : bulkCreateCustomOverrideBaseSerializer(item["override"]),
+  };
+}
+
+export function bulkCreateCustomVmSizeProfileDeserializer(
+  item: any,
+): BulkCreateCustomVmSizeProfile {
+  return {
+    name: item["name"],
+    rank: item["rank"],
+    override: !item["override"]
+      ? item["override"]
+      : bulkCreateCustomOverrideBaseDeserializer(item["override"]),
+  };
+}
+
+/** Override fields shared by per-VM and per-VM-size overrides. Each set field takes precedence over the operation-level value. VM size, zone, priority, eviction policy, and billing are owned by the service and cannot be set here. */
+export interface BulkCreateCustomOverrideBase {
+  /** VM profile, the same shape as operation-level ComputeProfile.virtualMachineProfile. Overrides the operation-level VM profile. */
+  virtualMachineProfile?: BulkactionVMProperties;
+  /** Tags overriding the operation-level tags. */
+  tags?: Record<string, string>;
+  /** Identity overriding the operation-level identity. */
+  identity?: VirtualMachineIdentity;
+  /** Plan overriding the operation-level plan. */
+  plan?: Plan;
+  /** Extensions. When non-empty they replace the operation-level extensions; when omitted the operation-level extensions are inherited. */
+  extensions?: BulkactionVMExtension[];
+}
+
+export function bulkCreateCustomOverrideBaseSerializer(item: BulkCreateCustomOverrideBase): any {
+  return {
+    virtualMachineProfile: !item["virtualMachineProfile"]
+      ? item["virtualMachineProfile"]
+      : bulkactionVMPropertiesSerializer(item["virtualMachineProfile"]),
+    tags: item["tags"],
+    identity: !item["identity"]
+      ? item["identity"]
+      : virtualMachineIdentitySerializer(item["identity"]),
+    plan: !item["plan"] ? item["plan"] : planSerializer(item["plan"]),
+    extensions: !item["extensions"]
+      ? item["extensions"]
+      : bulkactionVMExtensionArraySerializer(item["extensions"]),
+  };
+}
+
+export function bulkCreateCustomOverrideBaseDeserializer(item: any): BulkCreateCustomOverrideBase {
+  return {
+    virtualMachineProfile: !item["virtualMachineProfile"]
+      ? item["virtualMachineProfile"]
+      : bulkactionVMPropertiesDeserializer(item["virtualMachineProfile"]),
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    identity: !item["identity"]
+      ? item["identity"]
+      : virtualMachineIdentityDeserializer(item["identity"]),
+    plan: !item["plan"] ? item["plan"] : planDeserializer(item["plan"]),
+    extensions: !item["extensions"]
+      ? item["extensions"]
+      : bulkactionVMExtensionArrayDeserializer(item["extensions"]),
+  };
+}
+
+/** Identity for the virtual machine. */
+export interface VirtualMachineIdentity {
+  /** The principal id of virtual machine identity. This property will only be provided for a system assigned identity. */
+  readonly principalId?: string;
+  /** The tenant id associated with the virtual machine. This property will only be provided for a system assigned identity. */
+  readonly tenantId?: string;
+  /** The type of identity used for the virtual machine. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine. */
+  type?: ResourceIdentityType;
+  /** The list of user identities associated with the Virtual Machine. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
+  userAssignedIdentities?: Record<string, UserAssignedIdentitiesValue>;
+}
+
+export function virtualMachineIdentitySerializer(item: VirtualMachineIdentity): any {
+  return {
+    type: item["type"],
+    userAssignedIdentities: !item["userAssignedIdentities"]
+      ? item["userAssignedIdentities"]
+      : userAssignedIdentitiesValueRecordSerializer(item["userAssignedIdentities"]),
+  };
+}
+
+export function virtualMachineIdentityDeserializer(item: any): VirtualMachineIdentity {
+  return {
+    principalId: item["principalId"],
+    tenantId: item["tenantId"],
+    type: item["type"],
+    userAssignedIdentities: !item["userAssignedIdentities"]
+      ? item["userAssignedIdentities"]
+      : userAssignedIdentitiesValueRecordDeserializer(item["userAssignedIdentities"]),
+  };
+}
+
+/** The type of identity used for the virtual machine scale set. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine scale set. */
+export type ResourceIdentityType =
+  "SystemAssigned" | "UserAssigned" | "SystemAssigned, UserAssigned" | "None";
+
+export function userAssignedIdentitiesValueRecordSerializer(
+  item: Record<string, UserAssignedIdentitiesValue>,
+): Record<string, any> {
+  const result: Record<string, any> = {};
+  Object.keys(item).map((key) => {
+    result[key] = !item[key] ? item[key] : userAssignedIdentitiesValueSerializer(item[key]);
+  });
+  return result;
+}
+
+export function userAssignedIdentitiesValueRecordDeserializer(
+  item: Record<string, any>,
+): Record<string, UserAssignedIdentitiesValue> {
+  const result: Record<string, any> = {};
+  Object.keys(item).map((key) => {
+    result[key] = !item[key] ? item[key] : userAssignedIdentitiesValueDeserializer(item[key]);
+  });
+  return result;
+}
+
+/** model interface UserAssignedIdentitiesValue */
+export interface UserAssignedIdentitiesValue {
+  /** The principal id of user assigned identity. */
+  readonly principalId?: string;
+  /** The client id of user assigned identity. */
+  readonly clientId?: string;
+}
+
+export function userAssignedIdentitiesValueSerializer(_item: UserAssignedIdentitiesValue): any {
+  return {};
+}
+
+export function userAssignedIdentitiesValueDeserializer(item: any): UserAssignedIdentitiesValue {
+  return {
+    principalId: item["principalId"],
+    clientId: item["clientId"],
+  };
+}
+
+/** The zone allocation policy for distributing VMs across availability zones in BulkCreateCustom. */
+export interface BulkCreateCustomZoneAllocationPolicy {
+  /** The distribution strategy for zone allocation. Defaults to BestEffortBalanced. */
+  distributionStrategy?: BulkCreateCustomDistributionStrategy;
+  /** The zone preferences for allocation priority */
+  zonePreferences?: ZonePreference[];
+}
+
+export function bulkCreateCustomZoneAllocationPolicySerializer(
+  item: BulkCreateCustomZoneAllocationPolicy,
+): any {
+  return {
+    distributionStrategy: item["distributionStrategy"],
+    zonePreferences: !item["zonePreferences"]
+      ? item["zonePreferences"]
+      : zonePreferenceArraySerializer(item["zonePreferences"]),
+  };
+}
+
+export function bulkCreateCustomZoneAllocationPolicyDeserializer(
+  item: any,
+): BulkCreateCustomZoneAllocationPolicy {
+  return {
+    distributionStrategy: item["distributionStrategy"],
+    zonePreferences: !item["zonePreferences"]
+      ? item["zonePreferences"]
+      : zonePreferenceArrayDeserializer(item["zonePreferences"]),
+  };
+}
+
+/** The distribution strategy for zone allocation in BulkCreateCustom. */
+export enum KnownBulkCreateCustomDistributionStrategy {
+  /** Platform attempts to place as many VMs as possible in a single zone, falls back to multiple zones if needed */
+  BestEffortSingleZone = "BestEffortSingleZone",
+  /** Platform uses customer-provided zone rankings to allocate VMs */
+  Prioritized = "Prioritized",
+  /** Platform attempts to evenly distribute VMs across all available zones with best effort */
+  BestEffortBalanced = "BestEffortBalanced",
+}
+
+/**
+ * The distribution strategy for zone allocation in BulkCreateCustom. \
+ * {@link KnownBulkCreateCustomDistributionStrategy} can be used interchangeably with BulkCreateCustomDistributionStrategy,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **BestEffortSingleZone**: Platform attempts to place as many VMs as possible in a single zone, falls back to multiple zones if needed \
+ * **Prioritized**: Platform uses customer-provided zone rankings to allocate VMs \
+ * **BestEffortBalanced**: Platform attempts to evenly distribute VMs across all available zones with best effort
+ */
+export type BulkCreateCustomDistributionStrategy = string;
+
+/** Groups the per-VM overrides with the name prefix that names any override that does not supply its own VM name. */
+export interface BulkCreateCustomOverridesProfile {
+  /** Prefix used to build the ARM VM name ({prefix}_{index}) for overrides that omit a virtualMachineName. Required when any override is unnamed and rejected when every override is named. */
+  virtualMachineNamePrefix?: string;
+  /** Per-VM overrides. The count is the VM count and must equal capacity. Each override maps to VM index i. */
+  overrides?: BulkCreateCustomOverride[];
+}
+
+export function bulkCreateCustomOverridesProfileSerializer(
+  item: BulkCreateCustomOverridesProfile,
+): any {
+  return {
+    virtualMachineNamePrefix: item["virtualMachineNamePrefix"],
+    overrides: !item["overrides"]
+      ? item["overrides"]
+      : bulkCreateCustomOverrideArraySerializer(item["overrides"]),
+  };
+}
+
+export function bulkCreateCustomOverridesProfileDeserializer(
+  item: any,
+): BulkCreateCustomOverridesProfile {
+  return {
+    virtualMachineNamePrefix: item["virtualMachineNamePrefix"],
+    overrides: !item["overrides"]
+      ? item["overrides"]
+      : bulkCreateCustomOverrideArrayDeserializer(item["overrides"]),
+  };
+}
+
+export function bulkCreateCustomOverrideArraySerializer(
+  result: Array<BulkCreateCustomOverride>,
+): any[] {
+  return result.map((item) => {
+    return bulkCreateCustomOverrideSerializer(item);
+  });
+}
+
+export function bulkCreateCustomOverrideArrayDeserializer(
+  result: Array<BulkCreateCustomOverride>,
+): any[] {
+  return result.map((item) => {
+    return bulkCreateCustomOverrideDeserializer(item);
+  });
+}
+
+/** A single per-VM override. Extends the shared override fields with a per-VM name. */
+export interface BulkCreateCustomOverride {
+  /** ARM VM name for this VM. Optional; when omitted the name is generated from the prefix as {prefix}_{index}. */
+  virtualMachineName?: string;
+  /** VM profile, the same shape as operation-level ComputeProfile.virtualMachineProfile. Overrides the operation-level VM profile. */
+  virtualMachineProfile?: BulkactionVMProperties;
+  /** Tags overriding the operation-level tags. */
+  tags?: Record<string, string>;
+  /** Identity overriding the operation-level identity. */
+  identity?: VirtualMachineIdentity;
+  /** Plan overriding the operation-level plan. */
+  plan?: Plan;
+  /** Extensions. When non-empty they replace the operation-level extensions; when omitted the operation-level extensions are inherited. */
+  extensions?: BulkactionVMExtension[];
+}
+
+export function bulkCreateCustomOverrideSerializer(item: BulkCreateCustomOverride): any {
+  return {
+    virtualMachineName: item["virtualMachineName"],
+    virtualMachineProfile: !item["virtualMachineProfile"]
+      ? item["virtualMachineProfile"]
+      : bulkactionVMPropertiesSerializer(item["virtualMachineProfile"]),
+    tags: item["tags"],
+    identity: !item["identity"]
+      ? item["identity"]
+      : virtualMachineIdentitySerializer(item["identity"]),
+    plan: !item["plan"] ? item["plan"] : planSerializer(item["plan"]),
+    extensions: !item["extensions"]
+      ? item["extensions"]
+      : bulkactionVMExtensionArraySerializer(item["extensions"]),
+  };
+}
+
+export function bulkCreateCustomOverrideDeserializer(item: any): BulkCreateCustomOverride {
+  return {
+    virtualMachineName: item["virtualMachineName"],
+    virtualMachineProfile: !item["virtualMachineProfile"]
+      ? item["virtualMachineProfile"]
+      : bulkactionVMPropertiesDeserializer(item["virtualMachineProfile"]),
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    identity: !item["identity"]
+      ? item["identity"]
+      : virtualMachineIdentityDeserializer(item["identity"]),
+    plan: !item["plan"] ? item["plan"] : planDeserializer(item["plan"]),
+    extensions: !item["extensions"]
+      ? item["extensions"]
+      : bulkactionVMExtensionArrayDeserializer(item["extensions"]),
+  };
+}
+
+/** List of BulkCreateCustom resources. */
+export interface _BulkCreateCustomListResult {
+  /** The list of BulkCreateCustom resources. */
+  value: LocationBasedBulkCreateCustom[];
+  /** The URL to get the next set of results. */
+  nextLink?: string;
+}
+
+export function _bulkCreateCustomListResultDeserializer(item: any): _BulkCreateCustomListResult {
+  return {
+    value: locationBasedBulkCreateCustomArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function locationBasedBulkCreateCustomArraySerializer(
+  result: Array<LocationBasedBulkCreateCustom>,
+): any[] {
+  return result.map((item) => {
+    return locationBasedBulkCreateCustomSerializer(item);
+  });
+}
+
+export function locationBasedBulkCreateCustomArrayDeserializer(
+  result: Array<LocationBasedBulkCreateCustom>,
+): any[] {
+  return result.map((item) => {
+    return locationBasedBulkCreateCustomDeserializer(item);
+  });
+}
+
+/** The scheduled action resource */
+export interface ScheduledAction extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: ScheduledActionProperties;
+}
+
+export function scheduledActionSerializer(item: ScheduledAction): any {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : scheduledActionPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function scheduledActionDeserializer(item: any): ScheduledAction {
+  return {
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : scheduledActionPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Scheduled action properties */
+export interface ScheduledActionProperties {
+  /** The type of resource the scheduled action is targeting */
+  resourceType: ResourceType;
+  /** The action the scheduled action should perform in the resources */
+  actionType: ScheduledActionType;
+  /** The time which the scheduled action is supposed to start running */
+  startTime: string;
+  /** The time when the scheduled action is supposed to stop scheduling */
+  endTime?: string;
+  /** The schedule the scheduled action is supposed to follow */
+  schedule: ScheduledActionsSchedule;
+  /** The notification settings for the scheduled action */
+  notificationSettings: NotificationProperties[];
+  /** Tell if the scheduled action is disabled or not */
+  disabled?: boolean;
+  /** The status of the last provisioning operation performed on the resource. */
+  readonly provisioningState?: RecurringScheduledActionsProvisioningState;
+}
+
+export function scheduledActionPropertiesSerializer(item: ScheduledActionProperties): any {
+  return {
+    resourceType: item["resourceType"],
+    actionType: item["actionType"],
+    startTime: item["startTime"],
+    endTime: item["endTime"],
+    schedule: scheduledActionsScheduleSerializer(item["schedule"]),
+    notificationSettings: notificationPropertiesArraySerializer(item["notificationSettings"]),
+    disabled: item["disabled"],
+  };
+}
+
+export function scheduledActionPropertiesDeserializer(item: any): ScheduledActionProperties {
+  return {
+    resourceType: item["resourceType"],
+    actionType: item["actionType"],
+    startTime: item["startTime"],
+    endTime: item["endTime"],
+    schedule: scheduledActionsScheduleDeserializer(item["schedule"]),
+    notificationSettings: notificationPropertiesArrayDeserializer(item["notificationSettings"]),
+    disabled: item["disabled"],
+    provisioningState: item["provisioningState"],
+  };
+}
+
+/** The type of resource being targeted */
+export enum KnownResourceType {
+  /** Resources defined are Virtual Machines */
+  VirtualMachine = "VirtualMachine",
+  /** Resources defined are Virtual Machines Scale Sets */
+  VirtualMachineScaleSet = "VirtualMachineScaleSet",
+}
+
+/**
+ * The type of resource being targeted \
+ * {@link KnownResourceType} can be used interchangeably with ResourceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **VirtualMachine**: Resources defined are Virtual Machines \
+ * **VirtualMachineScaleSet**: Resources defined are Virtual Machines Scale Sets
+ */
+export type ResourceType = string;
+
+/** Specify which action user wants to be performed on the resources */
+export enum KnownScheduledActionType {
+  /** Perform a start action on the specified resources */
+  Start = "Start",
+  /** Perform a deallocate action on the specified resources */
+  Deallocate = "Deallocate",
+  /** Perform hibernate and deallocate on the specified resources */
+  Hibernate = "Hibernate",
+}
+
+/**
+ * Specify which action user wants to be performed on the resources \
+ * {@link KnownScheduledActionType} can be used interchangeably with ScheduledActionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Start**: Perform a start action on the specified resources \
+ * **Deallocate**: Perform a deallocate action on the specified resources \
+ * **Hibernate**: Perform hibernate and deallocate on the specified resources
+ */
+export type ScheduledActionType = string;
+
+/** Specify the schedule in which the scheduled action is supposed to follow */
+export interface ScheduledActionsSchedule {
+  /** The time the scheduled action is supposed to run on */
+  scheduledTime: string;
+  /** The timezone the scheduled time is specified on */
+  timeZone: string;
+  /** The week days the scheduled action is supposed to run on. If empty, it means it will run on every week day. */
+  requestedWeekDays?: WeekDay[];
+  /** The months the scheduled action is supposed to run on. If empty, it means it will run on every month. */
+  requestedMonths?: Month[];
+  /** The days of the month the scheduled action is supposed to run on. If empty, it means it will run on every day of the month. */
+  requestedDaysOfTheMonth?: number[];
+  /** The execution parameters the scheduled action is supposed to follow */
+  executionParameters?: RecurringScheduledActionsExecutionParameters;
+  /** The type of deadline the scheduled action is supposed to follow for the schedule. If no value is passed, it will default to InitiateAt. */
+  deadlineType?: RecurringScheduledActionsDeadlineType;
+}
+
+export function scheduledActionsScheduleSerializer(item: ScheduledActionsSchedule): any {
+  return {
+    scheduledTime: item["scheduledTime"],
+    timeZone: item["timeZone"],
+    requestedWeekDays: !item["requestedWeekDays"]
+      ? item["requestedWeekDays"]
+      : item["requestedWeekDays"].map((p: any) => {
+          return p;
+        }),
+    requestedMonths: !item["requestedMonths"]
+      ? item["requestedMonths"]
+      : item["requestedMonths"].map((p: any) => {
+          return p;
+        }),
+    requestedDaysOfTheMonth: !item["requestedDaysOfTheMonth"]
+      ? item["requestedDaysOfTheMonth"]
+      : item["requestedDaysOfTheMonth"].map((p: any) => {
+          return p;
+        }),
+    executionParameters: !item["executionParameters"]
+      ? item["executionParameters"]
+      : recurringScheduledActionsExecutionParametersSerializer(item["executionParameters"]),
+    deadlineType: item["deadlineType"],
+  };
+}
+
+export function scheduledActionsScheduleDeserializer(item: any): ScheduledActionsSchedule {
+  return {
+    scheduledTime: item["scheduledTime"],
+    timeZone: item["timeZone"],
+    requestedWeekDays: !item["requestedWeekDays"]
+      ? item["requestedWeekDays"]
+      : item["requestedWeekDays"].map((p: any) => {
+          return p;
+        }),
+    requestedMonths: !item["requestedMonths"]
+      ? item["requestedMonths"]
+      : item["requestedMonths"].map((p: any) => {
+          return p;
+        }),
+    requestedDaysOfTheMonth: !item["requestedDaysOfTheMonth"]
+      ? item["requestedDaysOfTheMonth"]
+      : item["requestedDaysOfTheMonth"].map((p: any) => {
+          return p;
+        }),
+    executionParameters: !item["executionParameters"]
+      ? item["executionParameters"]
+      : recurringScheduledActionsExecutionParametersDeserializer(item["executionParameters"]),
+    deadlineType: item["deadlineType"],
+  };
+}
+
+/** Representation of the possible selection of days in a week in a gregorian calendar */
+export enum KnownWeekDay {
+  /** Monday weekday. */
+  Monday = "Monday",
+  /** Tuesday weekday. */
+  Tuesday = "Tuesday",
+  /** Wednesday weekday. */
+  Wednesday = "Wednesday",
+  /** Thursday weekday. */
+  Thursday = "Thursday",
+  /** Friday weekday. */
+  Friday = "Friday",
+  /** Saturday weekday. */
+  Saturday = "Saturday",
+  /** Sunday weekday. */
+  Sunday = "Sunday",
+  /** All week days */
+  All = "All",
+}
+
+/**
+ * Representation of the possible selection of days in a week in a gregorian calendar \
+ * {@link KnownWeekDay} can be used interchangeably with WeekDay,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Monday**: Monday weekday. \
+ * **Tuesday**: Tuesday weekday. \
+ * **Wednesday**: Wednesday weekday. \
+ * **Thursday**: Thursday weekday. \
+ * **Friday**: Friday weekday. \
+ * **Saturday**: Saturday weekday. \
+ * **Sunday**: Sunday weekday. \
+ * **All**: All week days
+ */
+export type WeekDay = string;
+
+/** Representation of the months available selection in a gregorian calendar */
+export enum KnownMonth {
+  /** The January month. */
+  January = "January",
+  /** The February month. */
+  February = "February",
+  /** The March month. */
+  March = "March",
+  /** The April month. */
+  April = "April",
+  /** The May month. */
+  May = "May",
+  /** The June month. */
+  June = "June",
+  /** The July month. */
+  July = "July",
+  /** The August month. */
+  August = "August",
+  /** The September month. */
+  September = "September",
+  /** The October month. */
+  October = "October",
+  /** The November month. */
+  November = "November",
+  /** The December month. */
+  December = "December",
+  /** All months */
+  All = "All",
+}
+
+/**
+ * Representation of the months available selection in a gregorian calendar \
+ * {@link KnownMonth} can be used interchangeably with Month,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **January**: The January month. \
+ * **February**: The February month. \
+ * **March**: The March month. \
+ * **April**: The April month. \
+ * **May**: The May month. \
+ * **June**: The June month. \
+ * **July**: The July month. \
+ * **August**: The August month. \
+ * **September**: The September month. \
+ * **October**: The October month. \
+ * **November**: The November month. \
+ * **December**: The December month. \
+ * **All**: All months
+ */
+export type Month = string;
+
+/** The execution parameters the scheduled action is supposed to follow */
+export interface RecurringScheduledActionsExecutionParameters {
+  /** Details that could optimize the user's request */
+  optimizationPreference?: OptimizationPreference;
+  /** Retry policy the user can pass */
+  retryPolicy?: RecurringScheduledActionsRetryPolicy;
+}
+
+export function recurringScheduledActionsExecutionParametersSerializer(
+  item: RecurringScheduledActionsExecutionParameters,
+): any {
+  return {
+    optimizationPreference: item["optimizationPreference"],
+    retryPolicy: !item["retryPolicy"]
+      ? item["retryPolicy"]
+      : recurringScheduledActionsRetryPolicySerializer(item["retryPolicy"]),
+  };
+}
+
+export function recurringScheduledActionsExecutionParametersDeserializer(
+  item: any,
+): RecurringScheduledActionsExecutionParameters {
+  return {
+    optimizationPreference: item["optimizationPreference"],
+    retryPolicy: !item["retryPolicy"]
+      ? item["retryPolicy"]
+      : recurringScheduledActionsRetryPolicyDeserializer(item["retryPolicy"]),
+  };
+}
+
+/** Retry policy the scheduled action can pass */
+export interface RecurringScheduledActionsRetryPolicy {
+  /** Retry count for the request */
+  retryCount?: number;
+  /** Retry window in minutes for the request */
+  retryWindowInMinutes?: number;
+  /** Action to take on failure */
+  onFailureAction?: RecurringScheduledActionsResourceOperationType;
+}
+
+export function recurringScheduledActionsRetryPolicySerializer(
+  item: RecurringScheduledActionsRetryPolicy,
+): any {
+  return {
+    retryCount: item["retryCount"],
+    retryWindowInMinutes: item["retryWindowInMinutes"],
+    onFailureAction: item["onFailureAction"],
+  };
+}
+
+export function recurringScheduledActionsRetryPolicyDeserializer(
+  item: any,
+): RecurringScheduledActionsRetryPolicy {
+  return {
+    retryCount: item["retryCount"],
+    retryWindowInMinutes: item["retryWindowInMinutes"],
+    onFailureAction: item["onFailureAction"],
+  };
+}
+
+/** The resource operation to take on a scheduled-action failure. */
+export enum KnownRecurringScheduledActionsResourceOperationType {
+  /** The default value for this enum type */
+  Unknown = "Unknown",
+  /** Start operations on the resources */
+  Start = "Start",
+  /** Deallocate operations on the resources */
+  Deallocate = "Deallocate",
+  /** Hibernate operations on the resources */
+  Hibernate = "Hibernate",
+  /** Create operations on the resources */
+  Create = "Create",
+  /** Delete operations on the resources */
+  Delete = "Delete",
+}
+
+/**
+ * The resource operation to take on a scheduled-action failure. \
+ * {@link KnownRecurringScheduledActionsResourceOperationType} can be used interchangeably with RecurringScheduledActionsResourceOperationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown**: The default value for this enum type \
+ * **Start**: Start operations on the resources \
+ * **Deallocate**: Deallocate operations on the resources \
+ * **Hibernate**: Hibernate operations on the resources \
+ * **Create**: Create operations on the resources \
+ * **Delete**: Delete operations on the resources
+ */
+export type RecurringScheduledActionsResourceOperationType = string;
+
+/** The type of deadline the scheduled action follows for its schedule. */
+export enum KnownRecurringScheduledActionsDeadlineType {
+  /** Default value of Unknown. */
+  Unknown = "Unknown",
+  /** Initiate the operation at the given deadline. */
+  InitiateAt = "InitiateAt",
+  /** Complete the operation by the given deadline. */
+  CompleteBy = "CompleteBy",
+}
+
+/**
+ * The type of deadline the scheduled action follows for its schedule. \
+ * {@link KnownRecurringScheduledActionsDeadlineType} can be used interchangeably with RecurringScheduledActionsDeadlineType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown**: Default value of Unknown. \
+ * **InitiateAt**: Initiate the operation at the given deadline. \
+ * **CompleteBy**: Complete the operation by the given deadline.
+ */
+export type RecurringScheduledActionsDeadlineType = string;
+
+export function notificationPropertiesArraySerializer(
+  result: Array<NotificationProperties>,
+): any[] {
+  return result.map((item) => {
+    return notificationPropertiesSerializer(item);
+  });
+}
+
+export function notificationPropertiesArrayDeserializer(
+  result: Array<NotificationProperties>,
+): any[] {
+  return result.map((item) => {
+    return notificationPropertiesDeserializer(item);
+  });
+}
+
+/** The information about notifications to be send to about upcoming operations. */
+export interface NotificationProperties {
+  /** Where the notification should be sent. For email, it should follow email format. */
+  destination: string;
+  /** Type of notification to be sent. */
+  type: NotificationType;
+  /** The language the notification should be sent on. */
+  language: Language;
+  /** Tells if the notification is enabled or not. */
+  disabled?: boolean;
+}
+
+export function notificationPropertiesSerializer(item: NotificationProperties): any {
+  return {
+    destination: item["destination"],
+    type: item["type"],
+    language: item["language"],
+    disabled: item["disabled"],
+  };
+}
+
+export function notificationPropertiesDeserializer(item: any): NotificationProperties {
+  return {
+    destination: item["destination"],
+    type: item["type"],
+    language: item["language"],
+    disabled: item["disabled"],
+  };
+}
+
+/** The type of notification supported */
+export enum KnownNotificationType {
+  /** Notify through e-mail */
+  Email = "Email",
+}
+
+/**
+ * The type of notification supported \
+ * {@link KnownNotificationType} can be used interchangeably with NotificationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Email**: Notify through e-mail
+ */
+export type NotificationType = string;
+
+/** The notification languages currently supported */
+export enum KnownLanguage {
+  /** American english language */
+  EnUs = "en-us",
+}
+
+/**
+ * The notification languages currently supported \
+ * {@link KnownLanguage} can be used interchangeably with Language,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **en-us**: American english language
+ */
+export type Language = string;
+
+/** Provisioning state of the scheduled action resource. */
+export enum KnownRecurringScheduledActionsProvisioningState {
+  /** Resource has been created. */
+  Succeeded = "Succeeded",
+  /** Resource creation failed. */
+  Failed = "Failed",
+  /** Resource creation was canceled. */
+  Canceled = "Canceled",
+  /** Resource is being deleted. */
+  Deleting = "Deleting",
+}
+
+/**
+ * Provisioning state of the scheduled action resource. \
+ * {@link KnownRecurringScheduledActionsProvisioningState} can be used interchangeably with RecurringScheduledActionsProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded**: Resource has been created. \
+ * **Failed**: Resource creation failed. \
+ * **Canceled**: Resource creation was canceled. \
+ * **Deleting**: Resource is being deleted.
+ */
+export type RecurringScheduledActionsProvisioningState = string;
+
+/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
+export interface TrackedResource extends Resource {
+  /** Resource tags. */
+  tags?: Record<string, string>;
+  /** The geo-location where the resource lives */
+  location: string;
+}
+
+export function trackedResourceSerializer(item: TrackedResource): any {
+  return { tags: item["tags"], location: item["location"] };
+}
+
+export function trackedResourceDeserializer(item: any): TrackedResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    tags: !item["tags"]
+      ? item["tags"]
+      : Object.fromEntries(Object.entries(item["tags"]).map(([k, p]: [string, any]) => [k, p])),
+    location: item["location"],
+  };
+}
+
+/** The type used for update operations of the ScheduledAction. */
+export interface ScheduledActionUpdate {
+  /** Resource tags. */
+  tags?: Record<string, string>;
+  /** The resource-specific properties for this resource. */
+  properties?: ScheduledActionUpdateProperties;
+}
+
+export function scheduledActionUpdateSerializer(item: ScheduledActionUpdate): any {
+  return {
+    tags: item["tags"],
+    properties: !item["properties"]
+      ? item["properties"]
+      : scheduledActionUpdatePropertiesSerializer(item["properties"]),
+  };
+}
+
+/** The updatable properties of the ScheduledAction. */
+export interface ScheduledActionUpdateProperties {
+  /** The type of resource the scheduled action is targeting */
+  resourceType?: ResourceType;
+  /** The action the scheduled action should perform in the resources */
+  actionType?: ScheduledActionType;
+  /** The time which the scheduled action is supposed to start running */
+  startTime?: string;
+  /** The time when the scheduled action is supposed to stop scheduling */
+  endTime?: string;
+  /** The schedule the scheduled action is supposed to follow */
+  schedule?: ScheduledActionsScheduleUpdate;
+  /** The notification settings for the scheduled action */
+  notificationSettings?: NotificationProperties[];
+  /** Tell if the scheduled action is disabled or not */
+  disabled?: boolean;
+}
+
+export function scheduledActionUpdatePropertiesSerializer(
+  item: ScheduledActionUpdateProperties,
+): any {
+  return {
+    resourceType: item["resourceType"],
+    actionType: item["actionType"],
+    startTime: item["startTime"],
+    endTime: item["endTime"],
+    schedule: !item["schedule"]
+      ? item["schedule"]
+      : scheduledActionsScheduleUpdateSerializer(item["schedule"]),
+    notificationSettings: !item["notificationSettings"]
+      ? item["notificationSettings"]
+      : notificationPropertiesArraySerializer(item["notificationSettings"]),
+    disabled: item["disabled"],
+  };
+}
+
+/** Schedule properties for update (PATCH). All properties are optional so individual fields can be patched (merge semantics); omitting a property preserves the current value. */
+export interface ScheduledActionsScheduleUpdate {
+  /** The time the scheduled action is supposed to run on */
+  scheduledTime?: string;
+  /** The timezone the scheduled time is specified on */
+  timeZone?: string;
+  /** The week days the scheduled action is supposed to run on. If empty, it means it will run on every week day. */
+  requestedWeekDays?: WeekDay[];
+  /** The months the scheduled action is supposed to run on. If empty, it means it will run on every month. */
+  requestedMonths?: Month[];
+  /** The days of the month the scheduled action is supposed to run on. If empty, it means it will run on every day of the month. */
+  requestedDaysOfTheMonth?: number[];
+  /** The execution parameters the scheduled action is supposed to follow */
+  executionParameters?: RecurringScheduledActionsExecutionParameters;
+  /** The type of deadline the scheduled action is supposed to follow for the schedule. If no value is passed, it will default to InitiateAt. */
+  deadlineType?: RecurringScheduledActionsDeadlineType;
+}
+
+export function scheduledActionsScheduleUpdateSerializer(
+  item: ScheduledActionsScheduleUpdate,
+): any {
+  return {
+    scheduledTime: item["scheduledTime"],
+    timeZone: item["timeZone"],
+    requestedWeekDays: !item["requestedWeekDays"]
+      ? item["requestedWeekDays"]
+      : item["requestedWeekDays"].map((p: any) => {
+          return p;
+        }),
+    requestedMonths: !item["requestedMonths"]
+      ? item["requestedMonths"]
+      : item["requestedMonths"].map((p: any) => {
+          return p;
+        }),
+    requestedDaysOfTheMonth: !item["requestedDaysOfTheMonth"]
+      ? item["requestedDaysOfTheMonth"]
+      : item["requestedDaysOfTheMonth"].map((p: any) => {
+          return p;
+        }),
+    executionParameters: !item["executionParameters"]
+      ? item["executionParameters"]
+      : recurringScheduledActionsExecutionParametersSerializer(item["executionParameters"]),
+    deadlineType: item["deadlineType"],
+  };
+}
+
+/** The response of a ScheduledAction list operation. */
+export interface _ScheduledActionListResult {
+  /** The ScheduledAction items on this page */
+  value: ScheduledAction[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _scheduledActionListResultDeserializer(item: any): _ScheduledActionListResult {
+  return {
+    value: scheduledActionArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function scheduledActionArraySerializer(result: Array<ScheduledAction>): any[] {
+  return result.map((item) => {
+    return scheduledActionSerializer(item);
+  });
+}
+
+export function scheduledActionArrayDeserializer(result: Array<ScheduledAction>): any[] {
+  return result.map((item) => {
+    return scheduledActionDeserializer(item);
+  });
+}
+
+/** Paged collection of ScheduledActionResource items */
+export interface _ResourceListResponse {
+  /** The ScheduledActionResource items on this page */
+  value: ScheduledActionResource[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _resourceListResponseDeserializer(item: any): _ResourceListResponse {
+  return {
+    value: scheduledActionResourceArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function scheduledActionResourceArrayDeserializer(
+  result: Array<ScheduledActionResource>,
+): any[] {
+  return result.map((item) => {
+    return scheduledActionResourceDeserializer(item);
+  });
+}
+
+/** Represents an scheduled action resource metadata. */
+export interface ScheduledActionResource {
+  /** The name of the resource */
+  readonly name: string;
+  /** The compute RP resource id of the resource in the scheduled actions scope. */
+  readonly id: string;
+  /** The type of resource */
+  readonly type?: string;
+  /**
+   * The ARM Id of the resource.
+   * "subscriptions/{subId}/resourceGroups/{rgName}/providers/Microsoft.Compute/virtualMachines/{vmName}"
+   */
+  resourceId: string;
+  /** The desired notification settings for the specified resource. */
+  notificationSettings?: NotificationProperties[];
+}
+
+export function scheduledActionResourceDeserializer(item: any): ScheduledActionResource {
+  return {
+    name: item["name"],
+    id: item["id"],
+    type: item["type"],
+    resourceId: item["resourceId"],
+    notificationSettings: !item["notificationSettings"]
+      ? item["notificationSettings"]
+      : notificationPropertiesArrayDeserializer(item["notificationSettings"]),
+  };
+}
+
+/** Request model to attach a list of scheduled action resources. */
+export interface ResourceAttachRequest {
+  /** List of resources to be attached/patched */
+  resources: ScheduledActionResourceInput[];
+}
+
+export function resourceAttachRequestSerializer(item: ResourceAttachRequest): any {
+  return { resources: scheduledActionResourceInputArraySerializer(item["resources"]) };
+}
+
+export function scheduledActionResourceInputArraySerializer(
+  result: Array<ScheduledActionResourceInput>,
+): any[] {
+  return result.map((item) => {
+    return scheduledActionResourceInputSerializer(item);
+  });
+}
+
+/** Represents the writable fields of a scheduled action resource used in attach and patch requests. */
+export interface ScheduledActionResourceInput {
+  /**
+   * The ARM Id of the resource.
+   * "subscriptions/{subId}/resourceGroups/{rgName}/providers/Microsoft.Compute/virtualMachines/{vmName}"
+   */
+  resourceId: string;
+  /** The desired notification settings for the specified resource. */
+  notificationSettings?: NotificationProperties[];
+}
+
+export function scheduledActionResourceInputSerializer(item: ScheduledActionResourceInput): any {
+  return {
+    resourceId: item["resourceId"],
+    notificationSettings: !item["notificationSettings"]
+      ? item["notificationSettings"]
+      : notificationPropertiesArraySerializer(item["notificationSettings"]),
+  };
+}
+
+/** The response from scheduled action resource requests, which contains the status of each resource */
+export interface ResourceOperationResponse {
+  /** The total number of resources operated on */
+  totalResources: number;
+  /** The resource status of for each resource */
+  resourcesStatuses: ResourceStatus[];
+}
+
+export function resourceOperationResponseDeserializer(item: any): ResourceOperationResponse {
+  return {
+    totalResources: item["totalResources"],
+    resourcesStatuses: resourceStatusArrayDeserializer(item["resourcesStatuses"]),
+  };
+}
+
+export function resourceStatusArrayDeserializer(result: Array<ResourceStatus>): any[] {
+  return result.map((item) => {
+    return resourceStatusDeserializer(item);
+  });
+}
+
+/** The status of a resource after a resource level operation was performed */
+export interface ResourceStatus {
+  /** The arm identifier of the resource */
+  resourceId: string;
+  /** The state the resource is currently on */
+  status: ResourceOperationStatus;
+  /** Errors encountered while trying to perform */
+  error?: ErrorModel;
+}
+
+export function resourceStatusDeserializer(item: any): ResourceStatus {
+  return {
+    resourceId: item["resourceId"],
+    status: item["status"],
+    error: !item["error"] ? item["error"] : item["error"],
+  };
+}
+
+/** The state the resource is on after the resource operation is applied */
+export enum KnownResourceOperationStatus {
+  /** The resource operation was successful */
+  Succeeded = "Succeeded",
+  /** The resource operation has failed. */
+  Failed = "Failed",
+}
+
+/**
+ * The state the resource is on after the resource operation is applied \
+ * {@link KnownResourceOperationStatus} can be used interchangeably with ResourceOperationStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded**: The resource operation was successful \
+ * **Failed**: The resource operation has failed.
+ */
+export type ResourceOperationStatus = string;
+
+/** Request model to detach a list of scheduled action resources. */
+export interface ResourceDetachRequest {
+  /** List of resources to be detached */
+  resources: string[];
+}
+
+export function resourceDetachRequestSerializer(item: ResourceDetachRequest): any {
+  return {
+    resources: item["resources"].map((p: any) => {
+      return p;
+    }),
+  };
+}
+
+/** Request model perform a resource operation in a list of resources */
+export interface ResourcePatchRequest {
+  /** The list of resources we watch to patch */
+  resources: ScheduledActionResourceInput[];
+}
+
+export function resourcePatchRequestSerializer(item: ResourcePatchRequest): any {
+  return { resources: scheduledActionResourceInputArraySerializer(item["resources"]) };
+}
+
+/** The request to cancel an occurrence. */
+export interface CancelOccurrenceRequest {
+  /** The resources the cancellation should act on. If no resource is passed in the list, Scheduled Action will cancel the occurrence for all resources. */
+  resourceIds: string[];
+}
+
+export function cancelOccurrenceRequestSerializer(item: CancelOccurrenceRequest): any {
+  return {
+    resourceIds: item["resourceIds"].map((p: any) => {
+      return p;
+    }),
+  };
+}
+
+/** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
+export interface Occurrence extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: OccurrenceProperties;
+}
+
+export function occurrenceDeserializer(item: any): Occurrence {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : occurrencePropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Properties for an occurrence */
+export interface OccurrenceProperties {
+  /** The time the occurrence is scheduled for. This value can be changed by calling the delay API */
+  readonly scheduledTime: Date;
+  /** The result for occurrences that achieved a terminal state */
+  readonly resultSummary: OccurrenceResultSummary;
+  /** The aggregated provisioning state of the occurrence */
+  readonly provisioningState?: OccurrenceState;
+}
+
+export function occurrencePropertiesDeserializer(item: any): OccurrenceProperties {
+  return {
+    scheduledTime: new Date(item["scheduledTime"]),
+    resultSummary: occurrenceResultSummaryDeserializer(item["resultSummary"]),
+    provisioningState: item["provisioningState"],
+  };
+}
+
+/** The summarized provisioning result of an occurrence */
+export interface OccurrenceResultSummary {
+  /** The total number of resources that the occurrence was supposed to act on. */
+  total: number;
+  /** The summarized status of the resources. */
+  statuses: ResourceResultSummary[];
+}
+
+export function occurrenceResultSummaryDeserializer(item: any): OccurrenceResultSummary {
+  return {
+    total: item["total"],
+    statuses: resourceResultSummaryArrayDeserializer(item["statuses"]),
+  };
+}
+
+export function resourceResultSummaryArrayDeserializer(
+  result: Array<ResourceResultSummary>,
+): any[] {
+  return result.map((item) => {
+    return resourceResultSummaryDeserializer(item);
+  });
+}
+
+/** The status of the resources */
+export interface ResourceResultSummary {
+  /** The error code for those resources. In case of success, code is populated with Success. */
+  code: string;
+  /** The number of resources that the code applies to. */
+  count: number;
+  /** The error details for the resources. Not populated on success cases. */
+  errorDetails?: ErrorModel;
+}
+
+export function resourceResultSummaryDeserializer(item: any): ResourceResultSummary {
+  return {
+    code: item["code"],
+    count: item["count"],
+    errorDetails: !item["errorDetails"] ? item["errorDetails"] : item["errorDetails"],
+  };
+}
+
+/** The state the occurrence is at a given time */
+export enum KnownOccurrenceState {
+  /** The occurrence was created */
+  Created = "Created",
+  /** The occurrence is being rescheduled */
+  Rescheduling = "Rescheduling",
+  /** The occurrence has been scheduled */
+  Scheduled = "Scheduled",
+  /** The occurrence has successfully ran */
+  Succeeded = "Succeeded",
+  /** The occurrence has failed during its scheduling */
+  Failed = "Failed",
+  /** The occurrence is going through cancellation */
+  Cancelling = "Cancelling",
+  /** The occurrence has been canceled */
+  Canceled = "Canceled",
+}
+
+/**
+ * The state the occurrence is at a given time \
+ * {@link KnownOccurrenceState} can be used interchangeably with OccurrenceState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Created**: The occurrence was created \
+ * **Rescheduling**: The occurrence is being rescheduled \
+ * **Scheduled**: The occurrence has been scheduled \
+ * **Succeeded**: The occurrence has successfully ran \
+ * **Failed**: The occurrence has failed during its scheduling \
+ * **Cancelling**: The occurrence is going through cancellation \
+ * **Canceled**: The occurrence has been canceled
+ */
+export type OccurrenceState = string;
+
+/** The response of a ScheduledActionResources list operation. */
+export interface _ScheduledActionResourcesListResult {
+  /** The ScheduledActionResources items on this page */
+  value: ScheduledActionResources[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _scheduledActionResourcesListResultDeserializer(
+  item: any,
+): _ScheduledActionResourcesListResult {
+  return {
+    value: scheduledActionResourcesArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function scheduledActionResourcesArrayDeserializer(
+  result: Array<ScheduledActionResources>,
+): any[] {
+  return result.map((item) => {
+    return scheduledActionResourcesDeserializer(item);
+  });
+}
+
+/** The scheduled action extension */
+export interface ScheduledActionResources extends ExtensionResource {
+  /** The resource-specific properties for this resource. */
+  properties?: ScheduledActionsExtensionProperties;
+}
+
+export function scheduledActionResourcesDeserializer(item: any): ScheduledActionResources {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : scheduledActionsExtensionPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Scheduled action extension properties */
+export interface ScheduledActionsExtensionProperties {
+  /** The type of resource the scheduled action is targeting */
+  resourceType: ResourceType;
+  /** The action the scheduled action should perform in the resources */
+  actionType: ScheduledActionType;
+  /** The time which the scheduled action is supposed to start running */
+  startTime: string;
+  /** The time when the scheduled action is supposed to stop scheduling */
+  endTime?: string;
+  /** The schedule the scheduled action is supposed to follow */
+  schedule: ScheduledActionsSchedule;
+  /** The notification settings for the scheduled action */
+  notificationSettings: NotificationProperties[];
+  /** Tell if the scheduled action is disabled or not */
+  disabled?: boolean;
+  /** The status of the last provisioning operation performed on the resource. */
+  readonly provisioningState?: RecurringScheduledActionsProvisioningState;
+  /** The notification settings for the scheduled action at a resource level. Resource level notification settings are scope to specific resources only and submitted through attach requests. */
+  readonly resourceNotificationSettings?: NotificationProperties[];
+}
+
+export function scheduledActionsExtensionPropertiesDeserializer(
+  item: any,
+): ScheduledActionsExtensionProperties {
+  return {
+    resourceType: item["resourceType"],
+    actionType: item["actionType"],
+    startTime: item["startTime"],
+    endTime: item["endTime"],
+    schedule: scheduledActionsScheduleDeserializer(item["schedule"]),
+    notificationSettings: notificationPropertiesArrayDeserializer(item["notificationSettings"]),
+    disabled: item["disabled"],
+    provisioningState: item["provisioningState"],
+    resourceNotificationSettings: !item["resourceNotificationSettings"]
+      ? item["resourceNotificationSettings"]
+      : notificationPropertiesArrayDeserializer(item["resourceNotificationSettings"]),
+  };
+}
+
+/** The base extension resource. */
+export interface ExtensionResource extends Resource {}
+
+export function extensionResourceDeserializer(item: any): ExtensionResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+  };
+}
+
+/** The response of a Occurrence list operation. */
+export interface _OccurrenceListResult {
+  /** The Occurrence items on this page */
+  value: Occurrence[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _occurrenceListResultDeserializer(item: any): _OccurrenceListResult {
+  return {
+    value: occurrenceArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function occurrenceArrayDeserializer(result: Array<Occurrence>): any[] {
+  return result.map((item) => {
+    return occurrenceDeserializer(item);
+  });
+}
+
+/** Paged collection of OccurrenceResource items */
+export interface _OccurrenceResourceListResponse {
+  /** The OccurrenceResource items on this page */
+  value: OccurrenceResource[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _occurrenceResourceListResponseDeserializer(
+  item: any,
+): _OccurrenceResourceListResponse {
+  return {
+    value: occurrenceResourceArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function occurrenceResourceArrayDeserializer(result: Array<OccurrenceResource>): any[] {
+  return result.map((item) => {
+    return occurrenceResourceDeserializer(item);
+  });
+}
+
+/** Represents an scheduled action resource metadata. */
+export interface OccurrenceResource {
+  /** The name of the resource */
+  readonly name: string;
+  /** The compute RP resource id of the resource in the scheduled actions scope. */
+  readonly id: string;
+  /** The type of resource */
+  readonly type?: string;
+  /**
+   * The ARM Id of the resource.
+   * "subscriptions/{subId}/resourceGroups/{rgName}/providers/Microsoft.Compute/virtualMachines/{vmName}"
+   */
+  resourceId: string;
+  /** The desired notification settings for the specified resource. */
+  notificationSettings?: NotificationProperties[];
+  /** The time the occurrence is scheduled for the resource. */
+  readonly scheduledTime: Date;
+  /** The current state of the resource */
+  readonly provisioningState?: ResourceProvisioningState;
+  /** Error details for the resource. Only populated if resource is in failed state. */
+  readonly errorDetails?: ErrorModel;
+}
+
+export function occurrenceResourceDeserializer(item: any): OccurrenceResource {
+  return {
+    name: item["name"],
+    id: item["id"],
+    type: item["type"],
+    resourceId: item["resourceId"],
+    notificationSettings: !item["notificationSettings"]
+      ? item["notificationSettings"]
+      : notificationPropertiesArrayDeserializer(item["notificationSettings"]),
+    scheduledTime: new Date(item["scheduledTime"]),
+    provisioningState: item["provisioningState"],
+    errorDetails: !item["errorDetails"] ? item["errorDetails"] : item["errorDetails"],
+  };
+}
+
+/** Request to ask for a delay in an occurrence, delay should be set to client local time eg (PST) 2025-05-30T06:35:00-07:00 */
+export interface DelayRequest {
+  /** The exact time to delay the operations to */
+  delay: string;
+  /** The resources that should be delayed. If empty, the delay will apply to the all resources in the occurrence. */
+  resourceIds: string[];
+}
+
+export function delayRequestSerializer(item: DelayRequest): any {
+  return {
+    delay: item["delay"],
+    resourceIds: item["resourceIds"].map((p: any) => {
+      return p;
+    }),
+  };
+}
+
+/** The response of a OccurrenceExtensionResource list operation. */
+export interface _OccurrenceExtensionResourceListResult {
+  /** The OccurrenceExtensionResource items on this page */
+  value: OccurrenceExtensionResource[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _occurrenceExtensionResourceListResultDeserializer(
+  item: any,
+): _OccurrenceExtensionResourceListResult {
+  return {
+    value: occurrenceExtensionResourceArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function occurrenceExtensionResourceArrayDeserializer(
+  result: Array<OccurrenceExtensionResource>,
+): any[] {
+  return result.map((item) => {
+    return occurrenceExtensionResourceDeserializer(item);
+  });
+}
+
+/** The scheduled action extension */
+export interface OccurrenceExtensionResource extends ExtensionResource {
+  /** The resource-specific properties for this resource. */
+  properties?: OccurrenceExtensionProperties;
+}
+
+export function occurrenceExtensionResourceDeserializer(item: any): OccurrenceExtensionResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : occurrenceExtensionPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** The properties of the occurrence extension */
+export interface OccurrenceExtensionProperties {
+  /**
+   * The ARM Id of the resource.
+   * "subscriptions/{subId}/resourceGroups/{rgName}/providers/Microsoft.Compute/virtualMachines/{vmName}"
+   */
+  resourceId: string;
+  /** The desired notification settings for the specified resource. */
+  notificationSettings?: NotificationProperties[];
+  /** The time the occurrence is scheduled for the resource. Specified in UTC. */
+  readonly scheduledTime: Date;
+  /** The current state of the resource */
+  readonly provisioningState?: ResourceProvisioningState;
+  /** Error details for the resource. Only populated if resource is in failed state. */
+  readonly errorDetails?: ErrorModel;
+  /** The arm identifier of the scheduled action the occurrence belongs to */
+  scheduledActionId: string;
+}
+
+export function occurrenceExtensionPropertiesDeserializer(
+  item: any,
+): OccurrenceExtensionProperties {
+  return {
+    resourceId: item["resourceId"],
+    notificationSettings: !item["notificationSettings"]
+      ? item["notificationSettings"]
+      : notificationPropertiesArrayDeserializer(item["notificationSettings"]),
+    scheduledTime: new Date(item["scheduledTime"]),
+    provisioningState: item["provisioningState"],
+    errorDetails: !item["errorDetails"] ? item["errorDetails"] : item["errorDetails"],
+    scheduledActionId: item["scheduledActionId"],
   };
 }
 

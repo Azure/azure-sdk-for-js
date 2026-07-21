@@ -2,10 +2,27 @@
 // Licensed under the MIT License.
 
 import type { ComputeClient } from "./computeClient.js";
+import { _delayDeserialize, _cancelDeserialize } from "./api/occurrences/operations.js";
 import {
-  _cancelDeserialize,
+  _triggerManualOccurrenceDeserialize,
+  _cancelNextOccurrenceDeserialize,
+  _enableDeserialize,
+  _disableDeserialize,
+  _detachResourcesDeserialize,
+  _attachResourcesDeserialize,
   _$deleteDeserialize,
+  _updateDeserialize,
   _createOrUpdateDeserialize,
+} from "./api/scheduledActions/operations.js";
+import {
+  _cancelDeserialize as _cancelDeserializeBulkCreateCustom,
+  _$deleteDeserialize as _$deleteDeserializeBulkCreateCustom,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeBulkCreateCustom,
+} from "./api/bulkCreateCustom/operations.js";
+import {
+  _cancelDeserialize as _cancelDeserializeLaunchBulkInstancesOperation,
+  _$deleteDeserialize as _$deleteDeserializeLaunchBulkInstancesOperation,
+  _createOrUpdateDeserialize as _createOrUpdateDeserializeLaunchBulkInstancesOperation,
 } from "./api/launchBulkInstancesOperation/operations.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
 import type { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
@@ -77,12 +94,52 @@ interface DeserializationHelper {
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/locations/{location}/launchBulkInstancesOperations/{name}/cancel":
-    { deserializer: _cancelDeserialize, expectedStatuses: ["202", "200", "201"] },
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/locations/{location}/launchBulkInstancesOperations/{name}":
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/scheduledActions/{scheduledActionName}/occurrences/{occurrenceId}/delay":
+    { deserializer: _delayDeserialize, expectedStatuses: ["200", "202", "201"] },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/scheduledActions/{scheduledActionName}/occurrences/{occurrenceId}/cancel":
+    { deserializer: _cancelDeserialize, expectedStatuses: ["200", "202", "201"] },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/scheduledActions/{scheduledActionName}/triggerManualOccurrence":
+    { deserializer: _triggerManualOccurrenceDeserialize, expectedStatuses: ["200", "202", "201"] },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/scheduledActions/{scheduledActionName}/cancelNextOccurrence":
+    { deserializer: _cancelNextOccurrenceDeserialize, expectedStatuses: ["200", "202", "201"] },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/scheduledActions/{scheduledActionName}/enable":
+    { deserializer: _enableDeserialize, expectedStatuses: ["202", "200", "201"] },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/scheduledActions/{scheduledActionName}/disable":
+    { deserializer: _disableDeserialize, expectedStatuses: ["202", "200", "201"] },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/scheduledActions/{scheduledActionName}/detachResources":
+    { deserializer: _detachResourcesDeserialize, expectedStatuses: ["200", "202", "201"] },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/scheduledActions/{scheduledActionName}/attachResources":
+    { deserializer: _attachResourcesDeserialize, expectedStatuses: ["200", "202", "201"] },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/scheduledActions/{scheduledActionName}":
     { deserializer: _$deleteDeserialize, expectedStatuses: ["202", "204", "200"] },
-  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/locations/{location}/launchBulkInstancesOperations/{name}":
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/scheduledActions/{scheduledActionName}":
+    { deserializer: _updateDeserialize, expectedStatuses: ["200", "202", "201"] },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/scheduledActions/{scheduledActionName}":
     { deserializer: _createOrUpdateDeserialize, expectedStatuses: ["200", "201", "202"] },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/locations/{location}/bulkCreateCustom/{name}/cancel":
+    { deserializer: _cancelDeserializeBulkCreateCustom, expectedStatuses: ["202", "200", "201"] },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/locations/{location}/bulkCreateCustom/{name}":
+    { deserializer: _$deleteDeserializeBulkCreateCustom, expectedStatuses: ["202", "204", "200"] },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/locations/{location}/bulkCreateCustom/{name}":
+    {
+      deserializer: _createOrUpdateDeserializeBulkCreateCustom,
+      expectedStatuses: ["200", "201", "202"],
+    },
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/locations/{location}/launchBulkInstancesOperations/{name}/cancel":
+    {
+      deserializer: _cancelDeserializeLaunchBulkInstancesOperation,
+      expectedStatuses: ["202", "200", "201"],
+    },
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/locations/{location}/launchBulkInstancesOperations/{name}":
+    {
+      deserializer: _$deleteDeserializeLaunchBulkInstancesOperation,
+      expectedStatuses: ["202", "204", "200"],
+    },
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/locations/{location}/launchBulkInstancesOperations/{name}":
+    {
+      deserializer: _createOrUpdateDeserializeLaunchBulkInstancesOperation,
+      expectedStatuses: ["200", "201", "202"],
+    },
 };
 
 function getDeserializationHelper(
