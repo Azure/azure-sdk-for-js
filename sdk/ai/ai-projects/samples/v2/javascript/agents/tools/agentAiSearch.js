@@ -14,111 +14,107 @@ const { DefaultAzureCredential } = require("@azure/identity");
 const { AIProjectClient } = require("@azure/ai-projects");
 const readline = require("readline");
 require("dotenv/config");
-const { withAgentVersionEndpoint } = require("../agentEndpointUtils.js");
 
 const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
 const deploymentName = process.env["FOUNDRY_MODEL_NAME"] || "<model deployment name>";
-const agentName = process.env["FOUNDRY_AGENT_NAME"] || "MyAgent";
 const aiSearchConnectionId =
   process.env["AI_SEARCH_CONNECTION_ID"] || "<ai search project connection id>";
 const aiSearchIndexName = process.env["AI_SEARCH_INDEX_NAME"] || "<ai search index name>";
 
 async function main() {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
+  const openAIClient = project.getOpenAIClient();
 
   console.log("Creating agent with Azure AI Search tool...");
 
   // Define Azure AI Search tool that searches indexed content
-  await withAgentVersionEndpoint(
-    project,
-    agentName,
+  const agent = await project.agents.createVersion("MyAISearchAgent", {
+    kind: "prompt",
+    model: deploymentName,
+    instructions:
+      "You are a helpful assistant. You must always provide citations for answers using the tool and render them as: `[message_idx:search_idx†source]`.",
+    tools: [
+      {
+        type: "azure_ai_search",
+        azure_ai_search: {
+          indexes: [
+            {
+              project_connection_id: aiSearchConnectionId,
+              index_name: aiSearchIndexName,
+              query_type: "simple",
+            },
+          ],
+        },
+      },
+    ],
+  });
+  console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
+
+  // Prompt user for input
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
+
+  const userInput = await new Promise((resolve) => {
+    rl.question(
+      "Enter your question for the AI Search agent available in the index (Default: 'Tell me about the mental health services available from Premera'): \n",
+      (answer) => {
+        rl.close();
+        resolve(answer);
+      },
+    );
+  });
+
+  console.log("\nSending request to AI Search agent with streaming...");
+  const streamResponse = await openAIClient.responses.create(
     {
-      kind: "prompt",
-      model: deploymentName,
-      instructions:
-        "You are a helpful assistant. You must always provide citations for answers using the tool and render them as: `[message_idx:search_idx†source]`.",
-      tools: [
-        {
-          type: "azure_ai_search",
-          azure_ai_search: {
-            indexes: [
-              {
-                project_connection_id: aiSearchConnectionId,
-                index_name: aiSearchIndexName,
-                query_type: "simple",
-              },
-            ],
-          },
-        },
-      ],
+      input: userInput || "Tell me about the mental health services available from Premera",
+      stream: true,
     },
-    async (agent) => {
-      console.log(
-        `Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`,
-      );
-      const openAIClient = project.getOpenAIClient({
-        azureConfig: { allowPreview: true, agentName },
-      });
+    {
+      body: {
+        agent_reference: { name: agent.name, type: "agent_reference" },
+        tool_choice: "required",
+      },
+    },
+  );
 
-      // Prompt user for input
-      const rl = readline.createInterface({
-        input: process.stdin,
-        output: process.stdout,
-      });
-
-      const userInput = await new Promise((resolve) => {
-        rl.question(
-          "Enter your question for the AI Search agent available in the index (Default: 'Tell me about the mental health services available from Premera'): \n",
-          (answer) => {
-            rl.close();
-            resolve(answer);
-          },
-        );
-      });
-
-      console.log("\nSending request to AI Search agent with streaming...");
-      const streamResponse = await openAIClient.responses.create(
-        {
-          input: userInput || "Tell me about the mental health services available from Premera",
-          stream: true,
-        },
-        {
-          body: {
-            tool_choice: "required",
-          },
-        },
-      );
-
-      // Process the streaming response
-      for await (const event of streamResponse) {
-        if (event.type === "response.created") {
-          console.log(`Follow-up response created with ID: ${event.response.id}`);
-        } else if (event.type === "response.output_text.delta") {
-          process.stdout.write(event.delta);
-        } else if (event.type === "response.output_text.done") {
-          console.log("\n\nFollow-up response done!");
-        } else if (event.type === "response.output_item.done") {
-          if (event.item.type === "message") {
-            const item = event.item;
-            if (item.content && item.content.length > 0) {
-              const lastContent = item.content[item.content.length - 1];
-              if (lastContent.type === "output_text" && lastContent.annotations) {
-                for (const annotation of lastContent.annotations) {
-                  if (annotation.type === "url_citation") {
-                    console.log(
-                      `URL Citation: ${annotation.url}, Start index: ${annotation.start_index}, End index: ${annotation.end_index}`,
-                    );
-                  }
-                }
+  // Process the streaming response
+  for await (const event of streamResponse) {
+    if (event.type === "response.created") {
+      console.log(`Follow-up response created with ID: ${event.response.id}`);
+    } else if (event.type === "response.output_text.delta") {
+      process.stdout.write(event.delta);
+    } else if (event.type === "response.output_text.done") {
+      console.log("\n\nFollow-up response done!");
+    } else if (event.type === "response.output_item.done") {
+      if (event.item.type === "message") {
+        const item = event.item;
+        if (item.content && item.content.length > 0) {
+          const lastContent = item.content[item.content.length - 1];
+          if (lastContent.type === "output_text" && lastContent.annotations) {
+            for (const annotation of lastContent.annotations) {
+              if (annotation.type === "url_citation") {
+                console.log(
+                  `URL Citation: ${annotation.url}, Start index: ${annotation.start_index}, End index: ${annotation.end_index}`,
+                );
               }
             }
           }
-        } else if (event.type === "response.completed") {
-          console.log("\nFollow-up completed!");
         }
       }
-    },
-  );
+    } else if (event.type === "response.completed") {
+      console.log("\nFollow-up completed!");
+    }
+  }
+
+  // Clean up resources by deleting the agent version
+  // This prevents accumulation of unused resources in your project
+  console.log("\nCleaning up resources...");
+  await project.agents.deleteVersion(agent.name, agent.version);
+  console.log("Agent deleted");
+
   console.log("\nAzure AI Search agent sample completed!");
 }
 

@@ -12,16 +12,15 @@
 import { DefaultAzureCredential } from "@azure/identity";
 import { AIProjectClient, type WorkIQPreviewTool } from "@azure/ai-projects";
 import "dotenv/config";
-import { withAgentVersionEndpoint } from "../agentEndpointUtils.js";
 
 const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
 const deploymentName = process.env["FOUNDRY_MODEL_NAME"] || "<model deployment name>";
-const agentName = process.env["FOUNDRY_AGENT_NAME"] || "MyAgent";
 const workIqProjectConnectionId =
   process.env["WORKIQ_CONNECTION_ID"] || "<work iq project connection id>";
 
 export async function main(): Promise<void> {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
+  const openAIClient = project.getOpenAIClient();
 
   const tool: WorkIQPreviewTool = {
     type: "work_iq_preview",
@@ -29,33 +28,33 @@ export async function main(): Promise<void> {
   };
 
   console.log("Creating agent with WorkIQPreviewTool...");
-  await withAgentVersionEndpoint(
-    project,
-    agentName,
+  const agent = await project.agents.createVersion("MyWorkIQAgent", {
+    kind: "prompt",
+    model: deploymentName,
+    instructions: "Use the available Work IQ tools to answer questions and perform tasks.",
+    tools: [tool],
+  });
+  console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
+
+  const userInput = "What meetings do I have scheduled today?";
+  console.log("\nSending request to agent...");
+
+  const response = await openAIClient.responses.create(
     {
-      kind: "prompt",
-      model: deploymentName,
-      instructions: "Use the available Work IQ tools to answer questions and perform tasks.",
-      tools: [tool],
+      input: userInput,
     },
-    async (agent) => {
-      console.log(
-        `Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`,
-      );
-      const openAIClient = project.getOpenAIClient({
-        azureConfig: { allowPreview: true, agentName },
-      });
-
-      const userInput = "What meetings do I have scheduled today?";
-      console.log("\nSending request to agent...");
-
-      const response = await openAIClient.responses.create({
-        input: userInput,
-      });
-
-      console.log(`Agent response: ${response.output_text}`);
+    {
+      body: {
+        agent_reference: { name: agent.name, version: agent.version, type: "agent_reference" },
+      },
     },
   );
+
+  console.log(`Agent response: ${response.output_text}`);
+
+  // Clean up the agent version so unused versions don't accumulate in the project.
+  await project.agents.deleteVersion(agent.name, agent.version);
+  console.log("Agent deleted");
 }
 
 main().catch((err) => {

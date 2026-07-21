@@ -18,7 +18,6 @@ import { provider, context, trace } from "./consoleTracingSetup.js";
 import { DefaultAzureCredential } from "@azure/identity";
 import { AIProjectClient } from "@azure/ai-projects";
 import "dotenv/config";
-import { withAgentVersionEndpoint } from "./agentEndpointUtils.js";
 
 const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
 const deploymentName = process.env["FOUNDRY_MODEL_NAME"] || "<model deployment name>";
@@ -42,46 +41,48 @@ export async function main(): Promise<void> {
       experimental: true,
     },
   });
+  const openAIClient = project.getOpenAIClient();
 
   // Create a parent span for the scenario
   const span = tracer.startSpan("agentBasicWithConsoleTraces");
   const ctx = trace.setSpan(context.active(), span);
 
   await context.with(ctx, async () => {
-    await withAgentVersionEndpoint(
-      project,
-      agentName,
-      {
-        kind: "prompt",
-        model: deploymentName,
-        instructions: "You are a helpful assistant that answers general questions",
-      },
-      async (agent) => {
-        console.log(
-          `Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`,
-        );
-        const openAIClient = project.getOpenAIClient({
-          azureConfig: { allowPreview: true, agentName },
-        });
+    // Create agent
+    console.log("Creating agent...");
+    const agent = await project.agents.createVersion(agentName, {
+      kind: "prompt",
+      model: deploymentName,
+      instructions: "You are a helpful assistant that answers general questions",
+    });
+    console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
 
-        // Create an empty conversation
-        console.log("\nCreating conversation...");
-        const conversation = await openAIClient.conversations.create({});
-        console.log(`Created conversation (id: ${conversation.id})`);
+    try {
+      // Create an empty conversation
+      console.log("\nCreating conversation...");
+      const conversation = await openAIClient.conversations.create({});
+      console.log(`Created conversation (id: ${conversation.id})`);
 
-        // Generate response using the agent, passing user message as input
-        console.log("\nGenerating response...");
-        const response = await openAIClient.responses.create({
+      // Generate response using the agent, passing user message as input
+      console.log("\nGenerating response...");
+      const response = await openAIClient.responses.create(
+        {
           conversation: conversation.id,
           input: "What is the size of France in square miles?",
-        });
-        console.log(`Response output: ${response.output_text}`);
+        },
+        {
+          body: { agent_reference: { name: agent.name, type: "agent_reference" } },
+        },
+      );
+      console.log(`Response output: ${response.output_text}`);
 
-        // Clean up conversation
-        await openAIClient.conversations.delete(conversation.id);
-        console.log("Conversation deleted");
-      },
-    );
+      // Clean up conversation
+      await openAIClient.conversations.delete(conversation.id);
+      console.log("Conversation deleted");
+    } finally {
+      await project.agents.deleteVersion(agent.name, agent.version);
+      console.log("Agent deleted");
+    }
   });
 
   span.end();

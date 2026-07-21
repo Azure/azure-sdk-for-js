@@ -13,11 +13,9 @@
 const { DefaultAzureCredential } = require("@azure/identity");
 const { AIProjectClient } = require("@azure/ai-projects");
 require("dotenv/config");
-const { withAgentVersionEndpoint } = require("../agentEndpointUtils.js");
 
 const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
 const agentModelDeployment = process.env["FOUNDRY_MODEL_NAME"] || "<agent model deployment name>";
-const agentName = process.env["FOUNDRY_AGENT_NAME"] || "MyAgent";
 const chatModelDeployment =
   process.env["MEMORY_STORE_CHAT_MODEL_DEPLOYMENT_NAME"] || "<memory chat model deployment name>";
 const embeddingModelDeployment =
@@ -33,10 +31,11 @@ function delay(ms) {
 
 async function main() {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
+  const openAIClient = project.getOpenAIClient();
 
   let conversationId;
   let followUpConversationId;
-  let endpointCallbackStarted = false;
+  let agentVersion;
 
   try {
     // Clean up an existing memory store if it already exists
@@ -78,83 +77,74 @@ async function main() {
     };
 
     // Create an agent that will use the Memory Search tool
-    await withAgentVersionEndpoint(
-      project,
-      agentName,
+    const agent = await project.agents.createVersion("MemorySearchAgent", {
+      kind: "prompt",
+      model: agentModelDeployment,
+      instructions:
+        "You are a helpful assistant that remembers user preferences using the memory search tool.",
+      tools: [memorySearchTool],
+    });
+    agentVersion = {
+      name: agent.name,
+      version: agent.version,
+    };
+    console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
+
+    // Start a conversation and provide details the agent should remember
+    const conversation = await openAIClient.conversations.create();
+    conversationId = conversation.id;
+    console.log(`Conversation started (${conversation.id}). Sending a message to seed memories...`);
+
+    const firstResponse = await openAIClient.responses.create(
       {
-        kind: "prompt",
-        model: agentModelDeployment,
-        instructions:
-          "You are a helpful assistant that remembers user preferences using the memory search tool.",
-        tools: [memorySearchTool],
+        input: "I prefer dark roast coffee and usually drink it in the morning.",
+        conversation: conversation.id,
       },
-      async (agent) => {
-        endpointCallbackStarted = true;
-        console.log(
-          `Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`,
-        );
-        const openAIClient = project.getOpenAIClient({
-          azureConfig: { allowPreview: true, agentName },
-        });
-
-        try {
-          // Start a conversation and provide details the agent should remember
-          const conversation = await openAIClient.conversations.create();
-          conversationId = conversation.id;
-          console.log(
-            `Conversation started (${conversation.id}). Sending a message to seed memories...`,
-          );
-
-          const firstResponse = await openAIClient.responses.create({
-            input: "I prefer dark roast coffee and usually drink it in the morning.",
-            conversation: conversation.id,
-          });
-          console.log(`Initial response: ${firstResponse.output_text}`);
-
-          // Allow time for the memory store to update from this conversation
-          console.log("Waiting for the memory store to capture the new memory...");
-          await delay(60000);
-
-          // Create a follow-up conversation and ask the agent to recall the stored memory
-          const followUpConversation = await openAIClient.conversations.create();
-          followUpConversationId = followUpConversation.id;
-          console.log(`Follow-up conversation started (${followUpConversation.id}).`);
-
-          const followUpResponse = await openAIClient.responses.create({
-            input: "Can you remind me of my usual coffee order?",
-            conversation: followUpConversation.id,
-          });
-          console.log(`Follow-up response: ${followUpResponse.output_text}`);
-        } finally {
-          console.log("\nCleaning up resources...");
-          if (conversationId) {
-            await openAIClient.conversations.delete(conversationId);
-            console.log(`Conversation ${conversationId} deleted`);
-          }
-          if (followUpConversationId) {
-            await openAIClient.conversations.delete(followUpConversationId);
-            console.log(`Conversation ${followUpConversationId} deleted`);
-          }
-          try {
-            await project.beta.memoryStores.delete(memoryStoreName);
-            console.log("Memory store deleted");
-          } catch (error) {
-            if (error?.statusCode !== 404) {
-              throw error;
-            }
-          }
-        }
+      {
+        body: { agent_reference: { name: agent.name, type: "agent_reference" } },
       },
     );
+    console.log(`Initial response: ${firstResponse.output_text}`);
+
+    // Allow time for the memory store to update from this conversation
+    console.log("Waiting for the memory store to capture the new memory...");
+    await delay(60000);
+
+    // Create a follow-up conversation and ask the agent to recall the stored memory
+    const followUpConversation = await openAIClient.conversations.create();
+    followUpConversationId = followUpConversation.id;
+    console.log(`Follow-up conversation started (${followUpConversation.id}).`);
+
+    const followUpResponse = await openAIClient.responses.create(
+      {
+        input: "Can you remind me of my usual coffee order?",
+        conversation: followUpConversation.id,
+      },
+      {
+        body: { agent_reference: { name: agent.name, type: "agent_reference" } },
+      },
+    );
+    console.log(`Follow-up response: ${followUpResponse.output_text}`);
   } finally {
-    if (!endpointCallbackStarted) {
-      try {
-        await project.beta.memoryStores.delete(memoryStoreName);
-        console.log("Memory store deleted");
-      } catch (error) {
-        if (error?.statusCode !== 404) {
-          throw error;
-        }
+    console.log("\nCleaning up resources...");
+    if (conversationId) {
+      await openAIClient.conversations.delete(conversationId);
+      console.log(`Conversation ${conversationId} deleted`);
+    }
+    if (followUpConversationId) {
+      await openAIClient.conversations.delete(followUpConversationId);
+      console.log(`Conversation ${followUpConversationId} deleted`);
+    }
+    if (agentVersion) {
+      await project.agents.deleteVersion(agentVersion.name, agentVersion.version);
+      console.log("Agent deleted");
+    }
+    try {
+      await project.beta.memoryStores.delete(memoryStoreName);
+      console.log("Memory store deleted");
+    } catch (error) {
+      if (error?.statusCode !== 404) {
+        throw error;
       }
     }
   }

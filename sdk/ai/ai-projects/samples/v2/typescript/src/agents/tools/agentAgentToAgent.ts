@@ -15,94 +15,90 @@ import { DefaultAzureCredential } from "@azure/identity";
 import { AIProjectClient } from "@azure/ai-projects";
 import * as readline from "readline";
 import "dotenv/config";
-import { withAgentVersionEndpoint } from "../agentEndpointUtils.js";
 
 const projectEndpoint = process.env["FOUNDRY_PROJECT_ENDPOINT"] || "<project endpoint>";
 const deploymentName = process.env["FOUNDRY_MODEL_NAME"] || "<model deployment name>";
-const agentName = process.env["FOUNDRY_AGENT_NAME"] || "MyAgent";
 const a2aProjectConnectionId =
   process.env["A2A_PROJECT_CONNECTION_ID"] || "<a2a project connection id>";
 
 export async function main(): Promise<void> {
   const project = new AIProjectClient(projectEndpoint, new DefaultAzureCredential());
+  const openAIClient = project.getOpenAIClient();
 
   console.log("Creating agent with A2A tool...");
 
-  await withAgentVersionEndpoint(
-    project,
-    agentName,
+  const agent = await project.agents.createVersion("MyA2AAgent", {
+    kind: "prompt",
+    model: deploymentName,
+    instructions: "You are a helpful assistant.",
+    // Define A2A tool for agent-to-agent communication
+    tools: [
+      {
+        type: "a2a_preview",
+        project_connection_id: a2aProjectConnectionId,
+      },
+    ],
+  });
+  console.log(`Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`);
+
+  // Prompt user for input
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
+
+  const userInput = await new Promise<string>((resolve) => {
+    rl.question(
+      "Enter your question (Default: 'What can the secondary agent do?'): \n",
+      (answer) => {
+        rl.close();
+        resolve(answer);
+      },
+    );
+  });
+
+  console.log("\nSending request to A2A agent with streaming...");
+  const streamResponse = await openAIClient.responses.create(
     {
-      kind: "prompt",
-      model: deploymentName,
-      instructions: "You are a helpful assistant.",
-      // Define A2A tool for agent-to-agent communication
-      tools: [
-        {
-          type: "a2a_preview",
-          project_connection_id: a2aProjectConnectionId,
-        },
-      ],
+      input: userInput || "What can the secondary agent do?",
+      stream: true,
     },
-    async (agent) => {
-      console.log(
-        `Agent created (id: ${agent.id}, name: ${agent.name}, version: ${agent.version})`,
-      );
-      const openAIClient = project.getOpenAIClient({
-        azureConfig: { allowPreview: true, agentName },
-      });
-
-      // Prompt user for input
-      const rl = readline.createInterface({
-        input: process.stdin,
-        output: process.stdout,
-      });
-
-      const userInput = await new Promise<string>((resolve) => {
-        rl.question(
-          "Enter your question (Default: 'What can the secondary agent do?'): \n",
-          (answer) => {
-            rl.close();
-            resolve(answer);
-          },
-        );
-      });
-
-      console.log("\nSending request to A2A agent with streaming...");
-      const streamResponse = await openAIClient.responses.create(
-        {
-          input: userInput || "What can the secondary agent do?",
-          stream: true,
-        },
-        {
-          body: {
-            tool_choice: "required",
-          },
-        },
-      );
-
-      // Process the streaming response
-      for await (const event of streamResponse) {
-        if (event.type === "response.created") {
-          console.log(`Follow-up response created with ID: ${event.response.id}`);
-        } else if (event.type === "response.output_text.delta") {
-          process.stdout.write(event.delta);
-        } else if (event.type === "response.output_text.done") {
-          console.log("\n\nFollow-up response done!");
-        } else if (event.type === "response.output_item.done") {
-          const item = event.item as any;
-          if (item.type === "remote_function_call") {
-            // TODO: support remote_function_call schema
-            const callId = item.call_id;
-            const label = item.label;
-            console.log(`Call ID: ${callId ?? "None"}`);
-            console.log(`Label: ${label ?? "None"}`);
-          }
-        } else if (event.type === "response.completed") {
-          console.log("\nFollow-up completed!");
-        }
-      }
+    {
+      body: {
+        agent_reference: { name: agent.name, type: "agent_reference" },
+        tool_choice: "required",
+      },
     },
   );
+
+  // Process the streaming response
+  for await (const event of streamResponse) {
+    if (event.type === "response.created") {
+      console.log(`Follow-up response created with ID: ${event.response.id}`);
+    } else if (event.type === "response.output_text.delta") {
+      process.stdout.write(event.delta);
+    } else if (event.type === "response.output_text.done") {
+      console.log("\n\nFollow-up response done!");
+    } else if (event.type === "response.output_item.done") {
+      const item = event.item as any;
+      if (item.type === "remote_function_call") {
+        // TODO: support remote_function_call schema
+        const callId = item.call_id;
+        const label = item.label;
+        console.log(`Call ID: ${callId ?? "None"}`);
+        console.log(`Label: ${label ?? "None"}`);
+      }
+    } else if (event.type === "response.completed") {
+      console.log("\nFollow-up completed!");
+    }
+  }
+
+  // Clean up resources by deleting the agent version
+  // This prevents accumulation of unused resources in your project
+  console.log("\nCleaning up resources...");
+  await project.agents.deleteVersion(agent.name, agent.version);
+  console.log("Agent deleted");
+
   console.log("\nAgent-to-Agent sample completed!");
 }
 
