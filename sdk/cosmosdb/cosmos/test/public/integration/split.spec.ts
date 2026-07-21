@@ -26,8 +26,8 @@ const generateDocuments = function (docSize: number): {
 
 const documentDefinitions = generateDocuments(20);
 
-// Skipped in signoff: beforeAll provisions a 25,100 RU/s container that exceeds the
-// default 60s timeout on the CGW staging account; the split is plugin-simulated anyway.
+// Skipped in signoff: flaky there — the 25,100 RU/s container in `beforeAll` intermittently
+// times out. The split is plugin-simulated, so skipping loses no coverage.
 describe.skipIf(skipTestForSignOff)("Partition Splits", () => {
   let container: Container;
 
