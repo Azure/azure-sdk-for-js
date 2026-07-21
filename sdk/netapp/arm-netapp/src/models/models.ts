@@ -795,8 +795,6 @@ export interface VolumeProperties {
   /** Space shared by short term clone volume with parent volume in bytes. */
   readonly inheritedSizeInBytes?: number | null;
   /** Specifies whether the volume operates in Breakthrough Mode. */
-  breakthroughModeOld?: BreakthroughMode;
-  /** Specifies whether the volume operates in Breakthrough Mode. */
   breakthroughMode?: BreakthroughMode;
 }
 
@@ -852,7 +850,6 @@ export function volumePropertiesSerializer(item: VolumeProperties): any {
       : placementKeyValuePairsArraySerializer(item["placementRules"]),
     enableSubvolumes: item["enableSubvolumes"],
     isLargeVolume: item["isLargeVolume"],
-    breakthroughModeOld: item["breakthroughModeOld"],
     breakthroughMode: item["breakthroughMode"],
   };
 }
@@ -934,7 +931,6 @@ export function volumePropertiesDeserializer(item: any): VolumeProperties {
     isLargeVolume: item["isLargeVolume"],
     originatingResourceId: item["originatingResourceId"],
     inheritedSizeInBytes: item["inheritedSizeInBytes"],
-    breakthroughModeOld: item["breakthroughModeOld"],
     breakthroughMode: item["breakthroughMode"],
   };
 }

@@ -2554,7 +2554,6 @@ export interface VolumeProperties {
     backupId?: string | null;
     readonly baremetalTenantId?: string;
     breakthroughMode?: BreakthroughMode;
-    breakthroughModeOld?: BreakthroughMode;
     capacityPoolResourceId?: string;
     readonly cloneProgress?: number | null;
     coolAccess?: boolean;

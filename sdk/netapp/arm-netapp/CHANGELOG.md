@@ -1,10 +1,9 @@
 # Release History
 
-## 24.2.0 (2026-07-17)
+## 24.2.0 (2026-07-21)
 
 ### Features Added
   - Interface VolumeProperties has a new optional parameter breakthroughMode
-  - Interface VolumeProperties has a new optional parameter breakthroughModeOld
   - Added Type Alias BreakthroughMode
   - Added Enum KnownBreakthroughMode
   - Enum KnownVersions has a new value V20260501
