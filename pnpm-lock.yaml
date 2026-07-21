@@ -54,9 +54,6 @@ catalogs:
       specifier: ^5.2.1
       version: 5.2.1
   testing:
-    '@rollup/plugin-inject':
-      specifier: ^5.0.5
-      version: 5.0.5
     '@types/chai-as-promised':
       specifier: ^8.0.2
       version: 8.0.2
@@ -8557,9 +8554,6 @@ importers:
       '@azure/eslint-plugin-azure-sdk':
         specifier: workspace:^
         version: link:../../../common/tools/eslint-plugin-azure-sdk
-      '@rollup/plugin-inject':
-        specifier: catalog:testing
-        version: 5.0.5(rollup@4.62.2)
       '@types/debug':
         specifier: ^4.1.12
         version: 4.1.13
@@ -14238,9 +14232,6 @@ importers:
       '@azure/keyvault-secrets':
         specifier: ^4.9.0
         version: link:../../keyvault/keyvault-secrets
-      '@rollup/plugin-inject':
-        specifier: catalog:testing
-        version: 5.0.5(rollup@4.62.2)
       '@types/chai-as-promised':
         specifier: catalog:testing
         version: 8.0.2
@@ -14408,9 +14399,6 @@ importers:
       '@azure/identity':
         specifier: catalog:internal
         version: 4.13.0
-      '@rollup/plugin-inject':
-        specifier: catalog:testing
-        version: 5.0.5(rollup@4.62.2)
       '@types/chai-as-promised':
         specifier: catalog:testing
         version: 8.0.2
@@ -14505,9 +14493,6 @@ importers:
       '@azure/identity':
         specifier: catalog:internal
         version: 4.13.0
-      '@rollup/plugin-inject':
-        specifier: catalog:testing
-        version: 5.0.5(rollup@4.62.2)
       '@types/chai-as-promised':
         specifier: catalog:testing
         version: 8.0.2
@@ -28482,9 +28467,6 @@ importers:
       '@azure/identity':
         specifier: catalog:internal
         version: 4.13.0
-      '@rollup/plugin-inject':
-        specifier: catalog:testing
-        version: 5.0.5(rollup@4.62.2)
       '@types/node':
         specifier: 'catalog:'
         version: 22.20.1
@@ -28619,9 +28601,6 @@ importers:
       '@azure/identity':
         specifier: catalog:internal
         version: 4.13.0
-      '@rollup/plugin-inject':
-        specifier: catalog:testing
-        version: 5.0.5(rollup@4.62.2)
       '@types/node':
         specifier: 'catalog:'
         version: 22.20.1
@@ -29546,9 +29525,6 @@ importers:
       '@azure/identity':
         specifier: catalog:internal
         version: 4.13.0
-      '@rollup/plugin-inject':
-        specifier: catalog:testing
-        version: 5.0.5(rollup@4.62.2)
       '@types/chai-as-promised':
         specifier: catalog:testing
         version: 8.0.2
@@ -37405,15 +37381,6 @@ packages:
   '@rolldown/pluginutils@1.0.1':
     resolution: {integrity: sha1-4/zuCT+7XOdl4a0Ij/TeKIn2+b4=}
 
-  '@rollup/plugin-inject@5.0.5':
-    resolution: {integrity: sha1-YW86c/4HV2X5HFvskBdmCL7Sd6M=}
-    engines: {node: '>=14.0.0'}
-    peerDependencies:
-      rollup: ^1.20.0||^2.0.0||^3.0.0||^4.0.0
-    peerDependenciesMeta:
-      rollup:
-        optional: true
-
   '@rollup/plugin-node-resolve@15.3.1':
     resolution: {integrity: sha1-ZgCJU8JSS+eGqjGdSeMvISgpang=}
     engines: {node: '>=14.0.0'}
@@ -44283,14 +44250,6 @@ snapshots:
     optional: true
 
   '@rolldown/pluginutils@1.0.1': {}
-
-  '@rollup/plugin-inject@5.0.5(rollup@4.62.2)':
-    dependencies:
-      '@rollup/pluginutils': 5.4.0(rollup@4.62.2)
-      estree-walker: 2.0.2
-      magic-string: 0.30.21
-    optionalDependencies:
-      rollup: 4.62.2
 
   '@rollup/plugin-node-resolve@15.3.1(rollup@4.62.2)':
     dependencies:
