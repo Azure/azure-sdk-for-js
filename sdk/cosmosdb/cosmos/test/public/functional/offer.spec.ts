@@ -54,8 +54,6 @@ describe("NodeJS CRUD Tests", { timeout: 10000 }, () => {
       const offers = allOffers.filter((o) => o.offerResourceId === containerDef._rid);
       assert.equal(offers.length, 1);
       const expectedOffer = offers[0];
-      // Staging accounts may enforce a minimum throughput above the 400 default,
-      // so assert a positive value rather than a hard-coded one.
       assert.ok(
         expectedOffer.content.offerThroughput > 0,
         "Offer should report a positive throughput",
@@ -99,7 +97,6 @@ describe("NodeJS CRUD Tests", { timeout: 10000 }, () => {
 
     it("nativeApi Should do offer replace operations successfully name based", async () => {
       const container = await getTestContainer("Validate Offer CRUD");
-      // Scope to this container's offer (see prior test).
       const { resource: containerDef } = await container.read();
       const { resources: allOffers } = await client.offers.readAll().fetchAll();
       const offers = allOffers.filter((o) => o.offerResourceId === containerDef._rid);
