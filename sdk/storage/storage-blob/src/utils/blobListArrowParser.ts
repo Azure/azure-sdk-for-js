@@ -228,7 +228,7 @@ async function readResponseBodyToBytes(response: {
   if (response.readableStreamBody) {
     return readNodeStreamToBytes(response.readableStreamBody);
   }
-  return new Uint8Array(0);
+  throw new RangeError("List Blobs Apache Arrow response body is empty or unavailable.");
 }
 
 function readNodeStreamToBytes(stream: NodeJS.ReadableStream): Promise<Uint8Array> {
