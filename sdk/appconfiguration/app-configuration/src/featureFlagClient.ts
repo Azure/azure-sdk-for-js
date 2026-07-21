@@ -11,6 +11,7 @@ import type {
   GetFeatureFlagOptions,
   ListFeatureFlagRevisionsOptions,
   ListFeatureFlagsOptions,
+  ListFeatureFlagPage,
   ListLabelsOptions,
   ListLabelsPage,
   PageSettings,
@@ -213,10 +214,17 @@ export class FeatureFlagClient {
    *   console.log(`Feature flag: ${featureFlag.name}`);
    * }
    * ```
+   *
+   * To conditionally retrieve pages, pass a `pageEtags` array (one etag per page). Each etag is sent
+   * as an `If-None-Match` header, and unchanged pages are returned as empty pages with their `etag`
+   * preserved, mirroring `AppConfigurationClient.listConfigurationSettings`.
    * @param options - Optional parameters for the request.
    */
-  listFeatureFlags(options: ListFeatureFlagsOptions = {}): PagedAsyncIterableIterator<FeatureFlag> {
-    const { nameFilter, labelFilter, tagsFilter, acceptDateTime, fields, ...restOptions } = options;
+  listFeatureFlags(
+    options: ListFeatureFlagsOptions = {},
+  ): PagedAsyncIterableIterator<FeatureFlag, ListFeatureFlagPage, PageSettings> {
+    const { nameFilter, labelFilter, tagsFilter, acceptDateTime, fields, pageEtags, ...restOptions } =
+      options;
     return listFeatureFlags(
       this._context,
       "FeatureFlagClient.listFeatureFlags",
@@ -227,6 +235,7 @@ export class FeatureFlagClient {
         acceptDatetime: acceptDateTime?.toISOString(),
         select: fields,
       },
+      pageEtags,
       restOptions,
     );
   }

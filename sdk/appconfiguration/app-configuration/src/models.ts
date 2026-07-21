@@ -564,6 +564,24 @@ export interface ListFeatureFlagsOptions extends OperationOptions {
 
   /** Which fields to return for each feature flag. */
   fields?: FeatureFlagFields[];
+
+  /**
+   * A list of page etags, one per page, used to conditionally retrieve pages. Each etag is sent as
+   * an `If-None-Match` header for its corresponding page; when the page is unchanged the service
+   * responds with `304 Not Modified` and the SDK yields an empty page whose `etag` is preserved.
+   */
+  pageEtags?: string[];
+}
+
+/**
+ * A page of feature flags and the corresponding HTTP response
+ */
+export interface ListFeatureFlagPage
+  extends HttpResponseField<SyncTokenHeaderField>, PageSettings, EtagEntity {
+  /**
+   * The feature flags for this page of results.
+   */
+  items: FeatureFlag[];
 }
 
 /**

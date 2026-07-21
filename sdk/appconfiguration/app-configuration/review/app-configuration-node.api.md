@@ -177,7 +177,7 @@ export class FeatureFlagClient {
     deleteFeatureFlag(name: string, options?: DeleteFeatureFlagOptions): Promise<FeatureFlag | undefined>;
     getFeatureFlag(name: string, options?: GetFeatureFlagOptions): Promise<FeatureFlag>;
     listFeatureFlagRevisions(options?: ListFeatureFlagRevisionsOptions): PagedAsyncIterableIterator<FeatureFlag>;
-    listFeatureFlags(options?: ListFeatureFlagsOptions): PagedAsyncIterableIterator<FeatureFlag>;
+    listFeatureFlags(options?: ListFeatureFlagsOptions): PagedAsyncIterableIterator<FeatureFlag, ListFeatureFlagPage, PageSettings>;
     listLabels(options?: ListLabelsOptions): PagedAsyncIterableIterator<SettingLabel, ListLabelsPage, PageSettings>;
     setFeatureFlag(featureFlag: FeatureFlag, options?: SetFeatureFlagOptions): Promise<FeatureFlag>;
 }
@@ -345,6 +345,11 @@ export interface ListConfigurationSettingsOptions extends OperationOptions, List
 }
 
 // @public
+export interface ListFeatureFlagPage extends HttpResponseField<SyncTokenHeaderField>, PageSettings, EtagEntity {
+    items: FeatureFlag[];
+}
+
+// @public
 export interface ListFeatureFlagRevisionsOptions extends OperationOptions {
     fields?: FeatureFlagFields[];
     labelFilter?: string;
@@ -358,6 +363,7 @@ export interface ListFeatureFlagsOptions extends OperationOptions {
     fields?: FeatureFlagFields[];
     labelFilter?: string;
     nameFilter?: string;
+    pageEtags?: string[];
     tagsFilter?: string[];
 }
 
