@@ -12,6 +12,8 @@
 
 ### Bugs Fixed
 
+- Stopped exporting the internal-only `FileDownloadOptionalParams` and `FileUploadRangeFromURLOptionalParams` types, which are not referenced by any public API.
+
 ### Other Changes
 
 - Migrate to TypeSpec-based code generation [PR #38227](https://github.com/Azure/azure-sdk-for-js/pull/38227)
