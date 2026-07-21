@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { NodeReadableStream } from "#platform/generated/static-helpers/platform-types";
+import { NodeReadableStream } from "@azure/core-rest-pipeline";
 import { FileContents } from "./static-helpers/multipartHelpers.js";
 
 export { BlobClient } from "./blobClient.js";

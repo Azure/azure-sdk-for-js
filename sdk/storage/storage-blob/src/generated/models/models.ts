@@ -7,7 +7,7 @@
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { NodeReadableStream } from "#platform/generated/static-helpers/platform-types";
+import { NodeReadableStream } from "@azure-rest/core-client";
 import { FileContents } from "../static-helpers/multipartHelpers.js";
 import { serializeRecord } from "../static-helpers/serialization/serialize-record.js";
 import {
