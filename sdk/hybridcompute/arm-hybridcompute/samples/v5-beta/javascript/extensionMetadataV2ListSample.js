@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets all Extension versions based on location, publisher, extensionType
  *
  * @summary gets all Extension versions based on location, publisher, extensionType
- * x-ms-original-file: 2025-09-16-preview/extension/ExtensionMetadataV2_List.json
+ * x-ms-original-file: 2026-06-16-preview/extension/ExtensionMetadataV2_List.json
  */
 async function getAListOfExtensionMetadata() {
   const credential = new DefaultAzureCredential();
