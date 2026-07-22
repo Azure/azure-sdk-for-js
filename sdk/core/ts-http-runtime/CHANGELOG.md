@@ -4,19 +4,20 @@
 
 ### Features Added
 
+- Added a `workerd` export condition so the Cloudflare Workers runtime resolves the Node-compatible build instead of the browser build. This fixes a `proxyPolicy` exception when constructing clients on Cloudflare Workers (e.g. via Wrangler with `nodejs_compat`). [Issue #37345](https://github.com/Azure/azure-sdk-for-js/issues/37345)
+
 ### Breaking Changes
 
 ### Bugs Fixed
 
 ### Other Changes
 
-`proxyPolicy` no longer throws on platforms where proxies are not supported (such as browsers and React Native). Instead, it returns a no-op policy that forwards requests unchanged, and `getDefaultProxySettings` returns `undefined` [PR #39084](https://github.com/Azure/azure-sdk-for-js/pull/39084)
+- `proxyPolicy` no longer throws on platforms where proxies are not supported (such as browsers and React Native). Instead, it returns a no-op policy that forwards requests unchanged, and `getDefaultProxySettings` returns `undefined` [PR #39084](https://github.com/Azure/azure-sdk-for-js/pull/39084)
 
 ## 0.3.7 (2026-07-13)
 
 ### Bugs Fixed
 
-- Added a `workerd` export condition so the Cloudflare Workers runtime resolves the Node-compatible build instead of the browser build. This fixes a `proxyPolicy` exception when constructing clients on Cloudflare Workers (e.g. via Wrangler with `nodejs_compat`). [Issue #37345](https://github.com/Azure/azure-sdk-for-js/issues/37345)
 - `logPolicy` now redacts non-allowlisted response header values when verbose logging is enabled, instead of logging them in plaintext.
 
 ### Other Changes
