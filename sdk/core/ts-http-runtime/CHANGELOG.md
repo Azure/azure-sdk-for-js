@@ -1,5 +1,17 @@
 # Release History
 
+## 0.3.8 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+`proxyPolicy` no longer throws on platforms where proxies are not supported (such as browsers and React Native). Instead, it returns a no-op policy that forwards requests unchanged, and `getDefaultProxySettings` returns `undefined` [PR #39084](https://github.com/Azure/azure-sdk-for-js/pull/39084)
+
 ## 0.3.7 (2026-07-13)
 
 ### Bugs Fixed
@@ -9,7 +21,6 @@
 
 ### Other Changes
 
-- `proxyPolicy` no longer throws on platforms where proxies are not supported (such as browsers and React Native). Instead, it returns a no-op policy that forwards requests unchanged, and `getDefaultProxySettings` returns `undefined`.
 - Removed the internal `randomUUID` polyfill for Node.js and browsers, relying on `globalThis.crypto.randomUUID()` which is available on those platforms. React Native keeps a `Math.random()` based fallback since its JS engines do not provide `crypto.randomUUID()`.
 - Update `engines` to `"node": ">=22.0.0"`. Please refer to our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more information on our supported Node.js versions.
 
