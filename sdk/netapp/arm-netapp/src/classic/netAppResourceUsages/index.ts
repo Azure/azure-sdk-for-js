@@ -24,7 +24,6 @@ export interface NetAppResourceUsagesOperations {
     options?: NetAppResourceUsagesListOptionalParams,
   ) => PagedAsyncIterableIterator<UsageResult>;
 }
-
 function _getNetAppResourceUsages(context: NetAppManagementContext) {
   return {
     get: (location: string, usageType: string, options?: NetAppResourceUsagesGetOptionalParams) =>
@@ -33,7 +32,6 @@ function _getNetAppResourceUsages(context: NetAppManagementContext) {
       list(context, location, options),
   };
 }
-
 export function _getNetAppResourceUsagesOperations(
   context: NetAppManagementContext,
 ): NetAppResourceUsagesOperations {

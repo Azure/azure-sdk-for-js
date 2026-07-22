@@ -53,7 +53,6 @@ export interface BackupPoliciesOperations {
     options?: BackupPoliciesGetOptionalParams,
   ) => Promise<BackupPolicy>;
 }
-
 function _getBackupPolicies(context: NetAppManagementContext) {
   return {
     list: (
@@ -89,7 +88,6 @@ function _getBackupPolicies(context: NetAppManagementContext) {
     ) => get(context, resourceGroupName, accountName, backupPolicyName, options),
   };
 }
-
 export function _getBackupPoliciesOperations(
   context: NetAppManagementContext,
 ): BackupPoliciesOperations {

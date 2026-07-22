@@ -53,7 +53,6 @@ export interface PoolsOperations {
     options?: PoolsGetOptionalParams,
   ) => Promise<CapacityPool>;
 }
-
 function _getPools(context: NetAppManagementContext) {
   return {
     list: (resourceGroupName: string, accountName: string, options?: PoolsListOptionalParams) =>
@@ -86,7 +85,6 @@ function _getPools(context: NetAppManagementContext) {
     ) => get(context, resourceGroupName, accountName, poolName, options),
   };
 }
-
 export function _getPoolsOperations(context: NetAppManagementContext): PoolsOperations {
   return {
     ..._getPools(context),
