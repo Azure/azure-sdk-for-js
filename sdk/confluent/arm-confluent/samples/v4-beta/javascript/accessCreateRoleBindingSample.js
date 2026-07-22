@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to organization role bindings
  *
  * @summary organization role bindings
- * x-ms-original-file: 2025-08-18-preview/Access_CreateRoleBinding_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-02-preview/Access_CreateRoleBinding_MaximumSet_Gen.json
  */
 async function accessCreateRoleBindingMaximumSet() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function accessCreateRoleBindingMaximumSet() {
  * This sample demonstrates how to organization role bindings
  *
  * @summary organization role bindings
- * x-ms-original-file: 2025-08-18-preview/Access_CreateRoleBinding_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-06-02-preview/Access_CreateRoleBinding_MinimumSet_Gen.json
  */
 async function accessCreateRoleBindingMinimumSet() {
   const credential = new DefaultAzureCredential();

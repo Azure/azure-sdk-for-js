@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to get cluster by Id
  *
  * @summary get cluster by Id
- * x-ms-original-file: 2025-08-18-preview/Organization_GetClusterById_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-02-preview/Organization_GetClusterById_MaximumSet_Gen.json
  */
 async function organizationGetClusterByIdMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

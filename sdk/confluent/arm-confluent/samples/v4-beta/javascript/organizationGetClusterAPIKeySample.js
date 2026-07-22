@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to get API key details of a kafka or schema registry cluster
  *
  * @summary get API key details of a kafka or schema registry cluster
- * x-ms-original-file: 2025-08-18-preview/Organization_GetClusterAPIKey_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-02-preview/Organization_GetClusterAPIKey_MaximumSet_Gen.json
  */
 async function organizationGetClusterAPIKeyMaximumSet() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function organizationGetClusterAPIKeyMaximumSet() {
  * This sample demonstrates how to get API key details of a kafka or schema registry cluster
  *
  * @summary get API key details of a kafka or schema registry cluster
- * x-ms-original-file: 2025-08-18-preview/Organization_GetClusterAPIKey_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-06-02-preview/Organization_GetClusterAPIKey_MinimumSet_Gen.json
  */
 async function organizationGetClusterAPIKeyMinimumSet() {
   const credential = new DefaultAzureCredential();

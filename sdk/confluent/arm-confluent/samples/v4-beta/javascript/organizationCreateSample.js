@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create Organization resource
  *
  * @summary create Organization resource
- * x-ms-original-file: 2025-08-18-preview/Organization_Create_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-02-preview/Organization_Create_MaximumSet_Gen.json
  */
 async function organizationCreateMaximumSet() {
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,6 @@ async function organizationCreateMaximumSet() {
         privateOfferId:
           "goshpcnjukfzfhubmynjxiulurrwplzcjpjstebtsiigbkovchcrlfmgoymqfuayhihnxruthwjywtedlcsqqsgaelqthvfzvafyjhsfzfjwotsiajpcogwrwylgcphxfhvvwemynoyovnvqcetftiofkthgdzfvybvhpviqlwlslaupndcxlvjssdap",
         privateOfferIds: ["nrbzkbcpvsakewlgubfmej"],
-        status: "Started",
       },
       userDetail: {
         firstName: "gqxqhtniapwvnsliaifhvmbtvvrciebktpeadanapfcqzflomz",

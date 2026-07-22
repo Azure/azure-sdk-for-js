@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to organization role bindings
  *
  * @summary organization role bindings
- * x-ms-original-file: 2025-08-18-preview/Access_ListRoleBindings_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-02-preview/Access_ListRoleBindings_MaximumSet_Gen.json
  */
 async function accessListRoleBindingsMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function accessListRoleBindingsMaximumSet(): Promise<void> {
  * This sample demonstrates how to organization role bindings
  *
  * @summary organization role bindings
- * x-ms-original-file: 2025-08-18-preview/Access_ListRoleBindings_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-06-02-preview/Access_ListRoleBindings_MinimumSet_Gen.json
  */
 async function accessListRoleBindingsMinimumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
