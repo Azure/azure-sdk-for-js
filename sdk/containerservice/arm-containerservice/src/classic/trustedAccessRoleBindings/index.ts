@@ -83,7 +83,6 @@ export interface TrustedAccessRoleBindingsOperations {
     options?: TrustedAccessRoleBindingsGetOptionalParams,
   ) => Promise<TrustedAccessRoleBinding>;
 }
-
 function _getTrustedAccessRoleBindings(context: ContainerServiceContext) {
   return {
     list: (
@@ -184,7 +183,6 @@ function _getTrustedAccessRoleBindings(context: ContainerServiceContext) {
     ) => get(context, resourceGroupName, resourceName, trustedAccessRoleBindingName, options),
   };
 }
-
 export function _getTrustedAccessRoleBindingsOperations(
   context: ContainerServiceContext,
 ): TrustedAccessRoleBindingsOperations {

@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-containerservice",
-  "version": "25.4.0-beta.2",
+  "version": "26.0.0",
   "description": "A generated SDK for ContainerServiceClient.",
   "engines": {
     "node": ">=22.0.0"
@@ -124,6 +124,20 @@
       "require": {
         "types": "./dist/commonjs/api/operationStatusResult/index.d.ts",
         "default": "./dist/commonjs/api/operationStatusResult/index.js"
+      }
+    },
+    "./api/alertConfigurations": {
+      "browser": {
+        "types": "./dist/browser/api/alertConfigurations/index.d.ts",
+        "default": "./dist/browser/api/alertConfigurations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/alertConfigurations/index.d.ts",
+        "default": "./dist/esm/api/alertConfigurations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/alertConfigurations/index.d.ts",
+        "default": "./dist/commonjs/api/alertConfigurations/index.js"
       }
     },
     "./api/operations": {
@@ -438,7 +452,7 @@
       "azure"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-containerservice?view=azure-node-preview"
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/@azure/arm-containerservice"
   },
   "imports": {
     "#platform/*": {

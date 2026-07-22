@@ -5,6 +5,8 @@ import type { ContainerServiceContext, ContainerServiceClientOptionalParams } fr
 import { createContainerService } from "./api/index.js";
 import type { AgentPoolsOperations } from "./classic/agentPools/index.js";
 import { _getAgentPoolsOperations } from "./classic/agentPools/index.js";
+import type { AlertConfigurationsOperations } from "./classic/alertConfigurations/index.js";
+import { _getAlertConfigurationsOperations } from "./classic/alertConfigurations/index.js";
 import type { ContainerServiceOperations } from "./classic/containerService/index.js";
 import { _getContainerServiceOperations } from "./classic/containerService/index.js";
 import type { IdentityBindingsOperations } from "./classic/identityBindings/index.js";
@@ -76,14 +78,7 @@ export class ContainerServiceClient {
     }
 
     options = options ?? {};
-    const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-    const userAgentPrefix = prefixFromOptions
-      ? `${prefixFromOptions} azsdk-js-client`
-      : `azsdk-js-client`;
-    this._client = createContainerService(credential, subscriptionId ?? "", {
-      ...options,
-      userAgentOptions: { userAgentPrefix },
-    });
+    this._client = createContainerService(credential, subscriptionId ?? "", options);
     this.pipeline = this._client.pipeline;
     this.vmSkus = _getVmSkusOperations(this._client);
     this.containerService = _getContainerServiceOperations(this._client);
@@ -91,6 +86,7 @@ export class ContainerServiceClient {
     this.resolvePrivateLinkServiceId = _getResolvePrivateLinkServiceIdOperations(this._client);
     this.privateLinkResources = _getPrivateLinkResourcesOperations(this._client);
     this.operationStatusResult = _getOperationStatusResultOperations(this._client);
+    this.alertConfigurations = _getAlertConfigurationsOperations(this._client);
     this.operations = _getOperationsOperations(this._client);
     this.meshMemberships = _getMeshMembershipsOperations(this._client);
     this.jwtAuthenticators = _getJWTAuthenticatorsOperations(this._client);
@@ -120,6 +116,8 @@ export class ContainerServiceClient {
   public readonly privateLinkResources: PrivateLinkResourcesOperations;
   /** The operation groups for operationStatusResult */
   public readonly operationStatusResult: OperationStatusResultOperations;
+  /** The operation groups for alertConfigurations */
+  public readonly alertConfigurations: AlertConfigurationsOperations;
   /** The operation groups for operations */
   public readonly operations: OperationsOperations;
   /** The operation groups for meshMemberships */

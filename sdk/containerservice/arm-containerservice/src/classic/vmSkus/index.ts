@@ -15,14 +15,12 @@ export interface VmSkusOperations {
     options?: VmSkusListOptionalParams,
   ) => PagedAsyncIterableIterator<ResourceSku>;
 }
-
 function _getVmSkus(context: ContainerServiceContext) {
   return {
     list: (location: string, options?: VmSkusListOptionalParams) =>
       list(context, location, options),
   };
 }
-
 export function _getVmSkusOperations(context: ContainerServiceContext): VmSkusOperations {
   return {
     ..._getVmSkus(context),

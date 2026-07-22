@@ -90,7 +90,6 @@ export interface MaintenanceWindowsOperations {
     options?: MaintenanceWindowsGetOptionalParams,
   ) => Promise<MaintenanceWindowResource>;
 }
-
 function _getMaintenanceWindows(context: ContainerServiceContext) {
   return {
     listBySubscription: (options?: MaintenanceWindowsListBySubscriptionOptionalParams) =>
@@ -167,7 +166,6 @@ function _getMaintenanceWindows(context: ContainerServiceContext) {
     ) => get(context, resourceGroupName, maintenanceWindowName, options),
   };
 }
-
 export function _getMaintenanceWindowsOperations(
   context: ContainerServiceContext,
 ): MaintenanceWindowsOperations {
