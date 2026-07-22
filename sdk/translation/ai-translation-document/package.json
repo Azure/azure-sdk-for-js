@@ -1,7 +1,7 @@
 {
   "name": "@azure/ai-translation-document",
   "version": "1.0.0",
-  "description": "Microsoft Translation Document",
+  "description": "SDK for Microsoft Translation Document service",
   "engines": {
     "node": ">=22.0.0"
   },
