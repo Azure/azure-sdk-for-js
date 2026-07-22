@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to upgrades one or more virtual machines to the latest SKU set in the VM scale set model.
  *
  * @summary upgrades one or more virtual machines to the latest SKU set in the VM scale set model.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_UpdateInstances_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_UpdateInstances_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetUpdateInstancesMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -23,7 +23,7 @@ async function virtualMachineScaleSetUpdateInstancesMaximumSetGen() {
  * This sample demonstrates how to upgrades one or more virtual machines to the latest SKU set in the VM scale set model.
  *
  * @summary upgrades one or more virtual machines to the latest SKU set in the VM scale set model.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_UpdateInstances_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_UpdateInstances_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetUpdateInstancesMinimumSetGen() {
   const credential = new DefaultAzureCredential();

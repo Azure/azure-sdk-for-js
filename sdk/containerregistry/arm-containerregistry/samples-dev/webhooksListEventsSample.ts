@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists recent events for the specified webhook.
  *
  * @summary lists recent events for the specified webhook.
- * x-ms-original-file: 2026-01-01-preview/WebhookListEvents.json
+ * x-ms-original-file: 2026-03-01-preview/WebhookListEvents.json
  */
 async function webhookListEvents(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -4,6 +4,8 @@
 
 ```ts
 
+import { isRestError } from '@azure/core-rest-pipeline';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { SchemaRegistry } from '@azure/schema-registry';
 
 // @public
@@ -25,6 +27,8 @@ export interface DeserializeOptions {
     schema?: string;
 }
 
+export { isRestError }
+
 // @public
 export interface MessageAdapter<MessageT> {
     consume: (message: MessageT) => MessageContent;
@@ -36,6 +40,8 @@ export interface MessageContent {
     contentType: string;
     data: Uint8Array;
 }
+
+export { RestError }
 
 // (No @packageDocumentation comment for this package)
 

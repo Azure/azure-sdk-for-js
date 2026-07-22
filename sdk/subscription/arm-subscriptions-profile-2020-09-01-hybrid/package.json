@@ -5,7 +5,7 @@
   "description": "A generated SDK for SubscriptionClient.",
   "version": "2.1.2",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "dependencies": {
     "@azure/core-auth": "^1.9.0",

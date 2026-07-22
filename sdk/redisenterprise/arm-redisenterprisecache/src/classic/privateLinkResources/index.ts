@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RedisEnterpriseManagementContext } from "../../api/redisEnterpriseManagementContext.js";
+import type { RedisEnterpriseManagementContext } from "../../api/redisEnterpriseManagementContext.js";
 import { listByCluster } from "../../api/privateLinkResources/operations.js";
-import { PrivateLinkResourcesListByClusterOptionalParams } from "../../api/privateLinkResources/options.js";
-import { PrivateLinkResource } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PrivateLinkResourcesListByClusterOptionalParams } from "../../api/privateLinkResources/options.js";
+import type { PrivateLinkResource } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a PrivateLinkResources operations. */
 export interface PrivateLinkResourcesOperations {

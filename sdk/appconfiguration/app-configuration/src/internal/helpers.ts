@@ -263,6 +263,7 @@ export function makeConfigurationSettingEmpty(
 ): void {
   const names: Exclude<keyof ConfigurationSetting, "key">[] = [
     "contentType",
+    "description",
     "etag",
     "label",
     "lastModified",
@@ -378,18 +379,19 @@ export function serializeAsConfigurationSettingParam(
  * @internal
  */
 export function transformKeyValueResponseWithStatusCode<T extends KeyValue>(
-  kvp: T,
+  kvp: T | undefined,
   status: number | undefined,
 ): ConfigurationSetting & { eTag?: string } & HttpResponseFields {
+  const source = (kvp ?? {}) as T;
   const response = {
-    ...transformKeyValue(kvp),
+    ...transformKeyValue(source),
     statusCode: status ?? -1,
   };
 
-  if (hasUnderscoreResponse(kvp)) {
+  if (hasUnderscoreResponse(source)) {
     Object.defineProperty(response, "_response", {
       enumerable: false,
-      value: kvp._response,
+      value: source._response,
     });
   }
   return response;
@@ -421,6 +423,7 @@ export function transformSnapshotResponse<T extends Snapshot>(snapshot: T): Snap
     ...snapshot,
     createdOn: snapshot.createdOn ? new Date(snapshot.createdOn) : undefined,
     expiresOn: snapshot.expiresOn ? new Date(snapshot.expiresOn) : undefined,
+    itemCount: snapshot.itemsCount,
   };
   if (hasUnderscoreResponse(snapshot)) {
     Object.defineProperty(configSnapshot, "_response", {

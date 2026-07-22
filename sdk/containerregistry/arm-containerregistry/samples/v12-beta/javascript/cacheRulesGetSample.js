@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the properties of the specified cache rule resource.
  *
  * @summary gets the properties of the specified cache rule resource.
- * x-ms-original-file: 2026-01-01-preview/CacheRuleGet.json
+ * x-ms-original-file: 2026-03-01-preview/CacheRuleGet.json
  */
 async function cacheRuleGet() {
   const credential = new DefaultAzureCredential();

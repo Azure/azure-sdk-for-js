@@ -10,6 +10,8 @@ import {
   PathStylePorts,
 } from "./constants.js";
 import type { HttpHeadersLike, WebResourceLike } from "@azure/core-http-compat";
+import { toCompatResponse } from "@azure/core-http-compat";
+import type { StorageCompatResponseInfo } from "../generated/static-helpers/storageCompatResponse.js";
 
 /**
  * Append a string to URL path. Will remove duplicated "/" in front of the string
@@ -363,6 +365,14 @@ export function sanitizeHeaders(originalHeader: HttpHeaders): HttpHeaders {
   return headers;
 }
 
+const accountNameSuffixes = [
+  "-secondary-ipv6",
+  "-secondary-dualstack",
+  "-ipv6",
+  "-dualstack",
+  "-secondary",
+];
+
 /**
  * Extracts account name from the url
  * @param url - url to extract the account name from
@@ -374,7 +384,14 @@ export function getAccountNameFromUrl(url: string): string {
   try {
     if (parsedUrl.hostname.split(".")[1] === "queue") {
       // `${defaultEndpointsProtocol}://${accountName}.queue.${endpointSuffix}`;
+      // `${defaultEndpointsProtocol}://${accountName}-suffix.queue.${endpointSuffix}`;
       accountName = parsedUrl.hostname.split(".")[0];
+      for (let i = 0; i < accountNameSuffixes.length; ++i) {
+        const suffix = accountNameSuffixes[i];
+        if (accountName.endsWith(suffix)) {
+          accountName = accountName.substring(0, accountName.length - suffix.length);
+        }
+      }
     } else if (isIpEndpointStyle(parsedUrl)) {
       // IPv4/IPv6 address hosts... Example - http://192.0.0.10:10001/devstoreaccount1/
       // Single word domain without a [dot] in the endpoint... Example - http://localhost:10001/devstoreaccount1/
@@ -520,4 +537,42 @@ export function assertResponse<T extends object, Headers = undefined, Body = und
   }
 
   throw new TypeError(`Unexpected response object ${response}`);
+}
+
+/**
+ * Converts a response with StorageCompatResponseInfo shape to the legacy
+ * _response shape (with status, headers, parsedHeaders, parsedBody).
+ */
+export function adjustResponse<
+  T extends object,
+  THeaders extends Record<string, unknown>,
+  TBody = unknown,
+>(
+  result: T & StorageCompatResponseInfo<TBody, THeaders>,
+): T & {
+  _response: HttpResponse & {
+    parsedHeaders: THeaders;
+    bodyAsText: string;
+    parsedBody: TBody;
+  };
+} {
+  const compatResponse = toCompatResponse(result._response.rawResponse);
+  compatResponse.parsedHeaders = { ...result._response.parsedHeaders };
+  if (result._response.parsedBody !== undefined) {
+    const { _response, ...rest } = result._response.parsedBody as any;
+    compatResponse.parsedBody = rest;
+  }
+  compatResponse.bodyAsText = result._response.rawResponse.bodyAsText;
+  Object.defineProperty(result, "_response", {
+    value: compatResponse,
+    enumerable: false,
+  });
+
+  return result as T & {
+    _response: HttpResponse & {
+      parsedHeaders: THeaders;
+      bodyAsText: string;
+      parsedBody: TBody;
+    };
+  };
 }

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to changes ServiceState property for a given service
  *
  * @summary changes ServiceState property for a given service
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_SetOrchestrationServiceState_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_SetOrchestrationServiceState_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetSetOrchestrationServiceStateMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -25,7 +25,7 @@ async function virtualMachineScaleSetSetOrchestrationServiceStateMaximumSetGen()
  * This sample demonstrates how to changes ServiceState property for a given service
  *
  * @summary changes ServiceState property for a given service
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_SetOrchestrationServiceState_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSet_SetOrchestrationServiceState_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetSetOrchestrationServiceStateMinimumSetGen() {
   const credential = new DefaultAzureCredential();

@@ -1,0 +1,10 @@
+{
+  "extends": "../../../../eng/tsconfigs/test.browser.json",
+  "compilerOptions": {
+    "paths": {
+      "@azure/arm-automation": ["../src/index.ts"],
+      "@azure/arm-automation/*": ["../src/*"],
+      "$internal/*": ["../src/*"]
+    }
+  }
+}

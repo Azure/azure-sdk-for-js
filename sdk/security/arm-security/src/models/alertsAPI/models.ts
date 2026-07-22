@@ -307,9 +307,7 @@ export function resourceIdentifierDeserializer(item: any): ResourceIdentifier {
 
 /** Alias for ResourceIdentifierUnion */
 export type ResourceIdentifierUnion =
-  | AzureResourceIdentifier
-  | LogAnalyticsIdentifier
-  | ResourceIdentifier;
+  AzureResourceIdentifier | LogAnalyticsIdentifier | ResourceIdentifier;
 
 export function resourceIdentifierUnionDeserializer(item: any): ResourceIdentifierUnion {
   switch (item["type"]) {
@@ -495,8 +493,7 @@ export function alertSimulatorRequestPropertiesSerializer(
 
 /** Alias for AlertSimulatorRequestPropertiesUnion */
 export type AlertSimulatorRequestPropertiesUnion =
-  | AlertSimulatorBundlesRequestProperties
-  | AlertSimulatorRequestProperties;
+  AlertSimulatorBundlesRequestProperties | AlertSimulatorRequestProperties;
 
 export function alertSimulatorRequestPropertiesUnionSerializer(
   item: AlertSimulatorRequestPropertiesUnion,

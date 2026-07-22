@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update an image.
  *
  * @summary create or update an image.
- * x-ms-original-file: 2025-11-01/imageExamples/Image_CreateFromABlob.json
+ * x-ms-original-file: 2026-03-01/imageExamples/Image_CreateFromABlob.json
  */
 async function createAVirtualMachineImageFromABlob(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -32,7 +32,7 @@ async function createAVirtualMachineImageFromABlob(): Promise<void> {
  * This sample demonstrates how to create or update an image.
  *
  * @summary create or update an image.
- * x-ms-original-file: 2025-11-01/imageExamples/Image_CreateFromABlobWithDiskEncryptionSet.json
+ * x-ms-original-file: 2026-03-01/imageExamples/Image_CreateFromABlobWithDiskEncryptionSet.json
  */
 async function createAVirtualMachineImageFromABlobWithDiskEncryptionSetResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -58,7 +58,7 @@ async function createAVirtualMachineImageFromABlobWithDiskEncryptionSetResource(
  * This sample demonstrates how to create or update an image.
  *
  * @summary create or update an image.
- * x-ms-original-file: 2025-11-01/imageExamples/Image_CreateFromAManagedDisk.json
+ * x-ms-original-file: 2026-03-01/imageExamples/Image_CreateFromAManagedDisk.json
  */
 async function createAVirtualMachineImageFromAManagedDisk(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -84,7 +84,7 @@ async function createAVirtualMachineImageFromAManagedDisk(): Promise<void> {
  * This sample demonstrates how to create or update an image.
  *
  * @summary create or update an image.
- * x-ms-original-file: 2025-11-01/imageExamples/Image_CreateFromAManagedDiskWithDiskEncryptionSet.json
+ * x-ms-original-file: 2026-03-01/imageExamples/Image_CreateFromAManagedDiskWithDiskEncryptionSet.json
  */
 async function createAVirtualMachineImageFromAManagedDiskWithDiskEncryptionSetResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -112,7 +112,7 @@ async function createAVirtualMachineImageFromAManagedDiskWithDiskEncryptionSetRe
  * This sample demonstrates how to create or update an image.
  *
  * @summary create or update an image.
- * x-ms-original-file: 2025-11-01/imageExamples/Image_CreateFromASnapshot.json
+ * x-ms-original-file: 2026-03-01/imageExamples/Image_CreateFromASnapshot.json
  */
 async function createAVirtualMachineImageFromASnapshot(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -138,7 +138,7 @@ async function createAVirtualMachineImageFromASnapshot(): Promise<void> {
  * This sample demonstrates how to create or update an image.
  *
  * @summary create or update an image.
- * x-ms-original-file: 2025-11-01/imageExamples/Image_CreateFromASnapshotWithDiskEncryptionSet.json
+ * x-ms-original-file: 2026-03-01/imageExamples/Image_CreateFromASnapshotWithDiskEncryptionSet.json
  */
 async function createAVirtualMachineImageFromASnapshotWithDiskEncryptionSetResource(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -166,7 +166,7 @@ async function createAVirtualMachineImageFromASnapshotWithDiskEncryptionSetResou
  * This sample demonstrates how to create or update an image.
  *
  * @summary create or update an image.
- * x-ms-original-file: 2025-11-01/imageExamples/Image_CreateFromAVM.json
+ * x-ms-original-file: 2026-03-01/imageExamples/Image_CreateFromAVM.json
  */
 async function createAVirtualMachineImageFromAnExistingVirtualMachine(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -185,7 +185,7 @@ async function createAVirtualMachineImageFromAnExistingVirtualMachine(): Promise
  * This sample demonstrates how to create or update an image.
  *
  * @summary create or update an image.
- * x-ms-original-file: 2025-11-01/imageExamples/Image_Create_DataDiskFromABlobIncluded.json
+ * x-ms-original-file: 2026-03-01/imageExamples/Image_Create_DataDiskFromABlobIncluded.json
  */
 async function createAVirtualMachineImageThatIncludesADataDiskFromABlob(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -215,7 +215,7 @@ async function createAVirtualMachineImageThatIncludesADataDiskFromABlob(): Promi
  * This sample demonstrates how to create or update an image.
  *
  * @summary create or update an image.
- * x-ms-original-file: 2025-11-01/imageExamples/Image_Create_DataDiskFromAManagedDiskIncluded.json
+ * x-ms-original-file: 2026-03-01/imageExamples/Image_Create_DataDiskFromAManagedDiskIncluded.json
  */
 async function createAVirtualMachineImageThatIncludesADataDiskFromAManagedDisk(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -249,7 +249,7 @@ async function createAVirtualMachineImageThatIncludesADataDiskFromAManagedDisk()
  * This sample demonstrates how to create or update an image.
  *
  * @summary create or update an image.
- * x-ms-original-file: 2025-11-01/imageExamples/Image_Create_DataDiskFromASnapshotIncluded.json
+ * x-ms-original-file: 2026-03-01/imageExamples/Image_Create_DataDiskFromASnapshotIncluded.json
  */
 async function createAVirtualMachineImageThatIncludesADataDiskFromASnapshot(): Promise<void> {
   const credential = new DefaultAzureCredential();

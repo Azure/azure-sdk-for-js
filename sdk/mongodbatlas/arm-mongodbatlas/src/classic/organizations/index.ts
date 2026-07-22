@@ -1,16 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AtlasContext } from "../../api/atlasContext.js";
-import { OrganizationResource, OrganizationResourceUpdate } from "../../models/models.js";
-import {
-  OrganizationsListBySubscriptionOptionalParams,
-  OrganizationsListByResourceGroupOptionalParams,
-  OrganizationsDeleteOptionalParams,
-  OrganizationsUpdateOptionalParams,
-  OrganizationsCreateOrUpdateOptionalParams,
-  OrganizationsGetOptionalParams,
-} from "../../api/organizations/options.js";
+import type { AtlasContext } from "../../api/atlasContext.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -19,8 +10,17 @@ import {
   createOrUpdate,
   get,
 } from "../../api/organizations/operations.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
+import type {
+  OrganizationsListBySubscriptionOptionalParams,
+  OrganizationsListByResourceGroupOptionalParams,
+  OrganizationsDeleteOptionalParams,
+  OrganizationsUpdateOptionalParams,
+  OrganizationsCreateOrUpdateOptionalParams,
+  OrganizationsGetOptionalParams,
+} from "../../api/organizations/options.js";
+import type { OrganizationResource, OrganizationResourceUpdate } from "../../models/models.js";
+import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import type { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Organizations operations. */
 export interface OrganizationsOperations {
@@ -34,11 +34,6 @@ export interface OrganizationsOperations {
     options?: OrganizationsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<OrganizationResource>;
   /** Delete a OrganizationResource */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     organizationName: string,

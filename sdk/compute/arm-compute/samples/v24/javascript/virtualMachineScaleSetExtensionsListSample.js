@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a list of all extensions in a VM scale set.
  *
  * @summary gets a list of all extensions in a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtension_List_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtension_List_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetExtensionListMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -29,7 +29,7 @@ async function virtualMachineScaleSetExtensionListMaximumSetGen() {
  * This sample demonstrates how to gets a list of all extensions in a VM scale set.
  *
  * @summary gets a list of all extensions in a VM scale set.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtension_List_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtension_List_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetExtensionListMinimumSetGen() {
   const credential = new DefaultAzureCredential();

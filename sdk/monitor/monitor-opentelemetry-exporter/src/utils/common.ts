@@ -236,14 +236,12 @@ export function createResourceMetricEnvelope(
 
     for (const key of Object.keys(attributes)) {
       // Avoid duplication ignoring fields already mapped.
-      if (
-        !(
-          key.startsWith("_MS.") ||
-          key === ATTR_TELEMETRY_SDK_VERSION ||
-          key === ATTR_TELEMETRY_SDK_LANGUAGE ||
-          key === ATTR_TELEMETRY_SDK_NAME
-        )
-      ) {
+      if (!(
+        key.startsWith("_MS.") ||
+        key === ATTR_TELEMETRY_SDK_VERSION ||
+        key === ATTR_TELEMETRY_SDK_LANGUAGE ||
+        key === ATTR_TELEMETRY_SDK_NAME
+      )) {
         resourceAttributes[key] = attributes[key] as string;
       }
     }

@@ -6,6 +6,7 @@
 
 import { AbortError } from '@azure/abort-controller';
 import type { HttpClient } from '@azure/core-rest-pipeline';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { Pipeline } from '@azure/core-rest-pipeline';
 import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
@@ -700,6 +701,12 @@ export const Constants: {
     DefaultEncryptionCacheTimeToLiveInSeconds: number;
     EncryptionCacheRefreshIntervalInMs: number;
     RequestTimeoutForReadsInMs: number;
+    Inference: {
+        BasePath: string;
+        UserAgent: string;
+        DefaultScope: string;
+        DefaultRequestTimeoutMs: number;
+    };
 };
 
 // @public
@@ -731,6 +738,8 @@ export class Container {
     readPartitionKeyRanges(feedOptions?: FeedOptions): QueryIterator<PartitionKeyRange>;
     replace(body: ContainerDefinition, options?: RequestOptions): Promise<ContainerResponse>;
     get scripts(): Scripts;
+    // @beta
+    semanticRerank(rerankContext: string, documents: string[], options?: SemanticRerankOptions): Promise<SemanticRerankResult>;
     get url(): string;
 }
 
@@ -822,6 +831,7 @@ export interface CosmosClientOptions {
     defaultHeaders?: CosmosHeaders_2;
     // (undocumented)
     diagnosticLevel?: CosmosDbDiagnosticLevel;
+    enablePreviewFeatures?: Record<string, unknown>;
     endpoint?: string;
     httpClient?: HttpClient;
     key?: string;
@@ -1409,6 +1419,8 @@ export enum IndexKind {
     Range = "Range",
     Spatial = "Spatial"
 }
+
+export { isRestError }
 
 // @public
 export class Item {
@@ -2133,6 +2145,13 @@ export interface RequestOptions extends SharedOptions {
     urlConnection?: string;
 }
 
+// @beta
+export interface RerankScore {
+    document: string;
+    index: number;
+    score: number;
+}
+
 // @public (undocumented)
 export interface Resource {
     _etag: string;
@@ -2377,6 +2396,18 @@ export class Scripts {
     get userDefinedFunctions(): UserDefinedFunctions;
 }
 
+// @beta
+export type SemanticRerankOptions = Record<string, unknown>;
+
+// @beta
+export interface SemanticRerankResult {
+    diagnostics: CosmosDiagnostics;
+    headers: Record<string, string>;
+    latency: Record<string, unknown> | undefined;
+    rerankScores: RerankScore[];
+    tokenUsage: Record<string, unknown> | undefined;
+}
+
 // @public
 export function setAuthorizationTokenHeaderUsingMasterKey(verb: HTTPMethod, resourceId: string, resourceType: ResourceType, headers: CosmosHeaders, masterKey: string): Promise<void>;
 
@@ -2397,7 +2428,7 @@ export interface SharedOptions {
 // @public (undocumented)
 export interface SpatialIndex {
     // (undocumented)
-    boundingBox: {
+    boundingBox?: {
         xmin: number;
         ymin: number;
         xmax: number;

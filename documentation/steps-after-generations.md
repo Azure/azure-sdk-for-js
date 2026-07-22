@@ -49,8 +49,8 @@ See the [Javascript Codegen Quick Start for Test](https://github.com/Azure/azure
     You could follow the [basic RLC test interaction and recording example](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Quickstart-on-how-to-write-tests.md#example-1-basic-rlc-test-interaction-and-recording-for-azure-data-plane-service) to write your test step by step.
 
     Also, you could refer to the below examples for more cases:
-    - RLC example: [OpenAI Testing](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/openai/openai/test/public)
-    - DPG example: [Maps Route Testing](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-route-rest/test/public)
+    - RLC example: [Maps Route Testing](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-route-rest/test/public)
+    - DPG example: [OpenAI Testing](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/openai/openai/test/public)
     - MPG example: [Containerservice Fleet Testing](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerservice/arm-containerservicefleet/test/public/)
 
 2. **Run the test**
@@ -149,12 +149,51 @@ And we could use `lint:fix` if there are any errors.
 cd ${PROJECT_ROOT} && pnpm lint:fix
 ```
 
+# Adding a new third-party runtime dependency
+
+Shipped client and management libraries (those with `"sdk-type": "client"` or
+`"sdk-type": "mgmt"` in `package.json`) may not take a new third-party runtime
+dependency without approval. This is enforced in CI by the
+`@azure/azure-sdk/ts-package-json-approved-dependencies` ESLint rule (part of
+`pnpm lint`), which validates the `dependencies` field of every in-scope
+`package.json` against a central allow-list. `devDependencies` and
+`peerDependencies` are not checked, and samples, tests, perf tests, and
+utility/tooling packages are out of scope.
+
+First-party dependencies are always allowed and do not need to be listed:
+`@azure/`, `@azure-rest/`, `@azure-tools/`, `@microsoft/`, and `@typespec/`.
+
+To take a new third-party runtime dependency:
+
+1. Get the dependency approved (size, license, maintenance, and supply-chain
+   considerations — see the dependency review guidance).
+2. Add it to [`eng/approved-third-party-dependencies.yml`](https://github.com/Azure/azure-sdk-for-js/blob/main/eng/approved-third-party-dependencies.yml):
+   - Add it under `allowed` if every package should be able to use it.
+   - Add a scoped entry under `exceptions` if only specific packages should be
+     able to use it:
+
+     ```yaml
+     exceptions:
+       - dependency: some-package
+         packages:
+           - "@azure/your-package"
+     ```
+
+Entries are normally exact package names. A **scope wildcard** of the form
+`@scope/*` is also supported (in both `allowed` and `exceptions`) and matches
+every package in that npm scope — for example, `"@opentelemetry/*"` under
+`allowed` approves the entire OpenTelemetry ecosystem for every package.
+
+If a package declares a runtime dependency that is neither first-party nor
+approved, `pnpm lint` (and CI) will fail with a message pointing at the
+allow-list.
+
 # How to create package
 
 Now, we can use the exact same steps to build a releasable artifact.
 
 ```shell
-pnpm update
+pnpm install
 pnpm turbo build --filter=<your-package-name>... --token 1
 cd <your-sdk-folder>
 export TEST_MODE=record && pnpm test

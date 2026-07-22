@@ -710,8 +710,7 @@ export interface TestProfileRunRecommendation {
 
 /** Configurations of a target resource. This varies with the kind of resource. */
 export type TargetResourceConfigurations =
-  | TargetResourceConfigurationsParent
-  | FunctionFlexConsumptionTargetResourceConfigurations;
+  TargetResourceConfigurationsParent | FunctionFlexConsumptionTargetResourceConfigurations;
 /** Trigger model. */
 export type Trigger = TriggerParent | ScheduleTestsTrigger;
 /** Recurrence model. */
@@ -810,8 +809,7 @@ export type TestProfileRunCompletionPoller = SimplePollerLike<
 >;
 
 export type TestRunCreateOrUpdateSuccessResponse =
-  | LoadTestRunCreateOrUpdateTestRun200Response
-  | LoadTestRunCreateOrUpdateTestRun201Response;
+  LoadTestRunCreateOrUpdateTestRun200Response | LoadTestRunCreateOrUpdateTestRun201Response;
 
 export type TestProfileRunCreateOrUpdateSuccessResponse =
   | TestProfileRunAdministrationCreateOrUpdateTestProfileRun200Response

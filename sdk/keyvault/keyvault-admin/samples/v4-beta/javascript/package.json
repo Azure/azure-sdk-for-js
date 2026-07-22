@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "Azure Key Vault Administration client library samples for JavaScript (Beta)",
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   },
   "repository": {
     "type": "git",
@@ -34,7 +34,6 @@
     "@azure/keyvault-admin": "next",
     "dotenv": "latest",
     "@azure/identity": "^4.2.1",
-    "uuid": "^14.0.0",
     "@azure/keyvault-keys": "^4.2.1"
   }
 }

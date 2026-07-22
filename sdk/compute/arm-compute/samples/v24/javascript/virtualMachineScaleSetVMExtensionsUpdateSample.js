@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to the operation to update the VMSS VM extension.
  *
  * @summary the operation to update the VMSS VM extension.
- * x-ms-original-file: 2025-11-01/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMExtension_Update.json
+ * x-ms-original-file: 2026-03-01/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMExtension_Update.json
  */
 async function updateVirtualMachineScaleSetVMExtension() {
   const credential = new DefaultAzureCredential();

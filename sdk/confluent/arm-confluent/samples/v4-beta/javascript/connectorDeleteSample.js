@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete confluent connector by name
  *
  * @summary delete confluent connector by name
- * x-ms-original-file: 2025-08-18-preview/Connector_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-02-preview/Connector_Delete_MaximumSet_Gen.json
  */
 async function connectorDeleteMaximumSet() {
   const credential = new DefaultAzureCredential();
@@ -27,7 +27,7 @@ async function connectorDeleteMaximumSet() {
  * This sample demonstrates how to delete confluent connector by name
  *
  * @summary delete confluent connector by name
- * x-ms-original-file: 2025-08-18-preview/Connector_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-06-02-preview/Connector_Delete_MinimumSet_Gen.json
  */
 async function connectorDeleteMinimumSet() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create confluent environment
  *
  * @summary create confluent environment
- * x-ms-original-file: 2025-08-18-preview/Environment_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-02-preview/Environment_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function environmentCreateOrUpdateMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();

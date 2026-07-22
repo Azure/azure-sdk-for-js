@@ -619,8 +619,7 @@ export function generatedVectorSearchAlgorithmConfigurationToPublicVectorSearchA
 
   if (["hnsw", "exhaustiveKnn"].includes(generatedAlgorithmConfiguration.kind)) {
     const algorithmConfiguration = generatedAlgorithmConfiguration as
-      | GeneratedHnswAlgorithmConfiguration
-      | GeneratedExhaustiveKnnAlgorithmConfiguration;
+      GeneratedHnswAlgorithmConfiguration | GeneratedExhaustiveKnnAlgorithmConfiguration;
     const metric = algorithmConfiguration.parameters?.metric as VectorSearchAlgorithmMetric;
     return {
       ...algorithmConfiguration,
@@ -804,8 +803,7 @@ export function generatedSearchIndexerToPublicSearchIndexer(
     dataToExtract: dataToExtract as BlobIndexerDataToExtract | undefined,
     imageAction: imageAction as BlobIndexerImageAction | undefined,
     pdfTextRotationAlgorithm: pdfTextRotationAlgorithm as
-      | BlobIndexerPDFTextRotationAlgorithm
-      | undefined,
+      BlobIndexerPDFTextRotationAlgorithm | undefined,
     executionEnvironment: executionEnvironment as IndexerExecutionEnvironment | undefined,
     markdownParsingSubmode: indexer.parameters?.configuration?.markdownParsingSubmode,
     markdownHeaderDepth: indexer.parameters?.configuration?.markdownHeaderDepth,

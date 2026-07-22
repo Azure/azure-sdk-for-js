@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to lists all proximity placement groups in a subscription.
  *
  * @summary lists all proximity placement groups in a subscription.
- * x-ms-original-file: 2025-11-01/proximityPlacementGroupExamples/ProximityPlacementGroup_ListBySubscription.json
+ * x-ms-original-file: 2026-03-01/proximityPlacementGroupExamples/ProximityPlacementGroup_ListBySubscription.json
  */
 async function listProximityPlacementGroups(): Promise<void> {
   const credential = new DefaultAzureCredential();

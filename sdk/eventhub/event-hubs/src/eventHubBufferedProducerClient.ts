@@ -272,10 +272,7 @@ export class EventHubBufferedProducerClient {
     fullyQualifiedNamespaceOrConnectionString1: string,
     eventHubNameOrOptions2: string | EventHubBufferedProducerClientOptions,
     credentialOrOptions3?:
-      | TokenCredential
-      | NamedKeyCredential
-      | SASCredential
-      | EventHubBufferedProducerClientOptions,
+      TokenCredential | NamedKeyCredential | SASCredential | EventHubBufferedProducerClientOptions,
     options4?: EventHubBufferedProducerClientOptions,
   ) {
     if (typeof eventHubNameOrOptions2 !== "string") {

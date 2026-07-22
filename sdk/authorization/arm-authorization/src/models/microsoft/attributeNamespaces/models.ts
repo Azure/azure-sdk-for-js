@@ -1709,8 +1709,7 @@ export function accessReviewDecisionInsightPropertiesDeserializer(
 
 /** Alias for AccessReviewDecisionInsightPropertiesUnion */
 export type AccessReviewDecisionInsightPropertiesUnion =
-  | AccessReviewDecisionUserSignInInsightProperties
-  | AccessReviewDecisionInsightProperties;
+  AccessReviewDecisionUserSignInInsightProperties | AccessReviewDecisionInsightProperties;
 
 export function accessReviewDecisionInsightPropertiesUnionSerializer(
   item: AccessReviewDecisionInsightPropertiesUnion,

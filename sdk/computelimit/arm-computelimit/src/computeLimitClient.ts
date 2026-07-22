@@ -7,8 +7,12 @@ import type { FeaturesOperations } from "./classic/features/index.js";
 import { _getFeaturesOperations } from "./classic/features/index.js";
 import type { GuestSubscriptionsOperations } from "./classic/guestSubscriptions/index.js";
 import { _getGuestSubscriptionsOperations } from "./classic/guestSubscriptions/index.js";
+import type { MemberCapOverridesOperations } from "./classic/memberCapOverrides/index.js";
+import { _getMemberCapOverridesOperations } from "./classic/memberCapOverrides/index.js";
 import type { OperationsOperations } from "./classic/operations/index.js";
 import { _getOperationsOperations } from "./classic/operations/index.js";
+import type { SharedLimitCapsOperations } from "./classic/sharedLimitCaps/index.js";
+import { _getSharedLimitCapsOperations } from "./classic/sharedLimitCaps/index.js";
 import type { SharedLimitsOperations } from "./classic/sharedLimits/index.js";
 import { _getSharedLimitsOperations } from "./classic/sharedLimits/index.js";
 import type { VmFamiliesOperations } from "./classic/vmFamilies/index.js";
@@ -38,6 +42,8 @@ export class ComputeLimitClient {
       userAgentOptions: { userAgentPrefix },
     });
     this.pipeline = this._client.pipeline;
+    this.memberCapOverrides = _getMemberCapOverridesOperations(this._client);
+    this.sharedLimitCaps = _getSharedLimitCapsOperations(this._client);
     this.vmFamilies = _getVmFamiliesOperations(this._client);
     this.features = _getFeaturesOperations(this._client);
     this.sharedLimits = _getSharedLimitsOperations(this._client);
@@ -45,6 +51,10 @@ export class ComputeLimitClient {
     this.operations = _getOperationsOperations(this._client);
   }
 
+  /** The operation groups for memberCapOverrides */
+  public readonly memberCapOverrides: MemberCapOverridesOperations;
+  /** The operation groups for sharedLimitCaps */
+  public readonly sharedLimitCaps: SharedLimitCapsOperations;
   /** The operation groups for vmFamilies */
   public readonly vmFamilies: VmFamiliesOperations;
   /** The operation groups for features */

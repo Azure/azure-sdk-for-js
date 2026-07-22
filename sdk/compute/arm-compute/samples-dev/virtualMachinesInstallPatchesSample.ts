@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to installs patches on the VM.
  *
  * @summary installs patches on the VM.
- * x-ms-original-file: 2025-11-01/virtualMachineExamples/VirtualMachine_InstallPatches.json
+ * x-ms-original-file: 2026-03-01/virtualMachineExamples/VirtualMachine_InstallPatches.json
  */
 async function installPatchStateOfAVirtualMachine(): Promise<void> {
   const credential = new DefaultAzureCredential();

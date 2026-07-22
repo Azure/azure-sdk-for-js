@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets a list of virtual machine image offers for the specified location, edge zone and publisher.
  *
  * @summary gets a list of virtual machine image offers for the specified location, edge zone and publisher.
- * x-ms-original-file: 2025-11-01/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_ListOffers_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_ListOffers_MaximumSet_Gen.json
  */
 async function virtualMachineImagesEdgeZoneListOffersMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function virtualMachineImagesEdgeZoneListOffersMaximumSetGen() {
  * This sample demonstrates how to gets a list of virtual machine image offers for the specified location, edge zone and publisher.
  *
  * @summary gets a list of virtual machine image offers for the specified location, edge zone and publisher.
- * x-ms-original-file: 2025-11-01/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_ListOffers_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/virtualMachineImageExamples/VirtualMachineImagesEdgeZone_ListOffers_MinimumSet_Gen.json
  */
 async function virtualMachineImagesEdgeZoneListOffersMinimumSetGen() {
   const credential = new DefaultAzureCredential();

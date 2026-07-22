@@ -1,5 +1,201 @@
 # Release History
 
+## 25.0.0-beta.1 (2026-06-30)
+Compared with version 24.1.0
+
+### Features Added
+  - Added operation group ActiveDirectoryConfigsOperations
+  - Added operation group ElasticAccountsOperations
+  - Added operation group ElasticBackupPoliciesOperations
+  - Added operation group ElasticBackupsOperations
+  - Added operation group ElasticBackupVaultsOperations
+  - Added operation group ElasticCapacityPoolsOperations
+  - Added operation group ElasticSnapshotPoliciesOperations
+  - Added operation group ElasticSnapshotsOperations
+  - Added operation group ElasticVolumesOperations
+  - Added operation AccountsOperations.refreshLdapBindPassword
+  - Added Interface AccountPropertiesPatch
+  - Added Interface AccountsRefreshLdapBindPasswordOptionalParams
+  - Added Interface ActiveDirectoryConfig
+  - Added Interface ActiveDirectoryConfigProperties
+  - Added Interface ActiveDirectoryConfigsCreateOrUpdateOptionalParams
+  - Added Interface ActiveDirectoryConfigsDeleteOptionalParams
+  - Added Interface ActiveDirectoryConfigsGetOptionalParams
+  - Added Interface ActiveDirectoryConfigsListByResourceGroupOptionalParams
+  - Added Interface ActiveDirectoryConfigsListBySubscriptionOptionalParams
+  - Added Interface ActiveDirectoryConfigsUpdateOptionalParams
+  - Added Interface ActiveDirectoryConfigUpdate
+  - Added Interface ActiveDirectoryConfigUpdateProperties
+  - Added Interface BindPasswordAkvConfig
+  - Added Interface BindPasswordAkvConfigPatch
+  - Added Interface ChangeZoneRequest
+  - Added Interface CheckElasticResourceAvailabilityResponse
+  - Added Interface CheckElasticVolumeFilePathAvailabilityRequest
+  - Added Interface ElasticAccount
+  - Added Interface ElasticAccountProperties
+  - Added Interface ElasticAccountsCreateOrUpdateOptionalParams
+  - Added Interface ElasticAccountsDeleteOptionalParams
+  - Added Interface ElasticAccountsGetOptionalParams
+  - Added Interface ElasticAccountsListByResourceGroupOptionalParams
+  - Added Interface ElasticAccountsListBySubscriptionOptionalParams
+  - Added Interface ElasticAccountsUpdateOptionalParams
+  - Added Interface ElasticAccountUpdate
+  - Added Interface ElasticAccountUpdateProperties
+  - Added Interface ElasticBackup
+  - Added Interface ElasticBackupPoliciesCreateOrUpdateOptionalParams
+  - Added Interface ElasticBackupPoliciesDeleteOptionalParams
+  - Added Interface ElasticBackupPoliciesGetOptionalParams
+  - Added Interface ElasticBackupPoliciesListByElasticAccountOptionalParams
+  - Added Interface ElasticBackupPoliciesUpdateOptionalParams
+  - Added Interface ElasticBackupPolicy
+  - Added Interface ElasticBackupPolicyProperties
+  - Added Interface ElasticBackupPolicyUpdate
+  - Added Interface ElasticBackupPolicyUpdateProperties
+  - Added Interface ElasticBackupProperties
+  - Added Interface ElasticBackupsCreateOrUpdateOptionalParams
+  - Added Interface ElasticBackupsDeleteOptionalParams
+  - Added Interface ElasticBackupsGetOptionalParams
+  - Added Interface ElasticBackupsListByVaultOptionalParams
+  - Added Interface ElasticBackupsUpdateOptionalParams
+  - Added Interface ElasticBackupVault
+  - Added Interface ElasticBackupVaultProperties
+  - Added Interface ElasticBackupVaultsCreateOrUpdateOptionalParams
+  - Added Interface ElasticBackupVaultsDeleteOptionalParams
+  - Added Interface ElasticBackupVaultsGetOptionalParams
+  - Added Interface ElasticBackupVaultsListByElasticAccountOptionalParams
+  - Added Interface ElasticBackupVaultsUpdateOptionalParams
+  - Added Interface ElasticBackupVaultUpdate
+  - Added Interface ElasticCapacityPool
+  - Added Interface ElasticCapacityPoolProperties
+  - Added Interface ElasticCapacityPoolsChangeZoneOptionalParams
+  - Added Interface ElasticCapacityPoolsCheckVolumeFilePathAvailabilityOptionalParams
+  - Added Interface ElasticCapacityPoolsCreateOrUpdateOptionalParams
+  - Added Interface ElasticCapacityPoolsDeleteOptionalParams
+  - Added Interface ElasticCapacityPoolsGetOptionalParams
+  - Added Interface ElasticCapacityPoolsListByElasticAccountOptionalParams
+  - Added Interface ElasticCapacityPoolsUpdateOptionalParams
+  - Added Interface ElasticCapacityPoolUpdate
+  - Added Interface ElasticCapacityPoolUpdateProperties
+  - Added Interface ElasticEncryption
+  - Added Interface ElasticEncryptionConfiguration
+  - Added Interface ElasticEncryptionIdentity
+  - Added Interface ElasticExportPolicy
+  - Added Interface ElasticExportPolicyRule
+  - Added Interface ElasticKeyVaultProperties
+  - Added Interface ElasticMountTargetProperties
+  - Added Interface ElasticSmbPatchProperties
+  - Added Interface ElasticSmbProperties
+  - Added Interface ElasticSnapshot
+  - Added Interface ElasticSnapshotPoliciesCreateOrUpdateOptionalParams
+  - Added Interface ElasticSnapshotPoliciesDeleteOptionalParams
+  - Added Interface ElasticSnapshotPoliciesGetOptionalParams
+  - Added Interface ElasticSnapshotPoliciesListByElasticAccountOptionalParams
+  - Added Interface ElasticSnapshotPoliciesListElasticVolumesOptionalParams
+  - Added Interface ElasticSnapshotPoliciesUpdateOptionalParams
+  - Added Interface ElasticSnapshotPolicy
+  - Added Interface ElasticSnapshotPolicyDailySchedule
+  - Added Interface ElasticSnapshotPolicyHourlySchedule
+  - Added Interface ElasticSnapshotPolicyMonthlySchedule
+  - Added Interface ElasticSnapshotPolicyProperties
+  - Added Interface ElasticSnapshotPolicyUpdate
+  - Added Interface ElasticSnapshotPolicyUpdateProperties
+  - Added Interface ElasticSnapshotPolicyWeeklySchedule
+  - Added Interface ElasticSnapshotProperties
+  - Added Interface ElasticSnapshotsCreateOrUpdateOptionalParams
+  - Added Interface ElasticSnapshotsDeleteOptionalParams
+  - Added Interface ElasticSnapshotsGetOptionalParams
+  - Added Interface ElasticSnapshotsListByElasticVolumeOptionalParams
+  - Added Interface ElasticVolume
+  - Added Interface ElasticVolumeBackupProperties
+  - Added Interface ElasticVolumeDataProtectionPatchProperties
+  - Added Interface ElasticVolumeDataProtectionProperties
+  - Added Interface ElasticVolumeProperties
+  - Added Interface ElasticVolumeRevert
+  - Added Interface ElasticVolumesCreateOrUpdateOptionalParams
+  - Added Interface ElasticVolumesDeleteOptionalParams
+  - Added Interface ElasticVolumesGetOptionalParams
+  - Added Interface ElasticVolumesListByElasticPoolOptionalParams
+  - Added Interface ElasticVolumeSnapshotProperties
+  - Added Interface ElasticVolumesRevertOptionalParams
+  - Added Interface ElasticVolumesUpdateOptionalParams
+  - Added Interface ElasticVolumeUpdate
+  - Added Interface ElasticVolumeUpdateProperties
+  - Added Interface EntraIdAkvConfig
+  - Added Interface EntraIdAkvConfigPatch
+  - Added Interface EntraIdConfig
+  - Added Interface EntraIdConfigPatch
+  - Added Interface LdapConfiguration
+  - Added Interface LdapConfigurationPatch
+  - Added Interface SecretPassword
+  - Added Interface SecretPasswordIdentity
+  - Added Interface SecretPasswordKeyVaultProperties
+  - Interface AccountProperties has a new optional parameter entraIdConfig
+  - Interface AccountProperties has a new optional parameter ldapConfiguration
+  - Interface CertificateAkvDetails has a new optional parameter userAssignedIdentity
+  - Interface CredentialsAkvDetails has a new optional parameter userAssignedIdentity
+  - Interface VolumeProperties has a new optional parameter breakthroughMode
+  - Interface VolumeProperties has a new optional parameter language
+  - Interface VolumeProperties has a new optional parameter largeVolumeType
+  - Interface VolumeProperties has a new optional parameter ldapServerType
+  - Added Type Alias BindAuthenticationLevel
+  - Added Type Alias BreakthroughMode
+  - Added Type Alias CheckElasticResourceAvailabilityReason
+  - Added Type Alias CheckElasticResourceAvailabilityStatus
+  - Added Type Alias DayOfWeek
+  - Added Type Alias ElasticBackupPolicyState
+  - Added Type Alias ElasticBackupType
+  - Added Type Alias ElasticKeyVaultStatus
+  - Added Type Alias ElasticNfsv3Access
+  - Added Type Alias ElasticNfsv4Access
+  - Added Type Alias ElasticPoolEncryptionKeySource
+  - Added Type Alias ElasticProtocolType
+  - Added Type Alias ElasticResourceAvailabilityStatus
+  - Added Type Alias ElasticRootAccess
+  - Added Type Alias ElasticServiceLevel
+  - Added Type Alias ElasticSmbEncryption
+  - Added Type Alias ElasticUnixAccessRule
+  - Added Type Alias ElasticVolumePolicyEnforcement
+  - Added Type Alias ElasticVolumeRestorationState
+  - Added Type Alias LargeVolumeType
+  - Added Type Alias PolicyStatus
+  - Added Type Alias SnapshotDirectoryVisibility
+  - Added Type Alias SnapshotUsage
+  - Added Type Alias VolumeSize
+  - Added Enum KnownBindAuthenticationLevel
+  - Added Enum KnownBreakthroughMode
+  - Added Enum KnownCheckElasticResourceAvailabilityReason
+  - Added Enum KnownCheckElasticResourceAvailabilityStatus
+  - Added Enum KnownDayOfWeek
+  - Added Enum KnownElasticBackupPolicyState
+  - Added Enum KnownElasticBackupType
+  - Added Enum KnownElasticKeyVaultStatus
+  - Added Enum KnownElasticNfsv3Access
+  - Added Enum KnownElasticNfsv4Access
+  - Added Enum KnownElasticPoolEncryptionKeySource
+  - Added Enum KnownElasticProtocolType
+  - Added Enum KnownElasticResourceAvailabilityStatus
+  - Added Enum KnownElasticRootAccess
+  - Added Enum KnownElasticServiceLevel
+  - Added Enum KnownElasticSmbEncryption
+  - Added Enum KnownElasticUnixAccessRule
+  - Added Enum KnownElasticVolumePolicyEnforcement
+  - Added Enum KnownElasticVolumeRestorationState
+  - Added Enum KnownLargeVolumeType
+  - Added Enum KnownPolicyStatus
+  - Added Enum KnownSnapshotDirectoryVisibility
+  - Added Enum KnownSnapshotUsage
+  - Added Enum KnownVolumeSize
+  - Enum KnownVersions has a new value V20251215Preview
+  - Enum KnownVersions has a new value V20260115Preview
+  - Enum KnownVersions has a new value V20260315Preview
+  - Enum KnownVersions has a new value V20260415Preview
+
+### Breaking Changes
+  - Interface NetAppAccountPatch no longer has parameter id
+  - Interface NetAppAccountPatch no longer has parameter location
+  - Interface NetAppAccountPatch no longer has parameter name
+  - Interface NetAppAccountPatch no longer has parameter type
+
 ## 24.1.0 (2026-06-10)
 
 ### Features Added

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists all of the virtual machines in the specified resource group. Use the nextLink property in the response to get the next page of virtual machines.
  *
  * @summary lists all of the virtual machines in the specified resource group. Use the nextLink property in the response to get the next page of virtual machines.
- * x-ms-original-file: 2025-11-01/virtualMachineExamples/VirtualMachine_List_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/virtualMachineExamples/VirtualMachine_List_MaximumSet_Gen.json
  */
 async function virtualMachineListMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -28,7 +28,7 @@ async function virtualMachineListMaximumSetGen() {
  * This sample demonstrates how to lists all of the virtual machines in the specified resource group. Use the nextLink property in the response to get the next page of virtual machines.
  *
  * @summary lists all of the virtual machines in the specified resource group. Use the nextLink property in the response to get the next page of virtual machines.
- * x-ms-original-file: 2025-11-01/virtualMachineExamples/VirtualMachine_List_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/virtualMachineExamples/VirtualMachine_List_MinimumSet_Gen.json
  */
 async function virtualMachineListMinimumSetGen() {
   const credential = new DefaultAzureCredential();

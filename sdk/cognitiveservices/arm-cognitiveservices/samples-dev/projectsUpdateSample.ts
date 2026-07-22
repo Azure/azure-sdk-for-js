@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to updates a Cognitive Services Project
  *
  * @summary updates a Cognitive Services Project
- * x-ms-original-file: 2026-03-15-preview/UpdateProjects.json
+ * x-ms-original-file: 2026-05-15-preview/UpdateProjects.json
  */
 async function updateProject(): Promise<void> {
   const credential = new DefaultAzureCredential();

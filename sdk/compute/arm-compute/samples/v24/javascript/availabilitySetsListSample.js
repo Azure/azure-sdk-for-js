@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists all availability sets in a resource group.
  *
  * @summary lists all availability sets in a resource group.
- * x-ms-original-file: 2025-11-01/availabilitySetExamples/AvailabilitySet_List_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/availabilitySetExamples/AvailabilitySet_List_MaximumSet_Gen.json
  */
 async function availabilitySetListMaximumSetGen() {
   const credential = new DefaultAzureCredential();
@@ -26,7 +26,7 @@ async function availabilitySetListMaximumSetGen() {
  * This sample demonstrates how to lists all availability sets in a resource group.
  *
  * @summary lists all availability sets in a resource group.
- * x-ms-original-file: 2025-11-01/availabilitySetExamples/AvailabilitySet_List_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/availabilitySetExamples/AvailabilitySet_List_MinimumSet_Gen.json
  */
 async function availabilitySetListMinimumSetGen() {
   const credential = new DefaultAzureCredential();

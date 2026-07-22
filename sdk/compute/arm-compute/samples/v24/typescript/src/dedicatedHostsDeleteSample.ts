@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete a dedicated host.
  *
  * @summary delete a dedicated host.
- * x-ms-original-file: 2025-11-01/dedicatedHostExamples/DedicatedHost_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/dedicatedHostExamples/DedicatedHost_Delete_MaximumSet_Gen.json
  */
 async function dedicatedHostDeleteMaximumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -21,7 +21,7 @@ async function dedicatedHostDeleteMaximumSetGen(): Promise<void> {
  * This sample demonstrates how to delete a dedicated host.
  *
  * @summary delete a dedicated host.
- * x-ms-original-file: 2025-11-01/dedicatedHostExamples/DedicatedHost_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: 2026-03-01/dedicatedHostExamples/DedicatedHost_Delete_MinimumSet_Gen.json
  */
 async function dedicatedHostDeleteMinimumSetGen(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to export logs that show total throttled Api requests for this subscription in the given time window.
  *
  * @summary export logs that show total throttled Api requests for this subscription in the given time window.
- * x-ms-original-file: 2025-11-01/logAnalyticExamples/LogAnalytics_ThrottledRequests.json
+ * x-ms-original-file: 2026-03-01/logAnalyticExamples/LogAnalytics_ThrottledRequests.json
  */
 async function exportLogsWhichContainAllThrottledApiRequestsMadeToComputeResourceProviderWithinTheGivenTimePeriod(): Promise<void> {
   const credential = new DefaultAzureCredential();

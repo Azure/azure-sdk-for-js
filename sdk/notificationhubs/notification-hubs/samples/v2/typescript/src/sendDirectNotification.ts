@@ -26,7 +26,7 @@ import {
   sendNotification,
 } from "@azure/notification-hubs/api";
 import { delay } from "@azure/core-util";
-import { isRestError } from "@azure/core-rest-pipeline";
+import { isRestError } from "@azure/notification-hubs";
 
 // Define connection string and hub name
 const connectionString = process.env.NOTIFICATIONHUBS_CONNECTION_STRING || "<connection string>";

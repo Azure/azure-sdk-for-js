@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to unregisters the given container from your Recovery Services vault.
  *
  * @summary unregisters the given container from your Recovery Services vault.
- * x-ms-original-file: 2025-08-01/DeleteRegisteredIdentities.json
+ * x-ms-original-file: 2026-05-01/DeleteRegisteredIdentities.json
  */
 async function deleteRegisteredIdentity(): Promise<void> {
   const credential = new DefaultAzureCredential();

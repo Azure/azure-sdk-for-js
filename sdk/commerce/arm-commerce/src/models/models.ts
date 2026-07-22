@@ -197,10 +197,7 @@ export function offerTermInfoDeserializer(item: any): OfferTermInfo {
 
 /** Alias for OfferTermInfoUnion */
 export type OfferTermInfoUnion =
-  | MonetaryCredit
-  | MonetaryCommitment
-  | RecurringCharge
-  | OfferTermInfo;
+  MonetaryCredit | MonetaryCommitment | RecurringCharge | OfferTermInfo;
 
 export function offerTermInfoUnionDeserializer(item: any): OfferTermInfoUnion {
   switch (item["Name"]) {

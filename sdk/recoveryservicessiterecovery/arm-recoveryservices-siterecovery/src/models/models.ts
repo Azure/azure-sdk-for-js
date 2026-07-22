@@ -5817,9 +5817,7 @@ export function addDisksProviderSpecificInputSerializer(item: AddDisksProviderSp
 
 /** Alias for AddDisksProviderSpecificInputUnion */
 export type AddDisksProviderSpecificInputUnion =
-  | A2AAddDisksInput
-  | InMageRcmAddDisksInput
-  | AddDisksProviderSpecificInput;
+  A2AAddDisksInput | InMageRcmAddDisksInput | AddDisksProviderSpecificInput;
 
 export function addDisksProviderSpecificInputUnionSerializer(
   item: AddDisksProviderSpecificInputUnion,
@@ -6247,8 +6245,7 @@ export function disableProtectionProviderSpecificInputSerializer(
 
 /** Alias for DisableProtectionProviderSpecificInputUnion */
 export type DisableProtectionProviderSpecificInputUnion =
-  | InMageDisableProtectionProviderSpecificInput
-  | DisableProtectionProviderSpecificInput;
+  InMageDisableProtectionProviderSpecificInput | DisableProtectionProviderSpecificInput;
 
 export function disableProtectionProviderSpecificInputUnionSerializer(
   item: DisableProtectionProviderSpecificInputUnion,
@@ -6324,8 +6321,7 @@ export function removeDisksProviderSpecificInputSerializer(
 
 /** Alias for RemoveDisksProviderSpecificInputUnion */
 export type RemoveDisksProviderSpecificInputUnion =
-  | A2ARemoveDisksInput
-  | RemoveDisksProviderSpecificInput;
+  A2ARemoveDisksInput | RemoveDisksProviderSpecificInput;
 
 export function removeDisksProviderSpecificInputUnionSerializer(
   item: RemoveDisksProviderSpecificInputUnion,
@@ -6726,8 +6722,7 @@ export function switchProviderSpecificInputSerializer(item: SwitchProviderSpecif
 
 /** Alias for SwitchProviderSpecificInputUnion */
 export type SwitchProviderSpecificInputUnion =
-  | InMageAzureV2SwitchProviderInput
-  | SwitchProviderSpecificInput;
+  InMageAzureV2SwitchProviderInput | SwitchProviderSpecificInput;
 
 export function switchProviderSpecificInputUnionSerializer(
   item: SwitchProviderSpecificInputUnion,
@@ -7908,8 +7903,7 @@ export function replicationClusterProviderSpecificSettingsDeserializer(
 
 /** Alias for ReplicationClusterProviderSpecificSettingsUnion */
 export type ReplicationClusterProviderSpecificSettingsUnion =
-  | A2AReplicationProtectionClusterDetails
-  | ReplicationClusterProviderSpecificSettings;
+  A2AReplicationProtectionClusterDetails | ReplicationClusterProviderSpecificSettings;
 
 export function replicationClusterProviderSpecificSettingsUnionSerializer(
   item: ReplicationClusterProviderSpecificSettingsUnion,
@@ -8158,8 +8152,7 @@ export function sharedDiskReplicationProviderSpecificSettingsDeserializer(
 
 /** Alias for SharedDiskReplicationProviderSpecificSettingsUnion */
 export type SharedDiskReplicationProviderSpecificSettingsUnion =
-  | A2ASharedDiskReplicationDetails
-  | SharedDiskReplicationProviderSpecificSettings;
+  A2ASharedDiskReplicationDetails | SharedDiskReplicationProviderSpecificSettings;
 
 export function sharedDiskReplicationProviderSpecificSettingsUnionSerializer(
   item: SharedDiskReplicationProviderSpecificSettingsUnion,
@@ -8364,8 +8357,7 @@ export function applyClusterRecoveryPointProviderSpecificInputSerializer(
 
 /** Alias for ApplyClusterRecoveryPointProviderSpecificInputUnion */
 export type ApplyClusterRecoveryPointProviderSpecificInputUnion =
-  | A2AApplyClusterRecoveryPointInput
-  | ApplyClusterRecoveryPointProviderSpecificInput;
+  A2AApplyClusterRecoveryPointInput | ApplyClusterRecoveryPointProviderSpecificInput;
 
 export function applyClusterRecoveryPointProviderSpecificInputUnionSerializer(
   item: ApplyClusterRecoveryPointProviderSpecificInputUnion,
@@ -8459,8 +8451,7 @@ export function clusterTestFailoverProviderSpecificInputSerializer(
 
 /** Alias for ClusterTestFailoverProviderSpecificInputUnion */
 export type ClusterTestFailoverProviderSpecificInputUnion =
-  | A2AClusterTestFailoverInput
-  | ClusterTestFailoverProviderSpecificInput;
+  A2AClusterTestFailoverInput | ClusterTestFailoverProviderSpecificInput;
 
 export function clusterTestFailoverProviderSpecificInputUnionSerializer(
   item: ClusterTestFailoverProviderSpecificInputUnion,
@@ -8569,8 +8560,7 @@ export function clusterUnplannedFailoverProviderSpecificInputSerializer(
 
 /** Alias for ClusterUnplannedFailoverProviderSpecificInputUnion */
 export type ClusterUnplannedFailoverProviderSpecificInputUnion =
-  | A2AClusterUnplannedFailoverInput
-  | ClusterUnplannedFailoverProviderSpecificInput;
+  A2AClusterUnplannedFailoverInput | ClusterUnplannedFailoverProviderSpecificInput;
 
 export function clusterUnplannedFailoverProviderSpecificInputUnionSerializer(
   item: ClusterUnplannedFailoverProviderSpecificInputUnion,
@@ -8751,8 +8741,7 @@ export function clusterProviderSpecificRecoveryPointDetailsDeserializer(
 
 /** Alias for ClusterProviderSpecificRecoveryPointDetailsUnion */
 export type ClusterProviderSpecificRecoveryPointDetailsUnion =
-  | A2AClusterRecoveryPointDetails
-  | ClusterProviderSpecificRecoveryPointDetails;
+  A2AClusterRecoveryPointDetails | ClusterProviderSpecificRecoveryPointDetails;
 
 export function clusterProviderSpecificRecoveryPointDetailsUnionDeserializer(
   item: any,
@@ -8863,8 +8852,7 @@ export function replicationProtectionIntentProviderSpecificSettingsDeserializer(
 
 /** Alias for ReplicationProtectionIntentProviderSpecificSettingsUnion */
 export type ReplicationProtectionIntentProviderSpecificSettingsUnion =
-  | A2AReplicationIntentDetails
-  | ReplicationProtectionIntentProviderSpecificSettings;
+  A2AReplicationIntentDetails | ReplicationProtectionIntentProviderSpecificSettings;
 
 export function replicationProtectionIntentProviderSpecificSettingsUnionDeserializer(
   item: any,
@@ -9201,8 +9189,7 @@ export function recoveryResourceGroupCustomDetailsDeserializer(
 
 /** Alias for RecoveryResourceGroupCustomDetailsUnion */
 export type RecoveryResourceGroupCustomDetailsUnion =
-  | ExistingRecoveryResourceGroup
-  | RecoveryResourceGroupCustomDetails;
+  ExistingRecoveryResourceGroup | RecoveryResourceGroupCustomDetails;
 
 export function recoveryResourceGroupCustomDetailsUnionSerializer(
   item: RecoveryResourceGroupCustomDetailsUnion,
@@ -9275,9 +9262,7 @@ export function protectionProfileCustomDetailsDeserializer(
 
 /** Alias for ProtectionProfileCustomDetailsUnion */
 export type ProtectionProfileCustomDetailsUnion =
-  | ExistingProtectionProfile
-  | NewProtectionProfile
-  | ProtectionProfileCustomDetails;
+  ExistingProtectionProfile | NewProtectionProfile | ProtectionProfileCustomDetails;
 
 export function protectionProfileCustomDetailsUnionSerializer(
   item: ProtectionProfileCustomDetailsUnion,
@@ -9407,8 +9392,7 @@ export function recoveryAvailabilitySetCustomDetailsDeserializer(
 
 /** Alias for RecoveryAvailabilitySetCustomDetailsUnion */
 export type RecoveryAvailabilitySetCustomDetailsUnion =
-  | ExistingRecoveryAvailabilitySet
-  | RecoveryAvailabilitySetCustomDetails;
+  ExistingRecoveryAvailabilitySet | RecoveryAvailabilitySetCustomDetails;
 
 export function recoveryAvailabilitySetCustomDetailsUnionSerializer(
   item: RecoveryAvailabilitySetCustomDetailsUnion,
@@ -9483,9 +9467,7 @@ export function recoveryVirtualNetworkCustomDetailsDeserializer(
 
 /** Alias for RecoveryVirtualNetworkCustomDetailsUnion */
 export type RecoveryVirtualNetworkCustomDetailsUnion =
-  | ExistingRecoveryVirtualNetwork
-  | NewRecoveryVirtualNetwork
-  | RecoveryVirtualNetworkCustomDetails;
+  ExistingRecoveryVirtualNetwork | NewRecoveryVirtualNetwork | RecoveryVirtualNetworkCustomDetails;
 
 export function recoveryVirtualNetworkCustomDetailsUnionSerializer(
   item: RecoveryVirtualNetworkCustomDetailsUnion,
@@ -9596,8 +9578,7 @@ export function recoveryProximityPlacementGroupCustomDetailsDeserializer(
 
 /** Alias for RecoveryProximityPlacementGroupCustomDetailsUnion */
 export type RecoveryProximityPlacementGroupCustomDetailsUnion =
-  | ExistingRecoveryProximityPlacementGroup
-  | RecoveryProximityPlacementGroupCustomDetails;
+  ExistingRecoveryProximityPlacementGroup | RecoveryProximityPlacementGroupCustomDetails;
 
 export function recoveryProximityPlacementGroupCustomDetailsUnionSerializer(
   item: RecoveryProximityPlacementGroupCustomDetailsUnion,
@@ -9736,8 +9717,7 @@ export function createProtectionIntentProviderSpecificDetailsSerializer(
 
 /** Alias for CreateProtectionIntentProviderSpecificDetailsUnion */
 export type CreateProtectionIntentProviderSpecificDetailsUnion =
-  | A2ACreateProtectionIntentInput
-  | CreateProtectionIntentProviderSpecificDetails;
+  A2ACreateProtectionIntentInput | CreateProtectionIntentProviderSpecificDetails;
 
 export function createProtectionIntentProviderSpecificDetailsUnionSerializer(
   item: CreateProtectionIntentProviderSpecificDetailsUnion,
@@ -13171,8 +13151,7 @@ export function switchClusterProtectionProviderSpecificInputSerializer(
 
 /** Alias for SwitchClusterProtectionProviderSpecificInputUnion */
 export type SwitchClusterProtectionProviderSpecificInputUnion =
-  | A2ASwitchClusterProtectionInput
-  | SwitchClusterProtectionProviderSpecificInput;
+  A2ASwitchClusterProtectionInput | SwitchClusterProtectionProviderSpecificInput;
 
 export function switchClusterProtectionProviderSpecificInputUnionSerializer(
   item: SwitchClusterProtectionProviderSpecificInputUnion,
@@ -13309,8 +13288,7 @@ export function switchProtectionProviderSpecificInputSerializer(
 
 /** Alias for SwitchProtectionProviderSpecificInputUnion */
 export type SwitchProtectionProviderSpecificInputUnion =
-  | A2ASwitchProtectionInput
-  | SwitchProtectionProviderSpecificInput;
+  A2ASwitchProtectionInput | SwitchProtectionProviderSpecificInput;
 
 export function switchProtectionProviderSpecificInputUnionSerializer(
   item: SwitchProtectionProviderSpecificInputUnion,
@@ -13685,8 +13663,7 @@ export function migrationProviderSpecificSettingsDeserializer(
 
 /** Alias for MigrationProviderSpecificSettingsUnion */
 export type MigrationProviderSpecificSettingsUnion =
-  | VMwareCbtMigrationDetails
-  | MigrationProviderSpecificSettings;
+  VMwareCbtMigrationDetails | MigrationProviderSpecificSettings;
 
 export function migrationProviderSpecificSettingsUnionDeserializer(
   item: any,
@@ -14232,8 +14209,7 @@ export function enableMigrationProviderSpecificInputSerializer(
 
 /** Alias for EnableMigrationProviderSpecificInputUnion */
 export type EnableMigrationProviderSpecificInputUnion =
-  | VMwareCbtEnableMigrationInput
-  | EnableMigrationProviderSpecificInput;
+  VMwareCbtEnableMigrationInput | EnableMigrationProviderSpecificInput;
 
 export function enableMigrationProviderSpecificInputUnionSerializer(
   item: EnableMigrationProviderSpecificInputUnion,
@@ -14435,8 +14411,7 @@ export function updateMigrationItemProviderSpecificInputSerializer(
 
 /** Alias for UpdateMigrationItemProviderSpecificInputUnion */
 export type UpdateMigrationItemProviderSpecificInputUnion =
-  | VMwareCbtUpdateMigrationItemInput
-  | UpdateMigrationItemProviderSpecificInput;
+  VMwareCbtUpdateMigrationItemInput | UpdateMigrationItemProviderSpecificInput;
 
 export function updateMigrationItemProviderSpecificInputUnionSerializer(
   item: UpdateMigrationItemProviderSpecificInputUnion,
@@ -14658,8 +14633,7 @@ export function migrateProviderSpecificInputSerializer(item: MigrateProviderSpec
 
 /** Alias for MigrateProviderSpecificInputUnion */
 export type MigrateProviderSpecificInputUnion =
-  | VMwareCbtMigrateInput
-  | MigrateProviderSpecificInput;
+  VMwareCbtMigrateInput | MigrateProviderSpecificInput;
 
 export function migrateProviderSpecificInputUnionSerializer(
   item: MigrateProviderSpecificInputUnion,
@@ -14788,8 +14762,7 @@ export function resumeReplicationProviderSpecificInputSerializer(
 
 /** Alias for ResumeReplicationProviderSpecificInputUnion */
 export type ResumeReplicationProviderSpecificInputUnion =
-  | VMwareCbtResumeReplicationInput
-  | ResumeReplicationProviderSpecificInput;
+  VMwareCbtResumeReplicationInput | ResumeReplicationProviderSpecificInput;
 
 export function resumeReplicationProviderSpecificInputUnionSerializer(
   item: ResumeReplicationProviderSpecificInputUnion,
@@ -14921,8 +14894,7 @@ export function testMigrateProviderSpecificInputSerializer(
 
 /** Alias for TestMigrateProviderSpecificInputUnion */
 export type TestMigrateProviderSpecificInputUnion =
-  | VMwareCbtTestMigrateInput
-  | TestMigrateProviderSpecificInput;
+  VMwareCbtTestMigrateInput | TestMigrateProviderSpecificInput;
 
 export function testMigrateProviderSpecificInputUnionSerializer(
   item: TestMigrateProviderSpecificInputUnion,
@@ -15126,8 +15098,7 @@ export function hyperVVirtualMachineDetailsDeserializer(item: any): HyperVVirtua
 
 /** Alias for HyperVVirtualMachineDetailsUnion */
 export type HyperVVirtualMachineDetailsUnion =
-  | VmmVirtualMachineDetails
-  | HyperVVirtualMachineDetails;
+  VmmVirtualMachineDetails | HyperVVirtualMachineDetails;
 
 export function hyperVVirtualMachineDetailsUnionDeserializer(
   item: any,
@@ -16640,9 +16611,7 @@ export function fabricReplicationGroupTaskDetailsDeserializer(
 /** This class represents a task which is actually a workflow so that one can navigate to its individual drill down. */
 export interface JobTaskDetails extends TaskTypeDetails {
   instanceType:
-    | "JobTaskDetails"
-    | "FabricReplicationGroupTaskDetails"
-    | "VirtualMachineTaskDetails";
+    "JobTaskDetails" | "FabricReplicationGroupTaskDetails" | "VirtualMachineTaskDetails";
   /** The job entity. */
   jobTask?: JobEntity;
 }
@@ -16656,9 +16625,7 @@ export function jobTaskDetailsDeserializer(item: any): JobTaskDetails {
 
 /** Alias for JobTaskDetailsUnion */
 export type JobTaskDetailsUnion =
-  | FabricReplicationGroupTaskDetails
-  | VirtualMachineTaskDetails
-  | JobTaskDetails;
+  FabricReplicationGroupTaskDetails | VirtualMachineTaskDetails | JobTaskDetails;
 
 export function jobTaskDetailsUnionDeserializer(item: any): JobTaskDetailsUnion {
   switch (item["instanceType"]) {
@@ -16807,9 +16774,7 @@ export function groupTaskDetailsDeserializer(item: any): GroupTaskDetails {
 
 /** Alias for GroupTaskDetailsUnion */
 export type GroupTaskDetailsUnion =
-  | InlineWorkflowTaskDetails
-  | RecoveryPlanGroupTaskDetailsUnion
-  | GroupTaskDetails;
+  InlineWorkflowTaskDetails | RecoveryPlanGroupTaskDetailsUnion | GroupTaskDetails;
 
 export function groupTaskDetailsUnionDeserializer(item: any): GroupTaskDetailsUnion {
   switch (item["instanceType"]) {
@@ -16874,8 +16839,7 @@ export function recoveryPlanGroupTaskDetailsDeserializer(item: any): RecoveryPla
 
 /** Alias for RecoveryPlanGroupTaskDetailsUnion */
 export type RecoveryPlanGroupTaskDetailsUnion =
-  | RecoveryPlanShutdownGroupTaskDetails
-  | RecoveryPlanGroupTaskDetails;
+  RecoveryPlanShutdownGroupTaskDetails | RecoveryPlanGroupTaskDetails;
 
 export function recoveryPlanGroupTaskDetailsUnionDeserializer(
   item: any,
@@ -18792,8 +18756,7 @@ export function recoveryPlanProviderSpecificDetailsDeserializer(
 
 /** Alias for RecoveryPlanProviderSpecificDetailsUnion */
 export type RecoveryPlanProviderSpecificDetailsUnion =
-  | RecoveryPlanA2ADetails
-  | RecoveryPlanProviderSpecificDetails;
+  RecoveryPlanA2ADetails | RecoveryPlanProviderSpecificDetails;
 
 export function recoveryPlanProviderSpecificDetailsUnionDeserializer(
   item: any,
@@ -18917,8 +18880,7 @@ export function recoveryPlanProviderSpecificInputSerializer(
 
 /** Alias for RecoveryPlanProviderSpecificInputUnion */
 export type RecoveryPlanProviderSpecificInputUnion =
-  | RecoveryPlanA2AInput
-  | RecoveryPlanProviderSpecificInput;
+  RecoveryPlanA2AInput | RecoveryPlanProviderSpecificInput;
 
 export function recoveryPlanProviderSpecificInputUnionSerializer(
   item: RecoveryPlanProviderSpecificInputUnion,
@@ -19754,8 +19716,7 @@ export function applianceSpecificDetailsDeserializer(item: any): ApplianceSpecif
 
 /** Alias for ApplianceSpecificDetailsUnion */
 export type ApplianceSpecificDetailsUnion =
-  | InMageRcmApplianceSpecificDetails
-  | ApplianceSpecificDetails;
+  InMageRcmApplianceSpecificDetails | ApplianceSpecificDetails;
 
 export function applianceSpecificDetailsUnionDeserializer(
   item: any,

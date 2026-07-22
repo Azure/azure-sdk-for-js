@@ -2594,9 +2594,7 @@ export function awsOrganizationalDataDeserializer(item: any): AwsOrganizationalD
 
 /** Alias for AwsOrganizationalDataUnion */
 export type AwsOrganizationalDataUnion =
-  | AwsOrganizationalDataMaster
-  | AwsOrganizationalDataMember
-  | AwsOrganizationalData;
+  AwsOrganizationalDataMaster | AwsOrganizationalDataMember | AwsOrganizationalData;
 
 export function awsOrganizationalDataUnionSerializer(item: AwsOrganizationalDataUnion): any {
   switch (item.organizationMembershipType) {
@@ -2755,9 +2753,7 @@ export function gcpOrganizationalDataDeserializer(item: any): GcpOrganizationalD
 
 /** Alias for GcpOrganizationalDataUnion */
 export type GcpOrganizationalDataUnion =
-  | GcpOrganizationalDataOrganization
-  | GcpOrganizationalDataMember
-  | GcpOrganizationalData;
+  GcpOrganizationalDataOrganization | GcpOrganizationalDataMember | GcpOrganizationalData;
 
 export function gcpOrganizationalDataUnionSerializer(item: GcpOrganizationalDataUnion): any {
   switch (item.organizationMembershipType) {

@@ -124,7 +124,7 @@ Update your `package.json` dependencies to use the new core packages:
     "@azure/core-util": "^1.11.0"
   },
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.0.0"
   }
 }
 ```
@@ -243,7 +243,7 @@ Delete the following files that are no longer needed:
 2. **Build the package:**
 
    ```bash
-   pnpm turbo build
+   pnpm turbo build --token 1
    ```
 
 3. **Run tests:**
@@ -269,7 +269,7 @@ After migration, your development workflow becomes:
 
 1. **Update TypeSpec definitions** in azure-rest-api-specs
 2. **Generate new code:** `npm run generate:client`
-3. **Build and test:** `pnpm turbo build && pnpm test`
+3. **Build and test:** `pnpm turbo build --token 1 && pnpm test`
 
 ### Version Management
 
