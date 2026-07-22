@@ -59,9 +59,9 @@ npx cross-env DOCUMENT_TRANSLATION_ENDPOINT="<document translation endpoint>" ST
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[batchdocumenttranslation]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/translation/ai-translation-document/samples/v2/javascript/batchDocumentTranslation.js
-[getsupportedformats]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/translation/ai-translation-document/samples/v2/javascript/getSupportedFormats.js
-[synchronousdocumenttranslation]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/translation/ai-translation-document/samples/v2/javascript/synchronousDocumentTranslation.js
+[batchdocumenttranslation]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/translation/ai-translation-document/samples/v1/javascript/batchDocumentTranslation.js
+[getsupportedformats]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/translation/ai-translation-document/samples/v1/javascript/getSupportedFormats.js
+[synchronousdocumenttranslation]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/translation/ai-translation-document/samples/v1/javascript/synchronousDocumentTranslation.js
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurecognitiveservicesinstance]: https://learn.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/translation/ai-translation-document/README.md

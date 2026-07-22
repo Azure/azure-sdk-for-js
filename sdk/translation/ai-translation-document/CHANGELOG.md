@@ -1,6 +1,6 @@
 # Release History
 
-## 2.0.0 (Unreleased)
+## 1.0.0 (Unreleased)
 
 This release migrates the package to the `@azure/ai-translation-document` name and a new client design. It replaces the previous `@azure-rest/ai-translation-document` REST-level client (RLC) package.
 

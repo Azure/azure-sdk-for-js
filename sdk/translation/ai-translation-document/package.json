@@ -1,6 +1,6 @@
 {
   "name": "@azure/ai-translation-document",
-  "version": "2.0.0",
+  "version": "1.0.0",
   "description": "Microsoft Translation Document",
   "engines": {
     "node": ">=22.0.0"
