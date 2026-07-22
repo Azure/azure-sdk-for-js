@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets NetworkRuleSet for a Namespace.
  *
  * @summary gets NetworkRuleSet for a Namespace.
- * x-ms-original-file: 2026-01-01/NameSpaces/VirtualNetworkRule/SBNetworkRuleSetGet.json
+ * x-ms-original-file: 2026-07-01-preview/NameSpaces/VirtualNetworkRule/SBNetworkRuleSetGet.json
  */
 async function nameSpaceNetworkRuleSetGet() {
   const credential = new DefaultAzureCredential();

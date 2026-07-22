@@ -1,14 +1,97 @@
 # Release History
 
-## 7.0.0-beta.2 (Unreleased)
+## 7.0.0-beta.2 (2026-07-22)
+Compared with version 6.1.0
 
 ### Features Added
+  - Added operation group NetworkSecurityPerimeterConfigurationOperations
+  - Added operation group NetworkSecurityPerimeterConfigurationsOperations
+  - Added operation MigrationConfigsOperations.createAndStartMigration
+  - Added operation NamespacesOperations.beginFailover
+  - Added operation NamespacesOperations.beginFailoverAndWait
+  - Added operation NamespacesOperations.createOrUpdate
+  - Added operation NamespacesOperations.delete
+  - Added operation NamespacesOperations.failover
+  - Added operation PrivateEndpointConnectionsOperations.delete
+  - Class ServiceBusManagementClient has a new constructor "constructor(credential: TokenCredential, options?: ServiceBusManagementClientOptionalParams);"
+  - Added Interface ArmDisasterRecoveryProperties
+  - Added Interface ConfidentialCompute
+  - Added Interface FailOver
+  - Added Interface FailOverProperties
+  - Added Interface FailoverPropertiesProperties
+  - Added Interface GeoDataReplicationProperties
+  - Added Interface MigrationConfigPropertiesProperties
+  - Added Interface NamespaceReplicaLocation
+  - Added Interface NamespacesFailoverOptionalParams
+  - Added Interface NetworkRuleSetProperties
+  - Added Interface NetworkSecurityPerimeter
+  - Added Interface NetworkSecurityPerimeterConfiguration
+  - Added Interface NetworkSecurityPerimeterConfigurationListOptionalParams
+  - Added Interface NetworkSecurityPerimeterConfigurationProperties
+  - Added Interface NetworkSecurityPerimeterConfigurationPropertiesProfile
+  - Added Interface NetworkSecurityPerimeterConfigurationPropertiesResourceAssociation
+  - Added Interface NetworkSecurityPerimeterConfigurationsGetResourceAssociationNameOptionalParams
+  - Added Interface NetworkSecurityPerimeterConfigurationsReconcileOptionalParams
+  - Added Interface NspAccessRule
+  - Added Interface NspAccessRuleProperties
+  - Added Interface NspAccessRulePropertiesSubscriptionsItem
+  - Added Interface PagedAsyncIterableIterator
+  - Added Interface PageSettings
+  - Added Interface PlatformCapabilities
+  - Added Interface PrivateEndpointConnectionProperties
+  - Added Interface PrivateLinkResourceProperties
+  - Added Interface ProvisioningIssue
+  - Added Interface ProvisioningIssueProperties
+  - Added Interface RestorePollerOptions
+  - Added Interface Ruleproperties
+  - Added Interface SBAuthorizationRuleProperties
+  - Added Interface SBNamespaceProperties
+  - Added Interface SBNamespaceUpdateProperties
+  - Added Interface SBQueueProperties
+  - Added Interface SBSubscriptionProperties
+  - Added Interface SBTopicProperties
+  - Added Interface SimplePollerLike
+  - Interface ProxyResource has a new optional parameter systemData
+  - Interface Resource has a new optional parameter systemData
+  - Interface ResourceNamespacePatch has a new optional parameter systemData
+  - Interface SBNamespace has a new optional parameter geoDataReplication
+  - Interface SBNamespace has a new optional parameter ipAddressType
+  - Interface SBNamespace has a new optional parameter minimumTlsVersion
+  - Interface SBNamespace has a new optional parameter platformCapabilities
+  - Interface SBNamespace has a new optional parameter premiumMessagingPartitions
+  - Interface SBNamespace has a new optional parameter publicNetworkAccess
+  - Interface SBNamespaceUpdateParameters has a new optional parameter systemData
+  - Interface SBQueue has a new optional parameter userMetadata
+  - Interface SBSubscription has a new optional parameter userMetadata
+  - Interface SBTopic has a new optional parameter userMetadata
+  - Interface TrackedResource has a new optional parameter systemData
+  - Added Type Alias AzureSupportedClouds
+  - Added Type Alias GeoDRRoleType
+  - Added Type Alias IpAddressType
+  - Added Type Alias KeyType
+  - Added Type Alias Mode
+  - Added Type Alias NetworkSecurityPerimeterConfigurationProvisioningState
+  - Added Type Alias NspAccessRuleDirection
+  - Added Type Alias PublicNetworkAccess
+  - Added Type Alias ResourceAssociationAccessMode
+  - Added Type Alias TlsVersion
+  - Added Enum AzureClouds
+  - Added Enum KnownGeoDRRoleType
+  - Added Enum KnownIpAddressType
+  - Added Enum KnownMode
+  - Added Enum KnownNetworkSecurityPerimeterConfigurationProvisioningState
+  - Added Enum KnownNspAccessRuleDirection
+  - Added Enum KnownPublicNetworkAccess
+  - Added Enum KnownResourceAssociationAccessMode
+  - Added Enum KnownTlsVersion
+  - Added Enum KnownVersions
 
 ### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+  - Operation Namespaces.update has a new signature
+  - Removed Interface SqlRuleAction
+  - Interface ProxyResource no longer has parameter location
+  - Parameter value of interface PrivateLinkResourcesListResult is now required
+  - Removed Type Alias KeyType_2
 
 ## 7.0.0-beta.1 (2026-06-16)
 Compared with version 6.1.0

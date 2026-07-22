@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to retrieves Migration Config
  *
  * @summary retrieves Migration Config
- * x-ms-original-file: 2026-01-01/Migrationconfigurations/SBMigrationconfigurationGet.json
+ * x-ms-original-file: 2026-07-01-preview/Migrationconfigurations/SBMigrationconfigurationGet.json
  */
 async function migrationConfigurationsGet() {
   const credential = new DefaultAzureCredential();

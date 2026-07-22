@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to this operation reverts Migration
  *
  * @summary this operation reverts Migration
- * x-ms-original-file: 2026-01-01/Migrationconfigurations/SBMigrationconfigurationRevert.json
+ * x-ms-original-file: 2026-07-01-preview/Migrationconfigurations/SBMigrationconfigurationRevert.json
  */
 async function migrationConfigurationsRevert() {
   const credential = new DefaultAzureCredential();

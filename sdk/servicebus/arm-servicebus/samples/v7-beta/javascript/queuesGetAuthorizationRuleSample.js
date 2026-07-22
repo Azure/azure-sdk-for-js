@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets an authorization rule for a queue by rule name.
  *
  * @summary gets an authorization rule for a queue by rule name.
- * x-ms-original-file: 2026-01-01/Queues/SBQueueAuthorizationRuleGet.json
+ * x-ms-original-file: 2026-07-01-preview/Queues/SBQueueAuthorizationRuleGet.json
  */
 async function queueAuthorizationRuleGet() {
   const credential = new DefaultAzureCredential();

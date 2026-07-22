@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes a namespace authorization rule.
  *
  * @summary deletes a namespace authorization rule.
- * x-ms-original-file: 2026-01-01/NameSpaces/SBNameSpaceAuthorizationRuleDelete.json
+ * x-ms-original-file: 2026-07-01-preview/NameSpaces/SBNameSpaceAuthorizationRuleDelete.json
  */
 async function nameSpaceAuthorizationRuleDelete() {
   const credential = new DefaultAzureCredential();

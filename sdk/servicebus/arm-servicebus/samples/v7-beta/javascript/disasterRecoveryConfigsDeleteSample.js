@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes an Alias(Disaster Recovery configuration)
  *
  * @summary deletes an Alias(Disaster Recovery configuration)
- * x-ms-original-file: 2026-01-01/disasterRecoveryConfigs/SBAliasDelete.json
+ * x-ms-original-file: 2026-07-01-preview/disasterRecoveryConfigs/SBAliasDelete.json
  */
 async function sbAliasDelete() {
   const credential = new DefaultAzureCredential();

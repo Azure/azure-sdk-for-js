@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to creates an authorization rule for the specified topic.
  *
  * @summary creates an authorization rule for the specified topic.
- * x-ms-original-file: 2026-01-01/Topics/SBTopicAuthorizationRuleCreate.json
+ * x-ms-original-file: 2026-07-01-preview/Topics/SBTopicAuthorizationRuleCreate.json
  */
 async function topicAuthorizationRuleCreate(): Promise<void> {
   const credential = new DefaultAzureCredential();

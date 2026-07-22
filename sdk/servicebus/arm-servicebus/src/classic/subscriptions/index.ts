@@ -47,7 +47,6 @@ export interface SubscriptionsOperations {
     options?: SubscriptionsGetOptionalParams,
   ) => Promise<SBSubscription>;
 }
-
 function _getSubscriptions(context: ServiceBusManagementContext) {
   return {
     listByTopic: (
@@ -89,7 +88,6 @@ function _getSubscriptions(context: ServiceBusManagementContext) {
     ) => get(context, resourceGroupName, namespaceName, topicName, subscriptionName, options),
   };
 }
-
 export function _getSubscriptionsOperations(
   context: ServiceBusManagementContext,
 ): SubscriptionsOperations {

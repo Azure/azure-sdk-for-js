@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the primary and secondary connection strings for the topic.
  *
  * @summary gets the primary and secondary connection strings for the topic.
- * x-ms-original-file: 2026-01-01/Topics/SBTopicAuthorizationRuleListKey.json
+ * x-ms-original-file: 2026-07-01-preview/Topics/SBTopicAuthorizationRuleListKey.json
  */
 async function topicAuthorizationRuleListKey() {
   const credential = new DefaultAzureCredential();

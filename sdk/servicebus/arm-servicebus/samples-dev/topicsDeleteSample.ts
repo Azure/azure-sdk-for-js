@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a topic from the specified namespace and resource group.
  *
  * @summary deletes a topic from the specified namespace and resource group.
- * x-ms-original-file: 2026-01-01/Topics/SBTopicDelete.json
+ * x-ms-original-file: 2026-07-01-preview/Topics/SBTopicDelete.json
  */
 async function topicDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

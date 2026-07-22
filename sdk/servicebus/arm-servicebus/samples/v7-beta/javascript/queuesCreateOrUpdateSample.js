@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates a Service Bus queue. This operation is idempotent.
  *
  * @summary creates or updates a Service Bus queue. This operation is idempotent.
- * x-ms-original-file: 2026-01-01/Queues/SBQueueCreate.json
+ * x-ms-original-file: 2026-07-01-preview/Queues/SBQueueCreate.json
  */
 async function queueCreate() {
   const credential = new DefaultAzureCredential();

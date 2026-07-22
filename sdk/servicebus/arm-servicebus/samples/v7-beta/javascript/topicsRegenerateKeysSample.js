@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to regenerates primary or secondary connection strings for the topic.
  *
  * @summary regenerates primary or secondary connection strings for the topic.
- * x-ms-original-file: 2026-01-01/Topics/SBTopicAuthorizationRuleRegenerateKey.json
+ * x-ms-original-file: 2026-07-01-preview/Topics/SBTopicAuthorizationRuleRegenerateKey.json
  */
 async function topicAuthorizationRuleRegenerateKey() {
   const credential = new DefaultAzureCredential();

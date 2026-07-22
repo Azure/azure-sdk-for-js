@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes a queue authorization rule.
  *
  * @summary deletes a queue authorization rule.
- * x-ms-original-file: 2026-01-01/Queues/SBQueueAuthorizationRuleDelete.json
+ * x-ms-original-file: 2026-07-01-preview/Queues/SBQueueAuthorizationRuleDelete.json
  */
 async function queueAuthorizationRuleDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

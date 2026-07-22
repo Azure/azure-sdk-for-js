@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to returns a description for the specified topic.
  *
  * @summary returns a description for the specified topic.
- * x-ms-original-file: 2026-01-01/Topics/SBTopicGet.json
+ * x-ms-original-file: 2026-07-01-preview/Topics/SBTopicGet.json
  */
 async function topicGet() {
   const credential = new DefaultAzureCredential();
