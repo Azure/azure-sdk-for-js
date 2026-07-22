@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to delete  endpoint deployment resource by name
  *
  * @summary delete  endpoint deployment resource by name
- * x-ms-original-file: 2026-03-15-preview/Endpoint/Deployment/delete.json
+ * x-ms-original-file: 2026-05-15-preview/Endpoint/Deployment/delete.json
  */
 async function deleteEndpointDeployment(): Promise<void> {
   const credential = new DefaultAzureCredential();

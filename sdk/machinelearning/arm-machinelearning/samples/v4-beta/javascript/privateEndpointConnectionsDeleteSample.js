@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to called by end-users to delete a PE connection.
  *
  * @summary called by end-users to delete a PE connection.
- * x-ms-original-file: 2026-03-15-preview/PrivateEndpointConnection/delete.json
+ * x-ms-original-file: 2026-05-15-preview/PrivateEndpointConnection/delete.json
  */
 async function workspacePutPrivateEndpointConnection() {
   const credential = new DefaultAzureCredential();

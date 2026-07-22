@@ -11,10 +11,8 @@ export interface EndpointDeploymentGetInWorkspaceOptionalParams extends Operatio
   /** Continuation token for pagination. */
   skip?: string;
 }
-
 /** Optional parameters. */
 export interface EndpointDeploymentListOptionalParams extends OperationOptions {}
-
 /** Optional parameters. */
 export interface EndpointDeploymentDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -22,12 +20,10 @@ export interface EndpointDeploymentDeleteOptionalParams extends OperationOptions
   /** Api version used by proxy call */
   proxyApiVersion?: string;
 }
-
 /** Optional parameters. */
 export interface EndpointDeploymentCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface EndpointDeploymentGetOptionalParams extends OperationOptions {}

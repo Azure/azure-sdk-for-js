@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to create or update Serverless Endpoint (asynchronous).
  *
  * @summary create or update Serverless Endpoint (asynchronous).
- * x-ms-original-file: 2026-03-15-preview/Workspace/ServerlessEndpoint/createOrUpdate.json
+ * x-ms-original-file: 2026-05-15-preview/Workspace/ServerlessEndpoint/createOrUpdate.json
  */
 async function createOrUpdateWorkspaceServerlessEndpoint(): Promise<void> {
   const credential = new DefaultAzureCredential();

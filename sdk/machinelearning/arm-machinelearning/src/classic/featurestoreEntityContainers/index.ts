@@ -83,7 +83,6 @@ export interface FeaturestoreEntityContainersOperations {
     options?: FeaturestoreEntityContainersGetEntityOptionalParams,
   ) => Promise<FeaturestoreEntityContainer>;
 }
-
 function _getFeaturestoreEntityContainers(context: AzureMachineLearningServicesManagementContext) {
   return {
     list: (
@@ -150,7 +149,6 @@ function _getFeaturestoreEntityContainers(context: AzureMachineLearningServicesM
     ) => getEntity(context, resourceGroupName, workspaceName, name, options),
   };
 }
-
 export function _getFeaturestoreEntityContainersOperations(
   context: AzureMachineLearningServicesManagementContext,
 ): FeaturestoreEntityContainersOperations {

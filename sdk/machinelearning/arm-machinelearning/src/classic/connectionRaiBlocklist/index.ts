@@ -83,7 +83,6 @@ export interface ConnectionRaiBlocklistOperations {
     options?: ConnectionRaiBlocklistGetOptionalParams,
   ) => Promise<RaiBlocklistPropertiesBasicResource>;
 }
-
 function _getConnectionRaiBlocklist(context: AzureMachineLearningServicesManagementContext) {
   return {
     delete: (
@@ -192,7 +191,6 @@ function _getConnectionRaiBlocklist(context: AzureMachineLearningServicesManagem
     ) => get(context, resourceGroupName, workspaceName, connectionName, raiBlocklistName, options),
   };
 }
-
 export function _getConnectionRaiBlocklistOperations(
   context: AzureMachineLearningServicesManagementContext,
 ): ConnectionRaiBlocklistOperations {

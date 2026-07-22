@@ -27,7 +27,7 @@ export function _provisionManagedNetworkSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-03-15-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-05-15-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -56,7 +56,6 @@ export async function _provisionManagedNetworkDeserialize(
 
   return managedNetworkProvisionStatusDeserializer(result.body);
 }
-
 /** Provisions the managed network of a machine learning workspace. */
 export function provisionManagedNetwork(
   context: Client,
@@ -70,6 +69,6 @@ export function provisionManagedNetwork(
     getInitialResponse: () =>
       _provisionManagedNetworkSend(context, resourceGroupName, workspaceName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-03-15-preview",
+    apiVersion: context.apiVersion ?? "2026-05-15-preview",
   }) as PollerLike<OperationState<ManagedNetworkProvisionStatus>, ManagedNetworkProvisionStatus>;
 }

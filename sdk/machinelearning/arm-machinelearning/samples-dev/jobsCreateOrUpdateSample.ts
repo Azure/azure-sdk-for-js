@@ -10,7 +10,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  *
  * @summary creates and executes a Job.
  * For update case, the Tags in the definition passed in will replace Tags in the existing job.
- * x-ms-original-file: 2026-03-15-preview/Job/AutoMLJob/createOrUpdate.json
+ * x-ms-original-file: 2026-05-15-preview/Job/AutoMLJob/createOrUpdate.json
  */
 async function createOrUpdateAutoMLJob(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -69,7 +69,7 @@ async function createOrUpdateAutoMLJob(): Promise<void> {
  *
  * @summary creates and executes a Job.
  * For update case, the Tags in the definition passed in will replace Tags in the existing job.
- * x-ms-original-file: 2026-03-15-preview/Job/CommandJob/createOrUpdate.json
+ * x-ms-original-file: 2026-05-15-preview/Job/CommandJob/createOrUpdate.json
  */
 async function createOrUpdateCommandJob(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -125,7 +125,7 @@ async function createOrUpdateCommandJob(): Promise<void> {
  *
  * @summary creates and executes a Job.
  * For update case, the Tags in the definition passed in will replace Tags in the existing job.
- * x-ms-original-file: 2026-03-15-preview/Job/CommandJob/createOrUpdateRayDistribution.json
+ * x-ms-original-file: 2026-05-15-preview/Job/CommandJob/createOrUpdateRayDistribution.json
  */
 async function createOrUpdateCommandJobWithRayDistribution(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -162,7 +162,7 @@ async function createOrUpdateCommandJobWithRayDistribution(): Promise<void> {
  *
  * @summary creates and executes a Job.
  * For update case, the Tags in the definition passed in will replace Tags in the existing job.
- * x-ms-original-file: 2026-03-15-preview/Job/DistillationJob/createOrUpdate.json
+ * x-ms-original-file: 2026-05-15-preview/Job/DistillationJob/createOrUpdate.json
  */
 async function createOrUpdateDistillationJob(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -213,7 +213,7 @@ async function createOrUpdateDistillationJob(): Promise<void> {
  *
  * @summary creates and executes a Job.
  * For update case, the Tags in the definition passed in will replace Tags in the existing job.
- * x-ms-original-file: 2026-03-15-preview/Job/FineTuningJob/createOrUpdate.json
+ * x-ms-original-file: 2026-05-15-preview/Job/FineTuningJob/createOrUpdate.json
  */
 async function createOrUpdateFineTuningJob(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -261,7 +261,7 @@ async function createOrUpdateFineTuningJob(): Promise<void> {
  *
  * @summary creates and executes a Job.
  * For update case, the Tags in the definition passed in will replace Tags in the existing job.
- * x-ms-original-file: 2026-03-15-preview/Job/PipelineJob/createOrUpdate.json
+ * x-ms-original-file: 2026-05-15-preview/Job/PipelineJob/createOrUpdate.json
  */
 async function createOrUpdatePipelineJob(): Promise<void> {
   const credential = new DefaultAzureCredential();
@@ -300,7 +300,7 @@ async function createOrUpdatePipelineJob(): Promise<void> {
  *
  * @summary creates and executes a Job.
  * For update case, the Tags in the definition passed in will replace Tags in the existing job.
- * x-ms-original-file: 2026-03-15-preview/Job/SweepJob/createOrUpdate.json
+ * x-ms-original-file: 2026-05-15-preview/Job/SweepJob/createOrUpdate.json
  */
 async function createOrUpdateSweepJob(): Promise<void> {
   const credential = new DefaultAzureCredential();

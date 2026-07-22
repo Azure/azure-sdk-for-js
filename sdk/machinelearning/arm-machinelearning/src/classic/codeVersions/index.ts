@@ -100,7 +100,6 @@ export interface CodeVersionsOperations {
     options?: CodeVersionsGetOptionalParams,
   ) => Promise<CodeVersion>;
 }
-
 function _getCodeVersions(context: AzureMachineLearningServicesManagementContext) {
   return {
     createOrGetStartPendingUpload: (
@@ -188,7 +187,6 @@ function _getCodeVersions(context: AzureMachineLearningServicesManagementContext
     ) => get(context, resourceGroupName, workspaceName, name, version, options),
   };
 }
-
 export function _getCodeVersionsOperations(
   context: AzureMachineLearningServicesManagementContext,
 ): CodeVersionsOperations {

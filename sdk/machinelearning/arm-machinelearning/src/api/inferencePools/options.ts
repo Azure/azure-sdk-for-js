@@ -17,24 +17,20 @@ export interface InferencePoolsListOptionalParams extends OperationOptions {
   /** The option to order the response. */
   orderBy?: OrderString;
 }
-
 /** Optional parameters. */
 export interface InferencePoolsDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface InferencePoolsUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface InferencePoolsCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface InferencePoolsGetOptionalParams extends OperationOptions {}

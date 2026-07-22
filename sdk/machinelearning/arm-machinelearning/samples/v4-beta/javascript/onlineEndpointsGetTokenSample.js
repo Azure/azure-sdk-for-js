@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to retrieve a valid AML token for an Endpoint using AMLToken-based authentication.
  *
  * @summary retrieve a valid AML token for an Endpoint using AMLToken-based authentication.
- * x-ms-original-file: 2026-03-15-preview/Workspace/OnlineEndpoint/getToken.json
+ * x-ms-original-file: 2026-05-15-preview/Workspace/OnlineEndpoint/getToken.json
  */
 async function getTokenWorkspaceOnlineEndpoint() {
   const credential = new DefaultAzureCredential();

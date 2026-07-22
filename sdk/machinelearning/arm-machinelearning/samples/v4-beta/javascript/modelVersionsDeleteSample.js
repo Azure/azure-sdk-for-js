@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to delete version.
  *
  * @summary delete version.
- * x-ms-original-file: 2026-03-15-preview/Workspace/ModelVersion/delete.json
+ * x-ms-original-file: 2026-05-15-preview/Workspace/ModelVersion/delete.json
  */
 async function deleteWorkspaceModelVersion() {
   const credential = new DefaultAzureCredential();

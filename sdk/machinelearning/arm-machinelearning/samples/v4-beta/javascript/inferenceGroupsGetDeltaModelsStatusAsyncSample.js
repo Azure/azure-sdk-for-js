@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to retrieve status of delta models associated with the InferenceGroup and the target base model.
  *
  * @summary retrieve status of delta models associated with the InferenceGroup and the target base model.
- * x-ms-original-file: 2026-03-15-preview/InferenceGroup/getDeltaModelsStatusAsync.json
+ * x-ms-original-file: 2026-05-15-preview/InferenceGroup/getDeltaModelsStatusAsync.json
  */
 async function getDeltaModelsStatusAsyncInferenceGroup() {
   const credential = new DefaultAzureCredential();

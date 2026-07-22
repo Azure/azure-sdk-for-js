@@ -78,7 +78,6 @@ export interface ModelVersionsOperations {
     options?: ModelVersionsGetOptionalParams,
   ) => Promise<ModelVersion>;
 }
-
 function _getModelVersions(context: AzureMachineLearningServicesManagementContext) {
   return {
     publish: (
@@ -149,7 +148,6 @@ function _getModelVersions(context: AzureMachineLearningServicesManagementContex
     ) => get(context, resourceGroupName, workspaceName, name, version, options),
   };
 }
-
 export function _getModelVersionsOperations(
   context: AzureMachineLearningServicesManagementContext,
 ): ModelVersionsOperations {

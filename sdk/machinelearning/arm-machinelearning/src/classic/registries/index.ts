@@ -111,7 +111,6 @@ export interface RegistriesOperations {
     options?: RegistriesGetOptionalParams,
   ) => Promise<Registry>;
 }
-
 function _getRegistries(context: AzureMachineLearningServicesManagementContext) {
   return {
     removeRegions: (
@@ -197,7 +196,6 @@ function _getRegistries(context: AzureMachineLearningServicesManagementContext) 
       get(context, resourceGroupName, registryName, options),
   };
 }
-
 export function _getRegistriesOperations(
   context: AzureMachineLearningServicesManagementContext,
 ): RegistriesOperations {

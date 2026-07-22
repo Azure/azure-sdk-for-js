@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to posts a start action to a compute instance
  *
  * @summary posts a start action to a compute instance
- * x-ms-original-file: 2026-03-15-preview/Compute/start.json
+ * x-ms-original-file: 2026-05-15-preview/Compute/start.json
  */
 async function startComputeInstanceCompute() {
   const credential = new DefaultAzureCredential();

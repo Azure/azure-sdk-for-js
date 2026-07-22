@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to list MaaS PTU usage and quota.
  *
  * @summary list MaaS PTU usage and quota.
- * x-ms-original-file: 2026-03-15-preview/PTUQuota/list.json
+ * x-ms-original-file: 2026-05-15-preview/PTUQuota/list.json
  */
 async function listMaaSPTUUsageAndQuota(): Promise<void> {
   const credential = new DefaultAzureCredential();

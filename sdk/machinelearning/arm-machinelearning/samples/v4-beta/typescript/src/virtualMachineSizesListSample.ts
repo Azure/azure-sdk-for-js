@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to returns supported VM Sizes in a location
  *
  * @summary returns supported VM Sizes in a location
- * x-ms-original-file: 2026-03-15-preview/VirtualMachineSize/list.json
+ * x-ms-original-file: 2026-05-15-preview/VirtualMachineSize/list.json
  */
 async function listVMSizes(): Promise<void> {
   const credential = new DefaultAzureCredential();

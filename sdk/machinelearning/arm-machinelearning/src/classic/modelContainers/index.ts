@@ -43,7 +43,6 @@ export interface ModelContainersOperations {
     options?: ModelContainersGetOptionalParams,
   ) => Promise<ModelContainer>;
 }
-
 function _getModelContainers(context: AzureMachineLearningServicesManagementContext) {
   return {
     list: (
@@ -72,7 +71,6 @@ function _getModelContainers(context: AzureMachineLearningServicesManagementCont
     ) => get(context, resourceGroupName, workspaceName, name, options),
   };
 }
-
 export function _getModelContainersOperations(
   context: AzureMachineLearningServicesManagementContext,
 ): ModelContainersOperations {

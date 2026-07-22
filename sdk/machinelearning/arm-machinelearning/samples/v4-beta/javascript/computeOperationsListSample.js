@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets computes in specified workspace.
  *
  * @summary gets computes in specified workspace.
- * x-ms-original-file: 2026-03-15-preview/Compute/list.json
+ * x-ms-original-file: 2026-05-15-preview/Compute/list.json
  */
 async function getComputes() {
   const credential = new DefaultAzureCredential();

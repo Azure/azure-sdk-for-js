@@ -16,7 +16,6 @@ export interface WorkspaceFeaturesOperations {
     options?: WorkspaceFeaturesListOptionalParams,
   ) => PagedAsyncIterableIterator<AmlUserFeature>;
 }
-
 function _getWorkspaceFeatures(context: AzureMachineLearningServicesManagementContext) {
   return {
     list: (
@@ -26,7 +25,6 @@ function _getWorkspaceFeatures(context: AzureMachineLearningServicesManagementCo
     ) => list(context, resourceGroupName, workspaceName, options),
   };
 }
-
 export function _getWorkspaceFeaturesOperations(
   context: AzureMachineLearningServicesManagementContext,
 ): WorkspaceFeaturesOperations {

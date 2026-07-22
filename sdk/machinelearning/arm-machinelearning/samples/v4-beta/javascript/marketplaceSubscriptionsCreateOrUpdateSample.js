@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create or update Marketplace Subscription (asynchronous).
  *
  * @summary create or update Marketplace Subscription (asynchronous).
- * x-ms-original-file: 2026-03-15-preview/Workspace/MarketplaceSubscription/createOrUpdate.json
+ * x-ms-original-file: 2026-05-15-preview/Workspace/MarketplaceSubscription/createOrUpdate.json
  */
 async function createOrUpdateWorkspaceMarketplaceSubscription() {
   const credential = new DefaultAzureCredential();
