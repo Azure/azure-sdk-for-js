@@ -38,5 +38,18 @@ describe("ServiceBusError", () => {
       should.equal(error.code, "GeneralError");
       should.equal(error.message, `${messagingErrorCode}: ${message}`);
     });
+
+    it("normalizes OperationTimeoutError to the ServiceTimeout reason", () => {
+      // A rhea `OperationTimeoutError` is normalized to the `ServiceTimeout`
+      // reason during translation, so a post-translation `code` is never
+      // "OperationTimeoutError". This is why the link-creation catch blocks in
+      // messageSender / messageReceiver / messageSession must not gate on
+      // `code === "OperationTimeoutError"` (such a branch is unreachable).
+      const messagingError = new MessagingError("Operation timed out.");
+      messagingError.code = "OperationTimeoutError";
+
+      const error = new ServiceBusError(messagingError);
+      should.equal(error.code, "ServiceTimeout");
+    });
   });
 });
