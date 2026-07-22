@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the ispCustomer resource information using this get call
  *
  * @summary gets the ispCustomer resource information using this get call
- * x-ms-original-file: 2024-11-30-preview/IspCustomers_Get_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-01/IspCustomers_Get_MaximumSet_Gen.json
  */
 async function ispCustomersGetGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();

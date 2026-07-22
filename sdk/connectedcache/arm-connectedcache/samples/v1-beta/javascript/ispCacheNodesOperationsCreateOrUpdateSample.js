@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to this api creates an ispCacheNode with the specified create parameters
  *
  * @summary this api creates an ispCacheNode with the specified create parameters
- * x-ms-original-file: 2024-11-30-preview/IspCacheNodesOperations_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-01/IspCacheNodesOperations_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function ispCacheNodesOperationsCreateOrUpdate() {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to this api gets information about all ispCustomer resources under the given subscription
  *
  * @summary this api gets information about all ispCustomer resources under the given subscription
- * x-ms-original-file: 2024-11-30-preview/IspCustomers_ListBySubscription_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-01/IspCustomers_ListBySubscription_MaximumSet_Gen.json
  */
 async function ispCustomerListBySubscriptionGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();

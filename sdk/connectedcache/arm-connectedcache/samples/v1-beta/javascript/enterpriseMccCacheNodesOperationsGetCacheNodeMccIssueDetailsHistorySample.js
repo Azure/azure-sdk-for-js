@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to this api gets ispCacheNode resource issues details histrory information
  *
  * @summary this api gets ispCacheNode resource issues details histrory information
- * x-ms-original-file: 2024-11-30-preview/EnterpriseMccCacheNodesOperations_GetCacheNodeMccIssueDetailsHistory_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-01/EnterpriseMccCacheNodesOperations_GetCacheNodeMccIssueDetailsHistory_MaximumSet_Gen.json
  */
 async function enterpriseMccCacheNodesOperationsGetCacheNodeMccIssueDetailsHistoryMaximumSet() {
   const credential = new DefaultAzureCredential();

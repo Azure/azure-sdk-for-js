@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to this api retrieves information about all ispCacheNode resources under the given subscription and resource group
  *
  * @summary this api retrieves information about all ispCacheNode resources under the given subscription and resource group
- * x-ms-original-file: 2024-11-30-preview/IspCacheNodesOperations_ListByIspCustomerResource_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-01/IspCacheNodesOperations_ListByIspCustomerResource_MaximumSet_Gen.json
  */
 async function ispCacheNodesOperationsListByIspCustomerResource() {
   const credential = new DefaultAzureCredential();

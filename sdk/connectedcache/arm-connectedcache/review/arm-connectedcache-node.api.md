@@ -6,11 +6,13 @@
 
 import type { AbortSignalLike } from '@azure/abort-controller';
 import type { ClientOptions } from '@azure-rest/core-client';
+import { isRestError } from '@azure/core-rest-pipeline';
 import type { OperationOptions } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
 import type { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { Pipeline } from '@azure/core-rest-pipeline';
 import type { PollerLike } from '@azure/core-lro';
+import { RestError } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -21,6 +23,7 @@ export interface AdditionalCacheNodeProperties {
     readonly aggregatedStatusCode?: number;
     readonly aggregatedStatusDetails?: string;
     readonly aggregatedStatusText?: string;
+    readonly appVersionWsl?: string;
     readonly autoUpdateAppliedVersion?: string;
     readonly autoUpdateLastAppliedDateTime?: Date;
     readonly autoUpdateLastAppliedDetails?: string;
@@ -34,9 +37,20 @@ export interface AdditionalCacheNodeProperties {
     readonly cacheNodeState?: number;
     readonly cacheNodeStateDetailedText?: string;
     readonly cacheNodeStateShortText?: string;
+    readonly containerOsBuild?: string;
+    readonly containerOsEdition?: string;
+    readonly containerOsVersion?: string;
     creationMethod?: number;
     readonly currentTlsCertificate?: MccCacheNodeTlsCertificate;
+    readonly distroOsBuildWsl?: string;
+    readonly distroOsEditionWsl?: string;
+    readonly distroOsVersionWsl?: string;
     driveConfiguration?: CacheNodeDriveConfiguration[];
+    readonly hostOsBuild?: string;
+    readonly hostOsEdition?: string;
+    readonly hostOsVersion?: string;
+    readonly installVersionMsix?: string;
+    readonly installVersionScript?: string;
     readonly isProvisioned?: boolean;
     isProxyRequired?: ProxyRequired;
     readonly issuesCount?: number;
@@ -135,6 +149,7 @@ export interface CacheNodeEntity {
     readonly bgpCidrCsvLastUpdateTime?: Date;
     readonly bgpFileBytesTruncated?: number;
     readonly bgpLastReportedTime?: Date;
+    bgpNetworkInterface?: string;
     readonly bgpNumberOfRecords?: number;
     readonly bgpNumberOfTimesUpdated?: number;
     readonly bgpReviewFeedback?: string;
@@ -168,10 +183,15 @@ export interface CacheNodeEntity {
     readonly lastUpdatedTimestamp?: Date;
     maxAllowableEgressInMbps?: number;
     readonly maxAllowableProbability?: number;
+    openFirewallPort443?: boolean;
+    openFirewallPort5000?: boolean;
+    openFirewallPort5001?: boolean;
+    openFirewallPort80?: boolean;
     readonly releaseVersion?: number;
     readonly reviewFeedback?: string;
     readonly reviewState?: number;
     readonly reviewStateText?: string;
+    runtimeAccountType?: string;
     shouldMigrate?: boolean;
     readonly synchWithAzureAttemptsCount?: number;
     readonly workerConnections?: number;
@@ -487,6 +507,8 @@ export interface IspCustomersOperations {
 export interface IspCustomersUpdateOptionalParams extends OperationOptions {
 }
 
+export { isRestError }
+
 // @public
 export enum KnownActionType {
     Internal = "Internal"
@@ -494,9 +516,11 @@ export enum KnownActionType {
 
 // @public
 export enum KnownAutoUpdateRingType {
+    Beta = "Beta",
     Fast = "Fast",
     Preview = "Preview",
-    Slow = "Slow"
+    Slow = "Slow",
+    Stable = "Stable"
 }
 
 // @public
@@ -561,8 +585,7 @@ export enum KnownProxyRequired {
 
 // @public
 export enum KnownVersions {
-    V20230501Preview = "2023-05-01-preview",
-    V20241130Preview = "2024-11-30-preview"
+    V20260601 = "2026-06-01"
 }
 
 // @public
@@ -624,6 +647,7 @@ export interface MccCacheNodeIssueHistoryProperties {
 export interface MccCacheNodeTlsCertificate {
     readonly actionRequired?: string;
     readonly certificateFileName?: string;
+    readonly certType?: string;
     readonly expiryDate?: Date;
     readonly notBeforeDate?: Date;
     readonly subject?: string;
@@ -715,6 +739,8 @@ export interface Resource {
     readonly systemData?: SystemData;
     readonly type?: string;
 }
+
+export { RestError }
 
 // @public
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: ConnectedCacheClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to this api deletes an existing ispCacheNode resource
  *
  * @summary this api deletes an existing ispCacheNode resource
- * x-ms-original-file: 2024-11-30-preview/IspCacheNodesOperations_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-01/IspCacheNodesOperations_Delete_MaximumSet_Gen.json
  */
 async function ispCacheNodesDeleteOperationGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();

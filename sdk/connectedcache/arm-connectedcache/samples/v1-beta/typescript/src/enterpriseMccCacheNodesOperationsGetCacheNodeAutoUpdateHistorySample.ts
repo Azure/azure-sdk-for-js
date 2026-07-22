@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to this api gets ispCacheNode resource auto update histrory information
  *
  * @summary this api gets ispCacheNode resource auto update histrory information
- * x-ms-original-file: 2024-11-30-preview/EnterpriseMccCacheNodesOperations_GetCacheNodeAutoUpdateHistory_MaximumSet_Gen.json
+ * x-ms-original-file: 2026-06-01/EnterpriseMccCacheNodesOperations_GetCacheNodeAutoUpdateHistory_MaximumSet_Gen.json
  */
 async function enterpriseMccCacheNodesOperationsGetCacheNodeAutoUpdateHistoryMaximumSet(): Promise<void> {
   const credential = new DefaultAzureCredential();
