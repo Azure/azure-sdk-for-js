@@ -215,5 +215,3 @@ If you'd like to contribute to this library, please read the [contributing guide
 [azure_blob_storage_account]: https://learn.microsoft.com/azure/storage/common/storage-account-create
 [container]: https://learn.microsoft.com/azure/storage/blobs/storage-quickstart-blobs-portal#create-a-container
 [storage_container_authorization]: https://learn.microsoft.com/azure/ai-services/translator/document-translation/how-to-guides/create-sas-tokens
-
-</content>
