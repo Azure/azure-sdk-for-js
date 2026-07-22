@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to create or update NetworkRuleSet for a Namespace.
  *
  * @summary create or update NetworkRuleSet for a Namespace.
- * x-ms-original-file: 2026-01-01/NameSpaces/VirtualNetworkRule/EHNetworkRuleSetCreate.json
+ * x-ms-original-file: 2026-07-01-preview/NameSpaces/VirtualNetworkRule/EHNetworkRuleSetCreate.json
  */
 async function nameSpaceNetworkRuleSetCreate() {
   const credential = new DefaultAzureCredential();

@@ -132,6 +132,34 @@
         "default": "./dist/commonjs/api/configuration/index.js"
       }
     },
+    "./api/upgradePreferencesOperations": {
+      "browser": {
+        "types": "./dist/browser/api/upgradePreferencesOperations/index.d.ts",
+        "default": "./dist/browser/api/upgradePreferencesOperations/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/upgradePreferencesOperations/index.d.ts",
+        "default": "./dist/esm/api/upgradePreferencesOperations/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/upgradePreferencesOperations/index.d.ts",
+        "default": "./dist/commonjs/api/upgradePreferencesOperations/index.js"
+      }
+    },
+    "./api/fabricShortcuts": {
+      "browser": {
+        "types": "./dist/browser/api/fabricShortcuts/index.d.ts",
+        "default": "./dist/browser/api/fabricShortcuts/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/api/fabricShortcuts/index.d.ts",
+        "default": "./dist/esm/api/fabricShortcuts/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/api/fabricShortcuts/index.d.ts",
+        "default": "./dist/commonjs/api/fabricShortcuts/index.js"
+      }
+    },
     "./api/consumerGroups": {
       "browser": {
         "types": "./dist/browser/api/consumerGroups/index.d.ts",

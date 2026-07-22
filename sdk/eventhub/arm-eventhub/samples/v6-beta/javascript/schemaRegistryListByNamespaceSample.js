@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets all the Schema Groups in a Namespace.
  *
  * @summary gets all the Schema Groups in a Namespace.
- * x-ms-original-file: 2026-01-01/SchemaRegistry/SchemaRegistryListByNamespace.json
+ * x-ms-original-file: 2026-07-01-preview/SchemaRegistry/SchemaRegistryListByNamespace.json
  */
 async function schemaRegistryListAll() {
   const credential = new DefaultAzureCredential();

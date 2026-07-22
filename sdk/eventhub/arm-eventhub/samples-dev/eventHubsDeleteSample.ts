@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to deletes an Event Hub from the specified Namespace and resource group.
  *
  * @summary deletes an Event Hub from the specified Namespace and resource group.
- * x-ms-original-file: 2026-01-01/EventHubs/EHEventHubDelete.json
+ * x-ms-original-file: 2026-07-01-preview/EventHubs/EHEventHubDelete.json
  */
 async function eventHubDelete(): Promise<void> {
   const credential = new DefaultAzureCredential();

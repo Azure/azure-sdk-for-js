@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets all the Event Hubs in a Namespace.
  *
  * @summary gets all the Event Hubs in a Namespace.
- * x-ms-original-file: 2026-01-01/EventHubs/EHEventHubListByNameSpace.json
+ * x-ms-original-file: 2026-07-01-preview/EventHubs/EHEventHubListByNameSpace.json
  */
 async function eventHubsListAll(): Promise<void> {
   const credential = new DefaultAzureCredential();

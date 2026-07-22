@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates an AuthorizationRule for the specified Event Hub. Creation/update of the AuthorizationRule will take a few seconds to take effect.
  *
  * @summary creates or updates an AuthorizationRule for the specified Event Hub. Creation/update of the AuthorizationRule will take a few seconds to take effect.
- * x-ms-original-file: 2026-01-01/EventHubs/EHEventHubAuthorizationRuleCreate.json
+ * x-ms-original-file: 2026-07-01-preview/EventHubs/EHEventHubAuthorizationRuleCreate.json
  */
 async function eventHubAuthorizationRuleCreate() {
   const credential = new DefaultAzureCredential();

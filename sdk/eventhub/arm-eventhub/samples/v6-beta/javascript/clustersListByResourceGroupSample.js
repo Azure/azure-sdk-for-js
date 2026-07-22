@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to lists the available Event Hubs Clusters within an ARM resource group
  *
  * @summary lists the available Event Hubs Clusters within an ARM resource group
- * x-ms-original-file: 2026-01-01/Clusters/ClustersListByResourceGroup.json
+ * x-ms-original-file: 2026-07-01-preview/Clusters/ClustersListByResourceGroup.json
  */
 async function clustersListByResourceGroup() {
   const credential = new DefaultAzureCredential();

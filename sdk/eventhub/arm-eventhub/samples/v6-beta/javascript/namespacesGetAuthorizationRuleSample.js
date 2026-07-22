@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets an AuthorizationRule for a Namespace by rule name.
  *
  * @summary gets an AuthorizationRule for a Namespace by rule name.
- * x-ms-original-file: 2026-01-01/NameSpaces/EHNameSpaceAuthorizationRuleGet.json
+ * x-ms-original-file: 2026-07-01-preview/NameSpaces/EHNameSpaceAuthorizationRuleGet.json
  */
 async function nameSpaceAuthorizationRuleGet() {
   const credential = new DefaultAzureCredential();

@@ -114,7 +114,6 @@ export interface EventHubsOperations {
     options?: EventHubsGetAuthorizationRuleOptionalParams,
   ) => Promise<AuthorizationRule>;
 }
-
 function _getEventHubs(context: EventHubManagementContext) {
   return {
     listByNamespace: (
@@ -229,7 +228,6 @@ function _getEventHubs(context: EventHubManagementContext) {
       ),
   };
 }
-
 export function _getEventHubsOperations(context: EventHubManagementContext): EventHubsOperations {
   return {
     ..._getEventHubs(context),

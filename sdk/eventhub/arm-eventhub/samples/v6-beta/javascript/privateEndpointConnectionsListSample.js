@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets the available PrivateEndpointConnections within a namespace.
  *
  * @summary gets the available PrivateEndpointConnections within a namespace.
- * x-ms-original-file: 2026-01-01/NameSpaces/PrivateEndPointConnectionList.json
+ * x-ms-original-file: 2026-07-01-preview/NameSpaces/PrivateEndPointConnectionList.json
  */
 async function privateEndPointConnectionList() {
   const credential = new DefaultAzureCredential();

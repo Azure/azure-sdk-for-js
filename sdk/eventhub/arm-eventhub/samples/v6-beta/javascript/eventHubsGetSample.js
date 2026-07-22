@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets an Event Hubs description for the specified Event Hub.
  *
  * @summary gets an Event Hubs description for the specified Event Hub.
- * x-ms-original-file: 2026-01-01/EventHubs/EHEventHubGet.json
+ * x-ms-original-file: 2026-07-01-preview/EventHubs/EHEventHubGet.json
  */
 async function eventHubGet() {
   const credential = new DefaultAzureCredential();

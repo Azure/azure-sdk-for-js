@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets list of current NetworkSecurityPerimeterConfiguration for Namespace
  *
  * @summary gets list of current NetworkSecurityPerimeterConfiguration for Namespace
- * x-ms-original-file: 2026-01-01/NameSpaces/NetworkSecurityPerimeterConfigurationList.json
+ * x-ms-original-file: 2026-07-01-preview/NameSpaces/NetworkSecurityPerimeterConfigurationList.json
  */
 async function namspaceNetworkSecurityPerimeterConfigurationList(): Promise<void> {
   const credential = new DefaultAzureCredential();

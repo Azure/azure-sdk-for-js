@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets lists of resources that supports Privatelinks.
  *
  * @summary gets lists of resources that supports Privatelinks.
- * x-ms-original-file: 2026-01-01/NameSpaces/PrivateLinkResourcesGet.json
+ * x-ms-original-file: 2026-07-01-preview/NameSpaces/PrivateLinkResourcesGet.json
  */
 async function nameSpacePrivateLinkResourcesGet() {
   const credential = new DefaultAzureCredential();

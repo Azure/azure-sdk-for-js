@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates a new Event Hub as a nested resource within a Namespace.
  *
  * @summary creates or updates a new Event Hub as a nested resource within a Namespace.
- * x-ms-original-file: 2026-01-01/EventHubs/EHEventHubCreate.json
+ * x-ms-original-file: 2026-07-01-preview/EventHubs/EHEventHubCreate.json
  */
 async function ehEventHubCreate() {
   const credential = new DefaultAzureCredential();
@@ -50,7 +50,7 @@ async function ehEventHubCreate() {
  * This sample demonstrates how to creates or updates a new Event Hub as a nested resource within a Namespace.
  *
  * @summary creates or updates a new Event Hub as a nested resource within a Namespace.
- * x-ms-original-file: 2026-01-01/EventHubs/EHEventHubWithCompactPolicyCreate.json
+ * x-ms-original-file: 2026-07-01-preview/EventHubs/EHEventHubWithCompactPolicyCreate.json
  */
 async function ehEventHubWithCompactPolicyCreate() {
   const credential = new DefaultAzureCredential();
@@ -99,7 +99,7 @@ async function ehEventHubWithCompactPolicyCreate() {
  * This sample demonstrates how to creates or updates a new Event Hub as a nested resource within a Namespace.
  *
  * @summary creates or updates a new Event Hub as a nested resource within a Namespace.
- * x-ms-original-file: 2026-01-01/EventHubs/EHEventHubWithDeleteOrCompactPolicyCreate.json
+ * x-ms-original-file: 2026-07-01-preview/EventHubs/EHEventHubWithDeleteOrCompactPolicyCreate.json
  */
 async function ehEventHubWithDeleteOrCompactPolicyCreate() {
   const credential = new DefaultAzureCredential();
@@ -144,7 +144,7 @@ async function ehEventHubWithDeleteOrCompactPolicyCreate() {
  * This sample demonstrates how to creates or updates a new Event Hub as a nested resource within a Namespace.
  *
  * @summary creates or updates a new Event Hub as a nested resource within a Namespace.
- * x-ms-original-file: 2026-01-01/EventHubs/EHEventHubWithDeletePolicyCreate.json
+ * x-ms-original-file: 2026-07-01-preview/EventHubs/EHEventHubWithDeletePolicyCreate.json
  */
 async function ehEventHubWithDeletePolicyCreate() {
   const credential = new DefaultAzureCredential();

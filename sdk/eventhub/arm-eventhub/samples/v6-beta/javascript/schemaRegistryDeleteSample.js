@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to deletes an EventHub schema group.
  *
  * @summary deletes an EventHub schema group.
- * x-ms-original-file: 2026-01-01/SchemaRegistry/SchemaRegistryDelete.json
+ * x-ms-original-file: 2026-07-01-preview/SchemaRegistry/SchemaRegistryDelete.json
  */
 async function schemaRegistryDelete() {
   const credential = new DefaultAzureCredential();

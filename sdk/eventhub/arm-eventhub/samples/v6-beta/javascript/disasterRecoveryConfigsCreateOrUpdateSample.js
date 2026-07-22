@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to creates or updates a new Alias(Disaster Recovery configuration)
  *
  * @summary creates or updates a new Alias(Disaster Recovery configuration)
- * x-ms-original-file: 2026-01-01/disasterRecoveryConfigs/EHAliasCreate.json
+ * x-ms-original-file: 2026-07-01-preview/disasterRecoveryConfigs/EHAliasCreate.json
  */
 async function ehAliasCreate() {
   const credential = new DefaultAzureCredential();

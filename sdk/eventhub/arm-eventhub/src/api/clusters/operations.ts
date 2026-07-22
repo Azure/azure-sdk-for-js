@@ -42,7 +42,7 @@ export function _listAvailableClusterRegionSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.EventHub/availableClusterRegions{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -69,7 +69,6 @@ export async function _listAvailableClusterRegionDeserialize(
 
   return availableClustersListDeserializer(result.body);
 }
-
 /** List the quantity of available pre-provisioned Event Hubs Clusters, indexed by Azure region. */
 export async function listAvailableClusterRegion(
   context: Client,
@@ -91,7 +90,7 @@ export function _listNamespacesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -118,7 +117,6 @@ export async function _listNamespacesDeserialize(
 
   return ehNamespaceIdListResultDeserializer(result.body);
 }
-
 /** List all Event Hubs Namespace IDs in an Event Hubs Dedicated Cluster. */
 export async function listNamespaces(
   context: Client,
@@ -138,7 +136,7 @@ export function _listBySubscriptionSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.EventHub/clusters{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -165,7 +163,6 @@ export async function _listBySubscriptionDeserialize(
 
   return _clusterListResultDeserializer(result.body);
 }
-
 /** Lists the available Event Hubs Clusters within an ARM resource group */
 export function listBySubscription(
   context: Client,
@@ -176,7 +173,11 @@ export function listBySubscription(
     () => _listBySubscriptionSend(context, options),
     _listBySubscriptionDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-07-01-preview",
+    },
   );
 }
 
@@ -190,7 +191,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -217,7 +218,6 @@ export async function _listByResourceGroupDeserialize(
 
   return _clusterListResultDeserializer(result.body);
 }
-
 /** Lists the available Event Hubs Clusters within an ARM resource group */
 export function listByResourceGroup(
   context: Client,
@@ -229,7 +229,11 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-01-01" },
+    {
+      itemName: "value",
+      nextLinkName: "nextLink",
+      apiVersion: context.apiVersion ?? "2026-07-01-preview",
+    },
   );
 }
 
@@ -245,7 +249,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -267,7 +271,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Deletes an existing Event Hubs Cluster. This operation is idempotent. */
 export function $delete(
   context: Client,
@@ -280,7 +283,7 @@ export function $delete(
     abortSignal: options?.abortSignal,
     getInitialResponse: () => _$deleteSend(context, resourceGroupName, clusterName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-01-01",
+    apiVersion: context.apiVersion ?? "2026-07-01-preview",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -297,7 +300,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -324,7 +327,6 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
 
   return clusterDeserializer(result.body);
 }
-
 /** Modifies mutable properties on the Event Hubs Cluster. This operation is idempotent. */
 export function update(
   context: Client,
@@ -339,7 +341,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, clusterName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-01-01",
+    apiVersion: context.apiVersion ?? "2026-07-01-preview",
   }) as PollerLike<OperationState<Cluster>, Cluster>;
 }
 
@@ -356,7 +358,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -383,7 +385,6 @@ export async function _createOrUpdateDeserialize(result: PathUncheckedResponse):
 
   return clusterDeserializer(result.body);
 }
-
 /** Creates or updates an instance of an Event Hubs Cluster. */
 export function createOrUpdate(
   context: Client,
@@ -398,7 +399,7 @@ export function createOrUpdate(
     getInitialResponse: () =>
       _createOrUpdateSend(context, resourceGroupName, clusterName, parameters, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-01-01",
+    apiVersion: context.apiVersion ?? "2026-07-01-preview",
   }) as PollerLike<OperationState<Cluster>, Cluster>;
 }
 
@@ -414,7 +415,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       clusterName: clusterName,
-      "api%2Dversion": context.apiVersion ?? "2026-01-01",
+      "api%2Dversion": context.apiVersion ?? "2026-07-01-preview",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -439,7 +440,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Cl
 
   return clusterDeserializer(result.body);
 }
-
 /** Gets the resource description of the specified Event Hubs Cluster. */
 export async function get(
   context: Client,

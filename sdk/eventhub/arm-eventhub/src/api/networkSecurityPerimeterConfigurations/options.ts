@@ -8,6 +8,5 @@ export interface NetworkSecurityPerimeterConfigurationsCreateOrUpdateOptionalPar
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
-
 /** Optional parameters. */
 export interface NetworkSecurityPerimeterConfigurationsGetResourceAssociationNameOptionalParams extends OperationOptions {}

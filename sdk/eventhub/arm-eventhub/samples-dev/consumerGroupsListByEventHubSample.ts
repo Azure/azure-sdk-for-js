@@ -8,7 +8,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to gets all the consumer groups in a Namespace. An empty feed is returned if no consumer group exists in the Namespace.
  *
  * @summary gets all the consumer groups in a Namespace. An empty feed is returned if no consumer group exists in the Namespace.
- * x-ms-original-file: 2026-01-01/ConsumerGroup/EHConsumerGroupListByEventHub.json
+ * x-ms-original-file: 2026-07-01-preview/ConsumerGroup/EHConsumerGroupListByEventHub.json
  */
 async function consumerGroupsListAll(): Promise<void> {
   const credential = new DefaultAzureCredential();

@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to modifies mutable properties on the Event Hubs Cluster. This operation is idempotent.
  *
  * @summary modifies mutable properties on the Event Hubs Cluster. This operation is idempotent.
- * x-ms-original-file: 2026-01-01/Clusters/ClusterPatch.json
+ * x-ms-original-file: 2026-07-01-preview/Clusters/ClusterPatch.json
  */
 async function clusterPatch() {
   const credential = new DefaultAzureCredential();

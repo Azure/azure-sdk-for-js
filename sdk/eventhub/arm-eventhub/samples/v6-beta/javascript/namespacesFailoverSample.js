@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to geoDR Failover
  *
  * @summary geoDR Failover
- * x-ms-original-file: 2026-01-01/NameSpaces/EHNamespaceFailover.json
+ * x-ms-original-file: 2026-07-01-preview/NameSpaces/EHNamespaceFailover.json
  */
 async function nameSpaceCreate() {
   const credential = new DefaultAzureCredential();

@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
+
 /** Paged collection of Operation items */
 export interface _OperationListResult {
   /** The Operation items on this page */
@@ -1911,6 +1911,314 @@ export function consumerGroupArrayDeserializer(result: Array<ConsumerGroup>): an
   });
 }
 
+/** A Microsoft Fabric shortcut attached to an Event Hub. */
+export interface FabricShortcut extends ProxyResource {
+  /** Properties of the Microsoft Fabric shortcut. */
+  properties?: FabricShortcutProperties;
+  /** The geo-location where the resource lives. */
+  readonly location?: string;
+}
+
+export function fabricShortcutSerializer(item: FabricShortcut): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : fabricShortcutPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function fabricShortcutDeserializer(item: any): FabricShortcut {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : fabricShortcutPropertiesDeserializer(item["properties"]),
+    location: item["location"],
+  };
+}
+
+/** Properties of a Microsoft Fabric shortcut. */
+export interface FabricShortcutProperties {
+  /** Microsoft Fabric workspace and artifact configuration. */
+  configuration: FabricShortcutConfiguration;
+  /** The type of the shortcut. */
+  shortcutType?: FabricShortcutType;
+  /** The current shortcut status. Only Pending can be supplied on create or update. */
+  shortcutStatus?: FabricShortcutStatus;
+  /** A description of the current shortcut status. */
+  readonly statusDescription?: string;
+  /** The UTC time when the shortcut was created. */
+  readonly createdAt?: Date;
+  /** The UTC time when the shortcut was last modified. */
+  readonly modifiedAt?: Date;
+}
+
+export function fabricShortcutPropertiesSerializer(item: FabricShortcutProperties): any {
+  return {
+    configuration: fabricShortcutConfigurationSerializer(item["configuration"]),
+    shortcutType: item["shortcutType"],
+    shortcutStatus: item["shortcutStatus"],
+  };
+}
+
+export function fabricShortcutPropertiesDeserializer(item: any): FabricShortcutProperties {
+  return {
+    configuration: fabricShortcutConfigurationDeserializer(item["configuration"]),
+    shortcutType: item["shortcutType"],
+    shortcutStatus: item["shortcutStatus"],
+    statusDescription: item["statusDescription"],
+    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
+    modifiedAt: !item["modifiedAt"] ? item["modifiedAt"] : new Date(item["modifiedAt"]),
+  };
+}
+
+/** Microsoft Fabric workspace and artifact configuration. */
+export interface FabricShortcutConfiguration {
+  /** The Microsoft Fabric tenant ID. */
+  tenantId: string;
+  /** The Microsoft Fabric workspace ID. */
+  workspaceId: string;
+  /** The Microsoft Fabric artifact ID. */
+  artifactId: string;
+  /** The Microsoft Fabric premium capacity ID. */
+  premiumCapacityId?: string;
+  /** The resource ID of the Log Analytics workspace. */
+  logAnalyticsResourceId?: string;
+  /** The Microsoft Fabric workspace name. */
+  workspaceName?: string;
+  /** The Microsoft Fabric artifact name. */
+  artifactName?: string;
+}
+
+export function fabricShortcutConfigurationSerializer(item: FabricShortcutConfiguration): any {
+  return {
+    tenantId: item["tenantId"],
+    workspaceId: item["workspaceId"],
+    artifactId: item["artifactId"],
+    premiumCapacityId: item["premiumCapacityId"],
+    logAnalyticsResourceId: item["logAnalyticsResourceId"],
+    workspaceName: item["workspaceName"],
+    artifactName: item["artifactName"],
+  };
+}
+
+export function fabricShortcutConfigurationDeserializer(item: any): FabricShortcutConfiguration {
+  return {
+    tenantId: item["tenantId"],
+    workspaceId: item["workspaceId"],
+    artifactId: item["artifactId"],
+    premiumCapacityId: item["premiumCapacityId"],
+    logAnalyticsResourceId: item["logAnalyticsResourceId"],
+    workspaceName: item["workspaceName"],
+    artifactName: item["artifactName"],
+  };
+}
+
+/** The type of Microsoft Fabric shortcut. */
+export type FabricShortcutType = "Entity" | "Network";
+/** The status of a Microsoft Fabric shortcut. */
+export type FabricShortcutStatus = "Pending" | "Approved" | "Rejected";
+
+/** The response of a FabricShortcut list operation. */
+export interface _FabricShortcutListResult {
+  /** The FabricShortcut items on this page */
+  value: FabricShortcut[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _fabricShortcutListResultDeserializer(item: any): _FabricShortcutListResult {
+  return {
+    value: fabricShortcutArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function fabricShortcutArraySerializer(result: Array<FabricShortcut>): any[] {
+  return result.map((item) => {
+    return fabricShortcutSerializer(item);
+  });
+}
+
+export function fabricShortcutArrayDeserializer(result: Array<FabricShortcut>): any[] {
+  return result.map((item) => {
+    return fabricShortcutDeserializer(item);
+  });
+}
+
+/** Upgrade preferences for an Event Hubs Dedicated cluster. */
+export interface UpgradePreferences extends ProxyResource {
+  /** Upgrade preference properties for the Event Hubs Dedicated cluster. */
+  properties?: UpgradePreferencesProperties;
+}
+
+export function upgradePreferencesSerializer(item: UpgradePreferences): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : upgradePreferencesPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function upgradePreferencesDeserializer(item: any): UpgradePreferences {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : upgradePreferencesPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Upgrade preference properties for an Event Hubs Dedicated cluster. */
+export interface UpgradePreferencesProperties {
+  /** Recurring weekly maintenance windows in UTC. At least one window must be supplied when preferences are created or updated. A maximum of two windows can be configured, and their combined duration must be at least 16 hours per week. */
+  maintenanceWindows?: MaintenanceWindow[];
+  /** Date-specific exceptions to the recurring maintenance windows. */
+  exceptionWindows?: ExceptionWindow[];
+  /** The current cluster upgrade status. */
+  readonly upgradeStatus?: UpgradeStatus;
+}
+
+export function upgradePreferencesPropertiesSerializer(item: UpgradePreferencesProperties): any {
+  return {
+    maintenanceWindows: !item["maintenanceWindows"]
+      ? item["maintenanceWindows"]
+      : maintenanceWindowArraySerializer(item["maintenanceWindows"]),
+    exceptionWindows: !item["exceptionWindows"]
+      ? item["exceptionWindows"]
+      : exceptionWindowArraySerializer(item["exceptionWindows"]),
+  };
+}
+
+export function upgradePreferencesPropertiesDeserializer(item: any): UpgradePreferencesProperties {
+  return {
+    maintenanceWindows: !item["maintenanceWindows"]
+      ? item["maintenanceWindows"]
+      : maintenanceWindowArrayDeserializer(item["maintenanceWindows"]),
+    exceptionWindows: !item["exceptionWindows"]
+      ? item["exceptionWindows"]
+      : exceptionWindowArrayDeserializer(item["exceptionWindows"]),
+    upgradeStatus: !item["upgradeStatus"]
+      ? item["upgradeStatus"]
+      : upgradeStatusDeserializer(item["upgradeStatus"]),
+  };
+}
+
+export function maintenanceWindowArraySerializer(result: Array<MaintenanceWindow>): any[] {
+  return result.map((item) => {
+    return maintenanceWindowSerializer(item);
+  });
+}
+
+export function maintenanceWindowArrayDeserializer(result: Array<MaintenanceWindow>): any[] {
+  return result.map((item) => {
+    return maintenanceWindowDeserializer(item);
+  });
+}
+
+/** A recurring weekly maintenance window in UTC. */
+export interface MaintenanceWindow {
+  /** The UTC day of the week on which the maintenance window starts. */
+  dayOfWeek: UpgradePreferenceDayOfWeek;
+  /** The UTC time of day at which the maintenance window starts, represented as an ISO 8601 duration since midnight. */
+  startTimeOfDay: string;
+  /** The maintenance window duration in minutes. The value must be between 480 and 1440 in 60-minute increments. */
+  durationMinutes: number;
+}
+
+export function maintenanceWindowSerializer(item: MaintenanceWindow): any {
+  return {
+    dayOfWeek: item["dayOfWeek"],
+    startTimeOfDay: item["startTimeOfDay"],
+    durationMinutes: item["durationMinutes"],
+  };
+}
+
+export function maintenanceWindowDeserializer(item: any): MaintenanceWindow {
+  return {
+    dayOfWeek: item["dayOfWeek"],
+    startTimeOfDay: item["startTimeOfDay"],
+    durationMinutes: item["durationMinutes"],
+  };
+}
+
+/** A day of the week. */
+export type UpgradePreferenceDayOfWeek =
+  "Sunday" | "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday";
+
+export function exceptionWindowArraySerializer(result: Array<ExceptionWindow>): any[] {
+  return result.map((item) => {
+    return exceptionWindowSerializer(item);
+  });
+}
+
+export function exceptionWindowArrayDeserializer(result: Array<ExceptionWindow>): any[] {
+  return result.map((item) => {
+    return exceptionWindowDeserializer(item);
+  });
+}
+
+/** A date-specific exception to the recurring maintenance windows. */
+export interface ExceptionWindow {
+  /** The UTC date on which the exception starts. */
+  date: Date;
+  /** Whether the exception blocks or allows upgrades. */
+  action: ExceptionWindowAction;
+  /** The UTC time of day at which the exception starts, represented as an ISO 8601 duration since midnight. */
+  startTimeOfDay: string;
+  /** The exception duration in minutes. Allow exceptions must be between 480 and 1440 minutes in 60-minute increments. Block exceptions must be 1440 minutes. */
+  durationMinutes: number;
+}
+
+export function exceptionWindowSerializer(item: ExceptionWindow): any {
+  return {
+    date: item["date"].toISOString().split("T")[0],
+    action: item["action"],
+    startTimeOfDay: item["startTimeOfDay"],
+    durationMinutes: item["durationMinutes"],
+  };
+}
+
+export function exceptionWindowDeserializer(item: any): ExceptionWindow {
+  return {
+    date: new Date(item["date"]),
+    action: item["action"],
+    startTimeOfDay: item["startTimeOfDay"],
+    durationMinutes: item["durationMinutes"],
+  };
+}
+
+/** The action performed by an exception window. */
+export type ExceptionWindowAction = "Block" | "Allow";
+
+/** The current upgrade orchestration state for the cluster. */
+export interface UpgradeStatus {
+  /** Whether at least one deferred upgrade is waiting for the cluster. */
+  pendingUpgrade: boolean;
+  /** Whether an upgrade-now override is currently active. */
+  inProgress: boolean;
+  /** The estimated UTC time when the current upgrade will complete. */
+  completesAt?: Date;
+}
+
+export function upgradeStatusDeserializer(item: any): UpgradeStatus {
+  return {
+    pendingUpgrade: item["pendingUpgrade"],
+    inProgress: item["inProgress"],
+    completesAt: !item["completesAt"] ? item["completesAt"] : new Date(item["completesAt"]),
+  };
+}
+
 /** Contains all settings for the cluster. */
 export interface ClusterQuotaConfigurationProperties {
   /** All possible Cluster settings - a collection of key/value paired settings which apply to quotas and configurations imposed on the cluster. */
@@ -1980,8 +2288,8 @@ export interface EHNamespace extends ProxyResource {
   platformCapabilities?: PlatformCapabilities;
   /** Geo Data Replication settings for the namespace */
   geoDataReplication?: GeoDataReplicationProperties;
-  /** Value that indicates whether IPv6 is enabled for public network access. */
-  ipV6Enabled?: boolean;
+  /** The IP address type for the namespace. Determines whether the namespace supports IPv4 only or both IPv4 and IPv6 (dual stack). */
+  ipAddressType?: IpAddressType;
 }
 
 export function ehNamespaceSerializer(item: EHNamespace): any {
@@ -2000,7 +2308,7 @@ export function ehNamespaceSerializer(item: EHNamespace): any {
       "alternateName",
       "platformCapabilities",
       "geoDataReplication",
-      "ipV6Enabled",
+      "ipAddressType",
     ])
       ? undefined
       : _ehNamespacePropertiesSerializer(item),
@@ -2070,8 +2378,8 @@ export interface EHNamespaceProperties {
   platformCapabilities?: PlatformCapabilities;
   /** Geo Data Replication settings for the namespace */
   geoDataReplication?: GeoDataReplicationProperties;
-  /** Value that indicates whether IPv6 is enabled for public network access. */
-  ipV6Enabled?: boolean;
+  /** The IP address type for the namespace. Determines whether the namespace supports IPv4 only or both IPv4 and IPv6 (dual stack). */
+  ipAddressType?: IpAddressType;
 }
 
 export function ehNamespacePropertiesSerializer(item: EHNamespaceProperties): any {
@@ -2095,7 +2403,7 @@ export function ehNamespacePropertiesSerializer(item: EHNamespaceProperties): an
     geoDataReplication: !item["geoDataReplication"]
       ? item["geoDataReplication"]
       : geoDataReplicationPropertiesSerializer(item["geoDataReplication"]),
-    ipV6Enabled: item["ipV6Enabled"],
+    ipAddressType: item["ipAddressType"],
   };
 }
 
@@ -2128,7 +2436,7 @@ export function ehNamespacePropertiesDeserializer(item: any): EHNamespacePropert
     geoDataReplication: !item["geoDataReplication"]
       ? item["geoDataReplication"]
       : geoDataReplicationPropertiesDeserializer(item["geoDataReplication"]),
-    ipV6Enabled: item["ipV6Enabled"],
+    ipAddressType: item["ipAddressType"],
   };
 }
 
@@ -2360,6 +2668,24 @@ export enum KnownGeoDRRoleType {
  * **Secondary**
  */
 export type GeoDRRoleType = string;
+
+/** The IP address type for the namespace. Determines whether the namespace supports IPv4 only or both IPv4 and IPv6 (dual stack). */
+export enum KnownIpAddressType {
+  /** The namespace supports IPv4 addresses only. */
+  IPv4 = "IPv4",
+  /** The namespace supports both IPv4 and IPv6 addresses (dual stack). */
+  DualStack = "DualStack",
+}
+
+/**
+ * The IP address type for the namespace. Determines whether the namespace supports IPv4 only or both IPv4 and IPv6 (dual stack). \
+ * {@link KnownIpAddressType} can be used interchangeably with IpAddressType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **IPv4**: The namespace supports IPv4 addresses only. \
+ * **DualStack**: The namespace supports both IPv4 and IPv6 addresses (dual stack).
+ */
+export type IpAddressType = string;
 
 /** SKU parameters supplied to the create namespace operation */
 export interface Sku {
@@ -3274,8 +3600,12 @@ export function applicationGroupArrayDeserializer(result: Array<ApplicationGroup
 
 /** The available API versions. */
 export enum KnownVersions {
+  /** The 2025-05-01-preview API version. */
+  V20250501Preview = "2025-05-01-preview",
   /** The 2026-01-01 API version. */
   V20260101 = "2026-01-01",
+  /** The 2026-07-01-preview API version. */
+  V20260701Preview = "2026-07-01-preview",
 }
 
 export function _clusterPropertiesSerializer(item: Cluster): any {
@@ -3490,7 +3820,7 @@ export function _ehNamespacePropertiesSerializer(item: EHNamespace): any {
     geoDataReplication: !item["geoDataReplication"]
       ? item["geoDataReplication"]
       : geoDataReplicationPropertiesSerializer(item["geoDataReplication"]),
-    ipV6Enabled: item["ipV6Enabled"],
+    ipAddressType: item["ipAddressType"],
   };
 }
 
@@ -3523,7 +3853,7 @@ export function _ehNamespacePropertiesDeserializer(item: any) {
     geoDataReplication: !item["geoDataReplication"]
       ? item["geoDataReplication"]
       : geoDataReplicationPropertiesDeserializer(item["geoDataReplication"]),
-    ipV6Enabled: item["ipV6Enabled"],
+    ipAddressType: item["ipAddressType"],
   };
 }
 

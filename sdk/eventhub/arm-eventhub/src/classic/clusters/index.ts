@@ -120,7 +120,6 @@ export interface ClustersOperations {
     options?: ClustersGetOptionalParams,
   ) => Promise<Cluster>;
 }
-
 function _getClusters(context: EventHubManagementContext) {
   return {
     listAvailableClusterRegion: (options?: ClustersListAvailableClusterRegionOptionalParams) =>
@@ -209,7 +208,6 @@ function _getClusters(context: EventHubManagementContext) {
       get(context, resourceGroupName, clusterName, options),
   };
 }
-
 export function _getClustersOperations(context: EventHubManagementContext): ClustersOperations {
   return {
     ..._getClusters(context),

@@ -12,13 +12,11 @@ export interface OperationsOperations {
   /** Lists all of the available Event Hub REST API operations. */
   list: (options?: OperationsListOptionalParams) => PagedAsyncIterableIterator<Operation>;
 }
-
 function _getOperations(context: EventHubManagementContext) {
   return {
     list: (options?: OperationsListOptionalParams) => list(context, options),
   };
 }
-
 export function _getOperationsOperations(context: EventHubManagementContext): OperationsOperations {
   return {
     ..._getOperations(context),

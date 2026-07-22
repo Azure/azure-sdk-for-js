@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to list all Event Hubs Namespace IDs in an Event Hubs Dedicated Cluster.
  *
  * @summary list all Event Hubs Namespace IDs in an Event Hubs Dedicated Cluster.
- * x-ms-original-file: 2026-01-01/Clusters/ListNamespacesInClusterGet.json
+ * x-ms-original-file: 2026-07-01-preview/Clusters/ListNamespacesInClusterGet.json
  */
 async function listNamespacesInCluster() {
   const credential = new DefaultAzureCredential();

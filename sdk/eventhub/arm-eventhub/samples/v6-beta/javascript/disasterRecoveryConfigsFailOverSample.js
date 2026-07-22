@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to invokes GEO DR failover and reconfigure the alias to point to the secondary namespace
  *
  * @summary invokes GEO DR failover and reconfigure the alias to point to the secondary namespace
- * x-ms-original-file: 2026-01-01/disasterRecoveryConfigs/EHAliasFailOver.json
+ * x-ms-original-file: 2026-07-01-preview/disasterRecoveryConfigs/EHAliasFailOver.json
  */
 async function ehAliasFailOver() {
   const credential = new DefaultAzureCredential();

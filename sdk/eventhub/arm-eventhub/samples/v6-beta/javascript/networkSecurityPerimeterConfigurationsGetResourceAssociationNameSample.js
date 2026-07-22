@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to return a NetworkSecurityPerimeterConfigurations resourceAssociationName
  *
  * @summary return a NetworkSecurityPerimeterConfigurations resourceAssociationName
- * x-ms-original-file: 2026-01-01/NameSpaces/NetworkSecurityPerimeterConfigurationAssociationproxy.json
+ * x-ms-original-file: 2026-07-01-preview/NameSpaces/NetworkSecurityPerimeterConfigurationAssociationproxy.json
  */
 async function networkSecurityPerimeterConfigurationassociationProxyName() {
   const credential = new DefaultAzureCredential();

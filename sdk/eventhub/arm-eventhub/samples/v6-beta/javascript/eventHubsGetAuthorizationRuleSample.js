@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets an AuthorizationRule for an Event Hub by rule name.
  *
  * @summary gets an AuthorizationRule for an Event Hub by rule name.
- * x-ms-original-file: 2026-01-01/EventHubs/EHEventHubAuthorizationRuleGet.json
+ * x-ms-original-file: 2026-07-01-preview/EventHubs/EHEventHubAuthorizationRuleGet.json
  */
 async function eventHubAuthorizationRuleGet() {
   const credential = new DefaultAzureCredential();

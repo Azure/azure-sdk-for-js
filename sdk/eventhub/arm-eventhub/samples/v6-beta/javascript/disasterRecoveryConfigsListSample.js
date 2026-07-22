@@ -8,7 +8,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to gets all Alias(Disaster Recovery configurations)
  *
  * @summary gets all Alias(Disaster Recovery configurations)
- * x-ms-original-file: 2026-01-01/disasterRecoveryConfigs/EHAliasList.json
+ * x-ms-original-file: 2026-07-01-preview/disasterRecoveryConfigs/EHAliasList.json
  */
 async function ehAliasList() {
   const credential = new DefaultAzureCredential();
