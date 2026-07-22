@@ -3,6 +3,7 @@
 
 import type { SingleDocumentTranslationContext as Client } from "./index.js";
 import { getBinaryStreamResponse } from "#platform/static-helpers/serialization/get-binary-stream-response";
+import { readBinaryErrorBody } from "../../static-helpers/serialization/readErrorBody.js";
 import type { DocumentTranslateContent, TranslateResponse } from "../../models/models.js";
 import { documentTranslateContentSerializer } from "../../models/models.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
@@ -50,7 +51,10 @@ export async function _translateDeserialize(
 ): Promise<TranslateResponse> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
+    // Customization: the success body is a binary stream, so the service error
+    // payload is delivered as the stream/blob body. Read and deserialize it so
+    // the RestError carries the real error code and message.
+    throw createRestError({ ...result, body: await readBinaryErrorBody(result) });
   }
 
   return { blobBody: result.blobBody, readableStreamBody: result.readableStreamBody };
