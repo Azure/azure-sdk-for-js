@@ -1,5 +1,24 @@
+# warp.config.yml — build configuration
 
-extends: ../../../warp.base.config.yml
+exports:
+  "./package.json": "./package.json"
+  ".": "./src/index.ts"
+  "./api": "./src/api/index.ts"
+  "./api/storageContainers": "./src/api/storageContainers/index.ts"
+  "./api/storageAssets": "./src/api/storageAssets/index.ts"
+  "./api/supercomputers": "./src/api/supercomputers/index.ts"
+  "./api/nodePools": "./src/api/nodePools/index.ts"
+  "./api/workspacePrivateLinkResources": "./src/api/workspacePrivateLinkResources/index.ts"
+  "./api/chatModelDeployments": "./src/api/chatModelDeployments/index.ts"
+  "./api/workspacePrivateEndpointConnections": "./src/api/workspacePrivateEndpointConnections/index.ts"
+  "./api/workspaces": "./src/api/workspaces/index.ts"
+  "./api/projects": "./src/api/projects/index.ts"
+  "./api/tools": "./src/api/tools/index.ts"
+  "./api/bookshelfPrivateLinkResources": "./src/api/bookshelfPrivateLinkResources/index.ts"
+  "./api/bookshelfPrivateEndpointConnections": "./src/api/bookshelfPrivateEndpointConnections/index.ts"
+  "./api/bookshelves": "./src/api/bookshelves/index.ts"
+  "./api/operations": "./src/api/operations/index.ts"
+  "./models": "./src/models/index.ts"
 
 targets:
   - name: browser

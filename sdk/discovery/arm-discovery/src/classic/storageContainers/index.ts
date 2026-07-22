@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DiscoveryContext } from "../../api/discoveryContext.js";
+import { DiscoveryContext } from "../../api/discoveryContext.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/storageContainers/operations.js";
-import type {
+import {
   StorageContainersListBySubscriptionOptionalParams,
   StorageContainersListByResourceGroupOptionalParams,
   StorageContainersDeleteOptionalParams,
@@ -18,9 +18,9 @@ import type {
   StorageContainersCreateOrUpdateOptionalParams,
   StorageContainersGetOptionalParams,
 } from "../../api/storageContainers/options.js";
-import type { StorageContainer, StorageContainerUpdate } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { StorageContainer, StorageContainerUpdate } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a StorageContainers operations. */
 export interface StorageContainersOperations {
@@ -34,11 +34,6 @@ export interface StorageContainersOperations {
     options?: StorageContainersListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<StorageContainer>;
   /** Delete a StorageContainer */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     storageContainerName: string,
@@ -65,7 +60,6 @@ export interface StorageContainersOperations {
     options?: StorageContainersGetOptionalParams,
   ) => Promise<StorageContainer>;
 }
-
 function _getStorageContainers(context: DiscoveryContext) {
   return {
     listBySubscription: (options?: StorageContainersListBySubscriptionOptionalParams) =>
@@ -98,7 +92,6 @@ function _getStorageContainers(context: DiscoveryContext) {
     ) => get(context, resourceGroupName, storageContainerName, options),
   };
 }
-
 export function _getStorageContainersOperations(
   context: DiscoveryContext,
 ): StorageContainersOperations {

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DiscoveryContext } from "../../api/discoveryContext.js";
+import { DiscoveryContext } from "../../api/discoveryContext.js";
 import {
   listByWorkspace,
   $delete,
@@ -9,16 +9,16 @@ import {
   createOrUpdate,
   get,
 } from "../../api/projects/operations.js";
-import type {
+import {
   ProjectsListByWorkspaceOptionalParams,
   ProjectsDeleteOptionalParams,
   ProjectsUpdateOptionalParams,
   ProjectsCreateOrUpdateOptionalParams,
   ProjectsGetOptionalParams,
 } from "../../api/projects/options.js";
-import type { Project, ProjectUpdate } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { Project, ProjectUpdate } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Projects operations. */
 export interface ProjectsOperations {
@@ -29,11 +29,6 @@ export interface ProjectsOperations {
     options?: ProjectsListByWorkspaceOptionalParams,
   ) => PagedAsyncIterableIterator<Project>;
   /** Delete a Project */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     workspaceName: string,
@@ -64,7 +59,6 @@ export interface ProjectsOperations {
     options?: ProjectsGetOptionalParams,
   ) => Promise<Project>;
 }
-
 function _getProjects(context: DiscoveryContext) {
   return {
     listByWorkspace: (
@@ -100,7 +94,6 @@ function _getProjects(context: DiscoveryContext) {
     ) => get(context, resourceGroupName, workspaceName, projectName, options),
   };
 }
-
 export function _getProjectsOperations(context: DiscoveryContext): ProjectsOperations {
   return {
     ..._getProjects(context),

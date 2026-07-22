@@ -1,30 +1,34 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DiscoveryContext as Client } from "../index.js";
-import type {
-  BookshelfPrivateEndpointConnection,
-  _BookshelfPrivateEndpointConnectionListResult,
-} from "../../models/models.js";
+import { DiscoveryContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  BookshelfPrivateEndpointConnection,
   bookshelfPrivateEndpointConnectionSerializer,
   bookshelfPrivateEndpointConnectionDeserializer,
+  _BookshelfPrivateEndpointConnectionListResult,
   _bookshelfPrivateEndpointConnectionListResultDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   BookshelfPrivateEndpointConnectionsListByBookshelfOptionalParams,
   BookshelfPrivateEndpointConnectionsDeleteOptionalParams,
   BookshelfPrivateEndpointConnectionsCreateOrUpdateOptionalParams,
   BookshelfPrivateEndpointConnectionsGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listByBookshelfSend(
   context: Client,
@@ -40,7 +44,7 @@ export function _listByBookshelfSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       bookshelfName: bookshelfName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -58,14 +62,15 @@ export async function _listByBookshelfDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return _bookshelfPrivateEndpointConnectionListResultDeserializer(result.body);
 }
-
 /** Lists all private endpoint connections for a bookshelf. */
 export function listByBookshelf(
   context: Client,
@@ -80,11 +85,7 @@ export function listByBookshelf(
     () => _listByBookshelfSend(context, resourceGroupName, bookshelfName, options),
     _listByBookshelfDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-02-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }
 
@@ -102,7 +103,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       bookshelfName: bookshelfName,
       privateEndpointConnectionName: privateEndpointConnectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -115,20 +116,16 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return;
 }
-
 /** Deletes the specified private endpoint connection. */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -148,7 +145,7 @@ export function $delete(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-02-01-preview",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -167,7 +164,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       bookshelfName: bookshelfName,
       privateEndpointConnectionName: privateEndpointConnectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -187,14 +184,15 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return bookshelfPrivateEndpointConnectionDeserializer(result.body);
 }
-
 /** Approves or updates the specified private endpoint connection. */
 export function createOrUpdate(
   context: Client,
@@ -220,7 +218,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-02-01-preview",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<
     OperationState<BookshelfPrivateEndpointConnection>,
     BookshelfPrivateEndpointConnection
@@ -241,7 +239,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       bookshelfName: bookshelfName,
       privateEndpointConnectionName: privateEndpointConnectionName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -259,14 +257,15 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return bookshelfPrivateEndpointConnectionDeserializer(result.body);
 }
-
 /** Gets the specified private endpoint connection associated with the bookshelf. */
 export async function get(
   context: Client,

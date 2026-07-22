@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DiscoveryContext } from "../../api/discoveryContext.js";
+import { DiscoveryContext } from "../../api/discoveryContext.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/supercomputers/operations.js";
-import type {
+import {
   SupercomputersListBySubscriptionOptionalParams,
   SupercomputersListByResourceGroupOptionalParams,
   SupercomputersDeleteOptionalParams,
@@ -18,9 +18,9 @@ import type {
   SupercomputersCreateOrUpdateOptionalParams,
   SupercomputersGetOptionalParams,
 } from "../../api/supercomputers/options.js";
-import type { Supercomputer, SupercomputerUpdate } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { Supercomputer, SupercomputerUpdate } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Supercomputers operations. */
 export interface SupercomputersOperations {
@@ -34,11 +34,6 @@ export interface SupercomputersOperations {
     options?: SupercomputersListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<Supercomputer>;
   /** Delete a Supercomputer */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     supercomputerName: string,
@@ -65,7 +60,6 @@ export interface SupercomputersOperations {
     options?: SupercomputersGetOptionalParams,
   ) => Promise<Supercomputer>;
 }
-
 function _getSupercomputers(context: DiscoveryContext) {
   return {
     listBySubscription: (options?: SupercomputersListBySubscriptionOptionalParams) =>
@@ -98,7 +92,6 @@ function _getSupercomputers(context: DiscoveryContext) {
     ) => get(context, resourceGroupName, supercomputerName, options),
   };
 }
-
 export function _getSupercomputersOperations(context: DiscoveryContext): SupercomputersOperations {
   return {
     ..._getSupercomputers(context),

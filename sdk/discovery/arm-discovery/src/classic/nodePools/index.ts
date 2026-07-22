@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DiscoveryContext } from "../../api/discoveryContext.js";
+import { DiscoveryContext } from "../../api/discoveryContext.js";
 import {
   listBySupercomputer,
   $delete,
@@ -9,16 +9,16 @@ import {
   createOrUpdate,
   get,
 } from "../../api/nodePools/operations.js";
-import type {
+import {
   NodePoolsListBySupercomputerOptionalParams,
   NodePoolsDeleteOptionalParams,
   NodePoolsUpdateOptionalParams,
   NodePoolsCreateOrUpdateOptionalParams,
   NodePoolsGetOptionalParams,
 } from "../../api/nodePools/options.js";
-import type { NodePool, NodePoolUpdate } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { NodePool, NodePoolUpdate } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a NodePools operations. */
 export interface NodePoolsOperations {
@@ -29,11 +29,6 @@ export interface NodePoolsOperations {
     options?: NodePoolsListBySupercomputerOptionalParams,
   ) => PagedAsyncIterableIterator<NodePool>;
   /** Delete a NodePool */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     supercomputerName: string,
@@ -64,7 +59,6 @@ export interface NodePoolsOperations {
     options?: NodePoolsGetOptionalParams,
   ) => Promise<NodePool>;
 }
-
 function _getNodePools(context: DiscoveryContext) {
   return {
     listBySupercomputer: (
@@ -108,7 +102,6 @@ function _getNodePools(context: DiscoveryContext) {
     ) => get(context, resourceGroupName, supercomputerName, nodePoolName, options),
   };
 }
-
 export function _getNodePoolsOperations(context: DiscoveryContext): NodePoolsOperations {
   return {
     ..._getNodePools(context),

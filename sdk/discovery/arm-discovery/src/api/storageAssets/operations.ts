@@ -1,33 +1,37 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DiscoveryContext as Client } from "../index.js";
-import type {
-  StorageAsset,
-  StorageAssetUpdate,
-  _StorageAssetListResult,
-} from "../../models/models.js";
+import { DiscoveryContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  StorageAsset,
   storageAssetSerializer,
   storageAssetDeserializer,
+  StorageAssetUpdate,
   storageAssetUpdateSerializer,
+  _StorageAssetListResult,
   _storageAssetListResultDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   StorageAssetsListByStorageContainerOptionalParams,
   StorageAssetsDeleteOptionalParams,
   StorageAssetsUpdateOptionalParams,
   StorageAssetsCreateOrUpdateOptionalParams,
   StorageAssetsGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _listByStorageContainerSend(
   context: Client,
@@ -41,7 +45,7 @@ export function _listByStorageContainerSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       storageContainerName: storageContainerName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -59,14 +63,15 @@ export async function _listByStorageContainerDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return _storageAssetListResultDeserializer(result.body);
 }
-
 /** List StorageAsset resources by StorageContainer */
 export function listByStorageContainer(
   context: Client,
@@ -79,11 +84,7 @@ export function listByStorageContainer(
     () => _listByStorageContainerSend(context, resourceGroupName, storageContainerName, options),
     _listByStorageContainerDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-02-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }
 
@@ -101,7 +102,7 @@ export function _$deleteSend(
       resourceGroupName: resourceGroupName,
       storageContainerName: storageContainerName,
       storageAssetName: storageAssetName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -114,20 +115,16 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return;
 }
-
 /** Delete a StorageAsset */
-/**
- *  @fixme delete is a reserved word that cannot be used as an operation name.
- *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
- *         to the operation to override the generated name.
- */
 export function $delete(
   context: Client,
   resourceGroupName: string,
@@ -141,7 +138,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, storageContainerName, storageAssetName, options),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-02-01-preview",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -160,7 +157,7 @@ export function _updateSend(
       resourceGroupName: resourceGroupName,
       storageContainerName: storageContainerName,
       storageAssetName: storageAssetName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -178,14 +175,15 @@ export async function _updateDeserialize(result: PathUncheckedResponse): Promise
   const expectedStatuses = ["200", "202", "201"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return storageAssetDeserializer(result.body);
 }
-
 /** Update a StorageAsset */
 export function update(
   context: Client,
@@ -208,7 +206,7 @@ export function update(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: context.apiVersion ?? "2026-02-01-preview",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<StorageAsset>, StorageAsset>;
 }
 
@@ -227,7 +225,7 @@ export function _createOrUpdateSend(
       resourceGroupName: resourceGroupName,
       storageContainerName: storageContainerName,
       storageAssetName: storageAssetName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -247,14 +245,15 @@ export async function _createOrUpdateDeserialize(
   const expectedStatuses = ["200", "201", "202"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return storageAssetDeserializer(result.body);
 }
-
 /** Create a StorageAsset */
 export function createOrUpdate(
   context: Client,
@@ -277,7 +276,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "azure-async-operation",
-    apiVersion: context.apiVersion ?? "2026-02-01-preview",
+    apiVersion: context.apiVersion ?? "2026-06-01",
   }) as PollerLike<OperationState<StorageAsset>, StorageAsset>;
 }
 
@@ -295,7 +294,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       storageContainerName: storageContainerName,
       storageAssetName: storageAssetName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -311,14 +310,15 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<St
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return storageAssetDeserializer(result.body);
 }
-
 /** Get a StorageAsset */
 export async function get(
   context: Client,

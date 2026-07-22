@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DiscoveryContext } from "../../api/discoveryContext.js";
+import { DiscoveryContext } from "../../api/discoveryContext.js";
 import {
   listByBookshelf,
   $delete,
   createOrUpdate,
   get,
 } from "../../api/bookshelfPrivateEndpointConnections/operations.js";
-import type {
+import {
   BookshelfPrivateEndpointConnectionsListByBookshelfOptionalParams,
   BookshelfPrivateEndpointConnectionsDeleteOptionalParams,
   BookshelfPrivateEndpointConnectionsCreateOrUpdateOptionalParams,
   BookshelfPrivateEndpointConnectionsGetOptionalParams,
 } from "../../api/bookshelfPrivateEndpointConnections/options.js";
-import type { BookshelfPrivateEndpointConnection } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { BookshelfPrivateEndpointConnection } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a BookshelfPrivateEndpointConnections operations. */
 export interface BookshelfPrivateEndpointConnectionsOperations {
@@ -27,11 +27,6 @@ export interface BookshelfPrivateEndpointConnectionsOperations {
     options?: BookshelfPrivateEndpointConnectionsListByBookshelfOptionalParams,
   ) => PagedAsyncIterableIterator<BookshelfPrivateEndpointConnection>;
   /** Deletes the specified private endpoint connection. */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     bookshelfName: string,
@@ -57,7 +52,6 @@ export interface BookshelfPrivateEndpointConnectionsOperations {
     options?: BookshelfPrivateEndpointConnectionsGetOptionalParams,
   ) => Promise<BookshelfPrivateEndpointConnection>;
 }
-
 function _getBookshelfPrivateEndpointConnections(context: DiscoveryContext) {
   return {
     listByBookshelf: (
@@ -94,7 +88,6 @@ function _getBookshelfPrivateEndpointConnections(context: DiscoveryContext) {
     ) => get(context, resourceGroupName, bookshelfName, privateEndpointConnectionName, options),
   };
 }
-
 export function _getBookshelfPrivateEndpointConnectionsOperations(
   context: DiscoveryContext,
 ): BookshelfPrivateEndpointConnectionsOperations {

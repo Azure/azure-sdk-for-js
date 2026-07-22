@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DiscoveryContext } from "../../api/discoveryContext.js";
+import { DiscoveryContext } from "../../api/discoveryContext.js";
 import { listByWorkspace, get } from "../../api/workspacePrivateLinkResources/operations.js";
-import type {
+import {
   WorkspacePrivateLinkResourcesListByWorkspaceOptionalParams,
   WorkspacePrivateLinkResourcesGetOptionalParams,
 } from "../../api/workspacePrivateLinkResources/options.js";
-import type { WorkspacePrivateLinkResource } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { WorkspacePrivateLinkResource } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 
 /** Interface representing a WorkspacePrivateLinkResources operations. */
 export interface WorkspacePrivateLinkResourcesOperations {
@@ -26,7 +26,6 @@ export interface WorkspacePrivateLinkResourcesOperations {
     options?: WorkspacePrivateLinkResourcesGetOptionalParams,
   ) => Promise<WorkspacePrivateLinkResource>;
 }
-
 function _getWorkspacePrivateLinkResources(context: DiscoveryContext) {
   return {
     listByWorkspace: (
@@ -42,7 +41,6 @@ function _getWorkspacePrivateLinkResources(context: DiscoveryContext) {
     ) => get(context, resourceGroupName, workspaceName, privateLinkResourceName, options),
   };
 }
-
 export function _getWorkspacePrivateLinkResourcesOperations(
   context: DiscoveryContext,
 ): WorkspacePrivateLinkResourcesOperations {

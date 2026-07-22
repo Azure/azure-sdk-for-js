@@ -1,25 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DiscoveryContext as Client } from "../index.js";
-import type {
-  WorkspacePrivateLinkResource,
-  _WorkspacePrivateLinkResourceListResult,
-} from "../../models/models.js";
+import { DiscoveryContext as Client } from "../index.js";
 import {
   errorResponseDeserializer,
+  WorkspacePrivateLinkResource,
   workspacePrivateLinkResourceDeserializer,
+  _WorkspacePrivateLinkResourceListResult,
   _workspacePrivateLinkResourceListResultDeserializer,
 } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { buildPagedAsyncIterator } from "../../static-helpers/pagingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import { expandUrlTemplate } from "../../static-helpers/urlTemplate.js";
-import type {
+import {
   WorkspacePrivateLinkResourcesListByWorkspaceOptionalParams,
   WorkspacePrivateLinkResourcesGetOptionalParams,
 } from "./options.js";
-import type { StreamableMethod, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _listByWorkspaceSend(
   context: Client,
@@ -33,7 +37,7 @@ export function _listByWorkspaceSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -51,14 +55,15 @@ export async function _listByWorkspaceDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return _workspacePrivateLinkResourceListResultDeserializer(result.body);
 }
-
 /** Lists all private link resources for the workspace. */
 export function listByWorkspace(
   context: Client,
@@ -71,11 +76,7 @@ export function listByWorkspace(
     () => _listByWorkspaceSend(context, resourceGroupName, workspaceName, options),
     _listByWorkspaceDeserialize,
     ["200"],
-    {
-      itemName: "value",
-      nextLinkName: "nextLink",
-      apiVersion: context.apiVersion ?? "2026-02-01-preview",
-    },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: context.apiVersion ?? "2026-06-01" },
   );
 }
 
@@ -93,7 +94,7 @@ export function _getSend(
       resourceGroupName: resourceGroupName,
       workspaceName: workspaceName,
       privateLinkResourceName: privateLinkResourceName,
-      "api%2Dversion": context.apiVersion ?? "2026-02-01-preview",
+      "api%2Dversion": context.apiVersion ?? "2026-06-01",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -111,14 +112,15 @@ export async function _getDeserialize(
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     const error = createRestError(result);
-    error.details = errorResponseDeserializer(result.body);
+    if (result.body) {
+      error.details = errorResponseDeserializer(result.body);
+    }
 
     throw error;
   }
 
   return workspacePrivateLinkResourceDeserializer(result.body);
 }
-
 /** Gets the specified private link resource for the workspace. */
 export async function get(
   context: Client,

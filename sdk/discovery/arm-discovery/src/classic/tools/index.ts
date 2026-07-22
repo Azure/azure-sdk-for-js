@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DiscoveryContext } from "../../api/discoveryContext.js";
+import { DiscoveryContext } from "../../api/discoveryContext.js";
 import {
   listBySubscription,
   listByResourceGroup,
@@ -10,7 +10,7 @@ import {
   createOrUpdate,
   get,
 } from "../../api/tools/operations.js";
-import type {
+import {
   ToolsListBySubscriptionOptionalParams,
   ToolsListByResourceGroupOptionalParams,
   ToolsDeleteOptionalParams,
@@ -18,9 +18,9 @@ import type {
   ToolsCreateOrUpdateOptionalParams,
   ToolsGetOptionalParams,
 } from "../../api/tools/options.js";
-import type { Tool, ToolUpdate } from "../../models/models.js";
-import type { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import type { PollerLike, OperationState } from "@azure/core-lro";
+import { Tool, ToolUpdate } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a Tools operations. */
 export interface ToolsOperations {
@@ -34,11 +34,6 @@ export interface ToolsOperations {
     options?: ToolsListByResourceGroupOptionalParams,
   ) => PagedAsyncIterableIterator<Tool>;
   /** Delete a Tool */
-  /**
-   *  @fixme delete is a reserved word that cannot be used as an operation name.
-   *         Please add @clientName("clientName") or @clientName("<JS-Specific-Name>", "javascript")
-   *         to the operation to override the generated name.
-   */
   delete: (
     resourceGroupName: string,
     toolName: string,
@@ -65,7 +60,6 @@ export interface ToolsOperations {
     options?: ToolsGetOptionalParams,
   ) => Promise<Tool>;
 }
-
 function _getTools(context: DiscoveryContext) {
   return {
     listBySubscription: (options?: ToolsListBySubscriptionOptionalParams) =>
@@ -92,7 +86,6 @@ function _getTools(context: DiscoveryContext) {
       get(context, resourceGroupName, toolName, options),
   };
 }
-
 export function _getToolsOperations(context: DiscoveryContext): ToolsOperations {
   return {
     ..._getTools(context),
