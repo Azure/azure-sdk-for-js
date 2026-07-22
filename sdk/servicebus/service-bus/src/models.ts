@@ -345,3 +345,29 @@ export interface PurgeMessagesOptions extends OperationOptionsBase {
    */
   beforeEnqueueTime?: Date;
 }
+
+/**
+ * The result of a `deleteMessages` operation.
+ *
+ * Returned as an object (rather than a bare count) so the result can grow
+ * additional fields in a future release without a breaking change.
+ */
+export interface DeleteMessagesResult {
+  /**
+   * The number of messages that were deleted.
+   */
+  deletedCount: number;
+}
+
+/**
+ * The result of a `purgeMessages` operation.
+ *
+ * Returned as an object (rather than a bare count) so the result can grow
+ * additional fields in a future release without a breaking change.
+ */
+export interface PurgeMessagesResult {
+  /**
+   * The total number of messages that were deleted.
+   */
+  deletedCount: number;
+}

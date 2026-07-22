@@ -1,9 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import type { ServiceBusSender } from "../../src/index.js";
-import { delay } from "../../src/index.js";
+import { delay, ServiceBusClient } from "../../src/index.js";
 import { TestClientType } from "../public/utils/testUtils.js";
-import type { ServiceBusReceiver } from "../../src/receivers/receiver.js";
+import type { ServiceBusReceiver, ServiceBusReceiverImpl } from "../../src/receivers/receiver.js";
+import { MaxDeleteMessageCount } from "../../src/receivers/receiver.js";
+import { ServiceBusSessionReceiverImpl } from "../../src/receivers/sessionReceiver.js";
+import type { MessageSession } from "../../src/session/messageSession.js";
 import type { ServiceBusClientForTests, EntityName } from "../public/utils/testutils2.js";
 import { createServiceBusClientForTests, testPeekMsgsLength } from "../public/utils/testutils2.js";
 import { afterAll, afterEach, beforeAll, describe, it } from "vitest";
@@ -80,7 +83,12 @@ describe.skip("Batch Receiver - batch delete messages", function (): void {
 
       // wait for things to be ready
       await delay(10 * 1000);
-      await receiver2.deleteMessages({ maxMessageCount: numMessages });
+      const deleteResult = await receiver2.deleteMessages({ maxMessageCount: numMessages });
+      assert.equal(
+        deleteResult.deletedCount,
+        numMessages,
+        "deleteMessages should report the number of deleted messages",
+      );
 
       await testPeekMsgsLength(receiver2, 0);
     });
@@ -109,7 +117,12 @@ describe.skip("Batch Receiver - batch delete messages", function (): void {
 
       // wait for things to be ready
       await delay(10 * 1000);
-      await receiver2.purgeMessages();
+      const purgeResult = await receiver2.purgeMessages();
+      assert.equal(
+        purgeResult.deletedCount,
+        numMessages,
+        "purgeMessages should report the total number of purged messages",
+      );
 
       await testPeekMsgsLength(receiver2, 0);
     });
@@ -170,7 +183,12 @@ describe.skip("Batch Receiver - batch delete messages", function (): void {
 
       // wait for things to be ready
       await delay(10 * 1000);
-      await receiver2.deleteMessages({ maxMessageCount: numMessages });
+      const deleteResult = await receiver2.deleteMessages({ maxMessageCount: numMessages });
+      assert.equal(
+        deleteResult.deletedCount,
+        numMessages,
+        "deleteMessages (session) should report the number of deleted messages",
+      );
 
       await testPeekMsgsLength(receiver2, 0);
     });
@@ -210,9 +228,118 @@ describe.skip("Batch Receiver - batch delete messages", function (): void {
         ...names,
         sessionId: randomSessionId,
       });
-      await receiver2.purgeMessages();
+      const purgeResult = await receiver2.purgeMessages();
+      assert.equal(
+        purgeResult.deletedCount,
+        numMessages,
+        "purgeMessages (session) should report the total number of purged messages",
+      );
 
       await testPeekMsgsLength(receiver2, 0);
+    });
+  });
+});
+
+describe("Batch delete messages - result shape (offline unit tests)", function (): void {
+  const connectionString = "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=q";
+
+  /**
+   * Replaces the receiver's management client so `deleteMessages` resolves to the
+   * next value in `counts` (0 once the sequence is exhausted), with no network.
+   */
+  function stubDeleteMessages(context: any, counts: number[]): void {
+    let call = 0;
+    const managementClient = {
+      deleteMessages: async (): Promise<number> => {
+        const value = counts[call] ?? 0;
+        call++;
+        return value;
+      },
+    };
+    context.getManagementClient = (): any => managementClient;
+  }
+
+  describe("non-session receiver", function (): void {
+    it("deleteMessages returns a DeleteMessagesResult with the deleted count", async function (): Promise<void> {
+      const client = new ServiceBusClient(connectionString);
+      try {
+        const unitReceiver = client.createReceiver("q") as ServiceBusReceiverImpl;
+        stubDeleteMessages(unitReceiver["_context"], [7]);
+
+        const result = await unitReceiver.deleteMessages({ maxMessageCount: 10 });
+
+        assert.deepEqual(result, { deletedCount: 7 });
+      } finally {
+        await client.close();
+      }
+    });
+
+    it("purgeMessages accumulates the deleted count across batches", async function (): Promise<void> {
+      const client = new ServiceBusClient(connectionString);
+      try {
+        const unitReceiver = client.createReceiver("q") as ServiceBusReceiverImpl;
+        // Non-session purge loops while the batch count is greater than zero.
+        stubDeleteMessages(unitReceiver["_context"], [5, 2, 0]);
+
+        const result = await unitReceiver.purgeMessages();
+
+        assert.deepEqual(result, { deletedCount: 7 });
+      } finally {
+        await client.close();
+      }
+    });
+  });
+
+  describe("session receiver", function (): void {
+    function createSessionReceiver(client: ServiceBusClient): ServiceBusSessionReceiverImpl {
+      const context = client["_connectionContext"];
+      const messageSession = {
+        sessionId: "session-1",
+        identifier: "id-1",
+        name: "link-1",
+        isOpen: () => true,
+        close: async (): Promise<void> => {},
+      } as unknown as MessageSession;
+      // isClosed requires the session to be registered on the context and open.
+      context.messageSessions[messageSession.name] = messageSession as any;
+      return new ServiceBusSessionReceiverImpl(
+        messageSession,
+        context,
+        "q",
+        "peekLock",
+        false,
+        false,
+        {},
+      );
+    }
+
+    it("deleteMessages returns a DeleteMessagesResult with the deleted count", async function (): Promise<void> {
+      const client = new ServiceBusClient(connectionString);
+      try {
+        const unitReceiver = createSessionReceiver(client);
+        stubDeleteMessages(unitReceiver["_context"], [4]);
+
+        const result = await unitReceiver.deleteMessages({ maxMessageCount: 10 });
+
+        assert.deepEqual(result, { deletedCount: 4 });
+      } finally {
+        await client.close();
+      }
+    });
+
+    it("purgeMessages accumulates the deleted count across batches", async function (): Promise<void> {
+      const client = new ServiceBusClient(connectionString);
+      try {
+        const unitReceiver = createSessionReceiver(client);
+        // Session purge loops while a batch returns exactly MaxDeleteMessageCount.
+        stubDeleteMessages(unitReceiver["_context"], [MaxDeleteMessageCount, 2]);
+
+        const result = await unitReceiver.purgeMessages();
+
+        assert.deepEqual(result, { deletedCount: MaxDeleteMessageCount + 2 });
+      } finally {
+        await client.close();
+      }
     });
   });
 });

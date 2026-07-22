@@ -20,6 +20,8 @@ export type { CorrelationRuleFilter } from "./core/managementClient.js";
 export type {
   DeleteMessagesOptions,
   PurgeMessagesOptions,
+  DeleteMessagesResult,
+  PurgeMessagesResult,
   CreateMessageBatchOptions,
   GetMessageIteratorOptions,
   MessageHandlers,

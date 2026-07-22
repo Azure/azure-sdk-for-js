@@ -13,6 +13,8 @@ import type {
   SubscribeOptions,
   DeleteMessagesOptions,
   PurgeMessagesOptions,
+  DeleteMessagesResult,
+  PurgeMessagesResult,
 } from "../models.js";
 import type { MessageSession } from "../session/messageSession.js";
 import {
@@ -413,7 +415,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
     return retry<ServiceBusReceivedMessage[]>(config);
   }
 
-  async deleteMessages(options: DeleteMessagesOptions): Promise<number> {
+  async deleteMessages(options: DeleteMessagesOptions): Promise<DeleteMessagesResult> {
     this._throwIfReceiverOrConnectionClosed();
 
     const deleteMessagesOperationPromise = (): Promise<number> => {
@@ -433,25 +435,25 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
       retryOptions: this._retryOptions,
       abortSignal: options?.abortSignal,
     };
-    return retry<number>(config);
+    return { deletedCount: await retry<number>(config) };
   }
 
-  async purgeMessages(options?: PurgeMessagesOptions): Promise<number> {
-    let deletedCount = await this.deleteMessages({
+  async purgeMessages(options?: PurgeMessagesOptions): Promise<PurgeMessagesResult> {
+    let { deletedCount } = await this.deleteMessages({
+      ...options,
       maxMessageCount: MaxDeleteMessageCount,
-      beforeEnqueueTime: options?.beforeEnqueueTime,
     });
     if (deletedCount === MaxDeleteMessageCount) {
       let batchCount = MaxDeleteMessageCount;
       while (batchCount === MaxDeleteMessageCount) {
-        batchCount = await this.deleteMessages({
+        ({ deletedCount: batchCount } = await this.deleteMessages({
+          ...options,
           maxMessageCount: MaxDeleteMessageCount,
-          beforeEnqueueTime: options?.beforeEnqueueTime,
-        });
+        }));
         deletedCount += batchCount;
       }
     }
-    return deletedCount;
+    return { deletedCount };
   }
 
   async receiveMessages(

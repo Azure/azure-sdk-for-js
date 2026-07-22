@@ -53,7 +53,7 @@ export async function main(): Promise<void> {
     peekedMessages = await queueReceiver.peekMessages(max32BitNumber);
     console.log(`Peeked messages (1): ${peekedMessages.length}.`); // should be 10
 
-    let deletedCount = await queueReceiver.deleteMessages({ maxMessageCount: 10 });
+    let { deletedCount } = await queueReceiver.deleteMessages({ maxMessageCount: 10 });
 
     console.log(`Number of messages deleted: ${deletedCount}.`);
 
@@ -67,10 +67,10 @@ export async function main(): Promise<void> {
     peekedMessages = await queueReceiver.peekMessages(max32BitNumber);
     console.log(`Peeked messages (2): ${peekedMessages.length}.`); // should be 20
 
-    deletedCount = await queueReceiver.deleteMessages({
+    ({ deletedCount } = await queueReceiver.deleteMessages({
       maxMessageCount: 20,
       beforeEnqueueTime: timeMarkUtc,
-    });
+    }));
     console.log(`Number of messages deleted this time: ${deletedCount}.`); // should be 10
 
     await queueReceiver.close();
