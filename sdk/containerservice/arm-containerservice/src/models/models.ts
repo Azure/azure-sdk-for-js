@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
-import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
-
-/**
+/*
  * This file contains only generated model types and their (de)serializers.
  * Disable the following rules for internal models with '_' prefix and deserializers which require 'any' for raw JSON input.
  */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { areAllPropsUndefined } from "../static-helpers/serialization/check-prop-undefined.js";
+import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
+
 /** Agent Pool. */
 export interface AgentPool extends ProxyResource {
   /** Unique read-only string used to implement optimistic concurrency. The eTag value will change when the resource is updated. Specify an if-match or if-none-match header with the eTag value for a subsequent request to enable optimistic concurrency per the normal eTag convention. */
@@ -181,7 +181,7 @@ export function agentPoolSerializer(item: AgentPool): any {
       "linuxOSConfig",
       "enableEncryptionAtHost",
       "enableUltraSSD",
-      "enableFIPS",
+      "enableFips",
       "gpuInstanceProfile",
       "creationData",
       "capacityReservationGroupID",
@@ -738,6 +738,8 @@ export enum KnownAgentPoolType {
   AvailabilitySet = "AvailabilitySet",
   /** Create an Agent Pool backed by a Single Instance VM orchestration mode. */
   VirtualMachines = "VirtualMachines",
+  /** Create an Agent Pool for BYO machines running the FlexNode agent. */
+  FlexNodes = "FlexNodes",
 }
 
 /**
@@ -747,7 +749,8 @@ export enum KnownAgentPoolType {
  * ### Known values supported by the service
  * **VirtualMachineScaleSets**: Create an Agent Pool backed by a Virtual Machine Scale Set. \
  * **AvailabilitySet**: Use of this is strongly discouraged. \
- * **VirtualMachines**: Create an Agent Pool backed by a Single Instance VM orchestration mode.
+ * **VirtualMachines**: Create an Agent Pool backed by a Single Instance VM orchestration mode. \
+ * **FlexNodes**: Create an Agent Pool for BYO machines running the FlexNode agent.
  */
 export type AgentPoolType = string;
 
@@ -2374,6 +2377,164 @@ export function agentPoolDeleteMachinesParameterSerializer(
   };
 }
 
+/** Empty request body for listing FlexNode bootstrap data. */
+export interface ListBootstrapDataRequest {}
+
+export function listBootstrapDataRequestSerializer(_item: ListBootstrapDataRequest): any {
+  return {};
+}
+
+/** Bootstrap configuration for a FlexNode pool. */
+export interface PoolBootstrapData {
+  /** Azure environment and cluster identity information. */
+  readonly azure?: BootstrapAzureConfig;
+  /** Component versions for the node runtime. */
+  readonly components?: BootstrapComponentVersions;
+  /** Network configuration for the node. */
+  readonly networking?: BootstrapNetworkingConfig;
+  /** Node-level configuration for kubelet, labels, and taints. */
+  readonly node?: BootstrapNodeConfig;
+}
+
+export function poolBootstrapDataDeserializer(item: any): PoolBootstrapData {
+  return {
+    azure: !item["azure"] ? item["azure"] : bootstrapAzureConfigDeserializer(item["azure"]),
+    components: !item["components"]
+      ? item["components"]
+      : bootstrapComponentVersionsDeserializer(item["components"]),
+    networking: !item["networking"]
+      ? item["networking"]
+      : bootstrapNetworkingConfigDeserializer(item["networking"]),
+    node: !item["node"] ? item["node"] : bootstrapNodeConfigDeserializer(item["node"]),
+  };
+}
+
+/** Azure configuration returned as part of FlexNode bootstrap data. */
+export interface BootstrapAzureConfig {
+  /** Azure Resource Manager endpoint for the cloud environment. */
+  readonly resourceManagerEndpoint?: string;
+  /** Target cluster identity. */
+  readonly targetCluster?: BootstrapTargetCluster;
+  /** Target agent pool name. */
+  readonly targetAgentPoolName?: string;
+  /** Bootstrap token for node enrollment. Do not cache or log. */
+  readonly bootstrapToken?: BootstrapTokenInfo;
+}
+
+export function bootstrapAzureConfigDeserializer(item: any): BootstrapAzureConfig {
+  return {
+    resourceManagerEndpoint: item["resourceManagerEndpoint"],
+    targetCluster: !item["targetCluster"]
+      ? item["targetCluster"]
+      : bootstrapTargetClusterDeserializer(item["targetCluster"]),
+    targetAgentPoolName: item["targetAgentPoolName"],
+    bootstrapToken: !item["bootstrapToken"]
+      ? item["bootstrapToken"]
+      : bootstrapTokenInfoDeserializer(item["bootstrapToken"]),
+  };
+}
+
+/** Target AKS cluster for FlexNode bootstrap. */
+export interface BootstrapTargetCluster {
+  /** Azure resource ID of the target AKS cluster. */
+  readonly resourceId?: string;
+}
+
+export function bootstrapTargetClusterDeserializer(item: any): BootstrapTargetCluster {
+  return {
+    resourceId: item["resourceId"],
+  };
+}
+
+/** Bootstrap token information. */
+export interface BootstrapTokenInfo {
+  /** Short-lived bootstrap token for kubelet. Do not cache or log. */
+  readonly token?: string;
+}
+
+export function bootstrapTokenInfoDeserializer(item: any): BootstrapTokenInfo {
+  return {
+    token: item["token"],
+  };
+}
+
+/** Component versions returned as part of FlexNode bootstrap data. */
+export interface BootstrapComponentVersions {
+  /** Kubernetes version. */
+  readonly kubernetes?: string;
+  /** Containerd version. */
+  readonly containerd?: string;
+  /** Runc version. */
+  readonly runc?: string;
+}
+
+export function bootstrapComponentVersionsDeserializer(item: any): BootstrapComponentVersions {
+  return {
+    kubernetes: item["kubernetes"],
+    containerd: item["containerd"],
+    runc: item["runc"],
+  };
+}
+
+/** Network configuration returned as part of FlexNode bootstrap data. */
+export interface BootstrapNetworkingConfig {
+  /** IP address of the cluster DNS service. */
+  readonly dnsServiceIP?: string;
+  /** CNI plugin version. */
+  readonly cniVersion?: string;
+}
+
+export function bootstrapNetworkingConfigDeserializer(item: any): BootstrapNetworkingConfig {
+  return {
+    dnsServiceIP: item["dnsServiceIP"],
+    cniVersion: item["cniVersion"],
+  };
+}
+
+/** Node configuration returned as part of FlexNode bootstrap data. */
+export interface BootstrapNodeConfig {
+  /** Maximum pods per node. */
+  readonly maxPods?: number;
+  /** Node labels to apply during registration. */
+  readonly labels?: Record<string, string>;
+  /** Node taints in the format 'key=value:effect'. */
+  readonly taints?: string[];
+  /** Kubelet configuration. */
+  readonly kubelet?: BootstrapKubeletConfig;
+}
+
+export function bootstrapNodeConfigDeserializer(item: any): BootstrapNodeConfig {
+  return {
+    maxPods: item["maxPods"],
+    labels: !item["labels"]
+      ? item["labels"]
+      : Object.fromEntries(Object.entries(item["labels"]).map(([k, p]: [string, any]) => [k, p])),
+    taints: !item["taints"]
+      ? item["taints"]
+      : item["taints"].map((p: any) => {
+          return p;
+        }),
+    kubelet: !item["kubelet"]
+      ? item["kubelet"]
+      : bootstrapKubeletConfigDeserializer(item["kubelet"]),
+  };
+}
+
+/** Kubelet configuration returned as part of FlexNode bootstrap data. */
+export interface BootstrapKubeletConfig {
+  /** FQDN of the Kubernetes API server. */
+  readonly clusterFqdn?: string;
+  /** Base64-encoded PEM certificate of the cluster CA. Do not cache or log. */
+  readonly caCertData?: string;
+}
+
+export function bootstrapKubeletConfigDeserializer(item: any): BootstrapKubeletConfig {
+  return {
+    clusterFqdn: item["clusterFQDN"],
+    caCertData: item["caCertData"],
+  };
+}
+
 /** The list of available versions for an agent pool. */
 export interface AgentPoolAvailableVersions {
   /** The ID of the agent pool version list. */
@@ -2711,7 +2872,7 @@ export interface ManagedCluster extends TrackedResource {
   bootstrapProfile?: ManagedClusterBootstrapProfile;
   /** AI toolchain operator settings that apply to the whole cluster. */
   aiToolchainOperatorProfile?: ManagedClusterAIToolchainOperatorProfile;
-  /** Profile of the pod scheduler configuration. */
+  /** Profile with scheduler-related settings, like the configuration mode for each scheduler managed by AKS. See https://aka.ms/aks/scheduler-profile. */
   schedulerProfile?: SchedulerProfile;
   /** Settings for hosted system addons. For more information, see https://aka.ms/aks/automatic/systemcomponents. */
   hostedSystemProfile?: ManagedClusterHostedSystemProfile;
@@ -2743,9 +2904,9 @@ export function managedClusterSerializer(item: ManagedCluster): any {
       "oidcIssuerProfile",
       "nodeResourceGroup",
       "nodeResourceGroupProfile",
-      "enableRBAC",
+      "enableRbac",
       "supportPlan",
-      "enableFIPS",
+      "enableFips",
       "enableNamespaceResources",
       "networkProfile",
       "aadProfile",
@@ -2912,7 +3073,7 @@ export interface ManagedClusterProperties {
   bootstrapProfile?: ManagedClusterBootstrapProfile;
   /** AI toolchain operator settings that apply to the whole cluster. */
   aiToolchainOperatorProfile?: ManagedClusterAIToolchainOperatorProfile;
-  /** Profile of the pod scheduler configuration. */
+  /** Profile with scheduler-related settings, like the configuration mode for each scheduler managed by AKS. See https://aka.ms/aks/scheduler-profile. */
   schedulerProfile?: SchedulerProfile;
   /** Settings for hosted system addons. For more information, see https://aka.ms/aks/automatic/systemcomponents. */
   hostedSystemProfile?: ManagedClusterHostedSystemProfile;
@@ -4020,6 +4181,8 @@ export interface ContainerServiceNetworkProfile {
   bastionProfile?: BastionProfile;
   /** Profile of the cluster NAT gateway. */
   natGatewayProfile?: ManagedClusterNATGatewayProfile;
+  /** The Azure resource ID of the NAT gateway to use for egress at cluster startup when outboundType is 'userAssignedNATGateway' using StandardV2 Public IP, backend pool type is podIP, and load balancer type is service SKU. This is of the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/natGateways/{natGatewayName}'. When using managed NATGateway this field is auto populated. For more information, see https://aka.ms/aks/container-native-slb */
+  natGatewayId?: string;
   /** The profile for Static Egress Gateway addon. For more details about Static Egress Gateway, see https://aka.ms/aks/static-egress-gateway. */
   staticEgressGatewayProfile?: ManagedClusterStaticEgressGatewayProfile;
   /** The CIDR notation IP ranges from which to assign pod IPs. One IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is expected for dual-stack networking. */
@@ -4060,6 +4223,7 @@ export function containerServiceNetworkProfileSerializer(
     natGatewayProfile: !item["natGatewayProfile"]
       ? item["natGatewayProfile"]
       : managedClusterNATGatewayProfileSerializer(item["natGatewayProfile"]),
+    natGatewayId: item["natGatewayId"],
     staticEgressGatewayProfile: !item["staticEgressGatewayProfile"]
       ? item["staticEgressGatewayProfile"]
       : managedClusterStaticEgressGatewayProfileSerializer(item["staticEgressGatewayProfile"]),
@@ -4111,6 +4275,7 @@ export function containerServiceNetworkProfileDeserializer(
     natGatewayProfile: !item["natGatewayProfile"]
       ? item["natGatewayProfile"]
       : managedClusterNATGatewayProfileDeserializer(item["natGatewayProfile"]),
+    natGatewayId: item["natGatewayId"],
     staticEgressGatewayProfile: !item["staticEgressGatewayProfile"]
       ? item["staticEgressGatewayProfile"]
       : managedClusterStaticEgressGatewayProfileDeserializer(item["staticEgressGatewayProfile"]),
@@ -4454,6 +4619,8 @@ export type OutboundType = string;
 
 /** The load balancer sku for the managed cluster. The default is 'standard'. See [Azure Load Balancer SKUs](https://docs.microsoft.com/azure/load-balancer/skus) for more information about the differences between load balancer SKUs. */
 export enum KnownLoadBalancerSku {
+  /** Use a service Load Balancer, with native pod-level load balancing. This SKU is specifically built to scale for container-based workloads, with a single instance utilized for each application. For more information, see https://aka.ms/aks/container-native-slb */
+  Service = "service",
   /** Use a a standard Load Balancer. This is the recommended Load Balancer SKU. For more information about on working with the load balancer in the managed cluster, see the [standard Load Balancer](https://docs.microsoft.com/azure/aks/load-balancer-standard) article. */
   Standard = "standard",
   /** Use a basic Load Balancer with limited functionality. */
@@ -4465,6 +4632,7 @@ export enum KnownLoadBalancerSku {
  * {@link KnownLoadBalancerSku} can be used interchangeably with LoadBalancerSku,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
+ * **service**: Use a service Load Balancer, with native pod-level load balancing. This SKU is specifically built to scale for container-based workloads, with a single instance utilized for each application. For more information, see https:\//aka.ms\/aks\/container-native-slb \
  * **standard**: Use a a standard Load Balancer. This is the recommended Load Balancer SKU. For more information about on working with the load balancer in the managed cluster, see the [standard Load Balancer](https:\//docs.microsoft.com\/azure\/aks\/load-balancer-standard) article. \
  * **basic**: Use a basic Load Balancer with limited functionality.
  */
@@ -4646,6 +4814,8 @@ export enum KnownBackendPoolType {
   NodeIPConfiguration = "NodeIPConfiguration",
   /** The type of the managed inbound Load Balancer BackendPool. https://cloud-provider-azure.sigs.k8s.io/topics/loadbalancer/#configure-load-balancer-backend. */
   NodeIP = "NodeIP",
+  /** The type of the managed inbound Load Balancer BackendPool. Used only when loadBalancerSku is specified as 'service'. https://cloud-provider-azure.sigs.k8s.io/topics/loadbalancer/#configure-load-balancer-backend. */
+  PodIP = "PodIP",
 }
 
 /**
@@ -4654,7 +4824,8 @@ export enum KnownBackendPoolType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **NodeIPConfiguration**: The type of the managed inbound Load Balancer BackendPool. https:\//cloud-provider-azure.sigs.k8s.io\/topics\/loadbalancer\/#configure-load-balancer-backend. \
- * **NodeIP**: The type of the managed inbound Load Balancer BackendPool. https:\//cloud-provider-azure.sigs.k8s.io\/topics\/loadbalancer\/#configure-load-balancer-backend.
+ * **NodeIP**: The type of the managed inbound Load Balancer BackendPool. https:\//cloud-provider-azure.sigs.k8s.io\/topics\/loadbalancer\/#configure-load-balancer-backend. \
+ * **PodIP**: The type of the managed inbound Load Balancer BackendPool. Used only when loadBalancerSku is specified as 'service'. https:\//cloud-provider-azure.sigs.k8s.io\/topics\/loadbalancer\/#configure-load-balancer-backend.
  */
 export type BackendPoolType = string;
 
@@ -5624,7 +5795,7 @@ export interface ManagedClusterSecurityProfileDefender {
   logAnalyticsWorkspaceResourceId?: string;
   /** Microsoft Defender threat detection for Cloud settings for the security profile. */
   securityMonitoring?: ManagedClusterSecurityProfileDefenderSecurityMonitoring;
-  /** Microsoft Defender settings for security gating, validates container images eligibility for deployment based on Defender for Containers security findings. Using Admission Controller, it either audits or prevents the deployment of images that do not meet security standards. */
+  /** Microsoft Defender settings for security gating. This validates container images eligibility for deployment based on Defender for Containers security findings. Using Admission Controller, it either audits or prevents deployment of images that do not meet security standards. For more information, see https://aka.ms/KubernetesDefenderAuditRule. */
   securityGating?: ManagedClusterSecurityProfileDefenderSecurityGating;
 }
 
@@ -5680,13 +5851,13 @@ export function managedClusterSecurityProfileDefenderSecurityMonitoringDeseriali
   };
 }
 
-/** Microsoft Defender settings for security gating, validates container images eligibility for deployment based on Defender for Containers security findings. Using Admission Controller, it either audits or prevents the deployment of images that do not meet security standards. */
+/** Microsoft Defender settings for security gating. This validates container image eligibility for deployment based on Defender for Containers security findings. Using Admission Controller, it either audits or prevents deployment of images that do not meet security standards. */
 export interface ManagedClusterSecurityProfileDefenderSecurityGating {
-  /** Whether to enable Defender security gating. When enabled, the gating feature will scan container images and audit or block the deployment of images that do not meet security standards according to the configured security rules. */
+  /** Whether to enable Defender security gating. When enabled, the gating feature scans container images and audits or blocks deployment of images that do not meet security standards according to configured security rules. For more information, see https://aka.ms/KubernetesDefenderAuditRule. */
   enabled?: boolean;
-  /** List of identities that the admission controller will make use of in order to pull security artifacts from the registry. These are the same identities used by the cluster to pull container images. Each identity provided should have federated identity credential attached to it. */
-  identities?: ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem[];
-  /** In use only while registry access granted by secret rather than managed identity. Set whether to grant the Defender gating agent access to the cluster's secrets for pulling images from registries. If secret access is denied and the registry requires pull secrets, the add-on will not perform any image validation. Default value is false. */
+  /** List of identities that the admission controller uses to pull security artifacts from registries. These are the same identities used by the cluster to pull container images. For more information on configuring this identity, see https://learn.microsoft.com/en-us/azure/defender-for-cloud/gated-deployment-infrastructure-as-code. */
+  identities?: ManagedClusterSecurityProfileDefenderSecurityGatingIdentity[];
+  /** In use only while registry access is granted by secret rather than managed identity. Sets whether to grant the Defender gating agent access to cluster secrets for pulling images from registries. If secret access is denied and the registry requires pull secrets, the add-on will not perform image validation. Default value is false. */
   allowSecretAccess?: boolean;
 }
 
@@ -5697,7 +5868,7 @@ export function managedClusterSecurityProfileDefenderSecurityGatingSerializer(
     enabled: item["enabled"],
     identities: !item["identities"]
       ? item["identities"]
-      : managedClusterSecurityProfileDefenderSecurityGatingIdentitiesItemArraySerializer(
+      : managedClusterSecurityProfileDefenderSecurityGatingIdentityArraySerializer(
           item["identities"],
         ),
     allowSecretAccess: item["allowSecretAccess"],
@@ -5711,39 +5882,39 @@ export function managedClusterSecurityProfileDefenderSecurityGatingDeserializer(
     enabled: item["enabled"],
     identities: !item["identities"]
       ? item["identities"]
-      : managedClusterSecurityProfileDefenderSecurityGatingIdentitiesItemArrayDeserializer(
+      : managedClusterSecurityProfileDefenderSecurityGatingIdentityArrayDeserializer(
           item["identities"],
         ),
     allowSecretAccess: item["allowSecretAccess"],
   };
 }
 
-export function managedClusterSecurityProfileDefenderSecurityGatingIdentitiesItemArraySerializer(
-  result: Array<ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem>,
+export function managedClusterSecurityProfileDefenderSecurityGatingIdentityArraySerializer(
+  result: Array<ManagedClusterSecurityProfileDefenderSecurityGatingIdentity>,
 ): any[] {
   return result.map((item) => {
-    return managedClusterSecurityProfileDefenderSecurityGatingIdentitiesItemSerializer(item);
+    return managedClusterSecurityProfileDefenderSecurityGatingIdentitySerializer(item);
   });
 }
 
-export function managedClusterSecurityProfileDefenderSecurityGatingIdentitiesItemArrayDeserializer(
-  result: Array<ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem>,
+export function managedClusterSecurityProfileDefenderSecurityGatingIdentityArrayDeserializer(
+  result: Array<ManagedClusterSecurityProfileDefenderSecurityGatingIdentity>,
 ): any[] {
   return result.map((item) => {
-    return managedClusterSecurityProfileDefenderSecurityGatingIdentitiesItemDeserializer(item);
+    return managedClusterSecurityProfileDefenderSecurityGatingIdentityDeserializer(item);
   });
 }
 
-/** Identity information used by Defender security gating to access container registries. */
-export interface ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem {
+/** Identity mapping used by Defender security gating for registry access. */
+export interface ManagedClusterSecurityProfileDefenderSecurityGatingIdentity {
   /** The container registry for which the identity will be used; the identity specified here should have a federated identity credential attached to it. */
   azureContainerRegistry?: string;
   /** The identity object used to access the registry */
   identity?: UserAssignedIdentity;
 }
 
-export function managedClusterSecurityProfileDefenderSecurityGatingIdentitiesItemSerializer(
-  item: ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem,
+export function managedClusterSecurityProfileDefenderSecurityGatingIdentitySerializer(
+  item: ManagedClusterSecurityProfileDefenderSecurityGatingIdentity,
 ): any {
   return {
     azureContainerRegistry: item["azureContainerRegistry"],
@@ -5753,9 +5924,9 @@ export function managedClusterSecurityProfileDefenderSecurityGatingIdentitiesIte
   };
 }
 
-export function managedClusterSecurityProfileDefenderSecurityGatingIdentitiesItemDeserializer(
+export function managedClusterSecurityProfileDefenderSecurityGatingIdentityDeserializer(
   item: any,
-): ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesItem {
+): ManagedClusterSecurityProfileDefenderSecurityGatingIdentity {
   return {
     azureContainerRegistry: item["azureContainerRegistry"],
     identity: !item["identity"]
@@ -7261,37 +7432,13 @@ export function managedClusterAIToolchainOperatorProfileDeserializer(
   };
 }
 
-/** The pod scheduler profile for the cluster. */
+/** Profile with scheduler-related settings, like the configuration mode for each scheduler managed by AKS. See https://aka.ms/aks/scheduler-profile. */
 export interface SchedulerProfile {
-  /** Mapping of each scheduler instance to its profile. */
-  schedulerInstanceProfiles?: SchedulerProfileSchedulerInstanceProfiles;
-}
-
-export function schedulerProfileSerializer(item: SchedulerProfile): any {
-  return {
-    schedulerInstanceProfiles: !item["schedulerInstanceProfiles"]
-      ? item["schedulerInstanceProfiles"]
-      : schedulerProfileSchedulerInstanceProfilesSerializer(item["schedulerInstanceProfiles"]),
-  };
-}
-
-export function schedulerProfileDeserializer(item: any): SchedulerProfile {
-  return {
-    schedulerInstanceProfiles: !item["schedulerInstanceProfiles"]
-      ? item["schedulerInstanceProfiles"]
-      : schedulerProfileSchedulerInstanceProfilesDeserializer(item["schedulerInstanceProfiles"]),
-  };
-}
-
-/** Mapping of each scheduler instance to its profile. */
-export interface SchedulerProfileSchedulerInstanceProfiles {
-  /** The scheduler profile for the upstream scheduler instance. */
+  /** Profile with settings related to upstream variant of kube-scheduler (https://github.com/kubernetes/kubernetes/tree/master/pkg/scheduler). */
   upstream?: SchedulerInstanceProfile;
 }
 
-export function schedulerProfileSchedulerInstanceProfilesSerializer(
-  item: SchedulerProfileSchedulerInstanceProfiles,
-): any {
+export function schedulerProfileSerializer(item: SchedulerProfile): any {
   return {
     upstream: !item["upstream"]
       ? item["upstream"]
@@ -7299,9 +7446,7 @@ export function schedulerProfileSchedulerInstanceProfilesSerializer(
   };
 }
 
-export function schedulerProfileSchedulerInstanceProfilesDeserializer(
-  item: any,
-): SchedulerProfileSchedulerInstanceProfiles {
+export function schedulerProfileDeserializer(item: any): SchedulerProfile {
   return {
     upstream: !item["upstream"]
       ? item["upstream"]
@@ -7309,9 +7454,9 @@ export function schedulerProfileSchedulerInstanceProfilesDeserializer(
   };
 }
 
-/** The scheduler profile for a single scheduler instance. */
+/** Profile with settings related to a specific instance of an AKS-managed scheduler. */
 export interface SchedulerInstanceProfile {
-  /** The config customization mode for this scheduler instance. */
+  /** The configuration mode to be used by the AKS-managed scheduler. */
   schedulerConfigMode?: SchedulerConfigMode;
 }
 
@@ -8597,13 +8742,20 @@ export interface MaintenanceConfiguration extends ProxyResource {
   timeInWeek?: TimeInWeek[];
   /** Time slots on which upgrade is not allowed. */
   notAllowedTime?: TimeSpan[];
+  /** The fully qualified resource ID of the maintenance window that this maintenance configuration is linked to. When set, the schedule is derived read-only from the linked maintenance window — maintenanceWindow becomes a computed field. When absent (the default), the schedule is defined inline via the maintenanceWindow property. The caller must have read access to the target maintenance window. */
+  maintenanceWindowId?: string;
   /** Maintenance window for the maintenance configuration. */
   maintenanceWindow?: MaintenanceWindow;
 }
 
 export function maintenanceConfigurationSerializer(item: MaintenanceConfiguration): any {
   return {
-    properties: areAllPropsUndefined(item, ["timeInWeek", "notAllowedTime", "maintenanceWindow"])
+    properties: areAllPropsUndefined(item, [
+      "timeInWeek",
+      "notAllowedTime",
+      "maintenanceWindowId",
+      "maintenanceWindow",
+    ])
       ? undefined
       : _maintenanceConfigurationPropertiesSerializer(item),
   };
@@ -8629,6 +8781,8 @@ export interface MaintenanceConfigurationProperties {
   timeInWeek?: TimeInWeek[];
   /** Time slots on which upgrade is not allowed. */
   notAllowedTime?: TimeSpan[];
+  /** The fully qualified resource ID of the maintenance window that this maintenance configuration is linked to. When set, the schedule is derived read-only from the linked maintenance window — maintenanceWindow becomes a computed field. When absent (the default), the schedule is defined inline via the maintenanceWindow property. The caller must have read access to the target maintenance window. */
+  maintenanceWindowId?: string;
   /** Maintenance window for the maintenance configuration. */
   maintenanceWindow?: MaintenanceWindow;
 }
@@ -8643,6 +8797,7 @@ export function maintenanceConfigurationPropertiesSerializer(
     notAllowedTime: !item["notAllowedTime"]
       ? item["notAllowedTime"]
       : timeSpanArraySerializer(item["notAllowedTime"]),
+    maintenanceWindowId: item["maintenanceWindowId"],
     maintenanceWindow: !item["maintenanceWindow"]
       ? item["maintenanceWindow"]
       : maintenanceWindowSerializer(item["maintenanceWindow"]),
@@ -8659,6 +8814,7 @@ export function maintenanceConfigurationPropertiesDeserializer(
     notAllowedTime: !item["notAllowedTime"]
       ? item["notAllowedTime"]
       : timeSpanArrayDeserializer(item["notAllowedTime"]),
+    maintenanceWindowId: item["maintenanceWindowId"],
     maintenanceWindow: !item["maintenanceWindow"]
       ? item["maintenanceWindow"]
       : maintenanceWindowDeserializer(item["maintenanceWindow"]),
@@ -9030,12 +9186,7 @@ export function maintenanceConfigurationArrayDeserializer(
   });
 }
 
-/**
- * A maintenance window is a resource-group-scoped resource that defines a reusable
- * maintenance schedule which can be linked to maintenance configurations on one
- * or more managed clusters.
- * For more information, see https://aka.ms/aks/maintenance-windows.
- */
+/** A maintenance window is a resource-group-scoped resource that defines a reusable maintenance schedule which can be linked to maintenance configurations on one or more managed clusters. For more information, see https://aka.ms/aks/maintenance-windows. */
 export interface MaintenanceWindowResource extends TrackedResource {
   /** Properties of a maintenance window. */
   properties?: MaintenanceWindowResourceProperties;
@@ -10843,11 +10994,23 @@ export interface IdentityBindingProperties {
   readonly oidcIssuer?: IdentityBindingOidcIssuerProfile;
   /** The status of the last operation. */
   readonly provisioningState?: IdentityBindingProvisioningState;
+  /**
+   * Optional list of subjects authorized to use this identity binding for
+   * token exchange. Each entry pairs a required namespace label selector
+   * with an optional service account label selector; selectors within an
+   * entry are AND'd, and multiple entries are OR'd. When omitted or empty,
+   * authorization falls back exclusively to ClusterRole/ClusterRoleBinding
+   * evaluation. Maximum 100 entries.
+   */
+  allowedSubjects?: AllowedSubject[];
 }
 
 export function identityBindingPropertiesSerializer(item: IdentityBindingProperties): any {
   return {
     managedIdentity: identityBindingManagedIdentityProfileSerializer(item["managedIdentity"]),
+    allowedSubjects: !item["allowedSubjects"]
+      ? item["allowedSubjects"]
+      : allowedSubjectArraySerializer(item["allowedSubjects"]),
   };
 }
 
@@ -10858,6 +11021,9 @@ export function identityBindingPropertiesDeserializer(item: any): IdentityBindin
       ? item["oidcIssuer"]
       : identityBindingOidcIssuerProfileDeserializer(item["oidcIssuer"]),
     provisioningState: item["provisioningState"],
+    allowedSubjects: !item["allowedSubjects"]
+      ? item["allowedSubjects"]
+      : allowedSubjectArrayDeserializer(item["allowedSubjects"]),
   };
 }
 
@@ -10933,6 +11099,62 @@ export enum KnownIdentityBindingProvisioningState {
  * **Deleting**: The identity binding is being deleted.
  */
 export type IdentityBindingProvisioningState = string;
+
+export function allowedSubjectArraySerializer(result: Array<AllowedSubject>): any[] {
+  return result.map((item) => {
+    return allowedSubjectSerializer(item);
+  });
+}
+
+export function allowedSubjectArrayDeserializer(result: Array<AllowedSubject>): any[] {
+  return result.map((item) => {
+    return allowedSubjectDeserializer(item);
+  });
+}
+
+/**
+ * A subject authorized to use the identity binding for token exchange.
+ * The namespace selector is required and must be non-empty. The service
+ * account selector is optional; when omitted, all service accounts in
+ * matching namespaces are authorized. Selectors within a single
+ * AllowedSubject are AND'd; multiple AllowedSubjects on an
+ * IdentityBinding are OR'd.
+ */
+export interface AllowedSubject {
+  /**
+   * Label selector matching the namespaces in which this identity may be
+   * used. Must be non-empty: an empty selector would match every namespace
+   * and is rejected to prevent overly permissive bindings. Use the built-in
+   * `kubernetes.io/metadata.name` label to target specific namespaces by
+   * name.
+   */
+  namespaceSelector: LabelSelector;
+  /**
+   * Optional label selector matching the service accounts (within the
+   * namespaces matched by `namespaceSelector`) that may use this identity.
+   * When omitted, all service accounts in matching namespaces are
+   * authorized. When provided, it must be non-empty.
+   */
+  serviceAccountSelector?: LabelSelector;
+}
+
+export function allowedSubjectSerializer(item: AllowedSubject): any {
+  return {
+    namespaceSelector: labelSelectorSerializer(item["namespaceSelector"]),
+    serviceAccountSelector: !item["serviceAccountSelector"]
+      ? item["serviceAccountSelector"]
+      : labelSelectorSerializer(item["serviceAccountSelector"]),
+  };
+}
+
+export function allowedSubjectDeserializer(item: any): AllowedSubject {
+  return {
+    namespaceSelector: labelSelectorDeserializer(item["namespaceSelector"]),
+    serviceAccountSelector: !item["serviceAccountSelector"]
+      ? item["serviceAccountSelector"]
+      : labelSelectorDeserializer(item["serviceAccountSelector"]),
+  };
+}
 
 /** The response of a IdentityBinding list operation. */
 export interface _IdentityBindingListResult {
@@ -11455,6 +11677,156 @@ export function operationValueDisplayDeserializer(item: any): OperationValueDisp
     description: item["description"],
     provider: item["provider"],
   };
+}
+
+/**
+ * Alert configuration for a managed cluster. Allows configuring AKS-managed alerts
+ * that notify users of important cluster events and conditions.
+ */
+export interface AlertConfiguration extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: AlertConfigurationProperties;
+}
+
+export function alertConfigurationSerializer(item: AlertConfiguration): any {
+  return {
+    properties: !item["properties"]
+      ? item["properties"]
+      : alertConfigurationPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function alertConfigurationDeserializer(item: any): AlertConfiguration {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : alertConfigurationPropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Properties of the alert configuration. */
+export interface AlertConfigurationProperties {
+  /** The mode of the alert configuration. Specifies how AKS manages the alerts. */
+  mode: AlertConfigurationMode;
+  /** Notification settings for the alert configuration. */
+  notification: AlertNotification;
+  /** The current provisioning state of the alert configuration. */
+  readonly provisioningState?: AlertConfigurationProvisioningState;
+}
+
+export function alertConfigurationPropertiesSerializer(item: AlertConfigurationProperties): any {
+  return { mode: item["mode"], notification: alertNotificationSerializer(item["notification"]) };
+}
+
+export function alertConfigurationPropertiesDeserializer(item: any): AlertConfigurationProperties {
+  return {
+    mode: item["mode"],
+    notification: alertNotificationDeserializer(item["notification"]),
+    provisioningState: item["provisioningState"],
+  };
+}
+
+/** The mode of the alert configuration. */
+export enum KnownAlertConfigurationMode {
+  /** Alerts are disabled. */
+  Disabled = "Disabled",
+  /**
+   * AKS manages the alerts lifecycle including creation, updates, and deletion.
+   * Users receive alerts through the configured notification channel.
+   */
+  Managed = "Managed",
+}
+
+/**
+ * The mode of the alert configuration. \
+ * {@link KnownAlertConfigurationMode} can be used interchangeably with AlertConfigurationMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Disabled**: Alerts are disabled. \
+ * **Managed**: AKS manages the alerts lifecycle including creation, updates, and deletion.
+ * Users receive alerts through the configured notification channel.
+ */
+export type AlertConfigurationMode = string;
+
+/** Notification settings for the alert configuration. */
+export interface AlertNotification {
+  /** The resource ID of the Azure Monitor action group to send notifications to. */
+  actionGroupId: string;
+}
+
+export function alertNotificationSerializer(item: AlertNotification): any {
+  return { actionGroupId: item["actionGroupId"] };
+}
+
+export function alertNotificationDeserializer(item: any): AlertNotification {
+  return {
+    actionGroupId: item["actionGroupId"],
+  };
+}
+
+/** The current provisioning state of the alert configuration. */
+export enum KnownAlertConfigurationProvisioningState {
+  /** Resource has been created. */
+  Succeeded = "Succeeded",
+  /** Resource creation failed. */
+  Failed = "Failed",
+  /** Resource creation was canceled. */
+  Canceled = "Canceled",
+  /** The alert configuration is being created. */
+  Creating = "Creating",
+  /** The alert configuration is being updated. */
+  Updating = "Updating",
+  /** The alert configuration is being deleted. */
+  Deleting = "Deleting",
+}
+
+/**
+ * The current provisioning state of the alert configuration. \
+ * {@link KnownAlertConfigurationProvisioningState} can be used interchangeably with AlertConfigurationProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded**: Resource has been created. \
+ * **Failed**: Resource creation failed. \
+ * **Canceled**: Resource creation was canceled. \
+ * **Creating**: The alert configuration is being created. \
+ * **Updating**: The alert configuration is being updated. \
+ * **Deleting**: The alert configuration is being deleted.
+ */
+export type AlertConfigurationProvisioningState = string;
+
+/** The response of a AlertConfiguration list operation. */
+export interface _AlertConfigurationListResult {
+  /** The AlertConfiguration items on this page */
+  value: AlertConfiguration[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+export function _alertConfigurationListResultDeserializer(
+  item: any,
+): _AlertConfigurationListResult {
+  return {
+    value: alertConfigurationArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function alertConfigurationArraySerializer(result: Array<AlertConfiguration>): any[] {
+  return result.map((item) => {
+    return alertConfigurationSerializer(item);
+  });
+}
+
+export function alertConfigurationArrayDeserializer(result: Array<AlertConfiguration>): any[] {
+  return result.map((item) => {
+    return alertConfigurationDeserializer(item);
+  });
 }
 
 /** The current status of an async operation. */
@@ -12034,8 +12406,10 @@ export enum KnownVersions {
   V20260301 = "2026-03-01",
   /** The 2026-04-01 API version. */
   V20260401 = "2026-04-01",
-  /** The 2026-04-02-preview API version. */
-  V20260402Preview = "2026-04-02-preview",
+  /** The 2026-05-01 API version. */
+  V20260501 = "2026-05-01",
+  /** The 2026-05-02-preview API version. */
+  V20260502Preview = "2026-05-02-preview",
 }
 
 export function _agentPoolPropertiesSerializer(item: AgentPool): any {
@@ -12560,6 +12934,7 @@ export function _maintenanceConfigurationPropertiesSerializer(item: MaintenanceC
     notAllowedTime: !item["notAllowedTime"]
       ? item["notAllowedTime"]
       : timeSpanArraySerializer(item["notAllowedTime"]),
+    maintenanceWindowId: item["maintenanceWindowId"],
     maintenanceWindow: !item["maintenanceWindow"]
       ? item["maintenanceWindow"]
       : maintenanceWindowSerializer(item["maintenanceWindow"]),
@@ -12574,6 +12949,7 @@ export function _maintenanceConfigurationPropertiesDeserializer(item: any) {
     notAllowedTime: !item["notAllowedTime"]
       ? item["notAllowedTime"]
       : timeSpanArrayDeserializer(item["notAllowedTime"]),
+    maintenanceWindowId: item["maintenanceWindowId"],
     maintenanceWindow: !item["maintenanceWindow"]
       ? item["maintenanceWindow"]
       : maintenanceWindowDeserializer(item["maintenanceWindow"]),

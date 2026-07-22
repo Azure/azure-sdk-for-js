@@ -10,6 +10,7 @@ exports:
   "./api/resolvePrivateLinkServiceId": "./src/api/resolvePrivateLinkServiceId/index.ts"
   "./api/privateLinkResources": "./src/api/privateLinkResources/index.ts"
   "./api/operationStatusResult": "./src/api/operationStatusResult/index.ts"
+  "./api/alertConfigurations": "./src/api/alertConfigurations/index.ts"
   "./api/operations": "./src/api/operations/index.ts"
   "./api/meshMemberships": "./src/api/meshMemberships/index.ts"
   "./api/jwtAuthenticators": "./src/api/jwtAuthenticators/index.ts"

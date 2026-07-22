@@ -183,7 +183,7 @@ export interface ManagedClustersOperations {
     resourceName: string,
     commandId: string,
     options?: ManagedClustersGetCommandResultOptionalParams,
-  ) => Promise<RunCommandResult | undefined>;
+  ) => Promise<RunCommandResult | void>;
   /** AKS will create a pod to run the command. This is primarily useful for private clusters. For more information see [AKS Run Command](https://docs.microsoft.com/azure/aks/private-clusters#aks-run-command-preview). */
   runCommand: (
     resourceGroupName: string,
@@ -436,7 +436,6 @@ export interface ManagedClustersOperations {
     options?: ManagedClustersGetOptionalParams,
   ) => Promise<ManagedCluster>;
 }
-
 function _getManagedClusters(context: ContainerServiceContext) {
   return {
     listKubernetesVersions: (
@@ -836,7 +835,6 @@ function _getManagedClusters(context: ContainerServiceContext) {
     ) => get(context, resourceGroupName, resourceName, options),
   };
 }
-
 export function _getManagedClustersOperations(
   context: ContainerServiceContext,
 ): ManagedClustersOperations {
