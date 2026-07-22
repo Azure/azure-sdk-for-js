@@ -4,15 +4,15 @@ These sample programs show how to use the JavaScript client libraries for @azure
 
 | **File Name**                                                                         | **Description**                                                                                                                              |
 | ------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| [fleetsCreateOrUpdateSample.js][fleetscreateorupdatesample]                           | create a Fleet x-ms-original-file: 2026-04-01-preview/Fleets_CreateOrUpdate_MaximumSet_Gen.json                                              |
-| [fleetsDeleteSample.js][fleetsdeletesample]                                           | delete a Fleet x-ms-original-file: 2026-04-01-preview/Fleets_Delete_MaximumSet_Gen.json                                                      |
-| [fleetsGetSample.js][fleetsgetsample]                                                 | get a Fleet x-ms-original-file: 2026-04-01-preview/Fleets_Get_MaximumSet_Gen.json                                                            |
-| [fleetsListByResourceGroupSample.js][fleetslistbyresourcegroupsample]                 | list Fleet resources by resource group x-ms-original-file: 2026-04-01-preview/Fleets_ListByResourceGroup_MaximumSet_Gen.json                 |
-| [fleetsListBySubscriptionSample.js][fleetslistbysubscriptionsample]                   | list Fleet resources by subscription ID x-ms-original-file: 2026-04-01-preview/Fleets_ListBySubscription_MaximumSet_Gen.json                 |
-| [fleetsListVirtualMachineScaleSetsSample.js][fleetslistvirtualmachinescalesetssample] | list VirtualMachineScaleSet resources by Fleet x-ms-original-file: 2026-04-01-preview/Fleets_ListVirtualMachineScaleSets_MaximumSet_Gen.json |
-| [fleetsListVirtualMachinesSample.js][fleetslistvirtualmachinessample]                 | list VirtualMachine resources of a Launch mode Fleet. x-ms-original-file: 2026-04-01-preview/Fleets_ListVirtualMachines_MaximumSet_Gen.json  |
-| [fleetsUpdateSample.js][fleetsupdatesample]                                           | update a Fleet x-ms-original-file: 2026-04-01-preview/Fleets_Update_MaximumSet_Gen.json                                                      |
-| [operationsListSample.js][operationslistsample]                                       | list the operations for the provider x-ms-original-file: 2026-04-01-preview/Operations_List_MaximumSet_Gen.json                              |
+| [fleetsCreateOrUpdateSample.js][fleetscreateorupdatesample]                           | create a Fleet x-ms-original-file: 2026-06-01-preview/Fleets_CreateOrUpdate_MaximumSet_Gen.json                                              |
+| [fleetsDeleteSample.js][fleetsdeletesample]                                           | delete a Fleet x-ms-original-file: 2026-06-01-preview/Fleets_Delete_MaximumSet_Gen.json                                                      |
+| [fleetsGetSample.js][fleetsgetsample]                                                 | get a Fleet x-ms-original-file: 2026-06-01-preview/Fleets_Get_MaximumSet_Gen.json                                                            |
+| [fleetsListByResourceGroupSample.js][fleetslistbyresourcegroupsample]                 | list Fleet resources by resource group x-ms-original-file: 2026-06-01-preview/Fleets_ListByResourceGroup_MaximumSet_Gen.json                 |
+| [fleetsListBySubscriptionSample.js][fleetslistbysubscriptionsample]                   | list Fleet resources by subscription ID x-ms-original-file: 2026-06-01-preview/Fleets_ListBySubscription_MaximumSet_Gen.json                 |
+| [fleetsListVirtualMachineScaleSetsSample.js][fleetslistvirtualmachinescalesetssample] | list VirtualMachineScaleSet resources by Fleet x-ms-original-file: 2026-06-01-preview/Fleets_ListVirtualMachineScaleSets_MaximumSet_Gen.json |
+| [fleetsListVirtualMachinesSample.js][fleetslistvirtualmachinessample]                 | list VirtualMachine resources of a Launch mode Fleet. x-ms-original-file: 2026-06-01-preview/Fleets_ListVirtualMachines_MaximumSet_Gen.json  |
+| [fleetsUpdateSample.js][fleetsupdatesample]                                           | update a Fleet x-ms-original-file: 2026-06-01-preview/Fleets_Update_MaximumSet_Gen.json                                                      |
+| [operationsListSample.js][operationslistsample]                                       | list the operations for the provider x-ms-original-file: 2026-06-01-preview/Operations_List_MaximumSet_Gen.json                              |
 
 ## Prerequisites
 
