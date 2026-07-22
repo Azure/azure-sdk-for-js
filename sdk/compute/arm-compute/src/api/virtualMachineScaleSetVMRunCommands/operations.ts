@@ -71,7 +71,6 @@ export async function _listDeserialize(
 
   return _virtualMachineRunCommandsListResultDeserializer(result.body);
 }
-
 /** The operation to get all run commands of an instance in Virtual Machine Scaleset. */
 export function list(
   context: Client,
@@ -127,7 +126,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** The operation to delete the VMSS VM run command. */
 export function $delete(
   context: Client,
@@ -193,7 +191,6 @@ export async function _updateDeserialize(
 
   return virtualMachineRunCommandDeserializer(result.body);
 }
-
 /** The operation to update the VMSS VM run command. */
 export function update(
   context: Client,
@@ -268,7 +265,6 @@ export async function _createOrUpdateDeserialize(
 
   return virtualMachineRunCommandDeserializer(result.body);
 }
-
 /** The operation to create or update the VMSS VM run command. */
 export function createOrUpdate(
   context: Client,
@@ -341,7 +337,6 @@ export async function _getDeserialize(
 
   return virtualMachineRunCommandDeserializer(result.body);
 }
-
 /** The operation to get the VMSS VM run command. */
 export async function get(
   context: Client,

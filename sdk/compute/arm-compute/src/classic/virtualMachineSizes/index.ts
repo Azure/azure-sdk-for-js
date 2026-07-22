@@ -15,14 +15,12 @@ export interface VirtualMachineSizesOperations {
     options?: VirtualMachineSizesListOptionalParams,
   ) => PagedAsyncIterableIterator<VirtualMachineSize>;
 }
-
 function _getVirtualMachineSizes(context: ComputeManagementContext) {
   return {
     list: (location: string, options?: VirtualMachineSizesListOptionalParams) =>
       list(context, location, options),
   };
 }
-
 export function _getVirtualMachineSizesOperations(
   context: ComputeManagementContext,
 ): VirtualMachineSizesOperations {

@@ -42,7 +42,6 @@ export interface VirtualMachineScaleSetLifeCycleHookEventsOperations {
     options?: VirtualMachineScaleSetLifeCycleHookEventsGetOptionalParams,
   ) => Promise<VMScaleSetLifecycleHookEvent>;
 }
-
 function _getVirtualMachineScaleSetLifeCycleHookEvents(context: ComputeManagementContext) {
   return {
     list: (
@@ -73,7 +72,6 @@ function _getVirtualMachineScaleSetLifeCycleHookEvents(context: ComputeManagemen
     ) => get(context, resourceGroupName, vmScaleSetName, lifecycleHookEventName, options),
   };
 }
-
 export function _getVirtualMachineScaleSetLifeCycleHookEventsOperations(
   context: ComputeManagementContext,
 ): VirtualMachineScaleSetLifeCycleHookEventsOperations {

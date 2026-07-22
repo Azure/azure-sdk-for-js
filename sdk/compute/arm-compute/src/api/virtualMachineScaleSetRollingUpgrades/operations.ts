@@ -56,7 +56,6 @@ export async function _getLatestDeserialize(
 
   return rollingUpgradeStatusInfoDeserializer(result.body);
 }
-
 /** Gets the status of the latest virtual machine scale set rolling upgrade. */
 export async function getLatest(
   context: Client,
@@ -102,7 +101,6 @@ export async function _cancelDeserialize(result: PathUncheckedResponse): Promise
 
   return;
 }
-
 /** Cancels the current virtual machine scale set rolling upgrade. */
 export function cancel(
   context: Client,
@@ -155,7 +153,6 @@ export async function _startOSUpgradeDeserialize(result: PathUncheckedResponse):
 
   return;
 }
-
 /** Starts a rolling upgrade to move all virtual machine scale set instances to the latest available Platform Image OS version. Instances which are already running the latest available OS version are not affected. */
 export function startOSUpgrade(
   context: Client,
@@ -213,7 +210,6 @@ export async function _startExtensionUpgradeDeserialize(
 
   return;
 }
-
 /** Starts a rolling upgrade to move all extensions for all virtual machine scale set instances to the latest available extension version. Instances which are already running the latest extension versions are not affected. */
 export function startExtensionUpgrade(
   context: Client,

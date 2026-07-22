@@ -65,7 +65,6 @@ export async function _listBySubscriptionDeserialize(
 
   return _capacityReservationGroupListResultDeserializer(result.body);
 }
-
 /** Lists all of the capacity reservation groups in the subscription. Use the nextLink property in the response to get the next page of capacity reservation groups. */
 export function listBySubscription(
   context: Client,
@@ -118,7 +117,6 @@ export async function _listByResourceGroupDeserialize(
 
   return _capacityReservationGroupListResultDeserializer(result.body);
 }
-
 /** Lists all of the capacity reservation groups in the specified resource group. Use the nextLink property in the response to get the next page of capacity reservation groups. */
 export function listByResourceGroup(
   context: Client,
@@ -168,7 +166,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** The operation to delete a capacity reservation group. This operation is allowed only if all the associated resources are disassociated from the reservation group and all capacity reservations under the reservation group have also been deleted. Please refer to https://aka.ms/CapacityReservation for more details. */
 export async function $delete(
   context: Client,
@@ -227,7 +224,6 @@ export async function _updateDeserialize(
 
   return capacityReservationGroupDeserializer(result.body);
 }
-
 /** The operation to update a capacity reservation group. When updating a capacity reservation group, only tags and sharing profile may be modified. */
 export async function update(
   context: Client,
@@ -288,7 +284,6 @@ export async function _createOrUpdateDeserialize(
 
   return capacityReservationGroupDeserializer(result.body);
 }
-
 /** The operation to create or update a capacity reservation group. When updating a capacity reservation group, only tags and sharing profile may be modified. Please refer to https://aka.ms/CapacityReservation for more details. */
 export async function createOrUpdate(
   context: Client,
@@ -347,7 +342,6 @@ export async function _getDeserialize(
 
   return capacityReservationGroupDeserializer(result.body);
 }
-
 /** The operation that retrieves information about a capacity reservation group. */
 export async function get(
   context: Client,

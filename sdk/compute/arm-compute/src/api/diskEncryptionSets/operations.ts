@@ -45,7 +45,7 @@ export function _listAssociatedResourcesSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       diskEncryptionSetName: diskEncryptionSetName,
-      "api%2Dversion": "2025-01-02",
+      "api%2Dversion": "2026-03-02",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -72,7 +72,6 @@ export async function _listAssociatedResourcesDeserialize(
 
   return _resourceUriListDeserializer(result.body);
 }
-
 /** Lists all resources that are encrypted with this disk encryption set. */
 export function listAssociatedResources(
   context: Client,
@@ -85,7 +84,7 @@ export function listAssociatedResources(
     () => _listAssociatedResourcesSend(context, resourceGroupName, diskEncryptionSetName, options),
     _listAssociatedResourcesDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-01-02" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-02" },
   );
 }
 
@@ -97,7 +96,7 @@ export function _listSend(
     "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/diskEncryptionSets{?api%2Dversion}",
     {
       subscriptionId: context.subscriptionId,
-      "api%2Dversion": "2025-01-02",
+      "api%2Dversion": "2026-03-02",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -124,7 +123,6 @@ export async function _listDeserialize(
 
   return _diskEncryptionSetListDeserializer(result.body);
 }
-
 /** Lists all the disk encryption sets under a subscription. */
 export function list(
   context: Client,
@@ -135,7 +133,7 @@ export function list(
     () => _listSend(context, options),
     _listDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-01-02" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-02" },
   );
 }
 
@@ -149,7 +147,7 @@ export function _listByResourceGroupSend(
     {
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
-      "api%2Dversion": "2025-01-02",
+      "api%2Dversion": "2026-03-02",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -176,7 +174,6 @@ export async function _listByResourceGroupDeserialize(
 
   return _diskEncryptionSetListDeserializer(result.body);
 }
-
 /** Lists all the disk encryption sets under a resource group. */
 export function listByResourceGroup(
   context: Client,
@@ -188,7 +185,7 @@ export function listByResourceGroup(
     () => _listByResourceGroupSend(context, resourceGroupName, options),
     _listByResourceGroupDeserialize,
     ["200"],
-    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2025-01-02" },
+    { itemName: "value", nextLinkName: "nextLink", apiVersion: "2026-03-02" },
   );
 }
 
@@ -204,7 +201,7 @@ export function _$deleteSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       diskEncryptionSetName: diskEncryptionSetName,
-      "api%2Dversion": "2025-01-02",
+      "api%2Dversion": "2026-03-02",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -226,7 +223,6 @@ export async function _$deleteDeserialize(result: PathUncheckedResponse): Promis
 
   return;
 }
-
 /** Deletes a disk encryption set. */
 export function $delete(
   context: Client,
@@ -240,7 +236,7 @@ export function $delete(
     getInitialResponse: () =>
       _$deleteSend(context, resourceGroupName, diskEncryptionSetName, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-01-02",
+    apiVersion: "2026-03-02",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -257,7 +253,7 @@ export function _updateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       diskEncryptionSetName: diskEncryptionSetName,
-      "api%2Dversion": "2025-01-02",
+      "api%2Dversion": "2026-03-02",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -286,7 +282,6 @@ export async function _updateDeserialize(
 
   return diskEncryptionSetDeserializer(result.body);
 }
-
 /** Updates (patches) a disk encryption set. */
 export function update(
   context: Client,
@@ -301,7 +296,7 @@ export function update(
     getInitialResponse: () =>
       _updateSend(context, resourceGroupName, diskEncryptionSetName, diskEncryptionSet, options),
     resourceLocationConfig: "location",
-    apiVersion: "2025-01-02",
+    apiVersion: "2026-03-02",
   }) as PollerLike<OperationState<DiskEncryptionSet>, DiskEncryptionSet>;
 }
 
@@ -318,7 +313,7 @@ export function _createOrUpdateSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       diskEncryptionSetName: diskEncryptionSetName,
-      "api%2Dversion": "2025-01-02",
+      "api%2Dversion": "2026-03-02",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -347,7 +342,6 @@ export async function _createOrUpdateDeserialize(
 
   return diskEncryptionSetDeserializer(result.body);
 }
-
 /** Creates or updates a disk encryption set */
 export function createOrUpdate(
   context: Client,
@@ -368,7 +362,7 @@ export function createOrUpdate(
         options,
       ),
     resourceLocationConfig: "location",
-    apiVersion: "2025-01-02",
+    apiVersion: "2026-03-02",
   }) as PollerLike<OperationState<DiskEncryptionSet>, DiskEncryptionSet>;
 }
 
@@ -384,7 +378,7 @@ export function _getSend(
       subscriptionId: context.subscriptionId,
       resourceGroupName: resourceGroupName,
       diskEncryptionSetName: diskEncryptionSetName,
-      "api%2Dversion": "2025-01-02",
+      "api%2Dversion": "2026-03-02",
     },
     {
       allowReserved: options?.requestOptions?.skipUrlEncoding,
@@ -409,7 +403,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Di
 
   return diskEncryptionSetDeserializer(result.body);
 }
-
 /** Gets information about a disk encryption set. */
 export async function get(
   context: Client,

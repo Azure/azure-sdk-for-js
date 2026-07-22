@@ -67,7 +67,6 @@ export async function _getDeserialize(result: PathUncheckedResponse): Promise<Vi
 
   return virtualMachineImageDeserializer(result.body);
 }
-
 /** Gets a virtual machine image in an edge zone. */
 export async function get(
   context: Client,
@@ -140,7 +139,6 @@ export async function _listDeserialize(
 
   return virtualMachineImageResourceArrayDeserializer(result.body);
 }
-
 /** Gets a list of all virtual machine image versions for the specified location, edge zone, publisher, offer, and SKU. */
 export async function list(
   context: Client,
@@ -198,7 +196,6 @@ export async function _listSkusDeserialize(
 
   return virtualMachineImageResourceArrayDeserializer(result.body);
 }
-
 /** Gets a list of virtual machine image SKUs for the specified location, edge zone, publisher, and offer. */
 export async function listSkus(
   context: Client,
@@ -253,7 +250,6 @@ export async function _listOffersDeserialize(
 
   return virtualMachineImageResourceArrayDeserializer(result.body);
 }
-
 /** Gets a list of virtual machine image offers for the specified location, edge zone and publisher. */
 export async function listOffers(
   context: Client,
@@ -305,7 +301,6 @@ export async function _listPublishersDeserialize(
 
   return virtualMachineImageResourceArrayDeserializer(result.body);
 }
-
 /** Gets a list of virtual machine image publishers for the specified Azure location and edge zone. */
 export async function listPublishers(
   context: Client,
