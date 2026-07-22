@@ -14,11 +14,21 @@ import type { Pipeline } from "@azure/core-rest-pipeline";
 
 export type { SingleDocumentTranslationClientOptionalParams } from "./api/singleDocumentTranslationContext.js";
 
+/**
+ * Client for the Azure AI Document Translation service, used to translate a single document.
+ */
 export class SingleDocumentTranslationClient {
   private _client: SingleDocumentTranslationContext;
   /** The pipeline used by this client to make requests */
   public readonly pipeline: Pipeline;
 
+  /**
+   * Creates an instance of {@link SingleDocumentTranslationClient}.
+   *
+   * @param endpointParam - The Document Translation endpoint, for example `https://<resource-name>.cognitiveservices.azure.com`.
+   * @param credential - A key credential or token credential used to authenticate requests to the service.
+   * @param options - Options used to configure the client.
+   */
   constructor(
     endpointParam: string,
     credential: KeyCredential | TokenCredential,

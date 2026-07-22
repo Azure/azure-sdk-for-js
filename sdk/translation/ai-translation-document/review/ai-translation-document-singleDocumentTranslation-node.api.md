@@ -11,7 +11,7 @@ import type { OperationOptions } from '@azure-rest/core-client';
 import type { Pipeline } from '@azure/core-rest-pipeline';
 import type { TokenCredential } from '@azure/core-auth';
 
-// @public (undocumented)
+// @public
 export class SingleDocumentTranslationClient {
     constructor(endpointParam: string, credential: KeyCredential | TokenCredential, options?: SingleDocumentTranslationClientOptionalParams);
     readonly pipeline: Pipeline;

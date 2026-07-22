@@ -19,7 +19,7 @@ import type { TokenCredential } from '@azure/core-auth';
 export interface CancelTranslationOptionalParams extends OperationOptions {
 }
 
-// @public (undocumented)
+// @public
 export class DocumentTranslationClient {
     constructor(endpointParam: string, credential: KeyCredential | TokenCredential, options?: DocumentTranslationClientOptionalParams);
     cancelTranslation(translationId: string, options?: CancelTranslationOptionalParams): Promise<TranslationStatus>;

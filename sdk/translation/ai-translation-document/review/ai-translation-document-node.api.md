@@ -76,7 +76,7 @@ export interface DocumentTranslateContent {
     }>;
 }
 
-// @public (undocumented)
+// @public
 export class DocumentTranslationClient {
     constructor(endpointParam: string, credential: KeyCredential | TokenCredential, options?: DocumentTranslationClientOptionalParams);
     cancelTranslation(translationId: string, options?: CancelTranslationOptionalParams): Promise<TranslationStatus>;
@@ -197,7 +197,7 @@ export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedRe
     updateIntervalInMs?: number;
 }
 
-// @public (undocumented)
+// @public
 export class SingleDocumentTranslationClient {
     constructor(endpointParam: string, credential: KeyCredential | TokenCredential, options?: SingleDocumentTranslationClientOptionalParams);
     readonly pipeline: Pipeline;
@@ -302,7 +302,5 @@ export interface TranslationStatusSummary {
 
 // @public
 export type TranslationStorageSource = "AzureBlob";
-
-// (No @packageDocumentation comment for this package)
 
 ```

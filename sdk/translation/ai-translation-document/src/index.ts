@@ -1,6 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/**
+ * A client library for the Azure AI Document Translation service, which translates documents while preserving their structure and formatting.
+ *
+ * @packageDocumentation
+ */
+
 import type { NodeReadableStream } from "#platform/static-helpers/platform-types";
 import type { FileContents } from "./static-helpers/multipartHelpers.js";
 import type {
